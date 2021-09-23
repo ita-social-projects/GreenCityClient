@@ -28,7 +28,7 @@
     "delete-title": "Delete profile",
     "delete-message": "If you delete your profile, your bonuses will burn out and your order information will be deleted without the possibility of recovery",
     "btn": {
-      "edit": "Edit",
+      "edit": "Edit data",
       "cancel": "Discard changes",
       "save": "Save changes",
       "change-password": "Change password",
@@ -158,6 +158,11 @@
     "sum": "Amount",
     "comment-bill": "Comment/Bill"
   },
+  "ubs-tables": {
+    "export-to-excel": "Export to Excel",
+    "table-view": "Table view",
+    "add-certificate": "Add certificate"
+  },
   "export-details": {
     "title": "Export details",
     "export-date": "Export date",
@@ -182,12 +187,125 @@
     "disagree": "No",
     "agree": "Yes"
   },
+  "bonuses": {
+    "no-bonuses": "You don't have accrued bonuses yet.",
+    "get-bonuses": "Find out what bonuses are accrued for",
+    "title": "Bonuses",
+    "about-bonuses-system": "About the bonus system",
+    "enrollment-date": "Date of enrollment",
+    "amount": "Amount",
+    "reason": "Reason",
+    "order": "Order"
+  },
+  "user-orders": {
+    "no-orders": "You haven't made any orders with us yet.",
+    "make-order": "Make an order",
+    "order-title": "Your orders",
+    "order-number": "Order №",
+    "order-status": "Status",
+    "payment-amount": "Payment amount",
+    "btn": {
+      "cancel": "Cancel",
+      "pay": "Pay",
+      "order-again": "Order again"
+    },
+    "details": {
+      "title": "Order details",
+      "services": "Services",
+      "volume": "Volume",
+      "cost": "Cost",
+      "bags-amount": "Quantity of bags",
+      "sum": "Sum",
+      "order-sum": "Order amount:",
+      "certificate": "Certificate:",
+      "bonuses": "Bonuses:",
+      "amount-due": "Amount due:",
+      "services-amount": "Amount of services provided:",
+      "delivery": "Delivery from the Eco store",
+      "order-number": "Numbers of your orders:",
+      "recipient": "Recipient",
+      "export-address": "The address of export of the ordered services",
+      "comment": "Comment:",
+      "receipt": "Download the receipt"
+    }
+  },
+  "employees": {
+    "title": "Employees",
+    "add-employee": "Add employee",
+    "required-fields": "*Required-fields",
+    "name": "First name*",
+    "name-placeholder": "First name",
+    "surname": "Last name*",
+    "surname-placeholder": "Last name",
+    "phone-number": "Phone number*",
+    "position": "Position*",
+    "receiving-station": "Receiving station*",
+    "photo": "Photo",
+    "drag-photo": "Drag the image or",
+    "download-photo": "download from the device",
+    "btn": {
+      "cancel": "Cancel",
+      "add": "Add",
+      "add-employee": "Add employee",
+      "edit": "Edit",
+      "delete": "Delete"
+    }
+  },
   "ubs-sidebar": {
-    "users": "Users",
+    "users": "User data",
     "certificates": "Certificates",
     "orders": "Orders",
     "employees": "Employees",
     "documents": "Documents",
-    "schedule": "Schedule"
+    "schedule": "Schedule",
+    "bonuses": "Bonuses",
+    "tariffs": "Tariffs"
+  },
+  "ubs-user": {
+    "orders": "Orders",
+    "invoice": "Invoice",
+    "user_data": "User data",
+    "messages": "Messages"
+  },
+  "ubs-tariffs": {
+    "services": "Services",
+    "name_of_the_service": "Name of the service",
+    "capacity": "Capacity",
+    "service_description": "Service description",
+    "basic_cost": "Basic cost",
+    "carriers_commission": "Сarrier commission",
+    "full_cost": "Full cost",
+    "tariffs_for_services": "Tariffs for services",
+    "order_limits": "Order limits",
+    "min_order_amount": "Minimum order amount from",
+    "to": "to",
+    "min_number_of_packages": "Minimum number of packages from",
+    "min_set_of_packages": "Minimum set of packages",
+    "info_about_order_limits_header": "Information about order limits",
+    "safe_waste": "Safe waste",
+    "textile_waste": "Textile waste",
+    "info_about_order_limits": "Information about order limits",
+    "placeholder_order_limits_info": "Information about order limits, which will be displayed in the order form",
+    "btn": {
+      "add_service": "Add service",
+      "save_changes": "Save changes",
+      "add_carrier": "Add carrier"
+    }
+  },
+  "ubs-tariffs-add-service": {
+    "add_service": "Add service",
+    "name_of_the_service": "Name of the service",
+    "placeholder-service": "Enter a name for the service",
+    "capacity": "Capacity",
+    "basic_cost": "Basic cost",
+    "ubs_courier": "Ubs courier",
+    "full_cost": "Full cost",
+    "service_description": "Service description",
+    "placeholder-text": "Describe what exactly is included in the service and the conditions / rules of its provision",
+    "error_message": "Fill in the selected fields",
+    "btn": {
+      "add": "Add",
+      "cancel": "Cancel"
+    }
   }
 }

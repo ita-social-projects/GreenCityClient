@@ -1,0 +1,51 @@
+.dialog-container {
+  position: relative;
+  width: 464px;
+  height: 318px;
+  font-family: var(--primary-font);
+  font-weight: bold;
+  font-size: larger;
+
+  .title {
+    margin: 16px;
+    font-weight: bolder;
+  }
+
+  .form {
+    margin: 20px;
+    font-size: 20px;
+
+    .select {
+      margin: 20px;
+      height: 50px;
+      padding: 0 10px;
+    }
+  }
+
+  .close-container {
+    width: 100%;
+    display: flex;
+    justify-content: flex-end;
+  }
+
+  .close-btn {
+    border: none;
+    background-color: transparent;
+    outline: none;
+  }
+
+  .footer-btns {
+    position: absolute;
+    bottom: 0;
+    right: 0;
+    margin: 20px 0 0 0;
+
+    button {
+      margin: 0 10px;
+      padding: 8px 24px;
+      border-radius: 4px;
+      width: 9rem;
+      height: 3rem;
+    }
+  }
+}

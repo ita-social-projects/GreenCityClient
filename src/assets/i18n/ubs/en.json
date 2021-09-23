@@ -7,7 +7,17 @@
     "pattern": "The field contains forbidden characters."
   },
   "order-details": {
+    "location": {
+      "title": "Welcome to UBS! First choose your location:",
+      "btn": {
+        "back": "Back",
+        "continue": "Continue"
+      }
+    },
     "order-title": "Services",
+    "choose-location": "Choose your region",
+    "kyiv": "Kyiv",
+    "kyiv-region": "Kyiv region",
     "order-content": "Please note that the minimum order amount must be 500.00 UAH",
     "service": "Service",
     "volume": "Volume",
@@ -22,6 +32,7 @@
     "bonuses": "Bonuses: ",
     "amount-due": "Amount due: ",
     "min-sum": "The minimum order amount must be 500.00 UAH",
+    "min-big-bags": "Please note that the minimum order must contain at least {{minAmountOfBigBags}} packages of 120 liters",
     "question-certificate": "Do you want to use the certificate?",
     "certificate-number": "Enter the certificate number",
     "activate": "Activate",
@@ -120,6 +131,7 @@
     "after-payment": "After placing an order, you can make the payment in the chosen way",
     "choose-payment": "Choose a payment method",
     "fondy-card": "By card via Fondy",
+    "liqpay-card": "By card via LiqPay",
     "back": "Back",
     "to-order": "Order",
     "bags": "bags"

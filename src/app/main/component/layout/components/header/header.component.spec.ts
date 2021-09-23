@@ -40,6 +40,7 @@ describe('HeaderComponent', () => {
   localStorageServiceMock.firstNameBehaviourSubject = new BehaviorSubject('true');
   localStorageServiceMock.accessTokenBehaviourSubject = new BehaviorSubject('true');
   localStorageServiceMock.clear = () => true;
+  localStorageServiceMock.setUbsRegistration = () => true;
 
   let jwtServiceMock: JwtService;
   jwtServiceMock = jasmine.createSpyObj('JwtService', ['getUserRole']);

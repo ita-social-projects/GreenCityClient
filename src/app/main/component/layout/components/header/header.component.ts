@@ -91,6 +91,8 @@ export class HeaderComponent implements OnInit, OnDestroy {
     this.localStorageService.accessTokenBehaviourSubject.pipe(takeUntil(this.destroySub)).subscribe((token) => {
       this.managementLink = `${this.backEndLink}token?accessToken=${token}`;
     });
+
+    this.localStorageService.setUbsRegistration(false);
   }
 
   public focusDone(): void {
@@ -105,6 +107,7 @@ export class HeaderComponent implements OnInit, OnDestroy {
   ngOnDestroy() {
     this.destroySub.next(true);
     this.destroySub.unsubscribe();
+    this.localStorageService.setUbsRegistration(true);
   }
 
   setLangArr(): void {

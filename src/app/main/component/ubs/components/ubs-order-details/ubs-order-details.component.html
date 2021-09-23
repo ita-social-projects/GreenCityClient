@@ -1,8 +1,16 @@
 <div class="container">
-  <div *ngIf="bags; else spinner">
+  <div *ngIf="bags && !isDialogOpen; else spinner">
     <div class="header">
       <h3 class="font-bolt order-title">{{ 'order-details.order-title' | translate }}</h3>
+      <div>
+        <h5>{{ 'order-details.choose-location' | translate }}</h5>
+        <select class="choose-location">
+          <option>{{ 'order-details.kyiv' | translate }}</option>
+          <option>{{ 'order-details.kyiv-region' | translate }}</option>
+        </select>
+      </div>
       <p class="order-content">{{ 'order-details.order-content' | translate }}</p>
+      <p class="order-content">{{ 'order-details.min-big-bags' | translate: { minAmountOfBigBags: minAmountOfBigBags } }}</p>
     </div>
     <form class="form" [formGroup]="orderDetailsForm" (change)="changeOrderDetails()">
       <div class="w-100 d-flex justify-content-between mb-2">
@@ -25,10 +33,11 @@
                 class="shadow-none form-control input"
                 min="0"
                 max="999"
+                placeholder="0"
                 [unmask]="false"
                 [imask]="{ mask: servicesMask }"
                 [(ngModel)]="bag.quantity"
-                (ngModelChange)="onQuantityChange()"
+                (change)="onQuantityChange()"
               />
             </div>
             <span class="col-3 bag-name text-center"> {{ bag.quantity * bag.price | currency | localizedCurrency }}</span>
@@ -63,8 +72,13 @@
                   <strong>{{ finalSum | currency | localizedCurrency }}</strong>
                 </span>
               </p>
-              <div *ngIf="displayMes" class="validMes">
+              <div *ngIf="displayMinOrderMes" class="validMes">
                 <small class="text-danger">{{ 'order-details.min-sum' | translate }}</small>
+              </div>
+              <div *ngIf="displayMinBigBagsMes && orderDetailsForm.dirty" class="validMes">
+                <small class="text-danger">{{
+                  'order-details.min-big-bags' | translate: { minAmountOfBigBags: minAmountOfBigBags }
+                }}</small>
               </div>
             </div>
           </div>
@@ -118,7 +132,6 @@
             <input
               type="text"
               class="shadow-none form-control col-12 col-sm-8 my-1 input-border"
-              type="text"
               placeholder="xxxx-xxxx"
               [unmask]="false"
               [imask]="{ mask: certificateMask }"
@@ -127,15 +140,25 @@
             />
             <div class="form-group">
               <button
-                *ngIf="!certStatuses[i]"
+                *ngIf="!certStatuses[i] && certificate.value.length"
                 type="button"
                 class="primary-global-button btn"
-                [disabled]="additionalCertificates['controls'][i].invalid || additionalCertificates['controls'][i].pristine"
+                [disabled]="
+                  additionalCertificates['controls'][i].invalid ||
+                  additionalCertificates['controls'][i].pristine ||
+                  !certificate.value.length
+                "
                 (click)="addedCertificateSubmit(i)"
               >
                 {{ 'order-details.activate' | translate }}
               </button>
-              <button *ngIf="certStatuses[i]" type="button" class="primary-global-button btn" (click)="deleteCertificate(i)">
+              <button
+                [disabled]="cancelCertBtn"
+                *ngIf="certStatuses[i] || !certificate.value.length"
+                type="button"
+                class="primary-global-button btn"
+                (click)="deleteCertificate(i)"
+              >
                 {{ 'order-details.cancel' | translate }}
               </button>
             </div>
@@ -153,7 +176,7 @@
               {{ 'order-details.activated' | translate: { certificateSum: certificateSum, certDate: certDate } }}
             </small>
             <small class="text-danger" *ngIf="certificateError">
-              {{ 'order-details.not-found-certificate' | translate }}
+              {{ 'order-details.failed-certificate' | translate }}
             </small>
             <small class="text-danger" *ngIf="certStatus === 'USED'">
               {{
@@ -174,7 +197,13 @@
               }}
             </small>
           </div>
-          <button *ngIf="addCert && finalSum !== 0" class="addCertificateBtn" (click)="addCertificate()">
+          <button
+            type="button"
+            *ngIf="addCert && finalSum !== 0"
+            class="addCertificateBtn"
+            [disabled]="disableAddCertificate()"
+            (click)="addCertificate()"
+          >
             {{ 'order-details.add-certificate' | translate }}
           </button>
           <div class="points">
@@ -248,7 +277,7 @@
               (ngModelChange)="ecoStoreValidation()"
             />
           </div>
-          <button *ngIf="additionalOrders.controls.length < 5 && displayOrderBtn" class="addOrderBtn" (click)="addOrder()">
+          <button type="button" *ngIf="additionalOrders.controls.length < 5 && displayOrderBtn" class="addOrderBtn" (click)="addOrder()">
             {{ 'order-details.additional-orders' | translate }}
           </button>
           <small class="text-danger" *ngIf="!displayOrderBtn && additionalOrders.touched && shop.value !== 'no'">
@@ -280,8 +309,13 @@
 </div>
 
 <div class="w-100 d-flex justify-content-end buttons">
-  <button class="secondary-global-button btn cansel-button btn-main" (click)="cancelUBS()">{{ 'order-details.cancel' | translate }}</button>
-  <button [disabled]="showTotal < 500 || orderComment.invalid" type="submit" class="primary-global-button btn btn-main" matStepperNext>
+  <button  type="button" class="secondary-global-button btn cansel-button btn-main" (click)="cancelUBS()">{{ 'order-details.cancel' | translate }}</button>
+  <button
+    [disabled]="showTotal < 500 || minAmountOfBigBags > totalOfBigBags || orderComment.invalid"
+    type="submit"
+    class="primary-global-button btn btn-main"
+    matStepperNext
+  >
     {{ 'order-details.next' | translate }}
   </button>
 </div>

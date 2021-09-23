@@ -43,7 +43,11 @@
         "education": "Education",
         "lifehacks": "Lifehacks"
       },
-      "items-found": "items found",
+      "items-found": {
+        "item-at-1": "item found",
+        "item-at-2-3-4": "items found",
+        "item-at-all": "items found"
+      },
       "news-popup": {
         "title": "All created content will be lost.",
         "subtitle": "Do you still want to cancel news creating?",
@@ -123,7 +127,7 @@
       "see-all-results": "See all results"
     },
     "search-not-found": {
-      "not-found-text": "We couldn't find results for '{{searchQuery}}' Please change the search.",
+      "not-found-text": "We couldn't find results for '{{searchQuery}}'. Please change the search.",
       "choose-alternative": "Maybe you can find some interesting stuff here:",
       "alternative-header-news": "News",
       "alternative-description-news": "Find the latest news, events and initiatives here. Find news and create ones.",
@@ -536,7 +540,7 @@
       "privacy": "profile privacy",
       "location": "Show my location",
       "eco-place": "Show my eco places",
-      "shoping-list": "Show my shopping list",
+      "shopping-list": "Show my shopping list",
       "picture-tooltip": "Download PNG or JPG only. File size should be less than 10MB",
       "change-photo": "Do you want to change your profile picture?",
       "would-you-like": "Would you like to save changes?",

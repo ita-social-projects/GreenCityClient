@@ -1,11 +1,11 @@
-import { Language } from '../../../../i18n/Language';
-import { LocalStorageService } from '../../../../service/localstorage/local-storage.service';
-import { UBSOrderFormService } from '../../services/ubs-order-form.service';
-import { LocalizedCurrencyPipe } from '../../../../../shared/localized-currency-pipe/localized-currency.pipe';
-import { ICertificate, Bag, OrderDetails } from '../../models/ubs.interface';
-import { OrderService } from '../../services/order.service';
-import { MatDialogRef, MAT_DIALOG_DATA, MatDialogModule } from '@angular/material';
-import { RouterModule } from '@angular/router';
+import { RouterTestingModule } from '@angular/router/testing';
+import { Language } from './../../../../i18n/Language';
+import { LocalStorageService } from './../../../../service/localstorage/local-storage.service';
+import { UBSOrderFormService } from './../../services/ubs-order-form.service';
+import { LocalizedCurrencyPipe } from './../../../../../shared/localized-currency-pipe/localized-currency.pipe';
+import { ICertificate, Bag, OrderDetails } from './../../models/ubs.interface';
+import { OrderService } from './../../services/order.service';
+import { MatDialogRef, MatDialogModule } from '@angular/material/dialog';
 import { TranslateModule } from '@ngx-translate/core';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { async, ComponentFixture, TestBed, fakeAsync } from '@angular/core/testing';
@@ -13,27 +13,33 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 import { UBSOrderDetailsComponent } from './ubs-order-details.component';
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
-import { of, throwError, Observable, Subject } from 'rxjs';
+import { of, throwError, Subject } from 'rxjs';
 import { HttpErrorResponse } from '@angular/common/http';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { UbsOrderLocationPopupComponent } from './ubs-order-location-popup/ubs-order-location-popup.component';
 
 describe('OrderDetailsFormComponent', () => {
   let component: UBSOrderDetailsComponent;
   let fixture: ComponentFixture<UBSOrderDetailsComponent>;
   let orderService: OrderService;
-  const shareFormService = jasmine.createSpyObj('shareFormService', ['']);
-  const localStorageService = jasmine.createSpyObj('localStorageService', ['getCurrentLanguage']);
+  const fakeLanguageSubject: Subject<string> = new Subject<string>();
+  const shareFormService = jasmine.createSpyObj('shareFormService', ['orderDetails']);
+  const localStorageService = jasmine.createSpyObj('localStorageService', ['getCurrentLanguage', 'languageSubject']);
+
+  localStorageService.languageSubject = fakeLanguageSubject;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
+      declarations: [UBSOrderDetailsComponent, LocalizedCurrencyPipe, UbsOrderLocationPopupComponent],
       imports: [
         FormsModule,
         ReactiveFormsModule,
         HttpClientTestingModule,
         TranslateModule.forRoot(),
-        RouterModule.forRoot([]),
-        MatDialogModule
+        RouterTestingModule,
+        MatDialogModule,
+        BrowserAnimationsModule
       ],
-      declarations: [UBSOrderDetailsComponent, LocalizedCurrencyPipe],
       providers: [
         { provide: MatDialogRef, useValue: {} },
         { provide: UBSOrderFormService, useValue: shareFormService },
@@ -55,7 +61,7 @@ describe('OrderDetailsFormComponent', () => {
 
   it('method takeOrderData should invoke localStorageService.getCurrentLanguage method', async(() => {
     const mock: OrderDetails = {
-      bags: [{ id: 0 }],
+      bags: [{ id: 0, code: 'ua' }],
       points: 0
     };
     orderService = TestBed.inject(OrderService);
@@ -66,7 +72,7 @@ describe('OrderDetailsFormComponent', () => {
     component.takeOrderData();
     expect(component.currentLanguage).toBe('ua');
     expect(spy).toHaveBeenCalled();
-    expect(component.bags).toEqual(mock.bags);
+    expect(component.bags[2]).toEqual(component.orders.bags[0]);
   }));
 
   it('method calculateTotal should invoke methods', () => {

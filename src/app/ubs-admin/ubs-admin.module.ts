@@ -4,7 +4,6 @@ import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
 import { NgxPaginationModule } from 'ngx-pagination';
 import { UbsAdminTableComponent } from './components/ubs-admin-table/ubs-admin-table.component';
-import { UbsBaseSidebarComponent } from '../shared/ubs-base-sidebar/ubs-base-sidebar.component';
 import { UbsAdminSidebarComponent } from '../../app/ubs-admin/components/ubs-admin-sidebar/ubs-admin-sidebar.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HttpClient, HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
@@ -13,7 +12,6 @@ import { TranslateLoader, TranslateModule, TranslateService } from '@ngx-transla
 import { MaterialModule } from '../material.module';
 import { IMaskModule } from 'angular-imask';
 import { SharedModule } from '../shared/shared.module';
-import { UbsHeaderComponent } from './components/ubs-header/ubs-header.component';
 import { UbsAdminComponent } from './ubs-admin.component';
 import { UbsAdminOrdersComponent } from './components/ubs-admin-orders/ubs-admin-orders.component';
 import { UbsAdminEmployeeComponent } from './components/ubs-admin-employee/ubs-admin-employee.component';
@@ -40,7 +38,19 @@ import { UbsAdminGoBackModalComponent } from './components/ubs-admin-go-back-mod
 import { UbsClientBonusesComponent } from './components/ubs-client-bonuses/ubs-client-bonuses.component';
 import { UbsAdminTableExcelPopupComponent } from './components/ubs-admin-table/ubs-admin-table-excel-popup/ubs-admin-table-excel-popup.component';
 import { DragDropModule } from '@angular/cdk/drag-drop';
+import { TableCellReadonlyComponent } from './components/ubs-admin-table/table-cell-readonly/table-cell-readonly.component';
+import { MatTooltipModule } from '@angular/material/tooltip';
+import { TableCellSelectComponent } from './components/ubs-admin-table/table-cell-select/table-cell-select.component';
+import { TableCellDateComponent } from './components/ubs-admin-table/table-cell-date/table-cell-date.component';
+import { TableCellTimeComponent } from './components/ubs-admin-table/table-cell-time/table-cell-time.component';
+import { MatDatepickerModule } from '@angular/material/datepicker';
+import { MatNativeDateModule } from '@angular/material/core';
 import { MatTableModule } from '@angular/material/table';
+import { UbsAdminCertificateComponent } from './components/ubs-admin-certificate/ubs-admin-certificate.component';
+import { AdminCertificateService } from './services/admin-certificate.service';
+import { UbsAdminTariffsComponent } from './components/ubs-admin-tariffs/ubs-admin-tariffs.component';
+import { UbsAdminTariffsAddServicePopupComponent } from './components/ubs-admin-tariffs/ubs-admin-tariffs-add-service-popup/ubs-admin-tariffs-add-service-popup.component';
+import { UbsAdminTariffsDeletePopupComponent } from './components/ubs-admin-tariffs/ubs-admin-tariffs-delete-popup/ubs-admin-tariffs-delete-popup.component';
 
 @NgModule({
   declarations: [
@@ -49,7 +59,6 @@ import { MatTableModule } from '@angular/material/table';
     UbsAdminTableExcelPopupComponent,
     UbsBaseSidebarComponent,
     UbsAdminSidebarComponent,
-    UbsHeaderComponent,
     UbsAdminComponent,
     UbsAdminEmployeeComponent,
     UbsAdminEmployeeCardComponent,
@@ -70,7 +79,15 @@ import { MatTableModule } from '@angular/material/table';
     UbsAdminCancelModalComponent,
     UbsAdminGoBackModalComponent,
     UbsClientBonusesComponent,
-    UbsAdminTableExcelPopupComponent
+    UbsAdminTableExcelPopupComponent,
+    TableCellReadonlyComponent,
+    TableCellSelectComponent,
+    TableCellDateComponent,
+    TableCellTimeComponent,
+    UbsAdminCertificateComponent,
+    UbsAdminTariffsComponent,
+    UbsAdminTariffsAddServicePopupComponent,
+    UbsAdminTariffsDeletePopupComponent
   ],
   imports: [
     CommonModule,
@@ -85,7 +102,11 @@ import { MatTableModule } from '@angular/material/table';
     UBSAdminRoutingModule,
     NgxPaginationModule,
     InfiniteScrollModule,
+    MatTooltipModule,
     DragDropModule,
+    ReactiveFormsModule,
+    MatDatepickerModule,
+    MatNativeDateModule,
     TranslateModule.forChild({
       loader: {
         provide: TranslateLoader,
@@ -96,6 +117,7 @@ import { MatTableModule } from '@angular/material/table';
     })
   ],
   providers: [
+    AdminCertificateService,
     AdminTableService,
     TranslateService,
     {
