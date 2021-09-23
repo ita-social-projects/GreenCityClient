@@ -1,5 +1,5 @@
 <div class="container">
-  <div *ngIf="bags; else spinner">
+  <div *ngIf="bags && !isDialogOpen; else spinner">
     <div class="header">
       <h3 class="font-bolt order-title">{{ 'order-details.order-title' | translate }}</h3>
       <div>
@@ -10,6 +10,7 @@
         </select>
       </div>
       <p class="order-content">{{ 'order-details.order-content' | translate }}</p>
+      <p class="order-content">{{ 'order-details.min-big-bags' | translate: { minAmountOfBigBags: minAmountOfBigBags } }}</p>
     </div>
     <form class="form" [formGroup]="orderDetailsForm" (change)="changeOrderDetails()">
       <div class="w-100 d-flex justify-content-between mb-2">
@@ -71,8 +72,13 @@
                   <strong>{{ finalSum | currency | localizedCurrency }}</strong>
                 </span>
               </p>
-              <div *ngIf="displayMes" class="validMes">
+              <div *ngIf="displayMinOrderMes" class="validMes">
                 <small class="text-danger">{{ 'order-details.min-sum' | translate }}</small>
+              </div>
+              <div *ngIf="displayMinBigBagsMes && orderDetailsForm.dirty" class="validMes">
+                <small class="text-danger">{{
+                  'order-details.min-big-bags' | translate: { minAmountOfBigBags: minAmountOfBigBags }
+                }}</small>
               </div>
             </div>
           </div>
@@ -303,10 +309,13 @@
 </div>
 
 <div class="w-100 d-flex justify-content-end buttons">
-  <button type="button" class="secondary-global-button btn cancel-button btn-main" (click)="cancelUBS()">
-    {{ 'order-details.cancel' | translate }}
-  </button>
-  <button [disabled]="showTotal < 500 || orderComment.invalid" type="submit" class="primary-global-button btn btn-main" matStepperNext>
+  <button  type="button" class="secondary-global-button btn cansel-button btn-main" (click)="cancelUBS()">{{ 'order-details.cancel' | translate }}</button>
+  <button
+    [disabled]="showTotal < 500 || minAmountOfBigBags > totalOfBigBags || orderComment.invalid"
+    type="submit"
+    class="primary-global-button btn btn-main"
+    matStepperNext
+  >
     {{ 'order-details.next' | translate }}
   </button>
 </div>
