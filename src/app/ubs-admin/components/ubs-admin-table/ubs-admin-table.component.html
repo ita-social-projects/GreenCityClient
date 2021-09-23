@@ -9,6 +9,10 @@
       <option [value]="size" *ngFor="let size of pageSizeOptions">{{ size }}</option>
     </select>
   </div>
+  <button type="button" class="btn btn-default" class="filter-table-btn" data-toggle="dropdown">
+    <mat-icon>filter_list</mat-icon>
+    Фільтри
+  </button>
   <button type="button" class="btn btn-default" class="view-table-btn" data-toggle="dropdown">
     <mat-icon>create</mat-icon>
     Вид таблиці

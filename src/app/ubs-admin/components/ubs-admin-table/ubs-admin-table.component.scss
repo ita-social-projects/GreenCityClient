@@ -144,15 +144,6 @@ input {
   color: var(--ubs-secondary-grey);
 }
 
-.filter-button .mat-icon {
-  font-size: 12px;
-}
-
-.view-table-btn .mat-icon {
-  padding-top: 5px;
-  font-size: 15px;
-}
-
 .export-excel-btn {
   display: flex;
   justify-content: center;
@@ -174,7 +165,8 @@ input {
   }
 }
 
-.view-table-btn {
+.view-table-btn,
+.filter-table-btn {
   display: flex;
   justify-content: center;
   align-items: center;
@@ -195,6 +187,16 @@ input {
     color: var(--ubs-secondary-grey);
     border: 1px solid var(--ubs-secondary-grey) !important;
   }
+}
+
+.filter-table-btn {
+  margin-left: 20px;
+}
+
+.view-table-btn .mat-icon,
+.filter-table-btn .mat-icon {
+  padding-top: 5px;
+  font-size: 15px;
 }
 
 .research {
