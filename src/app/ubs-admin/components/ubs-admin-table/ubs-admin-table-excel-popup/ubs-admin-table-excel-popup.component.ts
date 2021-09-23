@@ -8,8 +8,8 @@ import * as XLSX from 'xlsx';
   styleUrls: ['./ubs-admin-table-excel-popup.component.scss']
 })
 export class UbsAdminTableExcelPopupComponent implements OnInit {
-  private isLoading: boolean = false;
-  readonly onePageForWholeTable: number = 0;
+  private isLoading = false;
+  readonly onePageForWholeTable = 0;
   sortingColumn: string;
   sortType: string;
   tableData: any[];
