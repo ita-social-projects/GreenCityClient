@@ -3,7 +3,7 @@
   <div class="list-gallery-content">
     <div class="filter-tag">
       <div class="ul-eco-buttons" *ngFor="let tag of ecoNewsModel.tags">
-        {{ tag }}
+        {{ 'homepage.eco-news.tags.' + tag | lowercase | translate }}
       </div>
     </div>
     <div class="added-data">
@@ -21,7 +21,7 @@
     <div class="user-data-added-news">
       <p class="user-data-text-date">
         <img class="icon" [src]="profileIcons.calendarIcon" alt="calendar icon" />
-        {{ ecoNewsModel.creationDate | date }}
+        {{ ecoNewsModel.creationDate | date: undefined:undefined:translate.defaultLang }}
       </p>
       <p class="user-data-text-date user">
         <img class="icon" [src]="profileIcons.userIcon" alt="user icon" />

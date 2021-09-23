@@ -1,5 +1,6 @@
 import { EcoNewsModel } from '@eco-news-models/eco-news-model';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { TranslateModule } from '@ngx-translate/core';
 
 import { NewsListGalleryViewComponent } from './news-list-gallery-view.component';
 
@@ -16,12 +17,14 @@ describe('NewsListGalleryViewComponent', () => {
       name: 'string'
     },
     tags: [{ id: 1, name: 'test' }],
+
     creationDate: '11',
     likes: 0
   };
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
+      imports: [TranslateModule.forRoot()],
       declarations: [NewsListGalleryViewComponent]
     }).compileComponents();
   }));

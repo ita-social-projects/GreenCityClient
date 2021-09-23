@@ -3,7 +3,7 @@
   <div class="eco-news_list-content">
     <div class="filter-tag">
       <p class="eco-news_list-tag d-inline-block" *ngFor="let tag of ecoNewsModel.tags">
-        {{ tag }}
+        {{ 'homepage.eco-news.tags.' + tag | lowercase | translate }}
       </p>
     </div>
     <div>
@@ -21,7 +21,7 @@
     <div class="eco-news_list-autors">
       <p class="eco-news_data-text-date">
         <img class="icon" [src]="profileIcons.calendarIcon" alt="calendar icon" />
-        {{ ecoNewsModel.creationDate | date }}
+        {{ ecoNewsModel.creationDate | date: undefined:undefined:translate.defaultLang }}
       </p>
       <p>
         <img class="icon" [src]="profileIcons.userIcon" alt="user icon" />
