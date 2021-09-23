@@ -78,7 +78,6 @@ import { UbsAdminTariffsDeletePopupComponent } from './components/ubs-admin-tari
     UbsAdminCancelModalComponent,
     UbsAdminGoBackModalComponent,
     UbsClientBonusesComponent,
-    UbsAdminTableExcelPopupComponent,
     TableCellReadonlyComponent,
     TableCellSelectComponent,
     TableCellDateComponent,
