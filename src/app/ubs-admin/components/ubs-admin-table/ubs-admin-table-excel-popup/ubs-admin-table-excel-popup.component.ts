@@ -1,35 +1,46 @@
-import { Component, ElementRef } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Subject } from 'rxjs';
+import { AdminTableService } from 'src/app/ubs-admin/services/admin-table.service';
 import * as XLSX from 'xlsx';
-import { saveAs } from 'file-saver';
 
 @Component({
   selector: 'app-ubs-admin-table-excel-popup',
   templateUrl: './ubs-admin-table-excel-popup.component.html',
   styleUrls: ['./ubs-admin-table-excel-popup.component.scss']
 })
-export class UbsAdminTableExcelPopupComponent {
-  tableData: any[];
-  constructor() {}
+export class UbsAdminTableExcelPopupComponent implements OnInit, OnDestroy {
+  destroy: Subject<boolean> = new Subject<boolean>();
+  tableView: string;
+  totalElements: number;
+
+  constructor(private adminTableService: AdminTableService) {}
+
+  ngOnInit() {
+    this.tableView = 'allTable';
+  }
 
   saveTable() {
     // const ws: XLSX.WorkSheet = XLSX.utils.json_to_sheet(this.tableData);
     // const wb: XLSX.WorkBook = XLSX.utils.book_new();
     // XLSX.utils.book_append_sheet(wb, ws, 'Sheet1');
     // XLSX.writeFile(wb, 'SheetJS.xlsx');
-    const opts = {
-      suggestedName: 'admin-table.xls',
-      types: [
-        {
-          description: 'Excel file',
-          accept: { 'application/vnd.ms-excel': ['.xls'] }
-        }
-      ]
-    };
+    console.log(this.totalElements);
+  }
 
-    // @ts-ignore
-    window.showSaveFilePicker(opts);
+  // getTable('orderid', sortingType = this.sortType || 'desc') {
+  //   this.adminTableService
+  //     .getTable(columnName, this.currentPage, this.pageSize, sortingType)
+  //     .pipe(takeUntil(this.destroy))
+  //     .subscribe((item) => {
+  //       console.log(item);
+  //       this.tableData = item[`page`];
+  //       this.totalPages = item[`totalPages`];
+  //       this.totalElements = item[`totalElements`];
+  //     });
+  // }
 
-    // let file = new File(['Hello, world!'], 'hello world.txt', { type: 'text/plain;charset=utf-8' });
-    // saveAs(file);
+  ngOnDestroy() {
+    this.destroy.next();
+    this.destroy.unsubscribe();
   }
 }

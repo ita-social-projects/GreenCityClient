@@ -65,9 +65,5 @@ import { MatRadioModule } from '@angular/material/radio';
     MatRadioModule,
     MatMenuModule
   ]
-  //   providers: [{
-  //     provide: MAT_RADIO_DEFAULT_OPTIONS,
-  //     useValue: { color: 'accent' },
-  // }]
 })
 export class MaterialModule {}

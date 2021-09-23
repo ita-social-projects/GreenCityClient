@@ -37,6 +37,7 @@ export class UbsAdminTableComponent implements OnInit, OnDestroy {
   destroy: Subject<boolean> = new Subject<boolean>();
   arrowDirection: string;
   tableData: any[];
+  totalElements: number = 0;
   totalPages: number;
   pageSizeOptions: number[] = [10, 15, 20];
   currentPage = 0;
@@ -112,6 +113,7 @@ export class UbsAdminTableComponent implements OnInit, OnDestroy {
       .subscribe((item) => {
         this.tableData = item[`page`];
         this.totalPages = item[`totalPages`];
+        this.totalElements = item[`totalElements`];
         this.dataSource = new MatTableDataSource(this.tableData);
         const requiredColumns = [{ field: 'select', sticky: true }];
         const dynamicallyColumns = [];
@@ -169,9 +171,8 @@ export class UbsAdminTableComponent implements OnInit, OnDestroy {
 
   openExportExcel(): void {
     const dialogConfig = new MatDialogConfig();
-    // dialogConfig.panelClass = 'address-matDialog-styles';
     const dialogRef = this.dialog.open(UbsAdminTableExcelPopupComponent, dialogConfig);
-    dialogRef.componentInstance.tableData = this.tableData;
+    dialogRef.componentInstance.totalElements = this.totalElements;
   }
 
   onScroll() {

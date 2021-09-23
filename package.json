@@ -47,7 +47,6 @@
     "bootstrap": "^4.3.1",
     "chart.js": "^2.9.3",
     "chartjs-plugin-labels": "^1.1.0",
-    "file-saver": "^2.0.5",
     "fileuploader": "^1.2.7",
     "firebase": "^7.20.0",
     "hammerjs": "^2.0.8",
