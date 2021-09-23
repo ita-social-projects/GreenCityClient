@@ -47,7 +47,7 @@ export class UbsAdminTableExcelPopupComponent implements OnInit {
       .getTable(columnName, currentPage, pageSize, sortingType)
       .toPromise()
       .then((res) => {
-        return res['page'];
+        return res[`page`];
       })
       .catch((err) => {
         return false;
