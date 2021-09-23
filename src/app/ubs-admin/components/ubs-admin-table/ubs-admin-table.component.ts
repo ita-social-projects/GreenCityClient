@@ -41,7 +41,7 @@ export class UbsAdminTableComponent implements OnInit, OnDestroy {
   destroy: Subject<boolean> = new Subject<boolean>();
   arrowDirection: string;
   tableData: any[];
-  totalElements: number = 0;
+  totalElements = 0;
   totalPages: number;
   pageSizeOptions: number[] = [10, 15, 20];
   currentPage = 0;
