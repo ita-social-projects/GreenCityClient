@@ -1,5 +1,5 @@
 import { ecoNewsIcons } from './../../../../../image-pathes/profile-icons';
-import { Component, Input, ChangeDetectionStrategy } from '@angular/core';
+import { Component, Input, ChangeDetectionStrategy, OnInit } from '@angular/core';
 import { EcoNewsModel } from '@eco-news-models/eco-news-model';
 
 @Component({
