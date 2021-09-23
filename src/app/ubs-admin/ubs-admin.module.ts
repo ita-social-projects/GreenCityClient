@@ -37,6 +37,13 @@ import { UbsAdminCancelModalComponent } from './components/ubs-admin-cancel-moda
 import { UbsAdminGoBackModalComponent } from './components/ubs-admin-go-back-modal/ubs-admin-go-back-modal.component';
 import { UbsClientBonusesComponent } from './components/ubs-client-bonuses/ubs-client-bonuses.component';
 import { DragDropModule } from '@angular/cdk/drag-drop';
+import { TableCellReadonlyComponent } from './components/ubs-admin-table/table-cell-readonly/table-cell-readonly.component';
+import { MatTooltipModule } from '@angular/material/tooltip';
+import { TableCellSelectComponent } from './components/ubs-admin-table/table-cell-select/table-cell-select.component';
+import { TableCellDateComponent } from './components/ubs-admin-table/table-cell-date/table-cell-date.component';
+import { TableCellTimeComponent } from './components/ubs-admin-table/table-cell-time/table-cell-time.component';
+import { MatDatepickerModule } from '@angular/material/datepicker';
+import { MatNativeDateModule } from '@angular/material/core';
 import { MatTableModule } from '@angular/material/table';
 import { UbsAdminCertificateComponent } from './components/ubs-admin-certificate/ubs-admin-certificate.component';
 import { AdminCertificateService } from './services/admin-certificate.service';
@@ -69,6 +76,10 @@ import { UbsAdminTariffsDeletePopupComponent } from './components/ubs-admin-tari
     UbsAdminCancelModalComponent,
     UbsAdminGoBackModalComponent,
     UbsClientBonusesComponent,
+    TableCellReadonlyComponent,
+    TableCellSelectComponent,
+    TableCellDateComponent,
+    TableCellTimeComponent,
     UbsAdminCertificateComponent,
     UbsAdminTariffsComponent,
     UbsAdminTariffsAddServicePopupComponent,
@@ -87,7 +98,11 @@ import { UbsAdminTariffsDeletePopupComponent } from './components/ubs-admin-tari
     UBSAdminRoutingModule,
     NgxPaginationModule,
     InfiniteScrollModule,
+    MatTooltipModule,
     DragDropModule,
+    ReactiveFormsModule,
+    MatDatepickerModule,
+    MatNativeDateModule,
     TranslateModule.forChild({
       loader: {
         provide: TranslateLoader,
