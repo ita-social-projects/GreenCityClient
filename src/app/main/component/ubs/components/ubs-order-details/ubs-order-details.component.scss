@@ -52,9 +52,8 @@ h3 {
   }
 
   .order-content {
-    @include text_style(var(--ubs-quaternary-font), var(--ubs-secondary-grey), 14px, 400);
-
-    margin-bottom: 3rem;
+    color: var(--ubs-secondary-grey);
+    margin-bottom: 2rem;
   }
 
   .choose-location {
@@ -219,7 +218,7 @@ button {
 
   .validMes {
     margin-top: -1rem;
-    text-align: left;
+    margin-bottom: 1rem;
   }
 }
 
