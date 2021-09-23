@@ -170,7 +170,7 @@
               {{ 'order-details.activated' | translate: { certificateSum: certificateSum, certDate: certDate } }}
             </small>
             <small class="text-danger" *ngIf="certificateError">
-              {{ 'order-details.not-found-certificate' | translate }}
+              {{ 'order-details.failed-certificate' | translate }}
             </small>
             <small class="text-danger" *ngIf="certStatus === 'USED'">
               {{
