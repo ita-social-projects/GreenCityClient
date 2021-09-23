@@ -74,7 +74,6 @@
     "@angular/cli": "~9.1.15",
     "@angular/compiler-cli": "^9.1.13",
     "@angular/language-service": "^9.1.13",
-    "@types/file-saver": "^2.0.3",
     "@types/googlemaps": "^3.43.3",
     "@types/jasmine": "~3.3.8",
     "@types/jasminewd2": "^2.0.8",
