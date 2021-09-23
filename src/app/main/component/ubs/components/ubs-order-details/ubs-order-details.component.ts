@@ -107,7 +107,7 @@ export class UBSOrderDetailsComponent extends FormBaseComponent implements OnIni
     this.localStorageService.languageSubject.pipe(takeUntil(this.destroy)).subscribe(() => {
       this.currentLanguage = this.localStorageService.getCurrentLanguage();
       const inputsQuantity = [];
-      this.bags.map((a) => {
+      this.bags.forEach((a) => {
         inputsQuantity.push(a.quantity === undefined || a.quantity === null ? null : a.quantity);
         a.quantity = null;
       });
