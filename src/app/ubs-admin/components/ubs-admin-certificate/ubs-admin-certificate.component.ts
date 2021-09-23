@@ -1,5 +1,3 @@
-import { nonSortableColumns } from './../../models/non-sortable-columns.model';
-import { AdminTableService } from '../../services/admin-table.service';
 import { CdkDragDrop, moveItemInArray } from '@angular/cdk/drag-drop';
 import { Component, OnInit, ViewChild, OnDestroy } from '@angular/core';
 import { takeUntil } from 'rxjs/operators';
@@ -8,14 +6,14 @@ import { MatTableDataSource } from '@angular/material/table';
 import { SelectionModel } from '@angular/cdk/collections';
 import { ubsAdminTable } from '../ubs-image-pathes/ubs-admin-table';
 import { MatSort } from '@angular/material/sort';
+import { AdminCertificateService } from '../../services/admin-certificate.service';
 
 @Component({
-  selector: 'app-ubs-admin-table',
-  templateUrl: './ubs-admin-table.component.html',
-  styleUrls: ['./ubs-admin-table.component.scss']
+  selector: 'app-ubs-admin-certificate',
+  templateUrl: './ubs-admin-certificate.component.html',
+  styleUrls: ['./ubs-admin-certificate.component.scss']
 })
-export class UbsAdminTableComponent implements OnInit, OnDestroy {
-  nonSortableColumns = nonSortableColumns;
+export class UbsAdminCertificateComponent implements OnInit, OnDestroy {
   sortingColumn: string;
   sortType: string;
   columns: any[] = [];
@@ -42,7 +40,7 @@ export class UbsAdminTableComponent implements OnInit, OnDestroy {
   ubsAdminTableIcons = ubsAdminTable;
   @ViewChild(MatSort, { static: true }) sort: MatSort;
 
-  constructor(private adminTableService: AdminTableService) {}
+  constructor(private adminCertificateService: AdminCertificateService) {}
 
   ngOnInit() {
     this.getTable();
@@ -53,9 +51,9 @@ export class UbsAdminTableComponent implements OnInit, OnDestroy {
   }
 
   setDisplayedColumns() {
-    this.columns.forEach((colunm, index) => {
-      colunm.index = index;
-      this.displayedColumns[index] = colunm.field;
+    this.columns.forEach((column, index) => {
+      column.index = index;
+      this.displayedColumns[index] = column.field;
     });
   }
 
@@ -80,32 +78,10 @@ export class UbsAdminTableComponent implements OnInit, OnDestroy {
     return `${this.selection.isSelected(row) ? 'deselect' : 'select'} row ${row.orderId + 1}`;
   }
 
-  showAllColumns(): void {
-    this.getTable();
-  }
-
-  changeColumns(field: string, i: number) {
-    const beforeColumnsLength = this.columns.length;
-    this.columns = this.columns.filter((el) => el.field !== field);
-    const afterColumnsLength = this.columns.length;
-    const requiredFieldValues = ['orderid', 'order_status', 'order_date'];
-    if (beforeColumnsLength === afterColumnsLength) {
-      const newObjectForHeader = {
-        field,
-        sticky: this.isPropertyRequired(field, requiredFieldValues),
-        index: i
-      };
-      this.columns = [...this.columns.slice(0, i), newObjectForHeader, ...this.columns.slice(i, this.columns.length)];
-      this.setDisplayedColumns();
-    } else {
-      this.setDisplayedColumns();
-    }
-  }
-
-  getTable(columnName = this.sortingColumn || 'orderid', sortingType = this.sortType || 'desc') {
+  getTable(sortingType = this.sortType || 'desc') {
     this.isLoading = true;
-    this.adminTableService
-      .getTable(columnName, this.currentPage, this.pageSize, sortingType)
+    this.adminCertificateService
+      .getTable(this.currentPage, this.pageSize, sortingType)
       .pipe(takeUntil(this.destroy))
       .subscribe((item) => {
         this.tableData = item[`page`];
@@ -115,34 +91,23 @@ export class UbsAdminTableComponent implements OnInit, OnDestroy {
         const dynamicallyColumns = [];
         const arrayOfProperties = Object.keys(this.tableData[0]);
         arrayOfProperties.forEach((property) => {
-          const requiredFieldValues = ['orderid', 'order_status', 'order_date'];
           const objectOfValue = {
             field: property,
-            sticky: this.isPropertyRequired(property, requiredFieldValues)
+            sticky: false
           };
           dynamicallyColumns.push(objectOfValue);
         });
         this.columns = [].concat(requiredColumns, dynamicallyColumns);
         this.setDisplayedColumns();
+        this.arrayOfHeaders = arrayOfProperties;
         this.isLoading = false;
-        this.arrayOfHeaders = dynamicallyColumns;
-        this.orderInfo = dynamicallyColumns.slice(0, 3);
-        this.customerInfo = dynamicallyColumns.slice(3, 10);
-        this.orderDetails = dynamicallyColumns.slice(10, 18);
-        this.sertificate = dynamicallyColumns.slice(18, 22);
-        this.detailsOfExport = dynamicallyColumns.slice(22, 27);
-        this.responsiblePerson = dynamicallyColumns.slice(27, 33);
       });
-  }
-
-  private isPropertyRequired(field: string, requiredFields: string[]) {
-    return requiredFields.some((reqField) => field === reqField);
   }
 
   updateTableData() {
     this.isUpdate = true;
-    this.adminTableService
-      .getTable(this.sortingColumn || 'orderid', this.currentPage, this.pageSize, this.sortType || 'desc')
+    this.adminCertificateService
+      .getTable(this.currentPage, this.pageSize, this.sortType || 'desc')
       .pipe(takeUntil(this.destroy))
       .subscribe((item) => {
         const data = item[`page`];
@@ -151,14 +116,6 @@ export class UbsAdminTableComponent implements OnInit, OnDestroy {
         this.dataSource.data = this.tableData;
         this.isUpdate = false;
       });
-  }
-
-  getSortingData(columnName, sortingType) {
-    this.sortingColumn = columnName;
-    this.sortType = sortingType;
-    this.arrowDirection = this.arrowDirection === columnName ? null : columnName;
-    this.currentPage = 0;
-    this.getTable(columnName, sortingType);
   }
 
   selectPageSize(value: number) {

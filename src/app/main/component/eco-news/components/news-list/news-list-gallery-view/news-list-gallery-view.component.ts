@@ -1,5 +1,5 @@
 import { ecoNewsIcons } from './../../../../../image-pathes/profile-icons';
-import { Component, Input, ChangeDetectionStrategy } from '@angular/core';
+import { Component, Input, ChangeDetectionStrategy, OnInit } from '@angular/core';
 import { EcoNewsModel } from '@eco-news-models/eco-news-model';
 import { TranslateService } from '@ngx-translate/core';
 
@@ -11,9 +11,9 @@ import { TranslateService } from '@ngx-translate/core';
 })
 export class NewsListGalleryViewComponent {
   @Input() ecoNewsModel: EcoNewsModel;
-
   public profileIcons = ecoNewsIcons;
   public newsImage: string;
+  public likeImg = 'assets/img/comments/like.png';
 
   constructor(public translate: TranslateService) {}
 

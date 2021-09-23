@@ -24,7 +24,8 @@ describe('NewsListListViewComponent', () => {
       name: 'string'
     },
     tags: [{ name: 'test', id: 1 }],
-    creationDate: '11'
+    creationDate: '11',
+    likes: 0
   };
 
   beforeEach(async(() => {
