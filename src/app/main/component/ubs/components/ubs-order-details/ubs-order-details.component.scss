@@ -15,7 +15,7 @@
   margin-top: 46px;
 }
 
-.cansel-button {
+.cancel-button {
   border-radius: 4px;
   border: 1px solid var(--ubs-primary-green);
   margin-right: 1rem;
@@ -46,9 +46,8 @@ h3 {
   }
 
   .order-content {
-    @include text_style(var(--ubs-quaternary-font), var(--ubs-secondary-grey), 14px, 400);
-
-    margin-bottom: 3rem;
+    color: var(--ubs-secondary-grey);
+    margin-bottom: 2rem;
   }
 
   .choose-location {
@@ -86,6 +85,10 @@ h3 {
   padding-left: 0;
   border: none;
   display: flex;
+
+  &::placeholder {
+    color: var(--ubs-primary-light-grey);
+  }
 }
 
 .count {
@@ -219,7 +222,7 @@ button {
 
   .validMes {
     margin-top: -1rem;
-    text-align: left;
+    margin-bottom: 1rem;
   }
 }
 

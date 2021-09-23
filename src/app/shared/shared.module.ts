@@ -7,22 +7,13 @@ import { VolumePipe } from './volume-pipe/volume.pipe';
 import { DragDirective } from './drag-and-drop/dragDrop.directive';
 import { CloseDropdownDirective } from './directives/close-dropdown.directive';
 import { PhoneNumberTreatPipe } from './phone-number-treat/phone-number-treat.pipe';
+import { ServerTranslatePipe } from './translate-pipe/translate-pipe.pipe';
 import { UbsBaseSidebarComponent } from './ubs-base-sidebar/ubs-base-sidebar.component';
 import { TranslateModule } from '@ngx-translate/core';
 import { RouterModule } from '@angular/router';
 import { UbsHeaderComponent } from './ubs-header/ubs-header.component';
 
 @NgModule({
-  exports: [
-    SpinnerComponent,
-    LocalizedCurrencyPipe,
-    DragDirective,
-    VolumePipe,
-    CloseDropdownDirective,
-    PhoneNumberTreatPipe,
-    UbsBaseSidebarComponent,
-    UbsHeaderComponent
-  ],
   declarations: [
     SpinnerComponent,
     LocalizedCurrencyPipe,
@@ -30,9 +21,21 @@ import { UbsHeaderComponent } from './ubs-header/ubs-header.component';
     VolumePipe,
     CloseDropdownDirective,
     PhoneNumberTreatPipe,
+    ServerTranslatePipe,
     UbsBaseSidebarComponent,
     UbsHeaderComponent
   ],
-  imports: [CommonModule, MaterialModule, TranslateModule, RouterModule]
+  imports: [CommonModule, MaterialModule, TranslateModule, RouterModule],
+  exports: [
+    SpinnerComponent,
+    LocalizedCurrencyPipe,
+    DragDirective,
+    VolumePipe,
+    CloseDropdownDirective,
+    PhoneNumberTreatPipe,
+    ServerTranslatePipe,
+    UbsBaseSidebarComponent,
+    UbsHeaderComponent
+  ]
 })
 export class SharedModule {}

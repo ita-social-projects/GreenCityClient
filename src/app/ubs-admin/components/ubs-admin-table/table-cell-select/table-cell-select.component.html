@@ -1,0 +1,19 @@
+<div class="select_wr">
+  <div *ngIf="!isEditable">{{ currentValue | serverTranslate: lang }}</div>
+  <div *ngIf="isEditable">
+    <select (change)="chosenOption($event)" class="select_dropdown">
+      <option
+        *ngFor="let option of optional"
+        [value]="option | serverTranslate: lang"
+        [selected]="(option | serverTranslate: lang) === (currentValue | serverTranslate: lang)"
+      >
+        {{ option | serverTranslate: lang }}
+      </option>
+    </select>
+  </div>
+  <div>
+    <span *ngIf="!isEditable" (click)="edit()">&#9998;</span>
+    <span *ngIf="isEditable" (click)="save()">&#10003;</span>
+    <span *ngIf="isEditable" (click)="cancel()">&#10005;</span>
+  </div>
+</div>
