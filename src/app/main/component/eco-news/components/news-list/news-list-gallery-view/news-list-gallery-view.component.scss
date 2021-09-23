@@ -89,23 +89,30 @@ div {
     .user-data-added-news {
       position: absolute;
       bottom: 0;
+      width: 100%;
       display: flex;
-      flex-wrap: wrap;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: nowrap;
     }
 
     .user-data-text-date {
-      margin-right: 16px;
       font-family: var(--primary-font);
       font-size: 14px;
       line-height: 21px;
       color: var(--secondary-grey);
       mix-blend-mode: normal;
       opacity: 0.6;
+      flex-basis: 33%;
 
       .icon {
         align-items: center;
         margin-right: 4px;
       }
+    }
+
+    .user {
+      padding-left: 15px;
     }
 
     .user-data-text-date:nth-child(2) {
@@ -115,6 +122,21 @@ div {
       max-width: 110px;
       overflow: hidden;
       text-overflow: ellipsis;
+    }
+
+    .user-data-like {
+      font-family: var(--primary-font);
+      font-size: 14px;
+      color: var(--secondary-grey);
+      opacity: 0.6;
+      flex-basis: 33%;
+      display: flex;
+      justify-content: flex-end;
+      align-items: center;
+
+      .numerosity {
+        margin-left: 10px;
+      }
     }
   }
 }

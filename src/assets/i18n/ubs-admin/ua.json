@@ -147,6 +147,11 @@
     "sum": "Сума",
     "comment-bill": "Коментар/Чек"
   },
+  "ubs-tables": {
+    "export-to-excel": "Експортувати в  Excel",
+    "table-view": "Вид таблиці",
+    "add-certificate": "Додати сертифікат"
+  },
   "export-details": {
     "title": "Деталі вивезення",
     "export-date": "Дата вивезення",
@@ -236,7 +241,8 @@
     "employees": "Працівники",
     "documents": "Документи",
     "schedule": "Графік",
-    "bonuses": "Бонуси"
+    "bonuses": "Бонуси",
+    "tariffs": "Тарифи"
   },
   "ubs-employee": {
     "add-employee": "Додати працівника",
@@ -254,5 +260,46 @@
     "invoice": "Рахунок",
     "user_data": "Дані користувача",
     "messages": "Повідомлення"
+  },
+  "ubs-tariffs": {
+    "services": "Сервіси",
+    "name_of_the_service": "Найменування послуги",
+    "capacity": "Об’єм",
+    "service_description": "Опис послуги",
+    "basic_cost": "Базова вартість",
+    "carriers_commission": "Комісія перевізника",
+    "full_cost": "Повна вартість",
+    "tariffs_for_services": "Тарифи на послуги",
+    "order_limits": "Ліміти замовлення",
+    "min_order_amount": "Сума замовлення від",
+    "to": "до",
+    "min_number_of_packages": "Кількість пакетів від",
+    "min_set_of_packages": "Мінімальний набір пакетів",
+    "info_about_order_limits_header": "Інформація про ліміти замовлення",
+    "safe_waste": "Текстильні відходи 120 л",
+    "textile_waste": "Безпечні відходи 120 л",
+    "info_about_order_limits": "Інформація про ліміти замовлення",
+    "placeholder_order_limits_info": "Інформація про ліміти замовлення, яка буде відображатись у формі замовлення клієнта",
+    "btn": {
+      "add_service": "Додати сервіс",
+      "save_changes": "Зберегти зміни",
+      "add_carrier": "Додати перевізника"
+    }
+  },
+  "ubs-tariffs-add-service": {
+    "add_service": "Додати послугу",
+    "name_of_the_service": "Найменування послуги",
+    "placeholder-service": "Введіть назву послуги",
+    "capacity": "User data",
+    "basic_cost": "Базова вартість",
+    "ubs_courier": "УБС Кур’єр",
+    "full_cost": "Повна вартість",
+    "service_description": "Опис послуги",
+    "placeholder-text": "Опишіть, що саме входить у послугу, і умови /правила її надання",
+    "error_message": "Заповніть виділені поля",
+    "btn": {
+      "add": "Додати",
+      "cancel": "Скасувати"
+    }
   }
 }

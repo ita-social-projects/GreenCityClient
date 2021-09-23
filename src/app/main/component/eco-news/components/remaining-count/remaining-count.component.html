@@ -1,1 +1,13 @@
-<h2>{{ remainingCount }} {{ remainingCount === 1 ? 'item' : 'items' }} found</h2>
+<div *ngIf="translate.defaultLang === 'en'; else otherLanguages">
+  <h2>
+    {{ remainingCount }}
+    {{ (remainingCount === 1 ? 'homepage.eco-news.items-found.item-at-1' : 'homepage.eco-news.items-found.item-at-all') | translate }}
+  </h2>
+</div>
+<ng-template #otherLanguages>
+  <div [ngSwitch]="setWordDeclension(remainingCount + '')">
+    <h2 *ngSwitchCase="'a'">{{ remainingCount }} {{ 'homepage.eco-news.items-found.item-at-1' | translate }}</h2>
+    <h2 *ngSwitchCase="'b'">{{ remainingCount }} {{ 'homepage.eco-news.items-found.item-at-2-3-4' | translate }}</h2>
+    <h2 *ngSwitchDefault>{{ remainingCount }} {{ 'homepage.eco-news.items-found.item-at-all' | translate }}</h2>
+  </div>
+</ng-template>
