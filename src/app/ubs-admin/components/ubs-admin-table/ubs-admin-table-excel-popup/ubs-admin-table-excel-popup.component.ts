@@ -1,5 +1,4 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
-import { Subject } from 'rxjs';
 import { AdminTableService } from 'src/app/ubs-admin/services/admin-table.service';
 import * as XLSX from 'xlsx';
 
@@ -8,39 +7,50 @@ import * as XLSX from 'xlsx';
   templateUrl: './ubs-admin-table-excel-popup.component.html',
   styleUrls: ['./ubs-admin-table-excel-popup.component.scss']
 })
-export class UbsAdminTableExcelPopupComponent implements OnInit, OnDestroy {
-  destroy: Subject<boolean> = new Subject<boolean>();
+export class UbsAdminTableExcelPopupComponent implements OnInit {
+  private isLoading: boolean = false;
+  readonly onePageForWholeTable: number = 0;
+  sortingColumn: string;
+  sortType: string;
+  tableData: any[];
   tableView: string;
   totalElements: number;
 
   constructor(private adminTableService: AdminTableService) {}
 
   ngOnInit() {
-    this.tableView = 'allTable';
+    this.tableView = 'wholeTable';
   }
 
-  saveTable() {
-    // const ws: XLSX.WorkSheet = XLSX.utils.json_to_sheet(this.tableData);
-    // const wb: XLSX.WorkBook = XLSX.utils.book_new();
-    // XLSX.utils.book_append_sheet(wb, ws, 'Sheet1');
-    // XLSX.writeFile(wb, 'SheetJS.xlsx');
-    console.log(this.totalElements);
+  async saveTable() {
+    if ((this.tableView = 'wholeTable')) {
+    } else if ((this.tableView = 'currentFilter')) {
+      // implement downloading with filtering, when filtering will be implemented into project
+    }
+
+    this.isLoading = true;
+    this.tableData = await this.getTable(this.sortingColumn, this.onePageForWholeTable, this.totalElements, this.sortType);
+    this.isLoading = false;
+
+    if (this.tableData) {
+      const ws: XLSX.WorkSheet = XLSX.utils.json_to_sheet(this.tableData);
+      const wb: XLSX.WorkBook = XLSX.utils.book_new();
+      XLSX.utils.book_append_sheet(wb, ws, 'Sheet1');
+      XLSX.writeFile(wb, 'Orders-Table.xlsx');
+    } else {
+      // do something if error
+    }
   }
 
-  // getTable('orderid', sortingType = this.sortType || 'desc') {
-  //   this.adminTableService
-  //     .getTable(columnName, this.currentPage, this.pageSize, sortingType)
-  //     .pipe(takeUntil(this.destroy))
-  //     .subscribe((item) => {
-  //       console.log(item);
-  //       this.tableData = item[`page`];
-  //       this.totalPages = item[`totalPages`];
-  //       this.totalElements = item[`totalElements`];
-  //     });
-  // }
-
-  ngOnDestroy() {
-    this.destroy.next();
-    this.destroy.unsubscribe();
+  getTable(columnName = this.sortingColumn || 'orderid', currentPage, pageSize, sortingType = this.sortType || 'desc') {
+    return this.adminTableService
+      .getTable(columnName, currentPage, pageSize, sortingType)
+      .toPromise()
+      .then((res) => {
+        return res['page'];
+      })
+      .catch((err) => {
+        return false;
+      });
   }
 }

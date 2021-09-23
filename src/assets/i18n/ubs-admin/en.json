@@ -147,7 +147,7 @@
     },
     "select-data": "Select data for the export",
     "current": "Save current view",
-    "all": "Save all table"
+    "all": "Save all table (It will take some time)"
   },
   "order-payment": {
     "title": "Order payment",

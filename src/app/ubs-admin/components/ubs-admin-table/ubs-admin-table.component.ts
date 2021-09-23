@@ -173,6 +173,8 @@ export class UbsAdminTableComponent implements OnInit, OnDestroy {
     const dialogConfig = new MatDialogConfig();
     const dialogRef = this.dialog.open(UbsAdminTableExcelPopupComponent, dialogConfig);
     dialogRef.componentInstance.totalElements = this.totalElements;
+    dialogRef.componentInstance.sortingColumn = this.sortingColumn;
+    dialogRef.componentInstance.sortType = this.sortType;
   }
 
   onScroll() {
