@@ -1,13 +1,11 @@
 <div class="close-button">
   <img mat-dialog-close [src]="icons.close" class="close-button-img" alt="close-icon" />
 </div>
-
 <div class="dialog-container">
   <div class="main-content">
     <div class="header-text">
       <h4>{{ 'ubs-tariffs.btn.add_service' | translate }}</h4>
     </div>
-
     <form [formGroup]="addServiceForm">
       <div class="service">
         <label for="serviceName">{{ 'ubs-tariffs-add-service.name_of_the_service' | translate }}</label>
@@ -19,7 +17,6 @@
           placeholder="{{ 'ubs-tariffs-add-service.placeholder-service' | translate }}"
         />
       </div>
-
       <div class="row4">
         <div class="capacity-input">
           <label class="form-label" for="capacity">Обєм</label>
@@ -38,14 +35,9 @@
           <input type="text" formControlName="fullCost" id="fullCost" />
         </div>
       </div>
-
       <div class="service-description">
         <h6>{{ 'ubs-tariffs-add-service.service_description' | translate }}</h6>
-        <textarea
-          maxlength="170"
-          placeholder="{{ 'ubs-tariffs-add-service.placeholder-text' | translate }}"
-          formControlName="title"
-        ></textarea>
+        <textarea maxlength="170" placeholder="{{ 'ubs-tariffs-add-service.placeholder-text' | translate }}"></textarea>
       </div>
     </form>
   </div>

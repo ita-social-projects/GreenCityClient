@@ -4,7 +4,6 @@
     <option>Київська область</option>
   </select>
 </div>
-
 <div class="services-header">
   <div class="header-text">
     <h4>{{ 'ubs-tariffs.services' | translate }}</h4>
@@ -13,7 +12,6 @@
     {{ 'ubs-tariffs.btn.add_service' | translate }}
   </button>
 </div>
-
 <div class="service-table">
   <table>
     <tr>
@@ -38,7 +36,6 @@
     </tr>
   </table>
 </div>
-
 <div class="services-header">
   <div class="header-text">
     <h4>{{ 'ubs-tariffs.tariffs_for_services' | translate }}</h4>
@@ -47,7 +44,6 @@
     {{ 'ubs-tariffs.btn.add_service' | translate }}
   </button>
 </div>
-
 <div class="tariffs-table">
   <table>
     <tr>
@@ -92,7 +88,6 @@
     </tr>
   </table>
 </div>
-
 <div class="limits-header">
   <div>
     <h4>{{ 'ubs-tariffs.order_limits' | translate }}</h4>
@@ -106,7 +101,6 @@
     <button class="secondary-global-button">{{ 'ubs-tariffs.btn.add_carrier' | translate }}</button>
   </div>
 </div>
-
 <div class="limits-form">
   <form>
     <div class="sum-input">
@@ -119,7 +113,6 @@
       <input class="input" id="to" />
       <label for="to"></label>
     </div>
-
     <div class="bags-input">
       <input type="radio" id="min-packages" />
       <label for="min-packages">{{ 'ubs-tariffs.min_number_of_packages' | translate }}</label
@@ -130,7 +123,6 @@
       <input class="input" id="to-packages" />
       <label for="to-packages"></label>
     </div>
-
     <div class="min-bags-number">
       <h6>{{ 'ubs-tariffs.min_set_of_packages' | translate }}</h6>
       <input type="checkbox" id="textile-waste120" />
@@ -143,16 +135,10 @@
       <label for="textile-waste20">{{ 'ubs-tariffs.textile_waste' | translate }}</label
       ><br />
     </div>
-
     <div class="order-limit-textarea">
       <h6>{{ 'ubs-tariffs.info_about_order_limits' | translate }}</h6>
-      <textarea
-        maxlength="170"
-        placeholder="{{ 'ubs-tariffs.placeholder_order_limits_info' | translate }}"
-        formControlName="title"
-      ></textarea>
+      <textarea maxlength="170" placeholder="{{ 'ubs-tariffs.placeholder_order_limits_info' | translate }}"></textarea>
     </div>
-
     <div class="submit-btn">
       <button class="primary-global-button submit" type="submit">
         {{ 'ubs-client-profile.btn.save' | translate }}
