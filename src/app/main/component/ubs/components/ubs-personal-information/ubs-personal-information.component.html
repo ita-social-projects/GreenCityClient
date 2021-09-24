@@ -55,6 +55,37 @@
       </div>
     </div>
   </div>
+  <div class="row form-check">
+    <input
+      class="form-check-input"
+      type="checkbox"
+      value=""
+      [checked]="anotherRecipient"
+      id="flexCheckDefault"
+      (change)="anotherRecipient = !anotherRecipient"
+    />
+    <label class="form-check-label" for="flexCheckDefault">
+      {{ 'personal-info.info-other-recipient' | translate }}
+    </label>
+  </div>
+  <div class="row personal-data" *ngIf="anotherRecipient">
+    <div class="col-12 col-sm-6 form-group">
+      <label>{{ 'personal-info.info-name' | translate }}</label>
+      <input type="text" class="shadow-none form-control" />
+    </div>
+    <div class="col-12 col-sm-6 form-group">
+      <label>{{ 'personal-info.info-phone' | translate }}</label>
+      <input type="text" class="shadow-none form-control" placeholder="+38(___) ___ __ __" [unmask]="true" [imask]="{ mask: phoneMask }" />
+    </div>
+    <div class="col-12 col-sm-6 form-group mt-2">
+      <label>{{ 'personal-info.info-surname' | translate }}</label>
+      <input formControlName="lastName" type="text" class="shadow-none form-control" />
+    </div>
+    <div class="col-12 col-sm-6 form-group mt-2">
+      <label>Email ({{ 'personal-info.info-optionally' | translate }})</label>
+      <input formControlName="email" type="text" class="shadow-none form-control" placeholder="example@email.com" />
+    </div>
+  </div>
   <hr />
   <div class="row adress-section">
     <div class="w-100">
@@ -107,7 +138,7 @@
       placeholder="{{ 'personal-info.info-coment-placeholder' | translate }}"
     ></textarea>
     <div class="validation" *ngIf="getControl('addressComment').invalid && getControl('addressComment').touched">
-      <app-ubs-input-error [formElement]="getControl('addressComment')" [controlName]="'addressComment'"></app-ubs-input-error>
+      <app-ubs-input-error [formElement]="getControl('addressComment')" [controlName]="'addressComment'"> </app-ubs-input-error>
     </div>
   </div>
 </form>
