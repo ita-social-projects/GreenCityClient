@@ -1,6 +1,6 @@
 $bp-smallest: 575px;
 $bp-phone: 767px;
-$bp-tablet: 991px;
+$bp-tablet: 1179px;
 $bp-desktop: 1439px;
 
 p,
@@ -132,8 +132,14 @@ div {
   }
 }
 
-@media screen and (max-width: $bp-smallest) {
+@media screen and (max-width: $bp-phone) {
   .list-gallery {
     width: 100%;
+  }
+}
+
+@media (min-width: 1179px) and (max-width: 1199px) {
+  .list-gallery {
+    width: 300px;
   }
 }
