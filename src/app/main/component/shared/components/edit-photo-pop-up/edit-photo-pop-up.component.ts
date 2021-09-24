@@ -5,6 +5,7 @@ import { EditProfileService } from '@global-user/services/edit-profile.service';
 import { ProfileService } from '@global-user/components/profile/profile-service/profile.service';
 import { FileHandle } from '@eco-news-models/create-news-interface';
 import { MatSnackBarComponent } from '@global-errors/mat-snack-bar/mat-snack-bar.component';
+import { PhotoDragAndDropPopUpComponent } from '../photo-drag-and-drop-pop-up/photo-drag-and-drop-pop-up.component';
 
 @Component({
   selector: 'app-edit-photo-pop-up',
@@ -53,6 +54,10 @@ export class EditPhotoPopUpComponent implements OnInit {
       reader.readAsDataURL(this.selectedFile);
       reader.onload = (ev) => this.handleFile(ev);
     }
+  }
+
+  public openDragAndDropPhotoPopUp(): void {
+    this.dialog.open(PhotoDragAndDropPopUpComponent);
   }
 
   public imageCropped(event: ImageCroppedEvent): void {

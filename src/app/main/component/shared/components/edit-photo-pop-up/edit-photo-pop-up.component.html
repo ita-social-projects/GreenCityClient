@@ -10,10 +10,13 @@
       <button type="button" class="primary-global-button delete" [disabled]="!avatarImg" (click)="isNotification = true" tabindex="0">
         {{ 'user.edit-profile.btn.delete' | translate }}
       </button>
-      <label tabindex="0" class="secondary-global-button" (keyup)="openFilesWindow($event)">
+      <button class="secondary-global-button" (click)="openDragAndDropPhotoPopUp()">
+        {{ 'user.edit-profile.btn.new-photo' | translate }}
+      </button>
+      <!-- <label tabindex="0" class="secondary-global-button" (keyup)="openFilesWindow($event)">
         {{ 'user.edit-profile.btn.new-photo' | translate }}
         <input type="file" accept=".jpg, .jpeg, .png" (change)="onSelectPhoto($event)" />
-      </label>
+      </label> -->
     </div>
   </div>
   <ng-template #elseBlock>
