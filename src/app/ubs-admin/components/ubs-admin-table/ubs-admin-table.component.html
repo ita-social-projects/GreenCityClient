@@ -14,42 +14,20 @@
     {{ 'ubs-tables.table-view' | translate }}
   </button>
   <ul class="dropdown-menu">
-    <li>Інформація про замовлення</li>
-    <li *ngFor="let column of orderInfo; let i = index">
-      <input type="checkbox" value="id1" checked (change)="changeColumns(column.field, i + 1)" />{{
-        column.title | serverTranslate: currentLang
-      }}
-    </li>
-    <li>Інформація про клієнта</li>
-    <li *ngFor="let column of customerInfo; let i = index">
-      <input type="checkbox" value="id1" checked (change)="changeColumns(column.field, i + 4)" />{{
-        column.title | serverTranslate: currentLang
-      }}
-    </li>
-    <li>Деталі замовлення</li>
-    <li *ngFor="let column of orderDetails; let i = index">
-      <input type="checkbox" value="id1" checked (change)="changeColumns(column.field, i + 10)" />{{
-        column.title | serverTranslate: currentLang
-      }}
-    </li>
-    <li>Сертифікат</li>
-    <li *ngFor="let column of sertificate; let i = index">
-      <input type="checkbox" value="id1" checked (change)="changeColumns(column.field, i + 16)" />{{
-        column.title | serverTranslate: currentLang
-      }}
-    </li>
-    <li>Деталі вивезення</li>
-    <li *ngFor="let column of detailsOfExport; let i = index">
-      <input type="checkbox" value="id1" checked (change)="changeColumns(column.field, i + 19)" />{{
-        column.title | serverTranslate: currentLang
-      }}
-    </li>
-    <li>Відповідальні</li>
-    <li *ngFor="let column of responsiblePerson; let i = index">
-      <input type="checkbox" value="id1" checked (change)="changeColumns(column.field, i + 24)" />{{
-        column.title | serverTranslate: currentLang
-      }}
-    </li>
+    <ng-container *ngFor="let header of tableViewHeaders">
+      <li>{{ header | serverTranslate: currentLang }}</li>
+      <ng-container *ngFor="let column of columns">
+        <li *ngIf="column.columnBelonging === header.key">
+          <input
+            type="checkbox"
+            value="id1"
+            [checked]="displayedColumns.includes(column.title.key)"
+            (change)="changeColumns($event.target.checked, column.title.key, column.index)"
+          />
+          {{ column.title | serverTranslate: currentLang }}
+        </li>
+      </ng-container>
+    </ng-container>
     <button class="btn btn-info" (click)="showAllColumns()">Clear</button>
   </ul>
   <button type="button" class="btn btn-default" class="export-excel-btn">{{ 'ubs-tables.export-to-excel' | translate }}</button>
