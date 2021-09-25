@@ -247,6 +247,10 @@ export class UBSOrderDetailsComponent extends FormBaseComponent implements OnIni
         this.points = this.orders.points;
       }
       this.bonusesRemaining = this.certificateSum > 0;
+    } else {
+      this.certificateLeft = 0;
+      this.finalSum = this.total - this.certificateSum - this.pointsUsed;
+      this.showCertificateUsed = this.certificateSum;
     }
     this.changeOrderDetails();
   }
@@ -399,6 +403,9 @@ export class UBSOrderDetailsComponent extends FormBaseComponent implements OnIni
 
   private clearAdditionalCertificate(index: number) {
     if (this.formArrayCertificates.length > 1) {
+      if (this.certificates.length === 0) {
+        this.certificateSum = 0;
+      }
       this.formArrayCertificates.removeAt(index);
     } else {
       this.certificateReset(true);
@@ -493,6 +500,7 @@ export class UBSOrderDetailsComponent extends FormBaseComponent implements OnIni
       this.addCert = true;
     }
     this.failedCert = cert.certificateStatus === CertificateStatus.EXPIRED || cert.certificateStatus === CertificateStatus.USED;
+    this.certificateSum = this.failedCert && this.formArrayCertificates.length === 1 ? 0 : this.certificateSum;
     this.certDate = this.certificateDateTreat(cert.certificateDate);
     this.certStatus = cert.certificateStatus;
   }
