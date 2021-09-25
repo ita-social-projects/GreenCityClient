@@ -64,9 +64,13 @@ export class UBSAddAddressPopUpComponent implements OnInit, OnDestroy {
     return this.addAddressForm.get('entranceNumber');
   }
 
+  get addressComment() {
+    return this.addAddressForm.get('addressComment');
+  }
+
   ngOnInit() {
     this.addAddressForm = this.fb.group({
-      city: [this.data.edit ? this.data.address.city : 'Київ', Validators.required],
+      city: [this.data.edit ? this.data.address.city : null, Validators.required],
       district: [this.data.edit ? this.data.address.district : '', Validators.required],
       street: [
         this.data.edit ? this.data.address.street : '',
@@ -81,6 +85,7 @@ export class UBSAddAddressPopUpComponent implements OnInit, OnDestroy {
         this.data.edit ? this.data.address.entranceNumber : '',
         [Validators.maxLength(2), Validators.pattern(this.entranceNumberPattern)]
       ],
+      addressComment: [this.data.edit ? this.data.address.addressComment : '', Validators.maxLength(255)],
       longitude: [this.data.edit ? this.data.address.longitude : ''],
       latitude: [this.data.edit ? this.data.address.latitude : ''],
       id: [this.data.edit ? this.data.address.id : 0],
