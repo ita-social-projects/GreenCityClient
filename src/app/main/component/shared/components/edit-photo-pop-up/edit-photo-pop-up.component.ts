@@ -1,11 +1,9 @@
 import { Component, OnInit, Inject } from '@angular/core';
-import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { ImageCroppedEvent } from 'ngx-image-cropper';
 import { EditProfileService } from '@global-user/services/edit-profile.service';
-import { ProfileService } from '@global-user/components/profile/profile-service/profile.service';
 import { FileHandle } from '@eco-news-models/create-news-interface';
 import { MatSnackBarComponent } from '@global-errors/mat-snack-bar/mat-snack-bar.component';
-import { PhotoDragAndDropPopUpComponent } from '../photo-drag-and-drop-pop-up/photo-drag-and-drop-pop-up.component';
 
 @Component({
   selector: 'app-edit-photo-pop-up',
@@ -19,17 +17,16 @@ export class EditPhotoPopUpComponent implements OnInit {
   public isWarning = false;
   public selectedPhoto = false;
   public selectedFile: File = null;
-  public selectedFileUrl: string;
+  public selectedFileUrl: string | ArrayBuffer;
   public isNotification: boolean;
   public loadingAnim: boolean;
   private croppedImage: string;
   private maxImageSize = 10485760;
+  public isDragAndDropMenu = false;
 
   constructor(
     private matDialogRef: MatDialogRef<EditPhotoPopUpComponent>,
-    private dialog: MatDialog,
     private editProfileService: EditProfileService,
-    private profileService: ProfileService,
     private snackBar: MatSnackBarComponent,
     @Inject(MAT_DIALOG_DATA) public data
   ) {}
@@ -38,14 +35,23 @@ export class EditPhotoPopUpComponent implements OnInit {
     this.setUserAvatar();
   }
 
-  public openFilesWindow(event) {
+  public openFilesWindow(event: KeyboardEvent) {
     if (event.code === 'Space' || event.code === 'Enter') {
-      event.target.click();
+      (event.target as HTMLInputElement).click();
     }
   }
 
-  public onSelectPhoto(event): void {
-    const imageFile = event.target.files[0];
+  public onSelectPhoto(event: Event): void {
+    const imageFile = (event.target as HTMLInputElement).files[0];
+    this.transferFile(imageFile);
+  }
+
+  public filesDropped(files: FileHandle[]): void {
+    const imageFile = files[0].file;
+    this.transferFile(imageFile);
+  }
+
+  private transferFile(imageFile: File): void {
     this.isWarning = this.showWarning(imageFile);
 
     if (!this.isWarning) {
@@ -54,10 +60,6 @@ export class EditPhotoPopUpComponent implements OnInit {
       reader.readAsDataURL(this.selectedFile);
       reader.onload = (ev) => this.handleFile(ev);
     }
-  }
-
-  public openDragAndDropPhotoPopUp(): void {
-    this.dialog.open(PhotoDragAndDropPopUpComponent);
   }
 
   public imageCropped(event: ImageCroppedEvent): void {
@@ -102,15 +104,15 @@ export class EditPhotoPopUpComponent implements OnInit {
     this.avatarImg = this.data.img;
   }
 
-  private handleFile(event): void {
-    this.selectedFileUrl = event.target.result;
+  private handleFile(event: Event): void {
+    this.selectedFileUrl = (event.target as FileReader).result;
     this.files[0] = { url: this.selectedFileUrl, file: this.selectedFile };
     if (!this.isWarning && typeof this.selectedFile !== 'undefined') {
       this.selectedPhoto = !this.isWarning ? true : this.selectedPhoto;
     }
   }
 
-  private showWarning(file): boolean {
+  private showWarning(file: File): boolean {
     return file.size > this.maxImageSize || (file.type !== 'image/jpeg' && file.type !== 'image/png');
   }
 
