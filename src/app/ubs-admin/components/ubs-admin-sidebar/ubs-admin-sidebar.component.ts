@@ -16,7 +16,7 @@ export class UbsAdminSidebarComponent extends UbsBaseSidebarComponent implements
     {
       link: './assets/img/sidebarIcons/achievement_icon.svg',
       name: 'ubs-sidebar.certificates',
-      routerLink: '#'
+      routerLink: 'certificates'
     },
     {
       link: 'assets/img/sidebarIcons/shopping-cart_icon.svg',
@@ -37,6 +37,11 @@ export class UbsAdminSidebarComponent extends UbsBaseSidebarComponent implements
       link: 'assets/img/sidebarIcons/calendar_icon.svg',
       name: 'ubs-sidebar.schedule',
       routerLink: '#'
+    },
+    {
+      link: 'assets/img/sidebarIcons/shopping-cart_icon.svg',
+      name: 'ubs-sidebar.tariffs',
+      routerLink: 'tariffs'
     }
   ];
 

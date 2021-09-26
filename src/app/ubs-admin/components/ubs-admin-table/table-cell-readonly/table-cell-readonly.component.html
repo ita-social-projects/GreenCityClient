@@ -1,0 +1,4 @@
+<div *ngIf="date !== 'order_date'" [matTooltip]="title">{{ title }}</div>
+<div class="readonly_date" *ngIf="date === 'order_date'">
+  <span>{{ title | date: 'dd/MM/y' }}</span>
+</div>

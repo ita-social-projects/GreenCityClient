@@ -90,7 +90,8 @@ describe('NewsPreviewPageComponent', () => {
         { id: 2, name: 'Education' }
       ],
       text: 'text for itemMock',
-      title: 'title for itemMock'
+      title: 'title for itemMock',
+      likes: 0
     };
 
     fixture.detectChanges();

@@ -1,3 +1,10 @@
+@mixin text_style($font, $color, $size, $weight) {
+  font-family: $font;
+  font-size: $size;
+  font-weight: $weight;
+  color: $color;
+}
+
 ::ng-deep .address-matDialog-styles {
   .mat-dialog-container {
     margin: auto !important;
@@ -40,22 +47,25 @@ hr {
 input,
 textarea,
 select {
-  border: 1px solid var(--ubs-secondary-grey);
+  border: 1px solid var(--ubs-quintynary-light-grey);
   padding: 0 0 0 24px;
   color: var(--ubs-primary-grey);
+  font-size: 14px;
 }
 
 input,
 select {
-  height: 48px;
+  height: 36px;
 }
 
 input.ng-touched.ng-invalid {
   border: 1px solid var(--ubs-error-ligh-red);
+  font-size: 10px;
 }
 
 .validation {
   color: var(--ubs-error-ligh-red);
+  font-size: 10px;
 }
 
 textarea {
@@ -64,6 +74,12 @@ textarea {
   height: 100px;
   padding: 12px 24px;
   resize: none;
+
+  &::placeholder {
+    @include text_style(var(--ubs-quaternary-font), var(--ubs-primary-light-grey), 14px, 400);
+
+    margin-bottom: 3rem;
+  }
 }
 
 label,
@@ -110,6 +126,7 @@ label,
 
   .no-addresses {
     margin: 0 0 0 15px;
+    font-size: 14px;
   }
 
   .adress {
@@ -134,20 +151,51 @@ label,
 }
 
 .btn {
-  width: 140px;
-  height: 48px;
+  width: 136px;
+  height: 44px;
   border-radius: 4px;
+}
+
+.primary-global-button {
+  width: 88px;
+  padding: 8px 14px;
+  border-radius: 4px;
+  color: var(--ubs-quaternary-dark-grey);
+  border-color: var(--ubs-button-light-green);
+  background: var(--ubs-button-light-green);
+
+  &:disabled {
+    background: var(--ubs-quaternary-light-grey);
+    border-color: var(--ubs-quaternary-light-grey);
+  }
 }
 
 .address-comment {
   padding: 0 15px;
 }
 
+.form-check {
+  margin: 0 0 0 25px;
+
+  .form-check-input {
+    top: -1px;
+    width: 16px;
+    height: 16px;
+  }
+
+  .form-check-label {
+    margin-left: 5px;
+    font-size: 14px;
+    color: var(--ubs-primary-grey);
+  }
+}
+
 .add-address {
   margin: 0 0 0 15px;
   padding: 0;
   text-align: left;
-  color: var(--ubs-primary-green);
+  font-size: 14px;
+  color: var(--ubs-electric-violet);
 }
 
 .btn:nth-child(1) {
@@ -179,15 +227,21 @@ label,
 
 .buttons {
   margin-top: 46px;
+
+  button {
+    font-size: 18px;
+  }
 }
 
 .cansel-button {
-  border: 1px solid var(--ubs-primary-green);
-  margin-right: 1rem;
+  border: 1px solid var(--ubs-quaternary-dark-grey);
+  color: var(--ubs-quaternary-dark-grey);
+  margin-right: 1rem !important;
 }
 
 .back-btn {
   border: 0;
+  color: var(--ubs-quaternary-dark-grey);
 }
 
 @media (min-width: 481px) and (max-width: 767px) {

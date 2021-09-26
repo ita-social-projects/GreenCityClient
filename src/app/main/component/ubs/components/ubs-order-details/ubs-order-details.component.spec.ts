@@ -13,8 +13,10 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 import { UBSOrderDetailsComponent } from './ubs-order-details.component';
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
-import { of, throwError, Observable, Subject } from 'rxjs';
+import { of, throwError, Subject } from 'rxjs';
 import { HttpErrorResponse } from '@angular/common/http';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { UbsOrderLocationPopupComponent } from './ubs-order-location-popup/ubs-order-location-popup.component';
 
 describe('OrderDetailsFormComponent', () => {
   let component: UBSOrderDetailsComponent;
@@ -28,8 +30,16 @@ describe('OrderDetailsFormComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      imports: [FormsModule, ReactiveFormsModule, HttpClientTestingModule, TranslateModule.forRoot(), RouterTestingModule, MatDialogModule],
-      declarations: [UBSOrderDetailsComponent, LocalizedCurrencyPipe],
+      declarations: [UBSOrderDetailsComponent, LocalizedCurrencyPipe, UbsOrderLocationPopupComponent],
+      imports: [
+        FormsModule,
+        ReactiveFormsModule,
+        HttpClientTestingModule,
+        TranslateModule.forRoot(),
+        RouterTestingModule,
+        MatDialogModule,
+        BrowserAnimationsModule
+      ],
       providers: [
         { provide: MatDialogRef, useValue: {} },
         { provide: UBSOrderFormService, useValue: shareFormService },
@@ -62,7 +72,7 @@ describe('OrderDetailsFormComponent', () => {
     component.takeOrderData();
     expect(component.currentLanguage).toBe('ua');
     expect(spy).toHaveBeenCalled();
-    expect(component.bags).toEqual(component.orders.bags);
+    expect(component.bags[2]).toEqual(component.orders.bags[0]);
   }));
 
   it('method calculateTotal should invoke methods', () => {

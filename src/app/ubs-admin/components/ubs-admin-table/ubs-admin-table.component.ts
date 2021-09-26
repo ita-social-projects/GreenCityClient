@@ -1,6 +1,6 @@
 import { nonSortableColumns } from './../../models/non-sortable-columns.model';
 import { AdminTableService } from '../../services/admin-table.service';
-import { CdkDragDrop, CdkDragStart, CdkDropList, moveItemInArray } from '@angular/cdk/drag-drop';
+import { CdkDragDrop, moveItemInArray } from '@angular/cdk/drag-drop';
 import { Component, OnInit, ViewChild, OnDestroy } from '@angular/core';
 import { takeUntil } from 'rxjs/operators';
 import { Subject } from 'rxjs';
@@ -8,6 +8,8 @@ import { MatTableDataSource } from '@angular/material/table';
 import { SelectionModel } from '@angular/cdk/collections';
 import { ubsAdminTable } from '../ubs-image-pathes/ubs-admin-table';
 import { MatSort } from '@angular/material/sort';
+import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
+import { IEditCell } from '../../models/edit-cell.model';
 
 @Component({
   selector: 'app-ubs-admin-table',
@@ -15,22 +17,17 @@ import { MatSort } from '@angular/material/sort';
   styleUrls: ['./ubs-admin-table.component.scss']
 })
 export class UbsAdminTableComponent implements OnInit, OnDestroy {
+  currentLang: string;
   nonSortableColumns = nonSortableColumns;
   sortingColumn: string;
   sortType: string;
   columns: any[] = [];
   displayedColumns: string[] = [];
-  orderInfo: string[] = [];
-  customerInfo: string[] = [];
-  orderDetails: string[] = [];
-  sertificate: string[] = [];
-  detailsOfExport: string[] = [];
-  responsiblePerson: string[] = [];
   dataSource: MatTableDataSource<any>;
   selection = new SelectionModel<any>(true, []);
-  arrayOfHeaders = [];
   previousIndex: number;
   isLoading = true;
+  editCellProgressBar: boolean;
   isUpdate = false;
   destroy: Subject<boolean> = new Subject<boolean>();
   arrowDirection: string;
@@ -40,23 +37,23 @@ export class UbsAdminTableComponent implements OnInit, OnDestroy {
   currentPage = 0;
   pageSize = 10;
   ubsAdminTableIcons = ubsAdminTable;
+  idsToChange: number[] = [];
+  allChecked: boolean;
+  tableViewHeaders = [];
   @ViewChild(MatSort, { static: true }) sort: MatSort;
 
-  constructor(private adminTableService: AdminTableService) {}
+  constructor(private adminTableService: AdminTableService, private localStorageService: LocalStorageService) {}
 
   ngOnInit() {
+    this.localStorageService.languageBehaviourSubject.pipe(takeUntil(this.destroy)).subscribe((lang) => {
+      this.currentLang = lang;
+    });
+    this.getColumns();
     this.getTable();
   }
 
-  applyFilter(filterValue: string) {
+  applyFilter(filterValue: string): void {
     this.dataSource.filter = filterValue.trim().toLowerCase();
-  }
-
-  setDisplayedColumns() {
-    this.columns.forEach((colunm, index) => {
-      colunm.index = index;
-      this.displayedColumns[index] = colunm.field;
-    });
   }
 
   dropListDropped(event: CdkDragDrop<string[]>) {
@@ -80,29 +77,28 @@ export class UbsAdminTableComponent implements OnInit, OnDestroy {
     return `${this.selection.isSelected(row) ? 'deselect' : 'select'} row ${row.orderId + 1}`;
   }
 
-  showAllColumns(): void {
-    this.getTable();
+  public changeColumns(checked: boolean, key: string, positionIndex): void {
+    checked
+      ? (this.displayedColumns = [...this.displayedColumns.slice(0, positionIndex), key, ...this.displayedColumns.slice(positionIndex)])
+      : (this.displayedColumns = this.displayedColumns.filter((item) => item !== key));
   }
 
-  changeColumns(field: string, i: number) {
-    const beforeColumnsLength = this.columns.length;
-    this.columns = this.columns.filter((el) => el.field !== field);
-    const afterColumnsLength = this.columns.length;
-    const requiredFieldValues = ['orderid', 'order_status', 'order_date'];
-    if (beforeColumnsLength === afterColumnsLength) {
-      const newObjectForHeader = {
-        field,
-        sticky: this.isPropertyRequired(field, requiredFieldValues),
-        index: i
-      };
-      this.columns = [...this.columns.slice(0, i), newObjectForHeader, ...this.columns.slice(i, this.columns.length)];
-      this.setDisplayedColumns();
-    } else {
-      this.setDisplayedColumns();
-    }
+  public showAllColumns(): void {
+    this.setDisplayedColumns();
   }
 
-  getTable(columnName = this.sortingColumn || 'orderid', sortingType = this.sortType || 'desc') {
+  private getColumns() {
+    this.adminTableService
+      .getColumns()
+      .pipe(takeUntil(this.destroy))
+      .subscribe((columns: any) => {
+        this.tableViewHeaders = columns.columnBelongingList;
+        this.columns = columns.columnStateDTOList;
+        this.setDisplayedColumns();
+      });
+  }
+
+  private getTable(columnName = this.sortingColumn || 'orderid', sortingType = this.sortType || 'desc') {
     this.isLoading = true;
     this.adminTableService
       .getTable(columnName, this.currentPage, this.pageSize, sortingType)
@@ -111,27 +107,7 @@ export class UbsAdminTableComponent implements OnInit, OnDestroy {
         this.tableData = item[`page`];
         this.totalPages = item[`totalPages`];
         this.dataSource = new MatTableDataSource(this.tableData);
-        const requiredColumns = [{ field: 'select', sticky: true }];
-        const dynamicallyColumns = [];
-        const arrayOfProperties = Object.keys(this.tableData[0]);
-        arrayOfProperties.forEach((property) => {
-          const requiredFieldValues = ['orderid', 'order_status', 'order_date'];
-          const objectOfValue = {
-            field: property,
-            sticky: this.isPropertyRequired(property, requiredFieldValues)
-          };
-          dynamicallyColumns.push(objectOfValue);
-        });
-        this.columns = [].concat(requiredColumns, dynamicallyColumns);
-        this.setDisplayedColumns();
         this.isLoading = false;
-        this.arrayOfHeaders = dynamicallyColumns;
-        this.orderInfo = dynamicallyColumns.slice(0, 3);
-        this.customerInfo = dynamicallyColumns.slice(3, 10);
-        this.orderDetails = dynamicallyColumns.slice(10, 18);
-        this.sertificate = dynamicallyColumns.slice(18, 22);
-        this.detailsOfExport = dynamicallyColumns.slice(22, 27);
-        this.responsiblePerson = dynamicallyColumns.slice(27, 33);
       });
   }
 
@@ -170,6 +146,99 @@ export class UbsAdminTableComponent implements OnInit, OnDestroy {
       this.currentPage++;
       this.updateTableData();
     }
+  }
+
+  selectRowsToChange(event, id: number) {
+    if (event.checked) {
+      this.idsToChange.push(id);
+    } else {
+      this.idsToChange = this.idsToChange.filter((item) => item !== id);
+    }
+  }
+
+  selectAll(checked: boolean) {
+    if (checked) {
+      this.allChecked = checked;
+      this.idsToChange = [];
+    } else {
+      this.allChecked = checked;
+    }
+  }
+
+  public editCell(e: IEditCell): void {
+    if (this.allChecked) {
+      this.editAll(e);
+    } else if (this.idsToChange.length === 0) {
+      this.editSingle(e);
+    } else {
+      this.editGroup(e);
+    }
+  }
+
+  private setDisplayedColumns(): void {
+    this.columns.forEach((column, index) => {
+      this.displayedColumns[index] = column.title.key;
+    });
+  }
+
+  private editSingle(e: IEditCell): void {
+    this.editCellProgressBar = true;
+    const id = this.tableData.findIndex((item) => item.orderid === e.id);
+    const newRow = { ...this.tableData[id], [e.nameOfColumn]: e.newValue };
+    const newTableData = [...this.tableData.slice(0, id), newRow, ...this.tableData.slice(id + 1)];
+    this.tableData = newTableData;
+    this.dataSource = new MatTableDataSource(newTableData);
+    this.postData([e.id], e.nameOfColumn, e.newValue);
+  }
+
+  private editGroup(e: IEditCell): void {
+    this.editCellProgressBar = true;
+    const ids = [];
+    let newTableDataCombine = this.tableData;
+
+    for (const idIter of this.idsToChange) {
+      const check = this.tableData.findIndex((item) => item.orderid === idIter);
+      if (check > -1) {
+        ids.push(check);
+      }
+    }
+
+    for (const idGroup of ids) {
+      const newRowGroup = { ...this.tableData[idGroup], [e.nameOfColumn]: e.newValue };
+      newTableDataCombine = [...newTableDataCombine.slice(0, idGroup), newRowGroup, ...newTableDataCombine.slice(idGroup + 1)];
+    }
+
+    this.tableData = newTableDataCombine;
+    this.dataSource = new MatTableDataSource(newTableDataCombine);
+    this.postData(this.idsToChange, e.nameOfColumn, e.newValue);
+  }
+
+  private editAll(e: IEditCell): void {
+    this.editCellProgressBar = true;
+    const newTableData = this.tableData.map((item) => {
+      return {
+        ...item,
+        [e.nameOfColumn]: e.newValue
+      };
+    });
+    this.tableData = newTableData;
+    this.dataSource = new MatTableDataSource(newTableData);
+    this.allChecked = false;
+    this.idsToChange = [];
+    this.editCellProgressBar = false;
+  }
+
+  private postData(id, nameOfColumn, newValue): void {
+    this.adminTableService.postData(id, nameOfColumn, newValue).subscribe(
+      (val) => {
+        this.editCellProgressBar = false;
+        this.idsToChange = [];
+      },
+      (error) => {
+        this.editCellProgressBar = false;
+        this.idsToChange = [];
+      }
+    );
   }
 
   ngOnDestroy() {
