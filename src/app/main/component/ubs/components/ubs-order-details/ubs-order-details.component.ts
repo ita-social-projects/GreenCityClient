@@ -1,15 +1,19 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit, Renderer2 } from '@angular/core';
 import { FormBuilder, FormGroup, FormArray, Validators, FormControl } from '@angular/forms';
-import { Bag, FinalOrder, OrderDetails } from '../../models/ubs.interface';
-import { ReplaySubject, Subject } from 'rxjs';
-import { takeUntil } from 'rxjs/operators';
-import { OrderService } from '../../services/order.service';
-import { UBSOrderFormService } from '../../services/ubs-order-form.service';
+import { TranslateService } from '@ngx-translate/core';
 import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
-import { CertificateStatus } from '../../certificate-status.enum';
 import { FormBaseComponent } from '@shared/components/form-base/form-base.component';
 import { Router } from '@angular/router';
 import { MatDialog } from '@angular/material/dialog';
+import { ReplaySubject, Subject } from 'rxjs';
+import { takeUntil } from 'rxjs/operators';
+
+import { Bag, FinalOrder, OrderDetails } from '../../models/ubs.interface';
+import { OrderService } from '../../services/order.service';
+import { UBSOrderFormService } from '../../services/ubs-order-form.service';
+import { CertificateStatus } from '../../certificate-status.enum';
+import { UbsOrderLocationPopupComponent } from './ubs-order-location-popup/ubs-order-location-popup.component';
+
 
 @Component({
   selector: 'app-ubs-order-details',
@@ -28,8 +32,12 @@ export class UBSOrderDetailsComponent extends FormBaseComponent implements OnIni
   certificateSum = 0;
   total = 0;
   finalSum = 0;
+  minAmountOfBigBags: number;
+  totalOfBigBags: number;
   cancelCertBtn = false;
   points: number;
+  displayMinOrderMes = false;
+  displayMinBigBagsMes = false;
   certBtnActivate = false;
   displayMes = false;
   displayCert = false;
@@ -44,7 +52,6 @@ export class UBSOrderDetailsComponent extends FormBaseComponent implements OnIni
   commentPattern = /^[i\s]{0,255}(.){0,255}[i\s]{0,255}$/;
   additionalOrdersPattern = /^\d{10}$/;
   displayOrderBtn = false;
-
   certSize = false;
   showCertificateUsed = 0;
   certificateLeft = 0;
@@ -53,10 +60,10 @@ export class UBSOrderDetailsComponent extends FormBaseComponent implements OnIni
   userOrder: FinalOrder;
   object: {};
   private destroy: Subject<boolean> = new Subject<boolean>();
-  private destroyed$: ReplaySubject<any> = new ReplaySubject<any>(1);
   public currentLanguage: string;
   public certificateError = false;
   bonusesRemaining: boolean;
+  isDialogOpen = false;
   popupConfig = {
     hasBackdrop: true,
     closeOnNavigation: true,
@@ -75,6 +82,7 @@ export class UBSOrderDetailsComponent extends FormBaseComponent implements OnIni
     private orderService: OrderService,
     private shareFormService: UBSOrderFormService,
     private localStorageService: LocalStorageService,
+    public renderer: Renderer2,
     router: Router,
     dialog: MatDialog
   ) {
@@ -83,8 +91,11 @@ export class UBSOrderDetailsComponent extends FormBaseComponent implements OnIni
   }
 
   ngOnInit(): void {
-    this.takeOrderData();
-    this.subscribeToLangChange();
+    this.openLocationDialog();
+    this.orderService.locationSubject.pipe(takeUntil(this.destroy)).subscribe(() => {
+      this.takeOrderData();
+      this.subscribeToLangChange();
+    });
   }
 
   getFormValues(): boolean {
@@ -101,6 +112,37 @@ export class UBSOrderDetailsComponent extends FormBaseComponent implements OnIni
       additionalOrders: this.fb.array(['']),
       orderSum: new FormControl(0, [Validators.required, Validators.min(500)])
     });
+  }
+
+  openLocationDialog() {
+    this.isDialogOpen = true;
+    this.dialog.open(UbsOrderLocationPopupComponent, {
+      hasBackdrop: true,
+      disableClose: true
+    });
+
+    this.dialog.afterAllClosed.pipe(takeUntil(this.destroy)).subscribe(() => {
+      this.isDialogOpen = false;
+    });
+  }
+
+  checkTotalBigBags() {
+    this.bags.forEach((bag) => {
+      if (bag.capacity === 120) {
+        const q1 = this.orderDetailsForm.controls.quantity1;
+        const q2 = this.orderDetailsForm.controls.quantity2;
+        this.totalOfBigBags = +q1.value + +q2.value;
+      }
+    });
+    setTimeout(() => this.checkForBigBagsMessage());
+  }
+
+  checkForBigBagsMessage() {
+    if (this.minAmountOfBigBags > this.totalOfBigBags) {
+      this.displayMinBigBagsMes = true;
+    } else {
+      this.displayMinBigBagsMes = false;
+    }
   }
 
   private subscribeToLangChange(): void {
@@ -127,6 +169,7 @@ export class UBSOrderDetailsComponent extends FormBaseComponent implements OnIni
       .pipe(takeUntil(this.destroy))
       .subscribe((orderData: OrderDetails) => {
         this.orders = this.shareFormService.orderDetails;
+        this.minAmountOfBigBags = orderData.minAmountOfBigBags;
         this.bags = this.orders.bags;
         this.points = this.orders.points;
         this.certificateLeft = orderData.points;
@@ -190,10 +233,10 @@ export class UBSOrderDetailsComponent extends FormBaseComponent implements OnIni
     this.changeForm();
 
     if (this.total < this.minOrderValue && this.orderDetailsForm.dirty) {
-      this.displayMes = true;
+      this.displayMinOrderMes = true;
       this.onSubmit = true;
     } else {
-      this.displayMes = false;
+      this.displayMinOrderMes = false;
       this.onSubmit = false;
     }
 
@@ -235,6 +278,25 @@ export class UBSOrderDetailsComponent extends FormBaseComponent implements OnIni
     this.orderDetailsForm.controls.shop.setValue('yes');
   }
 
+  public selectPointsRadioBtn(event: KeyboardEvent, radioButtonValue: string) {
+    if (['Enter', 'Space', 'NumpadEnter'].includes(event.code)) {
+      this.orderDetailsForm.controls.bonus.setValue(radioButtonValue);
+    }
+  }
+
+  public selectShopRadioBtn(event: KeyboardEvent, radioButtonValue: string) {
+    if (['Enter', 'Space', 'NumpadEnter'].includes(event.code)) {
+      this.orderDetailsForm.controls.shop.setValue(radioButtonValue);
+      radioButtonValue === 'yes'
+        ? this.renderer.selectRootElement(`#index${this.additionalOrders.controls.length - 1}`).focus()
+        : this.clearOrderValues();
+    }
+  }
+
+  isDisabled(): number {
+    return this.orderDetailsForm.controls.shop.value === 'yes' ? 0 : -1;
+  }
+
   clearOrderValues(): void {
     this.additionalOrders.controls[0].setValue('');
     if (this.additionalOrders.controls.length > 1) {
@@ -257,6 +319,7 @@ export class UBSOrderDetailsComponent extends FormBaseComponent implements OnIni
         bag.quantity = null;
       }
     });
+    this.checkTotalBigBags();
     this.calculateTotal();
   }
 
@@ -315,6 +378,21 @@ export class UBSOrderDetailsComponent extends FormBaseComponent implements OnIni
     const additionalOrder = new FormControl('', [Validators.minLength(10)]);
     this.additionalOrders.push(additionalOrder);
     this.ecoStoreValidation();
+    setTimeout(() => {
+      this.renderer.selectRootElement(`#index${this.additionalOrders.controls.length - 1}`).focus();
+    }, 0);
+  }
+
+  deleteOrder(index: number): void {
+    const orders = this.additionalOrders;
+    orders.length > 1 ? orders.removeAt(index) : orders.reset(['']);
+    this.changeOrderDetails();
+  }
+
+  removeOrder(event: KeyboardEvent, index: number) {
+    if (['Enter', 'Space', 'NumpadEnter'].includes(event.code)) {
+      this.deleteOrder(index);
+    }
   }
 
   disableAddCertificate() {
