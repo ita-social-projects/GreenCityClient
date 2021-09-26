@@ -2,6 +2,18 @@
 
 This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 8.2.1.
 
+## Docker
+
+Preconditions: 
+- installed [Docker Desktop](https://www.docker.com/get-started)
+- installed [git](https://git-scm.com/downloads)
+
+Steps to lift up project local using Docker:
+1. Clone project from GitHub: git clone https://github.com/ita-social-projects/GreenCityClient.git
+2. Change branch to **docker**: git checkout docker
+3. Build Docker image with image name **greencity**: docker build -t greencity .
+4. Run Docker container with the created image: docker run -p 4200:4200 --rm greencity
+
 ## Development server
 
 Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The app will automatically reload if you change any of the source files.
