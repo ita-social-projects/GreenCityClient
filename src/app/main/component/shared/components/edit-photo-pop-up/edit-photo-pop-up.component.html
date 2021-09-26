@@ -15,18 +15,25 @@
       </button>
     </div>
   </div>
-  <div *ngSwitchCase="!selectedPhoto && !isNotification && isDragAndDropMenu">
+  <div
+    div
+    class="dropzone-wrapper"
+    [class.dropzone-error]="isWarning"
+    *ngSwitchCase="!selectedPhoto && !isNotification && isDragAndDropMenu"
+  >
     <div *ngIf="!files.length" class="dropzone" appDragAndDrop (files)="filesDropped($event)">
       <div class="text-wrapper">
         <div class="centered">
+          <span *ngIf="isWarning">{{ 'drag-and-drop.not-uploaded-warning' | translate }}<br /><br /></span>
           {{ 'drag-and-drop.picture-description' | translate }}
           <label for="upload"
-            ><span>{{ 'drag-and-drop.browse' | translate }}</span></label
+            ><span browse>{{ 'drag-and-drop.browse' | translate }}</span></label
           >
           <input type="file" id="upload" (change)="onSelectPhoto($event)" />
         </div>
       </div>
     </div>
+    <div class="download-info">{{ 'drag-and-drop.picture-tooltip' | translate }}</div>
   </div>
   <div *ngSwitchDefault>
     <div *ngFor="let file of files">
