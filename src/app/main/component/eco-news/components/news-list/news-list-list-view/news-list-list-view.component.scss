@@ -93,8 +93,7 @@ div {
     display: block;
     object-fit: cover;
     -o-object-fit: cover;
-    margin: auto;
-    height: 100%;
+    height: 92.31%;
     width: 100%;
     border-top-left-radius: 4px;
     border-bottom-left-radius: 4px;
@@ -113,8 +112,8 @@ div {
 @media (min-width: 1024px) {
   .eco-news_list-view-wrp {
     height: 204px;
-    -ms-grid-columns: 299px auto;
-    grid-template-columns: 299px auto;
+    -ms-grid-columns: 359px auto;
+    grid-template-columns: 359px auto;
   }
 }
 
@@ -125,10 +124,15 @@ div {
     word-break: break-all;
   }
 
-  .eco-news_list-view-wrp {
-    height: 204px;
-    -ms-grid-columns: 359px auto;
-    grid-template-columns: 359px auto;
+  .eco-news_list-img {
+    display: block;
+    object-fit: cover;
+    -o-object-fit: cover;
+    height: 100%;
+    width: 100%;
+    border-top-left-radius: 4px;
+    border-bottom-left-radius: 4px;
+    overflow: hidden;
   }
 }
 
