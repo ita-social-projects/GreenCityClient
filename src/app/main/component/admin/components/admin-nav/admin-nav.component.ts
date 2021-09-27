@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { ProposeCafeComponent } from '../../../core/components/propose-cafe/propose-cafe.component';
+import { ProposeCafeComponent } from '@global-core/components';
 import { MatDialog } from '@angular/material/dialog';
 
 @Component({
