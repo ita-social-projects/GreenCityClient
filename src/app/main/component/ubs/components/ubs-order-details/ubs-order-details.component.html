@@ -132,7 +132,7 @@
           </div>
           <div class="messages-container">
             <small class="text-danger" *ngIf="certificateError">
-              {{ 'order-details.not-found-certificate' | translate }}
+              {{ 'order-details.failed-certificate' | translate }}
             </small>
             <small class="text-danger" *ngIf="certStatus === 'USED' && failedCert">
               {{ 'order-details.already-used' | translate: { certDate: certDate } }}
