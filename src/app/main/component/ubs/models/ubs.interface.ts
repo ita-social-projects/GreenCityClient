@@ -23,6 +23,7 @@ export interface OrderDetails {
   pointsSum?: number;
   total?: number;
   finalSum?: number;
+  minAmountOfBigBags?: number;
 }
 
 export interface FinalOrder {
@@ -67,6 +68,12 @@ export interface Address {
   houseCorpus: string;
   entranceNumber: string;
   houseNumber: string;
+  addressComment?: string;
   longitude?: number;
   latitude?: number;
+}
+
+export interface Locations {
+  id: number;
+  name: string;
 }
