@@ -77,15 +77,6 @@ describe('EcoNewsDetailComponent', () => {
     expect((component as any).setNewsIdSubscription).toHaveBeenCalledTimes(1);
   });
 
-  it('ngOnDestroy should destroy two method ', () => {
-    spyOn((component as any).newsIdSubscription, 'unsubscribe');
-    spyOn((component as any).newsItemSubscription, 'unsubscribe');
-    component.ngOnDestroy();
-
-    expect((component as any).newsIdSubscription.unsubscribe).toHaveBeenCalledTimes(1);
-    expect((component as any).newsItemSubscription.unsubscribe).toHaveBeenCalledTimes(1);
-  });
-
   it('setNewsItem should compare edited item with EcoNewsModel interface', () => {
     const nestedNewsItem = {
       authorId: 777,
