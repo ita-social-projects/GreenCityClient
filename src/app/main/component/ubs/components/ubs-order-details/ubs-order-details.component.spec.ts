@@ -1,21 +1,20 @@
-import { RouterTestingModule } from '@angular/router/testing';
-import { Language } from './../../../../i18n/Language';
-import { LocalStorageService } from './../../../../service/localstorage/local-storage.service';
-import { UBSOrderFormService } from './../../services/ubs-order-form.service';
-import { LocalizedCurrencyPipe } from './../../../../../shared/localized-currency-pipe/localized-currency.pipe';
-import { ICertificate, Bag, OrderDetails } from './../../models/ubs.interface';
-import { OrderService } from './../../services/order.service';
-import { MatDialogRef, MatDialogModule } from '@angular/material/dialog';
 import { TranslateModule } from '@ngx-translate/core';
-import { HttpClientTestingModule } from '@angular/common/http/testing';
-import { async, ComponentFixture, TestBed, fakeAsync } from '@angular/core/testing';
-import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-
-import { UBSOrderDetailsComponent } from './ubs-order-details.component';
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
-import { of, throwError, Subject } from 'rxjs';
 import { HttpErrorResponse } from '@angular/common/http';
+import { RouterTestingModule } from '@angular/router/testing';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { HttpClientTestingModule } from '@angular/common/http/testing';
+import { MatDialogRef, MatDialogModule } from '@angular/material/dialog';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { async, ComponentFixture, TestBed, fakeAsync } from '@angular/core/testing';
+import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
+import { of, throwError, Subject } from 'rxjs';
+import { Language } from '../../../../i18n/Language';
+import { OrderService } from '../../services/order.service';
+import { UBSOrderDetailsComponent } from './ubs-order-details.component';
+import { UBSOrderFormService } from '../../services/ubs-order-form.service';
+import { ICertificate, Bag, OrderDetails } from '../../models/ubs.interface';
+import { LocalizedCurrencyPipe } from '../../../../../shared/localized-currency-pipe/localized-currency.pipe';
 import { UbsOrderLocationPopupComponent } from './ubs-order-location-popup/ubs-order-location-popup.component';
 
 describe('OrderDetailsFormComponent', () => {
@@ -55,7 +54,7 @@ describe('OrderDetailsFormComponent', () => {
     fixture.detectChanges();
   });
 
-  it('should create', () => {
+  it('method ngOnInit should should invoke methods', () => {
     expect(component).toBeTruthy();
   });
 

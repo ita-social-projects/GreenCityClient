@@ -1,19 +1,16 @@
-import { Component, OnDestroy, OnInit, Renderer2 } from '@angular/core';
-import { FormBuilder, FormGroup, FormArray, Validators, FormControl } from '@angular/forms';
-import { TranslateService } from '@ngx-translate/core';
-import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
-import { FormBaseComponent } from '@shared/components/form-base/form-base.component';
+import { Subject } from 'rxjs';
+import { takeUntil } from 'rxjs/operators';
 import { Router } from '@angular/router';
 import { MatDialog } from '@angular/material/dialog';
-import { ReplaySubject, Subject } from 'rxjs';
-import { takeUntil } from 'rxjs/operators';
-
-import { Bag, FinalOrder, OrderDetails } from '../../models/ubs.interface';
+import { Component, OnDestroy, OnInit, Renderer2 } from '@angular/core';
+import { FormBaseComponent } from '@shared/components/form-base/form-base.component';
+import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
+import { FormBuilder, FormGroup, FormArray, Validators, FormControl } from '@angular/forms';
 import { OrderService } from '../../services/order.service';
-import { UBSOrderFormService } from '../../services/ubs-order-form.service';
 import { CertificateStatus } from '../../certificate-status.enum';
+import { Bag, FinalOrder, OrderDetails } from '../../models/ubs.interface';
+import { UBSOrderFormService } from '../../services/ubs-order-form.service';
 import { UbsOrderLocationPopupComponent } from './ubs-order-location-popup/ubs-order-location-popup.component';
-
 
 @Component({
   selector: 'app-ubs-order-details',
@@ -134,15 +131,8 @@ export class UBSOrderDetailsComponent extends FormBaseComponent implements OnIni
         this.totalOfBigBags = +q1.value + +q2.value;
       }
     });
-    setTimeout(() => this.checkForBigBagsMessage());
-  }
-
-  checkForBigBagsMessage() {
-    if (this.minAmountOfBigBags > this.totalOfBigBags) {
-      this.displayMinBigBagsMes = true;
-    } else {
-      this.displayMinBigBagsMes = false;
-    }
+    // checkForBigBagsMessage
+    setTimeout(() => (this.displayMinBigBagsMes = this.minAmountOfBigBags > this.totalOfBigBags));
   }
 
   private subscribeToLangChange(): void {
