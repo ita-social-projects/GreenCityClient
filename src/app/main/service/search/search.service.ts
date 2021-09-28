@@ -29,7 +29,9 @@ export class SearchService {
     sort: string = '',
     items: number = 9
   ): Observable<SearchDataModel> {
-    return this.http.get<SearchDataModel>(backendMockSearchNews);
+    return this.http.get<SearchDataModel>(
+      `${this.backEndLink}search/${category}?searchQuery=${query}&sort=${sort}&page=${page}&size=${items}`
+    );
   }
 
   private getResultsByCat(searchType: string): Observable<SearchModel> {

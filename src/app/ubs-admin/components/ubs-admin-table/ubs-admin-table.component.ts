@@ -31,6 +31,7 @@ export class UbsAdminTableComponent implements OnInit, OnDestroy {
   isUpdate = false;
   destroy: Subject<boolean> = new Subject<boolean>();
   arrowDirection: string;
+  isTableShowed = false;
   tableData: any[];
   totalPages: number;
   pageSizeOptions: number[] = [10, 15, 20];
@@ -54,6 +55,11 @@ export class UbsAdminTableComponent implements OnInit, OnDestroy {
 
   applyFilter(filterValue: string): void {
     this.dataSource.filter = filterValue.trim().toLowerCase();
+    let tabl = document.getElementById('table1');
+    console.log(tabl);
+    console.log(tabl.clientHeight);
+    console.log(tabl.scrollHeight);
+    this.forceScroll();
   }
 
   dropListDropped(event: CdkDragDrop<string[]>) {
@@ -108,6 +114,10 @@ export class UbsAdminTableComponent implements OnInit, OnDestroy {
         this.totalPages = item[`totalPages`];
         this.dataSource = new MatTableDataSource(this.tableData);
         this.isLoading = false;
+        let tabl = document.getElementById('table1');
+        console.log(tabl);
+        console.log(tabl.clientHeight);
+        console.log(tabl.scrollHeight);
       });
   }
 
@@ -145,6 +155,13 @@ export class UbsAdminTableComponent implements OnInit, OnDestroy {
     if (!this.isUpdate && this.currentPage < this.totalPages) {
       this.currentPage++;
       this.updateTableData();
+    }
+  }
+
+  private forceScroll() {
+    let tabl = document.getElementById('table1');
+    if (tabl.clientHeight === tabl.scrollHeight) {
+      this.onScroll();
     }
   }
 
