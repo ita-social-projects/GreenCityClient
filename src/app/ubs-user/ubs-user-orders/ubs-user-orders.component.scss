@@ -1,0 +1,34 @@
+.wrapper {
+  height: 100vh;
+  margin-top: 35px;
+  font-size: 16px;
+  line-height: 24px;
+  color: var(--ubs-primary-black);
+  font-family: var(--primary-font);
+  background-color: var(--after-primary-light-grey);
+}
+
+.main_header {
+  margin: 0 0 51px 44px;
+  font-style: normal;
+  font-weight: 700;
+  font-size: 32px;
+  line-height: 40px;
+}
+
+.if_empty {
+  margin: 16px 0 0 44px;
+
+  a {
+    margin-left: 13px;
+    color: var(--ubs-primary-green);
+  }
+}
+
+.cards {
+  width: 862px;
+
+  .empty {
+    height: 80px;
+  }
+}
