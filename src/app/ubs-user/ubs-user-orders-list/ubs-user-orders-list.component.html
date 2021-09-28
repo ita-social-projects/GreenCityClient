@@ -11,19 +11,13 @@
     <div>{{ order.orderStatusName }}</div>
     <div class="order_sum">{{ order.orderDiscountedPrice }}</div>
     <div class="btns_group">
-      <div *ngIf="order.orderStatus === 'FORMED'" class="btn_grid_cancel">
+      <div *ngIf="isOrderFormed(order)" class="btn_grid_cancel">
         <button class="btn_cancel">{{ 'user-orders.btn.cancel' | translate }}</button>
       </div>
-      <div *ngIf="order.orderStatus === 'DONE_UNPAID'" class="btn_grid_fake">
-        <button class="btn_fake"></button>
-      </div>
-      <div *ngIf="order.orderStatus === 'FORMED' || order.orderStatus === 'DONE_UNPAID'" class="btn_grid_pay">
+      <div *ngIf="isOrderUnpaid(order)" class="btn_grid_pay">
         <button class="btn_pay">{{ 'user-orders.btn.pay' | translate }}</button>
       </div>
-      <div
-        *ngIf="order.orderStatus === 'ON_THE_ROUTE' || order.orderStatus === 'CONFIRMED' || order.orderStatus === 'DONE'"
-        class="btn_grid_order"
-      >
+      <div *ngIf="isOrderDone(order)" class="btn_grid_order">
         <button class="btn_order">{{ 'user-orders.btn.order-again' | translate }}</button>
       </div>
     </div>

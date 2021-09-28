@@ -9,11 +9,21 @@ export class UbsUserOrdersListComponent {
   @Input()
   orders: any[];
 
-  constructor() {}
+  isOrderFormed(order: any) {
+    return order.orderStatus === 'FORMED';
+  }
+
+  isOrderUnpaid(order: any) {
+    return order.orderStatus === 'DONE_UNPAID' || order.orderStatus === 'FORMED';
+  }
+
+  isOrderDone(order: any) {
+    return order.orderStatus === 'ON_THE_ROUTE' || order.orderStatus === 'CONFIRMED' || order.orderStatus === 'DONE';
+  }
 
   changeCard(id: number) {
-    this.orders.map((el) => {
-      el.id === id && el.extend ? (el.extend = false) : el.id === id ? (el.extend = true) : (el.extend = el.extend);
+    this.orders.map((order) => {
+      order.id === id && order.extend ? (order.extend = false) : order.id === id ? (order.extend = true) : (order.extend = order.extend);
     });
   }
 }
