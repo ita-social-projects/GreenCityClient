@@ -67,7 +67,7 @@ export class EcoNewsDetailComponent implements OnInit, OnDestroy {
     }
   }
 
-  private postToggleLike() {
+  private postToggleLike(): void {
     this.ecoNewsService
       .postToggleLike(this.newsId)
       .pipe(take(1))
@@ -103,7 +103,7 @@ export class EcoNewsDetailComponent implements OnInit, OnDestroy {
       .subscribe((item: EcoNewsModel) => this.setNewsItem(item));
   }
 
-  private getIsLiked() {
+  private getIsLiked(): void {
     this.ecoNewsService
       .getIsLikedByUser(this.newsId)
       .pipe(take(1))
