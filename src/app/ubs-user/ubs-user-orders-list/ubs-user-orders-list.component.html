@@ -1,4 +1,4 @@
-<div *ngIf="orders" class="header_list">
+<div *ngIf="orders.length !== 0" class="header_list">
   <div>{{ 'user-orders.order-number' | translate }}</div>
   <div>{{ 'user-orders.order-status' | translate }}</div>
   <div>{{ 'user-orders.payment-amount' | translate }}</div>
