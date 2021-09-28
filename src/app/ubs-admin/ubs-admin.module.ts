@@ -36,6 +36,7 @@ import { UbsAdminCancelModalComponent } from './components/ubs-admin-cancel-moda
 import { UbsAdminGoBackModalComponent } from './components/ubs-admin-go-back-modal/ubs-admin-go-back-modal.component';
 import { UbsClientBonusesComponent } from './components/ubs-client-bonuses/ubs-client-bonuses.component';
 import { MatTabsModule } from '@angular/material/tabs';
+import { UbsAdminTableExcelPopupComponent } from './components/ubs-admin-table/ubs-admin-table-excel-popup/ubs-admin-table-excel-popup.component';
 import { DragDropModule } from '@angular/cdk/drag-drop';
 import { UbsUserOrdersListComponent } from '../ubs-user/ubs-user-orders-list/ubs-user-orders-list.component';
 import { UbsUserOrderDetailsComponent } from '../ubs-user/ubs-user-order-details/ubs-user-order-details.component';
@@ -47,7 +48,6 @@ import { TableCellDateComponent } from './components/ubs-admin-table/table-cell-
 import { TableCellTimeComponent } from './components/ubs-admin-table/table-cell-time/table-cell-time.component';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatNativeDateModule } from '@angular/material/core';
-import { MatTableModule } from '@angular/material/table';
 import { UbsAdminCertificateComponent } from './components/ubs-admin-certificate/ubs-admin-certificate.component';
 import { AdminCertificateService } from './services/admin-certificate.service';
 import { UbsAdminTariffsComponent } from './components/ubs-admin-tariffs/ubs-admin-tariffs.component';
@@ -58,6 +58,7 @@ import { UbsAdminTariffsDeletePopupComponent } from './components/ubs-admin-tari
   declarations: [
     PaginationComponent,
     UbsAdminTableComponent,
+    UbsAdminTableExcelPopupComponent,
     UbsAdminSidebarComponent,
     UbsAdminComponent,
     UbsAdminEmployeeComponent,
