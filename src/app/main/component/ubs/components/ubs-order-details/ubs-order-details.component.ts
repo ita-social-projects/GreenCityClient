@@ -14,7 +14,6 @@ import { UBSOrderFormService } from '../../services/ubs-order-form.service';
 import { CertificateStatus } from '../../certificate-status.enum';
 import { UbsOrderLocationPopupComponent } from './ubs-order-location-popup/ubs-order-location-popup.component';
 
-
 @Component({
   selector: 'app-ubs-order-details',
   templateUrl: './ubs-order-details.component.html',
