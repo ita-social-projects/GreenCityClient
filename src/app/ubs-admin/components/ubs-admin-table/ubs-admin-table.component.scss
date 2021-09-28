@@ -251,12 +251,13 @@ input {
 }
 
 .dropdown-menu {
-  height: 480px;
+  height: 400px;
   min-width: 356px;
   margin-right: 5px;
   overflow: scroll;
   padding: 24px;
   margin-top: 170px;
+  top: -40px !important;
   color: var(--ubs-primary-grey);
   font-family: var(--primary-font);
 }

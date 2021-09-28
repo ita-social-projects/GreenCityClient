@@ -140,6 +140,15 @@
     },
     "send-button": "Send message"
   },
+  "export-excel-popup": {
+    "buttons": {
+      "next": "Next",
+      "cancel": "Cancel"
+    },
+    "select-data": "Select data for the export",
+    "current": "Save current view",
+    "all": "Save all table (It will take some time)"
+  },
   "order-payment": {
     "title": "Order payment",
     "order-size": "The order is executed in the amount of",

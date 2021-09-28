@@ -68,6 +68,7 @@ export interface Address {
   houseCorpus: string;
   entranceNumber: string;
   houseNumber: string;
+  addressComment?: string;
   longitude?: number;
   latitude?: number;
 }

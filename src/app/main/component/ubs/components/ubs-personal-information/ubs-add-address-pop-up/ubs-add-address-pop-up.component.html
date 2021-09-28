@@ -1,12 +1,16 @@
 <form [formGroup]="addAddressForm" class="row adress">
+  <div class="w-100">
+    <h2 class="personal-info-pop-up-title">{{ 'personal-info.pop-up-title' | translate }}</h2>
+  </div>
+  <div class="w-100 city-notice">
+    {{ 'personal-info.pop-up-info-message' | translate }}
+  </div>
   <div class="col-md-6 col-sm-6 form-group">
     <label>{{ 'personal-info.pop-up-city' | translate }}</label>
     <select formControlName="city" class="shadow-none form-control">
+      <option [ngValue]="null" selected disabled hidden>{{ 'personal-info.pop-up-city' | translate }}</option>
       <option *ngFor="let city of cities" [value]="city.cityName">{{ city.cityName }}</option>
     </select>
-    <div class="w-100 city-notice">
-      {{ 'personal-info.pop-up-info-message' | translate }}
-    </div>
   </div>
   <div class="col-md-6 col-sm-6 form-group">
     <label>{{ 'personal-info.pop-up-district' | translate }}</label>
@@ -36,34 +40,60 @@
       [pattern]="streetPattern"
     />
     <div class="validation" *ngIf="street.invalid && addAddressForm.get('street').touched">
-      <app-ubs-input-error [formElement]="street" [streetFieldValue]="street.value" [controlName]="'street'"></app-ubs-input-error>
+      <app-ubs-input-error [formElement]="street" [streetFieldValue]="street.value" [controlName]="'street'"> </app-ubs-input-error>
     </div>
   </div>
-  <div class="row col-md-12 col-sm-12 col-lg-6 d-flex justify-content-between flex-wrap form-group">
+  <div class="row col-lg-6 col-md-12 col-sm-12 d-flex justify-content-between flex-wrap form-group">
     <div class="item col-sm-4">
       <label>{{ 'personal-info.pop-up-house' | translate }}</label>
-      <input formControlName="houseNumber" type="text" class="shadow-none form-control" />
+      <input
+        formControlName="houseNumber"
+        type="text"
+        class="shadow-none form-control"
+        placeholder="{{ 'personal-info.pop-up-house' | translate }}"
+      />
       <div class="validation" *ngIf="houseNumber.invalid && houseNumber.touched">
         <app-ubs-input-error [formElement]="houseNumber" [controlName]="'houseNumber'"></app-ubs-input-error>
       </div>
     </div>
     <div class="item col-sm-4">
       <label>{{ 'personal-info.pop-up-corps' | translate }}</label>
-      <input formControlName="houseCorpus" type="text" class="shadow-none form-control" />
+      <input
+        formControlName="houseCorpus"
+        type="text"
+        class="shadow-none form-control"
+        placeholder="{{ 'personal-info.pop-up-corps' | translate }}"
+      />
       <div class="validation" *ngIf="houseCorpus.invalid && houseCorpus.touched">
         <app-ubs-input-error [formElement]="houseCorpus" [controlName]="'houseCorpus'"></app-ubs-input-error>
       </div>
     </div>
     <div class="item col-sm-4">
       <label>{{ 'personal-info.pop-up-entrance' | translate }}</label>
-      <input formControlName="entranceNumber" type="text" class="shadow-none form-control" />
+      <input
+        formControlName="entranceNumber"
+        type="text"
+        class="shadow-none form-control"
+        placeholder="{{ 'personal-info.pop-up-entrance' | translate }}"
+      />
       <div class="validation" *ngIf="entranceNumber.invalid && entranceNumber.touched">
         <app-ubs-input-error [formElement]="entranceNumber" [controlName]="'entranceNumber'"></app-ubs-input-error>
       </div>
     </div>
   </div>
+  <div class="form-group comment-section">
+    <label>{{ 'personal-info.info-address-coment' | translate }}</label>
+    <textarea
+      class="form-control"
+      formControlName="addressComment"
+      placeholder="{{ 'personal-info.pop-up-comment-placeholder' | translate }}"
+    ></textarea>
+    <div class="validation" *ngIf="addressComment.invalid && addressComment.touched">
+      <app-ubs-input-error [formElement]="addressComment" [controlName]="'addressComment'"> </app-ubs-input-error>
+    </div>
+  </div>
 </form>
-<div class="d-flex justify-content-end" mat-dialog-actions>
+<div class="d-flex justify-content-end buttons" mat-dialog-actions>
   <button class="secondary-global-button btn m-0 mr-2" mat-button (click)="onNoClick()">
     {{ 'personal-info.pop-up-cancel' | translate }}
   </button>
