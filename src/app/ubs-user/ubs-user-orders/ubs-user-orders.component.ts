@@ -1,7 +1,8 @@
 import { UserOrdersService } from '../../ubs-user/services/user-orders.service';
 import { Component, OnInit } from '@angular/core';
-import { takeUntil } from 'rxjs/operators';
-import { Subject } from 'rxjs';
+import { takeUntil, catchError } from 'rxjs/operators';
+import { Subject, throwError } from 'rxjs';
+import { MatSnackBarComponent } from '@global-errors/mat-snack-bar/mat-snack-bar.component';
 
 @Component({
   selector: 'app-ubs-user-orders',
@@ -16,22 +17,23 @@ export class UbsUserOrdersComponent implements OnInit {
   loading = false;
   userId: number;
 
-  constructor(private userOrdersService: UserOrdersService) {}
+  constructor(private snackBar: MatSnackBarComponent, private userOrdersService: UserOrdersService) {}
 
   ngOnInit() {
     this.userOrdersService
       .getAllUserOrders()
-      .pipe(takeUntil(this.destroy))
-      .subscribe(
-        (item) => {
-          this.orders = item;
-          this.currentOrders = this.orders.filter((order) => order.orderStatus !== 'DONE' && order.orderStatus !== 'CANCELLED');
-          this.orderHistory = this.orders.filter((order) => order.orderStatus === 'DONE' || order.orderStatus === 'CANCELLED');
-          this.loading = false;
-        },
-        (err: any) => {
-          console.log(err);
-        }
-      );
+      .pipe(
+        takeUntil(this.destroy),
+        catchError((err) => {
+          this.snackBar.openSnackBar('Oops, something went wrong. Please reload page or try again later.');
+          return throwError(err);
+        })
+      )
+      .subscribe((item) => {
+        this.orders = item;
+        this.loading = true;
+        this.currentOrders = this.orders.filter((order) => order.orderStatus !== 'DONE' && order.orderStatus !== 'CANCELLED');
+        this.orderHistory = this.orders.filter((order) => order.orderStatus === 'DONE' || order.orderStatus === 'CANCELLED');
+      });
   }
 }

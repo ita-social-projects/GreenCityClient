@@ -8,8 +8,8 @@
     <img *ngIf="order.extend" src="assets/img/ubs-admin-orders/arrow_down.svg" alt="arrow down" (click)="changeCard(order.id)" />
     <img *ngIf="!order.extend" src="assets/img/ubs-admin-orders/arrow_up.svg" alt="arrow up" (click)="changeCard(order.id)" />
     <div>{{ order.id }}</div>
-    <div>{{ order.orderStatus }}</div>
-    <div class="order_sum">{{ order.orderPrice }}</div>
+    <div>{{ order.orderStatusName }}</div>
+    <div class="order_sum">{{ order.orderDiscountedPrice }}</div>
     <div class="btns_group">
       <div *ngIf="order.orderStatus === 'FORMED'" class="btn_grid_cancel">
         <button class="btn_cancel">{{ 'user-orders.btn.cancel' | translate }}</button>

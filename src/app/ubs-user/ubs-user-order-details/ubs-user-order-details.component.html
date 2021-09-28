@@ -9,7 +9,7 @@
       <th>{{ 'user-orders.details.sum' | translate }}</th>
     </tr>
     <tr *ngFor="let bag of order.bags" class="data_table">
-      <td>{{ bag.name }}Назва послуги</td>
+      <td>{{ bag.name }}Вторсировина</td>
       <td>{{ bag.capacity }} {{ 'user-orders.details.litr' | translate }}</td>
       <td>{{ bag.price }} {{ 'user-orders.details.currency' | translate }}</td>
       <td>{{ order.amountOfBagsOrdered[bag.id] }} {{ 'user-orders.details.pieces' | translate }}</td>
@@ -32,7 +32,7 @@
     </tr>
     <tr *ngIf="order.orderStatus === 'DONE_UNPAID'" class="optional_row">
       <td colspan="4">{{ 'user-orders.details.services-amount' | translate }}</td>
-      <td>{{ order.orderDiscountedPrice }} {{ 'user-orders.details.currency' | translate }}</td>
+      <td>{{ order.orderExportedPrice }} {{ 'user-orders.details.currency' | translate }}</td>
     </tr>
     <tr class="sum_to_pay">
       <td colspan="4">{{ 'user-orders.details.amount-due' | translate }}</td>
@@ -41,7 +41,7 @@
   </table>
 </div>
 <div class="order_details">
-  <ol>
+  <ol *ngIf="order.additionalOrders[0] !== ''">
     <li class="bold_text">{{ 'user-orders.details.delivery' | translate }}</li>
     <li>
       {{ 'user-orders.details.order-number' | translate }}
@@ -61,7 +61,7 @@
     <li>{{ order.addressCity }}</li>
     <li>{{ order.addressStreet }}</li>
     <li>{{ order.addressDistrict }}</li>
-    <li>{{ 'user-orders.details.comment' | translate }} Ремонтується дорога. Під'їзд до будинку доступний зі сторони будинку номер15.</li>
+    <li *ngIf="order.addressComment !== null">{{ 'user-orders.details.comment' | translate }} {{ order.addressComment }}</li>
   </ol>
 </div>
 <div class="download">
