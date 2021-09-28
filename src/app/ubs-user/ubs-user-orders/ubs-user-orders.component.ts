@@ -15,7 +15,6 @@ export class UbsUserOrdersComponent implements OnInit {
   currentOrders: any[];
   orderHistory: any[];
   loading = false;
-  userId: number;
 
   constructor(private snackBar: MatSnackBarComponent, private userOrdersService: UserOrdersService) {}
 
@@ -35,5 +34,9 @@ export class UbsUserOrdersComponent implements OnInit {
         this.currentOrders = this.orders.filter((order) => order.orderStatus !== 'DONE' && order.orderStatus !== 'CANCELLED');
         this.orderHistory = this.orders.filter((order) => order.orderStatus === 'DONE' || order.orderStatus === 'CANCELLED');
       });
+  }
+
+  ngOnDestroy() {
+    this.destroy.unsubscribe();
   }
 }
