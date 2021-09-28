@@ -1,14 +1,21 @@
-<div class="city">
-  <select class="city-select">
-    <option>м. Київ</option>
-    <option>Київська область</option>
-  </select>
+<div class="city" xmlns="http://www.w3.org/1999/html">
+  <!--  <select class="city-select">-->
+  <!--    <option>м. Київ</option>-->
+  <!--    <option>Київська область</option>-->
+  <!--  </select>-->
+  <form>
+    <select [(ngModel)]="selectedLocationId" name="region" class="select form-select form-select-lg" (change)="selected($event)">
+      <option [ngValue]="location.id" *ngFor="let location of locations">
+        {{ location.name }}
+      </option>
+    </select>
+  </form>
 </div>
 <div class="services-header">
   <div class="header-text">
     <h4>{{ 'ubs-tariffs.services' | translate }}</h4>
   </div>
-  <button class="secondary-global-button" (click)="openAddServicePopup()">
+  <button class="secondary-global-button">
     {{ 'ubs-tariffs.btn.add_service' | translate }}
   </button>
 </div>
@@ -25,9 +32,9 @@
     </tr>
     <tr>
       <td>
-        <img [src]="icons.edit" class="edit-button-img" alt="edit-icon" (click)="openUpdateServicePopup()" />
+        <img [src]="icons.edit" class="edit-button-img" alt="edit-icon" />
       </td>
-      <td></td>
+      <td>{{ minAmountOfBigBags }}</td>
       <td></td>
       <td>Текстильні відходи Текстильні відходи Текстильні відходи Текстильні відходи Текстильні відходи</td>
       <td></td>
@@ -40,7 +47,7 @@
   <div class="header-text">
     <h4>{{ 'ubs-tariffs.tariffs_for_services' | translate }}</h4>
   </div>
-  <button class="secondary-global-button">
+  <button class="secondary-global-button" (click)="openAddServicePopup()">
     {{ 'ubs-tariffs.btn.add_service' | translate }}
   </button>
 </div>
@@ -55,20 +62,6 @@
       <th>{{ 'ubs-tariffs.carriers_commission' | translate }}</th>
       <th>{{ 'ubs-tariffs.full_cost' | translate }}</th>
     </tr>
-    <!--    <tr>-->
-    <!--      <td style="padding-left: 0">-->
-    <!--        <div class="image-buttons">-->
-    <!--          <img [src]="icons.edit" class="edit-button-img" alt="edit-icon" />-->
-    <!--          <img [src]="icons.delete" class="delete-button-img" alt="edit-icon" (click)="openDeleteProfileDialog()" />-->
-    <!--        </div>-->
-    <!--      </td>-->
-    <!--      <td></td>-->
-    <!--      <td></td>-->
-    <!--      <td></td>-->
-    <!--      <td>321321</td>-->
-    <!--      <td></td>-->
-    <!--      <td></td>-->
-    <!--    </tr>-->
     <tr *ngFor="let bag of bags">
       <td style="padding-left: 0">
         <div class="image-buttons">
