@@ -1,5 +1,5 @@
 import { UserOrdersService } from '../../ubs-user/services/user-orders.service';
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { takeUntil, catchError } from 'rxjs/operators';
 import { Subject, throwError } from 'rxjs';
 import { MatSnackBarComponent } from '@global-errors/mat-snack-bar/mat-snack-bar.component';
@@ -9,7 +9,7 @@ import { MatSnackBarComponent } from '@global-errors/mat-snack-bar/mat-snack-bar
   templateUrl: './ubs-user-orders.component.html',
   styleUrls: ['./ubs-user-orders.component.scss']
 })
-export class UbsUserOrdersComponent implements OnInit {
+export class UbsUserOrdersComponent implements OnInit, OnDestroy {
   destroy: Subject<boolean> = new Subject<boolean>();
   orders: any[];
   currentOrders: any[];
@@ -37,6 +37,7 @@ export class UbsUserOrdersComponent implements OnInit {
   }
 
   ngOnDestroy() {
+    this.destroy.next();
     this.destroy.unsubscribe();
   }
 }

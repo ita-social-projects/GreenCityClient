@@ -1,12 +1,12 @@
 ::ng-deep {
+  .mat-tab-label-content {
+    font-size: 20px;
+  }
+
   .mat-tab-labels .mat-tab-label-active {
     .mat-tab-label-content {
       color: var(--primary-green);
     }
-  }
-
-  .mat-tab-label-content {
-    font-size: 20px;
   }
 
   .mat-tab-group.mat-primary .mat-ink-bar,
