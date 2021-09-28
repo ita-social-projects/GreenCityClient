@@ -306,7 +306,7 @@
 
 <div class="w-100 d-flex justify-content-end buttons">
   <button class="secondary-global-button btn cancel-button" (click)="cancelUBS()">{{ 'order-details.cancel' | translate }}</button>
-  <button 
+  <button  
     type="submit"
     class="primary-global-button btn btn-main"
     [disabled]="showTotal < 500 || minAmountOfBigBags > totalOfBigBags || orderComment.invalid"
