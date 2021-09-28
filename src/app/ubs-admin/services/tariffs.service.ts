@@ -16,4 +16,8 @@ export class TariffsService {
   createNewService(services: Services) {
     return this.http.post(`${mainUbsLink}/ubs/superAdmin/createTariffService`, services);
   }
+
+  deleteService(id: number) {
+    return this.http.delete(`${mainUbsLink}/ubs/superAdmin/deleteTariffService/${id}`);
+  }
 }

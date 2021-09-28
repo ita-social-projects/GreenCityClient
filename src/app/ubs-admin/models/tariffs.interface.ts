@@ -5,4 +5,6 @@ export interface Services {
   commission: number;
   description: string;
   languageId: 1;
+  id?: number;
+  fullPrice?: number;
 }

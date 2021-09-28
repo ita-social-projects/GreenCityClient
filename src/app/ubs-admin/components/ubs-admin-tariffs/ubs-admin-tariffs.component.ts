@@ -5,9 +5,8 @@ import { UbsAdminTariffsDeletePopupComponent } from './ubs-admin-tariffs-delete-
 import { TariffsService } from '../../services/tariffs.service';
 import { takeUntil, take } from 'rxjs/operators';
 import { Services } from '../../models/tariffs.interface';
-import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
 import { OrderService } from '../../../main/component/ubs/services/order.service';
-import { Locations, OrderDetails } from '../../../main/component/ubs/models/ubs.interface';
+import { Locations } from '../../../main/component/ubs/models/ubs.interface';
 
 @Component({
   selector: 'app-ubs-admin-tariffs',
@@ -19,7 +18,7 @@ export class UbsAdminTariffsComponent implements OnInit {
   locations: Locations;
   isFetching = false;
   selectedLocationId;
-  bags: Services;
+  bags: Services[];
   public currentLanguage: string;
   public icons = {
     edit: './assets/img/profile/icons/edit.svg',
@@ -63,7 +62,7 @@ export class UbsAdminTariffsComponent implements OnInit {
     this.tariffsService
       .getAllTariffsService()
       // .pipe(takeUntil(this.destroy))
-      .subscribe((res: Services) => {
+      .subscribe((res: Services[]) => {
         this.bags = res;
         console.log(this.bags);
       });
@@ -106,4 +105,20 @@ export class UbsAdminTariffsComponent implements OnInit {
       console.log(this.minAmountOfBigBags);
     });
   }
+
+  deleteService(services) {
+    this.tariffsService.deleteService(services.id).subscribe((res) => {
+      console.log(res);
+      console.log(services.id);
+    });
+  }
+
+  // deleteService() {
+  //   this.bags.forEach((services) => {
+  //     console.log(services.id);
+  //   });
+  // this.tariffsService.deleteService(services.id).subscribe((res) => {
+  //   console.log(res);
+  //   console.log(services.id);
+  // }
 }

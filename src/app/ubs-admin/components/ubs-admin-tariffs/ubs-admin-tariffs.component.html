@@ -62,19 +62,20 @@
       <th>{{ 'ubs-tariffs.carriers_commission' | translate }}</th>
       <th>{{ 'ubs-tariffs.full_cost' | translate }}</th>
     </tr>
-    <tr *ngFor="let bag of bags">
+    <tr *ngFor="let services of bags">
       <td style="padding-left: 0">
         <div class="image-buttons">
           <img [src]="icons.edit" class="edit-button-img" alt="edit-icon" />
-          <img [src]="icons.delete" class="delete-button-img" alt="edit-icon" (click)="openDeleteProfileDialog()" />
+          <img [src]="icons.delete" class="delete-button-img" alt="edit-icon" (click)="deleteService(services)" />
+          <!--          (click)="openDeleteProfileDialog()"-->
         </div>
       </td>
-      <td>{{ bag.name }}</td>
-      <td>{{ bag.capacity }}</td>
-      <td>{{ bag.description }}</td>
-      <td>{{ bag.price }}</td>
-      <td>{{ bag.comission }}</td>
-      <td></td>
+      <td>{{ services.name }}</td>
+      <td>{{ services.capacity }}</td>
+      <td>{{ services.description }}</td>
+      <td>{{ services.price }}</td>
+      <td>{{ services.commission }}</td>
+      <td>{{ services.fullPrice }}</td>
     </tr>
   </table>
 </div>
