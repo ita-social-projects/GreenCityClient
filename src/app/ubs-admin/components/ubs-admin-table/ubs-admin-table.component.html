@@ -34,6 +34,7 @@
 </div>
 <mat-progress-bar *ngIf="editCellProgressBar" mode="indeterminate"></mat-progress-bar>
 <div
+  id="table-container"
   class="scrolling"
   infiniteScroll
   [infiniteScrollDistance]="0"
@@ -42,7 +43,7 @@
   [scrollWindow]="false"
 >
   <table
-    id="table1"
+    id="table"
     mat-table
     cdkDropList
     cdkDropListOrientation="horizontal"

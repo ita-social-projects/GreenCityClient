@@ -1,7 +1,7 @@
 import { nonSortableColumns } from './../../models/non-sortable-columns.model';
 import { AdminTableService } from '../../services/admin-table.service';
 import { CdkDragDrop, moveItemInArray } from '@angular/cdk/drag-drop';
-import { Component, OnInit, ViewChild, OnDestroy } from '@angular/core';
+import { Component, OnInit, ViewChild, OnDestroy, AfterViewChecked } from '@angular/core';
 import { takeUntil } from 'rxjs/operators';
 import { Subject } from 'rxjs';
 import { MatTableDataSource } from '@angular/material/table';
@@ -16,7 +16,7 @@ import { IEditCell } from '../../models/edit-cell.model';
   templateUrl: './ubs-admin-table.component.html',
   styleUrls: ['./ubs-admin-table.component.scss']
 })
-export class UbsAdminTableComponent implements OnInit, OnDestroy {
+export class UbsAdminTableComponent implements OnInit, AfterViewChecked, OnDestroy {
   currentLang: string;
   nonSortableColumns = nonSortableColumns;
   sortingColumn: string;
@@ -31,7 +31,7 @@ export class UbsAdminTableComponent implements OnInit, OnDestroy {
   isUpdate = false;
   destroy: Subject<boolean> = new Subject<boolean>();
   arrowDirection: string;
-  isTableShowed = false;
+  isTableHeightSet = false;
   tableData: any[];
   totalPages: number;
   pageSizeOptions: number[] = [10, 15, 20];
@@ -53,13 +53,33 @@ export class UbsAdminTableComponent implements OnInit, OnDestroy {
     this.getTable();
   }
 
+  ngAfterViewChecked() {
+    if (!this.isTableHeightSet) {
+      this.setTableHeightToContainerHeight();
+    }
+  }
+
+  setTableHeightToContainerHeight() {
+    const table = document.getElementById('table');
+    if (table) {
+      const tableHeight = table.getBoundingClientRect().height;
+      const tableContainerHeight = this.setTableHeight().getBoundingClientRect().height;
+      if (tableHeight < tableContainerHeight) {
+        this.onScroll();
+      } else {
+        this.isTableHeightSet = true;
+      }
+    }
+  }
+
+  private setTableHeight() {
+    const tableContainer = document.getElementById('table-container');
+    tableContainer.style.height = document.documentElement.clientHeight - tableContainer.getBoundingClientRect().y + 'px';
+    return tableContainer;
+  }
+
   applyFilter(filterValue: string): void {
     this.dataSource.filter = filterValue.trim().toLowerCase();
-    let tabl = document.getElementById('table1');
-    console.log(tabl);
-    console.log(tabl.clientHeight);
-    console.log(tabl.scrollHeight);
-    this.forceScroll();
   }
 
   dropListDropped(event: CdkDragDrop<string[]>) {
@@ -114,10 +134,6 @@ export class UbsAdminTableComponent implements OnInit, OnDestroy {
         this.totalPages = item[`totalPages`];
         this.dataSource = new MatTableDataSource(this.tableData);
         this.isLoading = false;
-        let tabl = document.getElementById('table1');
-        console.log(tabl);
-        console.log(tabl.clientHeight);
-        console.log(tabl.scrollHeight);
       });
   }
 
@@ -155,13 +171,6 @@ export class UbsAdminTableComponent implements OnInit, OnDestroy {
     if (!this.isUpdate && this.currentPage < this.totalPages) {
       this.currentPage++;
       this.updateTableData();
-    }
-  }
-
-  private forceScroll() {
-    let tabl = document.getElementById('table1');
-    if (tabl.clientHeight === tabl.scrollHeight) {
-      this.onScroll();
     }
   }
 
