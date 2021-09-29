@@ -304,5 +304,13 @@
       "add": "Додати",
       "cancel": "Скасувати"
     }
+  },
+  "ubs-user-notification": {
+    "title": "Ваші повідомлення",
+    "title-table": {
+      "number": "№ замовлення",
+      "theme-messages": "Тема повідомлення",
+      "time": "Час"
+    }
   }
 }

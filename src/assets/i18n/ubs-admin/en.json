@@ -312,5 +312,13 @@
       "add": "Add",
       "cancel": "Cancel"
     }
+  },
+  "ubs-user-notification": {
+    "title": "Your messages",
+    "title-table": {
+      "number": "№ order",
+      "theme-messages": "Theme messages",
+      "time": "Time"
+    }
   }
 }
