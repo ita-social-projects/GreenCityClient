@@ -24,9 +24,9 @@ export class UbsUserSidebarComponent extends UbsBaseSidebarComponent implements 
       routerLink: '#'
     },
     {
-      link: 'assets/img/sidebarIcons/message-bell_icon.svg',
+      link: 'assets/img/sidebarIcons/none_notification_Bell.svg',
       name: 'ubs-user.messages',
-      routerLink: '#'
+      routerLink: 'messages/1'
     }
   ];
 
