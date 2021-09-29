@@ -1,13 +1,16 @@
-import { AfterViewInit, Component, ElementRef, Input, ViewChild } from '@angular/core';
+import { AfterViewInit, Component, ElementRef, Input, OnInit, ViewChild } from '@angular/core';
 import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout';
 import { MatDrawer } from '@angular/material/sidenav';
+import { UserMessagesService } from '../../ubs-user/services/user-messages.service';
 
 @Component({
   selector: 'app-ubs-base-sidebar',
   templateUrl: './ubs-base-sidebar.component.html',
   styleUrls: ['./ubs-base-sidebar.component.scss']
 })
-export class UbsBaseSidebarComponent implements AfterViewInit {
+export class UbsBaseSidebarComponent implements AfterViewInit, OnInit {
+  readonly bellsNoneNotification = 'assets/img/sidebarIcons/none_notification_Bell.svg';
+  readonly bellsNotification = 'assets/img/sidebarIcons/notification_Bell.svg';
   readonly arrowRight = 'assets/img/ubs-admin-sidebar/arrowRight.svg';
   readonly arrowLeft = 'assets/img/ubs-admin-sidebar/arrowLeft.svg';
   public openClose = false;
@@ -18,7 +21,13 @@ export class UbsBaseSidebarComponent implements AfterViewInit {
   @ViewChild('drawer') drawer: MatDrawer;
   @ViewChild('sidebarContainer') sidebarContainer: ElementRef;
 
-  constructor(public breakpointObserver: BreakpointObserver) {}
+  constructor(public serviceUserMessages: UserMessagesService, public breakpointObserver: BreakpointObserver) {}
+
+  ngOnInit(): void {
+    this.serviceUserMessages
+      .getCountUnreadNotification()
+      .subscribe((response) => (this.serviceUserMessages.countOfNoReadeMessages = response));
+  }
 
   public toggleSideBar(): void {
     if (this.openClose) {
