@@ -43,8 +43,8 @@ export class UbsHeaderComponent implements OnInit {
     const temporary = this.arrayLang[0].lang;
     this.arrayLang[0].lang = language;
     this.arrayLang[index].lang = temporary;
-    location.reload();
     this.langDropdownVisible = false;
+    location.reload();
   }
 
   navigateToLink(link) {
