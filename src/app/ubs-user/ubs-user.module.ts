@@ -11,6 +11,7 @@ import { UbsUserOrdersComponent } from '../ubs-user/ubs-user-orders/ubs-user-ord
 import { UbsUserRoutingModule } from './ubs-user-routing.module';
 import { UbsUserComponent } from './ubs-user.component';
 import { UbsUserSidebarComponent } from './ubs-user-sidebar/ubs-user-sidebar.component';
+import { MaterialModule } from '../material.module';
 
 @NgModule({
   declarations: [
@@ -22,6 +23,7 @@ import { UbsUserSidebarComponent } from './ubs-user-sidebar/ubs-user-sidebar.com
   ],
   imports: [
     CommonModule,
+    MaterialModule,
     UbsUserRoutingModule,
     SharedModule,
     MatTabsModule,
