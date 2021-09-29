@@ -181,8 +181,7 @@ export class UBSOrderDetailsComponent extends FormBaseComponent implements OnIni
   }
 
   private filterBags(): void {
-    this.bags = this.orders.bags.filter((value) => value.code === this.currentLanguage).sort((a, b) => a.price - b.price);
-    this.bags = [this.bags[1], this.bags[2], this.bags[0]];
+    this.bags = this.orders.bags.filter((value) => value.code === this.currentLanguage).sort((a, b) => b.price - a.price);
   }
 
   changeForm() {

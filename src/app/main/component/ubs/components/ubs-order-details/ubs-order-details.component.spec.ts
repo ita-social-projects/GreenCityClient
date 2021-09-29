@@ -72,7 +72,7 @@ describe('OrderDetailsFormComponent', () => {
     component.takeOrderData();
     expect(component.currentLanguage).toBe('ua');
     expect(spy).toHaveBeenCalled();
-    expect(component.bags[2]).toEqual(component.orders.bags[0]);
+    expect(component.bags).toEqual(component.orders.bags);
   }));
 
   it('method calculateTotal should invoke methods', () => {
