@@ -23,10 +23,6 @@
   background-color: var(--after-primary-light-grey);
 }
 
-.content {
-  margin: 0 0 0 30px;
-}
-
 .main_header {
   margin: 0 0 51px 0;
   font-style: normal;
@@ -152,24 +148,22 @@
   line-height: 24px;
   letter-spacing: 0em;
   text-align: left;
+  li {
+    margin-right: 10px;
+  }
+  .current {
+    padding: 0.1875rem 0.405rem;
+    background: none;
+    color: black;
+    border: 1px solid #444e55;
+    box-sizing: border-box;
+    border-radius: 4px;
+  }
 }
 
 .content {
   margin: 0 0 0 30px;
   padding-bottom: 100px;
-}
-
-.my-pagination::ng-deep .ngx-pagination li {
-  margin-right: 10px;
-}
-
-.my-pagination::ng-deep .ngx-pagination .current {
-  padding: 0.1875rem 0.405rem;
-  background: none;
-  color: black;
-  border: 1px solid #444e55;
-  box-sizing: border-box;
-  border-radius: 4px;
 }
 
 .my-pagination::ng-deep .ngx-pagination {
