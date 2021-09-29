@@ -1,17 +1,30 @@
-<div *ngIf="recommendedFriends; else spinner">
+<div>
   <div class="friends-recommended-list">
     <div class="container">
       <div *ngFor="let item of recommendedFriends">
-        <app-friend-item
-          [friend]="item"
-          (friendEventEmit)="addFriend($event)"
-          btnName="{{ 'profile.friends.add-new-friend' | translate }}"
-        ></app-friend-item>
+        <app-friend-item [friend]="item" (friendEventEmit)="addFriend($event)" btnName="{{ 'profile.friends.add-new-friend' | translate }}">
+        </app-friend-item>
       </div>
     </div>
-    <div infiniteScroll [infiniteScrollDistance]="0" [infiniteScrollThrottle]="500" (scrolled)="onScroll()"></div>
+    <app-spinner *ngIf="isFetching"></app-spinner>
+    <div infiniteScroll [infiniteScrollDistance]="1" [infiniteScrollThrottle]="500" (scrolled)="onScroll()"></div>
+  </div>
+
+  <div *ngIf="!isFetching && emptySearchList && recommendedFriends.length === 0" class="noFriends-wraper">
+    <p *ngIf="emptySearchList" class="noFriends">
+      {{ 'search.search-not-found.not-found-text' | translate: { searchQuery: searchQuery } }}
+    </p>
+    <div class="img-absent">
+      <img [src]="absent" alt="absent-friends" />
+    </div>
+    <div>
+      <!-- <div 
+        class="search_not-found-text" 
+        *ngIf="!recommendedFriends.length&&!isFetching">
+        {{'search.search-not-found.not-found-text'|translate: {searchQuery: searchQuery} }}
+      </div> -->
+
+      <!-- <p *ngIf="!emptySearchList" class="noFriends">{{ 'profile.zero-friends' | translate }}</p>  -->
+    </div>
   </div>
 </div>
-<ng-template #spinner>
-  <app-spinner></app-spinner>
-</ng-template>
