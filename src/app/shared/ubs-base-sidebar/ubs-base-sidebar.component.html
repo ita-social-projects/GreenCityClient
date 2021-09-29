@@ -9,8 +9,17 @@
   <mat-drawer #drawer class="sidebar-slider" mode="side" opened disableClose>
     <ul class="sidebar-list">
       <li class="sidebar-list-item" *ngFor="let listItem of listElements">
-        <img class="sidebar-list-item-icon" src="{{ listItem.link }}" alt="sidebar list item icon" />
+        <img
+          class="sidebar-list-item-icon"
+          src="{{
+            listItem.link === bellsNoneNotification && serviceUserMessages.countOfNoReadeMessages ? bellsNotification : listItem.link
+          }}"
+          alt="sidebar list item icon"
+        />
         <a [routerLink]="listItem.routerLink" class="sidebar-list-item-link">{{ listItem.name | translate }}</a>
+        <div class="count-active-messages" *ngIf="listItem.name === 'ubs-user.messages' && serviceUserMessages.countOfNoReadeMessages">
+          ({{ serviceUserMessages.countOfNoReadeMessages }})
+        </div>
       </li>
     </ul>
   </mat-drawer>
