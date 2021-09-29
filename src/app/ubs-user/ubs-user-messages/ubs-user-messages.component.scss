@@ -161,14 +161,7 @@
     box-sizing: border-box;
     border-radius: 4px;
   }
-}
 
-.content {
-  margin: 0 0 0 30px;
-  padding-bottom: 100px;
-}
-
-.my-pagination::ng-deep .ngx-pagination {
   .pagination-previous a::before {
     @include left-arrow;
 
@@ -192,6 +185,11 @@
 
     background: url('../../../assets/img/ubs/arrow_right_ubs_messages.svg') no-repeat 100%;
   }
+}
+
+.content {
+  margin: 0 0 0 30px;
+  padding-bottom: 100px;
 }
 
 .textColorTitle {
