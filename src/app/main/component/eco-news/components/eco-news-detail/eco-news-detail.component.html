@@ -34,6 +34,11 @@
           <img [src]="images.ellipse" alt="dot" />
         </div>
         <div class="news-info-author">{{ 'eco-news-single-view.author' | translate }} {{ newsItem.author.name }}</div>
+        <div class="like_wr">
+          <img *ngIf="!userId" class="news_like disable" [src]="likesType.like" alt="like" />
+          <img *ngIf="userId" (click)="onLikeNews()" class="news_like" [src]="isLiked ? likesType.liked : likesType.like" alt="like" />
+          <span class="numerosity_likes">{{ newsItem.likes }}</span>
+        </div>
       </div>
       <img [src]="checkNewsImage()" alt="news-image" class="news-image-img" />
       <div class="news-text-container">

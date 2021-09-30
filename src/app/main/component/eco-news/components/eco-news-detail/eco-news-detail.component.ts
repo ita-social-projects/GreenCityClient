@@ -1,10 +1,11 @@
 import { singleNewsImages } from './../../../../image-pathes/single-news-images';
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { Subscription } from 'rxjs';
+import { Subject } from 'rxjs';
 import { EcoNewsService } from '@eco-news-service/eco-news.service';
 import { EcoNewsModel } from '@eco-news-models/eco-news-model';
 import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
+import { take, takeUntil } from 'rxjs/operators';
 
 @Component({
   selector: 'app-eco-news-detail',
@@ -16,10 +17,15 @@ export class EcoNewsDetailComponent implements OnInit, OnDestroy {
   public images = singleNewsImages;
   public userId: number;
   public userInfo;
-  private newsIdSubscription: Subscription;
-  private newsItemSubscription: Subscription;
+  public isLiked: boolean;
+  public likesType = {
+    like: 'assets/img/comments/like.png',
+    liked: 'assets/img/comments/liked.png'
+  };
+
   private newsId: number;
   private newsImage: string;
+  private destroy: Subject<boolean> = new Subject<boolean>();
 
   constructor(private route: ActivatedRoute, private ecoNewsService: EcoNewsService, private localStorageService: LocalStorageService) {}
 
@@ -27,6 +33,7 @@ export class EcoNewsDetailComponent implements OnInit, OnDestroy {
     this.canUserEditNews();
     this.setNewsId();
     this.setNewsIdSubscription();
+    this.getIsLiked();
   }
 
   public setNewsItem(item: EcoNewsModel): void {
@@ -48,6 +55,25 @@ export class EcoNewsDetailComponent implements OnInit, OnDestroy {
     window.open(data[type](), '_blank');
   }
 
+  public onLikeNews(): void {
+    if (this.isLiked) {
+      this.isLiked = false;
+      this.newsItem.likes = this.newsItem.likes - 1;
+      this.postToggleLike();
+    } else {
+      this.isLiked = true;
+      this.newsItem.likes = this.newsItem.likes + 1;
+      this.postToggleLike();
+    }
+  }
+
+  private postToggleLike(): void {
+    this.ecoNewsService
+      .postToggleLike(this.newsId)
+      .pipe(take(1))
+      .subscribe(() => {});
+  }
+
   private shareLinks() {
     const currentPage: string = window.location.href;
 
@@ -63,7 +89,7 @@ export class EcoNewsDetailComponent implements OnInit, OnDestroy {
   }
 
   private setNewsIdSubscription(): void {
-    this.newsIdSubscription = this.route.paramMap.subscribe((params) => {
+    this.route.paramMap.pipe(takeUntil(this.destroy)).subscribe((params) => {
       this.newsId = +params.get('id');
       this.fetchNewsItem();
     });
@@ -71,11 +97,23 @@ export class EcoNewsDetailComponent implements OnInit, OnDestroy {
 
   private fetchNewsItem(): void {
     const id = this.newsId.toString();
-    this.newsItemSubscription = this.ecoNewsService.getEcoNewsById(id).subscribe((item: EcoNewsModel) => this.setNewsItem(item));
+    this.ecoNewsService
+      .getEcoNewsById(id)
+      .pipe(takeUntil(this.destroy))
+      .subscribe((item: EcoNewsModel) => this.setNewsItem(item));
+  }
+
+  private getIsLiked(): void {
+    this.ecoNewsService
+      .getIsLikedByUser(this.newsId)
+      .pipe(take(1))
+      .subscribe((val: boolean) => {
+        this.isLiked = val;
+      });
   }
 
   ngOnDestroy() {
-    this.newsItemSubscription.unsubscribe();
-    this.newsIdSubscription.unsubscribe();
+    this.destroy.next();
+    this.destroy.unsubscribe();
   }
 }
