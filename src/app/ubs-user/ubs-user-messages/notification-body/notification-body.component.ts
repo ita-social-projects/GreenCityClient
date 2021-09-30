@@ -1,4 +1,4 @@
-import { Component, Input, OnInit, ViewEncapsulation } from '@angular/core';
+import { Component, Input, ViewEncapsulation } from '@angular/core';
 import { UserMessagesService } from '../../services/user-messages.service';
 
 @Component({
@@ -7,10 +7,9 @@ import { UserMessagesService } from '../../services/user-messages.service';
   styleUrls: ['./notification-body.component.scss'],
   encapsulation: ViewEncapsulation.ShadowDom
 })
-export class NotificationBodyComponent implements OnInit {
+export class NotificationBodyComponent {
   @Input() body: string;
 
   constructor(public userMessagesService: UserMessagesService) {}
 
-  ngOnInit(): void {}
 }
