@@ -38,9 +38,6 @@ import { UbsClientBonusesComponent } from './components/ubs-client-bonuses/ubs-c
 import { MatTabsModule } from '@angular/material/tabs';
 import { UbsAdminTableExcelPopupComponent } from './components/ubs-admin-table/ubs-admin-table-excel-popup/ubs-admin-table-excel-popup.component';
 import { DragDropModule } from '@angular/cdk/drag-drop';
-import { UbsUserOrdersListComponent } from '../ubs-user/ubs-user-orders-list/ubs-user-orders-list.component';
-import { UbsUserOrderDetailsComponent } from '../ubs-user/ubs-user-order-details/ubs-user-order-details.component';
-import { UbsUserOrdersComponent } from '../ubs-user/ubs-user-orders/ubs-user-orders.component';
 import { TableCellReadonlyComponent } from './components/ubs-admin-table/table-cell-readonly/table-cell-readonly.component';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { TableCellSelectComponent } from './components/ubs-admin-table/table-cell-select/table-cell-select.component';
@@ -73,15 +70,12 @@ import { UbsAdminTariffsDeletePopupComponent } from './components/ubs-admin-tari
     UbsAdminOrderPaymentComponent,
     UbsAdminOrderClientInfoComponent,
     UbsAdminOrderDetailsFormComponent,
-    UbsUserOrdersComponent,
     UbsProfileChangePasswordPopUpComponent,
     UbsProfileDeletePopUpComponent,
     AddViolationsComponent,
     UbsAdminCancelModalComponent,
     UbsAdminGoBackModalComponent,
     UbsClientBonusesComponent,
-    UbsUserOrdersListComponent,
-    UbsUserOrderDetailsComponent,
     TableCellReadonlyComponent,
     TableCellSelectComponent,
     TableCellDateComponent,
