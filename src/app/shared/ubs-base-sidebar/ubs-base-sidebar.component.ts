@@ -64,7 +64,7 @@ export class UbsBaseSidebarComponent implements AfterViewInit, OnInit, OnDestroy
       });
     }, 0);
   }
-  
+
   ngOnDestroy() {
     this.destroy.next();
     this.destroy.unsubscribe();
