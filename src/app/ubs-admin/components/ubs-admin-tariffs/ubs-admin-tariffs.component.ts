@@ -8,7 +8,7 @@ import { Bag } from '../../models/tariffs.interface';
 import { OrderService } from '../../../main/component/ubs/services/order.service';
 import { Locations } from '../../../main/component/ubs/models/ubs.interface';
 import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
-import { Subject, ReplaySubject } from 'rxjs';
+import { Subject } from 'rxjs';
 
 @Component({
   selector: 'app-ubs-admin-tariffs',
@@ -22,7 +22,6 @@ export class UbsAdminTariffsComponent implements OnInit, OnDestroy {
   isFetching = false;
   selectedLocationId;
   bags: Bag[];
-  private destroyed$: ReplaySubject<any> = new ReplaySubject<any>(1);
   private destroy: Subject<boolean> = new Subject<boolean>();
   public currentLanguage: string;
   public icons = {
@@ -61,7 +60,7 @@ export class UbsAdminTariffsComponent implements OnInit, OnDestroy {
   }
 
   private subscribeToLangChange(): void {
-    this.localStorageService.languageBehaviourSubject.pipe(takeUntil(this.destroyed$)).subscribe(() => {
+    this.localStorageService.languageBehaviourSubject.pipe(takeUntil(this.destroy)).subscribe(() => {
       this.currentLanguage = this.localStorageService.getCurrentLanguage();
     });
   }

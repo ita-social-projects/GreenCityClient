@@ -64,6 +64,7 @@ export class UbsAdminTariffsAddServicePopupComponent implements OnInit, OnDestro
   }
 
   ngOnDestroy() {
+    this.destroy.next();
     this.destroy.unsubscribe();
   }
 }
