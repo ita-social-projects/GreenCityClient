@@ -17,7 +17,6 @@ import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatProgressBarModule } from '@angular/material/progress-bar';
 import { UbsUserMessagesComponent } from './ubs-user-messages/ubs-user-messages.component';
 import { NotificationBodyComponent } from './ubs-user-messages/notification-body/notification-body.component';
-import { CommonModule } from '@angular/common';
 import { MaterialModule } from '../material.module';
 
 @NgModule({
