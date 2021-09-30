@@ -36,7 +36,7 @@ export class UbsAdminTableComponent implements OnInit, AfterViewChecked, OnDestr
   totalPages: number;
   pageSizeOptions: number[] = [10, 15, 20];
   currentPage = 0;
-  pageSize = 10;
+  pageSize = 25;
   ubsAdminTableIcons = ubsAdminTable;
   idsToChange: number[] = [];
   allChecked: boolean;
@@ -134,6 +134,7 @@ export class UbsAdminTableComponent implements OnInit, AfterViewChecked, OnDestr
         this.totalPages = item[`totalPages`];
         this.dataSource = new MatTableDataSource(this.tableData);
         this.isLoading = false;
+        this.isTableHeightSet = false;
       });
   }
 
