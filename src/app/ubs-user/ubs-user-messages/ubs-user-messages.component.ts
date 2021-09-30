@@ -1,4 +1,4 @@
-import { Component,OnDestroy, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { UserMessagesService } from '../services/user-messages.service';
 import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
 import { NotificationBody } from '../../ubs-admin/models/ubs-user.model';
@@ -96,7 +96,7 @@ export class UbsUserMessagesComponent implements OnInit, OnDestroy {
     this.isLoadBar = true;
     this.router.navigate(['/ubs-user/messages/' + event]);
   }
-  
+
   ngOnDestroy() {
     this.destroy.next();
     this.destroy.unsubscribe();
