@@ -1,35 +1,47 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { UbsAdminTariffsAddServicePopupComponent } from './ubs-admin-tariffs-add-service-popup/ubs-admin-tariffs-add-service-popup.component';
 import { UbsAdminTariffsDeletePopupComponent } from './ubs-admin-tariffs-delete-popup/ubs-admin-tariffs-delete-popup.component';
 import { TariffsService } from '../../services/tariffs.service';
-import { takeUntil, take } from 'rxjs/operators';
-import { Services } from '../../models/tariffs.interface';
+import { takeUntil } from 'rxjs/operators';
+import { Bag } from '../../models/tariffs.interface';
 import { OrderService } from '../../../main/component/ubs/services/order.service';
 import { Locations } from '../../../main/component/ubs/models/ubs.interface';
+import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
+import { Subject, ReplaySubject } from 'rxjs';
 
 @Component({
   selector: 'app-ubs-admin-tariffs',
   templateUrl: './ubs-admin-tariffs.component.html',
   styleUrls: ['./ubs-admin-tariffs.component.scss']
 })
-export class UbsAdminTariffsComponent implements OnInit {
+export class UbsAdminTariffsComponent implements OnInit, OnDestroy {
   minAmountOfBigBags: number;
   locations: Locations;
+  isLoadBar: boolean;
   isFetching = false;
   selectedLocationId;
-  bags: Services[];
+  bags: Bag[];
+  private destroyed$: ReplaySubject<any> = new ReplaySubject<any>(1);
+  private destroy: Subject<boolean> = new Subject<boolean>();
   public currentLanguage: string;
   public icons = {
     edit: './assets/img/profile/icons/edit.svg',
     delete: './assets/img/profile/icons/delete.svg'
   };
 
-  constructor(public dialog: MatDialog, private tariffsService: TariffsService, private orderService: OrderService) {}
+  constructor(
+    public dialog: MatDialog,
+    private tariffsService: TariffsService,
+    private orderService: OrderService,
+    private localStorageService: LocalStorageService
+  ) {}
 
   ngOnInit() {
+    this.subscribeToLangChange();
     this.getAllTariffsForService();
     this.getLocations();
+    this.closeDialog();
   }
 
   openAddServicePopup() {
@@ -42,6 +54,34 @@ export class UbsAdminTariffsComponent implements OnInit {
     });
   }
 
+  closeDialog() {
+    this.dialog.afterAllClosed.pipe(takeUntil(this.destroy)).subscribe(() => {
+      this.getAllTariffsForService();
+    });
+  }
+
+  private subscribeToLangChange(): void {
+    this.localStorageService.languageBehaviourSubject.pipe(takeUntil(this.destroyed$)).subscribe(() => {
+      this.currentLanguage = this.localStorageService.getCurrentLanguage();
+    });
+  }
+
+  getAllTariffsForService() {
+    this.isLoadBar = true;
+    this.tariffsService
+      .getAllTariffsService()
+      .pipe(takeUntil(this.destroy))
+      .subscribe((res: Bag[]) => {
+        this.bags = res;
+        this.filterBags();
+        this.isLoadBar = false;
+      });
+  }
+
+  private filterBags(): void {
+    this.bags = this.bags.filter((value) => value.languageCode === this.currentLanguage).sort((a, b) => b.price - a.price);
+  }
+
   openUpdateServicePopup() {
     this.dialog.open(UbsAdminTariffsAddServicePopupComponent, {
       hasBackdrop: true,
@@ -52,73 +92,26 @@ export class UbsAdminTariffsComponent implements OnInit {
     });
   }
 
-  openDeleteProfileDialog() {
+  openDeleteProfileDialog(bag: Bag) {
     this.dialog.open(UbsAdminTariffsDeletePopupComponent, {
-      hasBackdrop: true
+      hasBackdrop: true,
+      data: {
+        bagData: bag
+      }
     });
-  }
-
-  getAllTariffsForService() {
-    this.tariffsService
-      .getAllTariffsService()
-      // .pipe(takeUntil(this.destroy))
-      .subscribe((res: Services[]) => {
-        this.bags = res;
-        console.log(this.bags);
-      });
   }
 
   getLocations() {
-    // this.isFetching = true;
-    this.orderService.getLocations().subscribe((res: Locations) => {
-      this.locations = res;
-      // this.selectedLocationId = this.locations[0].id;
-      // this.isFetching = false;
-    });
-  }
-
-  saveLocation() {
-    const selectedLocation = { locationId: this.selectedLocationId };
     this.orderService
-      .addLocation(selectedLocation)
-      .pipe(take(1))
-      .subscribe(() => {
-        this.orderService.completedLocation(true);
+      .getLocations()
+      .pipe(takeUntil(this.destroy))
+      .subscribe((res: Locations) => {
+        this.locations = res;
       });
   }
 
-  selected(event: any) {
-    // const selectedLocation = { locationId: this.selectedLocationId };
-    const selectedLocation = { locationId: this.selectedLocationId };
-    this.orderService
-      .addLocation(selectedLocation)
-      .pipe(take(1))
-      .subscribe(() => {
-        this.orderService.completedLocation(true);
-      });
-    this.minbags();
+  ngOnDestroy() {
+    this.destroy.next();
+    this.destroy.unsubscribe();
   }
-
-  minbags() {
-    this.orderService.getOrders().subscribe((res) => {
-      this.minAmountOfBigBags = res.minAmountOfBigBags;
-      console.log(this.minAmountOfBigBags);
-    });
-  }
-
-  deleteService(services) {
-    this.tariffsService.deleteService(services.id).subscribe((res) => {
-      console.log(res);
-      console.log(services.id);
-    });
-  }
-
-  // deleteService() {
-  //   this.bags.forEach((services) => {
-  //     console.log(services.id);
-  //   });
-  // this.tariffsService.deleteService(services.id).subscribe((res) => {
-  //   console.log(res);
-  //   console.log(services.id);
-  // }
 }

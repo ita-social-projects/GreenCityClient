@@ -1,10 +1,6 @@
-<div class="city" xmlns="http://www.w3.org/1999/html">
-  <!--  <select class="city-select">-->
-  <!--    <option>м. Київ</option>-->
-  <!--    <option>Київська область</option>-->
-  <!--  </select>-->
+<div class="city">
   <form>
-    <select [(ngModel)]="selectedLocationId" name="region" class="select form-select form-select-lg" (change)="selected($event)">
+    <select [(ngModel)]="selectedLocationId" name="region" class="select form-select form-select-lg">
       <option [ngValue]="location.id" *ngFor="let location of locations">
         {{ location.name }}
       </option>
@@ -34,9 +30,9 @@
       <td>
         <img [src]="icons.edit" class="edit-button-img" alt="edit-icon" />
       </td>
-      <td>{{ minAmountOfBigBags }}</td>
       <td></td>
-      <td>Текстильні відходи Текстильні відходи Текстильні відходи Текстильні відходи Текстильні відходи</td>
+      <td></td>
+      <td></td>
       <td></td>
       <td></td>
       <td></td>
@@ -48,10 +44,13 @@
     <h4>{{ 'ubs-tariffs.tariffs_for_services' | translate }}</h4>
   </div>
   <button class="secondary-global-button" (click)="openAddServicePopup()">
-    {{ 'ubs-tariffs.btn.add_service' | translate }}
+    {{ 'ubs-tariffs.btn.add_service2' | translate }}
   </button>
 </div>
 <div class="tariffs-table">
+  <div class="load-bar" *ngIf="isLoadBar">
+    <mat-progress-bar class="custom-bar" mode="indeterminate"></mat-progress-bar>
+  </div>
   <table>
     <tr>
       <th></th>
@@ -62,20 +61,19 @@
       <th>{{ 'ubs-tariffs.carriers_commission' | translate }}</th>
       <th>{{ 'ubs-tariffs.full_cost' | translate }}</th>
     </tr>
-    <tr *ngFor="let services of bags">
+    <tr *ngFor="let bag of bags">
       <td style="padding-left: 0">
         <div class="image-buttons">
           <img [src]="icons.edit" class="edit-button-img" alt="edit-icon" />
-          <img [src]="icons.delete" class="delete-button-img" alt="edit-icon" (click)="deleteService(services)" />
-          <!--          (click)="openDeleteProfileDialog()"-->
+          <img [src]="icons.delete" class="delete-button-img" alt="edit-icon" (click)="openDeleteProfileDialog(bag)" />
         </div>
       </td>
-      <td>{{ services.name }}</td>
-      <td>{{ services.capacity }}</td>
-      <td>{{ services.description }}</td>
-      <td>{{ services.price }}</td>
-      <td>{{ services.commission }}</td>
-      <td>{{ services.fullPrice }}</td>
+      <td>{{ bag.name }}</td>
+      <td>{{ bag.capacity | volume }}</td>
+      <td>{{ bag.description }}</td>
+      <td>{{ bag.price | currency | localizedCurrency }}</td>
+      <td>{{ bag.commission | currency | localizedCurrency }}</td>
+      <td>{{ bag.fullPrice | currency | localizedCurrency }}</td>
     </tr>
   </table>
 </div>

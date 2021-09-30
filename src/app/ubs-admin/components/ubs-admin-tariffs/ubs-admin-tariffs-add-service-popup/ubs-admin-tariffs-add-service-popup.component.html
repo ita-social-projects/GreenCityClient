@@ -1,10 +1,10 @@
-<div class="close-button">
+<div class="close-button" xmlns="http://www.w3.org/1999/html">
   <img mat-dialog-close [src]="icons.close" class="close-button-img" alt="close-icon" />
 </div>
 <div class="dialog-container">
   <div class="main-content">
     <div class="header-text">
-      <h4>{{ 'ubs-tariffs.btn.add_service' | translate }}</h4>
+      <h4>{{ 'ubs-tariffs.btn.add_service2' | translate }}</h4>
     </div>
     <form [formGroup]="addServiceForm">
       <div class="service">
@@ -19,37 +19,45 @@
       </div>
       <div class="row4">
         <div class="capacity-input">
-          <label class="form-label" for="capacity">Обєм</label>
-          <input type="text" formControlName="capacity" id="capacity" />
+          <label class="form-label" for="capacity">{{ 'ubs-tariffs-add-service.capacity' | translate }}</label>
+          <input type="text" formControlName="capacity" maxlength="3" id="capacity" />
         </div>
         <div class="basic-cost-input">
-          <label for="price" class="form-label">Базова вартість</label>
-          <input type="text" formControlName="price" id="price" />
+          <label for="price" class="form-label">{{ 'ubs-tariffs-add-service.basic_cost' | translate }}</label>
+          <input type="text" formControlName="price" maxlength="3" id="price" />
         </div>
         <div class="courier-input">
-          <label for="commission" class="form-label">Убс курєр</label>
-          <input type="text" formControlName="commission" id="commission" />
+          <label for="commission" class="form-label">{{ 'ubs-tariffs-add-service.commission' | translate }}</label>
+          <input type="text" formControlName="commission" maxlength="3" id="commission" />
         </div>
         <div class="full-cost-input">
-          <label for="fullCost" class="form-label">Повна вартість</label>
-          <input type="text" formControlName="fullCost" id="fullCost" />
+          <label for="fullCost" class="form-label">{{ 'ubs-tariffs-add-service.full_cost' | translate }}</label>
+          <input type="text" maxlength="3" id="fullCost" disabled />
         </div>
       </div>
       <div class="service-description">
         <label for="description">{{ 'ubs-tariffs-add-service.service_description' | translate }}</label>
-        <input
+        <textarea
           class="description-input"
           type="text"
           formControlName="description"
           id="description"
           placeholder="{{ 'ubs-tariffs-add-service.placeholder-text' | translate }}"
-        />
+        >
+        </textarea>
       </div>
     </form>
   </div>
   <div class="buttons">
     <button mat-dialog-close class="secondary-global-button" type="button">{{ 'ubs-tariffs-add-service.btn.cancel' | translate }}</button>
-    <button class="primary-global-button submit" type="submit" *ngIf="data.button === 'add'" (click)="addNewService()">
+    <button
+      class="primary-global-button submit"
+      type="submit"
+      *ngIf="data.button === 'add'"
+      [disabled]="addServiceForm.invalid"
+      (click)="addNewService()"
+    >
+      <span *ngIf="loadingAnim" class="spinner-border spinner-border-sm" role="status" aria-hidden="true"> </span>
       {{ 'ubs-tariffs-add-service.btn.add' | translate }}
     </button>
     <button type="button" *ngIf="data.button === 'update'" class="primary-global-button submit">Update</button>

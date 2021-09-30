@@ -279,6 +279,7 @@
     "placeholder_order_limits_info": "Information about order limits, which will be displayed in the order form",
     "btn": {
       "add_service": "Add service",
+      "add_service2": "Add service",
       "save_changes": "Save changes",
       "add_carrier": "Add carrier"
     }
@@ -289,7 +290,7 @@
     "placeholder-service": "Enter a name for the service",
     "capacity": "Capacity",
     "basic_cost": "Basic cost",
-    "ubs_courier": "Ubs courier",
+    "commission": "Сommission",
     "full_cost": "Full cost",
     "service_description": "Service description",
     "placeholder-text": "Describe what exactly is included in the service and the conditions / rules of its provision",
@@ -298,5 +299,10 @@
       "add": "Add",
       "cancel": "Cancel"
     }
+  },
+  "ubs-tariffs-delete-service": {
+    "delete_question": "Delete this line?",
+    "yes": "yes",
+    "no": "no"
   }
 }

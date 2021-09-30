@@ -1,4 +1,4 @@
-export interface Services {
+export interface Bag {
   name: string;
   capacity: number;
   price: number;
@@ -7,4 +7,6 @@ export interface Services {
   languageId: 1;
   id?: number;
   fullPrice?: number;
+  languageCode?: string;
+  quantity?: number;
 }
