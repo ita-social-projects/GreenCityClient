@@ -1,15 +1,17 @@
-import { Component, OnInit } from '@angular/core';
+import { Component,OnDestroy, OnInit } from '@angular/core';
 import { UserMessagesService } from '../services/user-messages.service';
 import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
 import { NotificationBody } from '../../ubs-admin/models/ubs-user.model';
 import { ActivatedRoute, Router } from '@angular/router';
+import { Subject } from 'rxjs';
+import { takeUntil } from 'rxjs/operators';
 
 @Component({
   selector: 'app-ubs-user-messages',
   templateUrl: './ubs-user-messages.component.html',
   styleUrls: ['./ubs-user-messages.component.scss']
 })
-export class UbsUserMessagesComponent implements OnInit {
+export class UbsUserMessagesComponent implements OnInit, OnDestroy {
   isAnyMessages = true;
   notifications: NotificationBody[];
   panelOpenState = false;
@@ -21,6 +23,7 @@ export class UbsUserMessagesComponent implements OnInit {
   isLoadSmallSpinner: boolean;
   isLoadBar: boolean;
   public countOfMessages: number;
+  destroy: Subject<boolean> = new Subject<boolean>();
   localization = {
     title: 'ubs-user-notification.title',
     id: 'ubs-user-notification.title-table.number',
@@ -45,7 +48,9 @@ export class UbsUserMessagesComponent implements OnInit {
   }
 
   fetchNotification(): void {
-    this.userMessagesService.getNotification(this.language, this.page - 1, this.pageSize).subscribe(
+    this.userMessagesService.getNotification(this.language, this.page - 1, this.pageSize)
+      .pipe(takeUntil(this.destroy))
+      .subscribe(
       (response) => {
         this.notifications = response.page;
         this.count = response.totalElements;
@@ -75,7 +80,9 @@ export class UbsUserMessagesComponent implements OnInit {
         }
       });
       this.isLoadSmallSpinner = true;
-      this.userMessagesService.setReadNotification(notificationId, this.language).subscribe((response) => {
+      this.userMessagesService.setReadNotification(notificationId, this.language)
+        .pipe(takeUntil(this.destroy))
+        .subscribe((response) => {
         const findNotification = this.notifications.find((item) => item.id === notificationId);
         findNotification.body = response.body;
         findNotification.isOpen = true;
@@ -87,5 +94,10 @@ export class UbsUserMessagesComponent implements OnInit {
   onTableDataChange(event) {
     this.isLoadBar = true;
     this.router.navigate(['/ubs-user/messages/' + event]);
+  }
+  
+  ngOnDestroy() {
+    this.destroy.next();
+    this.destroy.unsubscribe();
   }
 }
