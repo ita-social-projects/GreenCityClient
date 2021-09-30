@@ -1,5 +1,5 @@
 import { BreakpointObserver } from '@angular/cdk/layout';
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { UbsBaseSidebarComponent } from 'src/app/shared/ubs-base-sidebar/ubs-base-sidebar.component';
 import { UserMessagesService } from '../services/user-messages.service';
 
@@ -7,7 +7,7 @@ import { UserMessagesService } from '../services/user-messages.service';
   selector: 'app-ubs-user-sidebar',
   templateUrl: './ubs-user-sidebar.component.html'
 })
-export class UbsUserSidebarComponent extends UbsBaseSidebarComponent implements OnInit {
+export class UbsUserSidebarComponent extends UbsBaseSidebarComponent {
   public listElementsUser: any[] = [
     {
       link: 'assets/img/sidebarIcons/shopping-cart_icon.svg',
@@ -35,5 +35,4 @@ export class UbsUserSidebarComponent extends UbsBaseSidebarComponent implements 
     super(service, breakpointObserver);
   }
 
-  ngOnInit(): void {}
 }
