@@ -229,18 +229,4 @@ img {
 
 .form-select:empty {
   width: 152px;
-  animation: loading 3.1s infinite linear;
-  background: #dedfe1;
-  background-image: -webkit-linear-gradient(to right, #dedfe1 0%, #f2f3f5 20%, #dedfe1 40%, #dedfe1 100%);
-  background-image: linear-gradient(to right, #dedfe1 0%, #f2f3f5 20%, #dedfe1 40%, #dedfe1 100%);
-  background-repeat: no-repeat;
-}
-
-@keyframes loading {
-  0% {
-    background-position: -100px;
-  }
-  100% {
-    background-position: 200px;
-  }
 }
