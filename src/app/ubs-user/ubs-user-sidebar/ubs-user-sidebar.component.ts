@@ -34,5 +34,4 @@ export class UbsUserSidebarComponent extends UbsBaseSidebarComponent {
   constructor(public service: UserMessagesService, public breakpointObserver: BreakpointObserver) {
     super(service, breakpointObserver);
   }
-
 }
