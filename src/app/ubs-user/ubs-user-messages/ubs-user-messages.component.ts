@@ -11,6 +11,7 @@ import { takeUntil } from 'rxjs/operators';
   templateUrl: './ubs-user-messages.component.html',
   styleUrls: ['./ubs-user-messages.component.scss']
 })
+
 export class UbsUserMessagesComponent implements OnInit, OnDestroy {
   isAnyMessages = true;
   notifications: NotificationBody[];
