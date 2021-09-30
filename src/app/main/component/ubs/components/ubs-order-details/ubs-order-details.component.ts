@@ -37,7 +37,6 @@ export class UBSOrderDetailsComponent extends FormBaseComponent implements OnIni
   points: number;
   displayMinOrderMes = false;
   displayMinBigBagsMes = false;
-  certBtnActivate = false;
   displayMes = false;
   displayCert = false;
   displayShop = false;
@@ -56,6 +55,7 @@ export class UBSOrderDetailsComponent extends FormBaseComponent implements OnIni
   certificateLeft = 0;
   certDate: string;
   certStatus: string;
+  failedCert = false;
   userOrder: FinalOrder;
   object: {};
   private destroy: Subject<boolean> = new Subject<boolean>();
@@ -103,11 +103,10 @@ export class UBSOrderDetailsComponent extends FormBaseComponent implements OnIni
 
   initForm() {
     this.orderDetailsForm = this.fb.group({
-      certificate: new FormControl('', [Validators.minLength(8), Validators.pattern(this.certificatePattern)]),
       orderComment: new FormControl(''),
       bonus: new FormControl('no'),
       shop: new FormControl('no'),
-      additionalCertificates: this.fb.array([]),
+      formArrayCertificates: this.fb.array([new FormControl('', [Validators.minLength(8), Validators.pattern(this.certificatePattern)])]),
       additionalOrders: this.fb.array(['']),
       orderSum: new FormControl(0, [Validators.required, Validators.min(500)])
     });
@@ -202,12 +201,8 @@ export class UBSOrderDetailsComponent extends FormBaseComponent implements OnIni
     this.shareFormService.changeOrderDetails();
   }
 
-  get certificate() {
-    return this.orderDetailsForm.get('certificate');
-  }
-
-  get additionalCertificates() {
-    return this.orderDetailsForm.get('additionalCertificates') as FormArray;
+  get formArrayCertificates() {
+    return this.orderDetailsForm.get('formArrayCertificates') as FormArray;
   }
 
   get additionalOrders() {
@@ -251,6 +246,10 @@ export class UBSOrderDetailsComponent extends FormBaseComponent implements OnIni
         this.points = this.orders.points;
       }
       this.bonusesRemaining = this.certificateSum > 0;
+    } else {
+      this.certificateLeft = 0;
+      this.finalSum = this.total - this.certificateSum - this.pointsUsed;
+      this.showCertificateUsed = this.certificateSum;
     }
     this.changeOrderDetails();
   }
@@ -394,35 +393,53 @@ export class UBSOrderDetailsComponent extends FormBaseComponent implements OnIni
   }
 
   disableAddCertificate() {
-    return this.certificates.length === this.additionalCertificates.length;
+    return this.certificates.length === this.formArrayCertificates.length;
   }
 
-  addCertificate(): void {
-    this.additionalCertificates.push(this.fb.control('', [Validators.minLength(8), Validators.pattern(/(?!0000)\d{4}-(?!0000)\d{4}/)]));
+  addNewCertificate(): void {
+    this.formArrayCertificates.push(this.fb.control('', [Validators.minLength(8), Validators.pattern(this.certificatePattern)]));
   }
 
   private clearAdditionalCertificate(index: number) {
-    this.additionalCertificates.removeAt(index);
+    if (this.formArrayCertificates.length > 1) {
+      if (this.certificates.length === 0) {
+        this.certificateSum = 0;
+      }
+      this.formArrayCertificates.removeAt(index);
+    } else {
+      this.certificateReset(true);
+      this.formArrayCertificates.patchValue(['']);
+      this.formArrayCertificates.markAsUntouched();
+    }
     this.certStatuses.splice(index, 1);
     this.calculateCertificates(this.certificates);
   }
 
   deleteCertificate(index: number): void {
-    if (this.displayCert === false) {
-      this.certificates.splice(index, 1);
-      this.clearAdditionalCertificate(index);
-    } else {
-      this.certificates.splice(index + 1, 1);
-      this.clearAdditionalCertificate(index);
-    }
+    this.certificates.splice(index, 1);
+    this.clearAdditionalCertificate(index);
+    this.certificateError = false;
   }
 
-  addedCertificateSubmit(index: number): void {
-    if (!this.certificates.includes(this.additionalCertificates.value[index])) {
-      this.certificates.push(this.additionalCertificates.value[index]);
+  certificateSubmit(index: number): void {
+    if (!this.certificates.includes(this.formArrayCertificates.value[index])) {
+      this.certificates.push(this.formArrayCertificates.value[index]);
       this.certStatuses.push(true);
       this.calculateCertificates(this.certificates);
     }
+  }
+  showCancelButton(i: number) {
+    return (
+      (this.certStatuses[i] && this.formArrayCertificates.controls[i].value) ||
+      (this.formArrayCertificates.controls.length > 1 && !this.formArrayCertificates.controls[i].value.length)
+    );
+  }
+
+  showActivateButton(i: number) {
+    return (
+      (!this.certStatuses[i] && this.formArrayCertificates.controls[i].value && !this.disableAddCertificate()) ||
+      (this.formArrayCertificates.controls.length === 1 && !this.formArrayCertificates.controls[i].value.length)
+    );
   }
 
   calculateCertificates(arr): void {
@@ -438,12 +455,10 @@ export class UBSOrderDetailsComponent extends FormBaseComponent implements OnIni
               if (this.total < this.certificateSum) {
                 this.certSize = true;
               }
-              this.certificateError = false;
               this.calculateTotal();
               this.cancelCertBtn = false;
             },
             (error) => {
-              this.certBtnActivate = false;
               this.cancelCertBtn = false;
               if (error.status === 404) {
                 arr.splice(index, 1);
@@ -456,16 +471,6 @@ export class UBSOrderDetailsComponent extends FormBaseComponent implements OnIni
       this.calculateTotal();
     }
     this.certificateSum = 0;
-  }
-
-  certificateSubmit(): void {
-    if (!this.certificates.includes(this.orderDetailsForm.value.certificate)) {
-      this.certBtnActivate = true;
-      this.certificates.push(this.orderDetailsForm.value.certificate);
-      this.calculateCertificates(this.certificates);
-    } else {
-      this.orderDetailsForm.patchValue({ certificate: '' });
-    }
   }
 
   certificateReset(resetMessage: boolean): void {
@@ -483,7 +488,7 @@ export class UBSOrderDetailsComponent extends FormBaseComponent implements OnIni
     this.certSize = false;
     this.certificateLeft = 0;
     this.certificateSum = 0;
-    this.orderDetailsForm.patchValue({ certificate: '' });
+    this.formArrayCertificates.patchValue(['']);
     this.calculateCertificates(this.certificates);
   }
 
@@ -493,12 +498,10 @@ export class UBSOrderDetailsComponent extends FormBaseComponent implements OnIni
       this.displayCert = true;
       this.addCert = true;
     }
-    if (cert.certificateStatus === CertificateStatus.EXPIRED || cert.certificateStatus === CertificateStatus.USED) {
-      this.addCert = true;
-    }
+    this.failedCert = cert.certificateStatus === CertificateStatus.EXPIRED || cert.certificateStatus === CertificateStatus.USED;
+    this.certificateSum = this.failedCert && this.formArrayCertificates.length === 1 ? 0 : this.certificateSum;
     this.certDate = this.certificateDateTreat(cert.certificateDate);
     this.certStatus = cert.certificateStatus;
-    this.certBtnActivate = false;
   }
 
   private certificateDateTreat(date: string) {
