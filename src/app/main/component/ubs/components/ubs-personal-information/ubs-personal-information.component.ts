@@ -27,7 +27,7 @@ export class UBSPersonalInformationComponent extends FormBaseComponent implement
   namePattern = /^[A-Za-zА-Яа-яЯїЇіІєЄёЁ\.\'\-\\]+$/;
   phoneMask = '+{38} (000) 000 00 00';
   firstOrder = true;
-  anotherRecipient = false;
+  anotherClient = false;
   private destroy: Subject<boolean> = new Subject<boolean>();
   popupConfig = {
     hasBackdrop: true,
@@ -94,22 +94,16 @@ export class UBSPersonalInformationComponent extends FormBaseComponent implement
 
   initForm() {
     this.personalDataForm = this.fb.group({
-      firstName: new FormControl('', [
-        Validators.required,
-        Validators.minLength(1),
-        Validators.maxLength(30),
-        Validators.pattern(this.namePattern)
-      ]),
-      lastName: new FormControl('', [
-        Validators.required,
-        Validators.minLength(1),
-        Validators.maxLength(30),
-        Validators.pattern(this.namePattern)
-      ]),
-      email: new FormControl('', [Validators.required, Validators.email]),
-      phoneNumber: new FormControl('+38 0', [Validators.required, Validators.minLength(12)]),
-      address: new FormControl('', Validators.required),
-      addressComment: new FormControl('', Validators.maxLength(255))
+      firstName: ['', [Validators.required, Validators.minLength(1), Validators.maxLength(30), Validators.pattern(this.namePattern)]],
+      lastName: ['', [Validators.required, Validators.minLength(1), Validators.maxLength(30), Validators.pattern(this.namePattern)]],
+      email: ['', [Validators.required, Validators.email]],
+      phoneNumber: ['+38 0', [Validators.required, Validators.minLength(12)]],
+      anotherClientFirstName: ['', [Validators.minLength(1), Validators.maxLength(30), Validators.pattern(this.namePattern)]],
+      anotherClientLastName: ['', [Validators.minLength(1), Validators.maxLength(30), Validators.pattern(this.namePattern)]],
+      anotherClientEmail: ['', Validators.email],
+      anotherClientPhoneNumber: ['', [Validators.minLength(12)]],
+      address: ['', Validators.required],
+      addressComment: ['', Validators.maxLength(255)]
     });
   }
 
@@ -154,6 +148,10 @@ export class UBSPersonalInformationComponent extends FormBaseComponent implement
       phoneNumber: '380' + this.personalData.phoneNumber,
       addressComment: this.personalData.addressComment
     });
+  }
+
+  togglClient(): void {
+    this.anotherClient = !this.anotherClient;
   }
 
   editAddress(addressId: number) {
