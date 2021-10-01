@@ -1,5 +1,5 @@
 import { Component, DoCheck, Input, OnDestroy, OnInit } from '@angular/core';
-import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
+import { FormBuilder, FormControl, FormGroup, ValidatorFn, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { FormBaseComponent } from '@shared/components/form-base/form-base.component';
 import { takeUntil } from 'rxjs/operators';
@@ -29,6 +29,12 @@ export class UBSPersonalInformationComponent extends FormBaseComponent implement
   firstOrder = true;
   anotherClient = false;
   private destroy: Subject<boolean> = new Subject<boolean>();
+  private personalDataFormValidators: ValidatorFn[] = [
+    Validators.required,
+    Validators.minLength(1),
+    Validators.maxLength(30),
+    Validators.pattern(this.namePattern)
+  ];
   popupConfig = {
     hasBackdrop: true,
     closeOnNavigation: true,
@@ -94,14 +100,14 @@ export class UBSPersonalInformationComponent extends FormBaseComponent implement
 
   initForm() {
     this.personalDataForm = this.fb.group({
-      firstName: ['', [Validators.required, Validators.minLength(1), Validators.maxLength(30), Validators.pattern(this.namePattern)]],
-      lastName: ['', [Validators.required, Validators.minLength(1), Validators.maxLength(30), Validators.pattern(this.namePattern)]],
+      firstName: ['', this.personalDataFormValidators],
+      lastName: ['', this.personalDataFormValidators],
       email: ['', [Validators.required, Validators.email]],
       phoneNumber: ['+38 0', [Validators.required, Validators.minLength(12)]],
-      anotherClientFirstName: ['', [Validators.minLength(1), Validators.maxLength(30), Validators.pattern(this.namePattern)]],
-      anotherClientLastName: ['', [Validators.minLength(1), Validators.maxLength(30), Validators.pattern(this.namePattern)]],
+      anotherClientFirstName: [''],
+      anotherClientLastName: [''],
       anotherClientEmail: ['', Validators.email],
-      anotherClientPhoneNumber: ['', [Validators.minLength(12)]],
+      anotherClientPhoneNumber: [''],
       address: ['', Validators.required],
       addressComment: ['', Validators.maxLength(255)]
     });
@@ -151,7 +157,27 @@ export class UBSPersonalInformationComponent extends FormBaseComponent implement
   }
 
   togglClient(): void {
+    const anotherClientFirstName = this.getControl('anotherClientFirstName');
+    const anotherClientLastName = this.getControl('anotherClientLastName');
+    const anotherClientPhoneNumber = this.getControl('anotherClientPhoneNumber');
+    const anotherClientEmail = this.getControl('anotherClientEmail');
     this.anotherClient = !this.anotherClient;
+    if (this.anotherClient) {
+      anotherClientFirstName.setValidators(this.personalDataFormValidators);
+      anotherClientLastName.setValidators(this.personalDataFormValidators);
+      anotherClientPhoneNumber.setValidators([Validators.required, Validators.minLength(12)]);
+    } else {
+      anotherClientFirstName.setValue('');
+      anotherClientFirstName.clearValidators();
+      anotherClientLastName.setValue('');
+      anotherClientLastName.clearValidators();
+      anotherClientPhoneNumber.setValue('');
+      anotherClientPhoneNumber.clearValidators();
+      anotherClientEmail.setValue('');
+    }
+    anotherClientFirstName.updateValueAndValidity();
+    anotherClientLastName.updateValueAndValidity();
+    anotherClientPhoneNumber.updateValueAndValidity();
   }
 
   editAddress(addressId: number) {
