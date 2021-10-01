@@ -82,6 +82,7 @@
           [title]="row[column.title.key]"
           [lang]="currentLang"
           [date]="column.title.key"
+          (click)="column.title.key === 'orderid' && openOrder(row)"
           class="column_cell"
         >
         </app-table-cell-readonly>

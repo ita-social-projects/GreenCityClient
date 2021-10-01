@@ -16,8 +16,6 @@ export class UbsAdminGoBackModalComponent {
 
   discardChanges(): void {
     this.dialogRef.close();
-    this.dialogRef.afterClosed().subscribe((result) => {
-      this.router.navigate(['/orders']);
-    });
+    this.router.navigate(['ubs-admin', 'orders']);
   }
 }

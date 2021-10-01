@@ -1,4 +1,4 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Component, Input, OnDestroy, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { Subject } from 'rxjs';
 import { OrderService } from '../../services/order.service';
@@ -11,7 +11,8 @@ import { takeUntil } from 'rxjs/operators';
   styleUrls: ['./ubs-admin-order-status.component.scss']
 })
 export class UbsAdminOrderStatusComponent implements OnInit, OnDestroy {
-  public orderId = 893;
+  @Input() order;
+
   public detailStatusForm: FormGroup;
   public detailStatus: IDetailStatus;
   private destroy$: Subject<boolean> = new Subject<boolean>();
@@ -37,7 +38,7 @@ export class UbsAdminOrderStatusComponent implements OnInit, OnDestroy {
 
   public getOrderDetailStatus(): void {
     this.orderService
-      .getOrderDetailStatus(this.orderId)
+      .getOrderDetailStatus(this.order.orderid)
       .pipe(takeUntil(this.destroy$))
       .subscribe((data: IDetailStatus) => {
         this.detailStatus = data;

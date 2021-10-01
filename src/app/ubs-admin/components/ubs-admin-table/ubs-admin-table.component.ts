@@ -1,6 +1,6 @@
 import { UbsAdminTableExcelPopupComponent } from './ubs-admin-table-excel-popup/ubs-admin-table-excel-popup.component';
 import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
-import { nonSortableColumns } from './../../models/non-sortable-columns.model';
+import { nonSortableColumns } from '../../models/non-sortable-columns.model';
 import { AdminTableService } from '../../services/admin-table.service';
 import { CdkDragDrop, moveItemInArray } from '@angular/cdk/drag-drop';
 import { Component, OnInit, ViewChild, OnDestroy } from '@angular/core';
@@ -10,6 +10,7 @@ import { MatTableDataSource } from '@angular/material/table';
 import { SelectionModel } from '@angular/cdk/collections';
 import { ubsAdminTable } from '../ubs-image-pathes/ubs-admin-table';
 import { MatSort } from '@angular/material/sort';
+import { Router } from '@angular/router';
 import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
 import { IEditCell } from '../../models/edit-cell.model';
 
@@ -45,7 +46,12 @@ export class UbsAdminTableComponent implements OnInit, OnDestroy {
   tableViewHeaders = [];
   @ViewChild(MatSort, { static: true }) sort: MatSort;
 
-  constructor(private adminTableService: AdminTableService, public dialog: MatDialog, private localStorageService: LocalStorageService) {}
+  constructor(
+    private router: Router,
+    private adminTableService: AdminTableService,
+    public dialog: MatDialog,
+    private localStorageService: LocalStorageService
+  ) {}
 
   ngOnInit() {
     this.localStorageService.languageBehaviourSubject.pipe(takeUntil(this.destroy)).subscribe((lang) => {
@@ -251,6 +257,10 @@ export class UbsAdminTableComponent implements OnInit, OnDestroy {
         this.idsToChange = [];
       }
     );
+  }
+
+  openOrder(row): void {
+    this.router.navigate(['ubs-admin', 'order'], { state: { order: row } });
   }
 
   ngOnDestroy() {
