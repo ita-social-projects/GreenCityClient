@@ -1,5 +1,4 @@
-import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
-import { RouterOutlet } from '@angular/router';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
 import { TranslateService } from '@ngx-translate/core';
 import { Subject, Subscription } from 'rxjs';
@@ -21,9 +20,8 @@ export class FriendDashboardComponent implements OnInit, OnDestroy {
   public searchTerm$: Subject<string> = new Subject();
   public searchIcon = searchIcon;
   public hideInput = true;
+  private componentRef;
   constructor(private localStorageService: LocalStorageService, private translate: TranslateService) {}
-
-  @ViewChild(RouterOutlet) outlet: RouterOutlet;
 
   ngOnInit() {
     this.initUser();
@@ -43,19 +41,21 @@ export class FriendDashboardComponent implements OnInit, OnDestroy {
     this.searchTerm$.next(input.value);
   }
 
+  public onActivate(outlet): void {
+    this.componentRef = outlet;
+  }
+
   public searchForFriends(searchText: string): void {
-    if (this.outlet.component instanceof RecommendedFriendsComponent) {
-      this.outlet.component.findUserByName(searchText);
+    if (this.componentRef instanceof RecommendedFriendsComponent) {
+      this.componentRef.findUserByName(searchText);
     }
-    if (this.outlet.component instanceof AllFriendsComponent) {
-      this.outlet.component.findFriendByName(searchText);
+    if (this.componentRef instanceof AllFriendsComponent) {
+      this.componentRef.findFriendByName(searchText);
     }
   }
 
-  public hideInputField() {
-    setTimeout(() => {
-      this.hideInput = this.outlet?.component instanceof FriendRequestsComponent;
-    });
+  public hideInputField(): void {
+    this.hideInput = this.componentRef instanceof FriendRequestsComponent;
   }
 
   public initUser(): void {
