@@ -1,0 +1,16 @@
+<h1 mat-dialog-title>{{ 'export-excel-popup.select-data' | translate }}</h1>
+<div [ngClass]="{ 'disabled-class': isLoading }">
+  <mat-radio-group ngDefaultControl aria-label="Select an option" [(ngModel)]="tableView">
+    <mat-radio-button value="currentFilter" disabled>{{ 'export-excel-popup.current' | translate }}</mat-radio-button>
+    <mat-radio-button value="wholeTable">{{ 'export-excel-popup.all' | translate }}</mat-radio-button>
+  </mat-radio-group>
+  <div class="d-flex justify-content-end" mat-dialog-actions>
+    <button class="secondary-global-button btn m-0 mr-2" mat-dialog-close>
+      {{ 'export-excel-popup.buttons.cancel' | translate }}
+    </button>
+    <button class="primary-global-button btn m-0" (click)="saveTable()">
+      {{ 'export-excel-popup.buttons.next' | translate }}
+    </button>
+  </div>
+</div>
+<app-spinner *ngIf="isLoading"></app-spinner>

@@ -71,7 +71,7 @@
   <div class="row personal-data" *ngIf="anotherRecipient">
     <div class="col-12 col-sm-6 form-group">
       <label>{{ 'personal-info.info-name' | translate }}</label>
-      <input type="text" class="shadow-none form-control" />
+      <input formControlName="firstName" type="text" class="shadow-none form-control" />
     </div>
     <div class="col-12 col-sm-6 form-group">
       <label>{{ 'personal-info.info-phone' | translate }}</label>
