@@ -1,6 +1,6 @@
 <div>
   <div class="friends-list">
-    <div class="container">
+    <div *ngIf="!searchMode || !isFetching" class="container">
       <div *ngFor="let friend of friends">
         <app-friend-item
           [friend]="friend"

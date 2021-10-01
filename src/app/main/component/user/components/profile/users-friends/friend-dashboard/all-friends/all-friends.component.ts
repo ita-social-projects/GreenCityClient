@@ -21,6 +21,7 @@ export class AllFriendsComponent implements OnInit, OnDestroy {
   public emptySearchList = false;
   public searchQuery = '';
   public isFetching = false;
+  public searchMode = false;
   readonly absent = 'assets/img/noNews.jpg';
 
   constructor(
@@ -57,6 +58,7 @@ export class AllFriendsComponent implements OnInit, OnDestroy {
   public findFriendByName(value: string): void {
     this.isFetching = true;
     this.searchQuery = value;
+    this.searchMode = true;
     this.userFriendsService
       .findFriendByName(value)
       .pipe(takeUntil(this.destroy$))
@@ -65,10 +67,12 @@ export class AllFriendsComponent implements OnInit, OnDestroy {
           this.emptySearchList = !data.page.length;
           this.friends = data.page;
           this.isFetching = false;
+          this.searchMode = false;
         },
         (error) => {
           this.matSnackBar.openSnackBar('snack-bar.error.default');
           this.isFetching = false;
+          this.searchMode = false;
         }
       );
   }

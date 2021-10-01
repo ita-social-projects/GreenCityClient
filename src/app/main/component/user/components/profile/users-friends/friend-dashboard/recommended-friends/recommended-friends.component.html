@@ -1,6 +1,6 @@
 <div>
   <div class="friends-recommended-list">
-    <div class="container">
+    <div *ngIf="!searchMode || !isFetching" class="container">
       <div *ngFor="let item of recommendedFriends">
         <app-friend-item [friend]="item" (friendEventEmit)="addFriend($event)" btnName="{{ 'profile.friends.add-new-friend' | translate }}">
         </app-friend-item>
@@ -17,14 +17,6 @@
     <div class="img-absent">
       <img [src]="absent" alt="absent-friends" />
     </div>
-    <div>
-      <!-- <div 
-        class="search_not-found-text" 
-        *ngIf="!recommendedFriends.length&&!isFetching">
-        {{'search.search-not-found.not-found-text'|translate: {searchQuery: searchQuery} }}
-      </div> -->
-
-      <!-- <p *ngIf="!emptySearchList" class="noFriends">{{ 'profile.zero-friends' | translate }}</p>  -->
-    </div>
+    <div></div>
   </div>
 </div>

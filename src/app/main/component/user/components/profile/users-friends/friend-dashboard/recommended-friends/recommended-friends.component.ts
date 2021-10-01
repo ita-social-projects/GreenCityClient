@@ -22,6 +22,7 @@ export class RecommendedFriendsComponent implements OnInit, OnDestroy {
   public emptySearchList = false;
   public sizePage: number = 10;
   public searchQuery = '';
+  public searchMode = false;
   readonly absent = 'assets/img/noNews.jpg';
   constructor(
     private userFriendsService: UserFriendsService,
@@ -31,12 +32,13 @@ export class RecommendedFriendsComponent implements OnInit, OnDestroy {
 
   ngOnInit() {
     this.initUser();
-    this.getRecommendedFriends(this.userId, this.currentPage);
+    this.getPossibleFriends(this.userId, this.currentPage);
   }
 
   public findUserByName(value: string) {
     this.searchQuery = value;
     this.isFetching = true;
+    this.searchMode = true;
     this.userFriendsService
       .findNewFriendsByName(value)
       .pipe(takeUntil(this.destroy$))
@@ -45,10 +47,12 @@ export class RecommendedFriendsComponent implements OnInit, OnDestroy {
           this.emptySearchList = !data.page.length;
           this.recommendedFriends = data.page;
           this.isFetching = false;
+          this.searchMode = false;
         },
         (error) => {
           this.matSnackBar.openSnackBar('snack-bar.error.default');
           this.isFetching = false;
+          this.searchMode = false;
         }
       );
   }
@@ -58,9 +62,9 @@ export class RecommendedFriendsComponent implements OnInit, OnDestroy {
     array.splice(indexAddedFriend, 1);
   }
 
-  public getRecommendedFriends(userId: number, currentPage: number) {
+  public getPossibleFriends(userId: number, currentPage: number) {
     this.isFetching = true;
-    this.userFriendsService.getRecommendedNewFriends(userId, currentPage).subscribe(
+    this.userFriendsService.getPossibleFriends(userId, currentPage).subscribe(
       (data: FriendArrayModel) => {
         this.totalPages = data.totalPages;
         this.recommendedFriends = this.recommendedFriends.concat(data.page);
@@ -79,7 +83,7 @@ export class RecommendedFriendsComponent implements OnInit, OnDestroy {
     this.scroll = true;
     if (this.currentPage <= this.totalPages) {
       this.currentPage += 1;
-      this.getRecommendedFriends(this.userId, this.currentPage);
+      this.getPossibleFriends(this.userId, this.currentPage);
     }
   }
 

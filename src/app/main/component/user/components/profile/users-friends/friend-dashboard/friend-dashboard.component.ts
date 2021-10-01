@@ -40,7 +40,6 @@ export class FriendDashboardComponent implements OnInit, OnDestroy {
   }
 
   public onInput(input): void {
-    if (input.value === '') return;
     this.searchTerm$.next(input.value);
   }
 
