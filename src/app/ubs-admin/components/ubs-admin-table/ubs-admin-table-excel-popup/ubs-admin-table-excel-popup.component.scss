@@ -1,0 +1,43 @@
+.mat-radio-button {
+  display: block;
+
+  ::ng-deep &.mat-accent.mat-radio-checked .mat-radio-outer-circle {
+    border-color: var(--primary-green);
+  }
+
+  ::ng-deep &.mat-accent .mat-radio-inner-circle {
+    background-color: var(--primary-green);
+  }
+
+  ::ng-deep &.mat-accent .mat-radio-ripple .mat-ripple-element {
+    background-color: transparent;
+  }
+}
+
+.disabled-class {
+  pointer-events: none;
+  opacity: 0.4;
+}
+
+.btn {
+  width: 140px;
+  height: 48px;
+  border-radius: 0;
+}
+
+.btn:nth-child(1) {
+  margin: 0 24px 0 16px;
+}
+
+.btn:nth-child(2) {
+  margin: 0 15px 0 0;
+}
+
+@media (max-width: 767px) {
+  .secondary-global-button,
+  .primary-global-button,
+  .btn {
+    width: 100px;
+    font-size: 1rem;
+  }
+}

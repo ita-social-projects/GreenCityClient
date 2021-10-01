@@ -1,0 +1,147 @@
+.full_card {
+  display: grid;
+  grid-template-rows: 28px auto;
+  grid-template-columns: 670px;
+  margin-left: 56px;
+  color: var(--ubs-secondary-grey);
+
+  .header_details {
+    font-size: 20px;
+    line-height: 28px;
+    font-weight: bold;
+    letter-spacing: 0.002em;
+    color: var(--ubs-primary-black);
+    font-family: var(--primary-font);
+  }
+}
+
+.table_of_details {
+  margin-top: 15px;
+  font-family: var(--primary-font);
+
+  .header_table {
+    height: 34px;
+    margin: 5px 0 2px 0;
+    border-bottom: 1px solid var(--ubs-primary-light-grey);
+
+    th {
+      text-align: left;
+    }
+
+    th:nth-child(4) {
+      text-align: center;
+    }
+
+    th:nth-child(5) {
+      text-align: right;
+    }
+  }
+
+  td {
+    padding-top: 28px;
+  }
+}
+
+.data_table {
+  color: var(--ubs-quaternary-dark-grey);
+
+  td {
+    text-align: left;
+  }
+}
+
+.sum_of_order {
+  border-top: 1px solid var(--ubs-primary-light-grey);
+
+  td {
+    padding-top: 16px;
+    text-align: right;
+  }
+}
+
+.sum_to_pay {
+  td {
+    padding-top: 8px;
+    padding-bottom: 16px;
+    text-align: right;
+  }
+}
+
+.optional_row {
+  td {
+    padding-top: 8px;
+    text-align: right;
+  }
+}
+
+.data_table td:nth-child(4) {
+  padding-left: 40px;
+}
+
+.data_table td:nth-child(5) {
+  text-align: right;
+  color: var(--ubs-primary-grey);
+  font-weight: bold;
+}
+
+.sum_of_order td:nth-child(2) {
+  color: var(--ubs-primary-grey);
+  font-weight: bold;
+}
+
+.sum_to_pay td:nth-child(2) {
+  color: var(--ubs-primary-grey);
+  font-weight: bold;
+}
+
+.optional_row td:nth-child(2) {
+  color: var(--primary-green);
+  font-size: 10px;
+  line-height: 12px;
+}
+
+.order_details {
+  width: 450px;
+  margin-left: 16px;
+  color: var(--ubs-primary-grey);
+  font-family: var(--primary-font);
+
+  .recipient {
+    margin: 32px 0;
+  }
+
+  .bold_text {
+    font-weight: bold;
+  }
+
+  ol {
+    margin-bottom: 0;
+    list-style-type: none;
+  }
+}
+
+.download {
+  display: grid;
+  grid-template-areas: 'arrow text' 'maximize text';
+  grid-template-columns: 16px auto;
+  grid-template-rows: 17px auto;
+  justify-content: end;
+  margin: 0 18px 33px 0;
+  color: var(--primary-green);
+}
+
+.arrow {
+  grid-area: arrow;
+}
+
+.maximize {
+  grid-area: maximize;
+  width: 16px;
+  height: 1px;
+  transform: rotate(-180deg);
+}
+
+.text {
+  grid-area: text;
+  margin: 0 22px;
+}

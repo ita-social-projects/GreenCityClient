@@ -1,15 +1,20 @@
 <div class="wrapper">
   <p>{{ 'eco-news-single-view.eco-news-widget.paragraph' | translate }}</p>
   <hr />
-  <ul class="gallery-view-active list">
-    <li class="gallery-view-li-active" *ngFor="let data of recommendedNews; index as i">
-      <app-news-list-gallery-view
-        [ecoNewsModel]="data"
-        [routerLink]="['/news', data.id]"
-        [class.last-item]="i === 2"
-        [class.recommended-item]="true"
+  <div class="m-0 p-0 container-fluid d-flex justify-content-center align-items-center">
+    <div class="row m-0 justify-content-center w-100">
+      <div
+        class="col-lg-6 col-sm-12 col-xl-4 col-md-6 p-0 pb-3 d-flex justify-content-center align-items-center"
+        *ngFor="let data of recommendedNews; index as i"
       >
-      </app-news-list-gallery-view>
-    </li>
-  </ul>
+        <app-news-list-gallery-view
+          [ecoNewsModel]="data"
+          [routerLink]="['/news', data.id]"
+          [class.last-item]="i === 2"
+          [class.recommended-item]="true"
+        >
+        </app-news-list-gallery-view>
+      </div>
+    </div>
+  </div>
 </div>
