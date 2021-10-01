@@ -166,6 +166,7 @@ export class UBSPersonalInformationComponent extends FormBaseComponent implement
       anotherClientFirstName.setValidators(this.personalDataFormValidators);
       anotherClientLastName.setValidators(this.personalDataFormValidators);
       anotherClientPhoneNumber.setValidators([Validators.required, Validators.minLength(12)]);
+      anotherClientPhoneNumber.setValue('+38 0');
     } else {
       anotherClientFirstName.setValue('');
       anotherClientFirstName.clearValidators();
@@ -256,6 +257,10 @@ export class UBSPersonalInformationComponent extends FormBaseComponent implement
     this.personalData.lastName = this.personalDataForm.get('lastName').value;
     this.personalData.email = this.personalDataForm.get('email').value;
     this.personalData.phoneNumber = this.personalDataForm.get('phoneNumber').value.slice(3);
+    this.personalData.anotherClientFirstName = this.personalDataForm.get('anotherClientFirstName').value;
+    this.personalData.anotherClientLastName = this.personalDataForm.get('anotherClientLastName').value;
+    this.personalData.anotherClientEmail = this.personalDataForm.get('anotherClientEmail').value;
+    this.personalData.anotherClientPhoneNumber = this.personalDataForm.get('anotherClientPhoneNumber').value.slice(3);
     this.personalData.addressComment = this.personalDataForm.get('addressComment').value;
     this.order = new Order(
       this.shareFormService.orderDetails.additionalOrders,
