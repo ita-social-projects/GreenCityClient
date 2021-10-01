@@ -2,6 +2,7 @@ import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { CUSTOM_ELEMENTS_SCHEMA, NO_ERRORS_SCHEMA } from '@angular/core';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { RouterTestingModule } from '@angular/router/testing';
+import { MatSnackBarComponent } from '@global-errors/mat-snack-bar/mat-snack-bar.component';
 import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
 import { FriendModel } from '@global-user/models/friend.model';
 import { UserFriendsService } from '@global-user/services/user-friends.service';
@@ -17,18 +18,19 @@ describe('AllFriendsComponent', () => {
   localStorageServiceMock = jasmine.createSpyObj('LocalStorageService', ['userIdBehaviourSubject']);
   localStorageServiceMock.userIdBehaviourSubject = new BehaviorSubject(1111);
   let userFriendsServiceMock: UserFriendsService;
+  let matSnackBarComponentMock: MatSnackBarComponent;
 
   const response = {
     id: 1,
     name: 'Name',
-    profilePicture: '',
+    profilePicturePath: '',
     added: false
   };
   const userFriendsArray: FriendModel[] = [
     {
       id: 1,
       name: 'Name',
-      profilePicture: '',
+      profilePicturePath: '',
       added: true,
       rating: 380,
       city: 'Lviv',
@@ -37,7 +39,7 @@ describe('AllFriendsComponent', () => {
     {
       id: 2,
       name: 'Name2',
-      profilePicture: '',
+      profilePicturePath: '',
       added: true,
       rating: 380,
       city: 'Lviv',
@@ -52,7 +54,7 @@ describe('AllFriendsComponent', () => {
       {
         id: 1,
         name: 'Name',
-        profilePicture: '',
+        profilePicturePath: '',
         added: true,
         rating: 380,
         city: 'Lviv',
@@ -61,7 +63,7 @@ describe('AllFriendsComponent', () => {
       {
         id: 2,
         name: 'Name2',
-        profilePicture: '',
+        profilePicturePath: '',
         added: true,
         rating: 380,
         city: 'Lviv',
@@ -81,7 +83,8 @@ describe('AllFriendsComponent', () => {
       imports: [TranslateModule.forRoot(), HttpClientTestingModule, RouterTestingModule.withRoutes([])],
       providers: [
         { provide: LocalStorageService, useValue: localStorageServiceMock },
-        { provide: UserFriendsService, useValue: userFriendsServiceMock }
+        { provide: UserFriendsService, useValue: userFriendsServiceMock },
+        { provide: MatSnackBarComponent, useValue: matSnackBarComponentMock }
       ],
       schemas: [CUSTOM_ELEMENTS_SCHEMA, NO_ERRORS_SCHEMA]
     }).compileComponents();
