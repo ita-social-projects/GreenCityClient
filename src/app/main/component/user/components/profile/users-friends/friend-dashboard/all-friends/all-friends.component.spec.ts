@@ -18,7 +18,6 @@ describe('AllFriendsComponent', () => {
   localStorageServiceMock = jasmine.createSpyObj('LocalStorageService', ['userIdBehaviourSubject']);
   localStorageServiceMock.userIdBehaviourSubject = new BehaviorSubject(1111);
   let userFriendsServiceMock: UserFriendsService;
-  let matSnackBarComponentMock: MatSnackBarComponent;
 
   const response = {
     id: 1,
@@ -84,7 +83,7 @@ describe('AllFriendsComponent', () => {
       providers: [
         { provide: LocalStorageService, useValue: localStorageServiceMock },
         { provide: UserFriendsService, useValue: userFriendsServiceMock },
-        { provide: MatSnackBarComponent, useValue: matSnackBarComponentMock }
+        { provide: MatSnackBarComponent, useValue: MatSnackBarComponent }
       ],
       schemas: [CUSTOM_ELEMENTS_SCHEMA, NO_ERRORS_SCHEMA]
     }).compileComponents();

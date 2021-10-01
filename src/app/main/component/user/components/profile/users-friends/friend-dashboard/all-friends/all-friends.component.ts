@@ -83,7 +83,9 @@ export class AllFriendsComponent implements OnInit, OnDestroy {
   }
 
   public onScroll(): void {
-    if (this.scroll || this.emptySearchList) return;
+    if (this.scroll || this.emptySearchList) {
+      return;
+    }
     this.scroll = true;
     if (this.currentPage < this.totalPages) {
       this.currentPage += 1;

@@ -20,7 +20,7 @@ export class RecommendedFriendsComponent implements OnInit, OnDestroy {
   public totalPages: number;
   public isFetching = false;
   public emptySearchList = false;
-  public sizePage: number = 10;
+  public sizePage = 10;
   public searchQuery = '';
   public searchMode = false;
   readonly absent = 'assets/img/noNews.jpg';
@@ -68,6 +68,7 @@ export class RecommendedFriendsComponent implements OnInit, OnDestroy {
       (data: FriendArrayModel) => {
         this.totalPages = data.totalPages;
         this.recommendedFriends = this.recommendedFriends.concat(data.page);
+        this.emptySearchList = false;
         this.isFetching = false;
         this.scroll = false;
       },
@@ -79,7 +80,9 @@ export class RecommendedFriendsComponent implements OnInit, OnDestroy {
   }
 
   public onScroll(): void {
-    if (this.scroll) return;
+    if (this.scroll || this.emptySearchList) {
+      return;
+    }
     this.scroll = true;
     if (this.currentPage <= this.totalPages) {
       this.currentPage += 1;
