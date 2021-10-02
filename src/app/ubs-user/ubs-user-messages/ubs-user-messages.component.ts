@@ -45,7 +45,7 @@ export class UbsUserMessagesComponent implements OnInit, OnDestroy {
       this.subscribeToLangChange();
     });
   }
-  
+
   private subscribeToLangChange() {
     this.localStorageService.languageBehaviourSubject.pipe(takeUntil(this.destroyed$)).subscribe(() => this.fetchNotification());
   }
