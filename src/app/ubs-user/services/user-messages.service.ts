@@ -30,7 +30,7 @@ export class UserMessagesService implements OnDestroy {
   setReadNotification(id: number): Observable<any> {
     return this.http.post(`${this.url}/notifications/${id}?lang=${this.language}`, {});
   }
-  
+
   ngOnDestroy() {
     this.destroyed$.next();
     this.destroyed$.unsubscribe();
