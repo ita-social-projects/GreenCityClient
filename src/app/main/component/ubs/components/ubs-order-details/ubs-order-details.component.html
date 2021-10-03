@@ -1,12 +1,13 @@
 <div class="container">
-  <div *ngIf="bags && !isDialogOpen; else spinner">
+  <div *ngIf="bags && !isFetching; else spinner">
     <div class="header">
       <h3 class="font-bolt order-title">{{ 'order-details.order-title' | translate }}</h3>
       <div>
         <h5>{{ 'order-details.choose-location' | translate }}</h5>
-        <select class="choose-location">
-          <option>{{ 'order-details.kyiv' | translate }}</option>
-          <option>{{ 'order-details.kyiv-region' | translate }}</option>
+        <select name="region" class="choose-location" [(ngModel)]="selectedLocationId" (ngModelChange)="saveLocation()">
+          <option [ngValue]="location.id" *ngFor="let location of locations">
+            {{ location.name }}
+          </option>
         </select>
       </div>
       <p class="order-content">{{ 'order-details.order-content' | translate }}</p>
