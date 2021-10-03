@@ -3,8 +3,11 @@
 </div>
 <div class="dialog-container">
   <div class="main-content">
-    <div class="header-text">
+    <div class="header-text" *ngIf="data.button === 'add'">
       <h4>{{ 'ubs-tariffs.btn.add_service2' | translate }}</h4>
+    </div>
+    <div class="header-text" *ngIf="data.button === 'update'">
+      <h4>{{ 'ubs-tariffs-add-service.edit_service' | translate }}</h4>
     </div>
     <form [formGroup]="addServiceForm">
       <div class="service">
@@ -60,6 +63,21 @@
       <span *ngIf="loadingAnim" class="spinner-border spinner-border-sm" role="status" aria-hidden="true"> </span>
       {{ 'ubs-tariffs-add-service.btn.add' | translate }}
     </button>
-    <button type="button" *ngIf="data.button === 'update'" class="primary-global-button submit">Update</button>
+    <button
+      type="button"
+      *ngIf="data.button === 'update'"
+      class="primary-global-button submit"
+      [disabled]="addServiceForm.invalid"
+      (click)="editService(receivedData)"
+    >
+      <span *ngIf="loadingAnim" class="spinner-border spinner-border-sm" role="status" aria-hidden="true"> </span>
+      {{ 'ubs-tariffs-add-service.btn.save' | translate }}
+    </button>
+  </div>
+  <div class="information">
+    <span class="date">Дата </span>
+    <span class="user">{{ date | date: 'mediumDate' }}</span>
+    <span class="date">Додано: </span>
+    <span class="user">{{ user }}</span>
   </div>
 </div>

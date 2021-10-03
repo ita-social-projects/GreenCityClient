@@ -278,6 +278,7 @@
   },
   "ubs-tariffs-add-service": {
     "add_service": "Додати послугу",
+    "edit_service": "Редагувати послугу",
     "name_of_the_service": "Найменування послуги",
     "placeholder-service": "Введіть назву послуги",
     "capacity": "Об'єм",
@@ -289,7 +290,8 @@
     "error_message": "Заповніть виділені поля",
     "btn": {
       "add": "Додати",
-      "cancel": "Скасувати"
+      "cancel": "Скасувати",
+      "save": "Зберегти"
     }
   },
   "ubs-tariffs-delete-service": {

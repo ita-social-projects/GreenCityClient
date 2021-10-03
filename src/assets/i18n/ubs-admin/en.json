@@ -286,6 +286,7 @@
   },
   "ubs-tariffs-add-service": {
     "add_service": "Add service",
+    "edit_service": "Edit service",
     "name_of_the_service": "Name of the service",
     "placeholder-service": "Enter a name for the service",
     "capacity": "Capacity",
@@ -297,7 +298,8 @@
     "error_message": "Fill in the selected fields",
     "btn": {
       "add": "Add",
-      "cancel": "Cancel"
+      "cancel": "Cancel",
+      "save": "Save"
     }
   },
   "ubs-tariffs-delete-service": {

@@ -64,7 +64,7 @@
     <tr *ngFor="let bag of bags">
       <td style="padding-left: 0">
         <div class="image-buttons">
-          <img [src]="icons.edit" class="edit-button-img" alt="edit-icon" />
+          <img [src]="icons.edit" class="edit-button-img" alt="edit-icon" (click)="openUpdateServicePopup(bag)" />
           <img [src]="icons.delete" class="delete-button-img" alt="edit-icon" (click)="openDeleteProfileDialog(bag)" />
         </div>
       </td>

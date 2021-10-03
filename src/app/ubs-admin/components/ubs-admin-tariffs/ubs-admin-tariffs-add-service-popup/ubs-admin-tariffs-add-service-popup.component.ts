@@ -14,6 +14,10 @@ import { Subject } from 'rxjs';
 })
 export class UbsAdminTariffsAddServicePopupComponent implements OnInit, OnDestroy {
   service: Bag;
+  date: string;
+  user: string;
+  langCode: string;
+  receivedData;
   loadingAnim: boolean;
   namePattern = /^[А-Яа-яЯїЇіІєЄёЁ ]+$/;
   addServiceForm: FormGroup;
@@ -27,10 +31,14 @@ export class UbsAdminTariffsAddServicePopupComponent implements OnInit, OnDestro
     private fb: FormBuilder,
     private tariffsService: TariffsService,
     public dialog: MatDialog
-  ) {}
+  ) {
+    this.receivedData = data;
+  }
 
   ngOnInit(): void {
     this.initForm();
+    this.fillFields(this.receivedData);
+    this.showInfo(this.receivedData);
   }
 
   private initForm(): void {
@@ -61,6 +69,45 @@ export class UbsAdminTariffsAddServicePopupComponent implements OnInit, OnDestro
         this.loadingAnim = false;
         this.dialog.closeAll();
       });
+  }
+
+  fillFields(receivedData) {
+    if (this.data.button === 'update') {
+      this.addServiceForm.controls['name'.toString()].setValue(receivedData.bagData.name);
+      this.addServiceForm.controls['capacity'.toString()].setValue(receivedData.bagData.capacity);
+      this.addServiceForm.controls['price'.toString()].setValue(receivedData.bagData.price);
+      this.addServiceForm.controls['commission'.toString()].setValue(receivedData.bagData.commission);
+      this.addServiceForm.controls['description'.toString()].setValue(receivedData.bagData.description);
+    }
+  }
+
+  editService(receivedData) {
+    const langCode = receivedData.bagData.languageCode;
+    const { name, capacity, price, commission, description } = this.addServiceForm.value;
+    this.service = {
+      name,
+      capacity,
+      price,
+      commission,
+      description,
+      langCode
+    };
+    this.loadingAnim = true;
+    this.tariffsService
+      .editService(receivedData.bagData.id, this.service)
+      .pipe(takeUntil(this.destroy))
+      .subscribe((res) => {
+        this.loadingAnim = false;
+        this.dialog.closeAll();
+        console.log(res);
+      });
+  }
+
+  showInfo(receivedData) {
+    if (this.data.button === 'update') {
+      this.date = receivedData.bagData.createdAt;
+      this.user = receivedData.bagData.createdBy;
+    }
   }
 
   ngOnDestroy() {

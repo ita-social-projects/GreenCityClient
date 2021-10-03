@@ -81,12 +81,13 @@ export class UbsAdminTariffsComponent implements OnInit, OnDestroy {
     this.bags = this.bags.filter((value) => value.languageCode === this.currentLanguage).sort((a, b) => b.price - a.price);
   }
 
-  openUpdateServicePopup() {
+  openUpdateServicePopup(bag: Bag) {
     this.dialog.open(UbsAdminTariffsAddServicePopupComponent, {
       hasBackdrop: true,
       disableClose: true,
       data: {
-        button: 'update'
+        button: 'update',
+        bagData: bag
       }
     });
   }
