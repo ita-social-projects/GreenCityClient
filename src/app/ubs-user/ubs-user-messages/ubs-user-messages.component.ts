@@ -34,7 +34,7 @@ export class UbsUserMessagesComponent implements OnInit, OnDestroy {
 
   constructor(
     private userMessagesService: UserMessagesService,
-    private localStorage: LocalStorageService,
+    private localStorageService: LocalStorageService,
     private router: Router,
     private route: ActivatedRoute
   ) {}
