@@ -140,6 +140,15 @@
     },
     "send-button": "Send message"
   },
+  "export-excel-popup": {
+    "buttons": {
+      "next": "Next",
+      "cancel": "Cancel"
+    },
+    "select-data": "Select data for the export",
+    "current": "Save current view",
+    "all": "Save all table (It will take some time)"
+  },
   "order-payment": {
     "title": "Order payment",
     "order-size": "The order is executed in the amount of",
@@ -192,6 +201,8 @@
     "no-orders": "You haven't made any orders with us yet.",
     "make-order": "Make an order",
     "order-title": "Your orders",
+    "current-orders": "Current orders",
+    "order-history": "Order history",
     "order-number": "Order №",
     "order-status": "Status",
     "payment-amount": "Payment amount",
@@ -207,6 +218,9 @@
       "cost": "Cost",
       "bags-amount": "Quantity of bags",
       "sum": "Sum",
+      "currency": "UAH",
+      "litr": "l",
+      "pieces": "pc.",
       "order-sum": "Order amount:",
       "certificate": "Certificate:",
       "bonuses": "Bonuses:",

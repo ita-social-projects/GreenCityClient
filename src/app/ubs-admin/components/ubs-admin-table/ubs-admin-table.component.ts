@@ -1,3 +1,5 @@
+import { UbsAdminTableExcelPopupComponent } from './ubs-admin-table-excel-popup/ubs-admin-table-excel-popup.component';
+import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
 import { nonSortableColumns } from './../../models/non-sortable-columns.model';
 import { AdminTableService } from '../../services/admin-table.service';
 import { CdkDragDrop, moveItemInArray } from '@angular/cdk/drag-drop';
@@ -32,6 +34,7 @@ export class UbsAdminTableComponent implements OnInit, OnDestroy {
   destroy: Subject<boolean> = new Subject<boolean>();
   arrowDirection: string;
   tableData: any[];
+  totalElements = 0;
   totalPages: number;
   pageSizeOptions: number[] = [10, 15, 20];
   currentPage = 0;
@@ -42,7 +45,7 @@ export class UbsAdminTableComponent implements OnInit, OnDestroy {
   tableViewHeaders = [];
   @ViewChild(MatSort, { static: true }) sort: MatSort;
 
-  constructor(private adminTableService: AdminTableService, private localStorageService: LocalStorageService) {}
+  constructor(private adminTableService: AdminTableService, public dialog: MatDialog, private localStorageService: LocalStorageService) {}
 
   ngOnInit() {
     this.localStorageService.languageBehaviourSubject.pipe(takeUntil(this.destroy)).subscribe((lang) => {
@@ -106,6 +109,7 @@ export class UbsAdminTableComponent implements OnInit, OnDestroy {
       .subscribe((item) => {
         this.tableData = item[`page`];
         this.totalPages = item[`totalPages`];
+        this.totalElements = item[`totalElements`];
         this.dataSource = new MatTableDataSource(this.tableData);
         this.isLoading = false;
       });
@@ -139,6 +143,14 @@ export class UbsAdminTableComponent implements OnInit, OnDestroy {
 
   selectPageSize(value: number) {
     this.pageSize = value;
+  }
+
+  openExportExcel(): void {
+    const dialogConfig = new MatDialogConfig();
+    const dialogRef = this.dialog.open(UbsAdminTableExcelPopupComponent, dialogConfig);
+    dialogRef.componentInstance.totalElements = this.totalElements;
+    dialogRef.componentInstance.sortingColumn = this.sortingColumn;
+    dialogRef.componentInstance.sortType = this.sortType;
   }
 
   onScroll() {

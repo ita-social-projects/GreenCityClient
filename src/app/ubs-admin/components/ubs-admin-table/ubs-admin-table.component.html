@@ -30,7 +30,9 @@
     </ng-container>
     <button class="btn btn-info" (click)="showAllColumns()">Clear</button>
   </ul>
-  <button type="button" class="btn btn-default" class="export-excel-btn">{{ 'ubs-tables.export-to-excel' | translate }}</button>
+  <button type="button" class="btn btn-default" class="export-excel-btn" (click)="openExportExcel()">
+    {{ 'ubs-tables.export-to-excel' | translate }}
+  </button>
 </div>
 <mat-progress-bar *ngIf="editCellProgressBar" mode="indeterminate"></mat-progress-bar>
 <div

@@ -7,12 +7,12 @@ import { BonusesService } from './services/bonuses.service';
 import { Subscription } from 'rxjs';
 
 @Component({
-  selector: 'app-ubs-client-bonuses',
-  templateUrl: './ubs-client-bonuses.component.html',
-  styleUrls: ['./ubs-client-bonuses.component.scss']
+  selector: 'app-ubs-user-bonuses',
+  templateUrl: './ubs-user-bonuses.component.html',
+  styleUrls: ['./ubs-user-bonuses.component.scss']
 })
-export class UbsClientBonusesComponent implements OnInit, AfterViewInit, OnDestroy {
-  displayedColumns: string[] = ['dateOfEnrollment', 'amount', 'reasone'];
+export class UbsUserBonusesComponent implements OnInit, AfterViewInit, OnDestroy {
+  displayedColumns: string[] = ['dateOfEnrollment', 'amount', 'reason'];
 
   dataSource = new MatTableDataSource<BonuseModel>();
   totalBonuses: number;
