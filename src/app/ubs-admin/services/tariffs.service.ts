@@ -2,7 +2,6 @@ import { Injectable } from '@angular/core';
 import { mainUbsLink } from 'src/app/main/links';
 import { HttpClient } from '@angular/common/http';
 import { Bag } from '../models/tariffs.interface';
-import { Observable } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
