@@ -84,7 +84,7 @@ export class RecommendedFriendsComponent implements OnInit, OnDestroy {
       return;
     }
     this.scroll = true;
-    if (this.currentPage <= this.totalPages) {
+    if (this.currentPage < this.totalPages) {
       this.currentPage += 1;
       this.getPossibleFriends(this.userId, this.currentPage);
     }
