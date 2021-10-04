@@ -71,25 +71,6 @@ export class UbsAdminTableComponent implements OnInit, AfterViewChecked, OnDestr
     }
   }
 
-  //  setTableHeightToContainerHeight() {
-  //   const table = document.getElementById('table');
-  //   if (table) {
-  //     const tableHeight = table.getBoundingClientRect().height;
-  //     const tableContainerHeight = this.setTableContainerHeight().getBoundingClientRect().height;
-  //     if (tableHeight < tableContainerHeight) {
-  //       this.onScroll();
-  //     } else {
-  //       this.isTableHeightSet = true;
-  //     }
-  //   }
-  // }
-
-  // private setTableContainerHeight() {
-  //   const tableContainer = document.getElementById('table-container');
-  //   tableContainer.style.height = document.documentElement.clientHeight - tableContainer.getBoundingClientRect().y + 'px';
-  //   return tableContainer;
-  // }
-
   applyFilter(filterValue: string): void {
     this.dataSource.filter = filterValue.trim().toLowerCase();
   }

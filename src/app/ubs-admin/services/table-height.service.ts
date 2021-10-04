@@ -9,11 +9,6 @@ export class TableHeightService {
       let isHeightSet: boolean;
       const tableHeight = table.getBoundingClientRect().height;
       const tableContainerHeight = this.setTableContainerHeight(tableContainer).getBoundingClientRect().height;
-      // if (tableHeight < tableContainerHeight) {
-      //   this.onScroll();
-      // } else {
-      //   this.isTableHeightSet = true;
-      // }
       isHeightSet = tableHeight < tableContainerHeight ? false : true;
       return isHeightSet;
     }

@@ -38,7 +38,7 @@ export class UbsAdminCertificateComponent implements OnInit, AfterViewChecked, O
   totalPages: number;
   pageSizeOptions: number[] = [10, 15, 20];
   currentPage = 0;
-  pageSize = 10;
+  pageSize = 25;
   ubsAdminTableIcons = ubsAdminTable;
   @ViewChild(MatSort, { static: true }) sort: MatSort;
 
@@ -49,12 +49,12 @@ export class UbsAdminCertificateComponent implements OnInit, AfterViewChecked, O
   }
 
   ngAfterViewChecked() {
-    // if (!this.isTableHeightSet) {
-    //   const table = document.getElementById('table');
-    //   const tableContainer = document.getElementById('table-container');
-    //   this.isTableHeightSet = this.tableHeightService.setTableHeightToContainerHeight(table, tableContainer);
-    //   this.isTableHeightSet ? "" : this.onScroll();
-    // }
+    if (!this.isTableHeightSet) {
+      const table = document.getElementById('table');
+      const tableContainer = document.getElementById('table-container');
+      this.isTableHeightSet = this.tableHeightService.setTableHeightToContainerHeight(table, tableContainer);
+      this.isTableHeightSet ? '' : this.onScroll();
+    }
   }
 
   applyFilter(filterValue: string): void {
