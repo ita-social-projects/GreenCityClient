@@ -34,6 +34,7 @@ export class UBSOrderDetailsComponent extends FormBaseComponent implements OnIni
   totalOfBigBags: number;
   cancelCertBtn = false;
   points: number;
+  defaultPoints: number;
   displayMinOrderMes = false;
   displayMinBigBagsMes = false;
   displayMes = false;
@@ -199,6 +200,7 @@ export class UBSOrderDetailsComponent extends FormBaseComponent implements OnIni
         this.minAmountOfBigBags = orderData.minAmountOfBigBags;
         this.bags = this.orders.bags;
         this.points = this.orders.points;
+        this.defaultPoints = this.points;
         this.certificateLeft = orderData.points;
         this.bags.forEach((bag) => {
           bag.quantity = null;
@@ -348,6 +350,9 @@ export class UBSOrderDetailsComponent extends FormBaseComponent implements OnIni
     });
     this.checkTotalBigBags();
     this.calculateTotal();
+    if (this.orderDetailsForm.controls.bonus.value === 'yes') {
+      this.calculatePoints();
+    }
   }
 
   calculatePoints(): void {
@@ -395,6 +400,7 @@ export class UBSOrderDetailsComponent extends FormBaseComponent implements OnIni
     this.certificateSum = 0;
     this.finalSum = this.total;
     this.points = this.orders.points;
+    this.pointsUsed = 0;
     this.certificateReset(true);
     this.calculateTotal();
   }
