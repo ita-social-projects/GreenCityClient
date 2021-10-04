@@ -315,6 +315,7 @@
       "theme-messages": "Тема повідомлення",
       "time": "Час"
     }
+  },
   "ubs-tariffs-delete-service": {
     "delete_question": "Видалити цей рядок?",
     "yes": "так",
