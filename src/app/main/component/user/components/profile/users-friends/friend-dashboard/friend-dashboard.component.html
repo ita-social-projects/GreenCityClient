@@ -3,19 +3,28 @@
   <div class="friends">
     <h1>{{ 'profile.friends.friends' | translate }}</h1>
     <div>
-      <a [routerLink]="['/profile', userId, 'friends']" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">
-        {{ 'profile.friends.all-friends' | translate }}</a
-      >
-      <a
-        [routerLink]="['/profile', userId, 'friends', 'recommended']"
-        routerLinkActive="active"
-        [routerLinkActiveOptions]="{ exact: true }"
-        >{{ 'profile.friends.search-friends' | translate }}</a
-      >
-      <a [routerLink]="['/profile', userId, 'friends', 'requests']" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">{{
-        'profile.friends.requests' | translate
-      }}</a>
+      <form name="searchForm" class="searchField" *ngIf="!hideInput">
+        <img [src]="searchIcon" alt="search-friend" />
+        <input class="search" type="text" #search [placeholder]="'search.search-popup.placeholder' | translate" (input)="onInput(search)" />
+      </form>
+
+      <span>
+        <a [routerLink]="['/profile', userId, 'friends']" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">
+          {{ 'profile.friends.all-friends' | translate }}
+        </a>
+
+        <a
+          [routerLink]="['/profile', userId, 'friends', 'recommended']"
+          routerLinkActive="active"
+          [routerLinkActiveOptions]="{ exact: true }"
+        >
+          {{ 'profile.friends.search-friends' | translate }}
+        </a>
+        <a [routerLink]="['/profile', userId, 'friends', 'requests']" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">
+          {{ 'profile.friends.requests' | translate }}
+        </a>
+      </span>
     </div>
   </div>
 </div>
-<router-outlet></router-outlet>
+<router-outlet (activate)="onActivate($event)"></router-outlet>

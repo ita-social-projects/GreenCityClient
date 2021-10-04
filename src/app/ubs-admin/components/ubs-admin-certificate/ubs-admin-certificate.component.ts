@@ -78,10 +78,10 @@ export class UbsAdminCertificateComponent implements OnInit, OnDestroy {
     return `${this.selection.isSelected(row) ? 'deselect' : 'select'} row ${row.orderId + 1}`;
   }
 
-  getTable(sortingType = this.sortType || 'desc') {
+  getTable(columnName = this.sortingColumn || 'code', sortingType = this.sortType || 'DESC') {
     this.isLoading = true;
     this.adminCertificateService
-      .getTable(this.currentPage, this.pageSize, sortingType)
+      .getTable(columnName, this.currentPage, this.pageSize, sortingType)
       .pipe(takeUntil(this.destroy))
       .subscribe((item) => {
         this.tableData = item[`page`];
@@ -107,7 +107,7 @@ export class UbsAdminCertificateComponent implements OnInit, OnDestroy {
   updateTableData() {
     this.isUpdate = true;
     this.adminCertificateService
-      .getTable(this.currentPage, this.pageSize, this.sortType || 'desc')
+      .getTable(this.sortingColumn || 'code', this.currentPage, this.pageSize, this.sortType || 'DESC')
       .pipe(takeUntil(this.destroy))
       .subscribe((item) => {
         const data = item[`page`];
