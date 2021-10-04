@@ -323,6 +323,7 @@
       "theme-messages": "Theme messages",
       "time": "Time"
     }
+  },
   "ubs-tariffs-delete-service": {
     "delete_question": "Delete this line?",
     "yes": "yes",
