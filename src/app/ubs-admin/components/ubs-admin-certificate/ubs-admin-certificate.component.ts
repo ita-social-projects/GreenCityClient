@@ -89,7 +89,7 @@ export class UbsAdminCertificateComponent implements OnInit, AfterViewChecked, O
     return `${this.selection.isSelected(row) ? 'deselect' : 'select'} row ${row.orderId + 1}`;
   }
 
-  getTable(columnName = this.sortingColumn || 'orderId', sortingType = this.sortType || 'DESC') {
+  getTable(columnName = this.sortingColumn || 'code', sortingType = this.sortType || 'DESC') {
     this.isLoading = true;
     this.adminCertificateService
       .getTable(columnName, this.currentPage, this.pageSize, sortingType)
@@ -119,7 +119,7 @@ export class UbsAdminCertificateComponent implements OnInit, AfterViewChecked, O
   updateTableData() {
     this.isUpdate = true;
     this.adminCertificateService
-      .getTable(this.sortingColumn || 'orderId', this.currentPage, this.pageSize, this.sortType || 'DESC')
+      .getTable(this.sortingColumn || 'code', this.currentPage, this.pageSize, this.sortType || 'DESC')
       .pipe(takeUntil(this.destroy))
       .subscribe((item) => {
         const data = item[`page`];

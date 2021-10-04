@@ -1,4 +1,6 @@
 import { TableHeightService } from './../../services/table-height.service';
+import { UbsAdminTableExcelPopupComponent } from './ubs-admin-table-excel-popup/ubs-admin-table-excel-popup.component';
+import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
 import { nonSortableColumns } from './../../models/non-sortable-columns.model';
 import { AdminTableService } from '../../services/admin-table.service';
 import { CdkDragDrop, moveItemInArray } from '@angular/cdk/drag-drop';
@@ -34,6 +36,7 @@ export class UbsAdminTableComponent implements OnInit, AfterViewChecked, OnDestr
   arrowDirection: string;
   isTableHeightSet = false;
   tableData: any[];
+  totalElements = 0;
   totalPages: number;
   pageSizeOptions: number[] = [10, 15, 20];
   currentPage = 0;
@@ -47,7 +50,8 @@ export class UbsAdminTableComponent implements OnInit, AfterViewChecked, OnDestr
   constructor(
     private adminTableService: AdminTableService,
     private localStorageService: LocalStorageService,
-    private tableHeightService: TableHeightService
+    private tableHeightService: TableHeightService,
+    public dialog: MatDialog
   ) {}
 
   ngOnInit() {
@@ -132,7 +136,7 @@ export class UbsAdminTableComponent implements OnInit, AfterViewChecked, OnDestr
       });
   }
 
-  private getTable(columnName = this.sortingColumn || 'orderid', sortingType = this.sortType || 'desc') {
+  private getTable(columnName = this.sortingColumn || 'order_id', sortingType = this.sortType || 'desc') {
     this.isLoading = true;
     this.adminTableService
       .getTable(columnName, this.currentPage, this.pageSize, sortingType)
@@ -140,6 +144,7 @@ export class UbsAdminTableComponent implements OnInit, AfterViewChecked, OnDestr
       .subscribe((item) => {
         this.tableData = item[`page`];
         this.totalPages = item[`totalPages`];
+        this.totalElements = item[`totalElements`];
         this.dataSource = new MatTableDataSource(this.tableData);
         this.isLoading = false;
         this.isTableHeightSet = false;
@@ -153,7 +158,7 @@ export class UbsAdminTableComponent implements OnInit, AfterViewChecked, OnDestr
   updateTableData() {
     this.isUpdate = true;
     this.adminTableService
-      .getTable(this.sortingColumn || 'orderid', this.currentPage, this.pageSize, this.sortType || 'desc')
+      .getTable(this.sortingColumn || 'order_id', this.currentPage, this.pageSize, this.sortType || 'desc')
       .pipe(takeUntil(this.destroy))
       .subscribe((item) => {
         const data = item[`page`];
@@ -174,6 +179,14 @@ export class UbsAdminTableComponent implements OnInit, AfterViewChecked, OnDestr
 
   selectPageSize(value: number) {
     this.pageSize = value;
+  }
+
+  openExportExcel(): void {
+    const dialogConfig = new MatDialogConfig();
+    const dialogRef = this.dialog.open(UbsAdminTableExcelPopupComponent, dialogConfig);
+    dialogRef.componentInstance.totalElements = this.totalElements;
+    dialogRef.componentInstance.sortingColumn = this.sortingColumn;
+    dialogRef.componentInstance.sortType = this.sortType;
   }
 
   onScroll() {

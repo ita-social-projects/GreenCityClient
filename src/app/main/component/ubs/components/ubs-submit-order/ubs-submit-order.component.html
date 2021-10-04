@@ -69,11 +69,18 @@
           </div>
           <div class="order-info">
             <p class="order-header">{{ 'order-details.recipient' | translate }}</p>
-            <ul class="order-list">
-              <li class="order-list-item">{{ personalData.firstName }} {{ personalData.lastName }}</li>
-              <li class="order-list-item">{{ personalData.phoneNumber | phoneNumberTreat: '380' }}</li>
-              <li class="order-list-item">{{ personalData.email }}</li>
+            <ul class="order-list" *ngIf="personalData.anotherClientFirstName; else defaultCase">
+              <li class="order-list-item">{{ personalData.anotherClientFirstName }} {{ personalData.anotherClientLastName }}</li>
+              <li class="order-list-item">{{ personalData.anotherClientPhoneNumber | phoneNumberTreat: '380' }}</li>
+              <li class="order-list-item">{{ personalData.anotherClientEmail }}</li>
             </ul>
+            <ng-template #defaultCase>
+              <ul class="order-list">
+                <li class="order-list-item">{{ personalData.firstName }} {{ personalData.lastName }}</li>
+                <li class="order-list-item">{{ personalData.phoneNumber | phoneNumberTreat: '380' }}</li>
+                <li class="order-list-item">{{ personalData.email }}</li>
+              </ul>
+            </ng-template>
           </div>
           <div class="order-info m-0">
             <p class="order-header">{{ 'order-details.export-address' | translate }}</p>
@@ -97,7 +104,7 @@
     </div>
     <div class="bottom_comment">
       <div class="form-group comment">
-        <h3 class="bottom_comment_payment">{{ 'order-form.payment' | translate }}</h3>
+        <h3 class="font-bolt bottom_comment_payment">{{ 'order-form.payment' | translate }}</h3>
         <p class="choose-payment">{{ 'order-details.choose-payment' | translate }}</p>
         <div class="col-12 col-sm-12 p-0">
           <label class="choose-payment-chooser">{{ 'submit-order.choose-payment' | translate }}</label

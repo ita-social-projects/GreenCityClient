@@ -31,12 +31,12 @@
                 formControlName="quantity{{ bag.id }}"
                 type="number"
                 class="shadow-none form-control input"
+                [class.bag-quantity_placeholder]="bag.quantity === null"
                 min="0"
                 max="999"
                 placeholder="0"
                 [unmask]="false"
                 [imask]="{ mask: servicesMask }"
-                [(ngModel)]="bag.quantity"
                 (change)="onQuantityChange()"
               />
             </div>
@@ -83,51 +83,11 @@
             </div>
           </div>
           <h5>{{ 'order-details.question-certificate' | translate }}</h5>
-          <div class="certificate-container">
-            <div class="form-group col-12 col-sm-8">
-              <label class="label m-0">{{ 'order-details.certificate-number' | translate }}</label>
-              <input
-                formControlName="certificate"
-                type="text"
-                class="shadow-none form-control input-border"
-                placeholder="xxxx-xxxx"
-                [unmask]="false"
-                [imask]="{ mask: certificateMask }"
-                [readonly]="addCert"
-              />
-            </div>
-            <div class="form-group">
-              <button
-                *ngIf="!addCert"
-                type="button"
-                class="primary-global-button btn"
-                [disabled]="
-                  !certificate.valid ||
-                  certificate.pristine ||
-                  showTotal < 500 ||
-                  finalSum === 0 ||
-                  !certificate.value.length ||
-                  certBtnActivate
-                "
-                (click)="certificateSubmit()"
-              >
-                {{ 'order-details.activate' | translate }}
-              </button>
-              <button
-                *ngIf="addCert"
-                [disabled]="additionalCertificates.length > 0"
-                type="button"
-                class="primary-global-button btn"
-                (click)="certificateReset(true)"
-              >
-                {{ 'order-details.cancel' | translate }}
-              </button>
-            </div>
-          </div>
+
           <div
             class="addCertificate"
-            formArrayName="additionalCertificates"
-            *ngFor="let certificate of additionalCertificates.controls; let i = index"
+            formArrayName="formArrayCertificates"
+            *ngFor="let certificate of formArrayCertificates.controls; let i = index"
           >
             <input
               type="text"
@@ -140,21 +100,22 @@
             />
             <div class="form-group">
               <button
-                *ngIf="!certStatuses[i] && certificate.value.length"
+                *ngIf="showActivateButton(i)"
                 type="button"
                 class="primary-global-button btn"
                 [disabled]="
-                  additionalCertificates['controls'][i].invalid ||
-                  additionalCertificates['controls'][i].pristine ||
-                  !certificate.value.length
+                  formArrayCertificates['controls'][i].invalid ||
+                  formArrayCertificates['controls'][i].pristine ||
+                  !certificate.value.length ||
+                  showTotal < minOrderValue
                 "
-                (click)="addedCertificateSubmit(i)"
+                (click)="certificateSubmit(i)"
               >
                 {{ 'order-details.activate' | translate }}
               </button>
               <button
                 [disabled]="cancelCertBtn"
-                *ngIf="certStatuses[i] || !certificate.value.length"
+                *ngIf="showCancelButton(i)"
                 type="button"
                 class="primary-global-button btn"
                 (click)="deleteCertificate(i)"
@@ -163,111 +124,103 @@
               </button>
             </div>
             <div class="validMes">
-              <small class="text-danger" *ngIf="certificate.invalid && certificate.touched">
+              <small class="text-danger" *ngIf="certificate.invalid && certificate.touched && certificateError">
                 {{ 'order-details.failed-certificate' | translate }}
               </small>
             </div>
           </div>
           <div class="messages-container">
+            <small class="text-danger" *ngIf="certificateError">
+              {{ 'order-details.failed-certificate' | translate }}
+            </small>
+            <small class="text-danger" *ngIf="certStatus === 'USED' && failedCert">
+              {{ 'order-details.already-used' | translate: { certDate: certDate } }}
+            </small>
+            <small class="text-danger" *ngIf="certStatus === 'EXPIRED' && failedCert">
+              {{ 'order-details.expired' | translate: { certDate: certDate } }}
+            </small>
             <small class="text-message" *ngIf="certSize">
               {{ 'order-details.activated' | translate: { certificateSum: certificateSum, certDate: certDate } }}
             </small>
             <small class="text-message" *ngIf="(certStatus === 'NEW' || certStatus === 'ACTIVE') && !certSize">
               {{ 'order-details.activated' | translate: { certificateSum: certificateSum, certDate: certDate } }}
             </small>
-            <small class="text-danger" *ngIf="certificateError">
-              {{ 'order-details.failed-certificate' | translate }}
-            </small>
-            <small class="text-danger" *ngIf="certStatus === 'USED'">
-              {{
-                'order-details.already-used'
-                  | translate
-                    : {
-                        certDate: certDate
-                      }
-              }}
-            </small>
-            <small class="text-danger" *ngIf="certStatus === 'EXPIRED'">
-              {{
-                'order-details.expired'
-                  | translate
-                    : {
-                        certDate: certDate
-                      }
-              }}
-            </small>
           </div>
           <button
             type="button"
-            *ngIf="addCert && finalSum !== 0"
+            *ngIf="addCert && finalSum > 0 && !failedCert"
             class="addCertificateBtn"
-            [disabled]="disableAddCertificate()"
-            (click)="addCertificate()"
+            [disabled]="!disableAddCertificate() || cancelCertBtn || certificateError || failedCert"
+            (click)="addNewCertificate()"
           >
             {{ 'order-details.add-certificate' | translate }}
           </button>
           <div class="points">
             <h5>{{ 'order-details.bonus-need' | translate }}</h5>
-            <p>{{ 'order-details.bonus-left' | translate }} {{ points | currency | localizedCurrency }}</p>
+            <p>{{ 'order-details.bonus-left' | translate }} {{ defaultPoints | currency | localizedCurrency }}</p>
             <p>
               <a href="#!" class="bonus-how-to-link">{{ 'order-details.bonus-how-to-get' | translate }}</a>
             </p>
-            <div *ngIf="points !== 0 && finalSum !== 0">
-              <div class="form-check custom-control custom-radio">
-                <input
-                  formControlName="bonus"
-                  id="customRadio1"
-                  value="yes"
-                  class="form-check-input custom-control-input input-border"
-                  type="radio"
-                  (click)="calculatePoints()"
-                />
-                <label class="form-check-label custom-control-label" for="customRadio1">{{ 'order-details.yes' | translate }}</label>
-              </div>
-              <div class="form-check custom-control custom-radio">
-                <input
-                  formControlName="bonus"
-                  id="customRadio2"
-                  value="no"
-                  class="form-check-input custom-control-input input-border"
-                  type="radio"
-                />
-                <label class="form-check-label custom-control-label" for="customRadio2">{{ 'order-details.no' | translate }}</label>
-              </div>
+            <div class="radio-btn" *ngIf="defaultPoints !== 0 && showTotal !== 0">
+              <label class="custom-radio-btn"
+                >{{ 'order-details.no' | translate }}
+                <input formControlName="bonus" type="radio" value="no" tabindex="-1" (click)="resetPoints()" />
+                <span class="checkmark" tabindex="0" (keyup)="selectPointsRadioBtn($event, 'no'); resetPoints()"></span>
+              </label>
+              <label class="custom-radio-btn"
+                >{{ 'order-details.yes' | translate }}
+                <input formControlName="bonus" type="radio" value="yes" tabindex="-1" (click)="calculatePoints()" />
+                <span class="checkmark" tabindex="0" (keyup)="selectPointsRadioBtn($event, 'yes'); calculatePoints()"></span>
+              </label>
             </div>
-            <small class="text-message" [class.d-none]="pointsUsed === 0">
-              <span>{{ 'order-details.used' | translate }} {{ pointsUsed | currency | localizedCurrency }}</span>
-            </small>
+            <div class="points-balance">
+              <small class="text-message" [class.d-none]="pointsUsed === 0">
+                <span>{{ 'order-details.used' | translate }} {{ pointsUsed | currency | localizedCurrency }}</span>
+              </small>
+              <small class="text-message" [class.d-none]="pointsUsed === 0">
+                <span>{{ 'order-details.balance' | translate }} {{ points | currency | localizedCurrency }}</span>
+              </small>
+            </div>
           </div>
         </div>
       </div>
       <div class="bottom">
         <h3>{{ 'order-details.eco-shop' | translate }}</h3>
         <h5>{{ 'order-details.shop-order-question' | translate }}</h5>
-        <div class="form-check custom-control custom-radio">
-          <input formControlName="shop" id="customRadio3" value="yes" class="form-check-input custom-control-input" type="radio" />
-          <label class="form-check-label custom-control-label" for="customRadio3">{{ 'order-details.yes' | translate }}</label>
-        </div>
-        <div class="form-check custom-control custom-radio">
-          <input
-            formControlName="shop"
-            id="customRadio4"
-            value="no"
-            class="form-check-input custom-control-input"
-            type="radio"
-            (click)="clearOrderValues()"
-          />
-          <label class="form-check-label custom-control-label" for="customRadio4">{{ 'order-details.no' | translate }}</label>
+        <div class="radio-btn">
+          <label class="custom-radio-btn"
+            >{{ 'order-details.no' | translate }}
+            <input formControlName="shop" type="radio" value="no" (click)="clearOrderValues()" tabindex="-1" />
+            <span class="checkmark" tabindex="0" (keyup)="selectShopRadioBtn($event, 'no')"></span>
+          </label>
+          <label class="custom-radio-btn"
+            >{{ 'order-details.yes' | translate }}
+            <input
+              formControlName="shop"
+              type="radio"
+              value="yes"
+              tabindex="-1"
+              (click)="renderer.selectRootElement('#index' + (additionalOrders.controls.length - 1)).focus()"
+            />
+            <span class="checkmark" tabindex="0" (keyup)="selectShopRadioBtn($event, 'yes')"></span>
+          </label>
         </div>
         <div class="form-group shop_submit">
           <div class="bottom-text">
             <p>{{ 'order-details.cant-found-order' | translate }}</p>
           </div>
-          <div formArrayName="additionalOrders" *ngFor="let order of additionalOrders.controls; let i = index" class="form-group">
+          <div
+            formArrayName="additionalOrders"
+            *ngFor="let order of additionalOrders.controls; let i = index"
+            class="form-group eco-store"
+            [class.inactive]="orderDetailsForm.controls.shop.value === 'no'"
+          >
             <label class="label m-0">{{ 'order-details.enter-order-num' | translate }}</label>
             <input
+              id="index{{ i }}"
+              tabindex="{{ isDisabled() }}"
               [formControlName]="i"
-              class="shadow-none form-control border-input p-2 eco-store"
+              class="shadow-none form-control border-input p-2 eco-store-input"
               type="text"
               placeholder="xxxxxxxxxx"
               [unmask]="false"
@@ -276,13 +229,16 @@
               (click)="changeShopRadioBtn()"
               (ngModelChange)="ecoStoreValidation()"
             />
+            <span input-close-button tabindex="{{ isDisabled() }}" (click)="deleteOrder(i)" (keyup)="removeOrder($event, i)">&times;</span>
           </div>
-          <button type="button" *ngIf="additionalOrders.controls.length < 5 && displayOrderBtn" class="addOrderBtn" (click)="addOrder()">
-            {{ 'order-details.additional-orders' | translate }}
-          </button>
-          <small class="text-danger" *ngIf="!displayOrderBtn && additionalOrders.touched && shop.value !== 'no'">
-            {{ 'order-details.order-error' | translate }}
-          </small>
+          <div class="order-notification">
+            <small class="text-danger" *ngIf="!displayOrderBtn && additionalOrders.touched && shop.value !== 'no'">
+              {{ 'order-details.order-error' | translate }}
+            </small>
+            <button [disabled]="additionalOrders.controls.length < 5 && !displayOrderBtn" class="addOrderBtn" (click)="addOrder()">
+              {{ 'order-details.additional-orders' | translate }}
+            </button>
+          </div>
         </div>
       </div>
       <div class="bottom_comment">
@@ -309,7 +265,9 @@
 </div>
 
 <div class="w-100 d-flex justify-content-end buttons">
-  <button  type="button" class="secondary-global-button btn cansel-button btn-main" (click)="cancelUBS()">{{ 'order-details.cancel' | translate }}</button>
+  <button type="button" class="secondary-global-button btn cancel-button btn-main" (click)="cancelUBS()">
+    {{ 'order-details.cancel' | translate }}
+  </button>
   <button
     [disabled]="showTotal < 500 || minAmountOfBigBags > totalOfBigBags || orderComment.invalid"
     type="submit"
