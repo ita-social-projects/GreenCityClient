@@ -1,9 +1,9 @@
 <div class="dialog-container">
   <mat-dialog-content>
-    <p>Видалити цей рядок?</p>
+    <p>{{ 'ubs-tariffs-delete-service.delete_question' | translate }}</p>
   </mat-dialog-content>
   <mat-dialog-actions>
-    <button class="btn btn-outline-success" mat-dialog-close>ні</button>
-    <button class="btn btn-success" [mat-dialog-close]="true">так</button>
+    <button class="btn btn-outline-success" mat-dialog-close>{{ 'ubs-tariffs-delete-service.no' | translate }}</button>
+    <button class="btn btn-success" (click)="deleteService(receivedData)">{{ 'ubs-tariffs-delete-service.yes' | translate }}</button>
   </mat-dialog-actions>
 </div>

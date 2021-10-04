@@ -1,6 +1,7 @@
 import { AfterViewInit, Component } from '@angular/core';
 import { BreakpointObserver } from '@angular/cdk/layout';
 import { UbsBaseSidebarComponent } from 'src/app/shared/ubs-base-sidebar/ubs-base-sidebar.component';
+import { UserMessagesService } from '../../../ubs-user/services/user-messages.service';
 
 @Component({
   selector: 'app-ubs-admin-sidebar',
@@ -45,7 +46,7 @@ export class UbsAdminSidebarComponent extends UbsBaseSidebarComponent implements
     }
   ];
 
-  constructor(public breakpointObserver: BreakpointObserver) {
-    super(breakpointObserver);
+  constructor(public service: UserMessagesService, public breakpointObserver: BreakpointObserver) {
+    super(service, breakpointObserver);
   }
 }

@@ -258,6 +258,17 @@
     "bonuses": "Бонуси",
     "tariffs": "Тарифи"
   },
+  "ubs-employee": {
+    "add-employee": "Додати працівника",
+    "required-fields": "*Обов’язкові поля",
+    "name": "Ім’я*",
+    "surname": "Прізвище*",
+    "phone-number": "Номер телефону*",
+    "email": "Email",
+    "position": "Посада*",
+    "receiving-station": "Станція приймання*",
+    "image-input": "Фото"
+  },
   "ubs-user": {
     "orders": "Замовлення",
     "invoice": "Рахунок",
@@ -285,24 +296,40 @@
     "placeholder_order_limits_info": "Інформація про ліміти замовлення, яка буде відображатись у формі замовлення клієнта",
     "btn": {
       "add_service": "Додати сервіс",
+      "add_service2": "Додати послугу",
       "save_changes": "Зберегти зміни",
       "add_carrier": "Додати перевізника"
     }
   },
   "ubs-tariffs-add-service": {
     "add_service": "Додати послугу",
+    "edit_service": "Редагувати послугу",
     "name_of_the_service": "Найменування послуги",
     "placeholder-service": "Введіть назву послуги",
-    "capacity": "User data",
+    "capacity": "Об'єм",
     "basic_cost": "Базова вартість",
-    "ubs_courier": "УБС Кур’єр",
+    "commission": "Комісія",
     "full_cost": "Повна вартість",
     "service_description": "Опис послуги",
     "placeholder-text": "Опишіть, що саме входить у послугу, і умови /правила її надання",
     "error_message": "Заповніть виділені поля",
     "btn": {
       "add": "Додати",
-      "cancel": "Скасувати"
+      "cancel": "Скасувати",
+      "save": "Зберегти"
     }
+  },
+  "ubs-user-notification": {
+    "title": "Ваші повідомлення",
+    "title-table": {
+      "number": "№ замовлення",
+      "theme-messages": "Тема повідомлення",
+      "time": "Час"
+    }
+  },
+  "ubs-tariffs-delete-service": {
+    "delete_question": "Видалити цей рядок?",
+    "yes": "так",
+    "no": "ні"
   }
 }

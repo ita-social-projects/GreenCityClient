@@ -24,7 +24,7 @@ export class OrderService {
   }
 
   getPersonalData(): Observable<any> {
-    return this.http.get(`${this.url}/personal-data`).pipe(tap((personalData) => (this.shareFormService.personalData = personalData[0])));
+    return this.http.get(`${this.url}/personal-data`).pipe(tap((personalData) => (this.shareFormService.personalData = personalData)));
   }
 
   processOrder(order: Order): Observable<Order> {

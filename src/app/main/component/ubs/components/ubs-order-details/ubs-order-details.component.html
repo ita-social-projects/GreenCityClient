@@ -83,51 +83,11 @@
             </div>
           </div>
           <h5>{{ 'order-details.question-certificate' | translate }}</h5>
-          <div class="certificate-container">
-            <div class="form-group col-12 col-sm-8">
-              <label class="label m-0">{{ 'order-details.certificate-number' | translate }}</label>
-              <input
-                formControlName="certificate"
-                type="text"
-                class="shadow-none form-control input-border"
-                placeholder="xxxx-xxxx"
-                [unmask]="false"
-                [imask]="{ mask: certificateMask }"
-                [readonly]="addCert"
-              />
-            </div>
-            <div class="form-group">
-              <button
-                *ngIf="addCert"
-                [disabled]="additionalCertificates.length > 0"
-                type="button"
-                class="secondary-global-button btn cancel-button"
-                (click)="certificateReset(true)"
-              >
-                {{ 'order-details.cancel' | translate }}
-              </button>
-              <button
-                *ngIf="!addCert"
-                type="button"
-                class="primary-global-button btn btn-main"
-                [disabled]="
-                  !certificate.valid ||
-                  certificate.pristine ||
-                  showTotal < 500 ||
-                  finalSum === 0 ||
-                  !certificate.value.length ||
-                  certBtnActivate
-                "
-                (click)="certificateSubmit()"
-              >
-                {{ 'order-details.activate' | translate }}
-              </button>
-            </div>
-          </div>
+
           <div
             class="addCertificate"
-            formArrayName="additionalCertificates"
-            *ngFor="let certificate of additionalCertificates.controls; let i = index"
+            formArrayName="formArrayCertificates"
+            *ngFor="let certificate of formArrayCertificates.controls; let i = index"
           >
             <input
               type="text"
@@ -140,71 +100,72 @@
             />
             <div class="form-group">
               <button
-                [disabled]="cancelCertBtn"
-                *ngIf="certStatuses[i] || !certificate.value.length"
+                *ngIf="showActivateButton(i)"
                 type="button"
-                class="secondary-global-button btn cancel-button"
+                class="primary-global-button btn"
+                [disabled]="
+                  formArrayCertificates['controls'][i].invalid ||
+                  formArrayCertificates['controls'][i].pristine ||
+                  !certificate.value.length ||
+                  showTotal < minOrderValue
+                "
+                (click)="certificateSubmit(i)"
+              >
+                {{ 'order-details.activate' | translate }}
+              </button>
+              <button
+                [disabled]="cancelCertBtn"
+                *ngIf="showCancelButton(i)"
+                type="button"
+                class="primary-global-button btn"
                 (click)="deleteCertificate(i)"
               >
                 {{ 'order-details.cancel' | translate }}
               </button>
-              <button
-                *ngIf="!certStatuses[i] && certificate.value.length"
-                type="button"
-                class="primary-global-button btn btn-main"
-                [disabled]="
-                  additionalCertificates['controls'][i].invalid ||
-                  additionalCertificates['controls'][i].pristine ||
-                  !certificate.value.length
-                "
-                (click)="addedCertificateSubmit(i)"
-              >
-                {{ 'order-details.activate' | translate }}
-              </button>
             </div>
             <div class="validMes">
-              <small class="text-danger" *ngIf="certificate.invalid && certificate.touched">
+              <small class="text-danger" *ngIf="certificate.invalid && certificate.touched && certificateError">
                 {{ 'order-details.failed-certificate' | translate }}
               </small>
             </div>
           </div>
           <div class="messages-container">
+            <small class="text-danger" *ngIf="certificateError">
+              {{ 'order-details.failed-certificate' | translate }}
+            </small>
+            <small class="text-danger" *ngIf="certStatus === 'USED' && failedCert">
+              {{ 'order-details.already-used' | translate: { certDate: certDate } }}
+            </small>
+            <small class="text-danger" *ngIf="certStatus === 'EXPIRED' && failedCert">
+              {{ 'order-details.expired' | translate: { certDate: certDate } }}
+            </small>
             <small class="text-message" *ngIf="certSize">
               {{ 'order-details.activated' | translate: { certificateSum: certificateSum, certDate: certDate } }}
             </small>
             <small class="text-message" *ngIf="(certStatus === 'NEW' || certStatus === 'ACTIVE') && !certSize">
               {{ 'order-details.activated' | translate: { certificateSum: certificateSum, certDate: certDate } }}
             </small>
-            <small class="text-danger" *ngIf="certificateError">
-              {{ 'order-details.failed-certificate' | translate }}
-            </small>
-            <small class="text-danger" *ngIf="certStatus === 'USED'">
-              {{ 'order-details.already-used' | translate: { certDate: certDate } }}
-            </small>
-            <small class="text-danger" *ngIf="certStatus === 'EXPIRED'">
-              {{ 'order-details.expired' | translate: { certDate: certDate } }}
-            </small>
           </div>
           <button
             type="button"
-            *ngIf="addCert && finalSum !== 0"
+            *ngIf="addCert && finalSum > 0 && !failedCert"
             class="addCertificateBtn"
-            [disabled]="disableAddCertificate()"
-            (click)="addCertificate()"
+            [disabled]="!disableAddCertificate() || cancelCertBtn || certificateError || failedCert"
+            (click)="addNewCertificate()"
           >
             {{ 'order-details.add-certificate' | translate }}
           </button>
           <div class="points">
             <h5>{{ 'order-details.bonus-need' | translate }}</h5>
-            <p>{{ 'order-details.bonus-left' | translate }} {{ points | currency | localizedCurrency }}</p>
+            <p>{{ 'order-details.bonus-left' | translate }} {{ defaultPoints | currency | localizedCurrency }}</p>
             <p>
               <a href="#!" class="bonus-how-to-link">{{ 'order-details.bonus-how-to-get' | translate }}</a>
             </p>
-            <div class="radio-btn" *ngIf="points !== 0 && finalSum !== 0">
+            <div class="radio-btn" *ngIf="defaultPoints !== 0 && showTotal !== 0">
               <label class="custom-radio-btn"
                 >{{ 'order-details.no' | translate }}
-                <input formControlName="bonus" type="radio" value="no" tabindex="-1" />
-                <span class="checkmark" tabindex="0" (keyup)="selectPointsRadioBtn($event, 'no')"></span>
+                <input formControlName="bonus" type="radio" value="no" tabindex="-1" (click)="resetPoints()" />
+                <span class="checkmark" tabindex="0" (keyup)="selectPointsRadioBtn($event, 'no'); resetPoints()"></span>
               </label>
               <label class="custom-radio-btn"
                 >{{ 'order-details.yes' | translate }}
@@ -304,7 +265,7 @@
 </div>
 
 <div class="w-100 d-flex justify-content-end buttons">
-  <button type="button" class="secondary-global-button btn cansel-button btn-main" (click)="cancelUBS()">
+  <button type="button" class="secondary-global-button btn cancel-button btn-main" (click)="cancelUBS()">
     {{ 'order-details.cancel' | translate }}
   </button>
   <button

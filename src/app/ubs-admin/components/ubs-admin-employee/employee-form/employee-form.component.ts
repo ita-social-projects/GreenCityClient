@@ -1,7 +1,9 @@
-import { Component, OnInit, Inject, Input } from '@angular/core';
+import { Component, Inject, OnInit } from '@angular/core';
 import { MAT_DIALOG_DATA } from '@angular/material/dialog';
-import { FormArray, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { UbsAdminEmployeeService } from '../../../services/ubs-admin-employee.service';
+import { MatDialogRef } from '@angular/material/dialog';
+import { Page } from '../../../models/ubs-admin.interface';
 
 @Component({
   selector: 'app-employee-form',
@@ -9,77 +11,163 @@ import { UbsAdminEmployeeService } from '../../../services/ubs-admin-employee.se
   styleUrls: ['./employee-form.component.scss']
 })
 export class EmployeeFormComponent implements OnInit {
-  @Input()
   locations;
   roles;
-  selectedFile: File;
-  filePath: string;
-  uploaded = false;
   employeeForm: FormGroup;
-  positionsArr = [];
+  employeePositions;
+  receivingStations;
+  phoneMask = '{+38} (000) 00 000 00';
+  dragOver = false;
+  imageURL: string;
+  imageName = 'Your Avatar';
+  selectedFile;
+  defaultPhotoURL = 'https://csb10032000a548f571.blob.core.windows.net/allfiles/90370622-3311-4ff1-9462-20cc98a64d1ddefault_image.jpg';
 
   ngOnInit() {
     this.employeeService.getAllPositions().subscribe(
-      (data) => {
-        this.roles = data;
+      (roles) => {
+        this.roles = roles;
       },
       (error) => console.error('Observer for role got an error: ' + error)
     );
-    this.employeeService.getAllStantions().subscribe(
-      (data) => {
-        this.locations = data;
+    this.employeeService.getAllStations().subscribe(
+      (locations) => {
+        this.locations = locations;
       },
       (error) => console.error('Observer for stations got an error: ' + error)
     );
   }
 
-  constructor(private employeeService: UbsAdminEmployeeService, public fb: FormBuilder, @Inject(MAT_DIALOG_DATA) public data) {
+  constructor(
+    private employeeService: UbsAdminEmployeeService,
+    public dialogRef: MatDialogRef<EmployeeFormComponent>,
+    public fb: FormBuilder,
+    @Inject(MAT_DIALOG_DATA) public data: Page
+  ) {
     this.employeeForm = this.fb.group({
-      image: [this.data.image],
       firstName: [this.data.firstName, Validators.required],
       lastName: [this.data.lastName, Validators.required],
       phoneNumber: [this.data.phoneNumber, Validators.required],
-      email: [this.data.email],
-      employeePositions: this.fb.array([], Validators.required),
-      receivingStations: this.fb.array([], Validators.required)
+      email: [this.data.email]
+    });
+    this.employeePositions = this.data.employeePositions ?? [];
+    this.receivingStations = this.data.receivingStations ?? [];
+    this.imageURL = this.data.image;
+  }
+
+  get isUpdatingEmployee() {
+    console.log(!(Object.keys(this.data).length === 0));
+    return !(Object.keys(this.data).length === 0);
+  }
+
+  get isCreatingEmployee() {
+    return !this.isUpdatingEmployee;
+  }
+
+  get userHasDefaultPhoto() {
+    return this.imageURL === this.defaultPhotoURL;
+  }
+
+  findRole(id: number): number {
+    return this.employeePositions.findIndex((role) => {
+      return role.id === id;
     });
   }
 
-  get employeeControls() {
-    return this.employeeForm.get('employeePositions') as FormArray;
+  onCheckChangeRole(role) {
+    if (this.doesIncludeRole(role)) {
+      const removeIndex = this.findRole(role.id);
+      this.employeePositions.splice(removeIndex, 1);
+      return;
+    }
+    this.employeePositions.push(role);
   }
 
-  get stationControls() {
-    return this.employeeForm.get('receivingStations') as FormArray;
+  doesIncludeRole(role) {
+    return this.employeePositions.some((existingRole) => existingRole.id === role.id);
   }
 
-  onCheckChangeRole(data) {
-    this.employeeControls.value.push(new FormControl(data));
-  }
-
-  onCheckChangeLocation(data) {
-    this.stationControls.value.push(new FormControl(data));
-  }
-
-  imagePreview(e) {
-    this.selectedFile = (e.target as HTMLInputElement).files[0];
-    this.employeeForm.patchValue({
-      img: this.selectedFile
+  findLocation(id: number): number {
+    return this.receivingStations.findIndex((location) => {
+      return location.id === id;
     });
-    this.employeeForm.get('image').updateValueAndValidity();
-    const reader = new FileReader();
-    reader.onload = () => {
-      this.filePath = reader.result as string;
+  }
+
+  onCheckChangeLocation(location) {
+    if (this.doesIncludeLocation(location)) {
+      const removeIndex = this.findLocation(location.id);
+      this.receivingStations.splice(removeIndex, 1);
+      return;
+    }
+    this.receivingStations.push(location);
+  }
+
+  doesIncludeLocation(location): boolean {
+    return this.receivingStations.some((station) => location.id === station.id);
+  }
+
+  prepareEmployeeDataToSend(dto: string): FormData {
+    const phoneNumber = this.employeeForm.value.phoneNumber;
+    // this.employeeForm.value.phoneNumber = phoneNumber.slice(1);
+    const employeeDataToSend = {
+      ...this.employeeForm.value,
+      image: this.imageURL || this.defaultPhotoURL,
+      employeePositions: this.employeePositions,
+      receivingStations: this.receivingStations
     };
-    reader.readAsDataURL(this.selectedFile);
-    this.uploaded = true;
+    if (this.isUpdatingEmployee) {
+      employeeDataToSend.id = this.data.id;
+    }
+    const formData: FormData = new FormData();
+    const stringifiedDataToSend = JSON.stringify(employeeDataToSend);
+    formData.append(dto, stringifiedDataToSend);
+    return formData;
   }
 
-  submit() {
-    const formData: any = new FormData();
-    const addEmployeeDto = new Blob([JSON.stringify(this.employeeForm.value)], { type: 'application/json' });
-    formData.append('addEmployeeDto', addEmployeeDto);
-    formData.append('image', this.selectedFile);
-    this.employeeService.postEmployee(formData).subscribe((res) => console.log(res));
+  updateEmployee() {
+    const dataToSend = this.prepareEmployeeDataToSend('employeeDto');
+    // dataToSend.append('image', this.selectedFile);
+    this.employeeService.updateEmployee(dataToSend).subscribe(() => {
+      this.dialogRef.close();
+    });
+  }
+
+  createEmployee() {
+    const dataToSend = this.prepareEmployeeDataToSend('addEmployeeDto');
+    this.employeeService.postEmployee(dataToSend).subscribe(() => {
+      this.dialogRef.close();
+    });
+  }
+
+  treatFileInput(event: Event) {
+    this.dragOver = false;
+    event.preventDefault();
+
+    const reader = new FileReader();
+    this.selectedFile = (event.target as HTMLInputElement).files[0];
+    this.imageName = this.selectedFile.name;
+
+    reader.readAsDataURL(this.selectedFile);
+    reader.onload = () => {
+      this.imageURL = reader.result as string;
+      console.log(reader);
+    };
+  }
+
+  cancelDefault(e: DragEvent) {
+    e.preventDefault();
+  }
+
+  removeImage() {
+    if (this.isCreatingEmployee || this.userHasDefaultPhoto) {
+      this.imageURL = null;
+      this.imageName = null;
+      return;
+    }
+    console.log(this.data.id);
+    this.employeeService.deleteEmployeeImage(this.data.id).subscribe(() => {
+      this.imageURL = this.defaultPhotoURL;
+      this.imageName = null;
+    });
   }
 }
