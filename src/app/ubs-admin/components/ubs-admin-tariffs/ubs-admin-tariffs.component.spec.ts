@@ -4,15 +4,17 @@ import { MatDialog } from '@angular/material/dialog';
 import { OverlayModule } from '@angular/cdk/overlay';
 import { MatDialogModule } from '@angular/material/dialog';
 import { TranslateModule } from '@ngx-translate/core';
+import { HttpClientTestingModule, HttpTestingController } from '@angular/common/http/testing';
 
 describe('UbsAdminTariffsComponent', () => {
   let component: UbsAdminTariffsComponent;
   let fixture: ComponentFixture<UbsAdminTariffsComponent>;
+  let httpMock: HttpTestingController;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       declarations: [UbsAdminTariffsComponent],
-      imports: [OverlayModule, MatDialogModule, TranslateModule.forRoot()],
+      imports: [OverlayModule, MatDialogModule, TranslateModule.forRoot(), HttpClientTestingModule],
       providers: [{ provide: MatDialog }]
     }).compileComponents();
   }));
@@ -20,6 +22,7 @@ describe('UbsAdminTariffsComponent', () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(UbsAdminTariffsComponent);
     component = fixture.componentInstance;
+    httpMock = TestBed.inject(HttpTestingController);
     fixture.detectChanges();
   });
 
