@@ -11,5 +11,4 @@ export class NotificationBodyComponent {
   @Input() body: string;
 
   constructor(public userMessagesService: UserMessagesService) {}
-
 }

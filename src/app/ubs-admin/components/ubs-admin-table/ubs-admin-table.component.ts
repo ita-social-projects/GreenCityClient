@@ -1,9 +1,10 @@
+import { TableHeightService } from './../../services/table-height.service';
 import { UbsAdminTableExcelPopupComponent } from './ubs-admin-table-excel-popup/ubs-admin-table-excel-popup.component';
 import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
 import { nonSortableColumns } from './../../models/non-sortable-columns.model';
 import { AdminTableService } from '../../services/admin-table.service';
 import { CdkDragDrop, moveItemInArray } from '@angular/cdk/drag-drop';
-import { Component, OnInit, ViewChild, OnDestroy } from '@angular/core';
+import { Component, OnInit, ViewChild, OnDestroy, AfterViewChecked } from '@angular/core';
 import { takeUntil } from 'rxjs/operators';
 import { Subject } from 'rxjs';
 import { MatTableDataSource } from '@angular/material/table';
@@ -18,7 +19,7 @@ import { IEditCell } from '../../models/edit-cell.model';
   templateUrl: './ubs-admin-table.component.html',
   styleUrls: ['./ubs-admin-table.component.scss']
 })
-export class UbsAdminTableComponent implements OnInit, OnDestroy {
+export class UbsAdminTableComponent implements OnInit, AfterViewChecked, OnDestroy {
   currentLang: string;
   nonSortableColumns = nonSortableColumns;
   sortingColumn: string;
@@ -33,19 +34,25 @@ export class UbsAdminTableComponent implements OnInit, OnDestroy {
   isUpdate = false;
   destroy: Subject<boolean> = new Subject<boolean>();
   arrowDirection: string;
+  isTableHeightSet = false;
   tableData: any[];
   totalElements = 0;
   totalPages: number;
   pageSizeOptions: number[] = [10, 15, 20];
   currentPage = 0;
-  pageSize = 10;
+  pageSize = 25;
   ubsAdminTableIcons = ubsAdminTable;
   idsToChange: number[] = [];
   allChecked: boolean;
   tableViewHeaders = [];
   @ViewChild(MatSort, { static: true }) sort: MatSort;
 
-  constructor(private adminTableService: AdminTableService, public dialog: MatDialog, private localStorageService: LocalStorageService) {}
+  constructor(
+    private adminTableService: AdminTableService,
+    private localStorageService: LocalStorageService,
+    private tableHeightService: TableHeightService,
+    public dialog: MatDialog
+  ) {}
 
   ngOnInit() {
     this.localStorageService.languageBehaviourSubject.pipe(takeUntil(this.destroy)).subscribe((lang) => {
@@ -53,6 +60,17 @@ export class UbsAdminTableComponent implements OnInit, OnDestroy {
     });
     this.getColumns();
     this.getTable();
+  }
+
+  ngAfterViewChecked() {
+    if (!this.isTableHeightSet) {
+      const table = document.getElementById('table');
+      const tableContainer = document.getElementById('table-container');
+      this.isTableHeightSet = this.tableHeightService.setTableHeightToContainerHeight(table, tableContainer);
+      if (!this.isTableHeightSet) {
+        this.onScroll();
+      }
+    }
   }
 
   applyFilter(filterValue: string): void {
@@ -112,6 +130,7 @@ export class UbsAdminTableComponent implements OnInit, OnDestroy {
         this.totalElements = item[`totalElements`];
         this.dataSource = new MatTableDataSource(this.tableData);
         this.isLoading = false;
+        this.isTableHeightSet = false;
       });
   }
 

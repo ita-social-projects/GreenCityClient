@@ -11,7 +11,6 @@ import { takeUntil } from 'rxjs/operators';
   templateUrl: './ubs-user-messages.component.html',
   styleUrls: ['./ubs-user-messages.component.scss']
 })
-
 export class UbsUserMessagesComponent implements OnInit, OnDestroy {
   isAnyMessages = true;
   notifications: NotificationBody[];
@@ -52,19 +51,20 @@ export class UbsUserMessagesComponent implements OnInit, OnDestroy {
 
   fetchNotification(): void {
     this.isLoadBar = true;
-    this.userMessagesService.getNotification(this.page - 1, this.pageSize)
+    this.userMessagesService
+      .getNotification(this.page - 1, this.pageSize)
       .pipe(takeUntil(this.destroy))
       .subscribe(
-      (response) => {
-        this.notifications = response.page;
-        this.count = response.totalElements;
-        this.isAnyMessages = this.notifications.length > 0;
-        this.isLoadSpinner = this.isLoadBar = false;
-      },
-      (error) => {
-        console.log(error);
-      }
-    );
+        (response) => {
+          this.notifications = response.page;
+          this.count = response.totalElements;
+          this.isAnyMessages = this.notifications.length > 0;
+          this.isLoadSpinner = this.isLoadBar = false;
+        },
+        (error) => {
+          console.log(error);
+        }
+      );
   }
 
   setRead(notificationId: number, isRead: boolean) {
@@ -84,14 +84,15 @@ export class UbsUserMessagesComponent implements OnInit, OnDestroy {
         }
       });
       this.isLoadSmallSpinner = true;
-      this.userMessagesService.setReadNotification(notificationId)
+      this.userMessagesService
+        .setReadNotification(notificationId)
         .pipe(takeUntil(this.destroy))
         .subscribe((response) => {
-        const findNotification = this.notifications.find((item) => item.id === notificationId);
-        findNotification.body = response.body;
-        findNotification.isOpen = true;
-        this.isLoadSmallSpinner = false;
-      });
+          const findNotification = this.notifications.find((item) => item.id === notificationId);
+          findNotification.body = response.body;
+          findNotification.isOpen = true;
+          this.isLoadSmallSpinner = false;
+        });
     }
   }
 
