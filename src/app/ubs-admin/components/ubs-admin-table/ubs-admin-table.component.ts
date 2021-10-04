@@ -101,7 +101,7 @@ export class UbsAdminTableComponent implements OnInit, OnDestroy {
       });
   }
 
-  private getTable(columnName = this.sortingColumn || 'orderid', sortingType = this.sortType || 'desc') {
+  private getTable(columnName = this.sortingColumn || 'order_id', sortingType = this.sortType || 'desc') {
     this.isLoading = true;
     this.adminTableService
       .getTable(columnName, this.currentPage, this.pageSize, sortingType)
@@ -122,7 +122,7 @@ export class UbsAdminTableComponent implements OnInit, OnDestroy {
   updateTableData() {
     this.isUpdate = true;
     this.adminTableService
-      .getTable(this.sortingColumn || 'orderid', this.currentPage, this.pageSize, this.sortType || 'desc')
+      .getTable(this.sortingColumn || 'order_id', this.currentPage, this.pageSize, this.sortType || 'desc')
       .pipe(takeUntil(this.destroy))
       .subscribe((item) => {
         const data = item[`page`];
