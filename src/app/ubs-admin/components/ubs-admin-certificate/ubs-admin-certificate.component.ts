@@ -53,7 +53,9 @@ export class UbsAdminCertificateComponent implements OnInit, AfterViewChecked, O
       const table = document.getElementById('table');
       const tableContainer = document.getElementById('table-container');
       this.isTableHeightSet = this.tableHeightService.setTableHeightToContainerHeight(table, tableContainer);
-      this.isTableHeightSet ? '' : this.onScroll();
+      if (!this.isTableHeightSet) {
+        this.onScroll();
+      }
     }
   }
 
