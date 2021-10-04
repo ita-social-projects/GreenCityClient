@@ -316,6 +316,13 @@
       "save": "Save"
     }
   },
+  "ubs-user-notification": {
+    "title": "Your messages",
+    "title-table": {
+      "number": "№ order",
+      "theme-messages": "Theme messages",
+      "time": "Time"
+    }
   "ubs-tariffs-delete-service": {
     "delete_question": "Delete this line?",
     "yes": "yes",

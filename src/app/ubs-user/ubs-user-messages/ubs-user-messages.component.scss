@@ -1,0 +1,225 @@
+@mixin left-arrow {
+  content: ' ';
+  width: 20px;
+  height: 12px;
+  margin-right: -5px;
+}
+
+@mixin right-arrow {
+  content: ' ';
+  width: 20px;
+  height: 12px;
+  margin-left: -5px;
+}
+
+.wrapper {
+  width: 110%;
+  height: 100vh;
+  position: relative;
+  margin-left: -25px;
+  line-height: 24px;
+  color: var(--ubs-primary-black);
+  font-family: var(--primary-font);
+  background-color: var(--after-primary-light-grey);
+}
+
+.main_header {
+  margin: 0 0 51px 0;
+  font-style: normal;
+  font-weight: 700;
+  font-size: 32px;
+  line-height: 40px;
+}
+
+.header-list {
+  display: flex;
+  margin-top: -32px;
+
+  div {
+    color: var(--ubs-primary-grey);
+    font-size: 14px;
+    font-style: normal;
+    font-weight: 700;
+    line-height: 20px;
+    letter-spacing: 0.10000000149011612px;
+    text-align: left;
+  }
+}
+
+.under-line {
+  width: 92%;
+  height: 1px;
+  background: var(--ubs-primary-light-grey);
+}
+
+.if-empty {
+  margin: 35px 0 0 19px;
+  font-size: 20px;
+  font-style: normal;
+  font-weight: 700;
+  line-height: 28px;
+  letter-spacing: 0.002em;
+  text-align: left;
+  color: var(--ubs-primary-grey);
+}
+
+.ng-star-inserted {
+  width: 96%;
+}
+
+.mat-expansion-panel {
+  margin: 10px 0 10px 0;
+  box-shadow: none;
+}
+
+.mat-expansion-panel-header {
+  width: 100%;
+}
+
+.mat-expansion-panel-header-title {
+  width: 37px;
+  text-align: left;
+}
+
+.title {
+  text-align: left;
+  margin-left: 38px;
+  padding-left: 10px;
+}
+
+.date {
+  max-width: 38%;
+  padding-right: 45px;
+}
+
+.item {
+  display: flex;
+}
+
+.col-5 {
+  flex: 0 0 38.666667%;
+  max-width: 41.666667%;
+}
+
+.id {
+  flex: 0 0 18.666667%;
+  max-width: 18.666667%;
+}
+
+.description {
+  color: var(--ubs-secondary-grey);
+  max-width: 40%;
+  margin-left: 20.5%;
+  font-size: 16px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 24px;
+}
+
+.img {
+  max-width: 284px;
+
+  img {
+    width: 100%;
+  }
+}
+
+.title-img {
+  margin-top: 25px;
+  margin-bottom: 10px;
+  color: var(--ubs-quaternary-dark-grey);
+  font-size: 14px;
+  font-style: normal;
+  font-weight: 700;
+  line-height: 20px;
+  letter-spacing: 0.10000000149011612px;
+  text-align: left;
+}
+
+.time {
+  margin-left: -44px;
+}
+
+.my-pagination::ng-deep .ngx-pagination {
+  font-family: var(--primary-font);
+  font-size: 16px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 24px;
+  letter-spacing: 0;
+  text-align: left;
+
+  li {
+    margin-right: 10px;
+  }
+
+  .current {
+    padding: 0.1875rem 0.405rem;
+    background: none;
+    color: black;
+    border: 1px solid #444e55;
+    box-sizing: border-box;
+    border-radius: 4px;
+  }
+
+  .pagination-previous a::before {
+    @include left-arrow;
+
+    background: url('../../../assets/img/ubs/arrow_left_ubs_messages_active.svg') no-repeat 100%;
+  }
+
+  .pagination-previous.disabled::before {
+    @include left-arrow;
+
+    background: url('../../../assets/img/ubs/arrow_left_ubs_messages.svg') no-repeat 100%;
+  }
+
+  .pagination-next a::after {
+    @include right-arrow;
+
+    background: url('../../../assets/img/ubs/arrow_right_ubs_messages_active.svg') no-repeat 100%;
+  }
+
+  .pagination-next.disabled::after {
+    @include right-arrow;
+
+    background: url('../../../assets/img/ubs/arrow_right_ubs_messages.svg') no-repeat 100%;
+  }
+}
+
+.content {
+  margin: 0 0 0 30px;
+  padding-bottom: 100px;
+}
+
+.textColorTitle {
+  color: var(--primary-black);
+}
+
+.load-spinner {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: 50px;
+}
+
+.load-bar {
+  width: 92%;
+  margin-top: -1px;
+}
+
+.small {
+  margin-top: 0;
+}
+
+:host ::ng-deep .custom-spinner circle {
+  stroke: #e2e2e2;
+}
+
+::ng-deep .mat-progress-bar-fill::after {
+  background: #e2e2e2;
+}
+
+::ng-deep .mat-progress-bar-buffer {
+  background: #bfbfbf;
+}
