@@ -1,3 +1,4 @@
+import { TableHeightService } from './../../services/table-height.service';
 import { nonSortableColumns } from './../../models/non-sortable-columns.model';
 import { AdminTableService } from '../../services/admin-table.service';
 import { CdkDragDrop, moveItemInArray } from '@angular/cdk/drag-drop';
@@ -43,7 +44,11 @@ export class UbsAdminTableComponent implements OnInit, AfterViewChecked, OnDestr
   tableViewHeaders = [];
   @ViewChild(MatSort, { static: true }) sort: MatSort;
 
-  constructor(private adminTableService: AdminTableService, private localStorageService: LocalStorageService) {}
+  constructor(
+    private adminTableService: AdminTableService,
+    private localStorageService: LocalStorageService,
+    private tableHeightService: TableHeightService
+  ) {}
 
   ngOnInit() {
     this.localStorageService.languageBehaviourSubject.pipe(takeUntil(this.destroy)).subscribe((lang) => {
@@ -55,28 +60,31 @@ export class UbsAdminTableComponent implements OnInit, AfterViewChecked, OnDestr
 
   ngAfterViewChecked() {
     if (!this.isTableHeightSet) {
-      this.setTableHeightToContainerHeight();
+      const table = document.getElementById('table');
+      const tableContainer = document.getElementById('table-container');
+      this.isTableHeightSet = this.tableHeightService.setTableHeightToContainerHeight(table, tableContainer);
+      this.isTableHeightSet ? '' : this.onScroll();
     }
   }
 
-  setTableHeightToContainerHeight() {
-    const table = document.getElementById('table');
-    if (table) {
-      const tableHeight = table.getBoundingClientRect().height;
-      const tableContainerHeight = this.setTableHeight().getBoundingClientRect().height;
-      if (tableHeight < tableContainerHeight) {
-        this.onScroll();
-      } else {
-        this.isTableHeightSet = true;
-      }
-    }
-  }
+  //  setTableHeightToContainerHeight() {
+  //   const table = document.getElementById('table');
+  //   if (table) {
+  //     const tableHeight = table.getBoundingClientRect().height;
+  //     const tableContainerHeight = this.setTableContainerHeight().getBoundingClientRect().height;
+  //     if (tableHeight < tableContainerHeight) {
+  //       this.onScroll();
+  //     } else {
+  //       this.isTableHeightSet = true;
+  //     }
+  //   }
+  // }
 
-  private setTableHeight() {
-    const tableContainer = document.getElementById('table-container');
-    tableContainer.style.height = document.documentElement.clientHeight - tableContainer.getBoundingClientRect().y + 'px';
-    return tableContainer;
-  }
+  // private setTableContainerHeight() {
+  //   const tableContainer = document.getElementById('table-container');
+  //   tableContainer.style.height = document.documentElement.clientHeight - tableContainer.getBoundingClientRect().y + 'px';
+  //   return tableContainer;
+  // }
 
   applyFilter(filterValue: string): void {
     this.dataSource.filter = filterValue.trim().toLowerCase();

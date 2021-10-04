@@ -1,5 +1,5 @@
 import { CdkDragDrop, moveItemInArray } from '@angular/cdk/drag-drop';
-import { Component, OnInit, ViewChild, OnDestroy } from '@angular/core';
+import { Component, OnInit, ViewChild, OnDestroy, AfterViewChecked } from '@angular/core';
 import { takeUntil } from 'rxjs/operators';
 import { Subject } from 'rxjs';
 import { MatTableDataSource } from '@angular/material/table';
@@ -7,16 +7,18 @@ import { SelectionModel } from '@angular/cdk/collections';
 import { ubsAdminTable } from '../ubs-image-pathes/ubs-admin-table';
 import { MatSort } from '@angular/material/sort';
 import { AdminCertificateService } from '../../services/admin-certificate.service';
+import { TableHeightService } from '../../services/table-height.service';
 
 @Component({
   selector: 'app-ubs-admin-certificate',
   templateUrl: './ubs-admin-certificate.component.html',
   styleUrls: ['./ubs-admin-certificate.component.scss']
 })
-export class UbsAdminCertificateComponent implements OnInit, OnDestroy {
+export class UbsAdminCertificateComponent implements OnInit, AfterViewChecked, OnDestroy {
   sortingColumn: string;
   sortType: string;
   columns: any[] = [];
+  isTableHeightSet = false;
   displayedColumns: string[] = [];
   orderInfo: string[] = [];
   customerInfo: string[] = [];
@@ -40,10 +42,19 @@ export class UbsAdminCertificateComponent implements OnInit, OnDestroy {
   ubsAdminTableIcons = ubsAdminTable;
   @ViewChild(MatSort, { static: true }) sort: MatSort;
 
-  constructor(private adminCertificateService: AdminCertificateService) {}
+  constructor(private adminCertificateService: AdminCertificateService, private tableHeightService: TableHeightService) {}
 
   ngOnInit() {
     this.getTable();
+  }
+
+  ngAfterViewChecked() {
+    // if (!this.isTableHeightSet) {
+    //   const table = document.getElementById('table');
+    //   const tableContainer = document.getElementById('table-container');
+    //   this.isTableHeightSet = this.tableHeightService.setTableHeightToContainerHeight(table, tableContainer);
+    //   this.isTableHeightSet ? "" : this.onScroll();
+    // }
   }
 
   applyFilter(filterValue: string): void {
@@ -78,10 +89,10 @@ export class UbsAdminCertificateComponent implements OnInit, OnDestroy {
     return `${this.selection.isSelected(row) ? 'deselect' : 'select'} row ${row.orderId + 1}`;
   }
 
-  getTable(sortingType = this.sortType || 'desc') {
+  getTable(columnName = this.sortingColumn || 'orderId', sortingType = this.sortType || 'DESC') {
     this.isLoading = true;
     this.adminCertificateService
-      .getTable(this.currentPage, this.pageSize, sortingType)
+      .getTable(columnName, this.currentPage, this.pageSize, sortingType)
       .pipe(takeUntil(this.destroy))
       .subscribe((item) => {
         this.tableData = item[`page`];
@@ -101,13 +112,14 @@ export class UbsAdminCertificateComponent implements OnInit, OnDestroy {
         this.setDisplayedColumns();
         this.arrayOfHeaders = arrayOfProperties;
         this.isLoading = false;
+        this.isTableHeightSet = false;
       });
   }
 
   updateTableData() {
     this.isUpdate = true;
     this.adminCertificateService
-      .getTable(this.currentPage, this.pageSize, this.sortType || 'desc')
+      .getTable(this.sortingColumn || 'orderId', this.currentPage, this.pageSize, this.sortType || 'DESC')
       .pipe(takeUntil(this.destroy))
       .subscribe((item) => {
         const data = item[`page`];
