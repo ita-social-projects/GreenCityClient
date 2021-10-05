@@ -4,13 +4,14 @@
       <h3 class="font-bolt order-title">{{ 'order-details.order-title' | translate }}</h3>
       <div>
         <h5>{{ 'order-details.choose-location' | translate }}</h5>
-        <select class="choose-location">
-          <option>{{ 'order-details.kyiv' | translate }}</option>
-          <option>{{ 'order-details.kyiv-region' | translate }}</option>
+        <select class="choose-location" [(ngModel)]="selectedLocationId" (ngModelChange)="onLocationSelected($event)">
+          <option *ngFor="let location of locations; let i = index" [value]="location.id">{{ location.name }}</option>
         </select>
       </div>
-      <p class="order-content">{{ 'order-details.order-content' | translate }}</p>
-      <p class="order-content">{{ 'order-details.min-big-bags' | translate: { minAmountOfBigBags: minAmountOfBigBags } }}</p>
+      <p class="order-content" *ngIf="selectedLocationId === 1">{{ 'order-details.order-content' | translate }}</p>
+      <p class="order-content" *ngIf="selectedLocationId === 2">
+        {{ 'order-details.min-big-bags' | translate: { minAmountOfBigBags: minAmountOfBigBags } }}
+      </p>
     </div>
     <form class="form" [formGroup]="orderDetailsForm" (change)="changeOrderDetails()">
       <div class="w-100 d-flex justify-content-between mb-2">
