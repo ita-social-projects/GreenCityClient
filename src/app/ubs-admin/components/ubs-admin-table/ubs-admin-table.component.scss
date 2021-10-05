@@ -1,3 +1,5 @@
+@import '../../../../typography/colorsUbs';
+
 .cdk-drag-preview {
   box-sizing: border-box;
   padding: 0 15px;
@@ -240,6 +242,22 @@ input {
   border: 1px solid var(--ubs-secondary-grey);
 }
 
+.blocked_mess {
+  background-color: rgb(255, 243, 205);
+  color: rgb(133, 100, 4);
+  border: 1px solid rgb(185, 141, 8);
+  padding: 10px;
+  border-radius: 5px;
+  position: relative;
+  cursor: pointer;
+
+  .close_alert {
+    position: absolute;
+    right: 10px;
+    font-size: 18px;
+  }
+}
+
 .mat-header-cell .mat-icon {
   padding-top: 5px;
   padding-left: 10px;
@@ -319,6 +337,14 @@ input {
 
 .mat-column-comment_for_order_by_client {
   width: 280px;
+}
+
+::ng-deep .mat-progress-bar-buffer {
+  background-color: var(--ubs-button-light-green);
+}
+
+::ng-deep .mat-progress-bar-fill::after {
+  background-color: rgb(122, 180, 6);
 }
 
 ::ng-deep .mat-checkbox-checked .mat-checkbox-background,
