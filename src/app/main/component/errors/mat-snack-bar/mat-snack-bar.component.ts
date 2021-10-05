@@ -44,6 +44,10 @@ export class MatSnackBarComponent {
       this.className = 'success-snackbar';
       this.getSnackBarMessage('snack-bar.success.confirm-email');
     },
+    successConfirmSaveOrder: (additionalValue: string) => {
+      this.className = 'success-snackbar-ubs';
+      this.getSnackBarMessage('snack-bar.saved-order', additionalValue);
+    },
     cafeNotificationsExists: () => {
       this.getSnackBarMessage('update-cafe.notifications.exists');
       this.className = 'error-snackbar';
@@ -72,9 +76,9 @@ export class MatSnackBarComponent {
       this.className = 'success-snackbar';
       this.getSnackBarMessage('user.habit.all-habits.new-habit-updated');
     },
-    errorMessage: (error) => {
+    errorMessage: (error, additionalValue?: string) => {
       this.className = 'error-snackbar';
-      this.getSnackBarMessage(error);
+      this.getSnackBarMessage(error, additionalValue);
     },
     sendNewLetter: () => {
       this.className = 'error-snackbar';
@@ -92,13 +96,14 @@ export class MatSnackBarComponent {
 
   constructor(public snackBar: MatSnackBar, private translate: TranslateService) {}
 
-  public openSnackBar(type: string) {
-    const isInclude = type.includes('400') ? this.snackType.error() : this.snackType.errorMessage(type);
-    return this.snackType[type] ? this.snackType[type]() : isInclude;
+  public openSnackBar(type: string, additionalValue?: string) {
+    const isInclude = type.includes('400') ? this.snackType.error() : this.snackType.errorMessage(type, additionalValue);
+    return this.snackType[type] ? this.snackType[type](additionalValue) : isInclude;
   }
 
-  public getSnackBarMessage(key: string): void {
-    this.translate.get(key).subscribe((translation) => {
+  public getSnackBarMessage(key: string, additionalValue?: string): void {
+    const addValue = additionalValue ? { orderId: additionalValue } : {};
+    this.translate.get(key, addValue).subscribe((translation) => {
       this.message = translation;
       this.snackBar.open(this.message, 'X', {
         duration: 15000,
