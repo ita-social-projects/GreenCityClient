@@ -1,3 +1,4 @@
+import { filteredColumnsOrderTable } from './../../models/filtering-columns.model';
 import { TableHeightService } from './../../services/table-height.service';
 import { UbsAdminTableExcelPopupComponent } from './ubs-admin-table-excel-popup/ubs-admin-table-excel-popup.component';
 import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
@@ -22,6 +23,8 @@ import { IEditCell } from '../../models/edit-cell.model';
 export class UbsAdminTableComponent implements OnInit, AfterViewChecked, OnDestroy {
   currentLang: string;
   nonSortableColumns = nonSortableColumns;
+  filteredColumnsOrderTable = filteredColumnsOrderTable;
+  items = ['Item 1', 'Item 2', 'Item 3', 'Item 4', 'Item 5'];
   sortingColumn: string;
   sortType: string;
   columns: any[] = [];
@@ -31,6 +34,7 @@ export class UbsAdminTableComponent implements OnInit, AfterViewChecked, OnDestr
   previousIndex: number;
   isLoading = true;
   editCellProgressBar: boolean;
+  expandedIndex = 0;
   isUpdate = false;
   destroy: Subject<boolean> = new Subject<boolean>();
   arrowDirection: string;
