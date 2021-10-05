@@ -15,7 +15,7 @@ import { TranslateModule } from '@ngx-translate/core';
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { CdkAccordionItem } from '@angular/cdk/accordion';
 
-fdescribe('UsbAdminTableComponent', () => {
+describe('UsbAdminTableComponent', () => {
   let component: UbsAdminTableComponent;
   let fixture: ComponentFixture<UbsAdminTableComponent>;
 
