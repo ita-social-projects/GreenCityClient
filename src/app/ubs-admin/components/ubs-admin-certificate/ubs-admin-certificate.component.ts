@@ -8,8 +8,6 @@ import { ubsAdminTable } from '../ubs-image-pathes/ubs-admin-table';
 import { MatSort } from '@angular/material/sort';
 import { AdminCertificateService } from '../../services/admin-certificate.service';
 import { TableHeightService } from '../../services/table-height.service';
-import { MatDialog } from '@angular/material/dialog';
-import { UbsAdminCertificateAddCertificatePopUpComponent } from './ubs-admin-certificate-add-certificate-pop-up/ubs-admin-certificate-add-certificate-pop-up.component';
 
 @Component({
   selector: 'app-ubs-admin-certificate',
@@ -44,11 +42,7 @@ export class UbsAdminCertificateComponent implements OnInit, AfterViewChecked, O
   ubsAdminTableIcons = ubsAdminTable;
   @ViewChild(MatSort, { static: true }) sort: MatSort;
 
-  constructor(
-    private adminCertificateService: AdminCertificateService,
-    private tableHeightService: TableHeightService,
-    public dialog: MatDialog
-  ) {}
+  constructor(private adminCertificateService: AdminCertificateService, private tableHeightService: TableHeightService) {}
 
   ngOnInit() {
     this.getTable();
@@ -147,16 +141,6 @@ export class UbsAdminCertificateComponent implements OnInit, AfterViewChecked, O
       this.currentPage++;
       this.updateTableData();
     }
-  }
-
-  openAddCertificate() {
-    this.dialog.open(UbsAdminCertificateAddCertificatePopUpComponent, {
-      hasBackdrop: true,
-      disableClose: true
-    });
-    this.dialog.afterAllClosed.pipe(takeUntil(this.destroy)).subscribe(() => {
-      this.getTable();
-    });
   }
 
   ngOnDestroy() {

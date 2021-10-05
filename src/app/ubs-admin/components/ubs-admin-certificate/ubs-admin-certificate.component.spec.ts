@@ -2,7 +2,6 @@ import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { TranslateModule } from '@ngx-translate/core';
 import { UbsAdminCertificateComponent } from './ubs-admin-certificate.component';
-import { MatDialogModule } from '@angular/material/dialog';
 
 describe('UbsAdminCertificateComponent', () => {
   let component: UbsAdminCertificateComponent;
@@ -10,7 +9,7 @@ describe('UbsAdminCertificateComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      imports: [HttpClientTestingModule, TranslateModule.forRoot(), MatDialogModule],
+      imports: [HttpClientTestingModule, TranslateModule.forRoot()],
       declarations: [UbsAdminCertificateComponent]
     }).compileComponents();
   }));
