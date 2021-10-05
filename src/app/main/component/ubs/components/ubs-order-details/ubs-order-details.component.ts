@@ -75,9 +75,11 @@ export class UBSOrderDetailsComponent extends FormBaseComponent implements OnIni
       popupCancel: 'confirmation.dismiss'
     }
   };
-  locations: Locations;
-  selectedLocationId;
-  isFetching = false;
+  public locations: Locations[];
+  public selectedLocationId: number;
+  public currentLocation: string;
+  public isFetching = false;
+  public changeLocation = false;
 
   constructor(
     private fb: FormBuilder,
@@ -93,24 +95,11 @@ export class UBSOrderDetailsComponent extends FormBaseComponent implements OnIni
   }
 
   ngOnInit(): void {
-    this.getLocations();
+    this.openLocationDialog();
     this.orderService.locationSubject.pipe(takeUntil(this.destroy)).subscribe(() => {
       this.takeOrderData();
       this.subscribeToLangChange();
     });
-  }
-
-  getLocations() {
-    this.isFetching = true;
-    this.orderService
-      .getLocations()
-      .pipe(takeUntil(this.destroy))
-      .subscribe((res: Locations) => {
-        this.locations = res;
-        this.selectedLocationId = this.locations[0].id;
-        this.isFetching = false;
-        this.saveLocation();
-      });
   }
 
   saveLocation() {
@@ -120,7 +109,9 @@ export class UBSOrderDetailsComponent extends FormBaseComponent implements OnIni
       .addLocation(selectedLocation)
       .pipe(take(1))
       .subscribe(() => {
+        this.currentLocation = this.locations.find((loc) => loc.id === this.selectedLocationId).name;
         this.isFetching = false;
+        this.changeLocation = false;
         this.orderService.completedLocation(true);
       });
   }
@@ -141,16 +132,21 @@ export class UBSOrderDetailsComponent extends FormBaseComponent implements OnIni
   }
 
   openLocationDialog() {
-    // delete if location popup do not uses
     this.isDialogOpen = true;
-    this.dialog.open(UbsOrderLocationPopupComponent, {
+    const dialogRef = this.dialog.open(UbsOrderLocationPopupComponent, {
       hasBackdrop: true,
       disableClose: true
     });
 
-    this.dialog.afterAllClosed.pipe(takeUntil(this.destroy)).subscribe(() => {
-      this.isDialogOpen = false;
-    });
+    dialogRef
+      .afterClosed()
+      .pipe(takeUntil(this.destroy))
+      .subscribe((res) => {
+        this.locations = res.data;
+        this.selectedLocationId = this.locations[0].id;
+        this.currentLocation = res.data[0].name;
+        this.isDialogOpen = false;
+      });
   }
 
   checkTotalBigBags() {
@@ -439,7 +435,7 @@ export class UBSOrderDetailsComponent extends FormBaseComponent implements OnIni
   private clearAdditionalCertificate(index: number) {
     if (this.formArrayCertificates.length > 1) {
       if (this.certificates.length === 0) {
-        this.certificateSum = 0;
+        this.certificateReset(true);
       }
       this.formArrayCertificates.removeAt(index);
     } else {
