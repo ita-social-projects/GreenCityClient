@@ -1,6 +1,6 @@
 .dialog-container {
-  width: 573px;
-  height: 575px;
+  width: 543px;
+  height: 625px;
 }
 
 .main-content {
@@ -87,7 +87,7 @@ textarea {
 }
 
 .courier-input {
-  padding-left: 5px;
+  padding-right: 10px;
 
   input {
     width: 100px;
@@ -101,9 +101,10 @@ textarea {
 }
 
 .buttons {
-  margin: 55px 45px 0 0;
+  margin-top: 55px;
   display: flex;
   justify-content: flex-end;
+  width: 530px;
 }
 
 .primary-global-button {
@@ -131,4 +132,37 @@ input.ng-touched.ng-invalid {
     width: 25px;
     height: 25px;
   }
+}
+
+.description-input {
+  width: 480px;
+  height: 141px;
+  font-style: normal;
+  font-weight: normal;
+  font-size: 17px;
+  line-height: 20px;
+  color: #1d2830;
+  padding: 10px;
+}
+
+.information {
+  margin-top: 20px;
+}
+
+.date {
+  margin: 25px 0 0 35px;
+  font-style: normal;
+  font-weight: normal;
+  font-size: 14px;
+  line-height: 16px;
+  color: var(--ubs-secondary-grey);
+  padding-right: 5px;
+}
+
+.user {
+  font-style: normal;
+  font-weight: normal;
+  font-size: 18px;
+  line-height: 20px;
+  color: var(--ubs-quaternary-dark-grey);
 }

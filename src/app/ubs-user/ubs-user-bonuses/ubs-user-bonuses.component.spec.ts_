@@ -1,19 +1,19 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { UbsClientBonusesComponent } from './ubs-client-bonuses.component';
+import { UbsUserBonusesComponent } from './ubs-client-bonuses.component';
 
-describe('UbsClientBonusesComponent', () => {
-  let component: UbsClientBonusesComponent;
-  let fixture: ComponentFixture<UbsClientBonusesComponent>;
+describe('UbsUserBonusesComponent', () => {
+  let component: UbsUserBonusesComponent;
+  let fixture: ComponentFixture<UbsUserBonusesComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [UbsClientBonusesComponent]
+      declarations: [UbsUserBonusesComponent]
     }).compileComponents();
   });
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(UbsClientBonusesComponent);
+    fixture = TestBed.createComponent(UbsUserBonusesComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });
