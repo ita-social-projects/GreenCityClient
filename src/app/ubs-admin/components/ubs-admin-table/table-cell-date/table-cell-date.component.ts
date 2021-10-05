@@ -1,5 +1,7 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
-import { IEditCell } from 'src/app/ubs-admin/models/edit-cell.model';
+import { take } from 'rxjs/operators';
+import { IAlertInfo, IEditCell } from 'src/app/ubs-admin/models/edit-cell.model';
+import { AdminTableService } from 'src/app/ubs-admin/services/admin-table.service';
 @Component({
   selector: 'app-table-cell-date',
   templateUrl: './table-cell-date.component.html',
@@ -7,14 +9,49 @@ import { IEditCell } from 'src/app/ubs-admin/models/edit-cell.model';
 })
 export class TableCellDateComponent {
   @Input() date;
-  @Input() nameOfColumn;
-  @Input() id;
-  @Output() editDateCell = new EventEmitter();
-  isEditable: boolean;
+  @Input() nameOfColumn: string;
+  @Input() id: number;
+  @Input() ordersToChange: number[];
+  @Input() isAllChecked: boolean;
 
-  edit() {
-    this.isEditable = true;
+  @Output() editDateCell = new EventEmitter();
+  @Output() showBlockedInfo = new EventEmitter();
+
+  public isBlocked: boolean;
+  public isEditable: boolean;
+
+  constructor(private adminTableService: AdminTableService) {}
+
+  public edit(): void {
+    this.isEditable = false;
+    this.isBlocked = true;
+    let typeOfChange: number[];
+
+    if (this.isAllChecked) {
+      typeOfChange = [];
+    }
+    if (this.ordersToChange.length) {
+      typeOfChange = this.ordersToChange;
+    }
+    if (!this.isAllChecked && !this.ordersToChange.length) {
+      typeOfChange = [this.id];
+    }
+
+    this.adminTableService
+      .blockOrders(typeOfChange)
+      .pipe(take(1))
+      .subscribe((res: IAlertInfo[]) => {
+        if (res[0] === undefined) {
+          this.isBlocked = false;
+          this.isEditable = true;
+        } else {
+          this.isEditable = false;
+          this.isBlocked = false;
+          this.showBlockedInfo.emit(res);
+        }
+      });
   }
+
   changeData(e) {
     const newDateValue: IEditCell = {
       id: this.id,

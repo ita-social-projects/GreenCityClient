@@ -1,5 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
+import { IAlertInfo } from '../models/edit-cell.model';
 
 @Injectable({
   providedIn: 'root'
@@ -23,5 +24,9 @@ export class AdminTableService {
       columnName,
       newValue
     });
+  }
+
+  blockOrders(ids: number[]) {
+    return this.http.post<IAlertInfo[]>(`${this.url}blockOrders`, ids);
   }
 }
