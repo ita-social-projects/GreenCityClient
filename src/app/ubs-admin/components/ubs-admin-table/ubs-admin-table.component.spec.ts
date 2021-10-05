@@ -1,3 +1,4 @@
+import { MatMenuModule } from '@angular/material/menu';
 import { DragDropModule } from '@angular/cdk/drag-drop';
 import { CdkTableModule } from '@angular/cdk/table';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
@@ -11,8 +12,10 @@ import { MatPaginatorModule } from '@angular/material/paginator';
 import { MatTableModule } from '@angular/material/table';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { TranslateModule } from '@ngx-translate/core';
+import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
+import { CdkAccordionItem } from '@angular/cdk/accordion';
 
-describe('UsbAdminTableComponent', () => {
+fdescribe('UsbAdminTableComponent', () => {
   let component: UbsAdminTableComponent;
   let fixture: ComponentFixture<UbsAdminTableComponent>;
 
@@ -20,6 +23,7 @@ describe('UsbAdminTableComponent', () => {
     TestBed.configureTestingModule({
       imports: [
         MatIconModule,
+        MatMenuModule,
         MatPaginatorModule,
         MatTableModule,
         CdkTableModule,
@@ -31,7 +35,8 @@ describe('UsbAdminTableComponent', () => {
         InfiniteScrollModule,
         TranslateModule.forRoot()
       ],
-      declarations: [UbsAdminTableComponent]
+      declarations: [UbsAdminTableComponent, CdkAccordionItem],
+      schemas: [CUSTOM_ELEMENTS_SCHEMA]
     }).compileComponents();
   }));
 
