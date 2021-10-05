@@ -24,6 +24,10 @@ export class UBSOrderFormComponent implements AfterViewInit, DoCheck {
 
   constructor(private cdr: ChangeDetectorRef) {}
 
+  @HostListener('window:beforeunload') onClose() {
+    return true;
+  }
+
   ngAfterViewInit(): void {
     this.firstStepForm = this.stepOneComponent.orderDetailsForm;
     this.secondStepForm = this.stepTwoComponent.personalDataForm;

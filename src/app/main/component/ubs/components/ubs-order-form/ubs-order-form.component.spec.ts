@@ -27,6 +27,10 @@ describe('UBSOrderFormComponent ', () => {
     expect(component).toBeTruthy();
   });
 
+  it('function onClose should return false', () => {
+    expect(component.onClose()).toBeTruthy();
+  });
+
   it('ngDoCheck should correctly change completed property', () => {
     component.stepper.selected.state = 'finalStep';
     fixture.detectChanges();
