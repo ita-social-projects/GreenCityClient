@@ -4,14 +4,14 @@ import { nonSortableColumns } from './../../models/non-sortable-columns.model';
 import { AdminTableService } from '../../services/admin-table.service';
 import { CdkDragDrop, moveItemInArray } from '@angular/cdk/drag-drop';
 import { Component, OnInit, ViewChild, OnDestroy } from '@angular/core';
-import { takeUntil } from 'rxjs/operators';
-import { Subject } from 'rxjs';
+import { take, takeUntil } from 'rxjs/operators';
+import { Subject, timer } from 'rxjs';
 import { MatTableDataSource } from '@angular/material/table';
 import { SelectionModel } from '@angular/cdk/collections';
 import { ubsAdminTable } from '../ubs-image-pathes/ubs-admin-table';
 import { MatSort } from '@angular/material/sort';
 import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
-import { IEditCell } from '../../models/edit-cell.model';
+import { IEditCell, IAlertInfo } from '../../models/edit-cell.model';
 
 @Component({
   selector: 'app-ubs-admin-table',
@@ -43,6 +43,7 @@ export class UbsAdminTableComponent implements OnInit, OnDestroy {
   idsToChange: number[] = [];
   allChecked: boolean;
   tableViewHeaders = [];
+  public blockedInfo: IAlertInfo[] = [];
   @ViewChild(MatSort, { static: true }) sort: MatSort;
 
   constructor(private adminTableService: AdminTableService, public dialog: MatDialog, private localStorageService: LocalStorageService) {}
@@ -77,7 +78,45 @@ export class UbsAdminTableComponent implements OnInit, OnDestroy {
     if (!row) {
       return `${this.isAllSelected() ? 'select' : 'deselect'} all`;
     }
-    return `${this.selection.isSelected(row) ? 'deselect' : 'select'} row ${row.orderId + 1}`;
+    return `${this.selection.isSelected(row) ? 'deselect' : 'select'} row ${row.order_Id + 1}`;
+  }
+
+  public showBlockedMessage(info): void {
+    this.blockedInfo = info;
+
+    const uniqUsers: string[] = [];
+    const convertInfo = [];
+
+    this.blockedInfo.forEach((item: IAlertInfo) => {
+      if (!uniqUsers.includes(item.userName)) {
+        uniqUsers.push(item.userName);
+      }
+
+      const index = this.dataSource.filteredData.findIndex((row) => row.order_id === item.orderId);
+      this.selection.deselect(this.dataSource.filteredData[index]);
+
+      if (this.idsToChange.includes(item.orderId)) {
+        this.idsToChange = this.idsToChange.filter((id) => id !== item.orderId);
+      }
+    });
+
+    uniqUsers.forEach((userName) => {
+      let ids: number[] = [];
+      this.blockedInfo.forEach((userInfo: IAlertInfo) => {
+        if (userName === userInfo.userName) {
+          ids.push(userInfo.orderId);
+        }
+      });
+      convertInfo.push({ ordersId: ids, userName });
+      ids = [];
+    });
+    this.blockedInfo = convertInfo;
+
+    timer(7000)
+      .pipe(take(1))
+      .subscribe(() => {
+        this.blockedInfo = [];
+      });
   }
 
   public changeColumns(checked: boolean, key: string, positionIndex): void {
@@ -101,7 +140,7 @@ export class UbsAdminTableComponent implements OnInit, OnDestroy {
       });
   }
 
-  private getTable(columnName = this.sortingColumn || 'orderid', sortingType = this.sortType || 'desc') {
+  private getTable(columnName = this.sortingColumn || 'order_id', sortingType = this.sortType || 'desc') {
     this.isLoading = true;
     this.adminTableService
       .getTable(columnName, this.currentPage, this.pageSize, sortingType)
@@ -122,7 +161,7 @@ export class UbsAdminTableComponent implements OnInit, OnDestroy {
   updateTableData() {
     this.isUpdate = true;
     this.adminTableService
-      .getTable(this.sortingColumn || 'orderid', this.currentPage, this.pageSize, this.sortType || 'desc')
+      .getTable(this.sortingColumn || 'order_id', this.currentPage, this.pageSize, this.sortType || 'desc')
       .pipe(takeUntil(this.destroy))
       .subscribe((item) => {
         const data = item[`page`];
@@ -187,6 +226,10 @@ export class UbsAdminTableComponent implements OnInit, OnDestroy {
     }
   }
 
+  public closeAlertMess(): void {
+    this.blockedInfo = [];
+  }
+
   private setDisplayedColumns(): void {
     this.columns.forEach((column, index) => {
       this.displayedColumns[index] = column.title.key;
@@ -195,7 +238,7 @@ export class UbsAdminTableComponent implements OnInit, OnDestroy {
 
   private editSingle(e: IEditCell): void {
     this.editCellProgressBar = true;
-    const id = this.tableData.findIndex((item) => item.orderid === e.id);
+    const id = this.tableData.findIndex((item) => item.order_id === e.id);
     const newRow = { ...this.tableData[id], [e.nameOfColumn]: e.newValue };
     const newTableData = [...this.tableData.slice(0, id), newRow, ...this.tableData.slice(id + 1)];
     this.tableData = newTableData;
@@ -209,7 +252,7 @@ export class UbsAdminTableComponent implements OnInit, OnDestroy {
     let newTableDataCombine = this.tableData;
 
     for (const idIter of this.idsToChange) {
-      const check = this.tableData.findIndex((item) => item.orderid === idIter);
+      const check = this.tableData.findIndex((item) => item.order_id === idIter);
       if (check > -1) {
         ids.push(check);
       }
@@ -238,6 +281,8 @@ export class UbsAdminTableComponent implements OnInit, OnDestroy {
     this.allChecked = false;
     this.idsToChange = [];
     this.editCellProgressBar = false;
+    // empty array define that we change all in column
+    this.postData([], e.nameOfColumn, e.newValue);
   }
 
   private postData(id, nameOfColumn, newValue): void {
@@ -245,10 +290,12 @@ export class UbsAdminTableComponent implements OnInit, OnDestroy {
       (val) => {
         this.editCellProgressBar = false;
         this.idsToChange = [];
+        this.allChecked = false;
       },
       (error) => {
         this.editCellProgressBar = false;
         this.idsToChange = [];
+        this.allChecked = false;
       }
     );
   }
