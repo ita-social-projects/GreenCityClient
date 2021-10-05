@@ -1,6 +1,7 @@
 <div class="time_to_show">
   <span>{{ from }} - {{ to }}</span>
-  <span (click)="edit()">&#9998;</span>
+  <span *ngIf="!isEditable && !isBlocked" (click)="edit()">&#9998;</span>
+  <mat-spinner *ngIf="isBlocked" strokeWidth="3" diameter="20"></mat-spinner>
 </div>
 
 <div *ngIf="isEditable" class="dropdown_time">

@@ -35,6 +35,12 @@
   </button>
 </div>
 <mat-progress-bar *ngIf="editCellProgressBar" mode="indeterminate"></mat-progress-bar>
+<div class="blocked_mess" *ngIf="blockedInfo.length" (click)="closeAlertMess()">
+  <ng-container *ngFor="let info of blockedInfo">
+    Orders {{ info.ordersId.join(', ') }} currently blocked by {{ info.userName }}
+  </ng-container>
+  <span class="close_alert">&#10006;</span>
+</div>
 <div
   id="table-container"
   class="scrolling"
@@ -91,32 +97,42 @@
           *ngIf="column.editType === 'SELECT'"
           [key]="row[column.title.key]"
           [optional]="column.optional"
-          [id]="row.orderid"
+          [id]="row.order_id"
           [lang]="currentLang"
           [nameOfColumn]="column.title.key"
+          [ordersToChange]="idsToChange"
+          [isAllChecked]="allChecked"
           (editCellSelect)="editCell($event)"
+          (showBlockedInfo)="showBlockedMessage($event)"
           class="column_cell"
         >
         </app-table-cell-select>
         <app-table-cell-date
           *ngIf="column.editType === 'DATE'"
-          (editDateCell)="editCell($event)"
           [date]="row[column.title.key]"
           [nameOfColumn]="column.title.key"
-          [id]="row.orderid"
-        ></app-table-cell-date>
+          [id]="row.order_id"
+          [ordersToChange]="idsToChange"
+          [isAllChecked]="allChecked"
+          (editDateCell)="editCell($event)"
+          (showBlockedInfo)="showBlockedMessage($event)"
+        >
+        </app-table-cell-date>
         <app-table-cell-time
           *ngIf="column.editType === 'TIME'"
-          (editTimeCell)="editCell($event)"
           [from]="row[column.title.key].slice(0, 5)"
           [to]="row[column.title.key].slice(6, 11)"
           [nameOfColumn]="column.title.key"
-          [id]="row.orderid"
+          [id]="row.order_id"
+          [ordersToChange]="idsToChange"
+          [isAllChecked]="allChecked"
+          (editTimeCell)="editCell($event)"
+          (showBlockedInfo)="showBlockedMessage($event)"
         >
         </app-table-cell-time>
         <mat-checkbox
           *ngIf="column.editType === 'CHECKBOX'"
-          (change)="selectRowsToChange($event, row.orderid)"
+          (change)="selectRowsToChange($event, row.order_id)"
           class="select-cell"
           (change)="$event ? selection.toggle(row) : null"
           [checked]="selection.isSelected(row)"
