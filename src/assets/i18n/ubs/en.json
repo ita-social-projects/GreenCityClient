@@ -7,6 +7,13 @@
     "pattern": "The field contains forbidden characters."
   },
   "order-details": {
+    "location": {
+      "title": "Welcome to UBS! First choose your location:",
+      "btn": {
+        "back": "Back",
+        "continue": "Continue"
+      }
+    },
     "order-title": "Services",
     "choose-location": "Choose your region",
     "kyiv": "Kyiv",
@@ -25,6 +32,7 @@
     "bonuses": "Bonuses: ",
     "amount-due": "Amount due: ",
     "min-sum": "The minimum order amount must be 500.00 UAH",
+    "min-big-bags": "Please note that the minimum order must contain at least {{minAmountOfBigBags}} packages of 120 liters",
     "question-certificate": "Do you want to use the certificate?",
     "certificate-number": "Enter the certificate number",
     "activate": "Activate",
@@ -46,7 +54,7 @@
     "eco-shop": "Eco store",
     "shop-order-question": "Are you waiting for an order from our Eco-store?",
     "cant-found-order": "If you could not find the order number, please indicate your name and surname for which you placed the order, in the comments.",
-    "enter-order-num": "Enter the order number",
+    "enter-order-num": "Order number",
     "additional-orders": "Add another order number",
     "coment": "Comment",
     "any-details": "Any details you would like to report further about this order",
@@ -67,13 +75,14 @@
     "ubs-courier": "UBS courier",
     "order-details": "Order details",
     "personal-data": "Personal data",
-    "payment": "Confirmation"
+    "payment": "Payment"
   },
   "personal-info": {
     "address-city": "city",
     "address-corp": "corp",
     "address-entrance": "entrance",
     "address-district": "district",
+    "pop-up-title": "New address",
     "pop-up-city": "City",
     "pop-up-city-name": "Kyiv",
     "pop-up-info-message": "At the moment we serve only the city of Kyiv",
@@ -86,10 +95,13 @@
     "pop-up-add-address": "Add address",
     "pop-up-save-changes": "Save changes",
     "pop-up-enter-you-location": "Enter a location",
+    "pop-up-comment-placeholder": "The road is under repair. Access to the house is available from the house number 15.",
     "info-personal-data": "Personal data",
+    "info-other-client": "The recipient is another person",
     "info-name": "Name",
     "info-phone": "Phone number",
     "info-surname": "Surname",
+    "info-optionally": "optionally",
     "info-address": "Garbage collection address",
     "info-no-address": "You have no addresses added. Please add an address.",
     "info-add-address": "Add address",

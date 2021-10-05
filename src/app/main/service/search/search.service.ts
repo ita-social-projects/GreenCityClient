@@ -19,7 +19,7 @@ export class SearchService {
   public allElements: SearchDto;
 
   public getAllResults(searchQuery: string, lang: string): Observable<SearchModel> {
-    return this.http.get<SearchModel>(`${this.backEndLink}/search?lang=${lang}&searchQuery=${searchQuery}`);
+    return this.http.get<SearchModel>(`${this.backEndLink}search?lang=${lang}&searchQuery=${searchQuery}`);
   }
 
   public getAllResultsByCat(
@@ -29,7 +29,9 @@ export class SearchService {
     sort: string = '',
     items: number = 9
   ): Observable<SearchDataModel> {
-    return this.http.get<SearchDataModel>(backendMockSearchNews);
+    return this.http.get<SearchDataModel>(
+      `${this.backEndLink}search/${category}?searchQuery=${query}&sort=${sort}&page=${page}&size=${items}`
+    );
   }
 
   private getResultsByCat(searchType: string): Observable<SearchModel> {

@@ -52,6 +52,18 @@ export class EcoNewsService implements OnDestroy {
     return this.http.get<EcoNewsModel>(`${this.backEnd}econews/recommended?openedEcoNewsId=${id}`);
   }
 
+  public getIsLikedByUser(econewsId) {
+    return this.http.get(`${this.backEnd}econews/isLikedByUser`, {
+      params: {
+        econewsId
+      }
+    });
+  }
+
+  public postToggleLike(id: number) {
+    return this.http.post(`${this.backEnd}econews/like?id=${id}`, {});
+  }
+
   ngOnDestroy(): void {
     this.destroyed$.next(true);
     this.destroyed$.complete();

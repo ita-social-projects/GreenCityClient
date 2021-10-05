@@ -1,0 +1,96 @@
+::ng-deep {
+  .mat-tab-label-content {
+    font-size: 20px;
+  }
+
+  .mat-tab-labels .mat-tab-label-active {
+    .mat-tab-label-content {
+      color: var(--primary-green);
+    }
+  }
+
+  .mat-tab-group.mat-primary .mat-ink-bar,
+  .mat-tab-nav-bar.mat-primary .mat-ink-bar {
+    background-color: var(--primary-green);
+  }
+}
+
+.header_list {
+  display: grid;
+  grid-template-columns: 200px 172px 222px auto;
+  grid-template-rows: 30px;
+  max-width: 862px;
+  font-size: 14px;
+  font-weight: 500;
+  padding-top: 40px;
+  line-height: 20px;
+  border: none;
+  text-align: center;
+}
+
+.card {
+  display: grid;
+  grid-template-rows: 80px auto;
+  background-color: var(--ubs-primary-white);
+  box-shadow: 0 2px 6px rgba(100, 114, 125, 0.15);
+  max-width: 862px;
+  margin-top: 18px;
+}
+
+.empty_card {
+  display: grid;
+  grid-template-columns: 56px 143px 172px 222px 268px;
+  justify-items: center;
+  align-items: center;
+
+  .order_sum {
+    margin-right: 75px;
+    justify-self: end;
+  }
+
+  .btns_group {
+    .btn_grid_cancel,
+    .btn_grid_pay,
+    .btn_grid_fake {
+      display: inline-block;
+      width: 114px;
+      margin: 0 20px 0 0;
+
+      .btn_pay {
+        height: 36px;
+        width: 114px;
+        border: none;
+        color: var(--ubs-primary-white);
+        padding: 8px 20px 8px 20px;
+        background: var(--ubs-primary-green);
+        border-radius: 4px;
+      }
+
+      .btn_cancel {
+        height: 36px;
+        width: 114px;
+        color: var(--ubs-primary-green);
+        background: var(--ubs-primary-white);
+        border: 1px solid var(--ubs-primary-green);
+        border-radius: 4px;
+      }
+
+      .btn_fake {
+        display: none;
+      }
+    }
+
+    .btn_grid_order {
+      margin: 0 20px 0 64px;
+
+      .btn_order {
+        height: 36px;
+        color: var(--ubs-primary-green);
+        border: 1px solid var(--ubs-primary-green);
+        padding: 8px 24px 8px 24px;
+        background: var(--ubs-primary-white);
+        border-radius: 4px;
+      }
+    }
+  }
+}

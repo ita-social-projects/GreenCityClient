@@ -17,6 +17,7 @@ export class LocalStorageService {
   userIdBehaviourSubject: BehaviorSubject<number> = new BehaviorSubject<number>(this.getUserId());
   languageBehaviourSubject: BehaviorSubject<string> = new BehaviorSubject<string>(this.getCurrentLanguage());
   accessTokenBehaviourSubject: BehaviorSubject<string> = new BehaviorSubject<string>(this.getAccessToken());
+  ubsRegBehaviourSubject: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(this.getUbsRegistration());
 
   public getAccessToken(): string {
     return localStorage.getItem(this.ACCESS_TOKEN);
@@ -36,6 +37,7 @@ export class LocalStorageService {
 
   public setAccessToken(accessToken: string): void {
     localStorage.setItem(this.ACCESS_TOKEN, accessToken);
+    this.removeUbsRegistration();
     this.accessTokenBehaviourSubject.next(accessToken);
   }
 
@@ -93,5 +95,20 @@ export class LocalStorageService {
 
   public removeTagsOfNews(key: string) {
     localStorage.removeItem(key);
+  }
+
+  public setUbsRegistration(value: boolean): void {
+    if (!localStorage.getItem(this.USER_ID)) {
+      this.ubsRegBehaviourSubject.next(value);
+      localStorage.setItem('callUbsRegWindow', `${value}`);
+    }
+  }
+
+  public getUbsRegistration(): boolean {
+    return !!localStorage.getItem('callUbsRegWindow');
+  }
+
+  public removeUbsRegistration(): void {
+    localStorage.removeItem('callUbsRegWindow');
   }
 }

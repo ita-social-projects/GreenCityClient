@@ -10,6 +10,7 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatPaginatorModule } from '@angular/material/paginator';
 import { MatTableModule } from '@angular/material/table';
 import { MatCheckboxModule } from '@angular/material/checkbox';
+import { TranslateModule } from '@ngx-translate/core';
 
 describe('UsbAdminTableComponent', () => {
   let component: UbsAdminTableComponent;
@@ -27,7 +28,8 @@ describe('UsbAdminTableComponent', () => {
         MatCheckboxModule,
         BrowserAnimationsModule,
         SharedModule,
-        InfiniteScrollModule
+        InfiniteScrollModule,
+        TranslateModule.forRoot()
       ],
       declarations: [UbsAdminTableComponent]
     }).compileComponents();

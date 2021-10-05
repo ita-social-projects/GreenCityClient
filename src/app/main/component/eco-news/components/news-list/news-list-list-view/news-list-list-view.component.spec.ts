@@ -1,6 +1,7 @@
 import { Renderer2 } from '@angular/core';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { EcoNewsModel } from '@eco-news-models/eco-news-model';
+import { TranslateModule } from '@ngx-translate/core';
 
 import { NewsListListViewComponent } from './news-list-list-view.component';
 
@@ -20,16 +21,18 @@ describe('NewsListListViewComponent', () => {
     text: 'string',
     author: {
       id: 1,
-      name: 'string',
+      name: 'string'
     },
     tags: [{ name: 'test', id: 1 }],
     creationDate: '11',
+    likes: 0
   };
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
+      imports: [TranslateModule.forRoot()],
       declarations: [NewsListListViewComponent],
-      providers: [{ provide: Renderer2, useClass: MockRenderer }],
+      providers: [{ provide: Renderer2, useClass: MockRenderer }]
     }).compileComponents();
   }));
 

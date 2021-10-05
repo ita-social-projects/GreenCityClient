@@ -15,6 +15,7 @@
 
 .main-content {
   margin-top: 120px;
+  overflow-x: hidden;
 }
 
 .sidebar-list {
@@ -75,4 +76,9 @@
 
 .arrow {
   width: 15px;
+}
+
+.count-unread-messages {
+  color: var(--ubs-primary-white);
+  margin: 0 -25px 0 -10px;
 }
