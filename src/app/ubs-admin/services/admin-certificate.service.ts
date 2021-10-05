@@ -8,7 +8,7 @@ export class AdminCertificateService {
 
   constructor(private http: HttpClient) {}
 
-  getTable(page?: number, size?: number, sortingType?: string) {
-    return this.http.get<any[]>(`${this.url}?page=${page}&size=${size}&sortingType=${sortingType}`);
+  getTable(column: string, page?: number, size?: number, sortingType?: string) {
+    return this.http.get<any[]>(`${this.url}?columnName=${column}&page=${page}&size=${size}&sortingOrder=${sortingType}`);
   }
 }
