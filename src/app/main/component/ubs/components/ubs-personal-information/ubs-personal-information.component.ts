@@ -1,4 +1,4 @@
-import { Component, DoCheck, Input, OnDestroy, OnInit } from '@angular/core';
+import { Component, DoCheck, Input, OnChanges, OnDestroy, OnInit, SimpleChanges } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, ValidatorFn, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { FormBaseComponent } from '@shared/components/form-base/form-base.component';
@@ -10,13 +10,14 @@ import { UBSAddAddressPopUpComponent } from './ubs-add-address-pop-up/ubs-add-ad
 import { Address, Bag, OrderBag, OrderDetails, PersonalData } from '../../models/ubs.interface';
 import { Order } from '../../models/ubs.model';
 import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
+import { changePasswordLink } from 'src/app/main/links';
 
 @Component({
   selector: 'app-ubs-personal-information',
   templateUrl: './ubs-personal-information.component.html',
   styleUrls: ['./ubs-personal-information.component.scss']
 })
-export class UBSPersonalInformationComponent extends FormBaseComponent implements OnInit, DoCheck, OnDestroy {
+export class UBSPersonalInformationComponent extends FormBaseComponent implements OnInit, DoCheck, OnDestroy, OnChanges {
   addressId: number;
   orderDetails: OrderDetails;
   personalData: PersonalData;
@@ -67,7 +68,10 @@ export class UBSPersonalInformationComponent extends FormBaseComponent implement
 
   ngDoCheck() {
     this.shareFormService.changePersonalData();
-    if (this.completed) {
+  }
+
+  ngOnChanges(changes: SimpleChanges) {
+    if (changes.completed?.currentValue) {
       this.submit();
     }
   }
@@ -241,7 +245,7 @@ export class UBSPersonalInformationComponent extends FormBaseComponent implement
   }
 
   submit(): void {
-    this.firstOrder = !this.firstOrder;
+    this.firstOrder = false;
     this.activeAddressId();
     this.changeAddressInPersonalData();
     this.orderDetails = this.shareFormService.orderDetails;
