@@ -64,6 +64,7 @@ export class UBSOrderDetailsComponent extends FormBaseComponent implements OnIni
   public certificateError = false;
   bonusesRemaining: boolean;
   isDialogOpen = false;
+  selectedLocationId: number;
   popupConfig = {
     hasBackdrop: true,
     closeOnNavigation: true,
