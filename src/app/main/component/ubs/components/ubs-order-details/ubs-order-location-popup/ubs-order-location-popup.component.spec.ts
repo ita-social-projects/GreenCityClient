@@ -1,5 +1,6 @@
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { MatDialogRef } from '@angular/material/dialog';
 import { RouterTestingModule } from '@angular/router/testing';
 import { TranslateModule } from '@ngx-translate/core';
 
@@ -12,6 +13,7 @@ describe('UbsOrderLocationPopupComponent', () => {
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       declarations: [UbsOrderLocationPopupComponent],
+      providers: [{ provide: MatDialogRef, useValue: {} }],
       imports: [RouterTestingModule, HttpClientTestingModule, TranslateModule.forRoot()]
     }).compileComponents();
   }));

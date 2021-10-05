@@ -222,6 +222,32 @@ button {
   }
 }
 
+.user-location {
+  display: flex;
+  position: relative;
+  margin: 20px auto;
+
+  .change-location {
+    width: auto;
+    padding: 0;
+    text-align: left;
+    background: none;
+    color: var(--ubs-electric-violet);
+    outline: none;
+    font-size: 14px;
+
+    &:hover {
+      background: none;
+    }
+  }
+
+  .list-locations {
+    position: absolute;
+    top: 15px;
+    left: 130px;
+  }
+}
+
 .middle-container {
   .showTotal {
     display: flex;
@@ -275,10 +301,10 @@ button {
     color: var(--ubs-electric-violet);
     outline: none;
     font-size: 14px;
-  }
 
-  .addCertificateBtn:hover {
-    background: none;
+    &:hover {
+      background: none;
+    }
   }
 
   .addBonus {
