@@ -1,7 +1,5 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
-import { take } from 'rxjs/operators';
-import { IAlertInfo, IEditCell } from 'src/app/ubs-admin/models/edit-cell.model';
-import { AdminTableService } from 'src/app/ubs-admin/services/admin-table.service';
+import { IEditCell } from 'src/app/ubs-admin/models/edit-cell.model';
 import { fromSelect, toSelect } from './table-cell-time-range';
 
 @Component({
@@ -12,23 +10,16 @@ import { fromSelect, toSelect } from './table-cell-time-range';
 export class TableCellTimeComponent implements OnInit {
   @Input() from;
   @Input() to;
-  @Input() nameOfColumn: string;
-  @Input() id: number;
-  @Input() ordersToChange: number[];
-  @Input() isAllChecked: boolean;
-
+  @Input() nameOfColumn;
+  @Input() id;
   @Output() editTimeCell = new EventEmitter();
-  @Output() showBlockedInfo = new EventEmitter();
 
-  public fromInput: string;
-  public toInput: string;
-  public fromSelect: string[];
-  public toSelect: string[];
-  public isEditable: boolean;
-  public isError = '';
-  public isBlocked: boolean;
-
-  constructor(private adminTableService: AdminTableService) {}
+  fromInput: string;
+  toInput: string;
+  fromSelect: string[];
+  toSelect: string[];
+  isEditable: boolean;
+  isError = '';
 
   ngOnInit() {
     this.fromSelect = fromSelect;
@@ -37,34 +28,8 @@ export class TableCellTimeComponent implements OnInit {
     this.toInput = this.to;
   }
 
-  public edit(): void {
-    this.isEditable = false;
-    this.isBlocked = true;
-    let typeOfChange: number[];
-
-    if (this.isAllChecked) {
-      typeOfChange = [];
-    }
-    if (this.ordersToChange.length) {
-      typeOfChange = this.ordersToChange;
-    }
-    if (!this.isAllChecked && !this.ordersToChange.length) {
-      typeOfChange = [this.id];
-    }
-
-    this.adminTableService
-      .blockOrders(typeOfChange)
-      .pipe(take(1))
-      .subscribe((res: IAlertInfo[]) => {
-        if (res[0] === undefined) {
-          this.isBlocked = false;
-          this.isEditable = true;
-        } else {
-          this.isEditable = false;
-          this.isBlocked = false;
-          this.showBlockedInfo.emit(res);
-        }
-      });
+  edit() {
+    this.isEditable = true;
   }
 
   save() {

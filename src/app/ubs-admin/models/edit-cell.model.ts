@@ -3,8 +3,3 @@ export interface IEditCell {
   nameOfColumn: string;
   newValue: string;
 }
-
-export interface IAlertInfo {
-  orderId: number;
-  userName: string;
-}

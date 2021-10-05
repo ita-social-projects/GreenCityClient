@@ -1,7 +1,6 @@
 <div *ngIf="!isEditable" class="date_to_show">
   <span>{{ date | date: 'dd/MM/y' }}</span>
-  <span *ngIf="!isEditable && !isBlocked" (click)="edit()">&#9998;</span>
-  <mat-spinner *ngIf="isBlocked" strokeWidth="3" diameter="20"></mat-spinner>
+  <span (click)="edit()">&#9998;</span>
 </div>
 <mat-form-field *ngIf="isEditable" color="accent" appearance="fill">
   <input matInput [matDatepicker]="picker1" [value]="date" (dateChange)="changeData($event)" />
