@@ -6,7 +6,7 @@ import { TranslateModule } from '@ngx-translate/core';
 
 import { UbsOrderLocationPopupComponent } from './ubs-order-location-popup.component';
 
-fdescribe('UbsOrderLocationPopupComponent', () => {
+describe('UbsOrderLocationPopupComponent', () => {
   let component: UbsOrderLocationPopupComponent;
   let fixture: ComponentFixture<UbsOrderLocationPopupComponent>;
 
