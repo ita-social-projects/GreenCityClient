@@ -80,9 +80,6 @@ th:nth-child(4) {
 
   td:hover {
     cursor: default;
-    text-overflow: clip;
-    white-space: normal;
-    word-break: break-all;
   }
 }
 
@@ -225,4 +222,8 @@ img {
   display: flex;
   justify-content: space-between;
   padding: 0 7px;
+}
+
+.form-select:empty {
+  width: 152px;
 }

@@ -3,7 +3,8 @@ import { Routes, RouterModule } from '@angular/router';
 import { UbsUserGuardGuard } from './ubs-user-guard.guard';
 import { UbsUserComponent } from './ubs-user.component';
 import { UbsUserOrdersComponent } from './ubs-user-orders/ubs-user-orders.component';
-import { UbsClientBonusesComponent } from '../ubs-admin/components/ubs-client-bonuses/ubs-client-bonuses.component';
+import { UbsUserMessagesComponent } from './ubs-user-messages/ubs-user-messages.component';
+import { UbsUserBonusesComponent } from './ubs-user-bonuses/ubs-user-bonuses.component';
 const routes: Routes = [
   {
     path: '',
@@ -12,7 +13,8 @@ const routes: Routes = [
 
     children: [
       { path: 'orders', component: UbsUserOrdersComponent },
-      { path: 'bonuses', component: UbsClientBonusesComponent }
+      { path: 'bonuses', component: UbsUserBonusesComponent },
+      { path: `messages/:pageId`, component: UbsUserMessagesComponent }
     ]
   }
 ];

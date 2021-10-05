@@ -57,7 +57,9 @@ export class UbsAdminEmployeeComponent implements OnInit {
 
   openDialog() {
     this.dialog.open(EmployeeFormComponent, {
-      panelClass: 'custom-modalbox'
+      hasBackdrop: true,
+      closeOnNavigation: true,
+      panelClass: 'custom-dialog-container'
     });
   }
 }
