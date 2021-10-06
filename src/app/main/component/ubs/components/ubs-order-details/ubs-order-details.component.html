@@ -17,9 +17,12 @@
           </select>
         </div>
       </div>
-      <p class="order-content">{{ 'order-details.order-content' | translate }}</p>
-      <p class="order-content">{{ 'order-details.min-big-bags' | translate: { minAmountOfBigBags: minAmountOfBigBags } }}</p>
+      <p class="order-content" *ngIf="selectedLocationId === 1">{{ 'order-details.order-content' | translate }}</p>
+      <p class="order-content" *ngIf="selectedLocationId === 2">
+        {{ 'order-details.min-big-bags' | translate: { minAmountOfBigBags: minAmountOfBigBags } }}
+      </p>
     </div>
+
     <form class="form" [formGroup]="orderDetailsForm" (change)="changeOrderDetails()">
       <div class="w-100 d-flex justify-content-between mb-2">
         <label class="col-3 label m-0 p-0">{{ 'order-details.service' | translate }}</label>
