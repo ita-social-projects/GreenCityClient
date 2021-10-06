@@ -1,4 +1,4 @@
-import { Component, Input, OnInit, Output, EventEmitter } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { HabitAssignInterface } from '../../../../../../interface/habit/habit-assign.interface';
 import { HabitAssignService } from '@global-service/habit-assign/habit-assign.service';
 import { take } from 'rxjs/operators';
@@ -22,6 +22,7 @@ export class OneHabitComponent implements OnInit {
   isRequest = false;
   firstFriend = 'assets/img/kimi.png';
   secondFriend = 'assets/img/lewis.png';
+
   private descriptionType = {
     acquired: () => {
       this.daysCounter = this.habit.duration;
