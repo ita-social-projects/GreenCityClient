@@ -1,8 +1,8 @@
-import { UserOrdersService } from '../../ubs-user/services/user-orders.service';
-import { Component, OnInit, OnDestroy } from '@angular/core';
-import { takeUntil, catchError } from 'rxjs/operators';
+import { Component, OnDestroy, OnInit } from '@angular/core';
+import { catchError, takeUntil } from 'rxjs/operators';
 import { Subject, throwError } from 'rxjs';
 import { MatSnackBarComponent } from '@global-errors/mat-snack-bar/mat-snack-bar.component';
+import { UserOrdersService } from '../services/user-orders.service';
 
 @Component({
   selector: 'app-ubs-user-orders',

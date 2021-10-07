@@ -133,11 +133,11 @@ describe('UserService', () => {
     req.flush(HABITITEMS);
   });
 
-  it('should be PUT http method to update language', () => {
-    const url = service.updateUserLanguage(1).subscribe();
-    const req = httpMock.expectOne({ method: 'PUT' });
-    req.flush('Put');
-  });
+  // it('should be PUT http method to update language', () => {
+  //   const url = service.updateUserLanguage(1).subscribe();
+  //   const req = httpMock.expectOne({ method: 'PUT' });
+  //   req.flush('Put');
+  // });
 
   afterEach(() => {
     httpMock.verify();

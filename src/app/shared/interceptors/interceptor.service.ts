@@ -54,7 +54,7 @@ export class InterceptorService implements HttpInterceptor {
       catchError((error: HttpErrorResponse) => {
         if (this.checkIfErrorStatusIs(error.status, [BAD_REQUEST, FORBIDDEN])) {
           const noErrorErrorMessage = error.message ?? 'error';
-          const message = error.error.message ?? noErrorErrorMessage;
+          const message = error.error?.message ?? noErrorErrorMessage;
           this.openErrorWindow(message);
           return EMPTY;
         }

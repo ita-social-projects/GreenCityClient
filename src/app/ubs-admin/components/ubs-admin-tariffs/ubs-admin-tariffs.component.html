@@ -1,14 +1,17 @@
 <div class="city">
-  <select class="city-select">
-    <option>м. Київ</option>
-    <option>Київська область</option>
-  </select>
+  <form>
+    <select [(ngModel)]="selectedLocationId" name="region" class="select form-select form-select-lg">
+      <option [ngValue]="location.id" *ngFor="let location of locations">
+        {{ location.name }}
+      </option>
+    </select>
+  </form>
 </div>
 <div class="services-header">
   <div class="header-text">
     <h4>{{ 'ubs-tariffs.services' | translate }}</h4>
   </div>
-  <button class="secondary-global-button" (click)="openAddServicePopup()">
+  <button class="secondary-global-button">
     {{ 'ubs-tariffs.btn.add_service' | translate }}
   </button>
 </div>
@@ -25,11 +28,11 @@
     </tr>
     <tr>
       <td>
-        <img [src]="icons.edit" class="edit-button-img" alt="edit-icon" (click)="openUpdateServicePopup()" />
+        <img [src]="icons.edit" class="edit-button-img" alt="edit-icon" />
       </td>
       <td></td>
       <td></td>
-      <td>Текстильні відходи Текстильні відходи Текстильні відходи Текстильні відходи Текстильні відходи</td>
+      <td></td>
       <td></td>
       <td></td>
       <td></td>
@@ -40,11 +43,14 @@
   <div class="header-text">
     <h4>{{ 'ubs-tariffs.tariffs_for_services' | translate }}</h4>
   </div>
-  <button class="secondary-global-button">
-    {{ 'ubs-tariffs.btn.add_service' | translate }}
+  <button class="secondary-global-button" (click)="openAddServicePopup()">
+    {{ 'ubs-tariffs.btn.add_service2' | translate }}
   </button>
 </div>
 <div class="tariffs-table">
+  <div class="load-bar" *ngIf="isLoadBar">
+    <mat-progress-bar class="custom-bar" mode="indeterminate"></mat-progress-bar>
+  </div>
   <table>
     <tr>
       <th></th>
@@ -55,36 +61,19 @@
       <th>{{ 'ubs-tariffs.carriers_commission' | translate }}</th>
       <th>{{ 'ubs-tariffs.full_cost' | translate }}</th>
     </tr>
-    <tr>
+    <tr *ngFor="let bag of bags">
       <td style="padding-left: 0">
         <div class="image-buttons">
-          <img [src]="icons.edit" class="edit-button-img" alt="edit-icon" />
-          <img [src]="icons.delete" class="delete-button-img" alt="edit-icon" (click)="openDeleteProfileDialog()" />
+          <img [src]="icons.edit" class="edit-button-img" alt="edit-icon" (click)="openUpdateServicePopup(bag)" />
+          <img [src]="icons.delete" class="delete-button-img" alt="edit-icon" (click)="openDeleteProfileDialog(bag)" />
         </div>
       </td>
-      <td>32132121323123123132321321213231231231323213212132312312313232132121323123123132</td>
-      <td></td>
-      <td></td>
-      <td>321321</td>
-      <td></td>
-      <td></td>
-    </tr>
-    <tr>
-      <td style="padding-left: 0">
-        <div class="image-buttons">
-          <img [src]="icons.edit" class="edit-button-img" alt="edit-icon" />
-          <img [src]="icons.delete" class="delete-button-img" alt="edit-icon" (click)="openDeleteProfileDialog()" />
-        </div>
-      </td>
-      <td>32132121323123123</td>
-      <td></td>
-      <td>
-        Текстильні відходи Текстильні відходи Текстильні відходи Текстильні відходи Текстильні відходи Текстильні відходи Текстильні відходи
-        Текстильні відходи Текстильні відходи Текстильні відходи
-      </td>
-      <td>321321</td>
-      <td></td>
-      <td></td>
+      <td>{{ bag.name }}</td>
+      <td>{{ bag.capacity | volume }}</td>
+      <td>{{ bag.description }}</td>
+      <td>{{ bag.price | currency | localizedCurrency }}</td>
+      <td>{{ bag.commission | currency | localizedCurrency }}</td>
+      <td>{{ bag.fullPrice | currency | localizedCurrency }}</td>
     </tr>
   </table>
 </div>
