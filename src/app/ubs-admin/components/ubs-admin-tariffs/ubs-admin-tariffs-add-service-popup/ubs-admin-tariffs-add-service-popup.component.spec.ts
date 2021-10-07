@@ -3,7 +3,6 @@ import { UbsAdminTariffsAddServicePopupComponent } from './ubs-admin-tariffs-add
 import { MAT_DIALOG_DATA, MatDialogModule, MatDialogRef } from '@angular/material/dialog';
 import { FormBuilder } from '@angular/forms';
 import { TranslateModule } from '@ngx-translate/core';
-import { Subject } from 'rxjs';
 import { HttpClientTestingModule, HttpTestingController } from '@angular/common/http/testing';
 
 describe('UbsAdminTariffsAddServicePopupComponent', () => {
@@ -11,7 +10,7 @@ describe('UbsAdminTariffsAddServicePopupComponent', () => {
   let fixture: ComponentFixture<UbsAdminTariffsAddServicePopupComponent>;
   let httpMock: HttpTestingController;
 
-  const bagData = {
+  const button = {
     add: 'add',
     update: 'update'
   };
