@@ -46,9 +46,9 @@ export class UbsAdminTableComponent implements OnInit, AfterViewChecked, OnDestr
   allChecked: boolean;
   tableViewHeaders = [];
   public blockedInfo: IAlertInfo[] = [];
-  isAll: boolean = true;
+  isAll = true;
   count: number;
-  display: string = 'none';
+  display = 'none';
   @ViewChild(MatSort, { static: true }) sort: MatSort;
 
   constructor(
