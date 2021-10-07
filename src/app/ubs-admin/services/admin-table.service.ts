@@ -10,8 +10,8 @@ export class AdminTableService {
 
   constructor(private http: HttpClient) {}
 
-  getTable(id?: string, page?: number, size?: number, sortingType?: string) {
-    return this.http.get<any[]>(`${this.url}bigOrderTable?sortBy=${id}&pageNumber=${page}&pageSize=${size}&sortDirection=${sortingType}`);
+  getTable(columnName?: string, page?: number, size?: number, sortingType?: string) {
+    return this.http.get<any[]>(`${this.url}bigOrderTable?sortBy=${columnName}&pageNumber=${page}&pageSize=${size}&sortDirection=${sortingType}`);
   }
 
   getColumns() {
