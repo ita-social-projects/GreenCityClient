@@ -164,7 +164,7 @@ export class UbsAdminTableComponent implements OnInit, AfterViewChecked, OnDestr
       .getTable(columnName, this.currentPage, this.pageSize, sortingType)
       .pipe(takeUntil(this.destroy))
       .subscribe((item) => {
-        this.tableData = item[`page`];
+        this.tableData = item[`content`];
         this.totalPages = item[`totalPages`];
         this.totalElements = item[`totalElements`];
         this.dataSource = new MatTableDataSource(this.tableData);
@@ -180,10 +180,10 @@ export class UbsAdminTableComponent implements OnInit, AfterViewChecked, OnDestr
   updateTableData() {
     this.isUpdate = true;
     this.adminTableService
-      .getTable(this.sortingColumn || 'order_id', this.currentPage, this.pageSize, this.sortType || 'desc')
+      .getTable(this.sortingColumn || 'id', this.currentPage, this.pageSize, this.sortType || 'DESC')
       .pipe(takeUntil(this.destroy))
       .subscribe((item) => {
-        const data = item[`page`];
+        const data = item[`content`];
         this.totalPages = item[`totalPages`];
         this.tableData = [...this.tableData, ...data];
         this.dataSource.data = this.tableData;
