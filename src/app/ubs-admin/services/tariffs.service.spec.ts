@@ -1,6 +1,7 @@
 import { TestBed } from '@angular/core/testing';
 import { HttpClientTestingModule, HttpTestingController } from '@angular/common/http/testing';
 import { TariffsService } from './tariffs.service';
+import { mainUbsLink } from '../../main/links';
 
 const service1 = {
   name: 'fake1',
@@ -10,9 +11,23 @@ const service1 = {
   description: 'fake1'
 };
 
+const tariff = {
+  name: 'fake',
+  capacity: 1,
+  price: 1,
+  commission: 1,
+  description: 'fake'
+};
+
 describe('TariffsService', () => {
   let service: TariffsService;
   let httpMock: HttpTestingController;
+
+  function httpTest(url, type, response) {
+    const req = httpMock.expectOne(`${mainUbsLink}` + url);
+    expect(req.request.method).toBe(type);
+    req.flush(response);
+  }
 
   beforeEach(() => {
     TestBed.configureTestingModule({

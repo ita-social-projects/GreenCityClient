@@ -4,6 +4,7 @@ import { MAT_DIALOG_DATA, MatDialogModule, MatDialogRef } from '@angular/materia
 import { FormBuilder } from '@angular/forms';
 import { TranslateModule } from '@ngx-translate/core';
 import { HttpClientTestingModule, HttpTestingController } from '@angular/common/http/testing';
+import { Subject } from 'rxjs';
 
 describe('UbsAdminTariffsAddServicePopupComponent', () => {
   let component: UbsAdminTariffsAddServicePopupComponent;
@@ -19,7 +20,7 @@ describe('UbsAdminTariffsAddServicePopupComponent', () => {
     TestBed.configureTestingModule({
       declarations: [UbsAdminTariffsAddServicePopupComponent],
       imports: [TranslateModule.forRoot(), HttpClientTestingModule, MatDialogModule],
-      providers: [{ provide: MAT_DIALOG_DATA, useValue: bagData }, FormBuilder, { provide: MatDialogRef, useValue: {} }]
+      providers: [{ provide: MAT_DIALOG_DATA, useValue: button }, FormBuilder, { provide: MatDialogRef, useValue: {} }]
     }).compileComponents();
   }));
 
