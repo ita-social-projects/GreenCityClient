@@ -94,13 +94,6 @@ export class HabitEditShoppingListComponent implements OnInit, OnDestroy {
           this.getListItems(false);
           return;
         }
-        // for (const assigned of response) {
-        //   if (assigned.habit.id === this.habitId) {
-        //     this.getListItems(true);
-        //     break;
-        //   }
-        //   this.getListItems(false);
-        // }
         response.some((assigned) => assigned.habit.id === this.habitId) ? this.getListItems(true) : this.getListItems(false);
       });
   }
