@@ -158,7 +158,7 @@ export class UbsAdminTableComponent implements OnInit, AfterViewChecked, OnDestr
       });
   }
 
-  private getTable(columnName = this.sortingColumn || 'order_id', sortingType = this.sortType || 'desc') {
+  private getTable(columnName = this.sortingColumn || 'id', sortingType = this.sortType || 'DESC') {
     this.isLoading = true;
     this.adminTableService
       .getTable(columnName, this.currentPage, this.pageSize, sortingType)
