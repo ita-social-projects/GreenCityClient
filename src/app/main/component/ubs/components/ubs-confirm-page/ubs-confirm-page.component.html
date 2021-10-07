@@ -1,13 +1,22 @@
 <div class="wraper">
   <div class="order">
-    <div style="display: none">
-      <h2 class="title">{{ 'confirm-page.title-text' | translate }} (№{{ orderId }})</h2>
-      <div class="description">
-        <p>{{ 'confirm-page.description' | translate }}</p>
+    <div [ngSwitch]="true">
+      <div *ngSwitchCase="orderResponseError === false">
+        <button class="btn primary-global-button" (click)="toPersonalAccount()">До особистого кабінету</button>
       </div>
-    </div>
-    <div>
-      <button class="btn primary-global-button">До особистого кабінету</button>
+      <div class="error" *ngSwitchCase="orderResponseError === true">
+        <button class="btn-back"><i class="fas fa-chevron-left" aria-hidden="true"></i> &nbsp;{{ 'Повернутись до оплати' }}</button>
+        <h2 class="title">{{ 'Упс, щось пішло не так...' }}</h2>
+        <div class="description">
+          <p>{{ 'На жаль, Ваше замовлення №12345 не було оплачено. Спробуйте ще раз' }}</p>
+        </div>
+      </div>
+      <div *ngSwitchDefault>
+        <h2 class="title">{{ 'confirm-page.title-text' | translate }} (№{{ orderId }})</h2>
+        <div class="description">
+          <p>{{ 'confirm-page.description' | translate }}</p>
+        </div>
+      </div>
     </div>
     <div class="row infolinks">
       <div class="col-md-6 list">

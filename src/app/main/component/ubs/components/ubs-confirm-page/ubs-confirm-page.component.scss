@@ -26,6 +26,15 @@
       background: var(--ubs-button-light-green);
     }
 
+    .btn-back {
+      border: 0;
+      color: var(--ubs-quaternary-dark-grey);
+      background: none;
+      font-size: 14px;
+      text-decoration: underline;
+      margin-left: -40px;
+    }
+
     .title {
       font-family: var(--primary-font);
       font-weight: bold;
@@ -35,6 +44,10 @@
       letter-spacing: 0.002em;
       color: var(--ubs-primary-grey);
       margin-top: 40px;
+    }
+
+    .error .title {
+      margin-top: 0;
     }
 
     .description {

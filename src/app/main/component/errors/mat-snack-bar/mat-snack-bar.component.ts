@@ -76,9 +76,9 @@ export class MatSnackBarComponent {
       this.className = 'success-snackbar';
       this.getSnackBarMessage('user.habit.all-habits.new-habit-updated');
     },
-    errorMessage: (error, additionalValue?: string) => {
+    errorMessage: (error) => {
       this.className = 'error-snackbar';
-      this.getSnackBarMessage(error, additionalValue);
+      this.getSnackBarMessage(error);
     },
     sendNewLetter: () => {
       this.className = 'error-snackbar';
@@ -97,8 +97,11 @@ export class MatSnackBarComponent {
   constructor(public snackBar: MatSnackBar, private translate: TranslateService) {}
 
   public openSnackBar(type: string, additionalValue?: string) {
-    const isInclude = type.includes('400') ? this.snackType.error() : this.snackType.errorMessage(type, additionalValue);
-    return this.snackType[type] ? this.snackType[type](additionalValue) : isInclude;
+    const isInclude = type.includes('400') ? this.snackType.error() : this.snackType.errorMessage(type);
+    if (additionalValue) {
+      return this.snackType[type] ? this.snackType[type](additionalValue) : isInclude;
+    }
+    return this.snackType[type] ? this.snackType[type]() : isInclude;
   }
 
   public getSnackBarMessage(key: string, additionalValue?: string): void {

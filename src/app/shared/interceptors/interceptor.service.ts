@@ -20,6 +20,7 @@ interface NewTokenPair {
 export class InterceptorService implements HttpInterceptor {
   private refreshTokenSubject: BehaviorSubject<NewTokenPair> = new BehaviorSubject<NewTokenPair>(null);
   private isRefreshing = false;
+  private errorOccurred = false;
 
   constructor(
     private http: HttpClient,
@@ -50,6 +51,16 @@ export class InterceptorService implements HttpInterceptor {
     if (this.localStorageService.getAccessToken()) {
       req = this.addAccessTokenToHeader(req, this.localStorageService.getAccessToken());
     }
+    if (this.isQueryWithProcessOrder(req.url)) {
+      return next.handle(req).pipe(
+        catchError((error: HttpErrorResponse) => {
+          if (error.status === 400) {
+            this.errorOccurred = true;
+          }
+          return throwError(error);
+        })
+      );
+    }
     return next.handle(req).pipe(
       catchError((error: HttpErrorResponse) => {
         if (this.checkIfErrorStatusIs(error.status, [BAD_REQUEST, FORBIDDEN])) {
@@ -68,6 +79,10 @@ export class InterceptorService implements HttpInterceptor {
 
   private isQueryWithSecurity(url: string): boolean {
     return url.includes('ownSecurity') || url.includes('googleSecurity');
+  }
+
+  private isQueryWithProcessOrder(url: string): boolean {
+    return url.includes('processOrder');
   }
 
   private checkIfErrorStatusIs(errorStatusCode: number, statusCodesToVerify: number[]): boolean {
@@ -139,6 +154,10 @@ export class InterceptorService implements HttpInterceptor {
         Authorization: `Bearer ${accessToken}`
       }
     });
+  }
+
+  public getOrderResponseErrorStatus(): boolean {
+    return this.errorOccurred;
   }
 
   public openErrorWindow(message: string): void {

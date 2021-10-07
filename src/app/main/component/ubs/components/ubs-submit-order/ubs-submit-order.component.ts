@@ -5,7 +5,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { FormBaseComponent } from '@shared/components/form-base/form-base.component';
 
 import { Subject } from 'rxjs';
-import { takeUntil } from 'rxjs/operators';
+import { finalize, takeUntil, takeWhile } from 'rxjs/operators';
 import { Bag, OrderDetails, PersonalData } from '../../models/ubs.interface';
 import { UBSOrderFormService } from '../../services/ubs-order-form.service';
 import { OrderService } from '../../services/order.service';
@@ -80,6 +80,13 @@ export class UBSSubmitOrderComponent extends FormBaseComponent implements OnInit
     this.orderService
       .getOrderUrl()
       .pipe(takeUntil(this.destroy))
+      .pipe(takeWhile(() => !this.isValidOrder))
+      .pipe(
+        finalize(() => {
+          this.loadingAnim = false;
+          this.shareFormService.orderUrl || this.router.navigate(['ubs', 'confirm']);
+        })
+      )
       .subscribe(
         (fondyUrl) => {
           this.shareFormService.orderUrl = fondyUrl.toString();
