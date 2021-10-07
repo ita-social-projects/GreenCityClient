@@ -276,6 +276,10 @@ export class UbsAdminTableComponent implements OnInit, AfterViewChecked, OnDestr
     );
   }
 
+  toggleAccordion(e) {
+    e.target.parentElement.querySelector('.accordion-collapse').classList.toggle('show');
+  }
+
   ngOnDestroy() {
     this.destroy.next();
     this.destroy.unsubscribe();

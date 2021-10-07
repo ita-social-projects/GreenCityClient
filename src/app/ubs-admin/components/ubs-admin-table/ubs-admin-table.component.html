@@ -9,60 +9,105 @@
       <option [value]="size" *ngFor="let size of pageSizeOptions">{{ size }}</option>
     </select>
   </div>
-  <button mat-button class="btn btn-default" class="filter-table-btn" [matMenuTriggerFor]="menu">
-    <mat-icon>filter_list</mat-icon>
-    Фільтри
-  </button>
-  <mat-menu #menu="matMenu">
-    <cdk-accordion class="example-accordion">
-      <cdk-accordion-item
-        *ngFor="let item of items; let index = index"
-        #accordionItem="cdkAccordionItem"
-        class="example-accordion-item"
-        role="button"
-        tabindex="0"
-        [attr.id]="'accordion-header-' + index"
-        [attr.aria-expanded]="accordionItem.expanded"
-        [attr.aria-controls]="'accordion-body-' + index"
-      >
-        <div class="example-accordion-item-header" (click)="accordionItem.toggle()">
-          {{ item.name }}
-          <span class="example-accordion-item-description"> Click to {{ accordionItem.expanded ? 'close' : 'open' }} </span>
+  <div>
+    <button type="button" class="btn btn-default" class="filter-table-btn" data-toggle="dropdown">
+      <mat-icon>filter_list</mat-icon>
+      Фільтри
+    </button>
+    <div class="dropdown-menu" (click)="$event.stopPropagation()">
+      <div class="accordion" id="accordionPanelsStayOpenExample">
+        <div class="accordion-item">
+          <button
+            class="accordion-button"
+            type="button"
+            data-bs-toggle="collapse"
+            data-bs-target="#panelsStayOpen-collapseOne"
+            aria-expanded="true"
+            aria-controls="panelsStayOpen-collapseOne"
+            (click)="toggleAccordion($event)"
+          >
+            Accordion Item #1
+          </button>
+          <div id="panelsStayOpen-collapseOne" class="accordion-collapse collapse show" aria-labelledby="panelsStayOpen-headingOne">
+            <div class="accordion-body">
+              <strong>This is the first item's accordion body.</strong> It is shown by default, until the collapse plugin adds the
+              appropriate classes that we use to style each element. These classes control the overall appearance, as well as the showing
+              and hiding via CSS transitions. You can modify any of this with custom CSS or overriding our default variables. It's also
+              worth noting that just about any HTML can go within the <code>.accordion-body</code>, though the transition does limit
+              overflow.
+            </div>
+          </div>
         </div>
-        <div
-          class="example-accordion-item-body"
-          role="region"
-          [style.display]="accordionItem.expanded ? '' : 'none'"
-          [attr.id]="'accordion-body-' + index"
-          [attr.aria-labelledby]="'accordion-header-' + index"
-        >
-          Lorem ipsum dolor, sit amet consectetur adipisicing elit. Perferendis excepturi incidunt ipsum deleniti labore, tempore non nam
-          doloribus blanditiis veritatis illo autem iure aliquid ullam rem tenetur deserunt velit culpa?
+        <div class="accordion-item">
+          <button
+            class="accordion-button collapsed"
+            type="button"
+            data-bs-toggle="collapse"
+            data-bs-target="#panelsStayOpen-collapseTwo"
+            aria-expanded="false"
+            aria-controls="panelsStayOpen-collapseTwo"
+            (click)="toggleAccordion($event)"
+          >
+            Accordion Item #2
+          </button>
+          <div id="panelsStayOpen-collapseTwo" class="accordion-collapse collapse" aria-labelledby="panelsStayOpen-headingTwo">
+            <div class="accordion-body">
+              <strong>This is the second item's accordion body.</strong> It is hidden by default, until the collapse plugin adds the
+              appropriate classes that we use to style each element. These classes control the overall appearance, as well as the showing
+              and hiding via CSS transitions. You can modify any of this with custom CSS or overriding our default variables. It's also
+              worth noting that just about any HTML can go within the <code>.accordion-body</code>, though the transition does limit
+              overflow.
+            </div>
+          </div>
         </div>
-      </cdk-accordion-item>
-    </cdk-accordion>
-  </mat-menu>
-  <button type="button" class="btn btn-default" class="view-table-btn" data-toggle="dropdown">
-    <mat-icon>create</mat-icon>
-    {{ 'ubs-tables.table-view' | translate }}
-  </button>
-  <ul class="dropdown-menu">
-    <ng-container *ngFor="let header of tableViewHeaders">
-      <li>{{ header | serverTranslate: currentLang }}</li>
-      <ng-container *ngFor="let column of columns">
-        <li *ngIf="column.columnBelonging === header.key">
-          <input
-            type="checkbox"
-            value="id1"
-            [checked]="displayedColumns.includes(column.title.key)"
-            (change)="changeColumns($event.target.checked, column.title.key, column.index)"
-          />
-          {{ column.title | serverTranslate: currentLang }}
-        </li>
+        <div class="accordion-item">
+          <button
+            class="accordion-button collapsed"
+            type="button"
+            data-bs-toggle="collapse"
+            data-bs-target="#panelsStayOpen-collapseThree"
+            aria-expanded="false"
+            aria-controls="panelsStayOpen-collapseThree"
+            (click)="toggleAccordion($event)"
+          >
+            Accordion Item #3
+          </button>
+          <div id="panelsStayOpen-collapseThree" class="accordion-collapse collapse" aria-labelledby="panelsStayOpen-headingThree">
+            <div class="accordion-body">
+              <strong>This is the third item's accordion body.</strong> It is hidden by default, until the collapse plugin adds the
+              appropriate classes that we use to style each element. These classes control the overall appearance, as well as the showing
+              and hiding via CSS transitions. You can modify any of this with custom CSS or overriding our default variables. It's also
+              worth noting that just about any HTML can go within the <code>.accordion-body</code>, though the transition does limit
+              overflow.
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div>
+    <button type="button" class="btn btn-default" class="view-table-btn" data-toggle="dropdown">
+      <mat-icon>create</mat-icon>
+      {{ 'ubs-tables.table-view' | translate }}
+    </button>
+    <ul class="dropdown-menu">
+      <ng-container *ngFor="let header of tableViewHeaders">
+        <li>{{ header | serverTranslate: currentLang }}</li>
+        <ng-container *ngFor="let column of columns">
+          <li *ngIf="column.columnBelonging === header.key">
+            <input
+              type="checkbox"
+              value="id1"
+              [checked]="displayedColumns.includes(column.title.key)"
+              (change)="changeColumns($event.target.checked, column.title.key, column.index)"
+            />
+            {{ column.title | serverTranslate: currentLang }}
+          </li>
+        </ng-container>
       </ng-container>
-    </ng-container>
-    <button class="btn btn-info" (click)="showAllColumns()">Clear</button>
-  </ul>
+      <button class="btn btn-info" (click)="showAllColumns()">Clear</button>
+    </ul>
+  </div>
   <button type="button" class="btn btn-default" class="export-excel-btn" (click)="openExportExcel()">
     {{ 'ubs-tables.export-to-excel' | translate }}
   </button>
