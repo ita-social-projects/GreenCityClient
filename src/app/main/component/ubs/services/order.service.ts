@@ -6,6 +6,7 @@ import { tap } from 'rxjs/operators';
 import { ICertificate, OrderDetails } from '../models/ubs.interface';
 import { Order } from '../models/ubs.model';
 import { UBSOrderFormService } from './ubs-order-form.service';
+import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
 
 @Injectable({
   providedIn: 'root'
@@ -15,7 +16,7 @@ export class OrderService {
   private url = 'https://greencity-ubs.azurewebsites.net/ubs';
   locationSubject = new Subject();
 
-  constructor(private http: HttpClient, private shareFormService: UBSOrderFormService) {}
+  constructor(private http: HttpClient, private shareFormService: UBSOrderFormService, private localStorageService: LocalStorageService) {}
 
   getOrders(): Observable<OrderDetails> {
     return this.http
@@ -74,5 +75,10 @@ export class OrderService {
 
   getLiqPayForm(): Observable<Order> {
     return this.processLiqPayOrder(this.orderSubject.getValue());
+  }
+
+  getOrderFromNotification(orderId: number) {
+    const lang = localStorage.getItem('language') === 'ua' ? 1 : 2;
+    return this.http.get(`${this.url}/client/get-data-for-order-surcharge/${orderId}/${lang}`);
   }
 }

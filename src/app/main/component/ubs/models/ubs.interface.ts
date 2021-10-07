@@ -26,6 +26,23 @@ export interface OrderDetails {
   minAmountOfBigBags?: number;
 }
 
+export interface OrderDetailsNotification {
+  bags: Bag[];
+  addressComment?: string;
+  orderBonusDiscount?: number;
+  orderCertificateTotalDiscount?: number;
+  orderFullPrice?: number;
+  orderDiscountedPrice?: number;
+  amountOfBagsOrdered?: number;
+  recipientName?: string;
+  recipientSurname?: string;
+  recipientEmail?: string;
+  recipientPhone?: string;
+  addressCity?: string;
+  addressStreet?: string;
+  addressDistrict?: string;
+}
+
 export interface FinalOrder {
   bags: Bag[];
   pointsToUse?: number;

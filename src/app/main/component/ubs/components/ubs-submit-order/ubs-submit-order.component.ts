@@ -1,4 +1,4 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Component, Input, OnDestroy, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { Router } from '@angular/router';
 import { MatDialog } from '@angular/material/dialog';
@@ -6,7 +6,7 @@ import { FormBaseComponent } from '@shared/components/form-base/form-base.compon
 
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
-import { Bag, OrderDetails, PersonalData } from '../../models/ubs.interface';
+import { Bag, OrderDetails, OrderDetailsNotification, PersonalData } from '../../models/ubs.interface';
 import { UBSOrderFormService } from '../../services/ubs-order-form.service';
 import { OrderService } from '../../services/order.service';
 
@@ -25,6 +25,7 @@ export class UBSSubmitOrderComponent extends FormBaseComponent implements OnInit
   additionalOrders: number[];
   personalData: PersonalData;
   orderDetails: OrderDetails;
+  isDownloadDataNotification: boolean;
   private destroy: Subject<boolean> = new Subject<boolean>();
   popupConfig = {
     hasBackdrop: true,
@@ -39,10 +40,13 @@ export class UBSSubmitOrderComponent extends FormBaseComponent implements OnInit
     }
   };
   isValidOrder = true;
+  @Input() public isNotification: boolean;
+  @Input() public orderIdFromNotification: number;
 
   constructor(
     private orderService: OrderService,
     private shareFormService: UBSOrderFormService,
+    public ubsOrderFormService: UBSOrderFormService,
     private fb: FormBuilder,
     router: Router,
     dialog: MatDialog
@@ -51,7 +55,73 @@ export class UBSSubmitOrderComponent extends FormBaseComponent implements OnInit
   }
 
   ngOnInit(): void {
-    this.takeOrderDetails();
+    if (this.isNotification) {
+      this.isDownloadDataNotification = false;
+      this.getOrderFormNotifications();
+    } else {
+      this.takeOrderDetails();
+    }
+  }
+
+  getOrderFormNotifications() {
+    this.orderService
+      .getOrderFromNotification(this.orderIdFromNotification)
+      .pipe(takeUntil(this.destroy))
+      .subscribe((response: OrderDetailsNotification) => {
+        this.bags = response.bags;
+        this.bags.forEach((item) => {
+          item.name = 'Clothes';
+          item.quantity = response.amountOfBagsOrdered[item.id];
+        });
+        this.additionalOrders = [];
+        this.orderDetails = {
+          bags: null,
+          points: response.orderBonusDiscount,
+          certificates: null,
+          additionalOrders: null,
+          orderComment: null,
+          pointsSum: null,
+          minAmountOfBigBags: null,
+          total: response.orderFullPrice,
+          finalSum: response.orderDiscountedPrice,
+          certificatesSum: response.orderCertificateTotalDiscount,
+          pointsToUse: response.orderBonusDiscount
+        };
+        this.personalData = {
+          id: null,
+          firstName: response.recipientName,
+          lastName: response.recipientSurname,
+          email: response.recipientEmail,
+          phoneNumber: response.recipientPhone,
+          anotherClientFirstName: null,
+          anotherClientLastName: null,
+          anotherClientEmail: null,
+          anotherClientPhoneNumber: null,
+          addressComment: response.addressComment,
+          city: response.addressCity,
+          district: response.addressDistrict,
+          street: response.addressStreet,
+          houseCorpus: null,
+          entranceNumber: null,
+          houseNumber: null,
+          longitude: null,
+          latitude: null
+        };
+        /* this.orderDetails.total = response.orderFullPrice;
+         this.orderDetails.finalSum = response.orderDiscountedPrice;
+         this.orderDetails.certificatesSum = response.orderCertificateTotalDiscount;
+         this.orderDetails.pointsToUse = response.orderBonusDiscount;*/
+        /* this.personalData.anotherClientFirstName = response.recipientName;
+         this.personalData.anotherClientLastName = response.recipientSurname;
+         this.personalData.email = response.recipientEmail;
+         this.personalData.addressComment = response.addressComment;
+         this.personalData.anotherClientPhoneNumber = response.recipientPhone;
+         this.personalData.city = response.addressCity;
+         this.personalData.street = response.addressStreet;
+         this.personalData.district = response.addressDistrict;*/
+        this.isValidOrder = response.orderDiscountedPrice <= 0;
+        this.isDownloadDataNotification = true;
+      });
   }
 
   ngOnDestroy() {
@@ -82,6 +152,7 @@ export class UBSSubmitOrderComponent extends FormBaseComponent implements OnInit
       .pipe(takeUntil(this.destroy))
       .subscribe(
         (fondyUrl) => {
+          console.log(fondyUrl.toString());
           this.shareFormService.orderUrl = fondyUrl.toString();
           document.location.href = this.shareFormService.orderUrl;
           this.loadingAnim = false;
