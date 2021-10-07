@@ -5,9 +5,9 @@ import { FormBaseComponent } from '@shared/components/form-base/form-base.compon
 import { Router } from '@angular/router';
 import { MatDialog } from '@angular/material/dialog';
 import { Subject } from 'rxjs';
-import { take, takeUntil } from 'rxjs/operators';
+import { takeUntil } from 'rxjs/operators';
 
-import { Bag, FinalOrder, Locations, OrderDetails } from '../../models/ubs.interface';
+import { Bag, FinalOrder, OrderDetails } from '../../models/ubs.interface';
 import { OrderService } from '../../services/order.service';
 import { UBSOrderFormService } from '../../services/ubs-order-form.service';
 import { CertificateStatus } from '../../certificate-status.enum';
@@ -75,11 +75,6 @@ export class UBSOrderDetailsComponent extends FormBaseComponent implements OnIni
       popupCancel: 'confirmation.dismiss'
     }
   };
-  public locations: Locations[];
-  public selectedLocationId: number;
-  public currentLocation: string;
-  public isFetching = false;
-  public changeLocation = false;
 
   constructor(
     private fb: FormBuilder,
@@ -102,20 +97,6 @@ export class UBSOrderDetailsComponent extends FormBaseComponent implements OnIni
     });
   }
 
-  saveLocation() {
-    this.isFetching = true;
-    const selectedLocation = { locationId: this.selectedLocationId };
-    this.orderService
-      .addLocation(selectedLocation)
-      .pipe(take(1))
-      .subscribe(() => {
-        this.currentLocation = this.locations.find((loc) => loc.id === this.selectedLocationId).name;
-        this.isFetching = false;
-        this.changeLocation = false;
-        this.orderService.completedLocation(true);
-      });
-  }
-
   getFormValues(): boolean {
     return this.showTotal > 0;
   }
@@ -133,20 +114,14 @@ export class UBSOrderDetailsComponent extends FormBaseComponent implements OnIni
 
   openLocationDialog() {
     this.isDialogOpen = true;
-    const dialogRef = this.dialog.open(UbsOrderLocationPopupComponent, {
+    this.dialog.open(UbsOrderLocationPopupComponent, {
       hasBackdrop: true,
       disableClose: true
     });
 
-    dialogRef
-      .afterClosed()
-      .pipe(takeUntil(this.destroy))
-      .subscribe((res) => {
-        this.locations = res.data;
-        this.selectedLocationId = this.locations[0].id;
-        this.currentLocation = res.data[0].name;
-        this.isDialogOpen = false;
-      });
+    this.dialog.afterAllClosed.pipe(takeUntil(this.destroy)).subscribe(() => {
+      this.isDialogOpen = false;
+    });
   }
 
   checkTotalBigBags() {
@@ -161,18 +136,14 @@ export class UBSOrderDetailsComponent extends FormBaseComponent implements OnIni
   }
 
   checkForBigBagsMessage() {
-    if (this.minAmountOfBigBags > this.totalOfBigBags) {
-      this.displayMinBigBagsMes = true;
-    } else {
-      this.displayMinBigBagsMes = false;
-    }
+    this.displayMinBigBagsMes = this.minAmountOfBigBags > this.totalOfBigBags;
   }
 
   private subscribeToLangChange(): void {
     this.localStorageService.languageSubject.pipe(takeUntil(this.destroy)).subscribe(() => {
       this.currentLanguage = this.localStorageService.getCurrentLanguage();
       const inputsQuantity = [];
-      this.bags.map((a) => {
+      this.bags.forEach((a) => {
         inputsQuantity.push(a.quantity === undefined || a.quantity === null ? null : a.quantity);
         a.quantity = null;
       });
@@ -186,7 +157,6 @@ export class UBSOrderDetailsComponent extends FormBaseComponent implements OnIni
   }
 
   public takeOrderData() {
-    this.isFetching = true;
     this.currentLanguage = this.localStorageService.getCurrentLanguage();
     this.orderService
       .getOrders()
@@ -203,7 +173,6 @@ export class UBSOrderDetailsComponent extends FormBaseComponent implements OnIni
           this.orderDetailsForm.addControl('quantity' + String(bag.id), new FormControl(0, [Validators.min(0), Validators.max(999)]));
         });
         this.filterBags();
-        this.isFetching = false;
       });
   }
 
@@ -292,11 +261,7 @@ export class UBSOrderDetailsComponent extends FormBaseComponent implements OnIni
       }
     });
 
-    if (counter === this.additionalOrders.controls.length) {
-      this.displayOrderBtn = true;
-    } else {
-      this.displayOrderBtn = false;
-    }
+    this.displayOrderBtn = counter === this.additionalOrders.controls.length;
   }
 
   public changeShopRadioBtn() {
@@ -388,7 +353,12 @@ export class UBSOrderDetailsComponent extends FormBaseComponent implements OnIni
       this.pointsUsed = this.points;
       this.total = this.total - this.pointsUsed;
     }
-    this.points >= this.finalSum ? (this.points = this.points - this.finalSum) : (this.points = 0);
+
+    if (this.points >= this.finalSum) {
+      this.points = this.points - this.finalSum;
+    } else {
+      this.points = 0;
+    }
   }
 
   resetPoints(): void {
@@ -435,7 +405,7 @@ export class UBSOrderDetailsComponent extends FormBaseComponent implements OnIni
   private clearAdditionalCertificate(index: number) {
     if (this.formArrayCertificates.length > 1) {
       if (this.certificates.length === 0) {
-        this.certificateReset(true);
+        this.certificateSum = 0;
       }
       this.formArrayCertificates.removeAt(index);
     } else {
@@ -536,7 +506,7 @@ export class UBSOrderDetailsComponent extends FormBaseComponent implements OnIni
     this.certStatus = cert.certificateStatus;
   }
 
-  private certificateDateTreat(date: string) {
+  certificateDateTreat(date: string) {
     return date.split('-').reverse().join('-');
   }
 
