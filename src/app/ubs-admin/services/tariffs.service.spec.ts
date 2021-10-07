@@ -11,6 +11,14 @@ const tariff = {
   description: 'fake'
 };
 
+const service1 = {
+  name: 'fake1',
+  capacity: 2,
+  price: 2,
+  commission: 2,
+  description: 'fake1'
+};
+
 describe('TariffsService', () => {
   let service: TariffsService;
   let httpMock: HttpTestingController;
@@ -35,15 +43,49 @@ describe('TariffsService', () => {
   });
 
   it('should get tariff for a service', () => {
-    service.getAllTariffsService().subscribe((data) => {
+    service.getAllServices().subscribe((data) => {
+      expect(data).toBe(service1);
+    });
+
+    httpTest('/ubs/superAdmin/getService', 'GET', service1);
+  });
+
+  it('should crate new service', () => {
+    service.createService(service1).subscribe((data) => {
+      expect(data).toBe(service1);
+    });
+
+    const request = httpMock.expectOne(mainUbsLink + '/ubs/superAdmin/createService');
+    expect(request.request.method).toBe('POST');
+    expect(request.request.body).toEqual(service1);
+    request.flush(service1);
+  });
+
+  it('should delete service ', () => {
+    const id = 1;
+    service.deleteService(id).subscribe((data) => {
+      expect(data).toEqual(0);
+    });
+    httpTest('/ubs/superAdmin/deleteService/1', 'DELETE', 0);
+  });
+
+  it('should edit service', () => {
+    service.editService(1, service1).subscribe((data) => {
+      expect(data).toBe(service1);
+    });
+    httpTest('/ubs/superAdmin/editService/1', 'POST', service1);
+  });
+
+  it('should get all tariffs', () => {
+    service.getAllTariffsForService().subscribe((data) => {
       expect(data).toBe(tariff);
     });
 
     httpTest('/ubs/superAdmin/getTariffService', 'GET', tariff);
   });
 
-  it('should crate new service', () => {
-    service.createNewService(tariff).subscribe((data) => {
+  it('should create new tariff', () => {
+    service.createNewTariffForService(tariff).subscribe((data) => {
       expect(data).toBe(tariff);
     });
 
@@ -53,16 +95,16 @@ describe('TariffsService', () => {
     request.flush(tariff);
   });
 
-  it('should delete service ', () => {
+  it('should delete tariff ', () => {
     const id = 1;
-    service.deleteService(id).subscribe((data) => {
+    service.deleteTariffForService(id).subscribe((data) => {
       expect(data).toEqual(0);
     });
     httpTest('/ubs/superAdmin/deleteTariffService/1', 'DELETE', 0);
   });
 
-  it('should edit service', () => {
-    service.editService(1, tariff).subscribe((data) => {
+  it('should edit tariff', () => {
+    service.editTariffForService(1, tariff).subscribe((data) => {
       expect(data).toBe(tariff);
     });
     httpTest('/ubs/superAdmin/editTariffService/1', 'PUT', tariff);

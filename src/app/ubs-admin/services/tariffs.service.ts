@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { mainUbsLink } from 'src/app/main/links';
 import { HttpClient } from '@angular/common/http';
-import { Bag } from '../models/tariffs.interface';
+import { Bag, Service } from '../models/tariffs.interface';
 
 @Injectable({
   providedIn: 'root'
@@ -9,19 +9,35 @@ import { Bag } from '../models/tariffs.interface';
 export class TariffsService {
   constructor(private http: HttpClient) {}
 
-  getAllTariffsService() {
+  getAllTariffsForService() {
     return this.http.get(`${mainUbsLink}/ubs/superAdmin/getTariffService`);
   }
 
-  createNewService(service: Bag) {
-    return this.http.post(`${mainUbsLink}/ubs/superAdmin/createTariffService`, service);
+  createNewTariffForService(tariffService: Bag) {
+    return this.http.post(`${mainUbsLink}/ubs/superAdmin/createTariffService`, tariffService);
   }
 
-  deleteService(id: number) {
+  deleteTariffForService(id: number) {
     return this.http.delete(`${mainUbsLink}/ubs/superAdmin/deleteTariffService/${id}`);
   }
 
-  editService(id: number, service: Bag) {
-    return this.http.put(`${mainUbsLink}/ubs/superAdmin/editTariffService/${id}`, service);
+  editTariffForService(id: number, tariffService: Bag) {
+    return this.http.put(`${mainUbsLink}/ubs/superAdmin/editTariffService/${id}`, tariffService);
+  }
+
+  createService(service: Service) {
+    return this.http.post(`${mainUbsLink}/ubs/superAdmin/createService`, service);
+  }
+
+  getAllServices() {
+    return this.http.get(`${mainUbsLink}/ubs/superAdmin/getService`);
+  }
+
+  deleteService(id: number) {
+    return this.http.delete(`${mainUbsLink}/ubs/superAdmin/deleteService/${id}`);
+  }
+
+  editService(id: number, service: Service) {
+    return this.http.post(`${mainUbsLink}/ubs/superAdmin/editService/${id}`, service);
   }
 }

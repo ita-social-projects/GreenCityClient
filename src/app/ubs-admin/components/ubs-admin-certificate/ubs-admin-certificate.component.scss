@@ -289,3 +289,10 @@ input {
   justify-content: space-between;
   align-items: center;
 }
+
+button:disabled,
+button[disabled] {
+  border: 1px solid var(--ubs-secondary-grey);
+  background-color: lightgray;
+  color: gray;
+}

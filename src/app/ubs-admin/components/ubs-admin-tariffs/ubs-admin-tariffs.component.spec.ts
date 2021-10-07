@@ -1,6 +1,6 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { UbsAdminTariffsComponent } from './ubs-admin-tariffs.component';
-import { MatDialog } from '@angular/material/dialog';
+import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { OverlayModule } from '@angular/cdk/overlay';
 import { MatDialogModule } from '@angular/material/dialog';
 import { TranslateModule } from '@ngx-translate/core';
@@ -20,7 +20,7 @@ describe('UbsAdminTariffsComponent', () => {
     TestBed.configureTestingModule({
       declarations: [UbsAdminTariffsComponent, UbsAdminTariffsAddServicePopupComponent],
       imports: [OverlayModule, MatDialogModule, TranslateModule.forRoot(), HttpClientTestingModule, BrowserAnimationsModule],
-      providers: [{ provide: MatDialog }, FormBuilder],
+      providers: [{ provide: MatDialog }, FormBuilder, { provide: MatDialogRef, useValue: {} }],
       schemas: [CUSTOM_ELEMENTS_SCHEMA]
     }).compileComponents();
   }));
@@ -36,13 +36,6 @@ describe('UbsAdminTariffsComponent', () => {
     expect(component).toBeTruthy();
   });
 
-  it('ngOnInit should call closeDialog method one time', () => {
-    // @ts-ignore
-    const closeDialog = spyOn(component, 'closeDialog');
-    component.ngOnInit();
-    expect(closeDialog).toHaveBeenCalledTimes(1);
-  });
-
   it('destroy Subject should be closed after ngOnDestroy()', () => {
     // @ts-ignore
     component.destroy = new Subject<boolean>();
@@ -55,7 +48,7 @@ describe('UbsAdminTariffsComponent', () => {
 
   it('should open add service pop up', () => {
     spyOn(component.dialog, 'open').and.callThrough();
-    component.openAddServicePopup();
+    component.openAddTariffForServicePopup();
     expect(component.dialog.open).toHaveBeenCalledWith(UbsAdminTariffsAddServicePopupComponent, {
       hasBackdrop: true,
       disableClose: true,

@@ -13,3 +13,14 @@ export interface Bag {
   createdAt?: string;
   createdBy?: string;
 }
+
+export interface Service {
+  price: number;
+  capacity?: number;
+  commission: number;
+  description: string;
+  name: string;
+  languageCode?: string;
+  id?: number;
+  fullPrice?: number;
+}

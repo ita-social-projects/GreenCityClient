@@ -1,6 +1,6 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { UbsAdminTariffsAddServicePopupComponent } from './ubs-admin-tariffs-add-service-popup.component';
-import { MAT_DIALOG_DATA, MatDialogModule } from '@angular/material/dialog';
+import { MAT_DIALOG_DATA, MatDialogModule, MatDialogRef } from '@angular/material/dialog';
 import { FormBuilder } from '@angular/forms';
 import { TranslateModule } from '@ngx-translate/core';
 import { Subject } from 'rxjs';
@@ -20,7 +20,7 @@ describe('UbsAdminTariffsAddServicePopupComponent', () => {
     TestBed.configureTestingModule({
       declarations: [UbsAdminTariffsAddServicePopupComponent],
       imports: [TranslateModule.forRoot(), HttpClientTestingModule, MatDialogModule],
-      providers: [{ provide: MAT_DIALOG_DATA, useValue: bagData }, FormBuilder]
+      providers: [{ provide: MAT_DIALOG_DATA, useValue: bagData }, FormBuilder, { provide: MatDialogRef, useValue: {} }]
     }).compileComponents();
   }));
 
@@ -65,9 +65,9 @@ describe('UbsAdminTariffsAddServicePopupComponent', () => {
     expect(component.destroy.unsubscribe).toHaveBeenCalledTimes(1);
   });
 
-  it('ngOnInit should call showInfo method one time', () => {
+  it('ngOnInit should call initForm method one time', () => {
     // @ts-ignore
-    const showInfo = spyOn(component, 'showInfo');
+    const showInfo = spyOn(component, 'initForm');
     component.ngOnInit();
     expect(showInfo).toHaveBeenCalledTimes(1);
   });
