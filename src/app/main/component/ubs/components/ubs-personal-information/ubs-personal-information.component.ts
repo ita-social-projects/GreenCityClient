@@ -271,6 +271,7 @@ export class UBSPersonalInformationComponent extends FormBaseComponent implement
       this.personalData,
       this.shareFormService.orderDetails.pointsToUse
     );
+    console.log(this.order);
     this.orderService.setOrder(this.order);
   }
 }

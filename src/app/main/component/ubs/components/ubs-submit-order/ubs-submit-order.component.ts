@@ -6,9 +6,10 @@ import { FormBaseComponent } from '@shared/components/form-base/form-base.compon
 
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
-import { Bag, OrderDetails, OrderDetailsNotification, PersonalData } from '../../models/ubs.interface';
+import { Bag, OrderBag, OrderDetails, OrderDetailsNotification, PersonalData } from '../../models/ubs.interface';
 import { UBSOrderFormService } from '../../services/ubs-order-form.service';
 import { OrderService } from '../../services/order.service';
+import { Order } from '../../models/ubs.model';
 
 @Component({
   selector: 'app-ubs-submit-order',
@@ -17,12 +18,14 @@ import { OrderService } from '../../services/order.service';
 })
 export class UBSSubmitOrderComponent extends FormBaseComponent implements OnInit, OnDestroy {
   paymentForm: FormGroup = this.fb.group({});
+  order: Order;
+  addressId: number;
   bags: Bag[] = [];
   response: any;
   loadingAnim: boolean;
   selectedPayment: string;
   isLiqPay = false;
-  additionalOrders: number[];
+  additionalOrders: any;
   personalData: PersonalData;
   orderDetails: OrderDetails;
   isDownloadDataNotification: boolean;
@@ -39,6 +42,7 @@ export class UBSSubmitOrderComponent extends FormBaseComponent implements OnInit
       popupCancel: 'confirmation.dismiss'
     }
   };
+  orderBags: OrderBag[] = [];
   isValidOrder = true;
   @Input() public isNotification: boolean;
   @Input() public orderIdFromNotification: number;
@@ -64,6 +68,7 @@ export class UBSSubmitOrderComponent extends FormBaseComponent implements OnInit
   }
 
   getOrderFormNotifications() {
+    this.orderBags = this.orderBags.filter((bag) => bag.amount !== 0);
     this.orderService
       .getOrderFromNotification(this.orderIdFromNotification)
       .pipe(takeUntil(this.destroy))
@@ -73,6 +78,11 @@ export class UBSSubmitOrderComponent extends FormBaseComponent implements OnInit
           item.name = 'Clothes';
           item.quantity = response.amountOfBagsOrdered[item.id];
         });
+        this.bags.forEach((bagItem: Bag) => {
+          const bag: OrderBag = { amount: bagItem.quantity, id: bagItem.id };
+          this.orderBags.push(bag);
+        });
+        console.log(this.orderBags);
         this.additionalOrders = [];
         this.orderDetails = {
           bags: null,
@@ -107,18 +117,18 @@ export class UBSSubmitOrderComponent extends FormBaseComponent implements OnInit
           longitude: null,
           latitude: null
         };
-        /* this.orderDetails.total = response.orderFullPrice;
-         this.orderDetails.finalSum = response.orderDiscountedPrice;
-         this.orderDetails.certificatesSum = response.orderCertificateTotalDiscount;
-         this.orderDetails.pointsToUse = response.orderBonusDiscount;*/
-        /* this.personalData.anotherClientFirstName = response.recipientName;
-         this.personalData.anotherClientLastName = response.recipientSurname;
-         this.personalData.email = response.recipientEmail;
-         this.personalData.addressComment = response.addressComment;
-         this.personalData.anotherClientPhoneNumber = response.recipientPhone;
-         this.personalData.city = response.addressCity;
-         this.personalData.street = response.addressStreet;
-         this.personalData.district = response.addressDistrict;*/
+        this.order = new Order(
+          this.additionalOrders,
+          2282,
+          this.orderBags,
+          this.orderDetails.certificates,
+          this.orderDetails.orderComment,
+          this.personalData,
+          this.orderDetails.pointsToUse
+        );
+        console.log(this.order);
+        this.orderService.setOrder(this.order);
+
         this.isValidOrder = response.orderDiscountedPrice <= 0;
         this.isDownloadDataNotification = true;
       });
