@@ -1,4 +1,5 @@
 @import '../../../../typography/colorsUbs';
+@import '../../../../typography/fonts';
 
 .cdk-drag-preview {
   box-sizing: border-box;
@@ -356,7 +357,7 @@ input {
 }
 
 .head {
-  font-family: Open;
+  font-family: --quaternary-font;
   font-style: normal;
   font-weight: 600;
   font-size: 16px;
@@ -369,7 +370,7 @@ input {
 }
 
 .item {
-  font-family: sans-serif;
+  font-family: --primary-font;
   font-style: normal;
   font-weight: normal;
   font-size: 16px;
