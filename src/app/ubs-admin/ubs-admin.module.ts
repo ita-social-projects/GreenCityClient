@@ -50,6 +50,8 @@ import { UbsAdminTariffsComponent } from './components/ubs-admin-tariffs/ubs-adm
 import { UbsAdminTariffsAddServicePopupComponent } from './components/ubs-admin-tariffs/ubs-admin-tariffs-add-service-popup/ubs-admin-tariffs-add-service-popup.component';
 import { UbsAdminTariffsDeletePopupComponent } from './components/ubs-admin-tariffs/ubs-admin-tariffs-delete-popup/ubs-admin-tariffs-delete-popup.component';
 import { UbsAdminCertificateAddCertificatePopUpComponent } from './components/ubs-admin-certificate/ubs-admin-certificate-add-certificate-pop-up/ubs-admin-certificate-add-certificate-pop-up.component';
+import { UbsAdminCustomersComponent } from './components/ubs-admin-customers/ubs-admin-customers.component';
+import { MatTableModule } from '@angular/material/table';
 
 @NgModule({
   declarations: [
@@ -83,7 +85,8 @@ import { UbsAdminCertificateAddCertificatePopUpComponent } from './components/ub
     UbsAdminTariffsComponent,
     UbsAdminTariffsAddServicePopupComponent,
     UbsAdminTariffsDeletePopupComponent,
-    UbsAdminCertificateAddCertificatePopUpComponent
+    UbsAdminCertificateAddCertificatePopUpComponent,
+    UbsAdminCustomersComponent
   ],
   imports: [
     CommonModule,
@@ -104,6 +107,7 @@ import { UbsAdminCertificateAddCertificatePopUpComponent } from './components/ub
     ReactiveFormsModule,
     MatDatepickerModule,
     MatNativeDateModule,
+    MatTableModule,
     TranslateModule.forChild({
       loader: {
         provide: TranslateLoader,

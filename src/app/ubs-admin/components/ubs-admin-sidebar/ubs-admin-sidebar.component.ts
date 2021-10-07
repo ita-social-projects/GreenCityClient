@@ -11,8 +11,8 @@ export class UbsAdminSidebarComponent extends UbsBaseSidebarComponent implements
   public listElementsAdmin: any[] = [
     {
       link: 'assets/img/sidebarIcons/user_icon.svg',
-      name: 'ubs-sidebar.users',
-      routerLink: 'profile'
+      name: 'ubs-sidebar.customers',
+      routerLink: 'customers'
     },
     {
       link: './assets/img/sidebarIcons/achievement_icon.svg',
