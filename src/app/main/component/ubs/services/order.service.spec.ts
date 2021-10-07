@@ -69,9 +69,9 @@ describe('OrderService', () => {
 
   let service: OrderService;
   let httpMock: HttpTestingController;
-  let behaviorSubjectMock = new BehaviorSubject<Order>(orderMock);
-  let subjectMock = new Subject<boolean>();
-  let ubsOrderServiseMock = {
+  const behaviorSubjectMock = new BehaviorSubject<Order>(orderMock);
+  const subjectMock = new Subject<boolean>();
+  const ubsOrderServiseMock = {
     orderDetails: null,
     personalData: null
   };
@@ -99,7 +99,6 @@ describe('OrderService', () => {
   });
 
   it('should be created', () => {
-    const service: OrderService = TestBed.inject(OrderService);
     expect(service).toBeTruthy();
   });
 
