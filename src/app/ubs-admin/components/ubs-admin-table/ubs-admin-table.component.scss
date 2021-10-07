@@ -235,7 +235,7 @@ input {
   margin: 8px;
 }
 
-.dropdown-menu mat-checkbox {
+.dropdown-menu .check {
   width: 16px;
   height: 16px;
   z-index: 9;
@@ -356,7 +356,7 @@ input {
 }
 
 .head {
-  font-family: Open Sans;
+  font-family: --quaternary-font;
   font-style: normal;
   font-weight: 600;
   font-size: 16px;
@@ -369,7 +369,7 @@ input {
 }
 
 .item {
-  font-family: Lato;
+  font-family: --primary-font;
   font-style: normal;
   font-weight: normal;
   font-size: 16px;
