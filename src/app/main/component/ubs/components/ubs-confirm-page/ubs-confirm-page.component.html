@@ -1,7 +1,7 @@
 <div class="wraper">
   <div class="order">
     <div [ngSwitch]="true">
-      <div *ngSwitchCase="orderResponseError === false">
+      <div *ngSwitchCase="orderResponseError === false && orderStatusDone === false">
         <button class="btn primary-global-button" (click)="toPersonalAccount()">До особистого кабінету</button>
       </div>
       <div class="error" *ngSwitchCase="orderResponseError === true">

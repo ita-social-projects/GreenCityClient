@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { MatSnackBarComponent } from '@global-errors/mat-snack-bar/mat-snack-bar.component';
 import { JwtService } from '@global-service/jwt/jwt.service';
-import { InterceptorService } from 'src/app/shared/interceptors/interceptor.service';
+import { UBSOrderFormService } from '../../services/ubs-order-form.service';
 
 @Component({
   selector: 'app-ubs-confirm-page',
@@ -13,12 +13,13 @@ export class UbsConfirmPageComponent implements OnInit {
   orderId: string;
   responseStatus: string;
   orderResponseError = false;
+  orderStatusDone: boolean;
 
   constructor(
     private activatedRoute: ActivatedRoute,
     private snackBar: MatSnackBarComponent,
     private jwtService: JwtService,
-    private interceptorService: InterceptorService,
+    private ubsOrderFormService: UBSOrderFormService,
     public router: Router
   ) {}
 
@@ -30,8 +31,10 @@ export class UbsConfirmPageComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.orderResponseError = this.interceptorService.getOrderResponseErrorStatus();
+    this.orderResponseError = this.ubsOrderFormService.getOrderResponseErrorStatus();
+    this.orderStatusDone = this.ubsOrderFormService.getOrderStatus();
     this.orderResponseError ||
+      this.orderStatusDone ||
       this.activatedRoute.queryParams.subscribe((params) => {
         this.orderId = params.order_id;
         this.orderId = '123';

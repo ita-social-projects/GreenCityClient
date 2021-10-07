@@ -8,6 +8,7 @@ import { LocalStorageService } from '../../main/service/localstorage/local-stora
 import { BAD_REQUEST, FORBIDDEN, UNAUTHORIZED } from '../../main/http-response-status';
 import { MatSnackBarComponent } from '@global-errors/mat-snack-bar/mat-snack-bar.component';
 import { UserOwnAuthService } from '@auth-service/user-own-auth.service';
+import { UBSOrderFormService } from 'src/app/main/component/ubs/services/ubs-order-form.service';
 
 interface NewTokenPair {
   accessToken: string;
@@ -20,14 +21,14 @@ interface NewTokenPair {
 export class InterceptorService implements HttpInterceptor {
   private refreshTokenSubject: BehaviorSubject<NewTokenPair> = new BehaviorSubject<NewTokenPair>(null);
   private isRefreshing = false;
-  private errorOccurred = false;
 
   constructor(
     private http: HttpClient,
     private snackBar: MatSnackBarComponent,
     private localStorageService: LocalStorageService,
     private router: Router,
-    private userOwnAuthService: UserOwnAuthService
+    private userOwnAuthService: UserOwnAuthService,
+    private ubsOrderFormService: UBSOrderFormService
   ) {}
 
   /**
@@ -55,7 +56,7 @@ export class InterceptorService implements HttpInterceptor {
       return next.handle(req).pipe(
         catchError((error: HttpErrorResponse) => {
           if (error.status === 400) {
-            this.errorOccurred = true;
+            this.ubsOrderFormService.setOrderResponseErrorStatus(true);
           }
           return throwError(error);
         })
@@ -154,10 +155,6 @@ export class InterceptorService implements HttpInterceptor {
         Authorization: `Bearer ${accessToken}`
       }
     });
-  }
-
-  public getOrderResponseErrorStatus(): boolean {
-    return this.errorOccurred;
   }
 
   public openErrorWindow(message: string): void {

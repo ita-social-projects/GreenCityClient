@@ -38,12 +38,14 @@ export class UBSSubmitOrderComponent extends FormBaseComponent implements OnInit
       popupCancel: 'confirmation.dismiss'
     }
   };
-  isValidOrder = true;
+  isFinalSumZero = true;
+  isTotalAmountZero = true;
 
   constructor(
     private orderService: OrderService,
     private shareFormService: UBSOrderFormService,
     private fb: FormBuilder,
+    private ubsOrderFormService: UBSOrderFormService,
     router: Router,
     dialog: MatDialog
   ) {
@@ -68,7 +70,8 @@ export class UBSSubmitOrderComponent extends FormBaseComponent implements OnInit
       this.orderDetails = orderDetails;
       this.bags = orderDetails.bags.filter((bagItem) => bagItem.quantity !== null);
       this.additionalOrders = orderDetails.additionalOrders;
-      this.isValidOrder = orderDetails.finalSum <= 0;
+      this.isFinalSumZero = orderDetails.finalSum <= 0;
+      this.isTotalAmountZero = orderDetails.total === 0;
     });
     this.shareFormService.changedPersonalData.pipe(takeUntil(this.destroy)).subscribe((personalData: PersonalData) => {
       this.personalData = personalData;
@@ -77,26 +80,33 @@ export class UBSSubmitOrderComponent extends FormBaseComponent implements OnInit
 
   redirectToOrder() {
     this.loadingAnim = true;
-    this.orderService
-      .getOrderUrl()
-      .pipe(takeUntil(this.destroy))
-      .pipe(takeWhile(() => !this.isValidOrder))
-      .pipe(
-        finalize(() => {
-          this.loadingAnim = false;
-          this.shareFormService.orderUrl || this.router.navigate(['ubs', 'confirm']);
-        })
-      )
-      .subscribe(
-        (fondyUrl) => {
-          this.shareFormService.orderUrl = fondyUrl.toString();
-          document.location.href = this.shareFormService.orderUrl;
-          this.loadingAnim = false;
-        },
-        (error) => {
-          this.loadingAnim = false;
-        }
-      );
+
+    if (this.isFinalSumZero && !this.isTotalAmountZero) {
+      this.loadingAnim = false;
+      this.ubsOrderFormService.setOrderResponseErrorStatus(false);
+      this.ubsOrderFormService.setOrderStatus(true);
+      this.router.navigate(['ubs', 'confirm']);
+    } else {
+      this.orderService
+        .getOrderUrl()
+        .pipe(takeUntil(this.destroy))
+        .pipe(
+          finalize(() => {
+            this.loadingAnim = false;
+            this.shareFormService.orderUrl || this.router.navigate(['ubs', 'confirm']);
+          })
+        )
+        .subscribe(
+          (fondyUrl) => {
+            this.shareFormService.orderUrl = fondyUrl.toString();
+            document.location.href = this.shareFormService.orderUrl;
+            this.loadingAnim = false;
+          },
+          (error) => {
+            this.loadingAnim = false;
+          }
+        );
+    }
   }
 
   getLiqPayButton() {

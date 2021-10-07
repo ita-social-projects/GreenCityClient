@@ -8,6 +8,8 @@ export class UBSOrderFormService {
   orderDetails: OrderDetails;
   personalData: PersonalData;
   orderUrl: string;
+  orderStatusDone = false;
+  errorOccurred = false;
   changedOrder: any = new EventEmitter();
   changedPersonalData: any = new EventEmitter();
 
@@ -17,5 +19,25 @@ export class UBSOrderFormService {
 
   changePersonalData() {
     this.changedPersonalData.emit(this.personalData);
+  }
+
+  changeOrderStatus(orderStatus: boolean) {
+    this.orderStatusDone = orderStatus;
+  }
+
+  getOrderStatus(): boolean {
+    return this.orderStatusDone;
+  }
+
+  setOrderStatus(orderStatus: boolean): void {
+    this.orderStatusDone = orderStatus;
+  }
+
+  getOrderResponseErrorStatus(): boolean {
+    return this.errorOccurred;
+  }
+  setOrderResponseErrorStatus(errorStatus: boolean): void {
+    this.errorOccurred = errorStatus;
+    errorStatus && (this.orderStatusDone = false);
   }
 }
