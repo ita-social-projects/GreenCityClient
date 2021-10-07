@@ -10,8 +10,8 @@ export class AdminTableService {
 
   constructor(private http: HttpClient) {}
 
-  getTable(columnName?: string, page?: number, size?: number, sortingType?: string) {
-    return this.http.get<any[]>(`${this.url}orders?columnName=${columnName}&page=${page}&size=${size}&sortingType=${sortingType}`);
+  getTable(id?: string, page?: number, size?: number, sortingType?: string) {
+    return this.http.get<any[]>(`${this.url}bigOrderTable?sortBy=${id}&pageNumber=${page}&pageSize=${size}&sortDirection=${sortingType}`);
   }
 
   getColumns() {
@@ -19,7 +19,7 @@ export class AdminTableService {
   }
 
   postData(orderId: number[], columnName: string, newValue: string) {
-    return this.http.post(`${this.url}changingOrder`, {
+    return this.http.put(`${this.url}changingOrder`, {
       orderId,
       columnName,
       newValue
@@ -27,6 +27,6 @@ export class AdminTableService {
   }
 
   blockOrders(ids: number[]) {
-    return this.http.post<IAlertInfo[]>(`${this.url}blockOrders`, ids);
+    return this.http.put<IAlertInfo[]>(`${this.url}blockOrders`, ids);
   }
 }
