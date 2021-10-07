@@ -10,6 +10,7 @@ import { EcoNewsModel } from '@eco-news-models/eco-news-model';
 import { ACTION_CONFIG, ACTION_TOKEN } from '../create-edit-news/action.constants';
 import { NewsPreviewPageComponent } from './news-preview-page.component';
 import { RouterTestingModule } from '@angular/router/testing';
+import { EcoNewsComponent } from '../../eco-news.component';
 
 describe('NewsPreviewPageComponent', () => {
   let component: NewsPreviewPageComponent;
@@ -36,7 +37,13 @@ describe('NewsPreviewPageComponent', () => {
     await TestBed.configureTestingModule({
       declarations: [NewsPreviewPageComponent],
       schemas: [CUSTOM_ELEMENTS_SCHEMA, NO_ERRORS_SCHEMA],
-      imports: [RouterTestingModule.withRoutes([]), TranslateModule.forRoot(), HttpClientTestingModule, ReactiveFormsModule, FormsModule],
+      imports: [
+        RouterTestingModule.withRoutes([{ path: 'news', component: EcoNewsComponent }]),
+        TranslateModule.forRoot(),
+        HttpClientTestingModule,
+        ReactiveFormsModule,
+        FormsModule
+      ],
       providers: [
         { provide: CreateEcoNewsService, useValue: createEcoNewsServiceMock },
         { provide: ACTION_TOKEN, useValue: ACTION_CONFIG }
@@ -111,7 +118,7 @@ describe('NewsPreviewPageComponent', () => {
     jasmine.clock().uninstall();
   });
 
-  xit('testing of method postNewItem', () => {
+  it('testing of method postNewItem', () => {
     component.postNewsItem();
     expect(!component.isPosting).toBe(true);
     createEcoNewsServiceMock.sendFormData(itemMock).subscribe(() => {
@@ -119,7 +126,7 @@ describe('NewsPreviewPageComponent', () => {
     });
   });
 
-  xit('testing of method editNews', () => {
+  it('testing of method editNews', () => {
     const dataToEdit = {
       ...component.previewItem.value,
       id: component.newsId
