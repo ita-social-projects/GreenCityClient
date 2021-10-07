@@ -6,7 +6,7 @@ import { AdminTableService } from '../../services/admin-table.service';
 import { CdkDragDrop, moveItemInArray } from '@angular/cdk/drag-drop';
 import { take, takeUntil } from 'rxjs/operators';
 import { Subject, timer } from 'rxjs';
-import { Component, OnInit, ViewChild, OnDestroy, AfterViewChecked } from '@angular/core';
+import { Component, OnInit, ViewChild, OnDestroy, AfterViewChecked, HostListener } from '@angular/core';
 import { MatTableDataSource } from '@angular/material/table';
 import { SelectionModel } from '@angular/cdk/collections';
 import { ubsAdminTable } from '../ubs-image-pathes/ubs-admin-table';
@@ -46,6 +46,9 @@ export class UbsAdminTableComponent implements OnInit, AfterViewChecked, OnDestr
   allChecked: boolean;
   tableViewHeaders = [];
   public blockedInfo: IAlertInfo[] = [];
+  isAll: boolean = true;
+  count: number;
+  display: string = 'none';
   @ViewChild(MatSort, { static: true }) sort: MatSort;
 
   constructor(
@@ -141,10 +144,15 @@ export class UbsAdminTableComponent implements OnInit, AfterViewChecked, OnDestr
     checked
       ? (this.displayedColumns = [...this.displayedColumns.slice(0, positionIndex), key, ...this.displayedColumns.slice(positionIndex)])
       : (this.displayedColumns = this.displayedColumns.filter((item) => item !== key));
+    this.count === this.displayedColumns.length ? (this.isAll = true) : (this.isAll = false);
   }
 
-  public showAllColumns(): void {
-    this.setDisplayedColumns();
+  public togglePopUp() {
+    this.display === 'none' ? (this.display = 'block') : (this.display = 'none');
+  }
+
+  public showAllColumns(isCheckAll: boolean): void {
+    isCheckAll ? this.setUnDisplayedColumns() : this.setDisplayedColumns();
   }
 
   private getColumns() {
@@ -253,6 +261,13 @@ export class UbsAdminTableComponent implements OnInit, AfterViewChecked, OnDestr
     this.columns.forEach((column, index) => {
       this.displayedColumns[index] = column.title.key;
     });
+    this.isAll = true;
+    this.count = this.displayedColumns.length;
+  }
+
+  private setUnDisplayedColumns(): void {
+    this.displayedColumns = [];
+    this.isAll = false;
   }
 
   private editSingle(e: IEditCell): void {
