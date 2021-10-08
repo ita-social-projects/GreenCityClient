@@ -1,4 +1,4 @@
-import { TableHeightService } from './../../services/table-height.service';
+import { TableHeightService } from '../../services/table-height.service';
 import { UbsAdminTableExcelPopupComponent } from './ubs-admin-table-excel-popup/ubs-admin-table-excel-popup.component';
 import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
 import { nonSortableColumns } from '../../models/non-sortable-columns.model';

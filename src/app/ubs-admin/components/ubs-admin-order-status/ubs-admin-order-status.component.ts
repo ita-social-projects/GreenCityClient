@@ -48,7 +48,7 @@ export class UbsAdminOrderStatusComponent implements OnInit, OnDestroy {
 
   public getOrderDetailStatus(): void {
     this.orderService
-      .getOrderDetailStatus(this.order.order_id)
+      .getOrderDetailStatus(this.order.id)
       .pipe(takeUntil(this.destroy$))
       .subscribe((data: IDetailStatus) => {
         this.detailStatus = data;
