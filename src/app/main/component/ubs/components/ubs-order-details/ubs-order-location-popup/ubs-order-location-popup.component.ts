@@ -57,6 +57,6 @@ export class UbsOrderLocationPopupComponent implements OnInit, OnDestroy {
   ngOnDestroy() {
     this.passDataToComponent();
     this.destroy$.next();
-    this.destroy$.unsubscribe();
+    this.destroy$.complete();
   }
 }
