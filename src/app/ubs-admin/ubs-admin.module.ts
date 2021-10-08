@@ -49,6 +49,7 @@ import { AdminCertificateService } from './services/admin-certificate.service';
 import { UbsAdminTariffsComponent } from './components/ubs-admin-tariffs/ubs-admin-tariffs.component';
 import { UbsAdminTariffsAddServicePopupComponent } from './components/ubs-admin-tariffs/ubs-admin-tariffs-add-service-popup/ubs-admin-tariffs-add-service-popup.component';
 import { UbsAdminTariffsDeletePopupComponent } from './components/ubs-admin-tariffs/ubs-admin-tariffs-delete-popup/ubs-admin-tariffs-delete-popup.component';
+import { UbsAdminCertificateAddCertificatePopUpComponent } from './components/ubs-admin-certificate/ubs-admin-certificate-add-certificate-pop-up/ubs-admin-certificate-add-certificate-pop-up.component';
 
 @NgModule({
   declarations: [
@@ -81,7 +82,8 @@ import { UbsAdminTariffsDeletePopupComponent } from './components/ubs-admin-tari
     UbsAdminCertificateComponent,
     UbsAdminTariffsComponent,
     UbsAdminTariffsAddServicePopupComponent,
-    UbsAdminTariffsDeletePopupComponent
+    UbsAdminTariffsDeletePopupComponent,
+    UbsAdminCertificateAddCertificatePopUpComponent
   ],
   imports: [
     CommonModule,
