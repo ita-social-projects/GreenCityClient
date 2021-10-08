@@ -32,6 +32,19 @@ export class UBSAddAddressPopUpComponent implements OnInit, OnDestroy {
     { cityName: 'Kiev', northLat: 50.59079800991073, southLat: 50.21327301525928, eastLng: 30.82594104187906, westLng: 30.23944009690609 }
   ];
 
+  regions = [
+    'Голосіївський',
+    'Дарницький',
+    'Деснянський',
+    'Дніпровський',
+    'Оболонський',
+    'Печерський',
+    'Подільський',
+    'Святошинський',
+    "Солом'янський",
+    'Шевченківський'
+  ];
+
   constructor(
     private fb: FormBuilder,
     private orderService: OrderService,
