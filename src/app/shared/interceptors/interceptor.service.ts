@@ -8,6 +8,7 @@ import { LocalStorageService } from '../../main/service/localstorage/local-stora
 import { BAD_REQUEST, FORBIDDEN, UNAUTHORIZED } from '../../main/http-response-status';
 import { MatSnackBarComponent } from '@global-errors/mat-snack-bar/mat-snack-bar.component';
 import { UserOwnAuthService } from '@auth-service/user-own-auth.service';
+import { MatDialog } from '@angular/material/dialog';
 
 interface NewTokenPair {
   accessToken: string;
@@ -26,7 +27,8 @@ export class InterceptorService implements HttpInterceptor {
     private snackBar: MatSnackBarComponent,
     private localStorageService: LocalStorageService,
     private router: Router,
-    private userOwnAuthService: UserOwnAuthService
+    private userOwnAuthService: UserOwnAuthService,
+    private dialog: MatDialog
   ) {}
 
   /**
@@ -113,6 +115,7 @@ export class InterceptorService implements HttpInterceptor {
   private handleRefreshTokenIsNotValid(error: HttpErrorResponse): Observable<HttpEvent<any>> {
     this.isRefreshing = false;
     this.localStorageService.clear();
+    this.dialog.closeAll();
     this.router.navigateByUrl('/');
     this.userOwnAuthService.isLoginUserSubject.next(false);
     return of<HttpEvent<any>>();
