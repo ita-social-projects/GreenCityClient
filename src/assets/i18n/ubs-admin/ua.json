@@ -159,7 +159,8 @@
   "ubs-tables": {
     "export-to-excel": "Експортувати в  Excel",
     "table-view": "Вид таблиці",
-    "add-certificate": "Додати сертифікат"
+    "add-certificate": "Додати сертифікат",
+    "all-elements": "Відображати всі колонки"
   },
   "export-details": {
     "title": "Деталі вивезення",

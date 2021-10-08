@@ -1,4 +1,5 @@
 @import '../../../../typography/colorsUbs';
+@import '../../../../typography/fonts';
 
 .cdk-drag-preview {
   box-sizing: border-box;
@@ -235,11 +236,12 @@ input {
   margin: 8px;
 }
 
-.dropdown-menu input {
+.dropdown-menu .check {
   width: 16px;
+  height: 16px;
   z-index: 9;
   border-radius: 3px;
-  border: 1px solid var(--ubs-secondary-grey);
+  margin: 8px 8px 8px 0;
 }
 
 .blocked_mess {
@@ -273,8 +275,8 @@ input {
   min-width: 356px;
   margin-right: 5px;
   overflow: scroll;
-  padding: 24px;
-  margin-top: 170px;
+  padding: 16px 16px 0 16px;
+  margin-top: 80px;
   top: -40px !important;
   color: var(--ubs-primary-grey);
   font-family: var(--primary-font);
@@ -352,4 +354,45 @@ input {
 ::ng-deep .mat-checkbox-checked:not(.mat-checkbox-disabled).mat-accent .mat-ripple-element,
 ::ng-deep .mat-checkbox:active:not(.mat-checkbox-disabled).mat-accent .mat-ripple-element {
   background-color: var(--ubs-button-light-green) !important;
+}
+
+.head {
+  font-family: sans-serif;
+  font-style: normal;
+  font-weight: 600;
+  font-size: 16px;
+  line-height: 24px;
+  padding: 8px 8px 0 8px;
+}
+
+.items {
+  padding: 16px 24px;
+}
+
+.item {
+  font-family: sans-serif;
+  font-style: normal;
+  font-weight: normal;
+  font-size: 16px;
+  line-height: 24px;
+}
+
+ul::-webkit-scrollbar {
+  width: 8px;
+  background-color: var(--primary-white);
+}
+
+ul::-webkit-scrollbar-track {
+  box-shadow: 2px 2px 4px rgba(73, 74, 73, 0.2);
+}
+
+ul::-webkit-scrollbar-thumb {
+  border-radius: 4px;
+  background-color: var(--primary-dark-grey);
+}
+
+.button-group {
+  display: flex;
+  justify-content: space-between;
+  position: relative;
 }
