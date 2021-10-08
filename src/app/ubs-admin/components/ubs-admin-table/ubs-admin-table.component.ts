@@ -46,9 +46,6 @@ export class UbsAdminTableComponent implements OnInit, AfterViewChecked, OnDestr
   allChecked: boolean;
   tableViewHeaders = [];
   public blockedInfo: IAlertInfo[] = [];
-  isAll = true;
-  count: number;
-  display = 'none';
   @ViewChild(MatSort, { static: true }) sort: MatSort;
 
   constructor(
@@ -143,15 +140,10 @@ export class UbsAdminTableComponent implements OnInit, AfterViewChecked, OnDestr
     checked
       ? (this.displayedColumns = [...this.displayedColumns.slice(0, positionIndex), key, ...this.displayedColumns.slice(positionIndex)])
       : (this.displayedColumns = this.displayedColumns.filter((item) => item !== key));
-    this.count === this.displayedColumns.length ? (this.isAll = true) : (this.isAll = false);
   }
 
-  public togglePopUp() {
-    this.display === 'none' ? (this.display = 'block') : (this.display = 'none');
-  }
-
-  public showAllColumns(isCheckAll: boolean): void {
-    isCheckAll ? this.setUnDisplayedColumns() : this.setDisplayedColumns();
+  public showAllColumns(): void {
+    this.setDisplayedColumns();
   }
 
   private getColumns() {
@@ -264,13 +256,6 @@ export class UbsAdminTableComponent implements OnInit, AfterViewChecked, OnDestr
     this.columns.forEach((column, index) => {
       this.displayedColumns[index] = column.title.key;
     });
-    this.isAll = true;
-    this.count = this.displayedColumns.length;
-  }
-
-  private setUnDisplayedColumns(): void {
-    this.displayedColumns = [];
-    this.isAll = false;
   }
 
   private editSingle(e: IEditCell): void {
