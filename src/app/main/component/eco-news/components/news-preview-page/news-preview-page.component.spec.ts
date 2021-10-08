@@ -111,7 +111,7 @@ describe('NewsPreviewPageComponent', () => {
     jasmine.clock().uninstall();
   });
 
-  xit('testing of method postNewItem', () => {
+  it('testing of method postNewItem', () => {
     component.postNewsItem();
     expect(!component.isPosting).toBe(true);
     createEcoNewsServiceMock.sendFormData(itemMock).subscribe(() => {
@@ -119,7 +119,7 @@ describe('NewsPreviewPageComponent', () => {
     });
   });
 
-  xit('testing of method editNews', () => {
+  it('testing of method editNews', () => {
     const dataToEdit = {
       ...component.previewItem.value,
       id: component.newsId
