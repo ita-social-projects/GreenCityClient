@@ -27,7 +27,8 @@ export class UBSSubmitOrderComponent extends FormBaseComponent implements OnInit
   isLiqPay = false;
   additionalOrders: any;
   personalData: PersonalData;
-  orderDetails: OrderDetails;
+  orderDetails: OrderDetails | null;
+  defaultId: 2282;
   isDownloadDataNotification: boolean;
   private destroy: Subject<boolean> = new Subject<boolean>();
   popupConfig = {
@@ -74,64 +75,54 @@ export class UBSSubmitOrderComponent extends FormBaseComponent implements OnInit
       .pipe(takeUntil(this.destroy))
       .subscribe((response: OrderDetailsNotification) => {
         this.bags = response.bags;
+        this.setDataFromNotification(response);
         this.bags.forEach((item) => {
           item.name = 'Clothes';
           item.quantity = response.amountOfBagsOrdered[item.id];
-        });
-        this.bags.forEach((bagItem: Bag) => {
-          const bag: OrderBag = { amount: bagItem.quantity, id: bagItem.id };
+          const bag: OrderBag = { amount: item.quantity, id: item.id };
           this.orderBags.push(bag);
         });
         console.log(this.orderBags);
-        this.additionalOrders = [];
-        this.orderDetails = {
-          bags: null,
-          points: response.orderBonusDiscount,
-          certificates: null,
-          additionalOrders: null,
-          orderComment: null,
-          pointsSum: null,
-          minAmountOfBigBags: null,
-          total: response.orderFullPrice,
-          finalSum: response.orderDiscountedPrice,
-          certificatesSum: response.orderCertificateTotalDiscount,
-          pointsToUse: response.orderBonusDiscount
-        };
-        this.personalData = {
-          id: null,
-          firstName: response.recipientName,
-          lastName: response.recipientSurname,
-          email: response.recipientEmail,
-          phoneNumber: response.recipientPhone,
-          anotherClientFirstName: null,
-          anotherClientLastName: null,
-          anotherClientEmail: null,
-          anotherClientPhoneNumber: null,
-          addressComment: response.addressComment,
-          city: response.addressCity,
-          district: response.addressDistrict,
-          street: response.addressStreet,
-          houseCorpus: null,
-          entranceNumber: null,
-          houseNumber: null,
-          longitude: null,
-          latitude: null
-        };
-        this.order = new Order(
-          this.additionalOrders,
-          2282,
-          this.orderBags,
-          this.orderDetails.certificates,
-          this.orderDetails.orderComment,
-          this.personalData,
-          this.orderDetails.pointsToUse
-        );
+        this.setOrderNotification();
         console.log(this.order);
         this.orderService.setOrder(this.order);
 
         this.isValidOrder = response.orderDiscountedPrice <= 0;
         this.isDownloadDataNotification = true;
       });
+  }
+
+  setDataFromNotification(data: OrderDetailsNotification) {
+    this.additionalOrders = [];
+    this.orderDetails = {
+      points: data.orderBonusDiscount,
+      total: data.orderFullPrice,
+      finalSum: data.orderDiscountedPrice,
+      certificatesSum: data.orderCertificateTotalDiscount,
+      pointsToUse: data.orderBonusDiscount
+    };
+    this.personalData = {
+      firstName: data.recipientName,
+      lastName: data.recipientSurname,
+      email: data.recipientEmail,
+      phoneNumber: data.recipientPhone,
+      addressComment: data.addressComment,
+      city: data.addressCity,
+      district: data.addressDistrict,
+      street: data.addressStreet
+    };
+  }
+
+  setOrderNotification() {
+    this.order = new Order(
+      this.additionalOrders,
+      2282,
+      this.orderBags,
+      this.orderDetails.certificates,
+      this.orderDetails.orderComment,
+      this.personalData,
+      this.orderDetails.pointsToUse
+    );
   }
 
   ngOnDestroy() {

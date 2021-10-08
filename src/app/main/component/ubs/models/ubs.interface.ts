@@ -13,6 +13,20 @@ export interface OrderBag {
 }
 
 export interface OrderDetails {
+  bags?: Bag[];
+  points: number;
+  pointsToUse?: number;
+  certificates?: any;
+  additionalOrders?: any;
+  orderComment?: string;
+  certificatesSum?: number;
+  pointsSum?: number;
+  total?: number;
+  finalSum?: number;
+  minAmountOfBigBags?: number;
+}
+
+export interface OrderDetailsNotification {
   bags: Bag[];
   points: number;
   pointsToUse?: number;
@@ -60,22 +74,22 @@ export interface ICertificate {
 }
 
 export interface PersonalData {
-  id: number;
+  id?: number;
   firstName: string;
   lastName: string;
   email: string;
   phoneNumber: string;
-  anotherClientFirstName: string;
-  anotherClientLastName: string;
-  anotherClientEmail: string;
-  anotherClientPhoneNumber: string;
+  anotherClientFirstName?: string;
+  anotherClientLastName?: string;
+  anotherClientEmail?: string;
+  anotherClientPhoneNumber?: string;
   addressComment: string;
   city: string;
   district: string;
-  street: string;
-  houseCorpus: string;
-  entranceNumber: string;
-  houseNumber: string;
+  street?: string;
+  houseCorpus?: string;
+  entranceNumber?: string;
+  houseNumber?: string;
   longitude?: number;
   latitude?: number;
 }
