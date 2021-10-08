@@ -41,7 +41,7 @@ export class UBSAddAddressPopUpComponent implements OnInit, OnDestroy {
     'Печерський',
     'Подільський',
     'Святошинський',
-    "Солом'янський",
+    'Солом`янський',
     'Шевченківський'
   ];
 
