@@ -5,9 +5,6 @@
         <div class="header-text">
           <h3>{{ 'ubs-client-profile.data' | translate }}</h3>
         </div>
-        <div class="alert alert-danger" *ngIf="isError">
-          {{ 'ubs-client-profile.error-message' | translate }}
-        </div>
         <button class="btn btn-outline-success" (click)="onEdit()" [disabled]="isEditing || isFetching">
           {{ 'ubs-client-profile.btn.edit' | translate }}
         </button>
@@ -38,6 +35,7 @@
               type="email"
               class="form-control"
               id="recipientEmail"
+              [readonly]="true"
               formControlName="recipientEmail"
               aria-describedby="emailHelp"
             />

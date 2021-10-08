@@ -43,7 +43,7 @@ export class UbsAdminTableExcelPopupComponent implements OnInit {
   }
 
   // Default parameters should be last.
-  getTable(columnName = this.sortingColumn || 'orderid', currentPage, pageSize, sortingType = this.sortType || 'desc') {
+  getTable(columnName = this.sortingColumn || 'order_id', currentPage, pageSize, sortingType = this.sortType || 'desc') {
     return this.adminTableService
       .getTable(columnName, currentPage, pageSize, sortingType)
       .toPromise()
