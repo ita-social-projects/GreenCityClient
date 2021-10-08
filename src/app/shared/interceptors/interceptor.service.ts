@@ -9,6 +9,7 @@ import { BAD_REQUEST, FORBIDDEN, UNAUTHORIZED } from '../../main/http-response-s
 import { MatSnackBarComponent } from '@global-errors/mat-snack-bar/mat-snack-bar.component';
 import { UserOwnAuthService } from '@auth-service/user-own-auth.service';
 import { MatDialog } from '@angular/material/dialog';
+import { AuthModalComponent } from '@global-auth/auth-modal/auth-modal.component';
 
 interface NewTokenPair {
   accessToken: string;
@@ -118,6 +119,14 @@ export class InterceptorService implements HttpInterceptor {
     this.dialog.closeAll();
     this.router.navigateByUrl('/');
     this.userOwnAuthService.isLoginUserSubject.next(false);
+    this.dialog.open(AuthModalComponent, {
+      hasBackdrop: true,
+      closeOnNavigation: true,
+      panelClass: ['custom-dialog-container'],
+      data: {
+        popUpName: 'sign-in'
+      }
+    });
     return of<HttpEvent<any>>();
   }
 
