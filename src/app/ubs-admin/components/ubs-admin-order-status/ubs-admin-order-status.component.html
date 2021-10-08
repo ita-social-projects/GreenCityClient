@@ -1,7 +1,7 @@
 <div class="container mb-3">
   <form class="mt-5" [formGroup]="detailStatusForm">
     <div class="row d-flex justify-content-between mt-4">
-      <h1 class="title">{{ 'order-edit.status.title' | translate }} №{{ order.orderid }}</h1>
+      <h1 class="title">{{ 'order-edit.status.title' | translate }} №{{ order.order_id }}</h1>
       <div class="pr-4">
         <span class="form__label"> {{ 'order-edit.status.order-date' | translate }}: </span>
         <span>{{ detailStatus?.date }}</span>
@@ -17,13 +17,8 @@
                   {{ 'order-edit.status.order-label' | translate }}
                 </label>
                 <select id="order" class="form-control">
-                  <option [ngSwitch]="detailStatus?.orderStatus">
-                    <span *ngSwitchCase="'FORMED'">
-                      {{ 'order-edit.status.approve-status.approved' | translate }}
-                    </span>
-                    <span *ngSwitchCase="'UNFORMED'">
-                      {{ 'order-edit.status.approve-status.approved' | translate }}
-                    </span>
+                  <option *ngFor="let status of orderStatuses" [selected]="status.name === order.order_status">
+                    {{ status.translation | translate }}
                   </option>
                 </select>
               </div>

@@ -12,6 +12,16 @@ import { takeUntil } from 'rxjs/operators';
 })
 export class UbsAdminOrderStatusComponent implements OnInit, OnDestroy {
   @Input() order;
+  orderStatuses = [
+    { name: 'FORMED', translation: 'order-edit.order-status.formed' },
+    { name: 'ADJUSTMENT', translation: 'order-edit.order-status.adjustment' },
+    { name: 'BROUGHT_IT_HIMSELF', translation: 'order-edit.order-status.brought-it-himself' },
+    { name: 'CONFIRMED', translation: 'order-edit.order-status.confirmed' },
+    { name: 'ON_THE_ROUTE', translation: 'order-edit.order-status.on-the-route' },
+    { name: 'DONE', translation: 'order-edit.order-status.done' },
+    { name: 'NOT_TAKEN_OUT', translation: 'order-edit.order-status.not-taken-out' },
+    { name: 'CANCELLED', translation: 'order-edit.order-status.cancelled' }
+  ];
 
   public detailStatusForm: FormGroup;
   public detailStatus: IDetailStatus;
@@ -38,7 +48,7 @@ export class UbsAdminOrderStatusComponent implements OnInit, OnDestroy {
 
   public getOrderDetailStatus(): void {
     this.orderService
-      .getOrderDetailStatus(this.order.orderid)
+      .getOrderDetailStatus(this.order.order_id)
       .pipe(takeUntil(this.destroy$))
       .subscribe((data: IDetailStatus) => {
         this.detailStatus = data;

@@ -58,6 +58,16 @@
     "info-about-date": "Додано:"
   },
   "order-edit": {
+    "order-status": {
+      "formed": "Сформовано",
+      "adjustment": "Узгодження",
+      "brought-it-himself": "Самовивіз",
+      "confirmed": "Підтверджено",
+      "on-the-route": "На маршруті",
+      "done": "Виконано",
+      "not-taken-out": "Не вивезли",
+      "cancelled": "Скасовано"
+    },
     "need-to-pay": "Потрібно доплатити",
     "status": {
       "title": "Замовлення",

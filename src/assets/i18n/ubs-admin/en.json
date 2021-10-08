@@ -58,6 +58,16 @@
     "info-about-date": "Added:"
   },
   "order-edit": {
+    "order-status": {
+      "formed": "Formed",
+      "adjustment": "Adjustment",
+      "brought-it-himself": "Brought it himself",
+      "confirmed": "Confirmed",
+      "on-the-route": "On the route",
+      "done": "Done",
+      "not-taken-out": "Not taken out",
+      "cancelled": "Cancelled"
+    },
     "need-to-pay": "Need to pay extra ",
     "status": {
       "title": "Order",
@@ -66,10 +76,6 @@
       "label-approve": "Payment status ",
       "order-label": "Order status ",
       "payment-label": "Payment status ",
-      "approve-status": {
-        "approved": "Approved",
-        "not-approved": "Not approved"
-      },
       "payment-status": {
         "paid": "Paid",
         "not-paid": "Not paid"
