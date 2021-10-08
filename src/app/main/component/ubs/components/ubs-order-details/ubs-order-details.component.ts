@@ -142,10 +142,12 @@ export class UBSOrderDetailsComponent extends FormBaseComponent implements OnIni
       .afterClosed()
       .pipe(takeUntil(this.destroy))
       .subscribe((res) => {
-        this.locations = res.data;
-        this.selectedLocationId = this.locations[0].id;
-        this.currentLocation = res.data[0].name;
-        this.isDialogOpen = false;
+        if (res.data) {
+          this.locations = res.data;
+          this.selectedLocationId = this.locations[0].id;
+          this.currentLocation = res.data[0].name;
+          this.isDialogOpen = false;
+        }
       });
   }
 
