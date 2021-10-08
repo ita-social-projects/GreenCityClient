@@ -11,6 +11,7 @@ import { UbsUserOrdersComponent } from './ubs-user-orders/ubs-user-orders.compon
 import { UbsUserRoutingModule } from './ubs-user-routing.module';
 import { UbsUserComponent } from './ubs-user.component';
 import { UbsUserSidebarComponent } from './ubs-user-sidebar/ubs-user-sidebar.component';
+import { IMaskModule } from 'angular-imask';
 import { MatExpansionModule } from '@angular/material/expansion';
 import { NgxPaginationModule } from 'ngx-pagination';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
@@ -36,6 +37,7 @@ import { MaterialModule } from '../material.module';
     MaterialModule,
     UbsUserRoutingModule,
     SharedModule,
+    IMaskModule,
     MatTabsModule,
     TranslateModule.forChild({
       loader: {

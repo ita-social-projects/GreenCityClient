@@ -1,5 +1,7 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
-import { IEditCell } from 'src/app/ubs-admin/models/edit-cell.model';
+import { take } from 'rxjs/operators';
+import { IAlertInfo, IEditCell } from 'src/app/ubs-admin/models/edit-cell.model';
+import { AdminTableService } from 'src/app/ubs-admin/services/admin-table.service';
 
 @Component({
   selector: 'app-table-cell-select',
@@ -8,26 +10,58 @@ import { IEditCell } from 'src/app/ubs-admin/models/edit-cell.model';
 })
 export class TableCellSelectComponent implements OnInit {
   @Input() optional;
-  @Input() id;
-  @Input() nameOfColumn;
+  @Input() id: number;
+  @Input() nameOfColumn: string;
   @Input() key;
   @Input() currentValue;
-  @Input() lang;
+  @Input() lang: string;
+  @Input() ordersToChange: number[];
+  @Input() isAllChecked: boolean;
 
-  isEditable: boolean;
-  newOption;
+  public isEditable: boolean;
+  public isBlocked: boolean;
+  private newOption: string;
 
   @Output() editCellSelect = new EventEmitter();
+  @Output() showBlockedInfo = new EventEmitter();
+
+  constructor(private adminTableService: AdminTableService) {}
 
   ngOnInit() {
     this.currentValue = this.optional.filter((item) => item.key === this.key)[0];
   }
 
-  edit() {
-    this.isEditable = true;
+  public edit(): void {
+    this.isEditable = false;
+    this.isBlocked = true;
+    let typeOfChange: number[];
+
+    if (this.isAllChecked) {
+      typeOfChange = [];
+    }
+    if (this.ordersToChange.length) {
+      typeOfChange = this.ordersToChange;
+    }
+    if (!this.isAllChecked && !this.ordersToChange.length) {
+      typeOfChange = [this.id];
+    }
+
+    this.adminTableService
+      .blockOrders(typeOfChange)
+      .pipe(take(1))
+      .subscribe((res: IAlertInfo[]) => {
+        if (res[0] === undefined) {
+          this.isBlocked = false;
+          this.isEditable = true;
+        } else {
+          this.isEditable = false;
+          this.isBlocked = false;
+          this.showBlockedInfo.emit(res);
+        }
+      });
   }
 
-  save() {
+  public save(): void {
     const newValueObj = this.optional.findIndex((item) => item[this.lang] === this.newOption);
 
     if (newValueObj === -1) {
@@ -44,12 +78,12 @@ export class TableCellSelectComponent implements OnInit {
     }
   }
 
-  cancel() {
+  public cancel(): void {
     this.newOption = '';
     this.isEditable = false;
   }
 
-  chosenOption(e: any) {
+  public chosenOption(e: any): void {
     this.newOption = e.target.value;
   }
 }
