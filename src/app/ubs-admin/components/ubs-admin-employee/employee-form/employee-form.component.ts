@@ -1,8 +1,7 @@
 import { Component, Inject, OnInit } from '@angular/core';
-import { MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { UbsAdminEmployeeService } from '../../../services/ubs-admin-employee.service';
-import { MatDialogRef } from '@angular/material/dialog';
 import { Page } from '../../../models/ubs-admin.interface';
 
 @Component({
@@ -56,8 +55,7 @@ export class EmployeeFormComponent implements OnInit {
   }
 
   get isUpdatingEmployee() {
-    console.log(!(Object.keys(this.data).length === 0));
-    return !(Object.keys(this.data).length === 0);
+    return Object.keys(this.data).length !== 0;
   }
 
   get isCreatingEmployee() {
@@ -107,8 +105,6 @@ export class EmployeeFormComponent implements OnInit {
   }
 
   prepareEmployeeDataToSend(dto: string): FormData {
-    const phoneNumber = this.employeeForm.value.phoneNumber;
-    // this.employeeForm.value.phoneNumber = phoneNumber.slice(1);
     const employeeDataToSend = {
       ...this.employeeForm.value,
       image: this.imageURL || this.defaultPhotoURL,
@@ -126,7 +122,6 @@ export class EmployeeFormComponent implements OnInit {
 
   updateEmployee() {
     const dataToSend = this.prepareEmployeeDataToSend('employeeDto');
-    // dataToSend.append('image', this.selectedFile);
     this.employeeService.updateEmployee(dataToSend).subscribe(() => {
       this.dialogRef.close();
     });
