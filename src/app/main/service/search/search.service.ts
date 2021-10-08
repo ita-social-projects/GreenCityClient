@@ -5,7 +5,6 @@ import { Observable, of, Subject } from 'rxjs';
 import { switchMap } from 'rxjs/operators';
 import { SearchDataModel, SearchModel } from '../../model/search/search.model';
 import { SearchDto } from 'src/app/main/component/layout/components/models/search-dto';
-import { backendMockSearchAll, backendMockSearchNews } from 'src/assets/mocks/search/mockPath';
 
 @Injectable({
   providedIn: 'root'

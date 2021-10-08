@@ -25,7 +25,7 @@ export class UbsAdminCertificateComponent implements OnInit, AfterViewChecked, O
   orderInfo: string[] = [];
   customerInfo: string[] = [];
   orderDetails: string[] = [];
-  sertificate: string[] = [];
+  certificate: string[] = [];
   detailsOfExport: string[] = [];
   responsiblePerson: string[] = [];
   dataSource: MatTableDataSource<any>;
@@ -35,7 +35,6 @@ export class UbsAdminCertificateComponent implements OnInit, AfterViewChecked, O
   isLoading = true;
   isUpdate = false;
   destroy: Subject<boolean> = new Subject<boolean>();
-  arrowDirection: string;
   tableData: any[];
   totalPages: number;
   pageSizeOptions: number[] = [10, 15, 20];

@@ -12,6 +12,13 @@ a {
   cursor: pointer;
 }
 
+a,
+a:hover,
+a:focus,
+a:active {
+  text-decoration: none;
+}
+
 body {
   margin: 0;
   font-family: var(--tertiary-font);
