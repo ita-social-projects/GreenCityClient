@@ -25,7 +25,7 @@ export class UBSOrderFormComponent implements AfterViewInit, DoCheck {
   constructor(private cdr: ChangeDetectorRef) {}
 
   @HostListener('window:beforeunload') onClose() {
-    return false;
+    return true;
   }
 
   ngAfterViewInit(): void {
