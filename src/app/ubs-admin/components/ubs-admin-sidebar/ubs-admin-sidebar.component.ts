@@ -10,11 +10,6 @@ import { UserMessagesService } from '../../../ubs-user/services/user-messages.se
 export class UbsAdminSidebarComponent extends UbsBaseSidebarComponent implements AfterViewInit {
   public listElementsAdmin: any[] = [
     {
-      link: 'assets/img/sidebarIcons/user_icon.svg',
-      name: 'ubs-sidebar.users',
-      routerLink: 'profile'
-    },
-    {
       link: './assets/img/sidebarIcons/achievement_icon.svg',
       name: 'ubs-sidebar.certificates',
       routerLink: 'certificates'

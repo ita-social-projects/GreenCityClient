@@ -18,7 +18,6 @@ import { UbsAdminEmployeeCardComponent } from './components/ubs-admin-employee/u
 import { PaginationComponent } from './components/shared/components/pagination/pagination.component';
 import { EmployeeFormComponent } from './components/ubs-admin-employee/employee-form/employee-form.component';
 import { UBSAdminRoutingModule } from './ubs-admin-routing.module';
-import { UbsClientProfilePageComponent } from './components/ubs-client-profile-page/ubs-client-profile-page.component';
 import { UbsAdminResponsiblePersonsComponent } from './components/ubs-admin-responsible-persons/ubs-admin-responsible-persons.component';
 import { UbsAdminExportDetailsComponent } from './components/ubs-admin-export-details/ubs-admin-export-details.component';
 import { UbsAdminOrderPaymentComponent } from './components/ubs-admin-order-payment/ubs-admin-order-payment.component';
@@ -29,8 +28,6 @@ import { UbsAdminOrderComponent } from './components/ubs-admin-order/ubs-admin-o
 import { UbsAdminAddressDetailsComponent } from './components/ubs-admin-address-details/ubs-admin-address-details.component';
 import { InterceptorService } from '../shared/interceptors/interceptor.service';
 import { InfiniteScrollModule } from 'ngx-infinite-scroll';
-import { UbsProfileChangePasswordPopUpComponent } from './components/ubs-client-profile-page/ubs-profile-change-password-pop-up/ubs-profile-change-password-pop-up.component';
-import { UbsProfileDeletePopUpComponent } from './components/ubs-client-profile-page/ubs-profile-delete-pop-up/ubs-profile-delete-pop-up.component';
 import { AddViolationsComponent } from './components/add-violations/add-violations.component';
 import { UbsAdminCancelModalComponent } from './components/ubs-admin-cancel-modal/ubs-admin-cancel-modal.component';
 import { UbsAdminGoBackModalComponent } from './components/ubs-admin-go-back-modal/ubs-admin-go-back-modal.component';
@@ -61,7 +58,6 @@ import { UbsAdminCertificateAddCertificatePopUpComponent } from './components/ub
     UbsAdminEmployeeComponent,
     UbsAdminEmployeeCardComponent,
     EmployeeFormComponent,
-    UbsClientProfilePageComponent,
     UbsAdminOrderComponent,
     UbsAdminAddressDetailsComponent,
     UbsAdminOrderStatusComponent,
@@ -70,8 +66,6 @@ import { UbsAdminCertificateAddCertificatePopUpComponent } from './components/ub
     UbsAdminOrderPaymentComponent,
     UbsAdminOrderClientInfoComponent,
     UbsAdminOrderDetailsFormComponent,
-    UbsProfileChangePasswordPopUpComponent,
-    UbsProfileDeletePopUpComponent,
     AddViolationsComponent,
     UbsAdminCancelModalComponent,
     UbsAdminGoBackModalComponent,
@@ -95,13 +89,11 @@ import { UbsAdminCertificateAddCertificatePopUpComponent } from './components/ub
     UBSAdminRoutingModule,
     FormsModule,
     ReactiveFormsModule,
-    UBSAdminRoutingModule,
     NgxPaginationModule,
     InfiniteScrollModule,
     MatTabsModule,
     MatTooltipModule,
     DragDropModule,
-    ReactiveFormsModule,
     MatDatepickerModule,
     MatNativeDateModule,
     TranslateModule.forChild({
@@ -127,8 +119,6 @@ import { UbsAdminCertificateAddCertificatePopUpComponent } from './components/ub
     UbsAdminTableComponent,
     AddViolationsComponent,
     EmployeeFormComponent,
-    UbsProfileChangePasswordPopUpComponent,
-    UbsProfileDeletePopUpComponent,
     UbsAdminCancelModalComponent,
     UbsAdminGoBackModalComponent
   ]

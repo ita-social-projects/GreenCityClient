@@ -20,6 +20,10 @@ import { UbsUserMessagesComponent } from './ubs-user-messages/ubs-user-messages.
 import { NotificationBodyComponent } from './ubs-user-messages/notification-body/notification-body.component';
 import { UbsUserBonusesComponent } from './ubs-user-bonuses/ubs-user-bonuses.component';
 import { MaterialModule } from '../material.module';
+import { UbsUserProfilePageComponent } from './ubs-user-profile-page/ubs-user-profile-page.component';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { UbsProfileChangePasswordPopUpComponent } from './ubs-user-profile-page/ubs-profile-change-password-pop-up/ubs-profile-change-password-pop-up.component';
+import { UbsProfileDeletePopUpComponent } from './ubs-user-profile-page/ubs-profile-delete-pop-up/ubs-profile-delete-pop-up.component';
 
 @NgModule({
   declarations: [
@@ -30,7 +34,10 @@ import { MaterialModule } from '../material.module';
     UbsUserOrdersComponent,
     UbsUserOrdersListComponent,
     UbsUserMessagesComponent,
-    NotificationBodyComponent
+    NotificationBodyComponent,
+    UbsUserProfilePageComponent,
+    UbsProfileChangePasswordPopUpComponent,
+    UbsProfileDeletePopUpComponent
   ],
   imports: [
     CommonModule,
@@ -39,6 +46,8 @@ import { MaterialModule } from '../material.module';
     SharedModule,
     IMaskModule,
     MatTabsModule,
+    FormsModule,
+    ReactiveFormsModule,
     TranslateModule.forChild({
       loader: {
         provide: TranslateLoader,
@@ -51,7 +60,8 @@ import { MaterialModule } from '../material.module';
     NgxPaginationModule,
     MatProgressSpinnerModule,
     MatProgressBarModule
-  ]
+  ],
+  entryComponents: [UbsProfileChangePasswordPopUpComponent, UbsProfileDeletePopUpComponent]
 })
 export class UbsUserModule {}
 
