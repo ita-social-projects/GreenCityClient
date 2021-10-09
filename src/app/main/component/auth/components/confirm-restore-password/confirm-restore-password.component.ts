@@ -12,7 +12,7 @@ import { take } from 'rxjs/operators';
 @Component({
   selector: 'app-confirm-restore-password',
   templateUrl: './confirm-restore-password.component.html',
-  styleUrls: ['./confirm-restore-password.component.scss'],
+  styleUrls: ['./confirm-restore-password.component.scss']
 })
 export class ConfirmRestorePasswordComponent implements OnInit {
   public confirmRestorePasswordForm: FormGroup;
@@ -51,10 +51,10 @@ export class ConfirmRestorePasswordComponent implements OnInit {
     this.confirmRestorePasswordForm = this.formBuilder.group(
       {
         password: new FormControl('', []),
-        confirmPassword: new FormControl('', []),
+        confirmPassword: new FormControl('', [])
       },
       {
-        validator: [ConfirmPasswordValidator('password', 'confirmPassword'), ValidatorRegExp('password')],
+        validator: [ConfirmPasswordValidator('password', 'confirmPassword'), ValidatorRegExp('password')]
       }
     );
   }
@@ -77,15 +77,23 @@ export class ConfirmRestorePasswordComponent implements OnInit {
     this.changePasswordService.restorePassword(this.restoreDto).subscribe(
       (data) => {
         this.form = data;
+        setTimeout(() => {
+          this.router.navigate(['']);
+          this.snackBar.openSnackBar('successConfirmPassword');
+        }, 2000);
       },
       (error) => {
         this.form = error;
+        setTimeout(() => {
+          this.router.navigate(['']);
+          this.snackBar.openSnackBar('error');
+        }, 2000);
       }
     );
-    setTimeout(() => {
+    /* setTimeout(() => {
       this.router.navigate(['']);
       this.snackBar.openSnackBar('successConfirmPassword');
-    }, 2000);
+    }, 2000);*/
   }
 
   public setPasswordBackendErr(): void {
