@@ -38,6 +38,6 @@ export class TariffsService {
   }
 
   editService(id: number, service: Service) {
-    return this.http.post(`${mainUbsLink}/ubs/superAdmin/editService/${id}`, service);
+    return this.http.put(`${mainUbsLink}/ubs/superAdmin/editService/${id}`, service);
   }
 }

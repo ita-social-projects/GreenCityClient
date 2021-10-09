@@ -73,7 +73,7 @@ describe('TariffsService', () => {
     service.editService(1, service1).subscribe((data) => {
       expect(data).toBe(service1);
     });
-    httpTest('/ubs/superAdmin/editService/1', 'POST', service1);
+    httpTest('/ubs/superAdmin/editService/1', 'PUT', service1);
   });
 
   it('should get all tariffs', () => {

@@ -80,7 +80,9 @@ export class UbsAdminTariffsAddServicePopupComponent implements OnInit, OnDestro
       capacity,
       price,
       commission,
-      description
+      description,
+      languageCode: 'ua',
+      locationId: 1
     };
     this.loadingAnim = true;
     this.tariffsService
@@ -138,16 +140,18 @@ export class UbsAdminTariffsAddServicePopupComponent implements OnInit, OnDestro
 
   editService(receivedData) {
     const { name, capacity, price, commission, description } = this.addServiceForm.value;
-    this.tariffService = {
+    this.service = {
       name,
       capacity,
       price,
       commission,
-      description
+      description,
+      languageCode: 'ua',
+      locationId: 1
     };
     this.loadingAnim = true;
     this.tariffsService
-      .editService(receivedData.serviceData.id, this.tariffService)
+      .editService(receivedData.serviceData.id, this.service)
       .pipe(takeUntil(this.destroy))
       .subscribe(() => {
         this.loadingAnim = false;

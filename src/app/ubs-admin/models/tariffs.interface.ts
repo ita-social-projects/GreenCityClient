@@ -23,4 +23,5 @@ export interface Service {
   languageCode?: string;
   id?: number;
   fullPrice?: number;
+  locationId?: number;
 }
