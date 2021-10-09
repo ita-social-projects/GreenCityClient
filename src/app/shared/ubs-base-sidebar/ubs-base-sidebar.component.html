@@ -16,7 +16,7 @@
           }}"
           alt="sidebar list item icon"
         />
-        <a #a [routerLink]="listItem.routerLink" class="sidebar-list-item-link">{{ listItem.name | translate }}</a>
+        <a class="sidebar-list-item-link" [routerLink]="listItem.routerLink">{{ listItem.name | translate }}</a>
         <div class="count-unread-messages" *ngIf="listItem.name === 'ubs-user.messages' && serviceUserMessages.countOfNoReadeMessages">
           ({{ serviceUserMessages.countOfNoReadeMessages }})
         </div>
