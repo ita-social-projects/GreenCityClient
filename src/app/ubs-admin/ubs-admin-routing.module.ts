@@ -8,6 +8,7 @@ import { UbsAdminOrderComponent } from './components/ubs-admin-order/ubs-admin-o
 import { UbsAdminGuardGuard } from './ubs-admin-guard.guard';
 import { UbsAdminCertificateComponent } from './components/ubs-admin-certificate/ubs-admin-certificate.component';
 import { UbsAdminTariffsComponent } from './components/ubs-admin-tariffs/ubs-admin-tariffs.component';
+import { UbsAdminOrderClientInfoComponent } from './components/ubs-admin-order-client-info/ubs-admin-order-client-info.component';
 
 const ubsAdminRoutes: Routes = [
   {
@@ -20,7 +21,8 @@ const ubsAdminRoutes: Routes = [
       { path: 'employee/:page', component: UbsAdminEmployeeComponent },
       { path: 'profile', component: UbsClientProfilePageComponent },
       { path: 'order', component: UbsAdminOrderComponent },
-      { path: 'tariffs', component: UbsAdminTariffsComponent }
+      { path: 'tariffs', component: UbsAdminTariffsComponent },
+      { path: 'popup', component: UbsAdminOrderClientInfoComponent }
     ]
   }
 ];

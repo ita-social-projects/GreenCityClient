@@ -162,3 +162,9 @@ export interface CreateCertificate {
   monthCount: number;
   points: number;
 }
+
+export interface AddViolation {
+  orderID: number;
+  violationDescription: string;
+  violationLevel: string;
+}

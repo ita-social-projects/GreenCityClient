@@ -43,6 +43,11 @@ export class UbsAdminSidebarComponent extends UbsBaseSidebarComponent implements
       link: 'assets/img/sidebarIcons/shopping-cart_icon.svg',
       name: 'ubs-sidebar.tariffs',
       routerLink: 'tariffs'
+    },
+    {
+      link: 'assets/img/sidebarIcons/shopping-cart_icon.svg',
+      name: 'ubs-sidebar.tariffs',
+      routerLink: 'popup'
     }
   ];
 

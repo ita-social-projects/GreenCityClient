@@ -10,7 +10,8 @@ import {
   PaymentInfo,
   UserViolations,
   IExportDetails,
-  IDetailStatus
+  IDetailStatus,
+  AddViolation
 } from '../models/ubs-admin.interface';
 import { environment } from '@environment/environment';
 
@@ -59,5 +60,9 @@ export class OrderService {
 
   public updateRecipientsData(postData: any) {
     return this.http.put<any>(`${this.backend}`, postData);
+  }
+
+  addViolationToCurrentOrder(violation: AddViolation) {
+    return this.http.post(`${this.backend}/management/addViolationToUser`, violation);
   }
 }

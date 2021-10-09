@@ -1,9 +1,13 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit, Inject } from '@angular/core';
 import { ImageFile } from '../../models/image-file.model';
 import { FileHandle } from '../../models/file-handle.model';
 import { TranslateService } from '@ngx-translate/core';
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
+import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
+import { AddViolation } from '../../models/ubs-admin.interface';
+import { MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { OrderService } from '../../services/order.service';
 
 @Component({
   selector: 'app-add-violations',
@@ -17,7 +21,19 @@ export class AddViolationsComponent implements OnInit, OnDestroy {
   isImageTypeError = false;
   dragAndDropLabel;
   unsubscribe: Subject<any> = new Subject();
-  constructor(private translate: TranslateService) {}
+  addViolationForm: FormGroup;
+  violation: AddViolation;
+  orderId: number;
+  slideIndex = 1;
+
+  constructor(
+    private translate: TranslateService,
+    private fb: FormBuilder,
+    @Inject(MAT_DIALOG_DATA) public data,
+    private orderService: OrderService
+  ) {
+    this.orderId = data.id;
+  }
 
   ngOnInit() {
     this.translate
@@ -27,6 +43,31 @@ export class AddViolationsComponent implements OnInit, OnDestroy {
         this.dragAndDropLabel = value;
       });
     this.initImages();
+    this.initForm();
+  }
+
+  private initForm(): void {
+    this.addViolationForm = this.fb.group({
+      violationLevel: new FormControl('', [Validators.required]),
+      violationDescription: new FormControl('', [Validators.required])
+    });
+  }
+
+  addViolationCurrentOrder() {
+    // const images = this.images;
+    const orderID = this.orderId;
+    const { violationLevel, violationDescription } = this.addViolationForm.value;
+    this.violation = {
+      violationLevel,
+      violationDescription,
+      orderID
+    };
+    this.orderService
+      .addViolationToCurrentOrder(this.violation)
+      .pipe(takeUntil(this.unsubscribe))
+      .subscribe((res) => {
+        console.log(res);
+      });
   }
 
   filesDropped(files: FileHandle[]): void {
@@ -123,5 +164,40 @@ export class AddViolationsComponent implements OnInit, OnDestroy {
   ngOnDestroy(): void {
     this.unsubscribe.next();
     this.unsubscribe.complete();
+  }
+
+  //
+
+  openModal() {
+    document.getElementById('myModal').style.display = 'block';
+  }
+
+  // Close the Modal
+  closeModal() {
+    document.getElementById('myModal').style.display = 'none';
+  }
+
+  currentSlide(n) {
+    this.showSlides((this.slideIndex = n));
+  }
+
+  // Next/previous controls
+  plusSlides(n) {
+    this.showSlides((this.slideIndex += n));
+  }
+
+  showSlides(n) {
+    let i;
+    const slides = document.getElementsByClassName('mySlides') as HTMLCollectionOf<HTMLElement>;
+    if (n > slides.length) {
+      this.slideIndex = 1;
+    }
+    if (n < 1) {
+      this.slideIndex = slides.length;
+    }
+    for (i = 0; i < slides.length; i++) {
+      slides[i].style.display = 'none';
+    }
+    slides[this.slideIndex - 1].style.display = 'block';
   }
 }

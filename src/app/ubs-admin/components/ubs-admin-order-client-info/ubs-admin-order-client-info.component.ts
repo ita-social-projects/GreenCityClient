@@ -19,7 +19,7 @@ export class UbsAdminOrderClientInfoComponent implements OnInit, OnDestroy {
   public customerName: FormControl;
   public totalUserViolations: number;
   public userViolationForCurrentOrder: number;
-  public orderId = 893;
+  public orderId = 3000;
   public currentLanguage: string;
   private destroy$: Subject<boolean> = new Subject<boolean>();
 
@@ -64,6 +64,12 @@ export class UbsAdminOrderClientInfoComponent implements OnInit, OnDestroy {
   }
 
   openModal(): void {
-    this.dialog.open(AddViolationsComponent, { height: '90%', maxWidth: '560px' });
+    this.dialog.open(AddViolationsComponent, {
+      height: '90%',
+      maxWidth: '560px',
+      data: {
+        id: 3000
+      }
+    });
   }
 }
