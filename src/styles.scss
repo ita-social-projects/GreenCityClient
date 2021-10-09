@@ -19,10 +19,25 @@ a:active {
   text-decoration: none;
 }
 
+html {
+  height: 100%;
+}
+
 body {
   margin: 0;
+  height: 100%;
   font-family: var(--tertiary-font);
   overflow-y: auto;
+}
+
+.app-wrapper {
+  min-height: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
+.main-content {
+  flex: 1 1 auto;
 }
 
 .cdk-drag-preview {
