@@ -3,6 +3,7 @@ import { Component } from '@angular/core';
 import { UbsBaseSidebarComponent } from 'src/app/shared/ubs-base-sidebar/ubs-base-sidebar.component';
 import { UserMessagesService } from '../services/user-messages.service';
 import { Router } from '@angular/router';
+import { JwtService } from '@global-service/jwt/jwt.service';
 
 @Component({
   selector: 'app-ubs-user-sidebar',
@@ -32,7 +33,7 @@ export class UbsUserSidebarComponent extends UbsBaseSidebarComponent {
     }
   ];
 
-  constructor(public service: UserMessagesService, public breakpointObserver: BreakpointObserver, public router: Router) {
-    super(service, breakpointObserver, router);
+  constructor(public service: UserMessagesService, public breakpointObserver: BreakpointObserver, public jwtService: JwtService) {
+    super(service, breakpointObserver, jwtService);
   }
 }

@@ -3,6 +3,7 @@ import { BreakpointObserver } from '@angular/cdk/layout';
 import { UserMessagesService } from '../../../ubs-user/services/user-messages.service';
 import { Router } from '@angular/router';
 import { UbsBaseSidebarComponent } from 'src/app/shared/ubs-base-sidebar/ubs-base-sidebar.component';
+import { JwtService } from '@global-service/jwt/jwt.service';
 
 // @ts-ignore
 @Component({
@@ -48,7 +49,7 @@ export class UbsAdminSidebarComponent extends UbsBaseSidebarComponent implements
     }
   ];
 
-  constructor(public service: UserMessagesService, public breakpointObserver: BreakpointObserver, public router: Router) {
-    super(service, breakpointObserver, router);
+  constructor(public service: UserMessagesService, public breakpointObserver: BreakpointObserver, public jwtService: JwtService) {
+    super(service, breakpointObserver, jwtService);
   }
 }

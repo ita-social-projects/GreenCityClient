@@ -4,7 +4,7 @@ import { MatDrawer } from '@angular/material/sidenav';
 import { UserMessagesService } from '../../ubs-user/services/user-messages.service';
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
-import { Router } from '@angular/router';
+import { JwtService } from '@global-service/jwt/jwt.service';
 
 @Component({
   selector: 'app-ubs-base-sidebar',
@@ -12,13 +12,14 @@ import { Router } from '@angular/router';
   styleUrls: ['./ubs-base-sidebar.component.scss']
 })
 export class UbsBaseSidebarComponent implements AfterViewInit, OnDestroy {
+  private destroySub: Subject<boolean> = new Subject<boolean>();
   readonly bellsNoneNotification = 'assets/img/sidebarIcons/none_notification_Bell.svg';
   readonly bellsNotification = 'assets/img/sidebarIcons/notification_Bell.svg';
   readonly arrowRight = 'assets/img/ubs-admin-sidebar/arrowRight.svg';
   readonly arrowLeft = 'assets/img/ubs-admin-sidebar/arrowLeft.svg';
   public openClose = false;
   public stopClick = false;
-  currentRef: string;
+  private adminRoleValue = 'ROLE_ADMIN';
   destroy: Subject<boolean> = new Subject<boolean>();
   @Input() public listElements: any[] = [];
   @ViewChild('sidebarToggler') sidebarToggler: ElementRef;
@@ -26,7 +27,11 @@ export class UbsBaseSidebarComponent implements AfterViewInit, OnDestroy {
   @ViewChild('drawer') drawer: MatDrawer;
   @ViewChild('sidebarContainer') sidebarContainer: ElementRef;
 
-  constructor(public serviceUserMessages: UserMessagesService, public breakpointObserver: BreakpointObserver, public router: Router) {}
+  constructor(
+    public serviceUserMessages: UserMessagesService,
+    public breakpointObserver: BreakpointObserver,
+    public jwtService: JwtService
+  ) {}
 
   public toggleSideBar(): void {
     if (this.openClose) {
@@ -47,17 +52,20 @@ export class UbsBaseSidebarComponent implements AfterViewInit, OnDestroy {
   }
 
   getCountOfUnreadNotification() {
-    this.serviceUserMessages
-      .getCountUnreadNotification()
-      .pipe(takeUntil(this.destroy))
-      .subscribe((response) => {
-        this.serviceUserMessages.countOfNoReadeMessages = response;
-        console.log('Hello');
-      });
+    this.jwtService.userRole$.pipe(takeUntil(this.destroySub)).subscribe((userRole) => {
+      if (!(userRole === this.adminRoleValue)) {
+        this.serviceUserMessages
+          .getCountUnreadNotification()
+          .pipe(takeUntil(this.destroy))
+          .subscribe((response) => {
+            this.serviceUserMessages.countOfNoReadeMessages = response;
+            console.log('Hello');
+          });
+      }
+    });
   }
 
   ngAfterViewInit(): void {
-    this.currentRef = this.router.url;
     setTimeout(() => {
       this.breakpointObserver.observe([Breakpoints.Small, Breakpoints.XSmall]).subscribe((result) => {
         if (this.drawer) {
@@ -69,9 +77,7 @@ export class UbsBaseSidebarComponent implements AfterViewInit, OnDestroy {
         }
       });
     }, 0);
-    if (this.currentRef === '/ubs-user') {
-      this.getCountOfUnreadNotification();
-    }
+    this.getCountOfUnreadNotification();
   }
 
   ngOnDestroy() {
