@@ -4,11 +4,12 @@ import { UbsAdminTariffsAddServicePopupComponent } from './ubs-admin-tariffs-add
 import { UbsAdminTariffsDeletePopupComponent } from './ubs-admin-tariffs-delete-popup/ubs-admin-tariffs-delete-popup.component';
 import { TariffsService } from '../../services/tariffs.service';
 import { takeUntil } from 'rxjs/operators';
-import { Bag } from '../../models/tariffs.interface';
+import { Bag, Service } from '../../models/tariffs.interface';
 import { OrderService } from '../../../main/component/ubs/services/order.service';
 import { Locations } from '../../../main/component/ubs/models/ubs.interface';
 import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
 import { Subject } from 'rxjs';
+import { MatDialogRef } from '@angular/material/dialog';
 
 @Component({
   selector: 'app-ubs-admin-tariffs',
@@ -18,10 +19,11 @@ import { Subject } from 'rxjs';
 export class UbsAdminTariffsComponent implements OnInit, OnDestroy {
   minAmountOfBigBags: number;
   locations: Locations;
+  isLoadBar1: boolean;
   isLoadBar: boolean;
-  isFetching = false;
   selectedLocationId;
   bags: Bag[];
+  services: Service[];
   private destroy: Subject<boolean> = new Subject<boolean>();
   public currentLanguage: string;
   public icons = {
@@ -33,30 +35,43 @@ export class UbsAdminTariffsComponent implements OnInit, OnDestroy {
     public dialog: MatDialog,
     private tariffsService: TariffsService,
     private orderService: OrderService,
-    private localStorageService: LocalStorageService
+    private localStorageService: LocalStorageService,
+    public dialogRef: MatDialogRef<UbsAdminTariffsAddServicePopupComponent>
   ) {}
 
   ngOnInit() {
     this.subscribeToLangChange();
     this.getAllTariffsForService();
     this.getLocations();
-    this.closeDialog();
+    this.getServices();
   }
 
-  openAddServicePopup() {
-    this.dialog.open(UbsAdminTariffsAddServicePopupComponent, {
+  openAddTariffForServicePopup() {
+    const dialogRef = this.dialog.open(UbsAdminTariffsAddServicePopupComponent, {
       hasBackdrop: true,
       disableClose: true,
       data: {
         button: 'add'
       }
     });
+    dialogRef
+      .afterClosed()
+      .pipe(takeUntil(this.destroy))
+      .subscribe((result) => result && this.getAllTariffsForService());
   }
 
-  closeDialog() {
-    this.dialog.afterAllClosed.pipe(takeUntil(this.destroy)).subscribe(() => {
-      this.getAllTariffsForService();
+  openAddServicePopup() {
+    const dialogRef = this.dialog.open(UbsAdminTariffsAddServicePopupComponent, {
+      hasBackdrop: true,
+      disableClose: true,
+      data: {
+        button: 'add_service'
+      }
     });
+    dialogRef
+      .afterClosed()
+      .pipe(takeUntil(this.destroy))
+      .subscribe((result) => result && this.getServices());
   }
 
   private subscribeToLangChange(): void {
@@ -68,7 +83,7 @@ export class UbsAdminTariffsComponent implements OnInit, OnDestroy {
   getAllTariffsForService() {
     this.isLoadBar = true;
     this.tariffsService
-      .getAllTariffsService()
+      .getAllTariffsForService()
       .pipe(takeUntil(this.destroy))
       .subscribe((res: Bag[]) => {
         this.bags = res;
@@ -77,12 +92,23 @@ export class UbsAdminTariffsComponent implements OnInit, OnDestroy {
       });
   }
 
+  getServices() {
+    this.isLoadBar1 = true;
+    this.tariffsService
+      .getAllServices()
+      .pipe(takeUntil(this.destroy))
+      .subscribe((res: Service[]) => {
+        this.services = res;
+        this.isLoadBar1 = false;
+      });
+  }
+
   private filterBags(): void {
     this.bags = this.bags.filter((value) => value.languageCode === this.currentLanguage).sort((a, b) => b.price - a.price);
   }
 
-  openUpdateServicePopup(bag: Bag) {
-    this.dialog.open(UbsAdminTariffsAddServicePopupComponent, {
+  openUpdateTariffForServicePopup(bag: Bag) {
+    const dialogRef = this.dialog.open(UbsAdminTariffsAddServicePopupComponent, {
       hasBackdrop: true,
       disableClose: true,
       data: {
@@ -90,15 +116,51 @@ export class UbsAdminTariffsComponent implements OnInit, OnDestroy {
         bagData: bag
       }
     });
+    dialogRef
+      .afterClosed()
+      .pipe(takeUntil(this.destroy))
+      .subscribe((result) => result && this.getAllTariffsForService());
   }
 
-  openDeleteProfileDialog(bag: Bag) {
-    this.dialog.open(UbsAdminTariffsDeletePopupComponent, {
+  openUpdateServicePopup(service: Service) {
+    const dialogRef = this.dialog.open(UbsAdminTariffsAddServicePopupComponent, {
+      hasBackdrop: true,
+      disableClose: true,
+      data: {
+        button: 'update',
+        serviceData: service
+      }
+    });
+    dialogRef
+      .afterClosed()
+      .pipe(takeUntil(this.destroy))
+      .subscribe((result) => result && this.getServices());
+  }
+
+  openDeleteTariffForService(bag: Bag) {
+    const dialogRef = this.dialog.open(UbsAdminTariffsDeletePopupComponent, {
       hasBackdrop: true,
       data: {
         bagData: bag
       }
     });
+    dialogRef
+      .afterClosed()
+      .pipe(takeUntil(this.destroy))
+      .subscribe((result) => result && this.getAllTariffsForService());
+  }
+
+  openDeleteService(service: Service) {
+    const dialogRef = this.dialog.open(UbsAdminTariffsDeletePopupComponent, {
+      hasBackdrop: true,
+      data: {
+        serviceData: service
+      }
+    });
+    dialogRef
+      .afterClosed()
+      .pipe(takeUntil(this.destroy))
+      .subscribe((result) => result && this.getServices());
   }
 
   getLocations() {

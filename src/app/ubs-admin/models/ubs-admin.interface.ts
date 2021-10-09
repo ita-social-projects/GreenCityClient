@@ -154,7 +154,7 @@ export interface Address {
 }
 
 export interface DialogData {
-  button: 'add' | 'update';
+  button: 'add' | 'update' | 'add_service';
 }
 
 export interface CreateCertificate {

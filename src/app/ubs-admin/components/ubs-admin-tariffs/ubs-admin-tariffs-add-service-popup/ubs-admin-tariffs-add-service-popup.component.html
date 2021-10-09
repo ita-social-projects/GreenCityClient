@@ -9,6 +9,9 @@
     <div class="header-text" *ngIf="data.button === 'update'">
       <h4>{{ 'ubs-tariffs-add-service.edit_service' | translate }}</h4>
     </div>
+    <div class="header-text" *ngIf="data.button === 'add_service'">
+      <h4>{{ 'ubs-tariffs.btn.add_service' | translate }}</h4>
+    </div>
     <form [formGroup]="addServiceForm">
       <div class="service">
         <label for="name">{{ 'ubs-tariffs-add-service.name_of_the_service' | translate }}</label>
@@ -58,6 +61,16 @@
       type="submit"
       *ngIf="data.button === 'add'"
       [disabled]="addServiceForm.invalid"
+      (click)="addNewTariffForService()"
+    >
+      <span *ngIf="loadingAnim" class="spinner-border spinner-border-sm" role="status" aria-hidden="true"> </span>
+      {{ 'ubs-tariffs-add-service.btn.add' | translate }}
+    </button>
+    <button
+      class="primary-global-button submit"
+      type="submit"
+      *ngIf="data.button === 'add_service'"
+      [disabled]="addServiceForm.invalid"
       (click)="addNewService()"
     >
       <span *ngIf="loadingAnim" class="spinner-border spinner-border-sm" role="status" aria-hidden="true"> </span>
@@ -65,7 +78,17 @@
     </button>
     <button
       type="button"
-      *ngIf="data.button === 'update'"
+      *ngIf="receivedData.bagData"
+      class="primary-global-button submit"
+      [disabled]="addServiceForm.invalid"
+      (click)="editTariffForService(receivedData)"
+    >
+      <span *ngIf="loadingAnim" class="spinner-border spinner-border-sm" role="status" aria-hidden="true"> </span>
+      {{ 'ubs-tariffs-add-service.btn.save' | translate }}
+    </button>
+    <button
+      type="button"
+      *ngIf="receivedData.serviceData"
       class="primary-global-button submit"
       [disabled]="addServiceForm.invalid"
       (click)="editService(receivedData)"
@@ -73,11 +96,5 @@
       <span *ngIf="loadingAnim" class="spinner-border spinner-border-sm" role="status" aria-hidden="true"> </span>
       {{ 'ubs-tariffs-add-service.btn.save' | translate }}
     </button>
-  </div>
-  <div class="information">
-    <span class="date">Дата </span>
-    <span class="user">{{ date | date: 'mediumDate' }}</span>
-    <span class="date">Додано: </span>
-    <span class="user">{{ user }}</span>
   </div>
 </div>

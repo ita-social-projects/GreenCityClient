@@ -3,9 +3,10 @@ import { FormBuilder, FormGroup, Validators, FormControl } from '@angular/forms'
 import { MAT_DIALOG_DATA, MatDialog } from '@angular/material/dialog';
 import { DialogData } from '../../../models/ubs-admin.interface';
 import { TariffsService } from '../../../services/tariffs.service';
-import { Bag } from '../../../models/tariffs.interface';
+import { Bag, Service } from '../../../models/tariffs.interface';
 import { takeUntil } from 'rxjs/operators';
 import { Subject } from 'rxjs';
+import { MatDialogRef } from '@angular/material/dialog';
 
 @Component({
   selector: 'app-ubs-admin-tariffs-add-service-popup',
@@ -13,7 +14,8 @@ import { Subject } from 'rxjs';
   styleUrls: ['./ubs-admin-tariffs-add-service-popup.component.scss']
 })
 export class UbsAdminTariffsAddServicePopupComponent implements OnInit, OnDestroy {
-  service: Bag;
+  tariffService: Bag;
+  service: Service;
   date: string;
   user: string;
   langCode: string;
@@ -30,7 +32,8 @@ export class UbsAdminTariffsAddServicePopupComponent implements OnInit, OnDestro
     @Inject(MAT_DIALOG_DATA) public data: DialogData,
     private fb: FormBuilder,
     private tariffsService: TariffsService,
-    public dialog: MatDialog
+    public dialog: MatDialog,
+    public dialogRef: MatDialogRef<UbsAdminTariffsAddServicePopupComponent>
   ) {
     this.receivedData = data;
   }
@@ -38,7 +41,6 @@ export class UbsAdminTariffsAddServicePopupComponent implements OnInit, OnDestro
   ngOnInit(): void {
     this.initForm();
     this.fillFields(this.receivedData);
-    this.showInfo(this.receivedData);
   }
 
   private initForm(): void {
@@ -51,9 +53,9 @@ export class UbsAdminTariffsAddServicePopupComponent implements OnInit, OnDestro
     });
   }
 
-  addNewService() {
+  addNewTariffForService() {
     const { name, capacity, price, commission, description } = this.addServiceForm.value;
-    this.service = {
+    this.tariffService = {
       name,
       capacity,
       price,
@@ -63,28 +65,62 @@ export class UbsAdminTariffsAddServicePopupComponent implements OnInit, OnDestro
     };
     this.loadingAnim = true;
     this.tariffsService
-      .createNewService(this.service)
+      .createNewTariffForService(this.tariffService)
       .pipe(takeUntil(this.destroy))
       .subscribe(() => {
         this.loadingAnim = false;
-        this.dialog.closeAll();
+        this.dialogRef.close({});
+      });
+  }
+
+  addNewService() {
+    const { name, capacity, price, commission, description } = this.addServiceForm.value;
+    this.service = {
+      name,
+      capacity,
+      price,
+      commission,
+      description,
+      languageCode: 'ua',
+      locationId: 1
+    };
+    this.loadingAnim = true;
+    this.tariffsService
+      .createService(this.service)
+      .pipe(takeUntil(this.destroy))
+      .subscribe(() => {
+        this.loadingAnim = false;
+        this.dialogRef.close({});
       });
   }
 
   fillFields(receivedData) {
-    if (this.data.button === 'update') {
-      this.addServiceForm.controls['name'.toString()].setValue(receivedData.bagData.name);
-      this.addServiceForm.controls['capacity'.toString()].setValue(receivedData.bagData.capacity);
-      this.addServiceForm.controls['price'.toString()].setValue(receivedData.bagData.price);
-      this.addServiceForm.controls['commission'.toString()].setValue(receivedData.bagData.commission);
-      this.addServiceForm.controls['description'.toString()].setValue(receivedData.bagData.description);
+    if (this.receivedData.bagData) {
+      const { name, price, capacity, commission, description } = this.receivedData.bagData;
+      this.addServiceForm.patchValue({
+        name,
+        price,
+        capacity,
+        commission,
+        description
+      });
+    }
+    if (this.receivedData.serviceData) {
+      const { name, price, capacity, commission, description } = this.receivedData.serviceData;
+      this.addServiceForm.patchValue({
+        name,
+        price,
+        capacity,
+        commission,
+        description
+      });
     }
   }
 
-  editService(receivedData) {
+  editTariffForService(receivedData) {
     const langCode = receivedData.bagData.languageCode;
     const { name, capacity, price, commission, description } = this.addServiceForm.value;
-    this.service = {
+    this.tariffService = {
       name,
       capacity,
       price,
@@ -94,19 +130,33 @@ export class UbsAdminTariffsAddServicePopupComponent implements OnInit, OnDestro
     };
     this.loadingAnim = true;
     this.tariffsService
-      .editService(receivedData.bagData.id, this.service)
+      .editTariffForService(receivedData.bagData.id, this.tariffService)
       .pipe(takeUntil(this.destroy))
       .subscribe(() => {
         this.loadingAnim = false;
-        this.dialog.closeAll();
+        this.dialogRef.close({});
       });
   }
 
-  showInfo(receivedData) {
-    if (this.data.button === 'update') {
-      this.date = receivedData.bagData.createdAt;
-      this.user = receivedData.bagData.createdBy;
-    }
+  editService(receivedData) {
+    const { name, capacity, price, commission, description } = this.addServiceForm.value;
+    this.service = {
+      name,
+      capacity,
+      price,
+      commission,
+      description,
+      languageCode: 'ua',
+      locationId: 1
+    };
+    this.loadingAnim = true;
+    this.tariffsService
+      .editService(receivedData.serviceData.id, this.service)
+      .pipe(takeUntil(this.destroy))
+      .subscribe(() => {
+        this.loadingAnim = false;
+        this.dialogRef.close({});
+      });
   }
 
   ngOnDestroy() {
