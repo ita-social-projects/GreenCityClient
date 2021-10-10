@@ -98,7 +98,7 @@ input:checked ~ .checkmark::after {
 
       input.ng-invalid.ng-touched,
       textarea.ng-invalid.ng-touched {
-        border: 1px solid #eb180d !important;
+        border: 1px solid var(--error-red) !important;
       }
 
       input.ng-invalid.ng-touched + span,
