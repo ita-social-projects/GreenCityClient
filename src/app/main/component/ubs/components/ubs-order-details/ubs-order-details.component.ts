@@ -1,16 +1,15 @@
-import { Component, OnDestroy, OnInit, Renderer2 } from '@angular/core';
-import { FormBuilder, FormGroup, FormArray, Validators, FormControl } from '@angular/forms';
-import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
-import { FormBaseComponent } from '@shared/components/form-base/form-base.component';
-import { Router } from '@angular/router';
-import { MatDialog } from '@angular/material/dialog';
 import { Subject } from 'rxjs';
+import { Router } from '@angular/router';
 import { take, takeUntil } from 'rxjs/operators';
-
-import { Bag, FinalOrder, Locations, OrderDetails } from '../../models/ubs.interface';
+import { MatDialog } from '@angular/material/dialog';
+import { Component, OnDestroy, OnInit, Renderer2 } from '@angular/core';
+import { FormBaseComponent } from '@shared/components/form-base/form-base.component';
+import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
+import { FormBuilder, FormGroup, FormArray, Validators, FormControl } from '@angular/forms';
 import { OrderService } from '../../services/order.service';
-import { UBSOrderFormService } from '../../services/ubs-order-form.service';
 import { CertificateStatus } from '../../certificate-status.enum';
+import { UBSOrderFormService } from '../../services/ubs-order-form.service';
+import { Bag, FinalOrder, Locations, OrderDetails } from '../../models/ubs.interface';
 import { UbsOrderLocationPopupComponent } from './ubs-order-location-popup/ubs-order-location-popup.component';
 
 @Component({
@@ -142,10 +141,12 @@ export class UBSOrderDetailsComponent extends FormBaseComponent implements OnIni
       .afterClosed()
       .pipe(takeUntil(this.destroy))
       .subscribe((res) => {
-        this.locations = res.data;
-        this.selectedLocationId = this.locations[0].id;
-        this.currentLocation = res.data[0].name;
-        this.isDialogOpen = false;
+        if (res.data) {
+          this.locations = res.data;
+          this.selectedLocationId = this.locations[0].id;
+          this.currentLocation = res.data[0].name;
+          this.isDialogOpen = false;
+        }
       });
   }
 
@@ -161,18 +162,14 @@ export class UBSOrderDetailsComponent extends FormBaseComponent implements OnIni
   }
 
   checkForBigBagsMessage() {
-    if (this.minAmountOfBigBags > this.totalOfBigBags) {
-      this.displayMinBigBagsMes = true;
-    } else {
-      this.displayMinBigBagsMes = false;
-    }
+    this.displayMinBigBagsMes = this.minAmountOfBigBags > this.totalOfBigBags;
   }
 
   private subscribeToLangChange(): void {
     this.localStorageService.languageSubject.pipe(takeUntil(this.destroy)).subscribe(() => {
       this.currentLanguage = this.localStorageService.getCurrentLanguage();
       const inputsQuantity = [];
-      this.bags.map((a) => {
+      this.bags.forEach((a) => {
         inputsQuantity.push(a.quantity === undefined || a.quantity === null ? null : a.quantity);
         a.quantity = null;
       });
@@ -292,11 +289,7 @@ export class UBSOrderDetailsComponent extends FormBaseComponent implements OnIni
       }
     });
 
-    if (counter === this.additionalOrders.controls.length) {
-      this.displayOrderBtn = true;
-    } else {
-      this.displayOrderBtn = false;
-    }
+    this.displayOrderBtn = counter === this.additionalOrders.controls.length;
   }
 
   public changeShopRadioBtn() {

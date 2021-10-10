@@ -62,7 +62,6 @@ export class UbsAdminTableComponent implements OnInit, AfterViewChecked, OnDestr
       this.currentLang = lang;
     });
     this.getColumns();
-    this.getTable();
   }
 
   ngAfterViewChecked() {
@@ -98,7 +97,7 @@ export class UbsAdminTableComponent implements OnInit, AfterViewChecked, OnDestr
     if (!row) {
       return `${this.isAllSelected() ? 'select' : 'deselect'} all`;
     }
-    return `${this.selection.isSelected(row) ? 'deselect' : 'select'} row ${row.order_Id + 1}`;
+    return `${this.selection.isSelected(row) ? 'deselect' : 'select'} row ${row.id + 1}`;
   }
 
   public showBlockedMessage(info): void {
@@ -112,7 +111,7 @@ export class UbsAdminTableComponent implements OnInit, AfterViewChecked, OnDestr
         uniqUsers.push(item.userName);
       }
 
-      const index = this.dataSource.filteredData.findIndex((row) => row.order_id === item.orderId);
+      const index = this.dataSource.filteredData.findIndex((row) => row.id === item.orderId);
       this.selection.deselect(this.dataSource.filteredData[index]);
 
       if (this.idsToChange.includes(item.orderId)) {
@@ -155,8 +154,12 @@ export class UbsAdminTableComponent implements OnInit, AfterViewChecked, OnDestr
       .pipe(takeUntil(this.destroy))
       .subscribe((columns: any) => {
         this.tableViewHeaders = columns.columnBelongingList;
-        this.columns = columns.columnStateDTOList;
+        this.columns = columns.columnDTOList;
         this.setDisplayedColumns();
+        const { pageNumber, pageSize, sortDirection, sortBy } = columns.page;
+        this.pageSize = pageSize;
+        this.currentPage = pageNumber;
+        this.getTable(sortBy, sortDirection);
       });
   }
 
@@ -259,7 +262,7 @@ export class UbsAdminTableComponent implements OnInit, AfterViewChecked, OnDestr
 
   private editSingle(e: IEditCell): void {
     this.editCellProgressBar = true;
-    const id = this.tableData.findIndex((item) => item.order_id === e.id);
+    const id = this.tableData.findIndex((item) => item.id === e.id);
     const newRow = { ...this.tableData[id], [e.nameOfColumn]: e.newValue };
     const newTableData = [...this.tableData.slice(0, id), newRow, ...this.tableData.slice(id + 1)];
     this.tableData = newTableData;
@@ -273,7 +276,7 @@ export class UbsAdminTableComponent implements OnInit, AfterViewChecked, OnDestr
     let newTableDataCombine = this.tableData;
 
     for (const idIter of this.idsToChange) {
-      const check = this.tableData.findIndex((item) => item.order_id === idIter);
+      const check = this.tableData.findIndex((item) => item.id === idIter);
       if (check > -1) {
         ids.push(check);
       }
