@@ -7,6 +7,8 @@ a {
 }
 
 .main {
+  margin-bottom: 30px;
+
   .header {
     font-family: var(--primary-font);
     font-style: normal;
@@ -60,6 +62,17 @@ a {
   .acquired {
     margin-top: 40px;
     margin-bottom: 32px;
+  }
+
+  .btn-view-more {
+    margin-top: 10px;
+    background: none;
+    border: none;
+    color: var(--primary-green);
+
+    &:hover {
+      color: var(--secondary-dark-green);
+    }
   }
 
   .no-data {
