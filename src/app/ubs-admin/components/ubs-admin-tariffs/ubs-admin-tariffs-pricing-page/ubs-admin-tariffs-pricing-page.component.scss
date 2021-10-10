@@ -234,3 +234,11 @@ button[disabled] {
   background-color: lightgray;
   color: gray;
 }
+
+::ng-deep .mat-progress-bar-fill::after {
+  background: white;
+}
+
+::ng-deep .mat-progress-bar-buffer {
+  background: var(--ubs-secondary-grey);
+}

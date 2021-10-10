@@ -1,32 +1,40 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
-import { UbsAdminTariffsComponent } from './ubs-admin-tariffs.component';
+import { UbsAdminTariffsPricingPageComponent } from './ubs-admin-tariffs-pricing-page.component';
 import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { OverlayModule } from '@angular/cdk/overlay';
 import { MatDialogModule } from '@angular/material/dialog';
 import { TranslateModule } from '@ngx-translate/core';
-import { UbsAdminTariffsAddServicePopupComponent } from './ubs-admin-tariffs-add-service-popup/ubs-admin-tariffs-add-service-popup.component';
 import { HttpClientTestingModule, HttpTestingController } from '@angular/common/http/testing';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { FormBuilder } from '@angular/forms';
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { Subject } from 'rxjs';
+import { RouterTestingModule } from '@angular/router/testing';
+import { UbsAdminTariffsAddServicePopUpComponent } from './ubs-admin-tariffs-add-service-pop-up/ubs-admin-tariffs-add-service-pop-up.component';
 
 describe('UbsAdminTariffsComponent', () => {
-  let component: UbsAdminTariffsComponent;
-  let fixture: ComponentFixture<UbsAdminTariffsComponent>;
+  let component: UbsAdminTariffsPricingPageComponent;
+  let fixture: ComponentFixture<UbsAdminTariffsPricingPageComponent>;
   let httpMock: HttpTestingController;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [UbsAdminTariffsComponent, UbsAdminTariffsAddServicePopupComponent],
-      imports: [OverlayModule, MatDialogModule, TranslateModule.forRoot(), HttpClientTestingModule, BrowserAnimationsModule],
+      declarations: [UbsAdminTariffsPricingPageComponent, UbsAdminTariffsAddServicePopUpComponent],
+      imports: [
+        OverlayModule,
+        MatDialogModule,
+        TranslateModule.forRoot(),
+        HttpClientTestingModule,
+        BrowserAnimationsModule,
+        RouterTestingModule
+      ],
       providers: [{ provide: MatDialog }, FormBuilder, { provide: MatDialogRef, useValue: {} }],
       schemas: [CUSTOM_ELEMENTS_SCHEMA]
     }).compileComponents();
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(UbsAdminTariffsComponent);
+    fixture = TestBed.createComponent(UbsAdminTariffsPricingPageComponent);
     component = fixture.componentInstance;
     httpMock = TestBed.inject(HttpTestingController);
     fixture.detectChanges();
@@ -44,17 +52,5 @@ describe('UbsAdminTariffsComponent', () => {
     component.ngOnDestroy();
     // @ts-ignore
     expect(component.destroy.unsubscribe).toHaveBeenCalledTimes(1);
-  });
-
-  it('should open add service pop up', () => {
-    spyOn(component.dialog, 'open').and.callThrough();
-    component.openAddTariffForServicePopup();
-    expect(component.dialog.open).toHaveBeenCalledWith(UbsAdminTariffsAddServicePopupComponent, {
-      hasBackdrop: true,
-      disableClose: true,
-      data: {
-        button: 'add'
-      }
-    });
   });
 });

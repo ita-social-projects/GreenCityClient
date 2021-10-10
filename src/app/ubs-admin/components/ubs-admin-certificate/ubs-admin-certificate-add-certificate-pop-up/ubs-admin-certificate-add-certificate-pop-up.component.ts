@@ -4,7 +4,7 @@ import { Subject } from 'rxjs';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { AdminCertificateService } from '../../../services/admin-certificate.service';
 import { takeUntil } from 'rxjs/operators';
-import { MatDialog } from '@angular/material/dialog';
+import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 
 @Component({
   selector: 'app-ubs-admin-certificate-add-certificate-pop-up',
@@ -18,7 +18,12 @@ export class UbsAdminCertificateAddCertificatePopUpComponent implements OnInit, 
   certificatePattern = /(?!0000)\d{4}-(?!0000)\d{4}/;
   certificateMask = '0000-0000';
 
-  constructor(private fb: FormBuilder, private adminCertificateService: AdminCertificateService, public dialog: MatDialog) {}
+  constructor(
+    private fb: FormBuilder,
+    private adminCertificateService: AdminCertificateService,
+    public dialog: MatDialog,
+    public dialogRef: MatDialogRef<UbsAdminCertificateAddCertificatePopUpComponent>
+  ) {}
 
   ngOnInit(): void {
     this.initForm();
@@ -43,7 +48,7 @@ export class UbsAdminCertificateAddCertificatePopUpComponent implements OnInit, 
       .createCertificate(this.certificate)
       .pipe(takeUntil(this.destroy))
       .subscribe(() => {
-        this.dialog.closeAll();
+        this.dialogRef.close({});
       });
   }
 

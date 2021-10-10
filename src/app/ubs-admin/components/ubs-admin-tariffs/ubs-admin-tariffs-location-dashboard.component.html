@@ -1,0 +1,5 @@
+<div class="city">
+  <ul *ngFor="let location of locations">
+    <li (click)="page(location)">{{ location.name }}</li>
+  </ul>
+</div>
