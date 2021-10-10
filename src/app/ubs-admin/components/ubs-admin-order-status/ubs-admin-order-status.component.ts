@@ -23,6 +23,11 @@ export class UbsAdminOrderStatusComponent implements OnInit, OnDestroy {
     { name: 'CANCELLED', translation: 'order-edit.order-status.cancelled' }
   ];
 
+  paymentStatuses = [
+    { name: 'UNPAID', translation: 'order-edit.payment-status.not-paid' },
+    { name: 'PAID', translation: 'order-edit.payment-status.paid' }
+  ];
+
   public detailStatusForm: FormGroup;
   public detailStatus: IDetailStatus;
   private destroy$: Subject<boolean> = new Subject<boolean>();

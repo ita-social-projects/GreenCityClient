@@ -68,6 +68,10 @@
       "not-taken-out": "Not taken out",
       "cancelled": "Cancelled"
     },
+    "payment-status": {
+      "paid": "Paid",
+      "not-paid": "Not paid"
+    },
     "need-to-pay": "Need to pay extra ",
     "status": {
       "title": "Order",
@@ -75,11 +79,7 @@
       "label": "Order status ",
       "label-approve": "Payment status ",
       "order-label": "Order status ",
-      "payment-label": "Payment status ",
-      "payment-status": {
-        "paid": "Paid",
-        "not-paid": "Not paid"
-      }
+      "payment-label": "Payment status "
     },
     "comment": {
       "label": "Comment",

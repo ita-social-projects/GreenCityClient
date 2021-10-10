@@ -68,20 +68,16 @@
       "not-taken-out": "Не вивезли",
       "cancelled": "Скасовано"
     },
+    "payment-status": {
+      "paid": "Оплачено",
+      "not-paid": "Не оплачено"
+    },
     "need-to-pay": "Потрібно доплатити",
     "status": {
       "title": "Замовлення",
       "order-date": "Дата оформлення",
       "order-label": "Статус замовлення",
-      "payment-label": "Статус оплати",
-      "approve-status": {
-        "approved": "Підтверджено",
-        "not-approved": "Не підтверджено"
-      },
-      "payment-status": {
-        "paid": "Оплачено",
-        "not-paid": "Не оплачено"
-      }
+      "payment-label": "Статус оплати"
     },
     "comment": {
       "label": "Коментар",

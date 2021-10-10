@@ -91,6 +91,7 @@
           [lang]="currentLang"
           [date]="column.title.key"
           (click)="column.title.key === 'id' && openOrder(row)"
+          [class.pointer]="column.title.key === 'id'"
           class="column_cell"
         >
         </app-table-cell-readonly>

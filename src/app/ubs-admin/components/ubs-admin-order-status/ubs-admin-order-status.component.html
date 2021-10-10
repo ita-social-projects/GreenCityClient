@@ -17,7 +17,7 @@
                   {{ 'order-edit.status.order-label' | translate }}
                 </label>
                 <select id="order" class="form-control">
-                  <option *ngFor="let status of orderStatuses" [selected]="status.name === order.order_status">
+                  <option *ngFor="let status of orderStatuses" [selected]="status.name === order.orderStatus">
                     {{ status.translation | translate }}
                   </option>
                 </select>
@@ -31,13 +31,8 @@
                   {{ 'order-edit.status.payment-label' | translate }}
                 </label>
                 <select id="payment" class="form-control payment">
-                  <option [ngSwitch]="detailStatus?.paymentStatus">
-                    <span *ngSwitchCase="'UNPAID'">
-                      {{ 'order-edit.status.payment-status.not-paid' | translate }}
-                    </span>
-                    <span *ngSwitchCase="'PAID'">
-                      {{ 'order-edit.status.payment-status.paid' | translate }}
-                    </span>
+                  <option *ngFor="let status of paymentStatuses" [selected]="status.name === order.paymentStatus">
+                    {{ status.translation | translate }}
                   </option>
                 </select>
               </div>
