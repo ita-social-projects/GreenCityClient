@@ -90,10 +90,6 @@ export class ConfirmRestorePasswordComponent implements OnInit {
         }, 2000);
       }
     );
-    /* setTimeout(() => {
-      this.router.navigate(['']);
-      this.snackBar.openSnackBar('successConfirmPassword');
-    }, 2000);*/
   }
 
   public setPasswordBackendErr(): void {
