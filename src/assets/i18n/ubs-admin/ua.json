@@ -58,20 +58,26 @@
     "info-about-date": "Додано:"
   },
   "order-edit": {
+    "order-status": {
+      "formed": "Сформовано",
+      "adjustment": "Узгодження",
+      "brought-it-himself": "Самовивіз",
+      "confirmed": "Підтверджено",
+      "on-the-route": "На маршруті",
+      "done": "Виконано",
+      "not-taken-out": "Не вивезли",
+      "cancelled": "Скасовано"
+    },
+    "payment-status": {
+      "paid": "Оплачено",
+      "not-paid": "Не оплачено"
+    },
     "need-to-pay": "Потрібно доплатити",
     "status": {
       "title": "Замовлення",
       "order-date": "Дата оформлення",
       "order-label": "Статус замовлення",
-      "payment-label": "Статус оплати",
-      "approve-status": {
-        "approved": "Підтверджено",
-        "not-approved": "Не підтверджено"
-      },
-      "payment-status": {
-        "paid": "Оплачено",
-        "not-paid": "Не оплачено"
-      }
+      "payment-label": "Статус оплати"
     },
     "comment": {
       "label": "Коментар",
@@ -177,6 +183,11 @@
   },
   "cancel-modal": {
     "question": "У разі скасування внесені зміни будуть втрачені. Чи дійсно Ви бажаєте скасувати зміни?",
+    "disagree": "Ні",
+    "agree": "Так"
+  },
+  "go-back-modal": {
+    "question": "У разі повернення назад внесені зміни будуть втрачені. Чи дійсно Ви бажаєте повернутись до таблиці?",
     "disagree": "Ні",
     "agree": "Так"
   },

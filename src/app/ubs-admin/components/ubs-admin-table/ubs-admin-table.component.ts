@@ -1,7 +1,7 @@
-import { TableHeightService } from './../../services/table-height.service';
+import { TableHeightService } from '../../services/table-height.service';
 import { UbsAdminTableExcelPopupComponent } from './ubs-admin-table-excel-popup/ubs-admin-table-excel-popup.component';
 import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
-import { nonSortableColumns } from './../../models/non-sortable-columns.model';
+import { nonSortableColumns } from '../../models/non-sortable-columns.model';
 import { AdminTableService } from '../../services/admin-table.service';
 import { CdkDragDrop, moveItemInArray } from '@angular/cdk/drag-drop';
 import { take, takeUntil } from 'rxjs/operators';
@@ -11,6 +11,7 @@ import { MatTableDataSource } from '@angular/material/table';
 import { SelectionModel } from '@angular/cdk/collections';
 import { ubsAdminTable } from '../ubs-image-pathes/ubs-admin-table';
 import { MatSort } from '@angular/material/sort';
+import { Router } from '@angular/router';
 import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
 import { IEditCell, IAlertInfo } from '../../models/edit-cell.model';
 
@@ -49,6 +50,7 @@ export class UbsAdminTableComponent implements OnInit, AfterViewChecked, OnDestr
   @ViewChild(MatSort, { static: true }) sort: MatSort;
 
   constructor(
+    private router: Router,
     private adminTableService: AdminTableService,
     private localStorageService: LocalStorageService,
     private tableHeightService: TableHeightService,
@@ -320,6 +322,10 @@ export class UbsAdminTableComponent implements OnInit, AfterViewChecked, OnDestr
         this.allChecked = false;
       }
     );
+  }
+
+  openOrder(row): void {
+    this.router.navigate(['ubs-admin', 'order'], { state: { order: row } });
   }
 
   ngOnDestroy() {

@@ -329,6 +329,10 @@ input {
   text-overflow: ellipsis;
 }
 
+.pointer {
+  cursor: pointer;
+}
+
 .mat-column-comment_to_address_for_client,
 .mat-column-id_order_from_shop,
 .mat-column-violations {
