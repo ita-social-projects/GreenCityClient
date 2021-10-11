@@ -44,18 +44,19 @@ export class EmployeeFormComponent implements OnInit {
     @Inject(MAT_DIALOG_DATA) public data: Page
   ) {
     this.employeeForm = this.fb.group({
-      firstName: [this.data.firstName, Validators.required],
-      lastName: [this.data.lastName, Validators.required],
-      phoneNumber: [this.data.phoneNumber, Validators.required],
-      email: [this.data.email]
+      firstName: [this.data?.firstName ?? '', Validators.required],
+      lastName: [this.data?.lastName ?? '', Validators.required],
+      phoneNumber: [this.data?.phoneNumber ?? '', Validators.required],
+      email: [this.data?.email ?? '']
     });
-    this.employeePositions = this.data.employeePositions ?? [];
-    this.receivingStations = this.data.receivingStations ?? [];
-    this.imageURL = this.data.image;
+    this.employeePositions = this.data?.employeePositions ?? [];
+    this.receivingStations = this.data?.receivingStations ?? [];
+    this.imageURL = this.data?.image;
   }
 
   get isUpdatingEmployee() {
-    return Object.keys(this.data).length !== 0;
+    return this.data && Object.keys(this.data).length !== 0;
+    // return Object.keys(this.data).length !== 0;
   }
 
   get isCreatingEmployee() {
