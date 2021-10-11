@@ -10,6 +10,7 @@ export class UBSOrderFormService {
   orderUrl: string;
   changedOrder: any = new EventEmitter();
   changedPersonalData: any = new EventEmitter();
+  isDataSaved = false;
 
   changeOrderDetails() {
     this.changedOrder.emit(this.orderDetails);
@@ -17,5 +18,12 @@ export class UBSOrderFormService {
 
   changePersonalData() {
     this.changedPersonalData.emit(this.personalData);
+  }
+
+  getPersonalData() {
+    return this.personalData;
+  }
+  getOrderDetails() {
+    return this.orderDetails;
   }
 }

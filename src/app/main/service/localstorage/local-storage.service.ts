@@ -111,4 +111,28 @@ export class LocalStorageService {
   public removeUbsRegistration(): void {
     localStorage.removeItem('callUbsRegWindow');
   }
+
+  public setUbsOrderData(currentPage: string, personalData: string, orderData: string) {
+    localStorage.setItem('currentUBSOrderPage', currentPage);
+    localStorage.setItem('UBSpersonalData', personalData);
+    localStorage.setItem('UBSorderData', orderData);
+  }
+
+  public removeUbsOrderData() {
+    localStorage.removeItem('currentUBSOrderPage');
+    localStorage.removeItem('UBSpersonalData');
+    localStorage.removeItem('UBSorderData');
+  }
+
+  public getCurrentUbsOrderPage(): any {
+    return localStorage.getItem('currentUBSOrderPage') === null ? false : localStorage.getItem('currentUBSOrderPage');
+  }
+
+  public getUbsPersonalData(): any {
+    return localStorage.getItem('UBSpersonalData') === 'undefined' ? false : JSON.parse(localStorage.getItem('UBSpersonalData'));
+  }
+
+  public getUbsOrderData(): any {
+    return localStorage.getItem('UBSorderData') === 'undefined' ? false : JSON.parse(localStorage.getItem('UBSorderData'));
+  }
 }
