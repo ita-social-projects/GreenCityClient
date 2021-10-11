@@ -1,6 +1,6 @@
 <div class="city">
   <form>
-    <select [(ngModel)]="selectedLocationId" name="region" class="select form-select form-select-lg">
+    <select [(ngModel)]="selectedLocationId" name="region" class="select form-select form-select-lg" (ngModelChange)="saveLocation()">
       <option [ngValue]="location.id" *ngFor="let location of locations">
         {{ location.name }}
       </option>

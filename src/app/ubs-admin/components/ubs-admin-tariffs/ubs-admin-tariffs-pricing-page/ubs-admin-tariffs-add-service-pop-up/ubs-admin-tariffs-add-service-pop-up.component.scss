@@ -149,20 +149,9 @@ input.ng-touched.ng-invalid {
   margin-top: 20px;
 }
 
-.date {
-  margin: 25px 0 0 35px;
-  font-style: normal;
-  font-weight: normal;
-  font-size: 14px;
-  line-height: 16px;
-  color: var(--ubs-secondary-grey);
-  padding-right: 5px;
-}
-
-.user {
-  font-style: normal;
-  font-weight: normal;
-  font-size: 18px;
-  line-height: 20px;
-  color: var(--ubs-quaternary-dark-grey);
+textarea[disabled],
+input[disabled] {
+  border: 1px solid var(--ubs-secondary-grey) !important;
+  background-color: lightgray !important;
+  color: gray !important;
 }

@@ -46,10 +46,12 @@ import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatNativeDateModule } from '@angular/material/core';
 import { UbsAdminCertificateComponent } from './components/ubs-admin-certificate/ubs-admin-certificate.component';
 import { AdminCertificateService } from './services/admin-certificate.service';
-import { UbsAdminTariffsComponent } from './components/ubs-admin-tariffs/ubs-admin-tariffs.component';
-import { UbsAdminTariffsAddServicePopupComponent } from './components/ubs-admin-tariffs/ubs-admin-tariffs-add-service-popup/ubs-admin-tariffs-add-service-popup.component';
-import { UbsAdminTariffsDeletePopupComponent } from './components/ubs-admin-tariffs/ubs-admin-tariffs-delete-popup/ubs-admin-tariffs-delete-popup.component';
 import { UbsAdminCertificateAddCertificatePopUpComponent } from './components/ubs-admin-certificate/ubs-admin-certificate-add-certificate-pop-up/ubs-admin-certificate-add-certificate-pop-up.component';
+import { UbsAdminTariffsPricingPageComponent } from './components/ubs-admin-tariffs/ubs-admin-tariffs-pricing-page/ubs-admin-tariffs-pricing-page.component';
+import { UbsAdminTariffsDeletePopUpComponent } from './components/ubs-admin-tariffs/ubs-admin-tariffs-pricing-page/ubs-admin-tariffs-delete-pop-up/ubs-admin-tariffs-delete-pop-up.component';
+import { UbsAdminTariffsAddServicePopUpComponent } from './components/ubs-admin-tariffs/ubs-admin-tariffs-pricing-page/ubs-admin-tariffs-add-service-pop-up/ubs-admin-tariffs-add-service-pop-up.component';
+import { UbsAdminTariffsAddTariffServicePopUpComponent } from './components/ubs-admin-tariffs/ubs-admin-tariffs-pricing-page/ubs-admin-tariffs-add-tariff-service-pop-up/ubs-admin-tariffs-add-tariff-service-pop-up.component';
+import { UbsAdminTariffsLocationDashboardComponent } from './components/ubs-admin-tariffs/ubs-admin-tariffs-location-dashboard.component';
 
 @NgModule({
   declarations: [
@@ -80,10 +82,12 @@ import { UbsAdminCertificateAddCertificatePopUpComponent } from './components/ub
     TableCellDateComponent,
     TableCellTimeComponent,
     UbsAdminCertificateComponent,
-    UbsAdminTariffsComponent,
-    UbsAdminTariffsAddServicePopupComponent,
-    UbsAdminTariffsDeletePopupComponent,
-    UbsAdminCertificateAddCertificatePopUpComponent
+    UbsAdminCertificateAddCertificatePopUpComponent,
+    UbsAdminTariffsPricingPageComponent,
+    UbsAdminTariffsDeletePopUpComponent,
+    UbsAdminTariffsAddServicePopUpComponent,
+    UbsAdminTariffsAddTariffServicePopUpComponent,
+    UbsAdminTariffsLocationDashboardComponent
   ],
   imports: [
     CommonModule,
