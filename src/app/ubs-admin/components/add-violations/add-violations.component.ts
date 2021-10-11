@@ -22,7 +22,7 @@ export class AddViolationsComponent implements OnInit, OnDestroy {
   dragAndDropLabel;
   unsubscribe: Subject<any> = new Subject();
   addViolationForm: FormGroup;
-  violation: AddViolation;
+  violation;
   orderId: number;
   slideIndex = 1;
 
@@ -54,13 +54,14 @@ export class AddViolationsComponent implements OnInit, OnDestroy {
   }
 
   addViolationCurrentOrder() {
-    // const images = this.images;
     const orderID = this.orderId;
+    const images = this.images;
     const { violationLevel, violationDescription } = this.addViolationForm.value;
     this.violation = {
       violationLevel,
       violationDescription,
-      orderID
+      orderID,
+      images
     };
     this.orderService
       .addViolationToCurrentOrder(this.violation)

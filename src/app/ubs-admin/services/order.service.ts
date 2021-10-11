@@ -62,7 +62,7 @@ export class OrderService {
     return this.http.put<any>(`${this.backend}`, postData);
   }
 
-  addViolationToCurrentOrder(violation: AddViolation) {
+  addViolationToCurrentOrder(violation) {
     return this.http.post(`${this.backend}/management/addViolationToUser`, violation);
   }
 }

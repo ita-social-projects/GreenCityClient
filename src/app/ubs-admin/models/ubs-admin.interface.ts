@@ -167,4 +167,5 @@ export interface AddViolation {
   orderID: number;
   violationDescription: string;
   violationLevel: string;
+  images: [];
 }
