@@ -103,7 +103,7 @@ input:checked ~ .checkmark::after {
 
       input.ng-invalid.ng-touched + span,
       textarea.ng-invalid.ng-touched + span {
-        color: #bf140b;
+        color: var(--error-dark-red);
       }
     }
   }
