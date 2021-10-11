@@ -2,18 +2,18 @@ import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { SignInIcons } from 'src/app/main/image-pathes/sign-in-icons';
-import { Address, UserProfile } from '../../models/ubs-admin.interface';
-import { ClientProfileService } from '../../services/client-profile.service';
-import { UbsProfileChangePasswordPopUpComponent } from './ubs-profile-change-password-pop-up/ubs-profile-change-password-pop-up.component';
-import { UbsProfileDeletePopUpComponent } from './ubs-profile-delete-pop-up/ubs-profile-delete-pop-up.component';
 import { MatSnackBarComponent } from '@global-errors/mat-snack-bar/mat-snack-bar.component';
+import { Address, UserProfile } from 'src/app/ubs-admin/models/ubs-admin.interface';
+import { ClientProfileService } from 'src/app/ubs-user/services/client-profile.service';
+import { UbsProfileDeletePopUpComponent } from './ubs-profile-delete-pop-up/ubs-profile-delete-pop-up.component';
+import { UbsProfileChangePasswordPopUpComponent } from './ubs-profile-change-password-pop-up/ubs-profile-change-password-pop-up.component';
 
 @Component({
-  selector: 'app-ubs-client-profile-page',
-  templateUrl: './ubs-client-profile-page.component.html',
-  styleUrls: ['./ubs-client-profile-page.component.scss']
+  selector: 'app-ubs-user-profile-page',
+  templateUrl: './ubs-user-profile-page.component.html',
+  styleUrls: ['./ubs-user-profile-page.component.scss']
 })
-export class UbsClientProfilePageComponent implements OnInit {
+export class UbsUserProfilePageComponent implements OnInit {
   userForm: FormGroup;
   userProfile: UserProfile;
   defaultAddress: Address = {
@@ -73,29 +73,29 @@ export class UbsClientProfilePageComponent implements OnInit {
   userInit() {
     this.userForm = new FormGroup({
       address: new FormGroup({
-        city: new FormControl(this.userProfile.addressDto.city, [Validators.pattern(this.regexp), Validators.maxLength(20)]),
-        street: new FormControl(this.userProfile.addressDto.street, [Validators.pattern(this.regexpWithDigits), Validators.maxLength(20)]),
-        houseNumber: new FormControl(this.userProfile.addressDto.houseNumber, [
+        city: new FormControl(this.userProfile?.addressDto.city, [Validators.pattern(this.regexp), Validators.maxLength(20)]),
+        street: new FormControl(this.userProfile?.addressDto.street, [Validators.pattern(this.regexpWithDigits), Validators.maxLength(20)]),
+        houseNumber: new FormControl(this.userProfile?.addressDto.houseNumber, [
           Validators.pattern(this.regexpWithDigits),
           Validators.maxLength(4)
         ]),
-        houseCorpus: new FormControl(this.userProfile.addressDto.houseCorpus, [
+        houseCorpus: new FormControl(this.userProfile?.addressDto.houseCorpus, [
           Validators.pattern(this.regexpWithDigits),
           Validators.maxLength(4)
         ]),
-        entranceNumber: new FormControl(this.userProfile.addressDto.entranceNumber, [
+        entranceNumber: new FormControl(this.userProfile?.addressDto.entranceNumber, [
           Validators.pattern(this.regexpWithDigits),
           Validators.maxLength(4)
         ]),
-        district: new FormControl(this.userProfile.addressDto.district, [
+        district: new FormControl(this.userProfile?.addressDto.district, [
           Validators.pattern(this.regexpWithDigits),
           Validators.maxLength(20)
         ])
       }),
-      recipientName: new FormControl(this.userProfile.recipientName, [Validators.required, Validators.pattern(this.regexp)]),
-      recipientSurname: new FormControl(this.userProfile.recipientSurname, [Validators.required, Validators.pattern(this.regexp)]),
-      recipientEmail: new FormControl(this.userProfile.recipientEmail, [Validators.required, Validators.pattern(this.regexpEmail)]),
-      recipientPhone: new FormControl(`+38 0${this.userProfile.recipientPhone}`, [Validators.required, Validators.minLength(12)])
+      recipientName: new FormControl(this.userProfile?.recipientName, [Validators.required, Validators.pattern(this.regexp)]),
+      recipientSurname: new FormControl(this.userProfile?.recipientSurname, [Validators.required, Validators.pattern(this.regexp)]),
+      recipientEmail: new FormControl(this.userProfile?.recipientEmail, [Validators.required, Validators.pattern(this.regexpEmail)]),
+      recipientPhone: new FormControl(`+38 0${this.userProfile?.recipientPhone}`, [Validators.required, Validators.minLength(12)])
     });
     this.isFetching = false;
   }
