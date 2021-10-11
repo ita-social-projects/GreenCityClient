@@ -73,7 +73,7 @@
     </ng-template>
     <div class="button-row">
       <button mat-dialog-close class="cancelButton">{{ 'ubs-employee.cancel' | translate }}</button>
-      <button type="submit" class="addButton" [disabled]="employeeForm.invalid">
+      <button type="submit" class="addButton" [disabled]="employeeForm.invalid || !employeePositions.length || !receivingStations.length">
         {{ (isUpdatingEmployee ? 'ubs-employee.update' : 'ubs-employee.add') | translate }}
       </button>
     </div>
