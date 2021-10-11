@@ -90,10 +90,6 @@ export class HabitEditShoppingListComponent implements OnInit, OnDestroy {
       .getAssignedHabits()
       .pipe(take(1))
       .subscribe((response: Array<HabitAssignInterface>) => {
-        if (!response.length) {
-          this.getListItems(false);
-          return;
-        }
         response.some((assigned) => assigned.habit.id === this.habitId) ? this.getListItems(true) : this.getListItems(false);
       });
   }
