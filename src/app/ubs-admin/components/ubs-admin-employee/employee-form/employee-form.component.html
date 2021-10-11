@@ -14,7 +14,7 @@
     </div>
     <div class="form-group">
       <label class="group-title">{{ 'ubs-employee.phone-number' | translate }}</label>
-      <input formControlName="phoneNumber" [imask]="{ mask: phoneMask }" [unmask]="true" />
+      <input formControlName="phoneNumber" placeholder="+380" [imask]="{ mask: phoneMask }" [unmask]="true" />
     </div>
     <div class="form-group">
       <label class="group-title">{{ 'ubs-employee.email' | translate }}</label>
@@ -73,7 +73,7 @@
     </ng-template>
     <div class="button-row">
       <button mat-dialog-close class="cancelButton">{{ 'ubs-employee.cancel' | translate }}</button>
-      <button type="submit" class="addButton">
+      <button type="submit" class="addButton" [disabled]="employeeForm.invalid">
         {{ (isUpdatingEmployee ? 'ubs-employee.update' : 'ubs-employee.add') | translate }}
       </button>
     </div>
