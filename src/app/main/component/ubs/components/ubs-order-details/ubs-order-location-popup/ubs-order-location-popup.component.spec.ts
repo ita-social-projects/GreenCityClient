@@ -58,9 +58,9 @@ describe('UbsOrderLocationPopupComponent', () => {
   });
 
   it('method passDataToComponent should invoke this.dialogRef.close({})', () => {
-    spyOn(component.dialogRef, 'close');
+    spyOn(component['dialogRef'], 'close');
     component.passDataToComponent();
-    expect(component.dialogRef.close).toHaveBeenCalled();
+    expect(component['dialogRef'].close).toHaveBeenCalled();
   });
 
   it('method redirectToMain should call by click back button', fakeAsync(() => {
