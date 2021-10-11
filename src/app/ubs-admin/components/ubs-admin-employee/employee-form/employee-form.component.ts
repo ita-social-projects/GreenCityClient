@@ -56,7 +56,6 @@ export class EmployeeFormComponent implements OnInit {
 
   get isUpdatingEmployee() {
     return this.data && Object.keys(this.data).length !== 0;
-    // return Object.keys(this.data).length !== 0;
   }
 
   get isCreatingEmployee() {
