@@ -9,33 +9,50 @@
       <option [value]="size" *ngFor="let size of pageSizeOptions">{{ size }}</option>
     </select>
   </div>
-  <button type="button" class="btn btn-default" class="view-table-btn" data-toggle="dropdown">
-    <mat-icon>create</mat-icon>
-    {{ 'ubs-tables.table-view' | translate }}
-  </button>
-  <ul class="dropdown-menu">
-    <ng-container *ngFor="let header of tableViewHeaders">
-      <li>{{ header | serverTranslate: currentLang }}</li>
-      <ng-container *ngFor="let column of columns">
-        <li *ngIf="column.columnBelonging === header.key">
-          <input
-            type="checkbox"
-            value="id1"
-            [checked]="displayedColumns.includes(column.title.key)"
-            (change)="changeColumns($event.target.checked, column.title.key, column.index)"
-          />
-          {{ column.title | serverTranslate: currentLang }}
-        </li>
+  <div class="button-group">
+    <button type="button" class="btn btn-default view-table-btn" (click)="togglePopUp()">
+      <mat-icon>create</mat-icon>
+      {{ 'ubs-tables.table-view' | translate }}
+    </button>
+    <ul class="dropdown-menu" [style.display]="display">
+      <li class="item">
+        <mat-checkbox class="check" type="checkbox" [checked]="isAll" (change)="showAllColumns(isAll)">
+          {{ 'ubs-tables.all-elements' | translate }}
+        </mat-checkbox>
+      </li>
+      <ng-container *ngFor="let header of tableViewHeaders">
+        <li class="head">{{ header | serverTranslate: currentLang }}</li>
+        <div class="items">
+          <ng-container *ngFor="let column of columns">
+            <li class="item" *ngIf="column.columnBelonging === header.key">
+              <mat-checkbox
+                class="check"
+                type="checkbox"
+                value="id1"
+                [checked]="displayedColumns.includes(column.title.key)"
+                (change)="changeColumns($event?.checked, column.title.key, column.index)"
+              >
+                {{ column.title | serverTranslate: currentLang }}
+              </mat-checkbox>
+            </li>
+          </ng-container>
+        </div>
       </ng-container>
-    </ng-container>
-    <button class="btn btn-info" (click)="showAllColumns()">Clear</button>
-  </ul>
-  <button type="button" class="btn btn-default" class="export-excel-btn" (click)="openExportExcel()">
-    {{ 'ubs-tables.export-to-excel' | translate }}
-  </button>
+    </ul>
+    <button type="button" class="btn btn-default export-excel-btn" (click)="openExportExcel()">
+      {{ 'ubs-tables.export-to-excel' | translate }}
+    </button>
+  </div>
 </div>
 <mat-progress-bar *ngIf="editCellProgressBar" mode="indeterminate"></mat-progress-bar>
+<div class="blocked_mess" *ngIf="blockedInfo.length" (click)="closeAlertMess()">
+  <ng-container *ngFor="let info of blockedInfo">
+    Orders {{ info.ordersId.join(', ') }} currently blocked by {{ info.userName }}
+  </ng-container>
+  <span class="close_alert">&#10006;</span>
+</div>
 <div
+  id="table-container"
   class="scrolling"
   infiniteScroll
   [infiniteScrollDistance]="0"
@@ -44,6 +61,7 @@
   [scrollWindow]="false"
 >
   <table
+    id="table"
     mat-table
     cdkDropList
     cdkDropListOrientation="horizontal"
@@ -82,6 +100,8 @@
           [title]="row[column.title.key]"
           [lang]="currentLang"
           [date]="column.title.key"
+          (click)="column.title.key === 'id' && openOrder(row)"
+          [class.pointer]="column.title.key === 'id'"
           class="column_cell"
         >
         </app-table-cell-readonly>
@@ -89,32 +109,42 @@
           *ngIf="column.editType === 'SELECT'"
           [key]="row[column.title.key]"
           [optional]="column.optional"
-          [id]="row.orderid"
+          [id]="row.id"
           [lang]="currentLang"
           [nameOfColumn]="column.title.key"
+          [ordersToChange]="idsToChange"
+          [isAllChecked]="allChecked"
           (editCellSelect)="editCell($event)"
+          (showBlockedInfo)="showBlockedMessage($event)"
           class="column_cell"
         >
         </app-table-cell-select>
         <app-table-cell-date
           *ngIf="column.editType === 'DATE'"
-          (editDateCell)="editCell($event)"
           [date]="row[column.title.key]"
           [nameOfColumn]="column.title.key"
-          [id]="row.orderid"
-        ></app-table-cell-date>
+          [id]="row.id"
+          [ordersToChange]="idsToChange"
+          [isAllChecked]="allChecked"
+          (editDateCell)="editCell($event)"
+          (showBlockedInfo)="showBlockedMessage($event)"
+        >
+        </app-table-cell-date>
         <app-table-cell-time
           *ngIf="column.editType === 'TIME'"
-          (editTimeCell)="editCell($event)"
           [from]="row[column.title.key].slice(0, 5)"
           [to]="row[column.title.key].slice(6, 11)"
           [nameOfColumn]="column.title.key"
-          [id]="row.orderid"
+          [id]="row.id"
+          [ordersToChange]="idsToChange"
+          [isAllChecked]="allChecked"
+          (editTimeCell)="editCell($event)"
+          (showBlockedInfo)="showBlockedMessage($event)"
         >
         </app-table-cell-time>
         <mat-checkbox
           *ngIf="column.editType === 'CHECKBOX'"
-          (change)="selectRowsToChange($event, row.orderid)"
+          (change)="selectRowsToChange($event, row.id)"
           class="select-cell"
           (change)="$event ? selection.toggle(row) : null"
           [checked]="selection.isSelected(row)"

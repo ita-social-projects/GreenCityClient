@@ -1,5 +1,5 @@
 import { CdkDragDrop, moveItemInArray } from '@angular/cdk/drag-drop';
-import { Component, OnInit, ViewChild, OnDestroy } from '@angular/core';
+import { Component, OnInit, ViewChild, OnDestroy, AfterViewChecked } from '@angular/core';
 import { takeUntil } from 'rxjs/operators';
 import { Subject } from 'rxjs';
 import { MatTableDataSource } from '@angular/material/table';
@@ -7,21 +7,25 @@ import { SelectionModel } from '@angular/cdk/collections';
 import { ubsAdminTable } from '../ubs-image-pathes/ubs-admin-table';
 import { MatSort } from '@angular/material/sort';
 import { AdminCertificateService } from '../../services/admin-certificate.service';
+import { TableHeightService } from '../../services/table-height.service';
+import { MatDialog, MatDialogRef } from '@angular/material/dialog';
+import { UbsAdminCertificateAddCertificatePopUpComponent } from './ubs-admin-certificate-add-certificate-pop-up/ubs-admin-certificate-add-certificate-pop-up.component';
 
 @Component({
   selector: 'app-ubs-admin-certificate',
   templateUrl: './ubs-admin-certificate.component.html',
   styleUrls: ['./ubs-admin-certificate.component.scss']
 })
-export class UbsAdminCertificateComponent implements OnInit, OnDestroy {
+export class UbsAdminCertificateComponent implements OnInit, AfterViewChecked, OnDestroy {
   sortingColumn: string;
   sortType: string;
   columns: any[] = [];
+  isTableHeightSet = false;
   displayedColumns: string[] = [];
   orderInfo: string[] = [];
   customerInfo: string[] = [];
   orderDetails: string[] = [];
-  sertificate: string[] = [];
+  certificate: string[] = [];
   detailsOfExport: string[] = [];
   responsiblePerson: string[] = [];
   dataSource: MatTableDataSource<any>;
@@ -31,19 +35,34 @@ export class UbsAdminCertificateComponent implements OnInit, OnDestroy {
   isLoading = true;
   isUpdate = false;
   destroy: Subject<boolean> = new Subject<boolean>();
-  arrowDirection: string;
   tableData: any[];
   totalPages: number;
   pageSizeOptions: number[] = [10, 15, 20];
   currentPage = 0;
-  pageSize = 10;
+  pageSize = 25;
   ubsAdminTableIcons = ubsAdminTable;
   @ViewChild(MatSort, { static: true }) sort: MatSort;
 
-  constructor(private adminCertificateService: AdminCertificateService) {}
+  constructor(
+    private adminCertificateService: AdminCertificateService,
+    private tableHeightService: TableHeightService,
+    public dialog: MatDialog,
+    public dialogRef: MatDialogRef<UbsAdminCertificateAddCertificatePopUpComponent>
+  ) {}
 
   ngOnInit() {
     this.getTable();
+  }
+
+  ngAfterViewChecked() {
+    if (!this.isTableHeightSet) {
+      const table = document.getElementById('table');
+      const tableContainer = document.getElementById('table-container');
+      this.isTableHeightSet = this.tableHeightService.setTableHeightToContainerHeight(table, tableContainer);
+      if (!this.isTableHeightSet) {
+        this.onScroll();
+      }
+    }
   }
 
   applyFilter(filterValue: string): void {
@@ -78,10 +97,10 @@ export class UbsAdminCertificateComponent implements OnInit, OnDestroy {
     return `${this.selection.isSelected(row) ? 'deselect' : 'select'} row ${row.orderId + 1}`;
   }
 
-  getTable(sortingType = this.sortType || 'desc') {
+  getTable(columnName = this.sortingColumn || 'code', sortingType = this.sortType || 'DESC') {
     this.isLoading = true;
     this.adminCertificateService
-      .getTable(this.currentPage, this.pageSize, sortingType)
+      .getTable(columnName, this.currentPage, this.pageSize, sortingType)
       .pipe(takeUntil(this.destroy))
       .subscribe((item) => {
         this.tableData = item[`page`];
@@ -101,13 +120,14 @@ export class UbsAdminCertificateComponent implements OnInit, OnDestroy {
         this.setDisplayedColumns();
         this.arrayOfHeaders = arrayOfProperties;
         this.isLoading = false;
+        this.isTableHeightSet = false;
       });
   }
 
   updateTableData() {
     this.isUpdate = true;
     this.adminCertificateService
-      .getTable(this.currentPage, this.pageSize, this.sortType || 'desc')
+      .getTable(this.sortingColumn || 'code', this.currentPage, this.pageSize, this.sortType || 'DESC')
       .pipe(takeUntil(this.destroy))
       .subscribe((item) => {
         const data = item[`page`];
@@ -127,6 +147,17 @@ export class UbsAdminCertificateComponent implements OnInit, OnDestroy {
       this.currentPage++;
       this.updateTableData();
     }
+  }
+
+  openAddCertificate() {
+    const dialogRef = this.dialog.open(UbsAdminCertificateAddCertificatePopUpComponent, {
+      hasBackdrop: true,
+      disableClose: true
+    });
+    dialogRef
+      .afterClosed()
+      .pipe(takeUntil(this.destroy))
+      .subscribe((result) => result && this.getTable());
   }
 
   ngOnDestroy() {

@@ -1,14 +1,7 @@
-$linkColorGreen: #13aa57;
-$linkColorGray: #494a49;
-
-@import url('https://fonts.googleapis.com/css?family=Open+Sans&display=swap');
-@import url('https://fonts.googleapis.com/css?family=Montserrat&display=swap');
-@import url('https://fonts.googleapis.com/css2?family=Lato&display=swap');
-
 .container {
   .profile-link {
     text-decoration: underline;
-    color: $linkColorGreen;
+    color: var(--primary-green);
   }
 
   .friends {
@@ -16,32 +9,71 @@ $linkColorGray: #494a49;
     flex-direction: row;
     justify-content: space-between;
     align-items: center;
-    font-family: 'Open Sans', sans-serif;
+    font-family: var(--primary-font);
 
     h1 {
       font-style: normal;
       font-weight: 500;
       font-size: 48px;
       line-height: 48px;
-      font-family: 'Montserrat', sans-serif;
+      font-family: var(--secondary-font);
+    }
+  }
+
+  .searchField {
+    display: inline;
+    position: relative;
+
+    input {
+      width: 426px;
+      height: 36px;
+      border: 1px solid var(--quintynary-light-grey);
+      border-radius: 4px;
+      padding: 8px;
+
+      &:focus {
+        outline: none;
+        box-shadow: 0 0 3px 0 var(--quintynary-light-grey);
+      }
+
+      &::placeholder {
+        color: var(--ubs-primary-light-grey);
+        font-family: var(--primary-font);
+        font-size: 14px;
+      }
+    }
+
+    img {
+      position: absolute;
+      top: 1px;
+      right: 13px;
     }
   }
 
   a {
-    color: $linkColorGray;
+    font-family: var(--primary-font);
+    color: var(--ubs-quaternary-dark-grey);
     margin: 0 16px;
-    font-family: 'Open Sans', sans-serif;
     font-size: 16px;
     line-height: 18.75px;
-
-    &:hover {
-      text-decoration: none;
-    }
   }
 
   .active {
-    color: $linkColorGreen;
+    color: var(--primary-green);
     padding: 5px 5px 0;
     text-decoration: none;
+  }
+}
+
+@media (max-width: 992px) {
+  .container {
+    margin: auto;
+
+    .searchField {
+      input {
+        margin-left: 30px;
+        max-width: 35%;
+      }
+    }
   }
 }

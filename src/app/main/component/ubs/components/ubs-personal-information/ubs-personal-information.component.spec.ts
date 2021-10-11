@@ -9,6 +9,7 @@ import { async, ComponentFixture, TestBed, __core_private_testing_placeholder__ 
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { UBSInputErrorComponent } from '../ubs-input-error/ubs-input-error.component';
 import { UBSPersonalInformationComponent } from './ubs-personal-information.component';
+import { SimpleChange } from '@angular/core';
 
 describe('PersonalDataFormComponent', () => {
   let component: UBSPersonalInformationComponent;
@@ -34,6 +35,10 @@ describe('PersonalDataFormComponent', () => {
     lastName: 'fake',
     email: 'fake',
     phoneNumber: 'fake',
+    anotherClientFirstName: 'fake',
+    anotherClientLastName: 'fake',
+    anotherClientEmail: 'fake',
+    anotherClientPhoneNumber: 'fake',
     addressComment: 'fake',
     city: 'fake',
     district: 'fake',
@@ -76,14 +81,12 @@ describe('PersonalDataFormComponent', () => {
     expect(component).toBeTruthy();
   });
 
-  it('method ngDoCheck should invoke methods', () => {
-    const spy = spyOn(component, 'submit').and.callFake(() => {});
+  it('method ngOnChanges should call changePersonalData and submit', () => {
     fakeShareFormService.changePersonalData.and.callFake(() => {});
-    component.completed = true;
-    fixture.detectChanges();
-    component.ngDoCheck();
+    spyOn(component, 'submit').and.callFake(() => {});
+    component.ngOnChanges({ completed: { currentValue: true } as SimpleChange });
+    expect(component.submit).toHaveBeenCalled();
     expect(fakeShareFormService.changePersonalData).toHaveBeenCalled();
-    expect(spy).toHaveBeenCalled();
   });
 
   it('method findAllAddresses should get data from orderService', () => {

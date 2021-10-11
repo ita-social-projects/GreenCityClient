@@ -16,9 +16,16 @@
               </a>
             </div>
             <div class="body" *ngIf="habitsInProgress">
-              <app-one-habit *ngFor="let habit of habitsInProgress" [habit]="habit" (nowAcquiredHabit)="changeStatus($event)">
+              <app-one-habit *ngFor="let habit of habitsInProgressToView" [habit]="habit" (nowAcquiredHabit)="changeStatus($event)">
               </app-one-habit>
             </div>
+            <button
+              class="btn-view-more"
+              *ngIf="habitsInProgress.length > habitsInProgressToView.length"
+              (click)="getMoreHabitsInProgressForView()"
+            >
+              {{ 'profile.dashboard.habits-view-more' | translate }}
+            </button>
             <div class="acquired header">
               <p>
                 {{ 'profile.dashboard.habits-acquired' | translate }} <br />
@@ -26,9 +33,16 @@
               </p>
             </div>
             <div class="body" *ngIf="habitsAcquired">
-              <app-one-habit *ngFor="let habit of habitsAcquired" [habit]="habit"> </app-one-habit>
+              <app-one-habit *ngFor="let habit of habitsAcquiredToView" [habit]="habit"> </app-one-habit>
             </div>
           </div>
+          <button
+            class="btn-view-more"
+            *ngIf="habitsAcquired.length > habitsAcquiredToView.length"
+            (click)="getMoreHabitsAcquiredForView()"
+          >
+            {{ 'profile.dashboard.habits-view-more' | translate }}
+          </button>
           <div class="no-data" *ngIf="habitsInProgress.length === 0">
             <app-no-data [title]="'profile.dashboard.no-habits-in-progress'" [text]="'profile.dashboard.no-habits-in-progress-advice'">
             </app-no-data>

@@ -1,5 +1,5 @@
-<div class="main-container">
-  <div class="wrapper" *ngIf="!selectedPhoto && !isNotification; else elseBlock">
+<div class="main-container" [ngSwitch]="true">
+  <div class="wrapper" *ngSwitchCase="!selectedPhoto && !isNotification && !isDragAndDropMenu">
     <app-user-profile-image [imgPath]="avatarImg" [additionalImgClass]="'big'" [firstName]="data.firstName"> </app-user-profile-image>
     <p *ngIf="isWarning" class="warning">{{ 'user.edit-profile.picture-tooltip' | translate }}</p>
     <p *ngIf="!isWarning">{{ 'user.edit-profile.change-photo' | translate }}</p>
@@ -10,13 +10,27 @@
       <button type="button" class="primary-global-button delete" [disabled]="!avatarImg" (click)="isNotification = true" tabindex="0">
         {{ 'user.edit-profile.btn.delete' | translate }}
       </button>
-      <label tabindex="0" class="secondary-global-button" (keyup)="openFilesWindow($event)">
+      <button class="secondary-global-button" (click)="isDragAndDropMenu = true">
         {{ 'user.edit-profile.btn.new-photo' | translate }}
-        <input type="file" accept=".jpg, .jpeg, .png" (change)="onSelectPhoto($event)" />
-      </label>
+      </button>
     </div>
   </div>
-  <ng-template #elseBlock>
+  <div class="dropzone-wrapper" [class.dropzone-error]="isWarning" *ngSwitchCase="!selectedPhoto && !isNotification && isDragAndDropMenu">
+    <div *ngIf="!files.length" class="dropzone" appDragAndDrop (files)="filesDropped($event)">
+      <div class="text-wrapper">
+        <div class="centered">
+          <span *ngIf="isWarning">{{ 'drag-and-drop.not-uploaded-warning' | translate }}<br /><br /></span>
+          {{ 'drag-and-drop.picture-description' | translate }}
+          <label for="upload"
+            ><span browse>{{ 'drag-and-drop.browse' | translate }}</span></label
+          >
+          <input type="file" id="upload" (change)="onSelectPhoto($event)" />
+        </div>
+      </div>
+    </div>
+    <div class="download-info">{{ 'drag-and-drop.picture-tooltip' | translate }}</div>
+  </div>
+  <div *ngSwitchDefault>
     <div *ngFor="let file of files">
       <div class="wrapper">
         <div class="cropper-block">
@@ -34,10 +48,9 @@
         <p *ngIf="isWarning" class="warning">{{ 'user.edit-profile.picture-tooltip' | translate }}</p>
         <p *ngIf="!isWarning">{{ 'user.edit-profile.would-you-like' | translate }}</p>
         <div class="buttons">
-          <label tabindex="0" class="primary-global-button change" (keyup)="openFilesWindow($event)">
+          <button class="secondary-global-button" (click)="selectedPhoto = false; files.pop()">
             {{ 'user.edit-profile.btn.change-photo' | translate }}
-            <input type="file" accept=".jpg, .jpeg, .png" (change)="onSelectPhoto($event)" />
-          </label>
+          </button>
           <button type="button" class="secondary-global-button" [disabled]="isWarning" (click)="savePhoto()" tabindex="0">
             <span *ngIf="loadingAnim" class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
             {{ 'user.edit-profile.btn.save-photo' | translate }}
@@ -45,7 +58,7 @@
         </div>
       </div>
     </div>
-  </ng-template>
+  </div>
   <div *ngIf="isNotification" class="wrapper">
     <p>{{ 'user.edit-profile.notification' | translate }}</p>
     <div class="buttons">

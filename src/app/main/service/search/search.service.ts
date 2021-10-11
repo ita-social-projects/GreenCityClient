@@ -5,7 +5,6 @@ import { Observable, of, Subject } from 'rxjs';
 import { switchMap } from 'rxjs/operators';
 import { SearchDataModel, SearchModel } from '../../model/search/search.model';
 import { SearchDto } from 'src/app/main/component/layout/components/models/search-dto';
-import { backendMockSearchAll, backendMockSearchNews } from 'src/assets/mocks/search/mockPath';
 
 @Injectable({
   providedIn: 'root'
@@ -19,7 +18,7 @@ export class SearchService {
   public allElements: SearchDto;
 
   public getAllResults(searchQuery: string, lang: string): Observable<SearchModel> {
-    return this.http.get<SearchModel>(`${this.backEndLink}search?lang=${lang}&searchQuery=${searchQuery}`);
+    return this.http.get<SearchModel>(`${this.backEndLink}search?lang=${lang}&searchQuery=${encodeURI(searchQuery)}`);
   }
 
   public getAllResultsByCat(
@@ -29,7 +28,9 @@ export class SearchService {
     sort: string = '',
     items: number = 9
   ): Observable<SearchDataModel> {
-    return this.http.get<SearchDataModel>(backendMockSearchNews);
+    return this.http.get<SearchDataModel>(
+      `${this.backEndLink}search/${category}?searchQuery=${query}&sort=${sort}&page=${page}&size=${items}`
+    );
   }
 
   private getResultsByCat(searchType: string): Observable<SearchModel> {

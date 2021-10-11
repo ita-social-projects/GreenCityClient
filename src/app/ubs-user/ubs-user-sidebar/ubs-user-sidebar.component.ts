@@ -1,13 +1,21 @@
 import { BreakpointObserver } from '@angular/cdk/layout';
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { UbsBaseSidebarComponent } from 'src/app/shared/ubs-base-sidebar/ubs-base-sidebar.component';
+import { UserMessagesService } from '../services/user-messages.service';
+import { Router } from '@angular/router';
+import { JwtService } from '@global-service/jwt/jwt.service';
 
 @Component({
   selector: 'app-ubs-user-sidebar',
   templateUrl: './ubs-user-sidebar.component.html'
 })
-export class UbsUserSidebarComponent extends UbsBaseSidebarComponent implements OnInit {
+export class UbsUserSidebarComponent extends UbsBaseSidebarComponent {
   public listElementsUser: any[] = [
+    {
+      link: 'assets/img/sidebarIcons/workers_icon.svg',
+      name: 'ubs-user.user_data',
+      routerLink: 'profile'
+    },
     {
       link: 'assets/img/sidebarIcons/shopping-cart_icon.svg',
       name: 'ubs-user.orders',
@@ -24,15 +32,13 @@ export class UbsUserSidebarComponent extends UbsBaseSidebarComponent implements 
       routerLink: '#'
     },
     {
-      link: 'assets/img/sidebarIcons/message-bell_icon.svg',
+      link: 'assets/img/sidebarIcons/none_notification_Bell.svg',
       name: 'ubs-user.messages',
-      routerLink: '#'
+      routerLink: 'messages/1'
     }
   ];
 
-  constructor(public breakpointObserver: BreakpointObserver) {
-    super(breakpointObserver);
+  constructor(public service: UserMessagesService, public breakpointObserver: BreakpointObserver, public jwtService: JwtService) {
+    super(service, breakpointObserver, jwtService);
   }
-
-  ngOnInit(): void {}
 }

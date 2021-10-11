@@ -63,6 +63,7 @@ input {
   font-size: 14px;
   font-family: var(--primary-font);
   min-width: 48px;
+  width: 100px;
   min-height: 39px;
   overflow: hidden;
   word-wrap: break-word;
@@ -287,4 +288,11 @@ input {
   display: flex;
   justify-content: space-between;
   align-items: center;
+}
+
+button:disabled,
+button[disabled] {
+  border: 1px solid var(--ubs-secondary-grey);
+  background-color: lightgray;
+  color: gray;
 }

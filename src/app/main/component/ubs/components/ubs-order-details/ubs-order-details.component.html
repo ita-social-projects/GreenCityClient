@@ -1,17 +1,28 @@
 <div class="container">
-  <div *ngIf="bags && !isDialogOpen; else spinner">
+  <div *ngIf="bags && !isFetching && !isDialogOpen; else spinner">
     <div class="header">
       <h3 class="font-bolt order-title">{{ 'order-details.order-title' | translate }}</h3>
-      <div>
-        <h5>{{ 'order-details.choose-location' | translate }}</h5>
-        <select class="choose-location">
-          <option>{{ 'order-details.kyiv' | translate }}</option>
-          <option>{{ 'order-details.kyiv-region' | translate }}</option>
-        </select>
+      <div class="user-location">
+        <div>
+          <h5>{{ 'order-details.current-location' | translate: { currentLocation: currentLocation } }}</h5>
+          <button class="change-location" (click)="changeLocation = !changeLocation">
+            {{ 'order-details.choose-location' | translate }}
+          </button>
+        </div>
+        <div *ngIf="changeLocation" class="list-locations">
+          <select name="region" class="choose-location" [(ngModel)]="selectedLocationId" (ngModelChange)="saveLocation()">
+            <option [ngValue]="location.id" *ngFor="let location of locations">
+              {{ location.name }}
+            </option>
+          </select>
+        </div>
       </div>
-      <p class="order-content">{{ 'order-details.order-content' | translate }}</p>
-      <p class="order-content">{{ 'order-details.min-big-bags' | translate: { minAmountOfBigBags: minAmountOfBigBags } }}</p>
+      <p class="order-content" *ngIf="selectedLocationId === 1">{{ 'order-details.order-content' | translate }}</p>
+      <p class="order-content" *ngIf="selectedLocationId === 2">
+        {{ 'order-details.min-big-bags' | translate: { minAmountOfBigBags: minAmountOfBigBags } }}
+      </p>
     </div>
+
     <form class="form" [formGroup]="orderDetailsForm" (change)="changeOrderDetails()">
       <div class="w-100 d-flex justify-content-between mb-2">
         <label class="col-3 label m-0 p-0">{{ 'order-details.service' | translate }}</label>
@@ -157,15 +168,15 @@
           </button>
           <div class="points">
             <h5>{{ 'order-details.bonus-need' | translate }}</h5>
-            <p>{{ 'order-details.bonus-left' | translate }} {{ points | currency | localizedCurrency }}</p>
+            <p>{{ 'order-details.bonus-left' | translate }} {{ defaultPoints | currency | localizedCurrency }}</p>
             <p>
               <a href="#!" class="bonus-how-to-link">{{ 'order-details.bonus-how-to-get' | translate }}</a>
             </p>
-            <div class="radio-btn" *ngIf="points !== 0 && finalSum !== 0">
+            <div class="radio-btn" *ngIf="defaultPoints !== 0 && showTotal !== 0">
               <label class="custom-radio-btn"
                 >{{ 'order-details.no' | translate }}
-                <input formControlName="bonus" type="radio" value="no" tabindex="-1" />
-                <span class="checkmark" tabindex="0" (keyup)="selectPointsRadioBtn($event, 'no')"></span>
+                <input formControlName="bonus" type="radio" value="no" tabindex="-1" (click)="resetPoints()" />
+                <span class="checkmark" tabindex="0" (keyup)="selectPointsRadioBtn($event, 'no'); resetPoints()"></span>
               </label>
               <label class="custom-radio-btn"
                 >{{ 'order-details.yes' | translate }}
@@ -265,7 +276,7 @@
 </div>
 
 <div class="w-100 d-flex justify-content-end buttons">
-  <button type="button" class="secondary-global-button btn cansel-button btn-main" (click)="cancelUBS()">
+  <button type="button" class="secondary-global-button btn cancel-button btn-main" (click)="cancelUBS()">
     {{ 'order-details.cancel' | translate }}
   </button>
   <button

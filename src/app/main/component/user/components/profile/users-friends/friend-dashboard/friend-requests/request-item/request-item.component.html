@@ -1,15 +1,15 @@
 <div class="request-item">
   <app-user-profile-image
-    [imgPath]="request.profilePicture"
+    [imgPath]="request.profilePicturePath"
     [firstName]="request.name"
     class="request-img"
     [additionalImgClass]="'friend-item'"
   >
   </app-user-profile-image>
   <div class="request-info">
-    <div class="main-info" [ngClass]="request.profilePicture ? 'friend-with-photo' : 'friend-without-photo'">
+    <div class="main-info" [ngClass]="request.profilePicturePath ? 'friend-with-photo' : 'friend-without-photo'">
       <p class="request-name">{{ request.name }}</p>
-      <p class="request-rate" [ngClass]="request.profilePicture ? 'rate-with-photo' : 'rate-without-photo'">{{ request.rating }}</p>
+      <p class="request-rate" [ngClass]="request.profilePicturePath ? 'rate-with-photo' : 'rate-without-photo'">{{ request.rating }}</p>
     </div>
     <p class="request-mutual">{{ request.mutualFriends }} {{ 'profile.friends.mutual-friends' | translate }}</p>
     <p class="request-city">{{ request.city }}</p>

@@ -58,6 +58,20 @@
     "info-about-date": "Added:"
   },
   "order-edit": {
+    "order-status": {
+      "formed": "Formed",
+      "adjustment": "Adjustment",
+      "brought-it-himself": "Brought it himself",
+      "confirmed": "Confirmed",
+      "on-the-route": "On the route",
+      "done": "Done",
+      "not-taken-out": "Not taken out",
+      "cancelled": "Cancelled"
+    },
+    "payment-status": {
+      "paid": "Paid",
+      "not-paid": "Not paid"
+    },
     "need-to-pay": "Need to pay extra ",
     "status": {
       "title": "Order",
@@ -65,15 +79,7 @@
       "label": "Order status ",
       "label-approve": "Payment status ",
       "order-label": "Order status ",
-      "payment-label": "Payment status ",
-      "approve-status": {
-        "approved": "Approved",
-        "not-approved": "Not approved"
-      },
-      "payment-status": {
-        "paid": "Paid",
-        "not-paid": "Not paid"
-      }
+      "payment-label": "Payment status "
     },
     "comment": {
       "label": "Comment",
@@ -161,7 +167,8 @@
   "ubs-tables": {
     "export-to-excel": "Export to Excel",
     "table-view": "Table view",
-    "add-certificate": "Add certificate"
+    "add-certificate": "Add certificate",
+    "all-elements": "Display all columns"
   },
   "export-details": {
     "title": "Export details",
@@ -293,24 +300,40 @@
     "placeholder_order_limits_info": "Information about order limits, which will be displayed in the order form",
     "btn": {
       "add_service": "Add service",
+      "add_service2": "Add service",
       "save_changes": "Save changes",
       "add_carrier": "Add carrier"
     }
   },
   "ubs-tariffs-add-service": {
     "add_service": "Add service",
+    "edit_service": "Edit service",
     "name_of_the_service": "Name of the service",
     "placeholder-service": "Enter a name for the service",
     "capacity": "Capacity",
     "basic_cost": "Basic cost",
-    "ubs_courier": "Ubs courier",
+    "commission": "Сommission",
     "full_cost": "Full cost",
     "service_description": "Service description",
     "placeholder-text": "Describe what exactly is included in the service and the conditions / rules of its provision",
     "error_message": "Fill in the selected fields",
     "btn": {
       "add": "Add",
-      "cancel": "Cancel"
+      "cancel": "Cancel",
+      "save": "Save"
     }
+  },
+  "ubs-user-notification": {
+    "title": "Your messages",
+    "title-table": {
+      "number": "№ order",
+      "theme-messages": "Theme messages",
+      "time": "Time"
+    }
+  },
+  "ubs-tariffs-delete-service": {
+    "delete_question": "Delete this line?",
+    "yes": "yes",
+    "no": "no"
   }
 }
