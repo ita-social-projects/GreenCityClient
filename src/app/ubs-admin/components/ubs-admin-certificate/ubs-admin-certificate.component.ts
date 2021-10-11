@@ -4,7 +4,6 @@ import { takeUntil } from 'rxjs/operators';
 import { Subject } from 'rxjs';
 import { MatTableDataSource } from '@angular/material/table';
 import { SelectionModel } from '@angular/cdk/collections';
-import { ubsAdminTable } from '../ubs-image-pathes/ubs-admin-table';
 import { MatSort } from '@angular/material/sort';
 import { AdminCertificateService } from '../../services/admin-certificate.service';
 import { TableHeightService } from '../../services/table-height.service';
@@ -37,10 +36,8 @@ export class UbsAdminCertificateComponent implements OnInit, AfterViewChecked, O
   destroy: Subject<boolean> = new Subject<boolean>();
   tableData: any[];
   totalPages: number;
-  pageSizeOptions: number[] = [10, 15, 20];
   currentPage = 0;
   pageSize = 25;
-  ubsAdminTableIcons = ubsAdminTable;
   @ViewChild(MatSort, { static: true }) sort: MatSort;
 
   constructor(
@@ -136,10 +133,6 @@ export class UbsAdminCertificateComponent implements OnInit, AfterViewChecked, O
         this.dataSource.data = this.tableData;
         this.isUpdate = false;
       });
-  }
-
-  selectPageSize(value: number) {
-    this.pageSize = value;
   }
 
   onScroll() {
