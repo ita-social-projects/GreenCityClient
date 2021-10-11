@@ -18,8 +18,11 @@ import { MatTabChangeEvent } from '@angular/material/tabs';
 export class ProfileDashboardComponent implements OnInit, OnDestroy {
   private destroyed$: ReplaySubject<any> = new ReplaySubject<any>(1);
   loading = false;
+  numberOfHabitsOnView = 3;
   habitsInProgress: Array<HabitAssignInterface> = [];
+  habitsInProgressToView: Array<HabitAssignInterface> = [];
   habitsAcquired: Array<HabitAssignInterface> = [];
+  habitsAcquiredToView: Array<HabitAssignInterface> = [];
   public tabs = {
     habits: true,
     news: false,
@@ -67,8 +70,27 @@ export class ProfileDashboardComponent implements OnInit, OnDestroy {
         const sortedHabits = this.sortHabitsAsc(response);
         this.habitsInProgress = sortedHabits.filter((habit) => habit.status === HabitStatus.INPROGRESS);
         this.habitsAcquired = sortedHabits.filter((habit) => habit.status === HabitStatus.ACQUIRED);
+        this.setHabitsForView();
         this.loading = false;
       });
+  }
+
+  setHabitsForView(): void {
+    this.habitsInProgressToView = [...this.habitsInProgress.slice(0, this.numberOfHabitsOnView)];
+    this.habitsAcquiredToView = [...this.habitsAcquired.slice(0, this.numberOfHabitsOnView)];
+  }
+
+  getMoreHabitsInProgressForView(): void {
+    this.habitsInProgressToView = this.getMoreHabits(this.habitsInProgressToView, this.habitsInProgress);
+  }
+
+  getMoreHabitsAcquiredForView(): void {
+    this.habitsAcquiredToView = this.getMoreHabits(this.habitsAcquiredToView, this.habitsAcquired);
+  }
+
+  getMoreHabits(habitsOnView: Array<HabitAssignInterface>, allHabits: Array<HabitAssignInterface>): Array<HabitAssignInterface> {
+    const currentNumberOfHabitsOnView = habitsOnView.length;
+    return [...habitsOnView, ...allHabits.slice(currentNumberOfHabitsOnView, currentNumberOfHabitsOnView + this.numberOfHabitsOnView)];
   }
 
   private sortHabitsAsc(habitsArray): Array<HabitAssignInterface> {
