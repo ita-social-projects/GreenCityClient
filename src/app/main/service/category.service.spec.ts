@@ -7,7 +7,7 @@ describe('Category Service', () => {
   let service: CategoryService;
   let httpMock: HttpTestingController;
   let category: CategoryDto;
-  let mainLink = 'https://greencity.azurewebsites.net';
+  const mainLink = 'https://greencity.azurewebsites.net';
 
   beforeEach(() => {
     TestBed.configureTestingModule({

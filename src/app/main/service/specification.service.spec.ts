@@ -5,8 +5,8 @@ import { HttpClientTestingModule, HttpTestingController } from '@angular/common/
 describe('Specification Service', () => {
   let specificationService: SpecificationService;
   let httpMock: HttpTestingController;
-  let mainLink = 'https://greencity.azurewebsites.net';
-  let specification = [{ name: 'Animal' }];
+  const mainLink = 'https://greencity.azurewebsites.net';
+  const specification = [{ name: 'Animal' }];
 
   beforeEach(() => {
     TestBed.configureTestingModule({
