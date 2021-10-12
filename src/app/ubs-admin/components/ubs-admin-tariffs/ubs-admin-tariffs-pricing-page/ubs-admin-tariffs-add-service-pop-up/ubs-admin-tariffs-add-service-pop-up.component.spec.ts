@@ -1,13 +1,14 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
-import { UbsAdminTariffsAddServicePopupComponent } from './ubs-admin-tariffs-add-service-popup.component';
-import { MAT_DIALOG_DATA, MatDialogModule } from '@angular/material/dialog';
+import { MAT_DIALOG_DATA, MatDialogModule, MatDialogRef } from '@angular/material/dialog';
+import { UbsAdminTariffsAddServicePopUpComponent } from './ubs-admin-tariffs-add-service-pop-up.component';
 import { FormBuilder } from '@angular/forms';
 import { TranslateModule } from '@ngx-translate/core';
 import { HttpClientTestingModule, HttpTestingController } from '@angular/common/http/testing';
+import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 
 describe('UbsAdminTariffsAddServicePopupComponent', () => {
-  let component: UbsAdminTariffsAddServicePopupComponent;
-  let fixture: ComponentFixture<UbsAdminTariffsAddServicePopupComponent>;
+  let component: UbsAdminTariffsAddServicePopUpComponent;
+  let fixture: ComponentFixture<UbsAdminTariffsAddServicePopUpComponent>;
   let httpMock: HttpTestingController;
 
   const button = {
@@ -17,14 +18,15 @@ describe('UbsAdminTariffsAddServicePopupComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [UbsAdminTariffsAddServicePopupComponent],
+      declarations: [UbsAdminTariffsAddServicePopUpComponent],
       imports: [TranslateModule.forRoot(), HttpClientTestingModule, MatDialogModule],
-      providers: [{ provide: MAT_DIALOG_DATA, useValue: button }, FormBuilder]
+      providers: [{ provide: MAT_DIALOG_DATA, useValue: button }, FormBuilder, { provide: MatDialogRef, useValue: {} }],
+      schemas: [CUSTOM_ELEMENTS_SCHEMA]
     }).compileComponents();
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(UbsAdminTariffsAddServicePopupComponent);
+    fixture = TestBed.createComponent(UbsAdminTariffsAddServicePopUpComponent);
     component = fixture.componentInstance;
     httpMock = TestBed.inject(HttpTestingController);
     fixture.detectChanges();

@@ -13,7 +13,7 @@ import { MatTableModule } from '@angular/material/table';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { TranslateModule } from '@ngx-translate/core';
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
-import { CdkAccordionItem } from '@angular/cdk/accordion';
+import { RouterTestingModule } from '@angular/router/testing';
 
 describe('UsbAdminTableComponent', () => {
   let component: UbsAdminTableComponent;
@@ -22,6 +22,7 @@ describe('UsbAdminTableComponent', () => {
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       imports: [
+        RouterTestingModule,
         MatIconModule,
         MatMenuModule,
         MatPaginatorModule,
@@ -35,7 +36,7 @@ describe('UsbAdminTableComponent', () => {
         InfiniteScrollModule,
         TranslateModule.forRoot()
       ],
-      declarations: [UbsAdminTableComponent, CdkAccordionItem],
+      declarations: [UbsAdminTableComponent],
       schemas: [CUSTOM_ELEMENTS_SCHEMA]
     }).compileComponents();
   }));

@@ -1,7 +1,7 @@
-import { TableHeightService } from './../../services/table-height.service';
+import { TableHeightService } from '../../services/table-height.service';
 import { UbsAdminTableExcelPopupComponent } from './ubs-admin-table-excel-popup/ubs-admin-table-excel-popup.component';
 import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
-import { nonSortableColumns } from './../../models/non-sortable-columns.model';
+import { nonSortableColumns } from '../../models/non-sortable-columns.model';
 import { AdminTableService } from '../../services/admin-table.service';
 import { CdkDragDrop, moveItemInArray } from '@angular/cdk/drag-drop';
 import { take, takeUntil } from 'rxjs/operators';
@@ -9,8 +9,8 @@ import { Subject, timer } from 'rxjs';
 import { Component, OnInit, ViewChild, OnDestroy, AfterViewChecked } from '@angular/core';
 import { MatTableDataSource } from '@angular/material/table';
 import { SelectionModel } from '@angular/cdk/collections';
-import { ubsAdminTable } from '../ubs-image-pathes/ubs-admin-table';
 import { MatSort } from '@angular/material/sort';
+import { Router } from '@angular/router';
 import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
 import { IEditCell, IAlertInfo } from '../../models/edit-cell.model';
 
@@ -41,17 +41,19 @@ export class UbsAdminTableComponent implements OnInit, AfterViewChecked, OnDestr
   tableData: any[];
   totalElements = 0;
   totalPages: number;
-  pageSizeOptions: number[] = [10, 15, 20];
   currentPage = 0;
   pageSize = 25;
-  ubsAdminTableIcons = ubsAdminTable;
   idsToChange: number[] = [];
   allChecked: boolean;
   tableViewHeaders = [];
   public blockedInfo: IAlertInfo[] = [];
+  isAll = true;
+  count: number;
+  display = 'none';
   @ViewChild(MatSort, { static: true }) sort: MatSort;
 
   constructor(
+    private router: Router,
     private adminTableService: AdminTableService,
     private localStorageService: LocalStorageService,
     private tableHeightService: TableHeightService,
@@ -63,7 +65,6 @@ export class UbsAdminTableComponent implements OnInit, AfterViewChecked, OnDestr
       this.currentLang = lang;
     });
     this.getColumns();
-    this.getTable();
   }
 
   ngAfterViewChecked() {
@@ -99,7 +100,7 @@ export class UbsAdminTableComponent implements OnInit, AfterViewChecked, OnDestr
     if (!row) {
       return `${this.isAllSelected() ? 'select' : 'deselect'} all`;
     }
-    return `${this.selection.isSelected(row) ? 'deselect' : 'select'} row ${row.order_Id + 1}`;
+    return `${this.selection.isSelected(row) ? 'deselect' : 'select'} row ${row.id + 1}`;
   }
 
   public showBlockedMessage(info): void {
@@ -113,7 +114,7 @@ export class UbsAdminTableComponent implements OnInit, AfterViewChecked, OnDestr
         uniqUsers.push(item.userName);
       }
 
-      const index = this.dataSource.filteredData.findIndex((row) => row.order_id === item.orderId);
+      const index = this.dataSource.filteredData.findIndex((row) => row.id === item.orderId);
       this.selection.deselect(this.dataSource.filteredData[index]);
 
       if (this.idsToChange.includes(item.orderId)) {
@@ -144,10 +145,15 @@ export class UbsAdminTableComponent implements OnInit, AfterViewChecked, OnDestr
     checked
       ? (this.displayedColumns = [...this.displayedColumns.slice(0, positionIndex), key, ...this.displayedColumns.slice(positionIndex)])
       : (this.displayedColumns = this.displayedColumns.filter((item) => item !== key));
+    this.count === this.displayedColumns.length ? (this.isAll = true) : (this.isAll = false);
   }
 
-  public showAllColumns(): void {
-    this.setDisplayedColumns();
+  public togglePopUp() {
+    this.display === 'none' ? (this.display = 'block') : (this.display = 'none');
+  }
+
+  public showAllColumns(isCheckAll: boolean): void {
+    isCheckAll ? this.setUnDisplayedColumns() : this.setDisplayedColumns();
   }
 
   private getColumns() {
@@ -168,9 +174,11 @@ export class UbsAdminTableComponent implements OnInit, AfterViewChecked, OnDestr
             this.columnsForFiltering.push(filteredColumn);
           }
         });
-        console.log(this.columns);
-        console.log(this.columnsForFiltering);
         this.setDisplayedColumns();
+        const { pageNumber, pageSize, sortDirection, sortBy } = columns.page;
+        this.pageSize = pageSize;
+        this.currentPage = pageNumber;
+        this.getTable(sortBy, sortDirection);
       });
   }
 
@@ -213,10 +221,6 @@ export class UbsAdminTableComponent implements OnInit, AfterViewChecked, OnDestr
     this.arrowDirection = this.arrowDirection === columnName ? null : columnName;
     this.currentPage = 0;
     this.getTable(columnName, sortingType);
-  }
-
-  selectPageSize(value: number) {
-    this.pageSize = value;
   }
 
   openExportExcel(): void {
@@ -269,11 +273,18 @@ export class UbsAdminTableComponent implements OnInit, AfterViewChecked, OnDestr
     this.columns.forEach((column, index) => {
       this.displayedColumns[index] = column.title.key;
     });
+    this.isAll = true;
+    this.count = this.displayedColumns.length;
+  }
+
+  private setUnDisplayedColumns(): void {
+    this.displayedColumns = [];
+    this.isAll = false;
   }
 
   private editSingle(e: IEditCell): void {
     this.editCellProgressBar = true;
-    const id = this.tableData.findIndex((item) => item.order_id === e.id);
+    const id = this.tableData.findIndex((item) => item.id === e.id);
     const newRow = { ...this.tableData[id], [e.nameOfColumn]: e.newValue };
     const newTableData = [...this.tableData.slice(0, id), newRow, ...this.tableData.slice(id + 1)];
     this.tableData = newTableData;
@@ -287,7 +298,7 @@ export class UbsAdminTableComponent implements OnInit, AfterViewChecked, OnDestr
     let newTableDataCombine = this.tableData;
 
     for (const idIter of this.idsToChange) {
-      const check = this.tableData.findIndex((item) => item.order_id === idIter);
+      const check = this.tableData.findIndex((item) => item.id === idIter);
       if (check > -1) {
         ids.push(check);
       }
@@ -337,6 +348,10 @@ export class UbsAdminTableComponent implements OnInit, AfterViewChecked, OnDestr
 
   toggleAccordion(e) {
     e.target.parentElement.parentElement.querySelector('.accordion-collapse').classList.toggle('show');
+  }
+
+  openOrder(row): void {
+    this.router.navigate(['ubs-admin', 'order'], { state: { order: row } });
   }
 
   ngOnDestroy() {

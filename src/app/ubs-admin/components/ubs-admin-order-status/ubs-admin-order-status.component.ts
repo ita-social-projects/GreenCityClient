@@ -1,4 +1,4 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Component, Input, OnDestroy, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { Subject } from 'rxjs';
 import { OrderService } from '../../services/order.service';
@@ -11,7 +11,23 @@ import { takeUntil } from 'rxjs/operators';
   styleUrls: ['./ubs-admin-order-status.component.scss']
 })
 export class UbsAdminOrderStatusComponent implements OnInit, OnDestroy {
-  public orderId = 893;
+  @Input() order;
+  orderStatuses = [
+    { name: 'FORMED', translation: 'order-edit.order-status.formed' },
+    { name: 'ADJUSTMENT', translation: 'order-edit.order-status.adjustment' },
+    { name: 'BROUGHT_IT_HIMSELF', translation: 'order-edit.order-status.brought-it-himself' },
+    { name: 'CONFIRMED', translation: 'order-edit.order-status.confirmed' },
+    { name: 'ON_THE_ROUTE', translation: 'order-edit.order-status.on-the-route' },
+    { name: 'DONE', translation: 'order-edit.order-status.done' },
+    { name: 'NOT_TAKEN_OUT', translation: 'order-edit.order-status.not-taken-out' },
+    { name: 'CANCELLED', translation: 'order-edit.order-status.cancelled' }
+  ];
+
+  paymentStatuses = [
+    { name: 'UNPAID', translation: 'order-edit.payment-status.not-paid' },
+    { name: 'PAID', translation: 'order-edit.payment-status.paid' }
+  ];
+
   public detailStatusForm: FormGroup;
   public detailStatus: IDetailStatus;
   private destroy$: Subject<boolean> = new Subject<boolean>();
@@ -37,7 +53,7 @@ export class UbsAdminOrderStatusComponent implements OnInit, OnDestroy {
 
   public getOrderDetailStatus(): void {
     this.orderService
-      .getOrderDetailStatus(this.orderId)
+      .getOrderDetailStatus(this.order.id)
       .pipe(takeUntil(this.destroy$))
       .subscribe((data: IDetailStatus) => {
         this.detailStatus = data;

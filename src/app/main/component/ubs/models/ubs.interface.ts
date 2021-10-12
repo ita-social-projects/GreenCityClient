@@ -80,4 +80,5 @@ export interface Address {
 export interface Locations {
   id: number;
   name: string;
+  languageCode: string;
 }

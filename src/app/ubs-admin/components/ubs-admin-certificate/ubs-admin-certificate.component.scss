@@ -180,31 +180,6 @@ input {
   margin: 20px 0 32px 0;
 }
 
-.select-group {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  position: relative;
-
-  img {
-    position: absolute;
-    top: 50%;
-    left: 0;
-    transform: translate(24px, -50%);
-    pointer-events: none;
-  }
-}
-
-.display-counter {
-  padding: 8px 24px 8px 48px;
-  border-radius: 3px;
-  border: 1px solid var(--ubs-secondary-grey);
-  appearance: none;
-  font-size: 14px;
-  color: var(--primary-dark-grey);
-  outline: none;
-}
-
 .search-input {
   width: 100%;
 }
@@ -286,6 +261,13 @@ input {
 
 .btn-group {
   display: flex;
-  justify-content: space-between;
+  justify-content: right;
   align-items: center;
+}
+
+button:disabled,
+button[disabled] {
+  border: 1px solid var(--ubs-secondary-grey);
+  background-color: lightgray;
+  color: gray;
 }

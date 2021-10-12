@@ -9,7 +9,7 @@
     <div class="header-text" *ngIf="data.button === 'update'">
       <h4>{{ 'ubs-tariffs-add-service.edit_service' | translate }}</h4>
     </div>
-    <form [formGroup]="addServiceForm">
+    <form [formGroup]="addTariffServiceForm">
       <div class="service">
         <label for="name">{{ 'ubs-tariffs-add-service.name_of_the_service' | translate }}</label>
         <input
@@ -57,8 +57,8 @@
       class="primary-global-button submit"
       type="submit"
       *ngIf="data.button === 'add'"
-      [disabled]="addServiceForm.invalid"
-      (click)="addNewService()"
+      [disabled]="addTariffServiceForm.invalid"
+      (click)="addNewTariffForService()"
     >
       <span *ngIf="loadingAnim" class="spinner-border spinner-border-sm" role="status" aria-hidden="true"> </span>
       {{ 'ubs-tariffs-add-service.btn.add' | translate }}
@@ -67,17 +67,11 @@
       type="button"
       *ngIf="data.button === 'update'"
       class="primary-global-button submit"
-      [disabled]="addServiceForm.invalid"
-      (click)="editService(receivedData)"
+      [disabled]="addTariffServiceForm.invalid || addTariffServiceForm.pristine"
+      (click)="editTariffForService(receivedData)"
     >
       <span *ngIf="loadingAnim" class="spinner-border spinner-border-sm" role="status" aria-hidden="true"> </span>
       {{ 'ubs-tariffs-add-service.btn.save' | translate }}
     </button>
-  </div>
-  <div class="information">
-    <span class="date">Дата </span>
-    <span class="user">{{ date | date: 'mediumDate' }}</span>
-    <span class="date">Додано: </span>
-    <span class="user">{{ user }}</span>
   </div>
 </div>
