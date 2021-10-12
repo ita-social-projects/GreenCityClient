@@ -14,6 +14,7 @@ import {
   AddViolation
 } from '../models/ubs-admin.interface';
 import { environment } from '@environment/environment';
+import { NewsDTO } from '@eco-news-models/create-news-interface';
 
 @Injectable({
   providedIn: 'root'
