@@ -251,7 +251,11 @@ export class UbsAdminTableComponent implements OnInit, AfterViewChecked, OnDestr
     }
   }
 
-  public cancelEditCell(): void {
+  public cancelEditCell(ids: number[]): void {
+    this.adminTableService
+      .cancelEdit(ids)
+      .pipe(takeUntil(this.destroy))
+      .subscribe((res) => {});
     this.idsToChange = [];
     this.allChecked = false;
   }

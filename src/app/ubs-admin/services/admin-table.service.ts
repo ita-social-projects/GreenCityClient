@@ -31,4 +31,20 @@ export class AdminTableService {
   blockOrders(ids: number[]) {
     return this.http.put<IAlertInfo[]>(`${this.url}blockOrders`, ids);
   }
+
+  public cancelEdit(ids: number[]) {
+    return this.http.put(`${this.url}unblockOrders`, ids);
+  }
+
+  public howChangeCell(all: boolean, group: number[], single: number): number[] {
+    if (all) {
+      return [];
+    }
+    if (group.length) {
+      return group;
+    }
+    if (!all && !group.length) {
+      return [single];
+    }
+  }
 }

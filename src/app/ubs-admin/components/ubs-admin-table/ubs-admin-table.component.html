@@ -109,7 +109,7 @@
           [ordersToChange]="idsToChange"
           [isAllChecked]="allChecked"
           (editCellSelect)="editCell($event)"
-          (cancelEdit)="cancelEditCell()"
+          (cancelEdit)="cancelEditCell($event)"
           (showBlockedInfo)="showBlockedMessage($event)"
           class="column_cell"
         >
@@ -133,6 +133,7 @@
           [id]="row.id"
           [ordersToChange]="idsToChange"
           [isAllChecked]="allChecked"
+          (cancelEdit)="cancelEditCell($event)"
           (editTimeCell)="editCell($event)"
           (showBlockedInfo)="showBlockedMessage($event)"
         >
