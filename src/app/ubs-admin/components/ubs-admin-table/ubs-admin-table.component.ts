@@ -251,6 +251,11 @@ export class UbsAdminTableComponent implements OnInit, AfterViewChecked, OnDestr
     }
   }
 
+  public cancelEditCell(): void {
+    this.idsToChange = [];
+    this.allChecked = false;
+  }
+
   public closeAlertMess(): void {
     this.blockedInfo = [];
   }

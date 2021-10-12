@@ -22,6 +22,7 @@ export class TableCellSelectComponent implements OnInit {
   public isBlocked: boolean;
   private newOption: string;
 
+  @Output() cancelEdit = new EventEmitter();
   @Output() editCellSelect = new EventEmitter();
   @Output() showBlockedInfo = new EventEmitter();
 
@@ -63,9 +64,9 @@ export class TableCellSelectComponent implements OnInit {
 
   public save(): void {
     const newValueObj = this.optional.findIndex((item) => item[this.lang] === this.newOption);
-
     if (newValueObj === -1) {
       this.isEditable = false;
+      this.cancelEdit.emit();
     } else {
       const newSelectValue: IEditCell = {
         id: this.id,
@@ -81,6 +82,7 @@ export class TableCellSelectComponent implements OnInit {
   public cancel(): void {
     this.newOption = '';
     this.isEditable = false;
+    this.cancelEdit.emit();
   }
 
   public chosenOption(e: any): void {
