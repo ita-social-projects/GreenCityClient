@@ -86,11 +86,13 @@ h3 {
 }
 
 .primary-global-button {
-  padding: 8px 24px;
+  padding: 8px 4px;
   border-radius: 4px;
   color: var(--ubs-quaternary-dark-grey);
   border-color: var(--ubs-button-light-green);
   background: var(--ubs-button-light-green);
+  display: flex;
+  justify-content: space-around;
 
   &:disabled {
     background: var(--ubs-quaternary-light-grey);
