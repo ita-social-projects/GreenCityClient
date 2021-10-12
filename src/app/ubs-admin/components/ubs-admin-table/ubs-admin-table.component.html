@@ -3,12 +3,6 @@
   <div class="icon-style"><i class="fa fa-search" aria-hidden="true"></i></div>
 </div>
 <div class="btn-group">
-  <div class="select-group">
-    <img [src]="ubsAdminTableIcons.arrowDown" alt="arrow down" />
-    <select class="display-counter" (change)="selectPageSize($event.target.value)">
-      <option [value]="size" *ngFor="let size of pageSizeOptions">{{ size }}</option>
-    </select>
-  </div>
   <div class="button-group">
     <button type="button" class="btn btn-default view-table-btn" (click)="togglePopUp()">
       <mat-icon>create</mat-icon>
