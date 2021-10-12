@@ -43,15 +43,7 @@
     <span class="group-title image-title">
       {{ 'ubs-employee.image-input' | translate }}
     </span>
-    <div
-      class="image-input"
-      *ngIf="!imageURL || userHasDefaultPhoto; else currentImageBlock"
-      [ngClass]="{ highlighted: dragOver }"
-      (drop)="treatFileInput($event)"
-      (dragover)="cancelDefault($event)"
-      (dragleave)="dragOver = false"
-      (dragenter)="dragOver = true"
-    >
+    <div class="image-input" *ngIf="!imageURL || userHasDefaultPhoto; else currentImageBlock" appDrag (files)="filesDropped($event)">
       <div class="file-input-label">
         {{ 'ubs-employee.picture-description-1' | translate }}<br />
         {{ 'ubs-employee.picture-description-2' | translate }}<br />

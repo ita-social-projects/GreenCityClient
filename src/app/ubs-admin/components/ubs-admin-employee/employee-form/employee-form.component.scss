@@ -172,11 +172,6 @@ label {
     height: 100%;
     pointer-events: none;
   }
-
-  &.highlighted,
-  &.highlighted * {
-    filter: brightness(0.5);
-  }
 }
 
 .current-image {
