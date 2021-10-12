@@ -353,3 +353,10 @@ input {
 ::ng-deep .mat-checkbox:active:not(.mat-checkbox-disabled).mat-accent .mat-ripple-element {
   background-color: var(--ubs-button-light-green) !important;
 }
+
+.accordion-group-header {
+  display: flex;
+  justify-content: space-between;
+  font-weight: bold;
+  cursor: pointer;
+}

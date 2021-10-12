@@ -42,12 +42,12 @@ export class UbsAdminTableExcelPopupComponent implements OnInit {
     }
   }
 
-  getTable(columnName = this.sortingColumn || 'order_id', currentPage, pageSize, sortingType = this.sortType || 'desc') {
+  getTable(columnName = this.sortingColumn || 'id', currentPage, pageSize, sortingType = this.sortType || 'DESC') {
     return this.adminTableService
       .getTable(columnName, currentPage, pageSize, sortingType)
       .toPromise()
       .then((res) => {
-        return res[`page`];
+        return res[`content`];
       })
       .catch((err) => {
         return false;

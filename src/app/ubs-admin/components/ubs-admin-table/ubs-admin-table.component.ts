@@ -1,4 +1,3 @@
-import { filteredColumnsOrderTable } from './../../models/filtering-columns.model';
 import { TableHeightService } from './../../services/table-height.service';
 import { UbsAdminTableExcelPopupComponent } from './ubs-admin-table-excel-popup/ubs-admin-table-excel-popup.component';
 import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
@@ -22,8 +21,8 @@ import { IEditCell, IAlertInfo } from '../../models/edit-cell.model';
 })
 export class UbsAdminTableComponent implements OnInit, AfterViewChecked, OnDestroy {
   currentLang: string;
+  columnsForFiltering = [];
   nonSortableColumns = nonSortableColumns;
-  filteredColumnsOrderTable = filteredColumnsOrderTable;
   items = ['Item 1', 'Item 2', 'Item 3', 'Item 4', 'Item 5'];
   sortingColumn: string;
   sortType: string;
@@ -157,7 +156,20 @@ export class UbsAdminTableComponent implements OnInit, AfterViewChecked, OnDestr
       .pipe(takeUntil(this.destroy))
       .subscribe((columns: any) => {
         this.tableViewHeaders = columns.columnBelongingList;
-        this.columns = columns.columnStateDTOList;
+        this.columns = columns.columnDTOList;
+        this.columns.forEach((column) => {
+          if (column.filtered) {
+            const filteredColumn = {
+              key: column.title.key,
+              en: column.title.en,
+              ua: column.title.ua,
+              values: [...column.optional]
+            };
+            this.columnsForFiltering.push(filteredColumn);
+          }
+        });
+        console.log(this.columns);
+        console.log(this.columnsForFiltering);
         this.setDisplayedColumns();
       });
   }
@@ -324,7 +336,7 @@ export class UbsAdminTableComponent implements OnInit, AfterViewChecked, OnDestr
   }
 
   toggleAccordion(e) {
-    e.target.parentElement.querySelector('.accordion-collapse').classList.toggle('show');
+    e.target.parentElement.parentElement.querySelector('.accordion-collapse').classList.toggle('show');
   }
 
   ngOnDestroy() {
