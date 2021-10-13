@@ -6,7 +6,7 @@
   <div class="row mb-3">
     <h6>{{ 'add-violation-modal.level-of-violation' | translate }}</h6>
   </div>
-  <form [formGroup]="addViolationForm">
+  <form [formGroup]="addViolationForm" enctype="multipart/form-data">
     <div class="row custom-control custom-radio mb-2">
       <input class="radio" name="violationLevel" type="radio" value="LOW" formControlName="violationLevel" />
       <label class="label-y">{{ 'add-violation-modal.easy-violation' | translate }}</label>

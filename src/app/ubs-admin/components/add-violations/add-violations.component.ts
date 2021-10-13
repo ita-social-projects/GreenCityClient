@@ -43,7 +43,7 @@ export class AddViolationsComponent implements OnInit, OnDestroy {
       .subscribe((value) => {
         this.dragAndDropLabel = value;
       });
-    // this.initImages();
+    this.initImages();
     this.initForm();
   }
 
@@ -55,20 +55,15 @@ export class AddViolationsComponent implements OnInit, OnDestroy {
   }
 
   addViolationCurrentOrder() {
-    const orderID = this.orderId;
-    const violation1 = {
-      orderID: 3000,
-      violationDescription: 'strifdng',
-      violationLevel: 'LOW'
-    };
-    const images = this.images;
+    const orderID = 2171;
+    const files = this.images[0];
     const { violationLevel, violationDescription } = this.addViolationForm.value;
     this.violation = {
-      violationLevel,
-      violationDescription,
-      orderID
+      violationLevel: 'LOW',
+      violationDescription: 'sadsadsdaasdsda',
+      orderID: 3000
     };
-    this.orderService.addViolationToCurrentOrder(violation1).pipe(takeUntil(this.unsubscribe)).subscribe();
+    this.orderService.addViolationToCurrentOrder(this.violation, files).pipe(takeUntil(this.unsubscribe)).subscribe();
   }
 
   filesDropped(files: FileHandle[]): void {

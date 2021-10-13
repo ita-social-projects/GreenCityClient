@@ -1,4 +1,4 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import {
@@ -14,13 +14,19 @@ import {
   AddViolation
 } from '../models/ubs-admin.interface';
 import { environment } from '@environment/environment';
-import { NewsDTO } from '@eco-news-models/create-news-interface';
 
 @Injectable({
   providedIn: 'root'
 })
 export class OrderService {
   private backend: string = environment.ubsAdmin.backendUbsAdminLink;
+  httpOptions = {
+    headers: new HttpHeaders({
+      Accept: '*/*, application/json, image/*, text/html',
+      'Content-Type': 'multipart/form-data'
+      // Accept: 'application/json, text/plain, */*,   image/*'
+    })
+  };
 
   constructor(private http: HttpClient) {}
 
@@ -63,7 +69,7 @@ export class OrderService {
     return this.http.put<any>(`${this.backend}`, postData);
   }
 
-  addViolationToCurrentOrder(violation) {
-    return this.http.post(`${this.backend}/management/addViolationToUser`, violation);
+  addViolationToCurrentOrder(violation, files) {
+    return this.http.post(`${this.backend}/management/addViolationToUser`, violation, files);
   }
 }
