@@ -1,13 +1,13 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
-import { UbsAdminTariffsDeletePopupComponent } from './ubs-admin-tariffs-delete-popup.component';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
+import { UbsAdminTariffsDeletePopUpComponent } from './ubs-admin-tariffs-delete-pop-up.component';
 import { MatDialogModule } from '@angular/material/dialog';
 import { HttpClientTestingModule, HttpTestingController } from '@angular/common/http/testing';
 import { TranslateModule } from '@ngx-translate/core';
 
 describe('UbsAdminTariffsDeletePopupComponent', () => {
-  let component: UbsAdminTariffsDeletePopupComponent;
-  let fixture: ComponentFixture<UbsAdminTariffsDeletePopupComponent>;
+  let component: UbsAdminTariffsDeletePopUpComponent;
+  let fixture: ComponentFixture<UbsAdminTariffsDeletePopUpComponent>;
   let httpMock: HttpTestingController;
   const data = {
     id: 'id',
@@ -16,7 +16,7 @@ describe('UbsAdminTariffsDeletePopupComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [UbsAdminTariffsDeletePopupComponent],
+      declarations: [UbsAdminTariffsDeletePopUpComponent],
       imports: [MatDialogModule, HttpClientTestingModule, TranslateModule.forRoot()],
       providers: [
         { provide: MAT_DIALOG_DATA, useValue: data },
@@ -26,7 +26,7 @@ describe('UbsAdminTariffsDeletePopupComponent', () => {
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(UbsAdminTariffsDeletePopupComponent);
+    fixture = TestBed.createComponent(UbsAdminTariffsDeletePopUpComponent);
     component = fixture.componentInstance;
     httpMock = TestBed.inject(HttpTestingController);
     fixture.detectChanges();

@@ -3,36 +3,40 @@
   <div class="icon-style"><i class="fa fa-search" aria-hidden="true"></i></div>
 </div>
 <div class="btn-group">
-  <div class="select-group">
-    <img [src]="ubsAdminTableIcons.arrowDown" alt="arrow down" />
-    <select class="display-counter" (change)="selectPageSize($event.target.value)">
-      <option [value]="size" *ngFor="let size of pageSizeOptions">{{ size }}</option>
-    </select>
-  </div>
-  <button type="button" class="btn btn-default" class="view-table-btn" data-toggle="dropdown">
-    <mat-icon>create</mat-icon>
-    {{ 'ubs-tables.table-view' | translate }}
-  </button>
-  <ul class="dropdown-menu">
-    <ng-container *ngFor="let header of tableViewHeaders">
-      <li>{{ header | serverTranslate: currentLang }}</li>
-      <ng-container *ngFor="let column of columns">
-        <li *ngIf="column.columnBelonging === header.key">
-          <input
-            type="checkbox"
-            value="id1"
-            [checked]="displayedColumns.includes(column.title.key)"
-            (change)="changeColumns($event.target.checked, column.title.key, column.index)"
-          />
-          {{ column.title | serverTranslate: currentLang }}
-        </li>
+  <div class="button-group">
+    <button type="button" class="btn btn-default view-table-btn" (click)="togglePopUp()">
+      <mat-icon>create</mat-icon>
+      {{ 'ubs-tables.table-view' | translate }}
+    </button>
+    <ul class="dropdown-menu" [style.display]="display">
+      <li class="item">
+        <mat-checkbox class="check" type="checkbox" [checked]="isAll" (change)="showAllColumns(isAll)">
+          {{ 'ubs-tables.all-elements' | translate }}
+        </mat-checkbox>
+      </li>
+      <ng-container *ngFor="let header of tableViewHeaders">
+        <li class="head">{{ header | serverTranslate: currentLang }}</li>
+        <div class="items">
+          <ng-container *ngFor="let column of columns">
+            <li class="item" *ngIf="column.columnBelonging === header.key">
+              <mat-checkbox
+                class="check"
+                type="checkbox"
+                value="id1"
+                [checked]="displayedColumns.includes(column.title.key)"
+                (change)="changeColumns($event?.checked, column.title.key, column.index)"
+              >
+                {{ column.title | serverTranslate: currentLang }}
+              </mat-checkbox>
+            </li>
+          </ng-container>
+        </div>
       </ng-container>
-    </ng-container>
-    <button class="btn btn-info" (click)="showAllColumns()">Clear</button>
-  </ul>
-  <button type="button" class="btn btn-default" class="export-excel-btn" (click)="openExportExcel()">
-    {{ 'ubs-tables.export-to-excel' | translate }}
-  </button>
+    </ul>
+    <button type="button" class="btn btn-default export-excel-btn" (click)="openExportExcel()">
+      {{ 'ubs-tables.export-to-excel' | translate }}
+    </button>
+  </div>
 </div>
 <mat-progress-bar *ngIf="editCellProgressBar" mode="indeterminate"></mat-progress-bar>
 <div class="blocked_mess" *ngIf="blockedInfo.length" (click)="closeAlertMess()">
@@ -105,6 +109,7 @@
           [ordersToChange]="idsToChange"
           [isAllChecked]="allChecked"
           (editCellSelect)="editCell($event)"
+          (cancelEdit)="cancelEditCell($event)"
           (showBlockedInfo)="showBlockedMessage($event)"
           class="column_cell"
         >
@@ -128,6 +133,7 @@
           [id]="row.id"
           [ordersToChange]="idsToChange"
           [isAllChecked]="allChecked"
+          (cancelEdit)="cancelEditCell($event)"
           (editTimeCell)="editCell($event)"
           (showBlockedInfo)="showBlockedMessage($event)"
         >
