@@ -1,9 +1,6 @@
 import { Component, Input, OnDestroy, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup } from '@angular/forms';
+import { FormGroup } from '@angular/forms';
 import { Subject } from 'rxjs';
-import { OrderService } from '../../services/order.service';
-import { IDetailStatus } from '../../models/ubs-admin.interface';
-import { takeUntil } from 'rxjs/operators';
 
 @Component({
   selector: 'app-ubs-admin-order-status',
@@ -12,6 +9,8 @@ import { takeUntil } from 'rxjs/operators';
 })
 export class UbsAdminOrderStatusComponent implements OnInit, OnDestroy {
   @Input() order;
+  @Input() orderStatusForm: FormGroup;
+
   orderStatuses = [
     { name: 'FORMED', translation: 'order-edit.order-status.formed' },
     { name: 'ADJUSTMENT', translation: 'order-edit.order-status.adjustment' },
@@ -28,37 +27,11 @@ export class UbsAdminOrderStatusComponent implements OnInit, OnDestroy {
     { name: 'PAID', translation: 'order-edit.payment-status.paid' }
   ];
 
-  public detailStatusForm: FormGroup;
-  public detailStatus: IDetailStatus;
   private destroy$: Subject<boolean> = new Subject<boolean>();
 
-  constructor(private fb: FormBuilder, private orderService: OrderService) {}
+  constructor() {}
 
-  ngOnInit(): void {
-    this.initForm();
-    this.getOrderDetailStatus();
-  }
-
-  public initForm(): void {
-    this.detailStatusForm = this.fb.group({
-      date: [''],
-      orderStatus: this.fb.array([]),
-      paymentStatus: this.fb.array([])
-    });
-  }
-
-  public patchFormData(): void {
-    this.detailStatusForm.patchValue(this.detailStatus);
-  }
-
-  public getOrderDetailStatus(): void {
-    this.orderService
-      .getOrderDetailStatus(this.order.id)
-      .pipe(takeUntil(this.destroy$))
-      .subscribe((data: IDetailStatus) => {
-        this.detailStatus = data;
-      });
-  }
+  ngOnInit() {}
 
   ngOnDestroy(): void {
     this.destroy$.next();

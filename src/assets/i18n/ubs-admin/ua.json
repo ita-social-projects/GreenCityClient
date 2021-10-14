@@ -99,20 +99,20 @@
     "customer": {
       "title": "Клієнт",
       "name-label": "Ім'я",
-      "name-placeholder": "Placeholder",
+      "name-placeholder": "Ім'я та прізвище",
       "tel-label": "Телефон",
-      "tel-placeholder": "Placeholder",
+      "tel-placeholder": "+380 00 000 00 00",
       "email-label": "Email",
-      "email-placeholder": "Placeholder"
+      "email-placeholder": "mail@mail.com"
     },
     "recipient": {
       "title": "Отримувач",
       "name-label": "Ім'я",
-      "name-placeholder": "Placeholder",
+      "name-placeholder": "Ім'я та прізвище",
       "tel-label": "Телефон",
-      "tel-placeholder": "Placeholder",
+      "tel-placeholder": "+380 00 000 00 00",
       "email-label": "Email",
-      "email-placeholder": "Placeholder"
+      "email-placeholder": "mail@mail.com"
     },
     "violation": {
       "title": "Порушення клієнта",

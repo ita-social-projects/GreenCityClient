@@ -2,20 +2,25 @@
   <div class="row">
     <button class="back-button-top" (click)="openGoBackModal()">< Назад</button>
   </div>
-  <div class="box">
-    <app-ubs-admin-order-status [order]="order"></app-ubs-admin-order-status>
-    <app-ubs-admin-order-client-info></app-ubs-admin-order-client-info>
-    <app-ubs-admin-address-details></app-ubs-admin-address-details>
-    <app-ubs-admin-order-details-form></app-ubs-admin-order-details-form>
-    <app-ubs-admin-order-payment></app-ubs-admin-order-payment>
-    <app-ubs-admin-export-details></app-ubs-admin-export-details>
-    <app-ubs-admin-responsible-persons></app-ubs-admin-responsible-persons>
-  </div>
-  <div class="row">
-    <button class="back-button" (click)="openGoBackModal()">< Назад</button>
-    <div class="controls">
-      <button class="cancel-button" (click)="openCancelModal()">Скасувати</button>
-      <button class="save-button">Зберегти</button>
+  <form [formGroup]="orderForm" (ngSubmit)="onSubmit()">
+    <div class="box">
+      <app-ubs-admin-order-status [orderStatusForm]="getFormGroup('orderStatusForm')" [order]="order"></app-ubs-admin-order-status>
+      <app-ubs-admin-order-client-info [clientInfoForm]="getFormGroup('clientInfoForm')" [order]="order"></app-ubs-admin-order-client-info>
+      <app-ubs-admin-address-details
+        [addressDetailsForm]="getFormGroup('addressDetailsForm')"
+        [order]="order"
+      ></app-ubs-admin-address-details>
+      <app-ubs-admin-order-details-form></app-ubs-admin-order-details-form>
+      <app-ubs-admin-order-payment></app-ubs-admin-order-payment>
+      <app-ubs-admin-export-details></app-ubs-admin-export-details>
+      <app-ubs-admin-responsible-persons></app-ubs-admin-responsible-persons>
     </div>
-  </div>
+    <div class="row">
+      <button class="back-button" (click)="openGoBackModal()">< Назад</button>
+      <div class="controls">
+        <button class="cancel-button" (click)="openCancelModal()" [disabled]="!orderForm.touched">Скасувати</button>
+        <button type="submit" class="save-button" [disabled]="!orderForm.touched">Зберегти</button>
+      </div>
+    </div>
+  </form>
 </div>

@@ -1,10 +1,10 @@
 <div class="container mb-3">
-  <form class="mt-5" [formGroup]="detailStatusForm">
+  <div class="mt-5" [formGroup]="orderStatusForm">
     <div class="row d-flex justify-content-between mt-4">
       <h1 class="title">{{ 'order-edit.status.title' | translate }} №{{ order.id }}</h1>
       <div class="pr-4">
         <span class="form__label"> {{ 'order-edit.status.order-date' | translate }}: </span>
-        <span>{{ detailStatus?.date }}</span>
+        <span>{{ order.orderDate | date: 'dd.MM.y' }}</span>
       </div>
     </div>
     <div class="row">
@@ -16,8 +16,8 @@
                 <label for="order" class="form__label">
                   {{ 'order-edit.status.order-label' | translate }}
                 </label>
-                <select id="order" class="form-control">
-                  <option *ngFor="let status of orderStatuses" [selected]="status.name === order.orderStatus">
+                <select id="order" class="form-control" formControlName="orderStatus">
+                  <option *ngFor="let status of orderStatuses" [selected]="status.name === order.orderStatus" [value]="status.name">
                     {{ status.translation | translate }}
                   </option>
                 </select>
@@ -30,7 +30,7 @@
                 <label for="payment" class="form__label">
                   {{ 'order-edit.status.payment-label' | translate }}
                 </label>
-                <select id="payment" class="form-control payment">
+                <select id="payment" class="form-control payment" disabled>
                   <option *ngFor="let status of paymentStatuses" [selected]="status.name === order.paymentStatus">
                     {{ status.translation | translate }}
                   </option>
@@ -47,11 +47,12 @@
             class="form-control mw-100"
             id="comment"
             rows="3"
+            formControlName="commentForOrder"
             placeholder="{{ 'order-edit.comment.placeholder' | translate }}"
           ></textarea>
         </div>
       </div>
     </div>
-  </form>
+  </div>
   <hr />
 </div>

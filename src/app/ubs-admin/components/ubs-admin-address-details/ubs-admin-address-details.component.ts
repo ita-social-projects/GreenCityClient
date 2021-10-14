@@ -1,5 +1,5 @@
-import { Component, OnInit } from '@angular/core';
-import { FormControl, FormGroup } from '@angular/forms';
+import { Component, Input, OnInit } from '@angular/core';
+import { FormGroup } from '@angular/forms';
 
 @Component({
   selector: 'app-ubs-admin-address-details',
@@ -7,17 +7,21 @@ import { FormControl, FormGroup } from '@angular/forms';
   styleUrls: ['./ubs-admin-address-details.component.scss']
 })
 export class UbsAdminAddressDetailsComponent implements OnInit {
-  public addressDetailsForm: FormGroup;
-  public regions = ['Дублянський'];
+  @Input() order;
+  @Input() addressDetailsForm: FormGroup;
 
-  ngOnInit(): void {
-    this.addressDetailsForm = new FormGroup({
-      street: new FormControl(''),
-      building: new FormControl(''),
-      addressComment: new FormControl(''),
-      corpus: new FormControl(''),
-      entrance: new FormControl(''),
-      region: new FormControl('')
-    });
-  }
+  districts = [
+    'Голосіївський',
+    'Дарницький',
+    'Деснянський',
+    'Дніпровський',
+    'Оболонський',
+    'Печерський',
+    'Подільський',
+    'Святошинський',
+    'Солом`янський',
+    'Шевченківський'
+  ];
+
+  ngOnInit() {}
 }

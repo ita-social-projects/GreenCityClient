@@ -101,20 +101,20 @@
     "customer": {
       "title": "Customer",
       "name-label": "Name",
-      "name-placeholder": "Placeholder",
+      "name-placeholder": "Name and Surname",
       "tel-label": "Phone",
-      "tel-placeholder": "Placeholder",
+      "tel-placeholder": "+380 00 000 00 00",
       "email-label": "Email",
-      "email-placeholder": "Placeholder"
+      "email-placeholder": "mail@mail.com"
     },
     "recipient": {
       "title": "Recipient",
       "name-label": "Name",
-      "name-placeholder": "Placeholder",
+      "name-placeholder": "Name and Surname",
       "tel-label": "Phone",
-      "tel-placeholder": "Placeholder",
+      "tel-placeholder": "+380 00 000 00 00",
       "email-label": "Email",
-      "email-placeholder": "Placeholder"
+      "email-placeholder": "mail@mail.com"
     },
     "violation": {
       "title": "Customer violations",
