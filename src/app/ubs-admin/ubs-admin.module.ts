@@ -47,10 +47,10 @@ import { UbsAdminCertificateAddCertificatePopUpComponent } from './components/ub
 import { UbsAdminCustomersComponent } from './components/ubs-admin-customers/ubs-admin-customers.component';
 import { MatTableModule } from '@angular/material/table';
 import { UbsAdminTariffsPricingPageComponent } from './components/ubs-admin-tariffs/ubs-admin-tariffs-pricing-page/ubs-admin-tariffs-pricing-page.component';
-import { UbsAdminTariffsDeletePopUpComponent } from './components/ubs-admin-tariffs/ubs-admin-tariffs-pricing-page/ubs-admin-tariffs-delete-pop-up/ubs-admin-tariffs-delete-pop-up.component';
-import { UbsAdminTariffsAddServicePopUpComponent } from './components/ubs-admin-tariffs/ubs-admin-tariffs-pricing-page/ubs-admin-tariffs-add-service-pop-up/ubs-admin-tariffs-add-service-pop-up.component';
 import { UbsAdminTariffsAddTariffServicePopUpComponent } from './components/ubs-admin-tariffs/ubs-admin-tariffs-pricing-page/ubs-admin-tariffs-add-tariff-service-pop-up/ubs-admin-tariffs-add-tariff-service-pop-up.component';
 import { UbsAdminTariffsLocationDashboardComponent } from './components/ubs-admin-tariffs/ubs-admin-tariffs-location-dashboard.component';
+import { UbsAdminTariffsDeletePopUpComponent } from './components/ubs-admin-tariffs/ubs-admin-tariffs-pricing-page/ubs-admin-tariffs-delete-pop-up/ubs-admin-tariffs-delete-pop-up.component';
+import { UbsAdminTariffsAddServicePopUpComponent } from './components/ubs-admin-tariffs/ubs-admin-tariffs-pricing-page/ubs-admin-tariffs-add-service-pop-up/ubs-admin-tariffs-add-service-pop-up.component';
 
 @NgModule({
   declarations: [
@@ -78,8 +78,8 @@ import { UbsAdminTariffsLocationDashboardComponent } from './components/ubs-admi
     TableCellDateComponent,
     TableCellTimeComponent,
     UbsAdminCertificateComponent,
-    UbsAdminTariffsDeletePopupComponent,
-    UbsAdminTariffsAddServicePopupComponent,
+    UbsAdminTariffsDeletePopUpComponent,
+    UbsAdminTariffsAddServicePopUpComponent,
     UbsAdminCertificateAddCertificatePopUpComponent,
     UbsAdminCustomersComponent,
     UbsAdminTariffsPricingPageComponent,
