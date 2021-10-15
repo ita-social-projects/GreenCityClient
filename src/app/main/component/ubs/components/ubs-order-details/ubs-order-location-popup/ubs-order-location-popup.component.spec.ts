@@ -58,8 +58,10 @@ describe('UbsOrderLocationPopupComponent', () => {
   });
 
   it('method passDataToComponent should invoke this.dialogRef.close({})', () => {
+    // @ts-ignore
     spyOn(component.dialogRef, 'close');
     component.passDataToComponent();
+    // @ts-ignore
     expect(component.dialogRef.close).toHaveBeenCalled();
   });
 

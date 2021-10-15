@@ -109,11 +109,15 @@ export class UBSOrderDetailsComponent extends FormBaseComponent implements OnIni
       .addLocation(selectedLocation)
       .pipe(take(1))
       .subscribe(() => {
-        this.currentLocation = this.locations.find((loc) => loc.id === this.selectedLocationId).name;
+        this.setCurrentLocation(this.currentLanguage);
         this.isFetching = false;
         this.changeLocation = false;
         this.orderService.completedLocation(true);
       });
+  }
+
+  private setCurrentLocation(currentLanguage: string): void {
+    this.currentLocation = this.locations.find((loc) => loc.id === this.selectedLocationId && loc.languageCode === currentLanguage).name;
   }
 
   getFormValues(): boolean {
@@ -145,10 +149,10 @@ export class UBSOrderDetailsComponent extends FormBaseComponent implements OnIni
         console.log(res.data);
         if (res.data) {
           this.locations = res.data;
-          this.selectedLocationId = this.locations[0].id;
-          this.currentLocation = res.data[0].name;
-          this.isDialogOpen = false;
+          this.selectedLocationId = res.locationId;
+          this.setCurrentLocation(res.currentLanguage);
         }
+        this.isDialogOpen = false;
       });
   }
 
@@ -170,6 +174,7 @@ export class UBSOrderDetailsComponent extends FormBaseComponent implements OnIni
   private subscribeToLangChange(): void {
     this.localStorageService.languageSubject.pipe(takeUntil(this.destroy)).subscribe(() => {
       this.currentLanguage = this.localStorageService.getCurrentLanguage();
+      this.setCurrentLocation(this.currentLanguage);
       const inputsQuantity = [];
       this.bags.forEach((a) => {
         inputsQuantity.push(a.quantity === undefined || a.quantity === null ? null : a.quantity);

@@ -9,7 +9,6 @@ import { Subject, timer } from 'rxjs';
 import { Component, OnInit, ViewChild, OnDestroy, AfterViewChecked } from '@angular/core';
 import { MatTableDataSource } from '@angular/material/table';
 import { SelectionModel } from '@angular/cdk/collections';
-import { ubsAdminTable } from '../ubs-image-pathes/ubs-admin-table';
 import { MatSort } from '@angular/material/sort';
 import { Router } from '@angular/router';
 import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
@@ -39,10 +38,8 @@ export class UbsAdminTableComponent implements OnInit, AfterViewChecked, OnDestr
   tableData: any[];
   totalElements = 0;
   totalPages: number;
-  pageSizeOptions: number[] = [10, 15, 20];
   currentPage = 0;
   pageSize = 25;
-  ubsAdminTableIcons = ubsAdminTable;
   idsToChange: number[] = [];
   allChecked: boolean;
   tableViewHeaders = [];
@@ -212,10 +209,6 @@ export class UbsAdminTableComponent implements OnInit, AfterViewChecked, OnDestr
     this.getTable(columnName, sortingType);
   }
 
-  selectPageSize(value: number) {
-    this.pageSize = value;
-  }
-
   openExportExcel(): void {
     const dialogConfig = new MatDialogConfig();
     const dialogRef = this.dialog.open(UbsAdminTableExcelPopupComponent, dialogConfig);
@@ -256,6 +249,15 @@ export class UbsAdminTableComponent implements OnInit, AfterViewChecked, OnDestr
     } else {
       this.editGroup(e);
     }
+  }
+
+  public cancelEditCell(ids: number[]): void {
+    this.adminTableService
+      .cancelEdit(ids)
+      .pipe(takeUntil(this.destroy))
+      .subscribe((res) => {});
+    this.idsToChange = [];
+    this.allChecked = false;
   }
 
   public closeAlertMess(): void {

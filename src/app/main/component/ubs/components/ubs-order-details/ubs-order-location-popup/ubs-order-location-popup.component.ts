@@ -1,6 +1,7 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { MatDialogRef } from '@angular/material/dialog';
 import { Router } from '@angular/router';
+import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
 import { Subject } from 'rxjs';
 import { take, takeUntil } from 'rxjs/operators';
 import { Locations } from '../../../models/ubs.interface';
@@ -13,12 +14,20 @@ import { OrderService } from '../../../services/order.service';
 })
 export class UbsOrderLocationPopupComponent implements OnInit, OnDestroy {
   closeButton = './assets/img/profile/icons/cancel.svg';
-  locations: Locations;
-  selectedLocationId;
-  isFetching = false;
+  public locations: Locations;
+  public selectedLocationId: number;
+  public isFetching = false;
+  private currentLanguage: string;
   private destroy$: Subject<boolean> = new Subject<boolean>();
 
-  constructor(private router: Router, private orderService: OrderService, public dialogRef: MatDialogRef<UbsOrderLocationPopupComponent>) {}
+  constructor(
+    private router: Router,
+    private orderService: OrderService,
+    private dialogRef: MatDialogRef<UbsOrderLocationPopupComponent>,
+    private localStorageService: LocalStorageService
+  ) {
+    this.currentLanguage = this.localStorageService.getCurrentLanguage();
+  }
 
   ngOnInit(): void {
     this.getLocations();
@@ -51,7 +60,7 @@ export class UbsOrderLocationPopupComponent implements OnInit, OnDestroy {
   }
 
   passDataToComponent() {
-    this.dialogRef.close({ data: this.locations });
+    this.dialogRef.close({ locationId: this.selectedLocationId, currentLanguage: this.currentLanguage, data: this.locations });
   }
 
   ngOnDestroy() {
