@@ -81,7 +81,7 @@ import { UbsAdminTariffsLocationDashboardComponent } from './components/ubs-admi
     UbsAdminTariffsAddServicePopupComponent,
     UbsAdminTariffsDeletePopupComponent,
     UbsAdminCertificateAddCertificatePopUpComponent,
-    UbsAdminCustomersComponent
+    UbsAdminCustomersComponent,
     UbsAdminTariffsPricingPageComponent,
     UbsAdminTariffsAddTariffServicePopUpComponent,
     UbsAdminTariffsLocationDashboardComponent
