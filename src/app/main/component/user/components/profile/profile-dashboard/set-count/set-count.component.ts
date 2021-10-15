@@ -8,7 +8,7 @@ import { TranslateService } from '@ngx-translate/core';
   styleUrls: ['./set-count.component.scss']
 })
 export class SetCountComponent {
-  @Input() public remainingCount: number = 0;
+  @Input() public remainingCount = 0;
   @Input() public tabName: string;
 
   localizationSet = {
