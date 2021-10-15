@@ -6,8 +6,9 @@
           <div *ngIf="habitsInProgress.length !== 0">
             <div class="in-progress header">
               <p>
-                {{ 'profile.dashboard.habits-inprogress' | translate }} <br />
-                <span>{{ habitsInProgress.length }} {{ 'profile.dashboard.habits' | translate }}</span>
+                <app-set-count [remainingCount]="habitsInProgress.length" [tabName]="'habits'">
+                  {{ 'profile.dashboard.habits-inprogress' | translate }} <br />
+                </app-set-count>
               </p>
               <a [routerLink]="['/profile', userId, 'allhabits']">
                 <div id="create-button" class="secondary-global-button">
@@ -28,8 +29,9 @@
             </button>
             <div class="acquired header">
               <p>
-                {{ 'profile.dashboard.habits-acquired' | translate }} <br />
-                <span>{{ habitsAcquired.length }} {{ 'profile.dashboard.habits' | translate }}</span>
+                <app-set-count [remainingCount]="habitsAcquired.length" [tabName]="'habits'">
+                  {{ 'profile.dashboard.habits-acquired' | translate }} <br />
+                </app-set-count>
               </p>
             </div>
             <div class="body" *ngIf="habitsAcquired">
@@ -59,8 +61,9 @@
         <div *ngIf="!loading; else spinner">
           <div class="in-progress header">
             <p>
-              {{ 'profile.dashboard.news-list' | translate }} <br />
-              <span>{{ habitsInProgress.length }} {{ 'profile.dashboard.news' | translate }}</span>
+              <app-set-count [remainingCount]="news.length" [tabName]="'news'">
+                {{ 'profile.dashboard.news-list' | translate }} <br />
+              </app-set-count>
             </p>
             <a [routerLink]="['/news/create-news']">
               <div id="create-button" class="secondary-global-button">
