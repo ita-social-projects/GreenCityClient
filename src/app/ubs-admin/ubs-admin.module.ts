@@ -44,12 +44,14 @@ import { MatNativeDateModule } from '@angular/material/core';
 import { UbsAdminCertificateComponent } from './components/ubs-admin-certificate/ubs-admin-certificate.component';
 import { AdminCertificateService } from './services/admin-certificate.service';
 import { UbsAdminCertificateAddCertificatePopUpComponent } from './components/ubs-admin-certificate/ubs-admin-certificate-add-certificate-pop-up/ubs-admin-certificate-add-certificate-pop-up.component';
+import { UbsAdminCustomersComponent } from './components/ubs-admin-customers/ubs-admin-customers.component';
+import { MatTableModule } from '@angular/material/table';
 import { UbsAdminTariffsPricingPageComponent } from './components/ubs-admin-tariffs/ubs-admin-tariffs-pricing-page/ubs-admin-tariffs-pricing-page.component';
-import { UbsAdminTariffsDeletePopUpComponent } from './components/ubs-admin-tariffs/ubs-admin-tariffs-pricing-page/ubs-admin-tariffs-delete-pop-up/ubs-admin-tariffs-delete-pop-up.component';
-import { UbsAdminTariffsAddServicePopUpComponent } from './components/ubs-admin-tariffs/ubs-admin-tariffs-pricing-page/ubs-admin-tariffs-add-service-pop-up/ubs-admin-tariffs-add-service-pop-up.component';
 import { UbsAdminTariffsAddTariffServicePopUpComponent } from './components/ubs-admin-tariffs/ubs-admin-tariffs-pricing-page/ubs-admin-tariffs-add-tariff-service-pop-up/ubs-admin-tariffs-add-tariff-service-pop-up.component';
 import { UbsAdminTariffsLocationDashboardComponent } from './components/ubs-admin-tariffs/ubs-admin-tariffs-location-dashboard.component';
 import { MatSlideToggleModule } from '@angular/material/slide-toggle';
+import { UbsAdminTariffsDeletePopUpComponent } from './components/ubs-admin-tariffs/ubs-admin-tariffs-pricing-page/ubs-admin-tariffs-delete-pop-up/ubs-admin-tariffs-delete-pop-up.component';
+import { UbsAdminTariffsAddServicePopUpComponent } from './components/ubs-admin-tariffs/ubs-admin-tariffs-pricing-page/ubs-admin-tariffs-add-service-pop-up/ubs-admin-tariffs-add-service-pop-up.component';
 
 @NgModule({
   declarations: [
@@ -77,10 +79,11 @@ import { MatSlideToggleModule } from '@angular/material/slide-toggle';
     TableCellDateComponent,
     TableCellTimeComponent,
     UbsAdminCertificateComponent,
-    UbsAdminCertificateAddCertificatePopUpComponent,
-    UbsAdminTariffsPricingPageComponent,
     UbsAdminTariffsDeletePopUpComponent,
     UbsAdminTariffsAddServicePopUpComponent,
+    UbsAdminCertificateAddCertificatePopUpComponent,
+    UbsAdminCustomersComponent,
+    UbsAdminTariffsPricingPageComponent,
     UbsAdminTariffsAddTariffServicePopUpComponent,
     UbsAdminTariffsLocationDashboardComponent
   ],
@@ -102,6 +105,7 @@ import { MatSlideToggleModule } from '@angular/material/slide-toggle';
     MatDatepickerModule,
     MatSlideToggleModule,
     MatNativeDateModule,
+    MatTableModule,
     TranslateModule.forChild({
       loader: {
         provide: TranslateLoader,
