@@ -1,4 +1,4 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { AdminTableService } from 'src/app/ubs-admin/services/admin-table.service';
 import * as XLSX from 'xlsx';
 
@@ -42,7 +42,8 @@ export class UbsAdminTableExcelPopupComponent implements OnInit {
     }
   }
 
-  getTable(columnName = this.sortingColumn || 'orderid', currentPage, pageSize, sortingType = this.sortType || 'desc') {
+  // Default parameters should be last.
+  getTable(columnName = this.sortingColumn || 'order_id', currentPage, pageSize, sortingType = this.sortType || 'desc') {
     return this.adminTableService
       .getTable(columnName, currentPage, pageSize, sortingType)
       .toPromise()

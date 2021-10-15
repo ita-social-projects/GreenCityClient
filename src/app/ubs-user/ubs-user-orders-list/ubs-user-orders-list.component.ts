@@ -22,8 +22,10 @@ export class UbsUserOrdersListComponent {
   }
 
   changeCard(id: number) {
-    this.orders.map((order) => {
-      order.id === id && order.extend ? (order.extend = false) : order.id === id ? (order.extend = true) : (order.extend = order.extend);
+    this.orders.forEach((order) => {
+      if (order.id === id) {
+        order.extend = !order.extend;
+      }
     });
   }
 }

@@ -227,3 +227,18 @@ img {
 .form-select:empty {
   width: 152px;
 }
+
+button:disabled,
+button[disabled] {
+  border: 1px solid var(--ubs-secondary-grey);
+  background-color: lightgray;
+  color: gray;
+}
+
+::ng-deep .mat-progress-bar-fill::after {
+  background: white;
+}
+
+::ng-deep .mat-progress-bar-buffer {
+  background: var(--ubs-secondary-grey);
+}

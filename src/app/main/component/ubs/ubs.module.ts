@@ -27,6 +27,7 @@ import { UbsOrderLocationPopupComponent } from './components/ubs-order-details/u
 import { MatIconModule } from '@angular/material/icon';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatDialogModule, MAT_DIALOG_DEFAULT_OPTIONS } from '@angular/material/dialog';
+import { FilterListByLangPipe } from '@pipe/sort-list-by-lang/filter-list-by-lang.pipe';
 
 @NgModule({
   declarations: [
@@ -40,7 +41,8 @@ import { MatDialogModule, MAT_DIALOG_DEFAULT_OPTIONS } from '@angular/material/d
     AddressComponent,
     UbsConfirmPageComponent,
     UbsMainPageComponent,
-    UbsOrderLocationPopupComponent
+    UbsOrderLocationPopupComponent,
+    FilterListByLangPipe
   ],
   imports: [
     MatIconModule,
