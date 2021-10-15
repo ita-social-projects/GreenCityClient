@@ -41,6 +41,18 @@ export class UbsAdminOrderComponent implements OnInit {
         corpus: address[2] || '',
         entrance: address[3] || '',
         district: this.order.district
+      }),
+      exportDetailsForm: this.fb.group({
+        exportedDate: this.order.dateOfExport,
+        exportedTime: this.order.timeOfExport,
+        receivingStation: this.order.receivingStation
+      }),
+      responsiblePersonsForm: this.fb.group({
+        serviceManager: this.order.responsibleManager,
+        callManager: this.order.responsibleCaller,
+        logistician: this.order.responsibleLogicMan,
+        navigator: this.order.responsibleNavigator,
+        driver: this.order.responsibleDriver
       })
     });
   }

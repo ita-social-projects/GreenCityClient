@@ -19,7 +19,8 @@ export const environment = {
   },
   ubsAdmin: {
     backendEmployeesLink: 'https://greencity-ubs.azurewebsites.net/admin/ubs-employee/getAll-employees',
-    backendUbsAdminLink: 'https://greencity-ubs.azurewebsites.net/ubs'
+    backendUbsAdminLink: 'https://greencity-ubs.azurewebsites.net/ubs',
+    backendLink: 'https://greencity-ubs.azurewebsites.net/admin/ubs-employee/get-all-receiving-station'
   },
   googleClientId: '129513550972-eu9ej46rviv1ac8q14at62t2k5qon1pu.apps.googleusercontent.com',
   agmCoreModuleApiKey: 'AIzaSyC7q2v0VgRy60dAoItfv3IJhfJQEEoeqCI'

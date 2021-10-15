@@ -19,6 +19,7 @@ import { environment } from '@environment/environment';
 })
 export class OrderService {
   private backend: string = environment.ubsAdmin.backendUbsAdminLink;
+  private backendLink: string = environment.ubsAdmin.backendLink;
 
   constructor(private http: HttpClient) {}
 
@@ -51,6 +52,14 @@ export class OrderService {
 
   public getOrderExportDetails(orderId: number): Observable<IExportDetails> {
     return this.http.get<IExportDetails>(`${this.backend}/management/get-order-export-details/${orderId}`);
+  }
+
+  public getAllReceivingStations(): Observable<any> {
+    return this.http.get<any>(`${this.backendLink}`);
+  }
+
+  public getAllResponsiblePersons(positionId: number): Observable<any> {
+    return this.http.get<any>(`${this.backend}/management/get-all-employee-by-position/${positionId}`);
   }
 
   public getOrderDetailStatus(orderId: number): Observable<IDetailStatus> {

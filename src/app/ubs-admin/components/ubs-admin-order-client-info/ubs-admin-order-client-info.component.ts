@@ -31,11 +31,7 @@ export class UbsAdminOrderClientInfoComponent implements OnInit, OnDestroy {
     // });
   }
 
-  ngOnInit(): void {
-    // this.initForm();
-    // this.getUserInfo();
-    console.log(this.order);
-  }
+  ngOnInit(): void {}
 
   ngOnDestroy(): void {
     this.destroy$.next();

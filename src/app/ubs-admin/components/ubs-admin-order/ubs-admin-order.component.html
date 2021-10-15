@@ -1,4 +1,4 @@
-<div class="container">
+<div *ngIf="order" class="container">
   <div class="row">
     <button class="back-button-top" (click)="openGoBackModal()">< Назад</button>
   </div>
@@ -12,8 +12,11 @@
       ></app-ubs-admin-address-details>
       <app-ubs-admin-order-details-form></app-ubs-admin-order-details-form>
       <app-ubs-admin-order-payment></app-ubs-admin-order-payment>
-      <app-ubs-admin-export-details></app-ubs-admin-export-details>
-      <app-ubs-admin-responsible-persons></app-ubs-admin-responsible-persons>
+      <app-ubs-admin-export-details [exportDetailsForm]="getFormGroup('exportDetailsForm')" [order]="order"></app-ubs-admin-export-details>
+      <app-ubs-admin-responsible-persons
+        [responsiblePersonsForm]="getFormGroup('responsiblePersonsForm')"
+        [order]="order"
+      ></app-ubs-admin-responsible-persons>
     </div>
     <div class="row">
       <button class="back-button" (click)="openGoBackModal()">< Назад</button>

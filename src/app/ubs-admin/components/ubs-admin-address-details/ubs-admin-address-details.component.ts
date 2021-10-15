@@ -1,14 +1,17 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input, OnDestroy, OnInit } from '@angular/core';
 import { FormGroup } from '@angular/forms';
+import { Subject } from 'rxjs';
 
 @Component({
   selector: 'app-ubs-admin-address-details',
   templateUrl: './ubs-admin-address-details.component.html',
   styleUrls: ['./ubs-admin-address-details.component.scss']
 })
-export class UbsAdminAddressDetailsComponent implements OnInit {
+export class UbsAdminAddressDetailsComponent implements OnInit, OnDestroy {
   @Input() order;
   @Input() addressDetailsForm: FormGroup;
+
+  private destroy$: Subject<boolean> = new Subject<boolean>();
 
   districts = [
     'Голосіївський',
@@ -24,4 +27,9 @@ export class UbsAdminAddressDetailsComponent implements OnInit {
   ];
 
   ngOnInit() {}
+
+  ngOnDestroy(): void {
+    this.destroy$.next();
+    this.destroy$.complete();
+  }
 }
