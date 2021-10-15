@@ -1,6 +1,9 @@
-<div class="research">
-  <div class="search-input"><input type="text" placeholder="Search" (keyup)="applyFilter($event.target.value)" /></div>
-  <div class="icon-style"><i class="fa fa-search" aria-hidden="true"></i></div>
+<div class="search_total_wr">
+  <div class="research">
+    <div class="search-input"><input type="text" placeholder="Search" (keyup)="applyFilter($event.target.value)" /></div>
+    <div class="search-icon"><i class="fa fa-search" aria-hidden="true"></i></div>
+  </div>
+  <div>Total customers: {{ totalElements }}</div>
 </div>
 <div class="btn-group">
   <button type="button" class="btn btn-default" class="export-excel-btn" (click)="openExportExcel()">
@@ -18,7 +21,7 @@
   [scrollWindow]="false"
 >
   <!-- *ngIf="!isLoading; else spinner" -->
-  <mat-table [dataSource]="dataSource" class="customers_table" cdkDropListGroup>
+  <mat-table [dataSource]="dataSource" id="table" class="customers_table" cdkDropListGroup>
     <ng-container *ngFor="let column of columns; let i = index" [matColumnDef]="column.title.key">
       <mat-header-cell *matHeaderCellDef (mousedown)="onResizeColumn($event, i)">
         <div class="column_header">
@@ -33,7 +36,9 @@
           </span>
         </div>
       </mat-header-cell>
-      <mat-cell *matCellDef="let row"> {{ row[column.title.key] }} </mat-cell>
+      <mat-cell *matCellDef="let row">
+        <div class="column_cell">{{ row[column.title.key] }}</div>
+      </mat-cell>
     </ng-container>
 
     <mat-header-row *matHeaderRowDef="displayedColumns; sticky: true" class="tableHeaderRow"></mat-header-row>

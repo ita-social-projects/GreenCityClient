@@ -1,5 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
+import { Observable } from 'rxjs';
+import { ICustomersTable } from '../models/customers-table.model';
 
 @Injectable({
   providedIn: 'root'
@@ -9,7 +11,7 @@ export class AdminCustomersService {
 
   constructor(private http: HttpClient) {}
 
-  getCustomers(column: string, page?: number, size?: number, sortingType?: string) {
-    return this.http.get<any[]>(`${this.url}/usersAll`);
+  getCustomers(column: string, page?: number, sortingType?: string): Observable<ICustomersTable> {
+    return this.http.get<ICustomersTable>(`${this.url}/usersAll?page=${page}&columnName=${column}&sortingOrder=${sortingType}`);
   }
 }

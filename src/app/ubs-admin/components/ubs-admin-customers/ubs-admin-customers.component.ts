@@ -1,6 +1,6 @@
 import {
   AfterViewChecked,
-  AfterViewInit,
+  ChangeDetectorRef,
   Component,
   ElementRef,
   HostListener,
@@ -14,17 +14,19 @@ import { MatTable, MatTableDataSource } from '@angular/material/table';
 import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
+import { ICustomersTable } from '../../models/customers-table.model';
 import { nonSortableColumns } from '../../models/non-sortable-columns.model';
 import { AdminCustomersService } from '../../services/admin-customers.service';
 import { TableHeightService } from '../../services/table-height.service';
 import { UbsAdminTableExcelPopupComponent } from '../ubs-admin-table/ubs-admin-table-excel-popup/ubs-admin-table-excel-popup.component';
+import { columnsParams } from './columnsParams';
 
 @Component({
   selector: 'app-ubs-admin-customers',
   templateUrl: './ubs-admin-customers.component.html',
   styleUrls: ['./ubs-admin-customers.component.scss']
 })
-export class UbsAdminCustomersComponent implements OnInit, AfterViewInit, AfterViewChecked, OnDestroy {
+export class UbsAdminCustomersComponent implements OnInit, AfterViewChecked, OnDestroy {
   public isLoading = false;
   public isUpdate = false;
   public nonSortableColumns = nonSortableColumns;
@@ -33,16 +35,18 @@ export class UbsAdminCustomersComponent implements OnInit, AfterViewInit, AfterV
   public currentLang: string;
   public displayedColumns: string[] = [];
   public dataSource: MatTableDataSource<any>;
-  private sortType: string;
   public currentPage = 0;
+  public totalElements = 0;
+
+  private tableData: any[];
+  private sortType: string;
   private sortingColumn: string;
   private pressed = false;
   private currentResizeIndex: number;
   private startX: number;
   private startWidth: number;
   private isResizingRight: boolean;
-  private totalElements = 0;
-  private totalPages: number;
+  private totalPages = 1;
   private isTableHeightSet = false;
   private resizableMousemove: () => void;
   private resizableMouseup: () => void;
@@ -55,30 +59,21 @@ export class UbsAdminCustomersComponent implements OnInit, AfterViewInit, AfterV
     private localStorageService: LocalStorageService,
     private tableHeightService: TableHeightService,
     private adminCustomerService: AdminCustomersService,
-    public dialog: MatDialog
+    public dialog: MatDialog,
+    private cdr: ChangeDetectorRef
   ) {}
 
   ngOnInit() {
     this.localStorageService.languageBehaviourSubject.pipe(takeUntil(this.destroy$)).subscribe((lang) => {
       this.currentLang = lang;
     });
-    this.columns = [
-      { title: { key: 'client_name', ua: "Ім'я клієнта", en: 'Client name' }, width: 10 },
-      { title: { key: 'phone_number', ua: 'Телефон', en: 'Phone' }, width: 10 },
-      { title: { key: 'email', ua: 'E-mail', en: 'E-mail' }, width: 10 },
-      { title: { key: 'registration_date', ua: 'Дата реєстрації в системі', en: 'Registration Date' }, width: 10 },
-      { title: { key: 'last_order_date', ua: 'Останнє замовлення', en: 'Last order' }, width: 10 },
-      { title: { key: 'number_of_orders', ua: 'К-сть замовлень', en: 'Orders' }, width: 5 },
-      { title: { key: 'user_violation', ua: 'Порушення', en: 'Violations' }, width: 5 },
-      { title: { key: 'user_bonus_count', ua: 'Баланс бонусного рахунку', en: 'Bonuses' }, width: 10 }
-    ];
-
+    this.columns = columnsParams;
     this.setDisplayedColumns();
     this.getTable();
   }
 
-  ngAfterViewInit() {
-    if (!this.isTableHeightSet) {
+  ngAfterViewChecked() {
+    if (!this.isTableHeightSet && !this.isLoading) {
       const table = document.getElementById('table');
       const tableContainer = document.getElementById('table-container');
       this.isTableHeightSet = this.tableHeightService.setTableHeightToContainerHeight(table, tableContainer);
@@ -86,11 +81,8 @@ export class UbsAdminCustomersComponent implements OnInit, AfterViewInit, AfterV
         this.onScroll();
       }
     }
-    this.setTableResize(this.matTableRef.nativeElement.clientWidth - 245);
-  }
-
-  ngAfterViewChecked() {
     this.setTableResize(this.matTableRef.nativeElement.clientWidth);
+    this.cdr.detectChanges();
   }
 
   public getSortingData(columnName, sortingType) {
@@ -99,25 +91,6 @@ export class UbsAdminCustomersComponent implements OnInit, AfterViewInit, AfterV
     this.arrowDirection = this.arrowDirection === columnName ? null : columnName;
     this.currentPage = 0;
     this.getTable(columnName, sortingType);
-  }
-
-  private getTable(columnName = this.sortingColumn || 'order_id', sortingType = this.sortType || 'desc') {
-    this.isLoading = true;
-    this.adminCustomerService
-      .getCustomers(columnName, this.currentPage, 10, sortingType)
-      .pipe(takeUntil(this.destroy$))
-      .subscribe((item: any) => {
-        this.dataSource = new MatTableDataSource(item.user.slice(0, 10));
-        // console.log(this.dataSource)
-        this.isLoading = false;
-        // this.setTableResize(this.matTableRef.nativeElement.clientWidth - 245);
-        // this.tableData = item[`page`];
-        // this.totalPages = item[`totalPages`];
-        // this.totalElements = item[`totalElements`];
-        // this.dataSource = new MatTableDataSource(this.tableData);
-        // this.isLoading = false;
-        // this.isTableHeightSet = false;
-      });
   }
 
   public openExportExcel(): void {
@@ -135,21 +108,36 @@ export class UbsAdminCustomersComponent implements OnInit, AfterViewInit, AfterV
     }
   }
 
+  public applyFilter(filterValue: string): void {
+    this.dataSource.filter = filterValue.trim().toLowerCase();
+  }
+
+  private getTable(columnName = this.sortingColumn || 'recipientName', sortingType = this.sortType || 'ASC') {
+    this.isLoading = true;
+    this.adminCustomerService
+      .getCustomers(columnName, this.currentPage, sortingType)
+      .pipe(takeUntil(this.destroy$))
+      .subscribe((item: ICustomersTable) => {
+        this.tableData = item.page;
+        this.dataSource = new MatTableDataSource(this.tableData);
+        this.isLoading = false;
+        this.totalPages = item.totalPages;
+        this.totalElements = item.totalElements;
+        this.isTableHeightSet = false;
+      });
+  }
+
   private updateTableData() {
     this.isUpdate = true;
-    // this.adminTableService
-    //   .getTable(this.sortingColumn || 'order_id', this.currentPage, this.pageSize, this.sortType || 'desc')
-    //   .pipe(takeUntil(this.destroy))
-    //   .subscribe((item) => {
-    //     const data = item[`page`];
-    //     this.totalPages = item[`totalPages`];
-    //     this.tableData = [...this.tableData, ...data];
-    //     this.dataSource.data = this.tableData;
-    //     this.isUpdate = false;
-    //   });
-  }
-  public applyFilter(filterValue: string): void {
-    // this.dataSource.filter = filterValue.trim().toLowerCase();
+    this.adminCustomerService
+      .getCustomers(this.sortingColumn || 'recipientName', this.currentPage, this.sortType || 'ASC')
+      .pipe(takeUntil(this.destroy$))
+      .subscribe((item: ICustomersTable) => {
+        this.tableData = [...this.tableData, ...item.page];
+        this.dataSource = new MatTableDataSource(this.tableData);
+        this.totalPages = item.totalPages;
+        this.isUpdate = false;
+      });
   }
 
   private setDisplayedColumns() {
@@ -160,7 +148,6 @@ export class UbsAdminCustomersComponent implements OnInit, AfterViewInit, AfterV
   }
 
   //////////// resize logic
-  ///////////
   public onResizeColumn(event: any, index: number) {
     this.checkResizing(event, index);
     this.currentResizeIndex = index;
