@@ -6,7 +6,7 @@
   <div>
     <button type="button" class="btn btn-default" class="filter-table-btn" data-toggle="dropdown">
       <mat-icon>filter_list</mat-icon>
-      Фільтри
+      {{ 'ubs-tables.filters' | translate }}
     </button>
     <div class="dropdown-menu">
       <div class="accordion" id="accordionPanelsStayOpenExample" (click)="$event.stopPropagation()">
@@ -25,7 +25,13 @@
             </div>
             <div id="panelsStayOpen-collapse{{ i }}" class="accordion-collapse collapse" aria-labelledby="panelsStayOpen-heading{{ i }}">
               <div class="accordion-body">
-                <ng-container *ngFor="let option of column.values">
+                <li *ngIf="column.key.toLowerCase().includes('date'); else nonDate">
+                  <mat-checkbox [(checked)]="column.checked">
+                    <input type="date" />
+                    <input type="date" />
+                  </mat-checkbox>
+                </li>
+                <ng-container #nonDate *ngFor="let option of column.values">
                   <li>
                     <mat-checkbox>
                       {{ option | serverTranslate: currentLang }}

@@ -165,10 +165,11 @@
     "comment-bill": "Comment/Bill"
   },
   "ubs-tables": {
-    "export-to-excel": "Export to Excel",
-    "table-view": "Table view",
     "add-certificate": "Add certificate",
-    "all-elements": "Display all columns"
+    "all-elements": "Display all columns",
+    "export-to-excel": "Export to Excel",
+    "filters": "Filters",
+    "table-view": "Table view"
   },
   "export-details": {
     "title": "Export details",

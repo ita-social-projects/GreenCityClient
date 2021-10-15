@@ -174,6 +174,7 @@ export class UbsAdminTableComponent implements OnInit, AfterViewChecked, OnDestr
             this.columnsForFiltering.push(filteredColumn);
           }
         });
+        console.log(this.columnsForFiltering);
         this.setDisplayedColumns();
         const { pageNumber, pageSize, sortDirection, sortBy } = columns.page;
         this.pageSize = pageSize;

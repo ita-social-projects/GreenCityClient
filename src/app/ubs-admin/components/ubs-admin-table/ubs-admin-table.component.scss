@@ -249,14 +249,16 @@ input {
 
 .dropdown-menu {
   height: 400px;
-  min-width: 356px;
+  width: 356px;
   margin-right: 5px;
   overflow: scroll;
   padding: 16px 16px 0 16px;
-  margin-top: 80px;
-  top: -40px !important;
   color: var(--ubs-primary-grey);
   font-family: var(--primary-font);
+}
+
+.dropdown-menu input[type='date'] {
+  width: 155px;
 }
 
 .dropdown-menu li {
