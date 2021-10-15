@@ -2,7 +2,7 @@ export const columnsParams = [
   {
     title: {
       key: 'clientName',
-      ua: "Ім'я клієнта",
+      ua: 'Імя клієнта',
       en: 'Client name'
     },
     width: 10
