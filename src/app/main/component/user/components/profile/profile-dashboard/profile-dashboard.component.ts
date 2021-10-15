@@ -93,7 +93,7 @@ export class ProfileDashboardComponent implements OnInit, OnDestroy {
     return [...habitsOnView, ...allHabits.slice(currentNumberOfHabitsOnView, currentNumberOfHabitsOnView + this.numberOfHabitsOnView)];
   }
 
-  private sortHabitsAsc(habitsArray): Array<HabitAssignInterface> {
+  private sortHabitsAsc(habitsArray: HabitAssignInterface[]): Array<HabitAssignInterface> {
     return habitsArray.sort((firstHabit, secondHabit) => {
       if (firstHabit.habit.id > secondHabit.habit.id) {
         return 1;
@@ -105,7 +105,7 @@ export class ProfileDashboardComponent implements OnInit, OnDestroy {
     });
   }
 
-  private getNews(page, count): void {
+  private getNews(page: number, count: number): void {
     this.ecoNewsService
       .getEcoNewsListByPage(page, count)
       .pipe(takeUntil(this.destroyed$))
