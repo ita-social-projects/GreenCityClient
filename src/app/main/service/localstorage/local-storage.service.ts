@@ -125,7 +125,8 @@ export class LocalStorageService {
   }
 
   public getCurrentUbsOrderPage(): any {
-    return localStorage.getItem('currentUBSOrderPage') === null ? false : localStorage.getItem('currentUBSOrderPage');
+    console.log(localStorage.getItem('currentUBSOrderPage'));
+    return localStorage.getItem('currentUBSOrderPage') === 'undefined' ? false : localStorage.getItem('currentUBSOrderPage');
   }
 
   public getUbsPersonalData(): any {

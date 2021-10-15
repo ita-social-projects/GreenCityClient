@@ -2,7 +2,7 @@ import { LocalStorageService } from '@global-service/localstorage/local-storage.
 import { takeUntil } from 'rxjs/operators';
 import { Subject } from 'rxjs';
 import { OrderDetails } from './../../models/ubs.interface';
-import { AfterViewInit, Component, ChangeDetectorRef, ViewChild, DoCheck, HostListener, OnDestroy } from '@angular/core';
+import { AfterViewInit, Component, ChangeDetectorRef, ViewChild, DoCheck, HostListener, OnDestroy, OnInit } from '@angular/core';
 import { FormGroup } from '@angular/forms';
 import { UBSSubmitOrderComponent } from '../ubs-submit-order/ubs-submit-order.component';
 import { UBSPersonalInformationComponent } from '../ubs-personal-information/ubs-personal-information.component';
@@ -22,6 +22,7 @@ export class UBSOrderFormComponent implements AfterViewInit, DoCheck, OnDestroy 
   private destroy: Subject<boolean> = new Subject<boolean>();
 
   completed = false;
+  selectedIndex = 0;
 
   @ViewChild('firstStep') stepOneComponent: UBSOrderDetailsComponent;
   @ViewChild('secondStep') stepTwoComponent: UBSPersonalInformationComponent;
@@ -36,6 +37,10 @@ export class UBSOrderFormComponent implements AfterViewInit, DoCheck, OnDestroy 
 
   @HostListener('window:beforeunload') onClose() {
     return true;
+  }
+
+  ngOnInit() {
+    this.selectedIndex = this.localStorageService.getCurrentUbsOrderPage() | 0;
   }
 
   ngAfterViewInit(): void {

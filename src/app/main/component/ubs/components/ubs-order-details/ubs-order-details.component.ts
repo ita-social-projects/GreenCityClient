@@ -98,6 +98,7 @@ export class UBSOrderDetailsComponent extends FormBaseComponent implements OnIni
     this.orderService.locationSubject.pipe(takeUntil(this.destroy)).subscribe(() => {
       this.takeOrderData();
       this.subscribeToLangChange();
+      this.calculateTotal();
     });
   }
 
@@ -141,6 +142,7 @@ export class UBSOrderDetailsComponent extends FormBaseComponent implements OnIni
       .afterClosed()
       .pipe(takeUntil(this.destroy))
       .subscribe((res) => {
+        console.log(res.data);
         if (res.data) {
           this.locations = res.data;
           this.selectedLocationId = this.locations[0].id;
@@ -171,7 +173,7 @@ export class UBSOrderDetailsComponent extends FormBaseComponent implements OnIni
       const inputsQuantity = [];
       this.bags.forEach((a) => {
         inputsQuantity.push(a.quantity === undefined || a.quantity === null ? null : a.quantity);
-        // a.quantity = null;
+        a.quantity = null;
       });
       this.bags = this.orders.bags;
       this.filterBags();
@@ -196,13 +198,11 @@ export class UBSOrderDetailsComponent extends FormBaseComponent implements OnIni
         this.defaultPoints = this.points;
         this.certificateLeft = orderData.points;
         this.bags.forEach((bag) => {
-          // bag.quantity = null;
-          const quantity = bag.quantity === undefined || bag.quantity === null ? 0 : +bag.quantity;
-          console.log(quantity, bag.quantity, bag.name);
-          this.orderDetailsForm.addControl(
-            'quantity' + String(bag.id),
-            new FormControl(quantity, [Validators.min(0), Validators.max(999)])
-          );
+          bag.quantity = bag.quantity === undefined ? null : bag.quantity;
+          this.orderDetailsForm.addControl('quantity' + String(bag.id), new FormControl(0, [Validators.min(0), Validators.max(999)]));
+          const quantity = bag.quantity === null ? 0 : +bag.quantity;
+          const valueName = 'quantity' + String(bag.id);
+          this.orderDetailsForm.controls[valueName].setValue(quantity);
         });
         this.filterBags();
         this.isFetching = false;
