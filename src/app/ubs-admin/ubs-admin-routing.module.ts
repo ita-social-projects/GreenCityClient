@@ -6,7 +6,6 @@ import { UbsAdminComponent } from './ubs-admin.component';
 import { UbsAdminOrderComponent } from './components/ubs-admin-order/ubs-admin-order.component';
 import { UbsAdminGuardGuard } from './ubs-admin-guard.guard';
 import { UbsAdminCertificateComponent } from './components/ubs-admin-certificate/ubs-admin-certificate.component';
-import { UbsAdminTariffsComponent } from './components/ubs-admin-tariffs/ubs-admin-tariffs.component';
 import { UbsAdminCustomersComponent } from './components/ubs-admin-customers/ubs-admin-customers.component';
 import { UbsAdminTariffsLocationDashboardComponent } from './components/ubs-admin-tariffs/ubs-admin-tariffs-location-dashboard.component';
 import { UbsAdminTariffsPricingPageComponent } from './components/ubs-admin-tariffs/ubs-admin-tariffs-pricing-page/ubs-admin-tariffs-pricing-page.component';
