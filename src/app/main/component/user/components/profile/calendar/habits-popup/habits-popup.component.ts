@@ -1,9 +1,12 @@
 import { Component, Inject, OnDestroy, OnInit } from '@angular/core';
-import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 import { calendarIcons } from 'src/app/main/image-pathes/calendar-icons';
 import { HabitPopupInterface } from '../habit-popup-interface';
+import { HabitAssignService } from '@global-service/habit-assign/habit-assign.service';
+import { HabitStatusCalendarListInterface } from '../../../../../../interface/habit/habit-assign.interface';
+import { LanguageService } from '../../../../../../i18n/language.service';
 
 @Component({
   selector: 'app-habits-popup',
@@ -11,10 +14,13 @@ import { HabitPopupInterface } from '../habit-popup-interface';
   styleUrls: ['./habits-popup.component.scss']
 })
 export class HabitsPopupComponent implements OnInit, OnDestroy {
+  language: string;
+  today: string;
   calendarIcons = calendarIcons;
   habitsCalendarSelectedDate: string;
   isHabitListEditable: boolean;
   popupHabits: HabitPopupInterface[];
+  arrayOfDate: Array<HabitStatusCalendarListInterface>;
   trimWidth = 30;
   destroy = new Subject<void>();
 
@@ -36,6 +42,10 @@ export class HabitsPopupComponent implements OnInit, OnDestroy {
   ngOnDestroy() {
     this.destroy.next();
     this.destroy.complete();
+  }
+
+  private formatDate(date: Date): string {
+    return date.toLocaleDateString().split('.').reverse().join('-');
   }
 
   loadPopup() {
