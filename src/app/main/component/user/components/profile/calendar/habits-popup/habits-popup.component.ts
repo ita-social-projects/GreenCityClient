@@ -26,6 +26,8 @@ export class HabitsPopupComponent implements OnInit, OnDestroy {
 
   constructor(
     public dialogRef: MatDialogRef<HabitsPopupComponent>,
+    public habitAssignService: HabitAssignService,
+    public languageService: LanguageService,
     @Inject(MAT_DIALOG_DATA)
     public data: {
       habitsCalendarSelectedDate: string;
@@ -49,9 +51,11 @@ export class HabitsPopupComponent implements OnInit, OnDestroy {
   }
 
   loadPopup() {
+    this.language = this.languageService.getCurrentLanguage();
     this.habitsCalendarSelectedDate = this.data.habitsCalendarSelectedDate;
     this.isHabitListEditable = this.data.isHabitListEditable;
     this.popupHabits = this.data.habits.map((habit) => Object.assign({}, habit));
+    this.today = this.formatSelectedDate().toString();
   }
 
   closePopup() {
@@ -60,10 +64,38 @@ export class HabitsPopupComponent implements OnInit, OnDestroy {
       .pipe(takeUntil(this.destroy))
       .subscribe(() => this.dialogRef.close(this.popupHabits));
   }
+  
+  formatSelectedDate() {
+    const today = new Date();
+    const monthLow = today.toLocaleDateString(this.language, { month: 'long' });
+    const month = monthLow.charAt(0).toUpperCase() + monthLow.slice(1);
+    const day = today.getDate();
+    const year = today.getFullYear();
+    return `${month} ${day}, ${year}`;
+  }
+ 
+  setCircleFromPopUpToCards(id: number, habitIndex: number) {
+    if (this.habitsCalendarSelectedDate === this.today) {
+      this.arrayOfDate = this.habitAssignService.habitsInProgress.find((item) => item.habit.id === id).habitStatusCalendarDtoList;
+      if (this.popupHabits[habitIndex].enrolled) {
+        this.arrayOfDate.push({ enrollDate: this.formatDate(new Date()), id: null });
+      } else {
+        this.arrayOfDate = this.arrayOfDate.filter((item) => item.enrollDate !== this.formatDate(new Date()));
+      }
+      if (this.habitAssignService.habitsInProgressToView.find((item) => item.habit.id === id) !== undefined) {
+        this.habitAssignService.habitsInProgressToView.find((item) => item.habit.id === id).habitStatusCalendarDtoList = this.arrayOfDate;
+        this.habitAssignService.habitsInProgressToView = this.habitAssignService.habitsInProgressToView.map((obj) => ({ ...obj }));
+      } else {
+        this.habitAssignService.habitsInProgress.find((item) => item.habit.id === id).habitStatusCalendarDtoList = this.arrayOfDate;
+        this.habitAssignService.habitsInProgress = this.habitAssignService.habitsInProgress.map((obj) => ({ ...obj }));
+      }
+    }
+  }
 
   toggleEnrollHabit(id: number) {
     const habitIndex = this.popupHabits.findIndex((habit) => habit.habitId === id);
     this.popupHabits[habitIndex].enrolled = !this.popupHabits[habitIndex].enrolled;
+    this.setCircleFromPopUpToCards(id, habitIndex);
   }
 
   showTooltip(habit) {
