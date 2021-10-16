@@ -64,7 +64,7 @@ export class HabitsPopupComponent implements OnInit, OnDestroy {
       .pipe(takeUntil(this.destroy))
       .subscribe(() => this.dialogRef.close(this.popupHabits));
   }
-  
+
   formatSelectedDate() {
     const today = new Date();
     const monthLow = today.toLocaleDateString(this.language, { month: 'long' });
@@ -73,7 +73,7 @@ export class HabitsPopupComponent implements OnInit, OnDestroy {
     const year = today.getFullYear();
     return `${month} ${day}, ${year}`;
   }
- 
+
   setCircleFromPopUpToCards(id: number, habitIndex: number) {
     if (this.habitsCalendarSelectedDate === this.today) {
       this.arrayOfDate = this.habitAssignService.habitsInProgress.find((item) => item.habit.id === id).habitStatusCalendarDtoList;
