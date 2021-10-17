@@ -81,6 +81,10 @@
   width: 292px;
 }
 
+.location-row {
+  display: flex;
+}
+
 .stat-row-content .content-wrapper .location-row img,
 .stat-row-content .content-wrapper .location-row a {
   display: inline-block;
@@ -152,5 +156,8 @@
     width: 100%;
     margin-right: auto;
     margin-left: auto;
+  }
+  .stat-row-content {
+    width: 100%;
   }
 }
