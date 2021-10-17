@@ -297,7 +297,8 @@ export class CalendarBaseComponent implements OnDestroy {
     this.isHabitListEditable = false;
     const currentDate: Date = new Date();
     this.isHabitListEditable =
-      currentDate.setHours(0, 0, 0, 0) - this.daysCanEditHabits * 24 * 60 * 60 * 1000 >= new Date(this.selectedDay).setHours(0, 0, 0, 0);
+      currentDate.setHours(0, 0, 0, 0) - (this.daysCanEditHabits + 1) * 24 * 60 * 60 * 1000 >=
+      new Date(this.selectedDay).setHours(0, 0, 0, 0);
   }
 
   checkCanOpenPopup(dayItem: CalendarInterface) {
