@@ -127,6 +127,10 @@ a {
       color: var(--primary-green);
     }
   }
+
+  .mat-tab-labels {
+    flex-wrap: wrap;
+  }
 }
 
 .scrolling {
