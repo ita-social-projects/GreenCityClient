@@ -110,8 +110,8 @@ describe('FeedbacksComponent', () => {
 
   it('changeVisability should be called', () => {
     const spy = spyOn(component, 'changeVisability');
-    const id1 = '1',
-      id2 = '2';
+    const id1 = '1';
+    const id2 = '2';
     component.changeVisability(id1, id2);
     expect(spy).toHaveBeenCalled();
   });
