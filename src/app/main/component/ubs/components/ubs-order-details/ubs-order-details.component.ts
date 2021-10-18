@@ -94,8 +94,9 @@ export class UBSOrderDetailsComponent extends FormBaseComponent implements OnIni
   }
 
   ngOnInit(): void {
-    if (this.localStorageService.getLocationId()) {
-      this.selectedLocationId = this.localStorageService.getLocationId();
+    const locationId = this.localStorageService.getLocationId();
+    if (locationId) {
+      this.selectedLocationId = locationId;
       this.currentLanguage = this.localStorageService.getCurrentLanguage();
       this.locations = this.localStorageService.getLocations();
       this.saveLocation();
