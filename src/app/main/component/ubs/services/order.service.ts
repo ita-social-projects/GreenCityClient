@@ -19,8 +19,9 @@ export class OrderService {
   constructor(private http: HttpClient, private shareFormService: UBSOrderFormService, private localStorageService: LocalStorageService) {}
 
   getOrders(): Observable<any> {
-    if (this.localStorageService.getUbsOrderData()) {
-      const observable = new Observable((observer) => observer.next(this.localStorageService.getUbsOrderData()));
+    const ubsOrderData = this.localStorageService.getUbsOrderData();
+    if (ubsOrderData) {
+      const observable = new Observable((observer) => observer.next(ubsOrderData));
       return observable.pipe(tap((orderDetails) => (this.shareFormService.orderDetails = orderDetails)));
     } else {
       return this.http
@@ -30,8 +31,9 @@ export class OrderService {
   }
 
   getPersonalData(): Observable<any> {
-    if (this.localStorageService.getUbsPersonalData()) {
-      const observable = new Observable((observer) => observer.next(this.localStorageService.getUbsPersonalData()));
+    const ubsPersonalData = this.localStorageService.getUbsPersonalData();
+    if (ubsPersonalData) {
+      const observable = new Observable((observer) => observer.next(ubsPersonalData));
       return observable.pipe(tap((personalData) => (this.shareFormService.personalData = personalData)));
     } else {
       return this.http.get(`${this.url}/personal-data`).pipe(tap((personalData) => (this.shareFormService.personalData = personalData)));

@@ -94,11 +94,11 @@ export class UBSOrderDetailsComponent extends FormBaseComponent implements OnIni
   }
 
   ngOnInit(): void {
-    const locationId = this.localStorageService.getLocationId();
+    const locationId = this.shareFormService.locationId;
     if (locationId) {
-      this.selectedLocationId = locationId;
       this.currentLanguage = this.localStorageService.getCurrentLanguage();
-      this.locations = this.localStorageService.getLocations();
+      this.locations = this.shareFormService.locations;
+      this.selectedLocationId = locationId;
       this.saveLocation();
     } else {
       this.openLocationDialog();
@@ -114,6 +114,7 @@ export class UBSOrderDetailsComponent extends FormBaseComponent implements OnIni
 
   saveLocation() {
     this.isFetching = true;
+
     const selectedLocation = { locationId: this.selectedLocationId };
     this.orderService
       .addLocation(selectedLocation)

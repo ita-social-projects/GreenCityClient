@@ -11,6 +11,8 @@ export class UBSOrderFormService {
   changedOrder: any = new EventEmitter();
   changedPersonalData: any = new EventEmitter();
   isDataSaved = false;
+  locations: any;
+  locationId: any;
 
   changeOrderDetails() {
     this.changedOrder.emit(this.orderDetails);

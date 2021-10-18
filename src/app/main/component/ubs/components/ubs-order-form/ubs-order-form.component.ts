@@ -39,6 +39,11 @@ export class UBSOrderFormComponent implements AfterViewInit, DoCheck, OnDestroy 
     return true;
   }
 
+  ngOnInit() {
+    this.shareFormService.locationId = this.localStorageService.getLocationId();
+    this.shareFormService.locations = this.localStorageService.getLocations();
+  }
+
   ngAfterViewInit(): void {
     this.firstStepForm = this.stepOneComponent.orderDetailsForm;
     this.secondStepForm = this.stepTwoComponent.personalDataForm;
@@ -54,7 +59,6 @@ export class UBSOrderFormComponent implements AfterViewInit, DoCheck, OnDestroy 
 
   saveDataOnLocalStorage() {
     if (!this.shareFormService.isDataSaved) {
-      const currentPage = JSON.stringify(this.stepper.selectedIndex);
       const personalData = JSON.stringify(this.shareFormService.getPersonalData());
       const orderData = JSON.stringify(this.shareFormService.getOrderDetails());
       this.localStorageService.setUbsOrderData(personalData, orderData);

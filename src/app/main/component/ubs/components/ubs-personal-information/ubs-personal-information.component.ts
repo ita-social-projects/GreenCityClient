@@ -55,7 +55,6 @@ export class UBSPersonalInformationComponent extends FormBaseComponent implement
     public router: Router,
     private orderService: OrderService,
     private shareFormService: UBSOrderFormService,
-    private localStorageService: LocalStorageService,
     private fb: FormBuilder,
     public dialog: MatDialog
   ) {

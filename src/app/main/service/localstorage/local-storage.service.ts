@@ -125,16 +125,11 @@ export class LocalStorageService {
     localStorage.setItem('locations', JSON.stringify(locations));
   }
 
-  public setAddressId(adressId: number) {
-    localStorage.setItem('adressId', JSON.stringify(adressId));
-  }
-
   public removeUbsOrderData() {
     localStorage.removeItem('UBSpersonalData');
     localStorage.removeItem('UBSorderData');
     localStorage.removeItem('currentLocationId');
     localStorage.removeItem('locations');
-    localStorage.removeItem('adressId');
   }
 
   public getUbsPersonalData(): any {
