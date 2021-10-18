@@ -264,7 +264,7 @@
     }
   },
   "ubs-sidebar": {
-    "users": "User data",
+    "customers": "Customers",
     "certificates": "Certificates",
     "orders": "Orders",
     "employees": "Employees",

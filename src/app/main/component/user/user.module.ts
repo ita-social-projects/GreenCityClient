@@ -80,6 +80,8 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatRadioModule } from '@angular/material/radio';
 import { FriendProfilePageComponent } from './components/profile/users-friends/friend-dashboard/friend-profile-page/friend-profile-page.component';
 import { FriendProfileDashboardComponent } from './components/profile/users-friends/friend-dashboard/friend-profile-page/friend-profile-dashboard/friend-profile-dashboard.component';
+import { SetCountComponent } from './components/profile/profile-dashboard/set-count/set-count.component';
+
 @NgModule({
   declarations: [
     UserComponent,
@@ -140,7 +142,8 @@ import { FriendProfileDashboardComponent } from './components/profile/users-frie
     HabitInviteFriendsPopUpComponent,
     OneNewsComponent,
     FriendProfilePageComponent,
-    FriendProfileDashboardComponent
+    FriendProfileDashboardComponent,
+    SetCountComponent
   ],
   imports: [
     NgbModule,
