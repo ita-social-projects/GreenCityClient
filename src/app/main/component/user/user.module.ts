@@ -78,6 +78,8 @@ import { MatTabsModule } from '@angular/material/tabs';
 import { OneNewsComponent } from './components/profile/profile-dashboard/one-news/one-news.component';
 import { MatButtonModule } from '@angular/material/button';
 import { MatRadioModule } from '@angular/material/radio';
+import { FriendProfilePageComponent } from './components/profile/users-friends/friend-dashboard/friend-profile-page/friend-profile-page.component';
+import { FriendProfileDashboardComponent } from './components/profile/users-friends/friend-dashboard/friend-profile-page/friend-profile-dashboard/friend-profile-dashboard.component';
 @NgModule({
   declarations: [
     UserComponent,
@@ -136,7 +138,9 @@ import { MatRadioModule } from '@angular/material/radio';
     FriendRequestsComponent,
     RequestItemComponent,
     HabitInviteFriendsPopUpComponent,
-    OneNewsComponent
+    OneNewsComponent,
+    FriendProfilePageComponent,
+    FriendProfileDashboardComponent
   ],
   imports: [
     NgbModule,

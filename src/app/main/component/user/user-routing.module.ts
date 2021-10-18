@@ -10,6 +10,7 @@ import { AllFriendsComponent } from './components/profile/users-friends/friend-d
 import { RecommendedFriendsComponent } from './components/profile/users-friends/friend-dashboard/recommended-friends/recommended-friends.component';
 import { PendingChangesGuard } from '@global-service/pending-changes-guard/pending-changes.guard';
 import { FriendRequestsComponent } from './components/profile/users-friends/friend-dashboard/friend-requests/friend-requests.component';
+import { FriendProfilePageComponent } from './components/profile/users-friends/friend-dashboard/friend-profile-page/friend-profile-page.component';
 
 export const userRoutes: Routes = [
   {
@@ -28,16 +29,18 @@ export const userRoutes: Routes = [
         children: [
           { path: '', component: AllFriendsComponent },
           { path: 'recommended', component: RecommendedFriendsComponent },
-          { path: 'requests', component: FriendRequestsComponent },
-        ],
+          { path: 'requests', component: FriendRequestsComponent }
+        ]
       },
-      { path: '', redirectTo: ':id', pathMatch: 'full' },
-    ],
-  },
+      { path: ':id/friends/:userName/:userId', component: FriendProfilePageComponent },
+      { path: ':id/friends/recommended/:userName/:userId', component: FriendProfilePageComponent },
+      { path: '', redirectTo: ':id', pathMatch: 'full' }
+    ]
+  }
 ];
 
 @NgModule({
   imports: [RouterModule.forChild(userRoutes)],
-  exports: [RouterModule],
+  exports: [RouterModule]
 })
 export class UserRoutingModule {}
