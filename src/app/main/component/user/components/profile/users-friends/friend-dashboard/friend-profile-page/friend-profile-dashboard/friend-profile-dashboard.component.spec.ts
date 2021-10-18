@@ -13,7 +13,7 @@ describe('FriendProfileDashboardComponent', () => {
   userFriendsServiceMock = jasmine.createSpyObj('UserFriendsService', {
     getAllFriends: of({})
   });
-  let activatedRouteMock = {
+  const activatedRouteMock = {
     snapshot: {
       params: {
         userId: 1,

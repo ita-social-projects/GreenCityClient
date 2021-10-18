@@ -47,7 +47,9 @@ export class FriendProfileDashboardComponent implements OnInit, OnDestroy {
   }
 
   public onScroll(): void {
-    if (this.scroll && this.friendsList.length === this.numberAllFriends) return;
+    if (this.scroll && this.friendsList.length === this.numberAllFriends) {
+      return;
+    }
 
     this.scroll = true;
     if (this.currentPage < this.totalPages) {

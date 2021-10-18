@@ -22,7 +22,9 @@ export class FriendItemComponent {
   }
 
   private toUsersInfo(): void {
-    if (this.userId) return;
+    if (this.userId) {
+      return;
+    }
     this.router.navigate([this.friend.name, this.friend.id], { relativeTo: this.route });
   }
 
