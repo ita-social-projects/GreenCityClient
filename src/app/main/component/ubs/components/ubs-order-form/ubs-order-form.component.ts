@@ -17,8 +17,6 @@ export class UBSOrderFormComponent implements OnInit, AfterViewInit, DoCheck, On
   firstStepForm: FormGroup;
   secondStepForm: FormGroup;
   thirdStepForm: FormGroup;
-  private destroy: Subject<boolean> = new Subject<boolean>();
-
   completed = false;
 
   @ViewChild('firstStep') stepOneComponent: UBSOrderDetailsComponent;
