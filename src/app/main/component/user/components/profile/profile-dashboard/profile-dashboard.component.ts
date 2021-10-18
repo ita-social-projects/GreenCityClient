@@ -19,8 +19,6 @@ export class ProfileDashboardComponent implements OnInit, OnDestroy {
   private destroyed$: ReplaySubject<any> = new ReplaySubject<any>(1);
   loading = false;
   numberOfHabitsOnView = 3;
-  habitsInProgress: Array<HabitAssignInterface> = [];
-  habitsInProgressToView: Array<HabitAssignInterface> = [];
   habitsAcquired: Array<HabitAssignInterface> = [];
   habitsAcquiredToView: Array<HabitAssignInterface> = [];
   public tabs = {
@@ -38,7 +36,7 @@ export class ProfileDashboardComponent implements OnInit, OnDestroy {
   constructor(
     private localStorageService: LocalStorageService,
     private habitService: HabitService,
-    private habitAssignService: HabitAssignService,
+    public habitAssignService: HabitAssignService,
     private ecoNewsService: EcoNewsService
   ) {}
 
@@ -49,7 +47,7 @@ export class ProfileDashboardComponent implements OnInit, OnDestroy {
   }
 
   public changeStatus(habit: HabitAssignInterface) {
-    this.habitsInProgress = this.habitsInProgress.filter((el) => el.id !== habit.id);
+    this.habitAssignService.habitsInProgress = this.habitAssignService.habitsInProgress.filter((el) => el.id !== habit.id);
     this.habitsAcquired = [...this.habitsAcquired, habit];
   }
 
@@ -68,7 +66,7 @@ export class ProfileDashboardComponent implements OnInit, OnDestroy {
       .pipe(take(1))
       .subscribe((response: Array<HabitAssignInterface>) => {
         const sortedHabits = this.sortHabitsAsc(response);
-        this.habitsInProgress = sortedHabits.filter((habit) => habit.status === HabitStatus.INPROGRESS);
+        this.habitAssignService.habitsInProgress = sortedHabits.filter((habit) => habit.status === HabitStatus.INPROGRESS);
         this.habitsAcquired = sortedHabits.filter((habit) => habit.status === HabitStatus.ACQUIRED);
         this.setHabitsForView();
         this.loading = false;
@@ -76,12 +74,15 @@ export class ProfileDashboardComponent implements OnInit, OnDestroy {
   }
 
   setHabitsForView(): void {
-    this.habitsInProgressToView = [...this.habitsInProgress.slice(0, this.numberOfHabitsOnView)];
+    this.habitAssignService.habitsInProgressToView = [...this.habitAssignService.habitsInProgress.slice(0, this.numberOfHabitsOnView)];
     this.habitsAcquiredToView = [...this.habitsAcquired.slice(0, this.numberOfHabitsOnView)];
   }
 
   getMoreHabitsInProgressForView(): void {
-    this.habitsInProgressToView = this.getMoreHabits(this.habitsInProgressToView, this.habitsInProgress);
+    this.habitAssignService.habitsInProgressToView = this.getMoreHabits(
+      this.habitAssignService.habitsInProgressToView,
+      this.habitAssignService.habitsInProgress
+    );
   }
 
   getMoreHabitsAcquiredForView(): void {
@@ -93,7 +94,7 @@ export class ProfileDashboardComponent implements OnInit, OnDestroy {
     return [...habitsOnView, ...allHabits.slice(currentNumberOfHabitsOnView, currentNumberOfHabitsOnView + this.numberOfHabitsOnView)];
   }
 
-  private sortHabitsAsc(habitsArray): Array<HabitAssignInterface> {
+  private sortHabitsAsc(habitsArray: HabitAssignInterface[]): Array<HabitAssignInterface> {
     return habitsArray.sort((firstHabit, secondHabit) => {
       if (firstHabit.habit.id > secondHabit.habit.id) {
         return 1;
@@ -105,7 +106,7 @@ export class ProfileDashboardComponent implements OnInit, OnDestroy {
     });
   }
 
-  private getNews(page, count): void {
+  private getNews(page: number, count: number): void {
     this.ecoNewsService
       .getEcoNewsListByPage(page, count)
       .pipe(takeUntil(this.destroyed$))

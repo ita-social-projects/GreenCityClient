@@ -4,6 +4,7 @@ import { HttpClientTestingModule, HttpTestingController } from '@angular/common/
 import { RouterTestingModule } from '@angular/router/testing';
 import { TranslateModule } from '@ngx-translate/core';
 import { TranslateService } from '@ngx-translate/core';
+import { FilterListByLangPipe } from '../../../shared/sort-list-by-lang/filter-list-by-lang.pipe';
 
 describe('UbsAdminTariffsLocationDashboardComponent', () => {
   let component: UbsAdminTariffsLocationDashboardComponent;
@@ -12,7 +13,7 @@ describe('UbsAdminTariffsLocationDashboardComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [UbsAdminTariffsLocationDashboardComponent],
+      declarations: [UbsAdminTariffsLocationDashboardComponent, FilterListByLangPipe],
       imports: [HttpClientTestingModule, RouterTestingModule, TranslateModule.forRoot()],
       providers: [TranslateService]
     }).compileComponents();

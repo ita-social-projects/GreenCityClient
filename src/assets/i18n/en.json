@@ -785,11 +785,19 @@
       "add-new-habit": "Add New Habit",
       "habits-acquired": "Acquired",
       "habits-view-more": "View more...",
-      "habits": "habits",
+      "habits": {
+        "habit-at-1": "habit",
+        "habit-at-2-3-4": "habits",
+        "habit-at-all": "habits"
+      },
       "no-habits-in-progress": "Hi Eco Friend ;-)",
       "no-habits-in-progress-advice": "Welcome to My Habits. It seems you don’t have habits in progress. Let’s start to acquire a new one!",
       "news-list": "List of news",
-      "news": "news",
+      "news": {
+        "news-at-1": "item of news",
+        "news-at-2-3-4": "news",
+        "news-at-all": "news"
+      },
       "add-news": "Add News"
     },
     "habits-in-progress": "In progress",
@@ -849,7 +857,7 @@
     "picture-title": "Picture (optional)",
     "content-title": "Content",
     "content-placeholder": "e.g. Short description of news, agenda for event",
-    "content-tooltip": "Must be minimum 20 symbols",
+    "content-tooltip": "Must be minimum 20 and maximum 63 206 symbols",
     "date": "Date: ",
     "author": "Author: ",
     "author-name": "Current User",

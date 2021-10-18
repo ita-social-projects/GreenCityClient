@@ -13,6 +13,11 @@ import { JwtService } from '@global-service/jwt/jwt.service';
 export class UbsAdminSidebarComponent extends UbsBaseSidebarComponent implements AfterViewInit {
   public listElementsAdmin: any[] = [
     {
+      link: 'assets/img/sidebarIcons/user_icon.svg',
+      name: 'ubs-sidebar.customers',
+      routerLink: 'customers'
+    },
+    {
       link: './assets/img/sidebarIcons/achievement_icon.svg',
       name: 'ubs-sidebar.certificates',
       routerLink: 'certificates'
