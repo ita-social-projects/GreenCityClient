@@ -32,6 +32,7 @@
   border-bottom-width: 0 !important;
   min-height: 39px !important;
   align-items: unset !important;
+  cursor: col-resize;
 }
 
 .mat-header-cell:first-of-type,
@@ -150,6 +151,6 @@
   align-items: center;
 }
 
-.mat-table {
-  cursor: col-resize;
+.tooltip_style {
+  font-size: 14px;
 }

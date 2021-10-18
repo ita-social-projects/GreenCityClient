@@ -6,5 +6,7 @@ export const nonSortableColumns = [
   'order_certificate_code',
   'comment_for_order_by_client',
   'comments_for_order',
-  'id_order_from_shop'
+  'id_order_from_shop',
+  'recipientPhone',
+  'recipientEmail'
 ];
