@@ -849,7 +849,7 @@
     "picture-title": "Picture (optional)",
     "content-title": "Content",
     "content-placeholder": "e.g. Short description of news, agenda for event",
-    "content-tooltip": "Must be minimum 20 symbols",
+    "content-tooltip": "Must be minimum 20 and maximum 63 206 symbols",
     "date": "Date: ",
     "author": "Author: ",
     "author-name": "Current User",
