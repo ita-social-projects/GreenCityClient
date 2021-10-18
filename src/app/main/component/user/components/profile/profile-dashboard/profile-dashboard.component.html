@@ -6,7 +6,7 @@
           <div *ngIf="habitAssignService.habitsInProgress.length !== 0">
             <div class="in-progress header">
               <p>
-                <app-set-count [remainingCount]="habitsInProgress.length" [tabName]="'habits'">
+                <app-set-count [remainingCount]="habitAssignService.habitsInProgress.length" [tabName]="'habits'">
                   {{ 'profile.dashboard.habits-inprogress' | translate }} <br />
                 </app-set-count>
               </p>
