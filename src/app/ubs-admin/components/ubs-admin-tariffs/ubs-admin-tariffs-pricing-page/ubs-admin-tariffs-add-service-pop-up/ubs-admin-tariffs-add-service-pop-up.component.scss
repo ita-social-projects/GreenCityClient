@@ -155,3 +155,8 @@ input[disabled] {
   background-color: lightgray !important;
   color: gray !important;
 }
+
+.header {
+  display: flex;
+  justify-content: space-between;
+}
