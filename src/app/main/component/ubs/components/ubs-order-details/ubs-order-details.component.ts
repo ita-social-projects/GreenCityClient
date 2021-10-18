@@ -94,11 +94,20 @@ export class UBSOrderDetailsComponent extends FormBaseComponent implements OnIni
   }
 
   ngOnInit(): void {
-    this.openLocationDialog();
+    if (this.localStorageService.getLocationId()) {
+      this.selectedLocationId = this.localStorageService.getLocationId();
+      this.currentLanguage = this.localStorageService.getCurrentLanguage();
+      this.locations = this.localStorageService.getLocations();
+      this.saveLocation();
+    } else {
+      this.openLocationDialog();
+    }
     this.orderService.locationSubject.pipe(takeUntil(this.destroy)).subscribe(() => {
       this.takeOrderData();
       this.subscribeToLangChange();
-      this.calculateTotal();
+      if (this.localStorageService.getUbsOrderData()) {
+        this.calculateTotal();
+      }
     });
   }
 
@@ -113,6 +122,7 @@ export class UBSOrderDetailsComponent extends FormBaseComponent implements OnIni
         this.isFetching = false;
         this.changeLocation = false;
         this.orderService.completedLocation(true);
+        this.localStorageService.setLocationId(this.selectedLocationId);
       });
   }
 
@@ -146,7 +156,6 @@ export class UBSOrderDetailsComponent extends FormBaseComponent implements OnIni
       .afterClosed()
       .pipe(takeUntil(this.destroy))
       .subscribe((res) => {
-        console.log(res.data);
         if (res.data) {
           this.locations = res.data;
           this.selectedLocationId = res.locationId;

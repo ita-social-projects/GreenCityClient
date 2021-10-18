@@ -22,7 +22,6 @@ export class UBSOrderFormComponent implements AfterViewInit, DoCheck, OnDestroy 
   private destroy: Subject<boolean> = new Subject<boolean>();
 
   completed = false;
-  selectedIndex = 0;
 
   @ViewChild('firstStep') stepOneComponent: UBSOrderDetailsComponent;
   @ViewChild('secondStep') stepTwoComponent: UBSPersonalInformationComponent;
@@ -36,11 +35,8 @@ export class UBSOrderFormComponent implements AfterViewInit, DoCheck, OnDestroy 
   ) {}
 
   @HostListener('window:beforeunload') onClose() {
+    this.saveDataOnLocalStorage();
     return true;
-  }
-
-  ngOnInit() {
-    this.selectedIndex = this.localStorageService.getCurrentUbsOrderPage() | 0;
   }
 
   ngAfterViewInit(): void {
@@ -56,14 +52,18 @@ export class UBSOrderFormComponent implements AfterViewInit, DoCheck, OnDestroy 
     }
   }
 
-  ngOnDestroy() {
+  saveDataOnLocalStorage() {
     if (!this.shareFormService.isDataSaved) {
       const currentPage = JSON.stringify(this.stepper.selectedIndex);
       const personalData = JSON.stringify(this.shareFormService.getPersonalData());
       const orderData = JSON.stringify(this.shareFormService.getOrderDetails());
-      this.localStorageService.setUbsOrderData(currentPage, personalData, orderData);
+      this.localStorageService.setUbsOrderData(personalData, orderData);
     } else {
       this.localStorageService.removeUbsOrderData();
     }
+  }
+
+  ngOnDestroy() {
+    this.saveDataOnLocalStorage();
   }
 }

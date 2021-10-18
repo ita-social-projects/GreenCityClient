@@ -112,21 +112,29 @@ export class LocalStorageService {
     localStorage.removeItem('callUbsRegWindow');
   }
 
-  public setUbsOrderData(currentPage: string, personalData: string, orderData: string) {
-    localStorage.setItem('currentUBSOrderPage', currentPage);
+  public setUbsOrderData(personalData: string, orderData: string) {
     localStorage.setItem('UBSpersonalData', personalData);
     localStorage.setItem('UBSorderData', orderData);
   }
 
-  public removeUbsOrderData() {
-    localStorage.removeItem('currentUBSOrderPage');
-    localStorage.removeItem('UBSpersonalData');
-    localStorage.removeItem('UBSorderData');
+  public setLocationId(currentLocationId: number) {
+    localStorage.setItem('currentLocationId', JSON.stringify(currentLocationId));
   }
 
-  public getCurrentUbsOrderPage(): any {
-    console.log(localStorage.getItem('currentUBSOrderPage'));
-    return localStorage.getItem('currentUBSOrderPage') === 'undefined' ? false : localStorage.getItem('currentUBSOrderPage');
+  public setLocations(locations: any) {
+    localStorage.setItem('locations', JSON.stringify(locations));
+  }
+
+  public setAddressId(adressId: number) {
+    localStorage.setItem('adressId', JSON.stringify(adressId));
+  }
+
+  public removeUbsOrderData() {
+    localStorage.removeItem('UBSpersonalData');
+    localStorage.removeItem('UBSorderData');
+    localStorage.removeItem('currentLocationId');
+    localStorage.removeItem('locations');
+    localStorage.removeItem('adressId');
   }
 
   public getUbsPersonalData(): any {
@@ -135,5 +143,13 @@ export class LocalStorageService {
 
   public getUbsOrderData(): any {
     return localStorage.getItem('UBSorderData') === 'undefined' ? false : JSON.parse(localStorage.getItem('UBSorderData'));
+  }
+
+  public getLocationId(): any {
+    return localStorage.getItem('currentLocationId') === null ? false : JSON.parse(localStorage.getItem('currentLocationId'));
+  }
+
+  public getLocations(): any {
+    return JSON.parse(localStorage.getItem('locations'));
   }
 }

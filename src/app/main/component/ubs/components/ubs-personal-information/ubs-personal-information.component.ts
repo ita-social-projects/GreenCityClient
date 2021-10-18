@@ -1,3 +1,4 @@
+import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
 import { Component, Input, OnChanges, OnDestroy, OnInit, SimpleChanges } from '@angular/core';
 import { FormBuilder, FormGroup, ValidatorFn, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
@@ -54,6 +55,7 @@ export class UBSPersonalInformationComponent extends FormBaseComponent implement
     public router: Router,
     private orderService: OrderService,
     private shareFormService: UBSOrderFormService,
+    private localStorageService: LocalStorageService,
     private fb: FormBuilder,
     public dialog: MatDialog
   ) {
