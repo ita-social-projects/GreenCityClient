@@ -12,6 +12,7 @@ import { UbsBaseSidebarComponent } from './ubs-base-sidebar/ubs-base-sidebar.com
 import { TranslateModule } from '@ngx-translate/core';
 import { RouterModule } from '@angular/router';
 import { UbsHeaderComponent } from './ubs-header/ubs-header.component';
+import { FilterListByLangPipe } from './sort-list-by-lang/filter-list-by-lang.pipe';
 
 @NgModule({
   declarations: [
@@ -23,7 +24,8 @@ import { UbsHeaderComponent } from './ubs-header/ubs-header.component';
     PhoneNumberTreatPipe,
     ServerTranslatePipe,
     UbsBaseSidebarComponent,
-    UbsHeaderComponent
+    UbsHeaderComponent,
+    FilterListByLangPipe
   ],
   imports: [CommonModule, MaterialModule, TranslateModule, RouterModule],
   exports: [
@@ -35,7 +37,8 @@ import { UbsHeaderComponent } from './ubs-header/ubs-header.component';
     PhoneNumberTreatPipe,
     ServerTranslatePipe,
     UbsBaseSidebarComponent,
-    UbsHeaderComponent
+    UbsHeaderComponent,
+    FilterListByLangPipe
   ]
 })
 export class SharedModule {}

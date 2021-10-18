@@ -3,7 +3,7 @@
     <mat-tab-group animationDuration="0ms" (selectedTabChange)="tabChanged($event)">
       <mat-tab label="{{ 'profile.dashboard.my-habits' | translate }}">
         <div *ngIf="!loading; else spinner">
-          <div *ngIf="habitsInProgress.length !== 0">
+          <div *ngIf="habitAssignService.habitsInProgress.length !== 0">
             <div class="in-progress header">
               <p>
                 <app-set-count [remainingCount]="habitsInProgress.length" [tabName]="'habits'">
@@ -16,13 +16,17 @@
                 </div>
               </a>
             </div>
-            <div class="body" *ngIf="habitsInProgress">
-              <app-one-habit *ngFor="let habit of habitsInProgressToView" [habit]="habit" (nowAcquiredHabit)="changeStatus($event)">
+            <div class="body" *ngIf="this.habitAssignService.habitsInProgress">
+              <app-one-habit
+                *ngFor="let habit of this.habitAssignService.habitsInProgressToView"
+                [habit]="habit"
+                (nowAcquiredHabit)="changeStatus($event)"
+              >
               </app-one-habit>
             </div>
             <button
               class="btn-view-more"
-              *ngIf="habitsInProgress.length > habitsInProgressToView.length"
+              *ngIf="this.habitAssignService.habitsInProgress.length > this.habitAssignService.habitsInProgressToView.length"
               (click)="getMoreHabitsInProgressForView()"
             >
               {{ 'profile.dashboard.habits-view-more' | translate }}
@@ -45,7 +49,7 @@
           >
             {{ 'profile.dashboard.habits-view-more' | translate }}
           </button>
-          <div class="no-data" *ngIf="habitsInProgress.length === 0">
+          <div class="no-data" *ngIf="this.habitAssignService.habitsInProgress.length === 0">
             <app-no-data [title]="'profile.dashboard.no-habits-in-progress'" [text]="'profile.dashboard.no-habits-in-progress-advice'">
             </app-no-data>
             <a [routerLink]="['/profile', userId, 'allhabits']">
