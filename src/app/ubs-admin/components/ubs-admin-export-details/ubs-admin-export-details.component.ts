@@ -2,7 +2,6 @@ import { Component, Input, OnDestroy, OnInit } from '@angular/core';
 import { FormGroup, FormBuilder } from '@angular/forms';
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
-import { IExportDetails } from '../../models/ubs-admin.interface';
 import { OrderService } from '../../services/order.service';
 
 @Component({
@@ -16,7 +15,7 @@ export class UbsAdminExportDetailsComponent implements OnInit, OnDestroy {
 
   public receivingStations: string[];
   private destroy$: Subject<boolean> = new Subject<boolean>();
-  constructor(private fb: FormBuilder, private orderService: OrderService) {}
+  constructor(private orderService: OrderService) {}
 
   ngOnInit(): void {
     this.getReceivingStations();

@@ -70,7 +70,9 @@
     },
     "payment-status": {
       "paid": "Paid",
-      "not-paid": "Not paid"
+      "not-paid": "Not paid",
+      "half-paid": "Half paid",
+      "payment-refunded": "Payment refunded"
     },
     "need-to-pay": "Need to pay extra ",
     "status": {
@@ -84,6 +86,11 @@
     "comment": {
       "label": "Comment",
       "placeholder": "Any details you would like to report additionally regarding this order"
+    },
+    "btn": {
+      "back": "Back",
+      "cancel": "Cancel",
+      "save": "Save"
     }
   },
   "address-details": {

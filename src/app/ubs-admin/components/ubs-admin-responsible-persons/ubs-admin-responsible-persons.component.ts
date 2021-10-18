@@ -1,5 +1,5 @@
 import { Component, Input, OnDestroy, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup } from '@angular/forms';
+import { FormGroup } from '@angular/forms';
 import { OrderService } from '../../services/order.service';
 import { takeUntil } from 'rxjs/operators';
 import { Subject } from 'rxjs';
@@ -20,7 +20,7 @@ export class UbsAdminResponsiblePersonsComponent implements OnInit, OnDestroy {
   public allDrivers: string[];
 
   private destroy$: Subject<boolean> = new Subject<boolean>();
-  constructor(private fb: FormBuilder, private orderService: OrderService) {}
+  constructor(private orderService: OrderService) {}
 
   ngOnInit(): void {
     this.getOrderEmployees(this.order.id);

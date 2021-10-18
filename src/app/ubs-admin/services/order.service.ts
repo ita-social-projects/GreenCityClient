@@ -20,8 +20,17 @@ import { environment } from '@environment/environment';
 export class OrderService {
   private backend: string = environment.ubsAdmin.backendUbsAdminLink;
   private backendLink: string = environment.ubsAdmin.backendLink;
+  private selectedOrder: {};
 
   constructor(private http: HttpClient) {}
+
+  getSelectedOrder() {
+    return this.selectedOrder;
+  }
+
+  setSelectedOrder(order) {
+    this.selectedOrder = order;
+  }
 
   public getBags(lang): Observable<Bags> {
     return this.http.get<Bags>(`${this.backend}/order-details?lang=${lang}`);

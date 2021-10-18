@@ -1,4 +1,4 @@
-import { Component, Input, OnDestroy, OnInit } from '@angular/core';
+import { Component, Input, OnDestroy } from '@angular/core';
 import { FormGroup } from '@angular/forms';
 import { Subject } from 'rxjs';
 
@@ -7,7 +7,7 @@ import { Subject } from 'rxjs';
   templateUrl: './ubs-admin-address-details.component.html',
   styleUrls: ['./ubs-admin-address-details.component.scss']
 })
-export class UbsAdminAddressDetailsComponent implements OnInit, OnDestroy {
+export class UbsAdminAddressDetailsComponent implements OnDestroy {
   @Input() order;
   @Input() addressDetailsForm: FormGroup;
 
@@ -25,8 +25,6 @@ export class UbsAdminAddressDetailsComponent implements OnInit, OnDestroy {
     'Солом`янський',
     'Шевченківський'
   ];
-
-  ngOnInit() {}
 
   ngOnDestroy(): void {
     this.destroy$.next();

@@ -1,10 +1,11 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { Router } from '@angular/router';
 import { UbsAdminCancelModalComponent } from '../ubs-admin-cancel-modal/ubs-admin-cancel-modal.component';
 import { UbsAdminGoBackModalComponent } from '../ubs-admin-go-back-modal/ubs-admin-go-back-modal.component';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { take } from 'rxjs/operators';
+import { OrderService } from '../../services/order.service';
 
 @Component({
   selector: 'app-ubs-admin-order',
@@ -15,11 +16,10 @@ export class UbsAdminOrderComponent implements OnInit {
   order;
   orderForm: FormGroup;
 
-  constructor(private fb: FormBuilder, private router: Router, private dialog: MatDialog) {
-    this.order = this.router.getCurrentNavigation().extras.state.order;
-  }
+  constructor(private orderService: OrderService, private fb: FormBuilder, private router: Router, private dialog: MatDialog) {}
 
   ngOnInit() {
+    this.order = this.orderService.getSelectedOrder();
     this.initForm();
   }
 
@@ -31,9 +31,9 @@ export class UbsAdminOrderComponent implements OnInit {
         commentForOrder: this.order.commentsForOrder
       }),
       clientInfoForm: this.fb.group({
-        senderName: this.order.senderName,
-        senderPhone: this.order.senderPhone,
-        senderEmail: this.order.senderEmail
+        senderName: [this.order.senderName, Validators.required],
+        senderPhone: [this.order.senderPhone, Validators.required],
+        senderEmail: [this.order.senderEmail, [Validators.required, Validators.email]]
       }),
       addressDetailsForm: this.fb.group({
         street: address[0] || '',
@@ -63,7 +63,9 @@ export class UbsAdminOrderComponent implements OnInit {
 
   openCancelModal() {
     this.dialog
-      .open(UbsAdminCancelModalComponent)
+      .open(UbsAdminCancelModalComponent, {
+        hasBackdrop: true
+      })
       .afterClosed()
       .pipe(take(1))
       .subscribe((discarded) => {
@@ -74,7 +76,9 @@ export class UbsAdminOrderComponent implements OnInit {
   }
 
   openGoBackModal() {
-    this.dialog.open(UbsAdminGoBackModalComponent);
+    this.dialog.open(UbsAdminGoBackModalComponent, {
+      hasBackdrop: true
+    });
   }
 
   resetForm() {

@@ -1,7 +1,6 @@
-import { Component, Input, OnDestroy, OnInit } from '@angular/core';
-import { FormGroup, FormControl, Validators } from '@angular/forms';
+import { Component, Input, OnDestroy } from '@angular/core';
+import { FormGroup } from '@angular/forms';
 import { Subject } from 'rxjs';
-import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
 import { MatDialog } from '@angular/material/dialog';
 import { AddViolationsComponent } from '../add-violations/add-violations.component';
 
@@ -10,7 +9,7 @@ import { AddViolationsComponent } from '../add-violations/add-violations.compone
   templateUrl: './ubs-admin-order-client-info.component.html',
   styleUrls: ['./ubs-admin-order-client-info.component.scss']
 })
-export class UbsAdminOrderClientInfoComponent implements OnInit, OnDestroy {
+export class UbsAdminOrderClientInfoComponent implements OnDestroy {
   @Input() order;
   @Input() clientInfoForm: FormGroup;
 
@@ -18,20 +17,7 @@ export class UbsAdminOrderClientInfoComponent implements OnInit, OnDestroy {
   public currentLanguage: string;
   private destroy$: Subject<boolean> = new Subject<boolean>();
 
-  constructor(private localStorageService: LocalStorageService, private dialog: MatDialog) {}
-
-  public initForm(): void {
-    // this.customerInfoForm = new FormGroup({
-    //   customerName: new FormControl('', [Validators.required]),
-    //   customerPhoneNumber: new FormControl('', [Validators.required]),
-    //   customerEmail: new FormControl('', [Validators.required, Validators.email]),
-    //   recipientName: new FormControl('', [Validators.required]),
-    //   recipientPhoneNumber: new FormControl('', [Validators.required]),
-    //   recipientEmail: new FormControl('', [Validators.required, Validators.email])
-    // });
-  }
-
-  ngOnInit(): void {}
+  constructor(private dialog: MatDialog) {}
 
   ngOnDestroy(): void {
     this.destroy$.next();

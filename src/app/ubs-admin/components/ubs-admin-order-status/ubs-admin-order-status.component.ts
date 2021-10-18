@@ -1,4 +1,4 @@
-import { Component, Input, OnDestroy, OnInit } from '@angular/core';
+import { Component, Input, OnDestroy } from '@angular/core';
 import { FormGroup } from '@angular/forms';
 import { Subject } from 'rxjs';
 
@@ -7,7 +7,7 @@ import { Subject } from 'rxjs';
   templateUrl: './ubs-admin-order-status.component.html',
   styleUrls: ['./ubs-admin-order-status.component.scss']
 })
-export class UbsAdminOrderStatusComponent implements OnInit, OnDestroy {
+export class UbsAdminOrderStatusComponent implements OnDestroy {
   @Input() order;
   @Input() orderStatusForm: FormGroup;
 
@@ -24,14 +24,12 @@ export class UbsAdminOrderStatusComponent implements OnInit, OnDestroy {
 
   paymentStatuses = [
     { name: 'UNPAID', translation: 'order-edit.payment-status.not-paid' },
-    { name: 'PAID', translation: 'order-edit.payment-status.paid' }
+    { name: 'PAID', translation: 'order-edit.payment-status.paid' },
+    { name: 'HALF_PAID', translation: 'order-edit.payment-status.half-paid' },
+    { name: 'PAYMENT_REFUNDED', translation: 'order-edit.payment-status.payment-refunded' }
   ];
 
   private destroy$: Subject<boolean> = new Subject<boolean>();
-
-  constructor() {}
-
-  ngOnInit() {}
 
   ngOnDestroy(): void {
     this.destroy$.next();

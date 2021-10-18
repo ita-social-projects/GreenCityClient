@@ -13,6 +13,7 @@ import { MatSort } from '@angular/material/sort';
 import { Router } from '@angular/router';
 import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
 import { IEditCell, IAlertInfo } from '../../models/edit-cell.model';
+import { OrderService } from '../../services/order.service';
 
 @Component({
   selector: 'app-ubs-admin-table',
@@ -50,6 +51,7 @@ export class UbsAdminTableComponent implements OnInit, AfterViewChecked, OnDestr
   @ViewChild(MatSort, { static: true }) sort: MatSort;
 
   constructor(
+    private orderService: OrderService,
     private router: Router,
     private adminTableService: AdminTableService,
     private localStorageService: LocalStorageService,
@@ -342,7 +344,8 @@ export class UbsAdminTableComponent implements OnInit, AfterViewChecked, OnDestr
   }
 
   openOrder(row): void {
-    this.router.navigate(['ubs-admin', 'order'], { state: { order: row } });
+    this.orderService.setSelectedOrder(row);
+    this.router.navigate(['ubs-admin', 'order']);
   }
 
   ngOnDestroy() {
