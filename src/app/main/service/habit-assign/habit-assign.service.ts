@@ -15,6 +15,10 @@ export class HabitAssignService implements OnDestroy {
   userId: number;
   language: string;
   destroyed$: ReplaySubject<any> = new ReplaySubject<any>(1);
+  habitsFromDashBoard: any;
+  habitsInProgressToView: Array<HabitAssignInterface> = [];
+  habitsInProgress: Array<HabitAssignInterface> = [];
+
   constructor(private http: HttpClient, private localStorageService: LocalStorageService) {
     localStorageService.userIdBehaviourSubject.pipe(takeUntil(this.destroyed$)).subscribe((userId) => (this.userId = userId));
     localStorageService.languageBehaviourSubject.pipe(takeUntil(this.destroyed$)).subscribe((language) => (this.language = language));
