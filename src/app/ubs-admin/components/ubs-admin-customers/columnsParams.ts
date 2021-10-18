@@ -5,7 +5,7 @@ export const columnsParams = [
       ua: 'Імя клієнта',
       en: 'Client name'
     },
-    width: 10
+    width: 100
   },
   {
     title: {
@@ -13,7 +13,7 @@ export const columnsParams = [
       ua: 'Телефон',
       en: 'Phone'
     },
-    width: 6
+    width: 60
   },
   {
     title: {
@@ -21,7 +21,7 @@ export const columnsParams = [
       ua: 'E-mail',
       en: 'E-mail'
     },
-    width: 10
+    width: 100
   },
   {
     title: {
@@ -29,7 +29,7 @@ export const columnsParams = [
       ua: 'Дата реєстрації в системі',
       en: 'Registration Date'
     },
-    width: 6
+    width: 60
   },
   {
     title: {
@@ -37,7 +37,7 @@ export const columnsParams = [
       ua: 'Останнє замовлення',
       en: 'Last order'
     },
-    width: 6
+    width: 60
   },
   {
     title: {
@@ -45,7 +45,7 @@ export const columnsParams = [
       ua: 'К-сть замовлень',
       en: 'Orders'
     },
-    width: 5
+    width: 50
   },
   {
     title: {
@@ -53,7 +53,7 @@ export const columnsParams = [
       ua: 'Порушення',
       en: 'Violations'
     },
-    width: 5
+    width: 50
   },
   {
     title: {
@@ -61,6 +61,6 @@ export const columnsParams = [
       ua: 'Баланс бонусного рахунку',
       en: 'Bonuses'
     },
-    width: 5
+    width: 50
   }
 ];
