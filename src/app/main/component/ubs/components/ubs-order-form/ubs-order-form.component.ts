@@ -1,8 +1,6 @@
-import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
-import { takeUntil } from 'rxjs/operators';
-import { Subject } from 'rxjs';
-import { OrderDetails } from './../../models/ubs.interface';
 import { AfterViewInit, Component, ChangeDetectorRef, ViewChild, DoCheck, HostListener, OnDestroy, OnInit } from '@angular/core';
+import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
+import { Subject } from 'rxjs';
 import { FormGroup } from '@angular/forms';
 import { UBSSubmitOrderComponent } from '../ubs-submit-order/ubs-submit-order.component';
 import { UBSPersonalInformationComponent } from '../ubs-personal-information/ubs-personal-information.component';
@@ -15,7 +13,7 @@ import { UBSOrderFormService } from './../../services/ubs-order-form.service';
   templateUrl: './ubs-order-form.component.html',
   styleUrls: ['./ubs-order-form.component.scss']
 })
-export class UBSOrderFormComponent implements AfterViewInit, DoCheck, OnDestroy {
+export class UBSOrderFormComponent implements OnInit, AfterViewInit, DoCheck, OnDestroy {
   firstStepForm: FormGroup;
   secondStepForm: FormGroup;
   thirdStepForm: FormGroup;

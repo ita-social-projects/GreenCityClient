@@ -114,7 +114,6 @@ export class UBSOrderDetailsComponent extends FormBaseComponent implements OnIni
 
   saveLocation() {
     this.isFetching = true;
-
     const selectedLocation = { locationId: this.selectedLocationId };
     this.orderService
       .addLocation(selectedLocation)
