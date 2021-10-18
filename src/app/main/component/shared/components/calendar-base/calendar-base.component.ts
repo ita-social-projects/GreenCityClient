@@ -256,6 +256,7 @@ export class CalendarBaseComponent implements OnDestroy {
       .pipe(takeUntil(this.destroySub))
       .subscribe((res) => {
         this.userHabitsList = res;
+        this.habitAssignService.habitsFromDashBoard = res;
         days.forEach((day) => {
           const date = this.formatDate(isMonthCalendar, day);
           if (new Date().setHours(0, 0, 0, 0) >= new Date(date).setHours(0, 0, 0, 0)) {

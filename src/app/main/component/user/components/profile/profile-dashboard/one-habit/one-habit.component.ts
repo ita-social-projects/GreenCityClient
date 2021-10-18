@@ -92,12 +92,19 @@ export class OneHabitComponent implements OnInit, OnDestroy {
     return date.toLocaleDateString().split('.').reverse().join('-');
   }
 
+  setGreenCircleInCalendar(isSetCircle: boolean) {
+    this.habitAssignService.habitsFromDashBoard
+      .find((item) => item.enrollDate === this.formatDate(new Date()))
+      .habitAssigns.find((item) => item.habitId === this.habit.habit.id).enrolled = isSetCircle;
+  }
+
   public enroll() {
     this.isRequest = true;
     this.habitAssignService
       .enrollByHabit(this.habit.habit.id, this.currentDate)
       .pipe(take(1))
       .subscribe((response) => {
+        this.setGreenCircleInCalendar(true);
         if (response.status === HabitStatus.ACQUIRED) {
           this.descriptionType.acquired();
           this.nowAcquiredHabit.emit(response);
@@ -117,6 +124,7 @@ export class OneHabitComponent implements OnInit, OnDestroy {
       .unenrollByHabit(this.habit.habit.id, this.currentDate)
       .pipe(take(1))
       .subscribe((response) => {
+        this.setGreenCircleInCalendar(false);
         this.habit.habitStatusCalendarDtoList = response.habitStatusCalendarDtoList;
         this.habit.workingDays = response.workingDays;
         this.habit.habitStreak = response.habitStreak;
