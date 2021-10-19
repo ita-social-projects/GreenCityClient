@@ -50,9 +50,11 @@ import { UbsAdminTariffsComponent } from './components/ubs-admin-tariffs/ubs-adm
 import { UbsAdminTariffsAddServicePopupComponent } from './components/ubs-admin-tariffs/ubs-admin-tariffs-add-service-popup/ubs-admin-tariffs-add-service-popup.component';
 import { UbsAdminTariffsDeletePopupComponent } from './components/ubs-admin-tariffs/ubs-admin-tariffs-delete-popup/ubs-admin-tariffs-delete-popup.component';
 import { UbsAdminCertificateAddCertificatePopUpComponent } from './components/ubs-admin-certificate/ubs-admin-certificate-add-certificate-pop-up/ubs-admin-certificate-add-certificate-pop-up.component';
+import { UbsAdminEmployeeTableComponent } from './components/ubs-admin-employee/ubs-admin-employee-table/ubs-admin-employee-table.component';
 
 @NgModule({
   declarations: [
+    UbsAdminEmployeeTableComponent,
     PaginationComponent,
     UbsAdminTableComponent,
     UbsAdminTableExcelPopupComponent,
