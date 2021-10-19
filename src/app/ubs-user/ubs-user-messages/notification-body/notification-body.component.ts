@@ -10,13 +10,12 @@ import { Router } from '@angular/router';
 })
 export class NotificationBodyComponent implements AfterViewInit {
   @Input() body: string;
+  @Input() orderId: number;
   buttonRedirect: any;
-  orderId = 3001;
 
   constructor(public userMessagesService: UserMessagesService, public router: Router, private elementRef: ElementRef) {}
 
   redirectToPayment() {
-    console.log('Kee');
     this.router.navigate(['ubs/notification/confirm/' + this.orderId]);
   }
 

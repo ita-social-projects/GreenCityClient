@@ -8,7 +8,7 @@ export interface Notifications {
 export interface NotificationBody {
   id: number;
   notificationTime: string;
-  orderId: boolean;
+  orderId: number;
   read: boolean;
   title: string;
   body: string;
