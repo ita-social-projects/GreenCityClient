@@ -169,7 +169,10 @@
     "no-attachment": "No attachments",
     "loading-data": "Loading data...",
     "no-data": "No data",
-    "items-per-page": "Items per page:"
+    "items-per-page": "Items per page:",
+    "delete": "Delete",
+    "Do-you-really-want-to-delete-comment-of": "Do you really want to delete comment",
+    "places": "Places"
   },
   "places": {
     "places": "Places",
