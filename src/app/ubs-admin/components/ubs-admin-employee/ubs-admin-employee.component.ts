@@ -21,6 +21,7 @@ export class UbsAdminEmployeeComponent implements OnInit {
   paginPage: number;
   size = 5;
   paginationId = 'employee';
+  tiles: boolean;
 
   constructor(
     private activatedRoute: ActivatedRoute,
@@ -34,6 +35,7 @@ export class UbsAdminEmployeeComponent implements OnInit {
       this.paginPage = params.page - 1;
       this.getEmployees();
     });
+    this.tiles = true;
   }
 
   getEmployees(): void {
@@ -61,5 +63,11 @@ export class UbsAdminEmployeeComponent implements OnInit {
       closeOnNavigation: true,
       panelClass: 'custom-dialog-container'
     });
+  }
+  openTable() {
+    this.tiles = false;
+  }
+  openTiles() {
+    this.tiles = true;
   }
 }
