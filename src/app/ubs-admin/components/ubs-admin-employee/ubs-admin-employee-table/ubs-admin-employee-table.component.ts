@@ -1,5 +1,4 @@
-import { AfterViewInit, Component, OnInit, ViewChild } from '@angular/core';
-import { MatSort } from '@angular/material/sort';
+import { Component, OnInit } from '@angular/core';
 import { MatTableDataSource } from '@angular/material/table';
 import { UbsAdminEmployeeService } from 'src/app/ubs-admin/services/ubs-admin-employee.service';
 
@@ -18,7 +17,6 @@ export class UbsAdminEmployeeTableComponent implements OnInit {
   arrayOfHeaders = [];
   totalPagesForTable: number;
   tableData: any[];
-  @ViewChild(MatSort) sort: MatSort;
 
   constructor(private ubsAdminEmployeeService: UbsAdminEmployeeService) {}
 
@@ -34,7 +32,6 @@ export class UbsAdminEmployeeTableComponent implements OnInit {
       this.dataSource = new MatTableDataSource(this.tableData);
       this.setDisplayedColumns();
       this.isLoading = false;
-      this.dataSource.sort = this.sort;
       this.isUpdateTable = false;
     });
   }
@@ -48,7 +45,6 @@ export class UbsAdminEmployeeTableComponent implements OnInit {
     this.ubsAdminEmployeeService.getEmployees(this.currentPageForTable, this.sizeForTable).subscribe((item) => {
       this.tableData.push(...item['page']);
       this.dataSource.data = this.tableData;
-      this.dataSource.sort = this.sort;
       this.isUpdateTable = false;
     });
   }
