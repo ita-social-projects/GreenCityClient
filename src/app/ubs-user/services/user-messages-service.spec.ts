@@ -7,7 +7,6 @@ describe('UserMessagesService', () => {
   let serviceNotification: UserMessagesService;
   let httpMock: HttpTestingController;
   let httpClientSpy: { get: jasmine.Spy };
-  let expectNotification: Notifications;
   beforeEach(() => {
     TestBed.configureTestingModule({
       imports: [HttpClientTestingModule],
@@ -22,8 +21,12 @@ describe('UserMessagesService', () => {
     expect(serviceNotification).toBeDefined();
   });
 
+  afterEach(() => {
+    httpMock.verify();
+  });
+
   it('should return expected Notifications (HttpClient called once)', (done: DoneFn) => {
-    expectNotification = {
+    const expectNotification: Notifications = {
       page: [
         {
           id: 1,
@@ -44,11 +47,13 @@ describe('UserMessagesService', () => {
       currentPage: 0,
       totalPages: 1
     };
-    httpClientSpy.get.and.returnValue(expectNotification);
-    serviceNotification.getNotification(1, 2).subscribe((item) => {
+    serviceNotification.getNotification(0, 2).subscribe((item) => {
+      expect(item.page.length).toBe(2, 'Length page should be 2');
       expect(item).toEqual(expectNotification, 'expected Notification');
       done();
     });
-    // expect(httpClientSpy.get.calls.count()).toBe(1, 'one call');
+    const request = httpMock.expectOne(`${serviceNotification.url}/notifications?lang=ua&page=0&size=2`);
+    expect(request.request.method).toBe('GET');
+    request.flush(expectNotification);
   });
 });
