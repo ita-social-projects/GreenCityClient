@@ -56,6 +56,7 @@ export class UbsUserMessagesComponent implements OnInit, OnDestroy {
       .pipe(takeUntil(this.destroy))
       .subscribe(
         (response) => {
+          console.log(response);
           this.notifications = response.page;
           this.count = response.totalElements;
           this.isAnyMessages = this.notifications.length > 0;

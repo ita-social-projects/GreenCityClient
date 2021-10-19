@@ -7,10 +7,10 @@ export interface Notifications {
 
 export interface NotificationBody {
   id: number;
+  orderId: number;
   notificationTime: string;
-  orderId: boolean;
   read: boolean;
   title: string;
-  body: string;
-  isOpen: boolean;
+  body?: string;
+  isOpen?: boolean;
 }

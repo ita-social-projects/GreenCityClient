@@ -6,13 +6,13 @@ import { AdminTableService } from '../../services/admin-table.service';
 import { CdkDragDrop, moveItemInArray } from '@angular/cdk/drag-drop';
 import { take, takeUntil } from 'rxjs/operators';
 import { Subject, timer } from 'rxjs';
-import { Component, OnInit, ViewChild, OnDestroy, AfterViewChecked } from '@angular/core';
+import { AfterViewChecked, Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { MatTableDataSource } from '@angular/material/table';
 import { SelectionModel } from '@angular/cdk/collections';
 import { MatSort } from '@angular/material/sort';
 import { Router } from '@angular/router';
 import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
-import { IEditCell, IAlertInfo } from '../../models/edit-cell.model';
+import { IAlertInfo, IEditCell } from '../../models/edit-cell.model';
 
 @Component({
   selector: 'app-ubs-admin-table',
