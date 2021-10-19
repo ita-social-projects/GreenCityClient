@@ -34,7 +34,6 @@ export class UbsAdminEmployeeTableComponent implements OnInit {
       this.dataSource = new MatTableDataSource(this.tableData);
       this.setDisplayedColumns();
       this.isLoading = false;
-      console.log(this.dataSource);
       this.dataSource.sort = this.sort;
       this.isUpdateTable = false;
     });
