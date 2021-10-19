@@ -55,7 +55,7 @@ export class HabitsPopupComponent implements OnInit, OnDestroy {
     this.habitsCalendarSelectedDate = this.data.habitsCalendarSelectedDate;
     this.isHabitListEditable = this.data.isHabitListEditable;
     this.popupHabits = this.data.habits.map((habit) => Object.assign({}, habit));
-    this.today = this.formatSelectedDate().toString();
+    this.today = this.formatSelectedDate(new Date()).toString();
   }
 
   closePopup() {
@@ -65,12 +65,11 @@ export class HabitsPopupComponent implements OnInit, OnDestroy {
       .subscribe(() => this.dialogRef.close(this.popupHabits));
   }
 
-  formatSelectedDate() {
-    const today = new Date();
-    const monthLow = today.toLocaleDateString(this.language, { month: 'long' });
+  formatSelectedDate(date) {
+    const monthLow = date.toLocaleDateString(this.language, { month: 'long' });
     const month = monthLow.charAt(0).toUpperCase() + monthLow.slice(1);
-    const day = today.getDate();
-    const year = today.getFullYear();
+    const day = date.getDate();
+    const year = date.getFullYear();
     return `${month} ${day}, ${year}`;
   }
 
