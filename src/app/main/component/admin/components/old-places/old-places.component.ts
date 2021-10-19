@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, Injector, OnInit, ViewChild } from '@angular/core';
 import { DomSanitizer, Title } from '@angular/platform-browser';
 import { AdminPlace } from '../../models/admin-place.model';
 import { PlaceService } from '../../../../service/place/place.service';
@@ -50,19 +50,26 @@ export class OldPlacesComponent implements OnInit {
   deleteTranslation: string;
   deleteMessageTranslation: string;
   placesTranslation: string;
+  public dialog: MatDialog;
+  private titleService: Title;
+  private placeService: PlaceService;
+  public weekDaysUtils: WeekDaysUtils;
+  private confirmationDialogService: ConfirmationDialogService;
+  private translation: TranslateService;
+  public sanitizer: DomSanitizer;
+  public iconRegistry: MatIconRegistry;
 
-  constructor(
-    public dialog: MatDialog,
-    private titleService: Title,
-    private placeService: PlaceService,
-    public weekDaysUtils: WeekDaysUtils,
-    private confirmationDialogService: ConfirmationDialogService,
-    private translation: TranslateService,
-    public iconRegistry: MatIconRegistry,
-    public sanitizer: DomSanitizer
-  ) {
-    iconRegistry.addSvgIcon('arrow-up', sanitizer.bypassSecurityTrustResourceUrl('assets/img/icon/arrows/arrow-up-bold.svg'));
-    iconRegistry.addSvgIcon('arrow-down', sanitizer.bypassSecurityTrustResourceUrl('assets/img/icon/arrows/arrow-down-bold.svg'));
+  constructor(private injector: Injector) {
+    this.iconRegistry = injector.get(MatIconRegistry);
+    this.sanitizer = injector.get(DomSanitizer);
+    this.translation = injector.get(TranslateService);
+    this.confirmationDialogService = injector.get(ConfirmationDialogService);
+    this.weekDaysUtils = injector.get(WeekDaysUtils);
+    this.placeService = injector.get(PlaceService);
+    this.titleService = injector.get(Title);
+    this.dialog = injector.get(MatDialog);
+    this.iconRegistry.addSvgIcon('arrow-up', this.sanitizer.bypassSecurityTrustResourceUrl('assets/img/icon/arrows/arrow-up-bold.svg'));
+    this.iconRegistry.addSvgIcon('arrow-down', this.sanitizer.bypassSecurityTrustResourceUrl('assets/img/icon/arrows/arrow-down-bold.svg'));
   }
 
   ngOnInit() {
