@@ -22,6 +22,37 @@ export class OrderService {
   private backendLink: string = environment.ubsAdmin.backendLink;
   private selectedOrder: {};
 
+  readonly orderStatuses = [
+    { name: 'FORMED', translation: 'order-edit.order-status.formed' },
+    { name: 'ADJUSTMENT', translation: 'order-edit.order-status.adjustment' },
+    { name: 'BROUGHT_IT_HIMSELF', translation: 'order-edit.order-status.brought-it-himself' },
+    { name: 'CONFIRMED', translation: 'order-edit.order-status.confirmed' },
+    { name: 'ON_THE_ROUTE', translation: 'order-edit.order-status.on-the-route' },
+    { name: 'DONE', translation: 'order-edit.order-status.done' },
+    { name: 'NOT_TAKEN_OUT', translation: 'order-edit.order-status.not-taken-out' },
+    { name: 'CANCELLED', translation: 'order-edit.order-status.cancelled' }
+  ];
+
+  readonly paymentStatuses = [
+    { name: 'UNPAID', translation: 'order-edit.payment-status.not-paid' },
+    { name: 'PAID', translation: 'order-edit.payment-status.paid' },
+    { name: 'HALF_PAID', translation: 'order-edit.payment-status.half-paid' },
+    { name: 'PAYMENT_REFUNDED', translation: 'order-edit.payment-status.payment-refunded' }
+  ];
+
+  readonly districts = [
+    'Голосіївський',
+    'Дарницький',
+    'Деснянський',
+    'Дніпровський',
+    'Оболонський',
+    'Печерський',
+    'Подільський',
+    'Святошинський',
+    'Солом`янський',
+    'Шевченківський'
+  ];
+
   constructor(private http: HttpClient) {}
 
   getSelectedOrder() {

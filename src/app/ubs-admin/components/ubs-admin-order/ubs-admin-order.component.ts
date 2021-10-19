@@ -31,8 +31,8 @@ export class UbsAdminOrderComponent implements OnInit {
         commentForOrder: this.order.commentsForOrder
       }),
       clientInfoForm: this.fb.group({
-        senderName: [this.order.senderName, Validators.required],
-        senderPhone: [this.order.senderPhone, Validators.required],
+        senderName: [this.order.senderName, [Validators.required, Validators.minLength(1), Validators.maxLength(30)]],
+        senderPhone: [this.order.senderPhone, [Validators.required, Validators.pattern('^\\+?3?8?(0\\d{9})$')]],
         senderEmail: [this.order.senderEmail, [Validators.required, Validators.email]]
       }),
       addressDetailsForm: this.fb.group({
@@ -87,6 +87,6 @@ export class UbsAdminOrderComponent implements OnInit {
   }
 
   onSubmit() {
-    console.log(this.orderForm.value);
+    console.log(this.orderForm);
   }
 }

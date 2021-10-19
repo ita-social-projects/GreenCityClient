@@ -1,3 +1,4 @@
+<app-ubs-header></app-ubs-header>
 <div *ngIf="order" class="container">
   <div class="row">
     <button class="back-button-top" (click)="openGoBackModal()">
@@ -26,7 +27,7 @@
         <button class="cancel-button" (click)="openCancelModal()" [disabled]="!orderForm.touched">
           {{ 'order-edit.btn.cancel' | translate }}
         </button>
-        <button type="submit" class="save-button" [disabled]="!orderForm.touched">
+        <button type="submit" class="save-button" [disabled]="!orderForm.touched || !orderForm.valid">
           {{ 'order-edit.btn.save' | translate }}
         </button>
       </div>

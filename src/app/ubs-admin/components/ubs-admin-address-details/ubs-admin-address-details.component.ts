@@ -1,6 +1,7 @@
 import { Component, Input, OnDestroy } from '@angular/core';
 import { FormGroup } from '@angular/forms';
 import { Subject } from 'rxjs';
+import { OrderService } from '../../services/order.service';
 
 @Component({
   selector: 'app-ubs-admin-address-details',
@@ -11,20 +12,8 @@ export class UbsAdminAddressDetailsComponent implements OnDestroy {
   @Input() order;
   @Input() addressDetailsForm: FormGroup;
 
+  constructor(public orderService: OrderService) {}
   private destroy$: Subject<boolean> = new Subject<boolean>();
-
-  districts = [
-    'Голосіївський',
-    'Дарницький',
-    'Деснянський',
-    'Дніпровський',
-    'Оболонський',
-    'Печерський',
-    'Подільський',
-    'Святошинський',
-    'Солом`янський',
-    'Шевченківський'
-  ];
 
   ngOnDestroy(): void {
     this.destroy$.next();
