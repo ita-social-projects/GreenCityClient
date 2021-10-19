@@ -40,4 +40,16 @@ export class TariffsService {
   editService(id: number, service: Service) {
     return this.http.put(`${mainUbsLink}/ubs/superAdmin/editService/${id}`, service);
   }
+
+  getLocations() {
+    return this.http.get(`${mainUbsLink}/ubs/superAdmin/getLocations`);
+  }
+
+  getCouriers() {
+    return this.http.get(`${mainUbsLink}/ubs/superAdmin/getCouriers`);
+  }
+
+  setAmountOfBag(id, amount) {
+    return this.http.patch(`${mainUbsLink}/ubs/superAdmin/setAmountOfBag/${id}`, amount);
+  }
 }

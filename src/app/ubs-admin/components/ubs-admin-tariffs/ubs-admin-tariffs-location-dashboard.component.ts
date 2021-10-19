@@ -1,5 +1,5 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import { OrderService } from '../../../main/component/ubs/services/order.service';
+import { TariffsService } from '../../services/tariffs.service';
 import { takeUntil } from 'rxjs/operators';
 import { Locations } from '../../../main/component/ubs/models/ubs.interface';
 import { Subject } from 'rxjs';
@@ -13,16 +13,18 @@ import { Router } from '@angular/router';
 export class UbsAdminTariffsLocationDashboardComponent implements OnInit, OnDestroy {
   locations: Locations;
   selectedLocationId;
+  couriers;
   private destroy: Subject<boolean> = new Subject<boolean>();
 
-  constructor(private orderService: OrderService, private router: Router) {}
+  constructor(private tariffsService: TariffsService, private router: Router) {}
 
   ngOnInit(): void {
     this.getLocations();
+    this.getCouriers();
   }
 
   getLocations() {
-    this.orderService
+    this.tariffsService
       .getLocations()
       .pipe(takeUntil(this.destroy))
       .subscribe((res: Locations) => {
@@ -32,6 +34,15 @@ export class UbsAdminTariffsLocationDashboardComponent implements OnInit, OnDest
 
   page(location) {
     this.router.navigate([`ubs-admin/tariffs/location/${location.id}`]);
+  }
+
+  getCouriers() {
+    this.tariffsService
+      .getCouriers()
+      .pipe(takeUntil(this.destroy))
+      .subscribe((res: Locations) => {
+        this.couriers = res;
+      });
   }
 
   ngOnDestroy() {

@@ -1,5 +1,12 @@
-<div class="city">
-  <ul *ngFor="let location of locations | filterByLang">
-    <li (click)="page(location)">{{ location.name }}</li>
+<div class="active-locations">
+  <div class="city">
+    <ul *ngFor="let location of locations | filterByLang">
+      <li (click)="page(location)">{{ location.name }}</li>
+    </ul>
+  </div>
+</div>
+<div class="couriers">
+  <ul *ngFor="let courier of couriers">
+    <li>{{ courier.name }}</li>
   </ul>
 </div>

@@ -109,27 +109,29 @@
   </div>
 </div>
 <div class="limits-form">
-  <form>
-    <div class="sum-input">
-      <input type="radio" id="min-order-amount" />
-      <label for="min-order-amount">{{ 'ubs-tariffs.min_order_amount' | translate }}</label
-      ><br />
-      <input class="input" id="from" />
-      <label for="from">{{ 'ubs-tariffs.to' | translate }}</label
-      ><br />
-      <input class="input" id="to" />
-      <label for="to"></label>
-    </div>
-    <div class="bags-input">
-      <input type="radio" id="min-packages" />
-      <label for="min-packages">{{ 'ubs-tariffs.min_number_of_packages' | translate }}</label
-      ><br />
-      <input class="input" id="from-packages" />
-      <label for="from-packages">{{ 'ubs-tariffs.to' | translate }}</label
-      ><br />
-      <input class="input" id="to-packages" />
-      <label for="to-packages"></label>
-    </div>
+  <form [formGroup]="limitsForm">
+    <mat-radio-group formControlName="courierLimit">
+      <div class="sum-input">
+        <mat-radio-button id="min-order-amount" name="courierLimit" value="LIMIT_BY_SUM_OF_ORDER"></mat-radio-button>
+        <label for="min-order-amount">{{ 'ubs-tariffs.min_order_amount' | translate }}</label
+        ><br />
+        <input class="input" id="from" formControlName="minPriceOfOrder" />
+        <label for="from">{{ 'ubs-tariffs.to' | translate }}</label
+        ><br />
+        <input class="input" id="to" formControlName="maxPriceOfOrder" />
+        <label for="to"></label>
+      </div>
+      <div class="bags-input">
+        <mat-radio-button id="min-packages" name="courierLimit" value="LIMIT_BY_AMOUNT_OF_BAG"></mat-radio-button>
+        <label for="min-packages">{{ 'ubs-tariffs.min_number_of_packages' | translate }}</label
+        ><br />
+        <input class="input" id="from-packages" formControlName="minAmountOfBigBags" />
+        <label for="from-packages">{{ 'ubs-tariffs.to' | translate }}</label
+        ><br />
+        <input class="input" id="to-packages" formControlName="maxAmountOfBigBags" />
+        <label for="to-packages"></label>
+      </div>
+    </mat-radio-group>
     <div class="min-bags-number">
       <h6>{{ 'ubs-tariffs.min_set_of_packages' | translate }}</h6>
       <input type="checkbox" id="textile-waste120" />
@@ -147,7 +149,7 @@
       <textarea maxlength="170" placeholder="{{ 'ubs-tariffs.placeholder_order_limits_info' | translate }}"></textarea>
     </div>
     <div class="submit-btn">
-      <button class="primary-global-button submit" type="submit">
+      <button class="primary-global-button submit" type="submit" (click)="saveChanges()">
         {{ 'ubs-client-profile.btn.save' | translate }}
       </button>
     </div>
