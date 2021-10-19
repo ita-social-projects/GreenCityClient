@@ -48,11 +48,7 @@ export class AuthModalComponent implements OnInit, OnDestroy {
   }
 
   private setAuthImage(): void {
-    if (this.authImageValue) {
-      this.authImages = ubsAuthImages;
-    } else {
-      this.authImages = authImages;
-    }
+    this.authImages = this.authImageValue ? ubsAuthImages : authImages;
   }
 
   ngOnDestroy() {

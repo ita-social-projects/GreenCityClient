@@ -1,4 +1,4 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { Router } from '@angular/router';
 import { ubsMainPageImages } from '../../../../image-pathes/ubs-main-page-images';
 import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
@@ -10,6 +10,7 @@ import { LocalStorageService } from '@global-service/localstorage/local-storage.
 })
 export class UbsMainPageComponent {
   ubsMainPageImages = ubsMainPageImages;
+
   priceCard = [
     {
       header: 'ubs-homepage.ubs-courier.price.price-title.li_1',

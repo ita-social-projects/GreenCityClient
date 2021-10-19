@@ -36,6 +36,8 @@ export class SignInComponent implements OnInit, OnDestroy {
   public passwordField: AbstractControl;
   public emailFieldValue: string;
   public passwordFieldValue: string;
+  public isUbs: boolean;
+  public navigateToLink;
   private destroy: Subject<boolean> = new Subject<boolean>();
   @Output() private pageName = new EventEmitter();
 
@@ -47,12 +49,13 @@ export class SignInComponent implements OnInit, OnDestroy {
     private router: Router,
     private authService: AuthService,
     private googleService: GoogleSignInService,
-    private localStorageService: LocalStorageService,
+    private localeStorageService: LocalStorageService,
     private userOwnAuthService: UserOwnAuthService,
     private profileService: ProfileService
   ) {}
 
   ngOnInit() {
+    this.localeStorageService.ubsRegBehaviourSubject.pipe(takeUntil(this.destroy)).subscribe((value) => (this.isUbs = value));
     this.userOwnSignIn = new UserOwnSignIn();
     this.configDefaultErrorMessage();
     this.checkIfUserId();
@@ -117,18 +120,19 @@ export class SignInComponent implements OnInit, OnDestroy {
   }
 
   public onSignInWithGoogleSuccess(data: UserSuccessSignIn): void {
+    this.navigateToLink = this.isUbs ? '/ubs' : ['profile', data.userId];
     this.userOwnSignInService.saveUserToLocalStorage(data);
     this.userOwnAuthService.getDataFromLocalStorage();
     this.jwtService.userRole$.next(this.jwtService.getUserRole());
     this.router
-      .navigate(['profile', data.userId])
+      .navigate(this.navigateToLink)
       .then(() => {
-        this.localStorageService.setFirstSignIn();
+        this.localeStorageService.setFirstSignIn();
         this.profileService
           .getUserInfo()
           .pipe(take(1))
           .subscribe((item) => {
-            this.localStorageService.setFirstName(item.name);
+            this.localeStorageService.setFirstName(item.name);
           });
       })
       .catch((fail) => console.log('redirect has failed ' + fail));
@@ -141,7 +145,7 @@ export class SignInComponent implements OnInit, OnDestroy {
   }
 
   private checkIfUserId(): void {
-    this.localStorageService.userIdBehaviourSubject.pipe(takeUntil(this.destroy)).subscribe((userId) => {
+    this.localeStorageService.userIdBehaviourSubject.pipe(takeUntil(this.destroy)).subscribe((userId) => {
       if (userId) {
         this.matDialogRef.close(userId);
       }
@@ -151,8 +155,8 @@ export class SignInComponent implements OnInit, OnDestroy {
   private onSignInSuccess(data: UserSuccessSignIn): void {
     this.loadingAnim = false;
     this.userOwnSignInService.saveUserToLocalStorage(data);
-    this.localStorageService.setFirstName(data.name);
-    this.localStorageService.setFirstSignIn();
+    this.localeStorageService.setFirstName(data.name);
+    this.localeStorageService.setFirstSignIn();
     this.userOwnAuthService.getDataFromLocalStorage();
     this.jwtService.userRole$.next(this.jwtService.getUserRole());
     this.router.navigate(['profile', data.userId]);

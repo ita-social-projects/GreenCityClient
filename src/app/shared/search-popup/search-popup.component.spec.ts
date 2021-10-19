@@ -1,4 +1,4 @@
-import { Language } from './../../../../i18n/Language';
+import { Language } from '../../main/i18n/Language';
 
 import { MatSnackBarComponent } from '@global-errors/mat-snack-bar/mat-snack-bar.component';
 import { async, ComponentFixture, fakeAsync, TestBed, tick } from '@angular/core/testing';

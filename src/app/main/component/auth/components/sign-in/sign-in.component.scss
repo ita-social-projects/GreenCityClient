@@ -1,5 +1,12 @@
 $inputHeight: 48px;
 
+.ubs-primary-global-button {
+  height: 43px;
+  .span {
+    color: black;
+  }
+}
+
 h1 {
   margin-bottom: 8px;
   font-family: var(--secondary-font);
@@ -118,12 +125,20 @@ h2 {
   justify-content: flex-end;
   margin-bottom: 24px;
 
+  .ubs-forgot-password,
   .forgot-password {
-    color: var(--secondary-dark-green);
     font-family: var(--primary-font);
     font-size: 12px;
     line-height: 16px;
     text-decoration-line: underline;
+  }
+
+  .forgot-password {
+    color: var(--secondary-dark-green);
+  }
+
+  .ubs-forgot-password {
+    color: var(--ubs-primary-blue);
   }
 }
 
@@ -147,6 +162,7 @@ h2 {
   font-size: 12px;
   line-height: 12px;
   color: var(--primary-dark-grey);
+  margin-top: 7px;
   margin-bottom: 8px;
 }
 
@@ -158,9 +174,17 @@ h2 {
   line-height: 16px;
   color: var(--primary-dark-grey);
 
+  .ubs-sign-up-link {
+    color: var(--ubs-primary-blue);
+  }
+
+  .sign-up-link {
+    color: var(--secondary-dark-green);
+  }
+
+  .ubs-sign-up-link,
   .sign-up-link {
     margin-left: 8px;
     text-decoration-line: underline;
-    color: var(--secondary-dark-green);
   }
 }

@@ -5,8 +5,8 @@ import { Component, EventEmitter, OnInit, OnDestroy, Output } from '@angular/cor
 import { AbstractControl, FormGroup, FormControl, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { AuthService, GoogleLoginProvider } from 'angularx-social-login';
-import { take } from 'rxjs/operators';
-import { Subscription, Observable } from 'rxjs';
+import { take, takeUntil } from 'rxjs/operators';
+import { Subscription, Observable, Subject } from 'rxjs';
 import { HttpErrorResponse } from '@angular/common/http';
 import { GoogleSignInService } from '@auth-service/google-sign-in.service';
 import { UserOwnSignInService } from '@auth-service/user-own-sign-in.service';
@@ -34,9 +34,12 @@ export class RestorePasswordComponent implements OnInit, OnDestroy {
   public currentLanguage: string;
   public userIdSubscription: Subscription;
   public emailFieldValue: string;
+  public isUbs: boolean;
+  private destroy: Subject<boolean> = new Subject<boolean>();
   @Output() public pageName = new EventEmitter();
 
   constructor(
+    private localeStorageService: LocalStorageService,
     private matDialogRef: MatDialogRef<RestorePasswordComponent>,
     public dialog: MatDialog,
     private authService: AuthService,
@@ -49,6 +52,7 @@ export class RestorePasswordComponent implements OnInit, OnDestroy {
   ) {}
 
   ngOnInit() {
+    this.localeStorageService.ubsRegBehaviourSubject.pipe(takeUntil(this.destroy)).subscribe((value) => (this.isUbs = value));
     this.userOwnSignIn = new UserOwnSignIn();
     this.initFormReactive();
     this.configDefaultErrorMessage();
@@ -72,7 +76,7 @@ export class RestorePasswordComponent implements OnInit, OnDestroy {
   }
 
   private checkIfUserId(): void {
-    this.userIdSubscription = this.localStorageService.userIdBehaviourSubject.subscribe((userId) => {
+    this.userIdSubscription = this.localStorageService.userIdBehaviourSubject.pipe(takeUntil(this.destroy)).subscribe((userId) => {
       if (userId) {
         this.matDialogRef.close();
       }
@@ -141,6 +145,7 @@ export class RestorePasswordComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy() {
-    this.userIdSubscription.unsubscribe();
+    this.destroy.next(true);
+    this.destroy.complete();
   }
 }

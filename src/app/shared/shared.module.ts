@@ -10,7 +10,17 @@ import { PhoneNumberTreatPipe } from './phone-number-treat/phone-number-treat.pi
 import { UbsBaseSidebarComponent } from './ubs-base-sidebar/ubs-base-sidebar.component';
 import { TranslateModule } from '@ngx-translate/core';
 import { RouterModule } from '@angular/router';
-import { UbsHeaderComponent } from './ubs-header/ubs-header.component';
+import {
+  HeaderComponent,
+  SearchAllResultsComponent,
+  SearchItemComponent,
+  SearchNotFoundComponent,
+  SearchPopupComponent
+} from '../main/component/layout/components';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { InfiniteScrollModule } from 'ngx-infinite-scroll';
+import { MatSnackBarModule } from '@angular/material/snack-bar';
+import { NgxPageScrollModule } from 'ngx-page-scroll';
 
 @NgModule({
   exports: [
@@ -21,7 +31,8 @@ import { UbsHeaderComponent } from './ubs-header/ubs-header.component';
     CloseDropdownDirective,
     PhoneNumberTreatPipe,
     UbsBaseSidebarComponent,
-    UbsHeaderComponent
+    HeaderComponent,
+    SearchPopupComponent
   ],
   declarations: [
     SpinnerComponent,
@@ -31,8 +42,24 @@ import { UbsHeaderComponent } from './ubs-header/ubs-header.component';
     CloseDropdownDirective,
     PhoneNumberTreatPipe,
     UbsBaseSidebarComponent,
-    UbsHeaderComponent
+    HeaderComponent,
+    SearchPopupComponent,
+    SearchItemComponent,
+    SearchNotFoundComponent,
+    SearchAllResultsComponent
   ],
-  imports: [CommonModule, MaterialModule, TranslateModule, RouterModule]
+  imports: [
+    CommonModule,
+    MaterialModule,
+    TranslateModule,
+    RouterModule,
+    FormsModule,
+    ReactiveFormsModule,
+    InfiniteScrollModule,
+    MatSnackBarModule,
+    NgxPageScrollModule,
+    ReactiveFormsModule,
+    FormsModule
+  ]
 })
 export class SharedModule {}
