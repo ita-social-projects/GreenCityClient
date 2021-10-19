@@ -2,7 +2,6 @@ import { BreakpointObserver } from '@angular/cdk/layout';
 import { Component } from '@angular/core';
 import { UbsBaseSidebarComponent } from 'src/app/shared/ubs-base-sidebar/ubs-base-sidebar.component';
 import { UserMessagesService } from '../services/user-messages.service';
-import { Router } from '@angular/router';
 import { JwtService } from '@global-service/jwt/jwt.service';
 
 @Component({
