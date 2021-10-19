@@ -1,6 +1,6 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { OrderService } from '../../../main/component/ubs/services/order.service';
-import { take, takeUntil } from 'rxjs/operators';
+import { takeUntil } from 'rxjs/operators';
 import { Locations } from '../../../main/component/ubs/models/ubs.interface';
 import { Subject } from 'rxjs';
 import { Router } from '@angular/router';

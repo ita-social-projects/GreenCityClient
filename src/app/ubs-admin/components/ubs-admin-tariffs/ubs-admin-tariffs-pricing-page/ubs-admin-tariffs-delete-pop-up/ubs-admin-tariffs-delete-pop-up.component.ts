@@ -13,6 +13,7 @@ import { MatDialogRef } from '@angular/material/dialog';
 export class UbsAdminTariffsDeletePopUpComponent implements OnDestroy {
   receivedData;
   private destroy: Subject<boolean> = new Subject<boolean>();
+  disableButton: boolean;
 
   constructor(
     @Inject(MAT_DIALOG_DATA) public data,
@@ -24,6 +25,7 @@ export class UbsAdminTariffsDeletePopUpComponent implements OnDestroy {
   }
 
   deleteTariffForService(receivedData) {
+    this.disableButton = true;
     this.tariffsService
       .deleteTariffForService(receivedData.bagData.id)
       .pipe(takeUntil(this.destroy))
@@ -33,6 +35,7 @@ export class UbsAdminTariffsDeletePopUpComponent implements OnDestroy {
   }
 
   deleteService(receivedData) {
+    this.disableButton = true;
     this.tariffsService
       .deleteService(receivedData.serviceData.id)
       .pipe(takeUntil(this.destroy))

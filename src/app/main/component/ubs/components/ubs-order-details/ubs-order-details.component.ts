@@ -94,10 +94,21 @@ export class UBSOrderDetailsComponent extends FormBaseComponent implements OnIni
   }
 
   ngOnInit(): void {
-    this.openLocationDialog();
+    const locationId = this.shareFormService.locationId;
+    if (locationId) {
+      this.currentLanguage = this.localStorageService.getCurrentLanguage();
+      this.locations = this.shareFormService.locations;
+      this.selectedLocationId = locationId;
+      this.saveLocation();
+    } else {
+      this.openLocationDialog();
+    }
     this.orderService.locationSubject.pipe(takeUntil(this.destroy)).subscribe(() => {
       this.takeOrderData();
       this.subscribeToLangChange();
+      if (this.localStorageService.getUbsOrderData()) {
+        this.calculateTotal();
+      }
     });
   }
 
@@ -112,6 +123,7 @@ export class UBSOrderDetailsComponent extends FormBaseComponent implements OnIni
         this.isFetching = false;
         this.changeLocation = false;
         this.orderService.completedLocation(true);
+        this.localStorageService.setLocationId(this.selectedLocationId);
       });
   }
 
@@ -201,8 +213,11 @@ export class UBSOrderDetailsComponent extends FormBaseComponent implements OnIni
         this.defaultPoints = this.points;
         this.certificateLeft = orderData.points;
         this.bags.forEach((bag) => {
-          bag.quantity = null;
+          bag.quantity = bag.quantity === undefined ? null : bag.quantity;
           this.orderDetailsForm.addControl('quantity' + String(bag.id), new FormControl(0, [Validators.min(0), Validators.max(999)]));
+          const quantity = bag.quantity === null ? 0 : +bag.quantity;
+          const valueName = 'quantity' + String(bag.id);
+          this.orderDetailsForm.controls[valueName].setValue(quantity);
         });
         this.filterBags();
         this.isFetching = false;

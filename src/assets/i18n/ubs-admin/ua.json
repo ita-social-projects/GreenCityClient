@@ -268,7 +268,7 @@
     }
   },
   "ubs-sidebar": {
-    "users": "Дані користувача",
+    "customers": "Клієнти",
     "certificates": "Сертифікати",
     "orders": "Замовлення",
     "employees": "Працівники",

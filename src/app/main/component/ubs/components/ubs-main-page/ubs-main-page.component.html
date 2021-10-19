@@ -30,17 +30,19 @@
         </ul>
       </div>
     </div>
-    <div class="header-left">
-      <img [src]="ubsMainPageImages.ubsBlackGarbage" class="ubs-image" alt="ubs-black-garbage" aria-hidden="true" />
-    </div>
-    <div class="header-right">
-      <div class="main-content">
-        <h2>{{ 'ubs-homepage.ubs-courier.rules.caption' | translate }}</h2>
-        <ul>
-          <li *ngFor="let rule of rules">
-            {{ rule | translate }}
-          </li>
-        </ul>
+    <div class="how-preparing">
+      <div class="header-left">
+        <img [src]="ubsMainPageImages.ubsBlackGarbage" class="ubs-image" alt="ubs-black-garbage" aria-hidden="true" />
+      </div>
+      <div class="header-right">
+        <div class="main-content">
+          <h2>{{ 'ubs-homepage.ubs-courier.rules.caption' | translate }}</h2>
+          <ul>
+            <li *ngFor="let rule of rules">
+              {{ rule | translate }}
+            </li>
+          </ul>
+        </div>
       </div>
     </div>
   </section>

@@ -31,6 +31,7 @@ describe('FriendItemComponent', () => {
 
   it('it should call friendEvent on click', () => {
     spyOn(component.friendEventEmit, 'emit');
+    // @ts-ignore
     component.friendEvent(component.friend.id);
     expect(component.friendEventEmit.emit).toHaveBeenCalledWith(1);
   });
