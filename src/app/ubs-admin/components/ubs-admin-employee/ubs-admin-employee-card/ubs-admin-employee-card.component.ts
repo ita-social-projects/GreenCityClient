@@ -17,6 +17,7 @@ export class UbsAdminEmployeeCardComponent {
       data: this.data,
       hasBackdrop: true,
       closeOnNavigation: true,
+      disableClose: true,
       panelClass: 'custom-dialog-container'
     });
   }
