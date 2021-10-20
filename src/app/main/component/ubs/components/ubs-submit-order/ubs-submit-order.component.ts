@@ -82,6 +82,7 @@ export class UBSSubmitOrderComponent extends FormBaseComponent implements OnInit
       .pipe(takeUntil(this.destroy))
       .subscribe(
         (fondyUrl) => {
+          this.shareFormService.isDataSaved = true;
           this.shareFormService.orderUrl = fondyUrl.toString();
           document.location.href = this.shareFormService.orderUrl;
           this.loadingAnim = false;
@@ -111,5 +112,9 @@ export class UBSSubmitOrderComponent extends FormBaseComponent implements OnInit
     } else {
       this.isLiqPay = false;
     }
+  }
+
+  onNotSaveData() {
+    this.shareFormService.isDataSaved = true;
   }
 }

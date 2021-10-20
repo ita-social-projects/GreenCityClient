@@ -136,6 +136,6 @@
       <span *ngIf="loadingAnim" class="spinner-border spinner-border-sm" role="status" aria-hidden="true"> </span>
       {{ 'submit-order.to-order' | translate }}
     </button>
-    <button *ngIf="isLiqPay" id="liqPayButton"></button>
+    <button *ngIf="isLiqPay" id="liqPayButton" (click)="onNotSaveData()"></button>
   </div>
 </div>

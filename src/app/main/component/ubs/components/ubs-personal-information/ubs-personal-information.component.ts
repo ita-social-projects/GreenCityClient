@@ -31,8 +31,8 @@ export class UBSPersonalInformationComponent extends FormBaseComponent implement
   private destroy: Subject<boolean> = new Subject<boolean>();
   private personalDataFormValidators: ValidatorFn[] = [
     Validators.required,
-    Validators.minLength(1),
-    Validators.maxLength(30),
+    Validators.minLength(2),
+    Validators.maxLength(20),
     Validators.pattern(this.namePattern)
   ];
   popupConfig = {

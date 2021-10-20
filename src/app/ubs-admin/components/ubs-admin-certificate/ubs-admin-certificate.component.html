@@ -26,22 +26,22 @@
     (cdkDropListDropped)="dropListDropped($event)"
     [dataSource]="dataSource"
     *ngIf="!isLoading; else spinner"
+    aria-label="certificatesTable"
   >
     <ng-container *ngFor="let column of columns; let i = index" [matColumnDef]="column.field" [sticky]="column.sticky" class="column.field">
       <mat-header-cell *matHeaderCellDef cdkDrag cdkDragLockAxis="x" cdkDragBoundary="mat-header-row">
-        <div *ngIf="column.field !== 'select'; else checkbox">
+        <th scope="row" *ngIf="column.field !== 'select'">
           <span class="column-title">{{ column.field }}</span>
-        </div>
-        <ng-template #checkbox>
+        </th>
+        <th scope="row" *ngIf="column.field === 'select'" [ngStyle]="{ backgroundColor: '#fff', height: '16px', padding: '0px' }">
           <mat-checkbox
             (change)="$event ? masterToggle() : null"
-            [ngStyle]="{ backgroundColor: '#fff', height: '16px' }"
             [checked]="selection.hasValue() && isAllSelected()"
             [indeterminate]="selection.hasValue() && !isAllSelected()"
             [aria-label]="checkboxLabel()"
           >
           </mat-checkbox>
-        </ng-template>
+        </th>
       </mat-header-cell>
       <mat-cell *matCellDef="let row" [ngStyle]="column.style" class="column.field">
         <div *ngIf="column.field !== 'select'; else checkbox">

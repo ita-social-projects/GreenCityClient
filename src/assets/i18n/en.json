@@ -667,6 +667,7 @@
       "all-habits": {
         "back-button": "Back to My habits",
         "title": "All habits",
+        "mutual": "Mutual habits",
         "no-habits": "Unfortunately, no more habits found",
         "no-habits-advice": "We couldn't find any more habits. Please change filters to get another result.",
         "btn-more": "More",
@@ -809,6 +810,7 @@
     "elements": "Items",
     "my-eco-friends": "My Friends",
     "zero-friends": "You don't have any friends.",
+    "zero-user-friends": "This user has no friends",
     "zero-requests": "Unfortunately, there are no new requests.",
     "my-eco-places": "My eco places",
     "shoppingList": "Shopping list",
@@ -827,6 +829,7 @@
     "friends": {
       "link-to-profile": "Back to My habits",
       "mutual-friends": "mutual friends",
+      "all-mutual-friends": "Mutual friends",
       "friends": "Friends",
       "add-new-friend": "Add friend",
       "delete-friend": "Unfriend",
