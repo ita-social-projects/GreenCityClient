@@ -171,15 +171,7 @@ export class EmployeeFormComponent implements OnInit {
   }
 
   removeImage() {
-    // if (this.isCreatingEmployee || this.userHasDefaultPhoto) {
     this.imageURL = null;
     this.imageName = null;
-    return;
-    // }
-    console.log(this.data.id);
-    // this.employeeService.deleteEmployeeImage(this.data.id).subscribe(() => {
-    //   this.imageURL = this.defaultPhotoURL;
-    //   this.imageName = null;
-    // });
   }
 }
