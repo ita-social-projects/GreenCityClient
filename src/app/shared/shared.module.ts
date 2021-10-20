@@ -32,7 +32,8 @@ import { NgxPageScrollModule } from 'ngx-page-scroll';
     PhoneNumberTreatPipe,
     UbsBaseSidebarComponent,
     HeaderComponent,
-    SearchPopupComponent
+    SearchPopupComponent,
+    SearchAllResultsComponent
   ],
   declarations: [
     SpinnerComponent,
