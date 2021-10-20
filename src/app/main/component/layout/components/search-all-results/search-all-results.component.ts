@@ -1,7 +1,7 @@
 import { NewsSearchModel } from './../../../../model/search/newsSearch.model';
 import { SearchDataModel } from './../../../../model/search/search.model';
 import { searchIcons } from './../../../../image-pathes/search-icons';
-import { AfterContentInit, Component, OnDestroy, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { fromEvent, Subject } from 'rxjs';
 import { map, distinctUntilChanged, tap, debounceTime, take, takeUntil } from 'rxjs/operators';
