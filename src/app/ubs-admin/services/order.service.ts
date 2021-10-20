@@ -19,7 +19,7 @@ import { environment } from '@environment/environment';
 })
 export class OrderService {
   private backend: string = environment.ubsAdmin.backendUbsAdminLink;
-  private backendLink: string = environment.ubsAdmin.backendExportedDetailsLink;
+  private backendLink: string = environment.backendUbsLink;
   private selectedOrder: {};
 
   readonly orderStatuses = [
@@ -95,7 +95,7 @@ export class OrderService {
   }
 
   public getAllReceivingStations(): Observable<any> {
-    return this.http.get<any>(`${this.backendLink}`);
+    return this.http.get<any>(`${this.backendLink}/admin/ubs-employee/get-all-receiving-station`);
   }
 
   public getAllResponsiblePersons(positionId: number): Observable<any> {
