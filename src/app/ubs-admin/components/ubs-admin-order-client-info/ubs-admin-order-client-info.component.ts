@@ -13,7 +13,7 @@ export class UbsAdminOrderClientInfoComponent implements OnDestroy {
   @Input() order;
   @Input() clientInfoForm: FormGroup;
 
-  public userViolationForCurrentOrder: number = 0;
+  public userViolationForCurrentOrder = 0;
   private destroy$: Subject<boolean> = new Subject<boolean>();
 
   constructor(private dialog: MatDialog) {}
