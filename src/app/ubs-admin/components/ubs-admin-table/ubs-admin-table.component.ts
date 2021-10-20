@@ -139,14 +139,14 @@ export class UbsAdminTableComponent implements OnInit, AfterViewChecked, OnDestr
   }
 
   public changeColumns(checked: boolean, key: string, positionIndex): void {
-    checked
-      ? (this.displayedColumns = [...this.displayedColumns.slice(0, positionIndex), key, ...this.displayedColumns.slice(positionIndex)])
-      : (this.displayedColumns = this.displayedColumns.filter((item) => item !== key));
-    this.count === this.displayedColumns.length ? (this.isAll = true) : (this.isAll = false);
+    this.displayedColumns = checked
+      ? [...this.displayedColumns.slice(0, positionIndex), key, ...this.displayedColumns.slice(positionIndex)]
+      : this.displayedColumns.filter((item) => item !== key);
+    this.isAll = this.count === this.displayedColumns.length;
   }
 
   public togglePopUp() {
-    this.display === 'none' ? (this.display = 'block') : (this.display = 'none');
+    this.display = this.display === 'none' ? 'block' : 'none';
   }
 
   public showAllColumns(isCheckAll: boolean): void {
@@ -252,10 +252,7 @@ export class UbsAdminTableComponent implements OnInit, AfterViewChecked, OnDestr
   }
 
   public cancelEditCell(ids: number[]): void {
-    this.adminTableService
-      .cancelEdit(ids)
-      .pipe(takeUntil(this.destroy))
-      .subscribe((res) => {});
+    this.adminTableService.cancelEdit(ids);
     this.idsToChange = [];
     this.allChecked = false;
   }
@@ -327,18 +324,11 @@ export class UbsAdminTableComponent implements OnInit, AfterViewChecked, OnDestr
   }
 
   private postData(id, nameOfColumn, newValue): void {
-    this.adminTableService.postData(id, nameOfColumn, newValue).subscribe(
-      (val) => {
-        this.editCellProgressBar = false;
-        this.idsToChange = [];
-        this.allChecked = false;
-      },
-      (error) => {
-        this.editCellProgressBar = false;
-        this.idsToChange = [];
-        this.allChecked = false;
-      }
-    );
+    this.adminTableService.postData(id, nameOfColumn, newValue).subscribe(() => {
+      this.editCellProgressBar = false;
+      this.idsToChange = [];
+      this.allChecked = false;
+    });
   }
 
   openOrder(row): void {

@@ -5,7 +5,6 @@ import {
   Bags,
   IOrderDetails,
   IOrderSumDetails,
-  IRecipientsData,
   IUserInfo,
   PaymentInfo,
   UserViolations,
