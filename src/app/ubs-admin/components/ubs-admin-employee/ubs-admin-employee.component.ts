@@ -19,7 +19,7 @@ export class UbsAdminEmployeeComponent implements OnInit {
   totalLength: number;
   currentPage = 1;
   paginPage: number;
-  size = 150;
+  size = 5;
   paginationId = 'employee';
 
   constructor(
