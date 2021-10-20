@@ -1,6 +1,13 @@
 .container {
+  margin-top: 100px;
   margin-bottom: 100px;
   position: relative;
+}
+
+button:disabled {
+  background-color: var(--ubs-quintynary-light-grey);
+  border: var(--ubs-quintynary-light-grey);
+  color: var(--ubs-secondary-light-grey);
 }
 
 .back-button,
@@ -33,6 +40,7 @@
   line-height: 28px;
   padding: 5px 20px;
   margin-right: 20px;
+  margin-bottom: 35px;
 }
 
 .cancel-button {
