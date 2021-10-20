@@ -19,7 +19,7 @@ import { environment } from '@environment/environment';
 })
 export class OrderService {
   private backend: string = environment.ubsAdmin.backendUbsAdminLink;
-  private backendLink: string = environment.ubsAdmin.backendLink;
+  private backendLink: string = environment.ubsAdmin.backendExportedDetailsLink;
   private selectedOrder: {};
 
   readonly orderStatuses = [
