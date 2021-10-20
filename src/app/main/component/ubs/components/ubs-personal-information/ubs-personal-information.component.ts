@@ -24,7 +24,7 @@ export class UBSPersonalInformationComponent extends FormBaseComponent implement
   order: Order;
   addresses: Address[] = [];
   maxAddressLength = 4;
-  namePattern = /^[A-Za-zА-Яа-яїЇіІєЄёЁ\.\'\-\\]+$/;
+  namePattern = /^[A-Za-zА-Яа-яїЇіІєЄёЁ\'\- ]+$/;
   phoneMask = '+{38} (000) 000 00 00';
   firstOrder = true;
   anotherClient = false;
