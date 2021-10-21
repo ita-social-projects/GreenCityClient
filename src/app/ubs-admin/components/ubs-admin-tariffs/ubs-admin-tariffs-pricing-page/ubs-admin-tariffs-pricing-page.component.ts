@@ -1,7 +1,7 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Component, Injector, OnDestroy, OnInit } from '@angular/core';
 import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { TariffsService } from '../../../services/tariffs.service';
-import { takeUntil, take } from 'rxjs/operators';
+import { take, takeUntil } from 'rxjs/operators';
 import { Bag, Service } from '../../../models/tariffs.interface';
 import { OrderService } from '../../../../main/component/ubs/services/order.service';
 import { Locations } from '../../../../main/component/ubs/models/ubs.interface';
@@ -32,16 +32,23 @@ export class UbsAdminTariffsPricingPageComponent implements OnInit, OnDestroy {
     edit: './assets/img/profile/icons/edit.svg',
     delete: './assets/img/profile/icons/delete.svg'
   };
+  public dialog: MatDialog;
+  private tariffsService: TariffsService;
+  private orderService: OrderService;
+  private localStorageService: LocalStorageService;
+  private route: ActivatedRoute;
 
   constructor(
-    public dialog: MatDialog,
-    private tariffsService: TariffsService,
-    private orderService: OrderService,
-    private localStorageService: LocalStorageService,
+    private injector: Injector,
     public dialogRefService: MatDialogRef<UbsAdminTariffsAddServicePopUpComponent>,
-    public dialogRefTariff: MatDialogRef<UbsAdminTariffsAddTariffServicePopUpComponent>,
-    private route: ActivatedRoute
-  ) {}
+    public dialogRefTariff: MatDialogRef<UbsAdminTariffsAddTariffServicePopUpComponent>
+  ) {
+    this.dialog = injector.get(MatDialog);
+    this.tariffsService = injector.get(TariffsService);
+    this.orderService = injector.get(OrderService);
+    this.localStorageService = injector.get(LocalStorageService);
+    this.route = injector.get(ActivatedRoute);
+  }
 
   ngOnInit() {
     this.subscribeToLangChange();

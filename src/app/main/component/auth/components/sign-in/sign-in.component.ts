@@ -1,8 +1,8 @@
 import { UserSuccessSignIn } from './../../../../model/user-success-sign-in';
 import { SignInIcons } from './../../../../image-pathes/sign-in-icons';
 import { UserOwnSignIn } from './../../../../model/user-own-sign-in';
-import { FormGroup, FormControl, Validators, AbstractControl } from '@angular/forms';
-import { Component, EventEmitter, OnInit, OnDestroy, Output } from '@angular/core';
+import { AbstractControl, FormControl, FormGroup, Validators } from '@angular/forms';
+import { Component, EventEmitter, Injector, OnDestroy, OnInit, Output } from '@angular/core';
 import { Router } from '@angular/router';
 import { HttpErrorResponse } from '@angular/common/http';
 import { AuthService, GoogleLoginProvider } from 'angularx-social-login';
@@ -12,7 +12,7 @@ import { JwtService } from '@global-service/jwt/jwt.service';
 import { UserOwnSignInService } from '@auth-service/user-own-sign-in.service';
 import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
 import { UserOwnAuthService } from '@auth-service/user-own-auth.service';
-import { takeUntil, take } from 'rxjs/operators';
+import { take, takeUntil } from 'rxjs/operators';
 import { ProfileService } from '../../../user/components/profile/profile-service/profile.service';
 import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 
@@ -38,19 +38,27 @@ export class SignInComponent implements OnInit, OnDestroy {
   public passwordFieldValue: string;
   private destroy: Subject<boolean> = new Subject<boolean>();
   @Output() private pageName = new EventEmitter();
+  public dialog: MatDialog;
+  private userOwnSignInService: UserOwnSignInService;
+  private jwtService: JwtService;
+  private router: Router;
+  private authService: AuthService;
+  private googleService: GoogleSignInService;
+  private localStorageService: LocalStorageService;
+  private userOwnAuthService: UserOwnAuthService;
+  private profileService: ProfileService;
 
-  constructor(
-    public dialog: MatDialog,
-    private matDialogRef: MatDialogRef<SignInComponent>,
-    private userOwnSignInService: UserOwnSignInService,
-    private jwtService: JwtService,
-    private router: Router,
-    private authService: AuthService,
-    private googleService: GoogleSignInService,
-    private localStorageService: LocalStorageService,
-    private userOwnAuthService: UserOwnAuthService,
-    private profileService: ProfileService
-  ) {}
+  constructor(private matDialogRef: MatDialogRef<SignInComponent>, private injector: Injector) {
+    this.dialog = injector.get(MatDialog);
+    this.userOwnSignInService = injector.get(UserOwnSignInService);
+    this.jwtService = injector.get(JwtService);
+    this.router = injector.get(Router);
+    this.authService = injector.get(AuthService);
+    this.googleService = injector.get(GoogleSignInService);
+    this.localStorageService = injector.get(LocalStorageService);
+    this.userOwnAuthService = injector.get(UserOwnAuthService);
+    this.profileService = injector.get(ProfileService);
+  }
 
   ngOnInit() {
     this.userOwnSignIn = new UserOwnSignIn();

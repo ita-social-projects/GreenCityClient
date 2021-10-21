@@ -1,11 +1,11 @@
-import { Component, OnInit, OnDestroy, Inject } from '@angular/core';
-import { FormArray, FormGroup, FormControl } from '@angular/forms';
+import { Component, Inject, Injector, OnDestroy, OnInit } from '@angular/core';
+import { FormArray, FormControl, FormGroup } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { MatDialog } from '@angular/material/dialog';
-import { takeUntil, catchError, take, filter } from 'rxjs/operators';
+import { catchError, take, takeUntil } from 'rxjs/operators';
 import { QueryParams, TextAreasHeight } from '../../models/create-news-interface';
 import { EcoNewsService } from '../../services/eco-news.service';
-import { Subscription, ReplaySubject, throwError } from 'rxjs';
+import { ReplaySubject, Subscription, throwError } from 'rxjs';
 import { CreateEcoNewsService } from '@eco-news-service/create-eco-news.service';
 import { CreateEditNewsFormBuilder } from './create-edit-news-form-builder';
 import { FilterModel } from '@eco-news-models/create-news-interface';
@@ -56,18 +56,26 @@ export class CreateEditNewsComponent extends FormBaseComponent implements OnInit
   };
   public onSubmit;
 
+  private createEditNewsFormBuilder: CreateEditNewsFormBuilder;
+  private createEcoNewsService: CreateEcoNewsService;
+  private ecoNewsService: EcoNewsService;
+  private route: ActivatedRoute;
+  private localStorageService: LocalStorageService;
+  private snackBar: MatSnackBarComponent;
+
   constructor(
     public router: Router,
     public dialog: MatDialog,
-    private createEditNewsFormBuilder: CreateEditNewsFormBuilder,
-    private createEcoNewsService: CreateEcoNewsService,
-    private ecoNewsService: EcoNewsService,
-    private route: ActivatedRoute,
-    @Inject(ACTION_TOKEN) private config: { [name: string]: ActionInterface },
-    private snackBar: MatSnackBarComponent,
-    private localStorageService: LocalStorageService
+    private injector: Injector,
+    @Inject(ACTION_TOKEN) private config: { [name: string]: ActionInterface }
   ) {
     super(router, dialog);
+    this.createEditNewsFormBuilder = injector.get(CreateEditNewsFormBuilder);
+    this.createEcoNewsService = injector.get(CreateEcoNewsService);
+    this.ecoNewsService = injector.get(EcoNewsService);
+    this.route = injector.get(ActivatedRoute);
+    this.localStorageService = injector.get(LocalStorageService);
+    this.snackBar = injector.get(MatSnackBarComponent);
   }
 
   ngOnInit() {
@@ -234,7 +242,7 @@ export class CreateEditNewsComponent extends FormBaseComponent implements OnInit
 
   private filterArr = (item: FilterModel, index: number) => {
     return [...this.filters.slice(0, index), item, ...this.filters.slice(index + 1)];
-  }
+  };
 
   public setActiveFilters(itemToUpdate: EcoNewsModel): void {
     if (itemToUpdate.tags.length) {
