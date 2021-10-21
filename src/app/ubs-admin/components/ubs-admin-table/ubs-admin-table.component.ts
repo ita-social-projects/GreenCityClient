@@ -1,18 +1,19 @@
-import { TableHeightService } from './../../services/table-height.service';
+import { TableHeightService } from '../../services/table-height.service';
 import { UbsAdminTableExcelPopupComponent } from './ubs-admin-table-excel-popup/ubs-admin-table-excel-popup.component';
 import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
-import { nonSortableColumns } from './../../models/non-sortable-columns.model';
+import { nonSortableColumns } from '../../models/non-sortable-columns.model';
 import { AdminTableService } from '../../services/admin-table.service';
 import { CdkDragDrop, moveItemInArray } from '@angular/cdk/drag-drop';
+import { take, takeUntil } from 'rxjs/operators';
+import { Subject, timer } from 'rxjs';
 import { Component, OnInit, ViewChild, OnDestroy, AfterViewChecked } from '@angular/core';
-import { takeUntil } from 'rxjs/operators';
-import { Subject } from 'rxjs';
 import { MatTableDataSource } from '@angular/material/table';
 import { SelectionModel } from '@angular/cdk/collections';
-import { ubsAdminTable } from '../ubs-image-pathes/ubs-admin-table';
 import { MatSort } from '@angular/material/sort';
+import { Router } from '@angular/router';
 import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
-import { IEditCell } from '../../models/edit-cell.model';
+import { IEditCell, IAlertInfo } from '../../models/edit-cell.model';
+import { OrderService } from '../../services/order.service';
 
 @Component({
   selector: 'app-ubs-admin-table',
@@ -38,16 +39,20 @@ export class UbsAdminTableComponent implements OnInit, AfterViewChecked, OnDestr
   tableData: any[];
   totalElements = 0;
   totalPages: number;
-  pageSizeOptions: number[] = [10, 15, 20];
   currentPage = 0;
   pageSize = 25;
-  ubsAdminTableIcons = ubsAdminTable;
   idsToChange: number[] = [];
   allChecked: boolean;
   tableViewHeaders = [];
+  public blockedInfo: IAlertInfo[] = [];
+  isAll = true;
+  count: number;
+  display = 'none';
   @ViewChild(MatSort, { static: true }) sort: MatSort;
 
   constructor(
+    private orderService: OrderService,
+    private router: Router,
     private adminTableService: AdminTableService,
     private localStorageService: LocalStorageService,
     private tableHeightService: TableHeightService,
@@ -59,7 +64,6 @@ export class UbsAdminTableComponent implements OnInit, AfterViewChecked, OnDestr
       this.currentLang = lang;
     });
     this.getColumns();
-    this.getTable();
   }
 
   ngAfterViewChecked() {
@@ -95,17 +99,60 @@ export class UbsAdminTableComponent implements OnInit, AfterViewChecked, OnDestr
     if (!row) {
       return `${this.isAllSelected() ? 'select' : 'deselect'} all`;
     }
-    return `${this.selection.isSelected(row) ? 'deselect' : 'select'} row ${row.orderId + 1}`;
+    return `${this.selection.isSelected(row) ? 'deselect' : 'select'} row ${row.id + 1}`;
+  }
+
+  public showBlockedMessage(info): void {
+    this.blockedInfo = info;
+
+    const uniqUsers: string[] = [];
+    const convertInfo = [];
+
+    this.blockedInfo.forEach((item: IAlertInfo) => {
+      if (!uniqUsers.includes(item.userName)) {
+        uniqUsers.push(item.userName);
+      }
+
+      const index = this.dataSource.filteredData.findIndex((row) => row.id === item.orderId);
+      this.selection.deselect(this.dataSource.filteredData[index]);
+
+      if (this.idsToChange.includes(item.orderId)) {
+        this.idsToChange = this.idsToChange.filter((id) => id !== item.orderId);
+      }
+    });
+
+    uniqUsers.forEach((userName) => {
+      let ids: number[] = [];
+      this.blockedInfo.forEach((userInfo: IAlertInfo) => {
+        if (userName === userInfo.userName) {
+          ids.push(userInfo.orderId);
+        }
+      });
+      convertInfo.push({ ordersId: ids, userName });
+      ids = [];
+    });
+    this.blockedInfo = convertInfo;
+
+    timer(7000)
+      .pipe(take(1))
+      .subscribe(() => {
+        this.blockedInfo = [];
+      });
   }
 
   public changeColumns(checked: boolean, key: string, positionIndex): void {
-    checked
-      ? (this.displayedColumns = [...this.displayedColumns.slice(0, positionIndex), key, ...this.displayedColumns.slice(positionIndex)])
-      : (this.displayedColumns = this.displayedColumns.filter((item) => item !== key));
+    this.displayedColumns = checked
+      ? [...this.displayedColumns.slice(0, positionIndex), key, ...this.displayedColumns.slice(positionIndex)]
+      : this.displayedColumns.filter((item) => item !== key);
+    this.isAll = this.count === this.displayedColumns.length;
   }
 
-  public showAllColumns(): void {
-    this.setDisplayedColumns();
+  public togglePopUp() {
+    this.display = this.display === 'none' ? 'block' : 'none';
+  }
+
+  public showAllColumns(isCheckAll: boolean): void {
+    isCheckAll ? this.setUnDisplayedColumns() : this.setDisplayedColumns();
   }
 
   private getColumns() {
@@ -114,18 +161,22 @@ export class UbsAdminTableComponent implements OnInit, AfterViewChecked, OnDestr
       .pipe(takeUntil(this.destroy))
       .subscribe((columns: any) => {
         this.tableViewHeaders = columns.columnBelongingList;
-        this.columns = columns.columnStateDTOList;
+        this.columns = columns.columnDTOList;
         this.setDisplayedColumns();
+        const { pageNumber, pageSize, sortDirection, sortBy } = columns.page;
+        this.pageSize = pageSize;
+        this.currentPage = pageNumber;
+        this.getTable(sortBy, sortDirection);
       });
   }
 
-  private getTable(columnName = this.sortingColumn || 'order_id', sortingType = this.sortType || 'desc') {
+  private getTable(columnName = this.sortingColumn || 'id', sortingType = this.sortType || 'DESC') {
     this.isLoading = true;
     this.adminTableService
       .getTable(columnName, this.currentPage, this.pageSize, sortingType)
       .pipe(takeUntil(this.destroy))
       .subscribe((item) => {
-        this.tableData = item[`page`];
+        this.tableData = item[`content`];
         this.totalPages = item[`totalPages`];
         this.totalElements = item[`totalElements`];
         this.dataSource = new MatTableDataSource(this.tableData);
@@ -141,10 +192,10 @@ export class UbsAdminTableComponent implements OnInit, AfterViewChecked, OnDestr
   updateTableData() {
     this.isUpdate = true;
     this.adminTableService
-      .getTable(this.sortingColumn || 'order_id', this.currentPage, this.pageSize, this.sortType || 'desc')
+      .getTable(this.sortingColumn || 'id', this.currentPage, this.pageSize, this.sortType || 'DESC')
       .pipe(takeUntil(this.destroy))
       .subscribe((item) => {
-        const data = item[`page`];
+        const data = item[`content`];
         this.totalPages = item[`totalPages`];
         this.tableData = [...this.tableData, ...data];
         this.dataSource.data = this.tableData;
@@ -158,10 +209,6 @@ export class UbsAdminTableComponent implements OnInit, AfterViewChecked, OnDestr
     this.arrowDirection = this.arrowDirection === columnName ? null : columnName;
     this.currentPage = 0;
     this.getTable(columnName, sortingType);
-  }
-
-  selectPageSize(value: number) {
-    this.pageSize = value;
   }
 
   openExportExcel(): void {
@@ -206,15 +253,32 @@ export class UbsAdminTableComponent implements OnInit, AfterViewChecked, OnDestr
     }
   }
 
+  public cancelEditCell(ids: number[]): void {
+    this.adminTableService.cancelEdit(ids);
+    this.idsToChange = [];
+    this.allChecked = false;
+  }
+
+  public closeAlertMess(): void {
+    this.blockedInfo = [];
+  }
+
   private setDisplayedColumns(): void {
     this.columns.forEach((column, index) => {
       this.displayedColumns[index] = column.title.key;
     });
+    this.isAll = true;
+    this.count = this.displayedColumns.length;
+  }
+
+  private setUnDisplayedColumns(): void {
+    this.displayedColumns = [];
+    this.isAll = false;
   }
 
   private editSingle(e: IEditCell): void {
     this.editCellProgressBar = true;
-    const id = this.tableData.findIndex((item) => item.orderid === e.id);
+    const id = this.tableData.findIndex((item) => item.id === e.id);
     const newRow = { ...this.tableData[id], [e.nameOfColumn]: e.newValue };
     const newTableData = [...this.tableData.slice(0, id), newRow, ...this.tableData.slice(id + 1)];
     this.tableData = newTableData;
@@ -228,7 +292,7 @@ export class UbsAdminTableComponent implements OnInit, AfterViewChecked, OnDestr
     let newTableDataCombine = this.tableData;
 
     for (const idIter of this.idsToChange) {
-      const check = this.tableData.findIndex((item) => item.orderid === idIter);
+      const check = this.tableData.findIndex((item) => item.id === idIter);
       if (check > -1) {
         ids.push(check);
       }
@@ -257,19 +321,21 @@ export class UbsAdminTableComponent implements OnInit, AfterViewChecked, OnDestr
     this.allChecked = false;
     this.idsToChange = [];
     this.editCellProgressBar = false;
+    // empty array define that we change all in column
+    this.postData([], e.nameOfColumn, e.newValue);
   }
 
   private postData(id, nameOfColumn, newValue): void {
-    this.adminTableService.postData(id, nameOfColumn, newValue).subscribe(
-      (val) => {
-        this.editCellProgressBar = false;
-        this.idsToChange = [];
-      },
-      (error) => {
-        this.editCellProgressBar = false;
-        this.idsToChange = [];
-      }
-    );
+    this.adminTableService.postData(id, nameOfColumn, newValue).subscribe(() => {
+      this.editCellProgressBar = false;
+      this.idsToChange = [];
+      this.allChecked = false;
+    });
+  }
+
+  openOrder(row): void {
+    this.orderService.setSelectedOrder(row);
+    this.router.navigate(['ubs-admin', 'order']);
   }
 
   ngOnDestroy() {

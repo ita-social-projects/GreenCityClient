@@ -1,17 +1,28 @@
 <div class="container">
-  <div *ngIf="bags && !isDialogOpen; else spinner">
+  <div *ngIf="bags && !isFetching && !isDialogOpen; else spinner">
     <div class="header">
       <h3 class="font-bolt order-title">{{ 'order-details.order-title' | translate }}</h3>
-      <div>
-        <h5>{{ 'order-details.choose-location' | translate }}</h5>
-        <select class="choose-location">
-          <option>{{ 'order-details.kyiv' | translate }}</option>
-          <option>{{ 'order-details.kyiv-region' | translate }}</option>
-        </select>
+      <div class="user-location">
+        <div>
+          <h5>{{ 'order-details.current-location' | translate: { currentLocation: currentLocation } }}</h5>
+          <button class="change-location" (click)="changeLocation = !changeLocation">
+            {{ 'order-details.choose-location' | translate }}
+          </button>
+        </div>
+        <div *ngIf="changeLocation" class="list-locations">
+          <select name="region" class="choose-location" [(ngModel)]="selectedLocationId" (ngModelChange)="saveLocation()">
+            <option [ngValue]="location.id" *ngFor="let location of locations | filterByLang">
+              {{ location.name }}
+            </option>
+          </select>
+        </div>
       </div>
-      <p class="order-content">{{ 'order-details.order-content' | translate }}</p>
-      <p class="order-content">{{ 'order-details.min-big-bags' | translate: { minAmountOfBigBags: minAmountOfBigBags } }}</p>
+      <p class="order-content" *ngIf="selectedLocationId === 1">{{ 'order-details.order-content' | translate }}</p>
+      <p class="order-content" *ngIf="selectedLocationId === 2">
+        {{ 'order-details.min-big-bags' | translate: { minAmountOfBigBags: minAmountOfBigBags } }}
+      </p>
     </div>
+
     <form class="form" [formGroup]="orderDetailsForm" (change)="changeOrderDetails()">
       <div class="w-100 d-flex justify-content-between mb-2">
         <label class="col-3 label m-0 p-0">{{ 'order-details.service' | translate }}</label>

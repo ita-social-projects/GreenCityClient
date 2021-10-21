@@ -18,7 +18,6 @@ import { UbsAdminEmployeeCardComponent } from './components/ubs-admin-employee/u
 import { PaginationComponent } from './components/shared/components/pagination/pagination.component';
 import { EmployeeFormComponent } from './components/ubs-admin-employee/employee-form/employee-form.component';
 import { UBSAdminRoutingModule } from './ubs-admin-routing.module';
-import { UbsClientProfilePageComponent } from './components/ubs-client-profile-page/ubs-client-profile-page.component';
 import { UbsAdminResponsiblePersonsComponent } from './components/ubs-admin-responsible-persons/ubs-admin-responsible-persons.component';
 import { UbsAdminExportDetailsComponent } from './components/ubs-admin-export-details/ubs-admin-export-details.component';
 import { UbsAdminOrderPaymentComponent } from './components/ubs-admin-order-payment/ubs-admin-order-payment.component';
@@ -29,8 +28,6 @@ import { UbsAdminOrderComponent } from './components/ubs-admin-order/ubs-admin-o
 import { UbsAdminAddressDetailsComponent } from './components/ubs-admin-address-details/ubs-admin-address-details.component';
 import { InterceptorService } from '../shared/interceptors/interceptor.service';
 import { InfiniteScrollModule } from 'ngx-infinite-scroll';
-import { UbsProfileChangePasswordPopUpComponent } from './components/ubs-client-profile-page/ubs-profile-change-password-pop-up/ubs-profile-change-password-pop-up.component';
-import { UbsProfileDeletePopUpComponent } from './components/ubs-client-profile-page/ubs-profile-delete-pop-up/ubs-profile-delete-pop-up.component';
 import { AddViolationsComponent } from './components/add-violations/add-violations.component';
 import { UbsAdminCancelModalComponent } from './components/ubs-admin-cancel-modal/ubs-admin-cancel-modal.component';
 import { UbsAdminGoBackModalComponent } from './components/ubs-admin-go-back-modal/ubs-admin-go-back-modal.component';
@@ -46,9 +43,16 @@ import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatNativeDateModule } from '@angular/material/core';
 import { UbsAdminCertificateComponent } from './components/ubs-admin-certificate/ubs-admin-certificate.component';
 import { AdminCertificateService } from './services/admin-certificate.service';
-import { UbsAdminTariffsComponent } from './components/ubs-admin-tariffs/ubs-admin-tariffs.component';
-import { UbsAdminTariffsAddServicePopupComponent } from './components/ubs-admin-tariffs/ubs-admin-tariffs-add-service-popup/ubs-admin-tariffs-add-service-popup.component';
-import { UbsAdminTariffsDeletePopupComponent } from './components/ubs-admin-tariffs/ubs-admin-tariffs-delete-popup/ubs-admin-tariffs-delete-popup.component';
+import { UbsAdminCertificateAddCertificatePopUpComponent } from './components/ubs-admin-certificate/ubs-admin-certificate-add-certificate-pop-up/ubs-admin-certificate-add-certificate-pop-up.component';
+import { UbsAdminCustomersComponent } from './components/ubs-admin-customers/ubs-admin-customers.component';
+import { MatTableModule } from '@angular/material/table';
+import { UbsAdminTariffsPricingPageComponent } from './components/ubs-admin-tariffs/ubs-admin-tariffs-pricing-page/ubs-admin-tariffs-pricing-page.component';
+import { UbsAdminTariffsAddTariffServicePopUpComponent } from './components/ubs-admin-tariffs/ubs-admin-tariffs-pricing-page/ubs-admin-tariffs-add-tariff-service-pop-up/ubs-admin-tariffs-add-tariff-service-pop-up.component';
+import { UbsAdminTariffsLocationDashboardComponent } from './components/ubs-admin-tariffs/ubs-admin-tariffs-location-dashboard.component';
+import { MatSlideToggleModule } from '@angular/material/slide-toggle';
+import { UbsAdminTariffsDeletePopUpComponent } from './components/ubs-admin-tariffs/ubs-admin-tariffs-pricing-page/ubs-admin-tariffs-delete-pop-up/ubs-admin-tariffs-delete-pop-up.component';
+import { UbsAdminTariffsAddServicePopUpComponent } from './components/ubs-admin-tariffs/ubs-admin-tariffs-pricing-page/ubs-admin-tariffs-add-service-pop-up/ubs-admin-tariffs-add-service-pop-up.component';
+import { UbsAdminEmployeeTableComponent } from './components/ubs-admin-employee/ubs-admin-employee-table/ubs-admin-employee-table.component';
 
 @NgModule({
   declarations: [
@@ -60,7 +64,6 @@ import { UbsAdminTariffsDeletePopupComponent } from './components/ubs-admin-tari
     UbsAdminEmployeeComponent,
     UbsAdminEmployeeCardComponent,
     EmployeeFormComponent,
-    UbsClientProfilePageComponent,
     UbsAdminOrderComponent,
     UbsAdminAddressDetailsComponent,
     UbsAdminOrderStatusComponent,
@@ -69,8 +72,6 @@ import { UbsAdminTariffsDeletePopupComponent } from './components/ubs-admin-tari
     UbsAdminOrderPaymentComponent,
     UbsAdminOrderClientInfoComponent,
     UbsAdminOrderDetailsFormComponent,
-    UbsProfileChangePasswordPopUpComponent,
-    UbsProfileDeletePopUpComponent,
     AddViolationsComponent,
     UbsAdminCancelModalComponent,
     UbsAdminGoBackModalComponent,
@@ -79,9 +80,14 @@ import { UbsAdminTariffsDeletePopupComponent } from './components/ubs-admin-tari
     TableCellDateComponent,
     TableCellTimeComponent,
     UbsAdminCertificateComponent,
-    UbsAdminTariffsComponent,
-    UbsAdminTariffsAddServicePopupComponent,
-    UbsAdminTariffsDeletePopupComponent
+    UbsAdminTariffsDeletePopUpComponent,
+    UbsAdminTariffsAddServicePopUpComponent,
+    UbsAdminCertificateAddCertificatePopUpComponent,
+    UbsAdminCustomersComponent,
+    UbsAdminTariffsPricingPageComponent,
+    UbsAdminTariffsAddTariffServicePopUpComponent,
+    UbsAdminTariffsLocationDashboardComponent,
+    UbsAdminEmployeeTableComponent
   ],
   imports: [
     CommonModule,
@@ -93,15 +99,15 @@ import { UbsAdminTariffsDeletePopupComponent } from './components/ubs-admin-tari
     UBSAdminRoutingModule,
     FormsModule,
     ReactiveFormsModule,
-    UBSAdminRoutingModule,
     NgxPaginationModule,
     InfiniteScrollModule,
     MatTabsModule,
     MatTooltipModule,
     DragDropModule,
-    ReactiveFormsModule,
     MatDatepickerModule,
+    MatSlideToggleModule,
     MatNativeDateModule,
+    MatTableModule,
     TranslateModule.forChild({
       loader: {
         provide: TranslateLoader,
@@ -125,8 +131,6 @@ import { UbsAdminTariffsDeletePopupComponent } from './components/ubs-admin-tari
     UbsAdminTableComponent,
     AddViolationsComponent,
     EmployeeFormComponent,
-    UbsProfileChangePasswordPopUpComponent,
-    UbsProfileDeletePopUpComponent,
     UbsAdminCancelModalComponent,
     UbsAdminGoBackModalComponent
   ]

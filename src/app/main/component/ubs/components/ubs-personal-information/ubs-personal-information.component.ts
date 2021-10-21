@@ -1,5 +1,5 @@
-import { Component, DoCheck, Input, OnDestroy, OnInit } from '@angular/core';
-import { FormBuilder, FormControl, FormGroup, ValidatorFn, Validators } from '@angular/forms';
+import { Component, Input, OnChanges, OnDestroy, OnInit, SimpleChanges } from '@angular/core';
+import { FormBuilder, FormGroup, ValidatorFn, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { FormBaseComponent } from '@shared/components/form-base/form-base.component';
 import { takeUntil } from 'rxjs/operators';
@@ -16,7 +16,7 @@ import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
   templateUrl: './ubs-personal-information.component.html',
   styleUrls: ['./ubs-personal-information.component.scss']
 })
-export class UBSPersonalInformationComponent extends FormBaseComponent implements OnInit, DoCheck, OnDestroy {
+export class UBSPersonalInformationComponent extends FormBaseComponent implements OnInit, OnDestroy, OnChanges {
   addressId: number;
   orderDetails: OrderDetails;
   personalData: PersonalData;
@@ -24,15 +24,15 @@ export class UBSPersonalInformationComponent extends FormBaseComponent implement
   order: Order;
   addresses: Address[] = [];
   maxAddressLength = 4;
-  namePattern = /^[A-Za-zА-Яа-яЯїЇіІєЄёЁ\.\'\-\\]+$/;
+  namePattern = /^[A-Za-zА-Яа-яЯїЇіІєЄёЁ\'\- ]+$/;
   phoneMask = '+{38} (000) 000 00 00';
   firstOrder = true;
   anotherClient = false;
   private destroy: Subject<boolean> = new Subject<boolean>();
   private personalDataFormValidators: ValidatorFn[] = [
     Validators.required,
-    Validators.minLength(1),
-    Validators.maxLength(30),
+    Validators.minLength(2),
+    Validators.maxLength(20),
     Validators.pattern(this.namePattern)
   ];
   popupConfig = {
@@ -65,9 +65,9 @@ export class UBSPersonalInformationComponent extends FormBaseComponent implement
     this.takeUserData();
   }
 
-  ngDoCheck() {
+  ngOnChanges(changes: SimpleChanges) {
     this.shareFormService.changePersonalData();
-    if (this.completed) {
+    if (changes.completed?.currentValue) {
       this.submit();
     }
   }
@@ -241,7 +241,7 @@ export class UBSPersonalInformationComponent extends FormBaseComponent implement
   }
 
   submit(): void {
-    this.firstOrder = !this.firstOrder;
+    this.firstOrder = false;
     this.activeAddressId();
     this.changeAddressInPersonalData();
     this.orderDetails = this.shareFormService.orderDetails;

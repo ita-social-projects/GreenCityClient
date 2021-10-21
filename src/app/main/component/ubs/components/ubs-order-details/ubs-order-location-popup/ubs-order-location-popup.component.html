@@ -9,7 +9,7 @@
   </div>
   <form *ngIf="!isFetching; else spinner" class="form">
     <select [(ngModel)]="selectedLocationId" name="region" class="select form-select form-select-lg">
-      <option [ngValue]="location.id" *ngFor="let location of locations">
+      <option [ngValue]="location.id" *ngFor="let location of locations | filterByLang">
         {{ location.name }}
       </option>
     </select>

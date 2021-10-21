@@ -11,9 +11,10 @@
       </option>
     </select>
   </div>
-  <div>
-    <span *ngIf="!isEditable" (click)="edit()">&#9998;</span>
-    <span *ngIf="isEditable" (click)="save()">&#10003;</span>
-    <span *ngIf="isEditable" (click)="cancel()">&#10005;</span>
+  <div class="options_wr">
+    <mat-spinner *ngIf="isBlocked" strokeWidth="3" diameter="20"></mat-spinner>
+    <span *ngIf="!isEditable && !isBlocked" (click)="edit()">&#9998;</span>
+    <span class="save" *ngIf="isEditable && !isBlocked" (click)="save()">&#10004;</span>
+    <span class="cancel" *ngIf="isEditable && !isBlocked" (click)="cancel()">&#10006;</span>
   </div>
 </div>

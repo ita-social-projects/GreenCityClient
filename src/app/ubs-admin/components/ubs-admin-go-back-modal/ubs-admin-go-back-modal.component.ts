@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { MatDialogRef } from '@angular/material/dialog';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-ubs-admin-go-back-modal',
@@ -7,9 +8,14 @@ import { MatDialogRef } from '@angular/material/dialog';
   styleUrls: ['./ubs-admin-go-back-modal.component.scss']
 })
 export class UbsAdminGoBackModalComponent {
-  constructor(private dialogRef: MatDialogRef<UbsAdminGoBackModalComponent>) {}
+  constructor(private router: Router, private dialogRef: MatDialogRef<UbsAdminGoBackModalComponent>) {}
 
-  discard(): void {
+  doNotDiscardChanges(): void {
     this.dialogRef.close();
+  }
+
+  discardChanges(): void {
+    this.dialogRef.close();
+    this.router.navigate(['ubs-admin', 'orders']);
   }
 }

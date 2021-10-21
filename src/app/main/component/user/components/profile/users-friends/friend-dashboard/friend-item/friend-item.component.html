@@ -1,4 +1,4 @@
-<div class="friend-item">
+<div class="friend-item" [style.cursor]="userId ? 'default' : 'pointer'" (click)="clickHandler($event)">
   <app-user-profile-image
     [imgPath]="friend.profilePicturePath"
     [firstName]="friend.name"
@@ -17,6 +17,6 @@
     <p class="friend-city">{{ friend.city }}</p>
   </div>
   <div class="friend-btn">
-    <button (click)="friendEvent(friend.id)">{{ btnName }}</button>
+    <button>{{ btnName }}</button>
   </div>
 </div>

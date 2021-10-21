@@ -1,5 +1,5 @@
 <div class="container">
-  <form class="form" [formGroup]="customerInfoForm">
+  <div class="form" [formGroup]="clientInfoForm">
     <div>
       <h3 class="form__headline">{{ 'customer-info.title' | translate }}</h3>
     </div>
@@ -12,37 +12,19 @@
           <label class="form__label" for="customer-name">
             {{ 'customer-info.customer.name-label' | translate }}
           </label>
-          <input
-            class="form-control"
-            type="text"
-            id="customer-name"
-            placeholder="{{ 'customer-info.customer.name-placeholder' | translate }}"
-            formControlName="customerName"
-          />
+          <input class="form-control" type="text" id="customer-name" placeholder="{{ order.clientName }}" disabled />
         </div>
         <div class="form-group">
           <label class="form__label" for="customer-tel">
             {{ 'customer-info.customer.tel-label' | translate }}
           </label>
-          <input
-            class="form-control"
-            type="tel"
-            id="customer-tel"
-            placeholder="{{ 'customer-info.customer.tel-placeholder' | translate }}"
-            formControlName="customerPhoneNumber"
-          />
+          <input class="form-control" type="tel" id="customer-tel" placeholder="{{ order.phoneNumber }}" disabled />
         </div>
         <div class="form-group">
           <label class="form__label" for="customer-email">
             {{ 'customer-info.customer.email-label' | translate }}
           </label>
-          <input
-            class="form-control"
-            type="email"
-            id="customer-email"
-            placeholder="{{ 'customer-info.customer.email-placeholder' | translate }}"
-            formControlName="customerEmail"
-          />
+          <input class="form-control" type="email" id="customer-email" placeholder="{{ order.email }}" disabled />
         </div>
       </div>
       <div class="form__block col-md-4 col-sm-6 offset-md-1">
@@ -56,7 +38,7 @@
             type="text"
             id="recipient-name"
             placeholder="{{ 'customer-info.recipient.name-placeholder' | translate }}"
-            formControlName="recipientName"
+            formControlName="senderName"
           />
         </div>
         <div class="form-group">
@@ -68,7 +50,7 @@
             type="tel"
             id="recipient-tel"
             placeholder="{{ 'customer-info.recipient.tel-placeholder' | translate }}"
-            formControlName="recipientPhoneNumber"
+            formControlName="senderPhone"
           />
         </div>
         <div class="form-group">
@@ -80,7 +62,7 @@
             type="email"
             id="recipient-email"
             placeholder="{{ 'customer-info.recipient.email-placeholder' | translate }}"
-            formControlName="recipientEmail"
+            formControlName="senderEmail"
           />
         </div>
       </div>
@@ -94,7 +76,7 @@
           <small class="form__label">
             {{ 'customer-info.violation.amount' | translate }}
           </small>
-          <p>{{ totalUserViolations }}</p>
+          <p>{{ order.violationsAmount }}</p>
         </div>
         <div class="violation__item">
           <small class="form__label">
@@ -103,10 +85,10 @@
           <p>{{ userViolationForCurrentOrder }}</p>
         </div>
       </div>
-      <button class="btn" [disabled]="totalUserViolations > userViolationForCurrentOrder" type="button">
+      <button class="btn" [disabled]="order.violationsAmount > userViolationForCurrentOrder" type="button">
         {{ 'customer-info.violation.button' | translate }}
       </button>
     </div>
-  </form>
+  </div>
   <hr />
 </div>

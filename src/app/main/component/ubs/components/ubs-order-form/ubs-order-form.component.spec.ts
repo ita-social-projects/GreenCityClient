@@ -28,7 +28,7 @@ describe('UBSOrderFormComponent ', () => {
   });
 
   it('function onClose should return false', () => {
-    expect(component.onClose()).toBeFalsy();
+    expect(component.onClose()).toBeTruthy();
   });
 
   it('ngDoCheck should correctly change completed property', () => {

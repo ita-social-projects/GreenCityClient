@@ -13,6 +13,10 @@ export class UBSOrderFormService {
   errorOccurred = false;
   changedOrder: any = new EventEmitter();
   changedPersonalData: any = new EventEmitter();
+  isDataSaved = false;
+  locations: any;
+  locationId: any;
+
   private orderID = new BehaviorSubject(null);
   orderId = this.orderID.asObservable();
 
@@ -46,5 +50,13 @@ export class UBSOrderFormService {
   setOrderResponseErrorStatus(errorStatus: boolean): void {
     this.errorOccurred = errorStatus;
     errorStatus && (this.orderStatusDone = false);
+  }
+
+  getPersonalData() {
+    return this.personalData;
+  }
+
+  getOrderDetails() {
+    return this.orderDetails;
   }
 }
