@@ -20,8 +20,8 @@ export class UBSOrderFormService {
   private orderID = new BehaviorSubject(null);
   orderId = this.orderID.asObservable();
 
-  transferOrderId(order_id: any) {
-    this.orderID.next(order_id);
+  transferOrderId(id: any) {
+    this.orderID.next(id);
   }
 
   changeOrderDetails() {
@@ -47,9 +47,12 @@ export class UBSOrderFormService {
   getOrderResponseErrorStatus(): boolean {
     return this.errorOccurred;
   }
+
   setOrderResponseErrorStatus(errorStatus: boolean): void {
     this.errorOccurred = errorStatus;
-    errorStatus && (this.orderStatusDone = false);
+    if (errorStatus) {
+      this.orderStatusDone = false;
+    }
   }
 
   getPersonalData() {

@@ -38,15 +38,15 @@ export class UbsConfirmPageComponent implements OnInit, OnDestroy {
       this.orderId = oderID;
       this.orderResponseError = this.ubsOrderFormService.getOrderResponseErrorStatus();
       this.orderStatusDone = this.ubsOrderFormService.getOrderStatus();
-      this.orderResponseError ||
-        this.orderStatusDone ||
+      if (!this.orderResponseError && !this.orderStatusDone) {
         this.activatedRoute.queryParams.subscribe((params) => {
           this.orderId = params.order_id;
-          //Hardcoded. Need a logic from back-end to save orderId for saved unpaid order
+          // Hardcoded. Need a logic from back-end to save orderId for saved unpaid order
           this.orderId = '123';
           this.responseStatus = params.response_status;
           this.snackBar.openSnackBar('successConfirmSaveOrder', this.orderId);
         });
+      }
     });
   }
 
