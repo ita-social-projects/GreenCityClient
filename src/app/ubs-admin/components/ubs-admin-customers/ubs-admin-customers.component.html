@@ -20,7 +20,6 @@
   (scrolled)="onScroll()"
   [scrollWindow]="false"
 >
-  <!-- *ngIf="!isLoading; else spinner" -->
   <mat-table [dataSource]="dataSource" id="table" class="customers_table" cdkDropListGroup>
     <ng-container *ngFor="let column of columns; let i = index" [matColumnDef]="column.title.key">
       <mat-header-cell *matHeaderCellDef (mousedown)="onResizeColumn($event, i)">
@@ -37,7 +36,9 @@
         </div>
       </mat-header-cell>
       <mat-cell *matCellDef="let row">
-        <div class="column_cell">{{ row[column.title.key] }}</div>
+        <div class="column_cell" [matTooltip]="row[column.title.key]" matTooltipShowDelay="700" matTooltipClass="tooltip_style">
+          {{ row[column.title.key] }}
+        </div>
       </mat-cell>
     </ng-container>
 
@@ -45,9 +46,4 @@
     <mat-row *matRowDef="let row; columns: displayedColumns"></mat-row>
   </mat-table>
   <app-spinner *ngIf="isLoading || isUpdate"></app-spinner>
-  <!-- <app-spinner *ngIf="isUpdate"></app-spinner> -->
 </div>
-
-<!-- <ng-template #spinner>
-  <app-spinner></app-spinner>
-</ng-template> -->

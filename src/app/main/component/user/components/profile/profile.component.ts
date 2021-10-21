@@ -5,6 +5,8 @@ import { Subscription } from 'rxjs';
 import { ProfileService } from '@global-user/components/profile/profile-service/profile.service';
 import { EditProfileModel } from '@user-models/edit-profile.model';
 import { LiveAnnouncer } from '@angular/cdk/a11y';
+import { ProfileStatistics } from '@global-user/models/profile-statistiscs';
+import { take } from 'rxjs/operators';
 
 @Component({
   selector: 'app-profile',
@@ -16,6 +18,7 @@ export class ProfileComponent implements OnInit, OnDestroy {
   public userInfo: EditProfileModel;
   public isDesktopWidth: boolean;
   public screenBreakpoint = 1024;
+  public progress: ProfileStatistics;
 
   constructor(
     private announcer: LiveAnnouncer,
@@ -30,6 +33,7 @@ export class ProfileComponent implements OnInit, OnDestroy {
     this.showUserInfo();
     this.subscribeToLangChange();
     this.bindLang(this.localStorageService.getCurrentLanguage());
+    this.checkUserActivities();
   }
 
   @HostListener('window:resize') public checkDisplayWidth() {
@@ -57,6 +61,15 @@ export class ProfileComponent implements OnInit, OnDestroy {
 
   private subscribeToLangChange(): void {
     this.langChangeSub = this.localStorageService.languageSubject.subscribe((lang) => this.bindLang(lang));
+  }
+
+  private checkUserActivities(): void {
+    this.profileService
+      .getUserProfileStatistics()
+      .pipe(take(1))
+      .subscribe((statistics: ProfileStatistics) => {
+        this.progress = statistics;
+      });
   }
 
   ngOnDestroy(): void {

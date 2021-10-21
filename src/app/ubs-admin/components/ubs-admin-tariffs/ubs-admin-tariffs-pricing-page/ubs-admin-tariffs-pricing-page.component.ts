@@ -1,5 +1,7 @@
 import { Component, Injector, OnDestroy, OnInit } from '@angular/core';
 import { MatDialog, MatDialogRef } from '@angular/material/dialog';
+import { Location } from '@angular/common';
+import { ActivatedRoute } from '@angular/router';
 import { TariffsService } from '../../../services/tariffs.service';
 import { take, takeUntil } from 'rxjs/operators';
 import { Bag, Service } from '../../../models/tariffs.interface';
@@ -10,7 +12,6 @@ import { Subject } from 'rxjs';
 import { UbsAdminTariffsAddServicePopUpComponent } from './ubs-admin-tariffs-add-service-pop-up/ubs-admin-tariffs-add-service-pop-up.component';
 import { UbsAdminTariffsAddTariffServicePopUpComponent } from './ubs-admin-tariffs-add-tariff-service-pop-up/ubs-admin-tariffs-add-tariff-service-pop-up.component';
 import { UbsAdminTariffsDeletePopUpComponent } from './ubs-admin-tariffs-delete-pop-up/ubs-admin-tariffs-delete-pop-up.component';
-import { ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-ubs-admin-tariffs-pricing-page',
@@ -52,11 +53,11 @@ export class UbsAdminTariffsPricingPageComponent implements OnInit, OnDestroy {
 
   ngOnInit() {
     this.subscribeToLangChange();
-    this.getAllTariffsForService();
     this.getLocations();
     this.routeParams();
     this.orderService.locationSubject.pipe(takeUntil(this.destroy)).subscribe(() => {
       this.getServices();
+      this.getAllTariffsForService();
     });
   }
 
@@ -73,7 +74,8 @@ export class UbsAdminTariffsPricingPageComponent implements OnInit, OnDestroy {
       hasBackdrop: true,
       disableClose: true,
       data: {
-        button: 'add'
+        button: 'add',
+        locationId: this.currentLocation
       }
     });
     dialogRefTariff
@@ -128,11 +130,15 @@ export class UbsAdminTariffsPricingPageComponent implements OnInit, OnDestroy {
   }
 
   private filterBags(): void {
-    this.bags = this.bags.filter((value) => value.languageCode === this.currentLanguage).sort((a, b) => b.price - a.price);
+    this.bags = this.bags
+      .filter((value) => value.languageCode === this.currentLanguage && value.locationId === this.currentLocation)
+      .sort((a, b) => b.price - a.price);
   }
 
   filterServices() {
-    this.services = this.services.filter((service) => service.locationId === this.currentLocation);
+    this.services = this.services.filter(
+      (service) => service.locationId === this.currentLocation && service.languageCode === this.currentLanguage
+    );
   }
 
   openUpdateTariffForServicePopup(bag: Bag) {
@@ -212,6 +218,7 @@ export class UbsAdminTariffsPricingPageComponent implements OnInit, OnDestroy {
         this.isLoadBar = false;
         this.currentLocation = this.selectedLocationId;
         this.orderService.completedLocation(true);
+        this.location.go(`/ubs-admin/tariffs/location/${this.currentLocation}`);
       });
   }
 

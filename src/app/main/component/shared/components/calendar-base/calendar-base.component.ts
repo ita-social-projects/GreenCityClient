@@ -10,6 +10,7 @@ import { HabitsPopupComponent } from '@global-user/components/profile/calendar/h
 import { HabitsForDateInterface } from '@global-user/components/profile/calendar/habit-popup-interface';
 import { ItemClass } from './CalendarItemStyleClasses';
 import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
+import { UpdateHabitsService } from '@global-user/services/update-habits.service';
 
 @Component({
   selector: 'app-calendar-base',
@@ -64,6 +65,7 @@ export class CalendarBaseComponent implements OnDestroy {
     public translate: TranslateService,
     public languageService: LanguageService,
     public habitAssignService: HabitAssignService,
+    public updateHabitsService: UpdateHabitsService,
     public dialog: MatDialog
   ) {}
 
@@ -298,7 +300,8 @@ export class CalendarBaseComponent implements OnDestroy {
     this.isHabitListEditable = false;
     const currentDate: Date = new Date();
     this.isHabitListEditable =
-      currentDate.setHours(0, 0, 0, 0) - this.daysCanEditHabits * 24 * 60 * 60 * 1000 >= new Date(this.selectedDay).setHours(0, 0, 0, 0);
+      currentDate.setHours(0, 0, 0, 0) - (this.daysCanEditHabits + 1) * 24 * 60 * 60 * 1000 >=
+      new Date(this.selectedDay).setHours(0, 0, 0, 0);
   }
 
   checkCanOpenPopup(dayItem: CalendarInterface) {
@@ -344,7 +347,7 @@ export class CalendarBaseComponent implements OnDestroy {
     });
   }
 
-  enrollHabit(habit, date) {
+  enrollHabit(habit, date: string) {
     this.checkAnswer = true;
     this.habitAssignService
       .enrollByHabit(habit.habitId, date)
@@ -352,13 +355,14 @@ export class CalendarBaseComponent implements OnDestroy {
         takeUntil(this.destroySub),
         finalize(() => (this.checkAnswer = false))
       )
-      .subscribe(() => {
+      .subscribe((response) => {
         habit.enrolled = !habit.enrolled;
         this.currentDayItem.areHabitsDone = this.isCheckedHabits;
+        this.updateHabitsService.changeHabit(response);
       });
   }
 
-  unEnrollHabit(habit, date) {
+  unEnrollHabit(habit, date: string) {
     this.checkAnswer = true;
     this.habitAssignService
       .unenrollByHabit(habit.habitId, date)
@@ -366,9 +370,10 @@ export class CalendarBaseComponent implements OnDestroy {
         takeUntil(this.destroySub),
         finalize(() => (this.checkAnswer = false))
       )
-      .subscribe(() => {
+      .subscribe((response) => {
         habit.enrolled = !habit.enrolled;
         this.currentDayItem.areHabitsDone = this.isCheckedHabits;
+        this.updateHabitsService.changeHabit(response);
       });
   }
 }

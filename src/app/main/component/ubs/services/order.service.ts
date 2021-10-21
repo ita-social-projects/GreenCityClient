@@ -1,7 +1,8 @@
+import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
 import { Address, Locations } from './../models/ubs.interface';
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { BehaviorSubject, Observable, Subject } from 'rxjs';
+import { BehaviorSubject, Observable, Subject} from 'rxjs';
 import { tap } from 'rxjs/operators';
 import { ICertificate, OrderDetails } from '../models/ubs.interface';
 import { Order } from '../models/ubs.model';
@@ -15,16 +16,28 @@ export class OrderService {
   private url = 'https://greencity-ubs.azurewebsites.net/ubs';
   locationSubject = new Subject();
 
-  constructor(private http: HttpClient, private shareFormService: UBSOrderFormService) {}
+  constructor(private http: HttpClient, private shareFormService: UBSOrderFormService, private localStorageService: LocalStorageService) {}
 
-  getOrders(): Observable<OrderDetails> {
-    return this.http
-      .get<OrderDetails>(`${this.url}/order-details`)
-      .pipe(tap((orderDetails) => (this.shareFormService.orderDetails = orderDetails)));
+  getOrders(): Observable<any> {
+    const ubsOrderData = this.localStorageService.getUbsOrderData();
+    if (ubsOrderData) {
+      const observable = new Observable((observer) => observer.next(ubsOrderData));
+      return observable.pipe(tap((orderDetails) => (this.shareFormService.orderDetails = orderDetails)));
+    } else {
+      return this.http
+        .get<OrderDetails>(`${this.url}/order-details`)
+        .pipe(tap((orderDetails) => (this.shareFormService.orderDetails = orderDetails)));
+    }
   }
 
   getPersonalData(): Observable<any> {
-    return this.http.get(`${this.url}/personal-data`).pipe(tap((personalData) => (this.shareFormService.personalData = personalData)));
+    const ubsPersonalData = this.localStorageService.getUbsPersonalData();
+    if (ubsPersonalData) {
+      const observable = new Observable((observer) => observer.next(ubsPersonalData));
+      return observable.pipe(tap((personalData) => (this.shareFormService.personalData = personalData)));
+    } else {
+      return this.http.get(`${this.url}/personal-data`).pipe(tap((personalData) => (this.shareFormService.personalData = personalData)));
+    }
   }
 
   processOrder(order: Order): Observable<Order> {

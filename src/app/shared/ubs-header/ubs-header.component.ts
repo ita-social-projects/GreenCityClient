@@ -12,6 +12,7 @@ import { Router } from '@angular/router';
   styleUrls: ['./ubs-header.component.scss']
 })
 export class UbsHeaderComponent implements OnInit {
+  public toggleBurgerMenu = false;
   langDropdownVisible = false;
   arrayLang: Array<LanguageModel> = languages;
   ubsHeaderIcons = ubsHeaderIcons;
@@ -52,5 +53,14 @@ export class UbsHeaderComponent implements OnInit {
     } else {
       this.router.navigate([link.route]);
     }
+  }
+
+  public onToggleBurgerMenu(): void {
+    this.toggleBurgerMenu = !this.toggleBurgerMenu;
+    this.toggleScroll();
+  }
+
+  public toggleScroll(): void {
+    this.toggleBurgerMenu ? document.body.classList.add('modal-open') : document.body.classList.remove('modal-open');
   }
 }
