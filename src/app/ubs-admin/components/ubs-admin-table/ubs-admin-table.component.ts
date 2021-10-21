@@ -194,11 +194,11 @@ export class UbsAdminTableComponent implements OnInit, AfterViewChecked, OnDestr
     this.tableData.forEach((el) => {
       el.amountDue = parseFloat(el.amountDue).toFixed(2);
       el.totalOrderSum = parseFloat(el.totalOrderSum).toFixed(2);
-      let arr = el.orderCertificatePoints.split(', ');
+      const arr = el.orderCertificatePoints.split(', ');
       if (arr.length > 0) {
         el.orderCertificatePoints = arr.reduce((res, elem) => {
-          res = parseInt(res);
-          res += parseInt(elem);
+          res = parseInt(res, 10);
+          res += parseInt(elem, 10);
           return res > 0 ? res + '' : '';
         });
       }
