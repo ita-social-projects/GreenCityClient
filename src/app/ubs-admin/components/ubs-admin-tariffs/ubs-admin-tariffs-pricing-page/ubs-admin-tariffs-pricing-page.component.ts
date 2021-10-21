@@ -38,12 +38,14 @@ export class UbsAdminTariffsPricingPageComponent implements OnInit, OnDestroy {
   private orderService: OrderService;
   private localStorageService: LocalStorageService;
   private route: ActivatedRoute;
+  private location: Location;
 
   constructor(
     private injector: Injector,
     public dialogRefService: MatDialogRef<UbsAdminTariffsAddServicePopUpComponent>,
     public dialogRefTariff: MatDialogRef<UbsAdminTariffsAddTariffServicePopUpComponent>
   ) {
+    this.location = injector.get(Location);
     this.dialog = injector.get(MatDialog);
     this.tariffsService = injector.get(TariffsService);
     this.orderService = injector.get(OrderService);
