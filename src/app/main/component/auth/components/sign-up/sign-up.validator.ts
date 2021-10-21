@@ -21,8 +21,8 @@ export function ValidatorRegExp(controlName: string) {
     const regexpName = /^(?!\.)(?!.*\.$)(?!.*?\.\.)[a-z0-9_.]{6,30}$/gi;
     const regexpPass = new RegExp(
       [/^(?=.*[a-z]+)/, /(?=.*[A-Z]+)/, /(?=.*\d+)/, /(?=.*[~`!@#$%^&*()+=_\-{}|:;”’?/<>,.\]\[]+).{8,}$/]
-        .map((r) => {
-          return r.source;
+        .map((regexp) => {
+          return regexp.source;
         })
         .join('')
     );
