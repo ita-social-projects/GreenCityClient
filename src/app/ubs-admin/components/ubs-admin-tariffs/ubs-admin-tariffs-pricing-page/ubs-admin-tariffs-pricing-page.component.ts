@@ -25,6 +25,7 @@ export class UbsAdminTariffsPricingPageComponent implements OnInit, OnDestroy {
   amount;
   isLoadBar1: boolean;
   isLoadBar: boolean;
+  couriers;
   selectedLocationId;
   currentLocation;
   limitsForm: FormGroup;
@@ -52,6 +53,7 @@ export class UbsAdminTariffsPricingPageComponent implements OnInit, OnDestroy {
   ngOnInit() {
     this.subscribeToLangChange();
     this.initForm();
+    this.getCouriers();
     this.getLocations();
     this.routeParams();
     this.orderService.locationSubject.pipe(takeUntil(this.destroy)).subscribe(() => {
@@ -62,37 +64,32 @@ export class UbsAdminTariffsPricingPageComponent implements OnInit, OnDestroy {
 
   private initForm() {
     this.limitsForm = this.fb.group({
-      courierLimit: new FormControl(''),
-      minPriceOfOrder: new FormControl(),
-      maxPriceOfOrder: new FormControl(),
-      minAmountOfBigBags: new FormControl(),
-      maxAmountOfBigBags: new FormControl()
+      courierLimitsBy: new FormControl(''),
+      minAmountOfOrder: new FormControl(),
+      maxAmountOfOrder: new FormControl(),
+      minAmountOfBigBag: new FormControl(),
+      maxAmountOfBigBag: new FormControl(),
+      limitDescription: new FormControl()
     });
   }
 
   saveChanges() {
-    const id = 1;
-    const locationId = 1;
-    const { courierLimit, minPriceOfOrder, maxPriceOfOrder, minAmountOfBigBags, maxAmountOfBigBags } = this.limitsForm.value;
+    const { courierLimitsBy, minAmountOfOrder, maxAmountOfOrder, minAmountOfBigBag, maxAmountOfBigBag, limitDescription } =
+      this.limitsForm.value;
     this.amount = {
-      courierLimit,
-      minPriceOfOrder: 100,
-      maxPriceOfOrder: 1000,
-      id,
-      locationId,
-      languageCode: 'ua',
-      limitDescription: 'Тут може бути ваша реклама',
-      name: "УБС-КУР'ЄР",
-      minAmountOfBigBags: 3,
-      maxAmountOfBigBags: 100
+      bagId: 88,
+      courierId: 1,
+      languageId: 1,
+      courierLimitsBy,
+      limitDescription,
+      maxAmountOfBigBag,
+      maxAmountOfOrder,
+      minAmountOfBigBag,
+      minAmountOfOrder,
+      minimalAmountOfBagStatus: 'EXCLUDE'
     };
     console.log(this.amount);
-    this.tariffsService
-      .setAmountOfBag(id, this.amount)
-      .pipe(takeUntil(this.destroy))
-      .subscribe(() => {
-        console.log(this.amount);
-      });
+    this.tariffsService.editInfo(this.amount).pipe(takeUntil(this.destroy)).subscribe();
   }
 
   routeParams() {
@@ -253,6 +250,15 @@ export class UbsAdminTariffsPricingPageComponent implements OnInit, OnDestroy {
         this.currentLocation = this.selectedLocationId;
         this.orderService.completedLocation(true);
         this.location.go(`/ubs-admin/tariffs/location/${this.currentLocation}`);
+      });
+  }
+
+  getCouriers() {
+    this.tariffsService
+      .getCouriers()
+      .pipe(takeUntil(this.destroy))
+      .subscribe((res) => {
+        this.couriers = res;
       });
   }
 

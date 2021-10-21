@@ -49,7 +49,15 @@ export class TariffsService {
     return this.http.get(`${mainUbsLink}/ubs/superAdmin/getCouriers`);
   }
 
-  setAmountOfBag(id, amount) {
-    return this.http.patch(`${mainUbsLink}/ubs/superAdmin/setAmountOfBag/${id}`, amount);
+  activateLocation(id: number, languageCode) {
+    return this.http.patch(`${mainUbsLink}/ubs/superAdmin/activeLocations/${id}?languageCode=${languageCode}`, languageCode);
+  }
+
+  deactivateLocation(id: number, languageCode) {
+    return this.http.patch(`${mainUbsLink}/ubs/superAdmin/deactivateLocations/${id}?languageCode=${languageCode}`, languageCode);
+  }
+
+  editInfo(info) {
+    return this.http.patch(`${mainUbsLink}/ubs/superAdmin/editInfoAboutTariff`, info);
   }
 }
