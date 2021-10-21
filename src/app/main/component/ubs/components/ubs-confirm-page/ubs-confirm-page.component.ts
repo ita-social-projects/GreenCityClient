@@ -42,6 +42,7 @@ export class UbsConfirmPageComponent implements OnInit, OnDestroy {
         this.orderStatusDone ||
         this.activatedRoute.queryParams.subscribe((params) => {
           this.orderId = params.order_id;
+          //Hardcoded. Need a logic from back-end to save orderId for saved unpaid order
           this.orderId = '123';
           this.responseStatus = params.response_status;
           this.snackBar.openSnackBar('successConfirmSaveOrder', this.orderId);
