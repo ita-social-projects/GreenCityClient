@@ -1,6 +1,5 @@
 import { AfterViewInit, Component, ChangeDetectorRef, ViewChild, DoCheck, HostListener, OnDestroy, OnInit } from '@angular/core';
 import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
-import { Subject } from 'rxjs';
 import { FormGroup } from '@angular/forms';
 import { UBSSubmitOrderComponent } from '../ubs-submit-order/ubs-submit-order.component';
 import { UBSPersonalInformationComponent } from '../ubs-personal-information/ubs-personal-information.component';
