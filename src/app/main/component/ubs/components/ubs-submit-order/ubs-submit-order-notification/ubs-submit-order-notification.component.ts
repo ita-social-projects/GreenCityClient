@@ -14,7 +14,6 @@ export class UbsSubmitOrderNotificationComponent implements OnInit {
   ngOnInit(): void {
     this.route.params.subscribe((val) => {
       this.orderId = +this.route.snapshot.paramMap.get('orderId');
-      console.log(this.orderId);
     });
   }
 }
