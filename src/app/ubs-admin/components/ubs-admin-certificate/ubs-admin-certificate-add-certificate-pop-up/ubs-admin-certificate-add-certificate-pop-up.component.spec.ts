@@ -1,6 +1,6 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { UbsAdminCertificateAddCertificatePopUpComponent } from './ubs-admin-certificate-add-certificate-pop-up.component';
-import { MatDialogModule } from '@angular/material/dialog';
+import { MatDialogModule, MatDialogRef } from '@angular/material/dialog';
 import { FormBuilder } from '@angular/forms';
 import { HttpClientTestingModule, HttpTestingController } from '@angular/common/http/testing';
 
@@ -13,7 +13,7 @@ describe('UbsAdminCertificateAddCertificatePopUpComponent', () => {
     TestBed.configureTestingModule({
       declarations: [UbsAdminCertificateAddCertificatePopUpComponent],
       imports: [MatDialogModule, HttpClientTestingModule],
-      providers: [FormBuilder]
+      providers: [FormBuilder, { provide: MatDialogRef, useValue: {} }]
     }).compileComponents();
   }));
 

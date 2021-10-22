@@ -73,6 +73,7 @@ import { UbsSubmitOrderNotificationComponent } from './components/ubs-submit-ord
     SharedModule
   ],
   entryComponents: [UBSAddAddressPopUpComponent, UbsOrderLocationPopupComponent],
+  exports: [],
   providers: [
     {
       provide: MAT_DIALOG_DEFAULT_OPTIONS,

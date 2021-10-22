@@ -1,10 +1,10 @@
 <div class="container mb-3">
-  <form class="mt-5" [formGroup]="detailStatusForm">
+  <div class="mt-5" [formGroup]="orderStatusForm">
     <div class="row d-flex justify-content-between mt-4">
-      <h1 class="title">{{ 'order-edit.status.title' | translate }} №{{ orderId }}</h1>
+      <h1 class="title">{{ 'order-edit.status.title' | translate }} №{{ order.id }}</h1>
       <div class="pr-4">
         <span class="form__label"> {{ 'order-edit.status.order-date' | translate }}: </span>
-        <span>{{ detailStatus?.date }}</span>
+        <span>{{ order.orderDate | date: 'dd.MM.y' }}</span>
       </div>
     </div>
     <div class="row">
@@ -16,14 +16,13 @@
                 <label for="order" class="form__label">
                   {{ 'order-edit.status.order-label' | translate }}
                 </label>
-                <select id="order" class="form-control">
-                  <option [ngSwitch]="detailStatus?.orderStatus">
-                    <span *ngSwitchCase="'FORMED'">
-                      {{ 'order-edit.status.approve-status.approved' | translate }}
-                    </span>
-                    <span *ngSwitchCase="'UNFORMED'">
-                      {{ 'order-edit.status.approve-status.approved' | translate }}
-                    </span>
+                <select id="order" class="form-control" formControlName="orderStatus">
+                  <option
+                    *ngFor="let status of orderService.orderStatuses"
+                    [selected]="status.name === order.orderStatus"
+                    [value]="status.name"
+                  >
+                    {{ status.translation | translate }}
                   </option>
                 </select>
               </div>
@@ -35,14 +34,9 @@
                 <label for="payment" class="form__label">
                   {{ 'order-edit.status.payment-label' | translate }}
                 </label>
-                <select id="payment" class="form-control payment">
-                  <option [ngSwitch]="detailStatus?.paymentStatus">
-                    <span *ngSwitchCase="'UNPAID'">
-                      {{ 'order-edit.status.payment-status.not-paid' | translate }}
-                    </span>
-                    <span *ngSwitchCase="'PAID'">
-                      {{ 'order-edit.status.payment-status.paid' | translate }}
-                    </span>
+                <select id="payment" class="form-control payment" disabled>
+                  <option *ngFor="let status of orderService.paymentStatuses" [selected]="status.name === order.paymentStatus">
+                    {{ status.translation | translate }}
                   </option>
                 </select>
               </div>
@@ -57,11 +51,12 @@
             class="form-control mw-100"
             id="comment"
             rows="3"
+            formControlName="commentForOrder"
             placeholder="{{ 'order-edit.comment.placeholder' | translate }}"
           ></textarea>
         </div>
       </div>
     </div>
-  </form>
+  </div>
   <hr />
 </div>

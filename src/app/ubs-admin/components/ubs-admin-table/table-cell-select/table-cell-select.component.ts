@@ -21,7 +21,9 @@ export class TableCellSelectComponent implements OnInit {
   public isEditable: boolean;
   public isBlocked: boolean;
   private newOption: string;
+  private typeOfChange: number[];
 
+  @Output() cancelEdit = new EventEmitter();
   @Output() editCellSelect = new EventEmitter();
   @Output() showBlockedInfo = new EventEmitter();
 
@@ -34,20 +36,11 @@ export class TableCellSelectComponent implements OnInit {
   public edit(): void {
     this.isEditable = false;
     this.isBlocked = true;
-    let typeOfChange: number[];
 
-    if (this.isAllChecked) {
-      typeOfChange = [];
-    }
-    if (this.ordersToChange.length) {
-      typeOfChange = this.ordersToChange;
-    }
-    if (!this.isAllChecked && !this.ordersToChange.length) {
-      typeOfChange = [this.id];
-    }
+    this.typeOfChange = this.adminTableService.howChangeCell(this.isAllChecked, this.ordersToChange, this.id);
 
     this.adminTableService
-      .blockOrders(typeOfChange)
+      .blockOrders(this.typeOfChange)
       .pipe(take(1))
       .subscribe((res: IAlertInfo[]) => {
         if (res[0] === undefined) {
@@ -63,9 +56,10 @@ export class TableCellSelectComponent implements OnInit {
 
   public save(): void {
     const newValueObj = this.optional.findIndex((item) => item[this.lang] === this.newOption);
-
     if (newValueObj === -1) {
+      this.typeOfChange = this.adminTableService.howChangeCell(this.isAllChecked, this.ordersToChange, this.id);
       this.isEditable = false;
+      this.cancelEdit.emit(this.typeOfChange);
     } else {
       const newSelectValue: IEditCell = {
         id: this.id,
@@ -79,6 +73,8 @@ export class TableCellSelectComponent implements OnInit {
   }
 
   public cancel(): void {
+    this.typeOfChange = this.adminTableService.howChangeCell(this.isAllChecked, this.ordersToChange, this.id);
+    this.cancelEdit.emit(this.typeOfChange);
     this.newOption = '';
     this.isEditable = false;
   }

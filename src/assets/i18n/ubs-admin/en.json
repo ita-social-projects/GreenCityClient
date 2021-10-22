@@ -58,6 +58,22 @@
     "info-about-date": "Added:"
   },
   "order-edit": {
+    "order-status": {
+      "formed": "Formed",
+      "adjustment": "Adjustment",
+      "brought-it-himself": "Brought it himself",
+      "confirmed": "Confirmed",
+      "on-the-route": "On the route",
+      "done": "Done",
+      "not-taken-out": "Not taken out",
+      "cancelled": "Cancelled"
+    },
+    "payment-status": {
+      "paid": "Paid",
+      "not-paid": "Not paid",
+      "half-paid": "Half paid",
+      "payment-refunded": "Payment refunded"
+    },
     "need-to-pay": "Need to pay extra ",
     "status": {
       "title": "Order",
@@ -65,19 +81,16 @@
       "label": "Order status ",
       "label-approve": "Payment status ",
       "order-label": "Order status ",
-      "payment-label": "Payment status ",
-      "approve-status": {
-        "approved": "Approved",
-        "not-approved": "Not approved"
-      },
-      "payment-status": {
-        "paid": "Paid",
-        "not-paid": "Not paid"
-      }
+      "payment-label": "Payment status "
     },
     "comment": {
       "label": "Comment",
       "placeholder": "Any details you would like to report additionally regarding this order"
+    },
+    "btn": {
+      "back": "Back",
+      "cancel": "Cancel",
+      "save": "Save"
     }
   },
   "address-details": {
@@ -95,20 +108,20 @@
     "customer": {
       "title": "Customer",
       "name-label": "Name",
-      "name-placeholder": "Placeholder",
+      "name-placeholder": "Name and Surname",
       "tel-label": "Phone",
-      "tel-placeholder": "Placeholder",
+      "tel-placeholder": "+380 00 000 00 00",
       "email-label": "Email",
-      "email-placeholder": "Placeholder"
+      "email-placeholder": "mail@mail.com"
     },
     "recipient": {
       "title": "Recipient",
       "name-label": "Name",
-      "name-placeholder": "Placeholder",
+      "name-placeholder": "Name and Surname",
       "tel-label": "Phone",
-      "tel-placeholder": "Placeholder",
+      "tel-placeholder": "+380 00 000 00 00",
       "email-label": "Email",
-      "email-placeholder": "Placeholder"
+      "email-placeholder": "mail@mail.com"
     },
     "violation": {
       "title": "Customer violations",
@@ -161,7 +174,8 @@
   "ubs-tables": {
     "export-to-excel": "Export to Excel",
     "table-view": "Table view",
-    "add-certificate": "Add certificate"
+    "add-certificate": "Add certificate",
+    "all-elements": "Display all columns"
   },
   "export-details": {
     "title": "Export details",
@@ -257,7 +271,7 @@
     }
   },
   "ubs-sidebar": {
-    "users": "User data",
+    "customers": "Customers",
     "certificates": "Certificates",
     "orders": "Orders",
     "employees": "Employees",

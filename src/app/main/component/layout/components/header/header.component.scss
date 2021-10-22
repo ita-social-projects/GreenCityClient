@@ -67,10 +67,6 @@ $white-color: #fff;
   width: 70px;
   padding: 0 12px;
 
-  &:hover {
-    text-decoration: none;
-  }
-
   a {
     color: var(--secondary-dark-green);
     display: block;
@@ -198,7 +194,6 @@ $white-color: #fff;
         font-size: 14px;
         line-height: 16px;
         color: var(--primary-dark-grey);
-        text-decoration: none;
       }
     }
 
@@ -448,7 +443,6 @@ $white-color: #fff;
         line-height: 16px;
         font-family: var(--primary-font);
         font-weight: 400;
-        text-decoration: none;
       }
     }
 

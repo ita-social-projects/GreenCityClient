@@ -1,0 +1,95 @@
+<div class="close-button" xmlns="http://www.w3.org/1999/html">
+  <img mat-dialog-close [src]="icons.close" class="close-button-img" alt="close-icon" />
+</div>
+<div class="dialog-container">
+  <div class="main-content">
+    <div class="header">
+      <div class="header-text" *ngIf="data.button === 'add'">
+        <h4>{{ 'ubs-tariffs.btn.add_service' | translate }}</h4>
+      </div>
+      <div class="header-text" *ngIf="data.button === 'update'">
+        <h4>{{ 'ubs-tariffs-add-service.edit_service' | translate }}</h4>
+      </div>
+      <div>
+        <mat-slide-toggle color="primary" labelPosition="before" *ngIf="data.button === 'add'" [(ngModel)]="slide"></mat-slide-toggle>
+      </div>
+    </div>
+    <form [formGroup]="addServiceForm">
+      <div *ngIf="!slide">
+        <div class="service">
+          <label for="name">{{ 'ubs-tariffs-add-service.name_of_the_service' | translate }}</label>
+          <input
+            type="text"
+            formControlName="name"
+            class="serviceInput"
+            id="name"
+            placeholder="{{ 'ubs-tariffs-add-service.placeholder-service' | translate }}"
+          />
+        </div>
+        <div class="row4">
+          <div class="capacity-input">
+            <label class="form-label" for="capacity">{{ 'ubs-tariffs-add-service.capacity' | translate }}</label>
+            <input type="text" formControlName="capacity" maxlength="3" id="capacity" />
+          </div>
+          <div class="basic-cost-input">
+            <label for="price" class="form-label">{{ 'ubs-tariffs-add-service.basic_cost' | translate }}</label>
+            <input type="text" formControlName="price" maxlength="3" id="price" />
+          </div>
+          <div class="courier-input">
+            <label for="commission" class="form-label">{{ 'ubs-tariffs-add-service.commission' | translate }}</label>
+            <input type="text" formControlName="commission" maxlength="3" id="commission" />
+          </div>
+          <div class="full-cost-input">
+            <label for="fullCost" class="form-label">{{ 'ubs-tariffs-add-service.full_cost' | translate }}</label>
+            <input type="text" maxlength="3" id="fullCost" disabled />
+          </div>
+        </div>
+        <div class="service-description">
+          <label for="description">{{ 'ubs-tariffs-add-service.service_description' | translate }}</label>
+          <textarea
+            class="description-input"
+            type="text"
+            formControlName="description"
+            id="description"
+            placeholder="{{ 'ubs-tariffs-add-service.placeholder-text' | translate }}"
+          >
+          </textarea>
+        </div>
+      </div>
+      <ng-container *ngIf="slide">
+        <div class="service">
+          <label for="nameEn">{{ 'ubs-tariffs-add-service.name_of_the_service' | translate }}</label>
+          <input type="text" formControlName="nameEn" class="serviceInput" id="nameEn" placeholder="Add translation" />
+        </div>
+        <div class="service-description">
+          <label for="descriptionEN">{{ 'ubs-tariffs-add-service.service_description' | translate }}</label>
+          <textarea class="description-input" type="text" formControlName="descriptionEn" id="descriptionEN" placeholder="Add translation">
+          </textarea>
+        </div>
+      </ng-container>
+    </form>
+  </div>
+  <div class="buttons">
+    <button mat-dialog-close class="secondary-global-button" type="button">{{ 'ubs-tariffs-add-service.btn.cancel' | translate }}</button>
+    <button
+      class="primary-global-button submit"
+      type="submit"
+      *ngIf="data.button === 'add'"
+      [disabled]="addServiceForm.invalid || loadingAnim"
+      (click)="addNewService()"
+    >
+      <span *ngIf="loadingAnim" class="spinner-border spinner-border-sm" role="status" aria-hidden="true"> </span>
+      {{ 'ubs-tariffs-add-service.btn.add' | translate }}
+    </button>
+    <button
+      type="button"
+      *ngIf="data.button === 'update'"
+      class="primary-global-button submit"
+      [disabled]="addServiceForm.invalid || addServiceForm.pristine || loadingAnim"
+      (click)="editService(receivedData)"
+    >
+      <span *ngIf="loadingAnim" class="spinner-border spinner-border-sm" role="status" aria-hidden="true"> </span>
+      {{ 'ubs-tariffs-add-service.btn.save' | translate }}
+    </button>
+  </div>
+</div>

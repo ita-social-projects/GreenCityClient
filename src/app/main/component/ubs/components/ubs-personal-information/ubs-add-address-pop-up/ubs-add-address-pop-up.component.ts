@@ -23,13 +23,26 @@ export class UBSAddAddressPopUpComponent implements OnInit, OnDestroy {
   districtDisabled = true;
   nextDisabled = true;
   isDisabled = false;
-  streetPattern = /^[A-Za-zА-Яа-яЯїЇіІєЄёЁ0-9.\'\,\-\ \\]+$/;
-  housePattern = /^[A-Za-zА-Яа-яЯїЇіІєЄёЁ0-9\.\-\/]+$/;
+  streetPattern = /^[A-Za-zА-Яа-яїЇіІєЄёЁ0-9.\'\,\-\ \\]+$/;
+  housePattern = /^[A-Za-zА-Яа-яїЇіІєЄёЁ0-9\.\-\/]+$/;
   entranceNumberPattern = /^-?(0|[1-9]\d*)?$/;
   private destroy: Subject<boolean> = new Subject<boolean>();
 
   cities = [
     { cityName: 'Kiev', northLat: 50.59079800991073, southLat: 50.21327301525928, eastLng: 30.82594104187906, westLng: 30.23944009690609 }
+  ];
+
+  regions = [
+    'Голосіївський',
+    'Дарницький',
+    'Деснянський',
+    'Дніпровський',
+    'Оболонський',
+    'Печерський',
+    'Подільський',
+    'Святошинський',
+    'Солом`янський',
+    'Шевченківський'
   ];
 
   constructor(

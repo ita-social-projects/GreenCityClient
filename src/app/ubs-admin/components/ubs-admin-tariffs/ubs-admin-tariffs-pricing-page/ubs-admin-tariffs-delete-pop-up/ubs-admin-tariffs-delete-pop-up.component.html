@@ -1,0 +1,14 @@
+<div class="dialog-container">
+  <mat-dialog-content>
+    <p>{{ 'ubs-tariffs-delete-service.delete_question' | translate }}</p>
+  </mat-dialog-content>
+  <mat-dialog-actions>
+    <button class="btn btn-outline-success" mat-dialog-close>{{ 'ubs-tariffs-delete-service.no' | translate }}</button>
+    <button class="btn btn-success" *ngIf="receivedData.bagData" [disabled]="disableButton" (click)="deleteTariffForService(receivedData)">
+      {{ 'ubs-tariffs-delete-service.yes' | translate }}
+    </button>
+    <button class="btn btn-success" *ngIf="receivedData.serviceData" [disabled]="disableButton" (click)="deleteService(receivedData)">
+      {{ 'ubs-tariffs-delete-service.yes' | translate }}
+    </button>
+  </mat-dialog-actions>
+</div>

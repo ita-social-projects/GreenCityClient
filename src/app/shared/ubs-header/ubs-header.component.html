@@ -5,7 +5,7 @@
     </a>
   </div>
   <div class="icons">
-    <nav>
+    <nav [ngClass]="toggleBurgerMenu ? 'ubs-header_navigation-menu-col' : 'ubs-header_navigation-menu'" role="navigation">
       <a class="nav-link" *ngFor="let link of navLinks" (click)="navigateToLink(link)">
         {{ link.name }}
       </a>
@@ -44,5 +44,11 @@
       </ng-container>
     </ul>
     <span class="header-user">Jana Done</span>
+    <!-- Burger BTN -->
+    <span class="ubs-header_burger-btn" role="link">
+      <div class="menu-icon-wrapper" (click)="onToggleBurgerMenu()">
+        <div [ngClass]="toggleBurgerMenu ? 'menu-icon menu-icon-active' : 'menu-icon'"></div>
+      </div>
+    </span>
   </div>
 </header>

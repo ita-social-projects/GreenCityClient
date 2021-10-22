@@ -1,19 +1,21 @@
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { Component, Input, OnInit, Output, EventEmitter, OnDestroy } from '@angular/core';
 import { HabitAssignInterface } from '../../../../../../interface/habit/habit-assign.interface';
 import { HabitAssignService } from '@global-service/habit-assign/habit-assign.service';
-import { take } from 'rxjs/operators';
+import { filter, take, takeUntil } from 'rxjs/operators';
 import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { HabitService } from '@global-service/habit/habit.service';
 import { HabitStatus } from '@global-models/habit/HabitStatus.enum';
 import { HabitMark } from '@global-user/models/HabitMark.enum';
+import { UpdateHabitsService } from '@global-user/services/update-habits.service';
+import { Subject } from 'rxjs';
 
 @Component({
   selector: 'app-one-habit',
   templateUrl: './one-habit.component.html',
   styleUrls: ['./one-habit.component.scss']
 })
-export class OneHabitComponent implements OnInit {
+export class OneHabitComponent implements OnInit, OnDestroy {
   @Input() habit: HabitAssignInterface;
   currentDate: string;
   showPhoto: boolean;
@@ -22,7 +24,7 @@ export class OneHabitComponent implements OnInit {
   isRequest = false;
   firstFriend = 'assets/img/kimi.png';
   secondFriend = 'assets/img/lewis.png';
-
+  private destroy$ = new Subject<void>();
   private descriptionType = {
     acquired: () => {
       this.daysCounter = this.habit.duration;
@@ -48,12 +50,24 @@ export class OneHabitComponent implements OnInit {
     private habitAssignService: HabitAssignService,
     public router: Router,
     public route: ActivatedRoute,
-    public habitService: HabitService
+    public habitService: HabitService,
+    public updateHabitsService: UpdateHabitsService
   ) {}
 
   ngOnInit() {
     this.currentDate = this.formatDate(new Date());
     this.buildHabitDescription();
+    this.updateHabitsService.currentHabit
+      .pipe(
+        takeUntil(this.destroy$),
+        filter((habit) => this.habit.id === habit?.id)
+      )
+      .subscribe((habit) => {
+        this.habit.habitStatusCalendarDtoList = habit.habitStatusCalendarDtoList;
+        this.habit.workingDays = habit.workingDays;
+        this.habit.habitStreak = habit.habitStreak;
+        this.buildHabitDescription();
+      });
   }
 
   public goToHabitProfile() {
@@ -78,12 +92,19 @@ export class OneHabitComponent implements OnInit {
     return date.toLocaleDateString().split('.').reverse().join('-');
   }
 
+  setGreenCircleInCalendar(isSetCircle: boolean) {
+    this.habitAssignService.habitsFromDashBoard
+      .find((item) => item.enrollDate === this.formatDate(new Date()))
+      .habitAssigns.find((item) => item.habitId === this.habit.habit.id).enrolled = isSetCircle;
+  }
+
   public enroll() {
     this.isRequest = true;
     this.habitAssignService
       .enrollByHabit(this.habit.habit.id, this.currentDate)
       .pipe(take(1))
       .subscribe((response) => {
+        this.setGreenCircleInCalendar(true);
         if (response.status === HabitStatus.ACQUIRED) {
           this.descriptionType.acquired();
           this.nowAcquiredHabit.emit(response);
@@ -103,11 +124,17 @@ export class OneHabitComponent implements OnInit {
       .unenrollByHabit(this.habit.habit.id, this.currentDate)
       .pipe(take(1))
       .subscribe((response) => {
+        this.setGreenCircleInCalendar(false);
         this.habit.habitStatusCalendarDtoList = response.habitStatusCalendarDtoList;
         this.habit.workingDays = response.workingDays;
         this.habit.habitStreak = response.habitStreak;
         this.buildHabitDescription();
         this.isRequest = false;
       });
+  }
+
+  ngOnDestroy() {
+    this.destroy$.next();
+    this.destroy$.complete();
   }
 }

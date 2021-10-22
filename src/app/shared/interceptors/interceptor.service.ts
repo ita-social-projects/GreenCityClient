@@ -8,6 +8,8 @@ import { LocalStorageService } from '../../main/service/localstorage/local-stora
 import { BAD_REQUEST, FORBIDDEN, UNAUTHORIZED } from '../../main/http-response-status';
 import { MatSnackBarComponent } from '@global-errors/mat-snack-bar/mat-snack-bar.component';
 import { UserOwnAuthService } from '@auth-service/user-own-auth.service';
+import { MatDialog } from '@angular/material/dialog';
+import { AuthModalComponent } from '@global-auth/auth-modal/auth-modal.component';
 
 interface NewTokenPair {
   accessToken: string;
@@ -26,7 +28,8 @@ export class InterceptorService implements HttpInterceptor {
     private snackBar: MatSnackBarComponent,
     private localStorageService: LocalStorageService,
     private router: Router,
-    private userOwnAuthService: UserOwnAuthService
+    private userOwnAuthService: UserOwnAuthService,
+    private dialog: MatDialog
   ) {}
 
   /**
@@ -111,10 +114,25 @@ export class InterceptorService implements HttpInterceptor {
    * @param error - {@link HttpErrorResponse}
    */
   private handleRefreshTokenIsNotValid(error: HttpErrorResponse): Observable<HttpEvent<any>> {
+    const currentUrl = this.router.url;
     this.isRefreshing = false;
     this.localStorageService.clear();
-    this.router.navigateByUrl('/');
+    this.dialog.closeAll();
     this.userOwnAuthService.isLoginUserSubject.next(false);
+    this.dialog
+      .open(AuthModalComponent, {
+        hasBackdrop: true,
+        closeOnNavigation: true,
+        panelClass: ['custom-dialog-container'],
+        data: {
+          popUpName: 'sign-in'
+        }
+      })
+      .afterClosed()
+      .pipe(take(1))
+      .subscribe(() => {
+        this.router.navigateByUrl(currentUrl);
+      });
     return of<HttpEvent<any>>();
   }
 

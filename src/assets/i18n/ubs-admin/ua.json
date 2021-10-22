@@ -58,24 +58,37 @@
     "info-about-date": "Додано:"
   },
   "order-edit": {
+    "order-status": {
+      "formed": "Сформовано",
+      "adjustment": "Змінено",
+      "brought-it-himself": "Вивезено самостійно",
+      "confirmed": "Підтверджено",
+      "on-the-route": "У дорозі",
+      "done": "Виконано",
+      "not-taken-out": "Не вивезено",
+      "cancelled": "Скасовано"
+    },
+    "payment-status": {
+      "paid": "Оплачено",
+      "not-paid": "Не оплачено",
+      "half-paid": "Частково оплачено",
+      "payment-refunded": "Оплату повернуто"
+    },
     "need-to-pay": "Потрібно доплатити",
     "status": {
       "title": "Замовлення",
       "order-date": "Дата оформлення",
       "order-label": "Статус замовлення",
-      "payment-label": "Статус оплати",
-      "approve-status": {
-        "approved": "Підтверджено",
-        "not-approved": "Не підтверджено"
-      },
-      "payment-status": {
-        "paid": "Оплачено",
-        "not-paid": "Не оплачено"
-      }
+      "payment-label": "Статус оплати"
     },
     "comment": {
       "label": "Коментар",
       "placeholder": "Будь-які деталі, які Ви хотіли б повідомити додатково щодо цього замовлення"
+    },
+    "btn": {
+      "back": "Назад",
+      "cancel": "Скасувати",
+      "save": "Зберегти"
     }
   },
   "address-details": {
@@ -93,20 +106,20 @@
     "customer": {
       "title": "Клієнт",
       "name-label": "Ім'я",
-      "name-placeholder": "Placeholder",
+      "name-placeholder": "Ім'я та прізвище",
       "tel-label": "Телефон",
-      "tel-placeholder": "Placeholder",
+      "tel-placeholder": "+380 00 000 00 00",
       "email-label": "Email",
-      "email-placeholder": "Placeholder"
+      "email-placeholder": "mail@mail.com"
     },
     "recipient": {
       "title": "Отримувач",
       "name-label": "Ім'я",
-      "name-placeholder": "Placeholder",
+      "name-placeholder": "Ім'я та прізвище",
       "tel-label": "Телефон",
-      "tel-placeholder": "Placeholder",
+      "tel-placeholder": "+380 00 000 00 00",
       "email-label": "Email",
-      "email-placeholder": "Placeholder"
+      "email-placeholder": "mail@mail.com"
     },
     "violation": {
       "title": "Порушення клієнта",
@@ -159,7 +172,8 @@
   "ubs-tables": {
     "export-to-excel": "Експортувати в  Excel",
     "table-view": "Вид таблиці",
-    "add-certificate": "Додати сертифікат"
+    "add-certificate": "Додати сертифікат",
+    "all-elements": "Відображати всі колонки"
   },
   "export-details": {
     "title": "Деталі вивезення",
@@ -177,6 +191,11 @@
   },
   "cancel-modal": {
     "question": "У разі скасування внесені зміни будуть втрачені. Чи дійсно Ви бажаєте скасувати зміни?",
+    "disagree": "Ні",
+    "agree": "Так"
+  },
+  "go-back-modal": {
+    "question": "У разі повернення назад внесені зміни будуть втрачені. Чи дійсно Ви бажаєте повернутись до таблиці?",
     "disagree": "Ні",
     "agree": "Так"
   },
@@ -249,7 +268,7 @@
     }
   },
   "ubs-sidebar": {
-    "users": "Дані користувача",
+    "customers": "Клієнти",
     "certificates": "Сертифікати",
     "orders": "Замовлення",
     "employees": "Працівники",

@@ -1,16 +1,15 @@
-import { Component, OnDestroy, OnInit, Renderer2 } from '@angular/core';
-import { FormBuilder, FormGroup, FormArray, Validators, FormControl } from '@angular/forms';
-import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
-import { FormBaseComponent } from '@shared/components/form-base/form-base.component';
-import { Router } from '@angular/router';
-import { MatDialog } from '@angular/material/dialog';
 import { Subject } from 'rxjs';
+import { Router } from '@angular/router';
 import { take, takeUntil } from 'rxjs/operators';
-
-import { Bag, FinalOrder, Locations, OrderDetails } from '../../models/ubs.interface';
+import { MatDialog } from '@angular/material/dialog';
+import { Component, OnDestroy, OnInit, Renderer2 } from '@angular/core';
+import { FormBaseComponent } from '@shared/components/form-base/form-base.component';
+import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
+import { FormBuilder, FormGroup, FormArray, Validators, FormControl } from '@angular/forms';
 import { OrderService } from '../../services/order.service';
-import { UBSOrderFormService } from '../../services/ubs-order-form.service';
 import { CertificateStatus } from '../../certificate-status.enum';
+import { UBSOrderFormService } from '../../services/ubs-order-form.service';
+import { Bag, FinalOrder, Locations, OrderDetails } from '../../models/ubs.interface';
 import { UbsOrderLocationPopupComponent } from './ubs-order-location-popup/ubs-order-location-popup.component';
 
 @Component({
@@ -95,10 +94,21 @@ export class UBSOrderDetailsComponent extends FormBaseComponent implements OnIni
   }
 
   ngOnInit(): void {
-    this.openLocationDialog();
+    const locationId = this.shareFormService.locationId;
+    if (locationId) {
+      this.currentLanguage = this.localStorageService.getCurrentLanguage();
+      this.locations = this.shareFormService.locations;
+      this.selectedLocationId = locationId;
+      this.saveLocation();
+    } else {
+      this.openLocationDialog();
+    }
     this.orderService.locationSubject.pipe(takeUntil(this.destroy)).subscribe(() => {
       this.takeOrderData();
       this.subscribeToLangChange();
+      if (this.localStorageService.getUbsOrderData()) {
+        this.calculateTotal();
+      }
     });
   }
 
@@ -109,11 +119,16 @@ export class UBSOrderDetailsComponent extends FormBaseComponent implements OnIni
       .addLocation(selectedLocation)
       .pipe(take(1))
       .subscribe(() => {
-        this.currentLocation = this.locations.find((loc) => loc.id === this.selectedLocationId).name;
+        this.setCurrentLocation(this.currentLanguage);
         this.isFetching = false;
         this.changeLocation = false;
         this.orderService.completedLocation(true);
+        this.localStorageService.setLocationId(this.selectedLocationId);
       });
+  }
+
+  private setCurrentLocation(currentLanguage: string): void {
+    this.currentLocation = this.locations.find((loc) => loc.id === this.selectedLocationId && loc.languageCode === currentLanguage).name;
   }
 
   getFormValues(): boolean {
@@ -142,9 +157,11 @@ export class UBSOrderDetailsComponent extends FormBaseComponent implements OnIni
       .afterClosed()
       .pipe(takeUntil(this.destroy))
       .subscribe((res) => {
-        this.locations = res.data;
-        this.selectedLocationId = this.locations[0].id;
-        this.currentLocation = res.data[0].name;
+        if (res.data) {
+          this.locations = res.data;
+          this.selectedLocationId = res.locationId;
+          this.setCurrentLocation(res.currentLanguage);
+        }
         this.isDialogOpen = false;
       });
   }
@@ -161,18 +178,15 @@ export class UBSOrderDetailsComponent extends FormBaseComponent implements OnIni
   }
 
   checkForBigBagsMessage() {
-    if (this.minAmountOfBigBags > this.totalOfBigBags) {
-      this.displayMinBigBagsMes = true;
-    } else {
-      this.displayMinBigBagsMes = false;
-    }
+    this.displayMinBigBagsMes = this.minAmountOfBigBags > this.totalOfBigBags;
   }
 
   private subscribeToLangChange(): void {
     this.localStorageService.languageSubject.pipe(takeUntil(this.destroy)).subscribe(() => {
       this.currentLanguage = this.localStorageService.getCurrentLanguage();
+      this.setCurrentLocation(this.currentLanguage);
       const inputsQuantity = [];
-      this.bags.map((a) => {
+      this.bags.forEach((a) => {
         inputsQuantity.push(a.quantity === undefined || a.quantity === null ? null : a.quantity);
         a.quantity = null;
       });
@@ -199,8 +213,11 @@ export class UBSOrderDetailsComponent extends FormBaseComponent implements OnIni
         this.defaultPoints = this.points;
         this.certificateLeft = orderData.points;
         this.bags.forEach((bag) => {
-          bag.quantity = null;
+          bag.quantity = bag.quantity === undefined ? null : bag.quantity;
           this.orderDetailsForm.addControl('quantity' + String(bag.id), new FormControl(0, [Validators.min(0), Validators.max(999)]));
+          const quantity = bag.quantity === null ? 0 : +bag.quantity;
+          const valueName = 'quantity' + String(bag.id);
+          this.orderDetailsForm.controls[valueName].setValue(quantity);
         });
         this.filterBags();
         this.isFetching = false;
@@ -292,11 +309,7 @@ export class UBSOrderDetailsComponent extends FormBaseComponent implements OnIni
       }
     });
 
-    if (counter === this.additionalOrders.controls.length) {
-      this.displayOrderBtn = true;
-    } else {
-      this.displayOrderBtn = false;
-    }
+    this.displayOrderBtn = counter === this.additionalOrders.controls.length;
   }
 
   public changeShopRadioBtn() {
@@ -388,7 +401,7 @@ export class UBSOrderDetailsComponent extends FormBaseComponent implements OnIni
       this.pointsUsed = this.points;
       this.total = this.total - this.pointsUsed;
     }
-    this.points >= this.finalSum ? (this.points = this.points - this.finalSum) : (this.points = 0);
+    this.points = this.points >= this.finalSum ? this.points - this.finalSum : 0;
   }
 
   resetPoints(): void {

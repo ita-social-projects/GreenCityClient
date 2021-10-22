@@ -1,9 +1,8 @@
-import { Directive, ElementRef, HostListener, OnInit, Renderer2 } from '@angular/core';
-
+import { AfterViewInit, Directive, ElementRef, HostListener, Renderer2 } from '@angular/core';
 @Directive({
-  selector: '[appGradient]',
+  selector: '[appGradient]'
 })
-export class GradientDirective implements OnInit {
+export class GradientDirective implements AfterViewInit {
   public durationProgres: number;
   public gradientProgres: number;
   public min: number = null;
@@ -14,7 +13,7 @@ export class GradientDirective implements OnInit {
     this.max = this.elm.nativeElement.max;
   }
 
-  ngOnInit(): void {
+  ngAfterViewInit(): void {
     this.durationProgres = this.elm.nativeElement.value;
     this.calcGradientVal();
     this.renderer.setStyle(

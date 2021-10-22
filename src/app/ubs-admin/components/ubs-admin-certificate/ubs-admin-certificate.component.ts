@@ -4,11 +4,10 @@ import { takeUntil } from 'rxjs/operators';
 import { Subject } from 'rxjs';
 import { MatTableDataSource } from '@angular/material/table';
 import { SelectionModel } from '@angular/cdk/collections';
-import { ubsAdminTable } from '../ubs-image-pathes/ubs-admin-table';
 import { MatSort } from '@angular/material/sort';
 import { AdminCertificateService } from '../../services/admin-certificate.service';
 import { TableHeightService } from '../../services/table-height.service';
-import { MatDialog } from '@angular/material/dialog';
+import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { UbsAdminCertificateAddCertificatePopUpComponent } from './ubs-admin-certificate-add-certificate-pop-up/ubs-admin-certificate-add-certificate-pop-up.component';
 
 @Component({
@@ -25,7 +24,7 @@ export class UbsAdminCertificateComponent implements OnInit, AfterViewChecked, O
   orderInfo: string[] = [];
   customerInfo: string[] = [];
   orderDetails: string[] = [];
-  sertificate: string[] = [];
+  certificate: string[] = [];
   detailsOfExport: string[] = [];
   responsiblePerson: string[] = [];
   dataSource: MatTableDataSource<any>;
@@ -35,19 +34,17 @@ export class UbsAdminCertificateComponent implements OnInit, AfterViewChecked, O
   isLoading = true;
   isUpdate = false;
   destroy: Subject<boolean> = new Subject<boolean>();
-  arrowDirection: string;
   tableData: any[];
   totalPages: number;
-  pageSizeOptions: number[] = [10, 15, 20];
   currentPage = 0;
   pageSize = 25;
-  ubsAdminTableIcons = ubsAdminTable;
   @ViewChild(MatSort, { static: true }) sort: MatSort;
 
   constructor(
     private adminCertificateService: AdminCertificateService,
     private tableHeightService: TableHeightService,
-    public dialog: MatDialog
+    public dialog: MatDialog,
+    public dialogRef: MatDialogRef<UbsAdminCertificateAddCertificatePopUpComponent>
   ) {}
 
   ngOnInit() {
@@ -138,10 +135,6 @@ export class UbsAdminCertificateComponent implements OnInit, AfterViewChecked, O
       });
   }
 
-  selectPageSize(value: number) {
-    this.pageSize = value;
-  }
-
   onScroll() {
     if (!this.isUpdate && this.currentPage < this.totalPages) {
       this.currentPage++;
@@ -150,13 +143,14 @@ export class UbsAdminCertificateComponent implements OnInit, AfterViewChecked, O
   }
 
   openAddCertificate() {
-    this.dialog.open(UbsAdminCertificateAddCertificatePopUpComponent, {
+    const dialogRef = this.dialog.open(UbsAdminCertificateAddCertificatePopUpComponent, {
       hasBackdrop: true,
       disableClose: true
     });
-    this.dialog.afterAllClosed.pipe(takeUntil(this.destroy)).subscribe(() => {
-      this.getTable();
-    });
+    dialogRef
+      .afterClosed()
+      .pipe(takeUntil(this.destroy))
+      .subscribe((result) => result && this.getTable());
   }
 
   ngOnDestroy() {
