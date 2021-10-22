@@ -82,9 +82,7 @@ export class UBSSubmitOrderComponent extends FormBaseComponent implements OnInit
           const bag: OrderBag = { amount: item.quantity, id: item.id };
           this.orderBags.push(bag);
         });
-        console.log(this.orderBags);
         this.setOrderNotification();
-        console.log(this.order);
         this.orderService.setOrder(this.order);
 
         this.isValidOrder = response.orderDiscountedPrice <= 0;
