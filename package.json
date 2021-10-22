@@ -63,8 +63,11 @@
     "ngx-page-scroll-core": "^7.0.4",
     "ngx-pagination": "^4.1.0",
     "ngx-swiper-wrapper": "^8.0.2",
+    "postcss": "^8.3.11",
+    "postcss-scss": "^4.0.1",
     "rxjs": "~6.6.7",
     "sockjs-client": "^1.5.0",
+    "stylelint": "^14.0.0",
     "tslib": "^1.10.0",
     "xlsx": "^0.17.1",
     "zone.js": "~0.10.2"
@@ -91,6 +94,7 @@
     "prettier": "^2.2.1",
     "protractor": "~7.0.0",
     "stylelint-config-standard": "^20.0.0",
+    "stylelint-config-standard-scss": "^2.0.0",
     "ts-node": "~7.0.0",
     "tslint": "~5.15.0",
     "typescript": "~3.8.3"
