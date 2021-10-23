@@ -73,15 +73,15 @@
     <a
       (click)="onOpenModalWindow('restore-password')"
       (keyup.enter)="onOpenModalWindow('restore-password')"
-      class="forgot-password"
+      [ngClass]="isUbs ? 'ubs-forgot-password' : 'forgot-password'"
       tabindex="0"
     >
       {{ 'user.auth.sign-in.forgot-password' | translate }}</a
     >
   </div>
-  <button class="primary-global-button" type="submit" [disabled]="!signInForm.valid">
+  <button [ngClass]="isUbs ? 'ubs-primary-global-button' : 'primary-global-button'" type="submit" [disabled]="!signInForm.valid">
+    <span [class.span]="isUbs">{{ 'user.auth.sign-in.sign-in' | translate }}</span>
     <span *ngIf="loadingAnim" class="spinner-border spinner-border-sm" role="status" aria-hidden="true"> </span>
-    {{ 'user.auth.sign-in.sign-in' | translate }}
   </button>
   <span class="or-use-google">{{ 'user.auth.sign-in.or-signin' | translate }}</span>
 </form>
@@ -91,7 +91,12 @@
 <div class="missing-account">
   <p>
     {{ 'user.auth.sign-in.havenot-account' | translate }}
-    <a (click)="onOpenModalWindow('sign-up')" (keyup.enter)="onOpenModalWindow('sign-up')" class="sign-up-link" tabindex="0">
+    <a
+      (click)="onOpenModalWindow('sign-up')"
+      (keyup.enter)="onOpenModalWindow('sign-up')"
+      [ngClass]="isUbs ? 'ubs-sign-up-link' : 'sign-up-link'"
+      tabindex="0"
+    >
       {{ 'user.auth.sign-in.sign-up' | translate }}
     </a>
   </p>

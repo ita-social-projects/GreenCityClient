@@ -1,6 +1,6 @@
-import { UserSuccessSignIn, SuccessSignUpDto } from './../../../../model/user-success-sign-in';
-import { UserOwnSignUp } from './../../../../model/user-own-sign-up';
-import { authImages } from './../../../../image-pathes/auth-images';
+import { UserSuccessSignIn, SuccessSignUpDto } from '@global-models/user-success-sign-in';
+import { UserOwnSignUp } from '@global-models/user-own-sign-up';
+import { authImages } from '../../../../image-pathes/auth-images';
 import { Component, EventEmitter, OnInit, OnDestroy, Output } from '@angular/core';
 import { AbstractControl, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
@@ -19,7 +19,7 @@ import { MatSnackBarComponent } from '@global-errors/mat-snack-bar/mat-snack-bar
 @Component({
   selector: 'app-sign-up',
   templateUrl: './sign-up.component.html',
-  styleUrls: ['./sign-up.component.scss'],
+  styleUrls: ['./sign-up.component.scss']
 })
 export class SignUpComponent implements OnInit, OnDestroy {
   public signUpForm: FormGroup;
@@ -45,8 +45,10 @@ export class SignUpComponent implements OnInit, OnDestroy {
     name: (error: string) => (this.firstNameErrorMessageBackEnd = error),
     email: (error: string) => (this.emailErrorMessageBackEnd = error),
     password: (error: string) => (this.passwordErrorMessageBackEnd = error),
-    passwordConfirm: (error: string) => (this.passwordConfirmErrorMessageBackEnd = error),
+    passwordConfirm: (error: string) => (this.passwordConfirmErrorMessageBackEnd = error)
   };
+  public isUbs: boolean;
+  public navigateToLink;
   @Output() private pageName = new EventEmitter();
 
   constructor(
@@ -58,11 +60,13 @@ export class SignUpComponent implements OnInit, OnDestroy {
     private router: Router,
     private authService: AuthService,
     private googleService: GoogleSignInService,
-    private localStorageService: LocalStorageService,
+    private localeStorageService: LocalStorageService,
     private snackBar: MatSnackBarComponent
   ) {}
 
   ngOnInit() {
+    this.localeStorageService.ubsRegBehaviourSubject.pipe(takeUntil(this.destroy)).subscribe((value) => (this.isUbs = value));
+    this.currentLanguage = this.localeStorageService.getCurrentLanguage();
     this.onFormInit();
     this.getFormFields();
     this.setNullAllMessage();
@@ -78,7 +82,7 @@ export class SignUpComponent implements OnInit, OnDestroy {
 
     this.setNullAllMessage();
     this.loadingAnim = true;
-    this.currentLanguage = this.localStorageService.getCurrentLanguage();
+    this.currentLanguage = this.localeStorageService.getCurrentLanguage();
     this.userOwnSignUpService
       .signUp(userOwnRegister, this.currentLanguage)
       .pipe(takeUntil(this.destroy))
@@ -135,10 +139,10 @@ export class SignUpComponent implements OnInit, OnDestroy {
         email: ['', [Validators.required, Validators.email]],
         firstName: ['', []],
         password: ['', []],
-        repeatPassword: ['', []],
+        repeatPassword: ['', []]
       },
       {
-        validator: [ConfirmPasswordValidator('password', 'repeatPassword'), ValidatorRegExp('firstName'), ValidatorRegExp('password')],
+        validator: [ConfirmPasswordValidator('password', 'repeatPassword'), ValidatorRegExp('firstName'), ValidatorRegExp('password')]
       }
     );
   }
@@ -175,9 +179,10 @@ export class SignUpComponent implements OnInit, OnDestroy {
   }
 
   private signUpWithGoogleSuccess(data: UserSuccessSignIn): void {
+    this.navigateToLink = this.isUbs ? ['ubs', 'order'] : ['profile', data.userId];
     this.userOwnSignInService.saveUserToLocalStorage(data);
     this.closeSignUpWindow();
-    this.router.navigate(['/profile', data.userId]);
+    this.router.navigate(this.navigateToLink);
   }
 
   private signUpWithGoogleError(errors: HttpErrorResponse): void {
