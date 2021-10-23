@@ -31,7 +31,7 @@ export class UBSOrderFormComponent implements OnInit, AfterViewInit, DoCheck, On
   ) {}
 
   @HostListener('window:beforeunload') onClose() {
-    this.saveDataOnLocalStorage();
+    this.shareFormService.saveDataOnLocalStorage();
     return true;
   }
 
@@ -53,17 +53,7 @@ export class UBSOrderFormComponent implements OnInit, AfterViewInit, DoCheck, On
     }
   }
 
-  saveDataOnLocalStorage() {
-    if (!this.shareFormService.isDataSaved) {
-      const personalData = JSON.stringify(this.shareFormService.getPersonalData());
-      const orderData = JSON.stringify(this.shareFormService.getOrderDetails());
-      this.localStorageService.setUbsOrderData(personalData, orderData);
-    } else {
-      this.localStorageService.removeUbsOrderData();
-    }
-  }
-
   ngOnDestroy() {
-    this.saveDataOnLocalStorage();
+    this.shareFormService.saveDataOnLocalStorage();
   }
 }
