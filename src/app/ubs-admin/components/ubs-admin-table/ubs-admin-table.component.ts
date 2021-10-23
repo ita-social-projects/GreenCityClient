@@ -13,6 +13,7 @@ import { MatSort } from '@angular/material/sort';
 import { Router } from '@angular/router';
 import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
 import { IEditCell, IAlertInfo } from '../../models/edit-cell.model';
+import { OrderService } from '../../services/order.service';
 
 @Component({
   selector: 'app-ubs-admin-table',
@@ -50,6 +51,7 @@ export class UbsAdminTableComponent implements OnInit, AfterViewChecked, OnDestr
   @ViewChild(MatSort, { static: true }) sort: MatSort;
 
   constructor(
+    private orderService: OrderService,
     private router: Router,
     private adminTableService: AdminTableService,
     private localStorageService: LocalStorageService,
@@ -139,14 +141,14 @@ export class UbsAdminTableComponent implements OnInit, AfterViewChecked, OnDestr
   }
 
   public changeColumns(checked: boolean, key: string, positionIndex): void {
-    checked
-      ? (this.displayedColumns = [...this.displayedColumns.slice(0, positionIndex), key, ...this.displayedColumns.slice(positionIndex)])
-      : (this.displayedColumns = this.displayedColumns.filter((item) => item !== key));
-    this.count === this.displayedColumns.length ? (this.isAll = true) : (this.isAll = false);
+    this.displayedColumns = checked
+      ? [...this.displayedColumns.slice(0, positionIndex), key, ...this.displayedColumns.slice(positionIndex)]
+      : this.displayedColumns.filter((item) => item !== key);
+    this.isAll = this.count === this.displayedColumns.length;
   }
 
   public togglePopUp() {
-    this.display === 'none' ? (this.display = 'block') : (this.display = 'none');
+    this.display = this.display === 'none' ? 'block' : 'none';
   }
 
   public showAllColumns(isCheckAll: boolean): void {
@@ -252,10 +254,7 @@ export class UbsAdminTableComponent implements OnInit, AfterViewChecked, OnDestr
   }
 
   public cancelEditCell(ids: number[]): void {
-    this.adminTableService
-      .cancelEdit(ids)
-      .pipe(takeUntil(this.destroy))
-      .subscribe((res) => {});
+    this.adminTableService.cancelEdit(ids);
     this.idsToChange = [];
     this.allChecked = false;
   }
@@ -327,22 +326,16 @@ export class UbsAdminTableComponent implements OnInit, AfterViewChecked, OnDestr
   }
 
   private postData(id, nameOfColumn, newValue): void {
-    this.adminTableService.postData(id, nameOfColumn, newValue).subscribe(
-      (val) => {
-        this.editCellProgressBar = false;
-        this.idsToChange = [];
-        this.allChecked = false;
-      },
-      (error) => {
-        this.editCellProgressBar = false;
-        this.idsToChange = [];
-        this.allChecked = false;
-      }
-    );
+    this.adminTableService.postData(id, nameOfColumn, newValue).subscribe(() => {
+      this.editCellProgressBar = false;
+      this.idsToChange = [];
+      this.allChecked = false;
+    });
   }
 
   openOrder(row): void {
-    this.router.navigate(['ubs-admin', 'order'], { state: { order: row } });
+    this.orderService.setSelectedOrder(row);
+    this.router.navigate(['ubs-admin', 'order']);
   }
 
   ngOnDestroy() {

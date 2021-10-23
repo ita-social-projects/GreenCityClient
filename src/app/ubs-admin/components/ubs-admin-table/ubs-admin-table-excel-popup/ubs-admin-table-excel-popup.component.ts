@@ -29,7 +29,7 @@ export class UbsAdminTableExcelPopupComponent implements OnInit {
     }
 
     this.isLoading = true;
-    this.tableData = await this.getTable(this.sortingColumn, this.onePageForWholeTable, this.totalElements, this.sortType);
+    this.tableData = await this.getTable(this.onePageForWholeTable, this.totalElements, this.sortType, this.sortingColumn);
     this.isLoading = false;
 
     if (this.tableData) {
@@ -43,7 +43,7 @@ export class UbsAdminTableExcelPopupComponent implements OnInit {
   }
 
   // Default parameters should be last.
-  getTable(columnName = this.sortingColumn || 'order_id', currentPage, pageSize, sortingType = this.sortType || 'desc') {
+  getTable(currentPage, pageSize, sortingType = this.sortType || 'DESC', columnName = this.sortingColumn || 'id') {
     return this.adminTableService
       .getTable(columnName, currentPage, pageSize, sortingType)
       .toPromise()

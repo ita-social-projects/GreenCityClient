@@ -1,9 +1,8 @@
 import { Component, Inject, OnDestroy } from '@angular/core';
-import { MAT_DIALOG_DATA, MatDialog } from '@angular/material/dialog';
+import { MAT_DIALOG_DATA, MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { TariffsService } from '../../../../services/tariffs.service';
 import { takeUntil } from 'rxjs/operators';
 import { Subject } from 'rxjs';
-import { MatDialogRef } from '@angular/material/dialog';
 
 @Component({
   selector: 'app-ubs-admin-tariffs-delete-pop-up',

@@ -70,7 +70,9 @@
     },
     "payment-status": {
       "paid": "Paid",
-      "not-paid": "Not paid"
+      "not-paid": "Not paid",
+      "half-paid": "Half paid",
+      "payment-refunded": "Payment refunded"
     },
     "need-to-pay": "Need to pay extra ",
     "status": {
@@ -84,6 +86,11 @@
     "comment": {
       "label": "Comment",
       "placeholder": "Any details you would like to report additionally regarding this order"
+    },
+    "btn": {
+      "back": "Back",
+      "cancel": "Cancel",
+      "save": "Save"
     }
   },
   "address-details": {
@@ -101,20 +108,20 @@
     "customer": {
       "title": "Customer",
       "name-label": "Name",
-      "name-placeholder": "Placeholder",
+      "name-placeholder": "Name and Surname",
       "tel-label": "Phone",
-      "tel-placeholder": "Placeholder",
+      "tel-placeholder": "+380 00 000 00 00",
       "email-label": "Email",
-      "email-placeholder": "Placeholder"
+      "email-placeholder": "mail@mail.com"
     },
     "recipient": {
       "title": "Recipient",
       "name-label": "Name",
-      "name-placeholder": "Placeholder",
+      "name-placeholder": "Name and Surname",
       "tel-label": "Phone",
-      "tel-placeholder": "Placeholder",
+      "tel-placeholder": "+380 00 000 00 00",
       "email-label": "Email",
-      "email-placeholder": "Placeholder"
+      "email-placeholder": "mail@mail.com"
     },
     "violation": {
       "title": "Customer violations",
