@@ -401,7 +401,7 @@ export class UBSOrderDetailsComponent extends FormBaseComponent implements OnIni
       this.pointsUsed = this.points;
       this.total = this.total - this.pointsUsed;
     }
-    this.points >= this.finalSum ? (this.points = this.points - this.finalSum) : (this.points = 0);
+    this.points = this.points >= this.finalSum ? this.points - this.finalSum : 0;
   }
 
   resetPoints(): void {
