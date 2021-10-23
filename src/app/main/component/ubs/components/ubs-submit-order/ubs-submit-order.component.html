@@ -85,7 +85,9 @@
           <div class="order-info m-0">
             <p class="order-header">{{ 'order-details.export-address' | translate }}</p>
             <ul class="order-list">
-              <li class="order-list-item">{{ 'personal-info.address-city' | translate }} {{ personalData.city }}</li>
+              <li class="order-list-item">
+                {{ 'personal-info.address-city' | translate }} {{ 'personal-info.pop-up-city-name' | translate }}
+              </li>
               <li class="order-list-item">
                 <span>{{ personalData.street }}, {{ personalData.houseNumber }}</span>
                 <span *ngIf="personalData.houseCorpus"
@@ -136,6 +138,6 @@
       <span *ngIf="loadingAnim" class="spinner-border spinner-border-sm" role="status" aria-hidden="true"> </span>
       {{ 'submit-order.to-order' | translate }}
     </button>
-    <button *ngIf="isLiqPay" id="liqPayButton"></button>
+    <button *ngIf="isLiqPay" id="liqPayButton" (click)="onNotSaveData()"></button>
   </div>
 </div>

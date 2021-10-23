@@ -1,12 +1,12 @@
 <div class="full_card">
   <div class="header_details">{{ 'user-orders.details.title' | translate }}</div>
-  <table class="table_of_details">
+  <table class="table_of_details" aria-label="orderDetailsTable">
     <tr class="header_table">
-      <th>{{ 'user-orders.details.services' | translate }}</th>
-      <th>{{ 'user-orders.details.volume' | translate }}</th>
-      <th>{{ 'user-orders.details.cost' | translate }}</th>
-      <th>{{ 'user-orders.details.bags-amount' | translate }}</th>
-      <th>{{ 'user-orders.details.sum' | translate }}</th>
+      <th scope="row">{{ 'user-orders.details.services' | translate }}</th>
+      <th scope="row">{{ 'user-orders.details.volume' | translate }}</th>
+      <th scope="row">{{ 'user-orders.details.cost' | translate }}</th>
+      <th scope="row">{{ 'user-orders.details.bags-amount' | translate }}</th>
+      <th scope="row">{{ 'user-orders.details.sum' | translate }}</th>
     </tr>
     <tr *ngFor="let bag of order.bags" class="data_table">
       <td>{{ bag.name }}Вторсировина</td>

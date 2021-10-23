@@ -1,10 +1,6 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
-import { FormGroup, FormControl, Validators } from '@angular/forms';
+import { Component, Input, OnDestroy } from '@angular/core';
+import { FormGroup } from '@angular/forms';
 import { Subject } from 'rxjs';
-import { takeUntil } from 'rxjs/operators';
-import { IUserInfo } from '../../models/ubs-admin.interface';
-import { OrderService } from '../../services/order.service';
-import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
 import { MatDialog } from '@angular/material/dialog';
 import { AddViolationsComponent } from '../add-violations/add-violations.component';
 
@@ -13,50 +9,14 @@ import { AddViolationsComponent } from '../add-violations/add-violations.compone
   templateUrl: './ubs-admin-order-client-info.component.html',
   styleUrls: ['./ubs-admin-order-client-info.component.scss']
 })
-export class UbsAdminOrderClientInfoComponent implements OnInit, OnDestroy {
-  public userInfo: IUserInfo;
-  public customerInfoForm: FormGroup;
-  public customerName: FormControl;
-  public totalUserViolations: number;
-  public userViolationForCurrentOrder: number;
-  public orderId = 893;
-  public currentLanguage: string;
+export class UbsAdminOrderClientInfoComponent implements OnDestroy {
+  @Input() order;
+  @Input() clientInfoForm: FormGroup;
+
+  public userViolationForCurrentOrder = 0;
   private destroy$: Subject<boolean> = new Subject<boolean>();
 
-  constructor(private localStorageService: LocalStorageService, private dialog: MatDialog, private orderService: OrderService) {}
-
-  public initForm(): void {
-    this.customerInfoForm = new FormGroup({
-      customerName: new FormControl('', [Validators.required]),
-      customerPhoneNumber: new FormControl('', [Validators.required]),
-      customerEmail: new FormControl('', [Validators.required, Validators.email]),
-      recipientName: new FormControl('', [Validators.required]),
-      recipientPhoneNumber: new FormControl('', [Validators.required]),
-      recipientEmail: new FormControl('', [Validators.required, Validators.email])
-    });
-  }
-
-  public patchFormData(): void {
-    this.customerInfoForm.patchValue(this.userInfo);
-  }
-
-  public getUserInfo() {
-    this.currentLanguage = this.localStorageService.getCurrentLanguage();
-    this.orderService
-      .getUserInfo(this.orderId, this.currentLanguage)
-      .pipe(takeUntil(this.destroy$))
-      .subscribe((data: IUserInfo) => {
-        this.userInfo = data;
-        this.totalUserViolations = data.totalUserViolations;
-        this.userViolationForCurrentOrder = data.userViolationForCurrentOrder;
-        this.patchFormData();
-      });
-  }
-
-  ngOnInit(): void {
-    this.initForm();
-    this.getUserInfo();
-  }
+  constructor(private dialog: MatDialog) {}
 
   ngOnDestroy(): void {
     this.destroy$.next();

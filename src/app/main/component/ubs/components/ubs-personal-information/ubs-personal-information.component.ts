@@ -24,15 +24,15 @@ export class UBSPersonalInformationComponent extends FormBaseComponent implement
   order: Order;
   addresses: Address[] = [];
   maxAddressLength = 4;
-  namePattern = /^[A-Za-zА-Яа-яЯїЇіІєЄёЁ\.\'\-\\]+$/;
+  namePattern = /^[A-Za-zА-Яа-яїЇіІєЄёЁ\'\- ]+$/;
   phoneMask = '+{38} (000) 000 00 00';
   firstOrder = true;
   anotherClient = false;
   private destroy: Subject<boolean> = new Subject<boolean>();
   private personalDataFormValidators: ValidatorFn[] = [
     Validators.required,
-    Validators.minLength(1),
-    Validators.maxLength(30),
+    Validators.minLength(2),
+    Validators.maxLength(20),
     Validators.pattern(this.namePattern)
   ];
   popupConfig = {

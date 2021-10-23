@@ -47,6 +47,7 @@ p {
   font-size: 30px;
   line-height: 44px;
   text-align: center;
+  margin: 10px;
 }
 
 .header {
@@ -70,6 +71,7 @@ p {
   max-width: 100%;
   height: auto;
   margin: 20px auto 10px 0;
+  float: left;
 }
 
 .ubs-polygon {
@@ -83,6 +85,7 @@ p {
   font-size: 18px;
   max-width: 665px;
   line-height: 28px;
+  font-weight: bold;
 }
 
 ul li {
@@ -216,7 +219,7 @@ hr {
 }
 
 #how-works {
-  margin: 50px 50px 50px auto;
+  margin: 50px auto;
 }
 
 #header-how-works {
@@ -261,6 +264,20 @@ hr {
 
   .content-price {
     margin: 80px 40px 10px;
+  }
+}
+
+@media screen and (max-width: 770px) {
+  .how-preparing {
+    .header-left {
+      display: block;
+      max-width: 51%;
+    }
+
+    .header-right {
+      display: block;
+      width: auto;
+    }
   }
 }
 
@@ -323,5 +340,13 @@ hr {
 
   .content-step {
     margin-top: 110px;
+  }
+
+  .button {
+    width: 90%;
+  }
+
+  .how-preparing .header-left {
+    width: 40%;
   }
 }

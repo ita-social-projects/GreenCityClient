@@ -1,5 +1,4 @@
-import { AppModule } from './../../../../../app.module';
-import { Language } from './../../../../i18n/Language';
+import { Language } from '../../../../i18n/Language';
 import { LayoutModule } from '../../../layout/layout.module';
 import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
@@ -13,7 +12,8 @@ import { EcoEventsComponent, StatRowsComponent, SubscribeComponent, TipsCardComp
 import { EcoEventsItemComponent } from '../eco-events/eco-events-item/eco-events-item.component';
 import { SwiperModule } from 'ngx-swiper-wrapper';
 import { FormsModule } from '@angular/forms';
-import { MatDialogModule, MatSnackBarModule, MAT_DIALOG_DATA, MatDialog } from '@angular/material';
+import { MatDialogModule, MAT_DIALOG_DATA, MatDialog } from '@angular/material/dialog';
+import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { MatSnackBarComponent } from '@global-errors/mat-snack-bar/mat-snack-bar.component';
 import { ActivatedRoute } from '@angular/router';
 import { BehaviorSubject, of } from 'rxjs';
@@ -28,7 +28,7 @@ import { APP_BASE_HREF } from '@angular/common';
 class MatDialogMock {
   open() {
     return {
-      afterClosed: () => of(true),
+      afterClosed: () => of(true)
     };
   }
 }
@@ -56,9 +56,10 @@ describe('HomepageComponent', () => {
   const activatedRouteMock = {
     queryParams: of({
       token: '1',
-      user_id: '1',
-    }),
+      user_id: '1'
+    })
   };
+  const routerSpy = { navigate: jasmine.createSpy('navigate') };
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
@@ -84,7 +85,7 @@ describe('HomepageComponent', () => {
         SubscribeComponent,
         StatRowComponent,
         EcoEventsItemComponent,
-        TipsCardComponent,
+        TipsCardComponent
       ],
       providers: [
         { provide: MatSnackBarComponent, useValue: snackBarMock },
@@ -94,8 +95,8 @@ describe('HomepageComponent', () => {
         { provide: UserService, useValue: userServiceMock },
         { provide: MAT_DIALOG_DATA, useValue: {} },
         { provide: MatDialog, useClass: MatDialogMock },
-        { provide: APP_BASE_HREF, useValue: '/' },
-      ],
+        { provide: APP_BASE_HREF, useValue: '/' }
+      ]
     }).compileComponents();
   }));
 
@@ -105,15 +106,39 @@ describe('HomepageComponent', () => {
     fixture.detectChanges();
   });
 
+  afterEach(() => {
+    spyOn(component, 'ngOnDestroy').and.callFake(() => {});
+    fixture.destroy();
+  });
+
   it('should create', () => {
     expect(component).toBeTruthy();
   });
 
-  it('check the validity of token', inject([VerifyEmailService], (sevice: VerifyEmailService) => {
-    const spy = spyOn(sevice, 'onCheckToken').and.returnValue(of({}));
+  it('ngOnInit should be called', () => {
+    const spyOnInit = spyOn(component, 'ngOnInit');
+    component.ngOnInit();
+    expect(spyOnInit).toHaveBeenCalled();
+  });
+
+  it('should redirect to profile page', () => {
+    fixture.ngZone.run(() => {
+      component.startHabit();
+      expect(routerSpy.navigate).toBeDefined();
+    });
+  });
+
+  it('check the validity of token', inject([VerifyEmailService], (service: VerifyEmailService) => {
+    const spy = spyOn(service, 'onCheckToken').and.returnValue(of({}));
     // @ts-ignore
     component.onCheckToken();
 
     expect(spy).toHaveBeenCalledWith('1', '1');
   }));
+
+  it('openAuthModalWindow should be called', () => {
+    const spyOpenAuthModalWindow = spyOn(MatDialogMock.prototype, 'open');
+    MatDialogMock.prototype.open();
+    expect(spyOpenAuthModalWindow).toHaveBeenCalled();
+  });
 });

@@ -18,7 +18,7 @@ describe('ProfileProgressComponent', () => {
     TestBed.configureTestingModule({
       declarations: [ProfileProgressComponent],
       imports: [HttpClientTestingModule, TranslateModule.forRoot()],
-      providers: [ProfileService],
+      providers: [ProfileService]
     }).compileComponents();
   }));
 
@@ -30,7 +30,7 @@ describe('ProfileProgressComponent', () => {
       amountHabitsInProgress: 0,
       amountHabitsAcquired: 0,
       amountWrittenTipsAndTrick: 0,
-      amountPublishedNews: 0,
+      amountPublishedNews: 0
     };
     spy = spyOn(profileService, 'getUserProfileStatistics').and.returnValue(Observable.of(mockProgress));
     fixture.detectChanges();
@@ -38,10 +38,5 @@ describe('ProfileProgressComponent', () => {
 
   it('should create', () => {
     expect(component).toBeTruthy();
-  });
-
-  it('should call profileService', () => {
-    component.checkUserActivities();
-    expect(spy.calls.any()).toBeTruthy();
   });
 });

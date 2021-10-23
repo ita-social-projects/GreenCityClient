@@ -71,6 +71,7 @@ import { MatDialogModule, MAT_DIALOG_DEFAULT_OPTIONS } from '@angular/material/d
     SharedModule
   ],
   entryComponents: [UBSAddAddressPopUpComponent, UbsOrderLocationPopupComponent],
+  exports: [],
   providers: [
     {
       provide: MAT_DIALOG_DEFAULT_OPTIONS,
