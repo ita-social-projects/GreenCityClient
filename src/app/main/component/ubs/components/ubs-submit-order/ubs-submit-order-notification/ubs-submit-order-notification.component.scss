@@ -81,10 +81,6 @@ h3 {
   }
 }
 
-.container {
-  padding: 0;
-}
-
 .form-title {
   @include text_style(var(--ubs-quaternary-font), var(--ubs-primary-grey), 40px, 700);
 
