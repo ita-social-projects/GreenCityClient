@@ -106,16 +106,12 @@
   letter-spacing: 0.1px;
 }
 
-.ubs-primary-global-button {
-  background: var(--ubs-button-light-green);
-}
-
-.ubs-primary-global-button:active {
-  background: var(--ubs-button-light-green);
-}
-
 .primary-global-button {
   background: var(--primary-green);
+}
+
+.ubs-primary-global-button {
+  background: var(--ubs-button-light-green);
 }
 
 .ubs-primary-global-button,
@@ -130,6 +126,10 @@
   align-items: center;
   text-align: center;
   color: #fff;
+}
+
+.ubs-primary-global-button:active {
+  background: var(--ubs-button-light-green);
 }
 
 .primary-global-button:hover,
