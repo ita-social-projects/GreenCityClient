@@ -87,6 +87,7 @@ export class UBSSubmitOrderComponent extends FormBaseComponent implements OnInit
       .pipe(
         finalize(() => {
           this.loadingAnim = false;
+          this.shareFormService.isDataSaved = false;
           if (!this.shareFormService.orderUrl) {
             this.router.navigate(['ubs', 'confirm']);
           }

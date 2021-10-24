@@ -31,6 +31,7 @@ export class UBSOrderFormComponent implements OnInit, AfterViewInit, DoCheck, On
   ) {}
 
   @HostListener('window:beforeunload') onClose() {
+    this.shareFormService.isDataSaved = false;
     this.shareFormService.saveDataOnLocalStorage();
     return true;
   }
@@ -54,6 +55,7 @@ export class UBSOrderFormComponent implements OnInit, AfterViewInit, DoCheck, On
   }
 
   ngOnDestroy() {
+    this.shareFormService.isDataSaved = false;
     this.shareFormService.saveDataOnLocalStorage();
   }
 }
