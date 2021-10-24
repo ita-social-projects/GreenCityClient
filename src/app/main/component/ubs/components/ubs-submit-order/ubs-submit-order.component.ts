@@ -5,7 +5,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { FormBaseComponent } from '@shared/components/form-base/form-base.component';
 
 import { Subject } from 'rxjs';
-import { takeUntil } from 'rxjs/operators';
+import { finalize, takeUntil } from 'rxjs/operators';
 import { Bag, OrderDetails, PersonalData } from '../../models/ubs.interface';
 import { UBSOrderFormService } from '../../services/ubs-order-form.service';
 import { OrderService } from '../../services/order.service';
@@ -38,12 +38,14 @@ export class UBSSubmitOrderComponent extends FormBaseComponent implements OnInit
       popupCancel: 'confirmation.dismiss'
     }
   };
-  isValidOrder = true;
+  isFinalSumZero = true;
+  isTotalAmountZero = true;
 
   constructor(
     private orderService: OrderService,
     private shareFormService: UBSOrderFormService,
     private fb: FormBuilder,
+    private ubsOrderFormService: UBSOrderFormService,
     router: Router,
     dialog: MatDialog
   ) {
@@ -68,7 +70,8 @@ export class UBSSubmitOrderComponent extends FormBaseComponent implements OnInit
       this.orderDetails = orderDetails;
       this.bags = orderDetails.bags.filter((bagItem) => bagItem.quantity !== null);
       this.additionalOrders = orderDetails.additionalOrders;
-      this.isValidOrder = orderDetails.finalSum <= 0;
+      this.isFinalSumZero = orderDetails.finalSum <= 0;
+      this.isTotalAmountZero = orderDetails.total === 0;
     });
     this.shareFormService.changedPersonalData.pipe(takeUntil(this.destroy)).subscribe((personalData: PersonalData) => {
       this.personalData = personalData;
@@ -77,15 +80,30 @@ export class UBSSubmitOrderComponent extends FormBaseComponent implements OnInit
 
   redirectToOrder() {
     this.loadingAnim = true;
+
     this.orderService
       .getOrderUrl()
       .pipe(takeUntil(this.destroy))
-      .subscribe(
-        (fondyUrl) => {
-          this.shareFormService.isDataSaved = true;
-          this.shareFormService.orderUrl = fondyUrl.toString();
-          document.location.href = this.shareFormService.orderUrl;
+      .pipe(
+        finalize(() => {
           this.loadingAnim = false;
+          if (!this.shareFormService.orderUrl) {
+            this.router.navigate(['ubs', 'confirm']);
+          }
+        })
+      )
+      .subscribe(
+        (response) => {
+          this.shareFormService.orderUrl = '';
+          this.shareFormService.isDataSaved = true;
+          if (this.isFinalSumZero && !this.isTotalAmountZero) {
+            this.ubsOrderFormService.transferOrderId(response);
+            this.ubsOrderFormService.setOrderResponseErrorStatus(false);
+            this.ubsOrderFormService.setOrderStatus(true);
+          } else {
+            this.shareFormService.orderUrl = response.toString();
+            document.location.href = this.shareFormService.orderUrl;
+          }
         },
         (error) => {
           this.loadingAnim = false;
