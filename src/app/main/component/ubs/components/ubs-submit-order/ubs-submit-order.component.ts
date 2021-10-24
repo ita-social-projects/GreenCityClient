@@ -4,8 +4,8 @@ import { Router } from '@angular/router';
 import { MatDialog } from '@angular/material/dialog';
 import { FormBaseComponent } from '@shared/components/form-base/form-base.component';
 import { Subject } from 'rxjs';
+import { finalize, takeUntil } from 'rxjs/operators';
 import { Bag, OrderBag, OrderDetails, OrderDetailsNotification, PersonalData } from '../../models/ubs.interface';
-import { Bag, OrderDetails, PersonalData } from '../../models/ubs.interface';
 import { UBSOrderFormService } from '../../services/ubs-order-form.service';
 import { OrderService } from '../../services/order.service';
 import { Order } from '../../models/ubs.model';
@@ -55,7 +55,6 @@ export class UBSSubmitOrderComponent extends FormBaseComponent implements OnInit
     private shareFormService: UBSOrderFormService,
     public ubsOrderFormService: UBSOrderFormService,
     private fb: FormBuilder,
-    private ubsOrderFormService: UBSOrderFormService,
     router: Router,
     dialog: MatDialog
   ) {
