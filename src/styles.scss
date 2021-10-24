@@ -179,6 +179,13 @@ body {
   box-shadow: 0 -2px var(--primary-green);
 }
 
+.success-snackbar-ubs {
+  background-color: var(--ubs-primary-light-green);
+  color: var(--ubs-quaternary-dark-grey);
+  border-radius: 4px;
+  box-shadow: 0 -2px var(--ubs-button-light-green);
+}
+
 .mat-simple-snackbar-action {
   color: var(--quaternary-dark-grey);
   font-weight: 400;
