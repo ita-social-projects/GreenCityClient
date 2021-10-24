@@ -5,7 +5,7 @@ import { FormBuilder, FormControl, Validators } from '@angular/forms';
   providedIn: 'root'
 })
 export class CreateEditTariffsServicesFormBuilder {
-  namePattern = /^[А-Яа-яЯїЇіІєЄёЁ ]+$/;
+  namePattern = /^[А-Яа-яїЇіІєЄёЁ ]+$/;
   enPattern = /^[a-zA-Z ]+$/;
 
   constructor(private fb: FormBuilder) {}

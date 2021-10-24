@@ -35,9 +35,9 @@ export class UbsUserProfilePageComponent implements OnInit {
   isEditing = false;
   isFetching = false;
   phoneMask = '+{38} 000 000 00 00';
-  private readonly regexp = /^([a-zA-ZА-Яа-яЄЇҐа-їєґ '-])+$/iu;
+  private readonly regexp = /^([a-zа-яїєґ '-])+$/iu;
   private readonly regexpEmail = /^[a-zA-Z0-9.!#$%&’*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/;
-  private readonly regexpWithDigits = /^([a-zA-ZА-Яа-яЄЇҐа-їєґ0-9 '-])+$/iu;
+  private readonly regexpWithDigits = /^([a-zа-яїєґ0-9 '-])+$/iu;
 
   constructor(public dialog: MatDialog, private clientProfileService: ClientProfileService, private snackBar: MatSnackBarComponent) {}
 

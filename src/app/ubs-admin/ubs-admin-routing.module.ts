@@ -20,11 +20,11 @@ const ubsAdminRoutes: Routes = [
       { path: 'certificates', component: UbsAdminCertificateComponent },
       { path: 'orders', component: UbsAdminTableComponent },
       { path: 'employee/:page', component: UbsAdminEmployeeComponent },
-      { path: 'order', component: UbsAdminOrderComponent },
       { path: 'tariffs', component: UbsAdminTariffsLocationDashboardComponent },
       { path: `tariffs/location/:id`, component: UbsAdminTariffsPricingPageComponent }
     ]
-  }
+  },
+  { path: 'order', component: UbsAdminOrderComponent }
 ];
 
 @NgModule({

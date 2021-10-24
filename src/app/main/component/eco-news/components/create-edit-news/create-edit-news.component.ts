@@ -2,7 +2,7 @@ import { Component, OnInit, OnDestroy, Inject } from '@angular/core';
 import { FormArray, FormGroup, FormControl } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { MatDialog } from '@angular/material/dialog';
-import { takeUntil, catchError, take, filter } from 'rxjs/operators';
+import { takeUntil, catchError, take } from 'rxjs/operators';
 import { QueryParams, TextAreasHeight } from '../../models/create-news-interface';
 import { EcoNewsService } from '../../services/eco-news.service';
 import { Subscription, ReplaySubject, throwError } from 'rxjs';
