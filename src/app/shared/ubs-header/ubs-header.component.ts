@@ -5,6 +5,7 @@ import { LanguageModel } from '../../ubs-admin/models/languageModel';
 import { Language } from '../../main/i18n/Language';
 import { LanguageService } from '../../main/i18n/language.service';
 import { Router } from '@angular/router';
+import { TranslateService } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-ubs-header',
@@ -16,7 +17,7 @@ export class UbsHeaderComponent implements OnInit {
   langDropdownVisible = false;
   arrayLang: Array<LanguageModel> = languages;
   ubsHeaderIcons = ubsHeaderIcons;
-  constructor(private languageService: LanguageService, private router: Router) {}
+  constructor(private languageService: LanguageService, private router: Router, public translate: TranslateService) {}
 
   ngOnInit() {
     this.setLangArr();
