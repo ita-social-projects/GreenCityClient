@@ -6,9 +6,16 @@
   </div>
   <div class="icons">
     <nav [ngClass]="toggleBurgerMenu ? 'ubs-header_navigation-menu-col' : 'ubs-header_navigation-menu'" role="navigation">
-      <a class="nav-link" *ngFor="let link of navLinks" (click)="navigateToLink(link)">
-        {{ link.name }}
+      <a class="nav-link" [routerLink]="['/ubs']">
+        {{ 'ubs-header.about-us' | translate }}
       </a>
+      <a class="nav-link" href="https://nowaste.com.ua/yak-sortyvaty-na-karantuni/" target="_blank">
+        {{ 'ubs-header.rules-of-sorting' | translate }}
+      </a>
+      <a class="nav-link" href="https://shop.nowaste.com.ua/" target="_blank">
+        {{ 'ubs-header.eco-shop' | translate }}
+      </a>
+      <a class="nav-link" [routerLink]="['/']"> Green City </a>
     </nav>
     <ul
       role="menu"

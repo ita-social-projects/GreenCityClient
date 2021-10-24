@@ -12,5 +12,10 @@
       "theme-messages": "Theme messages",
       "time": "Time"
     }
+  },
+  "ubs-header": {
+    "about-us": "About us",
+    "rules-of-sorting": "Sorting rules",
+    "eco-shop": "Eco shop"
   }
 }

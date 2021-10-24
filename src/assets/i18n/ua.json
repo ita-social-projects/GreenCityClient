@@ -927,5 +927,10 @@
     "eco-news-widget": {
       "paragraph": "Може бути цікавим для вас"
     }
+  },
+  "ubs-header": {
+    "about-us": "Про нас",
+    "rules-of-sorting": "Правила сортування",
+    "eco-shop": "Еко-магазин"
   }
 }

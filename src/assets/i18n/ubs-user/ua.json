@@ -12,5 +12,10 @@
       "theme-messages": "Тема повідомлення",
       "time": "Час"
     }
+  },
+  "ubs-header": {
+    "about-us": "Про нас",
+    "rules-of-sorting": "Правила сортування",
+    "eco-shop": "Еко-магазин"
   }
 }

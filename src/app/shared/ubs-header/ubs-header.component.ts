@@ -5,6 +5,7 @@ import { LanguageModel } from '../../ubs-admin/models/languageModel';
 import { Language } from '../../main/i18n/Language';
 import { LanguageService } from '../../main/i18n/language.service';
 import { Router } from '@angular/router';
+import { StringMap } from '@angular/compiler/src/compiler_facade_interface';
 
 @Component({
   selector: 'app-ubs-header',
@@ -16,12 +17,6 @@ export class UbsHeaderComponent implements OnInit {
   langDropdownVisible = false;
   arrayLang: Array<LanguageModel> = languages;
   ubsHeaderIcons = ubsHeaderIcons;
-  navLinks = [
-    { name: 'Про нас', route: '/ubs', url: false },
-    { name: 'Правила сортування', route: 'https://nowaste.com.ua/yak-sortyvaty-na-karantuni/', url: true },
-    { name: 'Еко-магазин', route: 'https://shop.nowaste.com.ua/', url: true },
-    { name: 'Green City', route: '/', url: false }
-  ];
   constructor(private languageService: LanguageService, private router: Router) {}
 
   ngOnInit() {
@@ -45,14 +40,6 @@ export class UbsHeaderComponent implements OnInit {
     this.arrayLang[0].lang = language;
     this.arrayLang[index].lang = temporary;
     this.langDropdownVisible = false;
-  }
-
-  navigateToLink(link) {
-    if (link.url) {
-      window.open(link.route);
-    } else {
-      this.router.navigate([link.route]);
-    }
   }
 
   public onToggleBurgerMenu(): void {

@@ -342,5 +342,10 @@
     "delete_question": "Delete this line?",
     "yes": "yes",
     "no": "no"
+  },
+  "ubs-header": {
+    "about-us": "About us",
+    "rules-of-sorting": "Sorting rules",
+    "eco-shop": "Eco shop"
   }
 }
