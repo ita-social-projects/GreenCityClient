@@ -17,10 +17,11 @@ export class UBSOrderFormService {
   isDataSaved = false;
   locations: any;
   locationId: any;
-  private localStorageService: LocalStorageService;
 
   private orderID = new BehaviorSubject(null);
   orderId = this.orderID.asObservable();
+
+  constructor(private localStorageService: LocalStorageService) {}
 
   transferOrderId(id: any) {
     this.orderID.next(id);
