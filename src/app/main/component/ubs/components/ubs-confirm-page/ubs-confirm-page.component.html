@@ -5,10 +5,12 @@
         <button class="btn primary-global-button" (click)="toPersonalAccount()">До особистого кабінету</button>
       </div>
       <div class="error" *ngSwitchCase="orderResponseError === true">
-        <button class="btn-back"><i class="fas fa-chevron-left" aria-hidden="true"></i> &nbsp;{{ 'Повернутись до оплати' }}</button>
+        <button class="btn-back" (click)="returnToPayment()">
+          <i class="fas fa-chevron-left" aria-hidden="true"></i> &nbsp;{{ 'Повернутись до оплати' }}
+        </button>
         <h2 class="title">{{ 'Упс, щось пішло не так...' }}</h2>
         <div class="description">
-          <p>{{ 'На жаль, Ваше замовлення №12345 не було оплачено. Спробуйте ще раз' }}</p>
+          <p>{{ 'На жаль, Ваше замовлення не було оплачено. Спробуйте ще раз' }}</p>
         </div>
       </div>
       <div *ngSwitchDefault>
@@ -23,7 +25,9 @@
         <ul>
           <h5>{{ 'confirm-page.ubsServices' | translate }}</h5>
           <li>
-            <a routerLink="/ubs/order">{{ 'confirm-page.other-order' | translate }}</a>
+            <a routerLink="/ubs/order" (click)="saveDataOnLocalStorage()">
+              {{ 'confirm-page.other-order' | translate }}
+            </a>
           </li>
           <li>
             <a>{{ 'confirm-page.mail' | translate }}</a>

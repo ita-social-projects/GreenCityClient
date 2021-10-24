@@ -95,7 +95,6 @@ export class UBSSubmitOrderComponent extends FormBaseComponent implements OnInit
       .subscribe(
         (response) => {
           this.shareFormService.orderUrl = '';
-          this.shareFormService.isDataSaved = true;
           if (this.isFinalSumZero && !this.isTotalAmountZero) {
             this.ubsOrderFormService.transferOrderId(response);
             this.ubsOrderFormService.setOrderResponseErrorStatus(false);
