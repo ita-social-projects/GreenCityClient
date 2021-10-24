@@ -5,7 +5,7 @@ import { LanguageModel } from '../../ubs-admin/models/languageModel';
 import { Language } from '../../main/i18n/Language';
 import { LanguageService } from '../../main/i18n/language.service';
 import { Router } from '@angular/router';
-import { StringMap } from '@angular/compiler/src/compiler_facade_interface';
+import { TranslateModule } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-ubs-header',
