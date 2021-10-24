@@ -1,12 +1,5 @@
 $inputHeight: 48px;
 
-.ubs-primary-global-button {
-  height: 43px;
-  .span {
-    color: black;
-  }
-}
-
 h1 {
   margin-bottom: 8px;
   font-family: var(--secondary-font);
@@ -154,6 +147,14 @@ h2 {
 
   .spinner-border {
     margin-right: 10px;
+  }
+}
+
+.ubs-primary-global-button {
+  height: 43px;
+
+  .span {
+    color: black;
   }
 }
 
