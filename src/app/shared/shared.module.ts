@@ -27,7 +27,7 @@ import { FilterListByLangPipe } from './sort-list-by-lang/filter-list-by-lang.pi
     UbsHeaderComponent,
     FilterListByLangPipe
   ],
-  imports: [CommonModule, MaterialModule, TranslateModule.forRoot(), RouterModule],
+  imports: [CommonModule, MaterialModule, TranslateModule, RouterModule],
   exports: [
     SpinnerComponent,
     LocalizedCurrencyPipe,
@@ -38,7 +38,8 @@ import { FilterListByLangPipe } from './sort-list-by-lang/filter-list-by-lang.pi
     ServerTranslatePipe,
     UbsBaseSidebarComponent,
     UbsHeaderComponent,
-    FilterListByLangPipe
+    FilterListByLangPipe,
+    TranslateModule
   ]
 })
 export class SharedModule {}
