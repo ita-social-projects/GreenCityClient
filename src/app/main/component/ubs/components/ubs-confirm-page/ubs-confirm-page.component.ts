@@ -23,6 +23,7 @@ export class UbsConfirmPageComponent implements OnInit, OnDestroy {
     private snackBar: MatSnackBarComponent,
     private jwtService: JwtService,
     private ubsOrderFormService: UBSOrderFormService,
+    private shareFormService: UBSOrderFormService,
     public router: Router
   ) {}
 
@@ -39,6 +40,7 @@ export class UbsConfirmPageComponent implements OnInit, OnDestroy {
       this.orderResponseError = this.ubsOrderFormService.getOrderResponseErrorStatus();
       this.orderStatusDone = this.ubsOrderFormService.getOrderStatus();
       if (!this.orderResponseError && !this.orderStatusDone) {
+        this.saveDataOnLocalStorage();
         this.activatedRoute.queryParams.subscribe((params) => {
           this.orderId = params.order_id;
           // Hardcoded. Need a logic from back-end to save orderId for saved unpaid order
@@ -46,8 +48,19 @@ export class UbsConfirmPageComponent implements OnInit, OnDestroy {
           this.responseStatus = params.response_status;
           this.snackBar.openSnackBar('successConfirmSaveOrder', this.orderId);
         });
+      } else if (!this.orderResponseError && this.orderStatusDone) {
+        this.saveDataOnLocalStorage();
       }
     });
+  }
+
+  saveDataOnLocalStorage(): void {
+    this.shareFormService.isDataSaved = true;
+    this.shareFormService.saveDataOnLocalStorage();
+  }
+
+  returnToPayment() {
+    this.router.navigateByUrl('/ubs/order');
   }
 
   ngOnDestroy() {
