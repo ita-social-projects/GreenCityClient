@@ -74,6 +74,7 @@ export class HeaderComponent implements OnInit, OnDestroy {
     this.languageService = injector.get(LanguageService);
     this.searchSearch = injector.get(SearchService);
     this.userOwnAuthService = injector.get(UserOwnAuthService);
+    this.headerService = injector.get(HeaderService);
   }
 
   ngOnInit() {
