@@ -36,6 +36,27 @@ $ubs-header-heigth: 80px;
   background: $hr-color;
 }
 
+.header_sign-in-link {
+  font-size: 12px;
+  font-weight: 600;
+  width: 70px;
+  padding: 0 12px;
+
+  a {
+    color: var(--secondary-dark-green);
+    display: block;
+    min-width: 40px;
+  }
+}
+
+.header_sign-up-link {
+  font-size: 12px;
+
+  a {
+    color: var(--secondary-dark-green);
+  }
+}
+
 .header_navigation-menu-left .ubs li a {
   color: black;
   text-decoration: underline;
@@ -62,6 +83,7 @@ $ubs-header-heigth: 80px;
   display: flex;
   justify-content: left;
   align-items: center;
+
   a img {
     max-width: 100%;
   }
@@ -86,19 +108,6 @@ $ubs-header-heigth: 80px;
   height: $ubs-header-heigth;
 }
 
-.header_sign-in-link {
-  font-size: 12px;
-  font-weight: 600;
-  width: 70px;
-  padding: 0 12px;
-
-  a {
-    color: var(--secondary-dark-green);
-    display: block;
-    min-width: 40px;
-  }
-}
-
 .ubs-header-sign-in {
   font-size: 12px;
   font-weight: 600;
@@ -116,15 +125,9 @@ $ubs-header-heigth: 80px;
   }
 }
 
-.header_sign-up-link {
-  font-size: 12px;
-  a {
-    color: var(--secondary-dark-green);
-  }
-}
-
 .ubs_header_sign-up-link {
   font-size: 12px;
+
   a {
     color: var(--ubs-button-light-green);
   }
@@ -316,6 +319,7 @@ $ubs-header-heigth: 80px;
 .header_navigation-menu-right {
   width: 100%;
   height: 80%;
+
   .search-icon {
     img {
       height: 11px;
@@ -479,6 +483,7 @@ $ubs-header-heigth: 80px;
 
     li {
       color: var(--primary-dark-grey);
+
       a {
         color: var(--primary-dark-grey);
       }
