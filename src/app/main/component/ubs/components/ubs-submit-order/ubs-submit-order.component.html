@@ -1,4 +1,7 @@
-<div class="container" *ngIf="bags.length && personalData">
+<div class="load-spinner" *ngIf="isNotification && !isDownloadDataNotification">
+  <mat-spinner class="custom-spinner"></mat-spinner>
+</div>
+<div class="container" *ngIf="(bags.length && personalData) || (isNotification && isDownloadDataNotification)">
   <div class="header">
     <h3 class="font-bolt order-title">{{ 'order-details.your-order' | translate }}</h3>
   </div>
@@ -126,8 +129,11 @@
   </form>
 </div>
 
-<div class="w-100 d-flex justify-content-between buttons">
-  <button class="secondary-global-button btn btn-back" matStepperPrevious>
+<div
+  class="w-100 d-flex justify-content-between buttons"
+  *ngIf="(bags.length && personalData) || (isNotification && isDownloadDataNotification)"
+>
+  <button *ngIf="!isNotification" class="secondary-global-button btn btn-back" matStepperPrevious>
     <i class="fas fa-chevron-left" aria-hidden="true"></i> &nbsp; {{ 'submit-order.back' | translate }}
   </button>
   <div class="w-100 d-flex justify-content-end">
