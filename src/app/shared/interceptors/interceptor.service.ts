@@ -58,7 +58,7 @@ export class InterceptorService implements HttpInterceptor {
     if (this.isQueryWithProcessOrder(req.url)) {
       return next.handle(req).pipe(
         catchError((error: HttpErrorResponse) => {
-          if (error.status === 400) {
+          if (error.status >= 400) {
             this.ubsOrderFormService.setOrderResponseErrorStatus(true);
           }
           return throwError(error);

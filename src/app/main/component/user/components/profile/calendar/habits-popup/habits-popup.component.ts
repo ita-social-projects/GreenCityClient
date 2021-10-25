@@ -75,20 +75,24 @@ export class HabitsPopupComponent implements OnInit, OnDestroy {
 
   setHabitArrayDate(habitArray: Array<HabitAssignInterface>, id) {
     habitArray.find((item) => item.habit.id === id).habitStatusCalendarDtoList = this.arrayOfDate;
-    habitArray === this.habitAssignService.habitsInProgressToView
-      ? (this.habitAssignService.habitsInProgressToView = habitArray.map((obj) => ({ ...obj })))
-      : (this.habitAssignService.habitsInProgress = habitArray.map((obj) => ({ ...obj })));
+    if (habitArray === this.habitAssignService.habitsInProgressToView) {
+      this.habitAssignService.habitsInProgressToView = habitArray.map((obj) => ({ ...obj }));
+    } else {
+      this.habitAssignService.habitsInProgress = habitArray.map((obj) => ({ ...obj }));
+    }
   }
 
   setCircleFromPopUpToCards(id: number, habitIndex: number) {
     if (this.habitsCalendarSelectedDate === this.today) {
       this.arrayOfDate = this.habitAssignService.habitsInProgress.find((item) => item.habit.id === id).habitStatusCalendarDtoList;
-      this.popupHabits[habitIndex].enrolled
-        ? this.arrayOfDate.push({
-            enrollDate: this.formatDate(new Date()),
-            id: null
-          })
-        : (this.arrayOfDate = this.arrayOfDate.filter((item) => item.enrollDate !== this.formatDate(new Date())));
+      if (this.popupHabits[habitIndex].enrolled) {
+        this.arrayOfDate.push({
+          enrollDate: this.formatDate(new Date()),
+          id: null
+        });
+      } else {
+        this.arrayOfDate = this.arrayOfDate.filter((item) => item.enrollDate !== this.formatDate(new Date()));
+      }
       this.habitAssignService.habitsInProgressToView.find((item) => item.habit.id === id) !== undefined
         ? this.setHabitArrayDate(this.habitAssignService.habitsInProgressToView, id)
         : this.setHabitArrayDate(this.habitAssignService.habitsInProgress, id);

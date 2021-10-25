@@ -182,11 +182,27 @@ export class UbsAdminTableComponent implements OnInit, AfterViewChecked, OnDestr
         this.dataSource = new MatTableDataSource(this.tableData);
         this.isLoading = false;
         this.isTableHeightSet = false;
+        this.changeView();
       });
   }
 
   private isPropertyRequired(field: string, requiredFields: string[]) {
     return requiredFields.some((reqField) => field === reqField);
+  }
+
+  changeView() {
+    this.tableData.forEach((el) => {
+      el.amountDue = parseFloat(el.amountDue).toFixed(2);
+      el.totalOrderSum = parseFloat(el.totalOrderSum).toFixed(2);
+      const arr = el.orderCertificatePoints.split(', ');
+      if (arr && arr.length > 0) {
+        el.orderCertificatePoints = arr.reduce((res, elem) => {
+          res = parseInt(res, 10);
+          res += parseInt(elem, 10);
+          return res ? res + '' : '';
+        });
+      }
+    });
   }
 
   updateTableData() {
@@ -200,6 +216,7 @@ export class UbsAdminTableComponent implements OnInit, AfterViewChecked, OnDestr
         this.tableData = [...this.tableData, ...data];
         this.dataSource.data = this.tableData;
         this.isUpdate = false;
+        this.changeView();
       });
   }
 

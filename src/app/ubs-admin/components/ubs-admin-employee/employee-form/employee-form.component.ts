@@ -16,8 +16,9 @@ export class EmployeeFormComponent implements OnInit {
   employeePositions;
   receivingStations;
   phoneMask = '{+38} (000) 00 000 00';
-  dragOver = false;
-  imageURL: string;
+  private maxImageSize = 10485760;
+  public isWarning = false;
+  imageURL: string | ArrayBuffer;
   imageName = 'Your Avatar';
   selectedFile;
   defaultPhotoURL = 'https://csb10032000a548f571.blob.core.windows.net/allfiles/90370622-3311-4ff1-9462-20cc98a64d1ddefault_image.jpg';
@@ -44,18 +45,18 @@ export class EmployeeFormComponent implements OnInit {
     @Inject(MAT_DIALOG_DATA) public data: Page
   ) {
     this.employeeForm = this.fb.group({
-      firstName: [this.data.firstName, Validators.required],
-      lastName: [this.data.lastName, Validators.required],
-      phoneNumber: [this.data.phoneNumber, Validators.required],
-      email: [this.data.email]
+      firstName: [this.data?.firstName ?? '', Validators.required],
+      lastName: [this.data?.lastName ?? '', Validators.required],
+      phoneNumber: [this.data?.phoneNumber ?? '', Validators.required],
+      email: [this.data?.email ?? '']
     });
-    this.employeePositions = this.data.employeePositions ?? [];
-    this.receivingStations = this.data.receivingStations ?? [];
-    this.imageURL = this.data.image;
+    this.employeePositions = this.data?.employeePositions ?? [];
+    this.receivingStations = this.data?.receivingStations ?? [];
+    this.imageURL = this.data?.image;
   }
 
   get isUpdatingEmployee() {
-    return Object.keys(this.data).length !== 0;
+    return this.data && Object.keys(this.data).length !== 0;
   }
 
   get isCreatingEmployee() {
@@ -120,33 +121,49 @@ export class EmployeeFormComponent implements OnInit {
     return formData;
   }
 
-  updateEmployee() {
+  updateEmployee(): void {
     const dataToSend = this.prepareEmployeeDataToSend('employeeDto');
     this.employeeService.updateEmployee(dataToSend).subscribe(() => {
       this.dialogRef.close();
     });
   }
 
-  createEmployee() {
+  createEmployee(): void {
     const dataToSend = this.prepareEmployeeDataToSend('addEmployeeDto');
     this.employeeService.postEmployee(dataToSend).subscribe(() => {
       this.dialogRef.close();
     });
   }
 
-  treatFileInput(event: Event) {
-    this.dragOver = false;
+  treatFileInput(event: Event): void {
     event.preventDefault();
 
-    const reader = new FileReader();
-    this.selectedFile = (event.target as HTMLInputElement).files[0];
-    this.imageName = this.selectedFile.name;
+    const imageFile = (event.target as HTMLInputElement).files[0];
+    this.transferFile(imageFile);
+  }
 
-    reader.readAsDataURL(this.selectedFile);
-    reader.onload = () => {
-      this.imageURL = reader.result as string;
-      console.log(reader);
-    };
+  public filesDropped(files: File): void {
+    const imageFile = files[0].file;
+    this.transferFile(imageFile);
+  }
+
+  private transferFile(imageFile: File): void {
+    this.isWarning = this.showWarning(imageFile);
+
+    if (!this.isWarning) {
+      const reader: FileReader = new FileReader();
+      this.selectedFile = imageFile as File;
+      this.imageName = this.selectedFile.name;
+
+      reader.readAsDataURL(this.selectedFile);
+      reader.onload = () => {
+        this.imageURL = reader.result as string;
+      };
+    }
+  }
+
+  private showWarning(file: File): boolean {
+    return file.size > this.maxImageSize || (file.type !== 'image/jpeg' && file.type !== 'image/png');
   }
 
   cancelDefault(e: DragEvent) {
@@ -154,15 +171,7 @@ export class EmployeeFormComponent implements OnInit {
   }
 
   removeImage() {
-    if (this.isCreatingEmployee || this.userHasDefaultPhoto) {
-      this.imageURL = null;
-      this.imageName = null;
-      return;
-    }
-    console.log(this.data.id);
-    this.employeeService.deleteEmployeeImage(this.data.id).subscribe(() => {
-      this.imageURL = this.defaultPhotoURL;
-      this.imageName = null;
-    });
+    this.imageURL = null;
+    this.imageName = null;
   }
 }

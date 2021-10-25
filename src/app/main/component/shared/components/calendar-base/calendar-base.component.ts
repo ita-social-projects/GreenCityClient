@@ -356,9 +356,7 @@ export class CalendarBaseComponent implements OnDestroy {
         finalize(() => (this.checkAnswer = false))
       )
       .subscribe((response) => {
-        habit.enrolled = !habit.enrolled;
-        this.currentDayItem.areHabitsDone = this.isCheckedHabits;
-        this.updateHabitsService.changeHabit(response);
+        this.toggleHabit(response, habit);
       });
   }
 
@@ -371,9 +369,13 @@ export class CalendarBaseComponent implements OnDestroy {
         finalize(() => (this.checkAnswer = false))
       )
       .subscribe((response) => {
-        habit.enrolled = !habit.enrolled;
-        this.currentDayItem.areHabitsDone = this.isCheckedHabits;
-        this.updateHabitsService.changeHabit(response);
+        this.toggleHabit(response, habit);
       });
+  }
+
+  private toggleHabit(res, habit) {
+    habit.enrolled = !habit.enrolled;
+    this.currentDayItem.areHabitsDone = this.isCheckedHabits;
+    this.updateHabitsService.changeHabit(res);
   }
 }

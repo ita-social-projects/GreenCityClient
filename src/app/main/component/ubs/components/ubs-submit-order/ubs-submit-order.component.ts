@@ -1,14 +1,14 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Component, Input, OnDestroy, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { Router } from '@angular/router';
 import { MatDialog } from '@angular/material/dialog';
 import { FormBaseComponent } from '@shared/components/form-base/form-base.component';
-
 import { Subject } from 'rxjs';
 import { finalize, takeUntil } from 'rxjs/operators';
-import { Bag, OrderDetails, PersonalData } from '../../models/ubs.interface';
+import { Bag, OrderBag, OrderDetails, OrderDetailsNotification, PersonalData } from '../../models/ubs.interface';
 import { UBSOrderFormService } from '../../services/ubs-order-form.service';
 import { OrderService } from '../../services/order.service';
+import { Order } from '../../models/ubs.model';
 
 @Component({
   selector: 'app-ubs-submit-order',
@@ -17,14 +17,18 @@ import { OrderService } from '../../services/order.service';
 })
 export class UBSSubmitOrderComponent extends FormBaseComponent implements OnInit, OnDestroy {
   paymentForm: FormGroup = this.fb.group({});
+  order: Order;
+  addressId: number;
   bags: Bag[] = [];
   response: any;
   loadingAnim: boolean;
   selectedPayment: string;
   isLiqPay = false;
-  additionalOrders: number[];
+  additionalOrders: any;
   personalData: PersonalData;
-  orderDetails: OrderDetails;
+  orderDetails: OrderDetails | null;
+  defaultId: 2282;
+  isDownloadDataNotification: boolean;
   private destroy: Subject<boolean> = new Subject<boolean>();
   popupConfig = {
     hasBackdrop: true,
@@ -38,14 +42,18 @@ export class UBSSubmitOrderComponent extends FormBaseComponent implements OnInit
       popupCancel: 'confirmation.dismiss'
     }
   };
+  orderBags: OrderBag[] = [];
+  isValidOrder = true;
+  @Input() public isNotification: boolean;
+  @Input() public orderIdFromNotification: number;
   isFinalSumZero = true;
   isTotalAmountZero = true;
 
   constructor(
     private orderService: OrderService,
     private shareFormService: UBSOrderFormService,
+    public ubsOrderFormService: UBSOrderFormService,
     private fb: FormBuilder,
-    private ubsOrderFormService: UBSOrderFormService,
     router: Router,
     dialog: MatDialog
   ) {
@@ -53,7 +61,67 @@ export class UBSSubmitOrderComponent extends FormBaseComponent implements OnInit
   }
 
   ngOnInit(): void {
-    this.takeOrderDetails();
+    if (this.isNotification) {
+      this.isDownloadDataNotification = false;
+      this.getOrderFormNotifications();
+    } else {
+      this.takeOrderDetails();
+    }
+  }
+
+  getOrderFormNotifications() {
+    this.orderBags = this.orderBags.filter((bag) => bag.amount !== 0);
+    this.orderService
+      .getOrderFromNotification(this.orderIdFromNotification)
+      .pipe(takeUntil(this.destroy))
+      .subscribe((response: OrderDetailsNotification) => {
+        this.bags = response.bags;
+        this.setDataFromNotification(response);
+        this.bags.forEach((item) => {
+          item.name = 'Clothes';
+          item.quantity = response.amountOfBagsOrdered[item.id];
+          const bag: OrderBag = { amount: item.quantity, id: item.id };
+          this.orderBags.push(bag);
+        });
+        this.setOrderNotification();
+        this.orderService.setOrder(this.order);
+
+        this.isValidOrder = response.orderDiscountedPrice <= 0;
+        this.isDownloadDataNotification = true;
+      });
+  }
+
+  setDataFromNotification(data: OrderDetailsNotification) {
+    this.additionalOrders = [];
+    this.orderDetails = {
+      points: data.orderBonusDiscount,
+      total: data.orderFullPrice,
+      finalSum: data.orderDiscountedPrice,
+      certificatesSum: data.orderCertificateTotalDiscount,
+      pointsToUse: data.orderBonusDiscount
+    };
+    this.personalData = {
+      firstName: data.recipientName,
+      lastName: data.recipientSurname,
+      email: data.recipientEmail,
+      phoneNumber: data.recipientPhone,
+      addressComment: data.addressComment,
+      city: data.addressCity,
+      district: data.addressDistrict,
+      street: data.addressStreet
+    };
+  }
+
+  setOrderNotification() {
+    this.order = new Order(
+      this.additionalOrders,
+      2282,
+      this.orderBags,
+      this.orderDetails.certificates,
+      this.orderDetails.orderComment,
+      this.personalData,
+      this.orderDetails.pointsToUse
+    );
   }
 
   ngOnDestroy() {
@@ -87,6 +155,7 @@ export class UBSSubmitOrderComponent extends FormBaseComponent implements OnInit
       .pipe(
         finalize(() => {
           this.loadingAnim = false;
+          this.shareFormService.isDataSaved = false;
           if (!this.shareFormService.orderUrl) {
             this.router.navigate(['ubs', 'confirm']);
           }
@@ -95,7 +164,6 @@ export class UBSSubmitOrderComponent extends FormBaseComponent implements OnInit
       .subscribe(
         (response) => {
           this.shareFormService.orderUrl = '';
-          this.shareFormService.isDataSaved = true;
           if (this.isFinalSumZero && !this.isTotalAmountZero) {
             this.ubsOrderFormService.transferOrderId(response);
             this.ubsOrderFormService.setOrderResponseErrorStatus(false);

@@ -123,7 +123,7 @@ body {
   height: 6px;
   margin-left: 6px;
   opacity: 1;
-  background-image: url('~/assets/img/icon/white-cross.png');
+  background-image: url('/assets/img/icon/white-cross.png');
 }
 
 // [END] Tag guidelines
@@ -191,6 +191,15 @@ body {
   font-weight: 400;
   font-size: 14px;
   line-height: 20px;
+}
+
+.mat-accent .mat-slider-track-fill,
+.mat-accent .mat-slider-thumb,
+.mat-checkbox-checked:not(.mat-checkbox-disabled).mat-accent .mat-ripple-element,
+.mat-checkbox:active:not(.mat-checkbox-disabled).mat-accent .mat-ripple-element,
+.mat-checkbox-indeterminate.mat-accent .mat-checkbox-background,
+.mat-checkbox-checked.mat-accent .mat-checkbox-background {
+  background-color: var(--primary-green);
 }
 
 .disagree {
