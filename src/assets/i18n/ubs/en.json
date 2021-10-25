@@ -147,6 +147,10 @@
   },
   "confirm-page": {
     "title-text": "Your order is accepted",
+    "to-personal-account": "To the personal account",
+    "return-to-payment": "Return to the payment",
+    "oops": "Oops, something went wrong...",
+    "order-not-paid": "Sorry, your order was not paid for. Please try again.",
     "description": "Thank you for your waste control!",
     "ubsServices": "UBS services",
     "other-order": "Make other order",

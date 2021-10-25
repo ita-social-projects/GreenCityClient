@@ -1,4 +1,5 @@
 import { EventEmitter, Injectable } from '@angular/core';
+import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
 import { BehaviorSubject } from 'rxjs';
 import { OrderDetails, PersonalData } from '../models/ubs.interface';
 
@@ -19,6 +20,8 @@ export class UBSOrderFormService {
 
   private orderID = new BehaviorSubject(null);
   orderId = this.orderID.asObservable();
+
+  constructor(private localStorageService: LocalStorageService) {}
 
   transferOrderId(id: any) {
     this.orderID.next(id);
@@ -52,6 +55,16 @@ export class UBSOrderFormService {
     this.errorOccurred = errorStatus;
     if (errorStatus) {
       this.orderStatusDone = false;
+    }
+  }
+
+  saveDataOnLocalStorage() {
+    if (!this.isDataSaved) {
+      const personalData = JSON.stringify(this.getPersonalData());
+      const orderData = JSON.stringify(this.getOrderDetails());
+      this.localStorageService.setUbsOrderData(personalData, orderData);
+    } else {
+      this.localStorageService.removeUbsOrderData();
     }
   }
 
