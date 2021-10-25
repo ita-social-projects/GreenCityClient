@@ -55,7 +55,7 @@ export class EditPhotoPopUpComponent implements OnInit {
     this.isWarning = this.showWarning(imageFile);
 
     if (!this.isWarning) {
-      this.selectedFile = imageFile as File;
+      this.selectedFile = imageFile;
       const reader: FileReader = new FileReader();
       reader.readAsDataURL(this.selectedFile);
       reader.onload = (ev) => this.handleFile(ev);

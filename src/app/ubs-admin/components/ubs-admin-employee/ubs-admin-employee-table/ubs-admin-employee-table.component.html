@@ -13,6 +13,9 @@
     [scrollWindow]="true"
   >
     <table id="table" class="table" mat-table [dataSource]="dataSource" *ngIf="!isLoading; else spinner" matSort>
+      <caption>
+        Employees table
+      </caption>
       <ng-container class="column.field" matColumnDef="fullName">
         <mat-header-cell *matHeaderCellDef>
           <div>
