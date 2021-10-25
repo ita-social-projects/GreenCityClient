@@ -68,3 +68,7 @@ input {
     width: 340px;
   }
 }
+
+.ng-invalid:not(div) {
+  border: 1px solid var(--error-ligh-red);
+}

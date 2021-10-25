@@ -9,7 +9,11 @@ import { MatDialogRef } from '@angular/material/dialog';
 export class UbsAdminCancelModalComponent {
   constructor(private dialogRef: MatDialogRef<UbsAdminCancelModalComponent>) {}
 
-  discard(): void {
-    this.dialogRef.close();
+  discard() {
+    this.dialogRef.close(true);
+  }
+
+  doNotDiscard() {
+    this.dialogRef.close(false);
   }
 }

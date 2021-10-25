@@ -9,7 +9,7 @@ import { MAT_DIALOG_DATA } from '@angular/material/dialog';
 })
 export class UbsProfileChangePasswordPopUpComponent implements OnInit {
   public formConfig: FormGroup;
-  private readonly passRegexp = /^(?=.*[a-z]+)(?=.*[A-Z]+)(?=.*\d+)(?=.*[~`!@#$%^&*()+=_\-{}|:;”’?/<>,.\]\[]+).{8,}$/;
+  private readonly passRegexp = /^(?=.*[A-Za-z]+)(?=.*\d+)(?=.*[~`!@#$%^&*()+=_\-{}|:;”’?\/<>,.\]\[]+).{8,}$/;
 
   constructor(@Inject(MAT_DIALOG_DATA) public data: any, private fb: FormBuilder) {}
 

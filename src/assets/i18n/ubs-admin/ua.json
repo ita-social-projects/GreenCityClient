@@ -60,17 +60,19 @@
   "order-edit": {
     "order-status": {
       "formed": "Сформовано",
-      "adjustment": "Узгодження",
-      "brought-it-himself": "Самовивіз",
+      "adjustment": "Змінено",
+      "brought-it-himself": "Вивезено самостійно",
       "confirmed": "Підтверджено",
-      "on-the-route": "На маршруті",
+      "on-the-route": "У дорозі",
       "done": "Виконано",
-      "not-taken-out": "Не вивезли",
+      "not-taken-out": "Не вивезено",
       "cancelled": "Скасовано"
     },
     "payment-status": {
       "paid": "Оплачено",
-      "not-paid": "Не оплачено"
+      "not-paid": "Не оплачено",
+      "half-paid": "Частково оплачено",
+      "payment-refunded": "Оплату повернуто"
     },
     "need-to-pay": "Потрібно доплатити",
     "status": {
@@ -82,6 +84,11 @@
     "comment": {
       "label": "Коментар",
       "placeholder": "Будь-які деталі, які Ви хотіли б повідомити додатково щодо цього замовлення"
+    },
+    "btn": {
+      "back": "Назад",
+      "cancel": "Скасувати",
+      "save": "Зберегти"
     }
   },
   "address-details": {
@@ -99,20 +106,20 @@
     "customer": {
       "title": "Клієнт",
       "name-label": "Ім'я",
-      "name-placeholder": "Placeholder",
+      "name-placeholder": "Ім'я та прізвище",
       "tel-label": "Телефон",
-      "tel-placeholder": "Placeholder",
+      "tel-placeholder": "+380 00 000 00 00",
       "email-label": "Email",
-      "email-placeholder": "Placeholder"
+      "email-placeholder": "mail@mail.com"
     },
     "recipient": {
       "title": "Отримувач",
       "name-label": "Ім'я",
-      "name-placeholder": "Placeholder",
+      "name-placeholder": "Ім'я та прізвище",
       "tel-label": "Телефон",
-      "tel-placeholder": "Placeholder",
+      "tel-placeholder": "+380 00 000 00 00",
       "email-label": "Email",
-      "email-placeholder": "Placeholder"
+      "email-placeholder": "mail@mail.com"
     },
     "violation": {
       "title": "Порушення клієнта",
