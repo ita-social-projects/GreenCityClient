@@ -1,4 +1,4 @@
-import { Component, OnInit, OnDestroy, Inject } from '@angular/core';
+import { Component, OnInit, OnDestroy, Inject, Injector } from '@angular/core';
 import { FormArray, FormGroup, FormControl } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { MatDialog } from '@angular/material/dialog';
@@ -56,18 +56,26 @@ export class CreateEditNewsComponent extends FormBaseComponent implements OnInit
   };
   public onSubmit;
 
+  private createEditNewsFormBuilder: CreateEditNewsFormBuilder;
+  private createEcoNewsService: CreateEcoNewsService;
+  private ecoNewsService: EcoNewsService;
+  private route: ActivatedRoute;
+  private localStorageService: LocalStorageService;
+  private snackBar: MatSnackBarComponent;
+
   constructor(
     public router: Router,
     public dialog: MatDialog,
-    private createEditNewsFormBuilder: CreateEditNewsFormBuilder,
-    private createEcoNewsService: CreateEcoNewsService,
-    private ecoNewsService: EcoNewsService,
-    private route: ActivatedRoute,
-    @Inject(ACTION_TOKEN) private config: { [name: string]: ActionInterface },
-    private snackBar: MatSnackBarComponent,
-    private localStorageService: LocalStorageService
+    private injector: Injector,
+    @Inject(ACTION_TOKEN) private config: { [name: string]: ActionInterface }
   ) {
     super(router, dialog);
+    this.createEditNewsFormBuilder = injector.get(CreateEditNewsFormBuilder);
+    this.createEcoNewsService = injector.get(CreateEcoNewsService);
+    this.ecoNewsService = injector.get(EcoNewsService);
+    this.route = injector.get(ActivatedRoute);
+    this.localStorageService = injector.get(LocalStorageService);
+    this.snackBar = injector.get(MatSnackBarComponent);
   }
 
   ngOnInit() {
