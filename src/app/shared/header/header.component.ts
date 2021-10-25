@@ -50,7 +50,6 @@ export class HeaderComponent implements OnInit, OnDestroy {
   public navLinks;
   public selectedIndex: number = null;
   public currentLanguage: string;
-
   public dialog: MatDialog;
   private localStorageService: LocalStorageService;
   private jwtService: JwtService;
