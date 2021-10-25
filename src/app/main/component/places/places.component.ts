@@ -1,121 +1,142 @@
 import { TranslateService } from '@ngx-translate/core';
-import { Component, OnInit, ViewChild, DoCheck } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
-import { HttpClient } from '@angular/common/http';
-import { AgmMarker } from '@agm/core';
-
-import { markers, cards } from './Data.js';
-
+import { MatDrawer } from '@angular/material/sidenav';
+import { PlaceService } from '@global-service/place/place.service';
+import { cards } from './Data.js';
 import {
   redIcon,
   greenIcon,
   bookmark,
   bookmarkSaved,
-  star,
-  starHalf,
-  starUnfilled,
   searchIcon,
   notification,
-  share
+  share,
+  starUnfilled,
+  starHalf,
+  star
 } from '../../image-pathes/places-icons.js';
-import { MatDrawer } from '@angular/material/sidenav';
+import { Place } from './models/place';
+import { FilterPlaceService } from '@global-service/filtering/filter-place.service';
+import { debounceTime, take } from 'rxjs/operators';
+import { LatLngBounds, LatLngLiteral } from '@agm/core/services/google-maps-types';
+import { MapBoundsDto } from './models/map-bounds-dto';
+import { MoreOptionsFormValue } from './models/more-options-filter.model';
+import { PlaceInfo } from '@global-models/place/place-info';
 
 @Component({
   selector: 'app-places',
   templateUrl: './places.component.html',
   styleUrls: ['./places.component.scss']
 })
-export class PlacesComponent implements OnInit, DoCheck {
-  public lat = 49.84579567734425;
-  public lng = 24.025124653312258;
+export class PlacesComponent implements OnInit {
+  public position: any = {};
   public zoom = 13;
   public cardsCollection: any;
-  public tagList: Array<string> = [];
-  public contentObj: any;
+  public tagList: Array<string> = ['Shops', 'Restaurants', 'Recycling points', 'Events', 'Saved places'];
   public favoritePlaces: Array<number> = [];
-  public stars: Array<string> = ['', '', '', '', ''];
-  public markerList: Array<any> = [];
-  public markerListCopy: Array<any> = [];
   public searchName = '';
-
+  public moreOptionsFilters: MoreOptionsFormValue;
   public searchIcon = searchIcon;
   public notification = notification;
   public share = share;
+  public basicFilters: string[];
+  public mapBoundsDto: MapBoundsDto;
+  public places: Place[] = [];
+  public readonly redIconUrl: string = redIcon;
+  public readonly greenIconUrl: string = greenIcon;
+  public activePlace: Place;
+  public activePlaceInfo: PlaceInfo;
 
   @ViewChild('drawer') drawer: MatDrawer;
 
-  constructor(private localStorageService: LocalStorageService, private translate: TranslateService, private http: HttpClient) {}
+  private map: any;
+
+  constructor(
+    private localStorageService: LocalStorageService,
+    private translate: TranslateService,
+    private placeService: PlaceService,
+    private filterPlaceService: FilterPlaceService
+  ) {}
 
   ngOnInit() {
-    this.tagList = ['Shops', 'Restaurants', 'Recycling points', 'Events', 'Saved places'];
+    this.filterPlaceService.filtersDto$.pipe(debounceTime(300)).subscribe((filtersDto: any) => {
+      this.placeService.updatePlaces(filtersDto);
+    });
 
-    this.contentObj = {
-      cardName: '',
-      cardAddress: '',
-      cardText: '',
-      cardImgUrl: '',
-      cardRating: 0,
-      cardStars: []
-    };
+    this.placeService.places$.subscribe((places: Place[]) => {
+      this.places = places;
+    });
 
     this.cardsCollection = cards;
-    this.markerList = markers;
-
-    this.markerListCopy = this.markerList.slice();
-
-    if (!sessionStorage.hasOwnProperty('favorites')) {
-      this.favoritePlaces = [];
-    } else {
-      this.favoritePlaces = JSON.parse(sessionStorage.getItem('favorites'));
-      this.markerList.forEach((item) => {
-        if (this.favoritePlaces.includes(item.card.id)) {
-          item.card.favorite = bookmarkSaved;
-        }
-      });
-    }
 
     this.bindLang(this.localStorageService.getCurrentLanguage());
   }
 
-  ngDoCheck(): void {
-    this.startSearch();
+  public onMapIdle(): void {
+    this.updateFilters();
   }
 
-  public getFilterData(tags: Array<string>): void {
-    if (tags.filter((item) => item === 'Saved places') && tags.length > 0) {
-      if (!sessionStorage.hasOwnProperty('favorites')) {
-        this.favoritePlaces = [];
-      } else {
-        this.favoritePlaces = JSON.parse(sessionStorage.getItem('favorites'));
-      }
-      this.markerListCopy = this.markerList.filter((item) => {
-        return this.favoritePlaces.includes(item.card.id);
-      });
-    } else if (this.markerListCopy.length === 0) {
-      this.markerListCopy = this.markerList.slice();
-    }
+  public onMapReady(map: any): void {
+    this.map = map;
+    this.setUserLocation();
+  }
 
-    this.tagList = ['Shops', 'Restaurants', 'Recycling points', 'Events', 'Saved places'];
+  public mapCenterChange(newValue: LatLngLiteral): void {
+    this.position = {
+      latitude: newValue.lat,
+      longitude: newValue.lng
+    };
+  }
+
+  public mapBoundsChange(newValue: LatLngBounds): void {
+    this.mapBoundsDto = {
+      northEastLat: newValue.getNorthEast().lat(),
+      northEastLng: newValue.getNorthEast().lng(),
+      southWestLat: newValue.getSouthWest().lat(),
+      southWestLng: newValue.getSouthWest().lng()
+    };
+  }
+
+  public moreOptionsChange(newValue: MoreOptionsFormValue): void {
+    this.moreOptionsFilters = newValue;
+    this.updateFilters();
+  }
+
+  public basicFiltersChange(newValue: string[]) {
+    this.basicFilters = newValue;
+    this.updateFilters();
+  }
+
+  public searchNameChange(newValue: string): void {
+    this.searchName = newValue;
+    this.updateFilters();
+  }
+
+  public updateFilters(): void {
+    this.filterPlaceService.updateFiltersDto({
+      searchName: this.searchName,
+      moreOptionsFilters: this.moreOptionsFilters,
+      basicFilters: this.basicFilters,
+      mapBoundsDto: this.mapBoundsDto,
+      position: this.position
+    });
   }
 
   private bindLang(lang: string): void {
     this.translate.setDefaultLang(lang);
   }
 
-  public getMarker(marker: AgmMarker): void {
-    this.markerList.forEach((item) => {
-      item.iconUrl = redIcon;
-    });
-    const clickedMarker = this.markerList.indexOf(
-      this.markerList.filter((item) => {
-        return item.lat === marker.latitude;
-      })[0]
-    );
-
-    this.markerList[clickedMarker].iconUrl = greenIcon;
-    this.contentObj = this.markerList[clickedMarker].card;
-    this.contentObj.cardStars = this.getStars(this.contentObj.cardRating);
-    this.drawer.toggle();
+  public selectPlace(place: Place): void {
+    this.activePlace = place;
+    this.placeService
+      .getPlaceInfo(place.id)
+      .pipe(take(1))
+      .subscribe((placeInfo: PlaceInfo) => {
+        this.activePlaceInfo = placeInfo;
+        this.drawer.toggle(true);
+        console.log(placeInfo);
+      });
   }
 
   public moveToFavorite(event): void {
@@ -133,49 +154,36 @@ export class PlacesComponent implements OnInit, DoCheck {
     }
   }
 
-  public startSearch(): void {
-    const searchParams = this.searchName.toLowerCase();
-    this.markerListCopy = this.markerList.filter((item) => {
-      return item.card.cardName.toLowerCase().includes(searchParams);
-    });
+  public getStars(rating: number): Array<string> {
+    const stars = [];
+    const maxRating = 5;
+    const validRating = Math.min(rating, maxRating);
+    for (let i = 0; i <= validRating - 1; i++) {
+      stars.push(star);
+    }
+    if (Math.trunc(validRating) < validRating) {
+      stars.push(starHalf);
+    }
+    for (let i = stars.length; i < maxRating; i++) {
+      stars.push(starUnfilled);
+    }
+    return stars;
   }
 
-  private getStars(rating: number): Array<string> {
-    const maxRating = 5;
-    const halfOfStar = 0.5;
-
-    if (rating > maxRating) {
-      rating = maxRating;
-    }
-
-    let counter = 1;
-
-    if (rating < halfOfStar) {
-      this.stars.fill(starUnfilled);
-      return this.stars;
-    }
-
-    if (rating >= halfOfStar && rating < 1) {
-      this.stars.fill(starUnfilled);
-      this.stars[0] = starHalf;
-      return this.stars;
-    }
-
-    if (counter <= rating) {
-      this.stars.fill(starUnfilled);
-
-      while (counter <= rating) {
-        this.stars[counter - 1] = star;
-        counter++;
+  private setUserLocation(): void {
+    navigator.geolocation.getCurrentPosition(
+      (position: Position) => {
+        this.map.setCenter({
+          lat: position.coords.latitude,
+          lng: position.coords.longitude
+        });
+      },
+      () => {
+        this.map.setCenter({
+          lat: 49.84579567734425,
+          lng: 24.025124653312258
+        });
       }
-
-      const checkHalf = counter - 1 + halfOfStar;
-
-      if (checkHalf <= rating) {
-        this.stars[counter - 1] = starHalf;
-      }
-
-      return this.stars;
-    }
+    );
   }
 }

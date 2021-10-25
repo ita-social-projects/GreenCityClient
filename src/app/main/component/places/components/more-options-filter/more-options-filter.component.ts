@@ -1,5 +1,6 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, EventEmitter, OnInit, Output } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
+import { DistanceFilter, MoreOptionsFormValue } from '../../models/more-options-filter.model';
 
 @Component({
   selector: 'app-more-options-filter',
@@ -7,8 +8,9 @@ import { FormControl, FormGroup } from '@angular/forms';
   styleUrls: ['./more-options-filter.component.scss']
 })
 export class MoreOptionsFilterComponent implements OnInit {
+  @Output() public filtersChange: EventEmitter<MoreOptionsFormValue> = new EventEmitter<MoreOptionsFormValue>();
   public baseFilters: string[] = ['Open now', 'Saved places', 'Special offers'];
-  public distanceFilter: any = { isActive: false, value: null };
+  public distanceFilter: DistanceFilter = { isActive: false, value: null };
   public servicesFilters: string[] = [
     'Shops',
     'Restaurants',
@@ -46,13 +48,13 @@ export class MoreOptionsFilterComponent implements OnInit {
   public isActiveFilter = false;
 
   ngOnInit(): void {
-    this.filtersForm.valueChanges.subscribe((formValue: any) => {
-      console.log(formValue);
+    this.filtersForm.valueChanges.subscribe((formValue: MoreOptionsFormValue) => {
+      this.filtersChange.emit(formValue);
       this.updateIsActiveFilter(formValue);
     });
   }
 
-  public updateIsActiveFilter(formValue: any): void {
+  public updateIsActiveFilter(formValue: MoreOptionsFormValue): void {
     const isBaseFilter: boolean = Object.values(formValue.baseFilters).includes(true);
     const isServicesFilter: boolean = Object.values(formValue.servicesFilters).includes(true);
     this.isActiveFilter = isBaseFilter || isServicesFilter || formValue.distance.isActive;
