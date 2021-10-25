@@ -60,7 +60,7 @@ export class CreateEditNewsComponent extends FormBaseComponent implements OnInit
   private createEcoNewsService: CreateEcoNewsService;
   private ecoNewsService: EcoNewsService;
   private route: ActivatedRoute;
-  private localeStorageService: LocalStorageService;
+  private localStorageService: LocalStorageService;
   private snackBar: MatSnackBarComponent;
 
   constructor(
@@ -74,7 +74,7 @@ export class CreateEditNewsComponent extends FormBaseComponent implements OnInit
     this.createEcoNewsService = injector.get(CreateEcoNewsService);
     this.ecoNewsService = injector.get(EcoNewsService);
     this.route = injector.get(ActivatedRoute);
-    this.localeStorageService = injector.get(LocalStorageService);
+    this.localStorageService = injector.get(LocalStorageService);
     this.snackBar = injector.get(MatSnackBarComponent);
   }
 
@@ -108,11 +108,11 @@ export class CreateEditNewsComponent extends FormBaseComponent implements OnInit
   }
 
   private setLocalizedTags() {
-    this.localeStorageService.languageBehaviourSubject.pipe(takeUntil(this.destroyed$)).subscribe(() => this.getAllTags());
+    this.localStorageService.languageBehaviourSubject.pipe(takeUntil(this.destroyed$)).subscribe(() => this.getAllTags());
   }
 
   private getAllTags() {
-    const tags = this.localeStorageService.getTagsOfNews('newsTags');
+    const tags = this.localStorageService.getTagsOfNews('newsTags');
     if (tags) {
       this.filters = tags;
       return;
@@ -202,7 +202,7 @@ export class CreateEditNewsComponent extends FormBaseComponent implements OnInit
       )
       .subscribe(() => this.escapeFromCreatePage());
 
-    this.localeStorageService.removeTagsOfNews('newsTags');
+    this.localStorageService.removeTagsOfNews('newsTags');
   }
 
   public escapeFromCreatePage() {
@@ -292,7 +292,7 @@ export class CreateEditNewsComponent extends FormBaseComponent implements OnInit
     const index = this.filters.findIndex((item: FilterModel) => item.name === filterObj.name);
     const changedtags = this.filterArr({ name: filterObj.name, isActive: newValue }, index);
     this.filters = changedtags;
-    this.localeStorageService.setTagsOfNews('newsTags', changedtags);
+    this.localStorageService.setTagsOfNews('newsTags', changedtags);
   }
 
   public goToPreview(): void {
