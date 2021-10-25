@@ -65,7 +65,7 @@
         <div *ngIf="!loading; else spinner">
           <div class="in-progress header">
             <p>
-              <app-set-count [remainingCount]="news.length" [tabName]="'news'">
+              <app-set-count [remainingCount]="news?.length" [tabName]="'news'">
                 {{ 'profile.dashboard.news-list' | translate }} <br />
               </app-set-count>
             </p>

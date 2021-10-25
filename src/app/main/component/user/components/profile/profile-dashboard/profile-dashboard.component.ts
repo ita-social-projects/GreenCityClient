@@ -1,9 +1,7 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { take, takeUntil } from 'rxjs/operators';
 import { ReplaySubject } from 'rxjs';
-
 import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
-import { HabitService } from '@global-service/habit/habit.service';
 import { HabitAssignService } from '@global-service/habit-assign/habit-assign.service';
 import { HabitAssignInterface } from '../../../../../interface/habit/habit-assign.interface';
 import { HabitStatus } from '../../../../../model/habit/HabitStatus.enum';
@@ -35,7 +33,6 @@ export class ProfileDashboardComponent implements OnInit, OnDestroy {
 
   constructor(
     private localStorageService: LocalStorageService,
-    private habitService: HabitService,
     public habitAssignService: HabitAssignService,
     private ecoNewsService: EcoNewsService
   ) {}

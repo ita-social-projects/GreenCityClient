@@ -59,7 +59,6 @@ export class UbsBaseSidebarComponent implements AfterViewInit, OnDestroy {
           .pipe(takeUntil(this.destroy))
           .subscribe((response) => {
             this.serviceUserMessages.countOfNoReadeMessages = response;
-            console.log('Hello');
           });
       }
     });
