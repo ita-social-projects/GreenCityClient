@@ -43,10 +43,12 @@ export class UbsAdminOrderDetailsFormComponent implements OnInit, OnDestroy {
 
   public takeBagsData(): void {
     this.currentLanguage = this.localStorageService.getCurrentLanguage();
+    console.log(this.currentLanguage);
     this.orderService
       .getBags(this.currentLanguage)
       .pipe(takeUntil(this.destroy$))
       .subscribe((data: Bags) => {
+        console.log(data.bags);
         this.bags = data.bags;
         this.points = data.points;
       });

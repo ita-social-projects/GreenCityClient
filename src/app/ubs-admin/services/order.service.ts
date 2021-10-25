@@ -63,7 +63,8 @@ export class OrderService {
   }
 
   public getBags(lang): Observable<Bags> {
-    return this.http.get<Bags>(`${this.backend}/order-details?lang=${lang}`);
+    // return this.http.get<Bags>(`${this.backend}/order-details?lang=${lang}`);
+    return this.http.get<Bags>(`${this.backend}/order-details`);
   }
 
   public getOrderDetails(orderId: number, lang: string): Observable<IOrderDetails> {
