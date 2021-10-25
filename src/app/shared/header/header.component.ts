@@ -51,7 +51,7 @@ export class HeaderComponent implements OnInit, OnDestroy {
   public selectedIndex: number = null;
   public currentLanguage: string;
   public dialog: MatDialog;
-  private localStorageService: LocalStorageService;
+  private localeStorageService: LocalStorageService;
   private jwtService: JwtService;
   private router: Router;
   private userService: UserService;
@@ -64,7 +64,7 @@ export class HeaderComponent implements OnInit, OnDestroy {
 
   constructor(private injector: Injector) {
     this.dialog = injector.get(MatDialog);
-    this.localStorageService = injector.get(LocalStorageService);
+    this.localeStorageService = injector.get(LocalStorageService);
     this.jwtService = injector.get(JwtService);
     this.router = injector.get(Router);
     this.userService = injector.get(UserService);
@@ -78,8 +78,8 @@ export class HeaderComponent implements OnInit, OnDestroy {
 
   ngOnInit() {
     this.isUBS = this.router.url.includes(this.ubsUrl);
-    this.localStorageService.setUbsRegistration(this.isUBS);
-    this.currentLanguage = this.localStorageService.getCurrentLanguage();
+    this.localeStorageService.setUbsRegistration(this.isUBS);
+    this.currentLanguage = this.localeStorageService.getCurrentLanguage();
     this.toggleHeader();
     this.setLangArr();
     this.updateArrayLang();
@@ -92,7 +92,7 @@ export class HeaderComponent implements OnInit, OnDestroy {
 
     this.searchSearch.allSearchSubject.pipe(takeUntil(this.destroySub)).subscribe((signal) => this.openAllSearchSubscription(signal));
 
-    this.localStorageService.firstNameBehaviourSubject.pipe(takeUntil(this.destroySub)).subscribe((firstName) => {
+    this.localeStorageService.firstNameBehaviourSubject.pipe(takeUntil(this.destroySub)).subscribe((firstName) => {
       this.name = firstName;
     });
 
@@ -106,7 +106,7 @@ export class HeaderComponent implements OnInit, OnDestroy {
 
     this.userOwnAuthService.isLoginUserSubject.pipe(takeUntil(this.destroySub)).subscribe((status) => (this.isLoggedIn = status));
 
-    this.localStorageService.accessTokenBehaviourSubject.pipe(takeUntil(this.destroySub)).subscribe((token) => {
+    this.localeStorageService.accessTokenBehaviourSubject.pipe(takeUntil(this.destroySub)).subscribe((token) => {
       this.managementLink = `${this.backEndLink}token?accessToken=${token}`;
     });
   }
@@ -154,7 +154,7 @@ export class HeaderComponent implements OnInit, OnDestroy {
     let mainLang = null;
     if (this.isUBS && this.currentLanguage === Language.RU) {
       this.languageService.changeCurrentLanguage(Language.UA.toLowerCase() as Language);
-      this.currentLanguage = this.localStorageService.getCurrentLanguage();
+      this.currentLanguage = this.localeStorageService.getCurrentLanguage();
     }
     this.arrayLang.forEach((item, i, arr) => {
       if (arr[i].lang.toLowerCase() === this.currentLanguage) {
@@ -167,7 +167,7 @@ export class HeaderComponent implements OnInit, OnDestroy {
   }
 
   private initUser(): void {
-    this.localStorageService.userIdBehaviourSubject
+    this.localeStorageService.userIdBehaviourSubject
       .pipe(
         takeUntil(this.destroySub),
         filter((userId) => userId !== null && !isNaN(userId))
@@ -263,7 +263,7 @@ export class HeaderComponent implements OnInit, OnDestroy {
   public signOut(): void {
     this.dropdownVisible = false;
     this.userOwnAuthService.isLoginUserSubject.next(false);
-    this.localStorageService.clear();
+    this.localeStorageService.clear();
     this.habitStatisticService.onLogout();
     this.achievementService.onLogout();
     this.router.navigateByUrl('/').then((r) => r);
