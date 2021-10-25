@@ -27,6 +27,7 @@ import { UbsOrderLocationPopupComponent } from './components/ubs-order-details/u
 import { MatIconModule } from '@angular/material/icon';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatDialogModule, MAT_DIALOG_DEFAULT_OPTIONS } from '@angular/material/dialog';
+import { UbsSubmitOrderNotificationComponent } from './components/ubs-submit-order/ubs-submit-order-notification/ubs-submit-order-notification.component';
 
 @NgModule({
   declarations: [
@@ -40,7 +41,8 @@ import { MatDialogModule, MAT_DIALOG_DEFAULT_OPTIONS } from '@angular/material/d
     AddressComponent,
     UbsConfirmPageComponent,
     UbsMainPageComponent,
-    UbsOrderLocationPopupComponent
+    UbsOrderLocationPopupComponent,
+    UbsSubmitOrderNotificationComponent
   ],
   imports: [
     MatIconModule,

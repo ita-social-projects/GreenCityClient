@@ -53,13 +53,12 @@ export class UbsBaseSidebarComponent implements AfterViewInit, OnDestroy {
 
   getCountOfUnreadNotification() {
     this.jwtService.userRole$.pipe(takeUntil(this.destroySub)).subscribe((userRole) => {
-      if (!(userRole === this.adminRoleValue)) {
+      if (userRole !== this.adminRoleValue) {
         this.serviceUserMessages
           .getCountUnreadNotification()
           .pipe(takeUntil(this.destroy))
           .subscribe((response) => {
             this.serviceUserMessages.countOfNoReadeMessages = response;
-            console.log('Hello');
           });
       }
     });

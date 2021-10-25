@@ -29,6 +29,7 @@ $cardTextColor: #1d2830;
     @include flex-options(column, stretch, flex-start);
 
     .filter {
+      display: flex;
       margin-top: 26px;
     }
   }

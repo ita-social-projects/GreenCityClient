@@ -1,6 +1,5 @@
 import { AfterViewInit, Component, ChangeDetectorRef, ViewChild, DoCheck, HostListener, OnDestroy, OnInit } from '@angular/core';
 import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
-import { Subject } from 'rxjs';
 import { FormGroup } from '@angular/forms';
 import { UBSSubmitOrderComponent } from '../ubs-submit-order/ubs-submit-order.component';
 import { UBSPersonalInformationComponent } from '../ubs-personal-information/ubs-personal-information.component';
@@ -53,14 +52,9 @@ export class UBSOrderFormComponent implements OnInit, AfterViewInit, DoCheck, On
     }
   }
 
-  saveDataOnLocalStorage() {
-    if (!this.shareFormService.isDataSaved) {
-      const personalData = JSON.stringify(this.shareFormService.getPersonalData());
-      const orderData = JSON.stringify(this.shareFormService.getOrderDetails());
-      this.localStorageService.setUbsOrderData(personalData, orderData);
-    } else {
-      this.localStorageService.removeUbsOrderData();
-    }
+  saveDataOnLocalStorage(): void {
+    this.shareFormService.isDataSaved = false;
+    this.shareFormService.saveDataOnLocalStorage();
   }
 
   ngOnDestroy() {

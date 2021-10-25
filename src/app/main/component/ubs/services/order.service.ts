@@ -88,4 +88,9 @@ export class OrderService {
   getLiqPayForm(): Observable<Order> {
     return this.processLiqPayOrder(this.orderSubject.getValue());
   }
+
+  getOrderFromNotification(orderId: number) {
+    const lang = localStorage.getItem('language') === 'ua' ? 1 : 2;
+    return this.http.get(`${this.url}/client/get-data-for-order-surcharge/${orderId}/${lang}`);
+  }
 }

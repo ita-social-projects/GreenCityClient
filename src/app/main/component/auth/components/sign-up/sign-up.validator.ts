@@ -18,8 +18,14 @@ export function ConfirmPasswordValidator(controlName: string, matchingControlNam
 
 export function ValidatorRegExp(controlName: string) {
   return (formGroup: FormGroup) => {
-    const regexpName = /^(?!\.)(?!.*\.$)(?!.*?\.\.)[a-zA-Z0-9_.]{6,30}$/gi;
-    const regexpPass = /^(?=.*[a-z]+)(?=.*[A-Z]+)(?=.*\d+)(?=.*[~`!@#$%^&*()+=_\-{}|:;”’?/<>,.\]\[]+).{8,}$/;
+    const regexpName = /^(?!\.)(?!.*\.$)(?!.*?\.\.)[a-z0-9_.]{6,30}$/gi;
+    const regexpPass = new RegExp(
+      [/^(?=.*[a-z]+)/, /(?=.*[A-Z]+)/, /(?=.*\d+)/, /(?=.*[~`!@#$%^&*()+=_\-{}|:;”’?/<>,.\]\[]+).{8,}$/]
+        .map((reg) => {
+          return reg.source;
+        })
+        .join('')
+    );
     const regexp = controlName === 'firstName' ? regexpName : regexpPass;
     const control = formGroup.controls[controlName];
     if (control.value === '') {

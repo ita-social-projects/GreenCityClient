@@ -280,6 +280,24 @@
     "bonuses": "Bonuses",
     "tariffs": "Tariffs"
   },
+  "ubs-employee": {
+    "add-employee": "Add employee",
+    "required-fields": "*Required fields",
+    "name": "Name*",
+    "surname": "Surname*",
+    "phone-number": "Phone number*",
+    "email": "Email",
+    "position": "Position*",
+    "receiving-station": "Receiving station*",
+    "image-input": "Image",
+    "picture-description-1": "Drop your",
+    "picture-description-2": "image here or",
+    "browse-1": "upload from",
+    "browse-2": "your device",
+    "add": "Add",
+    "cancel": "Cancel",
+    "update": "Update"
+  },
   "ubs-user": {
     "orders": "Orders",
     "invoice": "Invoice",

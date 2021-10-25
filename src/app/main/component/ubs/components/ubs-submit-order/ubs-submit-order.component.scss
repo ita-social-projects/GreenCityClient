@@ -332,3 +332,22 @@ h3 {
     font-size: 0.65rem;
   }
 }
+
+.load-spinner {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: 50px;
+}
+
+:host ::ng-deep .custom-spinner circle {
+  stroke: #e2e2e2;
+}
+
+::ng-deep .mat-progress-bar-fill::after {
+  background: #e2e2e2;
+}
+
+::ng-deep .mat-progress-bar-buffer {
+  background: #bfbfbf;
+}

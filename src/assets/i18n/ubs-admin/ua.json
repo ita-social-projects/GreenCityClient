@@ -286,7 +286,14 @@
     "email": "Email",
     "position": "Посада*",
     "receiving-station": "Станція приймання*",
-    "image-input": "Фото"
+    "image-input": "Фото",
+    "picture-description-1": "Перетягніть",
+    "picture-description-2": "зображення або",
+    "browse-1": "завантажте з",
+    "browse-2": "пристрою",
+    "add": "Додати",
+    "cancel": "Скасувати",
+    "update": "Оновити"
   },
   "ubs-user": {
     "orders": "Замовлення",
