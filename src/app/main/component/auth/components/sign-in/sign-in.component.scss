@@ -131,10 +131,6 @@ h2 {
   }
 }
 
-.forgot-password {
-  color: var(--secondary-dark-green);
-}
-
 .primary-global-button {
   height: 48px;
   font-weight: 600;
@@ -152,6 +148,7 @@ h2 {
 
 .ubs-primary-global-button {
   height: 43px;
+
   .span {
     color: black;
   }
@@ -176,13 +173,12 @@ h2 {
 
   .ubs-sign-up-link {
     color: var(--ubs-primary-blue);
+    margin-left: 8px;
+    text-decoration-line: underline;
   }
 
   .sign-up-link {
     color: var(--secondary-dark-green);
-  }
-
-  .sign-up-link {
     margin-left: 8px;
     text-decoration-line: underline;
   }
