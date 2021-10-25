@@ -1,4 +1,4 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Component, OnInit, OnDestroy, Injector } from '@angular/core';
 import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { Location } from '@angular/common';
 import { ActivatedRoute } from '@angular/router';
@@ -33,17 +33,24 @@ export class UbsAdminTariffsPricingPageComponent implements OnInit, OnDestroy {
     edit: './assets/img/profile/icons/edit.svg',
     delete: './assets/img/profile/icons/delete.svg'
   };
-
+  public dialog: MatDialog;
+  private tariffsService: TariffsService;
+  private orderService: OrderService;
+  private localStorageService: LocalStorageService;
+  private route: ActivatedRoute;
+  private location: Location;
   constructor(
-    public dialog: MatDialog,
-    private tariffsService: TariffsService,
-    private orderService: OrderService,
-    private location: Location,
-    private localStorageService: LocalStorageService,
+    private injector: Injector,
     public dialogRefService: MatDialogRef<UbsAdminTariffsAddServicePopUpComponent>,
-    public dialogRefTariff: MatDialogRef<UbsAdminTariffsAddTariffServicePopUpComponent>,
-    private route: ActivatedRoute
-  ) {}
+    public dialogRefTariff: MatDialogRef<UbsAdminTariffsAddTariffServicePopUpComponent>
+  ) {
+    this.location = injector.get(Location);
+    this.dialog = injector.get(MatDialog);
+    this.tariffsService = injector.get(TariffsService);
+    this.orderService = injector.get(OrderService);
+    this.localStorageService = injector.get(LocalStorageService);
+    this.route = injector.get(ActivatedRoute);
+  }
 
   ngOnInit() {
     this.subscribeToLangChange();

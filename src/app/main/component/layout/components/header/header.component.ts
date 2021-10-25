@@ -1,7 +1,7 @@
 import { LanguageService } from 'src/app/main/i18n/language.service';
 import { Language } from './../../../../i18n/Language';
 import { headerIcons } from './../../../../image-pathes/header-icons';
-import { Component, OnInit, OnDestroy, ViewChild, ElementRef } from '@angular/core';
+import { Component, OnInit, OnDestroy, ViewChild, ElementRef, Injector } from '@angular/core';
 import { ActivatedRoute, NavigationStart, Router } from '@angular/router';
 import { filter, takeUntil } from 'rxjs/operators';
 import { JwtService } from '@global-service/jwt/jwt.service';
@@ -50,19 +50,31 @@ export class HeaderComponent implements OnInit, OnDestroy {
   @ViewChild('signinref') signinref: ElementRef;
   @ViewChild('signupref') signupref: ElementRef;
   public elementName;
-  constructor(
-    public dialog: MatDialog,
-    private localStorageService: LocalStorageService,
-    private jwtService: JwtService,
-    private router: Router,
-    private userService: UserService,
-    private achievementService: AchievementService,
-    private habitStatisticService: HabitStatisticService,
-    private languageService: LanguageService,
-    private searchSearch: SearchService,
-    private userOwnAuthService: UserOwnAuthService,
-    private route: ActivatedRoute
-  ) {}
+  public dialog: MatDialog;
+  private localStorageService: LocalStorageService;
+  private jwtService: JwtService;
+  private router: Router;
+  private userService: UserService;
+  private achievementService: AchievementService;
+  private habitStatisticService: HabitStatisticService;
+  private languageService: LanguageService;
+  private searchSearch: SearchService;
+  private userOwnAuthService: UserOwnAuthService;
+  private route: ActivatedRoute;
+
+  constructor(private injector: Injector) {
+    this.dialog = injector.get(MatDialog);
+    this.localStorageService = injector.get(LocalStorageService);
+    this.jwtService = injector.get(JwtService);
+    this.router = injector.get(Router);
+    this.userService = injector.get(UserService);
+    this.achievementService = injector.get(AchievementService);
+    this.habitStatisticService = injector.get(HabitStatisticService);
+    this.languageService = injector.get(LanguageService);
+    this.searchSearch = injector.get(SearchService);
+    this.userOwnAuthService = injector.get(UserOwnAuthService);
+    this.route = injector.get(ActivatedRoute);
+  }
 
   ngOnInit() {
     this.dialog.afterAllClosed.pipe(takeUntil(this.destroySub)).subscribe(() => {

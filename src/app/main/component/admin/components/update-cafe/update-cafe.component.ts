@@ -1,4 +1,4 @@
-import { Component, ElementRef, EventEmitter, Inject, NgZone, OnInit, Output, ViewChild } from '@angular/core';
+import { Component, ElementRef, EventEmitter, Inject, Injector, NgZone, OnInit, Output, ViewChild } from '@angular/core';
 import { LocationDto } from '../../../../model/locationDto.model';
 import { DiscountDto } from '../../../../model/discount/DiscountDto';
 import { SpecificationNameDto } from '../../../../model/specification/SpecificationNameDto';
@@ -25,20 +25,27 @@ import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
   styleUrls: ['./update-cafe.component.scss']
 })
 export class UpdateCafeComponent implements OnInit {
-  constructor(
-    private modalService: ModalService,
-    private placeService: PlaceService,
-    private categoryService: CategoryService,
-    private specificationService: SpecificationService,
-    private uService: UserService,
-    private matSnackBar: MatSnackBarComponent,
-    private mapsAPILoader: MapsAPILoader,
-    private ngZone: NgZone,
-    @Inject(MAT_DIALOG_DATA) public data: any,
-    private dialogRef: MatDialogRef<UpdateCafeComponent>
-  ) {
+  private modalService: ModalService;
+  private placeService: PlaceService;
+  private categoryService: CategoryService;
+  private specificationService: SpecificationService;
+  private uService: UserService;
+  private matSnackBar: MatSnackBarComponent;
+  private mapsAPILoader: MapsAPILoader;
+  private ngZone: NgZone;
+
+  constructor(private injector: Injector, @Inject(MAT_DIALOG_DATA) public data: any, private dialogRef: MatDialogRef<UpdateCafeComponent>) {
+    this.modalService = injector.get(ModalService);
+    this.placeService = injector.get(PlaceService);
+    this.categoryService = injector.get(CategoryService);
+    this.specificationService = injector.get(SpecificationService);
+    this.uService = injector.get(UserService);
+    this.matSnackBar = injector.get(MatSnackBarComponent);
+    this.mapsAPILoader = injector.get(MapsAPILoader);
+    this.ngZone = injector.get(NgZone);
     this.submitButtonEnabled = true;
   }
+
   name: any;
   nameOfSpecification: any;
   value: any;
