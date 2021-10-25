@@ -1,7 +1,7 @@
 import { LanguageService } from 'src/app/main/i18n/language.service';
 import { Language } from '../../main/i18n/Language';
 import { headerIcons, ubsHeaderIcons } from '../../main/image-pathes/header-icons';
-import { Component, OnInit, OnDestroy, ViewChild, ElementRef } from '@angular/core';
+import { Component, OnInit, OnDestroy, ViewChild, ElementRef, Injector } from '@angular/core';
 import { NavigationStart, Router } from '@angular/router';
 import { filter, takeUntil } from 'rxjs/operators';
 import { JwtService } from '@global-service/jwt/jwt.service';
@@ -51,19 +51,30 @@ export class HeaderComponent implements OnInit, OnDestroy {
   public selectedIndex: number = null;
   public currentLanguage: string;
 
-  constructor(
-    public dialog: MatDialog,
-    private headerService: HeaderService,
-    private localStorageService: LocalStorageService,
-    private jwtService: JwtService,
-    private router: Router,
-    private userService: UserService,
-    private achievementService: AchievementService,
-    private habitStatisticService: HabitStatisticService,
-    private languageService: LanguageService,
-    private searchSearch: SearchService,
-    private userOwnAuthService: UserOwnAuthService
-  ) {}
+  public dialog: MatDialog;
+  private localStorageService: LocalStorageService;
+  private jwtService: JwtService;
+  private router: Router;
+  private userService: UserService;
+  private achievementService: AchievementService;
+  private habitStatisticService: HabitStatisticService;
+  private languageService: LanguageService;
+  private searchSearch: SearchService;
+  private userOwnAuthService: UserOwnAuthService;
+  private headerService: HeaderService;
+
+  constructor(private injector: Injector) {
+    this.dialog = injector.get(MatDialog);
+    this.localStorageService = injector.get(LocalStorageService);
+    this.jwtService = injector.get(JwtService);
+    this.router = injector.get(Router);
+    this.userService = injector.get(UserService);
+    this.achievementService = injector.get(AchievementService);
+    this.habitStatisticService = injector.get(HabitStatisticService);
+    this.languageService = injector.get(LanguageService);
+    this.searchSearch = injector.get(SearchService);
+    this.userOwnAuthService = injector.get(UserOwnAuthService);
+  }
 
   ngOnInit() {
     this.isUBS = this.router.url.includes(this.ubsUrl);
