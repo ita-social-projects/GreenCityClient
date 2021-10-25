@@ -83,9 +83,9 @@ export class CreateEditNewsComponent extends FormBaseComponent implements OnInit
     this.setLocalizedTags();
   }
 
-  private filterArr = (item: FilterModel, index: number) => {
+  private filterArr(item: FilterModel, index: number) {
     return [...this.filters.slice(0, index), item, ...this.filters.slice(index + 1)];
-  };
+  }
 
   public setInitialValues(): void {
     if (!this.createEcoNewsService.isBackToEditing) {
