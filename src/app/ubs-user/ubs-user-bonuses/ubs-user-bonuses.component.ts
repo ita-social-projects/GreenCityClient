@@ -35,9 +35,8 @@ export class UbsUserBonusesComponent implements OnInit, AfterViewInit, OnDestroy
     this.dataSource.sortingDataAccessor = (item, property) => {
       if (property === 'dateOfEnrollment') {
         return new Date(item.dateOfEnrollment);
-      } else {
-        return item[property];
       }
+      return item[property];
     };
   }
 
