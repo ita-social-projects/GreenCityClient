@@ -2,7 +2,7 @@ import { UserSuccessSignIn } from '@global-models/user-success-sign-in';
 import { SignInIcons } from '../../../../image-pathes/sign-in-icons';
 import { UserOwnSignIn } from '@global-models/user-own-sign-in';
 import { FormGroup, FormControl, Validators, AbstractControl } from '@angular/forms';
-import { Component, EventEmitter, OnInit, OnDestroy, Output } from '@angular/core';
+import { Component, EventEmitter, OnInit, OnDestroy, Output, Injector } from '@angular/core';
 import { Router } from '@angular/router';
 import { HttpErrorResponse } from '@angular/common/http';
 import { AuthService, GoogleLoginProvider } from 'angularx-social-login';
@@ -40,19 +40,27 @@ export class SignInComponent implements OnInit, OnDestroy {
   public isUbs: boolean;
   public navigateToLink;
   @Output() private pageName = new EventEmitter();
+  public dialog: MatDialog;
+  private userOwnSignInService: UserOwnSignInService;
+  private jwtService: JwtService;
+  private router: Router;
+  private authService: AuthService;
+  private googleService: GoogleSignInService;
+  private localeStorageService: LocalStorageService;
+  private userOwnAuthService: UserOwnAuthService;
+  private profileService: ProfileService;
 
-  constructor(
-    public dialog: MatDialog,
-    private matDialogRef: MatDialogRef<SignInComponent>,
-    private userOwnSignInService: UserOwnSignInService,
-    private jwtService: JwtService,
-    private router: Router,
-    private authService: AuthService,
-    private googleService: GoogleSignInService,
-    private localeStorageService: LocalStorageService,
-    private userOwnAuthService: UserOwnAuthService,
-    private profileService: ProfileService
-  ) {}
+  constructor(private matDialogRef: MatDialogRef<SignInComponent>, private injector: Injector) {
+    this.dialog = injector.get(MatDialog);
+    this.userOwnSignInService = injector.get(UserOwnSignInService);
+    this.jwtService = injector.get(JwtService);
+    this.router = injector.get(Router);
+    this.authService = injector.get(AuthService);
+    this.googleService = injector.get(GoogleSignInService);
+    this.localeStorageService = injector.get(LocalStorageService);
+    this.userOwnAuthService = injector.get(UserOwnAuthService);
+    this.profileService = injector.get(ProfileService);
+  }
 
   ngOnInit() {
     this.localeStorageService.ubsRegBehaviourSubject.pipe(takeUntil(this.destroy)).subscribe((value) => (this.isUbs = value));
