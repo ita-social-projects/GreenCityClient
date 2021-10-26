@@ -148,12 +148,12 @@
   </div>
   <button
     type="submit"
-    class="primary-global-button"
+    [ngClass]="isUbs ? 'ubs-primary-global-button' : 'primary-global-button'"
     role="link"
     [disabled]="!signUpForm.valid || inputPassword.value !== repeatPassword.value || emailErrorMessageBackEnd"
   >
+    <span [class.span]="isUbs">{{ 'user.auth.sign-up.submit' | translate }}</span>
     <span *ngIf="loadingAnim" class="spinner-border spinner-border-sm" role="status" aria-hidden="true"> </span>
-    {{ 'user.auth.sign-up.submit' | translate }}
   </button>
   <div class="switch-sign-up">
     {{ 'user.auth.sign-up.or' | translate }}
@@ -164,7 +164,12 @@
 <div class="exist-account">
   <span>
     {{ 'user.auth.sign-up.haveyou-account' | translate }}
-    <a class="exist-sign-in" tabindex="0" (keyup.enter)="openSignInWindow()" (click)="openSignInWindow()">
+    <a
+      [ngClass]="isUbs ? 'ubs-exist-sign-in' : 'exist-sign-in'"
+      tabindex="0"
+      (keyup.enter)="openSignInWindow()"
+      (click)="openSignInWindow()"
+    >
       {{ 'user.auth.sign-up.enter' | translate }}
     </a>
   </span>

@@ -3,11 +3,8 @@
     <span #focusFirst tabindex="-1">:</span>
     <a class="skip" (click)="skipFocus()" pageScroll href="#main-content">skip to main content</a>
   </div>
-  <app-header *ngIf="!isUBS; else ubsHeader"></app-header>
-  <ng-template #ubsHeader>
-    <app-ubs-header></app-ubs-header>
-  </ng-template>
-  <app-search-popup *ngIf="!isUBS"></app-search-popup>
+  <app-header></app-header>
+  <app-search-popup></app-search-popup>
   <div class="main-content" [ngClass]="toggle ? 'app-container stop-scroll' : 'app-container'">
     <div #focusLast tabindex="-1" aria-label="Tab To Main"></div>
     <router-outlet (activate)="setFocus()"></router-outlet>

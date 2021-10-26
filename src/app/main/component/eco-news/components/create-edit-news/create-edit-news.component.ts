@@ -38,7 +38,6 @@ export class CreateEditNewsComponent extends FormBaseComponent implements OnInit
   public newsId: string;
   public formData: FormGroup;
   private destroyed$: ReplaySubject<any> = new ReplaySubject<any>(1);
-
   public isFormInvalid: boolean;
   public formChangeSub: Subscription;
   public previousPath = '/news';
@@ -55,7 +54,6 @@ export class CreateEditNewsComponent extends FormBaseComponent implements OnInit
     }
   };
   public onSubmit;
-
   private createEditNewsFormBuilder: CreateEditNewsFormBuilder;
   private createEcoNewsService: CreateEcoNewsService;
   private ecoNewsService: EcoNewsService;
@@ -83,6 +81,10 @@ export class CreateEditNewsComponent extends FormBaseComponent implements OnInit
     this.initPageforCreateOrEdit();
     this.onSourceChange();
     this.setLocalizedTags();
+  }
+
+  private filterArr(item: FilterModel, index: number) {
+    return [...this.filters.slice(0, index), item, ...this.filters.slice(index + 1)];
   }
 
   public setInitialValues(): void {
@@ -238,10 +240,6 @@ export class CreateEditNewsComponent extends FormBaseComponent implements OnInit
         this.onSourceChange();
         this.setInitialValues();
       });
-  }
-
-  private filterArr = (item: FilterModel, index: number) => {
-    return [...this.filters.slice(0, index), item, ...this.filters.slice(index + 1)];
   }
 
   public setActiveFilters(itemToUpdate: EcoNewsModel): void {
