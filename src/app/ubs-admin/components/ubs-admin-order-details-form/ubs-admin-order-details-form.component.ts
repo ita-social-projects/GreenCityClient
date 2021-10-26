@@ -1,4 +1,4 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Component, Input, OnDestroy, OnInit } from '@angular/core';
 import { FormGroup, FormControl, Validators, FormBuilder } from '@angular/forms';
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
@@ -12,6 +12,7 @@ import { OrderService } from '../../services/order.service';
   styleUrls: ['./ubs-admin-order-details-form.component.scss']
 })
 export class UbsAdminOrderDetailsFormComponent implements OnInit, OnDestroy {
+  @Input() currentOrderStatus;
   public payMore = true;
   public isInputDisabled = false;
   public isVisible = true;
@@ -19,6 +20,7 @@ export class UbsAdminOrderDetailsFormComponent implements OnInit, OnDestroy {
   public orderDetailsForm: FormGroup;
   private destroy$: Subject<boolean> = new Subject<boolean>();
   public currentLanguage: string;
+  public minOrderSum = 500;
 
   public bags: Bag[];
   public points: number;
@@ -26,8 +28,13 @@ export class UbsAdminOrderDetailsFormComponent implements OnInit, OnDestroy {
   constructor(private fb: FormBuilder, private localStorageService: LocalStorageService, private orderService: OrderService) {}
 
   ngOnInit(): void {
+    this.localStorageService.languageBehaviourSubject.pipe(takeUntil(this.destroy$)).subscribe((lang) => {
+      this.currentLanguage = lang;
+    });
     this.initForm();
     this.takeBagsData();
+    console.log(222222);
+    console.log(this.currentOrderStatus);
   }
 
   public initForm(): void {
@@ -42,10 +49,8 @@ export class UbsAdminOrderDetailsFormComponent implements OnInit, OnDestroy {
   }
 
   public takeBagsData(): void {
-    this.currentLanguage = this.localStorageService.getCurrentLanguage();
-    console.log(this.currentLanguage);
     this.orderService
-      .getBags(this.currentLanguage)
+      .getBags()
       .pipe(takeUntil(this.destroy$))
       .subscribe((data: Bags) => {
         console.log(data.bags);

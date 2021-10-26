@@ -22,14 +22,19 @@ export class OrderService {
   private selectedOrder: {};
 
   readonly orderStatuses = [
-    { name: 'FORMED', translation: 'order-edit.order-status.formed' },
-    { name: 'ADJUSTMENT', translation: 'order-edit.order-status.adjustment' },
-    { name: 'BROUGHT_IT_HIMSELF', translation: 'order-edit.order-status.brought-it-himself' },
-    { name: 'CONFIRMED', translation: 'order-edit.order-status.confirmed' },
-    { name: 'ON_THE_ROUTE', translation: 'order-edit.order-status.on-the-route' },
-    { name: 'DONE', translation: 'order-edit.order-status.done' },
-    { name: 'NOT_TAKEN_OUT', translation: 'order-edit.order-status.not-taken-out' },
-    { name: 'CANCELLED', translation: 'order-edit.order-status.cancelled' }
+    { name: 'FORMED', translation: 'order-edit.order-status.formed', ableConfirmedChange: true, ableActualChange: false },
+    { name: 'ADJUSTMENT', translation: 'order-edit.order-status.adjustment', ableConfirmedChange: true, ableActualChange: false },
+    {
+      name: 'BROUGHT_IT_HIMSELF',
+      translation: 'order-edit.order-status.brought-it-himself',
+      ableConfirmedChange: false,
+      ableActualChange: true
+    },
+    { name: 'CONFIRMED', translation: 'order-edit.order-status.confirmed', ableConfirmedChange: true, ableActualChange: false },
+    { name: 'ON_THE_ROUTE', translation: 'order-edit.order-status.on-the-route', ableConfirmedChange: false, ableActualChange: true },
+    { name: 'DONE', translation: 'order-edit.order-status.done', ableConfirmedChange: false, ableActualChange: true },
+    { name: 'NOT_TAKEN_OUT', translation: 'order-edit.order-status.not-taken-out', ableConfirmedChange: true, ableActualChange: false },
+    { name: 'CANCELLED', translation: 'order-edit.order-status.cancelled', ableConfirmedChange: false, ableActualChange: true }
   ];
 
   readonly paymentStatuses = [
@@ -62,8 +67,7 @@ export class OrderService {
     this.selectedOrder = order;
   }
 
-  public getBags(lang): Observable<Bags> {
-    // return this.http.get<Bags>(`${this.backend}/order-details?lang=${lang}`);
+  public getBags(): Observable<Bags> {
     return this.http.get<Bags>(`${this.backend}/order-details`);
   }
 

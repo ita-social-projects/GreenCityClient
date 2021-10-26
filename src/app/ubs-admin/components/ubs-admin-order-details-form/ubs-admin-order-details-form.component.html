@@ -89,7 +89,7 @@
             {{ 'order-edit.need-to-pay' | translate }} 250 {{ '' | localizedCurrency }}
           </span>
           <span class="col-sm-4 text-danger pl-5" *ngIf="payMore">
-            {{ 'order-details.min-sum' | translate }} 500 {{ '' | localizedCurrency }}
+            {{ 'order-details.min-sum' | translate }} {{ minOrderSum }} {{ '' | localizedCurrency }}
           </span>
         </li>
       </ul>

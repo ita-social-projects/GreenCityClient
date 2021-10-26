@@ -13,6 +13,7 @@ import { OrderService } from '../../services/order.service';
   styleUrls: ['./ubs-admin-order.component.scss']
 })
 export class UbsAdminOrderComponent implements OnInit {
+  currentOrderStatus;
   order;
   orderForm: FormGroup;
 
@@ -79,6 +80,11 @@ export class UbsAdminOrderComponent implements OnInit {
     this.dialog.open(UbsAdminGoBackModalComponent, {
       hasBackdrop: true
     });
+  }
+
+  onChangedOrderStatus(status) {
+    this.currentOrderStatus = status;
+    console.log('DONE');
   }
 
   resetForm() {

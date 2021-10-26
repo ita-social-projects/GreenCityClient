@@ -8,11 +8,16 @@
   </div>
   <form [formGroup]="orderForm" (ngSubmit)="onSubmit()">
     <div class="box">
-      <app-ubs-admin-order-status [orderStatusForm]="getFormGroup('orderStatusForm')" [order]="order"> </app-ubs-admin-order-status>
+      <app-ubs-admin-order-status
+        [orderStatusForm]="getFormGroup('orderStatusForm')"
+        [order]="order"
+        (onChangedOrderStatus)="onChangedOrderStatus($event)"
+      >
+      </app-ubs-admin-order-status>
       <app-ubs-admin-order-client-info [clientInfoForm]="getFormGroup('clientInfoForm')" [order]="order"> </app-ubs-admin-order-client-info>
       <app-ubs-admin-address-details [addressDetailsForm]="getFormGroup('addressDetailsForm')" [order]="order">
       </app-ubs-admin-address-details>
-      <app-ubs-admin-order-details-form></app-ubs-admin-order-details-form>
+      <app-ubs-admin-order-details-form currentOrderStatus="currentOrderStatus"></app-ubs-admin-order-details-form>
       <app-ubs-admin-order-payment></app-ubs-admin-order-payment>
       <app-ubs-admin-export-details [exportDetailsForm]="getFormGroup('exportDetailsForm')" [order]="order"> </app-ubs-admin-export-details>
       <app-ubs-admin-responsible-persons [responsiblePersonsForm]="getFormGroup('responsiblePersonsForm')" [order]="order">
