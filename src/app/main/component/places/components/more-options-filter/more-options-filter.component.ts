@@ -45,8 +45,6 @@ export class MoreOptionsFilterComponent implements OnInit {
 
   public isActiveFilter = false;
 
-  constructor() {}
-
   ngOnInit(): void {
     this.filtersForm.valueChanges.subscribe((formValue: any) => {
       console.log(formValue);
@@ -59,6 +57,4 @@ export class MoreOptionsFilterComponent implements OnInit {
     const isServicesFilter: boolean = Object.values(formValue.servicesFilters).includes(true);
     this.isActiveFilter = isBaseFilter || isServicesFilter || formValue.distance.isActive;
   }
-
-  public openPopup(): void {}
 }

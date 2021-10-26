@@ -1,7 +1,7 @@
 import { UserSuccessSignIn, SuccessSignUpDto } from '@global-models/user-success-sign-in';
 import { UserOwnSignUp } from '@global-models/user-own-sign-up';
 import { authImages } from '../../../../image-pathes/auth-images';
-import { Component, EventEmitter, OnInit, OnDestroy, Output } from '@angular/core';
+import { Component, EventEmitter, OnInit, OnDestroy, Output, Injector } from '@angular/core';
 import { AbstractControl, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { HttpErrorResponse } from '@angular/common/http';
@@ -50,19 +50,27 @@ export class SignUpComponent implements OnInit, OnDestroy {
   public isUbs: boolean;
   public navigateToLink;
   @Output() private pageName = new EventEmitter();
+  private dialog: MatDialog;
+  private formBuilder: FormBuilder;
+  private userOwnSignInService: UserOwnSignInService;
+  private userOwnSignUpService: UserOwnSignUpService;
+  private router: Router;
+  private authService: AuthService;
+  private googleService: GoogleSignInService;
+  private localeStorageService: LocalStorageService;
+  private snackBar: MatSnackBarComponent;
 
-  constructor(
-    private matDialogRef: MatDialogRef<SignUpComponent>,
-    private dialog: MatDialog,
-    private formBuilder: FormBuilder,
-    private userOwnSignInService: UserOwnSignInService,
-    private userOwnSignUpService: UserOwnSignUpService,
-    private router: Router,
-    private authService: AuthService,
-    private googleService: GoogleSignInService,
-    private localeStorageService: LocalStorageService,
-    private snackBar: MatSnackBarComponent
-  ) {}
+  constructor(private matDialogRef: MatDialogRef<SignUpComponent>, private injector: Injector) {
+    this.dialog = injector.get(MatDialog);
+    this.formBuilder = injector.get(FormBuilder);
+    this.userOwnSignInService = injector.get(UserOwnSignInService);
+    this.userOwnSignUpService = injector.get(UserOwnSignUpService);
+    this.router = injector.get(Router);
+    this.authService = injector.get(AuthService);
+    this.googleService = injector.get(GoogleSignInService);
+    this.localeStorageService = injector.get(LocalStorageService);
+    this.snackBar = injector.get(MatSnackBarComponent);
+  }
 
   ngOnInit() {
     this.localeStorageService.ubsRegBehaviourSubject.pipe(takeUntil(this.destroy)).subscribe((value) => (this.isUbs = value));

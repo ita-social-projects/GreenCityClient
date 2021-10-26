@@ -1,7 +1,7 @@
 import { UserOwnSignIn } from '@global-models/user-own-sign-in';
 import { UserSuccessSignIn } from '@global-models/user-success-sign-in';
 import { SignInIcons } from '../../../../image-pathes/sign-in-icons';
-import { Component, EventEmitter, OnInit, OnDestroy, Output } from '@angular/core';
+import { Component, EventEmitter, OnInit, OnDestroy, Output, Injector } from '@angular/core';
 import { AbstractControl, FormGroup, FormControl, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { AuthService, GoogleLoginProvider } from 'angularx-social-login';
@@ -37,22 +37,28 @@ export class RestorePasswordComponent implements OnInit, OnDestroy {
   public isUbs: boolean;
   private destroy: Subject<boolean> = new Subject<boolean>();
   @Output() public pageName = new EventEmitter();
+  public dialog: MatDialog;
+  private authService: AuthService;
+  private googleService: GoogleSignInService;
+  private userOwnSignInService: UserOwnSignInService;
+  private router: Router;
+  private restorePasswordService: RestorePasswordService;
+  private localStorageService: LocalStorageService;
+  private snackBar: MatSnackBarComponent;
 
-  constructor(
-    private matDialogRef: MatDialogRef<RestorePasswordComponent>,
-    public dialog: MatDialog,
-    private authService: AuthService,
-    private googleService: GoogleSignInService,
-    private userOwnSignInService: UserOwnSignInService,
-    private router: Router,
-    private restorePasswordService: RestorePasswordService,
-    private localStorageService: LocalStorageService,
-    private snackBar: MatSnackBarComponent,
-    private localeStorageService: LocalStorageService
-  ) {}
+  constructor(private matDialogRef: MatDialogRef<RestorePasswordComponent>, private injector: Injector) {
+    this.dialog = injector.get(MatDialog);
+    this.authService = injector.get(AuthService);
+    this.googleService = injector.get(GoogleSignInService);
+    this.userOwnSignInService = injector.get(UserOwnSignInService);
+    this.router = injector.get(Router);
+    this.restorePasswordService = injector.get(RestorePasswordService);
+    this.localStorageService = injector.get(LocalStorageService);
+    this.snackBar = injector.get(MatSnackBarComponent);
+  }
 
   ngOnInit() {
-    this.localeStorageService.ubsRegBehaviourSubject.pipe(takeUntil(this.destroy)).subscribe((value) => (this.isUbs = value));
+    this.localStorageService.ubsRegBehaviourSubject.pipe(takeUntil(this.destroy)).subscribe((value) => (this.isUbs = value));
     this.userOwnSignIn = new UserOwnSignIn();
     this.initFormReactive();
     this.configDefaultErrorMessage();
