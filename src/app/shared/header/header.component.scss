@@ -451,6 +451,10 @@ $ubs-header-heigth: 80px;
   }
 }
 
+.item-list-margin {
+  top: 10px;
+}
+
 #header_user-wrp {
   position: relative;
   margin: auto 0;
@@ -501,14 +505,6 @@ $ubs-header-heigth: 80px;
   .ubs-header_user-name {
     span {
       color: var(--ubs-electric-violet);
-    }
-
-    li {
-      color: var(--primary-dark-grey);
-
-      a {
-        color: var(--primary-dark-grey);
-      }
     }
   }
 

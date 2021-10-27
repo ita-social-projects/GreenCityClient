@@ -105,7 +105,7 @@
                 id="header_user-wrp"
                 role="menu"
                 (clickOutSide)="autoCloseUserDropDown($event)"
-                [ngClass]="{ 'd-none': toggleBurgerMenu, 'add-shadow': dropdownVisible }"
+                [ngClass]="{ 'd-none': toggleBurgerMenu, 'add-shadow': dropdownVisible, 'item-list-margin': dropdownVisible && isUBS }"
                 class="tertiary-global-button"
                 (click)="toggleDropdown()"
                 (keyup.enter)="toggleDropdown()"
