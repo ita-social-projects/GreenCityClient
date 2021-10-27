@@ -21,6 +21,7 @@ export class UbsAdminOrderComponent implements OnInit {
 
   ngOnInit() {
     this.order = this.orderService.getSelectedOrder();
+    this.orderService.setSelectedOrderStatus(this.order.orderStatus);
     this.initForm();
   }
 

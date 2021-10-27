@@ -12,11 +12,11 @@ import { OrderService } from '../../services/order.service';
   styleUrls: ['./ubs-admin-order-details-form.component.scss']
 })
 export class UbsAdminOrderDetailsFormComponent implements OnInit, OnDestroy {
-  @Input() currentOrderStatus;
   public payMore = true;
   public isInputDisabled = false;
   public isVisible = true;
   public ubsCourier = 0;
+  private order;
   public orderDetailsForm: FormGroup;
   private destroy$: Subject<boolean> = new Subject<boolean>();
   public currentLanguage: string;
@@ -31,10 +31,16 @@ export class UbsAdminOrderDetailsFormComponent implements OnInit, OnDestroy {
     this.localStorageService.languageBehaviourSubject.pipe(takeUntil(this.destroy$)).subscribe((lang) => {
       this.currentLanguage = lang;
     });
-    this.initForm();
     this.takeBagsData();
-    console.log(222222);
-    console.log(this.currentOrderStatus);
+    this.initForm();
+    this.orderService
+      .getSelectedOrderStatus()
+      .pipe(takeUntil(this.destroy$))
+      .subscribe((order) => {
+        this.order = order;
+        this.isVisible = order.ableActualChange;
+        console.log(order);
+      });
   }
 
   public initForm(): void {

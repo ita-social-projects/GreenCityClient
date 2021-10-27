@@ -1,6 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
+import { Observable, ReplaySubject } from 'rxjs';
 import {
   Bags,
   IOrderDetails,
@@ -19,22 +19,18 @@ import { environment } from '@environment/environment';
 export class OrderService {
   private backend: string = environment.ubsAdmin.backendUbsAdminLink;
   private backendLink: string = environment.backendUbsLink;
-  private selectedOrder: {};
+  private selectedOrder;
+  private selectedOrderStatus: any = new ReplaySubject<any>(1);
 
   readonly orderStatuses = [
-    { name: 'FORMED', translation: 'order-edit.order-status.formed', ableConfirmedChange: true, ableActualChange: false },
-    { name: 'ADJUSTMENT', translation: 'order-edit.order-status.adjustment', ableConfirmedChange: true, ableActualChange: false },
-    {
-      name: 'BROUGHT_IT_HIMSELF',
-      translation: 'order-edit.order-status.brought-it-himself',
-      ableConfirmedChange: false,
-      ableActualChange: true
-    },
-    { name: 'CONFIRMED', translation: 'order-edit.order-status.confirmed', ableConfirmedChange: true, ableActualChange: false },
-    { name: 'ON_THE_ROUTE', translation: 'order-edit.order-status.on-the-route', ableConfirmedChange: false, ableActualChange: true },
-    { name: 'DONE', translation: 'order-edit.order-status.done', ableConfirmedChange: false, ableActualChange: true },
-    { name: 'NOT_TAKEN_OUT', translation: 'order-edit.order-status.not-taken-out', ableConfirmedChange: true, ableActualChange: false },
-    { name: 'CANCELLED', translation: 'order-edit.order-status.cancelled', ableConfirmedChange: false, ableActualChange: true }
+    { name: 'FORMED', translation: 'order-edit.order-status.formed', ableActualChange: false },
+    { name: 'ADJUSTMENT', translation: 'order-edit.order-status.adjustment', ableActualChange: false },
+    { name: 'BROUGHT_IT_HIMSELF', translation: 'order-edit.order-status.brought-it-himself', ableActualChange: true },
+    { name: 'CONFIRMED', translation: 'order-edit.order-status.confirmed', ableActualChange: false },
+    { name: 'ON_THE_ROUTE', translation: 'order-edit.order-status.on-the-route', ableActualChange: true },
+    { name: 'DONE', translation: 'order-edit.order-status.done', ableActualChange: true },
+    { name: 'NOT_TAKEN_OUT', translation: 'order-edit.order-status.not-taken-out', ableActualChange: false },
+    { name: 'CANCELLED', translation: 'order-edit.order-status.cancelled', ableActualChange: true }
   ];
 
   readonly paymentStatuses = [
@@ -112,5 +108,17 @@ export class OrderService {
 
   public updateRecipientsData(postData: any) {
     return this.http.put<any>(`${this.backend}`, postData);
+  }
+
+  public getSelectedOrderStatus(): Observable<any> {
+    return this.selectedOrderStatus.asObservable();
+  }
+
+  public setSelectedOrderStatus(statusName) {
+    this.selectedOrderStatus.next(this.getOrderObjByName(statusName)[0]);
+  }
+
+  private getOrderObjByName(name) {
+    return this.orderStatuses.filter((status) => status.name === name);
   }
 }
