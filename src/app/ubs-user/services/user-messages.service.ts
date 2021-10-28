@@ -23,8 +23,8 @@ export class UserMessagesService implements OnDestroy {
     return this.http.get<Notifications>(`${this.url}/notifications?lang=${this.language}&page=${currentPage}&size=${size}`);
   }
 
-  getCountUnreadNotification(): Observable<Notifications> {
-    return this.http.get<Notifications>(`${this.url}/notifications/quantityUnreadenNotifications`);
+  getCountUnreadNotification(): Observable<number> {
+    return this.http.get<number>(`${this.url}/notifications/quantityUnreadenNotifications`);
   }
 
   setReadNotification(id: number): Observable<any> {
