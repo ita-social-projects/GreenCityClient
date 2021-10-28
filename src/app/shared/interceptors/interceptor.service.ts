@@ -131,10 +131,12 @@ export class InterceptorService implements HttpInterceptor {
    */
   private handleRefreshTokenIsNotValid(error: HttpErrorResponse): Observable<HttpEvent<any>> {
     const currentUrl = this.router.url;
+    const isUBS = currentUrl.includes('ubs');
     this.isRefreshing = false;
     this.localStorageService.clear();
     this.dialog.closeAll();
     this.userOwnAuthService.isLoginUserSubject.next(false);
+    this.localStorageService.setUbsRegistration(isUBS);
     this.dialog
       .open(AuthModalComponent, {
         hasBackdrop: true,
