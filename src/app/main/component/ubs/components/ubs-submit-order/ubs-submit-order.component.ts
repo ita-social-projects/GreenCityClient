@@ -49,7 +49,6 @@ export class UBSSubmitOrderComponent extends FormBaseComponent implements OnInit
   isFinalSumZero = true;
   isTotalAmountZero = true;
 
-
   constructor(
     private orderService: OrderService,
     private shareFormService: UBSOrderFormService,

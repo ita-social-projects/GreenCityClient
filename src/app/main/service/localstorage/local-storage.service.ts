@@ -1,4 +1,4 @@
-import { Language } from './../../i18n/Language';
+import { Language } from '../../i18n/Language';
 import { Injectable } from '@angular/core';
 import { BehaviorSubject, Subject } from 'rxjs';
 import { FilterModel } from '@eco-news-models/create-news-interface';

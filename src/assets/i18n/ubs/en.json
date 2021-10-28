@@ -232,6 +232,19 @@
       }
     }
   },
+  "user": {
+    "lower-nav-bar": {
+      "about-us": "About-us",
+      "sorting-rules": "Sorting rules",
+      "eco-shop": "Eco-Shop"
+    }
+  },
+  "nav-bar": {
+    "user-settings": "Settings",
+    "sign-out": "Sign out",
+    "sign-in": "Sign in",
+    "management": "Management"
+  },
   "snack-bar": {
     "exist-address": "This address has already been added",
     "saved-order": "Now you can find your order №{{orderId}} in your personal account and continue processing it at any time"

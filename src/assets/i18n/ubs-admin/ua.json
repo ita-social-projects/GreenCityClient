@@ -357,5 +357,18 @@
     "delete_question": "Видалити цей рядок?",
     "yes": "так",
     "no": "ні"
+  },
+  "user": {
+    "lower-nav-bar": {
+      "about-us": "Про нас",
+      "sorting-rules": "Правила сортування",
+      "eco-shop": "Еко-магазин"
+    }
+  },
+  "nav-bar": {
+    "user-settings": "Налаштування",
+    "sign-out": "Вийти",
+    "sign-in": "Увійти",
+    "management": "Менеджмент"
   }
 }

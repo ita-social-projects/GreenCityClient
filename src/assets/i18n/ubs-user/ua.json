@@ -12,5 +12,18 @@
       "theme-messages": "Тема повідомлення",
       "time": "Час"
     }
+  },
+  "user": {
+    "lower-nav-bar": {
+      "about-us": "Про нас",
+      "sorting-rules": "Правила сортування",
+      "eco-shop": "Еко-магазин"
+    }
+  },
+  "nav-bar": {
+    "user-settings": "Налаштування",
+    "sign-out": "Вийти",
+    "sign-in": "Увійти",
+    "management": "Менеджмент"
   }
 }

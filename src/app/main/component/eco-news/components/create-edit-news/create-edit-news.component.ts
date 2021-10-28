@@ -1,4 +1,4 @@
-import { Component, OnInit, OnDestroy, Inject } from '@angular/core';
+import { Component, OnInit, OnDestroy, Inject, Injector } from '@angular/core';
 import { FormArray, FormGroup, FormControl } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { MatDialog } from '@angular/material/dialog';
@@ -38,7 +38,6 @@ export class CreateEditNewsComponent extends FormBaseComponent implements OnInit
   public newsId: string;
   public formData: FormGroup;
   private destroyed$: ReplaySubject<any> = new ReplaySubject<any>(1);
-
   public isFormInvalid: boolean;
   public formChangeSub: Subscription;
   public previousPath = '/news';
@@ -55,19 +54,26 @@ export class CreateEditNewsComponent extends FormBaseComponent implements OnInit
     }
   };
   public onSubmit;
+  private createEditNewsFormBuilder: CreateEditNewsFormBuilder;
+  private createEcoNewsService: CreateEcoNewsService;
+  private ecoNewsService: EcoNewsService;
+  private route: ActivatedRoute;
+  private localStorageService: LocalStorageService;
+  private snackBar: MatSnackBarComponent;
 
   constructor(
     public router: Router,
     public dialog: MatDialog,
-    private createEditNewsFormBuilder: CreateEditNewsFormBuilder,
-    private createEcoNewsService: CreateEcoNewsService,
-    private ecoNewsService: EcoNewsService,
-    private route: ActivatedRoute,
-    @Inject(ACTION_TOKEN) private config: { [name: string]: ActionInterface },
-    private snackBar: MatSnackBarComponent,
-    private localStorageService: LocalStorageService
+    private injector: Injector,
+    @Inject(ACTION_TOKEN) private config: { [name: string]: ActionInterface }
   ) {
     super(router, dialog);
+    this.createEditNewsFormBuilder = injector.get(CreateEditNewsFormBuilder);
+    this.createEcoNewsService = injector.get(CreateEcoNewsService);
+    this.ecoNewsService = injector.get(EcoNewsService);
+    this.route = injector.get(ActivatedRoute);
+    this.localStorageService = injector.get(LocalStorageService);
+    this.snackBar = injector.get(MatSnackBarComponent);
   }
 
   ngOnInit() {
@@ -75,6 +81,10 @@ export class CreateEditNewsComponent extends FormBaseComponent implements OnInit
     this.initPageforCreateOrEdit();
     this.onSourceChange();
     this.setLocalizedTags();
+  }
+
+  private filterArr(item: FilterModel, index: number) {
+    return [...this.filters.slice(0, index), item, ...this.filters.slice(index + 1)];
   }
 
   public setInitialValues(): void {
@@ -230,10 +240,6 @@ export class CreateEditNewsComponent extends FormBaseComponent implements OnInit
         this.onSourceChange();
         this.setInitialValues();
       });
-  }
-
-  private filterArr = (item: FilterModel, index: number) => {
-    return [...this.filters.slice(0, index), item, ...this.filters.slice(index + 1)];
   }
 
   public setActiveFilters(itemToUpdate: EcoNewsModel): void {

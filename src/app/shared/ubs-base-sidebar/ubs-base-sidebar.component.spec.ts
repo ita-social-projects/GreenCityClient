@@ -9,9 +9,9 @@ import { MatTableModule } from '@angular/material/table';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { RouterTestingModule } from '@angular/router/testing';
 import { InfiniteScrollModule } from 'ngx-infinite-scroll';
-import { SharedModule } from '../../../app/shared/shared.module';
+import { SharedModule } from '../shared.module';
 import { UbsAdminTableComponent } from '../../ubs-admin/components/ubs-admin-table/ubs-admin-table.component';
-import { UbsHeaderComponent } from '../ubs-header/ubs-header.component';
+import { HeaderComponent } from '../../../app/shared/header/header.component';
 
 import { UbsBaseSidebarComponent } from './ubs-base-sidebar.component';
 
@@ -34,7 +34,7 @@ describe('UbsBaseSidebarComponent', () => {
         RouterTestingModule,
         InfiniteScrollModule
       ],
-      declarations: [UbsBaseSidebarComponent, UbsAdminTableComponent, UbsHeaderComponent]
+      declarations: [UbsBaseSidebarComponent, UbsAdminTableComponent, HeaderComponent]
     }).compileComponents();
   }));
 
