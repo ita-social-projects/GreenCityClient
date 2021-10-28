@@ -167,7 +167,8 @@ export class SignInComponent implements OnInit, OnDestroy {
     this.localeStorageService.setFirstSignIn();
     this.userOwnAuthService.getDataFromLocalStorage();
     this.jwtService.userRole$.next(this.jwtService.getUserRole());
-    this.router.navigate(['profile', data.userId]);
+    this.navigateToLink = this.isUbs ? ['ubs'] : ['profile', data.userId];
+    this.router.navigate(this.navigateToLink);
   }
 
   private onSignInFailure(errors: HttpErrorResponse): void {
