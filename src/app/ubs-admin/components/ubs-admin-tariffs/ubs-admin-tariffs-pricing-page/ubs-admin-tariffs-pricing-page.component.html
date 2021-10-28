@@ -1,7 +1,7 @@
 <div class="city">
   <form>
     <select [(ngModel)]="selectedLocationId" name="region" class="select form-select form-select-lg" (ngModelChange)="saveLocation()">
-      <option [ngValue]="location.id" *ngFor="let location of locations | filterByLang" [selected]="location.id === currentLocation">
+      <option [ngValue]="location.id" *ngFor="let location of locations | filterByLang">
         {{ location.name }}
       </option>
     </select>
@@ -155,7 +155,7 @@
       ></textarea>
     </div>
     <div class="submit-btn">
-      <button class="primary-global-button submit" type="submit" (click)="saveChanges()">
+      <button class="primary-global-button submit" type="submit" [disabled]="limitsForm.pristine" (click)="saveChanges()">
         {{ 'ubs-client-profile.btn.save' | translate }}
       </button>
     </div>

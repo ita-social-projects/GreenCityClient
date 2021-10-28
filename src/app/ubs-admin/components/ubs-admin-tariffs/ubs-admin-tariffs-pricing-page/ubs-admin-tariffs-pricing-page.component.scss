@@ -196,13 +196,13 @@ h4 {
   }
 
   textarea {
-    color: var(--ubs-grey-blue);
-    font-size: 14px;
+    color: var(--ubs-quaternary-dark-grey);
+    font-size: 16px;
     resize: none;
     width: 420px;
     height: 92px;
     border: 1px solid var(--ubs-grey-blue);
-    border-radius: 4px;
+    padding: 5px 0 0 5px;
   }
 
   ::placeholder {

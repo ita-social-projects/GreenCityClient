@@ -59,6 +59,7 @@ export class UbsAdminTariffsPricingPageComponent implements OnInit, OnDestroy {
     this.orderService.locationSubject.pipe(takeUntil(this.destroy)).subscribe(() => {
       this.getServices();
       this.getAllTariffsForService();
+      this.getCouriers();
     });
   }
 
@@ -73,11 +74,23 @@ export class UbsAdminTariffsPricingPageComponent implements OnInit, OnDestroy {
     });
   }
 
+  fillFields(couriers) {
+    const { courierLimit, minPriceOfOrder, maxPriceOfOrder, minAmountOfBigBags, maxAmountOfBigBags, limitDescription } = this.couriers[0];
+    this.limitsForm.patchValue({
+      courierLimitsBy: courierLimit,
+      minAmountOfOrder: minPriceOfOrder,
+      maxAmountOfOrder: maxPriceOfOrder,
+      minAmountOfBigBag: minAmountOfBigBags,
+      maxAmountOfBigBag: maxAmountOfBigBags,
+      limitDescription
+    });
+  }
+
   saveChanges() {
     const { courierLimitsBy, minAmountOfOrder, maxAmountOfOrder, minAmountOfBigBag, maxAmountOfBigBag, limitDescription } =
       this.limitsForm.value;
     this.amount = {
-      bagId: 88,
+      bagId: 1,
       courierId: 1,
       languageId: 1,
       courierLimitsBy,
@@ -86,16 +99,21 @@ export class UbsAdminTariffsPricingPageComponent implements OnInit, OnDestroy {
       maxAmountOfOrder,
       minAmountOfBigBag,
       minAmountOfOrder,
-      minimalAmountOfBagStatus: 'EXCLUDE'
+      minimalAmountOfBagStatus: 'INCLUDE'
     };
-    console.log(this.amount);
-    this.tariffsService.editInfo(this.amount).pipe(takeUntil(this.destroy)).subscribe();
+    this.tariffsService
+      .editInfo(this.amount)
+      .pipe(takeUntil(this.destroy))
+      .subscribe(() => {
+        this.getCouriers();
+      });
   }
 
   routeParams() {
     this.route.params.pipe(takeUntil(this.destroy)).subscribe((res) => {
       this.getAllTariffsForService();
-      this.currentLocation = Number(res.id);
+      this.selectedLocationId = +res.id;
+      this.currentLocation = +res.id;
       this.getServices();
     });
   }
@@ -259,7 +277,15 @@ export class UbsAdminTariffsPricingPageComponent implements OnInit, OnDestroy {
       .pipe(takeUntil(this.destroy))
       .subscribe((res) => {
         this.couriers = res;
+        this.filter();
+        this.fillFields(this.couriers[0]);
       });
+  }
+
+  filter() {
+    this.couriers = this.couriers.filter(
+      (service) => service.locationId === this.currentLocation && service.languageCode === this.currentLanguage
+    );
   }
 
   ngOnDestroy() {
