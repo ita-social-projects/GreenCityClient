@@ -1,6 +1,6 @@
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { UserFriendsService } from '@global-user/services/user-friends.service';
 import { TranslateModule } from '@ngx-translate/core';
 import { of, Subject } from 'rxjs';
@@ -37,14 +37,16 @@ describe('FriendProfileDashboardComponent', () => {
   let userFriendsServiceMock: UserFriendsService;
   userFriendsServiceMock = jasmine.createSpyObj('UserFriendsService', {
     getAllFriends: of({}),
-    addFriend: of({})
+    addFriend: of({}),
+    getPossibleFriends: of({})
   });
   const activatedRouteMock = {
     snapshot: {
       params: {
         userId: 1,
         id: 2
-      }
+      },
+      queryParams: { index: 4 }
     }
   };
   beforeEach(async(() => {
@@ -52,7 +54,8 @@ describe('FriendProfileDashboardComponent', () => {
       declarations: [FriendProfileDashboardComponent],
       providers: [
         { provide: UserFriendsService, useValue: userFriendsServiceMock },
-        { provide: ActivatedRoute, useValue: activatedRouteMock }
+        { provide: ActivatedRoute, useValue: activatedRouteMock },
+        { provide: Router, useValue: {} }
       ],
       imports: [TranslateModule.forRoot()],
       schemas: [CUSTOM_ELEMENTS_SCHEMA]
@@ -76,13 +79,13 @@ describe('FriendProfileDashboardComponent', () => {
   });
 
   it('method onScroll should call getAllFriends', () => {
-    // @ts-ignore
-    component.totalPages = 24;
+    component.numberAllFriends = 24;
+    component.selectedIndex = 3;
     const spy = spyOn(component as any, 'getAllFriends').and.callFake(() => {});
     component.onScroll();
-    // @ts-ignore
     expect(spy).toHaveBeenCalled();
-    expect(userFriendsServiceMock.getAllFriends).toHaveBeenCalledWith(1, undefined, 2);
+    fixture.detectChanges();
+    expect(userFriendsServiceMock.getAllFriends).toHaveBeenCalledWith(1, undefined);
   });
 
   it('method addFriend should userFriendsService.addFriend', () => {
