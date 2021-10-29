@@ -33,8 +33,6 @@ export class HeaderService {
     { lang: 'Ru', langName: 'russian' }
   ];
 
-  constructor() {}
-
   getSelectedIndex() {
     return this.selectedIndex;
   }
