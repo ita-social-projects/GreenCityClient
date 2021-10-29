@@ -130,6 +130,20 @@
       "button": "Add violation"
     }
   },
+  "customer-details": {
+    "data": "Customer Data",
+    "personal": "Personal",
+    "name": "Name",
+    "contacts": "Contacts",
+    "email": "Email",
+    "phone": "Phone",
+    "additionalInfo": "Additional information",
+    "number_of_orders": "Number of orders",
+    "orderDate": "Date of order",
+    "violations": "Violations",
+    "dateOfRegistration": "Date of registration",
+    "goBack": "Back"
+  },
   "order-details": {
     "title": "Order details",
     "service": "Service",
