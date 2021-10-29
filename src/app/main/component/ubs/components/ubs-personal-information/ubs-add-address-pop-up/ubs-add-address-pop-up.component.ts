@@ -26,7 +26,7 @@ export class UBSAddAddressPopUpComponent implements OnInit, OnDestroy {
   streetPattern = /^[A-Za-zА-Яа-яїЇіІєЄёЁ0-9.\'\,\-\ \\]+$/;
   corpusPattern = /^[A-Za-zА-Яа-яїЇіІєЄёЁ0-9]{1,4}$/;
   housePattern = /^[A-Za-zА-Яа-яїЇіІєЄёЁ0-9\.\-\/]+$/;
-  entranceNumberPattern = /^-?(0|[1-9]\d*)?$/;
+  entranceNumberPattern = /^([1-9]\d*)?$/;
   private destroy: Subject<boolean> = new Subject<boolean>();
 
   cities = [
