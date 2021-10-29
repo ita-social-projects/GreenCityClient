@@ -123,7 +123,9 @@ export class EmployeeFormComponent implements OnInit {
     const formData: FormData = new FormData();
     const stringifiedDataToSend = JSON.stringify(employeeDataToSend);
     formData.append(dto, stringifiedDataToSend);
-    this.selectedFile && formData.append('image', this.selectedFile);
+    if (this.selectedFile) {
+      formData.append('image', this.selectedFile);
+    }
     return formData;
   }
 
