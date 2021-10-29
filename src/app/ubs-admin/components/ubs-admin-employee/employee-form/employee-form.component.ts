@@ -128,12 +128,7 @@ export class EmployeeFormComponent implements OnInit {
   }
 
   updateEmployee(): void {
-    let image: string;
-    if (this.selectedFile) {
-      image = this.defaultPhotoURL;
-    } else {
-      image = this.imageURL || this.defaultPhotoURL;
-    }
+    const image = this.selectedFile ? this.defaultPhotoURL : this.imageURL || this.defaultPhotoURL;
     const dataToSend = this.prepareEmployeeDataToSend('employeeDto', image);
     this.employeeService.updateEmployee(dataToSend).subscribe(
       () => {
