@@ -18,9 +18,10 @@ export class EmployeeFormComponent implements OnInit {
   phoneMask = '{+38} (000) 00 000 00';
   private maxImageSize = 10485760;
   public isWarning = false;
-  imageURL: string | ArrayBuffer;
+  imageURL: string;
   imageName = 'Your Avatar';
   selectedFile;
+  imageFile;
   defaultPhotoURL = 'https://csb10032000a548f571.blob.core.windows.net/allfiles/90370622-3311-4ff1-9462-20cc98a64d1ddefault_image.jpg';
 
   ngOnInit() {
@@ -105,24 +106,33 @@ export class EmployeeFormComponent implements OnInit {
     return this.receivingStations.some((station) => location.id === station.id);
   }
 
-  prepareEmployeeDataToSend(dto: string): FormData {
+  prepareEmployeeDataToSend(dto: string, image?: string): FormData {
     const employeeDataToSend = {
       ...this.employeeForm.value,
-      image: this.imageURL || this.defaultPhotoURL,
       employeePositions: this.employeePositions,
       receivingStations: this.receivingStations
     };
     if (this.isUpdatingEmployee) {
       employeeDataToSend.id = this.data.id;
     }
+    if (image) {
+      employeeDataToSend.image = image;
+    }
     const formData: FormData = new FormData();
     const stringifiedDataToSend = JSON.stringify(employeeDataToSend);
     formData.append(dto, stringifiedDataToSend);
+    this.selectedFile && formData.append('image', this.selectedFile);
     return formData;
   }
 
   updateEmployee(): void {
-    const dataToSend = this.prepareEmployeeDataToSend('employeeDto');
+    let image: string;
+    if (this.selectedFile) {
+      image = this.defaultPhotoURL;
+    } else {
+      image = this.imageURL || this.defaultPhotoURL;
+    }
+    const dataToSend = this.prepareEmployeeDataToSend('employeeDto', image);
     this.employeeService.updateEmployee(dataToSend).subscribe(() => {
       this.dialogRef.close();
     });
@@ -173,5 +183,6 @@ export class EmployeeFormComponent implements OnInit {
   removeImage() {
     this.imageURL = null;
     this.imageName = null;
+    this.selectedFile = null;
   }
 }
