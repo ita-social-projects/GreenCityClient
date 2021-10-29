@@ -65,7 +65,12 @@
     </ng-template>
     <div class="button-row">
       <button mat-dialog-close class="cancelButton">{{ 'ubs-employee.cancel' | translate }}</button>
-      <button type="submit" class="addButton" [disabled]="employeeForm.invalid || !employeePositions.length || !receivingStations.length">
+      <button
+        type="submit"
+        class="addButton"
+        [disabled]="employeeForm.invalid || !employeePositions.length || !receivingStations.length || isUploading"
+      >
+        <span *ngIf="isUploading" class="spinner-border spinner-border-sm" role="status" aria-hidden="true"> </span>
         {{ (isUpdatingEmployee ? 'ubs-employee.update' : 'ubs-employee.add') | translate }}
       </button>
     </div>

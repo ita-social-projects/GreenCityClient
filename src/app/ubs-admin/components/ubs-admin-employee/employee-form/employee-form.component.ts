@@ -18,6 +18,7 @@ export class EmployeeFormComponent implements OnInit {
   phoneMask = '{+38} (000) 00 000 00';
   private maxImageSize = 10485760;
   public isWarning = false;
+  public isUploading = false;
   imageURL: string;
   imageName = 'Your Avatar';
   selectedFile;
@@ -107,6 +108,7 @@ export class EmployeeFormComponent implements OnInit {
   }
 
   prepareEmployeeDataToSend(dto: string, image?: string): FormData {
+    this.isUploading = true;
     const employeeDataToSend = {
       ...this.employeeForm.value,
       employeePositions: this.employeePositions,
@@ -133,16 +135,28 @@ export class EmployeeFormComponent implements OnInit {
       image = this.imageURL || this.defaultPhotoURL;
     }
     const dataToSend = this.prepareEmployeeDataToSend('employeeDto', image);
-    this.employeeService.updateEmployee(dataToSend).subscribe(() => {
-      this.dialogRef.close();
-    });
+    this.employeeService.updateEmployee(dataToSend).subscribe(
+      () => {
+        this.dialogRef.close();
+        this.isUploading = false;
+      },
+      () => {
+        this.isUploading = false;
+      }
+    );
   }
 
   createEmployee(): void {
     const dataToSend = this.prepareEmployeeDataToSend('addEmployeeDto');
-    this.employeeService.postEmployee(dataToSend).subscribe(() => {
-      this.dialogRef.close();
-    });
+    this.employeeService.postEmployee(dataToSend).subscribe(
+      () => {
+        this.dialogRef.close();
+        this.isUploading = false;
+      },
+      () => {
+        this.isUploading = false;
+      }
+    );
   }
 
   treatFileInput(event: Event): void {
