@@ -22,7 +22,7 @@ export class UbsAdminOrderClientInfoComponent implements OnInit, OnDestroy {
   constructor(private dialog: MatDialog) {}
 
   ngOnInit() {
-    this.pageOpen = false;
+    this.pageOpen = true;
     this.clientName = this.order.clientName.split(' ', 2)[0];
     this.clientSurname = this.order.clientName.split(' ', 2)[1];
   }

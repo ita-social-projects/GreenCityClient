@@ -17,12 +17,20 @@ export class UbsAdminResponsiblePersonsComponent implements OnInit, OnDestroy {
   public allLogisticians: string[];
   public allNavigators: string[];
   public allDrivers: string[];
-
+  pageOpen: boolean;
   private destroy$: Subject<boolean> = new Subject<boolean>();
   constructor(private orderService: OrderService) {}
 
   ngOnInit(): void {
     this.getOrderEmployees(this.order.id);
+  }
+
+  openDetails() {
+    this.pageOpen = true;
+  }
+
+  closeDetails() {
+    this.pageOpen = false;
   }
 
   getOrderEmployees(orderId: number) {

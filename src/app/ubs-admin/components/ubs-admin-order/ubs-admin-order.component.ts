@@ -29,7 +29,7 @@ export class UbsAdminOrderComponent implements OnInit {
     this.orderForm = this.fb.group({
       orderStatusForm: this.fb.group({
         orderStatus: this.order.orderStatus,
-        commentForOrder: this.order.commentsForOrder
+        commentForOrder: ''
       }),
       clientInfoForm: this.fb.group({
         senderName: [personalInfo[0], [Validators.required, Validators.minLength(1), Validators.maxLength(30)]],

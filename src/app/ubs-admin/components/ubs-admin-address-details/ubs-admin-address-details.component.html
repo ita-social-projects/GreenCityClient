@@ -1,8 +1,10 @@
 <div class="container mb-3">
-  <div class="d-flex">
+  <div class="empty_card">
     <h1 class="form__headline py-3">{{ 'address-details.title' | translate }}</h1>
+    <img *ngIf="!pageOpen" src="assets/img/ubs-admin-orders/arrow_up.svg" alt="arrow up" (click)="openDetails()" />
+    <img *ngIf="pageOpen" src="assets/img/ubs-admin-orders/arrow_down.svg" alt="arrow down" (click)="closeDetails()" />
   </div>
-  <form [formGroup]="addressDetailsForm">
+  <form *ngIf="pageOpen" [formGroup]="addressDetailsForm">
     <div class="form-row">
       <div class="address">
         <div class="settlement">
