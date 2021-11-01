@@ -41,8 +41,8 @@
           [matTooltip]="row[column.title.key]"
           matTooltipShowDelay="700"
           matTooltipClass="tooltip_style"
-          (click)="column.title.key === 'clientName' && openCustomer(row, row[column.title.key])"
           [class.pointer]="column.title.key === 'clientName'"
+          (click)="column.title.key === 'clientName' && openCustomer(row, row[column.title.key])"
         >
           {{ row[column.title.key] }}
         </div>

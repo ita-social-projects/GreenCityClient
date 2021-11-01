@@ -17,7 +17,7 @@ export class UbsAdminCustomerDetailsComponent implements OnInit {
   }
 
   goBack(): void {
-    this.localStorageService.remuveCurrentCustomer();
+    this.localStorageService.removeCurrentCustomer();
     this.location.back();
   }
 }

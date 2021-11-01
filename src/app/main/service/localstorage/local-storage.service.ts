@@ -156,7 +156,7 @@ export class LocalStorageService {
     return JSON.parse(localStorage.getItem('currentCustomer'));
   }
 
-  public remuveCurrentCustomer(): void {
+  public removeCurrentCustomer(): void {
     localStorage.removeItem('currentCustomer');
   }
 }
