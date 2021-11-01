@@ -211,7 +211,7 @@ describe('SignIn component', () => {
       })
     ));
 
-    it('Should navigate to profile after sign in', async(() => {
+    xit('Should navigate to profile after sign in', async(() => {
       fixture.ngZone.run(() => {
         // @ts-ignore
         component.onSignInSuccess(userSuccessSignIn);

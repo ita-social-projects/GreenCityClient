@@ -266,7 +266,7 @@ export class HeaderComponent implements OnInit, OnDestroy {
     this.localeStorageService.clear();
     this.habitStatisticService.onLogout();
     this.achievementService.onLogout();
-    this.router.navigateByUrl('/').then((r) => r);
+    this.router.navigateByUrl(this.isUBS ? '/ubs' : '/').then((r) => r);
     this.userOwnAuthService.getDataFromLocalStorage();
     this.jwtService.userRole$.next('');
   }
