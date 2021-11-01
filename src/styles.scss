@@ -202,6 +202,27 @@ body {
   background-color: var(--primary-green);
 }
 
+.mat-form-field-underline,
+.mat-form-field-label-wrapper {
+  display: none;
+}
+
+input.mat-input-element {
+  border: 1px solid #9ca7b0;
+  border-radius: 5px;
+  padding: 10px;
+  height: 36px;
+  width: 100%;
+}
+
+div.mat-form-field-infix {
+  width: 350px;
+}
+
+.mat-form-field-infix {
+  top: 3px;
+}
+
 .disagree {
   background: #fff;
   color: var(--ubs-primary-green);
