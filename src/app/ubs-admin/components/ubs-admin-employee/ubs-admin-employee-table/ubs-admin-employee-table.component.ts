@@ -17,8 +17,8 @@ export class UbsAdminEmployeeTableComponent implements OnInit {
   arrayOfHeaders = [];
   totalPagesForTable: number;
   tableData: any[];
-  isStationsOpen: boolean = false;
-  isPositionsOpen: boolean = false;
+  isStationsOpen = false;
+  isPositionsOpen = false;
   allPositions: any[] = [];
   allStations: any[] = [];
   selectedStations: string[] = [];
@@ -85,7 +85,7 @@ export class UbsAdminEmployeeTableComponent implements OnInit {
       this.selectedPositions.push(id);
       this.positionsFilter();
     } else {
-      this.selectedPositions = this.selectedPositions.filter((m) => m != id);
+      this.selectedPositions = this.selectedPositions.filter((m) => m !== id);
       this.positionsFilter();
     }
   }
@@ -112,7 +112,7 @@ export class UbsAdminEmployeeTableComponent implements OnInit {
       this.selectedStations.push(id);
       this.stationsFilter();
     } else {
-      this.selectedStations = this.selectedStations.filter((m) => m != id);
+      this.selectedStations = this.selectedStations.filter((m) => m !== id);
       this.stationsFilter();
     }
   }
