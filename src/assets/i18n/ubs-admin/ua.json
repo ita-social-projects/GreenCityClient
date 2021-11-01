@@ -82,7 +82,7 @@
       "payment-label": "Статус оплати"
     },
     "comment": {
-      "label": "Коментар",
+      "label": "Коментар адміністратора",
       "placeholder": "Будь-які деталі, які Ви хотіли б повідомити додатково щодо цього замовлення"
     },
     "btn": {
@@ -93,29 +93,35 @@
   },
   "address-details": {
     "title": "Адреса вивезення відходів",
+    "district": "Район",
+    "settlement": "Населений пункт",
     "street": "Вулиця",
     "comment-label": "Коментар до адреси від клієнта",
     "comment-placeholder": "Будь-які деталі, які Ви хотіли б повідомити додатково щодо цього замовлення",
     "building": "Будинок",
     "corpus": "Корпус",
     "entrance": "Під'їзд",
-    "region": "Район"
+    "region": "Область"
   },
   "customer-info": {
     "title": "Інформація про клієнта",
     "customer": {
       "title": "Клієнт",
       "name-label": "Ім'я",
-      "name-placeholder": "Ім'я та прізвище",
+      "surname-label": "Прізвище",
+      "name-placeholder": "Ім'я",
+      "surname-placeholder": "Прізвище",
       "tel-label": "Телефон",
       "tel-placeholder": "+380 00 000 00 00",
       "email-label": "Email",
       "email-placeholder": "mail@mail.com"
     },
     "recipient": {
-      "title": "Отримувач",
+      "title": "Відправник",
       "name-label": "Ім'я",
-      "name-placeholder": "Ім'я та прізвище",
+      "surname-label": "Прізвище",
+      "name-placeholder": "Ім'я",
+      "surname-placeholder": "Прізвище",
       "tel-label": "Телефон",
       "tel-placeholder": "+380 00 000 00 00",
       "email-label": "Email",

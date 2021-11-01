@@ -84,7 +84,7 @@
       "payment-label": "Payment status "
     },
     "comment": {
-      "label": "Comment",
+      "label": "Administrator comment",
       "placeholder": "Any details you would like to report additionally regarding this order"
     },
     "btn": {
@@ -95,6 +95,8 @@
   },
   "address-details": {
     "title": "Waste export address",
+    "district": "District",
+    "settlement": "Settlement",
     "street": "Street",
     "comment-label": "Comment to the address from the client",
     "comment-placeholder": "Any details you would like to report additionally regarding this order",
@@ -108,7 +110,9 @@
     "customer": {
       "title": "Customer",
       "name-label": "Name",
-      "name-placeholder": "Name and Surname",
+      "surname-label": "Surname",
+      "name-placeholder": "Name",
+      "surname-placeholder": "Surname",
       "tel-label": "Phone",
       "tel-placeholder": "+380 00 000 00 00",
       "email-label": "Email",
@@ -117,7 +121,9 @@
     "recipient": {
       "title": "Recipient",
       "name-label": "Name",
-      "name-placeholder": "Name and Surname",
+      "surname-label": "Surname",
+      "name-placeholder": "Name",
+      "surname-placeholder": "Surname",
       "tel-label": "Phone",
       "tel-placeholder": "+380 00 000 00 00",
       "email-label": "Email",

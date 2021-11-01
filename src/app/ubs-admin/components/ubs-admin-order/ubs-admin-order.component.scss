@@ -23,8 +23,8 @@ button:disabled {
 }
 
 .back-button-top {
-  top: 52px;
-  left: -115px;
+  top: 70px;
+  left: -140px;
   position: absolute;
 }
 
@@ -50,7 +50,7 @@ button:disabled {
 
 .save-button {
   background-color: var(--ubs-primary-green);
-  color: #fff;
+  color: var(--ubs-primary-white);
 }
 
 .controls {
@@ -59,6 +59,6 @@ button:disabled {
 
 .box {
   box-shadow: 0 0 8px rgba(70, 70, 70, 0.25);
-  margin-bottom: 40px;
-  padding-top: 34px;
+  padding: 30px;
+  margin-bottom: 30px;
 }
