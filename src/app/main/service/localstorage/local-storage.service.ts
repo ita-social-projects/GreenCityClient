@@ -147,4 +147,16 @@ export class LocalStorageService {
   public getLocations(): any {
     return JSON.parse(localStorage.getItem('locations'));
   }
+
+  public setCustomer(customer) {
+    return localStorage.setItem('currentCustomer', JSON.stringify(customer));
+  }
+
+  public getCustomer() {
+    return JSON.parse(localStorage.getItem('currentCustomer'));
+  }
+
+  public removeCurrentCustomer(): void {
+    localStorage.removeItem('currentCustomer');
+  }
 }

@@ -128,6 +128,20 @@
       "button": "Додати порушення"
     }
   },
+  "customer-details": {
+    "data": "Дані клієнта",
+    "personal": "Особисте",
+    "name": "Нікнейм ",
+    "contacts": "Контакти",
+    "email": "Електронна скринька",
+    "phone": "№ телефону",
+    "additionalInfo": "Додаткова інформація",
+    "number_of_orders": "Кількість замовлень",
+    "orderDate": "Дата замовлення",
+    "violations": "Порушення",
+    "dateOfRegistration": "Дата реєстрації",
+    "goBack": "Назад"
+  },
   "order-details": {
     "title": "Деталі замовлення",
     "service": "Послуга",
