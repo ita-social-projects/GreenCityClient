@@ -84,7 +84,7 @@
       "payment-label": "Payment status "
     },
     "comment": {
-      "label": "Comment",
+      "label": "Administrator comment",
       "placeholder": "Any details you would like to report additionally regarding this order"
     },
     "btn": {
