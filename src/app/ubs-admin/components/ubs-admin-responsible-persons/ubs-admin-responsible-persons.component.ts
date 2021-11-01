@@ -13,7 +13,6 @@ export class UbsAdminResponsiblePersonsComponent implements OnInit, OnDestroy {
   @Input() order;
   @Input() responsiblePersonsForm: FormGroup;
 
-  public allServiceManagers: string[];
   public allCallManagers: string[];
   public allLogisticians: string[];
   public allNavigators: string[];
@@ -32,8 +31,6 @@ export class UbsAdminResponsiblePersonsComponent implements OnInit, OnDestroy {
       .pipe(takeUntil(this.destroy$))
       .subscribe((data) => {
         const employees = data.allPositionsEmployees;
-
-        this.allServiceManagers = this.processEmployeeById(employees, 1);
         this.allCallManagers = this.processEmployeeById(employees, 2);
         this.allLogisticians = this.processEmployeeById(employees, 3);
         this.allNavigators = this.processEmployeeById(employees, 4);

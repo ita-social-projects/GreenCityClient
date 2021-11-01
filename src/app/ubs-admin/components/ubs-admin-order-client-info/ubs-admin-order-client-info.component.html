@@ -1,93 +1,115 @@
 <div class="container">
   <div class="form" [formGroup]="clientInfoForm">
-    <div>
+    <div class="empty_card">
       <h3 class="form__headline">{{ 'customer-info.title' | translate }}</h3>
+      <img *ngIf="!pageOpen" src="assets/img/ubs-admin-orders/arrow_up.svg" alt="arrow up" (click)="openDetails()" />
+      <img *ngIf="pageOpen" src="assets/img/ubs-admin-orders/arrow_down.svg" alt="arrow down" (click)="closeDetails()" />
     </div>
-    <div class="form__wrapper row d-flex">
-      <div class="form__block col-md-4 col-sm-6">
-        <div class="form-group">
-          <p class="form__subtitle">
-            {{ 'customer-info.customer.title' | translate }}
-          </p>
-          <label class="form__label" for="customer-name">
-            {{ 'customer-info.customer.name-label' | translate }}
-          </label>
-          <input class="form-control" type="text" id="customer-name" placeholder="{{ order.clientName }}" disabled />
+    <div *ngIf="pageOpen">
+      <div class="form__wrapper row d-flex">
+        <div class="form__block col-md-4 col-sm-6">
+          <div class="form-group">
+            <p class="form__subtitle">
+              {{ 'customer-info.customer.title' | translate }}
+            </p>
+            <div class="person-name">
+              <label class="form__label" for="customer-name">
+                {{ 'customer-info.customer.name-label' | translate }}
+              </label>
+              <label class="form__label" for="customer-surname">
+                {{ 'customer-info.customer.surname-label' | translate }}
+              </label>
+              <input class="name-input" type="text" id="customer-surname" placeholder="{{ clientName }}" disabled />
+              <input class="name-input" type="text" id="customer-name" placeholder="{{ clientSurname }}" disabled />
+            </div>
+          </div>
+          <div class="form-group">
+            <label class="form__label" for="customer-tel">
+              {{ 'customer-info.customer.tel-label' | translate }}
+            </label>
+            <input class="form-control" type="tel" id="customer-tel" placeholder="{{ order.phoneNumber }}" disabled />
+          </div>
+          <div class="form-group">
+            <label class="form__label" for="customer-email">
+              {{ 'customer-info.customer.email-label' | translate }}
+            </label>
+            <input class="form-control" type="email" id="customer-email" placeholder="{{ order.email }}" disabled />
+          </div>
         </div>
-        <div class="form-group">
-          <label class="form__label" for="customer-tel">
-            {{ 'customer-info.customer.tel-label' | translate }}
-          </label>
-          <input class="form-control" type="tel" id="customer-tel" placeholder="{{ order.phoneNumber }}" disabled />
-        </div>
-        <div class="form-group">
-          <label class="form__label" for="customer-email">
-            {{ 'customer-info.customer.email-label' | translate }}
-          </label>
-          <input class="form-control" type="email" id="customer-email" placeholder="{{ order.email }}" disabled />
+        <div class="form__block col-md-4 col-sm-6 offset-md-1">
+          <div class="form-group">
+            <p class="form__subtitle">{{ 'customer-info.recipient.title' | translate }}</p>
+            <div class="person-name">
+              <label class="form__label" for="recipient-name">
+                {{ 'customer-info.recipient.name-label' | translate }}
+              </label>
+              <label class="form__label" for="recipient-surname">
+                {{ 'customer-info.recipient.surname-label' | translate }}
+              </label>
+              <input
+                class="name-input"
+                type="text"
+                id="recipient-name"
+                placeholder="{{ 'customer-info.recipient.name-placeholder' | translate }}"
+                formControlName="senderName"
+              />
+              <input
+                class="name-input"
+                type="text"
+                id="recipient-surname"
+                placeholder="{{ 'customer-info.recipient.surname-placeholder' | translate }}"
+                formControlName="senderSurname"
+              />
+            </div>
+          </div>
+          <div class="form-group">
+            <label class="form__label" for="recipient-tel">
+              {{ 'customer-info.recipient.tel-label' | translate }}
+            </label>
+            <input
+              class="form-control"
+              type="tel"
+              id="recipient-tel"
+              placeholder="{{ 'customer-info.recipient.tel-placeholder' | translate }}"
+              formControlName="senderPhone"
+            />
+          </div>
+          <div class="form-group">
+            <label class="form__label" for="recipient-email">
+              {{ 'customer-info.recipient.email-label' | translate }}
+            </label>
+            <input
+              class="form-control"
+              type="email"
+              id="recipient-email"
+              placeholder="{{ 'customer-info.recipient.email-placeholder' | translate }}"
+              formControlName="senderEmail"
+            />
+          </div>
         </div>
       </div>
-      <div class="form__block col-md-4 col-sm-6 offset-md-1">
-        <div class="form-group">
-          <p class="form__subtitle">{{ 'customer-info.recipient.title' | translate }}</p>
-          <label class="form__label" for="recipient-name">
-            {{ 'customer-info.recipient.name-label' | translate }}
-          </label>
-          <input
-            class="form-control"
-            type="text"
-            id="recipient-name"
-            placeholder="{{ 'customer-info.recipient.name-placeholder' | translate }}"
-            formControlName="senderName"
-          />
+      <div class="violation">
+        <p class="form__subtitle">
+          {{ 'customer-info.violation.title' | translate }}
+        </p>
+        <div class="violation__block d-flex">
+          <div class="violation__item">
+            <small class="form__label">
+              {{ 'customer-info.violation.amount' | translate }}
+            </small>
+            <p>{{ order.violationsAmount }}</p>
+          </div>
+          <div class="violation__item">
+            <small class="form__label">
+              {{ 'customer-info.violation.current-order' | translate }}
+            </small>
+            <p>{{ userViolationForCurrentOrder }}</p>
+          </div>
         </div>
-        <div class="form-group">
-          <label class="form__label" for="recipient-tel">
-            {{ 'customer-info.recipient.tel-label' | translate }}
-          </label>
-          <input
-            class="form-control"
-            type="tel"
-            id="recipient-tel"
-            placeholder="{{ 'customer-info.recipient.tel-placeholder' | translate }}"
-            formControlName="senderPhone"
-          />
-        </div>
-        <div class="form-group">
-          <label class="form__label" for="recipient-email">
-            {{ 'customer-info.recipient.email-label' | translate }}
-          </label>
-          <input
-            class="form-control"
-            type="email"
-            id="recipient-email"
-            placeholder="{{ 'customer-info.recipient.email-placeholder' | translate }}"
-            formControlName="senderEmail"
-          />
-        </div>
+        <button class="btn" [disabled]="order.violationsAmount > userViolationForCurrentOrder" type="button">
+          {{ 'customer-info.violation.button' | translate }}
+        </button>
       </div>
-    </div>
-    <div class="violation">
-      <p class="form__subtitle">
-        {{ 'customer-info.violation.title' | translate }}
-      </p>
-      <div class="violation__block d-flex">
-        <div class="violation__item">
-          <small class="form__label">
-            {{ 'customer-info.violation.amount' | translate }}
-          </small>
-          <p>{{ order.violationsAmount }}</p>
-        </div>
-        <div class="violation__item">
-          <small class="form__label">
-            {{ 'customer-info.violation.current-order' | translate }}
-          </small>
-          <p>{{ userViolationForCurrentOrder }}</p>
-        </div>
-      </div>
-      <button class="btn" [disabled]="order.violationsAmount > userViolationForCurrentOrder" type="button">
-        {{ 'customer-info.violation.button' | translate }}
-      </button>
     </div>
   </div>
   <hr />

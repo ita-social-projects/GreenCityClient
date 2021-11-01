@@ -49,7 +49,8 @@ export class OrderService {
     'Подільський',
     'Святошинський',
     'Солом`янський',
-    'Шевченківський'
+    'Шевченківський',
+    'Києво-Святошинський'
   ];
 
   constructor(private http: HttpClient) {}
