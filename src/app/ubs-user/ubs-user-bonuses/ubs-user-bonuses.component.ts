@@ -18,7 +18,7 @@ export class UbsUserBonusesComponent implements OnInit, OnDestroy {
   dataSource = new MatTableDataSource<BonuseModel>();
   totalBonuses: number;
   isLoading = true;
-  internal: BonuseModel[];
+  bonusesList: BonuseModel[];
   destroy: Subject<boolean> = new Subject<boolean>();
 
   constructor(private snackBar: MatSnackBarComponent, private bonusesService: BonusesService) {}
@@ -37,7 +37,7 @@ export class UbsUserBonusesComponent implements OnInit, OnDestroy {
       .pipe(takeUntil(this.destroy))
       .subscribe(
         (res: BonusesModel) => {
-          this.internal = res.ubsUserBonuses;
+          this.bonusesList = res.ubsUserBonuses;
           this.dataSource.data = res.ubsUserBonuses;
           this.totalBonuses = res.userBonuses;
           this.isLoading = false;
@@ -51,7 +51,7 @@ export class UbsUserBonusesComponent implements OnInit, OnDestroy {
   }
 
   sortData(sort: Sort) {
-    const data = this.internal.slice();
+    const data = this.bonusesList.slice();
     if (!sort.active || sort.direction === '') {
       return;
     }

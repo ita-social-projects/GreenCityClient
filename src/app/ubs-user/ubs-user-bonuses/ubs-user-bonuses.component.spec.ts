@@ -7,6 +7,7 @@ import { ErrorObservable } from 'rxjs/observable/ErrorObservable';
 import { By } from '@angular/platform-browser';
 import { MatSnackBarComponent } from '@global-errors/mat-snack-bar/mat-snack-bar.component';
 import { of, Subject } from 'rxjs';
+import { EMPTY } from 'rxjs';
 
 const testBonuses: BonusesModel = {
   ubsUserBonuses: [
@@ -58,17 +59,25 @@ describe('UbsUserBonusesComponent', () => {
     expect(component.dataSource.sort).toBeDefined;
   });
 
-  xit('should call getBonusesData and return expected data', () => {
-    const spy = spyOn(component, 'getBonusesData');
+  it('should call getBonusesData and return expected data', () => {
+    bonusesServiceMock.getUserBonuses = () => of(testBonuses);
     component.getBonusesData();
     expect(component.dataSource.data).toEqual(testBonuses.ubsUserBonuses);
-    expect(component.totalBonuses).toEqual(testBonuses.userBonuses);
   });
 
   it('should call getBonusesData and return error', () => {
     bonusesServiceMock.getUserBonuses = () => ErrorObservable.create('error');
     component.getBonusesData();
     expect(component.isLoading).toEqual(false);
+  });
+
+  it('should call openSnackBar in case error', () => {
+    bonusesServiceMock.getUserBonuses = () => ErrorObservable.create('error');
+    const spy = spyOn(matSnackBarMock, 'openSnackBar').and.callFake(() => {
+      return EMPTY;
+    });
+    component.getBonusesData();
+    expect(spy).toHaveBeenCalled();
   });
 
   it('destroy Subject should be closed after ngOnDestroy()', () => {
