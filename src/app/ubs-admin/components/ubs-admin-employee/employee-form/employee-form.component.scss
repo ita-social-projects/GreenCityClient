@@ -114,7 +114,7 @@ label {
 .cancelButton,
 .addButton {
   height: 36px;
-  padding: 6px 14px;
+  padding: 8px 4px;
   border-radius: 5px;
   font-size: 14px;
   font-weight: 500;
@@ -132,6 +132,9 @@ label {
   color: var(--ubs-quaternary-dark-grey);
   border: 1px solid var(--ubs-button-light-green);
   background: var(--ubs-button-light-green);
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
 
   &:disabled {
     background: var(--ubs-quaternary-light-grey);
