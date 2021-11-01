@@ -12,6 +12,7 @@ div {
 }
 
 .eco-news_list-view-wrp {
+  width: 540px;
   height: 192px;
   -webkit-box-shadow: 1px 1px 12px rgba(27, 51, 38, 0.15);
   box-shadow: 1px 1px 12px rgba(27, 51, 38, 0.15);
@@ -93,7 +94,7 @@ div {
     display: block;
     object-fit: cover;
     -o-object-fit: cover;
-    height: 92.31%;
+    height: 100%;
     width: 100%;
     border-top-left-radius: 4px;
     border-bottom-left-radius: 4px;
@@ -102,6 +103,7 @@ div {
 
   .eco-news_list-view-wrp {
     height: 204px;
+    width: 720px;
     display: -ms-grid;
     display: grid;
     -ms-grid-columns: 204px auto;
@@ -112,12 +114,17 @@ div {
 @media (min-width: 1024px) {
   .eco-news_list-view-wrp {
     height: 204px;
+    width: 960px;
     -ms-grid-columns: 359px auto;
     grid-template-columns: 359px auto;
   }
 }
 
 @media (min-width: 1440px) {
+  .eco-news_list-view-wrp {
+    width: 1140px;
+  }
+
   .eco-news_list-content {
     height: 204px;
     grid-template-rows: 20px 96px 20px;
