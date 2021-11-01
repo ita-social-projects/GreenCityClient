@@ -196,13 +196,14 @@ h4 {
   }
 
   textarea {
-    color: var(--ubs-grey-blue);
-    font-size: 14px;
+    color: var(--ubs-quaternary-dark-grey);
+    font-size: 16px;
     resize: none;
     width: 420px;
     height: 92px;
     border: 1px solid var(--ubs-grey-blue);
     border-radius: 4px;
+    padding: 5px 0 0 5px;
   }
 
   ::placeholder {
@@ -241,4 +242,17 @@ button[disabled] {
 
 ::ng-deep .mat-progress-bar-buffer {
   background: var(--ubs-secondary-grey);
+}
+
+::ng-deep .mat-radio-button.mat-accent .mat-radio-ripple .mat-ripple-element {
+  background-color: white;
+}
+
+::ng-deep .mat-radio-button.mat-accent .mat-radio-inner-circle {
+  background-color: var(--ubs-primary-green);
+}
+
+::ng-deep.mat-radio-button.mat-accent.mat-radio-checked .mat-radio-outer-circle {
+  background-color: white;
+  border-color: var(--ubs-primary-green);
 }

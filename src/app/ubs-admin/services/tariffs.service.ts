@@ -40,4 +40,24 @@ export class TariffsService {
   editService(id: number, service: Service) {
     return this.http.put(`${mainUbsLink}/ubs/superAdmin/editService/${id}`, service);
   }
+
+  getLocations() {
+    return this.http.get(`${mainUbsLink}/ubs/superAdmin/getLocations`);
+  }
+
+  getCouriers() {
+    return this.http.get(`${mainUbsLink}/ubs/superAdmin/getCouriers`);
+  }
+
+  activateLocation(id: number, languageCode) {
+    return this.http.patch(`${mainUbsLink}/ubs/superAdmin/activeLocations/${id}?languageCode=${languageCode}`, languageCode);
+  }
+
+  deactivateLocation(id: number, languageCode) {
+    return this.http.patch(`${mainUbsLink}/ubs/superAdmin/deactivateLocations/${id}?languageCode=${languageCode}`, languageCode);
+  }
+
+  editInfo(info) {
+    return this.http.patch(`${mainUbsLink}/ubs/superAdmin/editInfoAboutTariff`, info);
+  }
 }
