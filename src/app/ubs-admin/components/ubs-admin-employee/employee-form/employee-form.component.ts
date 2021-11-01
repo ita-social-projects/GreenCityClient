@@ -173,7 +173,7 @@ export class EmployeeFormComponent implements OnInit {
 
     if (!this.isWarning) {
       const reader: FileReader = new FileReader();
-      this.selectedFile = imageFile as File;
+      this.selectedFile = imageFile;
       this.imageName = this.selectedFile.name;
 
       reader.readAsDataURL(this.selectedFile);

@@ -18,13 +18,6 @@ import { SearchAllResultsComponent } from './search-all-results/search-all-resul
 import { SearchItemComponent } from './search-item/search-item.component';
 import { SearchPopupComponent } from './search-popup/search-popup.component';
 
-/*import {
-  HeaderComponent,
-  SearchAllResultsComponent,
-  SearchItemComponent,
-  SearchNotFoundComponent,
-  SearchPopupComponent
-} from '../main/component/layout/components';*/
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { InfiniteScrollModule } from 'ngx-infinite-scroll';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
