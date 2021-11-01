@@ -5,7 +5,7 @@ import { BonusesService } from './bonuses.service';
 import { BonusesModel } from '../models/BonusesModel';
 import { environment } from '@environment/environment';
 
-fdescribe('BonusesService', () => {
+describe('BonusesService', () => {
   let service: BonusesService;
   let httpMock: HttpTestingController;
   let injector: TestBed;

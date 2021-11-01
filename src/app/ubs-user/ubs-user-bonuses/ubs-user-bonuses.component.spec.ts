@@ -3,8 +3,10 @@ import { UbsUserBonusesComponent } from './ubs-user-bonuses.component';
 import { TranslateModule } from '@ngx-translate/core';
 import { BonusesService } from './services/bonuses.service';
 import { BonusesModel } from './models/BonusesModel';
-import { of } from 'rxjs';
 import { ErrorObservable } from 'rxjs/observable/ErrorObservable';
+import { By } from '@angular/platform-browser';
+import { MatSnackBarComponent } from '@global-errors/mat-snack-bar/mat-snack-bar.component';
+import { of, Subject } from 'rxjs';
 
 const testBonuses: BonusesModel = {
   ubsUserBonuses: [
@@ -21,13 +23,20 @@ describe('UbsUserBonusesComponent', () => {
   let component: UbsUserBonusesComponent;
   let fixture: ComponentFixture<UbsUserBonusesComponent>;
   let bonusesServiceMock: BonusesService;
+  let matSnackBarMock: MatSnackBarComponent;
   bonusesServiceMock = jasmine.createSpyObj('BonusesService', ['getUserBonuses']);
   bonusesServiceMock.getUserBonuses = () => of(testBonuses);
+  matSnackBarMock = jasmine.createSpyObj('MatSnackBarComponent', ['openSnackBar']);
+  matSnackBarMock.openSnackBar = (type: string) => {};
+
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [UbsUserBonusesComponent],
+      declarations: [UbsUserBonusesComponent, MatSnackBarComponent],
       imports: [TranslateModule.forRoot()],
-      providers: [{ provide: BonusesService, useValue: bonusesServiceMock }]
+      providers: [
+        { provide: BonusesService, useValue: bonusesServiceMock },
+        { provide: MatSnackBarComponent, useValue: matSnackBarMock }
+      ]
     }).compileComponents();
   });
 
@@ -41,9 +50,19 @@ describe('UbsUserBonusesComponent', () => {
     expect(component).toBeTruthy();
   });
 
+  it('method ngOnInit should call getBonusesData', () => {
+    const spy = spyOn(component, 'getBonusesData');
+    expect(component.dataSource.sort).toBeUndefined;
+    component.ngOnInit();
+    expect(spy).toHaveBeenCalled();
+    expect(component.dataSource.sort).toBeDefined;
+  });
+
   it('should call getBonusesData and return expected data', () => {
+    const spy = spyOn(component, 'getBonusesData');
     component.getBonusesData();
     expect(component.dataSource.data).toEqual(testBonuses.ubsUserBonuses);
+    expect(component.totalBonuses).toEqual(testBonuses.userBonuses);
   });
 
   it('should call getBonusesData and return error', () => {
@@ -52,8 +71,10 @@ describe('UbsUserBonusesComponent', () => {
     expect(component.isLoading).toEqual(false);
   });
 
-  it('should something', () => {
-    component.getBonusesData();
-    expect(component.isLoading).toEqual(false);
+  it('destroy Subject should be closed after ngOnDestroy()', () => {
+    component.destroy = new Subject<boolean>();
+    spyOn(component.destroy, 'unsubscribe');
+    component.ngOnDestroy();
+    expect(component.destroy.unsubscribe).toHaveBeenCalledTimes(1);
   });
 });
