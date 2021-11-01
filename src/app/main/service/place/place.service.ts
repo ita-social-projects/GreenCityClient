@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { Observable } from 'rxjs';
+import { Observable, Subject } from 'rxjs';
 import { Place } from '../../component/places/models/place';
 import { PlaceInfo } from '../../model/place/place-info';
 import { UpdatePlaceStatus } from '../../model/place/update-place-status.model';
@@ -12,11 +12,13 @@ import { FilterPlaceDtoModel } from '../../model/filtering/filter-place-dto.mode
 import { AdminPlace } from '../../component/admin/models/admin-place.model';
 import { BulkUpdatePlaceStatus } from '../../model/place/bulk-update-place-status.model';
 import { PlaceUpdatedDto } from '../../component/admin/models/placeUpdatedDto.model';
+import { PlaceStatus } from '@global-models/placeStatus.model';
 
 @Injectable({
   providedIn: 'root'
 })
 export class PlaceService {
+  public places$: Subject<Place[]> = new Subject<Place[]>();
   places: Place[];
   showHours = false;
   private baseUrl = `${mainLink}place/`;
@@ -29,6 +31,12 @@ export class PlaceService {
   getFilteredPlaces() {
     const filterDto = this.filterService.getFilters();
     this.http.post<Place[]>(`${placeLink}filter`, filterDto).subscribe((res) => (this.places = res));
+  }
+
+  updatePlaces(filtersDto: any) {
+    this.http.post<Place[]>(`${placeLink}filter`, filtersDto).subscribe((response: Place[]) => {
+      this.places$.next(response);
+    });
   }
 
   save(place: PlaceAddDto) {
