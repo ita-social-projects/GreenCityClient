@@ -1,7 +1,7 @@
 export interface FriendModel {
   id: number;
   name: string;
-  profilePicture?: string;
+  profilePicturePath?: string;
   added?: boolean;
   rating: number;
   city?: string;

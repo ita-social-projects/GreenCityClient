@@ -15,14 +15,14 @@ describe('AddCommentComponent', () => {
 
   const userData = {
     city: 'string',
-    firstName: 'string',
+    name: 'string',
     userCredo: 'string',
     profilePicturePath: 'string;',
     rating: null,
     showEcoPlace: true,
     showLocation: true,
     showShoppingList: true,
-    socialNetworks: [{ id: 1, url: 'string;' }],
+    socialNetworks: [{ id: 1, url: 'string;' }]
   };
 
   let profileServiceMock: ProfileService;
@@ -39,8 +39,8 @@ describe('AddCommentComponent', () => {
       imports: [FormsModule, ReactiveFormsModule, TranslateModule.forRoot(), HttpClientTestingModule],
       providers: [
         { provide: ProfileService, useValue: profileServiceMock },
-        { provide: CommentsService, useValue: commentsServiceMock },
-      ],
+        { provide: CommentsService, useValue: commentsServiceMock }
+      ]
     }).compileComponents();
   }));
 

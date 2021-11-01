@@ -18,8 +18,14 @@ export function ConfirmPasswordValidator(controlName: string, matchingControlNam
 
 export function ValidatorRegExp(controlName: string) {
   return (formGroup: FormGroup) => {
-    const regexpName = /^(?!\.)(?!.*\.$)(?!.*?\.\.)[a-zA-Z0-9_.]{5,29}$/gi;
-    const regexpPass = /^(?=.*[a-z]+)(?=.*[A-Z]+)(?=.*\d+)(?=.*[~`!@#$%^&*()+=_\-{}|:;”’?/<>,.\]\[]+).{8,}$/;
+    const regexpName = /^(?!\.)(?!.*\.$)(?!.*?\.\.)[a-z0-9_.]{6,30}$/gi;
+    const regexpPass = new RegExp(
+      [/^(?=.*[a-z]+)/, /(?=.*[A-Z]+)/, /(?=.*\d+)/, /(?=.*[~`!@#$%^&*()+=_\-{}|:;”’?/<>,.\]\[]+).{8,}$/]
+        .map((reg) => {
+          return reg.source;
+        })
+        .join('')
+    );
     const regexp = controlName === 'firstName' ? regexpName : regexpPass;
     const control = formGroup.controls[controlName];
     if (control.value === '') {
@@ -27,7 +33,7 @@ export function ValidatorRegExp(controlName: string) {
     } else {
       if (controlName === 'password' && control.value.length < 8) {
         control.setErrors({ minlength: true });
-      } else if (!control.value.match(regexp)) {
+      } else if (!control.value.match(regexp) || control.value.match(/\s/)) {
         control.setErrors({ symbolInvalid: true });
       } else {
         control.setErrors(null);

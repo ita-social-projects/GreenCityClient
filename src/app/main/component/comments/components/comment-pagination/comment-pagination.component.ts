@@ -21,7 +21,13 @@ export class CommentPaginationComponent implements AfterViewChecked {
   }
 
   public calcPaginationSize(totalPages, currentPages) {
-    this.bigTotalSize = currentPages <= 3 || currentPages >= totalPages - 2 ? 6 : 7;
+    if (currentPages <= 2 || currentPages >= totalPages - 1) {
+      this.bigTotalSize = 5;
+    } else if (currentPages === 3 || currentPages === totalPages - 2) {
+      this.bigTotalSize = 6;
+    } else {
+      this.bigTotalSize = 7;
+    }
     this.maxSize = totalPages <= 5 ? 5 : this.bigTotalSize;
     return this.maxSize;
   }

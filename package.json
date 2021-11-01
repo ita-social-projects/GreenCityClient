@@ -16,14 +16,14 @@
   "dependencies": {
     "@agm/core": "^1.1.0",
     "@angular/animations": "^9.1.13",
-    "@angular/cdk": "^8.2.3",
+    "@angular/cdk": "^9.1.13",
     "@angular/common": "^9.1.13",
     "@angular/compiler": "^9.1.13",
     "@angular/core": "^9.1.13",
     "@angular/fire": "^5.4.2",
     "@angular/forms": "^9.1.13",
     "@angular/localize": "^9.1.13",
-    "@angular/material": "^8.2.3",
+    "@angular/material": "^9.1.13",
     "@angular/platform-browser": "^9.1.13",
     "@angular/platform-browser-dynamic": "^9.1.13",
     "@angular/router": "^9.1.13",
@@ -58,6 +58,7 @@
     "rxjs": "~6.6.7",
     "sockjs-client": "^1.5.0",
     "tslib": "^1.10.0",
+    "xlsx": "^0.17.1",
     "zone.js": "~0.10.2"
   },
   "devDependencies": {
@@ -81,6 +82,7 @@
     "lint-staged": "^10.5.4",
     "prettier": "^2.2.1",
     "protractor": "~7.0.0",
+    "stylelint": "^13.13.1",
     "stylelint-config-standard": "^20.0.0",
     "ts-node": "~7.0.0",
     "tslint": "~5.15.0",

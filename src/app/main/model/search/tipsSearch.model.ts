@@ -7,4 +7,5 @@ export interface TipsSearchModel {
   };
   creationDate: string;
   tags: Array<string>;
+  text: string;
 }

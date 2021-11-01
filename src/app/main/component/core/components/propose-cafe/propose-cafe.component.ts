@@ -1,4 +1,4 @@
-import { Component, ElementRef, EventEmitter, Inject, NgZone, OnInit, Output, ViewChild } from '@angular/core';
+import { Component, ElementRef, EventEmitter, Inject, Injector, NgZone, OnInit, Output, ViewChild } from '@angular/core';
 import { OpeningHours } from '../../../../model/openingHours.model';
 import { PlaceAddDto } from '../../../../model/placeAddDto.model';
 import { CategoryDto } from '../../../../model/category.model';
@@ -8,24 +8,22 @@ import { PlaceWithUserModel } from '../../../../model/placeWithUser.model';
 import { ModalService } from './_modal/modal.service';
 import { CategoryService } from '../../../../service/category.service';
 import { UserService } from '../../../../service/user/user.service';
-import { FormBuilder, NgForm } from '@angular/forms';
+import { NgForm } from '@angular/forms';
 import { NgSelectComponent } from '@ng-select/ng-select';
 import { MapsAPILoader, MouseEvent } from '@agm/core';
 import { PlaceService } from '../../../../service/place/place.service';
 import { BreakTimes } from '../../../../model/breakTimes.model';
-import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material';
 import { SpecificationService } from '../../../../service/specification.service';
 import { DiscountDto } from '../../../../model/discount/DiscountDto';
 import { SpecificationNameDto } from '../../../../model/specification/SpecificationNameDto';
-import { AngularFireStorage } from '@angular/fire/storage';
-import { AngularFirestore } from '@angular/fire/firestore';
 import { Photo } from '../../../../model/photo/photo';
 import { MatSnackBarComponent } from '@global-errors/mat-snack-bar/mat-snack-bar.component';
+import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 
 @Component({
   selector: 'app-propose-cafe',
   templateUrl: './propose-cafe.component.html',
-  styleUrls: ['./propose-cafe.component.scss'],
+  styleUrls: ['./propose-cafe.component.scss']
 })
 export class ProposeCafeComponent implements OnInit {
   photoLoadingStatus = false;
@@ -46,7 +44,7 @@ export class ProposeCafeComponent implements OnInit {
     WeekDays.THURSDAY,
     WeekDays.FRIDAY,
     WeekDays.SATURDAY,
-    WeekDays.SUNDAY,
+    WeekDays.SUNDAY
   ];
   openingHours: OpeningHours = new OpeningHours();
   breakTimes: BreakTimes = new BreakTimes();
@@ -71,22 +69,28 @@ export class ProposeCafeComponent implements OnInit {
   private geoCoder;
   @ViewChild('saveForm', { static: true }) private saveForm: NgForm;
   @ViewChild('choice', { static: true }) private choice: any;
+  private modalService: ModalService;
+  private placeService: PlaceService;
+  private categoryService: CategoryService;
+  private specificationService: SpecificationService;
+  private uService: UserService;
+  private matSnackBar: MatSnackBarComponent;
+  private mapsAPILoader: MapsAPILoader;
+  private ngZone: NgZone;
 
   constructor(
-    private modalService: ModalService,
-    private placeService: PlaceService,
-    private categoryService: CategoryService,
-    private specificationService: SpecificationService,
-    private uService: UserService,
-    private matSnackBar: MatSnackBarComponent,
-    private mapsAPILoader: MapsAPILoader,
-    private ngZone: NgZone,
     private dialogRef: MatDialogRef<ProposeCafeComponent>,
-    private storage: AngularFireStorage,
-    private db: AngularFirestore,
-    private fb: FormBuilder,
+    private injector: Injector,
     @Inject(MAT_DIALOG_DATA) public data: any
   ) {
+    this.modalService = injector.get(ModalService);
+    this.placeService = injector.get(PlaceService);
+    this.categoryService = injector.get(CategoryService);
+    this.specificationService = injector.get(SpecificationService);
+    this.uService = injector.get(UserService);
+    this.matSnackBar = injector.get(MatSnackBarComponent);
+    this.mapsAPILoader = injector.get(MapsAPILoader);
+    this.ngZone = injector.get(NgZone);
     this.category = new CategoryDto();
     this.discount = new DiscountDto();
     this.location = new LocationDto();
@@ -114,7 +118,7 @@ export class ProposeCafeComponent implements OnInit {
       this.geoCoder = new google.maps.Geocoder();
 
       const autocomplete = new google.maps.places.Autocomplete(this.searchElementRef.nativeElement, {
-        types: ['address'],
+        types: ['address']
       });
       autocomplete.addListener('place_changed', () => {
         this.ngZone.run(() => {

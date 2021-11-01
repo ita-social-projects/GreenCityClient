@@ -1,6 +1,5 @@
-import { MatDialog, MatDialogConfig } from '@angular/material';
-import { Component, DoCheck, Input, OnDestroy, OnInit } from '@angular/core';
-import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
+import { Component, Input, OnChanges, OnDestroy, OnInit, SimpleChanges } from '@angular/core';
+import { FormBuilder, FormGroup, ValidatorFn, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { FormBaseComponent } from '@shared/components/form-base/form-base.component';
 import { takeUntil } from 'rxjs/operators';
@@ -10,13 +9,14 @@ import { OrderService } from '../../services/order.service';
 import { UBSAddAddressPopUpComponent } from './ubs-add-address-pop-up/ubs-add-address-pop-up.component';
 import { Address, Bag, OrderBag, OrderDetails, PersonalData } from '../../models/ubs.interface';
 import { Order } from '../../models/ubs.model';
+import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
 
 @Component({
   selector: 'app-ubs-personal-information',
   templateUrl: './ubs-personal-information.component.html',
   styleUrls: ['./ubs-personal-information.component.scss']
 })
-export class UBSPersonalInformationComponent extends FormBaseComponent implements OnInit, DoCheck, OnDestroy {
+export class UBSPersonalInformationComponent extends FormBaseComponent implements OnInit, OnDestroy, OnChanges {
   addressId: number;
   orderDetails: OrderDetails;
   personalData: PersonalData;
@@ -24,10 +24,17 @@ export class UBSPersonalInformationComponent extends FormBaseComponent implement
   order: Order;
   addresses: Address[] = [];
   maxAddressLength = 4;
-  namePattern = /^[A-Za-zА-Яа-яїієё\.\'\-\\]+$/;
+  namePattern = /^[A-Za-zА-Яа-яїЇіІєЄёЁ\'\- ]+$/;
   phoneMask = '+{38} (000) 000 00 00';
   firstOrder = true;
+  anotherClient = false;
   private destroy: Subject<boolean> = new Subject<boolean>();
+  private personalDataFormValidators: ValidatorFn[] = [
+    Validators.required,
+    Validators.minLength(2),
+    Validators.maxLength(20),
+    Validators.pattern(this.namePattern)
+  ];
   popupConfig = {
     hasBackdrop: true,
     closeOnNavigation: true,
@@ -58,9 +65,9 @@ export class UBSPersonalInformationComponent extends FormBaseComponent implement
     this.takeUserData();
   }
 
-  ngDoCheck() {
+  ngOnChanges(changes: SimpleChanges) {
     this.shareFormService.changePersonalData();
-    if (this.completed) {
+    if (changes.completed?.currentValue) {
       this.submit();
     }
   }
@@ -93,22 +100,16 @@ export class UBSPersonalInformationComponent extends FormBaseComponent implement
 
   initForm() {
     this.personalDataForm = this.fb.group({
-      firstName: new FormControl('', [
-        Validators.required,
-        Validators.minLength(1),
-        Validators.maxLength(30),
-        Validators.pattern(this.namePattern)
-      ]),
-      lastName: new FormControl('', [
-        Validators.required,
-        Validators.minLength(1),
-        Validators.maxLength(30),
-        Validators.pattern(this.namePattern)
-      ]),
-      email: new FormControl('', [Validators.required, Validators.email]),
-      phoneNumber: new FormControl('+38 0', [Validators.required, Validators.minLength(12)]),
-      address: new FormControl('', Validators.required),
-      addressComment: new FormControl('', Validators.maxLength(255))
+      firstName: ['', this.personalDataFormValidators],
+      lastName: ['', this.personalDataFormValidators],
+      email: ['', [Validators.required, Validators.email]],
+      phoneNumber: ['+38 0', [Validators.required, Validators.minLength(12)]],
+      anotherClientFirstName: [''],
+      anotherClientLastName: [''],
+      anotherClientEmail: ['', Validators.email],
+      anotherClientPhoneNumber: [''],
+      address: ['', Validators.required],
+      addressComment: ['', Validators.maxLength(255)]
     });
   }
 
@@ -153,6 +154,31 @@ export class UBSPersonalInformationComponent extends FormBaseComponent implement
       phoneNumber: '380' + this.personalData.phoneNumber,
       addressComment: this.personalData.addressComment
     });
+  }
+
+  togglClient(): void {
+    const anotherClientFirstName = this.getControl('anotherClientFirstName');
+    const anotherClientLastName = this.getControl('anotherClientLastName');
+    const anotherClientPhoneNumber = this.getControl('anotherClientPhoneNumber');
+    const anotherClientEmail = this.getControl('anotherClientEmail');
+    this.anotherClient = !this.anotherClient;
+    if (this.anotherClient) {
+      anotherClientFirstName.setValidators(this.personalDataFormValidators);
+      anotherClientLastName.setValidators(this.personalDataFormValidators);
+      anotherClientPhoneNumber.setValidators([Validators.required, Validators.minLength(12)]);
+      anotherClientPhoneNumber.setValue('+38 0');
+    } else {
+      anotherClientFirstName.setValue('');
+      anotherClientFirstName.clearValidators();
+      anotherClientLastName.setValue('');
+      anotherClientLastName.clearValidators();
+      anotherClientPhoneNumber.setValue('');
+      anotherClientPhoneNumber.clearValidators();
+      anotherClientEmail.setValue('');
+    }
+    anotherClientFirstName.updateValueAndValidity();
+    anotherClientLastName.updateValueAndValidity();
+    anotherClientPhoneNumber.updateValueAndValidity();
   }
 
   editAddress(addressId: number) {
@@ -215,7 +241,7 @@ export class UBSPersonalInformationComponent extends FormBaseComponent implement
   }
 
   submit(): void {
-    this.firstOrder = !this.firstOrder;
+    this.firstOrder = false;
     this.activeAddressId();
     this.changeAddressInPersonalData();
     this.orderDetails = this.shareFormService.orderDetails;
@@ -231,6 +257,10 @@ export class UBSPersonalInformationComponent extends FormBaseComponent implement
     this.personalData.lastName = this.personalDataForm.get('lastName').value;
     this.personalData.email = this.personalDataForm.get('email').value;
     this.personalData.phoneNumber = this.personalDataForm.get('phoneNumber').value.slice(3);
+    this.personalData.anotherClientFirstName = this.personalDataForm.get('anotherClientFirstName').value;
+    this.personalData.anotherClientLastName = this.personalDataForm.get('anotherClientLastName').value;
+    this.personalData.anotherClientEmail = this.personalDataForm.get('anotherClientEmail').value;
+    this.personalData.anotherClientPhoneNumber = this.personalDataForm.get('anotherClientPhoneNumber').value.slice(3);
     this.personalData.addressComment = this.personalDataForm.get('addressComment').value;
     this.order = new Order(
       this.shareFormService.orderDetails.additionalOrders,

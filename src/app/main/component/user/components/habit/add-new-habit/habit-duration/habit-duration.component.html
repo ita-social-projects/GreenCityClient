@@ -1,5 +1,5 @@
-<div class="title">Duration</div>
-<div class="thumbLabel">{{ range.value }} d</div>
+<div class="title">{{ 'user.habit.duration.title' | translate }}</div>
+<div class="thumbLabel">{{ habitDuration.value }} {{ 'user.habit.duration.day' | translate }}</div>
 <input
   [formControl]="habitDuration"
   class="form-control-range"
@@ -12,7 +12,7 @@
   #range
 />
 <div class="rangeLabel">
-  <div class="text">{{ range.min }} d</div>
-  <div class="text">{{ range.max }} d</div>
+  <div class="text">{{ range.min }} {{ 'user.habit.duration.day' | translate }}</div>
+  <div class="text">{{ range.max }} {{ 'user.habit.duration.day' | translate }}</div>
 </div>
-<div class="message">This duration of habit formation is recommended. You can change it at will</div>
+<div class="message">{{ 'user.habit.duration.text' | translate }}</div>

@@ -1,4 +1,4 @@
-import { Component, OnInit, OnDestroy, Inject } from '@angular/core';
+import { Component, OnInit, OnDestroy, Inject, Injector } from '@angular/core';
 import { FormArray, FormGroup, FormControl } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { MatDialog } from '@angular/material/dialog';
@@ -34,11 +34,10 @@ export class CreateEditNewsComponent extends FormBaseComponent implements OnInit
   public month: number = new Date().getMonth();
   public author: string = localStorage.getItem('name');
   public attributes: ActionInterface;
-  public filters: Array<FilterModel>;
+  public filters: FilterModel[] = [];
   public newsId: string;
   public formData: FormGroup;
   private destroyed$: ReplaySubject<any> = new ReplaySubject<any>(1);
-
   public isFormInvalid: boolean;
   public formChangeSub: Subscription;
   public previousPath = '/news';
@@ -55,19 +54,26 @@ export class CreateEditNewsComponent extends FormBaseComponent implements OnInit
     }
   };
   public onSubmit;
+  private createEditNewsFormBuilder: CreateEditNewsFormBuilder;
+  private createEcoNewsService: CreateEcoNewsService;
+  private ecoNewsService: EcoNewsService;
+  private route: ActivatedRoute;
+  private localStorageService: LocalStorageService;
+  private snackBar: MatSnackBarComponent;
 
   constructor(
     public router: Router,
     public dialog: MatDialog,
-    private createEditNewsFormBuilder: CreateEditNewsFormBuilder,
-    private createEcoNewsService: CreateEcoNewsService,
-    private ecoNewsService: EcoNewsService,
-    private route: ActivatedRoute,
-    @Inject(ACTION_TOKEN) private config: { [name: string]: ActionInterface },
-    private snackBar: MatSnackBarComponent,
-    private localStorageService: LocalStorageService
+    private injector: Injector,
+    @Inject(ACTION_TOKEN) private config: { [name: string]: ActionInterface }
   ) {
     super(router, dialog);
+    this.createEditNewsFormBuilder = injector.get(CreateEditNewsFormBuilder);
+    this.createEcoNewsService = injector.get(CreateEcoNewsService);
+    this.ecoNewsService = injector.get(EcoNewsService);
+    this.route = injector.get(ActivatedRoute);
+    this.localStorageService = injector.get(LocalStorageService);
+    this.snackBar = injector.get(MatSnackBarComponent);
   }
 
   ngOnInit() {
@@ -75,6 +81,10 @@ export class CreateEditNewsComponent extends FormBaseComponent implements OnInit
     this.initPageforCreateOrEdit();
     this.onSourceChange();
     this.setLocalizedTags();
+  }
+
+  private filterArr(item: FilterModel, index: number) {
+    return [...this.filters.slice(0, index), item, ...this.filters.slice(index + 1)];
   }
 
   public setInitialValues(): void {
@@ -104,6 +114,12 @@ export class CreateEditNewsComponent extends FormBaseComponent implements OnInit
   }
 
   private getAllTags() {
+    const tags = this.localStorageService.getTagsOfNews('newsTags');
+    if (tags) {
+      this.filters = tags;
+      return;
+    }
+
     this.ecoNewsService
       .getAllPresentTags()
       .pipe(take(1))
@@ -160,15 +176,11 @@ export class CreateEditNewsComponent extends FormBaseComponent implements OnInit
     });
   }
 
-  public autoResize(event): void {
-    const checkTextAreaHeight =
-      event.target.scrollHeight > this.textAreasHeight.minTextAreaScrollHeight &&
-      event.target.scrollHeight < this.textAreasHeight.maxTextAreaScrollHeight;
-    const maxHeight = checkTextAreaHeight
-      ? this.textAreasHeight.maxTextAreaHeight
-      : event.target.scrollHeight < this.textAreasHeight.minTextAreaScrollHeight;
-    const minHeight = checkTextAreaHeight ? this.textAreasHeight.minTextAreaHeight : `${event.target.scrollHeight}px`;
-    event.target.style.height = checkTextAreaHeight ? maxHeight : minHeight;
+  public autoResize(textarea: boolean, e: any) {
+    const DEFAULT_SIZE_INPUT_TITTLE = '48px';
+    const DEFAULT_SIZE_INPUT_CONTENT = '131px';
+    e.target.style.height = textarea ? DEFAULT_SIZE_INPUT_CONTENT : DEFAULT_SIZE_INPUT_TITTLE;
+    e.target.style.height = e.target.scrollHeight + 'px';
   }
 
   public onSourceChange(): void {
@@ -191,6 +203,8 @@ export class CreateEditNewsComponent extends FormBaseComponent implements OnInit
         })
       )
       .subscribe(() => this.escapeFromCreatePage());
+
+    this.localStorageService.removeTagsOfNews('newsTags');
   }
 
   public escapeFromCreatePage() {
@@ -226,10 +240,6 @@ export class CreateEditNewsComponent extends FormBaseComponent implements OnInit
         this.onSourceChange();
         this.setInitialValues();
       });
-  }
-
-  private filterArr = (item: FilterModel, index: number) => {
-    return [...this.filters.slice(0, index), item, ...this.filters.slice(index + 1)];
   }
 
   public setActiveFilters(itemToUpdate: EcoNewsModel): void {
@@ -278,7 +288,9 @@ export class CreateEditNewsComponent extends FormBaseComponent implements OnInit
 
   public toggleIsActive(filterObj: FilterModel, newValue: boolean): void {
     const index = this.filters.findIndex((item: FilterModel) => item.name === filterObj.name);
-    this.filters = this.filterArr({ name: filterObj.name, isActive: newValue }, index);
+    const changedtags = this.filterArr({ name: filterObj.name, isActive: newValue }, index);
+    this.filters = changedtags;
+    this.localStorageService.setTagsOfNews('newsTags', changedtags);
   }
 
   public goToPreview(): void {

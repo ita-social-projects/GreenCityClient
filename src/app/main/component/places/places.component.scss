@@ -29,6 +29,7 @@ $cardTextColor: #1d2830;
     @include flex-options(column, stretch, flex-start);
 
     .filter {
+      display: flex;
       margin-top: 26px;
     }
   }
@@ -96,8 +97,7 @@ $cardTextColor: #1d2830;
   padding: 36px;
 
   .content-title {
-    margin: 0 auto;
-    margin-bottom: 18px;
+    margin: 0 auto 18px auto;
     height: 28px;
     font-weight: bold;
     font-size: 20px;
@@ -129,6 +129,7 @@ $cardTextColor: #1d2830;
 
     font-size: 14px;
     color: var(--quaternary-grey);
+    padding-top: 12px;
   }
 
   .content-list {
@@ -247,7 +248,6 @@ $cardTextColor: #1d2830;
 
     .card-title {
       margin: 12px 0 4px 0;
-      width: 72px;
       font-weight: bold;
       font-size: 14px;
       color: var(--quaternary-dark-grey);

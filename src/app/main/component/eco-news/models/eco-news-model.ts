@@ -9,6 +9,7 @@ export interface EcoNewsModel {
   };
   tags: Array<NewsTagInterface>;
   creationDate: string;
+  likes: number;
   source?: string;
 }
 

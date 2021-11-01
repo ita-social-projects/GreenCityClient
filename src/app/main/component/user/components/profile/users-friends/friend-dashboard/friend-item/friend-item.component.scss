@@ -1,28 +1,21 @@
-@import url('https://fonts.googleapis.com/css?family=Open+Sans&display=swap');
-@import url('https://fonts.googleapis.com/css?family=Montserrat&display=swap');
-@import url('https://fonts.googleapis.com/css2?family=Lato&display=swap');
-
-$Green: #13aa57;
-$White: #fff;
-$backgroundGrey: #f8f9fa;
-$textGrey: #64727d;
-$openSpans: 'Open Sans', sans-serif;
-$montserrat: 'Montserrat', sans-serif;
-$Lato: 'Lato', sans-serif;
-
 .friend-item {
+  box-sizing: border-box;
   display: flex;
   flex-direction: column;
-  width: 300px;
-  background: $backgroundGrey;
-  font-family: $Lato;
+  max-width: 554px;
+  height: 194px;
+  background: var(--primary-white);
+  font-family: var(--primary-font);
   padding: 24px;
   border-radius: 8px;
+  box-shadow: 0 0 7px var(--tertiary-light-grey);
+  // color: rgba(202, 207, 211, 0.5);
+  margin: 7px 16px;
 }
 
 button {
   font-weight: bold;
-  font-family: $Lato;
+  font-family: var(--primary-font);
   font-size: 14px;
   line-height: 20px;
   text-align: center;
@@ -30,23 +23,9 @@ button {
   border-radius: 4px;
   width: 104px;
   height: 36px;
-  color: $Green;
-  border: 1px solid $Green;
-  background: $White;
-}
-
-.friend-with-photo {
-  display: flex;
-  flex-direction: column;
-}
-
-.friend-without-photo {
-  display: flex;
-  flex-direction: row;
-}
-
-.rate-without-photo {
-  background: none;
+  color: var(--primary-green);
+  border: 1px solid var(--primary-green);
+  background: var(--primary-white);
 }
 
 .rate-with-photo {
@@ -70,22 +49,30 @@ button {
   font-weight: normal;
   font-size: 14px;
   line-height: 20px;
-  color: $textGrey;
+  color: var(--quaternary-grey);
   margin: 2px;
+
+  .friend-mutual-link {
+    transition: 0.2s;
+
+    &:hover {
+      color: var(--tertiary-dark-grey);
+    }
+  }
 }
 
 .friend-rate {
-  font-style: normal;
+  color: var(--primary-green);
+  font-family: var(--quaternary-font);
   font-weight: 600;
   font-size: 12px;
   line-height: 16px;
-  width: 60px;
+  width: 89px;
   height: 24px;
   border-radius: 4px;
   display: flex;
   justify-content: center;
-  align-items: flex-end;
-  color: $Green;
+  align-items: center;
   margin: 2px;
 }
 
@@ -94,6 +81,7 @@ button {
   flex-direction: column;
   justify-content: flex-start;
   flex: 3;
+  margin-left: 28px;
 }
 
 .friend-btn {
@@ -106,6 +94,24 @@ button {
 
 .friend-img {
   flex: 1;
+}
+
+.friend-with-photo {
+  display: flex;
+  flex-direction: column-reverse;
+}
+
+.friend-without-photo {
+  display: flex;
+  flex-direction: row;
+}
+
+.rate-without-photo {
+  font-size: 14px;
+  font-weight: 700;
+  font-family: var(--primary-font);
+  width: 40px;
+  background: none;
 }
 
 @media only screen and (min-width: 768px) {

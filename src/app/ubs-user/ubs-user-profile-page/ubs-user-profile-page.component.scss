@@ -1,0 +1,123 @@
+.ubs_profile-container {
+  font-family: var(--primary-font);
+  font-size: 0.9em;
+  max-width: 1200px;
+  display: flex;
+  justify-content: center;
+  margin-bottom: 100px;
+
+  .ubs_profile-header {
+    width: 905px;
+    display: flex;
+    justify-content: space-between;
+
+    .header-text {
+      padding-top: 30px;
+    }
+  }
+
+  .input-group {
+    padding: 20px;
+    width: 905px;
+    box-shadow: 0 14px 28px rgba(0, 0, 0, 0.25);
+
+    form {
+      margin-left: 15px;
+    }
+  }
+
+  .house {
+    display: flex;
+
+    div {
+      margin-right: 30px;
+    }
+  }
+
+  label {
+    margin: 0;
+    color: var(--ubs-secondary-grey);
+  }
+
+  input {
+    font-size: 1em;
+  }
+
+  input.ng-invalid.ng-touched {
+    border: 1px solid var(--ubs-error-ligh-red);
+  }
+
+  button {
+    margin: 30px 0 30px 30px;
+    font-family: var(--secondary-font);
+  }
+
+  h5 {
+    font-weight: bold;
+    margin: 30px 0 30px 15px;
+  }
+
+  h3 {
+    font-weight: bold;
+    color: black;
+  }
+
+  .form-group {
+    p {
+      padding: 13px 13px 13px 0;
+      color: black;
+      font-size: 16px;
+    }
+  }
+
+  .account {
+    display: flex;
+    margin: 20px;
+
+    img {
+      width: 50px;
+    }
+
+    p {
+      margin: 15px 30px;
+    }
+  }
+
+  .submit-btns {
+    width: 905px;
+    display: flex;
+    justify-content: flex-end;
+  }
+
+  button:disabled {
+    background-color: var(--ubs-primary-grey);
+    border: 1px solid var(--ubs-primary-grey);
+    color: var(--ubs-primary-white);
+  }
+
+  .ubs_profile-footer {
+    width: 905px;
+
+    .footer-text {
+      margin: 20px;
+    }
+
+    .footer-btns {
+      display: flex;
+      justify-content: flex-start;
+      box-shadow: 0 14px 28px rgba(0, 0, 0, 0.25);
+    }
+  }
+}
+
+@media (max-width: 1439px) {
+  .ubs_profile-container {
+    max-width: 800px;
+  }
+}
+
+@media (max-width: 992px) {
+  .ubs_profile-container {
+    max-width: 600px;
+  }
+}

@@ -1,0 +1,56 @@
+<div class="search_total_wr">
+  <div class="research">
+    <div class="search-input"><input type="text" placeholder="Search" (keyup)="applyFilter($event.target.value)" /></div>
+    <div class="search-icon"><i class="fa fa-search" aria-hidden="true"></i></div>
+  </div>
+  <div>Total customers: {{ totalElements }}</div>
+</div>
+<div class="btn-group">
+  <button type="button" class="btn btn-default" class="export-excel-btn" (click)="openExportExcel()">
+    {{ 'ubs-tables.export-to-excel' | translate }}
+  </button>
+</div>
+
+<div
+  id="table-container"
+  class="scrolling"
+  infiniteScroll
+  [infiniteScrollDistance]="0"
+  [infiniteScrollThrottle]="100"
+  (scrolled)="onScroll()"
+  [scrollWindow]="false"
+>
+  <mat-table [dataSource]="dataSource" id="table" class="customers_table" cdkDropListGroup>
+    <ng-container *ngFor="let column of columns; let i = index" [matColumnDef]="column.title.key">
+      <mat-header-cell *matHeaderCellDef (mousedown)="onResizeColumn($event, i)">
+        <div class="column_header">
+          <span class="column-title">{{ column.title | serverTranslate: currentLang }}</span>
+          <span *ngIf="!nonSortableColumns.includes(column.title.key)">
+            <mat-icon *ngIf="arrowDirection !== column.title.key" (click)="getSortingData(column.title.key, 'asc')">
+              arrow_downward
+            </mat-icon>
+            <mat-icon *ngIf="arrowDirection === column.title.key" (click)="getSortingData(column.title.key, 'desc')">
+              arrow_upward
+            </mat-icon>
+          </span>
+        </div>
+      </mat-header-cell>
+      <mat-cell *matCellDef="let row">
+        <div
+          class="column_cell"
+          [matTooltip]="row[column.title.key]"
+          matTooltipShowDelay="700"
+          matTooltipClass="tooltip_style"
+          [class.pointer]="column.title.key === 'clientName'"
+          (click)="column.title.key === 'clientName' && openCustomer(row, row[column.title.key])"
+        >
+          {{ row[column.title.key] }}
+        </div>
+      </mat-cell>
+    </ng-container>
+
+    <mat-header-row *matHeaderRowDef="displayedColumns; sticky: true" class="tableHeaderRow"></mat-header-row>
+    <mat-row *matRowDef="let row; columns: displayedColumns"></mat-row>
+  </mat-table>
+  <app-spinner *ngIf="isLoading || isUpdate"></app-spinner>
+</div>

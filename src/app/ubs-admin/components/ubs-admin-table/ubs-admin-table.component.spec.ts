@@ -2,11 +2,16 @@ import { DragDropModule } from '@angular/cdk/drag-drop';
 import { CdkTableModule } from '@angular/cdk/table';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
-import { MatCheckboxModule, MatIconModule, MatPaginatorModule, MatTableModule } from '@angular/material';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { SharedModule } from 'src/app/shared/shared.module';
 import { UbsAdminTableComponent } from './ubs-admin-table.component';
 import { InfiniteScrollModule } from 'ngx-infinite-scroll';
+import { MatIconModule } from '@angular/material/icon';
+import { MatPaginatorModule } from '@angular/material/paginator';
+import { MatTableModule } from '@angular/material/table';
+import { MatCheckboxModule } from '@angular/material/checkbox';
+import { TranslateModule } from '@ngx-translate/core';
+import { RouterTestingModule } from '@angular/router/testing';
 
 describe('UsbAdminTableComponent', () => {
   let component: UbsAdminTableComponent;
@@ -15,6 +20,7 @@ describe('UsbAdminTableComponent', () => {
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       imports: [
+        RouterTestingModule,
         MatIconModule,
         MatPaginatorModule,
         MatTableModule,
@@ -24,7 +30,8 @@ describe('UsbAdminTableComponent', () => {
         MatCheckboxModule,
         BrowserAnimationsModule,
         SharedModule,
-        InfiniteScrollModule
+        InfiniteScrollModule,
+        TranslateModule.forRoot()
       ],
       declarations: [UbsAdminTableComponent]
     }).compileComponents();

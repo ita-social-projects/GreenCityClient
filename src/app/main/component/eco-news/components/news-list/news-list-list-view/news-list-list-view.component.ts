@@ -1,6 +1,7 @@
 import { ecoNewsIcons } from './../../../../../image-pathes/profile-icons';
 import { Component, Input, ViewChild, ElementRef, Renderer2, AfterViewChecked, ChangeDetectionStrategy } from '@angular/core';
 import { EcoNewsModel } from '@eco-news-models/eco-news-model';
+import { TranslateService } from '@ngx-translate/core';
 
 import { possibleDescHeight, possibleTitleHeight } from './breakpoints';
 
@@ -22,7 +23,7 @@ export class NewsListListViewComponent implements AfterViewChecked {
   public profileIcons = ecoNewsIcons;
   public newsImage: string;
 
-  constructor(private renderer: Renderer2) {}
+  constructor(private renderer: Renderer2, public translate: TranslateService) {}
 
   ngAfterViewChecked() {
     this.checkHeightOfTittle();
@@ -41,9 +42,9 @@ export class NewsListListViewComponent implements AfterViewChecked {
 
   public checkNewsImage(): string {
     this.newsImage =
-    this.ecoNewsModel.imagePath && this.ecoNewsModel.imagePath !== ' '
-      ? this.ecoNewsModel.imagePath
-      : this.profileIcons.newsDefaultPictureList;
+      this.ecoNewsModel.imagePath && this.ecoNewsModel.imagePath !== ' '
+        ? this.ecoNewsModel.imagePath
+        : this.profileIcons.newsDefaultPictureList;
     return this.newsImage;
   }
 
@@ -55,15 +56,13 @@ export class NewsListListViewComponent implements AfterViewChecked {
     const result = possibleDescHeight[this.getDomWidth()][titleHeight];
     const smallTitleHeight = titleHeight > 26 ? 'two-row' : 'tree-row';
     const midTitleHeught = titleHeight > 52 ? 'one-row' : smallTitleHeight;
-    const largeTitleheight = titleHeight > 78 ? 'd-none' : midTitleHeught;
-    return result ? result : largeTitleheight;
+    return result ? result : midTitleHeught;
   }
 
   private getHeightOfTitle(titleHeight: number): string {
     const result = possibleTitleHeight[this.getDomWidth()][titleHeight];
     const smallTitleHeight = titleHeight > 26 ? 'two-row' : 'one-row';
     const midTitleHeught = titleHeight > 52 ? 'tree-row' : smallTitleHeight;
-    const largeTitleheight = titleHeight > 78 ? 'four-row' : midTitleHeught;
-    return result ? result : largeTitleheight;
+    return result ? result : midTitleHeught;
   }
 }

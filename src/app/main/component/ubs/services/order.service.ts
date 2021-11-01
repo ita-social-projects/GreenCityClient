@@ -1,7 +1,8 @@
-import { Address } from './../models/ubs.interface';
+import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
+import { Address, Locations } from './../models/ubs.interface';
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { BehaviorSubject, Observable } from 'rxjs';
+import { BehaviorSubject, Observable, Subject } from 'rxjs';
 import { tap } from 'rxjs/operators';
 import { ICertificate, OrderDetails } from '../models/ubs.interface';
 import { Order } from '../models/ubs.model';
@@ -12,19 +13,31 @@ import { UBSOrderFormService } from './ubs-order-form.service';
 })
 export class OrderService {
   private readonly orderSubject = new BehaviorSubject<Order>({} as Order);
-
   private url = 'https://greencity-ubs.azurewebsites.net/ubs';
+  locationSubject = new Subject();
 
-  constructor(private http: HttpClient, private shareFormService: UBSOrderFormService) {}
+  constructor(private http: HttpClient, private shareFormService: UBSOrderFormService, private localStorageService: LocalStorageService) {}
 
-  getOrders(lang): Observable<OrderDetails> {
-    return this.http
-      .get<OrderDetails>(`${this.url}/order-details?lang=${lang}`)
-      .pipe(tap((orderDetails) => (this.shareFormService.orderDetails = orderDetails)));
+  getOrders(): Observable<any> {
+    const ubsOrderData = this.localStorageService.getUbsOrderData();
+    if (ubsOrderData) {
+      const observable = new Observable((observer) => observer.next(ubsOrderData));
+      return observable.pipe(tap((orderDetails) => (this.shareFormService.orderDetails = orderDetails)));
+    } else {
+      return this.http
+        .get<OrderDetails>(`${this.url}/order-details`)
+        .pipe(tap((orderDetails) => (this.shareFormService.orderDetails = orderDetails)));
+    }
   }
 
   getPersonalData(): Observable<any> {
-    return this.http.get(`${this.url}/personal-data`).pipe(tap((personalData) => (this.shareFormService.personalData = personalData[0])));
+    const ubsPersonalData = this.localStorageService.getUbsPersonalData();
+    if (ubsPersonalData) {
+      const observable = new Observable((observer) => observer.next(ubsPersonalData));
+      return observable.pipe(tap((personalData) => (this.shareFormService.personalData = personalData)));
+    } else {
+      return this.http.get(`${this.url}/personal-data`).pipe(tap((personalData) => (this.shareFormService.personalData = personalData)));
+    }
   }
 
   processOrder(order: Order): Observable<Order> {
@@ -54,5 +67,30 @@ export class OrderService {
 
   getOrderUrl(): Observable<Order> {
     return this.processOrder(this.orderSubject.getValue());
+  }
+
+  getLocations(): Observable<Locations> {
+    return this.http.get<Locations>(`${this.url}/order/get-locations`);
+  }
+
+  addLocation(location): Observable<any> {
+    return this.http.post(`${this.url}/order/get-locations`, location);
+  }
+
+  completedLocation(completed: boolean) {
+    this.locationSubject.next(completed);
+  }
+
+  processLiqPayOrder(order: Order): Observable<Order> {
+    return this.http.post<Order>(`${this.url}/processLiqPayOrder`, order, { responseType: 'text' as 'json' });
+  }
+
+  getLiqPayForm(): Observable<Order> {
+    return this.processLiqPayOrder(this.orderSubject.getValue());
+  }
+
+  getOrderFromNotification(orderId: number) {
+    const lang = localStorage.getItem('language') === 'ua' ? 1 : 2;
+    return this.http.get(`${this.url}/client/get-data-for-order-surcharge/${orderId}/${lang}`);
   }
 }

@@ -4,7 +4,8 @@ import { TranslateService } from '@ngx-translate/core';
 import { LanguageService } from 'src/app/main/i18n/language.service';
 import { HabitAssignService } from '@global-service/habit-assign/habit-assign.service';
 import { CalendarInterface } from './calendar-interface';
-import { MatDialog } from '@angular/material';
+import { MatDialog } from '@angular/material/dialog';
+import { UpdateHabitsService } from '@global-user/services/update-habits.service';
 
 @Component({
   selector: 'app-calendar',
@@ -16,9 +17,10 @@ export class CalendarComponent extends CalendarBaseComponent implements OnInit, 
     public translate: TranslateService,
     public languageService: LanguageService,
     public habitAssignService: HabitAssignService,
+    public updateHabitsService: UpdateHabitsService,
     public dialog: MatDialog
   ) {
-    super(translate, languageService, habitAssignService, dialog);
+    super(translate, languageService, habitAssignService, updateHabitsService, dialog);
   }
 
   ngOnInit() {

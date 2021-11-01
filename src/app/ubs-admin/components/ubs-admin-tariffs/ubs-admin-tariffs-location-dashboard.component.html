@@ -1,0 +1,36 @@
+<div class="locations">
+  <div class="active-locations">
+    <div class="header">
+      <h4>Активовані локації</h4>
+    </div>
+    <div class="city">
+      <ul *ngFor="let location of locations | filterByLang">
+        <div class="city1">
+          <li (click)="page(location)">{{ location.name }}</li>
+          <img [src]="icons.cross" class="delete-button-img" alt="edit-icon" (click)="deactivateLocation(location)" />
+        </div>
+      </ul>
+    </div>
+  </div>
+  <div class="disabled-locations">
+    <div class="header">
+      <h4>Деактивовані локації</h4>
+    </div>
+    <div class="city">
+      <ul *ngFor="let location of disabledLocations | filterByLang">
+        <div class="city1">
+          <li>{{ location.name }}</li>
+          <img [src]="icons.cross" class="delete-button-img" alt="edit-icon" (click)="activateLocation(location)" />
+        </div>
+      </ul>
+    </div>
+  </div>
+</div>
+<div class="couriers">
+  <div class="header">
+    <h4>Курєри</h4>
+  </div>
+  <ul *ngFor="let courier of couriers">
+    <li>{{ courier.name }}</li>
+  </ul>
+</div>

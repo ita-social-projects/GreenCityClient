@@ -1,0 +1,62 @@
+<div class="main-block-wrapper container">
+  <div class="search-bar-wrapper">
+    <div class="container search_bar-container">
+      <img class="search_search-icon" [src]="searchIcons.search" alt="search icon" aria-hidden="true" />
+      <input
+        id="search-input"
+        class="search_search-field"
+        type="text"
+        [(ngModel)]="inputValue"
+        placeholder="{{ 'search.search-all-results.placeholder' | translate }}"
+      />
+    </div>
+  </div>
+  <div class="search_action-wrp">
+    <div class="remaining-items" *ngIf="!isLoading">{{ itemsFound }} {{ 'search.search-all-results.items-found' | translate }}</div>
+    <div class="search_action-container" *ngIf="itemsFound && !isLoading">
+      <!-- filtering -->
+      <div class="search_filter-by">
+        <span class="search_font-styles">{{ 'search.search-all-results.filter' | translate }}</span>
+        <div
+          *ngFor="let item of filterByItems"
+          (click)="onFilterByClick(item)"
+          [ngClass]="{ 'global-tag-clicked': item.category === searchCategory, 'global-tag': true }"
+        >
+          {{ 'search.search-all-results.' + item.name | translate }}
+          <div [ngClass]="{ 'global-tag-close-icon': item.category === searchCategory }"></div>
+        </div>
+      </div>
+      <!-- sorting -->
+      <div class="dropdown sort-items">
+        <span class="search_font-styles">{{ 'search.search-all-results.sort' | translate }}</span>
+        <button
+          class="dropdown-toggle search_font-styles"
+          type="menu"
+          id="dropdownMenuButton"
+          data-toggle="dropdown"
+          aria-haspopup="true"
+          aria-expanded="false"
+        >
+          {{ sortTypesLocalization[0] | translate }}
+          <img class="arrow" [src]="searchIcons.arrowDown" alt="arrow icon" aria-hidden="true" />
+        </button>
+        <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+          <a class="dropdown-item search_font-styles" tabindex="0" (click)="changeCurrentSorting(1)">
+            {{ sortTypesLocalization[1] | translate }}
+          </a>
+          <a class="dropdown-item search_font-styles" tabindex="0" (click)="changeCurrentSorting(2)">
+            {{ sortTypesLocalization[2] | translate }}
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="list-search-items" *ngIf="displayedElements.length > 0">
+    <app-search-item *ngFor="let element of displayedElements" [searchModel]="element" class="search-item"></app-search-item>
+  </div>
+  <app-search-not-found *ngIf="itemsFound === 0 && !isLoading" [inputValue]="inputValue"></app-search-not-found>
+</div>
+<ng-container *ngIf="isSearchFound">
+  <div infiniteScroll [infiniteScrollDistance]="0" [infiniteScrollThrottle]="500" (scrolled)="onScroll()"></div>
+</ng-container>
+<app-spinner *ngIf="isLoading"></app-spinner>

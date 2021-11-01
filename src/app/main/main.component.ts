@@ -8,7 +8,7 @@ import { UserService } from '@global-service/user/user.service';
 @Component({
   selector: 'app-main',
   templateUrl: './main.component.html',
-  styleUrls: ['./main.component.scss'],
+  styleUrls: ['./main.component.scss']
 })
 export class MainComponent implements OnInit {
   public toggle: boolean;
@@ -19,7 +19,7 @@ export class MainComponent implements OnInit {
     private router: Router,
     private uiActionsService: UiActionsService,
     private userService: UserService
-  ) { }
+  ) {}
 
   @ViewChild('focusFirst', { static: true }) focusFirst: ElementRef;
   @ViewChild('focusLast', { static: true }) focusLast: ElementRef;

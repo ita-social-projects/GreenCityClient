@@ -1,16 +1,19 @@
 .sidebar {
-  height: 100vh;
-
   .sidebar-container {
     margin-left: 25px;
     width: calc(100% - 50px);
   }
 
   .sidebar-slider {
-    margin-top: 52px;
     position: fixed;
     background-color: var(--ubs-primary-grey);
+    margin-top: 83px;
   }
+}
+
+.main-content {
+  margin-top: 120px;
+  overflow-x: hidden;
 }
 
 .sidebar-list {
@@ -20,39 +23,32 @@
   text-align: center;
 
   .sidebar-list-item {
-    padding-left: 0.75em;
     display: flex;
     align-items: center;
-    line-height: 1.5em;
-    font-style: normal;
-    font-weight: normal;
+    column-gap: 20px;
     cursor: pointer;
-    color: var(--ubs-primary-white);
-    font-family: var(--primary-font);
-    margin-top: 30px;
+    padding: 15px 100px 15px 20px;
 
     &:hover,
     &:focus {
       background-color: var(--ubs-secondary-grey);
     }
-
-    .sidebar-list-item-link {
-      margin: 0 4.4em 0 1.2em;
-      font-size: 0.9em;
-    }
-
-    .sidebar-list-item-icon {
-      height: 1.6em;
-      font-size: 1.1em;
-    }
   }
+}
+
+.sidebar-list-item-link {
+  color: var(--ubs-primary-white);
+  font-family: var(--primary-font);
+  font-size: 16px;
+  line-height: 1.5em;
+  text-decoration: none;
 }
 
 .sidebar-icons {
   position: fixed;
   width: 3.7em;
   height: 100vh;
-  margin-top: 52px;
+  margin-top: 80px;
   background-color: var(--ubs-primary-grey);
   -webkit-user-select: none;
   -moz-user-select: none;
@@ -64,7 +60,6 @@
   width: 25px;
   height: 25px;
   border-radius: 50%;
-  border-style: solid;
   border: 1px solid var(--ubs-primary-green);
   float: right;
   background-color: var(--ubs-primary-grey);
@@ -79,4 +74,9 @@
 
 .arrow {
   width: 15px;
+}
+
+.count-unread-messages {
+  color: var(--ubs-primary-white);
+  margin: 0 -25px 0 -10px;
 }

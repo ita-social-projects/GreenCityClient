@@ -10,13 +10,17 @@ export class UBSInputErrorComponent implements OnChanges {
   @Input() public formElement: FormControl;
   @Input() public certificateFieldValue: string;
   @Input() public firstNameFieldValue: string;
+  @Input() public anotherClientFirstNameFieldValue: string;
   @Input() public lastNameFieldValue: string;
+  @Input() public anotherClientLastNameFieldValue: string;
   @Input() public emailFieldValue: string;
+  @Input() public anotherClientEmailFieldValue: string;
   @Input() public phoneNumberFieldValue: string;
+  @Input() public anotherClientPhoneNumberFieldValue: string;
   @Input() public streetFieldValue: string;
   @Input() public houseNumberFieldValue: string;
 
-  public errorMessage;
+  public errorMessage: string | undefined;
   private validationErrors = {
     email: 'input-error.email-wrong',
     minlength: 'input-error.minlength-short',

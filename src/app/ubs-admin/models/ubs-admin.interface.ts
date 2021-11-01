@@ -152,3 +152,13 @@ export interface Address {
   id: number;
   street: string;
 }
+
+export interface DialogData {
+  button: 'add' | 'update';
+}
+
+export interface CreateCertificate {
+  code: string;
+  monthCount: number;
+  points: number;
+}

@@ -28,7 +28,7 @@
     "delete-title": "Delete profile",
     "delete-message": "If you delete your profile, your bonuses will burn out and your order information will be deleted without the possibility of recovery",
     "btn": {
-      "edit": "Edit",
+      "edit": "Edit data",
       "cancel": "Discard changes",
       "save": "Save changes",
       "change-password": "Change password",
@@ -58,6 +58,22 @@
     "info-about-date": "Added:"
   },
   "order-edit": {
+    "order-status": {
+      "formed": "Formed",
+      "adjustment": "Adjustment",
+      "brought-it-himself": "Brought it himself",
+      "confirmed": "Confirmed",
+      "on-the-route": "On the route",
+      "done": "Done",
+      "not-taken-out": "Not taken out",
+      "cancelled": "Cancelled"
+    },
+    "payment-status": {
+      "paid": "Paid",
+      "not-paid": "Not paid",
+      "half-paid": "Half paid",
+      "payment-refunded": "Payment refunded"
+    },
     "need-to-pay": "Need to pay extra ",
     "status": {
       "title": "Order",
@@ -65,23 +81,22 @@
       "label": "Order status ",
       "label-approve": "Payment status ",
       "order-label": "Order status ",
-      "payment-label": "Payment status ",
-      "approve-status": {
-        "approved": "Approved",
-        "not-approved": "Not approved"
-      },
-      "payment-status": {
-        "paid": "Paid",
-        "not-paid": "Not paid"
-      }
+      "payment-label": "Payment status "
     },
     "comment": {
-      "label": "Comment",
+      "label": "Administrator comment",
       "placeholder": "Any details you would like to report additionally regarding this order"
+    },
+    "btn": {
+      "back": "Back",
+      "cancel": "Cancel",
+      "save": "Save"
     }
   },
   "address-details": {
     "title": "Waste export address",
+    "district": "District",
+    "settlement": "Settlement",
     "street": "Street",
     "comment-label": "Comment to the address from the client",
     "comment-placeholder": "Any details you would like to report additionally regarding this order",
@@ -95,20 +110,24 @@
     "customer": {
       "title": "Customer",
       "name-label": "Name",
-      "name-placeholder": "Placeholder",
+      "surname-label": "Surname",
+      "name-placeholder": "Name",
+      "surname-placeholder": "Surname",
       "tel-label": "Phone",
-      "tel-placeholder": "Placeholder",
+      "tel-placeholder": "+380 00 000 00 00",
       "email-label": "Email",
-      "email-placeholder": "Placeholder"
+      "email-placeholder": "mail@mail.com"
     },
     "recipient": {
       "title": "Recipient",
       "name-label": "Name",
-      "name-placeholder": "Placeholder",
+      "surname-label": "Surname",
+      "name-placeholder": "Name",
+      "surname-placeholder": "Surname",
       "tel-label": "Phone",
-      "tel-placeholder": "Placeholder",
+      "tel-placeholder": "+380 00 000 00 00",
       "email-label": "Email",
-      "email-placeholder": "Placeholder"
+      "email-placeholder": "mail@mail.com"
     },
     "violation": {
       "title": "Customer violations",
@@ -116,6 +135,20 @@
       "current-order": "Current violation",
       "button": "Add violation"
     }
+  },
+  "customer-details": {
+    "data": "Customer Data",
+    "personal": "Personal",
+    "name": "Name",
+    "contacts": "Contacts",
+    "email": "Email",
+    "phone": "Phone",
+    "additionalInfo": "Additional information",
+    "number_of_orders": "Number of orders",
+    "orderDate": "Date of order",
+    "violations": "Violations",
+    "dateOfRegistration": "Date of registration",
+    "goBack": "Back"
   },
   "order-details": {
     "title": "Order details",
@@ -140,6 +173,15 @@
     },
     "send-button": "Send message"
   },
+  "export-excel-popup": {
+    "buttons": {
+      "next": "Next",
+      "cancel": "Cancel"
+    },
+    "select-data": "Select data for the export",
+    "current": "Save current view",
+    "all": "Save all table (It will take some time)"
+  },
   "order-payment": {
     "title": "Order payment",
     "order-size": "The order is executed in the amount of",
@@ -148,6 +190,12 @@
     "payment-id": "Payment ID",
     "sum": "Amount",
     "comment-bill": "Comment/Bill"
+  },
+  "ubs-tables": {
+    "export-to-excel": "Export to Excel",
+    "table-view": "Table view",
+    "add-certificate": "Add certificate",
+    "all-elements": "Display all columns"
   },
   "export-details": {
     "title": "Export details",
@@ -172,5 +220,178 @@
     "question": "If you go back, the changes will be lost. Do you really want to cancel the changes?",
     "disagree": "No",
     "agree": "Yes"
+  },
+  "bonuses": {
+    "no-bonuses": "You don't have accrued bonuses yet.",
+    "get-bonuses": "Find out what bonuses are accrued for",
+    "title": "Bonuses",
+    "about-bonuses-system": "About the bonus system",
+    "enrollment-date": "Date of enrollment",
+    "amount": "Amount",
+    "reason": "Reason",
+    "order": "Order"
+  },
+  "user-orders": {
+    "no-orders": "You haven't made any orders with us yet.",
+    "make-order": "Make an order",
+    "order-title": "Your orders",
+    "current-orders": "Current orders",
+    "order-history": "Order history",
+    "order-number": "Order №",
+    "order-status": "Status",
+    "payment-amount": "Payment amount",
+    "btn": {
+      "cancel": "Cancel",
+      "pay": "Pay",
+      "order-again": "Order again"
+    },
+    "details": {
+      "title": "Order details",
+      "services": "Services",
+      "volume": "Volume",
+      "cost": "Cost",
+      "bags-amount": "Quantity of bags",
+      "sum": "Sum",
+      "currency": "UAH",
+      "litr": "l",
+      "pieces": "pc.",
+      "order-sum": "Order amount:",
+      "certificate": "Certificate:",
+      "bonuses": "Bonuses:",
+      "amount-due": "Amount due:",
+      "services-amount": "Amount of services provided:",
+      "delivery": "Delivery from the Eco store",
+      "order-number": "Numbers of your orders:",
+      "recipient": "Recipient",
+      "export-address": "The address of export of the ordered services",
+      "comment": "Comment:",
+      "receipt": "Download the receipt"
+    }
+  },
+  "employees": {
+    "title": "Employees",
+    "add-employee": "Add employee",
+    "required-fields": "*Required-fields",
+    "name": "First name*",
+    "name-placeholder": "First name",
+    "surname": "Last name*",
+    "surname-placeholder": "Last name",
+    "phone-number": "Phone number*",
+    "position": "Position*",
+    "receiving-station": "Receiving station*",
+    "photo": "Photo",
+    "drag-photo": "Drag the image or",
+    "download-photo": "download from the device",
+    "btn": {
+      "cancel": "Cancel",
+      "add": "Add",
+      "add-employee": "Add employee",
+      "edit": "Edit",
+      "delete": "Delete"
+    }
+  },
+  "ubs-sidebar": {
+    "customers": "Customers",
+    "certificates": "Certificates",
+    "orders": "Orders",
+    "employees": "Employees",
+    "documents": "Documents",
+    "schedule": "Schedule",
+    "bonuses": "Bonuses",
+    "tariffs": "Tariffs"
+  },
+  "ubs-employee": {
+    "add-employee": "Add employee",
+    "required-fields": "*Required fields",
+    "name": "Name*",
+    "surname": "Surname*",
+    "phone-number": "Phone number*",
+    "email": "Email",
+    "position": "Position*",
+    "receiving-station": "Receiving station*",
+    "image-input": "Image",
+    "picture-description-1": "Drop your",
+    "picture-description-2": "image here or",
+    "browse-1": "upload from",
+    "browse-2": "your device",
+    "add": "Add",
+    "cancel": "Cancel",
+    "update": "Update"
+  },
+  "ubs-user": {
+    "orders": "Orders",
+    "invoice": "Invoice",
+    "user_data": "User data",
+    "messages": "Messages"
+  },
+  "ubs-tariffs": {
+    "services": "Services",
+    "name_of_the_service": "Name of the service",
+    "capacity": "Capacity",
+    "service_description": "Service description",
+    "basic_cost": "Basic cost",
+    "carriers_commission": "Сarrier commission",
+    "full_cost": "Full cost",
+    "tariffs_for_services": "Tariffs for services",
+    "order_limits": "Order limits",
+    "min_order_amount": "Minimum order amount from",
+    "to": "to",
+    "min_number_of_packages": "Minimum number of packages from",
+    "min_set_of_packages": "Minimum set of packages",
+    "info_about_order_limits_header": "Information about order limits",
+    "safe_waste": "Safe waste",
+    "textile_waste": "Textile waste",
+    "info_about_order_limits": "Information about order limits",
+    "placeholder_order_limits_info": "Information about order limits, which will be displayed in the order form",
+    "btn": {
+      "add_service": "Add service",
+      "add_service2": "Add service",
+      "save_changes": "Save changes",
+      "add_carrier": "Add carrier"
+    }
+  },
+  "ubs-tariffs-add-service": {
+    "add_service": "Add service",
+    "edit_service": "Edit service",
+    "name_of_the_service": "Name of the service",
+    "placeholder-service": "Enter a name for the service",
+    "capacity": "Capacity",
+    "basic_cost": "Basic cost",
+    "commission": "Сommission",
+    "full_cost": "Full cost",
+    "service_description": "Service description",
+    "placeholder-text": "Describe what exactly is included in the service and the conditions / rules of its provision",
+    "error_message": "Fill in the selected fields",
+    "btn": {
+      "add": "Add",
+      "cancel": "Cancel",
+      "save": "Save"
+    }
+  },
+  "ubs-user-notification": {
+    "title": "Your messages",
+    "title-table": {
+      "number": "№ order",
+      "theme-messages": "Theme messages",
+      "time": "Time"
+    }
+  },
+  "ubs-tariffs-delete-service": {
+    "delete_question": "Delete this line?",
+    "yes": "yes",
+    "no": "no"
+  },
+  "user": {
+    "lower-nav-bar": {
+      "about-us": "About-us",
+      "sorting-rules": "Sorting rules",
+      "eco-shop": "Eco-Shop"
+    }
+  },
+  "nav-bar": {
+    "user-settings": "Settings",
+    "sign-out": "Sign out",
+    "sign-in": "Sign in",
+    "management": "Management"
   }
 }

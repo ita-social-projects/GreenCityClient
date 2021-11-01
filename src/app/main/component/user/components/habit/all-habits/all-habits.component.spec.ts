@@ -123,7 +123,7 @@ describe('AllHabitsComponent', () => {
 
   const userData = {
     city: 'string',
-    firstName: 'string',
+    name: 'string',
     userCredo: 'string',
     profilePicturePath: 'string;',
     rating: null,
@@ -169,9 +169,9 @@ describe('AllHabitsComponent', () => {
     expect(component).toBeTruthy();
   });
 
-//   it('should get userId', () => {
-//     expect(localStorageServiceMock.userIdBehaviourSubject.value).toBe(1111);
-//   });
+  //   it('should get userId', () => {
+  //     expect(localStorageServiceMock.userIdBehaviourSubject.value).toBe(1111);
+  //   });
 
   it('Should change view mode', () => {
     component.onDisplayModeChange(false);

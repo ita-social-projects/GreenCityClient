@@ -4,6 +4,7 @@ export interface Bag {
   capacity?: number;
   price?: number;
   quantity?: number;
+  code?: string;
 }
 
 export interface OrderBag {
@@ -12,6 +13,20 @@ export interface OrderBag {
 }
 
 export interface OrderDetails {
+  bags?: Bag[];
+  points: number;
+  pointsToUse?: number;
+  certificates?: any;
+  additionalOrders?: any;
+  orderComment?: string;
+  certificatesSum?: number;
+  pointsSum?: number;
+  total?: number;
+  finalSum?: number;
+  minAmountOfBigBags?: number;
+}
+
+export interface OrderDetailsNotification {
   bags: Bag[];
   points: number;
   pointsToUse?: number;
@@ -22,6 +37,24 @@ export interface OrderDetails {
   pointsSum?: number;
   total?: number;
   finalSum?: number;
+  minAmountOfBigBags?: number;
+}
+
+export interface OrderDetailsNotification {
+  bags: Bag[];
+  addressComment?: string;
+  orderBonusDiscount?: number;
+  orderCertificateTotalDiscount?: number;
+  orderFullPrice?: number;
+  orderDiscountedPrice?: number;
+  amountOfBagsOrdered?: number;
+  recipientName?: string;
+  recipientSurname?: string;
+  recipientEmail?: string;
+  recipientPhone?: string;
+  addressCity?: string;
+  addressStreet?: string;
+  addressDistrict?: string;
 }
 
 export interface FinalOrder {
@@ -41,18 +74,22 @@ export interface ICertificate {
 }
 
 export interface PersonalData {
-  id: number;
+  id?: number;
   firstName: string;
   lastName: string;
   email: string;
   phoneNumber: string;
+  anotherClientFirstName?: string;
+  anotherClientLastName?: string;
+  anotherClientEmail?: string;
+  anotherClientPhoneNumber?: string;
   addressComment: string;
   city: string;
   district: string;
-  street: string;
-  houseCorpus: string;
-  entranceNumber: string;
-  houseNumber: string;
+  street?: string;
+  houseCorpus?: string;
+  entranceNumber?: string;
+  houseNumber?: string;
   longitude?: number;
   latitude?: number;
 }
@@ -66,6 +103,13 @@ export interface Address {
   houseCorpus: string;
   entranceNumber: string;
   houseNumber: string;
+  addressComment?: string;
   longitude?: number;
   latitude?: number;
+}
+
+export interface Locations {
+  id: number;
+  name: string;
+  languageCode: string;
 }

@@ -1,0 +1,352 @@
+@mixin height-and-width($height, $width) {
+  height: $height;
+  width: $width;
+}
+
+.ubsHomepage {
+  vertical-align: top;
+  max-width: 1920px;
+  margin: 0 auto;
+  color: var(--ubs-primary-grey);
+  font-family: var(--primary-font);
+  font-style: normal;
+  font-weight: normal;
+}
+
+h1 {
+  font-stretch: normal;
+  font-style: normal;
+  font-weight: bold;
+  line-height: 2;
+  text-align: center;
+  margin-bottom: 25px;
+}
+
+h2 {
+  font-weight: bold;
+  font-size: 24px;
+  line-height: 32px;
+  margin: 25px auto;
+}
+
+.button {
+  @include height-and-width(44px, 200px);
+
+  font-size: 18px;
+  background-color: var(--ubs-button-light-green);
+  color: var(--ubs-tertiary-dark-grey);
+  margin-top: 25px;
+}
+
+p {
+  margin: 0;
+}
+
+.price-header {
+  font-weight: bold;
+  font-size: 30px;
+  line-height: 44px;
+  text-align: center;
+  margin: 10px;
+}
+
+.header {
+  height: 559px;
+}
+
+.header-left {
+  display: inline-block;
+  max-width: 51%;
+  vertical-align: top;
+}
+
+.header-right {
+  display: inline-block;
+  width: 49%;
+}
+
+.ubs-image {
+  display: block;
+  outline: 0;
+  max-width: 100%;
+  height: auto;
+  margin: 20px auto 10px 0;
+  float: left;
+}
+
+.ubs-polygon {
+  display: block;
+  margin: 10px auto 65px;
+}
+
+.section-header {
+  margin: 85px auto 20px;
+  text-align: center;
+  font-size: 18px;
+  max-width: 665px;
+  line-height: 28px;
+  font-weight: bold;
+}
+
+ul li {
+  margin: 8px 25px 8px 5px;
+  list-style-type: square;
+  color: var(--ubs-primary-grey);
+  font-style: normal;
+  font-size: 16px;
+  line-height: 24px;
+  list-style-position: outside;
+}
+
+ul {
+  padding-left: 20px;
+}
+
+::marker {
+  font-size: 24px;
+  padding-left: 0;
+}
+
+.bold {
+  font-weight: bold;
+}
+
+#price-frame {
+  @include height-and-width(291px, 185px);
+
+  position: relative;
+  text-align: center;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-image: url('src/assets/img/ubs/first_rectangle.png');
+  background-size: 184px 282px;
+}
+
+.ubs-rectangle {
+  @include height-and-width(230px, 79px);
+
+  position: absolute;
+  top: 20px;
+  left: 55px;
+}
+
+.header-price {
+  position: absolute;
+  text-align: center;
+  z-index: 2;
+  font-weight: bold;
+  font-size: 18px;
+  line-height: 28px;
+  align-self: start;
+  margin: 30% 0 10px;
+}
+
+.content-price {
+  position: absolute;
+  text-align: center;
+  z-index: 2;
+  font-size: 16px;
+  line-height: 24px;
+  align-self: start;
+  margin: 50% 25px 10px;
+  padding-top: 10px;
+}
+
+.boxCard {
+  display: flex;
+  flex-wrap: wrap;
+  max-width: 1440px;
+  justify-content: center;
+}
+
+.box {
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: wrap;
+}
+
+#step-order {
+  @include height-and-width(203px, 133px);
+
+  position: relative;
+  display: flex;
+  justify-content: space-between;
+  flex: 1 0 25%;
+  margin: 50px;
+}
+
+.circle {
+  @include height-and-width(30px, 30px);
+
+  position: relative;
+  line-height: 30px;
+  background-color: var(--ubs-tertiary-dark-grey);
+  color: var(--ubs-primary-white);
+  margin: 10px;
+  border-radius: 50%;
+  text-align: center;
+  font-size: 20px;
+}
+
+hr {
+  @include height-and-width(2px, 72px);
+
+  border: none;
+  background-color: var(--ubs-tertiary-light-grey);
+  position: absolute;
+  left: 55px;
+  top: 5px;
+}
+
+.header-step {
+  position: absolute;
+  font-weight: bold;
+  font-size: 18px;
+  line-height: 28px;
+  align-self: start;
+  margin: 30% 10px 10px;
+}
+
+.content-step {
+  position: absolute;
+  font-size: 14px;
+  line-height: 28px;
+  align-self: start;
+  margin: 100px 10px 120px 10px;
+  padding-top: 20px;
+  width: 160px;
+}
+
+#how-works {
+  margin: 50px auto;
+}
+
+#header-how-works {
+  font-size: 36px;
+  font-weight: bold;
+  line-height: 44px;
+  margin-bottom: 25px;
+}
+
+.time-how {
+  font-size: 18px;
+  font-weight: bold;
+  margin: 1px 25px 1px auto;
+}
+
+#how-works-content {
+  margin: 15px 10px 15px 0;
+}
+
+@media screen and (min-width: 770px) {
+  #step-order {
+    height: 250px;
+    margin: 50px auto;
+  }
+
+  #price-frame {
+    @include height-and-width(228px, 250px);
+
+    background-size: 250px 228px;
+  }
+
+  .ubs-rectangle {
+    @include height-and-width(189px, 108px);
+
+    top: 15px;
+    left: 75px;
+  }
+
+  .header-price {
+    margin-top: 50px;
+  }
+
+  .content-price {
+    margin: 80px 40px 10px;
+  }
+}
+
+@media screen and (max-width: 770px) {
+  .how-preparing {
+    .header-left {
+      display: block;
+      max-width: 51%;
+    }
+
+    .header-right {
+      display: block;
+      width: auto;
+    }
+  }
+}
+
+@media screen and (min-width: 1024px) {
+  .ubsHomepage {
+    margin: auto 12%;
+  }
+
+  #price-frame {
+    @include height-and-width(178px, 310px);
+
+    background-size: 310px 187px;
+  }
+
+  .ubs-rectangle {
+    @include height-and-width(150px, 163px);
+
+    top: 15px;
+    left: 75px;
+  }
+
+  .header-price {
+    margin-top: 40px;
+  }
+
+  .content-price {
+    margin: 70px 25px 10px;
+  }
+
+  .content-step {
+    margin-top: 110px;
+  }
+}
+
+@media screen and (max-width: 425px) {
+  #price-frame {
+    @include height-and-width(178px, 310px);
+
+    background-size: 310px 187px;
+  }
+
+  .ubs-rectangle {
+    @include height-and-width(150px, 163px);
+
+    top: 15px;
+    left: 75px;
+  }
+
+  .header-price {
+    margin-top: 40px;
+  }
+
+  .content-price {
+    margin: 70px 25px 10px;
+  }
+
+  .header-step {
+    margin-top: 45px;
+  }
+
+  .content-step {
+    margin-top: 110px;
+  }
+
+  .button {
+    width: 90%;
+  }
+
+  .how-preparing .header-left {
+    width: 40%;
+  }
+}

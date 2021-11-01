@@ -11,7 +11,7 @@ describe('UbsAdminEmployeeService', () => {
   );
 
   it('should be created', () => {
-    const service: UbsAdminEmployeeService = TestBed.get(UbsAdminEmployeeService);
+    const service: UbsAdminEmployeeService = TestBed.inject(UbsAdminEmployeeService);
     expect(service).toBeTruthy();
   });
 });

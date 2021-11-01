@@ -1,57 +1,78 @@
-<h1>Додати працівника</h1>
-<form [formGroup]="employeeForm" (ngSubmit)="submit()">
-  <div class="form-group">
-    <h6>*Обов'язкові поля</h6>
-  </div>
-  <div class="form-group">
-    <label for="name">Ім'я*</label>
-    <input formControlName="firstName" placeholder="First name" />
-  </div>
-  <div class="form-group">
-    <label>Прізвище*</label>
-    <input formControlName="lastName" placeholder="Last name" />
-  </div>
-  <div class="form-group">
-    <label>Номер телефону*</label>
-    <input formControlName="phoneNumber" placeholder="+380" />
-  </div>
-  <div class="form-group">
-    <label>Email</label>
-    <input formControlName="email" placeholder="Email" />
-  </div>
-  <label>Посада*</label>
-  <div class="checkbox-section-role">
-    <div *ngFor="let role of roles">
-      <label class="checkbox-label"
-        >{{ role.name }}<input class="checkbox-input" type="checkbox" (change)="onCheckChangeRole({ id: role.id, name: role.name })"
-      /></label>
+<div class="modal-wrapper">
+  <h1 class="popup-title">{{ 'ubs-employee.add-employee' | translate }}</h1>
+  <form [formGroup]="employeeForm" (ngSubmit)="isUpdatingEmployee ? this.updateEmployee() : this.createEmployee()">
+    <div class="fields-note">
+      <h6>{{ 'ubs-employee.required-fields' | translate }}</h6>
     </div>
-  </div>
-  <label>Станція приймання*</label>
-  <div class="checkbox-section-stantion">
-    <div *ngFor="let location of locations">
-      <label class="checkbox-label-station"
-        >{{ location.name
-        }}<input class="checkbox-input" type="checkbox" (change)="onCheckChangeLocation({ id: location.id, name: location.name })"
-      /></label>
+    <div class="form-group">
+      <label class="group-title">{{ 'ubs-employee.name' | translate }}</label>
+      <input formControlName="firstName" />
     </div>
-  </div>
-  <label class="photo-label">Фото</label>
-  <div class="custom-file-upload">
-    <div *ngIf="filePath && filePath !== ''">
-      <img [src]="filePath" [alt]="employeeForm.value.name" />
+    <div class="form-group">
+      <label class="group-title">{{ 'ubs-employee.surname' | translate }}</label>
+      <input formControlName="lastName" />
     </div>
-    <input formControlName="image" class="upload-file" type="file" accept="image/*" (change)="imagePreview($event)" #fileUpload />
-    <div class="image-name" *ngIf="uploaded">
-      <p class="img-text">{{ this.selectedFile.name }}</p>
-      <button class="reset-image" (click)="fileUpload.click()">
-        <img src="../../../../../assets/ubs-employee-form/dismiss.svg" alt="dismiss button" />
+    <div class="form-group">
+      <label class="group-title">{{ 'ubs-employee.phone-number' | translate }}</label>
+      <input formControlName="phoneNumber" placeholder="+380" [imask]="{ mask: phoneMask }" [unmask]="true" />
+    </div>
+    <div class="form-group">
+      <label class="group-title">{{ 'ubs-employee.email' | translate }}</label>
+      <input formControlName="email" />
+    </div>
+    <span class="group-title position-title">{{ 'ubs-employee.position' | translate }}</span>
+    <div class="checkbox-section-role">
+      <div *ngFor="let role of roles" class="checkbox-role" [ngClass]="{ 'active-location': doesIncludeRole(role) }">
+        <label class="checkbox-label">
+          {{ role.name }}
+          <input class="checkbox-input" type="checkbox" (change)="onCheckChangeRole({ id: role.id, name: role.name })"
+        /></label>
+        <img class="checkbox-close-button" src="assets/img/ubs/cross.svg" alt="close" />
+      </div>
+    </div>
+    <span class="group-title station-title">{{ 'ubs-employee.receiving-station' | translate }}</span>
+    <div class="checkbox-section-station">
+      <div class="checkbox-location" *ngFor="let location of locations" [ngClass]="{ 'active-location': doesIncludeLocation(location) }">
+        <label class="checkbox-label-station">
+          {{ location.name }}
+          <input class="checkbox-input" type="checkbox" (change)="onCheckChangeLocation(location)" />
+        </label>
+        <img class="checkbox-close-button" src="assets/img/ubs/cross.svg" alt="close" />
+      </div>
+    </div>
+    <span class="group-title image-title">
+      {{ 'ubs-employee.image-input' | translate }}
+    </span>
+    <div class="image-input" *ngIf="!imageURL || userHasDefaultPhoto; else currentImageBlock" appDrag (files)="filesDropped($event)">
+      <div class="file-input-label">
+        {{ 'ubs-employee.picture-description-1' | translate }}<br />
+        {{ 'ubs-employee.picture-description-2' | translate }}<br />
+        <label for="file-input" class="download-from-device-button">
+          {{ 'ubs-employee.browse-1' | translate }}<br />
+          {{ 'ubs-employee.browse-2' | translate }}
+        </label>
+        <input class="file-input" id="file-input" type="file" (change)="treatFileInput($event)" />
+      </div>
+    </div>
+    <ng-template #currentImageBlock>
+      <div class="image-input current-image">
+        <div class="avatar-edit-head">
+          <span class="image-name">{{ imageName }}</span>
+          <img class="user-image" src="assets/img/ubs/cross.svg" alt="close" (click)="removeImage()" />
+        </div>
+        <img [src]="imageURL" alt="Your photo" />
+      </div>
+    </ng-template>
+    <div class="button-row">
+      <button mat-dialog-close class="cancelButton">{{ 'ubs-employee.cancel' | translate }}</button>
+      <button
+        type="submit"
+        class="addButton"
+        [disabled]="employeeForm.invalid || !employeePositions.length || !receivingStations.length || isUploading"
+      >
+        <span *ngIf="isUploading" class="spinner-border spinner-border-sm" role="status" aria-hidden="true"> </span>
+        {{ (isUpdatingEmployee ? 'ubs-employee.update' : 'ubs-employee.add') | translate }}
       </button>
     </div>
-    <div class="upload-text" *ngIf="!uploaded">Перетягніть зображення, або <a (click)="fileUpload.click()">завантажте з пристрою</a></div>
-  </div>
-  <div class="button-row">
-    <button mat-dialog-close class="cancelButton">Скасувати</button>
-    <button type="submit" class="addButton">Додати</button>
-  </div>
-</form>
+  </form>
+</div>

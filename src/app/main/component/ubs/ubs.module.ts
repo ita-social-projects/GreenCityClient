@@ -5,7 +5,7 @@ import { CommonModule } from '@angular/common';
 import { MatStepperModule } from '@angular/material/stepper';
 import { AgmCoreModule } from '@agm/core';
 import { IMaskModule } from 'angular-imask';
-import { MatDialogModule, MatFormFieldModule, MatIconModule, MAT_DIALOG_DEFAULT_OPTIONS } from '@angular/material';
+import { MatSelectModule } from '@angular/material/select';
 import { environment } from '@environment/environment';
 import { TranslateHttpLoader } from '@ngx-translate/http-loader';
 import { TranslateLoader, TranslateModule, TranslateService } from '@ngx-translate/core';
@@ -22,6 +22,12 @@ import { UbsConfirmPageComponent } from './components/ubs-confirm-page/ubs-confi
 import { SharedMainModule } from '@shared/shared-main.module';
 import { SharedModule } from 'src/app/shared/shared.module';
 import { GooglePlaceModule } from 'ngx-google-places-autocomplete';
+import { UbsMainPageComponent } from './components/ubs-main-page/ubs-main-page.component';
+import { UbsOrderLocationPopupComponent } from './components/ubs-order-details/ubs-order-location-popup/ubs-order-location-popup.component';
+import { MatIconModule } from '@angular/material/icon';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatDialogModule, MAT_DIALOG_DEFAULT_OPTIONS } from '@angular/material/dialog';
+import { UbsSubmitOrderNotificationComponent } from './components/ubs-submit-order/ubs-submit-order-notification/ubs-submit-order-notification.component';
 
 @NgModule({
   declarations: [
@@ -33,11 +39,15 @@ import { GooglePlaceModule } from 'ngx-google-places-autocomplete';
     UBSInputErrorComponent,
     UBSAddAddressPopUpComponent,
     AddressComponent,
-    UbsConfirmPageComponent
+    UbsConfirmPageComponent,
+    UbsMainPageComponent,
+    UbsOrderLocationPopupComponent,
+    UbsSubmitOrderNotificationComponent
   ],
   imports: [
     MatIconModule,
     MatFormFieldModule,
+    MatSelectModule,
     CommonModule,
     UbsRoutingModule,
     MatStepperModule,
@@ -62,7 +72,8 @@ import { GooglePlaceModule } from 'ngx-google-places-autocomplete';
     SharedMainModule,
     SharedModule
   ],
-  entryComponents: [UBSAddAddressPopUpComponent],
+  entryComponents: [UBSAddAddressPopUpComponent, UbsOrderLocationPopupComponent],
+  exports: [],
   providers: [
     {
       provide: MAT_DIALOG_DEFAULT_OPTIONS,

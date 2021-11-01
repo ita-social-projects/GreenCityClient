@@ -1,16 +1,14 @@
 import { Component, OnInit, Inject } from '@angular/core';
-import { MatDialog } from '@angular/material';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { ImageCroppedEvent } from 'ngx-image-cropper';
 import { EditProfileService } from '@global-user/services/edit-profile.service';
-import { ProfileService } from '@global-user/components/profile/profile-service/profile.service';
 import { FileHandle } from '@eco-news-models/create-news-interface';
 import { MatSnackBarComponent } from '@global-errors/mat-snack-bar/mat-snack-bar.component';
 
 @Component({
   selector: 'app-edit-photo-pop-up',
   templateUrl: './edit-photo-pop-up.component.html',
-  styleUrls: ['./edit-photo-pop-up.component.scss'],
+  styleUrls: ['./edit-photo-pop-up.component.scss']
 })
 export class EditPhotoPopUpComponent implements OnInit {
   public avatarImg: string;
@@ -19,16 +17,16 @@ export class EditPhotoPopUpComponent implements OnInit {
   public isWarning = false;
   public selectedPhoto = false;
   public selectedFile: File = null;
-  public selectedFileUrl: string;
+  public selectedFileUrl: string | ArrayBuffer;
   public isNotification: boolean;
   public loadingAnim: boolean;
   private croppedImage: string;
+  private maxImageSize = 10485760;
+  public isDragAndDropMenu = false;
 
   constructor(
     private matDialogRef: MatDialogRef<EditPhotoPopUpComponent>,
-    private dialog: MatDialog,
     private editProfileService: EditProfileService,
-    private profileService: ProfileService,
     private snackBar: MatSnackBarComponent,
     @Inject(MAT_DIALOG_DATA) public data
   ) {}
@@ -37,12 +35,31 @@ export class EditPhotoPopUpComponent implements OnInit {
     this.setUserAvatar();
   }
 
-  public onSelectPhoto(event): void {
-    this.isWarning = false;
-    this.selectedFile = event.target.files[0] as File;
-    const reader: FileReader = new FileReader();
-    reader.readAsDataURL(this.selectedFile);
-    reader.onload = (ev) => this.handleFile(ev);
+  public openFilesWindow(event: KeyboardEvent) {
+    if (event.code === 'Space' || event.code === 'Enter') {
+      (event.target as HTMLInputElement).click();
+    }
+  }
+
+  public onSelectPhoto(event: Event): void {
+    const imageFile = (event.target as HTMLInputElement).files[0];
+    this.transferFile(imageFile);
+  }
+
+  public filesDropped(files: FileHandle[]): void {
+    const imageFile = files[0].file;
+    this.transferFile(imageFile);
+  }
+
+  private transferFile(imageFile: File): void {
+    this.isWarning = this.showWarning(imageFile);
+
+    if (!this.isWarning) {
+      this.selectedFile = imageFile;
+      const reader: FileReader = new FileReader();
+      reader.readAsDataURL(this.selectedFile);
+      reader.onload = (ev) => this.handleFile(ev);
+    }
   }
 
   public imageCropped(event: ImageCroppedEvent): void {
@@ -58,7 +75,10 @@ export class EditPhotoPopUpComponent implements OnInit {
         this.loadingAnim = false;
         this.closeEditPhoto();
       },
-      () => this.openErrorDialog()
+      () => {
+        this.loadingAnim = false;
+        this.openErrorDialog();
+      }
     );
   }
 
@@ -69,7 +89,10 @@ export class EditPhotoPopUpComponent implements OnInit {
         this.loadingAnim = false;
         this.closeEditPhoto();
       },
-      () => this.openErrorDialog()
+      () => {
+        this.loadingAnim = false;
+        this.openErrorDialog();
+      }
     );
   }
 
@@ -81,18 +104,16 @@ export class EditPhotoPopUpComponent implements OnInit {
     this.avatarImg = this.data.img;
   }
 
-  private handleFile(event): void {
-    this.selectedFileUrl = event.target.result;
+  private handleFile(event: Event): void {
+    this.selectedFileUrl = (event.target as FileReader).result;
     this.files[0] = { url: this.selectedFileUrl, file: this.selectedFile };
     if (!this.isWarning && typeof this.selectedFile !== 'undefined') {
-      this.showWarning();
       this.selectedPhoto = !this.isWarning ? true : this.selectedPhoto;
     }
   }
 
-  private showWarning(): void {
-    const imageVal = this.files.filter((item) => item.file.type === 'image/jpeg' || item.file.type === 'image/png');
-    this.isWarning = imageVal.length < 1;
+  private showWarning(file: File): boolean {
+    return file.size > this.maxImageSize || (file.type !== 'image/jpeg' && file.type !== 'image/png');
   }
 
   private openErrorDialog(): void {

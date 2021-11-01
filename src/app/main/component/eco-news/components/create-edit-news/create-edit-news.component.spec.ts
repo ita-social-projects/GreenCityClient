@@ -50,7 +50,8 @@ describe('CreateEditNewsComponent', () => {
       { id: 2, name: 'Education' }
     ],
     text: 'hellohellohellohellohellohellohellohellohellohello',
-    title: 'hello'
+    title: 'hello',
+    likes: 0
   };
   let http: HttpTestingController;
   const newsResponseMock: NewsResponseDTO = {
@@ -174,10 +175,10 @@ describe('CreateEditNewsComponent', () => {
     fixture = TestBed.createComponent(CreateEditNewsComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
-    router = TestBed.get(Router);
-    location = TestBed.get(Location);
+    router = TestBed.inject(Router);
+    location = TestBed.inject(Location);
     router.initialNavigation();
-    http = TestBed.get(HttpTestingController);
+    http = TestBed.inject(HttpTestingController);
   });
 
   afterEach(() => {
@@ -248,12 +249,11 @@ describe('CreateEditNewsComponent', () => {
     });
   });
 
-  it(`should have filter array as arr`, () => {
-    const arr = [
-      { name: 'Events', isActive: false },
-      { name: 'Education', isActive: false }
-    ];
-    expect(component.filters).toEqual(arr);
+  it(`should containe object from list`, () => {
+    const fScene = { name: 'Events', isActive: false };
+    const sScene = { name: 'Education', isActive: false };
+    const tScene = { name: 'News', isActive: false };
+    expect(component.filters).toContain(fScene || sScene || tScene);
   });
 
   it('should addFilters', () => {
@@ -351,7 +351,8 @@ describe('CreateEditNewsComponent', () => {
         { id: 2, name: 'Education' }
       ],
       text: 'hellohellohellohellohellohellohellohellohellohello',
-      title: 'hello'
+      title: 'hello',
+      likes: 0
     };
     component.setActiveFilters(expectedData);
     expect(component.isArrayEmpty).toBeFalsy();
@@ -438,9 +439,8 @@ describe('CreateEditNewsComponent', () => {
   });
 
   it('should be a Cancel button on the page', () => {
-    const buttons = fixture.debugElement.queryAll(By.css('button'));
-    const nativeButton: HTMLButtonElement = buttons[2].nativeElement;
-    expect(nativeButton.textContent).toBe('create-news.cancel-button');
+    const button = fixture.debugElement.query(By.css('.cancel'));
+    expect(button.nativeElement.innerHTML.trim()).toBe('create-news.cancel-button');
   });
 
   it('should be a Events button on the page', () => {
@@ -450,21 +450,19 @@ describe('CreateEditNewsComponent', () => {
   });
 
   it('should be a Education button on the page', () => {
-    const buttons = fixture.debugElement.queryAll(By.css('button'));
-    const nativeButton: HTMLButtonElement = buttons[1].nativeElement;
-    expect(nativeButton.textContent.trim()).toBe('Education');
+    const buttons = fixture.debugElement.queryAll(By.css('.tag-news'));
+    const listOfTags = buttons.map((tag) => tag.nativeElement.innerHTML.trim());
+    expect(listOfTags).toContain('Education');
   });
 
   it('should be a Preview button on the page', () => {
-    const buttons = fixture.debugElement.queryAll(By.css('button'));
-    const nativeButton: HTMLButtonElement = buttons[3].nativeElement;
-    expect(nativeButton.textContent.trim()).toBe('create-news.preview-button');
+    const button = fixture.debugElement.query(By.css('.preview'));
+    expect(button.nativeElement.innerHTML.trim()).toBe('create-news.preview-button');
   });
 
   it('should be a Publish button on the page', () => {
-    const buttons = fixture.debugElement.queryAll(By.css('button'));
-    const nativeButton: HTMLButtonElement = buttons[4].nativeElement;
-    expect(nativeButton.textContent).toBe('create-news.publish-button');
+    const button = fixture.debugElement.query(By.css('.submit'));
+    expect(button.nativeElement.innerHTML.trim()).toBe('create-news.publish-button');
   });
 
   it('should minimum one drag and drop on the page', () => {

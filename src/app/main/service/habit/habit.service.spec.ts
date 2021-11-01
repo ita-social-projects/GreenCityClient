@@ -108,8 +108,8 @@ describe('HabitService', () => {
       imports: [HttpClientTestingModule],
       providers: [HabitService, { provide: LocalStorageService, useValue: localStorageServiceMock }]
     });
-    habitService = TestBed.get(HabitService);
-    httpMock = TestBed.get(HttpTestingController);
+    habitService = TestBed.inject(HabitService);
+    httpMock = TestBed.inject(HttpTestingController);
   });
 
   afterEach(() => {
@@ -117,7 +117,7 @@ describe('HabitService', () => {
   });
 
   it('should be created', () => {
-    const service: HabitService = TestBed.get(HabitService);
+    const service: HabitService = TestBed.inject(HabitService);
     expect(service).toBeTruthy();
   });
 

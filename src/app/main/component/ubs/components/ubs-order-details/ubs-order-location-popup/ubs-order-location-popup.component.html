@@ -1,0 +1,28 @@
+<div class="dialog-container">
+  <div class="close-container">
+    <button class="close-btn" mat-dialog-close (click)="redirectToMain()">
+      <img src="{{ closeButton }}" alt="close" />
+    </button>
+  </div>
+  <div>
+    <h4 class="title">{{ 'order-details.location.title' | translate }}</h4>
+  </div>
+  <form *ngIf="!isFetching; else spinner" class="form">
+    <select [(ngModel)]="selectedLocationId" name="region" class="select form-select form-select-lg">
+      <option [ngValue]="location.id" *ngFor="let location of locations | filterByLang">
+        {{ location.name }}
+      </option>
+    </select>
+  </form>
+  <ng-template #spinner>
+    <app-spinner class="mx-auto"></app-spinner>
+  </ng-template>
+  <mat-dialog-actions class="footer-btns" align="end">
+    <button class="btn secondary-global-button" mat-dialog-close (click)="redirectToMain()">
+      {{ 'order-details.location.btn.back' | translate }}
+    </button>
+    <button class="btn primary-global-button" [disabled]="isFetching" [mat-dialog-close]="true" cdkFocusInitial (click)="saveLocation()">
+      {{ 'order-details.location.btn.continue' | translate }}
+    </button>
+  </mat-dialog-actions>
+</div>

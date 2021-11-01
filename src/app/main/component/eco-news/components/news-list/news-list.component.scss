@@ -58,10 +58,6 @@ li:focus {
   outline: none;
 }
 
-a {
-  text-decoration: none;
-}
-
 #create-button {
   border-radius: 5px;
   line-height: 16px;
@@ -139,5 +135,6 @@ a {
 @media (min-width: 576px) {
   .container {
     padding: 0;
+    max-width: 96%;
   }
 }

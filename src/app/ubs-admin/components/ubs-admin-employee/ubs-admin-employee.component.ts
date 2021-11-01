@@ -21,6 +21,7 @@ export class UbsAdminEmployeeComponent implements OnInit {
   paginPage: number;
   size = 5;
   paginationId = 'employee';
+  tiles: boolean;
 
   constructor(
     private activatedRoute: ActivatedRoute,
@@ -34,10 +35,10 @@ export class UbsAdminEmployeeComponent implements OnInit {
       this.paginPage = params.page - 1;
       this.getEmployees();
     });
+    this.tiles = true;
   }
 
   getEmployees(): void {
-    console.log(this.paginPage, this.size);
     this.ubsAdminEmployeeService
       .getEmployees(this.paginPage, this.size)
       .pipe(takeUntil(this.destroy))
@@ -45,7 +46,6 @@ export class UbsAdminEmployeeComponent implements OnInit {
   }
 
   setData(item: Employees): void {
-    console.log(item);
     this.fakeData = item.page;
     this.totalLength = item.totalElements;
   }
@@ -59,7 +59,16 @@ export class UbsAdminEmployeeComponent implements OnInit {
 
   openDialog() {
     this.dialog.open(EmployeeFormComponent, {
-      panelClass: 'custom-modalbox'
+      hasBackdrop: true,
+      closeOnNavigation: true,
+      disableClose: true,
+      panelClass: 'custom-dialog-container'
     });
+  }
+  openTable() {
+    this.tiles = false;
+  }
+  openTiles() {
+    this.tiles = true;
   }
 }

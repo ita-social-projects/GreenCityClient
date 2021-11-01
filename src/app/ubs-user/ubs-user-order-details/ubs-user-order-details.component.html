@@ -1,0 +1,74 @@
+<div class="full_card">
+  <div class="header_details">{{ 'user-orders.details.title' | translate }}</div>
+  <table class="table_of_details" aria-label="orderDetailsTable">
+    <tr class="header_table">
+      <th scope="row">{{ 'user-orders.details.services' | translate }}</th>
+      <th scope="row">{{ 'user-orders.details.volume' | translate }}</th>
+      <th scope="row">{{ 'user-orders.details.cost' | translate }}</th>
+      <th scope="row">{{ 'user-orders.details.bags-amount' | translate }}</th>
+      <th scope="row">{{ 'user-orders.details.sum' | translate }}</th>
+    </tr>
+    <tr *ngFor="let bag of order.bags" class="data_table">
+      <td>{{ bag.name }}Вторсировина</td>
+      <td>{{ bag.capacity }} {{ 'user-orders.details.litr' | translate }}</td>
+      <td>{{ bag.price }} {{ 'user-orders.details.currency' | translate }}</td>
+      <td>{{ order.amountOfBagsOrdered[bag.id] }} {{ 'user-orders.details.pieces' | translate }}</td>
+      <td>{{ order.amountOfBagsOrdered[bag.id] * bag.price }} {{ 'user-orders.details.currency' | translate }}</td>
+    </tr>
+    <tr>
+      <td></td>
+    </tr>
+    <tr class="sum_of_order">
+      <td colspan="4">{{ 'user-orders.details.order-sum' | translate }}</td>
+      <td>{{ order.orderFullPrice }} {{ 'user-orders.details.currency' | translate }}</td>
+    </tr>
+    <tr *ngIf="order.orderCertificateTotalDiscount !== 0" class="optional_row">
+      <td colspan="4">{{ 'user-orders.details.certificate' | translate }}</td>
+      <td>-{{ order.orderCertificateTotalDiscount }} {{ 'user-orders.details.currency' | translate }}</td>
+    </tr>
+    <tr *ngIf="order.orderBonusDiscount !== 0" class="optional_row">
+      <td colspan="4">{{ 'user-orders.details.bonuses' | translate }}</td>
+      <td>-{{ order.orderBonusDiscount }} {{ 'user-orders.details.currency' | translate }}</td>
+    </tr>
+    <tr *ngIf="order.orderStatus === 'DONE_UNPAID'" class="optional_row">
+      <td colspan="4">{{ 'user-orders.details.services-amount' | translate }}</td>
+      <td>{{ order.orderExportedPrice }} {{ 'user-orders.details.currency' | translate }}</td>
+    </tr>
+    <tr class="sum_to_pay">
+      <td colspan="4">{{ 'user-orders.details.amount-due' | translate }}</td>
+      <td>{{ order.orderDiscountedPrice }} {{ 'user-orders.details.currency' | translate }}</td>
+    </tr>
+  </table>
+</div>
+<div class="order_details">
+  <ol *ngIf="order.additionalOrders[0] !== ''">
+    <li class="bold_text">{{ 'user-orders.details.delivery' | translate }}</li>
+    <li>
+      {{ 'user-orders.details.order-number' | translate }}
+      <span class="bold_text"> {{ order.additionalOrders.join(', ') }}</span>
+    </li>
+  </ol>
+  <ol class="recipient">
+    <li class="bold_text">{{ 'user-orders.details.recipient' | translate }}</li>
+    <li>
+      <span>{{ order.recipientName }} </span><span>{{ order.recipientSurname }}</span>
+    </li>
+    <li>{{ order.recipientPhone }}</li>
+    <li>{{ order.recipientEmail }}</li>
+  </ol>
+  <ol>
+    <li class="bold_text">{{ 'user-orders.details.export-address' | translate }}</li>
+    <li>{{ order.addressCity }}</li>
+    <li>{{ order.addressStreet }}</li>
+    <li>{{ order.addressDistrict }}</li>
+    <li *ngIf="order.addressComment !== null">{{ 'user-orders.details.comment' | translate }} {{ order.addressComment }}</li>
+  </ol>
+</div>
+<div class="download">
+  <div class="arrow"><mat-icon [ngStyle]="{ fontSize: '16px' }">arrow_downward</mat-icon></div>
+  <div class="maximize"><mat-icon [ngStyle]="{ fontSize: '16px' }">maximize</mat-icon></div>
+  <div class="text">{{ 'user-orders.details.receipt' | translate }}</div>
+</div>
+<ng-template #spinner>
+  <app-spinner></app-spinner>
+</ng-template>

@@ -1,10 +1,10 @@
 import { Component, HostListener, ViewChild, ElementRef } from '@angular/core';
 import { ComponentCanDeactivate } from '@global-service/pending-changes-guard/pending-changes.guard';
 import { Router } from '@angular/router';
-import { MatDialog } from '@angular/material';
 import { WarningPopUpComponent } from '@shared/components';
 import { Observable } from 'rxjs';
 import { take } from 'rxjs/operators';
+import { MatDialog } from '@angular/material/dialog';
 
 @Component({
   selector: 'app-form-base',
@@ -41,8 +41,8 @@ export class FormBaseComponent implements ComponentCanDeactivate {
   }
 
   public cancel(): void {
-    const condition = this.checkChanges();
-    this.cancelPopupJustifying(condition);
+    this.cancelPopupJustifying(true);
+    localStorage.removeItem('newsTags');
   }
 
   public checkChanges(): boolean {
@@ -69,7 +69,7 @@ export class FormBaseComponent implements ComponentCanDeactivate {
         .subscribe((confirm) => {
           if (confirm) {
             this.areChangesSaved = true;
-            this.router.navigate([this.previousPath]);
+            this.router.navigate(['ubs', 'confirm']);
           }
         });
       return;

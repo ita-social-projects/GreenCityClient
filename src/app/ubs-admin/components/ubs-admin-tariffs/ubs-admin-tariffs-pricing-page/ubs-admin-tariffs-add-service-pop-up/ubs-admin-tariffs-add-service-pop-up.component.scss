@@ -1,0 +1,162 @@
+.dialog-container {
+  width: 543px;
+  height: 625px;
+}
+
+.main-content {
+  margin: 15px 0 0 35px;
+}
+
+h4 {
+  font-style: normal;
+  font-weight: bold;
+  font-size: 24px;
+  line-height: 32px;
+  color: var(--ubs-quaternary-dark-grey);
+}
+
+.service {
+  font-style: normal;
+  font-weight: normal;
+  font-size: 16px;
+  line-height: 24px;
+  color: var(--ubs-secondary-grey);
+  margin-top: 25px;
+}
+
+.serviceInput {
+  width: 480px;
+  height: 36px;
+  background: var(--ubs-primary-white);
+  border: 1px solid var(--ubs-grey-blue);
+  box-sizing: border-box;
+  border-radius: 4px;
+}
+
+textarea {
+  color: var(--ubs-grey-blue);
+  font-size: 14px;
+  resize: none;
+  width: 480px;
+  height: 141px;
+  border: 1px solid var(--ubs-grey-blue);
+  border-radius: 4px;
+}
+
+.service-description {
+  margin-top: 45px;
+
+  h6 {
+    padding-bottom: 20px;
+  }
+}
+
+.row4 {
+  font-style: normal;
+  font-weight: normal;
+  font-size: 16px;
+  line-height: 24px;
+  color: var(--ubs-secondary-grey);
+  margin: 30px 30px 15px 0;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  padding: 0 8px 0 0;
+
+  input {
+    background: var(--ubs-primary-white);
+    border: 1px solid var(--ubs-grey-blue);
+    border-radius: 4px;
+    height: 36px;
+  }
+}
+
+.capacity-input {
+  input {
+    width: 72px;
+  }
+}
+
+.basic-cost-input {
+  padding-left: 20px;
+
+  input {
+    width: 130px;
+  }
+}
+
+.courier-input {
+  padding-right: 10px;
+
+  input {
+    width: 100px;
+  }
+}
+
+.full-cost-input {
+  input {
+    width: 123px;
+  }
+}
+
+.buttons {
+  margin-top: 55px;
+  display: flex;
+  justify-content: flex-end;
+  width: 530px;
+}
+
+.primary-global-button {
+  margin: 15px;
+  width: 106px;
+  height: 40px;
+}
+
+.secondary-global-button {
+  width: 136px;
+  height: 40px;
+  align-self: center;
+  background-color: var(--primary-white);
+}
+
+input.ng-touched.ng-invalid {
+  border: 1px solid var(--ubs-error-ligh-red);
+}
+
+.close-button {
+  display: flex;
+  justify-content: flex-end;
+
+  img {
+    width: 25px;
+    height: 25px;
+  }
+}
+
+.description-input {
+  width: 480px;
+  height: 141px;
+  font-style: normal;
+  font-weight: normal;
+  font-size: 17px;
+  line-height: 20px;
+  color: #1d2830;
+  padding: 10px;
+}
+
+.information {
+  margin-top: 20px;
+}
+
+textarea[disabled],
+input[disabled] {
+  border: 1px solid var(--ubs-secondary-grey) !important;
+  background-color: lightgray !important;
+  color: gray !important;
+}
+
+.header {
+  display: flex;
+  justify-content: space-between;
+}

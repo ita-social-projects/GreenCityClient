@@ -13,9 +13,10 @@
               <label>
                 <h3>{{ 'create-news.news-title' | translate }}</h3>
                 <textarea
+                  maxlength="170"
                   placeholder="{{ 'create-news.title-placeholder' | translate }}"
                   formControlName="title"
-                  (input)="autoResize($event)"
+                  (keyup)="autoResize(false, $event)"
                 ></textarea>
                 <span>{{ 'create-news.title-tooltip' | translate }}</span>
               </label>
@@ -27,6 +28,7 @@
                 (click)="addFilters(filter)"
                 type="button"
                 [ngClass]="{ 'filters-color': filter.isActive }"
+                class="tag-news"
               >
                 {{ filter.name }}
               </button>
@@ -58,10 +60,11 @@
         <div class="textarea-wrapper">
           <h3 class="textarea-title">{{ 'create-news.content-title' | translate }}</h3>
           <textarea
+            minlength="20"
             name="main-area"
             placeholder="{{ 'create-news.content-placeholder' | translate }}"
             formControlName="content"
-            (input)="autoResize($event)"
+            (keyup)="autoResize(true, $event)"
           ></textarea>
           <p class="textarea-description">{{ 'create-news.content-tooltip' | translate }}</p>
         </div>
@@ -77,10 +80,10 @@
         </div>
         <div class="submit-buttons">
           <button class="cancel" type="button" (click)="cancel()">{{ 'create-news.cancel-button' | translate }}</button>
-          <button type="button" (click)="goToPreview()">
+          <button type="button" class="preview" (click)="goToPreview()">
             {{ 'create-news.preview-button' | translate }}
           </button>
-          <button type="submit" [disabled]="isFormInvalid">{{ attributes.btnCaption | translate }}</button>
+          <button type="submit" class="submit" [disabled]="isFormInvalid">{{ attributes.btnCaption | translate }}</button>
         </div>
       </form>
     </div>
