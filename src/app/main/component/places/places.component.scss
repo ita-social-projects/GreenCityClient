@@ -29,6 +29,7 @@ $cardTextColor: #1d2830;
     @include flex-options(column, stretch, flex-start);
 
     .filter {
+      display: flex;
       margin-top: 26px;
     }
   }
@@ -128,6 +129,7 @@ $cardTextColor: #1d2830;
 
     font-size: 14px;
     color: var(--quaternary-grey);
+    padding-top: 12px;
   }
 
   .content-list {

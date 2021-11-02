@@ -17,6 +17,7 @@ export class TableCellTimeComponent implements OnInit {
   @Input() ordersToChange: number[];
   @Input() isAllChecked: boolean;
 
+  @Output() cancelEdit = new EventEmitter();
   @Output() editTimeCell = new EventEmitter();
   @Output() showBlockedInfo = new EventEmitter();
 
@@ -27,6 +28,7 @@ export class TableCellTimeComponent implements OnInit {
   public isEditable: boolean;
   public isError = '';
   public isBlocked: boolean;
+  private typeOfChange: number[];
 
   constructor(private adminTableService: AdminTableService) {}
 
@@ -40,20 +42,11 @@ export class TableCellTimeComponent implements OnInit {
   public edit(): void {
     this.isEditable = false;
     this.isBlocked = true;
-    let typeOfChange: number[];
 
-    if (this.isAllChecked) {
-      typeOfChange = [];
-    }
-    if (this.ordersToChange.length) {
-      typeOfChange = this.ordersToChange;
-    }
-    if (!this.isAllChecked && !this.ordersToChange.length) {
-      typeOfChange = [this.id];
-    }
+    this.typeOfChange = this.adminTableService.howChangeCell(this.isAllChecked, this.ordersToChange, this.id);
 
     this.adminTableService
-      .blockOrders(typeOfChange)
+      .blockOrders(this.typeOfChange)
       .pipe(take(1))
       .subscribe((res: IAlertInfo[]) => {
         if (res[0] === undefined) {
@@ -92,6 +85,8 @@ export class TableCellTimeComponent implements OnInit {
   }
 
   cancel() {
+    this.typeOfChange = this.adminTableService.howChangeCell(this.isAllChecked, this.ordersToChange, this.id);
+    this.cancelEdit.emit(this.typeOfChange);
     this.isError = '';
     this.isEditable = false;
     this.fromInput = this.from;

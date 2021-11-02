@@ -1,7 +1,6 @@
 import { AfterViewInit, Component } from '@angular/core';
 import { BreakpointObserver } from '@angular/cdk/layout';
 import { UserMessagesService } from '../../../ubs-user/services/user-messages.service';
-import { Router } from '@angular/router';
 import { UbsBaseSidebarComponent } from 'src/app/shared/ubs-base-sidebar/ubs-base-sidebar.component';
 import { JwtService } from '@global-service/jwt/jwt.service';
 
@@ -12,6 +11,11 @@ import { JwtService } from '@global-service/jwt/jwt.service';
 })
 export class UbsAdminSidebarComponent extends UbsBaseSidebarComponent implements AfterViewInit {
   public listElementsAdmin: any[] = [
+    {
+      link: 'assets/img/sidebarIcons/user_icon.svg',
+      name: 'ubs-sidebar.customers',
+      routerLink: 'customers'
+    },
     {
       link: './assets/img/sidebarIcons/achievement_icon.svg',
       name: 'ubs-sidebar.certificates',

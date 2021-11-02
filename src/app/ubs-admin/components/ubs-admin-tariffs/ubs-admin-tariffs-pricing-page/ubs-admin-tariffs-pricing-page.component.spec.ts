@@ -11,15 +11,16 @@ import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { Subject } from 'rxjs';
 import { RouterTestingModule } from '@angular/router/testing';
 import { UbsAdminTariffsAddServicePopUpComponent } from './ubs-admin-tariffs-add-service-pop-up/ubs-admin-tariffs-add-service-pop-up.component';
+import { FilterListByLangPipe } from '../../../../shared/sort-list-by-lang/filter-list-by-lang.pipe';
 
-describe('UbsAdminTariffsComponent', () => {
+describe('UbsAdminPricingPageComponent', () => {
   let component: UbsAdminTariffsPricingPageComponent;
   let fixture: ComponentFixture<UbsAdminTariffsPricingPageComponent>;
   let httpMock: HttpTestingController;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [UbsAdminTariffsPricingPageComponent, UbsAdminTariffsAddServicePopUpComponent],
+      declarations: [UbsAdminTariffsPricingPageComponent, UbsAdminTariffsAddServicePopUpComponent, FilterListByLangPipe],
       imports: [
         OverlayModule,
         MatDialogModule,

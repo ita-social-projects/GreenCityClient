@@ -86,11 +86,13 @@ h3 {
 }
 
 .primary-global-button {
-  padding: 8px 24px;
+  padding: 8px 4px;
   border-radius: 4px;
   color: var(--ubs-quaternary-dark-grey);
   border-color: var(--ubs-button-light-green);
   background: var(--ubs-button-light-green);
+  display: flex;
+  justify-content: space-around;
 
   &:disabled {
     background: var(--ubs-quaternary-light-grey);
@@ -329,4 +331,23 @@ h3 {
   .choose-payment-chooser {
     font-size: 0.65rem;
   }
+}
+
+.load-spinner {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: 50px;
+}
+
+:host ::ng-deep .custom-spinner circle {
+  stroke: #e2e2e2;
+}
+
+::ng-deep .mat-progress-bar-fill::after {
+  background: #e2e2e2;
+}
+
+::ng-deep .mat-progress-bar-buffer {
+  background: #bfbfbf;
 }

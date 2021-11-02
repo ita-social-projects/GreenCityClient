@@ -70,7 +70,9 @@
     },
     "payment-status": {
       "paid": "Paid",
-      "not-paid": "Not paid"
+      "not-paid": "Not paid",
+      "half-paid": "Half paid",
+      "payment-refunded": "Payment refunded"
     },
     "need-to-pay": "Need to pay extra ",
     "status": {
@@ -82,12 +84,19 @@
       "payment-label": "Payment status "
     },
     "comment": {
-      "label": "Comment",
+      "label": "Administrator comment",
       "placeholder": "Any details you would like to report additionally regarding this order"
+    },
+    "btn": {
+      "back": "Back",
+      "cancel": "Cancel",
+      "save": "Save"
     }
   },
   "address-details": {
     "title": "Waste export address",
+    "district": "District",
+    "settlement": "Settlement",
     "street": "Street",
     "comment-label": "Comment to the address from the client",
     "comment-placeholder": "Any details you would like to report additionally regarding this order",
@@ -101,20 +110,24 @@
     "customer": {
       "title": "Customer",
       "name-label": "Name",
-      "name-placeholder": "Placeholder",
+      "surname-label": "Surname",
+      "name-placeholder": "Name",
+      "surname-placeholder": "Surname",
       "tel-label": "Phone",
-      "tel-placeholder": "Placeholder",
+      "tel-placeholder": "+380 00 000 00 00",
       "email-label": "Email",
-      "email-placeholder": "Placeholder"
+      "email-placeholder": "mail@mail.com"
     },
     "recipient": {
       "title": "Recipient",
       "name-label": "Name",
-      "name-placeholder": "Placeholder",
+      "surname-label": "Surname",
+      "name-placeholder": "Name",
+      "surname-placeholder": "Surname",
       "tel-label": "Phone",
-      "tel-placeholder": "Placeholder",
+      "tel-placeholder": "+380 00 000 00 00",
       "email-label": "Email",
-      "email-placeholder": "Placeholder"
+      "email-placeholder": "mail@mail.com"
     },
     "violation": {
       "title": "Customer violations",
@@ -122,6 +135,20 @@
       "current-order": "Current violation",
       "button": "Add violation"
     }
+  },
+  "customer-details": {
+    "data": "Customer Data",
+    "personal": "Personal",
+    "name": "Name",
+    "contacts": "Contacts",
+    "email": "Email",
+    "phone": "Phone",
+    "additionalInfo": "Additional information",
+    "number_of_orders": "Number of orders",
+    "orderDate": "Date of order",
+    "violations": "Violations",
+    "dateOfRegistration": "Date of registration",
+    "goBack": "Back"
   },
   "order-details": {
     "title": "Order details",
@@ -265,7 +292,7 @@
     }
   },
   "ubs-sidebar": {
-    "users": "User data",
+    "customers": "Customers",
     "certificates": "Certificates",
     "orders": "Orders",
     "employees": "Employees",
@@ -273,6 +300,24 @@
     "schedule": "Schedule",
     "bonuses": "Bonuses",
     "tariffs": "Tariffs"
+  },
+  "ubs-employee": {
+    "add-employee": "Add employee",
+    "required-fields": "*Required fields",
+    "name": "Name*",
+    "surname": "Surname*",
+    "phone-number": "Phone number*",
+    "email": "Email",
+    "position": "Position*",
+    "receiving-station": "Receiving station*",
+    "image-input": "Image",
+    "picture-description-1": "Drop your",
+    "picture-description-2": "image here or",
+    "browse-1": "upload from",
+    "browse-2": "your device",
+    "add": "Add",
+    "cancel": "Cancel",
+    "update": "Update"
   },
   "ubs-user": {
     "orders": "Orders",
@@ -336,5 +381,18 @@
     "delete_question": "Delete this line?",
     "yes": "yes",
     "no": "no"
+  },
+  "user": {
+    "lower-nav-bar": {
+      "about-us": "About-us",
+      "sorting-rules": "Sorting rules",
+      "eco-shop": "Eco-Shop"
+    }
+  },
+  "nav-bar": {
+    "user-settings": "Settings",
+    "sign-out": "Sign out",
+    "sign-in": "Sign in",
+    "management": "Management"
   }
 }

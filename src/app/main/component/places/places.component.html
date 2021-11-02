@@ -5,12 +5,14 @@
         <div class="search-elements">
           <img class="search-icon" src="{{ searchIcon }}" alt="search-icon" />
           <input
+            #searchInput
             class="form-control search-write"
             type="text"
             name="search"
             list="places_names"
-            [(ngModel)]="searchName"
+            [value]="searchName"
             placeholder="{{ 'user.map.searching-for-a-place' | translate }}"
+            (keyup)="searchNameChange(searchInput.value)"
           />
           <datalist id="places_names">
             <option *ngFor="let card of cardsCollection" value="{{ card.cardName }}">{{ card.cardText }}</option>
@@ -22,11 +24,12 @@
       </div>
       <div class="filter">
         <app-tag-filter
-          (tagsList)="getFilterData($event)"
+          (tagsList)="basicFiltersChange($event)"
           [header]="'homepage.eco-news.filter'"
           [storageKey]="'Places-filter'"
           [tagsListData]="tagList"
         ></app-tag-filter>
+        <app-more-options-filter (filtersChange)="moreOptionsChange($event)"> </app-more-options-filter>
       </div>
     </div>
     <hr />
@@ -34,12 +37,11 @@
       <div class="place-info">
         <mat-drawer-container class="example-container sidebar-container" autosize>
           <mat-drawer #drawer class="example-sidenav sidebar-drawer" mode="side" closed>
-            <div class="sidebar-content">
-              <span class="close-mark" (click)="drawer.toggle()"></span>
-              <h6 class="content-title">{{ contentObj.cardName }}</h6>
-              <img src="{{ contentObj.cardImgUrl }}" alt="place-image" class="card-img-top" />
-              <span class="content-address">{{ contentObj.cardAddress }}</span>
-              <p class="content-description">{{ contentObj.cardText }}</p>
+            <div class="sidebar-content" *ngIf="activePlaceInfo">
+              <span class="close-mark" (click)="drawer.toggle(false)"></span>
+              <h6 class="content-title">{{ activePlaceInfo.name }}</h6>
+              <span class="content-address">{{ activePlaceInfo.location.address }}</span>
+              <p class="content-description" *ngFor="let comment of activePlaceInfo.comments">{{ comment }}</p>
               <span class="content-website">{{ 'user.places-card.card-description' | translate }}</span>
               <ul class="content-list">
                 <li class="content-list-event">
@@ -52,24 +54,32 @@
                 </li>
               </ul>
               <h6 class="content-reviews-title">
-                {{ 'user.places-card.card-rating' | translate }} &nbsp;&nbsp; <span>{{ contentObj.cardRating }}</span>
+                {{ 'user.places-card.card-rating' | translate }} &nbsp;&nbsp; <span>{{ activePlaceInfo.rate }}</span>
               </h6>
               <div class="stars-container">
-                <img *ngFor="let star of contentObj.cardStars" class="star" src="{{ star }}" alt="star" />
+                <img *ngFor="let star of getStars(activePlaceInfo.rate)" class="star" src="{{ star }}" alt="star" />
               </div>
-              <span class="content-reviews-amount">2 {{ 'user.places-card.card-reviews' | translate }}</span>
+              <span class="content-reviews-amount">{{ 'user.places-card.card-reviews' | translate }}</span>
             </div>
           </mat-drawer>
         </mat-drawer-container>
       </div>
       <div class="google-map" #map>
-        <agm-map [style.width.%]="100" [style.height.%]="100" [latitude]="lat" [longitude]="lng" [zoom]="zoom">
+        <agm-map
+          [style.width.%]="100"
+          [style.height.%]="100"
+          [zoom]="zoom"
+          (centerChange)="mapCenterChange($event)"
+          (boundsChange)="mapBoundsChange($event)"
+          (idle)="onMapIdle()"
+          (mapReady)="onMapReady($event)"
+        >
           <agm-marker
-            *ngFor="let marker of markerListCopy"
-            [latitude]="marker.lat"
-            [longitude]="marker.lng"
-            (markerClick)="getMarker($event)"
-            [iconUrl]="marker.iconUrl"
+            *ngFor="let place of places"
+            [latitude]="place.location.lat"
+            [longitude]="place.location.lng"
+            (markerClick)="selectPlace(place)"
+            [iconUrl]="place.id === activePlace?.id ? greenIconUrl : redIconUrl"
             class="marker"
           ></agm-marker>
         </agm-map>

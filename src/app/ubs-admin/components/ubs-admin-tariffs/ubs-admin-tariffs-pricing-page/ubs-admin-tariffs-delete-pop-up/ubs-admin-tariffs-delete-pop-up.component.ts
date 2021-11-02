@@ -1,9 +1,8 @@
 import { Component, Inject, OnDestroy } from '@angular/core';
-import { MAT_DIALOG_DATA, MatDialog } from '@angular/material/dialog';
+import { MAT_DIALOG_DATA, MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { TariffsService } from '../../../../services/tariffs.service';
 import { takeUntil } from 'rxjs/operators';
 import { Subject } from 'rxjs';
-import { MatDialogRef } from '@angular/material/dialog';
 
 @Component({
   selector: 'app-ubs-admin-tariffs-delete-pop-up',
@@ -13,6 +12,7 @@ import { MatDialogRef } from '@angular/material/dialog';
 export class UbsAdminTariffsDeletePopUpComponent implements OnDestroy {
   receivedData;
   private destroy: Subject<boolean> = new Subject<boolean>();
+  disableButton: boolean;
 
   constructor(
     @Inject(MAT_DIALOG_DATA) public data,
@@ -24,6 +24,7 @@ export class UbsAdminTariffsDeletePopUpComponent implements OnDestroy {
   }
 
   deleteTariffForService(receivedData) {
+    this.disableButton = true;
     this.tariffsService
       .deleteTariffForService(receivedData.bagData.id)
       .pipe(takeUntil(this.destroy))
@@ -33,6 +34,7 @@ export class UbsAdminTariffsDeletePopUpComponent implements OnDestroy {
   }
 
   deleteService(receivedData) {
+    this.disableButton = true;
     this.tariffsService
       .deleteService(receivedData.serviceData.id)
       .pipe(takeUntil(this.destroy))

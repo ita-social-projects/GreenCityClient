@@ -1,0 +1,17 @@
+.profile-wrapper {
+  margin: -95px auto 30px;
+  height: 100%;
+  display: flex;
+  justify-content: space-between;
+
+  .side-bar {
+    width: 20%;
+    box-shadow: 4px 0 8px -4px var(--quintynary-dark-grey);
+  }
+
+  .content {
+    width: 80%;
+    margin: 25px auto auto 25px;
+    height: 100%;
+  }
+}

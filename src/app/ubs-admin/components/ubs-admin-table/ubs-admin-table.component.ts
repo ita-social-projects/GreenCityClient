@@ -13,6 +13,7 @@ import { MatSort } from '@angular/material/sort';
 import { Router } from '@angular/router';
 import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
 import { IEditCell, IAlertInfo } from '../../models/edit-cell.model';
+import { OrderService } from '../../services/order.service';
 
 @Component({
   selector: 'app-ubs-admin-table',
@@ -53,6 +54,7 @@ export class UbsAdminTableComponent implements OnInit, AfterViewChecked, OnDestr
   @ViewChild(MatSort, { static: true }) sort: MatSort;
 
   constructor(
+    private orderService: OrderService,
     private router: Router,
     private adminTableService: AdminTableService,
     private localStorageService: LocalStorageService,
@@ -142,14 +144,14 @@ export class UbsAdminTableComponent implements OnInit, AfterViewChecked, OnDestr
   }
 
   public changeColumns(checked: boolean, key: string, positionIndex): void {
-    checked
-      ? (this.displayedColumns = [...this.displayedColumns.slice(0, positionIndex), key, ...this.displayedColumns.slice(positionIndex)])
-      : (this.displayedColumns = this.displayedColumns.filter((item) => item !== key));
-    this.count === this.displayedColumns.length ? (this.isAll = true) : (this.isAll = false);
+    this.displayedColumns = checked
+      ? [...this.displayedColumns.slice(0, positionIndex), key, ...this.displayedColumns.slice(positionIndex)]
+      : this.displayedColumns.filter((item) => item !== key);
+    this.isAll = this.count === this.displayedColumns.length;
   }
 
   public togglePopUp() {
-    this.display === 'none' ? (this.display = 'block') : (this.display = 'none');
+    this.display = this.display === 'none' ? 'block' : 'none';
   }
 
   public showAllColumns(isCheckAll: boolean): void {
@@ -195,11 +197,27 @@ export class UbsAdminTableComponent implements OnInit, AfterViewChecked, OnDestr
         this.dataSource = new MatTableDataSource(this.tableData);
         this.isLoading = false;
         this.isTableHeightSet = false;
+        this.changeView();
       });
   }
 
   private isPropertyRequired(field: string, requiredFields: string[]) {
     return requiredFields.some((reqField) => field === reqField);
+  }
+
+  changeView() {
+    this.tableData.forEach((el) => {
+      el.amountDue = parseFloat(el.amountDue).toFixed(2);
+      el.totalOrderSum = parseFloat(el.totalOrderSum).toFixed(2);
+      const arr = el.orderCertificatePoints.split(', ');
+      if (arr && arr.length > 0) {
+        el.orderCertificatePoints = arr.reduce((res, elem) => {
+          res = parseInt(res, 10);
+          res += parseInt(elem, 10);
+          return res ? res + '' : '';
+        });
+      }
+    });
   }
 
   updateTableData() {
@@ -213,6 +231,7 @@ export class UbsAdminTableComponent implements OnInit, AfterViewChecked, OnDestr
         this.tableData = [...this.tableData, ...data];
         this.dataSource.data = this.tableData;
         this.isUpdate = false;
+        this.changeView();
       });
   }
 
@@ -264,6 +283,12 @@ export class UbsAdminTableComponent implements OnInit, AfterViewChecked, OnDestr
     } else {
       this.editGroup(e);
     }
+  }
+
+  public cancelEditCell(ids: number[]): void {
+    this.adminTableService.cancelEdit(ids);
+    this.idsToChange = [];
+    this.allChecked = false;
   }
 
   public closeAlertMess(): void {
@@ -333,18 +358,11 @@ export class UbsAdminTableComponent implements OnInit, AfterViewChecked, OnDestr
   }
 
   private postData(id, nameOfColumn, newValue): void {
-    this.adminTableService.postData(id, nameOfColumn, newValue).subscribe(
-      (val) => {
-        this.editCellProgressBar = false;
-        this.idsToChange = [];
-        this.allChecked = false;
-      },
-      (error) => {
-        this.editCellProgressBar = false;
-        this.idsToChange = [];
-        this.allChecked = false;
-      }
-    );
+    this.adminTableService.postData(id, nameOfColumn, newValue).subscribe(() => {
+      this.editCellProgressBar = false;
+      this.idsToChange = [];
+      this.allChecked = false;
+    });
   }
 
   toggleAccordion(e) {
@@ -352,7 +370,8 @@ export class UbsAdminTableComponent implements OnInit, AfterViewChecked, OnDestr
   }
 
   openOrder(row): void {
-    this.router.navigate(['ubs-admin', 'order'], { state: { order: row } });
+    this.orderService.setSelectedOrder(row);
+    this.router.navigate(['ubs-admin', 'order']);
   }
 
   ngOnDestroy() {

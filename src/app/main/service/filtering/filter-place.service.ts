@@ -9,6 +9,8 @@ import { PlaceStatus } from '../../model/placeStatus.model';
 import { DatePipe } from '@angular/common';
 import { FilterDistanceDto } from '../../model/filtering/filter-distance-dto.model';
 import { Location } from '../../component/places/models/location.model';
+import { BehaviorSubject } from 'rxjs';
+import { PlacesFilter } from '../../component/places/models/places-filter';
 
 @Injectable({
   providedIn: 'root'
@@ -24,6 +26,8 @@ export class FilterPlaceService {
   discountMax = 100;
   distance: number;
   userMarkerLocation: Location = new Location();
+
+  public filtersDto$: BehaviorSubject<any> = new BehaviorSubject<any>({ status: PlaceStatus.APPROVED });
 
   constructor(private datePipe: DatePipe) {}
 
@@ -59,6 +63,40 @@ export class FilterPlaceService {
     const currentTime = this.isNowOpen ? this.datePipe.transform(new Date(), 'dd/MM/yyyy HH:mm:ss') : null;
     const distance = new FilterDistanceDto(this.userMarkerLocation.lat, this.userMarkerLocation.lng, this.distance);
     return new FilterPlaceDtoModel(PlaceStatus.APPROVED, this.mapBounds, discount, distance, null, currentTime);
+  }
+
+  updateFiltersDto(placesFilter: PlacesFilter) {
+    const filtersDto: any = {
+      status: PlaceStatus.APPROVED,
+      mapBoundsDto: placesFilter.mapBoundsDto
+    };
+    if (Boolean(placesFilter.searchName)) {
+      filtersDto.searchReg = placesFilter.searchName;
+    }
+
+    if (placesFilter.moreOptionsFilters?.distance.isActive) {
+      filtersDto.distanceFromUserDto = {
+        distance: placesFilter.moreOptionsFilters.distance.value,
+        lat: placesFilter.position.latitude,
+        lng: placesFilter.position.longitude
+      };
+    }
+
+    if (placesFilter.moreOptionsFilters?.baseFilters['Open now']) {
+      filtersDto.time = this.datePipe.transform(new Date(), 'dd/MM/yyyy HH:mm:ss');
+    }
+    const servicesFilters = placesFilter.moreOptionsFilters?.servicesFilters;
+    if (servicesFilters) {
+      const services = Object.keys(servicesFilters).reduce((acc: string[], key: string) => {
+        if (servicesFilters[key]) {
+          acc.push(key);
+        }
+        return acc;
+      }, []);
+      filtersDto.categories = services.concat(placesFilter.basicFilters);
+    }
+
+    this.filtersDto$.next(filtersDto);
   }
 
   clearFilter() {

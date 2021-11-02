@@ -14,6 +14,6 @@ export class ClientProfileService {
   }
 
   postDataClientProfile(user: UserProfile) {
-    return this.http.post(`${mainUbsLink}/ubs/userProfile/user/save`, user);
+    return this.http.post(`${mainUbsLink}/ubs/userProfile/user/update`, user);
   }
 }

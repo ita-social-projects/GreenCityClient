@@ -1,0 +1,12 @@
+<ng-content></ng-content>
+<span *ngIf="translate.defaultLang === 'en'; else otherLanguages">
+  {{ remainingCount }}
+  {{ (remainingCount === 1 ? localizationSet[tabName][0] : localizationSet[tabName][2]) | translate }}
+</span>
+<ng-template #otherLanguages>
+  <container-element [ngSwitch]="setWordDeclension(remainingCount + '')">
+    <span *ngSwitchCase="'a'"> {{ remainingCount }} {{ localizationSet[tabName][0] | translate }} </span>
+    <span *ngSwitchCase="'b'"> {{ remainingCount }} {{ localizationSet[tabName][1] | translate }} </span>
+    <span *ngSwitchDefault>{{ remainingCount }} {{ localizationSet[tabName][2] | translate }}</span>
+  </container-element>
+</ng-template>

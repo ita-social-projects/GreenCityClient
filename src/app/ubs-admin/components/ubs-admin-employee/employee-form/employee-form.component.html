@@ -14,7 +14,7 @@
     </div>
     <div class="form-group">
       <label class="group-title">{{ 'ubs-employee.phone-number' | translate }}</label>
-      <input formControlName="phoneNumber" [imask]="{ mask: phoneMask }" [unmask]="true" />
+      <input formControlName="phoneNumber" placeholder="+380" [imask]="{ mask: phoneMask }" [unmask]="true" />
     </div>
     <div class="form-group">
       <label class="group-title">{{ 'ubs-employee.email' | translate }}</label>
@@ -40,21 +40,17 @@
         <img class="checkbox-close-button" src="assets/img/ubs/cross.svg" alt="close" />
       </div>
     </div>
-    <span class="group-title">
+    <span class="group-title image-title">
       {{ 'ubs-employee.image-input' | translate }}
     </span>
-    <div
-      class="image-input"
-      *ngIf="!imageURL || userHasDefaultPhoto; else currentImageBlock"
-      [ngClass]="{ highlighted: dragOver }"
-      (drop)="treatFileInput($event)"
-      (dragover)="cancelDefault($event)"
-      (dragleave)="dragOver = false"
-      (dragenter)="dragOver = true"
-    >
+    <div class="image-input" *ngIf="!imageURL || userHasDefaultPhoto; else currentImageBlock" appDrag (files)="filesDropped($event)">
       <div class="file-input-label">
-        Перетягніть<br />зображення або<br />
-        <label for="file-input" class="download-from-device-button">завантажте з<br />пристрою</label>
+        {{ 'ubs-employee.picture-description-1' | translate }}<br />
+        {{ 'ubs-employee.picture-description-2' | translate }}<br />
+        <label for="file-input" class="download-from-device-button">
+          {{ 'ubs-employee.browse-1' | translate }}<br />
+          {{ 'ubs-employee.browse-2' | translate }}
+        </label>
         <input class="file-input" id="file-input" type="file" (change)="treatFileInput($event)" />
       </div>
     </div>
@@ -68,8 +64,15 @@
       </div>
     </ng-template>
     <div class="button-row">
-      <button mat-dialog-close class="cancelButton">Скасувати</button>
-      <button type="submit" class="addButton">{{ isUpdatingEmployee ? 'Оновити' : 'Додати' }}</button>
+      <button mat-dialog-close class="cancelButton">{{ 'ubs-employee.cancel' | translate }}</button>
+      <button
+        type="submit"
+        class="addButton"
+        [disabled]="employeeForm.invalid || !employeePositions.length || !receivingStations.length || isUploading"
+      >
+        <span *ngIf="isUploading" class="spinner-border spinner-border-sm" role="status" aria-hidden="true"> </span>
+        {{ (isUpdatingEmployee ? 'ubs-employee.update' : 'ubs-employee.add') | translate }}
+      </button>
     </div>
   </form>
 </div>

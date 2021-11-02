@@ -69,7 +69,7 @@ export class FormBaseComponent implements ComponentCanDeactivate {
         .subscribe((confirm) => {
           if (confirm) {
             this.areChangesSaved = true;
-            this.router.navigate([this.previousPath]);
+            this.router.navigate(['ubs', 'confirm']);
           }
         });
       return;

@@ -104,10 +104,11 @@
     (cdkDropListDropped)="dropListDropped($event)"
     [dataSource]="dataSource"
     *ngIf="!isLoading; else spinner"
+    aria-label="ordersTable"
   >
     <ng-container *ngFor="let column of columns; let i = index" [matColumnDef]="column.title.key" [sticky]="column.sticky">
       <mat-header-cell *matHeaderCellDef cdkDrag cdkDragLockAxis="x" cdkDragBoundary="mat-header-row">
-        <div *ngIf="column.title.key !== 'select'" class="column_header">
+        <th scope="row" *ngIf="column.title.key !== 'select'" class="column_header">
           <span class="column-title" [matTooltip]="column.title | serverTranslate: currentLang">{{
             column.title | serverTranslate: currentLang
           }}</span>
@@ -119,16 +120,16 @@
               arrow_upward
             </mat-icon>
           </span>
-        </div>
-        <mat-checkbox
-          *ngIf="column.title.key === 'select'"
-          (change)="$event && masterToggle()"
-          (change)="selectAll($event.checked)"
-          [checked]="allChecked"
-          [ngStyle]="{ backgroundColor: '#fff', height: '16px' }"
-          [indeterminate]="!!idsToChange.length"
-        >
-        </mat-checkbox>
+        </th>
+        <th scope="row" *ngIf="column.title.key === 'select'" [ngStyle]="{ backgroundColor: '#fff', height: '16px', padding: '0px' }">
+          <mat-checkbox
+            (change)="$event && masterToggle()"
+            (change)="selectAll($event.checked)"
+            [checked]="allChecked"
+            [indeterminate]="!!idsToChange.length"
+          >
+          </mat-checkbox>
+        </th>
       </mat-header-cell>
       <mat-cell *matCellDef="let row">
         <app-table-cell-readonly
@@ -151,6 +152,7 @@
           [ordersToChange]="idsToChange"
           [isAllChecked]="allChecked"
           (editCellSelect)="editCell($event)"
+          (cancelEdit)="cancelEditCell($event)"
           (showBlockedInfo)="showBlockedMessage($event)"
           class="column_cell"
         >
@@ -174,6 +176,7 @@
           [id]="row.id"
           [ordersToChange]="idsToChange"
           [isAllChecked]="allChecked"
+          (cancelEdit)="cancelEditCell($event)"
           (editTimeCell)="editCell($event)"
           (showBlockedInfo)="showBlockedMessage($event)"
         >

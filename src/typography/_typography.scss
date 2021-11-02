@@ -106,9 +106,17 @@
   letter-spacing: 0.1px;
 }
 
+.ubs-primary-global-button {
+  background: var(--ubs-button-light-green);
+}
+
+.primary-global-button {
+  background: var(--primary-green);
+}
+
+.ubs-primary-global-button,
 .primary-global-button {
   border: none;
-  background: var(--primary-green);
   border-radius: 3px;
   font-family: var(--primary-font);
   font-style: normal;
@@ -120,12 +128,18 @@
   color: #fff;
 }
 
+.ubs-primary-global-button:active {
+  background: var(--ubs-button-light-green);
+}
+
 .primary-global-button:hover,
 .primary-global-button:active {
   background: var(--secondary-dark-green);
   outline: none;
 }
 
+.ubs-primary-global-button:hover,
+.ubs-primary-global-button:disabled,
 .primary-global-button:disabled {
   background-color: var(--primary-grey);
   border: 1px solid var(--primary-grey);

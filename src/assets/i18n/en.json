@@ -169,7 +169,10 @@
     "no-attachment": "No attachments",
     "loading-data": "Loading data...",
     "no-data": "No data",
-    "items-per-page": "Items per page:"
+    "items-per-page": "Items per page:",
+    "delete": "Delete",
+    "Do-you-really-want-to-delete-comment-of": "Do you really want to delete comment",
+    "places": "Places"
   },
   "places": {
     "places": "Places",
@@ -417,7 +420,8 @@
       "close-navigation": "Close navigation",
       "discount": "discount",
       "driving": "driving",
-      "walking": "walking"
+      "walking": "walking",
+      "more-options": "More options"
     },
     "places-card": {
       "card-description": "https://placewebsite.com",
@@ -523,7 +527,9 @@
       "tips": "Tips & Tricks",
       "map": "Places",
       "ubs": "UBS courier",
-      "my-habits": "My space"
+      "my-habits": "My space",
+      "sorting-rules": "Sorting rules",
+      "eco-shop": "Eco-Shop"
     },
     "edit-profile": {
       "edit-profile": "Edit Profile",
@@ -664,6 +670,7 @@
       "all-habits": {
         "back-button": "Back to My habits",
         "title": "All habits",
+        "mutual": "Mutual habits",
         "no-habits": "Unfortunately, no more habits found",
         "no-habits-advice": "We couldn't find any more habits. Please change filters to get another result.",
         "btn-more": "More",
@@ -785,11 +792,19 @@
       "add-new-habit": "Add New Habit",
       "habits-acquired": "Acquired",
       "habits-view-more": "View more...",
-      "habits": "habits",
+      "habits": {
+        "habit-at-1": "habit",
+        "habit-at-2-3-4": "habits",
+        "habit-at-all": "habits"
+      },
       "no-habits-in-progress": "Hi Eco Friend ;-)",
       "no-habits-in-progress-advice": "Welcome to My Habits. It seems you don’t have habits in progress. Let’s start to acquire a new one!",
       "news-list": "List of news",
-      "news": "news",
+      "news": {
+        "news-at-1": "item of news",
+        "news-at-2-3-4": "news",
+        "news-at-all": "news"
+      },
       "add-news": "Add News"
     },
     "habits-in-progress": "In progress",
@@ -798,6 +813,7 @@
     "elements": "Items",
     "my-eco-friends": "My Friends",
     "zero-friends": "You don't have any friends.",
+    "zero-user-friends": "This user has no friends",
     "zero-requests": "Unfortunately, there are no new requests.",
     "my-eco-places": "My eco places",
     "shoppingList": "Shopping list",
@@ -816,6 +832,7 @@
     "friends": {
       "link-to-profile": "Back to My habits",
       "mutual-friends": "mutual friends",
+      "all-mutual-friends": "Mutual friends",
       "friends": "Friends",
       "add-new-friend": "Add friend",
       "delete-friend": "Unfriend",
@@ -849,7 +866,7 @@
     "picture-title": "Picture (optional)",
     "content-title": "Content",
     "content-placeholder": "e.g. Short description of news, agenda for event",
-    "content-tooltip": "Must be minimum 20 symbols",
+    "content-tooltip": "Must be minimum 20 and maximum 63 206 symbols",
     "date": "Date: ",
     "author": "Author: ",
     "author-name": "Current User",

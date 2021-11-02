@@ -3,11 +3,12 @@
     <mat-tab-group animationDuration="0ms" (selectedTabChange)="tabChanged($event)">
       <mat-tab label="{{ 'profile.dashboard.my-habits' | translate }}">
         <div *ngIf="!loading; else spinner">
-          <div *ngIf="habitsInProgress.length !== 0">
+          <div *ngIf="habitAssignService.habitsInProgress.length !== 0">
             <div class="in-progress header">
               <p>
-                {{ 'profile.dashboard.habits-inprogress' | translate }} <br />
-                <span>{{ habitsInProgress.length }} {{ 'profile.dashboard.habits' | translate }}</span>
+                <app-set-count [remainingCount]="habitAssignService.habitsInProgress.length" [tabName]="'habits'">
+                  {{ 'profile.dashboard.habits-inprogress' | translate }} <br />
+                </app-set-count>
               </p>
               <a [routerLink]="['/profile', userId, 'allhabits']">
                 <div id="create-button" class="secondary-global-button">
@@ -15,21 +16,26 @@
                 </div>
               </a>
             </div>
-            <div class="body" *ngIf="habitsInProgress">
-              <app-one-habit *ngFor="let habit of habitsInProgressToView" [habit]="habit" (nowAcquiredHabit)="changeStatus($event)">
+            <div class="body" *ngIf="this.habitAssignService.habitsInProgress">
+              <app-one-habit
+                *ngFor="let habit of this.habitAssignService.habitsInProgressToView"
+                [habit]="habit"
+                (nowAcquiredHabit)="changeStatus($event)"
+              >
               </app-one-habit>
             </div>
             <button
               class="btn-view-more"
-              *ngIf="habitsInProgress.length > habitsInProgressToView.length"
+              *ngIf="this.habitAssignService.habitsInProgress.length > this.habitAssignService.habitsInProgressToView.length"
               (click)="getMoreHabitsInProgressForView()"
             >
               {{ 'profile.dashboard.habits-view-more' | translate }}
             </button>
             <div class="acquired header">
               <p>
-                {{ 'profile.dashboard.habits-acquired' | translate }} <br />
-                <span>{{ habitsAcquired.length }} {{ 'profile.dashboard.habits' | translate }}</span>
+                <app-set-count [remainingCount]="habitsAcquired.length" [tabName]="'habits'">
+                  {{ 'profile.dashboard.habits-acquired' | translate }} <br />
+                </app-set-count>
               </p>
             </div>
             <div class="body" *ngIf="habitsAcquired">
@@ -43,7 +49,7 @@
           >
             {{ 'profile.dashboard.habits-view-more' | translate }}
           </button>
-          <div class="no-data" *ngIf="habitsInProgress.length === 0">
+          <div class="no-data" *ngIf="this.habitAssignService.habitsInProgress.length === 0">
             <app-no-data [title]="'profile.dashboard.no-habits-in-progress'" [text]="'profile.dashboard.no-habits-in-progress-advice'">
             </app-no-data>
             <a [routerLink]="['/profile', userId, 'allhabits']">
@@ -59,8 +65,9 @@
         <div *ngIf="!loading; else spinner">
           <div class="in-progress header">
             <p>
-              {{ 'profile.dashboard.news-list' | translate }} <br />
-              <span>{{ habitsInProgress.length }} {{ 'profile.dashboard.news' | translate }}</span>
+              <app-set-count [remainingCount]="news?.length" [tabName]="'news'">
+                {{ 'profile.dashboard.news-list' | translate }} <br />
+              </app-set-count>
             </p>
             <a [routerLink]="['/news/create-news']">
               <div id="create-button" class="secondary-global-button">

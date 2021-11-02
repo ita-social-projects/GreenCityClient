@@ -147,6 +147,10 @@
   },
   "confirm-page": {
     "title-text": "Your order is accepted",
+    "to-personal-account": "To the personal account",
+    "return-to-payment": "Return to the payment",
+    "oops": "Oops, something went wrong...",
+    "order-not-paid": "Sorry, your order was not paid for. Please try again.",
     "description": "Thank you for your waste control!",
     "ubsServices": "UBS services",
     "other-order": "Make other order",
@@ -228,7 +232,21 @@
       }
     }
   },
+  "user": {
+    "lower-nav-bar": {
+      "about-us": "About-us",
+      "sorting-rules": "Sorting rules",
+      "eco-shop": "Eco-Shop"
+    }
+  },
+  "nav-bar": {
+    "user-settings": "Settings",
+    "sign-out": "Sign out",
+    "sign-in": "Sign in",
+    "management": "Management"
+  },
   "snack-bar": {
-    "exist-address": "This address has already been added"
+    "exist-address": "This address has already been added",
+    "saved-order": "Now you can find your order №{{orderId}} in your personal account and continue processing it at any time"
   }
 }
