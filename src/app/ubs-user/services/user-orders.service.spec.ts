@@ -2,7 +2,7 @@ import { TestBed } from '@angular/core/testing';
 import { HttpClientTestingModule, HttpTestingController } from '@angular/common/http/testing';
 import { UserOrdersService } from './user-orders.service';
 
-fdescribe('UserOrdersService', () => {
+describe('UserOrdersService', () => {
   let httpMock: HttpTestingController;
   const url = 'https://greencity-ubs.azurewebsites.net/ubs/client';
   let service: UserOrdersService;
