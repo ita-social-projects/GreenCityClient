@@ -49,4 +49,12 @@ fdescribe('UbsConfirmPageComponent', () => {
     // @ts-ignore
     expect(component.activatedRoute.queryParams.subscribe).toHaveBeenCalled();
   });
+
+  it('in ngOnInit should saveDataOnLocalStorage be called', () => {
+    fakeUBSOrderFormService.getOrderResponseErrorStatus.and.returnValue(false);
+    fakeUBSOrderFormService.getOrderStatus.and.returnValue(true);
+    spyOn(component, 'saveDataOnLocalStorage').and.returnValue(null);
+    component.ngOnInit();
+    expect(component.saveDataOnLocalStorage).toHaveBeenCalled();
+  });
 });
