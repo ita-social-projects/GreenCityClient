@@ -77,17 +77,6 @@ export class HabitsPopupComponent implements OnInit, OnDestroy {
     return `${month} ${day}, ${year}`;
   }
 
-  setWorkingDaysForInvisibleHabit(enrolled: boolean, id, isUndefined: boolean) {
-    const valueHabitsInProgress = this.habitAssignService.habitsInProgress.find((item) => item.habit.id === id);
-    if (enrolled && isUndefined) {
-      valueHabitsInProgress.workingDays++;
-      this.habitAssignService.habitsInProgress = this.habitAssignService.habitsInProgress.map((obj) => ({ ...obj }));
-    } else if (!enrolled && isUndefined) {
-      valueHabitsInProgress.workingDays--;
-      this.habitAssignService.habitsInProgress = this.habitAssignService.habitsInProgress.map((obj) => ({ ...obj }));
-    }
-  }
-
   setWorkingDaysForVisibleHabit(enrolled: boolean, id) {
     const valueHabitsInProgressToView = this.habitAssignService.habitsInProgressToView.find((item) => item.habit.id === id);
     const valueHabitsInProgress = this.habitAssignService.habitsInProgress.find((item) => item.habit.id === id);
