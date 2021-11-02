@@ -30,13 +30,4 @@ fdescribe('UserOrdersService', () => {
     const req = httpMock.expectOne(`${url}/get-all-orders-data/${lang}`);
     expect(req.request.method).toBe('GET');
   });
-
-  it('should return all users orders on en language', () => {
-    const lang = 2;
-    service.getAllUserOrders().subscribe((data) => {
-      expect(data).toBeDefined();
-    });
-    const req = httpMock.expectOne(`${url}/get-all-orders-data/${lang}`);
-    expect(req.request.method).toBe('GET');
-  });
 });
