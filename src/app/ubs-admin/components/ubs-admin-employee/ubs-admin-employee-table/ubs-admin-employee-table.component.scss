@@ -6,7 +6,6 @@
   display: flex;
   justify-content: center;
   flex-wrap: wrap;
-  cursor: pointer;
   font-size: 14px;
   min-height: 39px;
   min-width: 48px;
@@ -14,6 +13,10 @@
   word-wrap: break-word;
   white-space: nowrap;
   overflow-wrap: break-word;
+}
+
+.drop {
+  cursor: pointer;
 }
 
 .table {

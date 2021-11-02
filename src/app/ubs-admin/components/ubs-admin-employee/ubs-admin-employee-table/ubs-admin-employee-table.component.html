@@ -18,7 +18,7 @@
       </caption>
       <ng-container class="column.field" matColumnDef="fullName">
         <mat-header-cell *matHeaderCellDef>
-          <th>
+          <th id="name">
             <span class="column-title">Ім'я працівника</span>
           </th>
         </mat-header-cell>
@@ -31,7 +31,7 @@
 
       <ng-container class="column.field" matColumnDef="position">
         <mat-header-cell *matHeaderCellDef>
-          <th (click)="openPositions()">
+          <th id="position" class="drop" (click)="openPositions()">
             <span class="column-title">Посада</span>
           </th>
           <div class="check" *ngIf="isPositionsOpen">
@@ -50,12 +50,12 @@
 
       <ng-container class="column.field" matColumnDef="location">
         <mat-header-cell *matHeaderCellDef>
-          <th (click)="openStations()">
+          <th id="station" class="drop" (click)="openStations()">
             <span class="column-title">Станція приймання</span>
           </th>
           <div class="check" *ngIf="isStationsOpen">
             <div *ngFor="let station of allStations">
-              <input type="checkbox" name="{{ station.id }}" [value]="station.id" (change)="getStationId($event, station.id)" />
+              <input type="checkbox" name="{{ station.name }}" [value]="station.id" (change)="getStationId($event, station.id)" />
               {{ station.name }}
             </div>
           </div>
@@ -69,7 +69,7 @@
 
       <ng-container class="column.field" matColumnDef="email">
         <mat-header-cell *matHeaderCellDef>
-          <th>
+          <th id="email">
             <span class="column-title">email</span>
           </th>
         </mat-header-cell>
@@ -82,7 +82,7 @@
 
       <ng-container class="column.field" matColumnDef="phoneNumber">
         <mat-header-cell *matHeaderCellDef>
-          <th>
+          <th id="phone">
             <span class="column-title">Телефон</span>
           </th>
         </mat-header-cell>
