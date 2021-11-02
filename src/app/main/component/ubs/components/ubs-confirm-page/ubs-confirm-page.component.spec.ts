@@ -2,6 +2,7 @@ import { of, Subscription } from 'rxjs';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { RouterModule } from '@angular/router';
 import { TranslateModule } from '@ngx-translate/core';
+import { JwtService } from '@global-service/jwt/jwt.service';
 
 import { UbsConfirmPageComponent } from './ubs-confirm-page.component';
 import { MatSnackBarComponent } from '@global-errors/mat-snack-bar/mat-snack-bar.component';
@@ -16,6 +17,7 @@ describe('UbsConfirmPageComponent', () => {
     'getOrderStatus',
     'saveDataOnLocalStorage'
   ]);
+  let fakeJwtService = jasmine.createSpyObj('fakeJwtService', ['']);
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
@@ -23,7 +25,8 @@ describe('UbsConfirmPageComponent', () => {
       imports: [TranslateModule.forRoot(), RouterModule.forRoot([])],
       providers: [
         { provide: MatSnackBarComponent, useValue: fakeSnackBar },
-        { provide: UBSOrderFormService, useValue: fakeUBSOrderFormService }
+        { provide: UBSOrderFormService, useValue: fakeUBSOrderFormService },
+        { provide: JwtService, useValue: fakeJwtService }
       ]
     }).compileComponents();
   }));
