@@ -308,9 +308,11 @@ export class CalendarBaseComponent implements OnDestroy {
 
   openDialogDayHabits(event, isMonthCalendar, dayItem: CalendarInterface) {
     const dateForHabitPopup = `${dayItem.year}-${dayItem.month + 1}-${dayItem.numberOfDate}`;
-    dayItem.numberOfDate
-      ? (this.habitAssignService.habitDate = new Date(dateForHabitPopup))
-      : (this.habitAssignService.habitDate = dayItem.date);
+    if (dayItem.numberOfDate) {
+      this.habitAssignService.habitDate = new Date(dateForHabitPopup);
+    } else {
+      this.habitAssignService.habitDate = dayItem.date;
+    }
     this.checkHabitListEditable(isMonthCalendar, dayItem);
     const date = this.formatDate(isMonthCalendar, dayItem);
     const habits = this.getHabitsForDay(this.userHabitsList, date);
