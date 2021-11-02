@@ -10,7 +10,7 @@ describe('UserMessagesService', () => {
   let httpMock: HttpTestingController;
   let service: UserMessagesService;
   let langMock = null;
-  let IDMock = 3900;
+  const IDMock = 3900;
 
   let localStorageServiceMock: LocalStorageService;
   localStorageServiceMock = jasmine.createSpyObj('LocalStorageService', ['languageBehaviourSubject']);

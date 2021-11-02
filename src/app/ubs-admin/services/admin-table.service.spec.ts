@@ -65,15 +65,15 @@ describe('AdminTableService', () => {
   });
 
   it('should return [] when howChangeCell is called', () => {
-    let change = service.howChangeCell(true, [], null);
+    const change = service.howChangeCell(true, [], null);
     expect(change).toEqual([]);
   });
   it('should return group with numbers when howChangeCell is called', () => {
-    let change = service.howChangeCell(false, [1, 2], null);
+    const change = service.howChangeCell(false, [1, 2], null);
     expect(change).toEqual([1, 2]);
   });
   it('should return singhle number when howChangeCell is called', () => {
-    let change = service.howChangeCell(false, [], 3);
+    const change = service.howChangeCell(false, [], 3);
     expect(change).toEqual([3]);
   });
 });
