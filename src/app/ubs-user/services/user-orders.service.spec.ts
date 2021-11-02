@@ -2,7 +2,7 @@ import { TestBed } from '@angular/core/testing';
 import { HttpClientTestingModule, HttpTestingController } from '@angular/common/http/testing';
 import { UserOrdersService } from './user-orders.service';
 
-describe('UserOrdersService', () => {
+fdescribe('UserOrdersService', () => {
   let httpMock: HttpTestingController;
   const url = 'https://greencity-ubs.azurewebsites.net/ubs/client';
   let service: UserOrdersService;
@@ -24,6 +24,15 @@ describe('UserOrdersService', () => {
 
   it('should return all users orders on ua language', () => {
     const lang = 1;
+    service.getAllUserOrders().subscribe((data) => {
+      expect(data).toBeDefined();
+    });
+    const req = httpMock.expectOne(`${url}/get-all-orders-data/${lang}`);
+    expect(req.request.method).toBe('GET');
+  });
+
+  it('should return all users orders on en language', () => {
+    const lang = 2;
     service.getAllUserOrders().subscribe((data) => {
       expect(data).toBeDefined();
     });
