@@ -69,6 +69,7 @@ export class UbsAdminEmployeeTableComponent implements OnInit {
 
   openPositions() {
     this.isPositionsOpen = !this.isPositionsOpen;
+    this.isStationsOpen = false;
     if (this.allPositions.length === 0) {
       this.ubsAdminEmployeeService.getAllPositions().subscribe((pos) => {
         this.allPositions = pos;
@@ -136,6 +137,7 @@ export class UbsAdminEmployeeTableComponent implements OnInit {
 
   openStations() {
     this.isStationsOpen = !this.isStationsOpen;
+    this.isPositionsOpen = false;
     if (this.allStations.length === 0) {
       this.ubsAdminEmployeeService.getAllStations().subscribe((stations) => {
         this.allStations = stations;
