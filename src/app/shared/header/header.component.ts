@@ -1,8 +1,8 @@
 import { LanguageService } from 'src/app/main/i18n/language.service';
-import { Language } from './../../../../i18n/Language';
-import { headerIcons } from './../../../../image-pathes/header-icons';
-import { Component, OnInit, OnDestroy, ViewChild, ElementRef } from '@angular/core';
-import { ActivatedRoute, NavigationStart, Router } from '@angular/router';
+import { Language } from '../../main/i18n/Language';
+import { headerIcons, ubsHeaderIcons } from '../../main/image-pathes/header-icons';
+import { Component, OnInit, OnDestroy, ViewChild, ElementRef, Injector } from '@angular/core';
+import { NavigationStart, Router } from '@angular/router';
 import { filter, takeUntil } from 'rxjs/operators';
 import { JwtService } from '@global-service/jwt/jwt.service';
 import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
@@ -11,11 +11,12 @@ import { AchievementService } from '@global-service/achievement/achievement.serv
 import { HabitStatisticService } from '@global-service/habit-statistic/habit-statistic.service';
 import { SearchService } from '@global-service/search/search.service';
 import { UserOwnAuthService } from '@auth-service/user-own-auth.service';
-import { LanguageModel } from '../models/languageModel';
+import { LanguageModel } from '../../main/component/layout/components/models/languageModel';
 import { AuthModalComponent } from '@global-auth/auth-modal/auth-modal.component';
 import { environment } from '@environment/environment';
 import { Subject } from 'rxjs';
 import { MatDialog } from '@angular/material/dialog';
+import { HeaderService } from '@global-service/header/header.service';
 
 @Component({
   selector: 'app-header',
@@ -23,8 +24,6 @@ import { MatDialog } from '@angular/material/dialog';
   styleUrls: ['./header.component.scss']
 })
 export class HeaderComponent implements OnInit, OnDestroy {
-  readonly selectLanguageArrow = 'assets/img/arrow_grey.png';
-  readonly dropDownArrow = 'assets/img/arrow.png';
   public dropdownVisible = false;
   public langDropdownVisible = false;
   public name: string;
@@ -33,11 +32,7 @@ export class HeaderComponent implements OnInit, OnDestroy {
   public managementLink: string;
   public isAllSearchOpen = false;
   public toggleBurgerMenu = false;
-  public arrayLang: Array<LanguageModel> = [
-    { lang: 'Ua', langName: 'ukrainian' },
-    { lang: 'En', langName: 'english' },
-    { lang: 'Ru', langName: 'russian' }
-  ];
+  public arrayLang: Array<LanguageModel>;
   public ariaStatus = 'profile options collapsed';
   public isSearchClicked = false;
   private adminRoleValue = 'ROLE_ADMIN';
@@ -45,26 +40,50 @@ export class HeaderComponent implements OnInit, OnDestroy {
   private userId: number;
   private backEndLink = environment.backendLink;
   private destroySub: Subject<boolean> = new Subject<boolean>();
-  public headerImageList = headerIcons;
-  public skipPath: string;
+  public headerImageList;
   @ViewChild('signinref') signinref: ElementRef;
   @ViewChild('signupref') signupref: ElementRef;
   public elementName;
-  constructor(
-    public dialog: MatDialog,
-    private localStorageService: LocalStorageService,
-    private jwtService: JwtService,
-    private router: Router,
-    private userService: UserService,
-    private achievementService: AchievementService,
-    private habitStatisticService: HabitStatisticService,
-    private languageService: LanguageService,
-    private searchSearch: SearchService,
-    private userOwnAuthService: UserOwnAuthService,
-    private route: ActivatedRoute
-  ) {}
+  public isUBS: boolean;
+  ubsUrl = 'ubs';
+  public imageLogo;
+  public navLinks;
+  public selectedIndex: number = null;
+  public currentLanguage: string;
+  public dialog: MatDialog;
+  private localeStorageService: LocalStorageService;
+  private jwtService: JwtService;
+  private router: Router;
+  private userService: UserService;
+  private achievementService: AchievementService;
+  private habitStatisticService: HabitStatisticService;
+  private languageService: LanguageService;
+  private searchSearch: SearchService;
+  private userOwnAuthService: UserOwnAuthService;
+  private headerService: HeaderService;
+
+  constructor(private injector: Injector) {
+    this.dialog = injector.get(MatDialog);
+    this.localeStorageService = injector.get(LocalStorageService);
+    this.jwtService = injector.get(JwtService);
+    this.router = injector.get(Router);
+    this.userService = injector.get(UserService);
+    this.achievementService = injector.get(AchievementService);
+    this.habitStatisticService = injector.get(HabitStatisticService);
+    this.languageService = injector.get(LanguageService);
+    this.searchSearch = injector.get(SearchService);
+    this.userOwnAuthService = injector.get(UserOwnAuthService);
+    this.headerService = injector.get(HeaderService);
+  }
 
   ngOnInit() {
+    this.isUBS = this.router.url.includes(this.ubsUrl);
+    this.localeStorageService.setUbsRegistration(this.isUBS);
+    this.currentLanguage = this.localeStorageService.getCurrentLanguage();
+    this.toggleHeader();
+    this.setLangArr();
+    this.updateArrayLang();
+
     this.dialog.afterAllClosed.pipe(takeUntil(this.destroySub)).subscribe(() => {
       this.focusDone();
     });
@@ -73,12 +92,11 @@ export class HeaderComponent implements OnInit, OnDestroy {
 
     this.searchSearch.allSearchSubject.pipe(takeUntil(this.destroySub)).subscribe((signal) => this.openAllSearchSubscription(signal));
 
-    this.localStorageService.firstNameBehaviourSubject.pipe(takeUntil(this.destroySub)).subscribe((firstName) => {
+    this.localeStorageService.firstNameBehaviourSubject.pipe(takeUntil(this.destroySub)).subscribe((firstName) => {
       this.name = firstName;
     });
 
     this.initUser();
-    this.setLangArr();
     this.jwtService.userRole$.pipe(takeUntil(this.destroySub)).subscribe((userRole) => {
       this.userRole = userRole;
       this.isAdmin = this.userRole === this.adminRoleValue;
@@ -88,11 +106,28 @@ export class HeaderComponent implements OnInit, OnDestroy {
 
     this.userOwnAuthService.isLoginUserSubject.pipe(takeUntil(this.destroySub)).subscribe((status) => (this.isLoggedIn = status));
 
-    this.localStorageService.accessTokenBehaviourSubject.pipe(takeUntil(this.destroySub)).subscribe((token) => {
+    this.localeStorageService.accessTokenBehaviourSubject.pipe(takeUntil(this.destroySub)).subscribe((token) => {
       this.managementLink = `${this.backEndLink}token?accessToken=${token}`;
     });
+  }
 
-    this.localStorageService.setUbsRegistration(false);
+  public navigateToLink(link, index) {
+    this.headerService.setSelectedIndex(index);
+    if (link.url) {
+      window.open(link.route);
+    } else {
+      this.router.navigate([link.route]);
+    }
+    if (link.route === '/') {
+      this.headerService.setSelectedIndex(null);
+    }
+  }
+
+  toggleHeader(): void {
+    this.selectedIndex = this.headerService.getSelectedIndex();
+    this.navLinks = this.headerService.getNavLinks(this.isUBS);
+    this.headerImageList = this.isUBS ? ubsHeaderIcons : headerIcons;
+    this.imageLogo = this.isUBS ? ubsHeaderIcons.ubsAdminLogo : headerIcons.greenCityLogo;
   }
 
   public focusDone(): void {
@@ -107,18 +142,32 @@ export class HeaderComponent implements OnInit, OnDestroy {
   ngOnDestroy() {
     this.destroySub.next(true);
     this.destroySub.unsubscribe();
-    this.localStorageService.setUbsRegistration(true);
   }
 
-  setLangArr(): void {
-    const language = this.languageService.getCurrentLanguage();
-    const currentLangObj = { lang: language.charAt(0).toUpperCase() + language.slice(1), langName: language };
-    const currentLangIndex = this.arrayLang.findIndex((lang) => lang.lang === currentLangObj.lang);
-    this.arrayLang = [currentLangObj, ...this.arrayLang.slice(0, currentLangIndex), ...this.arrayLang.slice(currentLangIndex + 1)];
+  private updateArrayLang() {
+    this.arrayLang = [];
+    this.arrayLang = this.headerService.getArrayLang(this.isUBS);
+  }
+
+  private setLangArr(): void {
+    this.updateArrayLang();
+    let mainLang = null;
+    if (this.isUBS && this.currentLanguage === Language.RU) {
+      this.languageService.changeCurrentLanguage(Language.UA.toLowerCase() as Language);
+      this.currentLanguage = this.localeStorageService.getCurrentLanguage();
+    }
+    this.arrayLang.forEach((item, i, arr) => {
+      if (arr[i].lang.toLowerCase() === this.currentLanguage) {
+        mainLang = item;
+        arr.splice(i, 1);
+        arr.unshift(mainLang);
+        mainLang = null;
+      }
+    });
   }
 
   private initUser(): void {
-    this.localStorageService.userIdBehaviourSubject
+    this.localeStorageService.userIdBehaviourSubject
       .pipe(
         takeUntil(this.destroySub),
         filter((userId) => userId !== null && !isNaN(userId))
@@ -214,10 +263,10 @@ export class HeaderComponent implements OnInit, OnDestroy {
   public signOut(): void {
     this.dropdownVisible = false;
     this.userOwnAuthService.isLoginUserSubject.next(false);
-    this.localStorageService.clear();
+    this.localeStorageService.clear();
     this.habitStatisticService.onLogout();
     this.achievementService.onLogout();
-    this.router.navigateByUrl('/').then((r) => r);
+    this.router.navigateByUrl(this.isUBS ? '/ubs' : '/').then((r) => r);
     this.userOwnAuthService.getDataFromLocalStorage();
     this.jwtService.userRole$.next('');
   }

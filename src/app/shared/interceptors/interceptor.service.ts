@@ -8,6 +8,7 @@ import { LocalStorageService } from '../../main/service/localstorage/local-stora
 import { BAD_REQUEST, FORBIDDEN, UNAUTHORIZED } from '../../main/http-response-status';
 import { MatSnackBarComponent } from '@global-errors/mat-snack-bar/mat-snack-bar.component';
 import { UserOwnAuthService } from '@auth-service/user-own-auth.service';
+import { UBSOrderFormService } from 'src/app/main/component/ubs/services/ubs-order-form.service';
 import { MatDialog } from '@angular/material/dialog';
 import { AuthModalComponent } from '@global-auth/auth-modal/auth-modal.component';
 
@@ -29,6 +30,7 @@ export class InterceptorService implements HttpInterceptor {
     private localStorageService: LocalStorageService,
     private router: Router,
     private userOwnAuthService: UserOwnAuthService,
+    private ubsOrderFormService: UBSOrderFormService,
     private dialog: MatDialog
   ) {}
 
@@ -53,6 +55,16 @@ export class InterceptorService implements HttpInterceptor {
     if (this.localStorageService.getAccessToken()) {
       req = this.addAccessTokenToHeader(req, this.localStorageService.getAccessToken());
     }
+    if (this.isQueryWithProcessOrder(req.url)) {
+      return next.handle(req).pipe(
+        catchError((error: HttpErrorResponse) => {
+          if (error.status >= 400) {
+            this.ubsOrderFormService.setOrderResponseErrorStatus(true);
+          }
+          return throwError(error);
+        })
+      );
+    }
     return next.handle(req).pipe(
       catchError((error: HttpErrorResponse) => {
         if (this.checkIfErrorStatusIs(error.status, [BAD_REQUEST, FORBIDDEN])) {
@@ -71,6 +83,10 @@ export class InterceptorService implements HttpInterceptor {
 
   private isQueryWithSecurity(url: string): boolean {
     return url.includes('ownSecurity') || url.includes('googleSecurity');
+  }
+
+  private isQueryWithProcessOrder(url: string): boolean {
+    return url.includes('processOrder');
   }
 
   private checkIfErrorStatusIs(errorStatusCode: number, statusCodesToVerify: number[]): boolean {
@@ -115,10 +131,12 @@ export class InterceptorService implements HttpInterceptor {
    */
   private handleRefreshTokenIsNotValid(error: HttpErrorResponse): Observable<HttpEvent<any>> {
     const currentUrl = this.router.url;
+    const isUBS = currentUrl.includes('ubs');
     this.isRefreshing = false;
     this.localStorageService.clear();
     this.dialog.closeAll();
     this.userOwnAuthService.isLoginUserSubject.next(false);
+    this.localStorageService.setUbsRegistration(isUBS);
     this.dialog
       .open(AuthModalComponent, {
         hasBackdrop: true,

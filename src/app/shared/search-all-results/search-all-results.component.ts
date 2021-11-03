@@ -1,12 +1,12 @@
-import { NewsSearchModel } from './../../../../model/search/newsSearch.model';
-import { SearchDataModel } from './../../../../model/search/search.model';
-import { searchIcons } from './../../../../image-pathes/search-icons';
+import { NewsSearchModel } from '@global-models/search/newsSearch.model';
+import { SearchDataModel } from '@global-models/search/search.model';
+import { searchIcons } from '../../main/image-pathes/search-icons';
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { fromEvent, Subject } from 'rxjs';
 import { map, distinctUntilChanged, tap, debounceTime, take, takeUntil } from 'rxjs/operators';
 import { SearchService } from '@global-service/search/search.service';
-import { FilterByitem } from '../models/search-dto';
+import { FilterByitem } from '../../main/component/layout/components/models/search-dto';
 
 @Component({
   selector: 'app-search-all-results',

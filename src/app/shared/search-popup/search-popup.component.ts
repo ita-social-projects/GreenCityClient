@@ -1,8 +1,8 @@
-import { TipsSearchModel } from './../../../../model/search/tipsSearch.model';
-import { NewsSearchModel } from './../../../../model/search/newsSearch.model';
-import { SearchModel } from './../../../../model/search/search.model';
+import { TipsSearchModel } from '@global-models/search/tipsSearch.model';
+import { NewsSearchModel } from '@global-models/search/newsSearch.model';
+import { SearchModel } from '@global-models/search/search.model';
 import { LiveAnnouncer } from '@angular/cdk/a11y';
-import { searchIcons } from './../../../../image-pathes/search-icons';
+import { searchIcons } from '../../main/image-pathes/search-icons';
 import { negate, isNil } from 'lodash';
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Subscription } from 'rxjs';

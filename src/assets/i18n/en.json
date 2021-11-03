@@ -420,7 +420,8 @@
       "close-navigation": "Close navigation",
       "discount": "discount",
       "driving": "driving",
-      "walking": "walking"
+      "walking": "walking",
+      "more-options": "More options"
     },
     "places-card": {
       "card-description": "https://placewebsite.com",
@@ -526,7 +527,9 @@
       "tips": "Tips & Tricks",
       "map": "Places",
       "ubs": "UBS courier",
-      "my-habits": "My space"
+      "my-habits": "My space",
+      "sorting-rules": "Sorting rules",
+      "eco-shop": "Eco-Shop"
     },
     "edit-profile": {
       "edit-profile": "Edit Profile",

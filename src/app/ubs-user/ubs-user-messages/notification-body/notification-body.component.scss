@@ -18,17 +18,25 @@
   text-align: center;
   border: none;
   text-decoration: none;
+  text-transform: none;
   height: 36px;
   width: 114px;
   margin-bottom: 16px;
   border-radius: 4px;
   background: var(--ubs-button-light-green);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  &:hover {
+    cursor: pointer;
+  }
 }
 
 .price {
   color: var(--ubs-quaternary-dark-grey);
   font-size: 15px;
-  font-weight: 700;
+  font-weight: 500;
 }
 
 .numberOrder {

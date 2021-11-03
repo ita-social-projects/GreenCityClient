@@ -16,6 +16,11 @@
 
 .table {
   border-collapse: collapse;
+
+  th {
+    border: 0;
+    padding: 0;
+  }
 }
 
 .mat-row {

@@ -26,7 +26,7 @@ export class AuthModalComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     this.localeStorageService.ubsRegBehaviourSubject.pipe(takeUntil(this.destroySub)).subscribe((value) => (this.authImageValue = value));
-    this.setAuthImage();
+    this.authImages = this.authImageValue ? ubsAuthImages : authImages;
     this.setAuthPage();
     this.announce();
   }
@@ -45,14 +45,6 @@ export class AuthModalComponent implements OnInit, OnDestroy {
 
   private setAuthPage(): void {
     this.authPage = this.data.popUpName;
-  }
-
-  private setAuthImage(): void {
-    if (this.authImageValue) {
-      this.authImages = ubsAuthImages;
-    } else {
-      this.authImages = authImages;
-    }
   }
 
   ngOnDestroy() {

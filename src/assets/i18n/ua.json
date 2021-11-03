@@ -422,7 +422,8 @@
       "close-navigation": "Закрити навігацію",
       "discount": "знижка",
       "driving": "водіння",
-      "walking": "ходьба"
+      "walking": "ходьба",
+      "more-options": "Більше опцій"
     },
     "places-card": {
       "card-description": "https://placewebsite.com",
@@ -528,7 +529,9 @@
       "tips": "Поради",
       "map": "Карта",
       "ubs": "UBS кур'єр",
-      "my-habits": "Мій кабінет"
+      "my-habits": "Мій кабінет",
+      "sorting-rules": "Правила сортування",
+      "eco-shop": "Еко-магазин"
     },
     "edit-profile": {
       "edit-profile": "Редагування профілю",

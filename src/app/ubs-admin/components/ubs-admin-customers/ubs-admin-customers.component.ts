@@ -13,6 +13,7 @@ import {
 import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
 import { MatTable, MatTableDataSource } from '@angular/material/table';
 import { FormGroup, FormBuilder, FormControl, Validators } from '@angular/forms';
+import { Router } from '@angular/router';
 import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
 import { Subject } from 'rxjs';
 import { takeUntil, filter } from 'rxjs/operators';
@@ -71,7 +72,8 @@ export class UbsAdminCustomersComponent implements OnInit, AfterViewChecked, OnD
     private adminCustomerService: AdminCustomersService,
     public dialog: MatDialog,
     private fb: FormBuilder,
-    private cdr: ChangeDetectorRef
+    private cdr: ChangeDetectorRef,
+    private router: Router
   ) {}
 
   ngOnInit() {
@@ -319,6 +321,11 @@ export class UbsAdminCustomersComponent implements OnInit, AfterViewChecked, OnD
   @HostListener('window:resize', ['$event'])
   onResize() {
     this.setTableResize(this.matTableRef.nativeElement.clientWidth);
+  }
+
+  public openCustomer(row, username): void {
+    this.localStorageService.setCustomer(row);
+    this.router.navigate(['ubs-admin', 'customers', `${username.replaceAll(' ', '')}`]);
   }
 
   ngOnDestroy() {

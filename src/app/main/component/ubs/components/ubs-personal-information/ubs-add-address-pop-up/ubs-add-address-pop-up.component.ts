@@ -23,9 +23,10 @@ export class UBSAddAddressPopUpComponent implements OnInit, OnDestroy {
   districtDisabled = true;
   nextDisabled = true;
   isDisabled = false;
-  streetPattern = /^[A-Za-zА-Яа-яїЇіІєЄёЁ0-9.\'\,\-\ \\]+$/;
+  streetPattern = /^[A-Za-zА-Яа-яїЇіІєЄёЁ.\'\-\ \\]+[A-Za-zА-Яа-яїЇіІєЄёЁ0-9.\'\-\ \\]*$/;
+  corpusPattern = /^[A-Za-zА-Яа-яїЇіІєЄёЁ0-9]{1,4}$/;
   housePattern = /^[A-Za-zА-Яа-яїЇіІєЄёЁ0-9\.\-\/]+$/;
-  entranceNumberPattern = /^-?(0|[1-9]\d*)?$/;
+  entranceNumberPattern = /^([1-9]\d*)?$/;
   private destroy: Subject<boolean> = new Subject<boolean>();
 
   cities = [
@@ -93,7 +94,7 @@ export class UBSAddAddressPopUpComponent implements OnInit, OnDestroy {
         this.data.edit ? this.data.address.houseNumber : '',
         [Validators.required, Validators.maxLength(4), Validators.pattern(this.housePattern)]
       ],
-      houseCorpus: [this.data.edit ? this.data.address.houseCorpus : '', [Validators.maxLength(2), Validators.pattern(this.housePattern)]],
+      houseCorpus: [this.data.edit ? this.data.address.houseCorpus : '', [Validators.maxLength(4), Validators.pattern(this.corpusPattern)]],
       entranceNumber: [
         this.data.edit ? this.data.address.entranceNumber : '',
         [Validators.maxLength(2), Validators.pattern(this.entranceNumberPattern)]

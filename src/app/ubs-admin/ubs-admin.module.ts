@@ -53,6 +53,7 @@ import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 import { UbsAdminTariffsDeletePopUpComponent } from './components/ubs-admin-tariffs/ubs-admin-tariffs-pricing-page/ubs-admin-tariffs-delete-pop-up/ubs-admin-tariffs-delete-pop-up.component';
 import { UbsAdminTariffsAddServicePopUpComponent } from './components/ubs-admin-tariffs/ubs-admin-tariffs-pricing-page/ubs-admin-tariffs-add-service-pop-up/ubs-admin-tariffs-add-service-pop-up.component';
 import { UbsAdminEmployeeTableComponent } from './components/ubs-admin-employee/ubs-admin-employee-table/ubs-admin-employee-table.component';
+import { UbsAdminCustomerDetailsComponent } from './components/ubs-admin-customers/ubs-admin-customer-details/ubs-admin-customer-details.component';
 
 @NgModule({
   declarations: [
@@ -87,7 +88,8 @@ import { UbsAdminEmployeeTableComponent } from './components/ubs-admin-employee/
     UbsAdminTariffsPricingPageComponent,
     UbsAdminTariffsAddTariffServicePopUpComponent,
     UbsAdminTariffsLocationDashboardComponent,
-    UbsAdminEmployeeTableComponent
+    UbsAdminEmployeeTableComponent,
+    UbsAdminCustomerDetailsComponent
   ],
   imports: [
     CommonModule,

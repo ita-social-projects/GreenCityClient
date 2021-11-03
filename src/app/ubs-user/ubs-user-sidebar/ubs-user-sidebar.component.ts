@@ -26,11 +26,6 @@ export class UbsUserSidebarComponent extends UbsBaseSidebarComponent {
       routerLink: 'bonuses'
     },
     {
-      link: 'assets/img/sidebarIcons/workers_icon.svg',
-      name: 'ubs-user.user_data',
-      routerLink: '#'
-    },
-    {
       link: 'assets/img/sidebarIcons/none_notification_Bell.svg',
       name: 'ubs-user.messages',
       routerLink: 'messages/1'

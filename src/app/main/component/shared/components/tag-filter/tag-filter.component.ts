@@ -4,7 +4,7 @@ import { FilterModel } from '@eco-news-models/filter.model';
 @Component({
   selector: 'app-tag-filter',
   templateUrl: './tag-filter.component.html',
-  styleUrls: ['./tag-filter.component.scss'],
+  styleUrls: ['./tag-filter.component.scss']
 })
 export class TagFilterComponent implements OnInit, OnChanges {
   public filters: Array<FilterModel> = [];
@@ -18,9 +18,8 @@ export class TagFilterComponent implements OnInit, OnChanges {
   }
 
   ngOnChanges(changes) {
-    const { currentValue } = changes.tagsListData;
-    if (currentValue !== '' && currentValue) {
-      this.setTags(currentValue);
+    if (changes.tagsListData?.currentValue) {
+      this.setTags(changes.tagsListData.currentValue);
     }
   }
 
@@ -42,7 +41,7 @@ export class TagFilterComponent implements OnInit, OnChanges {
     const savedFilters = this.getSessionStorageFilters();
     this.filters = tags.map((filter: string) => ({
       name: filter,
-      isActive: typeof savedFilters.find((el) => el === filter) !== 'undefined',
+      isActive: savedFilters.includes(filter)
     }));
     this.emitActiveFilters();
   }

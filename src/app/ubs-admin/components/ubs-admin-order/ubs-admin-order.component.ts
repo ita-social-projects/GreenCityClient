@@ -25,17 +25,21 @@ export class UbsAdminOrderComponent implements OnInit {
 
   initForm() {
     const address = this.order.address.split(', ');
+    const personalInfo = this.order.senderName.split(' ', 2);
     this.orderForm = this.fb.group({
       orderStatusForm: this.fb.group({
         orderStatus: this.order.orderStatus,
-        commentForOrder: this.order.commentsForOrder
+        commentForOrder: ''
       }),
       clientInfoForm: this.fb.group({
-        senderName: [this.order.senderName, [Validators.required, Validators.minLength(1), Validators.maxLength(30)]],
+        senderName: [personalInfo[0], [Validators.required, Validators.minLength(1), Validators.maxLength(30)]],
+        senderSurname: [personalInfo[1], [Validators.required, Validators.minLength(1), Validators.maxLength(30)]],
         senderPhone: [this.order.senderPhone, [Validators.required, Validators.pattern('^\\+?3?8?(0\\d{9})$')]],
         senderEmail: [this.order.senderEmail, [Validators.required, Validators.email]]
       }),
       addressDetailsForm: this.fb.group({
+        region: 'Київська',
+        settlement: 'Київ',
         street: address[0] || '',
         building: address[1] || '',
         corpus: address[2] || '',
