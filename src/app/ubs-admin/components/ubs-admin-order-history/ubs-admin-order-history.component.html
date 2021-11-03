@@ -20,11 +20,11 @@
           {{ 'order-history.author' | translate }}
         </th>
       </tr>
-      <tr>
-        <td>1</td>
-        <td>1</td>
-        <td>1</td>
-        <td>1</td>
+      <tr *ngFor="let event of orderHistory">
+        <td>{{ event.eventDate | date: 'dd.MM.yyyy' }}</td>
+        <td>{{ event.eventDate | date: 'HH.mm' }}</td>
+        <td>{{ event.eventName }}</td>
+        <td>{{ event.authorName }}</td>
       </tr>
     </table>
   </div>
