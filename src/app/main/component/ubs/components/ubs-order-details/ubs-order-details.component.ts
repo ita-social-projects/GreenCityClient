@@ -103,6 +103,7 @@ export class UBSOrderDetailsComponent extends FormBaseComponent implements OnIni
     } else {
       this.openLocationDialog();
     }
+    localStorage.removeItem('UBSorderData');
     this.orderService.locationSubject.pipe(takeUntil(this.destroy)).subscribe(() => {
       this.takeOrderData();
       this.subscribeToLangChange();
@@ -122,6 +123,7 @@ export class UBSOrderDetailsComponent extends FormBaseComponent implements OnIni
         this.setCurrentLocation(this.currentLanguage);
         this.isFetching = false;
         this.changeLocation = false;
+        this.orderService.setLocationData(this.currentLocation);
         this.orderService.completedLocation(true);
         this.localStorageService.setLocationId(this.selectedLocationId);
       });
@@ -214,8 +216,8 @@ export class UBSOrderDetailsComponent extends FormBaseComponent implements OnIni
         this.certificateLeft = orderData.points;
         this.bags.forEach((bag) => {
           bag.quantity = bag.quantity === undefined ? null : bag.quantity;
-          this.orderDetailsForm.addControl('quantity' + String(bag.id), new FormControl(0, [Validators.min(0), Validators.max(999)]));
-          const quantity = bag.quantity === null ? 0 : +bag.quantity;
+          this.orderDetailsForm.addControl('quantity' + String(bag.id), new FormControl('', [Validators.min(0), Validators.max(999)]));
+          const quantity = bag.quantity === null ? '' : +bag.quantity;
           const valueName = 'quantity' + String(bag.id);
           this.orderDetailsForm.controls[valueName].setValue(quantity);
         });

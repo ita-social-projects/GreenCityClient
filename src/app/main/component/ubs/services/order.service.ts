@@ -15,6 +15,7 @@ export class OrderService {
   private readonly orderSubject = new BehaviorSubject<Order>({} as Order);
   private url = 'https://greencity-ubs.azurewebsites.net/ubs';
   locationSubject = new Subject();
+  locationSub = new Subject();
 
   constructor(private http: HttpClient, private shareFormService: UBSOrderFormService, private localStorageService: LocalStorageService) {}
 
@@ -28,6 +29,10 @@ export class OrderService {
         .get<OrderDetails>(`${this.url}/order-details`)
         .pipe(tap((orderDetails) => (this.shareFormService.orderDetails = orderDetails)));
     }
+  }
+
+  setLocationData(obj) {
+    this.locationSub.next(obj);
   }
 
   getPersonalData(): Observable<any> {

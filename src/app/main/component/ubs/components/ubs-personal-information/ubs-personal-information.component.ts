@@ -10,6 +10,7 @@ import { UBSAddAddressPopUpComponent } from './ubs-add-address-pop-up/ubs-add-ad
 import { Address, Bag, OrderBag, OrderDetails, PersonalData } from '../../models/ubs.interface';
 import { Order } from '../../models/ubs.model';
 import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
+import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
 
 @Component({
   selector: 'app-ubs-personal-information',
@@ -28,6 +29,10 @@ export class UBSPersonalInformationComponent extends FormBaseComponent implement
   phoneMask = '+{38} (000) 000 00 00';
   firstOrder = true;
   anotherClient = false;
+  currentLocation = {};
+  currentLocationId: number;
+  locations = [];
+  currentLanguage: string;
   private destroy: Subject<boolean> = new Subject<boolean>();
   private personalDataFormValidators: ValidatorFn[] = [
     Validators.required,
@@ -55,7 +60,8 @@ export class UBSPersonalInformationComponent extends FormBaseComponent implement
     private orderService: OrderService,
     private shareFormService: UBSOrderFormService,
     private fb: FormBuilder,
-    public dialog: MatDialog
+    public dialog: MatDialog,
+    private localStorageService: LocalStorageService
   ) {
     super(router, dialog);
     this.initForm();
@@ -63,6 +69,11 @@ export class UBSPersonalInformationComponent extends FormBaseComponent implement
 
   ngOnInit() {
     this.takeUserData();
+    this.getCurrentLocation();
+    this.orderService.locationSub.subscribe((data) => {
+      console.log(data);
+      this.currentLocation = data;
+    });
   }
 
   ngOnChanges(changes: SimpleChanges) {
@@ -78,6 +89,8 @@ export class UBSPersonalInformationComponent extends FormBaseComponent implement
       .pipe(takeUntil(this.destroy))
       .subscribe((list) => {
         this.addresses = this.getLastAddresses(list.addressList);
+        console.log(this.addresses);
+
         this.personalDataForm.patchValue({
           address: this.addresses
         });
@@ -89,7 +102,9 @@ export class UBSPersonalInformationComponent extends FormBaseComponent implement
   }
 
   private getLastAddresses(addressList: Address[]) {
+    console.log(addressList);
     const lastAddresses = -4;
+
     return addressList.slice(lastAddresses);
   }
 
@@ -218,6 +233,8 @@ export class UBSPersonalInformationComponent extends FormBaseComponent implement
   }
 
   openDialog(isEdit: boolean, addressId?: number): void {
+    console.log(this.addresses);
+
     const currentAddress = this.addresses.find((address) => address.id === addressId);
     const dialogConfig = new MatDialogConfig();
     dialogConfig.panelClass = 'address-matDialog-styles';
@@ -225,6 +242,7 @@ export class UBSPersonalInformationComponent extends FormBaseComponent implement
       edit: isEdit
     };
     if (isEdit) {
+      console.log(currentAddress);
       dialogConfig.data.address = currentAddress;
     } else {
       dialogConfig.data.address = this.addresses[0]?.id || {};
@@ -272,5 +290,18 @@ export class UBSPersonalInformationComponent extends FormBaseComponent implement
       this.shareFormService.orderDetails.pointsToUse
     );
     this.orderService.setOrder(this.order);
+  }
+
+  getCurrentLocation() {
+    this.currentLocationId = this.shareFormService.locationId;
+    this.locations = this.shareFormService.locations;
+    this.currentLanguage = this.localStorageService.getCurrentLanguage();
+    console.log(this.currentLocationId);
+    console.log(this.locations);
+    this.currentLocation = this.locations.find(
+      (loc) => loc.id === this.currentLocationId && loc.languageCode === this.currentLanguage
+    ).name;
+    console.log(this.currentLocation);
+    // this.orderService.setLocationData(this.currentLocation);
   }
 }
