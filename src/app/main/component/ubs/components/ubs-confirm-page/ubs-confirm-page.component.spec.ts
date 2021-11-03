@@ -11,13 +11,13 @@ import { UBSOrderFormService } from '../../services/ubs-order-form.service';
 describe('UbsConfirmPageComponent', () => {
   let component: UbsConfirmPageComponent;
   let fixture: ComponentFixture<UbsConfirmPageComponent>;
-  let fakeSnackBar = jasmine.createSpyObj('fakeSnakBar', ['openSnackBar']);
-  let fakeUBSOrderFormService = jasmine.createSpyObj('fakeUBSService', [
+  const fakeSnackBar = jasmine.createSpyObj('fakeSnakBar', ['openSnackBar']);
+  const fakeUBSOrderFormService = jasmine.createSpyObj('fakeUBSService', [
     'getOrderResponseErrorStatus',
     'getOrderStatus',
     'saveDataOnLocalStorage'
   ]);
-  let fakeJwtService = jasmine.createSpyObj('fakeJwtService', ['']);
+  const fakeJwtService = jasmine.createSpyObj('fakeJwtService', ['']);
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
