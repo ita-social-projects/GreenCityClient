@@ -4,7 +4,7 @@
     <img *ngIf="pageOpen" src="assets/img/ubs-admin-orders/arrow_down.svg" alt="arrow down" />
     <h1 class="form__headline">{{ 'order-history.title' | translate }}</h1>
   </div>
-  <div *ngIf="pageOpen" class="historyTable">
+  <div *ngIf="pageOpen" class="content">
     <table>
       <tr>
         <th>
@@ -22,7 +22,7 @@
       </tr>
       <tr *ngFor="let event of orderHistory">
         <td>{{ event.eventDate | date: 'dd.MM.yyyy' }}</td>
-        <td>{{ event.eventDate | date: 'HH.mm' }}</td>
+        <td>{{ event.eventDate | date: 'HH:mm' }}</td>
         <td>{{ event.eventName }}</td>
         <td>{{ event.authorName }}</td>
       </tr>

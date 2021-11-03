@@ -31,15 +31,27 @@
   margin-top: 36px;
 }
 
-table {
-  background-color: var(--after-primary-light-grey);
-  width: 100%;
-}
+.content {
+  max-height: 450px;
+  overflow-y: scroll;
 
-th,
-td {
-  padding: 15px;
-}
+  table {
+    background-color: var(--after-primary-light-grey);
+    width: 100%;
 
-.historyTable {
+    th,
+    td {
+      padding: 15px;
+    }
+
+    th {
+      position: sticky;
+      top: 0;
+      background-color: var(--after-primary-light-grey);
+    }
+
+    td {
+      color: var(--gray-dark);
+    }
+  }
 }
