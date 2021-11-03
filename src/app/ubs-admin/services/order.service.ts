@@ -108,8 +108,7 @@ export class OrderService {
   }
 
   public getOrderHistory(orderId: number): Observable<IOrderHistory> {
-    const lang = localStorage.getItem('language');
-    return this.http.get<IOrderHistory>(`${this.backend}/order_history/${orderId}?lang=${lang}`);
+    return this.http.get<IOrderHistory>(`${this.backend}/order_history/${orderId}`);
   }
 
   public updateRecipientsData(postData: any) {
