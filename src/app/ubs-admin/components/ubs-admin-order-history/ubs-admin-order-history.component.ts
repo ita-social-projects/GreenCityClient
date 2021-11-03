@@ -20,7 +20,6 @@ export class UbsAdminOrderHistoryComponent implements OnInit, OnDestroy {
 
   ngOnInit() {
     this.getOrderHistory(this.order.id);
-    console.log(this.orderHistory);
   }
 
   openDetails() {
