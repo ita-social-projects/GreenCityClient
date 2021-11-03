@@ -53,10 +53,8 @@ describe('UbsUserBonusesComponent', () => {
 
   it('method ngOnInit should call getBonusesData', () => {
     const spy = spyOn(component, 'getBonusesData');
-    expect(component.dataSource.sort).toBeUndefined;
     component.ngOnInit();
     expect(spy).toHaveBeenCalled();
-    expect(component.dataSource.sort).toBeDefined;
   });
 
   it('should call getBonusesData and return expected data', () => {
