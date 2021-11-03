@@ -1,13 +1,12 @@
 import { Component, Input, OnInit, Output, EventEmitter, OnDestroy } from '@angular/core';
 import { HabitAssignInterface } from '../../../../../../interface/habit/habit-assign.interface';
 import { HabitAssignService } from '@global-service/habit-assign/habit-assign.service';
-import { filter, take, takeUntil } from 'rxjs/operators';
+import { take, takeUntil } from 'rxjs/operators';
 import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { HabitService } from '@global-service/habit/habit.service';
 import { HabitStatus } from '@global-models/habit/HabitStatus.enum';
 import { HabitMark } from '@global-user/models/HabitMark.enum';
-import { UpdateHabitsService } from '@global-user/services/update-habits.service';
 import { Subject } from 'rxjs';
 
 @Component({
@@ -50,24 +49,12 @@ export class OneHabitComponent implements OnInit, OnDestroy {
     private habitAssignService: HabitAssignService,
     public router: Router,
     public route: ActivatedRoute,
-    public habitService: HabitService,
-    public updateHabitsService: UpdateHabitsService
+    public habitService: HabitService
   ) {}
 
   ngOnInit() {
     this.currentDate = this.formatDate(new Date());
     this.buildHabitDescription();
-    this.updateHabitsService.currentHabit
-      .pipe(
-        takeUntil(this.destroy$),
-        filter((habit) => this.habit.id === habit?.id)
-      )
-      .subscribe((habit) => {
-        this.habit.habitStatusCalendarDtoList = habit.habitStatusCalendarDtoList;
-        this.habit.workingDays = habit.workingDays;
-        this.habit.habitStreak = habit.habitStreak;
-        this.buildHabitDescription();
-      });
   }
 
   public goToHabitProfile() {
@@ -93,9 +80,22 @@ export class OneHabitComponent implements OnInit, OnDestroy {
   }
 
   setGreenCircleInCalendar(isSetCircle: boolean) {
-    this.habitAssignService.habitsFromDashBoard
-      .find((item) => item.enrollDate === this.formatDate(new Date()))
-      .habitAssigns.find((item) => item.habitId === this.habit.habit.id).enrolled = isSetCircle;
+    const currentDate = this.formatDate(new Date());
+    const lastDayInMonth = this.formatDate(new Date(new Date().getFullYear(), new Date().getMonth() + 1, 0));
+    const dataFromDashBoard = this.habitAssignService.habitsFromDashBoard.find((item) => item.enrollDate === this.formatDate(new Date()));
+    if (dataFromDashBoard) {
+      dataFromDashBoard.habitAssigns.find((item) => item.habitId === this.habit.habit.id).enrolled = isSetCircle;
+    } else {
+      this.habitAssignService
+        .getAssignHabitsByPeriod(currentDate, lastDayInMonth)
+        .pipe(takeUntil(this.destroy$))
+        .subscribe((res) => {
+          this.habitAssignService.habitsFromDashBoard = res;
+          this.habitAssignService.habitsFromDashBoard
+            .find((item) => item.enrollDate === this.formatDate(new Date()))
+            .habitAssigns.find((item) => item.habitId === this.habit.habit.id).enrolled = isSetCircle;
+        });
+    }
   }
 
   public enroll() {
