@@ -9,10 +9,6 @@ export class UbsAdminOrderPaymentComponent {
   pageOpen: boolean;
 
   openDetails() {
-    this.pageOpen = true;
-  }
-
-  closeDetails() {
-    this.pageOpen = false;
+    this.pageOpen = !this.pageOpen;
   }
 }

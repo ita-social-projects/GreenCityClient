@@ -26,11 +26,7 @@ export class UbsAdminResponsiblePersonsComponent implements OnInit, OnDestroy {
   }
 
   openDetails() {
-    this.pageOpen = true;
-  }
-
-  closeDetails() {
-    this.pageOpen = false;
+    this.pageOpen = !this.pageOpen;
   }
 
   getOrderEmployees(orderId: number) {
