@@ -6,9 +6,131 @@
   <div>Total customers: {{ totalElements }}</div>
 </div>
 <div class="btn-group">
-  <button type="button" class="btn btn-default" class="export-excel-btn" (click)="openExportExcel()">
+  <button type="button" class="btn btn-default" class="table-buttons" (click)="openExportExcel()">
     {{ 'ubs-tables.export-to-excel' | translate }}
   </button>
+  <button type="button" class="btn btn-default" class="table-buttons" (click)="togglePopUp()">
+    <mat-icon>create</mat-icon>
+    {{ 'ubs-tables.filter' | translate }}
+  </button>
+  <div [formGroup]="filterForm">
+    <ul class="dropdown-menu" [style.display]="display">
+      <li class="filterItem">
+        <span>Дата реєстрації в системі:</span>
+        <div>
+          <mat-form-field color="#AFD85A">
+            <mat-label>From</mat-label>
+            <input matInput [matDatepicker]="picker1" formControlName="registrationDateFrom" />
+            <mat-datepicker-toggle matSuffix [for]="picker1"></mat-datepicker-toggle>
+            <mat-datepicker #picker1></mat-datepicker>
+          </mat-form-field>
+
+          <mat-form-field color="#AFD85A">
+            <mat-label>To</mat-label>
+            <input matInput [matDatepicker]="picker2" formControlName="registrationDateTo" />
+            <mat-datepicker-toggle matSuffix [for]="picker2"></mat-datepicker-toggle>
+            <mat-datepicker #picker2 color="#AFD85A"></mat-datepicker>
+          </mat-form-field>
+        </div>
+      </li>
+      <li class="filterItem">
+        <span>Дата останього замовлення:</span>
+        <div>
+          <mat-form-field color="#AFD85A">
+            <mat-label>From</mat-label>
+            <input matInput [matDatepicker]="picker3" formControlName="lastOrderDateFrom" />
+            <mat-datepicker-toggle matSuffix [for]="picker3"></mat-datepicker-toggle>
+            <mat-datepicker #picker3></mat-datepicker>
+          </mat-form-field>
+
+          <mat-form-field color="#AFD85A">
+            <mat-label>To</mat-label>
+            <input matInput [matDatepicker]="picker4" formControlName="lastOrderDateTo" />
+            <mat-datepicker-toggle matSuffix [for]="picker4"></mat-datepicker-toggle>
+            <mat-datepicker #picker4 color="primary"></mat-datepicker>
+          </mat-form-field>
+        </div>
+      </li>
+      <li class="filterItem">
+        <span>К-сть замовлень:</span>
+        <div>
+          <mat-form-field appearance="fill">
+            <mat-label>From</mat-label>
+            <input matInput type="number" min="1" formControlName="ordersCountFrom" />
+          </mat-form-field>
+
+          <mat-form-field appearance="fill">
+            <mat-label>To</mat-label>
+            <input matInput type="number" formControlName="ordersCountTo" />
+          </mat-form-field>
+        </div>
+      </li>
+      <li class="filterItem">
+        <span>Порушення:</span>
+        <div>
+          <mat-form-field appearance="fill">
+            <mat-label>From</mat-label>
+            <input matInput type="number" formControlName="violationsFrom" />
+          </mat-form-field>
+
+          <mat-form-field appearance="fill">
+            <mat-label>To</mat-label>
+            <input matInput type="number" formControlName="violationsTo" />
+          </mat-form-field>
+        </div>
+      </li>
+      <li class="filterItem">
+        <span>Баланс бонусного рахунку:</span>
+        <div>
+          <mat-form-field appearance="fill">
+            <mat-label>From</mat-label>
+            <input matInput type="number" formControlName="bonusesFrom" />
+          </mat-form-field>
+
+          <mat-form-field appearance="fill">
+            <mat-label>To</mat-label>
+            <input matInput type="number" formControlName="bonusesTo" />
+          </mat-form-field>
+        </div>
+      </li>
+    </ul>
+  </div>
+</div>
+
+<div class="filterParams">
+  <ul class="filterParamsList">
+    <li *ngIf="hasChange" class="filterReset" (click)="onClearFilters()">Скасувати</li>
+    <li *ngIf="filters.registrationDateFrom || filters.registrationDateTo">
+      Дата реєстрації:
+      {{ filters.registrationDateFrom ? ' Від ' + filters.registrationDateFrom.toLocaleDateString() : null }}
+      {{ filters.registrationDateTo ? ' До ' + filters.registrationDateTo.toLocaleDateString() : null }}
+      <mat-icon (click)="onDeleteFilter('registrationDateFrom', 'registrationDateTo')">clear</mat-icon>
+    </li>
+    <li *ngIf="filters.lastOrderDateFrom || filters.lastOrderDateTo">
+      Дата останнього замовлення:
+      {{ filters.lastOrderDateFrom ? ' Від ' + filters.lastOrderDateFrom.toLocaleDateString() : null }}
+      {{ filters.lastOrderDateTo ? ' До ' + filters.lastOrderDateTo.toLocaleDateString() : null }}
+      <mat-icon (click)="onDeleteFilter('lastOrderDateFrom', 'lastOrderDateTo')">clear</mat-icon>
+    </li>
+    <li *ngIf="filters.ordersCountFrom || filters.ordersCountTo">
+      К-сть замовлень:
+      {{ filters.ordersCountFrom ? ' Від ' + filters.ordersCountFrom : null }}
+      {{ filters.ordersCountTo ? ' До ' + filters.ordersCountTo : null }}
+      <mat-icon (click)="onDeleteFilter('ordersCountFrom', 'ordersCountTo')">clear</mat-icon>
+    </li>
+    <li *ngIf="filters.violationsFrom || filters.violationsTo">
+      Порушення:
+      {{ filters.violationsFrom ? ' Від ' + filters.violationsFrom : null }}
+      {{ filters.violationsTo ? ' До ' + filters.violationsTo : null }}
+      <mat-icon (click)="onDeleteFilter('violationsFrom', 'violationsTo')">clear</mat-icon>
+    </li>
+    <li *ngIf="filters.bonusesFrom || filters.bonusesTo">
+      Бонуси:
+      {{ filters.bonusesFrom ? ' Від ' + filters.bonusesFrom : null }}
+      {{ filters.bonusesTo ? ' До ' + filters.bonusesTo : null }}
+      <mat-icon (click)="onDeleteFilter('bonusesFrom', 'bonusesTo')">clear</mat-icon>
+    </li>
+  </ul>
 </div>
 
 <div
@@ -26,10 +148,10 @@
         <div class="column_header">
           <span class="column-title">{{ column.title | serverTranslate: currentLang }}</span>
           <span *ngIf="!nonSortableColumns.includes(column.title.key)">
-            <mat-icon *ngIf="arrowDirection !== column.title.key" (click)="getSortingData(column.title.key, 'asc')">
+            <mat-icon *ngIf="arrowDirection !== column.title.key" (click)="getSortingData(column.title.key, 'ASC')">
               arrow_downward
             </mat-icon>
-            <mat-icon *ngIf="arrowDirection === column.title.key" (click)="getSortingData(column.title.key, 'desc')">
+            <mat-icon *ngIf="arrowDirection === column.title.key" (click)="getSortingData(column.title.key, 'DESC')">
               arrow_upward
             </mat-icon>
           </span>
