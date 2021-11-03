@@ -1,7 +1,12 @@
 .container {
   margin-top: 100px;
   margin-bottom: 100px;
-  position: relative;
+}
+
+@media (min-width: 1200px) {
+  .container {
+    max-width: 1300px;
+  }
 }
 
 button:disabled {
@@ -23,8 +28,8 @@ button:disabled {
 }
 
 .back-button-top {
-  top: 70px;
-  left: -140px;
+  top: 170px;
+  left: 200px;
   position: absolute;
 }
 

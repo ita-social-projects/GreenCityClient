@@ -1,0 +1,45 @@
+.container {
+  font-family: var(--primary-font);
+  line-height: 32px;
+}
+
+.empty_card {
+  padding-top: 20px;
+  padding-bottom: 20px;
+
+  h1 {
+    display: inline;
+  }
+
+  img {
+    width: 20px;
+    margin-right: 20px;
+  }
+}
+
+.empty_card:hover {
+  cursor: pointer;
+}
+
+.form__headline {
+  font-size: 20px;
+  font-weight: 700;
+  line-height: 28px;
+  letter-spacing: 0.002em;
+  color: var(--ubs-primary-grey);
+  margin-bottom: 30px;
+  margin-top: 36px;
+}
+
+table {
+  background-color: var(--after-primary-light-grey);
+  width: 100%;
+}
+
+th,
+td {
+  padding: 15px;
+}
+
+.historyTable {
+}
