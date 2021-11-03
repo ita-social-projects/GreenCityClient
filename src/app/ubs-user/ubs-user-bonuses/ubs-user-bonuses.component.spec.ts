@@ -63,6 +63,7 @@ describe('UbsUserBonusesComponent', () => {
     bonusesServiceMock.getUserBonuses = () => of(testBonuses);
     component.getBonusesData();
     expect(component.dataSource.data).toEqual(testBonuses.ubsUserBonuses);
+    expect(component.totalBonuses).toEqual(testBonuses.userBonuses);
   });
 
   it('should call getBonusesData and return error', () => {
