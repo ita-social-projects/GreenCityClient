@@ -56,4 +56,16 @@ describe('EmployeeFormComponent', () => {
       email: 'fake'
     });
   });
+
+  it('Returned formData should have employeeDto', () => {
+    component.selectedFile = false;
+    const returnedFormData = component.prepareEmployeeDataToSend(mockedDto);
+    expect(returnedFormData.has('employeeDto')).toBe(true);
+  });
+
+  it('Returned formData should have image if has selectedFile', () => {
+    component.selectedFile = true;
+    const returnedFormData = component.prepareEmployeeDataToSend(mockedDto);
+    expect(returnedFormData.has('image')).toBe(true);
+  });
 });
