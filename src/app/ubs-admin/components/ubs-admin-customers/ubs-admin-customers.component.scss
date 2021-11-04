@@ -88,7 +88,7 @@
   align-items: flex-end;
   height: 50px;
 
-  mat-form-field {
+  .filter-input {
     height: 5px;
     padding-left: 5px;
   }
@@ -100,15 +100,13 @@
   .mat-focused .mat-form-field-label {
     color: var(--ubs-button-light-green) !important;
   }
-  .mat-form-field-appearance-fill .mat-form-field-flex {
-    background-color: #fff;
-  }
 
   .mat-form-field-appearance-legacy .mat-form-field-infix {
     width: 156px;
   }
 
   .mat-form-field-appearance-fill .mat-form-field-flex {
+    background-color: #fff;
     padding: 0;
   }
 }
@@ -136,7 +134,7 @@
     text-decoration: none;
   }
 
-  mat-icon {
+  .mat-icon {
     color: var(--ubs-error-ligh-red);
     font-size: 17px;
     display: flex;
