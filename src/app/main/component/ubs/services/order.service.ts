@@ -2,7 +2,7 @@ import { LocalStorageService } from '@global-service/localstorage/local-storage.
 import { Address, Locations } from './../models/ubs.interface';
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { BehaviorSubject, Observable, Subject} from 'rxjs';
+import { BehaviorSubject, Observable, Subject } from 'rxjs';
 import { tap } from 'rxjs/operators';
 import { ICertificate, OrderDetails } from '../models/ubs.interface';
 import { Order } from '../models/ubs.model';
@@ -87,5 +87,10 @@ export class OrderService {
 
   getLiqPayForm(): Observable<Order> {
     return this.processLiqPayOrder(this.orderSubject.getValue());
+  }
+
+  getOrderFromNotification(orderId: number) {
+    const lang = localStorage.getItem('language') === 'ua' ? 1 : 2;
+    return this.http.get(`${this.url}/client/get-data-for-order-surcharge/${orderId}/${lang}`);
   }
 }

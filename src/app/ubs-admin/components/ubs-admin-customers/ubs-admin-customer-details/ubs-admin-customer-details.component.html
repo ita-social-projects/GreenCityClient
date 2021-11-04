@@ -1,0 +1,49 @@
+<div class="ubs_customer-container mx-auto">
+  <div class="container">
+    <div class="row">
+      <div class="ubs_customer-back">
+        <p (click)="goBack()">< {{ 'customer-details.goBack' | translate }}</p>
+      </div>
+      <div class="ubs_customer-header">
+        <div class="header-text">
+          <h3>{{ 'customer-details.data' | translate }}</h3>
+        </div>
+      </div>
+      <div class="input-group input-group-sm">
+        <div>
+          <h5>{{ 'customer-details.personal' | translate }}</h5>
+          <div class="form-group col-sm-5">
+            <label for="clientName">{{ 'customer-details.name' | translate }}</label>
+            <p>{{ customer?.clientName }}</p>
+          </div>
+          <h5>{{ 'customer-details.contacts' | translate }}</h5>
+          <div class="form-group col-sm-5">
+            <label for="recipientEmail" class="form-label">{{ 'customer-details.email' | translate }}</label>
+            <p>{{ customer?.recipientEmail }}</p>
+          </div>
+          <div class="form-group col-sm-4">
+            <label for="recipientPhone" class="form-label">{{ 'customer-details.phone' | translate }}</label>
+            <p>{{ customer?.recipientPhone }}</p>
+          </div>
+          <h5>{{ 'customer-details.additionalInfo' | translate }}</h5>
+          <div class="form-group col-sm-3">
+            <label for="dateOfRegistration" class="form-label">{{ 'customer-details.dateOfRegistration' | translate }}</label>
+            <p>{{ customer?.dateOfRegistration }}</p>
+          </div>
+          <div class="form-group col-sm-3">
+            <label for="number_of_orders" class="form-label">{{ 'customer-details.number_of_orders' | translate }}</label>
+            <p>{{ customer?.number_of_orders }}</p>
+          </div>
+          <div class="form-group col-sm-3">
+            <label for="orderDate" class="form-label">{{ 'customer-details.orderDate' | translate }}</label>
+            <p>{{ customer?.orderDate }}</p>
+          </div>
+          <div class="form-group col-sm-3">
+            <label for="violations" class="form-label">{{ 'customer-details.violations' | translate }}</label>
+            <p>{{ customer?.violations }}</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

@@ -82,7 +82,7 @@
       "payment-label": "Статус оплати"
     },
     "comment": {
-      "label": "Коментар",
+      "label": "Коментар адміністратора",
       "placeholder": "Будь-які деталі, які Ви хотіли б повідомити додатково щодо цього замовлення"
     },
     "btn": {
@@ -93,29 +93,35 @@
   },
   "address-details": {
     "title": "Адреса вивезення відходів",
+    "district": "Район",
+    "settlement": "Населений пункт",
     "street": "Вулиця",
     "comment-label": "Коментар до адреси від клієнта",
     "comment-placeholder": "Будь-які деталі, які Ви хотіли б повідомити додатково щодо цього замовлення",
     "building": "Будинок",
     "corpus": "Корпус",
     "entrance": "Під'їзд",
-    "region": "Район"
+    "region": "Область"
   },
   "customer-info": {
     "title": "Інформація про клієнта",
     "customer": {
       "title": "Клієнт",
       "name-label": "Ім'я",
-      "name-placeholder": "Ім'я та прізвище",
+      "surname-label": "Прізвище",
+      "name-placeholder": "Ім'я",
+      "surname-placeholder": "Прізвище",
       "tel-label": "Телефон",
       "tel-placeholder": "+380 00 000 00 00",
       "email-label": "Email",
       "email-placeholder": "mail@mail.com"
     },
     "recipient": {
-      "title": "Отримувач",
+      "title": "Відправник",
       "name-label": "Ім'я",
-      "name-placeholder": "Ім'я та прізвище",
+      "surname-label": "Прізвище",
+      "name-placeholder": "Ім'я",
+      "surname-placeholder": "Прізвище",
       "tel-label": "Телефон",
       "tel-placeholder": "+380 00 000 00 00",
       "email-label": "Email",
@@ -127,6 +133,20 @@
       "current-order": "Поточне замовлення",
       "button": "Додати порушення"
     }
+  },
+  "customer-details": {
+    "data": "Дані клієнта",
+    "personal": "Особисте",
+    "name": "Нікнейм ",
+    "contacts": "Контакти",
+    "email": "Електронна скринька",
+    "phone": "№ телефону",
+    "additionalInfo": "Додаткова інформація",
+    "number_of_orders": "Кількість замовлень",
+    "orderDate": "Дата замовлення",
+    "violations": "Порушення",
+    "dateOfRegistration": "Дата реєстрації",
+    "goBack": "Назад"
   },
   "order-details": {
     "title": "Деталі замовлення",
@@ -286,7 +306,14 @@
     "email": "Email",
     "position": "Посада*",
     "receiving-station": "Станція приймання*",
-    "image-input": "Фото"
+    "image-input": "Фото",
+    "picture-description-1": "Перетягніть",
+    "picture-description-2": "зображення або",
+    "browse-1": "завантажте з",
+    "browse-2": "пристрою",
+    "add": "Додати",
+    "cancel": "Скасувати",
+    "update": "Оновити"
   },
   "ubs-user": {
     "orders": "Замовлення",
@@ -350,5 +377,18 @@
     "delete_question": "Видалити цей рядок?",
     "yes": "так",
     "no": "ні"
+  },
+  "user": {
+    "lower-nav-bar": {
+      "about-us": "Про нас",
+      "sorting-rules": "Правила сортування",
+      "eco-shop": "Еко-магазин"
+    }
+  },
+  "nav-bar": {
+    "user-settings": "Налаштування",
+    "sign-out": "Вийти",
+    "sign-in": "Увійти",
+    "management": "Менеджмент"
   }
 }

@@ -1,5 +1,5 @@
 import { MatSnackBarComponent } from '@global-errors/mat-snack-bar/mat-snack-bar.component';
-import { Component, NgZone, OnInit, OnDestroy, DoCheck } from '@angular/core';
+import { Component, NgZone, OnInit, OnDestroy, DoCheck, Injector } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { EditProfileFormBuilder } from '@global-user/components/profile/edit-profile/edit-profile-form-builder';
 import { EditProfileService } from '@global-user/services/edit-profile.service';
@@ -52,21 +52,25 @@ export class EditProfileComponent extends FormBaseComponent implements OnInit, O
   public checkLocation = false;
   public checkEcoPlaces = false;
   public checkShoppingList = false;
-  public namePattern = /^(?!\.)(?!.*\.$)(?!.*?\.\.)[a-zA-Zа-яА-Я0-9.]{6,30}$/;
+  public namePattern = /^(?!\.)(?!.*\.$)(?!.*?\.\.)[іІєЄїЇёЁa-zA-Zа-яА-Я0-9.\ '’-]{6,30}$/;
   public cityPattern = /^[іІєЄїЇёЁa-zA-Zа-яА-Я][іІєЄїЇёЁa-zA-Zа-яА-Я\-,’)( ]*$/;
+  public builder: EditProfileFormBuilder;
+  private editProfileService: EditProfileService;
+  private profileService: ProfileService;
+  private snackBar: MatSnackBarComponent;
+  private localStorageService: LocalStorageService;
+  private translate: TranslateService;
+  private ngZone: NgZone;
 
-  constructor(
-    public dialog: MatDialog,
-    public builder: EditProfileFormBuilder,
-    private editProfileService: EditProfileService,
-    private profileService: ProfileService,
-    public router: Router,
-    private snackBar: MatSnackBarComponent,
-    private localStorageService: LocalStorageService,
-    private translate: TranslateService,
-    private ngZone: NgZone
-  ) {
+  constructor(private injector: Injector, public dialog: MatDialog, public router: Router) {
     super(router, dialog);
+    this.builder = injector.get(EditProfileFormBuilder);
+    this.editProfileService = injector.get(EditProfileService);
+    this.profileService = injector.get(ProfileService);
+    this.snackBar = injector.get(MatSnackBarComponent);
+    this.localStorageService = injector.get(LocalStorageService);
+    this.translate = injector.get(TranslateService);
+    this.ngZone = injector.get(NgZone);
   }
 
   ngOnInit() {

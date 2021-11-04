@@ -51,6 +51,14 @@ button {
   line-height: 20px;
   color: var(--quaternary-grey);
   margin: 2px;
+
+  .friend-mutual-link {
+    transition: 0.2s;
+
+    &:hover {
+      color: var(--tertiary-dark-grey);
+    }
+  }
 }
 
 .friend-rate {

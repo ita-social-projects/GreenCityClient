@@ -36,7 +36,14 @@
         </div>
       </mat-header-cell>
       <mat-cell *matCellDef="let row">
-        <div class="column_cell" [matTooltip]="row[column.title.key]" matTooltipShowDelay="700" matTooltipClass="tooltip_style">
+        <div
+          class="column_cell"
+          [matTooltip]="row[column.title.key]"
+          matTooltipShowDelay="700"
+          matTooltipClass="tooltip_style"
+          [class.pointer]="column.title.key === 'clientName'"
+          (click)="column.title.key === 'clientName' && openCustomer(row, row[column.title.key])"
+        >
           {{ row[column.title.key] }}
         </div>
       </mat-cell>

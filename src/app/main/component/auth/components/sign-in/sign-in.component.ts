@@ -1,8 +1,8 @@
-import { UserSuccessSignIn } from './../../../../model/user-success-sign-in';
-import { SignInIcons } from './../../../../image-pathes/sign-in-icons';
-import { UserOwnSignIn } from './../../../../model/user-own-sign-in';
+import { UserSuccessSignIn } from '@global-models/user-success-sign-in';
+import { SignInIcons } from '../../../../image-pathes/sign-in-icons';
+import { UserOwnSignIn } from '@global-models/user-own-sign-in';
 import { FormGroup, FormControl, Validators, AbstractControl } from '@angular/forms';
-import { Component, EventEmitter, OnInit, OnDestroy, Output } from '@angular/core';
+import { Component, EventEmitter, OnInit, OnDestroy, Output, Injector } from '@angular/core';
 import { Router } from '@angular/router';
 import { HttpErrorResponse } from '@angular/common/http';
 import { AuthService, GoogleLoginProvider } from 'angularx-social-login';
@@ -37,22 +37,33 @@ export class SignInComponent implements OnInit, OnDestroy {
   public emailFieldValue: string;
   public passwordFieldValue: string;
   private destroy: Subject<boolean> = new Subject<boolean>();
+  public isUbs: boolean;
+  public navigateToLink;
   @Output() private pageName = new EventEmitter();
+  public dialog: MatDialog;
+  private userOwnSignInService: UserOwnSignInService;
+  private jwtService: JwtService;
+  private router: Router;
+  private authService: AuthService;
+  private googleService: GoogleSignInService;
+  private localeStorageService: LocalStorageService;
+  private userOwnAuthService: UserOwnAuthService;
+  private profileService: ProfileService;
 
-  constructor(
-    public dialog: MatDialog,
-    private matDialogRef: MatDialogRef<SignInComponent>,
-    private userOwnSignInService: UserOwnSignInService,
-    private jwtService: JwtService,
-    private router: Router,
-    private authService: AuthService,
-    private googleService: GoogleSignInService,
-    private localStorageService: LocalStorageService,
-    private userOwnAuthService: UserOwnAuthService,
-    private profileService: ProfileService
-  ) {}
+  constructor(private matDialogRef: MatDialogRef<SignInComponent>, private injector: Injector) {
+    this.dialog = injector.get(MatDialog);
+    this.userOwnSignInService = injector.get(UserOwnSignInService);
+    this.jwtService = injector.get(JwtService);
+    this.router = injector.get(Router);
+    this.authService = injector.get(AuthService);
+    this.googleService = injector.get(GoogleSignInService);
+    this.localeStorageService = injector.get(LocalStorageService);
+    this.userOwnAuthService = injector.get(UserOwnAuthService);
+    this.profileService = injector.get(ProfileService);
+  }
 
   ngOnInit() {
+    this.localeStorageService.ubsRegBehaviourSubject.pipe(takeUntil(this.destroy)).subscribe((value) => (this.isUbs = value));
     this.userOwnSignIn = new UserOwnSignIn();
     this.configDefaultErrorMessage();
     this.checkIfUserId();
@@ -117,18 +128,19 @@ export class SignInComponent implements OnInit, OnDestroy {
   }
 
   public onSignInWithGoogleSuccess(data: UserSuccessSignIn): void {
+    this.navigateToLink = this.isUbs ? ['ubs', 'order'] : ['profile', data.userId];
     this.userOwnSignInService.saveUserToLocalStorage(data);
     this.userOwnAuthService.getDataFromLocalStorage();
     this.jwtService.userRole$.next(this.jwtService.getUserRole());
     this.router
-      .navigate(['profile', data.userId])
+      .navigate(this.navigateToLink)
       .then(() => {
-        this.localStorageService.setFirstSignIn();
+        this.localeStorageService.setFirstSignIn();
         this.profileService
           .getUserInfo()
           .pipe(take(1))
           .subscribe((item) => {
-            this.localStorageService.setFirstName(item.name);
+            this.localeStorageService.setFirstName(item.name);
           });
       })
       .catch((fail) => console.log('redirect has failed ' + fail));
@@ -141,7 +153,7 @@ export class SignInComponent implements OnInit, OnDestroy {
   }
 
   private checkIfUserId(): void {
-    this.localStorageService.userIdBehaviourSubject.pipe(takeUntil(this.destroy)).subscribe((userId) => {
+    this.localeStorageService.userIdBehaviourSubject.pipe(takeUntil(this.destroy)).subscribe((userId) => {
       if (userId) {
         this.matDialogRef.close(userId);
       }
@@ -151,11 +163,12 @@ export class SignInComponent implements OnInit, OnDestroy {
   private onSignInSuccess(data: UserSuccessSignIn): void {
     this.loadingAnim = false;
     this.userOwnSignInService.saveUserToLocalStorage(data);
-    this.localStorageService.setFirstName(data.name);
-    this.localStorageService.setFirstSignIn();
+    this.localeStorageService.setFirstName(data.name);
+    this.localeStorageService.setFirstSignIn();
     this.userOwnAuthService.getDataFromLocalStorage();
     this.jwtService.userRole$.next(this.jwtService.getUserRole());
-    this.router.navigate(['profile', data.userId]);
+    this.navigateToLink = this.isUbs ? ['ubs'] : ['profile', data.userId];
+    this.router.navigate(this.navigateToLink);
   }
 
   private onSignInFailure(errors: HttpErrorResponse): void {

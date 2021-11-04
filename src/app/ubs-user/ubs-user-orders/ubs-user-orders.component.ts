@@ -15,7 +15,6 @@ export class UbsUserOrdersComponent implements OnInit, OnDestroy {
   currentOrders: any[];
   orderHistory: any[];
   loading = false;
-
   constructor(private snackBar: MatSnackBarComponent, private userOrdersService: UserOrdersService) {}
 
   ngOnInit() {

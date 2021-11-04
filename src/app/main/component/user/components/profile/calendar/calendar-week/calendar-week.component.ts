@@ -9,7 +9,6 @@ import { takeUntil } from 'rxjs/operators';
 import { CalendarWeekInterface } from '../calendar-week/calendar-week-interface';
 import { CalendarInterface } from '../calendar-interface';
 import { MatDialog } from '@angular/material/dialog';
-import { UpdateHabitsService } from '@global-user/services/update-habits.service';
 
 @Component({
   selector: 'app-calendar-week',
@@ -28,10 +27,9 @@ export class CalendarWeekComponent extends CalendarBaseComponent implements OnIn
     public habitAssignService: HabitAssignService,
     public translate: TranslateService,
     public languageService: LanguageService,
-    public updateHabitsService: UpdateHabitsService,
     public dialog: MatDialog
   ) {
-    super(translate, languageService, habitAssignService, updateHabitsService, dialog);
+    super(translate, languageService, habitAssignService, dialog);
   }
 
   ngOnInit() {

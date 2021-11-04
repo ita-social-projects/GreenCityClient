@@ -11,9 +11,18 @@ import { OrderService } from '../../services/order.service';
 export class UbsAdminAddressDetailsComponent implements OnDestroy {
   @Input() order;
   @Input() addressDetailsForm: FormGroup;
+  pageOpen: boolean;
 
   constructor(public orderService: OrderService) {}
   private destroy$: Subject<boolean> = new Subject<boolean>();
+
+  openDetails() {
+    this.pageOpen = true;
+  }
+
+  closeDetails() {
+    this.pageOpen = false;
+  }
 
   ngOnDestroy(): void {
     this.destroy$.next();

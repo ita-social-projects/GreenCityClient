@@ -13,11 +13,14 @@
     [scrollWindow]="true"
   >
     <table id="table" class="table" mat-table [dataSource]="dataSource" *ngIf="!isLoading; else spinner" matSort>
+      <caption>
+        Employees table
+      </caption>
       <ng-container class="column.field" matColumnDef="fullName">
         <mat-header-cell *matHeaderCellDef>
-          <div>
+          <th>
             <span class="column-title">Ім'я працівника</span>
-          </div>
+          </th>
         </mat-header-cell>
         <mat-cell *matCellDef="let row" class="column.field">
           <div>
@@ -28,9 +31,9 @@
 
       <ng-container class="column.field" matColumnDef="position">
         <mat-header-cell *matHeaderCellDef>
-          <div>
+          <th>
             <span class="column-title">Посада</span>
-          </div>
+          </th>
         </mat-header-cell>
         <mat-cell *matCellDef="let row" class="column.field">
           <div>
@@ -41,9 +44,9 @@
 
       <ng-container class="column.field" matColumnDef="location">
         <mat-header-cell *matHeaderCellDef>
-          <div>
+          <th>
             <span class="column-title">Станція приймання</span>
-          </div>
+          </th>
         </mat-header-cell>
         <mat-cell *matCellDef="let row" class="column.field">
           <div>
@@ -54,9 +57,9 @@
 
       <ng-container class="column.field" matColumnDef="email">
         <mat-header-cell *matHeaderCellDef>
-          <div>
+          <th>
             <span class="column-title">email</span>
-          </div>
+          </th>
         </mat-header-cell>
         <mat-cell *matCellDef="let row" class="column.field">
           <div>
@@ -67,9 +70,9 @@
 
       <ng-container class="column.field" matColumnDef="phoneNumber">
         <mat-header-cell *matHeaderCellDef>
-          <div>
+          <th>
             <span class="column-title">Телефон</span>
-          </div>
+          </th>
         </mat-header-cell>
         <mat-cell *matCellDef="let row" class="column.field">
           <div>

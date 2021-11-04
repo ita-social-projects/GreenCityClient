@@ -13,7 +13,9 @@
         {{ friend.rating }}
       </p>
     </div>
-    <p class="friend-mutual">{{ friend.mutualFriends }} {{ 'profile.friends.mutual-friends' | translate }}</p>
+    <p *ngIf="friend.mutualFriends > 0" class="friend-mutual">
+      <span [class.friend-mutual-link]="!userId">{{ friend.mutualFriends }} {{ 'profile.friends.mutual-friends' | translate }}</span>
+    </p>
     <p class="friend-city">{{ friend.city }}</p>
   </div>
   <div class="friend-btn">

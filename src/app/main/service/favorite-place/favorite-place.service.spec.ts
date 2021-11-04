@@ -53,14 +53,14 @@ describe('FavoritePlaceService', () => {
       name: 'some name',
       location: {
         lat: 1,
-        lng: 2
+        lng: 2,
+        id: 1,
+        address: 'someAddress'
       },
-      favorite: true,
-      color: 'star-yellow'
+      favorite: true
     };
 
     service.getFavoritePlaceWithLocation(1).subscribe((data) => {
-      expect(data?.color).toBeTruthy();
       expect(data).toEqual(place);
     });
 

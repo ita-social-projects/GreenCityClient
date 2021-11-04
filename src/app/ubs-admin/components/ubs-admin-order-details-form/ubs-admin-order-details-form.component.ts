@@ -21,7 +21,7 @@ export class UbsAdminOrderDetailsFormComponent implements OnInit, OnDestroy {
   private destroy$: Subject<boolean> = new Subject<boolean>();
   public currentLanguage: string;
   public minOrderSum = 500;
-
+  pageOpen: boolean;
   public bags: Bag[];
   public points: number;
 
@@ -41,6 +41,14 @@ export class UbsAdminOrderDetailsFormComponent implements OnInit, OnDestroy {
         this.isVisible = order.ableActualChange;
         console.log(order);
       });
+  }
+
+  openDetails() {
+    this.pageOpen = true;
+  }
+
+  closeDetails() {
+    this.pageOpen = false;
   }
 
   public initForm(): void {
