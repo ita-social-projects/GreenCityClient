@@ -198,6 +198,18 @@
     "all-elements": "Display all columns",
     "filter": "Filter"
   },
+  "ubs-customer-filters": {
+    "total-customers": "Total customers:",
+    "registration-date": "Registration date:",
+    "last-order-date": "Date of last order:",
+    "orders-amount": "Number of orders:",
+    "violations": "Violations:",
+    "bonuses": "Bonuses:",
+    "from": "From",
+    "to": "To",
+    "reset": "Reset filters",
+    "nothing-found": "Nothing was found for your filters"
+  },
   "export-details": {
     "title": "Export details",
     "export-date": "Export date",

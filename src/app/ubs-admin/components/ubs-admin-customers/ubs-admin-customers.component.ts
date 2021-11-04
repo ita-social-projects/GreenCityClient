@@ -12,11 +12,11 @@ import {
 } from '@angular/core';
 import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
 import { MatTable, MatTableDataSource } from '@angular/material/table';
-import { FormGroup, FormBuilder, FormControl, Validators } from '@angular/forms';
+import { FormGroup, FormBuilder } from '@angular/forms';
 import { Router } from '@angular/router';
 import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
 import { Subject } from 'rxjs';
-import { takeUntil, filter } from 'rxjs/operators';
+import { takeUntil } from 'rxjs/operators';
 import { ICustomersTable } from '../../models/customers-table.model';
 import { nonSortableColumns } from '../../models/non-sortable-columns.model';
 import { AdminCustomersService } from '../../services/admin-customers.service';
@@ -43,11 +43,9 @@ export class UbsAdminCustomersComponent implements OnInit, AfterViewChecked, OnD
   public currentPage = 0;
   public totalElements = 0;
   public display = 'none';
-  filterForm: FormGroup;
-  hasChange = false;
-  initialFilterValues: {};
-  filters: Filters;
-  queryString = '';
+  public filterForm: FormGroup;
+  public hasChange = false;
+  public filters: Filters;
 
   private tableData: any[];
   private sortType: string;
@@ -59,6 +57,8 @@ export class UbsAdminCustomersComponent implements OnInit, AfterViewChecked, OnD
   private isResizingRight: boolean;
   private totalPages = 1;
   private isTableHeightSet = false;
+  private initialFilterValues: {};
+  private queryString = '';
   private resizableMousemove: () => void;
   private resizableMouseup: () => void;
   private destroy$: Subject<boolean> = new Subject<boolean>();
@@ -92,9 +92,6 @@ export class UbsAdminCustomersComponent implements OnInit, AfterViewChecked, OnD
       const table = document.getElementById('table');
       const tableContainer = document.getElementById('table-container');
       this.isTableHeightSet = this.tableHeightService.setTableHeightToContainerHeight(table, tableContainer);
-      // if(!this.isTableHeightSet){
-      //   this.onScroll();
-      // }
       this.onScroll();
     }
     this.setTableResize(this.matTableRef.nativeElement.clientWidth);
@@ -174,7 +171,9 @@ export class UbsAdminCustomersComponent implements OnInit, AfterViewChecked, OnD
   onCreateGroupFormValueChange() {
     this.initialFilterValues = this.filterForm.value;
     this.filterForm.valueChanges.subscribe((value) => {
-      this.hasChange = Object.keys(this.initialFilterValues).some((key) => this.filterForm.value[key] != this.initialFilterValues[key]);
+      this.hasChange = Object.keys(this.initialFilterValues).some((key) => {
+        return this.filterForm.value[key] != null && this.filterForm.value[key] != this.initialFilterValues[key];
+      });
     });
   }
 
