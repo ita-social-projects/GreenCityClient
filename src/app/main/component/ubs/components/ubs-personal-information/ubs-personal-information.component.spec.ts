@@ -1,4 +1,3 @@
-import { PendingChangesGuard } from '@global-service/pending-changes-guard/pending-changes.guard';
 import { of, Subject } from 'rxjs';
 import { OrderService } from './../../services/order.service';
 import { UBSOrderFormService } from './../../services/ubs-order-form.service';
