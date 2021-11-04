@@ -11,23 +11,31 @@ describe('EmployeeFormComponent', () => {
   let component: EmployeeFormComponent;
   let fixture: ComponentFixture<EmployeeFormComponent>;
   const matDialogRefMock = jasmine.createSpyObj('matDialogRefMock', ['close']);
-  const mockedEmployeePositions = {
-    id: 2,
-    name: 'fake'
-  };
-  const mockedReceivingStations = {
-    id: 3,
-    name: 'fake'
-  };
+  const mockedEmployeePositions = [
+    {
+      id: 2,
+      name: 'fake'
+    }
+  ];
+  const mockedReceivingStations = [
+    {
+      id: 3,
+      name: 'fake'
+    },
+    {
+      id: 4,
+      name: 'fake'
+    }
+  ];
   const mockedData = {
     email: 'fake',
-    employeePositions: [mockedEmployeePositions],
+    employeePositions: mockedEmployeePositions,
     firstName: 'fake',
     id: 1,
     image: 'fake',
     lastName: 'fake',
     phoneNumber: 'fake',
-    receivingStations: [mockedReceivingStations]
+    receivingStations: mockedReceivingStations
   };
   const mockedDto = 'employeeDto';
 
@@ -42,6 +50,7 @@ describe('EmployeeFormComponent', () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(EmployeeFormComponent);
     component = fixture.componentInstance;
+    component.receivingStations = JSON.parse(JSON.stringify(mockedReceivingStations));
     fixture.detectChanges();
   });
 
@@ -73,6 +82,36 @@ describe('EmployeeFormComponent', () => {
   it('Location should be included', () => {
     const isIncludeLocanion = component.doesIncludeLocation({ id: 3 });
     expect(isIncludeLocanion).toBe(true);
+  });
+
+  it('Location should be removed', () => {
+    const location = { id: 4 };
+    component.onCheckChangeLocation(location);
+    expect(component.receivingStations).toEqual([
+      {
+        id: 3,
+        name: 'fake'
+      }
+    ]);
+  });
+
+  it('Location should be added', () => {
+    const location = { id: 1, name: 'lastAddedFake' };
+    component.onCheckChangeLocation(location);
+    expect(component.receivingStations).toEqual([
+      {
+        id: 3,
+        name: 'fake'
+      },
+      {
+        id: 4,
+        name: 'fake'
+      },
+      {
+        id: 1,
+        name: 'lastAddedFake'
+      }
+    ]);
   });
 
   it('updateEmployee method should close dialogRef when EmployeeService has sent a response', () => {
