@@ -24,6 +24,7 @@ export class UbsAdminOrderDetailsFormComponent implements OnInit, OnDestroy {
   pageOpen: boolean;
   public bags: Bag[];
   public points: number;
+  @Input() orderId: number;
 
   constructor(private fb: FormBuilder, private localStorageService: LocalStorageService, private orderService: OrderService) {}
 
@@ -31,7 +32,7 @@ export class UbsAdminOrderDetailsFormComponent implements OnInit, OnDestroy {
     this.localStorageService.languageBehaviourSubject.pipe(takeUntil(this.destroy$)).subscribe((lang) => {
       this.currentLanguage = lang;
     });
-    this.takeBagsData();
+    this.takeBagsData(this.orderId, 1);
     this.initForm();
     this.orderService
       .getSelectedOrderStatus()
@@ -40,6 +41,7 @@ export class UbsAdminOrderDetailsFormComponent implements OnInit, OnDestroy {
         this.order = order;
         this.isVisible = order.ableActualChange;
         console.log(order);
+        console.log(1111);
       });
   }
 
@@ -62,12 +64,12 @@ export class UbsAdminOrderDetailsFormComponent implements OnInit, OnDestroy {
     });
   }
 
-  public takeBagsData(): void {
+  public takeBagsData(orderId, langId): void {
     this.orderService
-      .getBags()
+      .getBags(orderId, langId)
       .pipe(takeUntil(this.destroy$))
       .subscribe((data: Bags) => {
-        console.log(data.bags);
+        console.log(data);
         this.bags = data.bags;
         this.points = data.points;
       });
