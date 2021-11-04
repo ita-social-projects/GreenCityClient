@@ -171,7 +171,7 @@ export class UbsAdminTableComponent implements OnInit, AfterViewChecked, OnDestr
               key: column.title.key,
               en: column.title.en,
               ua: column.title.ua,
-              values: [...column.optional]
+              values: [...column.checked]
             };
             this.columnsForFiltering.push(filteredColumn);
           }
@@ -188,7 +188,7 @@ export class UbsAdminTableComponent implements OnInit, AfterViewChecked, OnDestr
   private getTable(columnName = this.sortingColumn || 'id', sortingType = this.sortType || 'DESC') {
     this.isLoading = true;
     this.adminTableService
-      .getTable(columnName, this.currentPage, this.pageSize, sortingType)
+      .getTable(columnName, this.currentPage, this.pageSize, sortingType, ['FORMED'])
       .pipe(takeUntil(this.destroy))
       .subscribe((item) => {
         this.tableData = item[`content`];
@@ -223,7 +223,7 @@ export class UbsAdminTableComponent implements OnInit, AfterViewChecked, OnDestr
   updateTableData() {
     this.isUpdate = true;
     this.adminTableService
-      .getTable(this.sortingColumn || 'id', this.currentPage, this.pageSize, this.sortType || 'DESC')
+      .getTable(this.sortingColumn || 'id', this.currentPage, this.pageSize, this.sortType || 'DESC', ['DONE', 'ADJUSTMENT'])
       .pipe(takeUntil(this.destroy))
       .subscribe((item) => {
         const data = item[`content`];
@@ -372,6 +372,10 @@ export class UbsAdminTableComponent implements OnInit, AfterViewChecked, OnDestr
   openOrder(row): void {
     this.orderService.setSelectedOrder(row);
     this.router.navigate(['ubs-admin', 'order']);
+  }
+
+  changeFilters(column, option) {
+    console.log(column, option);
   }
 
   ngOnDestroy() {
