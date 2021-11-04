@@ -146,7 +146,7 @@ export class UbsAdminCustomersComponent implements OnInit, AfterViewChecked, OnD
         this.filters.registrationDateTo ? this.filters.registrationDateTo.toLocaleDateString() : ''
       ]
     };
-    for (let filter in filtersObj) {
+    for (const filter in filtersObj) {
       if (filtersObj[filter][0] && filtersObj[filter][1]) {
         queryParams.push(`${filter}=${filtersObj[filter][0]}`, `${filter}=${filtersObj[filter][1]}`);
       } else if (filtersObj[filter][0] && !filtersObj[filter][1]) {
