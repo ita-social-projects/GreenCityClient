@@ -10,12 +10,31 @@ describe('EmployeeFormComponent', () => {
   let component: EmployeeFormComponent;
   let fixture: ComponentFixture<EmployeeFormComponent>;
   const matDialogRefMock = jasmine.createSpyObj('matDialogRefMock', ['close']);
+  const mockedEmployeePositions = {
+    id: 2,
+    name: 'fake'
+  };
+  const mockedReceivingStations = {
+    id: 3,
+    name: 'fake'
+  };
+  const mockedData = {
+    email: 'fake',
+    employeePositions: [mockedEmployeePositions],
+    firstName: 'fake',
+    id: 1,
+    image: 'fake',
+    lastName: 'fake',
+    phoneNumber: 'fake',
+    receivingStations: [mockedReceivingStations]
+  };
+  const mockedDto = 'employeeDto';
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       declarations: [EmployeeFormComponent],
       imports: [HttpClientTestingModule, MatDialogModule, TranslateModule.forRoot()],
-      providers: [{ provide: MatDialogRef, useValue: matDialogRefMock }, { provide: MAT_DIALOG_DATA, useValue: {} }, FormBuilder]
+      providers: [{ provide: MatDialogRef, useValue: matDialogRefMock }, { provide: MAT_DIALOG_DATA, useValue: mockedData }, FormBuilder]
     }).compileComponents();
   }));
 
@@ -27,5 +46,14 @@ describe('EmployeeFormComponent', () => {
 
   it('should create', () => {
     expect(component).toBeTruthy();
+  });
+
+  it('employeeForm should receive data from MAT_DIALOG_DATA', () => {
+    expect(component.employeeForm.value).toEqual({
+      firstName: 'fake',
+      lastName: 'fake',
+      phoneNumber: 'fake',
+      email: 'fake'
+    });
   });
 });
