@@ -156,7 +156,7 @@ export class UbsAdminCustomersComponent implements OnInit, AfterViewChecked, OnD
       }
     }
     this.queryString = queryParams.join('&');
-    if (this.queryString != prevQueryString) {
+    if (this.queryString !== prevQueryString) {
       this.currentPage = 0;
       this.getTable();
     }
@@ -172,7 +172,7 @@ export class UbsAdminCustomersComponent implements OnInit, AfterViewChecked, OnD
     this.initialFilterValues = this.filterForm.value;
     this.filterForm.valueChanges.subscribe((value) => {
       this.hasChange = Object.keys(this.initialFilterValues).some((key) => {
-        return this.filterForm.value[key] != null && this.filterForm.value[key] != this.initialFilterValues[key];
+        return this.filterForm.value[key] !== null && this.filterForm.value[key] !== this.initialFilterValues[key];
       });
     });
   }
