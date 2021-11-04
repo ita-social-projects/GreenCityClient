@@ -70,6 +70,11 @@ describe('EmployeeFormComponent', () => {
     expect(returnedFormData.has('image')).toBe(true);
   });
 
+  it('Location should be included', () => {
+    const isIncludeLocanion = component.doesIncludeLocation({ id: 3 });
+    expect(isIncludeLocanion).toBe(true);
+  });
+
   it('updateEmployee method should close dialogRef when EmployeeService has sent a response', () => {
     component.selectedFile = false;
     spyOn(component, 'prepareEmployeeDataToSend').and.returnValue(new FormData());
