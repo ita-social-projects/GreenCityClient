@@ -3,6 +3,7 @@ import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { FormBuilder } from '@angular/forms';
 import { MatDialogModule, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { TranslateModule } from '@ngx-translate/core';
+import { of } from 'rxjs';
 
 import { EmployeeFormComponent } from './employee-form.component';
 
@@ -67,5 +68,14 @@ describe('EmployeeFormComponent', () => {
     component.selectedFile = true;
     const returnedFormData = component.prepareEmployeeDataToSend(mockedDto);
     expect(returnedFormData.has('image')).toBe(true);
+  });
+
+  it('updateEmployee method should close dialogRef when EmployeeService has sent a response', () => {
+    component.selectedFile = false;
+    spyOn(component, 'prepareEmployeeDataToSend').and.returnValue(new FormData());
+    // @ts-ignore
+    spyOn(component.employeeService, 'updateEmployee').and.returnValue(of(true));
+    component.updateEmployee();
+    expect(matDialogRefMock.close).toHaveBeenCalled();
   });
 });
