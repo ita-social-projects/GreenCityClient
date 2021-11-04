@@ -78,4 +78,12 @@ describe('EmployeeFormComponent', () => {
     component.updateEmployee();
     expect(matDialogRefMock.close).toHaveBeenCalled();
   });
+
+  it('createEmployee method should close dialogRef when EmployeeService has sent a response', () => {
+    spyOn(component, 'prepareEmployeeDataToSend').and.returnValue(new FormData());
+    // @ts-ignore
+    spyOn(component.employeeService, 'postEmployee').and.returnValue(of(true));
+    component.createEmployee();
+    expect(matDialogRefMock.close).toHaveBeenCalled();
+  });
 });
