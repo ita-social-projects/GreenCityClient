@@ -29,16 +29,12 @@ export class TableCellSelectComponent implements OnInit {
 
   constructor(private adminTableService: AdminTableService) {}
 
-  ngOnInit() {
-    this.currentValue = this.optional.filter((item) => item.key === this.key)[0];
-  }
+  ngOnInit() {}
 
   public edit(): void {
     this.isEditable = false;
     this.isBlocked = true;
-
     this.typeOfChange = this.adminTableService.howChangeCell(this.isAllChecked, this.ordersToChange, this.id);
-
     this.adminTableService
       .blockOrders(this.typeOfChange)
       .pipe(take(1))
