@@ -42,7 +42,7 @@ export class UbsAdminTableComponent implements OnInit, AfterViewChecked, OnDestr
   currentPage = 0;
   pageSize = 25;
   idsToChange: number[] = [];
-  allChecked: boolean;
+  allChecked: boolean = false;
   tableViewHeaders = [];
   public blockedInfo: IAlertInfo[] = [];
   isAll = true;
@@ -65,7 +65,6 @@ export class UbsAdminTableComponent implements OnInit, AfterViewChecked, OnDestr
       this.currentLang = lang;
     });
     this.getColumns();
-    this.allChecked = false;
   }
 
   ngAfterViewChecked() {
