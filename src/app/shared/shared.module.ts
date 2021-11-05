@@ -18,18 +18,12 @@ import { SearchAllResultsComponent } from './search-all-results/search-all-resul
 import { SearchItemComponent } from './search-item/search-item.component';
 import { SearchPopupComponent } from './search-popup/search-popup.component';
 
-/*import {
-  HeaderComponent,
-  SearchAllResultsComponent,
-  SearchItemComponent,
-  SearchNotFoundComponent,
-  SearchPopupComponent
-} from '../main/component/layout/components';*/
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { InfiniteScrollModule } from 'ngx-infinite-scroll';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { NgxPageScrollModule } from 'ngx-page-scroll';
 import { SearchNotFoundComponent } from './search-not-found/search-not-found.component';
+import { UbsFooterComponent } from './ubs-footer/ubs-footer.component';
 
 @NgModule({
   declarations: [
@@ -48,7 +42,8 @@ import { SearchNotFoundComponent } from './search-not-found/search-not-found.com
     SearchAllResultsComponent,
     SearchItemComponent,
     SearchPopupComponent,
-    SearchNotFoundComponent
+    SearchNotFoundComponent,
+    UbsFooterComponent
   ],
   imports: [
     CommonModule,
@@ -76,7 +71,8 @@ import { SearchNotFoundComponent } from './search-not-found/search-not-found.com
     SearchAllResultsComponent,
     SearchItemComponent,
     SearchPopupComponent,
-    SearchNotFoundComponent
+    SearchNotFoundComponent,
+    UbsFooterComponent
   ]
 })
 export class SharedModule {}
