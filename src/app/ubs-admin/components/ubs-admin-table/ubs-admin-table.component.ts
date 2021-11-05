@@ -32,7 +32,7 @@ export class UbsAdminTableComponent implements OnInit, AfterViewChecked, OnDestr
   previousIndex: number;
   isLoading = true;
   editCellProgressBar: boolean;
-  isUpdate: boolean = false;
+  isUpdate = false;
   destroy: Subject<boolean> = new Subject<boolean>();
   arrowDirection: string;
   isTableHeightSet = false;
@@ -42,7 +42,7 @@ export class UbsAdminTableComponent implements OnInit, AfterViewChecked, OnDestr
   currentPage = 0;
   pageSize = 25;
   idsToChange: number[] = [];
-  allChecked: boolean = false;
+  allChecked = false;
   tableViewHeaders = [];
   public blockedInfo: IAlertInfo[] = [];
   isAll = true;
