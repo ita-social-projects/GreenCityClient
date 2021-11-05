@@ -32,7 +32,7 @@ export class UbsAdminOrderDetailsFormComponent implements OnInit, OnDestroy {
     this.localStorageService.languageBehaviourSubject.pipe(takeUntil(this.destroy$)).subscribe((lang) => {
       this.currentLanguage = lang;
     });
-    this.takeBagsData(this.orderId, 1);
+    this.takeBagsData();
     this.initForm();
     this.orderService
       .getSelectedOrderStatus()
@@ -40,8 +40,6 @@ export class UbsAdminOrderDetailsFormComponent implements OnInit, OnDestroy {
       .subscribe((order) => {
         this.order = order;
         this.isVisible = order.ableActualChange;
-        console.log(order);
-        console.log(1111);
       });
   }
 
@@ -64,9 +62,9 @@ export class UbsAdminOrderDetailsFormComponent implements OnInit, OnDestroy {
     });
   }
 
-  public takeBagsData(orderId, langId): void {
+  public takeBagsData(): void {
     this.orderService
-      .getBags(orderId, langId)
+      .getBags()
       .pipe(takeUntil(this.destroy$))
       .subscribe((data: Bags) => {
         console.log(data);
