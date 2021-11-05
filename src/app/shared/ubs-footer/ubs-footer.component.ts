@@ -8,7 +8,6 @@ import { ubsHeaderIcons } from '../../main/image-pathes/header-icons';
 })
 export class UbsFooterComponent implements OnInit {
   public footerPicture = ubsHeaderIcons.ubsAdminLogo;
-  public inputValue;
 
   constructor() {}
 
