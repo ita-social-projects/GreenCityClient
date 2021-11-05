@@ -71,10 +71,10 @@
             column.title | serverTranslate: currentLang
           }}</span>
           <span *ngIf="!nonSortableColumns.includes(column.title.key)">
-            <mat-icon *ngIf="arrowDirection !== column.title.key" (click)="getSortingData(column.title.key, 'asc')">
+            <mat-icon *ngIf="arrowDirection !== column.title.key" (click)="getSortingData(column.title.key, 'ASC')">
               arrow_downward
             </mat-icon>
-            <mat-icon *ngIf="arrowDirection === column.title.key" (click)="getSortingData(column.title.key, 'desc')">
+            <mat-icon *ngIf="arrowDirection === column.title.key" (click)="getSortingData(column.title.key, 'DESC')">
               arrow_upward
             </mat-icon>
           </span>

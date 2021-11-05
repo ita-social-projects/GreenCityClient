@@ -226,7 +226,6 @@ export class UbsAdminTableComponent implements OnInit, AfterViewChecked, OnDestr
     this.sortingColumn = columnName;
     this.sortType = sortingType;
     this.arrowDirection = this.arrowDirection === columnName ? null : columnName;
-    this.currentPage = 0;
     this.getTable(columnName, sortingType);
   }
 
