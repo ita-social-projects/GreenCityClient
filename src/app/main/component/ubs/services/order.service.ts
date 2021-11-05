@@ -81,11 +81,11 @@ export class OrderService {
     this.locationSubject.next(completed);
   }
 
-  processLiqPayOrder(order: Order): Observable<Order> {
-    return this.http.post<Order>(`${this.url}/processLiqPayOrder`, order, { responseType: 'text' as 'json' });
+  processLiqPayOrder(order: Order): Observable<string> {
+    return this.http.post<string>(`${this.url}/processLiqPayOrder`, order, { responseType: 'text' as 'json' });
   }
 
-  getLiqPayForm(): Observable<Order> {
+  getLiqPayForm(): Observable<string> {
     return this.processLiqPayOrder(this.orderSubject.getValue());
   }
 

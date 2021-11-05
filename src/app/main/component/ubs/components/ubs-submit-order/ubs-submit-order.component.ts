@@ -183,7 +183,9 @@ export class UBSSubmitOrderComponent extends FormBaseComponent implements OnInit
     this.orderService
       .getLiqPayForm()
       .pipe(takeUntil(this.destroy))
-      .subscribe((liqPayButton) => {
+      .subscribe((res) => {
+        const { orderId, liqPayButton } = JSON.parse(res);
+        this.ubsOrderFormService.transferOrderId(orderId);
         this.response = liqPayButton;
         const responseForm = document.getElementById('liqPayButton');
         responseForm.innerHTML = this.response;
