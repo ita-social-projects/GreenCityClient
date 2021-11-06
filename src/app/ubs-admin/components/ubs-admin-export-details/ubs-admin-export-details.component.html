@@ -1,9 +1,9 @@
 <div class="container mb-3">
   <div class="form" [formGroup]="exportDetailsForm">
-    <div class="empty_card">
+    <div class="empty_card" (click)="openDetails()">
+      <img *ngIf="!pageOpen" src="assets/img/ubs-admin-orders/arrow_up.svg" alt="arrow up" />
+      <img *ngIf="pageOpen" src="assets/img/ubs-admin-orders/arrow_down.svg" alt="arrow down" />
       <h1 class="form__headline">{{ 'export-details.title' | translate }}</h1>
-      <img *ngIf="!pageOpen" src="assets/img/ubs-admin-orders/arrow_up.svg" alt="arrow up" (click)="openDetails()" />
-      <img *ngIf="pageOpen" src="assets/img/ubs-admin-orders/arrow_down.svg" alt="arrow down" (click)="closeDetails()" />
     </div>
     <div *ngIf="pageOpen" class="form-row">
       <div class="form-group col-md-2">
