@@ -29,7 +29,11 @@ export class TableCellSelectComponent implements OnInit {
 
   constructor(private adminTableService: AdminTableService) {}
 
-  ngOnInit() {}
+  ngOnInit() {
+    if (this.key !== '') {
+      this.currentValue = this.optional.filter((item) => item.key === this.key)[0];
+    }
+  }
 
   public edit(): void {
     this.isEditable = false;
