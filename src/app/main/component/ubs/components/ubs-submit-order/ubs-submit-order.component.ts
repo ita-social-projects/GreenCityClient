@@ -9,6 +9,7 @@ import { Bag, OrderBag, OrderDetails, OrderDetailsNotification, PersonalData } f
 import { UBSOrderFormService } from '../../services/ubs-order-form.service';
 import { OrderService } from '../../services/order.service';
 import { Order } from '../../models/ubs.model';
+import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
 
 @Component({
   selector: 'app-ubs-submit-order',
@@ -17,13 +18,15 @@ import { Order } from '../../models/ubs.model';
 })
 export class UBSSubmitOrderComponent extends FormBaseComponent implements OnInit, OnDestroy {
   paymentForm: FormGroup = this.fb.group({});
+  liqPayButtonForm: SafeHtml;
+  liqPayButton: NodeListOf<HTMLElement>;
+  isLiqPay = false;
   order: Order;
   addressId: number;
   bags: Bag[] = [];
   response: any;
   loadingAnim: boolean;
   selectedPayment: string;
-  isLiqPay = false;
   additionalOrders: any;
   personalData: PersonalData;
   orderDetails: OrderDetails | null;
@@ -53,6 +56,7 @@ export class UBSSubmitOrderComponent extends FormBaseComponent implements OnInit
     private orderService: OrderService,
     private shareFormService: UBSOrderFormService,
     public ubsOrderFormService: UBSOrderFormService,
+    private sanitizer: DomSanitizer,
     private fb: FormBuilder,
     router: Router,
     dialog: MatDialog
@@ -148,35 +152,38 @@ export class UBSSubmitOrderComponent extends FormBaseComponent implements OnInit
 
   redirectToOrder() {
     this.loadingAnim = true;
-
-    this.orderService
-      .getOrderUrl()
-      .pipe(takeUntil(this.destroy))
-      .pipe(
-        finalize(() => {
-          this.loadingAnim = false;
-          this.shareFormService.isDataSaved = false;
-          if (!this.shareFormService.orderUrl) {
-            this.router.navigate(['ubs', 'confirm']);
+    if (!this.isLiqPay) {
+      this.orderService
+        .getOrderUrl()
+        .pipe(takeUntil(this.destroy))
+        .pipe(
+          finalize(() => {
+            this.loadingAnim = false;
+            this.shareFormService.isDataSaved = false;
+            if (!this.shareFormService.orderUrl) {
+              this.router.navigate(['ubs', 'confirm']);
+            }
+          })
+        )
+        .subscribe(
+          (response) => {
+            this.shareFormService.orderUrl = '';
+            if (this.isFinalSumZero && !this.isTotalAmountZero) {
+              this.ubsOrderFormService.transferOrderId(response);
+              this.ubsOrderFormService.setOrderResponseErrorStatus(false);
+              this.ubsOrderFormService.setOrderStatus(true);
+            } else {
+              this.shareFormService.orderUrl = response.toString();
+              document.location.href = this.shareFormService.orderUrl;
+            }
+          },
+          (error) => {
+            this.loadingAnim = false;
           }
-        })
-      )
-      .subscribe(
-        (response) => {
-          this.shareFormService.orderUrl = '';
-          if (this.isFinalSumZero && !this.isTotalAmountZero) {
-            this.ubsOrderFormService.transferOrderId(response);
-            this.ubsOrderFormService.setOrderResponseErrorStatus(false);
-            this.ubsOrderFormService.setOrderStatus(true);
-          } else {
-            this.shareFormService.orderUrl = response.toString();
-            document.location.href = this.shareFormService.orderUrl;
-          }
-        },
-        (error) => {
-          this.loadingAnim = false;
-        }
-      );
+        );
+    } else {
+      this.onNotSaveData();
+    }
   }
 
   getLiqPayButton() {
@@ -187,8 +194,10 @@ export class UBSSubmitOrderComponent extends FormBaseComponent implements OnInit
         const { orderId, liqPayButton } = JSON.parse(res);
         this.ubsOrderFormService.transferOrderId(orderId);
         this.response = liqPayButton;
-        const responseForm = document.getElementById('liqPayButton');
-        responseForm.innerHTML = this.response;
+        this.liqPayButtonForm = this.sanitizer.bypassSecurityTrustHtml(this.response);
+        setTimeout(() => {
+          this.liqPayButton = document.getElementsByName('btn_text');
+        }, 0);
       });
   }
 
@@ -204,5 +213,6 @@ export class UBSSubmitOrderComponent extends FormBaseComponent implements OnInit
 
   onNotSaveData() {
     this.shareFormService.isDataSaved = true;
+    this.liqPayButton[0].click();
   }
 }
