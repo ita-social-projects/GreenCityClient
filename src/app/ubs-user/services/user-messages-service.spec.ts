@@ -1,14 +1,10 @@
-import { UserMessagesService } from './user-messages.service';
-import { TestBed } from '@angular/core/testing';
-import { HttpClientTestingModule, HttpTestingController } from '@angular/common/http/testing';
-import { Notifications } from '../../ubs-admin/models/ubs-user.model';
-import { error } from '@angular/compiler/src/util';
-import { HttpErrorResponse } from '@angular/common/http';
+import {UserMessagesService} from './user-messages.service';
+import {TestBed} from '@angular/core/testing';
+import {HttpClientTestingModule, HttpTestingController} from '@angular/common/http/testing';
+import {Notifications} from '../../ubs-admin/models/ubs-user.model';
+import {HttpErrorResponse} from '@angular/common/http';
 
-const appServiceNotificationSpy = jasmine.createSpyObj('UserMessagesService', {
-  getNotification: null,
-  getCountUnreadNotification: 100
-});
+
 const expectNotification: Notifications = {
   page: [
     {
@@ -30,6 +26,10 @@ const expectNotification: Notifications = {
   currentPage: 0,
   totalPages: 1
 };
+const appServiceNotificationSpy = jasmine.createSpyObj('UserMessagesService', {
+  getNotification: expectNotification,
+  getCountUnreadNotification: 100
+});
 describe('UserMessagesService', () => {
   const lang = 'ua';
   let serviceNotification: UserMessagesService;
@@ -50,14 +50,9 @@ describe('UserMessagesService', () => {
   });
 
   it('should return expected Notifications (HttpClient called once)', (done: DoneFn) => {
-    serviceNotification.getNotification(0, 2).subscribe((item) => {
-      expect(item.page.length).toBe(2, 'Length page should be 2');
-      expect(item).toEqual(expectNotification, 'expected Notification');
-      done();
-    });
-    const request = httpMock.expectOne(`${serviceNotification.url}/notifications?lang=${lang}&page=0&size=2`);
-    expect(request.request.method).toBe('GET');
-    request.flush(expectNotification);
+    appServiceNotificationSpy.getNotification.and.returnValue(expectNotification);
+    expect(appServiceNotificationSpy.getNotification(0, 2)).toBe(expectNotification, 'expected Notification');
+    done();
   });
 
   it('should return count of unread notifications  ', (done: DoneFn) => {
