@@ -1,5 +1,5 @@
 <div class="select_wr">
-  <div *ngIf="!isEditable">{{ currentValue | serverTranslate: lang }}</div>
+  <div *ngIf="!isEditable">іі{{ currentValue | serverTranslate: lang }}</div>
   <div *ngIf="isEditable">
     <select (change)="chosenOption($event)" class="select_dropdown">
       <option

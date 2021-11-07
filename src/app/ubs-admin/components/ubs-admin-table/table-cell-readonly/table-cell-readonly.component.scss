@@ -10,3 +10,10 @@ div {
   justify-content: space-between;
   padding: 0 20px;
 }
+
+::ng-deep .mat-tooltip {
+  font-size: 12px;
+  text-align: justify;
+  max-width: 350px !important;
+  //background:var(--ubs-primary-grey);;
+}
