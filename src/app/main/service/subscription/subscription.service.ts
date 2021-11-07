@@ -5,11 +5,11 @@ import { SubscriptionDto } from './SubscriptionDto';
 import { BehaviorSubject } from 'rxjs';
 
 @Injectable({
-  providedIn: 'root',
+  providedIn: 'root'
 })
 export class SubscriptionService {
   private subscriptionErrorSubject = new BehaviorSubject<string>('');
-  readonly subscriptionError = this.subscriptionErrorSubject.asObservable();
+  subscriptionError = this.subscriptionErrorSubject.asObservable();
 
   constructor(private http: HttpClient) {}
 
