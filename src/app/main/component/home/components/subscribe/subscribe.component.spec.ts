@@ -13,7 +13,7 @@ describe('SubscribeComponent', () => {
   fakeSubscriptionService = jasmine.createSpyObj('fakeSub', ['subscribeToNewsletter']);
   fakeSubscriptionService.subscriptionError = of('sth');
 
-  let emailMock = 'example12@gamil.com';
+  const emailMock = 'example12@gamil.com';
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
