@@ -5,7 +5,7 @@ import { TranslateModule } from '@ngx-translate/core';
 import { of } from 'rxjs';
 import { FormsModule } from '@angular/forms';
 
-fdescribe('SubscribeComponent', () => {
+describe('SubscribeComponent', () => {
   let component: SubscribeComponent;
   let fixture: ComponentFixture<SubscribeComponent>;
 
