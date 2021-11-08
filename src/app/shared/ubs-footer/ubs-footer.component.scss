@@ -1,0 +1,225 @@
+footer {
+  margin-top: 50px;
+  box-shadow: 0 -4px 8px var(--quintynary-dark-grey);
+
+  .container-fluid {
+    padding: 70px 330px 0 330px;
+
+    .main-content {
+      width: 100%;
+      display: inline-flex;
+
+      .footer-logo {
+        a {
+          img {
+            margin-top: 80px;
+            width: 230px;
+            height: 95px;
+          }
+        }
+      }
+
+      .footer-content {
+        p {
+          font-size: 16px;
+          margin-bottom: 7px;
+
+          a {
+            font-size: 18px;
+            color: #9c0;
+            font-weight: bold;
+          }
+        }
+      }
+
+      .footer-links {
+        display: inline-block;
+        list-style: none;
+
+        li {
+          margin-bottom: 7px;
+
+          a {
+            font-size: 15px;
+            color: #690;
+          }
+        }
+      }
+
+      .footer-content p a:hover {
+        text-decoration: underline;
+      }
+
+      .footer-links li a:hover {
+        color: black;
+        text-decoration: underline;
+      }
+
+      .footer-subscribe-us {
+        display: block;
+
+        input {
+          border: 1px solid #9ca7b0;
+        }
+
+        button {
+          margin-top: 7px;
+          border: 1px solid #690;
+          background-color: #9c0;
+          font-family: Verdana, 'Raleway', Arial, sans-serif;
+          font-weight: bold;
+          color: white;
+          line-height: 35px;
+          font-size: 15px;
+        }
+
+        p,
+        label,
+        input,
+        button {
+          width: 100%;
+        }
+
+        button:hover {
+          background-color: #690;
+        }
+      }
+
+      .footer-logo,
+      .footer-content,
+      .footer-links,
+      .footer-subscribe-us {
+        width: 25%;
+        justify-content: flex-start;
+        padding: 0 20px 0 20px;
+        line-height: 24px;
+      }
+    }
+
+    .social-networks {
+      width: 100%;
+      display: inline-flex;
+      justify-content: flex-end;
+      margin-top: 60px;
+      padding-right: 30px;
+      padding-bottom: 40px;
+      border-bottom-style: inset;
+      border-bottom-color: #ddd;
+      border-bottom-width: 2px;
+
+      .fa {
+        padding: 20px;
+        font-size: 15px;
+        height: 20px;
+        width: 20px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        text-decoration: none;
+        margin-right: 8px;
+        border-radius: 50%;
+      }
+
+      .fa-facebook,
+      .fa-youtube,
+      .fa-instagram,
+      .fa-telegram {
+        background: white;
+        border: 1px solid gainsboro;
+        color: #646363;
+      }
+
+      .fa-facebook:hover {
+        background: #3b5998;
+        color: white;
+      }
+
+      .fa-youtube:hover {
+        background: #b00;
+        color: white;
+      }
+
+      .fa-instagram:hover {
+        background: #125688;
+        color: white;
+      }
+
+      .fa-telegram:hover {
+        background: #11a0cd;
+        color: white;
+      }
+    }
+
+    .footer-bottom-part {
+      width: 100%;
+      text-align: left;
+      margin-top: 50px;
+      margin-left: 25px;
+      padding-bottom: 25px;
+
+      .par {
+        font-size: 13px;
+      }
+    }
+  }
+
+  @media (max-width: 1550px) {
+    .container-fluid {
+      padding: 90px 100px 0 100px;
+
+      .main-content {
+        .footer-logo {
+          a {
+            img {
+              width: 200px;
+              height: 75px;
+            }
+          }
+        }
+      }
+    }
+  }
+
+  @media (max-width: 990px) {
+    .container-fluid {
+      padding: 90px 20px 0 20px;
+
+      .main-content {
+        .footer-logo {
+          a {
+            img {
+              width: 120px;
+              height: 65px;
+            }
+          }
+        }
+      }
+    }
+  }
+
+  @media (max-width: 760px) {
+    .container-fluid {
+      padding: 20px 10px 0 10px;
+
+      .main-content {
+        display: block;
+
+        .footer-logo {
+          a {
+            img {
+              width: 230px;
+              height: 95px;
+            }
+          }
+        }
+
+        .footer-content,
+        .footer-subscribe-us,
+        .footer-links {
+          width: 100%;
+          margin-top: 100px;
+        }
+      }
+    }
+  }
+}

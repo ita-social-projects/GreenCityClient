@@ -6,7 +6,7 @@ import { AdminTableService } from '../../services/admin-table.service';
 import { CdkDragDrop, moveItemInArray } from '@angular/cdk/drag-drop';
 import { take, takeUntil } from 'rxjs/operators';
 import { Subject, timer } from 'rxjs';
-import { Component, OnInit, ViewChild, OnDestroy, AfterViewChecked } from '@angular/core';
+import { Component, OnInit, ViewChild, OnDestroy, AfterViewChecked, ChangeDetectorRef } from '@angular/core';
 import { MatTableDataSource } from '@angular/material/table';
 import { SelectionModel } from '@angular/cdk/collections';
 import { MatSort } from '@angular/material/sort';
@@ -42,7 +42,7 @@ export class UbsAdminTableComponent implements OnInit, AfterViewChecked, OnDestr
   currentPage = 0;
   pageSize = 25;
   idsToChange: number[] = [];
-  allChecked: boolean;
+  allChecked = false;
   tableViewHeaders = [];
   public blockedInfo: IAlertInfo[] = [];
   isAll = true;
@@ -56,7 +56,8 @@ export class UbsAdminTableComponent implements OnInit, AfterViewChecked, OnDestr
     private adminTableService: AdminTableService,
     private localStorageService: LocalStorageService,
     private tableHeightService: TableHeightService,
-    public dialog: MatDialog
+    public dialog: MatDialog,
+    private cdr: ChangeDetectorRef
   ) {}
 
   ngOnInit() {
@@ -75,6 +76,7 @@ export class UbsAdminTableComponent implements OnInit, AfterViewChecked, OnDestr
         this.onScroll();
       }
     }
+    this.cdr.detectChanges();
   }
 
   applyFilter(filterValue: string): void {
@@ -224,7 +226,6 @@ export class UbsAdminTableComponent implements OnInit, AfterViewChecked, OnDestr
     this.sortingColumn = columnName;
     this.sortType = sortingType;
     this.arrowDirection = this.arrowDirection === columnName ? null : columnName;
-    this.currentPage = 0;
     this.getTable(columnName, sortingType);
   }
 
