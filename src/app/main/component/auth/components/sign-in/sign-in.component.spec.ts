@@ -211,13 +211,26 @@ describe('SignIn component', () => {
       })
     ));
 
-    xit('Should navigate to profile after sign in', async(() => {
+    it('Should navigate to profile after sign in if is not ubs', async(() => {
       fixture.ngZone.run(() => {
+        component.isUbs = false;
         // @ts-ignore
         component.onSignInSuccess(userSuccessSignIn);
         fixture.detectChanges();
         fixture.whenStable().then(() => {
           expect(routerSpy.navigate).toHaveBeenCalledWith(['profile', userSuccessSignIn.userId]);
+        });
+      });
+    }));
+
+    it('Should navigate to ubs courier after sign in if is ubs', async(() => {
+      fixture.ngZone.run(() => {
+        component.isUbs = true;
+        // @ts-ignore
+        component.onSignInSuccess(userSuccessSignIn);
+        fixture.detectChanges();
+        fixture.whenStable().then(() => {
+          expect(routerSpy.navigate).toHaveBeenCalledWith(['ubs']);
         });
       });
     }));

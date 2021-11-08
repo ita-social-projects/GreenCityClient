@@ -1,4 +1,5 @@
 export interface EcoNewsModel {
+  countComments: number;
   id: number;
   imagePath: string;
   title: string;

@@ -1,9 +1,9 @@
 <div class="container">
   <div class="form" [formGroup]="clientInfoForm">
-    <div class="empty_card">
+    <div class="empty_card" (click)="openDetails()">
+      <img *ngIf="!pageOpen" src="assets/img/ubs-admin-orders/arrow_up.svg" alt="arrow up" />
+      <img *ngIf="pageOpen" src="assets/img/ubs-admin-orders/arrow_down.svg" alt="arrow down" />
       <h3 class="form__headline">{{ 'customer-info.title' | translate }}</h3>
-      <img *ngIf="!pageOpen" src="assets/img/ubs-admin-orders/arrow_up.svg" alt="arrow up" (click)="openDetails()" />
-      <img *ngIf="pageOpen" src="assets/img/ubs-admin-orders/arrow_down.svg" alt="arrow down" (click)="closeDetails()" />
     </div>
     <div *ngIf="pageOpen">
       <div class="form__wrapper row d-flex">

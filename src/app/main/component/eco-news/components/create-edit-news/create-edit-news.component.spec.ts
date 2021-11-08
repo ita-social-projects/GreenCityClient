@@ -51,7 +51,8 @@ describe('CreateEditNewsComponent', () => {
     ],
     text: 'hellohellohellohellohellohellohellohellohellohello',
     title: 'hello',
-    likes: 0
+    likes: 0,
+    countComments: 2
   };
   let http: HttpTestingController;
   const newsResponseMock: NewsResponseDTO = {
@@ -352,7 +353,8 @@ describe('CreateEditNewsComponent', () => {
       ],
       text: 'hellohellohellohellohellohellohellohellohellohello',
       title: 'hello',
-      likes: 0
+      likes: 0,
+      countComments: 2
     };
     component.setActiveFilters(expectedData);
     expect(component.isArrayEmpty).toBeFalsy();
