@@ -2,7 +2,7 @@ import { LocalStorageService } from '@global-service/localstorage/local-storage.
 import { Address, Locations } from './../models/ubs.interface';
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { BehaviorSubject, Observable, Subject } from 'rxjs';
+import { BehaviorSubject, Observable, Subject, throwError } from 'rxjs';
 import { tap } from 'rxjs/operators';
 import { ICertificate, OrderDetails } from '../models/ubs.interface';
 import { Order } from '../models/ubs.model';
@@ -67,6 +67,11 @@ export class OrderService {
 
   getOrderUrl(): Observable<Order> {
     return this.processOrder(this.orderSubject.getValue());
+  }
+
+  getUbsOrderStatus(): Observable<any> {
+    const liqPayOrderId = this.localStorageService.getUbsOrderId();
+    return liqPayOrderId ? this.getLiqPayStatus(liqPayOrderId) : throwError(new Error('There is no OrderId!'));
   }
 
   getLiqPayStatus(orderId: string): Observable<any> {

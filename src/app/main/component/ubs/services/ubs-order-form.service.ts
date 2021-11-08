@@ -1,8 +1,7 @@
 import { EventEmitter, Injectable } from '@angular/core';
 import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
-import { BehaviorSubject, Observable, throwError } from 'rxjs';
+import { BehaviorSubject } from 'rxjs';
 import { OrderDetails, PersonalData } from '../models/ubs.interface';
-import { OrderService } from './order.service';
 
 @Injectable({
   providedIn: 'root'
@@ -22,7 +21,7 @@ export class UBSOrderFormService {
   private orderID = new BehaviorSubject(null);
   orderId = this.orderID.asObservable();
 
-  constructor(private localStorageService: LocalStorageService, private orderService: OrderService) {}
+  constructor(private localStorageService: LocalStorageService) {}
 
   transferOrderId(id: any) {
     this.orderID.next(id);
@@ -57,11 +56,6 @@ export class UBSOrderFormService {
     if (errorStatus) {
       this.orderStatusDone = false;
     }
-  }
-
-  getUbsOrderStatus(): Observable<any> {
-    const liqPayOrderId = this.localStorageService.getUbsOrderId();
-    return liqPayOrderId ? this.orderService.getLiqPayStatus(liqPayOrderId) : throwError(new Error('There is no OrderId!'));
   }
 
   saveDataOnLocalStorage() {

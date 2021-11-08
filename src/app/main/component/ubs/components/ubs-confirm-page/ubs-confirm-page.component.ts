@@ -5,6 +5,7 @@ import { JwtService } from '@global-service/jwt/jwt.service';
 import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
+import { OrderService } from '../../services/order.service';
 import { UBSOrderFormService } from '../../services/ubs-order-form.service';
 
 @Component({
@@ -26,6 +27,7 @@ export class UbsConfirmPageComponent implements OnInit, OnDestroy {
     private ubsOrderFormService: UBSOrderFormService,
     private shareFormService: UBSOrderFormService,
     private localStorageService: LocalStorageService,
+    private orderService: OrderService,
     public router: Router
   ) {}
 
@@ -45,14 +47,14 @@ export class UbsConfirmPageComponent implements OnInit, OnDestroy {
         this.orderStatusDone = this.ubsOrderFormService.getOrderStatus();
         this.renderView();
       } else {
-        this.ubsOrderFormService
+        this.orderService
           .getUbsOrderStatus()
           .pipe(takeUntil(this.destroy$))
           .subscribe(
             (response) => {
-              console.log(response);
-              // this.orderResponseError = ...
-              // this.orderStatusDone = ...
+              this.orderResponseError = response.result === 'error' ? true : false;
+              this.orderStatusDone = this.orderResponseError ? false : true;
+              this.orderId = response.order_id ? response.order_id.split('_')[0] : this.localStorageService.getUbsOrderId();
               this.renderView();
             },
             (error) => {
@@ -65,10 +67,6 @@ export class UbsConfirmPageComponent implements OnInit, OnDestroy {
   }
 
   renderView(): void {
-    // this.ubsOrderFormService.orderId.pipe(takeUntil(this.destroy$)).subscribe((oderID) => {
-    //   this.orderId = oderID;
-    //   this.orderResponseError = this.orderId ? this.ubsOrderFormService.getOrderResponseErrorStatus() : true;
-    //   this.orderStatusDone = this.ubsOrderFormService.getOrderStatus();
     if (!this.orderResponseError && !this.orderStatusDone) {
       this.saveDataOnLocalStorage();
       this.activatedRoute.queryParams.subscribe((params) => {
@@ -80,7 +78,6 @@ export class UbsConfirmPageComponent implements OnInit, OnDestroy {
     } else if (!this.orderResponseError && this.orderStatusDone) {
       this.saveDataOnLocalStorage();
     }
-    // });
   }
 
   saveDataOnLocalStorage(): void {
