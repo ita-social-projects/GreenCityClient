@@ -23,6 +23,7 @@ import { InfiniteScrollModule } from 'ngx-infinite-scroll';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { NgxPageScrollModule } from 'ngx-page-scroll';
 import { SearchNotFoundComponent } from './search-not-found/search-not-found.component';
+import { UbsFooterComponent } from './ubs-footer/ubs-footer.component';
 
 @NgModule({
   declarations: [
@@ -41,7 +42,8 @@ import { SearchNotFoundComponent } from './search-not-found/search-not-found.com
     SearchAllResultsComponent,
     SearchItemComponent,
     SearchPopupComponent,
-    SearchNotFoundComponent
+    SearchNotFoundComponent,
+    UbsFooterComponent
   ],
   imports: [
     CommonModule,
@@ -69,7 +71,8 @@ import { SearchNotFoundComponent } from './search-not-found/search-not-found.com
     SearchAllResultsComponent,
     SearchItemComponent,
     SearchPopupComponent,
-    SearchNotFoundComponent
+    SearchNotFoundComponent,
+    UbsFooterComponent
   ]
 })
 export class SharedModule {}
