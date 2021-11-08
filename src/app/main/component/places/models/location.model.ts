@@ -1,4 +1,4 @@
-export class Location {
+export class PlaceLocation {
   lat: number;
   lng: number;
   id: number;

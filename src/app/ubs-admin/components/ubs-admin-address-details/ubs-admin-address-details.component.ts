@@ -17,11 +17,7 @@ export class UbsAdminAddressDetailsComponent implements OnDestroy {
   private destroy$: Subject<boolean> = new Subject<boolean>();
 
   openDetails() {
-    this.pageOpen = true;
-  }
-
-  closeDetails() {
-    this.pageOpen = false;
+    this.pageOpen = !this.pageOpen;
   }
 
   ngOnDestroy(): void {

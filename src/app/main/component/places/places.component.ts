@@ -23,6 +23,7 @@ import { LatLngBounds, LatLngLiteral } from '@agm/core/services/google-maps-type
 import { MapBoundsDto } from './models/map-bounds-dto';
 import { MoreOptionsFormValue } from './models/more-options-filter.model';
 import { PlaceInfo } from '@global-models/place/place-info';
+import { Location } from '@angular-material-extensions/google-maps-autocomplete';
 
 @Component({
   selector: 'app-places',
@@ -172,7 +173,7 @@ export class PlacesComponent implements OnInit {
 
   private setUserLocation(): void {
     navigator.geolocation.getCurrentPosition(
-      (position: Position) => {
+      (position: any) => {
         this.map.setCenter({
           lat: position.coords.latitude,
           lng: position.coords.longitude
@@ -185,5 +186,12 @@ export class PlacesComponent implements OnInit {
         });
       }
     );
+  }
+
+  onLocationSelected(event: Location) {
+    this.map.setCenter({
+      lat: event.latitude,
+      lng: event.longitude
+    });
   }
 }

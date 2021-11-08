@@ -24,6 +24,7 @@ import { MatRippleModule } from '@angular/material/core';
 import { MoreOptionsFilterComponent } from './components/more-options-filter/more-options-filter.component';
 import { MatMenuModule } from '@angular/material/menu';
 import { MatSliderModule } from '@angular/material/slider';
+import { MatGoogleMapsAutocompleteModule } from '@angular-material-extensions/google-maps-autocomplete';
 
 @NgModule({
   declarations: [PlacesComponent, MoreOptionsFilterComponent],
@@ -57,7 +58,8 @@ import { MatSliderModule } from '@angular/material/slider';
       },
       isolate: true
     }),
-    MatSliderModule
+    MatSliderModule,
+    MatGoogleMapsAutocompleteModule
   ],
   providers: [TranslateService]
 })

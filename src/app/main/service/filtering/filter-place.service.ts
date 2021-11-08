@@ -8,7 +8,7 @@ import { FilterPlaceDtoModel } from '../../model/filtering/filter-place-dto.mode
 import { PlaceStatus } from '../../model/placeStatus.model';
 import { DatePipe } from '@angular/common';
 import { FilterDistanceDto } from '../../model/filtering/filter-distance-dto.model';
-import { Location } from '../../component/places/models/location.model';
+import { PlaceLocation } from '../../component/places/models/location.model';
 import { BehaviorSubject } from 'rxjs';
 import { PlacesFilter } from '../../component/places/models/places-filter';
 
@@ -25,7 +25,7 @@ export class FilterPlaceService {
   discountMin = 0;
   discountMax = 100;
   distance: number;
-  userMarkerLocation: Location = new Location();
+  userMarkerLocation: PlaceLocation = new PlaceLocation();
 
   public filtersDto$: BehaviorSubject<any> = new BehaviorSubject<any>({ status: PlaceStatus.APPROVED });
 
@@ -111,7 +111,7 @@ export class FilterPlaceService {
     this.distance = distance > 0 ? distance : null;
   }
 
-  setUserMarkerLocation(userMarkerLocation: Location) {
+  setUserMarkerLocation(userMarkerLocation: PlaceLocation) {
     this.userMarkerLocation = userMarkerLocation;
   }
 }

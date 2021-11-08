@@ -13,7 +13,7 @@ describe('PlacesComponent', () => {
   let component: PlacesComponent;
   let fixture: ComponentFixture<PlacesComponent>;
   const localStorageServiceMock: LocalStorageService = jasmine.createSpyObj('LocalStorageService', ['getCurrentLanguage']);
-  const placeServiceMock: PlaceService = jasmine.createSpyObj('PlaceService', ['getPlaceInfo']);
+  const placeServiceMock: PlaceService = jasmine.createSpyObj('PlaceService', ['getPlaceInfo', 'updatePlaces']);
   placeServiceMock.places$ = new Subject<Place[]>();
   const filterPlaceServiceMock: FilterPlaceService = jasmine.createSpyObj('FilterPlaceService', ['updateFiltersDto']);
   filterPlaceServiceMock.filtersDto$ = new BehaviorSubject<any>({ status: PlaceStatus.APPROVED });

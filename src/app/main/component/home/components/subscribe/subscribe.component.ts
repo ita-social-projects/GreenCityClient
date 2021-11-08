@@ -6,7 +6,7 @@ import { of } from 'rxjs';
 @Component({
   selector: 'app-subscribe',
   templateUrl: './subscribe.component.html',
-  styleUrls: ['./subscribe.component.scss'],
+  styleUrls: ['./subscribe.component.scss']
 })
 export class SubscribeComponent implements OnInit {
   readonly qrCode = 'assets/img/qr-code.png';
@@ -15,7 +15,7 @@ export class SubscribeComponent implements OnInit {
   subscriptionError: string;
   emailTouched: boolean;
   emailValid: boolean;
-  email: string;
+  email = '';
 
   constructor(private subscriptionService: SubscriptionService) {}
 
