@@ -5,6 +5,7 @@
   border: 1px solid var(--ubs-primary-light-grey);
   display: flex;
   justify-content: center;
+  flex-wrap: wrap;
   font-size: 14px;
   min-height: 39px;
   min-width: 48px;
@@ -12,6 +13,10 @@
   word-wrap: break-word;
   white-space: nowrap;
   overflow-wrap: break-word;
+}
+
+.drop {
+  cursor: pointer;
 }
 
 .table {
@@ -25,6 +30,20 @@
 
 .mat-row {
   min-height: 39px !important;
+}
+
+.check {
+  display: flex;
+  justify-content: center;
+  overflow: hidden;
+  flex-direction: column;
+  width: 100%;
+  position: relative;
+  z-index: 10000 !important;
+}
+
+.mat-form-field {
+  width: 100%;
 }
 
 .mat-cell {
