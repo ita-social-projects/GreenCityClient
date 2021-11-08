@@ -166,7 +166,7 @@ export class UBSPersonalInformationComponent extends FormBaseComponent implement
       anotherClientFirstName.setValidators(this.personalDataFormValidators);
       anotherClientLastName.setValidators(this.personalDataFormValidators);
       anotherClientPhoneNumber.setValidators([Validators.required, Validators.minLength(12)]);
-      anotherClientPhoneNumber.setValue('+38 0');
+      anotherClientPhoneNumber.setValue('+380');
     } else {
       anotherClientFirstName.setValue('');
       anotherClientFirstName.clearValidators();
