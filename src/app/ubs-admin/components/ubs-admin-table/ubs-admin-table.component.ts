@@ -355,6 +355,14 @@ export class UbsAdminTableComponent implements OnInit, AfterViewChecked, OnDestr
     this.router.navigate(['ubs-admin', 'order']);
   }
 
+  showTooltip(title, tooltip) {
+    const lengthStrUa = title.ua.split('').length;
+    const lengthStrEn = title.en.split('').length;
+    if ((this.currentLang === 'ua' && lengthStrUa > 17) || (this.currentLang === 'en' && lengthStrEn > 18)) {
+      tooltip.toggle();
+    }
+  }
+
   ngOnDestroy() {
     this.destroy.next();
     this.destroy.unsubscribe();
