@@ -144,6 +144,7 @@ export class UBSPersonalInformationComponent extends FormBaseComponent implement
     this.personalData.entranceNumber = activeAddress.entranceNumber;
     this.personalData.latitude = activeAddress.latitude;
     this.personalData.longitude = activeAddress.longitude;
+    this.personalDataForm.patchValue({ addressComment: activeAddress.addressComment });
   }
 
   setFormData(): void {
