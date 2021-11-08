@@ -6,7 +6,7 @@ import { AdminTableService } from '../../services/admin-table.service';
 import { CdkDragDrop, moveItemInArray } from '@angular/cdk/drag-drop';
 import { take, takeUntil } from 'rxjs/operators';
 import { Subject, timer } from 'rxjs';
-import { Component, OnInit, ViewChild, OnDestroy, AfterViewChecked, ChangeDetectorRef } from '@angular/core';
+import { Component, OnInit, ViewChild, OnDestroy, AfterViewChecked } from '@angular/core';
 import { MatTableDataSource } from '@angular/material/table';
 import { SelectionModel } from '@angular/cdk/collections';
 import { MatSort } from '@angular/material/sort';
@@ -42,7 +42,7 @@ export class UbsAdminTableComponent implements OnInit, AfterViewChecked, OnDestr
   currentPage = 0;
   pageSize = 25;
   idsToChange: number[] = [];
-  allChecked = false;
+  allChecked: boolean;
   tableViewHeaders = [];
   public blockedInfo: IAlertInfo[] = [];
   isAll = true;
@@ -56,8 +56,7 @@ export class UbsAdminTableComponent implements OnInit, AfterViewChecked, OnDestr
     private adminTableService: AdminTableService,
     private localStorageService: LocalStorageService,
     private tableHeightService: TableHeightService,
-    public dialog: MatDialog,
-    private cdr: ChangeDetectorRef
+    public dialog: MatDialog
   ) {}
 
   ngOnInit() {
@@ -76,7 +75,6 @@ export class UbsAdminTableComponent implements OnInit, AfterViewChecked, OnDestr
         this.onScroll();
       }
     }
-    this.cdr.detectChanges();
   }
 
   applyFilter(filterValue: string): void {
@@ -85,16 +83,6 @@ export class UbsAdminTableComponent implements OnInit, AfterViewChecked, OnDestr
 
   dropListDropped(event: CdkDragDrop<string[]>) {
     moveItemInArray(this.displayedColumns, event.previousIndex, event.currentIndex);
-    console.log(event.previousIndex);
-    console.log(event.currentIndex);
-    console.log(this.columns);
-    // if(event.currentIndex == 1 || event.currentIndex == 2){
-    //   this.columns[event.previousIndex].sticky = true;
-    // }
-    // if(event.currentIndex == 3){
-    //   this.columns[event.previousIndex].sticky = true;
-    //   this.columns[event.currentIndex].sticky = false;
-    // }
     let stickyColumn = [];
     for (let i = 0; i < 4; i++) {
       stickyColumn.push(this.displayedColumns[i]);
@@ -104,8 +92,6 @@ export class UbsAdminTableComponent implements OnInit, AfterViewChecked, OnDestr
         item.sticky = true;
       } else item.sticky = false;
     });
-    console.log(this.displayedColumns);
-    console.log(this.columns[event.currentIndex]);
   }
 
   isAllSelected() {
@@ -190,7 +176,6 @@ export class UbsAdminTableComponent implements OnInit, AfterViewChecked, OnDestr
         this.pageSize = pageSize;
         this.currentPage = pageNumber;
         this.getTable(sortBy, sortDirection);
-        console.log(columns.columnDTOList);
       });
   }
 
@@ -248,7 +233,7 @@ export class UbsAdminTableComponent implements OnInit, AfterViewChecked, OnDestr
     this.sortingColumn = columnName;
     this.sortType = sortingType;
     this.arrowDirection = this.arrowDirection === columnName ? null : columnName;
-    //this.currentPage = 0;
+    this.currentPage = 0;
     this.getTable(columnName, sortingType);
   }
 
