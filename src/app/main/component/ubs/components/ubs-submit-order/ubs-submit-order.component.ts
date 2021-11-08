@@ -216,6 +216,7 @@ export class UBSSubmitOrderComponent extends FormBaseComponent implements OnInit
       this.isLiqPay = true;
       this.getLiqPayButton();
     } else {
+      this.loadingAnim = false;
       this.isLiqPay = false;
     }
   }
