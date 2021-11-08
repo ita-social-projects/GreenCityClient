@@ -30,10 +30,12 @@ export class TableCellSelectComponent implements OnInit {
   constructor(private adminTableService: AdminTableService) {}
 
   ngOnInit() {
-    this.currentValue = this.optional.filter((item) => item.key === this.key)[0];
-    this.optional = this.optional.filter((item) => {
-      return item.key !== 'DONE' && item.key !== 'CANCELLED';
-    });
+    if (this.key !== '') {
+      this.currentValue = this.optional.filter((item) => item.key === this.key)[0];
+      this.optional = this.optional.filter((item) => {
+        return item.key !== 'DONE' && item.key !== 'CANCELLED';
+      });
+    }
   }
 
   public edit(): void {
