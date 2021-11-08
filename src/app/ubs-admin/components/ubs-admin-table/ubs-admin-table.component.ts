@@ -48,6 +48,7 @@ export class UbsAdminTableComponent implements OnInit, AfterViewChecked, OnDestr
   isAll = true;
   count: number;
   display = 'none';
+  stickyColumn = [];
   @ViewChild(MatSort, { static: true }) sort: MatSort;
 
   constructor(
@@ -83,14 +84,15 @@ export class UbsAdminTableComponent implements OnInit, AfterViewChecked, OnDestr
 
   dropListDropped(event: CdkDragDrop<string[]>) {
     moveItemInArray(this.displayedColumns, event.previousIndex, event.currentIndex);
-    let stickyColumn = [];
     for (let i = 0; i < 4; i++) {
-      stickyColumn.push(this.displayedColumns[i]);
+      this.stickyColumn.push(this.displayedColumns[i]);
     }
     this.columns.forEach((item) => {
-      if (stickyColumn.includes(item.title.key)) {
+      if (this.stickyColumn.includes(item.title.key)) {
         item.sticky = true;
-      } else item.sticky = false;
+      } else {
+        item.sticky = false;
+      }
     });
   }
 
