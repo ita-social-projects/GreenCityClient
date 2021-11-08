@@ -15,6 +15,7 @@ describe('NewsListListViewComponent', () => {
   let component: NewsListListViewComponent;
   let fixture: ComponentFixture<NewsListListViewComponent>;
   const ecoNewsMock: EcoNewsModel = {
+    countComments: 2,
     id: 1,
     imagePath: 'string',
     title: 'string',

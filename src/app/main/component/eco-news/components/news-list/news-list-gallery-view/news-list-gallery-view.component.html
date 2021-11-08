@@ -28,6 +28,10 @@
         {{ ecoNewsModel.author.name }}
       </p>
       <div class="user-data-like">
+        <mat-icon>chat_bubble_outline</mat-icon>
+        <span class="numerosity">{{ ecoNewsModel.countComments }}</span>
+      </div>
+      <div class="user-data-like">
         <img [src]="likeImg" alt="like" class="icon" />
         <span class="numerosity">{{ ecoNewsModel.likes }}</span>
       </div>

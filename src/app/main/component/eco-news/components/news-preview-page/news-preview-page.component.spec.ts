@@ -98,7 +98,8 @@ describe('NewsPreviewPageComponent', () => {
       ],
       text: 'text for itemMock',
       title: 'title for itemMock',
-      likes: 0
+      likes: 0,
+      countComments: 2
     };
 
     fixture.detectChanges();
