@@ -112,8 +112,9 @@ describe('OrderDetailsFormComponent', () => {
     expect(spy1).toHaveBeenCalled();
   });
 
-  xit('method addOrder should invoke ecoStoreValidation method', () => {
+  it('method addOrder should invoke ecoStoreValidation method', () => {
     const spy = spyOn(component, 'ecoStoreValidation');
+    spyOn(global, 'setTimeout');
     component.addOrder();
     expect(spy).toHaveBeenCalled();
   });

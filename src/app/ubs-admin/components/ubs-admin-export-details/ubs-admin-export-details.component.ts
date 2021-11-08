@@ -23,11 +23,7 @@ export class UbsAdminExportDetailsComponent implements OnInit, OnDestroy {
   }
 
   openDetails() {
-    this.pageOpen = true;
-  }
-
-  closeDetails() {
-    this.pageOpen = false;
+    this.pageOpen = !this.pageOpen;
   }
 
   public getReceivingStations(): void {

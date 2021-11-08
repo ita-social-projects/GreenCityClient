@@ -1,8 +1,8 @@
 <div class="container">
-  <div class="empty_card">
+  <div class="empty_card" (click)="openDetails()">
+    <img *ngIf="!pageOpen" src="assets/img/ubs-admin-orders/arrow_up.svg" alt="arrow up" />
+    <img *ngIf="pageOpen" src="assets/img/ubs-admin-orders/arrow_down.svg" alt="arrow down" />
     <h1 class="my-4 form__headline">{{ 'order-payment.title' | translate }}</h1>
-    <img *ngIf="!pageOpen" src="assets/img/ubs-admin-orders/arrow_up.svg" alt="arrow up" (click)="openDetails()" />
-    <img *ngIf="pageOpen" src="assets/img/ubs-admin-orders/arrow_down.svg" alt="arrow down" (click)="closeDetails()" />
   </div>
   <div *ngIf="pageOpen">
     <div class="row align-items-baseline">

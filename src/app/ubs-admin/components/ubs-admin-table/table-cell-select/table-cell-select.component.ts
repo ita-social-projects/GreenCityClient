@@ -41,9 +41,7 @@ export class TableCellSelectComponent implements OnInit {
   public edit(): void {
     this.isEditable = false;
     this.isBlocked = true;
-
     this.typeOfChange = this.adminTableService.howChangeCell(this.isAllChecked, this.ordersToChange, this.id);
-
     this.adminTableService
       .blockOrders(this.typeOfChange)
       .pipe(take(1))

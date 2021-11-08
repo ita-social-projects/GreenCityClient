@@ -31,11 +31,7 @@ export class UbsAdminOrderDetailsFormComponent implements OnInit, OnDestroy {
   }
 
   openDetails() {
-    this.pageOpen = true;
-  }
-
-  closeDetails() {
-    this.pageOpen = false;
+    this.pageOpen = !this.pageOpen;
   }
 
   public initForm(): void {
