@@ -345,7 +345,7 @@ export class UBSOrderDetailsComponent extends FormBaseComponent implements OnIni
     this.ecoStoreValidation();
   }
 
-  onQuantityChange(): void {
+  onQuantityChange(id?: number): void {
     this.bags.forEach((bag) => {
       const valueName = 'quantity' + String(bag.id);
       const orderFormBagController = this.orderDetailsForm.controls[valueName];
@@ -359,6 +359,7 @@ export class UBSOrderDetailsComponent extends FormBaseComponent implements OnIni
         bag.quantity = null;
       }
     });
+    document.getElementById(`quantity${id}`).focus();
     this.checkTotalBigBags();
     this.calculateTotal();
     if (this.orderDetailsForm.controls.bonus.value === 'yes') {

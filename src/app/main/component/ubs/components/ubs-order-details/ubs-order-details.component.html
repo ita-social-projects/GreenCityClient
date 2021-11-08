@@ -42,12 +42,13 @@
                 formControlName="quantity{{ bag.id }}"
                 type="number"
                 class="shadow-none form-control input"
+                [id]="'quantity' + bag.id"
                 min="0"
                 max="999"
                 placeholder="0"
                 [unmask]="false"
                 [imask]="{ mask: servicesMask }"
-                (change)="onQuantityChange()"
+                (change)="onQuantityChange(bag.id)"
               />
             </div>
             <span class="col-3 bag-name text-center"> {{ bag.quantity * bag.price | currency | localizedCurrency }}</span>

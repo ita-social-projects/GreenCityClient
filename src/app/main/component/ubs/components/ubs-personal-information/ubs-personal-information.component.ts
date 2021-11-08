@@ -102,9 +102,7 @@ export class UBSPersonalInformationComponent extends FormBaseComponent implement
   }
 
   private getLastAddresses(addressList: Address[]) {
-    console.log(addressList);
     const lastAddresses = -4;
-
     return addressList.slice(lastAddresses);
   }
 
@@ -245,7 +243,7 @@ export class UBSPersonalInformationComponent extends FormBaseComponent implement
       console.log(currentAddress);
       dialogConfig.data.address = currentAddress;
     } else {
-      dialogConfig.data.address = this.addresses[0]?.id || {};
+      dialogConfig.data.address = {};
     }
     const dialogRef = this.dialog.open(UBSAddAddressPopUpComponent, dialogConfig);
     dialogRef
