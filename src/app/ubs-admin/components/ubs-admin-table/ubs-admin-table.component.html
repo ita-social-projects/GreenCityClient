@@ -103,7 +103,7 @@
         <app-table-cell-select
           *ngIf="column.editType === 'SELECT'"
           [key]="row[column.title.key]"
-          [optional]="column.optional"
+          [optional]="column.checked"
           [id]="row.id"
           [lang]="currentLang"
           [nameOfColumn]="column.title.key"

@@ -31,10 +31,13 @@ export class TableCellSelectComponent implements OnInit {
 
   ngOnInit() {
     this.currentValue = this.optional.filter((item) => item.key === this.key)[0];
+    this.optional = this.optional.filter((item) => {
+      return item.key !== 'DONE' && item.key !== 'CANCELLED';
+    });
   }
 
   public edit(): void {
-    this.isEditable = false;
+    this.isEditable = true;
     this.isBlocked = true;
 
     this.typeOfChange = this.adminTableService.howChangeCell(this.isAllChecked, this.ordersToChange, this.id);
@@ -52,6 +55,9 @@ export class TableCellSelectComponent implements OnInit {
           this.showBlockedInfo.emit(res);
         }
       });
+
+    this.isEditable = true;
+    this.isBlocked = false;
   }
 
   public save(): void {

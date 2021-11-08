@@ -7,15 +7,16 @@
 }
 
 .select_dropdown {
-  width: 100px;
+  cursor: pointer;
   outline: none;
   border: none;
 }
 
+.edit,
 .save,
 .cancel {
   cursor: pointer;
-  font-size: 16px;
+  font-size: 14px;
 }
 
 .options_wr {
@@ -27,7 +28,7 @@
   }
 
   .cancel {
-    margin-left: 10px;
+    margin-left: 8px;
     color: var(--ubs-primary-red);
   }
 }
