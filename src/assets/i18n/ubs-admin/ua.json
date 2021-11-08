@@ -193,7 +193,20 @@
     "export-to-excel": "Експортувати в  Excel",
     "table-view": "Вид таблиці",
     "add-certificate": "Додати сертифікат",
-    "all-elements": "Відображати всі колонки"
+    "all-elements": "Відображати всі колонки",
+    "filter": "Фільтр"
+  },
+  "ubs-customer-filters": {
+    "total-customers": "Кількість користувачів:",
+    "registration-date": "Дата реєстрації в системі:",
+    "last-order-date": "Дата останього замовлення:",
+    "orders-amount": "К-сть замовлень:",
+    "violations": "Порушення:",
+    "bonuses": "Баланс бонусного рахунку:",
+    "from": "Від",
+    "to": "До",
+    "reset": "Скасувати",
+    "nothing-found": "За вашими фільтрами нічого не знайдено"
   },
   "export-details": {
     "title": "Деталі вивезення",
