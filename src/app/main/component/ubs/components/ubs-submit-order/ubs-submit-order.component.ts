@@ -10,6 +10,7 @@ import { Bag, OrderBag, OrderDetails, OrderDetailsNotification, PersonalData } f
 import { UBSOrderFormService } from '../../services/ubs-order-form.service';
 import { OrderService } from '../../services/order.service';
 import { Order } from '../../models/ubs.model';
+import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
 
 @Component({
   selector: 'app-ubs-submit-order',
@@ -24,7 +25,6 @@ export class UBSSubmitOrderComponent extends FormBaseComponent implements OnInit
   order: Order;
   addressId: number;
   bags: Bag[] = [];
-  response: any;
   loadingAnim: boolean;
   selectedPayment: string;
   additionalOrders: any;
@@ -56,6 +56,7 @@ export class UBSSubmitOrderComponent extends FormBaseComponent implements OnInit
     private orderService: OrderService,
     private shareFormService: UBSOrderFormService,
     public ubsOrderFormService: UBSOrderFormService,
+    private localStorageService: LocalStorageService,
     private sanitizer: DomSanitizer,
     private fb: FormBuilder,
     router: Router,
@@ -152,7 +153,13 @@ export class UBSSubmitOrderComponent extends FormBaseComponent implements OnInit
 
   redirectToOrder() {
     this.loadingAnim = true;
+
+    if (this.isFinalSumZero) {
+      this.isLiqPay = false;
+    }
+
     if (!this.isLiqPay) {
+      this.localStorageService.removeUbsOrderId();
       this.orderService
         .getOrderUrl()
         .pipe(takeUntil(this.destroy))
@@ -168,6 +175,7 @@ export class UBSSubmitOrderComponent extends FormBaseComponent implements OnInit
         .subscribe(
           (response) => {
             this.shareFormService.orderUrl = '';
+            this.localStorageService.removeUbsOrderId();
             if (this.isFinalSumZero && !this.isTotalAmountZero) {
               this.ubsOrderFormService.transferOrderId(response);
               this.ubsOrderFormService.setOrderResponseErrorStatus(false);
@@ -192,9 +200,8 @@ export class UBSSubmitOrderComponent extends FormBaseComponent implements OnInit
       .pipe(takeUntil(this.destroy))
       .subscribe((res) => {
         const { orderId, liqPayButton } = JSON.parse(res);
-        this.ubsOrderFormService.transferOrderId(orderId);
-        this.response = liqPayButton;
-        this.liqPayButtonForm = this.sanitizer.bypassSecurityTrustHtml(this.response);
+        this.localStorageService.setUbsOrderId(orderId);
+        this.liqPayButtonForm = this.sanitizer.bypassSecurityTrustHtml(liqPayButton);
         setTimeout(() => {
           this.liqPayButton = document.getElementsByName('btn_text');
         }, 0);

@@ -69,6 +69,10 @@ export class OrderService {
     return this.processOrder(this.orderSubject.getValue());
   }
 
+  getLiqPayStatus(orderId: string): Observable<any> {
+    return this.http.get(`${this.url}/getLiqPayStatus/${orderId}`);
+  }
+
   getLocations(): Observable<Locations> {
     return this.http.get<Locations>(`${this.url}/order/get-locations`);
   }
