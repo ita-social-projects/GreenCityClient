@@ -2,6 +2,12 @@
   display: flex;
   justify-content: center;
 
+  .mat-spinner {
+    ::ng-deep circle {
+      stroke: var(--ubs-quaternary-light-grey);
+    }
+  }
+
   .order {
     width: 50%;
     height: 50%;

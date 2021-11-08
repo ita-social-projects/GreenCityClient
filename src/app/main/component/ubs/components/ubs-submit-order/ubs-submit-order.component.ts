@@ -195,6 +195,7 @@ export class UBSSubmitOrderComponent extends FormBaseComponent implements OnInit
   }
 
   getLiqPayButton() {
+    this.loadingAnim = true;
     this.orderService
       .getLiqPayForm()
       .pipe(takeUntil(this.destroy))
@@ -204,6 +205,7 @@ export class UBSSubmitOrderComponent extends FormBaseComponent implements OnInit
         this.liqPayButtonForm = this.sanitizer.bypassSecurityTrustHtml(liqPayButton);
         setTimeout(() => {
           this.liqPayButton = document.getElementsByName('btn_text');
+          this.loadingAnim = false;
         }, 0);
       });
   }

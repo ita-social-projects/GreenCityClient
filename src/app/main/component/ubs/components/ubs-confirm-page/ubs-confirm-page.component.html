@@ -1,67 +1,73 @@
 <div class="wraper">
-  <div class="order">
-    <div [ngSwitch]="true">
-      <div *ngSwitchCase="orderResponseError === false && orderStatusDone === false">
-        <button class="btn primary-global-button" (click)="toPersonalAccount()">
-          {{ 'confirm-page.to-personal-account' | translate }}
-        </button>
-      </div>
-      <div class="error" *ngSwitchCase="orderResponseError === true">
-        <button class="btn-back" (click)="returnToPayment()">
-          <i class="fas fa-chevron-left" aria-hidden="true"></i> &nbsp;
-          {{ 'confirm-page.return-to-payment' | translate }}
-        </button>
-        <h2 class="title">{{ 'confirm-page.oops' | translate }}</h2>
-        <div class="description">
-          <p>{{ 'confirm-page.order-not-paid' | translate }}</p>
+  <ng-container *ngIf="!isSpinner; else spinner">
+    <div class="order">
+      <div [ngSwitch]="true">
+        <div *ngSwitchCase="orderResponseError === false && orderStatusDone === false">
+          <button class="btn primary-global-button" (click)="toPersonalAccount()">
+            {{ 'confirm-page.to-personal-account' | translate }}
+          </button>
+        </div>
+        <div class="error" *ngSwitchCase="orderResponseError === true">
+          <button class="btn-back" (click)="returnToPayment()">
+            <i class="fas fa-chevron-left" aria-hidden="true"></i> &nbsp;
+            {{ 'confirm-page.return-to-payment' | translate }}
+          </button>
+          <h2 class="title">{{ 'confirm-page.oops' | translate }}</h2>
+          <div class="description">
+            <p>{{ 'confirm-page.order-not-paid' | translate }}</p>
+          </div>
+        </div>
+        <div *ngSwitchDefault>
+          <h2 class="title">{{ 'confirm-page.title-text' | translate }} (№{{ orderId }})</h2>
+          <div class="description">
+            <p>{{ 'confirm-page.description' | translate }}</p>
+          </div>
         </div>
       </div>
-      <div *ngSwitchDefault>
-        <h2 class="title">{{ 'confirm-page.title-text' | translate }} (№{{ orderId }})</h2>
-        <div class="description">
-          <p>{{ 'confirm-page.description' | translate }}</p>
+      <div class="row infolinks">
+        <div class="col-md-6 list">
+          <ul>
+            <h5>{{ 'confirm-page.ubsServices' | translate }}</h5>
+            <li>
+              <a routerLink="/ubs/order" (click)="saveDataOnLocalStorage()">
+                {{ 'confirm-page.other-order' | translate }}
+              </a>
+            </li>
+            <li>
+              <a>{{ 'confirm-page.mail' | translate }}</a>
+            </li>
+            <li>
+              <a>{{ 'confirm-page.ukraine-site' | translate }}</a>
+            </li>
+            <li>
+              <a>{{ 'confirm-page.eco-shop' | translate }}</a>
+            </li>
+          </ul>
+          <ul>
+            <h5>{{ 'confirm-page.information' | translate }}</h5>
+            <li>
+              <a>{{ 'confirm-page.instruction' | translate }}</a>
+            </li>
+            <li>
+              <a>{{ 'confirm-page.video' | translate }}</a>
+            </li>
+          </ul>
+        </div>
+        <div class="col-md-6">
+          <img class="image" src="assets\img\ubs\black_garbage_bag.svg" alt="eco-people" />
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-12">
+          <p class="p-40">
+            {{ 'confirm-page.questions' | translate }} <a class="link" href="">{{ 'confirm-page.contact' | translate }}</a>
+          </p>
         </div>
       </div>
     </div>
-    <div class="row infolinks">
-      <div class="col-md-6 list">
-        <ul>
-          <h5>{{ 'confirm-page.ubsServices' | translate }}</h5>
-          <li>
-            <a routerLink="/ubs/order" (click)="saveDataOnLocalStorage()">
-              {{ 'confirm-page.other-order' | translate }}
-            </a>
-          </li>
-          <li>
-            <a>{{ 'confirm-page.mail' | translate }}</a>
-          </li>
-          <li>
-            <a>{{ 'confirm-page.ukraine-site' | translate }}</a>
-          </li>
-          <li>
-            <a>{{ 'confirm-page.eco-shop' | translate }}</a>
-          </li>
-        </ul>
-        <ul>
-          <h5>{{ 'confirm-page.information' | translate }}</h5>
-          <li>
-            <a>{{ 'confirm-page.instruction' | translate }}</a>
-          </li>
-          <li>
-            <a>{{ 'confirm-page.video' | translate }}</a>
-          </li>
-        </ul>
-      </div>
-      <div class="col-md-6">
-        <img class="image" src="assets\img\ubs\black_garbage_bag.svg" alt="eco-people" />
-      </div>
-    </div>
-    <div class="row">
-      <div class="col-md-12">
-        <p class="p-40">
-          {{ 'confirm-page.questions' | translate }} <a class="link" href="">{{ 'confirm-page.contact' | translate }}</a>
-        </p>
-      </div>
-    </div>
-  </div>
+  </ng-container>
+
+  <ng-template #spinner>
+    <app-spinner class="mat-spinner"></app-spinner>
+  </ng-template>
 </div>

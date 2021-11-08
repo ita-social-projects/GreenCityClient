@@ -18,6 +18,7 @@ export class UbsConfirmPageComponent implements OnInit, OnDestroy {
   responseStatus: string;
   orderResponseError = false;
   orderStatusDone: boolean;
+  isSpinner = true;
   private destroy$: Subject<boolean> = new Subject<boolean>();
 
   constructor(
@@ -59,6 +60,7 @@ export class UbsConfirmPageComponent implements OnInit, OnDestroy {
             },
             (error) => {
               this.orderResponseError = true;
+              this.isSpinner = false;
               console.log(error);
             }
           );
@@ -67,6 +69,7 @@ export class UbsConfirmPageComponent implements OnInit, OnDestroy {
   }
 
   renderView(): void {
+    this.isSpinner = false;
     if (!this.orderResponseError && !this.orderStatusDone) {
       this.saveDataOnLocalStorage();
       this.activatedRoute.queryParams.subscribe((params) => {

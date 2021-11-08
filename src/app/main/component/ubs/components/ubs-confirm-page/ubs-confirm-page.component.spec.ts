@@ -8,7 +8,7 @@ import { UbsConfirmPageComponent } from './ubs-confirm-page.component';
 import { MatSnackBarComponent } from '@global-errors/mat-snack-bar/mat-snack-bar.component';
 import { UBSOrderFormService } from '../../services/ubs-order-form.service';
 
-describe('UbsConfirmPageComponent', () => {
+xdescribe('UbsConfirmPageComponent', () => {
   let component: UbsConfirmPageComponent;
   let fixture: ComponentFixture<UbsConfirmPageComponent>;
   const fakeSnackBar = jasmine.createSpyObj('fakeSnakBar', ['openSnackBar']);
