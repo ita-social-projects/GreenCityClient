@@ -18,14 +18,14 @@
       <li class="filterItem">
         <span>{{ 'ubs-customer-filters.registration-date' | translate }}</span>
         <div>
-          <mat-form-field class="filter-input">
+          <mat-form-field>
             <mat-label>{{ 'ubs-customer-filters.from' | translate }}</mat-label>
             <input matInput [matDatepicker]="picker1" formControlName="registrationDateFrom" />
             <mat-datepicker-toggle matSuffix [for]="picker1"></mat-datepicker-toggle>
             <mat-datepicker #picker1></mat-datepicker>
           </mat-form-field>
 
-          <mat-form-field class="filter-input">
+          <mat-form-field>
             <mat-label>{{ 'ubs-customer-filters.to' | translate }}</mat-label>
             <input matInput [matDatepicker]="picker2" formControlName="registrationDateTo" />
             <mat-datepicker-toggle matSuffix [for]="picker2"></mat-datepicker-toggle>
@@ -108,9 +108,7 @@
           : null
       }}
       {{
-        filters.registrationDateTo
-        ? ('ubs-customer-filters.to' | translate) + ' ' + filters.registrationDateTo.toLocaleDateString()
-        : null
+        filters.registrationDateTo ? ('ubs-customer-filters.to' | translate) + ' ' + filters.registrationDateTo.toLocaleDateString() : null
       }}
       <mat-icon class="mat-icon" (click)="onDeleteFilter('registrationDateFrom', 'registrationDateTo')">clear</mat-icon>
     </li>
