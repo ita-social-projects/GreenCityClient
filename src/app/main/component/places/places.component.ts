@@ -172,7 +172,7 @@ export class PlacesComponent implements OnInit {
 
   private setUserLocation(): void {
     navigator.geolocation.getCurrentPosition(
-      (position: Position) => {
+      (position: any) => {
         this.map.setCenter({
           lat: position.coords.latitude,
           lng: position.coords.longitude
