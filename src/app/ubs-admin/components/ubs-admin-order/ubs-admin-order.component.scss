@@ -9,6 +9,10 @@
   }
 }
 
+.row {
+  position: relative;
+}
+
 button:disabled {
   background-color: var(--ubs-quintynary-light-grey);
   border: var(--ubs-quintynary-light-grey);
@@ -28,8 +32,8 @@ button:disabled {
 }
 
 .back-button-top {
-  top: 170px;
-  left: 200px;
+  top: 71px;
+  left: -130px;
   position: absolute;
 }
 
