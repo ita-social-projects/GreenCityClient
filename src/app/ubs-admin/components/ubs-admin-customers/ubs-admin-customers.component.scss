@@ -54,7 +54,7 @@
   font-size: 12px;
 }
 
-.export-excel-btn {
+.table-buttons {
   display: flex;
   justify-content: center;
   align-items: center;
@@ -68,10 +68,89 @@
   font-size: 14px;
   font-family: var(--primary-font);
   transition: 0.2s linear;
+  margin-right: 20px;
 
   &:hover {
     color: var(--ubs-secondary-grey);
     border: 1px solid var(--ubs-secondary-grey) !important;
+  }
+}
+
+.filterItem {
+  font-family: var(--primary-font);
+  font-style: normal;
+  font-weight: normal;
+  font-size: 16px;
+  line-height: 24px;
+  padding: 6px;
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  height: 50px;
+
+  .filter-input {
+    height: 5px;
+    padding-left: 5px;
+  }
+
+  .mat-form-field-ripple {
+    background-color: var(--ubs-button-light-green) !important;
+  }
+
+  .mat-focused .mat-form-field-label {
+    color: var(--ubs-button-light-green) !important;
+  }
+
+  .mat-form-field-appearance-legacy .mat-form-field-infix {
+    width: 156px;
+  }
+
+  .mat-form-field-appearance-fill .mat-form-field-flex {
+    background-color: #fff;
+    padding: 0;
+  }
+}
+
+.filterParamsList {
+  display: flex;
+  justify-content: flex-start;
+  padding: 0;
+
+  li {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 36px;
+    background-color: var(--primary-white) !important;
+    border: 1px solid var(--ubs-quaternary-dark-grey) !important;
+    color: var(--ubs-quaternary-dark-grey);
+    border-radius: 20px;
+    padding: 4px;
+    font-weight: 700;
+    font-size: 12px;
+    font-family: var(--primary-font);
+    transition: 0.2s linear;
+    margin-right: 5px;
+    text-decoration: none;
+  }
+
+  .mat-icon {
+    color: var(--ubs-error-ligh-red);
+    font-size: 17px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+  }
+}
+
+.filterParams {
+  height: 36px;
+  display: flex;
+  align-items: center;
+
+  .filterReset {
+    cursor: pointer;
   }
 }
 
@@ -127,7 +206,6 @@
 
 .btn-group {
   display: flex;
-  justify-content: space-between;
   align-items: center;
   margin-bottom: 20px;
 }
@@ -157,4 +235,9 @@
 
 .pointer {
   cursor: pointer;
+}
+
+.nothing-found {
+  font-size: 14px;
+  font-family: var(--primary-font);
 }

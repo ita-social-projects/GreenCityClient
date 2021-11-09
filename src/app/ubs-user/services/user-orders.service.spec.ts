@@ -1,16 +1,23 @@
 import { TestBed } from '@angular/core/testing';
-import { HttpClientTestingModule } from '@angular/common/http/testing';
+import { HttpClientTestingModule, HttpTestingController } from '@angular/common/http/testing';
 import { UserOrdersService } from './user-orders.service';
 
 describe('UserOrdersService', () => {
-  beforeEach(() =>
+  let httpMock: HttpTestingController;
+  let service: UserOrdersService;
+  beforeEach(() => {
     TestBed.configureTestingModule({
       imports: [HttpClientTestingModule]
-    })
-  );
+    });
+    service = TestBed.inject(UserOrdersService);
+    httpMock = TestBed.inject(HttpTestingController);
+  });
+
+  afterEach(() => {
+    httpMock.verify();
+  });
 
   it('should be created', () => {
-    const service: UserOrdersService = TestBed.inject(UserOrdersService);
     expect(service).toBeTruthy();
   });
 });

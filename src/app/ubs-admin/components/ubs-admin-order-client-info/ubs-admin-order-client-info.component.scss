@@ -85,12 +85,12 @@ input {
 
   img {
     width: 20px;
-    margin-left: 20px;
+    margin-right: 20px;
   }
+}
 
-  img:hover {
-    cursor: pointer;
-  }
+.empty_card:hover {
+  cursor: pointer;
 }
 
 .name-input {

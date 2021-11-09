@@ -120,7 +120,8 @@ describe('NewsListComponent', () => {
           author: { id: 125, name: 'somename' },
           tags: [{ id: 77, name: 'stringname' }],
           creationDate: 'somedate',
-          likes: 0
+          likes: 0,
+          countComments: 2
         }
       ],
       currentPage: 1

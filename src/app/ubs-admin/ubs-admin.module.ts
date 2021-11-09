@@ -55,6 +55,7 @@ import { UbsAdminTariffsAddServicePopUpComponent } from './components/ubs-admin-
 import { UbsAdminEmployeeTableComponent } from './components/ubs-admin-employee/ubs-admin-employee-table/ubs-admin-employee-table.component';
 import { UbsAdminCustomerDetailsComponent } from './components/ubs-admin-customers/ubs-admin-customer-details/ubs-admin-customer-details.component';
 import { UbsAdminOrderHistoryComponent } from './components/ubs-admin-order-history/ubs-admin-order-history.component';
+import { TooltipModule } from 'ngx-bootstrap/tooltip';
 
 @NgModule({
   declarations: [
@@ -119,7 +120,8 @@ import { UbsAdminOrderHistoryComponent } from './components/ubs-admin-order-hist
         deps: [HttpClient]
       },
       isolate: true
-    })
+    }),
+    TooltipModule
   ],
   providers: [
     AdminCertificateService,

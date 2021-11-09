@@ -17,9 +17,17 @@
           <datalist id="places_names">
             <option *ngFor="let card of cardsCollection" value="{{ card.cardName }}">{{ card.cardText }}</option>
           </datalist>
-          <select class="search-chooser">
-            <option value="Lviv">Lviv</option>
-          </select>
+          <mat-google-maps-autocomplete
+            country="ua"
+            [types]="['(cities)']"
+            appearance="legacy"
+            placeholderText=""
+            invalidErrorText=""
+            requiredErrorText=""
+            addressLabelText=""
+            (onLocationSelected)="onLocationSelected($event)"
+          >
+          </mat-google-maps-autocomplete>
         </div>
       </div>
       <div class="filter">
