@@ -129,9 +129,9 @@ export class UbsAdminOrderDetailsFormComponent implements OnInit, OnDestroy {
       if (bag.id === Number(bagId)) {
         bag[field] = e.target.value;
         this.orderInfo.sum[field] = this.orderInfo.amount[field] = 0;
-        this.orderDetails.bags.forEach((bag) => {
-          this.orderInfo.sum[field] += bag[field] * bag.price;
-          this.orderInfo.amount[field] += +bag[field];
+        this.orderDetails.bags.forEach((bagObj) => {
+          this.orderInfo.sum[field] += bagObj[field] * bagObj.price;
+          this.orderInfo.amount[field] += +bagObj[field];
         });
         this.calculateFinalSum();
       }

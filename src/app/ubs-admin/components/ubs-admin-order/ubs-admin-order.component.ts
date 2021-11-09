@@ -46,14 +46,14 @@ export class UbsAdminOrderComponent implements OnInit, OnDestroy {
       .getOrderInfo(orderId, lang)
       .pipe(takeUntil(this.destroy$))
       .subscribe((data: any) => {
-        const bags = data.bags.map((bag) => {
+        const bagsObj = data.bags.map((bag) => {
           bag.planned = data.amountOfBagsOrdered[bag.id] || 0;
           bag.confirmed = data.amountOfBagsConfirmed[bag.id] || 0;
           bag.actual = data.amountOfBagsExported[bag.id] || 0;
           return bag;
         });
         this.orderDetails = {
-          bags: bags
+          bags: bagsObj
         };
         this.orderDetails.bonuses = data.orderBonusDiscount;
         this.orderDetails.certificateDiscount = data.orderCertificateTotalDiscount;
