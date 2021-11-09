@@ -88,7 +88,7 @@ export class UbsAdminOrderDetailsFormComponent implements OnInit, OnDestroy {
       confirmed: this.orderInfo.sum.confirmed - bonusesAndCert,
       actual: this.orderInfo.sum.actual - bonusesAndCert
     };
-    for (let type in this.orderInfo.finalSum) {
+    for (const type in this.orderInfo.finalSum) {
       if (this.orderInfo.finalSum[type] < 0) {
         this.orderInfo.finalSum[type] = 0;
       }
