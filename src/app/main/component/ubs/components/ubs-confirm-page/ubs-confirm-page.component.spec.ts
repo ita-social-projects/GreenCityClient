@@ -9,7 +9,7 @@ import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { UbsConfirmPageComponent } from './ubs-confirm-page.component';
 import { UBSOrderFormService } from '../../services/ubs-order-form.service';
 
-describe('UbsConfirmPageComponent', () => {
+fdescribe('UbsConfirmPageComponent', () => {
   let component: UbsConfirmPageComponent;
   let fixture: ComponentFixture<UbsConfirmPageComponent>;
   const fakeSnackBar = jasmine.createSpyObj('fakeSnakBar', ['openSnackBar']);
@@ -52,8 +52,7 @@ describe('UbsConfirmPageComponent', () => {
   });
 
   it('ngOnInit should call renderView without oderID', () => {
-    // @ts-ignore
-    spyOn(component.orderService, 'getUbsOrderStatus').and.returnValue(of({ result: 'success', order_id: '123_456' }));
+    spyOn(component['orderService'], 'getUbsOrderStatus').and.returnValue(of({ result: 'success', order_id: '123_456' }));
     const renderViewMock = spyOn(component, 'renderView');
     component.ngOnInit();
     expect(renderViewMock).toHaveBeenCalled();
@@ -63,11 +62,10 @@ describe('UbsConfirmPageComponent', () => {
     component.orderStatusDone = false;
     component.orderResponseError = false;
     const saveDataOnLocalStorageMock = spyOn(component, 'saveDataOnLocalStorage');
-    // @ts-ignore
-    spyOn(component.activatedRoute.queryParams, 'subscribe').and.returnValue(of({ order_id: '132', response_status: true }));
+    component['activatedRoute']['queryParams'] = of({ order_id: '132', response_status: true });
     component.renderView();
     expect(saveDataOnLocalStorageMock).toHaveBeenCalled();
-    expect(fakeSnackBar.openSnackBar).toHaveBeenCalled();
+    expect(fakeSnackBar.openSnackBar).toHaveBeenCalledWith('successConfirmSaveOrder', '132');
   });
 
   it('in renderView should saveDataOnLocalStorage when no error occurred', () => {
@@ -76,5 +74,12 @@ describe('UbsConfirmPageComponent', () => {
     const saveDataOnLocalStorageMock = spyOn(component, 'saveDataOnLocalStorage');
     component.renderView();
     expect(saveDataOnLocalStorageMock).toHaveBeenCalled();
+  });
+
+  it('in saveDataOnLocalStorage should removeUbsOrderId and saveDataOnLocalStorage be called', () => {
+    const localStorageServiceMock = spyOn(component['localStorageService'], 'removeUbsOrderId');
+    component.saveDataOnLocalStorage();
+    expect(localStorageServiceMock).toHaveBeenCalled();
+    expect(fakeUBSOrderFormService.saveDataOnLocalStorage).toHaveBeenCalled();
   });
 });
