@@ -46,7 +46,7 @@ export class TableCellSelectComponent implements OnInit {
           this.isEditable = true;
         } else {
           this.isEditable = false;
-          this.isBlocked = true;
+          this.isBlocked = false;
           this.showBlockedInfo.emit(res);
         }
       });
@@ -67,6 +67,7 @@ export class TableCellSelectComponent implements OnInit {
       this.editCellSelect.emit(newSelectValue);
       this.isEditable = false;
       this.newOption = '';
+      this.cancelEdit.emit(this.typeOfChange);
     }
   }
 
