@@ -108,9 +108,7 @@
           : null
       }}
       {{
-        filters.registrationDateTo
-        ? ('ubs-customer-filters.to' | translate) + ' ' + filters.registrationDateTo.toLocaleDateString()
-        : null
+        filters.registrationDateTo ? ('ubs-customer-filters.to' | translate) + ' ' + filters.registrationDateTo.toLocaleDateString() : null
       }}
       <mat-icon class="mat-icon" (click)="onDeleteFilter('registrationDateFrom', 'registrationDateTo')">clear</mat-icon>
     </li>
