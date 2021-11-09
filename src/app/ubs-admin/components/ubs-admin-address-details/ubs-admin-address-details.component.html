@@ -1,44 +1,56 @@
 <div class="container mb-3">
-  <div class="d-flex">
+  <div class="empty_card" (click)="openDetails()">
+    <img *ngIf="!pageOpen" src="assets/img/ubs-admin-orders/arrow_up.svg" alt="arrow up" />
+    <img *ngIf="pageOpen" src="assets/img/ubs-admin-orders/arrow_down.svg" alt="arrow down" />
     <h1 class="form__headline py-3">{{ 'address-details.title' | translate }}</h1>
   </div>
-  <form [formGroup]="addressDetailsForm">
+  <form *ngIf="pageOpen" [formGroup]="addressDetailsForm">
     <div class="form-row">
-      <div class="form-group col-md-6">
-        <label for="street">{{ 'address-details.street' | translate }}</label>
-        <input type="text" formControlName="street" class="form-control" id="street" />
+      <div class="address">
+        <div class="settlement">
+          <div class="form-group col-md-6">
+            <label for="region">{{ 'address-details.region' | translate }}</label>
+            <input type="text" formControlName="region" class="form-control" id="region" />
+          </div>
+          <div class="form-group col-md-6">
+            <label for="settlement">{{ 'address-details.settlement' | translate }}</label>
+            <input type="text" formControlName="settlement" class="form-control" id="settlement" />
+          </div>
+        </div>
+        <div class="form-group col-md-8">
+          <label for="street">{{ 'address-details.street' | translate }}</label>
+          <input type="text" formControlName="street" class="form-control" id="street" />
+        </div>
+        <div class="building">
+          <div class="form-group col-md-2">
+            <label for="building">{{ 'address-details.building' | translate }}</label>
+            <input type="text" class="form-control" id="building" formControlName="building" />
+          </div>
+          <div class="form-group col-md-2">
+            <label for="corpus">{{ 'address-details.corpus' | translate }}</label>
+            <input type="text" class="form-control" id="corpus" formControlName="corpus" />
+          </div>
+          <div class="form-group col-md-2">
+            <label for="entrance">{{ 'address-details.entrance' | translate }}</label>
+            <input formControlName="entrance" type="text" class="form-control" id="entrance" />
+          </div>
+        </div>
+        <div class="form-group col-md-8">
+          <label for="district">{{ 'address-details.district' | translate }}</label>
+          <select formControlName="district" id="district" class="form-control">
+            <option *ngFor="let district of orderService.districts" [selected]="district === order.district">{{ district }}</option>
+          </select>
+        </div>
       </div>
       <div class="form-group col-md-5 offset-md-1">
         <label for="address-comment">{{ 'address-details.comment-label' | translate }}</label>
         <textarea
-          formControlName="addressComment"
           class="form-control"
           id="address-comment"
           rows="3"
-          placeholder="{{ 'address-details.comment-placeholder' | translate }}"
+          placeholder="{{ order.commentToAddressForClient }}"
+          disabled
         ></textarea>
-      </div>
-    </div>
-    <div class="form-row">
-      <div class="form-group col-md-2">
-        <label for="building">{{ 'address-details.building' | translate }}</label>
-        <input formControlName="building" type="text" class="form-control" id="building" />
-      </div>
-      <div class="form-group col-md-2">
-        <label for="corpus">{{ 'address-details.corpus' | translate }}</label>
-        <input formControlName="corpus" type="text" class="form-control" id="corpus" />
-      </div>
-      <div class="form-group col-md-2">
-        <label for="entrance">{{ 'address-details.entrance' | translate }}</label>
-        <input formControlName="entrance" type="text" class="form-control" id="entrance" />
-      </div>
-    </div>
-    <div class="form-row">
-      <div class="form-group col-md-4">
-        <label for="region">{{ 'address-details.region' | translate }}</label>
-        <select formControlName="region" id="region" class="form-control">
-          <option *ngFor="let region of regions">{{ region }}</option>
-        </select>
       </div>
     </div>
   </form>

@@ -18,6 +18,9 @@ export class HabitAssignService implements OnDestroy {
   habitsFromDashBoard: any;
   habitsInProgressToView: Array<HabitAssignInterface> = [];
   habitsInProgress: Array<HabitAssignInterface> = [];
+  countOfResult: number;
+  habitDate: any;
+  mapOfArrayOfAllDate = new Map();
 
   constructor(private http: HttpClient, private localStorageService: LocalStorageService) {
     localStorageService.userIdBehaviourSubject.pipe(takeUntil(this.destroyed$)).subscribe((userId) => (this.userId = userId));

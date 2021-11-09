@@ -52,6 +52,9 @@ import { UbsAdminTariffsLocationDashboardComponent } from './components/ubs-admi
 import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 import { UbsAdminTariffsDeletePopUpComponent } from './components/ubs-admin-tariffs/ubs-admin-tariffs-pricing-page/ubs-admin-tariffs-delete-pop-up/ubs-admin-tariffs-delete-pop-up.component';
 import { UbsAdminTariffsAddServicePopUpComponent } from './components/ubs-admin-tariffs/ubs-admin-tariffs-pricing-page/ubs-admin-tariffs-add-service-pop-up/ubs-admin-tariffs-add-service-pop-up.component';
+import { UbsAdminEmployeeTableComponent } from './components/ubs-admin-employee/ubs-admin-employee-table/ubs-admin-employee-table.component';
+import { UbsAdminCustomerDetailsComponent } from './components/ubs-admin-customers/ubs-admin-customer-details/ubs-admin-customer-details.component';
+import { TooltipModule } from 'ngx-bootstrap/tooltip';
 
 @NgModule({
   declarations: [
@@ -85,7 +88,9 @@ import { UbsAdminTariffsAddServicePopUpComponent } from './components/ubs-admin-
     UbsAdminCustomersComponent,
     UbsAdminTariffsPricingPageComponent,
     UbsAdminTariffsAddTariffServicePopUpComponent,
-    UbsAdminTariffsLocationDashboardComponent
+    UbsAdminTariffsLocationDashboardComponent,
+    UbsAdminEmployeeTableComponent,
+    UbsAdminCustomerDetailsComponent
   ],
   imports: [
     CommonModule,
@@ -113,7 +118,8 @@ import { UbsAdminTariffsAddServicePopUpComponent } from './components/ubs-admin-
         deps: [HttpClient]
       },
       isolate: true
-    })
+    }),
+    TooltipModule
   ],
   providers: [
     AdminCertificateService,

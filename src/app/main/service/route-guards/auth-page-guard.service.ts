@@ -23,13 +23,8 @@ export class AuthPageGuardService implements CanActivate {
     state: RouterStateSnapshot
   ): Observable<boolean | UrlTree> | Promise<boolean | UrlTree> | boolean | UrlTree {
     if (!this.isLoggedIn) {
-      if (this.ubsRegValue) {
-        this.openSingInWindow('sign-up');
-        return of(false);
-      } else {
-        this.openSingInWindow('sign-in');
-        return of(false);
-      }
+      this.openSingInWindow('sign-in');
+      return of(false);
     }
     return of<boolean>(true);
   }

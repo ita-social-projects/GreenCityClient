@@ -1,5 +1,5 @@
 <div class="profile" *ngIf="userInfo">
-  <a [routerLink]="['/profile', userId, 'edit']">
+  <a *ngIf="!showEditButton" [routerLink]="['/profile', userId, 'edit']">
     <div class="edit-icon"></div>
   </a>
   <div class="column">
@@ -29,7 +29,7 @@
       </a>
     </div>
     <div class="profile-progress">
-      <app-profile-progress></app-profile-progress>
+      <app-profile-progress [progress]="progress"></app-profile-progress>
     </div>
   </div>
 </div>

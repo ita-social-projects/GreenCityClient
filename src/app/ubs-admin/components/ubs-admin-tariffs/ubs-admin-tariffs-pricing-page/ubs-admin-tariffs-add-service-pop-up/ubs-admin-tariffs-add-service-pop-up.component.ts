@@ -19,7 +19,7 @@ export class UbsAdminTariffsAddServicePopUpComponent implements OnInit, OnDestro
   langCode: string;
   receivedData;
   loadingAnim: boolean;
-  namePattern = /^[А-Яа-яЯїЇіІєЄёЁ ]+$/;
+  namePattern = /^[А-Яа-яїЇіІєЄёЁ ]+$/;
   addServiceForm: FormGroup;
   private destroy: Subject<boolean> = new Subject<boolean>();
   public icons = {

@@ -169,7 +169,10 @@
     "no-attachment": "No attachments",
     "loading-data": "Loading data...",
     "no-data": "No data",
-    "items-per-page": "Items per page:"
+    "items-per-page": "Items per page:",
+    "delete": "Delete",
+    "Do-you-really-want-to-delete-comment-of": "Do you really want to delete comment",
+    "places": "Places"
   },
   "places": {
     "places": "Places",
@@ -417,7 +420,8 @@
       "close-navigation": "Close navigation",
       "discount": "discount",
       "driving": "driving",
-      "walking": "walking"
+      "walking": "walking",
+      "more-options": "More options"
     },
     "places-card": {
       "card-description": "https://placewebsite.com",
@@ -523,7 +527,9 @@
       "tips": "Tips & Tricks",
       "map": "Places",
       "ubs": "UBS courier",
-      "my-habits": "My space"
+      "my-habits": "My space",
+      "sorting-rules": "Sorting rules",
+      "eco-shop": "Eco-Shop"
     },
     "edit-profile": {
       "edit-profile": "Edit Profile",
@@ -664,6 +670,7 @@
       "all-habits": {
         "back-button": "Back to My habits",
         "title": "All habits",
+        "mutual": "Mutual habits",
         "no-habits": "Unfortunately, no more habits found",
         "no-habits-advice": "We couldn't find any more habits. Please change filters to get another result.",
         "btn-more": "More",
@@ -806,6 +813,7 @@
     "elements": "Items",
     "my-eco-friends": "My Friends",
     "zero-friends": "You don't have any friends.",
+    "zero-user-friends": "This user has no friends",
     "zero-requests": "Unfortunately, there are no new requests.",
     "my-eco-places": "My eco places",
     "shoppingList": "Shopping list",
@@ -824,6 +832,7 @@
     "friends": {
       "link-to-profile": "Back to My habits",
       "mutual-friends": "mutual friends",
+      "all-mutual-friends": "Mutual friends",
       "friends": "Friends",
       "add-new-friend": "Add friend",
       "delete-friend": "Unfriend",
@@ -907,5 +916,28 @@
     "eco-news-widget": {
       "paragraph": "May be interesting for you"
     }
+  },
+  "footer": {
+    "station": "Station",
+    "address": "Kyiv, Saperno-Slobitska str,25",
+    "schedule": "Station work schedule",
+    "mon-tue": " mon-tue",
+    "day-off": "day off",
+    "wed-fri": " wed-fri",
+    "from": "from",
+    "to": "to",
+    "service": "*paid service «Sorting» is available",
+    "sat-sun": " sat-sun",
+    "accept-compost": "We accept compost during the week during the working hours of the station (except Monday and Tuesday).",
+    "ubs-world-community": "UBS - in the world community",
+    "glad-for-letters": "Glad for your letters",
+    "your-email": "Your email",
+    "subscribe-newsletter": "Subscribe to useful newsletter:",
+    "subscribe-us": "SUBSCRIBE",
+    "user-agreement": "User agreement",
+    "public-offer": "Public offer",
+    "help-the-project": "How to help the project",
+    "how-to-get-there": "How to get there?",
+    "ukraine-without-garbage": "Ukraine without garbage"
   }
 }

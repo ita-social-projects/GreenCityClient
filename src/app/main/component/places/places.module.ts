@@ -21,9 +21,13 @@ import { MatTableModule } from '@angular/material/table';
 import { MatIconModule } from '@angular/material/icon';
 import { MatDialogModule } from '@angular/material/dialog';
 import { MatRippleModule } from '@angular/material/core';
+import { MoreOptionsFilterComponent } from './components/more-options-filter/more-options-filter.component';
+import { MatMenuModule } from '@angular/material/menu';
+import { MatSliderModule } from '@angular/material/slider';
+import { MatGoogleMapsAutocompleteModule } from '@angular-material-extensions/google-maps-autocomplete';
 
 @NgModule({
-  declarations: [PlacesComponent],
+  declarations: [PlacesComponent, MoreOptionsFilterComponent],
   imports: [
     MatSidenavModule,
     SharedModule,
@@ -35,6 +39,7 @@ import { MatRippleModule } from '@angular/material/core';
     MatTableModule,
     FormsModule,
     ReactiveFormsModule,
+    MatMenuModule,
     AgmCoreModule.forRoot({
       apiKey: environment.apiMapKey
     }),
@@ -52,7 +57,9 @@ import { MatRippleModule } from '@angular/material/core';
         deps: [HttpClient]
       },
       isolate: true
-    })
+    }),
+    MatSliderModule,
+    MatGoogleMapsAutocompleteModule
   ],
   providers: [TranslateService]
 })

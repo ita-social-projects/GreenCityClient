@@ -1,4 +1,4 @@
-import { Language } from './../../i18n/Language';
+import { Language } from '../../i18n/Language';
 import { Injectable } from '@angular/core';
 import { BehaviorSubject, Subject } from 'rxjs';
 import { FilterModel } from '@eco-news-models/create-news-interface';
@@ -110,5 +110,53 @@ export class LocalStorageService {
 
   public removeUbsRegistration(): void {
     localStorage.removeItem('callUbsRegWindow');
+  }
+
+  public setUbsOrderData(personalData: string, orderData: string) {
+    localStorage.setItem('UBSpersonalData', personalData);
+    localStorage.setItem('UBSorderData', orderData);
+  }
+
+  public setLocationId(currentLocationId: number) {
+    localStorage.setItem('currentLocationId', JSON.stringify(currentLocationId));
+  }
+
+  public setLocations(locations: any) {
+    localStorage.setItem('locations', JSON.stringify(locations));
+  }
+
+  public removeUbsOrderData() {
+    localStorage.removeItem('UBSpersonalData');
+    localStorage.removeItem('UBSorderData');
+    localStorage.removeItem('currentLocationId');
+    localStorage.removeItem('locations');
+  }
+
+  public getUbsPersonalData(): any {
+    return localStorage.getItem('UBSpersonalData') === 'undefined' ? false : JSON.parse(localStorage.getItem('UBSpersonalData'));
+  }
+
+  public getUbsOrderData(): any {
+    return localStorage.getItem('UBSorderData') === 'undefined' ? false : JSON.parse(localStorage.getItem('UBSorderData'));
+  }
+
+  public getLocationId(): any {
+    return localStorage.getItem('currentLocationId') === null ? false : JSON.parse(localStorage.getItem('currentLocationId'));
+  }
+
+  public getLocations(): any {
+    return JSON.parse(localStorage.getItem('locations'));
+  }
+
+  public setCustomer(customer) {
+    return localStorage.setItem('currentCustomer', JSON.stringify(customer));
+  }
+
+  public getCustomer() {
+    return JSON.parse(localStorage.getItem('currentCustomer'));
+  }
+
+  public removeCurrentCustomer(): void {
+    localStorage.removeItem('currentCustomer');
   }
 }

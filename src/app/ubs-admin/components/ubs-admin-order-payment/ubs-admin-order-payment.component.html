@@ -1,47 +1,53 @@
 <div class="container">
-  <h1 class="my-4 form__headline">{{ 'order-payment.title' | translate }}</h1>
-  <div class="row align-items-baseline">
-    <div class="col-md-4 col-xl-4">
-      <span class="form__subtitle">{{ 'order-payment.order-size' | translate }}</span>
-    </div>
-    <div class="col-md-2">
-      <span class="price">300 {{ '' | localizedCurrency }}</span>
-    </div>
-    <div class="col-md-2">
-      <button class="btn">+ {{ 'order-payment.add-payment-btn' | translate }}</button>
-    </div>
+  <div class="empty_card" (click)="openDetails()">
+    <img *ngIf="!pageOpen" src="assets/img/ubs-admin-orders/arrow_up.svg" alt="arrow up" />
+    <img *ngIf="pageOpen" src="assets/img/ubs-admin-orders/arrow_down.svg" alt="arrow down" />
+    <h1 class="my-4 form__headline">{{ 'order-payment.title' | translate }}</h1>
   </div>
-  <p class="need-to-pay">{{ 'order-edit.need-to-pay' | translate }} 250 {{ '' | localizedCurrency }}</p>
-  <div class="table-responsive-md col-md-10 pl-0">
-    <table class="table table-borderless">
-      <caption>
-        {{
-          'order-payment.title' | translate
-        }}
-      </caption>
-      <thead>
-        <tr>
-          <th id="paymentDate">{{ 'order-payment.order-date' | translate }}</th>
-          <th id="paymentId">{{ 'order-payment-id' | translate }}</th>
-          <th id="paymentSum">{{ 'order-payment.sum' | translate }}</th>
-          <th id="paymentComment">{{ 'order-payment.comment-bill' | translate }}</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr>
-          <td>01.05.2021</td>
-          <td>№1234567890</td>
-          <td>100 {{ '' | localizedCurrency }}</td>
-          <td>Link_to_bill_3216549870</td>
-        </tr>
-        <tr>
-          <td>01.05.2021</td>
-          <td>№1234567890</td>
-          <td>200 {{ '' | localizedCurrency }}</td>
-          <td>Link_to_bill_3216549870</td>
-        </tr>
-      </tbody>
-    </table>
+  <div *ngIf="pageOpen">
+    <div class="row align-items-baseline">
+      <div class="col-md-4 col-xl-4">
+        <span class="form__subtitle">{{ 'order-payment.order-size' | translate }}</span>
+      </div>
+      <div class="col-md-2">
+        <span class="price">300 {{ '' | localizedCurrency }}</span>
+      </div>
+      <div class="col-md-2">
+        <button class="btn">+ {{ 'order-payment.add-payment-btn' | translate }}</button>
+      </div>
+    </div>
+    <p class="need-to-pay">{{ 'order-edit.need-to-pay' | translate }} 250 {{ '' | localizedCurrency }}</p>
+    <div class="table-responsive-md col-md-10 pl-0">
+      <table class="table table-borderless">
+        <caption>
+          {{
+            'order-payment.title' | translate
+          }}
+        </caption>
+        <thead>
+          <tr>
+            <th id="paymentDate">{{ 'order-payment.order-date' | translate }}</th>
+            <th id="paymentId">{{ 'order-payment-id' | translate }}</th>
+            <th id="paymentSum">{{ 'order-payment.sum' | translate }}</th>
+            <th id="paymentComment">{{ 'order-payment.comment-bill' | translate }}</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>01.05.2021</td>
+            <td>№1234567890</td>
+            <td>100 {{ '' | localizedCurrency }}</td>
+            <td>Link_to_bill_3216549870</td>
+          </tr>
+          <tr>
+            <td>01.05.2021</td>
+            <td>№1234567890</td>
+            <td>200 {{ '' | localizedCurrency }}</td>
+            <td>Link_to_bill_3216549870</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
   </div>
   <hr />
 </div>

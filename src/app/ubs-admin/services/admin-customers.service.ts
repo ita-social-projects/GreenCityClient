@@ -11,7 +11,7 @@ export class AdminCustomersService {
 
   constructor(private http: HttpClient) {}
 
-  getCustomers(column: string, page?: number, sortingType?: string): Observable<ICustomersTable> {
-    return this.http.get<ICustomersTable>(`${this.url}/usersAll?page=${page}&columnName=${column}&sortingOrder=${sortingType}`);
+  getCustomers(column: string, page?: number, filters?: string, sortingType?: string): Observable<ICustomersTable> {
+    return this.http.get<ICustomersTable>(`${this.url}/usersAll?page=${page}&columnName=${column}&${filters}&sortingOrder=${sortingType}`);
   }
 }

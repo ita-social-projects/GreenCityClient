@@ -1,6 +1,13 @@
 .container {
+  margin-top: 100px;
   margin-bottom: 100px;
   position: relative;
+}
+
+button:disabled {
+  background-color: var(--ubs-quintynary-light-grey);
+  border: var(--ubs-quintynary-light-grey);
+  color: var(--ubs-secondary-light-grey);
 }
 
 .back-button,
@@ -16,8 +23,8 @@
 }
 
 .back-button-top {
-  top: 52px;
-  left: -115px;
+  top: 70px;
+  left: -140px;
   position: absolute;
 }
 
@@ -33,6 +40,7 @@
   line-height: 28px;
   padding: 5px 20px;
   margin-right: 20px;
+  margin-bottom: 35px;
 }
 
 .cancel-button {
@@ -42,7 +50,7 @@
 
 .save-button {
   background-color: var(--ubs-primary-green);
-  color: #fff;
+  color: var(--ubs-primary-white);
 }
 
 .controls {
@@ -51,6 +59,6 @@
 
 .box {
   box-shadow: 0 0 8px rgba(70, 70, 70, 0.25);
-  margin-bottom: 40px;
-  padding-top: 34px;
+  padding: 30px;
+  margin-bottom: 30px;
 }

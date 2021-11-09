@@ -5,7 +5,6 @@ import {
   Bags,
   IOrderDetails,
   IOrderSumDetails,
-  IRecipientsData,
   IUserInfo,
   PaymentInfo,
   UserViolations,
@@ -19,8 +18,50 @@ import { environment } from '@environment/environment';
 })
 export class OrderService {
   private backend: string = environment.ubsAdmin.backendUbsAdminLink;
+  private backendLink: string = environment.backendUbsLink;
+  private selectedOrder: {};
+
+  readonly orderStatuses = [
+    { name: 'FORMED', translation: 'order-edit.order-status.formed' },
+    { name: 'ADJUSTMENT', translation: 'order-edit.order-status.adjustment' },
+    { name: 'BROUGHT_IT_HIMSELF', translation: 'order-edit.order-status.brought-it-himself' },
+    { name: 'CONFIRMED', translation: 'order-edit.order-status.confirmed' },
+    { name: 'ON_THE_ROUTE', translation: 'order-edit.order-status.on-the-route' },
+    { name: 'DONE', translation: 'order-edit.order-status.done' },
+    { name: 'NOT_TAKEN_OUT', translation: 'order-edit.order-status.not-taken-out' },
+    { name: 'CANCELLED', translation: 'order-edit.order-status.cancelled' }
+  ];
+
+  readonly paymentStatuses = [
+    { name: 'UNPAID', translation: 'order-edit.payment-status.not-paid' },
+    { name: 'PAID', translation: 'order-edit.payment-status.paid' },
+    { name: 'HALF_PAID', translation: 'order-edit.payment-status.half-paid' },
+    { name: 'PAYMENT_REFUNDED', translation: 'order-edit.payment-status.payment-refunded' }
+  ];
+
+  readonly districts = [
+    'Голосіївський',
+    'Дарницький',
+    'Деснянський',
+    'Дніпровський',
+    'Оболонський',
+    'Печерський',
+    'Подільський',
+    'Святошинський',
+    'Солом`янський',
+    'Шевченківський',
+    'Києво-Святошинський'
+  ];
 
   constructor(private http: HttpClient) {}
+
+  getSelectedOrder() {
+    return this.selectedOrder;
+  }
+
+  setSelectedOrder(order) {
+    this.selectedOrder = order;
+  }
 
   public getBags(lang): Observable<Bags> {
     return this.http.get<Bags>(`${this.backend}/order-details?lang=${lang}`);
@@ -51,6 +92,14 @@ export class OrderService {
 
   public getOrderExportDetails(orderId: number): Observable<IExportDetails> {
     return this.http.get<IExportDetails>(`${this.backend}/management/get-order-export-details/${orderId}`);
+  }
+
+  public getAllReceivingStations(): Observable<any> {
+    return this.http.get<any>(`${this.backendLink}/admin/ubs-employee/get-all-receiving-station`);
+  }
+
+  public getAllResponsiblePersons(positionId: number): Observable<any> {
+    return this.http.get<any>(`${this.backend}/management/get-all-employee-by-position/${positionId}`);
   }
 
   public getOrderDetailStatus(orderId: number): Observable<IDetailStatus> {

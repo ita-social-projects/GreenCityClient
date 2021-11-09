@@ -1,4 +1,5 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Component, OnInit, OnDestroy, Injector } from '@angular/core';
+import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
 import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { Location } from '@angular/common';
 import { ActivatedRoute } from '@angular/router';
@@ -24,6 +25,9 @@ export class UbsAdminTariffsPricingPageComponent implements OnInit, OnDestroy {
   isLoadBar1: boolean;
   isLoadBar: boolean;
   selectedLocationId;
+  amount;
+  couriers;
+  limitsForm: FormGroup;
   currentLocation;
   bags: Bag[];
   services: Service[];
@@ -33,32 +37,91 @@ export class UbsAdminTariffsPricingPageComponent implements OnInit, OnDestroy {
     edit: './assets/img/profile/icons/edit.svg',
     delete: './assets/img/profile/icons/delete.svg'
   };
-
+  public dialog: MatDialog;
+  private tariffsService: TariffsService;
+  private orderService: OrderService;
+  private localStorageService: LocalStorageService;
+  private route: ActivatedRoute;
+  private location: Location;
+  private fb: FormBuilder;
   constructor(
-    public dialog: MatDialog,
-    private tariffsService: TariffsService,
-    private orderService: OrderService,
-    private location: Location,
-    private localStorageService: LocalStorageService,
+    private injector: Injector,
     public dialogRefService: MatDialogRef<UbsAdminTariffsAddServicePopUpComponent>,
-    public dialogRefTariff: MatDialogRef<UbsAdminTariffsAddTariffServicePopUpComponent>,
-    private route: ActivatedRoute
-  ) {}
+    public dialogRefTariff: MatDialogRef<UbsAdminTariffsAddTariffServicePopUpComponent>
+  ) {
+    this.location = injector.get(Location);
+    this.dialog = injector.get(MatDialog);
+    this.tariffsService = injector.get(TariffsService);
+    this.orderService = injector.get(OrderService);
+    this.localStorageService = injector.get(LocalStorageService);
+    this.route = injector.get(ActivatedRoute);
+    this.fb = injector.get(FormBuilder);
+  }
 
   ngOnInit() {
     this.subscribeToLangChange();
     this.getLocations();
     this.routeParams();
+    this.initForm();
+    this.getCouriers();
     this.orderService.locationSubject.pipe(takeUntil(this.destroy)).subscribe(() => {
       this.getServices();
+      this.getCouriers();
       this.getAllTariffsForService();
     });
+  }
+
+  private initForm() {
+    this.limitsForm = this.fb.group({
+      courierLimitsBy: new FormControl(''),
+      minAmountOfOrder: new FormControl(),
+      maxAmountOfOrder: new FormControl(),
+      minAmountOfBigBag: new FormControl(),
+      maxAmountOfBigBag: new FormControl(),
+      limitDescription: new FormControl()
+    });
+  }
+
+  fillFields(couriers) {
+    const { courierLimit, minPriceOfOrder, maxPriceOfOrder, minAmountOfBigBags, maxAmountOfBigBags, limitDescription } = this.couriers[0];
+    this.limitsForm.patchValue({
+      courierLimitsBy: courierLimit,
+      minAmountOfOrder: minPriceOfOrder,
+      maxAmountOfOrder: maxPriceOfOrder,
+      minAmountOfBigBag: minAmountOfBigBags,
+      maxAmountOfBigBag: maxAmountOfBigBags,
+      limitDescription
+    });
+  }
+
+  saveChanges() {
+    const { courierLimitsBy, minAmountOfOrder, maxAmountOfOrder, minAmountOfBigBag, maxAmountOfBigBag, limitDescription } =
+      this.limitsForm.value;
+    this.amount = {
+      bagId: 1,
+      courierId: 1,
+      languageId: 1,
+      courierLimitsBy,
+      limitDescription,
+      maxAmountOfBigBag,
+      maxAmountOfOrder,
+      minAmountOfBigBag,
+      minAmountOfOrder,
+      minimalAmountOfBagStatus: 'INCLUDE'
+    };
+    this.tariffsService
+      .editInfo(this.amount)
+      .pipe(takeUntil(this.destroy))
+      .subscribe(() => {
+        this.getCouriers();
+      });
   }
 
   routeParams() {
     this.route.params.pipe(takeUntil(this.destroy)).subscribe((res) => {
       this.getAllTariffsForService();
-      this.currentLocation = Number(res.id);
+      this.selectedLocationId = +res.id;
+      this.currentLocation = +res.id;
       this.getServices();
     });
   }
@@ -192,7 +255,7 @@ export class UbsAdminTariffsPricingPageComponent implements OnInit, OnDestroy {
   }
 
   getLocations() {
-    this.orderService
+    this.tariffsService
       .getLocations()
       .pipe(takeUntil(this.destroy))
       .subscribe((res: Locations) => {
@@ -213,6 +276,16 @@ export class UbsAdminTariffsPricingPageComponent implements OnInit, OnDestroy {
         this.currentLocation = this.selectedLocationId;
         this.orderService.completedLocation(true);
         this.location.go(`/ubs-admin/tariffs/location/${this.currentLocation}`);
+      });
+  }
+
+  getCouriers() {
+    this.tariffsService
+      .getCouriers()
+      .pipe(takeUntil(this.destroy))
+      .subscribe((res) => {
+        this.couriers = res;
+        this.fillFields(this.couriers[0]);
       });
   }
 

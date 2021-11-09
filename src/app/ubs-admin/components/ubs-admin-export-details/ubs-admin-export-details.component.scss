@@ -2,6 +2,24 @@
   font-family: var(--ubs-quaternary-font);
 }
 
+.empty_card {
+  padding-top: 20px;
+  padding-bottom: 20px;
+
+  h1 {
+    display: inline;
+  }
+
+  img {
+    width: 20px;
+    margin-right: 20px;
+  }
+}
+
+.empty_card:hover {
+  cursor: pointer;
+}
+
 @mixin input {
   height: 36px;
   left: calc(50% - 170px);

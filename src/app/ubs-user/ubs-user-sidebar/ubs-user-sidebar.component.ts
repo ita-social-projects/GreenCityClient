@@ -2,7 +2,6 @@ import { BreakpointObserver } from '@angular/cdk/layout';
 import { Component } from '@angular/core';
 import { UbsBaseSidebarComponent } from 'src/app/shared/ubs-base-sidebar/ubs-base-sidebar.component';
 import { UserMessagesService } from '../services/user-messages.service';
-import { Router } from '@angular/router';
 import { JwtService } from '@global-service/jwt/jwt.service';
 
 @Component({
@@ -25,11 +24,6 @@ export class UbsUserSidebarComponent extends UbsBaseSidebarComponent {
       link: './assets/img/sidebarIcons/achievement_icon.svg',
       name: 'ubs-user.invoice',
       routerLink: 'bonuses'
-    },
-    {
-      link: 'assets/img/sidebarIcons/workers_icon.svg',
-      name: 'ubs-user.user_data',
-      routerLink: '#'
     },
     {
       link: 'assets/img/sidebarIcons/none_notification_Bell.svg',

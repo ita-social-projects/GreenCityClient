@@ -8,7 +8,9 @@ import { FilterPlaceDtoModel } from '../../model/filtering/filter-place-dto.mode
 import { PlaceStatus } from '../../model/placeStatus.model';
 import { DatePipe } from '@angular/common';
 import { FilterDistanceDto } from '../../model/filtering/filter-distance-dto.model';
-import { Location } from '../../component/places/models/location.model';
+import { PlaceLocation } from '../../component/places/models/location.model';
+import { BehaviorSubject } from 'rxjs';
+import { PlacesFilter } from '../../component/places/models/places-filter';
 
 @Injectable({
   providedIn: 'root'
@@ -23,7 +25,9 @@ export class FilterPlaceService {
   discountMin = 0;
   discountMax = 100;
   distance: number;
-  userMarkerLocation: Location = new Location();
+  userMarkerLocation: PlaceLocation = new PlaceLocation();
+
+  public filtersDto$: BehaviorSubject<any> = new BehaviorSubject<any>({ status: PlaceStatus.APPROVED });
 
   constructor(private datePipe: DatePipe) {}
 
@@ -61,6 +65,40 @@ export class FilterPlaceService {
     return new FilterPlaceDtoModel(PlaceStatus.APPROVED, this.mapBounds, discount, distance, null, currentTime);
   }
 
+  updateFiltersDto(placesFilter: PlacesFilter) {
+    const filtersDto: any = {
+      status: PlaceStatus.APPROVED,
+      mapBoundsDto: placesFilter.mapBoundsDto
+    };
+    if (Boolean(placesFilter.searchName)) {
+      filtersDto.searchReg = placesFilter.searchName;
+    }
+
+    if (placesFilter.moreOptionsFilters?.distance.isActive) {
+      filtersDto.distanceFromUserDto = {
+        distance: placesFilter.moreOptionsFilters.distance.value,
+        lat: placesFilter.position.latitude,
+        lng: placesFilter.position.longitude
+      };
+    }
+
+    if (placesFilter.moreOptionsFilters?.baseFilters['Open now']) {
+      filtersDto.time = this.datePipe.transform(new Date(), 'dd/MM/yyyy HH:mm:ss');
+    }
+    const servicesFilters = placesFilter.moreOptionsFilters?.servicesFilters;
+    if (servicesFilters) {
+      const services = Object.keys(servicesFilters).reduce((acc: string[], key: string) => {
+        if (servicesFilters[key]) {
+          acc.push(key);
+        }
+        return acc;
+      }, []);
+      filtersDto.categories = services.concat(placesFilter.basicFilters);
+    }
+
+    this.filtersDto$.next(filtersDto);
+  }
+
   clearFilter() {
     this.discountMin = 0;
     this.discountMax = 100;
@@ -73,7 +111,7 @@ export class FilterPlaceService {
     this.distance = distance > 0 ? distance : null;
   }
 
-  setUserMarkerLocation(userMarkerLocation: Location) {
+  setUserMarkerLocation(userMarkerLocation: PlaceLocation) {
     this.userMarkerLocation = userMarkerLocation;
   }
 }

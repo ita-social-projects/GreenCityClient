@@ -19,7 +19,7 @@ export class UbsAdminOrderDetailsFormComponent implements OnInit, OnDestroy {
   public orderDetailsForm: FormGroup;
   private destroy$: Subject<boolean> = new Subject<boolean>();
   public currentLanguage: string;
-
+  pageOpen: boolean;
   public bags: Bag[];
   public points: number;
 
@@ -28,6 +28,10 @@ export class UbsAdminOrderDetailsFormComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
     this.initForm();
     this.takeBagsData();
+  }
+
+  openDetails() {
+    this.pageOpen = !this.pageOpen;
   }
 
   public initForm(): void {

@@ -6,13 +6,14 @@ import { AdminTableService } from '../../services/admin-table.service';
 import { CdkDragDrop, moveItemInArray } from '@angular/cdk/drag-drop';
 import { take, takeUntil } from 'rxjs/operators';
 import { Subject, timer } from 'rxjs';
-import { AfterViewChecked, Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
+import { Component, OnInit, ViewChild, OnDestroy, AfterViewChecked, ChangeDetectorRef } from '@angular/core';
 import { MatTableDataSource } from '@angular/material/table';
 import { SelectionModel } from '@angular/cdk/collections';
 import { MatSort } from '@angular/material/sort';
 import { Router } from '@angular/router';
 import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
-import { IAlertInfo, IEditCell } from '../../models/edit-cell.model';
+import { IEditCell, IAlertInfo } from '../../models/edit-cell.model';
+import { OrderService } from '../../services/order.service';
 
 @Component({
   selector: 'app-ubs-admin-table',
@@ -41,7 +42,7 @@ export class UbsAdminTableComponent implements OnInit, AfterViewChecked, OnDestr
   currentPage = 0;
   pageSize = 25;
   idsToChange: number[] = [];
-  allChecked: boolean;
+  allChecked = false;
   tableViewHeaders = [];
   public blockedInfo: IAlertInfo[] = [];
   isAll = true;
@@ -50,11 +51,13 @@ export class UbsAdminTableComponent implements OnInit, AfterViewChecked, OnDestr
   @ViewChild(MatSort, { static: true }) sort: MatSort;
 
   constructor(
+    private orderService: OrderService,
     private router: Router,
     private adminTableService: AdminTableService,
     private localStorageService: LocalStorageService,
     private tableHeightService: TableHeightService,
-    public dialog: MatDialog
+    public dialog: MatDialog,
+    private cdr: ChangeDetectorRef
   ) {}
 
   ngOnInit() {
@@ -73,6 +76,7 @@ export class UbsAdminTableComponent implements OnInit, AfterViewChecked, OnDestr
         this.onScroll();
       }
     }
+    this.cdr.detectChanges();
   }
 
   applyFilter(filterValue: string): void {
@@ -139,14 +143,14 @@ export class UbsAdminTableComponent implements OnInit, AfterViewChecked, OnDestr
   }
 
   public changeColumns(checked: boolean, key: string, positionIndex): void {
-    checked
-      ? (this.displayedColumns = [...this.displayedColumns.slice(0, positionIndex), key, ...this.displayedColumns.slice(positionIndex)])
-      : (this.displayedColumns = this.displayedColumns.filter((item) => item !== key));
-    this.count === this.displayedColumns.length ? (this.isAll = true) : (this.isAll = false);
+    this.displayedColumns = checked
+      ? [...this.displayedColumns.slice(0, positionIndex), key, ...this.displayedColumns.slice(positionIndex)]
+      : this.displayedColumns.filter((item) => item !== key);
+    this.isAll = this.count === this.displayedColumns.length;
   }
 
   public togglePopUp() {
-    this.display === 'none' ? (this.display = 'block') : (this.display = 'none');
+    this.display = this.display === 'none' ? 'block' : 'none';
   }
 
   public showAllColumns(isCheckAll: boolean): void {
@@ -180,11 +184,27 @@ export class UbsAdminTableComponent implements OnInit, AfterViewChecked, OnDestr
         this.dataSource = new MatTableDataSource(this.tableData);
         this.isLoading = false;
         this.isTableHeightSet = false;
+        this.changeView();
       });
   }
 
   private isPropertyRequired(field: string, requiredFields: string[]) {
     return requiredFields.some((reqField) => field === reqField);
+  }
+
+  changeView() {
+    this.tableData.forEach((el) => {
+      el.amountDue = parseFloat(el.amountDue).toFixed(2);
+      el.totalOrderSum = parseFloat(el.totalOrderSum).toFixed(2);
+      const arr = el.orderCertificatePoints.split(', ');
+      if (arr && arr.length > 0) {
+        el.orderCertificatePoints = arr.reduce((res, elem) => {
+          res = parseInt(res, 10);
+          res += parseInt(elem, 10);
+          return res ? res + '' : '';
+        });
+      }
+    });
   }
 
   updateTableData() {
@@ -198,6 +218,7 @@ export class UbsAdminTableComponent implements OnInit, AfterViewChecked, OnDestr
         this.tableData = [...this.tableData, ...data];
         this.dataSource.data = this.tableData;
         this.isUpdate = false;
+        this.changeView();
       });
   }
 
@@ -205,7 +226,6 @@ export class UbsAdminTableComponent implements OnInit, AfterViewChecked, OnDestr
     this.sortingColumn = columnName;
     this.sortType = sortingType;
     this.arrowDirection = this.arrowDirection === columnName ? null : columnName;
-    this.currentPage = 0;
     this.getTable(columnName, sortingType);
   }
 
@@ -252,10 +272,7 @@ export class UbsAdminTableComponent implements OnInit, AfterViewChecked, OnDestr
   }
 
   public cancelEditCell(ids: number[]): void {
-    this.adminTableService
-      .cancelEdit(ids)
-      .pipe(takeUntil(this.destroy))
-      .subscribe((res) => {});
+    this.adminTableService.cancelEdit(ids);
     this.idsToChange = [];
     this.allChecked = false;
   }
@@ -327,22 +344,24 @@ export class UbsAdminTableComponent implements OnInit, AfterViewChecked, OnDestr
   }
 
   private postData(id, nameOfColumn, newValue): void {
-    this.adminTableService.postData(id, nameOfColumn, newValue).subscribe(
-      (val) => {
-        this.editCellProgressBar = false;
-        this.idsToChange = [];
-        this.allChecked = false;
-      },
-      (error) => {
-        this.editCellProgressBar = false;
-        this.idsToChange = [];
-        this.allChecked = false;
-      }
-    );
+    this.adminTableService.postData(id, nameOfColumn, newValue).subscribe(() => {
+      this.editCellProgressBar = false;
+      this.idsToChange = [];
+      this.allChecked = false;
+    });
   }
 
   openOrder(row): void {
-    this.router.navigate(['ubs-admin', 'order'], { state: { order: row } });
+    this.orderService.setSelectedOrder(row);
+    this.router.navigate(['ubs-admin', 'order']);
+  }
+
+  showTooltip(title, tooltip) {
+    const lengthStrUa = title.ua.split('').length;
+    const lengthStrEn = title.en.split('').length;
+    if ((this.currentLang === 'ua' && lengthStrUa > 17) || (this.currentLang === 'en' && lengthStrEn > 18)) {
+      tooltip.toggle();
+    }
   }
 
   ngOnDestroy() {

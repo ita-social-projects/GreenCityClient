@@ -96,6 +96,12 @@ label {
   display: none;
 }
 
+.station-title,
+.image-title {
+  display: inline-block;
+  margin-top: 17px;
+}
+
 .button-row {
   width: 100%;
   display: flex;
@@ -107,22 +113,33 @@ label {
 
 .cancelButton,
 .addButton {
-  padding: 8px 24px;
+  height: 36px;
+  padding: 8px 4px;
   border-radius: 5px;
   font-size: 14px;
   font-weight: 500;
 }
 
 .cancelButton {
-  border: solid 1px var(--ubs-primary-green);
-  color: var(--ubs-primary-green);
-  background: var(--ubs-primary-white);
+  width: 117px;
+  border: 1px solid var(--ubs-quaternary-dark-grey);
+  color: var(--ubs-quaternary-dark-grey);
+  background: none;
 }
 
 .addButton {
-  background: var(--ubs-primary-green);
-  color: var(--ubs-primary-white);
-  border: none;
+  width: 99px;
+  color: var(--ubs-quaternary-dark-grey);
+  border: 1px solid var(--ubs-button-light-green);
+  background: var(--ubs-button-light-green);
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+
+  &:disabled {
+    background: var(--ubs-quaternary-light-grey);
+    border-color: var(--ubs-quaternary-light-grey);
+  }
 }
 
 .checkbox-close-button {
@@ -158,11 +175,6 @@ label {
     height: 100%;
     pointer-events: none;
   }
-
-  &.highlighted,
-  &.highlighted * {
-    filter: brightness(0.5);
-  }
 }
 
 .current-image {
@@ -185,7 +197,7 @@ label {
 }
 
 .download-from-device-button {
-  color: var(--ubs-primary-green);
+  color: var(--ubs-electric-violet);
   cursor: pointer;
 
   &:hover {

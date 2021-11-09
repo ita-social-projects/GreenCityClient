@@ -422,7 +422,8 @@
       "close-navigation": "Закрити навігацію",
       "discount": "знижка",
       "driving": "водіння",
-      "walking": "ходьба"
+      "walking": "ходьба",
+      "more-options": "Більше опцій"
     },
     "places-card": {
       "card-description": "https://placewebsite.com",
@@ -528,7 +529,9 @@
       "tips": "Поради",
       "map": "Карта",
       "ubs": "UBS кур'єр",
-      "my-habits": "Мій кабінет"
+      "my-habits": "Мій кабінет",
+      "sorting-rules": "Правила сортування",
+      "eco-shop": "Еко-магазин"
     },
     "edit-profile": {
       "edit-profile": "Редагування профілю",
@@ -670,6 +673,7 @@
         "back-button": "Назад до Моїх звичок",
         "title": "Всі звички",
         "no-habits": "На жаль, звичок не знайдено",
+        "mutual": "Спільні звички",
         "no-habits-advice": "Ніяких звичок більше знайти не вдалося. Будь ласка, поміняйте фільтри, щоб отримати результат.",
         "btn-more": "Детальніше",
         "btn-add": "Додати звичку",
@@ -824,6 +828,7 @@
     "my-eco-friends": "Мої Друзі",
     "zero-friends": "У Вас немає друзів.",
     "zero-requests": "На жаль, нових запитів немає.",
+    "zero-user-friends": "Цей користувач не має друзів",
     "my-eco-places": "Мої Еко Місця",
     "shoppingList": "Шопінг-лист",
     "empty-list": "Ще нічого не додано.\nБудь ласка, додайте звичку з деякими елементами, щоб бачити їх у своєму списку",
@@ -837,6 +842,7 @@
     "friends": {
       "link-to-profile": "Мій кабінет",
       "mutual-friends": "спільних друзів",
+      "all-mutual-friends": "Спільні друзі",
       "friends": "Друзі",
       "add-new-friend": "Додати",
       "delete-friend": "Видалити",
@@ -924,5 +930,28 @@
     "eco-news-widget": {
       "paragraph": "Може бути цікавим для вас"
     }
+  },
+  "footer": {
+    "station": "Станція",
+    "address": "Київ, вул. Саперно-Слобідська, 25",
+    "schedule": "Графік роботи станції",
+    "mon-tue": " пн-вт",
+    "day-off": " вихідний",
+    "wed-fri": " ср–пт",
+    "from": "з",
+    "to": "до",
+    "service": "*платна послуга «Досортування» доступна",
+    "sat-sun": " сб-нд",
+    "accept-compost": "Компост приймаємо впродовж тижня в робочі години станції (крім понеділка і вівторка).",
+    "ubs-world-community": "УБС — у світовій спільноті",
+    "glad-for-letters": "Раді вашим листам",
+    "your-email": "Ваш email",
+    "subscribe-newsletter": "Підписатися на корисну розсилку:",
+    "subscribe-us": "ПІДПИСАТИСЯ",
+    "user-agreement": "Угода користувача",
+    "public-offer": "Публічна оферта",
+    "help-the-project": "Як допомогти проєкту",
+    "how-to-get-there": "Як доїхати?",
+    "ukraine-without-garbage": "Україна без сміття"
   }
 }

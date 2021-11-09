@@ -2,6 +2,24 @@
   font-family: var(--ubs-quaternary-font);
 }
 
+.empty_card {
+  padding-top: 20px;
+  padding-bottom: 20px;
+
+  h1 {
+    display: inline;
+  }
+
+  img {
+    width: 20px;
+    margin-right: 20px;
+  }
+}
+
+.empty_card:hover {
+  cursor: pointer;
+}
+
 .form__headline {
   font-size: 20px;
   font-weight: 700;
@@ -46,4 +64,8 @@ button {
 td {
   color: var(--ubs-primary-grey);
   padding: 8px;
+}
+
+thead {
+  position: relative;
 }

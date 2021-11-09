@@ -62,31 +62,39 @@
     (cdkDropListDropped)="dropListDropped($event)"
     [dataSource]="dataSource"
     *ngIf="!isLoading; else spinner"
+    aria-label="ordersTable"
   >
     <ng-container *ngFor="let column of columns; let i = index" [matColumnDef]="column.title.key" [sticky]="column.sticky">
       <mat-header-cell *matHeaderCellDef cdkDrag cdkDragLockAxis="x" cdkDragBoundary="mat-header-row">
-        <div *ngIf="column.title.key !== 'select'" class="column_header">
-          <span class="column-title" [matTooltip]="column.title | serverTranslate: currentLang">{{
-            column.title | serverTranslate: currentLang
-          }}</span>
-          <span *ngIf="!nonSortableColumns.includes(column.title.key)">
-            <mat-icon *ngIf="arrowDirection !== column.title.key" (click)="getSortingData(column.title.key, 'asc')">
+        <th scope="row" *ngIf="column.title.key !== 'select'" class="column_header">
+          <div
+            #tooltip="matTooltip"
+            class="column-title"
+            [matTooltip]="column.title | serverTranslate: currentLang"
+            (mouseenter)="$event.stopImmediatePropagation()"
+            (mouseleave)="$event.stopImmediatePropagation()"
+            (click)="showTooltip(column.title, tooltip)"
+          >
+            {{ column.title | serverTranslate: currentLang }}
+          </div>
+          <div class="icon-row" *ngIf="!nonSortableColumns.includes(column.title.key)">
+            <mat-icon *ngIf="arrowDirection !== column.title.key" (click)="getSortingData(column.title.key, 'ASC')">
               arrow_downward
             </mat-icon>
-            <mat-icon *ngIf="arrowDirection === column.title.key" (click)="getSortingData(column.title.key, 'desc')">
+            <mat-icon *ngIf="arrowDirection === column.title.key" (click)="getSortingData(column.title.key, 'DESC')">
               arrow_upward
             </mat-icon>
-          </span>
-        </div>
-        <mat-checkbox
-          *ngIf="column.title.key === 'select'"
-          (change)="$event && masterToggle()"
-          (change)="selectAll($event.checked)"
-          [checked]="allChecked"
-          [ngStyle]="{ backgroundColor: '#fff', height: '16px' }"
-          [indeterminate]="!!idsToChange.length"
-        >
-        </mat-checkbox>
+          </div>
+        </th>
+        <th scope="row" *ngIf="column.title.key === 'select'" [ngStyle]="{ backgroundColor: '#fff', height: '16px', padding: '0px' }">
+          <mat-checkbox
+            (change)="$event && masterToggle()"
+            (change)="selectAll($event.checked)"
+            [checked]="allChecked"
+            [indeterminate]="!!idsToChange.length"
+          >
+          </mat-checkbox>
+        </th>
       </mat-header-cell>
       <mat-cell *matCellDef="let row">
         <app-table-cell-readonly
@@ -102,7 +110,7 @@
         <app-table-cell-select
           *ngIf="column.editType === 'SELECT'"
           [key]="row[column.title.key]"
-          [optional]="column.optional"
+          [optional]="column.checked"
           [id]="row.id"
           [lang]="currentLang"
           [nameOfColumn]="column.title.key"

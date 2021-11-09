@@ -22,15 +22,17 @@
         <p class="body-2 tag">{{ location.name }}</p>
       </div>
     </div>
-    <span class="card-menu"><mat-icon [matMenuTriggerFor]="menu" class="card-menu-button">more_horiz</mat-icon></span>
+    <span class="card-menu">
+      <mat-icon [matMenuTriggerFor]="menu" class="card-menu-button">more_horiz</mat-icon>
+    </span>
     <mat-menu #menu="matMenu">
-      <button mat-menu-item>
+      <button mat-menu-item (click)="openModal()">
         <mat-icon>edit</mat-icon>
-        <span class="body-1" (click)="openModal()">{{ 'employees.btn.edit' | translate }}</span>
+        <span class="body-1">{{ 'employees.btn.edit' | translate }}</span>
       </button>
       <button mat-menu-item>
         <mat-icon>delete</mat-icon>
-        <span class="body-1">Видалити</span>
+        <span class="body-1">{{ 'employees.btn.delete' | translate }}</span>
       </button>
     </mat-menu>
   </div>

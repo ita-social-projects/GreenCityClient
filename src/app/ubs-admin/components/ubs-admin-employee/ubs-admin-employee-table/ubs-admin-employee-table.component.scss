@@ -1,0 +1,84 @@
+.mat-header-cell {
+  background-color: var(--ubs-primary-grey);
+  color: var(--ubs-primary-white);
+  font-family: var(--primary-font);
+  border: 1px solid var(--ubs-primary-light-grey);
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  font-size: 14px;
+  min-height: 39px;
+  min-width: 48px;
+  overflow: hidden;
+  word-wrap: break-word;
+  white-space: nowrap;
+  overflow-wrap: break-word;
+}
+
+.drop {
+  cursor: pointer;
+}
+
+.table {
+  border-collapse: collapse;
+
+  th {
+    border: 0;
+    padding: 0;
+  }
+}
+
+.mat-row {
+  min-height: 39px !important;
+}
+
+.check {
+  display: flex;
+  justify-content: center;
+  overflow: hidden;
+  flex-direction: column;
+  width: 100%;
+  position: relative;
+  z-index: 10000 !important;
+}
+
+.mat-form-field {
+  width: 100%;
+}
+
+.mat-cell {
+  border: thin solid var(--ubs-primary-light-grey);
+  border-top: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--ubs-primary-grey);
+  font-size: 14px;
+  font-family: var(--primary-font);
+  min-width: 48px;
+  min-height: 100px;
+  overflow: hidden;
+  text-align: center;
+  word-wrap: break-word;
+  white-space: nowrap;
+  overflow-wrap: break-word;
+}
+
+.mat-header-row {
+  min-height: 39px !important;
+  overflow-wrap: break-word !important;
+  word-wrap: break-word !important;
+  white-space: nowrap !important;
+}
+
+::ng-deep .mat-focused .mat-form-field-label {
+  color: var(--primary-green) !important;
+}
+
+::ng-deep.mat-form-field-underline {
+  background-color: var(--primary-grey) !important;
+}
+
+::ng-deep.mat-form-field-ripple {
+  background-color: var(--primary-grey) !important;
+}

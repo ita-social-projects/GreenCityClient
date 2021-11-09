@@ -5,4 +5,10 @@ import { Component } from '@angular/core';
   templateUrl: './ubs-admin-order-payment.component.html',
   styleUrls: ['./ubs-admin-order-payment.component.scss']
 })
-export class UbsAdminOrderPaymentComponent {}
+export class UbsAdminOrderPaymentComponent {
+  pageOpen: boolean;
+
+  openDetails() {
+    this.pageOpen = !this.pageOpen;
+  }
+}
