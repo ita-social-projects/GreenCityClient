@@ -57,10 +57,6 @@ export class UbsAdminOrderComponent implements OnInit, OnDestroy {
         };
         this.orderDetails.bonuses = data.orderBonusDiscount;
         this.orderDetails.certificateDiscount = data.orderCertificateTotalDiscount;
-        this.orderDetails.plannedPrice = data.orderDiscountedPrice;
-        this.orderDetails.confirmedPrice = data.orderExportedDiscountedPrice;
-        this.orderDetails.actualPrice = data.orderExportedPrice;
-        this.orderDetails.fullPrice = data.orderFullPrice;
       });
   }
 

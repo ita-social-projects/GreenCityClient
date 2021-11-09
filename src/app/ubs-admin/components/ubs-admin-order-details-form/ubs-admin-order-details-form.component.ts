@@ -44,6 +44,11 @@ export class UbsAdminOrderDetailsFormComponent implements OnInit, OnDestroy {
   constructor(private fb: FormBuilder, private orderService: OrderService) {}
 
   ngOnInit(): void {
+    //change this mock after receiving bags names from backend
+    this.orderDetails.bags[0].name = 'Безнадійний одяг';
+    this.orderDetails.bags[1].name = 'Безнадійний одяг';
+    this.orderDetails.bags[2].name = 'Вторсировина';
+    //
     this.initForm();
     this.orderService
       .getSelectedOrderStatus()
