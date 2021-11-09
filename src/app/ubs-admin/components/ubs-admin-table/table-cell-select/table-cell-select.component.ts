@@ -30,9 +30,7 @@ export class TableCellSelectComponent implements OnInit {
   constructor(private adminTableService: AdminTableService) {}
 
   ngOnInit() {
-    if (this.key !== '') {
-      this.currentValue = this.optional.filter((item) => item.key === this.key)[0];
-    }
+    this.currentValue = this.optional.filter((item) => item.key === this.key)[0];
   }
 
   public edit(): void {
@@ -48,7 +46,7 @@ export class TableCellSelectComponent implements OnInit {
           this.isEditable = true;
         } else {
           this.isEditable = false;
-          this.isBlocked = false;
+          this.isBlocked = true;
           this.showBlockedInfo.emit(res);
         }
       });
