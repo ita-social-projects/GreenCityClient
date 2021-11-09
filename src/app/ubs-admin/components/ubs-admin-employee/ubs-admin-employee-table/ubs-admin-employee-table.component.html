@@ -12,13 +12,13 @@
     (scrolled)="onScroll()"
     [scrollWindow]="true"
   >
-    <table id="table" class="table" mat-table [dataSource]="dataSource" *ngIf="!isLoading; else spinner" matSort>
+    <table id="table" class="table" mat-table [dataSource]="dataSource" *ngIf="!isLoading; else spinner">
       <caption>
         Employees table
       </caption>
       <ng-container class="column.field" matColumnDef="fullName">
         <mat-header-cell *matHeaderCellDef>
-          <th>
+          <th id="name">
             <span class="column-title">Ім'я працівника</span>
           </th>
         </mat-header-cell>
@@ -31,9 +31,15 @@
 
       <ng-container class="column.field" matColumnDef="position">
         <mat-header-cell *matHeaderCellDef>
-          <th>
+          <th id="position" class="drop" (click)="openPositions()">
             <span class="column-title">Посада</span>
           </th>
+          <div class="check" *ngIf="isPositionsOpen">
+            <div *ngFor="let position of allPositions">
+              <input type="checkbox" name="{{ position.id }}" [value]="position.id" (change)="getPositionId($event, position.id)" />
+              {{ position.name }}
+            </div>
+          </div>
         </mat-header-cell>
         <mat-cell *matCellDef="let row" class="column.field">
           <div>
@@ -44,9 +50,15 @@
 
       <ng-container class="column.field" matColumnDef="location">
         <mat-header-cell *matHeaderCellDef>
-          <th>
+          <th id="station" class="drop" (click)="openStations()">
             <span class="column-title">Станція приймання</span>
           </th>
+          <div class="check" *ngIf="isStationsOpen">
+            <div *ngFor="let station of allStations">
+              <input type="checkbox" name="{{ station.name }}" [value]="station.id" (change)="getStationId($event, station.id)" />
+              {{ station.name }}
+            </div>
+          </div>
         </mat-header-cell>
         <mat-cell *matCellDef="let row" class="column.field">
           <div>
@@ -57,7 +69,7 @@
 
       <ng-container class="column.field" matColumnDef="email">
         <mat-header-cell *matHeaderCellDef>
-          <th>
+          <th id="email">
             <span class="column-title">email</span>
           </th>
         </mat-header-cell>
@@ -70,7 +82,7 @@
 
       <ng-container class="column.field" matColumnDef="phoneNumber">
         <mat-header-cell *matHeaderCellDef>
-          <th>
+          <th id="phone">
             <span class="column-title">Телефон</span>
           </th>
         </mat-header-cell>

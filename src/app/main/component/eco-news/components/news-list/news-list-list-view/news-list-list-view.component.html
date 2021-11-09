@@ -23,7 +23,7 @@
         <img class="icon" [src]="profileIcons.calendarIcon" alt="calendar icon" />
         {{ ecoNewsModel.creationDate | date: undefined:undefined:translate.defaultLang }}
       </p>
-      <p>
+      <p class="eco-news_person">
         <img class="icon" [src]="profileIcons.userIcon" alt="user icon" />
         {{ ecoNewsModel.author.name }}
       </p>

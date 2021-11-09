@@ -916,5 +916,28 @@
     "eco-news-widget": {
       "paragraph": "May be interesting for you"
     }
+  },
+  "footer": {
+    "station": "Station",
+    "address": "Kyiv, Saperno-Slobitska str,25",
+    "schedule": "Station work schedule",
+    "mon-tue": " mon-tue",
+    "day-off": "day off",
+    "wed-fri": " wed-fri",
+    "from": "from",
+    "to": "to",
+    "service": "*paid service «Sorting» is available",
+    "sat-sun": " sat-sun",
+    "accept-compost": "We accept compost during the week during the working hours of the station (except Monday and Tuesday).",
+    "ubs-world-community": "UBS - in the world community",
+    "glad-for-letters": "Glad for your letters",
+    "your-email": "Your email",
+    "subscribe-newsletter": "Subscribe to useful newsletter:",
+    "subscribe-us": "SUBSCRIBE",
+    "user-agreement": "User agreement",
+    "public-offer": "Public offer",
+    "help-the-project": "How to help the project",
+    "how-to-get-there": "How to get there?",
+    "ukraine-without-garbage": "Ukraine without garbage"
   }
 }

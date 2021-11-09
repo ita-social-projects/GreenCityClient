@@ -162,9 +162,9 @@ describe('HeaderComponent', () => {
       expect(component.arrayLang[0].lang).toBe('en');
     });
 
-    xit('should log out the user', () => {
+    it('should log out the user', () => {
       // @ts-ignore
-      const spy = spyOn(component.localStorageService, 'clear');
+      const spy = spyOn(component.localeStorageService, 'clear');
       component.signOut();
       expect(spy).toHaveBeenCalled();
     });
