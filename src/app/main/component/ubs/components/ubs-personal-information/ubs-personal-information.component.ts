@@ -70,13 +70,13 @@ export class UBSPersonalInformationComponent extends FormBaseComponent implement
     this.orderService.locationSub.subscribe((data) => {
       this.currentLocation = data;
     });
-    this.orderService.currentAddress.subscribe((data) => {
-      if (data && data['city'] == this.currentLocation) {
-        this.personalDataForm.controls['address'].setValue(data);
-        this.personalDataForm.controls['addressComment'].setValue(data['addressComment']);
+    this.orderService.currentAddress.subscribe((data: Address) => {
+      if (data && data.city === this.currentLocation) {
+        this.personalDataForm.controls.address.setValue(data);
+        this.personalDataForm.controls.addressComment.setValue(data.addressComment);
       } else {
-        this.personalDataForm.controls['address'].setValue({});
-        this.personalDataForm.controls['addressComment'].setValue('');
+        this.personalDataForm.controls.address.setValue({});
+        this.personalDataForm.controls.addressComment.setValue('');
       }
     });
   }
@@ -297,7 +297,7 @@ export class UBSPersonalInformationComponent extends FormBaseComponent implement
   changeAddressComment() {
     this.addresses.forEach((address) => {
       if (address.actual) {
-        address.addressComment = this.personalDataForm.controls['addressComment'].value;
+        address.addressComment = this.personalDataForm.controls.addressComment.value;
         this.orderService.addAdress(address).subscribe(() => {
           this.orderService.setCurrentAddress(address);
           this.findAllAddresses(false);
