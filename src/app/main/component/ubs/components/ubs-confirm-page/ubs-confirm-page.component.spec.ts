@@ -10,7 +10,7 @@ import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { UbsConfirmPageComponent } from './ubs-confirm-page.component';
 import { UBSOrderFormService } from '../../services/ubs-order-form.service';
 
-fdescribe('UbsConfirmPageComponent', () => {
+describe('UbsConfirmPageComponent', () => {
   let component: UbsConfirmPageComponent;
   let fixture: ComponentFixture<UbsConfirmPageComponent>;
   let router: Router;
@@ -39,6 +39,7 @@ fdescribe('UbsConfirmPageComponent', () => {
     component = fixture.componentInstance;
     router = TestBed.inject(Router);
     fakeUBSOrderFormService.orderId = of('123');
+    fakeJwtService.userRole$ = of('ROLE_ADMIN');
     fixture.detectChanges();
   });
 
@@ -90,5 +91,22 @@ fdescribe('UbsConfirmPageComponent', () => {
     const navigateSpy = spyOn(router, 'navigateByUrl');
     component.returnToPayment();
     expect(navigateSpy).toHaveBeenCalledWith('/ubs/order');
+  });
+
+  it('should redirect to ubs-admin/orders', () => {
+    const navigateSpy = spyOn(router, 'navigate');
+    const saveDataOnLocalStorageMock = spyOn(component, 'saveDataOnLocalStorage');
+    component.toPersonalAccount();
+    expect(saveDataOnLocalStorageMock).toHaveBeenCalled();
+    expect(navigateSpy).toHaveBeenCalledWith(['ubs-admin', 'orders']);
+  });
+
+  it('should redirect to ubs-user/orders', () => {
+    fakeJwtService.userRole$ = of('ROLE_USER');
+    const navigateSpy = spyOn(router, 'navigate');
+    const saveDataOnLocalStorageMock = spyOn(component, 'saveDataOnLocalStorage');
+    component.toPersonalAccount();
+    expect(saveDataOnLocalStorageMock).toHaveBeenCalled();
+    expect(navigateSpy).toHaveBeenCalledWith(['ubs-user', 'orders']);
   });
 });
