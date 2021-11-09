@@ -10,7 +10,7 @@
           </button>
         </div>
         <div *ngIf="changeLocation" class="list-locations">
-          <select name="region" class="choose-location" [(ngModel)]="selectedLocationId" (ngModelChange)="saveLocation()">
+          <select name="region" class="choose-location" [(ngModel)]="selectedLocationId" (ngModelChange)="saveLocation(true)">
             <option [ngValue]="location.id" *ngFor="let location of locations | filterByLang">
               {{ location.name }}
             </option>
@@ -42,13 +42,13 @@
                 formControlName="quantity{{ bag.id }}"
                 type="number"
                 class="shadow-none form-control input"
-                [class.bag-quantity_placeholder]="bag.quantity === null"
+                [id]="'quantity' + bag.id"
                 min="0"
                 max="999"
                 placeholder="0"
                 [unmask]="false"
                 [imask]="{ mask: servicesMask }"
-                (change)="onQuantityChange()"
+                (change)="onQuantityChange(bag.id)"
               />
             </div>
             <span class="col-3 bag-name text-center"> {{ bag.quantity * bag.price | currency | localizedCurrency }}</span>
