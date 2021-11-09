@@ -3,12 +3,142 @@
     <div class="search-input"><input type="text" placeholder="Search" (keyup)="applyFilter($event.target.value)" /></div>
     <div class="search-icon"><i class="fa fa-search" aria-hidden="true"></i></div>
   </div>
-  <div>Total customers: {{ totalElements }}</div>
+  <div>{{ 'ubs-customer-filters.total-customers' | translate }} {{ totalElements }}</div>
 </div>
 <div class="btn-group">
-  <button type="button" class="btn btn-default" class="export-excel-btn" (click)="openExportExcel()">
+  <button type="button" class="btn btn-default" class="table-buttons" (click)="openExportExcel()">
     {{ 'ubs-tables.export-to-excel' | translate }}
   </button>
+  <button type="button" class="btn btn-default" class="table-buttons" (click)="togglePopUp()">
+    <mat-icon>create</mat-icon>
+    {{ 'ubs-tables.filter' | translate }}
+  </button>
+  <div [formGroup]="filterForm">
+    <ul class="dropdown-menu" [style.display]="display">
+      <li class="filterItem">
+        <span>{{ 'ubs-customer-filters.registration-date' | translate }}</span>
+        <div>
+          <mat-form-field class="filter-input">
+            <mat-label>{{ 'ubs-customer-filters.from' | translate }}</mat-label>
+            <input matInput [matDatepicker]="picker1" formControlName="registrationDateFrom" />
+            <mat-datepicker-toggle matSuffix [for]="picker1"></mat-datepicker-toggle>
+            <mat-datepicker #picker1></mat-datepicker>
+          </mat-form-field>
+
+          <mat-form-field class="filter-input">
+            <mat-label>{{ 'ubs-customer-filters.to' | translate }}</mat-label>
+            <input matInput [matDatepicker]="picker2" formControlName="registrationDateTo" />
+            <mat-datepicker-toggle matSuffix [for]="picker2"></mat-datepicker-toggle>
+            <mat-datepicker #picker2></mat-datepicker>
+          </mat-form-field>
+        </div>
+      </li>
+      <li class="filterItem">
+        <span>{{ 'ubs-customer-filters.last-order-date' | translate }}</span>
+        <div>
+          <mat-form-field class="filter-input">
+            <mat-label>{{ 'ubs-customer-filters.from' | translate }}</mat-label>
+            <input matInput [matDatepicker]="picker3" formControlName="lastOrderDateFrom" />
+            <mat-datepicker-toggle matSuffix [for]="picker3"></mat-datepicker-toggle>
+            <mat-datepicker #picker3></mat-datepicker>
+          </mat-form-field>
+
+          <mat-form-field class="filter-input">
+            <mat-label>{{ 'ubs-customer-filters.to' | translate }}</mat-label>
+            <input matInput [matDatepicker]="picker4" formControlName="lastOrderDateTo" />
+            <mat-datepicker-toggle matSuffix [for]="picker4"></mat-datepicker-toggle>
+            <mat-datepicker #picker4></mat-datepicker>
+          </mat-form-field>
+        </div>
+      </li>
+      <li class="filterItem">
+        <span>{{ 'ubs-customer-filters.orders-amount' | translate }}</span>
+        <div>
+          <mat-form-field class="filter-input" appearance="fill">
+            <mat-label>{{ 'ubs-customer-filters.from' | translate }}</mat-label>
+            <input matInput type="number" min="1" onkeyup="if(this.value<=0)this.value=''" formControlName="ordersCountFrom" />
+          </mat-form-field>
+
+          <mat-form-field class="filter-input" appearance="fill">
+            <mat-label>{{ 'ubs-customer-filters.to' | translate }}</mat-label>
+            <input matInput type="number" min="1" onkeyup="if(this.value<=0)this.value=''" formControlName="ordersCountTo" />
+          </mat-form-field>
+        </div>
+      </li>
+      <li class="filterItem">
+        <span>{{ 'ubs-customer-filters.violations' | translate }}</span>
+        <div>
+          <mat-form-field class="filter-input" appearance="fill">
+            <mat-label>{{ 'ubs-customer-filters.from' | translate }}</mat-label>
+            <input matInput type="number" min="1" onkeyup="if(this.value<=0)this.value=''" formControlName="violationsFrom" />
+          </mat-form-field>
+
+          <mat-form-field class="filter-input" appearance="fill">
+            <mat-label>{{ 'ubs-customer-filters.to' | translate }}</mat-label>
+            <input matInput type="number" min="1" onkeyup="if(this.value<=0)this.value=''" formControlName="violationsTo" />
+          </mat-form-field>
+        </div>
+      </li>
+      <li class="filterItem">
+        <span>{{ 'ubs-customer-filters.bonuses' | translate }}</span>
+        <div>
+          <mat-form-field class="filter-input" appearance="fill">
+            <mat-label>{{ 'ubs-customer-filters.from' | translate }}</mat-label>
+            <input matInput type="number" min="1" onkeyup="if(this.value<=0)this.value=''" formControlName="bonusesFrom" />
+          </mat-form-field>
+
+          <mat-form-field class="filter-input" appearance="fill">
+            <mat-label>{{ 'ubs-customer-filters.to' | translate }}</mat-label>
+            <input matInput type="number" min="1" onkeyup="if(this.value<=0)this.value=''" formControlName="bonusesTo" />
+          </mat-form-field>
+        </div>
+      </li>
+    </ul>
+  </div>
+</div>
+
+<div class="filterParams">
+  <ul class="filterParamsList">
+    <li *ngIf="hasChange" class="filterReset" (click)="onClearFilters()">{{ 'ubs-customer-filters.reset' | translate }}</li>
+    <li *ngIf="filters.registrationDateFrom || filters.registrationDateTo">
+      {{ 'ubs-customer-filters.registration-date' | translate }}
+      {{
+        filters.registrationDateFrom
+          ? ('ubs-customer-filters.from' | translate) + ' ' + filters.registrationDateFrom.toLocaleDateString()
+          : null
+      }}
+      {{
+        filters.registrationDateTo ? ('ubs-customer-filters.to' | translate) + ' ' + filters.registrationDateTo.toLocaleDateString() : null
+      }}
+      <mat-icon class="mat-icon" (click)="onDeleteFilter('registrationDateFrom', 'registrationDateTo')">clear</mat-icon>
+    </li>
+    <li *ngIf="filters.lastOrderDateFrom || filters.lastOrderDateTo">
+      {{ 'ubs-customer-filters.last-order-date' | translate }}
+      {{
+        filters.lastOrderDateFrom ? ('ubs-customer-filters.from' | translate) + ' ' + filters.lastOrderDateFrom.toLocaleDateString() : null
+      }}
+      {{ filters.lastOrderDateTo ? ('ubs-customer-filters.to' | translate) + ' ' + filters.lastOrderDateTo.toLocaleDateString() : null }}
+      <mat-icon class="mat-icon" (click)="onDeleteFilter('lastOrderDateFrom', 'lastOrderDateTo')">clear</mat-icon>
+    </li>
+    <li *ngIf="filters.ordersCountFrom || filters.ordersCountTo">
+      {{ 'ubs-customer-filters.orders-amount' | translate }}
+      {{ filters.ordersCountFrom ? ('ubs-customer-filters.from' | translate) + ' ' + filters.ordersCountFrom : null }}
+      {{ filters.ordersCountTo ? ('ubs-customer-filters.to' | translate) + ' ' + filters.ordersCountTo : null }}
+      <mat-icon class="mat-icon" (click)="onDeleteFilter('ordersCountFrom', 'ordersCountTo')">clear</mat-icon>
+    </li>
+    <li *ngIf="filters.violationsFrom || filters.violationsTo">
+      {{ 'ubs-customer-filters.violations' | translate }}
+      {{ filters.violationsFrom ? ('ubs-customer-filters.from' | translate) + ' ' + filters.violationsFrom : null }}
+      {{ filters.violationsTo ? ('ubs-customer-filters.to' | translate) + ' ' + filters.violationsTo : null }}
+      <mat-icon class="mat-icon" (click)="onDeleteFilter('violationsFrom', 'violationsTo')">clear</mat-icon>
+    </li>
+    <li *ngIf="filters.bonusesFrom || filters.bonusesTo">
+      {{ 'ubs-customer-filters.bonuses' | translate }}
+      {{ filters.bonusesFrom ? ('ubs-customer-filters.from' | translate) + ' ' + filters.bonusesFrom : null }}
+      {{ filters.bonusesTo ? ('ubs-customer-filters.to' | translate) + ' ' + filters.bonusesTo : null }}
+      <mat-icon class="mat-icon" (click)="onDeleteFilter('bonusesFrom', 'bonusesTo')">clear</mat-icon>
+    </li>
+  </ul>
 </div>
 
 <div
@@ -26,10 +156,10 @@
         <div class="column_header">
           <span class="column-title">{{ column.title | serverTranslate: currentLang }}</span>
           <span *ngIf="!nonSortableColumns.includes(column.title.key)">
-            <mat-icon *ngIf="arrowDirection !== column.title.key" (click)="getSortingData(column.title.key, 'asc')">
+            <mat-icon *ngIf="arrowDirection !== column.title.key" (click)="getSortingData(column.title.key, 'ASC')">
               arrow_downward
             </mat-icon>
-            <mat-icon *ngIf="arrowDirection === column.title.key" (click)="getSortingData(column.title.key, 'desc')">
+            <mat-icon *ngIf="arrowDirection === column.title.key" (click)="getSortingData(column.title.key, 'DESC')">
               arrow_upward
             </mat-icon>
           </span>
@@ -53,4 +183,7 @@
     <mat-row *matRowDef="let row; columns: displayedColumns"></mat-row>
   </mat-table>
   <app-spinner *ngIf="isLoading || isUpdate"></app-spinner>
+  <div class="nothing-found" *ngIf="totalElements || hasChange">
+    <p>{{ 'ubs-customer-filters.nothing-found' | translate }}</p>
+  </div>
 </div>

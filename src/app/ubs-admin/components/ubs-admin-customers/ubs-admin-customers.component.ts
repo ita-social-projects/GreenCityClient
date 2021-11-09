@@ -12,6 +12,7 @@ import {
 } from '@angular/core';
 import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
 import { MatTable, MatTableDataSource } from '@angular/material/table';
+import { FormGroup, FormBuilder } from '@angular/forms';
 import { Router } from '@angular/router';
 import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
 import { Subject } from 'rxjs';
@@ -22,6 +23,7 @@ import { AdminCustomersService } from '../../services/admin-customers.service';
 import { TableHeightService } from '../../services/table-height.service';
 import { UbsAdminTableExcelPopupComponent } from '../ubs-admin-table/ubs-admin-table-excel-popup/ubs-admin-table-excel-popup.component';
 import { columnsParams } from './columnsParams';
+import { Filters } from './filters.interface';
 
 @Component({
   selector: 'app-ubs-admin-customers',
@@ -40,6 +42,10 @@ export class UbsAdminCustomersComponent implements OnInit, AfterViewChecked, OnD
   public dataSource: MatTableDataSource<any>;
   public currentPage = 0;
   public totalElements = 0;
+  public display = 'none';
+  public filterForm: FormGroup;
+  public hasChange = false;
+  public filters: Filters;
 
   private tableData: any[];
   private sortType: string;
@@ -51,6 +57,8 @@ export class UbsAdminCustomersComponent implements OnInit, AfterViewChecked, OnD
   private isResizingRight: boolean;
   private totalPages = 1;
   private isTableHeightSet = false;
+  private initialFilterValues: {};
+  private queryString = '';
   private resizableMousemove: () => void;
   private resizableMouseup: () => void;
   private destroy$: Subject<boolean> = new Subject<boolean>();
@@ -63,6 +71,7 @@ export class UbsAdminCustomersComponent implements OnInit, AfterViewChecked, OnD
     private tableHeightService: TableHeightService,
     private adminCustomerService: AdminCustomersService,
     public dialog: MatDialog,
+    private fb: FormBuilder,
     private cdr: ChangeDetectorRef,
     private router: Router
   ) {}
@@ -74,6 +83,8 @@ export class UbsAdminCustomersComponent implements OnInit, AfterViewChecked, OnD
     this.columns = columnsParams;
     this.setDisplayedColumns();
     this.getTable();
+    this.initFilterForm();
+    this.onCreateGroupFormValueChange();
   }
 
   ngAfterViewChecked() {
@@ -81,20 +92,94 @@ export class UbsAdminCustomersComponent implements OnInit, AfterViewChecked, OnD
       const table = document.getElementById('table');
       const tableContainer = document.getElementById('table-container');
       this.isTableHeightSet = this.tableHeightService.setTableHeightToContainerHeight(table, tableContainer);
-      if (!this.isTableHeightSet) {
-        this.onScroll();
-      }
+      this.onScroll();
     }
     this.setTableResize(this.matTableRef.nativeElement.clientWidth);
     this.cdr.detectChanges();
   }
 
-  public getSortingData(columnName, sortingType) {
+  public getSortingData(columnName: string, sortingType: string) {
     this.sortingColumn = columnName;
     this.sortType = sortingType;
     this.arrowDirection = this.arrowDirection === columnName ? null : columnName;
     this.currentPage = 0;
-    this.getTable(columnName, sortingType);
+    this.getTable();
+  }
+
+  public togglePopUp() {
+    if (this.display === 'block') {
+      this.submitFilterForm();
+    }
+    this.display = this.display === 'none' ? 'block' : 'none';
+  }
+
+  initFilterForm() {
+    this.filterForm = this.fb.group({
+      registrationDateFrom: [''],
+      registrationDateTo: [''],
+      lastOrderDateFrom: [''],
+      lastOrderDateTo: [''],
+      ordersCountFrom: [''],
+      ordersCountTo: [''],
+      violationsFrom: [''],
+      violationsTo: [''],
+      bonusesFrom: [''],
+      bonusesTo: ['']
+    });
+    this.filters = this.filterForm.value;
+  }
+
+  submitFilterForm() {
+    this.filters = this.filterForm.value;
+    const prevQueryString = this.queryString;
+    const queryParams = [];
+    const filtersObj = {
+      numberOfBonuses: [this.filters.bonusesFrom, this.filters.bonusesTo],
+      numberOfOrders: [this.filters.ordersCountFrom, this.filters.ordersCountTo],
+      numberOfViolations: [this.filters.violationsFrom, this.filters.violationsTo],
+      orderDate: [
+        this.filters.lastOrderDateFrom ? this.filters.lastOrderDateFrom.toLocaleDateString() : '',
+        this.filters.lastOrderDateTo ? this.filters.lastOrderDateTo.toLocaleDateString() : ''
+      ],
+      userRegistrationDate: [
+        this.filters.registrationDateFrom ? this.filters.registrationDateFrom.toLocaleDateString() : '',
+        this.filters.registrationDateTo ? this.filters.registrationDateTo.toLocaleDateString() : ''
+      ]
+    };
+    for (const filter in filtersObj) {
+      if (filtersObj[filter][0] && filtersObj[filter][1]) {
+        queryParams.push(`${filter}=${filtersObj[filter][0]}`, `${filter}=${filtersObj[filter][1]}`);
+      } else if (filtersObj[filter][0] && !filtersObj[filter][1]) {
+        queryParams.push(`${filter}=${filtersObj[filter][0]}`);
+      } else if (!filtersObj[filter][0] && filtersObj[filter][1]) {
+        queryParams.push(`${filter}=0`, `${filter}=${filtersObj[filter][1]}`);
+      }
+    }
+    this.queryString = queryParams.join('&');
+    if (this.queryString !== prevQueryString) {
+      this.currentPage = 0;
+      this.getTable();
+    }
+  }
+
+  onDeleteFilter(filterFrom: any, filterTo: any) {
+    this.filterForm.get(filterFrom).setValue('');
+    this.filterForm.get(filterTo).setValue('');
+    this.submitFilterForm();
+  }
+
+  onCreateGroupFormValueChange() {
+    this.initialFilterValues = this.filterForm.value;
+    this.filterForm.valueChanges.subscribe((value) => {
+      this.hasChange = Object.keys(this.initialFilterValues).some((key) => {
+        return this.filterForm.value[key] !== null && this.filterForm.value[key] !== this.initialFilterValues[key];
+      });
+    });
+  }
+
+  onClearFilters() {
+    this.filterForm.reset(this.initialFilterValues);
+    this.submitFilterForm();
   }
 
   public openExportExcel(): void {
@@ -119,7 +204,7 @@ export class UbsAdminCustomersComponent implements OnInit, AfterViewChecked, OnD
   private getTable(columnName = this.sortingColumn || 'recipientName', sortingType = this.sortType || 'ASC') {
     this.isLoading = true;
     this.adminCustomerService
-      .getCustomers(columnName, this.currentPage, sortingType)
+      .getCustomers(columnName, this.currentPage, this.queryString, sortingType)
       .pipe(takeUntil(this.destroy$))
       .subscribe((item: ICustomersTable) => {
         this.tableData = item.page;
@@ -134,13 +219,14 @@ export class UbsAdminCustomersComponent implements OnInit, AfterViewChecked, OnD
   private updateTableData() {
     this.isUpdate = true;
     this.adminCustomerService
-      .getCustomers(this.sortingColumn || 'recipientName', this.currentPage, this.sortType || 'ASC')
+      .getCustomers(this.sortingColumn || 'recipientName', this.currentPage, this.queryString, this.sortType || 'ASC')
       .pipe(takeUntil(this.destroy$))
       .subscribe((item: ICustomersTable) => {
         this.tableData = [...this.tableData, ...item.page];
         this.dataSource = new MatTableDataSource(this.tableData);
         this.totalPages = item.totalPages;
         this.isUpdate = false;
+        this.totalElements = item.totalElements;
       });
   }
 

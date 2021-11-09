@@ -1,0 +1,85 @@
+<footer role="contentinfo">
+  <div class="container-fluid">
+    <div class="main-content">
+      <div class="footer-logo">
+        <a [routerLink]="['/ubs']" role="button">
+          <img [src]="footerPicture" class="logo" alt="Footer picture" />
+        </a>
+      </div>
+      <div class="footer-content" role="banner">
+        <p>
+          <strong>{{ 'footer.station' | translate }} No Waste Recycling Station</strong>
+          <br />
+          {{ 'footer.address' | translate }}
+          <br />
+        </p>
+        <p>
+          <strong>{{ 'footer.schedule' | translate }}</strong>
+          <br />
+          <strong>—{{ 'footer.mon-tue' | translate }}</strong> — {{ 'footer.day-off' | translate }}
+          <br />
+          <strong>—{{ 'footer.wed-fri' | translate }}</strong> — {{ 'footer.from' | translate }} 15:00–20:30
+          <br />
+          {{ 'footer.service' | translate }} {{ 'footer.from' | translate }} 15:00 {{ 'footer.to' | translate }} 21:00.
+          <br />
+          <strong>—{{ 'footer.sat-sun' | translate }}</strong> — {{ 'footer.from' | translate }} 10:00 {{ 'footer.to' | translate }}
+          15:30
+          <br />
+          {{ 'footer.service' | translate }} {{ 'footer.from' | translate }} 10:00 {{ 'footer.to' | translate }} 16:00.
+          <br />
+          {{ 'footer.accept-compost' | translate }}
+        </p>
+        <p>
+          <strong>{{ 'footer.ubs-world-community' | translate }}</strong>
+          <br />
+          <a target="_blank" href="https://community.preciousplastic.com/academy/intro.html"> Precious Plastic </a>
+        </p>
+      </div>
+      <div class="footer-subscribe-us">
+        <p>
+          <strong>{{ 'footer.glad-for-letters' | translate }}</strong>
+          <br />
+          hello@nowaste.org.ua
+        </p>
+        <p>
+          <strong>{{ 'footer.subscribe-newsletter' | translate }}</strong>
+        </p>
+        <label for="email">
+          <input type="email" placeholder="{{ 'footer.your-email' | translate }}" class="form-control" required="required" id="email" />
+        </label>
+        <button>{{ 'footer.subscribe-us' | translate }}</button>
+      </div>
+      <ul class="footer-links">
+        <li>
+          <a target="_blank" href="https://nowaste.com.ua/privacy-policy/">
+            {{ 'footer.user-agreement' | translate }}
+          </a>
+        </li>
+        <li>
+          <a target="_blank" href="https://nowaste.com.ua/public-offer-agreement/">
+            {{ 'footer.public-offer' | translate }}
+          </a>
+        </li>
+        <li>
+          <a target="_blank" href="https://nowaste.com.ua/help/">
+            {{ 'footer.help-the-project' | translate }}
+          </a>
+        </li>
+        <li>
+          <a target="_blank" href="https://nowaste.com.ua/grafic-stancii/">
+            {{ 'footer.how-to-get-there' | translate }}
+          </a>
+        </li>
+      </ul>
+    </div>
+    <div class="social-networks">
+      <a target="_blank" href="https://www.facebook.com/NowasteUkraine/" class="fa fa-facebook"></a>
+      <a target="_blank" href="https://www.instagram.com/nowasteukraine/" class="fa fa-instagram"></a>
+      <a target="_blank" href="https://t.me/nowasteukraine" class="fa fa-telegram"></a>
+      <a target="_blank" href="https://www.youtube.com/channel/UChFVBZ_HcaQYiF-GcMHiCNA" class="fa fa-youtube"></a>
+    </div>
+    <div class="footer-bottom-part">
+      <p class="par">Copyright © 2021 · All Rights Reserved · {{ 'footer.ukraine-without-garbage' | translate }}. No Waste Ukraine.</p>
+    </div>
+  </div>
+</footer>
