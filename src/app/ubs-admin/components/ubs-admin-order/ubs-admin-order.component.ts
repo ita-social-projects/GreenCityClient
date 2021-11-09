@@ -1,28 +1,67 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { Router } from '@angular/router';
 import { UbsAdminCancelModalComponent } from '../ubs-admin-cancel-modal/ubs-admin-cancel-modal.component';
 import { UbsAdminGoBackModalComponent } from '../ubs-admin-go-back-modal/ubs-admin-go-back-modal.component';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { take } from 'rxjs/operators';
+import { take, takeUntil } from 'rxjs/operators';
 import { OrderService } from '../../services/order.service';
+import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
+import { Subject } from 'rxjs';
 
 @Component({
   selector: 'app-ubs-admin-order',
   templateUrl: './ubs-admin-order.component.html',
   styleUrls: ['./ubs-admin-order.component.scss']
 })
-export class UbsAdminOrderComponent implements OnInit {
+export class UbsAdminOrderComponent implements OnInit, OnDestroy {
+  currentLanguage: string;
   currentOrderStatus;
+  private destroy$: Subject<boolean> = new Subject<boolean>();
+  isDataLoaded = false;
   order;
+  orderDetails;
   orderForm: FormGroup;
 
-  constructor(private orderService: OrderService, private fb: FormBuilder, private router: Router, private dialog: MatDialog) {}
+  constructor(
+    private orderService: OrderService,
+    private localStorageService: LocalStorageService,
+    private fb: FormBuilder,
+    private router: Router,
+    private dialog: MatDialog
+  ) {}
 
   ngOnInit() {
+    this.localStorageService.languageBehaviourSubject.pipe(takeUntil(this.destroy$)).subscribe((lang) => {
+      this.currentLanguage = lang;
+    });
     this.order = this.orderService.getSelectedOrder();
     this.orderService.setSelectedOrderStatus(this.order.orderStatus);
     this.initForm();
+    this.getOrderInfo(this.order.id, this.currentLanguage);
+  }
+
+  public getOrderInfo(orderId, lang): void {
+    this.orderService
+      .getOrderInfo(orderId, lang)
+      .pipe(takeUntil(this.destroy$))
+      .subscribe((data: any) => {
+        const bags = data.bags.map((bag) => {
+          bag.planned = data.amountOfBagsOrdered[bag.id] || 0;
+          bag.confirmed = data.amountOfBagsConfirmed[bag.id] || 0;
+          bag.actual = data.amountOfBagsExported[bag.id] || 0;
+          return bag;
+        });
+        this.orderDetails = {
+          bags: bags
+        };
+        this.orderDetails.bonuses = data.orderBonusDiscount;
+        this.orderDetails.certificateDiscount = data.orderCertificateTotalDiscount;
+        this.orderDetails.plannedPrice = data.orderDiscountedPrice;
+        this.orderDetails.confirmedPrice = data.orderExportedDiscountedPrice;
+        this.orderDetails.actualPrice = data.orderExportedPrice;
+        this.orderDetails.fullPrice = data.orderFullPrice;
+      });
   }
 
   initForm() {
@@ -99,5 +138,10 @@ export class UbsAdminOrderComponent implements OnInit {
 
   onSubmit() {
     console.log(this.orderForm);
+  }
+
+  ngOnDestroy(): void {
+    this.destroy$.next();
+    this.destroy$.complete();
   }
 }

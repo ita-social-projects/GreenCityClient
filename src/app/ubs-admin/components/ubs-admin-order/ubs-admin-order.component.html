@@ -1,6 +1,6 @@
 <app-header></app-header>
 <app-search-popup></app-search-popup>
-<div *ngIf="order" class="container">
+<div *ngIf="order && orderDetails; else spinner" class="container">
   <div class="row">
     <button class="back-button-top" (click)="openGoBackModal()">
       <
@@ -13,7 +13,7 @@
       <app-ubs-admin-order-client-info [clientInfoForm]="getFormGroup('clientInfoForm')" [order]="order"> </app-ubs-admin-order-client-info>
       <app-ubs-admin-address-details [addressDetailsForm]="getFormGroup('addressDetailsForm')" [order]="order">
       </app-ubs-admin-address-details>
-      <app-ubs-admin-order-details-form [orderId]="order.id"></app-ubs-admin-order-details-form>
+      <app-ubs-admin-order-details-form [orderDetails]="orderDetails"></app-ubs-admin-order-details-form>
       <app-ubs-admin-order-payment></app-ubs-admin-order-payment>
       <app-ubs-admin-export-details [exportDetailsForm]="getFormGroup('exportDetailsForm')" [order]="order"> </app-ubs-admin-export-details>
       <app-ubs-admin-responsible-persons [responsiblePersonsForm]="getFormGroup('responsiblePersonsForm')" [order]="order">
@@ -35,3 +35,6 @@
     </div>
   </form>
 </div>
+<ng-template #spinner>
+  <app-spinner class="spinner"></app-spinner>
+</ng-template>

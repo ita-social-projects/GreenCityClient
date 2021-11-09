@@ -1,6 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Observable, of, ReplaySubject } from 'rxjs';
+import { Observable, ReplaySubject } from 'rxjs';
 import {
   Bags,
   IOrderDetails,
@@ -54,40 +54,6 @@ export class OrderService {
     'Києво-Святошинський'
   ];
 
-  readonly bags = {
-    bags: [
-      {
-        capacity: 120,
-        code: 'en',
-        id: 1,
-        locationId: 1,
-        name: 'Recycled materials',
-        price: 250,
-        amount: 2
-      },
-      {
-        capacity: 120,
-        code: 'en',
-        id: 2,
-        locationId: 1,
-        name: 'Old clothes',
-        price: 300,
-        amount: 1
-      },
-      {
-        capacity: 20,
-        code: 'en',
-        id: 3,
-        locationId: 1,
-        name: 'Old clothes',
-        price: 50,
-        amount: 1
-      }
-    ],
-    minAmountOfBigBags: 2,
-    points: 0
-  };
-
   constructor(private http: HttpClient) {}
 
   getSelectedOrder() {
@@ -98,17 +64,9 @@ export class OrderService {
     this.selectedOrder = order;
   }
 
-  // public getBags(): Observable<Bags> {
-  //   return this.http.get<Bags>(`${this.backend}/order-details`);
-  // }
-
-  public getBags(): Observable<Bags> {
-    return of(this.bags);
+  public getOrderInfo(orderId, lang) {
+    return this.http.get(`${this.backend}/management/get-data-for-order/${orderId}/${lang}`);
   }
-
-  // public getBags(orderId, langId): Observable<Bags> {
-  //   return this.http.get<Bags>(`${this.backend}/management/get-data-for-order/${orderId}/${langId}`);
-  // }
 
   public getOrderDetails(orderId: number, lang: string): Observable<IOrderDetails> {
     return this.http.get<IOrderDetails>(`${this.backend}/management/read-order-info/${orderId}?language=${lang}`);
