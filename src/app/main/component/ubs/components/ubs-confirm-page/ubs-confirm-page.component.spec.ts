@@ -1,6 +1,7 @@
 import { of } from 'rxjs';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
-import { RouterModule } from '@angular/router';
+import { Router } from '@angular/router';
+import { RouterTestingModule } from '@angular/router/testing';
 import { TranslateModule } from '@ngx-translate/core';
 import { JwtService } from '@global-service/jwt/jwt.service';
 import { MatSnackBarComponent } from '@global-errors/mat-snack-bar/mat-snack-bar.component';
@@ -12,6 +13,7 @@ import { UBSOrderFormService } from '../../services/ubs-order-form.service';
 fdescribe('UbsConfirmPageComponent', () => {
   let component: UbsConfirmPageComponent;
   let fixture: ComponentFixture<UbsConfirmPageComponent>;
+  let router: Router;
   const fakeSnackBar = jasmine.createSpyObj('fakeSnakBar', ['openSnackBar']);
   const fakeUBSOrderFormService = jasmine.createSpyObj('fakeUBSService', [
     'getOrderResponseErrorStatus',
@@ -23,7 +25,7 @@ fdescribe('UbsConfirmPageComponent', () => {
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       declarations: [UbsConfirmPageComponent],
-      imports: [TranslateModule.forRoot(), RouterModule.forRoot([]), HttpClientTestingModule],
+      imports: [TranslateModule.forRoot(), RouterTestingModule, HttpClientTestingModule],
       providers: [
         { provide: MatSnackBarComponent, useValue: fakeSnackBar },
         { provide: UBSOrderFormService, useValue: fakeUBSOrderFormService },
@@ -35,6 +37,7 @@ fdescribe('UbsConfirmPageComponent', () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(UbsConfirmPageComponent);
     component = fixture.componentInstance;
+    router = TestBed.inject(Router);
     fakeUBSOrderFormService.orderId = of('123');
     fixture.detectChanges();
   });
@@ -81,5 +84,11 @@ fdescribe('UbsConfirmPageComponent', () => {
     component.saveDataOnLocalStorage();
     expect(localStorageServiceMock).toHaveBeenCalled();
     expect(fakeUBSOrderFormService.saveDataOnLocalStorage).toHaveBeenCalled();
+  });
+
+  it('should redirect to order', () => {
+    const navigateSpy = spyOn(router, 'navigateByUrl');
+    component.returnToPayment();
+    expect(navigateSpy).toHaveBeenCalledWith('/ubs/order');
   });
 });
