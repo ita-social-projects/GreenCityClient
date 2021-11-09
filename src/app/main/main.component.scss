@@ -19,13 +19,13 @@
 }
 
 .skip-container {
+  position: relative;
+  padding-top: 100px;
   text-align: center;
-  opacity: 0;
 }
 
 .skip {
   position: absolute;
-  top: 8%;
   left: -100%;
   width: 100px;
   color: var(--primary-green);
