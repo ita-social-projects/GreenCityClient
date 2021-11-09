@@ -10,7 +10,7 @@
           </button>
         </div>
         <div *ngIf="changeLocation" class="list-locations">
-          <select name="region" class="choose-location" [(ngModel)]="selectedLocationId" (ngModelChange)="saveLocation()">
+          <select name="region" class="choose-location" [(ngModel)]="selectedLocationId" (ngModelChange)="saveLocation(true)">
             <option [ngValue]="location.id" *ngFor="let location of locations | filterByLang">
               {{ location.name }}
             </option>

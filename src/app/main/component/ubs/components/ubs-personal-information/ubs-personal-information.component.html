@@ -179,6 +179,7 @@
       class="form-control"
       formControlName="addressComment"
       placeholder="{{ 'personal-info.info-coment-placeholder' | translate }}"
+      (blur)="changeAddressComment()"
     ></textarea>
     <div class="validation" *ngIf="getControl('addressComment').invalid && getControl('addressComment').touched">
       <app-ubs-input-error [formElement]="getControl('addressComment')" [controlName]="'addressComment'"> </app-ubs-input-error>

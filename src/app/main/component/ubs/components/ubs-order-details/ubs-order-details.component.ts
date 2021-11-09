@@ -99,7 +99,7 @@ export class UBSOrderDetailsComponent extends FormBaseComponent implements OnIni
       this.currentLanguage = this.localStorageService.getCurrentLanguage();
       this.locations = this.shareFormService.locations;
       this.selectedLocationId = locationId;
-      this.saveLocation();
+      this.saveLocation(false);
     } else {
       this.openLocationDialog();
     }
@@ -113,7 +113,7 @@ export class UBSOrderDetailsComponent extends FormBaseComponent implements OnIni
     });
   }
 
-  saveLocation() {
+  saveLocation(isCheck: boolean) {
     this.isFetching = true;
     const selectedLocation = { locationId: this.selectedLocationId };
     this.orderService
@@ -126,6 +126,9 @@ export class UBSOrderDetailsComponent extends FormBaseComponent implements OnIni
         this.orderService.setLocationData(this.currentLocation);
         this.orderService.completedLocation(true);
         this.localStorageService.setLocationId(this.selectedLocationId);
+        if (isCheck) {
+          this.orderService.setCurrentAddress(JSON.parse(localStorage.getItem('addresses'))[0]);
+        }
       });
   }
 
