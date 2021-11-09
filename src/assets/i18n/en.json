@@ -939,5 +939,8 @@
     "help-the-project": "How to help the project",
     "how-to-get-there": "How to get there?",
     "ukraine-without-garbage": "Ukraine without garbage"
+  },
+  "accessibility": {
+    "skip-to-the-main-content": "skip to the main content"
   }
 }
