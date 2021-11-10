@@ -20,21 +20,22 @@
           {{ 'order-history.author' | translate }}
         </th>
       </tr>
-      <tr *ngFor="let event of orderHistory">
-        <td>{{ event.eventDate | date: 'dd.MM.yyyy' }}</td>
-        <td>{{ event.eventDate | date: 'HH:mm' }}</td>
-        <td>{{ event.eventName }}</td>
-        <td>{{ event.authorName }}</td>
-      </tr>
-      <tr>
-        <td>22.10.2021</td>
-        <td>21:00</td>
-        <td id="hiddenText">
-          <span> </span>
-          Дуже довгий текст Дуже довгий текст Дуже довгий текст Дуже довгий текст Дуже довгий текст Дуже довгий текст Дуже довгий текст Дуже
-          довгий текст
+      <tr *ngFor="let historyAction of orderHistory">
+        <td>{{ historyAction.eventDate | date: 'dd.MM.yyyy' }}</td>
+        <td>{{ historyAction.eventDate | date: 'HH:mm' }}</td>
+        <td
+          class="hiddenText"
+          #popup="matTooltip"
+          [matTooltip]="historyAction.eventName"
+          matTooltipPosition="above"
+          matTooltipClass="popup"
+          (mouseenter)="$event.stopImmediatePropagation()"
+          (mouseleave)="$event.stopImmediatePropagation()"
+          (click)="showPopup($event, popup)"
+        >
+          {{ historyAction.eventName }}
         </td>
-        <td>Христина Прислупська</td>
+        <td>{{ historyAction.authorName }}</td>
       </tr>
     </table>
   </div>

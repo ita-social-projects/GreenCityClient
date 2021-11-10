@@ -52,13 +52,18 @@
 
     td {
       color: var(--gray-dark);
+      max-width: 500px;
     }
   }
 }
 
-#hiddenText {
+.hiddenText {
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
-  max-width: 300px;
+}
+
+.popup {
+  font-size: 20px;
+  min-width: 20rem;
 }

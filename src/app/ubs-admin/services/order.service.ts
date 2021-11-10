@@ -107,8 +107,8 @@ export class OrderService {
     return this.http.get<IDetailStatus>(`${this.backend}/management/read-order-detail-status/${orderId}`);
   }
 
-  public getOrderHistory(orderId: number): Observable<IOrderHistory> {
-    return this.http.get<IOrderHistory>(`${this.backend}/order_history/${orderId}`);
+  public getOrderHistory(orderId: number): Observable<IOrderHistory[]> {
+    return this.http.get<IOrderHistory[]>(`${this.backend}/order_history/${orderId}`);
   }
 
   public updateRecipientsData(postData: any) {
