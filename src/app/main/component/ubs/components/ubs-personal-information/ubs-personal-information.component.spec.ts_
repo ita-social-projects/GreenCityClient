@@ -93,7 +93,7 @@ describe('PersonalDataFormComponent', () => {
     const spy = spyOn<any>(component, 'getLastAddresses').and.callThrough();
     fakeOrderService.findAllAddresses.and.returnValue(of(listMock));
     spyOn(component, 'checkAddress').and.callFake(() => {});
-    component.findAllAddresses();
+    component.findAllAddresses(true);
     expect(spy).toHaveBeenCalledWith(listMock.addressList);
   });
 

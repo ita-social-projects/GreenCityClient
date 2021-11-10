@@ -115,6 +115,12 @@ input {
 .column-title {
   color: var(--ubs-secondary-light-grey);
   font-size: 14px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.icon-row {
+  margin-right: -5px;
 }
 
 .amount-items {

@@ -142,7 +142,14 @@
     <ng-template #addressesList>
       <div class="w-50 d-flex mt-2 mb-2 col-lg-6 col-md-6 col-sm-12 col-12" *ngFor="let address of addresses">
         <div class="custom-radio d-flex">
-          <input name="address" type="radio" [value]="address.id" [checked]="address.actual" (click)="checkAddress(address.id)" />
+          <input
+            name="address"
+            type="radio"
+            [value]="address.id"
+            [checked]="address.actual && address.city == currentLocation"
+            [disabled]="address.city !== currentLocation"
+            (click)="checkAddress(address.id)"
+          />
         </div>
         <app-address [address]="address" class="col-md-6"></app-address>
         <div class="edit-address" (click)="editAddress(address.id)">
@@ -172,6 +179,7 @@
       class="form-control"
       formControlName="addressComment"
       placeholder="{{ 'personal-info.info-coment-placeholder' | translate }}"
+      (blur)="changeAddressComment()"
     ></textarea>
     <div class="validation" *ngIf="getControl('addressComment').invalid && getControl('addressComment').touched">
       <app-ubs-input-error [formElement]="getControl('addressComment')" [controlName]="'addressComment'"> </app-ubs-input-error>

@@ -5,14 +5,21 @@
   <div class="w-100 city-notice">
     {{ 'personal-info.pop-up-info-message' | translate }}
   </div>
-  <div class="col-md-6 col-sm-6 form-group">
+  <div class="col-md-4 col-sm-4 form-group">
+    <label>Region</label>
+    <select class="shadow-none form-control">
+      <option [ngValue]="null" selected></option>
+      <option *ngFor="let region of regions" [value]="region?.regionName"></option>
+    </select>
+  </div>
+  <div class="col-md-4 col-sm-4 form-group">
     <label>{{ 'personal-info.pop-up-city' | translate }}</label>
     <select formControlName="city" class="shadow-none form-control">
       <option [ngValue]="null" selected disabled hidden>{{ 'personal-info.pop-up-city' | translate }}</option>
       <option *ngFor="let city of cities" [value]="city.cityName">{{ 'personal-info.pop-up-city-name' | translate }}</option>
     </select>
   </div>
-  <div class="col-md-6 col-sm-6 form-group">
+  <div class="col-md-4 col-sm-4 form-group">
     <label>{{ 'personal-info.pop-up-district' | translate }}</label>
     <select formControlName="district" class="shadow-none form-control" [attr.disabled]="districtDisabled ? true : null">
       <option selected disabled hidden>{{ 'personal-info.pop-up-enter-you-location' | translate }}</option>

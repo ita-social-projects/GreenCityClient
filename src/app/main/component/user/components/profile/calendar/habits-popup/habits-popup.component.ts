@@ -109,7 +109,6 @@ export class HabitsPopupComponent implements OnInit, OnDestroy {
     }
     this.sortByDueDate();
     this.habitAssignService.mapOfArrayOfAllDate.set(id, this.arrayOfDay);
-    console.log(this.habitAssignService.mapOfArrayOfAllDate);
     this.currentDate = new Date();
     for (const value of this.arrayOfDay) {
       if (this.currentDate.getDate() !== value.getDate()) {

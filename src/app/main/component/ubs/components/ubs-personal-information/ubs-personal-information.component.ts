@@ -28,6 +28,10 @@ export class UBSPersonalInformationComponent extends FormBaseComponent implement
   phoneMask = '+{38} (000) 000 00 00';
   firstOrder = true;
   anotherClient = false;
+  currentLocation = {};
+  currentLocationId: number;
+  locations = [];
+  currentLanguage: string;
   private destroy: Subject<boolean> = new Subject<boolean>();
   private personalDataFormValidators: ValidatorFn[] = [
     Validators.required,
@@ -63,6 +67,18 @@ export class UBSPersonalInformationComponent extends FormBaseComponent implement
 
   ngOnInit() {
     this.takeUserData();
+    this.orderService.locationSub.subscribe((data) => {
+      this.currentLocation = data;
+    });
+    this.orderService.currentAddress.subscribe((data: Address) => {
+      if (data && data.city === this.currentLocation) {
+        this.personalDataForm.controls.address.setValue(data);
+        this.personalDataForm.controls.addressComment.setValue(data.addressComment);
+      } else {
+        this.personalDataForm.controls.address.setValue({});
+        this.personalDataForm.controls.addressComment.setValue('');
+      }
+    });
   }
 
   ngOnChanges(changes: SimpleChanges) {
@@ -72,17 +88,18 @@ export class UBSPersonalInformationComponent extends FormBaseComponent implement
     }
   }
 
-  findAllAddresses() {
+  findAllAddresses(isCheck: boolean) {
     this.orderService
       .findAllAddresses()
       .pipe(takeUntil(this.destroy))
       .subscribe((list) => {
         this.addresses = this.getLastAddresses(list.addressList);
+        localStorage.setItem('addresses', JSON.stringify(this.addresses));
         this.personalDataForm.patchValue({
           address: this.addresses
         });
 
-        if (this.addresses[0] && this.addresses) {
+        if (this.addresses[0] && isCheck) {
           this.checkAddress(this.addresses[0].id);
         }
       });
@@ -120,7 +137,7 @@ export class UBSPersonalInformationComponent extends FormBaseComponent implement
       .subscribe((personalData: PersonalData) => {
         this.personalData = this.shareFormService.personalData;
         this.setFormData();
-        this.findAllAddresses();
+        this.findAllAddresses(true);
       });
   }
 
@@ -128,6 +145,9 @@ export class UBSPersonalInformationComponent extends FormBaseComponent implement
     this.addresses.forEach((address) => {
       if ((address.id !== addressId && address.actual) || (address.id === addressId && !address.actual)) {
         address.actual = !address.actual;
+      }
+      if (address.actual) {
+        this.orderService.setCurrentAddress(address);
       }
     });
 
@@ -152,7 +172,7 @@ export class UBSPersonalInformationComponent extends FormBaseComponent implement
       lastName: this.personalData.lastName,
       email: this.personalData.email,
       phoneNumber: '380' + this.personalData.phoneNumber,
-      addressComment: this.personalData.addressComment
+      addressComment: this.addresses.length > 0 ? this.personalData.addressComment : ''
     });
   }
 
@@ -227,13 +247,13 @@ export class UBSPersonalInformationComponent extends FormBaseComponent implement
     if (isEdit) {
       dialogConfig.data.address = currentAddress;
     } else {
-      dialogConfig.data.address = this.addresses[0]?.id || {};
+      dialogConfig.data.address = {};
     }
     const dialogRef = this.dialog.open(UBSAddAddressPopUpComponent, dialogConfig);
     dialogRef
       .afterClosed()
       .pipe(takeUntil(this.destroy))
-      .subscribe(() => this.findAllAddresses());
+      .subscribe(() => this.findAllAddresses(false));
   }
 
   getFormValues(): boolean {
@@ -272,5 +292,17 @@ export class UBSPersonalInformationComponent extends FormBaseComponent implement
       this.shareFormService.orderDetails.pointsToUse
     );
     this.orderService.setOrder(this.order);
+  }
+
+  changeAddressComment() {
+    this.addresses.forEach((address) => {
+      if (address.actual) {
+        address.addressComment = this.personalDataForm.controls.addressComment.value;
+        this.orderService.addAdress(address).subscribe(() => {
+          this.orderService.setCurrentAddress(address);
+          this.findAllAddresses(false);
+        });
+      }
+    });
   }
 }

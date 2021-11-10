@@ -19,6 +19,7 @@ export class UBSAddAddressPopUpComponent implements OnInit, OnDestroy {
   address: Address;
   updatedAddresses: Address[];
   addAddressForm: FormGroup;
+  newAddress: Address;
   region = '';
   districtDisabled = true;
   nextDisabled = true;
@@ -30,7 +31,7 @@ export class UBSAddAddressPopUpComponent implements OnInit, OnDestroy {
   private destroy: Subject<boolean> = new Subject<boolean>();
 
   cities = [
-    { cityName: 'Kiev', northLat: 50.59079800991073, southLat: 50.21327301525928, eastLng: 30.82594104187906, westLng: 30.23944009690609 }
+    { cityName: 'Kyiv', northLat: 50.59079800991073, southLat: 50.21327301525928, eastLng: 30.82594104187906, westLng: 30.23944009690609 }
   ];
 
   regions = [
@@ -187,6 +188,8 @@ export class UBSAddAddressPopUpComponent implements OnInit, OnDestroy {
         })
       )
       .subscribe((list: Address[]) => {
+        this.orderService.setCurrentAddress(this.addAddressForm.value);
+
         this.updatedAddresses = list;
         this.dialogRef.close();
         this.isDisabled = false;
