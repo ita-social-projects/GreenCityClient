@@ -1,6 +1,6 @@
 import { HttpClientTestingModule, HttpTestingController } from '@angular/common/http/testing';
-import { TestBed } from '@angular/core/testing';
 import { AdminCustomersService } from './admin-customers.service';
+import { TestBed } from '@angular/core/testing';
 
 describe('AdminCertificateService', () => {
   let httpMock: HttpTestingController;
