@@ -99,10 +99,11 @@ export class UBSOrderDetailsComponent extends FormBaseComponent implements OnIni
       this.currentLanguage = this.localStorageService.getCurrentLanguage();
       this.locations = this.shareFormService.locations;
       this.selectedLocationId = locationId;
-      this.saveLocation();
+      this.saveLocation(false);
     } else {
       this.openLocationDialog();
     }
+    localStorage.removeItem('UBSorderData');
     this.orderService.locationSubject.pipe(takeUntil(this.destroy)).subscribe(() => {
       this.takeOrderData();
       this.subscribeToLangChange();
@@ -112,7 +113,7 @@ export class UBSOrderDetailsComponent extends FormBaseComponent implements OnIni
     });
   }
 
-  saveLocation() {
+  saveLocation(isCheck: boolean) {
     this.isFetching = true;
     const selectedLocation = { locationId: this.selectedLocationId };
     this.orderService
@@ -122,8 +123,12 @@ export class UBSOrderDetailsComponent extends FormBaseComponent implements OnIni
         this.setCurrentLocation(this.currentLanguage);
         this.isFetching = false;
         this.changeLocation = false;
+        this.orderService.setLocationData(this.currentLocation);
         this.orderService.completedLocation(true);
         this.localStorageService.setLocationId(this.selectedLocationId);
+        if (isCheck) {
+          this.orderService.setCurrentAddress(JSON.parse(localStorage.getItem('addresses'))[0]);
+        }
       });
   }
 
@@ -214,8 +219,8 @@ export class UBSOrderDetailsComponent extends FormBaseComponent implements OnIni
         this.certificateLeft = orderData.points;
         this.bags.forEach((bag) => {
           bag.quantity = bag.quantity === undefined ? null : bag.quantity;
-          this.orderDetailsForm.addControl('quantity' + String(bag.id), new FormControl(0, [Validators.min(0), Validators.max(999)]));
-          const quantity = bag.quantity === null ? 0 : +bag.quantity;
+          this.orderDetailsForm.addControl('quantity' + String(bag.id), new FormControl('', [Validators.min(0), Validators.max(999)]));
+          const quantity = bag.quantity === null ? '' : +bag.quantity;
           const valueName = 'quantity' + String(bag.id);
           this.orderDetailsForm.controls[valueName].setValue(quantity);
         });
@@ -343,7 +348,7 @@ export class UBSOrderDetailsComponent extends FormBaseComponent implements OnIni
     this.ecoStoreValidation();
   }
 
-  onQuantityChange(): void {
+  onQuantityChange(id?: number): void {
     this.bags.forEach((bag) => {
       const valueName = 'quantity' + String(bag.id);
       const orderFormBagController = this.orderDetailsForm.controls[valueName];
@@ -357,6 +362,7 @@ export class UBSOrderDetailsComponent extends FormBaseComponent implements OnIni
         bag.quantity = null;
       }
     });
+    document.getElementById(`quantity${id}`).focus();
     this.checkTotalBigBags();
     this.calculateTotal();
     if (this.orderDetailsForm.controls.bonus.value === 'yes') {

@@ -101,6 +101,10 @@ h3 {
     padding-left: 6px;
     font-size: 14px;
   }
+
+  .input:focus::placeholder {
+    color: transparent;
+  }
 }
 
 .bag-quantity_placeholder {

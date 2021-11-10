@@ -67,17 +67,24 @@
     <ng-container *ngFor="let column of columns; let i = index" [matColumnDef]="column.title.key" [sticky]="column.sticky">
       <mat-header-cell *matHeaderCellDef cdkDrag cdkDragLockAxis="x" cdkDragBoundary="mat-header-row">
         <th scope="row" *ngIf="column.title.key !== 'select'" class="column_header">
-          <span class="column-title" [matTooltip]="column.title | serverTranslate: currentLang">{{
-            column.title | serverTranslate: currentLang
-          }}</span>
-          <span *ngIf="!nonSortableColumns.includes(column.title.key)">
+          <div
+            #tooltip="matTooltip"
+            class="column-title"
+            [matTooltip]="column.title | serverTranslate: currentLang"
+            (mouseenter)="$event.stopImmediatePropagation()"
+            (mouseleave)="$event.stopImmediatePropagation()"
+            (click)="showTooltip(column.title, tooltip)"
+          >
+            {{ column.title | serverTranslate: currentLang }}
+          </div>
+          <div class="icon-row" *ngIf="!nonSortableColumns.includes(column.title.key)">
             <mat-icon *ngIf="arrowDirection !== column.title.key" (click)="getSortingData(column.title.key, 'ASC')">
               arrow_downward
             </mat-icon>
             <mat-icon *ngIf="arrowDirection === column.title.key" (click)="getSortingData(column.title.key, 'DESC')">
               arrow_upward
             </mat-icon>
-          </span>
+          </div>
         </th>
         <th scope="row" *ngIf="column.title.key === 'select'" [ngStyle]="{ backgroundColor: '#fff', height: '16px', padding: '0px' }">
           <mat-checkbox
