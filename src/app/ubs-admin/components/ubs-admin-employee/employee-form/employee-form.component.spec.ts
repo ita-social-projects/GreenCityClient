@@ -150,4 +150,15 @@ describe('EmployeeFormComponent', () => {
       '{"firstName":"fake","lastName":"fake","phoneNumber":"fake","email":"fake","employeePositions":["fake"],"receivingStations":["fake"],"id":123}';
     expect(res.get('fakeDto')).toBe(expectedAnswer);
   });
+
+  it('should remove image', () => {
+    component.imageURL = 'fake';
+    component.imageName = 'fake';
+    component.selectedFile = 'fake';
+    component.removeImage();
+
+    expect(component.imageURL).toBe(null);
+    expect(component.imageName).toBe(null);
+    expect(component.selectedFile).toBe(null);
+  });
 });
