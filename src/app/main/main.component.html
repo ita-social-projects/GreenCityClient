@@ -1,7 +1,9 @@
 <div class="app-wrapper">
   <div class="skip-container">
-    <span #focusFirst tabindex="-1">:</span>
-    <a class="skip" (click)="skipFocus()" pageScroll href="#main-content">skip to main content</a>
+    <span #focusFirst tabindex="-1"></span>
+    <a class="skip" (click)="skipFocus()" pageScroll href=".main-content">
+      {{ 'accessibility.skip-to-the-main-content' | translate }}
+    </a>
   </div>
   <app-header></app-header>
   <app-search-popup></app-search-popup>
