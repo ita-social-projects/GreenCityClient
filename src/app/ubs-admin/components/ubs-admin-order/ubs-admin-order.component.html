@@ -26,7 +26,7 @@
         {{ 'order-edit.btn.back' | translate }}
       </button>
       <div class="controls">
-        <button class="cancel-button" (click)="openCancelModal()" [disabled]="!orderForm.touched">
+        <button type="reset" class="cancel-button" (click)="$event.preventDefault(); openCancelModal()" [disabled]="!orderForm.touched">
           {{ 'order-edit.btn.cancel' | translate }}
         </button>
         <button type="submit" class="save-button" [disabled]="!orderForm.touched || !orderForm.valid">
