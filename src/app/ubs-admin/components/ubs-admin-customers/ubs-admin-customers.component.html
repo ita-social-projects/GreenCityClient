@@ -183,7 +183,7 @@
     <mat-row *matRowDef="let row; columns: displayedColumns"></mat-row>
   </mat-table>
   <app-spinner *ngIf="isLoading || isUpdate"></app-spinner>
-  <div class="nothing-found" *ngIf="totalElements || hasChange">
+  <div class="nothing-found" *ngIf="!totalElements && hasChange">
     <p>{{ 'ubs-customer-filters.nothing-found' | translate }}</p>
   </div>
 </div>
