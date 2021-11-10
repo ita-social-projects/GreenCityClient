@@ -1,6 +1,6 @@
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
-import { FormBuilder } from '@angular/forms';
+import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
 import { MatDialogModule, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { TranslateModule } from '@ngx-translate/core';
 import { of } from 'rxjs';
@@ -38,6 +38,15 @@ describe('EmployeeFormComponent', () => {
     receivingStations: mockedReceivingStations
   };
   const mockedDto = 'employeeDto';
+  const employeeService = 'employeeService';
+  const fakeEmployeePositions = ['fake'];
+  const fakeReceivingStations = ['fake'];
+  const fakeEmployeeForm = new FormGroup({
+    firstName: new FormControl('fake'),
+    lastName: new FormControl('fake'),
+    phoneNumber: new FormControl('fake'),
+    email: new FormControl('fake')
+  });
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
@@ -117,17 +126,28 @@ describe('EmployeeFormComponent', () => {
   it('updateEmployee method should close dialogRef when EmployeeService has sent a response', () => {
     component.selectedFile = false;
     spyOn(component, 'prepareEmployeeDataToSend').and.returnValue(new FormData());
-    // @ts-ignore
-    spyOn(component.employeeService, 'updateEmployee').and.returnValue(of(true));
+    spyOn(component[employeeService], 'updateEmployee').and.returnValue(of(true));
     component.updateEmployee();
     expect(matDialogRefMock.close).toHaveBeenCalled();
   });
 
   it('createEmployee method should close dialogRef when EmployeeService has sent a response', () => {
     spyOn(component, 'prepareEmployeeDataToSend').and.returnValue(new FormData());
-    // @ts-ignore
-    spyOn(component.employeeService, 'postEmployee').and.returnValue(of(true));
+    spyOn(component[employeeService], 'postEmployee').and.returnValue(of(true));
     component.createEmployee();
     expect(matDialogRefMock.close).toHaveBeenCalled();
+  });
+
+  it('prepareEmployeeDataToSend should send formData', () => {
+    component.employeeForm = fakeEmployeeForm;
+    component.employeePositions = fakeEmployeePositions;
+    component.receivingStations = fakeReceivingStations;
+    component.selectedFile = false;
+    component.data.id = 123;
+
+    const res = component.prepareEmployeeDataToSend('fakeDto');
+    const expectedAnswer =
+      '{"firstName":"fake","lastName":"fake","phoneNumber":"fake","email":"fake","employeePositions":["fake"],"receivingStations":["fake"],"id":123}';
+    expect(res.get('fakeDto')).toBe(expectedAnswer);
   });
 });
