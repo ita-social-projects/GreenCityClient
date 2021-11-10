@@ -9,4 +9,11 @@ export class TableCellReadonlyComponent {
   @Input() title;
   @Input() lang;
   @Input() date;
+
+  showTooltip(title: any, tooltip: any) {
+    const lengthStr = title.split('').length;
+    if (lengthStr > 22) {
+      tooltip.toggle();
+    }
+  }
 }

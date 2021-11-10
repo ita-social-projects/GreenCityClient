@@ -14,11 +14,12 @@ import { OrderService } from '../../../services/order.service';
 })
 export class UbsOrderLocationPopupComponent implements OnInit, OnDestroy {
   closeButton = './assets/img/profile/icons/cancel.svg';
-  public locations: Locations;
+  public locations: Locations[];
   public selectedLocationId: number;
   public isFetching = false;
   private currentLanguage: string;
   private destroy$: Subject<boolean> = new Subject<boolean>();
+  public currentLocation: string;
 
   constructor(
     private router: Router,
@@ -37,12 +38,16 @@ export class UbsOrderLocationPopupComponent implements OnInit, OnDestroy {
     this.router.navigate(['ubs']);
   }
 
+  private setCurrentLocation(currentLanguage: string): void {
+    this.currentLocation = this.locations.find((loc) => loc.id === this.selectedLocationId && loc.languageCode === currentLanguage).name;
+  }
+
   getLocations() {
     this.isFetching = true;
     this.orderService
       .getLocations()
       .pipe(takeUntil(this.destroy$))
-      .subscribe((res: Locations) => {
+      .subscribe((res) => {
         this.locations = res;
         this.selectedLocationId = this.locations[0].id;
         this.isFetching = false;
@@ -58,6 +63,8 @@ export class UbsOrderLocationPopupComponent implements OnInit, OnDestroy {
         this.orderService.completedLocation(true);
         this.localStorageService.setLocationId(this.selectedLocationId);
         this.localStorageService.setLocations(this.locations);
+        this.setCurrentLocation(this.currentLanguage);
+        this.orderService.setLocationData(this.currentLocation);
       });
   }
 

@@ -15,6 +15,8 @@ export class OrderService {
   private readonly orderSubject = new BehaviorSubject<Order>({} as Order);
   private url = 'https://greencity-ubs.azurewebsites.net/ubs';
   locationSubject = new Subject();
+  locationSub = new Subject();
+  currentAddress = new Subject();
 
   constructor(private http: HttpClient, private shareFormService: UBSOrderFormService, private localStorageService: LocalStorageService) {}
 
@@ -28,6 +30,14 @@ export class OrderService {
         .get<OrderDetails>(`${this.url}/order-details`)
         .pipe(tap((orderDetails) => (this.shareFormService.orderDetails = orderDetails)));
     }
+  }
+
+  setLocationData(obj) {
+    this.locationSub.next(obj);
+  }
+
+  setCurrentAddress(obj) {
+    this.currentAddress.next(obj);
   }
 
   getPersonalData(): Observable<any> {
@@ -69,8 +79,8 @@ export class OrderService {
     return this.processOrder(this.orderSubject.getValue());
   }
 
-  getLocations(): Observable<Locations> {
-    return this.http.get<Locations>(`${this.url}/order/get-locations`);
+  getLocations(): Observable<Locations[]> {
+    return this.http.get<Locations[]>(`${this.url}/order/get-locations`);
   }
 
   addLocation(location): Observable<any> {

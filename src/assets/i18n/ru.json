@@ -912,5 +912,8 @@
     "eco-news-widget": {
       "paragraph": "Может быть интересным для вас"
     }
+  },
+  "accessibility": {
+    "skip-to-the-main-content": "перейти к основному контенту"
   }
 }
