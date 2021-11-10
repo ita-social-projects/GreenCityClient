@@ -8,12 +8,10 @@ import { RouterTestingModule } from '@angular/router/testing';
 import { TestBed, ComponentFixture } from '@angular/core/testing';
 import { CUSTOM_ELEMENTS_SCHEMA, ChangeDetectorRef } from '@angular/core';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
-import { AdminCustomersService } from '../../services/admin-customers.service';
 
 describe('UbsAdminCustomersComponent', () => {
   let component: UbsAdminCustomersComponent;
   let fixture: ComponentFixture<UbsAdminCustomersComponent>;
-  let adminCustomerServiceMock: AdminCustomersService;
   let dialogMock: MatDialog;
 
   beforeEach(async () => {
