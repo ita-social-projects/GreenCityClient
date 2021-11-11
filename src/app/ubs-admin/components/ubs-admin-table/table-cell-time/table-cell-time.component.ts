@@ -82,6 +82,7 @@ export class TableCellTimeComponent implements OnInit {
     this.editTimeCell.emit(newTimeValue);
     this.isError = '';
     this.isEditable = false;
+    this.cancelEdit.emit(this.typeOfChange);
   }
 
   cancel() {
