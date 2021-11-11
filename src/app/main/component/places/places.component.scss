@@ -32,6 +32,22 @@ $cardTextColor: #1d2830;
       display: flex;
       margin-top: 26px;
     }
+
+    .choose-location-input {
+      border: 1px solid #9ca7b0;
+      border-radius: 5px;
+      padding: 10px;
+      height: 36px;
+      width: 100%;
+      font-size: 14px;
+      line-height: 20px;
+      color: var(--primary-grey);
+
+      &:focus {
+        outline: 0;
+        box-shadow: 0 0 0 0.2rem rgb(0 123 255 / 25%);
+      }
+    }
   }
 
   .places-recommendation {
