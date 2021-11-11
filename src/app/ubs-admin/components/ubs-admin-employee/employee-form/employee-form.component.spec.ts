@@ -7,7 +7,7 @@ import { of } from 'rxjs';
 
 import { EmployeeFormComponent } from './employee-form.component';
 
-describe('EmployeeFormComponent', () => {
+fdescribe('EmployeeFormComponent', () => {
   let component: EmployeeFormComponent;
   let fixture: ComponentFixture<EmployeeFormComponent>;
   const matDialogRefMock = jasmine.createSpyObj('matDialogRefMock', ['close']);
@@ -60,6 +60,7 @@ describe('EmployeeFormComponent', () => {
     fixture = TestBed.createComponent(EmployeeFormComponent);
     component = fixture.componentInstance;
     component.receivingStations = JSON.parse(JSON.stringify(mockedReceivingStations));
+    component.employeePositions = JSON.parse(JSON.stringify(mockedEmployeePositions));
     fixture.detectChanges();
   });
 
@@ -108,19 +109,28 @@ describe('EmployeeFormComponent', () => {
     const location = { id: 1, name: 'lastAddedFake' };
     component.onCheckChangeLocation(location);
     expect(component.receivingStations).toEqual([
-      {
-        id: 3,
-        name: 'fake'
-      },
-      {
-        id: 4,
-        name: 'fake'
-      },
+      ...mockedReceivingStations,
       {
         id: 1,
         name: 'lastAddedFake'
       }
     ]);
+  });
+
+  it('Role should be included', () => {
+    const isIncludeRole = component.doesIncludeRole({ id: 2 });
+    expect(isIncludeRole).toBe(true);
+  });
+
+  it('Role should be added', () => {
+    const fakeRole = { id: 3, name: 'addedFake' };
+    component.onCheckChangeRole(fakeRole);
+    expect(component.employeePositions).toEqual([...mockedEmployeePositions, fakeRole]);
+  });
+
+  it('Role should be removed', () => {
+    component.onCheckChangeRole({ id: 2 });
+    expect(component.employeePositions).toEqual([]);
   });
 
   it('updateEmployee method should close dialogRef when EmployeeService has sent a response', () => {
