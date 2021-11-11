@@ -103,15 +103,15 @@ export class UbsAdminOrderComponent implements OnInit, OnDestroy {
       })
     });
     this.orderDetails.bags.forEach((bag) => {
-      (<FormGroup>this.orderForm.get('orderDetailsForm')).addControl(
+      (this.orderForm.get('orderDetailsForm') as FormGroup).addControl(
         'plannedQuantity' + String(bag.id),
         new FormControl(bag.planned, [Validators.min(0), Validators.max(999)])
       );
-      (<FormGroup>this.orderForm.get('orderDetailsForm')).addControl(
+      (this.orderForm.get('orderDetailsForm') as FormGroup).addControl(
         'confirmedQuantity' + String(bag.id),
         new FormControl(bag.confirmed, [Validators.min(0), Validators.max(999)])
       );
-      (<FormGroup>this.orderForm.get('orderDetailsForm')).addControl(
+      (this.orderForm.get('orderDetailsForm') as FormGroup).addControl(
         'actualQuantity' + String(bag.id),
         new FormControl(bag.actual, [Validators.min(0), Validators.max(999)])
       );
