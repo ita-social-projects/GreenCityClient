@@ -144,7 +144,6 @@ export class UbsAdminOrderComponent implements OnInit, OnDestroy {
 
   onChangedOrderStatus(status) {
     this.currentOrderStatus = status;
-    console.log('DONE');
   }
 
   resetForm() {
