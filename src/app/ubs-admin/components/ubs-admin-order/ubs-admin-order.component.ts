@@ -3,7 +3,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { Router } from '@angular/router';
 import { UbsAdminCancelModalComponent } from '../ubs-admin-cancel-modal/ubs-admin-cancel-modal.component';
 import { UbsAdminGoBackModalComponent } from '../ubs-admin-go-back-modal/ubs-admin-go-back-modal.component';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { take, takeUntil } from 'rxjs/operators';
 import { OrderService } from '../../services/order.service';
 import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
@@ -37,7 +37,6 @@ export class UbsAdminOrderComponent implements OnInit, OnDestroy {
     });
     this.order = this.orderService.getSelectedOrder();
     this.orderService.setSelectedOrderStatus(this.order.orderStatus);
-    this.initForm();
     this.getOrderInfo(this.order.id, this.currentLanguage);
   }
 
@@ -57,6 +56,7 @@ export class UbsAdminOrderComponent implements OnInit, OnDestroy {
         };
         this.orderDetails.bonuses = data.orderBonusDiscount;
         this.orderDetails.certificateDiscount = data.orderCertificateTotalDiscount;
+        this.initForm();
       });
   }
 
@@ -94,7 +94,27 @@ export class UbsAdminOrderComponent implements OnInit, OnDestroy {
         logistician: this.order.responsibleLogicMan,
         navigator: this.order.responsibleNavigator,
         driver: this.order.responsibleDriver
+      }),
+      orderDetailsForm: this.fb.group({
+        // TODO: set data after receiving from backend
+        storeOrderNumber: '',
+        certificate: '',
+        customerComment: ''
       })
+    });
+    this.orderDetails.bags.forEach((bag) => {
+      (<FormGroup>this.orderForm.get('orderDetailsForm')).addControl(
+        'plannedQuantity' + String(bag.id),
+        new FormControl(bag.planned, [Validators.min(0), Validators.max(999)])
+      );
+      (<FormGroup>this.orderForm.get('orderDetailsForm')).addControl(
+        'confirmedQuantity' + String(bag.id),
+        new FormControl(bag.confirmed, [Validators.min(0), Validators.max(999)])
+      );
+      (<FormGroup>this.orderForm.get('orderDetailsForm')).addControl(
+        'actualQuantity' + String(bag.id),
+        new FormControl(bag.actual, [Validators.min(0), Validators.max(999)])
+      );
     });
   }
 

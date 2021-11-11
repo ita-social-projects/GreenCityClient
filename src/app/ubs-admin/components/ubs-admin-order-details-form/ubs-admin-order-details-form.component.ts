@@ -34,22 +34,21 @@ export class UbsAdminOrderDetailsFormComponent implements OnInit, OnDestroy {
     bonuses: 0,
     certificateDiscount: 0
   };
-  public orderDetailsForm: FormGroup;
   private destroy$: Subject<boolean> = new Subject<boolean>();
   public currentLanguage: string;
   public minOrderSum = 500;
   pageOpen: boolean;
   @Input() orderDetails;
+  @Input() orderDetailsForm: FormGroup;
 
   constructor(private fb: FormBuilder, private orderService: OrderService) {}
 
   ngOnInit(): void {
-    // change this mock after receiving bags names from backend
+    // TODO: change this mock after receiving bags names from backend
     this.orderDetails.bags[0].name = 'Безнадійний одяг';
     this.orderDetails.bags[1].name = 'Безнадійний одяг';
     this.orderDetails.bags[2].name = 'Вторсировина';
     //
-    this.initForm();
     this.orderService
       .getSelectedOrderStatus()
       .pipe(takeUntil(this.destroy$))
@@ -97,28 +96,6 @@ export class UbsAdminOrderDetailsFormComponent implements OnInit, OnDestroy {
 
   openDetails() {
     this.pageOpen = !this.pageOpen;
-  }
-
-  public initForm(): void {
-    this.orderDetailsForm = this.fb.group({
-      storeOrderNumber: new FormControl('', [Validators.minLength(8)]),
-      certificate: new FormControl('', [Validators.minLength(8)]),
-      customerComment: new FormControl('')
-    });
-    this.orderDetails.bags.forEach((bag) => {
-      this.orderDetailsForm.addControl(
-        'plannedQuantity' + String(bag.id),
-        new FormControl(bag.planned, [Validators.min(0), Validators.max(999)])
-      );
-      this.orderDetailsForm.addControl(
-        'confirmedQuantity' + String(bag.id),
-        new FormControl(bag.confirmed, [Validators.min(0), Validators.max(999)])
-      );
-      this.orderDetailsForm.addControl(
-        'actualQuantity' + String(bag.id),
-        new FormControl(bag.actual, [Validators.min(0), Validators.max(999)])
-      );
-    });
   }
 
   public onQuantityChange(e) {
