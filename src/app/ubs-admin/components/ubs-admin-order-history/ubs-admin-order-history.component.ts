@@ -16,12 +16,6 @@ export class UbsAdminOrderHistoryComponent implements OnInit, OnDestroy {
   private destroy$: Subject<boolean> = new Subject<boolean>();
   pageOpen: boolean;
   orderHistory: IOrderHistory[];
-  testHistory: IOrderHistory = {
-    authorName: 'someNewValue',
-    eventDate: new Date().toString(),
-    eventName: ' Lorem ipsum dolor sit amet, consectetur adipisci elit, sed eiusmod tempor incidunt ut labore et dolore magna aliqua.',
-    id: 777
-  };
 
   constructor(private orderService: OrderService) {}
 
@@ -44,7 +38,6 @@ export class UbsAdminOrderHistoryComponent implements OnInit, OnDestroy {
       .getOrderHistory(orderId)
       .pipe(takeUntil(this.destroy$))
       .subscribe((data: IOrderHistory[]) => {
-        data.push(this.testHistory);
         this.orderHistory = data;
       });
   }
