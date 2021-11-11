@@ -158,9 +158,16 @@ describe('EmployeeFormComponent', () => {
     component.data.id = 123;
 
     const res = component.prepareEmployeeDataToSend('fakeDto');
-    const expectedAnswer =
-      '{"firstName":"fake","lastName":"fake","phoneNumber":"fake","email":"fake","employeePositions":["fake"],"receivingStations":["fake"],"id":123}';
-    expect(res.get('fakeDto')).toBe(expectedAnswer);
+    const expectedAnswer = {
+      firstName: 'fake',
+      lastName: 'fake',
+      phoneNumber: 'fake',
+      email: 'fake',
+      employeePositions: ['fake'],
+      receivingStations: ['fake'],
+      id: 123
+    };
+    expect(JSON.parse(res.get('fakeDto') as string)).toEqual(expectedAnswer);
   });
 
   it('should remove image', () => {
