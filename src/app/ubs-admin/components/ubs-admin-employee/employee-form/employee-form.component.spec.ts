@@ -8,7 +8,6 @@ import { of } from 'rxjs';
 import { EmployeeFormComponent } from './employee-form.component';
 
 describe('EmployeeFormComponent', () => {
-  let reader: FileReader;
   let component: EmployeeFormComponent;
   let fixture: ComponentFixture<EmployeeFormComponent>;
   const matDialogRefMock = jasmine.createSpyObj('matDialogRefMock', ['close']);
@@ -40,6 +39,7 @@ describe('EmployeeFormComponent', () => {
   };
   const mockedDto = 'employeeDto';
   const employeeService = 'employeeService';
+  const transferFile = 'transferFile';
   const fakeEmployeePositions = ['fake'];
   const fakeReceivingStations = ['fake'];
   const fakeEmployeeForm = new FormGroup({
@@ -183,16 +183,14 @@ describe('EmployeeFormComponent', () => {
   it('File should be transfered', () => {
     component.imageName = 'fake';
     spyOn(EmployeeFormComponent.prototype as any, 'showWarning').and.returnValue(false);
-    // @ts-ignore
-    component.transferFile(dataFileMock);
+    component[transferFile](dataFileMock);
     expect(component.imageName).toBe('test-file.jpeg');
   });
 
   it('File should not be transfered', () => {
     component.imageName = 'fake';
     spyOn(EmployeeFormComponent.prototype as any, 'showWarning').and.returnValue(true);
-    // @ts-ignore
-    component.transferFile(dataFileMock);
+    component[transferFile](dataFileMock);
     expect(component.imageName).toBe('fake');
   });
 });
