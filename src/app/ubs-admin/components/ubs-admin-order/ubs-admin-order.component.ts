@@ -98,20 +98,20 @@ export class UbsAdminOrderComponent implements OnInit, OnDestroy {
       orderDetailsForm: this.fb.group({
         // TODO: set data after receiving from backend
         storeOrderNumber: '',
-        certificate: '',
+        certificate: '2222-2222',
         customerComment: ''
       })
     });
     this.orderDetails.bags.forEach((bag) => {
-      (this.orderForm.get('orderDetailsForm') as FormGroup).addControl(
+      this.getFormGroup('orderDetailsForm').addControl(
         'plannedQuantity' + String(bag.id),
         new FormControl(bag.planned, [Validators.min(0), Validators.max(999)])
       );
-      (this.orderForm.get('orderDetailsForm') as FormGroup).addControl(
+      this.getFormGroup('orderDetailsForm').addControl(
         'confirmedQuantity' + String(bag.id),
         new FormControl(bag.confirmed, [Validators.min(0), Validators.max(999)])
       );
-      (this.orderForm.get('orderDetailsForm') as FormGroup).addControl(
+      this.getFormGroup('orderDetailsForm').addControl(
         'actualQuantity' + String(bag.id),
         new FormControl(bag.actual, [Validators.min(0), Validators.max(999)])
       );

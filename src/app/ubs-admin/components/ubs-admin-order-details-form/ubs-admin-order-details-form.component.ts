@@ -98,17 +98,16 @@ export class UbsAdminOrderDetailsFormComponent implements OnInit, OnDestroy {
     this.pageOpen = !this.pageOpen;
   }
 
-  public onQuantityChange(e) {
-    let field = e.target.getAttribute('ng-reflect-name');
-    const bagId = field.replace(/\D/g, '');
-    field = field.replace(/quantity[0-9]/i, '');
+  public onQuantityChange(e, bagId) {
+    const field = e.target.getAttribute('ng-reflect-name');
+    const bagType = field.replace(/quantity[0-9]/i, '');
     this.orderDetails.bags.forEach((bag) => {
       if (bag.id === Number(bagId)) {
-        bag[field] = e.target.value;
-        this.orderInfo.sum[field] = this.orderInfo.amount[field] = 0;
+        bag[bagType] = this.orderDetailsForm.get(field).value;
+        this.orderInfo.sum[bagType] = this.orderInfo.amount[bagType] = 0;
         this.orderDetails.bags.forEach((bagObj) => {
-          this.orderInfo.sum[field] += bagObj[field] * bagObj.price;
-          this.orderInfo.amount[field] += +bagObj[field];
+          this.orderInfo.sum[bagType] += bagObj[bagType] * bagObj.price;
+          this.orderInfo.amount[bagType] += +bagObj[bagType];
         });
         this.calculateFinalSum();
       }

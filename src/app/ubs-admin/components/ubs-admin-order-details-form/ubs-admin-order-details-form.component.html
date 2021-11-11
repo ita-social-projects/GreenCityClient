@@ -28,7 +28,7 @@
                 min="0"
                 max="999"
                 formControlName="plannedQuantity{{ bag.id }}"
-                [attr.disabled]="true"
+                disabled
               />
             </div>
             <div class="col-sm-2 d-flex justify-content-center form-group count">
@@ -39,7 +39,7 @@
                 max="999"
                 formControlName="confirmedQuantity{{ bag.id }}"
                 [attr.disabled]="isVisible ? true : null"
-                (change)="onQuantityChange($event)"
+                (change)="onQuantityChange($event, bag.id)"
               />
             </div>
             <div class="col-sm-2 d-flex justify-content-center form-group count" *ngIf="isVisible">
@@ -49,7 +49,7 @@
                 min="0"
                 max="999"
                 formControlName="actualQuantity{{ bag.id }}"
-                (change)="onQuantityChange($event)"
+                (change)="onQuantityChange($event, bag.id)"
               />
             </div>
           </li>
@@ -120,7 +120,7 @@
             <label class="form__label py-2" for="cert-num">
               {{ 'order-details.certificate-number-label' | translate }}
             </label>
-            <input class="form-control" type="text" id="cert-num" placeholder="XXXX-XXXX" formControlName="certificate" disabled />
+            <input class="form-control" type="text" id="cert-num" placeholder="XXXX-XXXX" formControlName="certificate" />
           </div>
           <div class="form-group">
             <label class="form__label py-2" for="order-num">
@@ -138,6 +138,7 @@
             formControlName="customerComment"
             placeholder="{{ 'order-details.client-comment.placeholder' | translate }}"
             id="customer-comment"
+            disabled
           >
           </textarea>
         </div>
