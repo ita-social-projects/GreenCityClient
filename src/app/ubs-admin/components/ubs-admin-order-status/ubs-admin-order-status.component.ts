@@ -15,10 +15,6 @@ export class UbsAdminOrderStatusComponent implements OnDestroy {
   constructor(public orderService: OrderService) {}
   private destroy$: Subject<boolean> = new Subject<boolean>();
 
-  onChangedOrderStatus(statusName) {
-    this.orderService.setSelectedOrderStatus(statusName);
-  }
-
   ngOnDestroy(): void {
     this.destroy$.next();
     this.destroy$.complete();
