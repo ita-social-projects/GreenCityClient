@@ -7,7 +7,8 @@ import { of } from 'rxjs';
 
 import { EmployeeFormComponent } from './employee-form.component';
 
-fdescribe('EmployeeFormComponent', () => {
+describe('EmployeeFormComponent', () => {
+  let reader: FileReader;
   let component: EmployeeFormComponent;
   let fixture: ComponentFixture<EmployeeFormComponent>;
   const matDialogRefMock = jasmine.createSpyObj('matDialogRefMock', ['close']);
@@ -47,6 +48,7 @@ fdescribe('EmployeeFormComponent', () => {
     phoneNumber: new FormControl('fake'),
     email: new FormControl('fake')
   });
+  const dataFileMock = new File([''], 'test-file.jpeg');
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
@@ -170,5 +172,27 @@ fdescribe('EmployeeFormComponent', () => {
     expect(component.imageURL).toBe(null);
     expect(component.imageName).toBe(null);
     expect(component.selectedFile).toBe(null);
+  });
+
+  it('filesDropped should be called', () => {
+    const filesDroppedMock = spyOn(component, 'filesDropped');
+    component.filesDropped(dataFileMock);
+    expect(filesDroppedMock).toHaveBeenCalledWith(dataFileMock);
+  });
+
+  it('File should be transfered', () => {
+    component.imageName = 'fake';
+    spyOn(EmployeeFormComponent.prototype as any, 'showWarning').and.returnValue(false);
+    // @ts-ignore
+    component.transferFile(dataFileMock);
+    expect(component.imageName).toBe('test-file.jpeg');
+  });
+
+  it('File should not be transfered', () => {
+    component.imageName = 'fake';
+    spyOn(EmployeeFormComponent.prototype as any, 'showWarning').and.returnValue(true);
+    // @ts-ignore
+    component.transferFile(dataFileMock);
+    expect(component.imageName).toBe('fake');
   });
 });
