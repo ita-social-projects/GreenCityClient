@@ -2,13 +2,15 @@ import { Component, Input, OnDestroy, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { Router } from '@angular/router';
 import { MatDialog } from '@angular/material/dialog';
-import { FormBaseComponent } from '@shared/components/form-base/form-base.component';
+import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
 import { Subject } from 'rxjs';
 import { finalize, takeUntil } from 'rxjs/operators';
+import { FormBaseComponent } from '@shared/components/form-base/form-base.component';
 import { Bag, OrderBag, OrderDetails, OrderDetailsNotification, PersonalData } from '../../models/ubs.interface';
 import { UBSOrderFormService } from '../../services/ubs-order-form.service';
 import { OrderService } from '../../services/order.service';
 import { Order } from '../../models/ubs.model';
+import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
 
 @Component({
   selector: 'app-ubs-submit-order',
@@ -17,13 +19,14 @@ import { Order } from '../../models/ubs.model';
 })
 export class UBSSubmitOrderComponent extends FormBaseComponent implements OnInit, OnDestroy {
   paymentForm: FormGroup = this.fb.group({});
+  liqPayButtonForm: SafeHtml;
+  liqPayButton: NodeListOf<HTMLElement>;
+  isLiqPay = false;
   order: Order;
   addressId: number;
   bags: Bag[] = [];
-  response: any;
   loadingAnim: boolean;
   selectedPayment: string;
-  isLiqPay = false;
   additionalOrders: any;
   personalData: PersonalData;
   orderDetails: OrderDetails | null;
@@ -53,6 +56,8 @@ export class UBSSubmitOrderComponent extends FormBaseComponent implements OnInit
     private orderService: OrderService,
     private shareFormService: UBSOrderFormService,
     public ubsOrderFormService: UBSOrderFormService,
+    private localStorageService: LocalStorageService,
+    private sanitizer: DomSanitizer,
     private fb: FormBuilder,
     router: Router,
     dialog: MatDialog
@@ -149,44 +154,59 @@ export class UBSSubmitOrderComponent extends FormBaseComponent implements OnInit
   redirectToOrder() {
     this.loadingAnim = true;
 
-    this.orderService
-      .getOrderUrl()
-      .pipe(takeUntil(this.destroy))
-      .pipe(
-        finalize(() => {
-          this.loadingAnim = false;
-          this.shareFormService.isDataSaved = false;
-          if (!this.shareFormService.orderUrl) {
-            this.router.navigate(['ubs', 'confirm']);
+    if (this.isFinalSumZero) {
+      this.isLiqPay = false;
+    }
+
+    if (!this.isLiqPay) {
+      this.localStorageService.removeUbsOrderId();
+      this.orderService
+        .getOrderUrl()
+        .pipe(takeUntil(this.destroy))
+        .pipe(
+          finalize(() => {
+            this.loadingAnim = false;
+            this.shareFormService.isDataSaved = false;
+            if (!this.shareFormService.orderUrl) {
+              this.router.navigate(['ubs', 'confirm']);
+            }
+          })
+        )
+        .subscribe(
+          (response) => {
+            this.shareFormService.orderUrl = '';
+            this.localStorageService.removeUbsOrderId();
+            if (this.isFinalSumZero && !this.isTotalAmountZero) {
+              this.ubsOrderFormService.transferOrderId(response);
+              this.ubsOrderFormService.setOrderResponseErrorStatus(false);
+              this.ubsOrderFormService.setOrderStatus(true);
+            } else {
+              this.shareFormService.orderUrl = response.toString();
+              document.location.href = this.shareFormService.orderUrl;
+            }
+          },
+          (error) => {
+            this.loadingAnim = false;
           }
-        })
-      )
-      .subscribe(
-        (response) => {
-          this.shareFormService.orderUrl = '';
-          if (this.isFinalSumZero && !this.isTotalAmountZero) {
-            this.ubsOrderFormService.transferOrderId(response);
-            this.ubsOrderFormService.setOrderResponseErrorStatus(false);
-            this.ubsOrderFormService.setOrderStatus(true);
-          } else {
-            this.shareFormService.orderUrl = response.toString();
-            document.location.href = this.shareFormService.orderUrl;
-          }
-        },
-        (error) => {
-          this.loadingAnim = false;
-        }
-      );
+        );
+    } else {
+      this.onNotSaveData();
+    }
   }
 
   getLiqPayButton() {
+    this.loadingAnim = true;
     this.orderService
       .getLiqPayForm()
       .pipe(takeUntil(this.destroy))
-      .subscribe((liqPayButton) => {
-        this.response = liqPayButton;
-        const responseForm = document.getElementById('liqPayButton');
-        responseForm.innerHTML = this.response;
+      .subscribe((res) => {
+        const { orderId, liqPayButton } = JSON.parse(res);
+        this.localStorageService.setUbsOrderId(orderId);
+        this.liqPayButtonForm = this.sanitizer.bypassSecurityTrustHtml(liqPayButton);
+        setTimeout(() => {
+          this.liqPayButton = document.getElementsByName('btn_text');
+          this.loadingAnim = false;
+        }, 0);
       });
   }
 
@@ -196,11 +216,13 @@ export class UBSSubmitOrderComponent extends FormBaseComponent implements OnInit
       this.isLiqPay = true;
       this.getLiqPayButton();
     } else {
+      this.loadingAnim = false;
       this.isLiqPay = false;
     }
   }
 
   onNotSaveData() {
     this.shareFormService.isDataSaved = true;
+    this.liqPayButton[0].click();
   }
 }

@@ -2,7 +2,7 @@ import { LocalStorageService } from '@global-service/localstorage/local-storage.
 import { Address, Locations } from './../models/ubs.interface';
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { BehaviorSubject, Observable, Subject } from 'rxjs';
+import { BehaviorSubject, Observable, Subject, throwError } from 'rxjs';
 import { tap } from 'rxjs/operators';
 import { ICertificate, OrderDetails } from '../models/ubs.interface';
 import { Order } from '../models/ubs.model';
@@ -79,8 +79,18 @@ export class OrderService {
     return this.processOrder(this.orderSubject.getValue());
   }
 
+  getUbsOrderStatus(): Observable<any> {
+    const liqPayOrderId = this.localStorageService.getUbsOrderId();
+    return liqPayOrderId ? this.getLiqPayStatus(liqPayOrderId) : throwError(new Error('There is no OrderId!'));
+  }
+
+  getLiqPayStatus(orderId: string): Observable<any> {
+    return this.http.get(`${this.url}/getLiqPayStatus/${orderId}`);
+  }
+
   getLocations(): Observable<Locations[]> {
     return this.http.get<Locations[]>(`${this.url}/order/get-locations`);
+
   }
 
   addLocation(location): Observable<any> {
@@ -91,11 +101,11 @@ export class OrderService {
     this.locationSubject.next(completed);
   }
 
-  processLiqPayOrder(order: Order): Observable<Order> {
-    return this.http.post<Order>(`${this.url}/processLiqPayOrder`, order, { responseType: 'text' as 'json' });
+  processLiqPayOrder(order: Order): Observable<string> {
+    return this.http.post<string>(`${this.url}/processLiqPayOrder`, order, { responseType: 'text' as 'json' });
   }
 
-  getLiqPayForm(): Observable<Order> {
+  getLiqPayForm(): Observable<string> {
     return this.processLiqPayOrder(this.orderSubject.getValue());
   }
 
