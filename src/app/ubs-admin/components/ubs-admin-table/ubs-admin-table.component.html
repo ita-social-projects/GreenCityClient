@@ -8,6 +8,9 @@
       <mat-icon>create</mat-icon>
       {{ 'ubs-tables.table-view' | translate }}
     </button>
+    <button type="button" class="btn btn-default export-excel-btn" (click)="openExportExcel()">
+      {{ 'ubs-tables.export-to-excel' | translate }}
+    </button>
     <ul class="dropdown-menu" [style.display]="display">
       <li class="item">
         <mat-checkbox class="check" type="checkbox" [checked]="isAll" (change)="showAllColumns(isAll)">
@@ -33,9 +36,6 @@
         </div>
       </ng-container>
     </ul>
-    <button type="button" class="btn btn-default export-excel-btn" (click)="openExportExcel()">
-      {{ 'ubs-tables.export-to-excel' | translate }}
-    </button>
   </div>
 </div>
 <mat-progress-bar *ngIf="editCellProgressBar" mode="indeterminate"></mat-progress-bar>
