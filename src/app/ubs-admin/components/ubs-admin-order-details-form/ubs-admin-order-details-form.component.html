@@ -39,7 +39,7 @@
                 max="999"
                 formControlName="confirmedQuantity{{ bag.id }}"
                 [attr.disabled]="isVisible ? true : null"
-                (change)="onQuantityChange($event, bag.id)"
+                (change)="onQuantityChange('confirmed', bag.id)"
               />
             </div>
             <div class="col-sm-2 d-flex justify-content-center form-group count" *ngIf="isVisible">
@@ -49,7 +49,7 @@
                 min="0"
                 max="999"
                 formControlName="actualQuantity{{ bag.id }}"
-                (change)="onQuantityChange($event, bag.id)"
+                (change)="onQuantityChange('actual', bag.id)"
               />
             </div>
           </li>
