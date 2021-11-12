@@ -6,6 +6,7 @@ import { Observable } from 'rxjs';
 import { take } from 'rxjs/operators';
 import { MatDialog } from '@angular/material/dialog';
 import { OrderService } from '../../../ubs/services/order.service';
+import { UBSOrderFormService } from '../../../ubs/services/ubs-order-form.service';
 
 @Component({
   selector: 'app-form-base',
@@ -34,7 +35,12 @@ export class FormBaseComponent implements ComponentCanDeactivate {
     // TODO: add functionality to this method
   }
 
-  constructor(public router: Router, public dialog: MatDialog, public orderService?: OrderService) {}
+  constructor(
+    public router: Router,
+    public dialog: MatDialog,
+    public orderService?: OrderService,
+    public ubsOrderFormService?: UBSOrderFormService
+  ) {}
 
   @HostListener('window:beforeunload')
   canDeactivate(): boolean | Observable<boolean> {
@@ -70,8 +76,9 @@ export class FormBaseComponent implements ComponentCanDeactivate {
         .subscribe((confirm) => {
           if (confirm) {
             this.orderService.changeShouldBePaid();
-            this.orderService.getOrderUrl().subscribe((res) => {
-              console.log(res);
+            this.orderService.getOrderUrl().subscribe((orderId) => {
+              this.ubsOrderFormService.transferOrderId(orderId);
+              this.ubsOrderFormService.setOrderResponseErrorStatus(orderId ? false : true);
               this.areChangesSaved = true;
               this.router.navigate(['ubs', 'confirm']);
             });
