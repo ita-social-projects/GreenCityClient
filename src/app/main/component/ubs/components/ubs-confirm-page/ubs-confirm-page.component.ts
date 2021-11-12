@@ -1,5 +1,5 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import { ActivatedRoute, Router } from '@angular/router';
+import { Router } from '@angular/router';
 import { MatSnackBarComponent } from '@global-errors/mat-snack-bar/mat-snack-bar.component';
 import { JwtService } from '@global-service/jwt/jwt.service';
 import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
@@ -15,14 +15,12 @@ import { UBSOrderFormService } from '../../services/ubs-order-form.service';
 })
 export class UbsConfirmPageComponent implements OnInit, OnDestroy {
   orderId: string;
-  responseStatus: string;
   orderResponseError = false;
   orderStatusDone: boolean;
   isSpinner = true;
   private destroy$: Subject<boolean> = new Subject<boolean>();
 
   constructor(
-    private activatedRoute: ActivatedRoute,
     private snackBar: MatSnackBarComponent,
     private jwtService: JwtService,
     private ubsOrderFormService: UBSOrderFormService,
@@ -72,12 +70,7 @@ export class UbsConfirmPageComponent implements OnInit, OnDestroy {
     this.isSpinner = false;
     if (!this.orderResponseError && !this.orderStatusDone) {
       this.saveDataOnLocalStorage();
-      this.activatedRoute.queryParams.subscribe((params) => {
-        this.orderId = params.order_id;
-        // Hardcoded. Need a logic from back-end to save orderId for saved unpaid order
-        this.responseStatus = params.response_status;
-        this.snackBar.openSnackBar('successConfirmSaveOrder', this.orderId);
-      });
+      this.snackBar.openSnackBar('successConfirmSaveOrder', this.orderId);
     } else if (!this.orderResponseError && this.orderStatusDone) {
       this.saveDataOnLocalStorage();
     }
