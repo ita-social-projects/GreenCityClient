@@ -269,6 +269,8 @@ export class UBSOrderDetailsComponent extends FormBaseComponent implements OnIni
 
   private calculateTotal(): void {
     this.total = 0;
+    console.log(this.bags);
+
     this.bags.forEach((bag) => {
       this.total += bag.price * bag.quantity;
     });

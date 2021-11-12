@@ -1,0 +1,47 @@
+<div [formGroup]="orderDetailsForm">
+  <div
+    class="addCertificate"
+    formArrayName="formArrayCertificates"
+    *ngFor="let certificate of formArrayCertificates.controls; let i = index"
+  >
+    <input
+      type="text"
+      class="shadow-none form-control col-12 col-sm-8 my-1 input-border"
+      placeholder="xxxx-xxxx"
+      [unmask]="false"
+      [imask]="{ mask: certificateMask }"
+      [formControlName]="i"
+      [readonly]="certStatuses[i]"
+    />
+    <div class="form-group">
+      <button
+        *ngIf="showActivateButton(i)"
+        type="button"
+        class="primary-global-button btn"
+        [disabled]="
+          formArrayCertificates['controls'][i].invalid ||
+          formArrayCertificates['controls'][i].pristine ||
+          !certificate.value.length ||
+          showTotal < minOrderValue
+        "
+        (click)="certificateSubmit(i)"
+      >
+        {{ 'order-details.activate' | translate }}
+      </button>
+      <button
+        [disabled]="cancelCertBtn"
+        *ngIf="showCancelButton(i)"
+        type="button"
+        class="primary-global-button btn"
+        (click)="deleteCertificate(i)"
+      >
+        {{ 'order-details.cancel' | translate }}
+      </button>
+    </div>
+    <div class="validMes">
+      <small class="text-danger" *ngIf="certificate.invalid && certificate.touched && certificateError">
+        {{ 'order-details.failed-certificate' | translate }}
+      </small>
+    </div>
+  </div>
+</div>
