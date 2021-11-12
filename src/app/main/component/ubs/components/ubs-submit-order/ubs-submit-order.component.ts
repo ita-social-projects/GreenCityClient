@@ -54,16 +54,16 @@ export class UBSSubmitOrderComponent extends FormBaseComponent implements OnInit
   isTotalAmountZero = true;
 
   constructor(
-    private orderService: OrderService,
-    private shareFormService: UBSOrderFormService,
+    public orderService: OrderService,
     public ubsOrderFormService: UBSOrderFormService,
+    private shareFormService: UBSOrderFormService,
     private localStorageService: LocalStorageService,
     private sanitizer: DomSanitizer,
     private fb: FormBuilder,
     router: Router,
     dialog: MatDialog
   ) {
-    super(router, dialog);
+    super(router, dialog, orderService);
   }
 
   ngOnInit(): void {
