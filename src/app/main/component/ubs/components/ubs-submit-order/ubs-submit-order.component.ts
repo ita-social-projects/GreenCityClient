@@ -22,6 +22,7 @@ export class UBSSubmitOrderComponent extends FormBaseComponent implements OnInit
   liqPayButtonForm: SafeHtml;
   liqPayButton: NodeListOf<HTMLElement>;
   isLiqPay = false;
+  shouldBePaid: boolean;
   order: Order;
   addressId: number;
   bags: Bag[] = [];
@@ -125,7 +126,8 @@ export class UBSSubmitOrderComponent extends FormBaseComponent implements OnInit
       this.orderDetails.certificates,
       this.orderDetails.orderComment,
       this.personalData,
-      this.orderDetails.pointsToUse
+      this.orderDetails.pointsToUse,
+      this.shouldBePaid
     );
   }
 
