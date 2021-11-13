@@ -118,4 +118,10 @@ export class OrderService {
     const lang = localStorage.getItem('language') === 'ua' ? 1 : 2;
     return this.http.get(`${this.url}/client/get-data-for-order-surcharge/${orderId}/${lang}`);
   }
+
+  cancelUBSwithoutSaving(): void {
+    this.shareFormService.isDataSaved = true;
+    this.localStorageService.removeUbsOrderId();
+    this.shareFormService.saveDataOnLocalStorage();
+  }
 }

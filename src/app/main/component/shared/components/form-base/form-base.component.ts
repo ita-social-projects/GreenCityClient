@@ -61,6 +61,11 @@ export class FormBaseComponent implements ComponentCanDeactivate {
     }
   }
 
+  cancelUBSwithoutSaving(): void {
+    this.orderService.cancelUBSwithoutSaving();
+    this.router.navigateByUrl('/ubs');
+  }
+
   cancelUBS(): void {
     const condition = this.getFormValues();
     this.cancelPopupJustifying(condition);
