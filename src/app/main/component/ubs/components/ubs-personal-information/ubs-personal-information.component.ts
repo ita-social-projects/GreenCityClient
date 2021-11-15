@@ -21,6 +21,7 @@ export class UBSPersonalInformationComponent extends FormBaseComponent implement
   orderDetails: OrderDetails;
   personalData: PersonalData;
   personalDataForm: FormGroup;
+  shouldBePaid = true;
   order: Order;
   addresses: Address[] = [];
   maxAddressLength = 4;
@@ -56,12 +57,12 @@ export class UBSPersonalInformationComponent extends FormBaseComponent implement
 
   constructor(
     public router: Router,
-    private orderService: OrderService,
+    public orderService: OrderService,
     private shareFormService: UBSOrderFormService,
     private fb: FormBuilder,
     public dialog: MatDialog
   ) {
-    super(router, dialog);
+    super(router, dialog, orderService);
     this.initForm();
   }
 
@@ -289,7 +290,8 @@ export class UBSPersonalInformationComponent extends FormBaseComponent implement
       this.shareFormService.orderDetails.certificates,
       this.shareFormService.orderDetails.orderComment,
       this.personalData,
-      this.shareFormService.orderDetails.pointsToUse
+      this.shareFormService.orderDetails.pointsToUse,
+      this.shouldBePaid
     );
     this.orderService.setOrder(this.order);
   }

@@ -8,6 +8,7 @@ export class Order {
   orderComment: string;
   personalData: PersonalData;
   pointsToUse: number;
+  shouldBePaid: boolean;
   constructor(
     additionalOrders: Array<string>,
     addressId: number,
@@ -15,7 +16,8 @@ export class Order {
     certificates: Array<string>,
     orderComment: string,
     personalData: PersonalData,
-    pointsToUse: number
+    pointsToUse: number,
+    shouldBePaid: boolean
   ) {
     this.additionalOrders = additionalOrders;
     this.addressId = addressId;
@@ -24,5 +26,6 @@ export class Order {
     this.orderComment = orderComment;
     this.personalData = personalData;
     this.pointsToUse = pointsToUse;
+    this.shouldBePaid = shouldBePaid;
   }
 }

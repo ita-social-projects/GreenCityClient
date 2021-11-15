@@ -75,6 +75,12 @@ export class OrderService {
     this.orderSubject.next(order);
   }
 
+  changeShouldBePaid() {
+    const order = this.orderSubject.getValue();
+    order.shouldBePaid = false;
+    this.setOrder(order);
+  }
+
   getOrderUrl(): Observable<Order> {
     return this.processOrder(this.orderSubject.getValue());
   }
@@ -90,7 +96,6 @@ export class OrderService {
 
   getLocations(): Observable<Locations[]> {
     return this.http.get<Locations[]>(`${this.url}/order/get-locations`);
-
   }
 
   addLocation(location): Observable<any> {
@@ -112,5 +117,11 @@ export class OrderService {
   getOrderFromNotification(orderId: number) {
     const lang = localStorage.getItem('language') === 'ua' ? 1 : 2;
     return this.http.get(`${this.url}/client/get-data-for-order-surcharge/${orderId}/${lang}`);
+  }
+
+  cancelUBSwithoutSaving(): void {
+    this.shareFormService.isDataSaved = true;
+    this.localStorageService.removeUbsOrderId();
+    this.shareFormService.saveDataOnLocalStorage();
   }
 }
