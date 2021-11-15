@@ -18,7 +18,7 @@
         <li class="head">{{ header | serverTranslate: currentLang }}</li>
         <div class="items">
           <ng-container *ngFor="let column of columns">
-            <li class="item" *ngIf="column.columnBelonging === header.key">
+            <li class="item" *ngIf="column.columnBelonging === header.key || column.title.key === 'select'">
               <mat-checkbox
                 class="check"
                 type="checkbox"
