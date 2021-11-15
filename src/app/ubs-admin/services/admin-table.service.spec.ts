@@ -28,7 +28,7 @@ describe('AdminTableService', () => {
     service.getTable('code', 0, '', 5, 'DESC').subscribe((data) => {
       expect(data).toBeDefined();
     });
-    const req = httpMock.expectOne(`${urlMock}/bigOrderTable?sortBy=code&pageNumber=0&pageSize=5&sortDirection=DESC`);
+    const req = httpMock.expectOne(`${urlMock}/bigOrderTable?sortBy=code&pageNumber=0&search=&pageSize=5&sortDirection=DESC`);
     expect(req.request.method).toBe('GET');
   });
 
