@@ -216,6 +216,13 @@
     "export-time": "Export time",
     "station": "Station"
   },
+  "order-history": {
+    "title": "Order history",
+    "date": "Date",
+    "time": "Time",
+    "event": "Event",
+    "author": "Author"
+  },
   "responsible-persons": {
     "title": "Responsible persons",
     "service-manager": "Service manager",

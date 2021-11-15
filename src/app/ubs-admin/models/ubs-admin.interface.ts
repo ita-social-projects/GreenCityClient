@@ -162,3 +162,10 @@ export interface CreateCertificate {
   monthCount: number;
   points: number;
 }
+
+export interface IOrderHistory {
+  authorName: string;
+  eventDate: string;
+  eventName: string;
+  id: number;
+}

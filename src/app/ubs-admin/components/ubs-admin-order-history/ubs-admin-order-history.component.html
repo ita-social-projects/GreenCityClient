@@ -1,0 +1,42 @@
+<div class="container mb-3">
+  <div class="empty_card" (click)="openDetails()">
+    <img *ngIf="!pageOpen" src="assets/img/ubs-admin-orders/arrow_up.svg" alt="arrow up" />
+    <img *ngIf="pageOpen" src="assets/img/ubs-admin-orders/arrow_down.svg" alt="arrow down" />
+    <h1 class="form__headline">{{ 'order-history.title' | translate }}</h1>
+  </div>
+  <div *ngIf="pageOpen" class="content">
+    <table>
+      <tr>
+        <th>
+          {{ 'order-history.date' | translate }}
+        </th>
+        <th>
+          {{ 'order-history.time' | translate }}
+        </th>
+        <th>
+          {{ 'order-history.event' | translate }}
+        </th>
+        <th>
+          {{ 'order-history.author' | translate }}
+        </th>
+      </tr>
+      <tr *ngFor="let historyAction of orderHistory">
+        <td>{{ historyAction.eventDate | date: 'dd.MM.yyyy' }}</td>
+        <td>{{ historyAction.eventDate | date: 'HH:mm' }}</td>
+        <td
+          class="hiddenText"
+          #popup="matTooltip"
+          [matTooltip]="historyAction.eventName"
+          matTooltipPosition="above"
+          matTooltipClass="popup"
+          (mouseenter)="$event.stopImmediatePropagation()"
+          (mouseleave)="$event.stopImmediatePropagation()"
+          (click)="showPopup($event, popup)"
+        >
+          {{ historyAction.eventName }}
+        </td>
+        <td>{{ historyAction.authorName }}</td>
+      </tr>
+    </table>
+  </div>
+</div>

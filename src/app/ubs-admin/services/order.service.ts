@@ -9,7 +9,8 @@ import {
   PaymentInfo,
   UserViolations,
   IExportDetails,
-  IDetailStatus
+  IDetailStatus,
+  IOrderHistory
 } from '../models/ubs-admin.interface';
 import { environment } from '@environment/environment';
 
@@ -105,6 +106,10 @@ export class OrderService {
 
   public getOrderDetailStatus(orderId: number): Observable<IDetailStatus> {
     return this.http.get<IDetailStatus>(`${this.backend}/management/read-order-detail-status/${orderId}`);
+  }
+
+  public getOrderHistory(orderId: number): Observable<IOrderHistory[]> {
+    return this.http.get<IOrderHistory[]>(`${this.backend}/order_history/${orderId}`);
   }
 
   public updateRecipientsData(postData: any) {

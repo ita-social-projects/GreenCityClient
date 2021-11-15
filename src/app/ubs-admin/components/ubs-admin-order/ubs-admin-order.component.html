@@ -21,6 +21,7 @@
       <app-ubs-admin-export-details [exportDetailsForm]="getFormGroup('exportDetailsForm')" [order]="order"> </app-ubs-admin-export-details>
       <app-ubs-admin-responsible-persons [responsiblePersonsForm]="getFormGroup('responsiblePersonsForm')" [order]="order">
       </app-ubs-admin-responsible-persons>
+      <app-ubs-admin-order-history [order]="order"></app-ubs-admin-order-history>
     </div>
     <div class="row">
       <button class="back-button" (click)="openGoBackModal()">
@@ -28,7 +29,7 @@
         {{ 'order-edit.btn.back' | translate }}
       </button>
       <div class="controls">
-        <button class="cancel-button" (click)="openCancelModal()" [disabled]="!orderForm.touched">
+        <button type="reset" class="cancel-button" (click)="$event.preventDefault(); openCancelModal()" [disabled]="!orderForm.touched">
           {{ 'order-edit.btn.cancel' | translate }}
         </button>
         <button type="submit" class="save-button" [disabled]="!orderForm.touched || !orderForm.valid">
