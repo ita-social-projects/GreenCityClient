@@ -545,6 +545,13 @@ export class UBSOrderDetailsComponent extends FormBaseComponent implements OnIni
     this.calculateCertificates(this.certificates);
   }
 
+  addItem(newItem: any) {
+    console.log(newItem);
+    this.displayCert = newItem.displayCert;
+    this.showCertificateUsed = newItem.certificateSum;
+    this.finalSum = newItem.finalSum;
+  }
+
   certificateMatch(cert): void {
     if (cert.certificateStatus === CertificateStatus.ACTIVE || cert.certificateStatus === CertificateStatus.NEW) {
       this.certificateSum += cert.certificatePoints;

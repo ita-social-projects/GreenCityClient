@@ -38,10 +38,38 @@
         {{ 'order-details.cancel' | translate }}
       </button>
     </div>
-    <div class="validMes">
+    <div class="validMessages">
       <small class="text-danger" *ngIf="certificate.invalid && certificate.touched && certificateError">
         {{ 'order-details.failed-certificate' | translate }}
       </small>
     </div>
   </div>
 </div>
+
+<div class="messages-container">
+  <small class="text-danger" *ngIf="certificateError">
+    {{ 'order-details.failed-certificate' | translate }}
+  </small>
+  <small class="text-danger" *ngIf="certStatus === 'USED' && failedCert">
+    {{ 'order-details.already-used' | translate: { certDate: certDate } }}
+  </small>
+  <small class="text-danger" *ngIf="certStatus === 'EXPIRED' && failedCert">
+    {{ 'order-details.expired' | translate: { certDate: certDate } }}
+  </small>
+  <small class="text-message" *ngIf="certSize">
+    {{ 'order-details.activated' | translate: { certificateSum: certificateSum, certDate: certDate } }}
+  </small>
+  <small class="text-message" *ngIf="(certStatus === 'NEW' || certStatus === 'ACTIVE') && !certSize">
+    {{ 'order-details.activated' | translate: { certificateSum: certificateSum, certDate: certDate } }}
+  </small>
+</div>
+
+<button
+  type="button"
+  *ngIf="addCert && finalSum > 0 && !failedCert"
+  class="addCertificateBtn"
+  [disabled]="!disableAddCertificate() || cancelCertBtn || certificateError || failedCert"
+  (click)="addNewCertificate()"
+>
+  {{ 'order-details.add-certificate' | translate }}
+</button>

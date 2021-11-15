@@ -1,4 +1,4 @@
-import { Component, Input, OnDestroy, OnInit } from '@angular/core';
+import { Component, EventEmitter, Input, OnDestroy, OnInit, Output } from '@angular/core';
 import { FormArray, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { takeUntil } from 'rxjs/operators';
 import { OrderService } from '../../../services/order.service';
@@ -74,6 +74,7 @@ export class UbsOrderCertificateComponent implements OnInit, OnDestroy {
   public currentLocation: string;
   public locations: Locations[];
   public selectedLocationId: number;
+  @Output() newItemEvent = new EventEmitter<object>();
 
   constructor(
     private fb: FormBuilder,
@@ -169,11 +170,16 @@ export class UbsOrderCertificateComponent implements OnInit, OnDestroy {
     return date.split('-').reverse().join('-');
   }
 
+  addNewItem(value: object) {
+    this.newItemEvent.emit(value);
+  }
+
   certificateMatch(cert): void {
     if (cert.certificateStatus === CertificateStatus.ACTIVE || cert.certificateStatus === CertificateStatus.NEW) {
       this.certificateSum += cert.certificatePoints;
       this.displayCert = true;
       this.addCert = true;
+      console.log(this.certificateSum);
     }
     this.failedCert = cert.certificateStatus === CertificateStatus.EXPIRED || cert.certificateStatus === CertificateStatus.USED;
     this.certificateSum = this.failedCert && this.formArrayCertificates.length === 1 ? 0 : this.certificateSum;
@@ -189,7 +195,6 @@ export class UbsOrderCertificateComponent implements OnInit, OnDestroy {
 
   private calculateTotal(): void {
     this.total = 0;
-    console.log(this.bags);
     this.bags.forEach((bag) => {
       this.total += bag.price * bag.quantity;
     });
@@ -209,6 +214,12 @@ export class UbsOrderCertificateComponent implements OnInit, OnDestroy {
         this.certificateLeft = 0;
         this.finalSum = this.total - this.certificateSum - this.pointsUsed;
         this.showCertificateUsed = this.certificateSum;
+        const certificateObj = {
+          certificateSum: this.certificateSum,
+          displayCert: this.displayCert,
+          finalSum: this.finalSum
+        };
+        this.addNewItem(certificateObj);
       } else {
         this.finalSum = 0;
         this.certificateLeft = this.certificateSum - this.total;
@@ -222,6 +233,7 @@ export class UbsOrderCertificateComponent implements OnInit, OnDestroy {
       this.showCertificateUsed = this.certificateSum;
     }
     this.changeOrderDetails();
+    console.log(this.total);
   }
 
   get additionalOrders() {
@@ -241,6 +253,7 @@ export class UbsOrderCertificateComponent implements OnInit, OnDestroy {
   }
 
   calculateCertificates(arr): void {
+    console.log(arr);
     if (arr.length > 0) {
       this.cancelCertBtn = true;
       arr.forEach((certificate, index) => {
@@ -249,6 +262,7 @@ export class UbsOrderCertificateComponent implements OnInit, OnDestroy {
           .pipe(takeUntil(this.destroy))
           .subscribe(
             (cert) => {
+              console.log('cert ', this.showTotal);
               this.certificateMatch(cert);
               if (this.total < this.certificateSum) {
                 this.certSize = true;
@@ -271,6 +285,10 @@ export class UbsOrderCertificateComponent implements OnInit, OnDestroy {
     this.certificateSum = 0;
   }
 
+  addNewCertificate(): void {
+    this.formArrayCertificates.push(this.fb.control('', [Validators.minLength(8), Validators.pattern(this.certificatePattern)]));
+  }
+
   certificateReset(resetMessage: boolean): void {
     if (resetMessage) {
       this.certDate = '';
@@ -288,6 +306,12 @@ export class UbsOrderCertificateComponent implements OnInit, OnDestroy {
     this.certificateSum = 0;
     this.formArrayCertificates.patchValue(['']);
     this.calculateCertificates(this.certificates);
+
+    const certificateObj = {
+      displayCert: this.displayCert,
+      finalSum: this.finalSum + this.certificateSum
+    };
+    this.addNewItem(certificateObj);
   }
 
   deleteCertificate(index: number): void {

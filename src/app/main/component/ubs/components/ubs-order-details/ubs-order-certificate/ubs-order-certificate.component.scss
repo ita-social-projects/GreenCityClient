@@ -12,16 +12,40 @@
   input {
     padding: 0.5rem;
   }
+  .input-border {
+    background: var(--ubs-primary-white);
+    border: 1px solid var(--ubs-quintynary-light-grey);
+  }
 
-  .validMes {
+  .validMessages {
     width: 65%;
     margin: -1rem 0 1rem;
-    color: var(--ubs-primary-green);
   }
+}
+
+button {
+  width: 8rem;
+  height: 2.25rem;
+  font-size: 14px;
+}
+
+.addCertificate {
+  align-items: center;
+
+  button {
+    margin-top: 1rem;
+  }
+}
+
+small.text-message.ng-star-inserted {
+  width: 65%;
+  margin: -1rem 0 1rem;
+  color: var(--ubs-primary-green) !important;
 }
 
 .primary-global-button {
   padding: 8px 14px;
+  margin: 16px 0 0;
   border-radius: 4px;
   font-size: 14px;
   width: 8rem;
@@ -45,5 +69,20 @@
 
   & .btn:nth-child(2) {
     width: 88px;
+  }
+}
+
+.addCertificateBtn {
+  width: 180px;
+  padding: 0;
+  text-align: left;
+  background: none;
+  color: var(--ubs-electric-violet);
+  outline: none;
+  font-size: 14px;
+  border: none;
+
+  &:hover {
+    background: none;
   }
 }

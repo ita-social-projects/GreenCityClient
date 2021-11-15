@@ -94,7 +94,7 @@
             </div>
           </div>
           <h5>{{ 'order-details.question-certificate' | translate }}</h5>
-          <app-ubs-order-certificate [showTotal]="showTotal" [bags]="bags"></app-ubs-order-certificate>
+          <app-ubs-order-certificate [showTotal]="showTotal" [bags]="bags" (newItemEvent)="addItem($event)"> </app-ubs-order-certificate>
           <div
             class="addCertificate"
             formArrayName="formArrayCertificates"
@@ -140,7 +140,6 @@
               </small>
             </div>
           </div>
-
           <div class="messages-container">
             <small class="text-danger" *ngIf="certificateError">
               {{ 'order-details.failed-certificate' | translate }}
