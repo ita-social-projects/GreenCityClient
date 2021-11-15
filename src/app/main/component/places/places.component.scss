@@ -96,8 +96,25 @@ $cardTextColor: #1d2830;
 
   padding: 36px;
 
+  .sidebar-address {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+
+    .btn-bookmark {
+      border: none;
+      background: none;
+      padding: 0;
+    }
+
+    .material-icons {
+      color: #13aa57;
+      margin: 18px 0 10px 0;
+    }
+  }
+
   .content-title {
-    margin: 0 auto 18px auto;
     height: 28px;
     font-weight: bold;
     font-size: 20px;
