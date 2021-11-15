@@ -11,7 +11,9 @@
 
   input {
     padding: 0.5rem;
+    font-size: 14px;
   }
+
   .input-border {
     background: var(--ubs-primary-white);
     border: 1px solid var(--ubs-quintynary-light-grey);
@@ -35,6 +37,10 @@ button {
   button {
     margin-top: 1rem;
   }
+}
+
+p {
+  font-size: 12px;
 }
 
 small.text-message.ng-star-inserted {
