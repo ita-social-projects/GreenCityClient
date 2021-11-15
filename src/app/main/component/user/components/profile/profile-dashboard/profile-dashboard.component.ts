@@ -119,7 +119,6 @@ export class ProfileDashboardComponent implements OnInit, OnDestroy {
 
   tabChanged(tabChangeEvent: MatTabChangeEvent): void {
     this.isActiveInfinityScroll = tabChangeEvent.index === 1;
-    console.log(this.isActiveInfinityScroll);
   }
 
   onScroll(): void {
