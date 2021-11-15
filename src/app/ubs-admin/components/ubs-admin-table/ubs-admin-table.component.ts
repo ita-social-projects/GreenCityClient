@@ -88,11 +88,7 @@ export class UbsAdminTableComponent implements OnInit, AfterViewChecked, OnDestr
       this.stickyColumn.push(this.displayedColumns[i]);
     }
     this.columns.forEach((item) => {
-      if (this.stickyColumn.includes(item.title.key)) {
-        item.sticky = true;
-      } else {
-        item.sticky = false;
-      }
+      item.sticky = this.stickyColumn.includes(item.title.key);
     });
   }
 
