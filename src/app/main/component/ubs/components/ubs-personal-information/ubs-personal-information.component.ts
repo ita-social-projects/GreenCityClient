@@ -26,7 +26,7 @@ export class UBSPersonalInformationComponent extends FormBaseComponent implement
   addresses: Address[] = [];
   maxAddressLength = 4;
   namePattern = /^[A-Za-zА-Яа-яїЇіІєЄёЁ\'\- ]+$/;
-  phoneMask = '+{38} (000) 000 00 00';
+  phoneMask = '+{38\\0} (00) 000 00 00';
   firstOrder = true;
   anotherClient = false;
   currentLocation = {};
@@ -187,7 +187,7 @@ export class UBSPersonalInformationComponent extends FormBaseComponent implement
       anotherClientFirstName.setValidators(this.personalDataFormValidators);
       anotherClientLastName.setValidators(this.personalDataFormValidators);
       anotherClientPhoneNumber.setValidators([Validators.required, Validators.minLength(12)]);
-      anotherClientPhoneNumber.setValue('+38 0');
+      anotherClientPhoneNumber.setValue('+380');
     } else {
       anotherClientFirstName.setValue('');
       anotherClientFirstName.clearValidators();
