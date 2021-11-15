@@ -242,7 +242,8 @@ export class UBSPersonalInformationComponent extends FormBaseComponent implement
     const dialogConfig = new MatDialogConfig();
     dialogConfig.panelClass = 'address-matDialog-styles';
     dialogConfig.data = {
-      edit: isEdit
+      edit: isEdit,
+      currentLocation: this.currentLocation
     };
     if (isEdit) {
       dialogConfig.data.address = currentAddress;

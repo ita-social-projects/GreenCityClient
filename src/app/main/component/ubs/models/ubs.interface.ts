@@ -98,6 +98,7 @@ export interface PersonalData {
 export interface Address {
   actual: boolean;
   id: number;
+  region: string;
   city: string;
   district: string;
   street: string;
