@@ -18,7 +18,7 @@
                 </label>
                 <select id="order" class="form-control" formControlName="orderStatus" (change)="onChangedOrderStatus($event.target.value)">
                   <option
-                    *ngFor="let status of orderService.orderStatuses"
+                    *ngFor="let status of availableOrderStatuses"
                     [selected]="status.name === order.orderStatus"
                     [value]="status.name"
                   >

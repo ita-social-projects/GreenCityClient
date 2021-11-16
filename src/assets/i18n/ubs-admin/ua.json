@@ -60,12 +60,12 @@
   "order-edit": {
     "order-status": {
       "formed": "Сформовано",
-      "adjustment": "Змінено",
-      "brought-it-himself": "Вивезено самостійно",
+      "adjustment": "Узгодження",
+      "brought-it-himself": "Привезе сам",
       "confirmed": "Підтверджено",
-      "on-the-route": "У дорозі",
+      "on-the-route": "На маршруті",
       "done": "Виконано",
-      "not-taken-out": "Не вивезено",
+      "not-taken-out": "Не вивезли",
       "cancelled": "Скасовано"
     },
     "payment-status": {
