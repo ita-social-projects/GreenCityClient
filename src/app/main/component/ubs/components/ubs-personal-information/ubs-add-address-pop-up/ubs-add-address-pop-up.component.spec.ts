@@ -98,11 +98,6 @@ describe('UBSAddAddressPopUpComponent', () => {
     expect(component.addAddressForm.get('district').value).toBe(component.region);
   });
 
-  it('method onChange should set addAddressForm[district]', () => {
-    component.onChange();
-    expect(component.addAddressForm.get('district').value).toBe(component.region);
-  });
-
   it('method onNoClick should invoke destroyRef.close()', () => {
     component.onNoClick();
     expect(fakeMatDialogRef.close).toHaveBeenCalled();

@@ -81,6 +81,8 @@
     "address-corp": "corp",
     "address-entrance": "entrance",
     "address-district": "district",
+    "pop-up-region": "Region",
+    "pop-up-region-name": "Kyiv region",
     "pop-up-title": "New address",
     "pop-up-city": "City",
     "pop-up-city-name": "Kyiv",

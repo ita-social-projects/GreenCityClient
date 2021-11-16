@@ -22,22 +22,19 @@ export class UBSAddAddressPopUpComponent implements OnInit, OnDestroy {
   addAddressForm: FormGroup;
   newAddress: Address;
   region = '';
-  cityDisabled = false;
-  regionDisabled = false;
   isDisabled = false;
   streetPattern = /^[A-Za-zА-Яа-яїЇіІєЄёЁ.\'\-\ \\]+[A-Za-zА-Яа-яїЇіІєЄёЁ0-9.\'\-\ \\]*$/;
   corpusPattern = /^[A-Za-zА-Яа-яїЇіІєЄёЁ0-9]{1,4}$/;
   housePattern = /^[A-Za-zА-Яа-яїЇіІєЄёЁ0-9\.\-\/]+$/;
   entranceNumberPattern = /^([1-9]\d*)?$/;
   private destroy: Subject<boolean> = new Subject<boolean>();
-  streetBounds: any;
   currentLocation = {};
-
+  isDistrict = true;
   cities = [
     { cityName: 'Kyiv', northLat: 50.59079800991073, southLat: 50.21327301525928, eastLng: 30.82594104187906, westLng: 30.23944009690609 }
   ];
 
-  bigRegions = ['Kyiv region'];
+  bigRegions = ['Київська область'];
 
   regions = [
     'Голосіївський',
@@ -49,8 +46,7 @@ export class UBSAddAddressPopUpComponent implements OnInit, OnDestroy {
     'Подільський',
     'Святошинський',
     "Солом'янський",
-    'Шевченківський',
-    'Києво-Святошинський'
+    'Шевченківський'
   ];
 
   constructor(
@@ -62,6 +58,7 @@ export class UBSAddAddressPopUpComponent implements OnInit, OnDestroy {
       edit: boolean;
       address: Address;
       currentLocation: string;
+      district: string;
     },
     private snackBar: MatSnackBarComponent
   ) {}
@@ -95,6 +92,7 @@ export class UBSAddAddressPopUpComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit() {
+    this.region = this.data.district;
     this.currentLocation = this.data.currentLocation;
     this.addAddressForm = this.fb.group({
       region: [this.data.edit ? this.data.address.region : null, Validators.required],
@@ -159,17 +157,6 @@ export class UBSAddAddressPopUpComponent implements OnInit, OnDestroy {
     };
   }
 
-  setStreetBounds(event) {
-    console.log(event);
-    this.streetBounds = {
-      north: event.geometry.viewport.Ab.h,
-      south: event.geometry.viewport.Ab.g,
-      east: event.geometry.viewport.Ra.h,
-      west: event.geometry.viewport.Ra.g
-    };
-    console.log(this.streetBounds);
-  }
-
   onLocationSelected(event): void {
     this.addAddressForm.get('longitude').setValue(event.geometry.viewport.Ra);
     this.addAddressForm.get('latitude').setValue(event.geometry.viewport.Ab);
@@ -177,13 +164,11 @@ export class UBSAddAddressPopUpComponent implements OnInit, OnDestroy {
 
   setDistrict(event: any) {
     const getDistrict = event.address_components.filter((item) => item.long_name.includes('район'))[0];
-    console.log(getDistrict);
     if (getDistrict) {
       this.region = getDistrict.long_name.split(' ')[0];
     } else {
-      this.region = event.vicinity.split(' ')[0];
+      this.isDistrict = false;
     }
-    console.log(this.region);
   }
 
   onAutocompleteSelected(event): void {
@@ -196,11 +181,9 @@ export class UBSAddAddressPopUpComponent implements OnInit, OnDestroy {
     this.onLocationSelected(event);
     this.setDistrict(event);
     this.onAutocompleteSelected(event);
-    this.setStreetBounds(event);
   }
 
   selectCity(event): void {
-    console.log(event);
     this.addAddressForm.get('city').setValue(event.name);
   }
 
@@ -210,6 +193,10 @@ export class UBSAddAddressPopUpComponent implements OnInit, OnDestroy {
 
   addAdress() {
     this.isDisabled = true;
+    if (this.currentLocation === 'Kyiv' || this.currentLocation === 'Київ') {
+      this.addAddressForm.value.city = this.addAddressForm.get('city').value;
+    }
+    this.addAddressForm.value.region = this.addAddressForm.get('region').value;
     this.orderService
       .addAdress(this.addAddressForm.value)
       .pipe(
