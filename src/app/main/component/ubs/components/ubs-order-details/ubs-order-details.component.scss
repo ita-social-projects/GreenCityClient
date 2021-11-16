@@ -217,7 +217,7 @@ button {
   }
 
   .money-saved {
-    @include text_style(var(--ubs-quaternary-font), var(--ubs-electric-violet) !important, 10px, 400);
+    @include text_style(var(--ubs-quaternary-font), var(--ubs-primary-green) !important, 10px, 400);
   }
 
   .validMes {
