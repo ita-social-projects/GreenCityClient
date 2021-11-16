@@ -323,8 +323,14 @@ export class UbsAdminCustomersComponent implements OnInit, AfterViewChecked, OnD
   }
 
   public openCustomer(row, username): void {
+    console.log(row, username);
     this.localStorageService.setCustomer(row);
     this.router.navigate(['ubs-admin', 'customers', `${username.replaceAll(' ', '')}`]);
+  }
+
+  public openOrders(user): void {
+    console.log(user);
+    this.router.navigate(['ubs-admin', 'customerOrders', `${user.recipientEmail}`]);
   }
 
   ngOnDestroy() {
