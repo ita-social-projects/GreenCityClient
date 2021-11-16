@@ -63,25 +63,27 @@ describe('UBSAddAddressPopUpComponent', () => {
       address_components: ['', '', { long_name: '' }]
     };
     const regionMock = 'fakeRegion';
-    const spy = spyOn(component, 'setDistrict').and.callFake(() => {});
 
     component.region = regionMock;
     fixture.detectChanges();
     component.onAutocompleteSelected(eventMock);
 
-    expect(spy).toHaveBeenCalled();
     expect(component.addAddressForm.get('street').value).toBe(eventMock.name);
     expect(component.addAddressForm.get('district').value).toBe(regionMock);
   });
 
   it('method setDistrict should set component.region', () => {
     const eventMock = {
-      longitude: 'fake1',
-      latitude: 'fake2'
+      geometry: {
+        viewport: {
+          Ra: 'fake1',
+          Ab: 'fake2'
+        }
+      }
     };
     component.onLocationSelected(eventMock);
-    expect(component.addAddressForm.get('longitude').value).toBe(eventMock.longitude);
-    expect(component.addAddressForm.get('latitude').value).toBe(eventMock.latitude);
+    expect(component.addAddressForm.get('longitude').value).toBe(eventMock.geometry.viewport.Ra);
+    expect(component.addAddressForm.get('latitude').value).toBe(eventMock.geometry.viewport.Ab);
   });
 
   it('method onDistrictSelected should invoke three another methods, and set region to addAddressForm', () => {
@@ -95,7 +97,7 @@ describe('UBSAddAddressPopUpComponent', () => {
     expect(spy1).toHaveBeenCalled();
     expect(spy2).toHaveBeenCalled();
     expect(spy3).toHaveBeenCalled();
-    expect(component.addAddressForm.get('district').value).toBe(component.region);
+    expect(component.addAddressForm.get('district').value).toBe('');
   });
 
   it('method onNoClick should invoke destroyRef.close()', () => {

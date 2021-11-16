@@ -58,6 +58,7 @@ describe('OrderService', () => {
     actual: true,
     id: 100500,
     city: '',
+    region: '',
     district: '',
     street: '',
     houseCorpus: '',
