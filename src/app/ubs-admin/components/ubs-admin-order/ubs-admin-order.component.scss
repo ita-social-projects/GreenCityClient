@@ -1,6 +1,15 @@
 .container {
   margin-top: 100px;
   margin-bottom: 100px;
+}
+
+@media (min-width: 1200px) {
+  .container {
+    max-width: 1300px;
+  }
+}
+
+.row {
   position: relative;
 }
 
@@ -23,8 +32,8 @@ button:disabled {
 }
 
 .back-button-top {
-  top: 70px;
-  left: -140px;
+  top: 71px;
+  left: -130px;
   position: absolute;
 }
 

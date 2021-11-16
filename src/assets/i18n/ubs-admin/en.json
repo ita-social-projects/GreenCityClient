@@ -153,11 +153,11 @@
   "order-details": {
     "title": "Order details",
     "service": "Service",
-    "volume": "Volume",
-    "cost": "Cost per item",
+    "volume": "Package size",
+    "cost": "Price per package",
     "planned-amount": "Planned amount",
-    "approved-amount": "Approved amount",
-    "exported-amount": "Exported amount",
+    "approved-amount": "Confirmed amount",
+    "exported-amount": "Actual amount",
     "bags-amount": "Total number of packages",
     "order-sum": "Order cost",
     "certificate": "Certificate",
@@ -215,6 +215,13 @@
     "export-date": "Export date",
     "export-time": "Export time",
     "station": "Station"
+  },
+  "order-history": {
+    "title": "Order history",
+    "date": "Date",
+    "time": "Time",
+    "event": "Event",
+    "author": "Author"
   },
   "responsible-persons": {
     "title": "Responsible persons",

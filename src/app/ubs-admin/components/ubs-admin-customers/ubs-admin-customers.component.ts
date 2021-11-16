@@ -113,7 +113,7 @@ export class UbsAdminCustomersComponent implements OnInit, AfterViewChecked, OnD
     this.display = this.display === 'none' ? 'block' : 'none';
   }
 
-  initFilterForm() {
+  private initFilterForm() {
     this.filterForm = this.fb.group({
       registrationDateFrom: [''],
       registrationDateTo: [''],
@@ -129,7 +129,7 @@ export class UbsAdminCustomersComponent implements OnInit, AfterViewChecked, OnD
     this.filters = this.filterForm.value;
   }
 
-  submitFilterForm() {
+  private submitFilterForm() {
     this.filters = this.filterForm.value;
     const prevQueryString = this.queryString;
     const queryParams = [];
@@ -162,13 +162,13 @@ export class UbsAdminCustomersComponent implements OnInit, AfterViewChecked, OnD
     }
   }
 
-  onDeleteFilter(filterFrom: any, filterTo: any) {
+  public onDeleteFilter(filterFrom: string, filterTo: string) {
     this.filterForm.get(filterFrom).setValue('');
     this.filterForm.get(filterTo).setValue('');
     this.submitFilterForm();
   }
 
-  onCreateGroupFormValueChange() {
+  private onCreateGroupFormValueChange() {
     this.initialFilterValues = this.filterForm.value;
     this.filterForm.valueChanges.subscribe((value) => {
       this.hasChange = Object.keys(this.initialFilterValues).some((key) => {
@@ -177,7 +177,7 @@ export class UbsAdminCustomersComponent implements OnInit, AfterViewChecked, OnD
     });
   }
 
-  onClearFilters() {
+  public onClearFilters() {
     this.filterForm.reset(this.initialFilterValues);
     this.submitFilterForm();
   }
@@ -226,7 +226,9 @@ export class UbsAdminCustomersComponent implements OnInit, AfterViewChecked, OnD
         this.dataSource = new MatTableDataSource(this.tableData);
         this.totalPages = item.totalPages;
         this.isUpdate = false;
-        this.totalElements = item.totalElements;
+        if (item.page.length) {
+          this.totalElements = item.totalElements;
+        }
       });
   }
 

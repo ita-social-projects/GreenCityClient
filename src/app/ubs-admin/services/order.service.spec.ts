@@ -7,14 +7,6 @@ describe('OrderService', () => {
   let service: OrderService;
   const urlMock = 'https://greencity-ubs.azurewebsites.net/ubs';
   const urlMainMock = 'https://greencity-ubs.azurewebsites.net';
-  const bagMock = {
-    id: 2,
-    name: 'Old clothes',
-    capacity: 120,
-    price: 300,
-    code: 'en',
-    locationId: 1
-  };
   const userMock = {
     customerName: 'YuraBoiko',
     customerPhoneNumber: '974498935',
@@ -63,15 +55,6 @@ describe('OrderService', () => {
     const res = service.getSelectedOrder();
     expect(spy).toHaveBeenCalled();
     expect(res).toBe(undefined);
-  });
-
-  it('should return bags', () => {
-    service.getBags('en').subscribe((data) => {
-      expect(data.hasOwnProperty('name')).toBeTruthy();
-    });
-    const req = httpMock.expectOne(`${urlMock}/order-details?lang=en`);
-    expect(req.request.method).toBe('GET');
-    req.flush(bagMock);
   });
 
   it('should return details of order', () => {

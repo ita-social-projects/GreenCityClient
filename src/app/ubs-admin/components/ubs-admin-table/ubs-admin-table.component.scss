@@ -147,7 +147,7 @@ input {
   display: flex;
   justify-content: center;
   align-items: center;
-  width: 290px;
+  width: 210px;
   height: 36px;
   background-color: var(--primary-white) !important;
   border: 1px solid var(--ubs-quaternary-dark-grey) !important;
@@ -157,6 +157,7 @@ input {
   font-size: 14px;
   font-family: var(--primary-font);
   transition: 0.2s linear;
+  margin-right: 20px;
 
   &:hover {
     color: var(--ubs-secondary-grey);

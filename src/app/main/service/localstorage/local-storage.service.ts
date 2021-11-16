@@ -125,6 +125,18 @@ export class LocalStorageService {
     localStorage.setItem('locations', JSON.stringify(locations));
   }
 
+  public setUbsOrderId(orderId: string) {
+    localStorage.setItem('UbsOrderId', JSON.stringify(orderId));
+  }
+
+  public getUbsOrderId(): any {
+    return localStorage.getItem('UbsOrderId') === 'undefined' ? false : JSON.parse(localStorage.getItem('UbsOrderId'));
+  }
+
+  public removeUbsOrderId() {
+    localStorage.removeItem('UbsOrderId');
+  }
+
   public removeUbsOrderData() {
     localStorage.removeItem('UBSpersonalData');
     localStorage.removeItem('UBSorderData');

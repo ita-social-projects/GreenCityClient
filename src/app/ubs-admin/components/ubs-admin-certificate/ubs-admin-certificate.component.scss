@@ -129,7 +129,7 @@ input {
   display: flex;
   justify-content: center;
   align-items: center;
-  width: 290px;
+  width: 210px;
   height: 36px;
   background-color: var(--primary-white) !important;
   border: 1px solid var(--ubs-quaternary-dark-grey) !important;
@@ -139,6 +139,7 @@ input {
   font-size: 14px;
   font-family: var(--primary-font);
   transition: 0.2s linear;
+  margin-right: 20px;
 
   &:hover {
     color: var(--ubs-secondary-grey);
@@ -150,7 +151,7 @@ input {
   display: flex;
   justify-content: center;
   align-items: center;
-  width: 154px;
+  min-width: 154px;
   height: 36px;
   background-color: var(--primary-white) !important;
   border: 1px solid var(--ubs-quaternary-dark-grey) !important;
@@ -162,6 +163,7 @@ input {
   margin-right: 20px;
   margin-left: auto;
   transition: 0.2s linear;
+  padding: 0 10px 0 6px;
 
   &:hover {
     color: var(--ubs-secondary-grey);

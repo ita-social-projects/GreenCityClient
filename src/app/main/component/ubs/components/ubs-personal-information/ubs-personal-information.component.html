@@ -21,7 +21,7 @@
         formControlName="phoneNumber"
         type="text"
         class="shadow-none form-control"
-        placeholder="+38(___) ___ __ __"
+        placeholder="+380(__) ___ __ __"
         [unmask]="true"
         [imask]="{ mask: phoneMask }"
       />
@@ -85,7 +85,7 @@
         formControlName="anotherClientPhoneNumber"
         type="text"
         class="shadow-none form-control"
-        placeholder="+38(___) ___ __ __"
+        placeholder="+380(___) ___ __ __"
         [unmask]="true"
         [imask]="{ mask: phoneMask }"
       />
@@ -192,7 +192,7 @@
     <i class="fas fa-chevron-left" aria-hidden="true"></i> &nbsp; {{ 'personal-info.info-back' | translate }}
   </button>
   <div class="w-100 d-flex justify-content-end">
-    <button class="secondary-global-button btn cansel-button" type="button" (click)="cancelUBS()">
+    <button class="secondary-global-button btn cansel-button" type="button" (click)="cancelUBSwithoutSaving()">
       {{ 'personal-info.info-cancel' | translate }}
     </button>
     <button type="submit" class="primary-global-button btn m-0" matStepperNext [disabled]="personalDataForm.invalid">

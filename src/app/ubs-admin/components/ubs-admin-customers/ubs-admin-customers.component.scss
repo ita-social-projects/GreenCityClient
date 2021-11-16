@@ -58,7 +58,7 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  width: 290px;
+  width: 210px;
   height: 36px;
   background-color: var(--primary-white) !important;
   border: 1px solid var(--ubs-quaternary-dark-grey) !important;
@@ -74,6 +74,10 @@
     color: var(--ubs-secondary-grey);
     border: 1px solid var(--ubs-secondary-grey) !important;
   }
+}
+
+.filter-btn {
+  width: 154px;
 }
 
 .filterItem {
@@ -208,6 +212,7 @@
   display: flex;
   align-items: center;
   margin-bottom: 20px;
+  justify-content: flex-end;
 }
 
 .column_header {
