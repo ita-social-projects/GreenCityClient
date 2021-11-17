@@ -45,12 +45,13 @@ export class HeaderComponent implements OnInit, OnDestroy {
   @ViewChild('signupref') signupref: ElementRef;
   public elementName;
   public isUBS: boolean;
-  ubsUrl = 'ubs';
+  public ubsUrl = 'ubs';
   public imageLogo;
   public navLinks;
   public selectedIndex: number = null;
   public currentLanguage: string;
   public dialog: MatDialog;
+  public imgAlt: string;
   private localeStorageService: LocalStorageService;
   private jwtService: JwtService;
   private router: Router;
@@ -78,6 +79,7 @@ export class HeaderComponent implements OnInit, OnDestroy {
 
   ngOnInit() {
     this.isUBS = this.router.url.includes(this.ubsUrl);
+    this.imgAlt = this.isUBS ? 'Image ubs logo' : 'Image green city logo';
     this.localeStorageService.setUbsRegistration(this.isUBS);
     this.currentLanguage = this.localeStorageService.getCurrentLanguage();
     this.toggleHeader();
