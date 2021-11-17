@@ -216,6 +216,7 @@ export class UBSOrderDetailsComponent extends FormBaseComponent implements OnIni
         this.bags = this.orders.bags;
         this.points = this.orders.points;
         this.defaultPoints = this.points;
+        console.log(this.defaultPoints);
         this.certificateLeft = orderData.points;
         this.bags.forEach((bag) => {
           bag.quantity = bag.quantity === undefined ? null : bag.quantity;
@@ -394,6 +395,8 @@ export class UBSOrderDetailsComponent extends FormBaseComponent implements OnIni
       this.total = 0;
       return;
     }
+    console.log('points', this.points);
+
     this.pointsUsed = this.points;
     this.points = 0;
     this.total = this.total - this.pointsUsed;
@@ -481,6 +484,7 @@ export class UBSOrderDetailsComponent extends FormBaseComponent implements OnIni
       this.calculateCertificates(this.certificates);
     }
   }
+
   showCancelButton(i: number) {
     return (
       (this.certStatuses[i] && this.formArrayCertificates.controls[i].value) ||
@@ -547,6 +551,8 @@ export class UBSOrderDetailsComponent extends FormBaseComponent implements OnIni
 
   addItem(newItem: any) {
     console.log(newItem);
+    this.points = newItem.points;
+    this.pointsUsed = newItem.pointsUsed;
     this.displayCert = newItem.displayCert;
     this.showCertificateUsed = newItem.certificateSum;
     this.finalSum = newItem.finalSum;

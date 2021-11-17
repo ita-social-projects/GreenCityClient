@@ -94,7 +94,14 @@
             </div>
           </div>
           <h5>{{ 'order-details.question-certificate' | translate }}</h5>
-          <app-ubs-order-certificate [showTotal]="showTotal" [bags]="bags" (newItemEvent)="addItem($event)"> </app-ubs-order-certificate>
+          <app-ubs-order-certificate
+            [showTotal]="showTotal"
+            [bags]="bags"
+            [defaultPoints]="defaultPoints"
+            [points]="points"
+            (newItemEvent)="addItem($event)"
+          >
+          </app-ubs-order-certificate>
           <div
             class="addCertificate"
             formArrayName="formArrayCertificates"

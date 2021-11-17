@@ -16,6 +16,8 @@ import { LocalStorageService } from '@global-service/localstorage/local-storage.
 export class UbsOrderCertificateComponent implements OnInit, OnDestroy {
   @Input() showTotal;
   @Input() bags: Bag[];
+  @Input() defaultPoints: number;
+  @Input() points: number;
   orders: OrderDetails;
   orderDetailsForm: FormGroup;
   certStatuses = [];
@@ -28,8 +30,6 @@ export class UbsOrderCertificateComponent implements OnInit, OnDestroy {
   minAmountOfBigBags: number;
   totalOfBigBags: number;
   cancelCertBtn = false;
-  points: number;
-  defaultPoints: number;
   displayMinOrderMes = false;
   displayMinBigBagsMes = false;
   displayMes = false;
@@ -86,6 +86,7 @@ export class UbsOrderCertificateComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit(): void {
+    console.log('points', this.points);
     localStorage.removeItem('UBSorderData');
     this.orderService.locationSubject.pipe(takeUntil(this.destroy)).subscribe(() => {
       this.takeOrderData();
@@ -137,6 +138,7 @@ export class UbsOrderCertificateComponent implements OnInit, OnDestroy {
         this.minAmountOfBigBags = orderData.minAmountOfBigBags;
         this.bags = this.orders.bags;
         this.points = this.orders.points;
+        console.log(this.points);
         this.defaultPoints = this.points;
         this.certificateLeft = orderData.points;
         this.bags.forEach((bag) => {
@@ -214,6 +216,7 @@ export class UbsOrderCertificateComponent implements OnInit, OnDestroy {
         this.certificateLeft = 0;
         this.finalSum = this.total - this.certificateSum - this.pointsUsed;
         this.showCertificateUsed = this.certificateSum;
+        console.log(this.finalSum);
         const certificateObj = {
           certificateSum: this.certificateSum,
           displayCert: this.displayCert,
@@ -355,6 +358,94 @@ export class UbsOrderCertificateComponent implements OnInit, OnDestroy {
       (!this.certStatuses[i] && this.formArrayCertificates.controls[i].value && !this.disableAddCertificate()) ||
       (this.formArrayCertificates.controls.length === 1 && !this.formArrayCertificates.controls[i].value.length)
     );
+  }
+
+  public selectPointsRadioBtn(event: KeyboardEvent, radioButtonValue: string) {
+    if (['Enter', 'Space', 'NumpadEnter'].includes(event.code)) {
+      this.orderDetailsForm.controls.bonus.setValue(radioButtonValue);
+    }
+  }
+
+  private calculatePointsWithoutCertificate() {
+    this.total = this.showTotal;
+
+    const totalSumIsBiggerThanPoints = this.points > this.showTotal;
+
+    if (totalSumIsBiggerThanPoints) {
+      this.pointsUsed += this.total;
+      this.points = this.points - this.total;
+      this.total = 0;
+      const bonusBiggerThenTotalObj = {
+        finalSum: this.total,
+        pointsUsed: this.pointsUsed,
+        points: this.points
+      };
+      this.addNewItem(bonusBiggerThenTotalObj);
+      return;
+    }
+    console.log('this.points', this.points);
+    this.pointsUsed = this.points;
+    this.points = 0;
+    this.total = this.showTotal - this.pointsUsed;
+    console.log(this.pointsUsed);
+    const bonusObj = {
+      finalSum: this.total,
+      pointsUsed: this.pointsUsed,
+      points: this.points
+    };
+    this.addNewItem(bonusObj);
+  }
+
+  private calculatePointsWithCertificate() {
+    const totalSumIsBiggerThanPoints = this.points > this.finalSum;
+
+    if (totalSumIsBiggerThanPoints) {
+      this.pointsUsed = this.total - this.certificateSum;
+      this.total = 0;
+    } else {
+      this.pointsUsed = this.points;
+      this.total = this.total - this.pointsUsed;
+    }
+    this.points = this.points >= this.finalSum ? this.points - this.finalSum : 0;
+  }
+
+  calculatePoints(): void {
+    console.log('this.showTotal', this.showTotal, 'this.pointsUsed', this.pointsUsed, 'this.certificateSum', this.certificateSum);
+    console.log(this.certificateSum);
+    if (this.certificateSum <= 0) {
+      this.calculatePointsWithoutCertificate();
+    } else {
+      this.calculatePointsWithCertificate();
+    }
+    console.log('this.showTotal', this.showTotal, 'this.pointsUsed', this.pointsUsed, 'this.certificateSum', this.certificateSum);
+
+    this.finalSum = this.showTotal - this.pointsUsed - this.certificateSum;
+    console.log(this.finalSum);
+
+    if (this.finalSum < 0) {
+      this.finalSum = 0;
+    }
+  }
+
+  resetPoints(): void {
+    console.log('this.showTotal', this.showTotal);
+    console.log('this.points', this.points);
+    this.total = this.showTotal;
+    this.certificateSum = 0;
+    this.finalSum = this.total;
+    this.pointsUsed = 0;
+
+    console.log('this.total', this.total, 'this.pointsUsed', this.pointsUsed, 'this.showTotal + this.points', this.points);
+
+    const resetObj = {
+      finalSum: this.total,
+      pointsUsed: this.pointsUsed,
+      points: this.showTotal + this.points
+    };
+    this.addNewItem(resetObj);
+    // this.certificateReset(true);
+    // this.calculateTotal();
+    this.points = this.showTotal + this.points;
   }
 
   ngOnDestroy() {
