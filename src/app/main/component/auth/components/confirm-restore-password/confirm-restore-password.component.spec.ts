@@ -1,9 +1,7 @@
-import { RestoreDto } from './../../../../model/restroreDto';
+import { RestoreDto } from '@global-models/restroreDto';
 import { HttpClientTestingModule, HttpTestingController } from '@angular/common/http/testing';
-import { HttpClient, HttpClientModule } from '@angular/common/http';
-import { async, ComponentFixture, TestBed, fakeAsync, tick, flush, inject } from '@angular/core/testing';
-
-import { CUSTOM_ELEMENTS_SCHEMA, DebugElement, NO_ERRORS_SCHEMA } from '@angular/core';
+import { async, ComponentFixture, TestBed, fakeAsync } from '@angular/core/testing';
+import { CUSTOM_ELEMENTS_SCHEMA, DebugElement } from '@angular/core';
 import { ChangePasswordService } from '@auth-service/change-password.service';
 import { ConfirmRestorePasswordComponent } from './confirm-restore-password.component';
 import { TranslateModule } from '@ngx-translate/core';
@@ -133,11 +131,11 @@ describe('ConfirmRestorePasswordComponent', () => {
     const validPasswords = ['Pass123.', 'S3cret))', 'S0mething.', 'Passwooooord1.'];
     const invalidPasswords = ['password', 'pass12', '1122334455', '123.123.123.'];
 
-    function testWrapper(itemValue) {
+    const testWrapper = (itemValue) => {
       it(`should create form with formControl: ${itemValue};`, () => {
         expect(component.confirmRestorePasswordForm.contains(itemValue)).toBeTruthy();
       });
-    }
+    };
 
     controlsName.forEach((el) => testWrapper(el));
 
@@ -145,13 +143,14 @@ describe('ConfirmRestorePasswordComponent', () => {
       expect(component.confirmRestorePasswordForm.valid).toBeFalsy();
     });
 
-    function controlsValidator(itemValue, controlName, status) {
+    const controlsValidator = (itemValue, controlName, status) => {
       it(`The formControl: ${controlName} should be marked as ${status} if the value is ${itemValue}.`, () => {
         const control = component.confirmRestorePasswordForm.get(controlName);
         control.setValue(itemValue);
         status === 'valid' ? expect(control.valid).toBeTruthy() : expect(control.valid).toBeFalsy();
       });
-    }
+    };
+
     validPasswords.forEach((el) => controlsValidator(el, 'password', 'valid'));
     invalidPasswords.forEach((el) => controlsValidator(el, 'password', 'invalid'));
     it('form should be invalid if passwords do not match', () => {

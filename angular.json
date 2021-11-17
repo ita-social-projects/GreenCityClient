@@ -21,11 +21,13 @@
             "aot": true,
             "assets": ["src/favicon.ico", "src/assets"],
             "styles": [
+              "./node_modules/quill/dist/quill.core.css",
+              "./node_modules/quill-emoji/dist/quill-emoji.css",
               "./node_modules/@angular/material/prebuilt-themes/deeppurple-amber.css",
               "./node_modules/bootstrap/dist/css/bootstrap.min.css",
               "src/styles.scss"
             ],
-            "scripts": []
+            "scripts": ["./node_modules/quill/dist/quill.min.js"]
           },
           "configurations": {
             "production": {
@@ -85,11 +87,13 @@
             "sourceMap": false,
             "assets": ["src/favicon.ico", "src/assets"],
             "styles": [
+              "./node_modules/quill/dist/quill.core.css",
+              "./node_modules/quill-emoji/dist/quill-emoji.css",
               "./node_modules/@angular/material/prebuilt-themes/deeppurple-amber.css",
               "./node_modules/bootstrap/dist/css/bootstrap.min.css",
               "src/styles.scss"
             ],
-            "scripts": [],
+            "scripts": ["./node_modules/quill/dist/quill.min.js"],
             "codeCoverageExclude": ["src/app/model/**/*.ts", "src/app/**/index.ts"]
           }
         },

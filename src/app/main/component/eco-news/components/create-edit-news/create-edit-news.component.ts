@@ -16,9 +16,9 @@ import { MatSnackBarComponent } from '@global-errors/mat-snack-bar/mat-snack-bar
 import { FormBaseComponent } from '@shared/components/form-base/form-base.component';
 import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
 import { EditorChangeContent, EditorChangeSelection } from 'ngx-quill';
-// import Quill from 'quill';
-// import 'quill-emoji/dist/quill-emoji.js';
-// import ImageResize from 'quill-image-resize-module';
+import Quill from 'quill';
+import 'quill-emoji/dist/quill-emoji.js';
+import ImageResize from 'quill-image-resize-module';
 
 @Component({
   selector: 'app-create-edit-news',
@@ -114,7 +114,7 @@ export class CreateEditNewsComponent extends FormBaseComponent implements OnInit
       },
       imageResize: true
     };
-    // Quill.register('modules/imageResize', ImageResize);
+    Quill.register('modules/imageResize', ImageResize);
   }
 
   ngOnInit() {

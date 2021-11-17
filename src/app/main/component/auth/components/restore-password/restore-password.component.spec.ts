@@ -1,4 +1,4 @@
-import { UserSuccessSignIn } from './../../../../model/user-success-sign-in';
+import { UserSuccessSignIn } from '@global-models/user-success-sign-in';
 import { RestorePasswordComponent } from './restore-password.component';
 import { async, ComponentFixture, TestBed, inject, fakeAsync } from '@angular/core/testing';
 import { CUSTOM_ELEMENTS_SCHEMA, NO_ERRORS_SCHEMA } from '@angular/core';
