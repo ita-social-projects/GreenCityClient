@@ -32,6 +32,8 @@ export class OrderService {
   statusBroughtItHimself = { name: 'BROUGHT_IT_HIMSELF', translation: 'order-edit.order-status.brought-it-himself' };
   statusCancelled = { name: 'CANCELLED', translation: 'order-edit.order-status.cancelled' };
 
+  // TODO: change this mock after receiving data from backend
+
   readonly orderStatuses = [
     { name: 'FORMED', translation: 'order-edit.order-status.formed', ableActualChange: false },
     { name: 'ADJUSTMENT', translation: 'order-edit.order-status.adjustment', ableActualChange: false },
