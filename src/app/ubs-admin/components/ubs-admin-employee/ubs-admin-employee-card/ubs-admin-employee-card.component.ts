@@ -2,6 +2,7 @@ import { Component, Input } from '@angular/core';
 import { Page } from '../../../models/ubs-admin.interface';
 import { MatDialog } from '@angular/material/dialog';
 import { EmployeeFormComponent } from '../employee-form/employee-form.component';
+import { DialogPopUpComponent } from '../../shared/components/dialog-pop-up/dialog-pop-up.component';
 
 @Component({
   selector: 'app-ubs-admin-employee-card',
@@ -19,6 +20,16 @@ export class UbsAdminEmployeeCardComponent {
       closeOnNavigation: true,
       disableClose: true,
       panelClass: 'custom-dialog-container'
+    });
+  }
+
+  deleteEmployee() {
+    this.dialog.open(DialogPopUpComponent, {
+      // data: this.data,
+      hasBackdrop: true,
+      closeOnNavigation: true,
+      disableClose: true
+      // panelClass: 'custom-dialog-container'
     });
   }
 }
