@@ -37,9 +37,9 @@ export class OrderService {
   readonly orderStatuses = [
     { name: 'FORMED', translation: 'order-edit.order-status.formed', ableActualChange: false },
     { name: 'ADJUSTMENT', translation: 'order-edit.order-status.adjustment', ableActualChange: false },
-    { name: 'BROUGHT_IT_HIMSELF', translation: 'order-edit.order-status.brought-it-himself', ableActualChange: true },
+    { name: 'BROUGHT_IT_HIMSELF', translation: 'order-edit.order-status.brought-it-himself', ableActualChange: false },
     { name: 'CONFIRMED', translation: 'order-edit.order-status.confirmed', ableActualChange: false },
-    { name: 'ON_THE_ROUTE', translation: 'order-edit.order-status.on-the-route', ableActualChange: true },
+    { name: 'ON_THE_ROUTE', translation: 'order-edit.order-status.on-the-route', ableActualChange: false },
     { name: 'DONE', translation: 'order-edit.order-status.done', ableActualChange: true },
     { name: 'NOT_TAKEN_OUT', translation: 'order-edit.order-status.not-taken-out', ableActualChange: false },
     { name: 'CANCELLED', translation: 'order-edit.order-status.cancelled', ableActualChange: true }
