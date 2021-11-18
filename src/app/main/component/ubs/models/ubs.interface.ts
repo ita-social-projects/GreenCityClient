@@ -106,8 +106,10 @@ export interface Address {
   entranceNumber: string;
   houseNumber: string;
   addressComment?: string;
-  longitude?: number;
-  latitude?: number;
+  coordinates: {
+    latitude?: number;
+    longitude?: number;
+  };
 }
 
 export interface Locations {

@@ -112,8 +112,10 @@ export class UBSAddAddressPopUpComponent implements OnInit, OnDestroy {
         [Validators.maxLength(2), Validators.pattern(this.entranceNumberPattern)]
       ],
       addressComment: [this.data.edit ? this.data.address.addressComment : '', Validators.maxLength(255)],
-      longitude: [this.data.edit ? this.data.address.longitude : ''],
-      latitude: [this.data.edit ? this.data.address.latitude : ''],
+      coordinates: {
+        latitude: [this.data.edit ? this.data.address.coordinates.latitude : ''],
+        longitude: [this.data.edit ? this.data.address.coordinates.longitude : '']
+      },
       id: [this.data.edit ? this.data.address.id : 0],
       actual: true
     });
@@ -145,21 +147,24 @@ export class UBSAddAddressPopUpComponent implements OnInit, OnDestroy {
       bounds: this.cityBounds,
       strictBounds: true,
       types: ['address'],
-      radius: 20000,
+      radius: 500000,
       componentRestrictions: { country: 'UA' }
     };
     this.cityOptions = {
       bounds: this.cityBounds,
       strictBounds: true,
       types: ['(cities)'],
-      radius: 20000,
+      radius: 500000,
       componentRestrictions: { country: 'UA' }
     };
   }
 
   onLocationSelected(event): void {
-    this.addAddressForm.get('longitude').setValue(event.geometry.viewport.Ra);
-    this.addAddressForm.get('latitude').setValue(event.geometry.viewport.Ab);
+    this.addAddressForm.get('coordinates').setValue({
+      latitude: (event.geometry.viewport.Bb.g + event.geometry.viewport.Bb.h) / 2,
+      longitude: (event.geometry.viewport.Ra.g + event.geometry.viewport.Ra.h) / 2
+    });
+    console.log(this.addAddressForm);
   }
 
   setDistrict(event: any) {
@@ -178,12 +183,15 @@ export class UBSAddAddressPopUpComponent implements OnInit, OnDestroy {
   }
 
   onDistrictSelected(event): void {
+    console.log(event);
     this.onLocationSelected(event);
     this.setDistrict(event);
     this.onAutocompleteSelected(event);
   }
 
   selectCity(event): void {
+    console.log(event);
+
     this.addAddressForm.get('city').setValue(event.name);
   }
 
@@ -196,6 +204,8 @@ export class UBSAddAddressPopUpComponent implements OnInit, OnDestroy {
     if (this.currentLocation === 'Kyiv' || this.currentLocation === 'Київ') {
       this.addAddressForm.value.city = this.addAddressForm.get('city').value;
     }
+    console.log(this.addAddressForm.value);
+
     this.addAddressForm.value.region = this.addAddressForm.get('region').value;
     this.orderService
       .addAdress(this.addAddressForm.value)
