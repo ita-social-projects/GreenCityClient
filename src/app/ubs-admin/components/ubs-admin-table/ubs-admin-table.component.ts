@@ -4,7 +4,7 @@ import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
 import { nonSortableColumns } from '../../models/non-sortable-columns.model';
 import { AdminTableService } from '../../services/admin-table.service';
 import { CdkDragDrop, moveItemInArray } from '@angular/cdk/drag-drop';
-import { take, takeUntil } from 'rxjs/operators';
+import { debounceTime, take, takeUntil } from 'rxjs/operators';
 import { Subject, timer } from 'rxjs';
 import { Component, OnInit, ViewChild, OnDestroy, AfterViewChecked, ChangeDetectorRef } from '@angular/core';
 import { MatTableDataSource } from '@angular/material/table';
@@ -48,7 +48,10 @@ export class UbsAdminTableComponent implements OnInit, AfterViewChecked, OnDestr
   isAll: boolean;
   count: number;
   display = 'none';
+  filterValue = '';
   isPopupOpen: boolean;
+  model: string;
+  modelChanged: Subject<string> = new Subject<string>();
   @ViewChild(MatSort, { static: true }) sort: MatSort;
 
   constructor(
@@ -64,6 +67,10 @@ export class UbsAdminTableComponent implements OnInit, AfterViewChecked, OnDestr
   ngOnInit() {
     this.localStorageService.languageBehaviourSubject.pipe(takeUntil(this.destroy)).subscribe((lang) => {
       this.currentLang = lang;
+    });
+    this.modelChanged.pipe(debounceTime(500)).subscribe((model) => {
+      this.currentPage = 0;
+      this.getTable('id', 'DESC', model);
     });
     this.orderService.getColumnToDisplay().subscribe((items: any) => {
       this.displayedColumns = items.titles.split(',')[0] === '' ? [] : items.titles.split(',');
@@ -85,7 +92,8 @@ export class UbsAdminTableComponent implements OnInit, AfterViewChecked, OnDestr
   }
 
   applyFilter(filterValue: string): void {
-    this.dataSource.filter = filterValue.trim().toLowerCase();
+    this.filterValue = filterValue;
+    this.modelChanged.next(filterValue);
   }
 
   dropListDropped(event: CdkDragDrop<string[]>) {
@@ -179,14 +187,14 @@ export class UbsAdminTableComponent implements OnInit, AfterViewChecked, OnDestr
         const { pageNumber, pageSize, sortDirection, sortBy } = columns.page;
         this.pageSize = pageSize;
         this.currentPage = pageNumber;
-        this.getTable(sortBy, sortDirection);
+        this.getTable(sortBy, sortDirection, this.filterValue);
       });
   }
 
-  private getTable(columnName = this.sortingColumn || 'id', sortingType = this.sortType || 'DESC') {
+  private getTable(columnName = this.sortingColumn || 'id', sortingType = this.sortType || 'DESC', filterValue) {
     this.isLoading = true;
     this.adminTableService
-      .getTable(columnName, this.currentPage, this.pageSize, sortingType)
+      .getTable(columnName, this.currentPage, filterValue, this.pageSize, sortingType)
       .pipe(takeUntil(this.destroy))
       .subscribe((item) => {
         this.tableData = item[`content`];
@@ -221,7 +229,7 @@ export class UbsAdminTableComponent implements OnInit, AfterViewChecked, OnDestr
   updateTableData() {
     this.isUpdate = true;
     this.adminTableService
-      .getTable(this.sortingColumn || 'id', this.currentPage, this.pageSize, this.sortType || 'DESC')
+      .getTable(this.sortingColumn || 'id', this.currentPage, this.filterValue, this.pageSize, this.sortType || 'DESC')
       .pipe(takeUntil(this.destroy))
       .subscribe((item) => {
         const data = item[`content`];
@@ -238,7 +246,7 @@ export class UbsAdminTableComponent implements OnInit, AfterViewChecked, OnDestr
     this.sortType = sortingType;
     this.arrowDirection = this.arrowDirection === columnName ? null : columnName;
     this.currentPage = 0;
-    this.getTable(columnName, sortingType);
+    this.getTable(columnName, sortingType, this.filterValue);
   }
 
   openExportExcel(): void {
