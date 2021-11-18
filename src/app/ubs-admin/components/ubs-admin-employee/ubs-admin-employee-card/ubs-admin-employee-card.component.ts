@@ -13,6 +13,11 @@ import { UbsAdminEmployeeService } from 'src/app/ubs-admin/services/ubs-admin-em
 })
 export class UbsAdminEmployeeCardComponent {
   @Input() data: Page;
+  deleteDialogData = {
+    popupTitle: 'employees.warning-title',
+    popupConfirm: 'employees.btn.yes',
+    popupCancel: 'employees.btn.no'
+  };
   constructor(private dialog: MatDialog, private ubsAdminEmployeeService: UbsAdminEmployeeService) {}
 
   openModal() {
@@ -27,7 +32,7 @@ export class UbsAdminEmployeeCardComponent {
 
   deleteEmployee() {
     const matDialogRef = this.dialog.open(DialogPopUpComponent, {
-      // data: this.data,
+      data: this.deleteDialogData,
       hasBackdrop: true,
       closeOnNavigation: true,
       disableClose: true,

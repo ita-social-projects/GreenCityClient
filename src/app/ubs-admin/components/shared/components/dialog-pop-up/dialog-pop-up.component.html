@@ -1,10 +1,10 @@
 <div class="main-container">
   <div class="warning-text">
-    <div class="warning-title">Ви впевнені, що хочете видалити цього працівника із системи?</div>
-    <!-- <div class="warning-subtitle"></div> -->
+    <div class="warning-title" *ngIf="popupTitle">{{ popupTitle | translate }}</div>
+    <div class="warning-subtitle" *ngIf="popupSubtitle">{{ popupSubtitle | translate }}</div>
   </div>
   <div class="buttons-container">
-    <button class="secondary-global-button" (click)="userReply(false)">Cancel</button>
-    <button class="primary-global-button" (click)="userReply(true)">Delete</button>
+    <button class="secondary-global-button" (click)="userReply(false)">{{ popupCancel | translate }}</button>
+    <button class="primary-global-button" (click)="userReply(true)">{{ popupConfirm | translate }}</button>
   </div>
 </div>

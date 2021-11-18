@@ -10,6 +10,10 @@ import { takeUntil } from 'rxjs/operators';
 })
 export class DialogPopUpComponent implements OnInit, OnDestroy {
   private destroy$: Subject<boolean> = new Subject<boolean>();
+  popupTitle: string;
+  popupSubtitle: string;
+  popupConfirm: string;
+  popupCancel: string;
 
   constructor(private matDialogRef: MatDialogRef<DialogPopUpComponent>, @Inject(MAT_DIALOG_DATA) public data) {}
 
@@ -35,10 +39,10 @@ export class DialogPopUpComponent implements OnInit, OnDestroy {
   }
 
   private setTitles(): void {
-    // this.popupTitle = this.data.popupTitle;
-    // this.popupSubtitle = this.data.popupSubtitle;
-    // this.popupConfirm = this.data.popupConfirm;
-    // this.popupCancel = this.data.popupCancel;
+    this.popupTitle = this.data.popupTitle;
+    this.popupSubtitle = this.data.popupSubtitle;
+    this.popupConfirm = this.data.popupConfirm;
+    this.popupCancel = this.data.popupCancel;
   }
 
   public userReply(reply: boolean): void {
