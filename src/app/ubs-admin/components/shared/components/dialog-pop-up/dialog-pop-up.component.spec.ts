@@ -6,7 +6,7 @@ import { of } from 'rxjs';
 
 import { DialogPopUpComponent } from './dialog-pop-up.component';
 
-fdescribe('DialogPopUpComponent', () => {
+describe('DialogPopUpComponent', () => {
   let component: DialogPopUpComponent;
   let fixture: ComponentFixture<DialogPopUpComponent>;
   const fakeTitles = {
@@ -76,5 +76,21 @@ fdescribe('DialogPopUpComponent', () => {
     expect(component.popupSubtitle).toBe(fakeTitles.popupSubtitle);
     expect(component.popupCancel).toBe(fakeTitles.popupCancel);
     expect(component.popupConfirm).toBe(fakeTitles.popupConfirm);
+  });
+
+  it('should call close on matDialogRef', () => {
+    const spy = spyOn(component[matDialogRef], 'close');
+    component.userReply(true);
+    expect(spy).toHaveBeenCalledWith(true);
+  });
+
+  it('should cancel streams after ngOnDestroy', () => {
+    const destroy$ = 'destroy$';
+    const nextSpy = spyOn(component[destroy$], 'next');
+    const completeSpy = spyOn(component[destroy$], 'complete');
+    component.ngOnDestroy();
+
+    expect(nextSpy).toHaveBeenCalled();
+    expect(completeSpy).toHaveBeenCalled();
   });
 });
