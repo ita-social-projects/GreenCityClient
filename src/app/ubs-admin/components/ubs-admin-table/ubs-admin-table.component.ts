@@ -50,6 +50,7 @@ export class UbsAdminTableComponent implements OnInit, AfterViewChecked, OnDestr
   display = 'none';
   filterValue = '';
   isPopupOpen: boolean;
+  stickyColumn = [];
   model: string;
   modelChanged: Subject<string> = new Subject<string>();
   @ViewChild(MatSort, { static: true }) sort: MatSort;
@@ -98,6 +99,12 @@ export class UbsAdminTableComponent implements OnInit, AfterViewChecked, OnDestr
 
   dropListDropped(event: CdkDragDrop<string[]>) {
     moveItemInArray(this.displayedColumns, event.previousIndex, event.currentIndex);
+    for (let i = 0; i < 4; i++) {
+      this.stickyColumn.push(this.displayedColumns[i]);
+    }
+    this.columns.forEach((item) => {
+      item.sticky = this.stickyColumn.includes(item.title.key);
+    });
   }
 
   isAllSelected() {
