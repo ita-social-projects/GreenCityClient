@@ -210,6 +210,10 @@ button {
     font-family: var(--ubs-quaternary-font);
     padding-right: 0.5rem;
 
+    span {
+      width: 140px;
+    }
+
     strong {
       padding-left: 2rem;
       color: var(--ubs-primary-grey);

@@ -23,12 +23,23 @@ export class OrderService {
   private selectedOrder;
   private selectedOrderStatus: any = new ReplaySubject<any>(1);
 
+  statusDone = { name: 'DONE', translation: 'order-edit.order-status.done' };
+  statusAdjustment = { name: 'ADJUSTMENT', translation: 'order-edit.order-status.adjustment' };
+  statusOnTheRoute = { name: 'ON_THE_ROUTE', translation: 'order-edit.order-status.on-the-route' };
+  statusNotTakenOut = { name: 'NOT_TAKEN_OUT', translation: 'order-edit.order-status.not-taken-out' };
+  statusConfirmed = { name: 'CONFIRMED', translation: 'order-edit.order-status.confirmed' };
+  statusFormed = { name: 'FORMED', translation: 'order-edit.order-status.formed' };
+  statusBroughtItHimself = { name: 'BROUGHT_IT_HIMSELF', translation: 'order-edit.order-status.brought-it-himself' };
+  statusCancelled = { name: 'CANCELLED', translation: 'order-edit.order-status.cancelled' };
+
+  // TODO: change this mock after receiving data from backend
+
   readonly orderStatuses = [
     { name: 'FORMED', translation: 'order-edit.order-status.formed', ableActualChange: false },
     { name: 'ADJUSTMENT', translation: 'order-edit.order-status.adjustment', ableActualChange: false },
-    { name: 'BROUGHT_IT_HIMSELF', translation: 'order-edit.order-status.brought-it-himself', ableActualChange: true },
+    { name: 'BROUGHT_IT_HIMSELF', translation: 'order-edit.order-status.brought-it-himself', ableActualChange: false },
     { name: 'CONFIRMED', translation: 'order-edit.order-status.confirmed', ableActualChange: false },
-    { name: 'ON_THE_ROUTE', translation: 'order-edit.order-status.on-the-route', ableActualChange: true },
+    { name: 'ON_THE_ROUTE', translation: 'order-edit.order-status.on-the-route', ableActualChange: false },
     { name: 'DONE', translation: 'order-edit.order-status.done', ableActualChange: true },
     { name: 'NOT_TAKEN_OUT', translation: 'order-edit.order-status.not-taken-out', ableActualChange: false },
     { name: 'CANCELLED', translation: 'order-edit.order-status.cancelled', ableActualChange: true }
@@ -63,6 +74,28 @@ export class OrderService {
 
   setSelectedOrder(order) {
     this.selectedOrder = order;
+  }
+
+  getAvailableOrderStatuses(currentOrderStatus: string) {
+    switch (currentOrderStatus) {
+      case 'FORMED':
+        return [this.statusFormed, this.statusAdjustment, this.statusBroughtItHimself, this.statusCancelled];
+
+      case 'ADJUSTMENT':
+        return [this.statusFormed, this.statusAdjustment, this.statusConfirmed, this.statusBroughtItHimself, this.statusCancelled];
+
+      case 'CONFIRMED':
+        return [this.statusFormed, this.statusConfirmed, this.statusOnTheRoute, this.statusCancelled];
+
+      case 'BROUGHT_IT_HIMSELF':
+        return [this.statusBroughtItHimself, this.statusDone, this.statusCancelled];
+
+      case 'ON_THE_ROUTE':
+        return [this.statusOnTheRoute, this.statusDone, this.statusNotTakenOut, this.statusCancelled];
+
+      case 'NOT_TAKEN_OUT':
+        return [this.statusNotTakenOut, this.statusAdjustment, this.statusCancelled];
+    }
   }
 
   public getOrderInfo(orderId, lang) {
@@ -126,5 +159,13 @@ export class OrderService {
 
   private getOrderObjByName(name) {
     return this.orderStatuses.filter((status) => status.name === name);
+  }
+
+  public getColumnToDisplay() {
+    return this.http.get(`${this.backend}/management/getOrdersViewParameters`);
+  }
+
+  public setColumnToDisplay(columns: string) {
+    return this.http.put<any>(`${this.backend}/management/changeOrdersTableView?titles=${columns}`, '');
   }
 }

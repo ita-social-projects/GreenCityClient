@@ -45,10 +45,11 @@ export class UbsAdminTableComponent implements OnInit, AfterViewChecked, OnDestr
   allChecked = false;
   tableViewHeaders = [];
   public blockedInfo: IAlertInfo[] = [];
-  isAll = true;
+  isAll: boolean;
   count: number;
   display = 'none';
   filterValue = '';
+  isPopupOpen: boolean;
   model: string;
   modelChanged: Subject<string> = new Subject<string>();
   @ViewChild(MatSort, { static: true }) sort: MatSort;
@@ -70,6 +71,10 @@ export class UbsAdminTableComponent implements OnInit, AfterViewChecked, OnDestr
     this.modelChanged.pipe(debounceTime(500)).subscribe((model) => {
       this.currentPage = 0;
       this.getTable('id', 'DESC', model);
+    });
+    this.orderService.getColumnToDisplay().subscribe((items: any) => {
+      this.displayedColumns = items.titles.split(',')[0] === '' ? [] : items.titles.split(',');
+      this.isAll = false;
     });
     this.getColumns();
   }
@@ -159,6 +164,10 @@ export class UbsAdminTableComponent implements OnInit, AfterViewChecked, OnDestr
 
   public togglePopUp() {
     this.display = this.display === 'none' ? 'block' : 'none';
+    this.isPopupOpen = !this.isPopupOpen;
+    if (this.isPopupOpen === false) {
+      this.orderService.setColumnToDisplay(encodeURIComponent(this.displayedColumns.join(','))).subscribe();
+    }
   }
 
   public showAllColumns(isCheckAll: boolean): void {
@@ -172,7 +181,9 @@ export class UbsAdminTableComponent implements OnInit, AfterViewChecked, OnDestr
       .subscribe((columns: any) => {
         this.tableViewHeaders = columns.columnBelongingList;
         this.columns = columns.columnDTOList;
-        this.setDisplayedColumns();
+        if (this.displayedColumns.length === 0) {
+          this.setDisplayedColumns();
+        }
         const { pageNumber, pageSize, sortDirection, sortBy } = columns.page;
         this.pageSize = pageSize;
         this.currentPage = pageNumber;
