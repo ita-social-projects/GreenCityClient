@@ -128,7 +128,7 @@
             <label class="form__label py-2" for="cert-num">
               {{ 'order-details.certificate-number-label' | translate }}
             </label>
-            <input class="form-control" type="text" id="cert-num" placeholder="XXXX-XXXX" formControlName="certificate" />
+            <input class="form-control" type="text" id="cert-num" placeholder="XXXX-XXXX" formControlName="certificate" disabled />
           </div>
           <div class="form-group">
             <label class="form__label py-2" for="order-num">
@@ -149,9 +149,6 @@
             disabled
           >
           </textarea>
-        </div>
-        <div class="send__button col-sm-6">
-          <button class="btn send__btn" type="button">{{ 'order-details.send-button' | translate }}</button>
         </div>
       </div>
     </div>

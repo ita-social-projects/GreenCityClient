@@ -22,6 +22,7 @@ export class UbsAdminOrderComponent implements OnInit, OnDestroy {
   order;
   orderDetails;
   orderForm: FormGroup;
+  orderInfo;
 
   constructor(
     private orderService: OrderService,
@@ -45,6 +46,7 @@ export class UbsAdminOrderComponent implements OnInit, OnDestroy {
       .getOrderInfo(orderId, lang)
       .pipe(takeUntil(this.destroy$))
       .subscribe((data: any) => {
+        this.orderInfo = data;
         const bagsObj = data.bags.map((bag) => {
           bag.planned = data.amountOfBagsOrdered[bag.id] || 0;
           bag.confirmed = data.amountOfBagsConfirmed[bag.id] || 0;
@@ -96,10 +98,12 @@ export class UbsAdminOrderComponent implements OnInit, OnDestroy {
         driver: this.order.responsibleDriver
       }),
       orderDetailsForm: this.fb.group({
+        storeOrderNumber: this.orderInfo.additionalOrders.join(', '),
         // TODO: set data after receiving from backend
-        storeOrderNumber: '',
-        certificate: '2222-2222',
-        customerComment: ''
+        certificate: 'TODO-TODO',
+        //
+        customerComment: this.orderInfo.comment,
+        isMinOrder: [true, [Validators.required]]
       })
     });
     this.orderDetails.bags.forEach((bag) => {

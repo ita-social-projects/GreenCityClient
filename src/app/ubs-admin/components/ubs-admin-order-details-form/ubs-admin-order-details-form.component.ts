@@ -1,5 +1,5 @@
 import { Component, Input, OnDestroy, OnInit } from '@angular/core';
-import { FormGroup, FormControl, Validators, FormBuilder } from '@angular/forms';
+import { FormGroup, FormBuilder } from '@angular/forms';
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 import { OrderService } from '../../services/order.service';
@@ -114,15 +114,19 @@ export class UbsAdminOrderDetailsFormComponent implements OnInit, OnDestroy {
     let amountOfBigBags = 0;
     const type = this.order.ableActualChange ? 'actual' : 'confirmed';
     this.showUbsCourier = this.buyMore = false;
+    this.orderDetailsForm.controls.isMinOrder.setValue(true);
     this.orderDetails.bags.forEach((bag) => {
       if (bag.capacity === 120) {
         amountOfBigBags += bag[type];
       }
     });
-    if (type === 'actual') {
-      this.showUbsCourier = amountOfBigBags < this.minAmountBigBags;
-    } else {
-      this.buyMore = amountOfBigBags < this.minAmountBigBags;
+    if (amountOfBigBags < this.minAmountBigBags) {
+      if (type === 'actual') {
+        this.showUbsCourier = true;
+      } else {
+        this.buyMore = true;
+        this.orderDetailsForm.controls.isMinOrder.setValue('');
+      }
     }
   }
 
