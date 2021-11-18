@@ -127,4 +127,12 @@ export class OrderService {
   private getOrderObjByName(name) {
     return this.orderStatuses.filter((status) => status.name === name);
   }
+
+  public getColumnToDisplay() {
+    return this.http.get(`${this.backend}/management/getOrdersViewParameters`);
+  }
+
+  public setColumnToDisplay(columns: string) {
+    return this.http.put<any>(`${this.backend}/management/changeOrdersTableView?titles=${columns}`, '');
+  }
 }

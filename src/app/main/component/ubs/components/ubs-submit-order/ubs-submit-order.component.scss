@@ -112,6 +112,12 @@ h3 {
 
   .total-content {
     color: var(--ubs-secondary-grey);
+    display: flex;
+    align-items: flex-end;
+
+    span {
+      width: 140px;
+    }
   }
 
   strong {
