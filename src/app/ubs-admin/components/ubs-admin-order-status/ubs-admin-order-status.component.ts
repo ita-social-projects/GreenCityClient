@@ -1,7 +1,10 @@
 import { Component, Input, OnDestroy } from '@angular/core';
 import { FormGroup } from '@angular/forms';
 import { Subject } from 'rxjs';
+import { take } from 'rxjs/operators';
 import { OrderService } from '../../services/order.service';
+import { MatDialog } from '@angular/material/dialog';
+import { AddOrderCancellationReasonComponent } from '../../add-order-cancellation-reason/add-order-cancellation-reason.component';
 
 @Component({
   selector: 'app-ubs-admin-order-status',
@@ -12,11 +15,26 @@ export class UbsAdminOrderStatusComponent implements OnDestroy {
   @Input() order;
   @Input() orderStatusForm: FormGroup;
 
-  constructor(public orderService: OrderService) {}
+  constructor(public orderService: OrderService, private dialog: MatDialog) {}
   private destroy$: Subject<boolean> = new Subject<boolean>();
 
   onChangedOrderStatus(statusName) {
     this.orderService.setSelectedOrderStatus(statusName);
+    if (statusName === 'CANCELLED') {
+      this.openPopup();
+    }
+  }
+
+  openPopup() {
+    this.dialog
+      .open(AddOrderCancellationReasonComponent, {
+        hasBackdrop: true
+      })
+      .afterClosed()
+      .pipe(take(1))
+      .subscribe((discarded) => {
+        console.log('oooooo');
+      });
   }
 
   ngOnDestroy(): void {

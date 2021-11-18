@@ -1,0 +1,37 @@
+<div class="container">
+  <div class="close-container">
+    <button class="close-btn" mat-dialog-close (click)="closePopup()">
+      <img src="{{ closeButton }}" alt="close" />
+    </button>
+  </div>
+  <div>
+    <p class="title">Додати причину скасування замовлення</p>
+  </div>
+  <div>
+    <input class="checkmark" type="radio" id="contactChoice1" name="reason" value="broughtHimself" checked />
+    <label class="radio-btn" for="contactChoice1">Привезено на станцію самостійно</label>
+  </div>
+  <div>
+    <input class="checkmark" type="radio" id="contactChoice2" name="reason" value="moving" />
+    <label class="radio-btn" for="contactChoice2">Переїзд</label>
+  </div>
+  <div>
+    <input class="checkmark" type="radio" id="contactChoice3" name="reason" value="departureFromCity" />
+    <label class="radio-btn" for="contactChoice3">Виїзд з міста</label>
+  </div>
+  <div>
+    <input class="checkmark" type="radio" id="contactChoice3" name="reason" value="didNotLikeServise" />
+    <label class="radio-btn" for="contactChoice4">Не сподобався сервіс</label>
+  </div>
+  <div>
+    <input class="checkmark" type="radio" id="contactChoice5" name="reason" value="ownOption" />
+    <label class="radio-btn" for="contactChoice3">Свій варіант</label>
+  </div>
+  <textarea *ngIf="" name="reason" id="" cols="50" rows="6"></textarea>
+  <div class="btn-container">
+    <button type="reset" class="disagree btn">Скасувати</button>
+    <button type="submit" class="agree btn">Додати</button>
+  </div>
+  <span class="date">Дата: {{ date | date: 'dd.MM.y' }} </span>
+  <span>Додано: Current user</span>
+</div>

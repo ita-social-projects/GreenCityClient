@@ -1,0 +1,57 @@
+.container {
+  padding: 40px;
+  position: relative;
+
+  .close-container {
+    position: absolute;
+    top: -5px;
+    right: 5px;
+  }
+
+  .close-btn {
+    border: none;
+    background-color: transparent;
+    outline: none;
+
+    img {
+      width: 20px;
+    }
+  }
+
+  .title {
+    font-size: 30px;
+    max-width: 500px;
+    line-height: 1.5;
+    font-weight: 600;
+  }
+
+  label {
+    font-size: 20px;
+    color: var(--ubs-tertiary-grey);
+  }
+
+  .checkmark {
+    margin-right: 10px;
+  }
+
+  .btn-container {
+    text-align-last: right;
+    margin-bottom: 40px;
+    margin-top: 40px;
+
+    .btn {
+      border-radius: 5px;
+      font-size: 20px;
+    }
+  }
+
+  input[type='radio'] {
+    width: 30px;
+    height: 1.5em;
+    margin-top: 10px;
+  }
+
+  .date {
+    margin-right: 40px;
+  }
+}
