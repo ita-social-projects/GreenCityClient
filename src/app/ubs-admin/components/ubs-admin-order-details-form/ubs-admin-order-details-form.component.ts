@@ -12,8 +12,12 @@ import { OrderService } from '../../services/order.service';
 export class UbsAdminOrderDetailsFormComponent implements OnInit, OnDestroy {
   public payMore = true;
   public isInputDisabled = false;
-  public isVisible = true;
-  public ubsCourier = 0;
+  public buyMore = false;
+  public showUbsCourier = false;
+  // TODO: change to data from backend
+  public courierPricePerPackage = 50;
+  public minAmountBigBags = 2;
+  //
   private order;
   public orderInfo = {
     amount: {
@@ -36,7 +40,6 @@ export class UbsAdminOrderDetailsFormComponent implements OnInit, OnDestroy {
   };
   private destroy$: Subject<boolean> = new Subject<boolean>();
   public currentLanguage: string;
-  public minOrderSum = 500;
   pageOpen: boolean;
   @Input() orderDetails;
   @Input() orderDetailsForm: FormGroup;
@@ -44,17 +47,12 @@ export class UbsAdminOrderDetailsFormComponent implements OnInit, OnDestroy {
   constructor(private fb: FormBuilder, private orderService: OrderService) {}
 
   ngOnInit(): void {
-    // TODO: change this mock after receiving bags names from backend
-    this.orderDetails.bags[0].name = 'Безнадійний одяг';
-    this.orderDetails.bags[1].name = 'Безнадійний одяг';
-    this.orderDetails.bags[2].name = 'Вторсировина';
-    //
     this.orderService
       .getSelectedOrderStatus()
       .pipe(takeUntil(this.destroy$))
       .subscribe((order) => {
         this.order = order;
-        this.isVisible = order.ableActualChange;
+        this.calculateFinalSum();
       });
     this.orderDetails.bags.forEach((bag) => {
       this.orderInfo = {
@@ -77,17 +75,17 @@ export class UbsAdminOrderDetailsFormComponent implements OnInit, OnDestroy {
         certificateDiscount: this.orderDetails.certificateDiscount
       };
     });
-    this.calculateFinalSum();
   }
 
   private calculateFinalSum() {
     const bonusesAndCert = this.orderInfo.bonuses + this.orderInfo.certificateDiscount;
+    this.checkAmountOfBigBags();
     this.orderInfo.finalSum = {
       planned: this.orderInfo.sum.planned - bonusesAndCert,
       confirmed: this.orderInfo.sum.confirmed - bonusesAndCert,
-      actual: this.orderInfo.sum.actual - bonusesAndCert
+      actual: this.orderInfo.sum.actual - bonusesAndCert + (this.showUbsCourier ? this.courierPricePerPackage : 0)
     };
-    for (const type in this.orderInfo.finalSum) {
+    for (let type in this.orderInfo.finalSum) {
       if (this.orderInfo.finalSum[type] < 0) {
         this.orderInfo.finalSum[type] = 0;
       }
@@ -110,6 +108,22 @@ export class UbsAdminOrderDetailsFormComponent implements OnInit, OnDestroy {
         this.calculateFinalSum();
       }
     });
+  }
+
+  private checkAmountOfBigBags() {
+    let amountOfBigBags = 0;
+    const type = this.order.ableActualChange ? 'actual' : 'confirmed';
+    this.showUbsCourier = this.buyMore = false;
+    this.orderDetails.bags.forEach((bag) => {
+      if (bag.capacity === 120) {
+        amountOfBigBags += bag[type];
+      }
+    });
+    if (type === 'actual') {
+      this.showUbsCourier = amountOfBigBags < this.minAmountBigBags;
+    } else {
+      this.buyMore = amountOfBigBags < this.minAmountBigBags;
+    }
   }
 
   ngOnDestroy(): void {
