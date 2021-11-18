@@ -18,7 +18,7 @@ export class UbsAdminOrderDetailsFormComponent implements OnInit, OnDestroy {
   public courierPricePerPackage = 50;
   public minAmountBigBags = 2;
   //
-  private order;
+  public order;
   public orderInfo = {
     amount: {
       planned: 0,
