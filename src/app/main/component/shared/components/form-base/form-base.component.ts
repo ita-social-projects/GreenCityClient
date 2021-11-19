@@ -84,7 +84,8 @@ export class FormBaseComponent implements ComponentCanDeactivate {
             const isUBS = currentUrl.includes('ubs/order');
             if (isUBS) {
               this.orderService.changeShouldBePaid();
-              this.orderService.getOrderUrl().subscribe((orderId) => {
+              this.orderService.getOrderUrl().subscribe((response) => {
+                const { orderId } = JSON.parse(response);
                 this.ubsOrderFormService.transferOrderId(orderId);
                 this.ubsOrderFormService.setOrderResponseErrorStatus(orderId ? false : true);
                 this.areChangesSaved = true;
