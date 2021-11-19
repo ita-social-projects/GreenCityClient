@@ -32,7 +32,7 @@ export class TableCellSelectComponent implements OnInit {
     private adminTableService: AdminTableService,
     private orderSevice: OrderService
     ) {}
-  
+
   ngOnInit() {
     this.currentValue = this.optional.filter((item) => item.key === this.key)[0];
     this.filterStatuses();
