@@ -75,9 +75,9 @@ export class OrderService {
     this.orderSubject.next(order);
   }
 
-  changeShouldBePaid() {
+  changeShouldBePaid(shouldBePaid: boolean) {
     const order = this.orderSubject.getValue();
-    order.shouldBePaid = false;
+    order.shouldBePaid = shouldBePaid;
     this.setOrder(order);
   }
 

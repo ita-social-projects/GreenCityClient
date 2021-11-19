@@ -83,14 +83,19 @@ export class FormBaseComponent implements ComponentCanDeactivate {
             const currentUrl = this.router.url;
             const isUBS = currentUrl.includes('ubs/order');
             if (isUBS) {
-              this.orderService.changeShouldBePaid();
-              this.orderService.getOrderUrl().subscribe((response) => {
-                const { orderId } = JSON.parse(response);
-                this.ubsOrderFormService.transferOrderId(orderId);
-                this.ubsOrderFormService.setOrderResponseErrorStatus(orderId ? false : true);
-                this.areChangesSaved = true;
-                this.router.navigate(['ubs', 'confirm']);
-              });
+              this.orderService.changeShouldBePaid(false);
+              this.orderService.getOrderUrl().subscribe(
+                (response) => {
+                  const { orderId } = JSON.parse(response);
+                  this.ubsOrderFormService.transferOrderId(orderId);
+                  this.ubsOrderFormService.setOrderResponseErrorStatus(orderId ? false : true);
+                  this.areChangesSaved = true;
+                  this.router.navigate(['ubs', 'confirm']);
+                },
+                () => {
+                  this.orderService.changeShouldBePaid(true);
+                }
+              );
             } else {
               this.areChangesSaved = true;
               this.router.navigate([this.previousPath]);
