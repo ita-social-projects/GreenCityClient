@@ -52,25 +52,6 @@ export class FormBaseComponent implements ComponentCanDeactivate {
     localStorage.removeItem('newsTags');
   }
 
-  /* private cancelPopupJustifying(condition: boolean) {
-    if (condition) {
-      const matDialogRef = this.dialog.open(WarningPopUpComponent, this.popupConfig);
-
-      matDialogRef
-        .afterClosed()
-        .pipe(take(1))
-        .subscribe((confirm) => {
-          if (confirm) {
-            this.areChangesSaved = true;
-            this.router.navigate([this.previousPath]);
-          }
-        });
-      return;
-    }
-    this.areChangesSaved = true;
-    this.router.navigate([this.previousPath]);
-  } */
-
   public checkChanges(): boolean {
     const body = this.getFormValues();
     for (const key of Object.keys(body)) {

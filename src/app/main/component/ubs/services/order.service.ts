@@ -81,7 +81,7 @@ export class OrderService {
     this.setOrder(order);
   }
 
-  getOrderUrl(): Observable<Order> {
+  getOrderUrl(): Observable<any> {
     return this.processOrder(this.orderSubject.getValue());
   }
 
