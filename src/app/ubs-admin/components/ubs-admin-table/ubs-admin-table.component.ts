@@ -71,7 +71,7 @@ export class UbsAdminTableComponent implements OnInit, AfterViewChecked, OnDestr
     });
     this.modelChanged.pipe(debounceTime(500)).subscribe((model) => {
       this.currentPage = 0;
-      this.getTable('id', 'DESC', model);
+      this.getTable(model, 'id', 'DESC');
     });
     this.orderService.getColumnToDisplay().subscribe((items: any) => {
       this.displayedColumns = items.titles.split(',')[0] === '' ? [] : items.titles.split(',');
@@ -194,11 +194,11 @@ export class UbsAdminTableComponent implements OnInit, AfterViewChecked, OnDestr
         const { pageNumber, pageSize, sortDirection, sortBy } = columns.page;
         this.pageSize = pageSize;
         this.currentPage = pageNumber;
-        this.getTable(sortBy, sortDirection, this.filterValue);
+        this.getTable(this.filterValue, sortBy, sortDirection);
       });
   }
 
-  private getTable(columnName = this.sortingColumn || 'id', sortingType = this.sortType || 'DESC', filterValue) {
+  private getTable(filterValue, columnName = this.sortingColumn || 'id', sortingType = this.sortType || 'DESC') {
     this.isLoading = true;
     this.adminTableService
       .getTable(columnName, this.currentPage, filterValue, this.pageSize, sortingType)
@@ -253,7 +253,7 @@ export class UbsAdminTableComponent implements OnInit, AfterViewChecked, OnDestr
     this.sortType = sortingType;
     this.arrowDirection = this.arrowDirection === columnName ? null : columnName;
     this.currentPage = 0;
-    this.getTable(columnName, sortingType, this.filterValue);
+    this.getTable(this.filterValue, columnName, sortingType);
   }
 
   openExportExcel(): void {

@@ -5,18 +5,18 @@
     <h1 class="form__headline">{{ 'order-history.title' | translate }}</h1>
   </div>
   <div *ngIf="pageOpen" class="content">
-    <table>
+    <table aria-label="order-history">
       <tr>
-        <th>
+        <th scope="row">
           {{ 'order-history.date' | translate }}
         </th>
-        <th>
+        <th scope="row">
           {{ 'order-history.time' | translate }}
         </th>
-        <th>
+        <th scope="row">
           {{ 'order-history.event' | translate }}
         </th>
-        <th>
+        <th scope="row">
           {{ 'order-history.author' | translate }}
         </th>
       </tr>

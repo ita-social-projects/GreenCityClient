@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { ubsHeaderIcons } from '../../main/image-pathes/header-icons';
 
 @Component({
@@ -6,10 +6,6 @@ import { ubsHeaderIcons } from '../../main/image-pathes/header-icons';
   templateUrl: './ubs-footer.component.html',
   styleUrls: ['./ubs-footer.component.scss']
 })
-export class UbsFooterComponent implements OnInit {
+export class UbsFooterComponent {
   public footerPicture = ubsHeaderIcons.ubsAdminLogo;
-
-  constructor() {}
-
-  ngOnInit(): void {}
 }
