@@ -52,6 +52,25 @@ export class FormBaseComponent implements ComponentCanDeactivate {
     localStorage.removeItem('newsTags');
   }
 
+  /* private cancelPopupJustifying(condition: boolean) {
+    if (condition) {
+      const matDialogRef = this.dialog.open(WarningPopUpComponent, this.popupConfig);
+
+      matDialogRef
+        .afterClosed()
+        .pipe(take(1))
+        .subscribe((confirm) => {
+          if (confirm) {
+            this.areChangesSaved = true;
+            this.router.navigate([this.previousPath]);
+          }
+        });
+      return;
+    }
+    this.areChangesSaved = true;
+    this.router.navigate([this.previousPath]);
+  } */
+
   public checkChanges(): boolean {
     const body = this.getFormValues();
     for (const key of Object.keys(body)) {
@@ -80,13 +99,20 @@ export class FormBaseComponent implements ComponentCanDeactivate {
         .pipe(take(1))
         .subscribe((confirm) => {
           if (confirm) {
-            this.orderService.changeShouldBePaid();
-            this.orderService.getOrderUrl().subscribe((orderId) => {
-              this.ubsOrderFormService.transferOrderId(orderId);
-              this.ubsOrderFormService.setOrderResponseErrorStatus(orderId ? false : true);
+            const currentUrl = this.router.url;
+            const isUBS = currentUrl.includes('ubs/order');
+            if (isUBS) {
+              this.orderService.changeShouldBePaid();
+              this.orderService.getOrderUrl().subscribe((orderId) => {
+                this.ubsOrderFormService.transferOrderId(orderId);
+                this.ubsOrderFormService.setOrderResponseErrorStatus(orderId ? false : true);
+                this.areChangesSaved = true;
+                this.router.navigate(['ubs', 'confirm']);
+              });
+            } else {
               this.areChangesSaved = true;
-              this.router.navigate(['ubs', 'confirm']);
-            });
+              this.router.navigate([this.previousPath]);
+            }
           }
         });
       return;
