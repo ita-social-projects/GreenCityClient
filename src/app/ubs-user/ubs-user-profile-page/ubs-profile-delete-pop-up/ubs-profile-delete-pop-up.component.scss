@@ -1,3 +1,8 @@
+@mixin height-and-width($height, $width) {
+  height: $height;
+  width: $width;
+}
+
 .dialog-container {
   width: 450px;
   padding: 20px;
@@ -6,4 +11,21 @@
 
 button {
   margin: 10px;
+}
+
+.btn-ubs {
+  font-size: 18px;
+  background-color: var(--ubs-button-light-green);
+  color: var(--ubs-tertiary-dark-grey);
+}
+
+.btn-ubs-outline-success {
+  color: var(--ubs-button-light-green);
+  border-color: var(--ubs-button-light-green);
+}
+
+.btn-ubs-outline-success:hover {
+  color: var(--ubs-secondary-dark-grey);
+  background-color: var(--ubs-button-light-green);
+  border-color: var(--ubs-button-light-green);
 }

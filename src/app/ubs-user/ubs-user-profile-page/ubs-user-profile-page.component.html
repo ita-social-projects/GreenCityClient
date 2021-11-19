@@ -5,7 +5,7 @@
         <div class="header-text">
           <h3>{{ 'ubs-client-profile.data' | translate }}</h3>
         </div>
-        <button class="btn btn-outline-success edit" (click)="onEdit()" [disabled]="isEditing || isFetching">
+        <button class="btn btn-ubs-outline-success edit" (click)="onEdit()" [disabled]="isEditing || isFetching">
           {{ 'ubs-client-profile.btn.edit' | translate }}
         </button>
       </div>
@@ -100,7 +100,7 @@
         </form>
       </div>
       <div class="submit-btns" *ngIf="isEditing">
-        <button class="btn btn-outline-success cancel" type="submit" (click)="onCancel()">
+        <button class="btn btn-ubs-outline-success cancel" type="submit" (click)="onCancel()">
           {{ 'ubs-client-profile.btn.cancel' | translate }}
         </button>
         <button class="btn btn-success" type="submit" (click)="onSubmit()" [disabled]="!userForm.valid">
@@ -112,17 +112,17 @@
           <h3>{{ 'ubs-client-profile.additional' | translate }}</h3>
         </div>
         <div class="footer-btns">
-          <button class="btn btn-outline-success open" (click)="openChangePasswordDialog()">
+          <button class="btn btn-ubs-outline-success open" (click)="openChangePasswordDialog()">
             {{ 'ubs-client-profile.btn.change-password' | translate }}
           </button>
-          <button class="btn btn-outline-success delete" (click)="openDeleteProfileDialog()">
+          <button class="btn btn-ubs-outline-success delete" (click)="openDeleteProfileDialog()">
             {{ 'ubs-client-profile.btn.delete-profile' | translate }}
           </button>
         </div>
       </div>
     </div>
     <ng-template #spinner>
-      <app-spinner class="mx-auto"></app-spinner>
+      <app-ubs-spinner class="mx-auto"></app-ubs-spinner>
     </ng-template>
   </div>
 </div>

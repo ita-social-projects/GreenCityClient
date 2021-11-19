@@ -52,6 +52,17 @@
     font-family: var(--secondary-font);
   }
 
+  .btn-ubs-outline-success {
+    color: var(--ubs-button-light-green);
+    border-color: var(--ubs-button-light-green);
+  }
+
+  .btn-ubs-outline-success:hover {
+    color: var(--ubs-secondary-dark-grey);
+    background-color: var(--ubs-button-light-green);
+    border-color: var(--ubs-button-light-green);
+  }
+
   h5 {
     font-weight: bold;
     margin: 30px 0 30px 15px;

@@ -1,3 +1,8 @@
+@mixin height-and-width($height, $width) {
+  height: $height;
+  width: $width;
+}
+
 .dialog-container {
   position: relative;
   width: 464px;
@@ -42,10 +47,25 @@
 
     button {
       margin: 0 10px;
-      padding: 8px 24px;
+      //padding: 8px 24px;
       border-radius: 4px;
       width: 9rem;
       height: 3rem;
     }
+  }
+
+  .btn-ubs {
+    @include height-and-width(44px, 200px);
+    font-size: 18px;
+    background-color: var(--ubs-button-light-green);
+    color: var(--ubs-tertiary-dark-grey);
+    margin-top: 25px;
+  }
+
+  .cancel-btn {
+    border-radius: 4px;
+    border: 1px solid var(--ubs-quaternary-dark-grey);
+    font-size: 18px;
+    color: var(--ubs-quaternary-dark-grey);
   }
 }

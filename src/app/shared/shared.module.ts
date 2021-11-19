@@ -2,6 +2,7 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { MaterialModule } from '../material.module';
 import { SpinnerComponent } from './spinner/spinner.component';
+import { SpinnerUbsComponent } from './spinner-ubs/spinner-ubs.component';
 import { LocalizedCurrencyPipe } from './localized-currency-pipe/localized-currency.pipe';
 import { VolumePipe } from './volume-pipe/volume.pipe';
 import { DragDirective } from './drag-and-drop/dragDrop.directive';
@@ -28,6 +29,7 @@ import { UbsFooterComponent } from './ubs-footer/ubs-footer.component';
 @NgModule({
   declarations: [
     SpinnerComponent,
+    SpinnerUbsComponent,
     LocalizedCurrencyPipe,
     DragDirective,
     HeaderComponent,
@@ -58,6 +60,7 @@ import { UbsFooterComponent } from './ubs-footer/ubs-footer.component';
   ],
   exports: [
     SpinnerComponent,
+    SpinnerUbsComponent,
     LocalizedCurrencyPipe,
     DragDirective,
     VolumePipe,

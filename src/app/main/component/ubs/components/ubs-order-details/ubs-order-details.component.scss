@@ -459,6 +459,15 @@ h5 {
   background: var(--ubs-button-light-green);
 }
 
+.primary-ubs-button {
+  padding: 8px 14px;
+  border-radius: 4px;
+  font-size: 18px;
+  color: var(--ubs-quaternary-dark-grey);
+  border-color: var(--ubs-button-light-green);
+  background: var(--ubs-button-light-green);
+}
+
 .cancel-button {
   border-radius: 4px;
   border: 1px solid var(--ubs-quaternary-dark-grey);

@@ -15,13 +15,19 @@
     </select>
   </form>
   <ng-template #spinner>
-    <app-spinner class="mx-auto"></app-spinner>
+    <app-ubs-spinner class="mx-auto"></app-ubs-spinner>
   </ng-template>
   <mat-dialog-actions class="footer-btns" align="end">
-    <button class="btn secondary-global-button" mat-dialog-close (click)="redirectToMain()">
+    <button class="btn secondary-global-button cancel-btn" mat-dialog-close (click)="redirectToMain()">
       {{ 'order-details.location.btn.back' | translate }}
     </button>
-    <button class="btn primary-global-button" [disabled]="isFetching" [mat-dialog-close]="true" cdkFocusInitial (click)="saveLocation()">
+    <button
+      class="btn-ubs primary-global-button"
+      [disabled]="isFetching"
+      [mat-dialog-close]="true"
+      cdkFocusInitial
+      (click)="saveLocation()"
+    >
       {{ 'order-details.location.btn.continue' | translate }}
     </button>
   </mat-dialog-actions>
