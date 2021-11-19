@@ -216,7 +216,6 @@ export class UBSOrderDetailsComponent extends FormBaseComponent implements OnIni
         this.bags = this.orders.bags;
         this.points = this.orders.points;
         this.defaultPoints = this.points;
-        console.log(this.defaultPoints);
         this.certificateLeft = orderData.points;
         this.bags.forEach((bag) => {
           bag.quantity = bag.quantity === undefined ? null : bag.quantity;
@@ -270,7 +269,6 @@ export class UBSOrderDetailsComponent extends FormBaseComponent implements OnIni
 
   private calculateTotal(): void {
     this.total = 0;
-    console.log(this.bags);
 
     this.bags.forEach((bag) => {
       this.total += bag.price * bag.quantity;
@@ -395,7 +393,6 @@ export class UBSOrderDetailsComponent extends FormBaseComponent implements OnIni
       this.total = 0;
       return;
     }
-    console.log('points', this.points);
 
     this.pointsUsed = this.points;
     this.points = 0;
