@@ -63,7 +63,11 @@ describe('OrderService', () => {
     street: '',
     houseCorpus: '',
     entranceNumber: '',
-    houseNumber: ''
+    houseNumber: '',
+    coordinates: {
+      latitude: 0,
+      longitude: 0
+    }
   };
 
   const orderMock = new Order([''], 7, [bagMock], [''], '8', personalData, 9);

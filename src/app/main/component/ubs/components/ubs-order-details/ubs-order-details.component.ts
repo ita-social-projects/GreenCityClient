@@ -111,7 +111,6 @@ export class UBSOrderDetailsComponent extends FormBaseComponent implements OnIni
         this.calculateTotal();
       }
     });
-    console.log(this.locations);
   }
 
   saveLocation(isCheck: boolean) {

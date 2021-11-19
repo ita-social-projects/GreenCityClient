@@ -164,7 +164,6 @@ export class UBSAddAddressPopUpComponent implements OnInit, OnDestroy {
       latitude: (event.geometry.viewport.Bb.g + event.geometry.viewport.Bb.h) / 2,
       longitude: (event.geometry.viewport.Ra.g + event.geometry.viewport.Ra.h) / 2
     });
-    console.log(this.addAddressForm);
   }
 
   setDistrict(event: any) {
@@ -183,15 +182,12 @@ export class UBSAddAddressPopUpComponent implements OnInit, OnDestroy {
   }
 
   onDistrictSelected(event): void {
-    console.log(event);
     this.onLocationSelected(event);
     this.setDistrict(event);
     this.onAutocompleteSelected(event);
   }
 
   selectCity(event): void {
-    console.log(event);
-
     this.addAddressForm.get('city').setValue(event.name);
   }
 
@@ -204,8 +200,6 @@ export class UBSAddAddressPopUpComponent implements OnInit, OnDestroy {
     if (this.currentLocation === 'Kyiv' || this.currentLocation === 'Київ') {
       this.addAddressForm.value.city = this.addAddressForm.get('city').value;
     }
-    console.log(this.addAddressForm.value);
-
     this.addAddressForm.value.region = this.addAddressForm.get('region').value;
     this.orderService
       .addAdress(this.addAddressForm.value)

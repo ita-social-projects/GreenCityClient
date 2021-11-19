@@ -79,7 +79,6 @@ export class UBSPersonalInformationComponent extends FormBaseComponent implement
         this.personalDataForm.controls.addressComment.setValue('');
       }
     });
-    console.log(this.locations);
   }
 
   ngOnChanges(changes: SimpleChanges) {
@@ -96,7 +95,6 @@ export class UBSPersonalInformationComponent extends FormBaseComponent implement
       .subscribe((list) => {
         this.addresses = this.getLastAddresses(list.addressList);
         localStorage.setItem('addresses', JSON.stringify(this.addresses));
-        console.log(this.addresses);
 
         this.personalDataForm.patchValue({
           address: this.addresses

@@ -76,14 +76,23 @@ describe('UBSAddAddressPopUpComponent', () => {
     const eventMock = {
       geometry: {
         viewport: {
-          Ra: 'fake1',
-          Ab: 'fake2'
+          Ra: {
+            g: 1,
+            h: 1
+          },
+          Bb: {
+            g: 1,
+            h: 1
+          }
         }
       }
     };
+    const coordinatesMock = {
+      latitude: 1,
+      longitude: 1
+    };
     component.onLocationSelected(eventMock);
-    expect(component.addAddressForm.get('longitude').value).toBe(eventMock.geometry.viewport.Ra);
-    expect(component.addAddressForm.get('latitude').value).toBe(eventMock.geometry.viewport.Ab);
+    expect(component.addAddressForm.get('coordinates').value).toEqual(coordinatesMock);
   });
 
   it('method onDistrictSelected should invoke three another methods, and set region to addAddressForm', () => {
