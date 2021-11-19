@@ -15,7 +15,7 @@
         <button class="btn_cancel">{{ 'user-orders.btn.cancel' | translate }}</button>
       </div>
       <div *ngIf="isOrderUnpaid(order)" class="btn_grid_pay">
-        <button class="btn_pay">{{ 'user-orders.btn.pay' | translate }}</button>
+        <button class="btn_pay" (click)="openOrderPaymentDialog()">{{ 'user-orders.btn.pay' | translate }}</button>
       </div>
       <div *ngIf="isOrderDone(order)" class="btn_grid_order">
         <button class="btn_order">{{ 'user-orders.btn.order-again' | translate }}</button>

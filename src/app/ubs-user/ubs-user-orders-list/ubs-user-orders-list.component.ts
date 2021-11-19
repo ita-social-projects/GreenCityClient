@@ -1,4 +1,7 @@
 import { Component, Input } from '@angular/core';
+import { MatDialog } from '@angular/material/dialog';
+import { UserOrdersService } from '../services/user-orders.service';
+import { UbsUserOrderPaymentPopUpComponent } from './ubs-user-order-payment-pop-up/ubs-user-order-payment-pop-up.component';
 
 @Component({
   selector: 'app-ubs-user-orders-list',
@@ -8,6 +11,8 @@ import { Component, Input } from '@angular/core';
 export class UbsUserOrdersListComponent {
   @Input()
   orders: any[];
+
+  constructor(private userOrdersService: UserOrdersService, public dialog: MatDialog) {}
 
   isOrderFormed(order: any) {
     return order.orderStatus === 'FORMED';
@@ -27,5 +32,9 @@ export class UbsUserOrdersListComponent {
         order.extend = !order.extend;
       }
     });
+  }
+
+  openOrderPaymentDialog() {
+    this.dialog.open(UbsUserOrderPaymentPopUpComponent);
   }
 }

@@ -1,0 +1,92 @@
+.dialog-container {
+  padding: 20px;
+  font-family: var(--primary-font);
+
+  .dialog-container-title {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+
+  .dialog-container-certificate {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+
+  .form-input {
+    border: 1px solid var(--ubs-primary-grey);
+    border-radius: 5px;
+    padding: 5px 7px;
+  }
+
+  .form-input:focus {
+    outline: none;
+  }
+
+  .question {
+    padding-top: 20px;
+    font-weight: bold;
+  }
+
+  .certificate-title {
+    font-size: 14px;
+  }
+
+  .text {
+    font-size: 14px;
+    padding: 5px 0;
+  }
+
+  .form-select {
+    border: 1px solid var(--ubs-primary-grey);
+    border-radius: 5px;
+    width: 300px;
+    padding: 7px;
+    margin-bottom: 45px;
+  }
+
+  .choose-payment {
+    font-size: 14px;
+    padding-bottom: 20px;
+  }
+
+  .tp-radio-group {
+    display: block;
+    padding-top: 20px;
+  }
+
+  .certificate-title {
+    margin-bottom: 2px;
+  }
+
+  button {
+    margin: 5px;
+    font-family: var(--secondary-font);
+  }
+
+  button:disabled {
+    background-color: var(--ubs-primary-grey);
+    border: 1px solid var(--ubs-primary-grey);
+    color: var(--ubs-primary-white);
+  }
+
+  .btn-activate {
+    background-color: var(--ubs-button-light-green);
+    margin-right: 60px;
+    width: 125px;
+  }
+
+  .action-btns {
+    float: right;
+    font-weight: bold;
+    color: var(--ubs-tertiary-dark-grey);
+    .btn-pay {
+      background-color: var(--ubs-button-light-green);
+    }
+    .btn-cancel {
+      margin-right: 5px;
+      outline: 1px solid var(--ubs-tertiary-dark-grey);
+    }
+  }
+}

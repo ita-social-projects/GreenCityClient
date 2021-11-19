@@ -1,0 +1,54 @@
+<div class="dialog-container">
+  <div class="dialog-container-title">
+    <h2>{{ 'ubs-client-profile.payment.title' | translate }}</h2>
+    <h6>{{ 'ubs-client-profile.payment.sum' | translate }}</h6>
+  </div>
+
+  <form>
+    <div class="question">{{ 'ubs-client-profile.payment.question-certificate' | translate }}</div>
+
+    <div class="form-field-container">
+      <p class="certificate-title">{{ 'ubs-client-profile.payment.certificate-number' | translate }}</p>
+      <div class="dialog-container-certificate">
+        <input class="form-input" placeholder="XXXX-XXXX" type="text" />
+        <button class="btn btn-activate">
+          {{ 'ubs-client-profile.payment.btn.active' | translate }}
+        </button>
+      </div>
+    </div>
+
+    <div class="question">{{ 'ubs-client-profile.payment.bonus-need' | translate }}</div>
+    <div class="text">{{ 'ubs-client-profile.payment.bonus-left' | translate }} 0 грн.</div>
+
+    <mat-radio-group [(ngModel)]="selectedRadio" [ngModelOptions]="{ standalone: true }" (change)="radioChange($event)">
+      <mat-radio-button value="no" name="no">
+        {{ 'ubs-client-profile.payment.no' | translate }}
+      </mat-radio-button>
+      <br />
+      <mat-radio-button value="yes" name="yes">
+        {{ 'ubs-client-profile.payment.yes' | translate }}
+      </mat-radio-button>
+    </mat-radio-group>
+
+    <hr style="border-width: 2px" />
+
+    <div class="choose-payment">{{ 'ubs-client-profile.payment.choose-payment' | translate }}</div>
+    <div class="text">{{ 'ubs-client-profile.payment.way-payment' | translate }}</div>
+
+    <select class="form-select">
+      <option>{{ 'ubs-client-profile.payment.fondy-card' | translate }}</option>
+      <option>{{ 'ubs-client-profile.payment.liqpay-card' | translate }}</option>
+    </select>
+  </form>
+
+  <div class="action-btns">
+    <mat-dialog-actions>
+      <button class="btn btn-cancel" mat-dialog-close>
+        {{ 'ubs-client-profile.payment.btn.cancel' | translate }}
+      </button>
+      <button class="btn btn-pay" mat-dialog-close>
+        {{ 'ubs-client-profile.payment.btn.pay' | translate }}
+      </button>
+    </mat-dialog-actions>
+  </div>
+</div>
