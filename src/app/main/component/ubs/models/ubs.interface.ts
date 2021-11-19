@@ -75,6 +75,7 @@ export interface ICertificate {
 
 export interface PersonalData {
   id?: number;
+  ubsUserId?: number;
   firstName: string;
   lastName: string;
   email: string;

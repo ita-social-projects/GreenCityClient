@@ -82,14 +82,14 @@ export class UBSOrderDetailsComponent extends FormBaseComponent implements OnIni
 
   constructor(
     private fb: FormBuilder,
-    private orderService: OrderService,
     private shareFormService: UBSOrderFormService,
     private localStorageService: LocalStorageService,
+    public orderService: OrderService,
     public renderer: Renderer2,
     router: Router,
     dialog: MatDialog
   ) {
-    super(router, dialog);
+    super(router, dialog, orderService);
     this.initForm();
   }
 

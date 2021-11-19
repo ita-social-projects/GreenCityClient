@@ -1,7 +1,8 @@
-<div class="container pb-3" [formGroup]="responsiblePersonsForm">
+<div class="container" [formGroup]="responsiblePersonsForm">
   <div class="empty_card" (click)="openDetails()">
     <img *ngIf="!pageOpen" src="assets/img/ubs-admin-orders/arrow_up.svg" alt="arrow up" />
     <img *ngIf="pageOpen" src="assets/img/ubs-admin-orders/arrow_down.svg" alt="arrow down" />
+
     <h1 class="form__headline">{{ 'responsible-persons.title' | translate }}</h1>
   </div>
   <div *ngIf="pageOpen">
@@ -44,4 +45,5 @@
       </div>
     </div>
   </div>
+  <hr />
 </div>

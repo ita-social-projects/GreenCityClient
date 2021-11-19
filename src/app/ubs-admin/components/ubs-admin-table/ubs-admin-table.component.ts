@@ -45,9 +45,10 @@ export class UbsAdminTableComponent implements OnInit, AfterViewChecked, OnDestr
   allChecked = false;
   tableViewHeaders = [];
   public blockedInfo: IAlertInfo[] = [];
-  isAll = true;
+  isAll: boolean;
   count: number;
   display = 'none';
+  isPopupOpen: boolean;
   @ViewChild(MatSort, { static: true }) sort: MatSort;
 
   constructor(
@@ -63,6 +64,10 @@ export class UbsAdminTableComponent implements OnInit, AfterViewChecked, OnDestr
   ngOnInit() {
     this.localStorageService.languageBehaviourSubject.pipe(takeUntil(this.destroy)).subscribe((lang) => {
       this.currentLang = lang;
+    });
+    this.orderService.getColumnToDisplay().subscribe((items: any) => {
+      this.displayedColumns = items.titles.split(',')[0] === '' ? [] : items.titles.split(',');
+      this.isAll = false;
     });
     this.getColumns();
   }
@@ -151,6 +156,10 @@ export class UbsAdminTableComponent implements OnInit, AfterViewChecked, OnDestr
 
   public togglePopUp() {
     this.display = this.display === 'none' ? 'block' : 'none';
+    this.isPopupOpen = !this.isPopupOpen;
+    if (this.isPopupOpen === false) {
+      this.orderService.setColumnToDisplay(encodeURIComponent(this.displayedColumns.join(','))).subscribe();
+    }
   }
 
   public showAllColumns(isCheckAll: boolean): void {
@@ -164,7 +173,9 @@ export class UbsAdminTableComponent implements OnInit, AfterViewChecked, OnDestr
       .subscribe((columns: any) => {
         this.tableViewHeaders = columns.columnBelongingList;
         this.columns = columns.columnDTOList;
-        this.setDisplayedColumns();
+        if (this.displayedColumns.length === 0) {
+          this.setDisplayedColumns();
+        }
         const { pageNumber, pageSize, sortDirection, sortBy } = columns.page;
         this.pageSize = pageSize;
         this.currentPage = pageNumber;
@@ -226,6 +237,7 @@ export class UbsAdminTableComponent implements OnInit, AfterViewChecked, OnDestr
     this.sortingColumn = columnName;
     this.sortType = sortingType;
     this.arrowDirection = this.arrowDirection === columnName ? null : columnName;
+    this.currentPage = 0;
     this.getTable(columnName, sortingType);
   }
 
@@ -272,7 +284,7 @@ export class UbsAdminTableComponent implements OnInit, AfterViewChecked, OnDestr
   }
 
   public cancelEditCell(ids: number[]): void {
-    this.adminTableService.cancelEdit(ids);
+    this.adminTableService.cancelEdit(ids).subscribe();
     this.idsToChange = [];
     this.allChecked = false;
   }

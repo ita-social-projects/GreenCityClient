@@ -5,7 +5,6 @@ import { UbsAdminCustomerOrdersComponent } from './ubs-admin-customer-orders.com
 describe('UbsAdminCustomerOrdersComponent', () => {
   let component: UbsAdminCustomerOrdersComponent;
   let fixture: ComponentFixture<UbsAdminCustomerOrdersComponent>;
-
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       declarations: [UbsAdminCustomerOrdersComponent]

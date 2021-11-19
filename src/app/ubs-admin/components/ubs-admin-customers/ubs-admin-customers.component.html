@@ -6,26 +6,26 @@
   <div>{{ 'ubs-customer-filters.total-customers' | translate }} {{ totalElements }}</div>
 </div>
 <div class="btn-group">
-  <button type="button" class="btn btn-default" class="table-buttons" (click)="openExportExcel()">
-    {{ 'ubs-tables.export-to-excel' | translate }}
-  </button>
-  <button type="button" class="btn btn-default" class="table-buttons" (click)="togglePopUp()">
+  <button type="button" class="btn btn-default" class="table-buttons filter-btn" (click)="togglePopUp()">
     <mat-icon>create</mat-icon>
     {{ 'ubs-tables.filter' | translate }}
+  </button>
+  <button type="button" class="btn btn-default" class="table-buttons" (click)="openExportExcel()">
+    {{ 'ubs-tables.export-to-excel' | translate }}
   </button>
   <div [formGroup]="filterForm">
     <ul class="dropdown-menu" [style.display]="display">
       <li class="filterItem">
         <span>{{ 'ubs-customer-filters.registration-date' | translate }}</span>
         <div>
-          <mat-form-field>
+          <mat-form-field class="filter-input">
             <mat-label>{{ 'ubs-customer-filters.from' | translate }}</mat-label>
             <input matInput [matDatepicker]="picker1" formControlName="registrationDateFrom" />
             <mat-datepicker-toggle matSuffix [for]="picker1"></mat-datepicker-toggle>
             <mat-datepicker #picker1></mat-datepicker>
           </mat-form-field>
 
-          <mat-form-field>
+          <mat-form-field class="filter-input">
             <mat-label>{{ 'ubs-customer-filters.to' | translate }}</mat-label>
             <input matInput [matDatepicker]="picker2" formControlName="registrationDateTo" />
             <mat-datepicker-toggle matSuffix [for]="picker2"></mat-datepicker-toggle>
@@ -189,7 +189,7 @@
     <mat-row *matRowDef="let row; columns: displayedColumns"></mat-row>
   </mat-table>
   <app-spinner *ngIf="isLoading || isUpdate"></app-spinner>
-  <div class="nothing-found" *ngIf="totalElements || hasChange">
+  <div class="nothing-found" *ngIf="!totalElements && hasChange">
     <p>{{ 'ubs-customer-filters.nothing-found' | translate }}</p>
   </div>
 </div>

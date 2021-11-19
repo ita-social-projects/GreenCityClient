@@ -1,10 +1,12 @@
 import { takeUntil } from 'rxjs/operators';
 import { Subject } from 'rxjs';
-import { LocalStorageService } from './../../../../main/service/localstorage/local-storage.service';
 import { MatTable, MatTableDataSource } from '@angular/material/table';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Component, OnInit, HostListener, Renderer2, ViewChild, ElementRef, ChangeDetectorRef } from '@angular/core';
 import { columnsParamsOrders } from './../columnsParams';
+import { AdminCustomersService } from 'src/app/ubs-admin/services/admin-customers.service';
+import { ICustomerOrdersTable } from './../../../models/customer-orders-table.model';
+import { LocalStorageService } from './../../../../main/service/localstorage/local-storage.service';
 
 @Component({
   selector: 'app-ubs-admin-customer-orders',
@@ -27,23 +29,9 @@ export class UbsAdminCustomerOrdersComponent implements OnInit {
   public dataSource: MatTableDataSource<any>;
   public currentLang: string;
 
-  public userName = 'Test Test';
-  public orders = [
-    {
-      orderDate: '11/11/2021',
-      orderId: '1',
-      status: 'formed',
-      payment: 'payed',
-      sum: '1000'
-    },
-    {
-      orderDate: '11/11/2021',
-      orderId: '5',
-      status: 'formed',
-      payment: 'payed',
-      sum: '500'
-    }
-  ];
+  public userName = '';
+  public orders = [];
+  public isLoading = true;
 
   @ViewChild(MatTable, { read: ElementRef }) private matTableRef: ElementRef;
 
@@ -51,6 +39,7 @@ export class UbsAdminCustomerOrdersComponent implements OnInit {
     private renderer: Renderer2,
     private route: ActivatedRoute,
     private router: Router,
+    private adminCustomerService: AdminCustomersService,
     private localStorageService: LocalStorageService,
     private cdr: ChangeDetectorRef
   ) {}
@@ -59,21 +48,34 @@ export class UbsAdminCustomerOrdersComponent implements OnInit {
     this.localStorageService.languageBehaviourSubject.pipe(takeUntil(this.destroy$)).subscribe((lang) => {
       this.currentLang = lang;
     });
-    this.route.params.subscribe((params) => {
-      this.id = params['id'];
-      console.log(this.id);
-    });
+    this.getOrders();
     this.columns = columnsParamsOrders;
     this.setDisplayedColumns();
-    this.dataSource = new MatTableDataSource(this.orders);
   }
 
   ngAfterViewChecked() {
-    this.setTableResize(this.matTableRef.nativeElement.clientWidth);
-    this.cdr.detectChanges();
+    if (!this.isLoading) {
+      this.setTableResize(this.matTableRef.nativeElement.clientWidth);
+      this.cdr.detectChanges();
+    }
   }
 
-  goBack(): void {
+  private getOrders() {
+    this.route.params.subscribe((params) => {
+      this.id = params['id'];
+      this.adminCustomerService
+        .getCustomerOrders(this.id)
+        .pipe(takeUntil(this.destroy$))
+        .subscribe((orders: ICustomerOrdersTable) => {
+          this.userName = orders.username;
+          this.orders = orders.userOrdersList;
+          this.isLoading = false;
+          this.dataSource = new MatTableDataSource(this.orders);
+        });
+    });
+  }
+
+  public goBack(): void {
     this.router.navigate(['ubs-admin', 'customers']);
   }
 

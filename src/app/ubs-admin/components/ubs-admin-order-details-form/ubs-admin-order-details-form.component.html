@@ -17,12 +17,19 @@
       <hr class="divider" />
       <div class="main">
         <ul class="w-100 p-0">
-          <li *ngFor="let bag of bags" class="d-flex justify-content-between align-items-baseline py-2">
+          <li *ngFor="let bag of orderDetails.bags" class="d-flex justify-content-between align-items-baseline py-2">
             <span class="col-sm-2">{{ bag.name }}</span>
             <span class="col-sm-2">{{ bag.capacity | volume }}</span>
-            <span class="col-sm-2">{{ bag.price | localizedCurrency }}</span>
+            <span class="col-sm-2">{{ bag.price | currency | localizedCurrency }}</span>
             <div class="col-sm-2 d-flex justify-content-center form-group count">
-              <input class="shadow-none form-control input p-2" type="number" min="0" max="999" formControlName="plannedQuantity" />
+              <input
+                class="shadow-none form-control input p-2"
+                type="number"
+                min="0"
+                max="999"
+                formControlName="plannedQuantity{{ bag.id }}"
+                disabled
+              />
             </div>
             <div class="col-sm-2 d-flex justify-content-center form-group count">
               <input
@@ -30,8 +37,9 @@
                 type="number"
                 min="0"
                 max="999"
-                value="2"
-                formControlName="approvedQuantity"
+                formControlName="confirmedQuantity{{ bag.id }}"
+                [attr.disabled]="isVisible ? true : null"
+                (change)="onQuantityChange('confirmed', bag.id)"
               />
             </div>
             <div class="col-sm-2 d-flex justify-content-center form-group count" *ngIf="isVisible">
@@ -40,59 +48,68 @@
                 type="number"
                 min="0"
                 max="999"
-                value="2"
-                formControlName="exportedQuantity"
+                formControlName="actualQuantity{{ bag.id }}"
+                (change)="onQuantityChange('actual', bag.id)"
               />
             </div>
           </li>
           <li class="d-flex justify-content-between align-items-baseline py-2">
             <span class="col-sm-2">{{ 'order-details.bags-amount' | translate }}</span>
-            <span class="col-sm-2 offset-sm-4 p-left">3</span>
-            <span class="col-sm-2 p-left">4</span>
-            <span class="col-sm-6"></span>
+            <span class="col-sm-2"></span>
+            <span class="col-sm-2"></span>
+            <span class="col-sm-2 text-center">{{ orderInfo.amount.planned }}</span>
+            <span class="col-sm-2 text-center">{{ orderInfo.amount.confirmed }}</span>
+            <span *ngIf="isVisible" class="col-sm-2 text-center">{{ orderInfo.amount.actual }}</span>
           </li>
         </ul>
         <ul class="w-100 p-0">
           <li class="d-flex justify-content-between align-items-baseline py-2">
             <span class="col-sm-2">{{ 'order-details.order-sum' | translate }}</span>
-            <span class="col-sm-2 offset-sm-4 text-center">600 {{ '' | localizedCurrency }}</span>
-            <span class="col-sm-2 text-center">850 {{ '' | localizedCurrency }}</span>
             <span class="col-sm-2"></span>
+            <span class="col-sm-2"></span>
+            <span class="col-sm-2 text-center">{{ orderInfo.sum.planned | currency | localizedCurrency }}</span>
+            <span class="col-sm-2 text-center">{{ orderInfo.sum.confirmed | currency | localizedCurrency }}</span>
+            <span *ngIf="isVisible" class="col-sm-2 text-center">{{ orderInfo.sum.actual | currency | localizedCurrency }}</span>
           </li>
           <li class="d-flex justify-content-between align-items-baseline py-2">
             <span class="col-sm-2">{{ 'order-details.certificate' | translate }}</span>
-            <span class="col-sm-2 offset-sm-4 text-center text-success">-250 {{ '' | localizedCurrency }}</span>
-            <span class="col-sm-2 text-center">-250 {{ '' | localizedCurrency }}</span>
             <span class="col-sm-2"></span>
+            <span class="col-sm-2"></span>
+            <span class="col-sm-2 text-center text-success">-{{ orderInfo.certificateDiscount | currency | localizedCurrency }}</span>
+            <span class="col-sm-2 text-center">-{{ orderInfo.certificateDiscount | currency | localizedCurrency }}</span>
+            <span *ngIf="isVisible" class="col-sm-2 text-center">-{{ orderInfo.certificateDiscount | currency | localizedCurrency }}</span>
           </li>
           <li class="d-flex justify-content-between align-items-baseline py-2">
-            <span class="col-sm-3">{{ 'order-details.bonuses' | translate }}</span>
-            <span class="col-sm-2 offset-sm-3 text-center text-success">-50 {{ '' | localizedCurrency }}</span>
-            <span class="col-sm-2 text-center">-50 {{ '' | localizedCurrency }}</span>
+            <span class="col-sm-2">{{ 'order-details.bonuses' | translate }}</span>
             <span class="col-sm-2"></span>
+            <span class="col-sm-2"></span>
+            <span class="col-sm-2 text-center text-success">-{{ orderInfo.bonuses | currency | localizedCurrency }}</span>
+            <span class="col-sm-2 text-center">-{{ orderInfo.bonuses | currency | localizedCurrency }}</span>
+            <span *ngIf="isVisible" class="col-sm-2 text-center">-{{ orderInfo.bonuses | currency | localizedCurrency }}</span>
           </li>
           <li class="d-flex justify-content-between align-items-baseline py-2" *ngIf="isVisible">
             <span class="col-sm-2">{{ 'order-details.ubs-courier' | translate }}</span>
             <div class="col-sm-2 offset-sm-8 d-flex justify-content-center form-group count">
               <span class="shadow-none form-control input p-2 ubs-courier">
-                {{ ubsCourier | localizedCurrency }}
+                {{ ubsCourier | currency | localizedCurrency }}
               </span>
             </div>
             <span class="col-sm-2"></span>
           </li>
           <li class="d-flex justify-content-between align-items-baseline py-3">
             <span class="col-sm-2">{{ 'order-details.sum-to-pay' | translate }}</span>
-            <span class="col-sm-2 offset-sm-4 text-center">300 {{ '' | localizedCurrency }}</span>
-            <span class="col-sm-2 text-center">550 {{ '' | localizedCurrency }}</span>
-            <span class="col-sm-2 text-center" *ngIf="isVisible">400 {{ '' | localizedCurrency }}</span>
             <span class="col-sm-2"></span>
+            <span class="col-sm-2"></span>
+            <span class="col-sm-2 text-center">{{ orderInfo.finalSum.planned | currency | localizedCurrency }}</span>
+            <span class="col-sm-2 text-center">{{ orderInfo.finalSum.confirmed | currency | localizedCurrency }}</span>
+            <span class="col-sm-2 text-center" *ngIf="isVisible">{{ orderInfo.finalSum.actual | currency | localizedCurrency }}</span>
           </li>
           <li class="d-flex justify-content-end align-items-baseline py-2">
             <span class="col-sm-3 text-danger pl-5" *ngIf="payMore">
-              {{ 'order-edit.need-to-pay' | translate }} 250 {{ '' | localizedCurrency }}
+              {{ 'order-edit.need-to-pay' | translate }} 250 {{ '' | currency | localizedCurrency }}
             </span>
             <span class="col-sm-4 text-danger pl-5" *ngIf="payMore">
-              {{ 'order-details.min-sum' | translate }} 500 {{ '' | localizedCurrency }}
+              {{ 'order-details.min-sum' | translate }} {{ minOrderSum }} {{ '' | currency | localizedCurrency }}
             </span>
           </li>
         </ul>
@@ -103,7 +120,7 @@
             <label class="form__label py-2" for="cert-num">
               {{ 'order-details.certificate-number-label' | translate }}
             </label>
-            <input class="form-control" type="text" id="cert-num" placeholder="XXXX-XXXX" formControlName="certificate" disabled />
+            <input class="form-control" type="text" id="cert-num" placeholder="XXXX-XXXX" formControlName="certificate" />
           </div>
           <div class="form-group">
             <label class="form__label py-2" for="order-num">
@@ -121,6 +138,7 @@
             formControlName="customerComment"
             placeholder="{{ 'order-details.client-comment.placeholder' | translate }}"
             id="customer-comment"
+            disabled
           >
           </textarea>
         </div>

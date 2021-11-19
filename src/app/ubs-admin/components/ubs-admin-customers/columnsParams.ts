@@ -76,7 +76,7 @@ export const columnsParamsOrders = [
   },
   {
     title: {
-      key: 'orderId',
+      key: 'id',
       ua: '№ замовлення	',
       en: '№ order	'
     },
@@ -84,7 +84,7 @@ export const columnsParamsOrders = [
   },
   {
     title: {
-      key: 'status',
+      key: 'orderStatus',
       ua: 'Статус замовлення',
       en: 'Order status'
     },
@@ -92,7 +92,7 @@ export const columnsParamsOrders = [
   },
   {
     title: {
-      key: 'payment',
+      key: 'orderPaymentStatus',
       ua: 'Статус оплати',
       en: 'Payment status'
     },
@@ -100,7 +100,7 @@ export const columnsParamsOrders = [
   },
   {
     title: {
-      key: 'sum',
+      key: 'amount',
       ua: 'Сума замовлення',
       en: 'Order amount'
     },

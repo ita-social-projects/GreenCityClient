@@ -54,6 +54,7 @@ import { UbsAdminTariffsDeletePopUpComponent } from './components/ubs-admin-tari
 import { UbsAdminTariffsAddServicePopUpComponent } from './components/ubs-admin-tariffs/ubs-admin-tariffs-pricing-page/ubs-admin-tariffs-add-service-pop-up/ubs-admin-tariffs-add-service-pop-up.component';
 import { UbsAdminEmployeeTableComponent } from './components/ubs-admin-employee/ubs-admin-employee-table/ubs-admin-employee-table.component';
 import { UbsAdminCustomerDetailsComponent } from './components/ubs-admin-customers/ubs-admin-customer-details/ubs-admin-customer-details.component';
+import { UbsAdminOrderHistoryComponent } from './components/ubs-admin-order-history/ubs-admin-order-history.component';
 import { TooltipModule } from 'ngx-bootstrap/tooltip';
 import { UbsAdminCustomerOrdersComponent } from './components/ubs-admin-customers/ubs-admin-customer-orders/ubs-admin-customer-orders.component';
 
@@ -92,7 +93,8 @@ import { UbsAdminCustomerOrdersComponent } from './components/ubs-admin-customer
     UbsAdminTariffsLocationDashboardComponent,
     UbsAdminEmployeeTableComponent,
     UbsAdminCustomerDetailsComponent,
-    UbsAdminCustomerOrdersComponent
+    UbsAdminCustomerOrdersComponent,
+    UbsAdminOrderHistoryComponent
   ],
   imports: [
     CommonModule,

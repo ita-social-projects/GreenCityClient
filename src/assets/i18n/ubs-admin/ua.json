@@ -214,6 +214,13 @@
     "export-time": "Час вивезення",
     "station": "Станція приймання"
   },
+  "order-history": {
+    "title": "Історія замовлення",
+    "date": "Дaта",
+    "time": "Час",
+    "event": "Подія",
+    "author": "Автор"
+  },
   "responsible-persons": {
     "title": "Відповідальні особи",
     "service-manager": "Менеджер послуги",
