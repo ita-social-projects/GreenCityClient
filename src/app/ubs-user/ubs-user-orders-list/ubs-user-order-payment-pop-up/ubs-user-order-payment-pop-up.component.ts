@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { OrderService } from 'src/app/main/component/ubs/services/order.service';
 
 @Component({
   selector: 'app-ubs-user-order-payment-pop-up',
@@ -6,11 +7,13 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./ubs-user-order-payment-pop-up.component.scss']
 })
 export class UbsUserOrderPaymentPopUpComponent implements OnInit {
-  public selectedRadio = 'no';
-  public certificatePattern = /(?!0000)\d{4}-(?!0000)\d{4}/;
-  public certificateMask = '0000-0000';
+  public totalSum: number = 0.0;
+  public bonusValue: number = 0.0;
+  public selectedRadio: string = 'no';
+  public certificatePattern: object = /(?!0000)\d{4}-(?!0000)\d{4}/;
+  public certificateMask: string = '0000-0000';
 
-  constructor() {}
+  constructor(private orderService: OrderService) {}
 
   ngOnInit(): void {}
 

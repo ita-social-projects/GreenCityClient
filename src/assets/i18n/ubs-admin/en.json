@@ -39,6 +39,7 @@
     },
     "payment": {
       "title": "Payment",
+      "curency": "UAH",
       "sum": "Sum:",
       "yes": "Yes",
       "no": "No",

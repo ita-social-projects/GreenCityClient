@@ -1,7 +1,7 @@
 <div class="dialog-container">
   <div class="dialog-container-title">
     <h2>{{ 'ubs-client-profile.payment.title' | translate }}</h2>
-    <h6>{{ 'ubs-client-profile.payment.sum' | translate }}</h6>
+    <h6>{{ 'ubs-client-profile.payment.sum' | translate }} {{ totalSum }} {{ 'ubs-client-profile.payment.curency' | translate }}.</h6>
   </div>
 
   <form>
@@ -24,7 +24,9 @@
     </div>
 
     <div class="question">{{ 'ubs-client-profile.payment.bonus-need' | translate }}</div>
-    <div class="text">{{ 'ubs-client-profile.payment.bonus-left' | translate }} 0 грн.</div>
+    <div class="text">
+      {{ 'ubs-client-profile.payment.bonus-left' | translate }} {{ bonusValue }} {{ 'ubs-client-profile.payment.curency' | translate }}.
+    </div>
 
     <mat-radio-group [(ngModel)]="selectedRadio" [ngModelOptions]="{ standalone: true }" (change)="radioChange($event)">
       <mat-radio-button value="no" name="no">

@@ -12,6 +12,7 @@
 
 .dialog-container {
   padding: 20px;
+  font-size: 14px;
   font-family: var(--primary-font);
 
   .dialog-container-title {
@@ -29,19 +30,16 @@
   .input-border {
     background: var(--ubs-primary-white);
     border: 1px solid var(--ubs-quintynary-light-grey);
+    width: 200px;
   }
 
   .question {
+    font-size: 16px;
     padding-top: 20px;
     font-weight: bold;
   }
 
-  .certificate-title {
-    font-size: 14px;
-  }
-
   .text {
-    font-size: 14px;
     padding: 5px 0;
   }
 
@@ -54,7 +52,6 @@
   }
 
   .choose-payment {
-    font-size: 14px;
     padding-bottom: 20px;
   }
 
@@ -76,21 +73,26 @@
 
   .btn-activate {
     background-color: var(--ubs-button-light-green);
-    margin-right: 60px;
+    margin-right: 70px;
     width: 125px;
+    font-size: 14px;
+    font-weight: 600;
   }
 
   .action-btns {
     float: right;
-    font-weight: bold;
     color: var(--ubs-tertiary-dark-grey);
 
     .btn-pay {
+      font-size: 14px;
+      font-weight: 600;
       background-color: var(--ubs-button-light-green);
     }
 
     .btn-cancel {
       margin-right: 5px;
+      font-size: 14px;
+      font-weight: 600;
       outline: 1px solid var(--ubs-tertiary-dark-grey);
     }
   }
