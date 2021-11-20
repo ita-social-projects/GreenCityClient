@@ -66,12 +66,12 @@ export class FormBaseComponent implements ComponentCanDeactivate {
     this.router.navigateByUrl('/ubs');
   }
 
-  cancelUBS(): void {
+  cancelUBS(isUbsOrderSubmit?: boolean): void {
     const condition = this.getFormValues();
-    this.cancelPopupJustifying(condition);
+    this.cancelPopupJustifying(condition, isUbsOrderSubmit);
   }
 
-  private cancelPopupJustifying(condition: boolean) {
+  private cancelPopupJustifying(condition: boolean, isUbsOrderSubmit?: boolean) {
     if (condition) {
       const matDialogRef = this.dialog.open(WarningPopUpComponent, this.popupConfig);
 
@@ -100,6 +100,8 @@ export class FormBaseComponent implements ComponentCanDeactivate {
               this.areChangesSaved = true;
               this.router.navigate([this.previousPath]);
             }
+          } else if (isUbsOrderSubmit) {
+            this.cancelUBSwithoutSaving();
           }
         });
       return;

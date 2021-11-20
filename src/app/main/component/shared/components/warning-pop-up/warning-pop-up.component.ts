@@ -6,13 +6,14 @@ import { takeUntil } from 'rxjs/operators';
 @Component({
   selector: 'app-warning-pop-up',
   templateUrl: './warning-pop-up.component.html',
-  styleUrls: ['./warning-pop-up.component.scss']
+  styleUrls: ['./warning-pop-up.component.scss', './warning-pop-up-ubs.component.scss']
 })
 export class WarningPopUpComponent implements OnInit, OnDestroy {
   public popupTitle: string;
   public popupSubtitle: string;
   public popupConfirm: string;
   public popupCancel: string;
+  public isUBS: boolean;
   public closeButton = './assets/img/profile/icons/cancel.svg';
   private destroyed$: ReplaySubject<any> = new ReplaySubject<any>(1);
 
@@ -42,6 +43,7 @@ export class WarningPopUpComponent implements OnInit, OnDestroy {
     this.popupSubtitle = this.data.popupSubtitle;
     this.popupConfirm = this.data.popupConfirm;
     this.popupCancel = this.data.popupCancel;
+    this.isUBS = this.data.isUBS;
   }
 
   public userReply(reply: boolean): void {

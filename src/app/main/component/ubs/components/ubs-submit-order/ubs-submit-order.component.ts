@@ -38,12 +38,13 @@ export class UBSSubmitOrderComponent extends FormBaseComponent implements OnInit
     hasBackdrop: true,
     closeOnNavigation: true,
     disableClose: true,
-    panelClass: 'popup-dialog-container',
+    panelClass: 'custom-ubs-style',
     data: {
-      popupTitle: 'confirmation.title',
-      popupSubtitle: 'confirmation.subTitle',
-      popupConfirm: 'confirmation.cancel',
-      popupCancel: 'confirmation.dismiss'
+      popupTitle: 'confirmation.submit-title',
+      popupSubtitle: '',
+      popupConfirm: 'confirmation.ok',
+      popupCancel: 'confirmation.delete',
+      isUBS: true
     }
   };
   orderBags: OrderBag[] = [];
