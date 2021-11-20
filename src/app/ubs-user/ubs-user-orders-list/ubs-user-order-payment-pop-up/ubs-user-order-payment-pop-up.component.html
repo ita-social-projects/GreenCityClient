@@ -4,7 +4,7 @@
     <h6>{{ 'ubs-client-profile.payment.sum' | translate }} {{ totalSum }} {{ 'ubs-client-profile.payment.curency' | translate }}.</h6>
   </div>
 
-  <form>
+  <form [formGroup]="orderDetailsForm">
     <div class="question">{{ 'ubs-client-profile.payment.question-certificate' | translate }}</div>
 
     <div class="form-field-container">
@@ -12,6 +12,7 @@
       <div class="dialog-container-certificate">
         <input
           class="form-control shadow-none input-border"
+          formControlName="certificate"
           [imask]="{ mask: certificateMask }"
           [unmask]="false"
           placeholder="xxxx-xxxx"
@@ -28,7 +29,7 @@
       {{ 'ubs-client-profile.payment.bonus-left' | translate }} {{ bonusValue }} {{ 'ubs-client-profile.payment.curency' | translate }}.
     </div>
 
-    <mat-radio-group [(ngModel)]="selectedRadio" [ngModelOptions]="{ standalone: true }" (change)="radioChange($event)">
+    <mat-radio-group formControlName="bonus">
       <mat-radio-button value="no" name="no">
         {{ 'ubs-client-profile.payment.no' | translate }}
       </mat-radio-button>
@@ -43,9 +44,9 @@
     <div class="choose-payment">{{ 'ubs-client-profile.payment.choose-payment' | translate }}</div>
     <div class="text">{{ 'ubs-client-profile.payment.way-payment' | translate }}</div>
 
-    <select class="form-select">
-      <option>{{ 'ubs-client-profile.payment.fondy-card' | translate }}</option>
-      <option>{{ 'ubs-client-profile.payment.liqpay-card' | translate }}</option>
+    <select formControlName="paymentSystem" class="form-select">
+      <option value="Fondy" name="Fondy">{{ 'ubs-client-profile.payment.fondy-card' | translate }}</option>
+      <option value="LiqPay" name="LiqPay">{{ 'ubs-client-profile.payment.liqpay-card' | translate }}</option>
     </select>
   </form>
 
