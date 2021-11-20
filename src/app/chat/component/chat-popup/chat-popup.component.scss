@@ -1,0 +1,101 @@
+@import 'src/app/chat/chat-styles-reset';
+
+:host {
+}
+
+.chat-popup {
+  @include flex(column, flex-start, center);
+  position: fixed;
+  bottom: 0;
+  right: 15px;
+  background: white;
+  border-top-left-radius: 5px;
+  border-top-right-radius: 5px;
+  height: 70vh;
+  width: 300px;
+  box-shadow: 0 0 2px 1px rgba(0, 0, 0, 0.25);
+  transform: translateY(calc(100% - 45px));
+  transition: transform 0.2s ease-out;
+  max-height: 650px;
+  z-index: 1000;
+
+  &.opened {
+    transform: translateY(0);
+  }
+}
+
+.popup-top-panel {
+  @include flex(row, space-between, center);
+  width: 100%;
+  padding: 7px 10px;
+  position: relative;
+  cursor: pointer;
+  border-top-left-radius: 5px;
+  border-top-right-radius: 5px;
+
+  &:hover {
+    background: #f5f6f6;
+  }
+
+  &:after {
+    content: '';
+    width: 20%;
+    height: 3px;
+    border-radius: 1px;
+    background: #666666;
+    position: absolute;
+    top: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    transition: 0.2s ease;
+  }
+
+  .chat-popup.opened &:after {
+    top: 100%;
+    width: 10%;
+    transform: translate(-50%, -100%);
+  }
+}
+
+.panel-account {
+  @include flex(row, flex-start, center);
+  column-gap: 10px;
+  width: 100%;
+
+  > img {
+    cursor: default;
+  }
+}
+
+.panel-account-title {
+  font-size: 15px;
+  font-family: 'Roboto', sans-serif;
+}
+
+.panel-buttons {
+  @include flex(row, space-between, center);
+  column-gap: 10px;
+  cursor: default;
+}
+
+.panel-button {
+  border-radius: 50%;
+  height: 20px;
+  width: 20px;
+  @include flex(row, center, center);
+  padding: 5px;
+  box-sizing: content-box;
+  transition: background 0.2s linear;
+  border: none;
+  background: none;
+  cursor: pointer;
+
+  &:hover {
+    background: #d8d8d8;
+  }
+
+  > img {
+    height: 20px;
+    width: 20px;
+  }
+}

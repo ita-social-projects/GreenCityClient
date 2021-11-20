@@ -1,0 +1,28 @@
+<div class="chat" #chat>
+  <div class="messages-from-day" *ngFor="let messagesFromDay of chatsService.currentChatMessagesStream$ | async | messageFromDay">
+    <div class="chat-days-separate-line">
+      <span>{{ messagesFromDay[0].messageDate | date: 'dd.MM.yyyy' }}</span>
+    </div>
+    <div class="message" *ngFor="let message of messagesFromDay" [class.own]="message.senderId === userService.userId">
+      <img [src]="chatIcons.userLogo" alt="user logo" />
+      <div class="msg-block">
+        <span>{{ message.messageText }}</span>
+      </div>
+      <span class="msg-time">{{ message.messageDate | date: 'hh:mm' }}</span>
+    </div>
+  </div>
+</div>
+<form class="sender" (ngSubmit)="sendMessage()">
+  <div class="sender-additional-buttons">
+    <button>
+      <img [src]="chatIcons.paperClip" alt="clip" title="Add file" />
+    </button>
+    <button>
+      <img [src]="chatIcons.smile" alt="smile" title="Add emoji" />
+    </button>
+  </div>
+  <input type="text" [formControl]="messageControl" />
+  <button class="send-button" type="submit" [disabled]="!messageControl.value">
+    <img [src]="chatIcons.send" alt="send" title="Send mail" />
+  </button>
+</form>

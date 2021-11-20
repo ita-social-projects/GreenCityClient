@@ -1,0 +1,146 @@
+@import 'src/app/chat/chat-styles-reset';
+
+:host {
+  position: fixed;
+  bottom: 0;
+  right: 330px;
+  width: 250px;
+}
+
+.new-message-window {
+  width: 250px;
+  box-shadow: 0 0 2px 1px rgb(0 0 0 / 25%);
+  border-top-right-radius: 5px;
+  border-top-left-radius: 5px;
+  background: var(--white);
+  z-index: 1000;
+}
+
+.new-msg-title {
+  @include flex(row, space-between, center);
+  padding: 5px 10px;
+}
+
+.msg-title {
+  font-size: 15px;
+}
+
+.close-new-msg {
+  font-size: 25px;
+  cursor: pointer;
+}
+
+.search-field {
+  box-sizing: border-box;
+  border: none;
+  outline: none;
+  padding: 0 10px 3px;
+  font-size: 14px;
+  width: 100%;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.25);
+}
+
+.search-dropdown {
+  height: 50px;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.25);
+  transition: height 0.2s ease-in;
+  width: 100%;
+
+  & > * {
+    display: none;
+  }
+
+  &.active {
+    height: 150px;
+
+    & > * {
+      display: flex;
+    }
+  }
+}
+
+.chats-search-suggest {
+  height: 50px;
+  @include flex(row, flex-start, center);
+  column-gap: 8px;
+  position: relative;
+  padding: 0 10px;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.15);
+  cursor: pointer;
+
+  &:hover {
+    background: #f7f9fa;
+  }
+
+  img {
+    width: 30px;
+  }
+}
+
+.chat-name {
+  font-size: 15px;
+}
+
+.receiver {
+  width: 100%;
+  height: 50px;
+  @include flex(row, space-between, center);
+  position: relative;
+  padding: 0 10px;
+  border-top: 1px solid rgba(0, 0, 0, 0.15);
+  border-bottom: 1px solid rgba(0, 0, 0, 0.15);
+}
+
+.account {
+  @include flex(row, space-between, center);
+  column-gap: 10px;
+}
+
+.reset-receiver {
+  cursor: pointer;
+}
+
+textarea {
+  padding: 10px;
+  height: 150px;
+  width: 100%;
+  resize: none;
+  border: none;
+  outline: none;
+  font-size: 14px;
+  box-sizing: border-box;
+  overflow-y: auto;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.15);
+}
+
+.message-sender {
+  @include flex(row, space-between, center);
+  padding: 10px;
+
+  img {
+    height: 20px;
+  }
+
+  button {
+    cursor: pointer;
+    border-radius: 50%;
+    padding: 5px;
+    box-sizing: content-box;
+    @include flex(row, center, center);
+
+    &:hover {
+      background: #eceff0;
+    }
+  }
+}
+
+.sender-additional-buttons {
+  @include flex(row, space-between, center);
+  column-gap: 10px;
+}
+
+.send-button[disabled] {
+  &:hover {
+    background: red !important;
+  }
+}

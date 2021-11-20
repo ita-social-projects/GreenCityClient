@@ -1,0 +1,22 @@
+<div class="current-chat" *ngIf="chatsService.currentChat; else noCurrentChatPlaceholder">
+  <div class="current-chat-title">
+    <span class="current-chat-name">{{ chatsService.currentChat.name }}</span>
+    <span class="current-chat-dot"></span>
+    <span class="current-chat-participants-quantity">Participants: {{ chatsService.currentChat.participants.length }}</span>
+  </div>
+
+  <div class="current-chat-content">
+    <app-chat></app-chat>
+  </div>
+</div>
+
+<ng-template #noCurrentChatPlaceholder>
+  <div class="current-chat">
+    <div class="current-chat-title">
+      <span class="choose-chat-ph">Choose a Chat</span>
+    </div>
+    <div class="current-chat-content">
+      <img class="green-planet-ph" [src]="chatIcons.greenPlanet" alt="earth" />
+    </div>
+  </div>
+</ng-template>

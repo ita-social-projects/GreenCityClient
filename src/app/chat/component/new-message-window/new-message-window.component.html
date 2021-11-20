@@ -1,0 +1,42 @@
+<div class="new-message-window">
+  <div class="new-msg-title">
+    <span class="msg-title">New Message</span>
+    <button class="close-new-msg" (click)="close()" title="Close">&times;</button>
+  </div>
+  <div class="receiver" *ngIf="chatsService.currentChat; else userSearch">
+    <div class="account">
+      <img [src]="chatIcons.userLogo" alt="user-logo" />
+      <span class="chat-name">{{ chatsService.currentChat.name }}</span>
+    </div>
+    <span class="reset-receiver" title="Remove receiver" (click)="chatsService.setCurrentChat(null)">&times;</span>
+  </div>
+
+  <textarea placeholder="Type a message..." [formControl]="messageControl"></textarea>
+  <div class="message-sender">
+    <div class="sender-additional-buttons">
+      <button>
+        <img [src]="chatIcons.paperClip" alt="clip" title="Add file" />
+      </button>
+      <button>
+        <img [src]="chatIcons.smile" alt="smile" title="Add emoji" />
+      </button>
+    </div>
+    <button class="send-button" (click)="sendMessage()" [disabled]="!messageControl.value || !chatsService.currentChat">
+      <img [src]="chatIcons.send" alt="send" title="Send mail" />
+    </button>
+  </div>
+</div>
+
+<ng-template #userSearch>
+  <input type="text" class="search-field" placeholder="Search user..." [formControl]="userSearchControl" />
+  <div class="search-dropdown" [class.active]="userSearchControl.value">
+    <div
+      class="chats-search-suggest"
+      *ngFor="let chat of chatsService.userChatsStream$ | async | chatsSearch: userSearchField"
+      (click)="chatsService.setCurrentChat(chat)"
+    >
+      <img [src]="chatIcons.userLogo" alt="user-logo" />
+      <span class="chat-name">{{ chat.name }}</span>
+    </div>
+  </div>
+</ng-template>

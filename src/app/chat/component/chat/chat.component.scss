@@ -1,0 +1,144 @@
+@import 'src/app/chat/chat-styles-reset';
+
+:host {
+  width: 100%;
+  height: 100%;
+  @include flex(column, center, center);
+}
+
+.chat {
+  width: 100%;
+  flex: 1;
+  overflow-y: scroll;
+
+  &::-webkit-scrollbar {
+    width: 10px;
+    background: #646464;
+  }
+
+  &::-webkit-scrollbar-thumb {
+    border-radius: 5px;
+    background: #222222;
+  }
+}
+
+.chat-days-separate-line {
+  margin: 15px 0;
+  width: 100%;
+  border-radius: 10px;
+  position: relative;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+
+  span {
+    color: #878787;
+    font-size: 16px;
+  }
+
+  &:after,
+  &:before {
+    content: '';
+    width: 40%;
+    height: 1px;
+    border-radius: 1px;
+    display: block;
+    position: absolute;
+    background: #bebebe;
+    top: 50%;
+    transform: translateY(-50%);
+  }
+
+  &:before {
+    left: 0;
+  }
+
+  &:after {
+    right: 0;
+  }
+}
+
+.message {
+  @include flex(row, flex-start, flex-end);
+  column-gap: 10px;
+  padding: 10px;
+  width: 100%;
+
+  img {
+    height: 25px;
+  }
+
+  &.own {
+    justify-content: flex-end;
+
+    img {
+      display: none;
+    }
+  }
+}
+
+.msg-block {
+  @include flex(row, flex-start, center);
+  max-width: 45%;
+  padding: 8px;
+  border-radius: 10px 10px 10px 0;
+  position: relative;
+  box-shadow: 0 0 1px 1px rgb(0 0 0 / 25%);
+
+  span {
+    font-size: 14px;
+    color: black;
+    overflow-wrap: break-word;
+    width: 100%;
+  }
+}
+
+.message.own .msg-block {
+  justify-content: flex-end;
+  border-radius: 10px 10px 0 10px;
+}
+
+.msg-time {
+  color: #878787;
+  font-size: 12px;
+  text-overflow: clip;
+}
+
+.sender {
+  @include flex(row, space-between, center);
+  padding: 5px 10px;
+
+  img {
+    height: 20px;
+  }
+
+  button {
+    cursor: pointer;
+    border-radius: 50%;
+    padding: 5px;
+    box-sizing: content-box;
+    @include flex(row, center, center);
+
+    &:hover {
+      background: #eceff0;
+    }
+  }
+}
+
+.sender {
+  width: 100%;
+  border-top: 1px solid rgba(0, 0, 0, 0.25);
+
+  input {
+    width: 100%;
+    border: 1px solid rgba(0, 0, 0, 0.25);
+    border-radius: 5px;
+    font-size: 15px;
+    margin: 0 10px;
+  }
+}
+
+.sender-additional-buttons {
+  @include flex(row, center, center);
+}

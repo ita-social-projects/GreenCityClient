@@ -9,6 +9,7 @@ import { HttpClient, HttpClientModule } from '@angular/common/http';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { HashLocationStrategy } from '@angular/common';
 import { LocationStrategy } from '@angular/common';
+import { ChatModule } from './chat/chat.module';
 
 @NgModule({
   declarations: [AppComponent],
@@ -18,6 +19,7 @@ import { LocationStrategy } from '@angular/common';
     AppRoutingModule,
     MainModule,
     HttpClientModule,
+    ChatModule,
     TranslateModule.forRoot({
       loader: {
         provide: TranslateLoader,

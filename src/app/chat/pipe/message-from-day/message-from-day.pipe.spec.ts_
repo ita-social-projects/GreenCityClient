@@ -1,0 +1,8 @@
+import { MessageFromDayPipe } from './message-from-day.pipe';
+
+describe('MessageFromDayPipe', () => {
+  it('create an instance', () => {
+    const pipe = new MessageFromDayPipe();
+    expect(pipe).toBeTruthy();
+  });
+});
