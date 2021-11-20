@@ -11,10 +11,10 @@
     </div>
   </div>
   <div class="buttons-container">
-    <button class="secondary-global-button" (click)="userReply(false)">
+    <button class="secondary-global-button" [class.submit-cancel]="isUbsOrderSubmit" (click)="userReply(false)">
       {{ popupCancel | translate }}
     </button>
-    <button class="primary-global-button" (click)="userReply(true)">
+    <button class="primary-global-button" [class.submit-confirm]="isUbsOrderSubmit" (click)="userReply(true)">
       {{ popupConfirm | translate }}
     </button>
   </div>

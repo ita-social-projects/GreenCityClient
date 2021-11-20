@@ -37,7 +37,7 @@
     }
 
     .primary-global-button {
-      width: 70px;
+      width: 110px;
       color: var(--ubs-quaternary-dark-grey);
       border-color: var(--ubs-button-light-green);
       background: var(--ubs-button-light-green);
@@ -48,7 +48,15 @@
       color: var(--ubs-quaternary-dark-grey);
       border-color: var(--ubs-quaternary-dark-grey);
       margin-right: 25px;
+      width: 120px;
+    }
+
+    .submit-cancel {
       width: 220px;
+    }
+
+    .submit-confirm {
+      width: 70px;
     }
   }
 

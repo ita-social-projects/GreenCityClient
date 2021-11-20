@@ -66,12 +66,13 @@ export class UBSOrderDetailsComponent extends FormBaseComponent implements OnIni
     hasBackdrop: true,
     closeOnNavigation: true,
     disableClose: true,
-    panelClass: 'popup-dialog-container',
+    panelClass: 'custom-ubs-style',
     data: {
       popupTitle: 'confirmation.title',
       popupSubtitle: 'confirmation.subTitle',
       popupConfirm: 'confirmation.cancel',
-      popupCancel: 'confirmation.dismiss'
+      popupCancel: 'confirmation.dismiss',
+      isUBS: true
     }
   };
   public locations: Locations[];

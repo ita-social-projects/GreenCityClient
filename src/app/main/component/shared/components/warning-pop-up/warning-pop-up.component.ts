@@ -14,6 +14,7 @@ export class WarningPopUpComponent implements OnInit, OnDestroy {
   public popupConfirm: string;
   public popupCancel: string;
   public isUBS: boolean;
+  public isUbsOrderSubmit: boolean;
   public closeButton = './assets/img/profile/icons/cancel.svg';
   private destroyed$: ReplaySubject<any> = new ReplaySubject<any>(1);
 
@@ -44,6 +45,7 @@ export class WarningPopUpComponent implements OnInit, OnDestroy {
     this.popupConfirm = this.data.popupConfirm;
     this.popupCancel = this.data.popupCancel;
     this.isUBS = this.data.isUBS;
+    this.isUbsOrderSubmit = this.data.isUbsOrderSubmit;
   }
 
   public userReply(reply: boolean): void {

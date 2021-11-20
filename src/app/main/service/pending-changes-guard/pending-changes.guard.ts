@@ -19,6 +19,7 @@ export interface ComponentCanDeactivate {
       popupConfirm: string;
       popupCancel: string;
       isUBS?: boolean;
+      isUbsOrderSubmit?: boolean;
     };
   };
 }

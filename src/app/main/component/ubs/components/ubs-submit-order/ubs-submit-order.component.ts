@@ -44,7 +44,8 @@ export class UBSSubmitOrderComponent extends FormBaseComponent implements OnInit
       popupSubtitle: '',
       popupConfirm: 'confirmation.ok',
       popupCancel: 'confirmation.delete',
-      isUBS: true
+      isUBS: true,
+      isUbsOrderSubmit: true
     }
   };
   orderBags: OrderBag[] = [];
