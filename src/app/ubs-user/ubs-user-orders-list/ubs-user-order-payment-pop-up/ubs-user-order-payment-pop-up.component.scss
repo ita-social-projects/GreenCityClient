@@ -14,14 +14,9 @@
     justify-content: space-between;
   }
 
-  .form-input {
-    border: 1px solid var(--ubs-primary-grey);
-    border-radius: 5px;
-    padding: 5px 7px;
-  }
-
-  .form-input:focus {
-    outline: none;
+  .input-border {
+    background: var(--ubs-primary-white);
+    border: 1px solid var(--ubs-quintynary-light-grey);
   }
 
   .question {
@@ -31,7 +26,6 @@
 
   .certificate-title {
     font-size: 14px;
-    margin-bottom: 2px;
   }
 
   .text {

@@ -8,9 +8,15 @@
     <div class="question">{{ 'ubs-client-profile.payment.question-certificate' | translate }}</div>
 
     <div class="form-field-container">
-      <p class="certificate-title">{{ 'ubs-client-profile.payment.certificate-number' | translate }}</p>
+      <label class="certificate-title">{{ 'ubs-client-profile.payment.certificate-number' | translate }}</label>
       <div class="dialog-container-certificate">
-        <input class="form-input" placeholder="XXXX-XXXX" type="text" />
+        <input
+          class="form-control shadow-none input-border"
+          [imask]="{ mask: certificateMask }"
+          [unmask]="false"
+          placeholder="xxxx-xxxx"
+          type="text"
+        />
         <button class="btn btn-activate">
           {{ 'ubs-client-profile.payment.btn.active' | translate }}
         </button>
