@@ -82,7 +82,7 @@ export class FormBaseComponent implements ComponentCanDeactivate {
           if (confirm) {
             const currentUrl = this.router.url;
             const isUBS = currentUrl.includes('ubs/order');
-            if (isUBS) {
+            if (isUbsOrderSubmit) {
               this.orderService.changeShouldBePaid(false);
               this.orderService.getOrderUrl().subscribe(
                 (response) => {
@@ -96,6 +96,9 @@ export class FormBaseComponent implements ComponentCanDeactivate {
                   this.orderService.changeShouldBePaid(true);
                 }
               );
+            } else if (isUBS) {
+              this.areChangesSaved = true;
+              this.cancelUBSwithoutSaving();
             } else {
               this.areChangesSaved = true;
               this.router.navigate([this.previousPath]);
