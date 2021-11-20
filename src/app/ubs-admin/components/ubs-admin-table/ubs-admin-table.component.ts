@@ -99,6 +99,7 @@ export class UbsAdminTableComponent implements OnInit, AfterViewChecked, OnDestr
 
   dropListDropped(event: CdkDragDrop<string[]>) {
     moveItemInArray(this.displayedColumns, event.previousIndex, event.currentIndex);
+    this.orderService.setColumnToDisplay(encodeURIComponent(this.displayedColumns.join(','))).subscribe();
     for (let i = 0; i < 4; i++) {
       this.stickyColumn.push(this.displayedColumns[i]);
     }
