@@ -2,6 +2,8 @@ import { Component, Inject, OnDestroy, OnInit } from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { ReplaySubject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
+import { OrderService } from '../../../ubs/services/order.service';
+import { UBSOrderFormService } from '../../../ubs/services/ubs-order-form.service';
 
 @Component({
   selector: 'app-warning-pop-up',
@@ -13,12 +15,18 @@ export class WarningPopUpComponent implements OnInit, OnDestroy {
   public popupSubtitle: string;
   public popupConfirm: string;
   public popupCancel: string;
+  public isLoading = false;
   public isUBS: boolean;
   public isUbsOrderSubmit: boolean;
   public closeButton = './assets/img/profile/icons/cancel.svg';
   private destroyed$: ReplaySubject<any> = new ReplaySubject<any>(1);
 
-  constructor(private matDialogRef: MatDialogRef<WarningPopUpComponent>, @Inject(MAT_DIALOG_DATA) public data) {}
+  constructor(
+    private matDialogRef: MatDialogRef<WarningPopUpComponent>,
+    @Inject(MAT_DIALOG_DATA) public data,
+    public orderService: OrderService,
+    public ubsOrderFormService: UBSOrderFormService
+  ) {}
 
   ngOnInit() {
     this.setTitles();
@@ -50,6 +58,24 @@ export class WarningPopUpComponent implements OnInit, OnDestroy {
 
   public userReply(reply: boolean): void {
     if (reply) {
+      if (this.isUbsOrderSubmit) {
+        this.isLoading = true;
+        this.orderService.changeShouldBePaid(false);
+        this.orderService.getOrderUrl().subscribe(
+          (response) => {
+            const { orderId } = JSON.parse(response);
+            this.ubsOrderFormService.transferOrderId(orderId);
+            this.ubsOrderFormService.setOrderResponseErrorStatus(orderId ? false : true);
+            this.matDialogRef.close(reply);
+            this.isLoading = false;
+          },
+          () => {
+            this.orderService.changeShouldBePaid(true);
+            this.isLoading = false;
+          }
+        );
+        return;
+      }
       localStorage.removeItem('newsTags');
     }
 

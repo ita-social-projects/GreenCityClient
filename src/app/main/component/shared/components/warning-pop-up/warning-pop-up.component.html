@@ -14,7 +14,8 @@
     <button class="secondary-global-button" [class.submit-cancel]="isUbsOrderSubmit" (click)="userReply(false)">
       {{ popupCancel | translate }}
     </button>
-    <button class="primary-global-button" [class.submit-confirm]="isUbsOrderSubmit" (click)="userReply(true)">
+    <button class="primary-global-button" [class.submit-confirm]="isUbsOrderSubmit" [disabled]="isLoading" (click)="userReply(true)">
+      <span *ngIf="isLoading" class="spinner-border spinner-border-sm" role="status" aria-hidden="true"> </span>
       {{ popupConfirm | translate }}
     </button>
   </div>

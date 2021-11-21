@@ -41,6 +41,15 @@
       color: var(--ubs-quaternary-dark-grey);
       border-color: var(--ubs-button-light-green);
       background: var(--ubs-button-light-green);
+      display: flex;
+      justify-content: space-around;
+      align-items: center;
+
+      &:disabled {
+        background: var(--ubs-quaternary-light-grey);
+        border-color: var(--ubs-quaternary-light-grey);
+        color: var(--ubs-secondary-grey);
+      }
     }
 
     .secondary-global-button {
