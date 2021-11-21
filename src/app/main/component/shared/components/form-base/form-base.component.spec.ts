@@ -1,4 +1,7 @@
+import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { MatDialogModule } from '@angular/material/dialog';
+import { RouterTestingModule } from '@angular/router/testing';
 
 import { FormBaseComponent } from './form-base.component';
 
@@ -8,9 +11,9 @@ describe('FormBaseComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ FormBaseComponent ]
-    })
-    .compileComponents();
+      declarations: [FormBaseComponent],
+      imports: [RouterTestingModule, MatDialogModule, HttpClientTestingModule]
+    }).compileComponents();
   }));
 
   beforeEach(() => {
