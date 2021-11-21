@@ -76,14 +76,12 @@ export class FormBaseComponent implements ComponentCanDeactivate {
           if (confirm) {
             const currentUrl = this.router.url;
             const isUBS = currentUrl.includes('ubs/order');
+            this.areChangesSaved = true;
             if (isUbsOrderSubmit) {
-              this.areChangesSaved = true;
               this.router.navigate(['ubs', 'confirm']);
             } else if (isUBS) {
-              this.areChangesSaved = true;
               this.cancelUBSwithoutSaving();
             } else {
-              this.areChangesSaved = true;
               this.router.navigate([this.previousPath]);
             }
           } else if (isUbsOrderSubmit) {
