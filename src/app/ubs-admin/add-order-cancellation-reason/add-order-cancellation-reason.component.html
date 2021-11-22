@@ -8,7 +8,7 @@
   <mat-radio-group aria-label="addReason" [(ngModel)]="reason">
     <mat-radio-button *ngFor="let option of reasonList" value="{{ option.value }}"> {{ option.title }}</mat-radio-button>
   </mat-radio-group>
-  <textarea *ngIf="reason === 'ownOption'" placeholder="Вкажіть свою причину скасування замовлення" cols="50" rows="6"></textarea>
+  <textarea *ngIf="reason === 'OTHER'" placeholder="Вкажіть свою причину скасування замовлення" cols="50" rows="6"></textarea>
   <div class="btn-container">
     <button type="reset" class="disagree btn" (click)="close()">Скасувати</button>
     <button type="submit" class="agree btn" (click)="save()">Додати</button>
