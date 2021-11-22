@@ -76,7 +76,7 @@ describe('HeaderComponent', () => {
   userOwnAuthServiceMock.getDataFromLocalStorage = () => true;
   userOwnAuthServiceMock.isLoginUserSubject = new BehaviorSubject(true);
 
-  let dialog: MatDialogMock;
+  let dialog: MatDialog;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
@@ -106,7 +106,7 @@ describe('HeaderComponent', () => {
     component.toggleBurgerMenu = false;
     // @ts-ignore
     component.userId = 1;
-    dialog = TestBed.get(MatDialog);
+    dialog = TestBed.inject(MatDialog);
 
     fixture.detectChanges();
   });
