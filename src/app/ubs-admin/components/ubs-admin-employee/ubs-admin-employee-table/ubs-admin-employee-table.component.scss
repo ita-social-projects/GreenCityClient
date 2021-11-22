@@ -32,6 +32,10 @@
   min-height: 39px !important;
 }
 
+.table:nth-col(1) {
+  width: 40px;
+}
+
 .check {
   display: flex;
   justify-content: center;
@@ -64,11 +68,31 @@
   overflow-wrap: break-word;
 }
 
+#edit-delete-btn {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
+}
+
+mat-icon {
+  color: var(--ubs-quintynary-light-grey);
+}
+
+mat-icon:hover {
+  color: var(--ubs-tertiary-grey);
+  cursor: pointer;
+}
+
 .mat-header-row {
   min-height: 39px !important;
   overflow-wrap: break-word !important;
   word-wrap: break-word !important;
   white-space: nowrap !important;
+}
+
+.edit-or-delete {
+  width: 40px !important;
 }
 
 ::ng-deep .mat-focused .mat-form-field-label {

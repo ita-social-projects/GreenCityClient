@@ -44,7 +44,7 @@ export class UbsAdminEmployeeTableComponent implements OnInit {
   }
 
   setDisplayedColumns() {
-    this.displayedColumns = ['fullName', 'position', 'location', 'email', 'phoneNumber'];
+    this.displayedColumns = ['editOrDelete', 'fullName', 'position', 'location', 'email', 'phoneNumber'];
   }
 
   updateTable() {
