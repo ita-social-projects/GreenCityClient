@@ -18,11 +18,12 @@ export class UbsOrderCertificateComponent implements OnInit, OnDestroy {
   @Input() bags: Bag[];
   @Input() defaultPoints: number;
   @Input() points: number;
+  @Input() pointsUsed: number;
+  fullCertificate: number;
   orders: OrderDetails;
   orderDetailsForm: FormGroup;
   certStatuses = [];
   minOrderValue = 500;
-  pointsUsed = 0;
   certificates = [];
   certificateSum = 0;
   total = 0;
@@ -75,6 +76,8 @@ export class UbsOrderCertificateComponent implements OnInit, OnDestroy {
   public locations: Locations[];
   public selectedLocationId: number;
   @Output() newItemEvent = new EventEmitter<object>();
+  clickOnYes = true;
+  clickOnNo = true;
 
   constructor(
     private fb: FormBuilder,
@@ -184,6 +187,7 @@ export class UbsOrderCertificateComponent implements OnInit, OnDestroy {
     this.certificateSum = this.failedCert && this.formArrayCertificates.length === 1 ? 0 : this.certificateSum;
     this.certDate = this.certificateDateTreat(cert.certificateDate);
     this.certStatus = cert.certificateStatus;
+    this.fullCertificate = this.certificateSum;
   }
 
   changeForm() {
@@ -197,7 +201,6 @@ export class UbsOrderCertificateComponent implements OnInit, OnDestroy {
     this.bags.forEach((bag) => {
       this.total += bag.price * bag.quantity;
     });
-    console.log('this.showTotal ', this.total);
     this.showTotal = this.total;
     this.changeForm();
     if (this.total < this.minOrderValue && this.orderDetailsForm.dirty) {
@@ -207,6 +210,7 @@ export class UbsOrderCertificateComponent implements OnInit, OnDestroy {
       this.displayMinOrderMes = false;
       this.onSubmit = false;
     }
+    console.log('Full', this.fullCertificate);
 
     this.finalSum = this.total - this.pointsUsed;
     if (this.certificateSum > 0) {
@@ -218,8 +222,10 @@ export class UbsOrderCertificateComponent implements OnInit, OnDestroy {
         }
         this.finalSum = this.total - this.certificateSum - this.pointsUsed;
         this.showCertificateUsed = this.certificateSum;
+        console.log('Full', this.fullCertificate);
+
         const certificateObj = {
-          certificateSum: this.certificateSum,
+          certificateSum: this.fullCertificate,
           displayCert: this.displayCert,
           finalSum: this.finalSum,
           pointsUsed: this.pointsUsed,
@@ -228,14 +234,32 @@ export class UbsOrderCertificateComponent implements OnInit, OnDestroy {
         this.addNewItem(certificateObj);
       } else {
         this.finalSum = 0;
+        console.log(
+          ' this.showTotal',
+          this.showTotal,
+          'this.pointsUsed',
+          this.pointsUsed,
+          'this.points',
+          this.points,
+          'this.certificateSum',
+          this.certificateSum
+        );
+        if (this.pointsUsed === this.showTotal && this.certificateSum > this.showTotal) {
+          this.points = this.points + this.pointsUsed;
+          this.pointsUsed = 0;
+          this.orderDetailsForm.controls.bonus.setValue('no');
+        }
         this.certificateLeft = this.certificateSum - this.total;
         this.showCertificateUsed = this.total;
+        console.log('Full', this.fullCertificate);
+
         const certificateObj = {
-          certificateSum: this.total,
+          certificateSum: this.fullCertificate,
           displayCert: this.displayCert,
           finalSum: this.finalSum,
           pointsUsed: this.pointsUsed,
-          points: this.points
+          points: this.points,
+          isBonus: this.orderDetailsForm.get('bonus')
         };
         this.addNewItem(certificateObj);
       }
@@ -306,11 +330,11 @@ export class UbsOrderCertificateComponent implements OnInit, OnDestroy {
       this.certStatus = '';
       this.addCert = true;
     }
-    console.log('this.finalSum', this.finalSum);
     if (this.finalSum === 0 && this.pointsUsed + this.points > this.certificateSum) {
       this.pointsUsed = this.pointsUsed + this.certificateSum;
       this.points = this.points - this.certificateSum;
     }
+    this.clickOnYes = true;
     this.bonusesRemaining = false;
     this.showCertificateUsed = null;
     this.addCert = false;
@@ -424,48 +448,72 @@ export class UbsOrderCertificateComponent implements OnInit, OnDestroy {
       finalSum: this.total,
       pointsUsed: this.pointsUsed,
       points: this.points,
-      certificateSum: this.certificateSum,
+      certificateSum: this.fullCertificate,
       displayCert: this.displayCert
     };
     this.addNewItem(bonusObj);
   }
 
   calculatePoints(): void {
-    if (this.certificateSum <= 0) {
-      this.calculatePointsWithoutCertificate();
-    } else {
-      this.calculatePointsWithCertificate();
+    console.log(this.orderDetailsForm.get('bonus').value);
+    console.log('this.certificateSum', this.certificateSum, 'this.show', this.showTotal);
+    if (this.certificateSum >= this.showTotal) {
+      this.orderDetailsForm.controls.bonus.setValue('no');
     }
+    if (this.clickOnYes && this.certificateSum < this.showTotal) {
+      this.clickOnNo = true;
+      if (this.certificateSum <= 0) {
+        this.calculatePointsWithoutCertificate();
+      } else {
+        this.calculatePointsWithCertificate();
+      }
 
-    this.finalSum = this.showTotal - this.pointsUsed - this.certificateSum;
+      const bonusObj = {
+        finalSum: this.total,
+        pointsUsed: this.pointsUsed,
+        points: this.points,
+        certificateSum: this.certificateSum,
+        displayCert: this.displayCert,
+        isBonus: this.orderDetailsForm.get('bonus').value
+      };
+      this.addNewItem(bonusObj);
 
-    if (this.finalSum < 0) {
-      this.finalSum = 0;
+      this.finalSum = this.showTotal - this.pointsUsed - this.certificateSum;
+
+      if (this.finalSum < 0) {
+        this.finalSum = 0;
+      }
+      this.clickOnYes = false;
     }
   }
 
   resetPoints(): void {
-    this.total = this.showTotal;
-    //this.certificateSum = 0;
-    this.finalSum = this.total;
-    this.points = this.pointsUsed + this.points;
-    this.pointsUsed = 0;
-    if (this.certificateSum > 0) {
-      this.total -= this.certificateSum;
+    console.log(this.orderDetailsForm.get('bonus').value);
+    if (this.clickOnNo) {
+      if (this.certificateSum < this.showTotal) {
+        this.clickOnYes = true;
+        this.total = this.showTotal;
+        this.finalSum = this.total;
+        this.points = this.pointsUsed + this.points;
+        this.pointsUsed = 0;
+        if (this.certificateSum > 0) {
+          this.total -= this.certificateSum;
+        }
+        const resetObj = {
+          finalSum: this.total,
+          pointsUsed: this.pointsUsed,
+          points: this.points,
+          certificateSum: this.certificateSum,
+          displayCert: this.displayCert,
+          isBonus: this.orderDetailsForm.get('bonus').value
+        };
+        this.addNewItem(resetObj);
+        // this.certificateReset(true);
+        // this.calculateTotal();
+        this.points = this.showTotal + this.points;
+      }
+      this.clickOnNo = false;
     }
-
-    console.log('this.points', this.points);
-    const resetObj = {
-      finalSum: this.total,
-      pointsUsed: this.pointsUsed,
-      points: this.points,
-      certificateSum: this.certificateSum,
-      displayCert: this.displayCert
-    };
-    this.addNewItem(resetObj);
-    // this.certificateReset(true);
-    // this.calculateTotal();
-    this.points = this.showTotal + this.points;
   }
 
   ngOnDestroy() {

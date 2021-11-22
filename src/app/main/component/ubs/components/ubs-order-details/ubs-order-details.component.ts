@@ -79,6 +79,7 @@ export class UBSOrderDetailsComponent extends FormBaseComponent implements OnIni
   public currentLocation: string;
   public isFetching = false;
   public changeLocation = false;
+  isBonus: any;
 
   constructor(
     private fb: FormBuilder,
@@ -283,11 +284,12 @@ export class UBSOrderDetailsComponent extends FormBaseComponent implements OnIni
       this.displayMinOrderMes = false;
       this.onSubmit = false;
     }
-
     this.finalSum = this.total - this.pointsUsed;
+    console.log(this.certificateSum);
     if (this.certificateSum > 0) {
       if (this.total > this.certificateSum) {
         this.certificateLeft = 0;
+        console.log('this.finalSum', this.finalSum, this.certificateSum, this.pointsUsed);
         this.finalSum = this.total - this.certificateSum - this.pointsUsed;
         this.showCertificateUsed = this.certificateSum;
       } else {
@@ -303,6 +305,7 @@ export class UBSOrderDetailsComponent extends FormBaseComponent implements OnIni
       this.showCertificateUsed = this.certificateSum;
     }
     this.changeOrderDetails();
+    //   this.finalSum = this.total - this.certificateSum - this.pointsUsed;
   }
 
   public ecoStoreValidation() {
@@ -366,20 +369,26 @@ export class UBSOrderDetailsComponent extends FormBaseComponent implements OnIni
     document.getElementById(`quantity${id}`).focus();
     this.checkTotalBigBags();
     this.calculateTotal();
-    if (this.orderDetailsForm.controls.bonus.value === 'yes') {
+    if (this.isBonus === 'no') {
       this.calculatePoints();
     }
   }
 
   calculatePoints(): void {
-    if (this.certificateSum <= 0) {
-      this.calculatePointsWithoutCertificate();
-    } else {
-      this.calculatePointsWithCertificate();
-    }
+    const fullDiscount = this.points + this.pointsUsed;
+    const totalSumIsBiggerThanPoints = this.points + this.pointsUsed <= this.showTotal;
 
-    this.finalSum = this.showTotal - this.pointsUsed - this.certificateSum;
-    if (this.finalSum < 0) {
+    if (totalSumIsBiggerThanPoints) {
+      this.pointsUsed = fullDiscount;
+      this.points = 0;
+      this.finalSum = this.showTotal - fullDiscount - this.certificateSum;
+      if (this.finalSum < 0) {
+        this.finalSum = 0;
+      }
+    } else if (this.pointsUsed >= this.showTotal || fullDiscount > this.showTotal) {
+      this.points += this.pointsUsed;
+      this.pointsUsed = this.showTotal;
+      this.points = this.points - this.pointsUsed;
       this.finalSum = 0;
     }
   }
@@ -553,6 +562,8 @@ export class UBSOrderDetailsComponent extends FormBaseComponent implements OnIni
     this.displayCert = newItem.displayCert;
     this.showCertificateUsed = newItem.certificateSum;
     this.finalSum = newItem.finalSum;
+    this.isBonus = newItem.isBonus;
+    this.certificateSum = newItem.certificateSum;
   }
 
   certificateMatch(cert): void {
