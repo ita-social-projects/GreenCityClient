@@ -2,7 +2,6 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import {
-  Bags,
   IOrderDetails,
   IOrderSumDetails,
   IUserInfo,
@@ -83,6 +82,12 @@ export class OrderService {
 
       case 'NOT_TAKEN_OUT':
         return [this.statusNotTakenOut, this.statusAdjustment, this.statusCanceled];
+
+      case 'DONE':
+        return [this.statusDone];
+
+      case 'CANCELED':
+        return [this.statusCanceled];
     }
   }
 
