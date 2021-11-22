@@ -95,6 +95,12 @@ export class OrderService {
 
       case 'NOT_TAKEN_OUT':
         return [this.statusNotTakenOut, this.statusAdjustment, this.statusCancelled];
+
+      case 'DONE':
+        return [this.statusDone];
+
+      case 'CANCELLED':
+        return [this.statusCancelled];
     }
   }
 

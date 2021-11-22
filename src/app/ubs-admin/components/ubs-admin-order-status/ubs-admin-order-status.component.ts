@@ -18,6 +18,7 @@ export class UbsAdminOrderStatusComponent implements OnInit, OnDestroy {
   constructor(public orderService: OrderService, private dialog: MatDialog) {}
   private destroy$: Subject<boolean> = new Subject<boolean>();
   public availableOrderStatuses;
+  cancellationReason;
 
   ngOnInit() {
     this.availableOrderStatuses = this.orderService.getAvailableOrderStatuses(this.order.orderStatus);
@@ -37,8 +38,9 @@ export class UbsAdminOrderStatusComponent implements OnInit, OnDestroy {
       })
       .afterClosed()
       .pipe(take(1))
-      .subscribe((discarded) => {
-        console.log('oooooo');
+      .subscribe((value) => {
+        this.cancellationReason = value;
+        console.log(this.cancellationReason);
       });
   }
 

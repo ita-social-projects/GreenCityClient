@@ -21,13 +21,9 @@
   .title {
     font-size: 30px;
     max-width: 500px;
-    line-height: 1.5;
+    margin-bottom: 20px;
     font-weight: 600;
-  }
-
-  label {
-    font-size: 20px;
-    color: var(--ubs-tertiary-grey);
+    line-height: 1.5;
   }
 
   .checkmark {
@@ -45,10 +41,34 @@
     }
   }
 
-  input[type='radio'] {
+  mat-radio-button {
+    display: block;
     width: 30px;
-    height: 1.5em;
     margin-top: 10px;
+    line-height: 1.5;
+    font-size: 20px;
+    color: var(--ubs-tertiary-grey);
+  }
+
+  ::ng-deep .mat-radio-button.mat-accent .mat-radio-ripple .mat-ripple-element {
+    color: var(--ubs-tertiary-light-green);
+    background: none;
+  }
+
+  ::ng-deep .mat-radio-button.mat-accent .mat-radio-inner-circle {
+    background-color: var(--ubs-tertiary-light-green);
+  }
+
+  ::ng-deep.mat-radio-button.mat-accent.mat-radio-checked .mat-radio-outer-circle {
+    border-color: var(--ubs-tertiary-light-green);
+  }
+
+  textarea {
+    margin-top: 20px;
+    padding: 10px;
+    font-size: 18px;
+    border: 1px solid var(--ubs-tertiary-grey);
+    border-radius: 5px;
   }
 
   .date {
