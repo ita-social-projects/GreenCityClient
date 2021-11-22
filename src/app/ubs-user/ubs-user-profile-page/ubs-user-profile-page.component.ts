@@ -34,7 +34,7 @@ export class UbsUserProfilePageComponent implements OnInit {
   googleIcon = SignInIcons.picGoogle;
   isEditing = false;
   isFetching = false;
-  phoneMask = '+{38} 000 000 00 00';
+  phoneMask = '+{38\\0} (00) 000 00 00';
   private readonly regexp = /^([a-zа-яїєґ '-])+$/iu;
   private readonly regexpEmail = /^[a-zA-Z0-9.!#$%&’*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/;
   private readonly regexpWithDigits = /^([a-zа-яїєґ0-9 '-])+$/iu;
@@ -93,7 +93,7 @@ export class UbsUserProfilePageComponent implements OnInit {
       recipientName: new FormControl(this.userProfile?.recipientName, [Validators.required, Validators.pattern(this.regexp)]),
       recipientSurname: new FormControl(this.userProfile?.recipientSurname, [Validators.required, Validators.pattern(this.regexp)]),
       recipientEmail: new FormControl(this.userProfile?.recipientEmail, [Validators.required, Validators.pattern(this.regexpEmail)]),
-      recipientPhone: new FormControl(`+38 0${this.userProfile?.recipientPhone}`, [Validators.required, Validators.minLength(12)])
+      recipientPhone: new FormControl(`+380${this.userProfile?.recipientPhone}`, [Validators.required, Validators.minLength(12)])
     });
     this.isFetching = false;
   }
