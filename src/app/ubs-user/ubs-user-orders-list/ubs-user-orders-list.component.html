@@ -5,10 +5,8 @@
 </div>
 <div *ngFor="let order of orders" class="card">
   <div class="empty_card">
-    <div class="order_arrow">
-      <img *ngIf="order.extend" src="assets/img/ubs-admin-orders/arrow_down.svg" alt="arrow down" (click)="changeCard(order.id)" />
-      <img *ngIf="!order.extend" src="assets/img/ubs-admin-orders/arrow_up.svg" alt="arrow up" (click)="changeCard(order.id)" />
-    </div>
+    <img *ngIf="order.extend" src="assets/img/ubs-admin-orders/arrow_down.svg" alt="arrow down" (click)="changeCard(order.id)" />
+    <img *ngIf="!order.extend" src="assets/img/ubs-admin-orders/arrow_up.svg" alt="arrow up" (click)="changeCard(order.id)" />
     <div>{{ order.id }}</div>
     <div>{{ order.orderStatusName }}</div>
     <div class="order_sum">{{ order.orderDiscountedPrice }}</div>
