@@ -30,7 +30,7 @@ export class OrderService {
   statusConfirmed = { name: 'CONFIRMED', translation: 'order-edit.order-status.confirmed' };
   statusFormed = { name: 'FORMED', translation: 'order-edit.order-status.formed' };
   statusBroughtItHimself = { name: 'BROUGHT_IT_HIMSELF', translation: 'order-edit.order-status.brought-it-himself' };
-  statusCancelled = { name: 'CANCELLED', translation: 'order-edit.order-status.cancelled' };
+  statusCanceled = { name: 'CANCELLED', translation: 'order-edit.order-status.cancelled' };
 
   // TODO: change this mock after receiving data from backend
 
@@ -79,28 +79,28 @@ export class OrderService {
   getAvailableOrderStatuses(currentOrderStatus: string) {
     switch (currentOrderStatus) {
       case 'FORMED':
-        return [this.statusFormed, this.statusAdjustment, this.statusBroughtItHimself, this.statusCancelled];
+        return [this.statusFormed, this.statusAdjustment, this.statusBroughtItHimself, this.statusCanceled];
 
       case 'ADJUSTMENT':
-        return [this.statusFormed, this.statusAdjustment, this.statusConfirmed, this.statusBroughtItHimself, this.statusCancelled];
+        return [this.statusFormed, this.statusAdjustment, this.statusConfirmed, this.statusBroughtItHimself, this.statusCanceled];
 
       case 'CONFIRMED':
-        return [this.statusFormed, this.statusConfirmed, this.statusOnTheRoute, this.statusCancelled];
+        return [this.statusFormed, this.statusConfirmed, this.statusOnTheRoute, this.statusCanceled];
 
       case 'BROUGHT_IT_HIMSELF':
-        return [this.statusBroughtItHimself, this.statusDone, this.statusCancelled];
+        return [this.statusBroughtItHimself, this.statusDone, this.statusCanceled];
 
       case 'ON_THE_ROUTE':
-        return [this.statusOnTheRoute, this.statusDone, this.statusNotTakenOut, this.statusCancelled];
+        return [this.statusOnTheRoute, this.statusDone, this.statusNotTakenOut, this.statusCanceled];
 
       case 'NOT_TAKEN_OUT':
-        return [this.statusNotTakenOut, this.statusAdjustment, this.statusCancelled];
+        return [this.statusNotTakenOut, this.statusAdjustment, this.statusCanceled];
 
       case 'DONE':
         return [this.statusDone];
 
       case 'CANCELLED':
-        return [this.statusCancelled];
+        return [this.statusCanceled];
     }
   }
 
