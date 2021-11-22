@@ -6,23 +6,30 @@
     {{ 'personal-info.pop-up-info-message' | translate }}
   </div>
   <div class="col-md-4 col-sm-4 form-group">
-    <label>Region</label>
-    <select class="shadow-none form-control">
-      <option [ngValue]="null" selected></option>
-      <option *ngFor="let region of regions" [value]="region?.regionName"></option>
+    <label>{{ 'personal-info.pop-up-region' | translate }}</label>
+    <select formControlName="region" class="shadow-none form-control">
+      <option *ngFor="let reg of bigRegions" selected>{{ reg }}</option>
     </select>
   </div>
   <div class="col-md-4 col-sm-4 form-group">
     <label>{{ 'personal-info.pop-up-city' | translate }}</label>
-    <select formControlName="city" class="shadow-none form-control">
-      <option [ngValue]="null" selected disabled hidden>{{ 'personal-info.pop-up-city' | translate }}</option>
-      <option *ngFor="let city of cities" [value]="city.cityName">{{ 'personal-info.pop-up-city-name' | translate }}</option>
-    </select>
+    <input
+      id="city"
+      ngx-google-places-autocomplete
+      formControlName="city"
+      type="text"
+      class="shadow-none form-control"
+      (onAddressChange)="selectCity($event)"
+      [options]="cityOptions"
+    />
   </div>
   <div class="col-md-4 col-sm-4 form-group">
     <label>{{ 'personal-info.pop-up-district' | translate }}</label>
-    <select formControlName="district" class="shadow-none form-control" [attr.disabled]="districtDisabled ? true : null">
-      <option selected disabled hidden>{{ 'personal-info.pop-up-enter-you-location' | translate }}</option>
+    <select *ngIf="isDistrict" formControlName="district" class="shadow-none form-control">
+      <option [selected]="region">{{ region }}</option>
+    </select>
+    <select *ngIf="!isDistrict" formControlName="district" class="shadow-none form-control">
+      <option selected hidden></option>
       <option *ngFor="let region of regions">{{ region }}</option>
     </select>
     <div class="validation" *ngIf="district.invalid && addAddressForm.get('district').touched">
@@ -39,8 +46,6 @@
       class="shadow-none form-control"
       (onAddressChange)="onDistrictSelected($event)"
       [options]="options"
-      (change)="onChange()"
-      [attr.disabled]="addAddressForm.controls['city'].dirty ? null : true"
       placeholder="{{ 'personal-info.pop-up-enter-you-location' | translate }}"
       [pattern]="streetPattern"
     />

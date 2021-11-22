@@ -28,6 +28,7 @@ export class FilterPlaceService {
   userMarkerLocation: PlaceLocation = new PlaceLocation();
 
   public filtersDto$: BehaviorSubject<any> = new BehaviorSubject<any>({ status: PlaceStatus.APPROVED });
+  public isFavoriteFilter$: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
 
   constructor(private datePipe: DatePipe) {}
 
@@ -86,6 +87,9 @@ export class FilterPlaceService {
       filtersDto.time = this.datePipe.transform(new Date(), 'dd/MM/yyyy HH:mm:ss');
     }
     const servicesFilters = placesFilter.moreOptionsFilters?.servicesFilters;
+
+    let categories = [];
+
     if (servicesFilters) {
       const services = Object.keys(servicesFilters).reduce((acc: string[], key: string) => {
         if (servicesFilters[key]) {
@@ -93,10 +97,25 @@ export class FilterPlaceService {
         }
         return acc;
       }, []);
-      filtersDto.categories = services.concat(placesFilter.basicFilters);
+      categories.push(...services, ...placesFilter.basicFilters);
+      categories = this.removeNonCategoryFilters(categories);
     }
 
+    if (categories.length) {
+      filtersDto.categories = categories;
+    }
+
+    const isFavoriteFilter: boolean =
+      placesFilter.moreOptionsFilters?.baseFilters['Saved places'] || placesFilter.basicFilters.includes('Saved places');
+    this.isFavoriteFilter$.next(isFavoriteFilter);
+
     this.filtersDto$.next(filtersDto);
+  }
+
+  private removeNonCategoryFilters(filters: string[]): string[] {
+    return filters.filter((filterItem: string) => {
+      return filterItem !== 'Saved places';
+    });
   }
 
   clearFilter() {

@@ -531,7 +531,8 @@
       "ubs": "UBS кур'єр",
       "my-habits": "Мій кабінет",
       "sorting-rules": "Правила сортування",
-      "eco-shop": "Еко-магазин"
+      "eco-shop": "Еко-магазин",
+      "events": "Події"
     },
     "edit-profile": {
       "edit-profile": "Редагування профілю",
@@ -586,7 +587,8 @@
       "tips": "Поради",
       "map": "Місця",
       "my-habits": "Мої звички",
-      "follow-us": "Приєднуйтесь до нас"
+      "follow-us": "Приєднуйтесь до нас",
+      "events": "Події"
     },
     "user-goals": {
       "add-goal": {

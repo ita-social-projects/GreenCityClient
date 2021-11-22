@@ -14,4 +14,8 @@ export class UserOrdersService {
     const lang = localStorage.getItem('language') === 'ua' ? 1 : 2;
     return this.http.get<any[]>(`${this.url}/get-all-orders-data/${lang}`);
   }
+
+  public deleteOrder(orderId: number): Observable<object> {
+    return this.http.delete<object>(`${this.url}/delete-order/${orderId}`);
+  }
 }

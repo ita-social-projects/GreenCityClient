@@ -30,7 +30,7 @@
         <mat-icon>edit</mat-icon>
         <span class="body-1">{{ 'employees.btn.edit' | translate }}</span>
       </button>
-      <button mat-menu-item>
+      <button mat-menu-item (click)="deleteEmployee()">
         <mat-icon>delete</mat-icon>
         <span class="body-1">{{ 'employees.btn.delete' | translate }}</span>
       </button>
