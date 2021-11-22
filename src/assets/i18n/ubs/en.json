@@ -144,8 +144,11 @@
   "confirmation": {
     "cancel": "Yes, exit",
     "dismiss": "Continue",
+    "delete": "No, delete the order",
+    "ok": "Okay",
+    "submit-title": "In case of closing, your order will be saved in your personal account",
     "title": "Are you sure you want to exit?",
-    "subTitle": "You order will be saved in personal account"
+    "subTitle": "Your order will not be saved"
   },
   "confirm-page": {
     "title-text": "Your order is accepted",

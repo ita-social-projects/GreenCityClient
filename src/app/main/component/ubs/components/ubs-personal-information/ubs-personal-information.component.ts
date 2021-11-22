@@ -44,12 +44,13 @@ export class UBSPersonalInformationComponent extends FormBaseComponent implement
     hasBackdrop: true,
     closeOnNavigation: true,
     disableClose: true,
-    panelClass: 'popup-dialog-container',
+    panelClass: 'custom-ubs-style',
     data: {
       popupTitle: 'confirmation.title',
       popupSubtitle: 'confirmation.subTitle',
       popupConfirm: 'confirmation.cancel',
-      popupCancel: 'confirmation.dismiss'
+      popupCancel: 'confirmation.dismiss',
+      isUBS: true
     }
   };
 

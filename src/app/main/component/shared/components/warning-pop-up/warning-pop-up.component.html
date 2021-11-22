@@ -1,6 +1,6 @@
 <div class="main-container">
-  <button class="close" (click)="userReply(false)">
-    <img src="{{ closeButton }}" alt="close">
+  <button *ngIf="!isUBS" class="close" (click)="userReply(false)">
+    <img src="{{ closeButton }}" alt="close" />
   </button>
   <div class="warning-text">
     <div class="warning-title" *ngIf="popupTitle">
@@ -11,10 +11,11 @@
     </div>
   </div>
   <div class="buttons-container">
-    <button class="secondary-global-button" (click)="userReply(false)">
+    <button class="secondary-global-button" [class.submit-cancel]="isUbsOrderSubmit" (click)="userReply(false)">
       {{ popupCancel | translate }}
     </button>
-    <button class="primary-global-button" (click)="userReply(true)">
+    <button class="primary-global-button" [class.submit-confirm]="isUbsOrderSubmit" [disabled]="isLoading" (click)="userReply(true)">
+      <span *ngIf="isLoading" class="spinner-border spinner-border-sm" role="status" aria-hidden="true"> </span>
       {{ popupConfirm | translate }}
     </button>
   </div>
