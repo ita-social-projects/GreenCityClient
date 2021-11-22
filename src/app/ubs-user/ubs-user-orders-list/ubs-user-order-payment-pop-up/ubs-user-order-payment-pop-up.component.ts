@@ -27,13 +27,7 @@ export class UbsUserOrderPaymentPopUpComponent implements OnInit {
     this.orderDetailsForm = this.fb.group({
       bonus: new FormControl('no', [Validators.required]),
       paymentSystem: new FormControl('Fondy', [Validators.required]),
-      orderSum: new FormControl(0, [Validators.required, Validators.min(0)]),
       certificate: ['', [Validators.required, Validators.minLength(8), Validators.pattern(this.certificatePattern)]]
     });
-  }
-
-  public radioChange(e) {
-    console.log(this.selectedRadio);
-    console.log(e);
   }
 }
