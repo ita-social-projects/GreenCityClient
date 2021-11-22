@@ -11,7 +11,6 @@ import { OrderService } from '../../services/order.service';
 export class UbsAdminOrderStatusComponent implements OnDestroy {
   @Input() order;
   @Input() orderStatusForm: FormGroup;
-
   constructor(public orderService: OrderService) {}
   private destroy$: Subject<boolean> = new Subject<boolean>();
 

@@ -247,6 +247,7 @@
   "user-orders": {
     "no-orders": "You haven't made any orders with us yet.",
     "make-order": "Make an order",
+    "new-order": "New order",
     "order-title": "Your orders",
     "current-orders": "Current orders",
     "order-history": "Order history",

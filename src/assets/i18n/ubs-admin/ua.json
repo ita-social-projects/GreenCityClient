@@ -245,12 +245,15 @@
   "user-orders": {
     "no-orders": "Ви ще не зробили замовлень у нас.",
     "make-order": "Зробити замовлення",
+    "new-order": "Нове замовлення",
     "order-title": "Ваші замовлення",
     "current-orders": "Поточні замовлення",
     "order-history": "Історія замовлень",
     "order-number": "№ замовлення",
+    "order-date": "Дата",
     "order-status": "Статус",
-    "payment-amount": "Сума оплати",
+    "order-payment-status": "Статус оплати",
+    "payment-amount": "Сума до оплати",
     "btn": {
       "cancel": "Скасувати",
       "pay": "Оплатити",

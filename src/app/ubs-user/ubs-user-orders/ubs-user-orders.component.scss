@@ -8,6 +8,11 @@
   background-color: var(--after-primary-light-grey);
 }
 
+.header {
+  display: flex;
+  justify-content: space-between;
+}
+
 .main_header {
   margin: 0 0 51px 44px;
   font-style: normal;
@@ -31,4 +36,14 @@
   .empty {
     height: 80px;
   }
+}
+
+.btn_pay {
+  height: 36px;
+  margin-right: 44px;
+  border: none;
+  color: var(--ubs-primary-white);
+  padding: 8px 24px 8px 24px;
+  background: var(--ubs-primary-green);
+  border-radius: 4px;
 }
