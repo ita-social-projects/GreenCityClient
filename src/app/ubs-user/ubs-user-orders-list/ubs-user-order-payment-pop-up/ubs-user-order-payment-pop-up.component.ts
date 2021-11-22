@@ -1,5 +1,6 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Inject, OnInit } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
+import { MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { OrderService } from 'src/app/main/component/ubs/services/order.service';
 
 @Component({
@@ -8,16 +9,17 @@ import { OrderService } from 'src/app/main/component/ubs/services/order.service'
   styleUrls: ['./ubs-user-order-payment-pop-up.component.scss']
 })
 export class UbsUserOrderPaymentPopUpComponent implements OnInit {
-  public totalSum: number = 0.0;
-  public bonusValue: number = 0.0;
+  public totalSum: number = 0;
+  public bonusValue: number = 0;
   public selectedRadio: string = 'no';
   public certificatePattern = /(?!0000)\d{4}-(?!0000)\d{4}/;
   public certificateMask: string = '0000-0000';
   public orderDetailsForm: FormGroup;
 
-  constructor(private fb: FormBuilder, private orderService: OrderService) {}
+  constructor(private fb: FormBuilder, private orderService: OrderService, @Inject(MAT_DIALOG_DATA) public data: any) {}
 
   ngOnInit(): void {
+    this.totalSum = this.data.price;
     this.initForm();
   }
 

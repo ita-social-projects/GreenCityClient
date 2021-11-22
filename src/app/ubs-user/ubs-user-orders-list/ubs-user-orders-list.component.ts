@@ -34,7 +34,9 @@ export class UbsUserOrdersListComponent {
     });
   }
 
-  openOrderPaymentDialog() {
-    this.dialog.open(UbsUserOrderPaymentPopUpComponent);
+  openOrderPaymentDialog(order: any) {
+    this.dialog.open(UbsUserOrderPaymentPopUpComponent, {
+      data: { price: order.orderDiscountedPrice }
+    });
   }
 }

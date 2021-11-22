@@ -75,7 +75,7 @@ import { MAT_DIALOG_DEFAULT_OPTIONS } from '@angular/material/dialog';
       useValue: { hasBackdrop: true }
     }
   ],
-  entryComponents: [UbsProfileChangePasswordPopUpComponent, UbsProfileDeletePopUpComponent]
+  entryComponents: [UbsProfileChangePasswordPopUpComponent, UbsProfileDeletePopUpComponent, UbsUserOrderPaymentPopUpComponent]
 })
 export class UbsUserModule {}
 
