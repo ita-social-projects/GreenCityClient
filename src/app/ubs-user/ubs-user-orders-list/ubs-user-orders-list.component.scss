@@ -17,7 +17,7 @@
 
 .header_list {
   display: grid;
-  grid-template-columns: 120px 120px 120px 120px 120px;
+  grid-template-columns: 200px 172px 222px auto;
   grid-template-rows: 30px;
   max-width: 862px;
   font-size: 14px;
@@ -26,7 +26,6 @@
   line-height: 20px;
   border: none;
   text-align: center;
-  margin-left: 63px;
 }
 
 .card {
@@ -40,19 +39,13 @@
 
 .empty_card {
   display: grid;
-  grid-template-columns: 11px 47px 69px 95px 105px 96px auto;
-  grid-column-gap: 20px;
+  grid-template-columns: 56px 143px 172px 222px 268px;
   justify-items: center;
   align-items: center;
 
-  .order_arrow {
-    padding-left: 27px;
-    padding-right: 26px;
-  }
-
   .order_sum {
-    // margin-right: 75px;
-    // justify-self: end;
+    margin-right: 75px;
+    justify-self: end;
   }
 
   .btns_group {

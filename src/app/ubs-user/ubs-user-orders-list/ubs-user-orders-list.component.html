@@ -1,9 +1,7 @@
 <div *ngIf="orders.length !== 0" class="header_list">
-  <div class="header_list-item">{{ 'user-orders.order-number' | translate }}</div>
-  <div class="header_list-item">{{ 'user-orders.order-date' | translate }}</div>
-  <div class="header_list-item">{{ 'user-orders.order-status' | translate }}</div>
-  <div class="header_list-item">{{ 'user-orders.order-payment-status' | translate }}</div>
-  <div class="header_list-item">{{ 'user-orders.payment-amount' | translate }}</div>
+  <div>{{ 'user-orders.order-number' | translate }}</div>
+  <div>{{ 'user-orders.order-status' | translate }}</div>
+  <div>{{ 'user-orders.payment-amount' | translate }}</div>
 </div>
 <div *ngFor="let order of orders" class="card">
   <div class="empty_card">
@@ -11,11 +9,9 @@
       <img *ngIf="order.extend" src="assets/img/ubs-admin-orders/arrow_down.svg" alt="arrow down" (click)="changeCard(order.id)" />
       <img *ngIf="!order.extend" src="assets/img/ubs-admin-orders/arrow_up.svg" alt="arrow up" (click)="changeCard(order.id)" />
     </div>
-    <div class="order_id">{{ order.id }}</div>
-    <div class="order_date">{{ order.orderDate }}</div>
-    <div class="order_statusName">{{ order.orderStatusName }}</div>
-    <div class="order_payStatus">{{ order.paymentStatus }}</div>
-    <div class="order_sum">{{ order.orderDiscountedPrice | currency | localizedCurrency }}</div>
+    <div>{{ order.id }}</div>
+    <div>{{ order.orderStatusName }}</div>
+    <div class="order_sum">{{ order.orderDiscountedPrice }}</div>
     <div class="btns_group">
       <div *ngIf="isOrderFormed(order)" class="btn_grid_cancel">
         <button class="btn_cancel">{{ 'user-orders.btn.cancel' | translate }}</button>
