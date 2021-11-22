@@ -15,23 +15,23 @@ export class AddOrderCancellationReasonComponent implements OnInit {
   public reason: string;
   reasonList: any[] = [
     {
-      value: 'broughtHimself',
+      value: 'DELIVERED_HIMSELF',
       title: 'Привезено на станцію самостійно'
     },
     {
-      value: 'moving',
+      value: 'MOVING_OUT',
       title: 'Переїзд'
     },
     {
-      value: 'departureFromCity',
+      value: 'OUT_OF_CITY',
       title: 'Виїзд з міста'
     },
     {
-      value: 'didNotLikeServise',
+      value: 'DISLIKED_SERVICE',
       title: 'Не сподобався сервіс'
     },
     {
-      value: 'ownOption',
+      value: 'OTHER',
       title: 'Свій варіант'
     }
   ];

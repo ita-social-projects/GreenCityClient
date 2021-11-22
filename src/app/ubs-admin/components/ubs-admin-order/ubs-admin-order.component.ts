@@ -66,7 +66,9 @@ export class UbsAdminOrderComponent implements OnInit, OnDestroy {
     this.orderForm = this.fb.group({
       orderStatusForm: this.fb.group({
         orderStatus: this.order.orderStatus,
-        commentForOrder: ''
+        commentForOrder: '',
+        cancellationComment: '',
+        cancellationReason: ''
       }),
       clientInfoForm: this.fb.group({
         senderName: [personalInfo[0], [Validators.required, Validators.minLength(1), Validators.maxLength(30)]],

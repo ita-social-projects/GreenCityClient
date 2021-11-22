@@ -19,6 +19,7 @@ export class UbsAdminOrderStatusComponent implements OnInit, OnDestroy {
   private destroy$: Subject<boolean> = new Subject<boolean>();
   public availableOrderStatuses;
   cancellationReason;
+  cancellationComment;
 
   ngOnInit() {
     this.availableOrderStatuses = this.orderService.getAvailableOrderStatuses(this.order.orderStatus);
@@ -40,6 +41,9 @@ export class UbsAdminOrderStatusComponent implements OnInit, OnDestroy {
       .pipe(take(1))
       .subscribe((value) => {
         this.cancellationReason = value;
+        if ((this.cancellationReason = 'OTHER')) {
+          this.cancellationComment = '';
+        }
         console.log(this.cancellationReason);
       });
   }
