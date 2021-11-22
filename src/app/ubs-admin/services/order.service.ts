@@ -2,7 +2,6 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable, ReplaySubject } from 'rxjs';
 import {
-  Bags,
   IOrderDetails,
   IOrderSumDetails,
   IUserInfo,
