@@ -14,9 +14,6 @@
             placeholder="{{ 'user.map.searching-for-a-place' | translate }}"
             (keyup)="searchNameChange(searchInput.value)"
           />
-          <datalist id="places_names">
-            <option *ngFor="let card of cardsCollection" value="{{ card.cardName }}">{{ card.cardText }}</option>
-          </datalist>
           <input
             matInput
             matGoogleMapsAutocomplete
@@ -97,22 +94,6 @@
             class="marker"
           ></agm-marker>
         </agm-map>
-      </div>
-    </div>
-    <div class="places-recommendation">
-      <h6 class="recommendation-title">{{ 'user.places-card.card-popular' | translate }}</h6>
-      <div class="card-container">
-        <div *ngFor="let card of cardsCollection" class="card" [id]="card.id">
-          <img class="card-img-top" src="{{ card.cardImgUrl }}" alt="place-image" />
-          <div class="card-body">
-            <div class="card-headers">
-              <h5 class="card-title">{{ card.cardName }}</h5>
-              <span class="card-address">{{ card.cardAddress }}</span>
-            </div>
-            <p class="card-text">{{ card.cardText }}</p>
-            <img class="card-bookmark" src="{{ card.favorite }}" alt="bookmark" />
-          </div>
-        </div>
       </div>
     </div>
   </div>
