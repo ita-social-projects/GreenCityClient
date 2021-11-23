@@ -8,10 +8,12 @@
   font-family: var(--primary-font);
   background-color: var(--after-primary-light-grey);
 }
+
 .main_header {
   display: flex;
   justify-content: space-between;
 }
+
 .main_header-title {
   margin: 0 0 51px 44px;
   font-style: normal;
