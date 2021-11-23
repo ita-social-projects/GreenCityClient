@@ -8,7 +8,6 @@ import { environment } from '@environment/environment';
 describe('BonusesService', () => {
   let service: BonusesService;
   let httpMock: HttpTestingController;
-  let injector: TestBed;
 
   const testBonuses: BonusesModel = {
     ubsUserBonuses: [
@@ -31,9 +30,8 @@ describe('BonusesService', () => {
       imports: [HttpClientTestingModule]
     });
 
-    injector = getTestBed();
-    service = injector.get(BonusesService);
-    httpMock = injector.get(HttpTestingController);
+    service = TestBed.inject(BonusesService);
+    httpMock = TestBed.inject(HttpTestingController);
   });
 
   afterEach(() => {

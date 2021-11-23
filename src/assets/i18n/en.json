@@ -529,7 +529,8 @@
       "ubs": "UBS courier",
       "my-habits": "My space",
       "sorting-rules": "Sorting rules",
-      "eco-shop": "Eco-Shop"
+      "eco-shop": "Eco-Shop",
+      "events": "Events"
     },
     "edit-profile": {
       "edit-profile": "Edit Profile",
@@ -584,7 +585,8 @@
       "tips": "Tips & Tricks",
       "map": "Places",
       "my-habits": "My habits",
-      "follow-us": "Follow us"
+      "follow-us": "Follow us",
+      "events": "Events"
     },
     "user-goals": {
       "add-goal": {

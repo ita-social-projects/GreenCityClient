@@ -51,7 +51,7 @@
                 (change)="onQuantityChange(bag.id)"
               />
             </div>
-            <span class="col-3 bag-name text-center"> {{ bag.quantity * bag.price | currency | localizedCurrency }}</span>
+            <span class="col-3 bag-name text-right"> {{ bag.quantity * bag.price | currency | localizedCurrency }}</span>
           </li>
         </ul>
       </div>
@@ -276,7 +276,7 @@
 </div>
 
 <div class="w-100 d-flex justify-content-end buttons">
-  <button type="button" class="secondary-global-button btn cancel-button btn-main" (click)="cancelUBSwithoutSaving()">
+  <button type="button" class="secondary-global-button btn cancel-button btn-main" (click)="cancelUBS()">
     {{ 'order-details.cancel' | translate }}
   </button>
   <button
