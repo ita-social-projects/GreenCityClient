@@ -8,15 +8,17 @@ import { OrderService } from '../../services/order.service';
   styleUrls: ['./ubs-admin-order-status.component.scss']
 })
 export class UbsAdminOrderStatusComponent implements OnInit {
-  @Input() order;
   @Input() orderStatusForm: FormGroup;
+  @Input() generalOrderInfo;
   @Output() changed = new EventEmitter<string>();
-
   constructor(public orderService: OrderService) {}
   public availableOrderStatuses;
 
   ngOnInit() {
-    this.availableOrderStatuses = this.orderService.getAvailableOrderStatuses(this.order.orderStatus);
+    this.availableOrderStatuses = this.orderService.getAvailableOrderStatuses(
+      this.generalOrderInfo.orderStatus,
+      this.generalOrderInfo.orderStatusesDtos
+    );
   }
 
   onChangedOrderStatus(statusName: string) {

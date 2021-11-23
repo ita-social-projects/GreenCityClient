@@ -1,7 +1,5 @@
 import { Component, Input, OnDestroy, OnInit } from '@angular/core';
 import { FormGroup } from '@angular/forms';
-import { OrderService } from '../../services/order.service';
-import { takeUntil } from 'rxjs/operators';
 import { Subject } from 'rxjs';
 
 @Component({
@@ -10,7 +8,8 @@ import { Subject } from 'rxjs';
   styleUrls: ['./ubs-admin-responsible-persons.component.scss']
 })
 export class UbsAdminResponsiblePersonsComponent implements OnInit, OnDestroy {
-  @Input() order;
+  @Input() responsiblePersonInfo;
+  @Input() orderId;
   @Input() responsiblePersonsForm: FormGroup;
 
   public allCallManagers: string[];
@@ -19,10 +18,9 @@ export class UbsAdminResponsiblePersonsComponent implements OnInit, OnDestroy {
   public allDrivers: string[];
   pageOpen: boolean;
   private destroy$: Subject<boolean> = new Subject<boolean>();
-  constructor(private orderService: OrderService) {}
 
   ngOnInit(): void {
-    this.getOrderEmployees(this.order.id);
+    this.getOrderEmployees(this.orderId);
   }
 
   openDetails() {
@@ -30,16 +28,11 @@ export class UbsAdminResponsiblePersonsComponent implements OnInit, OnDestroy {
   }
 
   getOrderEmployees(orderId: number) {
-    this.orderService
-      .getAllResponsiblePersons(orderId)
-      .pipe(takeUntil(this.destroy$))
-      .subscribe((data) => {
-        const employees = data.allPositionsEmployees;
-        this.allCallManagers = this.processEmployeeById(employees, 2);
-        this.allLogisticians = this.processEmployeeById(employees, 3);
-        this.allNavigators = this.processEmployeeById(employees, 4);
-        this.allDrivers = this.processEmployeeById(employees, 5);
-      });
+    const employees = this.responsiblePersonInfo.allPositionsEmployees;
+    this.allCallManagers = this.processEmployeeById(employees, 2);
+    this.allLogisticians = this.processEmployeeById(employees, 3);
+    this.allNavigators = this.processEmployeeById(employees, 4);
+    this.allDrivers = this.processEmployeeById(employees, 5);
   }
 
   processEmployeeById(employees: any[], id: number): string[] {

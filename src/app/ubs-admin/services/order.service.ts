@@ -19,7 +19,6 @@ import { environment } from '@environment/environment';
 export class OrderService {
   private backend: string = environment.ubsAdmin.backendUbsAdminLink;
   private backendLink: string = environment.backendUbsLink;
-  private selectedOrder;
 
   statusDone = { name: 'DONE', translation: 'order-edit.order-status.done' };
   statusAdjustment = { name: 'ADJUSTMENT', translation: 'order-edit.order-status.adjustment' };
@@ -29,15 +28,6 @@ export class OrderService {
   statusFormed = { name: 'FORMED', translation: 'order-edit.order-status.formed' };
   statusBroughtItHimself = { name: 'BROUGHT_IT_HIMSELF', translation: 'order-edit.order-status.brought-it-himself' };
   statusCanceled = { name: 'CANCELED', translation: 'order-edit.order-status.cancelled' };
-
-  // TODO: change this mock after receiving data from backend
-
-  readonly paymentStatuses = [
-    { name: 'UNPAID', translation: 'order-edit.payment-status.not-paid' },
-    { name: 'PAID', translation: 'order-edit.payment-status.paid' },
-    { name: 'HALF_PAID', translation: 'order-edit.payment-status.half-paid' },
-    { name: 'PAYMENT_REFUNDED', translation: 'order-edit.payment-status.payment-refunded' }
-  ];
 
   readonly districts = [
     'Голосіївський',
@@ -55,15 +45,44 @@ export class OrderService {
 
   constructor(private http: HttpClient) {}
 
-  getSelectedOrder() {
-    return this.selectedOrder;
+  getAvailableOrderStatuses(currentOrderStatus, statuses) {
+    const statusDone = statuses.find((el) => el.name === 'DONE');
+    const statusAdjustment = statuses.find((el) => el.name === 'ADJUSTMENT');
+    const statusOnTheRoute = statuses.find((el) => el.name === 'ON_THE_ROUTE');
+    const statusNotTakenOut = statuses.find((el) => el.name === 'NOT_TAKEN_OUT');
+    const statusConfirmed = statuses.find((el) => el.name === 'CONFIRMED');
+    const statusFormed = statuses.find((el) => el.name === 'FORMED');
+    const statusBroughtItHimself = statuses.find((el) => el.name === 'BROUGHT_IT_HIMSELF');
+    const statusCanceled = statuses.find((el) => el.name === 'CANCELED');
+
+    switch (currentOrderStatus) {
+      case 'FORMED':
+        return [statusFormed, statusAdjustment, statusBroughtItHimself, statusCanceled];
+
+      case 'ADJUSTMENT':
+        return [statusFormed, statusAdjustment, statusConfirmed, statusBroughtItHimself, statusCanceled];
+
+      case 'CONFIRMED':
+        return [statusFormed, statusConfirmed, statusOnTheRoute, statusCanceled];
+
+      case 'BROUGHT_IT_HIMSELF':
+        return [statusBroughtItHimself, statusDone, statusCanceled];
+
+      case 'ON_THE_ROUTE':
+        return [statusOnTheRoute, statusDone, statusNotTakenOut, statusCanceled];
+
+      case 'NOT_TAKEN_OUT':
+        return [statusNotTakenOut, statusAdjustment, statusCanceled];
+
+      case 'DONE':
+        return [statusDone];
+
+      case 'CANCELED':
+        return [statusCanceled];
+    }
   }
 
-  setSelectedOrder(order) {
-    this.selectedOrder = order;
-  }
-
-  getAvailableOrderStatuses(currentOrderStatus: string) {
+  getOrderStatuses(currentOrderStatus) {
     switch (currentOrderStatus) {
       case 'FORMED':
         return [this.statusFormed, this.statusAdjustment, this.statusBroughtItHimself, this.statusCanceled];

@@ -9,7 +9,8 @@ import { OrderService } from '../../services/order.service';
   styleUrls: ['./ubs-admin-address-details.component.scss']
 })
 export class UbsAdminAddressDetailsComponent implements OnDestroy {
-  @Input() order;
+  @Input() addressComment;
+  @Input() addressInfo;
   @Input() addressDetailsForm: FormGroup;
   pageOpen: boolean;
 
