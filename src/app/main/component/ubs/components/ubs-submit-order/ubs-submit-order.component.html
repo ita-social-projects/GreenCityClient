@@ -119,7 +119,7 @@
         <div class="col-12 col-sm-12 p-0">
           <label class="choose-payment-chooser">{{ 'submit-order.choose-payment' | translate }}</label
           ><br />
-          <select class="payment-select shadow-none" [disabled]="isFinalSumZero" (change)="orderButton($event)">
+          <select class="payment-select shadow-none" (change)="orderButton($event)">
             <option value="Fondy" selected>{{ 'submit-order.fondy-card' | translate }}</option>
             <option value="LiqPay">{{ 'submit-order.liqpay-card' | translate }}</option>
           </select>
