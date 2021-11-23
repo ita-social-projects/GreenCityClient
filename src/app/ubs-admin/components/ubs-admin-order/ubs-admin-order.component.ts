@@ -61,7 +61,7 @@ export class UbsAdminOrderComponent implements OnInit, OnDestroy {
       this.translate.setDefaultLang(lang);
     });
     this.route.params.subscribe((params: Params) => {
-      this.orderId = +params['id'];
+      this.orderId = +params.id;
     });
     this.getOrderInfo(this.orderId, this.currentLanguage);
   }
