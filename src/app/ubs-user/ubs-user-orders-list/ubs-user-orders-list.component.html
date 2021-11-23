@@ -11,10 +11,10 @@
       <img *ngIf="order.extend" src="assets/img/ubs-admin-orders/arrow_down.svg" alt="arrow down" (click)="changeCard(order.id)" />
       <img *ngIf="!order.extend" src="assets/img/ubs-admin-orders/arrow_up.svg" alt="arrow up" (click)="changeCard(order.id)" />
     </div>
-    <div class="empty_card-id">{{ order.id }}</div>
-    <div class="empty_card-date">{{ order.dateFormed | date: 'dd.MM.y' }}</div>
-    <div class="empty_card-status">{{ order.orderStatusName }}</div>
-    <div class="empty_card-paymentStatus">{{ order.orderPaymentStatusName }}</div>
+    <div class="empty_card-id">{{ order.generalOrderInfo.id }}</div>
+    <div class="empty_card-date">{{ order.generalOrderInfo.dateFormed | date: 'dd.MM.y' }}</div>
+    <div class="empty_card-status">{{ order.generalOrderInfo.orderStatusName }}</div>
+    <div class="empty_card-paymentStatus">{{ order.generalOrderInfo.orderPaymentStatusName }}</div>
     <div class="order_sum">{{ order.orderDiscountedPrice | currency | localizedCurrency }}</div>
     <div class="btns_group">
       <div *ngIf="isOrderFormed(order)" class="btn_grid_cancel">
