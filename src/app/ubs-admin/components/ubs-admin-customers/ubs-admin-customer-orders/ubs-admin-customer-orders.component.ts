@@ -28,8 +28,8 @@ export class UbsAdminCustomerOrdersComponent implements OnInit {
   public displayedColumns: string[] = [];
   public dataSource: MatTableDataSource<any>;
   public currentLang: string;
-
-  public userName = '';
+  public arrowDirection: string;
+  public userName: string;
   public orders = [];
   public isLoading = true;
 
@@ -73,6 +73,11 @@ export class UbsAdminCustomerOrdersComponent implements OnInit {
           this.dataSource = new MatTableDataSource(this.orders);
         });
     });
+  }
+
+  public onSortTable(column: string, sortingType: string) {
+    this.arrowDirection = column === this.arrowDirection ? null : column;
+    console.log(column);
   }
 
   public goBack(): void {

@@ -10,7 +10,8 @@
       <mat-header-cell *matHeaderCellDef (mousedown)="onResizeColumn($event, i)">
         <div class="column_header">
           <span class="column-title">{{ column.title | serverTranslate: currentLang }}</span>
-          <span> </span>
+          <mat-icon *ngIf="arrowDirection !== column.title.key" (click)="onSortTable(column.title.key, 'ASC')"> arrow_downward </mat-icon>
+          <mat-icon *ngIf="arrowDirection === column.title.key" (click)="onSortTable(column.title.key, 'DESC')"> arrow_upward </mat-icon>
         </div>
       </mat-header-cell>
       <mat-cell *matCellDef="let row">
