@@ -25,7 +25,7 @@
         <mat-cell *matCellDef="let row" [ngClass]="'editOrDelete'" class="column.field">
           <div id="edit-delete-btn">
             <mat-icon (click)="openModal(row)">edit</mat-icon>
-            <mat-icon>delete</mat-icon>
+            <mat-icon (click)="deleteEmployee(row.id)">delete</mat-icon>
           </div>
         </mat-cell>
       </ng-container>
