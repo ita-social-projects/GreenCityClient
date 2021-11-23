@@ -132,10 +132,10 @@ export class UbsAdminOrderComponent implements OnInit, OnDestroy {
         receivingStation: this.exportInfo.receivingStation
       }),
       responsiblePersonsForm: this.fb.group({
-        callManager: this.responsiblePersonInfo.currentPositionEmployees,
-        logistician: this.responsiblePersonInfo.currentPositionEmployees,
-        navigator: this.responsiblePersonInfo.currentPositionEmployees,
-        driver: this.responsiblePersonInfo.currentPositionEmployees
+        callManager: this.getPositionEmployee(this.responsiblePersonInfo.currentPositionEmployees, 'callManager'),
+        logistician: this.getPositionEmployee(this.responsiblePersonInfo.currentPositionEmployees, 'logistician'),
+        navigator: this.getPositionEmployee(this.responsiblePersonInfo.currentPositionEmployees, 'navigator'),
+        driver: this.getPositionEmployee(this.responsiblePersonInfo.currentPositionEmployees, 'driver')
       }),
       orderDetailsForm: this.fb.group({
         // TODO: set data after receiving from backend
@@ -158,6 +158,13 @@ export class UbsAdminOrderComponent implements OnInit, OnDestroy {
         new FormControl(bag.actual, [Validators.min(0), Validators.max(999)])
       );
     });
+  }
+
+  getPositionEmployee(currentPositionEmployees: Map<string, string>, key: string) {
+    if (!currentPositionEmployees) {
+      return '';
+    }
+    return currentPositionEmployees.get(key);
   }
 
   getFormGroup(name: string): FormGroup {

@@ -11,7 +11,7 @@ import { takeUntil } from 'rxjs/operators';
   encapsulation: ViewEncapsulation.None
 })
 export class UbsAdminOrderHistoryComponent implements OnInit, OnDestroy {
-  @Input() orderId;
+  @Input() orderId: number;
 
   private destroy$: Subject<boolean> = new Subject<boolean>();
   pageOpen: boolean;

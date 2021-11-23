@@ -134,7 +134,7 @@ export interface IExportDetails {
 
 export interface IResponsiblePersons {
   allPositionsEmployees: Map<string, string[]>;
-  currentPositionEmployees: any;
+  currentPositionEmployees: Map<string, string>;
   orderId: number;
 }
 
