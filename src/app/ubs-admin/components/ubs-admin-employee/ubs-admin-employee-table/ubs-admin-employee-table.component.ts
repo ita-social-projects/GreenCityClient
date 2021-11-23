@@ -1,6 +1,9 @@
 import { Component, OnInit } from '@angular/core';
+import { MatDialog } from '@angular/material/dialog';
 import { MatTableDataSource } from '@angular/material/table';
+import { Page } from 'src/app/ubs-admin/models/ubs-admin.interface';
 import { UbsAdminEmployeeService } from 'src/app/ubs-admin/services/ubs-admin-employee.service';
+import { EmployeeFormComponent } from '../employee-form/employee-form.component';
 
 @Component({
   selector: 'app-ubs-admin-employee-table',
@@ -24,8 +27,7 @@ export class UbsAdminEmployeeTableComponent implements OnInit {
   selectedStations: string[] = [];
   selectedPositions: string[] = [];
   filteredTableData: any[] = [];
-
-  constructor(private ubsAdminEmployeeService: UbsAdminEmployeeService) {}
+  constructor(private ubsAdminEmployeeService: UbsAdminEmployeeService, private dialog: MatDialog) {}
 
   ngOnInit(): void {
     this.getTable();
@@ -146,5 +148,15 @@ export class UbsAdminEmployeeTableComponent implements OnInit {
     if (this.isStationsOpen === false) {
       this.selectedStations = [];
     }
+  }
+
+  openModal(employeeData: Page) {
+    this.dialog.open(EmployeeFormComponent, {
+      data: employeeData,
+      hasBackdrop: true,
+      closeOnNavigation: true,
+      disableClose: true,
+      panelClass: 'custom-dialog-container'
+    });
   }
 }
