@@ -18,7 +18,7 @@ class MatDialogMock {
 describe('SocialNetworksComponent', () => {
   let component: SocialNetworksComponent;
   let fixture: ComponentFixture<SocialNetworksComponent>;
-  let dialog: MatDialogMock;
+  let dialog: MatDialog;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
@@ -31,7 +31,7 @@ describe('SocialNetworksComponent', () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(SocialNetworksComponent);
     component = fixture.componentInstance;
-    dialog = TestBed.get(MatDialog);
+    dialog = TestBed.inject(MatDialog);
 
     fixture.detectChanges();
   });

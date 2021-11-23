@@ -1,4 +1,4 @@
-import { Component, Input, OnDestroy, OnInit } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { FormGroup } from '@angular/forms';
 import { Subject } from 'rxjs';
 import { take } from 'rxjs/operators';
@@ -11,12 +11,14 @@ import { AddOrderCancellationReasonComponent } from '../../add-order-cancellatio
   templateUrl: './ubs-admin-order-status.component.html',
   styleUrls: ['./ubs-admin-order-status.component.scss']
 })
-export class UbsAdminOrderStatusComponent implements OnInit, OnDestroy {
+export class UbsAdminOrderStatusComponent implements OnInit {
   @Input() order;
   @Input() orderStatusForm: FormGroup;
+  @Output() changed = new EventEmitter<string>();
 
   constructor(public orderService: OrderService, private dialog: MatDialog) {}
   private destroy$: Subject<boolean> = new Subject<boolean>();
+
   public availableOrderStatuses;
   cancellationReason;
   cancellationComment;
@@ -25,8 +27,8 @@ export class UbsAdminOrderStatusComponent implements OnInit, OnDestroy {
     this.availableOrderStatuses = this.orderService.getAvailableOrderStatuses(this.order.orderStatus);
   }
 
-  onChangedOrderStatus(statusName) {
-    this.orderService.setSelectedOrderStatus(statusName);
+  onChangedOrderStatus(statusName: string) {
+    this.changed.emit(statusName);
     if (statusName === 'CANCELLED') {
       this.openPopup();
     }

@@ -24,7 +24,7 @@ describe('UbsUserProfilePageComponent', () => {
     },
     recipientEmail: 'blackstar@gmail.com',
     recipientName: 'Black',
-    recipientPhone: '+38 0972333333',
+    recipientPhone: '+380972333333',
     recipientSurname: 'Star'
   };
 

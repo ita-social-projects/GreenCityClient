@@ -3,29 +3,16 @@ import { Component, OnInit, ViewChild } from '@angular/core';
 import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
 import { MatDrawer } from '@angular/material/sidenav';
 import { PlaceService } from '@global-service/place/place.service';
-import { cards } from './Data.js';
-import {
-  redIcon,
-  greenIcon,
-  bookmark,
-  bookmarkSaved,
-  searchIcon,
-  notification,
-  share,
-  starUnfilled,
-  starHalf,
-  star
-} from '../../image-pathes/places-icons.js';
+import { redIcon, greenIcon, searchIcon, notification, share, starUnfilled, starHalf, star } from '../../image-pathes/places-icons.js';
 import { Place } from './models/place';
 import { FilterPlaceService } from '@global-service/filtering/filter-place.service';
-import { debounceTime, switchMap, take } from 'rxjs/operators';
+import { debounceTime, take } from 'rxjs/operators';
 import { LatLngBounds, LatLngLiteral } from '@agm/core/services/google-maps-types';
 import { MapBoundsDto } from './models/map-bounds-dto';
 import { MoreOptionsFormValue } from './models/more-options-filter.model';
 import { PlaceInfo } from '@global-models/place/place-info';
 import { Location } from '@angular-material-extensions/google-maps-autocomplete';
 import { FavoritePlaceService } from '@global-service/favorite-place/favorite-place.service';
-import { FavoritePlace } from '@global-models/favorite-place/favorite-place.js';
 import { combineLatest } from 'rxjs';
 
 @Component({
@@ -36,7 +23,6 @@ import { combineLatest } from 'rxjs';
 export class PlacesComponent implements OnInit {
   public position: any = {};
   public zoom = 13;
-  public cardsCollection: any;
   public tagList: Array<string> = ['Shops', 'Restaurants', 'Recycling points', 'Events', 'Saved places'];
   public searchName = '';
   public moreOptionsFilters: MoreOptionsFormValue;
@@ -88,8 +74,6 @@ export class PlacesComponent implements OnInit {
     });
 
     this.favoritePlaceService.updateFavoritePlaces();
-
-    this.cardsCollection = cards;
 
     this.bindLang(this.localStorageService.getCurrentLanguage());
   }

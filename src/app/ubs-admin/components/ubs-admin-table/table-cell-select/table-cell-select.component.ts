@@ -2,6 +2,7 @@ import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { take } from 'rxjs/operators';
 import { IAlertInfo, IEditCell } from 'src/app/ubs-admin/models/edit-cell.model';
 import { AdminTableService } from 'src/app/ubs-admin/services/admin-table.service';
+import { OrderService } from 'src/app/ubs-admin/services/order.service';
 
 @Component({
   selector: 'app-table-cell-select',
@@ -27,10 +28,18 @@ export class TableCellSelectComponent implements OnInit {
   @Output() editCellSelect = new EventEmitter();
   @Output() showBlockedInfo = new EventEmitter();
 
-  constructor(private adminTableService: AdminTableService) {}
+  constructor(private adminTableService: AdminTableService, private orderSevice: OrderService) {}
 
   ngOnInit() {
     this.currentValue = this.optional.filter((item) => item.key === this.key)[0];
+    this.filterStatuses();
+  }
+
+  private filterStatuses() {
+    if (this.nameOfColumn === 'orderStatus') {
+      const filteredStatuses = this.orderSevice.getAvailableOrderStatuses(this.key);
+      this.optional = this.optional.filter((el) => filteredStatuses.some((e) => e.name === el.key));
+    }
   }
 
   public edit(): void {
