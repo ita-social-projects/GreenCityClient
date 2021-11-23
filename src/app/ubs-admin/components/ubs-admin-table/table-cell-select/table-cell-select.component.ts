@@ -28,10 +28,7 @@ export class TableCellSelectComponent implements OnInit {
   @Output() editCellSelect = new EventEmitter();
   @Output() showBlockedInfo = new EventEmitter();
 
-  constructor(
-    private adminTableService: AdminTableService,
-    private orderSevice: OrderService
-    ) {}
+  constructor(private adminTableService: AdminTableService, private orderSevice: OrderService) {}
 
   ngOnInit() {
     this.currentValue = this.optional.filter((item) => item.key === this.key)[0];
