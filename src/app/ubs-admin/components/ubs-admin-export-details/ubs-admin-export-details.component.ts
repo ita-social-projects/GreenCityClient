@@ -1,6 +1,7 @@
 import { Component, Input, OnDestroy } from '@angular/core';
 import { FormGroup } from '@angular/forms';
 import { Subject } from 'rxjs';
+import { IExportDetails } from '../../models/ubs-admin.interface';
 
 @Component({
   selector: 'app-ubs-admin-export-details',
@@ -8,7 +9,7 @@ import { Subject } from 'rxjs';
   styleUrls: ['./ubs-admin-export-details.component.scss']
 })
 export class UbsAdminExportDetailsComponent implements OnDestroy {
-  @Input() exportInfo;
+  @Input() exportInfo: IExportDetails;
   @Input() exportDetailsForm: FormGroup;
 
   public receivingStations: string[];

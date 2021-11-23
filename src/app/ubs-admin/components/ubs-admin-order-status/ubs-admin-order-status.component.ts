@@ -1,5 +1,6 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { FormGroup } from '@angular/forms';
+import { IGeneralOrderInfo } from '../../models/ubs-admin.interface';
 import { OrderService } from '../../services/order.service';
 
 @Component({
@@ -9,8 +10,9 @@ import { OrderService } from '../../services/order.service';
 })
 export class UbsAdminOrderStatusComponent implements OnInit {
   @Input() orderStatusForm: FormGroup;
-  @Input() generalOrderInfo;
+  @Input() generalOrderInfo: IGeneralOrderInfo;
   @Output() changed = new EventEmitter<string>();
+
   constructor(public orderService: OrderService) {}
   public availableOrderStatuses;
 

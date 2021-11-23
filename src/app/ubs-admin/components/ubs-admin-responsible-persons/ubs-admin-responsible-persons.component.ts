@@ -1,6 +1,7 @@
 import { Component, Input, OnDestroy, OnInit } from '@angular/core';
 import { FormGroup } from '@angular/forms';
 import { Subject } from 'rxjs';
+import { IResponsiblePersons } from '../../models/ubs-admin.interface';
 
 @Component({
   selector: 'app-ubs-admin-responsible-persons',
@@ -8,8 +9,8 @@ import { Subject } from 'rxjs';
   styleUrls: ['./ubs-admin-responsible-persons.component.scss']
 })
 export class UbsAdminResponsiblePersonsComponent implements OnInit, OnDestroy {
-  @Input() responsiblePersonInfo;
-  @Input() orderId;
+  @Input() responsiblePersonInfo: IResponsiblePersons;
+  @Input() orderId: number;
   @Input() responsiblePersonsForm: FormGroup;
 
   public allCallManagers: string[];
@@ -35,7 +36,7 @@ export class UbsAdminResponsiblePersonsComponent implements OnInit, OnDestroy {
     this.allDrivers = this.processEmployeeById(employees, 5);
   }
 
-  processEmployeeById(employees: any[], id: number): string[] {
+  processEmployeeById(employees: Map<string, string[]>, id: number): string[] {
     for (const key of Object.keys(employees)) {
       if (key.includes(`id=${id},`)) {
         return employees[key];

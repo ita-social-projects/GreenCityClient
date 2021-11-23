@@ -3,6 +3,7 @@ import { FormGroup } from '@angular/forms';
 import { Subject } from 'rxjs';
 import { MatDialog } from '@angular/material/dialog';
 import { AddViolationsComponent } from '../add-violations/add-violations.component';
+import { IUserInfo } from '../../models/ubs-admin.interface';
 
 @Component({
   selector: 'app-ubs-admin-order-client-info',
@@ -10,7 +11,7 @@ import { AddViolationsComponent } from '../add-violations/add-violations.compone
   styleUrls: ['./ubs-admin-order-client-info.component.scss']
 })
 export class UbsAdminOrderClientInfoComponent implements OnInit, OnDestroy {
-  @Input() clientInfo;
+  @Input() clientInfo: IUserInfo;
   @Input() clientInfoForm: FormGroup;
 
   private destroy$: Subject<boolean> = new Subject<boolean>();

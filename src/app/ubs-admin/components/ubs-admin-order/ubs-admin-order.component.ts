@@ -10,6 +10,15 @@ import { OrderService } from '../../services/order.service';
 import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
 import { Subject } from 'rxjs';
 import { UbsAdminOrderDetailsFormComponent } from '../ubs-admin-order-details-form/ubs-admin-order-details-form.component';
+import {
+  IAddressExportDetails,
+  IExportDetails,
+  IGeneralOrderInfo,
+  IOrderInfo,
+  IPaymentInfo,
+  IResponsiblePersons,
+  IUserInfo
+} from '../../models/ubs-admin.interface';
 
 @Component({
   selector: 'app-ubs-admin-order',
@@ -23,16 +32,17 @@ export class UbsAdminOrderComponent implements OnInit, OnDestroy {
   orderForm: FormGroup;
   isDataLoaded = false;
   orderId: number;
-  orderInfo;
-  generalOrderInfo;
+  orderInfo: IOrderInfo;
+  generalOrderInfo: IGeneralOrderInfo;
+  clientInfo: IUserInfo;
+  addressInfo: IAddressExportDetails;
+  paymentInfo: IPaymentInfo;
+  exportInfo: IExportDetails;
+  responsiblePersonInfo: IResponsiblePersons;
+  orderDetails;
   orderStatusInfo;
   currentOrderStatus;
-  clientInfo;
-  addressInfo;
-  orderDetails;
-  paymentInfo;
-  exportInfo;
-  responsiblePersonInfo;
+
   @ViewChild(UbsAdminOrderDetailsFormComponent, { static: false })
   private orderDetailsComponent: UbsAdminOrderDetailsFormComponent;
 
@@ -182,7 +192,7 @@ export class UbsAdminOrderComponent implements OnInit, OnDestroy {
   resetForm() {
     this.orderForm.reset();
     this.initForm();
-    this.orderStatusInfo = this.getOrderStatusInfo(this.orderInfo.orderStatus);
+    this.orderStatusInfo = this.getOrderStatusInfo(this.generalOrderInfo.orderStatus);
     this.orderDetailsComponent.ngOnInit();
   }
 
