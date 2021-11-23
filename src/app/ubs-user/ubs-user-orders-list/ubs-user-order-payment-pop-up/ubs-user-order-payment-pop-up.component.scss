@@ -65,14 +65,16 @@
     font-family: var(--secondary-font);
   }
 
-  button:disabled {
-    background-color: var(--ubs-primary-grey);
-    border: 1px solid var(--ubs-primary-grey);
-    color: var(--ubs-primary-white);
-  }
-
   .btn-activate {
     background-color: var(--ubs-button-light-green);
+    margin-right: 70px;
+    width: 125px;
+    font-size: 14px;
+    font-weight: 600;
+  }
+
+  .btn-cancel-activation {
+    outline: 1px solid var(--ubs-tertiary-dark-grey);
     margin-right: 70px;
     width: 125px;
     font-size: 14px;
