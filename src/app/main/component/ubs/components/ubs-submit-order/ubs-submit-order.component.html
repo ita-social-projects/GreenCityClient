@@ -112,7 +112,7 @@
         </div>
       </div>
     </div>
-    <div class="bottom_comment">
+    <div *ngIf="!isFinalSumZero" class="bottom_comment">
       <div class="form-group comment">
         <h3 class="font-bolt bottom_comment_payment">{{ 'order-form.payment' | translate }}</h3>
         <p class="choose-payment">{{ 'order-details.choose-payment' | translate }}</p>

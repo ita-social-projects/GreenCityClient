@@ -74,7 +74,8 @@
     "ubs-courier": "UBS courier",
     "order-details": "Order details",
     "personal-data": "Personal data",
-    "confirm": "Confirmation"
+    "confirm": "Confirmation",
+    "payment": "Payment"
   },
   "personal-info": {
     "address-city": "city",
