@@ -10,8 +10,8 @@
         <div class="wrapper">
           <div class="left-form-column">
             <div class="item-block">
+              <h3>{{ 'create-news.news-title' | translate }}</h3>
               <label>
-                <h3>{{ 'create-news.news-title' | translate }}</h3>
                 <textarea
                   maxlength="170"
                   placeholder="{{ 'create-news.title-placeholder' | translate }}"
@@ -37,8 +37,8 @@
               </p>
             </div>
             <div>
+              <h3>{{ 'create-news.source-title' | translate }}</h3>
               <label>
-                <h3>{{ 'create-news.source-title' | translate }}</h3>
                 <input
                   type="text"
                   placeholder="{{ 'create-news.source-placeholder' | translate }}"
@@ -59,20 +59,19 @@
         </div>
         <div class="textarea-wrapper">
           <h3 class="textarea-title">{{ 'create-news.content-title' | translate }}</h3>
-          <textarea
-            minlength="20"
-            name="main-area"
-            placeholder="{{ 'create-news.content-placeholder' | translate }}"
+          <!--          <textarea-->
+          <!--            minlength="20"-->
+          <!--            name="main-area"-->
+          <!--            placeholder="{{ 'create-news.content-placeholder' | translate }}"-->
+          <!--            formControlName="content"-->
+          <!--            (keyup)="autoResize(true, $event)"-->
+          <!--          ></textarea>-->
+          <quill-editor
+            [modules]="quillModules"
             formControlName="content"
-            (keyup)="autoResize(true, $event)"
-          ></textarea>
-          <!-- <quill-editor
-          [modules]="quillModules"
-          formControlName="content"
-          [required]="true"
-          placeholder="{{ 'create-news.content-placeholder' | translate }}"
-          (onEditorChanged)="changedEditor($event)"
-        ></quill-editor> -->
+            placeholder="{{ 'create-news.content-placeholder' | translate }}"
+            (onEditorChanged)="changedEditor($event)"
+          ></quill-editor>
           <p class="textarea-description">{{ 'create-news.content-tooltip' | translate }}</p>
         </div>
         <div class="date">
@@ -86,6 +85,7 @@
           </p>
         </div>
         <div class="submit-buttons">
+          <button (click)="testData()" class="submit" type="button">Test</button>
           <button class="cancel" type="button" (click)="cancel()">{{ 'create-news.cancel-button' | translate }}</button>
           <button type="button" class="preview" (click)="goToPreview()">
             {{ 'create-news.preview-button' | translate }}

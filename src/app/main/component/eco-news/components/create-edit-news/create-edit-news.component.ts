@@ -19,6 +19,8 @@ import { EditorChangeContent, EditorChangeSelection } from 'ngx-quill';
 import Quill from 'quill';
 import 'quill-emoji/dist/quill-emoji.js';
 import ImageResize from 'quill-image-resize-module';
+import { ubsAdminEmployeeLink } from '../../../../links';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 
 @Component({
   selector: 'app-create-edit-news',
@@ -26,49 +28,10 @@ import ImageResize from 'quill-image-resize-module';
   styleUrls: ['./create-edit-news.component.scss']
 })
 export class CreateEditNewsComponent extends FormBaseComponent implements OnInit, OnDestroy {
-  public isPosting = false;
-  public form: FormGroup;
-  public isArrayEmpty = true;
-  public textAreasHeight: TextAreasHeight;
-  public isLinkOrEmpty = true;
-  public newsItemSubscription: Subscription;
-  public isFilterValidation = false;
-  public year: number = new Date().getFullYear();
-  public day: number = new Date().getDate();
-  public month: number = new Date().getMonth();
-  public author: string = localStorage.getItem('name');
-  public attributes: ActionInterface;
-  public filters: FilterModel[] = [];
-  public newsId: string;
-  public formData: FormGroup;
-  private destroyed$: ReplaySubject<any> = new ReplaySubject<any>(1);
-  public isFormInvalid: boolean;
-  public formChangeSub: Subscription;
-  public previousPath = '/news';
-  public popupConfig = {
-    hasBackdrop: true,
-    closeOnNavigation: true,
-    disableClose: true,
-    panelClass: 'popup-dialog-container',
-    data: {
-      popupTitle: 'homepage.eco-news.news-popup.title',
-      popupSubtitle: 'homepage.eco-news.news-popup.subtitle',
-      popupConfirm: 'homepage.eco-news.news-popup.confirm',
-      popupCancel: 'homepage.eco-news.news-popup.cancel'
-    }
-  };
-  public onSubmit;
-  private createEditNewsFormBuilder: CreateEditNewsFormBuilder;
-  private createEcoNewsService: CreateEcoNewsService;
-  private ecoNewsService: EcoNewsService;
-  private route: ActivatedRoute;
-  private localStorageService: LocalStorageService;
-  private snackBar: MatSnackBarComponent;
-  public quillModules = {};
-  public blurred = false;
-  public focused = false;
+  // private http: any;
 
   constructor(
+    private http: HttpClient,
     public router: Router,
     public dialog: MatDialog,
     private injector: Injector,
@@ -116,6 +79,50 @@ export class CreateEditNewsComponent extends FormBaseComponent implements OnInit
     };
     Quill.register('modules/imageResize', ImageResize);
   }
+
+  public isPosting = false;
+  public form: FormGroup;
+  public isArrayEmpty = true;
+  public textAreasHeight: TextAreasHeight;
+  public isLinkOrEmpty = true;
+  public newsItemSubscription: Subscription;
+  public isFilterValidation = false;
+  public year: number = new Date().getFullYear();
+  public day: number = new Date().getDate();
+  public month: number = new Date().getMonth();
+  public author: string = localStorage.getItem('name');
+  public attributes: ActionInterface;
+  public filters: FilterModel[] = [];
+  public newsId: string;
+  public formData: FormGroup;
+  private destroyed$: ReplaySubject<any> = new ReplaySubject<any>(1);
+  public isFormInvalid: boolean;
+  public formChangeSub: Subscription;
+  public previousPath = '/news';
+  public popupConfig = {
+    hasBackdrop: true,
+    closeOnNavigation: true,
+    disableClose: true,
+    panelClass: 'popup-dialog-container',
+    data: {
+      popupTitle: 'homepage.eco-news.news-popup.title',
+      popupSubtitle: 'homepage.eco-news.news-popup.subtitle',
+      popupConfirm: 'homepage.eco-news.news-popup.confirm',
+      popupCancel: 'homepage.eco-news.news-popup.cancel'
+    }
+  };
+  public onSubmit;
+  private createEditNewsFormBuilder: CreateEditNewsFormBuilder;
+  private createEcoNewsService: CreateEcoNewsService;
+  private ecoNewsService: EcoNewsService;
+  private route: ActivatedRoute;
+  private localStorageService: LocalStorageService;
+  private snackBar: MatSnackBarComponent;
+  public quillModules = {};
+  public blurred = false;
+  public focused = false;
+  public editorText = '';
+  public editorHTML = '';
 
   ngOnInit() {
     this.getNewsIdFromQueryParams();
@@ -329,9 +336,9 @@ export class CreateEditNewsComponent extends FormBaseComponent implements OnInit
 
   public toggleIsActive(filterObj: FilterModel, newValue: boolean): void {
     const index = this.filters.findIndex((item: FilterModel) => item.name === filterObj.name);
-    const changedtags = this.filterArr({ name: filterObj.name, isActive: newValue }, index);
-    this.filters = changedtags;
-    this.localStorageService.setTagsOfNews('newsTags', changedtags);
+    const changedTags = this.filterArr({ name: filterObj.name, isActive: newValue }, index);
+    this.filters = changedTags;
+    this.localStorageService.setTagsOfNews('newsTags', changedTags);
   }
 
   public goToPreview(): void {
@@ -346,15 +353,84 @@ export class CreateEditNewsComponent extends FormBaseComponent implements OnInit
   }
 
   changedEditor(event: EditorChangeContent | EditorChangeSelection) {
+    const getImagesSrc = (html) => {
+      const img = html.match(/<img [^>]*src="[^"]*"[^>]*>/gm);
+      const img2 = html.match(/<img [^>]*src="(data:image\/[^;]+;base64[^"]+)"/gm);
+      // console.log(img2);
+    };
+
     if (event.event !== 'selection-change') {
-      const editorText = event.text.replace(/\n/g, '');
-      console.log(editorText, editorText.length, event.html?.length);
+      this.editorText = event.text;
+      this.editorHTML = event.html;
+
+      // const images = this.editorHTML.match(/<img [^>]*src="[^"]*"[^>]*>/gm);
+      // const img2 = html.match(/<img [^>]*src="(data:image\/[^;]+;base64[^"]+)"/gm);
+      // console.log(images);
+
+      // const editorText = event.text.replace(/\n/g, '');
+      // console.log(editorText, editorText.length, event.html?.length);
+      // getImagesSrc(event.html);
       // console.log(event);
     }
   }
 
+  testData() {
+    const findImgTagsWithBase64 = /<img [^>]*src="[^"]*"[^>]*>/gm;
+    const findBase64Regex = /data:image\/([a-zA-Z]*);base64,([^"]*)/g;
+
+    const images = this.editorHTML.match(findImgTagsWithBase64);
+
+    if (images) {
+      const imagesSrc = images.map((img) => img.match(findBase64Regex));
+
+      // @ts-ignore
+      const files = imagesSrc.map((img) => {
+        // @ts-ignore
+        return fetch(img)
+          .then((res) => res.blob())
+          .then(
+            (blob) =>
+              new File([blob], `image.${blob.type.split('/')[1]}`, {
+                type: blob.type
+              })
+          )
+          .catch((e) => console.error(e));
+      });
+
+      Promise.all(files)
+        .then((results) => {
+          console.log('All done', results);
+
+          const formData: FormData = new FormData();
+          results.forEach((res) => {
+            formData.append('images', res);
+          });
+
+          const accessToken: string = localStorage.getItem('accessToken');
+          const httpOptions = {
+            headers: new HttpHeaders({
+              Authorization: 'my-auth-token'
+            })
+          };
+          httpOptions.headers.set('Authorization', `Bearer ${accessToken}`);
+          httpOptions.headers.append('Content-Type', 'multipart/form-data');
+
+          this.http.post<any>('https://greencity.azurewebsites.net/econews/uploadImages', formData, httpOptions).subscribe((response) => {
+            console.log(response);
+            response.forEach((link) => {
+              this.editorHTML = this.editorHTML.replace(findBase64Regex, link);
+              return link;
+            });
+          });
+          // this.createEcoNewsService.sendTestImages(results);
+        })
+        .catch((e) => console.error(e));
+
+      console.log('results');
+    }
+  }
+
   focus($event: any) {
-    // console.log('focus', $event);
     this.focused = true;
     this.blurred = false;
   }

@@ -57,6 +57,18 @@ export class CreateEcoNewsService {
     return this.http.put<NewsResponseDTO>('https://greencity.azurewebsites.net/econews/update', formData, this.httpOptions);
   }
 
+  // * =============================================
+  public sendTestImages(arrImages) {
+    const testFormData = new FormData();
+
+    const body = { images: arrImages };
+
+    testFormData.append('econewsUploadImages', JSON.stringify(body));
+    this.httpOptions.headers.set('Authorization', `Bearer ${this.accessToken}`);
+    // return this.http.post<NewsResponseDTO>(`${this.url}econews`, testFormData, this.httpOptions);
+    return this.http.post<NewsResponseDTO>(`${this.url}econews/uploadImages`, testFormData, this.httpOptions);
+  }
+
   public setForm(form: FormGroup): void {
     this.currentForm = form;
     if (this.currentForm) {
@@ -80,6 +92,7 @@ export class CreateEcoNewsService {
 
     if (this.files.length !== 0) {
       body.image = this.files[0].url;
+      console.log(body.image);
     }
     this.files = [];
     formData.append('addEcoNewsDtoRequest', JSON.stringify(body));
