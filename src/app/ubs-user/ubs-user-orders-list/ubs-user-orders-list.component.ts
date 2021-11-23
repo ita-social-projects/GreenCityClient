@@ -36,7 +36,10 @@ export class UbsUserOrdersListComponent {
 
   openOrderPaymentDialog(order: any) {
     this.dialog.open(UbsUserOrderPaymentPopUpComponent, {
-      data: { price: order.orderDiscountedPrice }
+      data: {
+        price: order.orderDiscountedPrice,
+        orderId: order.id
+      }
     });
   }
 }

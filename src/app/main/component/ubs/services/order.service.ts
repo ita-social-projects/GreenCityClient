@@ -7,6 +7,7 @@ import { tap } from 'rxjs/operators';
 import { ICertificate, OrderDetails } from '../models/ubs.interface';
 import { Order } from '../models/ubs.model';
 import { UBSOrderFormService } from './ubs-order-form.service';
+import { OrderFondyClientDto } from 'src/app/ubs-user/ubs-user-orders-list/models/OrderFondyClientDto';
 
 @Injectable({
   providedIn: 'root'
@@ -117,6 +118,10 @@ export class OrderService {
   getOrderFromNotification(orderId: number) {
     const lang = localStorage.getItem('language') === 'ua' ? 1 : 2;
     return this.http.get(`${this.url}/client/get-data-for-order-surcharge/${orderId}/${lang}`);
+  }
+
+  processOrderFondyFromUserOrderList(order: OrderFondyClientDto): Observable<object> {
+    return this.http.post<OrderFondyClientDto>(`${this.url}/client/processOrderFondy`, order);
   }
 
   cancelUBSwithoutSaving(): void {

@@ -2,6 +2,8 @@ import { Component, Inject, OnInit } from '@angular/core';
 import { FormArray, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { OrderService } from 'src/app/main/component/ubs/services/order.service';
+import { OrderFondyClientDto } from '../models/OrderFondyClientDto';
+import { ResponceOrderFondyModel } from '../models/ResponceOrderFondyModel';
 
 @Component({
   selector: 'app-ubs-user-order-payment-pop-up',
@@ -19,12 +21,16 @@ export class UbsUserOrderPaymentPopUpComponent implements OnInit {
   public certStatuses: boolean[] = [];
   public cancelCertBtn: boolean = false;
   public certificateError: boolean = false;
+  public orderId: number = 0;
+  public orderFondyClientDto: OrderFondyClientDto;
 
   constructor(private fb: FormBuilder, private orderService: OrderService, @Inject(MAT_DIALOG_DATA) public data: any) {}
 
   ngOnInit(): void {
-    this.totalSum = this.data.price;
     this.initForm();
+    this.totalSum = this.data.price;
+    this.orderId = this.data.orderId;
+    this.orderFondyClientDto = new OrderFondyClientDto();
   }
 
   public initForm() {
@@ -37,6 +43,10 @@ export class UbsUserOrderPaymentPopUpComponent implements OnInit {
 
   get formArrayCertificates() {
     return this.orderDetailsForm.get('formArrayCertificates') as FormArray;
+  }
+
+  get formPaymentSystem() {
+    return this.orderDetailsForm.get('paymentSystem');
   }
 
   public certificateSubmit(index: number): void {
@@ -77,5 +87,16 @@ export class UbsUserOrderPaymentPopUpComponent implements OnInit {
     this.certificateError = false;
     this.certificates.splice(index, 1);
     this.cancelCertBtn = false;
+  }
+
+  public processOrder() {
+    this.orderFondyClientDto.orderId = this.orderId;
+    this.orderFondyClientDto.sum = this.totalSum;
+
+    if (this.formPaymentSystem.value === 'Fondy') {
+      this.orderService.processOrderFondyFromUserOrderList(this.orderFondyClientDto).subscribe((responce: ResponceOrderFondyModel) => {
+        document.location.href = responce.link;
+      });
+    }
   }
 }
