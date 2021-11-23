@@ -16,13 +16,13 @@
       <caption>
         Employees table
       </caption>
-      <ng-container class="edit-or-delete" matColumnDef="editOrDelete">
-        <mat-header-cell class="edit-or-delete" *matHeaderCellDef>
+      <ng-container matColumnDef="editOrDelete">
+        <mat-header-cell [ngClass]="'editOrDelete'" *matHeaderCellDef>
           <th id="editOrDelete">
             <span class="column-title"></span>
           </th>
         </mat-header-cell>
-        <mat-cell class="edit-or-delete" *matCellDef="let row" class="column.field">
+        <mat-cell *matCellDef="let row" [ngClass]="'editOrDelete'" class="column.field">
           <div id="edit-delete-btn">
             <mat-icon>edit</mat-icon>
             <mat-icon>delete</mat-icon>
