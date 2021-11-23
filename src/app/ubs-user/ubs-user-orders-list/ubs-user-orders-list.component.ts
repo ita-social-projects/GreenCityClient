@@ -9,8 +9,9 @@ import { UbsUserOrderPaymentPopUpComponent } from './ubs-user-order-payment-pop-
   styleUrls: ['./ubs-user-orders-list.component.scss']
 })
 export class UbsUserOrdersListComponent {
-  @Input()
-  orders: any[];
+  @Input() orders: any[];
+
+  constructor(private userOrdersService: UserOrdersService) {}
 
   constructor(private userOrdersService: UserOrdersService, public dialog: MatDialog) {}
 
@@ -41,5 +42,14 @@ export class UbsUserOrdersListComponent {
         orderId: order.id
       }
     });
+    
+  deleteCard(orderId: number) {
+    this.userOrdersService.deleteOrder(orderId).subscribe();
+    for (let i = 0; i < this.orders.length; i++) {
+      if (this.orders[i].id === orderId) {
+        this.orders.splice(i, 1);
+        break;
+      }
+    }
   }
 }

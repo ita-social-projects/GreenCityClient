@@ -80,12 +80,12 @@
   "order-edit": {
     "order-status": {
       "formed": "Сформовано",
-      "adjustment": "Змінено",
-      "brought-it-himself": "Вивезено самостійно",
+      "adjustment": "Узгодження",
+      "brought-it-himself": "Привезе сам",
       "confirmed": "Підтверджено",
-      "on-the-route": "У дорозі",
+      "on-the-route": "На маршруті",
       "done": "Виконано",
-      "not-taken-out": "Не вивезено",
+      "not-taken-out": "Не вивезли",
       "cancelled": "Скасовано"
     },
     "payment-status": {
@@ -319,12 +319,15 @@
     "photo": "Фото",
     "drag-photo": "Перетягніть зображення, або",
     "download-photo": "завантажте з пристрою",
+    "warning-title": "Ви впевнені, що хочете видалити цього працівника із системи?",
     "btn": {
       "cancel": "Скасувати",
       "add": "Додати",
       "add-employee": "Додати працівника",
       "edit": "Редагувати",
-      "delete": "Видалити"
+      "delete": "Видалити",
+      "no": "Ні",
+      "yes": "Так"
     }
   },
   "ubs-sidebar": {

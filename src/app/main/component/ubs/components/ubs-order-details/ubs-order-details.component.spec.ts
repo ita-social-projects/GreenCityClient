@@ -93,9 +93,11 @@ describe('OrderDetailsFormComponent', () => {
     expect(spy).toHaveBeenCalled();
   });
 
-  xit('method onQuantityChange should invoke calculateTotal method', () => {
+  it('method onQuantityChange should invoke calculateTotal method', () => {
     const bagsMock: Bag[] = [];
     const spy = spyOn<any>(component, 'calculateTotal');
+    const fakeElement = document.createElement('div');
+    spyOn(document, 'getElementById').and.returnValue(fakeElement);
     component.bags = bagsMock;
     fixture.detectChanges();
     component.onQuantityChange();

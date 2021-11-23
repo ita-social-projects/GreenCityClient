@@ -18,6 +18,8 @@ export interface ComponentCanDeactivate {
       popupSubtitle: string;
       popupConfirm: string;
       popupCancel: string;
+      isUBS?: boolean;
+      isUbsOrderSubmit?: boolean;
     };
   };
 }

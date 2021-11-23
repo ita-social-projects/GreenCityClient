@@ -1,8 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Observable, ReplaySubject } from 'rxjs';
+import { Observable } from 'rxjs';
 import {
-  Bags,
   IOrderDetails,
   IOrderSumDetails,
   IUserInfo,
@@ -21,18 +20,17 @@ export class OrderService {
   private backend: string = environment.ubsAdmin.backendUbsAdminLink;
   private backendLink: string = environment.backendUbsLink;
   private selectedOrder;
-  private selectedOrderStatus: any = new ReplaySubject<any>(1);
 
-  readonly orderStatuses = [
-    { name: 'FORMED', translation: 'order-edit.order-status.formed', ableActualChange: false },
-    { name: 'ADJUSTMENT', translation: 'order-edit.order-status.adjustment', ableActualChange: false },
-    { name: 'BROUGHT_IT_HIMSELF', translation: 'order-edit.order-status.brought-it-himself', ableActualChange: true },
-    { name: 'CONFIRMED', translation: 'order-edit.order-status.confirmed', ableActualChange: false },
-    { name: 'ON_THE_ROUTE', translation: 'order-edit.order-status.on-the-route', ableActualChange: true },
-    { name: 'DONE', translation: 'order-edit.order-status.done', ableActualChange: true },
-    { name: 'NOT_TAKEN_OUT', translation: 'order-edit.order-status.not-taken-out', ableActualChange: false },
-    { name: 'CANCELLED', translation: 'order-edit.order-status.cancelled', ableActualChange: true }
-  ];
+  statusDone = { name: 'DONE', translation: 'order-edit.order-status.done' };
+  statusAdjustment = { name: 'ADJUSTMENT', translation: 'order-edit.order-status.adjustment' };
+  statusOnTheRoute = { name: 'ON_THE_ROUTE', translation: 'order-edit.order-status.on-the-route' };
+  statusNotTakenOut = { name: 'NOT_TAKEN_OUT', translation: 'order-edit.order-status.not-taken-out' };
+  statusConfirmed = { name: 'CONFIRMED', translation: 'order-edit.order-status.confirmed' };
+  statusFormed = { name: 'FORMED', translation: 'order-edit.order-status.formed' };
+  statusBroughtItHimself = { name: 'BROUGHT_IT_HIMSELF', translation: 'order-edit.order-status.brought-it-himself' };
+  statusCanceled = { name: 'CANCELED', translation: 'order-edit.order-status.cancelled' };
+
+  // TODO: change this mock after receiving data from backend
 
   readonly paymentStatuses = [
     { name: 'UNPAID', translation: 'order-edit.payment-status.not-paid' },
@@ -63,6 +61,34 @@ export class OrderService {
 
   setSelectedOrder(order) {
     this.selectedOrder = order;
+  }
+
+  getAvailableOrderStatuses(currentOrderStatus: string) {
+    switch (currentOrderStatus) {
+      case 'FORMED':
+        return [this.statusFormed, this.statusAdjustment, this.statusBroughtItHimself, this.statusCanceled];
+
+      case 'ADJUSTMENT':
+        return [this.statusFormed, this.statusAdjustment, this.statusConfirmed, this.statusBroughtItHimself, this.statusCanceled];
+
+      case 'CONFIRMED':
+        return [this.statusFormed, this.statusConfirmed, this.statusOnTheRoute, this.statusCanceled];
+
+      case 'BROUGHT_IT_HIMSELF':
+        return [this.statusBroughtItHimself, this.statusDone, this.statusCanceled];
+
+      case 'ON_THE_ROUTE':
+        return [this.statusOnTheRoute, this.statusDone, this.statusNotTakenOut, this.statusCanceled];
+
+      case 'NOT_TAKEN_OUT':
+        return [this.statusNotTakenOut, this.statusAdjustment, this.statusCanceled];
+
+      case 'DONE':
+        return [this.statusDone];
+
+      case 'CANCELED':
+        return [this.statusCanceled];
+    }
   }
 
   public getOrderInfo(orderId, lang) {
@@ -114,18 +140,6 @@ export class OrderService {
 
   public updateRecipientsData(postData: any) {
     return this.http.put<any>(`${this.backend}`, postData);
-  }
-
-  public getSelectedOrderStatus(): Observable<any> {
-    return this.selectedOrderStatus.asObservable();
-  }
-
-  public setSelectedOrderStatus(statusName) {
-    this.selectedOrderStatus.next(this.getOrderObjByName(statusName)[0]);
-  }
-
-  private getOrderObjByName(name) {
-    return this.orderStatuses.filter((status) => status.name === name);
   }
 
   public getColumnToDisplay() {
