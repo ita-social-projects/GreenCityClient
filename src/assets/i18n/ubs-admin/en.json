@@ -258,12 +258,15 @@
     "current-orders": "Current orders",
     "order-history": "Order history",
     "order-number": "Order №",
-    "order-status": "Status",
+    "order-status": "Order status",
     "payment-amount": "Payment amount",
+    "order-date": "Date",
+    "order-payment-status": "Payment status",
     "btn": {
       "cancel": "Cancel",
       "pay": "Pay",
-      "order-again": "Order again"
+      "order-again": "Order again",
+      "new-order": "New order"
     },
     "details": {
       "title": "Order details",
