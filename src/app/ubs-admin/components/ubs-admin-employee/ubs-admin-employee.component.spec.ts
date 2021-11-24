@@ -2,7 +2,7 @@ import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { UbsAdminEmployeeComponent } from './ubs-admin-employee.component';
 
-describe('UbsAdminEmployeeComponent', () => {
+xdescribe('UbsAdminEmployeeComponent', () => {
   let component: UbsAdminEmployeeComponent;
   let fixture: ComponentFixture<UbsAdminEmployeeComponent>;
 

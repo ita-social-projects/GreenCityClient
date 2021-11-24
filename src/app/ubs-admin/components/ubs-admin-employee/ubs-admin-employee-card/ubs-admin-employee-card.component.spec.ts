@@ -81,6 +81,7 @@ describe('UbsAdminEmployeeCardComponent', () => {
 
   it('should call deleteEmployee method inside deleteEmployee', () => {
     spyOn(matDialog, 'open').and.returnValue(dialogRefStub as any);
+    ubsAdminEmployeeServiceMock.deleteEmployee.and.returnValue(of());
     component.deleteEmployee();
     expect(ubsAdminEmployeeServiceMock.deleteEmployee).toHaveBeenCalledWith(789);
   });
