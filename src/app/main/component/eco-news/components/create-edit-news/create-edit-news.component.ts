@@ -124,8 +124,7 @@ export class CreateEditNewsComponent extends FormBaseComponent implements OnInit
   public focused = false;
   public editorText = '';
   public editorHTML = '';
-
-  savingImages = false;
+  public savingImages = false;
 
   ngOnInit() {
     this.getNewsIdFromQueryParams();
@@ -255,7 +254,7 @@ export class CreateEditNewsComponent extends FormBaseComponent implements OnInit
 
     const waitForElement = () => {
       if (this.savingImages === false) {
-        console.log('servise', this.savingImages);
+        console.log('service', this.savingImages);
         console.log('form', this.form);
         this.form.value.content = this.editorHTML;
         this.createEcoNewsService
