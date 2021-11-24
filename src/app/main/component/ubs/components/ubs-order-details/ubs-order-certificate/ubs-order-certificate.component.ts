@@ -128,13 +128,8 @@ export class UbsOrderCertificateComponent implements OnInit, OnDestroy {
       this.total += bag.price * bag.quantity;
     });
     this.showTotal = this.total;
-    if (this.total < this.minOrderValue && this.orderDetailsForm.dirty) {
-      this.displayMinOrderMes = true;
-      this.onSubmit = true;
-    } else {
-      this.displayMinOrderMes = false;
-      this.onSubmit = false;
-    }
+    this.displayMinOrderMes = this.total < this.minOrderValue && this.orderDetailsForm.dirty;
+    this.onSubmit = this.displayMinOrderMes;
     this.finalSum = this.total - this.pointsUsed;
     if (this.certificateSum > 0) {
       if (this.total > this.certificateSum) {
