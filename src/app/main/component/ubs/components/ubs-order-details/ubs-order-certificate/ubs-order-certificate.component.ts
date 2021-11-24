@@ -19,7 +19,6 @@ export class UbsOrderCertificateComponent implements OnInit, OnDestroy {
   @Input() defaultPoints: number;
   @Input() points: number;
   @Input() pointsUsed: number;
-  @Input() statusBonus: string;
   @Output() newItemEvent = new EventEmitter<object>();
   fullCertificate: number;
   orders: OrderDetails;
@@ -80,7 +79,7 @@ export class UbsOrderCertificateComponent implements OnInit, OnDestroy {
 
   initForm() {
     this.orderDetailsForm = this.fb.group({
-      bonus: new FormControl('no' || this.statusBonus),
+      bonus: new FormControl('no'),
       formArrayCertificates: this.fb.array([new FormControl('', [Validators.minLength(8), Validators.pattern(this.certificatePattern)])])
     });
   }
