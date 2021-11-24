@@ -71,6 +71,7 @@ export class UbsAdminEmployeeTableComponent implements OnInit {
       this.updateTable();
     }
   }
+
   applyFilter(event: Event) {
     const filterValue = (event.target as HTMLInputElement).value;
     this.dataSource.filter = filterValue.trim().toLowerCase();
