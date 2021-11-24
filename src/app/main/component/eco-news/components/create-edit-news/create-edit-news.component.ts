@@ -245,29 +245,35 @@ export class CreateEditNewsComponent extends FormBaseComponent implements OnInit
 
   public createNews(): void {
     this.isPosting = true;
+    this.savingImages = true;
+    console.log('createNews');
 
-    // function waitForElement(){
-    //   if(this.savingImages === true){
-    //     //variable exists, do what you want
-    //   }
-    //   else{
-    //     setTimeout(waitForElement, 250);
-    //   }
-    // }
+    this.saveImages();
 
-    this.createEcoNewsService
-      .sendFormData(this.form)
-      .pipe(
-        delay(5000),
-        takeUntil(this.destroyed$),
-        catchError((err) => {
-          this.snackBar.openSnackBar('Oops, something went wrong. Please reload page or try again later.');
-          return throwError(err);
-        })
-      )
-      .subscribe(() => this.escapeFromCreatePage());
+    const waitForElement = () => {
+      if (this.savingImages === false) {
+        console.log('servise', this.savingImages);
+        console.log('form', this.form);
+        this.form.value.content = this.editorHTML;
+        this.createEcoNewsService
+          .sendFormData(this.form)
+          .pipe(
+            delay(5000),
+            takeUntil(this.destroyed$),
+            catchError((err) => {
+              this.snackBar.openSnackBar('Oops, something went wrong. Please reload page or try again later.');
+              return throwError(err);
+            })
+          )
+          .subscribe(() => this.escapeFromCreatePage());
 
-    this.localStorageService.removeTagsOfNews('newsTags');
+        this.localStorageService.removeTagsOfNews('newsTags');
+      } else {
+        console.log('wait', this.savingImages);
+        setTimeout(waitForElement, 250);
+      }
+    };
+    waitForElement();
   }
 
   public escapeFromCreatePage() {
@@ -389,25 +395,25 @@ export class CreateEditNewsComponent extends FormBaseComponent implements OnInit
     }
   }
 
-  sendFormData() {
-    // this.isPosting = true;
-    // this.createEcoNewsService
-    // .sendFormData(this.form)
-    // .pipe(
-    //   takeUntil(this.destroyed$),
-    //   catchError((err) => {
-    //     this.snackBar.openSnackBar('Oops, something went wrong. Please reload page or try again later.');
-    //     return throwError(err);
-    //   })
-    // )
-    // .subscribe(() => this.escapeFromCreatePage());
+  // sendFormData() {
+  // this.isPosting = true;
+  // this.createEcoNewsService
+  // .sendFormData(this.form)
+  // .pipe(
+  //   takeUntil(this.destroyed$),
+  //   catchError((err) => {
+  //     this.snackBar.openSnackBar('Oops, something went wrong. Please reload page or try again later.');
+  //     return throwError(err);
+  //   })
+  // )
+  // .subscribe(() => this.escapeFromCreatePage());
 
-    this.saveImages();
-    console.log(this.savingImages);
-  }
+  //   this.saveImages();
+  //   console.log(this.savingImages);
+  // }
 
   saveImages() {
-    const transform2 = (base64Img) => {};
+    // const transform2 = (base64Img) => {};
 
     const transformBase64ToFile = (base64Img) => {
       return fetch(base64Img)
@@ -423,7 +429,6 @@ export class CreateEditNewsComponent extends FormBaseComponent implements OnInit
         });
     };
 
-    this.savingImages = true;
     if (!this.editorHTML) {
       this.savingImages = false;
       return console.warn('No Data in Text Editor');
@@ -459,14 +464,18 @@ export class CreateEditNewsComponent extends FormBaseComponent implements OnInit
         };
         httpOptions.headers.set('Authorization', `Bearer ${accessToken}`);
         httpOptions.headers.append('Content-Type', 'multipart/form-data');
-        return this.http
-          .post<any>('https://greencity.azurewebsites.net/econews/uploadImages', formData, httpOptions)
-          .subscribe((response) => {
+        return this.http.post<any>('https://greencity.azurewebsites.net/econews/uploadImages', formData, httpOptions).subscribe(
+          (response) => {
             response.forEach((link) => {
               this.editorHTML = this.editorHTML.replace(findBase64Regex, link);
             });
-            console.log(response);
-          });
+            console.log('html', this.editorHTML);
+            this.savingImages = false;
+          },
+          () => {
+            this.savingImages = false;
+          }
+        );
         // @ts-ignore
         // this.savingImages = 'false';
       })
