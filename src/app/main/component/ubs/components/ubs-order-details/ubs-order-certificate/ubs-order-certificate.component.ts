@@ -139,25 +139,18 @@ export class UbsOrderCertificateComponent implements OnInit, OnDestroy {
     if (this.certificateSum > 0) {
       if (this.total > this.certificateSum) {
         this.certificateLeft = 0;
-        if (this.finalSum === 0) {
-          this.pointsUsed = this.pointsUsed - this.certificateSum;
-          this.points = this.points + this.certificateSum;
-        }
+        console.log('First in 1');
         if (this.finalSum <= this.certificateSum && this.pointsUsed > 0) {
           this.points = this.pointsUsed - this.finalSum;
           this.pointsUsed = this.finalSum;
           this.finalSum = 0;
-        } else {
-          this.finalSum = this.total - this.certificateSum - this.pointsUsed;
         }
         this.showCertificateUsed = this.certificateSum;
       } else {
         this.finalSum = 0;
-        if (this.pointsUsed === this.showTotal && this.certificateSum >= this.showTotal) {
-          this.points = this.points + this.pointsUsed;
-          this.pointsUsed = 0;
-          this.orderDetailsForm.controls.bonus.setValue('no');
-        }
+        this.points = this.points + this.pointsUsed;
+        this.pointsUsed = 0;
+        this.orderDetailsForm.controls.bonus.setValue('no');
         this.certificateLeft = this.certificateSum - this.total;
         this.showCertificateUsed = this.total;
       }
