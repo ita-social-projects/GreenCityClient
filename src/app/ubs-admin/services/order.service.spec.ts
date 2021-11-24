@@ -44,19 +44,6 @@ describe('OrderService', () => {
     expect(service).toBeTruthy();
   });
 
-  it('setSelectedOrder should be called', () => {
-    const spy = spyOn(service, 'setSelectedOrder');
-    service.setSelectedOrder({ orderID: 1 });
-    expect(spy).toHaveBeenCalled();
-  });
-
-  it('getSelectedOrder should be called', () => {
-    const spy = spyOn(service, 'getSelectedOrder');
-    const res = service.getSelectedOrder();
-    expect(spy).toHaveBeenCalled();
-    expect(res).toBe(undefined);
-  });
-
   it('should return details of order', () => {
     service.getOrderDetails(2464, 'en').subscribe((data) => {
       expect(data.bagId).toBeTruthy();
