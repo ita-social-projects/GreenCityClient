@@ -155,6 +155,7 @@ export class CreateEditNewsComponent extends FormBaseComponent implements OnInit
   }
 
   public onValueChanges(): void {
+    console.log(this.form);
     this.formChangeSub = this.form.valueChanges.subscribe(() => {
       this.isFormInvalid = !this.form.valid || this.isArrayEmpty || !this.isLinkOrEmpty || this.isImageValid();
     });
@@ -196,6 +197,7 @@ export class CreateEditNewsComponent extends FormBaseComponent implements OnInit
       this.formData = this.createEcoNewsService.getFormData();
       this.newsId = this.createEcoNewsService.getNewsId();
       if (this.formData) {
+        console.log('1', this.formData);
         this.form = this.createEditNewsFormBuilder.getEditForm(this.formData.value);
         this.setActiveFilters(this.formData.value);
       }
@@ -205,6 +207,7 @@ export class CreateEditNewsComponent extends FormBaseComponent implements OnInit
         this.fetchNewsItemToEdit();
         this.setDataForEdit();
       } else {
+        console.log('2', this.formData);
         this.form = this.createEditNewsFormBuilder.getSetupForm();
         this.setDataForCreate();
         this.setInitialValues();

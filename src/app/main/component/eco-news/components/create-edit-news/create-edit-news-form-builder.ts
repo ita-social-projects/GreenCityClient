@@ -18,6 +18,8 @@ export class CreateEditNewsFormBuilder {
   }
 
   getEditForm(data) {
+    console.log('data: ', data);
+
     return this.fb.group({
       title: [data.title, [Validators.required, Validators.maxLength(170), this.noWhitespaceValidator]],
       source: [data.source],

@@ -13,9 +13,7 @@
         </p>
       </div>
       <div class="eco-news_list-content-text" #textHeight>
-        <p>
-          {{ ecoNewsModel.text }}
-        </p>
+        <p [innerHTML]="ecoNewsModel.text"></p>
       </div>
     </div>
     <div class="eco-news_list-autors">
