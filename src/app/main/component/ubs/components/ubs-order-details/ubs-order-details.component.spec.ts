@@ -159,7 +159,8 @@ describe('OrderDetailsFormComponent', () => {
   it('method calculateCertificates with arr.length>0 should asyncly invoke certificateMatch method', async(() => {
     const response: ICertificate = {
       certificatePoints: 0,
-      certificateStatus: 'string'
+      certificateStatus: 'string',
+      certificateDate: 'string'
     };
     const certificate = of(response);
     orderService = TestBed.inject(OrderService);
