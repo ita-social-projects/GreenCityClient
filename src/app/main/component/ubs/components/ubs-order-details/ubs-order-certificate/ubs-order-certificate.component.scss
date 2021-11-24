@@ -6,8 +6,12 @@
   display: flex;
   flex-wrap: wrap;
   justify-content: space-between;
-  align-items: flex-end;
+  align-items: center;
   width: 44%;
+
+  button {
+    margin-top: 1rem;
+  }
 
   input {
     padding: 0.5rem;
