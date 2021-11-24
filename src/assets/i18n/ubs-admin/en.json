@@ -36,6 +36,32 @@
       "delete-profile": "Delete profile",
       "delete-profile-cancel": "Back",
       "delete-profile-save": "Delete"
+    },
+    "payment": {
+      "title": "Payment",
+      "curency": "UAH",
+      "sum": "Sum:",
+      "yes": "Yes",
+      "no": "No",
+      "certificate-activated": {
+        "sum": "Certificate for {{certificateSum}} UAH activated.",
+        "data": "Period is up to - до {{certDate}}"
+      },
+      "choose-payment": "You can make a payment in one of the selected methods below.",
+      "question-certificate": "Do you want to use the certificate?",
+      "failed-certificate": "Certificate not accepted, please try again",
+      "bonus-need": "Do you want to take advantage of bonuses?",
+      "bonus-left": "On your bonus account:",
+      "certificate-number": "Enter the certificate number",
+      "way-payment": "Choose a payment method",
+      "add-certificate": "Add certificate",
+      "fondy-card": "By card via Fondy",
+      "liqpay-card": "By card via LiqPay",
+      "btn": {
+        "pay": "Pay",
+        "cancel": "Cancel",
+        "active": "Active"
+      }
     }
   },
   "add-violation-modal": {
