@@ -4,6 +4,8 @@ import { takeUntil } from 'rxjs/operators';
 import { Locations } from '../../../main/component/ubs/models/ubs.interface';
 import { Subject } from 'rxjs';
 import { Router } from '@angular/router';
+import { UbsAdminTariffsAddLocationPopUpComponent } from './ubs-admin-tariffs-add-location-pop-up/ubs-admin-tariffs-add-location-pop-up.component';
+import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
 
 @Component({
   selector: 'app-ubs-admin-tariffs-location-dashboard',
@@ -20,7 +22,7 @@ export class UbsAdminTariffsLocationDashboardComponent implements OnInit, OnDest
     cross: './assets/img/ubs/cross.svg'
   };
 
-  constructor(private tariffsService: TariffsService, private router: Router) {}
+  constructor(private tariffsService: TariffsService, private router: Router, public dialog: MatDialog) {}
 
   ngOnInit(): void {
     this.getLocations();
@@ -32,6 +34,7 @@ export class UbsAdminTariffsLocationDashboardComponent implements OnInit, OnDest
       .getLocations()
       .pipe(takeUntil(this.destroy))
       .subscribe((res: Locations) => {
+        console.log(res);
         this.locations = res;
         this.disabledLocations = res;
         this.filter();
@@ -47,6 +50,7 @@ export class UbsAdminTariffsLocationDashboardComponent implements OnInit, OnDest
       .getCouriers()
       .pipe(takeUntil(this.destroy))
       .subscribe((res: Locations) => {
+        console.log(res);
         this.couriers = res;
       });
   }
@@ -72,6 +76,12 @@ export class UbsAdminTariffsLocationDashboardComponent implements OnInit, OnDest
       .deactivateLocation(id, languageCode)
       .pipe(takeUntil(this.destroy))
       .subscribe(() => this.getLocations());
+  }
+
+  openAddDialog(): void {
+    const dialogConfig = new MatDialogConfig();
+    dialogConfig.panelClass = 'address-matDialog-styles';
+    const dialogRef = this.dialog.open(UbsAdminTariffsAddLocationPopUpComponent, dialogConfig);
   }
 
   ngOnDestroy() {

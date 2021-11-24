@@ -1,0 +1,42 @@
+<form [formGroup]="locationForm">
+  <div class="w-100">
+    <h2 class="add-location-title">{{ 'ubs-tariffs-add-location-pop-up.title' | translate }}</h2>
+  </div>
+  <div class="w-100 hint-location">
+    {{ 'ubs-tariffs-add-location-pop-up.hint' | translate }}
+  </div>
+  <div class="col-lg-12 form-group">
+    <label>{{ 'ubs-tariffs-add-location-pop-up.region' | translate }}</label>
+    <input
+      ngx-google-places-autocomplete
+      type="text"
+      class="shadow-none form-control"
+      [pattern]="streetPattern"
+      required
+      [options]="regionOptions"
+      formControlName="region"
+      placeholder=""
+    />
+  </div>
+  <div class="w-100" *ngIf="emptyRegionMessage">
+    <p class="validation">{{ 'ubs-tariffs-add-location-pop-up.error_message' | translate }}</p>
+  </div>
+  <div class="col-lg-12 form-group">
+    <label>{{ 'ubs-tariffs-add-location-pop-up.locality' | translate }}</label>
+    <input
+      class="shadow-none form-control"
+      formControlName="locality"
+      [options]="localityOptions"
+      placeholder=""
+      ngx-google-places-autocomplete
+    />
+  </div>
+</form>
+<div class="d-flex justify-content-end buttons" mat-dialog-actions>
+  <button class="secondary-global-button btn m-0 mr-2" mat-button (click)="onNoClick()">
+    {{ 'ubs-tariffs-add-location-pop-up.cancel_button' | translate }}
+  </button>
+  <button class="primary-global-button btn m-0" (click)="addLocation()">
+    {{ 'ubs-tariffs-add-location-pop-up.add_button' | translate }}
+  </button>
+</div>
