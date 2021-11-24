@@ -379,9 +379,8 @@ export class UbsAdminTableComponent implements OnInit, AfterViewChecked, OnDestr
     });
   }
 
-  openOrder(row): void {
-    this.orderService.setSelectedOrder(row);
-    this.router.navigate(['ubs-admin', 'order']);
+  openOrder(id: number): void {
+    this.router.navigate(['ubs-admin', 'order', `${id}`]);
   }
 
   showTooltip(title, tooltip) {

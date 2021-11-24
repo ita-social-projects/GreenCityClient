@@ -256,12 +256,16 @@
     "current-orders": "Поточні замовлення",
     "order-history": "Історія замовлень",
     "order-number": "№ замовлення",
-    "order-status": "Статус",
-    "payment-amount": "Сума оплати",
+    "order-status": "Статус замовлення",
+    "order-date": "Дата",
+    "order-payment-status": "Статус оплати",
+    "payment-amount": "Сума до оплати",
+
     "btn": {
       "cancel": "Скасувати",
       "pay": "Оплатити",
-      "order-again": "Замовити ще раз"
+      "order-again": "Замовити ще раз",
+      "new-order": "Нове замовлення"
     },
     "details": {
       "title": "Деталі замовлення",

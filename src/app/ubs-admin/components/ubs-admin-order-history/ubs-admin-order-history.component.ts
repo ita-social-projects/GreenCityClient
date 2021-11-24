@@ -11,7 +11,7 @@ import { takeUntil } from 'rxjs/operators';
   encapsulation: ViewEncapsulation.None
 })
 export class UbsAdminOrderHistoryComponent implements OnInit, OnDestroy {
-  @Input() order;
+  @Input() orderId: number;
 
   private destroy$: Subject<boolean> = new Subject<boolean>();
   pageOpen: boolean;
@@ -20,7 +20,7 @@ export class UbsAdminOrderHistoryComponent implements OnInit, OnDestroy {
   constructor(private orderService: OrderService) {}
 
   ngOnInit() {
-    this.getOrderHistory(this.order.id);
+    this.getOrderHistory(this.orderId);
   }
 
   openDetails() {
