@@ -73,13 +73,8 @@ export class UBSPersonalInformationComponent extends FormBaseComponent implement
       this.currentLocation = data;
     });
     this.orderService.currentAddress.subscribe((data: Address) => {
-      if (data && data.city === this.currentLocation) {
-        this.personalDataForm.controls.address.setValue(data);
-        this.personalDataForm.controls.addressComment.setValue(data.addressComment);
-      } else {
-        this.personalDataForm.controls.address.setValue({});
-        this.personalDataForm.controls.addressComment.setValue('');
-      }
+      this.personalDataForm.controls.address.setValue(data);
+      this.personalDataForm.controls.addressComment.setValue(data.addressComment);
     });
   }
 
@@ -251,6 +246,7 @@ export class UBSPersonalInformationComponent extends FormBaseComponent implement
     };
     if (isEdit) {
       dialogConfig.data.address = currentAddress;
+      console.log(currentAddress);
     } else {
       dialogConfig.data.address = {};
     }
