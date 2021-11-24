@@ -26,9 +26,6 @@ export class UbsAdminOrderClientInfoComponent implements OnInit, OnDestroy {
   ngOnInit() {
     this.pageOpen = true;
     this.getUserInfo();
-    this.orderService.detail().subscribe((data) => {
-      console.log(data);
-    });
   }
 
   openDetails() {

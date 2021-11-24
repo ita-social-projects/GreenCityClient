@@ -167,8 +167,4 @@ export class OrderService {
   getViolationOfCurrentOrder(orderId) {
     return this.http.get(`${this.backend}/management/violation-details/${orderId}`);
   }
-
-  detail() {
-    return this.http.get(`${this.backend}/management/violation-details/3026`);
-  }
 }
