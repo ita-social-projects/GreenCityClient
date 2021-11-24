@@ -79,7 +79,7 @@ export class UBSOrderDetailsComponent extends FormBaseComponent implements OnIni
   public currentLocation: string;
   public isFetching = false;
   public changeLocation = false;
-  isBonus: any;
+  isBonus: string;
   public previousPath = 'ubs';
 
   constructor(
