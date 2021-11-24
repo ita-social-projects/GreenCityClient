@@ -58,16 +58,6 @@ export class CreateEcoNewsService {
   }
 
   // * =============================================
-  public sendTestImages(arrImages) {
-    const testFormData = new FormData();
-
-    const body = { images: arrImages };
-
-    testFormData.append('econewsUploadImages', JSON.stringify(body));
-    this.httpOptions.headers.set('Authorization', `Bearer ${this.accessToken}`);
-    // return this.http.post<NewsResponseDTO>(`${this.url}econews`, testFormData, this.httpOptions);
-    return this.http.post<NewsResponseDTO>(`${this.url}econews/uploadImages`, testFormData, this.httpOptions);
-  }
 
   public setForm(form: FormGroup): void {
     this.currentForm = form;
@@ -88,6 +78,8 @@ export class CreateEcoNewsService {
       source: form.value.source
     };
 
+    console.log(form);
+
     const formData = new FormData();
 
     if (this.files.length !== 0) {
@@ -95,6 +87,8 @@ export class CreateEcoNewsService {
       console.log(body.image);
     }
     this.files = [];
+
+    console.log(body);
     formData.append('addEcoNewsDtoRequest', JSON.stringify(body));
     this.httpOptions.headers.set('Authorization', `Bearer ${this.accessToken}`);
     return this.http.post<NewsResponseDTO>(`${this.url}econews`, formData, this.httpOptions);

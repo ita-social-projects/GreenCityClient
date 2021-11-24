@@ -2,7 +2,7 @@ import { Component, OnInit, OnDestroy, Inject, Injector } from '@angular/core';
 import { FormArray, FormGroup, FormControl } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { MatDialog } from '@angular/material/dialog';
-import { takeUntil, catchError, take } from 'rxjs/operators';
+import { takeUntil, catchError, take, delay } from 'rxjs/operators';
 import { QueryParams, TextAreasHeight } from '../../models/create-news-interface';
 import { EcoNewsService } from '../../services/eco-news.service';
 import { Subscription, ReplaySubject, throwError } from 'rxjs';
@@ -21,6 +21,7 @@ import 'quill-emoji/dist/quill-emoji.js';
 import ImageResize from 'quill-image-resize-module';
 import { ubsAdminEmployeeLink } from '../../../../links';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { addFilesToFormData, convertImageBase64ToFile } from './quillEditorFunc';
 
 @Component({
   selector: 'app-create-edit-news',
@@ -124,9 +125,11 @@ export class CreateEditNewsComponent extends FormBaseComponent implements OnInit
   public editorText = '';
   public editorHTML = '';
 
+  savingImages = false;
+
   ngOnInit() {
     this.getNewsIdFromQueryParams();
-    this.initPageforCreateOrEdit();
+    this.initPageForCreateOrEdit();
     this.onSourceChange();
     this.setLocalizedTags();
   }
@@ -181,8 +184,9 @@ export class CreateEditNewsComponent extends FormBaseComponent implements OnInit
       });
   }
 
-  public initPageforCreateOrEdit(): void {
+  public initPageForCreateOrEdit(): void {
     this.textAreasHeight = TEXT_AREAS_HEIGHT;
+
     if (this.createEcoNewsService.isBackToEditing) {
       if (this.createEcoNewsService.getNewsId()) {
         this.setDataForEdit();
@@ -241,9 +245,20 @@ export class CreateEditNewsComponent extends FormBaseComponent implements OnInit
 
   public createNews(): void {
     this.isPosting = true;
+
+    // function waitForElement(){
+    //   if(this.savingImages === true){
+    //     //variable exists, do what you want
+    //   }
+    //   else{
+    //     setTimeout(waitForElement, 250);
+    //   }
+    // }
+
     this.createEcoNewsService
       .sendFormData(this.form)
       .pipe(
+        delay(5000),
         takeUntil(this.destroyed$),
         catchError((err) => {
           this.snackBar.openSnackBar('Oops, something went wrong. Please reload page or try again later.');
@@ -374,60 +389,94 @@ export class CreateEditNewsComponent extends FormBaseComponent implements OnInit
     }
   }
 
-  testData() {
-    const findImgTagsWithBase64 = /<img [^>]*src="[^"]*"[^>]*>/gm;
+  sendFormData() {
+    // this.isPosting = true;
+    // this.createEcoNewsService
+    // .sendFormData(this.form)
+    // .pipe(
+    //   takeUntil(this.destroyed$),
+    //   catchError((err) => {
+    //     this.snackBar.openSnackBar('Oops, something went wrong. Please reload page or try again later.');
+    //     return throwError(err);
+    //   })
+    // )
+    // .subscribe(() => this.escapeFromCreatePage());
+
+    this.saveImages();
+    console.log(this.savingImages);
+  }
+
+  saveImages() {
+    const transform2 = (base64Img) => {};
+
+    const transformBase64ToFile = (base64Img) => {
+      return fetch(base64Img)
+        .then((res) => res.blob())
+        .then((blob) => new File([blob], `image.${blob.type.split('/')[1]}`, { type: blob.type }))
+        .then((f) => {
+          console.log(f);
+          return f;
+        })
+        .catch((err) => {
+          this.savingImages = false;
+          console.error(err);
+        });
+    };
+
+    this.savingImages = true;
+    if (!this.editorHTML) {
+      this.savingImages = false;
+      return console.warn('No Data in Text Editor');
+    }
+
     const findBase64Regex = /data:image\/([a-zA-Z]*);base64,([^"]*)/g;
+    const imagesSrc = this.editorHTML.match(findBase64Regex);
 
-    const images = this.editorHTML.match(findImgTagsWithBase64);
+    if (!imagesSrc) {
+      this.savingImages = false;
+      return console.warn('No Images in Text Editor');
+    }
 
-    if (images) {
-      const imagesSrc = images.map((img) => img.match(findBase64Regex));
+    const imgFiles = imagesSrc.map((base64) => transformBase64ToFile(base64));
+    const formData: FormData = new FormData();
+    console.log(imgFiles);
 
-      // @ts-ignore
-      const files = imagesSrc.map((img) => {
-        // @ts-ignore
-        return fetch(img)
-          .then((res) => res.blob())
-          .then(
-            (blob) =>
-              new File([blob], `image.${blob.type.split('/')[1]}`, {
-                type: blob.type
-              })
-          )
-          .catch((e) => console.error(e));
-      });
+    Promise.all(imgFiles)
+      .then((results) => {
+        console.log('res', results);
 
-      Promise.all(files)
-        .then((results) => {
-          console.log('All done', results);
+        results.forEach((res) => {
+          // @ts-ignore
+          formData.append('images', res);
+        });
 
-          const formData: FormData = new FormData();
-          results.forEach((res) => {
-            formData.append('images', res);
-          });
-
-          const accessToken: string = localStorage.getItem('accessToken');
-          const httpOptions = {
-            headers: new HttpHeaders({
-              Authorization: 'my-auth-token'
-            })
-          };
-          httpOptions.headers.set('Authorization', `Bearer ${accessToken}`);
-          httpOptions.headers.append('Content-Type', 'multipart/form-data');
-
-          this.http.post<any>('https://greencity.azurewebsites.net/econews/uploadImages', formData, httpOptions).subscribe((response) => {
-            console.log(response);
+        console.log('=========');
+        const accessToken: string = localStorage.getItem('accessToken');
+        const httpOptions = {
+          headers: new HttpHeaders({
+            Authorization: 'my-auth-token'
+          })
+        };
+        httpOptions.headers.set('Authorization', `Bearer ${accessToken}`);
+        httpOptions.headers.append('Content-Type', 'multipart/form-data');
+        return this.http
+          .post<any>('https://greencity.azurewebsites.net/econews/uploadImages', formData, httpOptions)
+          .subscribe((response) => {
             response.forEach((link) => {
               this.editorHTML = this.editorHTML.replace(findBase64Regex, link);
-              return link;
             });
+            console.log(response);
           });
-          // this.createEcoNewsService.sendTestImages(results);
-        })
-        .catch((e) => console.error(e));
+        // @ts-ignore
+        // this.savingImages = 'false';
+      })
+      .catch((err) => {
+        this.savingImages = false;
+        console.error(err);
+      });
 
-      console.log('results');
-    }
+    // console.log(qwe);
+    console.log('GGGGGGGGGGGGGGGGGG');
   }
 
   focus($event: any) {
