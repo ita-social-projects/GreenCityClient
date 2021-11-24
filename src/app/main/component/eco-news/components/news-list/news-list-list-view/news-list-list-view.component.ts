@@ -1,4 +1,4 @@
-import { ecoNewsIcons } from './../../../../../image-pathes/profile-icons';
+import { ecoNewsIcons } from '../../../../../image-pathes/profile-icons';
 import { Component, Input, ViewChild, ElementRef, Renderer2, AfterViewChecked, ChangeDetectionStrategy } from '@angular/core';
 import { EcoNewsModel } from '@eco-news-models/eco-news-model';
 import { TranslateService } from '@ngx-translate/core';

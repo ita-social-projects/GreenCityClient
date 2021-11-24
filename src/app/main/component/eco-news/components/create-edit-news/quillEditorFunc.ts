@@ -35,8 +35,6 @@ export const convertImageBase64ToFile = (editorHTML) => {
   return filesArr;
 };
 
-export const main = (editorHTML) => {};
-
 // saveImages() {
 //   if (!this.editorHTML) {
 //     return console.warn('No Data in Text Editor');
