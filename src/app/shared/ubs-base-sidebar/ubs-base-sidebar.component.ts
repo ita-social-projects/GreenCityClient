@@ -68,11 +68,7 @@ export class UbsBaseSidebarComponent implements AfterViewInit, OnDestroy {
     setTimeout(() => {
       this.breakpointObserver.observe([Breakpoints.Small, Breakpoints.XSmall]).subscribe((result) => {
         if (this.drawer) {
-          if (result.matches) {
-            this.drawer.mode = 'over';
-          } else {
-            this.drawer.mode = 'side';
-          }
+          this.drawer.mode = 'side';
         }
       });
     }, 0);

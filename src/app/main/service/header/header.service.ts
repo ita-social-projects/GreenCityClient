@@ -16,6 +16,7 @@ export class HeaderService {
   public navLinks = [
     { name: 'user.lower-nav-bar.eco-events', route: '/news', url: false },
     { name: 'user.lower-nav-bar.tips', route: '/tips', url: false },
+    { name: 'user.lower-nav-bar.events', route: '/events', url: false },
     { name: 'user.lower-nav-bar.map', route: '/places', url: false },
     { name: 'user.lower-nav-bar.about-us', route: '/about', url: false },
     { name: 'user.lower-nav-bar.my-habits', route: '/profile', url: false },

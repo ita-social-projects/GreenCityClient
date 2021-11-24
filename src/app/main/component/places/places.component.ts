@@ -3,19 +3,7 @@ import { Component, OnInit, ViewChild } from '@angular/core';
 import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
 import { MatDrawer } from '@angular/material/sidenav';
 import { PlaceService } from '@global-service/place/place.service';
-import { cards } from './Data.js';
-import {
-  redIcon,
-  greenIcon,
-  bookmark,
-  bookmarkSaved,
-  searchIcon,
-  notification,
-  share,
-  starUnfilled,
-  starHalf,
-  star
-} from '../../image-pathes/places-icons.js';
+import { redIcon, greenIcon, searchIcon, notification, share, starUnfilled, starHalf, star } from '../../image-pathes/places-icons.js';
 import { Place } from './models/place';
 import { FilterPlaceService } from '@global-service/filtering/filter-place.service';
 import { debounceTime, take } from 'rxjs/operators';
@@ -24,6 +12,8 @@ import { MapBoundsDto } from './models/map-bounds-dto';
 import { MoreOptionsFormValue } from './models/more-options-filter.model';
 import { PlaceInfo } from '@global-models/place/place-info';
 import { Location } from '@angular-material-extensions/google-maps-autocomplete';
+import { FavoritePlaceService } from '@global-service/favorite-place/favorite-place.service';
+import { combineLatest } from 'rxjs';
 
 @Component({
   selector: 'app-places',
@@ -33,9 +23,7 @@ import { Location } from '@angular-material-extensions/google-maps-autocomplete'
 export class PlacesComponent implements OnInit {
   public position: any = {};
   public zoom = 13;
-  public cardsCollection: any;
   public tagList: Array<string> = ['Shops', 'Restaurants', 'Recycling points', 'Events', 'Saved places'];
-  public favoritePlaces: Array<number> = [];
   public searchName = '';
   public moreOptionsFilters: MoreOptionsFormValue;
   public searchIcon = searchIcon;
@@ -48,6 +36,8 @@ export class PlacesComponent implements OnInit {
   public readonly greenIconUrl: string = greenIcon;
   public activePlace: Place;
   public activePlaceInfo: PlaceInfo;
+  public favoritePlaces: Place[] = [];
+  public isActivePlaceFavorite = false;
 
   @ViewChild('drawer') drawer: MatDrawer;
 
@@ -57,7 +47,8 @@ export class PlacesComponent implements OnInit {
     private localStorageService: LocalStorageService,
     private translate: TranslateService,
     private placeService: PlaceService,
-    private filterPlaceService: FilterPlaceService
+    private filterPlaceService: FilterPlaceService,
+    private favoritePlaceService: FavoritePlaceService
   ) {}
 
   ngOnInit() {
@@ -65,11 +56,24 @@ export class PlacesComponent implements OnInit {
       this.placeService.updatePlaces(filtersDto);
     });
 
-    this.placeService.places$.subscribe((places: Place[]) => {
-      this.places = places;
+    combineLatest([
+      this.placeService.places$,
+      this.filterPlaceService.isFavoriteFilter$,
+      this.favoritePlaceService.favoritePlaces$
+    ]).subscribe(([places, isFavoriteFilter, favoritePlaces]: [Place[], boolean, Place[]]) => {
+      this.favoritePlaces = favoritePlaces;
+      this.updateIsActivePlaceFavorite();
+
+      if (isFavoriteFilter) {
+        this.places = places.filter((place: Place) => {
+          return this.favoritePlaces.some((favoritePlace: Place) => favoritePlace.location.id === place.location.id);
+        });
+      } else {
+        this.places = places;
+      }
     });
 
-    this.cardsCollection = cards;
+    this.favoritePlaceService.updateFavoritePlaces();
 
     this.bindLang(this.localStorageService.getCurrentLanguage());
   }
@@ -124,6 +128,14 @@ export class PlacesComponent implements OnInit {
     });
   }
 
+  public toggleFavorite(): void {
+    if (this.isActivePlaceFavorite) {
+      this.favoritePlaceService.deleteFavoritePlace(this.activePlaceInfo.id);
+    } else {
+      this.favoritePlaceService.addFavoritePlace({ placeId: this.activePlaceInfo.id, name: this.activePlaceInfo.name });
+    }
+  }
+
   private bindLang(lang: string): void {
     this.translate.setDefaultLang(lang);
   }
@@ -136,23 +148,14 @@ export class PlacesComponent implements OnInit {
       .subscribe((placeInfo: PlaceInfo) => {
         this.activePlaceInfo = placeInfo;
         this.drawer.toggle(true);
-        console.log(placeInfo);
+        this.updateIsActivePlaceFavorite();
       });
   }
 
-  public moveToFavorite(event): void {
-    const id = +event.toElement.parentNode.parentNode.id;
-
-    if (!event.toElement.src.includes(bookmarkSaved)) {
-      this.cardsCollection[id].favorite = bookmarkSaved;
-      this.favoritePlaces.push(id);
-      sessionStorage.setItem('favorites', JSON.stringify(this.favoritePlaces));
-    } else {
-      const indexToDelete = this.favoritePlaces.indexOf(id);
-      this.cardsCollection[id].favorite = bookmark;
-      this.favoritePlaces.splice(indexToDelete, 1);
-      sessionStorage.setItem('favorites', JSON.stringify(this.favoritePlaces));
-    }
+  private updateIsActivePlaceFavorite(): void {
+    this.isActivePlaceFavorite = this.favoritePlaces.some((favoritePlace: Place) => {
+      return favoritePlace.location.id === this.activePlaceInfo?.location.id;
+    });
   }
 
   public getStars(rating: number): Array<string> {

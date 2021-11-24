@@ -66,10 +66,8 @@ describe('UbsConfirmPageComponent', () => {
   it('in renderView should saveDataOnLocalStorage and openSnackBar be called', () => {
     component.orderStatusDone = false;
     component.orderResponseError = false;
-    const activatedRoute = 'activatedRoute';
-    const queryParams = 'queryParams';
+    component.orderId = '132';
     const saveDataOnLocalStorageMock = spyOn(component, 'saveDataOnLocalStorage');
-    component[activatedRoute][queryParams] = of({ order_id: '132', response_status: true });
     component.renderView();
     expect(saveDataOnLocalStorageMock).toHaveBeenCalled();
     expect(fakeSnackBar.openSnackBar).toHaveBeenCalledWith('successConfirmSaveOrder', '132');

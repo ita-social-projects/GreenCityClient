@@ -26,7 +26,7 @@ const ubsAdminRoutes: Routes = [
       { path: `tariffs/location/:id`, component: UbsAdminTariffsPricingPageComponent }
     ]
   },
-  { path: 'order', component: UbsAdminOrderComponent }
+  { path: 'order/:id', component: UbsAdminOrderComponent }
 ];
 
 @NgModule({

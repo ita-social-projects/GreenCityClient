@@ -22,6 +22,7 @@ export class UBSSubmitOrderComponent extends FormBaseComponent implements OnInit
   liqPayButtonForm: SafeHtml;
   liqPayButton: NodeListOf<HTMLElement>;
   isLiqPay = false;
+  shouldBePaid: boolean;
   order: Order;
   addressId: number;
   bags: Bag[] = [];
@@ -37,12 +38,14 @@ export class UBSSubmitOrderComponent extends FormBaseComponent implements OnInit
     hasBackdrop: true,
     closeOnNavigation: true,
     disableClose: true,
-    panelClass: 'popup-dialog-container',
+    panelClass: 'custom-ubs-style',
     data: {
-      popupTitle: 'confirmation.title',
-      popupSubtitle: 'confirmation.subTitle',
-      popupConfirm: 'confirmation.cancel',
-      popupCancel: 'confirmation.dismiss'
+      popupTitle: 'confirmation.submit-title',
+      popupSubtitle: '',
+      popupConfirm: 'confirmation.ok',
+      popupCancel: 'confirmation.delete',
+      isUBS: true,
+      isUbsOrderSubmit: true
     }
   };
   orderBags: OrderBag[] = [];
@@ -53,16 +56,16 @@ export class UBSSubmitOrderComponent extends FormBaseComponent implements OnInit
   isTotalAmountZero = true;
 
   constructor(
-    private orderService: OrderService,
-    private shareFormService: UBSOrderFormService,
+    public orderService: OrderService,
     public ubsOrderFormService: UBSOrderFormService,
+    private shareFormService: UBSOrderFormService,
     private localStorageService: LocalStorageService,
     private sanitizer: DomSanitizer,
     private fb: FormBuilder,
     router: Router,
     dialog: MatDialog
   ) {
-    super(router, dialog);
+    super(router, dialog, orderService);
   }
 
   ngOnInit(): void {
@@ -125,7 +128,8 @@ export class UBSSubmitOrderComponent extends FormBaseComponent implements OnInit
       this.orderDetails.certificates,
       this.orderDetails.orderComment,
       this.personalData,
-      this.orderDetails.pointsToUse
+      this.orderDetails.pointsToUse,
+      this.shouldBePaid
     );
   }
 
@@ -174,14 +178,15 @@ export class UBSSubmitOrderComponent extends FormBaseComponent implements OnInit
         )
         .subscribe(
           (response) => {
+            const { orderId, link } = JSON.parse(response);
             this.shareFormService.orderUrl = '';
             this.localStorageService.removeUbsOrderId();
             if (this.isFinalSumZero && !this.isTotalAmountZero) {
-              this.ubsOrderFormService.transferOrderId(response);
+              this.ubsOrderFormService.transferOrderId(orderId);
               this.ubsOrderFormService.setOrderResponseErrorStatus(false);
               this.ubsOrderFormService.setOrderStatus(true);
             } else {
-              this.shareFormService.orderUrl = response.toString();
+              this.shareFormService.orderUrl = link.toString();
               document.location.href = this.shareFormService.orderUrl;
             }
           },

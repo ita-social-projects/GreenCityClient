@@ -1,18 +1,5 @@
 ::ng-deep .pac-container {
   position: fixed !important;
-  top: 377px !important;
-
-  @media only screen and (max-width: 300px) {
-    top: 384px !important;
-  }
-
-  @media only screen and (min-width: 301px) and (max-width: 500px) {
-    top: 364px !important;
-  }
-
-  @media only screen and (min-width: 501px) and (max-width: 1000px) {
-    top: 337px !important;
-  }
 }
 
 form {

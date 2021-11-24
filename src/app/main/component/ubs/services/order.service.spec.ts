@@ -58,14 +58,19 @@ describe('OrderService', () => {
     actual: true,
     id: 100500,
     city: '',
+    region: '',
     district: '',
     street: '',
     houseCorpus: '',
     entranceNumber: '',
-    houseNumber: ''
+    houseNumber: '',
+    coordinates: {
+      latitude: 0,
+      longitude: 0
+    }
   };
 
-  const orderMock = new Order([''], 7, [bagMock], [''], '8', personalData, 9);
+  const orderMock = new Order([''], 7, [bagMock], [''], '8', personalData, 9, true);
 
   let service: OrderService;
   let httpMock: HttpTestingController;

@@ -21,9 +21,9 @@
             <span class="col-2 p-0 m-0 bag-name">{{ bag.capacity }} {{ 'order-details.litr' | translate }}</span>
             <span class="col-2 p-0 m-0 bag-name">{{ bag.price | currency }} {{ 'order-details.currency' | translate }}</span>
             <span class="col-2 p-0 m-0 bag-name">{{ bag.quantity }} {{ 'order-details.pieces' | translate }}</span>
-            <span class="col-3 p-0 m-0 bag-name text-center">
-              {{ bag.quantity * bag.price | currency }} {{ 'order-details.currency' | translate }}</span
-            >
+            <span class="col-3 p-0 m-0 bag-name text-right orderSum">
+              {{ bag.quantity * bag.price | currency }} {{ 'order-details.currency' | translate }}
+            </span>
           </ng-container>
         </li>
       </ul>
@@ -112,14 +112,14 @@
         </div>
       </div>
     </div>
-    <div class="bottom_comment">
+    <div *ngIf="!isFinalSumZero" class="bottom_comment">
       <div class="form-group comment">
         <h3 class="font-bolt bottom_comment_payment">{{ 'order-form.payment' | translate }}</h3>
         <p class="choose-payment">{{ 'order-details.choose-payment' | translate }}</p>
         <div class="col-12 col-sm-12 p-0">
           <label class="choose-payment-chooser">{{ 'submit-order.choose-payment' | translate }}</label
           ><br />
-          <select class="payment-select shadow-none" [disabled]="isFinalSumZero" (change)="orderButton($event)">
+          <select class="payment-select shadow-none" (change)="orderButton($event)">
             <option value="Fondy" selected>{{ 'submit-order.fondy-card' | translate }}</option>
             <option value="LiqPay">{{ 'submit-order.liqpay-card' | translate }}</option>
           </select>
@@ -137,7 +137,7 @@
     <i class="fas fa-chevron-left" aria-hidden="true"></i> &nbsp; {{ 'submit-order.back' | translate }}
   </button>
   <div class="w-100 d-flex justify-content-end">
-    <button class="secondary-global-button btn cansel-button btn-main" (click)="cancelUBS()">
+    <button class="secondary-global-button btn cansel-button btn-main" (click)="cancelUBS(true)">
       {{ 'order-details.cancel' | translate }}
     </button>
     <button [disabled]="isTotalAmountZero || loadingAnim" (click)="redirectToOrder()" type="submit" class="primary-global-button btn">

@@ -21,11 +21,12 @@ export class UBSPersonalInformationComponent extends FormBaseComponent implement
   orderDetails: OrderDetails;
   personalData: PersonalData;
   personalDataForm: FormGroup;
+  shouldBePaid = true;
   order: Order;
   addresses: Address[] = [];
   maxAddressLength = 4;
   namePattern = /^[A-Za-zА-Яа-яїЇіІєЄёЁ\'\- ]+$/;
-  phoneMask = '+{38} (000) 000 00 00';
+  phoneMask = '+{38\\0} (00) 000 00 00';
   firstOrder = true;
   anotherClient = false;
   currentLocation = {};
@@ -43,12 +44,13 @@ export class UBSPersonalInformationComponent extends FormBaseComponent implement
     hasBackdrop: true,
     closeOnNavigation: true,
     disableClose: true,
-    panelClass: 'popup-dialog-container',
+    panelClass: 'custom-ubs-style',
     data: {
       popupTitle: 'confirmation.title',
       popupSubtitle: 'confirmation.subTitle',
       popupConfirm: 'confirmation.cancel',
-      popupCancel: 'confirmation.dismiss'
+      popupCancel: 'confirmation.dismiss',
+      isUBS: true
     }
   };
 
@@ -56,12 +58,12 @@ export class UBSPersonalInformationComponent extends FormBaseComponent implement
 
   constructor(
     public router: Router,
-    private orderService: OrderService,
+    public orderService: OrderService,
     private shareFormService: UBSOrderFormService,
     private fb: FormBuilder,
     public dialog: MatDialog
   ) {
-    super(router, dialog);
+    super(router, dialog, orderService);
     this.initForm();
   }
 
@@ -95,6 +97,7 @@ export class UBSPersonalInformationComponent extends FormBaseComponent implement
       .subscribe((list) => {
         this.addresses = this.getLastAddresses(list.addressList);
         localStorage.setItem('addresses', JSON.stringify(this.addresses));
+
         this.personalDataForm.patchValue({
           address: this.addresses
         });
@@ -162,8 +165,8 @@ export class UBSPersonalInformationComponent extends FormBaseComponent implement
     this.personalData.houseNumber = activeAddress.houseNumber;
     this.personalData.houseCorpus = activeAddress.houseCorpus;
     this.personalData.entranceNumber = activeAddress.entranceNumber;
-    this.personalData.latitude = activeAddress.latitude;
-    this.personalData.longitude = activeAddress.longitude;
+    this.personalData.latitude = activeAddress.coordinates.latitude;
+    this.personalData.longitude = activeAddress.coordinates.longitude;
   }
 
   setFormData(): void {
@@ -186,7 +189,7 @@ export class UBSPersonalInformationComponent extends FormBaseComponent implement
       anotherClientFirstName.setValidators(this.personalDataFormValidators);
       anotherClientLastName.setValidators(this.personalDataFormValidators);
       anotherClientPhoneNumber.setValidators([Validators.required, Validators.minLength(12)]);
-      anotherClientPhoneNumber.setValue('+38 0');
+      anotherClientPhoneNumber.setValue('+380');
     } else {
       anotherClientFirstName.setValue('');
       anotherClientFirstName.clearValidators();
@@ -242,7 +245,9 @@ export class UBSPersonalInformationComponent extends FormBaseComponent implement
     const dialogConfig = new MatDialogConfig();
     dialogConfig.panelClass = 'address-matDialog-styles';
     dialogConfig.data = {
-      edit: isEdit
+      edit: isEdit,
+      currentLocation: this.currentLocation,
+      district: currentAddress?.district
     };
     if (isEdit) {
       dialogConfig.data.address = currentAddress;
@@ -289,7 +294,8 @@ export class UBSPersonalInformationComponent extends FormBaseComponent implement
       this.shareFormService.orderDetails.certificates,
       this.shareFormService.orderDetails.orderComment,
       this.personalData,
-      this.shareFormService.orderDetails.pointsToUse
+      this.shareFormService.orderDetails.pointsToUse,
+      this.shouldBePaid
     );
     this.orderService.setOrder(this.order);
   }

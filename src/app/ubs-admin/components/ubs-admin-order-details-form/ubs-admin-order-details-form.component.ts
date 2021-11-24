@@ -1,72 +1,73 @@
-import { Component, Input, OnDestroy, OnInit } from '@angular/core';
-import { FormGroup, FormControl, Validators, FormBuilder } from '@angular/forms';
-import { Subject } from 'rxjs';
-import { takeUntil } from 'rxjs/operators';
-import { OrderService } from '../../services/order.service';
+import { Component, Input, OnInit, OnChanges } from '@angular/core';
+import { FormGroup, FormBuilder } from '@angular/forms';
 
 @Component({
   selector: 'app-ubs-admin-order-details-form',
   templateUrl: './ubs-admin-order-details-form.component.html',
   styleUrls: ['./ubs-admin-order-details-form.component.scss']
 })
-export class UbsAdminOrderDetailsFormComponent implements OnInit, OnDestroy {
+export class UbsAdminOrderDetailsFormComponent implements OnInit, OnChanges {
   public payMore = true;
   public isInputDisabled = false;
   public isVisible = true;
   public ubsCourier = 0;
-  private order;
-  public orderInfo = {
-    amount: {
-      planned: 0,
-      confirmed: 0,
-      actual: 0
-    },
-    sum: {
-      planned: 0,
-      confirmed: 0,
-      actual: 0
-    },
-    finalSum: {
-      planned: 0,
-      confirmed: 0,
-      actual: 0
-    },
-    bonuses: 0,
-    certificateDiscount: 0
-  };
-  private destroy$: Subject<boolean> = new Subject<boolean>();
+  public bagsInfo;
   public currentLanguage: string;
   public minOrderSum = 500;
+  public orderDetails;
   pageOpen: boolean;
-  @Input() orderDetails;
+  @Input() orderDetailsOriginal;
   @Input() orderDetailsForm: FormGroup;
+  @Input() orderStatusInfo;
 
-  constructor(private fb: FormBuilder, private orderService: OrderService) {}
+  constructor(private fb: FormBuilder) {}
 
   ngOnInit(): void {
-    // TODO: change this mock after receiving bags names from backend
-    this.orderDetails.bags[0].name = 'Безнадійний одяг';
-    this.orderDetails.bags[1].name = 'Безнадійний одяг';
-    this.orderDetails.bags[2].name = 'Вторсировина';
-    //
-    this.orderService
-      .getSelectedOrderStatus()
-      .pipe(takeUntil(this.destroy$))
-      .subscribe((order) => {
-        this.order = order;
-        this.isVisible = order.ableActualChange;
-      });
+    this.resetBagsInfo();
+    this.isVisible = this.orderStatusInfo.ableActualChange;
+    this.orderDetails = JSON.parse(JSON.stringify(this.orderDetailsOriginal));
+    this.setBagsInfo();
+    this.calculateFinalSum();
+  }
+
+  ngOnChanges() {
+    this.isVisible = this.orderStatusInfo.ableActualChange;
+  }
+
+  private resetBagsInfo() {
+    this.bagsInfo = {
+      amount: {
+        planned: 0,
+        confirmed: 0,
+        actual: 0
+      },
+      sum: {
+        planned: 0,
+        confirmed: 0,
+        actual: 0
+      },
+      finalSum: {
+        planned: 0,
+        confirmed: 0,
+        actual: 0
+      },
+      bonuses: 0,
+      certificateDiscount: 0
+    };
+  }
+
+  private setBagsInfo() {
     this.orderDetails.bags.forEach((bag) => {
-      this.orderInfo = {
+      this.bagsInfo = {
         amount: {
-          planned: this.orderInfo.amount.planned + bag.planned,
-          confirmed: this.orderInfo.amount.confirmed + bag.confirmed,
-          actual: this.orderInfo.amount.actual + bag.actual
+          planned: this.bagsInfo.amount.planned + bag.planned,
+          confirmed: this.bagsInfo.amount.confirmed + bag.confirmed,
+          actual: this.bagsInfo.amount.actual + bag.actual
         },
         sum: {
-          planned: this.orderInfo.sum.planned + bag.planned * bag.price,
-          confirmed: this.orderInfo.sum.confirmed + bag.confirmed * bag.price,
-          actual: this.orderInfo.sum.actual + bag.actual * bag.price
+          planned: this.bagsInfo.sum.planned + bag.planned * bag.price,
+          confirmed: this.bagsInfo.sum.confirmed + bag.confirmed * bag.price,
+          actual: this.bagsInfo.sum.actual + bag.actual * bag.price
         },
         finalSum: {
           planned: 0,
@@ -77,19 +78,18 @@ export class UbsAdminOrderDetailsFormComponent implements OnInit, OnDestroy {
         certificateDiscount: this.orderDetails.certificateDiscount
       };
     });
-    this.calculateFinalSum();
   }
 
   private calculateFinalSum() {
-    const bonusesAndCert = this.orderInfo.bonuses + this.orderInfo.certificateDiscount;
-    this.orderInfo.finalSum = {
-      planned: this.orderInfo.sum.planned - bonusesAndCert,
-      confirmed: this.orderInfo.sum.confirmed - bonusesAndCert,
-      actual: this.orderInfo.sum.actual - bonusesAndCert
+    const bonusesAndCert = this.bagsInfo.bonuses + this.bagsInfo.certificateDiscount;
+    this.bagsInfo.finalSum = {
+      planned: this.bagsInfo.sum.planned - bonusesAndCert,
+      confirmed: this.bagsInfo.sum.confirmed - bonusesAndCert,
+      actual: this.bagsInfo.sum.actual - bonusesAndCert
     };
-    for (const type in this.orderInfo.finalSum) {
-      if (this.orderInfo.finalSum[type] < 0) {
-        this.orderInfo.finalSum[type] = 0;
+    for (const type in this.bagsInfo.finalSum) {
+      if (this.bagsInfo.finalSum[type] < 0) {
+        this.bagsInfo.finalSum[type] = 0;
       }
     }
   }
@@ -98,24 +98,17 @@ export class UbsAdminOrderDetailsFormComponent implements OnInit, OnDestroy {
     this.pageOpen = !this.pageOpen;
   }
 
-  public onQuantityChange(e, bagId) {
-    const field = e.target.getAttribute('ng-reflect-name');
-    const bagType = field.replace(/quantity[0-9]/i, '');
+  public onQuantityChange(bagType, bagId) {
     this.orderDetails.bags.forEach((bag) => {
       if (bag.id === Number(bagId)) {
-        bag[bagType] = this.orderDetailsForm.get(field).value;
-        this.orderInfo.sum[bagType] = this.orderInfo.amount[bagType] = 0;
+        bag[bagType] = this.orderDetailsForm.get(bagType + 'Quantity' + bagId).value;
+        this.bagsInfo.sum[bagType] = this.bagsInfo.amount[bagType] = 0;
         this.orderDetails.bags.forEach((bagObj) => {
-          this.orderInfo.sum[bagType] += bagObj[bagType] * bagObj.price;
-          this.orderInfo.amount[bagType] += +bagObj[bagType];
+          this.bagsInfo.sum[bagType] += bagObj[bagType] * bagObj.price;
+          this.bagsInfo.amount[bagType] += +bagObj[bagType];
         });
         this.calculateFinalSum();
       }
     });
-  }
-
-  ngOnDestroy(): void {
-    this.destroy$.next();
-    this.destroy$.complete();
   }
 }

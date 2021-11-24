@@ -14,9 +14,6 @@
             placeholder="{{ 'user.map.searching-for-a-place' | translate }}"
             (keyup)="searchNameChange(searchInput.value)"
           />
-          <datalist id="places_names">
-            <option *ngFor="let card of cardsCollection" value="{{ card.cardName }}">{{ card.cardText }}</option>
-          </datalist>
           <input
             matInput
             matGoogleMapsAutocomplete
@@ -44,8 +41,15 @@
           <mat-drawer #drawer class="example-sidenav sidebar-drawer" mode="side" closed>
             <div class="sidebar-content" *ngIf="activePlaceInfo">
               <span class="close-mark" (click)="drawer.toggle(false)"></span>
-              <h6 class="content-title">{{ activePlaceInfo.name }}</h6>
-              <span class="content-address">{{ activePlaceInfo.location.address }}</span>
+              <div class="title-wrapper">
+                <h6 class="content-title">{{ activePlaceInfo.name }}</h6>
+              </div>
+              <div class="sidebar-address">
+                <span class="content-address">{{ activePlaceInfo.location.address }}</span>
+                <button (click)="toggleFavorite()" class="btn-bookmark">
+                  <span class="material-icons">{{ isActivePlaceFavorite ? 'bookmark' : 'bookmark_border' }}</span>
+                </button>
+              </div>
               <p class="content-description" *ngFor="let comment of activePlaceInfo.comments">{{ comment }}</p>
               <span class="content-website">{{ 'user.places-card.card-description' | translate }}</span>
               <ul class="content-list">
@@ -64,7 +68,9 @@
               <div class="stars-container">
                 <img *ngFor="let star of getStars(activePlaceInfo.rate)" class="star" src="{{ star }}" alt="star" />
               </div>
-              <span class="content-reviews-amount">{{ 'user.places-card.card-reviews' | translate }}</span>
+              <span class="content-reviews-amount"
+                >{{ activePlaceInfo.comments?.length }} {{ 'user.places-card.card-reviews' | translate }}</span
+              >
             </div>
           </mat-drawer>
         </mat-drawer-container>
@@ -88,22 +94,6 @@
             class="marker"
           ></agm-marker>
         </agm-map>
-      </div>
-    </div>
-    <div class="places-recommendation">
-      <h6 class="recommendation-title">{{ 'user.places-card.card-popular' | translate }}</h6>
-      <div class="card-container">
-        <div *ngFor="let card of cardsCollection" class="card" [id]="card.id">
-          <img class="card-img-top" src="{{ card.cardImgUrl }}" alt="place-image" />
-          <div class="card-body">
-            <div class="card-headers">
-              <h5 class="card-title">{{ card.cardName }}</h5>
-              <span class="card-address">{{ card.cardAddress }}</span>
-            </div>
-            <p class="card-text">{{ card.cardText }}</p>
-            <img class="card-bookmark" src="{{ card.favorite }}" alt="bookmark" (click)="moveToFavorite($event)" />
-          </div>
-        </div>
       </div>
     </div>
   </div>

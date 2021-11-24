@@ -1,6 +1,8 @@
 import { Component, Inject, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { UpdatePasswordDto } from '@global-models/updatePasswordDto';
+import { ChangePasswordService } from '@global-service/auth/change-password.service';
 
 @Component({
   selector: 'app-ubs-profile-change-password-pop-up',
@@ -10,11 +12,13 @@ import { MAT_DIALOG_DATA } from '@angular/material/dialog';
 export class UbsProfileChangePasswordPopUpComponent implements OnInit {
   public formConfig: FormGroup;
   private readonly passRegexp = /^(?=.*[A-Za-z]+)(?=.*\d+)(?=.*[~`!@#$%^&*()+=_\-{}|:;”’?\/<>,.\]\[]+).{8,}$/;
+  public updatePasswordDto: UpdatePasswordDto;
 
-  constructor(@Inject(MAT_DIALOG_DATA) public data: any, private fb: FormBuilder) {}
+  constructor(private changePasswordService: ChangePasswordService, @Inject(MAT_DIALOG_DATA) public data: any, private fb: FormBuilder) {}
 
   ngOnInit() {
     this.initForm();
+    this.updatePasswordDto = new UpdatePasswordDto();
   }
 
   private initForm(): void {
@@ -38,5 +42,12 @@ export class UbsProfileChangePasswordPopUpComponent implements OnInit {
     const password = group.get('password').value;
     const currentPassword = group.get('currentPassword').value;
     return password !== currentPassword ? null : { same: true };
+  }
+
+  public onSubmit(): void {
+    this.updatePasswordDto.confirmPassword = this.formConfig.value.confirmPassword;
+    this.updatePasswordDto.currentPassword = this.formConfig.value.currentPassword;
+    this.updatePasswordDto.password = this.formConfig.value.password;
+    this.changePasswordService.changePassword(this.updatePasswordDto).subscribe();
   }
 }

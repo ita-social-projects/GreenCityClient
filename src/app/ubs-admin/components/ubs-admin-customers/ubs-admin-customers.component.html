@@ -6,12 +6,12 @@
   <div>{{ 'ubs-customer-filters.total-customers' | translate }} {{ totalElements }}</div>
 </div>
 <div class="btn-group">
-  <button type="button" class="btn btn-default" class="table-buttons" (click)="openExportExcel()">
-    {{ 'ubs-tables.export-to-excel' | translate }}
-  </button>
-  <button type="button" class="btn btn-default" class="table-buttons" (click)="togglePopUp()">
+  <button type="button" class="btn btn-default" class="table-buttons filter-btn" (click)="togglePopUp()">
     <mat-icon>create</mat-icon>
     {{ 'ubs-tables.filter' | translate }}
+  </button>
+  <button type="button" class="btn btn-default" class="table-buttons" (click)="openExportExcel()">
+    {{ 'ubs-tables.export-to-excel' | translate }}
   </button>
   <div [formGroup]="filterForm">
     <ul class="dropdown-menu" [style.display]="display">

@@ -65,12 +65,13 @@ export class UBSOrderDetailsComponent extends FormBaseComponent implements OnIni
     hasBackdrop: true,
     closeOnNavigation: true,
     disableClose: true,
-    panelClass: 'popup-dialog-container',
+    panelClass: 'custom-ubs-style',
     data: {
       popupTitle: 'confirmation.title',
       popupSubtitle: 'confirmation.subTitle',
       popupConfirm: 'confirmation.cancel',
-      popupCancel: 'confirmation.dismiss'
+      popupCancel: 'confirmation.dismiss',
+      isUBS: true
     }
   };
   public locations: Locations[];
@@ -79,17 +80,18 @@ export class UBSOrderDetailsComponent extends FormBaseComponent implements OnIni
   public isFetching = false;
   public changeLocation = false;
   isBonus: any;
+  public previousPath = 'ubs';
 
   constructor(
     private fb: FormBuilder,
-    private orderService: OrderService,
     private shareFormService: UBSOrderFormService,
     private localStorageService: LocalStorageService,
+    public orderService: OrderService,
     public renderer: Renderer2,
     router: Router,
     dialog: MatDialog
   ) {
-    super(router, dialog);
+    super(router, dialog, orderService);
     this.initForm();
   }
 

@@ -21,7 +21,7 @@
         formControlName="phoneNumber"
         type="text"
         class="shadow-none form-control"
-        placeholder="+38(___) ___ __ __"
+        placeholder="+380(__) ___ __ __"
         [unmask]="true"
         [imask]="{ mask: phoneMask }"
       />
@@ -85,7 +85,7 @@
         formControlName="anotherClientPhoneNumber"
         type="text"
         class="shadow-none form-control"
-        placeholder="+38(___) ___ __ __"
+        placeholder="+380(___) ___ __ __"
         [unmask]="true"
         [imask]="{ mask: phoneMask }"
       />
@@ -142,14 +142,7 @@
     <ng-template #addressesList>
       <div class="w-50 d-flex mt-2 mb-2 col-lg-6 col-md-6 col-sm-12 col-12" *ngFor="let address of addresses">
         <div class="custom-radio d-flex">
-          <input
-            name="address"
-            type="radio"
-            [value]="address.id"
-            [checked]="address.actual && address.city == currentLocation"
-            [disabled]="address.city !== currentLocation"
-            (click)="checkAddress(address.id)"
-          />
+          <input name="address" type="radio" [value]="address.id" [checked]="address.actual" (click)="checkAddress(address.id)" />
         </div>
         <app-address [address]="address" class="col-md-6"></app-address>
         <div class="edit-address" (click)="editAddress(address.id)">

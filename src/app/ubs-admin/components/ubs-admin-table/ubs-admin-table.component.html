@@ -8,6 +8,9 @@
       <mat-icon>create</mat-icon>
       {{ 'ubs-tables.table-view' | translate }}
     </button>
+    <button type="button" class="btn btn-default export-excel-btn" (click)="openExportExcel()">
+      {{ 'ubs-tables.export-to-excel' | translate }}
+    </button>
     <ul class="dropdown-menu" [style.display]="display">
       <li class="item">
         <mat-checkbox class="check" type="checkbox" [checked]="isAll" (change)="showAllColumns(isAll)">
@@ -18,7 +21,7 @@
         <li class="head">{{ header | serverTranslate: currentLang }}</li>
         <div class="items">
           <ng-container *ngFor="let column of columns">
-            <li class="item" *ngIf="column.columnBelonging === header.key">
+            <li class="item" *ngIf="column.columnBelonging === header.key || column.title.key === 'select'">
               <mat-checkbox
                 class="check"
                 type="checkbox"
@@ -33,9 +36,6 @@
         </div>
       </ng-container>
     </ul>
-    <button type="button" class="btn btn-default export-excel-btn" (click)="openExportExcel()">
-      {{ 'ubs-tables.export-to-excel' | translate }}
-    </button>
   </div>
 </div>
 <mat-progress-bar *ngIf="editCellProgressBar" mode="indeterminate"></mat-progress-bar>
@@ -102,7 +102,7 @@
           [title]="row[column.title.key]"
           [lang]="currentLang"
           [date]="column.title.key"
-          (click)="column.title.key === 'id' && openOrder(row)"
+          (click)="column.title.key === 'id' && openOrder(row[column.title.key])"
           [class.pointer]="column.title.key === 'id'"
           class="column_cell"
         >

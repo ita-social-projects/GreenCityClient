@@ -42,6 +42,9 @@ export class InterceptorService implements HttpInterceptor {
    * @param next - {@link HttpHandler}
    */
   intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
+    if (this.localStorageService.getAccessToken()) {
+      req = this.addAccessTokenToHeader(req, this.localStorageService.getAccessToken());
+    }
     if (this.isQueryWithSecurity(req.url)) {
       return next.handle(req).pipe(
         catchError((error: HttpErrorResponse) => {
@@ -51,9 +54,6 @@ export class InterceptorService implements HttpInterceptor {
           return throwError(error);
         })
       );
-    }
-    if (this.localStorageService.getAccessToken()) {
-      req = this.addAccessTokenToHeader(req, this.localStorageService.getAccessToken());
     }
     if (this.isQueryWithProcessOrder(req.url)) {
       return next.handle(req).pipe(

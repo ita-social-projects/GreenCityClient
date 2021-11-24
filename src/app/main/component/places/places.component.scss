@@ -50,28 +50,14 @@ $cardTextColor: #1d2830;
     }
   }
 
-  .places-recommendation {
-    .recommendation-title {
-      margin: 24px 0;
-      height: 28px;
-      font-weight: bold;
-      font-size: 20px;
-      color: var(--secondary-dark-grey);
-    }
-
-    .card-container {
-      @include flex-options(row, space-between, space-between);
-
-      flex-wrap: wrap;
-    }
-  }
-
   caption {
     display: none;
   }
 
   .places-map {
     @include flex-options(row);
+
+    margin-bottom: 48px;
 
     .google-map {
       height: 540px;
@@ -112,17 +98,29 @@ $cardTextColor: #1d2830;
 
   padding: 36px;
 
+  .sidebar-address {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+
+    .btn-bookmark {
+      border: none;
+      background: none;
+      padding: 0;
+    }
+
+    .material-icons {
+      color: #13aa57;
+      margin: 18px 0 10px 0;
+    }
+  }
+
   .content-title {
-    margin: 0 auto 18px auto;
     height: 28px;
     font-weight: bold;
     font-size: 20px;
     color: var(--secondary-dark-grey);
-  }
-
-  .card-img-top {
-    max-width: 240px;
-    max-height: 100px;
   }
 
   .content-address {
@@ -247,64 +245,9 @@ $cardTextColor: #1d2830;
     border: 1px solid $cardHoveredBorder;
     filter: drop-shadow(4px 8px 12px rgba(100, 114, 125, 0.25));
   }
-
-  .card-img-top {
-    max-width: 240px;
-    max-height: 96px;
-  }
-
-  .card-headers {
-    @include flex-options(column, center, center);
-  }
-
-  .card-body {
-    flex: 0 0 auto;
-    padding: 0;
-    position: relative;
-
-    .card-title {
-      margin: 12px 0 4px 0;
-      font-weight: bold;
-      font-size: 14px;
-      color: var(--quaternary-dark-grey);
-    }
-
-    .card-address {
-      margin-bottom: 4px;
-      width: 98px;
-      font-size: 10px;
-      color: var(--quintynary-light-grey);
-    }
-
-    .card-text {
-      margin: 0;
-      width: 205px;
-      font-size: 12px;
-      color: var(--quaternary-grey);
-    }
-
-    .card-bookmark {
-      cursor: pointer;
-      position: absolute;
-      bottom: 0;
-      right: 0;
-    }
-  }
 }
 
 @media screen and (max-width: 767px) {
-  .main {
-    .places-recommendation {
-      .recommendation-title {
-        text-align: center;
-      }
-
-      .card-container {
-        justify-content: center;
-      }
-    }
-  }
-
   .search {
     .search-elements {
       .search-write {

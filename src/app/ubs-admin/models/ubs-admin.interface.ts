@@ -31,90 +31,123 @@ export interface ReceivingStations {
   name: string;
 }
 
-export interface Bags {
-  bags: Bag[];
-  points: number;
+export interface IOrderInfo {
+  generalOrderInfo: IGeneralOrderInfo;
+  userInfoDto: IUserInfo;
+  addressExportDetailsDto: IAddressExportDetails;
+  addressComment: string;
+  amountOfBagsConfirmed: Map<string, number>;
+  amountOfBagsExported: Map<string, number>;
+  amountOfBagsOrdered: Map<string, number>;
+  bags: IBags[];
+  orderBonusDiscount: number;
+  orderCertificateTotalDiscount: number;
+  orderDiscountedPrice: number;
+  orderExportedDiscountedPrice: number;
+  orderExportedPrice: number;
+  orderFullPrice: number;
+  certificates: string[];
+  numbersFromShop: string[];
+  comment: string;
+  paymentTableInfoDto: IPaymentInfo;
+  exportDetailsDto: IExportDetails;
+  employeePositionDtoRequest: IResponsiblePersons;
 }
 
-export interface Bag {
+export interface IGeneralOrderInfo {
   id: number;
-  name: string;
-  capacity: number;
-  price: number;
-  code: string;
+  dateFormed: string;
+  adminComment: string;
+  orderStatus: string;
+  orderStatusName: string;
+  orderStatusesDtos: IOrderStatusesDtos[];
+  orderPaymentStatus: string;
+  orderPaymentStatusName: string;
+  orderPaymentStatusesDto: IOrderPaymentStatusesDto[];
 }
 
-export interface IOrderDetails {
-  amount: number;
-  bagId: number;
-  capacity: number;
-  confirmedQuantity: number;
-  exportedQuantity: number;
+export interface IOrderStatusesDtos {
+  ableActualChange: boolean;
   name: string;
-  orderId: number;
-  price: number;
+  translation: string;
 }
 
-export interface IRecipientsData {
-  id: number;
+export interface IOrderPaymentStatusesDto {
+  name: string;
+  translation: string;
+}
+
+export interface IUserInfo {
+  customerEmail: string;
+  customerName: string;
+  customerPhoneNumber: string;
+  customerSurName: string;
   recipientEmail: string;
   recipientName: string;
   recipientPhoneNumber: string;
+  recipientSurName: string;
+  totalUserViolations: number;
+  userViolationForCurrentOrder: number;
+}
+
+export interface IAddressExportDetails {
+  addressCity: string;
+  addressDistrict: string;
+  addressEntranceNumber: number;
+  addressHouseCorpus: number;
+  addressHouseNumber: number;
+  addressRegion: string;
+  addressStreet: string;
+  id: number;
+}
+
+export interface IBags {
+  capacity: number;
+  id: number;
+  name: string;
+  price: number;
+  planned: any;
+  confirmed: any;
+  actual: any;
+}
+
+export interface IPaymentInfo {
+  overpayment: number;
+  paidAmount: number;
+  paymentInfoDtos: IPaymentInfoDtos[];
+  unPaidAmount: number;
+}
+
+export interface IPaymentInfoDtos {
+  amount: number;
+  comment: string;
+  paymentId: number;
+  settlementdate: string;
+}
+
+export interface IExportDetails {
+  allReceivingStations: string[];
+  exportedDate: string;
+  exportedTime: string;
+  receivingStation: string;
+}
+
+export interface IResponsiblePersons {
+  allPositionsEmployees: Map<string, string[]>;
+  currentPositionEmployees: Map<string, string>;
+  orderId: number;
+}
+
+export interface IOrderHistory {
+  authorName: string;
+  eventDate: string;
+  eventName: string;
+  id: number;
 }
 
 export interface UserViolations {
   violationsAmount: number;
   violationsDescription: object;
-}
-
-export interface PaymentInfo {
-  paidAmount: number;
-  paymentInfoDtos: PaymentInfoDto[];
-  unPaidAmount: number;
-}
-
-export interface PaymentInfoDto {
-  amount: number;
-  comment: string;
-  paymentId: number;
-  settlementDate: string;
-}
-
-export interface IAddressOrder {
-  comment: string;
-  district: string;
-  entranceNumber: string;
-  houseCorpus: string;
-  houseNumber: string;
-  street: string;
-}
-
-export interface IOrderSumDetails {
-  bonus: number;
-  certificate: string[];
-  certificateBonus: number;
-  numberOrderFromShop: string[];
-  orderComment: string;
-  sumAmount: number;
-  sumConfirmed: number;
-  sumExported: number;
-  totalAmount: number;
-  totalConfirmed: number;
-  totalExported: number;
-  totalSumAmount: number;
-  totalSumConfirmed: number;
-  totalSumExported: number;
-}
-
-export interface IUserInfo {
-  customerName: string;
-  customerPhoneNumber: string;
-  customerEmail: string;
-  recipientName: string;
-  recipientPhoneNumber: string;
-  recipientEmail: string;
-  totalUserViolations: number;
-  userViolationForCurrentOrder: number;
 }
 
 export interface UserProfile {
@@ -123,19 +156,6 @@ export interface UserProfile {
   recipientName: string;
   recipientPhone: string;
   recipientSurname: string;
-}
-
-export interface IExportDetails {
-  allReceivingStations: string[];
-  exportedDate: any;
-  exportedTime: string;
-  receivingStation: string;
-}
-
-export interface IDetailStatus {
-  date: string;
-  orderStatus: string;
-  paymentStatus: string;
 }
 
 export interface Address {

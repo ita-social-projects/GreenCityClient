@@ -216,6 +216,13 @@
     "export-time": "Export time",
     "station": "Station"
   },
+  "order-history": {
+    "title": "Order history",
+    "date": "Date",
+    "time": "Time",
+    "event": "Event",
+    "author": "Author"
+  },
   "responsible-persons": {
     "title": "Responsible persons",
     "service-manager": "Service manager",
@@ -251,12 +258,15 @@
     "current-orders": "Current orders",
     "order-history": "Order history",
     "order-number": "Order №",
-    "order-status": "Status",
+    "order-status": "Order status",
     "payment-amount": "Payment amount",
+    "order-date": "Date",
+    "order-payment-status": "Payment status",
     "btn": {
       "cancel": "Cancel",
       "pay": "Pay",
-      "order-again": "Order again"
+      "order-again": "Order again",
+      "new-order": "New order"
     },
     "details": {
       "title": "Order details",
@@ -295,12 +305,15 @@
     "photo": "Photo",
     "drag-photo": "Drag the image or",
     "download-photo": "download from the device",
+    "warning-title": "Are you sure you want to remove this employee from the system?",
     "btn": {
       "cancel": "Cancel",
       "add": "Add",
       "add-employee": "Add employee",
       "edit": "Edit",
-      "delete": "Delete"
+      "delete": "Delete",
+      "no": "No",
+      "yes": "Yes"
     }
   },
   "ubs-sidebar": {
