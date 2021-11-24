@@ -276,13 +276,8 @@ export class UBSOrderDetailsComponent extends FormBaseComponent implements OnIni
     });
     this.showTotal = this.total;
     this.changeForm();
-    if (this.total < this.minOrderValue && this.orderDetailsForm.dirty) {
-      this.displayMinOrderMes = true;
-      this.onSubmit = true;
-    } else {
-      this.displayMinOrderMes = false;
-      this.onSubmit = false;
-    }
+    this.displayMinOrderMes = this.total < this.minOrderValue && this.orderDetailsForm.dirty;
+    this.onSubmit = this.displayMinOrderMes;
     this.finalSum = this.total - this.pointsUsed;
     if (this.certificateSum > 0) {
       if (this.total > this.certificateSum) {
