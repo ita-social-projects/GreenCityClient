@@ -17,12 +17,12 @@
         Employees table
       </caption>
       <ng-container matColumnDef="editOrDelete">
-        <mat-header-cell [ngClass]="'editOrDelete'" *matHeaderCellDef>
-          <th id="editOrDelete">
+        <mat-header-cell [ngClass]="'edit-or-delete'" *matHeaderCellDef>
+          <th id="edit-or-delete">
             <span class="column-title"></span>
           </th>
         </mat-header-cell>
-        <mat-cell *matCellDef="let row" [ngClass]="'editOrDelete'" class="column.field">
+        <mat-cell *matCellDef="let row" [ngClass]="'edit-or-delete'" class="column.field">
           <div id="edit-delete-btn">
             <mat-icon (click)="openModal(row)">edit</mat-icon>
             <mat-icon (click)="deleteEmployee(row.id)">delete</mat-icon>
