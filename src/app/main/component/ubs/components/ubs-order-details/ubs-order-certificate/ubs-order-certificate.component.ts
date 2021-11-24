@@ -134,11 +134,12 @@ export class UbsOrderCertificateComponent implements OnInit, OnDestroy {
     if (this.certificateSum > 0) {
       if (this.total > this.certificateSum) {
         this.certificateLeft = 0;
-        console.log('First in 1');
         if (this.finalSum <= this.certificateSum && this.pointsUsed > 0) {
           this.points = this.pointsUsed - this.finalSum;
           this.pointsUsed = this.finalSum;
           this.finalSum = 0;
+        } else {
+          this.finalSum = this.total - this.certificateSum - this.pointsUsed;
         }
         this.showCertificateUsed = this.certificateSum;
       } else {
@@ -170,7 +171,6 @@ export class UbsOrderCertificateComponent implements OnInit, OnDestroy {
   }
 
   calculateCertificates(arr): void {
-    console.log(arr);
     if (arr.length > 0) {
       this.cancelCertBtn = true;
       arr.forEach((certificate, index) => {
@@ -240,13 +240,10 @@ export class UbsOrderCertificateComponent implements OnInit, OnDestroy {
   }
 
   private clearAdditionalCertificate(index: number) {
+    this.certificateReset(true);
     if (this.formArrayCertificates.length > 1) {
-      if (this.certificates.length === 0) {
-        this.certificateReset(true);
-      }
       this.formArrayCertificates.removeAt(index);
     } else {
-      this.certificateReset(true);
       this.formArrayCertificates.patchValue(['']);
       this.formArrayCertificates.markAsUntouched();
     }
