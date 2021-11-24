@@ -10,7 +10,7 @@
       <div class="form-group col-md-4">
         <label class="form__label">{{ 'responsible-persons.call-manager' | translate }}</label>
         <select formControlName="callManager" class="form-control form__select">
-          <option *ngFor="let person of allCallManagers" [selected]="person === order.responsibleCaller" [value]="person">
+          <option *ngFor="let person of allCallManagers" [selected]="person === ''" [value]="person">
             {{ person }}
           </option>
         </select>
@@ -20,7 +20,7 @@
       <div class="form-group col-md-4">
         <label class="form__label">{{ 'responsible-persons.logistician' | translate }}</label>
         <select formControlName="logistician" class="form-control form__select">
-          <option *ngFor="let person of allLogisticians" [selected]="person === order.responsibleLogicMan" [value]="person">
+          <option *ngFor="let person of allLogisticians" [selected]="person === ''" [value]="person">
             {{ person }}
           </option>
         </select>
@@ -30,7 +30,7 @@
       <div class="form-group col-md-4">
         <label class="form__label">{{ 'responsible-persons.navigator' | translate }}</label>
         <select formControlName="navigator" class="form-control form__select">
-          <option *ngFor="let person of allNavigators" [selected]="person === order.responsibleNavigator" [value]="person">
+          <option *ngFor="let person of allNavigators" [selected]="person === ''" [value]="person">
             {{ person }}
           </option>
         </select>
@@ -40,7 +40,9 @@
       <div class="form-group col-md-4">
         <label class="form__label">{{ 'responsible-persons.driver' | translate }}</label>
         <select formControlName="driver" class="form-control form__select">
-          <option *ngFor="let person of allDrivers" [selected]="person === order.responsibleDriver" [value]="person">{{ person }}</option>
+          <option *ngFor="let person of allDrivers" [selected]="person === ''" [value]="person">
+            {{ person }}
+          </option>
         </select>
       </div>
     </div>

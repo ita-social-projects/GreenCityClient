@@ -2,6 +2,7 @@ import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { FormGroup } from '@angular/forms';
 import { Subject } from 'rxjs';
 import { take } from 'rxjs/operators';
+import { IGeneralOrderInfo } from '../../models/ubs-admin.interface';
 import { OrderService } from '../../services/order.service';
 import { MatDialog } from '@angular/material/dialog';
 import { AddOrderCancellationReasonComponent } from '../../add-order-cancellation-reason/add-order-cancellation-reason.component';
@@ -12,8 +13,8 @@ import { AddOrderCancellationReasonComponent } from '../../add-order-cancellatio
   styleUrls: ['./ubs-admin-order-status.component.scss']
 })
 export class UbsAdminOrderStatusComponent implements OnInit {
-  @Input() order;
   @Input() orderStatusForm: FormGroup;
+  @Input() generalOrderInfo: IGeneralOrderInfo;
   @Output() changed = new EventEmitter<string>();
 
   constructor(public orderService: OrderService, private dialog: MatDialog) {}
@@ -24,7 +25,10 @@ export class UbsAdminOrderStatusComponent implements OnInit {
   cancellationComment;
 
   ngOnInit() {
-    this.availableOrderStatuses = this.orderService.getAvailableOrderStatuses(this.order.orderStatus);
+    this.availableOrderStatuses = this.orderService.getAvailableOrderStatuses(
+      this.generalOrderInfo.orderStatus,
+      this.generalOrderInfo.orderStatusesDtos
+    );
   }
 
   onChangedOrderStatus(statusName: string) {

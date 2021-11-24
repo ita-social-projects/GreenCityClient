@@ -1,6 +1,7 @@
 import { Component, OnInit, OnDestroy, ViewChild } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Params } from '@angular/router';
+import { TranslateService } from '@ngx-translate/core';
 import { UbsAdminCancelModalComponent } from '../ubs-admin-cancel-modal/ubs-admin-cancel-modal.component';
 import { UbsAdminGoBackModalComponent } from '../ubs-admin-go-back-modal/ubs-admin-go-back-modal.component';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
@@ -9,6 +10,15 @@ import { OrderService } from '../../services/order.service';
 import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
 import { Subject } from 'rxjs';
 import { UbsAdminOrderDetailsFormComponent } from '../ubs-admin-order-details-form/ubs-admin-order-details-form.component';
+import {
+  IAddressExportDetails,
+  IExportDetails,
+  IGeneralOrderInfo,
+  IOrderInfo,
+  IPaymentInfo,
+  IResponsiblePersons,
+  IUserInfo
+} from '../../models/ubs-admin.interface';
 
 @Component({
   selector: 'app-ubs-admin-order',
@@ -17,31 +27,43 @@ import { UbsAdminOrderDetailsFormComponent } from '../ubs-admin-order-details-fo
 })
 export class UbsAdminOrderComponent implements OnInit, OnDestroy {
   currentLanguage: string;
-  currentOrderStatus;
+
   private destroy$: Subject<boolean> = new Subject<boolean>();
-  isDataLoaded = false;
-  order;
-  orderDetails;
   orderForm: FormGroup;
-  orderInfo;
+  isDataLoaded = false;
+  orderId: number;
+  orderInfo: IOrderInfo;
+  generalOrderInfo: IGeneralOrderInfo;
+  clientInfo: IUserInfo;
+  addressInfo: IAddressExportDetails;
+  paymentInfo: IPaymentInfo;
+  exportInfo: IExportDetails;
+  responsiblePersonInfo: IResponsiblePersons;
+  orderDetails;
   orderStatusInfo;
+  currentOrderStatus;
+
   @ViewChild(UbsAdminOrderDetailsFormComponent, { static: false })
   private orderDetailsComponent: UbsAdminOrderDetailsFormComponent;
 
   constructor(
+    private translate: TranslateService,
     private orderService: OrderService,
     private localStorageService: LocalStorageService,
     private fb: FormBuilder,
-    private router: Router,
-    private dialog: MatDialog
+    private dialog: MatDialog,
+    private route: ActivatedRoute
   ) {}
 
   ngOnInit() {
     this.localStorageService.languageBehaviourSubject.pipe(takeUntil(this.destroy$)).subscribe((lang) => {
       this.currentLanguage = lang;
+      this.translate.setDefaultLang(lang);
     });
-    this.order = this.orderService.getSelectedOrder();
-    this.getOrderInfo(this.order.id, this.currentLanguage);
+    this.route.params.subscribe((params: Params) => {
+      this.orderId = +params.id;
+    });
+    this.getOrderInfo(this.orderId, this.currentLanguage);
   }
 
   public getOrderInfo(orderId, lang): void {
@@ -50,8 +72,16 @@ export class UbsAdminOrderComponent implements OnInit, OnDestroy {
       .pipe(takeUntil(this.destroy$))
       .subscribe((data: any) => {
         this.orderInfo = data;
-        this.currentOrderStatus = this.orderInfo.orderStatus;
+        this.generalOrderInfo = data.generalOrderInfo;
+        this.currentOrderStatus = this.generalOrderInfo.orderStatus;
+        this.clientInfo = data.userInfoDto;
+        this.addressInfo = data.addressExportDetailsDto;
+        this.paymentInfo = data.paymentTableInfoDto;
+        this.exportInfo = data.exportDetailsDto;
+        this.responsiblePersonInfo = data.employeePositionDtoRequest;
+
         this.setOrderDetails();
+
         this.initForm();
       });
   }
@@ -72,45 +102,42 @@ export class UbsAdminOrderComponent implements OnInit, OnDestroy {
   }
 
   private getOrderStatusInfo(statusName: string) {
-    return this.orderInfo.orderStatusesDto.filter((status) => status.name === statusName)[0];
+    return this.generalOrderInfo.orderStatusesDtos.filter((status) => status.name === statusName)[0];
   }
 
   initForm() {
-    const address = this.order.address.split(', ');
-    const personalInfo = this.order.senderName.split(' ', 2);
     this.orderForm = this.fb.group({
       orderStatusForm: this.fb.group({
-        orderStatus: this.order.orderStatus,
-        commentForOrder: '',
+        orderStatus: this.generalOrderInfo.orderStatus,
+        adminComment: this.generalOrderInfo.adminComment,
         cancellationComment: '',
         cancellationReason: ''
       }),
       clientInfoForm: this.fb.group({
-        senderName: [personalInfo[0], [Validators.required, Validators.minLength(1), Validators.maxLength(30)]],
-        senderSurname: [personalInfo[1], [Validators.required, Validators.minLength(1), Validators.maxLength(30)]],
-        senderPhone: [this.order.senderPhone, [Validators.required, Validators.pattern('^\\+?3?8?(0\\d{9})$')]],
-        senderEmail: [this.order.senderEmail, [Validators.required, Validators.email]]
+        senderName: [this.clientInfo.recipientName, [Validators.required, Validators.minLength(1), Validators.maxLength(30)]],
+        senderSurname: [this.clientInfo.recipientSurName, [Validators.required, Validators.minLength(1), Validators.maxLength(30)]],
+        senderPhone: [this.clientInfo.recipientPhoneNumber, [Validators.required, Validators.pattern('^\\+?3?8?(0\\d{9})$')]],
+        senderEmail: [this.clientInfo.recipientEmail, [Validators.required, Validators.email]]
       }),
       addressDetailsForm: this.fb.group({
-        region: 'Київська',
-        settlement: 'Київ',
-        street: address[0] || '',
-        building: address[1] || '',
-        corpus: address[2] || '',
-        entrance: address[3] || '',
-        district: this.order.district
+        region: this.addressInfo.addressRegion,
+        settlement: this.addressInfo.addressCity,
+        street: this.addressInfo.addressStreet,
+        building: this.addressInfo.addressHouseNumber,
+        corpus: this.addressInfo.addressHouseCorpus,
+        entrance: this.addressInfo.addressEntranceNumber,
+        district: this.addressInfo.addressDistrict
       }),
       exportDetailsForm: this.fb.group({
-        exportedDate: this.order.dateOfExport,
-        exportedTime: this.order.timeOfExport,
-        receivingStation: this.order.receivingStation
+        exportedDate: this.exportInfo.exportedDate,
+        exportedTime: this.exportInfo.exportedTime,
+        receivingStation: this.exportInfo.receivingStation
       }),
       responsiblePersonsForm: this.fb.group({
-        serviceManager: this.order.responsibleManager,
-        callManager: this.order.responsibleCaller,
-        logistician: this.order.responsibleLogicMan,
-        navigator: this.order.responsibleNavigator,
-        driver: this.order.responsibleDriver
+        callManager: this.getPositionEmployee(this.responsiblePersonInfo.currentPositionEmployees, 'callManager'),
+        logistician: this.getPositionEmployee(this.responsiblePersonInfo.currentPositionEmployees, 'logistician'),
+        navigator: this.getPositionEmployee(this.responsiblePersonInfo.currentPositionEmployees, 'navigator'),
+        driver: this.getPositionEmployee(this.responsiblePersonInfo.currentPositionEmployees, 'driver')
       }),
       orderDetailsForm: this.fb.group({
         // TODO: set data after receiving from backend
@@ -133,6 +160,13 @@ export class UbsAdminOrderComponent implements OnInit, OnDestroy {
         new FormControl(bag.actual, [Validators.min(0), Validators.max(999)])
       );
     });
+  }
+
+  getPositionEmployee(currentPositionEmployees: Map<string, string>, key: string) {
+    if (!currentPositionEmployees) {
+      return '';
+    }
+    return currentPositionEmployees.get(key);
   }
 
   getFormGroup(name: string): FormGroup {
@@ -167,7 +201,7 @@ export class UbsAdminOrderComponent implements OnInit, OnDestroy {
   resetForm() {
     this.orderForm.reset();
     this.initForm();
-    this.orderStatusInfo = this.getOrderStatusInfo(this.orderInfo.orderStatus);
+    this.orderStatusInfo = this.getOrderStatusInfo(this.generalOrderInfo.orderStatus);
     this.orderDetailsComponent.ngOnInit();
   }
 

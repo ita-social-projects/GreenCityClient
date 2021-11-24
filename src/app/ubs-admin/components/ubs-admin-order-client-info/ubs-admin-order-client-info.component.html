@@ -19,21 +19,33 @@
               <label class="form__label" for="customer-surname">
                 {{ 'customer-info.customer.surname-label' | translate }}
               </label>
-              <input class="name-input form-control" type="text" id="customer-surname" placeholder="{{ clientName }}" disabled />
-              <input class="name-input form-control" type="text" id="customer-name" placeholder="{{ clientSurname }}" disabled />
+              <input
+                class="name-input form-control"
+                type="text"
+                id="customer-surname"
+                placeholder="{{ clientInfo.customerName }}"
+                disabled
+              />
+              <input
+                class="name-input form-control"
+                type="text"
+                id="customer-name"
+                placeholder="{{ clientInfo.customerSurName }}"
+                disabled
+              />
             </div>
           </div>
           <div class="form-group">
             <label class="form__label" for="customer-tel">
               {{ 'customer-info.customer.tel-label' | translate }}
             </label>
-            <input class="form-control" type="tel" id="customer-tel" placeholder="{{ order.phoneNumber }}" disabled />
+            <input class="form-control" type="tel" id="customer-tel" placeholder="{{ clientInfo.customerPhoneNumber }}" disabled />
           </div>
           <div class="form-group">
             <label class="form__label" for="customer-email">
               {{ 'customer-info.customer.email-label' | translate }}
             </label>
-            <input class="form-control" type="email" id="customer-email" placeholder="{{ order.email }}" disabled />
+            <input class="form-control" type="email" id="customer-email" placeholder="{{ clientInfo.customerEmail }}" disabled />
           </div>
         </div>
         <div class="form__block col-md-4 col-sm-6 offset-md-1">
@@ -85,16 +97,16 @@
             <small class="form__label">
               {{ 'customer-info.violation.amount' | translate }}
             </small>
-            <p>{{ order.violationsAmount }}</p>
+            <p>{{ clientInfo.totalUserViolations }}</p>
           </div>
           <div class="violation__item">
             <small class="form__label">
               {{ 'customer-info.violation.current-order' | translate }}
             </small>
-            <p>{{ userViolationForCurrentOrder }}</p>
+            <p>{{ clientInfo.userViolationForCurrentOrder }}</p>
           </div>
         </div>
-        <button class="btn" [disabled]="order.violationsAmount > userViolationForCurrentOrder" type="button">
+        <button class="btn" [disabled]="clientInfo.totalUserViolations > clientInfo.userViolationForCurrentOrder" type="button">
           {{ 'customer-info.violation.button' | translate }}
         </button>
       </div>
