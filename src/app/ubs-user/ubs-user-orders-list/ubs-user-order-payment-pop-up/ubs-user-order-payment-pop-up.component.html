@@ -82,7 +82,7 @@
       <button class="btn btn-cancel" mat-dialog-close>
         {{ 'ubs-client-profile.payment.btn.cancel' | translate }}
       </button>
-      <button class="btn btn-pay" [disabled]="0 >= totalSum" mat-dialog-close>
+      <button class="btn btn-pay" (click)="processOrder()" [disabled]="0 >= totalSum" mat-dialog-close>
         {{ 'ubs-client-profile.payment.btn.pay' | translate }}
       </button>
     </mat-dialog-actions>
