@@ -1,9 +1,12 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
-import { ImageFile } from '../../models/image-file.model';
+import { Component, OnDestroy, OnInit, Inject } from '@angular/core';
+import { MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { FileHandle } from '../../models/file-handle.model';
 import { TranslateService } from '@ngx-translate/core';
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
+import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
+import { OrderService } from '../../services/order.service';
+import { DomSanitizer } from '@angular/platform-browser';
 
 @Component({
   selector: 'app-add-violations',
@@ -11,13 +14,23 @@ import { takeUntil } from 'rxjs/operators';
   styleUrls: ['./add-violations.component.scss']
 })
 export class AddViolationsComponent implements OnInit, OnDestroy {
-  images: ImageFile[] = [];
-  files: FileHandle[] = [];
+  images = [];
+  files = [];
   isImageSizeError = false;
   isImageTypeError = false;
   dragAndDropLabel;
+  addViolationForm: FormGroup;
+  orderId;
+  imgArray = [];
   unsubscribe: Subject<any> = new Subject();
-  constructor(private translate: TranslateService) {}
+  constructor(
+    private translate: TranslateService,
+    @Inject(MAT_DIALOG_DATA) public data,
+    private fb: FormBuilder,
+    private orderService: OrderService
+  ) {
+    this.orderId = data.id;
+  }
 
   ngOnInit() {
     this.translate
@@ -27,6 +40,35 @@ export class AddViolationsComponent implements OnInit, OnDestroy {
         this.dragAndDropLabel = value;
       });
     this.initImages();
+    this.initForm();
+  }
+
+  private initForm(): void {
+    this.addViolationForm = this.fb.group({
+      violationLevel: new FormControl('', [Validators.required]),
+      violationDescription: new FormControl('', [Validators.required])
+    });
+  }
+
+  prepareDataToSend(dto: string, image?: string): FormData {
+    const { violationLevel, violationDescription } = this.addViolationForm.value;
+    const data = {
+      orderID: this.orderId,
+      violationDescription,
+      violationLevel
+    };
+    const formData: FormData = new FormData();
+    const stringifiedDataToSend = JSON.stringify(data);
+    formData.append(dto, stringifiedDataToSend);
+    for (const images of this.imgArray) {
+      formData.append('files', images);
+    }
+    return formData;
+  }
+
+  send() {
+    const dataToSend = this.prepareDataToSend('add');
+    this.orderService.addViolationToCurrentOrder(dataToSend).pipe(takeUntil(this.unsubscribe)).subscribe();
   }
 
   filesDropped(files: FileHandle[]): void {
@@ -38,6 +80,8 @@ export class AddViolationsComponent implements OnInit, OnDestroy {
   loadFile(event): void {
     const reader = new FileReader();
     reader.readAsDataURL(event.target.files[0]);
+    const img = (event.target as HTMLInputElement).files[0];
+    this.imgArray.push(img);
 
     reader.onload = () => {
       this.assignImage(reader.result, event.target.files[0].name);

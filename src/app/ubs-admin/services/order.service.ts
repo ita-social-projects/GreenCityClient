@@ -159,4 +159,16 @@ export class OrderService {
   public setColumnToDisplay(columns: string) {
     return this.http.put<any>(`${this.backend}/management/changeOrdersTableView?titles=${columns}`, '');
   }
+
+  addViolationToCurrentOrder(violation) {
+    return this.http.post(`${this.backend}/management/addViolationToUser`, violation);
+  }
+
+  getViolationOfCurrentOrder(orderId) {
+    return this.http.get(`${this.backend}/management/violation-details/${orderId}`);
+  }
+
+  detail() {
+    return this.http.get(`${this.backend}/management/violation-details/3026`);
+  }
 }
