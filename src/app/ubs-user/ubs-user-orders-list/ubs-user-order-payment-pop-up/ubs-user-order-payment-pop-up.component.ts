@@ -9,19 +9,19 @@ import { OrderService } from 'src/app/main/component/ubs/services/order.service'
   styleUrls: ['./ubs-user-order-payment-pop-up.component.scss']
 })
 export class UbsUserOrderPaymentPopUpComponent implements OnInit {
-  public totalSum: number = 0;
-  public bonusValue: number = 0;
-  public selectedRadio: string = 'no';
+  public totalSum: number;
+  public bonusValue: number;
+  public selectedRadio: string;
   public certificatePattern = /(?!0000)\d{4}-(?!0000)\d{4}/;
-  public certificateMask: string = '0000-0000';
+  public certificateMask = '0000-0000';
   public orderDetailsForm: FormGroup;
   public certificates: any = [];
   public certStatuses: boolean[] = [];
-  public cancelCertBtn: boolean = false;
-  public certificateError: boolean = false;
-  public orderId: number = 0;
+  public cancelCertBtn = false;
+  public certificateError = false;
+  public orderId: number;
   public certificateStatusActive = false;
-  public certificateSum: number = 0;
+  public certificateSum: number;
   public certificateDate: string;
 
   constructor(private fb: FormBuilder, private orderService: OrderService, @Inject(MAT_DIALOG_DATA) public data: any) {}
