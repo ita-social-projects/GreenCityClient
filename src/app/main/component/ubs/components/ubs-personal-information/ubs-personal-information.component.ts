@@ -246,7 +246,6 @@ export class UBSPersonalInformationComponent extends FormBaseComponent implement
     };
     if (isEdit) {
       dialogConfig.data.address = currentAddress;
-      console.log(currentAddress);
     } else {
       dialogConfig.data.address = {};
     }
