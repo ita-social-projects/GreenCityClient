@@ -1,3 +1,13 @@
+button {
+  width: 8rem;
+  height: 2.25rem;
+  font-size: 14px;
+}
+
+p {
+  font-size: 12px;
+}
+
 .form-group {
   padding: 0;
 }
@@ -27,24 +37,6 @@
     width: 65%;
     margin: -1rem 0 1rem;
   }
-}
-
-button {
-  width: 8rem;
-  height: 2.25rem;
-  font-size: 14px;
-}
-
-.addCertificate {
-  align-items: center;
-
-  button {
-    margin-top: 1rem;
-  }
-}
-
-p {
-  font-size: 12px;
 }
 
 small.text-message.ng-star-inserted {
