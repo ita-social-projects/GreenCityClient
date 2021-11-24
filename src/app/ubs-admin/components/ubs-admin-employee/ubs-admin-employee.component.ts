@@ -14,7 +14,7 @@ import { EmployeeFormComponent } from './employee-form/employee-form.component';
   styleUrls: ['./ubs-admin-employee.component.scss']
 })
 export class UbsAdminEmployeeComponent implements OnInit {
-  fakeData: Page[] = [];
+  employeesData: Page[] = [];
   destroy: Subject<boolean> = new Subject<boolean>();
   totalLength: number;
   currentPage = 1;
@@ -46,7 +46,7 @@ export class UbsAdminEmployeeComponent implements OnInit {
   }
 
   setData(item: Employees): void {
-    this.fakeData = item.page;
+    this.employeesData = item.page;
     this.totalLength = item.totalElements;
   }
 
@@ -65,9 +65,11 @@ export class UbsAdminEmployeeComponent implements OnInit {
       panelClass: 'custom-dialog-container'
     });
   }
+
   openTable() {
     this.tiles = false;
   }
+
   openTiles() {
     this.tiles = true;
   }
