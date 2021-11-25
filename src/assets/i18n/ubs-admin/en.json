@@ -188,6 +188,8 @@
     "order-size": "The order is executed in the amount of",
     "add-payment-btn": "Add payment",
     "order-date": "Payment date",
+    "overpayment": "Overpayment is",
+    "underpayment": "Underpayment is",
     "payment-id": "Payment ID",
     "sum": "Amount",
     "comment-bill": "Comment/Bill"

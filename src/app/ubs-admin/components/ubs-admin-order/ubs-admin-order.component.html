@@ -26,8 +26,9 @@
         [orderDetailsForm]="getFormGroup('orderDetailsForm')"
         [orderDetailsOriginal]="orderDetails"
         [orderStatusInfo]="orderStatusInfo"
+        (changeOverpayment)="changeOverpayment($event)"
       ></app-ubs-admin-order-details-form>
-      <app-ubs-admin-order-payment></app-ubs-admin-order-payment>
+      <app-ubs-admin-order-payment [paidPrice]="orderInfo.orderFullPrice" [overpayment]="overpayment"> </app-ubs-admin-order-payment>
       <app-ubs-admin-export-details
         [exportDetailsForm]="getFormGroup('exportDetailsForm')"
         [exportInfo]="exportInfo"

@@ -186,6 +186,8 @@
     "order-size": "Замовлення виконано у розмірі",
     "add-payment-btn": "Додати оплату",
     "order-date": "Дата оплати",
+    "overpayment": "Переплата",
+    "underpayment": "Потрібно доплатити",
     "payment-id": "ID платежу",
     "sum": "Сума",
     "comment-bill": "Коментар/Чек"

@@ -41,6 +41,7 @@ export class UbsAdminOrderComponent implements OnInit, OnDestroy {
   orderDetails;
   orderStatusInfo;
   currentOrderStatus;
+  overpayment = 0;
 
   constructor(
     private translate: TranslateService,
@@ -67,6 +68,7 @@ export class UbsAdminOrderComponent implements OnInit, OnDestroy {
       .getOrderInfo(orderId, lang)
       .pipe(takeUntil(this.destroy$))
       .subscribe((data: any) => {
+        console.log(data);
         this.orderInfo = data;
         data.generalOrderInfo.orderStatus = 'BROUGHT_IT_HIMSELF';
         this.generalOrderInfo = data.generalOrderInfo;
@@ -94,6 +96,8 @@ export class UbsAdminOrderComponent implements OnInit, OnDestroy {
     this.orderDetails.bonuses = this.orderInfo.orderBonusDiscount;
     this.orderDetails.certificateDiscount = this.orderInfo.orderCertificateTotalDiscount;
     this.orderStatusInfo = this.getOrderStatusInfo(this.currentOrderStatus);
+    this.orderDetails.orderFullPrice = this.orderInfo.orderFullPrice;
+    console.log(this.orderDetails.orderFullPrice);
   }
 
   private getOrderStatusInfo(statusName: string) {
@@ -101,6 +105,7 @@ export class UbsAdminOrderComponent implements OnInit, OnDestroy {
   }
 
   initForm() {
+    this.overpayment = 0;
     this.orderForm = this.fb.group({
       orderStatusForm: this.fb.group({
         orderStatus: this.generalOrderInfo.orderStatus,
@@ -190,6 +195,11 @@ export class UbsAdminOrderComponent implements OnInit, OnDestroy {
   onChangedOrderStatus(status: string) {
     this.currentOrderStatus = status;
     this.orderStatusInfo = this.getOrderStatusInfo(this.currentOrderStatus);
+  }
+
+  public changeOverpayment(sum) {
+    this.overpayment = sum;
+    console.log(sum);
   }
 
   resetForm() {

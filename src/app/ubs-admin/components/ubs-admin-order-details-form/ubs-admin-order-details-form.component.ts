@@ -1,5 +1,5 @@
 import { OrderBag, OrderDetails } from './../../../main/component/ubs/models/ubs.interface';
-import { Component, Input, OnInit, OnChanges, SimpleChanges } from '@angular/core';
+import { Component, Input, OnInit, OnChanges, SimpleChanges, Output, EventEmitter } from '@angular/core';
 import { FormGroup, FormBuilder } from '@angular/forms';
 
 @Component({
@@ -23,6 +23,7 @@ export class UbsAdminOrderDetailsFormComponent implements OnInit, OnChanges {
   //
   public courierPrice = 50;
   public writeoffAtStationSum: number;
+  @Output() changeOverpayment = new EventEmitter<number>();
 
   pageOpen: boolean;
   @Input() orderDetailsOriginal;
@@ -140,8 +141,14 @@ export class UbsAdminOrderDetailsFormComponent implements OnInit, OnChanges {
           this.bagsInfo.amount[bagType] += +bagObj[bagType];
         });
         this.calculateFinalSum();
+        this.calculateOverpayment(bagType);
       }
     });
+  }
+
+  private calculateOverpayment(bagType) {
+    const overpayment = this.orderDetails.orderFullPrice - this.bagsInfo.finalSum[bagType];
+    this.changeOverpayment.emit(overpayment);
   }
 
   private checkStatusDoneAfterBroughtHimself(prevStatus, currentStatus) {
