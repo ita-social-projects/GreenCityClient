@@ -12,7 +12,8 @@ import { Subject } from 'rxjs';
 export class AddOrderCancellationReasonComponent implements OnInit {
   closeButton = './assets/img/profile/icons/cancel.svg';
   date = new Date();
-  public reason: string;
+  public cancellationReason: string;
+  public cancellationComment: string;
   reasonList: any[] = [
     {
       value: 'DELIVERED_HIMSELF',
@@ -56,8 +57,8 @@ export class AddOrderCancellationReasonComponent implements OnInit {
   save() {
     let res = {
       action: 'add',
-      selected: this.reason,
-      additionalInfo: ''
+      reason: this.cancellationReason,
+      comment: this.cancellationComment
     };
     this.dialogRef.close(res);
   }

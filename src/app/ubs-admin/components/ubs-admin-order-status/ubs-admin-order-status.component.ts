@@ -33,7 +33,7 @@ export class UbsAdminOrderStatusComponent implements OnInit {
 
   onChangedOrderStatus(statusName: string) {
     this.changed.emit(statusName);
-    if (statusName === 'CANCELLED') {
+    if (statusName === 'CANCELED') {
       this.openPopup();
     }
   }
@@ -45,12 +45,13 @@ export class UbsAdminOrderStatusComponent implements OnInit {
       })
       .afterClosed()
       .pipe(take(1))
-      .subscribe((value) => {
-        this.cancellationReason = value;
-        if ((this.cancellationReason = 'OTHER')) {
-          this.cancellationComment = '';
+      .subscribe((res) => {
+        this.cancellationReason = res.reason;
+        this.cancellationComment = '';
+        if (this.cancellationReason === 'OTHER') {
+          this.cancellationComment = res.comment;
         }
-        console.log(this.cancellationReason);
+        console.log(this.cancellationReason, this.cancellationComment);
       });
   }
 

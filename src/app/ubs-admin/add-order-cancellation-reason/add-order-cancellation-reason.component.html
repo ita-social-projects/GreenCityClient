@@ -5,10 +5,16 @@
     </button>
   </div>
   <label class="title" id="addReason">Додати причину скасування замовлення</label>
-  <mat-radio-group aria-label="addReason" [(ngModel)]="reason">
+  <mat-radio-group aria-label="addReason" [(ngModel)]="cancellationReason">
     <mat-radio-button *ngFor="let option of reasonList" value="{{ option.value }}"> {{ option.title }}</mat-radio-button>
   </mat-radio-group>
-  <textarea *ngIf="reason === 'OTHER'" placeholder="Вкажіть свою причину скасування замовлення" cols="50" rows="6"></textarea>
+  <textarea
+    *ngIf="cancellationReason === 'OTHER'"
+    placeholder="Вкажіть свою причину скасування замовлення"
+    cols="50"
+    rows="6"
+    [(ngModel)]="cancellationComment"
+  ></textarea>
   <div class="btn-container">
     <button type="reset" class="disagree btn" (click)="close()">Скасувати</button>
     <button type="submit" class="agree btn" (click)="save()">Додати</button>
