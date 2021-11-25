@@ -1,4 +1,4 @@
-import { Component, Input, OnInit, OnChanges } from '@angular/core';
+import { Component, Input, OnInit, OnChanges, SimpleChanges } from '@angular/core';
 import { FormGroup, FormBuilder } from '@angular/forms';
 
 @Component({
@@ -9,6 +9,7 @@ import { FormGroup, FormBuilder } from '@angular/forms';
 export class UbsAdminOrderDetailsFormComponent implements OnInit, OnChanges {
   public payMore = true;
   public isInputDisabled = false;
+  public doneAfterBroughtHimself = false;
   public isVisible = true;
   public ubsCourier = 0;
   public bagsInfo;
@@ -22,16 +23,19 @@ export class UbsAdminOrderDetailsFormComponent implements OnInit, OnChanges {
 
   constructor(private fb: FormBuilder) {}
 
+  ngOnChanges(changes: SimpleChanges) {
+    console.log(changes);
+    // const prevStatus = changes.orderStatusInfo?.previousValue;
+    this.isVisible = this.orderStatusInfo.ableActualChange;
+    this.doneAfterBroughtHimself = this.checkStatusDoneAfterBroughtHimself();
+    console.log(this.doneAfterBroughtHimself);
+  }
+
   ngOnInit(): void {
     this.resetBagsInfo();
-    this.isVisible = this.orderStatusInfo.ableActualChange;
     this.orderDetails = JSON.parse(JSON.stringify(this.orderDetailsOriginal));
     this.setBagsInfo();
     this.calculateFinalSum();
-  }
-
-  ngOnChanges() {
-    this.isVisible = this.orderStatusInfo.ableActualChange;
   }
 
   private resetBagsInfo() {
@@ -110,5 +114,9 @@ export class UbsAdminOrderDetailsFormComponent implements OnInit, OnChanges {
         this.calculateFinalSum();
       }
     });
+  }
+
+  private checkStatusDoneAfterBroughtHimself() {
+    return this.orderDetails?.previousOrderStatus === 'BROUGHT_IT_HIMSELF' && this.orderStatusInfo.name === 'DONE';
   }
 }

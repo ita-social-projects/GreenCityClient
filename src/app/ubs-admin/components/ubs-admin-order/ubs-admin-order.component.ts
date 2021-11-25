@@ -41,6 +41,8 @@ export class UbsAdminOrderComponent implements OnInit, OnDestroy {
       this.currentLanguage = lang;
     });
     this.order = this.orderService.getSelectedOrder();
+    // MOCK
+    // this.order.orderStatus = "BROUGHT_IT_HIMSELF";
     this.getOrderInfo(this.order.id, this.currentLanguage);
   }
 
@@ -50,7 +52,8 @@ export class UbsAdminOrderComponent implements OnInit, OnDestroy {
       .pipe(takeUntil(this.destroy$))
       .subscribe((data: any) => {
         this.orderInfo = data;
-        this.currentOrderStatus = this.orderInfo.orderStatus;
+        this.orderInfo.generalOrderInfo.orderStatus = 'BROUGHT_IT_HIMSELF';
+        this.currentOrderStatus = this.orderInfo.generalOrderInfo.orderStatus;
         this.setOrderDetails();
         this.initForm();
       });
@@ -68,11 +71,13 @@ export class UbsAdminOrderComponent implements OnInit, OnDestroy {
     };
     this.orderDetails.bonuses = this.orderInfo.orderBonusDiscount;
     this.orderDetails.certificateDiscount = this.orderInfo.orderCertificateTotalDiscount;
+    // TODO: change to orderStatus that received from getOrderInfo method
+    // this.orderDetails.previousOrderStatus = this.order.orderStatus;
     this.orderStatusInfo = this.getOrderStatusInfo(this.currentOrderStatus);
   }
 
   private getOrderStatusInfo(statusName: string) {
-    return this.orderInfo.orderStatusesDto.filter((status) => status.name === statusName)[0];
+    return this.orderInfo.generalOrderInfo.orderStatusesDtos.filter((status) => status.name === statusName)[0];
   }
 
   initForm() {
@@ -165,7 +170,8 @@ export class UbsAdminOrderComponent implements OnInit, OnDestroy {
   resetForm() {
     this.orderForm.reset();
     this.initForm();
-    this.orderStatusInfo = this.getOrderStatusInfo(this.orderInfo.orderStatus);
+    this.currentOrderStatus = this.orderInfo.generalOrderInfo.orderStatus;
+    this.orderStatusInfo = this.getOrderStatusInfo(this.currentOrderStatus);
     this.orderDetailsComponent.ngOnInit();
   }
 

@@ -153,6 +153,7 @@
     "service": "Послуга",
     "volume": "Об'єм",
     "cost": "Вартість за одиницю",
+    "done-after-himself": "Списання на станції сортування",
     "planned-amount": "Планована к-ть",
     "approved-amount": "Підтверджена к-ть",
     "exported-amount": "Вивезена к-ть",
