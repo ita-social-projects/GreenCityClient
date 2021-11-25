@@ -2,8 +2,7 @@
   <div class="main_header">{{ 'user-orders.order-title' | translate }}</div>
   <div *ngIf="loading; else spinner">
     <div *ngIf="!orders || orders.length === 0" class="if_empty">
-      <span>{{ 'user-orders.no-orders' | translate }}</span
-      ><a href="#">{{ 'user-orders.make-order' | translate }}</a>
+      <span>{{ 'user-orders.no-orders' | translate }}</span>
     </div>
     <div *ngIf="orders && orders.length !== 0" class="cards">
       <mat-tab-group animationDuration="0ms">
