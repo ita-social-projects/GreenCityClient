@@ -1,3 +1,4 @@
+import { OrderBag, OrderDetails } from './../../../main/component/ubs/models/ubs.interface';
 import { Component, Input, OnInit, OnChanges, SimpleChanges } from '@angular/core';
 import { FormGroup, FormBuilder } from '@angular/forms';
 
@@ -7,18 +8,21 @@ import { FormGroup, FormBuilder } from '@angular/forms';
   styleUrls: ['./ubs-admin-order-details-form.component.scss']
 })
 export class UbsAdminOrderDetailsFormComponent implements OnInit, OnChanges {
+  public amountOfBigBags: number;
   public payMore = true;
   public isInputDisabled = false;
   public doneAfterBroughtHimself = false;
-  public isVisible = true;
+  public isVisible: boolean;
   public bagsInfo;
   public orderDetails;
   public buyMore = false;
   public showUbsCourier = false;
   // TODO: change to data from backend
-  public courierPricePerPackage = 50;
+  private courierPricePerPackage = 50;
   public minAmountBigBags = 2;
   //
+  public courierPrice = 50;
+  public writeoffAtStationSum: number;
 
   pageOpen: boolean;
   @Input() orderDetailsOriginal;
@@ -28,17 +32,32 @@ export class UbsAdminOrderDetailsFormComponent implements OnInit, OnChanges {
   constructor(private fb: FormBuilder) {}
 
   ngOnChanges(changes: SimpleChanges) {
-    console.log(changes);
-    const prevStatus = changes.orderStatusInfo?.previousValue?.name;
-    const curStatus = changes.orderStatusInfo?.currentValue.name;
-    this.isVisible = this.orderStatusInfo.ableActualChange;
-    this.doneAfterBroughtHimself = this.checkStatusDoneAfterBroughtHimself(prevStatus, curStatus);
-    console.log(this.doneAfterBroughtHimself);
+    if (changes.orderDetailsForm) {
+      this.resetOrderDetails();
+      this.recalculateSum();
+    }
+    if (changes.orderStatusInfo?.previousValue?.ableActualChange !== changes.orderStatusInfo?.currentValue.ableActualChange) {
+      const prevStatus = changes.orderStatusInfo.previousValue?.name;
+      const curStatus = changes.orderStatusInfo.currentValue.name;
+      this.isVisible = !this.isVisible;
+      this.doneAfterBroughtHimself = this.checkStatusDoneAfterBroughtHimself(prevStatus, curStatus);
+      this.recalculateSum();
+    } else {
+      this.doneAfterBroughtHimself = false;
+    }
   }
 
   ngOnInit(): void {
-    this.resetBagsInfo();
+    this.isVisible = this.orderStatusInfo.ableActualChange;
+  }
+
+  public resetOrderDetails() {
     this.orderDetails = JSON.parse(JSON.stringify(this.orderDetailsOriginal));
+  }
+
+  public recalculateSum() {
+    this.writeoffAtStationSum = 0;
+    this.resetBagsInfo();
     this.setBagsInfo();
     this.calculateFinalSum();
   }
@@ -97,6 +116,9 @@ export class UbsAdminOrderDetailsFormComponent implements OnInit, OnChanges {
       confirmed: this.bagsInfo.sum.confirmed - bonusesAndCert,
       actual: this.bagsInfo.sum.actual - bonusesAndCert + (this.showUbsCourier ? this.courierPricePerPackage : 0)
     };
+    if (this.doneAfterBroughtHimself) {
+      this.bagsInfo.finalSum.actual = this.bagsInfo.sum.actual - bonusesAndCert - this.courierPrice + this.writeoffAtStationSum;
+    }
     for (const type in this.bagsInfo.finalSum) {
       if (this.bagsInfo.finalSum[type] < 0) {
         this.bagsInfo.finalSum[type] = 0;
@@ -126,17 +148,22 @@ export class UbsAdminOrderDetailsFormComponent implements OnInit, OnChanges {
     return prevStatus === 'BROUGHT_IT_HIMSELF' && currentStatus === 'DONE';
   }
 
-  private checkAmountOfBigBags() {
-    let amountOfBigBags = 0;
-    const type = this.orderStatusInfo.ableActualChange ? 'actual' : 'confirmed';
-    this.showUbsCourier = this.buyMore = false;
-    this.orderDetailsForm.controls.isMinOrder.setValue(true);
+  private setAmountOfBigBags(type) {
+    this.amountOfBigBags = 0;
     this.orderDetails.bags.forEach((bag) => {
       if (bag.capacity === 120) {
-        amountOfBigBags += bag[type];
+        this.amountOfBigBags += bag[type];
       }
     });
-    if (amountOfBigBags < this.minAmountBigBags) {
+  }
+
+  private checkAmountOfBigBags() {
+    const type = this.orderStatusInfo.ableActualChange ? 'actual' : 'confirmed';
+    this.showUbsCourier = this.buyMore = false;
+    this.courierPrice = this.courierPricePerPackage;
+    this.orderDetailsForm.controls.isMinOrder.setValue(true);
+    this.setAmountOfBigBags(type);
+    if (this.amountOfBigBags < this.minAmountBigBags) {
       if (type === 'actual') {
         this.showUbsCourier = true;
       } else {
@@ -144,5 +171,14 @@ export class UbsAdminOrderDetailsFormComponent implements OnInit, OnChanges {
         this.orderDetailsForm.controls.isMinOrder.setValue('');
       }
     }
+    if (this.doneAfterBroughtHimself) {
+      this.showUbsCourier = true;
+      this.courierPrice = this.courierPricePerPackage * this.amountOfBigBags;
+    }
+  }
+
+  public changeWriteOffSum(e) {
+    this.writeoffAtStationSum = +e.target.value;
+    this.calculateFinalSum();
   }
 }

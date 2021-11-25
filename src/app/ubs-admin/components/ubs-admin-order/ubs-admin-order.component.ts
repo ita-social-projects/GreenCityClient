@@ -9,7 +9,6 @@ import { take, takeUntil } from 'rxjs/operators';
 import { OrderService } from '../../services/order.service';
 import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
 import { Subject } from 'rxjs';
-import { UbsAdminOrderDetailsFormComponent } from '../ubs-admin-order-details-form/ubs-admin-order-details-form.component';
 import {
   IAddressExportDetails,
   IExportDetails,
@@ -42,9 +41,6 @@ export class UbsAdminOrderComponent implements OnInit, OnDestroy {
   orderDetails;
   orderStatusInfo;
   currentOrderStatus;
-
-  @ViewChild(UbsAdminOrderDetailsFormComponent, { static: false })
-  private orderDetailsComponent: UbsAdminOrderDetailsFormComponent;
 
   constructor(
     private translate: TranslateService,
@@ -201,7 +197,6 @@ export class UbsAdminOrderComponent implements OnInit, OnDestroy {
     this.initForm();
     this.currentOrderStatus = this.generalOrderInfo.orderStatus;
     this.orderStatusInfo = this.getOrderStatusInfo(this.currentOrderStatus);
-    this.orderDetailsComponent.ngOnInit();
   }
 
   onSubmit() {
