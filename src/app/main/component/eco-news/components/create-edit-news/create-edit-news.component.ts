@@ -19,9 +19,7 @@ import { EditorChangeContent, EditorChangeSelection } from 'ngx-quill';
 import Quill from 'quill';
 import 'quill-emoji/dist/quill-emoji.js';
 import ImageResize from 'quill-image-resize-module';
-import { ubsAdminEmployeeLink } from '../../../../links';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { addFilesToFormData, convertImageBase64ToFile } from './quillEditorFunc';
 
 @Component({
   selector: 'app-create-edit-news',
@@ -385,38 +383,10 @@ export class CreateEditNewsComponent extends FormBaseComponent implements OnInit
     if (event.event !== 'selection-change') {
       this.editorText = event.text;
       this.editorHTML = event.html;
-
-      // const images = this.editorHTML.match(/<img [^>]*src="[^"]*"[^>]*>/gm);
-      // const img2 = html.match(/<img [^>]*src="(data:image\/[^;]+;base64[^"]+)"/gm);
-      // console.log(images);
-
-      // const editorText = event.text.replace(/\n/g, '');
-      // console.log(editorText, editorText.length, event.html?.length);
-      // getImagesSrc(event.html);
-      // console.log(event);
     }
   }
 
-  // sendFormData() {
-  // this.isPosting = true;
-  // this.createEcoNewsService
-  // .sendFormData(this.form)
-  // .pipe(
-  //   takeUntil(this.destroyed$),
-  //   catchError((err) => {
-  //     this.snackBar.openSnackBar('Oops, something went wrong. Please reload page or try again later.');
-  //     return throwError(err);
-  //   })
-  // )
-  // .subscribe(() => this.escapeFromCreatePage());
-
-  //   this.saveImages();
-  //   console.log(this.savingImages);
-  // }
-
   saveImages() {
-    // const transform2 = (base64Img) => {};
-
     const transformBase64ToFile = (base64Img) => {
       return fetch(base64Img)
         .then((res) => res.blob())
@@ -449,11 +419,10 @@ export class CreateEditNewsComponent extends FormBaseComponent implements OnInit
     console.log(imgFiles);
 
     Promise.all(imgFiles)
-      .then((results) => {
+      .then((results: [File]) => {
         console.log('res', results);
 
-        results.forEach((res) => {
-          // @ts-ignore
+        results.forEach((res: File) => {
           formData.append('images', res);
         });
 
@@ -478,16 +447,13 @@ export class CreateEditNewsComponent extends FormBaseComponent implements OnInit
             this.savingImages = false;
           }
         );
-        // @ts-ignore
-        // this.savingImages = 'false';
       })
       .catch((err) => {
         this.savingImages = false;
         console.error(err);
       });
 
-    // console.log(qwe);
-    console.log('GGGGGGGGGGGGGGGGGG');
+    // console.log('Go');
   }
 
   focus($event: any) {
