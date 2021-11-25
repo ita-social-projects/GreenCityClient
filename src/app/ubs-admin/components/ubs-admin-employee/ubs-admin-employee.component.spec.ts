@@ -27,8 +27,8 @@ describe('UbsAdminEmployeeComponent', () => {
     page: [{ email: 'newFakeEmail' }],
     totalElements: 555
   };
-  let ubsAdminEmployeeServiceMock = jasmine.createSpyObj('ubsAdminEmployeeServiceMock', ['getEmployees']);
-  let fakeLocation = jasmine.createSpyObj('fakeLocation', ['go']);
+  const ubsAdminEmployeeServiceMock = jasmine.createSpyObj('ubsAdminEmployeeServiceMock', ['getEmployees']);
+  const fakeLocation = jasmine.createSpyObj('fakeLocation', ['go']);
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({

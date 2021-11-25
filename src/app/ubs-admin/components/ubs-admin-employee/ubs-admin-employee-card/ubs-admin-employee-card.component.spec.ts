@@ -41,7 +41,7 @@ describe('UbsAdminEmployeeCardComponent', () => {
     phoneNumber: 'fakePhoneNumber',
     receivingStations: ReceivingStations
   };
-  let ubsAdminEmployeeServiceMock = jasmine.createSpyObj('ubsAdminEmployeeServiceMock', ['deleteEmployee']);
+  const ubsAdminEmployeeServiceMock = jasmine.createSpyObj('ubsAdminEmployeeServiceMock', ['deleteEmployee']);
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
@@ -71,7 +71,7 @@ describe('UbsAdminEmployeeCardComponent', () => {
     const spy = spyOn(matDialog, 'open');
     component.openModal();
     expect(spy).toHaveBeenCalledWith(EmployeeFormComponent, {
-      data: data,
+      data,
       hasBackdrop: true,
       closeOnNavigation: true,
       disableClose: true,

@@ -81,11 +81,11 @@
   align-items: center;
 }
 
-mat-icon {
+.mat-icon {
   color: var(--ubs-quintynary-light-grey);
 }
 
-mat-icon:hover {
+.mat-icon:hover {
   color: var(--ubs-tertiary-grey);
   cursor: pointer;
 }
