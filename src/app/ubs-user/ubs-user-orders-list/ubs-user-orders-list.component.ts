@@ -12,20 +12,24 @@ export class UbsUserOrdersListComponent {
   constructor(private userOrdersService: UserOrdersService) {}
 
   isOrderFormed(order: any) {
-    return order.orderStatus === 'FORMED';
+    return order.generalOrderInfo.orderStatus === 'FORMED';
   }
 
   isOrderUnpaid(order: any) {
-    return order.orderStatus === 'DONE_UNPAID' || order.orderStatus === 'FORMED';
+    return order.generalOrderInfo.orderStatus === 'DONE_UNPAID' || order.generalOrderInfo.orderStatus === 'FORMED';
   }
 
   isOrderDone(order: any) {
-    return order.orderStatus === 'ON_THE_ROUTE' || order.orderStatus === 'CONFIRMED' || order.orderStatus === 'DONE';
+    return (
+      order.generalOrderInfo.orderStatus === 'ON_THE_ROUTE' ||
+      order.generalOrderInfo.orderStatus === 'CONFIRMED' ||
+      order.generalOrderInfo.orderStatus === 'DONE'
+    );
   }
 
   changeCard(id: number) {
     this.orders.forEach((order) => {
-      if (order.id === id) {
+      if (order.generalOrderInfo.id === id) {
         order.extend = !order.extend;
       }
     });
