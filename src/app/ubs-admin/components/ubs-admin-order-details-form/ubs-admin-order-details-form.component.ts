@@ -125,6 +125,7 @@ export class UbsAdminOrderDetailsFormComponent implements OnInit, OnChanges {
         this.bagsInfo.finalSum[type] = 0;
       }
     }
+    this.calculateOverpayment();
   }
 
   openDetails() {
@@ -141,12 +142,12 @@ export class UbsAdminOrderDetailsFormComponent implements OnInit, OnChanges {
           this.bagsInfo.amount[bagType] += +bagObj[bagType];
         });
         this.calculateFinalSum();
-        this.calculateOverpayment(bagType);
       }
     });
   }
 
-  private calculateOverpayment(bagType) {
+  private calculateOverpayment() {
+    const bagType = this.orderStatusInfo.ableActualChange ? 'actual' : 'confirmed';
     const overpayment = this.orderDetails.orderFullPrice - this.bagsInfo.finalSum[bagType];
     this.changeOverpayment.emit(overpayment);
   }
