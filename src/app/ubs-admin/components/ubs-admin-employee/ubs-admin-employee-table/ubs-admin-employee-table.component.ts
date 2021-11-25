@@ -83,7 +83,6 @@ export class UbsAdminEmployeeTableComponent implements OnInit {
     if (this.allPositions.length === 0) {
       this.ubsAdminEmployeeService.getAllPositions().subscribe((pos) => {
         this.allPositions = pos;
-        console.log(this.allPositions);
       });
     }
     if (this.isPositionsOpen === false) {
