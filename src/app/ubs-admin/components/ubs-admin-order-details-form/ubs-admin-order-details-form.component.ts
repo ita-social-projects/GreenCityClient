@@ -25,9 +25,10 @@ export class UbsAdminOrderDetailsFormComponent implements OnInit, OnChanges {
 
   ngOnChanges(changes: SimpleChanges) {
     console.log(changes);
-    // const prevStatus = changes.orderStatusInfo?.previousValue;
+    const prevStatus = changes.orderStatusInfo?.previousValue?.name;
+    const curStatus = changes.orderStatusInfo?.currentValue.name;
     this.isVisible = this.orderStatusInfo.ableActualChange;
-    this.doneAfterBroughtHimself = this.checkStatusDoneAfterBroughtHimself();
+    this.doneAfterBroughtHimself = this.checkStatusDoneAfterBroughtHimself(prevStatus, curStatus);
     console.log(this.doneAfterBroughtHimself);
   }
 
@@ -116,7 +117,7 @@ export class UbsAdminOrderDetailsFormComponent implements OnInit, OnChanges {
     });
   }
 
-  private checkStatusDoneAfterBroughtHimself() {
-    return this.orderDetails?.previousOrderStatus === 'BROUGHT_IT_HIMSELF' && this.orderStatusInfo.name === 'DONE';
+  private checkStatusDoneAfterBroughtHimself(prevStatus, currentStatus) {
+    return prevStatus === 'BROUGHT_IT_HIMSELF' && currentStatus === 'DONE';
   }
 }
