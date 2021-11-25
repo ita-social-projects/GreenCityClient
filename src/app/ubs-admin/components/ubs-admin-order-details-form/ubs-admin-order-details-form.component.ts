@@ -11,11 +11,15 @@ export class UbsAdminOrderDetailsFormComponent implements OnInit, OnChanges {
   public isInputDisabled = false;
   public doneAfterBroughtHimself = false;
   public isVisible = true;
-  public ubsCourier = 0;
   public bagsInfo;
-  public currentLanguage: string;
-  public minOrderSum = 500;
   public orderDetails;
+  public buyMore = false;
+  public showUbsCourier = false;
+  // TODO: change to data from backend
+  public courierPricePerPackage = 50;
+  public minAmountBigBags = 2;
+  //
+
   pageOpen: boolean;
   @Input() orderDetailsOriginal;
   @Input() orderDetailsForm: FormGroup;
@@ -87,10 +91,11 @@ export class UbsAdminOrderDetailsFormComponent implements OnInit, OnChanges {
 
   private calculateFinalSum() {
     const bonusesAndCert = this.bagsInfo.bonuses + this.bagsInfo.certificateDiscount;
+    this.checkAmountOfBigBags();
     this.bagsInfo.finalSum = {
       planned: this.bagsInfo.sum.planned - bonusesAndCert,
       confirmed: this.bagsInfo.sum.confirmed - bonusesAndCert,
-      actual: this.bagsInfo.sum.actual - bonusesAndCert
+      actual: this.bagsInfo.sum.actual - bonusesAndCert + (this.showUbsCourier ? this.courierPricePerPackage : 0)
     };
     for (const type in this.bagsInfo.finalSum) {
       if (this.bagsInfo.finalSum[type] < 0) {
@@ -119,5 +124,25 @@ export class UbsAdminOrderDetailsFormComponent implements OnInit, OnChanges {
 
   private checkStatusDoneAfterBroughtHimself(prevStatus, currentStatus) {
     return prevStatus === 'BROUGHT_IT_HIMSELF' && currentStatus === 'DONE';
+  }
+
+  private checkAmountOfBigBags() {
+    let amountOfBigBags = 0;
+    const type = this.orderStatusInfo.ableActualChange ? 'actual' : 'confirmed';
+    this.showUbsCourier = this.buyMore = false;
+    this.orderDetailsForm.controls.isMinOrder.setValue(true);
+    this.orderDetails.bags.forEach((bag) => {
+      if (bag.capacity === 120) {
+        amountOfBigBags += bag[type];
+      }
+    });
+    if (amountOfBigBags < this.minAmountBigBags) {
+      if (type === 'actual') {
+        this.showUbsCourier = true;
+      } else {
+        this.buyMore = true;
+        this.orderDetailsForm.controls.isMinOrder.setValue('');
+      }
+    }
   }
 }

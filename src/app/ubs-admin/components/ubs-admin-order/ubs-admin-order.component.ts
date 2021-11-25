@@ -138,9 +138,10 @@ export class UbsAdminOrderComponent implements OnInit, OnDestroy {
       }),
       orderDetailsForm: this.fb.group({
         // TODO: set data after receiving from backend
-        storeOrderNumber: '',
-        certificate: '2222-2222',
-        customerComment: this.orderInfo.comment
+        storeOrderNumber: 'TODO',
+        certificate: 'TODO-TODO',
+        customerComment: this.orderInfo.comment,
+        isMinOrder: [true, [Validators.required]]
       })
     });
     this.orderDetails.bags.forEach((bag) => {
