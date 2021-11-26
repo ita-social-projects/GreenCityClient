@@ -8,6 +8,7 @@ import { FormGroup, FormBuilder } from '@angular/forms';
   styleUrls: ['./ubs-admin-order-details-form.component.scss']
 })
 export class UbsAdminOrderDetailsFormComponent implements OnInit, OnChanges {
+  private CAPACITY_OF_BIG_BAG = 120;
   public amountOfBigBags: number;
   public payMore = true;
   public isInputDisabled = false;
@@ -21,7 +22,7 @@ export class UbsAdminOrderDetailsFormComponent implements OnInit, OnChanges {
   private courierPricePerPackage = 50;
   public minAmountBigBags = 2;
   //
-  public courierPrice = 50;
+  public courierPrice: number;
   public writeoffAtStationSum: number;
   @Output() changeOverpayment = new EventEmitter<number>();
 
@@ -58,6 +59,7 @@ export class UbsAdminOrderDetailsFormComponent implements OnInit, OnChanges {
 
   public recalculateSum() {
     this.writeoffAtStationSum = 0;
+    this.courierPrice = this.courierPricePerPackage;
     this.resetBagsInfo();
     this.setBagsInfo();
     this.calculateFinalSum();
@@ -159,7 +161,7 @@ export class UbsAdminOrderDetailsFormComponent implements OnInit, OnChanges {
   private setAmountOfBigBags(type) {
     this.amountOfBigBags = 0;
     this.orderDetails.bags.forEach((bag) => {
-      if (bag.capacity === 120) {
+      if (bag.capacity === this.CAPACITY_OF_BIG_BAG) {
         this.amountOfBigBags += bag[type];
       }
     });
