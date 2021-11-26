@@ -11,16 +11,16 @@
     <tr *ngFor="let bag of order.bags" class="data_table">
       <td>{{ bag.name }}</td>
       <td>{{ bag.capacity }} {{ 'user-orders.details.litr' | translate }}</td>
-      <td>{{ bag.price }} {{ 'user-orders.details.currency' | translate }}</td>
+      <td>{{ bag.price | currency | localizedCurrency }}</td>
       <td>{{ order.amountOfBagsOrdered[bag.id] }} {{ 'user-orders.details.pieces' | translate }}</td>
-      <td>{{ order.amountOfBagsOrdered[bag.id] * bag.price }} {{ 'user-orders.details.currency' | translate }}</td>
+      <td>{{ order.amountOfBagsOrdered[bag.id] * bag.price | currency | localizedCurrency }}</td>
     </tr>
     <tr>
       <td></td>
     </tr>
     <tr class="sum_of_order">
       <td colspan="4">{{ 'user-orders.details.order-sum' | translate }}</td>
-      <td>{{ order.orderFullPrice }} {{ 'user-orders.details.currency' | translate }}</td>
+      <td>{{ order.orderFullPrice | currency | localizedCurrency }}</td>
     </tr>
     <tr *ngIf="order.orderCertificateTotalDiscount !== 0" class="optional_row">
       <td colspan="4">{{ 'user-orders.details.certificate' | translate }}</td>
@@ -28,15 +28,15 @@
     </tr>
     <tr *ngIf="order.orderBonusDiscount !== 0" class="optional_row">
       <td colspan="4">{{ 'user-orders.details.bonuses' | translate }}</td>
-      <td>-{{ order.orderBonusDiscount }} {{ 'user-orders.details.currency' | translate }}</td>
+      <td>-{{ order.orderBonusDiscount | currency | localizedCurrency }}</td>
     </tr>
     <tr *ngIf="order.orderStatus === 'DONE_UNPAID'" class="optional_row">
       <td colspan="4">{{ 'user-orders.details.services-amount' | translate }}</td>
-      <td>{{ order.orderExportedPrice }} {{ 'user-orders.details.currency' | translate }}</td>
+      <td>{{ order.orderExportedPrice | currency | localizedCurrency }}</td>
     </tr>
     <tr class="sum_to_pay">
       <td colspan="4">{{ 'user-orders.details.amount-due' | translate }}</td>
-      <td>{{ order.orderDiscountedPrice }} {{ 'user-orders.details.currency' | translate }}</td>
+      <td>{{ order.orderDiscountedPrice | currency | localizedCurrency }}</td>
     </tr>
   </table>
 </div>
