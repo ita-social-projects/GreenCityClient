@@ -227,7 +227,7 @@ export class UbsAdminCustomerOrdersComponent implements OnInit, AfterViewChecked
   }
 
   ngOnDestroy() {
-    this.destroy.next();
+    this.destroy$.next();
     this.destroy$.unsubscribe();
   }
 }
