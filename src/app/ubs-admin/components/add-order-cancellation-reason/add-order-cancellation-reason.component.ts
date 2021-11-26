@@ -36,14 +36,14 @@ export class AddOrderCancellationReasonComponent implements OnInit {
       title: 'Свій варіант'
     }
   ];
-  public name;
+  public adminName;
   private destroySub: Subject<boolean> = new Subject<boolean>();
 
   constructor(private localeStorageService: LocalStorageService, private dialogRef: MatDialogRef<AddOrderCancellationReasonComponent>) {}
 
   ngOnInit(): void {
     this.localeStorageService.firstNameBehaviourSubject.pipe(takeUntil(this.destroySub)).subscribe((firstName) => {
-      this.name = firstName;
+      this.adminName = firstName;
     });
   }
 
