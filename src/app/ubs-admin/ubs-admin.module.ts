@@ -57,6 +57,7 @@ import { UbsAdminCustomerDetailsComponent } from './components/ubs-admin-custome
 import { UbsAdminOrderHistoryComponent } from './components/ubs-admin-order-history/ubs-admin-order-history.component';
 import { TooltipModule } from 'ngx-bootstrap/tooltip';
 import { UbsAdminCustomerOrdersComponent } from './components/ubs-admin-customers/ubs-admin-customer-orders/ubs-admin-customer-orders.component';
+import { AddOrderCancellationReasonComponent } from './components/add-order-cancellation-reason/add-order-cancellation-reason.component';
 import { DialogPopUpComponent } from './components/shared/components/dialog-pop-up/dialog-pop-up.component';
 
 @NgModule({
@@ -96,6 +97,7 @@ import { DialogPopUpComponent } from './components/shared/components/dialog-pop-
     UbsAdminCustomerDetailsComponent,
     UbsAdminCustomerOrdersComponent,
     UbsAdminOrderHistoryComponent,
+    AddOrderCancellationReasonComponent,
     DialogPopUpComponent
   ],
   imports: [
