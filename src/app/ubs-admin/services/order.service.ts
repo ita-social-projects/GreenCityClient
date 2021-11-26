@@ -18,8 +18,7 @@ export class OrderService {
   statusConfirmed = { name: 'CONFIRMED', translation: 'order-edit.order-status.confirmed' };
   statusFormed = { name: 'FORMED', translation: 'order-edit.order-status.formed' };
   statusBroughtItHimself = { name: 'BROUGHT_IT_HIMSELF', translation: 'order-edit.order-status.brought-it-himself' };
-  statusCanceled = { name: 'CANCELLED', translation: 'order-edit.order-status.cancelled' };
-
+  statusCanceled = { name: 'CANCELED', translation: 'order-edit.order-status.cancelled' };
   readonly districts = [
     'Голосіївський',
     'Дарницький',
@@ -36,40 +35,35 @@ export class OrderService {
 
   constructor(private http: HttpClient) {}
 
-  getAvailableOrderStatuses(currentOrderStatus, statuses) {
-    const statusDone = statuses.find((el) => el.name === 'DONE');
-    const statusAdjustment = statuses.find((el) => el.name === 'ADJUSTMENT');
-    const statusOnTheRoute = statuses.find((el) => el.name === 'ON_THE_ROUTE');
-    const statusNotTakenOut = statuses.find((el) => el.name === 'NOT_TAKEN_OUT');
-    const statusConfirmed = statuses.find((el) => el.name === 'CONFIRMED');
-    const statusFormed = statuses.find((el) => el.name === 'FORMED');
-    const statusBroughtItHimself = statuses.find((el) => el.name === 'BROUGHT_IT_HIMSELF');
-    const statusCanceled = statuses.find((el) => el.name === 'CANCELED');
+  filterStatuses(allStatuses: Array<any>, availableStatusesNames: string[]) {
+    return allStatuses.filter((el) => availableStatusesNames.includes(el.key));
+  }
 
+  getAvailableOrderStatuses(currentOrderStatus, statuses) {
     switch (currentOrderStatus) {
       case 'FORMED':
-        return [statusFormed, statusAdjustment, statusBroughtItHimself, statusCanceled];
+        return this.filterStatuses(statuses, ['FORMED', 'ADJUSTMENT', 'BROUGHT_IT_HIMSELF', 'CANCELED']);
 
       case 'ADJUSTMENT':
-        return [statusFormed, statusAdjustment, statusConfirmed, statusBroughtItHimself, statusCanceled];
+        return this.filterStatuses(statuses, ['FORMED', 'ADJUSTMENT', 'CONFIRMED', 'BROUGHT_IT_HIMSELF', 'CANCELED']);
 
       case 'CONFIRMED':
-        return [statusFormed, statusConfirmed, statusOnTheRoute, statusCanceled];
+        return this.filterStatuses(statuses, ['FORMED', 'CONFIRMED', 'ON_THE_ROUTE', 'CANCELED']);
 
       case 'BROUGHT_IT_HIMSELF':
-        return [statusBroughtItHimself, statusDone, statusCanceled];
+        return this.filterStatuses(statuses, ['BROUGHT_IT_HIMSELF', 'DONE', 'CANCELED']);
 
       case 'ON_THE_ROUTE':
-        return [statusOnTheRoute, statusDone, statusNotTakenOut, statusCanceled];
+        return this.filterStatuses(statuses, ['ON_THE_ROUTE', 'DONE', 'NOT_TAKEN_OUT', 'CANCELED']);
 
       case 'NOT_TAKEN_OUT':
-        return [statusNotTakenOut, statusAdjustment, statusCanceled];
+        return this.filterStatuses(statuses, ['NOT_TAKEN_OUT', 'ADJUSTMENT', 'CANCELED']);
 
       case 'DONE':
-        return [statusDone];
+        return this.filterStatuses(statuses, ['DONE']);
 
       case 'CANCELED':
-        return [statusCanceled];
+        return this.filterStatuses(statuses, ['CANCELED']);
     }
   }
 

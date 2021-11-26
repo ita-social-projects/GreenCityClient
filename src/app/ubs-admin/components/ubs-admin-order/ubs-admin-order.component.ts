@@ -102,7 +102,7 @@ export class UbsAdminOrderComponent implements OnInit, OnDestroy {
   }
 
   private getOrderStatusInfo(statusName: string) {
-    return this.generalOrderInfo.orderStatusesDtos.filter((status) => status.name === statusName)[0];
+    return this.generalOrderInfo.orderStatusesDtos.filter((status) => status.key === statusName)[0];
   }
 
   initForm() {

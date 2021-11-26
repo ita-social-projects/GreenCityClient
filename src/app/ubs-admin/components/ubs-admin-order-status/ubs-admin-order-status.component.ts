@@ -5,7 +5,7 @@ import { take } from 'rxjs/operators';
 import { IGeneralOrderInfo } from '../../models/ubs-admin.interface';
 import { OrderService } from '../../services/order.service';
 import { MatDialog } from '@angular/material/dialog';
-import { AddOrderCancellationReasonComponent } from '../../add-order-cancellation-reason/add-order-cancellation-reason.component';
+import { AddOrderCancellationReasonComponent } from '../add-order-cancellation-reason/add-order-cancellation-reason.component';
 
 @Component({
   selector: 'app-ubs-admin-order-status',
@@ -21,8 +21,6 @@ export class UbsAdminOrderStatusComponent implements OnInit {
   private destroy$: Subject<boolean> = new Subject<boolean>();
 
   public availableOrderStatuses;
-  cancellationReason;
-  cancellationComment;
 
   ngOnInit() {
     this.availableOrderStatuses = this.orderService.getAvailableOrderStatuses(
@@ -46,12 +44,14 @@ export class UbsAdminOrderStatusComponent implements OnInit {
       .afterClosed()
       .pipe(take(1))
       .subscribe((res) => {
-        this.cancellationReason = res.reason;
-        this.cancellationComment = '';
-        if (this.cancellationReason === 'OTHER') {
-          this.cancellationComment = res.comment;
+        if (res.action === 'cancel') {
+          this.orderStatusForm.get('orderStatus').setValue(this.generalOrderInfo.orderStatus);
+          return;
         }
-        console.log(this.cancellationReason, this.cancellationComment);
+        this.orderStatusForm.get('cancellationReason').setValue(res.reason);
+        if (res.reason === 'OTHER') {
+          this.orderStatusForm.get('cancellationComment').setValue(res.comment);
+        }
       });
   }
 
