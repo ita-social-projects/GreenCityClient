@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { Component, EventEmitter, Input, OnDestroy, OnInit, Output } from '@angular/core';
 import { FormGroup } from '@angular/forms';
 import { Subject } from 'rxjs';
 import { take } from 'rxjs/operators';
@@ -12,7 +12,7 @@ import { AddOrderCancellationReasonComponent } from '../add-order-cancellation-r
   templateUrl: './ubs-admin-order-status.component.html',
   styleUrls: ['./ubs-admin-order-status.component.scss']
 })
-export class UbsAdminOrderStatusComponent implements OnInit {
+export class UbsAdminOrderStatusComponent implements OnInit, OnDestroy {
   @Input() orderStatusForm: FormGroup;
   @Input() generalOrderInfo: IGeneralOrderInfo;
   @Output() changed = new EventEmitter<string>();

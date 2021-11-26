@@ -66,7 +66,7 @@
       "on-the-route": "On the route",
       "done": "Done",
       "not-taken-out": "Not taken out",
-      "cancelled": "Cancelled"
+      "canceled": "Canceled"
     },
     "payment-status": {
       "paid": "Paid",
@@ -92,6 +92,23 @@
       "cancel": "Cancel",
       "save": "Save"
     }
+  },
+  "order-cancel": {
+    "title": "Add reason to cancel order",
+    "reason": {
+      "delivered-himself": "Delivered to the station itself",
+      "moving-out": "Moving",
+      "out-of-city": "Out of city",
+      "disliked-service": "Disliked service",
+      "other": "Your option"
+    },
+    "placeholder": "Please specify your reason for canceling the order",
+    "btn": {
+      "cancel": "Cancel",
+      "add": "Add"
+    },
+    "date": "Date",
+    "added": "Added"
   },
   "address-details": {
     "title": "Waste export address",

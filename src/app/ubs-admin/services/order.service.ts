@@ -18,7 +18,7 @@ export class OrderService {
   statusConfirmed = { name: 'CONFIRMED', translation: 'order-edit.order-status.confirmed' };
   statusFormed = { name: 'FORMED', translation: 'order-edit.order-status.formed' };
   statusBroughtItHimself = { name: 'BROUGHT_IT_HIMSELF', translation: 'order-edit.order-status.brought-it-himself' };
-  statusCanceled = { name: 'CANCELED', translation: 'order-edit.order-status.cancelled' };
+  statusCanceled = { name: 'CANCELED', translation: 'order-edit.order-status.canceled' };
   readonly districts = [
     'Голосіївський',
     'Дарницький',
@@ -36,6 +36,9 @@ export class OrderService {
   constructor(private http: HttpClient) {}
 
   filterStatuses(allStatuses: Array<any>, availableStatusesNames: string[]) {
+    return availableStatusesNames.map((status) => {
+      return allStatuses.find((el) => el.key === status);
+    });
     return allStatuses.filter((el) => availableStatusesNames.includes(el.key));
   }
 

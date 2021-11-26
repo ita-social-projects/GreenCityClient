@@ -17,23 +17,23 @@ export class AddOrderCancellationReasonComponent implements OnInit {
   reasonList: any[] = [
     {
       value: 'DELIVERED_HIMSELF',
-      title: 'Привезено на станцію самостійно'
+      translation: 'order-cancel.reason.delivered-himself'
     },
     {
       value: 'MOVING_OUT',
-      title: 'Переїзд'
+      translation: 'order-cancel.reason.moving-out'
     },
     {
       value: 'OUT_OF_CITY',
-      title: 'Виїзд з міста'
+      translation: 'order-cancel.reason.out-of-city'
     },
     {
       value: 'DISLIKED_SERVICE',
-      title: 'Не сподобався сервіс'
+      translation: 'order-cancel.reason.disliked-service'
     },
     {
       value: 'OTHER',
-      title: 'Свій варіант'
+      translation: 'order-cancel.reason.other'
     }
   ];
   public adminName;
@@ -48,14 +48,14 @@ export class AddOrderCancellationReasonComponent implements OnInit {
   }
 
   close() {
-    let res = {
+    const res = {
       action: 'cancel'
     };
     this.dialogRef.close(res);
   }
 
   save() {
-    let res = {
+    const res = {
       action: 'add',
       reason: this.cancellationReason,
       comment: this.cancellationComment
