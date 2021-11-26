@@ -42,14 +42,14 @@
 </div>
 <div class="order_details">
   <ol *ngIf="order.numbersFromShop[0] !== ''">
-    <li class="bold_text">{{ 'user-orders.details.delivery' | translate }}</li>
+    <h6 class="bold_text">{{ 'user-orders.details.delivery' | translate }}</h6>
     <li>
       {{ 'user-orders.details.order-number' | translate }}
       <span class="bold_text"> {{ order.numbersFromShop.join(', ') }}</span>
     </li>
   </ol>
   <ol class="recipient">
-    <li class="bold_text">{{ 'user-orders.details.recipient' | translate }}</li>
+    <h6 class="bold_text">{{ 'user-orders.details.recipient' | translate }}</h6>
     <li>
       <span>{{ order.userInfoDto.recipientName }} </span><span>{{ order.userInfoDto.recipientSurname }}</span>
     </li>
@@ -57,7 +57,7 @@
     <li>{{ order.userInfoDto.recipientEmail }}</li>
   </ol>
   <ol>
-    <li class="bold_text">{{ 'user-orders.details.export-address' | translate }}</li>
+    <h6 class="bold_text">{{ 'user-orders.details.export-address' | translate }}</h6>
     <li>{{ order.addressExportDetailsDto.addressCity }}</li>
     <li>{{ order.addressExportDetailsDto.addressStreet }}</li>
     <li>{{ order.addressExportDetailsDto.addressDistrict }}</li>
