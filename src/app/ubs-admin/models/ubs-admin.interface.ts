@@ -68,12 +68,12 @@ export interface IGeneralOrderInfo {
 
 export interface IOrderStatusesDtos {
   ableActualChange: boolean;
-  name: string;
+  key: string;
   translation: string;
 }
 
 export interface IOrderPaymentStatusesDto {
-  name: string;
+  key: string;
   translation: string;
 }
 
