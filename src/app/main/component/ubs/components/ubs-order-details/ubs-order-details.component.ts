@@ -437,7 +437,7 @@ export class UBSOrderDetailsComponent extends FormBaseComponent implements OnIni
   }
 
   canAddEcoShopOrderNumber(): boolean {
-    return this.ecoShopOrdersNumbersCounter < this.limitOfEcoShopOrdersNumbers ? true : false;
+    return this.ecoShopOrdersNumbersCounter < this.limitOfEcoShopOrdersNumbers;
   }
 
   deleteOrder(index: number): void {
