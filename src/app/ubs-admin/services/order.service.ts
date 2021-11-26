@@ -39,7 +39,6 @@ export class OrderService {
     return availableStatusesNames.map((status) => {
       return allStatuses.find((el) => el.key === status);
     });
-    return allStatuses.filter((el) => availableStatusesNames.includes(el.key));
   }
 
   getAvailableOrderStatuses(currentOrderStatus, statuses) {
