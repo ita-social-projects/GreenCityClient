@@ -2,7 +2,17 @@ import { takeUntil } from 'rxjs/operators';
 import { Subject } from 'rxjs';
 import { MatTable, MatTableDataSource } from '@angular/material/table';
 import { ActivatedRoute, Router } from '@angular/router';
-import { Component, OnInit, HostListener, Renderer2, ViewChild, ElementRef, ChangeDetectorRef } from '@angular/core';
+import {
+  Component,
+  OnInit,
+  HostListener,
+  Renderer2,
+  ViewChild,
+  ElementRef,
+  ChangeDetectorRef,
+  AfterViewChecked,
+  OnDestroy
+} from '@angular/core';
 import { columnsParamsOrders } from './../columnsParams';
 import { AdminCustomersService } from 'src/app/ubs-admin/services/admin-customers.service';
 import { ICustomerOrdersTable } from './../../../models/customer-orders-table.model';
@@ -13,7 +23,7 @@ import { LocalStorageService } from './../../../../main/service/localstorage/loc
   templateUrl: './ubs-admin-customer-orders.component.html',
   styleUrls: ['./ubs-admin-customer-orders.component.scss']
 })
-export class UbsAdminCustomerOrdersComponent implements OnInit {
+export class UbsAdminCustomerOrdersComponent implements OnInit, AfterViewChecked, OnDestroy {
   private id: string;
   private destroy$: Subject<boolean> = new Subject<boolean>();
   private pressed = false;
@@ -23,6 +33,9 @@ export class UbsAdminCustomerOrdersComponent implements OnInit {
   private isResizingRight: boolean;
   private resizableMousemove: () => void;
   private resizableMouseup: () => void;
+  private sortingColumn: string;
+  private sortingType: string;
+  private page = 0;
 
   public columns = [];
   public displayedColumns: string[] = [];
@@ -32,6 +45,8 @@ export class UbsAdminCustomerOrdersComponent implements OnInit {
   public userName: string;
   public orders = [];
   public isLoading = true;
+  public isCanScroll = false;
+  public isTableLoading = false;
 
   @ViewChild(MatTable, { read: ElementRef }) private matTableRef: ElementRef;
 
@@ -62,22 +77,51 @@ export class UbsAdminCustomerOrdersComponent implements OnInit {
 
   private getOrders() {
     this.route.params.subscribe((params) => {
-      this.id = params['id'];
+      this.id = params.id;
       this.adminCustomerService
-        .getCustomerOrders(this.id)
+        .getCustomerOrders(this.id, this.page, this.sortingColumn || 'id', this.sortingType || 'ASC')
         .pipe(takeUntil(this.destroy$))
         .subscribe((orders: ICustomerOrdersTable) => {
           this.userName = orders.username;
           this.orders = orders.userOrdersList;
           this.isLoading = false;
           this.dataSource = new MatTableDataSource(this.orders);
+          this.page = ++this.page;
+          this.checkAmountOrders(orders.userOrdersList);
         });
     });
   }
 
+  private checkAmountOrders(orders) {
+    if (this.page < 2 && orders.length === 10) {
+      this.isCanScroll = true;
+      this.updateOrders();
+    }
+  }
+
+  public onScroll() {
+    this.updateOrders();
+  }
+
+  private updateOrders() {
+    this.isTableLoading = true;
+    this.adminCustomerService
+      .getCustomerOrders(this.id, this.page, this.sortingColumn || 'id', this.sortingType || 'ASC')
+      .pipe(takeUntil(this.destroy$))
+      .subscribe((orders: ICustomerOrdersTable) => {
+        this.userName = orders.username;
+        this.orders = [...this.orders, ...orders.userOrdersList];
+        this.dataSource = new MatTableDataSource(this.orders);
+        this.page = ++this.page;
+        this.isTableLoading = false;
+      });
+  }
+
   public onSortTable(column: string, sortingType: string) {
+    this.sortingColumn = column;
+    this.sortingType = sortingType;
     this.arrowDirection = column === this.arrowDirection ? null : column;
-    console.log(column);
+    this.getOrders();
   }
 
   public goBack(): void {
@@ -88,6 +132,12 @@ export class UbsAdminCustomerOrdersComponent implements OnInit {
     this.columns.forEach((column, index) => {
       column.index = index;
       this.displayedColumns[index] = column.title.key;
+    });
+  }
+
+  public openOrder(id: number): void {
+    this.router.navigate([]).then((result) => {
+      window.open(`/#/ubs-admin/order/${id}`, '_blank');
     });
   }
 

@@ -142,14 +142,7 @@
     <ng-template #addressesList>
       <div class="w-50 d-flex mt-2 mb-2 col-lg-6 col-md-6 col-sm-12 col-12" *ngFor="let address of addresses">
         <div class="custom-radio d-flex">
-          <input
-            name="address"
-            type="radio"
-            [value]="address.id"
-            [checked]="address.actual && address.city == currentLocation"
-            [disabled]="address.city !== currentLocation"
-            (click)="checkAddress(address.id)"
-          />
+          <input name="address" type="radio" [value]="address.id" [checked]="address.actual" (click)="checkAddress(address.id)" />
         </div>
         <app-address [address]="address" class="col-md-6"></app-address>
         <div class="edit-address" (click)="editAddress(address.id)">
@@ -192,7 +185,7 @@
     <i class="fas fa-chevron-left" aria-hidden="true"></i> &nbsp; {{ 'personal-info.info-back' | translate }}
   </button>
   <div class="w-100 d-flex justify-content-end">
-    <button class="secondary-global-button btn cansel-button" type="button" (click)="cancelUBSwithoutSaving()">
+    <button class="secondary-global-button btn cansel-button" type="button" (click)="cancelUBS()">
       {{ 'personal-info.info-cancel' | translate }}
     </button>
     <button type="submit" class="primary-global-button btn m-0" matStepperNext [disabled]="personalDataForm.invalid">

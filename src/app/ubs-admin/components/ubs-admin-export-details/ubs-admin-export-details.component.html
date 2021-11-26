@@ -17,7 +17,7 @@
       <div class="form-group col-md-4">
         <label for="station">{{ 'export-details.station' | translate }}</label>
         <select formControlName="receivingStation" class="form-control" id="station">
-          <option *ngFor="let station of receivingStations" [selected]="station === order.receivingStation">
+          <option *ngFor="let station of exportInfo.allReceivingStations" [selected]="station === exportInfo.receivingStation">
             {{ station }}
           </option>
         </select>

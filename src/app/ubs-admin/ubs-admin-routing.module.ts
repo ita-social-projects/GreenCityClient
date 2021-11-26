@@ -28,7 +28,7 @@ const ubsAdminRoutes: Routes = [
       { path: `customerOrders/:id`, component: UbsAdminCustomerOrdersComponent }
     ]
   },
-  { path: 'order', component: UbsAdminOrderComponent }
+  { path: 'order/:id', component: UbsAdminOrderComponent }
 ];
 
 @NgModule({

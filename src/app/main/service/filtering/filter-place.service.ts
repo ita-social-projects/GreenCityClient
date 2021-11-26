@@ -11,7 +11,6 @@ import { FilterDistanceDto } from '../../model/filtering/filter-distance-dto.mod
 import { PlaceLocation } from '../../component/places/models/location.model';
 import { BehaviorSubject } from 'rxjs';
 import { PlacesFilter } from '../../component/places/models/places-filter';
-import { filter } from 'rxjs/operators';
 
 @Injectable({
   providedIn: 'root'

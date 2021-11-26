@@ -74,6 +74,7 @@
     "ubs-courier": "УБС кур’єр",
     "order-details": "Деталі замовлення",
     "personal-data": "Особисті дані",
+    "confirm": "Підтвердження",
     "payment": "Оплата"
   },
   "personal-info": {
@@ -81,6 +82,8 @@
     "address-corp": "корпус",
     "address-entrance": "під'їзд",
     "address-district": "район",
+    "pop-up-region": "Область",
+    "pop-up-region-name": "Київська область",
     "pop-up-title": "Нова адреса",
     "pop-up-city": "Місто",
     "pop-up-city-name": "Київ",
@@ -142,8 +145,11 @@
   "confirmation": {
     "cancel": "Так, вийти",
     "dismiss": "Продовжити",
+    "delete": "Ні, видалити замовлення",
+    "ok": "Окей",
+    "submit-title": "У разі закриття Ваше замовлення буде збережене у Вашому особистому кабінеті",
     "title": "Ви впевнені що хочете вийти?",
-    "subTitle": "Ваше замовлення буде збережене в особистому кабінеті"
+    "subTitle": "Ваше замовлення не буде збережене"
   },
   "confirm-page": {
     "title-text": "Ваше замовлення прийнято",

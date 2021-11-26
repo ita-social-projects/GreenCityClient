@@ -5,29 +5,43 @@
   <div class="title_name">
     <p>{{ userName }}</p>
   </div>
-  <mat-table [dataSource]="dataSource" id="table" class="customers_table" cdkDropListGroup>
-    <ng-container *ngFor="let column of columns; let i = index" [matColumnDef]="column.title.key">
-      <mat-header-cell *matHeaderCellDef (mousedown)="onResizeColumn($event, i)">
-        <div class="column_header">
-          <span class="column-title">{{ column.title | serverTranslate: currentLang }}</span>
-          <mat-icon *ngIf="arrowDirection !== column.title.key" (click)="onSortTable(column.title.key, 'ASC')"> arrow_downward </mat-icon>
-          <mat-icon *ngIf="arrowDirection === column.title.key" (click)="onSortTable(column.title.key, 'DESC')"> arrow_upward </mat-icon>
-        </div>
-      </mat-header-cell>
-      <mat-cell *matCellDef="let row">
-        <div
-          class="column_cell"
-          [matTooltip]="row[column.title.key]"
-          matTooltipShowDelay="700"
-          matTooltipClass="tooltip_style"
-          [class.pointer]="column.title.key === 'orderId'"
-        >
-          {{ row[column.title.key] }}
-        </div>
-      </mat-cell>
-    </ng-container>
-    <mat-header-row *matHeaderRowDef="displayedColumns; sticky: true" class="tableHeaderRow"></mat-header-row>
-    <mat-row *matRowDef="let row; columns: displayedColumns"></mat-row>
-  </mat-table>
+  <div
+    infiniteScroll
+    id="table-container"
+    [ngClass]="{ scrolling: isCanScroll }"
+    [infiniteScrollDistance]="0"
+    [infiniteScrollThrottle]="100"
+    (scrolled)="onScroll()"
+    [scrollWindow]="false"
+  >
+    <mat-table [dataSource]="dataSource" id="table" class="customers_table" cdkDropListGroup>
+      <ng-container *ngFor="let column of columns; let i = index" [matColumnDef]="column.title.key">
+        <mat-header-cell *matHeaderCellDef (mousedown)="onResizeColumn($event, i)">
+          <div class="column_header">
+            <span class="column-title">{{ column.title | serverTranslate: currentLang }}</span>
+            <mat-icon *ngIf="arrowDirection !== column.title.key" (click)="onSortTable(column.title.key, 'DESC')">
+              arrow_downward
+            </mat-icon>
+            <mat-icon *ngIf="arrowDirection === column.title.key" (click)="onSortTable(column.title.key, 'ASC')"> arrow_upward </mat-icon>
+          </div>
+        </mat-header-cell>
+        <mat-cell *matCellDef="let row">
+          <div
+            class="column_cell"
+            [matTooltip]="row[column.title.key]"
+            matTooltipShowDelay="700"
+            matTooltipClass="tooltip_style"
+            [class.pointer]="column.title.key === 'id'"
+            (click)="column.title.key === 'id' && openOrder(row[column.title.key])"
+          >
+            {{ row[column.title.key] }}
+          </div>
+        </mat-cell>
+      </ng-container>
+      <mat-header-row *matHeaderRowDef="displayedColumns; sticky: true" class="tableHeaderRow"></mat-header-row>
+      <mat-row *matRowDef="let row; columns: displayedColumns"></mat-row>
+    </mat-table>
+    <app-spinner *ngIf="isTableLoading && isCanScroll"></app-spinner>
+  </div>
 </div>
 <app-spinner *ngIf="isLoading"></app-spinner>

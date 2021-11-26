@@ -16,7 +16,11 @@ export class AdminCustomersService {
     return this.http.get<ICustomersTable>(`${this.url}/usersAll?page=${page}&columnName=${column}&${filters}&sortingOrder=${sortingType}`);
   }
 
-  getCustomerOrders(id: string): Observable<ICustomerOrdersTable> {
-    return this.http.get<ICustomerOrdersTable>(`${this.url}/${id}/ordersAll`);
+  getCustomerOrders(id: string, page: number, column: string, sortingType: string): Observable<ICustomerOrdersTable> {
+    if (column === 'amount') {
+      column = 'payment.amount';
+    }
+
+    return this.http.get<ICustomerOrdersTable>(`${this.url}/${id}/ordersAll?page=${page}&column=${column}&sortingType=${sortingType}`);
   }
 }

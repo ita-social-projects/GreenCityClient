@@ -9,7 +9,7 @@ export class TableHeightService {
       let isHeightSet: boolean;
       const tableHeight = table.getBoundingClientRect().height;
       const tableContainerHeight = this.setTableContainerHeight(tableContainer).getBoundingClientRect().height;
-      isHeightSet = !(tableHeight < tableContainerHeight);
+      isHeightSet = tableHeight >= tableContainerHeight;
       return isHeightSet;
     }
   }

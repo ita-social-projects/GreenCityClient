@@ -18,6 +18,11 @@
   color: var(--ubs-primary-grey);
 }
 
+.scrolling {
+  height: 500px;
+  overflow: scroll;
+}
+
 .mat-cell,
 .mat-header-cell,
 .mat-footer-cell {
@@ -91,17 +96,6 @@
   }
 }
 
-.scrolling {
-  height: 400px;
-  overflow: scroll;
-}
-
-.btn-group {
-  display: flex;
-  align-items: center;
-  margin-bottom: 20px;
-}
-
 .column_header {
   display: flex;
   justify-content: space-between;
@@ -117,12 +111,6 @@
   overflow: hidden;
   text-overflow: ellipsis;
   padding: 0 20px;
-}
-
-.search_total_wr {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
 }
 
 .tooltip_style {

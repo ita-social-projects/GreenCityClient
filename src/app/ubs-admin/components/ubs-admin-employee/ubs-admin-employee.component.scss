@@ -49,8 +49,9 @@
         line-height: 20px;
         font-weight: 700;
         letter-spacing: 0.1px;
-        font-family: var(--primary-font);
-        background: var(--ubs-primary-green);
+        font-family: var(--ubs-quaternary-font);
+        color: var(--ubs-quaternary-dark-grey);
+        background: var(--ubs-button-light-green);
         border-radius: 4px;
       }
     }
