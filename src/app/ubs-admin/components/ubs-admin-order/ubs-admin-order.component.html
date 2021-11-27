@@ -27,6 +27,7 @@
         [orderDetailsOriginal]="orderDetails"
         [orderStatusInfo]="orderStatusInfo"
         (changeOverpayment)="changeOverpayment($event)"
+        (checkMinOrder)="setMinOrder($event)"
       ></app-ubs-admin-order-details-form>
       <app-ubs-admin-order-payment [paidPrice]="orderInfo.orderFullPrice" [overpayment]="overpayment"> </app-ubs-admin-order-payment>
       <app-ubs-admin-export-details
@@ -50,7 +51,7 @@
         <button type="reset" class="cancel-button" (click)="$event.preventDefault(); openCancelModal()" [disabled]="!orderForm.touched">
           {{ 'order-edit.btn.cancel' | translate }}
         </button>
-        <button type="submit" class="save-button" [disabled]="!orderForm.touched || !orderForm.valid">
+        <button type="submit" class="save-button" [disabled]="!isMinOrder && (!orderForm.touched || !orderForm.valid)">
           {{ 'order-edit.btn.save' | translate }}
         </button>
       </div>

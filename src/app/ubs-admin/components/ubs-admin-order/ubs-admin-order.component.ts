@@ -42,6 +42,7 @@ export class UbsAdminOrderComponent implements OnInit, OnDestroy {
   orderStatusInfo;
   currentOrderStatus;
   overpayment = 0;
+  isMinOrder = true;
 
   constructor(
     private translate: TranslateService,
@@ -68,7 +69,6 @@ export class UbsAdminOrderComponent implements OnInit, OnDestroy {
       .getOrderInfo(orderId, lang)
       .pipe(takeUntil(this.destroy$))
       .subscribe((data: any) => {
-        console.log(data);
         this.orderInfo = data;
         data.generalOrderInfo.orderStatus = 'BROUGHT_IT_HIMSELF';
         this.generalOrderInfo = data.generalOrderInfo;
@@ -97,7 +97,7 @@ export class UbsAdminOrderComponent implements OnInit, OnDestroy {
     this.orderDetails.certificateDiscount = this.orderInfo.orderCertificateTotalDiscount;
     this.orderStatusInfo = this.getOrderStatusInfo(this.currentOrderStatus);
     this.orderDetails.orderFullPrice = this.orderInfo.orderFullPrice;
-    console.log(this.orderDetails.orderFullPrice);
+    this.orderDetails.courierPricePerPackage = this.orderInfo.courierPricePerPackage;
   }
 
   private getOrderStatusInfo(statusName: string) {
@@ -140,11 +140,10 @@ export class UbsAdminOrderComponent implements OnInit, OnDestroy {
         driver: this.getPositionEmployee(this.responsiblePersonInfo.currentPositionEmployees, 'driver')
       }),
       orderDetailsForm: this.fb.group({
-        // TODO: set data after receiving from backend
-        storeOrderNumber: 'TODO',
+        storeOrderNumber: this.orderInfo.numbersFromShop.join(', '),
         certificate: 'TODO-TODO',
         customerComment: this.orderInfo.comment,
-        isMinOrder: [true, [Validators.required]]
+        orderFullPrice: this.orderInfo.orderFullPrice
       })
     });
     this.orderDetails.bags.forEach((bag) => {
@@ -199,9 +198,12 @@ export class UbsAdminOrderComponent implements OnInit, OnDestroy {
     this.orderStatusInfo = this.getOrderStatusInfo(this.currentOrderStatus);
   }
 
-  public changeOverpayment(sum) {
+  private changeOverpayment(sum) {
     this.overpayment = sum;
-    console.log(sum);
+  }
+
+  private setMinOrder(flag) {
+    this.isMinOrder = flag;
   }
 
   resetForm() {

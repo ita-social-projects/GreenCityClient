@@ -40,6 +40,7 @@ export interface IOrderInfo {
   amountOfBagsExported: Map<string, number>;
   amountOfBagsOrdered: Map<string, number>;
   bags: IBags[];
+  courierPricePerPackage: number;
   orderBonusDiscount: number;
   orderCertificateTotalDiscount: number;
   orderDiscountedPrice: number;
