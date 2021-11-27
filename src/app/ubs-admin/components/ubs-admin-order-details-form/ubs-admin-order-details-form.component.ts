@@ -182,6 +182,7 @@ export class UbsAdminOrderDetailsFormComponent implements OnInit, OnChanges {
     if (this.amountOfBigBags < this.minAmountBigBags) {
       if (type === 'actual') {
         this.showUbsCourier = true;
+        this.checkEmptyOrder();
       } else {
         this.buyMore = true;
         this.checkMinOrder.emit(false);
@@ -190,6 +191,16 @@ export class UbsAdminOrderDetailsFormComponent implements OnInit, OnChanges {
     if (this.doneAfterBroughtHimself) {
       this.showUbsCourier = true;
       this.courierPrice = this.orderDetails.courierPricePerPackage * this.amountOfBigBags;
+    }
+  }
+
+  private checkEmptyOrder() {
+    if (
+      this.orderStatusInfo.ableActualChange === 'actual' &&
+      this.orderStatusInfo.key !== 'CANCELED' &&
+      this.bagsInfo.amount.actual === 0
+    ) {
+      this.checkMinOrder.emit(false);
     }
   }
 

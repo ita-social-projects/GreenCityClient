@@ -84,10 +84,11 @@ export class UbsAdminOrderComponent implements OnInit, OnDestroy {
   }
 
   private setOrderDetails() {
+    this.setPreviousBagsIfEmpty(this.currentOrderStatus);
     const bagsObj = this.orderInfo.bags.map((bag) => {
       bag.planned = this.orderInfo.amountOfBagsOrdered[bag.id] || 0;
-      bag.confirmed = (this.orderInfo.amountOfBagsConfirmed && this.orderInfo.amountOfBagsConfirmed[bag.id]) || 0;
-      bag.actual = (this.orderInfo.amountOfBagsExported && this.orderInfo.amountOfBagsExported[bag.id]) || 0;
+      bag.confirmed = this.orderInfo.amountOfBagsConfirmed[bag.id] || 0;
+      bag.actual = this.orderInfo.amountOfBagsExported[bag.id] || 0;
       return bag;
     });
     this.orderDetails = {
@@ -100,8 +101,21 @@ export class UbsAdminOrderComponent implements OnInit, OnDestroy {
     this.orderDetails.courierPricePerPackage = this.orderInfo.courierPricePerPackage;
   }
 
+  private setPreviousBagsIfEmpty(status) {
+    const actualStage = this.getOrderStatusInfo(status).ableActualChange;
+    if (actualStage) {
+      if (!Object.keys(this.orderInfo.amountOfBagsExported).length) {
+        this.orderInfo.amountOfBagsExported = Object.assign({}, this.orderInfo.amountOfBagsConfirmed);
+      }
+    } else {
+      if (!Object.keys(this.orderInfo.amountOfBagsConfirmed).length) {
+        this.orderInfo.amountOfBagsConfirmed = Object.assign({}, this.orderInfo.amountOfBagsOrdered);
+      }
+    }
+  }
+
   private getOrderStatusInfo(statusName: string) {
-    return this.generalOrderInfo.orderStatusesDtos.filter((status) => status.key === statusName)[0];
+    return this.generalOrderInfo.orderStatusesDtos.find((status) => status.key === statusName);
   }
 
   initForm() {
