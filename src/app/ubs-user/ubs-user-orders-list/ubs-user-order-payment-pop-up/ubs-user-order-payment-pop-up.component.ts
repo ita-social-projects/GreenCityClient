@@ -11,8 +11,8 @@ import { OrderFondyClientDto } from '../models/OrderFondyClientDto';
   styleUrls: ['./ubs-user-order-payment-pop-up.component.scss']
 })
 export class UbsUserOrderPaymentPopUpComponent implements OnInit {
-  public totalSum: number;
-  public bonusValue: number;
+  public totalSum = 0;
+  public bonusValue = 0;
   public selectedRadio: string;
   public certificatePattern = /(?!0000)\d{4}-(?!0000)\d{4}/;
   public certificateMask = '0000-0000';
@@ -21,9 +21,9 @@ export class UbsUserOrderPaymentPopUpComponent implements OnInit {
   public certStatuses: boolean[] = [];
   public cancelCertBtn = false;
   public certificateError = false;
-  public orderId: number;
+  public orderId = 0;
   public certificateStatusActive = false;
-  public certificateSum: number;
+  public certificateSum = 0;
   public certificateDate: string;
   public orderFondyClientDto: OrderFondyClientDto;
 
@@ -44,12 +44,12 @@ export class UbsUserOrderPaymentPopUpComponent implements OnInit {
     });
   }
 
-  get formArrayCertificates() {
+  get formArrayCertificates(): FormArray {
     return this.orderDetailsForm.get('formArrayCertificates') as FormArray;
   }
 
-  get formPaymentSystem() {
-    return this.orderDetailsForm.get('paymentSystem');
+  get formPaymentSystem(): FormControl {
+    return this.orderDetailsForm.get('paymentSystem') as FormControl;
   }
 
   public certificateSubmit(index: number): void {
@@ -60,11 +60,12 @@ export class UbsUserOrderPaymentPopUpComponent implements OnInit {
     }
   }
 
-  public calculateCertificates(arr): void {
+  public calculateCertificates(certificates): void {
+    this.certificateSum = 0;
     this.cancelCertBtn = true;
     this.certificateStatusActive = false;
-    if (arr.length > 0) {
-      arr.forEach((certificate, index) => {
+    if (certificates.length > 0) {
+      certificates.forEach((certificate, index) => {
         this.orderService.processCertificate(certificate).subscribe(
           (responce) => {
             if (responce.certificateStatus === 'ACTIVE') {
@@ -81,7 +82,7 @@ export class UbsUserOrderPaymentPopUpComponent implements OnInit {
           },
           (error) => {
             if (error.status === 404) {
-              arr.splice(index, 1);
+              certificates.splice(index, 1);
               this.certificateError = true;
             }
           }
@@ -91,14 +92,16 @@ export class UbsUserOrderPaymentPopUpComponent implements OnInit {
   }
 
   public deleteCertificate(index: number): void {
+    this.formArrayCertificates.controls[index].reset();
     this.totalSum += this.certificateSum;
+    this.certificateStatusActive = false;
     this.certificateError = false;
     this.certificates.splice(index, 1);
     this.certStatuses.splice(index, 1);
     this.cancelCertBtn = false;
   }
 
-  public processOrder() {
+  public processOrder(): void {
     this.orderFondyClientDto.orderId = this.orderId;
     this.orderFondyClientDto.sum = this.totalSum;
 
