@@ -36,6 +36,32 @@
       "delete-profile": "Видалити профіль",
       "delete-profile-cancel": "Назад",
       "delete-profile-save": "Видалити"
+    },
+    "payment": {
+      "title": "Оплата",
+      "curency": "грн",
+      "sum": "Сума:",
+      "yes": "Так",
+      "no": "Ні",
+      "certificate-activated": {
+        "sum": "Сертифікат на суму {{certificateSum}} грн активовано.",
+        "data": "Строк дії сертифікату - до {{certDate}}"
+      },
+      "choose-payment": "Ви можете здійснити оплату одним з вибраних способів нижче.",
+      "question-certificate": "Чи бажаєте Ви скористатись сертифікатом?",
+      "failed-certificate": "Сертифікат не прийнято, споробуйте ще раз",
+      "bonus-need": "Чи бажаєте Ви скористатися бонусами?",
+      "bonus-left": "На Вашому бонусному рахунку:",
+      "certificate-number": "Номер сертифіката",
+      "way-payment": "Оберіть спосіб оплати",
+      "add-certificate": "Додати сертифікат",
+      "fondy-card": "Карткою через Fondy",
+      "liqpay-card": "Карткою через LiqPay",
+      "btn": {
+        "pay": "Оплатити",
+        "cancel": "Відмінити",
+        "active": "Активувати"
+      }
     }
   },
   "add-violation-modal": {
