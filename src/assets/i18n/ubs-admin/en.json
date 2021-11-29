@@ -328,7 +328,7 @@
       "services-amount": "Amount of services provided:",
       "delivery": "Delivery from the Eco store",
       "order-number": "Numbers of your orders:",
-      "recipient": "Recipient",
+      "recipient": "Sender",
       "export-address": "The address of export of the ordered services",
       "comment": "Comment:",
       "receipt": "Download the receipt"
