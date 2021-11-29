@@ -172,13 +172,7 @@
           matTooltipShowDelay="700"
           matTooltipClass="tooltip_style"
           [class.pointer]="column.title.key === 'clientName' || column.title.key === 'number_of_orders'"
-          (click)="
-            column.title.key === 'clientName'
-              ? openCustomer(row, row[column.title.key])
-              : column.title.key === 'number_of_orders'
-              ? openOrders(row)
-              : null
-          "
+          (click)="openPages(column.title.key, row)"
         >
           {{ row[column.title.key] }}
         </div>

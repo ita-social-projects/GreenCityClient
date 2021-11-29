@@ -324,12 +324,20 @@ export class UbsAdminCustomersComponent implements OnInit, AfterViewChecked, OnD
     this.setTableResize(this.matTableRef.nativeElement.clientWidth);
   }
 
-  public openCustomer(row, username): void {
+  public openPages(columnName, row) {
+    if (columnName === 'clientName') {
+      this.openCustomer(row, row[columnName]);
+    } else if (columnName === 'number_of_orders') {
+      this.openOrders(row);
+    }
+  }
+
+  private openCustomer(row, username): void {
     this.localStorageService.setCustomer(row);
     this.router.navigate(['ubs-admin', 'customers', `${username.replaceAll(' ', '')}`]);
   }
 
-  public openOrders(user): void {
+  private openOrders(user): void {
     this.router.navigate(['ubs-admin', 'customerOrders', `${user.userId}`]);
   }
 
