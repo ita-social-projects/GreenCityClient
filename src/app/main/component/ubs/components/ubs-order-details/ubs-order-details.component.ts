@@ -55,6 +55,8 @@ export class UBSOrderDetailsComponent extends FormBaseComponent implements OnIni
   certStatus: string;
   failedCert = false;
   userOrder: FinalOrder;
+  ecoShopOrdersNumbersCounter = 1;
+  limitOfEcoShopOrdersNumbers = 5;
   object: {};
   private destroy: Subject<boolean> = new Subject<boolean>();
   public currentLanguage: string;
@@ -409,6 +411,7 @@ export class UBSOrderDetailsComponent extends FormBaseComponent implements OnIni
   }
 
   addOrder(): void {
+    this.ecoShopOrdersNumbersCounter++;
     const additionalOrdersArray = this.orderDetailsForm.get('additionalOrders') as FormArray;
     additionalOrdersArray.markAsUntouched();
     const additionalOrder = new FormControl('', [Validators.minLength(10)]);
@@ -419,7 +422,12 @@ export class UBSOrderDetailsComponent extends FormBaseComponent implements OnIni
     }, 0);
   }
 
+  canAddEcoShopOrderNumber(): boolean {
+    return this.ecoShopOrdersNumbersCounter < this.limitOfEcoShopOrdersNumbers;
+  }
+
   deleteOrder(index: number): void {
+    this.ecoShopOrdersNumbersCounter--;
     const orders = this.additionalOrders;
     orders.length > 1 ? orders.removeAt(index) : orders.reset(['']);
     this.changeOrderDetails();
