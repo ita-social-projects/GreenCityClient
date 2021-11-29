@@ -34,7 +34,7 @@ export class UBSAddAddressPopUpComponent implements OnInit, OnDestroy {
     { cityName: 'Kyiv', northLat: 50.59079800991073, southLat: 50.21327301525928, eastLng: 30.82594104187906, westLng: 30.23944009690609 }
   ];
 
-  bigRegions = ['Київська область'];
+  bigRegions = ['Київська'];
 
   regions = [
     'Голосіївський',
@@ -113,8 +113,8 @@ export class UBSAddAddressPopUpComponent implements OnInit, OnDestroy {
       ],
       addressComment: [this.data.edit ? this.data.address.addressComment : '', Validators.maxLength(255)],
       coordinates: {
-        latitude: [this.data.edit ? this.data.address.coordinates.latitude : ''],
-        longitude: [this.data.edit ? this.data.address.coordinates.longitude : '']
+        latitude: this.data.edit ? this.data.address.coordinates.latitude : '',
+        longitude: this.data.edit ? this.data.address.coordinates.longitude : ''
       },
       id: [this.data.edit ? this.data.address.id : 0],
       actual: true
