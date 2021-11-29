@@ -64,6 +64,32 @@
   overflow-wrap: break-word;
 }
 
+.edit-or-delete {
+  position: relative;
+  max-width: 40px;
+}
+
+#edit-delete-btn {
+  position: absolute;
+  top: 0;
+  left: 0;
+  min-width: 100%;
+  min-height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+  align-items: center;
+}
+
+.mat-icon {
+  color: var(--ubs-quintynary-light-grey);
+}
+
+.mat-icon:hover {
+  color: var(--ubs-tertiary-grey);
+  cursor: pointer;
+}
+
 .mat-header-row {
   min-height: 39px !important;
   overflow-wrap: break-word !important;

@@ -1,6 +1,11 @@
 import { Component, OnInit } from '@angular/core';
+import { MatDialog } from '@angular/material/dialog';
 import { MatTableDataSource } from '@angular/material/table';
+import { take } from 'rxjs/operators';
+import { Page } from 'src/app/ubs-admin/models/ubs-admin.interface';
 import { UbsAdminEmployeeService } from 'src/app/ubs-admin/services/ubs-admin-employee.service';
+import { DialogPopUpComponent } from '../../shared/components/dialog-pop-up/dialog-pop-up.component';
+import { EmployeeFormComponent } from '../employee-form/employee-form.component';
 
 @Component({
   selector: 'app-ubs-admin-employee-table',
@@ -24,8 +29,12 @@ export class UbsAdminEmployeeTableComponent implements OnInit {
   selectedStations: string[] = [];
   selectedPositions: string[] = [];
   filteredTableData: any[] = [];
-
-  constructor(private ubsAdminEmployeeService: UbsAdminEmployeeService) {}
+  deleteDialogData = {
+    popupTitle: 'employees.warning-title',
+    popupConfirm: 'employees.btn.yes',
+    popupCancel: 'employees.btn.no'
+  };
+  constructor(private ubsAdminEmployeeService: UbsAdminEmployeeService, private dialog: MatDialog) {}
 
   ngOnInit(): void {
     this.getTable();
@@ -44,7 +53,7 @@ export class UbsAdminEmployeeTableComponent implements OnInit {
   }
 
   setDisplayedColumns() {
-    this.displayedColumns = ['fullName', 'position', 'location', 'email', 'phoneNumber'];
+    this.displayedColumns = ['editOrDelete', 'fullName', 'position', 'location', 'email', 'phoneNumber'];
   }
 
   updateTable() {
@@ -62,6 +71,7 @@ export class UbsAdminEmployeeTableComponent implements OnInit {
       this.updateTable();
     }
   }
+
   applyFilter(event: Event) {
     const filterValue = (event.target as HTMLInputElement).value;
     this.dataSource.filter = filterValue.trim().toLowerCase();
@@ -73,7 +83,6 @@ export class UbsAdminEmployeeTableComponent implements OnInit {
     if (this.allPositions.length === 0) {
       this.ubsAdminEmployeeService.getAllPositions().subscribe((pos) => {
         this.allPositions = pos;
-        console.log(this.allPositions);
       });
     }
     if (this.isPositionsOpen === false) {
@@ -146,5 +155,34 @@ export class UbsAdminEmployeeTableComponent implements OnInit {
     if (this.isStationsOpen === false) {
       this.selectedStations = [];
     }
+  }
+
+  openModal(employeeData: Page) {
+    this.dialog.open(EmployeeFormComponent, {
+      data: employeeData,
+      hasBackdrop: true,
+      closeOnNavigation: true,
+      disableClose: true,
+      panelClass: 'custom-dialog-container'
+    });
+  }
+
+  deleteEmployee(employeeId: number) {
+    const matDialogRef = this.dialog.open(DialogPopUpComponent, {
+      data: this.deleteDialogData,
+      hasBackdrop: true,
+      closeOnNavigation: true,
+      disableClose: true,
+      panelClass: ''
+    });
+
+    matDialogRef
+      .afterClosed()
+      .pipe(take(1))
+      .subscribe((res) => {
+        if (res) {
+          this.ubsAdminEmployeeService.deleteEmployee(employeeId).subscribe();
+        }
+      });
   }
 }
