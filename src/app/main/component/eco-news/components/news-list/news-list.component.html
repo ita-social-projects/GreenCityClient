@@ -1,4 +1,4 @@
-<main role="main" id="main-content">
+<main role="main" id="main-content" aria-label="news list">
   <div class="container">
     <div (window:resize)="onResize()">
       <div class="cont">
@@ -21,14 +21,15 @@
       </div>
       <hr />
     </div>
-
     <div class="main-wrapper">
       <app-remaining-count [remainingCount]="remaining"></app-remaining-count>
       <app-change-view-button [gallery]="view" (view)="changeView($event)"></app-change-view-button>
     </div>
     <div class="list-wrapper">
-      <ul class="list" *ngIf="remaining" [ngClass]="{ 'gallery-view-active': view }">
+      <ul role="tablist" tabindex="0" class="list" *ngIf="remaining" [ngClass]="{ 'gallery-view-active': view }" aria-label="news list">
         <li
+          role="listitem"
+          tabindex="0"
           [ngClass]="{
             'gallery-view-li-active': view,
             'list-view-li-active': !view

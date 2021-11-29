@@ -1,8 +1,8 @@
-<div class="list-gallery" role="link">
-  <img class="list-image-content" [src]="checkNewsImage()" alt="user added image" />
+<div class="list-gallery">
+  <img class="list-image-content" role="img" [src]="checkNewsImage()" alt="user added image" />
   <div class="list-gallery-content">
-    <div class="filter-tag">
-      <div class="ul-eco-buttons" *ngFor="let tag of ecoNewsModel.tags">
+    <div class="filter-tag" role="list">
+      <div role="none" aria-hidden="false" class="ul-eco-buttons" *ngFor="let tag of ecoNewsModel.tags">
         {{ 'homepage.eco-news.tags.' + tag | lowercase | translate }}
       </div>
     </div>
@@ -13,28 +13,28 @@
         </h3>
       </div>
       <div class="list-text word-wrap">
-        <p>
+        <p aria-label="news text">
           {{ ecoNewsModel.text }}
         </p>
       </div>
     </div>
     <div class="user-data-added-news">
       <p class="user-data-text-date">
-        <img class="icon" [src]="profileIcons.calendarIcon" alt="calendar icon" />
+        <img class="icon" [src]="profileIcons.calendarIcon" alt="date of creation" />
         {{ ecoNewsModel.creationDate | date: undefined:undefined:translate.defaultLang }}
       </p>
       <p class="user-data-text-date user">
-        <img class="icon" [src]="profileIcons.userIcon" alt="user icon" />
+        <img class="icon" role="img" [src]="profileIcons.userIcon" alt="created by" />
         {{ ecoNewsModel.author.name }}
       </p>
-      <div class="user-data-like">
+      <p class="user-data-like">
         <mat-icon>chat_bubble_outline</mat-icon>
         <span class="numerosity">{{ ecoNewsModel.countComments }}</span>
-      </div>
-      <div class="user-data-like">
-        <img [src]="likeImg" alt="like" class="icon" />
+      </p>
+      <p class="user-data-like">
+        <img [src]="likeImg" role="img" alt="likes" class="icon" />
         <span class="numerosity">{{ ecoNewsModel.likes }}</span>
-      </div>
+      </p>
     </div>
   </div>
 </div>
