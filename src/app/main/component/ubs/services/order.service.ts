@@ -88,11 +88,22 @@ export class OrderService {
 
   getUbsOrderStatus(): Observable<any> {
     const liqPayOrderId = this.localStorageService.getUbsOrderId();
-    return liqPayOrderId ? this.getLiqPayStatus(liqPayOrderId) : throwError(new Error('There is no OrderId!'));
+    const fondyOrderId = this.localStorageService.getUbsFondyOrderId();
+    if (liqPayOrderId) {
+      return this.getLiqPayStatus(liqPayOrderId);
+    }
+    if (fondyOrderId) {
+      return this.getFondyStatus(fondyOrderId);
+    }
+    return throwError(new Error('There is no OrderId!'));
   }
 
   getLiqPayStatus(orderId: string): Observable<any> {
     return this.http.get(`${this.url}/getLiqPayStatus/${orderId}`);
+  }
+
+  getFondyStatus(orderId: string): Observable<any> {
+    return this.http.get(`${this.url}/getFondyStatus/${orderId}`);
   }
 
   getLocations(): Observable<Locations[]> {
@@ -127,6 +138,7 @@ export class OrderService {
   cancelUBSwithoutSaving(): void {
     this.shareFormService.isDataSaved = true;
     this.localStorageService.removeUbsOrderId();
+    this.localStorageService.removeUbsFondyOrderId();
     this.shareFormService.saveDataOnLocalStorage();
   }
 }
