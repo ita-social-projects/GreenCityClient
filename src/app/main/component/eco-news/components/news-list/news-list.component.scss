@@ -10,9 +10,9 @@ div hr {
 
 .main-header {
   font-family: var(--secondary-font);
-  font-size: 55px;
-  line-height: 48px;
-  width: 256px;
+  font-size: 42px;
+  line-height: 56px;
+  width: 201px;
   white-space: nowrap;
   font-weight: 500;
   margin: 0 0 34px -3px;
@@ -52,10 +52,6 @@ div hr {
 
 .list-view-li-active {
   margin-bottom: 32px;
-}
-
-li:focus {
-  outline: none;
 }
 
 #create-button {
@@ -135,6 +131,7 @@ li:focus {
 @media (min-width: 576px) {
   .container {
     padding: 0;
-    max-width: 96%;
+    width: 100%;
+    margin: 0 18px;
   }
 }

@@ -11,14 +11,6 @@ export class OrderService {
   private backend: string = environment.ubsAdmin.backendUbsAdminLink;
   private backendLink: string = environment.backendUbsLink;
 
-  statusDone = { name: 'DONE', translation: 'order-edit.order-status.done' };
-  statusAdjustment = { name: 'ADJUSTMENT', translation: 'order-edit.order-status.adjustment' };
-  statusOnTheRoute = { name: 'ON_THE_ROUTE', translation: 'order-edit.order-status.on-the-route' };
-  statusNotTakenOut = { name: 'NOT_TAKEN_OUT', translation: 'order-edit.order-status.not-taken-out' };
-  statusConfirmed = { name: 'CONFIRMED', translation: 'order-edit.order-status.confirmed' };
-  statusFormed = { name: 'FORMED', translation: 'order-edit.order-status.formed' };
-  statusBroughtItHimself = { name: 'BROUGHT_IT_HIMSELF', translation: 'order-edit.order-status.brought-it-himself' };
-  statusCanceled = { name: 'CANCELED', translation: 'order-edit.order-status.canceled' };
   readonly districts = [
     'Голосіївський',
     'Дарницький',
@@ -41,7 +33,7 @@ export class OrderService {
     });
   }
 
-  getAvailableOrderStatuses(currentOrderStatus, statuses) {
+  getAvailableOrderStatuses(currentOrderStatus: string, statuses: Array<any>) {
     switch (currentOrderStatus) {
       case 'FORMED':
         return this.filterStatuses(statuses, ['FORMED', 'ADJUSTMENT', 'BROUGHT_IT_HIMSELF', 'CANCELED']);
@@ -66,34 +58,6 @@ export class OrderService {
 
       case 'CANCELED':
         return this.filterStatuses(statuses, ['CANCELED']);
-    }
-  }
-
-  getOrderStatuses(currentOrderStatus) {
-    switch (currentOrderStatus) {
-      case 'FORMED':
-        return [this.statusFormed, this.statusAdjustment, this.statusBroughtItHimself, this.statusCanceled];
-
-      case 'ADJUSTMENT':
-        return [this.statusFormed, this.statusAdjustment, this.statusConfirmed, this.statusBroughtItHimself, this.statusCanceled];
-
-      case 'CONFIRMED':
-        return [this.statusFormed, this.statusConfirmed, this.statusOnTheRoute, this.statusCanceled];
-
-      case 'BROUGHT_IT_HIMSELF':
-        return [this.statusBroughtItHimself, this.statusDone, this.statusCanceled];
-
-      case 'ON_THE_ROUTE':
-        return [this.statusOnTheRoute, this.statusDone, this.statusNotTakenOut, this.statusCanceled];
-
-      case 'NOT_TAKEN_OUT':
-        return [this.statusNotTakenOut, this.statusAdjustment, this.statusCanceled];
-
-      case 'DONE':
-        return [this.statusDone];
-
-      case 'CANCELED':
-        return [this.statusCanceled];
     }
   }
 

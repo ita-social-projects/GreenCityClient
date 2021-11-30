@@ -83,9 +83,11 @@ describe('UbsConfirmPageComponent', () => {
 
   it('in saveDataOnLocalStorage should removeUbsOrderId and saveDataOnLocalStorage be called', () => {
     const localStorageService = 'localStorageService';
-    const localStorageServiceMock = spyOn(component[localStorageService], 'removeUbsOrderId');
+    const removeUbsOrderIdMock = spyOn(component[localStorageService], 'removeUbsOrderId');
+    const removeUbsFondyOrderIdMock = spyOn(component[localStorageService], 'removeUbsFondyOrderId');
     component.saveDataOnLocalStorage();
-    expect(localStorageServiceMock).toHaveBeenCalled();
+    expect(removeUbsOrderIdMock).toHaveBeenCalled();
+    expect(removeUbsFondyOrderIdMock).toHaveBeenCalled();
     expect(fakeUBSOrderFormService.saveDataOnLocalStorage).toHaveBeenCalled();
   });
 

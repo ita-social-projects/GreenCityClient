@@ -3,6 +3,8 @@
   <ul class="ul-eco-buttons" aria-label="filter by items">
     <li *ngFor="let filter of filters">
       <a
+        role="button"
+        [attr.aria-pressed]="filter.isActive"
         (click)="toggleFilter(filter.name)"
         class="custom-chip global-tag"
         [ngClass]="{ 'global-tag-clicked': filter.isActive }"

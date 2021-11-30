@@ -7,6 +7,7 @@ import { tap } from 'rxjs/operators';
 import { ICertificate, OrderDetails } from '../models/ubs.interface';
 import { Order } from '../models/ubs.model';
 import { UBSOrderFormService } from './ubs-order-form.service';
+import { OrderFondyClientDto } from 'src/app/ubs-user/ubs-user-orders-list/models/OrderFondyClientDto';
 
 @Injectable({
   providedIn: 'root'
@@ -87,11 +88,22 @@ export class OrderService {
 
   getUbsOrderStatus(): Observable<any> {
     const liqPayOrderId = this.localStorageService.getUbsOrderId();
-    return liqPayOrderId ? this.getLiqPayStatus(liqPayOrderId) : throwError(new Error('There is no OrderId!'));
+    const fondyOrderId = this.localStorageService.getUbsFondyOrderId();
+    if (liqPayOrderId) {
+      return this.getLiqPayStatus(liqPayOrderId);
+    }
+    if (fondyOrderId) {
+      return this.getFondyStatus(fondyOrderId);
+    }
+    return throwError(new Error('There is no OrderId!'));
   }
 
   getLiqPayStatus(orderId: string): Observable<any> {
     return this.http.get(`${this.url}/getLiqPayStatus/${orderId}`);
+  }
+
+  getFondyStatus(orderId: string): Observable<any> {
+    return this.http.get(`${this.url}/getFondyStatus/${orderId}`);
   }
 
   getLocations(): Observable<Locations[]> {
@@ -119,9 +131,14 @@ export class OrderService {
     return this.http.get(`${this.url}/client/get-data-for-order-surcharge/${orderId}/${lang}`);
   }
 
+  processOrderFondyFromUserOrderList(order: OrderFondyClientDto): Observable<object> {
+    return this.http.post<OrderFondyClientDto>(`${this.url}/client/processOrderFondy`, order);
+  }
+
   cancelUBSwithoutSaving(): void {
     this.shareFormService.isDataSaved = true;
     this.localStorageService.removeUbsOrderId();
+    this.localStorageService.removeUbsFondyOrderId();
     this.shareFormService.saveDataOnLocalStorage();
   }
 }
