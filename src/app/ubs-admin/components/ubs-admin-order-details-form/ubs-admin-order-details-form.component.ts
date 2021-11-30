@@ -1,3 +1,4 @@
+import { OrderService } from 'src/app/ubs-admin/services/order.service';
 import { OrderBag, OrderDetails } from './../../../main/component/ubs/models/ubs.interface';
 import { Component, Input, OnInit, OnChanges, SimpleChanges, Output, EventEmitter } from '@angular/core';
 import { FormGroup, FormBuilder } from '@angular/forms';
@@ -16,6 +17,8 @@ export class UbsAdminOrderDetailsFormComponent implements OnInit, OnChanges {
   public isVisible: boolean;
   public bagsInfo;
   public orderDetails;
+  public overpayment: number;
+  public overpaymentMessage: string;
   public buyMore = false;
   public showUbsCourier = false;
   public limitMsg;
@@ -30,7 +33,7 @@ export class UbsAdminOrderDetailsFormComponent implements OnInit, OnChanges {
   @Input() orderDetailsForm: FormGroup;
   @Input() orderStatusInfo;
 
-  constructor(private fb: FormBuilder) {}
+  constructor(private fb: FormBuilder, private orderService: OrderService) {}
 
   ngOnChanges(changes: SimpleChanges) {
     if (changes.orderDetailsForm) {
@@ -150,8 +153,12 @@ export class UbsAdminOrderDetailsFormComponent implements OnInit, OnChanges {
 
   private calculateOverpayment() {
     const bagType = this.orderStatusInfo.ableActualChange ? 'actual' : 'confirmed';
-    const overpayment = this.orderDetails.orderFullPrice - this.bagsInfo.finalSum[bagType];
-    this.changeOverpayment.emit(overpayment);
+    this.overpayment = this.orderDetails.orderFullPrice - this.bagsInfo.finalSum[bagType];
+    this.changeOverpayment.emit(this.overpayment);
+    if (this.overpayment) {
+      this.overpaymentMessage = this.orderService.getOverpaymentMsg(this.overpayment);
+      this.overpayment = Math.abs(this.overpayment);
+    }
   }
 
   private setFinalFullPrice() {

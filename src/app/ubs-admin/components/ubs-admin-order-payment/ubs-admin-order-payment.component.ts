@@ -1,4 +1,5 @@
 import { Component, Input, OnInit, OnChanges, SimpleChanges } from '@angular/core';
+import { OrderService } from '../../services/order.service';
 
 @Component({
   selector: 'app-ubs-admin-order-payment',
@@ -10,16 +11,12 @@ export class UbsAdminOrderPaymentComponent implements OnInit, OnChanges {
   pageOpen: boolean;
   @Input() paidPrice: number;
   @Input() overpayment: number;
-  OVERPAYMENT_MESSAGE = 'order-payment.overpayment';
-  UNDERPAYMENT_MESSAGE = 'order-payment.underpayment';
+
+  constructor(private orderService: OrderService) {}
 
   ngOnChanges(changes: SimpleChanges) {
     if (changes.overpayment) {
-      if (this.overpayment > 0) {
-        this.message = this.OVERPAYMENT_MESSAGE;
-      } else if (this.overpayment < 0) {
-        this.message = this.UNDERPAYMENT_MESSAGE;
-      }
+      this.message = this.orderService.getOverpaymentMsg(this.overpayment);
       this.overpayment = Math.abs(this.overpayment);
     }
   }

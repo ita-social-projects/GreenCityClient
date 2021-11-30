@@ -155,4 +155,16 @@ export class OrderService {
   public setColumnToDisplay(columns: string) {
     return this.http.put<any>(`${this.backend}/management/changeOrdersTableView?titles=${columns}`, '');
   }
+
+  public getOverpaymentMsg(overpayment) {
+    let message: string;
+    const OVERPAYMENT_MESSAGE = 'order-payment.overpayment';
+    const UNDERPAYMENT_MESSAGE = 'order-payment.underpayment';
+    if (overpayment > 0) {
+      message = OVERPAYMENT_MESSAGE;
+    } else if (overpayment < 0) {
+      message = UNDERPAYMENT_MESSAGE;
+    }
+    return message;
+  }
 }
