@@ -1,24 +1,35 @@
 .dialog-container {
   position: relative;
   width: 464px;
-  height: 318px;
+  height: 350px;
   font-family: var(--primary-font);
   font-weight: bold;
   font-size: larger;
 
   .title {
-    margin: 16px;
+    margin: 15px;
     font-weight: bolder;
   }
 
   .form {
-    margin: 20px;
+    margin: 10px 20px;
     font-size: 20px;
 
     .select {
-      margin: 20px;
+      margin: 10px;
       height: 50px;
       padding: 0 10px;
+    }
+  }
+
+  .info {
+    font-weight: normal;
+    font-size: 12px;
+    margin: 15px;
+
+    .text {
+      line-height: 15px;
+      margin-bottom: 0;
     }
   }
 

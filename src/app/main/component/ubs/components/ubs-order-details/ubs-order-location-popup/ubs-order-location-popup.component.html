@@ -5,15 +5,19 @@
     </button>
   </div>
   <div>
-    <h4 class="title">{{ 'order-details.location.title' | translate }}</h4>
+    <h5 class="title">{{ 'order-details.location.title' | translate }}</h5>
   </div>
   <form *ngIf="!isFetching; else spinner" class="form">
     <select [(ngModel)]="selectedLocationId" name="region" class="select form-select form-select-lg">
-      <option [ngValue]="location.id" *ngFor="let location of locations | filterByLang">
+      <option [ngValue]="location.id" *ngFor="let location of locations | filterByLang" (click)="changeLocation(location.id)">
         {{ location.name }}
       </option>
     </select>
   </form>
+  <div class="info" *ngIf="!isFetching">
+    <p class="text" *ngIf="selectedLocationId === 1">{{ 'order-details.location.info-city' | translate }}</p>
+    <p class="text" *ngIf="selectedLocationId === 2">{{ 'order-details.location.info-region' | translate }}</p>
+  </div>
   <ng-template #spinner>
     <app-spinner class="mx-auto"></app-spinner>
   </ng-template>
