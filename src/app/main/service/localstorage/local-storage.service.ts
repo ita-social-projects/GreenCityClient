@@ -142,6 +142,7 @@ export class LocalStorageService {
     localStorage.removeItem('UBSorderData');
     localStorage.removeItem('currentLocationId');
     localStorage.removeItem('locations');
+    localStorage.removeItem('addressId');
   }
 
   public getUbsPersonalData(): any {

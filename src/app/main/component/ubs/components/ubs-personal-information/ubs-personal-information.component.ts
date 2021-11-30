@@ -97,13 +97,13 @@ export class UBSPersonalInformationComponent extends FormBaseComponent implement
       .subscribe((list) => {
         this.addresses = this.getLastAddresses(list.addressList);
         localStorage.setItem('addresses', JSON.stringify(this.addresses));
-
         this.personalDataForm.patchValue({
           address: this.addresses
         });
 
+        const addressId = JSON.parse(localStorage.getItem('addressId'));
         if (this.addresses[0] && isCheck) {
-          this.checkAddress(this.addresses[0].id);
+          this.checkAddress(addressId ?? this.addresses[0].id);
         }
       });
   }
@@ -153,7 +153,7 @@ export class UBSPersonalInformationComponent extends FormBaseComponent implement
         this.orderService.setCurrentAddress(address);
       }
     });
-
+    localStorage.setItem('addressId', JSON.stringify(addressId));
     this.changeAddressInPersonalData();
   }
 
@@ -167,6 +167,7 @@ export class UBSPersonalInformationComponent extends FormBaseComponent implement
     this.personalData.entranceNumber = activeAddress.entranceNumber;
     this.personalData.latitude = activeAddress.coordinates.latitude;
     this.personalData.longitude = activeAddress.coordinates.longitude;
+    this.shareFormService.saveDataOnLocalStorage();
   }
 
   setFormData(): void {
