@@ -2,7 +2,7 @@
   <div class="dialog-container-title">
     <h2>{{ 'ubs-client-profile.payment.title' | translate }}</h2>
     <h6 class="text-order-sum">
-      {{ 'ubs-client-profile.payment.sum' | translate }} {{ totalSum }} {{ 'ubs-client-profile.payment.curency' | translate }}.
+      {{ 'ubs-client-profile.payment.sum' | translate }} {{ totalSum | currency }} {{ 'ubs-client-profile.payment.curency' | translate }}.
     </h6>
   </div>
 
@@ -20,17 +20,16 @@
             [unmask]="false"
             placeholder="xxxx-xxxx"
             [formControlName]="i"
-            [readonly]="certStatuses[i]"
           />
           <button
-            *ngIf="!cancelCertBtn"
+            *ngIf="certificateStatus[i]"
             class="btn btn-activate"
-            (click)="certificateSubmit(i)"
             [disabled]="formArrayCertificates['controls'][i].invalid || formArrayCertificates['controls'][i].pristine || 0 >= totalSum"
+            (click)="certificateSubmit(i, certificate)"
           >
             {{ 'ubs-client-profile.payment.btn.active' | translate }}
           </button>
-          <button *ngIf="cancelCertBtn" class="btn btn-cancel-activation" (click)="deleteCertificate(i)">
+          <button *ngIf="!certificateStatus[i]" class="btn btn-cancel-activation" (click)="deleteCertificate(i)">
             {{ 'ubs-client-profile.payment.btn.cancel' | translate }}
           </button>
         </div>
@@ -42,7 +41,7 @@
         <div class="text-danger">
           {{ 'ubs-client-profile.payment.certificate-activated.data' | translate: { certDate: certificateDate } }}
         </div>
-        <button class="btn btn-add-certificate">
+        <button class="btn btn-add-certificate" (click)="addNewCertificate()">
           {{ 'ubs-client-profile.payment.add-certificate' | translate }}
         </button>
       </div>
@@ -56,7 +55,7 @@
       {{ 'ubs-client-profile.payment.bonus-left' | translate }} {{ bonusValue }} {{ 'ubs-client-profile.payment.curency' | translate }}.
     </div>
 
-    <mat-radio-group formControlName="bonus">
+    <mat-radio-group formControlName="bonus" class="radio-group" [ngStyle]="totalSum === 0 && { 'padding-bottom': '120px' }">
       <mat-radio-button value="no" name="no">
         {{ 'ubs-client-profile.payment.no' | translate }}
       </mat-radio-button>
@@ -66,15 +65,17 @@
       </mat-radio-button>
     </mat-radio-group>
 
-    <hr style="border-width: 2px" />
+    <div *ngIf="totalSum > 0">
+      <hr style="border-width: 2px" />
 
-    <div class="choose-payment">{{ 'ubs-client-profile.payment.choose-payment' | translate }}</div>
-    <div class="text">{{ 'ubs-client-profile.payment.way-payment' | translate }}</div>
+      <div class="choose-payment">{{ 'ubs-client-profile.payment.choose-payment' | translate }}</div>
+      <div class="text">{{ 'ubs-client-profile.payment.way-payment' | translate }}</div>
 
-    <select *ngIf="totalSum > 0" formControlName="paymentSystem" class="form-select">
-      <option value="Fondy" name="Fondy">{{ 'ubs-client-profile.payment.fondy-card' | translate }}</option>
-      <option value="LiqPay" name="LiqPay">{{ 'ubs-client-profile.payment.liqpay-card' | translate }}</option>
-    </select>
+      <select formControlName="paymentSystem" class="form-select">
+        <option value="Fondy" name="Fondy">{{ 'ubs-client-profile.payment.fondy-card' | translate }}</option>
+        <option value="LiqPay" name="LiqPay">{{ 'ubs-client-profile.payment.liqpay-card' | translate }}</option>
+      </select>
+    </div>
   </form>
 
   <div class="action-btns">
@@ -82,7 +83,7 @@
       <button class="btn btn-cancel" mat-dialog-close>
         {{ 'ubs-client-profile.payment.btn.cancel' | translate }}
       </button>
-      <button class="btn btn-pay" (click)="processOrder()" [disabled]="0 >= totalSum" mat-dialog-close>
+      <button class="btn btn-pay" [disabled]="0 >= totalSum" (click)="processOrder()" mat-dialog-close>
         {{ 'ubs-client-profile.payment.btn.pay' | translate }}
       </button>
     </mat-dialog-actions>

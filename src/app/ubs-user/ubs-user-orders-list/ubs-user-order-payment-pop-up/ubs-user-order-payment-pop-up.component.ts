@@ -17,9 +17,8 @@ export class UbsUserOrderPaymentPopUpComponent implements OnInit {
   public certificatePattern = /(?!0000)\d{4}-(?!0000)\d{4}/;
   public certificateMask = '0000-0000';
   public orderDetailsForm: FormGroup;
-  public certificates: any = [];
-  public certStatuses: boolean[] = [];
-  public cancelCertBtn = false;
+  public certificates: string[] = [];
+  public certificateStatus: boolean[] = [];
   public certificateError = false;
   public orderId = 0;
   public certificateStatusActive = false;
@@ -33,10 +32,11 @@ export class UbsUserOrderPaymentPopUpComponent implements OnInit {
     this.initForm();
     this.totalSum = this.data.price;
     this.orderId = this.data.orderId;
+    this.certificateStatus.push(true);
     this.orderFondyClientDto = new OrderFondyClientDto();
   }
 
-  public initForm() {
+  public initForm(): void {
     this.orderDetailsForm = this.fb.group({
       bonus: new FormControl('no', [Validators.required]),
       paymentSystem: new FormControl('Fondy', [Validators.required]),
@@ -52,53 +52,51 @@ export class UbsUserOrderPaymentPopUpComponent implements OnInit {
     return this.orderDetailsForm.get('paymentSystem') as FormControl;
   }
 
-  public certificateSubmit(index: number): void {
+  public certificateSubmit(index: number, certificate: FormControl): void {
     if (!this.certificates.includes(this.formArrayCertificates.value[index])) {
       this.certificates.push(this.formArrayCertificates.value[index]);
-      this.certStatuses.push(true);
-      this.calculateCertificates(this.certificates);
+      this.calculateCertificate(certificate);
+      this.certificateStatus[index] = false;
     }
   }
 
-  public calculateCertificates(certificates): void {
+  public calculateCertificate(certificate: FormControl): void {
     this.certificateSum = 0;
-    this.cancelCertBtn = true;
     this.certificateStatusActive = false;
-    if (certificates.length > 0) {
-      certificates.forEach((certificate, index) => {
-        this.orderService.processCertificate(certificate).subscribe(
-          (responce) => {
-            if (responce.certificateStatus === 'ACTIVE') {
-              this.certificateDate = responce.certificateDate;
-              this.certificateSum = responce.certificatePoints;
-              this.totalSum -= responce.certificatePoints;
-              if (this.totalSum < 0) {
-                this.totalSum = 0;
-              }
-              this.certificateStatusActive = true;
-            } else {
-              this.certificateError = true;
-            }
-          },
-          (error) => {
-            if (error.status === 404) {
-              certificates.splice(index, 1);
-              this.certificateError = true;
-            }
+    this.orderService.processCertificate(certificate.value).subscribe(
+      (responce) => {
+        if (responce.certificateStatus === 'ACTIVE') {
+          this.certificateDate = responce.certificateDate;
+          this.certificateSum = responce.certificatePoints;
+          this.totalSum -= responce.certificatePoints;
+          if (this.totalSum < 0) {
+            this.totalSum = 0;
           }
-        );
-      });
-    }
+          this.certificateStatusActive = true;
+        } else {
+          this.certificateError = true;
+        }
+      },
+      (error) => {
+        if (error.status === 404) {
+          this.certificateError = true;
+        }
+      }
+    );
   }
 
   public deleteCertificate(index: number): void {
-    this.formArrayCertificates.controls[index].reset();
     this.totalSum += this.certificateSum;
     this.certificateStatusActive = false;
     this.certificateError = false;
     this.certificates.splice(index, 1);
-    this.certStatuses.splice(index, 1);
-    this.cancelCertBtn = false;
+    index ? (this.certificateStatus[index] = false) : (this.certificateStatus[index] = true);
+    this.certificates.length ? this.formArrayCertificates.removeAt(index) : this.formArrayCertificates.controls[index].reset();
+  }
+
+  addNewCertificate(): void {
+    this.formArrayCertificates.push(this.fb.control('', [Validators.minLength(8), Validators.pattern(this.certificatePattern)]));
+    this.certificateStatus.push(true);
   }
 
   public processOrder(): void {
