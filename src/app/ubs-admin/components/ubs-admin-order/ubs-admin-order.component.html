@@ -51,7 +51,7 @@
         <button type="reset" class="cancel-button" (click)="$event.preventDefault(); openCancelModal()" [disabled]="!orderForm.touched">
           {{ 'order-edit.btn.cancel' | translate }}
         </button>
-        <button type="submit" class="save-button" [disabled]="!isMinOrder && (!orderForm.touched || !orderForm.valid)">
+        <button type="submit" class="save-button" [disabled]="!orderForm.touched || !orderForm.valid || !isMinOrder">
           {{ 'order-edit.btn.save' | translate }}
         </button>
       </div>

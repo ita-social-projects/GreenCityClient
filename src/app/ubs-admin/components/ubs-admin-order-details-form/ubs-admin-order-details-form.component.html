@@ -124,7 +124,7 @@
               {{ 'order-edit.need-to-pay' | translate }} 250 {{ '' | currency | localizedCurrency }}
             </span>
             <span class="col-sm-4 text-danger pl-5" *ngIf="buyMore">
-              {{ 'order-details.min-sum' | translate }} {{ minAmountBigBags }}
+              {{ limitMsg.min | translate }} {{ limitAmount.min }} {{ limitMsg.max | translate }} {{ limitAmount.max }}
             </span>
           </li>
         </ul>

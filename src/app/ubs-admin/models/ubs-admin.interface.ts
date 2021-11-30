@@ -41,6 +41,7 @@ export interface IOrderInfo {
   amountOfBagsOrdered: Map<string, number>;
   bags: IBags[];
   courierPricePerPackage: number;
+  courierInfo: ICourierInfo;
   orderBonusDiscount: number;
   orderCertificateTotalDiscount: number;
   orderDiscountedPrice: number;
@@ -53,6 +54,14 @@ export interface IOrderInfo {
   paymentTableInfoDto: IPaymentInfo;
   exportDetailsDto: IExportDetails;
   employeePositionDtoRequest: IResponsiblePersons;
+}
+
+export interface ICourierInfo {
+  courierLimit: 'LIMIT_BY_AMOUNT_OF_BAG' | 'LIMIT_BY_SUM_OF_ORDER';
+  maxAmountOfBigBags: number;
+  maxPriceOfOrder: number;
+  minAmountOfBigBags: number;
+  minPriceOfOrder: number;
 }
 
 export interface IGeneralOrderInfo {

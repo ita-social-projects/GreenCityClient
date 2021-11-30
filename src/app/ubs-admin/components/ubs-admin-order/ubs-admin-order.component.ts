@@ -1,4 +1,4 @@
-import { Component, OnInit, OnDestroy, ViewChild } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { ActivatedRoute, Params } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
@@ -93,6 +93,7 @@ export class UbsAdminOrderComponent implements OnInit, OnDestroy {
     this.orderDetails = {
       bags: bagsObj
     };
+    this.orderDetails.courierInfo = Object.assign({}, this.orderInfo.courierInfo);
     this.orderDetails.bonuses = this.orderInfo.orderBonusDiscount;
     this.orderDetails.certificateDiscount = this.orderInfo.orderCertificateTotalDiscount;
     this.orderStatusInfo = this.getOrderStatusInfo(this.currentOrderStatus);

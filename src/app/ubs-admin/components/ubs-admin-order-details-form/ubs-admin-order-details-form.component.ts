@@ -18,9 +18,8 @@ export class UbsAdminOrderDetailsFormComponent implements OnInit, OnChanges {
   public orderDetails;
   public buyMore = false;
   public showUbsCourier = false;
-  // TODO: change to data from backend
-  public minAmountBigBags = 2;
-  //
+  public limitMsg;
+  public limitAmount;
   public courierPrice: number;
   public writeoffAtStationSum: number;
   @Output() changeOverpayment = new EventEmitter<number>();
@@ -113,7 +112,7 @@ export class UbsAdminOrderDetailsFormComponent implements OnInit, OnChanges {
 
   private calculateFinalSum() {
     const bonusesAndCert = this.bagsInfo.bonuses + this.bagsInfo.certificateDiscount;
-    this.checkAmountOfBigBags();
+    this.checkMinOrderLimit();
     this.bagsInfo.finalSum = {
       planned: this.bagsInfo.sum.planned - bonusesAndCert,
       confirmed: this.bagsInfo.sum.confirmed - bonusesAndCert,
@@ -173,13 +172,42 @@ export class UbsAdminOrderDetailsFormComponent implements OnInit, OnChanges {
     });
   }
 
-  private checkAmountOfBigBags() {
+  private checkMinOrderLimit() {
     const type = this.orderStatusInfo.ableActualChange ? 'actual' : 'confirmed';
+    let expression: boolean;
     this.showUbsCourier = this.buyMore = false;
     this.courierPrice = this.orderDetails.courierPricePerPackage;
     this.checkMinOrder.emit(true);
     this.setAmountOfBigBags(type);
-    if (this.amountOfBigBags < this.minAmountBigBags) {
+    if (this.orderDetails.courierInfo.courierLimit === 'LIMIT_BY_AMOUNT_OF_BAG') {
+      expression = this.orderDetails.courierInfo.maxAmountOfBigBags
+        ? this.amountOfBigBags < this.orderDetails.courierInfo.minAmountOfBigBags ||
+          this.amountOfBigBags > this.orderDetails.courierInfo.maxAmountOfBigBags
+        : this.amountOfBigBags < this.orderDetails.courierInfo.minAmountOfBigBags;
+      this.limitMsg = {
+        min: 'order-details.min-bags',
+        max: 'order-details.max-bags'
+      };
+      this.limitAmount = {
+        min: this.orderDetails.courierInfo.minAmountOfBigBags,
+        max: this.orderDetails.courierInfo.maxAmountOfBigBags || '-'
+      };
+    } else if (this.orderDetails.courierInfo.courierLimit === 'LIMIT_BY_SUM_OF_ORDER') {
+      expression = this.orderDetails.courierInfo.maxPriceOfOrder
+        ? this.bagsInfo.sum[type] < this.orderDetails.courierInfo.minPriceOfOrder ||
+          this.bagsInfo.sum[type] > this.orderDetails.courierInfo.maxPriceOfOrder
+        : this.bagsInfo.sum[type] < this.orderDetails.courierInfo.minPriceOfOrder;
+      this.limitMsg = {
+        min: 'order-details.min-sum',
+        max: 'order-details.max-sum'
+      };
+      this.limitAmount = {
+        min: this.orderDetails.courierInfo.minPriceOfOrder,
+        max: this.orderDetails.courierInfo.maxPriceOfOrder || '-'
+      };
+    }
+
+    if (expression) {
       if (type === 'actual') {
         this.showUbsCourier = true;
         this.checkEmptyOrder();
@@ -188,6 +216,7 @@ export class UbsAdminOrderDetailsFormComponent implements OnInit, OnChanges {
         this.checkMinOrder.emit(false);
       }
     }
+
     if (this.doneAfterBroughtHimself) {
       this.showUbsCourier = true;
       this.courierPrice = this.orderDetails.courierPricePerPackage * this.amountOfBigBags;
