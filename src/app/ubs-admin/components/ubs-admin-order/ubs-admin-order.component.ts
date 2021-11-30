@@ -212,11 +212,11 @@ export class UbsAdminOrderComponent implements OnInit, OnDestroy {
     this.orderStatusInfo = this.getOrderStatusInfo(this.currentOrderStatus);
   }
 
-  private changeOverpayment(sum) {
+  public changeOverpayment(sum) {
     this.overpayment = sum;
   }
 
-  private setMinOrder(flag) {
+  public setMinOrder(flag) {
     this.isMinOrder = flag;
   }
 
