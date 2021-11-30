@@ -64,6 +64,25 @@ export interface ICourierInfo {
   minPriceOfOrder: number;
 }
 
+export interface IOrderDetails {
+  bags: IBags[];
+  courierInfo: ICourierInfo;
+  bonuses: number;
+  certificateDiscount: number;
+  orderFullPrice: number;
+  courierPricePerPackage: number;
+}
+
+export interface IBags {
+  capacity: number;
+  id: number;
+  name: string;
+  price: number;
+  planned?: number;
+  confirmed?: number;
+  actual?: number;
+}
+
 export interface IGeneralOrderInfo {
   id: number;
   dateFormed: string;
@@ -111,16 +130,6 @@ export interface IAddressExportDetails {
   id: number;
 }
 
-export interface IBags {
-  capacity: number;
-  id: number;
-  name: string;
-  price: number;
-  planned: any;
-  confirmed: any;
-  actual: any;
-}
-
 export interface IPaymentInfo {
   overpayment: number;
   paidAmount: number;
@@ -153,6 +162,12 @@ export interface IOrderHistory {
   eventDate: string;
   eventName: string;
   id: number;
+}
+
+export interface IOrderStatusInfo {
+  key: string;
+  ableActualChange: boolean;
+  translation: string;
 }
 
 export interface UserViolations {

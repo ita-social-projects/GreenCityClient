@@ -2,6 +2,7 @@ import { OrderService } from 'src/app/ubs-admin/services/order.service';
 import { OrderBag, OrderDetails } from './../../../main/component/ubs/models/ubs.interface';
 import { Component, Input, OnInit, OnChanges, SimpleChanges, Output, EventEmitter } from '@angular/core';
 import { FormGroup, FormBuilder } from '@angular/forms';
+import { IOrderDetails } from '../../models/ubs-admin.interface';
 
 @Component({
   selector: 'app-ubs-admin-order-details-form',
@@ -16,7 +17,7 @@ export class UbsAdminOrderDetailsFormComponent implements OnInit, OnChanges {
   public doneAfterBroughtHimself = false;
   public isVisible: boolean;
   public bagsInfo;
-  public orderDetails;
+  public orderDetails: IOrderDetails;
   public overpayment: number;
   public overpaymentMessage: string;
   public buyMore = false;
@@ -29,7 +30,7 @@ export class UbsAdminOrderDetailsFormComponent implements OnInit, OnChanges {
   @Output() checkMinOrder = new EventEmitter<boolean>();
 
   pageOpen: boolean;
-  @Input() orderDetailsOriginal;
+  @Input() orderDetailsOriginal: IOrderDetails;
   @Input() orderDetailsForm: FormGroup;
   @Input() orderStatusInfo;
 

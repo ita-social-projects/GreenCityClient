@@ -13,7 +13,9 @@ import {
   IAddressExportDetails,
   IExportDetails,
   IGeneralOrderInfo,
+  IOrderDetails,
   IOrderInfo,
+  IOrderStatusInfo,
   IPaymentInfo,
   IResponsiblePersons,
   IUserInfo
@@ -38,9 +40,9 @@ export class UbsAdminOrderComponent implements OnInit, OnDestroy {
   paymentInfo: IPaymentInfo;
   exportInfo: IExportDetails;
   responsiblePersonInfo: IResponsiblePersons;
-  orderDetails;
-  orderStatusInfo;
-  currentOrderStatus;
+  orderDetails: IOrderDetails;
+  orderStatusInfo: IOrderStatusInfo;
+  currentOrderStatus: string;
   overpayment = 0;
   isMinOrder = true;
 
@@ -91,14 +93,14 @@ export class UbsAdminOrderComponent implements OnInit, OnDestroy {
       return bag;
     });
     this.orderDetails = {
-      bags: bagsObj
+      bags: bagsObj,
+      courierInfo: Object.assign({}, this.orderInfo.courierInfo),
+      bonuses: this.orderInfo.orderBonusDiscount,
+      certificateDiscount: this.orderInfo.orderCertificateTotalDiscount,
+      orderFullPrice: this.orderInfo.orderFullPrice,
+      courierPricePerPackage: this.orderInfo.courierPricePerPackage
     };
-    this.orderDetails.courierInfo = Object.assign({}, this.orderInfo.courierInfo);
-    this.orderDetails.bonuses = this.orderInfo.orderBonusDiscount;
-    this.orderDetails.certificateDiscount = this.orderInfo.orderCertificateTotalDiscount;
     this.orderStatusInfo = this.getOrderStatusInfo(this.currentOrderStatus);
-    this.orderDetails.orderFullPrice = this.orderInfo.orderFullPrice;
-    this.orderDetails.courierPricePerPackage = this.orderInfo.courierPricePerPackage;
   }
 
   private setPreviousBagsIfEmpty(status) {
