@@ -198,6 +198,7 @@
     "service": "Service",
     "volume": "Package size",
     "cost": "Price per package",
+    "done-after-himself": "Write-off at the station",
     "planned-amount": "Planned amount",
     "approved-amount": "Confirmed amount",
     "exported-amount": "Actual amount",
@@ -207,7 +208,10 @@
     "bonuses": "Used bonuses",
     "sum-to-pay": "Amount to be paid",
     "ubs-courier": "UBS Courier",
-    "min-sum": "The order cannot be changed. The minimum order amount is",
+    "min-sum": "The order cannot be changed. The minimum order price is",
+    "max-sum": "max order price is",
+    "min-bags": "The order cannot be changed. The minimum amount of big bags is",
+    "max-bags": "max amount of big bags is",
     "certificate-number-label": "Certificate number",
     "order-number-label": "Order number from store",
     "client-comment": {
@@ -230,6 +234,8 @@
     "order-size": "The order is executed in the amount of",
     "add-payment-btn": "Add payment",
     "order-date": "Payment date",
+    "overpayment": "Overpayment is",
+    "underpayment": "Underpayment is",
     "payment-id": "Payment ID",
     "sum": "Amount",
     "comment-bill": "Comment/Bill"
