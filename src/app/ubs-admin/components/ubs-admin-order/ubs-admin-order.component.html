@@ -27,7 +27,7 @@
         [orderDetailsOriginal]="orderDetails"
         [orderStatusInfo]="orderStatusInfo"
       ></app-ubs-admin-order-details-form>
-      <app-ubs-admin-order-payment></app-ubs-admin-order-payment>
+      <app-ubs-admin-order-payment [orderInfo]="orderInfo"></app-ubs-admin-order-payment>
       <app-ubs-admin-export-details
         [exportDetailsForm]="getFormGroup('exportDetailsForm')"
         [exportInfo]="exportInfo"
