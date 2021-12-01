@@ -81,7 +81,6 @@ export class UbsAdminOrderComponent implements OnInit, OnDestroy {
         this.responsiblePersonInfo = data.employeePositionDtoRequest;
 
         this.setOrderDetails();
-
         this.initForm();
       });
   }
@@ -106,6 +105,7 @@ export class UbsAdminOrderComponent implements OnInit, OnDestroy {
   }
 
   initForm() {
+    const currentEmployees = this.responsiblePersonInfo.currentPositionEmployees;
     this.orderForm = this.fb.group({
       orderStatusForm: this.fb.group({
         orderStatus: this.generalOrderInfo.orderStatus,
@@ -134,10 +134,10 @@ export class UbsAdminOrderComponent implements OnInit, OnDestroy {
         receivingStation: this.exportInfo.receivingStation
       }),
       responsiblePersonsForm: this.fb.group({
-        callManager: this.getPositionEmployee(this.responsiblePersonInfo.currentPositionEmployees, 'callManager'),
-        logistician: this.getPositionEmployee(this.responsiblePersonInfo.currentPositionEmployees, 'logistician'),
-        navigator: this.getPositionEmployee(this.responsiblePersonInfo.currentPositionEmployees, 'navigator'),
-        driver: this.getPositionEmployee(this.responsiblePersonInfo.currentPositionEmployees, 'driver')
+        callManager: this.getEmployeeById(currentEmployees, 2),
+        logistician: this.getEmployeeById(currentEmployees, 3),
+        navigator: this.getEmployeeById(currentEmployees, 4),
+        driver: this.getEmployeeById(currentEmployees, 5)
       }),
       orderDetailsForm: this.fb.group({
         // TODO: set data after receiving from backend
@@ -162,11 +162,12 @@ export class UbsAdminOrderComponent implements OnInit, OnDestroy {
     });
   }
 
-  getPositionEmployee(currentPositionEmployees: Map<string, string>, key: string) {
-    if (!currentPositionEmployees) {
+  getEmployeeById(allCurrentEmployees: Map<string, string>, id: number) {
+    if (!allCurrentEmployees) {
       return '';
     }
-    return currentPositionEmployees.get(key);
+    const key = Object.keys(allCurrentEmployees).find((el) => el.includes(`id=${id},`));
+    return key ? allCurrentEmployees[key] : '';
   }
 
   getFormGroup(name: string): FormGroup {
@@ -201,7 +202,7 @@ export class UbsAdminOrderComponent implements OnInit, OnDestroy {
   resetForm() {
     this.orderForm.reset();
     this.initForm();
-    this.orderStatusInfo = this.getOrderStatusInfo(this.generalOrderInfo.orderStatus);
+    this.orderStatusInfo = this.getOrderStatusInfo(this.currentOrderStatus);
     this.orderDetailsComponent.ngOnInit();
   }
 
