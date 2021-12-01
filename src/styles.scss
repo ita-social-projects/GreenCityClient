@@ -105,10 +105,9 @@ body {
 .global-tag-clicked {
   background: var(--primary-green);
   color: var(--primary-white);
-  font-weight: bold;
   font-family: var(--primary-font);
   font-size: 14px;
-  line-height: 16px;
+  line-height: 20px;
   border-radius: 25px;
   border: none;
 
@@ -119,10 +118,11 @@ body {
 }
 
 .global-tag-close-icon {
-  width: 6px;
-  height: 6px;
-  margin-left: 6px;
+  width: 11px;
+  height: 11px;
+  margin-left: 9px;
   opacity: 1;
+  background-size: contain;
   background-image: url('/assets/img/icon/white-cross.png');
 }
 
