@@ -84,7 +84,7 @@ export class FormBaseComponent implements ComponentCanDeactivate {
             } else {
               this.router.navigate([this.previousPath]);
             }
-          } else if (isUbsOrderSubmit) {
+          } else if (isUbsOrderSubmit && confirm === null) {
             this.cancelUBSwithoutSaving();
           }
         });
