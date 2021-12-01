@@ -500,6 +500,10 @@ li {
     font-size: 1rem;
   }
 
+  .bottom-text {
+    margin-top: -25px;
+  }
+
   p,
   a,
   textarea,
@@ -548,5 +552,14 @@ li {
   small,
   input {
     font-size: 0.65rem;
+  }
+
+  .bottom-text {
+    margin-top: -50px;
+    padding: 0 0 0 0.5rem;
+  }
+
+  .addOrderBtn {
+    margin-top: 20px;
   }
 }
