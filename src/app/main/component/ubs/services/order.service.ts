@@ -122,6 +122,7 @@ export class OrderService {
   cancelUBSwithoutSaving(): void {
     this.shareFormService.isDataSaved = true;
     this.shareFormService.orderDetails = null;
+    this.shareFormService.personalData = null;
     this.localStorageService.removeUbsOrderId();
     this.shareFormService.saveDataOnLocalStorage();
   }
