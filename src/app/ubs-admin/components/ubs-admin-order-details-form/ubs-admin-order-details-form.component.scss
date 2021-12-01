@@ -8,12 +8,12 @@
 
   img {
     width: 20px;
-    margin-left: 20px;
+    margin-right: 20px;
   }
+}
 
-  img:hover {
-    cursor: pointer;
-  }
+.empty_card:hover {
+  cursor: pointer;
 }
 
 .form {
@@ -74,8 +74,8 @@
   border-radius: 4px;
   padding: 7px;
   height: 36px;
-  width: 76px;
-  font-size: 14px;
+  width: 90px;
+  font-size: 16px;
   text-align: center;
 }
 

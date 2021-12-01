@@ -36,6 +36,32 @@
       "delete-profile": "Видалити профіль",
       "delete-profile-cancel": "Назад",
       "delete-profile-save": "Видалити"
+    },
+    "payment": {
+      "title": "Оплата",
+      "curency": "грн",
+      "sum": "Сума:",
+      "yes": "Так",
+      "no": "Ні",
+      "certificate-activated": {
+        "sum": "Сертифікат на суму {{certificateSum}} грн активовано.",
+        "data": "Строк дії сертифікату - до {{certDate}}"
+      },
+      "choose-payment": "Ви можете здійснити оплату одним з вибраних способів нижче.",
+      "question-certificate": "Чи бажаєте Ви скористатись сертифікатом?",
+      "failed-certificate": "Сертифікат не прийнято, споробуйте ще раз",
+      "bonus-need": "Чи бажаєте Ви скористатися бонусами?",
+      "bonus-left": "На Вашому бонусному рахунку:",
+      "certificate-number": "Номер сертифіката",
+      "way-payment": "Оберіть спосіб оплати",
+      "add-certificate": "Додати сертифікат",
+      "fondy-card": "Карткою через Fondy",
+      "liqpay-card": "Карткою через LiqPay",
+      "btn": {
+        "pay": "Оплатити",
+        "cancel": "Відмінити",
+        "active": "Активувати"
+      }
     }
   },
   "add-violation-modal": {
@@ -60,13 +86,13 @@
   "order-edit": {
     "order-status": {
       "formed": "Сформовано",
-      "adjustment": "Змінено",
-      "brought-it-himself": "Вивезено самостійно",
+      "adjustment": "Узгодження",
+      "brought-it-himself": "Привезе сам",
       "confirmed": "Підтверджено",
-      "on-the-route": "У дорозі",
+      "on-the-route": "На маршруті",
       "done": "Виконано",
-      "not-taken-out": "Не вивезено",
-      "cancelled": "Скасовано"
+      "not-taken-out": "Не вивезли",
+      "canceled": "Скасовано"
     },
     "payment-status": {
       "paid": "Оплачено",
@@ -90,6 +116,23 @@
       "cancel": "Скасувати",
       "save": "Зберегти"
     }
+  },
+  "order-cancel": {
+    "title": "Додати причину скасування замовлення",
+    "reason": {
+      "delivered-himself": "Привезено на станцію самостійно",
+      "moving-out": "Переїзд",
+      "out-of-city": "Виїзд з міста",
+      "disliked-service": "Не сподобався сервіс",
+      "other": "Свій варіант"
+    },
+    "placeholder": "Вкажіть свою причину скасування замовлення",
+    "btn": {
+      "cancel": "Скасувати",
+      "add": "Додати"
+    },
+    "date": "Дaта",
+    "added": "Додано"
   },
   "address-details": {
     "title": "Адреса вивезення відходів",
@@ -153,6 +196,7 @@
     "service": "Послуга",
     "volume": "Об'єм",
     "cost": "Вартість за одиницю",
+    "done-after-himself": "Списання на станції сортування",
     "planned-amount": "Планована к-ть",
     "approved-amount": "Підтверджена к-ть",
     "exported-amount": "Вивезена к-ть",
@@ -163,6 +207,9 @@
     "sum-to-pay": "Сума до оплати",
     "ubs-courier": "УБС Кур'єр",
     "min-sum": "Замовлення не може бути змінене. Мінімальна сума замовлення",
+    "max-sum": "максимальна сума",
+    "min-bags": "Замовлення не може бути змінене. Мінімальна кількість великих пакетів",
+    "max-bags": "максимальна кількість",
     "certificate-number-label": "Номер сертифікату",
     "order-number-label": "Номер замовлення з магазину",
     "client-comment": {
@@ -185,6 +232,8 @@
     "order-size": "Замовлення виконано у розмірі",
     "add-payment-btn": "Додати оплату",
     "order-date": "Дата оплати",
+    "overpayment": "Переплата",
+    "underpayment": "Потрібно доплатити",
     "payment-id": "ID платежу",
     "sum": "Сума",
     "comment-bill": "Коментар/Чек"
@@ -194,13 +243,33 @@
     "all-elements": "Відображати всі колонки",
     "filters": "Фільтри",
     "export-to-excel": "Експортувати в  Excel",
-    "table-view": "Вид таблиці"
+    "table-view": "Вид таблиці",
+    "filter": "Фільтр"
+  },
+  "ubs-customer-filters": {
+    "total-customers": "Кількість користувачів:",
+    "registration-date": "Дата реєстрації в системі:",
+    "last-order-date": "Дата останього замовлення:",
+    "orders-amount": "К-сть замовлень:",
+    "violations": "Порушення:",
+    "bonuses": "Баланс бонусного рахунку:",
+    "from": "Від",
+    "to": "До",
+    "reset": "Скасувати",
+    "nothing-found": "За вашими фільтрами нічого не знайдено"
   },
   "export-details": {
     "title": "Деталі вивезення",
     "export-date": "Дата вивезення",
     "export-time": "Час вивезення",
     "station": "Станція приймання"
+  },
+  "order-history": {
+    "title": "Історія замовлення",
+    "date": "Дaта",
+    "time": "Час",
+    "event": "Подія",
+    "author": "Автор"
   },
   "responsible-persons": {
     "title": "Відповідальні особи",
@@ -237,12 +306,16 @@
     "current-orders": "Поточні замовлення",
     "order-history": "Історія замовлень",
     "order-number": "№ замовлення",
-    "order-status": "Статус",
-    "payment-amount": "Сума оплати",
+    "order-status": "Статус замовлення",
+    "order-date": "Дата",
+    "order-payment-status": "Статус оплати",
+    "payment-amount": "Сума до оплати",
+
     "btn": {
       "cancel": "Скасувати",
       "pay": "Оплатити",
-      "order-again": "Замовити ще раз"
+      "order-again": "Замовити ще раз",
+      "new-order": "Нове замовлення"
     },
     "details": {
       "title": "Деталі замовлення",
@@ -261,7 +334,7 @@
       "services-amount": "Сума наданих послуг:",
       "delivery": "Доставка з Еко магазину",
       "order-number": "Номери ваших замовлень:",
-      "recipient": "Отримувач",
+      "recipient": "Відправник",
       "export-address": "Адреса вивезення замовленних послуг",
       "comment": "Коментар:",
       "receipt": "Завантажити квитанцію"
@@ -280,12 +353,15 @@
     "photo": "Фото",
     "drag-photo": "Перетягніть зображення, або",
     "download-photo": "завантажте з пристрою",
+    "warning-title": "Ви впевнені, що хочете видалити цього працівника із системи?",
     "btn": {
       "cancel": "Скасувати",
       "add": "Додати",
       "add-employee": "Додати працівника",
       "edit": "Редагувати",
-      "delete": "Видалити"
+      "delete": "Видалити",
+      "no": "Ні",
+      "yes": "Так"
     }
   },
   "ubs-sidebar": {
@@ -391,5 +467,28 @@
     "sign-out": "Вийти",
     "sign-in": "Увійти",
     "management": "Менеджмент"
+  },
+  "footer": {
+    "station": "Станція",
+    "address": "Київ, вул. Саперно-Слобідська, 25",
+    "schedule": "Графік роботи станції",
+    "mon-tue": " пн-вт",
+    "day-off": " вихідний",
+    "wed-fri": " ср–пт",
+    "from": "з",
+    "to": "до",
+    "service": "*платна послуга «Досортування» доступна",
+    "sat-sun": " сб-нд",
+    "accept-compost": "Компост приймаємо впродовж тижня в робочі години станції (крім понеділка і вівторка).",
+    "ubs-world-community": "УБС — у світовій спільноті",
+    "glad-for-letters": "Раді вашим листам",
+    "your-email": "Ваш email",
+    "subscribe-newsletter": "Підписатися на корисну розсилку:",
+    "subscribe-us": "ПІДПИСАТИСЯ",
+    "user-agreement": "Угода користувача",
+    "public-offer": "Публічна оферта",
+    "help-the-project": "Як допомогти проєкту",
+    "how-to-get-there": "Як доїхати?",
+    "ukraine-without-garbage": "Україна без сміття"
   }
 }

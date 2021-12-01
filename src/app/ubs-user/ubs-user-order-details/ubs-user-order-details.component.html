@@ -9,18 +9,18 @@
       <th scope="row">{{ 'user-orders.details.sum' | translate }}</th>
     </tr>
     <tr *ngFor="let bag of order.bags" class="data_table">
-      <td>{{ bag.name }}Вторсировина</td>
+      <td>{{ bag.name }}</td>
       <td>{{ bag.capacity }} {{ 'user-orders.details.litr' | translate }}</td>
-      <td>{{ bag.price }} {{ 'user-orders.details.currency' | translate }}</td>
+      <td>{{ bag.price | currency | localizedCurrency }}</td>
       <td>{{ order.amountOfBagsOrdered[bag.id] }} {{ 'user-orders.details.pieces' | translate }}</td>
-      <td>{{ order.amountOfBagsOrdered[bag.id] * bag.price }} {{ 'user-orders.details.currency' | translate }}</td>
+      <td>{{ order.amountOfBagsOrdered[bag.id] * bag.price | currency | localizedCurrency }}</td>
     </tr>
     <tr>
       <td></td>
     </tr>
     <tr class="sum_of_order">
       <td colspan="4">{{ 'user-orders.details.order-sum' | translate }}</td>
-      <td>{{ order.orderFullPrice }} {{ 'user-orders.details.currency' | translate }}</td>
+      <td>{{ order.orderFullPrice | currency | localizedCurrency }}</td>
     </tr>
     <tr *ngIf="order.orderCertificateTotalDiscount !== 0" class="optional_row">
       <td colspan="4">{{ 'user-orders.details.certificate' | translate }}</td>
@@ -28,40 +28,40 @@
     </tr>
     <tr *ngIf="order.orderBonusDiscount !== 0" class="optional_row">
       <td colspan="4">{{ 'user-orders.details.bonuses' | translate }}</td>
-      <td>-{{ order.orderBonusDiscount }} {{ 'user-orders.details.currency' | translate }}</td>
+      <td>-{{ order.orderBonusDiscount | currency | localizedCurrency }}</td>
     </tr>
     <tr *ngIf="order.orderStatus === 'DONE_UNPAID'" class="optional_row">
       <td colspan="4">{{ 'user-orders.details.services-amount' | translate }}</td>
-      <td>{{ order.orderExportedPrice }} {{ 'user-orders.details.currency' | translate }}</td>
+      <td>{{ order.orderExportedPrice | currency | localizedCurrency }}</td>
     </tr>
     <tr class="sum_to_pay">
       <td colspan="4">{{ 'user-orders.details.amount-due' | translate }}</td>
-      <td>{{ order.orderDiscountedPrice }} {{ 'user-orders.details.currency' | translate }}</td>
+      <td>{{ order.orderDiscountedPrice | currency | localizedCurrency }}</td>
     </tr>
   </table>
 </div>
 <div class="order_details">
-  <ol *ngIf="order.additionalOrders[0] !== ''">
+  <ol *ngIf="order.numbersFromShop[0] !== ''">
     <li class="bold_text">{{ 'user-orders.details.delivery' | translate }}</li>
     <li>
       {{ 'user-orders.details.order-number' | translate }}
-      <span class="bold_text"> {{ order.additionalOrders.join(', ') }}</span>
+      <span class="bold_text"> {{ order.numbersFromShop.join(', ') }}</span>
     </li>
   </ol>
   <ol class="recipient">
     <li class="bold_text">{{ 'user-orders.details.recipient' | translate }}</li>
     <li>
-      <span>{{ order.recipientName }} </span><span>{{ order.recipientSurname }}</span>
+      <span>{{ order.userInfoDto.recipientName }} </span><span>{{ order.userInfoDto.recipientSurname }}</span>
     </li>
-    <li>{{ order.recipientPhone }}</li>
-    <li>{{ order.recipientEmail }}</li>
+    <li>{{ order.userInfoDto.recipientPhoneNumber }}</li>
+    <li>{{ order.userInfoDto.recipientEmail }}</li>
   </ol>
   <ol>
     <li class="bold_text">{{ 'user-orders.details.export-address' | translate }}</li>
-    <li>{{ order.addressCity }}</li>
-    <li>{{ order.addressStreet }}</li>
-    <li>{{ order.addressDistrict }}</li>
-    <li *ngIf="order.addressComment !== null">{{ 'user-orders.details.comment' | translate }} {{ order.addressComment }}</li>
+    <li>{{ order.addressExportDetailsDto.addressCity }}</li>
+    <li>{{ order.addressExportDetailsDto.addressStreet }}</li>
+    <li>{{ order.addressExportDetailsDto.addressDistrict }}</li>
+    <li *ngIf="order.addressComment === !null">{{ 'user-orders.details.comment' | translate }} {{ order.addressComment }}</li>
   </ol>
 </div>
 <div class="download">

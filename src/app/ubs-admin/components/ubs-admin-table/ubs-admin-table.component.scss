@@ -115,6 +115,12 @@ input {
 .column-title {
   color: var(--ubs-secondary-light-grey);
   font-size: 14px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.icon-row {
+  margin-right: -5px;
 }
 
 .amount-items {
@@ -132,7 +138,7 @@ input {
   display: flex;
   justify-content: center;
   align-items: center;
-  width: 290px;
+  width: 190px;
   height: 36px;
   background-color: var(--primary-white) !important;
   border: 1px solid var(--ubs-quaternary-dark-grey) !important;
@@ -142,6 +148,7 @@ input {
   font-size: 14px;
   font-family: var(--primary-font);
   transition: 0.2s linear;
+  margin-right: 20px;
 
   &:hover {
     color: var(--ubs-secondary-grey);
@@ -170,6 +177,12 @@ input {
   &:hover {
     color: var(--ubs-secondary-grey);
     border: 1px solid var(--ubs-secondary-grey) !important;
+  }
+
+  img {
+    width: 13px;
+    height: 13px;
+    margin-right: 9px;
   }
 }
 

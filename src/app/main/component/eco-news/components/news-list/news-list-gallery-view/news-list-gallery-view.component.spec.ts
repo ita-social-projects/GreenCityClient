@@ -19,7 +19,8 @@ describe('NewsListGalleryViewComponent', () => {
     tags: [{ id: 1, name: 'test' }],
 
     creationDate: '11',
-    likes: 0
+    likes: 0,
+    countComments: 2
   };
 
   beforeEach(async(() => {

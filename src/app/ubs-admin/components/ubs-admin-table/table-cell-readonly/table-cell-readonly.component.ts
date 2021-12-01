@@ -9,4 +9,12 @@ export class TableCellReadonlyComponent {
   @Input() title;
   @Input() lang;
   @Input() date;
+
+  showTooltip(title: any, tooltip: any) {
+    const maxWidthTitle = 112;
+    const width = document.createElement('canvas').getContext('2d').measureText(title).width;
+    if (width > maxWidthTitle) {
+      tooltip.toggle();
+    }
+  }
 }

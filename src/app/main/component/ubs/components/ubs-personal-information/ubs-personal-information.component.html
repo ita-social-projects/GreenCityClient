@@ -21,7 +21,7 @@
         formControlName="phoneNumber"
         type="text"
         class="shadow-none form-control"
-        placeholder="+38(___) ___ __ __"
+        placeholder="+380(__) ___ __ __"
         [unmask]="true"
         [imask]="{ mask: phoneMask }"
       />
@@ -64,7 +64,12 @@
   <div class="row personal-data" *ngIf="anotherClient">
     <div class="col-12 col-sm-6 form-group">
       <label>{{ 'personal-info.info-name' | translate }}</label>
-      <input formControlName="anotherClientFirstName" type="text" class="shadow-none form-control" />
+      <input
+        formControlName="anotherClientFirstName"
+        type="text"
+        class="shadow-none form-control"
+        placeholder="{{ 'personal-info.info-name' | translate }}"
+      />
       <div class="validation" *ngIf="getControl('anotherClientFirstName').invalid && getControl('anotherClientFirstName').touched">
         <app-ubs-input-error
           [formElement]="getControl('anotherClientFirstName')"
@@ -80,7 +85,7 @@
         formControlName="anotherClientPhoneNumber"
         type="text"
         class="shadow-none form-control"
-        placeholder="+38(___) ___ __ __"
+        placeholder="+380(___) ___ __ __"
         [unmask]="true"
         [imask]="{ mask: phoneMask }"
       />
@@ -95,7 +100,12 @@
     </div>
     <div class="col-12 col-sm-6 form-group mt-2">
       <label>{{ 'personal-info.info-surname' | translate }}</label>
-      <input formControlName="anotherClientLastName" type="text" class="shadow-none form-control" />
+      <input
+        formControlName="anotherClientLastName"
+        type="text"
+        class="shadow-none form-control"
+        placeholder="{{ 'personal-info.info-surname' | translate }}"
+      />
       <div class="validation" *ngIf="getControl('anotherClientLastName').invalid && getControl('anotherClientLastName').touched">
         <app-ubs-input-error
           [formElement]="getControl('anotherClientLastName')"
@@ -162,6 +172,7 @@
       class="form-control"
       formControlName="addressComment"
       placeholder="{{ 'personal-info.info-coment-placeholder' | translate }}"
+      (blur)="changeAddressComment()"
     ></textarea>
     <div class="validation" *ngIf="getControl('addressComment').invalid && getControl('addressComment').touched">
       <app-ubs-input-error [formElement]="getControl('addressComment')" [controlName]="'addressComment'"> </app-ubs-input-error>

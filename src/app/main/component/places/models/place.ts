@@ -1,7 +1,7 @@
-import { Location } from './location.model';
+import { PlaceLocation } from './location.model';
 export class Place {
   id: number;
   name: string;
-  location: Location;
+  location: PlaceLocation;
   favorite?: boolean;
 }

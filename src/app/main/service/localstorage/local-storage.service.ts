@@ -125,6 +125,30 @@ export class LocalStorageService {
     localStorage.setItem('locations', JSON.stringify(locations));
   }
 
+  public setUbsOrderId(orderId: string) {
+    localStorage.setItem('UbsLiqPayOrderId', JSON.stringify(orderId));
+  }
+
+  public getUbsOrderId(): any {
+    return localStorage.getItem('UbsLiqPayOrderId') === 'undefined' ? false : JSON.parse(localStorage.getItem('UbsLiqPayOrderId'));
+  }
+
+  public removeUbsOrderId() {
+    localStorage.removeItem('UbsLiqPayOrderId');
+  }
+
+  public setUbsFondyOrderId(orderId: string) {
+    localStorage.setItem('UbsFondyOrderId', JSON.stringify(orderId));
+  }
+
+  public getUbsFondyOrderId(): any {
+    return localStorage.getItem('UbsFondyOrderId') === 'undefined' ? false : JSON.parse(localStorage.getItem('UbsFondyOrderId'));
+  }
+
+  public removeUbsFondyOrderId() {
+    localStorage.removeItem('UbsFondyOrderId');
+  }
+
   public removeUbsOrderData() {
     localStorage.removeItem('UBSpersonalData');
     localStorage.removeItem('UBSorderData');

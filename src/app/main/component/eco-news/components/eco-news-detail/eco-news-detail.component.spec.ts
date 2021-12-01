@@ -40,7 +40,8 @@ describe('EcoNewsDetailComponent', () => {
       { id: 2, name: 'Education' }
     ],
     creationDate: '2020-06-16T18:08:00.604Z',
-    likes: 0
+    likes: 0,
+    countComments: 2
   };
   beforeEach(async(() => {
     TestBed.configureTestingModule({

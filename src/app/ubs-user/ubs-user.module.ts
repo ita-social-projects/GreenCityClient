@@ -24,6 +24,10 @@ import { UbsUserProfilePageComponent } from './ubs-user-profile-page/ubs-user-pr
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { UbsProfileChangePasswordPopUpComponent } from './ubs-user-profile-page/ubs-profile-change-password-pop-up/ubs-profile-change-password-pop-up.component';
 import { UbsProfileDeletePopUpComponent } from './ubs-user-profile-page/ubs-profile-delete-pop-up/ubs-profile-delete-pop-up.component';
+import { UbsUserOrderPaymentPopUpComponent } from './ubs-user-orders-list/ubs-user-order-payment-pop-up/ubs-user-order-payment-pop-up.component';
+import { MatRadioModule } from '@angular/material/radio';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MAT_DIALOG_DEFAULT_OPTIONS } from '@angular/material/dialog';
 
 @NgModule({
   declarations: [
@@ -37,7 +41,8 @@ import { UbsProfileDeletePopUpComponent } from './ubs-user-profile-page/ubs-prof
     NotificationBodyComponent,
     UbsUserProfilePageComponent,
     UbsProfileChangePasswordPopUpComponent,
-    UbsProfileDeletePopUpComponent
+    UbsProfileDeletePopUpComponent,
+    UbsUserOrderPaymentPopUpComponent
   ],
   imports: [
     CommonModule,
@@ -59,9 +64,17 @@ import { UbsProfileDeletePopUpComponent } from './ubs-user-profile-page/ubs-prof
     MatExpansionModule,
     NgxPaginationModule,
     MatProgressSpinnerModule,
-    MatProgressBarModule
+    MatProgressBarModule,
+    MatFormFieldModule,
+    MatRadioModule
   ],
-  entryComponents: [UbsProfileChangePasswordPopUpComponent, UbsProfileDeletePopUpComponent]
+  providers: [
+    {
+      provide: MAT_DIALOG_DEFAULT_OPTIONS,
+      useValue: { hasBackdrop: true }
+    }
+  ],
+  entryComponents: [UbsProfileChangePasswordPopUpComponent, UbsProfileDeletePopUpComponent, UbsUserOrderPaymentPopUpComponent]
 })
 export class UbsUserModule {}
 

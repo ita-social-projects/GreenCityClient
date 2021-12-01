@@ -1,42 +1,39 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { Observable, Subject } from 'rxjs';
+import { BehaviorSubject } from 'rxjs';
 import { FavoritePlace } from '../../model/favorite-place/favorite-place';
 import { favoritePlaceLink, placeLink } from '../../links';
 import { Place } from '../../component/places/models/place';
+import { take } from 'rxjs/operators';
 
 @Injectable({
   providedIn: 'root'
 })
 export class FavoritePlaceService {
-  favoritePlaces: FavoritePlace[] = [];
-  subject = new Subject();
+  public favoritePlaces$: BehaviorSubject<Place[]> = new BehaviorSubject([]);
 
   constructor(private http: HttpClient) {}
 
-  findAllByUserEmail(): Observable<FavoritePlace[]> {
-    return this.http.get<FavoritePlace[]>(favoritePlaceLink);
+  public updateFavoritePlaces(): void {
+    this.http
+      .get<Place[]>(favoritePlaceLink)
+      .pipe(take(1))
+      .subscribe((places: Place[]) => {
+        this.favoritePlaces$.next(places);
+      });
   }
 
-  saveFavoritePlace(favoritePlaceSave: FavoritePlace) {
-    return this.http.post<FavoritePlace>(placeLink + 'save/favorite/', favoritePlaceSave);
+  public addFavoritePlace(favoritePlaceSave: FavoritePlace): void {
+    this.http
+      .post<FavoritePlace>(placeLink + 'save/favorite/', favoritePlaceSave)
+      .pipe(take(1))
+      .subscribe(() => this.updateFavoritePlaces());
   }
 
-  updateFavoritePlace(favoritePlace: FavoritePlace) {
-    return this.http.put<FavoritePlace>(favoritePlaceLink, favoritePlace);
-  }
-
-  deleteFavoritePlace(placeId: number) {
-    return this.http.delete<any>(`${favoritePlaceLink}${placeId}`);
-  }
-
-  getFavoritePlaceWithLocation(placeId: number): Observable<Place> {
-    return this.http.get<any>(favoritePlaceLink + 'favorite/' + placeId);
-  }
-
-  getFavoritePlaces() {
-    this.findAllByUserEmail().subscribe((res) => {
-      this.favoritePlaces = res;
-    });
+  public deleteFavoritePlace(placeId: number): void {
+    this.http
+      .delete<any>(`${favoritePlaceLink}${placeId}`)
+      .pipe(take(1))
+      .subscribe(() => this.updateFavoritePlaces());
   }
 }

@@ -53,10 +53,14 @@ export class TableCellDateComponent {
   }
 
   changeData(e) {
+    const parseDate = Date.parse(e.value);
+    const diff = e.value.getTimezoneOffset();
+    const date = new Date(parseDate + -diff * 60 * 1000).toISOString();
+
     const newDateValue: IEditCell = {
       id: this.id,
       nameOfColumn: this.nameOfColumn,
-      newValue: e.value
+      newValue: date
     };
     this.editDateCell.emit(newDateValue);
     this.isEditable = false;

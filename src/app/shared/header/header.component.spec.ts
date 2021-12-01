@@ -76,7 +76,7 @@ describe('HeaderComponent', () => {
   userOwnAuthServiceMock.getDataFromLocalStorage = () => true;
   userOwnAuthServiceMock.isLoginUserSubject = new BehaviorSubject(true);
 
-  let dialog: MatDialogMock;
+  let dialog: MatDialog;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
@@ -106,7 +106,7 @@ describe('HeaderComponent', () => {
     component.toggleBurgerMenu = false;
     // @ts-ignore
     component.userId = 1;
-    dialog = TestBed.get(MatDialog);
+    dialog = TestBed.inject(MatDialog);
 
     fixture.detectChanges();
   });
@@ -162,9 +162,9 @@ describe('HeaderComponent', () => {
       expect(component.arrayLang[0].lang).toBe('en');
     });
 
-    xit('should log out the user', () => {
+    it('should log out the user', () => {
       // @ts-ignore
-      const spy = spyOn(component.localStorageService, 'clear');
+      const spy = spyOn(component.localeStorageService, 'clear');
       component.signOut();
       expect(spy).toHaveBeenCalled();
     });

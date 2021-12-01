@@ -101,6 +101,10 @@ h3 {
     padding-left: 6px;
     font-size: 14px;
   }
+
+  .input:focus::placeholder {
+    color: transparent;
+  }
 }
 
 .bag-quantity_placeholder {
@@ -206,8 +210,12 @@ button {
     font-family: var(--ubs-quaternary-font);
     padding-right: 0.5rem;
 
+    span {
+      width: 145px;
+    }
+
     strong {
-      padding-left: 2rem;
+      padding: 0 8px 2rem;
       color: var(--ubs-primary-grey);
     }
   }
@@ -260,51 +268,10 @@ button {
     border: 1px solid var(--ubs-quintynary-light-grey);
   }
 
-  .certificate-container,
-  .addCertificate {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: space-between;
-    align-items: flex-end;
-    width: 44%;
-
-    input {
-      padding: 0.5rem;
-    }
-
-    .validMes {
-      width: 65%;
-      margin: -1rem 0 1rem;
-      color: var(--ubs-primary-green);
-    }
-  }
-
   button {
     width: 8rem;
     height: 2.25rem;
     font-size: 14px;
-  }
-
-  .addCertificate {
-    align-items: center;
-
-    button {
-      margin-top: 1rem;
-    }
-  }
-
-  .addCertificateBtn {
-    width: 180px;
-    padding: 0;
-    text-align: left;
-    background: none;
-    color: var(--ubs-electric-violet);
-    outline: none;
-    font-size: 14px;
-
-    &:hover {
-      background: none;
-    }
   }
 
   .addBonus {
@@ -412,26 +379,6 @@ button {
 
   small {
     color: var(--ubs-primary-green);
-  }
-}
-
-.points {
-  font-family: var(--ubs-quaternary-font);
-  margin-top: 3em;
-
-  p {
-    font-size: 14px;
-  }
-
-  .points-balance {
-    display: flex;
-    flex-flow: column wrap;
-  }
-
-  .bonus-how-to-link,
-  small {
-    font-size: 12px;
-    color: var(--ubs-electric-violet);
   }
 }
 

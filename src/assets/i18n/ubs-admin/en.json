@@ -36,6 +36,32 @@
       "delete-profile": "Delete profile",
       "delete-profile-cancel": "Back",
       "delete-profile-save": "Delete"
+    },
+    "payment": {
+      "title": "Payment",
+      "curency": "UAH",
+      "sum": "Sum:",
+      "yes": "Yes",
+      "no": "No",
+      "certificate-activated": {
+        "sum": "Certificate for {{certificateSum}} UAH activated.",
+        "data": "Period is up to - до {{certDate}}"
+      },
+      "choose-payment": "You can make a payment in one of the selected methods below.",
+      "question-certificate": "Do you want to use the certificate?",
+      "failed-certificate": "Certificate not accepted, please try again",
+      "bonus-need": "Do you want to take advantage of bonuses?",
+      "bonus-left": "On your bonus account:",
+      "certificate-number": "Enter the certificate number",
+      "way-payment": "Choose a payment method",
+      "add-certificate": "Add certificate",
+      "fondy-card": "By card via Fondy",
+      "liqpay-card": "By card via LiqPay",
+      "btn": {
+        "pay": "Pay",
+        "cancel": "Cancel",
+        "active": "Active"
+      }
     }
   },
   "add-violation-modal": {
@@ -66,7 +92,7 @@
       "on-the-route": "On the route",
       "done": "Done",
       "not-taken-out": "Not taken out",
-      "cancelled": "Cancelled"
+      "canceled": "Canceled"
     },
     "payment-status": {
       "paid": "Paid",
@@ -92,6 +118,23 @@
       "cancel": "Cancel",
       "save": "Save"
     }
+  },
+  "order-cancel": {
+    "title": "Add reason to cancel order",
+    "reason": {
+      "delivered-himself": "Delivered to the station itself",
+      "moving-out": "Moving",
+      "out-of-city": "Out of city",
+      "disliked-service": "Disliked service",
+      "other": "Your option"
+    },
+    "placeholder": "Please specify your reason for canceling the order",
+    "btn": {
+      "cancel": "Cancel",
+      "add": "Add"
+    },
+    "date": "Date",
+    "added": "Added"
   },
   "address-details": {
     "title": "Waste export address",
@@ -153,18 +196,22 @@
   "order-details": {
     "title": "Order details",
     "service": "Service",
-    "volume": "Volume",
-    "cost": "Cost per item",
+    "volume": "Package size",
+    "cost": "Price per package",
+    "done-after-himself": "Write-off at the station",
     "planned-amount": "Planned amount",
-    "approved-amount": "Approved amount",
-    "exported-amount": "Exported amount",
+    "approved-amount": "Confirmed amount",
+    "exported-amount": "Actual amount",
     "bags-amount": "Total number of packages",
     "order-sum": "Order cost",
     "certificate": "Certificate",
     "bonuses": "Used bonuses",
     "sum-to-pay": "Amount to be paid",
     "ubs-courier": "UBS Courier",
-    "min-sum": "The order cannot be changed. The minimum order amount is",
+    "min-sum": "The order cannot be changed. The minimum order price is",
+    "max-sum": "max order price is",
+    "min-bags": "The order cannot be changed. The minimum amount of big bags is",
+    "max-bags": "max amount of big bags is",
     "certificate-number-label": "Certificate number",
     "order-number-label": "Order number from store",
     "client-comment": {
@@ -187,6 +234,8 @@
     "order-size": "The order is executed in the amount of",
     "add-payment-btn": "Add payment",
     "order-date": "Payment date",
+    "overpayment": "Overpayment is",
+    "underpayment": "Underpayment is",
     "payment-id": "Payment ID",
     "sum": "Amount",
     "comment-bill": "Comment/Bill"
@@ -196,13 +245,33 @@
     "all-elements": "Display all columns",
     "export-to-excel": "Export to Excel",
     "filters": "Filters",
-    "table-view": "Table view"
+    "table-view": "Table view",
+    "filter": "Filter"
+  },
+  "ubs-customer-filters": {
+    "total-customers": "Total customers:",
+    "registration-date": "Registration date:",
+    "last-order-date": "Date of last order:",
+    "orders-amount": "Number of orders:",
+    "violations": "Violations:",
+    "bonuses": "Bonuses:",
+    "from": "From",
+    "to": "To",
+    "reset": "Reset filters",
+    "nothing-found": "Nothing was found for your filters"
   },
   "export-details": {
     "title": "Export details",
     "export-date": "Export date",
     "export-time": "Export time",
     "station": "Station"
+  },
+  "order-history": {
+    "title": "Order history",
+    "date": "Date",
+    "time": "Time",
+    "event": "Event",
+    "author": "Author"
   },
   "responsible-persons": {
     "title": "Responsible persons",
@@ -239,12 +308,15 @@
     "current-orders": "Current orders",
     "order-history": "Order history",
     "order-number": "Order №",
-    "order-status": "Status",
+    "order-status": "Order status",
     "payment-amount": "Payment amount",
+    "order-date": "Date",
+    "order-payment-status": "Payment status",
     "btn": {
       "cancel": "Cancel",
       "pay": "Pay",
-      "order-again": "Order again"
+      "order-again": "Order again",
+      "new-order": "New order"
     },
     "details": {
       "title": "Order details",
@@ -263,7 +335,7 @@
       "services-amount": "Amount of services provided:",
       "delivery": "Delivery from the Eco store",
       "order-number": "Numbers of your orders:",
-      "recipient": "Recipient",
+      "recipient": "Sender",
       "export-address": "The address of export of the ordered services",
       "comment": "Comment:",
       "receipt": "Download the receipt"
@@ -283,12 +355,15 @@
     "photo": "Photo",
     "drag-photo": "Drag the image or",
     "download-photo": "download from the device",
+    "warning-title": "Are you sure you want to remove this employee from the system?",
     "btn": {
       "cancel": "Cancel",
       "add": "Add",
       "add-employee": "Add employee",
       "edit": "Edit",
-      "delete": "Delete"
+      "delete": "Delete",
+      "no": "No",
+      "yes": "Yes"
     }
   },
   "ubs-sidebar": {
@@ -394,5 +469,28 @@
     "sign-out": "Sign out",
     "sign-in": "Sign in",
     "management": "Management"
+  },
+  "footer": {
+    "station": "Station",
+    "address": "Kyiv, Saperno-Slobitska str,25",
+    "schedule": "Station work schedule",
+    "mon-tue": " mon-tue",
+    "day-off": "day off",
+    "wed-fri": " wed-fri",
+    "from": "from",
+    "to": "to",
+    "service": "*paid service «Sorting» is available",
+    "sat-sun": " sat-sun",
+    "accept-compost": "We accept compost during the week during the working hours of the station (except Monday and Tuesday).",
+    "ubs-world-community": "UBS - in the world community",
+    "glad-for-letters": "Glad for your letters",
+    "your-email": "Your email",
+    "subscribe-newsletter": "Subscribe to useful newsletter:",
+    "subscribe-us": "SUBSCRIBE",
+    "user-agreement": "User agreement",
+    "public-offer": "Public offer",
+    "help-the-project": "How to help the project",
+    "how-to-get-there": "How to get there?",
+    "ukraine-without-garbage": "Ukraine without garbage"
   }
 }

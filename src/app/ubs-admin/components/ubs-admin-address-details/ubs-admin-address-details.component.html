@@ -1,8 +1,8 @@
 <div class="container mb-3">
-  <div class="empty_card">
+  <div class="empty_card" (click)="openDetails()">
+    <img *ngIf="!pageOpen" src="assets/img/ubs-admin-orders/arrow_up.svg" alt="arrow up" />
+    <img *ngIf="pageOpen" src="assets/img/ubs-admin-orders/arrow_down.svg" alt="arrow down" />
     <h1 class="form__headline py-3">{{ 'address-details.title' | translate }}</h1>
-    <img *ngIf="!pageOpen" src="assets/img/ubs-admin-orders/arrow_up.svg" alt="arrow up" (click)="openDetails()" />
-    <img *ngIf="pageOpen" src="assets/img/ubs-admin-orders/arrow_down.svg" alt="arrow down" (click)="closeDetails()" />
   </div>
   <form *ngIf="pageOpen" [formGroup]="addressDetailsForm">
     <div class="form-row">
@@ -38,19 +38,15 @@
         <div class="form-group col-md-8">
           <label for="district">{{ 'address-details.district' | translate }}</label>
           <select formControlName="district" id="district" class="form-control">
-            <option *ngFor="let district of orderService.districts" [selected]="district === order.district">{{ district }}</option>
+            <option *ngFor="let district of orderService.districts" [selected]="district === addressInfo.addressDistrict">
+              {{ district }}
+            </option>
           </select>
         </div>
       </div>
-      <div class="form-group col-md-5 offset-md-1">
+      <div class="form-group col-md-8 offset-md-1">
         <label for="address-comment">{{ 'address-details.comment-label' | translate }}</label>
-        <textarea
-          class="form-control"
-          id="address-comment"
-          rows="3"
-          placeholder="{{ order.commentToAddressForClient }}"
-          disabled
-        ></textarea>
+        <textarea class="form-control" id="address-comment" rows="3" placeholder="{{ addressComment }}" disabled></textarea>
       </div>
     </div>
   </form>

@@ -1,5 +1,6 @@
 <div class="address d-flex flex-column">
-  <p>{{ 'personal-info.address-city' | translate }} {{ 'personal-info.pop-up-city-name' | translate }}</p>
+  <p>{{ 'personal-info.address-city' | translate }} {{ address.city }}</p>
+  <p>{{ 'personal-info.address-district' | translate }} {{ address.district }}</p>
   <p>
     {{ address.street }}, {{ address.houseNumber }},
     <ng-template [ngIf]="address.houseCorpus">{{ 'personal-info.address-corp' | translate }} {{ address.houseCorpus }}, </ng-template>
@@ -7,5 +8,5 @@
       {{ 'personal-info.address-entrance' | translate }} {{ address.entranceNumber }}</ng-template
     >
   </p>
-  <p>{{ 'personal-info.address-district' | translate }} {{ address.district }}</p>
+  <p>{{ 'personal-info.pop-up-region' | translate }} {{ address.region }}</p>
 </div>

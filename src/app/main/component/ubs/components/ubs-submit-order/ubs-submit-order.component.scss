@@ -107,11 +107,22 @@ h3 {
   border-bottom: 1px solid var(--ubs-primary-light-grey);
 }
 
+.orderSum {
+  color: var(--ubs-primary-grey);
+  font-weight: bold;
+}
+
 .totalInfo {
   text-align: right;
 
   .total-content {
     color: var(--ubs-secondary-grey);
+    display: flex;
+    align-items: flex-end;
+
+    span {
+      width: 140px;
+    }
   }
 
   strong {

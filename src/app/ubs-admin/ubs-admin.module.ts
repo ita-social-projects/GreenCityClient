@@ -54,6 +54,10 @@ import { UbsAdminTariffsDeletePopUpComponent } from './components/ubs-admin-tari
 import { UbsAdminTariffsAddServicePopUpComponent } from './components/ubs-admin-tariffs/ubs-admin-tariffs-pricing-page/ubs-admin-tariffs-add-service-pop-up/ubs-admin-tariffs-add-service-pop-up.component';
 import { UbsAdminEmployeeTableComponent } from './components/ubs-admin-employee/ubs-admin-employee-table/ubs-admin-employee-table.component';
 import { UbsAdminCustomerDetailsComponent } from './components/ubs-admin-customers/ubs-admin-customer-details/ubs-admin-customer-details.component';
+import { UbsAdminOrderHistoryComponent } from './components/ubs-admin-order-history/ubs-admin-order-history.component';
+import { TooltipModule } from 'ngx-bootstrap/tooltip';
+import { AddOrderCancellationReasonComponent } from './components/add-order-cancellation-reason/add-order-cancellation-reason.component';
+import { DialogPopUpComponent } from './components/shared/components/dialog-pop-up/dialog-pop-up.component';
 
 @NgModule({
   declarations: [
@@ -89,7 +93,10 @@ import { UbsAdminCustomerDetailsComponent } from './components/ubs-admin-custome
     UbsAdminTariffsAddTariffServicePopUpComponent,
     UbsAdminTariffsLocationDashboardComponent,
     UbsAdminEmployeeTableComponent,
-    UbsAdminCustomerDetailsComponent
+    UbsAdminCustomerDetailsComponent,
+    UbsAdminOrderHistoryComponent,
+    AddOrderCancellationReasonComponent,
+    DialogPopUpComponent
   ],
   imports: [
     CommonModule,
@@ -117,7 +124,8 @@ import { UbsAdminCustomerDetailsComponent } from './components/ubs-admin-custome
         deps: [HttpClient]
       },
       isolate: true
-    })
+    }),
+    TooltipModule
   ],
   providers: [
     AdminCertificateService,

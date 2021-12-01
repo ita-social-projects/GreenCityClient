@@ -8,7 +8,7 @@ import { FilterPlaceDtoModel } from '../../model/filtering/filter-place-dto.mode
 import { PlaceStatus } from '../../model/placeStatus.model';
 import { DatePipe } from '@angular/common';
 import { FilterDistanceDto } from '../../model/filtering/filter-distance-dto.model';
-import { Location } from '../../component/places/models/location.model';
+import { PlaceLocation } from '../../component/places/models/location.model';
 import { BehaviorSubject } from 'rxjs';
 import { PlacesFilter } from '../../component/places/models/places-filter';
 
@@ -25,9 +25,10 @@ export class FilterPlaceService {
   discountMin = 0;
   discountMax = 100;
   distance: number;
-  userMarkerLocation: Location = new Location();
+  userMarkerLocation: PlaceLocation = new PlaceLocation();
 
   public filtersDto$: BehaviorSubject<any> = new BehaviorSubject<any>({ status: PlaceStatus.APPROVED });
+  public isFavoriteFilter$: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
 
   constructor(private datePipe: DatePipe) {}
 
@@ -86,6 +87,9 @@ export class FilterPlaceService {
       filtersDto.time = this.datePipe.transform(new Date(), 'dd/MM/yyyy HH:mm:ss');
     }
     const servicesFilters = placesFilter.moreOptionsFilters?.servicesFilters;
+
+    let categories = [];
+
     if (servicesFilters) {
       const services = Object.keys(servicesFilters).reduce((acc: string[], key: string) => {
         if (servicesFilters[key]) {
@@ -93,10 +97,25 @@ export class FilterPlaceService {
         }
         return acc;
       }, []);
-      filtersDto.categories = services.concat(placesFilter.basicFilters);
+      categories.push(...services, ...placesFilter.basicFilters);
+      categories = this.removeNonCategoryFilters(categories);
     }
 
+    if (categories.length) {
+      filtersDto.categories = categories;
+    }
+
+    const isFavoriteFilter: boolean =
+      placesFilter.moreOptionsFilters?.baseFilters['Saved places'] || placesFilter.basicFilters.includes('Saved places');
+    this.isFavoriteFilter$.next(isFavoriteFilter);
+
     this.filtersDto$.next(filtersDto);
+  }
+
+  private removeNonCategoryFilters(filters: string[]): string[] {
+    return filters.filter((filterItem: string) => {
+      return filterItem !== 'Saved places';
+    });
   }
 
   clearFilter() {
@@ -111,7 +130,7 @@ export class FilterPlaceService {
     this.distance = distance > 0 ? distance : null;
   }
 
-  setUserMarkerLocation(userMarkerLocation: Location) {
+  setUserMarkerLocation(userMarkerLocation: PlaceLocation) {
     this.userMarkerLocation = userMarkerLocation;
   }
 }

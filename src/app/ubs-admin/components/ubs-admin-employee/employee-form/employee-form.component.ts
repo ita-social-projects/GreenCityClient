@@ -15,7 +15,7 @@ export class EmployeeFormComponent implements OnInit {
   employeeForm: FormGroup;
   employeePositions;
   receivingStations;
-  phoneMask = '{+38} (000) 00 000 00';
+  phoneMask = '+{38\\0} (00) 000 00 00';
   private maxImageSize = 10485760;
   public isWarning = false;
   public isUploading = false;

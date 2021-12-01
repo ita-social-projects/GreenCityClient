@@ -1,8 +1,8 @@
 <div class="container">
-  <div class="empty_card">
+  <div class="empty_card" (click)="openDetails()">
+    <img *ngIf="!pageOpen" src="assets/img/ubs-admin-orders/arrow_up.svg" alt="arrow up" />
+    <img *ngIf="pageOpen" src="assets/img/ubs-admin-orders/arrow_down.svg" alt="arrow down" />
     <h1 class="my-4 form__headline">{{ 'order-payment.title' | translate }}</h1>
-    <img *ngIf="!pageOpen" src="assets/img/ubs-admin-orders/arrow_up.svg" alt="arrow up" (click)="openDetails()" />
-    <img *ngIf="pageOpen" src="assets/img/ubs-admin-orders/arrow_down.svg" alt="arrow down" (click)="closeDetails()" />
   </div>
   <div *ngIf="pageOpen">
     <div class="row align-items-baseline">
@@ -10,13 +10,13 @@
         <span class="form__subtitle">{{ 'order-payment.order-size' | translate }}</span>
       </div>
       <div class="col-md-2">
-        <span class="price">300 {{ '' | localizedCurrency }}</span>
+        <span class="price">{{ paidPrice }} {{ '' | localizedCurrency }}</span>
       </div>
       <div class="col-md-2">
         <button class="btn">+ {{ 'order-payment.add-payment-btn' | translate }}</button>
       </div>
     </div>
-    <p class="need-to-pay">{{ 'order-edit.need-to-pay' | translate }} 250 {{ '' | localizedCurrency }}</p>
+    <p class="need-to-pay" *ngIf="overpayment">{{ message | translate }} {{ overpayment | localizedCurrency }}</p>
     <div class="table-responsive-md col-md-10 pl-0">
       <table class="table table-borderless">
         <caption>
