@@ -107,6 +107,7 @@ export interface IOrderPaymentStatusesDto {
 }
 
 export interface IUserInfo {
+  recipientId: number;
   customerEmail: string;
   customerName: string;
   customerPhoneNumber: string;

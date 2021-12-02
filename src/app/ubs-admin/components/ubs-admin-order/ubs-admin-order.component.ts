@@ -45,6 +45,7 @@ export class UbsAdminOrderComponent implements OnInit, OnDestroy {
   currentOrderStatus: string;
   overpayment = 0;
   isMinOrder = true;
+  updatedData: {};
 
   constructor(
     private translate: TranslateService,
@@ -230,7 +231,48 @@ export class UbsAdminOrderComponent implements OnInit, OnDestroy {
   }
 
   onSubmit() {
-    console.log(this.orderForm);
+    this.updatedData = {
+      ecoNumberFromShop: [
+        {
+          newEcoNumber: '',
+          oldEcoNumber: ''
+        }
+      ],
+      exportDetailsDtoUpdate: {
+        exportedDate: this.orderForm.get(['exportDetailsForm', 'exportedDate']).value,
+        exportedTime: this.orderForm.get(['exportDetailsForm', 'exportedTime']).value,
+        receivingStation: this.orderForm.get(['exportDetailsForm', 'receivingStation']).value
+      },
+      orderAddressExportDetailsDtoUpdate: {
+        addressCity: this.orderForm.get(['addressDetailsForm', 'settlement']).value,
+        addressDistrict: this.orderForm.get(['addressDetailsForm', 'district']).value,
+        addressEntranceNumber: this.orderForm.get(['addressDetailsForm', 'entrance']).value,
+        addressHouseCorpus: this.orderForm.get(['addressDetailsForm', 'corpus']).value,
+        addressHouseNumber: this.orderForm.get(['addressDetailsForm', 'building']).value,
+        addressRegion: this.orderForm.get(['addressDetailsForm', 'region']).value,
+        addressStreet: this.orderForm.get(['addressDetailsForm', 'street']).value,
+        id: this.addressInfo.id
+      },
+      orderDetailStatusRequestDto: {
+        orderComment: this.orderForm.get(['orderStatusForm', 'adminComment']).value,
+        orderPaymentStatus: this.generalOrderInfo.orderPaymentStatus,
+        orderStatus: this.orderForm.get(['orderStatusForm', 'orderStatus']).value
+      },
+      ubsCustomersDtoUpdate: {
+        recipientEmail: this.orderForm.get(['clientInfoForm', 'senderEmail']).value,
+        recipientId: this.clientInfo.recipientId,
+        recipientName: this.orderForm.get(['clientInfoForm', 'senderName']).value,
+        recipientPhoneNumber: this.orderForm.get(['clientInfoForm', 'senderPhone']).value,
+        recipientSurName: this.orderForm.get(['clientInfoForm', 'senderSurname']).value
+      }
+    };
+    this.orderService
+      .updateOrderInfo(this.orderId, this.updatedData)
+      .pipe(takeUntil(this.destroy$))
+      .subscribe((data) => {
+        this.updatedData = data;
+      });
+    console.log(this.updatedData);
   }
 
   ngOnDestroy(): void {

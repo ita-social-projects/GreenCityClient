@@ -65,6 +65,10 @@ export class OrderService {
     return this.http.get(`${this.backend}/management/get-data-for-order/${orderId}/${lang}`);
   }
 
+  public updateOrderInfo(orderId: number, data: {}) {
+    return this.http.patch(`${this.backend}/management/update-order-page-admin-info/${orderId}`, data);
+  }
+
   public getOrderDetails(orderId: number, lang: string): Observable<any> {
     return this.http.get<any>(`${this.backend}/management/read-order-info/${orderId}?language=${lang}`);
   }
