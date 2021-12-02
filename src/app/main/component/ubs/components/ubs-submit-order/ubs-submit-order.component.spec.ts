@@ -10,7 +10,7 @@ import { UBSOrderFormService } from '../../services/ubs-order-form.service';
 import { HttpErrorResponse } from '@angular/common/http';
 import { MatDialogModule } from '@angular/material/dialog';
 
-describe('UBSSubmitOrderComponent', () => {
+xdescribe('UBSSubmitOrderComponent', () => {
   let component: UBSSubmitOrderComponent;
   let fixture: ComponentFixture<UBSSubmitOrderComponent>;
   let mockedtakeOrderDetails;
