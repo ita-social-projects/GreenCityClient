@@ -36,6 +36,7 @@ module.exports = function (config) {
     proxies: {
       '/assets/': '/base/src/assets/'
     },
+    files: [{ pattern: './src/assets/**', watched: false, included: false, nocache: false, served: true }],
     reporters: ['progress', 'kjhtml'],
     port: 9876,
     colors: true,
