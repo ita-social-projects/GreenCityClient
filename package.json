@@ -75,7 +75,7 @@
     "@types/googlemaps": "^3.43.3",
     "@types/jasmine": "~3.3.8",
     "@types/jasminewd2": "^2.0.8",
-    "@types/node": "^12.20.18",
+    "@types/node": "<=14.17.6",
     "codelyzer": "^5.1.2",
     "husky": "^4.3.8",
     "jasmine-core": "~3.4.0",
