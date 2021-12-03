@@ -11,7 +11,7 @@ import { EmployeeFormComponent } from '../employee-form/employee-form.component'
 
 import { UbsAdminEmployeeTableComponent } from './ubs-admin-employee-table.component';
 
-describe('UbsAdminEmployeeTableComponent', () => {
+xdescribe('UbsAdminEmployeeTableComponent', () => {
   let component: UbsAdminEmployeeTableComponent;
   let fixture: ComponentFixture<UbsAdminEmployeeTableComponent>;
   let matDialog: MatDialog;

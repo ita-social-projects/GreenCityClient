@@ -5,7 +5,7 @@ import { IMaskModule } from 'angular-imask';
 
 import { UbsAdminComponent } from './ubs-admin.component';
 
-describe('UbsAdminComponent', () => {
+xdescribe('UbsAdminComponent', () => {
   let component: UbsAdminComponent;
   let fixture: ComponentFixture<UbsAdminComponent>;
 
