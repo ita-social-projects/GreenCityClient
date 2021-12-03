@@ -79,11 +79,11 @@
   </form>
 
   <div class="action-btns">
-    <mat-dialog-actions class="mat-dialog-actions">
+    <mat-dialog-actions>
       <button class="btn btn-cancel" mat-dialog-close>
         {{ 'ubs-client-profile.payment.btn.cancel' | translate }}
       </button>
-      <button id="paymentButton" class="btn btn-pay" [disabled]="0 >= totalSum" (click)="processOrder()">
+      <button class="btn btn-pay" [disabled]="0 >= totalSum" (click)="processOrder()" mat-dialog-close>
         {{ 'ubs-client-profile.payment.btn.pay' | translate }}
       </button>
     </mat-dialog-actions>
