@@ -10,7 +10,7 @@ import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { UbsConfirmPageComponent } from './ubs-confirm-page.component';
 import { UBSOrderFormService } from '../../services/ubs-order-form.service';
 
-describe('UbsConfirmPageComponent', () => {
+fdescribe('UbsConfirmPageComponent', () => {
   let component: UbsConfirmPageComponent;
   let fixture: ComponentFixture<UbsConfirmPageComponent>;
   let router: Router;
