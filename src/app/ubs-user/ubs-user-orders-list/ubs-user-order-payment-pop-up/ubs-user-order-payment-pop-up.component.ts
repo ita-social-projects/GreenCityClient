@@ -4,6 +4,7 @@ import { MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { OrderService } from 'src/app/main/component/ubs/services/order.service';
 import { ResponceOrderFondyModel } from '../models/ResponceOrderFondyModel';
 import { OrderFondyClientDto } from '../models/OrderFondyClientDto';
+import { IOrderDetailsUser } from '../models/IOrderDetailsUser.interface';
 
 @Component({
   selector: 'app-ubs-user-order-payment-pop-up',
@@ -11,8 +12,6 @@ import { OrderFondyClientDto } from '../models/OrderFondyClientDto';
   styleUrls: ['./ubs-user-order-payment-pop-up.component.scss']
 })
 export class UbsUserOrderPaymentPopUpComponent implements OnInit {
-  public totalSum = 0;
-  public bonusValue = 0;
   public selectedRadio: string;
   public certificatePattern = /(?!0000)\d{4}-(?!0000)\d{4}/;
   public certificateMask = '0000-0000';
@@ -20,19 +19,22 @@ export class UbsUserOrderPaymentPopUpComponent implements OnInit {
   public certificates: string[] = [];
   public certificateStatus: boolean[] = [];
   public certificateError = false;
-  public orderId = 0;
   public certificateStatusActive = false;
   public currentCertificateSum = 0;
   public certificateSums: Map<number, number> = new Map();
   public certificateDate: string;
   public orderFondyClientDto: OrderFondyClientDto;
 
+  public userOrder: IOrderDetailsUser = {
+    id: this.data.orderId,
+    sum: this.data.price,
+    bonusValue: 0
+  };
+
   constructor(private fb: FormBuilder, private orderService: OrderService, @Inject(MAT_DIALOG_DATA) public data: any) {}
 
   ngOnInit(): void {
     this.initForm();
-    this.totalSum = this.data.price;
-    this.orderId = this.data.orderId;
     this.certificateStatus.push(true);
     this.orderFondyClientDto = new OrderFondyClientDto();
   }
@@ -70,9 +72,9 @@ export class UbsUserOrderPaymentPopUpComponent implements OnInit {
           this.certificateDate = responce.certificateDate;
           this.currentCertificateSum = responce.certificatePoints;
           this.certificateSums.set(index, this.currentCertificateSum);
-          this.totalSum -= responce.certificatePoints;
-          if (this.totalSum < 0) {
-            this.totalSum = 0;
+          this.userOrder.sum -= responce.certificatePoints;
+          if (this.userOrder.sum < 0) {
+            this.userOrder.sum = 0;
           }
           this.certificateStatusActive = true;
         } else {
@@ -89,7 +91,7 @@ export class UbsUserOrderPaymentPopUpComponent implements OnInit {
   }
 
   public deleteCertificate(index: number): void {
-    this.totalSum += this.certificateSums.get(index);
+    this.userOrder.sum += this.certificateSums.get(index);
     this.certificateStatusActive = false;
     this.certificateSums.delete(index);
     this.certificateError = false;
@@ -112,8 +114,8 @@ export class UbsUserOrderPaymentPopUpComponent implements OnInit {
   }
 
   public processOrder(): void {
-    this.orderFondyClientDto.orderId = this.orderId;
-    this.orderFondyClientDto.sum = this.totalSum;
+    this.orderFondyClientDto.orderId = this.userOrder.id;
+    this.orderFondyClientDto.sum = this.userOrder.sum;
 
     if (this.formPaymentSystem.value === 'Fondy') {
       this.orderService.processOrderFondyFromUserOrderList(this.orderFondyClientDto).subscribe((responce: ResponceOrderFondyModel) => {

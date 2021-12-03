@@ -2,7 +2,8 @@
   <div class="dialog-container-title">
     <h2>{{ 'ubs-client-profile.payment.title' | translate }}</h2>
     <h6 class="text-order-sum">
-      {{ 'ubs-client-profile.payment.sum' | translate }} {{ totalSum | currency }} {{ 'ubs-client-profile.payment.curency' | translate }}.
+      {{ 'ubs-client-profile.payment.sum' | translate }} {{ userOrder.sum | currency }}
+      {{ 'ubs-client-profile.payment.curency' | translate }}.
     </h6>
   </div>
 
@@ -24,7 +25,7 @@
           <button
             *ngIf="certificateStatus[i]"
             class="btn btn-activate"
-            [disabled]="formArrayCertificates['controls'][i].invalid || formArrayCertificates['controls'][i].pristine || 0 >= totalSum"
+            [disabled]="formArrayCertificates['controls'][i].invalid || formArrayCertificates['controls'][i].pristine || 0 >= userOrder.sum"
             (click)="certificateSubmit(i, certificate)"
           >
             {{ 'ubs-client-profile.payment.btn.active' | translate }}
@@ -34,7 +35,7 @@
           </button>
         </div>
       </div>
-      <div *ngIf="!certificateError && certificateStatusActive && totalSum > 0">
+      <div *ngIf="!certificateError && certificateStatusActive && userOrder.sum > 0">
         <div class="text-danger">
           {{ 'ubs-client-profile.payment.certificate-activated.sum' | translate: { certificateSum: currentCertificateSum } }}
         </div>
@@ -52,10 +53,11 @@
 
     <div class="question">{{ 'ubs-client-profile.payment.bonus-need' | translate }}</div>
     <div class="text">
-      {{ 'ubs-client-profile.payment.bonus-left' | translate }} {{ bonusValue }} {{ 'ubs-client-profile.payment.curency' | translate }}.
+      {{ 'ubs-client-profile.payment.bonus-left' | translate }} {{ userOrder.bonusValue }}
+      {{ 'ubs-client-profile.payment.curency' | translate }}.
     </div>
 
-    <mat-radio-group formControlName="bonus" class="radio-group" [ngStyle]="totalSum === 0 && { 'padding-bottom': '120px' }">
+    <mat-radio-group formControlName="bonus" class="radio-group" [ngStyle]="userOrder.sum === 0 && { 'padding-bottom': '120px' }">
       <mat-radio-button value="no" name="no">
         {{ 'ubs-client-profile.payment.no' | translate }}
       </mat-radio-button>
@@ -65,7 +67,7 @@
       </mat-radio-button>
     </mat-radio-group>
 
-    <div *ngIf="totalSum > 0">
+    <div *ngIf="userOrder.sum > 0">
       <hr style="border-width: 2px" />
 
       <div class="choose-payment">{{ 'ubs-client-profile.payment.choose-payment' | translate }}</div>
@@ -83,7 +85,7 @@
       <button class="btn btn-cancel" mat-dialog-close>
         {{ 'ubs-client-profile.payment.btn.cancel' | translate }}
       </button>
-      <button class="btn btn-pay" [disabled]="0 >= totalSum" (click)="processOrder()" mat-dialog-close>
+      <button class="btn btn-pay" [disabled]="0 >= userOrder.sum" (click)="processOrder()" mat-dialog-close>
         {{ 'ubs-client-profile.payment.btn.pay' | translate }}
       </button>
     </mat-dialog-actions>
