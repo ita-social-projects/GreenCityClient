@@ -9,6 +9,7 @@ import { MatSnackBarComponent } from '@global-errors/mat-snack-bar/mat-snack-bar
 import { of, Subject } from 'rxjs';
 import { EMPTY } from 'rxjs';
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
+import { MatTableModule } from '@angular/material/table';
 
 const testBonuses: BonusesModel = {
   ubsUserBonuses: [
@@ -34,7 +35,7 @@ describe('UbsUserBonusesComponent', () => {
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       declarations: [UbsUserBonusesComponent, MatSnackBarComponent],
-      imports: [TranslateModule.forRoot()],
+      imports: [MatTableModule, TranslateModule.forRoot()],
       providers: [
         { provide: BonusesService, useValue: bonusesServiceMock },
         { provide: MatSnackBarComponent, useValue: matSnackBarMock }

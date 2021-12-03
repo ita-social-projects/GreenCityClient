@@ -5,6 +5,7 @@ import { UbsAdminCertificateComponent } from './ubs-admin-certificate.component'
 import { MatDialogModule, MatDialogRef } from '@angular/material/dialog';
 import { InfiniteScrollModule } from 'ngx-infinite-scroll';
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
+import { MatTableModule } from '@angular/material/table';
 
 describe('UbsAdminCertificateComponent', () => {
   let component: UbsAdminCertificateComponent;
@@ -12,7 +13,7 @@ describe('UbsAdminCertificateComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      imports: [HttpClientTestingModule, TranslateModule.forRoot(), MatDialogModule, InfiniteScrollModule],
+      imports: [HttpClientTestingModule, TranslateModule.forRoot(), MatDialogModule, MatTableModule, InfiniteScrollModule],
       providers: [{ provide: MatDialogRef, useValue: {} }],
       declarations: [UbsAdminCertificateComponent],
       schemas: [CUSTOM_ELEMENTS_SCHEMA]
