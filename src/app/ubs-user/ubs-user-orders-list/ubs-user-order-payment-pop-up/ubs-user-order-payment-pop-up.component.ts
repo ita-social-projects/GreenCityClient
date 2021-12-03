@@ -23,6 +23,7 @@ export class UbsUserOrderPaymentPopUpComponent implements OnInit {
   public orderId = 0;
   public certificateStatusActive = false;
   public certificateSum = 0;
+  public certificateSums: Map<number, number> = new Map();
   public certificateDate: string;
   public orderFondyClientDto: OrderFondyClientDto;
 
@@ -55,12 +56,12 @@ export class UbsUserOrderPaymentPopUpComponent implements OnInit {
   public certificateSubmit(index: number, certificate: FormControl): void {
     if (!this.certificates.includes(this.formArrayCertificates.value[index])) {
       this.certificates.push(this.formArrayCertificates.value[index]);
-      this.calculateCertificate(certificate);
+      this.calculateCertificate(index, certificate);
       this.certificateStatus[index] = false;
     }
   }
 
-  public calculateCertificate(certificate: FormControl): void {
+  public calculateCertificate(index: number, certificate: FormControl) {
     this.certificateSum = 0;
     this.certificateStatusActive = false;
     this.orderService.processCertificate(certificate.value).subscribe(
@@ -68,6 +69,7 @@ export class UbsUserOrderPaymentPopUpComponent implements OnInit {
         if (responce.certificateStatus === 'ACTIVE') {
           this.certificateDate = responce.certificateDate;
           this.certificateSum = responce.certificatePoints;
+          this.certificateSums.set(index, this.certificateSum);
           this.totalSum -= responce.certificatePoints;
           if (this.totalSum < 0) {
             this.totalSum = 0;
@@ -75,6 +77,7 @@ export class UbsUserOrderPaymentPopUpComponent implements OnInit {
           this.certificateStatusActive = true;
         } else {
           this.certificateError = true;
+          this.certificateSums.set(index, this.certificateSum);
         }
       },
       (error) => {
@@ -86,16 +89,26 @@ export class UbsUserOrderPaymentPopUpComponent implements OnInit {
   }
 
   public deleteCertificate(index: number): void {
-    this.totalSum += this.certificateSum;
+    debugger;
+    this.totalSum += this.certificateSums.get(index);
     this.certificateStatusActive = false;
+    this.certificateSums.delete(index);
     this.certificateError = false;
+
+    if (this.formArrayCertificates.controls.length > 1) {
+      this.certificateStatus.splice(index, 1);
+      this.formArrayCertificates.removeAt(index);
+    } else {
+      this.certificateStatus[index] = true;
+      this.formArrayCertificates.controls[index].reset();
+    }
+
     this.certificates.splice(index, 1);
-    index ? (this.certificateStatus[index] = false) : (this.certificateStatus[index] = true);
-    this.certificates.length ? this.formArrayCertificates.removeAt(index) : this.formArrayCertificates.controls[index].reset();
   }
 
   addNewCertificate(): void {
     this.formArrayCertificates.push(this.fb.control('', [Validators.minLength(8), Validators.pattern(this.certificatePattern)]));
+    this.certificateStatusActive = false;
     this.certificateStatus.push(true);
   }
 
