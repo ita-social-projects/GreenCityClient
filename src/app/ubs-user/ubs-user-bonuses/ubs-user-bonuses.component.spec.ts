@@ -8,6 +8,7 @@ import { By } from '@angular/platform-browser';
 import { MatSnackBarComponent } from '@global-errors/mat-snack-bar/mat-snack-bar.component';
 import { of, Subject } from 'rxjs';
 import { EMPTY } from 'rxjs';
+import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 
 const testBonuses: BonusesModel = {
   ubsUserBonuses: [
@@ -37,7 +38,8 @@ describe('UbsUserBonusesComponent', () => {
       providers: [
         { provide: BonusesService, useValue: bonusesServiceMock },
         { provide: MatSnackBarComponent, useValue: matSnackBarMock }
-      ]
+      ],
+      schemas: [CUSTOM_ELEMENTS_SCHEMA]
     }).compileComponents();
   });
 

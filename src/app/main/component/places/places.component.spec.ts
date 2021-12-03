@@ -8,6 +8,7 @@ import { Place } from './models/place';
 import { FilterPlaceService } from '@global-service/filtering/filter-place.service';
 import { PlaceStatus } from '@global-models/placeStatus.model';
 import { FavoritePlaceService } from '@global-service/favorite-place/favorite-place.service';
+import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 
 describe('PlacesComponent', () => {
   let component: PlacesComponent;
@@ -49,7 +50,8 @@ describe('PlacesComponent', () => {
           provide: FavoritePlaceService,
           useValue: favoritePlaceServiceMock
         }
-      ]
+      ],
+      schemas: [CUSTOM_ELEMENTS_SCHEMA]
     }).compileComponents();
   }));
 

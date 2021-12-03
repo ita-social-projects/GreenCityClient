@@ -1,4 +1,5 @@
 import { HttpClientTestingModule } from '@angular/common/http/testing';
+import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { async, ComponentFixture, fakeAsync, TestBed, tick } from '@angular/core/testing';
 import { MatDialogRef } from '@angular/material/dialog';
 import { By } from '@angular/platform-browser';
@@ -22,7 +23,8 @@ describe('UbsOrderLocationPopupComponent', () => {
         RouterTestingModule.withRoutes([{ path: 'ubs', component: UbsMainPageComponent }]),
         HttpClientTestingModule,
         TranslateModule.forRoot()
-      ]
+      ],
+      schemas: [CUSTOM_ELEMENTS_SCHEMA]
     }).compileComponents();
   }));
 

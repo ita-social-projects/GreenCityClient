@@ -1,3 +1,4 @@
+import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { async, ComponentFixture, fakeAsync, TestBed, tick } from '@angular/core/testing';
 import { ReactiveFormsModule } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
@@ -50,7 +51,8 @@ describe('UbsUserProfilePageComponent', () => {
         { provide: ClientProfileService, useValue: clientProfileServiceMock },
         { provide: MatSnackBarComponent, useValue: snackBarMock }
       ],
-      imports: [TranslateModule.forRoot(), ReactiveFormsModule]
+      imports: [TranslateModule.forRoot(), ReactiveFormsModule],
+      schemas: [CUSTOM_ELEMENTS_SCHEMA]
     }).compileComponents();
   }));
 
