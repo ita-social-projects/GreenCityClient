@@ -9,6 +9,9 @@ import { TestBed, ComponentFixture } from '@angular/core/testing';
 import { CUSTOM_ELEMENTS_SCHEMA, ChangeDetectorRef } from '@angular/core';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { InfiniteScrollModule } from 'ngx-infinite-scroll';
+import { MatDatepickerModule } from '@angular/material/datepicker';
+import { MatNativeDateModule } from '@angular/material/core';
+import { ReactiveFormsModule } from '@angular/forms';
 
 describe('UbsAdminCustomersComponent', () => {
   let component: UbsAdminCustomersComponent;
@@ -23,7 +26,10 @@ describe('UbsAdminCustomersComponent', () => {
         MatTableModule,
         SharedModule,
         TranslateModule.forRoot(),
-        InfiniteScrollModule
+        InfiniteScrollModule,
+        MatDatepickerModule,
+        MatNativeDateModule,
+        ReactiveFormsModule
       ],
       declarations: [UbsAdminCustomersComponent],
       providers: [],
