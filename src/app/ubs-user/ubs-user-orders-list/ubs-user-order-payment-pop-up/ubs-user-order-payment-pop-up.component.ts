@@ -22,7 +22,7 @@ export class UbsUserOrderPaymentPopUpComponent implements OnInit {
   public certificateError = false;
   public orderId = 0;
   public certificateStatusActive = false;
-  public certificateSum = 0;
+  public currentCertificateSum = 0;
   public certificateSums: Map<number, number> = new Map();
   public certificateDate: string;
   public orderFondyClientDto: OrderFondyClientDto;
@@ -62,14 +62,14 @@ export class UbsUserOrderPaymentPopUpComponent implements OnInit {
   }
 
   public calculateCertificate(index: number, certificate: FormControl) {
-    this.certificateSum = 0;
+    this.currentCertificateSum = 0;
     this.certificateStatusActive = false;
     this.orderService.processCertificate(certificate.value).subscribe(
       (responce) => {
         if (responce.certificateStatus === 'ACTIVE') {
           this.certificateDate = responce.certificateDate;
-          this.certificateSum = responce.certificatePoints;
-          this.certificateSums.set(index, this.certificateSum);
+          this.currentCertificateSum = responce.certificatePoints;
+          this.certificateSums.set(index, this.currentCertificateSum);
           this.totalSum -= responce.certificatePoints;
           if (this.totalSum < 0) {
             this.totalSum = 0;
@@ -77,7 +77,7 @@ export class UbsUserOrderPaymentPopUpComponent implements OnInit {
           this.certificateStatusActive = true;
         } else {
           this.certificateError = true;
-          this.certificateSums.set(index, this.certificateSum);
+          this.certificateSums.set(index, this.currentCertificateSum);
         }
       },
       (error) => {

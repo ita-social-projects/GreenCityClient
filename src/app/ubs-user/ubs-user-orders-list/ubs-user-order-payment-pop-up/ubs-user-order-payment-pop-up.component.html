@@ -36,7 +36,7 @@
       </div>
       <div *ngIf="!certificateError && certificateStatusActive && totalSum > 0">
         <div class="text-danger">
-          {{ 'ubs-client-profile.payment.certificate-activated.sum' | translate: { certificateSum: certificateSum } }}
+          {{ 'ubs-client-profile.payment.certificate-activated.sum' | translate: { certificateSum: currentCertificateSum } }}
         </div>
         <div class="text-danger">
           {{ 'ubs-client-profile.payment.certificate-activated.data' | translate: { certDate: certificateDate } }}
@@ -79,11 +79,11 @@
   </form>
 
   <div class="action-btns">
-    <mat-dialog-actions>
+    <mat-dialog-actions class="mat-dialog-actions">
       <button class="btn btn-cancel" mat-dialog-close>
         {{ 'ubs-client-profile.payment.btn.cancel' | translate }}
       </button>
-      <button class="btn btn-pay" [disabled]="0 >= totalSum" (click)="processOrder()" mat-dialog-close>
+      <button id="paymentButton" class="btn btn-pay" [disabled]="0 >= totalSum" (click)="processOrder()">
         {{ 'ubs-client-profile.payment.btn.pay' | translate }}
       </button>
     </mat-dialog-actions>
