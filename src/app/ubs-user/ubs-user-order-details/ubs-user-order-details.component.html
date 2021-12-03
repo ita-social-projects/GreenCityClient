@@ -61,7 +61,7 @@
     <li>{{ order.addressExportDetailsDto.addressCity }}</li>
     <li>{{ order.addressExportDetailsDto.addressStreet }}</li>
     <li>{{ order.addressExportDetailsDto.addressDistrict }}</li>
-    <li *ngIf="order.addressComment === !null">{{ 'user-orders.details.comment' | translate }} {{ order.addressComment }}</li>
+    <li *ngIf="order.addressComment !== ''">{{ 'user-orders.details.comment' | translate }} {{ order.addressComment }}</li>
   </ol>
 </div>
 <div class="download">
