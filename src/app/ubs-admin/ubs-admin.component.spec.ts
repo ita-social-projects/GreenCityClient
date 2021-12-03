@@ -1,6 +1,7 @@
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { TranslateModule } from '@ngx-translate/core';
+import { IMaskModule } from 'angular-imask';
 
 import { UbsAdminComponent } from './ubs-admin.component';
 
@@ -11,7 +12,7 @@ describe('UbsAdminComponent', () => {
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       declarations: [UbsAdminComponent],
-      imports: [TranslateModule.forRoot()],
+      imports: [IMaskModule, TranslateModule.forRoot()],
       schemas: [CUSTOM_ELEMENTS_SCHEMA]
     }).compileComponents();
   }));

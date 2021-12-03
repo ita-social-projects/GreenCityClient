@@ -15,6 +15,7 @@ import { HabitStatisticService } from '@global-service/habit-statistic/habit-sta
 import { UserOwnAuthService } from '@auth-service/user-own-auth.service';
 import { SearchService } from '@global-service/search/search.service';
 import { MatDialog, MatDialogModule } from '@angular/material/dialog';
+import { DropdownModule } from 'angular-bootstrap-md';
 
 class MatDialogMock {
   afterAllClosed = of(true);
@@ -81,7 +82,7 @@ describe('HeaderComponent', () => {
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       declarations: [HeaderComponent],
-      imports: [RouterTestingModule.withRoutes([]), TranslateModule.forRoot(), MatDialogModule, HttpClientTestingModule],
+      imports: [RouterTestingModule.withRoutes([]), TranslateModule.forRoot(), MatDialogModule, HttpClientTestingModule, DropdownModule],
       providers: [
         { provide: MatDialog, useClass: MatDialogMock },
         { provide: LocalStorageService, useValue: localStorageServiceMock },

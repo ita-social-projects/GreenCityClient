@@ -3,6 +3,7 @@ import { UbsAdminCertificateAddCertificatePopUpComponent } from './ubs-admin-cer
 import { MatDialogModule, MatDialogRef } from '@angular/material/dialog';
 import { FormBuilder, ReactiveFormsModule } from '@angular/forms';
 import { HttpClientTestingModule, HttpTestingController } from '@angular/common/http/testing';
+import { IMaskModule } from 'angular-imask';
 
 describe('UbsAdminCertificateAddCertificatePopUpComponent', () => {
   let component: UbsAdminCertificateAddCertificatePopUpComponent;
@@ -12,7 +13,7 @@ describe('UbsAdminCertificateAddCertificatePopUpComponent', () => {
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       declarations: [UbsAdminCertificateAddCertificatePopUpComponent],
-      imports: [MatDialogModule, HttpClientTestingModule, ReactiveFormsModule],
+      imports: [MatDialogModule, HttpClientTestingModule, ReactiveFormsModule, IMaskModule],
       providers: [FormBuilder, { provide: MatDialogRef, useValue: {} }]
     }).compileComponents();
   }));

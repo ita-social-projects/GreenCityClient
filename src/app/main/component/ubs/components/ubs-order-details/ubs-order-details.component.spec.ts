@@ -15,6 +15,7 @@ import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { of, Subject } from 'rxjs';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { UbsOrderLocationPopupComponent } from './ubs-order-location-popup/ubs-order-location-popup.component';
+import { IMaskModule } from 'angular-imask';
 
 describe('OrderDetailsFormComponent', () => {
   let component: UBSOrderDetailsComponent;
@@ -36,7 +37,8 @@ describe('OrderDetailsFormComponent', () => {
         TranslateModule.forRoot(),
         RouterTestingModule,
         MatDialogModule,
-        BrowserAnimationsModule
+        BrowserAnimationsModule,
+        IMaskModule
       ],
       providers: [
         { provide: MatDialogRef, useValue: {} },
