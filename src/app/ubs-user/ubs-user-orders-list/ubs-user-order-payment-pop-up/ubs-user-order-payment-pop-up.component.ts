@@ -89,7 +89,6 @@ export class UbsUserOrderPaymentPopUpComponent implements OnInit {
   }
 
   public deleteCertificate(index: number): void {
-    debugger;
     this.totalSum += this.certificateSums.get(index);
     this.certificateStatusActive = false;
     this.certificateSums.delete(index);
