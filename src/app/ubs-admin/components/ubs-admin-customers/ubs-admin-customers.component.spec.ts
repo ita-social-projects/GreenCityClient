@@ -8,6 +8,7 @@ import { RouterTestingModule } from '@angular/router/testing';
 import { TestBed, ComponentFixture } from '@angular/core/testing';
 import { CUSTOM_ELEMENTS_SCHEMA, ChangeDetectorRef } from '@angular/core';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
+import { InfiniteScrollModule } from 'ngx-infinite-scroll';
 
 describe('UbsAdminCustomersComponent', () => {
   let component: UbsAdminCustomersComponent;
@@ -16,7 +17,14 @@ describe('UbsAdminCustomersComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [RouterTestingModule, HttpClientTestingModule, MatTableModule, SharedModule, TranslateModule.forRoot()],
+      imports: [
+        RouterTestingModule,
+        HttpClientTestingModule,
+        MatTableModule,
+        SharedModule,
+        TranslateModule.forRoot(),
+        InfiniteScrollModule
+      ],
       declarations: [UbsAdminCustomersComponent],
       providers: [],
       schemas: [CUSTOM_ELEMENTS_SCHEMA]

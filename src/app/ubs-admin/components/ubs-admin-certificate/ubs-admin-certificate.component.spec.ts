@@ -3,6 +3,8 @@ import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { TranslateModule } from '@ngx-translate/core';
 import { UbsAdminCertificateComponent } from './ubs-admin-certificate.component';
 import { MatDialogModule, MatDialogRef } from '@angular/material/dialog';
+import { InfiniteScrollModule } from 'ngx-infinite-scroll';
+import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 
 describe('UbsAdminCertificateComponent', () => {
   let component: UbsAdminCertificateComponent;
@@ -10,9 +12,10 @@ describe('UbsAdminCertificateComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      imports: [HttpClientTestingModule, TranslateModule.forRoot(), MatDialogModule],
+      imports: [HttpClientTestingModule, TranslateModule.forRoot(), MatDialogModule, InfiniteScrollModule],
       providers: [{ provide: MatDialogRef, useValue: {} }],
-      declarations: [UbsAdminCertificateComponent]
+      declarations: [UbsAdminCertificateComponent],
+      schemas: [CUSTOM_ELEMENTS_SCHEMA]
     }).compileComponents();
   }));
 

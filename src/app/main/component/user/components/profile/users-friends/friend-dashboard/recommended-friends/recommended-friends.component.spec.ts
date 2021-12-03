@@ -8,6 +8,7 @@ import { LocalStorageService } from '@global-service/localstorage/local-storage.
 import { FriendModel } from '@global-user/models/friend.model';
 import { UserFriendsService } from '@global-user/services/user-friends.service';
 import { TranslateModule } from '@ngx-translate/core';
+import { InfiniteScrollModule } from 'ngx-infinite-scroll';
 import { BehaviorSubject, of } from 'rxjs';
 import { RecommendedFriendsComponent } from './recommended-friends.component';
 
@@ -84,7 +85,13 @@ describe('RecommendedFriendsComponent', () => {
         { provide: UserFriendsService, useValue: userFriendsServiceMock },
         { provide: MatSnackBarComponent, useValue: MatSnackBarComponent }
       ],
-      imports: [TranslateModule.forRoot(), HttpClientTestingModule, RouterTestingModule.withRoutes([]), MatSnackBarModule],
+      imports: [
+        TranslateModule.forRoot(),
+        HttpClientTestingModule,
+        RouterTestingModule.withRoutes([]),
+        MatSnackBarModule,
+        InfiniteScrollModule
+      ],
       schemas: [CUSTOM_ELEMENTS_SCHEMA, NO_ERRORS_SCHEMA]
     }).compileComponents();
   }));
