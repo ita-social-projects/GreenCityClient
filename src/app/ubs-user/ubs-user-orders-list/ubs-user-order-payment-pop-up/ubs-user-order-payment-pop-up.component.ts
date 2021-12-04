@@ -44,8 +44,7 @@ export class UbsUserOrderPaymentPopUpComponent implements OnInit {
   public createCertificateItem(): FormGroup {
     return this.fb.group({
       certificateCode: new FormControl('', [Validators.minLength(8), Validators.pattern(this.certificatePattern)]),
-      certificateSum: new FormControl(0, [Validators.min(0)]),
-      activeButtonState: new FormControl(true)
+      certificateSum: new FormControl(0, [Validators.min(0)])
     });
   }
 
