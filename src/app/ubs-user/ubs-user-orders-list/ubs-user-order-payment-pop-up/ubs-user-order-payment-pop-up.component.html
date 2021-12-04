@@ -13,14 +13,14 @@
     <div class="form-field-container">
       <label class="certificate-title">{{ 'ubs-client-profile.payment.certificate-number' | translate }}</label>
       <div formArrayName="formArrayCertificates" *ngFor="let certificate of formArrayCertificates.controls; let i = index">
-        <div class="dialog-container-certificate">
+        <div [formGroupName]="i" class="dialog-container-certificate">
           <input
             type="text"
             class="form-control shadow-none input-border"
             [imask]="{ mask: certificateMask }"
             [unmask]="false"
             placeholder="xxxx-xxxx"
-            [formControlName]="i"
+            formControlName="certificateCode"
           />
           <button
             *ngIf="certificateStatus[i]"
@@ -30,23 +30,23 @@
           >
             {{ 'ubs-client-profile.payment.btn.active' | translate }}
           </button>
-          <button *ngIf="!certificateStatus[i]" class="btn btn-cancel-activation" (click)="deleteCertificate(i)">
+          <button *ngIf="!certificateStatus[i]" class="btn btn-cancel-activation" (click)="deleteCertificate(i, certificate)">
             {{ 'ubs-client-profile.payment.btn.cancel' | translate }}
           </button>
         </div>
       </div>
-      <div *ngIf="!certificateError && certificateStatusActive && userOrder.sum > 0">
+      <div *ngIf="!userCertificate.certificateError && userCertificate.certificateStatusActive && userOrder.sum > 0">
         <div class="text-danger">
-          {{ 'ubs-client-profile.payment.certificate-activated.sum' | translate: { certificateSum: currentCertificateSum } }}
+          {{ 'ubs-client-profile.payment.certificate-activated.sum' | translate: { certificateSum: userCertificate.certificateSum } }}
         </div>
         <div class="text-danger">
-          {{ 'ubs-client-profile.payment.certificate-activated.data' | translate: { certDate: certificateDate } }}
+          {{ 'ubs-client-profile.payment.certificate-activated.data' | translate: { certDate: userCertificate.certificateDate } }}
         </div>
         <button class="btn btn-add-certificate" (click)="addNewCertificate()">
           {{ 'ubs-client-profile.payment.add-certificate' | translate }}
         </button>
       </div>
-      <div *ngIf="certificateError" class="text-danger">
+      <div *ngIf="userCertificate.certificateError" class="text-danger">
         {{ 'ubs-client-profile.payment.failed-certificate' | translate }}
       </div>
     </div>

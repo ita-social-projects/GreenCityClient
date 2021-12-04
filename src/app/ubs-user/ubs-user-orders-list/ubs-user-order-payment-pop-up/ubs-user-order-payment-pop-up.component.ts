@@ -5,6 +5,7 @@ import { OrderService } from 'src/app/main/component/ubs/services/order.service'
 import { ResponceOrderFondyModel } from '../models/ResponceOrderFondyModel';
 import { OrderFondyClientDto } from '../models/OrderFondyClientDto';
 import { IOrderDetailsUser } from '../models/IOrderDetailsUser.interface';
+import { ICertificate } from '../models/ICertificate.interface';
 
 @Component({
   selector: 'app-ubs-user-order-payment-pop-up',
@@ -16,19 +17,20 @@ export class UbsUserOrderPaymentPopUpComponent implements OnInit {
   public certificatePattern = /(?!0000)\d{4}-(?!0000)\d{4}/;
   public certificateMask = '0000-0000';
   public orderDetailsForm: FormGroup;
-  public certificates: string[] = [];
   public certificateStatus: boolean[] = [];
-  public certificateError = false;
-  public certificateStatusActive = false;
-  public currentCertificateSum = 0;
-  public certificateSums: Map<number, number> = new Map();
-  public certificateDate: string;
   public orderFondyClientDto: OrderFondyClientDto;
 
   public userOrder: IOrderDetailsUser = {
     id: this.data.orderId,
     sum: this.data.price,
     bonusValue: 0
+  };
+
+  public userCertificate: ICertificate = {
+    certificateStatusActive: false,
+    certificateError: false,
+    certificateSum: 0,
+    certificates: []
   };
 
   constructor(private fb: FormBuilder, private orderService: OrderService, @Inject(MAT_DIALOG_DATA) public data: any) {}
@@ -39,11 +41,19 @@ export class UbsUserOrderPaymentPopUpComponent implements OnInit {
     this.orderFondyClientDto = new OrderFondyClientDto();
   }
 
+  public createCertificateItem(): FormGroup {
+    return this.fb.group({
+      certificateCode: new FormControl('', [Validators.minLength(8), Validators.pattern(this.certificatePattern)]),
+      certificateSum: new FormControl(0, [Validators.min(0)]),
+      activeButtonState: new FormControl(true)
+    });
+  }
+
   public initForm(): void {
     this.orderDetailsForm = this.fb.group({
       bonus: new FormControl('no', [Validators.required]),
       paymentSystem: new FormControl('Fondy', [Validators.required]),
-      formArrayCertificates: this.fb.array([new FormControl('', [Validators.minLength(8), Validators.pattern(this.certificatePattern)])])
+      formArrayCertificates: this.fb.array([this.createCertificateItem()])
     });
   }
 
@@ -56,45 +66,43 @@ export class UbsUserOrderPaymentPopUpComponent implements OnInit {
   }
 
   public certificateSubmit(index: number, certificate: FormControl): void {
-    if (!this.certificates.includes(this.formArrayCertificates.value[index])) {
-      this.certificates.push(this.formArrayCertificates.value[index]);
-      this.calculateCertificate(index, certificate);
+    if (!this.userCertificate.certificates.includes(this.formArrayCertificates.value[index])) {
+      this.userCertificate.certificates.push(this.formArrayCertificates.value[index]);
+      this.calculateCertificate(certificate);
       this.certificateStatus[index] = false;
     }
   }
 
-  public calculateCertificate(index: number, certificate: FormControl) {
-    this.currentCertificateSum = 0;
-    this.certificateStatusActive = false;
-    this.orderService.processCertificate(certificate.value).subscribe(
+  public calculateCertificate(certificate: FormControl) {
+    this.userCertificate.certificateSum = 0;
+    this.userCertificate.certificateStatusActive = false;
+    this.orderService.processCertificate(certificate.value.certificateCode).subscribe(
       (responce) => {
         if (responce.certificateStatus === 'ACTIVE') {
-          this.certificateDate = responce.certificateDate;
-          this.currentCertificateSum = responce.certificatePoints;
-          this.certificateSums.set(index, this.currentCertificateSum);
+          this.userCertificate.certificateSum = responce.certificatePoints;
+          this.userCertificate.certificateDate = responce.certificateDate;
+          certificate.value.certificateSum = responce.certificatePoints;
           this.userOrder.sum -= responce.certificatePoints;
           if (this.userOrder.sum < 0) {
             this.userOrder.sum = 0;
           }
-          this.certificateStatusActive = true;
+          this.userCertificate.certificateStatusActive = true;
         } else {
-          this.certificateError = true;
-          this.certificateSums.set(index, this.currentCertificateSum);
+          this.userCertificate.certificateError = true;
         }
       },
       (error) => {
         if (error.status === 404) {
-          this.certificateError = true;
+          this.userCertificate.certificateError = true;
         }
       }
     );
   }
 
-  public deleteCertificate(index: number): void {
-    this.userOrder.sum += this.certificateSums.get(index);
-    this.certificateStatusActive = false;
-    this.certificateSums.delete(index);
-    this.certificateError = false;
+  public deleteCertificate(index: number, certificate: FormControl): void {
+    this.userOrder.sum += certificate.value.certificateSum;
+    this.userCertificate.certificateStatusActive = false;
+    this.userCertificate.certificateError = false;
 
     if (this.formArrayCertificates.controls.length > 1) {
       this.certificateStatus.splice(index, 1);
@@ -104,12 +112,12 @@ export class UbsUserOrderPaymentPopUpComponent implements OnInit {
       this.formArrayCertificates.controls[index].reset();
     }
 
-    this.certificates.splice(index, 1);
+    this.userCertificate.certificates.splice(index, 1);
   }
 
-  addNewCertificate(): void {
-    this.formArrayCertificates.push(this.fb.control('', [Validators.minLength(8), Validators.pattern(this.certificatePattern)]));
-    this.certificateStatusActive = false;
+  public addNewCertificate(): void {
+    this.formArrayCertificates.push(this.createCertificateItem());
+    this.userCertificate.certificateStatusActive = false;
     this.certificateStatus.push(true);
   }
 
