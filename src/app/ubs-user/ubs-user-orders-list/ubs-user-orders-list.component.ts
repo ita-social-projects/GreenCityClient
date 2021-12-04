@@ -10,7 +10,6 @@ import { UbsUserOrderPaymentPopUpComponent } from './ubs-user-order-payment-pop-
 })
 export class UbsUserOrdersListComponent {
   @Input() orders: any[];
-  previousIndex: number;
 
   constructor(private userOrdersService: UserOrdersService, public dialog: MatDialog) {}
 
