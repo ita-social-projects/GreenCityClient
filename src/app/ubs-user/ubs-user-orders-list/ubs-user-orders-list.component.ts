@@ -10,6 +10,7 @@ import { UbsUserOrderPaymentPopUpComponent } from './ubs-user-order-payment-pop-
 })
 export class UbsUserOrdersListComponent {
   @Input() orders: any[];
+  previousIndex: number;
 
   constructor(private userOrdersService: UserOrdersService, public dialog: MatDialog) {}
 
@@ -33,6 +34,8 @@ export class UbsUserOrdersListComponent {
     this.orders.forEach((order) => {
       if (order.generalOrderInfo.id === id) {
         order.extend = !order.extend;
+      } else if (order.generalOrderInfo.id !== id) {
+        order.extend = false;
       }
     });
   }

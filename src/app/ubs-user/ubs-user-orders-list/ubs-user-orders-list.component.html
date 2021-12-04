@@ -5,7 +5,7 @@
   <div class="header_list-paymentStatus">{{ 'user-orders.order-payment-status' | translate }}</div>
   <div class="header_list-paymentAmount">{{ 'user-orders.payment-amount' | translate }}</div>
 </div>
-<div *ngFor="let order of orders" class="card">
+<div *ngFor="let order of orders; let i = index" class="card">
   <div class="empty_card">
     <div class="empty_card-arrows">
       <img
