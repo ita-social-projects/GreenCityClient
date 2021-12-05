@@ -98,12 +98,12 @@ describe('FormBaseComponent', () => {
   });
 
   it('should call cancelUBSwithoutSaving if isUbsOrderSubmit is true and confirm === null inside cancelPopupJustifying', () => {
-    const dialogRefStub = {
+    const fakedialogRef = {
       afterClosed() {
         return of(null);
       }
     };
-    spyOn(matDialog, 'open').and.returnValue(dialogRefStub as any);
+    spyOn(matDialog, 'open').and.returnValue(fakedialogRef as any);
     const spy = spyOn(component, 'cancelUBSwithoutSaving');
     const cancelPopupJustifying = 'cancelPopupJustifying';
     component[cancelPopupJustifying](true, true);
