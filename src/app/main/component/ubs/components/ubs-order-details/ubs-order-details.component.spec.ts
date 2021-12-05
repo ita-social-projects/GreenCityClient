@@ -16,6 +16,7 @@ import { of, Subject } from 'rxjs';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { UbsOrderLocationPopupComponent } from './ubs-order-location-popup/ubs-order-location-popup.component';
 import { IMaskModule } from 'angular-imask';
+import { InteractivityChecker } from '@angular/cdk/a11y';
 
 describe('OrderDetailsFormComponent', () => {
   let component: UBSOrderDetailsComponent;
@@ -46,7 +47,13 @@ describe('OrderDetailsFormComponent', () => {
         { provide: LocalStorageService, useValue: localStorageService }
       ],
       schemas: [CUSTOM_ELEMENTS_SCHEMA]
-    }).compileComponents();
+    })
+      .overrideProvider(InteractivityChecker, {
+        useValue: {
+          isFocusable: () => true
+        }
+      })
+      .compileComponents();
   }));
 
   beforeEach(() => {
