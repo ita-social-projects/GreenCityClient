@@ -29,14 +29,28 @@ export class UBSAddAddressPopUpComponent implements OnInit, OnDestroy {
   entranceNumberPattern = /^([1-9]\d*)?$/;
   private destroy: Subject<boolean> = new Subject<boolean>();
   currentLocation = {};
-  isDistrict = true;
+  isDistrict = false;
+  isKyiv = false;
   cities = [
-    { cityName: 'Kyiv', northLat: 50.59079800991073, southLat: 50.21327301525928, eastLng: 30.82594104187906, westLng: 30.23944009690609 }
+    { cityName: 'Київ', northLat: 50.59079800991073, southLat: 50.21327301525928, eastLng: 30.82594104187906, westLng: 30.23944009690609 },
+    { cityName: 'Гатне' },
+    { cityName: 'Горенка' },
+    { cityName: "Зазим'є" },
+    { cityName: 'Ірпінь' },
+    { cityName: 'Княжичі' },
+    { cityName: 'Коцюбинське' },
+    { cityName: 'Новосілки' },
+    { cityName: 'Петропавлівська Борщагівка' },
+    { cityName: 'Погреби' },
+    { cityName: 'Проліски' },
+    { cityName: 'Софіївська Борщагівка' },
+    { cityName: 'Чайки' },
+    { cityName: 'Щасливе' }
   ];
 
-  bigRegions = ['Київська'];
+  bigRegions = ['Київська область'];
 
-  regions = [
+  regionsKyiv = [
     'Голосіївський',
     'Дарницький',
     'Деснянський',
@@ -48,6 +62,8 @@ export class UBSAddAddressPopUpComponent implements OnInit, OnDestroy {
     `Солом'янський`,
     'Шевченківський'
   ];
+
+  regions = ['Бориспільський', 'Броварський', 'Бучанський', 'Вишгородський', 'Обухівський', 'Фастівський'];
 
   constructor(
     private fb: FormBuilder,
@@ -120,15 +136,18 @@ export class UBSAddAddressPopUpComponent implements OnInit, OnDestroy {
       actual: true
     });
 
-    if (this.currentLocation === 'Kyiv' || this.currentLocation === 'Київ') {
-      this.addAddressForm.get('city').setValue('Київ');
-      this.addAddressForm.get('city').disable();
-    }
+    // TODO: Must be removed if multi-region feature need to be implemented
     this.addAddressForm.get('region').setValue('Київська область');
     this.addAddressForm.get('region').disable();
 
-    // TODO: Must be removed if multi-city feature need to be implemented
-    this.onCitySelected('Kyiv');
+    if (this.currentLocation === 'Kyiv' || this.currentLocation === 'Київ') {
+      this.isKyiv = true;
+      this.isDistrict = true;
+      this.addAddressForm.get('city').setValue('Київ');
+    }
+
+    // TODO: Must be removed if multi-region feature need to be implemented
+    this.onCitySelected('Київ');
   }
 
   onCitySelected(citySelected: string) {
@@ -147,14 +166,13 @@ export class UBSAddAddressPopUpComponent implements OnInit, OnDestroy {
       bounds: this.cityBounds,
       strictBounds: true,
       types: ['address'],
-      radius: 500000,
       componentRestrictions: { country: 'UA' }
     };
+
     this.cityOptions = {
       bounds: this.cityBounds,
       strictBounds: true,
       types: ['(cities)'],
-      radius: 500000,
       componentRestrictions: { country: 'UA' }
     };
   }
@@ -170,15 +188,12 @@ export class UBSAddAddressPopUpComponent implements OnInit, OnDestroy {
     const getDistrict = event.address_components.filter((item) => item.long_name.includes('район'))[0];
     if (getDistrict) {
       this.region = getDistrict.long_name.split(' ')[0];
-    } else {
-      this.isDistrict = false;
     }
   }
 
   onAutocompleteSelected(event): void {
     const streetName = event.name;
     this.addAddressForm.get('street').setValue(streetName);
-    this.addAddressForm.get('district').setValue(this.region);
   }
 
   onDistrictSelected(event): void {
@@ -188,7 +203,12 @@ export class UBSAddAddressPopUpComponent implements OnInit, OnDestroy {
   }
 
   selectCity(event): void {
-    this.addAddressForm.get('city').setValue(event.name);
+    if (event.name) {
+      this.addAddressForm.get('city').setValue(event.name);
+      this.isDistrict = this.addAddressForm.get('city').value === 'Київ';
+    } else {
+      this.isDistrict = event.target.value === 'Київ';
+    }
   }
 
   onNoClick(): void {
@@ -197,9 +217,6 @@ export class UBSAddAddressPopUpComponent implements OnInit, OnDestroy {
 
   addAdress() {
     this.isDisabled = true;
-    if (this.currentLocation === 'Kyiv' || this.currentLocation === 'Київ') {
-      this.addAddressForm.value.city = this.addAddressForm.get('city').value;
-    }
     this.addAddressForm.value.region = this.addAddressForm.get('region').value;
     this.orderService
       .addAdress(this.addAddressForm.value)

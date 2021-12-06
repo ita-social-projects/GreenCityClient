@@ -69,7 +69,6 @@ describe('UBSAddAddressPopUpComponent', () => {
     component.onAutocompleteSelected(eventMock);
 
     expect(component.addAddressForm.get('street').value).toBe(eventMock.name);
-    expect(component.addAddressForm.get('district').value).toBe(regionMock);
   });
 
   it('method setDistrict should set component.region', () => {
