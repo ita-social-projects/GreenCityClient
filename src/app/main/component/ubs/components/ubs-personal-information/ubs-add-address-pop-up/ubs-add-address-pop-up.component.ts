@@ -35,7 +35,7 @@ export class UBSAddAddressPopUpComponent implements OnInit, OnDestroy {
     { cityName: 'Київ', northLat: 50.59079800991073, southLat: 50.21327301525928, eastLng: 30.82594104187906, westLng: 30.23944009690609 },
     { cityName: 'Гатне' },
     { cityName: 'Горенка' },
-    { cityName: "Зазим'є" },
+    { cityName: `Зазим'є` },
     { cityName: 'Ірпінь' },
     { cityName: 'Княжичі' },
     { cityName: 'Коцюбинське' },
