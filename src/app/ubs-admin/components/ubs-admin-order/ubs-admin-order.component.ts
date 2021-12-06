@@ -20,6 +20,7 @@ import {
   IResponsiblePersons,
   IUserInfo
 } from '../../models/ubs-admin.interface';
+import { formatDate } from '@angular/common';
 
 @Component({
   selector: 'app-ubs-admin-order',
@@ -45,6 +46,8 @@ export class UbsAdminOrderComponent implements OnInit, OnDestroy {
   currentOrderStatus: string;
   overpayment = 0;
   isMinOrder = true;
+  timeFrom: string;
+  timeTo: string;
 
   constructor(
     private translate: TranslateService,
@@ -71,6 +74,10 @@ export class UbsAdminOrderComponent implements OnInit, OnDestroy {
       .getOrderInfo(orderId, lang)
       .pipe(takeUntil(this.destroy$))
       .subscribe((data: any) => {
+        // data.exportDetailsDto.timeDeliveryFrom = '2021-12-02T13:00:00.072691';
+        // data.exportDetailsDto.timeDeliveryTo = '2021-12-02T14:00:00.072691';
+        // data.exportDetailsDto.dateExport = '2021-08-02T13:30:00.072691';
+
         this.orderInfo = data;
         this.generalOrderInfo = data.generalOrderInfo;
         this.currentOrderStatus = this.generalOrderInfo.orderStatus;
@@ -145,8 +152,8 @@ export class UbsAdminOrderComponent implements OnInit, OnDestroy {
         district: this.addressInfo.addressDistrict
       }),
       exportDetailsForm: this.fb.group({
-        exportedDate: this.exportInfo.exportedDate,
-        exportedTime: this.exportInfo.exportedTime,
+        exportedDate: this.exportInfo.dateExport ? formatDate(this.exportInfo.dateExport, 'yyyy-MM-dd', this.currentLanguage) : '',
+        exportedTime: this.parseTimeRange(this.exportInfo.timeDeliveryFrom, this.exportInfo.timeDeliveryTo),
         receivingStation: this.exportInfo.receivingStation
       }),
       responsiblePersonsForm: this.fb.group({
@@ -222,6 +229,16 @@ export class UbsAdminOrderComponent implements OnInit, OnDestroy {
     this.isMinOrder = flag;
   }
 
+  parseTimeRange(from: string, to: string) {
+    this.timeFrom = this.parseTime(from);
+    this.timeTo = this.parseTime(to);
+    return `${this.timeFrom} - ${this.timeTo}`;
+  }
+
+  parseTime(dateStr: string) {
+    return dateStr ? formatDate(dateStr, 'HH:mm', this.currentLanguage) : '';
+  }
+
   resetForm() {
     this.orderForm.reset();
     this.initForm();
@@ -231,6 +248,8 @@ export class UbsAdminOrderComponent implements OnInit, OnDestroy {
 
   onSubmit() {
     console.log(this.orderForm);
+    const date = new Date(this.orderForm.get(['exportDetailsForm', 'exportedDate']).value);
+    console.log(date.toISOString());
   }
 
   ngOnDestroy(): void {

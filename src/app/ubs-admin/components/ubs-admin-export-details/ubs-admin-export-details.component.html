@@ -12,17 +12,42 @@
       </div>
       <div class="form-group col-md-2 mx-4">
         <label for="export-time">{{ 'export-details.export-time' | translate }}</label>
-        <input type="time" class="form-control" id="export-time" formControlName="exportedTime" />
+        <input placeholder="--:--" class="form-control" id="export-time" formControlName="exportedTime" (click)="setExportTime()" />
       </div>
       <div class="form-group col-md-4">
         <label for="station">{{ 'export-details.station' | translate }}</label>
         <select formControlName="receivingStation" class="form-control" id="station">
-          <option *ngFor="let station of exportInfo.allReceivingStations" [selected]="station === exportInfo.receivingStation">
+          <option *ngFor="let station of exportInfo.allReceivingStations" [value]="station">
             {{ station }}
           </option>
         </select>
       </div>
     </div>
     <hr />
+  </div>
+  <div *ngIf="showTimePicker" class="dropdown_time">
+    <div class="set_time_container">
+      <h3>Обрати час вивезення</h3>
+      <div class="set_time_select">
+        <div class="select_from_wr">
+          <span>З</span>
+          <select class="select" (change)="onTimeFromChange()" [(ngModel)]="fromInput">
+            <option *ngFor="let timeFrom of fromSelect" [value]="timeFrom">{{ timeFrom }}</option>
+          </select>
+        </div>
+        <div class="select_to_wr">
+          <span>До</span>
+          <select class="select" [(ngModel)]="toInput">
+            <option *ngFor="let timeTo of toSelect" [value]="timeTo">
+              {{ timeTo }}
+            </option>
+          </select>
+        </div>
+      </div>
+      <div class="edit_time_btns">
+        <button (click)="cancel()" class="cancel">Скасувати</button>
+        <button (click)="$event.preventDefault(); save()" class="save">Зберегти</button>
+      </div>
+    </div>
   </div>
 </div>

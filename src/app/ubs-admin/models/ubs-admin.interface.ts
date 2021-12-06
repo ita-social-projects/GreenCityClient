@@ -146,8 +146,10 @@ export interface IPaymentInfoDtos {
 
 export interface IExportDetails {
   allReceivingStations: string[];
-  exportedDate: string;
+  dateExport: string;
   exportedTime: string;
+  timeDeliveryFrom: string;
+  timeDeliveryTo: string;
   receivingStation: string;
 }
 
