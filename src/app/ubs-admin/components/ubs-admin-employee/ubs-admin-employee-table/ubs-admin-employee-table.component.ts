@@ -43,7 +43,7 @@ export class UbsAdminEmployeeTableComponent implements OnInit {
   getTable() {
     this.isLoading = true;
     this.ubsAdminEmployeeService.getEmployees(this.currentPageForTable, this.sizeForTable).subscribe((item) => {
-      this.tableData = item[`page`];
+      this.tableData = item[`content`];
       this.totalPagesForTable = item[`totalPages`];
       this.dataSource = new MatTableDataSource(this.tableData);
       this.setDisplayedColumns();
@@ -59,7 +59,7 @@ export class UbsAdminEmployeeTableComponent implements OnInit {
   updateTable() {
     this.isUpdateTable = true;
     this.ubsAdminEmployeeService.getEmployees(this.currentPageForTable, this.sizeForTable).subscribe((item) => {
-      this.tableData.push(...item[`page`]);
+      this.tableData.push(...item[`content`]);
       this.dataSource.data = this.tableData;
       this.isUpdateTable = false;
     });

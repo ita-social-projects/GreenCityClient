@@ -14,7 +14,7 @@ export class UbsAdminEmployeeService {
   constructor(private http: HttpClient) {}
 
   getEmployees(page?: number, size?: number): Observable<Employees> {
-    return this.http.get<Employees>(`${this.backend}?page=${page}&size=${size}`);
+    return this.http.get<Employees>(`${this.backend}?pageNumber=${page}&pageSize=${size}`);
   }
 
   getAllPositions(): Observable<any[]> {
