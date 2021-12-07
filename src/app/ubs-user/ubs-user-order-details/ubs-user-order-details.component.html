@@ -8,13 +8,15 @@
       <th scope="row">{{ 'user-orders.details.bags-amount' | translate }}</th>
       <th scope="row">{{ 'user-orders.details.sum' | translate }}</th>
     </tr>
-    <tr *ngFor="let bag of order.bags" class="data_table">
-      <td>{{ bag.name }}</td>
-      <td>{{ bag.capacity }} {{ 'user-orders.details.litr' | translate }}</td>
-      <td>{{ bag.price | currency | localizedCurrency }}</td>
-      <td>{{ order.amountOfBagsOrdered[bag.id] }} {{ 'user-orders.details.pieces' | translate }}</td>
-      <td>{{ order.amountOfBagsOrdered[bag.id] * bag.price | currency | localizedCurrency }}</td>
-    </tr>
+    <ng-container *ngFor="let bag of order.bags">
+      <tr *ngIf="order.amountOfBagsOrdered[bag.id]" class="data_table">
+        <td>{{ bag.name }}</td>
+        <td>{{ bag.capacity }} {{ 'user-orders.details.litr' | translate }}</td>
+        <td>{{ bag.price | currency | localizedCurrency }}</td>
+        <td>{{ order.amountOfBagsOrdered[bag.id] }} {{ 'user-orders.details.pieces' | translate }}</td>
+        <td>{{ order.amountOfBagsOrdered[bag.id] * bag.price | currency | localizedCurrency }}</td>
+      </tr>
+    </ng-container>
     <tr>
       <td></td>
     </tr>
@@ -42,26 +44,46 @@
 </div>
 <div class="order_details">
   <ol *ngIf="order.numbersFromShop[0] !== ''">
-    <li class="bold_text">{{ 'user-orders.details.delivery' | translate }}</li>
+    <h6 class="bold_text">{{ 'user-orders.details.delivery' | translate }}</h6>
     <li>
       {{ 'user-orders.details.order-number' | translate }}
       <span class="bold_text"> {{ order.numbersFromShop.join(', ') }}</span>
     </li>
   </ol>
   <ol class="recipient">
-    <li class="bold_text">{{ 'user-orders.details.recipient' | translate }}</li>
+    <h6 class="bold_text">{{ 'user-orders.details.recipient' | translate }}</h6>
     <li>
-      <span>{{ order.userInfoDto.recipientName }} </span><span>{{ order.userInfoDto.recipientSurname }}</span>
+      <span>{{ order.userInfoDto.recipientName }}</span
+      ><span>{{ order.userInfoDto.recipientSurname }}</span>
     </li>
     <li>{{ order.userInfoDto.recipientPhoneNumber }}</li>
     <li>{{ order.userInfoDto.recipientEmail }}</li>
   </ol>
-  <ol>
-    <li class="bold_text">{{ 'user-orders.details.export-address' | translate }}</li>
+  <ol class="recipient">
+    <h6 class="bold_text">{{ 'user-orders.details.export-address' | translate }}</h6>
     <li>{{ order.addressExportDetailsDto.addressCity }}</li>
-    <li>{{ order.addressExportDetailsDto.addressStreet }}</li>
+    <li>
+      <span>{{ order.addressExportDetailsDto.addressStreet }} </span>
+
+      <span>{{ order.addressExportDetailsDto.addressHouseNumber }}</span>
+
+      <span>, {{ 'user-orders.details.block-number' | translate }}</span>
+      <span *ngIf="order.addressExportDetailsDto.addressHouseCorpus"> {{ order.addressExportDetailsDto.addressHouseCorpus }}, </span>
+      <span *ngIf="!order.addressExportDetailsDto.addressHouseCorpus"> -, </span>
+
+      <span>
+        <span>{{ 'user-orders.details.entrance' | translate }}</span>
+        <span *ngIf="order.addressExportDetailsDto.addressEntranceNumber">
+          {{ order.addressExportDetailsDto.addressEntranceNumber }}
+        </span>
+        <span *ngIf="!order.addressExportDetailsDto.addressEntranceNumber"> - </span>
+      </span>
+    </li>
     <li>{{ order.addressExportDetailsDto.addressDistrict }}</li>
-    <li *ngIf="order.addressComment === !null">{{ 'user-orders.details.comment' | translate }} {{ order.addressComment }}</li>
+  </ol>
+  <ol *ngIf="order.addressComment !== ''">
+    <h6 class="bold_text">{{ 'user-orders.details.comment-address' | translate }}</h6>
+    <li>{{ order.addressComment }}</li>
   </ol>
 </div>
 <div class="download">
