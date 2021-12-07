@@ -147,8 +147,9 @@ export interface IPaymentInfoDtos {
 
 export interface IExportDetails {
   allReceivingStations: string[];
-  exportedDate: string;
-  exportedTime: string;
+  dateExport: any;
+  timeDeliveryFrom: string;
+  timeDeliveryTo: string;
   receivingStation: string;
 }
 

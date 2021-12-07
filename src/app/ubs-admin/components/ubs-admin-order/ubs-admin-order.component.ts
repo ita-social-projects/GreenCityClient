@@ -20,6 +20,7 @@ import {
   IResponsiblePersons,
   IUserInfo
 } from '../../models/ubs-admin.interface';
+import { formatDate } from '@angular/common';
 
 @Component({
   selector: 'app-ubs-admin-order',
@@ -28,7 +29,6 @@ import {
 })
 export class UbsAdminOrderComponent implements OnInit, OnDestroy {
   currentLanguage: string;
-
   private destroy$: Subject<boolean> = new Subject<boolean>();
   orderForm: FormGroup;
   isDataLoaded = false;
@@ -46,6 +46,8 @@ export class UbsAdminOrderComponent implements OnInit, OnDestroy {
   overpayment = 0;
   isMinOrder = true;
   updatedData: {};
+  timeFrom: string;
+  timeTo: string;
 
   constructor(
     private translate: TranslateService,
@@ -146,8 +148,8 @@ export class UbsAdminOrderComponent implements OnInit, OnDestroy {
         district: this.addressInfo.addressDistrict
       }),
       exportDetailsForm: this.fb.group({
-        exportedDate: this.exportInfo.exportedDate,
-        exportedTime: this.exportInfo.exportedTime,
+        exportedDate: this.exportInfo.dateExport ? formatDate(this.exportInfo.dateExport, 'yyyy-MM-dd', this.currentLanguage) : '',
+        exportedTime: this.parseTimeRange(this.exportInfo.timeDeliveryFrom, this.exportInfo.timeDeliveryTo),
         receivingStation: this.exportInfo.receivingStation
       }),
       responsiblePersonsForm: this.fb.group({
@@ -223,6 +225,16 @@ export class UbsAdminOrderComponent implements OnInit, OnDestroy {
     this.isMinOrder = flag;
   }
 
+  parseTimeRange(from: string, to: string) {
+    this.timeFrom = this.parseTime(from);
+    this.timeTo = this.parseTime(to);
+    return `${this.timeFrom} - ${this.timeTo}`;
+  }
+
+  parseTime(dateStr: string) {
+    return dateStr ? formatDate(dateStr, 'HH:mm', this.currentLanguage) : '';
+  }
+
   resetForm() {
     this.orderForm.reset();
     this.initForm();
@@ -234,16 +246,18 @@ export class UbsAdminOrderComponent implements OnInit, OnDestroy {
     this.updatedData = {
       ecoNumberFromShop: [
         {
-          newEcoNumber: '',
+          newEcoNumber: '3245678765',
           oldEcoNumber: ''
         }
       ],
       exportDetailsDtoUpdate: {
-        exportedDate: this.orderForm.get(['exportDetailsForm', 'exportedDate']).value,
-        exportedTime: this.orderForm.get(['exportDetailsForm', 'exportedTime']).value,
-        receivingStation: this.orderForm.get(['exportDetailsForm', 'receivingStation']).value
+        dateExport: this.orderForm.get(['exportDetailsForm', 'exportedDate']).value,
+        receivingStation: this.orderForm.get(['exportDetailsForm', 'receivingStation']).value,
+        timeDeliveryFrom: '2021-09-02T14:00:00',
+        timeDeliveryTo: '2021-09-02T14:30:00'
       },
       orderAddressExportDetailsDtoUpdate: {
+        orderId: this.orderId,
         addressCity: this.orderForm.get(['addressDetailsForm', 'settlement']).value,
         addressDistrict: this.orderForm.get(['addressDetailsForm', 'district']).value,
         addressEntranceNumber: this.orderForm.get(['addressDetailsForm', 'entrance']).value,
@@ -251,7 +265,7 @@ export class UbsAdminOrderComponent implements OnInit, OnDestroy {
         addressHouseNumber: this.orderForm.get(['addressDetailsForm', 'building']).value,
         addressRegion: this.orderForm.get(['addressDetailsForm', 'region']).value,
         addressStreet: this.orderForm.get(['addressDetailsForm', 'street']).value,
-        id: this.addressInfo.id
+        addressId: this.addressInfo.id
       },
       orderDetailStatusRequestDto: {
         orderComment: this.orderForm.get(['orderStatusForm', 'adminComment']).value,
