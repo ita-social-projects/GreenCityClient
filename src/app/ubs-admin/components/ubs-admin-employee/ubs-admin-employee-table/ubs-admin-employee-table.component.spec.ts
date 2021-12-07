@@ -31,7 +31,7 @@ describe('UbsAdminEmployeeTableComponent', () => {
     popupCancel: 'fake-no'
   };
   const fakeTableItems = {
-    page: ['fakeData1', 'fakeData2'],
+    content: ['fakeData1', 'fakeData2'],
     totalPages: 7
   };
   const fakeTableDataStations = [
