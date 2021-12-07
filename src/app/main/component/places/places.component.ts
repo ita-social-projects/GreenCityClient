@@ -42,6 +42,7 @@ export class PlacesComponent implements OnInit {
   @ViewChild('drawer') drawer: MatDrawer;
 
   private map: any;
+  private googlePlacesService: google.maps.places.PlacesService;
 
   constructor(
     private localStorageService: LocalStorageService,
@@ -85,6 +86,7 @@ export class PlacesComponent implements OnInit {
   public onMapReady(map: any): void {
     this.map = map;
     this.setUserLocation();
+    this.googlePlacesService = new google.maps.places.PlacesService(this.map);
   }
 
   public mapCenterChange(newValue: LatLngLiteral): void {
@@ -150,6 +152,30 @@ export class PlacesComponent implements OnInit {
         this.drawer.toggle(true);
         this.updateIsActivePlaceFavorite();
       });
+    this.getPlaceInfoFromGoogleApi(place);
+  }
+
+  private getPlaceInfoFromGoogleApi(place: Place) {
+    const findByQueryRequest: google.maps.places.FindPlaceFromQueryRequest = {
+      query: place.name,
+      locationBias: {
+        lat: place.location.lat,
+        lng: place.location.lng
+      },
+      fields: ['ALL']
+    };
+
+    this.googlePlacesService.findPlaceFromQuery(findByQueryRequest, (places: google.maps.places.PlaceResult[]) => {
+      console.log(places);
+      const detailsRequest: google.maps.places.PlaceDetailsRequest = {
+        placeId: places[0].place_id,
+        fields: ['ALL']
+      };
+      this.googlePlacesService.getDetails(detailsRequest, (placeDetails: google.maps.places.PlaceResult) => {
+        console.log(placeDetails);
+        console.log(placeDetails.photos[0].getUrl({}));
+      });
+    });
   }
 
   private updateIsActivePlaceFavorite(): void {
