@@ -22,22 +22,18 @@
       <td colspan="4">{{ 'user-orders.details.order-sum' | translate }}</td>
       <td>{{ order.orderFullPrice | currency | localizedCurrency }}</td>
     </tr>
-
-    <tr class="optional_row">
+    <tr *ngIf="order.orderCertificateTotalDiscount !== 0" class="optional_row">
       <td colspan="4">{{ 'user-orders.details.certificate' | translate }}</td>
       <td>-{{ order.orderCertificateTotalDiscount }} {{ 'user-orders.details.currency' | translate }}</td>
     </tr>
-
-    <tr class="optional_row">
+    <tr *ngIf="order.orderBonusDiscount !== 0" class="optional_row">
       <td colspan="4">{{ 'user-orders.details.bonuses' | translate }}</td>
       <td>-{{ order.orderBonusDiscount | currency | localizedCurrency }}</td>
     </tr>
-
     <tr *ngIf="order.generalOrderInfo.orderPaymentStatus === 'PAID'" class="optional_row">
       <td colspan="4">{{ 'user-orders.details.paid-amount' | translate }}</td>
       <td>{{ order.paymentTableInfoDto.paidAmount / 100 | currency | localizedCurrency }}</td>
     </tr>
-
     <tr class="sum_to_pay">
       <td colspan="4">{{ 'user-orders.details.amount-due' | translate }}</td>
       <td>{{ order.orderDiscountedPrice | currency | localizedCurrency }}</td>
