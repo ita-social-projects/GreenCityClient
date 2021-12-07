@@ -192,7 +192,15 @@ export class UBSAddAddressPopUpComponent implements OnInit, OnDestroy {
   }
 
   onAutocompleteSelected(event): void {
-    const streetName = event.name;
+    let streetName = event.name;
+    const regExp = /,* \d{1,}/;
+    let num = streetName.match(regExp);
+
+    if (num) {
+      streetName = streetName.replace(regExp, '');
+      num[0] = num[0].length > 2 ? num[0].replace(', ', '') : num[0];
+      this.addAddressForm.get('houseNumber').setValue(num[0]);
+    }
     this.addAddressForm.get('street').setValue(streetName);
   }
 
