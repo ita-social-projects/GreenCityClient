@@ -194,7 +194,7 @@ export class UBSAddAddressPopUpComponent implements OnInit, OnDestroy {
   onAutocompleteSelected(event): void {
     let streetName = event.name;
     const regExp = /,* \d{1,}/;
-    let num = streetName.match(regExp);
+    const num = streetName.match(regExp);
 
     if (num) {
       streetName = streetName.replace(regExp, '');
