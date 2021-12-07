@@ -32,12 +32,14 @@
         <div class="select_from_wr">
           <span>З</span>
           <select class="select" (change)="onTimeFromChange()" [(ngModel)]="fromInput">
-            <option *ngFor="let timeFrom of fromSelect" [value]="timeFrom">{{ timeFrom }}</option>
+            <option *ngFor="let timeFrom of fromSelect" [value]="timeFrom">
+              {{ timeFrom }}
+            </option>
           </select>
         </div>
         <div class="select_to_wr">
           <span>До</span>
-          <select class="select" [(ngModel)]="toInput">
+          <select class="select" (change)="onTimeToChange()" [(ngModel)]="toInput">
             <option *ngFor="let timeTo of toSelect" [value]="timeTo">
               {{ timeTo }}
             </option>
