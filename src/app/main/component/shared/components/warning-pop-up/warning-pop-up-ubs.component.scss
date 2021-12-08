@@ -1,7 +1,7 @@
 ::ng-deep .custom-ubs-style {
   .main-container {
     position: relative;
-    max-width: 422px;
+    max-width: 509px;
     height: 167px;
     border-radius: 4px;
     display: flex;
@@ -71,12 +71,9 @@
       width: 120px;
     }
 
-    .submit-cancel {
-      width: 220px;
-    }
-
+    .submit-cancel,
     .submit-confirm {
-      width: 70px;
+      width: 120px;
     }
   }
 
