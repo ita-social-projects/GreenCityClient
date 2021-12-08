@@ -1,8 +1,7 @@
-import { BrowserDynamicTestingModule } from '@angular/platform-browser-dynamic/testing';
 import { MatSnackBarComponent } from 'src/app/main/component/errors/mat-snack-bar/mat-snack-bar.component';
 import { OrderService } from './../../../services/order.service';
 import { Address } from './../../../models/ubs.interface';
-import { TranslateModule, TranslateService } from '@ngx-translate/core';
+import { TranslateModule } from '@ngx-translate/core';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';

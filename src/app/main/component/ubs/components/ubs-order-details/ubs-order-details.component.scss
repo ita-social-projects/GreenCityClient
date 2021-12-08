@@ -29,7 +29,7 @@
 }
 
 h3 {
-  @include text_style(var(--ubs-quaternary-font), var(ubs-primary-grey), 24px, 700);
+  @include text_style(var(--ubs-quaternary-font), var(--ubs-primary-grey), 24px, 700);
 }
 
 .eco-store::-webkit-outer-spin-button,
@@ -431,6 +431,17 @@ h5 {
 
 .bottom_comment {
   background: var(--ubs-primary-white);
+
+  h5 {
+    color: var(--ubs-primary-grey);
+  }
+
+  .link {
+    text-decoration: underline;
+    color: var(--primary-green);
+    margin-bottom: 15px;
+    cursor: pointer;
+  }
 
   .textarea {
     height: 6rem;

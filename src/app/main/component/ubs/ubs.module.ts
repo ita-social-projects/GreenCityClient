@@ -29,6 +29,7 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatDialogModule, MAT_DIALOG_DEFAULT_OPTIONS } from '@angular/material/dialog';
 import { UbsSubmitOrderNotificationComponent } from './components/ubs-submit-order/ubs-submit-order-notification/ubs-submit-order-notification.component';
 import { UbsOrderCertificateComponent } from './components/ubs-order-details/ubs-order-certificate/ubs-order-certificate.component';
+import { ExtraPackagesPopUpComponent } from './components/ubs-order-details/extra-packages-pop-up/extra-packages-pop-up.component';
 
 @NgModule({
   declarations: [
@@ -44,7 +45,8 @@ import { UbsOrderCertificateComponent } from './components/ubs-order-details/ubs
     UbsMainPageComponent,
     UbsOrderLocationPopupComponent,
     UbsSubmitOrderNotificationComponent,
-    UbsOrderCertificateComponent
+    UbsOrderCertificateComponent,
+    ExtraPackagesPopUpComponent
   ],
   imports: [
     MatIconModule,
