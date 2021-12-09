@@ -71,15 +71,14 @@ $cardTextColor: #1d2830;
   max-height: 32px;
 }
 
-.close-mark::after {
-  padding: 15px;
-  display: none;
-  content: 'X';
+.close-mark {
   position: absolute;
-  right: 0;
-  top: 0;
-  font-size: 20px;
-  color: var(--secondary-dark-grey);
+  top: 15px;
+  right: 20px;
+  padding: 0px 7px;
+  font-weight: bold;
+  color: white;
+  background-color: var(--primary-green);
 }
 
 .sidebar-container {
@@ -94,6 +93,8 @@ $cardTextColor: #1d2830;
 }
 
 .sidebar-content {
+  position: relative;
+
   @include flex-options(column, center, flex-start);
 
   padding: 36px;
