@@ -3,9 +3,11 @@ import { FormArray, FormBuilder, FormControl, FormGroup, Validators } from '@ang
 import { MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { OrderService } from 'src/app/main/component/ubs/services/order.service';
 import { ResponceOrderFondyModel } from '../models/ResponceOrderFondyModel';
-import { OrderFondyClientDto } from '../models/OrderFondyClientDto';
+import { OrderClientDto } from '../models/OrderClientDto';
 import { IOrderDetailsUser } from '../models/IOrderDetailsUser.interface';
 import { ICertificate } from '../models/ICertificate.interface';
+import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
+import { ResponceOrderLiqPayModel } from '../models/ResponceOrderLiqPayModel';
 
 @Component({
   selector: 'app-ubs-user-order-payment-pop-up',
@@ -18,7 +20,11 @@ export class UbsUserOrderPaymentPopUpComponent implements OnInit {
   public certificateMask = '0000-0000';
   public orderDetailsForm: FormGroup;
   public certificateStatus: boolean[] = [];
-  public orderFondyClientDto: OrderFondyClientDto;
+  public orderClientDto: OrderClientDto;
+  public selectedPayment: string;
+  public liqPayButtonForm: SafeHtml;
+  public liqPayButton: NodeListOf<HTMLElement>;
+  public dataLoadingLiqPay: boolean;
 
   public userOrder: IOrderDetailsUser = {
     id: this.data.orderId,
@@ -33,12 +39,18 @@ export class UbsUserOrderPaymentPopUpComponent implements OnInit {
     certificates: []
   };
 
-  constructor(private fb: FormBuilder, private orderService: OrderService, @Inject(MAT_DIALOG_DATA) public data: any) {}
+  constructor(
+    private fb: FormBuilder,
+    private orderService: OrderService,
+    private sanitizer: DomSanitizer,
+    @Inject(MAT_DIALOG_DATA) public data: any
+  ) {}
 
   ngOnInit(): void {
     this.initForm();
+    this.dataLoadingLiqPay = false;
     this.certificateStatus.push(true);
-    this.orderFondyClientDto = new OrderFondyClientDto();
+    this.orderClientDto = new OrderClientDto();
   }
 
   public createCertificateItem(): FormGroup {
@@ -121,12 +133,32 @@ export class UbsUserOrderPaymentPopUpComponent implements OnInit {
   }
 
   public processOrder(): void {
-    this.orderFondyClientDto.orderId = this.userOrder.id;
-    this.orderFondyClientDto.sum = this.userOrder.sum;
+    this.orderClientDto.orderId = this.userOrder.id;
+    this.orderClientDto.sum = this.userOrder.sum;
 
     if (this.formPaymentSystem.value === 'Fondy') {
-      this.orderService.processOrderFondyFromUserOrderList(this.orderFondyClientDto).subscribe((responce: ResponceOrderFondyModel) => {
+      this.orderService.processOrderFondyFromUserOrderList(this.orderClientDto).subscribe((responce: ResponceOrderFondyModel) => {
         document.location.href = responce.link;
+      });
+    } else if (this.formPaymentSystem.value === 'LiqPay') {
+      this.liqPayButton[0].click();
+    }
+  }
+
+  public orderOptionPayment(event: any) {
+    this.selectedPayment = event.target.value;
+
+    this.orderClientDto.orderId = this.userOrder.id;
+    this.orderClientDto.sum = this.userOrder.sum;
+
+    if (this.selectedPayment === 'LiqPay') {
+      this.dataLoadingLiqPay = true;
+      this.orderService.processOrderLiqPayFromUserOrderList(this.orderClientDto).subscribe((responce: ResponceOrderLiqPayModel) => {
+        this.liqPayButtonForm = this.sanitizer.bypassSecurityTrustHtml(responce.liqPayButton);
+        setTimeout(() => {
+          this.liqPayButton = document.getElementsByName('btn_text');
+          this.dataLoadingLiqPay = false;
+        }, 0);
       });
     }
   }

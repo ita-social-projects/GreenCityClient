@@ -73,7 +73,7 @@
       <div class="choose-payment">{{ 'ubs-client-profile.payment.choose-payment' | translate }}</div>
       <div class="text">{{ 'ubs-client-profile.payment.way-payment' | translate }}</div>
 
-      <select formControlName="paymentSystem" class="form-select">
+      <select formControlName="paymentSystem" class="form-select" (change)="orderOptionPayment($event)">
         <option value="Fondy" name="Fondy">{{ 'ubs-client-profile.payment.fondy-card' | translate }}</option>
         <option value="LiqPay" name="LiqPay">{{ 'ubs-client-profile.payment.liqpay-card' | translate }}</option>
       </select>
@@ -85,9 +85,11 @@
       <button class="btn btn-cancel" mat-dialog-close>
         {{ 'ubs-client-profile.payment.btn.cancel' | translate }}
       </button>
-      <button class="btn btn-pay" [disabled]="0 >= userOrder.sum" (click)="processOrder()" mat-dialog-close>
+      <button class="btn btn-pay" [disabled]="0 >= userOrder.sum || dataLoadingLiqPay" (click)="processOrder()" mat-dialog-close>
+        <span *ngIf="dataLoadingLiqPay" class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
         {{ 'ubs-client-profile.payment.btn.pay' | translate }}
       </button>
+      <button id="liqPayButton" [innerHTML]="liqPayButtonForm" style="display: none"></button>
     </mat-dialog-actions>
   </div>
 </div>
