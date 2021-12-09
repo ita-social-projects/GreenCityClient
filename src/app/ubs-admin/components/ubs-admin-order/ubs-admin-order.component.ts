@@ -252,9 +252,9 @@ export class UbsAdminOrderComponent implements OnInit, OnDestroy {
       ],
       exportDetailsDtoUpdate: {
         dateExport: this.orderForm.get(['exportDetailsForm', 'exportedDate']).value,
-        receivingStation: this.orderForm.get(['exportDetailsForm', 'receivingStation']).value,
-        timeDeliveryFrom: '2021-09-02T14:00:00',
-        timeDeliveryTo: '2021-09-02T14:30:00'
+        receivingStation: this.orderForm.get(['exportDetailsForm', 'receivingStation']).value
+        // timeDeliveryFrom: '2021-09-02T14:00:00',
+        // timeDeliveryTo: '2021-09-02T14:30:00'
       },
       orderAddressExportDetailsDtoUpdate: {
         orderId: this.orderId,
@@ -278,10 +278,30 @@ export class UbsAdminOrderComponent implements OnInit, OnDestroy {
         recipientName: this.orderForm.get(['clientInfoForm', 'senderName']).value,
         recipientPhoneNumber: this.orderForm.get(['clientInfoForm', 'senderPhone']).value,
         recipientSurName: this.orderForm.get(['clientInfoForm', 'senderSurname']).value
-      }
+      },
+      updateOrderDetailDto: [
+        // {
+        //   bagId: 1,
+        //   confirmedQuantity: this.orderForm.get(['orderDetailsForm', 'confirmedQuantity1']).value,
+        // exportedQuantity: this.orderForm.get(['orderDetailsForm', 'exportedQuantity1']).value,
+        //   orderId: this.orderId
+        // }
+        {
+          bagId: 2,
+          confirmedQuantity: this.orderForm.get(['orderDetailsForm', 'confirmedQuantity2']).value,
+          // exportedQuantity: this.orderForm.get(['orderDetailsForm', 'exportedQuantity2']).value,
+          orderId: this.orderId
+        }
+        // {
+        //   bagId: 3,
+        //   confirmedQuantity: this.orderForm.get(['orderDetailsForm', 'confirmedQuantity3']).value,
+        // exportedQuantity: this.orderForm.get(['orderDetailsForm', 'exportedQuantity3']).value,
+        //   orderId: this.orderId
+        // }
+      ]
     };
     this.orderService
-      .updateOrderInfo(this.orderId, this.updatedData)
+      .updateOrderInfo(this.orderId, this.currentLanguage, this.updatedData)
       .pipe(takeUntil(this.destroy$))
       .subscribe((data) => {
         this.updatedData = data;
