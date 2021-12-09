@@ -73,12 +73,14 @@ $cardTextColor: #1d2830;
 
 .close-mark {
   position: absolute;
-  top: 15px;
+  top: 33px;
   right: 20px;
-  padding: 0px 7px;
+  padding: 0 7px;
   font-weight: bold;
-  color: white;
-  background-color: var(--primary-green);
+  color: var(--primary-green);
+  background-color: var(--pre-secondary-light-grey);
+  border: 1px solid green;
+  cursor: pointer;
 }
 
 .sidebar-container {
