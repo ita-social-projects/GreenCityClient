@@ -1,5 +1,5 @@
 import { ecoNewsIcons } from '../../../../../image-pathes/profile-icons';
-import { Component, Input, ChangeDetectionStrategy } from '@angular/core';
+import { Component, Input, ChangeDetectionStrategy, ViewChild, AfterViewInit } from '@angular/core';
 import { EcoNewsModel } from '@eco-news-models/eco-news-model';
 import { TranslateService } from '@ngx-translate/core';
 
@@ -9,8 +9,11 @@ import { TranslateService } from '@ngx-translate/core';
   styleUrls: ['./news-list-gallery-view.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class NewsListGalleryViewComponent {
+export class NewsListGalleryViewComponent implements AfterViewInit {
   @Input() ecoNewsModel: EcoNewsModel;
+  @Input() ecoNewsText;
+  @ViewChild('ecoNewsText', { static: true }) text;
+
   public profileIcons = ecoNewsIcons;
   public newsImage: string;
   public likeImg = 'assets/img/comments/like.png';
@@ -23,5 +26,9 @@ export class NewsListGalleryViewComponent {
         ? this.ecoNewsModel.imagePath
         : this.profileIcons.newsDefaultPictureList;
     return this.newsImage;
+  }
+
+  ngAfterViewInit() {
+    this.text.nativeElement.innerHTML = this.ecoNewsModel.text;
   }
 }

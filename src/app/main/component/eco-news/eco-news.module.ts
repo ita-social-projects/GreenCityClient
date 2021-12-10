@@ -27,6 +27,7 @@ import { EcoNewsComponent } from './eco-news.component';
 import { ACTION_CONFIG, ACTION_TOKEN } from './components/create-edit-news/action.constants';
 import { SharedModule } from 'src/app/shared/shared.module';
 import { QuillModule } from 'ngx-quill';
+import { SafeHtmlPipe } from '@pipe/safe-html/safe-html.pipe';
 
 @NgModule({
   declarations: [
@@ -41,7 +42,8 @@ import { QuillModule } from 'ngx-quill';
     NewsPreviewPageComponent,
     PostNewsLoaderComponent,
     MatSnackBarComponent,
-    CreateEditNewsComponent
+    CreateEditNewsComponent,
+    SafeHtmlPipe
   ],
   imports: [
     CommonModule,

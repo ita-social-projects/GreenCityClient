@@ -1,5 +1,5 @@
 import { singleNewsImages } from '../../../../image-pathes/single-news-images';
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { AfterViewChecked, AfterViewInit, Component, ElementRef, Input, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { Subject } from 'rxjs';
 import { EcoNewsService } from '@eco-news-service/eco-news.service';
@@ -12,7 +12,11 @@ import { take, takeUntil } from 'rxjs/operators';
   templateUrl: './eco-news-detail.component.html',
   styleUrls: ['./eco-news-detail.component.scss']
 })
-export class EcoNewsDetailComponent implements OnInit, OnDestroy {
+export class EcoNewsDetailComponent implements OnInit, OnDestroy, AfterViewInit {
+  // @Input() ecoNewsText;
+  // @ViewChild('ecoNewsText') text;
+  @ViewChild('ecoNewsText1', { static: true }) text1: ElementRef;
+
   public newsItem: EcoNewsModel;
   public images = singleNewsImages;
   public userId: number;
@@ -34,11 +38,24 @@ export class EcoNewsDetailComponent implements OnInit, OnDestroy {
     this.setNewsId();
     this.setNewsIdSubscription();
     this.getIsLiked();
+    console.log('111');
+    // this.text.nativeElement.innerHTML = '<h1>123</h1>';
+  }
+
+  ngAfterViewInit() {
+    console.log('222');
+    console.log(this.newsItem);
+    console.log(this.text1);
+    // console.log(this.text.nativeElement.innerHTML);
+    // this.text.nativeElement.innerHTML = '<h1>123</h1>';
   }
 
   public setNewsItem(item: EcoNewsModel): void {
     const nestedNewsItem = { authorId: item.author.id, authorName: item.author.name };
     this.newsItem = { ...item, ...nestedNewsItem };
+    console.log(this.newsItem);
+    console.log(this.text1);
+    // this.text1.nativeElement.innerHTML = this.newsItem.text;
   }
 
   public checkNewsImage(): string {
@@ -89,6 +106,7 @@ export class EcoNewsDetailComponent implements OnInit, OnDestroy {
     this.route.paramMap.pipe(takeUntil(this.destroy)).subscribe((params) => {
       this.newsId = +params.get('id');
       this.fetchNewsItem();
+      console.log('333');
     });
   }
 
