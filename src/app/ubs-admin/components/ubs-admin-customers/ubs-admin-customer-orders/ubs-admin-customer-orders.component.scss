@@ -23,24 +23,15 @@
   overflow: scroll;
 }
 
-.mat-cell,
-.mat-header-cell,
-.mat-footer-cell {
-  flex: none;
-}
+.mat-table {
+  width: 100%;
 
-.mat-header-cell {
-  background-color: var(--ubs-primary-grey);
-  color: var(--ubs-primary-white);
-  font-family: var(--primary-font);
-  border: 1px solid var(--ubs-primary-light-grey);
-}
-
-.mat-row {
-  min-height: 39px !important;
-  max-height: 39px !important;
-  align-items: unset;
-  border-bottom-width: 0;
+  &.resizing {
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+    cursor: col-resize;
+  }
 }
 
 .mat-cell {
@@ -49,6 +40,47 @@
   color: var(--ubs-primary-grey);
   font-size: 14px;
   font-family: var(--primary-font);
+}
+
+.mat-cell,
+.mat-footer-cell {
+  flex: none;
+  border-right: 1px solid rgba(0, 0, 0, 0.12);
+
+  &:not(:nth-child(1)) {
+    padding: 0 10px;
+  }
+}
+
+.mat-header-cell {
+  background-color: var(--ubs-primary-grey);
+  color: var(--ubs-primary-white);
+  font-family: var(--primary-font);
+  border: 1px solid var(--ubs-primary-light-grey);
+  position: relative;
+
+  &:not(:last-child) {
+    .resize-holder {
+      cursor: col-resize;
+      width: 20px;
+      height: 100%;
+      position: absolute;
+      right: -10px;
+      top: 0;
+      z-index: 1;
+    }
+  }
+
+  &:not(:nth-child(1)) {
+    padding: 0 10px;
+  }
+}
+
+.mat-row {
+  min-height: 39px !important;
+  max-height: 39px !important;
+  align-items: unset;
+  border-bottom-width: 0;
 }
 
 .mat-header-row {
@@ -117,42 +149,4 @@
 
 .pointer {
   cursor: pointer;
-}
-
-.mat-table {
-  width: 100%;
-  &.resizing {
-    -moz-user-select: none;
-    -ms-user-select: none;
-    user-select: none;
-    cursor: col-resize;
-  }
-  .mat-cell {
-    span {
-      display: block;
-      overflow: hidden;
-      text-overflow: ellipsis;
-    }
-  }
-  .mat-header-cell {
-    position: relative;
-    &:not(:last-child) {
-      .resize-holder {
-        cursor: col-resize;
-        width: 20px;
-        height: 100%;
-        position: absolute;
-        right: -10px;
-        top: 0;
-        z-index: 1;
-      }
-    }
-  }
-  .mat-cell,
-  .mat-header-cell {
-    border-right: 1px solid rgba(0, 0, 0, 0.12);
-    &:not(:nth-child(1)) {
-      padding: 0 10px;
-    }
-  }
 }
