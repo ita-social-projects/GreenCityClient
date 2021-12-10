@@ -42,6 +42,7 @@ export class UbsAdminEmployeeTableComponent implements OnInit {
   ngOnInit(): void {
     this.searchValue.pipe(debounceTime(500), distinctUntilChanged()).subscribe((item) => {
       this.search = item;
+      this.currentPageForTable = 0;
       this.getTable();
     });
   }
@@ -80,7 +81,6 @@ export class UbsAdminEmployeeTableComponent implements OnInit {
 
   applyFilter(event: Event) {
     const filterValue = (event.target as HTMLInputElement).value;
-    this.currentPageForTable = 0;
     this.searchValue.next(filterValue.trim().toLowerCase());
   }
 
