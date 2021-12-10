@@ -59,6 +59,7 @@ import { TooltipModule } from 'ngx-bootstrap/tooltip';
 import { UbsAdminCustomerOrdersComponent } from './components/ubs-admin-customers/ubs-admin-customer-orders/ubs-admin-customer-orders.component';
 import { AddOrderCancellationReasonComponent } from './components/add-order-cancellation-reason/add-order-cancellation-reason.component';
 import { DialogPopUpComponent } from './components/shared/components/dialog-pop-up/dialog-pop-up.component';
+import { ResizeColumnDirective } from './derictives/resize-table-columns.directive';
 
 @NgModule({
   declarations: [
@@ -98,7 +99,8 @@ import { DialogPopUpComponent } from './components/shared/components/dialog-pop-
     UbsAdminCustomerOrdersComponent,
     UbsAdminOrderHistoryComponent,
     AddOrderCancellationReasonComponent,
-    DialogPopUpComponent
+    DialogPopUpComponent,
+    ResizeColumnDirective
   ],
   imports: [
     CommonModule,
