@@ -36,6 +36,32 @@
       "delete-profile": "Видалити профіль",
       "delete-profile-cancel": "Назад",
       "delete-profile-save": "Видалити"
+    },
+    "payment": {
+      "title": "Оплата",
+      "curency": "грн",
+      "sum": "Сума:",
+      "yes": "Так",
+      "no": "Ні",
+      "certificate-activated": {
+        "sum": "Сертифікат на суму {{certificateSum}} грн активовано.",
+        "data": "Строк дії сертифікату - до {{certDate}}"
+      },
+      "choose-payment": "Ви можете здійснити оплату одним з вибраних способів нижче.",
+      "question-certificate": "Чи бажаєте Ви скористатись сертифікатом?",
+      "failed-certificate": "Сертифікат не прийнято, споробуйте ще раз",
+      "bonus-need": "Чи бажаєте Ви скористатися бонусами?",
+      "bonus-left": "На Вашому бонусному рахунку:",
+      "certificate-number": "Номер сертифіката",
+      "way-payment": "Оберіть спосіб оплати",
+      "add-certificate": "Додати сертифікат",
+      "fondy-card": "Карткою через Fondy",
+      "liqpay-card": "Карткою через LiqPay",
+      "btn": {
+        "pay": "Оплатити",
+        "cancel": "Відмінити",
+        "active": "Активувати"
+      }
     }
   },
   "add-violation-modal": {
@@ -170,6 +196,7 @@
     "service": "Послуга",
     "volume": "Об'єм",
     "cost": "Вартість за одиницю",
+    "done-after-himself": "Списання на станції сортування",
     "planned-amount": "Планована к-ть",
     "approved-amount": "Підтверджена к-ть",
     "exported-amount": "Вивезена к-ть",
@@ -180,6 +207,9 @@
     "sum-to-pay": "Сума до оплати",
     "ubs-courier": "УБС Кур'єр",
     "min-sum": "Замовлення не може бути змінене. Мінімальна сума замовлення",
+    "max-sum": "максимальна сума",
+    "min-bags": "Замовлення не може бути змінене. Мінімальна кількість великих пакетів",
+    "max-bags": "максимальна кількість",
     "certificate-number-label": "Номер сертифікату",
     "order-number-label": "Номер замовлення з магазину",
     "client-comment": {
@@ -202,6 +232,8 @@
     "order-size": "Замовлення виконано у розмірі",
     "add-payment-btn": "Додати оплату",
     "order-date": "Дата оплати",
+    "overpayment": "Переплата",
+    "underpayment": "Потрібно доплатити",
     "payment-id": "ID платежу",
     "sum": "Сума",
     "comment-bill": "Коментар/Чек"
@@ -301,7 +333,7 @@
       "services-amount": "Сума наданих послуг:",
       "delivery": "Доставка з Еко магазину",
       "order-number": "Номери ваших замовлень:",
-      "recipient": "Отримувач",
+      "recipient": "Відправник",
       "export-address": "Адреса вивезення замовленних послуг",
       "comment": "Коментар:",
       "receipt": "Завантажити квитанцію"

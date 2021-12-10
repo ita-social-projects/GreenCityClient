@@ -15,46 +15,43 @@
     </div>
     <div *ngIf="!isAnyMessages" class="if-empty">У вас ще немає повідомлень</div>
     <div *ngIf="isAnyMessages">
-      <div
-        *ngFor="
-          let notification of notifications
-            | paginate
-              : {
-                  id: 'pag',
-                  itemsPerPage: pageSize,
-                  currentPage: page,
-                  totalItems: count
-                }
-        "
-      >
-        <mat-accordion>
-          <mat-expansion-panel
-            (click)="setRead(notification.id, notification.read)"
-            (opened)="panelOpenState = true"
-            (closed)="panelOpenState = false"
-          >
-            <mat-expansion-panel-header>
-              <mat-panel-title [ngClass]="{ textColorTitle: !notification.read }">
-                <div class="col-2">{{ notification.id }}</div>
-              </mat-panel-title>
-              <mat-panel-description [ngClass]="{ textColorTitle: !notification.read }" class="title">
-                {{ notification.title }}
-              </mat-panel-description>
-              <mat-panel-description class="date" [ngClass]="{ textColorTitle: !notification.read }">
-                {{ notification.notificationTime | date: 'HH:mm dd.MM.yyyy' }}
-              </mat-panel-description>
-            </mat-expansion-panel-header>
-            <div class="load-spinner small" *ngIf="isLoadSmallSpinner && !notification.isOpen">
-              <mat-spinner class="custom-spinner" diameter="60"></mat-spinner>
-            </div>
-            <div class="description" *ngIf="!isLoadSmallSpinner">
-              <app-notification-body [body]="notification.body" [orderId]="notification.orderId"></app-notification-body>
-            </div>
-            <div *ngIf="notification.img" class="description title-img">Фотографії порушення</div>
-            <div *ngIf="notification.img" class="description img"><img src="{{ notification.img }}" alt="" /></div>
-          </mat-expansion-panel>
-        </mat-accordion>
-      </div>
+      <mat-accordion multi="false">
+        <mat-expansion-panel
+          *ngFor="
+            let notification of notifications
+              | paginate
+                : {
+                    id: 'pag',
+                    itemsPerPage: pageSize,
+                    currentPage: page,
+                    totalItems: count
+                  }
+          "
+          (click)="setRead(notification.id, notification.read)"
+          (opened)="panelOpenState = true"
+          (closed)="panelOpenState = false"
+        >
+          <mat-expansion-panel-header>
+            <mat-panel-title [ngClass]="{ textColorTitle: !notification.read }">
+              <div class="col-2">{{ notification.id }}</div>
+            </mat-panel-title>
+            <mat-panel-description [ngClass]="{ textColorTitle: !notification.read }" class="title">
+              {{ notification.title }}
+            </mat-panel-description>
+            <mat-panel-description class="date" [ngClass]="{ textColorTitle: !notification.read }">
+              {{ notification.notificationTime | date: 'HH:mm dd.MM.yyyy' }}
+            </mat-panel-description>
+          </mat-expansion-panel-header>
+          <div class="load-spinner small" *ngIf="isLoadSmallSpinner && !notification.isOpen">
+            <mat-spinner class="custom-spinner" diameter="60"></mat-spinner>
+          </div>
+          <div class="description" *ngIf="!isLoadSmallSpinner">
+            <app-notification-body [body]="notification.body" [orderId]="notification.orderId"> </app-notification-body>
+          </div>
+          <div *ngIf="notification.img" class="description title-img">Фотографії порушення</div>
+          <div *ngIf="notification.img" class="description img"><img src="{{ notification.img }}" alt="" /></div>
+        </mat-expansion-panel>
+      </mat-accordion>
       <div class="d-flex justify-content-center">
         <pagination-controls
           autoHide="true"

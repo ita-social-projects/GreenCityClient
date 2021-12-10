@@ -37,8 +37,7 @@ export class TableCellSelectComponent implements OnInit {
 
   private filterStatuses() {
     if (this.nameOfColumn === 'orderStatus') {
-      const filteredStatuses = this.orderSevice.getOrderStatuses(this.key);
-      this.optional = this.optional.filter((el) => filteredStatuses.some((e) => e.name === el.key));
+      this.optional = this.orderSevice.getAvailableOrderStatuses(this.key, this.optional);
     }
   }
 

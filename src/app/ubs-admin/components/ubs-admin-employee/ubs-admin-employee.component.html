@@ -15,7 +15,9 @@
   </div>
   <div class="employees" *ngIf="tiles">
     <div
-      *ngFor="let data of fakeData | paginate: { itemsPerPage: size, currentPage: currentPage, id: paginationId, totalItems: totalLength }"
+      *ngFor="
+        let data of employeesData | paginate: { itemsPerPage: size, currentPage: currentPage, id: paginationId, totalItems: totalLength }
+      "
     >
       <app-ubs-admin-employee-card [data]="data"></app-ubs-admin-employee-card>
     </div>
