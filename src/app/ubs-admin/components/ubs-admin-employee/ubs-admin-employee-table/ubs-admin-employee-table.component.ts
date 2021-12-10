@@ -1,7 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { MatTableDataSource } from '@angular/material/table';
-import { take } from 'rxjs/operators';
+import { BehaviorSubject } from 'rxjs';
+import { debounceTime, distinctUntilChanged, take } from 'rxjs/operators';
 import { Page } from 'src/app/ubs-admin/models/ubs-admin.interface';
 import { UbsAdminEmployeeService } from 'src/app/ubs-admin/services/ubs-admin-employee.service';
 import { DialogPopUpComponent } from '../../shared/components/dialog-pop-up/dialog-pop-up.component';
@@ -17,6 +18,8 @@ export class UbsAdminEmployeeTableComponent implements OnInit {
   isUpdateTable = false;
   isLoading = true;
   sizeForTable = 30;
+  search: string;
+  searchValue: BehaviorSubject<string> = new BehaviorSubject<string>('');
   displayedColumns: string[] = [];
   dataSource: MatTableDataSource<any>;
   arrayOfHeaders = [];
@@ -37,12 +40,15 @@ export class UbsAdminEmployeeTableComponent implements OnInit {
   constructor(private ubsAdminEmployeeService: UbsAdminEmployeeService, private dialog: MatDialog) {}
 
   ngOnInit(): void {
-    this.getTable();
+    this.searchValue.pipe(debounceTime(500), distinctUntilChanged()).subscribe((item) => {
+      this.search = item;
+      this.getTable();
+    });
   }
 
   getTable() {
     this.isLoading = true;
-    this.ubsAdminEmployeeService.getEmployees(this.currentPageForTable, this.sizeForTable).subscribe((item) => {
+    this.ubsAdminEmployeeService.getEmployees(this.currentPageForTable, this.sizeForTable, this.search).subscribe((item) => {
       this.tableData = item[`content`];
       this.totalPagesForTable = item[`totalPages`];
       this.dataSource = new MatTableDataSource(this.tableData);
@@ -58,7 +64,7 @@ export class UbsAdminEmployeeTableComponent implements OnInit {
 
   updateTable() {
     this.isUpdateTable = true;
-    this.ubsAdminEmployeeService.getEmployees(this.currentPageForTable, this.sizeForTable).subscribe((item) => {
+    this.ubsAdminEmployeeService.getEmployees(this.currentPageForTable, this.sizeForTable, this.search).subscribe((item) => {
       this.tableData.push(...item[`content`]);
       this.dataSource.data = this.tableData;
       this.isUpdateTable = false;
@@ -74,7 +80,8 @@ export class UbsAdminEmployeeTableComponent implements OnInit {
 
   applyFilter(event: Event) {
     const filterValue = (event.target as HTMLInputElement).value;
-    this.dataSource.filter = filterValue.trim().toLowerCase();
+    this.currentPageForTable = 0;
+    this.searchValue.next(filterValue.trim().toLowerCase());
   }
 
   openPositions() {

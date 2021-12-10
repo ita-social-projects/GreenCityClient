@@ -93,6 +93,7 @@ describe('UbsAdminEmployeeTableComponent', () => {
     component = fixture.componentInstance;
     matDialog = TestBed.inject(MatDialog);
     component.deleteDialogData = deleteDialogData;
+    spyOn(component.searchValue, 'pipe').and.returnValue(of(''));
     fixture.detectChanges();
   });
 
@@ -125,10 +126,10 @@ describe('UbsAdminEmployeeTableComponent', () => {
   });
 
   it('should change the init data after calling applyFilter', () => {
-    component.dataSource.filter = '';
     const event = { target: { value: 'TO LOWER CASE' } };
+    const spy = spyOn(component.searchValue, 'next');
     component.applyFilter(event as any);
-    expect(component.dataSource.filter).toBe('to lower case');
+    expect(spy).toHaveBeenCalledWith('to lower case');
   });
 
   it('should change the init data after calling setDisplayedColumns', () => {
