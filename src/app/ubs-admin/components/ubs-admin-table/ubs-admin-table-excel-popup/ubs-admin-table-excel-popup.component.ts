@@ -42,7 +42,6 @@ export class UbsAdminTableExcelPopupComponent implements OnInit {
     }
   }
 
-  // Default parameters should be last.
   getTable(currentPage, pageSize, sortingType = this.sortType || 'DESC', columnName = this.sortingColumn || 'id') {
     return this.adminTableService
       .getTable(columnName, currentPage, '', pageSize, sortingType)
@@ -51,7 +50,7 @@ export class UbsAdminTableExcelPopupComponent implements OnInit {
         return res[`page`];
       })
       .catch((err) => {
-        return false;
+        alert(err.message);
       });
   }
 }

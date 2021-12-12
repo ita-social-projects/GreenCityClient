@@ -1,5 +1,40 @@
+.inner {
+  width: 452px;
+  padding: 0px 24px;
+  font-family: var(--primary-font);
+}
+
+.item {
+  margin-bottom: 24px;
+  font-size: 14px;
+  line-height: 20px;
+  color: var(--ubs-primary-grey);
+}
+
+.box {
+  margin-bottom: 28px;
+}
+
+.item:nth-child(2) {
+  margin-bottom: 0;
+}
+
+.title {
+  margin-bottom: 32px;
+  letter-spacing: 0.002em;
+  line-height: 28px;
+  color: var(--ubs-secondary-dark-grey);
+}
+
 .mat-radio-button {
   display: block;
+
+  ::ng-deep .mat-radio-container,
+  ::ng-deep .mat-radio-container .mat-radio-outer-circle,
+  ::ng-deep .mat-radio-container .mat-radio-inner-circle {
+    width: 16px;
+    height: 16px;
+  }
 
   ::ng-deep &.mat-accent.mat-radio-checked .mat-radio-outer-circle {
     border-color: var(--primary-green);
@@ -12,6 +47,16 @@
   ::ng-deep &.mat-accent .mat-radio-ripple .mat-ripple-element {
     background-color: transparent;
   }
+
+  ::ng-deep .mat-radio-label {
+    margin-bottom: 0;
+  }
+}
+
+.mat-dialog-actions {
+  min-height: 0;
+  margin-bottom: 0;
+  padding: 0;
 }
 
 .disabled-class {
@@ -20,17 +65,16 @@
 }
 
 .btn {
-  width: 140px;
-  height: 48px;
-  border-radius: 0;
+  height: 40px;
 }
 
-.btn:nth-child(1) {
-  margin: 0 24px 0 16px;
+.primary-global-button {
+  width: 83px;
 }
 
-.btn:nth-child(2) {
-  margin: 0 15px 0 0;
+.secondary-global-button {
+  width: 126px;
+  margin-right: 16px;
 }
 
 @media (max-width: 767px) {

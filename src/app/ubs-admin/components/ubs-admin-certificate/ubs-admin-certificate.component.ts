@@ -7,8 +7,9 @@ import { SelectionModel } from '@angular/cdk/collections';
 import { MatSort } from '@angular/material/sort';
 import { AdminCertificateService } from '../../services/admin-certificate.service';
 import { TableHeightService } from '../../services/table-height.service';
-import { MatDialog, MatDialogRef } from '@angular/material/dialog';
+import { MatDialog, MatDialogConfig, MatDialogRef } from '@angular/material/dialog';
 import { UbsAdminCertificateAddCertificatePopUpComponent } from './ubs-admin-certificate-add-certificate-pop-up/ubs-admin-certificate-add-certificate-pop-up.component';
+import { UbsAdminTableExcelPopupComponent } from '../ubs-admin-table/ubs-admin-table-excel-popup/ubs-admin-table-excel-popup.component';
 
 @Component({
   selector: 'app-ubs-admin-certificate',
@@ -38,6 +39,7 @@ export class UbsAdminCertificateComponent implements OnInit, AfterViewChecked, O
   totalPages: number;
   currentPage = 0;
   pageSize = 25;
+  totalElements = 0;
   @ViewChild(MatSort, { static: true }) sort: MatSort;
 
   constructor(
@@ -102,6 +104,7 @@ export class UbsAdminCertificateComponent implements OnInit, AfterViewChecked, O
       .subscribe((item) => {
         this.tableData = item[`page`];
         this.totalPages = item[`totalPages`];
+        this.totalElements = item[`totalElements`];
         this.dataSource = new MatTableDataSource(this.tableData);
         const requiredColumns = [{ field: 'select', sticky: true }];
         const dynamicallyColumns = [];
@@ -151,6 +154,14 @@ export class UbsAdminCertificateComponent implements OnInit, AfterViewChecked, O
       .afterClosed()
       .pipe(takeUntil(this.destroy))
       .subscribe((result) => result && this.getTable());
+  }
+
+  openExportExcel(): void {
+    const dialogConfig = new MatDialogConfig();
+    const dialogRef = this.dialog.open(UbsAdminTableExcelPopupComponent, dialogConfig);
+    dialogRef.componentInstance.totalElements = this.totalElements;
+    dialogRef.componentInstance.sortingColumn = this.sortingColumn;
+    dialogRef.componentInstance.sortType = this.sortType;
   }
 
   ngOnDestroy() {
