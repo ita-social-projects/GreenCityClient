@@ -57,7 +57,7 @@ describe('PersonalDataFormComponent', () => {
   };
 
   const fakeShareFormService = jasmine.createSpyObj('fakeShareFormService', ['changePersonalData', 'orderDetails']);
-  let fakeOrderService = jasmine.createSpyObj('OrderService', [
+  const fakeOrderService = jasmine.createSpyObj('OrderService', [
     'findAllAddresses',
     'getPersonalData',
     'deleteAddress',
