@@ -35,14 +35,14 @@
           </button>
         </div>
       </div>
-      <div *ngIf="!userCertificate.certificateError && userCertificate.certificateStatusActive && userOrder.sum > 0">
+      <div *ngIf="!userCertificate.certificateError && userCertificate.certificateStatusActive">
         <div class="text-danger">
           {{ 'ubs-client-profile.payment.certificate-activated.sum' | translate: { certificateSum: userCertificate.certificateSum } }}
         </div>
         <div class="text-danger">
           {{ 'ubs-client-profile.payment.certificate-activated.data' | translate: { certDate: userCertificate.certificateDate } }}
         </div>
-        <button class="btn btn-add-certificate" (click)="addNewCertificate()">
+        <button *ngIf="userOrder.sum > 0" class="btn btn-add-certificate" (click)="addNewCertificate()">
           {{ 'ubs-client-profile.payment.add-certificate' | translate }}
         </button>
       </div>
@@ -58,7 +58,7 @@
         {{ 'ubs-client-profile.payment.curency' | translate }}.
       </div>
 
-      <mat-radio-group formControlName="bonus" class="radio-group" [ngStyle]="userOrder.sum === 0 && { 'padding-bottom': '120px' }">
+      <mat-radio-group formControlName="bonus" class="radio-group">
         <mat-radio-button value="no" name="no">
           {{ 'ubs-client-profile.payment.no' | translate }}
         </mat-radio-button>
@@ -87,7 +87,7 @@
       <button class="btn btn-cancel" mat-dialog-close>
         {{ 'ubs-client-profile.payment.btn.cancel' | translate }}
       </button>
-      <button class="btn btn-pay" [disabled]="0 >= userOrder.sum || dataLoadingLiqPay" (click)="processOrder()" mat-dialog-close>
+      <button class="btn btn-pay" [disabled]="0 > userOrder.sum || dataLoadingLiqPay" (click)="processOrder()" mat-dialog-close>
         <span *ngIf="dataLoadingLiqPay" class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
         {{ 'ubs-client-profile.payment.btn.pay' | translate }}
       </button>
