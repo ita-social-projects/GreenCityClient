@@ -51,21 +51,23 @@
       </div>
     </div>
 
-    <div class="question">{{ 'ubs-client-profile.payment.bonus-need' | translate }}</div>
-    <div class="text">
-      {{ 'ubs-client-profile.payment.bonus-left' | translate }} {{ userOrder.bonusValue }}
-      {{ 'ubs-client-profile.payment.curency' | translate }}.
-    </div>
+    <div *ngIf="userOrder.bonusValue > 0">
+      <div class="question">{{ 'ubs-client-profile.payment.bonus-need' | translate }}</div>
+      <div class="text">
+        {{ 'ubs-client-profile.payment.bonus-left' | translate }} {{ userOrder.bonusValue }}
+        {{ 'ubs-client-profile.payment.curency' | translate }}.
+      </div>
 
-    <mat-radio-group formControlName="bonus" class="radio-group" [ngStyle]="userOrder.sum === 0 && { 'padding-bottom': '120px' }">
-      <mat-radio-button value="no" name="no">
-        {{ 'ubs-client-profile.payment.no' | translate }}
-      </mat-radio-button>
-      <br />
-      <mat-radio-button value="yes" name="yes">
-        {{ 'ubs-client-profile.payment.yes' | translate }}
-      </mat-radio-button>
-    </mat-radio-group>
+      <mat-radio-group formControlName="bonus" class="radio-group" [ngStyle]="userOrder.sum === 0 && { 'padding-bottom': '120px' }">
+        <mat-radio-button value="no" name="no">
+          {{ 'ubs-client-profile.payment.no' | translate }}
+        </mat-radio-button>
+        <br />
+        <mat-radio-button value="yes" name="yes">
+          {{ 'ubs-client-profile.payment.yes' | translate }}
+        </mat-radio-button>
+      </mat-radio-group>
+    </div>
 
     <div *ngIf="userOrder.sum > 0">
       <hr style="border-width: 2px" />
