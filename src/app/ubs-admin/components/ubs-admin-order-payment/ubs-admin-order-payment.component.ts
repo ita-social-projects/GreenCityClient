@@ -1,5 +1,5 @@
 import { Component, Input, OnInit, OnChanges, SimpleChanges } from '@angular/core';
-import { IPaymentInfo, IPaymentInfoDtos } from '../../models/ubs-admin.interface';
+import { IPaymentInfo, IPaymentInfoDtos, IOrderInfo } from '../../models/ubs-admin.interface';
 import { OrderService } from '../../services/order.service';
 
 @Component({
@@ -12,7 +12,7 @@ export class UbsAdminOrderPaymentComponent implements OnInit, OnChanges {
   pageOpen: boolean;
   @Input() paidPrice: number;
   @Input() overpayment: number;
-  @Input() orderInfo;
+  @Input() orderInfo: IOrderInfo;
   @Input() actualPrice: number;
   paidAmount: number;
   unPaidAmount: number;
