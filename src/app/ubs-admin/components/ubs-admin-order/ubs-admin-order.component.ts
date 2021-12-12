@@ -156,8 +156,8 @@ export class UbsAdminOrderComponent implements OnInit, OnDestroy {
         driver: this.getPositionEmployee(this.responsiblePersonInfo.currentPositionEmployees, 'driver')
       }),
       orderDetailsForm: this.fb.group({
-        storeOrderNumber: this.orderInfo.numbersFromShop.join(', '),
-        certificate: 'TODO-TODO',
+        storeOrderNumbers: this.fb.array([12121222, 22222222, 33333333]),
+        certificates: (this.orderInfo.certificates || []).join(', '),
         customerComment: this.orderInfo.comment,
         orderFullPrice: this.orderInfo.orderFullPrice
       })

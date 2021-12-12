@@ -79,6 +79,29 @@
   text-align: center;
 }
 
+.add-order-num {
+  width: 250px;
+  padding: 0;
+  text-align: left;
+  background: none;
+  color: var(--ubs-electric-violet);
+  font-size: 14px;
+  outline: none;
+  border: none;
+
+  &:disabled {
+    color: var(--ubs-quintynary-light-grey);
+  }
+
+  &:hover {
+    background: none;
+  }
+
+  &:focus {
+    text-decoration: underline;
+  }
+}
+
 .comment {
   resize: none;
   overflow: hidden;

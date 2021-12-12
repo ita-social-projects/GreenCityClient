@@ -135,13 +135,26 @@
             <label class="form__label py-2" for="cert-num">
               {{ 'order-details.certificate-number-label' | translate }}
             </label>
-            <input class="form-control" type="text" id="cert-num" placeholder="XXXX-XXXX" formControlName="certificate" disabled />
+            <input class="form-control" type="text" id="cert-num" placeholder="XXXX-XXXX" formControlName="certificates" disabled />
           </div>
           <div class="form-group">
-            <label class="form__label py-2" for="order-num">
+            <p class="form__label py-2">
               {{ 'order-details.order-number-label' | translate }}
-            </label>
-            <input class="form-control" type="text" id="order-num" placeholder="XXXX-XXXX" formControlName="storeOrderNumber" />
+            </p>
+            <ng-container formControlName="storeOrderNumbers" *ngFor="let orderNumber of getStoreOrderNumbers(); let i = index">
+              <div>
+                <input
+                  class="form-control"
+                  type="text"
+                  placeholder="XXXXXXXXXX"
+                  value="{{ orderNumber.value }}"
+                  formControlName="{{ i }}"
+                />
+              </div>
+            </ng-container>
+            <button *ngIf="checkMaxOrdersFromShop()" class="add-order-num" (click)="addOrder()">
+              {{ 'order-details.additional-orders' | translate }}
+            </button>
           </div>
         </div>
       </div>
