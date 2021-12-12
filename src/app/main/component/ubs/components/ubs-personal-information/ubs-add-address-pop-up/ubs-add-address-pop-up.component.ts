@@ -211,12 +211,12 @@ export class UBSAddAddressPopUpComponent implements OnInit, OnDestroy {
   }
 
   selectCity(event: Event): void {
-    if (event['name']) {
-      this.addAddressForm.get('city').setValue(event['name']);
-      this.isDistrict = this.addAddressForm.get('city').value === 'Київ';
-    } else {
-      this.isDistrict = event.target['value'] === 'Київ';
-    }
+    this.isDistrict = (event.target as HTMLSelectElement).value === 'Київ';
+  }
+
+  selectCityApi(event): void {
+    this.addAddressForm.get('city').setValue(event?.name);
+    this.isDistrict = this.addAddressForm.get('city').value === 'Київ';
   }
 
   onNoClick(): void {

@@ -17,7 +17,7 @@
       formControlName="city"
       type="text"
       class="shadow-none form-control"
-      (onAddressChange)="selectCity($event)"
+      (onAddressChange)="selectCityApi($event)"
       [options]="cityOptions"
     />
     <select *ngIf="isKyiv" formControlName="city" class="shadow-none form-control" (change)="selectCity($event)">
