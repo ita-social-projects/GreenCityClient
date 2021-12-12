@@ -8,6 +8,7 @@ import { IOrderDetailsUser } from '../models/IOrderDetailsUser.interface';
 import { ICertificate } from '../models/ICertificate.interface';
 import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
 import { ResponceOrderLiqPayModel } from '../models/ResponceOrderLiqPayModel';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-ubs-user-order-payment-pop-up',
@@ -43,7 +44,8 @@ export class UbsUserOrderPaymentPopUpComponent implements OnInit {
     private fb: FormBuilder,
     private orderService: OrderService,
     private sanitizer: DomSanitizer,
-    @Inject(MAT_DIALOG_DATA) public data: any
+    @Inject(MAT_DIALOG_DATA) public data: any,
+    public router: Router
   ) {}
 
   ngOnInit(): void {
@@ -136,12 +138,15 @@ export class UbsUserOrderPaymentPopUpComponent implements OnInit {
     this.orderClientDto.orderId = this.userOrder.id;
     this.orderClientDto.sum = this.userOrder.sum;
 
-    if (this.formPaymentSystem.value === 'Fondy') {
-      this.orderService.processOrderFondyFromUserOrderList(this.orderClientDto).subscribe((responce: ResponceOrderFondyModel) => {
-        document.location.href = responce.link;
-      });
-    } else if (this.formPaymentSystem.value === 'LiqPay') {
+    if (this.userOrder.sum > 0) {
+      if (this.formPaymentSystem.value === 'Fondy') {
+        this.orderService.processOrderFondyFromUserOrderList(this.orderClientDto).subscribe((responce: ResponceOrderFondyModel) => {
+          document.location.href = responce.link;
+        });
+      }
       this.liqPayButton[0].click();
+    } else {
+      this.router.navigate(['ubs', 'confirm']);
     }
   }
 
