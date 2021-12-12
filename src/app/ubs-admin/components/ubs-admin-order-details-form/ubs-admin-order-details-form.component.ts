@@ -1,7 +1,7 @@
 import { OrderService } from 'src/app/ubs-admin/services/order.service';
 import { OrderBag, OrderDetails } from './../../../main/component/ubs/models/ubs.interface';
 import { Component, Input, OnInit, OnChanges, SimpleChanges, Output, EventEmitter } from '@angular/core';
-import { FormGroup, FormBuilder, FormArray } from '@angular/forms';
+import { FormGroup, FormBuilder, FormArray, FormControl, Validators } from '@angular/forms';
 import { IOrderDetails } from '../../models/ubs-admin.interface';
 
 @Component({
@@ -249,6 +249,10 @@ export class UbsAdminOrderDetailsFormComponent implements OnInit, OnChanges {
   public checkMaxOrdersFromShop() {
     const currentAmountOfNumbersFromShop = (this.orderDetailsForm.controls['storeOrderNumbers'] as FormArray).controls.length;
     return currentAmountOfNumbersFromShop < this.LIMIT_OF_ECO_SHOP_NUMBERS;
+  }
+
+  addOrderNumberFromShop() {
+    (this.orderDetailsForm.controls['storeOrderNumbers'] as FormArray).push(new FormControl('', Validators.required));
   }
 
   public changeWriteOffSum(e) {
