@@ -30,11 +30,7 @@ export class UbsUserOrdersListComponent {
   }
 
   changeCard(id: number) {
-    this.orders.forEach((order) => {
-      if (order.generalOrderInfo.id === id) {
-        order.extend = !order.extend;
-      }
-    });
+    this.orders.forEach((order) => (order.extend = order.generalOrderInfo.id === id ? !order.extend : false));
   }
 
   deleteCard(orderId: number) {
