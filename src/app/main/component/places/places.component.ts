@@ -159,7 +159,6 @@ export class PlacesComponent implements OnInit {
     };
 
     this.googlePlacesService.findPlaceFromQuery(findByQueryRequest, (places: google.maps.places.PlaceResult[]) => {
-      console.log(places);
       const detailsRequest: google.maps.places.PlaceDetailsRequest = {
         placeId: places[0].place_id,
         fields: ['ALL']
