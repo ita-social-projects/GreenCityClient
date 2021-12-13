@@ -57,7 +57,6 @@ export class UbsUserOrdersListComponent {
   openOrderCancelDialog(order: IOrderInfo) {
     this.dialog.open(UbsUserOrderCancelPopUpComponent, {
       data: {
-        price: order.orderDiscountedPrice,
         orderId: order.generalOrderInfo.id
       }
     });
