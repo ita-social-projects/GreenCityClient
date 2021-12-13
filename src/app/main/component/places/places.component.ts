@@ -164,8 +164,6 @@ export class PlacesComponent implements OnInit {
         fields: ['ALL']
       };
       this.googlePlacesService.getDetails(detailsRequest, (placeDetails: google.maps.places.PlaceResult) => {
-        console.log(placeDetails);
-        console.log(placeDetails.photos[0].getUrl({}));
         this.activePlaceDetails = placeDetails;
         this.drawer.toggle(true);
       });
