@@ -96,4 +96,17 @@ describe('FormBaseComponent', () => {
     component[cancelPopupJustifying](false, false);
     expect(spy).toHaveBeenCalledWith(['fakePath']);
   });
+
+  it('should call cancelUBSwithoutSaving if isUbsOrderSubmit is true and confirm === null inside cancelPopupJustifying', () => {
+    const fakedialogRef = {
+      afterClosed() {
+        return of(null);
+      }
+    };
+    spyOn(matDialog, 'open').and.returnValue(fakedialogRef as any);
+    const spy = spyOn(component, 'cancelUBSwithoutSaving');
+    const cancelPopupJustifying = 'cancelPopupJustifying';
+    component[cancelPopupJustifying](true, true);
+    expect(spy).toHaveBeenCalled();
+  });
 });

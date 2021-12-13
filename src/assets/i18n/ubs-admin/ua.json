@@ -332,11 +332,15 @@
       "bonuses": "Бонуси:",
       "amount-due": "Сума до оплати:",
       "services-amount": "Сума наданих послуг:",
+      "paid-amount": "Оплачено:",
       "delivery": "Доставка з Еко магазину",
       "order-number": "Номери ваших замовлень:",
       "recipient": "Відправник",
       "export-address": "Адреса вивезення замовленних послуг",
-      "comment": "Коментар:",
+      "block-number": "корп. ",
+      "entrance": "п. ",
+      "comment-address": "Коментар до адреси:",
+      "comment-order": "Коментар до замовлення:",
       "receipt": "Завантажити квитанцію"
     }
   },

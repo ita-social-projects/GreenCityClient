@@ -11,6 +11,7 @@ import { ACTION_CONFIG, ACTION_TOKEN } from '../create-edit-news/action.constant
 import { NewsPreviewPageComponent } from './news-preview-page.component';
 import { RouterTestingModule } from '@angular/router/testing';
 import { EcoNewsComponent } from '../../eco-news.component';
+import { Router } from '@angular/router';
 
 describe('NewsPreviewPageComponent', () => {
   let component: NewsPreviewPageComponent;
@@ -20,6 +21,7 @@ describe('NewsPreviewPageComponent', () => {
   let currentFormWithoutImageMock: FormGroup;
   let newsResponseMock: NewsResponseDTO;
   let itemMock: EcoNewsModel;
+  let router: Router;
 
   const createEcoNewsServiceMock = jasmine.createSpyObj('CreateEcoNewsService', [
     'getFormData',
@@ -101,6 +103,9 @@ describe('NewsPreviewPageComponent', () => {
       likes: 0,
       countComments: 2
     };
+
+    router = TestBed.inject(Router);
+    spyOn(router, 'navigate');
 
     fixture.detectChanges();
   });

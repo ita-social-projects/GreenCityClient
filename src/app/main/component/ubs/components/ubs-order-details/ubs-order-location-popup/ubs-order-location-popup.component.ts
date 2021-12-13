@@ -72,6 +72,10 @@ export class UbsOrderLocationPopupComponent implements OnInit, OnDestroy {
     this.dialogRef.close({ locationId: this.selectedLocationId, currentLanguage: this.currentLanguage, data: this.locations });
   }
 
+  changeLocation(id: number): void {
+    this.selectedLocationId = id;
+  }
+
   ngOnDestroy() {
     this.passDataToComponent();
     this.destroy$.next();

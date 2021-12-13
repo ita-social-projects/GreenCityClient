@@ -10,14 +10,16 @@
         <span class="form__subtitle">{{ 'order-payment.order-size' | translate }}</span>
       </div>
       <div class="col-md-2">
-        <span class="price">{{ paidPrice }} {{ '' | localizedCurrency }}</span>
+        <span class="price">{{ paidAmount | currency | localizedCurrency }}</span>
       </div>
       <div class="col-md-2">
         <button class="btn">+ {{ 'order-payment.add-payment-btn' | translate }}</button>
       </div>
     </div>
-    <p class="need-to-pay" *ngIf="overpayment">{{ message | translate }} {{ overpayment | localizedCurrency }}</p>
-    <div class="table-responsive-md col-md-10 pl-0">
+    <p class="need-to-pay" *ngIf="actualPrice - paidAmount !== 0">
+      {{ 'order-edit.need-to-pay' | translate }} {{ actualPrice - paidAmount | localizedCurrency }}
+    </p>
+    <div class="table-responsive-md col-md-10 pl-0" *ngIf="paymentsArray.length !== 0">
       <table class="table table-borderless">
         <caption>
           {{
@@ -27,23 +29,17 @@
         <thead>
           <tr>
             <th id="paymentDate">{{ 'order-payment.order-date' | translate }}</th>
-            <th id="paymentId">{{ 'order-payment-id' | translate }}</th>
+            <th id="paymentId">{{ 'order-payment.payment-id' | translate }}</th>
             <th id="paymentSum">{{ 'order-payment.sum' | translate }}</th>
             <th id="paymentComment">{{ 'order-payment.comment-bill' | translate }}</th>
           </tr>
         </thead>
         <tbody>
-          <tr>
-            <td>01.05.2021</td>
-            <td>№1234567890</td>
-            <td>100 {{ '' | localizedCurrency }}</td>
-            <td>Link_to_bill_3216549870</td>
-          </tr>
-          <tr>
-            <td>01.05.2021</td>
-            <td>№1234567890</td>
-            <td>200 {{ '' | localizedCurrency }}</td>
-            <td>Link_to_bill_3216549870</td>
+          <tr *ngFor="let payment of paymentsArray">
+            <td>{{ payment.settlementdate }}</td>
+            <td>№{{ payment.paymentId }}</td>
+            <td>{{ payment.amount | currency | localizedCurrency }}</td>
+            <td>{{ payment.comment }}</td>
           </tr>
         </tbody>
       </table>
