@@ -164,7 +164,9 @@
       </div>
       <div class="bottom_comment">
         <div class="form-group comment">
-          <h3>{{ 'order-details.coment' | translate }}</h3>
+          <h3>{{ 'order-details.comment' | translate }}</h3>
+          <h5>{{ 'order-details.comment-subtitle' | translate }}</h5>
+          <p class="link" (click)="openExtraPackages()">{{ 'order-details.link' | translate }}</p>
           <textarea
             formControlName="orderComment"
             class="shadow-none form-control textarea"

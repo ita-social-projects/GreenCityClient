@@ -56,8 +56,10 @@ import { UbsAdminEmployeeTableComponent } from './components/ubs-admin-employee/
 import { UbsAdminCustomerDetailsComponent } from './components/ubs-admin-customers/ubs-admin-customer-details/ubs-admin-customer-details.component';
 import { UbsAdminOrderHistoryComponent } from './components/ubs-admin-order-history/ubs-admin-order-history.component';
 import { TooltipModule } from 'ngx-bootstrap/tooltip';
+import { UbsAdminCustomerOrdersComponent } from './components/ubs-admin-customers/ubs-admin-customer-orders/ubs-admin-customer-orders.component';
 import { AddOrderCancellationReasonComponent } from './components/add-order-cancellation-reason/add-order-cancellation-reason.component';
 import { DialogPopUpComponent } from './components/shared/components/dialog-pop-up/dialog-pop-up.component';
+import { ResizeColumnDirective } from './derictives/resize-table-columns.directive';
 
 @NgModule({
   declarations: [
@@ -94,9 +96,11 @@ import { DialogPopUpComponent } from './components/shared/components/dialog-pop-
     UbsAdminTariffsLocationDashboardComponent,
     UbsAdminEmployeeTableComponent,
     UbsAdminCustomerDetailsComponent,
+    UbsAdminCustomerOrdersComponent,
     UbsAdminOrderHistoryComponent,
     AddOrderCancellationReasonComponent,
-    DialogPopUpComponent
+    DialogPopUpComponent,
+    ResizeColumnDirective
   ],
   imports: [
     CommonModule,

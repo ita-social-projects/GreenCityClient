@@ -61,9 +61,9 @@ div hr {
 #create-button {
   border-radius: 5px;
   line-height: 16px;
-  width: 139px;
+  min-width: 139px;
   min-height: 40px;
-  padding: 8px 40px;
+  padding: 8px 20px;
   display: flex;
   align-items: center;
   justify-content: center;

@@ -10,7 +10,6 @@ import { IResponsiblePersons } from '../../models/ubs-admin.interface';
 })
 export class UbsAdminResponsiblePersonsComponent implements OnInit, OnDestroy {
   @Input() responsiblePersonInfo: IResponsiblePersons;
-  @Input() orderId: number;
   @Input() responsiblePersonsForm: FormGroup;
 
   public allCallManagers: string[];
@@ -21,22 +20,22 @@ export class UbsAdminResponsiblePersonsComponent implements OnInit, OnDestroy {
   private destroy$: Subject<boolean> = new Subject<boolean>();
 
   ngOnInit(): void {
-    this.getOrderEmployees(this.orderId);
+    this.setEmployeesByPosition();
   }
 
   openDetails() {
     this.pageOpen = !this.pageOpen;
   }
 
-  getOrderEmployees(orderId: number) {
+  setEmployeesByPosition() {
     const employees = this.responsiblePersonInfo.allPositionsEmployees;
-    this.allCallManagers = this.processEmployeeById(employees, 2);
-    this.allLogisticians = this.processEmployeeById(employees, 3);
-    this.allNavigators = this.processEmployeeById(employees, 4);
-    this.allDrivers = this.processEmployeeById(employees, 5);
+    this.allCallManagers = this.getEmployeesById(employees, 2);
+    this.allLogisticians = this.getEmployeesById(employees, 3);
+    this.allNavigators = this.getEmployeesById(employees, 4);
+    this.allDrivers = this.getEmployeesById(employees, 5);
   }
 
-  processEmployeeById(employees: Map<string, string[]>, id: number): string[] {
+  getEmployeesById(employees: Map<string, string[]>, id: number): string[] {
     for (const key of Object.keys(employees)) {
       if (key.includes(`id=${id},`)) {
         return employees[key];

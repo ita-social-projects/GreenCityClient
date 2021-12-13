@@ -20,6 +20,8 @@ describe('RecommendedFriendsComponent', () => {
   localStorageServiceMock.userIdBehaviourSubject = new BehaviorSubject(1111);
   let userFriendsServiceMock: UserFriendsService;
 
+  const userFriendsService = 'userFriendsService';
+
   const response = {
     id: 1,
     name: 'Name',
@@ -120,22 +122,14 @@ describe('RecommendedFriendsComponent', () => {
     expect(initUserSpy).toHaveBeenCalledTimes(1);
   });
 
-  // it("should be get a users friends", () => {
-  //   const getRecommendedFriendsSpy = spyOn(component as any, 'getRecommendedFriends');
-  //   component.ngOnInit();
-  //   expect(getRecommendedFriendsSpy).toHaveBeenCalledTimes(1);
-  // });
-
   it('should call method addFriend', () => {
-    // @ts-ignore
-    const addFriendSpy = spyOn(component.userFriendsService, 'addFriend').and.returnValue(of(true));
+    const addFriendSpy = spyOn(component[userFriendsService], 'addFriend').and.returnValue(of({}));
     component.addFriend(4);
     expect(addFriendSpy).toHaveBeenCalled();
   });
 
   it('should call getFriends on scroll', () => {
-    // @ts-ignore
-    const getRecommendedFriendSpy = spyOn(component.userFriendsService, 'getPossibleFriends').and.returnValue(of(userFriends));
+    const getRecommendedFriendSpy = spyOn(component[userFriendsService], 'getPossibleFriends').and.returnValue(of(userFriends));
     component.onScroll();
     expect(getRecommendedFriendSpy).toHaveBeenCalled();
   });

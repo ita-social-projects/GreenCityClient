@@ -172,9 +172,12 @@ describe('HeaderComponent', () => {
 
     it('should log out the user', () => {
       const localeStorageService = 'localeStorageService';
+      const orderService = 'orderService';
       const spy = spyOn(component[localeStorageService], 'clear');
+      const cancelUBSwithoutSavingSpy = spyOn(component[orderService], 'cancelUBSwithoutSaving');
       component.signOut();
       expect(spy).toHaveBeenCalled();
+      expect(cancelUBSwithoutSavingSpy).toHaveBeenCalled();
     });
   });
 });

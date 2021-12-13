@@ -58,7 +58,7 @@ export class WarningPopUpComponent implements OnInit, OnDestroy {
     this.isUbsOrderSubmit = this.data.isUbsOrderSubmit;
   }
 
-  public userReply(reply: boolean): void {
+  public userReply(reply: boolean | null): void {
     if (reply) {
       if (this.isUbsOrderSubmit) {
         this.isLoading = true;
