@@ -70,7 +70,7 @@ export class UbsUserProfilePageComponent implements OnInit {
   }
 
   userInit() {
-    const address = new FormArray([]);
+    const addres = new FormArray([]);
     this.userProfile.addressDto.forEach((adres) => {
       const seperateAddress = new FormGroup({
         city: new FormControl(adres?.city, [Validators.pattern(this.regexp), Validators.maxLength(20)]),
@@ -81,10 +81,10 @@ export class UbsUserProfilePageComponent implements OnInit {
         region: new FormControl(adres?.region, [Validators.pattern(this.regexpWithDigits), Validators.maxLength(20)]),
         district: new FormControl(adres?.district, [Validators.pattern(this.regexpWithDigits), Validators.maxLength(20)])
       });
-      address.push(seperateAddress);
+      addres.push(seperateAddress);
     });
     this.userForm = new FormGroup({
-      address: address,
+      address: addres,
       recipientName: new FormControl(this.userProfile?.recipientName, [Validators.required, Validators.pattern(this.regexp)]),
       recipientSurname: new FormControl(this.userProfile?.recipientSurname, [Validators.required, Validators.pattern(this.regexp)]),
       recipientEmail: new FormControl(this.userProfile?.recipientEmail, [Validators.required, Validators.pattern(this.regexpEmail)]),
@@ -150,8 +150,8 @@ export class UbsUserProfilePageComponent implements OnInit {
     });
   }
 
-  formatedPhoneNumber(number: string) {
-    const match = number.match(/^(\d{2})(\d{3})(\d{2})(\d{2})$/);
+  formatedPhoneNumber(num: string) {
+    const match = num.match(/^(\d{2})(\d{3})(\d{2})(\d{2})$/);
     if (match) {
       return ` (${match[1]}) ${match[2]} ${match[3]} ${match[4]}`;
     }
