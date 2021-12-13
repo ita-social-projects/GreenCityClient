@@ -107,7 +107,6 @@ export class UBSOrderDetailsComponent extends FormBaseComponent implements OnIni
     } else {
       this.openLocationDialog();
     }
-    localStorage.removeItem('UBSorderData');
     this.orderService.locationSubject.pipe(takeUntil(this.destroy)).subscribe(() => {
       this.takeOrderData();
       this.subscribeToLangChange();
