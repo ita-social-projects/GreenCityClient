@@ -45,6 +45,7 @@ export class UbsAdminOrderStatusComponent implements OnInit, OnDestroy {
       .pipe(take(1))
       .subscribe((res) => {
         if (res.action === 'cancel') {
+          this.onChangedOrderStatus(this.generalOrderInfo.orderStatus);
           this.orderStatusForm.get('orderStatus').setValue(this.generalOrderInfo.orderStatus);
           return;
         }
