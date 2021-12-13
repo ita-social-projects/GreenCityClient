@@ -1,7 +1,7 @@
 import { Subject } from 'rxjs';
 import { Router } from '@angular/router';
 import { take, takeUntil } from 'rxjs/operators';
-import { MatDialog } from '@angular/material/dialog';
+import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
 import { Component, OnDestroy, OnInit, Renderer2 } from '@angular/core';
 import { FormBaseComponent } from '@shared/components/form-base/form-base.component';
 import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
@@ -10,6 +10,7 @@ import { OrderService } from '../../services/order.service';
 import { UBSOrderFormService } from '../../services/ubs-order-form.service';
 import { Bag, FinalOrder, Locations, OrderDetails } from '../../models/ubs.interface';
 import { UbsOrderLocationPopupComponent } from './ubs-order-location-popup/ubs-order-location-popup.component';
+import { ExtraPackagesPopUpComponent } from './extra-packages-pop-up/extra-packages-pop-up.component';
 
 @Component({
   selector: 'app-ubs-order-details',
@@ -454,6 +455,11 @@ export class UBSOrderDetailsComponent extends FormBaseComponent implements OnIni
     this.finalSum = newItem.finalSum;
     this.isBonus = newItem.isBonus;
     this.certificateSum = newItem.certificateSum;
+  }
+
+  openExtraPackages(): void {
+    const dialogConfig = new MatDialogConfig();
+    const dialogRef = this.dialog.open(ExtraPackagesPopUpComponent, dialogConfig);
   }
 
   ngOnDestroy() {
