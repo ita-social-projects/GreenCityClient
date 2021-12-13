@@ -1,5 +1,4 @@
 import { OrderService } from 'src/app/ubs-admin/services/order.service';
-import { OrderBag, OrderDetails } from './../../../main/component/ubs/models/ubs.interface';
 import { Component, Input, OnInit, OnChanges, SimpleChanges, Output, EventEmitter } from '@angular/core';
 import { FormGroup, FormBuilder } from '@angular/forms';
 import { IOrderDetails } from '../../models/ubs-admin.interface';
