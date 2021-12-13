@@ -45,6 +45,7 @@ export class UbsAdminOrderComponent implements OnInit, OnDestroy {
   currentOrderStatus: string;
   overpayment = 0;
   isMinOrder = true;
+  actualPrice: number;
 
   constructor(
     private translate: TranslateService,
@@ -218,6 +219,10 @@ export class UbsAdminOrderComponent implements OnInit, OnDestroy {
 
   public changeOverpayment(sum) {
     this.overpayment = sum;
+  }
+
+  public setFinalPrice(price: number) {
+    this.actualPrice = price;
   }
 
   public setMinOrder(flag) {
