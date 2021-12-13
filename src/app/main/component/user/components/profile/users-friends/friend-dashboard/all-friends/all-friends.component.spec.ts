@@ -7,6 +7,7 @@ import { LocalStorageService } from '@global-service/localstorage/local-storage.
 import { FriendModel } from '@global-user/models/friend.model';
 import { UserFriendsService } from '@global-user/services/user-friends.service';
 import { TranslateModule } from '@ngx-translate/core';
+import { InfiniteScrollModule } from 'ngx-infinite-scroll';
 import { BehaviorSubject, of } from 'rxjs';
 
 import { AllFriendsComponent } from './all-friends.component';
@@ -79,7 +80,7 @@ describe('AllFriendsComponent', () => {
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       declarations: [AllFriendsComponent],
-      imports: [TranslateModule.forRoot(), HttpClientTestingModule, RouterTestingModule.withRoutes([])],
+      imports: [TranslateModule.forRoot(), HttpClientTestingModule, RouterTestingModule.withRoutes([]), InfiniteScrollModule],
       providers: [
         { provide: LocalStorageService, useValue: localStorageServiceMock },
         { provide: UserFriendsService, useValue: userFriendsServiceMock },
