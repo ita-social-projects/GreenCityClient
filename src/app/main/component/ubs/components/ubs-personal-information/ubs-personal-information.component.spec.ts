@@ -99,6 +99,9 @@ describe('PersonalDataFormComponent', () => {
     component = fixture.componentInstance;
     realTakeUserData = component.takeUserData;
     spyOn(component, 'takeUserData').and.callFake(() => {});
+    spyOn(localStorage, 'setItem');
+    spyOn(localStorage, 'getItem');
+    spyOn(localStorage, 'removeItem');
     fixture.detectChanges();
   });
 
@@ -164,12 +167,14 @@ describe('PersonalDataFormComponent', () => {
 
   it('method togglClient should set client data if anotherClient = false', () => {
     component.anotherClient = false;
+    spyOn(component, 'changeAnotherClientInPersonalData');
     component.togglClient();
     expect(component.personalDataForm.get('anotherClientPhoneNumber').value).toBe('+380');
   });
 
   it('method togglClient should clear client data if anotherClient = true', () => {
     component.anotherClient = true;
+    spyOn(component, 'changeAnotherClientInPersonalData');
     component.togglClient();
     expect(component.personalDataForm.get('anotherClientPhoneNumber').value).toBe('');
   });
