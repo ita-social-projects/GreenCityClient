@@ -128,13 +128,11 @@ describe('UBSPersonalInformationComponent', () => {
   });
 
   it('destroy Subject should be closed after ngOnDestroy()', () => {
-    // @ts-ignore
-    component.destroy = new Subject<boolean>();
-    // @ts-ignore
-    spyOn(component.destroy, 'unsubscribe');
+    const destroy = 'destroy';
+    component[destroy] = new Subject<boolean>();
+    spyOn(component[destroy], 'unsubscribe');
     component.ngOnDestroy();
-    // @ts-ignore
-    expect(component.destroy.unsubscribe).toHaveBeenCalledTimes(1);
+    expect(component[destroy].unsubscribe).toHaveBeenCalledTimes(1);
   });
 
   it('method takeUserData should get data from orderService', () => {
