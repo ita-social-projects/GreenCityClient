@@ -64,3 +64,46 @@ export const columnsParams = [
     width: 50
   }
 ];
+
+export const columnsParamsOrders = [
+  {
+    title: {
+      key: 'orderDate',
+      ua: 'Дата замовлення',
+      en: 'Order Date'
+    },
+    width: 100
+  },
+  {
+    title: {
+      key: 'id',
+      ua: '№ замовлення	',
+      en: '№ order	'
+    },
+    width: 60
+  },
+  {
+    title: {
+      key: 'orderStatus',
+      ua: 'Статус замовлення',
+      en: 'Order status'
+    },
+    width: 100
+  },
+  {
+    title: {
+      key: 'orderPaymentStatus',
+      ua: 'Статус оплати',
+      en: 'Payment status'
+    },
+    width: 60
+  },
+  {
+    title: {
+      key: 'amount',
+      ua: 'Сума замовлення',
+      en: 'Order amount'
+    },
+    width: 60
+  }
+];

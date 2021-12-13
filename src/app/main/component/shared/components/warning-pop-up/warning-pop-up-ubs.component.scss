@@ -1,14 +1,25 @@
 ::ng-deep .custom-ubs-style {
   .main-container {
     position: relative;
-    max-width: 422px;
+    max-width: 509px;
     height: 167px;
     border-radius: 4px;
     display: flex;
     flex-direction: column;
     justify-content: space-between;
-    padding: 26px 20px 20px 20px;
+    padding: 36px 20px 20px 20px;
     margin: -24px;
+
+    .close {
+      position: absolute;
+      margin-top: -20px;
+      margin-right: -10px;
+      top: 0;
+      right: 0;
+      border: none;
+      background-color: transparent;
+      outline: none;
+    }
 
     .warning-text {
       display: flex;
@@ -60,12 +71,9 @@
       width: 120px;
     }
 
-    .submit-cancel {
-      width: 220px;
-    }
-
+    .submit-cancel,
     .submit-confirm {
-      width: 70px;
+      width: 120px;
     }
   }
 
@@ -109,6 +117,12 @@
     .secondary-global-button {
       margin-right: 0 !important;
       margin-bottom: 32px;
+    }
+
+    .close {
+      margin: 0 !important;
+      top: 40px !important;
+      right: 50px !important;
     }
   }
 

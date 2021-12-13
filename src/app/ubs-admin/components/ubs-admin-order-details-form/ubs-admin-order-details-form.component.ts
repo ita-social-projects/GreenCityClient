@@ -26,7 +26,9 @@ export class UbsAdminOrderDetailsFormComponent implements OnInit, OnChanges {
   public limitAmount;
   public courierPrice: number;
   public writeoffAtStationSum: number;
+  finalPrice: number;
   @Output() changeOverpayment = new EventEmitter<number>();
+  @Output() actualPrice = new EventEmitter<number>();
   @Output() checkMinOrder = new EventEmitter<boolean>();
 
   pageOpen: boolean;
@@ -132,6 +134,7 @@ export class UbsAdminOrderDetailsFormComponent implements OnInit, OnChanges {
     }
     this.calculateOverpayment();
     this.setFinalFullPrice();
+    this.actualPrice.emit(this.bagsInfo.finalSum.confirmed);
   }
 
   openDetails() {

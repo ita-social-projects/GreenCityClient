@@ -46,7 +46,7 @@ export class UbsAdminEmployeeComponent implements OnInit {
   }
 
   setData(item: Employees): void {
-    this.employeesData = item.page;
+    this.employeesData = item.content;
     this.totalLength = item.totalElements;
   }
 
