@@ -336,7 +336,10 @@
       "order-number": "Numbers of your orders:",
       "recipient": "Sender",
       "export-address": "The address of export of the ordered services",
-      "comment": "Comment:",
+      "block-number": "b.  ",
+      "entrance": "e.  ",
+      "comment-address": "Comment to the address:",
+      "comment-order": "Comment to the order:",
       "receipt": "Download the receipt"
     }
   },
