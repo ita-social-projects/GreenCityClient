@@ -1,1 +1,17 @@
-<p>ubs-user-order-cancel-pop-up works!</p>
+<div class="dialog-container">
+  <div class="dialog-container-text">
+    <p class="warning-text">{{ 'ubs-client-profile.cancel-modal.warning' | translate }}</p>
+    <p class="question-text">{{ 'ubs-client-profile.cancel-modal.question' | translate }}</p>
+  </div>
+
+  <div class="action-btns">
+    <mat-dialog-actions>
+      <button class="btn btn-cancel" mat-dialog-close>
+        {{ 'ubs-client-profile.cancel-modal.disagree' | translate }}
+      </button>
+      <button class="btn btn-pay" mat-dialog-close>
+        {{ 'ubs-client-profile.cancel-modal.agree' | translate }}
+      </button>
+    </mat-dialog-actions>
+  </div>
+</div>
