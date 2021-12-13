@@ -10,6 +10,7 @@ import { ConfirmationDialogService } from '../../services/confirmation-dialog-se
 import { FeedbacksComponent } from './feedbacks.component';
 import { RouterTestingModule } from '@angular/router/testing';
 import { PaginationModule } from 'ngx-bootstrap/pagination';
+import { MatTableModule } from '@angular/material/table';
 
 class MatDialogMock {
   open() {
@@ -65,6 +66,7 @@ describe('FeedbacksComponent', () => {
         TranslateModule.forRoot(),
         HttpClientTestingModule,
         MatDialogModule,
+        MatTableModule,
         PaginationModule.forRoot()
       ],
       declarations: [FeedbacksComponent],

@@ -16,6 +16,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { UBSOrderFormService } from '../../../services/ubs-order-form.service';
 import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
+import { IMaskModule } from 'angular-imask';
 
 describe('UbsOrderCertificateComponent', () => {
   let component: UbsOrderCertificateComponent;
@@ -33,7 +34,8 @@ describe('UbsOrderCertificateComponent', () => {
         TranslateModule.forRoot(),
         RouterTestingModule,
         MatDialogModule,
-        BrowserAnimationsModule
+        BrowserAnimationsModule,
+        IMaskModule
       ],
       providers: [
         { provide: MatDialogRef, useValue: {} },

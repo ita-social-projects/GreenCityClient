@@ -1,6 +1,7 @@
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { ReactiveFormsModule } from '@angular/forms';
 import { MatDialog, MatDialogModule, MatDialogRef } from '@angular/material/dialog';
 import { MatTableModule } from '@angular/material/table';
 import { InfiniteScrollModule } from 'ngx-infinite-scroll';
@@ -31,7 +32,7 @@ describe('UbsAdminEmployeeTableComponent', () => {
     popupCancel: 'fake-no'
   };
   const fakeTableItems = {
-    page: ['fakeData1', 'fakeData2'],
+    content: ['fakeData1', 'fakeData2'],
     totalPages: 7
   };
   const fakeTableDataStations = [
@@ -79,7 +80,7 @@ describe('UbsAdminEmployeeTableComponent', () => {
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       declarations: [UbsAdminEmployeeTableComponent],
-      imports: [HttpClientTestingModule, MatDialogModule, MatTableModule, InfiniteScrollModule],
+      imports: [HttpClientTestingModule, MatDialogModule, MatTableModule, InfiniteScrollModule, ReactiveFormsModule],
       providers: [
         { provide: MatDialogRef, useValue: dialogRefStub },
         { provide: UbsAdminEmployeeService, useValue: ubsAdminEmployeeServiceMock }
@@ -93,6 +94,7 @@ describe('UbsAdminEmployeeTableComponent', () => {
     component = fixture.componentInstance;
     matDialog = TestBed.inject(MatDialog);
     component.deleteDialogData = deleteDialogData;
+    spyOn(component.searchValue, 'pipe').and.returnValue(of(''));
     fixture.detectChanges();
   });
 
@@ -125,10 +127,10 @@ describe('UbsAdminEmployeeTableComponent', () => {
   });
 
   it('should change the init data after calling applyFilter', () => {
-    component.dataSource.filter = '';
     const event = { target: { value: 'TO LOWER CASE' } };
+    const spy = spyOn(component.searchValue, 'next');
     component.applyFilter(event as any);
-    expect(component.dataSource.filter).toBe('to lower case');
+    expect(spy).toHaveBeenCalledWith('to lower case');
   });
 
   it('should change the init data after calling setDisplayedColumns', () => {

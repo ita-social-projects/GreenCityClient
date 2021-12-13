@@ -5,7 +5,7 @@ export interface Employees {
   hasPrevious: boolean;
   last: boolean;
   number: number;
-  page: Page[];
+  content: Page[];
   totalElements: number;
   totalPages: number;
 }

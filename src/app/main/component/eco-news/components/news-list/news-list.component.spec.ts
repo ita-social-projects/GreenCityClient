@@ -14,6 +14,7 @@ import { NewsListComponent } from './news-list.component';
 import { RouterTestingModule } from '@angular/router/testing';
 import { RemainingCountComponent } from '../remaining-count/remaining-count.component';
 import { SharedModule } from 'src/app/shared/shared.module';
+import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 
 describe('NewsListComponent', () => {
   let component: NewsListComponent;
@@ -64,7 +65,8 @@ describe('NewsListComponent', () => {
         { provide: LocalStorageService, useValue: localStorageServiceMock },
         { provide: EcoNewsService, useValue: ecoNewsServiceMock },
         { provide: UserOwnAuthService, useValue: userOwnAuthServiceMock }
-      ]
+      ],
+      schemas: [CUSTOM_ELEMENTS_SCHEMA]
     }).compileComponents();
   }));
 
