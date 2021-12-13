@@ -15,7 +15,7 @@ describe('UbsAdminEmployeeService', () => {
     hasPrevious: true,
     last: true,
     number: 0,
-    page: [],
+    content: [],
     totalElements: 0,
     totalPages: 0
   };
