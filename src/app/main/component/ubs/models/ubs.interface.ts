@@ -55,6 +55,7 @@ export interface OrderDetailsNotification {
   addressCity?: string;
   addressStreet?: string;
   addressDistrict?: string;
+  addressRegion?: string;
 }
 
 export interface FinalOrder {
@@ -88,6 +89,7 @@ export interface PersonalData {
   city: string;
   district: string;
   street?: string;
+  region?: string;
   houseCorpus?: string;
   entranceNumber?: string;
   houseNumber?: string;

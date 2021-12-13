@@ -163,10 +163,13 @@ describe('HeaderComponent', () => {
     });
 
     it('should log out the user', () => {
-      // @ts-ignore
-      const spy = spyOn(component.localeStorageService, 'clear');
+      const localeStorageService = 'localeStorageService';
+      const orderService = 'orderService';
+      const spy = spyOn(component[localeStorageService], 'clear');
+      const cancelUBSwithoutSavingSpy = spyOn(component[orderService], 'cancelUBSwithoutSaving');
       component.signOut();
       expect(spy).toHaveBeenCalled();
+      expect(cancelUBSwithoutSavingSpy).toHaveBeenCalled();
     });
   });
 });
