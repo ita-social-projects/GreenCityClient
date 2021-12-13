@@ -236,7 +236,7 @@ describe('UserFriendsService', () => {
         expect(users.page.length).toBeGreaterThanOrEqual(2);
       });
 
-      const req = httpMock.expectOne(`${userFriendsService.url}user/findNewFriendsByName/?name=${friends.page[0].name}&page=0&size=10`);
+      const req = httpMock.expectOne(`${userFriendsService.url}user/findNewFriendsByName?name=${friends.page[0].name}&page=0&size=10`);
       expect(req.request.method).toBe('GET');
       req.flush(friends);
     });
@@ -260,7 +260,7 @@ describe('UserFriendsService', () => {
         expect(users).toBeTruthy();
       });
 
-      const req = httpMock.expectOne(`${userFriendsService.url}user/findFriendByName/?name=${friends.page[0].name}&page=0&size=10`);
+      const req = httpMock.expectOne(`${userFriendsService.url}user/findFriendByName?name=${friends.page[0].name}&page=0&size=10`);
       expect(req.request.method).toBe('GET');
       req.flush(friends);
     });

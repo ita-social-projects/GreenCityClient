@@ -16,6 +16,20 @@
       <caption>
         Employees table
       </caption>
+      <ng-container matColumnDef="editOrDelete">
+        <mat-header-cell [ngClass]="'edit-or-delete'" *matHeaderCellDef>
+          <th id="edit-or-delete">
+            <span class="column-title"></span>
+          </th>
+        </mat-header-cell>
+        <mat-cell *matCellDef="let row" [ngClass]="'edit-or-delete'" class="column.field">
+          <div id="edit-delete-btn">
+            <mat-icon class="mat-icon" (click)="openModal(row)">edit</mat-icon>
+            <mat-icon class="mat-icon" (click)="deleteEmployee(row.id)">delete</mat-icon>
+          </div>
+        </mat-cell>
+      </ng-container>
+
       <ng-container class="column.field" matColumnDef="fullName">
         <mat-header-cell *matHeaderCellDef>
           <th id="name">

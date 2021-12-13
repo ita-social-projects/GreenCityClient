@@ -3,6 +3,7 @@ import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { TranslateModule } from '@ngx-translate/core';
 
 import { NewsListGalleryViewComponent } from './news-list-gallery-view.component';
+import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 
 describe('NewsListGalleryViewComponent', () => {
   let component: NewsListGalleryViewComponent;
@@ -26,7 +27,8 @@ describe('NewsListGalleryViewComponent', () => {
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       imports: [TranslateModule.forRoot()],
-      declarations: [NewsListGalleryViewComponent]
+      declarations: [NewsListGalleryViewComponent],
+      schemas: [CUSTOM_ELEMENTS_SCHEMA]
     }).compileComponents();
   }));
 

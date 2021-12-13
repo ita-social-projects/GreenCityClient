@@ -36,6 +36,32 @@
       "delete-profile": "Delete profile",
       "delete-profile-cancel": "Back",
       "delete-profile-save": "Delete"
+    },
+    "payment": {
+      "title": "Payment",
+      "curency": "UAH",
+      "sum": "Sum:",
+      "yes": "Yes",
+      "no": "No",
+      "certificate-activated": {
+        "sum": "Certificate for {{certificateSum}} UAH activated.",
+        "data": "Period is up to - до {{certDate}}"
+      },
+      "choose-payment": "You can make a payment in one of the selected methods below.",
+      "question-certificate": "Do you want to use the certificate?",
+      "failed-certificate": "Certificate not accepted, please try again",
+      "bonus-need": "Do you want to take advantage of bonuses?",
+      "bonus-left": "On your bonus account:",
+      "certificate-number": "Enter the certificate number",
+      "way-payment": "Choose a payment method",
+      "add-certificate": "Add certificate",
+      "fondy-card": "By card via Fondy",
+      "liqpay-card": "By card via LiqPay",
+      "btn": {
+        "pay": "Pay",
+        "cancel": "Cancel",
+        "active": "Active"
+      }
     }
   },
   "add-violation-modal": {
@@ -66,7 +92,7 @@
       "on-the-route": "On the route",
       "done": "Done",
       "not-taken-out": "Not taken out",
-      "cancelled": "Cancelled"
+      "canceled": "Canceled"
     },
     "payment-status": {
       "paid": "Paid",
@@ -92,6 +118,23 @@
       "cancel": "Cancel",
       "save": "Save"
     }
+  },
+  "order-cancel": {
+    "title": "Add reason to cancel order",
+    "reason": {
+      "delivered-himself": "Delivered to the station itself",
+      "moving-out": "Moving",
+      "out-of-city": "Out of city",
+      "disliked-service": "Disliked service",
+      "other": "Your option"
+    },
+    "placeholder": "Please specify your reason for canceling the order",
+    "btn": {
+      "cancel": "Cancel",
+      "add": "Add"
+    },
+    "date": "Date",
+    "added": "Added"
   },
   "address-details": {
     "title": "Waste export address",
@@ -155,6 +198,7 @@
     "service": "Service",
     "volume": "Package size",
     "cost": "Price per package",
+    "done-after-himself": "Write-off at the station",
     "planned-amount": "Planned amount",
     "approved-amount": "Confirmed amount",
     "exported-amount": "Actual amount",
@@ -164,7 +208,10 @@
     "bonuses": "Used bonuses",
     "sum-to-pay": "Amount to be paid",
     "ubs-courier": "UBS Courier",
-    "min-sum": "The order cannot be changed. The minimum order amount is",
+    "min-sum": "The order cannot be changed. The minimum order price is",
+    "max-sum": "max order price is",
+    "min-bags": "The order cannot be changed. The minimum amount of big bags is",
+    "max-bags": "max amount of big bags is",
     "certificate-number-label": "Certificate number",
     "order-number-label": "Order number from store",
     "client-comment": {
@@ -187,6 +234,8 @@
     "order-size": "The order is executed in the amount of",
     "add-payment-btn": "Add payment",
     "order-date": "Payment date",
+    "overpayment": "Overpayment is",
+    "underpayment": "Underpayment is",
     "payment-id": "Payment ID",
     "sum": "Amount",
     "comment-bill": "Comment/Bill"
@@ -283,11 +332,15 @@
       "bonuses": "Bonuses:",
       "amount-due": "Amount due:",
       "services-amount": "Amount of services provided:",
+      "paid-amount": "Paid:",
       "delivery": "Delivery from the Eco store",
       "order-number": "Numbers of your orders:",
-      "recipient": "Recipient",
+      "recipient": "Sender",
       "export-address": "The address of export of the ordered services",
-      "comment": "Comment:",
+      "block-number": "b.  ",
+      "entrance": "e.  ",
+      "comment-address": "Comment to the address:",
+      "comment-order": "Comment to the order:",
       "receipt": "Download the receipt"
     }
   },

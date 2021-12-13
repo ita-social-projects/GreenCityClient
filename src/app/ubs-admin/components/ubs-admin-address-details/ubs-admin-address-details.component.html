@@ -38,7 +38,7 @@
         <div class="form-group col-md-8">
           <label for="district">{{ 'address-details.district' | translate }}</label>
           <select formControlName="district" id="district" class="form-control">
-            <option *ngFor="let district of orderService.districts" [selected]="district === addressInfo.addressDistrict">
+            <option *ngFor="let district of orderService.districts" [value]="district">
               {{ district }}
             </option>
           </select>

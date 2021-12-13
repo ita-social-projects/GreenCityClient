@@ -21,7 +21,7 @@ import { UbsAdminTariffsDeletePopUpComponent } from './ubs-admin-tariffs-delete-
 })
 export class UbsAdminTariffsPricingPageComponent implements OnInit, OnDestroy {
   minAmountOfBigBags: number;
-  locations: Locations;
+  locations: Locations[];
   isLoadBar1: boolean;
   isLoadBar: boolean;
   selectedLocationId;
@@ -258,7 +258,7 @@ export class UbsAdminTariffsPricingPageComponent implements OnInit, OnDestroy {
     this.tariffsService
       .getLocations()
       .pipe(takeUntil(this.destroy))
-      .subscribe((res: Locations) => {
+      .subscribe((res: Locations[]) => {
         this.locations = res;
       });
   }

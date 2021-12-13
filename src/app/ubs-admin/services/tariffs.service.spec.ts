@@ -19,6 +19,40 @@ const tariff = {
   description: 'fake'
 };
 
+const location = {
+  id: 0,
+  languageCode: 'fake',
+  locationStatus: 'fake',
+  name: 'fake',
+  region: 'fake'
+};
+
+const courier = {
+  courierLimit: 'fake',
+  id: 0,
+  languageCode: 'fake',
+  limitDescription: 'fake',
+  locationId: 0,
+  maxAmountOfBigBags: 0,
+  maxPriceOfOrder: 0,
+  minAmountOfBigBags: 0,
+  minPriceOfOrder: 0,
+  name: 'fake'
+};
+
+const info = {
+  bagId: 0,
+  courierId: 0,
+  courierLimitsBy: 'fake',
+  languageId: 0,
+  limitDescription: 'fake',
+  maxAmountOfBigBag: 0,
+  maxAmountOfOrder: 0,
+  minAmountOfBigBag: 0,
+  minAmountOfOrder: 0,
+  minimalAmountOfBagStatus: 'fake'
+};
+
 describe('TariffsService', () => {
   let service: TariffsService;
   let httpMock: HttpTestingController;
@@ -108,5 +142,45 @@ describe('TariffsService', () => {
       expect(data).toBe(tariff);
     });
     httpTest('/ubs/superAdmin/editTariffService/1', 'PUT', tariff);
+  });
+
+  it('should return all locations', () => {
+    service.getLocations().subscribe((data) => {
+      expect(data).toBe(location);
+    });
+
+    httpTest('/ubs/superAdmin/getLocations', 'GET', location);
+  });
+
+  it('should return all couriers', () => {
+    service.getCouriers().subscribe((data) => {
+      expect(data).toBe(courier);
+    });
+
+    httpTest('/ubs/superAdmin/getCouriers', 'GET', courier);
+  });
+
+  it('should activate location', () => {
+    service.activateLocation(0, 'en').subscribe((data) => {
+      expect(data).toBe(courier);
+    });
+
+    httpTest('/ubs/superAdmin/activeLocations/0?languageCode=en', 'PATCH', courier);
+  });
+
+  it('should deactivate location', () => {
+    service.deactivateLocation(0, 'en').subscribe((data) => {
+      expect(data).toBe(courier);
+    });
+
+    httpTest('/ubs/superAdmin/deactivateLocations/0?languageCode=en', 'PATCH', courier);
+  });
+
+  it('should edit info', () => {
+    service.editInfo(info).subscribe((data) => {
+      expect(data).toBe(info);
+    });
+
+    httpTest('/ubs/superAdmin/editInfoAboutTariff', 'PATCH', info);
   });
 });

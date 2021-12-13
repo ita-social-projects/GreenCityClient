@@ -1,6 +1,12 @@
 import { Component, OnInit } from '@angular/core';
+import { MatDialog } from '@angular/material/dialog';
 import { MatTableDataSource } from '@angular/material/table';
+import { BehaviorSubject } from 'rxjs';
+import { debounceTime, distinctUntilChanged, take } from 'rxjs/operators';
+import { Page } from 'src/app/ubs-admin/models/ubs-admin.interface';
 import { UbsAdminEmployeeService } from 'src/app/ubs-admin/services/ubs-admin-employee.service';
+import { DialogPopUpComponent } from '../../shared/components/dialog-pop-up/dialog-pop-up.component';
+import { EmployeeFormComponent } from '../employee-form/employee-form.component';
 
 @Component({
   selector: 'app-ubs-admin-employee-table',
@@ -12,6 +18,8 @@ export class UbsAdminEmployeeTableComponent implements OnInit {
   isUpdateTable = false;
   isLoading = true;
   sizeForTable = 30;
+  search: string;
+  searchValue: BehaviorSubject<string> = new BehaviorSubject<string>('');
   displayedColumns: string[] = [];
   dataSource: MatTableDataSource<any>;
   arrayOfHeaders = [];
@@ -24,17 +32,25 @@ export class UbsAdminEmployeeTableComponent implements OnInit {
   selectedStations: string[] = [];
   selectedPositions: string[] = [];
   filteredTableData: any[] = [];
-
-  constructor(private ubsAdminEmployeeService: UbsAdminEmployeeService) {}
+  deleteDialogData = {
+    popupTitle: 'employees.warning-title',
+    popupConfirm: 'employees.btn.yes',
+    popupCancel: 'employees.btn.no'
+  };
+  constructor(private ubsAdminEmployeeService: UbsAdminEmployeeService, private dialog: MatDialog) {}
 
   ngOnInit(): void {
-    this.getTable();
+    this.searchValue.pipe(debounceTime(500), distinctUntilChanged()).subscribe((item) => {
+      this.search = item;
+      this.currentPageForTable = 0;
+      this.getTable();
+    });
   }
 
   getTable() {
     this.isLoading = true;
-    this.ubsAdminEmployeeService.getEmployees(this.currentPageForTable, this.sizeForTable).subscribe((item) => {
-      this.tableData = item[`page`];
+    this.ubsAdminEmployeeService.getEmployees(this.currentPageForTable, this.sizeForTable, this.search).subscribe((item) => {
+      this.tableData = item[`content`];
       this.totalPagesForTable = item[`totalPages`];
       this.dataSource = new MatTableDataSource(this.tableData);
       this.setDisplayedColumns();
@@ -44,13 +60,13 @@ export class UbsAdminEmployeeTableComponent implements OnInit {
   }
 
   setDisplayedColumns() {
-    this.displayedColumns = ['fullName', 'position', 'location', 'email', 'phoneNumber'];
+    this.displayedColumns = ['editOrDelete', 'fullName', 'position', 'location', 'email', 'phoneNumber'];
   }
 
   updateTable() {
     this.isUpdateTable = true;
-    this.ubsAdminEmployeeService.getEmployees(this.currentPageForTable, this.sizeForTable).subscribe((item) => {
-      this.tableData.push(...item[`page`]);
+    this.ubsAdminEmployeeService.getEmployees(this.currentPageForTable, this.sizeForTable, this.search).subscribe((item) => {
+      this.tableData.push(...item[`content`]);
       this.dataSource.data = this.tableData;
       this.isUpdateTable = false;
     });
@@ -62,9 +78,10 @@ export class UbsAdminEmployeeTableComponent implements OnInit {
       this.updateTable();
     }
   }
+
   applyFilter(event: Event) {
     const filterValue = (event.target as HTMLInputElement).value;
-    this.dataSource.filter = filterValue.trim().toLowerCase();
+    this.searchValue.next(filterValue.trim().toLowerCase());
   }
 
   openPositions() {
@@ -73,7 +90,6 @@ export class UbsAdminEmployeeTableComponent implements OnInit {
     if (this.allPositions.length === 0) {
       this.ubsAdminEmployeeService.getAllPositions().subscribe((pos) => {
         this.allPositions = pos;
-        console.log(this.allPositions);
       });
     }
     if (this.isPositionsOpen === false) {
@@ -146,5 +162,34 @@ export class UbsAdminEmployeeTableComponent implements OnInit {
     if (this.isStationsOpen === false) {
       this.selectedStations = [];
     }
+  }
+
+  openModal(employeeData: Page) {
+    this.dialog.open(EmployeeFormComponent, {
+      data: employeeData,
+      hasBackdrop: true,
+      closeOnNavigation: true,
+      disableClose: true,
+      panelClass: 'custom-dialog-container'
+    });
+  }
+
+  deleteEmployee(employeeId: number) {
+    const matDialogRef = this.dialog.open(DialogPopUpComponent, {
+      data: this.deleteDialogData,
+      hasBackdrop: true,
+      closeOnNavigation: true,
+      disableClose: true,
+      panelClass: ''
+    });
+
+    matDialogRef
+      .afterClosed()
+      .pipe(take(1))
+      .subscribe((res) => {
+        if (res) {
+          this.ubsAdminEmployeeService.deleteEmployee(employeeId).subscribe();
+        }
+      });
   }
 }

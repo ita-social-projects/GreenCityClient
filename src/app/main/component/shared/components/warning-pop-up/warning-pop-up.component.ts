@@ -1,5 +1,6 @@
 import { Component, Inject, OnDestroy, OnInit } from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
 import { ReplaySubject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 import { OrderService } from '../../../ubs/services/order.service';
@@ -25,7 +26,8 @@ export class WarningPopUpComponent implements OnInit, OnDestroy {
     private matDialogRef: MatDialogRef<WarningPopUpComponent>,
     @Inject(MAT_DIALOG_DATA) public data,
     public orderService: OrderService,
-    public ubsOrderFormService: UBSOrderFormService
+    public ubsOrderFormService: UBSOrderFormService,
+    private localStorageService: LocalStorageService
   ) {}
 
   ngOnInit() {
@@ -56,7 +58,7 @@ export class WarningPopUpComponent implements OnInit, OnDestroy {
     this.isUbsOrderSubmit = this.data.isUbsOrderSubmit;
   }
 
-  public userReply(reply: boolean): void {
+  public userReply(reply: boolean | null): void {
     if (reply) {
       if (this.isUbsOrderSubmit) {
         this.isLoading = true;
@@ -66,6 +68,8 @@ export class WarningPopUpComponent implements OnInit, OnDestroy {
             const { orderId } = JSON.parse(response);
             this.ubsOrderFormService.transferOrderId(orderId);
             this.ubsOrderFormService.setOrderResponseErrorStatus(orderId ? false : true);
+            this.localStorageService.removeUbsFondyOrderId();
+            this.localStorageService.removeUbsOrderId();
             this.matDialogRef.close(reply);
             this.isLoading = false;
           },

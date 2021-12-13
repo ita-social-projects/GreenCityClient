@@ -1,4 +1,4 @@
-import { Component, OnInit, OnDestroy, ViewChild } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { ActivatedRoute, Params } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
@@ -9,12 +9,13 @@ import { take, takeUntil } from 'rxjs/operators';
 import { OrderService } from '../../services/order.service';
 import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
 import { Subject } from 'rxjs';
-import { UbsAdminOrderDetailsFormComponent } from '../ubs-admin-order-details-form/ubs-admin-order-details-form.component';
 import {
   IAddressExportDetails,
   IExportDetails,
   IGeneralOrderInfo,
+  IOrderDetails,
   IOrderInfo,
+  IOrderStatusInfo,
   IPaymentInfo,
   IResponsiblePersons,
   IUserInfo
@@ -39,12 +40,12 @@ export class UbsAdminOrderComponent implements OnInit, OnDestroy {
   paymentInfo: IPaymentInfo;
   exportInfo: IExportDetails;
   responsiblePersonInfo: IResponsiblePersons;
-  orderDetails;
-  orderStatusInfo;
-  currentOrderStatus;
-
-  @ViewChild(UbsAdminOrderDetailsFormComponent, { static: false })
-  private orderDetailsComponent: UbsAdminOrderDetailsFormComponent;
+  orderDetails: IOrderDetails;
+  orderStatusInfo: IOrderStatusInfo;
+  currentOrderStatus: string;
+  overpayment = 0;
+  isMinOrder = true;
+  actualPrice: number;
 
   constructor(
     private translate: TranslateService,
@@ -79,37 +80,56 @@ export class UbsAdminOrderComponent implements OnInit, OnDestroy {
         this.paymentInfo = data.paymentTableInfoDto;
         this.exportInfo = data.exportDetailsDto;
         this.responsiblePersonInfo = data.employeePositionDtoRequest;
-
         this.setOrderDetails();
-
         this.initForm();
       });
   }
 
   private setOrderDetails() {
+    this.setPreviousBagsIfEmpty(this.currentOrderStatus);
     const bagsObj = this.orderInfo.bags.map((bag) => {
       bag.planned = this.orderInfo.amountOfBagsOrdered[bag.id] || 0;
-      bag.confirmed = (this.orderInfo.amountOfBagsConfirmed && this.orderInfo.amountOfBagsConfirmed[bag.id]) || 0;
-      bag.actual = (this.orderInfo.amountOfBagsExported && this.orderInfo.amountOfBagsExported[bag.id]) || 0;
+      bag.confirmed = this.orderInfo.amountOfBagsConfirmed[bag.id] || 0;
+      bag.actual = this.orderInfo.amountOfBagsExported[bag.id] || 0;
       return bag;
     });
     this.orderDetails = {
-      bags: bagsObj
+      bags: bagsObj,
+      courierInfo: Object.assign({}, this.orderInfo.courierInfo),
+      bonuses: this.orderInfo.orderBonusDiscount,
+      certificateDiscount: this.orderInfo.orderCertificateTotalDiscount,
+      orderFullPrice: this.orderInfo.orderFullPrice,
+      courierPricePerPackage: this.orderInfo.courierPricePerPackage
     };
-    this.orderDetails.bonuses = this.orderInfo.orderBonusDiscount;
-    this.orderDetails.certificateDiscount = this.orderInfo.orderCertificateTotalDiscount;
     this.orderStatusInfo = this.getOrderStatusInfo(this.currentOrderStatus);
   }
 
+  private setPreviousBagsIfEmpty(status) {
+    const actualStage = this.getOrderStatusInfo(status).ableActualChange;
+    if (actualStage) {
+      if (!Object.keys(this.orderInfo.amountOfBagsExported).length) {
+        this.orderInfo.amountOfBagsExported = Object.assign({}, this.orderInfo.amountOfBagsConfirmed);
+      }
+    } else {
+      if (!Object.keys(this.orderInfo.amountOfBagsConfirmed).length) {
+        this.orderInfo.amountOfBagsConfirmed = Object.assign({}, this.orderInfo.amountOfBagsOrdered);
+      }
+    }
+  }
+
   private getOrderStatusInfo(statusName: string) {
-    return this.generalOrderInfo.orderStatusesDtos.filter((status) => status.name === statusName)[0];
+    return this.generalOrderInfo.orderStatusesDtos.find((status) => status.key === statusName);
   }
 
   initForm() {
+    const currentEmployees = this.responsiblePersonInfo.currentPositionEmployees;
+    this.overpayment = 0;
     this.orderForm = this.fb.group({
       orderStatusForm: this.fb.group({
         orderStatus: this.generalOrderInfo.orderStatus,
-        adminComment: this.generalOrderInfo.adminComment
+        adminComment: this.generalOrderInfo.adminComment,
+        cancellationComment: '',
+        cancellationReason: ''
       }),
       clientInfoForm: this.fb.group({
         senderName: [this.clientInfo.recipientName, [Validators.required, Validators.minLength(1), Validators.maxLength(30)]],
@@ -132,16 +152,16 @@ export class UbsAdminOrderComponent implements OnInit, OnDestroy {
         receivingStation: this.exportInfo.receivingStation
       }),
       responsiblePersonsForm: this.fb.group({
-        callManager: this.getPositionEmployee(this.responsiblePersonInfo.currentPositionEmployees, 'callManager'),
-        logistician: this.getPositionEmployee(this.responsiblePersonInfo.currentPositionEmployees, 'logistician'),
-        navigator: this.getPositionEmployee(this.responsiblePersonInfo.currentPositionEmployees, 'navigator'),
-        driver: this.getPositionEmployee(this.responsiblePersonInfo.currentPositionEmployees, 'driver')
+        callManager: this.getEmployeeById(currentEmployees, 2),
+        logistician: this.getEmployeeById(currentEmployees, 3),
+        navigator: this.getEmployeeById(currentEmployees, 4),
+        driver: this.getEmployeeById(currentEmployees, 5)
       }),
       orderDetailsForm: this.fb.group({
-        // TODO: set data after receiving from backend
-        storeOrderNumber: '',
-        certificate: '2222-2222',
-        customerComment: this.orderInfo.comment
+        storeOrderNumber: this.orderInfo.numbersFromShop.join(', '),
+        certificate: 'TODO-TODO',
+        customerComment: this.orderInfo.comment,
+        orderFullPrice: this.orderInfo.orderFullPrice
       })
     });
     this.orderDetails.bags.forEach((bag) => {
@@ -160,11 +180,12 @@ export class UbsAdminOrderComponent implements OnInit, OnDestroy {
     });
   }
 
-  getPositionEmployee(currentPositionEmployees: Map<string, string>, key: string) {
-    if (!currentPositionEmployees) {
+  getEmployeeById(allCurrentEmployees: Map<string, string>, id: number) {
+    if (!allCurrentEmployees) {
       return '';
     }
-    return currentPositionEmployees.get(key);
+    const key = Object.keys(allCurrentEmployees).find((el) => el.includes(`id=${id},`));
+    return key ? allCurrentEmployees[key] : '';
   }
 
   getFormGroup(name: string): FormGroup {
@@ -196,11 +217,23 @@ export class UbsAdminOrderComponent implements OnInit, OnDestroy {
     this.orderStatusInfo = this.getOrderStatusInfo(this.currentOrderStatus);
   }
 
+  public changeOverpayment(sum) {
+    this.overpayment = sum;
+  }
+
+  public setFinalPrice(price: number) {
+    this.actualPrice = price;
+  }
+
+  public setMinOrder(flag) {
+    this.isMinOrder = flag;
+  }
+
   resetForm() {
     this.orderForm.reset();
     this.initForm();
-    this.orderStatusInfo = this.getOrderStatusInfo(this.generalOrderInfo.orderStatus);
-    this.orderDetailsComponent.ngOnInit();
+    this.currentOrderStatus = this.generalOrderInfo.orderStatus;
+    this.orderStatusInfo = this.getOrderStatusInfo(this.currentOrderStatus);
   }
 
   onSubmit() {

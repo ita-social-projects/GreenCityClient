@@ -14,7 +14,7 @@
       <div [ngClass]="isUBS ? 'header_navigation-menu-ubs' : 'header_navigation-menu'">
         <nav [ngClass]="toggleBurgerMenu ? 'header_navigation-menu-left-col' : 'header_navigation-menu-left'" role="navigation">
           <ul role="tablist" [ngClass]="{ ubs: isUBS }">
-            <li *ngFor="let link of navLinks; let i = index" tabindex="0" role="menuitem">
+            <li *ngFor="let link of navLinks; let i = index" tabindex="0" role="listitem">
               <a (click)="navigateToLink(link, i)" [class.active-link]="selectedIndex === i && !isUBS">
                 {{ link.name | translate }}
               </a>
@@ -158,7 +158,7 @@
                   <a [routerLink]="['/ubs-admin']"> UBS-admin </a>
                 </li>
                 <li *ngIf="isLoggedIn && !isAdmin" [ngClass]="dropdownVisible ? 'drop-down-item' : 'text-hidde'" role="navigation to ubs">
-                  <a [routerLink]="['/ubs-user']">UBS-user</a>
+                  <a [routerLink]="['/ubs-user/orders']">UBS-user</a>
                 </li>
               </ul>
             </ng-container>

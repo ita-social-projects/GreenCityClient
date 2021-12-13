@@ -5,7 +5,7 @@ export interface Employees {
   hasPrevious: boolean;
   last: boolean;
   number: number;
-  page: Page[];
+  content: Page[];
   totalElements: number;
   totalPages: number;
 }
@@ -40,6 +40,8 @@ export interface IOrderInfo {
   amountOfBagsExported: Map<string, number>;
   amountOfBagsOrdered: Map<string, number>;
   bags: IBags[];
+  courierPricePerPackage: number;
+  courierInfo: ICourierInfo;
   orderBonusDiscount: number;
   orderCertificateTotalDiscount: number;
   orderDiscountedPrice: number;
@@ -52,6 +54,33 @@ export interface IOrderInfo {
   paymentTableInfoDto: IPaymentInfo;
   exportDetailsDto: IExportDetails;
   employeePositionDtoRequest: IResponsiblePersons;
+}
+
+export interface ICourierInfo {
+  courierLimit: 'LIMIT_BY_AMOUNT_OF_BAG' | 'LIMIT_BY_SUM_OF_ORDER';
+  maxAmountOfBigBags: number;
+  maxPriceOfOrder: number;
+  minAmountOfBigBags: number;
+  minPriceOfOrder: number;
+}
+
+export interface IOrderDetails {
+  bags: IBags[];
+  courierInfo: ICourierInfo;
+  bonuses: number;
+  certificateDiscount: number;
+  orderFullPrice: number;
+  courierPricePerPackage: number;
+}
+
+export interface IBags {
+  capacity: number;
+  id: number;
+  name: string;
+  price: number;
+  planned?: number;
+  confirmed?: number;
+  actual?: number;
 }
 
 export interface IGeneralOrderInfo {
@@ -68,12 +97,12 @@ export interface IGeneralOrderInfo {
 
 export interface IOrderStatusesDtos {
   ableActualChange: boolean;
-  name: string;
+  key: string;
   translation: string;
 }
 
 export interface IOrderPaymentStatusesDto {
-  name: string;
+  key: string;
   translation: string;
 }
 
@@ -99,16 +128,6 @@ export interface IAddressExportDetails {
   addressRegion: string;
   addressStreet: string;
   id: number;
-}
-
-export interface IBags {
-  capacity: number;
-  id: number;
-  name: string;
-  price: number;
-  planned: any;
-  confirmed: any;
-  actual: any;
 }
 
 export interface IPaymentInfo {
@@ -143,6 +162,12 @@ export interface IOrderHistory {
   eventDate: string;
   eventName: string;
   id: number;
+}
+
+export interface IOrderStatusInfo {
+  key: string;
+  ableActualChange: boolean;
+  translation: string;
 }
 
 export interface UserViolations {

@@ -8,6 +8,7 @@ import { LocalStorageService } from '@global-service/localstorage/local-storage.
 import { FriendModel } from '@global-user/models/friend.model';
 import { UserFriendsService } from '@global-user/services/user-friends.service';
 import { TranslateModule } from '@ngx-translate/core';
+import { InfiniteScrollModule } from 'ngx-infinite-scroll';
 import { BehaviorSubject, of } from 'rxjs';
 import { RecommendedFriendsComponent } from './recommended-friends.component';
 
@@ -18,6 +19,8 @@ describe('RecommendedFriendsComponent', () => {
   localStorageServiceMock = jasmine.createSpyObj('LocalStorageService', ['userIdBehaviourSubject']);
   localStorageServiceMock.userIdBehaviourSubject = new BehaviorSubject(1111);
   let userFriendsServiceMock: UserFriendsService;
+
+  const userFriendsService = 'userFriendsService';
 
   const response = {
     id: 1,
@@ -84,7 +87,13 @@ describe('RecommendedFriendsComponent', () => {
         { provide: UserFriendsService, useValue: userFriendsServiceMock },
         { provide: MatSnackBarComponent, useValue: MatSnackBarComponent }
       ],
-      imports: [TranslateModule.forRoot(), HttpClientTestingModule, RouterTestingModule.withRoutes([]), MatSnackBarModule],
+      imports: [
+        TranslateModule.forRoot(),
+        HttpClientTestingModule,
+        RouterTestingModule.withRoutes([]),
+        MatSnackBarModule,
+        InfiniteScrollModule
+      ],
       schemas: [CUSTOM_ELEMENTS_SCHEMA, NO_ERRORS_SCHEMA]
     }).compileComponents();
   }));
@@ -113,22 +122,14 @@ describe('RecommendedFriendsComponent', () => {
     expect(initUserSpy).toHaveBeenCalledTimes(1);
   });
 
-  // it("should be get a users friends", () => {
-  //   const getRecommendedFriendsSpy = spyOn(component as any, 'getRecommendedFriends');
-  //   component.ngOnInit();
-  //   expect(getRecommendedFriendsSpy).toHaveBeenCalledTimes(1);
-  // });
-
   it('should call method addFriend', () => {
-    // @ts-ignore
-    const addFriendSpy = spyOn(component.userFriendsService, 'addFriend').and.returnValue(of(true));
+    const addFriendSpy = spyOn(component[userFriendsService], 'addFriend').and.returnValue(of({}));
     component.addFriend(4);
     expect(addFriendSpy).toHaveBeenCalled();
   });
 
   it('should call getFriends on scroll', () => {
-    // @ts-ignore
-    const getRecommendedFriendSpy = spyOn(component.userFriendsService, 'getPossibleFriends').and.returnValue(of(userFriends));
+    const getRecommendedFriendSpy = spyOn(component[userFriendsService], 'getPossibleFriends').and.returnValue(of(userFriends));
     component.onScroll();
     expect(getRecommendedFriendSpy).toHaveBeenCalled();
   });

@@ -41,11 +41,12 @@
 
 .empty_card {
   display: flex;
-  justify-content: start;
+  justify-content: flex-start;
   align-items: center;
 
   &-arrows {
     margin-left: 26px;
+    cursor: pointer;
   }
 
   &-id {

@@ -61,7 +61,7 @@
       {{ 'personal-info.info-other-client' | translate }}
     </label>
   </div>
-  <div class="row personal-data" *ngIf="anotherClient">
+  <div class="row personal-data" *ngIf="anotherClient" (change)="changeAnotherClientInPersonalData()">
     <div class="col-12 col-sm-6 form-group">
       <label>{{ 'personal-info.info-name' | translate }}</label>
       <input
