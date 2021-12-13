@@ -40,7 +40,7 @@
         <mat-drawer-container class="example-container sidebar-container" autosize>
           <mat-drawer #drawer class="example-sidenav sidebar-drawer" mode="side" closed>
             <div class="sidebar-content" *ngIf="activePlaceInfo">
-              <span class="close-mark" (click)="drawer.toggle(false)"></span>
+              <span class="close-mark" (click)="drawer.toggle(false)">x</span>
               <div class="title-wrapper">
                 <h6 class="content-title">{{ activePlaceInfo.name }}</h6>
               </div>
