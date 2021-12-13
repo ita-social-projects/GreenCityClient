@@ -13,5 +13,13 @@ export class UbsUserOrderCancelPopUpComponent implements OnInit {
 
   ngOnInit(): void {}
 
-  public deleteCard() {}
+  public deleteCard(): void {
+    this.userOrdersService.deleteOrder(this.data.orderId).subscribe();
+    for (let i = 0; i < this.data.orders.length; i++) {
+      if (this.data.orders[i].generalOrderInfo.id === this.data.orderId) {
+        this.data.orders.splice(i, 1);
+        break;
+      }
+    }
+  }
 }

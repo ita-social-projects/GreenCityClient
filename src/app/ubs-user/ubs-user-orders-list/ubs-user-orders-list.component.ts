@@ -35,16 +35,6 @@ export class UbsUserOrdersListComponent {
     this.orders.forEach((order) => (order.extend = order.generalOrderInfo.id === id ? !order.extend : false));
   }
 
-  deleteCard(orderId: number) {
-    this.userOrdersService.deleteOrder(orderId).subscribe();
-    for (let i = 0; i < this.orders.length; i++) {
-      if (this.orders[i].generalOrderInfo.id === orderId) {
-        this.orders.splice(i, 1);
-        break;
-      }
-    }
-  }
-
   openOrderPaymentDialog(order: IOrderInfo) {
     this.dialog.open(UbsUserOrderPaymentPopUpComponent, {
       data: {
