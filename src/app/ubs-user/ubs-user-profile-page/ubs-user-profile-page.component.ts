@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { FormControl, FormGroup, Validators, FormArray } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { SignInIcons } from 'src/app/main/image-pathes/sign-in-icons';
 import { MatSnackBarComponent } from '@global-errors/mat-snack-bar/mat-snack-bar.component';
@@ -23,6 +23,7 @@ export class UbsUserProfilePageComponent implements OnInit {
       latitude: 1,
       longitude: 1
     },
+    region: '',
     district: '',
     entranceNumber: '',
     houseCorpus: '',
@@ -35,9 +36,9 @@ export class UbsUserProfilePageComponent implements OnInit {
   isEditing = false;
   isFetching = false;
   phoneMask = '+{38\\0} (00) 000 00 00';
-  private readonly regexp = /^([a-zа-яїєґ '-])+$/iu;
+  private readonly regexp = /^([a-zа-яїєґі '-])+$/iu;
   private readonly regexpEmail = /^[a-zA-Z0-9.!#$%&’*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/;
-  private readonly regexpWithDigits = /^([a-zа-яїєґ0-9 '-])+$/iu;
+  private readonly regexpWithDigits = /^([a-zа-яїєґі0-9 '-])+$/iu;
 
   constructor(public dialog: MatDialog, private clientProfileService: ClientProfileService, private snackBar: MatSnackBarComponent) {}
 
@@ -57,7 +58,8 @@ export class UbsUserProfilePageComponent implements OnInit {
     this.clientProfileService.getDataClientProfile().subscribe(
       (res: UserProfile) => {
         this.userProfile = this.composeFormData(res);
-        this.userProfile.addressDto = this.userProfile.addressDto ?? this.defaultAddress;
+        console.log(this.userProfile);
+        this.userProfile.addressDto = this.userProfile.addressDto;
         this.userInit();
         this.isFetching = false;
       },
@@ -69,32 +71,27 @@ export class UbsUserProfilePageComponent implements OnInit {
   }
 
   userInit() {
+    const address = new FormArray([]);
+    this.userProfile.addressDto.forEach((adres) => {
+      const seperateAddress = new FormGroup({
+        city: new FormControl(adres?.city, [Validators.pattern(this.regexp), Validators.maxLength(20)]),
+        street: new FormControl(adres.street, [Validators.pattern(this.regexpWithDigits), Validators.maxLength(20)]),
+        houseNumber: new FormControl(adres.houseNumber, [Validators.pattern(this.regexpWithDigits), Validators.maxLength(4)]),
+        houseCorpus: new FormControl(adres.houseCorpus, [Validators.pattern(this.regexpWithDigits), Validators.maxLength(4)]),
+        entranceNumber: new FormControl(adres.entranceNumber, [Validators.pattern(this.regexpWithDigits), Validators.maxLength(4)]),
+        region: new FormControl(adres.region, [Validators.pattern(this.regexpWithDigits), Validators.maxLength(20)]),
+        district: new FormControl(adres.district, [Validators.pattern(this.regexpWithDigits), Validators.maxLength(20)])
+      });
+      address.push(seperateAddress);
+    });
     this.userForm = new FormGroup({
-      address: new FormGroup({
-        city: new FormControl(this.userProfile?.addressDto.city, [Validators.pattern(this.regexp), Validators.maxLength(20)]),
-        street: new FormControl(this.userProfile?.addressDto.street, [Validators.pattern(this.regexpWithDigits), Validators.maxLength(20)]),
-        houseNumber: new FormControl(this.userProfile?.addressDto.houseNumber, [
-          Validators.pattern(this.regexpWithDigits),
-          Validators.maxLength(4)
-        ]),
-        houseCorpus: new FormControl(this.userProfile?.addressDto.houseCorpus, [
-          Validators.pattern(this.regexpWithDigits),
-          Validators.maxLength(4)
-        ]),
-        entranceNumber: new FormControl(this.userProfile?.addressDto.entranceNumber, [
-          Validators.pattern(this.regexpWithDigits),
-          Validators.maxLength(4)
-        ]),
-        district: new FormControl(this.userProfile?.addressDto.district, [
-          Validators.pattern(this.regexpWithDigits),
-          Validators.maxLength(20)
-        ])
-      }),
+      address: address,
       recipientName: new FormControl(this.userProfile?.recipientName, [Validators.required, Validators.pattern(this.regexp)]),
       recipientSurname: new FormControl(this.userProfile?.recipientSurname, [Validators.required, Validators.pattern(this.regexp)]),
       recipientEmail: new FormControl(this.userProfile?.recipientEmail, [Validators.required, Validators.pattern(this.regexpEmail)]),
       recipientPhone: new FormControl(`+380${this.userProfile?.recipientPhone}`, [Validators.required, Validators.minLength(12)])
     });
+    console.log(this.userForm);
     this.isFetching = false;
   }
 
@@ -113,17 +110,22 @@ export class UbsUserProfilePageComponent implements OnInit {
       this.isFetching = true;
       this.isEditing = false;
       const submitData = {
-        addressDto: {
-          ...this.userForm.value.address,
-          id: this.userProfile.addressDto.id,
-          actual: this.userProfile.addressDto.actual,
-          coordinates: this.userProfile.addressDto.coordinates
-        },
+        addressDto: [],
         recipientEmail: this.userForm.value.recipientEmail,
         recipientName: this.userForm.value.recipientName,
         recipientPhone: this.userForm.value.recipientPhone,
         recipientSurname: this.userForm.value.recipientSurname
       };
+      this.userProfile.addressDto.forEach((address, i) => {
+        const updatedAddres = {
+          ...this.userForm.value.address[i],
+          id: this.userProfile.addressDto[i].id,
+          actual: this.userProfile.addressDto[i].actual,
+          coordinates: this.userProfile.addressDto[i].coordinates
+        };
+        submitData.addressDto.push(updatedAddres);
+      });
+      console.log(submitData);
       this.clientProfileService.postDataClientProfile(submitData).subscribe(
         (res: UserProfile) => {
           this.isFetching = false;
@@ -149,5 +151,12 @@ export class UbsUserProfilePageComponent implements OnInit {
     this.dialog.open(UbsProfileChangePasswordPopUpComponent, {
       hasBackdrop: true
     });
+  }
+
+  formatedPhoneNumber(number: string) {
+    const match = number.match(/^(\d{2})(\d{3})(\d{2})(\d{2})$/);
+    if (match) {
+      return ` (${match[1]}) ${match[2]} ${match[3]} ${match[4]}`;
+    }
   }
 }
