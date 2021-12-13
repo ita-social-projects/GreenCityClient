@@ -1,5 +1,4 @@
 import { Component, Input } from '@angular/core';
-import { UserOrdersService } from '../services/user-orders.service';
 import { MatDialog } from '@angular/material/dialog';
 import { UbsUserOrderPaymentPopUpComponent } from './ubs-user-order-payment-pop-up/ubs-user-order-payment-pop-up.component';
 import { UbsUserOrderCancelPopUpComponent } from './ubs-user-order-cancel-pop-up/ubs-user-order-cancel-pop-up.component';
@@ -13,7 +12,7 @@ import { IOrderInfo } from 'src/app/ubs-admin/models/ubs-admin.interface';
 export class UbsUserOrdersListComponent {
   @Input() orders: any[];
 
-  constructor(private userOrdersService: UserOrdersService, public dialog: MatDialog) {}
+  constructor(public dialog: MatDialog) {}
 
   isOrderFormed(order: any) {
     return order.generalOrderInfo.orderStatus === 'FORMED';
