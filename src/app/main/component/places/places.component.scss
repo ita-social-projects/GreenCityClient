@@ -98,6 +98,14 @@ $cardTextColor: #1d2830;
 
   padding: 36px;
 
+  .sidebar-photo {
+    width: 100%;
+
+    .content-photo {
+      width: 100%;
+    }
+  }
+
   .sidebar-address {
     display: flex;
     justify-content: space-between;
@@ -117,7 +125,6 @@ $cardTextColor: #1d2830;
   }
 
   .content-title {
-    height: 28px;
     font-weight: bold;
     font-size: 20px;
     color: var(--secondary-dark-grey);
@@ -133,7 +140,8 @@ $cardTextColor: #1d2830;
   .content-description {
     @include set-width-height(239px, 20px);
 
-    margin-bottom: 10px;
+    margin-bottom: 20px;
+    margin-top: 16px;
     font-size: 14px;
     color: $cardTextColor;
   }
@@ -142,7 +150,7 @@ $cardTextColor: #1d2830;
     @include set-width-height(154px, 20px);
 
     font-size: 14px;
-    color: var(--quaternary-grey);
+    color: var(--primary-green);
     padding-top: 12px;
   }
 

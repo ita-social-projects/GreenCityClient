@@ -35,7 +35,7 @@ export class PlacesComponent implements OnInit {
   public readonly redIconUrl: string = redIcon;
   public readonly greenIconUrl: string = greenIcon;
   public activePlace: Place;
-  public activePlaceInfo: PlaceInfo;
+  public activePlaceDetails: google.maps.places.PlaceResult;
   public favoritePlaces: Place[] = [];
   public isActivePlaceFavorite = false;
 
@@ -132,9 +132,9 @@ export class PlacesComponent implements OnInit {
 
   public toggleFavorite(): void {
     if (this.isActivePlaceFavorite) {
-      this.favoritePlaceService.deleteFavoritePlace(this.activePlaceInfo.id);
+      this.favoritePlaceService.deleteFavoritePlace(this.activePlace.id);
     } else {
-      this.favoritePlaceService.addFavoritePlace({ placeId: this.activePlaceInfo.id, name: this.activePlaceInfo.name });
+      this.favoritePlaceService.addFavoritePlace({ placeId: this.activePlace.id, name: this.activePlace.name });
     }
   }
 
@@ -144,14 +144,7 @@ export class PlacesComponent implements OnInit {
 
   public selectPlace(place: Place): void {
     this.activePlace = place;
-    this.placeService
-      .getPlaceInfo(place.id)
-      .pipe(take(1))
-      .subscribe((placeInfo: PlaceInfo) => {
-        this.activePlaceInfo = placeInfo;
-        this.drawer.toggle(true);
-        this.updateIsActivePlaceFavorite();
-      });
+    this.updateIsActivePlaceFavorite();
     this.getPlaceInfoFromGoogleApi(place);
   }
 
@@ -174,13 +167,15 @@ export class PlacesComponent implements OnInit {
       this.googlePlacesService.getDetails(detailsRequest, (placeDetails: google.maps.places.PlaceResult) => {
         console.log(placeDetails);
         console.log(placeDetails.photos[0].getUrl({}));
+        this.activePlaceDetails = placeDetails;
+        this.drawer.toggle(true);
       });
     });
   }
 
   private updateIsActivePlaceFavorite(): void {
     this.isActivePlaceFavorite = this.favoritePlaces.some((favoritePlace: Place) => {
-      return favoritePlace.location.id === this.activePlaceInfo?.location.id;
+      return favoritePlace.location.id === this.activePlace?.location.id;
     });
   }
 
