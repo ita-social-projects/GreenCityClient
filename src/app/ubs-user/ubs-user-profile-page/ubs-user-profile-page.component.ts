@@ -58,7 +58,6 @@ export class UbsUserProfilePageComponent implements OnInit {
     this.clientProfileService.getDataClientProfile().subscribe(
       (res: UserProfile) => {
         this.userProfile = this.composeFormData(res);
-        console.log(this.userProfile);
         this.userProfile.addressDto = this.userProfile.addressDto;
         this.userInit();
         this.isFetching = false;
@@ -91,7 +90,6 @@ export class UbsUserProfilePageComponent implements OnInit {
       recipientEmail: new FormControl(this.userProfile?.recipientEmail, [Validators.required, Validators.pattern(this.regexpEmail)]),
       recipientPhone: new FormControl(`+380${this.userProfile?.recipientPhone}`, [Validators.required, Validators.minLength(12)])
     });
-    console.log(this.userForm);
     this.isFetching = false;
   }
 
@@ -125,7 +123,6 @@ export class UbsUserProfilePageComponent implements OnInit {
         };
         submitData.addressDto.push(updatedAddres);
       });
-      console.log(submitData);
       this.clientProfileService.postDataClientProfile(submitData).subscribe(
         (res: UserProfile) => {
           this.isFetching = false;
