@@ -16,7 +16,7 @@ describe('UBSPersonalInformationComponent', () => {
   let fixture: ComponentFixture<UBSPersonalInformationComponent>;
   let realTakeUserData;
 
-  const fakeLocalStorageResponse = JSON.stringify(undefined);
+  const fakeLocalStorageResponse = JSON.stringify(null);
   const listMock = {
     addressList: [
       {
