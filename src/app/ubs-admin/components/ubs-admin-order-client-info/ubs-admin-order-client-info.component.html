@@ -106,7 +106,7 @@
             <p>{{ clientInfo.userViolationForCurrentOrder }}</p>
           </div>
         </div>
-        <button class="btn" [disabled]="clientInfo.totalUserViolations > clientInfo.userViolationForCurrentOrder" type="button">
+        <button class="btn" [disabled]="userViolationForCurrentOrder >= 1" type="button" (click)="openModal()">
           {{ 'customer-info.violation.button' | translate }}
         </button>
       </div>
