@@ -159,6 +159,7 @@ export class UBSPersonalInformationComponent extends FormBaseComponent implement
     const activeAddress = this.addresses.find((address) => address.actual);
     this.personalData.city = activeAddress.city;
     this.personalData.district = activeAddress.district;
+    this.personalData.region = activeAddress.region;
     this.personalData.street = activeAddress.street;
     this.personalData.houseNumber = activeAddress.houseNumber;
     this.personalData.houseCorpus = activeAddress.houseCorpus;

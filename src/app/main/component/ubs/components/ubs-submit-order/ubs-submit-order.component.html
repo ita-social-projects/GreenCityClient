@@ -91,6 +91,7 @@
               <li class="order-list-item">
                 {{ 'personal-info.address-city' | translate }} {{ 'personal-info.pop-up-city-name' | translate }}
               </li>
+              <li class="order-list-item">{{ 'personal-info.address-district' | translate }} {{ personalData.district }}</li>
               <li class="order-list-item">
                 <span>{{ personalData.street }}, {{ personalData.houseNumber }}</span>
                 <span *ngIf="personalData.houseCorpus"
@@ -100,7 +101,7 @@
                   >, {{ 'personal-info.address-entrance' | translate }} {{ personalData.entranceNumber }}</span
                 >
               </li>
-              <li class="order-list-item">{{ 'personal-info.address-district' | translate }} {{ personalData.district }}</li>
+              <li class="order-list-item">{{ personalData.region }}</li>
               <li class="order-list-item" *ngIf="personalData.addressComment">
                 {{ 'order-details.address-comment' | translate }} {{ personalData.addressComment }}
               </li>

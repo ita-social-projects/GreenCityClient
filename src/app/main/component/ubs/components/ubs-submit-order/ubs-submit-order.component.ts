@@ -116,7 +116,8 @@ export class UBSSubmitOrderComponent extends FormBaseComponent implements OnInit
       addressComment: data.addressComment,
       city: data.addressCity,
       district: data.addressDistrict,
-      street: data.addressStreet
+      street: data.addressStreet,
+      region: data.addressRegion
     };
   }
 
