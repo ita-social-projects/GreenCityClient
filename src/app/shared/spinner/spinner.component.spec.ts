@@ -1,3 +1,4 @@
+import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 
@@ -10,7 +11,8 @@ describe('SpinnerComponent', () => {
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       declarations: [SpinnerComponent],
-      imports: [MatProgressSpinnerModule]
+      imports: [MatProgressSpinnerModule],
+      schemas: [CUSTOM_ELEMENTS_SCHEMA]
     }).compileComponents();
   }));
 

@@ -17,6 +17,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
 import { SharedModule } from 'src/app/shared/shared.module';
 import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
+import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 
 describe('SearchPopupComponent', () => {
   let component: SearchPopupComponent;
@@ -82,7 +83,8 @@ describe('SearchPopupComponent', () => {
         MatSnackBarComponent,
         { provide: MatSnackBar, useValue: matSnackBarMock },
         { provide: LocalStorageService, useValue: localStorageServiceMock }
-      ]
+      ],
+      schemas: [CUSTOM_ELEMENTS_SCHEMA]
     })
       .compileComponents()
       .then((r) => r);

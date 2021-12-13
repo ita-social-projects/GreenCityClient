@@ -7,7 +7,7 @@ import { tap } from 'rxjs/operators';
 import { ICertificate, OrderDetails } from '../models/ubs.interface';
 import { Order } from '../models/ubs.model';
 import { UBSOrderFormService } from './ubs-order-form.service';
-import { OrderFondyClientDto } from 'src/app/ubs-user/ubs-user-orders-list/models/OrderFondyClientDto';
+import { OrderClientDto } from 'src/app/ubs-user/ubs-user-orders-list/models/OrderClientDto';
 
 @Injectable({
   providedIn: 'root'
@@ -131,12 +131,18 @@ export class OrderService {
     return this.http.get(`${this.url}/client/get-data-for-order-surcharge/${orderId}/${lang}`);
   }
 
-  processOrderFondyFromUserOrderList(order: OrderFondyClientDto): Observable<object> {
-    return this.http.post<OrderFondyClientDto>(`${this.url}/client/processOrderFondy`, order);
+  processOrderFondyFromUserOrderList(order: OrderClientDto): Observable<object> {
+    return this.http.post<OrderClientDto>(`${this.url}/client/processOrderFondy`, order);
+  }
+
+  processOrderLiqPayFromUserOrderList(order: OrderClientDto): Observable<object> {
+    return this.http.post<OrderClientDto>(`${this.url}/client/processOrderLiqpay`, order);
   }
 
   cancelUBSwithoutSaving(): void {
     this.shareFormService.isDataSaved = true;
+    this.shareFormService.orderDetails = null;
+    this.shareFormService.personalData = null;
     this.localStorageService.removeUbsOrderId();
     this.localStorageService.removeUbsFondyOrderId();
     this.shareFormService.saveDataOnLocalStorage();
