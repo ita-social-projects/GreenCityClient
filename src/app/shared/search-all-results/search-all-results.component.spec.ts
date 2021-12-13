@@ -12,6 +12,7 @@ import { SearchItemComponent } from '../../main/component/layout/components';
 import { of, Subject } from 'rxjs';
 import { ActivatedRoute, Router } from '@angular/router';
 import { SharedModule } from 'src/app/shared/shared.module';
+import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 
 describe('SearchAllResultsComponent', () => {
   let component: SearchAllResultsComponent;
@@ -63,7 +64,8 @@ describe('SearchAllResultsComponent', () => {
       providers: [
         { provide: SearchService, useValue: searchMock },
         { provide: ActivatedRoute, useValue: activatedRouteMock }
-      ]
+      ],
+      schemas: [CUSTOM_ELEMENTS_SCHEMA]
     }).compileComponents();
   }));
 

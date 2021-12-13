@@ -10,6 +10,7 @@ import { UBSAddAddressPopUpComponent } from './ubs-add-address-pop-up.component'
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { By } from '@angular/platform-browser';
 import { of, Subject } from 'rxjs';
+import { DropdownModule } from 'angular-bootstrap-md';
 
 describe('UBSAddAddressPopUpComponent', () => {
   let component: UBSAddAddressPopUpComponent;
@@ -20,7 +21,7 @@ describe('UBSAddAddressPopUpComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      imports: [FormsModule, ReactiveFormsModule, HttpClientTestingModule, TranslateModule.forRoot()],
+      imports: [FormsModule, ReactiveFormsModule, HttpClientTestingModule, DropdownModule, TranslateModule.forRoot()],
       declarations: [UBSAddAddressPopUpComponent],
       providers: [
         OrderService,
