@@ -73,18 +73,22 @@ export class FormBaseComponent implements ComponentCanDeactivate {
         .afterClosed()
         .pipe(take(1))
         .subscribe((confirm) => {
+          const currentUrl = this.router.url;
+          const isUBS = currentUrl.includes('ubs/order');
+
           if (confirm) {
-            const currentUrl = this.router.url;
-            const isUBS = currentUrl.includes('ubs/order');
             this.areChangesSaved = true;
-            if (isUbsOrderSubmit) {
-              this.router.navigate(['ubs', 'confirm']);
-            } else if (isUBS) {
-              this.cancelUBSwithoutSaving();
-            } else {
-              this.router.navigate([this.previousPath]);
-            }
-          } else if (isUbsOrderSubmit && confirm === null) {
+          }
+          if (confirm && isUbsOrderSubmit) {
+            this.router.navigate(['ubs', 'confirm']);
+          }
+          if (confirm && !isUbsOrderSubmit && isUBS) {
+            this.cancelUBSwithoutSaving();
+          }
+          if (confirm && !isUbsOrderSubmit && !isUBS) {
+            this.router.navigate([this.previousPath]);
+          }
+          if (confirm === null && isUbsOrderSubmit) {
             this.cancelUBSwithoutSaving();
           }
         });
