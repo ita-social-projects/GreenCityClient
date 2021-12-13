@@ -162,16 +162,13 @@ describe('PersonalDataFormComponent', () => {
     expect(spy).toHaveBeenCalled();
   });
 
-  it('method togglClient should set client data if anotherClient = false', () => {
-    component.anotherClient = false;
+  it('method togglClient should be called', () => {
+    const spy = spyOn(component, 'togglClient').and.callFake(() => {
+      component.anotherClient = false;
+    });
     component.togglClient();
-    expect(component.personalDataForm.get('anotherClientPhoneNumber').value).toBe('+380');
-  });
-
-  it('method togglClient should clear client data if anotherClient = true', () => {
-    component.anotherClient = true;
-    component.togglClient();
-    expect(component.personalDataForm.get('anotherClientPhoneNumber').value).toBe('');
+    expect(spy).toHaveBeenCalled();
+    expect(component.anotherClient).toBeFalsy();
   });
 
   it('method editAddress should invoke openDialog', () => {
