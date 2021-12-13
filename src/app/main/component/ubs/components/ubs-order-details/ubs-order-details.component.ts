@@ -459,7 +459,7 @@ export class UBSOrderDetailsComponent extends FormBaseComponent implements OnIni
 
   openExtraPackages(): void {
     const dialogConfig = new MatDialogConfig();
-    const dialogRef = this.dialog.open(ExtraPackagesPopUpComponent, dialogConfig);
+    this.dialog.open(ExtraPackagesPopUpComponent, dialogConfig);
   }
 
   ngOnDestroy() {
