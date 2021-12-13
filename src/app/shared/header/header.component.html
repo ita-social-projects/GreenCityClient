@@ -14,7 +14,7 @@
       <div [ngClass]="isUBS ? 'header_navigation-menu-ubs' : 'header_navigation-menu'">
         <nav [ngClass]="toggleBurgerMenu ? 'header_navigation-menu-left-col' : 'header_navigation-menu-left'" role="navigation">
           <ul role="tablist" [ngClass]="{ ubs: isUBS }">
-            <li *ngFor="let link of navLinks; let i = index" tabindex="0" role="menuitem">
+            <li *ngFor="let link of navLinks; let i = index" tabindex="0" role="listitem">
               <a (click)="navigateToLink(link, i)" [class.active-link]="selectedIndex === i && !isUBS">
                 {{ link.name | translate }}
               </a>

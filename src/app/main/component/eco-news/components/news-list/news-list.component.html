@@ -1,9 +1,9 @@
-<main role="main" id="main-content">
+<main role="main" id="main-content" aria-label="news list">
   <div class="container">
     <div (window:resize)="onResize()">
       <div class="cont">
         <h1 class="main-header">{{ 'homepage.eco-news.title' | translate }}</h1>
-        <a [routerLink]="['create-news']" *ngIf="isLoggedIn">
+        <a class="create" [routerLink]="['create-news']" *ngIf="isLoggedIn">
           <div id="create-button" class="secondary-global-button">
             <span id="create-button-text">{{ 'homepage.eco-news.create' | translate }}</span>
           </div>
@@ -21,14 +21,15 @@
       </div>
       <hr />
     </div>
-
     <div class="main-wrapper">
       <app-remaining-count [remainingCount]="remaining"></app-remaining-count>
       <app-change-view-button [gallery]="view" (view)="changeView($event)"></app-change-view-button>
     </div>
     <div class="list-wrapper">
-      <ul class="list" *ngIf="remaining" [ngClass]="{ 'gallery-view-active': view }">
+      <ul role="tablist" tabindex="0" class="list" *ngIf="remaining" [ngClass]="{ 'gallery-view-active': view }" aria-label="news list">
         <li
+          role="listitem"
+          tabindex="0"
           [ngClass]="{
             'gallery-view-li-active': view,
             'list-view-li-active': !view

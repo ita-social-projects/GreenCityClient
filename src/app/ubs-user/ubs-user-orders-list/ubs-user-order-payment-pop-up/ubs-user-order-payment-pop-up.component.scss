@@ -1,0 +1,113 @@
+::ng-deep .mat-radio-button.mat-accent .mat-radio-ripple .mat-ripple-element {
+  background-color: var(--ubs-quaternary-dark-grey) !important;
+}
+
+::ng-deep .mat-radio-button.mat-accent .mat-radio-inner-circle {
+  background-color: var(--ubs-quaternary-dark-grey) !important;
+}
+
+::ng-deep.mat-radio-button.mat-accent.mat-radio-checked .mat-radio-outer-circle {
+  border-color: var(--ubs-quaternary-dark-grey) !important;
+}
+
+.dialog-container {
+  padding: 20px;
+  font-size: 14px;
+  font-family: var(--primary-font);
+
+  .text-order-sum {
+    color: var(--ubs-electric-violet);
+  }
+
+  .dialog-container-title {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+
+  .dialog-container-certificate {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+
+  .input-border {
+    background: var(--ubs-primary-white);
+    border: 1px solid var(--ubs-quintynary-light-grey);
+    width: 200px;
+  }
+
+  .question {
+    font-size: 16px;
+    padding-top: 20px;
+    font-weight: bold;
+  }
+
+  .text {
+    padding: 5px 0;
+  }
+
+  .form-select {
+    border: 1px solid var(--ubs-primary-grey);
+    border-radius: 5px;
+    width: 300px;
+    padding: 7px;
+    margin-bottom: 45px;
+  }
+
+  .choose-payment {
+    padding-bottom: 20px;
+  }
+
+  .tp-radio-group {
+    display: block;
+    padding-top: 20px;
+  }
+
+  button {
+    margin: 5px;
+    font-family: var(--secondary-font);
+  }
+
+  .btn-activate {
+    background-color: var(--ubs-button-light-green);
+    margin-right: 70px;
+    width: 125px;
+    font-size: 14px;
+    font-weight: 600;
+  }
+
+  .btn-cancel-activation {
+    outline: 1px solid var(--ubs-tertiary-dark-grey);
+    margin-right: 70px;
+    width: 125px;
+    font-size: 14px;
+    font-weight: 600;
+  }
+
+  .btn-add-certificate {
+    color: var(--ubs-electric-violet);
+    font-size: 14px;
+    padding: 0;
+    margin: 0;
+    border: 0;
+  }
+
+  .action-btns {
+    float: right;
+    color: var(--ubs-tertiary-dark-grey);
+
+    .btn-pay {
+      font-size: 14px;
+      font-weight: 600;
+      background-color: var(--ubs-button-light-green);
+    }
+
+    .btn-cancel {
+      margin-right: 5px;
+      font-size: 14px;
+      font-weight: 600;
+      outline: 1px solid var(--ubs-tertiary-dark-grey);
+    }
+  }
+}

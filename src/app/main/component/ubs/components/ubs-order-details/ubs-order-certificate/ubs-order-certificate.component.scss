@@ -1,0 +1,170 @@
+button {
+  width: 8rem;
+  height: 2.25rem;
+  font-size: 14px;
+}
+
+p {
+  font-size: 12px;
+}
+
+.form-group {
+  padding: 0;
+}
+
+.addCertificate {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  align-items: center;
+  width: 44%;
+
+  button {
+    margin-top: 1rem;
+  }
+
+  input {
+    padding: 0.5rem;
+    font-size: 14px;
+  }
+
+  .input-border {
+    background: var(--ubs-primary-white);
+    border: 1px solid var(--ubs-quintynary-light-grey);
+  }
+
+  .validMessages {
+    width: 65%;
+    margin: -1rem 0 1rem;
+  }
+}
+
+small.text-message.ng-star-inserted {
+  width: 65%;
+  margin: -1rem 0 1rem;
+  color: var(--ubs-primary-green) !important;
+}
+
+.primary-global-button {
+  padding: 8px 14px;
+  margin: 16px 0 0;
+  border-radius: 4px;
+  font-size: 14px;
+  width: 8rem;
+  height: 2.25rem;
+  color: var(--ubs-quaternary-dark-grey);
+  border-color: var(--ubs-button-light-green);
+  background: var(--ubs-button-light-green);
+}
+
+.btn:nth-child(1) {
+  color: var(--ubs-quaternary-dark-grey);
+}
+
+.buttons {
+  margin-top: 46px;
+
+  & .btn:nth-child(1) {
+    margin-right: 1rem;
+    width: 136px;
+  }
+
+  & .btn:nth-child(2) {
+    width: 88px;
+  }
+}
+
+.addCertificateBtn {
+  width: 180px;
+  padding: 0;
+  text-align: left;
+  background: none;
+  color: var(--ubs-electric-violet);
+  outline: none;
+  font-size: 14px;
+  border: none;
+
+  &:hover {
+    background: none;
+  }
+}
+
+.radio-btn {
+  margin-left: -6px;
+}
+
+.checkmark {
+  position: absolute;
+  top: 5px;
+  left: 4px;
+  height: 16px;
+  width: 16px;
+  background-color: var(--ubs-primary-white);
+  border-radius: 50%;
+  border: 1px solid var(--ubs-quaternary-dark-grey);
+
+  &::after {
+    content: '';
+    position: absolute;
+    display: none;
+  }
+}
+
+.points {
+  font-family: var(--ubs-quaternary-font);
+  margin-top: 3em;
+
+  p {
+    font-size: 14px;
+  }
+
+  .points-balance {
+    display: flex;
+    flex-flow: column wrap;
+  }
+
+  .bonus-how-to-link,
+  small {
+    font-size: 12px;
+    color: var(--ubs-electric-violet);
+  }
+}
+
+.custom-radio-btn {
+  display: block;
+  position: relative;
+  padding-left: 28px;
+  margin-bottom: 0;
+  cursor: pointer;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+
+  & input {
+    position: absolute;
+    opacity: 0;
+    cursor: pointer;
+  }
+
+  &:hover input ~ .checkmark {
+    background-color: var(--ubs-primary-white);
+  }
+
+  & .checkmark::after {
+    top: 14%;
+    left: 15%;
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    background: var(--ubs-quaternary-dark-grey);
+  }
+
+  & input:checked ~ .checkmark {
+    background-color: var(--ubs-primary-white);
+
+    &::after {
+      display: block;
+    }
+  }
+}

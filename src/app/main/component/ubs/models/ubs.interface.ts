@@ -70,7 +70,7 @@ export interface FinalOrder {
 export interface ICertificate {
   certificatePoints: number;
   certificateStatus: string;
-  // certificateDate: any
+  certificateDate?: string;
 }
 
 export interface PersonalData {

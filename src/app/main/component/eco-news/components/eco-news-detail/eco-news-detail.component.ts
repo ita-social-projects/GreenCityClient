@@ -85,7 +85,7 @@ export class EcoNewsDetailComponent implements OnInit, OnDestroy, AfterViewInit 
   }
 
   private postToggleLike(): void {
-    this.ecoNewsService.postToggleLike(this.newsId);
+    this.ecoNewsService.postToggleLike(this.newsId).pipe(take(1)).subscribe();
   }
 
   private shareLinks() {

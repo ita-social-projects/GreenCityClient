@@ -16,7 +16,6 @@ export class MoreOptionsFilterComponent implements OnInit {
     'Restaurants',
     'Events',
     'Recycling points',
-    'Saved Places',
     'Vegan products',
     'Bike rentals',
     'Bike parking',

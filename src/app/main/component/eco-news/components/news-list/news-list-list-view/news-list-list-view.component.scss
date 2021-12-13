@@ -67,7 +67,7 @@ div {
   display: flex;
   font-family: var(--primary-font);
   font-size: 13.9px;
-  line-height: 21px;
+  line-height: 20px;
   color: var(--tertiary-grey);
   mix-blend-mode: normal;
   opacity: 0.6;
@@ -87,12 +87,18 @@ div {
 }
 
 .eco-news_data-text-date {
-  min-width: 95px;
+  width: 115px;
   margin-right: 20px;
+  font-size: 15px;
 
   img {
     width: 10px;
     height: 11px;
+    margin-left: 3px;
+  }
+
+  .text {
+    width: 95px;
   }
 }
 
@@ -126,6 +132,20 @@ div {
     display: grid;
     -ms-grid-columns: 204px auto;
     grid-template-columns: 204px auto;
+  }
+
+  .eco-news_list-content-title {
+    font-size: 26px;
+  }
+
+  .eco-news_list-content-title p {
+    height: auto;
+    line-height: 56px;
+  }
+
+  .eco-news_list-content-text {
+    font-size: 16px;
+    line-height: 40px;
   }
 }
 
