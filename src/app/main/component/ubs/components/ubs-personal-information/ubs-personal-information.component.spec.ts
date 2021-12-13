@@ -11,10 +11,12 @@ import { UBSInputErrorComponent } from '../ubs-input-error/ubs-input-error.compo
 import { UBSPersonalInformationComponent } from './ubs-personal-information.component';
 import { CUSTOM_ELEMENTS_SCHEMA, SimpleChange } from '@angular/core';
 
-describe('PersonalDataFormComponent', () => {
+describe('UBSPersonalInformationComponent', () => {
   let component: UBSPersonalInformationComponent;
   let fixture: ComponentFixture<UBSPersonalInformationComponent>;
   let realTakeUserData;
+
+  const fakeLocalStorageResponse = JSON.stringify(undefined);
   const listMock = {
     addressList: [
       {
@@ -100,7 +102,7 @@ describe('PersonalDataFormComponent', () => {
     realTakeUserData = component.takeUserData;
     spyOn(component, 'takeUserData').and.callFake(() => {});
     spyOn(localStorage, 'setItem');
-    spyOn(localStorage, 'getItem');
+    spyOn(localStorage, 'getItem').and.returnValue(fakeLocalStorageResponse);
     spyOn(localStorage, 'removeItem');
     fixture.detectChanges();
   });
