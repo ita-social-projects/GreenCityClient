@@ -165,9 +165,9 @@
   "confirmation": {
     "cancel": "Yes, exit",
     "dismiss": "Continue",
-    "delete": "No, delete the order",
-    "ok": "Okay",
-    "submit-title": "In case of closing, your order will be saved in your personal account",
+    "delete": "No, delete",
+    "ok": "Yes, save",
+    "submit-title": "In case of closing, your order will be saved in your personal account. Do you want to save this order?",
     "title": "Are you sure you want to exit?",
     "subTitle": "Your order will not be saved"
   },
