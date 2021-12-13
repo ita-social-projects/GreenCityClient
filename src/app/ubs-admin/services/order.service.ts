@@ -127,7 +127,7 @@ export class OrderService {
   public getViolationOfCurrentOrder(orderId) {
     return this.http.get(`${this.backend}/management/violation-details/${orderId}`);
   }
-  
+
   public getOverpaymentMsg(overpayment) {
     let message: string;
     const OVERPAYMENT_MESSAGE = 'order-payment.overpayment';
