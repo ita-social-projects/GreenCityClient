@@ -59,13 +59,6 @@
         </div>
         <div class="textarea-wrapper">
           <h3 class="textarea-title">{{ 'create-news.content-title' | translate }}</h3>
-          <!--          <textarea-->
-          <!--            minlength="20"-->
-          <!--            name="main-area"-->
-          <!--            placeholder="{{ 'create-news.content-placeholder' | translate }}"-->
-          <!--            formControlName="content"-->
-          <!--            (keyup)="autoResize(true, $event)"-->
-          <!--          ></textarea>-->
           <quill-editor
             [modules]="quillModules"
             formControlName="content"
