@@ -11,17 +11,20 @@ import { UbsUserProfilePageComponent } from './ubs-user-profile-page.component';
 
 describe('UbsUserProfilePageComponent', () => {
   const userProfileDataMock: UserProfile = {
-    addressDto: {
-      id: 2276,
-      city: 'Kiev',
-      district: 'Troeshchina',
-      entranceNumber: '65',
-      houseCorpus: '3',
-      houseNumber: '8',
-      actual: false,
-      coordinates: { latitude: 0, longitude: 0 },
-      street: 'Jhohn Lenon '
-    },
+    addressDto: [
+      {
+        id: 2276,
+        city: 'Kiev',
+        district: 'Troeshchina',
+        entranceNumber: '65',
+        houseCorpus: '3',
+        houseNumber: '8',
+        actual: false,
+        region: 'Kyiv',
+        coordinates: { latitude: 0, longitude: 0 },
+        street: 'Jhohn Lenon '
+      }
+    ],
     recipientEmail: 'blackstar@gmail.com',
     recipientName: 'Black',
     recipientPhone: '+380972333333',
@@ -154,12 +157,14 @@ describe('UbsUserProfilePageComponent', () => {
     let submitData;
     component.onSubmit();
     submitData = {
-      addressDto: {
-        ...component.userForm.value.address,
-        id: userProfileDataMock.addressDto.id,
-        actual: userProfileDataMock.addressDto.actual,
-        coordinates: userProfileDataMock.addressDto.coordinates
-      },
+      addressDto: [
+        {
+          ...component.userForm.value.address[0],
+          id: userProfileDataMock.addressDto[0].id,
+          actual: userProfileDataMock.addressDto[0].actual,
+          coordinates: userProfileDataMock.addressDto[0].coordinates
+        }
+      ],
       recipientEmail: component.userForm.value.recipientEmail,
       recipientName: component.userForm.value.recipientName,
       recipientPhone: component.userForm.value.recipientPhone,
