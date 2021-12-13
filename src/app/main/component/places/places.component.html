@@ -27,11 +27,11 @@
       <div class="filter">
         <app-tag-filter
           (tagsList)="basicFiltersChange($event)"
-          [header]="'homepage.eco-news.filter'"
-          [storageKey]="'Places-filter'"
+          header="homepage.eco-news.filter"
+          [storageKey]="tagFilterStorageKey"
           [tagsListData]="tagList"
         ></app-tag-filter>
-        <app-more-options-filter (filtersChange)="moreOptionsChange($event)"> </app-more-options-filter>
+        <app-more-options-filter (filtersChange)="moreOptionsChange($event)" [value]="moreOptionsFilters"> </app-more-options-filter>
       </div>
     </div>
     <hr />

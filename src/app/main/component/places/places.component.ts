@@ -14,6 +14,7 @@ import { PlaceInfo } from '@global-models/place/place-info';
 import { Location } from '@angular-material-extensions/google-maps-autocomplete';
 import { FavoritePlaceService } from '@global-service/favorite-place/favorite-place.service';
 import { combineLatest } from 'rxjs';
+import { initialMoreOptionsFormValue } from './components/more-options-filter/more-options-filter.constant.js';
 
 @Component({
   selector: 'app-places',
@@ -38,6 +39,8 @@ export class PlacesComponent implements OnInit {
   public activePlaceInfo: PlaceInfo;
   public favoritePlaces: Place[] = [];
   public isActivePlaceFavorite = false;
+  public readonly tagFilterStorageKey = 'placesTagFilter';
+  public readonly moreOptionsStorageKey = 'moreOptionsFilter';
 
   @ViewChild('drawer') drawer: MatDrawer;
 
@@ -55,6 +58,8 @@ export class PlacesComponent implements OnInit {
     this.filterPlaceService.filtersDto$.pipe(debounceTime(300)).subscribe((filtersDto: any) => {
       this.placeService.updatePlaces(filtersDto);
     });
+
+    this.getMoreOptionsValueFromSessionStorage();
 
     combineLatest([
       this.placeService.places$,
@@ -105,11 +110,14 @@ export class PlacesComponent implements OnInit {
 
   public moreOptionsChange(newValue: MoreOptionsFormValue): void {
     this.moreOptionsFilters = newValue;
+    this.setMoreOptionsValueToSessionStorage(this.moreOptionsFilters);
+    this.updateTagFiltersOnMoreOptionsChange();
     this.updateFilters();
   }
 
   public basicFiltersChange(newValue: string[]) {
     this.basicFilters = newValue;
+    this.updateMoreOptionsOnTagFiltersChange(this.basicFilters);
     this.updateFilters();
   }
 
@@ -150,6 +158,64 @@ export class PlacesComponent implements OnInit {
         this.drawer.toggle(true);
         this.updateIsActivePlaceFavorite();
       });
+  }
+
+  private updateTagFiltersOnMoreOptionsChange(): void {
+    const allFilters: [string, boolean][] = Object.entries(this.moreOptionsFilters.baseFilters).concat(
+      Object.entries(this.moreOptionsFilters.servicesFilters)
+    );
+    const currentTagFilter: string[] = this.tagList.reduce((acc, tagName) => {
+      const tagFilter: [string, boolean] = allFilters.find((filter: [string, boolean]) => {
+        return filter[0] === tagName;
+      });
+      if (tagFilter && tagFilter[1]) {
+        acc.push(tagFilter[0]);
+      }
+      return acc;
+    }, []);
+
+    this.setTagFilterToSessionStorage(currentTagFilter);
+  }
+
+  private setTagFilterToSessionStorage(filterValues: string[]): void {
+    const previousTagFilters = sessionStorage.getItem(this.tagFilterStorageKey);
+    const currentTagFilters = JSON.stringify(filterValues);
+
+    if (previousTagFilters !== currentTagFilters) {
+      sessionStorage.setItem(this.tagFilterStorageKey, currentTagFilters);
+      this.tagList = [...this.tagList];
+    }
+  }
+
+  private updateMoreOptionsOnTagFiltersChange(tagFilters: string[]): void {
+    if (!this.moreOptionsFilters) {
+      return;
+    }
+    this.moreOptionsFilters = {
+      ...this.moreOptionsFilters,
+      baseFilters: {
+        ...this.moreOptionsFilters.baseFilters,
+        ['Saved places']: tagFilters.includes('Saved places')
+      },
+      servicesFilters: {
+        ...this.moreOptionsFilters.servicesFilters,
+        ['Shops']: tagFilters.includes('Shops'),
+        ['Restaurants']: tagFilters.includes('Restaurants'),
+        ['Recycling points']: tagFilters.includes('Recycling points'),
+        ['Events']: tagFilters.includes('Events')
+      }
+    };
+
+    this.setMoreOptionsValueToSessionStorage(this.moreOptionsFilters);
+  }
+
+  private setMoreOptionsValueToSessionStorage(formValue: MoreOptionsFormValue): void {
+    sessionStorage.setItem(this.moreOptionsStorageKey, JSON.stringify(formValue));
+  }
+
+  private getMoreOptionsValueFromSessionStorage(): void {
+    const formValue: MoreOptionsFormValue = JSON.parse(sessionStorage.getItem(this.moreOptionsStorageKey));
+    this.moreOptionsFilters = formValue ?? initialMoreOptionsFormValue;
   }
 
   private updateIsActivePlaceFavorite(): void {
