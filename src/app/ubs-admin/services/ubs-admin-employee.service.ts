@@ -13,8 +13,12 @@ export class UbsAdminEmployeeService {
 
   constructor(private http: HttpClient) {}
 
-  getEmployees(page?: number, size?: number): Observable<Employees> {
-    return this.http.get<Employees>(`${this.backend}?page=${page}&size=${size}`);
+  getEmployees(pageNumber?: number, pageSize?: number, search?: string, sortBy?: string, sortDirection?: string): Observable<Employees> {
+    const urlAttr = [{ search }, { sortBy }, { sortDirection }].reduce(
+      (acc, item) => (Object.values(item)[0] ? `${acc}&${Object.keys(item)[0]}=${Object.values(item)[0]}` : acc),
+      ``
+    );
+    return this.http.get<Employees>(`${this.backend}?pageNumber=${pageNumber}&pageSize=${pageSize}${urlAttr}`);
   }
 
   getAllPositions(): Observable<any[]> {
