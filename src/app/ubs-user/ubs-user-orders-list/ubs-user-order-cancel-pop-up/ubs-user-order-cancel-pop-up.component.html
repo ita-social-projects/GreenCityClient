@@ -9,7 +9,7 @@
       <button class="btn btn-cancel" mat-dialog-close>
         {{ 'ubs-client-profile.cancel-modal.disagree' | translate }}
       </button>
-      <button class="btn btn-pay" mat-dialog-close>
+      <button class="btn btn-pay" (click)="deleteCard()" mat-dialog-close>
         {{ 'ubs-client-profile.cancel-modal.agree' | translate }}
       </button>
     </mat-dialog-actions>
