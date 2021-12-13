@@ -4,7 +4,7 @@ import { ActivatedRoute, Params } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
 import { UbsAdminCancelModalComponent } from '../ubs-admin-cancel-modal/ubs-admin-cancel-modal.component';
 import { UbsAdminGoBackModalComponent } from '../ubs-admin-go-back-modal/ubs-admin-go-back-modal.component';
-import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
+import { FormArray, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { take, takeUntil } from 'rxjs/operators';
 import { OrderService } from '../../services/order.service';
 import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
@@ -45,7 +45,6 @@ export class UbsAdminOrderComponent implements OnInit, OnDestroy {
   currentOrderStatus: string;
   overpayment = 0;
   isMinOrder = true;
-  updatedData: {};
   timeFrom: string;
   timeTo: string;
 
@@ -243,70 +242,100 @@ export class UbsAdminOrderComponent implements OnInit, OnDestroy {
   }
 
   onSubmit() {
-    this.updatedData = {
-      ecoNumberFromShop: [
-        {
-          newEcoNumber: '3245678765',
-          oldEcoNumber: ''
-        }
-      ],
-      exportDetailsDtoUpdate: {
-        dateExport: this.orderForm.get(['exportDetailsForm', 'exportedDate']).value,
-        receivingStation: this.orderForm.get(['exportDetailsForm', 'receivingStation']).value
-        // timeDeliveryFrom: '2021-09-02T14:00:00',
-        // timeDeliveryTo: '2021-09-02T14:30:00'
-      },
-      orderAddressExportDetailsDtoUpdate: {
-        orderId: this.orderId,
-        addressCity: this.orderForm.get(['addressDetailsForm', 'settlement']).value,
-        addressDistrict: this.orderForm.get(['addressDetailsForm', 'district']).value,
-        addressEntranceNumber: this.orderForm.get(['addressDetailsForm', 'entrance']).value,
-        addressHouseCorpus: this.orderForm.get(['addressDetailsForm', 'corpus']).value,
-        addressHouseNumber: this.orderForm.get(['addressDetailsForm', 'building']).value,
-        addressRegion: this.orderForm.get(['addressDetailsForm', 'region']).value,
-        addressStreet: this.orderForm.get(['addressDetailsForm', 'street']).value,
-        addressId: this.addressInfo.id
-      },
-      orderDetailStatusRequestDto: {
-        orderComment: this.orderForm.get(['orderStatusForm', 'adminComment']).value,
-        orderPaymentStatus: this.generalOrderInfo.orderPaymentStatus,
-        orderStatus: this.orderForm.get(['orderStatusForm', 'orderStatus']).value
-      },
-      ubsCustomersDtoUpdate: {
-        recipientEmail: this.orderForm.get(['clientInfoForm', 'senderEmail']).value,
-        recipientId: this.clientInfo.recipientId,
-        recipientName: this.orderForm.get(['clientInfoForm', 'senderName']).value,
-        recipientPhoneNumber: this.orderForm.get(['clientInfoForm', 'senderPhone']).value,
-        recipientSurName: this.orderForm.get(['clientInfoForm', 'senderSurname']).value
-      },
-      updateOrderDetailDto: [
-        // {
-        //   bagId: 1,
-        //   confirmedQuantity: this.orderForm.get(['orderDetailsForm', 'confirmedQuantity1']).value,
-        // exportedQuantity: this.orderForm.get(['orderDetailsForm', 'exportedQuantity1']).value,
-        //   orderId: this.orderId
-        // }
-        {
-          bagId: 2,
-          confirmedQuantity: this.orderForm.get(['orderDetailsForm', 'confirmedQuantity2']).value,
-          // exportedQuantity: this.orderForm.get(['orderDetailsForm', 'exportedQuantity2']).value,
-          orderId: this.orderId
-        }
-        // {
-        //   bagId: 3,
-        //   confirmedQuantity: this.orderForm.get(['orderDetailsForm', 'confirmedQuantity3']).value,
-        // exportedQuantity: this.orderForm.get(['orderDetailsForm', 'exportedQuantity3']).value,
-        //   orderId: this.orderId
-        // }
-      ]
-    };
+    // let updatedData = {
+    //   ecoNumberFromShop: [
+    //     {
+    //       newEcoNumber: '3245678765',
+    //       oldEcoNumber: ''
+    //     }
+    //   ],
+    //   exportDetailsDtoUpdate: {
+    //     dateExport: this.orderForm.get(['exportDetailsForm', 'exportedDate']).dirty
+    //       ? this.orderForm.get(['exportDetailsForm', 'exportedDate']).value
+    //       : undefined,
+    //     receivingStation: this.orderForm.get(['exportDetailsForm', 'receivingStation']).dirty
+    //       ? this.orderForm.get(['exportDetailsForm', 'receivingStation']).value
+    //       : undefined
+    // timeDeliveryFrom: '2021-09-02T14:00:00',
+    // timeDeliveryTo: '2021-09-02T14:30:00'
+    // },
+    // orderAddressExportDetailsDtoUpdate: {
+    //   orderId: this.orderId,
+    //   addressCity: this.orderForm.get(['addressDetailsForm', 'settlement']).value,
+    //   addressDistrict: this.orderForm.get(['addressDetailsForm', 'district']).value,
+    //   addressEntranceNumber: this.orderForm.get(['addressDetailsForm', 'entrance']).value,
+    //   addressHouseCorpus: this.orderForm.get(['addressDetailsForm', 'corpus']).value,
+    //   addressHouseNumber: this.orderForm.get(['addressDetailsForm', 'building']).value,
+    //   addressRegion: this.orderForm.get(['addressDetailsForm', 'region']).value,
+    //   addressStreet: this.orderForm.get(['addressDetailsForm', 'street']).value,
+    //   addressId: this.addressInfo.id
+    // },
+    // orderDetailStatusRequestDto: {
+    //   orderComment: this.orderForm.get(['orderStatusForm', 'adminComment']).value,
+    //   orderPaymentStatus: this.generalOrderInfo.orderPaymentStatus,
+    //   orderStatus: this.orderForm.get(['orderStatusForm', 'orderStatus']).value
+    // },
+    // ubsCustomersDtoUpdate: {
+    //   recipientEmail: this.orderForm.get(['clientInfoForm', 'senderEmail']).value,
+    //   recipientId: this.clientInfo.recipientId,
+    //   recipientName: this.orderForm.get(['clientInfoForm', 'senderName']).value,
+    //   recipientPhoneNumber: this.orderForm.get(['clientInfoForm', 'senderPhone']).value,
+    //   recipientSurName: this.orderForm.get(['clientInfoForm', 'senderSurname']).value
+    // },
+    // updateOrderDetailDto: [
+    // {
+    //   bagId: 1,
+    //   confirmedQuantity: this.orderForm.get(['orderDetailsForm', 'confirmedQuantity1']).value,
+    // exportedQuantity: this.orderForm.get(['orderDetailsForm', 'exportedQuantity1']).value,
+    //   orderId: this.orderId
+    // }
+    // {
+    // bagId: 2,
+    // confirmedQuantity: this.orderForm.get(['orderDetailsForm', 'confirmedQuantity2']).value,
+    // exportedQuantity: this.orderForm.get(['orderDetailsForm', 'exportedQuantity2']).value,
+    //   orderId: this.orderId
+    // }
+    // {
+    //   bagId: 3,
+    //   confirmedQuantity: this.orderForm.get(['orderDetailsForm', 'confirmedQuantity3']).value,
+    // exportedQuantity: this.orderForm.get(['orderDetailsForm', 'exportedQuantity3']).value,
+    //   orderId: this.orderId
+    // }
+    //   ]
+    // };
+    const updatedValues: any = {};
+    this.getUpdates(this.orderForm, updatedValues);
+
     this.orderService
-      .updateOrderInfo(this.orderId, this.currentLanguage, this.updatedData)
+      .updateOrderInfo(this.orderId, this.currentLanguage, updatedValues)
       .pipe(takeUntil(this.destroy$))
       .subscribe((data) => {
-        this.updatedData = data;
+        this.getOrderInfo(this.orderId, this.currentLanguage);
       });
-    console.log(this.updatedData);
+  }
+
+  private getUpdates(formItem: FormGroup | FormArray | FormControl, updatedValues: any, name?: string) {
+    if (formItem instanceof FormControl) {
+      if (name && formItem.dirty) {
+        updatedValues[name] = formItem.value;
+      }
+    } else {
+      for (const formControlName in formItem.controls) {
+        if (formItem.controls.hasOwnProperty(formControlName)) {
+          const formControl = formItem.controls[formControlName];
+
+          if (formControl instanceof FormControl) {
+            this.getUpdates(formControl, updatedValues, formControlName);
+          } else if (formControl instanceof FormArray && formControl.dirty && formControl.controls.length > 0) {
+            updatedValues[formControlName] = [];
+            this.getUpdates(formControl, updatedValues[formControlName]);
+          } else if (formControl instanceof FormGroup && formControl.dirty) {
+            updatedValues[formControlName] = {};
+            this.getUpdates(formControl, updatedValues[formControlName]);
+          }
+        }
+      }
+    }
   }
 
   ngOnDestroy(): void {
