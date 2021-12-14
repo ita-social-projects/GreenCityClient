@@ -36,7 +36,7 @@ export class UbsAdminTariffsAddLocationPopUpComponent implements OnInit {
   }
 
   public addToListSelectedItem() {
-    if (this.input.nativeElement.value != '') {
+    if (this.input.nativeElement.value !== '') {
       this.items.push(this.input.nativeElement.value);
       this.input.nativeElement.value = '';
     }
@@ -47,8 +47,8 @@ export class UbsAdminTariffsAddLocationPopUpComponent implements OnInit {
   }
 
   onRegionSelected(event) {
-    var l = event.geometry.viewport.getSouthWest();
-    var x = event.geometry.viewport.getNorthEast();
+    const l = event.geometry.viewport.getSouthWest();
+    const x = event.geometry.viewport.getNorthEast();
 
     this.regionBounds = new google.maps.LatLngBounds(l, x);
 
