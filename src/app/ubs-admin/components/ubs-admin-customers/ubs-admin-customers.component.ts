@@ -329,6 +329,8 @@ export class UbsAdminCustomersComponent implements OnInit, AfterViewChecked, OnD
       this.openCustomer(row, row[columnName]);
     } else if (columnName === 'number_of_orders') {
       this.openOrders(row);
+    } else if (columnName === 'violations') {
+      this.openViolations(row);
     }
   }
 
@@ -339,6 +341,12 @@ export class UbsAdminCustomersComponent implements OnInit, AfterViewChecked, OnD
 
   private openOrders(user): void {
     this.router.navigate(['ubs-admin', 'customerOrders', `${user.userId}`]);
+  }
+
+  private openViolations(user): void {
+    if (user.violations) {
+      this.router.navigate(['ubs-admin', 'customerViolations', `${user.userId}`]);
+    }
   }
 
   ngOnDestroy() {
