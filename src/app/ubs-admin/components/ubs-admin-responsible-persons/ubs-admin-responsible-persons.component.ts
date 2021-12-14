@@ -1,8 +1,7 @@
 import { Component, Input, OnDestroy, OnInit } from '@angular/core';
 import { FormGroup } from '@angular/forms';
-import { OrderService } from '../../services/order.service';
-import { takeUntil } from 'rxjs/operators';
 import { Subject } from 'rxjs';
+import { IResponsiblePersons } from '../../models/ubs-admin.interface';
 
 @Component({
   selector: 'app-ubs-admin-responsible-persons',
@@ -10,7 +9,7 @@ import { Subject } from 'rxjs';
   styleUrls: ['./ubs-admin-responsible-persons.component.scss']
 })
 export class UbsAdminResponsiblePersonsComponent implements OnInit, OnDestroy {
-  @Input() order;
+  @Input() responsiblePersonInfo: IResponsiblePersons;
   @Input() responsiblePersonsForm: FormGroup;
 
   public allCallManagers: string[];
@@ -19,30 +18,24 @@ export class UbsAdminResponsiblePersonsComponent implements OnInit, OnDestroy {
   public allDrivers: string[];
   pageOpen: boolean;
   private destroy$: Subject<boolean> = new Subject<boolean>();
-  constructor(private orderService: OrderService) {}
 
   ngOnInit(): void {
-    this.getOrderEmployees(this.order.id);
+    this.setEmployeesByPosition();
   }
 
   openDetails() {
     this.pageOpen = !this.pageOpen;
   }
 
-  getOrderEmployees(orderId: number) {
-    this.orderService
-      .getAllResponsiblePersons(orderId)
-      .pipe(takeUntil(this.destroy$))
-      .subscribe((data) => {
-        const employees = data.allPositionsEmployees;
-        this.allCallManagers = this.processEmployeeById(employees, 2);
-        this.allLogisticians = this.processEmployeeById(employees, 3);
-        this.allNavigators = this.processEmployeeById(employees, 4);
-        this.allDrivers = this.processEmployeeById(employees, 5);
-      });
+  setEmployeesByPosition() {
+    const employees = this.responsiblePersonInfo.allPositionsEmployees;
+    this.allCallManagers = this.getEmployeesById(employees, 2);
+    this.allLogisticians = this.getEmployeesById(employees, 3);
+    this.allNavigators = this.getEmployeesById(employees, 4);
+    this.allDrivers = this.getEmployeesById(employees, 5);
   }
 
-  processEmployeeById(employees: any[], id: number): string[] {
+  getEmployeesById(employees: Map<string, string[]>, id: number): string[] {
     for (const key of Object.keys(employees)) {
       if (key.includes(`id=${id},`)) {
         return employees[key];

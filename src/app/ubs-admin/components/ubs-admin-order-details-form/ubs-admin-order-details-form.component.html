@@ -57,9 +57,9 @@
             <span class="col-sm-2">{{ 'order-details.bags-amount' | translate }}</span>
             <span class="col-sm-2"></span>
             <span class="col-sm-2"></span>
-            <span class="col-sm-2 text-center">{{ orderInfo.amount.planned }}</span>
-            <span class="col-sm-2 text-center">{{ orderInfo.amount.confirmed }}</span>
-            <span *ngIf="isVisible" class="col-sm-2 text-center">{{ orderInfo.amount.actual }}</span>
+            <span class="col-sm-2 text-center">{{ bagsInfo.amount.planned }}</span>
+            <span class="col-sm-2 text-center">{{ bagsInfo.amount.confirmed }}</span>
+            <span *ngIf="isVisible" class="col-sm-2 text-center">{{ bagsInfo.amount.actual }}</span>
           </li>
         </ul>
         <ul class="w-100 p-0">
@@ -67,49 +67,64 @@
             <span class="col-sm-2">{{ 'order-details.order-sum' | translate }}</span>
             <span class="col-sm-2"></span>
             <span class="col-sm-2"></span>
-            <span class="col-sm-2 text-center">{{ orderInfo.sum.planned | currency | localizedCurrency }}</span>
-            <span class="col-sm-2 text-center">{{ orderInfo.sum.confirmed | currency | localizedCurrency }}</span>
-            <span *ngIf="isVisible" class="col-sm-2 text-center">{{ orderInfo.sum.actual | currency | localizedCurrency }}</span>
+            <span class="col-sm-2 text-center">{{ bagsInfo.sum.planned | currency | localizedCurrency }}</span>
+            <span class="col-sm-2 text-center">{{ bagsInfo.sum.confirmed | currency | localizedCurrency }}</span>
+            <span *ngIf="isVisible" class="col-sm-2 text-center">{{ bagsInfo.sum.actual | currency | localizedCurrency }}</span>
           </li>
           <li class="d-flex justify-content-between align-items-baseline py-2">
             <span class="col-sm-2">{{ 'order-details.certificate' | translate }}</span>
             <span class="col-sm-2"></span>
             <span class="col-sm-2"></span>
-            <span class="col-sm-2 text-center text-success">-{{ orderInfo.certificateDiscount | currency | localizedCurrency }}</span>
-            <span class="col-sm-2 text-center">-{{ orderInfo.certificateDiscount | currency | localizedCurrency }}</span>
-            <span *ngIf="isVisible" class="col-sm-2 text-center">-{{ orderInfo.certificateDiscount | currency | localizedCurrency }}</span>
+            <span class="col-sm-2 text-center text-success">-{{ bagsInfo.certificateDiscount | currency | localizedCurrency }}</span>
+            <span class="col-sm-2 text-center">-{{ bagsInfo.certificateDiscount | currency | localizedCurrency }}</span>
+            <span *ngIf="isVisible" class="col-sm-2 text-center">-{{ bagsInfo.certificateDiscount | currency | localizedCurrency }}</span>
           </li>
           <li class="d-flex justify-content-between align-items-baseline py-2">
             <span class="col-sm-2">{{ 'order-details.bonuses' | translate }}</span>
             <span class="col-sm-2"></span>
             <span class="col-sm-2"></span>
-            <span class="col-sm-2 text-center text-success">-{{ orderInfo.bonuses | currency | localizedCurrency }}</span>
-            <span class="col-sm-2 text-center">-{{ orderInfo.bonuses | currency | localizedCurrency }}</span>
-            <span *ngIf="isVisible" class="col-sm-2 text-center">-{{ orderInfo.bonuses | currency | localizedCurrency }}</span>
+            <span class="col-sm-2 text-center text-success">-{{ bagsInfo.bonuses | currency | localizedCurrency }}</span>
+            <span class="col-sm-2 text-center">-{{ bagsInfo.bonuses | currency | localizedCurrency }}</span>
+            <span *ngIf="isVisible" class="col-sm-2 text-center">-{{ bagsInfo.bonuses | currency | localizedCurrency }}</span>
           </li>
-          <li class="d-flex justify-content-between align-items-baseline py-2" *ngIf="isVisible">
+          <li class="d-flex justify-content-between align-items-baseline py-2" *ngIf="isVisible && showUbsCourier">
             <span class="col-sm-2">{{ 'order-details.ubs-courier' | translate }}</span>
             <div class="col-sm-2 offset-sm-8 d-flex justify-content-center form-group count">
-              <span class="shadow-none form-control input p-2 ubs-courier">
-                {{ ubsCourier | currency | localizedCurrency }}
+              <span class="shadow-none p-2">
+                <span *ngIf="doneAfterBroughtHimself">-</span>{{ courierPrice | currency | localizedCurrency }}
               </span>
             </div>
-            <span class="col-sm-2"></span>
+          </li>
+          <li class="d-flex justify-content-between align-items-baseline py-2" *ngIf="doneAfterBroughtHimself">
+            <span class="col-sm-2">{{ 'order-details.done-after-himself' | translate }}</span>
+            <div class="col-sm-2 offset-sm-8 d-flex justify-content-center align-items-baseline form-group count">
+              <input
+                class="shadow-none form-control input p-2 ubs-courier"
+                type="number"
+                step="0.01"
+                min="0"
+                value="0.00"
+                (change)="changeWriteOffSum($event)"
+              />
+              <span>
+                {{ '' | localizedCurrency }}
+              </span>
+            </div>
           </li>
           <li class="d-flex justify-content-between align-items-baseline py-3">
             <span class="col-sm-2">{{ 'order-details.sum-to-pay' | translate }}</span>
             <span class="col-sm-2"></span>
             <span class="col-sm-2"></span>
-            <span class="col-sm-2 text-center">{{ orderInfo.finalSum.planned | currency | localizedCurrency }}</span>
-            <span class="col-sm-2 text-center">{{ orderInfo.finalSum.confirmed | currency | localizedCurrency }}</span>
-            <span class="col-sm-2 text-center" *ngIf="isVisible">{{ orderInfo.finalSum.actual | currency | localizedCurrency }}</span>
+            <span class="col-sm-2 text-center">{{ bagsInfo.finalSum.planned | currency | localizedCurrency }}</span>
+            <span class="col-sm-2 text-center">{{ bagsInfo.finalSum.confirmed | currency | localizedCurrency }}</span>
+            <span class="col-sm-2 text-center" *ngIf="isVisible">{{ bagsInfo.finalSum.actual | currency | localizedCurrency }}</span>
           </li>
           <li class="d-flex justify-content-end align-items-baseline py-2">
-            <span class="col-sm-3 text-danger pl-5" *ngIf="payMore">
-              {{ 'order-edit.need-to-pay' | translate }} 250 {{ '' | currency | localizedCurrency }}
+            <span class="col-sm-3 text-danger pl-5" *ngIf="overpayment">
+              {{ overpaymentMessage | translate }} {{ overpayment | localizedCurrency }}
             </span>
-            <span class="col-sm-4 text-danger pl-5" *ngIf="payMore">
-              {{ 'order-details.min-sum' | translate }} {{ minOrderSum }} {{ '' | currency | localizedCurrency }}
+            <span class="col-sm-4 text-danger pl-5" *ngIf="buyMore">
+              {{ limitMsg.min | translate }} {{ limitAmount.min }} {{ limitMsg.max | translate }} {{ limitAmount.max }}
             </span>
           </li>
         </ul>
@@ -120,7 +135,7 @@
             <label class="form__label py-2" for="cert-num">
               {{ 'order-details.certificate-number-label' | translate }}
             </label>
-            <input class="form-control" type="text" id="cert-num" placeholder="XXXX-XXXX" formControlName="certificate" />
+            <input class="form-control" type="text" id="cert-num" placeholder="XXXX-XXXX" formControlName="certificate" disabled />
           </div>
           <div class="form-group">
             <label class="form__label py-2" for="order-num">
@@ -141,9 +156,6 @@
             disabled
           >
           </textarea>
-        </div>
-        <div class="send__button col-sm-6">
-          <button class="btn send__btn" type="button">{{ 'order-details.send-button' | translate }}</button>
         </div>
       </div>
     </div>

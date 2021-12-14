@@ -1,6 +1,6 @@
 <app-header></app-header>
 <app-search-popup></app-search-popup>
-<div *ngIf="order && orderDetails; else spinner" class="container">
+<div *ngIf="orderInfo; else spinner" class="container">
   <div class="row">
     <button class="back-button-top" (click)="openGoBackModal()">
       <
@@ -9,19 +9,43 @@
   </div>
   <form [formGroup]="orderForm" (ngSubmit)="onSubmit()">
     <div class="box">
-      <app-ubs-admin-order-status [orderStatusForm]="getFormGroup('orderStatusForm')" [order]="order"> </app-ubs-admin-order-status>
-      <app-ubs-admin-order-client-info [clientInfoForm]="getFormGroup('clientInfoForm')" [order]="order"> </app-ubs-admin-order-client-info>
-      <app-ubs-admin-address-details [addressDetailsForm]="getFormGroup('addressDetailsForm')" [order]="order">
+      <app-ubs-admin-order-status
+        [orderStatusForm]="getFormGroup('orderStatusForm')"
+        [generalOrderInfo]="generalOrderInfo"
+        (changed)="onChangedOrderStatus($event)"
+      ></app-ubs-admin-order-status>
+      <app-ubs-admin-order-client-info [clientInfoForm]="getFormGroup('clientInfoForm')" [clientInfo]="clientInfo" [orderId]="orderId">
+      </app-ubs-admin-order-client-info>
+      <app-ubs-admin-address-details
+        [addressDetailsForm]="getFormGroup('addressDetailsForm')"
+        [addressInfo]="addressInfo"
+        [addressComment]="orderInfo.addressComment"
+      >
       </app-ubs-admin-address-details>
       <app-ubs-admin-order-details-form
         [orderDetailsForm]="getFormGroup('orderDetailsForm')"
-        [orderDetails]="orderDetails"
+        [orderDetailsOriginal]="orderDetails"
+        [orderStatusInfo]="orderStatusInfo"
+        (changeOverpayment)="changeOverpayment($event)"
+        (checkMinOrder)="setMinOrder($event)"
+        (actualPrice)="setFinalPrice($event)"
       ></app-ubs-admin-order-details-form>
-      <app-ubs-admin-order-payment></app-ubs-admin-order-payment>
-      <app-ubs-admin-export-details [exportDetailsForm]="getFormGroup('exportDetailsForm')" [order]="order"> </app-ubs-admin-export-details>
-      <app-ubs-admin-responsible-persons [responsiblePersonsForm]="getFormGroup('responsiblePersonsForm')" [order]="order">
+      <app-ubs-admin-order-payment
+        [paidPrice]="orderInfo.orderFullPrice"
+        [overpayment]="overpayment"
+        [orderInfo]="orderInfo"
+        [actualPrice]="actualPrice"
+      ></app-ubs-admin-order-payment>
+      <app-ubs-admin-export-details
+        [exportDetailsForm]="getFormGroup('exportDetailsForm')"
+        [exportInfo]="exportInfo"
+      ></app-ubs-admin-export-details>
+      <app-ubs-admin-responsible-persons
+        [responsiblePersonsForm]="getFormGroup('responsiblePersonsForm')"
+        [responsiblePersonInfo]="responsiblePersonInfo"
+      >
       </app-ubs-admin-responsible-persons>
-      <app-ubs-admin-order-history [order]="order"></app-ubs-admin-order-history>
+      <app-ubs-admin-order-history [orderId]="orderId"></app-ubs-admin-order-history>
     </div>
     <div class="row">
       <button class="back-button" (click)="openGoBackModal()">
@@ -32,7 +56,7 @@
         <button type="reset" class="cancel-button" (click)="$event.preventDefault(); openCancelModal()" [disabled]="!orderForm.touched">
           {{ 'order-edit.btn.cancel' | translate }}
         </button>
-        <button type="submit" class="save-button" [disabled]="!orderForm.touched || !orderForm.valid">
+        <button type="submit" class="save-button" [disabled]="!orderForm.touched || !orderForm.valid || !isMinOrder">
           {{ 'order-edit.btn.save' | translate }}
         </button>
       </div>

@@ -3,6 +3,7 @@ import { catchError, takeUntil } from 'rxjs/operators';
 import { Subject, throwError } from 'rxjs';
 import { MatSnackBarComponent } from '@global-errors/mat-snack-bar/mat-snack-bar.component';
 import { UserOrdersService } from '../services/user-orders.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-ubs-user-orders',
@@ -15,7 +16,11 @@ export class UbsUserOrdersComponent implements OnInit, OnDestroy {
   currentOrders: any[];
   orderHistory: any[];
   loading = false;
-  constructor(private snackBar: MatSnackBarComponent, private userOrdersService: UserOrdersService) {}
+  constructor(private router: Router, private snackBar: MatSnackBarComponent, private userOrdersService: UserOrdersService) {}
+
+  redirectToOrder() {
+    this.router.navigate(['ubs', 'order']);
+  }
 
   ngOnInit() {
     this.userOrdersService
@@ -30,8 +35,12 @@ export class UbsUserOrdersComponent implements OnInit, OnDestroy {
       .subscribe((item) => {
         this.orders = item;
         this.loading = true;
-        this.currentOrders = this.orders.filter((order) => order.orderStatus !== 'DONE' && order.orderStatus !== 'CANCELLED');
-        this.orderHistory = this.orders.filter((order) => order.orderStatus === 'DONE' || order.orderStatus === 'CANCELLED');
+        this.currentOrders = this.orders.filter(
+          (order) => order.generalOrderInfo.orderStatus !== 'DONE' && order.generalOrderInfo.orderStatus !== 'CANCELED'
+        );
+        this.orderHistory = this.orders.filter(
+          (order) => order.generalOrderInfo.orderStatus === 'DONE' || order.generalOrderInfo.orderStatus === 'CANCELED'
+        );
       });
   }
 

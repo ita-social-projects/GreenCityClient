@@ -7,7 +7,7 @@
 </div>
 <div class="btn-group">
   <button type="button" class="btn btn-default" class="table-buttons filter-btn" (click)="togglePopUp()">
-    <mat-icon>create</mat-icon>
+    <img src="assets/img/edit.svg" alt="edit" />
     {{ 'ubs-tables.filter' | translate }}
   </button>
   <button type="button" class="btn btn-default" class="table-buttons" (click)="openExportExcel()">
@@ -171,8 +171,8 @@
           [matTooltip]="row[column.title.key]"
           matTooltipShowDelay="700"
           matTooltipClass="tooltip_style"
-          [class.pointer]="column.title.key === 'clientName'"
-          (click)="column.title.key === 'clientName' && openCustomer(row, row[column.title.key])"
+          [class.pointer]="column.title.key === 'clientName' || column.title.key === 'number_of_orders'"
+          (click)="openPages(column.title.key, row)"
         >
           {{ row[column.title.key] }}
         </div>

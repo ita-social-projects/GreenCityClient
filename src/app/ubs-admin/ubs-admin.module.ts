@@ -62,6 +62,10 @@ import { AgmCoreModule } from '@agm/core';
 import { environment } from '@environment/environment';
 import { UbsAdminTariffsAddCourierPopUpComponent } from './components/ubs-admin-tariffs/ubs-admin-tariffs-add-courier-pop-up/ubs-admin-tariffs-add-courier-pop-up.component';
 import { MatDialogModule } from '@angular/material/dialog';
+import { UbsAdminCustomerOrdersComponent } from './components/ubs-admin-customers/ubs-admin-customer-orders/ubs-admin-customer-orders.component';
+import { AddOrderCancellationReasonComponent } from './components/add-order-cancellation-reason/add-order-cancellation-reason.component';
+import { DialogPopUpComponent } from './components/shared/components/dialog-pop-up/dialog-pop-up.component';
+import { ResizeColumnDirective } from './derictives/resize-table-columns.directive';
 
 @NgModule({
   declarations: [
@@ -98,9 +102,13 @@ import { MatDialogModule } from '@angular/material/dialog';
     UbsAdminTariffsLocationDashboardComponent,
     UbsAdminEmployeeTableComponent,
     UbsAdminCustomerDetailsComponent,
-    UbsAdminOrderHistoryComponent,
     UbsAdminTariffsAddLocationPopUpComponent,
     UbsAdminTariffsAddCourierPopUpComponent
+    UbsAdminCustomerOrdersComponent,
+    UbsAdminOrderHistoryComponent,
+    AddOrderCancellationReasonComponent,
+    DialogPopUpComponent,
+    ResizeColumnDirective
   ],
   imports: [
     CommonModule,

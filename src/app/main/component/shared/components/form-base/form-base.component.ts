@@ -6,7 +6,6 @@ import { Observable } from 'rxjs';
 import { take } from 'rxjs/operators';
 import { MatDialog } from '@angular/material/dialog';
 import { OrderService } from '../../../ubs/services/order.service';
-import { UBSOrderFormService } from '../../../ubs/services/ubs-order-form.service';
 
 @Component({
   selector: 'app-form-base',
@@ -35,12 +34,7 @@ export class FormBaseComponent implements ComponentCanDeactivate {
     // TODO: add functionality to this method
   }
 
-  constructor(
-    public router: Router,
-    public dialog: MatDialog,
-    public orderService?: OrderService,
-    public ubsOrderFormService?: UBSOrderFormService
-  ) {}
+  constructor(public router: Router, public dialog: MatDialog, public orderService?: OrderService) {}
 
   @HostListener('window:beforeunload')
   canDeactivate(): boolean | Observable<boolean> {
@@ -66,12 +60,12 @@ export class FormBaseComponent implements ComponentCanDeactivate {
     this.router.navigateByUrl('/ubs');
   }
 
-  cancelUBS(): void {
+  cancelUBS(isUbsOrderSubmit?: boolean): void {
     const condition = this.getFormValues();
-    this.cancelPopupJustifying(condition);
+    this.cancelPopupJustifying(condition, isUbsOrderSubmit);
   }
 
-  private cancelPopupJustifying(condition: boolean) {
+  private cancelPopupJustifying(condition: boolean, isUbsOrderSubmit?: boolean) {
     if (condition) {
       const matDialogRef = this.dialog.open(WarningPopUpComponent, this.popupConfig);
 
@@ -79,14 +73,23 @@ export class FormBaseComponent implements ComponentCanDeactivate {
         .afterClosed()
         .pipe(take(1))
         .subscribe((confirm) => {
+          const currentUrl = this.router.url;
+          const isUBS = currentUrl.includes('ubs/order');
+
           if (confirm) {
-            this.orderService.changeShouldBePaid();
-            this.orderService.getOrderUrl().subscribe((orderId) => {
-              this.ubsOrderFormService.transferOrderId(orderId);
-              this.ubsOrderFormService.setOrderResponseErrorStatus(orderId ? false : true);
-              this.areChangesSaved = true;
-              this.router.navigate(['ubs', 'confirm']);
-            });
+            this.areChangesSaved = true;
+          }
+          if (confirm && isUbsOrderSubmit) {
+            this.router.navigate(['ubs', 'confirm']);
+          }
+          if (confirm && !isUbsOrderSubmit && isUBS) {
+            this.cancelUBSwithoutSaving();
+          }
+          if (confirm && !isUbsOrderSubmit && !isUBS) {
+            this.router.navigate([this.previousPath]);
+          }
+          if (confirm === null && isUbsOrderSubmit) {
+            this.cancelUBSwithoutSaving();
           }
         });
       return;

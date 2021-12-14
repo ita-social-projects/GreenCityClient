@@ -13,7 +13,7 @@
       <app-ubs-personal-information #secondStep [completed]="completed"></app-ubs-personal-information>
     </mat-step>
     <mat-step [stepControl]="thirdStepForm" state="finalStep">
-      <ng-template matStepLabel>{{ 'order-form.payment' | translate }}</ng-template>
+      <ng-template matStepLabel>{{ 'order-form.confirm' | translate }}</ng-template>
       <app-ubs-submit-order #thirdStep></app-ubs-submit-order>
     </mat-step>
   </mat-horizontal-stepper>

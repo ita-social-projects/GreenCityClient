@@ -11,8 +11,9 @@ export class TableCellReadonlyComponent {
   @Input() date;
 
   showTooltip(title: any, tooltip: any) {
-    const lengthStr = title.split('').length;
-    if (lengthStr > 22) {
+    const maxWidthTitle = 112;
+    const width = document.createElement('canvas').getContext('2d').measureText(title).width;
+    if (width > maxWidthTitle) {
       tooltip.toggle();
     }
   }

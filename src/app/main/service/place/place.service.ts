@@ -12,7 +12,6 @@ import { FilterPlaceDtoModel } from '../../model/filtering/filter-place-dto.mode
 import { AdminPlace } from '../../component/admin/models/admin-place.model';
 import { BulkUpdatePlaceStatus } from '../../model/place/bulk-update-place-status.model';
 import { PlaceUpdatedDto } from '../../component/admin/models/placeUpdatedDto.model';
-import { PlaceStatus } from '@global-models/placeStatus.model';
 
 @Injectable({
   providedIn: 'root'

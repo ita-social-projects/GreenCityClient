@@ -1,17 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Observable, ReplaySubject } from 'rxjs';
-import {
-  Bags,
-  IOrderDetails,
-  IOrderSumDetails,
-  IUserInfo,
-  PaymentInfo,
-  UserViolations,
-  IExportDetails,
-  IDetailStatus,
-  IOrderHistory
-} from '../models/ubs-admin.interface';
+import { Observable } from 'rxjs';
+import { UserViolations, IOrderHistory } from '../models/ubs-admin.interface';
 import { environment } from '@environment/environment';
 
 @Injectable({
@@ -20,37 +10,6 @@ import { environment } from '@environment/environment';
 export class OrderService {
   private backend: string = environment.ubsAdmin.backendUbsAdminLink;
   private backendLink: string = environment.backendUbsLink;
-  private selectedOrder;
-  private selectedOrderStatus: any = new ReplaySubject<any>(1);
-
-  statusDone = { name: 'DONE', translation: 'order-edit.order-status.done' };
-  statusAdjustment = { name: 'ADJUSTMENT', translation: 'order-edit.order-status.adjustment' };
-  statusOnTheRoute = { name: 'ON_THE_ROUTE', translation: 'order-edit.order-status.on-the-route' };
-  statusNotTakenOut = { name: 'NOT_TAKEN_OUT', translation: 'order-edit.order-status.not-taken-out' };
-  statusConfirmed = { name: 'CONFIRMED', translation: 'order-edit.order-status.confirmed' };
-  statusFormed = { name: 'FORMED', translation: 'order-edit.order-status.formed' };
-  statusBroughtItHimself = { name: 'BROUGHT_IT_HIMSELF', translation: 'order-edit.order-status.brought-it-himself' };
-  statusCancelled = { name: 'CANCELLED', translation: 'order-edit.order-status.cancelled' };
-
-  // TODO: change this mock after receiving data from backend
-
-  readonly orderStatuses = [
-    { name: 'FORMED', translation: 'order-edit.order-status.formed', ableActualChange: false },
-    { name: 'ADJUSTMENT', translation: 'order-edit.order-status.adjustment', ableActualChange: false },
-    { name: 'BROUGHT_IT_HIMSELF', translation: 'order-edit.order-status.brought-it-himself', ableActualChange: false },
-    { name: 'CONFIRMED', translation: 'order-edit.order-status.confirmed', ableActualChange: false },
-    { name: 'ON_THE_ROUTE', translation: 'order-edit.order-status.on-the-route', ableActualChange: false },
-    { name: 'DONE', translation: 'order-edit.order-status.done', ableActualChange: true },
-    { name: 'NOT_TAKEN_OUT', translation: 'order-edit.order-status.not-taken-out', ableActualChange: false },
-    { name: 'CANCELLED', translation: 'order-edit.order-status.cancelled', ableActualChange: true }
-  ];
-
-  readonly paymentStatuses = [
-    { name: 'UNPAID', translation: 'order-edit.payment-status.not-paid' },
-    { name: 'PAID', translation: 'order-edit.payment-status.paid' },
-    { name: 'HALF_PAID', translation: 'order-edit.payment-status.half-paid' },
-    { name: 'PAYMENT_REFUNDED', translation: 'order-edit.payment-status.payment-refunded' }
-  ];
 
   readonly districts = [
     'Голосіївський',
@@ -68,33 +27,37 @@ export class OrderService {
 
   constructor(private http: HttpClient) {}
 
-  getSelectedOrder() {
-    return this.selectedOrder;
+  filterStatuses(allStatuses: Array<any>, availableStatusesNames: string[]) {
+    return availableStatusesNames.map((status) => {
+      return allStatuses.find((el) => el.key === status);
+    });
   }
 
-  setSelectedOrder(order) {
-    this.selectedOrder = order;
-  }
-
-  getAvailableOrderStatuses(currentOrderStatus: string) {
+  getAvailableOrderStatuses(currentOrderStatus: string, statuses: Array<any>) {
     switch (currentOrderStatus) {
       case 'FORMED':
-        return [this.statusFormed, this.statusAdjustment, this.statusBroughtItHimself, this.statusCancelled];
+        return this.filterStatuses(statuses, ['FORMED', 'ADJUSTMENT', 'BROUGHT_IT_HIMSELF', 'CANCELED']);
 
       case 'ADJUSTMENT':
-        return [this.statusFormed, this.statusAdjustment, this.statusConfirmed, this.statusBroughtItHimself, this.statusCancelled];
+        return this.filterStatuses(statuses, ['FORMED', 'ADJUSTMENT', 'CONFIRMED', 'BROUGHT_IT_HIMSELF', 'CANCELED']);
 
       case 'CONFIRMED':
-        return [this.statusFormed, this.statusConfirmed, this.statusOnTheRoute, this.statusCancelled];
+        return this.filterStatuses(statuses, ['FORMED', 'CONFIRMED', 'ON_THE_ROUTE', 'CANCELED']);
 
       case 'BROUGHT_IT_HIMSELF':
-        return [this.statusBroughtItHimself, this.statusDone, this.statusCancelled];
+        return this.filterStatuses(statuses, ['BROUGHT_IT_HIMSELF', 'DONE', 'CANCELED']);
 
       case 'ON_THE_ROUTE':
-        return [this.statusOnTheRoute, this.statusDone, this.statusNotTakenOut, this.statusCancelled];
+        return this.filterStatuses(statuses, ['ON_THE_ROUTE', 'DONE', 'NOT_TAKEN_OUT', 'CANCELED']);
 
       case 'NOT_TAKEN_OUT':
-        return [this.statusNotTakenOut, this.statusAdjustment, this.statusCancelled];
+        return this.filterStatuses(statuses, ['NOT_TAKEN_OUT', 'ADJUSTMENT', 'CANCELED']);
+
+      case 'DONE':
+        return this.filterStatuses(statuses, ['DONE']);
+
+      case 'CANCELED':
+        return this.filterStatuses(statuses, ['CANCELED']);
     }
   }
 
@@ -102,31 +65,31 @@ export class OrderService {
     return this.http.get(`${this.backend}/management/get-data-for-order/${orderId}/${lang}`);
   }
 
-  public getOrderDetails(orderId: number, lang: string): Observable<IOrderDetails> {
-    return this.http.get<IOrderDetails>(`${this.backend}/management/read-order-info/${orderId}?language=${lang}`);
+  public getOrderDetails(orderId: number, lang: string): Observable<any> {
+    return this.http.get<any>(`${this.backend}/management/read-order-info/${orderId}?language=${lang}`);
   }
-  public getOrderSumDetails(orderId: number): Observable<IOrderSumDetails> {
-    return this.http.get<IOrderSumDetails>(`${this.backend}/management/get-order-sum-detail/871`);
+  public getOrderSumDetails(orderId: number): Observable<any> {
+    return this.http.get<any>(`${this.backend}/management/get-order-sum-detail/871`);
   }
 
-  public getUserInfo(orderId: number, lang: string): Observable<IUserInfo> {
-    return this.http.get<IUserInfo>(`${this.backend}/user-info/${orderId}?lang=${lang}`);
+  public getUserInfo(orderId: number, lang: string): Observable<any> {
+    return this.http.get<any>(`${this.backend}/user-info/${orderId}?lang=${lang}`);
   }
 
   public getUserViolations(userEmail: string): Observable<UserViolations> {
     return this.http.get<UserViolations>(`${this.backend}/management/getUsersViolations?email=${userEmail}`);
   }
 
-  public getPaymentInfo(orderId: number): Observable<PaymentInfo> {
-    return this.http.get<PaymentInfo>(`${this.backend}/management/getPaymentInfo?orderId=${orderId}`);
+  public getPaymentInfo(orderId: number): Observable<any> {
+    return this.http.get<any>(`${this.backend}/management/getPaymentInfo?orderId=${orderId}`);
   }
 
   public readAddressOrder(orderId: number) {
     return this.http.get<any>(`${this.backend}/management/read-address-order/${orderId}`);
   }
 
-  public getOrderExportDetails(orderId: number): Observable<IExportDetails> {
-    return this.http.get<IExportDetails>(`${this.backend}/management/get-order-export-details/${orderId}`);
+  public getOrderExportDetails(orderId: number): Observable<any> {
+    return this.http.get<any>(`${this.backend}/management/get-order-export-details/${orderId}`);
   }
 
   public getAllReceivingStations(): Observable<any> {
@@ -137,8 +100,8 @@ export class OrderService {
     return this.http.get<any>(`${this.backend}/management/get-all-employee-by-position/${positionId}`);
   }
 
-  public getOrderDetailStatus(orderId: number): Observable<IDetailStatus> {
-    return this.http.get<IDetailStatus>(`${this.backend}/management/read-order-detail-status/${orderId}`);
+  public getOrderDetailStatus(orderId: number): Observable<any> {
+    return this.http.get<any>(`${this.backend}/management/read-order-detail-status/${orderId}`);
   }
 
   public getOrderHistory(orderId: number): Observable<IOrderHistory[]> {
@@ -149,23 +112,31 @@ export class OrderService {
     return this.http.put<any>(`${this.backend}`, postData);
   }
 
-  public getSelectedOrderStatus(): Observable<any> {
-    return this.selectedOrderStatus.asObservable();
-  }
-
-  public setSelectedOrderStatus(statusName) {
-    this.selectedOrderStatus.next(this.getOrderObjByName(statusName)[0]);
-  }
-
-  private getOrderObjByName(name) {
-    return this.orderStatuses.filter((status) => status.name === name);
-  }
-
   public getColumnToDisplay() {
     return this.http.get(`${this.backend}/management/getOrdersViewParameters`);
   }
 
   public setColumnToDisplay(columns: string) {
     return this.http.put<any>(`${this.backend}/management/changeOrdersTableView?titles=${columns}`, '');
+  }
+
+  public addViolationToCurrentOrder(violation) {
+    return this.http.post(`${this.backend}/management/addViolationToUser`, violation);
+  }
+
+  public getViolationOfCurrentOrder(orderId) {
+    return this.http.get(`${this.backend}/management/violation-details/${orderId}`);
+  }
+
+  public getOverpaymentMsg(overpayment) {
+    let message: string;
+    const OVERPAYMENT_MESSAGE = 'order-payment.overpayment';
+    const UNDERPAYMENT_MESSAGE = 'order-payment.underpayment';
+    if (overpayment > 0) {
+      message = OVERPAYMENT_MESSAGE;
+    } else if (overpayment < 0) {
+      message = UNDERPAYMENT_MESSAGE;
+    }
+    return message;
   }
 }

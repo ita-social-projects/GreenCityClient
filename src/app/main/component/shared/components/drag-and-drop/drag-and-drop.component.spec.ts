@@ -3,7 +3,7 @@ import { TranslateModule } from '@ngx-translate/core';
 import { DragAndDropComponent } from './drag-and-drop.component';
 import { ImageCropperModule } from 'ngx-image-cropper';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
-import { FormControl, FormGroup, FormsModule } from '@angular/forms';
+import { FormControl, FormGroup, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { ImageCroppedEvent } from 'ngx-image-cropper';
 import { FileHandle } from '@eco-news-models/create-news-interface';
 import { CreateEcoNewsService } from '@eco-news-service/create-eco-news.service';
@@ -38,7 +38,7 @@ describe('DragAndDropComponent', () => {
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       declarations: [DragAndDropComponent, DragAndDropDirective],
-      imports: [ImageCropperModule, FormsModule, HttpClientTestingModule, TranslateModule.forRoot()],
+      imports: [ImageCropperModule, FormsModule, HttpClientTestingModule, TranslateModule.forRoot(), ReactiveFormsModule],
       providers: [{ provide: CreateEcoNewsService, useValue: createEcoNewsServiceMock }]
     }).compileComponents();
   }));
