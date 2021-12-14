@@ -256,9 +256,6 @@ export class UbsAdminOrderComponent implements OnInit, OnDestroy {
     const date = new Date(this.orderForm.get(['exportDetailsForm', 'dateExport']).value);
     const timeTo = this.orderForm.get(['exportDetailsForm', 'timeDeliveryFrom']).value;
     const timeFrom = this.orderForm.get(['exportDetailsForm', 'timeDeliveryTo']).value;
-    console.log(date.toISOString());
-    console.log(this.parseStrToTime(timeTo, date));
-    console.log(this.parseStrToTime(timeFrom, date));
   }
 
   ngOnDestroy(): void {

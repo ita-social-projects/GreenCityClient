@@ -22,7 +22,7 @@ button:disabled {
 .back-button,
 .back-button-top {
   background-color: transparent;
-  color: var(--ubs-primary-green);
+  color: var(--ubs-tertiary-dark-grey);
   border: none;
   font-size: 18px;
   line-height: 28px;
@@ -43,23 +43,24 @@ button:disabled {
 
 .cancel-button,
 .save-button {
-  border: 1px solid var(--ubs-primary-green);
+  color: var(--ubs-tertiary-dark-grey);
   font-weight: bold;
   font-size: 18px;
   line-height: 28px;
-  padding: 5px 20px;
+  padding: 10px 25px;
   margin-right: 20px;
   margin-bottom: 35px;
+  border-radius: 5px;
 }
 
 .cancel-button {
+  border: 1px solid var(--ubs-tertiary-dark-grey);
   background-color: transparent;
-  color: var(--ubs-primary-green);
 }
 
 .save-button {
-  background-color: var(--ubs-primary-green);
-  color: var(--ubs-primary-white);
+  border: none;
+  background-color: var(--ubs-button-light-green);
 }
 
 .controls {
