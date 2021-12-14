@@ -28,7 +28,6 @@
   border: 1px solid var(--ubs-quintynary-light-grey);
   color: var(--ubs-quintynary-light-grey);
   box-sizing: border-box;
-  border-radius: 4px;
 
   &::placeholder {
     font-size: 14px;
@@ -80,17 +79,25 @@ input {
 }
 
 .time-from {
-  width: 80px;
+  width: 65px;
+  border-right: none;
+  border-radius: 4px 0 0 4px;
+  text-align: center;
 }
 
 .time-to {
-  width: 80px;
+  width: 65px;
   margin-right: 40px;
   margin-top: 4px;
+  text-align: center;
+  border-left: none;
+  border-radius: 0 4px 4px 0;
 }
 
 .hyphen {
-  margin: 35px 10px 0 -20px;
+  margin: 36px 0px 16px -43px;
+  border-top: 1px solid var(--ubs-quintynary-light-grey);
+  border-bottom: 1px solid var(--ubs-quintynary-light-grey);
 }
 
 select {
