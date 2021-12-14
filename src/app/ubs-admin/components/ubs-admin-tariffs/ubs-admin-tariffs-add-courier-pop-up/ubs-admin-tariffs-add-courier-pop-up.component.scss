@@ -68,24 +68,3 @@ select {
     }
   }
 }
-
-.hint-location {
-  margin: 0 0 20px 15px;
-  color: var(--ubs-primary-grey);
-}
-
-.validation {
-  color: var(--error-red);
-  font-size: 10px;
-  padding-right: 15px;
-  padding-left: 15px;
-}
-
-.listOfLocation {
-  display: flex;
-  justify-content: space-between;
-}
-
-.itemList {
-  margin: 10px;
-}

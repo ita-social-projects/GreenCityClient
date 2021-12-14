@@ -14,7 +14,7 @@
       </div>
     </div>
     <div class="add-button">
-      <button class="primary-global-button tariff-button" (click)="openAddDialog()">
+      <button class="primary-global-button tariff-button" (click)="openAddLocationDialog()">
         <div class="button-subtitle">{{ 'ubs-tariffs.btn.add_location' | translate }}</div>
       </button>
     </div>
@@ -43,7 +43,7 @@
     </ul>
   </div>
   <div class="add-button">
-    <button class="primary-global-button tariff-button">
+    <button class="primary-global-button tariff-button" (click)="openAddCourierDialog()">
       <div class="button-subtitle">{{ 'ubs-tariffs.btn.add_courier' | translate }}</div>
     </button>
   </div>

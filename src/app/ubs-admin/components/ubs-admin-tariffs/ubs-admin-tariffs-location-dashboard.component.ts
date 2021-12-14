@@ -6,6 +6,7 @@ import { Subject } from 'rxjs';
 import { Router } from '@angular/router';
 import { UbsAdminTariffsAddLocationPopUpComponent } from './ubs-admin-tariffs-add-location-pop-up/ubs-admin-tariffs-add-location-pop-up.component';
 import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
+import { UbsAdminTariffsAddCourierPopUpComponent } from './ubs-admin-tariffs-add-courier-pop-up/ubs-admin-tariffs-add-courier-pop-up.component';
 
 @Component({
   selector: 'app-ubs-admin-tariffs-location-dashboard',
@@ -34,7 +35,6 @@ export class UbsAdminTariffsLocationDashboardComponent implements OnInit, OnDest
       .getLocations()
       .pipe(takeUntil(this.destroy))
       .subscribe((res: Locations) => {
-        console.log(res);
         this.locations = res;
         this.disabledLocations = res;
         this.filter();
@@ -50,7 +50,6 @@ export class UbsAdminTariffsLocationDashboardComponent implements OnInit, OnDest
       .getCouriers()
       .pipe(takeUntil(this.destroy))
       .subscribe((res: Locations) => {
-        console.log(res);
         this.couriers = res;
       });
   }
@@ -78,10 +77,16 @@ export class UbsAdminTariffsLocationDashboardComponent implements OnInit, OnDest
       .subscribe(() => this.getLocations());
   }
 
-  openAddDialog(): void {
+  openAddLocationDialog(): void {
     const dialogConfig = new MatDialogConfig();
     dialogConfig.panelClass = 'address-matDialog-styles';
-    const dialogRef = this.dialog.open(UbsAdminTariffsAddLocationPopUpComponent, dialogConfig);
+    this.dialog.open(UbsAdminTariffsAddLocationPopUpComponent, dialogConfig);
+  }
+
+  openAddCourierDialog(): void {
+    const dialogConfig = new MatDialogConfig();
+    dialogConfig.panelClass = 'address-matDialog-styles';
+    this.dialog.open(UbsAdminTariffsAddCourierPopUpComponent, dialogConfig);
   }
 
   ngOnDestroy() {

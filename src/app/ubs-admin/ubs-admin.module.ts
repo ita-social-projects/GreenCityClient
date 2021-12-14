@@ -60,6 +60,8 @@ import { UbsAdminTariffsAddLocationPopUpComponent } from './components/ubs-admin
 import { GooglePlaceModule } from 'ngx-google-places-autocomplete';
 import { AgmCoreModule } from '@agm/core';
 import { environment } from '@environment/environment';
+import { UbsAdminTariffsAddCourierPopUpComponent } from './components/ubs-admin-tariffs/ubs-admin-tariffs-add-courier-pop-up/ubs-admin-tariffs-add-courier-pop-up.component';
+import { MatDialogModule } from '@angular/material/dialog';
 
 @NgModule({
   declarations: [
@@ -97,7 +99,8 @@ import { environment } from '@environment/environment';
     UbsAdminEmployeeTableComponent,
     UbsAdminCustomerDetailsComponent,
     UbsAdminOrderHistoryComponent,
-    UbsAdminTariffsAddLocationPopUpComponent
+    UbsAdminTariffsAddLocationPopUpComponent,
+    UbsAdminTariffsAddCourierPopUpComponent
   ],
   imports: [
     CommonModule,
@@ -118,6 +121,7 @@ import { environment } from '@environment/environment';
     MatSlideToggleModule,
     MatNativeDateModule,
     MatTableModule,
+    MatDialogModule,
     GooglePlaceModule,
     AgmCoreModule.forRoot({
       apiKey: environment.agmCoreModuleApiKey,

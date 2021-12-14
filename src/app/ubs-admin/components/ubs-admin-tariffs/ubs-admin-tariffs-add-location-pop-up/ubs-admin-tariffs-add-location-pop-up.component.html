@@ -11,32 +11,38 @@
       ngx-google-places-autocomplete
       type="text"
       class="shadow-none form-control"
-      [pattern]="streetPattern"
       required
       [options]="regionOptions"
       formControlName="region"
       placeholder=""
+      (onAddressChange)="onRegionSelected($event)"
     />
   </div>
-  <div class="w-100" *ngIf="emptyRegionMessage">
+  <div class="w-100" *ngIf="locationForm.get('region').invalid && locationForm.get('region').touched">
     <p class="validation">{{ 'ubs-tariffs-add-location-pop-up.error_message' | translate }}</p>
   </div>
   <div class="col-lg-12 form-group">
     <label>{{ 'ubs-tariffs-add-location-pop-up.locality' | translate }}</label>
     <input
+      #locationInput
       class="shadow-none form-control"
       formControlName="locality"
-      [options]="localityOptions"
       placeholder=""
-      ngx-google-places-autocomplete
+      [attr.disabled]="locationForm.controls['region'].dirty ? null : true"
     />
+    <div *ngFor="let item of items; let index = index">
+      <div class="listOfLocation">
+        <div class="itemList">{{ item }}</div>
+        <img src=".././assets/img/ubs/cross.svg" class="delete-button-img" alt="edit-icon" (click)="deleteTask(index)" />
+      </div>
+    </div>
   </div>
 </form>
 <div class="d-flex justify-content-end buttons" mat-dialog-actions>
   <button class="secondary-global-button btn m-0 mr-2" mat-button (click)="onNoClick()">
     {{ 'ubs-tariffs-add-location-pop-up.cancel_button' | translate }}
   </button>
-  <button class="primary-global-button btn m-0" (click)="addLocation()">
+  <button class="primary-global-button btn m-0" (click)="addLocation()" [disabled]="!locationForm.valid || isDisabled">
     {{ 'ubs-tariffs-add-location-pop-up.add_button' | translate }}
   </button>
 </div>
