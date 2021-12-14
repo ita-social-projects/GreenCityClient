@@ -120,6 +120,14 @@ export class OrderService {
     return this.http.put<any>(`${this.backend}/management/changeOrdersTableView?titles=${columns}`, '');
   }
 
+  public addViolationToCurrentOrder(violation) {
+    return this.http.post(`${this.backend}/management/addViolationToUser`, violation);
+  }
+
+  public getViolationOfCurrentOrder(orderId) {
+    return this.http.get(`${this.backend}/management/violation-details/${orderId}`);
+  }
+
   public getOverpaymentMsg(overpayment) {
     let message: string;
     const OVERPAYMENT_MESSAGE = 'order-payment.overpayment';

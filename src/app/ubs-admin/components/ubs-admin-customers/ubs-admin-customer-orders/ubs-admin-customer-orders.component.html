@@ -14,9 +14,9 @@
     (scrolled)="onScroll()"
     [scrollWindow]="false"
   >
-    <table mat-table [dataSource]="dataSource">
+    <table aria-label="table of customers orders" mat-table [dataSource]="dataSource">
       <ng-container *ngFor="let column of columns; let i = index" [matColumnDef]="column.title.key">
-        <th mat-header-cell *matHeaderCellDef [appResizeColumn]="{ resizable: true, index: i }">
+        <th id="head" mat-header-cell *matHeaderCellDef [appResizeColumn]="{ resizable: true, index: i }">
           <div class="columns_header">
             <span>{{ column.title | serverTranslate: currentLang }}</span>
             <mat-icon *ngIf="arrowDirection !== column.title.key" (click)="onSortTable(column.title.key, 'DESC')">

@@ -178,9 +178,20 @@ export class UBSAddAddressPopUpComponent implements OnInit, OnDestroy {
   }
 
   onLocationSelected(event): void {
+    let g = 0;
+    let h = 0;
+    let long = 0;
+    let lat = 0;
+    for (const [key1, value] of Object.entries(event.geometry.viewport)) {
+      for (const [key2, val] of Object.entries(value)) {
+        g = key2 === 'g' ? val : g;
+        h = key2 === 'h' ? val : h;
+      }
+      key1.includes('b') ? (lat = (g + h) / 2) : (long = (g + h) / 2);
+    }
     this.addAddressForm.get('coordinates').setValue({
-      latitude: (event.geometry.viewport.Bb.g + event.geometry.viewport.Bb.h) / 2,
-      longitude: (event.geometry.viewport.Ra.g + event.geometry.viewport.Ra.h) / 2
+      latitude: lat,
+      longitude: long
     });
   }
 
@@ -193,7 +204,7 @@ export class UBSAddAddressPopUpComponent implements OnInit, OnDestroy {
 
   onAutocompleteSelected(event): void {
     let streetName = event.name;
-    const regExp = /,* \d{1,}/;
+    const regExp = /,* \d+/;
     const num = streetName.match(regExp);
 
     if (num) {
