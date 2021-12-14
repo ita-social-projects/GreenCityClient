@@ -15,6 +15,8 @@ export class UbsAdminTableExcelPopupComponent implements OnInit {
   tableData: any[];
   tableView: string;
   totalElements: number;
+  filterValue: string;
+  name: string;
 
   constructor(private adminTableService: AdminTableService) {}
 
@@ -22,35 +24,37 @@ export class UbsAdminTableExcelPopupComponent implements OnInit {
     this.tableView = 'wholeTable';
   }
 
-  async saveTable() {
+  saveTable() {
     if (this.tableView === 'wholeTable') {
     } else if (this.tableView === 'currentFilter') {
       // implement downloading with filtering, when filtering will be implemented into project
     }
 
     this.isLoading = true;
-    this.tableData = await this.getTable(this.onePageForWholeTable, this.totalElements, this.sortType, this.sortingColumn);
-    this.isLoading = false;
-
-    if (this.tableData) {
-      const ws: XLSX.WorkSheet = XLSX.utils.json_to_sheet(this.tableData);
-      const wb: XLSX.WorkBook = XLSX.utils.book_new();
-      XLSX.utils.book_append_sheet(wb, ws, 'Sheet1');
-      XLSX.writeFile(wb, 'Orders-Table.xlsx');
-    } else {
-      // do something if error
-    }
+    this.getTable(this.onePageForWholeTable, this.totalElements, this.filterValue, this.sortType, this.sortingColumn)
+      .then((res) => {
+        this.tableData = res[`content`];
+      })
+      .finally(() => {
+        this.isLoading = false;
+        if (this.tableData) {
+          const ws: XLSX.WorkSheet = XLSX.utils.json_to_sheet(this.tableData);
+          const wb: XLSX.WorkBook = XLSX.utils.book_new();
+          XLSX.utils.book_append_sheet(wb, ws, 'Sheet1');
+          XLSX.writeFile(wb, this.name);
+        } else {
+          alert('Error. Please try again');
+        }
+      });
   }
 
-  getTable(currentPage, pageSize, sortingType = this.sortType || 'DESC', columnName = this.sortingColumn || 'id') {
-    return this.adminTableService
-      .getTable(columnName, currentPage, '', pageSize, sortingType)
-      .toPromise()
-      .then((res) => {
-        return res[`page`];
-      })
-      .catch((err) => {
-        alert(err.message);
-      });
+  getTable(
+    currentPage,
+    pageSize,
+    filters = this.filterValue || '',
+    sortingType = this.sortType || 'DESC',
+    columnName = this.sortingColumn || 'id'
+  ) {
+    return this.adminTableService.getTable(columnName, currentPage, filters, pageSize, sortingType).toPromise();
   }
 }

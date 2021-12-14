@@ -2,7 +2,7 @@
   <h1 mat-dialog-title class="title">{{ 'export-excel-popup.select-data' | translate }}</h1>
   <div [ngClass]="{ 'disabled-class': isLoading }" class="box">
     <mat-radio-group ngDefaultControl aria-label="Select an option" [(ngModel)]="tableView">
-      <mat-radio-button value="currentFilter" class="item" disabled>{{ 'export-excel-popup.current' | translate }} </mat-radio-button>
+      <mat-radio-button value="currentFilter" class="item">{{ 'export-excel-popup.current' | translate }} </mat-radio-button>
       <mat-radio-button value="wholeTable" class="item">{{ 'export-excel-popup.all' | translate }}</mat-radio-button>
     </mat-radio-group>
   </div>
