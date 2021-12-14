@@ -11,7 +11,8 @@ export class CreateEditNewsFormBuilder {
     return this.fb.group({
       title: ['', [Validators.required, Validators.maxLength(170), this.noWhitespaceValidator]],
       source: [''],
-      content: ['', [Validators.required, Validators.minLength(20), Validators.maxLength(63206)]],
+      // content: ['', [Validators.required, Validators.minLength(20), Validators.maxLength(63206)]],
+      content: ['', [Validators.required, Validators.minLength(20)]],
       tags: this.fb.array([]),
       image: ['']
     });
@@ -25,7 +26,8 @@ export class CreateEditNewsFormBuilder {
       source: [data.source],
       content: [
         data.text || data.content || data.content.html,
-        [Validators.required, Validators.minLength(20), Validators.maxLength(63206)]
+        // [Validators.required, Validators.minLength(20), Validators.maxLength(63206)]
+        [Validators.required, Validators.minLength(20)]
       ],
       tags: this.fb.array(data.tags),
       image: [data.imagePath]

@@ -1,3 +1,28 @@
+export const checkImages = (editorContent: string) => {
+  const findBase64Regex = /data:image\/([a-zA-Z]*);base64,([^"]*)/g;
+  const imagesSrc = editorContent.match(findBase64Regex);
+
+  if (!imagesSrc) {
+    console.log('No Images in Text Editor');
+    return 'NO_IMAGES';
+  }
+  return imagesSrc;
+};
+
+export const transformBase64ToFile = (base64Img) => {
+  return fetch(base64Img)
+    .then((res) => res.blob())
+    .then((blob) => new File([blob], `image.${blob.type.split('/')[1]}`, { type: blob.type }))
+    .then((f) => {
+      console.log(f);
+      return f;
+    })
+    .catch((err) => {
+      this.savingImages = false;
+      console.error(err);
+    });
+};
+
 export const addFilesToFormData = (f) => {
   const formData: FormData = new FormData();
 

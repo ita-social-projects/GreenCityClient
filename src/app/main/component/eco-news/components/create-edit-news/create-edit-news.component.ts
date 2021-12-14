@@ -20,6 +20,7 @@ import Quill from 'quill';
 import 'quill-emoji/dist/quill-emoji.js';
 import ImageResize from 'quill-image-resize-module';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { checkImages, transformBase64ToFile } from './quillEditorFunc';
 
 @Component({
   selector: 'app-create-edit-news',
@@ -243,37 +244,75 @@ export class CreateEditNewsComponent extends FormBaseComponent implements OnInit
     }
   }
 
+  public sendData(): void {
+    this.form.value.content = this.editorHTML;
+    this.createEcoNewsService
+      .sendFormData(this.form)
+      .pipe(
+        delay(5000),
+        takeUntil(this.destroyed$),
+        catchError((err) => {
+          this.snackBar.openSnackBar('Oops, something went wrong. Please reload page or try again later.');
+          return throwError(err);
+        })
+      )
+      .subscribe(() => this.escapeFromCreatePage());
+
+    this.localStorageService.removeTagsOfNews('newsTags');
+  }
+
   public createNews(): void {
-    this.isPosting = true;
-    this.savingImages = true;
+    const imagesSrc = checkImages(this.editorHTML);
+    if (imagesSrc === 'NO_IMAGES') {
+      this.sendData();
+    } else {
+      const imgFiles = imagesSrc.map((base64) => transformBase64ToFile(base64));
+      console.log(imgFiles);
+      // const formData: FormData = new FormData();
+      this.createEcoNewsService.sendImagesData(imgFiles).subscribe(
+        (response) => {
+          // response.forEach((link) => {
+          //   this.editorHTML = this.editorHTML.replace(findBase64Regex, link);
+          // });
+          console.log('html', response);
+          // this.savingImages = false;
+        },
+        () => {
+          this.savingImages = false;
+        }
+      );
+    }
+
+    // this.isPosting = true;
+    // this.savingImages = true;
     console.log('createNews');
 
-    this.saveImages();
+    // this.saveImages();
 
-    const waitForElement = () => {
-      if (this.savingImages === false) {
-        console.log('service', this.savingImages);
-        console.log('form', this.form);
-        this.form.value.content = this.editorHTML;
-        this.createEcoNewsService
-          .sendFormData(this.form)
-          .pipe(
-            delay(5000),
-            takeUntil(this.destroyed$),
-            catchError((err) => {
-              this.snackBar.openSnackBar('Oops, something went wrong. Please reload page or try again later.');
-              return throwError(err);
-            })
-          )
-          .subscribe(() => this.escapeFromCreatePage());
-
-        this.localStorageService.removeTagsOfNews('newsTags');
-      } else {
-        console.log('wait', this.savingImages);
-        setTimeout(waitForElement, 250);
-      }
-    };
-    waitForElement();
+    // const waitForElement = () => {
+    //   if (this.savingImages === false) {
+    //     console.log('service', this.savingImages);
+    //     console.log('form', this.form);
+    //     this.form.value.content = this.editorHTML;
+    //     this.createEcoNewsService
+    //       .sendFormData(this.form)
+    //       .pipe(
+    //         delay(5000),
+    //         takeUntil(this.destroyed$),
+    //         catchError((err) => {
+    //           this.snackBar.openSnackBar('Oops, something went wrong. Please reload page or try again later.');
+    //           return throwError(err);
+    //         })
+    //       )
+    //       .subscribe(() => this.escapeFromCreatePage());
+    //
+    //     this.localStorageService.removeTagsOfNews('newsTags');
+    //   } else {
+    //     console.log('wait', this.savingImages);
+    //     setTimeout(waitForElement, 250);
+    //   }
+    // };
+    // waitForElement();
   }
 
   public escapeFromCreatePage() {
@@ -387,24 +426,10 @@ export class CreateEditNewsComponent extends FormBaseComponent implements OnInit
   }
 
   saveImages() {
-    const transformBase64ToFile = (base64Img) => {
-      return fetch(base64Img)
-        .then((res) => res.blob())
-        .then((blob) => new File([blob], `image.${blob.type.split('/')[1]}`, { type: blob.type }))
-        .then((f) => {
-          console.log(f);
-          return f;
-        })
-        .catch((err) => {
-          this.savingImages = false;
-          console.error(err);
-        });
-    };
-
-    if (!this.editorHTML) {
-      this.savingImages = false;
-      return console.warn('No Data in Text Editor');
-    }
+    // if (!this.editorHTML) {
+    //   this.savingImages = false;
+    //   return console.warn('No Data in Text Editor');
+    // }
 
     const findBase64Regex = /data:image\/([a-zA-Z]*);base64,([^"]*)/g;
     const imagesSrc = this.editorHTML.match(findBase64Regex);
