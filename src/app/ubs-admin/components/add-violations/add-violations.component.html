@@ -59,8 +59,8 @@
     <button *ngIf="images[0]?.src" (click)="deleteAllImages()" class="delete-photo">
       <img src="assets/img/icon/bin.svg" alt="delete-icon" class="delete-icon" /> {{ 'add-violation-modal.delete-button' | translate }}
     </button>
-    <button class="cancel-button" [mat-dialog-close]="true">{{ 'add-violation-modal.cancel-button' | translate }}</button>
-    <button class="add-button" [disabled]="!addViolationForm.valid" (click)="send()">
+    <button class="cancelButton" [mat-dialog-close]="true">{{ 'add-violation-modal.cancel-button' | translate }}</button>
+    <button class="addButton" [disabled]="!addViolationForm.valid" (click)="send()">
       {{ 'add-violation-modal.add-button' | translate }}
     </button>
   </div>
