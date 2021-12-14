@@ -11,10 +11,12 @@ import { UBSInputErrorComponent } from '../ubs-input-error/ubs-input-error.compo
 import { UBSPersonalInformationComponent } from './ubs-personal-information.component';
 import { CUSTOM_ELEMENTS_SCHEMA, SimpleChange } from '@angular/core';
 
-describe('PersonalDataFormComponent', () => {
+describe('UBSPersonalInformationComponent', () => {
   let component: UBSPersonalInformationComponent;
   let fixture: ComponentFixture<UBSPersonalInformationComponent>;
   let realTakeUserData;
+
+  const fakeLocalStorageResponse = JSON.stringify(null);
   const listMock = {
     addressList: [
       {
@@ -99,6 +101,9 @@ describe('PersonalDataFormComponent', () => {
     component = fixture.componentInstance;
     realTakeUserData = component.takeUserData;
     spyOn(component, 'takeUserData').and.callFake(() => {});
+    spyOn(localStorage, 'setItem');
+    spyOn(localStorage, 'getItem').and.returnValue(fakeLocalStorageResponse);
+    spyOn(localStorage, 'removeItem');
     fixture.detectChanges();
   });
 
@@ -123,13 +128,11 @@ describe('PersonalDataFormComponent', () => {
   });
 
   it('destroy Subject should be closed after ngOnDestroy()', () => {
-    // @ts-ignore
-    component.destroy = new Subject<boolean>();
-    // @ts-ignore
-    spyOn(component.destroy, 'unsubscribe');
+    const destroy = 'destroy';
+    component[destroy] = new Subject<boolean>();
+    spyOn(component[destroy], 'unsubscribe');
     component.ngOnDestroy();
-    // @ts-ignore
-    expect(component.destroy.unsubscribe).toHaveBeenCalledTimes(1);
+    expect(component[destroy].unsubscribe).toHaveBeenCalledTimes(1);
   });
 
   it('method takeUserData should get data from orderService', () => {
@@ -164,12 +167,14 @@ describe('PersonalDataFormComponent', () => {
 
   it('method togglClient should set client data if anotherClient = false', () => {
     component.anotherClient = false;
+    spyOn(component, 'changeAnotherClientInPersonalData');
     component.togglClient();
     expect(component.personalDataForm.get('anotherClientPhoneNumber').value).toBe('+380');
   });
 
   it('method togglClient should clear client data if anotherClient = true', () => {
     component.anotherClient = true;
+    spyOn(component, 'changeAnotherClientInPersonalData');
     component.togglClient();
     expect(component.personalDataForm.get('anotherClientPhoneNumber').value).toBe('');
   });

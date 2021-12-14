@@ -14,7 +14,7 @@
         [generalOrderInfo]="generalOrderInfo"
         (changed)="onChangedOrderStatus($event)"
       ></app-ubs-admin-order-status>
-      <app-ubs-admin-order-client-info [clientInfoForm]="getFormGroup('clientInfoForm')" [clientInfo]="clientInfo">
+      <app-ubs-admin-order-client-info [clientInfoForm]="getFormGroup('clientInfoForm')" [clientInfo]="clientInfo" [orderId]="orderId">
       </app-ubs-admin-order-client-info>
       <app-ubs-admin-address-details
         [addressDetailsForm]="getFormGroup('addressDetailsForm')"

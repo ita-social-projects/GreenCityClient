@@ -15,6 +15,8 @@ import { HabitStatisticService } from '@global-service/habit-statistic/habit-sta
 import { UserOwnAuthService } from '@auth-service/user-own-auth.service';
 import { SearchService } from '@global-service/search/search.service';
 import { MatDialog, MatDialogModule } from '@angular/material/dialog';
+import { DropdownModule } from 'angular-bootstrap-md';
+import { Router } from '@angular/router';
 
 class MatDialogMock {
   afterAllClosed = of(true);
@@ -31,6 +33,7 @@ describe('HeaderComponent', () => {
   let fixture: ComponentFixture<HeaderComponent>;
   const mockLang = 'ua';
   const mockLangId = 1;
+  const userId = 'userId';
 
   let localStorageServiceMock: LocalStorageService;
   localStorageServiceMock = jasmine.createSpyObj('LocalStorageService', ['userIdBehaviourSubject']);
@@ -77,11 +80,12 @@ describe('HeaderComponent', () => {
   userOwnAuthServiceMock.isLoginUserSubject = new BehaviorSubject(true);
 
   let dialog: MatDialog;
+  let router: Router;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       declarations: [HeaderComponent],
-      imports: [RouterTestingModule.withRoutes([]), TranslateModule.forRoot(), MatDialogModule, HttpClientTestingModule],
+      imports: [RouterTestingModule.withRoutes([]), TranslateModule.forRoot(), MatDialogModule, HttpClientTestingModule, DropdownModule],
       providers: [
         { provide: MatDialog, useClass: MatDialogMock },
         { provide: LocalStorageService, useValue: localStorageServiceMock },
@@ -104,9 +108,13 @@ describe('HeaderComponent', () => {
     component.dropdownVisible = false;
     component.langDropdownVisible = false;
     component.toggleBurgerMenu = false;
-    // @ts-ignore
-    component.userId = 1;
+    component[userId] = 1;
     dialog = TestBed.inject(MatDialog);
+    router = TestBed.inject(Router);
+    spyOn(router, 'navigate');
+    spyOn(router, 'navigateByUrl').and.returnValue(Promise.resolve(true));
+    spyOn(router.url, 'includes');
+    spyOn(router.events, 'pipe').and.returnValue(of(true));
 
     fixture.detectChanges();
   });
@@ -145,16 +153,16 @@ describe('HeaderComponent', () => {
     });
 
     it('should toogle search method', () => {
-      // @ts-ignore
-      const spy = spyOn(component.searchSearch, 'toggleSearchModal');
+      const searchSearch = 'searchSearch';
+      const spy = spyOn(component[searchSearch], 'toggleSearchModal');
       component.toggleSearchPage();
 
       expect(spy).toHaveBeenCalled();
     });
 
     it('should change current language', () => {
-      // @ts-ignore
-      const spy = spyOn(component.languageService, 'changeCurrentLanguage');
+      const languageService = 'languageService';
+      const spy = spyOn(component[languageService], 'changeCurrentLanguage');
       const index = 1;
       component.changeCurrentLanguage('en', index);
 
