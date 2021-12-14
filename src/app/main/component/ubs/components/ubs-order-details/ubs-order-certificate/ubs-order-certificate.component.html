@@ -1,0 +1,103 @@
+<div [formGroup]="orderDetailsForm">
+  <div
+    class="addCertificate"
+    formArrayName="formArrayCertificates"
+    *ngFor="let certificate of formArrayCertificates.controls; let i = index"
+  >
+    <input
+      type="text"
+      class="shadow-none form-control col-12 col-sm-8 my-1 input-border"
+      placeholder="xxxx-xxxx"
+      [unmask]="false"
+      [imask]="{ mask: certificateMask }"
+      [formControlName]="i"
+      [readonly]="certStatuses[i]"
+    />
+    <div class="form-group">
+      <button
+        *ngIf="showActivateButton(i)"
+        type="button"
+        class="primary-global-button btn"
+        [disabled]="
+          formArrayCertificates['controls'][i].invalid ||
+          formArrayCertificates['controls'][i].pristine ||
+          !certificate.value.length ||
+          showTotal < minOrderValue
+        "
+        (click)="certificateSubmit(i)"
+      >
+        {{ 'order-details.activate' | translate }}
+      </button>
+      <button
+        [disabled]="cancelCertBtn"
+        *ngIf="showCancelButton(i)"
+        type="button"
+        class="primary-global-button btn"
+        (click)="deleteCertificate(i)"
+      >
+        {{ 'order-details.cancel' | translate }}
+      </button>
+    </div>
+    <div class="validMessages">
+      <small class="text-danger" *ngIf="certificate.invalid && certificate.touched && certificateError">
+        {{ 'order-details.failed-certificate' | translate }}
+      </small>
+    </div>
+  </div>
+
+  <div class="messages-container">
+    <small class="text-danger" *ngIf="certificateError">
+      {{ 'order-details.failed-certificate' | translate }}
+    </small>
+    <small class="text-danger" *ngIf="certStatus === 'USED' && failedCert">
+      {{ 'order-details.already-used' | translate: { certDate: certDate } }}
+    </small>
+    <small class="text-danger" *ngIf="certStatus === 'EXPIRED' && failedCert">
+      {{ 'order-details.expired' | translate: { certDate: certDate } }}
+    </small>
+    <small class="text-message" *ngIf="certSize">
+      {{ 'order-details.activated' | translate: { certificateSum: certificateSum, certDate: certDate } }}
+    </small>
+    <small class="text-message" *ngIf="(certStatus === 'NEW' || certStatus === 'ACTIVE') && !certSize">
+      {{ 'order-details.activated' | translate: { certificateSum: certificateSum, certDate: certDate } }}
+    </small>
+  </div>
+
+  <button
+    type="button"
+    *ngIf="addCert && finalSum > 0 && !failedCert"
+    class="addCertificateBtn"
+    [disabled]="!disableAddCertificate() || cancelCertBtn || certificateError || failedCert"
+    (click)="addNewCertificate()"
+  >
+    {{ 'order-details.add-certificate' | translate }}
+  </button>
+
+  <div class="points">
+    <h5>{{ 'order-details.bonus-need' | translate }}</h5>
+    <p>{{ 'order-details.bonus-left' | translate }} {{ defaultPoints | currency | localizedCurrency }}</p>
+    <p>
+      <a href="#!" class="bonus-how-to-link">{{ 'order-details.bonus-how-to-get' | translate }}</a>
+    </p>
+    <div class="radio-btn" *ngIf="defaultPoints !== 0 && showTotal !== 0">
+      <label class="custom-radio-btn"
+        >{{ 'order-details.no' | translate }}
+        <input formControlName="bonus" type="radio" value="no" tabindex="-1" (click)="resetPoints()" />
+        <span class="checkmark" tabindex="0" (keyup)="selectPointsRadioBtn($event, 'no'); resetPoints()"></span>
+      </label>
+      <label class="custom-radio-btn"
+        >{{ 'order-details.yes' | translate }}
+        <input formControlName="bonus" type="radio" value="yes" tabindex="-1" (click)="calculatePoints()" />
+        <span class="checkmark" tabindex="0" (keyup)="selectPointsRadioBtn($event, 'yes'); calculatePoints()"></span>
+      </label>
+    </div>
+    <div class="points-balance">
+      <small class="text-message" [class.d-none]="pointsUsed === 0">
+        <span>{{ 'order-details.used' | translate }} {{ pointsUsed | currency | localizedCurrency }}</span>
+      </small>
+      <small class="text-message" [class.d-none]="pointsUsed === 0">
+        <span>{{ 'order-details.balance' | translate }} {{ points | currency | localizedCurrency }}</span>
+      </small>
+    </div>
+  </div>
+</div>

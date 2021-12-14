@@ -29,7 +29,7 @@
 }
 
 h3 {
-  @include text_style(var(--ubs-quaternary-font), var(ubs-primary-grey), 24px, 700);
+  @include text_style(var(--ubs-quaternary-font), var(--ubs-primary-grey), 24px, 700);
 }
 
 .eco-store::-webkit-outer-spin-button,
@@ -211,11 +211,11 @@ button {
     padding-right: 0.5rem;
 
     span {
-      width: 140px;
+      width: 145px;
     }
 
     strong {
-      padding-left: 2rem;
+      padding: 0 8px 2rem;
       color: var(--ubs-primary-grey);
     }
   }
@@ -268,51 +268,10 @@ button {
     border: 1px solid var(--ubs-quintynary-light-grey);
   }
 
-  .certificate-container,
-  .addCertificate {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: space-between;
-    align-items: flex-end;
-    width: 44%;
-
-    input {
-      padding: 0.5rem;
-    }
-
-    .validMes {
-      width: 65%;
-      margin: -1rem 0 1rem;
-      color: var(--ubs-primary-green);
-    }
-  }
-
   button {
     width: 8rem;
     height: 2.25rem;
     font-size: 14px;
-  }
-
-  .addCertificate {
-    align-items: center;
-
-    button {
-      margin-top: 1rem;
-    }
-  }
-
-  .addCertificateBtn {
-    width: 180px;
-    padding: 0;
-    text-align: left;
-    background: none;
-    color: var(--ubs-electric-violet);
-    outline: none;
-    font-size: 14px;
-
-    &:hover {
-      background: none;
-    }
   }
 
   .addBonus {
@@ -423,26 +382,6 @@ button {
   }
 }
 
-.points {
-  font-family: var(--ubs-quaternary-font);
-  margin-top: 3em;
-
-  p {
-    font-size: 14px;
-  }
-
-  .points-balance {
-    display: flex;
-    flex-flow: column wrap;
-  }
-
-  .bonus-how-to-link,
-  small {
-    font-size: 12px;
-    color: var(--ubs-electric-violet);
-  }
-}
-
 .order-notification {
   display: flex;
   flex-flow: column wrap;
@@ -492,6 +431,17 @@ h5 {
 
 .bottom_comment {
   background: var(--ubs-primary-white);
+
+  h5 {
+    color: var(--ubs-primary-grey);
+  }
+
+  .link {
+    text-decoration: underline;
+    color: var(--primary-green);
+    margin-bottom: 15px;
+    cursor: pointer;
+  }
 
   .textarea {
     height: 6rem;
@@ -561,6 +511,10 @@ li {
     font-size: 1rem;
   }
 
+  .bottom-text {
+    margin-top: -25px;
+  }
+
   p,
   a,
   textarea,
@@ -609,5 +563,14 @@ li {
   small,
   input {
     font-size: 0.65rem;
+  }
+
+  .bottom-text {
+    margin-top: -50px;
+    padding: 0 0 0 0.5rem;
+  }
+
+  .addOrderBtn {
+    margin-top: 20px;
   }
 }

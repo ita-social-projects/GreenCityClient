@@ -6,20 +6,26 @@
   <div class="row mb-3">
     <h6>{{ 'add-violation-modal.level-of-violation' | translate }}</h6>
   </div>
-  <div class="row custom-control custom-radio mb-2">
-    <input class="radio" name="radio" type="radio" />
-    <label class="label-y">{{ 'add-violation-modal.easy-violation' | translate }}</label>
-  </div>
-  <div class="row custom-control custom-radio mb-3">
-    <input class="radio" name="radio" type="radio" />
-    <label class="label-p">{{ 'add-violation-modal.serious-violation' | translate }}</label>
-  </div>
-  <div class="row mb-3">
-    <h6>{{ 'add-violation-modal.description' | translate }}</h6>
-  </div>
-  <div class="row mb-3">
-    <textarea class="description" placeholder="{{ 'add-violation-modal.placeholder' | translate }}"></textarea>
-  </div>
+  <form [formGroup]="addViolationForm">
+    <div class="row custom-control custom-radio mb-2">
+      <input class="radio" name="violationLevel" type="radio" value="LOW" formControlName="violationLevel" />
+      <label class="label-y">{{ 'add-violation-modal.easy-violation' | translate }}</label>
+    </div>
+    <div class="row custom-control custom-radio mb-3">
+      <input class="radio" name="violationLevel" type="radio" value="MAJOR" formControlName="violationLevel" />
+      <label class="label-p">{{ 'add-violation-modal.serious-violation' | translate }}</label>
+    </div>
+    <div class="row mb-3">
+      <h6>{{ 'add-violation-modal.description' | translate }}</h6>
+    </div>
+    <div class="row mb-3">
+      <textarea
+        class="description"
+        placeholder="{{ 'add-violation-modal.placeholder' | translate }}"
+        formControlName="violationDescription"
+      ></textarea>
+    </div>
+  </form>
   <div class="row mb-1">
     <h6>{{ 'add-violation-modal.label-for-photo-container' | translate }}</h6>
   </div>
@@ -52,7 +58,7 @@
       <img src="assets/img/icon/bin.svg" alt="delete-icon" class="delete-icon" /> {{ 'add-violation-modal.delete-button' | translate }}
     </button>
     <button class="cancel-button" [mat-dialog-close]="true">{{ 'add-violation-modal.cancel-button' | translate }}</button>
-    <button class="add-button">{{ 'add-violation-modal.add-button' | translate }}</button>
+    <button class="add-button" (click)="send()">{{ 'add-violation-modal.add-button' | translate }}</button>
   </div>
   <div class="row">
     <p class="info">{{ 'add-violation-modal.date' | translate }} <span class="date">25.06.2021</span></p>

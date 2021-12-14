@@ -1,21 +1,37 @@
 <div *ngIf="orders.length !== 0" class="header_list">
-  <div>{{ 'user-orders.order-number' | translate }}</div>
-  <div>{{ 'user-orders.order-status' | translate }}</div>
-  <div>{{ 'user-orders.payment-amount' | translate }}</div>
+  <div class="header_list-num">{{ 'user-orders.order-number' | translate }}</div>
+  <div class="header_list-date">{{ 'user-orders.order-date' | translate }}</div>
+  <div class="header_list-status">{{ 'user-orders.order-status' | translate }}</div>
+  <div class="header_list-paymentStatus">{{ 'user-orders.order-payment-status' | translate }}</div>
+  <div class="header_list-paymentAmount">{{ 'user-orders.payment-amount' | translate }}</div>
 </div>
 <div *ngFor="let order of orders" class="card">
   <div class="empty_card">
-    <img *ngIf="order.extend" src="assets/img/ubs-admin-orders/arrow_down.svg" alt="arrow down" (click)="changeCard(order.id)" />
-    <img *ngIf="!order.extend" src="assets/img/ubs-admin-orders/arrow_up.svg" alt="arrow up" (click)="changeCard(order.id)" />
-    <div>{{ order.id }}</div>
-    <div>{{ order.orderStatusName }}</div>
-    <div class="order_sum">{{ order.orderDiscountedPrice }}</div>
+    <div class="empty_card-arrows">
+      <img
+        *ngIf="order.extend"
+        src="assets/img/ubs-admin-orders/arrow_down.svg"
+        alt="arrow down"
+        (click)="changeCard(order.generalOrderInfo.id)"
+      />
+      <img
+        *ngIf="!order.extend"
+        src="assets/img/ubs-admin-orders/arrow_up.svg"
+        alt="arrow up"
+        (click)="changeCard(order.generalOrderInfo.id)"
+      />
+    </div>
+    <div class="empty_card-id">{{ order.generalOrderInfo.id }}</div>
+    <div class="empty_card-date">{{ order.generalOrderInfo.dateFormed | date: 'dd.MM.y' }}</div>
+    <div class="empty_card-status">{{ order.generalOrderInfo.orderStatusName }}</div>
+    <div class="empty_card-paymentStatus">{{ order.generalOrderInfo.orderPaymentStatusName }}</div>
+    <div class="order_sum">{{ order.orderDiscountedPrice | currency | localizedCurrency }}</div>
     <div class="btns_group">
       <div *ngIf="isOrderFormed(order)" class="btn_grid_cancel">
-        <button class="btn_cancel">{{ 'user-orders.btn.cancel' | translate }}</button>
+        <button class="btn_cancel" (click)="deleteCard(order.generalOrderInfo.id)">{{ 'user-orders.btn.cancel' | translate }}</button>
       </div>
       <div *ngIf="isOrderUnpaid(order)" class="btn_grid_pay">
-        <button class="btn_pay">{{ 'user-orders.btn.pay' | translate }}</button>
+        <button class="btn_pay" (click)="openOrderPaymentDialog(order)">{{ 'user-orders.btn.pay' | translate }}</button>
       </div>
       <div *ngIf="isOrderDone(order)" class="btn_grid_order">
         <button class="btn_order">{{ 'user-orders.btn.order-again' | translate }}</button>

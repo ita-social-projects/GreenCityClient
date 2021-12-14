@@ -55,6 +55,7 @@ export interface OrderDetailsNotification {
   addressCity?: string;
   addressStreet?: string;
   addressDistrict?: string;
+  addressRegion?: string;
 }
 
 export interface FinalOrder {
@@ -70,7 +71,7 @@ export interface FinalOrder {
 export interface ICertificate {
   certificatePoints: number;
   certificateStatus: string;
-  // certificateDate: any
+  certificateDate?: string;
 }
 
 export interface PersonalData {
@@ -88,6 +89,7 @@ export interface PersonalData {
   city: string;
   district: string;
   street?: string;
+  region?: string;
   houseCorpus?: string;
   entranceNumber?: string;
   houseNumber?: string;
@@ -98,6 +100,7 @@ export interface PersonalData {
 export interface Address {
   actual: boolean;
   id: number;
+  region: string;
   city: string;
   district: string;
   street: string;
@@ -105,8 +108,10 @@ export interface Address {
   entranceNumber: string;
   houseNumber: string;
   addressComment?: string;
-  longitude?: number;
-  latitude?: number;
+  coordinates: {
+    latitude?: number;
+    longitude?: number;
+  };
 }
 
 export interface Locations {

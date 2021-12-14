@@ -1,5 +1,7 @@
+import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { TranslateModule } from '@ngx-translate/core';
+import { IMaskModule } from 'angular-imask';
 
 import { UbsUserComponent } from './ubs-user.component';
 
@@ -10,7 +12,8 @@ describe('UbsUserComponent', () => {
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       declarations: [UbsUserComponent],
-      imports: [TranslateModule.forRoot()]
+      imports: [IMaskModule, TranslateModule.forRoot()],
+      schemas: [CUSTOM_ELEMENTS_SCHEMA]
     }).compileComponents();
   }));
 

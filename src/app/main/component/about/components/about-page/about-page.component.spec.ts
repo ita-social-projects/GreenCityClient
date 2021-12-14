@@ -56,9 +56,9 @@ describe('AboutPageComponent', () => {
       imports: [RouterTestingModule.withRoutes([]), TranslateModule.forRoot()],
       providers: [
         { provide: LocalStorageService, useValue: localStorageServiceMock },
-        { provide: TranslateService, useClass: TranslationServiceStub },
+        { provide: TranslateService, useClass: TranslationServiceStub }
       ],
-      schemas: [CUSTOM_ELEMENTS_SCHEMA, NO_ERRORS_SCHEMA],
+      schemas: [CUSTOM_ELEMENTS_SCHEMA, NO_ERRORS_SCHEMA]
     }).compileComponents();
   }));
 
@@ -87,11 +87,12 @@ describe('AboutPageComponent', () => {
     expect(localStorageServiceMock.userIdBehaviourSubject.value).toBe(1111);
   });
 
-  it('should redirect to profile page', () => {
+  it('should redirect to profile page', (done) => {
     fixture.ngZone.run(() => {
       component.navigateToHabit();
       fixture.whenStable().then(() => {
         expect(routerSpy.navigate).toBeDefined();
+        done();
       });
     });
   });

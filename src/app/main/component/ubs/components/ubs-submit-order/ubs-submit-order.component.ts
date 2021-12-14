@@ -38,12 +38,14 @@ export class UBSSubmitOrderComponent extends FormBaseComponent implements OnInit
     hasBackdrop: true,
     closeOnNavigation: true,
     disableClose: true,
-    panelClass: 'popup-dialog-container',
+    panelClass: 'custom-ubs-style',
     data: {
-      popupTitle: 'confirmation.title',
-      popupSubtitle: 'confirmation.subTitle',
-      popupConfirm: 'confirmation.cancel',
-      popupCancel: 'confirmation.dismiss'
+      popupTitle: 'confirmation.submit-title',
+      popupSubtitle: '',
+      popupConfirm: 'confirmation.ok',
+      popupCancel: 'confirmation.delete',
+      isUBS: true,
+      isUbsOrderSubmit: true
     }
   };
   orderBags: OrderBag[] = [];
@@ -114,7 +116,8 @@ export class UBSSubmitOrderComponent extends FormBaseComponent implements OnInit
       addressComment: data.addressComment,
       city: data.addressCity,
       district: data.addressDistrict,
-      street: data.addressStreet
+      street: data.addressStreet,
+      region: data.addressRegion
     };
   }
 
@@ -161,7 +164,6 @@ export class UBSSubmitOrderComponent extends FormBaseComponent implements OnInit
     }
 
     if (!this.isLiqPay) {
-      this.localStorageService.removeUbsOrderId();
       this.orderService
         .getOrderUrl()
         .pipe(takeUntil(this.destroy))
@@ -176,14 +178,16 @@ export class UBSSubmitOrderComponent extends FormBaseComponent implements OnInit
         )
         .subscribe(
           (response) => {
+            const { orderId, link } = JSON.parse(response);
             this.shareFormService.orderUrl = '';
             this.localStorageService.removeUbsOrderId();
             if (this.isFinalSumZero && !this.isTotalAmountZero) {
-              this.ubsOrderFormService.transferOrderId(response);
+              this.ubsOrderFormService.transferOrderId(orderId);
               this.ubsOrderFormService.setOrderResponseErrorStatus(false);
               this.ubsOrderFormService.setOrderStatus(true);
             } else {
-              this.shareFormService.orderUrl = response.toString();
+              this.shareFormService.orderUrl = link.toString();
+              this.localStorageService.setUbsFondyOrderId(orderId);
               document.location.href = this.shareFormService.orderUrl;
             }
           },
@@ -225,6 +229,7 @@ export class UBSSubmitOrderComponent extends FormBaseComponent implements OnInit
 
   onNotSaveData() {
     this.shareFormService.isDataSaved = true;
+    this.localStorageService.removeUbsFondyOrderId();
     this.liqPayButton[0].click();
   }
 }

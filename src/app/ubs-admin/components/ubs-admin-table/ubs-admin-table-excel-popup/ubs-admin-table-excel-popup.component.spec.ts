@@ -5,6 +5,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { UbsAdminTableExcelPopupComponent } from './ubs-admin-table-excel-popup.component';
 import { AdminTableService } from 'src/app/ubs-admin/services/admin-table.service';
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
+import { MatDialogModule } from '@angular/material/dialog';
 
 describe('UbsAdminTableExcelPopupComponent', () => {
   let component: UbsAdminTableExcelPopupComponent;
@@ -12,7 +13,7 @@ describe('UbsAdminTableExcelPopupComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      imports: [FormsModule, ReactiveFormsModule, TranslateModule.forRoot(), HttpClientTestingModule],
+      imports: [FormsModule, ReactiveFormsModule, TranslateModule.forRoot(), HttpClientTestingModule, MatDialogModule],
       declarations: [UbsAdminTableExcelPopupComponent],
       providers: [{ provide: AdminTableService, useValue: {} }],
       schemas: [CUSTOM_ELEMENTS_SCHEMA]

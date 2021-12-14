@@ -1,10 +1,10 @@
 <div class="container mb-3">
   <div class="mt-5" [formGroup]="orderStatusForm">
     <div class="row d-flex justify-content-between mt-4">
-      <h1 class="title">{{ 'order-edit.status.title' | translate }} №{{ order.id }}</h1>
+      <h1 class="title">{{ 'order-edit.status.title' | translate }} №{{ generalOrderInfo.id }}</h1>
       <div class="pr-4">
         <span class="form__label"> {{ 'order-edit.status.order-date' | translate }}: </span>
-        <span>{{ order.orderDate | date: 'dd.MM.y' }}</span>
+        <span>{{ generalOrderInfo.dateFormed | date: 'dd.MM.y' }}</span>
       </div>
     </div>
     <div class="row">
@@ -19,10 +19,10 @@
                 <select id="order" class="form-control" formControlName="orderStatus" (change)="onChangedOrderStatus($event.target.value)">
                   <option
                     *ngFor="let status of availableOrderStatuses"
-                    [selected]="status.name === order.orderStatus"
-                    [value]="status.name"
+                    [selected]="status.key === generalOrderInfo.orderStatus"
+                    [value]="status.key"
                   >
-                    {{ status.translation | translate }}
+                    {{ status.translation }}
                   </option>
                 </select>
               </div>
@@ -35,8 +35,11 @@
                   {{ 'order-edit.status.payment-label' | translate }}
                 </label>
                 <select id="payment" class="form-control payment" disabled>
-                  <option *ngFor="let status of orderService.paymentStatuses" [selected]="status.name === order.paymentStatus">
-                    {{ status.translation | translate }}
+                  <option
+                    *ngFor="let status of generalOrderInfo.orderPaymentStatusesDto"
+                    [selected]="status.key === generalOrderInfo.orderPaymentStatus"
+                  >
+                    {{ status.translation }}
                   </option>
                 </select>
               </div>
@@ -51,7 +54,7 @@
             class="form-control mw-100"
             id="comment"
             rows="3"
-            formControlName="commentForOrder"
+            formControlName="adminComment"
             placeholder="{{ 'order-edit.comment.placeholder' | translate }}"
           ></textarea>
         </div>

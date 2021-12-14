@@ -22,6 +22,34 @@ describe('OrderService', () => {
     }
   };
 
+  const recipient = {
+    recipientEmail: 'fake',
+    recipientId: 0,
+    recipientName: 'fake',
+    recipientPhoneNumber: 'fake',
+    recipientSurName: 'fake'
+  };
+
+  const address = {
+    comment: 'fake',
+    district: 'fake',
+    entranceNumber: 'fake',
+    houseCorpus: 'fake',
+    houseNumber: 'fake',
+    street: 'fake'
+  };
+
+  const arr = [
+    { key: 'FORMED' },
+    { key: 'ADJUSTMENT' },
+    { key: 'BROUGHT_IT_HIMSELF' },
+    { key: 'CANCELED' },
+    { key: 'CONFIRMED' },
+    { key: 'ON_THE_ROUTE' },
+    { key: 'DONE' },
+    { key: 'NOT_TAKEN_OUT' }
+  ];
+
   const exportMock = {
     allReceivingStations: ['Lviv'],
     exportedDate: '02-11-21',
@@ -42,19 +70,6 @@ describe('OrderService', () => {
 
   it('should be created', () => {
     expect(service).toBeTruthy();
-  });
-
-  it('setSelectedOrder should be called', () => {
-    const spy = spyOn(service, 'setSelectedOrder');
-    service.setSelectedOrder({ orderID: 1 });
-    expect(spy).toHaveBeenCalled();
-  });
-
-  it('getSelectedOrder should be called', () => {
-    const spy = spyOn(service, 'getSelectedOrder');
-    const res = service.getSelectedOrder();
-    expect(spy).toHaveBeenCalled();
-    expect(res).toBe(undefined);
   });
 
   it('should return details of order', () => {
@@ -101,10 +116,11 @@ describe('OrderService', () => {
 
   it('should return order address', () => {
     service.readAddressOrder(2270).subscribe((data) => {
-      expect(data).toBeDefined();
+      expect(data).toBe(address);
     });
     const req = httpMock.expectOne(`${urlMock}/management/read-address-order/2270`);
     expect(req.request.method).toBe('GET');
+    req.flush(address);
   });
 
   it('should return order export details', () => {
@@ -144,9 +160,100 @@ describe('OrderService', () => {
 
   it('should update recipients data', () => {
     service.updateRecipientsData(2500).subscribe((data) => {
-      expect(data).toBeDefined();
+      expect(data).toBe(recipient);
     });
     const req = httpMock.expectOne(`${urlMock}`);
     expect(req.request.method).toBe('PUT');
+  });
+
+  it('should get column', () => {
+    service.getColumnToDisplay().subscribe((data) => {
+      expect(data).toEqual({ titles: 'fake' });
+    });
+    const req = httpMock.expectOne(`${urlMock}/management/getOrdersViewParameters`);
+    expect(req.request.method).toBe('GET');
+    req.flush({ titles: 'fake' });
+  });
+
+  it('should set column to display', () => {
+    service.setColumnToDisplay('fake').subscribe((data) => {
+      expect(data).toEqual({ titles: 'fake' });
+    });
+    const req = httpMock.expectOne(`${urlMock}/management/changeOrdersTableView?titles=fake`);
+    expect(req.request.method).toBe('PUT');
+    req.flush({ titles: 'fake' });
+  });
+
+  it('should get overpayment message about overpayment', () => {
+    const msg = service.getOverpaymentMsg(1);
+    expect(msg).toBe('order-payment.overpayment');
+  });
+
+  it('should get overpayment message about underpayment', () => {
+    const msg = service.getOverpaymentMsg(-1);
+    expect(msg).toBe('order-payment.underpayment');
+  });
+
+  it('should return order history', () => {
+    service.getOrderHistory(1).subscribe((data) => {
+      expect(data).toBe([]);
+    });
+    const req = httpMock.expectOne(`${urlMock}/order_history/1`);
+    expect(req.request.method).toBe('GET');
+  });
+
+  it('should return info about order', () => {
+    service.getOrderInfo(1, 'en').subscribe((data) => {
+      expect(data).toBe(userMock);
+    });
+    const req = httpMock.expectOne(`${urlMock}/management/get-data-for-order/1/en`);
+    expect(req.request.method).toBe('GET');
+    req.flush(userMock);
+  });
+
+  it('should filter statuses', () => {
+    const res = service.filterStatuses(arr, ['FORMED', 'ADJUSTMENT', 'BROUGHT_IT_HIMSELF', 'CANCELED']);
+    expect(res).toEqual([{ key: 'FORMED' }, { key: 'ADJUSTMENT' }, { key: 'BROUGHT_IT_HIMSELF' }, { key: 'CANCELED' }]);
+  });
+
+  it('should return available statuses for order status FORMED', () => {
+    const res = service.getAvailableOrderStatuses('FORMED', arr);
+    expect(res).toEqual([{ key: 'FORMED' }, { key: 'ADJUSTMENT' }, { key: 'BROUGHT_IT_HIMSELF' }, { key: 'CANCELED' }]);
+  });
+
+  it('should return available statuses for order status ADJUSTMENT', () => {
+    const res = service.getAvailableOrderStatuses('ADJUSTMENT', arr);
+    expect(res).toEqual([
+      { key: 'FORMED' },
+      { key: 'ADJUSTMENT' },
+      { key: 'CONFIRMED' },
+      { key: 'BROUGHT_IT_HIMSELF' },
+      { key: 'CANCELED' }
+    ]);
+  });
+
+  it('should return available statuses for order status CONFIRMED', () => {
+    const res = service.getAvailableOrderStatuses('CONFIRMED', arr);
+    expect(res).toEqual([{ key: 'FORMED' }, { key: 'CONFIRMED' }, { key: 'ON_THE_ROUTE' }, { key: 'CANCELED' }]);
+  });
+
+  it('should return available statuses for order status BROUGHT_IT_HIMSELF', () => {
+    const res = service.getAvailableOrderStatuses('BROUGHT_IT_HIMSELF', arr);
+    expect(res).toEqual([{ key: 'BROUGHT_IT_HIMSELF' }, { key: 'DONE' }, { key: 'CANCELED' }]);
+  });
+
+  it('should return available statuses for order status ON_THE_ROUTE', () => {
+    const res = service.getAvailableOrderStatuses('ON_THE_ROUTE', arr);
+    expect(res).toEqual([{ key: 'ON_THE_ROUTE' }, { key: 'DONE' }, { key: 'NOT_TAKEN_OUT' }, { key: 'CANCELED' }]);
+  });
+
+  it('should return available statuses for order status DONE', () => {
+    const res = service.getAvailableOrderStatuses('DONE', arr);
+    expect(res).toEqual([{ key: 'DONE' }]);
+  });
+
+  it('should return available statuses for order status CANCELED', () => {
+    const res = service.getAvailableOrderStatuses('CANCELED', arr);
+    expect(res).toEqual([{ key: 'CANCELED' }]);
   });
 });
