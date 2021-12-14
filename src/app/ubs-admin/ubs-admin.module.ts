@@ -103,7 +103,7 @@ import { ResizeColumnDirective } from './derictives/resize-table-columns.directi
     UbsAdminEmployeeTableComponent,
     UbsAdminCustomerDetailsComponent,
     UbsAdminTariffsAddLocationPopUpComponent,
-    UbsAdminTariffsAddCourierPopUpComponent
+    UbsAdminTariffsAddCourierPopUpComponent,
     UbsAdminCustomerOrdersComponent,
     UbsAdminOrderHistoryComponent,
     AddOrderCancellationReasonComponent,
