@@ -34,6 +34,7 @@ div {
   text-transform: uppercase;
   color: var(--primary-green);
   margin-right: 5px;
+  overflow: hidden;
 }
 
 .eco-news_list-content {
@@ -42,6 +43,10 @@ div {
   grid-template-rows: 20px auto 20px;
   row-gap: 8px;
   height: 100%;
+  overflow: hidden;
+}
+
+.eco-news_list-content-box {
   overflow: hidden;
 }
 

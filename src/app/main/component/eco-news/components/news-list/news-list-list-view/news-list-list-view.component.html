@@ -6,14 +6,14 @@
         {{ 'homepage.eco-news.tags.' + tag | lowercase | translate }}
       </p>
     </div>
-    <div>
+    <div class="eco-news_list-content-box">
       <div class="eco-news_list-content-title" #titleHeight>
         <p>
           {{ ecoNewsModel.title }}
         </p>
       </div>
-      <div class="eco-news_list-content-text" #textHeight>
-        <p #ecoNewsText></p>
+      <div class="eco-news_list-content-text ql-snow" #textHeight>
+        <div #ecoNewsText></div>
       </div>
     </div>
     <div class="eco-news_list-authors">

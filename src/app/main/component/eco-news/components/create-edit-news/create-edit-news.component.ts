@@ -27,8 +27,6 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
   styleUrls: ['./create-edit-news.component.scss']
 })
 export class CreateEditNewsComponent extends FormBaseComponent implements OnInit, OnDestroy {
-  // private http: any;
-
   constructor(
     private http: HttpClient,
     public router: Router,
@@ -86,9 +84,11 @@ export class CreateEditNewsComponent extends FormBaseComponent implements OnInit
   public isLinkOrEmpty = true;
   public newsItemSubscription: Subscription;
   public isFilterValidation = false;
-  public year: number = new Date().getFullYear();
-  public day: number = new Date().getDate();
-  public month: number = new Date().getMonth();
+  public date = {
+    day: new Date().getDate(),
+    month: new Date().getMonth(),
+    year: new Date().getFullYear()
+  };
   public author: string = localStorage.getItem('name');
   public attributes: ActionInterface;
   public filters: FilterModel[] = [];

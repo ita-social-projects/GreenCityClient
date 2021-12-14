@@ -56,8 +56,9 @@
           </a>
         </div>
         <div class="news-text">
-          <!--          <div class="news-text-content word-wrap" #ecoNewsText1 ></div>-->
-          <div class="news-text-content word-wrap" [innerHTML]="newsItem.text | safeHtml"></div>
+          <div class="news-text-content word-wrap ql-snow">
+            <div class="ql-editor" [innerHTML]="newsItem.text | safeHtml"></div>
+          </div>
           <div class="source-field" *ngIf="newsItem?.text">
             <div class="source-title">
               {{ 'eco-news-single-view.news-source' | translate }}
