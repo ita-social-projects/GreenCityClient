@@ -151,8 +151,8 @@ export class UbsAdminOrderComponent implements OnInit, OnDestroy {
       }),
       exportDetailsForm: this.fb.group({
         dateExport: this.exportInfo.dateExport ? formatDate(this.exportInfo.dateExport, 'yyyy-MM-dd', this.currentLanguage) : '',
-        timeDeliveryFrom: this.parseTime(this.exportInfo.timeDeliveryFrom),
-        timeDeliveryTo: this.parseTime(this.exportInfo.timeDeliveryTo),
+        timeDeliveryFrom: this.parseTimeToStr(this.exportInfo.timeDeliveryFrom),
+        timeDeliveryTo: this.parseTimeToStr(this.exportInfo.timeDeliveryTo),
         receivingStation: this.exportInfo.receivingStation
       }),
       responsiblePersonsForm: this.fb.group({
@@ -233,14 +233,16 @@ export class UbsAdminOrderComponent implements OnInit, OnDestroy {
     this.isMinOrder = flag;
   }
 
-  parseTimeRange(from: string, to: string) {
-    this.timeFrom = this.parseTime(from);
-    this.timeTo = this.parseTime(to);
-    return `${this.timeFrom} - ${this.timeTo}`;
+  parseTimeToStr(dateStr: string) {
+    return dateStr ? formatDate(dateStr, 'HH:mm', this.currentLanguage) : '';
   }
 
-  parseTime(dateStr: string) {
-    return dateStr ? formatDate(dateStr, 'HH:mm', this.currentLanguage) : '';
+  parseStrToTime(dateStr: string, date: Date) {
+    const hours = dateStr.split(':')[0];
+    const minutes = dateStr.split(':')[1];
+    date.setHours(+hours + 2);
+    date.setMinutes(+minutes);
+    return date ? date.toISOString() : '';
   }
 
   resetForm() {
@@ -251,9 +253,12 @@ export class UbsAdminOrderComponent implements OnInit, OnDestroy {
   }
 
   onSubmit() {
-    console.log(this.orderForm);
-    const date = new Date(this.orderForm.get(['exportDetailsForm', 'exportedDate']).value);
+    const date = new Date(this.orderForm.get(['exportDetailsForm', 'dateExport']).value);
+    const timeTo = this.orderForm.get(['exportDetailsForm', 'timeDeliveryFrom']).value;
+    const timeFrom = this.orderForm.get(['exportDetailsForm', 'timeDeliveryTo']).value;
     console.log(date.toISOString());
+    console.log(this.parseStrToTime(timeTo, date));
+    console.log(this.parseStrToTime(timeFrom, date));
   }
 
   ngOnDestroy(): void {
