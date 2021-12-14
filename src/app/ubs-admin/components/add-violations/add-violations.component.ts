@@ -45,8 +45,8 @@ export class AddViolationsComponent implements OnInit, OnDestroy {
 
   private initForm(): void {
     this.addViolationForm = this.fb.group({
-      violationLevel: new FormControl('LOW', [Validators.required]),
-      violationDescription: new FormControl('', [Validators.required])
+      violationLevel: ['LOW', [Validators.required]],
+      violationDescription: ['', [Validators.required, Validators.maxLength(255)]]
     });
   }
 
