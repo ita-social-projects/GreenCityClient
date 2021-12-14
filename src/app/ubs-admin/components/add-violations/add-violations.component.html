@@ -1,5 +1,7 @@
 <div class="container">
-  <div class="row justify-content-end close-icon"><mat-icon mat-dialog-close>close</mat-icon></div>
+  <div class="row justify-content-end close-icon">
+    <mat-icon mat-dialog-close>close</mat-icon>
+  </div>
   <div class="row mb-4">
     <h3>{{ 'add-violation-modal.add-violation' | translate }}</h3>
   </div>
@@ -58,7 +60,9 @@
       <img src="assets/img/icon/bin.svg" alt="delete-icon" class="delete-icon" /> {{ 'add-violation-modal.delete-button' | translate }}
     </button>
     <button class="cancel-button" [mat-dialog-close]="true">{{ 'add-violation-modal.cancel-button' | translate }}</button>
-    <button class="add-button" (click)="send()">{{ 'add-violation-modal.add-button' | translate }}</button>
+    <button class="add-button" [disabled]="!addViolationForm.valid" (click)="send()">
+      {{ 'add-violation-modal.add-button' | translate }}
+    </button>
   </div>
   <div class="row">
     <p class="info">{{ 'add-violation-modal.date' | translate }} <span class="date">25.06.2021</span></p>
