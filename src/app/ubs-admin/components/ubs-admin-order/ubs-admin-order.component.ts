@@ -75,10 +75,6 @@ export class UbsAdminOrderComponent implements OnInit, OnDestroy {
       .getOrderInfo(orderId, lang)
       .pipe(takeUntil(this.destroy$))
       .subscribe((data: any) => {
-        // data.exportDetailsDto.timeDeliveryFrom = '2021-12-02T13:00:00.072691';
-        // data.exportDetailsDto.timeDeliveryTo = '2021-12-02T14:00:00.072691';
-        // data.exportDetailsDto.dateExport = '2021-08-02T13:30:00.072691';
-
         this.orderInfo = data;
         this.generalOrderInfo = data.generalOrderInfo;
         this.currentOrderStatus = this.generalOrderInfo.orderStatus;
@@ -154,8 +150,9 @@ export class UbsAdminOrderComponent implements OnInit, OnDestroy {
         district: this.addressInfo.addressDistrict
       }),
       exportDetailsForm: this.fb.group({
-        exportedDate: this.exportInfo.dateExport ? formatDate(this.exportInfo.dateExport, 'yyyy-MM-dd', this.currentLanguage) : '',
-        exportedTime: this.parseTimeRange(this.exportInfo.timeDeliveryFrom, this.exportInfo.timeDeliveryTo),
+        dateExport: this.exportInfo.dateExport ? formatDate(this.exportInfo.dateExport, 'yyyy-MM-dd', this.currentLanguage) : '',
+        timeDeliveryFrom: this.parseTime(this.exportInfo.timeDeliveryFrom),
+        timeDeliveryTo: this.parseTime(this.exportInfo.timeDeliveryTo),
         receivingStation: this.exportInfo.receivingStation
       }),
       responsiblePersonsForm: this.fb.group({

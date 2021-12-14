@@ -75,6 +75,24 @@ input {
   }
 }
 
+.export-date {
+  margin-right: 30px;
+}
+
+.time-from {
+  width: 80px;
+}
+
+.time-to {
+  width: 80px;
+  margin-right: 40px;
+  margin-top: 4px;
+}
+
+.hyphen {
+  margin: 35px 10px 0 -20px;
+}
+
 select {
   width: 215px;
 
