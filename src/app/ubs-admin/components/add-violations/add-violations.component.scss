@@ -1,6 +1,8 @@
 .container {
   font-family: var(--primary-font);
-  overflow: auto;
+  width: 560px;
+  background: var(--pre-secondary-light-grey);
+  padding: 30px 56px;
 }
 
 h3 {
@@ -138,7 +140,7 @@ label {
 .image-container {
   position: relative;
   height: 105px;
-  width: 158px;
+  width: 150px;
   background: var(--ubs-secondary-white);
   border: 1px solid var(--ubs-primary-light-grey);
   box-sizing: border-box;
