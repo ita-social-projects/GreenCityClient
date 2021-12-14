@@ -33,8 +33,14 @@ h6 {
   height: 141px;
   border: 1px solid var(--ubs-quintynary-light-grey);
   border-radius: 4px;
-  color: var(--ubs-quintynary-light-grey);
+  color: var(--ubs-primary-grey);
   padding: 8px;
+}
+
+::placeholder {
+  color: var(--ubs-primary-light-grey);
+  opacity: 1;
+  font-size: 0.9rem;
 }
 
 .requirement {
