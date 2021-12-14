@@ -79,6 +79,34 @@
   text-align: center;
 }
 
+.shop-numbers {
+  position: relative;
+
+  ::placeholder {
+    color: var(--ubs-primary-light-grey);
+    opacity: 1;
+    font-size: 0.9rem;
+  }
+
+  & > [input-close-button] {
+    opacity: 0;
+    position: absolute;
+    top: 6px;
+    right: 5px;
+    color: var(--ubs-quintynary-light-grey);
+    font-size: 1.7em;
+    padding: 0 0.2em;
+    line-height: 1em;
+    cursor: pointer;
+  }
+
+  span:focus,
+  input:focus + span,
+  &:hover > [input-close-button] {
+    opacity: 1;
+  }
+}
+
 .add-order-num {
   width: 250px;
   padding: 0;
@@ -111,6 +139,10 @@
     font-size: 14px;
     line-height: 20px;
   }
+}
+
+.ng-invalid:not(form):not([formarrayname]) {
+  border: 1px solid var(--error-ligh-red);
 }
 
 @media (max-width: 1199px) {

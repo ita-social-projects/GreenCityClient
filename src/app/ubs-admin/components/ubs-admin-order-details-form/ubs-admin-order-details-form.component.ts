@@ -12,6 +12,8 @@ import { IOrderDetails } from '../../models/ubs-admin.interface';
 export class UbsAdminOrderDetailsFormComponent implements OnInit, OnChanges {
   private CAPACITY_OF_BIG_BAG = 120;
   public LIMIT_OF_ECO_SHOP_NUMBERS = 5;
+  public SHOP_NUMBER_MASK = '0000000000';
+  public SHOP_NUMBER_PATTERN = /^\d{10}$/;
   public amountOfBigBags: number;
   public payMore = true;
   public isInputDisabled = false;
@@ -243,16 +245,24 @@ export class UbsAdminOrderDetailsFormComponent implements OnInit, OnChanges {
   }
 
   public getStoreOrderNumbers() {
-    return (this.orderDetailsForm.controls['storeOrderNumbers'] as FormArray).controls;
+    const arr = this.orderDetailsForm.controls.storeOrderNumbers as FormArray;
+    return arr.controls;
   }
 
   public checkMaxOrdersFromShop() {
-    const currentAmountOfNumbersFromShop = (this.orderDetailsForm.controls['storeOrderNumbers'] as FormArray).controls.length;
+    const arr = this.orderDetailsForm.controls.storeOrderNumbers as FormArray;
+    const currentAmountOfNumbersFromShop = arr.controls.length;
     return currentAmountOfNumbersFromShop < this.LIMIT_OF_ECO_SHOP_NUMBERS;
   }
 
   addOrderNumberFromShop() {
-    (this.orderDetailsForm.controls['storeOrderNumbers'] as FormArray).push(new FormControl('', Validators.required));
+    const arr = this.orderDetailsForm.controls.storeOrderNumbers as FormArray;
+    arr.push(new FormControl('', [Validators.required, Validators.pattern('^\\d{10}$')]));
+  }
+
+  deleteOrder(index: number): void {
+    const arr = this.orderDetailsForm.controls.storeOrderNumbers as FormArray;
+    arr.removeAt(index);
   }
 
   public changeWriteOffSum(e) {

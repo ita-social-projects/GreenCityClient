@@ -141,10 +141,18 @@
             <p class="form__label py-2">
               {{ 'order-details.order-number-label' | translate }}
             </p>
-            <div formArrayName="storeOrderNumbers">
+            <div formArrayName="storeOrderNumbers" class="form-group">
               <ng-container *ngFor="let orderNumber of getStoreOrderNumbers(); let i = index">
-                <div>
-                  <input class="form-control" type="text" placeholder="XXXXXXXXXX" formControlName="{{ i }}" />
+                <div class="shop-numbers">
+                  <input
+                    class="shadow-none form-control border-input p-2 mb-2"
+                    type="text"
+                    [imask]="{ mask: SHOP_NUMBER_MASK }"
+                    [unmask]="false"
+                    placeholder="XXXXXXXXXX"
+                    formControlName="{{ i }}"
+                  />
+                  <span input-close-button (click)="deleteOrder(i)">&times;</span>
                 </div>
               </ng-container>
               <button *ngIf="checkMaxOrdersFromShop()" class="add-order-num" (click)="addOrderNumberFromShop()">
