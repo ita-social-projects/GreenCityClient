@@ -20,6 +20,7 @@ import {
   IResponsiblePersons,
   IUserInfo
 } from '../../models/ubs-admin.interface';
+import { formatDate } from '@angular/common';
 
 @Component({
   selector: 'app-ubs-admin-order',
@@ -45,6 +46,8 @@ export class UbsAdminOrderComponent implements OnInit, OnDestroy {
   currentOrderStatus: string;
   overpayment = 0;
   isMinOrder = true;
+  timeFrom: string;
+  timeTo: string;
   actualPrice: number;
 
   constructor(
@@ -147,8 +150,9 @@ export class UbsAdminOrderComponent implements OnInit, OnDestroy {
         district: this.addressInfo.addressDistrict
       }),
       exportDetailsForm: this.fb.group({
-        exportedDate: this.exportInfo.exportedDate,
-        exportedTime: this.exportInfo.exportedTime,
+        dateExport: this.exportInfo.dateExport ? formatDate(this.exportInfo.dateExport, 'yyyy-MM-dd', this.currentLanguage) : '',
+        timeDeliveryFrom: this.parseTimeToStr(this.exportInfo.timeDeliveryFrom),
+        timeDeliveryTo: this.parseTimeToStr(this.exportInfo.timeDeliveryTo),
         receivingStation: this.exportInfo.receivingStation
       }),
       responsiblePersonsForm: this.fb.group({
@@ -229,6 +233,18 @@ export class UbsAdminOrderComponent implements OnInit, OnDestroy {
     this.isMinOrder = flag;
   }
 
+  parseTimeToStr(dateStr: string) {
+    return dateStr ? formatDate(dateStr, 'HH:mm', this.currentLanguage) : '';
+  }
+
+  parseStrToTime(dateStr: string, date: Date) {
+    const hours = dateStr.split(':')[0];
+    const minutes = dateStr.split(':')[1];
+    date.setHours(+hours + 2);
+    date.setMinutes(+minutes);
+    return date ? date.toISOString() : '';
+  }
+
   resetForm() {
     this.orderForm.reset();
     this.initForm();
@@ -237,7 +253,9 @@ export class UbsAdminOrderComponent implements OnInit, OnDestroy {
   }
 
   onSubmit() {
-    console.log(this.orderForm);
+    const date = new Date(this.orderForm.get(['exportDetailsForm', 'dateExport']).value);
+    const timeTo = this.orderForm.get(['exportDetailsForm', 'timeDeliveryFrom']).value;
+    const timeFrom = this.orderForm.get(['exportDetailsForm', 'timeDeliveryTo']).value;
   }
 
   ngOnDestroy(): void {
