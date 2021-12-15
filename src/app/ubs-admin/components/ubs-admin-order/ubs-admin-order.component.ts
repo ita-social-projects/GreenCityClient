@@ -4,7 +4,7 @@ import { ActivatedRoute, Params } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
 import { UbsAdminCancelModalComponent } from '../ubs-admin-cancel-modal/ubs-admin-cancel-modal.component';
 import { UbsAdminGoBackModalComponent } from '../ubs-admin-go-back-modal/ubs-admin-go-back-modal.component';
-import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
+import { FormArray, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { take, takeUntil } from 'rxjs/operators';
 import { OrderService } from '../../services/order.service';
 import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
@@ -162,11 +162,15 @@ export class UbsAdminOrderComponent implements OnInit, OnDestroy {
         driver: this.getEmployeeById(currentEmployees, 5)
       }),
       orderDetailsForm: this.fb.group({
-        storeOrderNumber: this.orderInfo.numbersFromShop.join(', '),
-        certificate: 'TODO-TODO',
+        storeOrderNumbers: this.fb.array([]),
+        certificates: (this.orderInfo.certificates || []).join(', '),
         customerComment: this.orderInfo.comment,
         orderFullPrice: this.orderInfo.orderFullPrice
       })
+    });
+    const storeOrderNumbersArr = this.getFormGroup('orderDetailsForm').controls.storeOrderNumbers as FormArray;
+    this.orderInfo.numbersFromShop.forEach((elem) => {
+      storeOrderNumbersArr.push(new FormControl(elem, [Validators.required, Validators.pattern('^\\d{10}$')]));
     });
     this.orderDetails.bags.forEach((bag) => {
       this.getFormGroup('orderDetailsForm').addControl(

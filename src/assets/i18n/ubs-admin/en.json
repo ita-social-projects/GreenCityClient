@@ -205,6 +205,7 @@
     "cost": "Price per package",
     "done-after-himself": "Write-off at the station",
     "planned-amount": "Planned amount",
+    "additional-orders": "Add another order number",
     "approved-amount": "Confirmed amount",
     "exported-amount": "Actual amount",
     "bags-amount": "Total number of packages",
