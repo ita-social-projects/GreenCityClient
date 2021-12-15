@@ -65,7 +65,11 @@
     </button>
   </div>
   <div class="row">
-    <p class="info">{{ 'add-violation-modal.date' | translate }} <span class="date">25.06.2021</span></p>
-    <p class="info">{{ 'add-violation-modal.info-about-date' | translate }} <span class="user">Current User</span></p>
+    <p class="info">
+      {{ 'add-violation-modal.date' | translate }} <span class="date">{{ date | date: 'dd.MM.y' }}</span>
+    </p>
+    <p class="info">
+      {{ 'add-violation-modal.info-about-date' | translate }} <span class="user">{{ name }}</span>
+    </p>
   </div>
 </div>

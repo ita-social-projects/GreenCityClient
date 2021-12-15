@@ -4,8 +4,9 @@ import { FileHandle } from '../../models/file-handle.model';
 import { TranslateService } from '@ngx-translate/core';
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
-import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { OrderService } from '../../services/order.service';
+import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
 
 @Component({
   selector: 'app-add-violations',
@@ -20,11 +21,14 @@ export class AddViolationsComponent implements OnInit, OnDestroy {
   dragAndDropLabel;
   addViolationForm: FormGroup;
   orderId;
+  name: string;
   imgArray = [];
+  public date = new Date();
   unsubscribe: Subject<any> = new Subject();
   constructor(
     private translate: TranslateService,
     @Inject(MAT_DIALOG_DATA) public data,
+    private localeStorageService: LocalStorageService,
     private fb: FormBuilder,
     private orderService: OrderService,
     public dialogRef: MatDialogRef<AddViolationsComponent>
@@ -41,6 +45,9 @@ export class AddViolationsComponent implements OnInit, OnDestroy {
       });
     this.initImages();
     this.initForm();
+    this.localeStorageService.firstNameBehaviourSubject.pipe(takeUntil(this.unsubscribe)).subscribe((firstName) => {
+      this.name = firstName;
+    });
   }
 
   private initForm(): void {
