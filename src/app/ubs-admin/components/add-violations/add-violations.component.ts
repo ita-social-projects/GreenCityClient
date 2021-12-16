@@ -1,4 +1,4 @@
-import { Component, OnDestroy, OnInit, Inject } from '@angular/core';
+import { Component, OnDestroy, OnInit, Inject, ElementRef, ViewChild } from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { FileHandle } from '../../models/file-handle.model';
 import { TranslateService } from '@ngx-translate/core';
@@ -35,6 +35,8 @@ export class AddViolationsComponent implements OnInit, OnDestroy {
   ) {
     this.orderId = data.id;
   }
+
+  @ViewChild('takeInput') InputVar: ElementRef;
 
   ngOnInit() {
     this.translate
@@ -93,15 +95,14 @@ export class AddViolationsComponent implements OnInit, OnDestroy {
 
   loadFile(event): void {
     const imageFile = (event.target as HTMLInputElement).files[0];
+    this.InputVar.nativeElement.value = '';
     this.transferFile(imageFile);
   }
 
   private transferFile(imageFile: File): void {
     if (!this.isImageTypeError) {
       const reader: FileReader = new FileReader();
-      // this.selectedFile = imageFile;
       this.imgArray.push(imageFile);
-
       reader.readAsDataURL(imageFile);
       reader.onload = () => {
         this.assignImage(reader.result, imageFile.name);
@@ -151,9 +152,11 @@ export class AddViolationsComponent implements OnInit, OnDestroy {
       img.name = null;
     }
     this.images[0].label = this.dragAndDropLabel;
+    this.imgArray = [];
   }
 
   deleteImage(i: number): void {
+    this.imgArray.splice(i, 1);
     this.images.splice(i, 1);
     this.images.push({ src: null, label: null, name: null });
   }

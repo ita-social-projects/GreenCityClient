@@ -53,7 +53,7 @@
   </div>
   <div class="row mb-5 label-g">
     <label for="file-upload" class="custom-file-upload">{{ 'add-violation-modal.file-upload' | translate }}</label>
-    <input id="file-upload" class="d-none" type="file" accept="image/png,image/jpeg" (change)="loadFile($event)" />
+    <input #takeInput id="file-upload" class="d-none" type="file" accept="image/png,image/jpeg" (change)="loadFile($event)" />
   </div>
   <div class="row justify-content-end mb-5">
     <button *ngIf="images[0]?.src" (click)="deleteAllImages()" class="delete-photo">
