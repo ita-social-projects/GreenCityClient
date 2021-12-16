@@ -1,0 +1,29 @@
+<div class="container">
+  <div class="close-container">
+    <button class="close-btn" mat-dialog-close (click)="close()">
+      <img src="{{ closeButton }}" alt="close" />
+    </button>
+  </div>
+  <label class="title" id="addDocument">{{ 'add-payment.title' | translate }}</label>
+  <span>{{ 'add-payment.order' | translate }}</span>
+  <span>{{ orderId }}</span>
+  <hr />
+  <span>{{ 'add-payment.description' | translate }}</span>
+  <label for="">{{ 'add-payment.payment-date' | translate }}</label>
+  <input type="text" placeholder="{{ 'add-payment.date-placeholder' | translate }}" />
+  <label for="">{{ 'add-payment.payment-id' | translate }}</label>
+  <input type="text" placeholder="{{ 'add-payment.id-placeholder' | translate }}" />
+  <label for="">{{ 'add-payment.link-to-bill' | translate }}</label>
+  <input type="text" placeholder="{{ 'add-payment.link-placeholder' | translate }}" />
+  <span>{{ 'add-payment.label-for-photo' | translate }}</span>
+  <span>{{ 'add-payment.requirement' | translate }}</span>
+  <span>{{ 'add-payment.drag-photo' | translate }}</span>
+  <span>{{ 'add-payment.pdf-file' | translate }}</span>
+  <span>{{ 'add-payment.upload-pdf' | translate }}</span>
+  <div class="btn-container">
+    <button type="reset" class="disagree btn" (click)="close()">{{ 'add-payment.btn.back' | translate }}</button>
+    <button type="submit" class="agree btn" (click)="save()">{{ 'add-payment.btn.confirm' | translate }}</button>
+  </div>
+  <span class="date">{{ 'add-payment.date' | translate }}: {{ date | date: 'dd.MM.y' }} </span>
+  <span>{{ 'add-payment.added' | translate }}: {{ adminName }}</span>
+</div>

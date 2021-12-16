@@ -1,0 +1,43 @@
+.container {
+  padding: 40px;
+  position: relative;
+
+  .close-container {
+    position: absolute;
+    top: -5px;
+    right: 5px;
+  }
+
+  .close-btn {
+    border: none;
+    background-color: transparent;
+    outline: none;
+
+    img {
+      width: 20px;
+    }
+  }
+
+  .title {
+    font-size: 30px;
+    max-width: 500px;
+    margin-bottom: 20px;
+    font-weight: 600;
+    line-height: 1.5;
+  }
+
+  .btn-container {
+    text-align-last: right;
+    margin-bottom: 40px;
+    margin-top: 40px;
+
+    .btn {
+      border-radius: 5px;
+      font-size: 20px;
+    }
+  }
+
+  .date {
+    margin-right: 40px;
+  }
+}

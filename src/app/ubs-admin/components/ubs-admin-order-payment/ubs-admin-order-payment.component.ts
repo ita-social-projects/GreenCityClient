@@ -1,6 +1,9 @@
 import { Component, Input, OnInit, OnChanges, SimpleChanges } from '@angular/core';
+import { MatDialog } from '@angular/material/dialog';
+import { take } from 'rxjs/operators';
 import { IPaymentInfo, IPaymentInfoDtos, IOrderInfo } from '../../models/ubs-admin.interface';
 import { OrderService } from '../../services/order.service';
+import { AddPaymentComponent } from '../add-payment/add-payment.component';
 
 @Component({
   selector: 'app-ubs-admin-order-payment',
@@ -26,7 +29,7 @@ export class UbsAdminOrderPaymentComponent implements OnInit, OnChanges {
     this.unPaidAmount = this.paymentInfo.unPaidAmount;
   }
 
-  constructor(private orderService: OrderService) {}
+  constructor(private orderService: OrderService, private dialog: MatDialog) {}
 
   ngOnChanges(changes: SimpleChanges) {
     if (changes.overpayment) {
@@ -37,5 +40,18 @@ export class UbsAdminOrderPaymentComponent implements OnInit, OnChanges {
 
   openDetails() {
     this.pageOpen = !this.pageOpen;
+  }
+
+  openPopup() {
+    this.dialog
+      .open(AddPaymentComponent, {
+        hasBackdrop: true,
+        data: this.orderInfo.generalOrderInfo.id
+      })
+      .afterClosed()
+      .pipe(take(1))
+      .subscribe((res) => {
+        console.log(res);
+      });
   }
 }
