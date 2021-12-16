@@ -1,6 +1,6 @@
 import { OrderService } from 'src/app/ubs-admin/services/order.service';
 import { Component, Input, OnInit, OnChanges, SimpleChanges, Output, EventEmitter } from '@angular/core';
-import { FormGroup, FormBuilder } from '@angular/forms';
+import { FormGroup, FormBuilder, FormArray, FormControl, Validators } from '@angular/forms';
 import { IOrderDetails } from '../../models/ubs-admin.interface';
 
 @Component({
@@ -10,6 +10,9 @@ import { IOrderDetails } from '../../models/ubs-admin.interface';
 })
 export class UbsAdminOrderDetailsFormComponent implements OnInit, OnChanges {
   private CAPACITY_OF_BIG_BAG = 120;
+  public LIMIT_OF_ECO_SHOP_NUMBERS = 5;
+  public SHOP_NUMBER_MASK = '0000000000';
+  public SHOP_NUMBER_PATTERN = /^\d{10}$/;
   public amountOfBigBags: number;
   public payMore = true;
   public isInputDisabled = false;
@@ -245,6 +248,27 @@ export class UbsAdminOrderDetailsFormComponent implements OnInit, OnChanges {
     ) {
       this.checkMinOrder.emit(false);
     }
+  }
+
+  public getStoreOrderNumbers() {
+    const arr = this.orderDetailsForm.controls.storeOrderNumbers as FormArray;
+    return arr.controls;
+  }
+
+  public checkMaxOrdersFromShop() {
+    const arr = this.orderDetailsForm.controls.storeOrderNumbers as FormArray;
+    const currentAmountOfNumbersFromShop = arr.controls.length;
+    return currentAmountOfNumbersFromShop < this.LIMIT_OF_ECO_SHOP_NUMBERS;
+  }
+
+  addOrderNumberFromShop() {
+    const arr = this.orderDetailsForm.controls.storeOrderNumbers as FormArray;
+    arr.push(new FormControl('', [Validators.required, Validators.pattern('^\\d{10}$')]));
+  }
+
+  deleteOrder(index: number): void {
+    const arr = this.orderDetailsForm.controls.storeOrderNumbers as FormArray;
+    arr.removeAt(index);
   }
 
   public changeWriteOffSum(e) {
