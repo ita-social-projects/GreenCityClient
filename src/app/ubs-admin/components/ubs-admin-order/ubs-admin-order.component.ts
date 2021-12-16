@@ -152,7 +152,6 @@ export class UbsAdminOrderComponent implements OnInit, OnDestroy {
         dateExport: this.exportInfo.dateExport ? formatDate(this.exportInfo.dateExport, 'yyyy-MM-dd', this.currentLanguage) : '',
         timeDeliveryFrom: this.parseTimeToStr(this.exportInfo.timeDeliveryFrom),
         timeDeliveryTo: this.parseTimeToStr(this.exportInfo.timeDeliveryTo),
-
         receivingStation: this.exportInfo.receivingStation
       }),
       responsiblePersonsForm: this.fb.group({
@@ -266,13 +265,13 @@ export class UbsAdminOrderComponent implements OnInit, OnDestroy {
     //   ],
     //   exportDetailsDtoUpdate: {
     //     dateExport: this.orderForm.get(['exportDetailsForm', 'exportedDate']).dirty
-    //       ? this.orderForm.get(['exportDetailsForm', 'exportedDate']).value
+    //       ? new Date(this.orderForm.get(['exportDetailsForm', 'dateExport']).value);
     //       : undefined,
     //     receivingStation: this.orderForm.get(['exportDetailsForm', 'receivingStation']).dirty
     //       ? this.orderForm.get(['exportDetailsForm', 'receivingStation']).value
     //       : undefined,
-    //    timeDeliveryFrom: '2021-09-02T14:00:00',
-    //    timeDeliveryTo: '2021-09-02T14:30:00'
+    //    timeDeliveryFrom: this.orderForm.get(['exportDetailsForm', 'timeDeliveryFrom']).value,
+    //    timeDeliveryTo: this.orderForm.get(['exportDetailsForm', 'timeDeliveryTo']).value;
     // },
     // orderAddressExportDetailsDtoUpdate: {
     //   orderId: this.orderId,
@@ -319,24 +318,22 @@ export class UbsAdminOrderComponent implements OnInit, OnDestroy {
     //   ]
     // };
 
-    const updatedValues: any = {};
-    this.getUpdates(this.orderForm, updatedValues);
+    const changedValues: any = {};
+    this.getUpdates(this.orderForm, changedValues);
 
     const updatedData: any = {};
-    this.setUpdatedData(updatedData, updatedValues);
-    console.log(updatedData);
-    return;
+    this.setUpdatedData(updatedData, changedValues);
 
     this.orderService
-      .updateOrderInfo(this.orderId, this.currentLanguage, updatedValues)
+      .updateOrderInfo(this.orderId, this.currentLanguage, changedValues)
       .pipe(takeUntil(this.destroy$))
       .subscribe((data) => {
         this.getOrderInfo(this.orderId, this.currentLanguage);
       });
   }
 
-  private setUpdatedData(updatedData: any, updatedValues: any) {
-    const clientInfoData = updatedValues.clientInfoForm;
+  private setUpdatedData(updatedData: any, changedValues: any) {
+    const clientInfoData = changedValues.clientInfoForm;
     if (!clientInfoData) {
       return;
     }
@@ -352,10 +349,10 @@ export class UbsAdminOrderComponent implements OnInit, OnDestroy {
     updatedData.ubsCustomersDtoUpdate = ubsCustomerDTO;
   }
 
-  private getUpdates(formItem: FormGroup | FormArray | FormControl, updatedValues: any, name?: string) {
+  private getUpdates(formItem: FormGroup | FormArray | FormControl, changedValues: any, name?: string) {
     if (formItem instanceof FormControl) {
       if (name && formItem.dirty) {
-        updatedValues[name] = formItem.value;
+        changedValues[name] = formItem.value;
       }
     } else {
       for (const formControlName in formItem.controls) {
@@ -363,21 +360,17 @@ export class UbsAdminOrderComponent implements OnInit, OnDestroy {
           const formControl = formItem.controls[formControlName];
 
           if (formControl instanceof FormControl) {
-            this.getUpdates(formControl, updatedValues, formControlName);
+            this.getUpdates(formControl, changedValues, formControlName);
           } else if (formControl instanceof FormArray && formControl.dirty && formControl.controls.length > 0) {
-            updatedValues[formControlName] = [];
-            this.getUpdates(formControl, updatedValues[formControlName]);
+            changedValues[formControlName] = [];
+            this.getUpdates(formControl, changedValues[formControlName]);
           } else if (formControl instanceof FormGroup && formControl.dirty) {
-            updatedValues[formControlName] = {};
-            this.getUpdates(formControl, updatedValues[formControlName]);
+            changedValues[formControlName] = {};
+            this.getUpdates(formControl, changedValues[formControlName]);
           }
         }
       }
     }
-
-    const date = new Date(this.orderForm.get(['exportDetailsForm', 'dateExport']).value);
-    const timeTo = this.orderForm.get(['exportDetailsForm', 'timeDeliveryFrom']).value;
-    const timeFrom = this.orderForm.get(['exportDetailsForm', 'timeDeliveryTo']).value;
   }
 
   ngOnDestroy(): void {
