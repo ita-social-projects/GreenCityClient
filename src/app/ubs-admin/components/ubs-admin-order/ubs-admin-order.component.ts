@@ -262,9 +262,9 @@ export class UbsAdminOrderComponent implements OnInit, OnDestroy {
     //       : undefined,
     //     receivingStation: this.orderForm.get(['exportDetailsForm', 'receivingStation']).dirty
     //       ? this.orderForm.get(['exportDetailsForm', 'receivingStation']).value
-    //       : undefined
-    // timeDeliveryFrom: '2021-09-02T14:00:00',
-    // timeDeliveryTo: '2021-09-02T14:30:00'
+    //       : undefined,
+    //    timeDeliveryFrom: '2021-09-02T14:00:00',
+    //    timeDeliveryTo: '2021-09-02T14:30:00'
     // },
     // orderAddressExportDetailsDtoUpdate: {
     //   orderId: this.orderId,
@@ -293,25 +293,31 @@ export class UbsAdminOrderComponent implements OnInit, OnDestroy {
     // {
     //   bagId: 1,
     //   confirmedQuantity: this.orderForm.get(['orderDetailsForm', 'confirmedQuantity1']).value,
-    // exportedQuantity: this.orderForm.get(['orderDetailsForm', 'exportedQuantity1']).value,
+    //   exportedQuantity: this.orderForm.get(['orderDetailsForm', 'exportedQuantity1']).value,
     //   orderId: this.orderId
-    // }
+    // },
     // {
-    // bagId: 2,
-    // confirmedQuantity: this.orderForm.get(['orderDetailsForm', 'confirmedQuantity2']).value,
-    // exportedQuantity: this.orderForm.get(['orderDetailsForm', 'exportedQuantity2']).value,
+    //   bagId: 2,
+    //   confirmedQuantity: this.orderForm.get(['orderDetailsForm', 'confirmedQuantity2']).value,
+    //   exportedQuantity: this.orderForm.get(['orderDetailsForm', 'exportedQuantity2']).value,
     //   orderId: this.orderId
-    // }
+    // },
     // {
     //   bagId: 3,
     //   confirmedQuantity: this.orderForm.get(['orderDetailsForm', 'confirmedQuantity3']).value,
-    // exportedQuantity: this.orderForm.get(['orderDetailsForm', 'exportedQuantity3']).value,
+    //   exportedQuantity: this.orderForm.get(['orderDetailsForm', 'exportedQuantity3']).value,
     //   orderId: this.orderId
     // }
     //   ]
     // };
+
     const updatedValues: any = {};
     this.getUpdates(this.orderForm, updatedValues);
+
+    const updatedData: any = {};
+    this.setUpdatedData(updatedData, updatedValues);
+    console.log(updatedData);
+    return;
 
     this.orderService
       .updateOrderInfo(this.orderId, this.currentLanguage, updatedValues)
@@ -319,6 +325,23 @@ export class UbsAdminOrderComponent implements OnInit, OnDestroy {
       .subscribe((data) => {
         this.getOrderInfo(this.orderId, this.currentLanguage);
       });
+  }
+
+  private setUpdatedData(updatedData: any, updatedValues: any) {
+    const clientInfoData = updatedValues.clientInfoForm;
+    if (!clientInfoData) {
+      return;
+    }
+    let ubsCustomerDTO: any = {};
+
+    for (const key in clientInfoData) {
+      switch (key) {
+        case 'senderName':
+          ubsCustomerDTO.recipientName = clientInfoData[key];
+      }
+    }
+
+    updatedData.ubsCustomersDtoUpdate = ubsCustomerDTO;
   }
 
   private getUpdates(formItem: FormGroup | FormArray | FormControl, updatedValues: any, name?: string) {
