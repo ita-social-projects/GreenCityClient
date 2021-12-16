@@ -145,6 +145,10 @@ export class AddViolationsComponent implements OnInit, OnDestroy {
     }
   }
 
+  openImg(index: number) {
+    console.log('image', index);
+  }
+
   deleteAllImages(): void {
     for (const img of this.images) {
       img.src = null;
