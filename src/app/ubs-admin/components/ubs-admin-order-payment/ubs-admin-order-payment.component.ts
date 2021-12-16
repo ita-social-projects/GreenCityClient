@@ -10,10 +10,9 @@ import { OrderService } from '../../services/order.service';
 export class UbsAdminOrderPaymentComponent implements OnInit, OnChanges {
   message: string;
   pageOpen: boolean;
-  @Input() paidPrice: number;
   @Input() overpayment: number;
   @Input() orderInfo: IOrderInfo;
-  @Input() actualPrice: number;
+  @Input() totalPaid: number;
   paidAmount: number;
   unPaidAmount: number;
   paymentInfo: IPaymentInfo;

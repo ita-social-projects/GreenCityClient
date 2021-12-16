@@ -69,7 +69,7 @@ export interface IOrderDetails {
   courierInfo: ICourierInfo;
   bonuses: number;
   certificateDiscount: number;
-  orderFullPrice: number;
+  paidAmount: number;
   courierPricePerPackage: number;
 }
 

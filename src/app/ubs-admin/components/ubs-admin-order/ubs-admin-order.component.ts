@@ -38,6 +38,7 @@ export class UbsAdminOrderComponent implements OnInit, OnDestroy {
   clientInfo: IUserInfo;
   addressInfo: IAddressExportDetails;
   paymentInfo: IPaymentInfo;
+  totalPaid: number;
   exportInfo: IExportDetails;
   responsiblePersonInfo: IResponsiblePersons;
   orderDetails: IOrderDetails;
@@ -45,7 +46,6 @@ export class UbsAdminOrderComponent implements OnInit, OnDestroy {
   currentOrderStatus: string;
   overpayment = 0;
   isMinOrder = true;
-  actualPrice: number;
 
   constructor(
     private translate: TranslateService,
@@ -80,6 +80,8 @@ export class UbsAdminOrderComponent implements OnInit, OnDestroy {
         this.paymentInfo = data.paymentTableInfoDto;
         this.exportInfo = data.exportDetailsDto;
         this.responsiblePersonInfo = data.employeePositionDtoRequest;
+        this.totalPaid = this.orderInfo.orderCertificateTotalDiscount + this.orderInfo.orderBonusDiscount;
+        this.totalPaid += data.paymentTableInfoDto.paidAmount;
         this.setOrderDetails();
         this.initForm();
       });
@@ -98,7 +100,7 @@ export class UbsAdminOrderComponent implements OnInit, OnDestroy {
       courierInfo: Object.assign({}, this.orderInfo.courierInfo),
       bonuses: this.orderInfo.orderBonusDiscount,
       certificateDiscount: this.orderInfo.orderCertificateTotalDiscount,
-      orderFullPrice: this.orderInfo.orderFullPrice,
+      paidAmount: this.orderInfo.paymentTableInfoDto.paidAmount,
       courierPricePerPackage: this.orderInfo.courierPricePerPackage
     };
     this.orderStatusInfo = this.getOrderStatusInfo(this.currentOrderStatus);
@@ -219,10 +221,6 @@ export class UbsAdminOrderComponent implements OnInit, OnDestroy {
 
   public changeOverpayment(sum) {
     this.overpayment = sum;
-  }
-
-  public setFinalPrice(price: number) {
-    this.actualPrice = price;
   }
 
   public setMinOrder(flag) {
