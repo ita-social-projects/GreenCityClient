@@ -72,7 +72,7 @@ export class UbsAdminCustomerViolationsComponent implements OnInit, OnDestroy {
 
   public openOrder(id: number): void {
     this.router.navigate([]).then((result) => {
-      window.open(`/#/ubs-admin/order/${id}`, '_blank');
+      window.open(`/GreenCityClient/#/ubs-admin/order/${id}`, '_blank');
     });
   }
 
