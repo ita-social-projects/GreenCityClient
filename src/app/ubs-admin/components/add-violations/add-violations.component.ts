@@ -15,10 +15,13 @@ import { ShowImgsPopUpComponent } from '../shared/components/show-imgs-pop-up/sh
   styleUrls: ['./add-violations.component.scss']
 })
 export class AddViolationsComponent implements OnInit, OnDestroy {
+  maxNumberOfImgs = 6;
   images = [];
   files = [];
   isImageSizeError = false;
   isImageTypeError = false;
+  isDeleteViolation = false;
+  isLabel: boolean;
   dragAndDropLabel;
   addViolationForm: FormGroup;
   orderId;
@@ -142,6 +145,8 @@ export class AddViolationsComponent implements OnInit, OnDestroy {
         this.images[i].src = result;
         if (this.images[i + 1]) {
           this.images[i + 1].label = this.dragAndDropLabel;
+        } else {
+          this.isLabel = false;
         }
         this.images[i].name = name;
         break;
@@ -160,21 +165,15 @@ export class AddViolationsComponent implements OnInit, OnDestroy {
     });
   }
 
-  deleteAllImages(): void {
-    for (const img of this.images) {
-      img.src = null;
-      img.label = '';
-      img.name = null;
-    }
-    this.images[0].label = this.dragAndDropLabel;
-    this.imgArray = [];
+  deleteViolation(): void {
+    // TODO: Add logic to delete violations
   }
 
   deleteImage(i: number): void {
     this.imgArray.splice(i, 1);
     this.images.splice(i, 1);
-    const isLabel = this.images.filter((img) => img.label).length > 0;
-    this.images.push({ src: null, label: isLabel ? null : this.dragAndDropLabel, name: null });
+    this.images.push({ src: null, label: this.isLabel ? null : this.dragAndDropLabel, name: null });
+    this.isLabel = true;
   }
 
   assignLabel(): void {
@@ -195,10 +194,11 @@ export class AddViolationsComponent implements OnInit, OnDestroy {
   }
 
   initImages(): void {
-    for (let i = 0; i < 6; i++) {
+    for (let i = 0; i < this.maxNumberOfImgs; i++) {
       this.images.push({ src: null, label: null, name: null });
     }
     this.images[0].label = this.dragAndDropLabel;
+    this.isLabel = true;
   }
 
   ngOnDestroy(): void {

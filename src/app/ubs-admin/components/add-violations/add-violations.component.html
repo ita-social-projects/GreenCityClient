@@ -51,12 +51,12 @@
   <div class="row error-message" *ngIf="isImageTypeError">
     <p>{{ 'add-violation-modal.error-message-for-type' | translate }}</p>
   </div>
-  <div class="row mb-5 label-g">
+  <div class="row mb-5 label-g" [class.invisible]="!isLabel">
     <label for="file-upload" class="custom-file-upload">{{ 'add-violation-modal.file-upload' | translate }}</label>
     <input #takeInput id="file-upload" class="d-none" type="file" accept="image/png,image/jpeg" (change)="loadFile($event)" />
   </div>
   <div class="row justify-content-end mb-5">
-    <button *ngIf="images[0]?.src" (click)="deleteAllImages()" class="delete-photo">
+    <button *ngIf="isDeleteViolation" (click)="deleteViolation()" class="delete-violation">
       <img src="assets/img/icon/bin.svg" alt="delete-icon" class="delete-icon" /> {{ 'add-violation-modal.delete-button' | translate }}
     </button>
     <button class="cancelButton" [mat-dialog-close]="true">{{ 'add-violation-modal.cancel-button' | translate }}</button>
