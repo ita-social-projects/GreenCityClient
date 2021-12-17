@@ -1,20 +1,20 @@
-import { AddViolationsComponent } from './../../../add-violations/add-violations.component';
+import { Component, OnInit, Input, OnDestroy } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { MatTableDataSource } from '@angular/material/table';
 import { columnsParamsViolations } from './../../columnsParams';
 import { ActivatedRoute, Router } from '@angular/router';
 import { takeUntil } from 'rxjs/operators';
 import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
-import { Component, OnInit, Input } from '@angular/core';
 import { Subject } from 'rxjs';
 import { AdminCustomersService } from 'src/app/ubs-admin/services/admin-customers.service';
+import { AddViolationsComponent } from './../../../add-violations/add-violations.component';
 
 @Component({
   selector: 'app-ubs-admin-customer-violations',
   templateUrl: './ubs-admin-customer-violations.component.html',
   styleUrls: ['./ubs-admin-customer-violations.component.scss']
 })
-export class UbsAdminCustomerViolationsComponent implements OnInit {
+export class UbsAdminCustomerViolationsComponent implements OnInit, OnDestroy {
   private destroy$: Subject<boolean> = new Subject<boolean>();
   private id: string;
 

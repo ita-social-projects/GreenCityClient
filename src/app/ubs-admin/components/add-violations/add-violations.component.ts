@@ -66,10 +66,10 @@ export class AddViolationsComponent implements OnInit, OnDestroy {
             violationLevel: violation.violationLevel,
             violationDescription: violation.description
           });
-          this.addViolationForm.controls['violationLevel'].disable();
-          this.addViolationForm.controls['violationDescription'].disable();
-          const images = violation.images.map((src) => {
-            return { src: src, label: null, name: null };
+          this.addViolationForm.controls.violationLevel.disable();
+          this.addViolationForm.controls.violationDescription.disable();
+          const images = violation.images.map((url) => {
+            return { src: url, label: null, name: null };
           });
           this.images.splice(0, violation.images.length, ...images);
           this.date = violation.violationDate;
