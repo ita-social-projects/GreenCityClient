@@ -60,7 +60,8 @@
       <img src="assets/img/icon/bin.svg" alt="delete-icon" class="delete-icon" /> {{ 'add-violation-modal.delete-button' | translate }}
     </button>
     <button class="cancelButton" [mat-dialog-close]="true">{{ 'add-violation-modal.cancel-button' | translate }}</button>
-    <button class="addButton" [disabled]="!addViolationForm.valid" (click)="send()">
+    <button class="addButton" [disabled]="!addViolationForm.valid || isUploading" (click)="send()">
+      <span *ngIf="isUploading" class="spinner-border spinner-border-sm" role="status" aria-hidden="true"> </span>
       {{ 'add-violation-modal.add-button' | translate }}
     </button>
   </div>

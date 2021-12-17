@@ -21,6 +21,7 @@ export class AddViolationsComponent implements OnInit, OnDestroy {
   isImageSizeError = false;
   isImageTypeError = false;
   isDeleteViolation = false;
+  isUploading = false;
   isLabel: boolean;
   dragAndDropLabel;
   addViolationForm: FormGroup;
@@ -87,6 +88,7 @@ export class AddViolationsComponent implements OnInit, OnDestroy {
       .pipe(takeUntil(this.unsubscribe))
       .subscribe(() => {
         this.dialogRef.close();
+        this.isUploading = false;
       });
   }
 
