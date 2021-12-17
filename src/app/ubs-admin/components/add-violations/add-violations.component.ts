@@ -1,5 +1,5 @@
 import { Component, OnDestroy, OnInit, Inject, ElementRef, ViewChild } from '@angular/core';
-import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
+import { MAT_DIALOG_DATA, MatDialogRef, MatDialog } from '@angular/material/dialog';
 import { FileHandle } from '../../models/file-handle.model';
 import { TranslateService } from '@ngx-translate/core';
 import { Subject } from 'rxjs';
@@ -7,6 +7,7 @@ import { takeUntil } from 'rxjs/operators';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { OrderService } from '../../services/order.service';
 import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
+import { ShowImgsPopUpComponent } from '../shared/components/show-imgs-pop-up/show-imgs-pop-up.component';
 
 @Component({
   selector: 'app-add-violations',
@@ -31,6 +32,7 @@ export class AddViolationsComponent implements OnInit, OnDestroy {
     private localeStorageService: LocalStorageService,
     private fb: FormBuilder,
     private orderService: OrderService,
+    private dialog: MatDialog,
     public dialogRef: MatDialogRef<AddViolationsComponent>
   ) {
     this.orderId = data.id;
@@ -146,7 +148,14 @@ export class AddViolationsComponent implements OnInit, OnDestroy {
   }
 
   openImg(index: number) {
-    console.log('image', index);
+    this.dialog.open(ShowImgsPopUpComponent, {
+      hasBackdrop: true,
+      panelClass: 'custom-img-pop-up',
+      data: {
+        imgIndex: index,
+        images: this.images
+      }
+    });
   }
 
   deleteAllImages(): void {
