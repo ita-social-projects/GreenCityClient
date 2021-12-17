@@ -1,0 +1,27 @@
+<button [matMenuTriggerFor]="menu" class="add-place-btn">Add place</button>
+<mat-menu #menu="matMenu" xPosition="before" yPosition="below">
+  <div class="form-container">
+    <form [formGroup]="addPlaceForm" (click)="$event.stopPropagation()">
+      <div class="form-field">
+        <label for="type" class="label">Type</label>
+        <input class="input" type="text" formControlName="type" placeholder="e.g. shop" />
+      </div>
+      <div class="form-field">
+        <label for="name" class="label">Name</label>
+        <input class="input" type="text" formControlName="name" placeholder="Name" />
+      </div>
+      <div class="form-field">
+        <label for="adress" class="label">Adress</label>
+        <input class="input" type="text" formControlName="adress" placeholder="Adress" />
+      </div>
+      <div class="form-field">
+        <label for="workingHours" class="label">Working hours</label>
+        <input class="input" type="text" formControlName="workingHours" placeholder="e.g. 10.00-20.00" />
+      </div>
+    </form>
+    <div class="btn-wrapper">
+      <button class="btn-cancel btn" (click)="cancel()">Cancel</button>
+      <button class="btn-add btn" [disabled]="addPlaceForm.invalid" (click)="addPlace()">Add</button>
+    </div>
+  </div>
+</mat-menu>

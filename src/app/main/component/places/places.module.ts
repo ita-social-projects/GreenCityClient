@@ -25,9 +25,10 @@ import { MoreOptionsFilterComponent } from './components/more-options-filter/mor
 import { MatMenuModule } from '@angular/material/menu';
 import { MatSliderModule } from '@angular/material/slider';
 import { MatGoogleMapsAutocompleteModule } from '@angular-material-extensions/google-maps-autocomplete';
+import { AddPlaceComponent } from './components/add-place/add-place.component';
 
 @NgModule({
-  declarations: [PlacesComponent, MoreOptionsFilterComponent],
+  declarations: [PlacesComponent, MoreOptionsFilterComponent, AddPlaceComponent],
   imports: [
     MatSidenavModule,
     SharedModule,
@@ -40,6 +41,7 @@ import { MatGoogleMapsAutocompleteModule } from '@angular-material-extensions/go
     FormsModule,
     ReactiveFormsModule,
     MatMenuModule,
+    ReactiveFormsModule,
     AgmCoreModule.forRoot({
       apiKey: environment.apiMapKey
     }),
