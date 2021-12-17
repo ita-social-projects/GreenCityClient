@@ -1,9 +1,11 @@
+import { AddViolationsComponent } from './../../../add-violations/add-violations.component';
+import { MatDialog } from '@angular/material/dialog';
 import { MatTableDataSource } from '@angular/material/table';
 import { columnsParamsViolations } from './../../columnsParams';
 import { ActivatedRoute, Router } from '@angular/router';
 import { takeUntil } from 'rxjs/operators';
 import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Input } from '@angular/core';
 import { Subject } from 'rxjs';
 import { AdminCustomersService } from 'src/app/ubs-admin/services/admin-customers.service';
 
@@ -23,12 +25,14 @@ export class UbsAdminCustomerViolationsComponent implements OnInit {
   public displayedColumns: string[] = [];
   public dataSource: MatTableDataSource<any>;
   public isLoading = true;
+  public switchViewButton: number | null;
 
   constructor(
     private localStorageService: LocalStorageService,
     private route: ActivatedRoute,
     private adminCustomerService: AdminCustomersService,
-    private router: Router
+    private router: Router,
+    private dialog: MatDialog
   ) {}
 
   ngOnInit(): void {
@@ -47,7 +51,6 @@ export class UbsAdminCustomerViolationsComponent implements OnInit {
         .getCustomerViolations(this.id)
         .pipe(takeUntil(this.destroy$))
         .subscribe((violations) => {
-          console.log(violations);
           this.username = violations.username;
           this.violationsList = violations.userViolationsList;
           this.dataSource = new MatTableDataSource(this.violationsList);
@@ -70,6 +73,17 @@ export class UbsAdminCustomerViolationsComponent implements OnInit {
   public openOrder(id: number): void {
     this.router.navigate([]).then((result) => {
       window.open(`/#/ubs-admin/order/${id}`, '_blank');
+    });
+  }
+
+  openModal(user): void {
+    this.dialog.open(AddViolationsComponent, {
+      height: '90%',
+      maxWidth: '560px',
+      data: {
+        id: user.orderId,
+        viewMode: true
+      }
     });
   }
 

@@ -65,11 +65,14 @@
     }
   },
   "add-violation-modal": {
+    "violation": "Порушення",
     "add-violation": "Додати порушення",
+    "order": "Замовлення",
     "level-of-violation": "Оберіть ступінь порушення",
     "easy-violation": "Легке",
     "serious-violation": "Серйозне",
     "description": "Опишіть, що сталося",
+    "violation-details": "Деталі порушення",
     "placeholder": "Будь-які деталі, які Ви хотіли б повідомити додатково щодо цього замовлення",
     "label-for-photo": "Фотографії порушення",
     "requirement": "Ви можете завантажити зображення у форматі PNG чи JPG розміром до 10MБ",

@@ -115,13 +115,29 @@
 }
 
 .lowViolation {
-  background: var(--attention-light-yellow);
-  border-radius: 8px;
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+  padding-right: 10px;
+
+  span {
+    background: var(--attention-light-yellow);
+    border-radius: 8px;
+    padding: 4px 8px;
+  }
 }
 
 .majorViolation {
-  background: var(--error-light-red);
-  border-radius: 8px;
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+  padding-right: 10px;
+
+  span {
+    background: var(--error-light-red);
+    border-radius: 8px;
+    padding: 4px;
+  }
 }
 
 .pointer {
