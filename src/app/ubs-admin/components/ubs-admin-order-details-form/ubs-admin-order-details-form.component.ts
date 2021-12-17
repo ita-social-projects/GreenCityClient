@@ -157,13 +157,13 @@ export class UbsAdminOrderDetailsFormComponent implements OnInit, OnChanges {
 
   private calculateOverpayment() {
     const bagType = this.orderStatusInfo.ableActualChange ? 'actual' : 'confirmed';
-    let priceWithoutCertificate = this.orderDetails.paidAmount - this.orderDetails.certificateDiscount;
+    let priceWithoutCertificate = this.bagsInfo.sum[bagType] - this.orderDetails.certificateDiscount;
 
     if (priceWithoutCertificate < 0) {
       priceWithoutCertificate = 0;
     }
 
-    this.overpayment = priceWithoutCertificate + this.orderDetails.bonuses - this.bagsInfo.finalSum[bagType];
+    this.overpayment = -1 * (priceWithoutCertificate - this.orderDetails.bonuses - this.orderDetails.paidAmount);
     this.changeOverpayment.emit(this.overpayment);
     if (this.overpayment) {
       this.overpaymentMessage = this.orderService.getOverpaymentMsg(this.overpayment);
