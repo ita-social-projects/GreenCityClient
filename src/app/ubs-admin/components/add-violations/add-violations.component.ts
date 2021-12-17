@@ -61,7 +61,7 @@ export class AddViolationsComponent implements OnInit, OnDestroy {
   private initForm(): void {
     this.addViolationForm = this.fb.group({
       violationLevel: ['LOW', [Validators.required]],
-      violationDescription: ['', [Validators.required, Validators.maxLength(255)]]
+      violationDescription: ['', [Validators.required, Validators.minLength(5), Validators.maxLength(255)]]
     });
   }
 
@@ -82,6 +82,7 @@ export class AddViolationsComponent implements OnInit, OnDestroy {
   }
 
   send() {
+    this.isUploading = true;
     const dataToSend = this.prepareDataToSend('add');
     this.orderService
       .addViolationToCurrentOrder(dataToSend)

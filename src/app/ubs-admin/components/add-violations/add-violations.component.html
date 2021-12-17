@@ -26,6 +26,9 @@
         placeholder="{{ 'add-violation-modal.placeholder' | translate }}"
         formControlName="violationDescription"
       ></textarea>
+      <div class="row error-message" *ngIf="addViolationForm.invalid && addViolationForm.get('violationDescription').touched">
+        <p>{{ 'add-violation-modal.description-error-message' | translate }}</p>
+      </div>
     </div>
   </form>
   <div class="row mb-1">
