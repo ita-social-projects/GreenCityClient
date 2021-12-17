@@ -6,13 +6,32 @@
       <h1 class="form__headline">{{ 'export-details.title' | translate }}</h1>
     </div>
     <div *ngIf="pageOpen" class="form-row">
-      <div class="form-group col-md-2">
+      <div class="form-group export-date col-md-2">
         <label for="export-date">{{ 'export-details.export-date' | translate }}</label>
-        <input type="date" class="form-control" id="export-date" formControlName="exportedDate" />
+        <input type="date" class="form-control" id="export-date" formControlName="dateExport" />
       </div>
-      <div class="form-group col-md-2 mx-4">
-        <label for="export-time">{{ 'export-details.export-time' | translate }}</label>
-        <input type="time" class="form-control" id="export-time" formControlName="exportedTime" />
+      <div class="form-group">
+        <label for="export-time-from">{{ 'export-details.export-time' | translate }}</label>
+        <input
+          autocomplete="off"
+          placeholder="- -"
+          class="form-control time-from"
+          id="export-time-from"
+          formControlName="timeDeliveryFrom"
+          (click)="setExportTime()"
+        />
+      </div>
+      <span class="hyphen">-</span>
+      <div class="form-group">
+        <label for="export-time-to"></label>
+        <input
+          autocomplete="off"
+          placeholder="- -"
+          class="form-control time-to"
+          id="export-time-to"
+          formControlName="timeDeliveryTo"
+          (click)="setExportTime()"
+        />
       </div>
       <div class="form-group col-md-4">
         <label for="station">{{ 'export-details.station' | translate }}</label>
@@ -24,5 +43,32 @@
       </div>
     </div>
     <hr />
+  </div>
+  <div *ngIf="showTimePicker" class="dropdown_time">
+    <div class="set_time_container">
+      <h3>{{ 'order-edit.title' | translate }}</h3>
+      <div class="set_time_select">
+        <div class="select_from_wr">
+          <span>{{ 'order-edit.export-time.from' | translate }}</span>
+          <select class="select" (change)="onTimeFromChange()" [(ngModel)]="fromInput">
+            <option *ngFor="let timeFrom of fromSelect" [value]="timeFrom">
+              {{ timeFrom }}
+            </option>
+          </select>
+        </div>
+        <div class="select_to_wr">
+          <span>{{ 'order-edit.export-time.to' | translate }}</span>
+          <select class="select" (change)="onTimeToChange()" [(ngModel)]="toInput">
+            <option *ngFor="let timeTo of toSelect; let i = index" [id]="timeTo" [value]="timeTo">
+              {{ timeTo }}
+            </option>
+          </select>
+        </div>
+      </div>
+      <div class="edit_time_btns">
+        <button (click)="cancel()" class="cancel">{{ 'order-edit.btn.cancel' | translate }}</button>
+        <button (click)="$event.preventDefault(); save()" class="save">OK</button>
+      </div>
+    </div>
   </div>
 </div>
