@@ -140,14 +140,16 @@ export class AddViolationsComponent implements OnInit, OnDestroy {
       this.images[i].label = null;
       if (!this.images[i].src) {
         this.images[i].src = result;
-        this.images[i + 1].label = this.dragAndDropLabel;
+        if (this.images[i + 1]) {
+          this.images[i + 1].label = this.dragAndDropLabel;
+        }
         this.images[i].name = name;
         break;
       }
     }
   }
 
-  openImg(index: number) {
+  openImg(index: number): void {
     this.dialog.open(ShowImgsPopUpComponent, {
       hasBackdrop: true,
       panelClass: 'custom-img-pop-up',
@@ -171,7 +173,8 @@ export class AddViolationsComponent implements OnInit, OnDestroy {
   deleteImage(i: number): void {
     this.imgArray.splice(i, 1);
     this.images.splice(i, 1);
-    this.images.push({ src: null, label: null, name: null });
+    const isLabel = this.images.filter((img) => img.label).length > 0;
+    this.images.push({ src: null, label: isLabel ? null : this.dragAndDropLabel, name: null });
   }
 
   assignLabel(): void {
