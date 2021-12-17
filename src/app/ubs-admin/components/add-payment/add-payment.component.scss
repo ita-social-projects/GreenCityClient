@@ -1,11 +1,14 @@
 .container {
-  padding: 40px;
+  padding: 10px;
+  width: 450px;
   position: relative;
+  font-family: var(--primary-font);
+  color: var(--ubs-quaternary-dark-grey);
 
   .close-container {
     position: absolute;
-    top: -5px;
-    right: 5px;
+    top: -9px;
+    right: -7px;
   }
 
   .close-btn {
@@ -18,26 +21,133 @@
     }
   }
 
-  .title {
-    font-size: 30px;
-    max-width: 500px;
-    margin-bottom: 20px;
+  .label {
+    font-size: 15px;
     font-weight: 600;
     line-height: 1.5;
+    margin-bottom: 0;
+  }
+
+  .block {
+    margin-top: 25px;
+    margin-bottom: 25px;
+  }
+
+  .sub-title {
+    display: block;
+    color: var(--quaternary-grey);
+    font-size: 13px;
+    line-height: 1.5;
+    max-width: 340px;
+  }
+
+  .main-content {
+    .title {
+      font-size: 24px;
+      max-width: 500px;
+      margin-bottom: 20px;
+    }
+
+    .order-title {
+      color: var(--quaternary-grey);
+      margin-right: 25px;
+    }
+
+    hr {
+      margin-top: 0;
+    }
+
+    .photo-requirement {
+      color: var(--quaternary-grey);
+      font-size: 11px;
+      display: block;
+      margin-top: -4px;
+    }
+
+    label {
+      display: block;
+    }
+
+    input {
+      border-radius: 4px;
+      border: 1px solid var(--ubs-tertiary-light-grey);
+      font-size: 12px;
+      height: 32px;
+      margin-bottom: 20px;
+      padding-left: 10px;
+    }
+
+    input::placeholder {
+      color: var(--ubs-primary-light-grey);
+    }
+
+    .date {
+      min-width: 125px;
+    }
+
+    .id {
+      min-width: 200px;
+    }
+
+    .link {
+      width: 100%;
+      margin-bottom: 0;
+    }
+
+    .photo-container {
+      padding: 65px;
+      background-image: url("data:image/svg+xml,%3csvg width='100%25' height='100%25' xmlns='http://www.w3.org/2000/svg'%3e%3crect width='100%25' height='100%25' fill='none' stroke='%23333' stroke-width='1' stroke-dasharray='10' stroke-dashoffset='0' stroke-linecap='square'/%3e%3c/svg%3e");
+    }
+
+    .requirement-drag {
+      margin: 0 auto;
+      max-width: 230px;
+      color: var(--quaternary-grey);
+    }
+
+    .pdf-container {
+      margin-top: 30px;
+
+      button {
+        margin-left: 30px;
+        background: none;
+        border: 1px solid var(--gray-dark);
+        border-radius: 4px;
+        padding: 5px 20px 5px 20px;
+      }
+    }
   }
 
   .btn-container {
     text-align-last: right;
-    margin-bottom: 40px;
-    margin-top: 40px;
 
-    .btn {
-      border-radius: 5px;
-      font-size: 20px;
+    .back {
+      background: none;
+      border: none;
+      margin-right: 35px;
+    }
+
+    .agree {
+      border: none;
+      color: var(--ubs-quaternary-dark-grey);
+      background-color: var(--ubs-button-light-green);
+      border-radius: 4px;
+      padding: 7px 20px 7px 20px;
     }
   }
 
-  .date {
-    margin-right: 40px;
+  .add-info {
+    display: flex;
+
+    p {
+      margin-bottom: -20px;
+      color: var(--quaternary-grey);
+      font-size: 13px;
+    }
+
+    .bold {
+      margin-right: 40px;
+      color: var(--ubs-quaternary-dark-grey);
+    }
   }
 }

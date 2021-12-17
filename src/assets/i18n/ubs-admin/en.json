@@ -95,7 +95,8 @@
     "link-placeholder": "Link to external source",
     "label-for-photo": "Photo or screenshot of the bill",
     "requirement": "You can upload images in PNG or JPG format up to 10MB",
-    "drag-photo": "Drag the image here or download from the device",
+    "drag-photo": "Drag the image here",
+    "drag-photo-link": " download from the device",
     "pdf-file": "PDF-file",
     "upload-pdf": "Download PDF",
     "btn": {
