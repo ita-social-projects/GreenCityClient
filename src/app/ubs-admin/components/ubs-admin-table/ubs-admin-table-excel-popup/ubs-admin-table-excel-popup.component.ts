@@ -24,7 +24,7 @@ export class UbsAdminTableExcelPopupComponent implements OnInit {
   constructor(
     private adminTableService: AdminTableService,
     private adminCertificateService: AdminCertificateService,
-    private AdminCustomersService: AdminCustomersService
+    private adminCustomerService: AdminCustomersService
   ) {}
 
   ngOnInit() {
@@ -113,7 +113,7 @@ export class UbsAdminTableExcelPopupComponent implements OnInit {
   }
 
   getCustomersTable(currentPage, filters, sortingType = this.sortType || 'DESC', columnName = this.sortingColumn || 'id') {
-    return this.AdminCustomersService.getCustomers(columnName, currentPage, filters, sortingType).toPromise();
+    return this.adminCustomerService.getCustomers(columnName, currentPage, filters, sortingType).toPromise();
   }
 
   createXLSX() {
