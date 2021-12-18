@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { AdminTableService } from 'src/app/ubs-admin/services/admin-table.service';
+import { AdminCertificateService } from 'src/app/ubs-admin/services/admin-certificate.service';
+import { AdminCustomersService } from 'src/app/ubs-admin/services/admin-customers.service';
 import * as XLSX from 'xlsx';
 
 @Component({
@@ -17,38 +19,80 @@ export class UbsAdminTableExcelPopupComponent implements OnInit {
   totalElements: number;
   filterValue: string;
   name: string;
+  allElements: number;
 
-  constructor(private adminTableService: AdminTableService) {}
+  constructor(
+    private adminTableService: AdminTableService,
+    private adminCertificateService: AdminCertificateService,
+    private AdminCustomersService: AdminCustomersService
+  ) {}
 
   ngOnInit() {
     this.tableView = 'wholeTable';
   }
 
   saveTable() {
-    if (this.tableView === 'wholeTable') {
-    } else if (this.tableView === 'currentFilter') {
-      // implement downloading with filtering, when filtering will be implemented into project
-    }
-
     this.isLoading = true;
-    this.getTable(this.onePageForWholeTable, this.totalElements, this.filterValue, this.sortType, this.sortingColumn)
-      .then((res) => {
-        this.tableData = res[`content`];
-      })
-      .finally(() => {
-        this.isLoading = false;
-        if (this.tableData) {
-          const ws: XLSX.WorkSheet = XLSX.utils.json_to_sheet(this.tableData);
-          const wb: XLSX.WorkBook = XLSX.utils.book_new();
-          XLSX.utils.book_append_sheet(wb, ws, 'Sheet1');
-          XLSX.writeFile(wb, this.name);
-        } else {
-          alert('Error. Please try again');
-        }
-      });
+    if (this.tableView === 'wholeTable') {
+      if (this.name === 'Orders-Table.xlsx') {
+        this.getOrdersTable(this.onePageForWholeTable, this.allElements, '', 'DESC', 'id')
+          .then((res) => {
+            this.tableData = res[`content`];
+          })
+          .finally(() => {
+            this.createXLSX();
+          });
+      }
+      if (this.name === 'Certificates-Table.xlsx') {
+        this.getCertificatesTable(this.onePageForWholeTable, this.allElements, '', 'DESC', 'code')
+          .then((res) => {
+            this.tableData = res[`page`];
+          })
+          .finally(() => {
+            this.createXLSX();
+          });
+      }
+      if (this.name === 'Customers-Table.xlsx') {
+        this.getCustomersTable(this.onePageForWholeTable, 'YuriiBoiko', this.sortType, 'recipientName')
+          .then((res) => {
+            this.tableData = res[`page`];
+          })
+          .finally(() => {
+            this.createXLSX();
+          });
+      }
+    } else if (this.tableView === 'currentFilter') {
+      if (this.name === 'Orders-Table.xlsx') {
+        this.getOrdersTable(this.onePageForWholeTable, this.totalElements, this.filterValue, this.sortType, this.sortingColumn)
+          .then((res) => {
+            this.tableData = res[`content`];
+          })
+          .finally(() => {
+            this.createXLSX();
+          });
+      }
+      if (this.name === 'Certificates-Table.xlsx') {
+        this.getCertificatesTable(this.onePageForWholeTable, this.totalElements, this.filterValue, this.sortType, this.sortingColumn)
+          .then((res) => {
+            this.tableData = res[`page`];
+          })
+          .finally(() => {
+            this.createXLSX();
+          });
+      }
+      if (this.name === 'Customers-Table.xlsx') {
+        this.getCustomersTable(this.onePageForWholeTable, this.totalElements, '', 'recipientName')
+          .then((res) => {
+            this.tableData = res[`page`];
+          })
+          .finally(() => {
+            this.createXLSX();
+          });
+      }
+    }
   }
 
-  getTable(
+  getOrdersTable(
     currentPage,
     pageSize,
     filters = this.filterValue || '',
@@ -56,5 +100,31 @@ export class UbsAdminTableExcelPopupComponent implements OnInit {
     columnName = this.sortingColumn || 'id'
   ) {
     return this.adminTableService.getTable(columnName, currentPage, filters, pageSize, sortingType).toPromise();
+  }
+
+  getCertificatesTable(
+    currentPage,
+    pageSize,
+    search = this.filterValue || '',
+    sortingType = this.sortType || 'DESC',
+    columnName = this.sortingColumn || 'code'
+  ) {
+    return this.adminCertificateService.getTable(columnName, currentPage, search, pageSize, sortingType).toPromise();
+  }
+
+  getCustomersTable(currentPage, filters, sortingType = this.sortType || 'DESC', columnName = this.sortingColumn || 'id') {
+    return this.AdminCustomersService.getCustomers(columnName, currentPage, filters, sortingType).toPromise();
+  }
+
+  createXLSX() {
+    this.isLoading = false;
+    if (this.tableData) {
+      const ws: XLSX.WorkSheet = XLSX.utils.json_to_sheet(this.tableData);
+      const wb: XLSX.WorkBook = XLSX.utils.book_new();
+      XLSX.utils.book_append_sheet(wb, ws, 'Sheet1');
+      XLSX.writeFile(wb, this.name);
+    } else {
+      alert('Error. Please try again');
+    }
   }
 }
