@@ -151,10 +151,10 @@ describe('OrderService', () => {
   it('method getLocations should return user location', () => {
     const locationsMock = [{ id: 1, name: 'city', languageCode: 'ua' }];
 
-    service.getLocations().subscribe((data) => {
+    service.getLocations(1).subscribe((data) => {
       expect(data).toEqual(locationsMock);
     });
-    httpTest('order/get-locations', 'GET', locationsMock);
+    httpTest('courier/1', 'GET', locationsMock);
   });
 
   it('method addAdress should makes post request', () => {
