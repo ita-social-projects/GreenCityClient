@@ -16,14 +16,14 @@ import { ProfileService } from '@global-user/components/profile/profile-service/
 import { EditProfileModel } from '@global-user/models/edit-profile.model';
 import { EditProfileComponent } from './edit-profile.component';
 import { SocialNetworksComponent } from './social-networks/social-networks.component';
+import { Router } from '@angular/router';
 
 class Test {}
 
 describe('EditProfileComponent', () => {
   let component: EditProfileComponent;
   let fixture: ComponentFixture<EditProfileComponent>;
-
-  const routerSpy = { navigate: jasmine.createSpy('navigate') };
+  let router: Router;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
@@ -58,6 +58,8 @@ describe('EditProfileComponent', () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(EditProfileComponent);
     component = fixture.componentInstance;
+    router = TestBed.inject(Router);
+    spyOn(router, 'navigate');
     fixture.detectChanges();
   });
 

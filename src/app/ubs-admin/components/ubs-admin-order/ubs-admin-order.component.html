@@ -14,7 +14,7 @@
         [generalOrderInfo]="generalOrderInfo"
         (changed)="onChangedOrderStatus($event)"
       ></app-ubs-admin-order-status>
-      <app-ubs-admin-order-client-info [clientInfoForm]="getFormGroup('clientInfoForm')" [clientInfo]="clientInfo">
+      <app-ubs-admin-order-client-info [clientInfoForm]="getFormGroup('clientInfoForm')" [clientInfo]="clientInfo" [orderId]="orderId">
       </app-ubs-admin-order-client-info>
       <app-ubs-admin-address-details
         [addressDetailsForm]="getFormGroup('addressDetailsForm')"
@@ -29,15 +29,20 @@
         (changeOverpayment)="changeOverpayment($event)"
         (checkMinOrder)="setMinOrder($event)"
       ></app-ubs-admin-order-details-form>
-      <app-ubs-admin-order-payment [paidPrice]="orderInfo.orderFullPrice" [overpayment]="overpayment"> </app-ubs-admin-order-payment>
+      <app-ubs-admin-order-payment
+        [totalPaid]="totalPaid"
+        [overpayment]="overpayment"
+        [orderInfo]="orderInfo"
+      ></app-ubs-admin-order-payment>
       <app-ubs-admin-export-details
         [exportDetailsForm]="getFormGroup('exportDetailsForm')"
         [exportInfo]="exportInfo"
+        [from]="timeFrom"
+        [to]="timeTo"
       ></app-ubs-admin-export-details>
       <app-ubs-admin-responsible-persons
         [responsiblePersonsForm]="getFormGroup('responsiblePersonsForm')"
         [responsiblePersonInfo]="responsiblePersonInfo"
-        [orderId]="orderId"
       >
       </app-ubs-admin-responsible-persons>
       <app-ubs-admin-order-history [orderId]="orderId"></app-ubs-admin-order-history>

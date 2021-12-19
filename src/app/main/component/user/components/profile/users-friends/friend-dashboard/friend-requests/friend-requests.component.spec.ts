@@ -5,6 +5,7 @@ import { RouterTestingModule } from '@angular/router/testing';
 import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
 import { UserFriendsService } from '@global-user/services/user-friends.service';
 import { TranslateModule } from '@ngx-translate/core';
+import { InfiniteScrollModule } from 'ngx-infinite-scroll';
 import { BehaviorSubject, of } from 'rxjs';
 
 import { FriendRequestsComponent } from './friend-requests.component';
@@ -21,7 +22,7 @@ describe('FriendRequestsComponent', () => {
     id: 1,
     name: 'Name',
     profilePicture: '',
-    added: false,
+    added: false
   };
 
   const requests = {
@@ -36,7 +37,7 @@ describe('FriendRequestsComponent', () => {
         added: true,
         rating: 380,
         city: 'Lviv',
-        mutualFriends: 5,
+        mutualFriends: 5
       },
       {
         id: 2,
@@ -45,9 +46,9 @@ describe('FriendRequestsComponent', () => {
         added: true,
         rating: 380,
         city: 'Lviv',
-        mutualFriends: 5,
-      },
-    ],
+        mutualFriends: 5
+      }
+    ]
   };
 
   userFriendsServiceMock = jasmine.createSpyObj('UserFriendsService', ['getRequests', 'declineRequest', 'acceptRequest']);
@@ -58,12 +59,12 @@ describe('FriendRequestsComponent', () => {
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       declarations: [FriendRequestsComponent],
-      imports: [TranslateModule.forRoot(), HttpClientTestingModule, RouterTestingModule.withRoutes([])],
+      imports: [TranslateModule.forRoot(), HttpClientTestingModule, RouterTestingModule.withRoutes([]), InfiniteScrollModule],
       providers: [
         { provide: LocalStorageService, useValue: localStorageServiceMock },
-        { provide: UserFriendsService, useValue: userFriendsServiceMock },
+        { provide: UserFriendsService, useValue: userFriendsServiceMock }
       ],
-      schemas: [CUSTOM_ELEMENTS_SCHEMA, NO_ERRORS_SCHEMA],
+      schemas: [CUSTOM_ELEMENTS_SCHEMA, NO_ERRORS_SCHEMA]
     }).compileComponents();
   }));
 

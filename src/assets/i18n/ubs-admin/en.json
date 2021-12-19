@@ -117,6 +117,11 @@
       "back": "Back",
       "cancel": "Cancel",
       "save": "Save"
+    },
+    "title": "Choose the time of export",
+    "export-time": {
+      "from": "From",
+      "to": "To"
     }
   },
   "order-cancel": {
@@ -200,6 +205,7 @@
     "cost": "Price per package",
     "done-after-himself": "Write-off at the station",
     "planned-amount": "Planned amount",
+    "additional-orders": "Add another order number",
     "approved-amount": "Confirmed amount",
     "exported-amount": "Actual amount",
     "bags-amount": "Total number of packages",
@@ -332,11 +338,15 @@
       "bonuses": "Bonuses:",
       "amount-due": "Amount due:",
       "services-amount": "Amount of services provided:",
+      "paid-amount": "Paid:",
       "delivery": "Delivery from the Eco store",
       "order-number": "Numbers of your orders:",
       "recipient": "Sender",
       "export-address": "The address of export of the ordered services",
-      "comment": "Comment:",
+      "block-number": "b.  ",
+      "entrance": "e.  ",
+      "comment-address": "Comment to the address:",
+      "comment-order": "Comment to the order:",
       "receipt": "Download the receipt"
     }
   },

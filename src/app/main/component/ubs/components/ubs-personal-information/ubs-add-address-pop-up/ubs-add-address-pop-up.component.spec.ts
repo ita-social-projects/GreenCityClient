@@ -1,8 +1,7 @@
-import { BrowserDynamicTestingModule } from '@angular/platform-browser-dynamic/testing';
 import { MatSnackBarComponent } from 'src/app/main/component/errors/mat-snack-bar/mat-snack-bar.component';
 import { OrderService } from './../../../services/order.service';
 import { Address } from './../../../models/ubs.interface';
-import { TranslateModule, TranslateService } from '@ngx-translate/core';
+import { TranslateModule } from '@ngx-translate/core';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
@@ -11,6 +10,7 @@ import { UBSAddAddressPopUpComponent } from './ubs-add-address-pop-up.component'
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { By } from '@angular/platform-browser';
 import { of, Subject } from 'rxjs';
+import { DropdownModule } from 'angular-bootstrap-md';
 
 describe('UBSAddAddressPopUpComponent', () => {
   let component: UBSAddAddressPopUpComponent;
@@ -21,7 +21,7 @@ describe('UBSAddAddressPopUpComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      imports: [FormsModule, ReactiveFormsModule, HttpClientTestingModule, TranslateModule.forRoot()],
+      imports: [FormsModule, ReactiveFormsModule, HttpClientTestingModule, DropdownModule, TranslateModule.forRoot()],
       declarations: [UBSAddAddressPopUpComponent],
       providers: [
         OrderService,
@@ -69,7 +69,6 @@ describe('UBSAddAddressPopUpComponent', () => {
     component.onAutocompleteSelected(eventMock);
 
     expect(component.addAddressForm.get('street').value).toBe(eventMock.name);
-    expect(component.addAddressForm.get('district').value).toBe(regionMock);
   });
 
   it('method setDistrict should set component.region', () => {

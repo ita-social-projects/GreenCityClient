@@ -115,6 +115,11 @@
       "back": "Назад",
       "cancel": "Скасувати",
       "save": "Зберегти"
+    },
+    "title": "Обрати час вивезення",
+    "export-time": {
+      "from": "З",
+      "to": "До"
     }
   },
   "order-cancel": {
@@ -198,6 +203,7 @@
     "cost": "Вартість за одиницю",
     "done-after-himself": "Списання на станції сортування",
     "planned-amount": "Планована к-ть",
+    "additional-orders": "Додати ще номер замовлення",
     "approved-amount": "Підтверджена к-ть",
     "exported-amount": "Вивезена к-ть",
     "bags-amount": "Загальна кількість пакетів",
@@ -331,11 +337,15 @@
       "bonuses": "Бонуси:",
       "amount-due": "Сума до оплати:",
       "services-amount": "Сума наданих послуг:",
+      "paid-amount": "Оплачено:",
       "delivery": "Доставка з Еко магазину",
       "order-number": "Номери ваших замовлень:",
       "recipient": "Відправник",
       "export-address": "Адреса вивезення замовленних послуг",
-      "comment": "Коментар:",
+      "block-number": "корп. ",
+      "entrance": "п. ",
+      "comment-address": "Коментар до адреси:",
+      "comment-order": "Коментар до замовлення:",
       "receipt": "Завантажити квитанцію"
     }
   },

@@ -1,4 +1,5 @@
 import { Component, Input, OnInit, OnChanges, SimpleChanges } from '@angular/core';
+import { IPaymentInfo, IPaymentInfoDtos, IOrderInfo } from '../../models/ubs-admin.interface';
 import { OrderService } from '../../services/order.service';
 
 @Component({
@@ -9,8 +10,20 @@ import { OrderService } from '../../services/order.service';
 export class UbsAdminOrderPaymentComponent implements OnInit, OnChanges {
   message: string;
   pageOpen: boolean;
-  @Input() paidPrice: number;
   @Input() overpayment: number;
+  @Input() orderInfo: IOrderInfo;
+  @Input() totalPaid: number;
+  paidAmount: number;
+  unPaidAmount: number;
+  paymentInfo: IPaymentInfo;
+  paymentsArray: IPaymentInfoDtos[];
+
+  ngOnInit() {
+    this.paymentInfo = this.orderInfo.paymentTableInfoDto;
+    this.paymentsArray = this.orderInfo.paymentTableInfoDto.paymentInfoDtos;
+    this.paidAmount = this.paymentInfo.paidAmount;
+    this.unPaidAmount = this.paymentInfo.unPaidAmount;
+  }
 
   constructor(private orderService: OrderService) {}
 
@@ -20,8 +33,6 @@ export class UbsAdminOrderPaymentComponent implements OnInit, OnChanges {
       this.overpayment = Math.abs(this.overpayment);
     }
   }
-
-  ngOnInit() {}
 
   openDetails() {
     this.pageOpen = !this.pageOpen;

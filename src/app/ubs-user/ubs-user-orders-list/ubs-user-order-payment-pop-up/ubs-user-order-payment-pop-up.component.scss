@@ -55,6 +55,10 @@
     margin-bottom: 45px;
   }
 
+  .radio-group {
+    display: block;
+  }
+
   .choose-payment {
     padding-bottom: 20px;
   }
@@ -101,6 +105,11 @@
       font-size: 14px;
       font-weight: 600;
       background-color: var(--ubs-button-light-green);
+
+      &:disabled {
+        background: var(--ubs-quaternary-light-grey);
+        border-color: var(--ubs-quaternary-light-grey);
+      }
     }
 
     .btn-cancel {

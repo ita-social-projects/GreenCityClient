@@ -3,11 +3,12 @@ import { PlacesComponent } from './places.component';
 import { TranslateModule } from '@ngx-translate/core';
 import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
 import { PlaceService } from '@global-service/place/place.service';
-import { BehaviorSubject, Subject } from 'rxjs';
+import { BehaviorSubject, Subject, of } from 'rxjs';
 import { Place } from './models/place';
 import { FilterPlaceService } from '@global-service/filtering/filter-place.service';
 import { PlaceStatus } from '@global-models/placeStatus.model';
 import { FavoritePlaceService } from '@global-service/favorite-place/favorite-place.service';
+import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 
 describe('PlacesComponent', () => {
   let component: PlacesComponent;
@@ -20,6 +21,7 @@ describe('PlacesComponent', () => {
 
   const filterPlaceServiceMock: FilterPlaceService = jasmine.createSpyObj('FilterPlaceService', ['updateFiltersDto']);
   filterPlaceServiceMock.filtersDto$ = new BehaviorSubject<any>({ status: PlaceStatus.APPROVED });
+  filterPlaceServiceMock.isFavoriteFilter$ = new BehaviorSubject<boolean>(true);
 
   const favoritePlaceServiceMock: FavoritePlaceService = jasmine.createSpyObj('FavoritePlaceService', [
     'updateFavoritePlaces',
@@ -49,7 +51,8 @@ describe('PlacesComponent', () => {
           provide: FavoritePlaceService,
           useValue: favoritePlaceServiceMock
         }
-      ]
+      ],
+      schemas: [CUSTOM_ELEMENTS_SCHEMA]
     }).compileComponents();
   }));
 

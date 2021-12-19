@@ -1,5 +1,5 @@
 import { RestoreDto } from '@global-models/restroreDto';
-import { HttpClientTestingModule, HttpTestingController } from '@angular/common/http/testing';
+import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { async, ComponentFixture, TestBed, fakeAsync } from '@angular/core/testing';
 import { CUSTOM_ELEMENTS_SCHEMA, DebugElement } from '@angular/core';
 import { ChangePasswordService } from '@auth-service/change-password.service';
@@ -13,12 +13,13 @@ import { Observable } from 'rxjs';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { MatSnackBarComponent } from '@global-errors/mat-snack-bar/mat-snack-bar.component';
 import { MatDialogRef } from '@angular/material/dialog';
+import { Router } from '@angular/router';
 
 describe('ConfirmRestorePasswordComponent', () => {
   let component: ConfirmRestorePasswordComponent;
   let fixture: ComponentFixture<ConfirmRestorePasswordComponent>;
   let MatSnackBarMock: MatSnackBarComponent;
-  let httpTestingController: HttpTestingController;
+  let router: Router;
 
   const MatDialogRefMock = {
     close: () => {}
@@ -56,13 +57,13 @@ describe('ConfirmRestorePasswordComponent', () => {
       ],
       schemas: [CUSTOM_ELEMENTS_SCHEMA]
     }).compileComponents();
-
-    httpTestingController = TestBed.inject(HttpTestingController);
   }));
 
   beforeEach(() => {
     fixture = TestBed.createComponent(ConfirmRestorePasswordComponent);
     component = fixture.componentInstance;
+    router = TestBed.inject(Router);
+    spyOn(router, 'navigate');
     fixture.detectChanges();
   });
 
@@ -78,14 +79,12 @@ describe('ConfirmRestorePasswordComponent', () => {
     });
 
     it('should call closeModal()', fakeAsync(() => {
-      // @ts-ignore
       const spy = spyOn(component, 'closeModal').and.callThrough();
       component.closeModal();
       expect(spy).toHaveBeenCalled();
     }));
 
     it('should call closeModal()', fakeAsync(() => {
-      // @ts-ignore
       const spy = spyOn(component, 'closeModal').and.callThrough();
       component.closeModal();
       expect(spy).toHaveBeenCalled();
@@ -205,7 +204,6 @@ describe('ConfirmRestorePasswordComponent', () => {
   describe('Reset error messages', () => {
     it('Should reset error messages', () => {
       component.passwordErrorMessageBackEnd = 'I am error message';
-      // @ts-ignore
       component.setPasswordBackendErr();
       expect(component.passwordErrorMessageBackEnd).toBeNull();
     });

@@ -3,6 +3,7 @@ import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { UbsSubmitOrderNotificationComponent } from './ubs-submit-order-notification.component';
 import { RouterTestingModule } from '@angular/router/testing';
 import { TranslateModule } from '@ngx-translate/core';
+import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 
 describe('UbsSubmitOrderNotificationComponent', () => {
   let component: UbsSubmitOrderNotificationComponent;
@@ -11,7 +12,8 @@ describe('UbsSubmitOrderNotificationComponent', () => {
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       imports: [RouterTestingModule, TranslateModule.forRoot()],
-      declarations: [UbsSubmitOrderNotificationComponent]
+      declarations: [UbsSubmitOrderNotificationComponent],
+      schemas: [CUSTOM_ELEMENTS_SCHEMA]
     }).compileComponents();
   }));
 

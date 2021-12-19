@@ -30,6 +30,12 @@ describe('RestorePasswordComponent', () => {
   let promiseSocialUser;
   let userSuccessSignIn;
 
+  const onBackToSignIn = 'onBackToSignIn';
+  const matDialogRef = 'matDialogRef';
+  const onSignInWithGoogleSuccess = 'onSignInWithGoogleSuccess';
+  const onSentEmailBadMessage = 'onSentEmailBadMessage';
+  const onSignInFailure = 'onSignInFailure';
+
   promiseSocialUser = new Promise<SocialUser>((resolve) => {
     const val = new SocialUser();
     val.email = 'test@mail.com';
@@ -106,17 +112,15 @@ describe('RestorePasswordComponent', () => {
     });
 
     it('should call onBackToSignIn', () => {
-      // @ts-ignore
       spyOn(component.dialog, 'open');
-      // @ts-ignore
-      component.onBackToSignIn();
-      // @ts-ignore
+      component[onBackToSignIn]('fake');
       expect(component.dialog).toBeDefined();
     });
 
     it('Should open sign in modal window', () => {
       spyOn(component, 'onBackToSignIn');
-
+      component.isUbs = false;
+      fixture.detectChanges();
       const nativeElement = fixture.nativeElement;
       const button = nativeElement.querySelector('.sign-in-link');
       button.dispatchEvent(new Event('click'));
@@ -127,9 +131,7 @@ describe('RestorePasswordComponent', () => {
     });
 
     it('should call onCloseRestoreWindow ', () => {
-      // @ts-ignore
-      const spy = spyOn(component.matDialogRef, 'close').and.callThrough();
-      // @ts-ignore
+      const spy = spyOn(component[matDialogRef], 'close').and.callThrough();
       component.onCloseRestoreWindow();
       expect(spy).toHaveBeenCalled();
     });
@@ -157,8 +159,7 @@ describe('RestorePasswordComponent', () => {
     }));
 
     it('signUpWithGoogleSuccess should navigate to homePage', fakeAsync(() => {
-      // @ts-ignore
-      component.onSignInWithGoogleSuccess(userSuccessSignIn);
+      component[onSignInWithGoogleSuccess](userSuccessSignIn);
       expect(routerSpy.navigate).toHaveBeenCalledWith(['/']);
     }));
 
@@ -205,8 +206,7 @@ describe('RestorePasswordComponent', () => {
     it('Should return an emailErrorMessageBackEnd when login failed', () => {
       errors = new HttpErrorResponse({ error: { message: 'Ups' } });
 
-      // @ts-ignore
-      component.onSentEmailBadMessage(errors);
+      component[onSentEmailBadMessage](errors);
       fixture.detectChanges();
       expect(component.emailErrorMessageBackEnd).toBe('email-not-exist');
     });
@@ -214,8 +214,7 @@ describe('RestorePasswordComponent', () => {
     it('Should return an emailErrorMessageBackEnd when login failed', () => {
       errors = new HttpErrorResponse({ error: [{ name: 'email', message: 'Ups' }] });
 
-      // @ts-ignore
-      component.onSignInFailure(errors);
+      component[onSignInFailure](errors);
       fixture.detectChanges();
       expect(component.emailErrorMessageBackEnd).toBe('Ups');
     });
@@ -223,8 +222,7 @@ describe('RestorePasswordComponent', () => {
     it('Should return an passwordErrorMessageBackEnd when login failed', () => {
       errors = new HttpErrorResponse({ error: [{ name: 'password', message: 'Ups' }] });
 
-      // @ts-ignore
-      component.onSignInFailure(errors);
+      component[onSignInFailure](errors);
       fixture.detectChanges();
       expect(component.passwordErrorMessageBackEnd).toBe('Ups');
     });
@@ -232,8 +230,7 @@ describe('RestorePasswordComponent', () => {
     it('Should return an backEndError when login failed', () => {
       errors = new HttpErrorResponse({ error: { message: 'Ups' } });
 
-      // @ts-ignore
-      component.onSignInFailure(errors.error);
+      component[onSignInFailure](errors.error);
       fixture.detectChanges();
       expect(component.backEndError).toBe('Ups');
     });

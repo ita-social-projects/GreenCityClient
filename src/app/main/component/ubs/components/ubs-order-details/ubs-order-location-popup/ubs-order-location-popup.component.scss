@@ -1,24 +1,42 @@
 .dialog-container {
   position: relative;
-  width: 464px;
-  height: 318px;
+  width: 700px;
   font-family: var(--primary-font);
   font-weight: bold;
   font-size: larger;
 
   .title {
-    margin: 16px;
-    font-weight: bolder;
+    margin: 6px 36px;
+
+    &-text {
+      font-weight: bolder;
+    }
   }
 
   .form {
-    margin: 20px;
+    margin: 28px 36px;
     font-size: 20px;
 
     .select {
-      margin: 20px;
-      height: 50px;
+      height: 36px;
+      width: 328px;
       padding: 0 10px;
+      color: var(--ubs-primary-light-grey);
+      border: 1px solid var(--ubs-grey-blue);
+      border-radius: 4px;
+      outline: none;
+    }
+  }
+
+  .info {
+    font-weight: normal;
+    font-size: 16px;
+    margin: 0 36px;
+
+    .text {
+      line-height: 24px;
+      margin-bottom: 0;
+      color: var(--ubs-secondary-grey);
     }
   }
 
@@ -35,10 +53,7 @@
   }
 
   .footer-btns {
-    position: absolute;
-    bottom: 0;
-    right: 0;
-    margin: 20px 0 0 0;
+    margin: 20px 36px;
 
     button {
       margin: 0 10px;
@@ -46,6 +61,21 @@
       border-radius: 4px;
       width: 9rem;
       height: 3rem;
+    }
+
+    button:hover {
+      line-height: 1rem;
+    }
+
+    .primaryButton {
+      border: none;
+      color: var(--ubs-primary-black);
+      background: var(--ubs-button-light-green);
+    }
+
+    .secondaryButton {
+      color: var(--ubs-quaternary-dark-grey);
+      border: 1px solid var(--ubs-quaternary-dark-grey);
     }
   }
 }
