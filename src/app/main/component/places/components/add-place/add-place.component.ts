@@ -8,6 +8,10 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 })
 export class AddPlaceComponent implements OnInit {
   public addPlaceForm: FormGroup;
+  public workingHours = '';
+  public adress = '';
+  public type = '';
+  public name = '';
 
   constructor(private fb: FormBuilder) {}
 
@@ -18,8 +22,8 @@ export class AddPlaceComponent implements OnInit {
   initForm(): void {
     this.addPlaceForm = this.fb.group({
       type: ['', Validators.required],
-      name: ['', Validators.required],
-      adress: ['', Validators.required],
+      name: ['', [Validators.required, Validators.maxLength(30), Validators.pattern(/[0-9a-zа-я]/i)]],
+      adress: ['', [Validators.required, Validators.maxLength(30), Validators.pattern(/[0-9a-zа-я]/i)]],
       workingHours: [
         '',
         [Validators.required, Validators.pattern(/^([0-9]|0[0-9]|1[0-9]|2[0-3])[.][0-5][0-9][-]([0-9]|0[0-9]|1[0-9]|2[0-3])[.][0-5][0-9]$/)]

@@ -8,6 +8,13 @@
 .label {
   margin: 0;
   font-size: 16px;
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+}
+.hint {
+  font-size: 11px;
 }
 .form-field {
   display: flex;
@@ -16,14 +23,6 @@
   width: 100%;
   padding-bottom: 12px;
   position: relative;
-
-  ::after {
-    content: 'Hint';
-    font-size: 11px;
-    position: absolute;
-    top: 7px;
-    right: 0;
-  }
 }
 .form-container {
   background-color: var(--ubs-grey-white);
@@ -85,5 +84,14 @@
     color: var(--primary-green);
     background-color: transparent;
     border: 1px solid var(--primary-green);
+  }
+  &-close {
+    position: absolute;
+    top: 24px;
+    right: 0;
+    color: var(--ubs-quintynary-light-grey);
+    &:focus {
+      border: none;
+    }
   }
 }
