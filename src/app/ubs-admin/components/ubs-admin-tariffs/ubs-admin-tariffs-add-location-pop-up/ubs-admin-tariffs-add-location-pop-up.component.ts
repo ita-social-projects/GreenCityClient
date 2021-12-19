@@ -36,7 +36,7 @@ export class UbsAdminTariffsAddLocationPopUpComponent implements OnInit {
   }
 
   public addToListSelectedItem() {
-    if (this.input.nativeElement.value !== '') {
+    if (this.input.nativeElement.value) {
       this.items.push(this.input.nativeElement.value);
       this.input.nativeElement.value = '';
     }
