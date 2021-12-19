@@ -36,15 +36,12 @@
   justify-content: flex-end;
 }
 ::ng-deep {
-  .mat-menu-content {
-    padding-top: 0px !important;
-    padding-bottom: 0px !important;
-  }
-  .mat-menu-panel {
+  .add-place-menu.mat-menu-panel {
     max-width: 368px !important;
-  }
-  .cdk-overlay-pane {
-    width: 368px !important;
+    .mat-menu-content {
+      padding-top: 0px !important;
+      padding-bottom: 0px !important;
+    }
   }
 }
 

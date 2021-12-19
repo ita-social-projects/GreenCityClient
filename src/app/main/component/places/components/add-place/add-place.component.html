@@ -1,5 +1,5 @@
 <button [matMenuTriggerFor]="menu" class="add-place-btn">Add place</button>
-<mat-menu #menu="matMenu" xPosition="before" yPosition="below">
+<mat-menu #menu="matMenu" xPosition="before" yPosition="below" class="add-place-menu">
   <div class="form-container">
     <form [formGroup]="addPlaceForm" (click)="$event.stopPropagation()">
       <div class="form-field">
