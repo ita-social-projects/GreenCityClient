@@ -135,7 +135,6 @@ export class UbsUserOrderPaymentPopUpComponent implements OnInit {
   }
 
   public processOrder(): void {
-    debugger;
     this.orderClientDto.orderId = this.userOrder.id;
 
     if (this.userOrder.sum > 0) {
