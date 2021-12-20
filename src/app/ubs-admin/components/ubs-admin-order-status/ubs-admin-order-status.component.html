@@ -35,10 +35,7 @@
                   {{ 'order-edit.status.payment-label' | translate }}
                 </label>
                 <select id="payment" class="form-control payment" disabled>
-                  <option
-                    *ngFor="let status of generalOrderInfo.orderPaymentStatusesDto"
-                    [selected]="status.key === generalOrderInfo.orderPaymentStatus"
-                  >
+                  <option *ngFor="let status of generalOrderInfo.orderPaymentStatusesDto" [selected]="setOrderPaymentStatus(status.key)">
                     {{ status.translation }}
                   </option>
                 </select>
