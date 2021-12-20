@@ -2,10 +2,10 @@ import { Component, OnInit, OnDestroy, Inject, Injector } from '@angular/core';
 import { FormArray, FormGroup, FormControl } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { MatDialog } from '@angular/material/dialog';
-import { takeUntil, catchError, take, delay, concatMap } from 'rxjs/operators';
+import { takeUntil, catchError, take } from 'rxjs/operators';
 import { QueryParams, TextAreasHeight } from '../../models/create-news-interface';
 import { EcoNewsService } from '../../services/eco-news.service';
-import { Subscription, ReplaySubject, throwError, Observable } from 'rxjs';
+import { Subscription, ReplaySubject, throwError } from 'rxjs';
 import { CreateEcoNewsService } from '@eco-news-service/create-eco-news.service';
 import { CreateEditNewsFormBuilder } from './create-edit-news-form-builder';
 import { FilterModel } from '@eco-news-models/create-news-interface';
@@ -19,7 +19,7 @@ import { EditorChangeContent, EditorChangeSelection } from 'ngx-quill';
 import Quill from 'quill';
 import 'quill-emoji/dist/quill-emoji.js';
 import ImageResize from 'quill-image-resize-module';
-import { checkImages, dataURLtoFile } from './quillEditorFunc';
+import { checkImages, dataURLtoFile, quillConfig } from './quillEditorFunc';
 
 @Component({
   selector: 'app-create-edit-news',
@@ -40,39 +40,7 @@ export class CreateEditNewsComponent extends FormBaseComponent implements OnInit
     this.route = injector.get(ActivatedRoute);
     this.localStorageService = injector.get(LocalStorageService);
     this.snackBar = injector.get(MatSnackBarComponent);
-    this.quillModules = {
-      'emoji-shortname': true,
-      'emoji-textarea': false,
-      'emoji-toolbar': true,
-      toolbar: {
-        container: [
-          ['bold', 'italic', 'underline', 'strike'], // toggled buttons
-          ['blockquote', 'code-block'],
-
-          [{ header: 1 }, { header: 2 }], // custom button values
-          [{ list: 'ordered' }, { list: 'bullet' }],
-          [{ script: 'sub' }, { script: 'super' }], // superscript/subscript
-          [{ indent: '-1' }, { indent: '+1' }], // outdent/indent
-          [{ direction: 'rtl' }], // text direction
-
-          [{ size: ['small', false, 'large', 'huge'] }], // custom dropdown
-          [{ header: [1, 2, 3, 4, 5, 6, false] }],
-
-          [{ color: [] }, { background: [] }], // dropdown with defaults from theme
-          [{ font: [] }],
-          [{ align: [] }],
-          ['clean'], // remove formatting button
-          ['link', 'image', 'video'], // link and image, video
-          ['emoji']
-        ]
-        // handlers: {
-        //   image: (image) => {
-        //     console.log(image);
-        //   }
-        // },
-      },
-      imageResize: true
-    };
+    this.quillModules = quillConfig;
     Quill.register('modules/imageResize', ImageResize);
   }
 
