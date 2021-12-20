@@ -54,7 +54,7 @@
   </div>
   <div class="row" *ngIf="viewMode">
     <div class="image-container" *ngFor="let img of images; index as i">
-      <img class="image-preview" *ngIf="img.src" [src]="img.src" alt="image-of-violation" />
+      <img class="image-preview" *ngIf="img.src" [src]="img.src" alt="image-of-violation" (click)="openImg(i)" />
     </div>
   </div>
   <div class="row error-message" *ngIf="isImageSizeError">
@@ -79,13 +79,7 @@
     />
   </div>
   <div class="row justify-content-end mb-5">
-    <button
-      *ngIf="isDeleteViolation"
-      (click)="deleteViolation()"
-      [ngClass]="{ disabled: viewMode }"
-      [disabled]="viewMode"
-      class="delete-violation"
-    >
+    <button *ngIf="isDeleteViolation" (click)="deleteViolation()" class="delete-violation">
       <img src="assets/img/icon/bin.svg" alt="delete-icon" class="delete-icon" /> {{ 'add-violation-modal.delete-button' | translate }}
     </button>
     <button class="cancelButton" [disabled]="viewMode" [ngClass]="{ disabled: viewMode }" [mat-dialog-close]="true">
