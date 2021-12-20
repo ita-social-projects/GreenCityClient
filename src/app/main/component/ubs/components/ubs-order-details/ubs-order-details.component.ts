@@ -137,9 +137,11 @@ export class UBSOrderDetailsComponent extends FormBaseComponent implements OnIni
   }
 
   private setCurrentLocation(currentLanguage: string): void {
-    this.currentLocation = this.locations
-      .find((loc: any) => loc.locationsDtos[0].locationId === this.selectedLocationId)
-      .locationsDtos[0].locationTranslationDtoList.find((lang) => lang.languageCode === currentLanguage).locationName;
+    const currentLocationDto = this.locations.find((loc: any) => loc.locationsDtos[0].locationId === this.selectedLocationId);
+    this.minAmountOfBigBags = currentLocationDto.minAmountOfBigBags;
+    this.currentLocation = currentLocationDto.locationsDtos[0].locationTranslationDtoList.find(
+      (lang) => lang.languageCode === currentLanguage
+    ).locationName;
   }
 
   getFormValues(): boolean {
@@ -218,7 +220,6 @@ export class UBSOrderDetailsComponent extends FormBaseComponent implements OnIni
       .pipe(takeUntil(this.destroy))
       .subscribe((orderData: OrderDetails) => {
         this.orders = this.shareFormService.orderDetails;
-        this.minAmountOfBigBags = orderData.minAmountOfBigBags;
         this.bags = this.orders.bags;
         this.points = this.orders.points;
         this.defaultPoints = this.points;
