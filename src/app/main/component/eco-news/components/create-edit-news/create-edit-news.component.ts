@@ -2,10 +2,10 @@ import { Component, OnInit, OnDestroy, Inject, Injector } from '@angular/core';
 import { FormArray, FormGroup, FormControl } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { MatDialog } from '@angular/material/dialog';
-import { takeUntil, catchError, take, delay } from 'rxjs/operators';
+import { takeUntil, catchError, take, delay, concatMap } from 'rxjs/operators';
 import { QueryParams, TextAreasHeight } from '../../models/create-news-interface';
 import { EcoNewsService } from '../../services/eco-news.service';
-import { Subscription, ReplaySubject, throwError } from 'rxjs';
+import { Subscription, ReplaySubject, throwError, Observable } from 'rxjs';
 import { CreateEcoNewsService } from '@eco-news-service/create-eco-news.service';
 import { CreateEditNewsFormBuilder } from './create-edit-news-form-builder';
 import { FilterModel } from '@eco-news-models/create-news-interface';
@@ -20,7 +20,7 @@ import Quill from 'quill';
 import 'quill-emoji/dist/quill-emoji.js';
 import ImageResize from 'quill-image-resize-module';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { checkImages, transformBase64ToFile } from './quillEditorFunc';
+import { checkImages, dataURLtoFile } from './quillEditorFunc';
 
 @Component({
   selector: 'app-create-edit-news',
@@ -195,17 +195,18 @@ export class CreateEditNewsComponent extends FormBaseComponent implements OnInit
       this.formData = this.createEcoNewsService.getFormData();
       this.newsId = this.createEcoNewsService.getNewsId();
       if (this.formData) {
-        console.log('1', this.formData);
+        console.log('1');
         this.form = this.createEditNewsFormBuilder.getEditForm(this.formData.value);
         this.setActiveFilters(this.formData.value);
       }
       this.setInitialValues();
     } else {
       if (this.newsId) {
+        console.log('2');
         this.fetchNewsItemToEdit();
         this.setDataForEdit();
       } else {
-        console.log('2', this.formData);
+        console.log('3');
         this.form = this.createEditNewsFormBuilder.getSetupForm();
         this.setDataForCreate();
         this.setInitialValues();
@@ -244,12 +245,11 @@ export class CreateEditNewsComponent extends FormBaseComponent implements OnInit
     }
   }
 
-  public sendData(): void {
-    this.form.value.content = this.editorHTML;
+  public sendData(text): void {
+    this.form.value.content = text;
     this.createEcoNewsService
       .sendFormData(this.form)
       .pipe(
-        delay(5000),
         takeUntil(this.destroyed$),
         catchError((err) => {
           this.snackBar.openSnackBar('Oops, something went wrong. Please reload page or try again later.');
@@ -263,62 +263,30 @@ export class CreateEditNewsComponent extends FormBaseComponent implements OnInit
 
   public createNews(): void {
     const imagesSrc = checkImages(this.editorHTML);
-    if (imagesSrc === 'NO_IMAGES') {
-      this.sendData();
-    } else {
-      const imgFiles = imagesSrc.map((base64) => transformBase64ToFile(base64));
-      console.log(imgFiles);
-      // const formData: FormData = new FormData();
+
+    if (imagesSrc) {
+      const imgFiles = imagesSrc.map((base64) => dataURLtoFile(base64));
+
       this.createEcoNewsService.sendImagesData(imgFiles).subscribe(
         (response) => {
-          // response.forEach((link) => {
-          //   this.editorHTML = this.editorHTML.replace(findBase64Regex, link);
-          // });
-          console.log('html', response);
-          // this.savingImages = false;
+          const findBase64Regex = /data:image\/([a-zA-Z]*);base64,([^"]*)/g;
+          response.forEach((link) => {
+            this.editorHTML = this.editorHTML.replace(findBase64Regex, link);
+          });
+          this.sendData(this.editorHTML);
+          console.log(111);
         },
-        () => {
-          this.savingImages = false;
-        }
+        (err) => console.error(err)
       );
+    } else {
+      this.sendData(this.editorHTML);
     }
-
-    // this.isPosting = true;
-    // this.savingImages = true;
-    console.log('createNews');
-
-    // this.saveImages();
-
-    // const waitForElement = () => {
-    //   if (this.savingImages === false) {
-    //     console.log('service', this.savingImages);
-    //     console.log('form', this.form);
-    //     this.form.value.content = this.editorHTML;
-    //     this.createEcoNewsService
-    //       .sendFormData(this.form)
-    //       .pipe(
-    //         delay(5000),
-    //         takeUntil(this.destroyed$),
-    //         catchError((err) => {
-    //           this.snackBar.openSnackBar('Oops, something went wrong. Please reload page or try again later.');
-    //           return throwError(err);
-    //         })
-    //       )
-    //       .subscribe(() => this.escapeFromCreatePage());
-    //
-    //     this.localStorageService.removeTagsOfNews('newsTags');
-    //   } else {
-    //     console.log('wait', this.savingImages);
-    //     setTimeout(waitForElement, 250);
-    //   }
-    // };
-    // waitForElement();
   }
 
   public escapeFromCreatePage() {
     this.isPosting = false;
     this.allowUserEscape();
-    this.router.navigate(['/news']);
+    this.router.navigate(['/news']).catch((err) => console.error(err));
   }
 
   public editNews(): void {
@@ -405,7 +373,7 @@ export class CreateEditNewsComponent extends FormBaseComponent implements OnInit
     this.allowUserEscape();
     this.createEcoNewsService.setForm(this.form);
     this.createEcoNewsService.setNewsId(this.newsId);
-    this.router.navigate(['news', 'preview']);
+    this.router.navigate(['news', 'preview']).catch((err) => console.error(err));
   }
 
   public isImageValid(): boolean {
@@ -413,100 +381,11 @@ export class CreateEditNewsComponent extends FormBaseComponent implements OnInit
   }
 
   changedEditor(event: EditorChangeContent | EditorChangeSelection) {
-    const getImagesSrc = (html) => {
-      const img = html.match(/<img [^>]*src="[^"]*"[^>]*>/gm);
-      const img2 = html.match(/<img [^>]*src="(data:image\/[^;]+;base64[^"]+)"/gm);
-      // console.log(img2);
-    };
-
     if (event.event !== 'selection-change') {
       this.editorText = event.text;
       this.editorHTML = event.html;
     }
   }
-
-  saveImages() {
-    // if (!this.editorHTML) {
-    //   this.savingImages = false;
-    //   return console.warn('No Data in Text Editor');
-    // }
-
-    const findBase64Regex = /data:image\/([a-zA-Z]*);base64,([^"]*)/g;
-    const imagesSrc = this.editorHTML.match(findBase64Regex);
-
-    if (!imagesSrc) {
-      this.savingImages = false;
-      return console.warn('No Images in Text Editor');
-    }
-
-    const imgFiles = imagesSrc.map((base64) => transformBase64ToFile(base64));
-    const formData: FormData = new FormData();
-    console.log(imgFiles);
-
-    Promise.all(imgFiles)
-      .then((results: [File]) => {
-        console.log('res', results);
-
-        results.forEach((res: File) => {
-          formData.append('images', res);
-        });
-
-        console.log('=========');
-        const accessToken: string = localStorage.getItem('accessToken');
-        const httpOptions = {
-          headers: new HttpHeaders({
-            Authorization: 'my-auth-token'
-          })
-        };
-        httpOptions.headers.set('Authorization', `Bearer ${accessToken}`);
-        httpOptions.headers.append('Content-Type', 'multipart/form-data');
-        return this.http.post<any>('https://greencity.azurewebsites.net/econews/uploadImages', formData, httpOptions).subscribe(
-          (response) => {
-            response.forEach((link) => {
-              this.editorHTML = this.editorHTML.replace(findBase64Regex, link);
-            });
-            console.log('html', this.editorHTML);
-            this.savingImages = false;
-          },
-          () => {
-            this.savingImages = false;
-          }
-        );
-      })
-      .catch((err) => {
-        this.savingImages = false;
-        console.error(err);
-      });
-
-    // console.log('Go');
-  }
-
-  focus($event: any) {
-    this.focused = true;
-    this.blurred = false;
-  }
-
-  blur($event: any) {
-    // console.log('blur', $event);
-    this.focused = false;
-    this.blurred = true;
-  }
-
-  // !Quill keyboard Binding
-  // addBindingCreated(quill) {
-  //   quill.keyboard.addBinding({
-  //     key: 'b'
-  //   }, (range, context) => {
-  //     console.log('KEYBINDING B', range, context);
-  //   });
-  //
-  //   quill.keyboard.addBinding({
-  //     key: 'B',
-  //     shiftKey: true
-  //   }, (range, context) => {
-  //     console.log('KEYBINDING SHIFT + B', range, context);
-  //   });
-  // }
 
   ngOnDestroy() {
     this.destroyed$.next(true);

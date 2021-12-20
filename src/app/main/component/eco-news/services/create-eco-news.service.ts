@@ -57,8 +57,6 @@ export class CreateEcoNewsService {
     return this.http.put<NewsResponseDTO>('https://greencity.azurewebsites.net/econews/update', formData, this.httpOptions);
   }
 
-  // * =============================================
-
   public setForm(form: FormGroup): void {
     this.currentForm = form;
     if (this.currentForm) {
@@ -78,7 +76,6 @@ export class CreateEcoNewsService {
       source: form.value.source
     };
 
-    // console.log(form);
     const formData = new FormData();
 
     if (this.files.length !== 0) {
@@ -87,7 +84,6 @@ export class CreateEcoNewsService {
     }
     this.files = [];
 
-    // console.log(body);
     formData.append('addEcoNewsDtoRequest', JSON.stringify(body));
     this.httpOptions.headers.set('Authorization', `Bearer ${this.accessToken}`);
     return this.http.post<NewsResponseDTO>(`${this.url}econews`, formData, this.httpOptions);
