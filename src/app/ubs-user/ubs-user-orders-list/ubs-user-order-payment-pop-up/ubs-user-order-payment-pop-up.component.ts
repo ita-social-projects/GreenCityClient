@@ -137,15 +137,15 @@ export class UbsUserOrderPaymentPopUpComponent implements OnInit {
   public fillOrderClientDto() {
     this.orderClientDto.orderId = this.userOrder.id;
     if (this.userCertificate.certificates.length) {
-      this.orderClientDto.certificates = this.userCertificate.certificates;
+      this.orderClientDto.certificates = [];
+      this.userCertificate.certificates.forEach((certificate) => {
+        this.orderClientDto.certificates.push(certificate.certificateCode);
+      });
     }
   }
 
   public processOrder(): void {
     this.fillOrderClientDto();
-    debugger;
-    this.orderClientDto;
-    this.userCertificate.certificates;
 
     if (this.userOrder.sum > 0) {
       if (this.formPaymentSystem.value === 'Fondy') {
