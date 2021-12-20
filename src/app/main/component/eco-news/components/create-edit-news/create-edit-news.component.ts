@@ -195,18 +195,15 @@ export class CreateEditNewsComponent extends FormBaseComponent implements OnInit
       this.formData = this.createEcoNewsService.getFormData();
       this.newsId = this.createEcoNewsService.getNewsId();
       if (this.formData) {
-        console.log('1');
         this.form = this.createEditNewsFormBuilder.getEditForm(this.formData.value);
         this.setActiveFilters(this.formData.value);
       }
       this.setInitialValues();
     } else {
       if (this.newsId) {
-        console.log('2');
         this.fetchNewsItemToEdit();
         this.setDataForEdit();
       } else {
-        console.log('3');
         this.form = this.createEditNewsFormBuilder.getSetupForm();
         this.setDataForCreate();
         this.setInitialValues();
