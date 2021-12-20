@@ -42,6 +42,7 @@ export class UbsAdminCustomersComponent implements OnInit, AfterViewChecked, OnD
   public dataSource: MatTableDataSource<any>;
   public currentPage = 0;
   public totalElements = 0;
+  public allElements: number;
   public display = 'none';
   public filterForm: FormGroup;
   public hasChange = false;
@@ -186,8 +187,10 @@ export class UbsAdminCustomersComponent implements OnInit, AfterViewChecked, OnD
     const dialogConfig = new MatDialogConfig();
     const dialogRef = this.dialog.open(UbsAdminTableExcelPopupComponent, dialogConfig);
     dialogRef.componentInstance.totalElements = this.totalElements;
+    dialogRef.componentInstance.allElements = this.allElements;
     dialogRef.componentInstance.sortingColumn = this.sortingColumn;
     dialogRef.componentInstance.sortType = this.sortType;
+    dialogRef.componentInstance.name = 'Customers-Table.xlsx';
   }
 
   public onScroll(): void {
@@ -212,6 +215,7 @@ export class UbsAdminCustomersComponent implements OnInit, AfterViewChecked, OnD
         this.isLoading = false;
         this.totalPages = item.totalPages;
         this.totalElements = item.totalElements;
+        this.allElements = !this.allElements ? this.totalElements : this.allElements;
         this.isTableHeightSet = false;
       });
   }
