@@ -88,6 +88,8 @@
     "order": "Замовлення №",
     "description": "Додайте підтвердження про оплату одним або кількома з доступних способів",
     "payment-date": "Дата оплати",
+    "payment-amount": "Сума оплати",
+    "amount-placeholder": "0.00 грн",
     "date-placeholder": "ДД/ММ/РР",
     "payment-id": "ID платежу",
     "id-placeholder": "№1234567890",

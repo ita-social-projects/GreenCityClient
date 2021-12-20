@@ -1,6 +1,7 @@
 import { Component, Input, OnInit, OnChanges, SimpleChanges } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
-import { take } from 'rxjs/operators';
+import { Subject } from 'rxjs';
+import { take, takeUntil } from 'rxjs/operators';
 import { IPaymentInfo, IPaymentInfoDtos, IOrderInfo } from '../../models/ubs-admin.interface';
 import { OrderService } from '../../services/order.service';
 import { AddPaymentComponent } from '../add-payment/add-payment.component';
@@ -17,12 +18,15 @@ export class UbsAdminOrderPaymentComponent implements OnInit, OnChanges {
   @Input() overpayment: number;
   @Input() orderInfo: IOrderInfo;
   @Input() actualPrice: number;
+  orderId: number;
   paidAmount: number;
   unPaidAmount: number;
   paymentInfo: IPaymentInfo;
   paymentsArray: IPaymentInfoDtos[];
+  private destroy$: Subject<boolean> = new Subject<boolean>();
 
   ngOnInit() {
+    this.orderId = this.orderInfo.generalOrderInfo.id;
     this.paymentInfo = this.orderInfo.paymentTableInfoDto;
     this.paymentsArray = this.orderInfo.paymentTableInfoDto.paymentInfoDtos;
     this.paidAmount = this.paymentInfo.paidAmount;
@@ -42,6 +46,15 @@ export class UbsAdminOrderPaymentComponent implements OnInit, OnChanges {
     this.pageOpen = !this.pageOpen;
   }
 
+  public addPayment(orderId, postData): void {
+    this.orderService
+      .addPaymentManually(orderId, postData)
+      .pipe(takeUntil(this.destroy$))
+      .subscribe((data: any) => {
+        console.log(data);
+      });
+  }
+
   openPopup() {
     this.dialog
       .open(AddPaymentComponent, {
@@ -52,6 +65,7 @@ export class UbsAdminOrderPaymentComponent implements OnInit, OnChanges {
       .pipe(take(1))
       .subscribe((res) => {
         console.log(res);
+        // this.addPayment(this.orderId, res);
       });
   }
 }

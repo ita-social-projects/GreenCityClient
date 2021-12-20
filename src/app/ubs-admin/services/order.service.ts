@@ -112,6 +112,10 @@ export class OrderService {
     return this.http.put<any>(`${this.backend}`, postData);
   }
 
+  public addPaymentManually(orderId: number, postData): Observable<any> {
+    return this.http.post(`${this.backend}/management/add-manual-payment/${orderId}`, postData);
+  }
+
   public getColumnToDisplay() {
     return this.http.get(`${this.backend}/management/getOrdersViewParameters`);
   }

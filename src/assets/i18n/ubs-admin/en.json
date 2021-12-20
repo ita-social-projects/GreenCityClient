@@ -88,6 +88,8 @@
     "order": "Order №",
     "description": "Add confirmation of payment in one or more of the available ways",
     "payment-date": " Payment date",
+    "payment-amount": "Payment amount",
+    "amount-placeholder": "0.00 UAH",
     "date-placeholder": "DD/MM/YY",
     "payment-id": "Payment ID",
     "id-placeholder": "№1234567890",

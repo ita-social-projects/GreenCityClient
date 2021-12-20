@@ -1,4 +1,4 @@
-<div class="container">
+<div [formGroup]="addPaymentForm" class="container">
   <div class="close-container">
     <button class="close-btn" mat-dialog-close (click)="close()">
       <img src="{{ closeButton }}" alt="close" />
@@ -11,12 +11,38 @@
     <hr />
     <span class="sub-title">{{ 'add-payment.description' | translate }}</span>
     <div class="form-container block">
-      <label class="label" for="">{{ 'add-payment.payment-date' | translate }}</label>
-      <input class="date" type="text" placeholder="{{ 'add-payment.date-placeholder' | translate }}" />
-      <label class="label" for="">{{ 'add-payment.payment-id' | translate }}</label>
-      <input class="id" type="text" placeholder="{{ 'add-payment.id-placeholder' | translate }}" />
-      <label class="label" for="">{{ 'add-payment.link-to-bill' | translate }}</label>
-      <input class="link" type="text" placeholder="{{ 'add-payment.link-placeholder' | translate }}" />
+      <label class="label" for="date">{{ 'add-payment.payment-date' | translate }}</label>
+      <input
+        formControlName="paymentDate"
+        id="date"
+        class="date"
+        type="text"
+        placeholder="{{ 'add-payment.date-placeholder' | translate }}"
+      />
+      <label class="label" for="amount">{{ 'add-payment.payment-amount' | translate }}</label>
+      <input
+        formControlName="amount"
+        id="amount"
+        class="date"
+        type="text"
+        placeholder="{{ 'add-payment.amount-placeholder' | translate }}"
+      />
+      <label class="label" for="payment-id">{{ 'add-payment.payment-id' | translate }}</label>
+      <input
+        formControlName="paymentId"
+        id="payment-id"
+        class="id"
+        type="text"
+        placeholder="{{ 'add-payment.id-placeholder' | translate }}"
+      />
+      <label class="label" for="link">{{ 'add-payment.link-to-bill' | translate }}</label>
+      <input
+        formControlName="receiptLink"
+        id="link"
+        class="link"
+        type="text"
+        placeholder="{{ 'add-payment.link-placeholder' | translate }}"
+      />
     </div>
     <span class="label">{{ 'add-payment.label-for-photo' | translate }}</span>
     <span class="photo-requirement">{{ 'add-payment.requirement' | translate }}</span>
