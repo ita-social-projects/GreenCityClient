@@ -5,6 +5,8 @@ import { RouterTestingModule } from '@angular/router/testing';
 import { TranslateModule } from '@ngx-translate/core';
 import { TranslateService } from '@ngx-translate/core';
 import { FilterListByLangPipe } from '../../../shared/sort-list-by-lang/filter-list-by-lang.pipe';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { MatDialogRef } from '@angular/material/dialog';
 
 describe('UbsAdminTariffsLocationDashboardComponent', () => {
   let component: UbsAdminTariffsLocationDashboardComponent;
@@ -14,8 +16,11 @@ describe('UbsAdminTariffsLocationDashboardComponent', () => {
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       declarations: [UbsAdminTariffsLocationDashboardComponent, FilterListByLangPipe],
-      imports: [HttpClientTestingModule, RouterTestingModule, TranslateModule.forRoot()],
-      providers: [TranslateService]
+      imports: [HttpClientTestingModule, RouterTestingModule, TranslateModule.forRoot(), FormsModule,ReactiveFormsModule],
+      providers: [
+        TranslateService, 
+        { provide: MatDialogRef, useValue: {} }
+      ]
     }).compileComponents();
   }));
 

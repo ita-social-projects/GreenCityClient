@@ -1,0 +1,91 @@
+.add-location-title {
+  margin: 0 0 20px 15px;
+  font-family: var(--ubs-tertiary-font);
+  font-style: normal;
+  font-weight: bold;
+  font-size: 24px;
+  line-height: 32px;
+  letter-spacing: 0.002em;
+  color: var(--ubs-primary-grey);
+}
+
+.form-group {
+  label {
+    font-family: var(--ubs-tertiary-font);
+    font-size: 16px;
+    line-height: 18px;
+    font-weight: 400;
+    color: var(--ubs-secondary-grey);
+  }
+
+  select.ng-invalid {
+    color: var(--ubs-primary-light-grey);
+  }
+}
+
+.btn {
+  width: 115px;
+  height: 40px;
+  border-radius: 4px;
+  white-space: nowrap;
+}
+
+input,
+select {
+  border: 1px solid var(--ubs-quintynary-light-grey);
+}
+
+.form-control {
+  height: 2.25rem;
+  font-size: 0.9rem;
+  color: var(--ubs-quaternary-dark-grey);
+
+  option {
+    color: var(--ubs-quaternary-dark-grey);
+  }
+}
+
+.buttons {
+  margin-bottom: 1px;
+  margin-right: 15px;
+
+  .secondary-global-button {
+    border: 1px solid var(--ubs-quaternary-dark-grey);
+    color: var(--ubs-quaternary-dark-grey);
+    margin-right: 1rem !important;
+  }
+
+  .primary-global-button {
+    width: 163px;
+    padding: 8px 14px;
+    color: var(--ubs-quaternary-dark-grey);
+    border-color: var(--ubs-button-light-green);
+    background: var(--ubs-button-light-green);
+
+    &:disabled {
+      background: var(--ubs-quaternary-light-grey);
+      border-color: var(--ubs-quaternary-light-grey);
+    }
+  }
+}
+
+.hint-location {
+  margin: 0 0 20px 15px;
+  color: var(--ubs-primary-grey);
+}
+
+.validation {
+  color: var(--error-red);
+  font-size: 10px;
+  padding-right: 15px;
+  padding-left: 15px;
+}
+
+.listOfLocation {
+  display: flex;
+  justify-content: space-between;
+}
+
+.itemList {
+  margin: 10px;
+}

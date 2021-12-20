@@ -411,6 +411,9 @@
     "messages": "Messages"
   },
   "ubs-tariffs": {
+    "active-header": "Activated locations",
+    "disabled-header": "Deactivated locations",
+    "courier-header": "Couriers",
     "services": "Services",
     "name_of_the_service": "Name of the service",
     "capacity": "Capacity",
@@ -433,8 +436,21 @@
       "add_service": "Add service",
       "add_service2": "Add service",
       "save_changes": "Save changes",
-      "add_carrier": "Add carrier"
+      "add_carrier": "Add carrier",
+      "add_location": "Add location",
+      "add_courier": "Add courier"
     }
+  },
+  "ubs-tariffs-add-location-pop-up": {
+    "title": "Select location",
+    "region": "Select region",
+    "locality": "Select locality",
+    "hint": "Enter at least the first three letters of the city and select the one you want from the list provided",
+    "add_button": "Add to list",
+    "cancel_button": "Cancel",
+    "error_message": "Your search did not match anything. Try entering at least the first three letters of the name and selecting a city from the options provided",
+    "courier_title": "Select courier",
+    "courier_name": "Select name of courier"
   },
   "ubs-tariffs-add-service": {
     "add_service": "Add service",
