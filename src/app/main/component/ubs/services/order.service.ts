@@ -106,8 +106,8 @@ export class OrderService {
     return this.http.get(`${this.url}/getFondyStatus/${orderId}`);
   }
 
-  getLocations(): Observable<Locations[]> {
-    return this.http.get<Locations[]>(`${this.url}/order/get-locations`);
+  getLocations(courierId?: number): Observable<Locations[]> {
+    return this.http.get<Locations[]>(`${this.url}/courier/${courierId}`);
   }
 
   addLocation(location): Observable<any> {

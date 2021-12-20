@@ -30,7 +30,6 @@ export class UbsAdminOrderDetailsFormComponent implements OnInit, OnChanges {
   public writeoffAtStationSum: number;
   finalPrice: number;
   @Output() changeOverpayment = new EventEmitter<number>();
-  @Output() actualPrice = new EventEmitter<number>();
   @Output() checkMinOrder = new EventEmitter<boolean>();
 
   pageOpen: boolean;
@@ -136,7 +135,6 @@ export class UbsAdminOrderDetailsFormComponent implements OnInit, OnChanges {
     }
     this.calculateOverpayment();
     this.setFinalFullPrice();
-    this.actualPrice.emit(this.bagsInfo.finalSum.confirmed);
   }
 
   openDetails() {
@@ -159,7 +157,13 @@ export class UbsAdminOrderDetailsFormComponent implements OnInit, OnChanges {
 
   private calculateOverpayment() {
     const bagType = this.orderStatusInfo.ableActualChange ? 'actual' : 'confirmed';
-    this.overpayment = this.orderDetails.orderFullPrice - this.bagsInfo.finalSum[bagType];
+    let priceWithoutCertificate = this.bagsInfo.sum[bagType] - this.orderDetails.certificateDiscount;
+
+    if (priceWithoutCertificate < 0) {
+      priceWithoutCertificate = 0;
+    }
+
+    this.overpayment = -1 * (priceWithoutCertificate - this.orderDetails.bonuses - this.orderDetails.paidAmount);
     this.changeOverpayment.emit(this.overpayment);
     if (this.overpayment) {
       this.overpaymentMessage = this.orderService.getOverpaymentMsg(this.overpayment);

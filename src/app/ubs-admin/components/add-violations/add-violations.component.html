@@ -1,5 +1,7 @@
 <div *ngIf="!isLoading" class="container">
-  <div class="row justify-content-end close-icon"><mat-icon mat-dialog-close>close</mat-icon></div>
+  <div class="row justify-content-end close-icon">
+    <mat-icon mat-dialog-close>close</mat-icon>
+  </div>
   <div *ngIf="!viewMode" class="row mb-4">
     <h3>{{ 'add-violation-modal.add-violation' | translate }}</h3>
   </div>
@@ -29,6 +31,9 @@
         placeholder="{{ 'add-violation-modal.placeholder' | translate }}"
         formControlName="violationDescription"
       ></textarea>
+      <div class="row error-message" *ngIf="addViolationForm.invalid && addViolationForm.get('violationDescription').touched">
+        <p>{{ 'add-violation-modal.description-error-message' | translate }}</p>
+      </div>
     </div>
   </form>
   <div class="row mb-1">
@@ -39,7 +44,7 @@
   </div>
   <div class="row" *ngIf="!viewMode">
     <div class="image-container" appDrag (files)="filesDropped($event)" *ngFor="let img of images; index as i">
-      <img class="image-preview" *ngIf="img.src" [src]="img.src" alt="image-of-violation" />
+      <img class="image-preview" *ngIf="img.src" [src]="img.src" alt="image-of-violation" (click)="openImg(i)" />
       <div class="delete-block">
         <div>{{ img.name }}</div>
         <div (click)="deleteImage(i)">X</div>
@@ -49,7 +54,7 @@
   </div>
   <div class="row" *ngIf="viewMode">
     <div class="image-container" *ngFor="let img of images; index as i">
-      <img class="image-preview" *ngIf="img.src" [src]="img.src" alt="image-of-violation" />
+      <img class="image-preview" *ngIf="img.src" [src]="img.src" alt="image-of-violation" (click)="openImg(i)" />
     </div>
   </div>
   <div class="row error-message" *ngIf="isImageSizeError">
@@ -59,34 +64,39 @@
   <div class="row error-message" *ngIf="isImageTypeError">
     <p>{{ 'add-violation-modal.error-message-for-type' | translate }}</p>
   </div>
-  <div class="row mb-5 label-g">
+  <div class="row mb-5 label-g" [class.invisible]="!isLabel">
     <label for="file-upload" class="custom-file-upload" [ngClass]="{ disabled: viewMode }">
       {{ 'add-violation-modal.file-upload' | translate }}
     </label>
-    <input id="file-upload" [disabled]="viewMode" class="d-none" type="file" accept="image/png,image/jpeg" (change)="loadFile($event)" />
+    <input
+      #takeInput
+      id="file-upload"
+      class="d-none"
+      [disabled]="viewMode"
+      type="file"
+      accept="image/png,image/jpeg"
+      (change)="loadFile($event)"
+    />
   </div>
   <div class="row justify-content-end mb-5">
-    <button
-      *ngIf="images[0]?.src"
-      class="delete-photo"
-      [ngClass]="{ disabled: viewMode }"
-      [disabled]="viewMode"
-      (click)="deleteAllImages()"
-    >
+    <button *ngIf="isDeleteViolation" (click)="deleteViolation()" class="delete-violation">
       <img src="assets/img/icon/bin.svg" alt="delete-icon" class="delete-icon" /> {{ 'add-violation-modal.delete-button' | translate }}
     </button>
-    <button class="cancel-button" [disabled]="viewMode" [ngClass]="{ disabled: viewMode }" [mat-dialog-close]="true">
+    <button class="cancelButton" [disabled]="viewMode" [ngClass]="{ disabled: viewMode }" [mat-dialog-close]="true">
       {{ 'add-violation-modal.cancel-button' | translate }}
     </button>
-    <button class="add-button" [disabled]="viewMode" (click)="send()">
+    <button class="addButton" [disabled]="!addViolationForm.valid || isUploading" (click)="send()">
+      <span *ngIf="isUploading" class="spinner-border spinner-border-sm" role="status" aria-hidden="true"> </span>
       {{ 'add-violation-modal.add-button' | translate }}
     </button>
   </div>
   <div class="row">
     <p class="info">
-      {{ 'add-violation-modal.date' | translate }} <span class="date">{{ date | date: 'd.MM.yyyy' }}</span>
+      {{ 'add-violation-modal.date' | translate }} <span class="date">{{ date | date: 'dd.MM.y' }}</span>
     </p>
-    <p class="info">{{ 'add-violation-modal.info-about-date' | translate }} <span class="user">Current User</span></p>
+    <p class="info">
+      {{ 'add-violation-modal.info-about-date' | translate }} <span class="user">{{ name }}</span>
+    </p>
   </div>
 </div>
 <div *ngIf="isLoading && viewMode" class="spinner">

@@ -70,7 +70,7 @@ describe('OrderService', () => {
     }
   };
 
-  const orderMock = new Order([''], 7, [bagMock], [''], '8', personalData, 9, true);
+  const orderMock = new Order([''], 7, [bagMock], [''], 5, '8', personalData, 9, true);
 
   let service: OrderService;
   let httpMock: HttpTestingController;
@@ -151,10 +151,10 @@ describe('OrderService', () => {
   it('method getLocations should return user location', () => {
     const locationsMock = [{ id: 1, name: 'city', languageCode: 'ua' }];
 
-    service.getLocations().subscribe((data) => {
+    service.getLocations(1).subscribe((data) => {
       expect(data).toEqual(locationsMock);
     });
-    httpTest('order/get-locations', 'GET', locationsMock);
+    httpTest('courier/1', 'GET', locationsMock);
   });
 
   it('method addAdress should makes post request', () => {

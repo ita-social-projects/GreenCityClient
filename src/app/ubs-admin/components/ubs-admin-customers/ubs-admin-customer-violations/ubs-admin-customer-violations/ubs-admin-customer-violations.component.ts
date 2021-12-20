@@ -78,8 +78,10 @@ export class UbsAdminCustomerViolationsComponent implements OnInit, OnDestroy {
 
   openModal(user): void {
     this.dialog.open(AddViolationsComponent, {
-      height: '90%',
-      maxWidth: '560px',
+      hasBackdrop: true,
+      closeOnNavigation: true,
+      disableClose: true,
+      panelClass: 'custom-dialog-container',
       data: {
         id: user.orderId,
         viewMode: true

@@ -7,7 +7,9 @@
     <img src="assets/img/edit.svg" alt="edit" />
     {{ 'ubs-tables.add-certificate' | translate }}
   </button>
-  <button type="button" class="btn btn-default" class="export-excel-btn">{{ 'ubs-tables.export-to-excel' | translate }}</button>
+  <button type="button" class="btn btn-default" class="export-excel-btn" (click)="openExportExcel()">
+    {{ 'ubs-tables.export-to-excel' | translate }}
+  </button>
 </div>
 <div
   id="table-container"

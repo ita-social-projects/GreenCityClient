@@ -30,10 +30,10 @@ describe('AdminCertificateService', () => {
   });
 
   it('should return certificates table', () => {
-    service.getTable('code', 0, 5, 'DESC').subscribe((data) => {
+    service.getTable('code', 0, '', 5, 'DESC').subscribe((data) => {
       expect(data).toBeDefined();
     });
-    const req = httpMock.expectOne(`${urlMock}/getAllCertificates?columnName=code&page=0&size=5&sortingOrder=DESC`);
+    const req = httpMock.expectOne(`${urlMock}/getAllCertificates?pageNumber=0&pageSize=5&search=&sortBy=code&sortDirection=DESC`);
     expect(req.request.method).toBe('GET');
     req.flush(certificateMock);
   });

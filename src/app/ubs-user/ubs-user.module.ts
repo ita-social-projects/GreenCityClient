@@ -28,6 +28,7 @@ import { UbsUserOrderPaymentPopUpComponent } from './ubs-user-orders-list/ubs-us
 import { MatRadioModule } from '@angular/material/radio';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MAT_DIALOG_DEFAULT_OPTIONS } from '@angular/material/dialog';
+import { UbsUserOrderCancelPopUpComponent } from './ubs-user-orders-list/ubs-user-order-cancel-pop-up/ubs-user-order-cancel-pop-up.component';
 
 @NgModule({
   declarations: [
@@ -42,7 +43,8 @@ import { MAT_DIALOG_DEFAULT_OPTIONS } from '@angular/material/dialog';
     UbsUserProfilePageComponent,
     UbsProfileChangePasswordPopUpComponent,
     UbsProfileDeletePopUpComponent,
-    UbsUserOrderPaymentPopUpComponent
+    UbsUserOrderPaymentPopUpComponent,
+    UbsUserOrderCancelPopUpComponent
   ],
   imports: [
     CommonModule,
@@ -74,7 +76,12 @@ import { MAT_DIALOG_DEFAULT_OPTIONS } from '@angular/material/dialog';
       useValue: { hasBackdrop: true }
     }
   ],
-  entryComponents: [UbsProfileChangePasswordPopUpComponent, UbsProfileDeletePopUpComponent, UbsUserOrderPaymentPopUpComponent]
+  entryComponents: [
+    UbsProfileChangePasswordPopUpComponent,
+    UbsProfileDeletePopUpComponent,
+    UbsUserOrderPaymentPopUpComponent,
+    UbsUserOrderCancelPopUpComponent
+  ]
 })
 export class UbsUserModule {}
 
