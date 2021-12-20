@@ -60,6 +60,7 @@ import { UbsAdminCustomerOrdersComponent } from './components/ubs-admin-customer
 import { AddOrderCancellationReasonComponent } from './components/add-order-cancellation-reason/add-order-cancellation-reason.component';
 import { DialogPopUpComponent } from './components/shared/components/dialog-pop-up/dialog-pop-up.component';
 import { ResizeColumnDirective } from './derictives/resize-table-columns.directive';
+import { ShowImgsPopUpComponent } from './components/shared/components/show-imgs-pop-up/show-imgs-pop-up.component';
 
 @NgModule({
   declarations: [
@@ -100,7 +101,8 @@ import { ResizeColumnDirective } from './derictives/resize-table-columns.directi
     UbsAdminOrderHistoryComponent,
     AddOrderCancellationReasonComponent,
     DialogPopUpComponent,
-    ResizeColumnDirective
+    ResizeColumnDirective,
+    ShowImgsPopUpComponent
   ],
   imports: [
     CommonModule,

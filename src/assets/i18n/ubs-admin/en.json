@@ -70,6 +70,7 @@
     "easy-violation": "Mild",
     "serious-violation": "Serious",
     "description": "Describe, what happened",
+    "description-error-message": "The number of characters must be between 5 and 255",
     "placeholder": "Any details you would like to report further regarding this order",
     "label-for-photo-container": "Photos of the violation",
     "requirement": "You can upload images in PNG or JPG format up to 10MB",

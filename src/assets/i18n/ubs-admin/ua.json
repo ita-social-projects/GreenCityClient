@@ -76,6 +76,8 @@
     "easy-violation": "Легке",
     "serious-violation": "Серйозне",
     "description": "Опишіть, що сталося",
+    "description-error-message": "Кількість символів повинна бути між 5 і 255",
+    "label-for-photo-container": "Фото порушення",
     "placeholder": "Будь-які деталі, які Ви хотіли б повідомити додатково щодо цього замовлення",
     "label-for-photo": "Фотографії порушення",
     "requirement": "Ви можете завантажити зображення у форматі PNG чи JPG розміром до 10MБ",
@@ -321,7 +323,6 @@
     "order-date": "Дата",
     "order-payment-status": "Статус оплати",
     "payment-amount": "Сума до оплати",
-
     "btn": {
       "cancel": "Скасувати",
       "pay": "Оплатити",

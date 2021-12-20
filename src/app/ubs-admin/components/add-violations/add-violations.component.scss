@@ -1,6 +1,8 @@
 .container {
   font-family: var(--primary-font);
-  overflow: auto;
+  width: 560px;
+  background: var(--pre-secondary-light-grey);
+  padding: 30px 56px;
 }
 
 h3 {
@@ -31,8 +33,14 @@ h6 {
   height: 141px;
   border: 1px solid var(--ubs-quintynary-light-grey);
   border-radius: 4px;
-  color: var(--ubs-quintynary-light-grey);
+  color: var(--ubs-primary-grey);
   padding: 8px;
+}
+
+::placeholder {
+  color: var(--ubs-primary-light-grey);
+  opacity: 1;
+  font-size: 0.9rem;
 }
 
 .requirement {
@@ -60,21 +68,36 @@ label {
   color: var(--primary-green);
 }
 
-.cancel-button {
-  color: var(--primary-green);
-  border-radius: 4px;
-  border: 1px solid var(--primary-light-green);
-  background-color: #fff;
-  padding: 8px 24px;
+.cancelButton,
+.addButton {
+  height: 36px;
+  padding: 8px 4px;
+  border-radius: 5px;
+  font-size: 14px;
+  font-weight: 500;
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
 }
 
-.add-button {
-  color: #fff;
-  background-color: var(--primary-light-green);
-  border-radius: 4px;
-  border: none;
-  margin-left: 20px;
-  padding: 8px 24px;
+.cancelButton {
+  width: 107px;
+  border: 1px solid var(--ubs-quaternary-dark-grey);
+  color: var(--ubs-quaternary-dark-grey);
+  background: none;
+  margin-right: 16px;
+}
+
+.addButton {
+  width: 169px;
+  color: var(--ubs-quaternary-dark-grey);
+  border: 1px solid var(--ubs-button-light-green);
+  background: var(--ubs-button-light-green);
+
+  &:disabled {
+    background: var(--ubs-quaternary-light-grey);
+    border-color: var(--ubs-quaternary-light-grey);
+  }
 }
 
 .info {
@@ -96,8 +119,14 @@ label {
 
 .custom-file-upload {
   display: inline-block;
+  font-size: 14px;
+  color: var(--ubs-electric-violet);
   padding: 6px 12px;
   cursor: pointer;
+}
+
+.invisible {
+  visibility: hidden;
 }
 
 .delete-block {
@@ -107,7 +136,7 @@ label {
   left: 0;
   background: var(--ubs-quaternary-light-grey);
   opacity: 0.7;
-  width: 158px;
+  width: 150px;
   display: none;
   max-height: 45px;
 
@@ -127,8 +156,9 @@ label {
 }
 
 .image-preview {
-  width: 158px;
+  width: 150px;
   height: 104px;
+  cursor: pointer;
 
   &:hover + .delete-block {
     display: flex;
@@ -138,7 +168,7 @@ label {
 .image-container {
   position: relative;
   height: 105px;
-  width: 158px;
+  width: 150px;
   background: var(--ubs-secondary-white);
   border: 1px solid var(--ubs-primary-light-grey);
   box-sizing: border-box;
@@ -161,12 +191,12 @@ label {
   font-weight: 400;
 }
 
-.delete-photo {
+.delete-violation {
   color: var(--error-red);
   font-size: 16px;
   font-weight: bold;
   border: none;
-  background-color: #fff;
+  background: transparent;
   margin-right: 25px;
 }
 
