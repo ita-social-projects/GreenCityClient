@@ -28,7 +28,7 @@ import { ACTION_CONFIG, ACTION_TOKEN } from './components/create-edit-news/actio
 import { SharedModule } from 'src/app/shared/shared.module';
 import { QuillModule } from 'ngx-quill';
 import { SafeHtmlPipe } from '@pipe/safe-html-pipe/safe-html.pipe';
-import { WebpageHostnamePipe } from '@pipe/webpage-hostname-pipe/webpage-hostname.pipe';
+import { UrlHostnamePipe } from '@pipe/url-hostname-pipe/url-hostname.pipe';
 
 @NgModule({
   declarations: [
@@ -45,7 +45,7 @@ import { WebpageHostnamePipe } from '@pipe/webpage-hostname-pipe/webpage-hostnam
     MatSnackBarComponent,
     CreateEditNewsComponent,
     SafeHtmlPipe,
-    WebpageHostnamePipe
+    UrlHostnamePipe
   ],
   imports: [
     CommonModule,

@@ -1,8 +1,8 @@
-import { WebpageHostnamePipe } from './webpage-hostname.pipe';
+import { UrlHostnamePipe } from './url-hostname.pipe';
 
 describe('WebpageHostnamePipe', () => {
   it('create an instance', () => {
-    const pipe = new WebpageHostnamePipe();
+    const pipe = new UrlHostnamePipe();
     expect(pipe).toBeTruthy();
   });
 });

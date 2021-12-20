@@ -1,9 +1,9 @@
 import { Pipe, PipeTransform } from '@angular/core';
 
 @Pipe({
-  name: 'webpageHostname'
+  name: 'UrlHostname'
 })
-export class WebpageHostnamePipe implements PipeTransform {
+export class UrlHostnamePipe implements PipeTransform {
   transform(url: string): string {
     return url.replace('http://', '').replace('https://', '').split(/[/?#]/)[0];
   }
