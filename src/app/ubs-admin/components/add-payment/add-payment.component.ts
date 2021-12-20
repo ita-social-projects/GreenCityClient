@@ -37,11 +37,11 @@ export class AddPaymentComponent implements OnInit {
 
   initForm() {
     this.addPaymentForm = this.fb.group({
-      paymentDate: new FormControl('', [Validators.required]),
-      amount: new FormControl('', [Validators.required]),
-      paymentId: new FormControl('', [Validators.required]),
-      receiptLink: new FormControl(''),
-      imagePath: new FormControl('')
+      paymentDate: ['', [Validators.required]],
+      amount: ['', [Validators.required, Validators.pattern('^[0-9]+.[0-9][0-9]$')]],
+      paymentId: ['', [Validators.required]],
+      receiptLink: [''],
+      imagePath: ['']
     });
   }
 
@@ -51,6 +51,7 @@ export class AddPaymentComponent implements OnInit {
 
   save() {
     const paymentDetails = this.addPaymentForm.value;
+    paymentDetails.paymentDate = new Date(paymentDetails.paymentDate).toISOString();
     console.log(paymentDetails);
 
     this.dialogRef.close(paymentDetails);

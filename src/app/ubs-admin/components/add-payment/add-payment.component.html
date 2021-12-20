@@ -16,7 +16,7 @@
         formControlName="paymentDate"
         id="date"
         class="date"
-        type="text"
+        type="date"
         placeholder="{{ 'add-payment.date-placeholder' | translate }}"
       />
       <label class="label" for="amount">{{ 'add-payment.payment-amount' | translate }}</label>
@@ -24,7 +24,7 @@
         formControlName="amount"
         id="amount"
         class="date"
-        type="text"
+        type="number"
         placeholder="{{ 'add-payment.amount-placeholder' | translate }}"
       />
       <label class="label" for="payment-id">{{ 'add-payment.payment-id' | translate }}</label>
@@ -32,7 +32,7 @@
         formControlName="paymentId"
         id="payment-id"
         class="id"
-        type="text"
+        type="number"
         placeholder="{{ 'add-payment.id-placeholder' | translate }}"
       />
       <label class="label" for="link">{{ 'add-payment.link-to-bill' | translate }}</label>
@@ -62,7 +62,9 @@
 
   <div class="btn-container block">
     <button type="reset" class="back label" (click)="close()">{{ 'add-payment.btn.back' | translate }}</button>
-    <button type="submit" class="agree label" (click)="save()">{{ 'add-payment.btn.confirm' | translate }}</button>
+    <button type="submit" class="agree label" (click)="save()" [disabled]="!addPaymentForm.touched || !addPaymentForm.valid">
+      {{ 'add-payment.btn.confirm' | translate }}
+    </button>
   </div>
   <div class="add-info">
     <p>
