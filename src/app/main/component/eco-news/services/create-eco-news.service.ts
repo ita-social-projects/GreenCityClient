@@ -89,14 +89,13 @@ export class CreateEcoNewsService {
     return this.http.post<NewsResponseDTO>(`${this.url}econews`, formData, this.httpOptions);
   }
 
-  public sendImagesData(imagesBase64Arr) {
+  public sendImagesData(imagesFilesArr: File[]): Observable<[string]> {
     const formData: FormData = new FormData();
 
-    imagesBase64Arr.forEach((f: File) => {
+    imagesFilesArr.forEach((f: File) => {
       formData.append('images', f);
     });
 
-    console.log(formData);
     const accessToken: string = localStorage.getItem('accessToken');
     const httpOptions = {
       headers: new HttpHeaders({

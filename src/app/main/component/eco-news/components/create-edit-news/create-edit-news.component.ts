@@ -123,6 +123,8 @@ export class CreateEditNewsComponent extends FormBaseComponent implements OnInit
   public editorHTML = '';
   public savingImages = false;
 
+  // TODO: add types | DTO to service
+
   ngOnInit() {
     this.getNewsIdFromQueryParams();
     this.initPageForCreateOrEdit();
@@ -157,7 +159,7 @@ export class CreateEditNewsComponent extends FormBaseComponent implements OnInit
     });
   }
 
-  private setLocalizedTags() {
+  private setLocalizedTags(): void {
     this.localStorageService.languageBehaviourSubject.pipe(takeUntil(this.destroyed$)).subscribe(() => this.getAllTags());
   }
 
@@ -402,7 +404,7 @@ export class CreateEditNewsComponent extends FormBaseComponent implements OnInit
     return this.createEcoNewsService.isImageValid;
   }
 
-  changedEditor(event: EditorChangeContent | EditorChangeSelection) {
+  changedEditor(event: EditorChangeContent | EditorChangeSelection): void {
     if (event.event !== 'selection-change') {
       this.editorText = event.text;
       this.editorHTML = event.html;
