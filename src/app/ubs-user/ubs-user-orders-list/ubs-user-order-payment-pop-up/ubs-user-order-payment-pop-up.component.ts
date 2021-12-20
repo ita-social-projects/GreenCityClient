@@ -48,7 +48,7 @@ export class UbsUserOrderPaymentPopUpComponent implements OnInit {
     public router: Router
   ) {}
 
-  ngOnInit(): void {
+  public ngOnInit(): void {
     this.initForm();
     this.dataLoadingLiqPay = false;
     this.certificateStatus.push(true);
@@ -135,8 +135,8 @@ export class UbsUserOrderPaymentPopUpComponent implements OnInit {
   }
 
   public processOrder(): void {
+    debugger;
     this.orderClientDto.orderId = this.userOrder.id;
-    this.orderClientDto.sum = this.userOrder.sum;
 
     if (this.userOrder.sum > 0) {
       if (this.formPaymentSystem.value === 'Fondy') {
@@ -152,9 +152,7 @@ export class UbsUserOrderPaymentPopUpComponent implements OnInit {
 
   public orderOptionPayment(event: any) {
     this.selectedPayment = event.target.value;
-
     this.orderClientDto.orderId = this.userOrder.id;
-    this.orderClientDto.sum = this.userOrder.sum;
 
     if (this.selectedPayment === 'LiqPay') {
       this.dataLoadingLiqPay = true;

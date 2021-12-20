@@ -1,4 +1,8 @@
 export class OrderClientDto {
+  certificates?: string[];
   orderId: number;
-  sum: number;
+  pointsToUse: number;
+  constructor() {
+    this.pointsToUse = 0;
+  }
 }
