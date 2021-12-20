@@ -59,12 +59,12 @@
           <div class="news-text-content word-wrap ql-snow">
             <div class="ql-editor" [innerHTML]="newsItem.text | safeHtml"></div>
           </div>
-          <div class="source-field" *ngIf="newsItem?.text">
+          <div class="source-field" *ngIf="newsItem?.source">
             <div class="source-title">
               {{ 'eco-news-single-view.news-source' | translate }}
             </div>
             <a href="{{ newsItem?.source }}" class="source-text word-wrap">
-              {{ newsItem?.source }}
+              {{ newsItem?.source | webpageHostname }}
             </a>
           </div>
         </div>
