@@ -134,16 +134,27 @@ export class UbsUserOrderPaymentPopUpComponent implements OnInit {
     this.certificateStatus.push(true);
   }
 
-  public processOrder(): void {
+  public fillOrderClientDto() {
     this.orderClientDto.orderId = this.userOrder.id;
+    if (this.userCertificate.certificates.length) {
+      this.orderClientDto.certificates = this.userCertificate.certificates;
+    }
+  }
+
+  public processOrder(): void {
+    this.fillOrderClientDto();
+    debugger;
+    this.orderClientDto;
+    this.userCertificate.certificates;
 
     if (this.userOrder.sum > 0) {
       if (this.formPaymentSystem.value === 'Fondy') {
         this.orderService.processOrderFondyFromUserOrderList(this.orderClientDto).subscribe((responce: ResponceOrderFondyModel) => {
           document.location.href = responce.link;
         });
+      } else {
+        this.liqPayButton[0].click();
       }
-      this.liqPayButton[0].click();
     } else {
       this.router.navigate(['ubs', 'confirm']);
     }
@@ -151,7 +162,7 @@ export class UbsUserOrderPaymentPopUpComponent implements OnInit {
 
   public orderOptionPayment(event: any) {
     this.selectedPayment = event.target.value;
-    this.orderClientDto.orderId = this.userOrder.id;
+    this.fillOrderClientDto();
 
     if (this.selectedPayment === 'LiqPay') {
       this.dataLoadingLiqPay = true;
