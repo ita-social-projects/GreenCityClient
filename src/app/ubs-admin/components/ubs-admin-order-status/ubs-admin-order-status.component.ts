@@ -81,15 +81,15 @@ export class UbsAdminOrderStatusComponent implements OnChanges, OnInit, OnDestro
       const confirmedHalfPaidCondition = this.currentOrderPrice > 0 && this.totalPaid > 0 && this.currentOrderPrice > this.totalPaid;
 
       if (confirmedPaidCondition) {
-        this.generalOrderInfo.orderPaymentStatusName = 'PAID';
+        this.generalOrderInfo.orderPaymentStatus = 'PAID';
       }
 
       if (confirmedUnpaidCondition) {
-        this.generalOrderInfo.orderPaymentStatusName = 'UNPAID';
+        this.generalOrderInfo.orderPaymentStatus = 'UNPAID';
       }
 
       if (confirmedHalfPaidCondition) {
-        this.generalOrderInfo.orderPaymentStatusName = 'HALF_PAID';
+        this.generalOrderInfo.orderPaymentStatus = 'HALF_PAID';
       }
     } else if (orderState === 'actual') {
       const actualPaidCondition1 = this.currentOrderPrice > 0 && this.totalPaid > 0 && this.currentOrderPrice <= this.totalPaid;
@@ -100,15 +100,15 @@ export class UbsAdminOrderStatusComponent implements OnChanges, OnInit, OnDestro
       const actualHalfPaidCondition = this.currentOrderPrice > 0 && this.totalPaid >= 0 && this.currentOrderPrice > this.totalPaid;
 
       if (actualPaidCondition) {
-        this.generalOrderInfo.orderPaymentStatusName = 'PAID';
+        this.generalOrderInfo.orderPaymentStatus = 'PAID';
       }
 
       if (actualUnpaidCondition) {
-        this.generalOrderInfo.orderPaymentStatusName = 'UNPAID';
+        this.generalOrderInfo.orderPaymentStatus = 'UNPAID';
       }
 
       if (actualHalfPaidCondition) {
-        this.generalOrderInfo.orderPaymentStatusName = 'HALF_PAID';
+        this.generalOrderInfo.orderPaymentStatus = 'HALF_PAID';
       }
 
       // TODO: ADD PAYMENT_REFUNDED CASE THEN IT WILL BE IMPLEMENTED

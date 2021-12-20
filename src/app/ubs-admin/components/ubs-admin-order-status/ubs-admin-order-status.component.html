@@ -37,7 +37,7 @@
                 <select id="payment" class="form-control payment" disabled>
                   <option
                     *ngFor="let status of generalOrderInfo.orderPaymentStatusesDto"
-                    [selected]="status.key === generalOrderInfo.orderPaymentStatusName"
+                    [selected]="status.key === generalOrderInfo.orderPaymentStatus"
                   >
                     {{ status.translation }}
                   </option>
