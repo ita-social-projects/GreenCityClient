@@ -208,6 +208,11 @@ $cardTextColor: #1d2830;
 }
 
 .search {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+
   .search-elements {
     @include flex-options(row, stretch, center);
 

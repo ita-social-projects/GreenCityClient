@@ -1,0 +1,17 @@
+<form [formGroup]="courierForm">
+  <div class="w-100">
+    <h2 class="add-location-title">{{ 'ubs-tariffs-add-location-pop-up.courier_title' | translate }}</h2>
+  </div>
+  <div class="col-lg-12 form-group">
+    <label>{{ 'ubs-tariffs-add-location-pop-up.courier_name' | translate }}</label>
+    <input class="shadow-none form-control" formControlName="name" placeholder="" />
+  </div>
+</form>
+<div class="d-flex justify-content-end buttons" mat-dialog-actions>
+  <button class="secondary-global-button btn m-0 mr-2" mat-button (click)="onNoClick()">
+    {{ 'ubs-tariffs-add-location-pop-up.cancel_button' | translate }}
+  </button>
+  <button class="primary-global-button btn m-0">
+    {{ 'ubs-tariffs-add-location-pop-up.add_button' | translate }}
+  </button>
+</div>

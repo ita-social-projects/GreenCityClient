@@ -4,7 +4,7 @@ import { ActivatedRoute, Params } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
 import { UbsAdminCancelModalComponent } from '../ubs-admin-cancel-modal/ubs-admin-cancel-modal.component';
 import { UbsAdminGoBackModalComponent } from '../ubs-admin-go-back-modal/ubs-admin-go-back-modal.component';
-import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
+import { FormArray, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { take, takeUntil } from 'rxjs/operators';
 import { OrderService } from '../../services/order.service';
 import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
@@ -20,6 +20,7 @@ import {
   IResponsiblePersons,
   IUserInfo
 } from '../../models/ubs-admin.interface';
+import { formatDate } from '@angular/common';
 
 @Component({
   selector: 'app-ubs-admin-order',
@@ -38,6 +39,7 @@ export class UbsAdminOrderComponent implements OnInit, OnDestroy {
   clientInfo: IUserInfo;
   addressInfo: IAddressExportDetails;
   paymentInfo: IPaymentInfo;
+  totalPaid: number;
   exportInfo: IExportDetails;
   responsiblePersonInfo: IResponsiblePersons;
   orderDetails: IOrderDetails;
@@ -45,7 +47,8 @@ export class UbsAdminOrderComponent implements OnInit, OnDestroy {
   currentOrderStatus: string;
   overpayment = 0;
   isMinOrder = true;
-  actualPrice: number;
+  timeFrom: string;
+  timeTo: string;
 
   constructor(
     private translate: TranslateService,
@@ -80,6 +83,8 @@ export class UbsAdminOrderComponent implements OnInit, OnDestroy {
         this.paymentInfo = data.paymentTableInfoDto;
         this.exportInfo = data.exportDetailsDto;
         this.responsiblePersonInfo = data.employeePositionDtoRequest;
+        this.totalPaid = this.orderInfo.orderCertificateTotalDiscount + this.orderInfo.orderBonusDiscount;
+        this.totalPaid += data.paymentTableInfoDto.paidAmount;
         this.setOrderDetails();
         this.initForm();
       });
@@ -98,7 +103,7 @@ export class UbsAdminOrderComponent implements OnInit, OnDestroy {
       courierInfo: Object.assign({}, this.orderInfo.courierInfo),
       bonuses: this.orderInfo.orderBonusDiscount,
       certificateDiscount: this.orderInfo.orderCertificateTotalDiscount,
-      orderFullPrice: this.orderInfo.orderFullPrice,
+      paidAmount: this.orderInfo.paymentTableInfoDto.paidAmount,
       courierPricePerPackage: this.orderInfo.courierPricePerPackage
     };
     this.orderStatusInfo = this.getOrderStatusInfo(this.currentOrderStatus);
@@ -147,8 +152,9 @@ export class UbsAdminOrderComponent implements OnInit, OnDestroy {
         district: this.addressInfo.addressDistrict
       }),
       exportDetailsForm: this.fb.group({
-        exportedDate: this.exportInfo.exportedDate,
-        exportedTime: this.exportInfo.exportedTime,
+        dateExport: this.exportInfo.dateExport ? formatDate(this.exportInfo.dateExport, 'yyyy-MM-dd', this.currentLanguage) : '',
+        timeDeliveryFrom: this.parseTimeToStr(this.exportInfo.timeDeliveryFrom),
+        timeDeliveryTo: this.parseTimeToStr(this.exportInfo.timeDeliveryTo),
         receivingStation: this.exportInfo.receivingStation
       }),
       responsiblePersonsForm: this.fb.group({
@@ -158,11 +164,15 @@ export class UbsAdminOrderComponent implements OnInit, OnDestroy {
         driver: this.getEmployeeById(currentEmployees, 5)
       }),
       orderDetailsForm: this.fb.group({
-        storeOrderNumber: this.orderInfo.numbersFromShop.join(', '),
-        certificate: 'TODO-TODO',
+        storeOrderNumbers: this.fb.array([]),
+        certificates: (this.orderInfo.certificates || []).join(', '),
         customerComment: this.orderInfo.comment,
         orderFullPrice: this.orderInfo.orderFullPrice
       })
+    });
+    const storeOrderNumbersArr = this.getFormGroup('orderDetailsForm').controls.storeOrderNumbers as FormArray;
+    this.orderInfo.numbersFromShop.forEach((elem) => {
+      storeOrderNumbersArr.push(new FormControl(elem, [Validators.required, Validators.pattern('^\\d{10}$')]));
     });
     this.orderDetails.bags.forEach((bag) => {
       this.getFormGroup('orderDetailsForm').addControl(
@@ -221,12 +231,20 @@ export class UbsAdminOrderComponent implements OnInit, OnDestroy {
     this.overpayment = sum;
   }
 
-  public setFinalPrice(price: number) {
-    this.actualPrice = price;
-  }
-
   public setMinOrder(flag) {
     this.isMinOrder = flag;
+  }
+
+  parseTimeToStr(dateStr: string) {
+    return dateStr ? formatDate(dateStr, 'HH:mm', this.currentLanguage) : '';
+  }
+
+  parseStrToTime(dateStr: string, date: Date) {
+    const hours = dateStr.split(':')[0];
+    const minutes = dateStr.split(':')[1];
+    date.setHours(+hours + 2);
+    date.setMinutes(+minutes);
+    return date ? date.toISOString() : '';
   }
 
   resetForm() {
@@ -237,7 +255,9 @@ export class UbsAdminOrderComponent implements OnInit, OnDestroy {
   }
 
   onSubmit() {
-    console.log(this.orderForm);
+    const date = new Date(this.orderForm.get(['exportDetailsForm', 'dateExport']).value);
+    const timeTo = this.orderForm.get(['exportDetailsForm', 'timeDeliveryFrom']).value;
+    const timeFrom = this.orderForm.get(['exportDetailsForm', 'timeDeliveryTo']).value;
   }
 
   ngOnDestroy(): void {

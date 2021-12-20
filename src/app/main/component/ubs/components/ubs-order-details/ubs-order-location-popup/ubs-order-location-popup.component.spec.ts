@@ -7,6 +7,7 @@ import { Router } from '@angular/router';
 import { RouterTestingModule } from '@angular/router/testing';
 import { TranslateModule } from '@ngx-translate/core';
 import { Subject } from 'rxjs';
+import { FilterLocationListByLangPipe } from 'src/app/shared/filter-location-list-by-lang/filter-location-list-by-lang.pipe';
 import { UbsMainPageComponent } from '../../ubs-main-page/ubs-main-page.component';
 import { UbsOrderLocationPopupComponent } from './ubs-order-location-popup.component';
 
@@ -17,7 +18,7 @@ describe('UbsOrderLocationPopupComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [UbsOrderLocationPopupComponent],
+      declarations: [UbsOrderLocationPopupComponent, FilterLocationListByLangPipe],
       providers: [{ provide: MatDialogRef, useValue: dialogMock }],
       imports: [
         RouterTestingModule.withRoutes([{ path: 'ubs', component: UbsMainPageComponent }]),

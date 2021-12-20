@@ -28,17 +28,17 @@
         [orderStatusInfo]="orderStatusInfo"
         (changeOverpayment)="changeOverpayment($event)"
         (checkMinOrder)="setMinOrder($event)"
-        (actualPrice)="setFinalPrice($event)"
       ></app-ubs-admin-order-details-form>
       <app-ubs-admin-order-payment
-        [paidPrice]="orderInfo.orderFullPrice"
+        [totalPaid]="totalPaid"
         [overpayment]="overpayment"
         [orderInfo]="orderInfo"
-        [actualPrice]="actualPrice"
       ></app-ubs-admin-order-payment>
       <app-ubs-admin-export-details
         [exportDetailsForm]="getFormGroup('exportDetailsForm')"
         [exportInfo]="exportInfo"
+        [from]="timeFrom"
+        [to]="timeTo"
       ></app-ubs-admin-export-details>
       <app-ubs-admin-responsible-persons
         [responsiblePersonsForm]="getFormGroup('responsiblePersonsForm')"

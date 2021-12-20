@@ -24,6 +24,7 @@ import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { NgxPageScrollModule } from 'ngx-page-scroll';
 import { SearchNotFoundComponent } from './search-not-found/search-not-found.component';
 import { UbsFooterComponent } from './ubs-footer/ubs-footer.component';
+import { FilterLocationListByLangPipe } from './filter-location-list-by-lang/filter-location-list-by-lang.pipe';
 
 @NgModule({
   declarations: [
@@ -43,7 +44,8 @@ import { UbsFooterComponent } from './ubs-footer/ubs-footer.component';
     SearchItemComponent,
     SearchPopupComponent,
     SearchNotFoundComponent,
-    UbsFooterComponent
+    UbsFooterComponent,
+    FilterLocationListByLangPipe
   ],
   imports: [
     CommonModule,
@@ -66,6 +68,7 @@ import { UbsFooterComponent } from './ubs-footer/ubs-footer.component';
     ServerTranslatePipe,
     UbsBaseSidebarComponent,
     FilterListByLangPipe,
+    FilterLocationListByLangPipe,
     HeaderComponent,
     SearchPopupComponent,
     SearchAllResultsComponent,

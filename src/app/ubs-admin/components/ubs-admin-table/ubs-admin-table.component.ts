@@ -38,6 +38,7 @@ export class UbsAdminTableComponent implements OnInit, AfterViewChecked, OnDestr
   isTableHeightSet = false;
   tableData: any[];
   totalElements = 0;
+  allElements: number;
   totalPages: number;
   currentPage = 0;
   pageSize = 25;
@@ -100,6 +101,7 @@ export class UbsAdminTableComponent implements OnInit, AfterViewChecked, OnDestr
   dropListDropped(event: CdkDragDrop<string[]>) {
     moveItemInArray(this.displayedColumns, event.previousIndex, event.currentIndex);
     this.orderService.setColumnToDisplay(encodeURIComponent(this.displayedColumns.join(','))).subscribe();
+    this.stickyColumn = [];
     for (let i = 0; i < 4; i++) {
       this.stickyColumn.push(this.displayedColumns[i]);
     }
@@ -208,15 +210,12 @@ export class UbsAdminTableComponent implements OnInit, AfterViewChecked, OnDestr
         this.tableData = item[`content`];
         this.totalPages = item[`totalPages`];
         this.totalElements = item[`totalElements`];
+        this.allElements = !this.allElements ? this.totalElements : this.allElements;
         this.dataSource = new MatTableDataSource(this.tableData);
         this.isLoading = false;
         this.isTableHeightSet = false;
         this.changeView();
       });
-  }
-
-  private isPropertyRequired(field: string, requiredFields: string[]) {
-    return requiredFields.some((reqField) => field === reqField);
   }
 
   changeView() {
@@ -261,8 +260,11 @@ export class UbsAdminTableComponent implements OnInit, AfterViewChecked, OnDestr
     const dialogConfig = new MatDialogConfig();
     const dialogRef = this.dialog.open(UbsAdminTableExcelPopupComponent, dialogConfig);
     dialogRef.componentInstance.totalElements = this.totalElements;
+    dialogRef.componentInstance.allElements = this.allElements;
     dialogRef.componentInstance.sortingColumn = this.sortingColumn;
     dialogRef.componentInstance.sortType = this.sortType;
+    dialogRef.componentInstance.filterValue = this.filterValue;
+    dialogRef.componentInstance.name = 'Orders-Table.xlsx';
   }
 
   onScroll() {
