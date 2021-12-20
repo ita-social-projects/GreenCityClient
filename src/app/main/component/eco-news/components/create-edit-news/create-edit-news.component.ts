@@ -19,7 +19,6 @@ import { EditorChangeContent, EditorChangeSelection } from 'ngx-quill';
 import Quill from 'quill';
 import 'quill-emoji/dist/quill-emoji.js';
 import ImageResize from 'quill-image-resize-module';
-import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { checkImages, dataURLtoFile } from './quillEditorFunc';
 
 @Component({
@@ -29,7 +28,6 @@ import { checkImages, dataURLtoFile } from './quillEditorFunc';
 })
 export class CreateEditNewsComponent extends FormBaseComponent implements OnInit, OnDestroy {
   constructor(
-    private http: HttpClient,
     public router: Router,
     public dialog: MatDialog,
     private injector: Injector,
@@ -274,7 +272,6 @@ export class CreateEditNewsComponent extends FormBaseComponent implements OnInit
             this.editorHTML = this.editorHTML.replace(findBase64Regex, link);
           });
           this.sendData(this.editorHTML);
-          console.log(111);
         },
         (err) => console.error(err)
       );
@@ -289,11 +286,12 @@ export class CreateEditNewsComponent extends FormBaseComponent implements OnInit
     this.router.navigate(['/news']).catch((err) => console.error(err));
   }
 
-  public editNews(): void {
+  public editData(text): void {
     const dataToEdit = {
-      ...this.form.value,
+      ...this.form?.value,
       id: this.newsId
     };
+    dataToEdit.content = text;
 
     this.createEcoNewsService
       .editNews(dataToEdit)
@@ -304,6 +302,30 @@ export class CreateEditNewsComponent extends FormBaseComponent implements OnInit
         })
       )
       .subscribe(() => this.escapeFromCreatePage());
+  }
+
+  public editNews(): void {
+    if (!this.editorHTML) {
+      this.editorHTML = this.form?.value?.content;
+    }
+    const imagesSrc = checkImages(this.editorHTML);
+
+    if (imagesSrc) {
+      const imgFiles = imagesSrc.map((base64) => dataURLtoFile(base64));
+
+      this.createEcoNewsService.sendImagesData(imgFiles).subscribe(
+        (response) => {
+          const findBase64Regex = /data:image\/([a-zA-Z]*);base64,([^"]*)/g;
+          response.forEach((link) => {
+            this.editorHTML = this.editorHTML.replace(findBase64Regex, link);
+          });
+          this.editData(this.editorHTML);
+        },
+        (err) => console.error(err)
+      );
+    } else {
+      this.editData(this.editorHTML);
+    }
   }
 
   public fetchNewsItemToEdit(): void {
