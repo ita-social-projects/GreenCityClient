@@ -71,11 +71,14 @@
     }
   },
   "add-violation-modal": {
+    "violation": "Порушення",
     "add-violation": "Додати порушення",
+    "order": "Замовлення",
     "level-of-violation": "Оберіть ступінь порушення",
     "easy-violation": "Легке",
     "serious-violation": "Серйозне",
     "description": "Опишіть, що сталося",
+    "violation-details": "Деталі порушення",
     "description-error-message": "Кількість символів повинна бути між 5 і 255",
     "label-for-photo-container": "Фото порушення",
     "placeholder": "Будь-які деталі, які Ви хотіли б повідомити додатково щодо цього замовлення",

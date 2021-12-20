@@ -30,6 +30,8 @@ export class AddViolationsComponent implements OnInit, OnDestroy {
   imgArray = [];
   public date = new Date();
   unsubscribe: Subject<any> = new Subject();
+  viewMode = false;
+  isLoading = false;
   constructor(
     private translate: TranslateService,
     @Inject(MAT_DIALOG_DATA) public data,
@@ -40,6 +42,7 @@ export class AddViolationsComponent implements OnInit, OnDestroy {
     public dialogRef: MatDialogRef<AddViolationsComponent>
   ) {
     this.orderId = data.id;
+    this.viewMode = data.viewMode;
   }
 
   @ViewChild('takeInput') InputVar: ElementRef;
@@ -51,8 +54,9 @@ export class AddViolationsComponent implements OnInit, OnDestroy {
       .subscribe((value) => {
         this.dragAndDropLabel = value;
       });
-    this.initImages();
     this.initForm();
+    this.initImages();
+    this.checkMode();
     this.localeStorageService.firstNameBehaviourSubject.pipe(takeUntil(this.unsubscribe)).subscribe((firstName) => {
       this.name = firstName;
     });
@@ -63,6 +67,29 @@ export class AddViolationsComponent implements OnInit, OnDestroy {
       violationLevel: ['LOW', [Validators.required]],
       violationDescription: ['', [Validators.required, Validators.minLength(5), Validators.maxLength(255)]]
     });
+  }
+
+  private checkMode() {
+    if (this.viewMode) {
+      this.isLoading = true;
+      this.orderService
+        .getViolationOfCurrentOrder(this.orderId)
+        .pipe(takeUntil(this.unsubscribe))
+        .subscribe((violation) => {
+          this.addViolationForm.setValue({
+            violationLevel: violation.violationLevel,
+            violationDescription: violation.description
+          });
+          this.addViolationForm.controls.violationLevel.disable();
+          this.addViolationForm.controls.violationDescription.disable();
+          const images = violation.images.map((url) => {
+            return { src: url, label: null, name: null };
+          });
+          this.images.splice(0, violation.images.length, ...images);
+          this.date = violation.violationDate;
+          this.isLoading = false;
+        });
+    }
   }
 
   prepareDataToSend(dto: string, image?: string): FormData {

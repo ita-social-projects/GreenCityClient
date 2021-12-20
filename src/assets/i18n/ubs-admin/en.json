@@ -65,11 +65,14 @@
     }
   },
   "add-violation-modal": {
+    "violation": "Violation",
     "add-violation": "Add violation",
+    "order": "Order",
     "level-of-violation": "Select the level of violation",
     "easy-violation": "Mild",
     "serious-violation": "Serious",
     "description": "Describe, what happened",
+    "violation-details": "Violation details",
     "description-error-message": "The number of characters must be between 5 and 255",
     "placeholder": "Any details you would like to report further regarding this order",
     "label-for-photo-container": "Photos of the violation",

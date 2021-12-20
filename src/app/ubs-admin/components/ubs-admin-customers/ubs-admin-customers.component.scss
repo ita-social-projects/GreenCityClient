@@ -18,11 +18,8 @@
   min-width: 48px;
   overflow: hidden;
   word-wrap: break-word;
-  white-space: nowrap;
   overflow-wrap: break-word;
   flex: none;
-  display: block;
-  line-height: 2.8;
 }
 
 .mat-row {
@@ -47,7 +44,6 @@
   cursor: col-resize;
   overflow-wrap: break-word !important;
   word-wrap: break-word !important;
-  white-space: nowrap !important;
 }
 
 .mat-header-cell:first-of-type,
