@@ -26,9 +26,13 @@
           (click)="column.title.key === 'orderId' && openOrder(row[column.title.key])"
         >
           <span>{{ row[column.title.key] }}</span>
-          <mat-icon *ngIf="switchViewButton === row.orderId && column.title.key === 'violationLevel'" (click)="openModal(row)"
-            >visibility</mat-icon
+          <mat-icon
+            class="visibility-icon"
+            *ngIf="switchViewButton === row.orderId && column.title.key === 'violationLevel'"
+            (click)="openModal(row)"
           >
+            visibility
+          </mat-icon>
         </div>
       </td>
     </ng-container>

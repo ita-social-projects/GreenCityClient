@@ -112,6 +112,10 @@
   text-overflow: ellipsis;
   padding: 0 20px;
   width: fit-content;
+
+  .visibility-icon {
+    cursor: pointer;
+  }
 }
 
 .lowViolation {
