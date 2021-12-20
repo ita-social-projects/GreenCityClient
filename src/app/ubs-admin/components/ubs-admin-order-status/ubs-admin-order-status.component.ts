@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, OnDestroy, OnInit, Output } from '@angular/core';
+import { Component, EventEmitter, Input, OnDestroy, OnInit, Output, OnChanges, SimpleChanges } from '@angular/core';
 import { FormGroup } from '@angular/forms';
 import { Subject } from 'rxjs';
 import { take } from 'rxjs/operators';
@@ -12,7 +12,7 @@ import { AddOrderCancellationReasonComponent } from '../add-order-cancellation-r
   templateUrl: './ubs-admin-order-status.component.html',
   styleUrls: ['./ubs-admin-order-status.component.scss']
 })
-export class UbsAdminOrderStatusComponent implements OnInit, OnDestroy {
+export class UbsAdminOrderStatusComponent implements OnChanges, OnInit, OnDestroy {
   @Input() currentOrderPrice: number;
   @Input() orderStatusForm: FormGroup;
   @Input() totalPaid: number;
@@ -23,6 +23,12 @@ export class UbsAdminOrderStatusComponent implements OnInit, OnDestroy {
   private destroy$: Subject<boolean> = new Subject<boolean>();
 
   public availableOrderStatuses;
+
+  ngOnChanges(changes: SimpleChanges): void {
+    if (changes.currentOrderPrice || changes.totalPaid) {
+      this.setOrderPaymentStatus();
+    }
+  }
 
   ngOnInit() {
     this.availableOrderStatuses = this.orderService.getAvailableOrderStatuses(
@@ -58,7 +64,7 @@ export class UbsAdminOrderStatusComponent implements OnInit, OnDestroy {
       });
   }
 
-  public setOrderPaymentStatus(status: string) {
+  public setOrderPaymentStatus() {
     let orderState: string;
     this.generalOrderInfo.orderStatusesDtos.find((status) => {
       if (status.key === this.generalOrderInfo.orderStatus) {
@@ -69,49 +75,43 @@ export class UbsAdminOrderStatusComponent implements OnInit, OnDestroy {
     if (orderState === 'confirmed') {
       const confirmedPaidCondition1 = this.currentOrderPrice > 0 && this.totalPaid > 0 && this.currentOrderPrice <= this.totalPaid;
       const confirmedPaidCondition2 = this.currentOrderPrice === 0 && this.totalPaid >= 0 && this.currentOrderPrice <= this.totalPaid;
-      let confirmedPaidCondition = confirmedPaidCondition1 || confirmedPaidCondition2;
+      const confirmedPaidCondition = confirmedPaidCondition1 || confirmedPaidCondition2;
 
       const confirmedUnpaidCondition = this.currentOrderPrice > 0 && this.totalPaid === 0;
       const confirmedHalfPaidCondition = this.currentOrderPrice > 0 && this.totalPaid > 0 && this.currentOrderPrice > this.totalPaid;
 
       if (confirmedPaidCondition) {
         this.generalOrderInfo.orderPaymentStatusName = 'PAID';
-        return this.generalOrderInfo.orderPaymentStatusName === status;
       }
 
       if (confirmedUnpaidCondition) {
         this.generalOrderInfo.orderPaymentStatusName = 'UNPAID';
-        return this.generalOrderInfo.orderPaymentStatusName === status;
       }
 
       if (confirmedHalfPaidCondition) {
         this.generalOrderInfo.orderPaymentStatusName = 'HALF_PAID';
-        return this.generalOrderInfo.orderPaymentStatusName === status;
       }
     } else if (orderState === 'actual') {
       const actualPaidCondition1 = this.currentOrderPrice > 0 && this.totalPaid > 0 && this.currentOrderPrice <= this.totalPaid;
       const actualPaidCondition2 = this.currentOrderPrice === 0 && this.totalPaid >= 0 && this.currentOrderPrice <= this.totalPaid;
-      let actualPaidCondition = actualPaidCondition1 || actualPaidCondition2;
+      const actualPaidCondition = actualPaidCondition1 || actualPaidCondition2;
 
       const actualUnpaidCondition = this.currentOrderPrice === 0 && this.totalPaid === 0;
       const actualHalfPaidCondition = this.currentOrderPrice > 0 && this.totalPaid >= 0 && this.currentOrderPrice > this.totalPaid;
 
       if (actualPaidCondition) {
         this.generalOrderInfo.orderPaymentStatusName = 'PAID';
-        return this.generalOrderInfo.orderPaymentStatusName === status;
       }
 
       if (actualUnpaidCondition) {
         this.generalOrderInfo.orderPaymentStatusName = 'UNPAID';
-        return this.generalOrderInfo.orderPaymentStatusName === status;
       }
 
       if (actualHalfPaidCondition) {
         this.generalOrderInfo.orderPaymentStatusName = 'HALF_PAID';
-        return this.generalOrderInfo.orderPaymentStatusName === status;
       }
 
-      // TODO: PAYMENT_REFUNDED CASE
+      // TODO: ADD PAYMENT_REFUNDED CASE THEN IT WILL BE IMPLEMENTED
     }
   }
 
