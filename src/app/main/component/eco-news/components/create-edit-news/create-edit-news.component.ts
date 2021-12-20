@@ -243,7 +243,7 @@ export class CreateEditNewsComponent extends FormBaseComponent implements OnInit
     }
   }
 
-  public sendData(text): void {
+  public sendData(text: string): void {
     this.form.value.content = text;
     this.createEcoNewsService
       .sendFormData(this.form)
@@ -280,13 +280,13 @@ export class CreateEditNewsComponent extends FormBaseComponent implements OnInit
     }
   }
 
-  public escapeFromCreatePage() {
+  public escapeFromCreatePage(): void {
     this.isPosting = false;
     this.allowUserEscape();
     this.router.navigate(['/news']).catch((err) => console.error(err));
   }
 
-  public editData(text): void {
+  public editData(text: string): void {
     const dataToEdit = {
       ...this.form?.value,
       id: this.newsId
