@@ -178,7 +178,7 @@ export interface UserViolations {
 }
 
 export interface UserProfile {
-  addressDto: Address;
+  addressDto: Address[];
   recipientEmail: string;
   recipientName: string;
   recipientPhone: string;
@@ -192,6 +192,7 @@ export interface Address {
     latitude?: number;
     longitude?: number;
   };
+  region: string;
   district: string;
   entranceNumber: string;
   houseCorpus: string;

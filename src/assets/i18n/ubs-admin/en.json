@@ -11,6 +11,7 @@
     "phone": "phone",
     "address": "Address",
     "city": "City",
+    "region": "Region",
     "street": "Street",
     "house": "House",
     "corpus": "Corpus",
