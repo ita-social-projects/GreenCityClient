@@ -7,10 +7,19 @@
 }
 
 .mat-header-cell {
+  width: 200px;
   background-color: var(--ubs-primary-grey);
   color: var(--ubs-primary-white);
   font-family: var(--primary-font);
   border: 1px solid var(--ubs-primary-light-grey);
+  text-align: center;
+  font-size: 14px;
+  min-height: 39px;
+  min-width: 48px;
+  overflow: hidden;
+  word-wrap: break-word;
+  overflow-wrap: break-word;
+  flex: none;
 }
 
 .mat-row {
@@ -33,6 +42,8 @@
   min-height: 39px !important;
   align-items: unset !important;
   cursor: col-resize;
+  overflow-wrap: break-word !important;
+  word-wrap: break-word !important;
 }
 
 .mat-header-cell:first-of-type,

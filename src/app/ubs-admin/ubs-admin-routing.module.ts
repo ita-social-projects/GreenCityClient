@@ -1,3 +1,4 @@
+import { UbsAdminCustomerViolationsComponent } from './components/ubs-admin-customers/ubs-admin-customer-violations/ubs-admin-customer-violations/ubs-admin-customer-violations.component';
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { UbsAdminEmployeeComponent } from './components/ubs-admin-employee/ubs-admin-employee.component';
@@ -10,6 +11,7 @@ import { UbsAdminCustomersComponent } from './components/ubs-admin-customers/ubs
 import { UbsAdminTariffsLocationDashboardComponent } from './components/ubs-admin-tariffs/ubs-admin-tariffs-location-dashboard.component';
 import { UbsAdminTariffsPricingPageComponent } from './components/ubs-admin-tariffs/ubs-admin-tariffs-pricing-page/ubs-admin-tariffs-pricing-page.component';
 import { UbsAdminCustomerDetailsComponent } from './components/ubs-admin-customers/ubs-admin-customer-details/ubs-admin-customer-details.component';
+import { UbsAdminCustomerOrdersComponent } from './components/ubs-admin-customers/ubs-admin-customer-orders/ubs-admin-customer-orders.component';
 
 const ubsAdminRoutes: Routes = [
   {
@@ -23,7 +25,9 @@ const ubsAdminRoutes: Routes = [
       { path: 'orders', component: UbsAdminTableComponent },
       { path: 'employee/:page', component: UbsAdminEmployeeComponent },
       { path: 'tariffs', component: UbsAdminTariffsLocationDashboardComponent },
-      { path: `tariffs/location/:id`, component: UbsAdminTariffsPricingPageComponent }
+      { path: `tariffs/location/:id`, component: UbsAdminTariffsPricingPageComponent },
+      { path: `customerOrders/:id`, component: UbsAdminCustomerOrdersComponent },
+      { path: `customerViolations/:id`, component: UbsAdminCustomerViolationsComponent }
     ]
   },
   { path: 'order/:id', component: UbsAdminOrderComponent }

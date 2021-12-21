@@ -28,7 +28,7 @@
     <div class="order_sum">{{ order.orderDiscountedPrice | currency | localizedCurrency }}</div>
     <div class="btns_group">
       <div *ngIf="isOrderFormed(order)" class="btn_grid_cancel">
-        <button class="btn_cancel" (click)="deleteCard(order.generalOrderInfo.id)">{{ 'user-orders.btn.cancel' | translate }}</button>
+        <button class="btn_cancel" (click)="openOrderCancelDialog(order)">{{ 'user-orders.btn.cancel' | translate }}</button>
       </div>
       <div *ngIf="isOrderUnpaid(order)" class="btn_grid_pay">
         <button class="btn_pay" (click)="openOrderPaymentDialog(order)">{{ 'user-orders.btn.pay' | translate }}</button>

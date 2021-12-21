@@ -62,14 +62,25 @@
         "cancel": "Відмінити",
         "active": "Активувати"
       }
+    },
+    "cancel-modal": {
+      "warning": "У разі скасування дане замовлення буде видалено.",
+      "question": "Чи дійсно Ви бажаєте скасувати замовлення?",
+      "disagree": "Ні",
+      "agree": "Так"
     }
   },
   "add-violation-modal": {
+    "violation": "Порушення",
     "add-violation": "Додати порушення",
+    "order": "Замовлення",
     "level-of-violation": "Оберіть ступінь порушення",
     "easy-violation": "Легке",
     "serious-violation": "Серйозне",
     "description": "Опишіть, що сталося",
+    "violation-details": "Деталі порушення",
+    "description-error-message": "Кількість символів повинна бути між 5 і 255",
+    "label-for-photo-container": "Фото порушення",
     "placeholder": "Будь-які деталі, які Ви хотіли б повідомити додатково щодо цього замовлення",
     "label-for-photo": "Фотографії порушення",
     "requirement": "Ви можете завантажити зображення у форматі PNG чи JPG розміром до 10MБ",
@@ -115,6 +126,11 @@
       "back": "Назад",
       "cancel": "Скасувати",
       "save": "Зберегти"
+    },
+    "title": "Обрати час вивезення",
+    "export-time": {
+      "from": "З",
+      "to": "До"
     }
   },
   "order-cancel": {
@@ -198,6 +214,7 @@
     "cost": "Вартість за одиницю",
     "done-after-himself": "Списання на станції сортування",
     "planned-amount": "Планована к-ть",
+    "additional-orders": "Додати ще номер замовлення",
     "approved-amount": "Підтверджена к-ть",
     "exported-amount": "Вивезена к-ть",
     "bags-amount": "Загальна кількість пакетів",
@@ -310,7 +327,6 @@
     "order-date": "Дата",
     "order-payment-status": "Статус оплати",
     "payment-amount": "Сума до оплати",
-
     "btn": {
       "cancel": "Скасувати",
       "pay": "Оплатити",
@@ -332,11 +348,15 @@
       "bonuses": "Бонуси:",
       "amount-due": "Сума до оплати:",
       "services-amount": "Сума наданих послуг:",
+      "paid-amount": "Оплачено:",
       "delivery": "Доставка з Еко магазину",
       "order-number": "Номери ваших замовлень:",
       "recipient": "Відправник",
       "export-address": "Адреса вивезення замовленних послуг",
-      "comment": "Коментар:",
+      "block-number": "корп. ",
+      "entrance": "п. ",
+      "comment-address": "Коментар до адреси:",
+      "comment-order": "Коментар до замовлення:",
       "receipt": "Завантажити квитанцію"
     }
   },
@@ -399,6 +419,9 @@
     "messages": "Повідомлення"
   },
   "ubs-tariffs": {
+    "active-header": "Активовані локації",
+    "disabled-header": "Деактивовані локації",
+    "courier-header": "Кур'єри",
     "services": "Сервіси",
     "name_of_the_service": "Найменування послуги",
     "capacity": "Об’єм",
@@ -421,8 +444,21 @@
       "add_service": "Додати сервіс",
       "add_service2": "Додати послугу",
       "save_changes": "Зберегти зміни",
-      "add_carrier": "Додати перевізника"
+      "add_carrier": "Додати перевізника",
+      "add_location": "Додати локацію",
+      "add_courier": "Додати кур'єра"
     }
+  },
+  "ubs-tariffs-add-location-pop-up": {
+    "title": "Виберіть локацію",
+    "region": "Виберіть область",
+    "locality": "Виберіть населений пункт",
+    "hint": "Введіть мінімум перші три букви міста та виберіть необхідне з запропонованого списку",
+    "add_button": "Додати до списку",
+    "cancel_button": "Скасувати",
+    "error_message": "За вашим запитом нічого не знайдено. Спробуйте ввести мінімум перших три букви назви і вибрати місто з запропонованих варіантів",
+    "courier_title": "Виберіть кур'єра",
+    "courier_name": "Виберіть імя кур'єра"
   },
   "ubs-tariffs-add-service": {
     "add_service": "Додати послугу",

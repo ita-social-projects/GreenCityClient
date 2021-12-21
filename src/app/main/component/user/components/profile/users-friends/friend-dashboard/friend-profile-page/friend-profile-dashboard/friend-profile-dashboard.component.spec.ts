@@ -3,6 +3,7 @@ import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { ActivatedRoute, Router } from '@angular/router';
 import { UserFriendsService } from '@global-user/services/user-friends.service';
 import { TranslateModule } from '@ngx-translate/core';
+import { InfiniteScrollModule } from 'ngx-infinite-scroll';
 import { of, Subject } from 'rxjs';
 import { FriendProfileDashboardComponent } from './friend-profile-dashboard.component';
 
@@ -57,7 +58,7 @@ describe('FriendProfileDashboardComponent', () => {
         { provide: ActivatedRoute, useValue: activatedRouteMock },
         { provide: Router, useValue: {} }
       ],
-      imports: [TranslateModule.forRoot()],
+      imports: [TranslateModule.forRoot(), InfiniteScrollModule],
       schemas: [CUSTOM_ELEMENTS_SCHEMA]
     }).compileComponents();
   }));

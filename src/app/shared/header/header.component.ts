@@ -17,6 +17,7 @@ import { environment } from '@environment/environment';
 import { Subject } from 'rxjs';
 import { MatDialog } from '@angular/material/dialog';
 import { HeaderService } from '@global-service/header/header.service';
+import { OrderService } from 'src/app/main/component/ubs/services/order.service';
 
 @Component({
   selector: 'app-header',
@@ -62,6 +63,7 @@ export class HeaderComponent implements OnInit, OnDestroy {
   private searchSearch: SearchService;
   private userOwnAuthService: UserOwnAuthService;
   private headerService: HeaderService;
+  private orderService: OrderService;
 
   constructor(private injector: Injector) {
     this.dialog = injector.get(MatDialog);
@@ -75,6 +77,7 @@ export class HeaderComponent implements OnInit, OnDestroy {
     this.searchSearch = injector.get(SearchService);
     this.userOwnAuthService = injector.get(UserOwnAuthService);
     this.headerService = injector.get(HeaderService);
+    this.orderService = injector.get(OrderService);
   }
 
   ngOnInit() {
@@ -269,6 +272,7 @@ export class HeaderComponent implements OnInit, OnDestroy {
     this.habitStatisticService.onLogout();
     this.achievementService.onLogout();
     this.router.navigateByUrl(this.isUBS ? '/ubs' : '/').then((r) => r);
+    this.orderService.cancelUBSwithoutSaving();
     this.userOwnAuthService.getDataFromLocalStorage();
     this.jwtService.userRole$.next('');
   }

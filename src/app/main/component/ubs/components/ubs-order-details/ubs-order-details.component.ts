@@ -1,7 +1,7 @@
 import { Subject } from 'rxjs';
 import { Router } from '@angular/router';
 import { take, takeUntil } from 'rxjs/operators';
-import { MatDialog } from '@angular/material/dialog';
+import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
 import { Component, OnDestroy, OnInit, Renderer2 } from '@angular/core';
 import { FormBaseComponent } from '@shared/components/form-base/form-base.component';
 import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
@@ -10,6 +10,7 @@ import { OrderService } from '../../services/order.service';
 import { UBSOrderFormService } from '../../services/ubs-order-form.service';
 import { Bag, FinalOrder, Locations, OrderDetails } from '../../models/ubs.interface';
 import { UbsOrderLocationPopupComponent } from './ubs-order-location-popup/ubs-order-location-popup.component';
+import { ExtraPackagesPopUpComponent } from './extra-packages-pop-up/extra-packages-pop-up.component';
 
 @Component({
   selector: 'app-ubs-order-details',
@@ -76,7 +77,7 @@ export class UBSOrderDetailsComponent extends FormBaseComponent implements OnIni
       isUBS: true
     }
   };
-  public locations: Locations[];
+  public locations: any[];
   public selectedLocationId: number;
   public currentLocation: string;
   public isFetching = false;
@@ -107,7 +108,6 @@ export class UBSOrderDetailsComponent extends FormBaseComponent implements OnIni
     } else {
       this.openLocationDialog();
     }
-    localStorage.removeItem('UBSorderData');
     this.orderService.locationSubject.pipe(takeUntil(this.destroy)).subscribe(() => {
       this.takeOrderData();
       this.subscribeToLangChange();
@@ -137,7 +137,9 @@ export class UBSOrderDetailsComponent extends FormBaseComponent implements OnIni
   }
 
   private setCurrentLocation(currentLanguage: string): void {
-    this.currentLocation = this.locations.find((loc) => loc.id === this.selectedLocationId && loc.languageCode === currentLanguage).name;
+    this.currentLocation = this.locations
+      .find((loc: any) => loc.locationsDtos[0].locationId === this.selectedLocationId)
+      .locationsDtos[0].locationTranslationDtoList.find((lang) => lang.languageCode === currentLanguage).locationName;
   }
 
   getFormValues(): boolean {
@@ -455,6 +457,11 @@ export class UBSOrderDetailsComponent extends FormBaseComponent implements OnIni
     this.finalSum = newItem.finalSum;
     this.isBonus = newItem.isBonus;
     this.certificateSum = newItem.certificateSum;
+  }
+
+  openExtraPackages(): void {
+    const dialogConfig = new MatDialogConfig();
+    this.dialog.open(ExtraPackagesPopUpComponent, dialogConfig);
   }
 
   ngOnDestroy() {

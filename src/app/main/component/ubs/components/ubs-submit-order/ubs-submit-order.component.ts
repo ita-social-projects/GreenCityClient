@@ -116,7 +116,8 @@ export class UBSSubmitOrderComponent extends FormBaseComponent implements OnInit
       addressComment: data.addressComment,
       city: data.addressCity,
       district: data.addressDistrict,
-      street: data.addressStreet
+      street: data.addressStreet,
+      region: data.addressRegion
     };
   }
 
@@ -126,6 +127,7 @@ export class UBSSubmitOrderComponent extends FormBaseComponent implements OnInit
       2282,
       this.orderBags,
       this.orderDetails.certificates,
+      1,
       this.orderDetails.orderComment,
       this.personalData,
       this.orderDetails.pointsToUse,

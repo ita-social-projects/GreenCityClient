@@ -11,8 +11,8 @@
         </div>
         <div *ngIf="changeLocation" class="list-locations">
           <select name="region" class="choose-location" [(ngModel)]="selectedLocationId" (ngModelChange)="saveLocation(true)">
-            <option [ngValue]="location.id" *ngFor="let location of locations | filterByLang">
-              {{ location.name }}
+            <option [ngValue]="location.locationsDtos[0].locationId" *ngFor="let location of locations | filterLocationListByLang">
+              {{ location.locationsDtos[0].locationTranslationDtoList[0].locationName }}
             </option>
           </select>
         </div>
@@ -164,7 +164,9 @@
       </div>
       <div class="bottom_comment">
         <div class="form-group comment">
-          <h3>{{ 'order-details.coment' | translate }}</h3>
+          <h3>{{ 'order-details.comment' | translate }}</h3>
+          <h5>{{ 'order-details.comment-subtitle' | translate }}</h5>
+          <p class="link" (click)="openExtraPackages()">{{ 'order-details.link' | translate }}</p>
           <textarea
             formControlName="orderComment"
             class="shadow-none form-control textarea"

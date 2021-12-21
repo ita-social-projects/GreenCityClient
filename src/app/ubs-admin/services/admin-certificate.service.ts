@@ -10,9 +10,9 @@ export class AdminCertificateService {
 
   constructor(private http: HttpClient) {}
 
-  getTable(column: string, page?: number, size?: number, sortingType?: string) {
+  getTable(column: string, page?: number, search?: string, size?: number, sortingType?: string) {
     return this.http.get<any[]>(
-      `${this.url}/getAllCertificates?columnName=${column}&page=${page}&size=${size}&sortingOrder=${sortingType}`
+      `${this.url}/getAllCertificates?pageNumber=${page}&pageSize=${size}&search=${search}&sortBy=${column}&sortDirection=${sortingType}`
     );
   }
 

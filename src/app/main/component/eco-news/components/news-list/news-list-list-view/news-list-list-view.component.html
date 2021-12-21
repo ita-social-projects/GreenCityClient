@@ -6,22 +6,20 @@
         {{ 'homepage.eco-news.tags.' + tag | lowercase | translate }}
       </p>
     </div>
-    <div>
+    <div class="eco-news_list-content-box">
       <div class="eco-news_list-content-title" #titleHeight>
         <p>
           {{ ecoNewsModel.title }}
         </p>
       </div>
-      <div class="eco-news_list-content-text" #textHeight>
-        <p>
-          {{ ecoNewsModel.text }}
-        </p>
+      <div class="eco-news_list-content-text ql-snow" #textHeight>
+        <div #ecoNewsText></div>
       </div>
     </div>
-    <div class="eco-news_list-autors">
+    <div class="eco-news_list-authors">
       <p class="eco-news_data-text-date">
         <img class="icon" [src]="profileIcons.calendarIcon" alt="calendar icon" />
-        {{ ecoNewsModel.creationDate | date: undefined:undefined:translate.defaultLang }}
+        <span class="text">{{ ecoNewsModel.creationDate | date: undefined:undefined:translate.defaultLang }}</span>
       </p>
       <p class="eco-news_person">
         <img class="icon" [src]="profileIcons.userIcon" alt="user icon" />

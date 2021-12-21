@@ -15,6 +15,9 @@ import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { of, Subject } from 'rxjs';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { UbsOrderLocationPopupComponent } from './ubs-order-location-popup/ubs-order-location-popup.component';
+import { IMaskModule } from 'angular-imask';
+import { InteractivityChecker } from '@angular/cdk/a11y';
+import { FilterLocationListByLangPipe } from 'src/app/shared/filter-location-list-by-lang/filter-location-list-by-lang.pipe';
 
 describe('OrderDetailsFormComponent', () => {
   let component: UBSOrderDetailsComponent;
@@ -28,7 +31,7 @@ describe('OrderDetailsFormComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [UBSOrderDetailsComponent, LocalizedCurrencyPipe, UbsOrderLocationPopupComponent],
+      declarations: [UBSOrderDetailsComponent, LocalizedCurrencyPipe, UbsOrderLocationPopupComponent, FilterLocationListByLangPipe],
       imports: [
         FormsModule,
         ReactiveFormsModule,
@@ -36,7 +39,8 @@ describe('OrderDetailsFormComponent', () => {
         TranslateModule.forRoot(),
         RouterTestingModule,
         MatDialogModule,
-        BrowserAnimationsModule
+        BrowserAnimationsModule,
+        IMaskModule
       ],
       providers: [
         { provide: MatDialogRef, useValue: {} },
@@ -44,7 +48,13 @@ describe('OrderDetailsFormComponent', () => {
         { provide: LocalStorageService, useValue: localStorageService }
       ],
       schemas: [CUSTOM_ELEMENTS_SCHEMA]
-    }).compileComponents();
+    })
+      .overrideProvider(InteractivityChecker, {
+        useValue: {
+          isFocusable: () => true
+        }
+      })
+      .compileComponents();
   }));
 
   beforeEach(() => {

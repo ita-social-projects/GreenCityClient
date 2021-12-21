@@ -17,6 +17,7 @@ import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
   styleUrls: ['./ubs-personal-information.component.scss']
 })
 export class UBSPersonalInformationComponent extends FormBaseComponent implements OnInit, OnDestroy, OnChanges {
+  locationId = 1;
   addressId: number;
   orderDetails: OrderDetails;
   personalData: PersonalData;
@@ -68,6 +69,9 @@ export class UBSPersonalInformationComponent extends FormBaseComponent implement
   }
 
   ngOnInit() {
+    if (localStorage.getItem('anotherClient')) {
+      this.anotherClient = JSON.parse(localStorage.getItem('anotherClient'));
+    }
     this.takeUserData();
     this.orderService.locationSub.subscribe((data) => {
       this.currentLocation = data;
@@ -92,13 +96,13 @@ export class UBSPersonalInformationComponent extends FormBaseComponent implement
       .subscribe((list) => {
         this.addresses = this.getLastAddresses(list.addressList);
         localStorage.setItem('addresses', JSON.stringify(this.addresses));
-
         this.personalDataForm.patchValue({
           address: this.addresses
         });
 
+        const addressId = JSON.parse(localStorage.getItem('addressId'));
         if (this.addresses[0] && isCheck) {
-          this.checkAddress(this.addresses[0].id);
+          this.checkAddress(addressId ?? this.addresses[0].id);
         }
       });
   }
@@ -148,7 +152,7 @@ export class UBSPersonalInformationComponent extends FormBaseComponent implement
         this.orderService.setCurrentAddress(address);
       }
     });
-
+    localStorage.setItem('addressId', JSON.stringify(addressId));
     this.changeAddressInPersonalData();
   }
 
@@ -156,12 +160,22 @@ export class UBSPersonalInformationComponent extends FormBaseComponent implement
     const activeAddress = this.addresses.find((address) => address.actual);
     this.personalData.city = activeAddress.city;
     this.personalData.district = activeAddress.district;
+    this.personalData.region = activeAddress.region;
     this.personalData.street = activeAddress.street;
     this.personalData.houseNumber = activeAddress.houseNumber;
     this.personalData.houseCorpus = activeAddress.houseCorpus;
     this.personalData.entranceNumber = activeAddress.entranceNumber;
     this.personalData.latitude = activeAddress.coordinates.latitude;
     this.personalData.longitude = activeAddress.coordinates.longitude;
+    this.shareFormService.saveDataOnLocalStorage();
+  }
+
+  changeAnotherClientInPersonalData() {
+    this.personalData.anotherClientFirstName = this.personalDataForm.get('anotherClientFirstName').value;
+    this.personalData.anotherClientLastName = this.personalDataForm.get('anotherClientLastName').value;
+    this.personalData.anotherClientEmail = this.personalDataForm.get('anotherClientEmail').value;
+    this.personalData.anotherClientPhoneNumber = this.personalDataForm.get('anotherClientPhoneNumber').value;
+    this.shareFormService.saveDataOnLocalStorage();
   }
 
   setFormData(): void {
@@ -170,6 +184,10 @@ export class UBSPersonalInformationComponent extends FormBaseComponent implement
       lastName: this.personalData.lastName,
       email: this.personalData.email,
       phoneNumber: '380' + this.personalData.phoneNumber,
+      anotherClientFirstName: this.personalData.anotherClientFirstName,
+      anotherClientLastName: this.personalData.anotherClientLastName,
+      anotherClientEmail: this.personalData.anotherClientEmail,
+      anotherClientPhoneNumber: this.personalData.anotherClientPhoneNumber,
       addressComment: this.addresses.length > 0 ? this.personalData.addressComment : ''
     });
   }
@@ -185,6 +203,7 @@ export class UBSPersonalInformationComponent extends FormBaseComponent implement
       anotherClientLastName.setValidators(this.personalDataFormValidators);
       anotherClientPhoneNumber.setValidators([Validators.required, Validators.minLength(12)]);
       anotherClientPhoneNumber.setValue('+380');
+      localStorage.setItem('anotherClient', JSON.stringify(true));
     } else {
       anotherClientFirstName.setValue('');
       anotherClientFirstName.clearValidators();
@@ -193,10 +212,12 @@ export class UBSPersonalInformationComponent extends FormBaseComponent implement
       anotherClientPhoneNumber.setValue('');
       anotherClientPhoneNumber.clearValidators();
       anotherClientEmail.setValue('');
+      localStorage.removeItem('anotherClient');
     }
     anotherClientFirstName.updateValueAndValidity();
     anotherClientLastName.updateValueAndValidity();
     anotherClientPhoneNumber.updateValueAndValidity();
+    this.changeAnotherClientInPersonalData();
   }
 
   editAddress(addressId: number) {
@@ -280,13 +301,14 @@ export class UBSPersonalInformationComponent extends FormBaseComponent implement
     this.personalData.anotherClientFirstName = this.personalDataForm.get('anotherClientFirstName').value;
     this.personalData.anotherClientLastName = this.personalDataForm.get('anotherClientLastName').value;
     this.personalData.anotherClientEmail = this.personalDataForm.get('anotherClientEmail').value;
-    this.personalData.anotherClientPhoneNumber = this.personalDataForm.get('anotherClientPhoneNumber').value.slice(3);
+    this.personalData.anotherClientPhoneNumber = this.personalDataForm.get('anotherClientPhoneNumber').value;
     this.personalData.addressComment = this.personalDataForm.get('addressComment').value;
     this.order = new Order(
       this.shareFormService.orderDetails.additionalOrders,
       this.addressId,
       orderBags,
       this.shareFormService.orderDetails.certificates,
+      this.locationId,
       this.shareFormService.orderDetails.orderComment,
       this.personalData,
       this.shareFormService.orderDetails.pointsToUse,

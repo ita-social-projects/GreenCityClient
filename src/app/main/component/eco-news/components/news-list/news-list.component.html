@@ -3,7 +3,7 @@
     <div (window:resize)="onResize()">
       <div class="cont">
         <h1 class="main-header">{{ 'homepage.eco-news.title' | translate }}</h1>
-        <a [routerLink]="['create-news']" *ngIf="isLoggedIn">
+        <a class="create" [routerLink]="['create-news']" *ngIf="isLoggedIn">
           <div id="create-button" class="secondary-global-button">
             <span id="create-button-text">{{ 'homepage.eco-news.create' | translate }}</span>
           </div>
