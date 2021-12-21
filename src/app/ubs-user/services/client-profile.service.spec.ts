@@ -57,7 +57,7 @@ describe('ClientProfileService', () => {
       expect(data).toBe(clientMock);
     });
     const req = httpMock.expectOne(`${mainUbsLink}/ubs/userProfile/user/update`);
-    expect(req.request.method).toBe('POST');
+    expect(req.request.method).toBe('PUT');
     req.flush(clientMock);
   });
 });

@@ -143,7 +143,7 @@ describe('UbsUserProfilePageComponent', () => {
     fixture.detectChanges();
     const formElement = fixture.debugElement.nativeElement.querySelector('form');
     const inputElements = formElement.querySelectorAll('input');
-    expect(inputElements.length).toBe(10);
+    expect(inputElements.length).toBe(11);
   }));
 
   it('method onSubmit has to be called by clicking submit button', fakeAsync(() => {

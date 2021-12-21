@@ -61,43 +61,45 @@
           </div>
           <div class="address" formArrayName="address" *ngFor="let address of userForm.controls.address['controls']; let i = index">
             <h5>{{ 'ubs-client-profile.address' | translate }} №{{ i + 1 }}</h5>
-            <div class="region inline">
-              <div class="form-group col-sm-4" formGroupName="{{ i }}">
-                <label for="city" class="form-label">{{ 'ubs-client-profile.city' | translate }}</label>
-                <input *ngIf="isEditing" type="text" class="form-control" id="city" formControlName="city" />
-                <p *ngIf="!isEditing">{{ address.value?.city }}</p>
+            <div formGroupName="{{ i }}">
+              <div class="region inline">
+                <div class="form-group col-sm-4">
+                  <label for="city" class="form-label">{{ 'ubs-client-profile.city' | translate }}</label>
+                  <input *ngIf="isEditing" type="text" class="form-control" id="city" formControlName="city" />
+                  <p *ngIf="!isEditing">{{ address.value?.city }}</p>
+                </div>
+                <div class="form-group col-sm-4">
+                  <label for="region" class="form-label">{{ 'ubs-client-profile.region' | translate }}</label>
+                  <input *ngIf="isEditing" type="text" class="form-control" id="region" formControlName="region" />
+                  <p *ngIf="!isEditing">{{ address.value?.region }}</p>
+                </div>
+                <div class="form-group col-sm-3">
+                  <label for="district" class="form-label">{{ 'ubs-client-profile.district' | translate }}</label>
+                  <input *ngIf="isEditing" type="text" class="form-control" id="district" formControlName="district" />
+                  <p *ngIf="!isEditing">{{ address.value?.district }}</p>
+                </div>
               </div>
-              <div class="form-group col-sm-4" formGroupName="{{ i }}">
-                <label for="region" class="form-label">{{ 'ubs-client-profile.region' | translate }}</label>
-                <input *ngIf="isEditing" type="text" class="form-control" id="region" formControlName="region" />
-                <p *ngIf="!isEditing">{{ address.value?.region }}</p>
-              </div>
-              <div class="form-group col-sm-3" formGroupName="{{ i }}">
-                <label for="district" class="form-label">{{ 'ubs-client-profile.district' | translate }}</label>
-                <input *ngIf="isEditing" type="text" class="form-control" id="district" formControlName="district" />
-                <p *ngIf="!isEditing">{{ address.value?.district }}</p>
-              </div>
-            </div>
-            <div class="house">
-              <div class="form-group col-sm-4" formGroupName="{{ i }}">
-                <label for="street" class="form-label">{{ 'ubs-client-profile.street' | translate }}</label>
-                <input *ngIf="isEditing" type="text" class="form-control" id="street" formControlName="street" />
-                <p *ngIf="!isEditing">{{ address.value?.street }}</p>
-              </div>
-              <div class="form-group col-sm-2" formGroupName="{{ i }}">
-                <label for="houseNumber" class="form-label">{{ 'ubs-client-profile.house' | translate }}</label>
-                <input *ngIf="isEditing" type="text" class="form-control" id="houseNumber" formControlName="houseNumber" />
-                <p *ngIf="!isEditing">{{ address.value?.houseNumber }}</p>
-              </div>
-              <div class="form-group col-sm-2" formGroupName="{{ i }}">
-                <label for="houseCorpus" class="form-label">{{ 'ubs-client-profile.corpus' | translate }}</label>
-                <input *ngIf="isEditing" type="text" class="form-control" id="houseCorpus" formControlName="houseCorpus" />
-                <p *ngIf="!isEditing">{{ address.value?.houseCorpus }}</p>
-              </div>
-              <div class="form-group col-sm-2" formGroupName="{{ i }}">
-                <label for="entranceNumber" class="form-label">{{ 'ubs-client-profile.entrance' | translate }}</label>
-                <input *ngIf="isEditing" type="text" class="form-control" id="entranceNumber" formControlName="entranceNumber" />
-                <p *ngIf="!isEditing">{{ address.value?.entranceNumber }}</p>
+              <div class="house">
+                <div class="form-group col-sm-4">
+                  <label for="street" class="form-label">{{ 'ubs-client-profile.street' | translate }}</label>
+                  <input *ngIf="isEditing" type="text" class="form-control" id="street" formControlName="street" />
+                  <p *ngIf="!isEditing">{{ address.value?.street }}</p>
+                </div>
+                <div class="form-group col-sm-2">
+                  <label for="houseNumber" class="form-label">{{ 'ubs-client-profile.house' | translate }}</label>
+                  <input *ngIf="isEditing" type="text" class="form-control" id="houseNumber" formControlName="houseNumber" />
+                  <p *ngIf="!isEditing">{{ address.value?.houseNumber }}</p>
+                </div>
+                <div class="form-group col-sm-2">
+                  <label for="houseCorpus" class="form-label">{{ 'ubs-client-profile.corpus' | translate }}</label>
+                  <input *ngIf="isEditing" type="text" class="form-control" id="houseCorpus" formControlName="houseCorpus" />
+                  <p *ngIf="!isEditing">{{ address.value?.houseCorpus }}</p>
+                </div>
+                <div class="form-group col-sm-2">
+                  <label for="entranceNumber" class="form-label">{{ 'ubs-client-profile.entrance' | translate }}</label>
+                  <input *ngIf="isEditing" type="text" class="form-control" id="entranceNumber" formControlName="entranceNumber" />
+                  <p *ngIf="!isEditing">{{ address.value?.entranceNumber }}</p>
+                </div>
               </div>
             </div>
           </div>
