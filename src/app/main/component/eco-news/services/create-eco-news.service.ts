@@ -80,7 +80,6 @@ export class CreateEcoNewsService {
 
     if (this.files.length !== 0) {
       body.image = this.files[0].url;
-      console.log(body.image);
     }
     this.files = [];
 

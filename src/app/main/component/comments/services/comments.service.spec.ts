@@ -153,7 +153,6 @@ describe('CommentsService', () => {
   it('should make DELETE request to deleteComments', () => {
     service.ecoNewsId = '1';
     service.deleteComments(1).subscribe((commentData: HttpResponse<any>) => {
-      console.log(commentData);
       expect(commentData.status).toEqual(200);
     });
 
