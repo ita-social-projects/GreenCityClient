@@ -99,7 +99,7 @@ $ubs-header-height: 80px;
 }
 
 .header_logo {
-  margin-right: 24px;
+  margin-right: 48px;
 }
 
 .header_navigation-menu-right-list {
@@ -171,21 +171,21 @@ $ubs-header-height: 80px;
 }
 
 .header_navigation-menu-left {
+  width: 100%;
+  max-width: 480px;
   display: none;
 
   ul {
+    list-style: none;
     margin: 0;
     padding: 0;
     display: flex;
     justify-content: space-between;
 
     li {
+      list-style-type: none;
       display: inline-block;
-      margin-left: 24px;
-
-      &:first-child {
-        margin-left: 0;
-      }
+      margin-right: 24px;
 
       a {
         font-size: 14px;
@@ -217,11 +217,14 @@ $ubs-header-height: 80px;
 .header_container {
   margin: 0;
   padding: 0;
+  //vertical-align: center;
   display: flex;
-  justify-content: space-between;
+  justify-content: center;
   align-items: center;
   width: 100%;
   height: 100%;
+  //grid-template-columns: 94px auto;
+  //column-gap: 55px;
 }
 
 .header-logo {
@@ -236,9 +239,12 @@ $ubs-header-height: 80px;
 
 .header_navigation-menu-ubs,
 .header_navigation-menu {
+  margin-right: 12px;
   display: flex;
   justify-content: space-between;
   align-items: center;
+  //width: 100%;
+  //height: $header-height;
   font-family: var(--primary-font);
 }
 
@@ -529,6 +535,11 @@ $ubs-header-height: 80px;
     height: 52px;
   }
 
+  .header_container {
+    //justify-content: space-between;
+    //grid-template-columns: 136px auto;
+  }
+
   .header_navigation-menu-right {
     .ubs-header-sign-in,
     .ubs-header_sign-up-btn,
@@ -551,10 +562,6 @@ $ubs-header-height: 80px;
 }
 
 @media (min-width: 992px) {
-  .header_navigation-menu {
-    width: 100%;
-  }
-
   .header_navigation-menu-left {
     display: block;
   }
