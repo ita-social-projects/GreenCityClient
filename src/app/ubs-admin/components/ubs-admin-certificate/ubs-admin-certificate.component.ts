@@ -10,6 +10,7 @@ import { TableHeightService } from '../../services/table-height.service';
 import { MatDialog, MatDialogConfig, MatDialogRef } from '@angular/material/dialog';
 import { UbsAdminCertificateAddCertificatePopUpComponent } from './ubs-admin-certificate-add-certificate-pop-up/ubs-admin-certificate-add-certificate-pop-up.component';
 import { UbsAdminTableExcelPopupComponent } from '../ubs-admin-table/ubs-admin-table-excel-popup/ubs-admin-table-excel-popup.component';
+import { columnsParamsCertificates } from '../ubs-admin-customers/columnsParams';
 import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
 
 @Component({
@@ -44,20 +45,27 @@ export class UbsAdminCertificateComponent implements OnInit, AfterViewChecked, O
   allElements: number;
   filterValue = '';
   modelChanged: Subject<string> = new Subject<string>();
+  currentLang: string;
   @ViewChild(MatSort, { static: true }) sort: MatSort;
 
   constructor(
     private adminCertificateService: AdminCertificateService,
     private tableHeightService: TableHeightService,
     public dialog: MatDialog,
+    private localStorageService: LocalStorageService,
     public dialogRef: MatDialogRef<UbsAdminCertificateAddCertificatePopUpComponent>
   ) {}
 
   ngOnInit() {
+    this.localStorageService.languageBehaviourSubject.pipe(takeUntil(this.destroy)).subscribe((lang) => {
+      this.currentLang = lang;
+    });
     this.modelChanged.pipe(debounceTime(500)).subscribe((model) => {
       this.currentPage = 0;
       this.getTable(model, this.sortingColumn, this.sortType);
     });
+    this.columns = columnsParamsCertificates;
+    this.setDisplayedColumns();
     this.getTable();
   }
 
@@ -80,7 +88,7 @@ export class UbsAdminCertificateComponent implements OnInit, AfterViewChecked, O
   setDisplayedColumns() {
     this.columns.forEach((column, index) => {
       column.index = index;
-      this.displayedColumns[index] = column.field;
+      this.displayedColumns[index] = column.title.key;
     });
   }
 
@@ -116,19 +124,6 @@ export class UbsAdminCertificateComponent implements OnInit, AfterViewChecked, O
         this.totalElements = item[`totalElements`];
         this.allElements = !this.allElements ? this.totalElements : this.allElements;
         this.dataSource = new MatTableDataSource(this.tableData);
-        const requiredColumns = [{ field: 'select', sticky: true }];
-        const dynamicallyColumns = [];
-        const arrayOfProperties = Object.keys(this.tableData[0]);
-        arrayOfProperties.forEach((property) => {
-          const objectOfValue = {
-            field: property,
-            sticky: false
-          };
-          dynamicallyColumns.push(objectOfValue);
-        });
-        this.columns = [].concat(requiredColumns, dynamicallyColumns);
-        this.setDisplayedColumns();
-        this.arrayOfHeaders = arrayOfProperties;
         this.isLoading = false;
         this.isTableHeightSet = false;
       });

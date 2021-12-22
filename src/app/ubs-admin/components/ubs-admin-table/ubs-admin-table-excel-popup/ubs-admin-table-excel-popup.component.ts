@@ -53,7 +53,7 @@ export class UbsAdminTableExcelPopupComponent implements OnInit {
           });
       }
       if (this.name === 'Customers-Table.xlsx') {
-        this.getCustomersTable(this.onePageForWholeTable, 'YuriiBoiko', this.sortType, 'recipientName')
+        this.getCustomersTable(this.onePageForWholeTable, this.allElements, '', 'ASC', 'clientName')
           .then((res) => {
             this.tableData = res[`page`];
           })
@@ -81,7 +81,7 @@ export class UbsAdminTableExcelPopupComponent implements OnInit {
           });
       }
       if (this.name === 'Customers-Table.xlsx') {
-        this.getCustomersTable(this.onePageForWholeTable, this.totalElements, '', 'recipientName')
+        this.getCustomersTable(this.onePageForWholeTable, this.totalElements, this.filterValue, this.sortType, this.sortingColumn)
           .then((res) => {
             this.tableData = res[`page`];
           })
@@ -112,8 +112,14 @@ export class UbsAdminTableExcelPopupComponent implements OnInit {
     return this.adminCertificateService.getTable(columnName, currentPage, search, pageSize, sortingType).toPromise();
   }
 
-  getCustomersTable(currentPage, filters, sortingType = this.sortType || 'DESC', columnName = this.sortingColumn || 'id') {
-    return this.adminCustomerService.getCustomers(columnName, currentPage, filters, sortingType).toPromise();
+  getCustomersTable(
+    currentPage,
+    pageSize,
+    filters = this.filterValue || '',
+    sortingType = this.sortType || 'ASC',
+    columnName = this.sortingColumn || 'clientName'
+  ) {
+    return this.adminCustomerService.getCustomers(columnName, currentPage, filters, pageSize, sortingType).toPromise();
   }
 
   createXLSX() {

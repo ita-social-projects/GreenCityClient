@@ -13,8 +13,16 @@ export class AdminCustomersService {
 
   constructor(private http: HttpClient) {}
 
-  getCustomers(column: string, page?: number, filters?: string, sortingType?: string): Observable<ICustomersTable> {
-    return this.http.get<ICustomersTable>(`${this.url}/usersAll?page=${page}&columnName=${column}&${filters}&sortingOrder=${sortingType}`);
+  getCustomers(
+    column: string,
+    pageNumber?: number,
+    filters?: string,
+    pageSize?: number,
+    sortingType?: string
+  ): Observable<ICustomersTable> {
+    return this.http.get<ICustomersTable>(
+      `${this.url}/usersAll?pageNumber=${pageNumber}&pageSize=${pageSize}&columnName=${column}&search=${filters}&sortingOrder=${sortingType}`
+    );
   }
 
   getCustomerOrders(id: string, page: number, column: string, sortingType: string): Observable<ICustomerOrdersTable> {

@@ -3,7 +3,7 @@ import { TestBed } from '@angular/core/testing';
 import { AdminCustomersService } from './admin-customers.service';
 import { ICustomersTable } from '../models/customers-table.model';
 
-describe('AdminCertificateService', () => {
+describe('AdminCustomersService', () => {
   let httpMock: HttpTestingController;
   let service: AdminCustomersService;
   let fakeResponse: ICustomersTable;
@@ -27,17 +27,17 @@ describe('AdminCertificateService', () => {
 
   it('should return customers table', () => {
     fakeResponse = {
-      currentPage: 1,
+      currentPage: 0,
       page: ['fake'],
-      totalElements: 2,
+      totalElements: 10,
       totalPages: 3
     };
-    service.getCustomers('code', 0, 'DESC').subscribe((data) => {
+    service.getCustomers('code', 0, '', 10, 'ASC').subscribe((data) => {
       expect(data).toBeDefined();
       expect(data).toEqual(fakeResponse);
     });
-    const req = httpMock.expectOne(`${urlMock}/usersAll?page=0&columnName=code&DESC&sortingOrder=undefined`);
-    req.flush(fakeResponse);
+    const req = httpMock.expectOne(`${urlMock}/usersAll?pageNumber=0&pageSize=10&columnName=code&search=&sortingOrder=ASC`);
     expect(req.request.method).toBe('GET');
+    req.flush(fakeResponse);
   });
 });
