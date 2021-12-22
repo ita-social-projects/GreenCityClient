@@ -34,6 +34,12 @@
   margin-bottom: 10px;
 }
 
+.person-name {
+  display: grid;
+  grid-template-rows: 1fr 1fr;
+  grid-template-columns: 1fr 1fr;
+}
+
 .btn {
   color: var(--ubs-primary-green);
   background: var(--ubs-primary-white);
@@ -67,4 +73,31 @@ input {
   input {
     width: 340px;
   }
+}
+
+.empty_card {
+  padding-top: 20px;
+  padding-bottom: 20px;
+
+  h3 {
+    display: inline;
+  }
+
+  img {
+    width: 20px;
+    margin-right: 20px;
+  }
+}
+
+.empty_card:hover {
+  cursor: pointer;
+}
+
+.name-input {
+  max-width: 165px;
+  padding: 10px;
+}
+
+.ng-invalid:not(div) {
+  border: 1px solid var(--error-ligh-red);
 }

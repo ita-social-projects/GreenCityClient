@@ -1,0 +1,87 @@
+.inner {
+  width: 452px;
+  padding: 0 24px;
+  font-family: var(--primary-font);
+}
+
+.item {
+  margin-bottom: 24px;
+  font-size: 14px;
+  line-height: 20px;
+  color: var(--ubs-primary-grey);
+}
+
+.box {
+  margin-bottom: 28px;
+}
+
+.item:nth-child(2) {
+  margin-bottom: 0;
+}
+
+.title {
+  margin-bottom: 32px;
+  letter-spacing: 0.002em;
+  line-height: 28px;
+  color: var(--ubs-secondary-dark-grey);
+}
+
+.mat-radio-button {
+  display: block;
+
+  ::ng-deep .mat-radio-container,
+  ::ng-deep .mat-radio-container .mat-radio-outer-circle,
+  ::ng-deep .mat-radio-container .mat-radio-inner-circle {
+    width: 16px;
+    height: 16px;
+  }
+
+  ::ng-deep &.mat-accent.mat-radio-checked .mat-radio-outer-circle {
+    border-color: var(--primary-green);
+  }
+
+  ::ng-deep &.mat-accent .mat-radio-inner-circle {
+    background-color: var(--primary-green);
+  }
+
+  ::ng-deep &.mat-accent .mat-radio-ripple .mat-ripple-element {
+    background-color: transparent;
+  }
+
+  ::ng-deep .mat-radio-label {
+    margin-bottom: 0;
+  }
+}
+
+.mat-dialog-actions {
+  min-height: 0;
+  margin-bottom: 0;
+  padding: 0;
+}
+
+.disabled-class {
+  pointer-events: none;
+  opacity: 0.4;
+}
+
+.btn {
+  height: 40px;
+}
+
+.primary-global-button {
+  width: 83px;
+}
+
+.secondary-global-button {
+  width: 126px;
+  margin-right: 16px;
+}
+
+@media (max-width: 767px) {
+  .secondary-global-button,
+  .primary-global-button,
+  .btn {
+    width: 100px;
+    font-size: 1rem;
+  }
+}

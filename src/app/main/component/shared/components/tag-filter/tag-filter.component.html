@@ -1,16 +1,18 @@
 <div class="wrapper">
-  <span tabindex="0">{{ header | translate }}</span>
+  <span class="filter" tabindex="0">{{ header | translate }}</span>
   <ul class="ul-eco-buttons" aria-label="filter by items">
-    <a *ngFor="let filter of filters">
-      <li
+    <li *ngFor="let filter of filters">
+      <a
+        role="button"
+        [attr.aria-pressed]="filter.isActive"
         (click)="toggleFilter(filter.name)"
         class="custom-chip global-tag"
         [ngClass]="{ 'global-tag-clicked': filter.isActive }"
         tabindex="0"
       >
-        {{ filter.name | translate }}
+        <span class="text">{{ filter.name | translate }}</span>
         <div [ngClass]="{ 'global-tag-close-icon': filter.isActive }"></div>
-      </li>
-    </a>
+      </a>
+    </li>
   </ul>
 </div>

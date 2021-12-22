@@ -7,15 +7,15 @@
 
 ::ng-deep .mat-step-header {
   .mat-step-label {
-    @include text_style(var(--ubs-quaternary-font), var(--ubs-secondary-grey), 18px, 700);
+    @include text_style(var(--ubs-quaternary-font), var(--ubs-quintynary-light-grey), 18px, 700);
   }
 
   .mat-step-label.mat-step-label-active {
-    color: var(--ubs-secondary-grey);
+    color: var(--ubs-quintynary-light-grey);
   }
 
   .mat-step-label.mat-step-label-selected {
-    color: var(--primary-green);
+    color: var(--ubs-quaternary-dark-grey);
   }
 
   .mat-step-icon {
@@ -24,7 +24,7 @@
 
   .mat-step-icon-selected,
   .mat-step-icon-state-edit {
-    background-color: var(--primary-green);
+    background-color: var(--ubs-quaternary-dark-grey);
   }
 
   .mat-step-icon-state-number {

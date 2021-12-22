@@ -1,9 +1,7 @@
-import { RestoreDto } from './../../../../model/restroreDto';
-import { HttpClientTestingModule, HttpTestingController } from '@angular/common/http/testing';
-import { HttpClient, HttpClientModule } from '@angular/common/http';
-import { async, ComponentFixture, TestBed, fakeAsync, tick, flush, inject } from '@angular/core/testing';
-
-import { CUSTOM_ELEMENTS_SCHEMA, DebugElement, NO_ERRORS_SCHEMA } from '@angular/core';
+import { RestoreDto } from '@global-models/restroreDto';
+import { HttpClientTestingModule } from '@angular/common/http/testing';
+import { async, ComponentFixture, TestBed, fakeAsync } from '@angular/core/testing';
+import { CUSTOM_ELEMENTS_SCHEMA, DebugElement } from '@angular/core';
 import { ChangePasswordService } from '@auth-service/change-password.service';
 import { ConfirmRestorePasswordComponent } from './confirm-restore-password.component';
 import { TranslateModule } from '@ngx-translate/core';
@@ -11,16 +9,17 @@ import { RouterTestingModule } from '@angular/router/testing';
 import { FormsModule } from '@angular/forms';
 import { ReactiveFormsModule } from '@angular/forms';
 import { By } from '@angular/platform-browser';
-import { observable, Observable, of } from 'rxjs';
+import { Observable } from 'rxjs';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { MatSnackBarComponent } from '@global-errors/mat-snack-bar/mat-snack-bar.component';
 import { MatDialogRef } from '@angular/material/dialog';
+import { Router } from '@angular/router';
 
 describe('ConfirmRestorePasswordComponent', () => {
   let component: ConfirmRestorePasswordComponent;
   let fixture: ComponentFixture<ConfirmRestorePasswordComponent>;
   let MatSnackBarMock: MatSnackBarComponent;
-  let httpTestingController: HttpTestingController;
+  let router: Router;
 
   const MatDialogRefMock = {
     close: () => {}
@@ -58,13 +57,13 @@ describe('ConfirmRestorePasswordComponent', () => {
       ],
       schemas: [CUSTOM_ELEMENTS_SCHEMA]
     }).compileComponents();
-
-    httpTestingController = TestBed.inject(HttpTestingController);
   }));
 
   beforeEach(() => {
     fixture = TestBed.createComponent(ConfirmRestorePasswordComponent);
     component = fixture.componentInstance;
+    router = TestBed.inject(Router);
+    spyOn(router, 'navigate');
     fixture.detectChanges();
   });
 
@@ -80,14 +79,12 @@ describe('ConfirmRestorePasswordComponent', () => {
     });
 
     it('should call closeModal()', fakeAsync(() => {
-      // @ts-ignore
       const spy = spyOn(component, 'closeModal').and.callThrough();
       component.closeModal();
       expect(spy).toHaveBeenCalled();
     }));
 
     it('should call closeModal()', fakeAsync(() => {
-      // @ts-ignore
       const spy = spyOn(component, 'closeModal').and.callThrough();
       component.closeModal();
       expect(spy).toHaveBeenCalled();
@@ -133,11 +130,11 @@ describe('ConfirmRestorePasswordComponent', () => {
     const validPasswords = ['Pass123.', 'S3cret))', 'S0mething.', 'Passwooooord1.'];
     const invalidPasswords = ['password', 'pass12', '1122334455', '123.123.123.'];
 
-    function testWrapper(itemValue) {
+    const testWrapper = (itemValue) => {
       it(`should create form with formControl: ${itemValue};`, () => {
         expect(component.confirmRestorePasswordForm.contains(itemValue)).toBeTruthy();
       });
-    }
+    };
 
     controlsName.forEach((el) => testWrapper(el));
 
@@ -145,13 +142,14 @@ describe('ConfirmRestorePasswordComponent', () => {
       expect(component.confirmRestorePasswordForm.valid).toBeFalsy();
     });
 
-    function controlsValidator(itemValue, controlName, status) {
+    const controlsValidator = (itemValue, controlName, status) => {
       it(`The formControl: ${controlName} should be marked as ${status} if the value is ${itemValue}.`, () => {
         const control = component.confirmRestorePasswordForm.get(controlName);
         control.setValue(itemValue);
         status === 'valid' ? expect(control.valid).toBeTruthy() : expect(control.valid).toBeFalsy();
       });
-    }
+    };
+
     validPasswords.forEach((el) => controlsValidator(el, 'password', 'valid'));
     invalidPasswords.forEach((el) => controlsValidator(el, 'password', 'invalid'));
     it('form should be invalid if passwords do not match', () => {
@@ -206,7 +204,6 @@ describe('ConfirmRestorePasswordComponent', () => {
   describe('Reset error messages', () => {
     it('Should reset error messages', () => {
       component.passwordErrorMessageBackEnd = 'I am error message';
-      // @ts-ignore
       component.setPasswordBackendErr();
       expect(component.passwordErrorMessageBackEnd).toBeNull();
     });

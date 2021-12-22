@@ -1,5 +1,4 @@
 import { CUSTOM_ELEMENTS_SCHEMA, NO_ERRORS_SCHEMA } from '@angular/core';
-import { RouterModule } from '@angular/router';
 import { FormControl, FormGroup, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { of } from 'rxjs';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
@@ -10,6 +9,9 @@ import { NewsResponseDTO } from '@eco-news-models/create-news-interface';
 import { EcoNewsModel } from '@eco-news-models/eco-news-model';
 import { ACTION_CONFIG, ACTION_TOKEN } from '../create-edit-news/action.constants';
 import { NewsPreviewPageComponent } from './news-preview-page.component';
+import { RouterTestingModule } from '@angular/router/testing';
+import { EcoNewsComponent } from '../../eco-news.component';
+import { Router } from '@angular/router';
 
 describe('NewsPreviewPageComponent', () => {
   let component: NewsPreviewPageComponent;
@@ -19,6 +21,7 @@ describe('NewsPreviewPageComponent', () => {
   let currentFormWithoutImageMock: FormGroup;
   let newsResponseMock: NewsResponseDTO;
   let itemMock: EcoNewsModel;
+  let router: Router;
 
   const createEcoNewsServiceMock = jasmine.createSpyObj('CreateEcoNewsService', [
     'getFormData',
@@ -36,7 +39,13 @@ describe('NewsPreviewPageComponent', () => {
     await TestBed.configureTestingModule({
       declarations: [NewsPreviewPageComponent],
       schemas: [CUSTOM_ELEMENTS_SCHEMA, NO_ERRORS_SCHEMA],
-      imports: [RouterModule.forRoot([]), TranslateModule.forRoot(), HttpClientTestingModule, ReactiveFormsModule, FormsModule],
+      imports: [
+        RouterTestingModule.withRoutes([{ path: 'news', component: EcoNewsComponent }]),
+        TranslateModule.forRoot(),
+        HttpClientTestingModule,
+        ReactiveFormsModule,
+        FormsModule
+      ],
       providers: [
         { provide: CreateEcoNewsService, useValue: createEcoNewsServiceMock },
         { provide: ACTION_TOKEN, useValue: ACTION_CONFIG }
@@ -90,8 +99,13 @@ describe('NewsPreviewPageComponent', () => {
         { id: 2, name: 'Education' }
       ],
       text: 'text for itemMock',
-      title: 'title for itemMock'
+      title: 'title for itemMock',
+      likes: 0,
+      countComments: 2
     };
+
+    router = TestBed.inject(Router);
+    spyOn(router, 'navigate');
 
     fixture.detectChanges();
   });

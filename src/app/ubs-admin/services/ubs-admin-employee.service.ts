@@ -13,16 +13,35 @@ export class UbsAdminEmployeeService {
 
   constructor(private http: HttpClient) {}
 
-  getEmployees(page?: number, size?: number): Observable<Employees> {
-    return this.http.get<Employees>(`${this.backend}?page=${page}&size=${size}`);
+  getEmployees(pageNumber?: number, pageSize?: number, search?: string, sortBy?: string, sortDirection?: string): Observable<Employees> {
+    const urlAttr = [{ search }, { sortBy }, { sortDirection }].reduce(
+      (acc, item) => (Object.values(item)[0] ? `${acc}&${Object.keys(item)[0]}=${Object.values(item)[0]}` : acc),
+      ``
+    );
+    return this.http.get<Employees>(`${this.backend}?pageNumber=${pageNumber}&pageSize=${pageSize}${urlAttr}`);
   }
+
   getAllPositions(): Observable<any[]> {
     return this.http.get<any[]>(`${ubsAdminEmployeeLink}/get-all-positions`);
   }
-  getAllStantions(): Observable<any[]> {
+
+  getAllStations(): Observable<any[]> {
     return this.http.get<any[]>(`${ubsAdminEmployeeLink}/get-all-receiving-station`);
   }
+
   postEmployee(data): Observable<any> {
     return this.http.post<any>(`${ubsAdminEmployeeLink}/save-employee`, data);
+  }
+
+  updateEmployee(data): Observable<any> {
+    return this.http.put<any>(`${ubsAdminEmployeeLink}/update-employee`, data);
+  }
+
+  deleteEmployeeImage(id: number) {
+    return this.http.delete(`${ubsAdminEmployeeLink}/delete-employee-image/${id}`);
+  }
+
+  deleteEmployee(id: number) {
+    return this.http.delete(`${ubsAdminEmployeeLink}/delete-employee/${id}`);
   }
 }

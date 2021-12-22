@@ -1,0 +1,68 @@
+li {
+  cursor: pointer;
+}
+
+.locations {
+  display: flex;
+  justify-content: space-between;
+  width: 90%;
+}
+
+.couriers {
+  margin-top: 60px;
+}
+
+.city {
+  margin-top: 25px;
+}
+
+.city1 {
+  display: flex;
+  justify-content: space-between;
+}
+
+.tariff-button {
+  text-align: center;
+  width: 177px;
+  height: 36px;
+  font-size: 14px;
+  margin-right: 73px;
+  line-height: 20px;
+  font-weight: 700;
+  letter-spacing: 0.1px;
+  font-family: var(--primary-font);
+  background: var(--ubs-primary-green);
+  border-radius: 4px;
+
+  .button-subtitle {
+    font-size: 14px;
+    line-height: 18px;
+    font-weight: 500;
+    letter-spacing: 0.1px;
+  }
+}
+
+.add-button {
+  margin-left: 50px;
+}
+
+.delete-button-img {
+  cursor: pointer;
+}
+
+.active-body,
+.courier-body {
+  width: 206px;
+}
+
+::ng-deep .address-matDialog-styles {
+  .mat-dialog-container {
+    margin: auto !important;
+    width: 500px;
+  }
+}
+
+form {
+  box-shadow: 1px 4px 8px rgb(100 114 125 / 18%);
+  padding: 10px 25px 40px;
+}

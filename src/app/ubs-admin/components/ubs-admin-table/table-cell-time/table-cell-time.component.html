@@ -1,0 +1,30 @@
+<div class="time_to_show">
+  <span>{{ from }} - {{ to }}</span>
+  <span *ngIf="!isEditable && !isBlocked" class="pointer" (click)="edit()">&#9998;</span>
+  <mat-spinner *ngIf="isBlocked" strokeWidth="3" diameter="20"></mat-spinner>
+</div>
+
+<div *ngIf="isEditable" class="dropdown_time">
+  <div class="set_time_container">
+    <h3>Обрати час Вивезення</h3>
+    <div class="set_time_select">
+      <div class="select_from_wr">
+        <span>З</span>
+        <select class="select" [(ngModel)]="fromInput">
+          <option *ngFor="let fromS of fromSelect" [value]="fromS">{{ fromS }}</option>
+        </select>
+      </div>
+      <div class="select_to_wr">
+        <span>До</span>
+        <select class="select" [(ngModel)]="toInput">
+          <option *ngFor="let toS of toSelect" [value]="toS">{{ toS }}</option>
+        </select>
+      </div>
+    </div>
+    <p *ngIf="isError">{{ isError }}</p>
+    <div class="edit_time_btns">
+      <button (click)="cancel()" class="cancel">Cancel</button>
+      <button (click)="save()" class="save">Save</button>
+    </div>
+  </div>
+</div>

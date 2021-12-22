@@ -1,4 +1,8 @@
 <div class="main-employee-container">
+  <div class="switcher">
+    <button class="switch-btn" (click)="openTiles()" autofocus><em class="fa fa-th-large"></em></button>
+    <button class="switch-btn" (click)="openTable()"><em class="fa fa-bars"></em></button>
+  </div>
   <div class="employee-header">
     <div class="eployee-name">
       <p class="h5 page-name">{{ 'employees.title' | translate }}</p>
@@ -9,9 +13,11 @@
       </button>
     </div>
   </div>
-  <div class="employees">
+  <div class="employees" *ngIf="tiles">
     <div
-      *ngFor="let data of fakeData | paginate: { itemsPerPage: size, currentPage: currentPage, id: paginationId, totalItems: totalLength }"
+      *ngFor="
+        let data of employeesData | paginate: { itemsPerPage: size, currentPage: currentPage, id: paginationId, totalItems: totalLength }
+      "
     >
       <app-ubs-admin-employee-card [data]="data"></app-ubs-admin-employee-card>
     </div>
@@ -24,4 +30,5 @@
       ></app-pagination>
     </div>
   </div>
+  <app-ubs-admin-employee-table *ngIf="!tiles"></app-ubs-admin-employee-table>
 </div>

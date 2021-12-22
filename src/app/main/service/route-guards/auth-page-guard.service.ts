@@ -11,9 +11,11 @@ import { MatDialog } from '@angular/material/dialog';
 })
 export class AuthPageGuardService implements CanActivate {
   private isLoggedIn = false;
+  private ubsRegValue: boolean;
 
   constructor(private localStorageService: LocalStorageService, private router: Router, public dialog: MatDialog) {
     this.localStorageService.userIdBehaviourSubject.subscribe((userId) => (this.isLoggedIn = userId !== null && !isNaN(userId)));
+    this.localStorageService.ubsRegBehaviourSubject.subscribe((value) => (this.ubsRegValue = value));
   }
 
   canActivate(
@@ -21,24 +23,30 @@ export class AuthPageGuardService implements CanActivate {
     state: RouterStateSnapshot
   ): Observable<boolean | UrlTree> | Promise<boolean | UrlTree> | boolean | UrlTree {
     if (!this.isLoggedIn) {
-      this.openSingInWindow();
+      this.openSingInWindow('sign-in');
       return of(false);
     }
     return of<boolean>(true);
   }
 
-  private openSingInWindow(): void {
+  private openSingInWindow(popupName: string): void {
     this.dialog
       .open(AuthModalComponent, {
         hasBackdrop: true,
         closeOnNavigation: true,
         panelClass: 'custom-dialog-container',
         data: {
-          popUpName: 'sign-in'
+          popUpName: popupName
         }
       })
       .afterClosed()
       .pipe(filter(Boolean))
-      .subscribe((userId) => this.router.navigateByUrl(`${userId}/profile`));
+      .subscribe((userId) => {
+        if (!this.ubsRegValue) {
+          this.router.navigateByUrl(`${userId}/profile`);
+        } else {
+          this.router.navigateByUrl('/ubs/order');
+        }
+      });
   }
 }

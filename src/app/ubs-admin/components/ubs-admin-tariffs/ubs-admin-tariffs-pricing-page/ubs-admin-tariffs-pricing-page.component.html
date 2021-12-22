@@ -1,0 +1,163 @@
+<div class="city">
+  <form>
+    <select [(ngModel)]="selectedLocationId" name="region" class="select form-select form-select-lg" (ngModelChange)="saveLocation()">
+      <option [ngValue]="location.id" *ngFor="let location of locations | filterByLang">
+        {{ location.name }}
+      </option>
+    </select>
+  </form>
+</div>
+<div class="services-header">
+  <div class="header-text">
+    <h4>{{ 'ubs-tariffs.services' | translate }}</h4>
+  </div>
+  <button class="secondary-global-button" [disabled]="isLoadBar1" (click)="openAddServicePopup()">
+    {{ 'ubs-tariffs.btn.add_service' | translate }}
+  </button>
+</div>
+<div class="service-table">
+  <div class="load-bar" *ngIf="isLoadBar1">
+    <mat-progress-bar class="custom-bar" mode="indeterminate"></mat-progress-bar>
+  </div>
+  <table aria-label="tariffsTable">
+    <tr>
+      <th scope="row"></th>
+      <th scope="row">{{ 'ubs-tariffs.name_of_the_service' | translate }}</th>
+      <th scope="row">{{ 'ubs-tariffs.capacity' | translate }}</th>
+      <th scope="row">{{ 'ubs-tariffs.service_description' | translate }}</th>
+      <th scope="row">{{ 'ubs-tariffs.basic_cost' | translate }}</th>
+      <th scope="row">{{ 'ubs-tariffs.carriers_commission' | translate }}</th>
+      <th scope="row">{{ 'ubs-tariffs.full_cost' | translate }}</th>
+    </tr>
+    <tr *ngFor="let service of services">
+      <td style="padding-left: 0">
+        <div class="image-buttons">
+          <img *ngIf="!isLoadBar1" [src]="icons.edit" class="edit-button-img" alt="edit-icon" (click)="openUpdateServicePopup(service)" />
+          <img *ngIf="!isLoadBar1" [src]="icons.delete" class="delete-button-img" alt="edit-icon" (click)="openDeleteService(service)" />
+        </div>
+      </td>
+      <td>{{ service.name }}</td>
+      <td>{{ service.capacity | volume }}</td>
+      <td>{{ service.description }}</td>
+      <td>{{ service.price | currency | localizedCurrency }}</td>
+      <td>{{ service.commission | currency | localizedCurrency }}</td>
+      <td>{{ service.fullPrice | currency | localizedCurrency }}</td>
+    </tr>
+  </table>
+</div>
+<div class="services-header">
+  <div class="header-text">
+    <h4>{{ 'ubs-tariffs.tariffs_for_services' | translate }}</h4>
+  </div>
+  <button class="secondary-global-button" [disabled]="isLoadBar" (click)="openAddTariffForServicePopup()">
+    {{ 'ubs-tariffs.btn.add_service2' | translate }}
+  </button>
+</div>
+<div class="tariffs-table">
+  <div class="load-bar" *ngIf="isLoadBar">
+    <mat-progress-bar class="custom-bar" mode="indeterminate"></mat-progress-bar>
+  </div>
+  <table aria-label="tariffsTable1">
+    <tr>
+      <th scope="row"></th>
+      <th scope="row">{{ 'ubs-tariffs.name_of_the_service' | translate }}</th>
+      <th scope="row">{{ 'ubs-tariffs.capacity' | translate }}</th>
+      <th scope="row">{{ 'ubs-tariffs.service_description' | translate }}</th>
+      <th scope="row">{{ 'ubs-tariffs.basic_cost' | translate }}</th>
+      <th scope="row">{{ 'ubs-tariffs.carriers_commission' | translate }}</th>
+      <th scope="row">{{ 'ubs-tariffs.full_cost' | translate }}</th>
+    </tr>
+    <tr *ngFor="let bag of bags">
+      <td style="padding-left: 0">
+        <div class="image-buttons">
+          <img
+            *ngIf="!isLoadBar"
+            [src]="icons.edit"
+            class="edit-button-img"
+            alt="edit-icon"
+            (click)="openUpdateTariffForServicePopup(bag)"
+          />
+          <img
+            *ngIf="!isLoadBar"
+            [src]="icons.delete"
+            class="delete-button-img"
+            alt="edit-icon"
+            (click)="openDeleteTariffForService(bag)"
+          />
+        </div>
+      </td>
+      <td>{{ bag.name }}</td>
+      <td>{{ bag.capacity | volume }}</td>
+      <td>{{ bag.description }}</td>
+      <td>{{ bag.price | currency | localizedCurrency }}</td>
+      <td>{{ bag.commission | currency | localizedCurrency }}</td>
+      <td>{{ bag.fullPrice | currency | localizedCurrency }}</td>
+    </tr>
+  </table>
+</div>
+<div class="limits-header">
+  <div>
+    <h4>{{ 'ubs-tariffs.order_limits' | translate }}</h4>
+  </div>
+  <div class="courier-div">
+    <select class="courier-select">
+      <option *ngFor="let courier of couriers">
+        {{ courier.name }}
+      </option>
+    </select>
+  </div>
+  <div class="add-carrier-btn">
+    <button [disabled]="isLoadBar" class="secondary-global-button">{{ 'ubs-tariffs.btn.add_carrier' | translate }}</button>
+  </div>
+</div>
+<div class="limits-form">
+  <form [formGroup]="limitsForm">
+    <mat-radio-group formControlName="courierLimitsBy">
+      <div class="sum-input">
+        <mat-radio-button id="min-order-amount" name="courierLimit" value="LIMIT_BY_SUM_OF_ORDER"></mat-radio-button>
+        <label for="min-order-amount">{{ 'ubs-tariffs.min_order_amount' | translate }}</label
+        ><br />
+        <input class="input" id="from" formControlName="minAmountOfOrder" />
+        <label for="from">{{ 'ubs-tariffs.to' | translate }}</label
+        ><br />
+        <input class="input" id="to" formControlName="maxAmountOfOrder" />
+        <label for="to"></label>
+      </div>
+      <div class="bags-input">
+        <mat-radio-button id="min-packages" name="courierLimit" value="LIMIT_BY_AMOUNT_OF_BAG"></mat-radio-button>
+        <label for="min-packages">{{ 'ubs-tariffs.min_number_of_packages' | translate }}</label
+        ><br />
+        <input class="input" id="from-packages" formControlName="minAmountOfBigBag" />
+        <label for="from-packages">{{ 'ubs-tariffs.to' | translate }}</label
+        ><br />
+        <input class="input" id="to-packages" formControlName="maxAmountOfBigBag" />
+        <label for="to-packages"></label>
+      </div>
+    </mat-radio-group>
+    <div class="min-bags-number">
+      <h6>{{ 'ubs-tariffs.min_set_of_packages' | translate }}</h6>
+      <input type="checkbox" id="textile-waste120" />
+      <label for="textile-waste120">{{ 'ubs-tariffs.textile_waste' | translate }}</label
+      ><br />
+      <input type="checkbox" id="safe-waste" />
+      <label for="safe-waste">{{ 'ubs-tariffs.safe_waste' | translate }}</label
+      ><br />
+      <input type="checkbox" id="textile-waste20" />
+      <label for="textile-waste20">{{ 'ubs-tariffs.textile_waste' | translate }}</label
+      ><br />
+    </div>
+    <div class="order-limit-textarea">
+      <h6>{{ 'ubs-tariffs.info_about_order_limits' | translate }}</h6>
+      <textarea
+        maxlength="170"
+        formControlName="limitDescription"
+        placeholder="{{ 'ubs-tariffs.placeholder_order_limits_info' | translate }}"
+      ></textarea>
+    </div>
+    <div class="submit-btn">
+      <button class="primary-global-button submit" type="submit" [disabled]="limitsForm.pristine" (click)="saveChanges()">
+        {{ 'ubs-client-profile.btn.save' | translate }}
+      </button>
+    </div>
+  </form>
+</div>

@@ -43,7 +43,11 @@
         "education": "Навчання",
         "lifehacks": "Лайфхаки"
       },
-      "items-found": "новин знайдено",
+      "items-found": {
+        "item-at-1": "новину знайдено",
+        "item-at-2-3-4": "новини знайдено",
+        "item-at-all": "новин знайдено"
+      },
       "news-popup": {
         "title": "Внесені зміни будуть втрачені.",
         "subtitle": "Бажаєте скасувати створення новини?",
@@ -418,7 +422,8 @@
       "close-navigation": "Закрити навігацію",
       "discount": "знижка",
       "driving": "водіння",
-      "walking": "ходьба"
+      "walking": "ходьба",
+      "more-options": "Більше опцій"
     },
     "places-card": {
       "card-description": "https://placewebsite.com",
@@ -524,7 +529,10 @@
       "tips": "Поради",
       "map": "Карта",
       "ubs": "UBS кур'єр",
-      "my-habits": "Мій кабінет"
+      "my-habits": "Мій кабінет",
+      "sorting-rules": "Правила сортування",
+      "eco-shop": "Еко-магазин",
+      "events": "Події"
     },
     "edit-profile": {
       "edit-profile": "Редагування профілю",
@@ -579,7 +587,8 @@
       "tips": "Поради",
       "map": "Місця",
       "my-habits": "Мої звички",
-      "follow-us": "Приєднуйтесь до нас"
+      "follow-us": "Приєднуйтесь до нас",
+      "events": "Події"
     },
     "user-goals": {
       "add-goal": {
@@ -666,6 +675,7 @@
         "back-button": "Назад до Моїх звичок",
         "title": "Всі звички",
         "no-habits": "На жаль, звичок не знайдено",
+        "mutual": "Спільні звички",
         "no-habits-advice": "Ніяких звичок більше знайти не вдалося. Будь ласка, поміняйте фільтри, щоб отримати результат.",
         "btn-more": "Детальніше",
         "btn-add": "Додати звичку",
@@ -797,11 +807,20 @@
       "habits-inprogress": "У процесі",
       "add-new-habit": "Додати Нову Звичку",
       "habits-acquired": "Набуті",
-      "habits": "звички",
+      "habits-view-more": "Подивитись більше...",
+      "habits": {
+        "habit-at-1": "звичка",
+        "habit-at-2-3-4": "звички",
+        "habit-at-all": "звичок"
+      },
       "no-habits-in-progress": "Привіт, Еко друг ;-)",
       "no-habits-in-progress-advice": "Ласкаво просимо до «Мої звички». Здається, у вас немає звичок. Почнемо набувати нову!",
       "news-list": "Список новин",
-      "news": "новини",
+      "news": {
+        "news-at-1": "новина",
+        "news-at-2-3-4": "новини",
+        "news-at-all": "новин"
+      },
       "add-news": "Додати новини"
     },
     "habits-in-progress": "У процесі",
@@ -811,6 +830,7 @@
     "my-eco-friends": "Мої Друзі",
     "zero-friends": "У Вас немає друзів.",
     "zero-requests": "На жаль, нових запитів немає.",
+    "zero-user-friends": "Цей користувач не має друзів",
     "my-eco-places": "Мої Еко Місця",
     "shoppingList": "Шопінг-лист",
     "empty-list": "Ще нічого не додано.\nБудь ласка, додайте звичку з деякими елементами, щоб бачити їх у своєму списку",
@@ -824,6 +844,7 @@
     "friends": {
       "link-to-profile": "Мій кабінет",
       "mutual-friends": "спільних друзів",
+      "all-mutual-friends": "Спільні друзі",
       "friends": "Друзі",
       "add-new-friend": "Додати",
       "delete-friend": "Видалити",
@@ -861,7 +882,7 @@
     "picture-title": "Зображення (не обов'язково)",
     "content-title": "Зміст",
     "content-placeholder": "напр. Короткий опис новини, план заходу",
-    "content-tooltip": "Поле повинно містити не менше 20 символів",
+    "content-tooltip": "Поле повинно містити не менше 20 та не більше 63 206 символів",
     "date": "Дата: ",
     "author": "Автор: ",
     "author-name": "Поточний Користувач",
@@ -911,5 +932,31 @@
     "eco-news-widget": {
       "paragraph": "Може бути цікавим для вас"
     }
+  },
+  "footer": {
+    "station": "Станція",
+    "address": "Київ, вул. Саперно-Слобідська, 25",
+    "schedule": "Графік роботи станції",
+    "mon-tue": " пн-вт",
+    "day-off": " вихідний",
+    "wed-fri": " ср–пт",
+    "from": "з",
+    "to": "до",
+    "service": "*платна послуга «Досортування» доступна",
+    "sat-sun": " сб-нд",
+    "accept-compost": "Компост приймаємо впродовж тижня в робочі години станції (крім понеділка і вівторка).",
+    "ubs-world-community": "УБС — у світовій спільноті",
+    "glad-for-letters": "Раді вашим листам",
+    "your-email": "Ваш email",
+    "subscribe-newsletter": "Підписатися на корисну розсилку:",
+    "subscribe-us": "ПІДПИСАТИСЯ",
+    "user-agreement": "Угода користувача",
+    "public-offer": "Публічна оферта",
+    "help-the-project": "Як допомогти проєкту",
+    "how-to-get-there": "Як доїхати?",
+    "ukraine-without-garbage": "Україна без сміття"
+  },
+  "accessibility": {
+    "skip-to-the-main-content": "перейти до основного контенту"
   }
 }

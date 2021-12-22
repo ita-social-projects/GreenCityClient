@@ -1,0 +1,258 @@
+.city-select {
+  color: black;
+  padding: 8px;
+  margin-left: 60px;
+  width: 180px;
+  height: 40px;
+  background: var(--ubs-primary-white);
+  border: 1px solid var(--quintynary-light-grey);
+  box-sizing: border-box;
+  border-radius: 4px;
+}
+
+.services-header {
+  display: flex;
+  justify-content: space-between;
+  width: 1151px;
+  margin-bottom: 10px;
+
+  .header-text {
+    padding-top: 40px;
+    margin-left: 60px;
+  }
+
+  button {
+    margin-top: 35px;
+  }
+}
+
+td:nth-child(1) {
+  background: var(--ubs-primary-liberty-green);
+  width: 56px;
+}
+
+th:nth-child(2) {
+  width: 246px;
+}
+
+th:nth-child(4) {
+  width: 270px;
+}
+
+.service-table,
+.tariffs-table {
+  border: solid 1px var(--ubs-primary-light-grey);
+  border-collapse: collapse;
+  margin-left: 60px;
+  text-align: start;
+  width: 1092px;
+
+  td,
+  th {
+    border: solid 1px var(--ubs-primary-light-grey);
+    height: 39px;
+    padding-left: 15px;
+    font-style: normal;
+    font-weight: normal;
+  }
+
+  table {
+    table-layout: auto;
+    width: 100%;
+  }
+
+  th {
+    background: var(--ubs-primary-liberty-green);
+    color: var(--ubs-primary-grey);
+    font-size: 14px;
+    line-height: 20px;
+  }
+
+  td {
+    font-size: 16px;
+    color: var(--ubs-quaternary-dark-grey);
+    line-height: 24px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    max-width: 56px;
+  }
+
+  td:hover {
+    cursor: default;
+  }
+}
+
+h4 {
+  color: black;
+  font-style: normal;
+  font-weight: bold;
+  line-height: 32px;
+}
+
+.limits-header {
+  margin: 40px 0 0 60px;
+  display: flex;
+  justify-content: space-between;
+  width: 1092px;
+}
+
+.primary-global-button {
+  font-style: normal;
+  font-weight: bold;
+  font-size: 18px;
+  line-height: 28px;
+  width: 179px;
+  height: 44px;
+}
+
+.secondary-global-button {
+  height: 35px;
+  background-color: var(--primary-white);
+  font-style: normal;
+  font-weight: bold;
+  font-size: 14px;
+  line-height: 20px;
+}
+
+.courier-select {
+  width: 127px;
+  height: 40px;
+  background: var(--ubs-primary-white);
+  border: 1px solid var(--quintynary-light-grey);
+  box-sizing: border-box;
+  border-radius: 4px;
+  padding: 5px;
+  margin-right: 70px;
+}
+
+.limits-form {
+  margin: 20px 0 0 60px;
+  display: inline-block;
+  width: 100%;
+  font-size: 14px;
+  color: var(--ubs-primary-grey);
+}
+
+.sum-input,
+.bags-input {
+  margin-top: 15px;
+  margin-bottom: 15px;
+  display: flex;
+  flex-flow: row wrap;
+  align-items: center;
+
+  .input {
+    width: 74px;
+    height: 36px;
+    background: var(--ubs-primary-white);
+    border: 1px solid var(--ubs-grey-blue);
+    box-sizing: border-box;
+    border-radius: 4px;
+  }
+
+  label {
+    padding: 5px 25px 0 20px;
+  }
+}
+
+.min-bags-number {
+  margin-top: 30px;
+  font-size: 16px;
+  color: black;
+
+  label {
+    padding-left: 20px;
+    font-style: normal;
+    font-weight: normal;
+    font-size: 14px;
+    line-height: 20px;
+    color: var(--ubs-primary-grey);
+  }
+
+  h6 {
+    font-size: 16px;
+    color: black;
+  }
+
+  input {
+    width: 16px;
+    height: 16px;
+  }
+
+  label,
+  input {
+    padding-top: 15px;
+  }
+}
+
+.order-limit-textarea {
+  margin-top: 25px;
+
+  h6 {
+    color: var(--ubs-quaternary-dark-grey);
+    font-size: 16px;
+    padding-bottom: 10px;
+  }
+
+  textarea {
+    color: var(--ubs-quaternary-dark-grey);
+    font-size: 16px;
+    resize: none;
+    width: 420px;
+    height: 92px;
+    border: 1px solid var(--ubs-grey-blue);
+    border-radius: 4px;
+    padding: 5px 0 0 5px;
+  }
+
+  ::placeholder {
+    padding: 5px 0 0 5px;
+  }
+}
+
+.submit-btn {
+  margin: 20px 0;
+}
+
+img {
+  cursor: pointer;
+}
+
+.image-buttons {
+  display: flex;
+  justify-content: space-between;
+  padding: 0 7px;
+}
+
+.form-select:empty {
+  width: 152px;
+}
+
+button:disabled,
+button[disabled] {
+  border: 1px solid var(--ubs-secondary-grey);
+  background-color: lightgray;
+  color: gray;
+}
+
+::ng-deep .mat-progress-bar-fill::after {
+  background: white;
+}
+
+::ng-deep .mat-progress-bar-buffer {
+  background: var(--ubs-secondary-grey);
+}
+
+::ng-deep .mat-radio-button.mat-accent .mat-radio-ripple .mat-ripple-element {
+  background-color: white;
+}
+
+::ng-deep .mat-radio-button.mat-accent .mat-radio-inner-circle {
+  background-color: var(--ubs-primary-green);
+}
+
+::ng-deep.mat-radio-button.mat-accent.mat-radio-checked .mat-radio-outer-circle {
+  background-color: white;
+  border-color: var(--ubs-primary-green);
+}

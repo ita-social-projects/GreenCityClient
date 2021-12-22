@@ -29,23 +29,24 @@ $cardTextColor: #1d2830;
     @include flex-options(column, stretch, flex-start);
 
     .filter {
+      display: flex;
       margin-top: 26px;
     }
-  }
 
-  .places-recommendation {
-    .recommendation-title {
-      margin: 24px 0;
-      height: 28px;
-      font-weight: bold;
-      font-size: 20px;
-      color: var(--secondary-dark-grey);
-    }
+    .choose-location-input {
+      border: 1px solid #9ca7b0;
+      border-radius: 5px;
+      padding: 10px;
+      height: 36px;
+      width: 100%;
+      font-size: 14px;
+      line-height: 20px;
+      color: var(--primary-grey);
 
-    .card-container {
-      @include flex-options(row, space-between, space-between);
-
-      flex-wrap: wrap;
+      &:focus {
+        outline: 0;
+        box-shadow: 0 0 0 0.2rem rgb(0 123 255 / 25%);
+      }
     }
   }
 
@@ -55,6 +56,8 @@ $cardTextColor: #1d2830;
 
   .places-map {
     @include flex-options(row);
+
+    margin-bottom: 48px;
 
     .google-map {
       height: 540px;
@@ -68,15 +71,16 @@ $cardTextColor: #1d2830;
   max-height: 32px;
 }
 
-.close-mark::after {
-  padding: 15px;
-  display: none;
-  content: 'X';
+.close-mark {
   position: absolute;
-  right: 0;
-  top: 0;
-  font-size: 20px;
-  color: var(--secondary-dark-grey);
+  top: 33px;
+  right: 20px;
+  padding: 0 7px;
+  font-weight: bold;
+  color: var(--primary-green);
+  background-color: var(--pre-secondary-light-grey);
+  border: 1px solid green;
+  cursor: pointer;
 }
 
 .sidebar-container {
@@ -91,22 +95,42 @@ $cardTextColor: #1d2830;
 }
 
 .sidebar-content {
+  position: relative;
+
   @include flex-options(column, center, flex-start);
 
   padding: 36px;
 
+  .sidebar-photo {
+    width: 100%;
+
+    .content-photo {
+      width: 100%;
+    }
+  }
+
+  .sidebar-address {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+
+    .btn-bookmark {
+      border: none;
+      background: none;
+      padding: 0;
+    }
+
+    .material-icons {
+      color: #13aa57;
+      margin: 18px 0 10px 0;
+    }
+  }
+
   .content-title {
-    margin: 0 auto;
-    margin-bottom: 18px;
-    height: 28px;
     font-weight: bold;
     font-size: 20px;
     color: var(--secondary-dark-grey);
-  }
-
-  .card-img-top {
-    max-width: 240px;
-    max-height: 100px;
   }
 
   .content-address {
@@ -119,7 +143,8 @@ $cardTextColor: #1d2830;
   .content-description {
     @include set-width-height(239px, 20px);
 
-    margin-bottom: 10px;
+    margin-bottom: 20px;
+    margin-top: 16px;
     font-size: 14px;
     color: $cardTextColor;
   }
@@ -128,7 +153,8 @@ $cardTextColor: #1d2830;
     @include set-width-height(154px, 20px);
 
     font-size: 14px;
-    color: var(--quaternary-grey);
+    color: var(--primary-green);
+    padding-top: 12px;
   }
 
   .content-list {
@@ -182,6 +208,11 @@ $cardTextColor: #1d2830;
 }
 
 .search {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+
   .search-elements {
     @include flex-options(row, stretch, center);
 
@@ -230,65 +261,9 @@ $cardTextColor: #1d2830;
     border: 1px solid $cardHoveredBorder;
     filter: drop-shadow(4px 8px 12px rgba(100, 114, 125, 0.25));
   }
-
-  .card-img-top {
-    max-width: 240px;
-    max-height: 96px;
-  }
-
-  .card-headers {
-    @include flex-options(column, center, center);
-  }
-
-  .card-body {
-    flex: 0 0 auto;
-    padding: 0;
-    position: relative;
-
-    .card-title {
-      margin: 12px 0 4px 0;
-      width: 72px;
-      font-weight: bold;
-      font-size: 14px;
-      color: var(--quaternary-dark-grey);
-    }
-
-    .card-address {
-      margin-bottom: 4px;
-      width: 98px;
-      font-size: 10px;
-      color: var(--quintynary-light-grey);
-    }
-
-    .card-text {
-      margin: 0;
-      width: 205px;
-      font-size: 12px;
-      color: var(--quaternary-grey);
-    }
-
-    .card-bookmark {
-      cursor: pointer;
-      position: absolute;
-      bottom: 0;
-      right: 0;
-    }
-  }
 }
 
 @media screen and (max-width: 767px) {
-  .main {
-    .places-recommendation {
-      .recommendation-title {
-        text-align: center;
-      }
-
-      .card-container {
-        justify-content: center;
-      }
-    }
-  }
-
   .search {
     .search-elements {
       .search-write {

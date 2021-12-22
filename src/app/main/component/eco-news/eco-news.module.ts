@@ -2,6 +2,7 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { HttpClient } from '@angular/common/http';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
+import { MatIconModule } from '@angular/material/icon';
 import { ImageCropperModule } from 'ngx-image-cropper';
 import { TranslateLoader, TranslateModule } from '@ngx-translate/core';
 import { TranslateHttpLoader } from '@ngx-translate/http-loader';
@@ -25,6 +26,9 @@ import { MatSnackBarComponent } from '../errors/mat-snack-bar/mat-snack-bar.comp
 import { EcoNewsComponent } from './eco-news.component';
 import { ACTION_CONFIG, ACTION_TOKEN } from './components/create-edit-news/action.constants';
 import { SharedModule } from 'src/app/shared/shared.module';
+import { QuillModule } from 'ngx-quill';
+import { SafeHtmlPipe } from '@pipe/safe-html-pipe/safe-html.pipe';
+import { UrlHostnamePipe } from '@pipe/url-hostname-pipe/url-hostname.pipe';
 
 @NgModule({
   declarations: [
@@ -39,13 +43,16 @@ import { SharedModule } from 'src/app/shared/shared.module';
     NewsPreviewPageComponent,
     PostNewsLoaderComponent,
     MatSnackBarComponent,
-    CreateEditNewsComponent
+    CreateEditNewsComponent,
+    SafeHtmlPipe,
+    UrlHostnamePipe
   ],
   imports: [
     CommonModule,
     CommentsModule,
     SharedMainModule,
     SharedModule,
+    MatIconModule,
     InfiniteScrollModule,
     EcoNewsRoutingModule,
     ImageCropperModule,
@@ -58,7 +65,8 @@ import { SharedModule } from 'src/app/shared/shared.module';
         deps: [HttpClient]
       },
       isolate: true
-    })
+    }),
+    QuillModule.forRoot()
   ],
   exports: [TranslateModule],
   entryComponents: [],

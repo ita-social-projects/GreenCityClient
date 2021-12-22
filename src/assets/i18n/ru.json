@@ -43,7 +43,11 @@
         "education": "Обучение",
         "lifehacks": "Лайфхаки"
       },
-      "items-found": "новостей найдено",
+      "items-found": {
+        "item-at-1": "новость найдено",
+        "item-at-2-3-4": "новости найдено",
+        "item-at-all": "новостей найдено"
+      },
       "news-popup": {
         "title": "Все изменения будут потеряны.",
         "subtitle": "Желаете отменить создание новости?",
@@ -418,7 +422,8 @@
       "close-navigation": "Закрыть навигацию",
       "discount": "скидка",
       "driving": "вождения",
-      "walking": "ходьба"
+      "walking": "ходьба",
+      "more-options": "Больше опций"
     },
     "places-card": {
       "card-description": "https://placewebsite.com",
@@ -524,7 +529,8 @@
       "tips": "Эко советы",
       "map": "Карта",
       "ubs": "UBS курьер",
-      "my-habits": "Мой кабинет"
+      "my-habits": "Мой кабинет",
+      "events": "События"
     },
     "edit-profile": {
       "edit-profile": "Редактирование профиля",
@@ -579,7 +585,8 @@
       "tips": "Советы",
       "map": "Места",
       "my-habits": "Мои привычки",
-      "follow-us": "Присоединяйтесь к нам"
+      "follow-us": "Присоединяйтесь к нам",
+      "events": "События"
     },
     "user-goals": {
       "add-goal": {
@@ -784,11 +791,20 @@
       "habits-inprogress": "В процессе",
       "add-new-habit": "Добавить Новую Привычку",
       "habits-acquired": "Приобретенные",
-      "habits": "привычки",
+      "habits-view-more": "Посмотреть больше...",
+      "habits": {
+        "habit-at-1": "привычка",
+        "habit-at-2-3-4": "привычки",
+        "habit-at-all": "привычек"
+      },
       "no-habits-in-progress": "Привет, Эко друг ;-)",
       "no-habits-in-progress-advice": "Добро пожаловать в «Мои привычки». Кажется, у тебя нет привычек. Начнем приобретать новую!",
       "news-list": "Список новостей",
-      "news": "новости",
+      "news": {
+        "news-at-1": "новость",
+        "news-at-2-3-4": "новости",
+        "news-at-all": "новостей"
+      },
       "add-news": "Добавить новости"
     },
     "habits-in-progress": "В процессе",
@@ -848,7 +864,7 @@
     "picture-title": "Изображение (не обязательно)",
     "content-title": "Содержание",
     "content-placeholder": "напр. Краткое описание новости, план мероприятия",
-    "content-tooltip": "Поле должно содержать не менее 20 символов",
+    "content-tooltip": "Поле должно содержать не менее 20 и не более 63 206 символов",
     "date": "Дата: ",
     "author": "Автор: ",
     "author-name": "Текущий Пользователь",
@@ -898,5 +914,8 @@
     "eco-news-widget": {
       "paragraph": "Может быть интересным для вас"
     }
+  },
+  "accessibility": {
+    "skip-to-the-main-content": "перейти к основному контенту"
   }
 }

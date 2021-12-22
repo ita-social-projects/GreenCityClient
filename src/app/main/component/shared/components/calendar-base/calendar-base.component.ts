@@ -254,6 +254,7 @@ export class CalendarBaseComponent implements OnDestroy {
       .pipe(takeUntil(this.destroySub))
       .subscribe((res) => {
         this.userHabitsList = res;
+        this.habitAssignService.habitsFromDashBoard = res;
         days.forEach((day) => {
           const date = this.formatDate(isMonthCalendar, day);
           if (new Date().setHours(0, 0, 0, 0) >= new Date(date).setHours(0, 0, 0, 0)) {
@@ -297,7 +298,8 @@ export class CalendarBaseComponent implements OnDestroy {
     this.isHabitListEditable = false;
     const currentDate: Date = new Date();
     this.isHabitListEditable =
-      currentDate.setHours(0, 0, 0, 0) - this.daysCanEditHabits * 24 * 60 * 60 * 1000 >= new Date(this.selectedDay).setHours(0, 0, 0, 0);
+      currentDate.setHours(0, 0, 0, 0) - (this.daysCanEditHabits + 1) * 24 * 60 * 60 * 1000 >=
+      new Date(this.selectedDay).setHours(0, 0, 0, 0);
   }
 
   checkCanOpenPopup(dayItem: CalendarInterface) {
@@ -305,6 +307,12 @@ export class CalendarBaseComponent implements OnDestroy {
   }
 
   openDialogDayHabits(event, isMonthCalendar, dayItem: CalendarInterface) {
+    const dateForHabitPopup = `${dayItem.year}-${dayItem.month + 1}-${dayItem.numberOfDate}`;
+    if (dayItem.numberOfDate) {
+      this.habitAssignService.habitDate = new Date(dateForHabitPopup);
+    } else {
+      this.habitAssignService.habitDate = dayItem.date;
+    }
     this.checkHabitListEditable(isMonthCalendar, dayItem);
     const date = this.formatDate(isMonthCalendar, dayItem);
     const habits = this.getHabitsForDay(this.userHabitsList, date);

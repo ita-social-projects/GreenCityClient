@@ -1,0 +1,20 @@
+<div class="select_wr">
+  <div *ngIf="!isEditable">{{ currentValue | serverTranslate: lang }}</div>
+  <div *ngIf="isEditable">
+    <select (change)="chosenOption($event)" class="select_dropdown">
+      <option
+        *ngFor="let option of optional"
+        [value]="option | serverTranslate: lang"
+        [selected]="(option | serverTranslate: lang) === (currentValue | serverTranslate: lang)"
+      >
+        {{ option | serverTranslate: lang }}
+      </option>
+    </select>
+  </div>
+  <div class="options_wr">
+    <mat-spinner *ngIf="isBlocked" strokeWidth="3" diameter="20"></mat-spinner>
+    <span *ngIf="!isEditable && !isBlocked" class="pointer" (click)="edit()">&#9998;</span>
+    <span class="save" *ngIf="isEditable && !isBlocked" (click)="save()">&#10004;</span>
+    <span class="cancel" *ngIf="isEditable && !isBlocked" (click)="cancel()">&#10006;</span>
+  </div>
+</div>

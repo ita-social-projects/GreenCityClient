@@ -1,9 +1,7 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { take, takeUntil } from 'rxjs/operators';
 import { ReplaySubject } from 'rxjs';
-
 import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
-import { HabitService } from '@global-service/habit/habit.service';
 import { HabitAssignService } from '@global-service/habit-assign/habit-assign.service';
 import { HabitAssignInterface } from '../../../../../interface/habit/habit-assign.interface';
 import { HabitStatus } from '../../../../../model/habit/HabitStatus.enum';
@@ -18,8 +16,9 @@ import { MatTabChangeEvent } from '@angular/material/tabs';
 export class ProfileDashboardComponent implements OnInit, OnDestroy {
   private destroyed$: ReplaySubject<any> = new ReplaySubject<any>(1);
   loading = false;
-  habitsInProgress: Array<HabitAssignInterface> = [];
+  numberOfHabitsOnView = 3;
   habitsAcquired: Array<HabitAssignInterface> = [];
+  habitsAcquiredToView: Array<HabitAssignInterface> = [];
   public tabs = {
     habits: true,
     news: false,
@@ -34,8 +33,7 @@ export class ProfileDashboardComponent implements OnInit, OnDestroy {
 
   constructor(
     private localStorageService: LocalStorageService,
-    private habitService: HabitService,
-    private habitAssignService: HabitAssignService,
+    public habitAssignService: HabitAssignService,
     private ecoNewsService: EcoNewsService
   ) {}
 
@@ -46,7 +44,7 @@ export class ProfileDashboardComponent implements OnInit, OnDestroy {
   }
 
   public changeStatus(habit: HabitAssignInterface) {
-    this.habitsInProgress = this.habitsInProgress.filter((el) => el.id !== habit.id);
+    this.habitAssignService.habitsInProgress = this.habitAssignService.habitsInProgress.filter((el) => el.id !== habit.id);
     this.habitsAcquired = [...this.habitsAcquired, habit];
   }
 
@@ -65,13 +63,35 @@ export class ProfileDashboardComponent implements OnInit, OnDestroy {
       .pipe(take(1))
       .subscribe((response: Array<HabitAssignInterface>) => {
         const sortedHabits = this.sortHabitsAsc(response);
-        this.habitsInProgress = sortedHabits.filter((habit) => habit.status === HabitStatus.INPROGRESS);
+        this.habitAssignService.habitsInProgress = sortedHabits.filter((habit) => habit.status === HabitStatus.INPROGRESS);
         this.habitsAcquired = sortedHabits.filter((habit) => habit.status === HabitStatus.ACQUIRED);
+        this.setHabitsForView();
         this.loading = false;
       });
   }
 
-  private sortHabitsAsc(habitsArray): Array<HabitAssignInterface> {
+  setHabitsForView(): void {
+    this.habitAssignService.habitsInProgressToView = [...this.habitAssignService.habitsInProgress.slice(0, this.numberOfHabitsOnView)];
+    this.habitsAcquiredToView = [...this.habitsAcquired.slice(0, this.numberOfHabitsOnView)];
+  }
+
+  getMoreHabitsInProgressForView(): void {
+    this.habitAssignService.habitsInProgressToView = this.getMoreHabits(
+      this.habitAssignService.habitsInProgressToView,
+      this.habitAssignService.habitsInProgress
+    );
+  }
+
+  getMoreHabitsAcquiredForView(): void {
+    this.habitsAcquiredToView = this.getMoreHabits(this.habitsAcquiredToView, this.habitsAcquired);
+  }
+
+  getMoreHabits(habitsOnView: Array<HabitAssignInterface>, allHabits: Array<HabitAssignInterface>): Array<HabitAssignInterface> {
+    const currentNumberOfHabitsOnView = habitsOnView.length;
+    return [...habitsOnView, ...allHabits.slice(currentNumberOfHabitsOnView, currentNumberOfHabitsOnView + this.numberOfHabitsOnView)];
+  }
+
+  private sortHabitsAsc(habitsArray: HabitAssignInterface[]): Array<HabitAssignInterface> {
     return habitsArray.sort((firstHabit, secondHabit) => {
       if (firstHabit.habit.id > secondHabit.habit.id) {
         return 1;
@@ -83,7 +103,7 @@ export class ProfileDashboardComponent implements OnInit, OnDestroy {
     });
   }
 
-  private getNews(page, count): void {
+  private getNews(page: number, count: number): void {
     this.ecoNewsService
       .getEcoNewsListByPage(page, count)
       .pipe(takeUntil(this.destroyed$))
@@ -99,7 +119,6 @@ export class ProfileDashboardComponent implements OnInit, OnDestroy {
 
   tabChanged(tabChangeEvent: MatTabChangeEvent): void {
     this.isActiveInfinityScroll = tabChangeEvent.index === 1;
-    console.log(this.isActiveInfinityScroll);
   }
 
   onScroll(): void {

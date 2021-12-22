@@ -1,0 +1,69 @@
+.container {
+  font-family: var(--primary-font);
+  line-height: 32px;
+}
+
+.empty_card {
+  padding-top: 20px;
+  padding-bottom: 20px;
+
+  h1 {
+    display: inline;
+  }
+
+  img {
+    width: 20px;
+    margin-right: 20px;
+  }
+}
+
+.empty_card:hover {
+  cursor: pointer;
+}
+
+.form__headline {
+  font-size: 20px;
+  font-weight: 700;
+  line-height: 28px;
+  letter-spacing: 0.002em;
+  color: var(--ubs-primary-grey);
+  margin-bottom: 30px;
+  margin-top: 36px;
+}
+
+.content {
+  max-height: 450px;
+  overflow-y: scroll;
+
+  table {
+    background-color: var(--after-primary-light-grey);
+    width: 100%;
+
+    th,
+    td {
+      padding: 15px;
+    }
+
+    th {
+      position: sticky;
+      top: 0;
+      background-color: var(--after-primary-light-grey);
+    }
+
+    td {
+      color: var(--gray-dark);
+      max-width: 500px;
+    }
+  }
+}
+
+.hiddenText {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.popup {
+  font-size: 20px;
+  min-width: 20rem;
+}

@@ -5,6 +5,7 @@ import { AuthPageGuardService } from '@global-service/route-guards/auth-page-gua
 import { UBSOrderFormComponent } from './components/ubs-order-form/ubs-order-form.component';
 import { UbsComponent } from './ubs.component';
 import { UbsMainPageComponent } from './components/ubs-main-page/ubs-main-page.component';
+import { UbsSubmitOrderNotificationComponent } from './components/ubs-submit-order/ubs-submit-order-notification/ubs-submit-order-notification.component';
 
 const ubsRoutes: Routes = [
   {
@@ -13,7 +14,8 @@ const ubsRoutes: Routes = [
     children: [
       { path: '', component: UbsMainPageComponent },
       { path: 'order', component: UBSOrderFormComponent, canActivate: [AuthPageGuardService] },
-      { path: 'confirm', component: UbsConfirmPageComponent, canActivate: [AuthPageGuardService] }
+      { path: 'confirm', component: UbsConfirmPageComponent, canActivate: [AuthPageGuardService] },
+      { path: `notification/confirm/:orderId`, component: UbsSubmitOrderNotificationComponent, canActivate: [AuthPageGuardService] }
     ]
   }
 ];

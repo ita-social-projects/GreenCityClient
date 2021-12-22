@@ -1,0 +1,45 @@
+@import '../../../../../typography/colorsUbs';
+
+.select_wr {
+  display: flex;
+  justify-content: space-between;
+  padding: 0 20px;
+}
+
+.select_dropdown {
+  width: 100px;
+  outline: none;
+  border: none;
+}
+
+.save,
+.cancel {
+  cursor: pointer;
+  font-size: 16px;
+}
+
+.pointer {
+  cursor: pointer;
+}
+
+.options_wr {
+  display: flex;
+  align-items: center;
+
+  .save {
+    color: var(--ubs-secondary-dark-green);
+  }
+
+  .cancel {
+    margin-left: 10px;
+    color: var(--ubs-primary-red);
+  }
+}
+
+::ng-deep .mat-spinner circle {
+  stroke: var(--ubs-button-light-green);
+}
+
+::ng-deep .mat-progress-spinner circle {
+  stroke: var(--ubs-button-light-green);
+}

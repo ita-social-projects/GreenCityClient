@@ -1,0 +1,25 @@
+import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+
+import { UbsUserOrderDetailsComponent } from './ubs-user-order-details.component';
+
+describe('UbsUserOrderDetailsComponent', () => {
+  let component: UbsUserOrderDetailsComponent;
+  let fixture: ComponentFixture<UbsUserOrderDetailsComponent>;
+
+  beforeEach(async(() => {
+    TestBed.configureTestingModule({
+      declarations: [ UbsUserOrderDetailsComponent ]
+    })
+    .compileComponents();
+  }));
+
+  beforeEach(() => {
+    fixture = TestBed.createComponent(UbsUserOrderDetailsComponent);
+    component = fixture.componentInstance;
+    fixture.detectChanges();
+  });
+
+  it('should create', () => {
+    expect(component).toBeTruthy();
+  });
+});

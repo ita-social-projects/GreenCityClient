@@ -5,6 +5,7 @@ import { WarningPopUpComponent } from '@shared/components';
 import { Observable } from 'rxjs';
 import { take } from 'rxjs/operators';
 import { MatDialog } from '@angular/material/dialog';
+import { OrderService } from '../../../ubs/services/order.service';
 
 @Component({
   selector: 'app-form-base',
@@ -33,7 +34,7 @@ export class FormBaseComponent implements ComponentCanDeactivate {
     // TODO: add functionality to this method
   }
 
-  constructor(public router: Router, public dialog: MatDialog) {}
+  constructor(public router: Router, public dialog: MatDialog, public orderService?: OrderService) {}
 
   @HostListener('window:beforeunload')
   canDeactivate(): boolean | Observable<boolean> {
@@ -54,12 +55,17 @@ export class FormBaseComponent implements ComponentCanDeactivate {
     }
   }
 
-  cancelUBS(): void {
-    const condition = this.getFormValues();
-    this.cancelPopupJustifying(condition);
+  cancelUBSwithoutSaving(): void {
+    this.orderService.cancelUBSwithoutSaving();
+    this.router.navigateByUrl('/ubs');
   }
 
-  private cancelPopupJustifying(condition: boolean) {
+  cancelUBS(isUbsOrderSubmit?: boolean): void {
+    const condition = this.getFormValues();
+    this.cancelPopupJustifying(condition, isUbsOrderSubmit);
+  }
+
+  private cancelPopupJustifying(condition: boolean, isUbsOrderSubmit?: boolean) {
     if (condition) {
       const matDialogRef = this.dialog.open(WarningPopUpComponent, this.popupConfig);
 
@@ -67,9 +73,23 @@ export class FormBaseComponent implements ComponentCanDeactivate {
         .afterClosed()
         .pipe(take(1))
         .subscribe((confirm) => {
+          const currentUrl = this.router.url;
+          const isUBS = currentUrl.includes('ubs/order');
+
           if (confirm) {
             this.areChangesSaved = true;
+          }
+          if (confirm && isUbsOrderSubmit) {
+            this.router.navigate(['ubs', 'confirm']);
+          }
+          if (confirm && !isUbsOrderSubmit && isUBS) {
+            this.cancelUBSwithoutSaving();
+          }
+          if (confirm && !isUbsOrderSubmit && !isUBS) {
             this.router.navigate([this.previousPath]);
+          }
+          if (confirm === null && isUbsOrderSubmit) {
+            this.cancelUBSwithoutSaving();
           }
         });
       return;

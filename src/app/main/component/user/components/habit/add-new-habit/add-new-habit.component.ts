@@ -130,23 +130,13 @@ export class AddNewHabitComponent implements OnInit, OnDestroy {
 
   public addHabit() {
     const defailtItemsIds = this.newList.filter((item) => item.selected === true).map((item) => item.id);
-    if (defailtItemsIds.length > 0) {
-      this.habitAssignService
-        .assignCustomHabit(this.habitId, this.newDuration, defailtItemsIds)
-        .pipe(take(1))
-        .subscribe(() => {
-          this.router.navigate(['profile', this.userId]);
-          this.snackBar.openSnackBar('habitAdded');
-        });
-    } else {
-      this.habitAssignService
-        .assignHabit(this.habitId)
-        .pipe(take(1))
-        .subscribe(() => {
-          this.router.navigate(['profile', this.userId]);
-          this.snackBar.openSnackBar('habitAdded');
-        });
-    }
+    this.habitAssignService
+      .assignCustomHabit(this.habitId, this.newDuration, defailtItemsIds)
+      .pipe(take(1))
+      .subscribe(() => {
+        this.router.navigate(['profile', this.userId]);
+        this.snackBar.openSnackBar('habitAdded');
+      });
   }
 
   public updateHabit() {

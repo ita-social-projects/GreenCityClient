@@ -1,4 +1,5 @@
 export interface EcoNewsModel {
+  countComments: number;
   id: number;
   imagePath: string;
   title: string;
@@ -9,6 +10,7 @@ export interface EcoNewsModel {
   };
   tags: Array<NewsTagInterface>;
   creationDate: string;
+  likes: number;
   source?: string;
 }
 

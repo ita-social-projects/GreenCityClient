@@ -1,0 +1,18 @@
+div {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  padding: 0 20px;
+}
+
+.readonly_date {
+  display: flex;
+  justify-content: space-between;
+  padding: 0 20px;
+}
+
+::ng-deep .mat-tooltip {
+  font-size: 12px;
+  text-align: justify;
+  max-width: 350px !important;
+}

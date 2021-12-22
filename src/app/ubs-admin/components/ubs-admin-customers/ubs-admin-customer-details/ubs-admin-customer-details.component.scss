@@ -1,0 +1,77 @@
+.ubs_customer-container {
+  font-family: var(--primary-font);
+  font-size: 0.9em;
+  max-width: 1200px;
+  display: flex;
+  justify-content: center;
+  margin-bottom: 100px;
+
+  .ubs_customer-back {
+    background-color: transparent;
+    color: var(--ubs-primary-green);
+    border: none;
+    font-size: 18px;
+    font-weight: bold;
+
+    p {
+      cursor: pointer;
+      margin-bottom: 0;
+    }
+  }
+
+  .ubs_customer-header {
+    width: 905px;
+
+    .header-text {
+      padding-top: 25px;
+    }
+  }
+
+  .input-group {
+    padding: 20px;
+    width: 905px;
+    box-shadow: 0 14px 28px rgba(0, 0, 0, 0.25);
+
+    form {
+      margin-left: 15px;
+    }
+  }
+
+  label {
+    margin: 0;
+    color: var(--ubs-secondary-grey);
+    white-space: nowrap;
+  }
+
+  h5 {
+    font-weight: bold;
+    margin: 30px 0 30px 15px;
+  }
+
+  h3 {
+    font-weight: bold;
+    color: black;
+  }
+
+  .form-group {
+    p {
+      padding: 13px 0;
+      color: black;
+      font-size: 16px;
+      white-space: nowrap;
+      margin-bottom: 0;
+    }
+  }
+}
+
+@media (max-width: 1439px) {
+  .ubs_customer-container {
+    max-width: 800px;
+  }
+}
+
+@media (max-width: 992px) {
+  .ubs_customer-container {
+    max-width: 600px;
+  }
+}

@@ -9,11 +9,13 @@ import { UBSSubmitOrderComponent } from './ubs-submit-order.component';
 import { UBSOrderFormService } from '../../services/ubs-order-form.service';
 import { HttpErrorResponse } from '@angular/common/http';
 import { MatDialogModule } from '@angular/material/dialog';
+import { Router } from '@angular/router';
 
 describe('UBSSubmitOrderComponent', () => {
   let component: UBSSubmitOrderComponent;
   let fixture: ComponentFixture<UBSSubmitOrderComponent>;
   let mockedtakeOrderDetails;
+  let router: Router;
   const fakeOrderService = jasmine.createSpyObj('fakeOrderService', ['getOrderUrl']);
   const mockedOrderDetails = {
     bags: [],
@@ -26,6 +28,10 @@ describe('UBSSubmitOrderComponent', () => {
     email: 'fake',
     phoneNumber: 'fake',
     addressComment: 'fake',
+    anotherClientFirstName: 'fake',
+    anotherClientLastName: 'fake',
+    anotherClientEmail: 'fake',
+    anotherClientPhoneNumber: 'fake',
     city: 'fake',
     district: 'fake',
     street: 'fake',
@@ -59,6 +65,8 @@ describe('UBSSubmitOrderComponent', () => {
     component = fixture.componentInstance;
     mockedtakeOrderDetails = component.takeOrderDetails;
     spyOn(component, 'takeOrderDetails').and.callFake(() => {});
+    router = TestBed.inject(Router);
+    spyOn(router, 'navigate');
     fixture.detectChanges();
   });
 

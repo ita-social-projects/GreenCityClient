@@ -14,13 +14,14 @@ import { EmployeeFormComponent } from './employee-form/employee-form.component';
   styleUrls: ['./ubs-admin-employee.component.scss']
 })
 export class UbsAdminEmployeeComponent implements OnInit {
-  fakeData: Page[] = [];
+  employeesData: Page[] = [];
   destroy: Subject<boolean> = new Subject<boolean>();
   totalLength: number;
   currentPage = 1;
   paginPage: number;
   size = 5;
   paginationId = 'employee';
+  tiles: boolean;
 
   constructor(
     private activatedRoute: ActivatedRoute,
@@ -34,6 +35,7 @@ export class UbsAdminEmployeeComponent implements OnInit {
       this.paginPage = params.page - 1;
       this.getEmployees();
     });
+    this.tiles = true;
   }
 
   getEmployees(): void {
@@ -44,7 +46,7 @@ export class UbsAdminEmployeeComponent implements OnInit {
   }
 
   setData(item: Employees): void {
-    this.fakeData = item.page;
+    this.employeesData = item.content;
     this.totalLength = item.totalElements;
   }
 
@@ -57,7 +59,18 @@ export class UbsAdminEmployeeComponent implements OnInit {
 
   openDialog() {
     this.dialog.open(EmployeeFormComponent, {
-      panelClass: 'custom-modalbox'
+      hasBackdrop: true,
+      closeOnNavigation: true,
+      disableClose: true,
+      panelClass: 'custom-dialog-container'
     });
+  }
+
+  openTable() {
+    this.tiles = false;
+  }
+
+  openTiles() {
+    this.tiles = true;
   }
 }

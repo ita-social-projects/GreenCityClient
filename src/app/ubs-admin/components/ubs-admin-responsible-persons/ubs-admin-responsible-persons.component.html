@@ -1,43 +1,51 @@
-<div class="container pb-3">
-  <h1 class="form__headline">{{ 'responsible-persons.title' | translate }}</h1>
-  <div class="form-row">
-    <div class="form-group col-md-4">
-      <label class="form__label">{{ 'responsible-persons.service-manager' | translate }}</label>
-      <select class="form-control form__select">
-        <option *ngFor="let person of responsiblePersons">{{ person }}</option>
-      </select>
+<div class="container" [formGroup]="responsiblePersonsForm">
+  <div class="empty_card" (click)="openDetails()">
+    <img *ngIf="!pageOpen" src="assets/img/ubs-admin-orders/arrow_up.svg" alt="arrow up" />
+    <img *ngIf="pageOpen" src="assets/img/ubs-admin-orders/arrow_down.svg" alt="arrow down" />
+
+    <h1 class="form__headline">{{ 'responsible-persons.title' | translate }}</h1>
+  </div>
+  <div *ngIf="pageOpen">
+    <div class="form-row">
+      <div class="form-group col-md-4">
+        <label class="form__label">{{ 'responsible-persons.call-manager' | translate }}</label>
+        <select formControlName="callManager" class="form-control form__select">
+          <option *ngFor="let employee of allCallManagers" [value]="employee">
+            {{ employee }}
+          </option>
+        </select>
+      </div>
+    </div>
+    <div class="form-row">
+      <div class="form-group col-md-4">
+        <label class="form__label">{{ 'responsible-persons.logistician' | translate }}</label>
+        <select formControlName="logistician" class="form-control form__select">
+          <option *ngFor="let employee of allLogisticians" [value]="employee">
+            {{ employee }}
+          </option>
+        </select>
+      </div>
+    </div>
+    <div class="form-row">
+      <div class="form-group col-md-4">
+        <label class="form__label">{{ 'responsible-persons.navigator' | translate }}</label>
+        <select formControlName="navigator" class="form-control form__select">
+          <option *ngFor="let employee of allNavigators" [value]="employee">
+            {{ employee }}
+          </option>
+        </select>
+      </div>
+    </div>
+    <div class="form-row">
+      <div class="form-group col-md-4">
+        <label class="form__label">{{ 'responsible-persons.driver' | translate }}</label>
+        <select formControlName="driver" class="form-control form__select">
+          <option *ngFor="let employee of allDrivers" [value]="employee">
+            {{ employee }}
+          </option>
+        </select>
+      </div>
     </div>
   </div>
-  <div class="form-row">
-    <div class="form-group col-md-4">
-      <label class="form__label">{{ 'responsible-persons.call-manager' | translate }}</label>
-      <select class="form-control form__select">
-        <option *ngFor="let person of responsiblePersons">{{ person }}</option>
-      </select>
-    </div>
-  </div>
-  <div class="form-row">
-    <div class="form-group col-md-4">
-      <label class="form__label">{{ 'responsible-persons.logistician' | translate }}</label>
-      <select class="form-control form__select">
-        <option *ngFor="let person of responsiblePersons">{{ person }}</option>
-      </select>
-    </div>
-  </div>
-  <div class="form-row">
-    <div class="form-group col-md-4">
-      <label class="form__label">{{ 'responsible-persons.navigator' | translate }}</label>
-      <select class="form-control form__select">
-        <option *ngFor="let person of responsiblePersons">{{ person }}</option>
-      </select>
-    </div>
-  </div>
-  <div class="form-row">
-    <div class="form-group col-md-4">
-      <label class="form__label">{{ 'responsible-persons.driver' | translate }}</label>
-      <select class="form-control form__select">
-        <option *ngFor="let person of responsiblePersons">{{ person }}</option>
-      </select>
-    </div>
-  </div>
+  <hr />
 </div>

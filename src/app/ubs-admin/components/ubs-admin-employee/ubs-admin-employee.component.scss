@@ -4,6 +4,25 @@
   padding-left: 10px;
   padding-top: 32px;
 
+  .switcher {
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+
+    .switch-btn {
+      background-color: white;
+      border: 0;
+      width: 30px;
+      height: 30px;
+      color: var(--primary-grey);
+    }
+
+    .switch-btn:focus {
+      color: var(--primary-green);
+      outline: none;
+    }
+  }
+
   .employee-header {
     display: flex;
     flex-direction: row;
@@ -30,8 +49,9 @@
         line-height: 20px;
         font-weight: 700;
         letter-spacing: 0.1px;
-        font-family: var(--primary-font);
-        background: var(--ubs-primary-green);
+        font-family: var(--ubs-quaternary-font);
+        color: var(--ubs-quaternary-dark-grey);
+        background: var(--ubs-button-light-green);
         border-radius: 4px;
       }
     }
@@ -52,13 +72,4 @@
   .main-employee-container {
     padding-left: 0;
   }
-}
-
-::ng-deep .custom-modalbox {
-  position: absolute;
-  background-color: var(--pre-secondary-light-grey);
-  height: 848px;
-  width: 492px;
-  left: 500px;
-  top: 176px;
 }

@@ -1,4 +1,5 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { TranslateModule } from '@ngx-translate/core';
 
 import { RemainingCountComponent } from './remaining-count.component';
 
@@ -8,7 +9,8 @@ describe('RemainingCountComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [RemainingCountComponent],
+      imports: [TranslateModule.forRoot()],
+      declarations: [RemainingCountComponent]
     }).compileComponents();
   }));
 

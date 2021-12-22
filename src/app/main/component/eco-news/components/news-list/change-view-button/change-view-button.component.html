@@ -1,8 +1,24 @@
 <div class="wrapper">
-  <span class="btn-tiles" (click)="changeGalleryView()" [ngClass]="{ 'btn-tiles-active': gallery }">
+  <span
+    class="btn-tiles"
+    tabindex="0"
+    [attr.aria-pressed]="gallery"
+    role="button"
+    aria-label="table view"
+    (click)="changeGalleryView()"
+    [ngClass]="{ 'btn-tiles-active': gallery }"
+  >
     <em class="fa fa-th-large"></em>
   </span>
-  <span class="btn-bars" (click)="changeListView()" [ngClass]="{ 'btn-bars-active': !gallery }">
+  <span
+    class="btn-bars"
+    tabindex="0"
+    [attr.aria-pressed]="!gallery"
+    role="button"
+    aria-label="list view"
+    (click)="changeListView()"
+    [ngClass]="{ 'btn-bars-active': !gallery }"
+  >
     <em class="fa fa-bars"></em>
   </span>
 </div>

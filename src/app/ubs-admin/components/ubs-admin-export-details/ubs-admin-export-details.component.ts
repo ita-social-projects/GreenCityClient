@@ -1,9 +1,8 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
-import { FormGroup, FormControl, FormArray, Validators, FormBuilder } from '@angular/forms';
+import { Component, Input, OnDestroy, OnInit } from '@angular/core';
+import { FormGroup } from '@angular/forms';
 import { Subject } from 'rxjs';
-import { takeUntil } from 'rxjs/operators';
 import { IExportDetails } from '../../models/ubs-admin.interface';
-import { OrderService } from '../../services/order.service';
+import { fromSelect, toSelect } from '../ubs-admin-table/table-cell-time/table-cell-time-range';
 
 @Component({
   selector: 'app-ubs-admin-export-details',
@@ -11,41 +10,58 @@ import { OrderService } from '../../services/order.service';
   styleUrls: ['./ubs-admin-export-details.component.scss']
 })
 export class UbsAdminExportDetailsComponent implements OnInit, OnDestroy {
-  public orderId = 893;
-  public orderExportDetailsForm: FormGroup;
-  public receivingStations: string[];
-  public orderExportDetails: IExportDetails;
+  @Input() exportInfo: IExportDetails;
+  @Input() exportDetailsForm: FormGroup;
+  @Input() from: string;
+  @Input() to: string;
+
   private destroy$: Subject<boolean> = new Subject<boolean>();
-  constructor(private fb: FormBuilder, private orderService: OrderService) {}
+  pageOpen: boolean;
+  public showTimePicker = false;
+  public fromSelect: string[];
+  public toSelect: string[];
+  public fromInput: string;
+  public toInput: string;
 
-  ngOnInit(): void {
-    this.initForm();
-    this.getExportDetails();
+  ngOnInit() {
+    this.fromSelect = fromSelect;
+    this.toSelect = toSelect;
   }
 
-  public initForm() {
-    this.orderExportDetailsForm = this.fb.group({
-      exportedDate: [''],
-      exportedTime: [''],
-      receivingStation: [''],
-      allReceivingStations: this.fb.array([])
-    });
+  openDetails() {
+    this.pageOpen = !this.pageOpen;
   }
 
-  public patchFormData(): void {
-    this.orderExportDetailsForm.patchValue(this.orderExportDetails);
+  setExportTime() {
+    this.showTimePicker = true;
   }
 
-  public getExportDetails(): void {
-    this.orderService
-      .getOrderExportDetails(this.orderId)
-      .pipe(takeUntil(this.destroy$))
-      .subscribe((data: IExportDetails) => {
-        this.orderExportDetails = data;
-        this.orderExportDetails.exportedDate = new Date(data.exportedDate).toISOString().substr(0, 10);
-        this.receivingStations = data.allReceivingStations;
-        this.patchFormData();
-      });
+  onTimeFromChange() {
+    const fromIdx = fromSelect.indexOf(this.fromInput);
+    this.toSelect = toSelect.slice(fromIdx);
+  }
+
+  onTimeToChange() {
+    const toIdx = toSelect.indexOf(this.toInput);
+    this.fromSelect = fromSelect.slice(0, toIdx + 1);
+  }
+
+  save() {
+    this.from = this.fromInput;
+    this.to = this.toInput;
+    if (this.fromInput && this.toInput) {
+      const timeFromControl = 'timeDeliveryFrom';
+      const timeToControl = 'timeDeliveryTo';
+      this.exportDetailsForm.controls[timeFromControl].setValue(this.fromInput);
+      this.exportDetailsForm.controls[timeToControl].setValue(this.toInput);
+      this.showTimePicker = false;
+    }
+  }
+
+  cancel() {
+    this.fromInput = this.from;
+    this.toInput = this.to;
+    this.showTimePicker = false;
   }
 
   ngOnDestroy(): void {

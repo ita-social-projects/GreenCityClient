@@ -3,6 +3,24 @@
   line-height: 32px;
 }
 
+.empty_card {
+  padding-top: 20px;
+  padding-bottom: 20px;
+
+  h1 {
+    display: inline;
+  }
+
+  img {
+    width: 20px;
+    margin-right: 20px;
+  }
+}
+
+.empty_card:hover {
+  cursor: pointer;
+}
+
 .form__headline {
   font-size: 20px;
   font-weight: 700;
@@ -14,6 +32,21 @@ label {
   color: var(--ubs-secondary-grey);
   font-size: 16px;
   line-height: 24px;
+}
+
+.form-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+}
+
+.address {
+  display: grid;
+  grid-template-rows: 1fr 1fr 1fr 1fr;
+}
+
+.settlement,
+.building {
+  display: flex;
 }
 
 #address-comment {

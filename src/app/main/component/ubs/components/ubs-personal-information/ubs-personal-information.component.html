@@ -21,7 +21,7 @@
         formControlName="phoneNumber"
         type="text"
         class="shadow-none form-control"
-        placeholder="+38(___) ___ __ __"
+        placeholder="+380(__) ___ __ __"
         [unmask]="true"
         [imask]="{ mask: phoneMask }"
       />
@@ -55,6 +55,79 @@
       </div>
     </div>
   </div>
+  <div class="row form-check">
+    <input class="form-check-input" type="checkbox" value="" [checked]="anotherClient" id="flexCheckDefault" (change)="togglClient()" />
+    <label class="form-check-label" for="flexCheckDefault">
+      {{ 'personal-info.info-other-client' | translate }}
+    </label>
+  </div>
+  <div class="row personal-data" *ngIf="anotherClient" (change)="changeAnotherClientInPersonalData()">
+    <div class="col-12 col-sm-6 form-group">
+      <label>{{ 'personal-info.info-name' | translate }}</label>
+      <input
+        formControlName="anotherClientFirstName"
+        type="text"
+        class="shadow-none form-control"
+        placeholder="{{ 'personal-info.info-name' | translate }}"
+      />
+      <div class="validation" *ngIf="getControl('anotherClientFirstName').invalid && getControl('anotherClientFirstName').touched">
+        <app-ubs-input-error
+          [formElement]="getControl('anotherClientFirstName')"
+          [anotherClientFirstNameFieldValue]="getControl('anotherClientFirstName').value"
+          [controlName]="'anotherClientFirstName'"
+        >
+        </app-ubs-input-error>
+      </div>
+    </div>
+    <div class="col-12 col-sm-6 form-group">
+      <label>{{ 'personal-info.info-phone' | translate }}</label>
+      <input
+        formControlName="anotherClientPhoneNumber"
+        type="text"
+        class="shadow-none form-control"
+        placeholder="+380(___) ___ __ __"
+        [unmask]="true"
+        [imask]="{ mask: phoneMask }"
+      />
+      <div class="validation" *ngIf="getControl('anotherClientPhoneNumber').invalid && getControl('anotherClientPhoneNumber').touched">
+        <app-ubs-input-error
+          [formElement]="getControl('anotherClientPhoneNumber')"
+          [anotherClientPhoneNumberFieldValue]="getControl('anotherClientPhoneNumber').value"
+          [controlName]="'anotherClientPhoneNumber'"
+        >
+        </app-ubs-input-error>
+      </div>
+    </div>
+    <div class="col-12 col-sm-6 form-group mt-2">
+      <label>{{ 'personal-info.info-surname' | translate }}</label>
+      <input
+        formControlName="anotherClientLastName"
+        type="text"
+        class="shadow-none form-control"
+        placeholder="{{ 'personal-info.info-surname' | translate }}"
+      />
+      <div class="validation" *ngIf="getControl('anotherClientLastName').invalid && getControl('anotherClientLastName').touched">
+        <app-ubs-input-error
+          [formElement]="getControl('anotherClientLastName')"
+          [anotherClientLastNameFieldValue]="getControl('anotherClientLastName').value"
+          [controlName]="'anotherClientLastName'"
+        >
+        </app-ubs-input-error>
+      </div>
+    </div>
+    <div class="col-12 col-sm-6 form-group mt-2">
+      <label>Email ({{ 'personal-info.info-optionally' | translate }})</label>
+      <input formControlName="anotherClientEmail" type="text" class="shadow-none form-control" placeholder="example@email.com" />
+      <div class="validation" *ngIf="getControl('anotherClientEmail').invalid && getControl('anotherClientEmail').touched">
+        <app-ubs-input-error
+          [formElement]="getControl('anotherClientEmail')"
+          [anotherClientEmailFieldValue]="getControl('anotherClientEmail').value"
+          [controlName]="'anotherClientEmail'"
+        >
+        </app-ubs-input-error>
+      </div>
+    </div>
+  </div>
   <hr />
   <div class="row adress-section">
     <div class="w-100">
@@ -69,13 +142,7 @@
     <ng-template #addressesList>
       <div class="w-50 d-flex mt-2 mb-2 col-lg-6 col-md-6 col-sm-12 col-12" *ngFor="let address of addresses">
         <div class="custom-radio d-flex">
-          <input
-            formControlName="address"
-            type="radio"
-            [value]="address.id"
-            [checked]="address.actual"
-            (click)="checkAddress(address.id)"
-          />
+          <input name="address" type="radio" [value]="address.id" [checked]="address.actual" (click)="checkAddress(address.id)" />
         </div>
         <app-address [address]="address" class="col-md-6"></app-address>
         <div class="edit-address" (click)="editAddress(address.id)">
@@ -105,9 +172,10 @@
       class="form-control"
       formControlName="addressComment"
       placeholder="{{ 'personal-info.info-coment-placeholder' | translate }}"
+      (blur)="changeAddressComment()"
     ></textarea>
     <div class="validation" *ngIf="getControl('addressComment').invalid && getControl('addressComment').touched">
-      <app-ubs-input-error [formElement]="getControl('addressComment')" [controlName]="'addressComment'"></app-ubs-input-error>
+      <app-ubs-input-error [formElement]="getControl('addressComment')" [controlName]="'addressComment'"> </app-ubs-input-error>
     </div>
   </div>
 </form>

@@ -43,7 +43,11 @@
         "education": "Education",
         "lifehacks": "Lifehacks"
       },
-      "items-found": "items found",
+      "items-found": {
+        "item-at-1": "item found",
+        "item-at-2-3-4": "items found",
+        "item-at-all": "items found"
+      },
       "news-popup": {
         "title": "All created content will be lost.",
         "subtitle": "Do you still want to cancel news creating?",
@@ -165,7 +169,10 @@
     "no-attachment": "No attachments",
     "loading-data": "Loading data...",
     "no-data": "No data",
-    "items-per-page": "Items per page:"
+    "items-per-page": "Items per page:",
+    "delete": "Delete",
+    "Do-you-really-want-to-delete-comment-of": "Do you really want to delete comment",
+    "places": "Places"
   },
   "places": {
     "places": "Places",
@@ -413,7 +420,8 @@
       "close-navigation": "Close navigation",
       "discount": "discount",
       "driving": "driving",
-      "walking": "walking"
+      "walking": "walking",
+      "more-options": "More options"
     },
     "places-card": {
       "card-description": "https://placewebsite.com",
@@ -519,7 +527,10 @@
       "tips": "Tips & Tricks",
       "map": "Places",
       "ubs": "UBS courier",
-      "my-habits": "My space"
+      "my-habits": "My space",
+      "sorting-rules": "Sorting rules",
+      "eco-shop": "Eco-Shop",
+      "events": "Events"
     },
     "edit-profile": {
       "edit-profile": "Edit Profile",
@@ -574,7 +585,8 @@
       "tips": "Tips & Tricks",
       "map": "Places",
       "my-habits": "My habits",
-      "follow-us": "Follow us"
+      "follow-us": "Follow us",
+      "events": "Events"
     },
     "user-goals": {
       "add-goal": {
@@ -660,6 +672,7 @@
       "all-habits": {
         "back-button": "Back to My habits",
         "title": "All habits",
+        "mutual": "Mutual habits",
         "no-habits": "Unfortunately, no more habits found",
         "no-habits-advice": "We couldn't find any more habits. Please change filters to get another result.",
         "btn-more": "More",
@@ -780,11 +793,20 @@
       "habits-inprogress": "In progress",
       "add-new-habit": "Add New Habit",
       "habits-acquired": "Acquired",
-      "habits": "habits",
+      "habits-view-more": "View more...",
+      "habits": {
+        "habit-at-1": "habit",
+        "habit-at-2-3-4": "habits",
+        "habit-at-all": "habits"
+      },
       "no-habits-in-progress": "Hi Eco Friend ;-)",
       "no-habits-in-progress-advice": "Welcome to My Habits. It seems you don’t have habits in progress. Let’s start to acquire a new one!",
       "news-list": "List of news",
-      "news": "news",
+      "news": {
+        "news-at-1": "item of news",
+        "news-at-2-3-4": "news",
+        "news-at-all": "news"
+      },
       "add-news": "Add News"
     },
     "habits-in-progress": "In progress",
@@ -793,6 +815,7 @@
     "elements": "Items",
     "my-eco-friends": "My Friends",
     "zero-friends": "You don't have any friends.",
+    "zero-user-friends": "This user has no friends",
     "zero-requests": "Unfortunately, there are no new requests.",
     "my-eco-places": "My eco places",
     "shoppingList": "Shopping list",
@@ -811,6 +834,7 @@
     "friends": {
       "link-to-profile": "Back to My habits",
       "mutual-friends": "mutual friends",
+      "all-mutual-friends": "Mutual friends",
       "friends": "Friends",
       "add-new-friend": "Add friend",
       "delete-friend": "Unfriend",
@@ -844,7 +868,7 @@
     "picture-title": "Picture (optional)",
     "content-title": "Content",
     "content-placeholder": "e.g. Short description of news, agenda for event",
-    "content-tooltip": "Must be minimum 20 symbols",
+    "content-tooltip": "Must be minimum 20 and maximum 63 206 symbols",
     "date": "Date: ",
     "author": "Author: ",
     "author-name": "Current User",
@@ -894,5 +918,31 @@
     "eco-news-widget": {
       "paragraph": "May be interesting for you"
     }
+  },
+  "footer": {
+    "station": "Station",
+    "address": "Kyiv, Saperno-Slobitska str,25",
+    "schedule": "Station work schedule",
+    "mon-tue": " mon-tue",
+    "day-off": "day off",
+    "wed-fri": " wed-fri",
+    "from": "from",
+    "to": "to",
+    "service": "*paid service «Sorting» is available",
+    "sat-sun": " sat-sun",
+    "accept-compost": "We accept compost during the week during the working hours of the station (except Monday and Tuesday).",
+    "ubs-world-community": "UBS - in the world community",
+    "glad-for-letters": "Glad for your letters",
+    "your-email": "Your email",
+    "subscribe-newsletter": "Subscribe to useful newsletter:",
+    "subscribe-us": "SUBSCRIBE",
+    "user-agreement": "User agreement",
+    "public-offer": "Public offer",
+    "help-the-project": "How to help the project",
+    "how-to-get-there": "How to get there?",
+    "ukraine-without-garbage": "Ukraine without garbage"
+  },
+  "accessibility": {
+    "skip-to-the-main-content": "skip to the main content"
   }
 }

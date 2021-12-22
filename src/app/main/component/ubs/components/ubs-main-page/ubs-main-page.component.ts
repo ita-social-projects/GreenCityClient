@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { Router } from '@angular/router';
+import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
 import { ubsMainPageImages } from '../../../../image-pathes/ubs-main-page-images';
 
 @Component({
@@ -63,9 +64,10 @@ export class UbsMainPageComponent {
     'ubs-homepage.ubs-courier.rules.content.li_3'
   ];
 
-  constructor(private router: Router) {}
+  constructor(private router: Router, private localeStorageService: LocalStorageService) {}
 
   redirectToOrder() {
+    this.localeStorageService.setUbsRegistration(true);
     this.router.navigate(['ubs', 'order']);
   }
 }

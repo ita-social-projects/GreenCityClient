@@ -1,15 +1,16 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Subject } from 'rxjs';
+import { Router } from '@angular/router';
+import { take, takeUntil } from 'rxjs/operators';
+import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
+import { Component, OnDestroy, OnInit, Renderer2 } from '@angular/core';
+import { FormBaseComponent } from '@shared/components/form-base/form-base.component';
+import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
 import { FormBuilder, FormGroup, FormArray, Validators, FormControl } from '@angular/forms';
-import { Bag, FinalOrder, OrderDetails } from '../../models/ubs.interface';
-import { ReplaySubject, Subject } from 'rxjs';
-import { takeUntil } from 'rxjs/operators';
 import { OrderService } from '../../services/order.service';
 import { UBSOrderFormService } from '../../services/ubs-order-form.service';
-import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
-import { CertificateStatus } from '../../certificate-status.enum';
-import { FormBaseComponent } from '@shared/components/form-base/form-base.component';
-import { Router } from '@angular/router';
-import { MatDialog } from '@angular/material/dialog';
+import { Bag, FinalOrder, Locations, OrderDetails } from '../../models/ubs.interface';
+import { UbsOrderLocationPopupComponent } from './ubs-order-location-popup/ubs-order-location-popup.component';
+import { ExtraPackagesPopUpComponent } from './extra-packages-pop-up/extra-packages-pop-up.component';
 
 @Component({
   selector: 'app-ubs-order-details',
@@ -28,9 +29,13 @@ export class UBSOrderDetailsComponent extends FormBaseComponent implements OnIni
   certificateSum = 0;
   total = 0;
   finalSum = 0;
+  minAmountOfBigBags: number;
+  totalOfBigBags: number;
   cancelCertBtn = false;
   points: number;
-  certBtnActivate = false;
+  defaultPoints: number;
+  displayMinOrderMes = false;
+  displayMinBigBagsMes = false;
   displayMes = false;
   displayCert = false;
   displayShop = false;
@@ -44,47 +49,97 @@ export class UBSOrderDetailsComponent extends FormBaseComponent implements OnIni
   commentPattern = /^[i\s]{0,255}(.){0,255}[i\s]{0,255}$/;
   additionalOrdersPattern = /^\d{10}$/;
   displayOrderBtn = false;
-
   certSize = false;
   showCertificateUsed = 0;
   certificateLeft = 0;
   certDate: string;
   certStatus: string;
+  failedCert = false;
   userOrder: FinalOrder;
+  ecoShopOrdersNumbersCounter = 1;
+  limitOfEcoShopOrdersNumbers = 5;
   object: {};
   private destroy: Subject<boolean> = new Subject<boolean>();
-  private destroyed$: ReplaySubject<any> = new ReplaySubject<any>(1);
   public currentLanguage: string;
   public certificateError = false;
   bonusesRemaining: boolean;
+  isDialogOpen = false;
   popupConfig = {
     hasBackdrop: true,
     closeOnNavigation: true,
     disableClose: true,
-    panelClass: 'popup-dialog-container',
+    panelClass: 'custom-ubs-style',
     data: {
       popupTitle: 'confirmation.title',
       popupSubtitle: 'confirmation.subTitle',
       popupConfirm: 'confirmation.cancel',
-      popupCancel: 'confirmation.dismiss'
+      popupCancel: 'confirmation.dismiss',
+      isUBS: true
     }
   };
+  public locations: any[];
+  public selectedLocationId: number;
+  public currentLocation: string;
+  public isFetching = false;
+  public changeLocation = false;
+  isBonus: string;
+  public previousPath = 'ubs';
 
   constructor(
     private fb: FormBuilder,
-    private orderService: OrderService,
     private shareFormService: UBSOrderFormService,
     private localStorageService: LocalStorageService,
+    public orderService: OrderService,
+    public renderer: Renderer2,
     router: Router,
     dialog: MatDialog
   ) {
-    super(router, dialog);
+    super(router, dialog, orderService);
     this.initForm();
   }
 
   ngOnInit(): void {
-    this.takeOrderData();
-    this.subscribeToLangChange();
+    const locationId = this.shareFormService.locationId;
+    if (locationId) {
+      this.currentLanguage = this.localStorageService.getCurrentLanguage();
+      this.locations = this.shareFormService.locations;
+      this.selectedLocationId = locationId;
+      this.saveLocation(false);
+    } else {
+      this.openLocationDialog();
+    }
+    this.orderService.locationSubject.pipe(takeUntil(this.destroy)).subscribe(() => {
+      this.takeOrderData();
+      this.subscribeToLangChange();
+      if (this.localStorageService.getUbsOrderData()) {
+        this.calculateTotal();
+      }
+    });
+  }
+
+  saveLocation(isCheck: boolean) {
+    this.isFetching = true;
+    const selectedLocation = { locationId: this.selectedLocationId };
+    this.orderService
+      .addLocation(selectedLocation)
+      .pipe(take(1))
+      .subscribe(() => {
+        this.setCurrentLocation(this.currentLanguage);
+        this.isFetching = false;
+        this.changeLocation = false;
+        this.orderService.setLocationData(this.currentLocation);
+        this.orderService.completedLocation(true);
+        this.localStorageService.setLocationId(this.selectedLocationId);
+        if (isCheck) {
+          this.orderService.setCurrentAddress(JSON.parse(localStorage.getItem('addresses'))[0]);
+        }
+      });
+  }
+
+  private setCurrentLocation(currentLanguage: string): void {
+    this.currentLocation = this.locations
+      .find((loc: any) => loc.locationsDtos[0].locationId === this.selectedLocationId)
+      .locationsDtos[0].locationTranslationDtoList.find((lang) => lang.languageCode === currentLanguage).locationName;
   }
 
   getFormValues(): boolean {
@@ -93,39 +148,95 @@ export class UBSOrderDetailsComponent extends FormBaseComponent implements OnIni
 
   initForm() {
     this.orderDetailsForm = this.fb.group({
-      certificate: new FormControl('', [Validators.minLength(8), Validators.pattern(this.certificatePattern)]),
       orderComment: new FormControl(''),
       bonus: new FormControl('no'),
       shop: new FormControl('no'),
-      additionalCertificates: this.fb.array([]),
+      formArrayCertificates: this.fb.array([new FormControl('', [Validators.minLength(8), Validators.pattern(this.certificatePattern)])]),
       additionalOrders: this.fb.array(['']),
       orderSum: new FormControl(0, [Validators.required, Validators.min(500)])
     });
   }
 
+  openLocationDialog() {
+    this.isDialogOpen = true;
+    const dialogRef = this.dialog.open(UbsOrderLocationPopupComponent, {
+      hasBackdrop: true,
+      disableClose: true
+    });
+
+    dialogRef
+      .afterClosed()
+      .pipe(takeUntil(this.destroy))
+      .subscribe((res) => {
+        if (res.data) {
+          this.locations = res.data;
+          this.selectedLocationId = res.locationId;
+          this.setCurrentLocation(res.currentLanguage);
+        }
+        this.isDialogOpen = false;
+      });
+  }
+
+  checkTotalBigBags() {
+    this.bags.forEach((bag) => {
+      if (bag.capacity === 120) {
+        const q1 = this.orderDetailsForm.controls.quantity1;
+        const q2 = this.orderDetailsForm.controls.quantity2;
+        this.totalOfBigBags = +q1.value + +q2.value;
+      }
+    });
+    setTimeout(() => this.checkForBigBagsMessage());
+  }
+
+  checkForBigBagsMessage() {
+    this.displayMinBigBagsMes = this.minAmountOfBigBags > this.totalOfBigBags;
+  }
+
   private subscribeToLangChange(): void {
     this.localStorageService.languageSubject.pipe(takeUntil(this.destroy)).subscribe(() => {
       this.currentLanguage = this.localStorageService.getCurrentLanguage();
-      this.bags = this.orders.bags.filter((value) => value.code === this.currentLanguage);
+      this.setCurrentLocation(this.currentLanguage);
+      const inputsQuantity = [];
+      this.bags.forEach((a) => {
+        inputsQuantity.push(a.quantity === undefined || a.quantity === null ? null : a.quantity);
+        a.quantity = null;
+      });
+      this.bags = this.orders.bags;
+      this.filterBags();
+      this.bags.forEach((b) => {
+        b.quantity = inputsQuantity.shift();
+      });
+      this.calculateTotal();
     });
   }
 
   public takeOrderData() {
+    this.isFetching = true;
     this.currentLanguage = this.localStorageService.getCurrentLanguage();
     this.orderService
       .getOrders()
       .pipe(takeUntil(this.destroy))
       .subscribe((orderData: OrderDetails) => {
         this.orders = this.shareFormService.orderDetails;
+        this.minAmountOfBigBags = orderData.minAmountOfBigBags;
         this.bags = this.orders.bags;
         this.points = this.orders.points;
+        this.defaultPoints = this.points;
         this.certificateLeft = orderData.points;
         this.bags.forEach((bag) => {
-          bag.quantity = null;
-          this.orderDetailsForm.addControl('quantity' + String(bag.id), new FormControl(0, [Validators.min(0), Validators.max(999)]));
+          bag.quantity = bag.quantity === undefined ? null : bag.quantity;
+          this.orderDetailsForm.addControl('quantity' + String(bag.id), new FormControl('', [Validators.min(0), Validators.max(999)]));
+          const quantity = bag.quantity === null ? '' : +bag.quantity;
+          const valueName = 'quantity' + String(bag.id);
+          this.orderDetailsForm.controls[valueName].setValue(quantity);
         });
-        this.bags = this.orders.bags.filter((value) => value.code === this.currentLanguage);
+        this.filterBags();
+        this.isFetching = false;
       });
+  }
+
+  private filterBags(): void {
+    this.bags = this.orders.bags.filter((value) => value.code === this.currentLanguage).sort((a, b) => b.price - a.price);
   }
 
   changeForm() {
@@ -146,12 +257,8 @@ export class UBSOrderDetailsComponent extends FormBaseComponent implements OnIni
     this.shareFormService.changeOrderDetails();
   }
 
-  get certificate() {
-    return this.orderDetailsForm.get('certificate');
-  }
-
-  get additionalCertificates() {
-    return this.orderDetailsForm.get('additionalCertificates') as FormArray;
+  get formArrayCertificates() {
+    return this.orderDetailsForm.get('formArrayCertificates') as FormArray;
   }
 
   get additionalOrders() {
@@ -173,15 +280,8 @@ export class UBSOrderDetailsComponent extends FormBaseComponent implements OnIni
     });
     this.showTotal = this.total;
     this.changeForm();
-
-    if (this.total < this.minOrderValue && this.orderDetailsForm.dirty) {
-      this.displayMes = true;
-      this.onSubmit = true;
-    } else {
-      this.displayMes = false;
-      this.onSubmit = false;
-    }
-
+    this.displayMinOrderMes = this.total < this.minOrderValue && this.orderDetailsForm.dirty;
+    this.onSubmit = this.displayMinOrderMes;
     this.finalSum = this.total - this.pointsUsed;
     if (this.certificateSum > 0) {
       if (this.total > this.certificateSum) {
@@ -195,6 +295,10 @@ export class UBSOrderDetailsComponent extends FormBaseComponent implements OnIni
         this.points = this.orders.points;
       }
       this.bonusesRemaining = this.certificateSum > 0;
+    } else {
+      this.certificateLeft = 0;
+      this.finalSum = this.total - this.certificateSum - this.pointsUsed;
+      this.showCertificateUsed = this.certificateSum;
     }
     this.changeOrderDetails();
   }
@@ -208,16 +312,30 @@ export class UBSOrderDetailsComponent extends FormBaseComponent implements OnIni
         counter++;
       }
     });
-
-    if (counter === this.additionalOrders.controls.length) {
-      this.displayOrderBtn = true;
-    } else {
-      this.displayOrderBtn = false;
-    }
+    this.displayOrderBtn = counter === this.additionalOrders.controls.length;
   }
 
   public changeShopRadioBtn() {
     this.orderDetailsForm.controls.shop.setValue('yes');
+  }
+
+  public selectPointsRadioBtn(event: KeyboardEvent, radioButtonValue: string) {
+    if (['Enter', 'Space', 'NumpadEnter'].includes(event.code)) {
+      this.orderDetailsForm.controls.bonus.setValue(radioButtonValue);
+    }
+  }
+
+  public selectShopRadioBtn(event: KeyboardEvent, radioButtonValue: string) {
+    if (['Enter', 'Space', 'NumpadEnter'].includes(event.code)) {
+      this.orderDetailsForm.controls.shop.setValue(radioButtonValue);
+      radioButtonValue === 'yes'
+        ? this.renderer.selectRootElement(`#index${this.additionalOrders.controls.length - 1}`).focus()
+        : this.clearOrderValues();
+    }
+  }
+
+  isDisabled(): number {
+    return this.orderDetailsForm.controls.shop.value === 'yes' ? 0 : -1;
   }
 
   clearOrderValues(): void {
@@ -228,197 +346,122 @@ export class UBSOrderDetailsComponent extends FormBaseComponent implements OnIni
     this.ecoStoreValidation();
   }
 
-  onQuantityChange(): void {
+  onQuantityChange(id?: number): void {
     this.bags.forEach((bag) => {
       const valueName = 'quantity' + String(bag.id);
       const orderFormBagController = this.orderDetailsForm.controls[valueName];
-      const startsWithZero = /^0\d+/;
-
-      if (!orderFormBagController.value) {
-        orderFormBagController.setValue('0');
-      }
-
-      if (startsWithZero.test(orderFormBagController.value)) {
-        const slicedValue = orderFormBagController.value.replace(/^0+/, '');
-        orderFormBagController.setValue(slicedValue);
-      }
-
-      if (+orderFormBagController.value === 0) {
-        bag.quantity = null;
-      } else {
+      const inputValue = `${Number(orderFormBagController.value)}`;
+      orderFormBagController.setValue(inputValue);
+      if (Number(orderFormBagController.value) > 0) {
         bag.quantity = orderFormBagController.value;
+      } else {
+        orderFormBagController.setValue('');
+        bag.quantity = null;
       }
     });
+    document.getElementById(`quantity${id}`).focus();
+    this.checkTotalBigBags();
     this.calculateTotal();
+    if (this.isBonus === 'yes') {
+      this.calculatePoints();
+    }
   }
 
   calculatePoints(): void {
-    if (this.certificateSum <= 0) {
-      this.calculatePointsWithoutCertificate();
+    const fullDiscount = this.points + this.pointsUsed;
+    const totalSumIsBiggerThanPoints = this.points + this.pointsUsed <= this.showTotal;
+    if (this.certificateSum < 0) {
+      if (totalSumIsBiggerThanPoints) {
+        this.pointsUsed = fullDiscount;
+        this.points = 0;
+        this.finalSum = this.showTotal - fullDiscount - this.certificateSum;
+        if (this.finalSum < 0) {
+          this.finalSum = 0;
+        }
+      } else if (this.pointsUsed >= this.showTotal || fullDiscount > this.showTotal) {
+        this.points += this.pointsUsed;
+        this.pointsUsed = this.showTotal;
+        this.points = this.points - this.pointsUsed;
+        this.finalSum = 0;
+      }
     } else {
       this.calculatePointsWithCertificate();
     }
-
-    this.finalSum = this.showTotal - this.pointsUsed - this.certificateSum;
-    if (this.finalSum < 0) {
-      this.finalSum = 0;
-    }
-  }
-
-  private calculatePointsWithoutCertificate() {
-    this.showTotal = this.total;
-    const totalSumIsBiggerThanPoints = this.points > this.finalSum;
-    if (totalSumIsBiggerThanPoints) {
-      this.pointsUsed += this.finalSum;
-      this.points = this.points - this.finalSum;
-      this.total = 0;
-      return;
-    }
-    this.pointsUsed = this.points;
-    this.points = 0;
-    this.total = this.total - this.pointsUsed;
   }
 
   private calculatePointsWithCertificate() {
-    const totalSumIsBiggerThanPoints = this.points > this.finalSum;
-
+    this.total = this.showTotal;
+    const certificateUsed = this.certificateSum - this.certificateLeft;
+    const totalSumIsBiggerThanPoints = this.total - certificateUsed === 0;
+    this.points = this.points + this.pointsUsed;
     if (totalSumIsBiggerThanPoints) {
-      this.pointsUsed = this.total - this.certificateSum;
-      this.total = 0;
+      this.showCertificateUsed = certificateUsed;
+      this.points = this.points - this.pointsUsed;
+      this.pointsUsed = 0;
+      this.finalSum = 0;
     } else {
-      this.pointsUsed = this.points;
-      this.total = this.total - this.pointsUsed;
+      if (this.points >= this.showTotal - certificateUsed) {
+        this.pointsUsed = this.showTotal - certificateUsed;
+        this.points = this.points - this.pointsUsed;
+        this.finalSum = 0;
+      } else {
+        this.pointsUsed = this.points;
+        this.points = 0;
+        this.finalSum = this.showTotal - this.certificateSum - this.pointsUsed;
+      }
     }
-    this.points >= this.finalSum ? (this.points = this.points - this.finalSum) : (this.points = 0);
-  }
-
-  resetPoints(): void {
-    this.showTotal = this.total;
-    this.certificateSum = 0;
-    this.finalSum = this.total;
-    this.points = this.orders.points;
-    this.certificateReset(true);
-    this.calculateTotal();
   }
 
   addOrder(): void {
+    this.ecoShopOrdersNumbersCounter++;
     const additionalOrdersArray = this.orderDetailsForm.get('additionalOrders') as FormArray;
     additionalOrdersArray.markAsUntouched();
     const additionalOrder = new FormControl('', [Validators.minLength(10)]);
     this.additionalOrders.push(additionalOrder);
     this.ecoStoreValidation();
+    setTimeout(() => {
+      this.renderer.selectRootElement(`#index${this.additionalOrders.controls.length - 1}`).focus();
+    }, 0);
+  }
+
+  canAddEcoShopOrderNumber(): boolean {
+    return this.ecoShopOrdersNumbersCounter < this.limitOfEcoShopOrdersNumbers;
+  }
+
+  deleteOrder(index: number): void {
+    this.ecoShopOrdersNumbersCounter--;
+    const orders = this.additionalOrders;
+    orders.length > 1 ? orders.removeAt(index) : orders.reset(['']);
+    this.changeOrderDetails();
+  }
+
+  removeOrder(event: KeyboardEvent, index: number) {
+    if (['Enter', 'Space', 'NumpadEnter'].includes(event.code)) {
+      this.deleteOrder(index);
+    }
   }
 
   disableAddCertificate() {
-    return this.certificates.length === this.additionalCertificates.length;
+    return this.certificates.length === this.formArrayCertificates.length;
   }
 
-  addCertificate(): void {
-    this.additionalCertificates.push(this.fb.control('', [Validators.minLength(8), Validators.pattern(/(?!0000)\d{4}-(?!0000)\d{4}/)]));
+  addNewCertificate(): void {
+    this.formArrayCertificates.push(this.fb.control('', [Validators.minLength(8), Validators.pattern(this.certificatePattern)]));
   }
 
-  private clearAdditionalCertificate(index: number) {
-    this.additionalCertificates.removeAt(index);
-    this.certStatuses.splice(index, 1);
-    this.calculateCertificates(this.certificates);
+  setNewValue(newItem: any) {
+    this.points = newItem.points;
+    this.pointsUsed = newItem.pointsUsed;
+    this.displayCert = newItem.displayCert;
+    this.showCertificateUsed = newItem.certificateSum;
+    this.finalSum = newItem.finalSum;
+    this.isBonus = newItem.isBonus;
+    this.certificateSum = newItem.certificateSum;
   }
 
-  deleteCertificate(index: number): void {
-    if (this.displayCert === false) {
-      this.certificates.splice(index, 1);
-      this.clearAdditionalCertificate(index);
-    } else {
-      this.certificates.splice(index + 1, 1);
-      this.clearAdditionalCertificate(index);
-    }
-  }
-
-  addedCertificateSubmit(index: number): void {
-    if (!this.certificates.includes(this.additionalCertificates.value[index])) {
-      this.certificates.push(this.additionalCertificates.value[index]);
-      this.certStatuses.push(true);
-      this.calculateCertificates(this.certificates);
-    }
-  }
-
-  calculateCertificates(arr): void {
-    if (arr.length > 0) {
-      this.cancelCertBtn = true;
-      arr.forEach((certificate, index) => {
-        this.orderService
-          .processCertificate(certificate)
-          .pipe(takeUntil(this.destroy))
-          .subscribe(
-            (cert) => {
-              this.certificateMatch(cert);
-              if (this.total < this.certificateSum) {
-                this.certSize = true;
-              }
-              this.certificateError = false;
-              this.calculateTotal();
-              this.cancelCertBtn = false;
-            },
-            (error) => {
-              this.certBtnActivate = false;
-              this.cancelCertBtn = false;
-              if (error.status === 404) {
-                arr.splice(index, 1);
-                this.certificateError = true;
-              }
-            }
-          );
-      });
-    } else {
-      this.calculateTotal();
-    }
-    this.certificateSum = 0;
-  }
-
-  certificateSubmit(): void {
-    if (!this.certificates.includes(this.orderDetailsForm.value.certificate)) {
-      this.certBtnActivate = true;
-      this.certificates.push(this.orderDetailsForm.value.certificate);
-      this.calculateCertificates(this.certificates);
-    } else {
-      this.orderDetailsForm.patchValue({ certificate: '' });
-    }
-  }
-
-  certificateReset(resetMessage: boolean): void {
-    if (resetMessage) {
-      this.certDate = '';
-      this.certStatus = '';
-      this.addCert = true;
-    }
-
-    this.bonusesRemaining = false;
-    this.showCertificateUsed = null;
-    this.addCert = false;
-    this.displayCert = false;
-    this.certificates = [];
-    this.certSize = false;
-    this.certificateLeft = 0;
-    this.certificateSum = 0;
-    this.orderDetailsForm.patchValue({ certificate: '' });
-    this.calculateCertificates(this.certificates);
-  }
-
-  certificateMatch(cert): void {
-    if (cert.certificateStatus === CertificateStatus.ACTIVE || cert.certificateStatus === CertificateStatus.NEW) {
-      this.certificateSum += cert.certificatePoints;
-      this.displayCert = true;
-      this.addCert = true;
-    }
-    if (cert.certificateStatus === CertificateStatus.EXPIRED || cert.certificateStatus === CertificateStatus.USED) {
-      this.addCert = true;
-    }
-    this.certDate = this.certificateDateTreat(cert.certificateDate);
-    this.certStatus = cert.certificateStatus;
-    this.certBtnActivate = false;
-  }
-
-  private certificateDateTreat(date: string) {
-    return date.split('-').reverse().join('-');
+  openExtraPackages(): void {
+    const dialogConfig = new MatDialogConfig();
+    this.dialog.open(ExtraPackagesPopUpComponent, dialogConfig);
   }
 
   ngOnDestroy() {

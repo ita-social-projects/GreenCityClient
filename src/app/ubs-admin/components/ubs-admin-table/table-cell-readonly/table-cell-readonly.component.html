@@ -1,0 +1,14 @@
+<div
+  *ngIf="date !== 'orderDate'"
+  #tooltip="matTooltip"
+  matTooltip="{{ title }}"
+  matTooltipClass="my-custom-tooltip"
+  (mouseenter)="$event.stopImmediatePropagation()"
+  (mouseleave)="$event.stopImmediatePropagation()"
+  (click)="showTooltip(title, tooltip)"
+>
+  {{ title }}
+</div>
+<div class="readonly_date" *ngIf="date === 'orderDate'">
+  <span>{{ title | date: 'dd/MM/y' }}</span>
+</div>

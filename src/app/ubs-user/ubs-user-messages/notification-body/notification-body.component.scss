@@ -1,0 +1,46 @@
+.links {
+  color: black;
+  text-decoration: none;
+  border-bottom: 1px solid black;
+}
+
+.links:hover {
+  color: var(--ubs-secondary-grey);
+  border-bottom: 1px solid var(--ubs-secondary-grey);
+}
+
+.button-pay {
+  font-size: 14px;
+  font-style: normal;
+  font-weight: 700;
+  line-height: 20px;
+  letter-spacing: 0.1px;
+  text-align: center;
+  border: none;
+  text-decoration: none;
+  text-transform: none;
+  height: 36px;
+  width: 114px;
+  margin-bottom: 16px;
+  border-radius: 4px;
+  background: var(--ubs-button-light-green);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  &:hover {
+    cursor: pointer;
+  }
+}
+
+.price {
+  color: var(--ubs-quaternary-dark-grey);
+  font-size: 15px;
+  font-weight: 500;
+}
+
+.numberOrder {
+  color: var(--ubs-quaternary-dark-grey);
+  font-weight: 500;
+  font-size: 15px;
+}

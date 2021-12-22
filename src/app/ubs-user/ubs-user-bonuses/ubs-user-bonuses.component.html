@@ -1,0 +1,43 @@
+<div class="bonuses-container">
+  <ng-container *ngIf="!isLoading">
+    <div class="no-bonuses-wrapper" *ngIf="!totalBonuses">
+      <span class="no-bonuses-text">{{ 'bonuses.no-bonuses' | translate }}</span>
+      <a href="#" class="more-about-bonuses-link">{{ 'bonuses.get-bonuses' | translate }}</a>
+    </div>
+    <div class="bonuses-exist-wrapper" *ngIf="totalBonuses">
+      <div class="total-bonuses-number">
+        <p class="total-bonuses-number__header">{{ 'bonuses.title' | translate }}</p>
+        <p class="total-bonuses-number__amount">{{ totalBonuses }}</p>
+      </div>
+      <a href="" class="more-about-bonuses-link link-center">{{ 'bonuses.about-bonuses-system' | translate }}</a>
+      <div class="bonuses-table-wrapper">
+        <table
+          mat-table
+          [dataSource]="dataSource"
+          class="table"
+          matSort
+          (matSortChange)="sortData($event)"
+          aria-label="user's bonuses table"
+        >
+          <ng-container matColumnDef="dateOfEnrollment">
+            <th mat-header-cell *matHeaderCellDef class="table-header" mat-sort-header scope="col">
+              {{ 'bonuses.enrollment-date' | translate }}
+            </th>
+            <td mat-cell *matCellDef="let element">{{ element.dateOfEnrollment | date: 'd.MM.yyyy' }}</td>
+          </ng-container>
+          <ng-container matColumnDef="amount">
+            <th mat-header-cell *matHeaderCellDef scope="col">{{ 'bonuses.amount' | translate }}</th>
+            <td mat-cell *matCellDef="let element">{{ element.amount }}</td>
+          </ng-container>
+          <ng-container matColumnDef="reason">
+            <th mat-header-cell *matHeaderCellDef scope="col">{{ 'bonuses.reason' | translate }}</th>
+            <td mat-cell *matCellDef="let element">{{ 'bonuses.order' | translate }} №{{ element.numberOfOrder }}</td>
+          </ng-container>
+          <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+          <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+        </table>
+      </div>
+    </div>
+  </ng-container>
+  <app-spinner *ngIf="isLoading"></app-spinner>
+</div>

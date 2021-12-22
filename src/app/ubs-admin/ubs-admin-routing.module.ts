@@ -1,12 +1,17 @@
+import { UbsAdminCustomerViolationsComponent } from './components/ubs-admin-customers/ubs-admin-customer-violations/ubs-admin-customer-violations/ubs-admin-customer-violations.component';
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import { UbsAdminOrdersComponent } from './components/ubs-admin-orders/ubs-admin-orders.component';
 import { UbsAdminEmployeeComponent } from './components/ubs-admin-employee/ubs-admin-employee.component';
-import { UbsClientProfilePageComponent } from './components/ubs-client-profile-page/ubs-client-profile-page.component';
 import { UbsAdminTableComponent } from './components/ubs-admin-table/ubs-admin-table.component';
 import { UbsAdminComponent } from './ubs-admin.component';
 import { UbsAdminOrderComponent } from './components/ubs-admin-order/ubs-admin-order.component';
 import { UbsAdminGuardGuard } from './ubs-admin-guard.guard';
+import { UbsAdminCertificateComponent } from './components/ubs-admin-certificate/ubs-admin-certificate.component';
+import { UbsAdminCustomersComponent } from './components/ubs-admin-customers/ubs-admin-customers.component';
+import { UbsAdminTariffsLocationDashboardComponent } from './components/ubs-admin-tariffs/ubs-admin-tariffs-location-dashboard.component';
+import { UbsAdminTariffsPricingPageComponent } from './components/ubs-admin-tariffs/ubs-admin-tariffs-pricing-page/ubs-admin-tariffs-pricing-page.component';
+import { UbsAdminCustomerDetailsComponent } from './components/ubs-admin-customers/ubs-admin-customer-details/ubs-admin-customer-details.component';
+import { UbsAdminCustomerOrdersComponent } from './components/ubs-admin-customers/ubs-admin-customer-orders/ubs-admin-customer-orders.component';
 
 const ubsAdminRoutes: Routes = [
   {
@@ -14,13 +19,18 @@ const ubsAdminRoutes: Routes = [
     component: UbsAdminComponent,
     canActivate: [UbsAdminGuardGuard],
     children: [
-      { path: '', component: UbsAdminOrdersComponent },
+      { path: 'customers', component: UbsAdminCustomersComponent },
+      { path: 'customers/:username', component: UbsAdminCustomerDetailsComponent },
+      { path: 'certificates', component: UbsAdminCertificateComponent },
       { path: 'orders', component: UbsAdminTableComponent },
       { path: 'employee/:page', component: UbsAdminEmployeeComponent },
-      { path: 'profile', component: UbsClientProfilePageComponent },
-      { path: 'order', component: UbsAdminOrderComponent }
+      { path: 'tariffs', component: UbsAdminTariffsLocationDashboardComponent },
+      { path: `tariffs/location/:id`, component: UbsAdminTariffsPricingPageComponent },
+      { path: `customerOrders/:id`, component: UbsAdminCustomerOrdersComponent },
+      { path: `customerViolations/:id`, component: UbsAdminCustomerViolationsComponent }
     ]
-  }
+  },
+  { path: 'order/:id', component: UbsAdminOrderComponent }
 ];
 
 @NgModule({

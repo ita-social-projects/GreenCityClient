@@ -18,6 +18,11 @@
           </a>
         </li>
         <li>
+          <a [routerLink]="['/events']" class="footer_link-item">
+            {{ 'user.footer.events' | translate }}
+          </a>
+        </li>
+        <li>
           <a [routerLink]="['/places']" class="footer_link-item">
             {{ 'user.footer.map' | translate }}
           </a>
@@ -28,7 +33,7 @@
           </a>
         </li>
         <li>
-          <a [routerLink]="['/profile', getUserId()]" class="footer_link-item">
+          <a [routerLink]="['/profile', getUserId()]" (click)="ubsSetRegValue()" class="footer_link-item">
             {{ 'user.footer.my-habits' | translate }}
           </a>
         </li>

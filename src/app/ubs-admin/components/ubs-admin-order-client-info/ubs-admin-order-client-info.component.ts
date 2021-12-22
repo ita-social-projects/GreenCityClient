@@ -1,12 +1,11 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
-import { FormGroup, FormControl, Validators } from '@angular/forms';
+import { Component, Input, OnDestroy, OnInit } from '@angular/core';
+import { FormGroup } from '@angular/forms';
 import { Subject } from 'rxjs';
-import { takeUntil } from 'rxjs/operators';
-import { IUserInfo } from '../../models/ubs-admin.interface';
-import { OrderService } from '../../services/order.service';
-import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
 import { MatDialog } from '@angular/material/dialog';
 import { AddViolationsComponent } from '../add-violations/add-violations.component';
+import { IUserInfo } from '../../models/ubs-admin.interface';
+import { OrderService } from '../../services/order.service';
+import { takeUntil } from 'rxjs/operators';
 
 @Component({
   selector: 'app-ubs-admin-order-client-info',
@@ -14,48 +13,23 @@ import { AddViolationsComponent } from '../add-violations/add-violations.compone
   styleUrls: ['./ubs-admin-order-client-info.component.scss']
 })
 export class UbsAdminOrderClientInfoComponent implements OnInit, OnDestroy {
-  public userInfo: IUserInfo;
-  public customerInfoForm: FormGroup;
-  public customerName: FormControl;
-  public totalUserViolations: number;
-  public userViolationForCurrentOrder: number;
-  public orderId = 893;
-  public currentLanguage: string;
+  @Input() clientInfo: IUserInfo;
+  @Input() clientInfoForm: FormGroup;
+  @Input() orderId;
+
   private destroy$: Subject<boolean> = new Subject<boolean>();
+  pageOpen: boolean;
+  public userViolationForCurrentOrder: number;
 
-  constructor(private localStorageService: LocalStorageService, private dialog: MatDialog, private orderService: OrderService) {}
+  constructor(private dialog: MatDialog, private orderService: OrderService) {}
 
-  public initForm(): void {
-    this.customerInfoForm = new FormGroup({
-      customerName: new FormControl('', [Validators.required]),
-      customerPhoneNumber: new FormControl('', [Validators.required]),
-      customerEmail: new FormControl('', [Validators.required, Validators.email]),
-      recipientName: new FormControl('', [Validators.required]),
-      recipientPhoneNumber: new FormControl('', [Validators.required]),
-      recipientEmail: new FormControl('', [Validators.required, Validators.email])
-    });
-  }
-
-  public patchFormData(): void {
-    this.customerInfoForm.patchValue(this.userInfo);
-  }
-
-  public getUserInfo() {
-    this.currentLanguage = this.localStorageService.getCurrentLanguage();
-    this.orderService
-      .getUserInfo(this.orderId, this.currentLanguage)
-      .pipe(takeUntil(this.destroy$))
-      .subscribe((data: IUserInfo) => {
-        this.userInfo = data;
-        this.totalUserViolations = data.totalUserViolations;
-        this.userViolationForCurrentOrder = data.userViolationForCurrentOrder;
-        this.patchFormData();
-      });
-  }
-
-  ngOnInit(): void {
-    this.initForm();
+  ngOnInit() {
+    this.pageOpen = true;
     this.getUserInfo();
+  }
+
+  openDetails() {
+    this.pageOpen = !this.pageOpen;
   }
 
   ngOnDestroy(): void {
@@ -63,7 +37,25 @@ export class UbsAdminOrderClientInfoComponent implements OnInit, OnDestroy {
     this.destroy$.complete();
   }
 
+  public getUserInfo() {
+    const lang = 'ua';
+    this.orderService
+      .getUserInfo(this.orderId, lang)
+      .pipe(takeUntil(this.destroy$))
+      .subscribe((data) => {
+        this.userViolationForCurrentOrder = data.userViolationForCurrentOrder;
+      });
+  }
+
   openModal(): void {
-    this.dialog.open(AddViolationsComponent, { height: '90%', maxWidth: '560px' });
+    this.dialog.open(AddViolationsComponent, {
+      hasBackdrop: true,
+      closeOnNavigation: true,
+      disableClose: true,
+      panelClass: 'custom-dialog-container',
+      data: {
+        id: this.orderId
+      }
+    });
   }
 }

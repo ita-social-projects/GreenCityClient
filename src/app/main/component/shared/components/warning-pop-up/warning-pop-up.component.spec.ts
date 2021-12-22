@@ -4,6 +4,7 @@ import { TranslateModule } from '@ngx-translate/core';
 import { BrowserDynamicTestingModule } from '@angular/platform-browser-dynamic/testing';
 import { of } from 'rxjs';
 import { MatDialogModule, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { HttpClientTestingModule } from '@angular/common/http/testing';
 
 describe('WarningPopUpComponent', () => {
   let component: WarningPopUpComponent;
@@ -29,7 +30,7 @@ describe('WarningPopUpComponent', () => {
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       declarations: [WarningPopUpComponent],
-      imports: [TranslateModule.forRoot(), MatDialogModule, BrowserDynamicTestingModule],
+      imports: [TranslateModule.forRoot(), MatDialogModule, BrowserDynamicTestingModule, HttpClientTestingModule],
       providers: [
         { provide: MatDialogRef, useValue: dialogRefStub },
         { provide: MAT_DIALOG_DATA, useValue: popupDataStub }
@@ -73,11 +74,34 @@ describe('WarningPopUpComponent', () => {
       expect(component.popupConfirm).toBe(popupDataStub.popupConfirm);
     });
 
-    it('should execute close method inside ngOnDestroy', () => {
+    it('should call close method inside userReply if isUbsOrderSubmit is false', () => {
+      component.isUbsOrderSubmit = false;
       // @ts-ignore
       const spy = spyOn(component.matDialogRef, 'close');
       component.userReply(true);
 
+      expect(spy).toHaveBeenCalled();
+    });
+
+    it('should call close method inside userReply if isUbsOrderSubmit is true', () => {
+      component.isUbsOrderSubmit = true;
+      const matDialogRef = 'matDialogRef';
+      const spy = spyOn(component[matDialogRef], 'close');
+      const spyChangeShouldBePaid = spyOn(component.orderService, 'changeShouldBePaid');
+      const sringifyValue = JSON.stringify({ orderId: 123 });
+      const spyGetOrderUrl = spyOn(component.orderService, 'getOrderUrl').and.returnValue(of(sringifyValue));
+      const spyTransferOrderId = spyOn(component.ubsOrderFormService, 'transferOrderId');
+      const spySetOrderResponseErrorStatus = spyOn(component.ubsOrderFormService, 'setOrderResponseErrorStatus');
+      const localStorageService = 'localStorageService';
+      const removeUbsOrderIdMock = spyOn(component[localStorageService], 'removeUbsOrderId');
+      const removeUbsFondyOrderIdMock = spyOn(component[localStorageService], 'removeUbsFondyOrderId');
+      component.userReply(true);
+      expect(spyChangeShouldBePaid).toHaveBeenCalled();
+      expect(spyGetOrderUrl).toHaveBeenCalled();
+      expect(removeUbsOrderIdMock).toHaveBeenCalled();
+      expect(removeUbsFondyOrderIdMock).toHaveBeenCalled();
+      expect(spyTransferOrderId).toHaveBeenCalledWith(123);
+      expect(spySetOrderResponseErrorStatus).toHaveBeenCalledWith(false);
       expect(spy).toHaveBeenCalled();
     });
 

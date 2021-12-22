@@ -1,0 +1,30 @@
+@import '../../../../../typography/colorsUbs';
+
+.date_to_show {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0 20px;
+}
+
+.pointer {
+  cursor: pointer;
+}
+
+.mat-form-field {
+  width: 200px;
+  position: relative;
+  top: -10px;
+}
+
+::ng-deep .mat-datepicker-content.mat-accent .mat-calendar-body-selected {
+  background-color: var(--ubs-button-light-green);
+}
+
+::ng-deep .mat-datepicker-toggle-active.mat-accent {
+  color: var(--ubs-button-light-green);
+}
+
+::ng-deep .mat-form-field-appearance-fill .mat-form-field-flex {
+  background-color: white;
+}

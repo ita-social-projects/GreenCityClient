@@ -1,12 +1,28 @@
 .container {
+  margin-top: 100px;
   margin-bottom: 100px;
+}
+
+@media (min-width: 1200px) {
+  .container {
+    max-width: 1300px;
+  }
+}
+
+.row {
   position: relative;
+}
+
+button:disabled {
+  background-color: var(--ubs-quintynary-light-grey);
+  border: var(--ubs-quintynary-light-grey);
+  color: var(--ubs-secondary-light-grey);
 }
 
 .back-button,
 .back-button-top {
   background-color: transparent;
-  color: var(--ubs-primary-green);
+  color: var(--ubs-tertiary-dark-grey);
   border: none;
   font-size: 18px;
   line-height: 28px;
@@ -16,8 +32,8 @@
 }
 
 .back-button-top {
-  top: 52px;
-  left: -115px;
+  top: 71px;
+  left: -130px;
   position: absolute;
 }
 
@@ -27,22 +43,24 @@
 
 .cancel-button,
 .save-button {
-  border: 1px solid var(--ubs-primary-green);
+  color: var(--ubs-tertiary-dark-grey);
   font-weight: bold;
   font-size: 18px;
   line-height: 28px;
-  padding: 5px 20px;
+  padding: 10px 25px;
   margin-right: 20px;
+  margin-bottom: 35px;
+  border-radius: 5px;
 }
 
 .cancel-button {
+  border: 1px solid var(--ubs-tertiary-dark-grey);
   background-color: transparent;
-  color: var(--ubs-primary-green);
 }
 
 .save-button {
-  background-color: var(--ubs-primary-green);
-  color: #fff;
+  border: none;
+  background-color: var(--ubs-button-light-green);
 }
 
 .controls {
@@ -51,6 +69,6 @@
 
 .box {
   box-shadow: 0 0 8px rgba(70, 70, 70, 0.25);
-  margin-bottom: 40px;
-  padding-top: 34px;
+  padding: 30px;
+  margin-bottom: 30px;
 }
