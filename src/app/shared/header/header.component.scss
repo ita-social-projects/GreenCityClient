@@ -299,7 +299,7 @@ $ubs-header-height: 80px;
     }
   }
 
-  .header_lang-switcher-wrp {
+  .header_lang-switcher-wrp.header_navigation-menu-right-list {
     cursor: pointer;
     width: 60px;
     height: 100%;
@@ -424,7 +424,7 @@ $ubs-header-height: 80px;
     font-size: 16px;
     line-height: 16px;
 
-    span {
+    div span {
       font-weight: 600;
       font-size: 16px;
       line-height: 16px;
