@@ -8,7 +8,7 @@ import { environment } from '@environment/environment';
 describe('CommentsService', () => {
   let service: CommentsService;
   let httpTestingController: HttpTestingController;
-  const url: string = environment.backendLink;
+  const url = environment.backendLink;
 
   const form = new FormGroup({
     content: new FormControl('some')

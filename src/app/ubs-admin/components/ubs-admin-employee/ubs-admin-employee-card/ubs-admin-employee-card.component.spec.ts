@@ -36,12 +36,13 @@ describe('UbsAdminEmployeeCardComponent', () => {
     employeePositions: EmployeePositions,
     firstName: 'fakeFirstName',
     id: 789,
-    image: 'fakeImage',
+    image: 'https://csb10032000a548f571.blob.core.windows.net/allfiles/90370622-3311-4ff1-9462-20cc98a64d1ddefault_image.jpg',
     lastName: 'fakeLastName',
     phoneNumber: 'fakePhoneNumber',
     receivingStations: ReceivingStations
   };
   const ubsAdminEmployeeServiceMock = jasmine.createSpyObj('ubsAdminEmployeeServiceMock', ['deleteEmployee']);
+  ubsAdminEmployeeServiceMock.deleteEmployee.and.returnValue(of());
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({

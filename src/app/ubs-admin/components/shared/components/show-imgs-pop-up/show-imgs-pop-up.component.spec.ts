@@ -19,12 +19,12 @@ describe('ShowImgsPopUpComponent', () => {
     },
     close() {}
   };
-
+  const fakeFoto = 'https://csb10032000a548f571.blob.core.windows.net/allfiles/90370622-3311-4ff1-9462-20cc98a64d1ddefault_image.jpg';
   const popupDataStub = {
     imgIndex: 1,
     images: [
-      { src: 'fakeFoto1', label: null, name: 'fakeName1' },
-      { src: 'fakeFoto2', label: null, name: 'fakeName2' },
+      { src: fakeFoto, label: null, name: 'fakeName1' },
+      { src: fakeFoto, label: null, name: 'fakeName2' },
       { src: null, label: null, name: null }
     ]
   };
