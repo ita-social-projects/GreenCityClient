@@ -13,15 +13,9 @@ export class AdminCustomersService {
 
   constructor(private http: HttpClient) {}
 
-  getCustomers(
-    column: string,
-    pageNumber?: number,
-    filters?: string,
-    pageSize?: number,
-    sortingType?: string
-  ): Observable<ICustomersTable> {
+  getCustomers(column: string, page?: number, search?: string, size?: number, sortType?: string): Observable<ICustomersTable> {
     return this.http.get<ICustomersTable>(
-      `${this.url}/usersAll?pageNumber=${pageNumber}&pageSize=${pageSize}&columnName=${column}&search=${filters}&sortingOrder=${sortingType}`
+      `${this.url}/usersAll?pageNumber=${page}&pageSize=${size}&columnName=${column}&search=${search}&sortingOrder=${sortType}`
     );
   }
 
