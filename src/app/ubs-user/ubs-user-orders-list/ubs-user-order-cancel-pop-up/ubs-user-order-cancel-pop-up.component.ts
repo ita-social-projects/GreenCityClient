@@ -13,6 +13,7 @@ export class UbsUserOrderCancelPopUpComponent {
 
   public deleteCard(): void {
     this.userOrdersService.deleteOrder(this.data.orderId).subscribe();
-    this.data.orders = this.data.orders.filter((order) => order.generalOrderInfo.id !== this.data.orderId);
+    const pos = this.data.orders.findIndex((order) => order.generalOrderInfo.id === this.data.orderId);
+    this.data.orders.splice(pos, 1);
   }
 }
