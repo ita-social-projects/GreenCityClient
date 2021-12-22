@@ -32,11 +32,11 @@ describe('AdminCustomersService', () => {
       totalElements: 10,
       totalPages: 3
     };
-    service.getCustomers('code', 0, '', 10, 'ASC').subscribe((data) => {
+    service.getCustomers('code', 0, '', '', 10, 'ASC').subscribe((data) => {
       expect(data).toBeDefined();
       expect(data).toEqual(fakeResponse);
     });
-    const req = httpMock.expectOne(`${urlMock}/usersAll?pageNumber=0&pageSize=10&columnName=code&search=&sortingOrder=ASC`);
+    const req = httpMock.expectOne(`${urlMock}/usersAll?pageNumber=0&pageSize=10&columnName=code&&search=&sortingOrder=ASC`);
     expect(req.request.method).toBe('GET');
     req.flush(fakeResponse);
   });

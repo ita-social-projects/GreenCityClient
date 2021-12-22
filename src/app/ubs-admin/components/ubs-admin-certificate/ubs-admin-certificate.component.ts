@@ -168,7 +168,7 @@ export class UbsAdminCertificateComponent implements OnInit, AfterViewChecked, O
     dialogRef.componentInstance.allElements = this.allElements;
     dialogRef.componentInstance.sortingColumn = this.sortingColumn;
     dialogRef.componentInstance.sortType = this.sortType;
-    dialogRef.componentInstance.filterValue = this.filterValue;
+    dialogRef.componentInstance.search = this.filterValue;
     dialogRef.componentInstance.name = 'Certificates-Table.xlsx';
   }
 

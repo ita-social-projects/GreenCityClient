@@ -201,7 +201,8 @@ export class UbsAdminCustomersComponent implements OnInit, AfterViewChecked, OnD
     dialogRef.componentInstance.allElements = this.allElements;
     dialogRef.componentInstance.sortingColumn = this.sortingColumn;
     dialogRef.componentInstance.sortType = this.sortType;
-    dialogRef.componentInstance.filterValue = this.filterValue;
+    dialogRef.componentInstance.search = this.filterValue;
+    dialogRef.componentInstance.filters = this.queryString;
     dialogRef.componentInstance.name = 'Customers-Table.xlsx';
   }
 
@@ -224,7 +225,7 @@ export class UbsAdminCustomersComponent implements OnInit, AfterViewChecked, OnD
   ) {
     this.isLoading = true;
     this.adminCustomerService
-      .getCustomers(columnName, this.currentPage, filterValue, this.pageSize, sortingType)
+      .getCustomers(columnName, this.currentPage, this.queryString, filterValue, this.pageSize, sortingType)
       .pipe(takeUntil(this.destroy$))
       .subscribe((item: ICustomersTable) => {
         this.tableData = item.page;
@@ -239,8 +240,9 @@ export class UbsAdminCustomersComponent implements OnInit, AfterViewChecked, OnD
 
   private updateTableData() {
     this.isUpdate = true;
+    this.sortingColumn = !this.sortingColumn ? 'clientName' : this.sortingColumn;
     this.adminCustomerService
-      .getCustomers(this.sortingColumn || 'clientName', this.currentPage, this.filterValue, this.pageSize, this.sortType || 'ASC')
+      .getCustomers(this.sortingColumn, this.currentPage, this.queryString, this.filterValue, this.pageSize, this.sortType || 'ASC')
       .pipe(takeUntil(this.destroy$))
       .subscribe((item: ICustomersTable) => {
         this.tableData = [...this.tableData, ...item.page];
