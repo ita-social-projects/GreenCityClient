@@ -283,23 +283,6 @@ $ubs-header-height: 80px;
   }
 }
 
-.header_navigation-menu-right ul {
-  .language-switcher {
-    width: 33px;
-    cursor: pointer;
-    outline: none;
-    appearance: none;
-    background-color: transparent;
-    border: none;
-    -moz-appearance: none;
-    -webkit-appearance: none;
-
-    option {
-      background: $white-color;
-    }
-  }
-}
-
 .reverse {
   transform: rotate(180deg);
   transition: 0.4s ease-out;
