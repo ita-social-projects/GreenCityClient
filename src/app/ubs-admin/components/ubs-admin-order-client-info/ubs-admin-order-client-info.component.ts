@@ -47,14 +47,15 @@ export class UbsAdminOrderClientInfoComponent implements OnInit, OnDestroy {
       });
   }
 
-  openModal(): void {
+  openModal(viewMode: boolean): void {
     this.dialog.open(AddViolationsComponent, {
       hasBackdrop: true,
       closeOnNavigation: true,
       disableClose: true,
       panelClass: 'custom-dialog-container',
       data: {
-        id: this.orderId
+        id: this.orderId,
+        viewMode
       }
     });
   }

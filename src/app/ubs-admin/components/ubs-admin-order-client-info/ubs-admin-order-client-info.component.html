@@ -103,10 +103,15 @@
             <small class="form__label">
               {{ 'customer-info.violation.current-order' | translate }}
             </small>
-            <p>{{ clientInfo.userViolationForCurrentOrder }}</p>
+            <p
+              [class.active]="clientInfo.userViolationForCurrentOrder"
+              (click)="clientInfo.userViolationForCurrentOrder && openModal(true)"
+            >
+              {{ clientInfo.userViolationForCurrentOrder }}
+            </p>
           </div>
         </div>
-        <button class="btn" [disabled]="userViolationForCurrentOrder >= 1" type="button" (click)="openModal()">
+        <button class="btn" [disabled]="userViolationForCurrentOrder >= 1" type="button" (click)="openModal(false)">
           {{ 'customer-info.violation.button' | translate }}
         </button>
       </div>
