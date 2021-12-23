@@ -9,6 +9,12 @@
     <h3>{{ 'add-violation-modal.violation' | translate }}</h3>
     <span>{{ 'add-violation-modal.order' | translate }} №{{ orderId }}</span>
   </div>
+  <div class="row justify-content-end edit-violation">
+    <button *ngIf="viewMode" (click)="deleteViolation()" class="edit-violation-btn">
+      <mat-icon class="mat-icon">edit</mat-icon>
+      {{ 'add-violation-modal.edit' | translate }}
+    </button>
+  </div>
   <div class="row mb-3">
     <h6>{{ 'add-violation-modal.level-of-violation' | translate }}</h6>
   </div>
@@ -79,7 +85,7 @@
     />
   </div>
   <div class="row justify-content-end mb-5">
-    <button *ngIf="isDeleteViolation" (click)="deleteViolation()" class="delete-violation">
+    <button *ngIf="viewMode" (click)="deleteViolation()" class="delete-violation">
       <img src="assets/img/icon/bin.svg" alt="delete-icon" class="delete-icon" /> {{ 'add-violation-modal.delete-button' | translate }}
     </button>
     <button class="cancelButton" [disabled]="viewMode" [ngClass]="{ disabled: viewMode }" [mat-dialog-close]="true">

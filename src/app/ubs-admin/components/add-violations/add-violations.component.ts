@@ -20,7 +20,6 @@ export class AddViolationsComponent implements OnInit, OnDestroy {
   files = [];
   isImageSizeError = false;
   isImageTypeError = false;
-  isDeleteViolation = false;
   isUploading = false;
   isLabel: boolean;
   dragAndDropLabel;

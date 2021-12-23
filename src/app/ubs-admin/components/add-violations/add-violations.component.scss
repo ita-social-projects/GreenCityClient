@@ -20,11 +20,21 @@ h6 {
   justify-content: space-between;
   align-items: center;
   padding-right: 30px;
-
   span {
     font-size: 16px;
     font-weight: 700;
     color: var(--ubs-primary-grey);
+  }
+}
+
+.edit-violation {
+  margin: -30px 10px 0 0;
+  .mat-icon,
+  .edit-violation-btn {
+    font-size: 14px;
+    color: var(--ubs-electric-violet);
+    border: none;
+    background: transparent;
   }
 }
 
