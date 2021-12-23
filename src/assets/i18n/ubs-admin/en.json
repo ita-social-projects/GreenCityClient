@@ -253,6 +253,8 @@
   "ubs-tables": {
     "add-certificate": "Add certificate",
     "all-elements": "Display all columns",
+    "apply-filters": "Apply",
+    "clear-filters": "Clear filters",
     "export-to-excel": "Export to Excel",
     "filters": "Filters",
     "table-view": "Table view",

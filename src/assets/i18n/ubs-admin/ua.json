@@ -258,6 +258,8 @@
   "ubs-tables": {
     "add-certificate": "Додати сертифікат",
     "all-elements": "Відображати всі колонки",
+    "apply-filters": "Застосувати",
+    "clear-filters": "Скасувати все",
     "filters": "Фільтри",
     "export-to-excel": "Експортувати в  Excel",
     "table-view": "Вид таблиці",

@@ -24,17 +24,16 @@ export class UbsAdminTableComponent implements OnInit, AfterViewChecked, OnDestr
   currentLang: string;
   columnsForFiltering = [];
   nonSortableColumns = nonSortableColumns;
-  items = ['Item 1', 'Item 2', 'Item 3', 'Item 4', 'Item 5'];
   sortingColumn: string;
   sortType: string;
   columns: any[] = [];
   displayedColumns: string[] = [];
   dataSource: MatTableDataSource<any>;
+  filters: any[] = [];
   selection = new SelectionModel<any>(true, []);
   previousIndex: number;
   isLoading = true;
   editCellProgressBar: boolean;
-  expandedIndex = 0;
   isUpdate = false;
   destroy: Subject<boolean> = new Subject<boolean>();
   arrowDirection: string;
@@ -75,7 +74,7 @@ export class UbsAdminTableComponent implements OnInit, AfterViewChecked, OnDestr
     });
     this.modelChanged.pipe(debounceTime(500)).subscribe((model) => {
       this.currentPage = 0;
-      this.getTable(model, 'id', 'DESC');
+      this.getTable(model, 'id', 'DESC', this.filters);
     });
     this.orderService.getColumnToDisplay().subscribe((items: any) => {
       this.displayedColumns = items.titles.split(',')[0] === '' ? [] : items.titles.split(',');
@@ -211,14 +210,14 @@ export class UbsAdminTableComponent implements OnInit, AfterViewChecked, OnDestr
         const { pageNumber, pageSize, sortDirection, sortBy } = columns.page;
         this.pageSize = pageSize;
         this.currentPage = pageNumber;
-        this.getTable(this.filterValue, sortBy, sortDirection);
+        this.getTable(this.filterValue, sortBy, sortDirection, this.filters);
       });
   }
 
-  private getTable(filterValue, columnName = this.sortingColumn || 'id', sortingType = this.sortType || 'DESC') {
+  private getTable(filterValue, columnName = this.sortingColumn || 'id', sortingType = this.sortType || 'DESC', filters) {
     this.isLoading = true;
     this.adminTableService
-      .getTable(columnName, this.currentPage, filterValue, this.pageSize, sortingType)
+      .getTable(columnName, this.currentPage, filterValue, this.pageSize, sortingType, filters)
       .pipe(takeUntil(this.destroy))
       .subscribe((item) => {
         this.tableData = item[`content`];
@@ -250,7 +249,7 @@ export class UbsAdminTableComponent implements OnInit, AfterViewChecked, OnDestr
   updateTableData() {
     this.isUpdate = true;
     this.adminTableService
-      .getTable(this.sortingColumn || 'id', this.currentPage, this.filterValue, this.pageSize, this.sortType || 'DESC')
+      .getTable(this.sortingColumn || 'id', this.currentPage, this.filterValue, this.pageSize, this.sortType || 'DESC', this.filters)
       .pipe(takeUntil(this.destroy))
       .subscribe((item) => {
         const data = item[`content`];
@@ -267,7 +266,7 @@ export class UbsAdminTableComponent implements OnInit, AfterViewChecked, OnDestr
     this.sortType = sortingType;
     this.arrowDirection = this.arrowDirection === columnName ? null : columnName;
     this.currentPage = 0;
-    this.getTable(this.filterValue, columnName, sortingType);
+    this.getTable(this.filterValue, columnName, sortingType, this.filters);
   }
 
   openExportExcel(): void {
@@ -411,8 +410,38 @@ export class UbsAdminTableComponent implements OnInit, AfterViewChecked, OnDestr
     }
   }
 
-  changeFilters(column, option) {
-    console.log(column, option);
+  changeFilters(checked, currentColumn, option) {
+    this.columnsForFiltering.find((column) => {
+      if (column.key === currentColumn) {
+        column.values.find((value) => {
+          if (value.key === option.key) {
+            value.filtered = checked;
+          }
+        });
+      }
+    });
+    if (checked) {
+      let elem = {};
+      elem[currentColumn] = option.key;
+      this.filters.push(elem);
+    } else {
+      this.filters = this.filters.filter((elem) => elem[currentColumn] !== option.key);
+    }
+  }
+
+  public clearFilters(): void {
+    this.columnsForFiltering.forEach((column) => {
+      column.values.forEach((value) => {
+        value.filtered = false;
+      });
+    });
+    this.filters = [];
+    this.applyFilters();
+  }
+
+  public applyFilters() {
+    this.currentPage = 0;
+    this.getTable(this.filterValue, this.sortingColumn || 'id', this.sortType || 'DESC', this.filters);
   }
 
   ngOnDestroy() {

@@ -10,9 +10,16 @@ export class AdminTableService {
 
   constructor(private http: HttpClient) {}
 
-  getTable(columnName?: string, page?: number, filter?: string, size?: number, sortingType?: string) {
+  getTable(columnName?: string, page?: number, filter?: string, size?: number, sortingType?: string, filters?: any[]) {
+    let filtersQuery = '';
+    if (filters.length) {
+      filters.forEach((elem) => {
+        const key = Object.keys(elem)[0];
+        filtersQuery += `&${key}=${elem[key]}`;
+      });
+    }
     return this.http.get<any[]>(
-      `${this.url}bigOrderTable?sortBy=${columnName}&pageNumber=${page}&search=${filter}&pageSize=${size}&sortDirection=${sortingType}`
+      `${this.url}bigOrderTable?sortBy=${columnName}&pageNumber=${page}&search=${filter}&pageSize=${size}&sortDirection=${sortingType}${filtersQuery}`
     );
   }
 

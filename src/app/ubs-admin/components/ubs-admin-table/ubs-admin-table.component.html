@@ -8,8 +8,17 @@
       <mat-icon>filter_list</mat-icon>
       {{ 'ubs-tables.filters' | translate }}
     </button>
-    <div class="dropdown-menu">
-      <div class="accordion" id="accordionPanelsStayOpenExample" (click)="$event.stopPropagation()">
+    <div class="dropdown-menu scrollbar">
+      <div class="btn-group">
+        <button type="button" class="btn filter-btn" (click)="clearFilters()">
+          {{ 'ubs-tables.clear-filters' | translate }}
+        </button>
+        <button type="button" class="btn filter-btn bg-lime" (click)="applyFilters()">
+          {{ 'ubs-tables.apply-filters' | translate }}
+        </button>
+      </div>
+      <p class="font-weight-bold">{{ 'ubs-tables.filters' | translate }}</p>
+      <div class="accordion" (click)="$event.stopPropagation()">
         <ng-container *ngFor="let column of columnsForFiltering; index as i">
           <div class="accordion-item">
             <div
@@ -33,7 +42,7 @@
                 </li>
                 <ng-container #nonDate *ngFor="let option of column.values">
                   <li>
-                    <mat-checkbox [checked]="option.filtered" (change)="changeFilters(column.key, option)">
+                    <mat-checkbox [checked]="option.filtered" (change)="changeFilters($event?.checked, column.key, option)">
                       {{ option | serverTranslate: currentLang }}
                     </mat-checkbox>
                   </li>
