@@ -46,9 +46,7 @@
         <img [src]="images.facebook" alt="facebook" class="news-links-img" />
       </div>
       <div class="news-text">
-        <div class="news-text-content word-wrap">
-          {{ previewItem.value.content }}
-        </div>
+        <div class="news-text-content word-wrap" [innerHTML]="previewItem.value.content"></div>
         <div class="source-field" *ngIf="previewItem.value.source">
           <div class="source-title">
             {{ 'eco-news-preview.news-source' | translate }}

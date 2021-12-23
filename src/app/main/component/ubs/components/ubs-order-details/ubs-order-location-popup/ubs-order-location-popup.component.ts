@@ -14,9 +14,10 @@ import { OrderService } from '../../../services/order.service';
 })
 export class UbsOrderLocationPopupComponent implements OnInit, OnDestroy {
   closeButton = './assets/img/profile/icons/cancel.svg';
-  public locations: Locations[];
+  public locations: any[];
   public selectedLocationId: number;
   public isFetching = false;
+  private courierId = 1;
   private currentLanguage: string;
   private destroy$: Subject<boolean> = new Subject<boolean>();
   public currentLocation: string;
@@ -39,17 +40,19 @@ export class UbsOrderLocationPopupComponent implements OnInit, OnDestroy {
   }
 
   private setCurrentLocation(currentLanguage: string): void {
-    this.currentLocation = this.locations.find((loc) => loc.id === this.selectedLocationId && loc.languageCode === currentLanguage).name;
+    this.currentLocation = this.locations
+      .find((loc: any) => loc.locationsDtos[0].locationId === this.selectedLocationId)
+      .locationsDtos[0].locationTranslationDtoList.find((lang) => lang.languageCode === currentLanguage).locationName;
   }
 
   getLocations() {
     this.isFetching = true;
     this.orderService
-      .getLocations()
+      .getLocations(this.courierId)
       .pipe(takeUntil(this.destroy$))
-      .subscribe((res) => {
+      .subscribe((res: any) => {
         this.locations = res;
-        this.selectedLocationId = this.locations[0].id;
+        this.selectedLocationId = res[0].courierLocationId;
         this.isFetching = false;
       });
   }

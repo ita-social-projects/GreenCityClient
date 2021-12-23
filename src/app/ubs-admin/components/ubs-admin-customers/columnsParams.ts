@@ -107,3 +107,30 @@ export const columnsParamsOrders = [
     width: 60
   }
 ];
+
+export const columnsParamsViolations = [
+  {
+    title: {
+      key: 'violationDate',
+      ua: 'Дата порушення',
+      en: 'Violation date'
+    },
+    width: 100
+  },
+  {
+    title: {
+      key: 'orderId',
+      ua: '№ замовлення',
+      en: '№ order'
+    },
+    width: 60
+  },
+  {
+    title: {
+      key: 'violationLevel',
+      ua: 'Ступінь порушення',
+      en: 'Violation level'
+    },
+    width: 100
+  }
+];

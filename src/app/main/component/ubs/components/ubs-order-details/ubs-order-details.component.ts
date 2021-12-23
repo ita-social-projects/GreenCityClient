@@ -77,7 +77,7 @@ export class UBSOrderDetailsComponent extends FormBaseComponent implements OnIni
       isUBS: true
     }
   };
-  public locations: Locations[];
+  public locations: any[];
   public selectedLocationId: number;
   public currentLocation: string;
   public isFetching = false;
@@ -137,7 +137,9 @@ export class UBSOrderDetailsComponent extends FormBaseComponent implements OnIni
   }
 
   private setCurrentLocation(currentLanguage: string): void {
-    this.currentLocation = this.locations.find((loc) => loc.id === this.selectedLocationId && loc.languageCode === currentLanguage).name;
+    this.currentLocation = this.locations
+      .find((loc: any) => loc.locationsDtos[0].locationId === this.selectedLocationId)
+      .locationsDtos[0].locationTranslationDtoList.find((lang) => lang.languageCode === currentLanguage).locationName;
   }
 
   getFormValues(): boolean {

@@ -1,3 +1,4 @@
+import { ICustomerViolationTable } from './../models/customer-violations-table.model';
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
@@ -22,5 +23,9 @@ export class AdminCustomersService {
     }
 
     return this.http.get<ICustomerOrdersTable>(`${this.url}/${id}/ordersAll?page=${page}&column=${column}&sortingType=${sortingType}`);
+  }
+
+  getCustomerViolations(id: string): Observable<ICustomerViolationTable> {
+    return this.http.get<ICustomerViolationTable>(`${this.url}/${id}/violationsAll`);
   }
 }

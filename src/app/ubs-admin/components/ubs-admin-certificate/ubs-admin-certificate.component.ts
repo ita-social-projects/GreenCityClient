@@ -1,14 +1,16 @@
 import { CdkDragDrop, moveItemInArray } from '@angular/cdk/drag-drop';
 import { Component, OnInit, ViewChild, OnDestroy, AfterViewChecked } from '@angular/core';
-import { takeUntil } from 'rxjs/operators';
+import { debounceTime, takeUntil } from 'rxjs/operators';
 import { Subject } from 'rxjs';
 import { MatTableDataSource } from '@angular/material/table';
 import { SelectionModel } from '@angular/cdk/collections';
 import { MatSort } from '@angular/material/sort';
 import { AdminCertificateService } from '../../services/admin-certificate.service';
 import { TableHeightService } from '../../services/table-height.service';
-import { MatDialog, MatDialogRef } from '@angular/material/dialog';
+import { MatDialog, MatDialogConfig, MatDialogRef } from '@angular/material/dialog';
 import { UbsAdminCertificateAddCertificatePopUpComponent } from './ubs-admin-certificate-add-certificate-pop-up/ubs-admin-certificate-add-certificate-pop-up.component';
+import { UbsAdminTableExcelPopupComponent } from '../ubs-admin-table/ubs-admin-table-excel-popup/ubs-admin-table-excel-popup.component';
+import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
 
 @Component({
   selector: 'app-ubs-admin-certificate',
@@ -38,6 +40,10 @@ export class UbsAdminCertificateComponent implements OnInit, AfterViewChecked, O
   totalPages: number;
   currentPage = 0;
   pageSize = 25;
+  totalElements = 0;
+  allElements: number;
+  filterValue = '';
+  modelChanged: Subject<string> = new Subject<string>();
   @ViewChild(MatSort, { static: true }) sort: MatSort;
 
   constructor(
@@ -48,6 +54,10 @@ export class UbsAdminCertificateComponent implements OnInit, AfterViewChecked, O
   ) {}
 
   ngOnInit() {
+    this.modelChanged.pipe(debounceTime(500)).subscribe((model) => {
+      this.currentPage = 0;
+      this.getTable(model, this.sortingColumn, this.sortType);
+    });
     this.getTable();
   }
 
@@ -63,7 +73,8 @@ export class UbsAdminCertificateComponent implements OnInit, AfterViewChecked, O
   }
 
   applyFilter(filterValue: string): void {
-    this.dataSource.filter = filterValue.trim().toLowerCase();
+    this.filterValue = filterValue;
+    this.modelChanged.next(filterValue);
   }
 
   setDisplayedColumns() {
@@ -94,14 +105,16 @@ export class UbsAdminCertificateComponent implements OnInit, AfterViewChecked, O
     return `${this.selection.isSelected(row) ? 'deselect' : 'select'} row ${row.orderId + 1}`;
   }
 
-  getTable(columnName = this.sortingColumn || 'code', sortingType = this.sortType || 'DESC') {
+  getTable(filterValue = this.filterValue || '', columnName = this.sortingColumn || 'code', sortingType = this.sortType || 'DESC') {
     this.isLoading = true;
     this.adminCertificateService
-      .getTable(columnName, this.currentPage, this.pageSize, sortingType)
+      .getTable(columnName, this.currentPage, filterValue, this.pageSize, sortingType)
       .pipe(takeUntil(this.destroy))
       .subscribe((item) => {
         this.tableData = item[`page`];
         this.totalPages = item[`totalPages`];
+        this.totalElements = item[`totalElements`];
+        this.allElements = !this.allElements ? this.totalElements : this.allElements;
         this.dataSource = new MatTableDataSource(this.tableData);
         const requiredColumns = [{ field: 'select', sticky: true }];
         const dynamicallyColumns = [];
@@ -124,7 +137,7 @@ export class UbsAdminCertificateComponent implements OnInit, AfterViewChecked, O
   updateTableData() {
     this.isUpdate = true;
     this.adminCertificateService
-      .getTable(this.sortingColumn || 'code', this.currentPage, this.pageSize, this.sortType || 'DESC')
+      .getTable(this.sortingColumn || 'code', this.currentPage, this.filterValue || '', this.pageSize, this.sortType || 'DESC')
       .pipe(takeUntil(this.destroy))
       .subscribe((item) => {
         const data = item[`page`];
@@ -151,6 +164,17 @@ export class UbsAdminCertificateComponent implements OnInit, AfterViewChecked, O
       .afterClosed()
       .pipe(takeUntil(this.destroy))
       .subscribe((result) => result && this.getTable());
+  }
+
+  openExportExcel(): void {
+    const dialogConfig = new MatDialogConfig();
+    const dialogRef = this.dialog.open(UbsAdminTableExcelPopupComponent, dialogConfig);
+    dialogRef.componentInstance.totalElements = this.totalElements;
+    dialogRef.componentInstance.allElements = this.allElements;
+    dialogRef.componentInstance.sortingColumn = this.sortingColumn;
+    dialogRef.componentInstance.sortType = this.sortType;
+    dialogRef.componentInstance.filterValue = this.filterValue;
+    dialogRef.componentInstance.name = 'Certificates-Table.xlsx';
   }
 
   ngOnDestroy() {
