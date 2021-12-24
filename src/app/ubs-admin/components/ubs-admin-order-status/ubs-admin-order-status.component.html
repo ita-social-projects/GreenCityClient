@@ -1,10 +1,10 @@
 <div class="container mb-3">
-  <div class="mt-5" [formGroup]="orderStatusForm">
+  <div class="mt-5" [formGroup]="generalOrderInfo">
     <div class="row d-flex justify-content-between mt-4">
-      <h1 class="title">{{ 'order-edit.status.title' | translate }} №{{ generalOrderInfo.id }}</h1>
+      <h1 class="title">{{ 'order-edit.status.title' | translate }} №{{ generalInfo.id }}</h1>
       <div class="pr-4">
         <span class="form__label"> {{ 'order-edit.status.order-date' | translate }}: </span>
-        <span>{{ generalOrderInfo.dateFormed | date: 'dd.MM.y' }}</span>
+        <span>{{ generalInfo.dateFormed | date: 'dd.MM.y' }}</span>
       </div>
     </div>
     <div class="row">
@@ -19,7 +19,7 @@
                 <select id="order" class="form-control" formControlName="orderStatus" (change)="onChangedOrderStatus($event.target.value)">
                   <option
                     *ngFor="let status of availableOrderStatuses"
-                    [selected]="status.key === generalOrderInfo.orderStatus"
+                    [selected]="status.key === generalInfo.orderStatus"
                     [value]="status.key"
                   >
                     {{ status.translation }}
@@ -36,8 +36,8 @@
                 </label>
                 <select id="payment" class="form-control payment" disabled>
                   <option
-                    *ngFor="let status of generalOrderInfo.orderPaymentStatusesDto"
-                    [selected]="status.key === generalOrderInfo.orderPaymentStatus"
+                    *ngFor="let status of generalInfo.orderPaymentStatusesDto"
+                    [selected]="status.key === generalInfo.orderPaymentStatus"
                   >
                     {{ status.translation }}
                   </option>

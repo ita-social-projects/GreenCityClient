@@ -11,8 +11,7 @@ import { OrderService } from '../../services/order.service';
 })
 export class UbsAdminAddressDetailsComponent implements OnDestroy {
   @Input() addressComment: string;
-  @Input() addressInfo: IAddressExportDetails;
-  @Input() addressDetailsForm: FormGroup;
+  @Input() addressExportDetailsDto: FormGroup;
   pageOpen: boolean;
 
   constructor(public orderService: OrderService) {}

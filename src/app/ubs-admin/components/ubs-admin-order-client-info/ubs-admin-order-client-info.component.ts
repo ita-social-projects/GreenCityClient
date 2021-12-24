@@ -13,8 +13,8 @@ import { takeUntil } from 'rxjs/operators';
   styleUrls: ['./ubs-admin-order-client-info.component.scss']
 })
 export class UbsAdminOrderClientInfoComponent implements OnInit, OnDestroy {
-  @Input() clientInfo: IUserInfo;
-  @Input() clientInfoForm: FormGroup;
+  @Input() userInfo: IUserInfo;
+  @Input() userInfoDto: FormGroup;
   @Input() orderId;
 
   private destroy$: Subject<boolean> = new Subject<boolean>();

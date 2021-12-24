@@ -14,9 +14,9 @@ import { AddOrderCancellationReasonComponent } from '../add-order-cancellation-r
 })
 export class UbsAdminOrderStatusComponent implements OnChanges, OnInit, OnDestroy {
   @Input() currentOrderPrice: number;
-  @Input() orderStatusForm: FormGroup;
+  @Input() generalOrderInfo: FormGroup;
   @Input() totalPaid: number;
-  @Input() generalOrderInfo: IGeneralOrderInfo;
+  @Input() generalInfo: IGeneralOrderInfo;
   @Output() changedOrderStatus = new EventEmitter<string>();
 
   constructor(public orderService: OrderService, private dialog: MatDialog) {}
@@ -32,8 +32,8 @@ export class UbsAdminOrderStatusComponent implements OnChanges, OnInit, OnDestro
 
   ngOnInit() {
     this.availableOrderStatuses = this.orderService.getAvailableOrderStatuses(
-      this.generalOrderInfo.orderStatus,
-      this.generalOrderInfo.orderStatusesDtos
+      this.generalInfo.orderStatus,
+      this.generalInfo.orderStatusesDtos
     );
   }
 
@@ -53,21 +53,23 @@ export class UbsAdminOrderStatusComponent implements OnChanges, OnInit, OnDestro
       .pipe(take(1))
       .subscribe((res) => {
         if (res.action === 'cancel') {
-          this.onChangedOrderStatus(this.generalOrderInfo.orderStatus);
-          this.orderStatusForm.get('orderStatus').setValue(this.generalOrderInfo.orderStatus);
+          this.onChangedOrderStatus(this.generalInfo.orderStatus);
+          this.generalOrderInfo.get('orderStatus').setValue(this.generalInfo.orderStatus);
           return;
         }
-        this.orderStatusForm.get('cancellationReason').setValue(res.reason);
+        this.generalOrderInfo.get('cancellationReason').setValue(res.reason);
+        this.generalOrderInfo.controls['cancellationReason'].markAsDirty();
         if (res.reason === 'OTHER') {
-          this.orderStatusForm.get('cancellationComment').setValue(res.comment);
+          this.generalOrderInfo.get('cancellationComment').setValue(res.comment);
+          this.generalOrderInfo.controls['cancellationComment'].markAsDirty();
         }
       });
   }
 
   public setOrderPaymentStatus() {
     let orderState: string;
-    this.generalOrderInfo.orderStatusesDtos.find((status) => {
-      if (status.key === this.generalOrderInfo.orderStatus) {
+    this.generalInfo.orderStatusesDtos.find((status) => {
+      if (status.key === this.generalInfo.orderStatus) {
         orderState = status.ableActualChange ? 'actual' : 'confirmed';
       }
     });
@@ -81,15 +83,15 @@ export class UbsAdminOrderStatusComponent implements OnChanges, OnInit, OnDestro
       const confirmedHalfPaidCondition = this.currentOrderPrice > 0 && this.totalPaid > 0 && this.currentOrderPrice > this.totalPaid;
 
       if (confirmedPaidCondition) {
-        this.generalOrderInfo.orderPaymentStatus = 'PAID';
+        this.generalInfo.orderPaymentStatus = 'PAID';
       }
 
       if (confirmedUnpaidCondition) {
-        this.generalOrderInfo.orderPaymentStatus = 'UNPAID';
+        this.generalInfo.orderPaymentStatus = 'UNPAID';
       }
 
       if (confirmedHalfPaidCondition) {
-        this.generalOrderInfo.orderPaymentStatus = 'HALF_PAID';
+        this.generalInfo.orderPaymentStatus = 'HALF_PAID';
       }
     } else if (orderState === 'actual') {
       const actualPaidCondition1 = this.currentOrderPrice > 0 && this.totalPaid > 0 && this.currentOrderPrice <= this.totalPaid;
@@ -100,15 +102,15 @@ export class UbsAdminOrderStatusComponent implements OnChanges, OnInit, OnDestro
       const actualHalfPaidCondition = this.currentOrderPrice > 0 && this.totalPaid >= 0 && this.currentOrderPrice > this.totalPaid;
 
       if (actualPaidCondition) {
-        this.generalOrderInfo.orderPaymentStatus = 'PAID';
+        this.generalInfo.orderPaymentStatus = 'PAID';
       }
 
       if (actualUnpaidCondition) {
-        this.generalOrderInfo.orderPaymentStatus = 'UNPAID';
+        this.generalInfo.orderPaymentStatus = 'UNPAID';
       }
 
       if (actualHalfPaidCondition) {
-        this.generalOrderInfo.orderPaymentStatus = 'HALF_PAID';
+        this.generalInfo.orderPaymentStatus = 'HALF_PAID';
       }
 
       // TODO: ADD PAYMENT_REFUNDED CASE THEN IT WILL BE IMPLEMENTED

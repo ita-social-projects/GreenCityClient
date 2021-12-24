@@ -34,8 +34,8 @@ export class UbsAdminOrderComponent implements OnInit, OnDestroy {
   isDataLoaded = false;
   orderId: number;
   orderInfo: IOrderInfo;
-  generalOrderInfo: IGeneralOrderInfo;
-  clientInfo: IUserInfo;
+  generalInfo: IGeneralOrderInfo;
+  userInfo: IUserInfo;
   addressInfo: IAddressExportDetails;
   paymentInfo: IPaymentInfo;
   totalPaid: number;
@@ -47,8 +47,6 @@ export class UbsAdminOrderComponent implements OnInit, OnDestroy {
   currentOrderStatus: string;
   overpayment = 0;
   isMinOrder = true;
-  timeFrom: string;
-  timeTo: string;
 
   constructor(
     private translate: TranslateService,
@@ -76,9 +74,9 @@ export class UbsAdminOrderComponent implements OnInit, OnDestroy {
       .pipe(takeUntil(this.destroy$))
       .subscribe((data: any) => {
         this.orderInfo = data;
-        this.generalOrderInfo = data.generalOrderInfo;
-        this.currentOrderStatus = this.generalOrderInfo.orderStatus;
-        this.clientInfo = data.userInfoDto;
+        this.generalInfo = data.generalOrderInfo;
+        this.currentOrderStatus = this.generalInfo.orderStatus;
+        this.userInfo = data.userInfoDto;
         this.addressInfo = data.addressExportDetailsDto;
         this.paymentInfo = data.paymentTableInfoDto;
         this.exportInfo = data.exportDetailsDto;
@@ -124,35 +122,35 @@ export class UbsAdminOrderComponent implements OnInit, OnDestroy {
   }
 
   private getOrderStatusInfo(statusName: string) {
-    return this.generalOrderInfo.orderStatusesDtos.find((status) => status.key === statusName);
+    return this.generalInfo.orderStatusesDtos.find((status) => status.key === statusName);
   }
 
   initForm() {
     const currentEmployees = this.responsiblePersonInfo.currentPositionEmployees;
     this.overpayment = 0;
     this.orderForm = this.fb.group({
-      orderStatusForm: this.fb.group({
-        orderStatus: this.generalOrderInfo.orderStatus,
-        adminComment: this.generalOrderInfo.adminComment,
-        cancellationComment: '',
-        cancellationReason: ''
+      generalOrderInfo: this.fb.group({
+        orderStatus: this.generalInfo.orderStatus,
+        adminComment: this.generalInfo.adminComment,
+        cancellationComment: '', //TODO add this fields to controller
+        cancellationReason: '' //TODO
       }),
-      clientInfoForm: this.fb.group({
-        senderName: [this.clientInfo.recipientName, [Validators.required, Validators.minLength(1), Validators.maxLength(30)]],
-        senderSurname: [this.clientInfo.recipientSurName, [Validators.required, Validators.minLength(1), Validators.maxLength(30)]],
-        senderPhone: [this.clientInfo.recipientPhoneNumber, [Validators.required, Validators.pattern('^\\+?3?8?(0\\d{9})$')]],
-        senderEmail: [this.clientInfo.recipientEmail, [Validators.required, Validators.email]]
+      userInfoDto: this.fb.group({
+        recipientName: [this.userInfo.recipientName, [Validators.required, Validators.minLength(1), Validators.maxLength(30)]],
+        recipientSurName: [this.userInfo.recipientSurName, [Validators.required, Validators.minLength(1), Validators.maxLength(30)]],
+        recipientPhoneNumber: [this.userInfo.recipientPhoneNumber, [Validators.required, Validators.pattern('^\\+?3?8?(0\\d{9})$')]],
+        recipientEmail: [this.userInfo.recipientEmail, [Validators.required, Validators.email]]
       }),
-      addressDetailsForm: this.fb.group({
-        region: this.addressInfo.addressRegion,
-        settlement: this.addressInfo.addressCity,
-        street: this.addressInfo.addressStreet,
-        building: this.addressInfo.addressHouseNumber,
-        corpus: this.addressInfo.addressHouseCorpus,
-        entrance: this.addressInfo.addressEntranceNumber,
-        district: this.addressInfo.addressDistrict
+      addressExportDetailsDto: this.fb.group({
+        addressRegion: this.addressInfo.addressRegion,
+        addressCity: this.addressInfo.addressCity,
+        addressStreet: this.addressInfo.addressStreet,
+        addressHouseNumber: this.addressInfo.addressHouseNumber,
+        addressHouseCorpus: this.addressInfo.addressHouseCorpus,
+        addressEntranceNumber: this.addressInfo.addressEntranceNumber,
+        addressDistrict: this.addressInfo.addressDistrict
       }),
-      exportDetailsForm: this.fb.group({
+      exportDetailsDto: this.fb.group({
         dateExport: this.exportInfo.dateExport ? formatDate(this.exportInfo.dateExport, 'yyyy-MM-dd', this.currentLanguage) : '',
         timeDeliveryFrom: this.parseTimeToStr(this.exportInfo.timeDeliveryFrom),
         timeDeliveryTo: this.parseTimeToStr(this.exportInfo.timeDeliveryTo),
@@ -255,78 +253,36 @@ export class UbsAdminOrderComponent implements OnInit, OnDestroy {
   resetForm() {
     this.orderForm.reset();
     this.initForm();
-    this.currentOrderStatus = this.generalOrderInfo.orderStatus;
+    this.currentOrderStatus = this.generalInfo.orderStatus;
     this.orderStatusInfo = this.getOrderStatusInfo(this.currentOrderStatus);
   }
 
-  onSubmit() {
-    // let updatedData = {
-    //   ecoNumberFromShop: [
-    //     {
-    //       newEcoNumber: '3245678765',
-    //       oldEcoNumber: ''
-    //     }
-    //   ],
-    //   exportDetailsDtoUpdate: {
-    //     dateExport: this.orderForm.get(['exportDetailsForm', 'exportedDate']).dirty
-    //       ? new Date(this.orderForm.get(['exportDetailsForm', 'dateExport']).value);
-    //       : undefined,
-    //     receivingStation: this.orderForm.get(['exportDetailsForm', 'receivingStation']).dirty
-    //       ? this.orderForm.get(['exportDetailsForm', 'receivingStation']).value
-    //       : undefined,
-    //    timeDeliveryFrom: this.orderForm.get(['exportDetailsForm', 'timeDeliveryFrom']).value,
-    //    timeDeliveryTo: this.orderForm.get(['exportDetailsForm', 'timeDeliveryTo']).value;
-    // },
-    // orderAddressExportDetailsDtoUpdate: {
-    //   orderId: this.orderId,
-    //   addressCity: this.orderForm.get(['addressDetailsForm', 'settlement']).value,
-    //   addressDistrict: this.orderForm.get(['addressDetailsForm', 'district']).value,
-    //   addressEntranceNumber: this.orderForm.get(['addressDetailsForm', 'entrance']).value,
-    //   addressHouseCorpus: this.orderForm.get(['addressDetailsForm', 'corpus']).value,
-    //   addressHouseNumber: this.orderForm.get(['addressDetailsForm', 'building']).value,
-    //   addressRegion: this.orderForm.get(['addressDetailsForm', 'region']).value,
-    //   addressStreet: this.orderForm.get(['addressDetailsForm', 'street']).value,
-    //   addressId: this.addressInfo.id
-    // },
-    // orderDetailStatusRequestDto: {
-    //   orderComment: this.orderForm.get(['orderStatusForm', 'adminComment']).value,
-    //   orderPaymentStatus: this.generalOrderInfo.orderPaymentStatus,
-    //   orderStatus: this.orderForm.get(['orderStatusForm', 'orderStatus']).value
-    // },
-    // ubsCustomersDtoUpdate: {
-    //   recipientEmail: this.orderForm.get(['clientInfoForm', 'senderEmail']).value,
-    //   recipientId: this.clientInfo.recipientId,
-    //   recipientName: this.orderForm.get(['clientInfoForm', 'senderName']).value,
-    //   recipientPhoneNumber: this.orderForm.get(['clientInfoForm', 'senderPhone']).value,
-    //   recipientSurName: this.orderForm.get(['clientInfoForm', 'senderSurname']).value
-    // },
-    // updateOrderDetailDto: [
-    // {
-    //   bagId: 1,
-    //   confirmedQuantity: this.orderForm.get(['orderDetailsForm', 'confirmedQuantity1']).value,
-    //   exportedQuantity: this.orderForm.get(['orderDetailsForm', 'exportedQuantity1']).value,
-    //   orderId: this.orderId
-    // },
-    // {
-    //   bagId: 2,
-    //   confirmedQuantity: this.orderForm.get(['orderDetailsForm', 'confirmedQuantity2']).value,
-    //   exportedQuantity: this.orderForm.get(['orderDetailsForm', 'exportedQuantity2']).value,
-    //   orderId: this.orderId
-    // },
-    // {
-    //   bagId: 3,
-    //   confirmedQuantity: this.orderForm.get(['orderDetailsForm', 'confirmedQuantity3']).value,
-    //   exportedQuantity: this.orderForm.get(['orderDetailsForm', 'exportedQuantity3']).value,
-    //   orderId: this.orderId
-    // }
-    //   ]
-    // };
+  formatExporteValue(exportDetailsDto) {
+    if (!exportDetailsDto) {
+      return;
+    }
 
+    const exportDate = new Date(exportDetailsDto.dateExport);
+
+    if (exportDetailsDto.dateExport) {
+      exportDetailsDto.dateExport = exportDate.toISOString();
+    }
+
+    if (exportDetailsDto.timeDeliveryFrom) {
+      exportDetailsDto.timeDeliveryFrom = this.parseStrToTime(exportDetailsDto.timeDeliveryFrom, exportDate);
+    }
+
+    if (exportDetailsDto.timeDeliveryTo) {
+      exportDetailsDto.timeDeliveryTo = this.parseStrToTime(exportDetailsDto.timeDeliveryTo, exportDate);
+    }
+  }
+
+  onSubmit() {
     const changedValues: any = {};
     this.getUpdates(this.orderForm, changedValues);
+    this.formatExporteValue(changedValues.exportDetailsDto);
 
-    const updatedData: any = {};
-    this.setUpdatedData(updatedData, changedValues);
+    console.log(changedValues);
 
     this.orderService
       .updateOrderInfo(this.orderId, this.currentLanguage, changedValues)
@@ -334,23 +290,6 @@ export class UbsAdminOrderComponent implements OnInit, OnDestroy {
       .subscribe((data) => {
         this.getOrderInfo(this.orderId, this.currentLanguage);
       });
-  }
-
-  private setUpdatedData(updatedData: any, changedValues: any) {
-    const clientInfoData = changedValues.clientInfoForm;
-    if (!clientInfoData) {
-      return;
-    }
-    let ubsCustomerDTO: any = {};
-
-    for (const key in clientInfoData) {
-      switch (key) {
-        case 'senderName':
-          ubsCustomerDTO.recipientName = clientInfoData[key];
-      }
-    }
-
-    updatedData.ubsCustomersDtoUpdate = ubsCustomerDTO;
   }
 
   private getUpdates(formItem: FormGroup | FormArray | FormControl, changedValues: any, name?: string) {
