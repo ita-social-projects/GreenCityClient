@@ -12,7 +12,7 @@ import { User } from '../../model/User.model';
 export class SocketService {
   private socket: WebSocket;
   private stompClient: CompatClient;
-  private backendSocketLink = `${environment.backendLink}/socket`;
+  private backendSocketLink = `${environment.socket}`;
 
   constructor(private chatsService: ChatsService) {}
 

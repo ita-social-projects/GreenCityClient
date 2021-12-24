@@ -30,18 +30,18 @@ export class ChatsService {
   }
 
   public getAllUserChats(userId: number): void {
-    this.httpClient.get<Chat[]>(`${environment.backendLink}/chats/userId/${userId}`).subscribe((chats: Chat[]) => {
+    this.httpClient.get<Chat[]>(`${environment.backendChatLink}chats/userId/${userId}`).subscribe((chats: Chat[]) => {
       console.log(chats);
       this.userChatsStream$.next(chats);
     });
   }
 
   public updateChat(chat: Chat): void {
-    this.httpClient.put<Chat>(`${environment.backendLink}/chats`, chat).subscribe();
+    this.httpClient.put<Chat>(`${environment.backendChatLink}chats`, chat).subscribe();
   }
 
   public getAllChatMessages(chatId: number): Observable<Message[]> {
-    return this.httpClient.get<Message[]>(`${environment.backendLink}/messages/chatId/${chatId}`);
+    return this.httpClient.get<Message[]>(`${environment.backendChatLink}messages/chatId/${chatId}`);
   }
 
   public setCurrentChat(chat: Chat | null): void {

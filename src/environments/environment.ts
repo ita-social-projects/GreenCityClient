@@ -3,6 +3,7 @@ export const environment = {
   apiKeys: 'AIzaSyDanBliCzAuCZrsq67FeKEs3vqAilUD_is',
   apiMapKey: 'AIzaSyB3xs7Kczo46LFcQRFKPMdrE0lU4qsR_S4',
   backendLink: 'https://greencity.azurewebsites.net/',
+  backendChatLink: 'http://localhost:8030/',
   backendUserLink: 'https://greencity-user.azurewebsites.net/',
   backendUbsLink: 'https://greencity-ubs.azurewebsites.net',
   frontendLink: 'http://localhost:4200/GreenCityClient',
