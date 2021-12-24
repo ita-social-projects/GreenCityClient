@@ -3,11 +3,12 @@ import { MAT_DIALOG_DATA, MatDialogRef, MatDialog } from '@angular/material/dial
 import { FileHandle } from '../../models/file-handle.model';
 import { TranslateService } from '@ngx-translate/core';
 import { Subject } from 'rxjs';
-import { takeUntil } from 'rxjs/operators';
+import { take, takeUntil } from 'rxjs/operators';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { OrderService } from '../../services/order.service';
 import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
 import { ShowImgsPopUpComponent } from '../shared/components/show-imgs-pop-up/show-imgs-pop-up.component';
+import { DialogPopUpComponent } from '../shared/components/dialog-pop-up/dialog-pop-up.component';
 
 @Component({
   selector: 'app-add-violations',
@@ -21,6 +22,7 @@ export class AddViolationsComponent implements OnInit, OnDestroy {
   isImageSizeError = false;
   isImageTypeError = false;
   isUploading = false;
+  isDeleting = false;
   isLabel: boolean;
   dragAndDropLabel;
   addViolationForm: FormGroup;
@@ -31,6 +33,12 @@ export class AddViolationsComponent implements OnInit, OnDestroy {
   unsubscribe: Subject<any> = new Subject();
   viewMode = false;
   isLoading = false;
+  deleteDialogData = {
+    popupTitle: 'add-violation-modal.delete-message',
+    popupConfirm: 'employees.btn.yes',
+    popupCancel: 'employees.btn.no'
+  };
+
   constructor(
     private translate: TranslateService,
     @Inject(MAT_DIALOG_DATA) public data,
@@ -114,7 +122,7 @@ export class AddViolationsComponent implements OnInit, OnDestroy {
       .addViolationToCurrentOrder(dataToSend)
       .pipe(takeUntil(this.unsubscribe))
       .subscribe(() => {
-        this.dialogRef.close();
+        this.dialogRef.close(1);
         this.isUploading = false;
       });
   }
@@ -195,7 +203,26 @@ export class AddViolationsComponent implements OnInit, OnDestroy {
   }
 
   deleteViolation(): void {
-    // TODO: Add logic to delete violations
+    const matDialogRef = this.dialog.open(DialogPopUpComponent, {
+      data: this.deleteDialogData,
+      hasBackdrop: true,
+      closeOnNavigation: true,
+      disableClose: true,
+      panelClass: ''
+    });
+
+    matDialogRef
+      .afterClosed()
+      .pipe(take(1))
+      .subscribe((res) => {
+        if (res) {
+          this.isDeleting = true;
+          this.orderService.deleteViolationOfCurrentOrder(this.orderId).subscribe(() => {
+            this.dialogRef.close(-1);
+            this.isDeleting = false;
+          });
+        }
+      });
   }
 
   deleteImage(i: number): void {

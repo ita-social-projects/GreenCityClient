@@ -5,7 +5,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { AddViolationsComponent } from '../add-violations/add-violations.component';
 import { IUserInfo } from '../../models/ubs-admin.interface';
 import { OrderService } from '../../services/order.service';
-import { takeUntil } from 'rxjs/operators';
+import { take, takeUntil } from 'rxjs/operators';
 
 @Component({
   selector: 'app-ubs-admin-order-client-info',
@@ -20,6 +20,7 @@ export class UbsAdminOrderClientInfoComponent implements OnInit, OnDestroy {
   private destroy$: Subject<boolean> = new Subject<boolean>();
   pageOpen: boolean;
   public userViolationForCurrentOrder: number;
+  public totalUserViolations: number;
 
   constructor(private dialog: MatDialog, private orderService: OrderService) {}
 
@@ -44,11 +45,12 @@ export class UbsAdminOrderClientInfoComponent implements OnInit, OnDestroy {
       .pipe(takeUntil(this.destroy$))
       .subscribe((data) => {
         this.userViolationForCurrentOrder = data.userViolationForCurrentOrder;
+        this.totalUserViolations = data.totalUserViolations;
       });
   }
 
   openModal(viewMode: boolean): void {
-    this.dialog.open(AddViolationsComponent, {
+    const matDialogRef = this.dialog.open(AddViolationsComponent, {
       hasBackdrop: true,
       closeOnNavigation: true,
       disableClose: true,
@@ -58,5 +60,15 @@ export class UbsAdminOrderClientInfoComponent implements OnInit, OnDestroy {
         viewMode
       }
     });
+
+    matDialogRef
+      .afterClosed()
+      .pipe(take(1))
+      .subscribe((res) => {
+        if (typeof res === 'number') {
+          this.userViolationForCurrentOrder += res;
+          this.totalUserViolations += res;
+        }
+      });
   }
 }

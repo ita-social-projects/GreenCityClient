@@ -97,17 +97,14 @@
             <small class="form__label">
               {{ 'customer-info.violation.amount' | translate }}
             </small>
-            <p>{{ clientInfo.totalUserViolations }}</p>
+            <p>{{ totalUserViolations }}</p>
           </div>
           <div class="violation__item">
             <small class="form__label">
               {{ 'customer-info.violation.current-order' | translate }}
             </small>
-            <p
-              [class.active]="clientInfo.userViolationForCurrentOrder"
-              (click)="clientInfo.userViolationForCurrentOrder && openModal(true)"
-            >
-              {{ clientInfo.userViolationForCurrentOrder }}
+            <p [class.active]="userViolationForCurrentOrder" (click)="userViolationForCurrentOrder && openModal(true)">
+              {{ userViolationForCurrentOrder }}
             </p>
           </div>
         </div>
