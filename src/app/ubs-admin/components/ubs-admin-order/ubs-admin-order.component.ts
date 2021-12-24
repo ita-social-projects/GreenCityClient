@@ -277,19 +277,49 @@ export class UbsAdminOrderComponent implements OnInit, OnDestroy {
     }
   }
 
+  formatBagsValue(orderDetailsForm) {
+    if (!orderDetailsForm) {
+      return;
+    }
+
+    let confirmed = {};
+    let exported = {};
+
+    for (let key in orderDetailsForm) {
+      if (key.startsWith('confirmedQuantity')) {
+        const id = key.replace('confirmedQuantity', '');
+        confirmed[id] = orderDetailsForm[key];
+        continue;
+      }
+      if (key.startsWith('actual')) {
+        const id = key.replace('actual', '');
+        exported[id] = orderDetailsForm[key];
+      }
+    }
+
+    let result: any = {};
+    if (Object.keys(confirmed).length) {
+      result.amountOfBagsConfirmed = confirmed;
+    }
+    if (Object.keys(exported).length) {
+      result.amountOfBagsExported = exported;
+    }
+    return result;
+  }
+
   onSubmit() {
     const changedValues: any = {};
     this.getUpdates(this.orderForm, changedValues);
     this.formatExporteValue(changedValues.exportDetailsDto);
-
+    changedValues.orderDetailsForm = this.formatBagsValue(changedValues.orderDetailsForm);
     console.log(changedValues);
 
-    this.orderService
-      .updateOrderInfo(this.orderId, this.currentLanguage, changedValues)
-      .pipe(takeUntil(this.destroy$))
-      .subscribe((data) => {
-        this.getOrderInfo(this.orderId, this.currentLanguage);
-      });
+    //   this.orderService
+    //     .updateOrderInfo(this.orderId, this.currentLanguage, changedValues)
+    //     .pipe(takeUntil(this.destroy$))
+    //     .subscribe((data) => {
+    //       this.getOrderInfo(this.orderId, this.currentLanguage);
+    //     });
   }
 
   private getUpdates(formItem: FormGroup | FormArray | FormControl, changedValues: any, name?: string) {
