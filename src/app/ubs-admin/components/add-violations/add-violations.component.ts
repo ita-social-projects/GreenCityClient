@@ -92,6 +92,9 @@ export class AddViolationsComponent implements OnInit, OnDestroy {
           this.addViolationForm.controls.violationDescription.disable();
           const images = violation.images.map((url) => ({ src: url, label: null, name: null }));
           this.images.splice(0, violation.images.length, ...images);
+          if (violation.images.length < this.images.length) {
+            this.images[violation.images.length].label = this.dragAndDropLabel;
+          }
           this.date = violation.violationDate;
           this.isLoading = false;
         });
