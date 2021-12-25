@@ -16,7 +16,7 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        node-version: [12.x]
+        node-version: ['14']
 
     # Steps
     steps:
@@ -40,7 +40,7 @@ jobs:
         run: npm run stylelint
 
       - name: Unit Tests
-        run: npx ng test --watch=false --progress=false --codeCoverage=true --browsers=ChromeHeadless
+        run: node --version && npx ng test --watch=false --progress=false --codeCoverage=true --browsers=ChromeHeadless
 
       - name: Sonar scan
         #continue-on-error: true
