@@ -324,9 +324,9 @@
     "order-history": "Історія замовлень",
     "order-number": "№ замовлення",
     "order-status": "Статус замовлення",
-    "order-date": "Дата",
+    "order-date": "Дата замовлення",
     "order-payment-status": "Статус оплати",
-    "payment-amount": "Сума до оплати",
+    "payment-amount": "Сума замовлення",
     "btn": {
       "cancel": "Скасувати",
       "pay": "Оплатити",
