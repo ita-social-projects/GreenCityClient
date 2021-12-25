@@ -22,6 +22,11 @@ jobs:
     steps:
       # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
       - uses: actions/checkout@v2
+      
+      - name: Use Node.js ${{ matrix.node-version }}
+        uses: actions/setup-node@v2
+        with:
+          node-version: ${{ matrix.node-version }}
 
       # Runs a set of commands using the runners shell
       - name: Install
@@ -41,7 +46,6 @@ jobs:
 
       - name: Unit Tests
         run: npx ng test --watch=false --progress=false --codeCoverage=true --browsers=ChromeHeadless
-        continue-on-error: true
 
       - name: Sonar scan
         #continue-on-error: true
