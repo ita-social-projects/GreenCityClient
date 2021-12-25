@@ -45,7 +45,7 @@ jobs:
         run: npm run stylelint
 
       - name: Unit Tests
-        run: node --version && npx ng test --watch=false --progress=false --codeCoverage=true --browsers=ChromeHeadless
+        run: npx ng test --watch=false --progress=false --codeCoverage=true --browsers=ChromeHeadless
 
       - name: Sonar scan
         #continue-on-error: true
