@@ -38,6 +38,11 @@ h6 {
     border: none;
     background: transparent;
   }
+
+  .edit-violation-btn:disabled,
+  .edit-violation-btn:disabled .mat-icon {
+    color: var(--ubs-primary-light-grey);
+  }
 }
 
 .close-icon {

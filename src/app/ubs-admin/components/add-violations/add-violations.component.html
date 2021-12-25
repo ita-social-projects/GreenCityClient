@@ -10,7 +10,7 @@
     <span>{{ 'add-violation-modal.order' | translate }} №{{ orderId }}</span>
   </div>
   <div class="row justify-content-end edit-violation">
-    <button *ngIf="viewMode" class="edit-violation-btn">
+    <button *ngIf="viewMode" class="edit-violation-btn" [disabled]="editMode" (click)="editViolation()">
       <mat-icon class="mat-icon">edit</mat-icon>
       {{ 'add-violation-modal.edit' | translate }}
     </button>
@@ -48,21 +48,23 @@
   <div *ngIf="!viewMode" class="row mb-3">
     <span class="requirement">{{ 'add-violation-modal.requirement' | translate }}</span>
   </div>
-  <div class="row" *ngIf="!viewMode">
-    <div class="image-container" appDrag (files)="filesDropped($event)" *ngFor="let img of images; index as i">
-      <img class="image-preview" *ngIf="img.src" [src]="img.src" alt="image-of-violation" (click)="openImg(i)" />
-      <div class="delete-block">
-        <div>{{ img.name }}</div>
-        <div (click)="deleteImage(i)">X</div>
-      </div>
-      <p class="drag-inscription">{{ img.label }}</p>
-    </div>
-  </div>
-  <div class="row" *ngIf="viewMode">
+  <div class="row" *ngIf="viewMode && !editMode; else addEditMode">
     <div class="image-container" *ngFor="let img of images; index as i">
       <img class="image-preview" *ngIf="img.src" [src]="img.src" alt="image-of-violation" (click)="openImg(i)" />
     </div>
   </div>
+  <ng-template #addEditMode>
+    <div class="row">
+      <div class="image-container" appDrag (files)="filesDropped($event)" *ngFor="let img of images; index as i">
+        <img class="image-preview" *ngIf="img.src" [src]="img.src" alt="image-of-violation" (click)="openImg(i)" />
+        <div class="delete-block">
+          <div>{{ img.name }}</div>
+          <div (click)="deleteImage(i)">X</div>
+        </div>
+        <p class="drag-inscription">{{ img.label }}</p>
+      </div>
+    </div>
+  </ng-template>
   <div class="row error-message" *ngIf="isImageSizeError">
     <p>{{ 'add-violation-modal.error-message-for-size' | translate }}</p>
   </div>
@@ -71,26 +73,31 @@
     <p>{{ 'add-violation-modal.error-message-for-type' | translate }}</p>
   </div>
   <div class="row mb-5 label-g" [class.invisible]="!isLabel">
-    <label for="file-upload" class="custom-file-upload" [ngClass]="{ disabled: viewMode }">
+    <label for="file-upload" class="custom-file-upload" [ngClass]="{ disabled: viewMode && !editMode }">
       {{ 'add-violation-modal.file-upload' | translate }}
     </label>
     <input
       #takeInput
       id="file-upload"
       class="d-none"
-      [disabled]="viewMode"
+      [disabled]="viewMode && !editMode"
       type="file"
       accept="image/png,image/jpeg"
       (change)="loadFile($event)"
     />
   </div>
   <div class="row justify-content-end mb-5">
-    <button *ngIf="viewMode" class="delete-violation" [disabled]="isDeleting" (click)="deleteViolation()">
+    <button *ngIf="viewMode && !editMode" class="delete-violation" [disabled]="isDeleting" (click)="deleteViolation()">
       <img *ngIf="!isDeleting" src="assets/img/icon/bin.svg" alt="delete-icon" class="delete-icon" />
       <span *ngIf="isDeleting" class="spinner-border spinner-border-sm" role="status" aria-hidden="true"> </span>
       {{ 'add-violation-modal.delete-button' | translate }}
     </button>
-    <button class="cancelButton" [disabled]="viewMode" [ngClass]="{ disabled: viewMode }" [mat-dialog-close]="true">
+    <button
+      class="cancelButton"
+      [disabled]="viewMode && !editMode"
+      [ngClass]="{ disabled: viewMode && !editMode }"
+      [mat-dialog-close]="true"
+    >
       {{ 'add-violation-modal.cancel-button' | translate }}
     </button>
     <button class="addButton" [disabled]="!addViolationForm.valid || isUploading" (click)="send()">

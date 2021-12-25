@@ -32,6 +32,7 @@ export class AddViolationsComponent implements OnInit, OnDestroy {
   public date = new Date();
   unsubscribe: Subject<any> = new Subject();
   viewMode = false;
+  editMode = false;
   isLoading = false;
   deleteDialogData = {
     popupTitle: 'add-violation-modal.delete-message',
@@ -89,9 +90,7 @@ export class AddViolationsComponent implements OnInit, OnDestroy {
           });
           this.addViolationForm.controls.violationLevel.disable();
           this.addViolationForm.controls.violationDescription.disable();
-          const images = violation.images.map((url) => {
-            return { src: url, label: null, name: null };
-          });
+          const images = violation.images.map((url) => ({ src: url, label: null, name: null }));
           this.images.splice(0, violation.images.length, ...images);
           this.date = violation.violationDate;
           this.isLoading = false;
@@ -117,14 +116,22 @@ export class AddViolationsComponent implements OnInit, OnDestroy {
 
   send() {
     this.isUploading = true;
-    const dataToSend = this.prepareDataToSend('add');
-    this.orderService
-      .addViolationToCurrentOrder(dataToSend)
-      .pipe(takeUntil(this.unsubscribe))
-      .subscribe(() => {
-        this.dialogRef.close(1);
-        this.isUploading = false;
-      });
+    const dataToSend = this.editMode ? this.prepareDataToSend('add', 'image') : this.prepareDataToSend('add');
+    this.editMode
+      ? this.orderService
+          .updateViolationOfCurrentOrder(dataToSend)
+          .pipe(takeUntil(this.unsubscribe))
+          .subscribe(() => {
+            this.dialogRef.close();
+            this.isUploading = false;
+          })
+      : this.orderService
+          .addViolationToCurrentOrder(dataToSend)
+          .pipe(takeUntil(this.unsubscribe))
+          .subscribe(() => {
+            this.dialogRef.close(1);
+            this.isUploading = false;
+          });
   }
 
   filesDropped(files: FileHandle[]): void {
@@ -200,6 +207,12 @@ export class AddViolationsComponent implements OnInit, OnDestroy {
         images: this.images
       }
     });
+  }
+
+  editViolation(): void {
+    this.editMode = true;
+    this.addViolationForm.controls.violationLevel.enable();
+    this.addViolationForm.controls.violationDescription.enable();
   }
 
   deleteViolation(): void {
