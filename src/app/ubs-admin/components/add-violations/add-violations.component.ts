@@ -35,8 +35,8 @@ export class AddViolationsComponent implements OnInit, OnDestroy {
   orderId;
   name: string;
   imgArray = [];
+  imagesFromDBLength: number;
   imagesFromDB = [];
-  httpsPattern = /^https?:\/\//;
   initialData: InitialData;
   isInitialDataChanged = false;
   isInitialImageDataChanged = false;
@@ -106,11 +106,13 @@ export class AddViolationsComponent implements OnInit, OnDestroy {
           });
           this.addViolationForm.controls.violationLevel.disable();
           this.addViolationForm.controls.violationDescription.disable();
-          this.imagesFromDB = violation.images.map((url) => ({ src: url, label: null, name: null }));
-          this.images.splice(0, violation.images.length, ...this.imagesFromDB);
+          const images = violation.images.map((url) => ({ src: url, label: null, name: null }));
+          this.images.splice(0, violation.images.length, ...images);
           if (violation.images.length < this.images.length) {
             this.images[violation.images.length].label = this.dragAndDropLabel;
           }
+          this.imagesFromDBLength = violation.images.length;
+          this.imagesFromDB = violation.images;
           this.date = violation.violationDate;
           this.isLoading = false;
           this.initialData = {
@@ -179,7 +181,6 @@ export class AddViolationsComponent implements OnInit, OnDestroy {
       reader.onload = () => {
         this.assignImage(reader.result, imageFile.name);
       };
-
       if (this.editMode) {
         this.isInitialImageDataChanged = true;
       }
@@ -288,25 +289,21 @@ export class AddViolationsComponent implements OnInit, OnDestroy {
   }
 
   deleteImage(i: number): void {
-    if (this.editMode) {
-      const dbImagesLength = this.numberImagesFromDB();
-      if (i >= dbImagesLength) {
-        this.imgArray.splice(i - dbImagesLength, 1);
-        this.isInitialImageDataChanged = this.initialData.initialImagesLength !== dbImagesLength || this.imgArray.length > 0;
-      } else {
-        this.imagesFromDB.splice(i, 1);
-        this.isInitialImageDataChanged = true;
-      }
-    } else {
+    if (this.editMode && i >= this.imagesFromDBLength) {
+      this.imgArray.splice(i - this.imagesFromDBLength, 1);
+      this.isInitialImageDataChanged = this.initialData.initialImagesLength !== this.imagesFromDBLength || this.imgArray.length > 0;
+    }
+    if (this.editMode && i < this.imagesFromDBLength) {
+      this.imagesFromDBLength--;
+      this.imagesFromDB.splice(i, 1);
+      this.isInitialImageDataChanged = true;
+    }
+    if (!this.editMode) {
       this.imgArray.splice(i, 1);
     }
     this.images.splice(i, 1);
     this.images.push({ src: null, label: this.isLabel ? null : this.dragAndDropLabel, name: null });
     this.isLabel = true;
-  }
-
-  numberImagesFromDB(): number {
-    return this.imagesFromDB.filter((image) => this.httpsPattern.test(image.src)).length;
   }
 
   assignLabel(): void {
