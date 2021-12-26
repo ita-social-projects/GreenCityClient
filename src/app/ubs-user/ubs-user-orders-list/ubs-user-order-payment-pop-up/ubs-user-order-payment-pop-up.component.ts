@@ -86,7 +86,7 @@ export class UbsUserOrderPaymentPopUpComponent implements OnInit {
     }
   }
 
-  public calculateCertificate(certificate: FormControl) {
+  public calculateCertificate(certificate: FormControl): void {
     this.userCertificate.certificateSum = 0;
     this.userCertificate.certificateStatusActive = false;
     this.orderService.processCertificate(certificate.value.certificateCode).subscribe(
@@ -134,7 +134,7 @@ export class UbsUserOrderPaymentPopUpComponent implements OnInit {
     this.certificateStatus.push(true);
   }
 
-  public fillOrderClientDto() {
+  public fillOrderClientDto(): void {
     this.orderClientDto.orderId = this.userOrder.id;
     if (this.userCertificate.certificates.length) {
       this.orderClientDto.certificates = [];
@@ -147,16 +147,12 @@ export class UbsUserOrderPaymentPopUpComponent implements OnInit {
   public processOrder(): void {
     this.fillOrderClientDto();
 
-    if (this.userOrder.sum > 0) {
-      if (this.formPaymentSystem.value === 'Fondy') {
-        this.orderService.processOrderFondyFromUserOrderList(this.orderClientDto).subscribe((responce: ResponceOrderFondyModel) => {
-          document.location.href = responce.link;
-        });
-      } else {
-        this.liqPayButton[0].click();
-      }
+    if (this.formPaymentSystem.value === 'Fondy') {
+      this.orderService.processOrderFondyFromUserOrderList(this.orderClientDto).subscribe((responce: ResponceOrderFondyModel) => {
+        responce.link === null ? this.router.navigate(['ubs', 'confirm']) : (document.location.href = responce.link);
+      });
     } else {
-      this.router.navigate(['ubs', 'confirm']);
+      this.liqPayButton[0].click();
     }
   }
 
