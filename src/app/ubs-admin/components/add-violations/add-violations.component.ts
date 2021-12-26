@@ -10,6 +10,12 @@ import { LocalStorageService } from '@global-service/localstorage/local-storage.
 import { ShowImgsPopUpComponent } from '../shared/components/show-imgs-pop-up/show-imgs-pop-up.component';
 import { DialogPopUpComponent } from '../shared/components/dialog-pop-up/dialog-pop-up.component';
 
+interface InitialData {
+  violationLevel: string;
+  violationDescription: string;
+  initialImagesLength: number;
+}
+
 @Component({
   selector: 'app-add-violations',
   templateUrl: './add-violations.component.html',
@@ -29,9 +35,11 @@ export class AddViolationsComponent implements OnInit, OnDestroy {
   orderId;
   name: string;
   imgArray = [];
+  imagesFromDB = [];
   httpsPattern = /^https?:\/\//;
-  initialData;
+  initialData: InitialData;
   isInitialDataChanged = false;
+  isInitialImageDataChanged = false;
   public date = new Date();
   unsubscribe: Subject<any> = new Subject();
   viewMode = false;
@@ -98,8 +106,8 @@ export class AddViolationsComponent implements OnInit, OnDestroy {
           });
           this.addViolationForm.controls.violationLevel.disable();
           this.addViolationForm.controls.violationDescription.disable();
-          const images = violation.images.map((url) => ({ src: url, label: null, name: null }));
-          this.images.splice(0, violation.images.length, ...images);
+          this.imagesFromDB = violation.images.map((url) => ({ src: url, label: null, name: null }));
+          this.images.splice(0, violation.images.length, ...this.imagesFromDB);
           if (violation.images.length < this.images.length) {
             this.images[violation.images.length].label = this.dragAndDropLabel;
           }
@@ -110,7 +118,6 @@ export class AddViolationsComponent implements OnInit, OnDestroy {
             violationDescription: violation.description,
             initialImagesLength: violation.images.length
           };
-          console.log(this.images);
         });
     }
   }
@@ -140,14 +147,12 @@ export class AddViolationsComponent implements OnInit, OnDestroy {
           .pipe(takeUntil(this.unsubscribe))
           .subscribe(() => {
             this.dialogRef.close();
-            this.isUploading = false;
           })
       : this.orderService
           .addViolationToCurrentOrder(dataToSend)
           .pipe(takeUntil(this.unsubscribe))
           .subscribe(() => {
             this.dialogRef.close(1);
-            this.isUploading = false;
           });
   }
 
@@ -175,10 +180,9 @@ export class AddViolationsComponent implements OnInit, OnDestroy {
       };
 
       if (this.editMode) {
+        this.isInitialImageDataChanged = true;
       }
     }
-    console.log(this.images);
-    console.log(this.imgArray);
   }
 
   checkFileExtension(files: FileHandle[]): void {
@@ -238,7 +242,6 @@ export class AddViolationsComponent implements OnInit, OnDestroy {
     this.addViolationForm.valueChanges.pipe(takeUntil(this.unsubscribe)).subscribe((value) => {
       this.isInitialDataChanged =
         this.initialData.violationLevel !== value.violationLevel || this.initialData.violationDescription !== value.violationDescription;
-      console.log(this.isInitialDataChanged);
     });
   }
 
@@ -259,7 +262,6 @@ export class AddViolationsComponent implements OnInit, OnDestroy {
           this.isDeleting = true;
           this.orderService.deleteViolationOfCurrentOrder(this.orderId).subscribe(() => {
             this.dialogRef.close(-1);
-            this.isDeleting = false;
           });
         }
       });
@@ -285,10 +287,25 @@ export class AddViolationsComponent implements OnInit, OnDestroy {
   }
 
   deleteImage(i: number): void {
-    this.imgArray.splice(i, 1);
+    if (this.editMode) {
+      const dbImagesLength = this.numberImagesFromDB();
+      if (i >= dbImagesLength) {
+        this.imgArray.splice(i - dbImagesLength, 1);
+        this.isInitialImageDataChanged = this.initialData.initialImagesLength !== dbImagesLength || this.imgArray.length > 0;
+      } else {
+        this.imagesFromDB.splice(i, 1);
+        this.isInitialImageDataChanged = true;
+      }
+    } else {
+      this.imgArray.splice(i, 1);
+    }
     this.images.splice(i, 1);
     this.images.push({ src: null, label: this.isLabel ? null : this.dragAndDropLabel, name: null });
     this.isLabel = true;
+  }
+
+  numberImagesFromDB(): number {
+    return this.imagesFromDB.filter((image) => this.httpsPattern.test(image.src)).length;
   }
 
   assignLabel(): void {
@@ -317,7 +334,7 @@ export class AddViolationsComponent implements OnInit, OnDestroy {
   }
 
   closeDialog() {
-    if (this.isInitialDataChanged) {
+    if (this.isInitialDataChanged || this.isInitialImageDataChanged) {
       this.deleteChanges();
     } else {
       this.dialogRef.close();
