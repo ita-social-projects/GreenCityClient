@@ -160,8 +160,8 @@ export class UbsUserOrderPaymentPopUpComponent implements OnInit {
     }
   }
 
-  public orderOptionPayment(event: any) {
-    this.selectedPayment = event.target.value;
+  public orderOptionPayment(event: Event): void {
+    this.selectedPayment = (event.target as HTMLInputElement).value;
     this.fillOrderClientDto();
 
     if (this.selectedPayment === 'LiqPay') {
