@@ -47,6 +47,11 @@ h6 {
 
 .close-icon {
   color: var(--quaternary-grey);
+  cursor: pointer;
+
+  &:hover {
+    color: var(--ubs-quaternary-dark-grey);
+  }
 }
 
 .custom-radio {

@@ -1,6 +1,6 @@
 <div *ngIf="!isLoading" class="container">
   <div class="row justify-content-end close-icon">
-    <mat-icon mat-dialog-close>close</mat-icon>
+    <mat-icon (click)="closeDialog()">close</mat-icon>
   </div>
   <div *ngIf="!viewMode" class="row mb-4">
     <h3>{{ 'add-violation-modal.add-violation' | translate }}</h3>
@@ -92,12 +92,7 @@
       <span *ngIf="isDeleting" class="spinner-border spinner-border-sm" role="status" aria-hidden="true"> </span>
       {{ 'add-violation-modal.delete-button' | translate }}
     </button>
-    <button
-      class="cancelButton"
-      [disabled]="viewMode && !editMode"
-      [ngClass]="{ disabled: viewMode && !editMode }"
-      [mat-dialog-close]="true"
-    >
+    <button class="cancelButton" [disabled]="viewMode && !editMode" [ngClass]="{ disabled: viewMode && !editMode }" (click)="closeDialog()">
       {{ 'add-violation-modal.cancel-button' | translate }}
     </button>
     <button class="addButton" [disabled]="!addViolationForm.valid || isUploading" (click)="send()">

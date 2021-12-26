@@ -29,6 +29,9 @@ export class AddViolationsComponent implements OnInit, OnDestroy {
   orderId;
   name: string;
   imgArray = [];
+  httpsPattern = /^https?:\/\//;
+  initialData;
+  isInitialDataChanged = false;
   public date = new Date();
   unsubscribe: Subject<any> = new Subject();
   viewMode = false;
@@ -36,6 +39,11 @@ export class AddViolationsComponent implements OnInit, OnDestroy {
   isLoading = false;
   deleteDialogData = {
     popupTitle: 'add-violation-modal.delete-message',
+    popupConfirm: 'employees.btn.yes',
+    popupCancel: 'employees.btn.no'
+  };
+  clearChangesDialogData = {
+    popupTitle: 'add-violation-modal.clear-changes',
     popupConfirm: 'employees.btn.yes',
     popupCancel: 'employees.btn.no'
   };
@@ -97,6 +105,12 @@ export class AddViolationsComponent implements OnInit, OnDestroy {
           }
           this.date = violation.violationDate;
           this.isLoading = false;
+          this.initialData = {
+            violationLevel: violation.violationLevel,
+            violationDescription: violation.description,
+            initialImagesLength: violation.images.length
+          };
+          console.log(this.images);
         });
     }
   }
@@ -159,7 +173,12 @@ export class AddViolationsComponent implements OnInit, OnDestroy {
       reader.onload = () => {
         this.assignImage(reader.result, imageFile.name);
       };
+
+      if (this.editMode) {
+      }
     }
+    console.log(this.images);
+    console.log(this.imgArray);
   }
 
   checkFileExtension(files: FileHandle[]): void {
@@ -216,6 +235,11 @@ export class AddViolationsComponent implements OnInit, OnDestroy {
     this.editMode = true;
     this.addViolationForm.controls.violationLevel.enable();
     this.addViolationForm.controls.violationDescription.enable();
+    this.addViolationForm.valueChanges.pipe(takeUntil(this.unsubscribe)).subscribe((value) => {
+      this.isInitialDataChanged =
+        this.initialData.violationLevel !== value.violationLevel || this.initialData.violationDescription !== value.violationDescription;
+      console.log(this.isInitialDataChanged);
+    });
   }
 
   deleteViolation(): void {
@@ -237,6 +261,25 @@ export class AddViolationsComponent implements OnInit, OnDestroy {
             this.dialogRef.close(-1);
             this.isDeleting = false;
           });
+        }
+      });
+  }
+
+  deleteChanges(): void {
+    const matDialogRef = this.dialog.open(DialogPopUpComponent, {
+      data: this.clearChangesDialogData,
+      hasBackdrop: true,
+      closeOnNavigation: true,
+      disableClose: true,
+      panelClass: ''
+    });
+
+    matDialogRef
+      .afterClosed()
+      .pipe(take(1))
+      .subscribe((res) => {
+        if (res) {
+          this.dialogRef.close();
         }
       });
   }
@@ -271,6 +314,14 @@ export class AddViolationsComponent implements OnInit, OnDestroy {
     }
     this.images[0].label = this.dragAndDropLabel;
     this.isLabel = true;
+  }
+
+  closeDialog() {
+    if (this.isInitialDataChanged) {
+      this.deleteChanges();
+    } else {
+      this.dialogRef.close();
+    }
   }
 
   ngOnDestroy(): void {
