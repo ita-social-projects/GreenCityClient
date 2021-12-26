@@ -26,6 +26,7 @@ export class UbsUserOrderPaymentPopUpComponent implements OnInit {
   public liqPayButtonForm: SafeHtml;
   public liqPayButton: NodeListOf<HTMLElement>;
   public dataLoadingLiqPay: boolean;
+  public isLiqPayLink: boolean;
 
   public userOrder: IOrderDetailsUser = {
     id: this.data.orderId,
@@ -50,6 +51,7 @@ export class UbsUserOrderPaymentPopUpComponent implements OnInit {
 
   public ngOnInit(): void {
     this.initForm();
+    this.isLiqPayLink = false;
     this.dataLoadingLiqPay = false;
     this.certificateStatus.push(true);
     this.orderClientDto = new OrderClientDto();
@@ -149,10 +151,10 @@ export class UbsUserOrderPaymentPopUpComponent implements OnInit {
 
     if (this.formPaymentSystem.value === 'Fondy') {
       this.orderService.processOrderFondyFromUserOrderList(this.orderClientDto).subscribe((responce: ResponceOrderFondyModel) => {
-        responce.link === null ? this.router.navigate(['ubs', 'confirm']) : (document.location.href = responce.link);
+        responce.link ? (document.location.href = responce.link) : this.router.navigate(['ubs', 'confirm']);
       });
     } else {
-      this.liqPayButton[0].click();
+      this.isLiqPayLink ? this.liqPayButton[0].click() : this.router.navigate(['ubs', 'confirm']);
     }
   }
 
@@ -163,11 +165,16 @@ export class UbsUserOrderPaymentPopUpComponent implements OnInit {
     if (this.selectedPayment === 'LiqPay') {
       this.dataLoadingLiqPay = true;
       this.orderService.processOrderLiqPayFromUserOrderList(this.orderClientDto).subscribe((responce: ResponceOrderLiqPayModel) => {
-        this.liqPayButtonForm = this.sanitizer.bypassSecurityTrustHtml(responce.liqPayButton);
-        setTimeout(() => {
-          this.liqPayButton = document.getElementsByName('btn_text');
-          this.dataLoadingLiqPay = false;
-        }, 0);
+        if (!responce.liqPayButton) {
+          this.isLiqPayLink = false;
+        } else {
+          this.isLiqPayLink = true;
+          this.liqPayButtonForm = this.sanitizer.bypassSecurityTrustHtml(responce.liqPayButton);
+          setTimeout(() => {
+            this.liqPayButton = document.getElementsByName('btn_text');
+            this.dataLoadingLiqPay = false;
+          }, 0);
+        }
       });
     }
   }
