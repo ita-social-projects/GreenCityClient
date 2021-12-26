@@ -2,8 +2,8 @@ import { Component, OnDestroy, OnInit, Inject, ElementRef, ViewChild } from '@an
 import { MAT_DIALOG_DATA, MatDialogRef, MatDialog } from '@angular/material/dialog';
 import { FileHandle } from '../../models/file-handle.model';
 import { TranslateService } from '@ngx-translate/core';
-import { Subject } from 'rxjs';
-import { take, takeUntil } from 'rxjs/operators';
+import { iif, of, Subject } from 'rxjs';
+import { switchMap, take, takeUntil } from 'rxjs/operators';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { OrderService } from '../../services/order.service';
 import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
@@ -30,7 +30,7 @@ export class AddViolationsComponent implements OnInit, OnDestroy {
   isUploading = false;
   isDeleting = false;
   isLabel: boolean;
-  dragAndDropLabel;
+  dragAndDropLabel: string;
   addViolationForm: FormGroup;
   orderId;
   name: string;
@@ -140,20 +140,21 @@ export class AddViolationsComponent implements OnInit, OnDestroy {
 
   send() {
     this.isUploading = true;
-    const dataToSend = this.editMode ? this.prepareDataToSend('add', 'image') : this.prepareDataToSend('add');
-    this.editMode
-      ? this.orderService
-          .updateViolationOfCurrentOrder(dataToSend)
-          .pipe(takeUntil(this.unsubscribe))
-          .subscribe(() => {
-            this.dialogRef.close();
-          })
-      : this.orderService
-          .addViolationToCurrentOrder(dataToSend)
-          .pipe(takeUntil(this.unsubscribe))
-          .subscribe(() => {
-            this.dialogRef.close(1);
-          });
+    const dataToSend = this.prepareDataToSend('add');
+    of(true)
+      .pipe(
+        switchMap(() =>
+          iif(
+            () => this.editMode,
+            this.orderService.updateViolationOfCurrentOrder(dataToSend),
+            this.orderService.addViolationToCurrentOrder(dataToSend)
+          )
+        ),
+        takeUntil(this.unsubscribe)
+      )
+      .subscribe(() => {
+        this.dialogRef.close(this.editMode || 1);
+      });
   }
 
   filesDropped(files: FileHandle[]): void {
