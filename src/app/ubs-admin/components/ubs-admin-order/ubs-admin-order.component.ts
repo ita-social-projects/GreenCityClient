@@ -242,19 +242,60 @@ export class UbsAdminOrderComponent implements OnInit, OnDestroy {
     return dateStr ? formatDate(dateStr, 'HH:mm', this.currentLanguage) : '';
   }
 
+  resetForm() {
+    this.orderForm.reset();
+    this.initForm();
+    this.currentOrderStatus = this.generalInfo.orderStatus;
+    this.orderStatusInfo = this.getOrderStatusInfo(this.currentOrderStatus);
+  }
+
+  onSubmit() {
+    const changedValues: any = {};
+    this.getUpdates(this.orderForm, changedValues);
+    this.formatExporteValue(changedValues.exportDetailsDto);
+    changedValues.orderDetailDto = this.formatBagsValue(changedValues.orderDetailsForm);
+    changedValues.ecoNumberFromShop = changedValues.orderDetailsForm.storeOrderNumbers;
+    delete changedValues.orderDetailsForm;
+    console.log(changedValues);
+
+    //   this.orderService
+    //     .updateOrderInfo(this.orderId, this.currentLanguage, changedValues)
+    //     .pipe(takeUntil(this.destroy$))
+    //     .subscribe((data) => {
+    //       this.getOrderInfo(this.orderId, this.currentLanguage);
+    //     });
+  }
+
+  private getUpdates(formItem: FormGroup | FormArray | FormControl, changedValues: any, name?: string) {
+    if (formItem instanceof FormControl) {
+      if (name && formItem.dirty) {
+        changedValues[name] = formItem.value;
+      }
+    } else {
+      for (const formControlName in formItem.controls) {
+        if (formItem.controls.hasOwnProperty(formControlName)) {
+          const formControl = formItem.controls[formControlName];
+
+          if (formControl instanceof FormControl) {
+            this.getUpdates(formControl, changedValues, formControlName);
+          } else if (formControl instanceof FormArray && formControl.dirty && formControl.controls.length > 0) {
+            changedValues[formControlName] = [];
+            this.getUpdates(formControl, changedValues[formControlName]);
+          } else if (formControl instanceof FormGroup && formControl.dirty) {
+            changedValues[formControlName] = {};
+            this.getUpdates(formControl, changedValues[formControlName]);
+          }
+        }
+      }
+    }
+  }
+
   parseStrToTime(dateStr: string, date: Date) {
     const hours = dateStr.split(':')[0];
     const minutes = dateStr.split(':')[1];
     date.setHours(+hours + 2);
     date.setMinutes(+minutes);
     return date ? date.toISOString() : '';
-  }
-
-  resetForm() {
-    this.orderForm.reset();
-    this.initForm();
-    this.currentOrderStatus = this.generalInfo.orderStatus;
-    this.orderStatusInfo = this.getOrderStatusInfo(this.currentOrderStatus);
   }
 
   formatExporteValue(exportDetailsDto) {
@@ -291,12 +332,14 @@ export class UbsAdminOrderComponent implements OnInit, OnDestroy {
         confirmed[id] = orderDetailsForm[key];
         continue;
       }
-      if (key.startsWith('actual')) {
-        const id = key.replace('actual', '');
+      if (key.startsWith('actualQuantity')) {
+        const id = key.replace('actualQuantity', '');
         exported[id] = orderDetailsForm[key];
       }
     }
-
+    if (!Object.keys(confirmed).length && !Object.keys(exported).length) {
+      return;
+    }
     let result: any = {};
     if (Object.keys(confirmed).length) {
       result.amountOfBagsConfirmed = confirmed;
@@ -304,46 +347,8 @@ export class UbsAdminOrderComponent implements OnInit, OnDestroy {
     if (Object.keys(exported).length) {
       result.amountOfBagsExported = exported;
     }
+
     return result;
-  }
-
-  onSubmit() {
-    const changedValues: any = {};
-    this.getUpdates(this.orderForm, changedValues);
-    this.formatExporteValue(changedValues.exportDetailsDto);
-    changedValues.orderDetailsForm = this.formatBagsValue(changedValues.orderDetailsForm);
-    console.log(changedValues);
-
-    //   this.orderService
-    //     .updateOrderInfo(this.orderId, this.currentLanguage, changedValues)
-    //     .pipe(takeUntil(this.destroy$))
-    //     .subscribe((data) => {
-    //       this.getOrderInfo(this.orderId, this.currentLanguage);
-    //     });
-  }
-
-  private getUpdates(formItem: FormGroup | FormArray | FormControl, changedValues: any, name?: string) {
-    if (formItem instanceof FormControl) {
-      if (name && formItem.dirty) {
-        changedValues[name] = formItem.value;
-      }
-    } else {
-      for (const formControlName in formItem.controls) {
-        if (formItem.controls.hasOwnProperty(formControlName)) {
-          const formControl = formItem.controls[formControlName];
-
-          if (formControl instanceof FormControl) {
-            this.getUpdates(formControl, changedValues, formControlName);
-          } else if (formControl instanceof FormArray && formControl.dirty && formControl.controls.length > 0) {
-            changedValues[formControlName] = [];
-            this.getUpdates(formControl, changedValues[formControlName]);
-          } else if (formControl instanceof FormGroup && formControl.dirty) {
-            changedValues[formControlName] = {};
-            this.getUpdates(formControl, changedValues[formControlName]);
-          }
-        }
-      }
-    }
   }
 
   ngOnDestroy(): void {
