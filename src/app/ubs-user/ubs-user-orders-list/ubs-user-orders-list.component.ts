@@ -58,13 +58,7 @@ export class UbsUserOrdersListComponent implements OnInit {
 
   public sortingOrdersByData(): void {
     this.orders.sort((a: IOrderInfo, b: IOrderInfo): number => {
-      if (a.generalOrderInfo.dateFormed > b.generalOrderInfo.dateFormed) {
-        return -1;
-      }
-      if (a.generalOrderInfo.dateFormed < b.generalOrderInfo.dateFormed) {
-        return 1;
-      }
-      return 0;
+      return a.generalOrderInfo.dateFormed < b.generalOrderInfo.dateFormed ? 1 : -1;
     });
   }
 }
