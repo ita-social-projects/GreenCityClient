@@ -88,6 +88,7 @@
     "clear-changes": "In case of cancellation, the changes will be lost. Are you sure you want to undo the changes?",
     "cancel-button": "Cancel",
     "add-button": "Add violation",
+    "save": "Save",
     "date": "Date:",
     "info-about-date": "Added:"
   },

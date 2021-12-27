@@ -95,9 +95,13 @@
     <button class="cancelButton" [disabled]="viewMode && !editMode" [ngClass]="{ disabled: viewMode && !editMode }" (click)="closeDialog()">
       {{ 'add-violation-modal.cancel-button' | translate }}
     </button>
-    <button class="addButton" [disabled]="!addViolationForm.valid || isUploading" (click)="send()">
+    <button
+      class="addButton"
+      [disabled]="!addViolationForm.valid || isUploading || (editMode && !(isInitialImageDataChanged || isInitialDataChanged))"
+      (click)="send()"
+    >
       <span *ngIf="isUploading" class="spinner-border spinner-border-sm" role="status" aria-hidden="true"> </span>
-      {{ 'add-violation-modal.add-button' | translate }}
+      {{ (viewMode || editMode ? 'add-violation-modal.save' : 'add-violation-modal.add-button') | translate }}
     </button>
   </div>
   <div class="row">
