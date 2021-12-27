@@ -17,6 +17,7 @@ import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
   styleUrls: ['./ubs-personal-information.component.scss']
 })
 export class UBSPersonalInformationComponent extends FormBaseComponent implements OnInit, OnDestroy, OnChanges {
+  locationId = 1;
   addressId: number;
   orderDetails: OrderDetails;
   personalData: PersonalData;
@@ -307,6 +308,7 @@ export class UBSPersonalInformationComponent extends FormBaseComponent implement
       this.addressId,
       orderBags,
       this.shareFormService.orderDetails.certificates,
+      this.locationId,
       this.shareFormService.orderDetails.orderComment,
       this.personalData,
       this.shareFormService.orderDetails.pointsToUse,

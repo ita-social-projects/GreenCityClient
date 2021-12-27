@@ -3,6 +3,7 @@ import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { UserViolations, IOrderHistory } from '../models/ubs-admin.interface';
 import { environment } from '@environment/environment';
+import { IViolation } from '../models/violation.model';
 
 @Injectable({
   providedIn: 'root'
@@ -128,8 +129,8 @@ export class OrderService {
     return this.http.post(`${this.backend}/management/addViolationToUser`, violation);
   }
 
-  public getViolationOfCurrentOrder(orderId) {
-    return this.http.get(`${this.backend}/management/violation-details/${orderId}`);
+  public getViolationOfCurrentOrder(orderId): Observable<IViolation> {
+    return this.http.get<IViolation>(`${this.backend}/management/violation-details/${orderId}`);
   }
 
   public getOverpaymentMsg(overpayment) {

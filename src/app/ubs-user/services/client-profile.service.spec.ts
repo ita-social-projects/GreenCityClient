@@ -13,19 +13,21 @@ describe('ClientProfileService', () => {
     recipientSurname: 'Boiko',
     recipientEmail: 'yur13boj9@gmail.com',
     recipientPhone: '974498935',
-    addressDto: {
-      id: 2369,
-      city: 'Kiev',
-      district: 'Печерський',
-      entranceNumber: '2',
-      houseCorpus: '4',
-      houseNumber: '25',
-      street: 'вулиця Шота Руставелі',
-      coordinates: null,
-      actual: false
-    }
+    addressDto: [
+      {
+        id: 2369,
+        city: 'Kiev',
+        district: 'Печерський',
+        entranceNumber: '2',
+        houseCorpus: '4',
+        region: 'Kyiv',
+        houseNumber: '25',
+        street: 'вулиця Шота Руставелі',
+        coordinates: null,
+        actual: false
+      }
+    ]
   };
-
   beforeEach(() => {
     TestBed.configureTestingModule({
       imports: [HttpClientTestingModule]
@@ -55,7 +57,7 @@ describe('ClientProfileService', () => {
       expect(data).toBe(clientMock);
     });
     const req = httpMock.expectOne(`${mainUbsLink}/ubs/userProfile/user/update`);
-    expect(req.request.method).toBe('POST');
+    expect(req.request.method).toBe('PUT');
     req.flush(clientMock);
   });
 });

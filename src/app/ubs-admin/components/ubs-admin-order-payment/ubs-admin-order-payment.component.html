@@ -10,15 +10,13 @@
         <span class="form__subtitle">{{ 'order-payment.order-size' | translate }}</span>
       </div>
       <div class="col-md-2">
-        <span class="price">{{ paidAmount | currency | localizedCurrency }}</span>
+        <span class="price">{{ totalPaid | currency | localizedCurrency }}</span>
       </div>
       <div class="col-md-2">
         <button (click)="openPopup()" class="btn">+ {{ 'order-payment.add-payment-btn' | translate }}</button>
       </div>
     </div>
-    <p class="need-to-pay" *ngIf="actualPrice - paidAmount !== 0">
-      {{ 'order-edit.need-to-pay' | translate }} {{ actualPrice - paidAmount | localizedCurrency }}
-    </p>
+    <p class="need-to-pay" *ngIf="overpayment">{{ message | translate }} {{ overpayment | localizedCurrency }}</p>
     <div class="table-responsive-md col-md-10 pl-0" *ngIf="paymentsArray.length !== 0">
       <table class="table table-borderless">
         <caption>

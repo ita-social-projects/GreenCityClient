@@ -14,10 +14,10 @@ import { AddPaymentComponent } from '../add-payment/add-payment.component';
 export class UbsAdminOrderPaymentComponent implements OnInit, OnChanges {
   message: string;
   pageOpen: boolean;
-  @Input() paidPrice: number;
   @Input() overpayment: number;
   @Input() orderInfo: IOrderInfo;
   @Input() actualPrice: number;
+  @Input() totalPaid: number;
   orderId: number;
   paidAmount: number;
   unPaidAmount: number;

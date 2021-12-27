@@ -1,4 +1,4 @@
-import { singleNewsImages } from './../../../../image-pathes/single-news-images';
+import { singleNewsImages } from '../../../../image-pathes/single-news-images';
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { Subject } from 'rxjs';

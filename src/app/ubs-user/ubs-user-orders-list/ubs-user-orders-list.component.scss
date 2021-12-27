@@ -16,11 +16,9 @@
 }
 
 .header_list {
-  display: grid;
-  grid-template-columns: 120px 110px 128px 94px 104px;
-  grid-template-rows: 30px;
-  grid-column-gap: 33px;
-  max-width: 1010px;
+  display: flex;
+  justify-content: space-between;
+  width: 600px;
   font-size: 14px;
   font-weight: 500;
   padding-top: 40px;
@@ -28,6 +26,10 @@
   border: none;
   text-align: start;
   margin-left: 63px;
+
+  div {
+    width: 100px;
+  }
 }
 
 .card {
@@ -39,6 +41,18 @@
   margin-top: 18px;
 }
 
+.order-info {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 600px;
+  margin-left: 25px;
+
+  div {
+    width: 100px;
+  }
+}
+
 .empty_card {
   display: flex;
   justify-content: flex-start;
@@ -47,26 +61,6 @@
   &-arrows {
     margin-left: 26px;
     cursor: pointer;
-  }
-
-  &-id {
-    margin-left: 26px;
-  }
-
-  &-date {
-    margin-left: 116px;
-  }
-
-  &-status {
-    margin-left: 63px;
-  }
-
-  &-paymentStatus {
-    margin-left: 67px;
-  }
-
-  .order_sum {
-    margin-left: 27px;
   }
 
   .btns_group {

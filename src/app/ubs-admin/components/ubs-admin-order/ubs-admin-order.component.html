@@ -10,9 +10,11 @@
   <form [formGroup]="orderForm" (ngSubmit)="onSubmit()">
     <div class="box">
       <app-ubs-admin-order-status
+        [currentOrderPrice]="currentOrderPrice"
         [orderStatusForm]="getFormGroup('orderStatusForm')"
         [generalOrderInfo]="generalOrderInfo"
-        (changed)="onChangedOrderStatus($event)"
+        [totalPaid]="totalPaid"
+        (changedOrderStatus)="onChangedOrderStatus($event)"
       ></app-ubs-admin-order-status>
       <app-ubs-admin-order-client-info [clientInfoForm]="getFormGroup('clientInfoForm')" [clientInfo]="clientInfo" [orderId]="orderId">
       </app-ubs-admin-order-client-info>
@@ -28,13 +30,12 @@
         [orderStatusInfo]="orderStatusInfo"
         (changeOverpayment)="changeOverpayment($event)"
         (checkMinOrder)="setMinOrder($event)"
-        (actualPrice)="setFinalPrice($event)"
+        (changeCurrentPrice)="onChangeCurrentPrice($event)"
       ></app-ubs-admin-order-details-form>
       <app-ubs-admin-order-payment
-        [paidPrice]="orderInfo.orderFullPrice"
+        [totalPaid]="totalPaid"
         [overpayment]="overpayment"
         [orderInfo]="orderInfo"
-        [actualPrice]="actualPrice"
       ></app-ubs-admin-order-payment>
       <app-ubs-admin-export-details
         [exportDetailsForm]="getFormGroup('exportDetailsForm')"

@@ -1,4 +1,4 @@
-import { singleNewsImages } from './../../../../image-pathes/single-news-images';
+import { singleNewsImages } from '../../../../image-pathes/single-news-images';
 import { Component, Inject, OnDestroy, OnInit } from '@angular/core';
 import { CreateEcoNewsService } from '@eco-news-service/create-eco-news.service';
 import { Router } from '@angular/router';
@@ -11,7 +11,7 @@ import { ActionInterface } from '../../models/action.interface';
 @Component({
   selector: 'app-news-preview-page',
   templateUrl: './news-preview-page.component.html',
-  styleUrls: ['./news-preview-page.component.scss'],
+  styleUrls: ['./news-preview-page.component.scss']
 })
 export class NewsPreviewPageComponent implements OnInit, OnDestroy {
   public images = singleNewsImages;
@@ -72,7 +72,7 @@ export class NewsPreviewPageComponent implements OnInit, OnDestroy {
   public editNews(): void {
     const dataToEdit = {
       ...this.previewItem.value,
-      id: this.newsId,
+      id: this.newsId
     };
 
     this.createEcoNewsService.editNews(dataToEdit).subscribe(() => {

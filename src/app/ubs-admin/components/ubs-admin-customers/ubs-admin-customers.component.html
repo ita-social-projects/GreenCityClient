@@ -171,7 +171,9 @@
           [matTooltip]="row[column.title.key]"
           matTooltipShowDelay="700"
           matTooltipClass="tooltip_style"
-          [class.pointer]="column.title.key === 'clientName' || column.title.key === 'number_of_orders'"
+          [class.pointer]="
+            column.title.key === 'clientName' || column.title.key === 'number_of_orders' || column.title.key === 'violations'
+          "
           (click)="openPages(column.title.key, row)"
         >
           {{ row[column.title.key] }}

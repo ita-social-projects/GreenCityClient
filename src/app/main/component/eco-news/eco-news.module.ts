@@ -26,6 +26,9 @@ import { MatSnackBarComponent } from '../errors/mat-snack-bar/mat-snack-bar.comp
 import { EcoNewsComponent } from './eco-news.component';
 import { ACTION_CONFIG, ACTION_TOKEN } from './components/create-edit-news/action.constants';
 import { SharedModule } from 'src/app/shared/shared.module';
+import { QuillModule } from 'ngx-quill';
+import { SafeHtmlPipe } from '@pipe/safe-html-pipe/safe-html.pipe';
+import { UrlHostnamePipe } from '@pipe/url-hostname-pipe/url-hostname.pipe';
 
 @NgModule({
   declarations: [
@@ -40,7 +43,9 @@ import { SharedModule } from 'src/app/shared/shared.module';
     NewsPreviewPageComponent,
     PostNewsLoaderComponent,
     MatSnackBarComponent,
-    CreateEditNewsComponent
+    CreateEditNewsComponent,
+    SafeHtmlPipe,
+    UrlHostnamePipe
   ],
   imports: [
     CommonModule,
@@ -60,7 +65,8 @@ import { SharedModule } from 'src/app/shared/shared.module';
         deps: [HttpClient]
       },
       isolate: true
-    })
+    }),
+    QuillModule.forRoot()
   ],
   exports: [TranslateModule],
   entryComponents: [],

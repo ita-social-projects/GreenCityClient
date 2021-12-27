@@ -30,7 +30,7 @@ import { SearchAllResultsComponent } from 'src/app/main/component/layout/compone
 import { MainComponent } from '../../../../main.component';
 import { UbsBaseSidebarComponent } from '../../../../../shared/ubs-base-sidebar/ubs-base-sidebar.component';
 
-describe('CreateEditNewsComponent', () => {
+xdescribe('CreateEditNewsComponent', () => {
   let component: CreateEditNewsComponent;
   let fixture: ComponentFixture<CreateEditNewsComponent>;
   let ecoNewsServiceMock: EcoNewsService;

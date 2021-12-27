@@ -1,11 +1,13 @@
-import { Component, OnDestroy, OnInit, Inject } from '@angular/core';
-import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
+import { Component, OnDestroy, OnInit, Inject, ElementRef, ViewChild } from '@angular/core';
+import { MAT_DIALOG_DATA, MatDialogRef, MatDialog } from '@angular/material/dialog';
 import { FileHandle } from '../../models/file-handle.model';
 import { TranslateService } from '@ngx-translate/core';
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
-import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { OrderService } from '../../services/order.service';
+import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
+import { ShowImgsPopUpComponent } from '../shared/components/show-imgs-pop-up/show-imgs-pop-up.component';
 
 @Component({
   selector: 'app-add-violations',
@@ -13,24 +15,37 @@ import { OrderService } from '../../services/order.service';
   styleUrls: ['./add-violations.component.scss']
 })
 export class AddViolationsComponent implements OnInit, OnDestroy {
+  maxNumberOfImgs = 6;
   images = [];
   files = [];
   isImageSizeError = false;
   isImageTypeError = false;
+  isDeleteViolation = false;
+  isUploading = false;
+  isLabel: boolean;
   dragAndDropLabel;
   addViolationForm: FormGroup;
   orderId;
+  name: string;
   imgArray = [];
+  public date = new Date();
   unsubscribe: Subject<any> = new Subject();
+  viewMode = false;
+  isLoading = false;
   constructor(
     private translate: TranslateService,
     @Inject(MAT_DIALOG_DATA) public data,
+    private localeStorageService: LocalStorageService,
     private fb: FormBuilder,
     private orderService: OrderService,
+    private dialog: MatDialog,
     public dialogRef: MatDialogRef<AddViolationsComponent>
   ) {
     this.orderId = data.id;
+    this.viewMode = data.viewMode;
   }
+
+  @ViewChild('takeInput') InputVar: ElementRef;
 
   ngOnInit() {
     this.translate
@@ -39,15 +54,42 @@ export class AddViolationsComponent implements OnInit, OnDestroy {
       .subscribe((value) => {
         this.dragAndDropLabel = value;
       });
-    this.initImages();
     this.initForm();
+    this.initImages();
+    this.checkMode();
+    this.localeStorageService.firstNameBehaviourSubject.pipe(takeUntil(this.unsubscribe)).subscribe((firstName) => {
+      this.name = firstName;
+    });
   }
 
   private initForm(): void {
     this.addViolationForm = this.fb.group({
-      violationLevel: new FormControl('', [Validators.required]),
-      violationDescription: new FormControl('', [Validators.required])
+      violationLevel: ['LOW', [Validators.required]],
+      violationDescription: ['', [Validators.required, Validators.minLength(5), Validators.maxLength(255)]]
     });
+  }
+
+  private checkMode() {
+    if (this.viewMode) {
+      this.isLoading = true;
+      this.orderService
+        .getViolationOfCurrentOrder(this.orderId)
+        .pipe(takeUntil(this.unsubscribe))
+        .subscribe((violation) => {
+          this.addViolationForm.setValue({
+            violationLevel: violation.violationLevel,
+            violationDescription: violation.description
+          });
+          this.addViolationForm.controls.violationLevel.disable();
+          this.addViolationForm.controls.violationDescription.disable();
+          const images = violation.images.map((url) => {
+            return { src: url, label: null, name: null };
+          });
+          this.images.splice(0, violation.images.length, ...images);
+          this.date = violation.violationDate;
+          this.isLoading = false;
+        });
+    }
   }
 
   prepareDataToSend(dto: string, image?: string): FormData {
@@ -67,12 +109,14 @@ export class AddViolationsComponent implements OnInit, OnDestroy {
   }
 
   send() {
+    this.isUploading = true;
     const dataToSend = this.prepareDataToSend('add');
     this.orderService
       .addViolationToCurrentOrder(dataToSend)
       .pipe(takeUntil(this.unsubscribe))
       .subscribe(() => {
         this.dialogRef.close();
+        this.isUploading = false;
       });
   }
 
@@ -86,15 +130,14 @@ export class AddViolationsComponent implements OnInit, OnDestroy {
 
   loadFile(event): void {
     const imageFile = (event.target as HTMLInputElement).files[0];
+    this.InputVar.nativeElement.value = '';
     this.transferFile(imageFile);
   }
 
   private transferFile(imageFile: File): void {
     if (!this.isImageTypeError) {
       const reader: FileReader = new FileReader();
-      // this.selectedFile = imageFile;
       this.imgArray.push(imageFile);
-
       reader.readAsDataURL(imageFile);
       reader.onload = () => {
         this.assignImage(reader.result, imageFile.name);
@@ -130,25 +173,37 @@ export class AddViolationsComponent implements OnInit, OnDestroy {
       this.images[i].label = null;
       if (!this.images[i].src) {
         this.images[i].src = result;
-        this.images[i + 1].label = this.dragAndDropLabel;
+        if (this.images[i + 1]) {
+          this.images[i + 1].label = this.dragAndDropLabel;
+        } else {
+          this.isLabel = false;
+        }
         this.images[i].name = name;
         break;
       }
     }
   }
 
-  deleteAllImages(): void {
-    for (const img of this.images) {
-      img.src = null;
-      img.label = '';
-      img.name = null;
-    }
-    this.images[0].label = this.dragAndDropLabel;
+  openImg(index: number): void {
+    this.dialog.open(ShowImgsPopUpComponent, {
+      hasBackdrop: true,
+      panelClass: 'custom-img-pop-up',
+      data: {
+        imgIndex: index,
+        images: this.images
+      }
+    });
+  }
+
+  deleteViolation(): void {
+    // TODO: Add logic to delete violations
   }
 
   deleteImage(i: number): void {
+    this.imgArray.splice(i, 1);
     this.images.splice(i, 1);
-    this.images.push({ src: null, label: null, name: null });
+    this.images.push({ src: null, label: this.isLabel ? null : this.dragAndDropLabel, name: null });
+    this.isLabel = true;
   }
 
   assignLabel(): void {
@@ -169,10 +224,11 @@ export class AddViolationsComponent implements OnInit, OnDestroy {
   }
 
   initImages(): void {
-    for (let i = 0; i < 6; i++) {
+    for (let i = 0; i < this.maxNumberOfImgs; i++) {
       this.images.push({ src: null, label: null, name: null });
     }
     this.images[0].label = this.dragAndDropLabel;
+    this.isLabel = true;
   }
 
   ngOnDestroy(): void {
