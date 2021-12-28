@@ -51,12 +51,10 @@ export class UbsAdminExportDetailsComponent implements OnInit, OnDestroy {
     this.from = this.fromInput;
     this.to = this.toInput;
     if (this.fromInput && this.toInput) {
-      const timeFromControl = 'timeDeliveryFrom';
-      const timeToControl = 'timeDeliveryTo';
-      this.exportDetailsDto.controls[timeFromControl].setValue(this.fromInput);
-      this.exportDetailsDto.controls[timeToControl].setValue(this.toInput);
-      this.exportDetailsDto.controls[timeFromControl].markAsDirty();
-      this.exportDetailsDto.controls[timeToControl].markAsDirty();
+      this.exportDetailsDto.get('timeDeliveryFrom').setValue(this.fromInput);
+      this.exportDetailsDto.get('timeDeliveryTo').setValue(this.toInput);
+      this.exportDetailsDto.get('timeDeliveryFrom').markAsDirty();
+      this.exportDetailsDto.get('timeDeliveryTo').markAsDirty();
       this.showTimePicker = false;
     }
   }

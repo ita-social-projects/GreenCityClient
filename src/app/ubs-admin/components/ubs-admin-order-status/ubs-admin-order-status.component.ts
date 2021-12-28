@@ -58,10 +58,10 @@ export class UbsAdminOrderStatusComponent implements OnChanges, OnInit, OnDestro
           return;
         }
         this.generalOrderInfo.get('cancellationReason').setValue(res.reason);
-        this.generalOrderInfo.controls['cancellationReason'].markAsDirty();
+        this.generalOrderInfo.get('cancellationReason').markAsDirty();
         if (res.reason === 'OTHER') {
           this.generalOrderInfo.get('cancellationComment').setValue(res.comment);
-          this.generalOrderInfo.controls['cancellationComment'].markAsDirty();
+          this.generalOrderInfo.get('cancellationComment').markAsDirty();
         }
       });
   }

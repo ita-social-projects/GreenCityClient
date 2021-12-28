@@ -132,8 +132,8 @@ export class UbsAdminOrderComponent implements OnInit, OnDestroy {
       generalOrderInfo: this.fb.group({
         orderStatus: this.generalInfo.orderStatus,
         adminComment: this.generalInfo.adminComment,
-        cancellationComment: '', //TODO add this fields to controller
-        cancellationReason: '' //TODO
+        cancellationComment: '', // TODO add this fields to controller
+        cancellationReason: '' // TODO
       }),
       userInfoDto: this.fb.group({
         recipientName: [this.userInfo.recipientName, [Validators.required, Validators.minLength(1), Validators.maxLength(30)]],
@@ -253,11 +253,12 @@ export class UbsAdminOrderComponent implements OnInit, OnDestroy {
     const changedValues: any = {};
     this.getUpdates(this.orderForm, changedValues);
     this.formatExporteValue(changedValues.exportDetailsDto);
-    changedValues.orderDetailDto = this.formatOrderDetailsValue(changedValues.orderDetailsForm);
+    changedValues.orderDetailDto = this.formatBagsValue(changedValues.orderDetailsForm);
+    changedValues.ecoNumberFromShop = this.formatEcoNumbersFromShop(changedValues.orderDetailsForm);
     delete changedValues.orderDetailsForm;
-    console.log(changedValues);
+    console.log(JSON.stringify(changedValues));
 
-    // TODO modify ecoNumberFromShop and responsiblePersonsForm object
+    // TODO modify EcoNumbersFromShop and responsiblePersonsForm objects
 
     this.orderService
       .updateOrderInfo(this.orderId, this.currentLanguage, changedValues)
@@ -319,16 +320,19 @@ export class UbsAdminOrderComponent implements OnInit, OnDestroy {
     }
   }
 
-  formatOrderDetailsValue(orderDetailsForm) {
+  formatEcoNumbersFromShop(orderDetailsForm) {
+    return orderDetailsForm ? orderDetailsForm.storeOrderNumbers : undefined;
+  }
+
+  formatBagsValue(orderDetailsForm) {
     if (!orderDetailsForm) {
       return;
     }
 
-    let confirmed = {};
-    let exported = {};
-    let result: any = {};
+    const confirmed = {};
+    const exported = {};
 
-    for (let key in orderDetailsForm) {
+    for (const key of Object.keys(orderDetailsForm)) {
       if (key.startsWith('confirmedQuantity')) {
         const id = key.replace('confirmedQuantity', '');
         confirmed[id] = orderDetailsForm[key];
@@ -338,14 +342,12 @@ export class UbsAdminOrderComponent implements OnInit, OnDestroy {
         const id = key.replace('actualQuantity', '');
         exported[id] = orderDetailsForm[key];
       }
-      if (key === 'storeOrderNumbers') {
-        result.ecoNumberFromShop = orderDetailsForm.storeOrderNumbers;
-      }
     }
     if (!Object.keys(confirmed).length && !Object.keys(exported).length) {
       return;
     }
 
+    const result: any = {};
     if (Object.keys(confirmed).length) {
       result.amountOfBagsConfirmed = confirmed;
     }
