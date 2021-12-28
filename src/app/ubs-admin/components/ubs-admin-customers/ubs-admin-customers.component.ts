@@ -16,7 +16,7 @@ import { FormGroup, FormBuilder } from '@angular/forms';
 import { Router } from '@angular/router';
 import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
 import { Subject } from 'rxjs';
-import { takeUntil } from 'rxjs/operators';
+import { debounceTime, takeUntil } from 'rxjs/operators';
 import { ICustomersTable } from '../../models/customers-table.model';
 import { nonSortableColumns } from '../../models/non-sortable-columns.model';
 import { AdminCustomersService } from '../../services/admin-customers.service';
@@ -47,6 +47,9 @@ export class UbsAdminCustomersComponent implements OnInit, AfterViewChecked, OnD
   public filterForm: FormGroup;
   public hasChange = false;
   public filters: Filters;
+  public filterValue = '';
+  public modelChanged: Subject<string> = new Subject<string>();
+  public pageSize = 10;
 
   private tableData: any[];
   private sortType: string;
@@ -86,6 +89,10 @@ export class UbsAdminCustomersComponent implements OnInit, AfterViewChecked, OnD
     this.getTable();
     this.initFilterForm();
     this.onCreateGroupFormValueChange();
+    this.modelChanged.pipe(debounceTime(500)).subscribe((model) => {
+      this.currentPage = 0;
+      this.getTable(model, this.sortingColumn, this.sortType);
+    });
   }
 
   ngAfterViewChecked() {
@@ -93,9 +100,13 @@ export class UbsAdminCustomersComponent implements OnInit, AfterViewChecked, OnD
       const table = document.getElementById('table');
       const tableContainer = document.getElementById('table-container');
       this.isTableHeightSet = this.tableHeightService.setTableHeightToContainerHeight(table, tableContainer);
-      this.onScroll();
+      if (!this.isTableHeightSet) {
+        this.onScroll();
+      }
     }
-    this.setTableResize(this.matTableRef.nativeElement.clientWidth);
+    if (!this.isLoading) {
+      this.setTableResize(this.matTableRef.nativeElement.clientWidth);
+    }
     this.cdr.detectChanges();
   }
 
@@ -190,6 +201,8 @@ export class UbsAdminCustomersComponent implements OnInit, AfterViewChecked, OnD
     dialogRef.componentInstance.allElements = this.allElements;
     dialogRef.componentInstance.sortingColumn = this.sortingColumn;
     dialogRef.componentInstance.sortType = this.sortType;
+    dialogRef.componentInstance.search = this.filterValue;
+    dialogRef.componentInstance.filters = this.queryString;
     dialogRef.componentInstance.name = 'Customers-Table.xlsx';
   }
 
@@ -201,13 +214,18 @@ export class UbsAdminCustomersComponent implements OnInit, AfterViewChecked, OnD
   }
 
   public applyFilter(filterValue: string): void {
-    this.dataSource.filter = filterValue.trim().toLowerCase();
+    this.filterValue = filterValue;
+    this.modelChanged.next(filterValue);
   }
 
-  private getTable(columnName = this.sortingColumn || 'recipientName', sortingType = this.sortType || 'ASC') {
+  private getTable(
+    filterValue = this.filterValue || '',
+    columnName = this.sortingColumn || 'clientName',
+    sortingType = this.sortType || 'ASC'
+  ) {
     this.isLoading = true;
     this.adminCustomerService
-      .getCustomers(columnName, this.currentPage, this.queryString, sortingType)
+      .getCustomers(columnName, this.currentPage, this.queryString, filterValue, this.pageSize, sortingType)
       .pipe(takeUntil(this.destroy$))
       .subscribe((item: ICustomersTable) => {
         this.tableData = item.page;
@@ -222,8 +240,9 @@ export class UbsAdminCustomersComponent implements OnInit, AfterViewChecked, OnD
 
   private updateTableData() {
     this.isUpdate = true;
+    this.sortingColumn = !this.sortingColumn ? 'clientName' : this.sortingColumn;
     this.adminCustomerService
-      .getCustomers(this.sortingColumn || 'recipientName', this.currentPage, this.queryString, this.sortType || 'ASC')
+      .getCustomers(this.sortingColumn, this.currentPage, this.queryString, this.filterValue, this.pageSize, this.sortType || 'ASC')
       .pipe(takeUntil(this.destroy$))
       .subscribe((item: ICustomersTable) => {
         this.tableData = [...this.tableData, ...item.page];

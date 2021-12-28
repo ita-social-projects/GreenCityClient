@@ -263,7 +263,7 @@ export class UbsAdminTableComponent implements OnInit, AfterViewChecked, OnDestr
     dialogRef.componentInstance.allElements = this.allElements;
     dialogRef.componentInstance.sortingColumn = this.sortingColumn;
     dialogRef.componentInstance.sortType = this.sortType;
-    dialogRef.componentInstance.filterValue = this.filterValue;
+    dialogRef.componentInstance.search = this.filterValue;
     dialogRef.componentInstance.name = 'Orders-Table.xlsx';
   }
 
