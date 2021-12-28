@@ -253,17 +253,18 @@ export class UbsAdminOrderComponent implements OnInit, OnDestroy {
     const changedValues: any = {};
     this.getUpdates(this.orderForm, changedValues);
     this.formatExporteValue(changedValues.exportDetailsDto);
-    changedValues.orderDetailDto = this.formatBagsValue(changedValues.orderDetailsForm);
-    changedValues.ecoNumberFromShop = changedValues.orderDetailsForm.storeOrderNumbers;
+    changedValues.orderDetailDto = this.formatOrderDetailsValue(changedValues.orderDetailsForm);
     delete changedValues.orderDetailsForm;
     console.log(changedValues);
 
-    //   this.orderService
-    //     .updateOrderInfo(this.orderId, this.currentLanguage, changedValues)
-    //     .pipe(takeUntil(this.destroy$))
-    //     .subscribe((data) => {
-    //       this.getOrderInfo(this.orderId, this.currentLanguage);
-    //     });
+    // TODO modify ecoNumberFromShop and responsiblePersonsForm object
+
+    this.orderService
+      .updateOrderInfo(this.orderId, this.currentLanguage, changedValues)
+      .pipe(takeUntil(this.destroy$))
+      .subscribe((data) => {
+        this.getOrderInfo(this.orderId, this.currentLanguage);
+      });
   }
 
   private getUpdates(formItem: FormGroup | FormArray | FormControl, changedValues: any, name?: string) {
@@ -318,13 +319,14 @@ export class UbsAdminOrderComponent implements OnInit, OnDestroy {
     }
   }
 
-  formatBagsValue(orderDetailsForm) {
+  formatOrderDetailsValue(orderDetailsForm) {
     if (!orderDetailsForm) {
       return;
     }
 
     let confirmed = {};
     let exported = {};
+    let result: any = {};
 
     for (let key in orderDetailsForm) {
       if (key.startsWith('confirmedQuantity')) {
@@ -336,11 +338,14 @@ export class UbsAdminOrderComponent implements OnInit, OnDestroy {
         const id = key.replace('actualQuantity', '');
         exported[id] = orderDetailsForm[key];
       }
+      if (key === 'storeOrderNumbers') {
+        result.ecoNumberFromShop = orderDetailsForm.storeOrderNumbers;
+      }
     }
     if (!Object.keys(confirmed).length && !Object.keys(exported).length) {
       return;
     }
-    let result: any = {};
+
     if (Object.keys(confirmed).length) {
       result.amountOfBagsConfirmed = confirmed;
     }
