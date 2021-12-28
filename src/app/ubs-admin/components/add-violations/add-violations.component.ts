@@ -2,12 +2,19 @@ import { Component, OnDestroy, OnInit, Inject, ElementRef, ViewChild } from '@an
 import { MAT_DIALOG_DATA, MatDialogRef, MatDialog } from '@angular/material/dialog';
 import { FileHandle } from '../../models/file-handle.model';
 import { TranslateService } from '@ngx-translate/core';
-import { Subject } from 'rxjs';
-import { takeUntil } from 'rxjs/operators';
+import { iif, of, Subject } from 'rxjs';
+import { switchMap, take, takeUntil } from 'rxjs/operators';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { OrderService } from '../../services/order.service';
 import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
 import { ShowImgsPopUpComponent } from '../shared/components/show-imgs-pop-up/show-imgs-pop-up.component';
+import { DialogPopUpComponent } from '../shared/components/dialog-pop-up/dialog-pop-up.component';
+
+interface InitialData {
+  violationLevel: string;
+  violationDescription: string;
+  initialImagesLength: number;
+}
 
 @Component({
   selector: 'app-add-violations',
@@ -20,18 +27,35 @@ export class AddViolationsComponent implements OnInit, OnDestroy {
   files = [];
   isImageSizeError = false;
   isImageTypeError = false;
-  isDeleteViolation = false;
   isUploading = false;
+  isDeleting = false;
   isLabel: boolean;
-  dragAndDropLabel;
+  dragAndDropLabel: string;
   addViolationForm: FormGroup;
   orderId;
   name: string;
   imgArray = [];
+  imagesFromDBLength: number;
+  imagesFromDB = [];
+  initialData: InitialData;
+  isInitialDataChanged = false;
+  isInitialImageDataChanged = false;
   public date = new Date();
   unsubscribe: Subject<any> = new Subject();
   viewMode = false;
+  editMode = false;
   isLoading = false;
+  deleteDialogData = {
+    popupTitle: 'add-violation-modal.delete-message',
+    popupConfirm: 'employees.btn.yes',
+    popupCancel: 'employees.btn.no'
+  };
+  clearChangesDialogData = {
+    popupTitle: 'add-violation-modal.clear-changes',
+    popupConfirm: 'employees.btn.yes',
+    popupCancel: 'employees.btn.no'
+  };
+
   constructor(
     private translate: TranslateService,
     @Inject(MAT_DIALOG_DATA) public data,
@@ -82,12 +106,20 @@ export class AddViolationsComponent implements OnInit, OnDestroy {
           });
           this.addViolationForm.controls.violationLevel.disable();
           this.addViolationForm.controls.violationDescription.disable();
-          const images = violation.images.map((url) => {
-            return { src: url, label: null, name: null };
-          });
+          const images = violation.images.map((url) => ({ src: url, label: null, name: null }));
           this.images.splice(0, violation.images.length, ...images);
+          if (violation.images.length < this.images.length) {
+            this.images[violation.images.length].label = this.dragAndDropLabel;
+          }
+          this.imagesFromDBLength = violation.images.length;
+          this.imagesFromDB = violation.images;
           this.date = violation.violationDate;
           this.isLoading = false;
+          this.initialData = {
+            violationLevel: violation.violationLevel,
+            violationDescription: violation.description,
+            initialImagesLength: violation.images.length
+          };
         });
     }
   }
@@ -111,12 +143,19 @@ export class AddViolationsComponent implements OnInit, OnDestroy {
   send() {
     this.isUploading = true;
     const dataToSend = this.prepareDataToSend('add');
-    this.orderService
-      .addViolationToCurrentOrder(dataToSend)
-      .pipe(takeUntil(this.unsubscribe))
+    of(true)
+      .pipe(
+        switchMap(() =>
+          iif(
+            () => this.editMode,
+            this.orderService.updateViolationOfCurrentOrder(dataToSend),
+            this.orderService.addViolationToCurrentOrder(dataToSend)
+          )
+        ),
+        takeUntil(this.unsubscribe)
+      )
       .subscribe(() => {
-        this.dialogRef.close();
-        this.isUploading = false;
+        this.dialogRef.close(this.editMode || 1);
       });
   }
 
@@ -142,6 +181,9 @@ export class AddViolationsComponent implements OnInit, OnDestroy {
       reader.onload = () => {
         this.assignImage(reader.result, imageFile.name);
       };
+      if (this.editMode) {
+        this.isInitialImageDataChanged = true;
+      }
     }
   }
 
@@ -195,12 +237,70 @@ export class AddViolationsComponent implements OnInit, OnDestroy {
     });
   }
 
+  editViolation(): void {
+    this.editMode = true;
+    this.addViolationForm.controls.violationLevel.enable();
+    this.addViolationForm.controls.violationDescription.enable();
+    this.addViolationForm.valueChanges.pipe(takeUntil(this.unsubscribe)).subscribe((value) => {
+      this.isInitialDataChanged =
+        this.initialData.violationLevel !== value.violationLevel || this.initialData.violationDescription !== value.violationDescription;
+    });
+  }
+
   deleteViolation(): void {
-    // TODO: Add logic to delete violations
+    const matDialogRef = this.dialog.open(DialogPopUpComponent, {
+      data: this.deleteDialogData,
+      hasBackdrop: true,
+      closeOnNavigation: true,
+      disableClose: true,
+      panelClass: ''
+    });
+
+    matDialogRef
+      .afterClosed()
+      .pipe(take(1))
+      .subscribe((res) => {
+        if (res) {
+          this.isDeleting = true;
+          this.orderService.deleteViolationOfCurrentOrder(this.orderId).subscribe(() => {
+            this.dialogRef.close(-1);
+          });
+        }
+      });
+  }
+
+  deleteChanges(): void {
+    const matDialogRef = this.dialog.open(DialogPopUpComponent, {
+      data: this.clearChangesDialogData,
+      hasBackdrop: true,
+      closeOnNavigation: true,
+      disableClose: true,
+      panelClass: ''
+    });
+
+    matDialogRef
+      .afterClosed()
+      .pipe(take(1))
+      .subscribe((res) => {
+        if (res) {
+          this.dialogRef.close();
+        }
+      });
   }
 
   deleteImage(i: number): void {
-    this.imgArray.splice(i, 1);
+    if (this.editMode && i >= this.imagesFromDBLength) {
+      this.imgArray.splice(i - this.imagesFromDBLength, 1);
+      this.isInitialImageDataChanged = this.initialData.initialImagesLength !== this.imagesFromDBLength || this.imgArray.length > 0;
+    }
+    if (this.editMode && i < this.imagesFromDBLength) {
+      this.imagesFromDBLength--;
+      this.imagesFromDB.splice(i, 1);
+      this.isInitialImageDataChanged = true;
+    }
+    if (!this.editMode) {
+      this.imgArray.splice(i, 1);
+    }
     this.images.splice(i, 1);
     this.images.push({ src: null, label: this.isLabel ? null : this.dragAndDropLabel, name: null });
     this.isLabel = true;
@@ -229,6 +329,14 @@ export class AddViolationsComponent implements OnInit, OnDestroy {
     }
     this.images[0].label = this.dragAndDropLabel;
     this.isLabel = true;
+  }
+
+  closeDialog() {
+    if (this.isInitialDataChanged || this.isInitialImageDataChanged) {
+      this.deleteChanges();
+    } else {
+      this.dialogRef.close();
+    }
   }
 
   ngOnDestroy(): void {

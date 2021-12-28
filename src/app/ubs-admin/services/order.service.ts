@@ -125,8 +125,16 @@ export class OrderService {
     return this.http.post(`${this.backend}/management/addViolationToUser`, violation);
   }
 
+  public updateViolationOfCurrentOrder(violation) {
+    return this.http.put(`${this.backend}/management/updateViolationToUser`, violation);
+  }
+
   public getViolationOfCurrentOrder(orderId): Observable<IViolation> {
     return this.http.get<IViolation>(`${this.backend}/management/violation-details/${orderId}`);
+  }
+
+  public deleteViolationOfCurrentOrder(orderId) {
+    return this.http.delete(`${this.backend}/management/delete-violation-from-order/${orderId}`);
   }
 
   public getOverpaymentMsg(overpayment) {
