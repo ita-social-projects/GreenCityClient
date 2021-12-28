@@ -1,8 +1,6 @@
 <div [formGroup]="addPaymentForm" class="container">
-  <div class="close-container">
-    <button class="close-btn" mat-dialog-close (click)="close()">
-      <img src="{{ closeButton }}" alt="close" />
-    </button>
+  <div class="row justify-content-end close-icon">
+    <mat-icon mat-dialog-close>close</mat-icon>
   </div>
   <div class="main-content">
     <h3 class="title label" id="addDocument">{{ 'add-payment.title' | translate }}</h3>
@@ -40,9 +38,9 @@
     </div>
     <span class="label">{{ 'add-payment.label-for-photo' | translate }}</span>
     <span class="photo-requirement">{{ 'add-payment.requirement' | translate }}</span>
-    <div class="photo-container" appDrag (files)="fileDropped($event)">
-      <img class="image-preview" *ngIf="imagePreview" [src]="imagePreview.src" alt="image-of-payment" />
-      <p class="requirement-drag label">
+    <div class="photo-container">
+      <img class="image-preview" *ngIf="imagePreview.src" [src]="imagePreview.src" alt="image-of-payment" />
+      <p *ngIf="!imagePreview.src" class="requirement-drag label">
         <span>
           {{ 'add-payment.drag-photo' | translate }}
         </span>
@@ -50,6 +48,10 @@
         <input id="file" type="file" accept="application/pdf,image/png,image/jpeg" class="d-none" (change)="onFileSelect($event)" />
       </p>
     </div>
+    <label *ngIf="imagePreview.src" class="label custom-file-upload" for="file">{{
+      'add-payment.drag-other-photo-link' | translate
+    }}</label>
+    <input id="file" type="file" accept="application/pdf,image/png,image/jpeg" class="d-none" (change)="onFileSelect($event)" />
   </div>
   <div class="btn-container block">
     <button type="reset" class="back label" (click)="close()">{{ 'add-payment.btn.back' | translate }}</button>

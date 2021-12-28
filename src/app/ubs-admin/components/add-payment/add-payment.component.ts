@@ -18,7 +18,7 @@ export class AddPaymentComponent implements OnInit {
   orderId: number;
   addPaymentForm: FormGroup;
   file;
-  imagePreview;
+  imagePreview: any = {};
   public adminName;
   isImageSizeError = false;
   isImageTypeError = false;
@@ -44,21 +44,8 @@ export class AddPaymentComponent implements OnInit {
     this.addPaymentForm = this.fb.group({
       paymentDate: ['', [Validators.required]],
       amount: ['', [Validators.required, Validators.pattern('^[0-9]+.[0-9][0-9]$')]],
-      paymentId: ['', [Validators.required, Validators.pattern('^№[0-9]{5}$')]],
+      paymentId: ['', [Validators.required, Validators.pattern('^[0-9]{5}$')]],
       receiptLink: ['']
-    });
-    const paymantID = this.addPaymentForm.get('paymentId');
-
-    paymantID.valueChanges.subscribe((id) => {
-      const idValue = '' + id;
-      if (idValue === '№') {
-        paymantID.patchValue('');
-        return;
-      }
-
-      if (idValue && idValue.indexOf('№') !== 0) {
-        paymantID.patchValue('№' + id);
-      }
     });
   }
 
@@ -69,7 +56,6 @@ export class AddPaymentComponent implements OnInit {
   save() {
     let result: any = {};
     const paymentDetails = this.addPaymentForm.value;
-    paymentDetails.paymentId = paymentDetails.paymentId.replace('№', '');
     paymentDetails.amount *= 100;
     result.form = paymentDetails;
     result.file = this.file;
@@ -79,11 +65,8 @@ export class AddPaymentComponent implements OnInit {
   onFileSelect(event) {
     if (event.target.files.length > 0) {
       this.file = event.target.files[0];
+      this.loadImage();
     }
-  }
-
-  fileDropped(file: FileHandle): void {
-    this.file = file.file;
   }
 
   loadImage() {

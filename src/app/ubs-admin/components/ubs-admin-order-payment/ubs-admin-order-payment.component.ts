@@ -59,12 +59,12 @@ export class UbsAdminOrderPaymentComponent implements OnInit, OnChanges {
     this.dialog
       .open(AddPaymentComponent, {
         hasBackdrop: true,
+        panelClass: 'custom-dialog-container',
         data: this.orderInfo.generalOrderInfo.id
       })
       .afterClosed()
       .pipe(take(1))
       .subscribe((res) => {
-        console.log(res);
         if (res) {
           this.addPayment(this.orderId, res);
         }

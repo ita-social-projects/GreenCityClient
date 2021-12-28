@@ -1,25 +1,11 @@
 .container {
   padding: 10px;
-  width: 450px;
+  width: 560px;
   position: relative;
   font-family: var(--primary-font);
   color: var(--ubs-quaternary-dark-grey);
-
-  .close-container {
-    position: absolute;
-    top: -9px;
-    right: -7px;
-  }
-
-  .close-btn {
-    border: none;
-    background-color: transparent;
-    outline: none;
-
-    img {
-      width: 20px;
-    }
-  }
+  background: var(--pre-secondary-light-grey);
+  padding: 30px 56px;
 
   .label {
     font-size: 15px;
@@ -99,22 +85,24 @@
     }
 
     .photo-container {
-      padding: 65px;
       background-image: url("data:image/svg+xml,%3csvg width='100%25' height='100%25' xmlns='http://www.w3.org/2000/svg'%3e%3crect width='100%25' height='100%25' fill='none' stroke='%23333' stroke-width='1' stroke-dasharray='10' stroke-dashoffset='0' stroke-linecap='square'/%3e%3c/svg%3e");
 
-      .custom-file-upload {
-        display: inline-block;
-        font-size: 14px;
-        color: var(--ubs-electric-violet);
-        padding: 6px 12px;
-        cursor: pointer;
+      .image-preview {
+        display: block;
+        margin: 0 auto;
+      }
+
+      .requirement-drag {
+        padding: 65px;
+        color: var(--quaternary-grey);
       }
     }
-
-    .requirement-drag {
-      margin: 0 auto;
-      max-width: 230px;
-      color: var(--quaternary-grey);
+    .custom-file-upload {
+      display: inline-block;
+      font-size: 14px;
+      color: var(--ubs-electric-violet);
+      padding: 6px 12px;
+      cursor: pointer;
     }
   }
 
