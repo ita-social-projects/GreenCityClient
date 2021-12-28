@@ -48,7 +48,7 @@ export class UbsAdminOrderPaymentComponent implements OnInit, OnChanges {
 
   public addPayment(orderId, postData): void {
     this.orderService
-      .addPaymentManually(orderId, postData)
+      .addPaymentManually(orderId, postData.form, postData.file)
       .pipe(takeUntil(this.destroy$))
       .subscribe((data: any) => {
         console.log(data);
@@ -65,7 +65,9 @@ export class UbsAdminOrderPaymentComponent implements OnInit, OnChanges {
       .pipe(take(1))
       .subscribe((res) => {
         console.log(res);
-        // this.addPayment(this.orderId, res);
+        if (res) {
+          this.addPayment(this.orderId, res);
+        }
       });
   }
 }

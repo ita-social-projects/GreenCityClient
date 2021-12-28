@@ -24,17 +24,11 @@
         formControlName="amount"
         id="amount"
         class="date"
-        type="number"
+        type="text"
         placeholder="{{ 'add-payment.amount-placeholder' | translate }}"
       />
       <label class="label" for="payment-id">{{ 'add-payment.payment-id' | translate }}</label>
-      <input
-        formControlName="paymentId"
-        id="payment-id"
-        class="id"
-        type="number"
-        placeholder="{{ 'add-payment.id-placeholder' | translate }}"
-      />
+      <input formControlName="paymentId" id="payment-id" class="id" placeholder="{{ 'add-payment.id-placeholder' | translate }}" />
       <label class="label" for="link">{{ 'add-payment.link-to-bill' | translate }}</label>
       <input
         formControlName="receiptLink"
@@ -46,20 +40,17 @@
     </div>
     <span class="label">{{ 'add-payment.label-for-photo' | translate }}</span>
     <span class="photo-requirement">{{ 'add-payment.requirement' | translate }}</span>
-    <div class="photo-container">
+    <div class="photo-container" appDrag (files)="fileDropped($event)">
+      <img class="image-preview" *ngIf="imagePreview" [src]="imagePreview.src" alt="image-of-payment" />
       <p class="requirement-drag label">
         <span>
           {{ 'add-payment.drag-photo' | translate }}
         </span>
-        <a href="#">{{ 'add-payment.drag-photo-link' | translate }}</a>
+        <label class="label custom-file-upload" for="file">{{ 'add-payment.drag-photo-link' | translate }}</label>
+        <input id="file" type="file" accept="application/pdf,image/png,image/jpeg" class="d-none" (change)="onFileSelect($event)" />
       </p>
     </div>
-    <div class="pdf-container">
-      <span class="label">{{ 'add-payment.pdf-file' | translate }}</span>
-      <button class="label">{{ 'add-payment.upload-pdf' | translate }}</button>
-    </div>
   </div>
-
   <div class="btn-container block">
     <button type="reset" class="back label" (click)="close()">{{ 'add-payment.btn.back' | translate }}</button>
     <button type="submit" class="agree label" (click)="save()" [disabled]="!addPaymentForm.touched || !addPaymentForm.valid">

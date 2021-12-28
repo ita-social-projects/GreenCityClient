@@ -5,6 +5,7 @@ import { MatTableDataSource } from '@angular/material/table';
 import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
+import { FileHandle } from '../../models/file-handle.model';
 
 @Component({
   selector: 'app-add-payment',
@@ -13,12 +14,16 @@ import { takeUntil } from 'rxjs/operators';
 })
 export class AddPaymentComponent implements OnInit {
   closeButton = './assets/img/profile/icons/cancel.svg';
-  date = new Date();
+  public date = new Date();
   orderId: number;
   addPaymentForm: FormGroup;
+  file;
+  imagePreview;
   public adminName;
-  private destroySub: Subject<boolean> = new Subject<boolean>();
+  isImageSizeError = false;
+  isImageTypeError = false;
   dataSource = new MatTableDataSource();
+  private destroySub: Subject<boolean> = new Subject<boolean>();
 
   constructor(
     private localeStorageService: LocalStorageService,
@@ -39,9 +44,21 @@ export class AddPaymentComponent implements OnInit {
     this.addPaymentForm = this.fb.group({
       paymentDate: ['', [Validators.required]],
       amount: ['', [Validators.required, Validators.pattern('^[0-9]+.[0-9][0-9]$')]],
-      paymentId: ['', [Validators.required]],
-      receiptLink: [''],
-      imagePath: ['']
+      paymentId: ['', [Validators.required, Validators.pattern('^№[0-9]{5}$')]],
+      receiptLink: ['']
+    });
+    const paymantID = this.addPaymentForm.get('paymentId');
+
+    paymantID.valueChanges.subscribe((id) => {
+      const idValue = '' + id;
+      if (idValue === '№') {
+        paymantID.patchValue('');
+        return;
+      }
+
+      if (idValue && idValue.indexOf('№') !== 0) {
+        paymantID.patchValue('№' + id);
+      }
     });
   }
 
@@ -50,10 +67,31 @@ export class AddPaymentComponent implements OnInit {
   }
 
   save() {
+    let result: any = {};
     const paymentDetails = this.addPaymentForm.value;
-    paymentDetails.paymentDate = new Date(paymentDetails.paymentDate).toISOString();
-    console.log(paymentDetails);
+    paymentDetails.paymentId = paymentDetails.paymentId.replace('№', '');
+    paymentDetails.amount *= 100;
+    result.form = paymentDetails;
+    result.file = this.file;
+    this.dialogRef.close(result);
+  }
 
-    this.dialogRef.close(paymentDetails);
+  onFileSelect(event) {
+    if (event.target.files.length > 0) {
+      this.file = event.target.files[0];
+    }
+  }
+
+  fileDropped(file: FileHandle): void {
+    this.file = file.file;
+  }
+
+  loadImage() {
+    const reader: FileReader = new FileReader();
+    reader.readAsDataURL(this.file);
+    reader.onload = () => {
+      this.imagePreview.name = this.file.name;
+      this.imagePreview.src = reader.result;
+    };
   }
 }

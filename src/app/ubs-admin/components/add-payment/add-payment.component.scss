@@ -101,24 +101,20 @@
     .photo-container {
       padding: 65px;
       background-image: url("data:image/svg+xml,%3csvg width='100%25' height='100%25' xmlns='http://www.w3.org/2000/svg'%3e%3crect width='100%25' height='100%25' fill='none' stroke='%23333' stroke-width='1' stroke-dasharray='10' stroke-dashoffset='0' stroke-linecap='square'/%3e%3c/svg%3e");
+
+      .custom-file-upload {
+        display: inline-block;
+        font-size: 14px;
+        color: var(--ubs-electric-violet);
+        padding: 6px 12px;
+        cursor: pointer;
+      }
     }
 
     .requirement-drag {
       margin: 0 auto;
       max-width: 230px;
       color: var(--quaternary-grey);
-    }
-
-    .pdf-container {
-      margin-top: 30px;
-
-      button {
-        margin-left: 30px;
-        background: none;
-        border: 1px solid var(--gray-dark);
-        border-radius: 4px;
-        padding: 5px 20px 5px 20px;
-      }
     }
   }
 
