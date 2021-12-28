@@ -183,7 +183,7 @@ export class UBSPersonalInformationComponent extends FormBaseComponent implement
       firstName: this.personalData.firstName,
       lastName: this.personalData.lastName,
       email: this.personalData.email,
-      phoneNumber: '380' + this.personalData.phoneNumber,
+      phoneNumber: this.personalData.phoneNumber,
       anotherClientFirstName: this.personalData.anotherClientFirstName,
       anotherClientLastName: this.personalData.anotherClientLastName,
       anotherClientEmail: this.personalData.anotherClientEmail,
