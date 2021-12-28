@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { UbsUserOrderPaymentPopUpComponent } from './ubs-user-order-payment-pop-up/ubs-user-order-payment-pop-up.component';
 import { UbsUserOrderCancelPopUpComponent } from './ubs-user-order-cancel-pop-up/ubs-user-order-cancel-pop-up.component';
@@ -9,10 +9,14 @@ import { IOrderInfo } from 'src/app/ubs-admin/models/ubs-admin.interface';
   templateUrl: './ubs-user-orders-list.component.html',
   styleUrls: ['./ubs-user-orders-list.component.scss']
 })
-export class UbsUserOrdersListComponent {
-  @Input() orders: any[];
+export class UbsUserOrdersListComponent implements OnInit {
+  @Input() orders: IOrderInfo[];
 
   constructor(public dialog: MatDialog) {}
+
+  public ngOnInit(): void {
+    this.sortingOrdersByData();
+  }
 
   isOrderFormed(order: any) {
     return order.generalOrderInfo.orderStatus === 'FORMED';
@@ -49,6 +53,12 @@ export class UbsUserOrdersListComponent {
         orderId: order.generalOrderInfo.id,
         orders: this.orders
       }
+    });
+  }
+
+  public sortingOrdersByData(): void {
+    this.orders.sort((a: IOrderInfo, b: IOrderInfo): number => {
+      return a.generalOrderInfo.dateFormed < b.generalOrderInfo.dateFormed ? 1 : -1;
     });
   }
 }
