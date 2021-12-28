@@ -4,7 +4,7 @@ import { Router } from '@angular/router';
 import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
 import { Subject } from 'rxjs';
 import { take, takeUntil } from 'rxjs/operators';
-import { Locations } from '../../../models/ubs.interface';
+import { CourierLocations, LocationTranslation } from '../../../models/ubs.interface';
 import { OrderService } from '../../../services/order.service';
 
 @Component({
@@ -14,7 +14,7 @@ import { OrderService } from '../../../services/order.service';
 })
 export class UbsOrderLocationPopupComponent implements OnInit, OnDestroy {
   closeButton = './assets/img/profile/icons/cancel.svg';
-  public locations: any[];
+  public locations: CourierLocations[];
   public selectedLocationId: number;
   public isFetching = false;
   private courierId = 1;
@@ -41,8 +41,8 @@ export class UbsOrderLocationPopupComponent implements OnInit, OnDestroy {
 
   private setCurrentLocation(currentLanguage: string): void {
     this.currentLocation = this.locations
-      .find((loc: any) => loc.locationsDtos[0].locationId === this.selectedLocationId)
-      .locationsDtos[0].locationTranslationDtoList.find((lang) => lang.languageCode === currentLanguage).locationName;
+      .find((loc: CourierLocations) => loc.locationsDtos[0].locationId === this.selectedLocationId)
+      .locationsDtos[0].locationTranslationDtoList.find((lang: LocationTranslation) => lang.languageCode === currentLanguage).locationName;
   }
 
   getLocations() {
@@ -50,7 +50,7 @@ export class UbsOrderLocationPopupComponent implements OnInit, OnDestroy {
     this.orderService
       .getLocations(this.courierId)
       .pipe(takeUntil(this.destroy$))
-      .subscribe((res: any) => {
+      .subscribe((res: CourierLocations[]) => {
         this.locations = res;
         this.selectedLocationId = res[0].courierLocationId;
         this.isFetching = false;

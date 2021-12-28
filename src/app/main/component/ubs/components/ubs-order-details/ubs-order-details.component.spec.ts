@@ -8,7 +8,7 @@ import { OrderService } from './../../services/order.service';
 import { MatDialogRef, MatDialogModule } from '@angular/material/dialog';
 import { TranslateModule } from '@ngx-translate/core';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
-import { async, ComponentFixture, TestBed, fakeAsync } from '@angular/core/testing';
+import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { UBSOrderDetailsComponent } from './ubs-order-details.component';
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';

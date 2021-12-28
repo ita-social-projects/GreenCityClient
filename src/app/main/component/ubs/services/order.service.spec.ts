@@ -152,7 +152,7 @@ describe('OrderService', () => {
     const locationsMock = [{ id: 1, name: 'city', languageCode: 'ua' }];
 
     service.getLocations(1).subscribe((data) => {
-      expect(data).toEqual(locationsMock);
+      expect(data).toEqual(locationsMock as any);
     });
     httpTest('courier/1', 'GET', locationsMock);
   });

@@ -11,8 +11,8 @@
         </div>
         <div *ngIf="changeLocation" class="list-locations">
           <select name="region" class="choose-location" [(ngModel)]="selectedLocationId" (ngModelChange)="saveLocation(true)">
-            <option [ngValue]="location.locationsDtos[0].locationId" *ngFor="let location of locations | filterLocationListByLang">
-              {{ location.locationsDtos[0].locationTranslationDtoList[0].locationName }}
+            <option [ngValue]="location.locationId" *ngFor="let location of locations | filterLocationListByLang">
+              {{ location.locationName }}
             </option>
           </select>
         </div>
