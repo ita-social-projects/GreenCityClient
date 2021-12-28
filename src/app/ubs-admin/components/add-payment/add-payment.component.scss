@@ -1,5 +1,4 @@
 .container {
-  padding: 10px;
   width: 560px;
   position: relative;
   font-family: var(--primary-font);
@@ -97,6 +96,7 @@
         color: var(--quaternary-grey);
       }
     }
+
     .custom-file-upload {
       display: inline-block;
       font-size: 14px;

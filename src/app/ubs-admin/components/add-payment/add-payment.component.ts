@@ -54,7 +54,7 @@ export class AddPaymentComponent implements OnInit {
   }
 
   save() {
-    let result: any = {};
+    const result: any = {};
     const paymentDetails = this.addPaymentForm.value;
     paymentDetails.amount *= 100;
     result.form = paymentDetails;
