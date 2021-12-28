@@ -421,7 +421,7 @@ export class UbsAdminTableComponent implements OnInit, AfterViewChecked, OnDestr
       }
     });
     if (checked) {
-      let elem = {};
+      const elem = {};
       elem[currentColumn] = option.key;
       this.filters.push(elem);
     } else {

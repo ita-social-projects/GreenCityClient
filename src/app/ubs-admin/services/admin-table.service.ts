@@ -11,6 +11,8 @@ export class AdminTableService {
   constructor(private http: HttpClient) {}
 
   getTable(columnName?: string, page?: number, filter?: string, size?: number, sortingType?: string, filters?: any[]) {
+    // tslint:disable-next-line:max-line-length
+    const BASE_QUERY = `${this.url}bigOrderTable?sortBy=${columnName}&pageNumber=${page}&search=${filter}&pageSize=${size}&sortDirection=${sortingType}`;
     let filtersQuery = '';
     if (filters.length) {
       filters.forEach((elem) => {
@@ -18,9 +20,7 @@ export class AdminTableService {
         filtersQuery += `&${key}=${elem[key]}`;
       });
     }
-    return this.http.get<any[]>(
-      `${this.url}bigOrderTable?sortBy=${columnName}&pageNumber=${page}&search=${filter}&pageSize=${size}&sortDirection=${sortingType}${filtersQuery}`
-    );
+    return this.http.get<any[]>(`${BASE_QUERY}${filtersQuery}`);
   }
 
   getColumns() {
