@@ -134,3 +134,62 @@ export const columnsParamsViolations = [
     width: 100
   }
 ];
+
+export const columnsParamsCertificates = [
+  {
+    title: {
+      key: 'select',
+      ua: 'Вибір',
+      en: 'Select'
+    }
+  },
+  {
+    title: {
+      key: 'code',
+      ua: 'Код',
+      en: 'Code'
+    }
+  },
+  {
+    title: {
+      key: 'certificateStatus',
+      ua: 'Ступінь порушення',
+      en: 'Sertificate status'
+    }
+  },
+  {
+    title: {
+      key: 'orderId',
+      ua: 'Id замовлення',
+      en: 'Order Id'
+    }
+  },
+  {
+    title: {
+      key: 'points',
+      ua: 'Значення',
+      en: 'Points'
+    }
+  },
+  {
+    title: {
+      key: 'expirationDate',
+      ua: 'Термін придатності',
+      en: 'Expiration date'
+    }
+  },
+  {
+    title: {
+      key: 'creationDate',
+      ua: 'Дата створення',
+      en: 'Creation date'
+    }
+  },
+  {
+    title: {
+      key: 'dateOfUse',
+      ua: 'Дата використання',
+      en: 'Date ot use'
+    }
+  }
+];

@@ -51,6 +51,7 @@ export interface IOrderInfo {
   certificates: string[];
   numbersFromShop: string[];
   comment: string;
+  extend?: boolean;
   paymentTableInfoDto: IPaymentInfo;
   exportDetailsDto: IExportDetails;
   employeePositionDtoRequest: IResponsiblePersons;

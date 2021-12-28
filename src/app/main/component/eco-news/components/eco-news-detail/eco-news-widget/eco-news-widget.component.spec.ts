@@ -12,17 +12,19 @@ describe('EcoNewsWidgetComponent', () => {
   let component: EcoNewsWidgetComponent;
   let fixture: ComponentFixture<EcoNewsWidgetComponent>;
 
+  const defaultImagePath =
+    'https://csb10032000a548f571.blob.core.windows.net/allfiles/90370622-3311-4ff1-9462-20cc98a64d1ddefault_image.jpg';
   const mockData = {
     id: 1,
-    imagePath: 'test',
+    imagePath: defaultImagePath,
     title: 'test',
     text: 'test',
     author: {
       id: 1,
-      name: 'test',
+      name: 'test'
     },
     tags: ['test'],
-    creationDate: '11111',
+    creationDate: '11111'
   };
   const ecoNewsServiceMock = jasmine.createSpyObj('EcoNewsService', ['getRecommendedNews']);
   ecoNewsServiceMock.getRecommendedNews = () => of([mockData]);
@@ -32,7 +34,7 @@ describe('EcoNewsWidgetComponent', () => {
       declarations: [EcoNewsWidgetComponent, NewsListGalleryViewComponent],
       imports: [TranslateModule.forRoot(), RouterTestingModule, HttpClientTestingModule],
       providers: [{ provide: EcoNewsService, useValue: ecoNewsServiceMock }],
-      schemas: [CUSTOM_ELEMENTS_SCHEMA],
+      schemas: [CUSTOM_ELEMENTS_SCHEMA]
     }).compileComponents();
   }));
 

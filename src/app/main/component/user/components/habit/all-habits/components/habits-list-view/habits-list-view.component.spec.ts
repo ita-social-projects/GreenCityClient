@@ -15,6 +15,9 @@ describe('HabitsListViewComponent', () => {
   MatSnackBarMock.openSnackBar = (type: string) => {};
   let httpTestingController: HttpTestingController;
 
+  const defaultImagePath =
+    'https://csb10032000a548f571.blob.core.windows.net/allfiles/90370622-3311-4ff1-9462-20cc98a64d1ddefault_image.jpg';
+
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       declarations: [HabitsListViewComponent],
@@ -37,7 +40,7 @@ describe('HabitsListViewComponent', () => {
         name: 'test'
       },
       id: 503,
-      image: 'test',
+      image: defaultImagePath,
       tags: ['test1', 'test2']
     };
     fixture.detectChanges();

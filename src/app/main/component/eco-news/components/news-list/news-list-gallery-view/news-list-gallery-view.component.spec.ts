@@ -8,9 +8,11 @@ import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 describe('NewsListGalleryViewComponent', () => {
   let component: NewsListGalleryViewComponent;
   let fixture: ComponentFixture<NewsListGalleryViewComponent>;
+  const defaultImagePath =
+    'https://csb10032000a548f571.blob.core.windows.net/allfiles/90370622-3311-4ff1-9462-20cc98a64d1ddefault_image.jpg';
   const ecoNewsMock: EcoNewsModel = {
     id: 1,
-    imagePath: 'string',
+    imagePath: defaultImagePath,
     title: 'string',
     text: 'string',
     author: {
@@ -36,7 +38,7 @@ describe('NewsListGalleryViewComponent', () => {
     fixture = TestBed.createComponent(NewsListGalleryViewComponent);
     component = fixture.componentInstance;
     component.ecoNewsModel = ecoNewsMock;
-    component.profileIcons.newsDefaultPictureList = 'defaultImagePath';
+    component.profileIcons.newsDefaultPictureList = defaultImagePath;
     fixture.detectChanges();
   });
 
@@ -48,6 +50,6 @@ describe('NewsListGalleryViewComponent', () => {
     ecoNewsMock.imagePath = ' ';
     component.ecoNewsModel = ecoNewsMock;
     component.checkNewsImage();
-    expect(component.newsImage).toBe('defaultImagePath');
+    expect(component.newsImage).toBe(defaultImagePath);
   });
 });

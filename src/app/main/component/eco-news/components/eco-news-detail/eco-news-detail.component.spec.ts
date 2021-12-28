@@ -26,9 +26,11 @@ describe('EcoNewsDetailComponent', () => {
   let ecoNewsService: EcoNewsService;
   let httpMock: HttpTestingController;
   let route: ActivatedRoute;
+  const defaultImagePath =
+    'https://csb10032000a548f571.blob.core.windows.net/allfiles/90370622-3311-4ff1-9462-20cc98a64d1ddefault_image.jpg';
   const mockEcoNewsModel: EcoNewsModel = {
     id: 1,
-    imagePath: 'test',
+    imagePath: defaultImagePath,
     title: 'test title',
     text: 'some description',
     author: {
@@ -89,9 +91,9 @@ describe('EcoNewsDetailComponent', () => {
 
   it('checkNewsImage should return existing image src', () => {
     component.newsItem = mockEcoNewsModel;
-    component.newsItem.imagePath = 'test';
+    component.newsItem.imagePath = defaultImagePath;
     const imagePath = component.checkNewsImage();
-    expect(imagePath).toEqual('test');
+    expect(imagePath).toEqual(defaultImagePath);
   });
 
   it('checkNewsImage should return default image src', () => {

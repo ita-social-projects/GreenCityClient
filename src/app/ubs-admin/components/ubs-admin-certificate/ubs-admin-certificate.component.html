@@ -30,12 +30,12 @@
     *ngIf="!isLoading; else spinner"
     aria-label="certificatesTable"
   >
-    <ng-container *ngFor="let column of columns; let i = index" [matColumnDef]="column.field" [sticky]="column.sticky" class="column.field">
+    <ng-container *ngFor="let column of columns; let i = index" [matColumnDef]="column.title.key" class="column.title.key">
       <mat-header-cell *matHeaderCellDef cdkDrag cdkDragLockAxis="x" cdkDragBoundary="mat-header-row">
-        <th scope="row" *ngIf="column.field !== 'select'">
-          <span class="column-title">{{ column.field }}</span>
+        <th scope="row" *ngIf="column.title.key !== 'select'">
+          <span class="column-title">{{ column.title | serverTranslate: currentLang }}</span>
         </th>
-        <th scope="row" *ngIf="column.field === 'select'" [ngStyle]="{ backgroundColor: '#fff', height: '16px', padding: '0px' }">
+        <th scope="row" *ngIf="column.title.key === 'select'" [ngStyle]="{ backgroundColor: '#fff', height: '16px', padding: '0px' }">
           <mat-checkbox
             (change)="$event ? masterToggle() : null"
             [checked]="selection.hasValue() && isAllSelected()"
@@ -45,9 +45,9 @@
           </mat-checkbox>
         </th>
       </mat-header-cell>
-      <mat-cell *matCellDef="let row" [ngStyle]="column.style" class="column.field">
-        <div *ngIf="column.field !== 'select'; else checkbox">
-          <span [ngClass]="{ 'primary-color': column.field === 'code' }">{{ row[column.field] }}</span>
+      <mat-cell *matCellDef="let row" [ngStyle]="column.style" class="column.title.key">
+        <div *ngIf="column.title.key !== 'select'; else checkbox">
+          <span [ngClass]="{ 'primary-color': column.title.key === 'code' }">{{ row[column.title.key] }}</span>
         </div>
         <ng-template #checkbox class="checkbox">
           <mat-checkbox

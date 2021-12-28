@@ -97,6 +97,7 @@ export class CreateEditNewsComponent extends FormBaseComponent implements OnInit
     this.getNewsIdFromQueryParams();
     this.initPageForCreateOrEdit();
     this.onSourceChange();
+    this.localStorageService.removeTagsOfNews('newsTags');
     this.setLocalizedTags();
   }
 
@@ -121,7 +122,6 @@ export class CreateEditNewsComponent extends FormBaseComponent implements OnInit
   }
 
   public onValueChanges(): void {
-    console.log(this.form);
     this.formChangeSub = this.form.valueChanges.subscribe(() => {
       this.isFormInvalid = !this.form.valid || this.isArrayEmpty || !this.isLinkOrEmpty || this.isImageValid();
     });

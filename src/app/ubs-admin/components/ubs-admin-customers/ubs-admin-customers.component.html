@@ -150,7 +150,7 @@
   (scrolled)="onScroll()"
   [scrollWindow]="false"
 >
-  <mat-table [dataSource]="dataSource" id="table" class="customers_table" cdkDropListGroup>
+  <mat-table [dataSource]="dataSource" id="table" class="customers_table" *ngIf="!isLoading" cdkDropListGroup>
     <ng-container *ngFor="let column of columns; let i = index" [matColumnDef]="column.title.key">
       <mat-header-cell *matHeaderCellDef (mousedown)="onResizeColumn($event, i)">
         <div class="column_header">

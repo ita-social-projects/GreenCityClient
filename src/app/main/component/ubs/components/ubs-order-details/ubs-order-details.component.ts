@@ -8,7 +8,7 @@ import { LocalStorageService } from '@global-service/localstorage/local-storage.
 import { FormBuilder, FormGroup, FormArray, Validators, FormControl } from '@angular/forms';
 import { OrderService } from '../../services/order.service';
 import { UBSOrderFormService } from '../../services/ubs-order-form.service';
-import { Bag, FinalOrder, Locations, OrderDetails } from '../../models/ubs.interface';
+import { Bag, CourierLocations, FinalOrder, LocationTranslation, OrderDetails } from '../../models/ubs.interface';
 import { UbsOrderLocationPopupComponent } from './ubs-order-location-popup/ubs-order-location-popup.component';
 import { ExtraPackagesPopUpComponent } from './extra-packages-pop-up/extra-packages-pop-up.component';
 
@@ -137,9 +137,11 @@ export class UBSOrderDetailsComponent extends FormBaseComponent implements OnIni
   }
 
   private setCurrentLocation(currentLanguage: string): void {
-    this.currentLocation = this.locations
-      .find((loc: any) => loc.locationsDtos[0].locationId === this.selectedLocationId)
-      .locationsDtos[0].locationTranslationDtoList.find((lang) => lang.languageCode === currentLanguage).locationName;
+    const currentLocationDto = this.locations.find((loc: CourierLocations) => loc.locationsDtos[0].locationId === this.selectedLocationId);
+    this.minAmountOfBigBags = currentLocationDto.minAmountOfBigBags;
+    this.currentLocation = currentLocationDto.locationsDtos[0].locationTranslationDtoList.find(
+      (lang: LocationTranslation) => lang.languageCode === currentLanguage
+    ).locationName;
   }
 
   getFormValues(): boolean {
@@ -218,7 +220,6 @@ export class UBSOrderDetailsComponent extends FormBaseComponent implements OnIni
       .pipe(takeUntil(this.destroy))
       .subscribe((orderData: OrderDetails) => {
         this.orders = this.shareFormService.orderDetails;
-        this.minAmountOfBigBags = orderData.minAmountOfBigBags;
         this.bags = this.orders.bags;
         this.points = this.orders.points;
         this.defaultPoints = this.points;

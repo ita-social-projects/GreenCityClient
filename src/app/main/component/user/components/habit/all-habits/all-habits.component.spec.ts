@@ -46,7 +46,8 @@ class TranslationServiceStub {
 describe('AllHabitsComponent', () => {
   let component: AllHabitsComponent;
   let fixture: ComponentFixture<AllHabitsComponent>;
-
+  const defaultImagePath =
+    'https://csb10032000a548f571.blob.core.windows.net/allfiles/90370622-3311-4ff1-9462-20cc98a64d1ddefault_image.jpg';
   const assignedHabitsMock: Array<HabitAssignInterface> = [
     {
       createDateTime: new Date('2021-06-19T16:35:18.048839Z'),
@@ -86,7 +87,7 @@ describe('AllHabitsComponent', () => {
           name: 'test'
         },
         id: 0,
-        image: 'test',
+        image: defaultImagePath,
         tags: ['test']
       },
       {
@@ -98,7 +99,7 @@ describe('AllHabitsComponent', () => {
           name: 'test2'
         },
         id: 1,
-        image: 'test2',
+        image: defaultImagePath,
         tags: ['test2']
       }
     ],
@@ -125,12 +126,12 @@ describe('AllHabitsComponent', () => {
     city: 'string',
     name: 'string',
     userCredo: 'string',
-    profilePicturePath: 'string;',
+    profilePicturePath: defaultImagePath,
     rating: null,
     showEcoPlace: true,
     showLocation: true,
     showShoppingList: true,
-    socialNetworks: [{ id: 1, url: 'string;' }]
+    socialNetworks: [{ id: 1, url: defaultImagePath }]
   };
 
   let profileServiceMock: ProfileService;

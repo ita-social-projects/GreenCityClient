@@ -1,5 +1,5 @@
 import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
-import { Address, Locations } from './../models/ubs.interface';
+import { Address, CourierLocations } from './../models/ubs.interface';
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { BehaviorSubject, Observable, Subject, throwError } from 'rxjs';
@@ -106,8 +106,8 @@ export class OrderService {
     return this.http.get(`${this.url}/getFondyStatus/${orderId}`);
   }
 
-  getLocations(courierId?: number): Observable<Locations[]> {
-    return this.http.get<Locations[]>(`${this.url}/courier/${courierId}`);
+  getLocations(courierId?: number): Observable<CourierLocations[]> {
+    return this.http.get<CourierLocations[]>(`${this.url}/courier/${courierId}`);
   }
 
   addLocation(location): Observable<any> {
