@@ -57,5 +57,5 @@ export class ResizeColumnDirective implements OnInit {
       this.pressed = false;
       this.renderer.removeClass(this.table, 'resizing');
     }
-  };
+  }
 }
