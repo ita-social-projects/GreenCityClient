@@ -141,55 +141,63 @@ export const columnsParamsCertificates = [
       key: 'select',
       ua: 'Вибір',
       en: 'Select'
-    }
+    },
+    width: 45
   },
   {
     title: {
       key: 'code',
       ua: 'Код',
       en: 'Code'
-    }
+    },
+    width: 164
   },
   {
     title: {
       key: 'certificateStatus',
       ua: 'Ступінь порушення',
       en: 'Sertificate status'
-    }
+    },
+    width: 164
   },
   {
     title: {
       key: 'orderId',
       ua: 'Id замовлення',
       en: 'Order Id'
-    }
+    },
+    width: 164
   },
   {
     title: {
       key: 'points',
       ua: 'Значення',
       en: 'Points'
-    }
+    },
+    width: 164
   },
   {
     title: {
       key: 'expirationDate',
       ua: 'Термін придатності',
       en: 'Expiration date'
-    }
+    },
+    width: 164
   },
   {
     title: {
       key: 'creationDate',
       ua: 'Дата створення',
       en: 'Creation date'
-    }
+    },
+    width: 164
   },
   {
     title: {
       key: 'dateOfUse',
       ua: 'Дата використання',
       en: 'Date ot use'
-    }
+    },
+    width: 164
   }
 ];
