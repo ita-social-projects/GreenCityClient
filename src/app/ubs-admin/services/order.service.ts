@@ -117,6 +117,15 @@ export class OrderService {
     return this.http.put<any>(`${this.backend}`, postData);
   }
 
+  public addPaymentManually(orderId: number, postData, file): Observable<any> {
+    const formData: FormData = new FormData();
+    if (file) {
+      formData.append('image', file);
+    }
+    formData.append('manualPaymentDto', JSON.stringify(postData));
+    return this.http.post(`${this.backend}/management/add-manual-payment/${orderId}`, formData);
+  }
+
   public getColumnToDisplay() {
     return this.http.get(`${this.backend}/management/getOrdersViewParameters`);
   }
