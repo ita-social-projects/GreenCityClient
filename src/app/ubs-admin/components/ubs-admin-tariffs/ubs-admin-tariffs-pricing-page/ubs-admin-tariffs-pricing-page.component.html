@@ -99,16 +99,6 @@
   <div>
     <h4>{{ 'ubs-tariffs.order_limits' | translate }}</h4>
   </div>
-  <div class="courier-div">
-    <select class="courier-select">
-      <option *ngFor="let courier of couriers">
-        {{ courier.name }}
-      </option>
-    </select>
-  </div>
-  <div class="add-carrier-btn">
-    <button [disabled]="isLoadBar" class="secondary-global-button">{{ 'ubs-tariffs.btn.add_carrier' | translate }}</button>
-  </div>
 </div>
 <div class="limits-form">
   <form [formGroup]="limitsForm">

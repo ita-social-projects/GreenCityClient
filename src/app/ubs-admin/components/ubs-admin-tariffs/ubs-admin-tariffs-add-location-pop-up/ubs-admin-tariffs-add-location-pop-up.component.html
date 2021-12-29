@@ -33,7 +33,7 @@
     <div *ngFor="let item of items; let index = index">
       <div class="listOfLocation">
         <div class="itemList">{{ item }}</div>
-        <img src=".././assets/img/ubs/cross.svg" class="delete-button-img" alt="edit-icon" (click)="deleteTask(index)" />
+        <img [src]="icons.cross" class="delete-button-img" alt="edit-icon" (click)="deleteTask(index)" />
       </div>
     </div>
   </div>

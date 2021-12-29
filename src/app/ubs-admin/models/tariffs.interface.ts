@@ -50,3 +50,11 @@ export interface Service {
     }
   ];
 }
+
+export interface Locations {
+  id: number;
+  name: string;
+  languageCode: string;
+  courier: string;
+  length: number;
+}

@@ -9,26 +9,27 @@ import { MatDialogRef } from '@angular/material/dialog';
 })
 export class UbsAdminTariffsAddLocationPopUpComponent implements OnInit {
   @ViewChild('locationInput', { static: true }) input: ElementRef;
-  locationForm: FormGroup;
-  regionOptions;
+  locationForm = this.fb.group({
+    region: [''],
+    locality: ['']
+  });
+
+  regionOptions = {
+    types: ['(regions)'],
+    componentRestrictions: { country: 'UA' }
+  };
+
   localityOptions;
   regionBounds;
   autocomplete;
   items = [];
   isDisabled = false;
+  public icons = {
+    cross: '.././assets/img/ubs/cross.svg'
+  };
   constructor(private fb: FormBuilder, public dialogRef: MatDialogRef<UbsAdminTariffsAddLocationPopUpComponent>) {}
 
   ngOnInit() {
-    this.locationForm = this.fb.group({
-      region: [''],
-      locality: ['']
-    });
-
-    this.regionOptions = {
-      types: ['(regions)'],
-      componentRestrictions: { country: 'UA' }
-    };
-
     this.autocomplete = new google.maps.places.Autocomplete(this.input.nativeElement, this.localityOptions);
     this.autocomplete.addListener('place_changed', () => {
       this.addToListSelectedItem();
