@@ -35,7 +35,7 @@ export class ResizeColumnDirective implements OnInit {
     this.pressed = true;
     this.startX = event.pageX;
     this.startWidth = this.column.offsetWidth;
-  };
+  }
 
   onMouseMove = (event: MouseEvent) => {
     const offset = 35;
@@ -44,13 +44,13 @@ export class ResizeColumnDirective implements OnInit {
       const width = this.startWidth + (event.pageX - this.startX - offset);
       const tableCells = Array.from(this.table.querySelectorAll('.mat-row')).map((row: any) =>
         row.querySelectorAll('.mat-cell').item(this.params.index)
-      );
+      )
       this.renderer.setStyle(this.column, 'width', `${width}px`);
       for (const cell of tableCells) {
         this.renderer.setStyle(cell, 'width', `${width}px`);
       }
     }
-  };
+  }
 
   onMouseUp = (event: MouseEvent) => {
     if (this.pressed) {
