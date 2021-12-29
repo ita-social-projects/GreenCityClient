@@ -11,9 +11,7 @@ import { fromSelect, toSelect } from '../ubs-admin-table/table-cell-time/table-c
 })
 export class UbsAdminExportDetailsComponent implements OnInit, OnDestroy {
   @Input() exportInfo: IExportDetails;
-  @Input() exportDetailsForm: FormGroup;
-  @Input() from: string;
-  @Input() to: string;
+  @Input() exportDetailsDto: FormGroup;
 
   private destroy$: Subject<boolean> = new Subject<boolean>();
   pageOpen: boolean;
@@ -22,11 +20,10 @@ export class UbsAdminExportDetailsComponent implements OnInit, OnDestroy {
   public toSelect: string[];
   public fromInput: string;
   public toInput: string;
+  public from: string;
+  public to: string;
 
-  ngOnInit() {
-    this.fromSelect = fromSelect;
-    this.toSelect = toSelect;
-  }
+  ngOnInit() {}
 
   openDetails() {
     this.pageOpen = !this.pageOpen;
@@ -34,6 +31,10 @@ export class UbsAdminExportDetailsComponent implements OnInit, OnDestroy {
 
   setExportTime() {
     this.showTimePicker = true;
+    this.fromSelect = fromSelect;
+    this.toSelect = toSelect;
+    this.fromInput = this.exportDetailsDto.get('timeDeliveryFrom').value;
+    this.toInput = this.exportDetailsDto.get('timeDeliveryTo').value;
   }
 
   onTimeFromChange() {
@@ -50,10 +51,10 @@ export class UbsAdminExportDetailsComponent implements OnInit, OnDestroy {
     this.from = this.fromInput;
     this.to = this.toInput;
     if (this.fromInput && this.toInput) {
-      const timeFromControl = 'timeDeliveryFrom';
-      const timeToControl = 'timeDeliveryTo';
-      this.exportDetailsForm.controls[timeFromControl].setValue(this.fromInput);
-      this.exportDetailsForm.controls[timeToControl].setValue(this.toInput);
+      this.exportDetailsDto.get('timeDeliveryFrom').setValue(this.fromInput);
+      this.exportDetailsDto.get('timeDeliveryTo').setValue(this.toInput);
+      this.exportDetailsDto.get('timeDeliveryFrom').markAsDirty();
+      this.exportDetailsDto.get('timeDeliveryTo').markAsDirty();
       this.showTimePicker = false;
     }
   }

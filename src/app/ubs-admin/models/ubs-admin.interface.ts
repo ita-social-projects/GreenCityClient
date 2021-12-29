@@ -108,6 +108,7 @@ export interface IOrderPaymentStatusesDto {
 }
 
 export interface IUserInfo {
+  recipientId: number;
   customerEmail: string;
   customerName: string;
   customerPhoneNumber: string;
@@ -147,8 +148,7 @@ export interface IPaymentInfoDtos {
 
 export interface IExportDetails {
   allReceivingStations: string[];
-  dateExport: string;
-  exportedTime: string;
+  dateExport: any;
   timeDeliveryFrom: string;
   timeDeliveryTo: string;
   receivingStation: string;
