@@ -64,6 +64,7 @@ input {
   min-height: 39px !important;
   max-height: 39px !important;
   align-items: unset;
+  cursor: col-resize;
 }
 
 .mat-cell {
@@ -80,7 +81,7 @@ input {
   white-space: nowrap;
   overflow-wrap: break-word;
   flex: none;
-  display: block;
+  display: inline;
   line-height: 2.9;
 }
 
@@ -198,12 +199,18 @@ input {
   display: flex;
   justify-content: space-between;
   align-items: center;
+  border: 0;
+  width: 100%;
+  margin: 20px 0 32px 0;
+}
+
+.search {
+  display: flex;
+  align-items: center;
   width: 426px;
   height: 36px;
   border: 1px solid var(--ubs-primary-light-grey);
   border-radius: 4px;
-  margin-top: 20px;
-  margin-bottom: 32px;
 }
 
 .search-input {
@@ -304,7 +311,7 @@ input {
   display: flex;
   justify-content: right;
   align-items: center;
-  margin-bottom: 20px;
+  margin-bottom: 0;
 }
 
 .column_header {
@@ -317,6 +324,7 @@ input {
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
+  padding: 0;
 }
 
 .pointer {

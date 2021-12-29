@@ -265,7 +265,8 @@
     "table-view": "Вид таблиці",
     "add-certificate": "Додати сертифікат",
     "all-elements": "Відображати всі колонки",
-    "filter": "Фільтр"
+    "filter": "Фільтр",
+    "placeholder": "Пошук"
   },
   "ubs-customer-filters": {
     "total-customers": "Кількість користувачів:",

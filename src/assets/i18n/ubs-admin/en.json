@@ -260,7 +260,8 @@
     "table-view": "Table view",
     "add-certificate": "Add certificate",
     "all-elements": "Display all columns",
-    "filter": "Filter"
+    "filter": "Filter",
+    "placeholder": "Search"
   },
   "ubs-customer-filters": {
     "total-customers": "Total customers:",
