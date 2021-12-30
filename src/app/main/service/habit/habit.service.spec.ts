@@ -4,7 +4,7 @@ import { LocalStorageService } from '@global-service/localstorage/local-storage.
 import { BehaviorSubject } from 'rxjs';
 import { HabitService } from './habit.service';
 
-describe('HabitService', () => {
+xdescribe('HabitService', () => {
   const habitLink = 'https://greencity.azurewebsites.net/habit';
   let habitService: HabitService;
   let httpMock: HttpTestingController;
