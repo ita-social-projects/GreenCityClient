@@ -58,7 +58,6 @@ export class UbsUserProfilePageComponent implements OnInit {
     this.clientProfileService.getDataClientProfile().subscribe(
       (res: UserProfile) => {
         this.userProfile = this.composeFormData(res);
-        this.userProfile.addressDto = this.userProfile.addressDto;
         this.userInit();
         this.isFetching = false;
       },

@@ -1,7 +1,6 @@
 import { Component, Input, OnDestroy } from '@angular/core';
 import { FormGroup } from '@angular/forms';
 import { Subject } from 'rxjs';
-import { IAddressExportDetails } from '../../models/ubs-admin.interface';
 import { OrderService } from '../../services/order.service';
 
 @Component({
