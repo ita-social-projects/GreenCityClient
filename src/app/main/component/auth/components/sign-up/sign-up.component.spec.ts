@@ -23,6 +23,7 @@ import { SignUpComponent } from './sign-up.component';
 import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { MatSnackBarComponent } from '@global-errors/mat-snack-bar/mat-snack-bar.component';
+import { SubmitButtonComponent } from '@global-auth/fragments/buttons/submit-button/submit-button.component';
 
 class UserOwnSignUpServiceMock {
   mockFormData = {
@@ -36,8 +37,8 @@ class UserOwnSignUpServiceMock {
   }
 }
 
-describe('SignUpComponent', () => {
-  let component: SignUpComponent;
+describe('SignUpComponent', async () => {
+  const component: SubmitButtonComponent = TestBed.inject(SubmitButtonComponent);
   let fixture: ComponentFixture<SignUpComponent>;
   let authServiceMock: AuthService;
   let MatSnackBarMock: MatSnackBarComponent;
@@ -49,10 +50,12 @@ describe('SignUpComponent', () => {
   localStorageServiceMock.getUserId = () => 1;
   localStorageServiceMock.setAccessToken = () => true;
   localStorageServiceMock.setRefreshToken = () => true;
+  localStorageServiceMock.getAccessToken = () => '1';
   localStorageServiceMock.setUserId = () => true;
   localStorageServiceMock.ubsRegBehaviourSubject = new BehaviorSubject(false);
 
   const routerSpy = { navigate: jasmine.createSpy('navigate') };
+
   class MatDialogRefMock {
     close() {}
   }
@@ -111,18 +114,17 @@ describe('SignUpComponent', () => {
 
   beforeEach(() => {
     fixture = TestBed.createComponent(SignUpComponent);
-    component = fixture.componentInstance;
     fixture.detectChanges();
   });
 
   describe('Basic tests', () => {
-    /*beforeEach(() => {
+    beforeEach(() => {
       // @ts-ignore
-      spyOn(component.pageName, 'emit');
-    });*/
+      // spyOn(component.pageName, 'emit');
+    });
 
     it('should create SignUpComponent', () => {
-      expect(component).toBeTruthy();
+      expect(component).toBeDefined();
     });
 
     /*it('should call closeSignUpWindow ', () => {

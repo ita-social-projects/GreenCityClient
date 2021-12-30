@@ -24,11 +24,13 @@ import { SignInComponent } from './sign-in.component';
 import { provideConfig } from 'src/app/main/config/GoogleAuthConfig';
 import { JwtService } from '@global-service/jwt/jwt.service';
 import { MatDialogModule, MatDialogRef } from '@angular/material/dialog';
+import { MatSnackBarComponent } from '@global-errors/mat-snack-bar/mat-snack-bar.component';
 
 describe('SignIn component', () => {
   let component: SignInComponent;
   let fixture: ComponentFixture<SignInComponent>;
   let localStorageServiceMock: LocalStorageService;
+  let matSnackBarMock: MatSnackBarComponent;
   let matDialogMock: MatDialogRef<SignInComponent>;
   let signInServiceMock: UserOwnSignInService;
   let authServiceMock: AuthService;
@@ -44,6 +46,9 @@ describe('SignIn component', () => {
   localStorageServiceMock.getUserId = () => 1;
   localStorageServiceMock.getAccessToken = () => '1';
   localStorageServiceMock.ubsRegBehaviourSubject = new BehaviorSubject(true);
+
+  matSnackBarMock = jasmine.createSpyObj('MatSnackBarComponent', ['openSnackBar']);
+  matSnackBarMock.openSnackBar = (type: string) => {};
 
   matDialogMock = jasmine.createSpyObj('MatDialogRef', ['close']);
   matDialogMock.close = () => 'Close the window please';
@@ -99,6 +104,7 @@ describe('SignIn component', () => {
         { provide: LocalStorageService, useValue: localStorageServiceMock },
         { provide: AuthServiceConfig, useFactory: provideConfig },
         { provide: JwtService, useValue: jwtServiceMock },
+        { provide: MatSnackBarComponent, useValue: matSnackBarMock },
         { provide: MatDialogRef, useValue: matDialogMock },
         { provide: UserOwnSignInService, useValue: signInServiceMock },
         { provide: Router, useValue: routerSpy },
@@ -113,7 +119,7 @@ describe('SignIn component', () => {
     fixture.detectChanges();
   });
 
-  describe('Basic tests', () => {
+  describe('Basic tests', async () => {
     it('Should create component', () => {
       expect(component).toBeDefined();
     });
