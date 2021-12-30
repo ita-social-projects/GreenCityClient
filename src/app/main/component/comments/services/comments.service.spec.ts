@@ -8,7 +8,7 @@ import { environment } from '@environment/environment';
 describe('CommentsService', () => {
   let service: CommentsService;
   let httpTestingController: HttpTestingController;
-  const url: string = environment.backendLink;
+  const url = environment.backendLink;
 
   const form = new FormGroup({
     content: new FormControl('some')
@@ -153,7 +153,6 @@ describe('CommentsService', () => {
   it('should make DELETE request to deleteComments', () => {
     service.ecoNewsId = '1';
     service.deleteComments(1).subscribe((commentData: HttpResponse<any>) => {
-      console.log(commentData);
       expect(commentData.status).toEqual(200);
     });
 

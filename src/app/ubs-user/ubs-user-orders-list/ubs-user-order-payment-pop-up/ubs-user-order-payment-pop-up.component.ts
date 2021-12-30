@@ -26,6 +26,7 @@ export class UbsUserOrderPaymentPopUpComponent implements OnInit {
   public liqPayButtonForm: SafeHtml;
   public liqPayButton: NodeListOf<HTMLElement>;
   public dataLoadingLiqPay: boolean;
+  public isLiqPayLink: boolean;
 
   public userOrder: IOrderDetailsUser = {
     id: this.data.orderId,
@@ -48,8 +49,9 @@ export class UbsUserOrderPaymentPopUpComponent implements OnInit {
     public router: Router
   ) {}
 
-  ngOnInit(): void {
+  public ngOnInit(): void {
     this.initForm();
+    this.isLiqPayLink = false;
     this.dataLoadingLiqPay = false;
     this.certificateStatus.push(true);
     this.orderClientDto = new OrderClientDto();
@@ -86,7 +88,7 @@ export class UbsUserOrderPaymentPopUpComponent implements OnInit {
     }
   }
 
-  public calculateCertificate(certificate: FormControl) {
+  public calculateCertificate(certificate: FormControl): void {
     this.userCertificate.certificateSum = 0;
     this.userCertificate.certificateStatusActive = false;
     this.orderService.processCertificate(certificate.value.certificateCode).subscribe(
@@ -134,36 +136,45 @@ export class UbsUserOrderPaymentPopUpComponent implements OnInit {
     this.certificateStatus.push(true);
   }
 
-  public processOrder(): void {
+  public fillOrderClientDto(): void {
     this.orderClientDto.orderId = this.userOrder.id;
-    this.orderClientDto.sum = this.userOrder.sum;
-
-    if (this.userOrder.sum > 0) {
-      if (this.formPaymentSystem.value === 'Fondy') {
-        this.orderService.processOrderFondyFromUserOrderList(this.orderClientDto).subscribe((responce: ResponceOrderFondyModel) => {
-          document.location.href = responce.link;
-        });
-      }
-      this.liqPayButton[0].click();
-    } else {
-      this.router.navigate(['ubs', 'confirm']);
+    if (this.userCertificate.certificates.length) {
+      this.orderClientDto.certificates = [];
+      this.userCertificate.certificates.forEach((certificate) => {
+        this.orderClientDto.certificates.push(certificate.certificateCode);
+      });
     }
   }
 
-  public orderOptionPayment(event: any) {
-    this.selectedPayment = event.target.value;
+  public processOrder(): void {
+    this.fillOrderClientDto();
 
-    this.orderClientDto.orderId = this.userOrder.id;
-    this.orderClientDto.sum = this.userOrder.sum;
+    if (this.formPaymentSystem.value === 'Fondy') {
+      this.orderService.processOrderFondyFromUserOrderList(this.orderClientDto).subscribe((responce: ResponceOrderFondyModel) => {
+        responce.link ? (document.location.href = responce.link) : this.router.navigate(['ubs', 'confirm']);
+      });
+    } else {
+      this.isLiqPayLink ? this.liqPayButton[0].click() : this.router.navigate(['ubs', 'confirm']);
+    }
+  }
+
+  public orderOptionPayment(event: Event): void {
+    this.selectedPayment = (event.target as HTMLInputElement).value;
+    this.fillOrderClientDto();
 
     if (this.selectedPayment === 'LiqPay') {
       this.dataLoadingLiqPay = true;
       this.orderService.processOrderLiqPayFromUserOrderList(this.orderClientDto).subscribe((responce: ResponceOrderLiqPayModel) => {
-        this.liqPayButtonForm = this.sanitizer.bypassSecurityTrustHtml(responce.liqPayButton);
-        setTimeout(() => {
-          this.liqPayButton = document.getElementsByName('btn_text');
-          this.dataLoadingLiqPay = false;
-        }, 0);
+        if (!responce.liqPayButton) {
+          this.isLiqPayLink = false;
+        } else {
+          this.isLiqPayLink = true;
+          this.liqPayButtonForm = this.sanitizer.bypassSecurityTrustHtml(responce.liqPayButton);
+          setTimeout(() => {
+            this.liqPayButton = document.getElementsByName('btn_text');
+            this.dataLoadingLiqPay = false;
+          }, 0);
+        }
       });
     }
   }

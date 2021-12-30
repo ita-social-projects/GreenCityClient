@@ -1,3 +1,4 @@
+import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { MatDialogModule, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { TranslateModule } from '@ngx-translate/core';
@@ -18,12 +19,12 @@ describe('ShowImgsPopUpComponent', () => {
     },
     close() {}
   };
-
+  const fakeFoto = 'https://csb10032000a548f571.blob.core.windows.net/allfiles/90370622-3311-4ff1-9462-20cc98a64d1ddefault_image.jpg';
   const popupDataStub = {
     imgIndex: 1,
     images: [
-      { src: 'fakeFoto1', label: null, name: 'fakeName1' },
-      { src: 'fakeFoto2', label: null, name: 'fakeName2' },
+      { src: fakeFoto, label: null, name: 'fakeName1' },
+      { src: fakeFoto, label: null, name: 'fakeName2' },
       { src: null, label: null, name: null }
     ]
   };
@@ -35,7 +36,8 @@ describe('ShowImgsPopUpComponent', () => {
       providers: [
         { provide: MatDialogRef, useValue: dialogRefStub },
         { provide: MAT_DIALOG_DATA, useValue: popupDataStub }
-      ]
+      ],
+      schemas: [CUSTOM_ELEMENTS_SCHEMA]
     }).compileComponents();
   }));
 

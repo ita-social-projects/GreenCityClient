@@ -15,8 +15,43 @@ h6 {
   font-weight: 700;
 }
 
+.view-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding-right: 30px;
+
+  span {
+    font-size: 16px;
+    font-weight: 700;
+    color: var(--ubs-primary-grey);
+  }
+}
+
+.edit-violation {
+  margin: -30px 10px 0 0;
+
+  .mat-icon,
+  .edit-violation-btn {
+    font-size: 14px;
+    color: var(--ubs-electric-violet);
+    border: none;
+    background: transparent;
+  }
+
+  .edit-violation-btn:disabled,
+  .edit-violation-btn:disabled .mat-icon {
+    color: var(--ubs-primary-light-grey);
+  }
+}
+
 .close-icon {
   color: var(--quaternary-grey);
+  cursor: pointer;
+
+  &:hover {
+    color: var(--ubs-quaternary-dark-grey);
+  }
 }
 
 .custom-radio {
@@ -97,6 +132,7 @@ label {
   &:disabled {
     background: var(--ubs-quaternary-light-grey);
     border-color: var(--ubs-quaternary-light-grey);
+    color: var(--ubs-primary-light-grey);
   }
 }
 
@@ -202,4 +238,9 @@ label {
 
 .delete-icon {
   margin: -2px 10px 0 0;
+}
+
+.disabled {
+  opacity: 0.75;
+  cursor: default;
 }

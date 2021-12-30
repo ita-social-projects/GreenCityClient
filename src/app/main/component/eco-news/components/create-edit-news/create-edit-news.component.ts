@@ -15,6 +15,11 @@ import { ActionInterface } from '../../models/action.interface';
 import { MatSnackBarComponent } from '@global-errors/mat-snack-bar/mat-snack-bar.component';
 import { FormBaseComponent } from '@shared/components/form-base/form-base.component';
 import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
+import { EditorChangeContent, EditorChangeSelection } from 'ngx-quill';
+import Quill from 'quill';
+import 'quill-emoji/dist/quill-emoji.js';
+import ImageResize from 'quill-image-resize-module';
+import { checkImages, dataURLtoFile, quillConfig } from './quillEditorFunc';
 
 @Component({
   selector: 'app-create-edit-news',
@@ -22,6 +27,23 @@ import { LocalStorageService } from '@global-service/localstorage/local-storage.
   styleUrls: ['./create-edit-news.component.scss']
 })
 export class CreateEditNewsComponent extends FormBaseComponent implements OnInit, OnDestroy {
+  constructor(
+    public router: Router,
+    public dialog: MatDialog,
+    private injector: Injector,
+    @Inject(ACTION_TOKEN) private config: { [name: string]: ActionInterface }
+  ) {
+    super(router, dialog);
+    this.createEditNewsFormBuilder = injector.get(CreateEditNewsFormBuilder);
+    this.createEcoNewsService = injector.get(CreateEcoNewsService);
+    this.ecoNewsService = injector.get(EcoNewsService);
+    this.route = injector.get(ActivatedRoute);
+    this.localStorageService = injector.get(LocalStorageService);
+    this.snackBar = injector.get(MatSnackBarComponent);
+    this.quillModules = quillConfig;
+    Quill.register('modules/imageResize', ImageResize);
+  }
+
   public isPosting = false;
   public form: FormGroup;
   public isArrayEmpty = true;
@@ -29,9 +51,11 @@ export class CreateEditNewsComponent extends FormBaseComponent implements OnInit
   public isLinkOrEmpty = true;
   public newsItemSubscription: Subscription;
   public isFilterValidation = false;
-  public year: number = new Date().getFullYear();
-  public day: number = new Date().getDate();
-  public month: number = new Date().getMonth();
+  public date = {
+    day: new Date().getDate(),
+    month: new Date().getMonth(),
+    year: new Date().getFullYear()
+  };
   public author: string = localStorage.getItem('name');
   public attributes: ActionInterface;
   public filters: FilterModel[] = [];
@@ -60,26 +84,20 @@ export class CreateEditNewsComponent extends FormBaseComponent implements OnInit
   private route: ActivatedRoute;
   private localStorageService: LocalStorageService;
   private snackBar: MatSnackBarComponent;
+  public quillModules = {};
+  public blurred = false;
+  public focused = false;
+  public editorText = '';
+  public editorHTML = '';
+  public savingImages = false;
 
-  constructor(
-    public router: Router,
-    public dialog: MatDialog,
-    private injector: Injector,
-    @Inject(ACTION_TOKEN) private config: { [name: string]: ActionInterface }
-  ) {
-    super(router, dialog);
-    this.createEditNewsFormBuilder = injector.get(CreateEditNewsFormBuilder);
-    this.createEcoNewsService = injector.get(CreateEcoNewsService);
-    this.ecoNewsService = injector.get(EcoNewsService);
-    this.route = injector.get(ActivatedRoute);
-    this.localStorageService = injector.get(LocalStorageService);
-    this.snackBar = injector.get(MatSnackBarComponent);
-  }
+  // TODO: add types | DTO to service
 
   ngOnInit() {
     this.getNewsIdFromQueryParams();
-    this.initPageforCreateOrEdit();
+    this.initPageForCreateOrEdit();
     this.onSourceChange();
+    this.localStorageService.removeTagsOfNews('newsTags');
     this.setLocalizedTags();
   }
 
@@ -109,7 +127,7 @@ export class CreateEditNewsComponent extends FormBaseComponent implements OnInit
     });
   }
 
-  private setLocalizedTags() {
+  private setLocalizedTags(): void {
     this.localStorageService.languageBehaviourSubject.pipe(takeUntil(this.destroyed$)).subscribe(() => this.getAllTags());
   }
 
@@ -133,8 +151,9 @@ export class CreateEditNewsComponent extends FormBaseComponent implements OnInit
       });
   }
 
-  public initPageforCreateOrEdit(): void {
+  public initPageForCreateOrEdit(): void {
     this.textAreasHeight = TEXT_AREAS_HEIGHT;
+
     if (this.createEcoNewsService.isBackToEditing) {
       if (this.createEcoNewsService.getNewsId()) {
         this.setDataForEdit();
@@ -191,8 +210,8 @@ export class CreateEditNewsComponent extends FormBaseComponent implements OnInit
     }
   }
 
-  public createNews(): void {
-    this.isPosting = true;
+  public sendData(text: string): void {
+    this.form.value.content = text;
     this.createEcoNewsService
       .sendFormData(this.form)
       .pipe(
@@ -207,17 +226,39 @@ export class CreateEditNewsComponent extends FormBaseComponent implements OnInit
     this.localStorageService.removeTagsOfNews('newsTags');
   }
 
-  public escapeFromCreatePage() {
-    this.isPosting = false;
-    this.allowUserEscape();
-    this.router.navigate(['/news']);
+  public createNews(): void {
+    const imagesSrc = checkImages(this.editorHTML);
+
+    if (imagesSrc) {
+      const imgFiles = imagesSrc.map((base64) => dataURLtoFile(base64));
+
+      this.createEcoNewsService.sendImagesData(imgFiles).subscribe(
+        (response) => {
+          const findBase64Regex = /data:image\/([a-zA-Z]*);base64,([^"]*)/g;
+          response.forEach((link) => {
+            this.editorHTML = this.editorHTML.replace(findBase64Regex, link);
+          });
+          this.sendData(this.editorHTML);
+        },
+        (err) => console.error(err)
+      );
+    } else {
+      this.sendData(this.editorHTML);
+    }
   }
 
-  public editNews(): void {
+  public escapeFromCreatePage(): void {
+    this.isPosting = false;
+    this.allowUserEscape();
+    this.router.navigate(['/news']).catch((err) => console.error(err));
+  }
+
+  public editData(text: string): void {
     const dataToEdit = {
-      ...this.form.value,
+      ...this.form?.value,
       id: this.newsId
     };
+    dataToEdit.content = text;
 
     this.createEcoNewsService
       .editNews(dataToEdit)
@@ -228,6 +269,30 @@ export class CreateEditNewsComponent extends FormBaseComponent implements OnInit
         })
       )
       .subscribe(() => this.escapeFromCreatePage());
+  }
+
+  public editNews(): void {
+    if (!this.editorHTML) {
+      this.editorHTML = this.form?.value?.content;
+    }
+    const imagesSrc = checkImages(this.editorHTML);
+
+    if (imagesSrc) {
+      const imgFiles = imagesSrc.map((base64) => dataURLtoFile(base64));
+
+      this.createEcoNewsService.sendImagesData(imgFiles).subscribe(
+        (response) => {
+          const findBase64Regex = /data:image\/([a-zA-Z]*);base64,([^"]*)/g;
+          response.forEach((link) => {
+            this.editorHTML = this.editorHTML.replace(findBase64Regex, link);
+          });
+          this.editData(this.editorHTML);
+        },
+        (err) => console.error(err)
+      );
+    } else {
+      this.editData(this.editorHTML);
+    }
   }
 
   public fetchNewsItemToEdit(): void {
@@ -288,20 +353,27 @@ export class CreateEditNewsComponent extends FormBaseComponent implements OnInit
 
   public toggleIsActive(filterObj: FilterModel, newValue: boolean): void {
     const index = this.filters.findIndex((item: FilterModel) => item.name === filterObj.name);
-    const changedtags = this.filterArr({ name: filterObj.name, isActive: newValue }, index);
-    this.filters = changedtags;
-    this.localStorageService.setTagsOfNews('newsTags', changedtags);
+    const changedTags = this.filterArr({ name: filterObj.name, isActive: newValue }, index);
+    this.filters = changedTags;
+    this.localStorageService.setTagsOfNews('newsTags', changedTags);
   }
 
   public goToPreview(): void {
     this.allowUserEscape();
     this.createEcoNewsService.setForm(this.form);
     this.createEcoNewsService.setNewsId(this.newsId);
-    this.router.navigate(['news', 'preview']);
+    this.router.navigate(['news', 'preview']).catch((err) => console.error(err));
   }
 
   public isImageValid(): boolean {
     return this.createEcoNewsService.isImageValid;
+  }
+
+  changedEditor(event: EditorChangeContent | EditorChangeSelection): void {
+    if (event.event !== 'selection-change') {
+      this.editorText = event.text;
+      this.editorHTML = event.html;
+    }
   }
 
   ngOnDestroy() {

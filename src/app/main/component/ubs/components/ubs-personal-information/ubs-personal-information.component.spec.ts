@@ -10,6 +10,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { UBSInputErrorComponent } from '../ubs-input-error/ubs-input-error.component';
 import { UBSPersonalInformationComponent } from './ubs-personal-information.component';
 import { CUSTOM_ELEMENTS_SCHEMA, SimpleChange } from '@angular/core';
+import { IMaskModule } from 'angular-imask';
 
 describe('UBSPersonalInformationComponent', () => {
   let component: UBSPersonalInformationComponent;
@@ -77,6 +78,7 @@ describe('UBSPersonalInformationComponent', () => {
         RouterModule.forRoot([]),
         HttpClientTestingModule,
         MatDialogModule,
+        IMaskModule,
         TranslateModule.forRoot()
       ],
       declarations: [UBSPersonalInformationComponent, UBSInputErrorComponent],
@@ -229,7 +231,6 @@ describe('UBSPersonalInformationComponent', () => {
     };
     component.personalData = mockedPersonalData;
     fakeShareFormService.orderDetails = mockedOrderDetails;
-    console.log(fakeShareFormService.orderDetails);
     fixture.detectChanges();
     spyOn(component, 'activeAddressId').and.callFake(() => {});
     spyOn(component, 'changeAddressInPersonalData').and.callFake(() => {});

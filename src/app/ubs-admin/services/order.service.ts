@@ -3,6 +3,7 @@ import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { UserViolations, IOrderHistory } from '../models/ubs-admin.interface';
 import { environment } from '@environment/environment';
+import { IViolation } from '../models/violation.model';
 
 @Injectable({
   providedIn: 'root'
@@ -65,6 +66,10 @@ export class OrderService {
     return this.http.get(`${this.backend}/management/get-data-for-order/${orderId}/${lang}`);
   }
 
+  public updateOrderInfo(orderId: number, lang: string, data: {}) {
+    return this.http.patch(`${this.backend}/management/update-order-page-admin-info/${orderId}?lang=${lang}`, data);
+  }
+
   public getOrderDetails(orderId: number, lang: string): Observable<any> {
     return this.http.get<any>(`${this.backend}/management/read-order-info/${orderId}?language=${lang}`);
   }
@@ -112,6 +117,15 @@ export class OrderService {
     return this.http.put<any>(`${this.backend}`, postData);
   }
 
+  public addPaymentManually(orderId: number, postData, file): Observable<any> {
+    const formData: FormData = new FormData();
+    if (file) {
+      formData.append('image', file);
+    }
+    formData.append('manualPaymentDto', JSON.stringify(postData));
+    return this.http.post(`${this.backend}/management/add-manual-payment/${orderId}`, formData);
+  }
+
   public getColumnToDisplay() {
     return this.http.get(`${this.backend}/management/getOrdersViewParameters`);
   }
@@ -124,8 +138,16 @@ export class OrderService {
     return this.http.post(`${this.backend}/management/addViolationToUser`, violation);
   }
 
-  public getViolationOfCurrentOrder(orderId) {
-    return this.http.get(`${this.backend}/management/violation-details/${orderId}`);
+  public updateViolationOfCurrentOrder(violation) {
+    return this.http.put(`${this.backend}/management/updateViolationToUser`, violation);
+  }
+
+  public getViolationOfCurrentOrder(orderId): Observable<IViolation> {
+    return this.http.get<IViolation>(`${this.backend}/management/violation-details/${orderId}`);
+  }
+
+  public deleteViolationOfCurrentOrder(orderId) {
+    return this.http.delete(`${this.backend}/management/delete-violation-from-order/${orderId}`);
   }
 
   public getOverpaymentMsg(overpayment) {

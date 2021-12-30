@@ -82,8 +82,27 @@ export class CreateEcoNewsService {
       body.image = this.files[0].url;
     }
     this.files = [];
+
     formData.append('addEcoNewsDtoRequest', JSON.stringify(body));
     this.httpOptions.headers.set('Authorization', `Bearer ${this.accessToken}`);
     return this.http.post<NewsResponseDTO>(`${this.url}econews`, formData, this.httpOptions);
+  }
+
+  public sendImagesData(imagesFilesArr: File[]): Observable<[string]> {
+    const formData: FormData = new FormData();
+
+    imagesFilesArr.forEach((f: File) => {
+      formData.append('images', f);
+    });
+
+    const accessToken: string = localStorage.getItem('accessToken');
+    const httpOptions = {
+      headers: new HttpHeaders({
+        Authorization: 'my-auth-token'
+      })
+    };
+    httpOptions.headers.set('Authorization', `Bearer ${accessToken}`);
+    httpOptions.headers.append('Content-Type', 'multipart/form-data');
+    return this.http.post<any>('https://greencity.azurewebsites.net/econews/uploadImages', formData, httpOptions);
   }
 }

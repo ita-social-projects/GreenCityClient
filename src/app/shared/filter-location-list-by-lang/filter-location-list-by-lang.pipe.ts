@@ -20,16 +20,10 @@ export class FilterLocationListByLangPipe implements PipeTransform, OnDestroy {
     if (!list) {
       return list;
     }
+
     return list.map((location) => ({
-      ...location,
-      locationsDtos: [
-        {
-          ...location.locationsDtos[0],
-          locationTranslationDtoList: location.locationsDtos[0].locationTranslationDtoList.filter(
-            (item) => item.languageCode === this.locale
-          )
-        }
-      ]
+      locationId: location.locationsDtos[0].locationId,
+      locationName: location.locationsDtos[0].locationTranslationDtoList.filter((item) => item.languageCode === this.locale)[0].locationName
     }));
   }
 

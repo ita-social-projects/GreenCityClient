@@ -10,15 +10,16 @@
   <form [formGroup]="orderForm" (ngSubmit)="onSubmit()">
     <div class="box">
       <app-ubs-admin-order-status
-        [orderStatusForm]="getFormGroup('orderStatusForm')"
-        [generalOrderInfo]="generalOrderInfo"
-        (changed)="onChangedOrderStatus($event)"
+        [currentOrderPrice]="currentOrderPrice"
+        [generalOrderInfo]="getFormGroup('generalOrderInfo')"
+        [generalInfo]="generalInfo"
+        [totalPaid]="totalPaid"
+        (changedOrderStatus)="onChangedOrderStatus($event)"
       ></app-ubs-admin-order-status>
-      <app-ubs-admin-order-client-info [clientInfoForm]="getFormGroup('clientInfoForm')" [clientInfo]="clientInfo" [orderId]="orderId">
+      <app-ubs-admin-order-client-info [userInfoDto]="getFormGroup('userInfoDto')" [userInfo]="userInfo" [orderId]="orderId">
       </app-ubs-admin-order-client-info>
       <app-ubs-admin-address-details
-        [addressDetailsForm]="getFormGroup('addressDetailsForm')"
-        [addressInfo]="addressInfo"
+        [addressExportDetailsDto]="getFormGroup('addressExportDetailsDto')"
         [addressComment]="orderInfo.addressComment"
       >
       </app-ubs-admin-address-details>
@@ -28,6 +29,7 @@
         [orderStatusInfo]="orderStatusInfo"
         (changeOverpayment)="changeOverpayment($event)"
         (checkMinOrder)="setMinOrder($event)"
+        (changeCurrentPrice)="onChangeCurrentPrice($event)"
       ></app-ubs-admin-order-details-form>
       <app-ubs-admin-order-payment
         [totalPaid]="totalPaid"
@@ -35,10 +37,8 @@
         [orderInfo]="orderInfo"
       ></app-ubs-admin-order-payment>
       <app-ubs-admin-export-details
-        [exportDetailsForm]="getFormGroup('exportDetailsForm')"
+        [exportDetailsDto]="getFormGroup('exportDetailsDto')"
         [exportInfo]="exportInfo"
-        [from]="timeFrom"
-        [to]="timeTo"
       ></app-ubs-admin-export-details>
       <app-ubs-admin-responsible-persons
         [responsiblePersonsForm]="getFormGroup('responsiblePersonsForm')"
@@ -49,7 +49,6 @@
     </div>
     <div class="row">
       <button class="back-button" (click)="openGoBackModal()">
-        <
         {{ 'order-edit.btn.back' | translate }}
       </button>
       <div class="controls">

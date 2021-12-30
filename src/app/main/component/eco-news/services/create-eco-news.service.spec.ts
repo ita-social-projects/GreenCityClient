@@ -6,6 +6,8 @@ import { CreateEcoNewsService } from './create-eco-news.service';
 describe('CreateEcoNewsService', () => {
   let service: CreateEcoNewsService;
   let httpTestingController: HttpTestingController;
+  const defaultImagePath =
+    'https://csb10032000a548f571.blob.core.windows.net/allfiles/90370622-3311-4ff1-9462-20cc98a64d1ddefault_image.jpg';
   const form = new FormGroup({
     title: new FormControl('mock news'),
     content: new FormControl('This is mock news content Greencity!!!!!!!!!!!!'),
@@ -24,7 +26,7 @@ describe('CreateEcoNewsService', () => {
   beforeEach(() => {
     service = TestBed.inject(CreateEcoNewsService);
     httpTestingController = TestBed.inject(HttpTestingController);
-    service.files[0] = { file: null, url: 'http://someimage' };
+    service.files[0] = { file: null, url: defaultImagePath };
   });
 
   afterEach(() => {

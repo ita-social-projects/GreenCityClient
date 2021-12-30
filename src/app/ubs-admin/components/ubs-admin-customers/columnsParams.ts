@@ -107,3 +107,97 @@ export const columnsParamsOrders = [
     width: 60
   }
 ];
+
+export const columnsParamsViolations = [
+  {
+    title: {
+      key: 'violationDate',
+      ua: 'Дата порушення',
+      en: 'Violation date'
+    },
+    width: 100
+  },
+  {
+    title: {
+      key: 'orderId',
+      ua: '№ замовлення',
+      en: '№ order'
+    },
+    width: 60
+  },
+  {
+    title: {
+      key: 'violationLevel',
+      ua: 'Ступінь порушення',
+      en: 'Violation level'
+    },
+    width: 100
+  }
+];
+
+export const columnsParamsCertificates = [
+  {
+    title: {
+      key: 'select',
+      ua: 'Вибір',
+      en: 'Select'
+    },
+    width: 45
+  },
+  {
+    title: {
+      key: 'code',
+      ua: 'Код',
+      en: 'Code'
+    },
+    width: 164
+  },
+  {
+    title: {
+      key: 'certificateStatus',
+      ua: 'Ступінь порушення',
+      en: 'Sertificate status'
+    },
+    width: 164
+  },
+  {
+    title: {
+      key: 'orderId',
+      ua: 'Id замовлення',
+      en: 'Order Id'
+    },
+    width: 164
+  },
+  {
+    title: {
+      key: 'points',
+      ua: 'Значення',
+      en: 'Points'
+    },
+    width: 164
+  },
+  {
+    title: {
+      key: 'expirationDate',
+      ua: 'Термін придатності',
+      en: 'Expiration date'
+    },
+    width: 164
+  },
+  {
+    title: {
+      key: 'creationDate',
+      ua: 'Дата створення',
+      en: 'Creation date'
+    },
+    width: 164
+  },
+  {
+    title: {
+      key: 'dateOfUse',
+      ua: 'Дата використання',
+      en: 'Date ot use'
+    },
+    width: 164
+  }
+];

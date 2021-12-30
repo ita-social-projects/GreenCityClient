@@ -66,6 +66,8 @@ import { UbsAdminCustomerOrdersComponent } from './components/ubs-admin-customer
 import { AddOrderCancellationReasonComponent } from './components/add-order-cancellation-reason/add-order-cancellation-reason.component';
 import { DialogPopUpComponent } from './components/shared/components/dialog-pop-up/dialog-pop-up.component';
 import { ResizeColumnDirective } from './derictives/resize-table-columns.directive';
+import { AddPaymentComponent } from './components/add-payment/add-payment.component';
+import { UbsAdminCustomerViolationsComponent } from './components/ubs-admin-customers/ubs-admin-customer-violations/ubs-admin-customer-violations/ubs-admin-customer-violations.component';
 import { ShowImgsPopUpComponent } from './components/shared/components/show-imgs-pop-up/show-imgs-pop-up.component';
 
 @NgModule({
@@ -110,6 +112,8 @@ import { ShowImgsPopUpComponent } from './components/shared/components/show-imgs
     AddOrderCancellationReasonComponent,
     DialogPopUpComponent,
     ResizeColumnDirective,
+    AddPaymentComponent,
+    UbsAdminCustomerViolationsComponent,
     ShowImgsPopUpComponent
   ],
   imports: [

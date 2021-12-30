@@ -1,41 +1,45 @@
 <div class="research">
-  <div class="search-input"><input type="text" placeholder="Search" (keyup)="applyFilter($event.target.value)" /></div>
-  <div class="icon-style"><i class="fa fa-search" aria-hidden="true"></i></div>
-</div>
-<div class="btn-group">
-  <div class="button-group">
-    <button type="button" class="btn btn-default view-table-btn" (click)="togglePopUp()">
-      <img src="assets/img/edit.svg" alt="edit" />
-      {{ 'ubs-tables.table-view' | translate }}
-    </button>
-    <button type="button" class="btn btn-default export-excel-btn" (click)="openExportExcel()">
-      {{ 'ubs-tables.export-to-excel' | translate }}
-    </button>
-    <ul class="dropdown-menu" [style.display]="display">
-      <li class="item">
-        <mat-checkbox class="check" type="checkbox" [checked]="isAll" (change)="showAllColumns(isAll)">
-          {{ 'ubs-tables.all-elements' | translate }}
-        </mat-checkbox>
-      </li>
-      <ng-container *ngFor="let header of tableViewHeaders">
-        <li class="head">{{ header | serverTranslate: currentLang }}</li>
-        <div class="items">
-          <ng-container *ngFor="let column of columns">
-            <li class="item" *ngIf="column.columnBelonging === header.key || column.title.key === 'select'">
-              <mat-checkbox
-                class="check"
-                type="checkbox"
-                value="id1"
-                [checked]="displayedColumns.includes(column.title.key)"
-                (change)="changeColumns($event?.checked, column.title.key, column.index)"
-              >
-                {{ column.title | serverTranslate: currentLang }}
-              </mat-checkbox>
-            </li>
-          </ng-container>
-        </div>
-      </ng-container>
-    </ul>
+  <div class="search">
+    <div class="search-input">
+      <input type="text" placeholder="{{ 'ubs-tables.placeholder' | translate }}" (keyup)="applyFilter($event.target.value)" />
+    </div>
+    <div class="icon-style"><i class="fa fa-search" aria-hidden="true"></i></div>
+  </div>
+  <div class="btn-group">
+    <div class="button-group">
+      <button type="button" class="btn btn-default view-table-btn" (click)="togglePopUp()">
+        <img src="assets/img/edit.svg" alt="edit" />
+        {{ 'ubs-tables.table-view' | translate }}
+      </button>
+      <button type="button" class="btn btn-default export-excel-btn" (click)="openExportExcel()">
+        {{ 'ubs-tables.export-to-excel' | translate }}
+      </button>
+      <ul class="dropdown-menu" [style.display]="display">
+        <li class="item">
+          <mat-checkbox class="check" type="checkbox" [checked]="isAll" (change)="showAllColumns(isAll)">
+            {{ 'ubs-tables.all-elements' | translate }}
+          </mat-checkbox>
+        </li>
+        <ng-container *ngFor="let header of tableViewHeaders">
+          <li class="head">{{ header | serverTranslate: currentLang }}</li>
+          <div class="items">
+            <ng-container *ngFor="let column of columns">
+              <li class="item" *ngIf="column.columnBelonging === header.key || column.title.key === 'select'">
+                <mat-checkbox
+                  class="check"
+                  type="checkbox"
+                  value="id1"
+                  [checked]="displayedColumns.includes(column.title.key)"
+                  (change)="changeColumns($event?.checked, column.title.key, column.index)"
+                >
+                  {{ column.title | serverTranslate: currentLang }}
+                </mat-checkbox>
+              </li>
+            </ng-container>
+          </div>
+        </ng-container>
+      </ul>
+    </div>
   </div>
 </div>
 <mat-progress-bar *ngIf="editCellProgressBar" mode="indeterminate"></mat-progress-bar>
@@ -96,7 +100,7 @@
           </mat-checkbox>
         </th>
       </mat-header-cell>
-      <mat-cell *matCellDef="let row">
+      <mat-cell *matCellDef="let row" (mousedown)="onResizeColumn($event, i)">
         <app-table-cell-readonly
           *ngIf="column.editType === 'READ_ONLY'"
           [title]="row[column.title.key]"

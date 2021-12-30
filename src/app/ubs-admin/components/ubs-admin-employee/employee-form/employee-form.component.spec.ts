@@ -11,6 +11,9 @@ import { EmployeeFormComponent } from './employee-form.component';
 describe('EmployeeFormComponent', () => {
   let component: EmployeeFormComponent;
   let fixture: ComponentFixture<EmployeeFormComponent>;
+
+  const defaultImagePath =
+    'https://csb10032000a548f571.blob.core.windows.net/allfiles/90370622-3311-4ff1-9462-20cc98a64d1ddefault_image.jpg';
   const matDialogRefMock = jasmine.createSpyObj('matDialogRefMock', ['close']);
   const mockedEmployeePositions = [
     {
@@ -33,7 +36,7 @@ describe('EmployeeFormComponent', () => {
     employeePositions: mockedEmployeePositions,
     firstName: 'fake',
     id: 1,
-    image: 'fake',
+    image: defaultImagePath,
     lastName: 'fake',
     phoneNumber: 'fake',
     receivingStations: mockedReceivingStations
@@ -172,7 +175,7 @@ describe('EmployeeFormComponent', () => {
   });
 
   it('should remove image', () => {
-    component.imageURL = 'fake';
+    component.imageURL = defaultImagePath;
     component.imageName = 'fake';
     component.selectedFile = 'fake';
     component.removeImage();

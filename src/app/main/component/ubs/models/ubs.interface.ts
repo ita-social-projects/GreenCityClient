@@ -119,3 +119,36 @@ export interface Locations {
   name: string;
   languageCode: string;
 }
+
+export interface CourierTranslationDtos {
+  languageCode: string;
+  limitDescription: string;
+  name: string;
+}
+export interface CourierDtos {
+  courierId: number;
+  courierStatus: string;
+  courierTranslationDtos: CourierTranslationDtos[];
+}
+
+export interface LocationTranslation {
+  region: number;
+  locationName: string;
+  languageCode: string;
+}
+
+export interface LocationsDtos {
+  locationId: number;
+  locationStatus: string;
+  locationTranslationDtoList: LocationTranslation[];
+}
+export interface CourierLocations {
+  courierDtos: CourierDtos[];
+  courierLimit: string;
+  courierLocationId: number;
+  locationsDtos: LocationsDtos[];
+  maxAmountOfBigBags: number;
+  maxPriceOfOrder: number;
+  minAmountOfBigBags: number;
+  minPriceOfOrder: number;
+}

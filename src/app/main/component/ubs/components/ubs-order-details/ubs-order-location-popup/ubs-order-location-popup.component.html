@@ -10,11 +10,11 @@
   <form *ngIf="!isFetching; else spinner" class="form">
     <select [(ngModel)]="selectedLocationId" name="region" class="select form-select form-select-lg">
       <option
-        [ngValue]="location.locationsDtos[0].locationId"
+        [ngValue]="location.locationId"
         *ngFor="let location of locations | filterLocationListByLang"
-        (click)="changeLocation(location.locationsDtos[0].locationId)"
+        (click)="changeLocation(location.locationId)"
       >
-        {{ location.locationsDtos[0].locationTranslationDtoList[0].locationName }}
+        {{ location.locationName }}
       </option>
     </select>
   </form>
