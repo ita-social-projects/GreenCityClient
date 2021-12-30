@@ -5,7 +5,6 @@ import { HttpClient, HttpClientModule } from '@angular/common/http';
 import { TranslateHttpLoader } from '@ngx-translate/http-loader';
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
-import { ChatModule } from './chat/chat.module';
 
 import { MainModule } from './main/main.module';
 import { AppComponent } from './app.component';
@@ -19,7 +18,6 @@ import { AppRoutingModule } from './app-routing.module';
     AppRoutingModule,
     MainModule,
     HttpClientModule,
-    ChatModule,
     TranslateModule.forRoot({
       loader: {
         provide: TranslateLoader,

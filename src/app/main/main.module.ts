@@ -1,3 +1,4 @@
+import { ChatModule } from './../chat/chat.module';
 import { ConfirmRestorePasswordGuard } from './service/route-guards/confirm-restore-password.guard';
 import { MainComponent } from './main.component';
 import { NgModule } from '@angular/core';
@@ -49,7 +50,8 @@ import { SharedModule } from 'src/app/shared/shared.module';
     DragDropModule,
     NgxPaginationModule,
     MaterialModule,
-    SharedModule
+    SharedModule,
+    ChatModule
   ],
   entryComponents: [MainComponent, ProposeCafeComponent, RestoreComponent, EditPhotoPopUpComponent, ErrorComponent],
   providers: [
