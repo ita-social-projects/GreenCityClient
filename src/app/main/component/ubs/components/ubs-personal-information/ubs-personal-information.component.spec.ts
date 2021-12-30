@@ -227,7 +227,8 @@ describe('UBSPersonalInformationComponent', () => {
   it('method submit should invoke methods', () => {
     const mockedOrderDetails = {
       bags: [],
-      points: 9
+      points: 9,
+      additionalOrders: ['']
     };
     component.personalData = mockedPersonalData;
     fakeShareFormService.orderDetails = mockedOrderDetails;

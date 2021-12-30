@@ -25,8 +25,9 @@ describe('OrderDetailsFormComponent', () => {
   let orderService: OrderService;
   const fakeLanguageSubject: Subject<string> = new Subject<string>();
   const shareFormService = jasmine.createSpyObj('shareFormService', ['orderDetails']);
-  const localStorageService = jasmine.createSpyObj('localStorageService', ['getCurrentLanguage', 'languageSubject']);
-
+  shareFormService.locationId = 1;
+  const localStorageService = jasmine.createSpyObj('localStorageService', ['getCurrentLanguage', 'languageSubject', 'getUbsOrderData']);
+  localStorageService.getUbsOrderData = () => null;
   localStorageService.languageSubject = fakeLanguageSubject;
 
   beforeEach(async(() => {
@@ -60,6 +61,7 @@ describe('OrderDetailsFormComponent', () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(UBSOrderDetailsComponent);
     component = fixture.componentInstance;
+    spyOn(component, 'saveLocation');
     fixture.detectChanges();
   });
 

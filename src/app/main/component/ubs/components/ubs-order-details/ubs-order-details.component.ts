@@ -1,6 +1,6 @@
 import { Subject } from 'rxjs';
 import { Router } from '@angular/router';
-import { take, takeUntil } from 'rxjs/operators';
+import { takeUntil } from 'rxjs/operators';
 import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
 import { Component, OnDestroy, OnInit, Renderer2 } from '@angular/core';
 import { FormBaseComponent } from '@shared/components/form-base/form-base.component';
@@ -108,32 +108,25 @@ export class UBSOrderDetailsComponent extends FormBaseComponent implements OnIni
     } else {
       this.openLocationDialog();
     }
-    this.orderService.locationSubject.pipe(takeUntil(this.destroy)).subscribe(() => {
-      this.takeOrderData();
-      this.subscribeToLangChange();
-      if (this.localStorageService.getUbsOrderData()) {
-        this.calculateTotal();
-      }
-    });
+    this.takeOrderData();
+    this.subscribeToLangChange();
+    if (this.localStorageService.getUbsOrderData()) {
+      this.calculateTotal();
+    }
   }
 
   saveLocation(isCheck: boolean) {
     this.isFetching = true;
     const selectedLocation = { locationId: this.selectedLocationId };
-    this.orderService
-      .addLocation(selectedLocation)
-      .pipe(take(1))
-      .subscribe(() => {
-        this.setCurrentLocation(this.currentLanguage);
-        this.isFetching = false;
-        this.changeLocation = false;
-        this.orderService.setLocationData(this.currentLocation);
-        this.orderService.completedLocation(true);
-        this.localStorageService.setLocationId(this.selectedLocationId);
-        if (isCheck) {
-          this.orderService.setCurrentAddress(JSON.parse(localStorage.getItem('addresses'))[0]);
-        }
-      });
+    this.setCurrentLocation(this.currentLanguage);
+    this.isFetching = false;
+    this.changeLocation = false;
+    this.orderService.setLocationData(this.currentLocation);
+    this.orderService.completedLocation(true);
+    this.localStorageService.setLocationId(this.selectedLocationId);
+    if (isCheck) {
+      this.orderService.setCurrentAddress(JSON.parse(localStorage.getItem('addresses'))[0]);
+    }
   }
 
   private setCurrentLocation(currentLanguage: string): void {

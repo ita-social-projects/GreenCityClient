@@ -3,7 +3,7 @@ import { MatDialogRef } from '@angular/material/dialog';
 import { Router } from '@angular/router';
 import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
 import { Subject } from 'rxjs';
-import { take, takeUntil } from 'rxjs/operators';
+import { takeUntil } from 'rxjs/operators';
 import { CourierLocations, LocationTranslation } from '../../../models/ubs.interface';
 import { OrderService } from '../../../services/order.service';
 
@@ -58,17 +58,11 @@ export class UbsOrderLocationPopupComponent implements OnInit, OnDestroy {
   }
 
   saveLocation() {
-    const selectedLocation = { locationId: this.selectedLocationId };
-    this.orderService
-      .addLocation(selectedLocation)
-      .pipe(take(1))
-      .subscribe(() => {
-        this.orderService.completedLocation(true);
-        this.localStorageService.setLocationId(this.selectedLocationId);
-        this.localStorageService.setLocations(this.locations);
-        this.setCurrentLocation(this.currentLanguage);
-        this.orderService.setLocationData(this.currentLocation);
-      });
+    this.orderService.completedLocation(true);
+    this.localStorageService.setLocationId(this.selectedLocationId);
+    this.localStorageService.setLocations(this.locations);
+    this.setCurrentLocation(this.currentLanguage);
+    this.orderService.setLocationData(this.currentLocation);
   }
 
   passDataToComponent() {

@@ -304,7 +304,7 @@ export class UBSPersonalInformationComponent extends FormBaseComponent implement
     this.personalData.anotherClientPhoneNumber = this.personalDataForm.get('anotherClientPhoneNumber').value;
     this.personalData.addressComment = this.personalDataForm.get('addressComment').value;
     this.order = new Order(
-      this.shareFormService.orderDetails.additionalOrders,
+      this.shareFormService.orderDetails.additionalOrders[0] !== '' ? this.shareFormService.orderDetails.additionalOrders : null,
       this.addressId,
       orderBags,
       this.shareFormService.orderDetails.certificates,
