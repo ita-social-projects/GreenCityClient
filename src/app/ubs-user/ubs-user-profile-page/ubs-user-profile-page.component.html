@@ -17,14 +17,15 @@
       <div class="input-group input-group-sm">
         <form *ngIf="!isFetching; else spinner" [formGroup]="userForm">
           <h5>{{ 'ubs-client-profile.personal' | translate }}</h5>
-          <div class="form-group col-sm-5">
-            <label for="recipientName">{{ 'ubs-client-profile.name' | translate }}</label>
-            <input *ngIf="isEditing" type="text" class="form-control" id="recipientName" formControlName="recipientName" />
-          </div>
-          <div class="form-group col-sm-5">
-            <label for="recipientSurname">{{ 'ubs-client-profile.surname' | translate }}</label>
-            <input *ngIf="isEditing" type="text" class="form-control" id="recipientSurname" formControlName="recipientSurname" />
-          </div>
+          <div class="personal inline">
+            <div class="form-group col-sm-6">
+              <label for="recipientName">{{ 'ubs-client-profile.name' | translate }}</label>
+              <input *ngIf="isEditing" type="text" class="form-control" id="recipientName" formControlName="recipientName" />
+            </div>
+            <div class="form-group col-sm-6">
+              <label for="recipientSurname">{{ 'ubs-client-profile.surname' | translate }}</label>
+              <input *ngIf="isEditing" type="text" class="form-control" id="recipientSurname" formControlName="recipientSurname" />
+            </div>
           <h5>{{ 'ubs-client-profile.contacts' | translate }}</h5>
           <div class="form-group col-sm-5">
             <label for="recipientEmail" class="form-label">{{ 'ubs-client-profile.email' | translate }}</label>
