@@ -38,10 +38,17 @@
     </tr>
   </thead>
   <tbody>
-    <tr *ngFor="let location of locations | filterByLang">
-      <td *ngFor="let col of headers" [ngClass]="{ 'disabled-col': location.locationStatus == 'DEACTIVATED' }" (click)="page(location)">
-        {{ location[col] }}
+    <tr *ngFor="let location of locations" [ngClass]="{ 'disabled-col': location.locationStatus == 'DEACTIVATED' }">
+      <td>{{ location.regionTranslationDtos }}</td>
+      <td>
+        <div *ngFor="let item of location.locationsDto" (click)="page(location)">
+          <div *ngFor="let name of item.locationTranslationDtoList | filterByLang">
+            {{ name.locationName }}
+          </div>
+        </div>
       </td>
+      <td>UBS-Courier</td>
+      <td>Active</td>
       <td class="last-col" *ngIf="location.locationStatus != 'DEACTIVATED'">
         <img class="tariff-img mr-3" [src]="icons.edit" alt="settings" />
         <img class="tariff-img" [src]="icons.delete" alt="settings" />

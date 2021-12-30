@@ -25,7 +25,6 @@ export class UbsAdminTariffsLocationDashboardComponent implements OnInit, OnDest
     setting: './assets/img/ubs-tariff/setting.svg'
   };
 
-  headers = ['name', 'region', 'courier', 'locationStatus'];
   constructor(private tariffsService: TariffsService, private router: Router, public dialog: MatDialog) {}
 
   ngOnInit(): void {
