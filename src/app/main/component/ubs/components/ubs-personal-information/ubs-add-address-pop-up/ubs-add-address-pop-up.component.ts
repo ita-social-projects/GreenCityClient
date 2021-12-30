@@ -187,7 +187,11 @@ export class UBSAddAddressPopUpComponent implements OnInit, OnDestroy {
         g = key2 === 'g' ? val : g;
         h = key2 === 'h' ? val : h;
       }
-      key1.includes('b') ? (lat = (g + h) / 2) : (long = (g + h) / 2);
+      if (key1.includes('b')) {
+        lat = (g + h) / 2;
+      } else {
+        long = (g + h) / 2;
+      }
     }
     this.addAddressForm.get('coordinates').setValue({
       latitude: lat,
