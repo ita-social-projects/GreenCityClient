@@ -11,7 +11,7 @@ describe('GoogleBtnComponent', () => {
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       declarations: [GoogleBtnComponent],
-      imports: [HttpClientTestingModule, TranslateModule.forRoot()],
+      imports: [HttpClientTestingModule, TranslateModule.forRoot()]
     }).compileComponents();
   }));
 

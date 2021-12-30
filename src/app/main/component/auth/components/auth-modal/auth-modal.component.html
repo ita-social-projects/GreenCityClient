@@ -1,16 +1,20 @@
 <div class="main">
   <div class="wrapper">
-    <div class="left-side">
+    <div class="left-side" [ngClass]="{ authImageValue: 'ubs-main-picture' }">
       <img class="main-picture" [src]="authImages.mainImage" alt="sign-in image" aria-hidden="true" />
     </div>
     <div class="right-side">
-      <a (click)="closeWindow()" (keydown.enter)="closeWindow()" class="close-modal-window" aria-label="close form button" tabindex="0">
+      <a class="close-modal-window" aria-label="close form button" tabindex="0" (click)="closeWindow()" (keydown.enter)="closeWindow()">
         <img class="cross-btn" [src]="authImages.cross" alt="close button" aria-hidden="true" />
       </a>
+      <div class="title">
+        <h1>{{ modalTitle.title | translate }}</h1>
+        <h2>{{ modalTitle.information | translate }}</h2>
+      </div>
       <div [ngSwitch]="authPage">
         <app-sign-in *ngSwitchCase="'sign-in'" (pageName)="changeAuthPage($event)"></app-sign-in>
         <app-sign-up *ngSwitchCase="'sign-up'" (pageName)="changeAuthPage($event)"></app-sign-up>
-        <app-restore-password *ngSwitchCase="'restore-password'" (pageName)="changeAuthPage($event)"></app-restore-password>
+        <app-restore-password *ngSwitchCase="'restore-password'" (pageName)="changeAuthPage($event)"> </app-restore-password>
       </div>
     </div>
   </div>

@@ -1,0 +1,24 @@
+.ubs-primary-global-button,
+.primary-global-button {
+  width: 100%;
+  height: 48px;
+  font-weight: 600;
+  margin-bottom: 8px;
+  margin-top: 7px;
+  border-radius: 3px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  .spinner-border {
+    margin-right: 10px;
+  }
+}
+
+.ubs-primary-global-button {
+  height: 43px;
+
+  .span {
+    color: black;
+  }
+}

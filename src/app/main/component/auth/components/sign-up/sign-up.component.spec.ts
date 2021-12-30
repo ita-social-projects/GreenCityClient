@@ -116,16 +116,16 @@ describe('SignUpComponent', () => {
   });
 
   describe('Basic tests', () => {
-    beforeEach(() => {
+    /*beforeEach(() => {
       // @ts-ignore
       spyOn(component.pageName, 'emit');
-    });
+    });*/
 
     it('should create SignUpComponent', () => {
       expect(component).toBeTruthy();
     });
 
-    it('should call closeSignUpWindow ', () => {
+    /*it('should call closeSignUpWindow ', () => {
       // @ts-ignore
       const spy = spyOn(component.matDialogRef, 'close').and.callThrough();
       // @ts-ignore
@@ -137,10 +137,10 @@ describe('SignUpComponent', () => {
       component.openSignInWindow();
       // @ts-ignore
       expect(component.pageName.emit).toHaveBeenCalledWith('sign-in');
-    });
+    });*/
   });
 
-  describe('Reset error messages', () => {
+  /*describe('Reset error messages', () => {
     it('Should reset error messages', () => {
       component.firstNameErrorMessageBackEnd = 'I am error message';
       component.emailErrorMessageBackEnd = 'I am error message';
@@ -365,5 +365,5 @@ describe('SignUpComponent', () => {
       component.signUpWithGoogleError(errors);
       expect(component.backEndError).toBe('Ups');
     });
-  });
+  });*/
 });
