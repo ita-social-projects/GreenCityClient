@@ -11,8 +11,8 @@ export class MessageFromDayPipe implements PipeTransform {
     const currentDay = [messages[0]];
     for (let i = 1; i < messages.length; i++) {
       const message = messages[i];
-      const nextMessageDate = messages[i - 1].messageDate;
-      const messageDate = message.messageDate;
+      const nextMessageDate = messages[i - 1].createDate;
+      const messageDate = message.createDate;
       if (!sameDay(messageDate, nextMessageDate)) {
         result.push([...currentDay]);
         currentDay.length = 0;

@@ -30,7 +30,7 @@ export class SocketService {
     this.stompClient.subscribe('/message/chat-messages', (data: IMessage) => {
       // TODO bad logic, you might not be sitting in chat where message landed FIXIT
       const newMessage: Message = JSON.parse(data.body);
-      const messages = this.chatsService.chatsMessages[newMessage.chatId];
+      const messages = this.chatsService.chatsMessages[newMessage.roomId];
       if (messages) {
         messages.push(newMessage);
         this.chatsService.currentChatMessagesStream$.next(messages);
@@ -55,8 +55,8 @@ export class SocketService {
     console.log(message);
     this.stompClient.send('message', {}, JSON.stringify(message));
     const currentChat = this.chatsService.currentChat;
-    currentChat.lastMessage = message.messageText;
-    currentChat.lastMessageDate = message.messageDate;
+    currentChat.lastMessage = message.content;
+    currentChat.lastMessageDate = message.createDate;
     this.chatsService.updateChat(currentChat);
   }
 }

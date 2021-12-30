@@ -1,7 +1,7 @@
 export interface Message {
   id?: number;
-  chatId: number;
+  roomId: number;
   senderId: number;
-  messageText: string;
-  messageDate: Date;
+  content: string;
+  createDate: Date;
 }
