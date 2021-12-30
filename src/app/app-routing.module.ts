@@ -6,7 +6,7 @@ import { TipsListComponent } from './main/component/home/components/useful-tips/
 import { MainComponent } from './main/main.component';
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule, PreloadAllModules } from '@angular/router';
-import { UbsUserGuardGuard } from './ubs-user/ubs-user-guard.guard';
+import { UbsUserGuardGuard } from './ubs/ubs-user/ubs-user-guard.guard';
 import { UbsAdminGuardGuard } from './ubs/ubs-admin/ubs-admin-guard.guard';
 
 export const routes: Routes = [
@@ -61,7 +61,7 @@ export const routes: Routes = [
   },
   {
     path: 'ubs-user',
-    loadChildren: () => import('./ubs-user/ubs-user.module').then((mod) => mod.UbsUserModule),
+    loadChildren: () => import('./ubs/ubs-user/ubs-user.module').then((mod) => mod.UbsUserModule),
     canLoad: [UbsUserGuardGuard]
   },
   {

@@ -1,7 +1,7 @@
 import { UserMessagesService } from './user-messages.service';
 import { TestBed } from '@angular/core/testing';
 import { HttpClientTestingModule, HttpTestingController } from '@angular/common/http/testing';
-import { Notifications } from '../../ubs/ubs-admin/models/ubs-user.model';
+import { Notifications } from '../../../ubs/ubs-admin/models/ubs-user.model';
 import { environment } from '@environment/environment';
 
 const url = environment.backendUbsLink;

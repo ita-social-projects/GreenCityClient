@@ -7,7 +7,7 @@ import { tap } from 'rxjs/operators';
 import { ICertificate, OrderDetails } from '../models/ubs.interface';
 import { Order } from '../models/ubs.model';
 import { UBSOrderFormService } from './ubs-order-form.service';
-import { OrderClientDto } from 'src/app/ubs-user/ubs-user-orders-list/models/OrderClientDto';
+import { OrderClientDto } from 'src/app/ubs/ubs-user/ubs-user-orders-list/models/OrderClientDto';
 
 @Injectable({
   providedIn: 'root'

@@ -165,25 +165,25 @@
   .pagination-previous a::before {
     @include left-arrow;
 
-    background: url('../../../assets/img/ubs/arrow_left_ubs_messages_active.svg') no-repeat 100%;
+    background: url('../../../../assets/img/ubs/arrow_left_ubs_messages_active.svg') no-repeat 100%;
   }
 
   .pagination-previous.disabled::before {
     @include left-arrow;
 
-    background: url('../../../assets/img/ubs/arrow_left_ubs_messages.svg') no-repeat 100%;
+    background: url('../../../../assets/img/ubs/arrow_left_ubs_messages.svg') no-repeat 100%;
   }
 
   .pagination-next a::after {
     @include right-arrow;
 
-    background: url('../../../assets/img/ubs/arrow_right_ubs_messages_active.svg') no-repeat 100%;
+    background: url('../../../../assets/img/ubs/arrow_right_ubs_messages_active.svg') no-repeat 100%;
   }
 
   .pagination-next.disabled::after {
     @include right-arrow;
 
-    background: url('../../../assets/img/ubs/arrow_right_ubs_messages.svg') no-repeat 100%;
+    background: url('../../../../assets/img/ubs/arrow_right_ubs_messages.svg') no-repeat 100%;
   }
 }
 

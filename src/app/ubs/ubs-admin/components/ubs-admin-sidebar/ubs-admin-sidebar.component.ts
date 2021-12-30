@@ -1,6 +1,6 @@
 import { AfterViewInit, Component } from '@angular/core';
 import { BreakpointObserver } from '@angular/cdk/layout';
-import { UserMessagesService } from '../../../../ubs-user/services/user-messages.service';
+import { UserMessagesService } from '../../../../ubs/ubs-user/services/user-messages.service';
 import { UbsBaseSidebarComponent } from 'src/app/shared/ubs-base-sidebar/ubs-base-sidebar.component';
 import { JwtService } from '@global-service/jwt/jwt.service';
 

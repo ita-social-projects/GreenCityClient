@@ -1,7 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { mainUbsLink } from 'src/app/main/links';
-import { UserProfile } from '../../ubs/ubs-admin/models/ubs-admin.interface';
+import { UserProfile } from '../../../ubs/ubs-admin/models/ubs-admin.interface';
 
 @Injectable({
   providedIn: 'root'
