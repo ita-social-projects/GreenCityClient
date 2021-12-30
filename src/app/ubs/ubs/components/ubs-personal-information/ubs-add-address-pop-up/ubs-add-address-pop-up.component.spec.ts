@@ -1,6 +1,6 @@
 import { MatSnackBarComponent } from 'src/app/main/component/errors/mat-snack-bar/mat-snack-bar.component';
-import { OrderService } from './../../../services/order.service';
-import { Address } from './../../../models/ubs.interface';
+import { OrderService } from '../../../services/order.service';
+import { Address } from '../../../models/ubs.interface';
 import { TranslateModule } from '@ngx-translate/core';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { HttpClientTestingModule } from '@angular/common/http/testing';

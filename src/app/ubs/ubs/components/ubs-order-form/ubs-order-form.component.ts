@@ -5,7 +5,7 @@ import { UBSSubmitOrderComponent } from '../ubs-submit-order/ubs-submit-order.co
 import { UBSPersonalInformationComponent } from '../ubs-personal-information/ubs-personal-information.component';
 import { UBSOrderDetailsComponent } from '../ubs-order-details/ubs-order-details.component';
 import { MatHorizontalStepper } from '@angular/material/stepper';
-import { UBSOrderFormService } from './../../services/ubs-order-form.service';
+import { UBSOrderFormService } from '../../services/ubs-order-form.service';
 
 @Component({
   selector: 'app-ubs-order-form',

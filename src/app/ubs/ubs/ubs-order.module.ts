@@ -86,7 +86,7 @@ import { ExtraPackagesPopUpComponent } from './components/ubs-order-details/extr
     TranslateService
   ]
 })
-export class UbsModule {}
+export class UbsOrderModule {}
 
 export function createTranslateLoader(http: HttpClient) {
   return new TranslateHttpLoader(http, './assets/i18n/ubs/', '.json');

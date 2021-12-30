@@ -6,7 +6,7 @@ import { ReplaySubject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 @Component({
   selector: 'app-ubs',
-  templateUrl: './ubs.component.html',
+  templateUrl: './ubs.component.html'
 })
 export class UbsComponent implements OnInit, OnDestroy {
   private destroyed$: ReplaySubject<any> = new ReplaySubject<any>(1);

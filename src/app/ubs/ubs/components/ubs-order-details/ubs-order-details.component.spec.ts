@@ -1,10 +1,10 @@
 import { RouterTestingModule } from '@angular/router/testing';
-import { Language } from './../../../../i18n/Language';
-import { LocalStorageService } from './../../../../service/localstorage/local-storage.service';
-import { UBSOrderFormService } from './../../services/ubs-order-form.service';
-import { LocalizedCurrencyPipe } from './../../../../../shared/localized-currency-pipe/localized-currency.pipe';
-import { Bag, OrderDetails } from './../../models/ubs.interface';
-import { OrderService } from './../../services/order.service';
+import { Language } from '../../../../main/i18n/Language';
+import { LocalStorageService } from '../../../../main/service/localstorage/local-storage.service';
+import { UBSOrderFormService } from '../../services/ubs-order-form.service';
+import { LocalizedCurrencyPipe } from '../../../../shared/localized-currency-pipe/localized-currency.pipe';
+import { Bag, OrderDetails } from '../../models/ubs.interface';
+import { OrderService } from '../../services/order.service';
 import { MatDialogRef, MatDialogModule } from '@angular/material/dialog';
 import { TranslateModule } from '@ngx-translate/core';
 import { HttpClientTestingModule } from '@angular/common/http/testing';

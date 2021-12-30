@@ -6,7 +6,7 @@ import { ICertificate } from '../../../models/ubs.interface';
 import { of, throwError } from 'rxjs';
 import { OrderService } from '../../../services/order.service';
 import { HttpErrorResponse } from '@angular/common/http';
-import { LocalizedCurrencyPipe } from '../../../../../../shared/localized-currency-pipe/localized-currency.pipe';
+import { LocalizedCurrencyPipe } from '../../../../../shared/localized-currency-pipe/localized-currency.pipe';
 import { UbsOrderLocationPopupComponent } from '../ubs-order-location-popup/ubs-order-location-popup.component';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { TranslateModule } from '@ngx-translate/core';

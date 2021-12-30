@@ -1,7 +1,7 @@
 import { Component, Inject, OnInit } from '@angular/core';
 import { FormArray, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { MAT_DIALOG_DATA } from '@angular/material/dialog';
-import { OrderService } from 'src/app/main/component/ubs/services/order.service';
+import { OrderService } from 'src/app/ubs/ubs/services/order.service';
 import { ResponceOrderFondyModel } from '../models/ResponceOrderFondyModel';
 import { OrderClientDto } from '../models/OrderClientDto';
 import { IOrderDetailsUser } from '../models/IOrderDetailsUser.interface';

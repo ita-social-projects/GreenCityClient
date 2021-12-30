@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { Router } from '@angular/router';
 import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
-import { ubsMainPageImages } from '../../../../image-pathes/ubs-main-page-images';
+import { ubsMainPageImages } from '../../../../main/image-pathes/ubs-main-page-images';
 
 @Component({
   selector: 'app-ubs-main-page',
