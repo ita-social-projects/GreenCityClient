@@ -24,10 +24,7 @@ export class AddPlaceComponent implements OnInit {
       type: ['', Validators.required],
       name: ['', [Validators.required, Validators.maxLength(30), Validators.pattern(/[0-9a-zа-я]/i)]],
       adress: ['', [Validators.required, Validators.maxLength(30), Validators.pattern(/[0-9a-zа-я]/i)]],
-      workingHours: [
-        '',
-        [Validators.required, Validators.pattern(/^([0-9]|0[0-9]|1[0-9]|2[0-3])[.][0-5][0-9][-]([0-9]|0[0-9]|1[0-9]|2[0-3])[.][0-5][0-9]$/)]
-      ]
+      workingHours: ['', [Validators.required]]
     });
   }
 
