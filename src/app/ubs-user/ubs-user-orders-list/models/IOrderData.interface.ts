@@ -1,4 +1,4 @@
-import { IOrderInfo } from 'src/app/ubs-admin/models/ubs-admin.interface';
+import { IOrderInfo } from 'src/app/ubs/ubs-admin/models/ubs-admin.interface';
 
 export interface IOrderData {
   orderId: number;

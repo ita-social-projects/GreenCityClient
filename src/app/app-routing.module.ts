@@ -7,7 +7,7 @@ import { MainComponent } from './main/main.component';
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule, PreloadAllModules } from '@angular/router';
 import { UbsUserGuardGuard } from './ubs-user/ubs-user-guard.guard';
-import { UbsAdminGuardGuard } from './ubs-admin/ubs-admin-guard.guard';
+import { UbsAdminGuardGuard } from './ubs/ubs-admin/ubs-admin-guard.guard';
 
 export const routes: Routes = [
   {
@@ -56,7 +56,7 @@ export const routes: Routes = [
   },
   {
     path: 'ubs-admin',
-    loadChildren: () => import('./ubs-admin/ubs-admin.module').then((mod) => mod.UbsAdminModule),
+    loadChildren: () => import('./ubs/ubs-admin/ubs-admin.module').then((mod) => mod.UbsAdminModule),
     canLoad: [UbsAdminGuardGuard]
   },
   {

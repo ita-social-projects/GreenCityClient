@@ -2,7 +2,7 @@ import { Component, Input, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { UbsUserOrderPaymentPopUpComponent } from './ubs-user-order-payment-pop-up/ubs-user-order-payment-pop-up.component';
 import { UbsUserOrderCancelPopUpComponent } from './ubs-user-order-cancel-pop-up/ubs-user-order-cancel-pop-up.component';
-import { IOrderInfo } from 'src/app/ubs-admin/models/ubs-admin.interface';
+import { IOrderInfo } from 'src/app/ubs/ubs-admin/models/ubs-admin.interface';
 
 @Component({
   selector: 'app-ubs-user-orders-list',

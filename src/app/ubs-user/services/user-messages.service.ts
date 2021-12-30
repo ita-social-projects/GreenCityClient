@@ -2,7 +2,7 @@ import { Injectable, OnDestroy } from '@angular/core';
 import { Observable, ReplaySubject } from 'rxjs';
 import { HttpClient } from '@angular/common/http';
 import { environment } from '@environment/environment';
-import { Notifications } from '../../ubs-admin/models/ubs-user.model';
+import { Notifications } from '../../ubs/ubs-admin/models/ubs-user.model';
 import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
 import { takeUntil } from 'rxjs/operators';
 
