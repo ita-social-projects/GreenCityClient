@@ -5,9 +5,9 @@
   <div class="title_name">
     <p>{{ username }}</p>
   </div>
-  <table mat-table [dataSource]="dataSource">
+  <table mat-table aria-label="Customer violation table" [dataSource]="dataSource">
     <ng-container *ngFor="let column of columns; let i = index" [matColumnDef]="column.title.key">
-      <th mat-header-cell *matHeaderCellDef [appResizeColumn]="{ resizable: true, index: i }">
+      <th id="i" mat-header-cell *matHeaderCellDef [appResizeColumn]="{ resizable: true, index: i }">
         <div class="columns_header">
           <span>{{ column.title | serverTranslate: currentLang }}</span>
         </div>
