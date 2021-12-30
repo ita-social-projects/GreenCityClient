@@ -1,7 +1,7 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { TariffsService } from '../../services/tariffs.service';
 import { takeUntil } from 'rxjs/operators';
-import { Locations } from '../../../main/component/ubs/models/ubs.interface';
+import { Locations } from '../../models/tariffs.interface';
 import { Subject } from 'rxjs';
 import { Router } from '@angular/router';
 import { UbsAdminTariffsAddLocationPopUpComponent } from './ubs-admin-tariffs-add-location-pop-up/ubs-admin-tariffs-add-location-pop-up.component';
@@ -20,7 +20,9 @@ export class UbsAdminTariffsLocationDashboardComponent implements OnInit, OnDest
   couriers;
   private destroy: Subject<boolean> = new Subject<boolean>();
   public icons = {
-    cross: './assets/img/ubs/cross.svg'
+    edit: './assets/img/ubs-tariff/edit.svg',
+    delete: './assets/img/ubs-tariff/delete.svg',
+    setting: './assets/img/ubs-tariff/setting.svg'
   };
 
   constructor(private tariffsService: TariffsService, private router: Router, public dialog: MatDialog) {}
@@ -37,7 +39,6 @@ export class UbsAdminTariffsLocationDashboardComponent implements OnInit, OnDest
       .subscribe((res: Locations) => {
         this.locations = res;
         this.disabledLocations = res;
-        this.filter();
       });
   }
 
@@ -49,14 +50,9 @@ export class UbsAdminTariffsLocationDashboardComponent implements OnInit, OnDest
     this.tariffsService
       .getCouriers()
       .pipe(takeUntil(this.destroy))
-      .subscribe((res: Locations) => {
+      .subscribe((res) => {
         this.couriers = res;
       });
-  }
-
-  filter() {
-    this.locations = this.locations.filter((value) => value.locationStatus === 'ACTIVE');
-    this.disabledLocations = this.disabledLocations.filter((value) => value.locationStatus === 'DEACTIVATED');
   }
 
   activateLocation(location) {

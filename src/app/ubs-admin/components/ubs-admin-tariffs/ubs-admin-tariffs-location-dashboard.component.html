@@ -1,50 +1,66 @@
-<div class="locations">
-  <div class="active-locations d-flex">
-    <div class="active-body">
-      <div class="header">
-        <h4>{{ 'ubs-tariffs.active-header' | translate }}</h4>
-      </div>
-      <div class="city">
-        <ul *ngFor="let location of locations | filterByLang">
-          <div class="city1">
-            <li (click)="page(location)">{{ location.name }}</li>
-            <img [src]="icons.cross" class="delete-button-img" alt="edit-icon" (click)="deactivateLocation(location)" />
+<div class="d-flex justify-content-between">
+  <p class="h5 main-text">{{ 'ubs-tariffs.tariffs' | translate }}</p>
+  <div class="setting-block">
+    <img [src]="icons.setting" class="tariff-img" alt="settings" />
+  </div>
+</div>
+<div class="showing-block d-flex">
+  <div class="col-item">
+    <p class="col-text">{{ 'ubs-tariffs.region' | translate }}</p>
+    <div class="input-wrapper">
+      <input type="text" />
+    </div>
+  </div>
+  <div class="col-item">
+    <p class="col-text">{{ 'ubs-tariffs.locations' | translate }}</p>
+    <div class="input-wrapper">
+      <input type="text" />
+    </div>
+  </div>
+  <div class="col-item">
+    <p class="col-text">{{ 'ubs-tariffs.courier' | translate }}</p>
+    <div class="input-wrapper">
+      <input type="text" />
+    </div>
+  </div>
+  <button class="show-button">
+    {{ 'ubs-tariffs.button-filter' | translate }}
+  </button>
+</div>
+<table class="table-location">
+  <thead>
+    <tr>
+      <th>{{ 'ubs-tariffs.region' | translate }}</th>
+      <th>{{ 'ubs-tariffs.city' | translate }}</th>
+      <th>{{ 'ubs-tariffs.courier' | translate }}</th>
+      <th>{{ 'ubs-tariffs.state' | translate }}</th>
+      <th></th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr *ngFor="let location of locations" [ngClass]="{ 'disabled-col': location.locationStatus == 'DEACTIVATED' }">
+      <td>{{ location.regionTranslationDtos }}</td>
+      <td>
+        <div *ngFor="let item of location.locationsDto" (click)="page(location)">
+          <div *ngFor="let name of item.locationTranslationDtoList | filterByLang">
+            {{ name.locationName }}
           </div>
-        </ul>
-      </div>
-    </div>
-    <div class="add-button">
-      <button class="primary-global-button tariff-button" (click)="openAddLocationDialog()">
-        <div class="button-subtitle">{{ 'ubs-tariffs.btn.add_location' | translate }}</div>
-      </button>
-    </div>
-  </div>
-  <div class="disabled-locations">
-    <div class="header">
-      <h4>{{ 'ubs-tariffs.disabled-header' | translate }}</h4>
-    </div>
-    <div class="city">
-      <ul *ngFor="let location of disabledLocations | filterByLang">
-        <div class="city1">
-          <li>{{ location.name }}</li>
-          <img [src]="icons.cross" class="delete-button-img" alt="edit-icon" (click)="activateLocation(location)" />
         </div>
-      </ul>
-    </div>
-  </div>
-</div>
-<div class="couriers d-flex">
-  <div class="courier-body">
-    <div class="header">
-      <h4>{{ 'ubs-tariffs.courier-header' | translate }}</h4>
-    </div>
-    <ul *ngFor="let courier of couriers">
-      <li>{{ courier.name }}</li>
-    </ul>
-  </div>
-  <div class="add-button">
-    <button class="primary-global-button tariff-button" (click)="openAddCourierDialog()">
-      <div class="button-subtitle">{{ 'ubs-tariffs.btn.add_courier' | translate }}</div>
-    </button>
-  </div>
-</div>
+      </td>
+      <td>UBS-Courier</td>
+      <td>Active</td>
+      <td class="last-col" *ngIf="location.locationStatus != 'DEACTIVATED'">
+        <img class="tariff-img mr-3" [src]="icons.edit" alt="settings" />
+        <img class="tariff-img" [src]="icons.delete" alt="settings" />
+      </td>
+      <td class="last-col" *ngIf="location.locationStatus == 'DEACTIVATED'">
+        <button class="delete-button">
+          {{ 'ubs-tariffs.delete-button' | translate }}
+        </button>
+        <button class="restore-button">
+          {{ 'ubs-tariffs.restore-button' | translate }}
+        </button>
+      </td>
+    </tr>
+  </tbody>
+</table>

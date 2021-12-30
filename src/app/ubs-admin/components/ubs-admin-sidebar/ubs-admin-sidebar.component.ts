@@ -42,7 +42,7 @@ export class UbsAdminSidebarComponent extends UbsBaseSidebarComponent implements
       routerLink: '#'
     },
     {
-      link: 'assets/img/sidebarIcons/shopping-cart_icon.svg',
+      link: 'assets/img/sidebarIcons/statistic_icon.svg',
       name: 'ubs-sidebar.tariffs',
       routerLink: 'tariffs'
     }
