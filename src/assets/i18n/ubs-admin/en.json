@@ -92,6 +92,32 @@
     "date": "Date:",
     "info-about-date": "Added:"
   },
+  "add-payment": {
+    "title": "Add a payment document",
+    "order": "Order №",
+    "description": "Add confirmation of payment in one or more of the available ways",
+    "payment-date": " Payment date",
+    "payment-amount": "Payment amount",
+    "amount-placeholder": "0.00 UAH",
+    "date-placeholder": "DD/MM/YY",
+    "payment-id": "Payment ID",
+    "id-placeholder": "№1234567890",
+    "link-to-bill": "Link to electronic bill",
+    "link-placeholder": "Link to external source",
+    "label-for-photo": "Photo or screenshot of the bill",
+    "requirement": "You can upload images in PNG or JPG format up to 10MB",
+    "drag-photo": "Drag the image here",
+    "drag-photo-link": " download from the device",
+    "drag-other-photo-link": "Download other",
+    "pdf-file": "PDF-file",
+    "upload-pdf": "Download PDF",
+    "btn": {
+      "back": "Back",
+      "confirm": "Confirm payment"
+    },
+    "date": "Date",
+    "added": "Added"
+  },
   "order-edit": {
     "order-status": {
       "formed": "Formed",
@@ -260,7 +286,8 @@
     "table-view": "Table view",
     "add-certificate": "Add certificate",
     "all-elements": "Display all columns",
-    "filter": "Filter"
+    "filter": "Filter",
+    "placeholder": "Search"
   },
   "ubs-customer-filters": {
     "total-customers": "Total customers:",

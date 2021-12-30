@@ -1,5 +1,5 @@
 <div class="container mb-3">
-  <div class="form" [formGroup]="exportDetailsForm">
+  <div class="form" [formGroup]="exportDetailsDto">
     <div class="empty_card" (click)="openDetails()">
       <img *ngIf="!pageOpen" src="assets/img/ubs-admin-orders/arrow_up.svg" alt="arrow up" />
       <img *ngIf="pageOpen" src="assets/img/ubs-admin-orders/arrow_down.svg" alt="arrow down" />
@@ -51,6 +51,7 @@
         <div class="select_from_wr">
           <span>{{ 'order-edit.export-time.from' | translate }}</span>
           <select class="select" (change)="onTimeFromChange()" [(ngModel)]="fromInput">
+            <option value="" selected hidden></option>
             <option *ngFor="let timeFrom of fromSelect" [value]="timeFrom">
               {{ timeFrom }}
             </option>
@@ -59,6 +60,7 @@
         <div class="select_to_wr">
           <span>{{ 'order-edit.export-time.to' | translate }}</span>
           <select class="select" (change)="onTimeToChange()" [(ngModel)]="toInput">
+            <option value="" selected hidden></option>
             <option *ngFor="let timeTo of toSelect; let i = index" [id]="timeTo" [value]="timeTo">
               {{ timeTo }}
             </option>

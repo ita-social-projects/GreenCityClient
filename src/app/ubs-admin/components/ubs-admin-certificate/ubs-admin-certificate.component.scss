@@ -92,6 +92,7 @@ input {
   word-wrap: break-word !important;
   white-space: nowrap !important;
   align-items: unset !important;
+  cursor: col-resize;
 }
 
 .mat-column-select {
@@ -196,11 +197,18 @@ input {
   display: flex;
   justify-content: space-between;
   align-items: center;
+  border: 0;
+  width: 100%;
+  margin: 20px 0 32px 0;
+}
+
+.search {
+  display: flex;
+  align-items: center;
   width: 426px;
   height: 36px;
   border: 1px solid var(--ubs-primary-light-grey);
   border-radius: 4px;
-  margin: 20px 0 32px 0;
 }
 
 .search-input {
@@ -286,6 +294,7 @@ input {
   display: flex;
   justify-content: right;
   align-items: center;
+  margin-bottom: 0;
 }
 
 button:disabled,

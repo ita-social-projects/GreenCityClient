@@ -29,14 +29,13 @@ import { formatDate } from '@angular/common';
 })
 export class UbsAdminOrderComponent implements OnInit, OnDestroy {
   currentLanguage: string;
-
   private destroy$: Subject<boolean> = new Subject<boolean>();
   orderForm: FormGroup;
   isDataLoaded = false;
   orderId: number;
   orderInfo: IOrderInfo;
-  generalOrderInfo: IGeneralOrderInfo;
-  clientInfo: IUserInfo;
+  generalInfo: IGeneralOrderInfo;
+  userInfo: IUserInfo;
   addressInfo: IAddressExportDetails;
   paymentInfo: IPaymentInfo;
   totalPaid: number;
@@ -48,8 +47,6 @@ export class UbsAdminOrderComponent implements OnInit, OnDestroy {
   currentOrderStatus: string;
   overpayment = 0;
   isMinOrder = true;
-  timeFrom: string;
-  timeTo: string;
 
   constructor(
     private translate: TranslateService,
@@ -77,9 +74,9 @@ export class UbsAdminOrderComponent implements OnInit, OnDestroy {
       .pipe(takeUntil(this.destroy$))
       .subscribe((data: any) => {
         this.orderInfo = data;
-        this.generalOrderInfo = data.generalOrderInfo;
-        this.currentOrderStatus = this.generalOrderInfo.orderStatus;
-        this.clientInfo = data.userInfoDto;
+        this.generalInfo = data.generalOrderInfo;
+        this.currentOrderStatus = this.generalInfo.orderStatus;
+        this.userInfo = data.userInfoDto;
         this.addressInfo = data.addressExportDetailsDto;
         this.paymentInfo = data.paymentTableInfoDto;
         this.exportInfo = data.exportDetailsDto;
@@ -125,35 +122,35 @@ export class UbsAdminOrderComponent implements OnInit, OnDestroy {
   }
 
   private getOrderStatusInfo(statusName: string) {
-    return this.generalOrderInfo.orderStatusesDtos.find((status) => status.key === statusName);
+    return this.generalInfo.orderStatusesDtos.find((status) => status.key === statusName);
   }
 
   initForm() {
     const currentEmployees = this.responsiblePersonInfo.currentPositionEmployees;
     this.overpayment = 0;
     this.orderForm = this.fb.group({
-      orderStatusForm: this.fb.group({
-        orderStatus: this.generalOrderInfo.orderStatus,
-        adminComment: this.generalOrderInfo.adminComment,
-        cancellationComment: '',
-        cancellationReason: ''
+      generalOrderInfo: this.fb.group({
+        orderStatus: this.generalInfo.orderStatus,
+        adminComment: this.generalInfo.adminComment,
+        cancellationComment: '', // TODO add this fields to controller
+        cancellationReason: '' // TODO
       }),
-      clientInfoForm: this.fb.group({
-        senderName: [this.clientInfo.recipientName, [Validators.required, Validators.minLength(1), Validators.maxLength(30)]],
-        senderSurname: [this.clientInfo.recipientSurName, [Validators.required, Validators.minLength(1), Validators.maxLength(30)]],
-        senderPhone: [this.clientInfo.recipientPhoneNumber, [Validators.required, Validators.pattern('^\\+?3?8?(0\\d{9})$')]],
-        senderEmail: [this.clientInfo.recipientEmail, [Validators.required, Validators.email]]
+      userInfoDto: this.fb.group({
+        recipientName: [this.userInfo.recipientName, [Validators.required, Validators.minLength(1), Validators.maxLength(30)]],
+        recipientSurName: [this.userInfo.recipientSurName, [Validators.required, Validators.minLength(1), Validators.maxLength(30)]],
+        recipientPhoneNumber: [this.userInfo.recipientPhoneNumber, [Validators.required, Validators.pattern('^\\+?3?8?(0\\d{9})$')]],
+        recipientEmail: [this.userInfo.recipientEmail, [Validators.required, Validators.email]]
       }),
-      addressDetailsForm: this.fb.group({
-        region: this.addressInfo.addressRegion,
-        settlement: this.addressInfo.addressCity,
-        street: this.addressInfo.addressStreet,
-        building: this.addressInfo.addressHouseNumber,
-        corpus: this.addressInfo.addressHouseCorpus,
-        entrance: this.addressInfo.addressEntranceNumber,
-        district: this.addressInfo.addressDistrict
+      addressExportDetailsDto: this.fb.group({
+        addressRegion: this.addressInfo.addressRegion,
+        addressCity: this.addressInfo.addressCity,
+        addressStreet: this.addressInfo.addressStreet,
+        addressHouseNumber: this.addressInfo.addressHouseNumber,
+        addressHouseCorpus: this.addressInfo.addressHouseCorpus,
+        addressEntranceNumber: this.addressInfo.addressEntranceNumber,
+        addressDistrict: this.addressInfo.addressDistrict
       }),
-      exportDetailsForm: this.fb.group({
+      exportDetailsDto: this.fb.group({
         dateExport: this.exportInfo.dateExport ? formatDate(this.exportInfo.dateExport, 'yyyy-MM-dd', this.currentLanguage) : '',
         timeDeliveryFrom: this.parseTimeToStr(this.exportInfo.timeDeliveryFrom),
         timeDeliveryTo: this.parseTimeToStr(this.exportInfo.timeDeliveryTo),
@@ -245,6 +242,56 @@ export class UbsAdminOrderComponent implements OnInit, OnDestroy {
     return dateStr ? formatDate(dateStr, 'HH:mm', this.currentLanguage) : '';
   }
 
+  resetForm() {
+    this.orderForm.reset();
+    this.initForm();
+    this.currentOrderStatus = this.generalInfo.orderStatus;
+    this.orderStatusInfo = this.getOrderStatusInfo(this.currentOrderStatus);
+  }
+
+  onSubmit() {
+    const changedValues: any = {};
+    this.getUpdates(this.orderForm, changedValues);
+    this.formatExporteValue(changedValues.exportDetailsDto);
+    changedValues.orderDetailDto = this.formatBagsValue(changedValues.orderDetailsForm);
+    changedValues.ecoNumberFromShop = this.formatEcoNumbersFromShop(changedValues.orderDetailsForm);
+    delete changedValues.orderDetailsForm;
+    console.log(JSON.stringify(changedValues));
+
+    // TODO modify EcoNumbersFromShop and responsiblePersonsForm objects
+
+    this.orderService
+      .updateOrderInfo(this.orderId, this.currentLanguage, changedValues)
+      .pipe(takeUntil(this.destroy$))
+      .subscribe((data) => {
+        this.getOrderInfo(this.orderId, this.currentLanguage);
+      });
+  }
+
+  private getUpdates(formItem: FormGroup | FormArray | FormControl, changedValues: any, name?: string) {
+    if (formItem instanceof FormControl) {
+      if (name && formItem.dirty) {
+        changedValues[name] = formItem.value;
+      }
+    } else {
+      for (const formControlName in formItem.controls) {
+        if (formItem.controls.hasOwnProperty(formControlName)) {
+          const formControl = formItem.controls[formControlName];
+
+          if (formControl instanceof FormControl) {
+            this.getUpdates(formControl, changedValues, formControlName);
+          } else if (formControl instanceof FormArray && formControl.dirty && formControl.controls.length > 0) {
+            changedValues[formControlName] = [];
+            this.getUpdates(formControl, changedValues[formControlName]);
+          } else if (formControl instanceof FormGroup && formControl.dirty) {
+            changedValues[formControlName] = {};
+            this.getUpdates(formControl, changedValues[formControlName]);
+          }
+        }
+      }
+    }
+  }
+
   parseStrToTime(dateStr: string, date: Date) {
     const hours = dateStr.split(':')[0];
     const minutes = dateStr.split(':')[1];
@@ -253,17 +300,62 @@ export class UbsAdminOrderComponent implements OnInit, OnDestroy {
     return date ? date.toISOString() : '';
   }
 
-  resetForm() {
-    this.orderForm.reset();
-    this.initForm();
-    this.currentOrderStatus = this.generalOrderInfo.orderStatus;
-    this.orderStatusInfo = this.getOrderStatusInfo(this.currentOrderStatus);
+  formatExporteValue(exportDetailsDto) {
+    if (!exportDetailsDto) {
+      return;
+    }
+
+    const exportDate = new Date(exportDetailsDto.dateExport);
+
+    if (exportDetailsDto.dateExport) {
+      exportDetailsDto.dateExport = exportDate.toISOString();
+    }
+
+    if (exportDetailsDto.timeDeliveryFrom) {
+      exportDetailsDto.timeDeliveryFrom = this.parseStrToTime(exportDetailsDto.timeDeliveryFrom, exportDate);
+    }
+
+    if (exportDetailsDto.timeDeliveryTo) {
+      exportDetailsDto.timeDeliveryTo = this.parseStrToTime(exportDetailsDto.timeDeliveryTo, exportDate);
+    }
   }
 
-  onSubmit() {
-    const date = new Date(this.orderForm.get(['exportDetailsForm', 'dateExport']).value);
-    const timeTo = this.orderForm.get(['exportDetailsForm', 'timeDeliveryFrom']).value;
-    const timeFrom = this.orderForm.get(['exportDetailsForm', 'timeDeliveryTo']).value;
+  formatEcoNumbersFromShop(orderDetailsForm) {
+    return orderDetailsForm ? orderDetailsForm.storeOrderNumbers : undefined;
+  }
+
+  formatBagsValue(orderDetailsForm) {
+    if (!orderDetailsForm) {
+      return;
+    }
+
+    const confirmed = {};
+    const exported = {};
+
+    for (const key of Object.keys(orderDetailsForm)) {
+      if (key.startsWith('confirmedQuantity')) {
+        const id = key.replace('confirmedQuantity', '');
+        confirmed[id] = orderDetailsForm[key];
+        continue;
+      }
+      if (key.startsWith('actualQuantity')) {
+        const id = key.replace('actualQuantity', '');
+        exported[id] = orderDetailsForm[key];
+      }
+    }
+    if (!Object.keys(confirmed).length && !Object.keys(exported).length) {
+      return;
+    }
+
+    const result: any = {};
+    if (Object.keys(confirmed).length) {
+      result.amountOfBagsConfirmed = confirmed;
+    }
+    if (Object.keys(exported).length) {
+      result.amountOfBagsExported = exported;
+    }
+
+    return result;
   }
 
   ngOnDestroy(): void {

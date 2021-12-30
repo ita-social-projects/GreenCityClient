@@ -1,5 +1,5 @@
 <div class="container">
-  <div class="form" [formGroup]="clientInfoForm">
+  <div class="form" [formGroup]="userInfoDto">
     <div class="empty_card" (click)="openDetails()">
       <img *ngIf="!pageOpen" src="assets/img/ubs-admin-orders/arrow_up.svg" alt="arrow up" />
       <img *ngIf="pageOpen" src="assets/img/ubs-admin-orders/arrow_down.svg" alt="arrow down" />
@@ -19,33 +19,21 @@
               <label class="form__label" for="customer-surname">
                 {{ 'customer-info.customer.surname-label' | translate }}
               </label>
-              <input
-                class="name-input form-control"
-                type="text"
-                id="customer-surname"
-                placeholder="{{ clientInfo.customerName }}"
-                disabled
-              />
-              <input
-                class="name-input form-control"
-                type="text"
-                id="customer-name"
-                placeholder="{{ clientInfo.customerSurName }}"
-                disabled
-              />
+              <input class="name-input form-control" type="text" id="customer-surname" placeholder="{{ userInfo.customerName }}" disabled />
+              <input class="name-input form-control" type="text" id="customer-name" placeholder="{{ userInfo.customerSurName }}" disabled />
             </div>
           </div>
           <div class="form-group">
             <label class="form__label" for="customer-tel">
               {{ 'customer-info.customer.tel-label' | translate }}
             </label>
-            <input class="form-control" type="tel" id="customer-tel" placeholder="{{ clientInfo.customerPhoneNumber }}" disabled />
+            <input class="form-control" type="tel" id="customer-tel" placeholder="{{ userInfo.customerPhoneNumber }}" disabled />
           </div>
           <div class="form-group">
             <label class="form__label" for="customer-email">
               {{ 'customer-info.customer.email-label' | translate }}
             </label>
-            <input class="form-control" type="email" id="customer-email" placeholder="{{ clientInfo.customerEmail }}" disabled />
+            <input class="form-control" type="email" id="customer-email" placeholder="{{ userInfo.customerEmail }}" disabled />
           </div>
         </div>
         <div class="form__block col-md-4 col-sm-6">
@@ -58,8 +46,8 @@
               <label class="form__label" for="recipient-surname">
                 {{ 'customer-info.recipient.surname-label' | translate }}
               </label>
-              <input class="name-input form-control" type="text" id="recipient-name" formControlName="senderName" />
-              <input class="name-input form-control" type="text" id="recipient-surname" formControlName="senderSurname" />
+              <input class="name-input form-control" type="text" id="recipient-name" formControlName="recipientName" />
+              <input class="name-input form-control" type="text" id="recipient-surname" formControlName="recipientSurName" />
             </div>
           </div>
           <div class="form-group">
@@ -71,7 +59,7 @@
               type="tel"
               id="recipient-tel"
               placeholder="{{ 'customer-info.recipient.tel-placeholder' | translate }}"
-              formControlName="senderPhone"
+              formControlName="recipientPhoneNumber"
             />
           </div>
           <div class="form-group">
@@ -83,7 +71,7 @@
               type="email"
               id="recipient-email"
               placeholder="{{ 'customer-info.recipient.email-placeholder' | translate }}"
-              formControlName="senderEmail"
+              formControlName="recipientEmail"
             />
           </div>
         </div>

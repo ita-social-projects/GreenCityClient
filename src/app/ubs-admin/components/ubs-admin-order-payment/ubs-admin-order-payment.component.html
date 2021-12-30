@@ -13,7 +13,7 @@
         <span class="price">{{ totalPaid | currency | localizedCurrency }}</span>
       </div>
       <div class="col-md-2">
-        <button class="btn">+ {{ 'order-payment.add-payment-btn' | translate }}</button>
+        <button (click)="openPopup()" class="btn">+ {{ 'order-payment.add-payment-btn' | translate }}</button>
       </div>
     </div>
     <p class="need-to-pay" *ngIf="overpayment">{{ message | translate }} {{ overpayment | localizedCurrency }}</p>

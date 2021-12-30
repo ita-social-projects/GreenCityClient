@@ -6,10 +6,9 @@ import { AdminTableService } from '../../services/admin-table.service';
 import { CdkDragDrop, moveItemInArray } from '@angular/cdk/drag-drop';
 import { debounceTime, take, takeUntil } from 'rxjs/operators';
 import { Subject, timer } from 'rxjs';
-import { Component, OnInit, ViewChild, OnDestroy, AfterViewChecked, ChangeDetectorRef } from '@angular/core';
-import { MatTableDataSource } from '@angular/material/table';
+import { Component, OnInit, ViewChild, OnDestroy, AfterViewChecked, ChangeDetectorRef, ElementRef, Renderer2 } from '@angular/core';
+import { MatTable, MatTableDataSource } from '@angular/material/table';
 import { SelectionModel } from '@angular/cdk/collections';
-import { MatSort } from '@angular/material/sort';
 import { Router } from '@angular/router';
 import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
 import { IEditCell, IAlertInfo } from '../../models/edit-cell.model';
@@ -54,7 +53,14 @@ export class UbsAdminTableComponent implements OnInit, AfterViewChecked, OnDestr
   stickyColumn = [];
   model: string;
   modelChanged: Subject<string> = new Subject<string>();
-  @ViewChild(MatSort, { static: true }) sort: MatSort;
+  currentResizeIndex: number;
+  pressed = false;
+  startX: number;
+  startWidth: number;
+  isResizingRight: boolean;
+  resizableMousemove: () => void;
+  resizableMouseup: () => void;
+  @ViewChild(MatTable, { read: ElementRef }) private matTableRef: ElementRef;
 
   constructor(
     private orderService: OrderService,
@@ -63,7 +69,8 @@ export class UbsAdminTableComponent implements OnInit, AfterViewChecked, OnDestr
     private localStorageService: LocalStorageService,
     private tableHeightService: TableHeightService,
     public dialog: MatDialog,
-    private cdr: ChangeDetectorRef
+    private cdr: ChangeDetectorRef,
+    private renderer: Renderer2
   ) {}
 
   ngOnInit() {
@@ -108,6 +115,7 @@ export class UbsAdminTableComponent implements OnInit, AfterViewChecked, OnDestr
     this.columns.forEach((item) => {
       item.sticky = this.stickyColumn.includes(item.title.key);
     });
+    this.sortColumnsToDisplay();
   }
 
   isAllSelected() {
@@ -191,6 +199,9 @@ export class UbsAdminTableComponent implements OnInit, AfterViewChecked, OnDestr
       .subscribe((columns: any) => {
         this.tableViewHeaders = columns.columnBelongingList;
         this.columns = columns.columnDTOList;
+        this.columns.forEach((column) => {
+          column.width = 200;
+        });
         if (this.displayedColumns.length === 0) {
           this.setDisplayedColumns();
         }
@@ -198,6 +209,7 @@ export class UbsAdminTableComponent implements OnInit, AfterViewChecked, OnDestr
         this.pageSize = pageSize;
         this.currentPage = pageNumber;
         this.getTable(this.filterValue, sortBy, sortDirection);
+        this.sortColumnsToDisplay();
       });
   }
 
@@ -391,6 +403,81 @@ export class UbsAdminTableComponent implements OnInit, AfterViewChecked, OnDestr
     if ((this.currentLang === 'ua' && lengthStrUa > 17) || (this.currentLang === 'en' && lengthStrEn > 18)) {
       tooltip.toggle();
     }
+  }
+
+  sortColumnsToDisplay() {
+    const arr = [];
+    this.columns.forEach((el) => {
+      arr[this.displayedColumns.findIndex((res) => res === el.title.key)] = el;
+    });
+    this.columns = arr;
+  }
+
+  public onResizeColumn(event: any, index: number) {
+    this.checkResizing(event, index);
+    this.currentResizeIndex = index;
+    this.pressed = true;
+    this.startX = event.pageX;
+    this.startWidth = event.target.clientWidth;
+    this.mouseMove(index);
+  }
+
+  private checkResizing(event: any, index: any) {
+    const cellData = this.getCellData(index);
+    if (index === 0 || (Math.abs(event.pageX - cellData.right) < cellData.width / 2 && index !== this.columns.length - 1)) {
+      this.isResizingRight = true;
+    } else {
+      this.isResizingRight = false;
+    }
+  }
+
+  private getCellData(index: number) {
+    const headerRow = this.matTableRef.nativeElement.children[0];
+    const cell = headerRow.children[0].children[index];
+    return cell.getBoundingClientRect();
+  }
+
+  private mouseMove(index: number) {
+    this.resizableMousemove = this.renderer.listen('document', 'mousemove', (event) => {
+      if (this.pressed && event.buttons) {
+        const dx = this.isResizingRight ? event.pageX - this.startX : -event.pageX + this.startX;
+        const width = this.startWidth + dx;
+        if (this.currentResizeIndex === index && width > 100) {
+          this.setColumnWidthChanges(index, width);
+        }
+      }
+    });
+    this.resizableMouseup = this.renderer.listen('document', 'mouseup', (event) => {
+      if (this.pressed) {
+        this.pressed = false;
+        this.currentResizeIndex = -1;
+        this.resizableMousemove();
+        this.resizableMouseup();
+      }
+    });
+  }
+
+  private setColumnWidthChanges(index: number, width: number) {
+    const orgWidth = this.columns[index].width;
+    const dx = width - orgWidth;
+    if (dx !== 0) {
+      const j = this.isResizingRight ? index + 1 : index - 1;
+      const newWidth = this.columns[j].width - dx;
+
+      if (newWidth > 100 && index > 3) {
+        this.columns[index].width = width;
+        this.setColumnWidth(this.columns[index]);
+        this.columns[j].width = newWidth;
+        this.setColumnWidth(this.columns[j]);
+      }
+    }
+  }
+
+  private setColumnWidth(column: any) {
+    const columnEls = Array.from(document.getElementsByClassName('mat-column-' + column.title.key));
+    columnEls.forEach((el: any) => {
+      el.style.width = column.width + 'px';
+    });
   }
 
   ngOnDestroy() {
