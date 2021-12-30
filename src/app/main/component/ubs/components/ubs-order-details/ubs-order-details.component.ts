@@ -346,9 +346,6 @@ export class UBSOrderDetailsComponent extends FormBaseComponent implements OnIni
       const orderFormBagController = this.orderDetailsForm.controls[valueName];
       const inputValue = `${Number(orderFormBagController.value)}`;
       orderFormBagController.setValue(inputValue);
-      // this.orders.bags = this.orders.bags
-      //   .filter((value) => value.code !== this.currentLanguage)
-      //   .map(item => item.id === bag.id ? { ...item, quantity: orderFormBagController.value } : item);
       if (Number(orderFormBagController.value) > 0) {
         bag.quantity = orderFormBagController.value;
       } else {
