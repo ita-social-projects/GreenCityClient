@@ -5,7 +5,7 @@ import { WarningPopUpComponent } from '@shared/components';
 import { Observable } from 'rxjs';
 import { take } from 'rxjs/operators';
 import { MatDialog } from '@angular/material/dialog';
-import { OrderService } from '../../../ubs/services/order.service';
+import { OrderService } from '../../../../../ubs/ubs/services/order.service';
 
 @Component({
   selector: 'app-form-base',

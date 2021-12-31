@@ -1,6 +1,6 @@
 import { Directive, HostBinding, HostListener, Output, EventEmitter } from '@angular/core';
 import { DomSanitizer } from '@angular/platform-browser';
-import { FileHandle } from '../../ubs-admin/models/file-handle.model';
+import { FileHandle } from '../../ubs/ubs-admin/models/file-handle.model';
 
 @Directive({
   selector: '[appDrag]'

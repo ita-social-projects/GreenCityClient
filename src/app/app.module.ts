@@ -9,6 +9,7 @@ import { NgModule } from '@angular/core';
 import { MainModule } from './main/main.module';
 import { AppComponent } from './app.component';
 import { AppRoutingModule } from './app-routing.module';
+import { UbsModule } from './ubs/ubs.module';
 
 @NgModule({
   declarations: [AppComponent],
@@ -24,7 +25,8 @@ import { AppRoutingModule } from './app-routing.module';
         useFactory: LoaderFactory,
         deps: [HttpClient]
       }
-    })
+    }),
+    UbsModule
   ],
   providers: [
     // we use HashLocationStrategy because
