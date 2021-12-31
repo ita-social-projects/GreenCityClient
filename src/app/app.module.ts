@@ -18,6 +18,7 @@ import { UbsModule } from './ubs/ubs.module';
     BrowserAnimationsModule,
     AppRoutingModule,
     MainModule,
+    UbsModule,
     HttpClientModule,
     TranslateModule.forRoot({
       loader: {
@@ -25,8 +26,7 @@ import { UbsModule } from './ubs/ubs.module';
         useFactory: LoaderFactory,
         deps: [HttpClient]
       }
-    }),
-    UbsModule
+    })
   ],
   providers: [
     // we use HashLocationStrategy because
