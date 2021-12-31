@@ -4,7 +4,7 @@ name: CI/CD GreenCityClient
 on:
   # Triggers the workflow on push or pull request events but only for the dev branch
   push:
-    branches: [master, dev, moving_to_angular10]
+    branches: [master, dev]
   pull_request:
     branches: [master, dev]
 
