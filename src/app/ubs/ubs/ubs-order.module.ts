@@ -10,7 +10,7 @@ import { environment } from '@environment/environment';
 import { TranslateHttpLoader } from '@ngx-translate/http-loader';
 import { TranslateLoader, TranslateModule, TranslateService } from '@ngx-translate/core';
 import { UbsRoutingModule } from './ubs-routing.module';
-import { UbsComponent } from './ubs.component';
+import { UbsOrderComponent } from './ubs-order.component';
 import { UBSOrderFormComponent } from './components/ubs-order-form/ubs-order-form.component';
 import { UBSOrderDetailsComponent } from './components/ubs-order-details/ubs-order-details.component';
 import { UBSPersonalInformationComponent } from './components/ubs-personal-information/ubs-personal-information.component';
@@ -38,7 +38,7 @@ import { ConfirmRestorePasswordGuard } from '@global-service/route-guards/confir
 
 @NgModule({
   declarations: [
-    UbsComponent,
+    UbsOrderComponent,
     UBSOrderFormComponent,
     UBSOrderDetailsComponent,
     UBSPersonalInformationComponent,

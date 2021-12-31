@@ -6,9 +6,9 @@ import { ReplaySubject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 @Component({
   selector: 'app-ubs',
-  templateUrl: './ubs.component.html'
+  templateUrl: './ubs-order.component.html'
 })
-export class UbsComponent implements OnInit, OnDestroy {
+export class UbsOrderComponent implements OnInit, OnDestroy {
   private destroyed$: ReplaySubject<any> = new ReplaySubject<any>(1);
 
   constructor(private translate: TranslateService, private localStorageService: LocalStorageService) {}
