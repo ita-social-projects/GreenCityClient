@@ -1,6 +1,7 @@
 .wraper {
   display: flex;
   justify-content: center;
+  padding-top: 150px;
 
   .mat-spinner {
     ::ng-deep circle {
