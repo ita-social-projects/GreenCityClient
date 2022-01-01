@@ -31,10 +31,6 @@ export const routes: Routes = [
         loadChildren: () => import('./main/component/user/user.module').then((mod) => mod.UserModule)
       },
       {
-        path: 'ubs',
-        loadChildren: () => import('./ubs/ubs/ubs-order.module').then((mod) => mod.UbsOrderModule)
-      },
-      {
         path: 'tips',
         component: TipsListComponent
       },
@@ -53,6 +49,10 @@ export const routes: Routes = [
         component: HomepageComponent
       }
     ]
+  },
+  {
+    path: 'ubs',
+    loadChildren: () => import('./ubs/ubs/ubs-order.module').then((mod) => mod.UbsOrderModule)
   },
   {
     path: 'ubs-admin',

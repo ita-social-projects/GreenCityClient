@@ -1,4 +1,4 @@
-import { TranslateLoader, TranslateModule, TranslateService } from '@ngx-translate/core';
+import { TranslateLoader, TranslateModule } from '@ngx-translate/core';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { HashLocationStrategy, LocationStrategy } from '@angular/common';
 import { HttpClient, HttpClientModule } from '@angular/common/http';
@@ -18,6 +18,7 @@ import { UbsModule } from './ubs/ubs.module';
     BrowserAnimationsModule,
     AppRoutingModule,
     MainModule,
+    UbsModule,
     HttpClientModule,
     TranslateModule.forRoot({
       loader: {
@@ -25,8 +26,7 @@ import { UbsModule } from './ubs/ubs.module';
         useFactory: LoaderFactory,
         deps: [HttpClient]
       }
-    }),
-    UbsModule
+    })
   ],
   providers: [
     // we use HashLocationStrategy because

@@ -1,7 +1,7 @@
-import { HttpClient, HttpClientModule } from '@angular/common/http';
+import { HttpClient, HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { NgModule } from '@angular/core';
-import { CommonModule } from '@angular/common';
+import { CommonModule, DatePipe } from '@angular/common';
 import { MatStepperModule } from '@angular/material/stepper';
 import { AgmCoreModule } from '@agm/core';
 import { IMaskModule } from 'angular-imask';
@@ -10,7 +10,7 @@ import { environment } from '@environment/environment';
 import { TranslateHttpLoader } from '@ngx-translate/http-loader';
 import { TranslateLoader, TranslateModule, TranslateService } from '@ngx-translate/core';
 import { UbsRoutingModule } from './ubs-routing.module';
-import { UbsComponent } from './ubs.component';
+import { UbsOrderComponent } from './ubs-order.component';
 import { UBSOrderFormComponent } from './components/ubs-order-form/ubs-order-form.component';
 import { UBSOrderDetailsComponent } from './components/ubs-order-details/ubs-order-details.component';
 import { UBSPersonalInformationComponent } from './components/ubs-personal-information/ubs-personal-information.component';
@@ -26,14 +26,19 @@ import { UbsMainPageComponent } from './components/ubs-main-page/ubs-main-page.c
 import { UbsOrderLocationPopupComponent } from './components/ubs-order-details/ubs-order-location-popup/ubs-order-location-popup.component';
 import { MatIconModule } from '@angular/material/icon';
 import { MatFormFieldModule } from '@angular/material/form-field';
-import { MatDialogModule, MAT_DIALOG_DEFAULT_OPTIONS } from '@angular/material/dialog';
+import { MatDialogModule, MatDialogRef, MAT_DIALOG_DEFAULT_OPTIONS } from '@angular/material/dialog';
 import { UbsSubmitOrderNotificationComponent } from './components/ubs-submit-order/ubs-submit-order-notification/ubs-submit-order-notification.component';
 import { UbsOrderCertificateComponent } from './components/ubs-order-details/ubs-order-certificate/ubs-order-certificate.component';
 import { ExtraPackagesPopUpComponent } from './components/ubs-order-details/extra-packages-pop-up/extra-packages-pop-up.component';
+import { InterceptorService } from 'src/app/shared/interceptors/interceptor.service';
+import { AuthServiceConfig } from 'angularx-social-login';
+import { provideConfig } from 'src/app/main/config/GoogleAuthConfig';
+import { PendingChangesGuard } from '@global-service/pending-changes-guard/pending-changes.guard';
+import { ConfirmRestorePasswordGuard } from '@global-service/route-guards/confirm-restore-password.guard';
 
 @NgModule({
   declarations: [
-    UbsComponent,
+    UbsOrderComponent,
     UBSOrderFormComponent,
     UBSOrderDetailsComponent,
     UBSPersonalInformationComponent,
@@ -83,6 +88,19 @@ import { ExtraPackagesPopUpComponent } from './components/ubs-order-details/extr
       provide: MAT_DIALOG_DEFAULT_OPTIONS,
       useValue: { hasBackdrop: true }
     },
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: InterceptorService,
+      multi: true
+    },
+    { provide: MatDialogRef, useValue: {} },
+    {
+      provide: AuthServiceConfig,
+      useFactory: provideConfig
+    },
+    DatePipe,
+    PendingChangesGuard,
+    ConfirmRestorePasswordGuard,
     TranslateService
   ]
 })

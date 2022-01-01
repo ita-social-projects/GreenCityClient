@@ -11,6 +11,5 @@
     <div #focusLast tabindex="-1" aria-label="Tab To Main"></div>
     <router-outlet (activate)="setFocus()"></router-outlet>
   </div>
-  <app-footer *ngIf="!isUBS"></app-footer>
-  <app-ubs-footer *ngIf="isUBS"></app-ubs-footer>
+  <app-footer></app-footer>
 </div>

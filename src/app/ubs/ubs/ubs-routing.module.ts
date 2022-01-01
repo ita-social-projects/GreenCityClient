@@ -3,14 +3,14 @@ import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { AuthPageGuardService } from '@global-service/route-guards/auth-page-guard.service';
 import { UBSOrderFormComponent } from './components/ubs-order-form/ubs-order-form.component';
-import { UbsComponent } from './ubs.component';
+import { UbsOrderComponent } from './ubs-order.component';
 import { UbsMainPageComponent } from './components/ubs-main-page/ubs-main-page.component';
 import { UbsSubmitOrderNotificationComponent } from './components/ubs-submit-order/ubs-submit-order-notification/ubs-submit-order-notification.component';
 
 const ubsRoutes: Routes = [
   {
     path: '',
-    component: UbsComponent,
+    component: UbsOrderComponent,
     children: [
       { path: '', component: UbsMainPageComponent },
       { path: 'order', component: UBSOrderFormComponent, canActivate: [AuthPageGuardService] },
