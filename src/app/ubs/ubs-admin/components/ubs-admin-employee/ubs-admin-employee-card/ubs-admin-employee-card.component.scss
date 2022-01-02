@@ -1,6 +1,6 @@
 .main-card-container {
   display: flex;
-  max-width: 828px;
+  max-width: 91%;
   height: 132px;
   box-shadow: 1px 4px 8px rgba(100, 114, 125, 0.18);
   margin-bottom: 24px;
@@ -11,6 +11,7 @@
     flex-direction: row;
     width: 100vw;
     background-color: var(--ubs-grey-white);
+    overflow: hidden;
 
     p {
       margin: 12px 0;
@@ -46,8 +47,6 @@
     }
 
     .role {
-      flex: 10%;
-
       p {
         background-color: var(--ubs-grey-light-green);
       }

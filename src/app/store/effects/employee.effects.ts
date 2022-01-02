@@ -23,9 +23,9 @@ export class EmployeesEffects {
   getEmployees = createEffect(() => {
     return this.actions.pipe(
       ofType(GetEmployees),
-      mergeMap((actions: { pageNumber: number; pageSize: number }) => {
-        return this.ubsAdminEmployeeService.getEmployees(actions.pageNumber, actions.pageSize).pipe(
-          map((employees: Employees) => GetEmployeesSuccess({ employees })),
+      mergeMap((actions: { pageNumber: number; pageSize: number; search?: string; reset: boolean }) => {
+        return this.ubsAdminEmployeeService.getEmployees(actions.pageNumber, actions.pageSize, actions.search).pipe(
+          map((employees: Employees) => GetEmployeesSuccess({ employees, reset: actions.reset })),
           catchError(() => EMPTY)
         );
       })

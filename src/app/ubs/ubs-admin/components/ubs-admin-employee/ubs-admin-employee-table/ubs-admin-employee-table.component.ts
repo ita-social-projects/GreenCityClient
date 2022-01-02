@@ -42,6 +42,7 @@ export class UbsAdminEmployeeTableComponent implements OnInit {
     popupCancel: 'employees.btn.no'
   };
   firstPageLoad = true;
+  reset = true;
   employees$ = this.store.select((state: IAppState): Employees => state.employees.employees);
 
   constructor(private ubsAdminEmployeeService: UbsAdminEmployeeService, private dialog: MatDialog, private store: Store<IAppState>) {}
@@ -50,6 +51,8 @@ export class UbsAdminEmployeeTableComponent implements OnInit {
     this.searchValue.pipe(debounceTime(500), distinctUntilChanged()).subscribe((item) => {
       this.search = item;
       this.currentPageForTable = 0;
+      this.reset = true;
+      this.firstPageLoad = true;
       this.getTable();
     });
   }
@@ -57,7 +60,9 @@ export class UbsAdminEmployeeTableComponent implements OnInit {
   getTable() {
     this.isLoading = true;
 
-    this.store.dispatch(GetEmployees({ pageNumber: this.currentPageForTable, pageSize: this.sizeForTable }));
+    this.store.dispatch(
+      GetEmployees({ pageNumber: this.currentPageForTable, pageSize: this.sizeForTable, search: this.search, reset: this.reset })
+    );
 
     this.employees$.subscribe((item: Employees) => {
       if (item) {
@@ -72,6 +77,7 @@ export class UbsAdminEmployeeTableComponent implements OnInit {
           this.dataSource.data = this.tableData;
         }
         this.isUpdateTable = false;
+        this.reset = false;
       }
     });
   }
@@ -82,7 +88,9 @@ export class UbsAdminEmployeeTableComponent implements OnInit {
 
   updateTable() {
     this.isUpdateTable = true;
-    this.store.dispatch(GetEmployees({ pageNumber: this.currentPageForTable, pageSize: this.sizeForTable }));
+    this.store.dispatch(
+      GetEmployees({ pageNumber: this.currentPageForTable, pageSize: this.sizeForTable, search: this.search, reset: this.reset })
+    );
   }
 
   onScroll() {

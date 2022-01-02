@@ -21,7 +21,7 @@
     >
       <app-ubs-admin-employee-card [data]="data"></app-ubs-admin-employee-card>
     </div>
-    <div class="paginate">
+    <div class="paginate" [hidden]="!employeesData.length || totalLength <= size">
       <app-pagination
         [paginationId]="paginationId"
         [currentPage]="currentPage"

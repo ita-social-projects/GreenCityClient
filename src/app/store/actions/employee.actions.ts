@@ -12,9 +12,12 @@ export enum EmployeesActions {
   UpdateEmployeeSuccess = '[Employees] Update Employee Success'
 }
 
-export const GetEmployees = createAction(EmployeesActions.GetEmployees, props<{ pageNumber: number; pageSize: number }>());
+export const GetEmployees = createAction(
+  EmployeesActions.GetEmployees,
+  props<{ pageNumber: number; pageSize: number; search?: string; reset: boolean }>()
+);
 
-export const GetEmployeesSuccess = createAction(EmployeesActions.GetEmployeesSuccess, props<{ employees: Employees }>());
+export const GetEmployeesSuccess = createAction(EmployeesActions.GetEmployeesSuccess, props<{ employees: Employees; reset: boolean }>());
 
 export const AddEmployee = createAction(EmployeesActions.AddEmployee, props<{ data: any; employee: Page }>());
 

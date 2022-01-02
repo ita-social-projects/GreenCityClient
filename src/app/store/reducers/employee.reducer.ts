@@ -5,7 +5,7 @@ import { createReducer, on } from '@ngrx/store';
 export const employeesReducer = createReducer(
   initialEmployeesState,
   on(GetEmployeesSuccess, (state, action) => {
-    const prevEmployees = state.employees?.content ?? [];
+    const prevEmployees = action.reset ? [] : state.employees?.content ?? [];
     return {
       ...state,
       employees: {
