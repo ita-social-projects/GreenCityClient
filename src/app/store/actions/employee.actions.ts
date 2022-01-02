@@ -1,0 +1,29 @@
+import { createAction, props } from '@ngrx/store';
+import { Employees, Page } from 'src/app/ubs/ubs-admin/models/ubs-admin.interface';
+
+export enum EmployeesActions {
+  GetEmployees = '[Employees] Get Employees',
+  GetEmployeesSuccess = '[Employees] Get Employees Success',
+  AddEmployee = '[Employees] Add Employee',
+  AddEmployeeSuccess = '[Employees] Add Employee Success',
+  DeleteEmployee = '[Employees] Delete Employee',
+  DeleteEmployeeSuccess = '[Employees] Delete Employee Success',
+  UpdateEmployee = '[Employees] Update Employee',
+  UpdateEmployeeSuccess = '[Employees] Update Employee Success'
+}
+
+export const GetEmployees = createAction(EmployeesActions.GetEmployees, props<{ pageNumber: number; pageSize: number }>());
+
+export const GetEmployeesSuccess = createAction(EmployeesActions.GetEmployeesSuccess, props<{ employees: Employees }>());
+
+export const AddEmployee = createAction(EmployeesActions.AddEmployee, props<{ data: any; employee: Page }>());
+
+export const AddEmployeeSuccess = createAction(EmployeesActions.AddEmployeeSuccess, props<{ employee: Page }>());
+
+export const DeleteEmployee = createAction(EmployeesActions.DeleteEmployee, props<{ id: number }>());
+
+export const DeleteEmployeeSuccess = createAction(EmployeesActions.DeleteEmployeeSuccess, props<{ id: number }>());
+
+export const UpdateEmployee = createAction(EmployeesActions.UpdateEmployee, props<{ data: any; employee: Page }>());
+
+export const UpdateEmployeeSuccess = createAction(EmployeesActions.UpdateEmployeeSuccess, props<{ employee: Page }>());
