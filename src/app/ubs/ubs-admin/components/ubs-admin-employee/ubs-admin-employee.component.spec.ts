@@ -23,6 +23,7 @@ describe('UbsAdminEmployeeComponent', () => {
   const fakePage = {
     email: 'fakeEmail'
   };
+  const fakeContent = [{ email: 'newFakeEmail' }];
   const fakeItems = {
     content: [{ email: 'newFakeEmail' }],
     totalElements: 555
@@ -76,7 +77,7 @@ describe('UbsAdminEmployeeComponent', () => {
     component.employeesData = [fakePage as any];
     component.totalLength = 0;
     component.setData(fakeItems as any);
-    expect(component.employeesData).toEqual([{ email: 'newFakeEmail' } as any]);
+    expect(component.employeesData).toEqual(fakeContent as any);
     expect(component.totalLength).toBe(555);
   });
 

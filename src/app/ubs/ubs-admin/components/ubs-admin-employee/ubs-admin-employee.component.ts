@@ -15,6 +15,7 @@ import { EmployeeFormComponent } from './employee-form/employee-form.component';
 })
 export class UbsAdminEmployeeComponent implements OnInit {
   employeesData: Page[] = [];
+  hidePagination = !this.employeesData.length;
   destroy: Subject<boolean> = new Subject<boolean>();
   totalLength: number;
   currentPage = 1;
