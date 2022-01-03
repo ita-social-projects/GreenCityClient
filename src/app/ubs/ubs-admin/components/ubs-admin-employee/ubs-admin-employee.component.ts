@@ -49,7 +49,7 @@ export class UbsAdminEmployeeComponent implements OnInit {
   setData(item: Employees): void {
     this.employeesData = item.content;
     this.totalLength = item.totalElements;
-    this.hidePagination = !this.employeesData.length;
+    this.hidePagination = !this.employeesData?.length;
   }
 
   changeCurrentPage(page: number): void {
