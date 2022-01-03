@@ -19,7 +19,7 @@ export const employeesReducer = createReducer(
     ...state,
     employees: {
       ...state.employees,
-      content: [...state.employees.content, action.employee]
+      content: [action.employee, ...state.employees.content]
     }
   })),
 

@@ -48,7 +48,6 @@ export class EmployeesEffects {
     return this.actions.pipe(
       ofType(UpdateEmployee),
       mergeMap((action: { data: any; employee: Page }) => {
-        debugger;
         return this.ubsAdminEmployeeService.updateEmployee(action.data).pipe(
           map(() => UpdateEmployeeSuccess({ employee: action.employee })),
           catchError(() => EMPTY)

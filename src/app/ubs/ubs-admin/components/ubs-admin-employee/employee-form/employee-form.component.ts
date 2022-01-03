@@ -2,7 +2,11 @@ import { Component, Inject, OnInit } from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { UbsAdminEmployeeService } from '../../../services/ubs-admin-employee.service';
-import { Page } from '../../../models/ubs-admin.interface';
+import { Employees, Page } from '../../../models/ubs-admin.interface';
+import { Store } from '@ngrx/store';
+import { IAppState } from 'src/app/store/state/app.state';
+import { AddEmployee, UpdateEmployee } from 'src/app/store/actions/employee.actions';
+import { skip } from 'rxjs/operators';
 
 @Component({
   selector: 'app-employee-form',
@@ -15,6 +19,7 @@ export class EmployeeFormComponent implements OnInit {
   employeeForm: FormGroup;
   employeePositions;
   receivingStations;
+  employeeDataToSend: Page;
   phoneMask = '+{38\\0} (00) 000 00 00';
   private maxImageSize = 10485760;
   public isWarning = false;
@@ -38,10 +43,23 @@ export class EmployeeFormComponent implements OnInit {
       },
       (error) => console.error('Observer for stations got an error: ' + error)
     );
+    this.store
+      .select((state: IAppState): Employees => state.employees.employees)
+      .pipe(skip(1))
+      .subscribe(
+        () => {
+          this.dialogRef.close();
+          this.isUploading = false;
+        },
+        () => {
+          this.isUploading = false;
+        }
+      );
   }
 
   constructor(
     private employeeService: UbsAdminEmployeeService,
+    private store: Store<IAppState>,
     public dialogRef: MatDialogRef<EmployeeFormComponent>,
     public fb: FormBuilder,
     @Inject(MAT_DIALOG_DATA) public data: Page
@@ -109,19 +127,19 @@ export class EmployeeFormComponent implements OnInit {
 
   prepareEmployeeDataToSend(dto: string, image?: string): FormData {
     this.isUploading = true;
-    const employeeDataToSend = {
+    this.employeeDataToSend = {
       ...this.employeeForm.value,
       employeePositions: this.employeePositions,
       receivingStations: this.receivingStations
     };
     if (this.isUpdatingEmployee) {
-      employeeDataToSend.id = this.data.id;
+      this.employeeDataToSend.id = this.data.id;
     }
     if (image) {
-      employeeDataToSend.image = image;
+      this.employeeDataToSend.image = image;
     }
     const formData: FormData = new FormData();
-    const stringifiedDataToSend = JSON.stringify(employeeDataToSend);
+    const stringifiedDataToSend = JSON.stringify(this.employeeDataToSend);
     formData.append(dto, stringifiedDataToSend);
     if (this.selectedFile) {
       formData.append('image', this.selectedFile);
@@ -132,28 +150,12 @@ export class EmployeeFormComponent implements OnInit {
   updateEmployee(): void {
     const image = this.selectedFile ? this.defaultPhotoURL : this.imageURL || this.defaultPhotoURL;
     const dataToSend = this.prepareEmployeeDataToSend('employeeDto', image);
-    this.employeeService.updateEmployee(dataToSend).subscribe(
-      () => {
-        this.dialogRef.close();
-        this.isUploading = false;
-      },
-      () => {
-        this.isUploading = false;
-      }
-    );
+    this.store.dispatch(UpdateEmployee({ data: dataToSend, employee: this.employeeDataToSend }));
   }
 
   createEmployee(): void {
     const dataToSend = this.prepareEmployeeDataToSend('addEmployeeDto');
-    this.employeeService.postEmployee(dataToSend).subscribe(
-      () => {
-        this.dialogRef.close();
-        this.isUploading = false;
-      },
-      () => {
-        this.isUploading = false;
-      }
-    );
+    this.store.dispatch(AddEmployee({ data: dataToSend, employee: this.employeeDataToSend }));
   }
 
   treatFileInput(event: Event): void {
