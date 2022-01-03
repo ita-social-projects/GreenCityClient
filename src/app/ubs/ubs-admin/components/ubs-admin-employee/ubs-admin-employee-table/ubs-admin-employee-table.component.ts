@@ -10,7 +10,7 @@ import { Employees, Page } from 'src/app/ubs/ubs-admin/models/ubs-admin.interfac
 import { UbsAdminEmployeeService } from 'src/app/ubs/ubs-admin/services/ubs-admin-employee.service';
 import { DialogPopUpComponent } from '../../shared/components/dialog-pop-up/dialog-pop-up.component';
 import { EmployeeFormComponent } from '../employee-form/employee-form.component';
-import { GetEmployees } from 'src/app/store/actions/employee.actions';
+import { DeleteEmployee, GetEmployees } from 'src/app/store/actions/employee.actions';
 
 @Component({
   selector: 'app-ubs-admin-employee-table',
@@ -209,7 +209,7 @@ export class UbsAdminEmployeeTableComponent implements OnInit {
       .pipe(take(1))
       .subscribe((res) => {
         if (res) {
-          this.ubsAdminEmployeeService.deleteEmployee(employeeId).subscribe();
+          this.store.dispatch(DeleteEmployee({ id: employeeId }));
         }
       });
   }
