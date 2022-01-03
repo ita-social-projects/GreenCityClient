@@ -1,13 +1,11 @@
+import { Employees, Page } from '../../models/ubs-admin.interface';
+import { UbsAdminEmployeeService } from '../../services/ubs-admin-employee.service';
 import { Location } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Params } from '@angular/router';
-import { MatDialog } from '@angular/material/dialog';
-import { Store } from '@ngrx/store';
+import { takeUntil } from 'rxjs/operators';
 import { Subject } from 'rxjs';
-
-import { GetEmployees } from 'src/app/store/actions/employee.actions';
-import { Employees, Page } from '../../models/ubs-admin.interface';
-import { IAppState } from 'src/app/store/state/app.state';
+import { MatDialog } from '@angular/material/dialog';
 import { EmployeeFormComponent } from './employee-form/employee-form.component';
 
 @Component({
@@ -24,31 +22,27 @@ export class UbsAdminEmployeeComponent implements OnInit {
   size = 5;
   paginationId = 'employee';
   tiles: boolean;
-  employees$ = this.store.select((state: IAppState): Employees => state.employees.employees);
 
   constructor(
     private activatedRoute: ActivatedRoute,
     private location: Location,
-    public dialog: MatDialog,
-    private store: Store<IAppState>
+    private ubsAdminEmployeeService: UbsAdminEmployeeService,
+    public dialog: MatDialog
   ) {}
 
   ngOnInit(): void {
     this.activatedRoute.params.subscribe((params: Params) => {
       this.paginPage = params.page - 1;
       this.getEmployees();
-
-      this.employees$.subscribe((item: Employees) => {
-        if (item) {
-          this.setData(item);
-        }
-      });
     });
     this.tiles = true;
   }
 
   getEmployees(): void {
-    this.store.dispatch(GetEmployees({ pageNumber: this.paginPage, pageSize: this.size, reset: true }));
+    this.ubsAdminEmployeeService
+      .getEmployees(this.paginPage, this.size)
+      .pipe(takeUntil(this.destroy))
+      .subscribe((item) => this.setData(item));
   }
 
   setData(item: Employees): void {
