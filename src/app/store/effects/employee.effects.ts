@@ -10,11 +10,12 @@ import {
   DeleteEmployee,
   DeleteEmployeeSuccess,
   UpdateEmployee,
-  UpdateEmployeeSuccess
+  UpdateEmployeeSuccess,
+  ReceivedFailure
 } from '../actions/employee.actions';
 import { UbsAdminEmployeeService } from 'src/app/ubs/ubs-admin/services/ubs-admin-employee.service';
 import { Employees, Page } from 'src/app/ubs/ubs-admin/models/ubs-admin.interface';
-import { EMPTY } from 'rxjs';
+import { EMPTY, of } from 'rxjs';
 
 @Injectable()
 export class EmployeesEffects {
@@ -38,7 +39,7 @@ export class EmployeesEffects {
       mergeMap((action: { data: any; employee: Page }) => {
         return this.ubsAdminEmployeeService.postEmployee(action.data).pipe(
           map(() => AddEmployeeSuccess({ employee: action.employee })),
-          catchError(() => EMPTY)
+          catchError((error) => of(ReceivedFailure(error)))
         );
       })
     );
@@ -50,7 +51,7 @@ export class EmployeesEffects {
       mergeMap((action: { data: any; employee: Page }) => {
         return this.ubsAdminEmployeeService.updateEmployee(action.data).pipe(
           map(() => UpdateEmployeeSuccess({ employee: action.employee })),
-          catchError(() => EMPTY)
+          catchError((error) => of(ReceivedFailure(error)))
         );
       })
     );
@@ -62,7 +63,7 @@ export class EmployeesEffects {
       mergeMap((action: { id: number }) => {
         return this.ubsAdminEmployeeService.deleteEmployee(action.id).pipe(
           map(() => DeleteEmployeeSuccess({ id: action.id })),
-          catchError(() => EMPTY)
+          catchError((error) => of(ReceivedFailure(error)))
         );
       })
     );

@@ -1,5 +1,11 @@
 import { initialEmployeesState } from '../state/employee.state';
-import { GetEmployeesSuccess, AddEmployeeSuccess, DeleteEmployeeSuccess, UpdateEmployeeSuccess } from '../actions/employee.actions';
+import {
+  GetEmployeesSuccess,
+  AddEmployeeSuccess,
+  DeleteEmployeeSuccess,
+  UpdateEmployeeSuccess,
+  ReceivedFailure
+} from '../actions/employee.actions';
 import { createReducer, on } from '@ngrx/store';
 
 export const employeesReducer = createReducer(
@@ -37,5 +43,10 @@ export const employeesReducer = createReducer(
       ...state.employees,
       content: state.employees.content.map((employee) => (employee.id === action.employee.id ? action.employee : employee))
     }
+  })),
+
+  on(ReceivedFailure, (state, action) => ({
+    ...state,
+    error: action.error
   }))
 );

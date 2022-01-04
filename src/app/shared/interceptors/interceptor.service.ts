@@ -49,7 +49,7 @@ export class InterceptorService implements HttpInterceptor {
       return next.handle(req).pipe(
         catchError((error: HttpErrorResponse) => {
           if (error.status === 0) {
-            this.openErrorWindow('error');
+            this.openErrorWindow('Error');
           }
           return throwError(error);
         })
@@ -65,10 +65,22 @@ export class InterceptorService implements HttpInterceptor {
         })
       );
     }
+    if (req.url.includes('/admin/ubs-employee')) {
+      return next.handle(req).pipe(
+        catchError((error: HttpErrorResponse) => {
+          if (error.status !== UNAUTHORIZED) {
+            const message = error?.error?.length > 0 ? error.error.map((error) => `${error.name}: ${error.message}`).join(', ') : 'Error';
+            this.openErrorWindow(message);
+            return throwError(error);
+          }
+          return this.handleUnauthorized(req, next);
+        })
+      );
+    }
     return next.handle(req).pipe(
       catchError((error: HttpErrorResponse) => {
         if (this.checkIfErrorStatusIs(error.status, [BAD_REQUEST, FORBIDDEN])) {
-          const noErrorErrorMessage = error.message ?? 'error';
+          const noErrorErrorMessage = error.message ?? 'Error';
           const message = error.error?.message ?? noErrorErrorMessage;
           this.openErrorWindow(message);
           return EMPTY;

@@ -46,15 +46,15 @@ export class EmployeeFormComponent implements OnInit {
     this.store
       .select((state: IAppState): Employees => state.employees.employees)
       .pipe(skip(1))
-      .subscribe(
-        () => {
-          this.dialogRef.close();
-          this.isUploading = false;
-        },
-        () => {
-          this.isUploading = false;
-        }
-      );
+      .subscribe(() => {
+        this.dialogRef.close();
+      });
+    this.store
+      .select((state: IAppState): string | null => state.employees.error)
+      .pipe(skip(1))
+      .subscribe(() => {
+        this.isUploading = false;
+      });
   }
 
   constructor(

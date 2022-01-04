@@ -9,7 +9,8 @@ export enum EmployeesActions {
   DeleteEmployee = '[Employees] Delete Employee',
   DeleteEmployeeSuccess = '[Employees] Delete Employee Success',
   UpdateEmployee = '[Employees] Update Employee',
-  UpdateEmployeeSuccess = '[Employees] Update Employee Success'
+  UpdateEmployeeSuccess = '[Employees] Update Employee Success',
+  ReceivedFailure = '[Employees] Received Failure'
 }
 
 export const GetEmployees = createAction(
@@ -30,3 +31,5 @@ export const DeleteEmployeeSuccess = createAction(EmployeesActions.DeleteEmploye
 export const UpdateEmployee = createAction(EmployeesActions.UpdateEmployee, props<{ data: any; employee: Page }>());
 
 export const UpdateEmployeeSuccess = createAction(EmployeesActions.UpdateEmployeeSuccess, props<{ employee: Page }>());
+
+export const ReceivedFailure = createAction(EmployeesActions.ReceivedFailure, props<{ error: string | null }>());
