@@ -16,6 +16,13 @@ interface InitialData {
   initialImagesLength: number;
 }
 
+interface DataToSend {
+  orderID: number;
+  violationDescription: string;
+  violationLevel: string;
+  imagesToDelete?: string[] | null;
+}
+
 @Component({
   selector: 'app-add-violations',
   templateUrl: './add-violations.component.html',
@@ -127,13 +134,13 @@ export class AddViolationsComponent implements OnInit, OnDestroy {
 
   prepareDataToSend(dto: string): FormData {
     const { violationLevel, violationDescription } = this.addViolationForm.value;
-    const data = {
+    const data: DataToSend = {
       orderID: this.orderId,
       violationDescription,
       violationLevel
     };
     if (this.editMode) {
-      data['imagesToDelete'] = this.deletedImages.length ? this.deletedImages : null;
+      data.imagesToDelete = this.deletedImages.length ? this.deletedImages : null;
     }
     const formData: FormData = new FormData();
     const stringifiedDataToSend = JSON.stringify(data);
