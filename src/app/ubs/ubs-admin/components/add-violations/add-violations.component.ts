@@ -139,7 +139,7 @@ export class AddViolationsComponent implements OnInit, OnDestroy {
     const stringifiedDataToSend = JSON.stringify(data);
     formData.append(dto, stringifiedDataToSend);
     for (const images of this.imgArray) {
-      formData.append('files', images);
+      formData.append(this.editMode ? 'multipartFiles' : 'files', images);
     }
     return formData;
   }
