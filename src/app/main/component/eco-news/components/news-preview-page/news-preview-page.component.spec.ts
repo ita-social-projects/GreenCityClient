@@ -65,7 +65,7 @@ describe('NewsPreviewPageComponent', () => {
 
     currentFormWithImageMock = new FormGroup({
       content: new FormControl('content for current form with image'),
-      image: new FormControl('testImgURL for current form with image'),
+      image: new FormControl('assets/img/icon/econews/news-default-large.png'),
       source: new FormControl('source for current form with image'),
       tags: new FormControl(['news, ads']),
       title: new FormControl('title for current form with image')
@@ -85,7 +85,7 @@ describe('NewsPreviewPageComponent', () => {
       title: 'test of title',
       ecoNewsAuthorDto: { id: 1617, firstName: 'Anton', lastName: 'Hryshko' },
       creationDate: '2020-10-26T16:43:29.336931Z',
-      imagePath: 'image path for news response mock',
+      imagePath: 'assets/img/icon/econews/news-default-large.png',
       tags: ['Events', 'Education']
     };
 
@@ -93,7 +93,7 @@ describe('NewsPreviewPageComponent', () => {
       author: { id: 1616, name: 'Hryshko' },
       creationDate: '2020-10-26T16:43:29.336931Z',
       id: 7777,
-      imagePath: 'image path for itemMock',
+      imagePath: 'assets/img/icon/econews/news-default-large.png',
       tags: [
         { id: 1, name: 'Events' },
         { id: 2, name: 'Education' }

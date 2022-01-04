@@ -15,7 +15,6 @@ export class MainComponent implements OnInit {
   public toggle: boolean;
   public isUBS: boolean;
   public isLogin: boolean;
-  private ubsUrl = 'ubs';
 
   constructor(
     private languageService: LanguageService,
@@ -30,7 +29,6 @@ export class MainComponent implements OnInit {
   @ViewChild('focusLast', { static: true }) focusLast: ElementRef;
 
   ngOnInit() {
-    this.isUBS = this.router.url.includes(this.ubsUrl);
     this.languageService.setDefaultLanguage();
     this.navigateToStartingPositionOnPage();
     this.titleAndMetaTagsService.useTitleMetasData();

@@ -17,7 +17,7 @@ import { environment } from '@environment/environment';
 import { Subject } from 'rxjs';
 import { MatDialog } from '@angular/material/dialog';
 import { HeaderService } from '@global-service/header/header.service';
-import { OrderService } from 'src/app/main/component/ubs/services/order.service';
+import { OrderService } from 'src/app/ubs/ubs/services/order.service';
 
 @Component({
   selector: 'app-header',

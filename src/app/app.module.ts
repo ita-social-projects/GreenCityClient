@@ -1,4 +1,4 @@
-import { TranslateLoader, TranslateModule, TranslateService } from '@ngx-translate/core';
+import { TranslateLoader, TranslateModule } from '@ngx-translate/core';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { HashLocationStrategy, LocationStrategy } from '@angular/common';
 import { HttpClient, HttpClientModule } from '@angular/common/http';
@@ -9,6 +9,7 @@ import { NgModule } from '@angular/core';
 import { MainModule } from './main/main.module';
 import { AppComponent } from './app.component';
 import { AppRoutingModule } from './app-routing.module';
+import { UbsModule } from './ubs/ubs.module';
 
 @NgModule({
   declarations: [AppComponent],
@@ -17,6 +18,7 @@ import { AppRoutingModule } from './app-routing.module';
     BrowserAnimationsModule,
     AppRoutingModule,
     MainModule,
+    UbsModule,
     HttpClientModule,
     TranslateModule.forRoot({
       loader: {

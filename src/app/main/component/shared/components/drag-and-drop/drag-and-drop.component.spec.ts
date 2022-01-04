@@ -14,6 +14,9 @@ describe('DragAndDropComponent', () => {
   let fixture: ComponentFixture<DragAndDropComponent>;
   let imageCroppedEventMock: ImageCroppedEvent;
 
+  const defaultImagePath =
+    'https://csb10032000a548f571.blob.core.windows.net/allfiles/90370622-3311-4ff1-9462-20cc98a64d1ddefault_image.jpg';
+
   imageCroppedEventMock = {
     base64: 'test',
     width: 200,
@@ -29,7 +32,7 @@ describe('DragAndDropComponent', () => {
 
   const formDataMock: FormGroup = new FormGroup({
     content: new FormControl('asd aspd kasd ksdfj ksdjfi sdjf osd'),
-    image: new FormControl('test'),
+    image: new FormControl(defaultImagePath),
     source: new FormControl('https://www.telerik.com/blogs/testing-dynamic-forms-in-angular'),
     tags: new FormControl(['news, ads']),
     title: new FormControl('asd asd asd asd asd s')

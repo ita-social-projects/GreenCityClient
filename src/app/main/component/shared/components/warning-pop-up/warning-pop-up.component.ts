@@ -3,8 +3,8 @@ import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
 import { ReplaySubject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
-import { OrderService } from '../../../ubs/services/order.service';
-import { UBSOrderFormService } from '../../../ubs/services/ubs-order-form.service';
+import { OrderService } from '../../../../../ubs/ubs/services/order.service';
+import { UBSOrderFormService } from '../../../../../ubs/ubs/services/ubs-order-form.service';
 
 @Component({
   selector: 'app-warning-pop-up',

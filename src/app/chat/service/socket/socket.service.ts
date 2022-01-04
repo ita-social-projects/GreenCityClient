@@ -53,7 +53,7 @@ export class SocketService {
 
   sendMessage(message: Message) {
     console.log(message);
-    this.stompClient.send('message', {}, JSON.stringify(message));
+    this.stompClient.send('/chat/message', {}, JSON.stringify(message));
     const currentChat = this.chatsService.currentChat;
     currentChat.lastMessage = message.content;
     currentChat.lastMessageDate = message.createDate;
