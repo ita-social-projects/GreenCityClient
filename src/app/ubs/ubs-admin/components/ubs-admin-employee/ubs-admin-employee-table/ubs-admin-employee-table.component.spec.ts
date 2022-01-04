@@ -264,9 +264,9 @@ describe('UbsAdminEmployeeTableComponent', () => {
     });
   });
 
-  xit('should call deleteEmployee method inside deleteEmployee', () => {
+  it('should call deleteEmployee method inside deleteEmployee', () => {
     spyOn(matDialog, 'open').and.returnValue(dialogRefStub as any);
     component.deleteEmployee(7);
-    expect(ubsAdminEmployeeServiceMock.deleteEmployee).toHaveBeenCalledWith(7);
+    expect(storeMock.dispatch).toHaveBeenCalled();
   });
 });
