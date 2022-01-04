@@ -5,3 +5,10 @@ export interface Message {
   content: string;
   createDate: Date;
 }
+
+export interface Messages {
+  currentPage: number;
+  page: Message[];
+  totalElements: number;
+  totalPages: number;
+}

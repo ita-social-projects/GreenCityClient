@@ -1,3 +1,4 @@
+import { Messages } from './../../model/Message.model';
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Chat } from '../../model/Chat.model';
@@ -40,8 +41,8 @@ export class ChatsService {
     this.httpClient.put<Chat>(`${environment.backendChatLink}chat/`, chat).subscribe();
   }
 
-  public getAllChatMessages(chatId: number): Observable<Message[]> {
-    return this.httpClient.get<Message[]>(`${environment.backendChatLink}chat/messages/${chatId}`);
+  public getAllChatMessages(chatId: number): Observable<Messages> {
+    return this.httpClient.get<Messages>(`${environment.backendChatLink}chat/messages/${chatId}`);
   }
 
   public setCurrentChat(chat: Chat | null): void {
@@ -62,10 +63,10 @@ export class ChatsService {
     }
 
     this.messagesIsLoading = true;
-    this.getAllChatMessages(chat.id).subscribe((messages: Message[]) => {
+    this.getAllChatMessages(chat.id).subscribe((messages: Messages) => {
       console.log('Messages', messages);
       this.currentChatsStream$.next(chat);
-      this.currentChatMessagesStream$.next(messages);
+      this.currentChatMessagesStream$.next(messages.page);
       this.chatsMessages[chat.id] = messages;
       this.messagesIsLoading = false;
     });
