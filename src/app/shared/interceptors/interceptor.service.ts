@@ -16,6 +16,10 @@ interface NewTokenPair {
   accessToken: string;
   refreshToken: string;
 }
+interface EmployeesError {
+  name: string;
+  message: string;
+}
 
 @Injectable({
   providedIn: 'root'
@@ -69,7 +73,10 @@ export class InterceptorService implements HttpInterceptor {
       return next.handle(req).pipe(
         catchError((error: HttpErrorResponse) => {
           if (error.status !== UNAUTHORIZED) {
-            const message = error?.error?.length > 0 ? error.error.map((error) => `${error.name}: ${error.message}`).join(', ') : 'Error';
+            const message =
+              error?.error?.length > 0
+                ? error.error.map((errorItem: EmployeesError) => `${errorItem.name}: ${errorItem.message}`).join(', ')
+                : 'Error';
             this.openErrorWindow(message);
             return throwError(error);
           }
