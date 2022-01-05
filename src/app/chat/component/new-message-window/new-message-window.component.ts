@@ -42,8 +42,7 @@ export class NewMessageWindowComponent implements OnInit, OnDestroy {
     const message: Message = {
       roomId: this.chatsService.currentChat.id,
       senderId: this.userService.userId,
-      content: this.messageControl.value,
-      createDate: new Date()
+      content: this.messageControl.value
     };
     this.socketService.sendMessage(message);
     this.close();

@@ -37,10 +37,8 @@ export class ChatComponent implements OnInit, AfterViewChecked {
   sendMessage() {
     const message: Message = {
       roomId: this.chatsService.currentChat.id,
-      // TODO: hardcode
       senderId: this.userService.userId,
-      content: this.messageControl.value,
-      createDate: new Date()
+      content: this.messageControl.value
     };
     this.messageControl.reset();
     this.socketService.sendMessage(message);

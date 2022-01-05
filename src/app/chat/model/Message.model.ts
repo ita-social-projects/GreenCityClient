@@ -3,7 +3,7 @@ export interface Message {
   roomId: number;
   senderId: number;
   content: string;
-  createDate: Date;
+  createDate?: string;
 }
 
 export interface Messages {

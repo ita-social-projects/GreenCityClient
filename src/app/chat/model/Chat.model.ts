@@ -5,6 +5,6 @@ export interface Chat {
   name: string;
   owner: User;
   lastMessage: string;
-  lastMessageDate: Date;
+  lastMessageDate: string;
   participants: User[];
 }
