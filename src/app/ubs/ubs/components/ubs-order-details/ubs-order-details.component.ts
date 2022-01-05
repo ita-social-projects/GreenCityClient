@@ -230,6 +230,7 @@ export class UBSOrderDetailsComponent extends FormBaseComponent implements OnIni
         this.isFetching = false;
         setTimeout(() => {
           this.shareFormService.changeOrderDetails();
+          this.checkTotalBigBags();
         }, 0);
       });
   }
