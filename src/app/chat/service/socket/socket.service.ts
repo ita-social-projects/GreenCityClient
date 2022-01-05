@@ -1,3 +1,4 @@
+import { Page } from 'src/app/ubs/ubs-admin/models/ubs-admin.interface';
 import { Injectable } from '@angular/core';
 import * as SockJS from 'sockjs-client';
 import { environment } from '@environment/environment';
@@ -27,12 +28,12 @@ export class SocketService {
   }
 
   private onConnected() {
-    this.stompClient.subscribe('/message/chat-messages', (data: IMessage) => {
+    this.stompClient.subscribe('/room/message/chat-messages', (data: IMessage) => {
       // TODO bad logic, you might not be sitting in chat where message landed FIXIT
       const newMessage: Message = JSON.parse(data.body);
       const messages = this.chatsService.chatsMessages[newMessage.roomId];
       if (messages) {
-        messages.push(newMessage);
+        messages.page.push(newMessage);
         this.chatsService.currentChatMessagesStream$.next(messages);
       }
     });
