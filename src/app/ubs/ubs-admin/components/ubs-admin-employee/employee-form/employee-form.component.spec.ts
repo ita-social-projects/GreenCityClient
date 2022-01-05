@@ -2,6 +2,7 @@ import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { FormBuilder, FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { MatDialogModule, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { Store } from '@ngrx/store';
 import { TranslateModule } from '@ngx-translate/core';
 import { IMaskModule } from 'angular-imask';
 import { of } from 'rxjs';
@@ -42,7 +43,6 @@ describe('EmployeeFormComponent', () => {
     receivingStations: mockedReceivingStations
   };
   const mockedDto = 'employeeDto';
-  const employeeService = 'employeeService';
   const transferFile = 'transferFile';
   const fakeEmployeePositions = ['fake'];
   const fakeReceivingStations = ['fake'];
@@ -53,12 +53,19 @@ describe('EmployeeFormComponent', () => {
     email: new FormControl('fake')
   });
   const dataFileMock = new File([''], 'test-file.jpeg');
+  const storeMock = jasmine.createSpyObj('store', ['select', 'dispatch']);
+  storeMock.select = () => of(true, true);
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       declarations: [EmployeeFormComponent],
       imports: [HttpClientTestingModule, MatDialogModule, TranslateModule.forRoot(), ReactiveFormsModule, IMaskModule],
-      providers: [{ provide: MatDialogRef, useValue: matDialogRefMock }, { provide: MAT_DIALOG_DATA, useValue: mockedData }, FormBuilder]
+      providers: [
+        { provide: MatDialogRef, useValue: matDialogRefMock },
+        { provide: MAT_DIALOG_DATA, useValue: mockedData },
+        { provide: Store, useValue: storeMock },
+        FormBuilder
+      ]
     }).compileComponents();
   }));
 
@@ -142,16 +149,14 @@ describe('EmployeeFormComponent', () => {
   it('updateEmployee method should close dialogRef when EmployeeService has sent a response', () => {
     component.selectedFile = false;
     spyOn(component, 'prepareEmployeeDataToSend').and.returnValue(new FormData());
-    spyOn(component[employeeService], 'updateEmployee').and.returnValue(of(true));
     component.updateEmployee();
-    expect(matDialogRefMock.close).toHaveBeenCalled();
+    expect(storeMock.dispatch).toHaveBeenCalled();
   });
 
   it('createEmployee method should close dialogRef when EmployeeService has sent a response', () => {
     spyOn(component, 'prepareEmployeeDataToSend').and.returnValue(new FormData());
-    spyOn(component[employeeService], 'postEmployee').and.returnValue(of(true));
     component.createEmployee();
-    expect(matDialogRefMock.close).toHaveBeenCalled();
+    expect(storeMock.dispatch).toHaveBeenCalled();
   });
 
   it('prepareEmployeeDataToSend should send formData', () => {

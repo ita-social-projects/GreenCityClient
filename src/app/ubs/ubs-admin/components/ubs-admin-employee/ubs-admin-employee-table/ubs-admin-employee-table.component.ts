@@ -3,10 +3,14 @@ import { MatDialog } from '@angular/material/dialog';
 import { MatTableDataSource } from '@angular/material/table';
 import { BehaviorSubject } from 'rxjs';
 import { debounceTime, distinctUntilChanged, take } from 'rxjs/operators';
-import { Page } from 'src/app/ubs/ubs-admin/models/ubs-admin.interface';
+import { Store } from '@ngrx/store';
+
+import { IAppState } from 'src/app/store/state/app.state';
+import { Employees, Page } from 'src/app/ubs/ubs-admin/models/ubs-admin.interface';
 import { UbsAdminEmployeeService } from 'src/app/ubs/ubs-admin/services/ubs-admin-employee.service';
 import { DialogPopUpComponent } from '../../shared/components/dialog-pop-up/dialog-pop-up.component';
 import { EmployeeFormComponent } from '../employee-form/employee-form.component';
+import { DeleteEmployee, GetEmployees } from 'src/app/store/actions/employee.actions';
 
 @Component({
   selector: 'app-ubs-admin-employee-table',
@@ -24,38 +28,57 @@ export class UbsAdminEmployeeTableComponent implements OnInit {
   dataSource: MatTableDataSource<any>;
   arrayOfHeaders = [];
   totalPagesForTable: number;
-  tableData: any[];
+  tableData: Page[];
   isStationsOpen = false;
   isPositionsOpen = false;
   allPositions: any[] = [];
   allStations: any[] = [];
   selectedStations: string[] = [];
   selectedPositions: string[] = [];
-  filteredTableData: any[] = [];
+  filteredTableData: Page[] = [];
   deleteDialogData = {
     popupTitle: 'employees.warning-title',
     popupConfirm: 'employees.btn.yes',
     popupCancel: 'employees.btn.no'
   };
-  constructor(private ubsAdminEmployeeService: UbsAdminEmployeeService, private dialog: MatDialog) {}
+  firstPageLoad = true;
+  reset = true;
+  employees$ = this.store.select((state: IAppState): Employees => state.employees.employees);
+
+  constructor(private ubsAdminEmployeeService: UbsAdminEmployeeService, private dialog: MatDialog, private store: Store<IAppState>) {}
 
   ngOnInit(): void {
     this.searchValue.pipe(debounceTime(500), distinctUntilChanged()).subscribe((item) => {
       this.search = item;
       this.currentPageForTable = 0;
+      this.reset = true;
+      this.firstPageLoad = true;
       this.getTable();
     });
   }
 
   getTable() {
     this.isLoading = true;
-    this.ubsAdminEmployeeService.getEmployees(this.currentPageForTable, this.sizeForTable, this.search).subscribe((item) => {
-      this.tableData = item[`content`];
-      this.totalPagesForTable = item[`totalPages`];
-      this.dataSource = new MatTableDataSource(this.tableData);
-      this.setDisplayedColumns();
-      this.isLoading = false;
-      this.isUpdateTable = false;
+
+    this.store.dispatch(
+      GetEmployees({ pageNumber: this.currentPageForTable, pageSize: this.sizeForTable, search: this.search, reset: this.reset })
+    );
+
+    this.employees$.subscribe((item: Employees) => {
+      if (item) {
+        this.tableData = item[`content`];
+        this.totalPagesForTable = item[`totalPages`];
+        if (this.firstPageLoad) {
+          this.dataSource = new MatTableDataSource(this.tableData);
+          this.setDisplayedColumns();
+          this.isLoading = false;
+          this.firstPageLoad = false;
+        } else {
+          this.dataSource.data = this.tableData;
+        }
+        this.isUpdateTable = false;
+        this.reset = false;
+      }
     });
   }
 
@@ -65,11 +88,9 @@ export class UbsAdminEmployeeTableComponent implements OnInit {
 
   updateTable() {
     this.isUpdateTable = true;
-    this.ubsAdminEmployeeService.getEmployees(this.currentPageForTable, this.sizeForTable, this.search).subscribe((item) => {
-      this.tableData.push(...item[`content`]);
-      this.dataSource.data = this.tableData;
-      this.isUpdateTable = false;
-    });
+    this.store.dispatch(
+      GetEmployees({ pageNumber: this.currentPageForTable, pageSize: this.sizeForTable, search: this.search, reset: this.reset })
+    );
   }
 
   onScroll() {
@@ -118,7 +139,7 @@ export class UbsAdminEmployeeTableComponent implements OnInit {
   onPositionSelected() {
     this.filteredTableData = this.tableData.filter((user) => {
       return user.employeePositions.some((position) => {
-        return this.selectedPositions.some((ids) => position.id === ids);
+        return this.selectedPositions.some((ids) => position.id === +ids);
       });
     });
     this.dataSource.data = this.filteredTableData;
@@ -145,7 +166,7 @@ export class UbsAdminEmployeeTableComponent implements OnInit {
   onStationSelected() {
     this.filteredTableData = this.tableData.filter((user) => {
       return user.receivingStations.some((station) => {
-        return this.selectedStations.some((ids) => station.id === ids);
+        return this.selectedStations.some((ids) => station.id === +ids);
       });
     });
     this.dataSource.data = this.filteredTableData;
@@ -188,7 +209,7 @@ export class UbsAdminEmployeeTableComponent implements OnInit {
       .pipe(take(1))
       .subscribe((res) => {
         if (res) {
-          this.ubsAdminEmployeeService.deleteEmployee(employeeId).subscribe();
+          this.store.dispatch(DeleteEmployee({ id: employeeId }));
         }
       });
   }

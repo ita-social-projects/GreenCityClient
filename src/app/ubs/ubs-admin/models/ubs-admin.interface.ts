@@ -1,15 +1,31 @@
 export interface Employees {
-  currentPage: number;
+  content: Page[];
+  empty: string;
   first: boolean;
-  hasNext: boolean;
-  hasPrevious: boolean;
   last: boolean;
   number: number;
-  content: Page[];
+  numberOfElements: number;
+  pageable: Pageable;
+  size: number;
+  sort: Sort;
   totalElements: number;
   totalPages: number;
 }
 
+export interface Pageable {
+  offset: number;
+  pageNumber: number;
+  pageSize: number;
+  paged: boolean;
+  unpaged: boolean;
+  sort: Sort;
+}
+
+export interface Sort {
+  empty: boolean;
+  sorted: boolean;
+  unsorted: boolean;
+}
 export interface Page {
   email: string;
   employeePositions: EmployeePositions[];
