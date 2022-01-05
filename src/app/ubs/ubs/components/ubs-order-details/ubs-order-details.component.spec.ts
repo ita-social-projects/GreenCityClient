@@ -69,12 +69,13 @@ describe('OrderDetailsFormComponent', () => {
     expect(component).toBeTruthy();
   });
 
-  it('method takeOrderData should invoke localStorageService.getCurrentLanguage method', async(() => {
+  it('method takeOrderData should invoke localStorageService.getCurrentLanguage method', () => {
     const mock: OrderDetails = {
       bags: [{ id: 0, code: 'ua' }],
       points: 0
     };
     orderService = TestBed.inject(OrderService);
+    spyOn(global, 'setTimeout');
     const spy = spyOn(orderService, 'getOrders').and.returnValue(of(mock));
     shareFormService.orderDetails = mock;
     localStorageService.getCurrentLanguage.and.callFake(() => Language.UA);
@@ -83,7 +84,7 @@ describe('OrderDetailsFormComponent', () => {
     expect(component.currentLanguage).toBe('ua');
     expect(spy).toHaveBeenCalled();
     expect(component.bags).toEqual(component.orders.bags);
-  }));
+  });
 
   it('method calculateTotal should invoke methods', () => {
     const spy = spyOn(component, 'changeForm');
