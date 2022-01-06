@@ -451,6 +451,7 @@ export class UBSOrderDetailsComponent extends FormBaseComponent implements OnIni
     this.finalSum = newItem.finalSum;
     this.isBonus = newItem.isBonus;
     this.certificateSum = newItem.certificateSum;
+    this.certificates = newItem.certificates;
   }
 
   openExtraPackages(): void {

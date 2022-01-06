@@ -132,8 +132,10 @@ describe('UbsOrderCertificateComponent', () => {
   });
 
   it('function certificateReset should invoke calculateCertificates function', () => {
-    const spy = spyOn(component, 'calculateCertificates');
+    const patchValueSpy = spyOn(component.formArrayCertificates, 'patchValue');
+    const markAsUntouchedSpy = spyOn(component.formArrayCertificates, 'markAsUntouched');
     component.certificateReset(true);
-    expect(spy).toHaveBeenCalled();
+    expect(patchValueSpy).toHaveBeenCalledWith(['']);
+    expect(markAsUntouchedSpy).toHaveBeenCalled();
   });
 });
