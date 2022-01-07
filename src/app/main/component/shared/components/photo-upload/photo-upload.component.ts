@@ -42,6 +42,8 @@ export class PhotoUploadComponent implements OnInit {
 
   uploadButton = true;
 
+  private storageBucket = environment.firebaseConfig.storageBucket;
+
   public uploader: FileUploader = new FileUploader({
     isHTML5: true
   });
@@ -80,7 +82,7 @@ export class PhotoUploadComponent implements OnInit {
         });
       }
       this.photoLinks.push({
-        name: `https://firebasestorage.googleapis.com/v0/b/${environment.firebaseConfig.storageBucket}/o/` + path + '?alt=media'
+        name: `https://firebasestorage.googleapis.com/v0/b/${this.storageBucket}/o/` + path + '?alt=media'
       });
     }
     this.listOfPhotos.emit(this.photoLinks);
