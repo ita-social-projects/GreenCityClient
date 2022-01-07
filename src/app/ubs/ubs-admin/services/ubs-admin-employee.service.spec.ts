@@ -2,12 +2,13 @@ import { HttpClientTestingModule, HttpTestingController } from '@angular/common/
 import { TestBed } from '@angular/core/testing';
 
 import { UbsAdminEmployeeService } from './ubs-admin-employee.service';
+import { environment } from '@environment/environment.js';
 
 describe('UbsAdminEmployeeService', () => {
   let httpMock: HttpTestingController;
   let service: UbsAdminEmployeeService;
 
-  const urlMock = 'https://greencity-ubs.azurewebsites.net/admin/ubs-employee';
+  const urlMock = environment.backendUbsLink + '/admin/ubs-employee';
   const employeeMock = {
     currentPage: 0,
     first: true,

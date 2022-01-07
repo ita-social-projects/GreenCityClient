@@ -1,11 +1,12 @@
 import { HttpClientTestingModule, HttpTestingController } from '@angular/common/http/testing';
 import { TestBed } from '@angular/core/testing';
 import { AdminCertificateService } from './admin-certificate.service';
+import { environment } from '@environment/environment.js';
 
 describe('AdminCertificateService', () => {
   let httpMock: HttpTestingController;
   let service: AdminCertificateService;
-  const urlMock = 'https://greencity-ubs.azurewebsites.net/ubs/management';
+  const urlMock = environment.ubsAdmin.backendUbsAdminLink + '/management';
 
   const certificateMock = {
     code: '1111-2222',

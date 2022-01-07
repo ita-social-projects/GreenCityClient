@@ -54,7 +54,7 @@ export class CreateEcoNewsService {
     formData.append('updateEcoNewsDto', JSON.stringify(body));
     this.httpOptions.headers.set('Authorization', `Bearer ${this.accessToken}`);
 
-    return this.http.put<NewsResponseDTO>('https://greencity.azurewebsites.net/econews/update', formData, this.httpOptions);
+    return this.http.put<NewsResponseDTO>(environment.backendLink + 'econews/update', formData, this.httpOptions);
   }
 
   public setForm(form: FormGroup): void {
@@ -103,6 +103,6 @@ export class CreateEcoNewsService {
     };
     httpOptions.headers.set('Authorization', `Bearer ${accessToken}`);
     httpOptions.headers.append('Content-Type', 'multipart/form-data');
-    return this.http.post<any>('https://greencity.azurewebsites.net/econews/uploadImages', formData, httpOptions);
+    return this.http.post<any>(environment.backendLink + 'econews/uploadImages', formData, httpOptions);
   }
 }

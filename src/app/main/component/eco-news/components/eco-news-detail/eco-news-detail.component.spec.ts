@@ -11,6 +11,7 @@ import { ActivatedRoute } from '@angular/router';
 import { TranslateModule } from '@ngx-translate/core';
 import { CUSTOM_ELEMENTS_SCHEMA, Pipe, PipeTransform } from '@angular/core';
 import { DateLocalisationPipe } from '@pipe/date-localisation-pipe/date-localisation.pipe';
+import { environment } from '@environment/environment.js';
 
 @Pipe({ name: 'translate' })
 class TranslatePipeMock implements PipeTransform {
@@ -142,7 +143,7 @@ describe('EcoNewsDetailComponent', () => {
   //     expect(component.setNewsItem).toHaveBeenCalledWith(item);
   //   });
 
-  //   const request = httpMock.expectOne(`https://greencity.azurewebsites.net/econews/${id}?lang=en`);
+  //   const request = httpMock.expectOne(`${environment.backendLink}econews/${id}?lang=en`);
   //   request.flush(mockEcoNewsModel);
 
   //   expect((component as any).newsItemSubscription).not.toEqual(undefined);
