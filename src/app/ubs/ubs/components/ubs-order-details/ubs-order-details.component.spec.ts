@@ -24,7 +24,7 @@ describe('OrderDetailsFormComponent', () => {
   let fixture: ComponentFixture<UBSOrderDetailsComponent>;
   let orderService: OrderService;
   const fakeLanguageSubject: Subject<string> = new Subject<string>();
-  const shareFormService = jasmine.createSpyObj('shareFormService', ['orderDetails']);
+  const shareFormService = jasmine.createSpyObj('shareFormService', ['orderDetails', 'changeAddCertButtonVisibility']);
   shareFormService.locationId = 1;
   const localStorageService = jasmine.createSpyObj('localStorageService', ['getCurrentLanguage', 'languageSubject', 'getUbsOrderData']);
   localStorageService.getUbsOrderData = () => null;

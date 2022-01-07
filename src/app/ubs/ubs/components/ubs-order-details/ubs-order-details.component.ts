@@ -294,6 +294,7 @@ export class UBSOrderDetailsComponent extends FormBaseComponent implements OnIni
       this.finalSum = this.total - this.certificateSum - this.pointsUsed;
       this.showCertificateUsed = this.certificateSum;
     }
+    this.shareFormService.changeAddCertButtonVisibility(this.finalSum > 0);
     this.changeOrderDetails();
   }
 

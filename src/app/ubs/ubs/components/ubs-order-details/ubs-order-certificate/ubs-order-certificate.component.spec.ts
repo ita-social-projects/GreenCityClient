@@ -22,7 +22,8 @@ describe('UbsOrderCertificateComponent', () => {
   let component: UbsOrderCertificateComponent;
   let fixture: ComponentFixture<UbsOrderCertificateComponent>;
   let orderService: OrderService;
-  const shareFormService = jasmine.createSpyObj('shareFormService', ['orderDetails']);
+  const shareFormService = jasmine.createSpyObj('shareFormService', ['orderDetails', 'changeAddCertButtonVisibility']);
+  shareFormService.addCert = of(false);
   const localStorageService = jasmine.createSpyObj('localStorageService', ['getCurrentLanguage', 'languageSubject']);
   beforeEach(async(() => {
     TestBed.configureTestingModule({

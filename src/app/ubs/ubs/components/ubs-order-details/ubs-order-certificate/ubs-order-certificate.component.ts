@@ -32,7 +32,7 @@ export class UbsOrderCertificateComponent implements OnInit, OnDestroy {
   cancelCertBtn = false;
   displayMinOrderMes = false;
   displayCert = false;
-  addCert = false;
+  addCert: boolean;
   onSubmit = true;
   order: {};
   certificateMask = '0000-0000';
@@ -66,6 +66,9 @@ export class UbsOrderCertificateComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     localStorage.removeItem('UBSorderData');
+    this.shareFormService.addCert.pipe(takeUntil(this.destroy)).subscribe((item: boolean) => {
+      this.addCert = item;
+    });
     this.orderService.locationSubject.pipe(takeUntil(this.destroy)).subscribe(() => {
       if (this.localStorageService.getUbsOrderData()) {
         this.calculateTotal();
@@ -114,7 +117,7 @@ export class UbsOrderCertificateComponent implements OnInit, OnDestroy {
     if (cert.certificateStatus === CertificateStatus.ACTIVE || cert.certificateStatus === CertificateStatus.NEW) {
       this.certificateSum += cert.certificatePoints;
       this.displayCert = true;
-      this.addCert = true;
+      this.shareFormService.changeAddCertButtonVisibility(true);
     }
     this.failedCert = cert.certificateStatus === CertificateStatus.EXPIRED || cert.certificateStatus === CertificateStatus.USED;
     this.certificateSum = this.failedCert && this.formArrayCertificates.length === 1 ? 0 : this.certificateSum;
@@ -220,7 +223,7 @@ export class UbsOrderCertificateComponent implements OnInit, OnDestroy {
     if (resetMessage) {
       this.certDate = '';
       this.certStatus = '';
-      this.addCert = true;
+      this.shareFormService.changeAddCertButtonVisibility(true);
     }
     const fullBonus = this.pointsUsed + this.points;
     if (this.finalSum === 0 && this.pointsUsed + this.points >= this.certificateSum && this.pointsUsed !== 0) {
@@ -232,7 +235,7 @@ export class UbsOrderCertificateComponent implements OnInit, OnDestroy {
     this.clickOnYes = true;
     this.bonusesRemaining = false;
     this.showCertificateUsed = null;
-    this.addCert = false;
+    this.shareFormService.changeAddCertButtonVisibility(false);
     this.displayCert = false;
     this.certificates = [];
     this.certSize = false;
