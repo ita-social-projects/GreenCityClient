@@ -29,6 +29,14 @@
       <mat-header-cell *matHeaderCellDef (mousedown)="onResizeColumn($event, i)">
         <th scope="row" *ngIf="column.title.key !== 'select'">
           <span class="column-title">{{ column.title | serverTranslate: currentLang }}</span>
+          <span class="icon-row" *ngIf="!nonSortableColumns.includes(column.title.key)">
+            <mat-icon *ngIf="arrowDirection !== column.title.key" (click)="getSortingData(column.title.key, 'ASC')">
+              arrow_downward
+            </mat-icon>
+            <mat-icon *ngIf="arrowDirection === column.title.key" (click)="getSortingData(column.title.key, 'DESC')">
+              arrow_upward
+            </mat-icon>
+          </span>
         </th>
         <th scope="row" *ngIf="column.title.key === 'select'" [ngStyle]="{ backgroundColor: '#fff', height: '16px', padding: '0px' }">
           <mat-checkbox
