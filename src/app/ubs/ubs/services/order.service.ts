@@ -5,6 +5,7 @@ import { Injectable } from '@angular/core';
 import { BehaviorSubject, Observable, Subject, throwError } from 'rxjs';
 import { tap } from 'rxjs/operators';
 import { ICertificate, OrderDetails } from '../models/ubs.interface';
+import { environment } from '@environment/environment.js';
 import { Order } from '../models/ubs.model';
 import { UBSOrderFormService } from './ubs-order-form.service';
 import { OrderClientDto } from 'src/app/ubs/ubs-user/ubs-user-orders-list/models/OrderClientDto';
@@ -14,7 +15,7 @@ import { OrderClientDto } from 'src/app/ubs/ubs-user/ubs-user-orders-list/models
 })
 export class OrderService {
   private readonly orderSubject = new BehaviorSubject<Order>({} as Order);
-  private url = 'https://greencity-ubs.azurewebsites.net/ubs';
+  private url = environment.ubsAdmin.backendUbsAdminLink;
   locationSubject = new Subject();
   locationSub = new Subject();
   currentAddress = new Subject();

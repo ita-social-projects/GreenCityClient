@@ -1,12 +1,13 @@
 import { HttpClientTestingModule, HttpTestingController } from '@angular/common/http/testing';
 import { TestBed } from '@angular/core/testing';
 import { OrderService } from 'src/app/ubs/ubs-admin/services/order.service';
+import { environment } from '@environment/environment.js';
 
 describe('OrderService', () => {
   let httpMock: HttpTestingController;
   let service: OrderService;
-  const urlMock = 'https://greencity-ubs.azurewebsites.net/ubs';
-  const urlMainMock = 'https://greencity-ubs.azurewebsites.net';
+  const urlMock = environment.ubsAdmin.backendUbsAdminLink;
+  const urlMainMock = environment.backendUbsLink;
   const userMock = {
     customerName: 'YuraBoiko',
     customerPhoneNumber: '974498935',

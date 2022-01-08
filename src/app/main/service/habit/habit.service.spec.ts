@@ -3,9 +3,10 @@ import { TestBed } from '@angular/core/testing';
 import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
 import { BehaviorSubject } from 'rxjs';
 import { HabitService } from './habit.service';
+import { environment } from '@environment/environment.js';
 
 describe('HabitService', () => {
-  const habitLink = 'https://greencity.azurewebsites.net/habit';
+  const habitLink = `${environment.backendLink}habit`;
   let habitService: HabitService;
   let httpMock: HttpTestingController;
   let langMock = null;

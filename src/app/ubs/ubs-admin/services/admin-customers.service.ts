@@ -4,12 +4,13 @@ import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { ICustomersTable } from '../models/customers-table.model';
 import { ICustomerOrdersTable } from '../models/customer-orders-table.model';
+import { environment } from '@environment/environment.js';
 
 @Injectable({
   providedIn: 'root'
 })
 export class AdminCustomersService {
-  url = 'https://greencity-ubs.azurewebsites.net/ubs/management';
+  url = environment.ubsAdmin.backendUbsAdminLink + '/management';
 
   constructor(private http: HttpClient) {}
 

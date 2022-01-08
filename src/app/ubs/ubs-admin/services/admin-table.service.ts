@@ -1,12 +1,13 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { IAlertInfo } from '../models/edit-cell.model';
+import { environment } from '@environment/environment.js';
 
 @Injectable({
   providedIn: 'root'
 })
 export class AdminTableService {
-  url = 'https://greencity-ubs.azurewebsites.net/ubs/management/';
+  url = environment.ubsAdmin.backendUbsAdminLink + '/management/';
 
   constructor(private http: HttpClient) {}
 

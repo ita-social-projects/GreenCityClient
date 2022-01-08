@@ -1,4 +1,5 @@
 import { HttpClientTestingModule, HttpTestingController } from '@angular/common/http/testing';
+import { environment } from '@environment/environment.js';
 import { TestBed } from '@angular/core/testing';
 import { BehaviorSubject, Subject } from 'rxjs';
 import { Order } from '../models/ubs.model';
@@ -81,10 +82,10 @@ describe('OrderService', () => {
     personalData: null
   };
 
-  const baseLink = 'https://greencity-ubs.azurewebsites.net/ubs/';
+  const baseLink = environment.ubsAdmin.backendUbsAdminLink;
 
   function httpTest(url, type, response) {
-    const req = httpMock.expectOne(`${baseLink}` + url);
+    const req = httpMock.expectOne(`${baseLink}/` + url);
     expect(req.request.method).toBe(type);
     req.flush(response);
   }
