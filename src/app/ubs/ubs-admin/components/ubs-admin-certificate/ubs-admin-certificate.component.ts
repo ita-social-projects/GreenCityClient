@@ -10,6 +10,7 @@ import { UbsAdminCertificateAddCertificatePopUpComponent } from './ubs-admin-cer
 import { UbsAdminTableExcelPopupComponent } from '../ubs-admin-table/ubs-admin-table-excel-popup/ubs-admin-table-excel-popup.component';
 import { columnsParamsCertificates } from '../ubs-admin-customers/columnsParams';
 import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
+import { nonSortableColumns } from '../../models/non-sortable-columns.model';
 
 @Component({
   selector: 'app-ubs-admin-certificate',
@@ -29,6 +30,7 @@ export class UbsAdminCertificateComponent implements OnInit, AfterViewChecked, O
   detailsOfExport: string[] = [];
   responsiblePerson: string[] = [];
   dataSource: MatTableDataSource<any>;
+  nonSortableColumns = nonSortableColumns;
   selection = new SelectionModel<any>(true, []);
   arrayOfHeaders = [];
   previousIndex: number;
@@ -49,6 +51,7 @@ export class UbsAdminCertificateComponent implements OnInit, AfterViewChecked, O
   startX: number;
   startWidth: number;
   isResizingRight: boolean;
+  arrowDirection: string;
   resizableMousemove: () => void;
   resizableMouseup: () => void;
   @ViewChild(MatTable, { read: ElementRef }) private matTableRef: ElementRef;
@@ -87,6 +90,14 @@ export class UbsAdminCertificateComponent implements OnInit, AfterViewChecked, O
     if (!this.isLoading) {
       this.setTableResize(this.matTableRef.nativeElement.clientWidth);
     }
+  }
+
+  getSortingData(columnName, sortingType) {
+    this.sortingColumn = columnName;
+    this.sortType = sortingType;
+    this.arrowDirection = this.arrowDirection === columnName ? null : columnName;
+    this.currentPage = 0;
+    this.getTable(this.filterValue, columnName, sortingType);
   }
 
   applyFilter(filterValue: string): void {

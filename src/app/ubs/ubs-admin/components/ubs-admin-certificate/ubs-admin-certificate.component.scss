@@ -304,6 +304,12 @@ button[disabled] {
   color: gray;
 }
 
+.column_header {
+  display: flex;
+  justify-content: space-between;
+  padding: 0 20px;
+}
+
 ::ng-deep .mat-checkbox-checked .mat-checkbox-background,
 ::ng-deep .mat-checkbox-indeterminate .mat-checkbox-background,
 ::ng-deep .mat-checkbox-checked:not(.mat-checkbox-disabled).mat-accent .mat-ripple-element,

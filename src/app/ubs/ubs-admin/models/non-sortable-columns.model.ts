@@ -8,5 +8,7 @@ export const nonSortableColumns = [
   'comments_for_order',
   'id_order_from_shop',
   'recipientPhone',
-  'recipientEmail'
+  'recipientEmail',
+  'orderId',
+  'points'
 ];
