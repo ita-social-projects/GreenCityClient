@@ -1,11 +1,29 @@
-<h1 class="title-text">
-  {{ 'user.auth.sign-up.title-up' | translate }}
-</h1>
-<h2 class="subtitle-text">
-  {{ 'user.auth.sign-up.fill-form-up' | translate }}
-</h2>
-<form *ngIf="signUpForm" (ngSubmit)="onSubmit(userOwnSignUp)" [formGroup]="signUpForm" class="form-content-container">
-  <label class="content-label" for="email" aria-required="true">
+<form *ngIf="signUpForm" (ngSubmit)="onSubmit()" [formGroup]="signUpForm" class="form-content-container">
+  <app-email-input-field formControlName="email" ngDefaultControl></app-email-input-field>
+  <app-username-input-field formControlName="userName" ngDefaultControl></app-username-input-field>
+  <app-password-input-field formControlName="password" ngDefaultControl></app-password-input-field>
+  <app-password-input-field [repeatPassword]="true" formControlName="repeatPassword" ngDefaultControl> </app-password-input-field>
+  <app-submit-button class="button" [buttonText]="'user.auth.sign-up.submit'"></app-submit-button>
+  <div class="switch-sign-up">
+    {{ 'user.auth.sign-up.or' | translate }}
+  </div>
+  <app-google-btn (click)="signUpWithGoogle()" [text]="'user.auth.sign-up.submit-with-google'"></app-google-btn>
+</form>
+<div class="exist-account">
+  <span>
+    {{ 'user.auth.sign-up.haveyou-account' | translate }}
+    <a
+      [ngClass]="isUbs ? 'ubs-exist-sign-in' : 'exist-sign-in'"
+      tabindex="0"
+      (keyup.enter)="openSignInWindow()"
+      (click)="openSignInWindow()"
+    >
+      {{ 'user.auth.sign-up.enter' | translate }}
+    </a>
+  </span>
+</div>
+
+<!--<label class="content-label" for="email" aria-required="true">
     {{ 'user.auth.sign-up.email' | translate }}
   </label>
   <input
@@ -26,7 +44,8 @@
     tabindex="0"
   />
   <div *ngIf="emailControl.invalid && emailControl.touched" class="error-message" id="email-err-msg">
-    <app-error [formElement]="emailControl" [emailFieldValue]="emailFieldValue" [controlName]="'email'" tabindex="0"></app-error>
+    <app-error [formElement]="emailControl" [emailFieldValue]="emailFieldValue" [controlName]="'email'"
+               tabindex="0"></app-error>
   </div>
   <div *ngIf="emailErrorMessageBackEnd" class="error-message error-message-show">
     {{ getEmailError() | translate }}
@@ -48,7 +67,8 @@
     tabindex="0"
   />
   <div *ngIf="firstNameControl.invalid && firstNameControl.touched" class="error-message" id="firstname-err-msg">
-    <app-error [formElement]="firstNameControl" [nameFieldValue]="nameFieldValue" [controlName]="'firstName'" tabindex="0"></app-error>
+    <app-error [formElement]="firstNameControl" [nameFieldValue]="nameFieldValue" [controlName]="'firstName'"
+               tabindex="0"></app-error>
   </div>
   <div *ngIf="firstNameErrorMessageBackEnd" class="error-message error-message-show">
     {{ 'user.auth.sign-up.invalid-user-name' | translate }}
@@ -132,7 +152,8 @@
       tabindex="0"
     />
   </div>
-  <div *ngIf="passwordControlConfirm.invalid && passwordControlConfirm.touched" class="error-message" id="confirm-err-msg">
+  <div *ngIf="passwordControlConfirm.invalid && passwordControlConfirm.touched" class="error-message"
+       id="confirm-err-msg">
     <app-error
       [formElement]="passwordControlConfirm"
       [passwordConfirmFieldValue]="passwordConfirmFieldValue"
@@ -155,22 +176,4 @@
     <span [class.span]="isUbs">{{ 'user.auth.sign-up.submit' | translate }}</span>
     <span *ngIf="loadingAnim" class="spinner-border spinner-border-sm" role="status" aria-hidden="true"> </span>
   </button>
-  <div class="switch-sign-up">
-    {{ 'user.auth.sign-up.or' | translate }}
-  </div>
-  <app-google-btn (click)="signUpWithGoogle()" [text]="'user.auth.sign-up.submit-with-google'"></app-google-btn>
-</form>
-
-<div class="exist-account">
-  <span>
-    {{ 'user.auth.sign-up.haveyou-account' | translate }}
-    <a
-      [ngClass]="isUbs ? 'ubs-exist-sign-in' : 'exist-sign-in'"
-      tabindex="0"
-      (keyup.enter)="openSignInWindow()"
-      (click)="openSignInWindow()"
-    >
-      {{ 'user.auth.sign-up.enter' | translate }}
-    </a>
-  </span>
-</div>
+  -->
