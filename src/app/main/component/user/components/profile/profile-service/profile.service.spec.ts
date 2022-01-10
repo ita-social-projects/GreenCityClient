@@ -5,10 +5,11 @@ import { LocalStorageService } from '@global-service/localstorage/local-storage.
 import { HttpClientTestingModule, HttpTestingController } from '@angular/common/http/testing';
 import { TestBed } from '@angular/core/testing';
 import { ProfileService } from './profile.service';
+import { environment } from '@environment/environment.js';
 
-xdescribe('ProfileService', () => {
-  const backUserLink = 'https://greencity-user.azurewebsites.net/';
-  const backLink = 'https://greencity.azurewebsites.net/';
+describe('ProfileService', () => {
+  const backUserLink = environment.backendUserLink;
+  const backLink = environment.backendLink;
   let profileService: ProfileService;
   let httpMock: HttpTestingController;
 

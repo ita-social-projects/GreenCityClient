@@ -1,11 +1,12 @@
 import { HttpClientTestingModule, HttpTestingController } from '@angular/common/http/testing';
 import { TestBed } from '@angular/core/testing';
 import { AdminTableService } from './admin-table.service';
+import { environment } from '@environment/environment.js';
 
 describe('AdminTableService', () => {
   let httpMock: HttpTestingController;
   let service: AdminTableService;
-  const urlMock = 'https://greencity-ubs.azurewebsites.net/ubs/management';
+  const urlMock = environment.ubsAdmin.backendUbsAdminLink + '/management';
   const isdMock = [1, 2, 3];
 
   beforeEach(() => {

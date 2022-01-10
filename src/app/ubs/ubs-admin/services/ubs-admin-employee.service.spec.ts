@@ -2,12 +2,13 @@ import { HttpClientTestingModule, HttpTestingController } from '@angular/common/
 import { TestBed } from '@angular/core/testing';
 
 import { UbsAdminEmployeeService } from './ubs-admin-employee.service';
+import { environment } from '@environment/environment.js';
 
 describe('UbsAdminEmployeeService', () => {
   let httpMock: HttpTestingController;
   let service: UbsAdminEmployeeService;
 
-  const urlMock = 'https://greencity-ubs.azurewebsites.net/admin/ubs-employee';
+  const urlMock = environment.backendUbsLink + '/admin/ubs-employee';
   const employeeMock = {
     currentPage: 0,
     first: true,
@@ -43,8 +44,8 @@ describe('UbsAdminEmployeeService', () => {
   });
 
   it('should get all employees', () => {
-    service.getEmployees(0, 10).subscribe((data) => {
-      expect(data).toBe(employeeMock);
+    service.getEmployees(0, 10).subscribe((data: any) => {
+      expect(data).toBe(employeeMock as any);
     });
     const req = httpMock.expectOne(`${urlMock}/getAll-active-employees?pageNumber=0&pageSize=10`);
     expect(req.request.method).toBe('GET');

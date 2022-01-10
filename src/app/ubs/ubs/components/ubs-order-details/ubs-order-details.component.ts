@@ -218,14 +218,20 @@ export class UBSOrderDetailsComponent extends FormBaseComponent implements OnIni
         this.defaultPoints = this.points;
         this.certificateLeft = orderData.points;
         this.bags.forEach((bag) => {
-          bag.quantity = bag.quantity === undefined ? null : bag.quantity;
-          this.orderDetailsForm.addControl('quantity' + String(bag.id), new FormControl('', [Validators.min(0), Validators.max(999)]));
-          const quantity = bag.quantity === null ? '' : +bag.quantity;
-          const valueName = 'quantity' + String(bag.id);
-          this.orderDetailsForm.controls[valueName].setValue(quantity);
+          if (bag.code === this.currentLanguage) {
+            bag.quantity = bag.quantity === undefined ? null : bag.quantity;
+            this.orderDetailsForm.addControl('quantity' + String(bag.id), new FormControl('', [Validators.min(0), Validators.max(999)]));
+            const quantity = bag.quantity === null ? '' : +bag.quantity;
+            const valueName = 'quantity' + String(bag.id);
+            this.orderDetailsForm.controls[valueName].setValue(quantity);
+          }
         });
         this.filterBags();
         this.isFetching = false;
+        setTimeout(() => {
+          this.shareFormService.changeOrderDetails();
+          this.checkTotalBigBags();
+        }, 0);
       });
   }
 
@@ -294,6 +300,7 @@ export class UBSOrderDetailsComponent extends FormBaseComponent implements OnIni
       this.finalSum = this.total - this.certificateSum - this.pointsUsed;
       this.showCertificateUsed = this.certificateSum;
     }
+    this.shareFormService.changeAddCertButtonVisibility(this.finalSum > 0);
     this.changeOrderDetails();
   }
 
@@ -451,6 +458,7 @@ export class UBSOrderDetailsComponent extends FormBaseComponent implements OnIni
     this.finalSum = newItem.finalSum;
     this.isBonus = newItem.isBonus;
     this.certificateSum = newItem.certificateSum;
+    this.certificates = newItem.certificates;
   }
 
   openExtraPackages(): void {

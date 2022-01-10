@@ -2,12 +2,13 @@ import { TestBed } from '@angular/core/testing';
 import { CategoryService } from './category.service';
 import { HttpClientTestingModule, HttpTestingController } from '@angular/common/http/testing';
 import { CategoryDto } from '../model/category.model';
+import { environment } from '@environment/environment.js';
 
 xdescribe('Category Service', () => {
   let service: CategoryService;
   let httpMock: HttpTestingController;
   let category: CategoryDto;
-  const mainLink = 'https://greencity.azurewebsites.net';
+  const mainLink = environment.backendLink;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
@@ -31,7 +32,7 @@ xdescribe('Category Service', () => {
     service.findAllCategory().subscribe((value) => {
       expect(value).toBe(category);
     });
-    const req = httpMock.expectOne(`${mainLink}/category`);
+    const req = httpMock.expectOne(`${mainLink}category`);
     expect(req.cancelled).toBeFalsy();
     expect(req.request.responseType).toEqual('json');
     expect(req.request.method).toBe('GET');
@@ -43,7 +44,7 @@ xdescribe('Category Service', () => {
     service.save(category).subscribe((value) => {
       expect(value).toBe(category);
     });
-    const req = httpMock.expectOne(`${mainLink}/category`);
+    const req = httpMock.expectOne(`${mainLink}category`);
     expect(req.cancelled).toBeFalsy();
     expect(req.request.responseType).toEqual('json');
     expect(req.request.method).toBe('POST');

@@ -22,7 +22,8 @@ describe('UbsOrderCertificateComponent', () => {
   let component: UbsOrderCertificateComponent;
   let fixture: ComponentFixture<UbsOrderCertificateComponent>;
   let orderService: OrderService;
-  const shareFormService = jasmine.createSpyObj('shareFormService', ['orderDetails']);
+  const shareFormService = jasmine.createSpyObj('shareFormService', ['orderDetails', 'changeAddCertButtonVisibility']);
+  shareFormService.addCert = of(false);
   const localStorageService = jasmine.createSpyObj('localStorageService', ['getCurrentLanguage', 'languageSubject']);
   beforeEach(async(() => {
     TestBed.configureTestingModule({
@@ -132,8 +133,10 @@ describe('UbsOrderCertificateComponent', () => {
   });
 
   it('function certificateReset should invoke calculateCertificates function', () => {
-    const spy = spyOn(component, 'calculateCertificates');
+    const patchValueSpy = spyOn(component.formArrayCertificates, 'patchValue');
+    const markAsUntouchedSpy = spyOn(component.formArrayCertificates, 'markAsUntouched');
     component.certificateReset(true);
-    expect(spy).toHaveBeenCalled();
+    expect(patchValueSpy).toHaveBeenCalledWith(['']);
+    expect(markAsUntouchedSpy).toHaveBeenCalled();
   });
 });

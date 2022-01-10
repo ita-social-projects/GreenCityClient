@@ -2,6 +2,7 @@ import { HttpClientTestingModule, HttpTestingController } from '@angular/common/
 import { TestBed } from '@angular/core/testing';
 import { FormArray, FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { CreateEcoNewsService } from './create-eco-news.service';
+import { environment } from '@environment/environment.js';
 
 xdescribe('CreateEcoNewsService', () => {
   let service: CreateEcoNewsService;
@@ -69,7 +70,7 @@ xdescribe('CreateEcoNewsService', () => {
       expect(newsData.title).toEqual('mock news');
     });
 
-    const req = httpTestingController.expectOne('https://greencity.azurewebsites.net/econews');
+    const req = httpTestingController.expectOne(environment.backendLink + `econews`);
     expect(req.request.method).toEqual('POST');
     req.flush(form.value);
   });
@@ -79,7 +80,7 @@ xdescribe('CreateEcoNewsService', () => {
       expect(newsData.tags[0]).toEqual('News');
     });
 
-    const req = httpTestingController.expectOne('https://greencity.azurewebsites.net/econews/update');
+    const req = httpTestingController.expectOne(environment.backendLink + 'econews/update');
     expect(req.request.method).toEqual('PUT');
     req.flush(form.value);
   });

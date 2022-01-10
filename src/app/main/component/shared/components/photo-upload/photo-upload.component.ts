@@ -7,11 +7,12 @@ import { AngularFireStorage, AngularFireUploadTask } from '@angular/fire/storage
 import { Observable } from 'rxjs';
 import { Photo } from '../../../../model/photo/photo';
 import { MatSnackBarComponent } from '@global-errors/mat-snack-bar/mat-snack-bar.component';
+import { environment } from '@environment/environment.js';
 
 @Component({
   selector: 'app-photo-upload',
   templateUrl: './photo-upload.component.html',
-  styleUrls: ['./photo-upload.component.scss'],
+  styleUrls: ['./photo-upload.component.scss']
 })
 export class PhotoUploadComponent implements OnInit {
   @Output() listOfPhotos = new EventEmitter();
@@ -41,8 +42,10 @@ export class PhotoUploadComponent implements OnInit {
 
   uploadButton = true;
 
+  private storageBucket = environment.firebaseConfig.storageBucket;
+
   public uploader: FileUploader = new FileUploader({
-    isHTML5: true,
+    isHTML5: true
   });
 
   constructor(
@@ -78,7 +81,9 @@ export class PhotoUploadComponent implements OnInit {
           }
         });
       }
-      this.photoLinks.push({ name: 'https://firebasestorage.googleapis.com/v0/b/greencity-9bdb7.appspot.com/o/' + path + '?alt=media' });
+      this.photoLinks.push({
+        name: `https://firebasestorage.googleapis.com/v0/b/${this.storageBucket}/o/` + path + '?alt=media'
+      });
     }
     this.listOfPhotos.emit(this.photoLinks);
     this.uploadButton = false;
@@ -86,7 +91,7 @@ export class PhotoUploadComponent implements OnInit {
 
   ngOnInit() {
     this.uploadForm = this.fb.group({
-      document: [null, null],
+      document: [null, null]
     });
     this.uploadForm.valueChanges.subscribe((dt) => this.fieldChanges());
   }

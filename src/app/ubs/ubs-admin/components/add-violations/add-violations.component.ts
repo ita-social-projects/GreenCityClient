@@ -16,6 +16,13 @@ interface InitialData {
   initialImagesLength: number;
 }
 
+interface DataToSend {
+  orderID: number;
+  violationDescription: string;
+  violationLevel: string;
+  imagesToDelete?: string[] | null;
+}
+
 @Component({
   selector: 'app-add-violations',
   templateUrl: './add-violations.component.html',
@@ -37,6 +44,7 @@ export class AddViolationsComponent implements OnInit, OnDestroy {
   imgArray = [];
   imagesFromDBLength: number;
   imagesFromDB = [];
+  deletedImages: string[] | null = [];
   initialData: InitialData;
   isInitialDataChanged = false;
   isInitialImageDataChanged = false;
@@ -124,18 +132,21 @@ export class AddViolationsComponent implements OnInit, OnDestroy {
     }
   }
 
-  prepareDataToSend(dto: string, image?: string): FormData {
+  prepareDataToSend(dto: string): FormData {
     const { violationLevel, violationDescription } = this.addViolationForm.value;
-    const data = {
+    const data: DataToSend = {
       orderID: this.orderId,
       violationDescription,
       violationLevel
     };
+    if (this.editMode) {
+      data.imagesToDelete = this.deletedImages.length ? this.deletedImages : null;
+    }
     const formData: FormData = new FormData();
     const stringifiedDataToSend = JSON.stringify(data);
     formData.append(dto, stringifiedDataToSend);
     for (const images of this.imgArray) {
-      formData.append('files', images);
+      formData.append(this.editMode ? 'multipartFiles' : 'files', images);
     }
     return formData;
   }
@@ -295,6 +306,7 @@ export class AddViolationsComponent implements OnInit, OnDestroy {
     }
     if (this.editMode && i < this.imagesFromDBLength) {
       this.imagesFromDBLength--;
+      this.deletedImages.push(this.imagesFromDB[i]);
       this.imagesFromDB.splice(i, 1);
       this.isInitialImageDataChanged = true;
     }

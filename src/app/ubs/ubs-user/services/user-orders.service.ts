@@ -1,12 +1,13 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
+import { environment } from '@environment/environment.js';
 
 @Injectable({
   providedIn: 'root'
 })
 export class UserOrdersService {
-  private url = 'https://greencity-ubs.azurewebsites.net/ubs/client';
+  private url = environment.ubsAdmin.backendUbsAdminLink + '/client';
 
   constructor(private http: HttpClient) {}
 

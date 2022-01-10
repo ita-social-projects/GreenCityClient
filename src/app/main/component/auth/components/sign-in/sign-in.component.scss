@@ -1,41 +1,21 @@
 $inputHeight: 48px;
 
-h1 {
-  margin-bottom: 8px;
-  font-family: var(--secondary-font);
-  font-style: normal;
-  font-weight: 500;
-  font-size: 38px;
-  line-height: 48px;
-  color: var(--tertiary-dark-grey);
-}
-
-h2 {
-  margin-bottom: 40px;
-  font-family: var(--primary-font);
-  font-size: 16px;
-  line-height: 16px;
-}
-
 .password-input-btn-show-hide {
   height: $inputHeight;
   box-sizing: border-box;
   border-radius: 5px;
 }
 
-.alert-email-validation,
 .alert-password-validation {
   border: 1px solid var(--error-ligh-red);
 }
 
-.successful-email-validation,
 .successful-password-validation {
   border: 1px solid var(--secondary-grey);
   margin-bottom: 16px;
 }
 
 .validation-password-error,
-.validation-email-error,
 .alert-general-error {
   color: var(--error-ligh-red);
   font-size: 10px;
@@ -48,15 +28,10 @@ h2 {
   position: relative;
 }
 
-.validation-email-error {
-  margin-bottom: 9px;
-}
-
 .sign-in-form {
   display: flex;
   flex-direction: column;
 
-  label[for='email'],
   label[for='password'] {
     margin-bottom: 4px;
     font-family: var(--primary-font);
@@ -75,37 +50,19 @@ h2 {
     line-height: 22px;
   }
 
-  input[type='email'] {
-    height: $inputHeight;
-    background: #fff;
-    font-family: var(--primary-font);
-  }
-
-  input[type='email']:focus {
-    outline: none;
-  }
-
-  input[type='password'],
-  input[type='text'] {
+  input[type='password'] {
     border: transparent;
     width: 90%;
     font-family: var(--primary-font);
   }
 
-  input[type='password']:focus,
-  input[type='text']:focus {
+  input[type='password']:focus {
     height: 46px;
     outline: none;
   }
 
   .email-field-margin {
     height: 21px;
-  }
-
-  .image-show-hide-password {
-    width: 16px;
-    height: 16px;
-    cursor: pointer;
   }
 }
 
@@ -116,7 +73,8 @@ h2 {
 .forgot-wrapper {
   display: flex;
   justify-content: flex-end;
-  margin-bottom: 24px;
+  margin-bottom: 12px;
+  margin-top: 12px;
 
   .ubs-forgot-password,
   .forgot-password {
@@ -132,29 +90,6 @@ h2 {
 
   .ubs-forgot-password {
     color: var(--ubs-primary-blue);
-  }
-}
-
-.primary-global-button {
-  height: 48px;
-  font-weight: 600;
-  margin-bottom: 8px;
-  margin-top: 7px;
-  border-radius: 3px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-
-  .spinner-border {
-    margin-right: 10px;
-  }
-}
-
-.ubs-primary-global-button {
-  height: 43px;
-
-  .span {
-    color: black;
   }
 }
 

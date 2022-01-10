@@ -1,11 +1,12 @@
 import { TestBed } from '@angular/core/testing';
 import { SpecificationService } from './specification.service';
 import { HttpClientTestingModule, HttpTestingController } from '@angular/common/http/testing';
+import { environment } from '@environment/environment.js';
 
 xdescribe('Specification Service', () => {
   let specificationService: SpecificationService;
   let httpMock: HttpTestingController;
-  const mainLink = 'https://greencity.azurewebsites.net';
+  const mainLink = environment.backendLink;
   const specification = [{ name: 'Animal' }];
 
   beforeEach(() => {
@@ -25,7 +26,7 @@ xdescribe('Specification Service', () => {
     specificationService.findAllSpecification().subscribe((value) => {
       expect(value).toBe(specification);
     });
-    const req = httpMock.expectOne(`${mainLink}/specification`);
+    const req = httpMock.expectOne(`${mainLink}specification`);
     expect(req.cancelled).toBeFalsy();
     expect(req.request.responseType).toEqual('json');
     expect(req.request.method).toBe('GET');
