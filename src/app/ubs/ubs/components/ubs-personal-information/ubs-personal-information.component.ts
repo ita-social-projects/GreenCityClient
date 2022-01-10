@@ -200,7 +200,10 @@ export class UBSPersonalInformationComponent extends FormBaseComponent implement
     const anotherClientEmail = this.getControl('anotherClientEmail');
     this.anotherClient = !this.anotherClient;
     if (this.anotherClient) {
-      this.personalDataForm.markAsUntouched();
+      anotherClientFirstName.markAsUntouched();
+      anotherClientLastName.markAsUntouched();
+      anotherClientPhoneNumber.markAsUntouched();
+      anotherClientEmail.markAsUntouched();
       anotherClientFirstName.setValidators(this.personalDataFormValidators);
       anotherClientLastName.setValidators(this.personalDataFormValidators);
       anotherClientPhoneNumber.setValidators([Validators.required, Validators.minLength(12)]);
