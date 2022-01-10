@@ -293,7 +293,7 @@ export class UBSPersonalInformationComponent extends FormBaseComponent implement
         orderBags.push(bag);
       }
     });
-    orderBags = orderBags.filter((bag) => bag.amount !== 0);
+    orderBags = orderBags.filter((bag) => bag.amount && bag.amount !== 0);
     this.personalData.firstName = this.personalDataForm.get('firstName').value;
     this.personalData.lastName = this.personalDataForm.get('lastName').value;
     this.personalData.email = this.personalDataForm.get('email').value;
