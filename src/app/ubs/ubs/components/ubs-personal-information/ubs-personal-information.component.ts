@@ -190,6 +190,7 @@ export class UBSPersonalInformationComponent extends FormBaseComponent implement
       anotherClientPhoneNumber: this.personalData.anotherClientPhoneNumber,
       addressComment: this.addresses.length > 0 ? this.personalData.addressComment : ''
     });
+    this.personalDataForm.markAllAsTouched();
   }
 
   togglClient(): void {
@@ -199,6 +200,7 @@ export class UBSPersonalInformationComponent extends FormBaseComponent implement
     const anotherClientEmail = this.getControl('anotherClientEmail');
     this.anotherClient = !this.anotherClient;
     if (this.anotherClient) {
+      this.personalDataForm.markAsUntouched();
       anotherClientFirstName.setValidators(this.personalDataFormValidators);
       anotherClientLastName.setValidators(this.personalDataFormValidators);
       anotherClientPhoneNumber.setValidators([Validators.required, Validators.minLength(12)]);
