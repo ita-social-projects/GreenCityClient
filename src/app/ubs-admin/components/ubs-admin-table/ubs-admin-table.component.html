@@ -15,6 +15,9 @@
         {{ 'ubs-tables.export-to-excel' | translate }}
       </button>
       <ul class="dropdown-menu" [style.display]="display">
+        <button class="reset-settings" (click)="resetSetting()">
+          <i class="fa fa-close" aria-hidden="true"></i>
+        </button>
         <li class="item">
           <mat-checkbox class="check" type="checkbox" [checked]="isAll" (change)="showAllColumns(isAll)">
             {{ 'ubs-tables.all-elements' | translate }}
