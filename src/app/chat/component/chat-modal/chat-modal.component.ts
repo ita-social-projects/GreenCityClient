@@ -17,6 +17,7 @@ export class ChatModalComponent implements OnInit {
 
   close() {
     this.chatsService.setCurrentChat(null);
+    this.chatsService.chatsMessages = {};
     this.dialogRef.close();
     console.log('close');
   }

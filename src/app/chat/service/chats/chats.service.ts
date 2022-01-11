@@ -41,11 +41,12 @@ export class ChatsService {
     this.httpClient.put<Chat>(`${environment.backendChatLink}chat/`, chat).subscribe();
   }
 
-  public getAllChatMessages(chatId: number): Observable<Messages> {
-    return this.httpClient.get<Messages>(`${environment.backendChatLink}chat/messages/${chatId}`);
+  public getAllChatMessages(chatId: number, page: number): Observable<Messages> {
+    return this.httpClient.get<Messages>(`${environment.backendChatLink}chat/messages/${chatId}?size=20&&page=${page}`);
   }
 
   public setCurrentChat(chat: Chat | null): void {
+    console.log(chat);
     // If messages are already loading.
     if (this.messagesIsLoading) {
       return;
@@ -58,16 +59,25 @@ export class ChatsService {
     // If messages for this chat is already loaded.
     if (this.chatsMessages[chat.id]) {
       this.currentChatsStream$.next(chat);
-      this.currentChatMessagesStream$.next(this.chatsMessages[chat.id]);
+      this.currentChatMessagesStream$.next(this.chatsMessages[chat.id].page);
       return;
     }
 
     this.messagesIsLoading = true;
-    this.getAllChatMessages(chat.id).subscribe((messages: Messages) => {
+    this.getAllChatMessages(chat.id, 0).subscribe((messages: Messages) => {
       console.log('Messages', messages);
       this.currentChatsStream$.next(chat);
       this.currentChatMessagesStream$.next(messages.page);
+      console.log(messages);
       this.chatsMessages[chat.id] = messages;
+      this.messagesIsLoading = false;
+    });
+  }
+
+  public updateChatMessages(id: number, page: number) {
+    this.messagesIsLoading = true;
+    this.getAllChatMessages(id, page).subscribe((messages: Messages) => {
+      this.chatsMessages[id].page.unshift(...messages.page);
       this.messagesIsLoading = false;
     });
   }

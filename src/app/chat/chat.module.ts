@@ -13,6 +13,7 @@ import { HttpClientModule } from '@angular/common/http';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 import { MatDialogModule } from '@angular/material/dialog';
+import { InfiniteScrollModule } from 'ngx-infinite-scroll';
 
 @NgModule({
   declarations: [
@@ -26,7 +27,7 @@ import { MatDialogModule } from '@angular/material/dialog';
     ChatComponent,
     MessageFromDayPipe
   ],
-  imports: [BrowserModule, HttpClientModule, FormsModule, ReactiveFormsModule, NoopAnimationsModule, MatDialogModule],
+  imports: [BrowserModule, HttpClientModule, FormsModule, ReactiveFormsModule, NoopAnimationsModule, MatDialogModule, InfiniteScrollModule],
   exports: [ChatPopupComponent],
   providers: []
 })

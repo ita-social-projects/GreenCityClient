@@ -1,4 +1,12 @@
-<div class="chat" #chat>
+<div
+  class="chat"
+  #chat
+  infiniteScroll
+  [infiniteScrollDistance]="1"
+  [infiniteScrollThrottle]="50"
+  (scrolledUp)="onScroll()"
+  [scrollWindow]="false"
+>
   <div class="messages-from-day" *ngFor="let messagesFromDay of chatsService.currentChatMessagesStream$ | async | messageFromDay">
     <div class="chat-days-separate-line">
       <span>{{ messagesFromDay[0].createDate | date: 'dd.MM.yyyy' }}</span>

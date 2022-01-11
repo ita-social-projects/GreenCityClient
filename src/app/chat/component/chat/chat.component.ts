@@ -17,6 +17,8 @@ export class ChatComponent implements OnInit, AfterViewChecked {
   @ViewChild('chat') chat: ElementRef;
   public messageControl: FormControl = new FormControl();
 
+  private page: number = 0;
+
   constructor(public chatsService: ChatsService, private socketService: SocketService, public userService: UserService) {}
 
   ngOnInit(): void {
@@ -42,5 +44,11 @@ export class ChatComponent implements OnInit, AfterViewChecked {
     };
     this.messageControl.reset();
     this.socketService.sendMessage(message);
+  }
+
+  onScroll() {
+    this.page += 1;
+    this.chatsService.updateChatMessages(this.chatsService.currentChat.id, this.page);
+    console.log('scrolled!!');
   }
 }

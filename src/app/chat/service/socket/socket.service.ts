@@ -1,4 +1,3 @@
-import { Page } from 'src/app/ubs/ubs-admin/models/ubs-admin.interface';
 import { Injectable } from '@angular/core';
 import * as SockJS from 'sockjs-client';
 import { environment } from '@environment/environment';

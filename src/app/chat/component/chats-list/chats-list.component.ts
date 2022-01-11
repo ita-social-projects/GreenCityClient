@@ -35,6 +35,7 @@ export class ChatsListComponent implements OnInit {
   }
 
   openNewMessageWindow(chat: Chat) {
+    console.log(chat);
     this.chatService.setCurrentChat(chat);
     this.createNewMessageWindow.emit(chat);
   }
