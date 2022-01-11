@@ -58,6 +58,7 @@ export class UbsAdminTableComponent implements OnInit, AfterViewChecked, OnDestr
   startX: number;
   startWidth: number;
   isResizingRight: boolean;
+  previousSettings;
   resizableMousemove: () => void;
   resizableMouseup: () => void;
   @ViewChild(MatTable, { read: ElementRef }) private matTableRef: ElementRef;
@@ -186,6 +187,7 @@ export class UbsAdminTableComponent implements OnInit, AfterViewChecked, OnDestr
     if (this.isPopupOpen === false) {
       this.orderService.setColumnToDisplay(encodeURIComponent(this.displayedColumns.join(','))).subscribe();
     }
+    this.previousSettings = this.displayedColumns;
   }
 
   public showAllColumns(isCheckAll: boolean): void {
@@ -479,7 +481,10 @@ export class UbsAdminTableComponent implements OnInit, AfterViewChecked, OnDestr
       el.style.width = column.width + 'px';
     });
   }
-
+  public resetSetting() {
+    this.displayedColumns = this.previousSettings;
+    this.display = 'none';
+  }
   ngOnDestroy() {
     this.destroy.next();
     this.destroy.unsubscribe();
