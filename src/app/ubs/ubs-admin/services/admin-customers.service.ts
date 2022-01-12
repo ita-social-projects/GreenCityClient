@@ -28,7 +28,7 @@ export class AdminCustomersService {
     return this.http.get<ICustomerOrdersTable>(`${this.url}/${id}/ordersAll?page=${page}&column=${column}&sortingType=${sortingType}`);
   }
 
-  getCustomerViolations(id: string): Observable<ICustomerViolationTable> {
-    return this.http.get<ICustomerViolationTable>(`${this.url}/${id}/violationsAll`);
+  getCustomerViolations(id: string, column: string, sortingType: string): Observable<ICustomerViolationTable> {
+    return this.http.get<ICustomerViolationTable>(`${this.url}/${id}/violationsAll?column=${column}&sortingType=${sortingType}`);
   }
 }

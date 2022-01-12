@@ -10,6 +10,8 @@
       <th id="i" mat-header-cell *matHeaderCellDef [appResizeColumn]="{ resizable: true, index: i }">
         <div class="columns_header">
           <span>{{ column.title | serverTranslate: currentLang }}</span>
+          <mat-icon *ngIf="arrowDirection !== column.title.key" (click)="onSortTable(column.title.key, 'DESC')"> arrow_downward </mat-icon>
+          <mat-icon *ngIf="arrowDirection === column.title.key" (click)="onSortTable(column.title.key, 'ASC')"> arrow_upward </mat-icon>
         </div>
       </th>
       <td mat-cell *matCellDef="let row" (mouseover)="switchViewButton = row.orderId" (mouseleave)="switchViewButton = null">
