@@ -117,6 +117,10 @@
       .requirement-drag {
         padding: 65px;
         color: var(--quaternary-grey);
+        display: flex;
+        flex-flow: column wrap;
+        justify-content: center;
+        align-items: center;
       }
 
       .image-edit-head {
