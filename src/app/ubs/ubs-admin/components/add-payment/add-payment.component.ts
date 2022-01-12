@@ -5,7 +5,13 @@ import { MatTableDataSource } from '@angular/material/table';
 import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
+import { IPaymentInfoDtos } from '../../models/ubs-admin.interface';
 
+interface InputData {
+  orderId: number;
+  editMode: boolean;
+  payment: IPaymentInfoDtos | null;
+}
 @Component({
   selector: 'app-add-payment',
   templateUrl: './add-payment.component.html',
@@ -15,6 +21,8 @@ export class AddPaymentComponent implements OnInit {
   closeButton = './assets/img/profile/icons/cancel.svg';
   public date = new Date();
   orderId: number;
+  editMode: boolean;
+  payment: IPaymentInfoDtos | null;
   addPaymentForm: FormGroup;
   file;
   imagePreview: any = {};
@@ -28,11 +36,13 @@ export class AddPaymentComponent implements OnInit {
     private localeStorageService: LocalStorageService,
     private dialogRef: MatDialogRef<AddPaymentComponent>,
     private fb: FormBuilder,
-    @Inject(MAT_DIALOG_DATA) public data: any
+    @Inject(MAT_DIALOG_DATA) public data: InputData
   ) {}
 
   ngOnInit(): void {
-    this.orderId = this.data;
+    this.orderId = this.data.orderId;
+    this.editMode = this.data.editMode;
+    this.payment = this.data.payment;
     this.localeStorageService.firstNameBehaviourSubject.pipe(takeUntil(this.destroySub)).subscribe((firstName) => {
       this.adminName = firstName;
     });
@@ -41,11 +51,12 @@ export class AddPaymentComponent implements OnInit {
 
   initForm() {
     this.addPaymentForm = this.fb.group({
-      paymentDate: ['', [Validators.required]],
-      amount: ['', [Validators.required, Validators.pattern('^[0-9]+.[0-9][0-9]$')]],
-      paymentId: ['', [Validators.required, Validators.pattern('^[0-9]{5}$')]],
-      receiptLink: ['']
+      paymentDate: [this.payment?.settlementdate ?? '', [Validators.required]],
+      amount: [this.payment?.amount ? this.payment.amount + '.00' : '', [Validators.required, Validators.pattern('^[0-9]+.[0-9][0-9]$')]],
+      paymentId: [this.payment?.paymentId ?? '', [Validators.required, Validators.pattern('^[0-9]{5}$')]],
+      receiptLink: [this.payment?.comment ?? '']
     });
+    this.imagePreview = this.payment?.imagePath ? { src: this.payment.imagePath } : {};
   }
 
   close() {

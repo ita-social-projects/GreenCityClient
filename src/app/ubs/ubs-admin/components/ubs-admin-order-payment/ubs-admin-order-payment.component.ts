@@ -55,12 +55,16 @@ export class UbsAdminOrderPaymentComponent implements OnInit, OnChanges {
       });
   }
 
-  openPopup() {
+  openPopup(editMode: boolean, paymentIndex?: number) {
     this.dialog
       .open(AddPaymentComponent, {
         hasBackdrop: true,
         panelClass: 'custom-dialog-container',
-        data: this.orderInfo.generalOrderInfo.id
+        data: {
+          orderId: this.orderInfo.generalOrderInfo.id,
+          editMode,
+          payment: editMode ? this.paymentsArray[paymentIndex] : null
+        }
       })
       .afterClosed()
       .pipe(take(1))

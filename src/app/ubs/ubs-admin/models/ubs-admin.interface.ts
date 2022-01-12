@@ -160,6 +160,7 @@ export interface IPaymentInfoDtos {
   comment: string;
   paymentId: number;
   settlementdate: string;
+  imagePath: string;
 }
 
 export interface IExportDetails {
