@@ -421,6 +421,8 @@ export class UbsAdminTableComponent implements OnInit, AfterViewChecked, OnDestr
   }
 
   changeFilters(checked, currentColumn, option) {
+    const elem = {};
+    const columnName = this.changeColumnNameEqualToEndPoint(currentColumn);
     this.columnsForFiltering.find((column) => {
       if (column.key === currentColumn) {
         column.values.find((value) => {
@@ -431,12 +433,39 @@ export class UbsAdminTableComponent implements OnInit, AfterViewChecked, OnDestr
       }
     });
     if (checked) {
-      const elem = {};
-      elem[currentColumn] = option.key;
+      elem[columnName] = option.key;
       this.filters.push(elem);
     } else {
-      this.filters = this.filters.filter((elem) => elem[currentColumn] !== option.key);
+      this.filters = this.filters.filter((elem) => elem[columnName] !== option.key);
     }
+  }
+
+  private changeColumnNameEqualToEndPoint(column): string {
+    let endPointColumnName: string;
+    switch (column) {
+      case 'orderStatus':
+        endPointColumnName = 'orderStatus';
+        break;
+      case 'paymentStatus':
+        endPointColumnName = 'orderPaymentStatus';
+        break;
+      case 'responsibleDriver':
+        endPointColumnName = 'responsibleDriverId';
+        break;
+      case 'responsibleNavigator':
+        endPointColumnName = 'responsibleNavigatorId';
+        break;
+      case 'responsibleCaller':
+        endPointColumnName = 'responsibleCallerId';
+        break;
+      case 'responsibleLogicMan':
+        endPointColumnName = 'responsibleLogicManId';
+        break;
+      case 'receivingStation':
+        endPointColumnName = 'receivingStation';
+        break;
+    }
+    return endPointColumnName;
   }
 
   public clearFilters(): void {

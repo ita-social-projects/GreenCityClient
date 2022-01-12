@@ -1,4 +1,10 @@
 <div class="research">
+  <div class="search">
+    <div class="search-input">
+      <input type="text" placeholder="{{ 'ubs-tables.placeholder' | translate }}" (keyup)="applyFilter($event.target.value)" />
+    </div>
+    <div class="icon-style"><i class="fa fa-search" aria-hidden="true"></i></div>
+  </div>
   <div class="btn-group">
     <div>
       <button type="button" class="btn btn-default" class="filter-table-btn" data-toggle="dropdown">
@@ -51,14 +57,6 @@
         </div>
       </div>
     </div>
-  </div>
-  <div class="search">
-    <div class="search-input">
-      <input type="text" placeholder="{{ 'ubs-tables.placeholder' | translate }}" (keyup)="applyFilter($event.target.value)" />
-    </div>
-    <div class="icon-style"><i class="fa fa-search" aria-hidden="true"></i></div>
-  </div>
-  <div class="btn-group">
     <div class="button-group">
       <button type="button" class="btn btn-default view-table-btn" (click)="togglePopUp()">
         <img src="assets/img/edit.svg" alt="edit" />
