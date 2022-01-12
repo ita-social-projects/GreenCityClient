@@ -12,8 +12,9 @@ export class AdminTableService {
   constructor(private http: HttpClient) {}
 
   getTable(columnName?: string, page?: number, filter?: string, size?: number, sortingType?: string, filters?: any[]) {
-    // tslint:disable-next-line:max-line-length
-    const BASE_QUERY = `${this.url}bigOrderTable?sortBy=${columnName}&pageNumber=${page}&search=${filter}&pageSize=${size}&sortDirection=${sortingType}`;
+    const SORT_BY_AND_PAGE_NUMBER = `sortBy=${columnName}&pageNumber=${page}`;
+    const SEARCH_AND_PAGE_SIZE_AND_DIRECTION = `search=${filter}&pageSize=${size}&sortDirection=${sortingType}`;
+    const BASE_QUERY = `${this.url}bigOrderTable?${SORT_BY_AND_PAGE_NUMBER}&${SEARCH_AND_PAGE_SIZE_AND_DIRECTION}`;
     let filtersQuery = '';
     if (filters.length) {
       filters.forEach((elem) => {
