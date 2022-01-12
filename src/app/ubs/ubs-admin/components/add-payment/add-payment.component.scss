@@ -118,6 +118,24 @@
         padding: 65px;
         color: var(--quaternary-grey);
       }
+
+      .image-edit-head {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        background: var(--ubs-quaternary-light-grey);
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 5px;
+        font-size: 12px;
+        visibility: hidden;
+      }
+
+      .image-name {
+        color: var(--ubs-primary-grey);
+      }
     }
 
     .custom-file-upload {
@@ -125,6 +143,16 @@
       font-size: 14px;
       color: var(--ubs-electric-violet);
       padding: 6px 12px;
+      cursor: pointer;
+    }
+
+    .photo-container:hover {
+      .image-edit-head {
+        visibility: visible;
+      }
+    }
+
+    .user-image {
       cursor: pointer;
     }
   }

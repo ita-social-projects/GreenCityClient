@@ -40,6 +40,10 @@
     <span class="photo-requirement">{{ 'add-payment.requirement' | translate }}</span>
     <div appDrag (files)="filesDropped($event)">
       <div class="photo-container">
+        <div class="image-edit-head" *ngIf="imagePreview.src">
+          <span class="image-name">{{ imagePreview?.name }}</span>
+          <img class="user-image" src="assets/img/ubs/cross.svg" alt="close" (click)="removeImage()" />
+        </div>
         <img class="image-preview" *ngIf="imagePreview.src" [src]="imagePreview.src" alt="image-of-payment" />
         <p *ngIf="!imagePreview.src" class="requirement-drag label">
           <span>

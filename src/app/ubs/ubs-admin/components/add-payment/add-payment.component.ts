@@ -92,4 +92,10 @@ export class AddPaymentComponent implements OnInit {
       this.imagePreview.src = reader.result;
     };
   }
+
+  removeImage() {
+    this.imagePreview.name = null;
+    this.imagePreview.src = null;
+    this.file = null;
+  }
 }
