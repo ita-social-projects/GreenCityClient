@@ -13,16 +13,19 @@ describe('AddCommentComponent', () => {
   let component: AddCommentComponent;
   let fixture: ComponentFixture<AddCommentComponent>;
 
+  const defaultImagePath =
+    'https://csb10032000a548f571.blob.core.windows.net/allfiles/90370622-3311-4ff1-9462-20cc98a64d1ddefault_image.jpg';
+
   const userData = {
     city: 'string',
     name: 'string',
     userCredo: 'string',
-    profilePicturePath: 'string;',
+    profilePicturePath: defaultImagePath,
     rating: null,
     showEcoPlace: true,
     showLocation: true,
     showShoppingList: true,
-    socialNetworks: [{ id: 1, url: 'string;' }]
+    socialNetworks: [{ id: 1, url: defaultImagePath }]
   };
 
   let profileServiceMock: ProfileService;

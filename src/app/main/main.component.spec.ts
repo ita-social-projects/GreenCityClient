@@ -65,7 +65,6 @@ describe('MainComponent', () => {
   });
 
   it('should init main functions', () => {
-    app.isUBS = true;
     app.toggle = true;
     const spy = spyOn(MainComponent.prototype as any, 'navigateToStartingPositionOnPage');
     app.ngOnInit();
@@ -73,7 +72,6 @@ describe('MainComponent', () => {
     expect(spy).toHaveBeenCalled();
     expect(languageServiceMock.setDefaultLanguage).toHaveBeenCalled();
     expect(titleAndMetaTagsServiceMock.useTitleMetasData).toHaveBeenCalled();
-    expect(app.isUBS).toBe(false);
     expect(app.toggle).toBe(false);
   });
 

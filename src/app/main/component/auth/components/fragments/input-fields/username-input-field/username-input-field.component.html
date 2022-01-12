@@ -1,0 +1,24 @@
+<form [formGroup]="userNameInputForm">
+  <label class="content-label under-error" for="firstName">
+    {{ 'user.auth.sign-up.first-name' | translate }}
+  </label>
+  <input
+    type="text"
+    placeholder="{{ 'user.auth.sign-up.first-name' | translate }}"
+    id="firstName"
+    name="firstName"
+    required
+    formControlName="firstName"
+    [ngClass]="(nameField.invalid && nameField.touched) || backEndError ? 'main-data-input wrong-input' : 'main-data-input'"
+    aria-required="true"
+    aria-describedby="firstname-err-msg"
+    tabindex="0"
+    (input)="setError()"
+  />
+  <div *ngIf="nameField.invalid && nameField.touched" class="error-message" id="firstname-err-msg">
+    <app-error [formElement]="nameField" [nameFieldValue]="userNameValue" [controlName]="'firstName'" tabindex="0"></app-error>
+  </div>
+  <div *ngIf="firstNameErrorMessageBackEnd" class="error-message">
+    {{ 'user.auth.sign-up.invalid-user-name' | translate }}
+  </div>
+</form>

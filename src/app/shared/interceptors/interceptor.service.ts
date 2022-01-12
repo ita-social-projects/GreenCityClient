@@ -8,13 +8,17 @@ import { LocalStorageService } from '../../main/service/localstorage/local-stora
 import { BAD_REQUEST, FORBIDDEN, UNAUTHORIZED } from '../../main/http-response-status';
 import { MatSnackBarComponent } from '@global-errors/mat-snack-bar/mat-snack-bar.component';
 import { UserOwnAuthService } from '@auth-service/user-own-auth.service';
-import { UBSOrderFormService } from 'src/app/main/component/ubs/services/ubs-order-form.service';
+import { UBSOrderFormService } from 'src/app/ubs/ubs/services/ubs-order-form.service';
 import { MatDialog } from '@angular/material/dialog';
 import { AuthModalComponent } from '@global-auth/auth-modal/auth-modal.component';
 
 interface NewTokenPair {
   accessToken: string;
   refreshToken: string;
+}
+interface EmployeesError {
+  name: string;
+  message: string;
 }
 
 @Injectable({
@@ -49,7 +53,7 @@ export class InterceptorService implements HttpInterceptor {
       return next.handle(req).pipe(
         catchError((error: HttpErrorResponse) => {
           if (error.status === 0) {
-            this.openErrorWindow('error');
+            this.openErrorWindow('Error');
           }
           return throwError(error);
         })
@@ -65,10 +69,25 @@ export class InterceptorService implements HttpInterceptor {
         })
       );
     }
+    if (req.url.includes('/admin/ubs-employee')) {
+      return next.handle(req).pipe(
+        catchError((error: HttpErrorResponse) => {
+          if (error.status !== UNAUTHORIZED) {
+            const message =
+              error?.error?.length > 0
+                ? error.error.map((errorItem: EmployeesError) => `${errorItem.name}: ${errorItem.message}`).join(', ')
+                : 'Error';
+            this.openErrorWindow(message);
+            return throwError(error);
+          }
+          return this.handleUnauthorized(req, next);
+        })
+      );
+    }
     return next.handle(req).pipe(
       catchError((error: HttpErrorResponse) => {
         if (this.checkIfErrorStatusIs(error.status, [BAD_REQUEST, FORBIDDEN])) {
-          const noErrorErrorMessage = error.message ?? 'error';
+          const noErrorErrorMessage = error.message ?? 'Error';
           const message = error.error?.message ?? noErrorErrorMessage;
           this.openErrorWindow(message);
           return EMPTY;

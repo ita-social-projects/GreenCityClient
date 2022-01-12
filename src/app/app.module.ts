@@ -1,14 +1,19 @@
-import { TranslateLoader, TranslateModule, TranslateService } from '@ngx-translate/core';
+import { TranslateLoader, TranslateModule } from '@ngx-translate/core';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { HashLocationStrategy, LocationStrategy } from '@angular/common';
 import { HttpClient, HttpClientModule } from '@angular/common/http';
 import { TranslateHttpLoader } from '@ngx-translate/http-loader';
+import { StoreModule } from '@ngrx/store';
+import { EffectsModule } from '@ngrx/effects';
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 
 import { MainModule } from './main/main.module';
 import { AppComponent } from './app.component';
 import { AppRoutingModule } from './app-routing.module';
+import { UbsModule } from './ubs/ubs.module';
+import { appReducers } from './store/reducers/app.reducer';
+import { EmployeesEffects } from './store/effects/employee.effects';
 
 @NgModule({
   declarations: [AppComponent],
@@ -17,6 +22,7 @@ import { AppRoutingModule } from './app-routing.module';
     BrowserAnimationsModule,
     AppRoutingModule,
     MainModule,
+    UbsModule,
     HttpClientModule,
     TranslateModule.forRoot({
       loader: {
@@ -24,7 +30,9 @@ import { AppRoutingModule } from './app-routing.module';
         useFactory: LoaderFactory,
         deps: [HttpClient]
       }
-    })
+    }),
+    StoreModule.forRoot(appReducers),
+    EffectsModule.forRoot([EmployeesEffects])
   ],
   providers: [
     // we use HashLocationStrategy because

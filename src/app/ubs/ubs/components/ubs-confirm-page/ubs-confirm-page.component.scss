@@ -1,0 +1,125 @@
+.wraper {
+  display: flex;
+  justify-content: center;
+  padding-top: 150px;
+
+  .mat-spinner {
+    ::ng-deep circle {
+      stroke: var(--ubs-quaternary-light-grey);
+    }
+  }
+
+  .order {
+    width: 50%;
+    height: 50%;
+    box-shadow: 1px 4px 8px rgb(100 114 125 / 18%);
+    padding: 10px 60px 20px 40px;
+    color: var(--ubs-primary-grey);
+    font-family: var(--ubs-quaternary-font);
+    margin-top: -28px;
+    margin-bottom: 64px;
+    overflow: hidden;
+
+    button {
+      padding: 8px 14px;
+      margin-top: 22px;
+      margin-left: 40px;
+      height: 2.75rem;
+      width: 254px;
+      border-radius: 4px;
+      font-size: 18px;
+      color: var(--ubs-quaternary-dark-grey);
+      border-color: var(--ubs-button-light-green);
+      background: var(--ubs-button-light-green);
+    }
+
+    .btn-back {
+      border: 0;
+      color: var(--ubs-quaternary-dark-grey);
+      background: none;
+      font-size: 14px;
+      text-decoration: underline;
+      margin-left: -40px;
+    }
+
+    .title {
+      font-family: var(--primary-font);
+      font-weight: bold;
+      font-size: 24px;
+      line-height: 32px;
+      text-align: center;
+      letter-spacing: 0.002em;
+      color: var(--ubs-primary-grey);
+      margin-top: 40px;
+    }
+
+    .error .title {
+      margin-top: 0;
+    }
+
+    .description {
+      font-family: var(--primary-font);
+      font-style: normal;
+      font-weight: normal;
+      font-size: 14px;
+      line-height: 20px;
+      text-align: center;
+      color: var(--ubs-primary-grey);
+      width: 80%;
+      margin: auto;
+    }
+  }
+
+  .infolinks {
+    display: flex;
+    justify-content: space-between;
+
+    .list {
+      font-size: 1.3rem;
+      color: var(--ubs-electric-violet);
+      font-family: var(--primary-font);
+      margin-top: 55px;
+
+      a {
+        text-decoration: none;
+        font-size: 14px;
+        color: var(--ubs-electric-violet);
+      }
+
+      li {
+        list-style-type: none;
+      }
+
+      h5 {
+        font-size: 16px;
+        font-weight: bold;
+        color: var(--ubs-primary-grey);
+      }
+    }
+  }
+
+  .image {
+    width: 130%;
+    height: auto;
+    margin: 55px auto;
+  }
+
+  .p-40 {
+    padding-left: 40px;
+    font-size: 14px;
+    color: var(--ubs-primary-grey);
+  }
+
+  .link {
+    color: var(--ubs-electric-violet);
+    text-decoration: underline;
+  }
+}
+
+@media screen and (min-width: 2500px) {
+  .wraper {
+    .order {
+      width: 44%;
+    }
+  }
+}

@@ -1,0 +1,74 @@
+<div class="research">
+  <div class="search">
+    <div class="search-input">
+      <input type="text" placeholder="{{ 'ubs-tables.placeholder' | translate }}" (keyup)="applyFilter($event.target.value)" />
+    </div>
+    <div class="icon-style"><i class="fa fa-search" aria-hidden="true"></i></div>
+  </div>
+  <div class="btn-group">
+    <button type="button" class="btn btn-default" class="view-table-btn" [disabled]="isLoading" (click)="openAddCertificate()">
+      <img src="assets/img/edit.svg" alt="edit" />
+      {{ 'ubs-tables.add-certificate' | translate }}
+    </button>
+    <button type="button" class="btn btn-default" class="export-excel-btn" (click)="openExportExcel()">
+      {{ 'ubs-tables.export-to-excel' | translate }}
+    </button>
+  </div>
+</div>
+<div
+  id="table-container"
+  class="scrolling"
+  infiniteScroll
+  [infiniteScrollDistance]="0"
+  [infiniteScrollThrottle]="100"
+  (scrolled)="onScroll()"
+  [scrollWindow]="false"
+>
+  <mat-table id="table" cdkDropListGroup [dataSource]="dataSource" *ngIf="!isLoading; else spinner">
+    <ng-container *ngFor="let column of columns; let i = index" [matColumnDef]="column.title.key">
+      <mat-header-cell *matHeaderCellDef (mousedown)="onResizeColumn($event, i)">
+        <th scope="row" *ngIf="column.title.key !== 'select'">
+          <span class="column-title">{{ column.title | serverTranslate: currentLang }}</span>
+          <span class="icon-row" *ngIf="!nonSortableColumns.includes(column.title.key)">
+            <mat-icon *ngIf="arrowDirection !== column.title.key" (click)="getSortingData(column.title.key, 'ASC')">
+              arrow_downward
+            </mat-icon>
+            <mat-icon *ngIf="arrowDirection === column.title.key" (click)="getSortingData(column.title.key, 'DESC')">
+              arrow_upward
+            </mat-icon>
+          </span>
+        </th>
+        <th scope="row" *ngIf="column.title.key === 'select'" [ngStyle]="{ backgroundColor: '#fff', height: '16px', padding: '0px' }">
+          <mat-checkbox
+            (change)="$event ? masterToggle() : null"
+            [checked]="selection.hasValue() && isAllSelected()"
+            [indeterminate]="selection.hasValue() && !isAllSelected()"
+            [aria-label]="checkboxLabel()"
+          >
+          </mat-checkbox>
+        </th>
+      </mat-header-cell>
+      <mat-cell *matCellDef="let row" [ngStyle]="column.style" class="column.title.key">
+        <div *ngIf="column.title.key !== 'select'; else checkbox">
+          <span [ngClass]="{ 'primary-color': column.title.key === 'code' }">{{ row[column.title.key] }}</span>
+        </div>
+        <ng-template #checkbox class="checkbox">
+          <mat-checkbox
+            (click)="$event.stopPropagation()"
+            class="select-cell"
+            (change)="$event ? selection.toggle(row) : null"
+            [checked]="selection.isSelected(row)"
+            [aria-label]="checkboxLabel(row)"
+          >
+          </mat-checkbox>
+        </ng-template>
+      </mat-cell>
+    </ng-container>
+    <mat-header-row *matHeaderRowDef="displayedColumns; sticky: true" #tableHeaderRow class="tableHeaderRow"> </mat-header-row>
+    <mat-row *matRowDef="let row; columns: displayedColumns"></mat-row>
+  </mat-table>
+  <app-spinner *ngIf="isUpdate"></app-spinner>
+</div>
+<ng-template #spinner>
+  <app-spinner></app-spinner>
+</ng-template>
