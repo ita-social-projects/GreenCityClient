@@ -56,7 +56,7 @@ export class AddPaymentComponent implements OnInit {
       paymentId: [this.payment?.paymentId ?? '', [Validators.required, Validators.pattern('^[0-9]{5}$')]],
       receiptLink: [this.payment?.comment ?? '']
     });
-    this.imagePreview = this.payment?.imagePath ? { src: this.payment.imagePath } : {};
+    this.imagePreview.src = this.payment?.imagePath;
   }
 
   close() {
@@ -70,6 +70,11 @@ export class AddPaymentComponent implements OnInit {
     result.form = paymentDetails;
     result.file = this.file;
     this.dialogRef.close(result);
+  }
+
+  public filesDropped(files: File): void {
+    this.file = files[0].file;
+    this.loadImage();
   }
 
   onFileSelect(event) {

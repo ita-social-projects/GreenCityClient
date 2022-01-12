@@ -38,15 +38,17 @@
     </div>
     <span class="label">{{ 'add-payment.label-for-photo' | translate }}</span>
     <span class="photo-requirement">{{ 'add-payment.requirement' | translate }}</span>
-    <div class="photo-container">
-      <img class="image-preview" *ngIf="imagePreview.src" [src]="imagePreview.src" alt="image-of-payment" />
-      <p *ngIf="!imagePreview.src" class="requirement-drag label">
-        <span>
-          {{ 'add-payment.drag-photo' | translate }}
-        </span>
-        <label class="label custom-file-upload" for="file">{{ 'add-payment.drag-photo-link' | translate }}</label>
-        <input id="file" type="file" accept="application/pdf,image/png,image/jpeg" class="d-none" (change)="onFileSelect($event)" />
-      </p>
+    <div appDrag (files)="filesDropped($event)">
+      <div class="photo-container">
+        <img class="image-preview" *ngIf="imagePreview.src" [src]="imagePreview.src" alt="image-of-payment" />
+        <p *ngIf="!imagePreview.src" class="requirement-drag label">
+          <span>
+            {{ 'add-payment.drag-photo' | translate }}
+          </span>
+          <label class="label custom-file-upload" for="file">{{ 'add-payment.drag-photo-link' | translate }}</label>
+          <input id="file" type="file" accept="application/pdf,image/png,image/jpeg" class="d-none" (change)="onFileSelect($event)" />
+        </p>
+      </div>
     </div>
     <label *ngIf="imagePreview.src" class="label custom-file-upload" for="file">{{
       'add-payment.drag-other-photo-link' | translate
