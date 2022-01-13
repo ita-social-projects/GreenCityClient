@@ -28,12 +28,11 @@ export class ChatComponent implements OnInit, AfterViewChecked {
   }
 
   ngAfterViewChecked(): void {
-    if (this.shouldNotBeScrolled) {
-      return;
+    if (!this.shouldNotBeScrolled) {
+      this.shouldNotBeScrolled = true;
+      const element: HTMLElement = this.chat.nativeElement;
+      element.scrollTop = element.scrollHeight;
     }
-    this.shouldNotBeScrolled = true;
-    const element: HTMLElement = this.chat.nativeElement;
-    element.scrollTop = element.scrollHeight;
   }
 
   sendMessage() {
@@ -49,6 +48,5 @@ export class ChatComponent implements OnInit, AfterViewChecked {
   onScroll() {
     this.page += 1;
     this.chatsService.updateChatMessages(this.chatsService.currentChat.id, this.page);
-    console.log('scrolled!!');
   }
 }

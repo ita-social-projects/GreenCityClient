@@ -2,10 +2,10 @@
   class="chat"
   #chat
   infiniteScroll
-  [infiniteScrollDistance]="1"
-  [infiniteScrollThrottle]="50"
-  (scrolledUp)="onScroll()"
+  [infiniteScrollUpDistance]="2"
+  [infiniteScrollThrottle]="300"
   [scrollWindow]="false"
+  (scrolledUp)="onScroll()"
 >
   <div class="messages-from-day" *ngFor="let messagesFromDay of chatsService.currentChatMessagesStream$ | async | messageFromDay">
     <div class="chat-days-separate-line">

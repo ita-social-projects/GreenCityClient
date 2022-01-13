@@ -34,6 +34,7 @@ export class SocketService {
       const messages = this.chatsService.chatsMessages[newMessage.roomId];
       if (messages) {
         messages.page.push(newMessage);
+        this.chatsService.currentChatMessagesStream$.next(messages.page);
       }
     });
     this.stompClient.subscribe('/message/new-participant', (participant) => {
