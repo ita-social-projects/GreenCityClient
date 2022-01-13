@@ -10,6 +10,7 @@ import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
 import { ResponceOrderLiqPayModel } from '../models/ResponceOrderLiqPayModel';
 import { Router } from '@angular/router';
 import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
+import { IOrderData } from '../models/IOrderData.interface';
 
 @Component({
   selector: 'app-ubs-user-order-payment-pop-up',
@@ -46,7 +47,7 @@ export class UbsUserOrderPaymentPopUpComponent implements OnInit {
     private fb: FormBuilder,
     private orderService: OrderService,
     private sanitizer: DomSanitizer,
-    @Inject(MAT_DIALOG_DATA) public data: any,
+    @Inject(MAT_DIALOG_DATA) public data: IOrderData,
     private localStorageService: LocalStorageService,
     public router: Router
   ) {}
