@@ -8,7 +8,7 @@ import { AuthService } from 'angularx-social-login';
 import { GoogleSignInService } from '@auth-service/google-sign-in.service';
 
 describe('PopUpViewService', async () => {
-  const service: PopUpViewService = TestBed.get(PopUpViewService);
+  const service: PopUpViewService = TestBed.inject(PopUpViewService);
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({

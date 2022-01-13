@@ -190,6 +190,7 @@ export class UBSPersonalInformationComponent extends FormBaseComponent implement
       anotherClientPhoneNumber: this.personalData.anotherClientPhoneNumber,
       addressComment: this.addresses.length > 0 ? this.personalData.addressComment : ''
     });
+    this.personalDataForm.markAllAsTouched();
   }
 
   togglClient(): void {
@@ -199,6 +200,10 @@ export class UBSPersonalInformationComponent extends FormBaseComponent implement
     const anotherClientEmail = this.getControl('anotherClientEmail');
     this.anotherClient = !this.anotherClient;
     if (this.anotherClient) {
+      anotherClientFirstName.markAsUntouched();
+      anotherClientLastName.markAsUntouched();
+      anotherClientPhoneNumber.markAsUntouched();
+      anotherClientEmail.markAsUntouched();
       anotherClientFirstName.setValidators(this.personalDataFormValidators);
       anotherClientLastName.setValidators(this.personalDataFormValidators);
       anotherClientPhoneNumber.setValidators([Validators.required, Validators.minLength(12)]);
@@ -293,7 +298,7 @@ export class UBSPersonalInformationComponent extends FormBaseComponent implement
         orderBags.push(bag);
       }
     });
-    orderBags = orderBags.filter((bag) => bag.amount !== 0);
+    orderBags = orderBags.filter((bag) => bag.amount && bag.amount !== 0);
     this.personalData.firstName = this.personalDataForm.get('firstName').value;
     this.personalData.lastName = this.personalDataForm.get('lastName').value;
     this.personalData.email = this.personalDataForm.get('email').value;
