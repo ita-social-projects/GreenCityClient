@@ -28,7 +28,8 @@ export class AdminCustomersService {
     return this.http.get<ICustomerOrdersTable>(`${this.url}/${id}/ordersAll?page=${page}&column=${column}&sortingType=${sortingType}`);
   }
 
-  getCustomerViolations(id: string, column: string, sortingType: string): Observable<ICustomerViolationTable> {
-    return this.http.get<ICustomerViolationTable>(`${this.url}/${id}/violationsAll?column=${column}&sortingType=${sortingType}`);
+  getCustomerViolations(id: string, page: number, column: string, sortingType: string): Observable<ICustomerViolationTable> {
+    const query = `?page=${page}&size=10&columnName=${column}&sortingOrder=${sortingType}`;
+    return this.http.get<ICustomerViolationTable>(`${this.url}/${id}/violationsAll${query}`);
   }
 }

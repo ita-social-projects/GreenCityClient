@@ -1,4 +1,9 @@
 export interface ICustomerViolationTable {
-  username: string;
-  userViolationsList: any[];
+  fullName: string;
+  userViolationsDto: {
+    currentPage: number;
+    page: any[];
+    totalElements: number;
+    totalPages: number;
+  };
 }
