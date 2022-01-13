@@ -88,7 +88,7 @@ export class UbsConfirmPageComponent implements OnInit, OnDestroy {
     this.shareFormService.saveDataOnLocalStorage();
   }
 
-  returnToPayment(): void {
+  returnToPayment(url: string): void {
     this.router.navigateByUrl('/ubs/order');
   }
 
