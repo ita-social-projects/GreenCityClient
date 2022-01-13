@@ -177,16 +177,14 @@ export class UbsUserOrderPaymentPopUpComponent implements OnInit {
 
     if (this.selectedPayment === 'LiqPay') {
       this.dataLoadingLiqPay = true;
-      this.orderService.processOrderLiqPayFromUserOrderList(this.orderClientDto).subscribe((responce: ResponceOrderLiqPayModel) => {
+      this.orderService.processOrderLiqPayFromUserOrderList(this.orderClientDto).subscribe(async (responce: ResponceOrderLiqPayModel) => {
         if (!responce.liqPayButton) {
           this.isLiqPayLink = false;
         } else {
           this.isLiqPayLink = true;
-          this.liqPayButtonForm = this.sanitizer.bypassSecurityTrustHtml(responce.liqPayButton);
-          setTimeout(() => {
-            this.liqPayButton = document.getElementsByName('btn_text');
-            this.dataLoadingLiqPay = false;
-          }, 0);
+          this.liqPayButtonForm = await this.sanitizer.bypassSecurityTrustHtml(responce.liqPayButton);
+          this.liqPayButton = document.getElementsByName('btn_text');
+          this.dataLoadingLiqPay = false;
         }
       });
     }
