@@ -11,6 +11,8 @@ import { UBSInputErrorComponent } from '../ubs-input-error/ubs-input-error.compo
 import { UBSPersonalInformationComponent } from './ubs-personal-information.component';
 import { CUSTOM_ELEMENTS_SCHEMA, SimpleChange } from '@angular/core';
 import { IMaskModule } from 'angular-imask';
+import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
+import { Language } from 'src/app/main/i18n/Language';
 
 describe('UBSPersonalInformationComponent', () => {
   let component: UBSPersonalInformationComponent;
@@ -59,6 +61,27 @@ describe('UBSPersonalInformationComponent', () => {
     houseNumber: 'fake'
   };
 
+  const mockLocations = [
+    {
+      courierDtos: [],
+      courierLimit: 'fake',
+      courierLocationId: 1,
+      locationsDtos: [
+        {
+          latitude: 50,
+          locationId: 1,
+          locationStatus: 'fake',
+          locationTranslationDtoList: [{ locationName: 'Київ', languageCode: 'ua' }],
+          longitude: 30
+        }
+      ],
+      maxAmountOfBigBags: 99,
+      maxPriceOfOrder: 500000,
+      minAmountOfBigBags: 2,
+      minPriceOfOrder: 500
+    }
+  ];
+
   const fakeShareFormService = jasmine.createSpyObj('fakeShareFormService', ['changePersonalData', 'orderDetails']);
   const fakeOrderService = jasmine.createSpyObj('OrderService', [
     'findAllAddresses',
@@ -69,6 +92,10 @@ describe('UBSPersonalInformationComponent', () => {
     'setLocationData',
     'addAdress'
   ]);
+
+  let localStorageServiceMock: LocalStorageService;
+  localStorageServiceMock = jasmine.createSpyObj('LocalStorageService', ['getCurrentLanguage']);
+  localStorageServiceMock.getCurrentLanguage = () => 'ua' as Language;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
@@ -92,6 +119,8 @@ describe('UBSPersonalInformationComponent', () => {
   }));
 
   beforeEach(() => {
+    localStorage.setItem('locations', JSON.stringify(mockLocations));
+    localStorage.setItem('currentLocationId', JSON.stringify(1));
     fakeOrderService.locationSub = new Subject<any>();
     fakeOrderService.currentAddress = new Subject<any>();
     fakeOrderService.setCurrentAddress(listMock.addressList[0]);
@@ -103,9 +132,6 @@ describe('UBSPersonalInformationComponent', () => {
     component = fixture.componentInstance;
     realTakeUserData = component.takeUserData;
     spyOn(component, 'takeUserData').and.callFake(() => {});
-    spyOn(localStorage, 'setItem');
-    spyOn(localStorage, 'getItem').and.returnValue(fakeLocalStorageResponse);
-    spyOn(localStorage, 'removeItem');
     fixture.detectChanges();
   });
 

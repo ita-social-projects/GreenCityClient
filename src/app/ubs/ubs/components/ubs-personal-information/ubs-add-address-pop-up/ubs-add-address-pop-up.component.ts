@@ -6,6 +6,8 @@ import { Address } from '../../../models/ubs.interface';
 import { takeUntil, catchError } from 'rxjs/operators';
 import { Subject, throwError } from 'rxjs';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
+import { MapsAPILoader } from '@agm/core';
 
 @Component({
   selector: 'app-ubs-add-address-pop-up',
@@ -31,6 +33,8 @@ export class UBSAddAddressPopUpComponent implements OnInit, OnDestroy {
   currentLocation = {};
   isDistrict = false;
   isKyiv = false;
+  currentLanguage: string;
+  mainUrl = 'https://maps.googleapis.com/maps/api/js?key=AIzaSyB3xs7Kczo46LFcQRFKPMdrE0lU4qsR_S4&libraries=places&language=';
   cities = [
     { cityName: 'Київ', northLat: 50.59079800991073, southLat: 50.21327301525928, eastLng: 30.82594104187906, westLng: 30.23944009690609 },
     { cityName: 'Гатне' },
@@ -76,8 +80,10 @@ export class UBSAddAddressPopUpComponent implements OnInit, OnDestroy {
       currentLocation: string;
       district: string;
     },
-    private snackBar: MatSnackBarComponent
-  ) {}
+    private snackBar: MatSnackBarComponent,
+    private localStorageService: LocalStorageService
+  ) // private mapsApiLoader: MapsAPILoader
+  {}
 
   get getRegion() {
     return this.addAddressForm.get('region');
@@ -108,6 +114,7 @@ export class UBSAddAddressPopUpComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit() {
+    this.currentLanguage = this.localStorageService.getCurrentLanguage();
     this.region = this.data.district;
     this.currentLocation = this.data.currentLocation;
     this.addAddressForm = this.fb.group({
@@ -193,10 +200,29 @@ export class UBSAddAddressPopUpComponent implements OnInit, OnDestroy {
         long = (g + h) / 2;
       }
     }
+    // this.getAlternativeLocation(lat, long);
+
     this.addAddressForm.get('coordinates').setValue({
       latitude: lat,
       longitude: long
     });
+  }
+
+  getAlternativeLocation(lat, lng): void {
+    // const url = 'https://maps.googleapis.com/maps/api/geocode/json?latlng=';
+    // const key = 'AIzaSyB3xs7Kczo46LFcQRFKPMdrE0lU4qsR_S4'
+    // const google = document.createElement('script')
+    // google.type = 'text/javascript';
+    // google.setAttribute('src', url + lat + ',' + lng + '&key=' + key);
+    // document.getElementsByTagName('head')[0].appendChild(google);
+    // this.mapsApiLoader.load().then(() => {
+    let geocoder = new google.maps.Geocoder();
+    let latlng = { lat: lat, lng: lng };
+    geocoder.geocode({ location: latlng }, (results, status) => {
+      console.log(status);
+      console.log(results);
+    });
+    // });
   }
 
   setDistrict(event: any) {
@@ -256,7 +282,7 @@ export class UBSAddAddressPopUpComponent implements OnInit, OnDestroy {
         this.orderService.setCurrentAddress(this.addAddressForm.value);
 
         this.updatedAddresses = list;
-        this.dialogRef.close();
+        this.dialogRef.close('Added');
         this.isDisabled = false;
       });
   }
