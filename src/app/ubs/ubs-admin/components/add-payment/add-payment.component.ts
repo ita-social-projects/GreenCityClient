@@ -14,6 +14,7 @@ interface InputData {
   viewMode: boolean;
   payment: IPaymentInfoDtos | null;
 }
+
 @Component({
   selector: 'app-add-payment',
   templateUrl: './add-payment.component.html',
@@ -29,9 +30,11 @@ export class AddPaymentComponent implements OnInit, OnDestroy {
   payment: IPaymentInfoDtos | null;
   addPaymentForm: FormGroup;
   file;
-  imagePreview: any = {};
+  imagePreview: any = { src: null };
   isImageSizeError = false;
   isImageTypeError = false;
+  isInitialDataChanged = false;
+  isInitialImageChanged = false;
   dataSource = new MatTableDataSource();
   public date = new Date();
   public adminName;
@@ -59,7 +62,6 @@ export class AddPaymentComponent implements OnInit, OnDestroy {
       this.adminName = firstName;
     });
     this.initForm();
-    console.log(this.data);
   }
 
   ngOnDestroy(): void {
@@ -100,7 +102,6 @@ export class AddPaymentComponent implements OnInit, OnDestroy {
       .pipe(takeUntil(this.destroySub))
       .subscribe(
         (data: any) => {
-          console.log(data);
           this.dialogRef.close();
         },
         () => {
@@ -127,6 +128,9 @@ export class AddPaymentComponent implements OnInit, OnDestroy {
     reader.onload = () => {
       this.imagePreview.name = this.file.name;
       this.imagePreview.src = reader.result;
+      if (this.editMode) {
+        this.isInitialImageChanged = true;
+      }
     };
   }
 
@@ -134,11 +138,22 @@ export class AddPaymentComponent implements OnInit, OnDestroy {
     this.imagePreview.name = null;
     this.imagePreview.src = null;
     this.file = null;
+    if (this.editMode) {
+      this.isInitialImageChanged = this.payment.imagePath !== this.imagePreview.src;
+    }
   }
 
   editPayment() {
     this.editMode = true;
     this.addPaymentForm.enable();
+    this.addPaymentForm.markAsTouched();
+    this.addPaymentForm.valueChanges.pipe(takeUntil(this.destroySub)).subscribe((values) => {
+      this.isInitialDataChanged =
+        this.payment.settlementdate !== values.paymentDate ||
+        this.payment.amount !== +values.amount ||
+        (this.payment.comment ?? '') !== values.receiptLink ||
+        this.payment.paymentId !== values.paymentId;
+    });
   }
 
   deletePayment() {
@@ -156,14 +171,17 @@ export class AddPaymentComponent implements OnInit, OnDestroy {
       .subscribe((res) => {
         if (res) {
           this.isDeleting = true;
-          this.orderService.deleteManualPayment(this.payment.id).subscribe(
-            () => {
-              this.dialogRef.close();
-            },
-            () => {
-              this.isDeleting = false;
-            }
-          );
+          this.orderService
+            .deleteManualPayment(this.payment.id)
+            .pipe(takeUntil(this.destroySub))
+            .subscribe(
+              () => {
+                this.dialogRef.close();
+              },
+              () => {
+                this.isDeleting = false;
+              }
+            );
         }
       });
   }

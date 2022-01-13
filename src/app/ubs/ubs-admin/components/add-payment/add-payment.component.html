@@ -69,7 +69,18 @@
       {{ 'add-payment.btn.delete' | translate }}
     </button>
     <button type="reset" class="back label" (click)="close()">{{ 'add-payment.btn.back' | translate }}</button>
-    <button type="submit" class="agree label" (click)="save()" [disabled]="!addPaymentForm.touched || !addPaymentForm.valid || isUploading">
+    <button
+      type="submit"
+      class="agree label"
+      [disabled]="
+        !addPaymentForm.touched ||
+        !addPaymentForm.valid ||
+        isUploading ||
+        (editMode && !isInitialDataChanged && !isInitialImageChanged) ||
+        (viewMode && !editMode)
+      "
+      (click)="save()"
+    >
       <span *ngIf="isUploading" class="spinner-border spinner-border-sm" role="status" aria-hidden="true"> </span>
       {{ 'add-payment.btn.confirm' | translate }}
     </button>
