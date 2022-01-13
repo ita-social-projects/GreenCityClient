@@ -149,6 +149,18 @@ export class LocalStorageService {
     localStorage.removeItem('UbsFondyOrderId');
   }
 
+  public setUserPagePayment(state: boolean): unknown {
+    return localStorage.setItem('IsUserPagePayment', JSON.stringify(state));
+  }
+
+  public getUserPagePayment(): string {
+    return localStorage.getItem('IsUserPagePayment');
+  }
+
+  public removeUserPagePayment(): void {
+    localStorage.removeItem('IsUserPagePayment');
+  }
+
   public removeUbsOrderData() {
     localStorage.removeItem('UBSpersonalData');
     localStorage.removeItem('UBSorderData');

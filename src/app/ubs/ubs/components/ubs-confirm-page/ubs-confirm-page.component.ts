@@ -80,6 +80,7 @@ export class UbsConfirmPageComponent implements OnInit, OnDestroy {
     this.shareFormService.isDataSaved = true;
     this.localStorageService.removeUbsOrderId();
     this.localStorageService.removeUbsFondyOrderId();
+    this.localStorageService.removeUserPagePayment();
     this.shareFormService.saveDataOnLocalStorage();
   }
 
