@@ -46,31 +46,22 @@ export class UbsAdminOrderPaymentComponent implements OnInit, OnChanges {
     this.pageOpen = !this.pageOpen;
   }
 
-  public addPayment(orderId, postData): void {
-    this.orderService
-      .addPaymentManually(orderId, postData.form, postData.file)
-      .pipe(takeUntil(this.destroy$))
-      .subscribe((data: any) => {
-        console.log(data);
-      });
-  }
-
-  openPopup(editMode: boolean, paymentIndex?: number) {
+  openPopup(viewMode: boolean, paymentIndex?: number) {
     this.dialog
       .open(AddPaymentComponent, {
         hasBackdrop: true,
         panelClass: 'custom-dialog-container',
         data: {
           orderId: this.orderInfo.generalOrderInfo.id,
-          editMode,
-          payment: editMode ? this.paymentsArray[paymentIndex] : null
+          viewMode,
+          payment: viewMode ? this.paymentsArray[paymentIndex] : null
         }
       })
       .afterClosed()
       .pipe(take(1))
       .subscribe((res) => {
         if (res) {
-          this.addPayment(this.orderId, res);
+          // this.addPayment(this.orderId, res);
         }
       });
   }

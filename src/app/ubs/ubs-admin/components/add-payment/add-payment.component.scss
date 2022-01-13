@@ -27,10 +27,32 @@
   }
 
   .main-content {
-    .title {
-      font-size: 24px;
-      max-width: 500px;
+    .title-wrapper {
+      display: flex;
+      justify-content: space-between;
       margin-bottom: 20px;
+
+      .title {
+        font-size: 24px;
+        max-width: 500px;
+      }
+
+      .edit-payment {
+        margin: 5px 0 0 0;
+
+        .mat-icon,
+        .edit-payment-btn {
+          font-size: 14px;
+          color: var(--ubs-electric-violet);
+          border: none;
+          background: transparent;
+        }
+
+        .edit-payment-btn:disabled,
+        .edit-payment-btn:disabled .mat-icon {
+          color: var(--ubs-primary-light-grey);
+        }
+      }
     }
 
     .order-title {
@@ -164,6 +186,19 @@
   .btn-container {
     text-align-last: right;
 
+    .delete-payment {
+      color: var(--error-red);
+      font-size: 16px;
+      font-weight: bold;
+      border: none;
+      background: transparent;
+      margin-right: 25px;
+    }
+
+    .delete-icon {
+      margin: -2px 10px 0 0;
+    }
+
     .back {
       background: none;
       border: none;
@@ -177,6 +212,11 @@
       border-radius: 4px;
       padding: 7px 20px 7px 20px;
     }
+  }
+
+  .disabled {
+    opacity: 0.75;
+    cursor: default;
   }
 
   .add-info {

@@ -101,11 +101,13 @@
   },
   "add-payment": {
     "title": "Додати документ про оплату",
+    "title-2": "Документ про оплату",
+    "edit": "Редагувати",
     "order": "Замовлення №",
     "description": "Додайте підтвердження про оплату одним або кількома з доступних способів",
     "payment-date": "Дата оплати",
     "payment-amount": "Сума оплати",
-    "amount-placeholder": "0.00 грн",
+    "amount-placeholder": "0 грн",
     "date-placeholder": "ДД/ММ/РР",
     "payment-id": "ID платежу",
     "id-placeholder": "№1234567890",
@@ -120,7 +122,8 @@
     "upload-pdf": "Завантажити PDF",
     "btn": {
       "back": "Назад",
-      "confirm": "Підтвердити оплату"
+      "confirm": "Підтвердити оплату",
+      "delete": "Видалити"
     },
     "date": "Дaта",
     "added": "Додано"
