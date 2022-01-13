@@ -1,69 +1,6 @@
-$inputHeight: 48px;
-
-.password-input-btn-show-hide {
-  height: $inputHeight;
-  box-sizing: border-box;
-  border-radius: 5px;
-}
-
-.alert-password-validation {
-  border: 1px solid var(--error-ligh-red);
-}
-
-.successful-password-validation {
-  border: 1px solid var(--secondary-grey);
-  margin-bottom: 16px;
-}
-
-.validation-password-error,
-.alert-general-error {
-  color: var(--error-ligh-red);
-  font-size: 10px;
-  line-height: 12px;
-  font-family: var(--primary-font);
-  margin-bottom: 4px;
-}
-
-.alert-general-error {
-  position: relative;
-}
-
 .sign-in-form {
   display: flex;
   flex-direction: column;
-
-  label[for='password'] {
-    margin-bottom: 4px;
-    font-family: var(--primary-font);
-    font-size: 12px;
-    line-height: 14px;
-    color: var(--primary-dark-grey);
-  }
-
-  input {
-    background: #fff;
-    box-sizing: border-box;
-    color: var(--primary-dark-grey);
-    border-radius: 5px;
-    padding: 12px 40px 12px 16px;
-    font-size: 16px;
-    line-height: 22px;
-  }
-
-  input[type='password'] {
-    border: transparent;
-    width: 90%;
-    font-family: var(--primary-font);
-  }
-
-  input[type='password']:focus {
-    height: 46px;
-    outline: none;
-  }
-
-  .email-field-margin {
-    height: 21px;
-  }
 }
 
 .google-sign-in-block {
