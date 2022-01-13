@@ -95,5 +95,8 @@ export class UbsConfirmPageComponent implements OnInit, OnDestroy {
   ngOnDestroy() {
     this.destroy$.next();
     this.destroy$.complete();
+    this.localStorageService.removeUbsOrderId();
+    this.localStorageService.removeUbsFondyOrderId();
+    this.localStorageService.removeUserPagePayment();
   }
 }
