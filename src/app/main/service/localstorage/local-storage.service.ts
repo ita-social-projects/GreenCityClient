@@ -161,6 +161,12 @@ export class LocalStorageService {
     localStorage.removeItem('IsUserPagePayment');
   }
 
+  public clearPaymentInfo(): void {
+    this.removeUbsOrderId();
+    this.removeUbsFondyOrderId();
+    this.removeUserPagePayment();
+  }
+
   public removeUbsOrderData() {
     localStorage.removeItem('UBSpersonalData');
     localStorage.removeItem('UBSorderData');

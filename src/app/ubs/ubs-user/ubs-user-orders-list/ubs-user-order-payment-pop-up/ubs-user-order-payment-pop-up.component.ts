@@ -151,7 +151,7 @@ export class UbsUserOrderPaymentPopUpComponent implements OnInit {
 
   public processOrder(): void {
     this.fillOrderClientDto();
-    this.clearLocalStorageWithPaymentInfo();
+    this.localStorageService.clearPaymentInfo();
     this.localStorageService.setUserPagePayment(true);
 
     if (this.formPaymentSystem.value === 'Fondy') {
@@ -190,11 +190,5 @@ export class UbsUserOrderPaymentPopUpComponent implements OnInit {
         }
       });
     }
-  }
-
-  public clearLocalStorageWithPaymentInfo(): void {
-    this.localStorageService.removeUbsOrderId();
-    this.localStorageService.removeUbsFondyOrderId();
-    this.localStorageService.removeUserPagePayment();
   }
 }

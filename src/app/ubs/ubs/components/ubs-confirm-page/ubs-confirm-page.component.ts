@@ -33,7 +33,8 @@ export class UbsConfirmPageComponent implements OnInit, OnDestroy {
   toPersonalAccount(): void {
     this.jwtService.userRole$.pipe(takeUntil(this.destroy$)).subscribe((userRole) => {
       const isAdmin = userRole === 'ROLE_ADMIN';
-      this.saveDataOnLocalStorage();
+      this.saveDataOnShareFormService();
+      this.localStorageService.clearPaymentInfo();
       this.router.navigate([isAdmin ? 'ubs-admin' : 'ubs-user', 'orders']);
     });
   }
@@ -73,30 +74,25 @@ export class UbsConfirmPageComponent implements OnInit, OnDestroy {
   renderView(): void {
     this.isSpinner = false;
     if (!this.orderResponseError && !this.orderStatusDone) {
-      this.saveDataOnLocalStorage();
+      this.saveDataOnShareFormService();
       this.snackBar.openSnackBar('successConfirmSaveOrder', this.orderId);
     } else if (!this.orderResponseError && this.orderStatusDone) {
-      this.saveDataOnLocalStorage();
+      this.saveDataOnShareFormService();
     }
   }
 
-  saveDataOnLocalStorage(): void {
+  saveDataOnShareFormService(): void {
     this.shareFormService.isDataSaved = true;
-    this.localStorageService.removeUbsOrderId();
-    this.localStorageService.removeUbsFondyOrderId();
-    this.localStorageService.removeUserPagePayment();
     this.shareFormService.saveDataOnLocalStorage();
   }
 
   returnToPayment(url: string): void {
-    this.router.navigateByUrl('/ubs/order');
+    this.router.navigateByUrl(url);
   }
 
   ngOnDestroy() {
     this.destroy$.next();
     this.destroy$.complete();
-    this.localStorageService.removeUbsOrderId();
-    this.localStorageService.removeUbsFondyOrderId();
-    this.localStorageService.removeUserPagePayment();
+    this.localStorageService.clearPaymentInfo();
   }
 }
