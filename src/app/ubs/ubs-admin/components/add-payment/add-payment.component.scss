@@ -211,6 +211,12 @@
       background-color: var(--ubs-button-light-green);
       border-radius: 4px;
       padding: 7px 20px 7px 20px;
+
+      &:disabled {
+        background: var(--ubs-quaternary-light-grey);
+        border-color: var(--ubs-quaternary-light-grey);
+        color: var(--ubs-primary-light-grey);
+      }
     }
   }
 

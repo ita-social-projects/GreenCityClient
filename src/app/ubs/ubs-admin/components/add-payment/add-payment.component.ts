@@ -23,9 +23,9 @@ export class AddPaymentComponent implements OnInit, OnDestroy {
   public date = new Date();
   orderId: number;
   viewMode: boolean;
-  editMode: boolean = false;
-  isDeleting: boolean = false;
-  isUploading: boolean = false;
+  editMode = false;
+  isDeleting = false;
+  isUploading = false;
   payment: IPaymentInfoDtos | null;
   addPaymentForm: FormGroup;
   file;
@@ -67,6 +67,9 @@ export class AddPaymentComponent implements OnInit, OnDestroy {
       receiptLink: [this.payment?.comment ?? '']
     });
     this.imagePreview.src = this.payment?.imagePath;
+    if (this.viewMode) {
+      this.addPaymentForm.disable();
+    }
   }
 
   close() {
@@ -83,13 +86,19 @@ export class AddPaymentComponent implements OnInit, OnDestroy {
   }
 
   public processPayment(orderId: number, postData): void {
+    this.isUploading = true;
     this.orderService
       .addPaymentManually(orderId, postData.form, postData.file)
       .pipe(takeUntil(this.destroySub))
-      .subscribe((data: any) => {
-        console.log(data);
-        this.dialogRef.close();
-      });
+      .subscribe(
+        (data: any) => {
+          console.log(data);
+          this.dialogRef.close();
+        },
+        () => {
+          this.isUploading = false;
+        }
+      );
   }
 
   public filesDropped(files: File): void {
@@ -119,7 +128,12 @@ export class AddPaymentComponent implements OnInit, OnDestroy {
     this.file = null;
   }
 
-  editPayment() {}
+  editPayment() {
+    this.editMode = true;
+    this.addPaymentForm.enable();
+  }
 
-  deletePayment() {}
+  deletePayment() {
+    this.isDeleting = true;
+  }
 }

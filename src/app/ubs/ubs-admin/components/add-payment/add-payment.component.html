@@ -43,12 +43,12 @@
     <span *ngIf="!viewMode" class="photo-requirement">{{ 'add-payment.requirement' | translate }}</span>
     <div appDrag (files)="filesDropped($event)">
       <div class="photo-container">
-        <div class="image-edit-head" *ngIf="imagePreview.src">
+        <div class="image-edit-head" *ngIf="imagePreview.src && (!viewMode || editMode)">
           <span class="image-name">{{ imagePreview?.name }}</span>
           <img class="user-image" src="assets/img/ubs/cross.svg" alt="close" (click)="removeImage()" />
         </div>
         <img class="image-preview" *ngIf="imagePreview.src" [src]="imagePreview.src" alt="image-of-payment" />
-        <p *ngIf="!imagePreview.src" class="requirement-drag label">
+        <p *ngIf="!imagePreview.src && !(viewMode && !editMode)" class="requirement-drag label">
           <span>
             {{ 'add-payment.drag-photo' | translate }}
           </span>
@@ -57,7 +57,7 @@
         </p>
       </div>
     </div>
-    <label *ngIf="imagePreview.src" class="label custom-file-upload" for="file">{{
+    <label *ngIf="imagePreview.src && (!viewMode || editMode)" class="label custom-file-upload" for="file">{{
       'add-payment.drag-other-photo-link' | translate
     }}</label>
     <input id="file" type="file" accept="application/pdf,image/png,image/jpeg" class="d-none" (change)="onFileSelect($event)" />
@@ -69,7 +69,7 @@
       {{ 'add-payment.btn.delete' | translate }}
     </button>
     <button type="reset" class="back label" (click)="close()">{{ 'add-payment.btn.back' | translate }}</button>
-    <button type="submit" class="agree label" (click)="save()" [disabled]="!addPaymentForm.touched || !addPaymentForm.valid">
+    <button type="submit" class="agree label" (click)="save()" [disabled]="!addPaymentForm.touched || !addPaymentForm.valid || isUploading">
       <span *ngIf="isUploading" class="spinner-border spinner-border-sm" role="status" aria-hidden="true"> </span>
       {{ 'add-payment.btn.confirm' | translate }}
     </button>
