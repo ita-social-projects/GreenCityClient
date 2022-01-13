@@ -95,7 +95,7 @@ describe('UbsConfirmPageComponent', () => {
 
   it('should redirect to order', () => {
     const navigateSpy = spyOn(router, 'navigateByUrl');
-    component.returnToPayment();
+    component.returnToPayment('/ubs/order');
     expect(navigateSpy).toHaveBeenCalledWith('/ubs/order');
   });
 

@@ -33,7 +33,7 @@ export class UbsConfirmPageComponent implements OnInit, OnDestroy {
   toPersonalAccount(): void {
     this.jwtService.userRole$.pipe(takeUntil(this.destroy$)).subscribe((userRole) => {
       const isAdmin = userRole === 'ROLE_ADMIN';
-      this.saveDataOnShareFormService();
+      this.saveDataOnLocalStorage();
       this.localStorageService.clearPaymentInfo();
       this.router.navigate([isAdmin ? 'ubs-admin' : 'ubs-user', 'orders']);
     });
@@ -74,14 +74,14 @@ export class UbsConfirmPageComponent implements OnInit, OnDestroy {
   renderView(): void {
     this.isSpinner = false;
     if (!this.orderResponseError && !this.orderStatusDone) {
-      this.saveDataOnShareFormService();
+      this.saveDataOnLocalStorage();
       this.snackBar.openSnackBar('successConfirmSaveOrder', this.orderId);
     } else if (!this.orderResponseError && this.orderStatusDone) {
-      this.saveDataOnShareFormService();
+      this.saveDataOnLocalStorage();
     }
   }
 
-  saveDataOnShareFormService(): void {
+  saveDataOnLocalStorage(): void {
     this.shareFormService.isDataSaved = true;
     this.shareFormService.saveDataOnLocalStorage();
   }
