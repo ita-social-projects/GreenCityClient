@@ -125,7 +125,7 @@ export class LocalStorageService {
     localStorage.setItem('locations', JSON.stringify(locations));
   }
 
-  public setUbsOrderId(orderId: string) {
+  public setUbsOrderId(orderId: string | number) {
     localStorage.setItem('UbsLiqPayOrderId', JSON.stringify(orderId));
   }
 
@@ -137,7 +137,7 @@ export class LocalStorageService {
     localStorage.removeItem('UbsLiqPayOrderId');
   }
 
-  public setUbsFondyOrderId(orderId: string) {
+  public setUbsFondyOrderId(orderId: string | number) {
     localStorage.setItem('UbsFondyOrderId', JSON.stringify(orderId));
   }
 

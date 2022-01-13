@@ -9,6 +9,7 @@ import { ICertificate } from '../models/ICertificate.interface';
 import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
 import { ResponceOrderLiqPayModel } from '../models/ResponceOrderLiqPayModel';
 import { Router } from '@angular/router';
+import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
 
 @Component({
   selector: 'app-ubs-user-order-payment-pop-up',
@@ -46,6 +47,7 @@ export class UbsUserOrderPaymentPopUpComponent implements OnInit {
     private orderService: OrderService,
     private sanitizer: DomSanitizer,
     @Inject(MAT_DIALOG_DATA) public data: any,
+    private localStorageService: LocalStorageService,
     public router: Router
   ) {}
 
@@ -148,13 +150,24 @@ export class UbsUserOrderPaymentPopUpComponent implements OnInit {
 
   public processOrder(): void {
     this.fillOrderClientDto();
+    this.clearLocalStorageWithPaymentInfo();
 
     if (this.formPaymentSystem.value === 'Fondy') {
       this.orderService.processOrderFondyFromUserOrderList(this.orderClientDto).subscribe((responce: ResponceOrderFondyModel) => {
-        responce.link ? (document.location.href = responce.link) : this.router.navigate(['ubs', 'confirm']);
+        if (responce.link) {
+          this.localStorageService.setUbsFondyOrderId(this.orderClientDto.orderId);
+          document.location.href = responce.link;
+        } else {
+          this.router.navigate(['ubs', 'confirm']);
+        }
       });
     } else {
-      this.isLiqPayLink ? this.liqPayButton[0].click() : this.router.navigate(['ubs', 'confirm']);
+      if (this.isLiqPayLink) {
+        this.localStorageService.setUbsOrderId(this.orderClientDto.orderId);
+        this.liqPayButton[0].click();
+      } else {
+        this.router.navigate(['ubs', 'confirm']);
+      }
     }
   }
 
@@ -177,5 +190,10 @@ export class UbsUserOrderPaymentPopUpComponent implements OnInit {
         }
       });
     }
+  }
+
+  public clearLocalStorageWithPaymentInfo(): void {
+    this.localStorageService.removeUbsOrderId();
+    this.localStorageService.removeUbsFondyOrderId();
   }
 }
