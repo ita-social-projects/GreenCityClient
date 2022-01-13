@@ -66,6 +66,10 @@ export class UbsConfirmPageComponent implements OnInit, OnDestroy {
     });
   }
 
+  public isUserPageOrderPayment(): boolean {
+    return this.localStorageService.getUserPagePayment() === 'true';
+  }
+
   renderView(): void {
     this.isSpinner = false;
     if (!this.orderResponseError && !this.orderStatusDone) {
