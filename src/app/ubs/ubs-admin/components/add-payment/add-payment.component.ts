@@ -3,8 +3,8 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { MatTableDataSource } from '@angular/material/table';
 import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
-import { Subject } from 'rxjs';
-import { take, takeUntil } from 'rxjs/operators';
+import { iif, of, Subject } from 'rxjs';
+import { switchMap, take, takeUntil } from 'rxjs/operators';
 import { IPaymentInfoDtos } from '../../models/ubs-admin.interface';
 import { OrderService } from '../../services/order.service';
 import { DialogPopUpComponent } from '../shared/components/dialog-pop-up/dialog-pop-up.component';
@@ -97,9 +97,17 @@ export class AddPaymentComponent implements OnInit, OnDestroy {
 
   public processPayment(orderId: number, postData): void {
     this.isUploading = true;
-    this.orderService
-      .addPaymentManually(orderId, postData.form, postData.file)
-      .pipe(takeUntil(this.destroySub))
+    of(true)
+      .pipe(
+        switchMap(() =>
+          iif(
+            () => this.editMode,
+            this.orderService.updatePaymentManually(this.payment.id, postData.form, postData.file),
+            this.orderService.addPaymentManually(orderId, postData.form, postData.file)
+          )
+        ),
+        takeUntil(this.destroySub)
+      )
       .subscribe(
         (data: any) => {
           this.dialogRef.close();

@@ -117,6 +117,7 @@
     "btn": {
       "back": "Back",
       "confirm": "Confirm payment",
+      "save": "Save",
       "delete": "Remove"
     },
     "date": "Date",

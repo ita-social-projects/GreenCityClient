@@ -82,7 +82,7 @@
       (click)="save()"
     >
       <span *ngIf="isUploading" class="spinner-border spinner-border-sm" role="status" aria-hidden="true"> </span>
-      {{ 'add-payment.btn.confirm' | translate }}
+      {{ (viewMode || editMode ? 'add-payment.btn.save' : 'add-payment.btn.confirm') | translate }}
     </button>
   </div>
   <div class="add-info">
