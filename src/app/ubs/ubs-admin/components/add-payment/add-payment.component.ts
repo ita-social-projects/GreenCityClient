@@ -1,12 +1,13 @@
 import { Component, Inject, OnDestroy, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { MatTableDataSource } from '@angular/material/table';
 import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
 import { Subject } from 'rxjs';
-import { takeUntil } from 'rxjs/operators';
+import { take, takeUntil } from 'rxjs/operators';
 import { IPaymentInfoDtos } from '../../models/ubs-admin.interface';
 import { OrderService } from '../../services/order.service';
+import { DialogPopUpComponent } from '../shared/components/dialog-pop-up/dialog-pop-up.component';
 
 interface InputData {
   orderId: number;
@@ -20,7 +21,6 @@ interface InputData {
 })
 export class AddPaymentComponent implements OnInit, OnDestroy {
   closeButton = './assets/img/profile/icons/cancel.svg';
-  public date = new Date();
   orderId: number;
   viewMode: boolean;
   editMode = false;
@@ -30,16 +30,23 @@ export class AddPaymentComponent implements OnInit, OnDestroy {
   addPaymentForm: FormGroup;
   file;
   imagePreview: any = {};
-  public adminName;
   isImageSizeError = false;
   isImageTypeError = false;
   dataSource = new MatTableDataSource();
+  public date = new Date();
+  public adminName;
   private destroySub: Subject<boolean> = new Subject<boolean>();
+  deleteDialogData = {
+    popupTitle: 'add-payment.delete-message',
+    popupConfirm: 'employees.btn.yes',
+    popupCancel: 'employees.btn.no'
+  };
 
   constructor(
     private localeStorageService: LocalStorageService,
     private orderService: OrderService,
     private dialogRef: MatDialogRef<AddPaymentComponent>,
+    private dialog: MatDialog,
     private fb: FormBuilder,
     @Inject(MAT_DIALOG_DATA) public data: InputData
   ) {}
@@ -52,6 +59,7 @@ export class AddPaymentComponent implements OnInit, OnDestroy {
       this.adminName = firstName;
     });
     this.initForm();
+    console.log(this.data);
   }
 
   ngOnDestroy(): void {
@@ -134,6 +142,29 @@ export class AddPaymentComponent implements OnInit, OnDestroy {
   }
 
   deletePayment() {
-    this.isDeleting = true;
+    const matDialogRef = this.dialog.open(DialogPopUpComponent, {
+      data: this.deleteDialogData,
+      hasBackdrop: true,
+      closeOnNavigation: true,
+      disableClose: true,
+      panelClass: ''
+    });
+
+    matDialogRef
+      .afterClosed()
+      .pipe(take(1))
+      .subscribe((res) => {
+        if (res) {
+          this.isDeleting = true;
+          this.orderService.deleteManualPayment(this.payment.id).subscribe(
+            () => {
+              this.dialogRef.close();
+            },
+            () => {
+              this.isDeleting = false;
+            }
+          );
+        }
+      });
   }
 }

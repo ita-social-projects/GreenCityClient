@@ -89,6 +89,10 @@ export class OrderService {
     return this.http.get<any>(`${this.backend}/management/getPaymentInfo?orderId=${orderId}`);
   }
 
+  public deleteManualPayment(paymentId: number) {
+    return this.http.delete(`${this.backend}/management/delete-manual-payment/${paymentId}`);
+  }
+
   public readAddressOrder(orderId: number) {
     return this.http.get<any>(`${this.backend}/management/read-address-order/${orderId}`);
   }

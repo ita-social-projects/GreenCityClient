@@ -113,6 +113,7 @@
     "drag-other-photo-link": "Download other",
     "pdf-file": "PDF-file",
     "upload-pdf": "Download PDF",
+    "delete-message": "If deleted, all information will be lost. Are you sure you want to delete this payment?",
     "btn": {
       "back": "Back",
       "confirm": "Confirm payment",

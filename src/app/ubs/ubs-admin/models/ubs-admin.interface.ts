@@ -159,6 +159,7 @@ export interface IPaymentInfoDtos {
   amount: number;
   comment: string;
   paymentId: number;
+  id: number;
   settlementdate: string;
   imagePath: string;
 }
