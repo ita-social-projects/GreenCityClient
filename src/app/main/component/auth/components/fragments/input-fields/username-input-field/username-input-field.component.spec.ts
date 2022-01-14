@@ -2,6 +2,7 @@ import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { UsernameInputFieldComponent } from './username-input-field.component';
 import { TranslateModule } from '@ngx-translate/core';
+import { RouterModule } from '@angular/router';
 
 describe('UsernameInputFieldComponent', () => {
   let component: UsernameInputFieldComponent;
@@ -10,7 +11,7 @@ describe('UsernameInputFieldComponent', () => {
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       declarations: [UsernameInputFieldComponent],
-      imports: [TranslateModule.forRoot()]
+      imports: [TranslateModule.forRoot(), RouterModule.forRoot([{ path: '', component: UsernameInputFieldComponent }])]
     }).compileComponents();
   }));
 
