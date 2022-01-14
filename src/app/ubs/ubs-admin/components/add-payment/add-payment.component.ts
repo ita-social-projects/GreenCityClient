@@ -74,7 +74,7 @@ export class AddPaymentComponent implements OnInit, OnDestroy {
       paymentDate: [this.payment?.settlementdate ?? '', [Validators.required]],
       amount: [this.payment?.amount ?? '', [Validators.required, Validators.pattern('^[0-9]+$')]],
       paymentId: [this.payment?.paymentId ?? '', [Validators.required]],
-      receiptLink: [this.payment?.comment ?? '']
+      receiptLink: [this.payment?.receiptLink ?? '']
     });
     this.imagePreview.src = this.payment?.imagePath;
     if (this.viewMode) {
@@ -92,6 +92,9 @@ export class AddPaymentComponent implements OnInit, OnDestroy {
     paymentDetails.amount *= 100;
     result.form = paymentDetails;
     result.file = this.file;
+    if (this.editMode) {
+      result.form.imagePath = this.file ? null : this.imagePreview.src ?? null;
+    }
     this.processPayment(this.orderId, result);
   }
 
@@ -102,7 +105,7 @@ export class AddPaymentComponent implements OnInit, OnDestroy {
         switchMap(() =>
           iif(
             () => this.editMode,
-            this.orderService.updatePaymentManually(this.payment.id, postData.form, postData.file),
+            this.orderService.updatePaymentManually(this.payment?.id, postData.form, postData.file),
             this.orderService.addPaymentManually(orderId, postData.form, postData.file)
           )
         ),
@@ -112,7 +115,8 @@ export class AddPaymentComponent implements OnInit, OnDestroy {
         (data: any) => {
           this.dialogRef.close();
         },
-        () => {
+        (err) => {
+          console.error('error', err);
           this.isUploading = false;
         }
       );
@@ -159,7 +163,7 @@ export class AddPaymentComponent implements OnInit, OnDestroy {
       this.isInitialDataChanged =
         this.payment.settlementdate !== values.paymentDate ||
         this.payment.amount !== +values.amount ||
-        (this.payment.comment ?? '') !== values.receiptLink ||
+        (this.payment.receiptLink ?? '') !== values.receiptLink ||
         this.payment.paymentId !== values.paymentId;
     });
   }
