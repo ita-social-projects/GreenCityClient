@@ -4,10 +4,10 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Component, Inject, OnInit, OnDestroy } from '@angular/core';
 import { Address } from '../../../models/ubs.interface';
 import { takeUntil, catchError } from 'rxjs/operators';
-import { Subject, throwError } from 'rxjs';
+import { Observable, Subject, throwError } from 'rxjs';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
-import { MapsAPILoader } from '@agm/core';
+import { ajax } from 'rxjs/internal-compatibility';
 
 @Component({
   selector: 'app-ubs-add-address-pop-up',
@@ -15,7 +15,6 @@ import { MapsAPILoader } from '@agm/core';
   styleUrls: ['./ubs-add-address-pop-up.component.scss']
 })
 export class UBSAddAddressPopUpComponent implements OnInit, OnDestroy {
-  country = 'ua';
   options: any;
   cityOptions: any;
   cityBounds: any;
@@ -23,7 +22,7 @@ export class UBSAddAddressPopUpComponent implements OnInit, OnDestroy {
   updatedAddresses: Address[];
   addAddressForm: FormGroup;
   newAddress: Address;
-  region = '';
+  currentDistrict = '';
   isDisabled = false;
   streetPattern = /^[A-Za-zА-Яа-яїЇіІєЄёЁ.\'\-\ \\]+[A-Za-zА-Яа-яїЇіІєЄёЁ0-9.\'\-\ \\]*$/;
   corpusPattern = /^[A-Za-zА-Яа-яїЇіІєЄёЁ0-9]{1,4}$/;
@@ -35,39 +34,86 @@ export class UBSAddAddressPopUpComponent implements OnInit, OnDestroy {
   isKyiv = false;
   currentLanguage: string;
   mainUrl = 'https://maps.googleapis.com/maps/api/js?key=AIzaSyB3xs7Kczo46LFcQRFKPMdrE0lU4qsR_S4&libraries=places&language=';
+  KyivCoordinates = {
+    northLat: 50.59079800991073,
+    southLat: 50.21327301525928,
+    eastLng: 30.82594104187906,
+    westLng: 30.23944009690609
+  };
+
   cities = [
-    { cityName: 'Київ', northLat: 50.59079800991073, southLat: 50.21327301525928, eastLng: 30.82594104187906, westLng: 30.23944009690609 },
-    { cityName: 'Гатне' },
-    { cityName: 'Горенка' },
-    { cityName: `Зазим'є` },
-    { cityName: 'Ірпінь' },
-    { cityName: 'Княжичі' },
-    { cityName: 'Коцюбинське' },
-    { cityName: 'Новосілки' },
-    { cityName: 'Петропавлівська Борщагівка' },
-    { cityName: 'Погреби' },
-    { cityName: 'Проліски' },
-    { cityName: 'Софіївська Борщагівка' },
-    { cityName: 'Чайки' },
-    { cityName: 'Щасливе' }
+    { cityName: 'Київ', lang: 'ua' },
+    { cityName: 'Kyiv', lang: 'en' },
+    { cityName: 'Гатне', lang: 'ua' },
+    { cityName: 'Hatne', lang: 'en' },
+    { cityName: 'Горенка', lang: 'ua' },
+    { cityName: 'Horenka', lang: 'en' },
+    { cityName: `Зазим'є`, lang: 'ua' },
+    { cityName: `Zazymie`, lang: 'en' },
+    { cityName: 'Ірпінь', lang: 'ua' },
+    { cityName: `Irpin'`, lang: 'en' },
+    { cityName: 'Княжичі', lang: 'ua' },
+    { cityName: 'Kniazhychi', lang: 'en' },
+    { cityName: 'Коцюбинське', lang: 'ua' },
+    { cityName: `Kotsyubyns'ke`, lang: 'en' },
+    { cityName: 'Новосілки', lang: 'ua' },
+    { cityName: 'Novosilky', lang: 'en' },
+    { cityName: 'Петропавлівська Борщагівка', lang: 'ua' },
+    { cityName: 'Petropavlivska Borshchahivka', lang: 'en' },
+    { cityName: 'Погреби', lang: 'ua' },
+    { cityName: 'Pohreby', lang: 'en' },
+    { cityName: 'Проліски', lang: 'ua' },
+    { cityName: 'Prolisky', lang: 'en' },
+    { cityName: 'Софіївська Борщагівка', lang: 'ua' },
+    { cityName: 'Sofiivska Borschahivka', lang: 'en' },
+    { cityName: 'Чайки', lang: 'ua' },
+    { cityName: 'Chaiky', lang: 'en' },
+    { cityName: 'Щасливе', lang: 'ua' },
+    { cityName: 'Shchaslyve', lang: 'en' }
   ];
 
-  bigRegions = ['Київська область'];
+  bigRegions = [
+    { regionName: 'Київська область', lang: 'ua' },
+    { regionName: 'Kyiv region', lang: 'en' }
+  ];
 
   regionsKyiv = [
-    'Голосіївський',
-    'Дарницький',
-    'Деснянський',
-    'Дніпровський',
-    'Оболонський',
-    'Печерський',
-    'Подільський',
-    'Святошинський',
-    `Солом'янський`,
-    'Шевченківський'
+    { name: 'Голосіївський', lang: 'ua' },
+    { name: 'Holosiivskyi', lang: 'en' },
+    { name: 'Дарницький', lang: 'ua' },
+    { name: 'Darnytskyi', lang: 'en' },
+    { name: 'Деснянський', lang: 'ua' },
+    { name: 'Desniansky', lang: 'en' },
+    { name: 'Дніпровський', lang: 'ua' },
+    { name: 'Dniprovsky', lang: 'en' },
+    { name: 'Оболонський', lang: 'ua' },
+    { name: 'Obolonsky', lang: 'en' },
+    { name: 'Печерський', lang: 'ua' },
+    { name: 'Pechersky', lang: 'en' },
+    { name: 'Подільський', lang: 'ua' },
+    { name: 'Podolsky', lang: 'en' },
+    { name: 'Святошинський', lang: 'ua' },
+    { name: 'Sviatoshynsky', lang: 'en' },
+    { name: `Солом'янський`, lang: 'ua' },
+    { name: 'Solomiansky', lang: 'en' },
+    { name: 'Шевченківський', lang: 'ua' },
+    { name: 'Shevchenkivskyi', lang: 'en' }
   ];
 
-  regions = ['Бориспільський', 'Броварський', 'Бучанський', 'Вишгородський', 'Обухівський', 'Фастівський'];
+  regions = [
+    { name: 'Бориспільський', lang: 'ua' },
+    { name: 'Boryspilky', lang: 'en' },
+    { name: 'Броварський', lang: 'ua' },
+    { name: 'Brovarsky', lang: 'en' },
+    { name: 'Бучанський', lang: 'ua' },
+    { name: 'Buchansky', lang: 'en' },
+    { name: 'Вишгородський', lang: 'ua' },
+    { name: 'Vyshhorodsky', lang: 'en' },
+    { name: 'Обухівський', lang: 'ua' },
+    { name: 'Obukhivsky', lang: 'en' },
+    { name: 'Фастівський', lang: 'ua' },
+    { name: 'Fastivsky', lang: 'en' }
+  ];
 
   constructor(
     private fb: FormBuilder,
@@ -78,19 +124,21 @@ export class UBSAddAddressPopUpComponent implements OnInit, OnDestroy {
       edit: boolean;
       address: Address;
       currentLocation: string;
-      district: string;
     },
     private snackBar: MatSnackBarComponent,
     private localStorageService: LocalStorageService
-  ) // private mapsApiLoader: MapsAPILoader
-  {}
+  ) {}
 
-  get getRegion() {
+  get region() {
     return this.addAddressForm.get('region');
   }
 
   get district() {
     return this.addAddressForm.get('district');
+  }
+
+  get city() {
+    return this.addAddressForm.get('city');
   }
 
   get street() {
@@ -115,7 +163,11 @@ export class UBSAddAddressPopUpComponent implements OnInit, OnDestroy {
 
   ngOnInit() {
     this.currentLanguage = this.localStorageService.getCurrentLanguage();
-    this.region = this.data.district;
+    this.bigRegions = this.bigRegions.filter((el) => el.lang === this.currentLanguage);
+    this.cities = this.cities.filter((el) => el.lang === this.currentLanguage);
+    this.regionsKyiv = this.regionsKyiv.filter((el) => el.lang === this.currentLanguage);
+    this.regions = this.regions.filter((el) => el.lang === this.currentLanguage);
+    this.currentDistrict = this.data.address.district;
     this.currentLocation = this.data.currentLocation;
     this.addAddressForm = this.fb.group({
       region: [this.data.edit ? this.data.address.region : null, Validators.required],
@@ -154,20 +206,16 @@ export class UBSAddAddressPopUpComponent implements OnInit, OnDestroy {
     }
 
     // TODO: Must be removed if multi-region feature need to be implemented
-    this.onCitySelected('Київ');
+    this.onCitySelected(this.KyivCoordinates);
   }
 
-  onCitySelected(citySelected: string) {
-    this.cities.forEach((city) => {
-      if (city.cityName === citySelected) {
-        this.cityBounds = {
-          north: city.northLat,
-          south: city.southLat,
-          east: city.eastLng,
-          west: city.westLng
-        };
-      }
-    });
+  onCitySelected(coordinates) {
+    this.cityBounds = {
+      north: coordinates.northLat,
+      south: coordinates.southLat,
+      east: coordinates.eastLng,
+      west: coordinates.westLng
+    };
 
     this.options = {
       bounds: this.cityBounds,
@@ -200,7 +248,6 @@ export class UBSAddAddressPopUpComponent implements OnInit, OnDestroy {
         long = (g + h) / 2;
       }
     }
-    // this.getAlternativeLocation(lat, long);
 
     this.addAddressForm.get('coordinates').setValue({
       latitude: lat,
@@ -208,27 +255,29 @@ export class UBSAddAddressPopUpComponent implements OnInit, OnDestroy {
     });
   }
 
-  getAlternativeLocation(lat, lng): void {
-    // const url = 'https://maps.googleapis.com/maps/api/geocode/json?latlng=';
-    // const key = 'AIzaSyB3xs7Kczo46LFcQRFKPMdrE0lU4qsR_S4'
-    // const google = document.createElement('script')
-    // google.type = 'text/javascript';
-    // google.setAttribute('src', url + lat + ',' + lng + '&key=' + key);
-    // document.getElementsByTagName('head')[0].appendChild(google);
-    // this.mapsApiLoader.load().then(() => {
-    let geocoder = new google.maps.Geocoder();
-    let latlng = { lat: lat, lng: lng };
-    geocoder.geocode({ location: latlng }, (results, status) => {
-      console.log(status);
-      console.log(results);
+  translate(sourceText: string) {
+    this.getJSON(sourceText, this.currentLanguage).subscribe((data) => {
+      console.log(data);
+      console.log(data[0][0][0]);
     });
-    // });
+  }
+
+  public getJSON(sourceText: string, lang: string): Observable<any> {
+    if (lang === 'ua') {
+      return ajax.getJSON('https://translate.googleapis.com/translate_a/single?client=gtx&sl=uk&tl=en&dt=t&q=' + encodeURI(sourceText));
+    }
+    return ajax.getJSON('https://translate.googleapis.com/translate_a/single?client=gtx&sl=en&tl=uk&dt=t&q=' + encodeURI(sourceText));
   }
 
   setDistrict(event: any) {
-    const getDistrict = event.address_components.filter((item) => item.long_name.includes('район'))[0];
+    const getDistrict =
+      this.currentLanguage === 'ua'
+        ? event.address_components.filter((item) => item.long_name.includes('район'))[0]
+        : event.address_components.filter((item) => item.long_name.includes('Street'))[0];
+    console.log(event);
     if (getDistrict) {
-      this.region = getDistrict.long_name.split(' ')[0];
+      this.currentDistrict = getDistrict.long_name.split(' ')[0];
+      console.log(this.currentDistrict);
     }
   }
 
@@ -248,6 +297,7 @@ export class UBSAddAddressPopUpComponent implements OnInit, OnDestroy {
   onDistrictSelected(event): void {
     this.onLocationSelected(event);
     this.setDistrict(event);
+    this.translate(event.name);
     this.onAutocompleteSelected(event);
   }
 

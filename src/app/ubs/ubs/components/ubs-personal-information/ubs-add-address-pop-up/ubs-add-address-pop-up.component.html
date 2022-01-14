@@ -5,7 +5,7 @@
   <div class="col-md-4 col-sm-4 form-group">
     <label>{{ 'personal-info.pop-up-region' | translate }}</label>
     <select formControlName="region" class="shadow-none form-control">
-      <option *ngFor="let reg of bigRegions" selected>{{ reg }}</option>
+      <option *ngFor="let reg of bigRegions" selected>{{ reg.regionName }}</option>
     </select>
   </div>
   <div class="col-md-4 col-sm-4 form-group">
@@ -27,12 +27,12 @@
   <div class="col-md-4 col-sm-4 form-group">
     <label>{{ 'personal-info.pop-up-district' | translate }}</label>
     <select *ngIf="!isDistrict" formControlName="district" class="shadow-none form-control">
-      <option selected hidden></option>
-      <option *ngFor="let region of regions">{{ region }}</option>
+      <option hidden></option>
+      <option *ngFor="let region of regions">{{ region.name }}</option>
     </select>
     <select *ngIf="isDistrict" formControlName="district" class="shadow-none form-control">
-      <option selected hidden></option>
-      <option *ngFor="let region of regionsKyiv">{{ region }}</option>
+      <option hidden></option>
+      <option *ngFor="let region of regionsKyiv">{{ region.name }}</option>
     </select>
     <div class="validation" *ngIf="district.invalid && addAddressForm.get('district').touched">
       <app-ubs-input-error [formElement]="district" [controlName]="'district'"></app-ubs-input-error>

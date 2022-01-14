@@ -77,13 +77,13 @@ export class UBSPersonalInformationComponent extends FormBaseComponent implement
       this.anotherClient = JSON.parse(localStorage.getItem('anotherClient'));
     }
     this.takeUserData();
-    // if (localStorage.getItem('currentLocationId')) {
-    //   this.currentLocationId = JSON.parse(localStorage.getItem('currentLocationId'));
-    //   this.locations = JSON.parse(localStorage.getItem('locations'));
-    //   const loc = this.locations.find(el => el.locationsDtos[0].locationId === this.currentLocationId);
-    //   const location = loc.locationsDtos[0].locationTranslationDtoList.find(el => el.languageCode === this.currentLanguage);
-    //   this.currentLocation = location.locationName;
-    // }
+    if (localStorage.getItem('currentLocationId')) {
+      this.currentLocationId = JSON.parse(localStorage.getItem('currentLocationId'));
+      this.locations = JSON.parse(localStorage.getItem('locations'));
+      const loc = this.locations.find((el) => el.locationsDtos[0].locationId === this.currentLocationId);
+      const location = loc.locationsDtos[0].locationTranslationDtoList.find((el) => el.languageCode === this.currentLanguage);
+      this.currentLocation = location.locationName;
+    }
     this.orderService.locationSub.subscribe((data) => {
       this.currentLocation = data;
     });
@@ -119,7 +119,7 @@ export class UBSPersonalInformationComponent extends FormBaseComponent implement
       .findAllAddresses()
       .pipe(takeUntil(this.destroy))
       .subscribe((list) => {
-        this.addresses = this.getLastAddresses(list.addressList);
+        this.addresses = list.addressList;
         localStorage.setItem('addresses', JSON.stringify(this.addresses));
         this.personalDataForm.patchValue({
           address: this.addresses
@@ -130,11 +130,6 @@ export class UBSPersonalInformationComponent extends FormBaseComponent implement
           this.checkAddress(addressId ?? this.addresses[0].id);
         }
       });
-  }
-
-  private getLastAddresses(addressList: Address[]) {
-    const lastAddresses = -4;
-    return addressList.slice(lastAddresses);
   }
 
   ngOnDestroy(): void {
@@ -287,8 +282,7 @@ export class UBSPersonalInformationComponent extends FormBaseComponent implement
     dialogConfig.panelClass = 'address-matDialog-styles';
     dialogConfig.data = {
       edit: isEdit,
-      currentLocation: this.currentLocation,
-      district: currentAddress?.district
+      currentLocation: this.currentLocation
     };
     if (isEdit) {
       dialogConfig.data.address = currentAddress;
