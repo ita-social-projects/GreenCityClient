@@ -1,4 +1,3 @@
-/*
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { HttpClientModule } from '@angular/common/http';
 import { PasswordInputFieldComponent } from './password-input-field.component';
@@ -57,4 +56,3 @@ describe('PasswordInputFieldComponent', () => {
     // expect(component).toBeDefined();
   });
 });
-*/
