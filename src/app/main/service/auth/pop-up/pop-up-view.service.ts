@@ -21,6 +21,9 @@ import { MatSnackBarComponent } from '@global-errors/mat-snack-bar/mat-snack-bar
   providedIn: 'root'
 })
 export class PopUpViewService implements OnDestroy {
+  private signInValue = 'sign-in';
+  private emailValueIsValid: boolean;
+  private passwordValueIsValid: boolean;
   private userOwnSignInService: UserOwnSignInService;
   private jwtService: JwtService;
   private router: Router;
@@ -33,6 +36,7 @@ export class PopUpViewService implements OnDestroy {
   private destroy: Subject<boolean> = new Subject<boolean>();
   private loadButtonAnimation = false;
   private snackBar: MatSnackBarComponent;
+  private currentPage: string;
   /*private errorsType = {
     name: (error: string) => (),
     email: (error: string) => (this.signUpEmailErrorMessageBackEnd = error = error),
@@ -40,6 +44,9 @@ export class PopUpViewService implements OnDestroy {
     passwordConfirm: (error: string) => (this.passwordConfirmErrorMessageBackEnd = error)
   };*/
   loadButtonAnimationBehaviourSubject: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(this.getLoadButtonAnimation());
+  backendErrorSubject: Subject<string> = new Subject<string>();
+  buttonActive = false;
+  buttonActiveBehaviourSubject: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(this.getButtonActive());
   regPopUpViewBehaviourSubject: BehaviorSubject<PopupTitleData> = new BehaviorSubject<PopupTitleData>(this.getPopupViewValue());
   popUpValue: PopupTitleData;
   isUbs: boolean;
@@ -83,9 +90,56 @@ export class PopUpViewService implements OnDestroy {
     this.snackBar = injector.get(MatSnackBarComponent);
   }
 
+  signIn(email: string, password: string): void {
+    this.loadButtonAnimation = true;
+    this.loadButtonAnimationBehaviourSubject.next(this.loadButtonAnimation);
+    this.userOwnSignIn = new UserOwnSignIn();
+    this.userOwnSignIn.email = email;
+    this.userOwnSignIn.password = password;
+    this.userOwnSignInService
+      .signIn(this.userOwnSignIn)
+      .pipe(takeUntil(this.destroy))
+      .subscribe(
+        (data: UserSuccessSignIn) => {
+          this.onSignInSuccess(data);
+        },
+        (errors: HttpErrorResponse) => {
+          this.onSignInFailure(errors);
+          this.loadButtonAnimation = false;
+          this.loadButtonAnimationBehaviourSubject.next(this.loadButtonAnimation);
+        }
+      );
+  }
+
+  private getButtonActive() {
+    return this.buttonActive;
+  }
+
+  public setEmailInputField(value: boolean) {
+    this.emailValueIsValid = value;
+    this.setButtonActive();
+  }
+
+  public setPasswordInputField(value: boolean) {
+    this.passwordValueIsValid = value;
+    this.setButtonActive();
+  }
+
+  private setButtonActive() {
+    if (this.currentPage === this.signInValue) {
+      this.buttonActive = this.emailValueIsValid && this.passwordValueIsValid;
+      this.buttonActiveBehaviourSubject.next(this.buttonActive);
+    }
+  }
+
   setPopupViewValue(page: string): void {
+    this.emailValueIsValid = false;
+    this.passwordValueIsValid = false;
+    this.buttonActive = false;
+    this.buttonActiveBehaviourSubject.next(this.buttonActive);
+    this.currentPage = page;
     this.localeStorageService.ubsRegBehaviourSubject.pipe(takeUntil(this.destroy)).subscribe((value) => (this.isUbs = value));
-    this.popUpValue = page === 'sign-in' ? this.signInTittle : page === 'restore-password' ? this.restorePassword : this.signUpValue;
+    this.popUpValue = page === this.signInValue ? this.signInTittle : page === 'restore-password' ? this.restorePassword : this.signUpValue;
     this.regPopUpViewBehaviourSubject.next(this.popUpValue);
   }
 
@@ -130,27 +184,6 @@ export class PopUpViewService implements OnDestroy {
     this.loadButtonAnimation = false;
     this.loadButtonAnimationBehaviourSubject.next(this.loadButtonAnimation);
     this.snackBar.openSnackBar('signUp');
-  }
-
-  signIn(email: string, password: string): void {
-    this.loadButtonAnimation = true;
-    this.loadButtonAnimationBehaviourSubject.next(this.loadButtonAnimation);
-    this.userOwnSignIn = new UserOwnSignIn();
-    this.userOwnSignIn.email = email;
-    this.userOwnSignIn.password = password;
-    this.userOwnSignInService
-      .signIn(this.userOwnSignIn)
-      .pipe(takeUntil(this.destroy))
-      .subscribe(
-        (data: UserSuccessSignIn) => {
-          this.onSignInSuccess(data);
-        },
-        (errors: HttpErrorResponse) => {
-          this.onSignInFailure(errors);
-          this.loadButtonAnimation = false;
-          this.loadButtonAnimationBehaviourSubject.next(this.loadButtonAnimation);
-        }
-      );
   }
 
   signInWithGoogle(): void {
@@ -203,6 +236,7 @@ export class PopUpViewService implements OnDestroy {
       return;
     } else if (!Array.isArray(errors.error)) {
       this.backEndError = errors.error.message;
+      this.backendErrorSubject.next(this.backEndError);
       return;
     }
 
