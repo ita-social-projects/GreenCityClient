@@ -1,9 +1,6 @@
-import { Component, forwardRef, Input, OnDestroy, OnInit } from '@angular/core';
+import { Component, forwardRef, Input, OnInit } from '@angular/core';
 import { SignInIcons } from '../../../../../../image-pathes/sign-in-icons';
 import { AbstractControl, FormControl, FormGroup, NG_VALUE_ACCESSOR, Validators } from '@angular/forms';
-import { PopUpViewService } from '@auth-service/pop-up/pop-up-view.service';
-import { takeUntil } from 'rxjs/operators';
-import { Subject } from 'rxjs';
 
 @Component({
   selector: 'app-password-input-field',
@@ -17,8 +14,7 @@ import { Subject } from 'rxjs';
     }
   ]
 })
-export class PasswordInputFieldComponent implements OnInit, OnDestroy {
-  private destroy: Subject<boolean> = new Subject<boolean>();
+export class PasswordInputFieldComponent implements OnInit {
   public passwordFormGroup: FormGroup;
   public hideShowPasswordImage = SignInIcons;
   public passwordErrorMessageBackEnd: string;
@@ -27,10 +23,9 @@ export class PasswordInputFieldComponent implements OnInit, OnDestroy {
   public backEndError: string;
   @Input() repeatPassword: boolean;
 
-  constructor(private popUpViewService: PopUpViewService) {}
+  constructor() {}
 
   ngOnInit(): void {
-    this.popUpViewService.backendErrorSubject.pipe(takeUntil(this.destroy)).subscribe((value) => (this.backEndError = value));
     this.passwordFormGroup = new FormGroup({
       password: new FormControl(null, [Validators.required, Validators.minLength(8)])
     });
@@ -38,12 +33,7 @@ export class PasswordInputFieldComponent implements OnInit, OnDestroy {
   }
 
   public configDefaultErrorMessage(): void {
-    this.backEndError = null;
-    this.passwordField.markAsTouched();
-    if (this.passwordFormGroup.valid && this.passwordField.touched) {
-      this.popUpViewService.setPasswordInputField(true);
-    } else {
-      this.popUpViewService.setPasswordInputField(false);
+    if (this.passwordField.valid) {
     }
   }
 
@@ -51,10 +41,5 @@ export class PasswordInputFieldComponent implements OnInit, OnDestroy {
     input.type = input.type === 'password' ? 'text' : 'password';
     src.src = input.type === 'password' ? this.hideShowPasswordImage.hidePassword : this.hideShowPasswordImage.showPassword;
     src.alt = input.type === 'password' ? 'show password' : 'hide password';
-  }
-
-  ngOnDestroy() {
-    this.destroy.next(true);
-    this.destroy.complete();
   }
 }

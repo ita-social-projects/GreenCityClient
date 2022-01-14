@@ -1,3 +1,4 @@
+import { SignInIcons } from '../../../../image-pathes/sign-in-icons';
 import { FormGroup, AbstractControl, FormBuilder } from '@angular/forms';
 import { Component, EventEmitter, OnInit, OnDestroy, Output, Injector } from '@angular/core';
 import { Subject } from 'rxjs';
@@ -14,6 +15,7 @@ import { PopUpViewService } from '@auth-service/pop-up/pop-up-view.service';
 export class SignInComponent implements OnInit, OnDestroy {
   public emailField: AbstractControl;
   public passwordField: AbstractControl;
+  public hideShowPasswordImage = SignInIcons;
   public loadingAnim: boolean;
   public signInForm: FormGroup;
   private destroy: Subject<boolean> = new Subject<boolean>();
