@@ -18,7 +18,7 @@ import { TranslateService } from '@ngx-translate/core';
 })
 export class HabitEditShoppingListComponent implements OnInit, OnDestroy {
   public itemForm = new FormGroup({
-    item: new FormControl('', [Validators.required, Validators.minLength(3), Validators.maxLength(18)])
+    item: new FormControl('', [Validators.required, Validators.minLength(3), Validators.maxLength(50)])
   });
   public list: ShoppingList[] = [];
   public subscription: Subscription;

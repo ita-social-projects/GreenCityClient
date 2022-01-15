@@ -4,13 +4,7 @@
     <label [ngClass]="{ selected: item.status === 'INPROGRESS', done: item.status === 'DONE' }">
       <input type="checkbox" (change)="select(item)" />
       <span class="checkmark"></span>
-      <span
-        class="text"
-        ngbPopover="{{ item.text }}"
-        triggers="mouseenter:mouseleave"
-        [placement]="i === 0 ? 'bottom' : 'top'"
-        data-container="body"
-      >
+      <span class="text" ngbPopover="{{ item.text }}" triggers="mouseenter:mouseleave" placement="top" container="body">
         {{ truncateShoppingItemName(item.text) }}
       </span>
       <button id="del-btn" (click)="delete(item)"></button>
