@@ -10,15 +10,11 @@
       <button id="del-btn" (click)="delete(item)"></button>
     </label>
   </li>
+  <li *ngIf="!list.length">
+    {{ 'user.habit.no-shopping-items' | translate }}
+  </li>
 </ul>
 <form [formGroup]="itemForm">
   <input #newItem id="add-field" type="text" formControlName="item" autocomplete="off" />
-  <input
-    #btn
-    [disabled]="!itemForm.valid"
-    id="add-btn"
-    type="submit"
-    value="+"
-    (click)="add(newItem.value); newItem.value = ''; btn.disabled = true"
-  />
+  <input #btn [disabled]="!itemForm.valid" id="add-btn" type="submit" value="+" (click)="add(newItem.value); newItem.value = ''" />
 </form>

@@ -643,6 +643,7 @@
         "day": "d"
       },
       "shopping": "Shopping list",
+      "no-shopping-items": "No items to recommend",
       "user-log": {
         "day": "Day",
         "calendar-habit": "Calendar of eco habits",
