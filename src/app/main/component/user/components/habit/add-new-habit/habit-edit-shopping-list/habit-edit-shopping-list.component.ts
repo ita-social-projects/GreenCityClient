@@ -28,6 +28,8 @@ export class HabitEditShoppingListComponent implements OnInit, OnDestroy {
   private destroySub: Subject<boolean> = new Subject<boolean>();
   private langChangeSub: Subscription;
 
+  public shoppingItemNameLimit = 12;
+
   constructor(
     public shoppinglistService: EditShoppingListService,
     private route: ActivatedRoute,
@@ -54,6 +56,14 @@ export class HabitEditShoppingListComponent implements OnInit, OnDestroy {
 
   getListItems(isAssigned: boolean) {
     isAssigned ? this.getCustomItems() : this.getDefaultItems();
+  }
+
+  public truncateShoppingItemName(name: string) {
+    if (name.length >= this.shoppingItemNameLimit) {
+      return name.slice(0, this.shoppingItemNameLimit) + '...';
+    }
+
+    return name;
   }
 
   public getDefaultItems() {
