@@ -1,6 +1,6 @@
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
-import { FormBuilder } from '@angular/forms';
+import { FormBuilder, ReactiveFormsModule } from '@angular/forms';
 import { MatDialog, MatDialogModule, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
 import { TranslateModule } from '@ngx-translate/core';
@@ -12,7 +12,6 @@ import { AddPaymentComponent } from './add-payment.component';
 fdescribe('AddPaymentComponent', () => {
   let component: AddPaymentComponent;
   let fixture: ComponentFixture<AddPaymentComponent>;
-  let localeStorageService: LocalStorageService;
   const matDialogRefMock = () => ({
     close: () => ({})
   });
@@ -33,16 +32,19 @@ fdescribe('AddPaymentComponent', () => {
   orderServiceMock.addPaymentManually.and.returnValue(of(true));
   orderServiceMock.updatePaymentManually.and.returnValue(of(true));
   orderServiceMock.deleteManualPayment.and.returnValue(of(true));
+  const localeStorageServiceMock = jasmine.createSpyObj('localeStorageService', ['']);
+  localeStorageServiceMock.firstNameBehaviourSubject = of('fakeName');
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       declarations: [AddPaymentComponent],
-      imports: [HttpClientTestingModule, MatDialogModule, TranslateModule.forRoot()],
+      imports: [HttpClientTestingModule, ReactiveFormsModule, MatDialogModule, TranslateModule.forRoot()],
       providers: [
         { provide: MatDialogRef, useValue: matDialogRefMock },
         { provide: MatDialog, useValue: matDialogMock },
         { provide: MAT_DIALOG_DATA, useValue: mockedData },
         { provide: OrderService, useValue: orderServiceMock },
+        { provide: LocalStorageService, useValue: localeStorageServiceMock },
         FormBuilder
       ]
     }).compileComponents();
@@ -51,8 +53,6 @@ fdescribe('AddPaymentComponent', () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(AddPaymentComponent);
     component = fixture.componentInstance;
-    localeStorageService = TestBed.inject(LocalStorageService);
-    (localeStorageService as any).firstNameBehaviourSubject = of('fakeName');
     fixture.detectChanges();
   });
 
@@ -133,11 +133,25 @@ fdescribe('AddPaymentComponent', () => {
 
   describe('editPayment', () => {
     xit(`makes expected calls`, () => {
-      component.imagePreview = { src: 'fakePaht', name: 'fakeName' };
-      component.editPayment();
-      // expect(component.imagePreview.name).toBe(null);
-      // expect(component.imagePreview.src).toBe(null);
-      // expect(component.file).toBe(null);
+      component.payment = {
+        settlementdate: '',
+        amount: 13,
+        receiptLink: '',
+        paymentId: ''
+      } as any;
+      component.addPaymentForm.controls.amount.setValue('3');
+      component.addPaymentForm.controls.amount.updateValueAndValidity();
+      // component.addPaymentForm.valueChanges.subscribe((values) => {
+      fixture.detectChanges();
+      // component.editPayment();
+      console.log(component.addPaymentForm.value);
+      console.log(component.payment);
+      // console.log('values', values);
+      //   expect(component.isInitialDataChanged).toBeTruthy();
+      // console.log(component.payment.amount, +values.amount, component.payment.amount !== +values.amount);
+      console.log('isInitialDataChanged', component.isInitialDataChanged);
+      // done();
+      // });
     });
   });
 });
