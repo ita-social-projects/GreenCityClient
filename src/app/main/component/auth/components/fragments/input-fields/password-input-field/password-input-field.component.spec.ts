@@ -9,7 +9,7 @@ import { EmailInputFieldComponent } from '@global-auth/fragments/input-fields/em
 import { AuthService, LoginOpt, SocialUser } from 'angularx-social-login';
 import { MatSnackBarComponent } from '@global-errors/mat-snack-bar/mat-snack-bar.component';
 
-xdescribe('PasswordInputFieldComponent', () => {
+describe('PasswordInputFieldComponent', () => {
   let component: PasswordInputFieldComponent;
   let fixture: ComponentFixture<PasswordInputFieldComponent>;
   let jwtServiceMock: JwtService;
