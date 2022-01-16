@@ -18,15 +18,15 @@ export class UbsUserOrdersListComponent implements OnInit {
     this.sortingOrdersByData();
   }
 
-  isOrderFormed(order: any) {
+  isOrderFormed(order: IOrderInfo) {
     return order.generalOrderInfo.orderStatus === 'FORMED';
   }
 
-  isOrderUnpaid(order: any) {
+  isOrderUnpaid(order: IOrderInfo) {
     return order.generalOrderInfo.orderStatus === 'DONE_UNPAID' || order.generalOrderInfo.orderStatus === 'FORMED';
   }
 
-  isOrderDone(order: any) {
+  isOrderDone(order: IOrderInfo) {
     return (
       order.generalOrderInfo.orderStatus === 'ON_THE_ROUTE' ||
       order.generalOrderInfo.orderStatus === 'CONFIRMED' ||
