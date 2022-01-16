@@ -75,7 +75,7 @@ export class AddPaymentComponent implements OnInit, OnDestroy {
 
   initForm() {
     this.addPaymentForm = this.fb.group({
-      settlementDate: [this.payment?.settlementdate ?? '', [Validators.required]],
+      settlementdate: [this.payment?.settlementdate ?? '', [Validators.required]],
       amount: [this.payment?.amount ?? '', [Validators.required, Validators.pattern('^[0-9]+$')]],
       paymentId: [this.payment?.paymentId ?? '', [Validators.required]],
       receiptLink: [this.payment?.receiptLink ?? '']
