@@ -12,22 +12,25 @@ import { AddPaymentComponent } from './add-payment.component';
 fdescribe('AddPaymentComponent', () => {
   let component: AddPaymentComponent;
   let fixture: ComponentFixture<AddPaymentComponent>;
-  const matDialogRefMock = () => ({
+  const matDialogRefMock = {
     close: () => ({})
-  });
+  };
   const matDialogMock = () => ({
-    open: () => of(true)
+    open: () => ({
+      afterClosed: () => ({ pipe: () => ({ subscribe: (f) => f({}) }) })
+    })
   });
   const mockedData = {
     orderId: 735,
     viewMode: false,
     payment: null
   };
-  const dataFileMock = new File([''], 'test-file.jpeg');
+  const dataFileMock = new File([''], 'test-file.jpeg', { type: 'image/jpeg' });
   const fakeFileHandle = {
     file: dataFileMock,
     url: 'fakeUrl'
   };
+  const event = { target: { files: [dataFileMock] } };
   const orderServiceMock = jasmine.createSpyObj('orderService', ['addPaymentManually', 'updatePaymentManually', 'deleteManualPayment']);
   orderServiceMock.addPaymentManually.and.returnValue(of(true));
   orderServiceMock.updatePaymentManually.and.returnValue(of(true));
@@ -41,7 +44,7 @@ fdescribe('AddPaymentComponent', () => {
       imports: [HttpClientTestingModule, ReactiveFormsModule, MatDialogModule, TranslateModule.forRoot()],
       providers: [
         { provide: MatDialogRef, useValue: matDialogRefMock },
-        { provide: MatDialog, useValue: matDialogMock },
+        { provide: MatDialog, useFactory: matDialogMock },
         { provide: MAT_DIALOG_DATA, useValue: mockedData },
         { provide: OrderService, useValue: orderServiceMock },
         { provide: LocalStorageService, useValue: localeStorageServiceMock },
@@ -108,6 +111,47 @@ fdescribe('AddPaymentComponent', () => {
     });
   });
 
+  describe('processPayment', () => {
+    it('makes expected calls', () => {
+      component.payment = { id: 7 } as any;
+      const matDialogRefStub: MatDialogRef<AddPaymentComponent> = fixture.debugElement.injector.get(MatDialogRef);
+      const orderServiceStub: OrderService = fixture.debugElement.injector.get(OrderService);
+      spyOn(matDialogRefStub, 'close').and.callThrough();
+      component.processPayment(5, { form: 'fakeForm', file: 'fakeFile' });
+      expect(matDialogRefStub.close).toHaveBeenCalled();
+      expect(orderServiceStub.updatePaymentManually).toHaveBeenCalledWith(7, 'fakeForm', 'fakeFile');
+      expect(orderServiceStub.addPaymentManually).toHaveBeenCalledWith(5, 'fakeForm', 'fakeFile');
+    });
+  });
+
+  describe('files', () => {
+    it('makes expected calls in filesDropped', () => {
+      const loadImageSpy = spyOn(component, 'loadImage');
+      spyOn(component as any, 'showWarning').and.returnValue(false);
+      component.filesDropped([fakeFileHandle] as any);
+      expect(component.file).toEqual(dataFileMock);
+      expect(loadImageSpy).toHaveBeenCalled();
+    });
+
+    it('makes expected calls in onFileSelect', () => {
+      const loadImageSpy = spyOn(component, 'loadImage');
+      component.onFileSelect(event);
+      expect(component.file).toEqual(dataFileMock);
+      expect(loadImageSpy).toHaveBeenCalled();
+    });
+
+    it('gets false from showWarning', () => {
+      const isShowWarning = (component as any).showWarning(dataFileMock);
+      expect(isShowWarning).toBeFalsy();
+    });
+
+    it('gets true from showWarning', () => {
+      const fileMock = new File([''], 'test-file.jpeg', { type: 'text/plain' });
+      const isShowWarning = (component as any).showWarning(fileMock);
+      expect(isShowWarning).toBeTruthy();
+    });
+  });
+
   describe('removeImage', () => {
     it(`is not edit mode`, () => {
       component.imagePreview = { src: 'fakePaht', name: 'fakeName' };
@@ -132,26 +176,24 @@ fdescribe('AddPaymentComponent', () => {
   });
 
   describe('editPayment', () => {
-    xit(`makes expected calls`, () => {
+    it(`payment has been edited`, () => {
       component.payment = {
         settlementdate: '',
         amount: 13,
         receiptLink: '',
         paymentId: ''
       } as any;
+      component.editPayment();
       component.addPaymentForm.controls.amount.setValue('3');
-      component.addPaymentForm.controls.amount.updateValueAndValidity();
-      // component.addPaymentForm.valueChanges.subscribe((values) => {
-      fixture.detectChanges();
-      // component.editPayment();
-      console.log(component.addPaymentForm.value);
-      console.log(component.payment);
-      // console.log('values', values);
-      //   expect(component.isInitialDataChanged).toBeTruthy();
-      // console.log(component.payment.amount, +values.amount, component.payment.amount !== +values.amount);
-      console.log('isInitialDataChanged', component.isInitialDataChanged);
-      // done();
-      // });
+      expect(component.isInitialDataChanged).toBeTruthy();
+    });
+  });
+
+  describe('deletePayment', () => {
+    it('should call deleteManualPayment', () => {
+      component.payment = { id: 7 } as any;
+      component.deletePayment();
+      expect(orderServiceMock.deleteManualPayment).toHaveBeenCalledWith(7);
     });
   });
 });

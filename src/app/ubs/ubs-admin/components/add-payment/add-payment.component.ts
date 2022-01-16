@@ -27,6 +27,7 @@ export class AddPaymentComponent implements OnInit, OnDestroy {
   editMode = false;
   isDeleting = false;
   isUploading = false;
+  isWarning = false;
   payment: IPaymentInfoDtos | null;
   addPaymentForm: FormGroup;
   file;
@@ -38,6 +39,7 @@ export class AddPaymentComponent implements OnInit, OnDestroy {
   dataSource = new MatTableDataSource();
   public date = new Date();
   public adminName;
+  private maxImageSize = 10485760;
   private destroySub: Subject<boolean> = new Subject<boolean>();
   deleteDialogData = {
     popupTitle: 'add-payment.delete-message',
@@ -124,7 +126,14 @@ export class AddPaymentComponent implements OnInit, OnDestroy {
 
   public filesDropped(files: File): void {
     this.file = files[0].file;
-    this.loadImage();
+    this.isWarning = this.showWarning(this.file);
+    if (!this.isWarning) {
+      this.loadImage();
+    }
+  }
+
+  private showWarning(file: File): boolean {
+    return file.size > this.maxImageSize || (file.type !== 'image/jpeg' && file.type !== 'image/png');
   }
 
   onFileSelect(event) {
