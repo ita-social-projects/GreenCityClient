@@ -11,6 +11,7 @@ import { ResponceOrderLiqPayModel } from '../models/ResponceOrderLiqPayModel';
 import { Router } from '@angular/router';
 import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
 import { IOrderData } from '../models/IOrderData.interface';
+import { UBSOrderFormService } from 'src/app/ubs/ubs/services/ubs-order-form.service';
 
 @Component({
   selector: 'app-ubs-user-order-payment-pop-up',
@@ -49,6 +50,7 @@ export class UbsUserOrderPaymentPopUpComponent implements OnInit {
     private sanitizer: DomSanitizer,
     @Inject(MAT_DIALOG_DATA) public data: IOrderData,
     private localStorageService: LocalStorageService,
+    private ubsOrderFormService: UBSOrderFormService,
     public router: Router
   ) {}
 
@@ -149,6 +151,17 @@ export class UbsUserOrderPaymentPopUpComponent implements OnInit {
     }
   }
 
+  public formOrderWithoutPaymentSystems(id: number): void {
+    this.ubsOrderFormService.transferOrderId(id);
+    this.ubsOrderFormService.setOrderResponseErrorStatus(false);
+    this.ubsOrderFormService.setOrderStatus(true);
+  }
+
+  public redirectionToConfirmPage(): void {
+    this.formOrderWithoutPaymentSystems(this.orderClientDto.orderId);
+    this.router.navigate(['ubs', 'confirm']);
+  }
+
   public processOrder(): void {
     this.fillOrderClientDto();
     this.localStorageService.clearPaymentInfo();
@@ -160,7 +173,7 @@ export class UbsUserOrderPaymentPopUpComponent implements OnInit {
           this.localStorageService.setUbsFondyOrderId(this.orderClientDto.orderId);
           document.location.href = responce.link;
         } else {
-          this.router.navigate(['ubs', 'confirm']);
+          this.redirectionToConfirmPage();
         }
       });
     } else {
@@ -168,7 +181,7 @@ export class UbsUserOrderPaymentPopUpComponent implements OnInit {
         this.localStorageService.setUbsOrderId(this.orderClientDto.orderId);
         this.liqPayButton[0].click();
       } else {
-        this.router.navigate(['ubs', 'confirm']);
+        this.redirectionToConfirmPage();
       }
     }
   }
