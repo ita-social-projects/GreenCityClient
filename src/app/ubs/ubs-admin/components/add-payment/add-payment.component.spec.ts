@@ -13,13 +13,22 @@ describe('AddPaymentComponent', () => {
   let component: AddPaymentComponent;
   let fixture: ComponentFixture<AddPaymentComponent>;
   const matDialogRefMock = {
-    close: () => ({})
+    close: jasmine.createSpy()
   };
   const matDialogMock = () => ({
     open: () => ({
       afterClosed: () => ({ pipe: () => ({ subscribe: (f) => f({}) }) })
     })
   });
+  const fakePaymentData = {
+    amount: 3,
+    comment: 'fakeComment',
+    paymentId: 'fakeID',
+    id: 123,
+    settlementdate: '1-1-1',
+    imagePath: 'fakePath',
+    receiptLink: 'fakeLink'
+  };
   const mockedData = {
     orderId: 735,
     viewMode: false,
@@ -32,9 +41,9 @@ describe('AddPaymentComponent', () => {
   };
   const event = { target: { files: [dataFileMock] } };
   const orderServiceMock = jasmine.createSpyObj('orderService', ['addPaymentManually', 'updatePaymentManually', 'deleteManualPayment']);
-  orderServiceMock.addPaymentManually.and.returnValue(of(true));
-  orderServiceMock.updatePaymentManually.and.returnValue(of(true));
-  orderServiceMock.deleteManualPayment.and.returnValue(of(true));
+  orderServiceMock.addPaymentManually.and.returnValue(of(fakePaymentData));
+  orderServiceMock.updatePaymentManually.and.returnValue(of(fakePaymentData));
+  orderServiceMock.deleteManualPayment.and.returnValue(of(3));
   const localeStorageServiceMock = jasmine.createSpyObj('localeStorageService', ['']);
   localeStorageServiceMock.firstNameBehaviourSubject = of('fakeName');
 
@@ -114,13 +123,10 @@ describe('AddPaymentComponent', () => {
   describe('processPayment', () => {
     it('makes expected calls', () => {
       component.payment = { id: 7 } as any;
-      const matDialogRefStub: MatDialogRef<AddPaymentComponent> = fixture.debugElement.injector.get(MatDialogRef);
-      const orderServiceStub: OrderService = fixture.debugElement.injector.get(OrderService);
-      spyOn(matDialogRefStub, 'close').and.callThrough();
       component.processPayment(5, { form: 'fakeForm', file: 'fakeFile' });
-      expect(matDialogRefStub.close).toHaveBeenCalled();
-      expect(orderServiceStub.updatePaymentManually).toHaveBeenCalledWith(7, 'fakeForm', 'fakeFile');
-      expect(orderServiceStub.addPaymentManually).toHaveBeenCalledWith(5, 'fakeForm', 'fakeFile');
+      expect(matDialogRefMock.close).toHaveBeenCalled();
+      expect(orderServiceMock.updatePaymentManually).toHaveBeenCalledWith(7, 'fakeForm', 'fakeFile');
+      expect(orderServiceMock.addPaymentManually).toHaveBeenCalledWith(5, 'fakeForm', 'fakeFile');
     });
   });
 
