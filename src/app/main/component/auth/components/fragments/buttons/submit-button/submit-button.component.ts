@@ -24,6 +24,9 @@ export class SubmitButtonComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit(): void {
+    this.popUpViewService.buttonActiveBehaviourSubject.pipe(takeUntil(this.destroy)).subscribe((value) => {
+      this.buttonIsActive = value;
+    });
     this.popUpViewService.loadButtonAnimationBehaviourSubject
       .pipe(takeUntil(this.destroy))
       .subscribe((value) => (this.loadingAnim = value));
