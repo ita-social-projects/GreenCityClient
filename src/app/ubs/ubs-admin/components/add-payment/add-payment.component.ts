@@ -87,7 +87,7 @@ export class AddPaymentComponent implements OnInit, OnDestroy {
   }
 
   close() {
-    this.dialogRef.close();
+    this.dialogRef.close(null);
   }
 
   save() {
@@ -117,6 +117,7 @@ export class AddPaymentComponent implements OnInit, OnDestroy {
       )
       .subscribe(
         (data: IPaymentInfoDtos) => {
+          data.amount /= 100;
           this.dialogRef.close(data);
         },
         (err) => {
@@ -201,8 +202,8 @@ export class AddPaymentComponent implements OnInit, OnDestroy {
             .deleteManualPayment(this.payment.id)
             .pipe(takeUntil(this.destroySub))
             .subscribe(
-              (data: IPaymentInfoDtos) => {
-                this.dialogRef.close(data);
+              () => {
+                this.dialogRef.close(this.payment.id);
               },
               () => {
                 this.isDeleting = false;

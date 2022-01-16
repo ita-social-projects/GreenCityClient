@@ -1,7 +1,6 @@
 import { Component, Input, OnInit, OnChanges, SimpleChanges } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
-import { Subject } from 'rxjs';
-import { take, takeUntil } from 'rxjs/operators';
+import { take } from 'rxjs/operators';
 import { IPaymentInfo, IPaymentInfoDtos, IOrderInfo } from '../../models/ubs-admin.interface';
 import { OrderService } from '../../services/order.service';
 import { AddPaymentComponent } from '../add-payment/add-payment.component';
@@ -23,7 +22,6 @@ export class UbsAdminOrderPaymentComponent implements OnInit, OnChanges {
   unPaidAmount: number;
   paymentInfo: IPaymentInfo;
   paymentsArray: IPaymentInfoDtos[];
-  private destroy$: Subject<boolean> = new Subject<boolean>();
 
   ngOnInit() {
     this.orderId = this.orderInfo.generalOrderInfo.id;
@@ -59,9 +57,14 @@ export class UbsAdminOrderPaymentComponent implements OnInit, OnChanges {
       })
       .afterClosed()
       .pipe(take(1))
-      .subscribe((res: IPaymentInfoDtos) => {
-        if (res) {
-          // this.addPayment(this.orderId, res);
+      .subscribe((res: IPaymentInfoDtos | number | null) => {
+        if (typeof res === 'number') {
+          this.paymentsArray = this.paymentsArray.filter((payment) => payment.id !== res);
+        }
+        if (res !== null && typeof res === 'object') {
+          this.paymentsArray = this.paymentsArray.filter((payment) => payment.id === res.id).length
+            ? this.paymentsArray.map((payment) => (payment.id === res.id ? res : payment))
+            : [...this.paymentsArray, res];
         }
       });
   }
