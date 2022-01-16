@@ -61,6 +61,8 @@
       'add-payment.drag-other-photo-link' | translate
     }}</label>
     <input id="file" type="file" accept="application/pdf,image/png,image/jpeg" class="d-none" (change)="onFileSelect($event)" />
+    <p *ngIf="isFileSizeWarning" class="warning_message">{{ 'add-payment.file-size-warning' | translate }}</p>
+    <p *ngIf="isFileTypeWarning" class="warning_message">{{ 'add-payment.file-type-warning' | translate }}</p>
   </div>
   <div class="btn-container block">
     <button *ngIf="viewMode && !editMode" class="delete-payment" [disabled]="isDeleting" (click)="deletePayment()">

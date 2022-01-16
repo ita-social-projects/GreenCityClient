@@ -59,7 +59,7 @@ export class UbsAdminOrderPaymentComponent implements OnInit, OnChanges {
       })
       .afterClosed()
       .pipe(take(1))
-      .subscribe((res) => {
+      .subscribe((res: IPaymentInfoDtos) => {
         if (res) {
           // this.addPayment(this.orderId, res);
         }

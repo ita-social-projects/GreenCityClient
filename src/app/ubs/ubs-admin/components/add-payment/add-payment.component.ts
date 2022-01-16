@@ -28,6 +28,8 @@ export class AddPaymentComponent implements OnInit, OnDestroy {
   isDeleting = false;
   isUploading = false;
   isWarning = false;
+  isFileSizeWarning = false;
+  isFileTypeWarning = false;
   payment: IPaymentInfoDtos | null;
   addPaymentForm: FormGroup;
   file;
@@ -114,8 +116,8 @@ export class AddPaymentComponent implements OnInit, OnDestroy {
         takeUntil(this.destroySub)
       )
       .subscribe(
-        (data: any) => {
-          this.dialogRef.close();
+        (data: IPaymentInfoDtos) => {
+          this.dialogRef.close(data);
         },
         (err) => {
           console.error('error', err);
@@ -133,12 +135,15 @@ export class AddPaymentComponent implements OnInit, OnDestroy {
   }
 
   private showWarning(file: File): boolean {
-    return file.size > this.maxImageSize || (file.type !== 'image/jpeg' && file.type !== 'image/png');
+    this.isFileSizeWarning = file.size > this.maxImageSize;
+    this.isFileTypeWarning = file.type !== 'image/jpeg' && file.type !== 'image/png';
+    return this.isFileSizeWarning || this.isFileTypeWarning;
   }
 
-  onFileSelect(event) {
-    if (event.target.files.length > 0) {
-      this.file = event.target.files[0];
+  onFileSelect(event: Event): void {
+    const files = (event.target as HTMLInputElement).files;
+    if (files.length > 0 && !this.showWarning(files[0])) {
+      this.file = files[0];
       this.loadImage();
     }
   }
@@ -196,8 +201,8 @@ export class AddPaymentComponent implements OnInit, OnDestroy {
             .deleteManualPayment(this.payment.id)
             .pipe(takeUntil(this.destroySub))
             .subscribe(
-              () => {
-                this.dialogRef.close();
+              (data: IPaymentInfoDtos) => {
+                this.dialogRef.close(data);
               },
               () => {
                 this.isDeleting = false;

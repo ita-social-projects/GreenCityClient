@@ -182,6 +182,10 @@
     .user-image {
       cursor: pointer;
     }
+
+    .warning_message {
+      color: var(--ubs-error-ligh-red);
+    }
   }
 
   .btn-container {

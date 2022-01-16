@@ -9,7 +9,7 @@ import { OrderService } from '../../services/order.service';
 
 import { AddPaymentComponent } from './add-payment.component';
 
-fdescribe('AddPaymentComponent', () => {
+describe('AddPaymentComponent', () => {
   let component: AddPaymentComponent;
   let fixture: ComponentFixture<AddPaymentComponent>;
   const matDialogRefMock = {
@@ -99,7 +99,7 @@ fdescribe('AddPaymentComponent', () => {
       expect(component.adminName).toBe('fakeName');
       expect(component.orderId).toBe(735);
       expect(component.viewMode).toBeFalsy();
-      expect(component.payment).toBe(null);
+      expect(component.payment).toBeNull();
     });
   });
 
@@ -135,7 +135,8 @@ fdescribe('AddPaymentComponent', () => {
 
     it('makes expected calls in onFileSelect', () => {
       const loadImageSpy = spyOn(component, 'loadImage');
-      component.onFileSelect(event);
+      spyOn(component as any, 'showWarning').and.returnValue(false);
+      component.onFileSelect(event as any);
       expect(component.file).toEqual(dataFileMock);
       expect(loadImageSpy).toHaveBeenCalled();
     });
@@ -157,9 +158,9 @@ fdescribe('AddPaymentComponent', () => {
       component.imagePreview = { src: 'fakePaht', name: 'fakeName' };
       component.file = fakeFileHandle;
       component.removeImage();
-      expect(component.imagePreview.name).toBe(null);
-      expect(component.imagePreview.src).toBe(null);
-      expect(component.file).toBe(null);
+      expect(component.imagePreview.name).toBeNull();
+      expect(component.imagePreview.src).toBeNull();
+      expect(component.file).toBeNull();
     });
 
     it(`is edit mode`, () => {
@@ -168,9 +169,9 @@ fdescribe('AddPaymentComponent', () => {
       component.imagePreview = { src: 'fakePath', name: 'fakeName' };
       component.file = fakeFileHandle;
       component.removeImage();
-      expect(component.imagePreview.name).toBe(null);
-      expect(component.imagePreview.src).toBe(null);
-      expect(component.file).toBe(null);
+      expect(component.imagePreview.name).toBeNull();
+      expect(component.imagePreview.src).toBeNull();
+      expect(component.file).toBeNull();
       expect(component.isInitialImageChanged).toBeTruthy();
     });
   });

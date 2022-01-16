@@ -37,7 +37,7 @@
             <td>{{ payment.settlementdate }}</td>
             <td class="paymentId" (click)="openPopup(true, i)">№{{ payment.paymentId }}</td>
             <td>{{ payment.amount | currency | localizedCurrency }}</td>
-            <td>{{ payment.comment }}</td>
+            <td>{{ payment.receiptLink }}</td>
           </tr>
         </tbody>
       </table>
