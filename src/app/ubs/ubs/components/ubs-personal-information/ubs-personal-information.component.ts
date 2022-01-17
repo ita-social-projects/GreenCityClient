@@ -298,10 +298,6 @@ export class UBSPersonalInformationComponent extends FormBaseComponent implement
       });
   }
 
-  getFormValues(): boolean {
-    return true;
-  }
-
   submit(): void {
     this.firstOrder = false;
     this.activeAddressId();

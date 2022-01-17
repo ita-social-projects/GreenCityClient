@@ -202,14 +202,14 @@ export class UBSAddAddressPopUpComponent implements OnInit, OnDestroy {
     if (this.currentLocation === 'Kyiv' || this.currentLocation === 'Київ') {
       this.isKyiv = true;
       this.isDistrict = true;
-      this.addAddressForm.get('city').setValue('Київ');
+      this.addAddressForm.get('city').setValue(this.currentLocation);
     }
 
     // TODO: Must be removed if multi-region feature need to be implemented
     this.onCitySelected(this.KyivCoordinates);
   }
 
-  onCitySelected(coordinates) {
+  onCitySelected(coordinates): void {
     this.cityBounds = {
       north: coordinates.northLat,
       south: coordinates.southLat,
@@ -255,9 +255,8 @@ export class UBSAddAddressPopUpComponent implements OnInit, OnDestroy {
     });
   }
 
-  translate(sourceText: string) {
+  translate(sourceText: string): void {
     this.getJSON(sourceText, this.currentLanguage).subscribe((data) => {
-      console.log(data);
       console.log(data[0][0][0]);
     });
   }
@@ -269,7 +268,7 @@ export class UBSAddAddressPopUpComponent implements OnInit, OnDestroy {
     return ajax.getJSON('https://translate.googleapis.com/translate_a/single?client=gtx&sl=en&tl=uk&dt=t&q=' + encodeURI(sourceText));
   }
 
-  setDistrict(event: any) {
+  setDistrict(event: any): void {
     const getDistrict =
       this.currentLanguage === 'ua'
         ? event.address_components.filter((item) => item.long_name.includes('район'))[0]
