@@ -22,7 +22,8 @@
           </div>
         </div>
         <div *ngSwitchDefault>
-          <h2 class="title">{{ 'confirm-page.title-text.accepted' | translate }} (№{{ orderId }})</h2>
+          <h2 *ngIf="!isUserPageOrderPayment()" class="title">{{ 'confirm-page.title-text.accepted' | translate }} (№{{ orderId }})</h2>
+          <h2 *ngIf="isUserPageOrderPayment()" class="title">{{ 'confirm-page.title-text.paid' | translate }} (№{{ orderId }})</h2>
           <div class="description">
             <p>{{ 'confirm-page.description' | translate }}</p>
           </div>
