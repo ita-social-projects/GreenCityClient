@@ -34,14 +34,6 @@ export class UbsUserOrdersListComponent implements OnInit {
     return this.isOrderPriceGreaterThenZero(order) && (this.isOrderPaid(order) || this.isOrderHalfPaid(order));
   }
 
-  isOrderDone(order: IOrderInfo) {
-    return (
-      order.generalOrderInfo.orderStatus === 'ON_THE_ROUTE' ||
-      order.generalOrderInfo.orderStatus === 'CONFIRMED' ||
-      order.generalOrderInfo.orderStatus === 'DONE'
-    );
-  }
-
   changeCard(id: number) {
     this.orders.forEach((order) => (order.extend = order.generalOrderInfo.id === id ? !order.extend : false));
   }
