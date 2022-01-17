@@ -89,6 +89,10 @@ export class OrderService {
     return this.http.get<any>(`${this.backend}/management/getPaymentInfo?orderId=${orderId}`);
   }
 
+  public deleteManualPayment(paymentId: number) {
+    return this.http.delete(`${this.backend}/management/delete-manual-payment/${paymentId}`);
+  }
+
   public readAddressOrder(orderId: number) {
     return this.http.get<any>(`${this.backend}/management/read-address-order/${orderId}`);
   }
@@ -124,6 +128,15 @@ export class OrderService {
     }
     formData.append('manualPaymentDto', JSON.stringify(postData));
     return this.http.post(`${this.backend}/management/add-manual-payment/${orderId}`, formData);
+  }
+
+  public updatePaymentManually(paymentId: number, postData, file): Observable<any> {
+    const formData: FormData = new FormData();
+    if (file) {
+      formData.append('image', file);
+    }
+    formData.append('manualPaymentDto', JSON.stringify(postData));
+    return this.http.put(`${this.backend}/management/update-manual-payment/${paymentId}`, formData);
   }
 
   public getColumnToDisplay() {

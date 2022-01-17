@@ -158,8 +158,11 @@ export interface IPaymentInfo {
 export interface IPaymentInfoDtos {
   amount: number;
   comment: string;
-  paymentId: number;
+  paymentId: string;
+  id: number;
   settlementdate: string;
+  imagePath: string;
+  receiptLink: string;
 }
 
 export interface IExportDetails {

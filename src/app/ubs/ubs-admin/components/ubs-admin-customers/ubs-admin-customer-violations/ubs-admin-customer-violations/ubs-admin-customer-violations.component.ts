@@ -17,6 +17,10 @@ import { AddViolationsComponent } from '../../../add-violations/add-violations.c
 export class UbsAdminCustomerViolationsComponent implements OnInit, OnDestroy {
   private destroy$: Subject<boolean> = new Subject<boolean>();
   private id: string;
+  private sortingColumn: string;
+  private sortingType: string;
+  private page = 0;
+  private totalElements: number;
 
   public currentLang: string;
   public username: string;
@@ -26,6 +30,8 @@ export class UbsAdminCustomerViolationsComponent implements OnInit, OnDestroy {
   public dataSource: MatTableDataSource<any>;
   public isLoading = true;
   public switchViewButton: number | null;
+  public arrowDirection: string;
+  public isCanScroll = false;
 
   constructor(
     private localStorageService: LocalStorageService,
@@ -48,15 +54,41 @@ export class UbsAdminCustomerViolationsComponent implements OnInit, OnDestroy {
     this.route.params.subscribe((params) => {
       this.id = params.id;
       this.adminCustomerService
-        .getCustomerViolations(this.id)
+        .getCustomerViolations(this.id, this.page, this.sortingColumn || 'orderId', this.sortingType || 'ASC')
         .pipe(takeUntil(this.destroy$))
         .subscribe((violations) => {
-          this.username = violations.username;
-          this.violationsList = violations.userViolationsList;
+          this.username = violations.fullName;
+          this.violationsList = violations.userViolationsDto.page;
           this.dataSource = new MatTableDataSource(this.violationsList);
           this.isLoading = false;
+          this.totalElements = violations.userViolationsDto.totalElements;
+          this.checkAmountViolations();
         });
     });
+  }
+
+  private checkAmountViolations() {
+    if (this.totalElements > 10) {
+      this.page += 1;
+      this.isCanScroll = true;
+      this.updateViolations();
+    }
+  }
+
+  private updateViolations() {
+    this.adminCustomerService
+      .getCustomerViolations(this.id, this.page, this.sortingColumn || 'orderId', this.sortingType || 'ASC')
+      .pipe(takeUntil(this.destroy$))
+      .subscribe((violations) => {
+        this.violationsList = [...this.violationsList, ...violations.userViolationsDto.page];
+        this.dataSource = new MatTableDataSource(this.violationsList);
+        this.isLoading = false;
+        this.page += 1;
+      });
+  }
+
+  public onScroll() {
+    this.updateViolations();
   }
 
   private setDisplayedColumns() {
@@ -64,6 +96,13 @@ export class UbsAdminCustomerViolationsComponent implements OnInit, OnDestroy {
       column.index = index;
       this.displayedColumns[index] = column.title.key;
     });
+  }
+
+  public onSortTable(column: string, sortingType: string) {
+    this.sortingColumn = column;
+    this.sortingType = sortingType;
+    this.arrowDirection = column === this.arrowDirection ? null : column;
+    this.getViolations();
   }
 
   public goBack(): void {

@@ -159,6 +159,7 @@ export class UBSSubmitOrderComponent extends FormBaseComponent implements OnInit
 
   redirectToOrder() {
     this.loadingAnim = true;
+    this.localStorageService.setUserPagePayment(false);
 
     if (this.isFinalSumZero) {
       this.isLiqPay = false;

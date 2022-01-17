@@ -3,10 +3,10 @@
   <app-password-input-field formControlName="password" ngDefaultControl></app-password-input-field>
   <div class="forgot-wrapper">
     <a
-      (click)="onOpenModalWindow('restore-password')"
-      (keyup.enter)="onOpenModalWindow('restore-password')"
       [ngClass]="isUbs ? 'ubs-forgot-password' : 'forgot-password'"
       tabindex="0"
+      (click)="onOpenModalWindow('restore-password')"
+      (keyup.enter)="onOpenModalWindow('restore-password')"
     >
       {{ 'user.auth.sign-in.forgot-password' | translate }}</a
     >
