@@ -19,7 +19,8 @@ describe('UBSPersonalInformationComponent', () => {
   let fixture: ComponentFixture<UBSPersonalInformationComponent>;
   let realTakeUserData;
 
-  const fakeLocalStorageResponse = JSON.stringify(null);
+  const fakeLocalStorageService = jasmine.createSpyObj('LocalStorageService', ['getCurrentLanguage']);
+  fakeLocalStorageService.getCurrentLanguage = () => 'ua' as Language;
   const listMock = {
     addressList: [
       {
@@ -112,7 +113,8 @@ describe('UBSPersonalInformationComponent', () => {
       providers: [
         { provide: MatDialogRef, useValue: {} },
         { provide: UBSOrderFormService, useValue: fakeShareFormService },
-        { provide: OrderService, useValue: fakeOrderService }
+        { provide: OrderService, useValue: fakeOrderService },
+        { provide: LocalStorageService, useValue: fakeLocalStorageService }
       ],
       schemas: [CUSTOM_ELEMENTS_SCHEMA]
     }).compileComponents();
@@ -148,11 +150,11 @@ describe('UBSPersonalInformationComponent', () => {
   });
 
   it('method findAllAddresses should get data from orderService', () => {
-    const spy = spyOn<any>(component, 'getLastAddresses').and.callThrough();
     fakeOrderService.findAllAddresses.and.returnValue(of(listMock));
-    spyOn(component, 'checkAddress').and.callFake(() => {});
+    const spy = spyOn(component, 'checkAddress').and.callFake(() => {});
     component.findAllAddresses(true);
-    expect(spy).toHaveBeenCalledWith(listMock.addressList);
+    expect(component.addresses).toBeDefined();
+    expect(spy).toHaveBeenCalled();
   });
 
   it('destroy Subject should be closed after ngOnDestroy()', () => {
@@ -238,10 +240,6 @@ describe('UBSPersonalInformationComponent', () => {
     const spy = spyOn(component, 'getControl');
     component.getControl('address');
     expect(spy).toHaveBeenCalledTimes(1);
-  });
-
-  it('method getFormValues should return true', () => {
-    expect(component.getFormValues()).toBeTruthy();
   });
 
   it('method openDialog should open matDialog', () => {

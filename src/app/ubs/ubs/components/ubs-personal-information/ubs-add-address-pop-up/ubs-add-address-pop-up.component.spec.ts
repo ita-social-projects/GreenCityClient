@@ -64,7 +64,7 @@ describe('UBSAddAddressPopUpComponent', () => {
     };
     const regionMock = 'fakeRegion';
 
-    component.region = regionMock;
+    component.currentDistrict = regionMock;
     fixture.detectChanges();
     component.onAutocompleteSelected(eventMock);
 

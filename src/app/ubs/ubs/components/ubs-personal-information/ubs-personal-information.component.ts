@@ -299,7 +299,9 @@ export class UBSPersonalInformationComponent extends FormBaseComponent implement
       .afterClosed()
       .pipe(takeUntil(this.destroy))
       .subscribe((res) => {
-        if (res) this.findAllAddresses(false);
+        if (res) {
+          this.findAllAddresses(false);
+        }
       });
   }
 
