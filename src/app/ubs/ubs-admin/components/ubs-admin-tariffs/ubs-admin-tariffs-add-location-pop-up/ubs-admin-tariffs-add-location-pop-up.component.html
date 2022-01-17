@@ -1,48 +1,86 @@
 <form [formGroup]="locationForm">
   <div class="w-100">
-    <h2 class="add-location-title">{{ 'ubs-tariffs-add-location-pop-up.title' | translate }}</h2>
+    <img [src]="icons.close" class="close-img" alt="close-icon" (click)="onNoClick()" />
   </div>
-  <div class="w-100 hint-location">
-    {{ 'ubs-tariffs-add-location-pop-up.hint' | translate }}
+  <div class="w-100">
+    <p class="add-location-title">{{ 'ubs-tariffs-add-location-pop-up.title' | translate }}</p>
   </div>
-  <div class="col-lg-12 form-group">
-    <label>{{ 'ubs-tariffs-add-location-pop-up.region' | translate }}</label>
-    <input
-      ngx-google-places-autocomplete
-      type="text"
-      class="shadow-none form-control"
-      required
-      [options]="regionOptions"
-      formControlName="region"
-      placeholder=""
-      (onAddressChange)="onRegionSelected($event)"
-    />
+  <div class="d-flex english-row">
+    <div class="english-hint">{{ 'ubs-tariffs-add-location-pop-up.english-hint' | translate }}</div>
   </div>
-  <div class="w-100" *ngIf="locationForm.get('region').invalid && locationForm.get('region').touched">
-    <p class="validation">{{ 'ubs-tariffs-add-location-pop-up.error_message' | translate }}</p>
-  </div>
-  <div class="col-lg-12 form-group">
-    <label>{{ 'ubs-tariffs-add-location-pop-up.locality' | translate }}</label>
-    <input
-      #locationInput
-      class="shadow-none form-control"
-      formControlName="locality"
-      placeholder=""
-      [attr.disabled]="locationForm.controls['region'].dirty ? null : true"
-    />
-    <div *ngFor="let item of items; let index = index">
-      <div class="listOfLocation">
-        <div class="itemList">{{ item }}</div>
-        <img [src]="icons.cross" class="delete-button-img" alt="edit-icon" (click)="deleteTask(index)" />
+  <div class="d-flex">
+    <div>
+      <div class="form-group">
+        <label>{{ 'ubs-tariffs-add-location-pop-up.region' | translate }}</label>
+        <input
+          ngx-google-places-autocomplete
+          type="text"
+          [ngClass]="{ 'error-input': locationForm.get('region').invalid && locationForm.get('region').touched }"
+          class="shadow-none form-control"
+          required
+          [options]="regionOptions"
+          formControlName="region"
+          placeholder="{{ 'ubs-tariffs-add-location-pop-up.placeholder_region' | translate }}"
+          (onAddressChange)="onRegionSelected($event)"
+        />
+      </div>
+      <div class="w-100" *ngIf="locationForm.get('region').invalid && locationForm.get('region').touched">
+        <p class="validation">{{ 'ubs-tariffs-add-location-pop-up.error_message' | translate }}</p>
       </div>
     </div>
+    <div class="form-group">
+      <label>{{ 'ubs-tariffs-add-location-pop-up.region' | translate }}</label>
+      <input
+        type="text"
+        class="shadow-none form-control"
+        required
+        formControlName="englishRegion"
+        placeholder="{{ 'ubs-tariffs-add-location-pop-up.placeholder_region' | translate }}"
+        [attr.disabled]="locationForm.controls['region'].dirty ? null : true"
+      />
+    </div>
+  </div>
+  <div formArrayName="items" *ngFor="let item of locationForm.get('items')['controls']; let i = index">
+    <div [formGroupName]="i" class="d-flex">
+      <div class="form-group">
+        <label>{{ 'ubs-tariffs-add-location-pop-up.locality' | translate }}</label>
+        <input
+          #locationInput
+          class="shadow-none form-control mb-1"
+          formControlName="location"
+          placeholder="{{ 'ubs-tariffs-add-location-pop-up.placeholder_location' | translate }}"
+          [attr.disabled]="locationForm.controls['region'].dirty ? null : true"
+        />
+        <img [src]="icons.cross" class="cross-img" alt="close-icon" (click)="deleteLocation(i)" />
+      </div>
+      <div class="form-group">
+        <label>{{ 'ubs-tariffs-add-location-pop-up.locality' | translate }}</label>
+        <input
+          class="shadow-none form-control mb-1"
+          formControlName="englishLocation"
+          placeholder="{{ 'ubs-tariffs-add-location-pop-up.placeholder_location' | translate }}"
+          [attr.disabled]="locationForm.controls['region'].dirty ? null : true"
+        />
+      </div>
+    </div>
+  </div>
+  <div class="d-flex">
+    <div class="add-city" (click)="addCity()">{{ 'ubs-tariffs-add-location-pop-up.add-city' | translate }}</div>
   </div>
 </form>
 <div class="d-flex justify-content-end buttons" mat-dialog-actions>
   <button class="secondary-global-button btn m-0 mr-2" mat-button (click)="onNoClick()">
     {{ 'ubs-tariffs-add-location-pop-up.cancel_button' | translate }}
   </button>
-  <button class="primary-global-button btn m-0" (click)="addLocation()" [disabled]="!locationForm.valid || isDisabled">
+  <button class="primary-global-button btn m-0" (click)="addLocation()">
     {{ 'ubs-tariffs-add-location-pop-up.add_button' | translate }}
   </button>
+</div>
+<div class="d-flex">
+  <p class="info">
+    {{ 'ubs-tariffs-add-location-pop-up.date' | translate }} <span class="date">{{ newDate | titlecase }}</span>
+  </p>
+  <p class="info">
+    {{ 'ubs-tariffs-add-location-pop-up.user' | translate }} <span class="user">{{ name }}</span>
+  </p>
 </div>

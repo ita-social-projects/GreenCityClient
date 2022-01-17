@@ -7,6 +7,8 @@ import { Router } from '@angular/router';
 import { UbsAdminTariffsAddLocationPopUpComponent } from './ubs-admin-tariffs-add-location-pop-up/ubs-admin-tariffs-add-location-pop-up.component';
 import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
 import { UbsAdminTariffsAddCourierPopUpComponent } from './ubs-admin-tariffs-add-courier-pop-up/ubs-admin-tariffs-add-courier-pop-up.component';
+import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
+import { FormControl } from '@angular/forms';
 
 @Component({
   selector: 'app-ubs-admin-tariffs-location-dashboard',
@@ -18,18 +20,43 @@ export class UbsAdminTariffsLocationDashboardComponent implements OnInit, OnDest
   selectedLocationId;
   disabledLocations;
   couriers;
+  currentLanguage;
   private destroy: Subject<boolean> = new Subject<boolean>();
+  panelColor = new FormControl('all');
+  mainUrl = 'https://maps.googleapis.com/maps/api/js?key=AIzaSyB3xs7Kczo46LFcQRFKPMdrE0lU4qsR_S4&libraries=places&language=';
   public icons = {
-    edit: './assets/img/ubs-tariff/edit.svg',
-    delete: './assets/img/ubs-tariff/delete.svg',
-    setting: './assets/img/ubs-tariff/setting.svg'
+    setting: './assets/img/ubs-tariff/setting.svg',
+    crumbs: './assets/img/ubs-tariff/crumbs.svg',
+    restore: './assets/img/ubs-tariff/restore.svg',
+    arrowDown: './assets/img/ubs-tariff/arrow-down.svg',
+    arrowRight: './assets/img/ubs-tariff/arrow-right.svg'
   };
 
-  constructor(private tariffsService: TariffsService, private router: Router, public dialog: MatDialog) {}
+  constructor(
+    private tariffsService: TariffsService,
+    private router: Router,
+    public dialog: MatDialog,
+    private localeStorageService: LocalStorageService
+  ) {}
 
   ngOnInit(): void {
     this.getLocations();
     this.getCouriers();
+    this.loadScript();
+    this.currentLanguage = this.localeStorageService.getCurrentLanguage();
+  }
+
+  loadScript(): void {
+    const script = document.getElementById('googleMaps') as HTMLScriptElement;
+    if (script) {
+      script.src = this.mainUrl + this.currentLanguage;
+    } else {
+      const google = document.createElement('script');
+      google.type = 'text/javascript';
+      google.id = 'googleMaps';
+      google.setAttribute('src', this.mainUrl + this.currentLanguage);
+      document.getElementsByTagName('head')[0].appendChild(google);
+    }
   }
 
   getLocations() {
