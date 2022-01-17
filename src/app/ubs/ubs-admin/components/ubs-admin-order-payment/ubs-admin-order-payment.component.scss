@@ -69,3 +69,8 @@ td {
 thead {
   position: relative;
 }
+
+.paymentId:hover {
+  cursor: pointer;
+  color: var(--ubs-secondary-dark-grey);
+}

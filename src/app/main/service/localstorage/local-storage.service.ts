@@ -125,7 +125,7 @@ export class LocalStorageService {
     localStorage.setItem('locations', JSON.stringify(locations));
   }
 
-  public setUbsOrderId(orderId: string) {
+  public setUbsOrderId(orderId: string | number) {
     localStorage.setItem('UbsLiqPayOrderId', JSON.stringify(orderId));
   }
 
@@ -137,7 +137,7 @@ export class LocalStorageService {
     localStorage.removeItem('UbsLiqPayOrderId');
   }
 
-  public setUbsFondyOrderId(orderId: string) {
+  public setUbsFondyOrderId(orderId: string | number) {
     localStorage.setItem('UbsFondyOrderId', JSON.stringify(orderId));
   }
 
@@ -147,6 +147,24 @@ export class LocalStorageService {
 
   public removeUbsFondyOrderId() {
     localStorage.removeItem('UbsFondyOrderId');
+  }
+
+  public setUserPagePayment(state: boolean): unknown {
+    return localStorage.setItem('IsUserPagePayment', JSON.stringify(state));
+  }
+
+  public getUserPagePayment(): string {
+    return localStorage.getItem('IsUserPagePayment');
+  }
+
+  public removeUserPagePayment(): void {
+    localStorage.removeItem('IsUserPagePayment');
+  }
+
+  public clearPaymentInfo(): void {
+    this.removeUbsOrderId();
+    this.removeUbsFondyOrderId();
+    this.removeUserPagePayment();
   }
 
   public removeUbsOrderData() {

@@ -9,6 +9,9 @@ import { ICertificate } from '../models/ICertificate.interface';
 import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
 import { ResponceOrderLiqPayModel } from '../models/ResponceOrderLiqPayModel';
 import { Router } from '@angular/router';
+import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
+import { IOrderData } from '../models/IOrderData.interface';
+import { UBSOrderFormService } from 'src/app/ubs/ubs/services/ubs-order-form.service';
 
 @Component({
   selector: 'app-ubs-user-order-payment-pop-up',
@@ -45,7 +48,9 @@ export class UbsUserOrderPaymentPopUpComponent implements OnInit {
     private fb: FormBuilder,
     private orderService: OrderService,
     private sanitizer: DomSanitizer,
-    @Inject(MAT_DIALOG_DATA) public data: any,
+    @Inject(MAT_DIALOG_DATA) public data: IOrderData,
+    private localStorageService: LocalStorageService,
+    private ubsOrderFormService: UBSOrderFormService,
     public router: Router
   ) {}
 
@@ -146,15 +151,38 @@ export class UbsUserOrderPaymentPopUpComponent implements OnInit {
     }
   }
 
+  public formOrderWithoutPaymentSystems(id: number): void {
+    this.ubsOrderFormService.transferOrderId(id);
+    this.ubsOrderFormService.setOrderResponseErrorStatus(false);
+    this.ubsOrderFormService.setOrderStatus(true);
+  }
+
+  public redirectionToConfirmPage(): void {
+    this.formOrderWithoutPaymentSystems(this.orderClientDto.orderId);
+    this.router.navigate(['ubs', 'confirm']);
+  }
+
   public processOrder(): void {
     this.fillOrderClientDto();
+    this.localStorageService.clearPaymentInfo();
+    this.localStorageService.setUserPagePayment(true);
 
     if (this.formPaymentSystem.value === 'Fondy') {
       this.orderService.processOrderFondyFromUserOrderList(this.orderClientDto).subscribe((responce: ResponceOrderFondyModel) => {
-        responce.link ? (document.location.href = responce.link) : this.router.navigate(['ubs', 'confirm']);
+        if (responce.link) {
+          this.localStorageService.setUbsFondyOrderId(this.orderClientDto.orderId);
+          document.location.href = responce.link;
+        } else {
+          this.redirectionToConfirmPage();
+        }
       });
     } else {
-      this.isLiqPayLink ? this.liqPayButton[0].click() : this.router.navigate(['ubs', 'confirm']);
+      if (this.isLiqPayLink) {
+        this.localStorageService.setUbsOrderId(this.orderClientDto.orderId);
+        this.liqPayButton[0].click();
+      } else {
+        this.redirectionToConfirmPage();
+      }
     }
   }
 
@@ -164,16 +192,14 @@ export class UbsUserOrderPaymentPopUpComponent implements OnInit {
 
     if (this.selectedPayment === 'LiqPay') {
       this.dataLoadingLiqPay = true;
-      this.orderService.processOrderLiqPayFromUserOrderList(this.orderClientDto).subscribe((responce: ResponceOrderLiqPayModel) => {
+      this.orderService.processOrderLiqPayFromUserOrderList(this.orderClientDto).subscribe(async (responce: ResponceOrderLiqPayModel) => {
         if (!responce.liqPayButton) {
           this.isLiqPayLink = false;
         } else {
           this.isLiqPayLink = true;
-          this.liqPayButtonForm = this.sanitizer.bypassSecurityTrustHtml(responce.liqPayButton);
-          setTimeout(() => {
-            this.liqPayButton = document.getElementsByName('btn_text');
-            this.dataLoadingLiqPay = false;
-          }, 0);
+          this.liqPayButtonForm = await this.sanitizer.bypassSecurityTrustHtml(responce.liqPayButton);
+          this.liqPayButton = document.getElementsByName('btn_text');
+          this.dataLoadingLiqPay = false;
         }
       });
     }

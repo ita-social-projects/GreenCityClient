@@ -1,10 +1,36 @@
 <form [formGroup]="courierForm">
   <div class="w-100">
-    <h2 class="add-location-title">{{ 'ubs-tariffs-add-location-pop-up.courier_title' | translate }}</h2>
+    <img [src]="icons.close" class="close-img" alt="close-icon" (click)="onNoClick()" />
   </div>
-  <div class="col-lg-12 form-group">
-    <label>{{ 'ubs-tariffs-add-location-pop-up.courier_name' | translate }}</label>
-    <input class="shadow-none form-control" formControlName="name" placeholder="" />
+  <div class="w-100">
+    <p class="add-location-title">{{ 'ubs-tariffs-add-location-pop-up.courier_title' | translate }}</p>
+  </div>
+  <div class="d-flex english-row">
+    <div class="english-hint">{{ 'ubs-tariffs-add-location-pop-up.english-hint' | translate }}</div>
+  </div>
+  <div class="d-flex">
+    <div>
+      <div class="form-group">
+        <label>{{ 'ubs-tariffs-add-location-pop-up.courier' | translate }}</label>
+        <input
+          class="shadow-none form-control"
+          formControlName="name"
+          placeholder="{{ 'ubs-tariffs-add-location-pop-up.placeholder_courier' | translate }}"
+          [ngClass]="{ 'error-input': courierExist }"
+        />
+      </div>
+      <div class="w-100" *ngIf="courierExist">
+        <p class="validation">{{ 'ubs-tariffs-add-location-pop-up.error_message' | translate }}</p>
+      </div>
+    </div>
+    <div class="form-group">
+      <label>{{ 'ubs-tariffs-add-location-pop-up.courier' | translate }}</label>
+      <input
+        class="shadow-none form-control"
+        formControlName="englishName"
+        placeholder="{{ 'ubs-tariffs-add-location-pop-up.placeholder_courier' | translate }}"
+      />
+    </div>
   </div>
 </form>
 <div class="d-flex justify-content-end buttons" mat-dialog-actions>
@@ -14,4 +40,12 @@
   <button class="primary-global-button btn m-0">
     {{ 'ubs-tariffs-add-location-pop-up.add_button' | translate }}
   </button>
+</div>
+<div class="d-flex">
+  <p class="info">
+    {{ 'ubs-tariffs-add-location-pop-up.date' | translate }} <span class="date">{{ newDate | titlecase }}</span>
+  </p>
+  <p class="info">
+    {{ 'ubs-tariffs-add-location-pop-up.user' | translate }} <span class="user">{{ name }}</span>
+  </p>
 </div>

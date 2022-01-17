@@ -101,11 +101,13 @@
   },
   "add-payment": {
     "title": "Додати документ про оплату",
+    "title-2": "Документ про оплату",
+    "edit": "Редагувати",
     "order": "Замовлення №",
     "description": "Додайте підтвердження про оплату одним або кількома з доступних способів",
     "payment-date": "Дата оплати",
     "payment-amount": "Сума оплати",
-    "amount-placeholder": "0.00 грн",
+    "amount-placeholder": "0 грн",
     "date-placeholder": "ДД/ММ/РР",
     "payment-id": "ID платежу",
     "id-placeholder": "№1234567890",
@@ -118,9 +120,14 @@
     "drag-other-photo-link": "Завантажити інше",
     "pdf-file": "PDF-файл",
     "upload-pdf": "Завантажити PDF",
+    "file-size-warning": "Розмір файлу перевищує 10 МВ. Будь ласка, виберіть інший файл",
+    "file-type-warning": "Неправильний формат файлу. Будь ласка, виберіть інший файл",
+    "delete-message": "У разі видалення вся інформація буде втрачена. Чи дійсно Ви бажаєте видалити дану оплату?",
     "btn": {
       "back": "Назад",
-      "confirm": "Підтвердити оплату"
+      "confirm": "Підтвердити оплату",
+      "save": "Зберегти",
+      "delete": "Видалити"
     },
     "date": "Дaта",
     "added": "Додано"
@@ -287,10 +294,13 @@
     "comment-bill": "Коментар/Чек"
   },
   "ubs-tables": {
-    "export-to-excel": "Експортувати в  Excel",
-    "table-view": "Вид таблиці",
     "add-certificate": "Додати сертифікат",
     "all-elements": "Відображати всі колонки",
+    "apply-filters": "Застосувати",
+    "clear-filters": "Скасувати все",
+    "filters": "Фільтри",
+    "export-to-excel": "Експортувати в  Excel",
+    "table-view": "Вид таблиці",
     "filter": "Фільтр",
     "placeholder": "Пошук"
   },
@@ -450,15 +460,19 @@
     "messages": "Повідомлення"
   },
   "ubs-tariffs": {
+    "placeholder-region": "Оберіть область",
+    "placeholder-locality": "Оберіть місто",
+    "placeholder-courier": "Оберіть кур'єра",
+    "placeholder-station": "Оберіть станцію",
+    "placeholder-state": "Оберіть стан",
     "tariffs": "Тарифи",
     "region": "Область",
-    "locations": "Населений пункт/Район",
     "courier": "Кур'єр",
     "services": "Сервіси",
-    "button-filter": "Показати тариф",
-    "city": "Місто",
+    "create": "Створити",
+    "station": "Станція приймання",
     "state": "Стан",
-    "delete-button": "Видалити",
+    "city": "Місто",
     "restore-button": "Відновити",
     "name_of_the_service": "Найменування послуги",
     "capacity": "Об’єм",
@@ -482,20 +496,32 @@
       "add_service2": "Додати послугу",
       "save_changes": "Зберегти зміни",
       "add_carrier": "Додати перевізника",
-      "add_location": "Додати локацію",
-      "add_courier": "Додати кур'єра"
+      "add": "Додати",
+      "edit": "Редагувати",
+      "deactivation": "Деактивувати",
+      "delete": "Видалити",
+      "location": "Локація",
+      "courier": "Кур'єр",
+      "station": "Станція приймання",
+      "restore": "Відновити"
     }
   },
   "ubs-tariffs-add-location-pop-up": {
-    "title": "Виберіть локацію",
-    "region": "Виберіть область",
-    "locality": "Виберіть населений пункт",
-    "hint": "Введіть мінімум перші три букви міста та виберіть необхідне з запропонованого списку",
-    "add_button": "Додати до списку",
+    "title": "Додати локацію",
+    "region": "Область",
+    "locality": "Місто",
+    "courier": "Кур'єр",
+    "english-hint": "Введіть наступні дані АНГЛІЙСЬКОЮ мовою",
+    "add_button": "Додати",
     "cancel_button": "Скасувати",
-    "error_message": "За вашим запитом нічого не знайдено. Спробуйте ввести мінімум перших три букви назви і вибрати місто з запропонованих варіантів",
-    "courier_title": "Виберіть кур'єра",
-    "courier_name": "Виберіть імя кур'єра"
+    "error_message": "На жаль, область не знайдена. Введіть ще раз",
+    "courier_title": "Додати кур'єра",
+    "date": "Дaта ",
+    "user": "Додано ",
+    "placeholder_region": "Виберіть область",
+    "placeholder_location": "Виберіть місто",
+    "placeholder_courier": "Введіть кур'єра",
+    "add-city": "Додати місто"
   },
   "ubs-tariffs-add-service": {
     "add_service": "Додати послугу",
