@@ -106,6 +106,16 @@
   }
 }
 
+.mat-header-cell .mat-icon {
+  padding-top: 5px;
+  padding-left: 10px;
+  font-size: 12px;
+
+  &:hover {
+    cursor: pointer;
+  }
+}
+
 .column_cell {
   white-space: nowrap;
   overflow: hidden;
@@ -142,6 +152,11 @@
     border-radius: 8px;
     padding: 4px;
   }
+}
+
+.scrolling {
+  height: 500px;
+  overflow-y: scroll;
 }
 
 .pointer {
