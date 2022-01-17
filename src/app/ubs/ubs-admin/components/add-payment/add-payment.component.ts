@@ -97,7 +97,7 @@ export class AddPaymentComponent implements OnInit, OnDestroy {
     result.form = paymentDetails;
     result.file = this.file;
     if (this.editMode) {
-      result.form.imagePath = this.file ? null : this.imagePreview.src ?? null;
+      result.form.imagePath = this.file ? '' : this.imagePreview.src ?? '';
     }
     this.processPayment(this.orderId, result);
   }
