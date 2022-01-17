@@ -19,7 +19,7 @@
     margin: 0;
   }
 
-  label:after {
+  label::after {
     content: ' *';
     color: var(--ubs-error-base);
     font-size: 14px;

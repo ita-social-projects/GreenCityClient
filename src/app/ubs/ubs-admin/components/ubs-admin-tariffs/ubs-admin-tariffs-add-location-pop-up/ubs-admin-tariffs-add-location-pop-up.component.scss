@@ -21,7 +21,7 @@
     margin-bottom: 0;
   }
 
-  label:after {
+  label::after {
     content: ' *';
     color: var(--ubs-error-base);
     font-size: 14px;
@@ -112,7 +112,7 @@ select {
 
 .delete-button-img {
   cursor: pointer;
-  padding: 0px 25px;
+  padding: 0 25px;
 }
 
 .info {
