@@ -94,11 +94,13 @@
   },
   "add-payment": {
     "title": "Add a payment document",
+    "title-2": "A payment document",
+    "edit": "Edit",
     "order": "Order №",
     "description": "Add confirmation of payment in one or more of the available ways",
     "payment-date": " Payment date",
     "payment-amount": "Payment amount",
-    "amount-placeholder": "0.00 UAH",
+    "amount-placeholder": "0 UAH",
     "date-placeholder": "DD/MM/YY",
     "payment-id": "Payment ID",
     "id-placeholder": "№1234567890",
@@ -111,9 +113,14 @@
     "drag-other-photo-link": "Download other",
     "pdf-file": "PDF-file",
     "upload-pdf": "Download PDF",
+    "file-size-warning": "File size exceeds 10 MB. Please select another file",
+    "file-type-warning": "Invalid file format. Please select another file",
+    "delete-message": "If deleted, all information will be lost. Are you sure you want to delete this payment?",
     "btn": {
       "back": "Back",
-      "confirm": "Confirm payment"
+      "confirm": "Confirm payment",
+      "save": "Save",
+      "delete": "Remove"
     },
     "date": "Date",
     "added": "Added"
