@@ -14,7 +14,6 @@ import { PopUpViewService } from '@auth-service/pop-up/pop-up-view.service';
 export class SignInComponent implements OnInit, OnDestroy {
   public emailField: AbstractControl;
   public passwordField: AbstractControl;
-  public loadingAnim: boolean;
   public signInForm: FormGroup;
   private destroy: Subject<boolean> = new Subject<boolean>();
   public isUbs: boolean;

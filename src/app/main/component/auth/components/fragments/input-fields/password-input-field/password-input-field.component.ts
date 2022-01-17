@@ -1,9 +1,9 @@
 import { Component, forwardRef, Input, OnDestroy, OnInit } from '@angular/core';
 import { SignInIcons } from '../../../../../../image-pathes/sign-in-icons';
 import { AbstractControl, FormControl, FormGroup, NG_VALUE_ACCESSOR, Validators } from '@angular/forms';
+import { Subject } from 'rxjs';
 import { PopUpViewService } from '@auth-service/pop-up/pop-up-view.service';
 import { takeUntil } from 'rxjs/operators';
-import { Subject } from 'rxjs';
 
 @Component({
   selector: 'app-password-input-field',
