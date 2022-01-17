@@ -59,6 +59,8 @@ export class UbsAdminTableComponent implements OnInit, AfterViewChecked, OnDestr
   startWidth: number;
   isResizingRight: boolean;
   previousSettings: string[];
+  displayedColumnsView: string[] = [];
+  displayedColumnsViewTitles: string[] = [];
   resizableMousemove: () => void;
   resizableMouseup: () => void;
   @ViewChild(MatTable, { read: ElementRef }) private matTableRef: ElementRef;
@@ -184,10 +186,13 @@ export class UbsAdminTableComponent implements OnInit, AfterViewChecked, OnDestr
   public togglePopUp() {
     this.display = this.display === 'none' ? 'block' : 'none';
     this.isPopupOpen = !this.isPopupOpen;
+    // this.findUncheckedCheckbox();
+
     if (this.isPopupOpen === false) {
       this.orderService.setColumnToDisplay(encodeURIComponent(this.displayedColumns.join(','))).subscribe();
     }
     this.previousSettings = this.displayedColumns;
+    // this.previousSettingsCheckBox = this.columnsUnchecked;
   }
 
   public showAllColumns(isCheckAll: boolean): void {
@@ -201,6 +206,8 @@ export class UbsAdminTableComponent implements OnInit, AfterViewChecked, OnDestr
       .subscribe((columns: any) => {
         this.tableViewHeaders = columns.columnBelongingList;
         this.columns = columns.columnDTOList;
+        this.displayedColumnsView = columns.columnDTOList;
+        this.displayedColumnsViewTitles = this.displayedColumnsView.map((item) => item['title'].key);
         this.columns.forEach((column) => {
           column.width = 200;
         });
@@ -326,14 +333,16 @@ export class UbsAdminTableComponent implements OnInit, AfterViewChecked, OnDestr
   }
 
   private setDisplayedColumns(): void {
-    this.columns.forEach((column, index) => {
-      this.displayedColumns[index] = column.title.key;
+    this.displayedColumnsView.forEach((column, index) => {
+      this.displayedColumnsViewTitles[index] = column['title'].key;
     });
     this.isAll = true;
-    this.count = this.displayedColumns.length;
+    this.displayedColumns = this.displayedColumnsViewTitles;
+    this.count = this.displayedColumnsViewTitles.length;
   }
 
   private setUnDisplayedColumns(): void {
+    this.displayedColumnsViewTitles = [];
     this.displayedColumns = [];
     this.isAll = false;
   }
