@@ -28,15 +28,16 @@
       <div class="empty_card-paymentStatus">{{ order.generalOrderInfo.orderPaymentStatusName }}</div>
       <div class="order_sum">{{ order.orderDiscountedPrice | currency | localizedCurrency }}</div>
     </div>
-    <div class="btns_group">
-      <div *ngIf="isOrderFormed(order)" class="btn_grid_cancel">
-        <button class="btn_cancel" (click)="openOrderCancelDialog(order)">{{ 'user-orders.btn.cancel' | translate }}</button>
+    <div *ngIf="!isOrderDone(order)" class="btns_group">
+      <div class="btn_grid_cancel">
+        <button class="btn_cancel" (click)="openOrderCancelDialog(order)">
+          {{ 'user-orders.btn.cancel' | translate }}
+        </button>
       </div>
-      <div *ngIf="isOrderUnpaid(order)" class="btn_grid_pay">
-        <button class="btn_pay" (click)="openOrderPaymentDialog(order)">{{ 'user-orders.btn.pay' | translate }}</button>
-      </div>
-      <div *ngIf="isOrderDone(order)" class="btn_grid_order">
-        <button class="btn_order">{{ 'user-orders.btn.order-again' | translate }}</button>
+      <div *ngIf="isOrderPaymentAccess(order)" class="btn_grid_pay">
+        <button class="btn_pay" (click)="openOrderPaymentDialog(order)">
+          {{ 'user-orders.btn.pay' | translate }}
+        </button>
       </div>
     </div>
   </div>

@@ -18,12 +18,20 @@ export class UbsUserOrdersListComponent implements OnInit {
     this.sortingOrdersByData();
   }
 
-  isOrderFormed(order: IOrderInfo) {
-    return order.generalOrderInfo.orderStatus === 'FORMED';
+  public isOrderPaid(order: IOrderInfo): boolean {
+    return order.generalOrderInfo.orderPaymentStatus === 'UNPAID';
   }
 
-  isOrderUnpaid(order: IOrderInfo) {
-    return order.generalOrderInfo.orderStatus === 'DONE_UNPAID' || order.generalOrderInfo.orderStatus === 'FORMED';
+  public isOrderHalfPaid(order: IOrderInfo): boolean {
+    return order.generalOrderInfo.orderPaymentStatus === 'HALF_PAID';
+  }
+
+  public isOrderPriceGreaterThenZero(order: IOrderInfo): boolean {
+    return order.orderDiscountedPrice > 0;
+  }
+
+  public isOrderPaymentAccess(order: IOrderInfo): boolean {
+    return this.isOrderPriceGreaterThenZero(order) && (this.isOrderPaid(order) || this.isOrderHalfPaid(order));
   }
 
   isOrderDone(order: IOrderInfo) {
