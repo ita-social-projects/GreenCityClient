@@ -59,7 +59,7 @@ export class UbsAdminTableComponent implements OnInit, AfterViewChecked, OnDestr
   startWidth: number;
   isResizingRight: boolean;
   previousSettings: string[];
-  displayedColumnsView: string[] = [];
+  displayedColumnsView: any[] = [];
   displayedColumnsViewTitles: string[] = [];
   resizableMousemove: () => void;
   resizableMouseup: () => void;
@@ -186,13 +186,10 @@ export class UbsAdminTableComponent implements OnInit, AfterViewChecked, OnDestr
   public togglePopUp() {
     this.display = this.display === 'none' ? 'block' : 'none';
     this.isPopupOpen = !this.isPopupOpen;
-    // this.findUncheckedCheckbox();
-
     if (this.isPopupOpen === false) {
       this.orderService.setColumnToDisplay(encodeURIComponent(this.displayedColumns.join(','))).subscribe();
     }
     this.previousSettings = this.displayedColumns;
-    // this.previousSettingsCheckBox = this.columnsUnchecked;
   }
 
   public showAllColumns(isCheckAll: boolean): void {
@@ -207,7 +204,7 @@ export class UbsAdminTableComponent implements OnInit, AfterViewChecked, OnDestr
         this.tableViewHeaders = columns.columnBelongingList;
         this.columns = columns.columnDTOList;
         this.displayedColumnsView = columns.columnDTOList;
-        this.displayedColumnsViewTitles = this.displayedColumnsView.map((item) => item['title'].key);
+        this.displayedColumnsViewTitles = this.displayedColumnsView.map((item) => item.title.key);
         this.columns.forEach((column) => {
           column.width = 200;
         });
@@ -334,7 +331,7 @@ export class UbsAdminTableComponent implements OnInit, AfterViewChecked, OnDestr
 
   private setDisplayedColumns(): void {
     this.displayedColumnsView.forEach((column, index) => {
-      this.displayedColumnsViewTitles[index] = column['title'].key;
+      this.displayedColumnsViewTitles[index] = column.title.key;
     });
     this.isAll = true;
     this.displayedColumns = this.displayedColumnsViewTitles;
