@@ -14,7 +14,7 @@ export class UbsUserOrdersListComponent implements OnInit {
 
   constructor(public dialog: MatDialog) {}
 
-  public ngOnInit(): void {
+  ngOnInit(): void {
     this.sortingOrdersByData();
   }
 
@@ -34,11 +34,11 @@ export class UbsUserOrdersListComponent implements OnInit {
     return this.isOrderPriceGreaterThenZero(order) && (this.isOrderPaid(order) || this.isOrderHalfPaid(order));
   }
 
-  changeCard(id: number) {
+  public changeCard(id: number): void {
     this.orders.forEach((order) => (order.extend = order.generalOrderInfo.id === id ? !order.extend : false));
   }
 
-  openOrderPaymentDialog(order: IOrderInfo) {
+  public openOrderPaymentDialog(order: IOrderInfo): void {
     this.dialog.open(UbsUserOrderPaymentPopUpComponent, {
       data: {
         price: order.orderDiscountedPrice,
@@ -47,7 +47,7 @@ export class UbsUserOrdersListComponent implements OnInit {
     });
   }
 
-  openOrderCancelDialog(order: IOrderInfo) {
+  public openOrderCancelDialog(order: IOrderInfo): void {
     this.dialog.open(UbsUserOrderCancelPopUpComponent, {
       data: {
         orderId: order.generalOrderInfo.id,
