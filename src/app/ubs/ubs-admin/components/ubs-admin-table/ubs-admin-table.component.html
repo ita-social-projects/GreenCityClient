@@ -6,6 +6,61 @@
     <div class="icon-style"><i class="fa fa-search" aria-hidden="true"></i></div>
   </div>
   <div class="btn-group">
+    <div>
+      <button type="button" class="btn btn-default" class="filter-table-btn" data-toggle="dropdown">
+        <mat-icon>filter_list</mat-icon>
+        {{ 'ubs-tables.filters' | translate }}
+      </button>
+      <div class="dropdown-menu scrollbar">
+        <div class="btn-group">
+          <button type="button" class="btn filter-btn" (click)="clearFilters()">
+            {{ 'ubs-tables.clear-filters' | translate }}
+          </button>
+          <button type="button" class="btn filter-btn bg-lime" (click)="applyFilters()">
+            {{ 'ubs-tables.apply-filters' | translate }}
+          </button>
+        </div>
+        <p class="font-weight-bold">{{ 'ubs-tables.filters' | translate }}</p>
+        <div class="accordion" (click)="$event.stopPropagation()">
+          <ng-container *ngFor="let column of columnsForFiltering; index as i">
+            <div class="accordion-item">
+              <div
+                class="accordion-group-header"
+                data-bs-toggle="collapse"
+                attr.data-bs-target="#panelsStayOpen-collapse{{ i }}"
+                aria-expanded="false"
+                attr.aria-controls="panelsStayOpen-collapse{{ i }}"
+                (click)="toggleAccordion($event)"
+              >
+                <span>{{ column | serverTranslate: currentLang }}</span>
+                <mat-icon>keyboard_arrow_down</mat-icon>
+              </div>
+              <div
+                id="panelsStayOpen-collapse{{ i }}"
+                class="accordion-collapse collapse"
+                attr.aria-labelledby="panelsStayOpen-heading{{ i }}"
+              >
+                <div class="accordion-body">
+                  <div *ngIf="column.key.toLowerCase().includes('date'); else nonDate">
+                    <mat-checkbox [(checked)]="column.checked">
+                      <input type="date" />
+                      <input type="date" />
+                    </mat-checkbox>
+                  </div>
+                  <ng-template #nonDate>
+                    <li *ngFor="let option of column.values">
+                      <mat-checkbox [checked]="option.filtered" (change)="changeFilters($event?.checked, column.key, option)">
+                        {{ option | serverTranslate: currentLang }}
+                      </mat-checkbox>
+                    </li>
+                  </ng-template>
+                </div>
+              </div>
+            </div>
+          </ng-container>
+        </div>
+      </div>
+    </div>
     <div class="button-group">
       <button type="button" class="btn btn-default view-table-btn" (click)="togglePopUp()">
         <img src="assets/img/edit.svg" alt="edit" />
@@ -15,6 +70,9 @@
         {{ 'ubs-tables.export-to-excel' | translate }}
       </button>
       <ul class="dropdown-menu" [style.display]="display">
+        <button class="reset-settings" (click)="resetSetting()">
+          <i class="fa fa-close" aria-hidden="true"></i>
+        </button>
         <li class="item">
           <mat-checkbox class="check" type="checkbox" [checked]="isAll" (change)="showAllColumns(isAll)">
             {{ 'ubs-tables.all-elements' | translate }}

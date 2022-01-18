@@ -8,7 +8,11 @@
           </button>
         </div>
         <div class="error" *ngSwitchCase="orderResponseError === true">
-          <button class="btn-back" (click)="returnToPayment()">
+          <button *ngIf="!isUserPageOrderPayment()" class="btn-back" (click)="returnToPayment('/ubs/order')">
+            <i class="fas fa-chevron-left" aria-hidden="true"></i> &nbsp;
+            {{ 'confirm-page.return-to-payment' | translate }}
+          </button>
+          <button *ngIf="isUserPageOrderPayment()" class="btn-back" (click)="returnToPayment('/ubs-user/orders')">
             <i class="fas fa-chevron-left" aria-hidden="true"></i> &nbsp;
             {{ 'confirm-page.return-to-payment' | translate }}
           </button>

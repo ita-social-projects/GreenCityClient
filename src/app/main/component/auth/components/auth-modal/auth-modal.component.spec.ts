@@ -7,7 +7,7 @@ import { AuthModalComponent } from './auth-modal.component';
 import { MatDialogModule, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 
 describe('AuthModalComponent', async () => {
-  const component: AuthModalComponent = TestBed.get(AuthModalComponent);
+  const component: AuthModalComponent = TestBed.inject(AuthModalComponent);
   let fixture: ComponentFixture<AuthModalComponent>;
 
   const MatDialogRefMock = {

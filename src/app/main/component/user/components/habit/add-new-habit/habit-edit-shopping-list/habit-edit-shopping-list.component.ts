@@ -18,7 +18,7 @@ import { TranslateService } from '@ngx-translate/core';
 })
 export class HabitEditShoppingListComponent implements OnInit, OnDestroy {
   public itemForm = new FormGroup({
-    item: new FormControl('', [Validators.required, Validators.minLength(3), Validators.maxLength(18)])
+    item: new FormControl('', [Validators.required, Validators.minLength(3), Validators.maxLength(50)])
   });
   public list: ShoppingList[] = [];
   public subscription: Subscription;
@@ -27,6 +27,8 @@ export class HabitEditShoppingListComponent implements OnInit, OnDestroy {
   @Input() habitShoppingListIniteal: ShoppingList[];
   private destroySub: Subject<boolean> = new Subject<boolean>();
   private langChangeSub: Subscription;
+
+  public shoppingItemNameLimit = 12;
 
   constructor(
     public shoppinglistService: EditShoppingListService,
@@ -54,6 +56,14 @@ export class HabitEditShoppingListComponent implements OnInit, OnDestroy {
 
   getListItems(isAssigned: boolean) {
     isAssigned ? this.getCustomItems() : this.getDefaultItems();
+  }
+
+  public truncateShoppingItemName(name: string) {
+    if (name.length >= this.shoppingItemNameLimit) {
+      return name.slice(0, this.shoppingItemNameLimit) + '...';
+    }
+
+    return name;
   }
 
   public getDefaultItems() {
