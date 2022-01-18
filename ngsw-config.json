@@ -6,7 +6,8 @@
       "name": "app",
       "installMode": "prefetch",
       "resources": {
-        "files": ["/favicon.ico", "/index.html", "/manifest.webmanifest", "/*.css", "/*.js"]
+        "files": ["/favicon.ico", "/index.html", "/manifest.webmanifest", "/*.css", "/*.js"],
+        "urls": ["https://fonts.googleapis.com/**"]
       }
     },
     {
@@ -15,6 +16,18 @@
       "updateMode": "prefetch",
       "resources": {
         "files": ["/assets/**", "/*.(eot|svg|cur|jpg|png|webp|gif|otf|ttf|woff|woff2|ani)"]
+      }
+    }
+  ],
+  "dataGroups": [
+    {
+      "name": "back-end",
+      "urls": ["https://greencity-user.azurewebsites.net/**", "https://greencity-ubs.azurewebsites.net/**"],
+      "cacheConfig": {
+        "strategy": "freshness",
+        "maxSize": 20,
+        "maxAge": "1h",
+        "timeout": "5s"
       }
     }
   ]
