@@ -20,6 +20,7 @@ export class ChatComponent implements OnInit, AfterViewChecked {
 
   private page: number = 0;
   private oldScrollHeight: number;
+  private isChatUpdate = false;
 
   constructor(public chatsService: ChatsService, private socketService: SocketService, public userService: UserService) {}
 
@@ -27,19 +28,21 @@ export class ChatComponent implements OnInit, AfterViewChecked {
     this.chatsService.currentChatMessagesStream$.subscribe(() => {
       this.shouldNotBeScrolled = false;
     });
+    this.chatsService.isChatUpdateStream$.subscribe((isUpdate) => {
+      this.isChatUpdate = isUpdate;
+    });
   }
 
   ngAfterViewChecked(): void {
     const element: HTMLElement = this.chat.nativeElement;
-    // if(this.shouldNotBeScrolled){
-    //   element.scrollTop = element.scrollHeight - this.oldScrollHeight + element.scrollTop;
-    // }
-    // element.scrollTop = element.scrollHeight - element.scrollTop;
-    if (!this.shouldNotBeScrolled) {
-      this.shouldNotBeScrolled = true;
-      element.scrollTop = element.scrollHeight;
+    if (this.isChatUpdate) {
+      element.scrollTop = element.scrollHeight - this.oldScrollHeight + element.scrollTop;
+      this.isChatUpdate = false;
     }
-    this.oldScrollHeight = element.scrollHeight;
+    if (!this.shouldNotBeScrolled) {
+      element.scrollTop = element.scrollHeight;
+      this.shouldNotBeScrolled = true;
+    }
   }
 
   sendMessage() {
@@ -53,6 +56,7 @@ export class ChatComponent implements OnInit, AfterViewChecked {
   }
 
   onScroll() {
+    this.oldScrollHeight = this.chat.nativeElement.scrollHeight;
     this.page += 1;
     this.chatsService.updateChatMessages(this.chatsService.currentChat.id, this.page);
   }
