@@ -8,6 +8,7 @@ import { switchMap, take, takeUntil } from 'rxjs/operators';
 import { IPaymentInfoDtos } from '../../models/ubs-admin.interface';
 import { OrderService } from '../../services/order.service';
 import { DialogPopUpComponent } from '../shared/components/dialog-pop-up/dialog-pop-up.component';
+import { ShowImgsPopUpComponent } from '../shared/components/show-imgs-pop-up/show-imgs-pop-up.component';
 
 interface InputData {
   orderId: number;
@@ -137,7 +138,7 @@ export class AddPaymentComponent implements OnInit, OnDestroy {
 
   private showWarning(file: File): boolean {
     this.isFileSizeWarning = file.size > this.maxImageSize;
-    this.isFileTypeWarning = file.type !== 'image/jpeg' && file.type !== 'image/png';
+    this.isFileTypeWarning = file.type !== 'image/jpeg' && file.type !== 'image/png' && file.type !== 'application/pdf';
     return this.isFileSizeWarning || this.isFileTypeWarning;
   }
 
@@ -168,6 +169,17 @@ export class AddPaymentComponent implements OnInit, OnDestroy {
     if (this.editMode) {
       this.isInitialImageChanged = this.payment.imagePath !== this.imagePreview.src;
     }
+  }
+
+  openImg(): void {
+    this.dialog.open(ShowImgsPopUpComponent, {
+      hasBackdrop: true,
+      panelClass: 'custom-img-pop-up',
+      data: {
+        imgIndex: 0,
+        images: [this.imagePreview]
+      }
+    });
   }
 
   editPayment() {
