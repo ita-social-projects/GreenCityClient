@@ -14,6 +14,8 @@ import { AppRoutingModule } from './app-routing.module';
 import { UbsModule } from './ubs/ubs.module';
 import { appReducers } from './store/reducers/app.reducer';
 import { EmployeesEffects } from './store/effects/employee.effects';
+import { ServiceWorkerModule } from '@angular/service-worker';
+import { environment } from '../environments/environment';
 
 @NgModule({
   declarations: [AppComponent],
@@ -32,7 +34,8 @@ import { EmployeesEffects } from './store/effects/employee.effects';
       }
     }),
     StoreModule.forRoot(appReducers),
-    EffectsModule.forRoot([EmployeesEffects])
+    EffectsModule.forRoot([EmployeesEffects]),
+    ServiceWorkerModule.register('ngsw-worker.js', { enabled: environment.production })
   ],
   providers: [
     // we use HashLocationStrategy because
