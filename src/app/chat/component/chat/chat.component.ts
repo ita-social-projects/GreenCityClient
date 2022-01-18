@@ -49,4 +49,8 @@ export class ChatComponent implements OnInit, AfterViewChecked {
     this.page += 1;
     this.chatsService.updateChatMessages(this.chatsService.currentChat.id, this.page);
   }
+
+  newChat() {
+    this.socketService.createNewChat();
+  }
 }

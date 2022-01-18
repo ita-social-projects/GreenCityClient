@@ -60,4 +60,8 @@ export class SocketService {
     currentChat.lastMessageDate = message.createDate;
     // this.chatsService.updateChat(currentChat);
   }
+
+  createNewChat() {
+    this.stompClient.send(`/app/user/18`, {});
+  }
 }

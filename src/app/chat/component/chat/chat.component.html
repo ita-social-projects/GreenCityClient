@@ -22,7 +22,7 @@
 </div>
 <form class="sender" (ngSubmit)="sendMessage()">
   <div class="sender-additional-buttons">
-    <button>
+    <button type="button" (click)="newChat()">
       <img [src]="chatIcons.paperClip" alt="clip" title="Add file" />
     </button>
     <button>
