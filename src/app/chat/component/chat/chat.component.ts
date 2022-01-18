@@ -16,8 +16,10 @@ export class ChatComponent implements OnInit, AfterViewChecked {
   public shouldNotBeScrolled = false;
   @ViewChild('chat') chat: ElementRef;
   public messageControl: FormControl = new FormControl();
+  showEmojiPicker = false;
 
   private page: number = 0;
+  private oldScrollHeight: number;
 
   constructor(public chatsService: ChatsService, private socketService: SocketService, public userService: UserService) {}
 
@@ -28,11 +30,16 @@ export class ChatComponent implements OnInit, AfterViewChecked {
   }
 
   ngAfterViewChecked(): void {
+    const element: HTMLElement = this.chat.nativeElement;
+    // if(this.shouldNotBeScrolled){
+    //   element.scrollTop = element.scrollHeight - this.oldScrollHeight + element.scrollTop;
+    // }
+    // element.scrollTop = element.scrollHeight - element.scrollTop;
     if (!this.shouldNotBeScrolled) {
       this.shouldNotBeScrolled = true;
-      const element: HTMLElement = this.chat.nativeElement;
       element.scrollTop = element.scrollHeight;
     }
+    this.oldScrollHeight = element.scrollHeight;
   }
 
   sendMessage() {
@@ -48,5 +55,18 @@ export class ChatComponent implements OnInit, AfterViewChecked {
   onScroll() {
     this.page += 1;
     this.chatsService.updateChatMessages(this.chatsService.currentChat.id, this.page);
+  }
+
+  toggleEmojiPicker() {
+    console.log(this.showEmojiPicker);
+    this.showEmojiPicker = !this.showEmojiPicker;
+  }
+
+  addEmoji(event) {
+    console.log(event);
+  }
+
+  newChat() {
+    this.socketService.createNewChat();
   }
 }
