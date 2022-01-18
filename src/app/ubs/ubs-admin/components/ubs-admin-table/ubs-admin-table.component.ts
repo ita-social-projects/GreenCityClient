@@ -1,3 +1,4 @@
+import { IFilteredColumn, IFilteredColumnValue } from './../../models/ubs-admin.interface';
 import { TableHeightService } from '../../services/table-height.service';
 import { UbsAdminTableExcelPopupComponent } from './ubs-admin-table-excel-popup/ubs-admin-table-excel-popup.component';
 import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
@@ -21,7 +22,7 @@ import { OrderService } from '../../services/order.service';
 })
 export class UbsAdminTableComponent implements OnInit, AfterViewChecked, OnDestroy {
   currentLang: string;
-  columnsForFiltering = [];
+  columnsForFiltering: Array<IFilteredColumn> = [];
   nonSortableColumns = nonSortableColumns;
   sortingColumn: string;
   sortType: string;
@@ -406,8 +407,8 @@ export class UbsAdminTableComponent implements OnInit, AfterViewChecked, OnDestr
     });
   }
 
-  toggleAccordion(e) {
-    e.target.parentElement.parentElement.querySelector('.accordion-collapse').classList.toggle('show');
+  toggleAccordion(e: PointerEvent): void {
+    (e.target as HTMLElement).parentElement.parentElement.querySelector('.accordion-collapse').classList.toggle('show');
   }
 
   openOrder(id: number): void {
@@ -422,7 +423,7 @@ export class UbsAdminTableComponent implements OnInit, AfterViewChecked, OnDestr
     }
   }
 
-  changeFilters(checked, currentColumn, option) {
+  changeFilters(checked: boolean, currentColumn: string, option: IFilteredColumnValue): void {
     const elem = {};
     const columnName = this.changeColumnNameEqualToEndPoint(currentColumn);
     this.columnsForFiltering.find((column) => {
@@ -442,13 +443,13 @@ export class UbsAdminTableComponent implements OnInit, AfterViewChecked, OnDestr
     }
   }
 
-  private changeColumnNameEqualToEndPoint(column): string {
+  private changeColumnNameEqualToEndPoint(column: string): string {
     let endPointColumnName: string;
     switch (column) {
       case 'orderStatus':
         endPointColumnName = 'orderStatus';
         break;
-      case 'paymentStatus':
+      case 'orderPaymentStatus':
         endPointColumnName = 'orderPaymentStatus';
         break;
       case 'responsibleDriver':
