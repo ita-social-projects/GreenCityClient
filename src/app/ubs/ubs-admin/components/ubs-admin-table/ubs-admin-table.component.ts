@@ -14,6 +14,7 @@ import { Router } from '@angular/router';
 import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
 import { IEditCell, IAlertInfo } from '../../models/edit-cell.model';
 import { OrderService } from '../../services/order.service';
+import { MatCheckboxChange } from '@angular/material/checkbox';
 
 @Component({
   selector: 'app-ubs-admin-table',
@@ -443,14 +444,65 @@ export class UbsAdminTableComponent implements OnInit, AfterViewChecked, OnDestr
     }
   }
 
+  changeDateFilters(e: MatCheckboxChange, checked: boolean, currentColumn: string): void {
+    const elem = {};
+    const columnName = this.changeColumnNameEqualToEndPoint(currentColumn);
+    const keyNameFrom = `${columnName}From`;
+    const keyNameTo = `${columnName}To`;
+    const checkboxParent = (e.source._elementRef.nativeElement as HTMLElement).parentElement;
+    const inputDateFrom = checkboxParent.querySelector(`#dateFrom${currentColumn}`) as HTMLInputElement;
+    const inputDateTo = checkboxParent.querySelector(`#dateTo${currentColumn}`) as HTMLInputElement;
+    let dateFrom = inputDateFrom.value;
+    let dateTo = inputDateTo.value;
+
+    if (!dateFrom && !dateTo) {
+      // What to set? dateFrom>dateTo?
+      dateFrom = dateTo = this.getTodayDate();
+    } else if (!dateTo) {
+      dateTo = this.getTodayDate();
+    } else if (!dateFrom) {
+      // ???
+    }
+
+    if (checked) {
+      elem[keyNameFrom] = dateFrom;
+      elem[keyNameTo] = dateTo;
+      this.filters.push(elem);
+    } else {
+      this.filters = this.filters.filter((filteredElem) => !Object.keys(filteredElem).includes(`${keyNameFrom}`));
+    }
+  }
+
+  changeInputDateFilters(value: string, currentColumn: string, suffix: string): void {
+    const columnName = this.changeColumnNameEqualToEndPoint(currentColumn);
+    const keyToChange = `${columnName}${suffix}`;
+    const filterToChange = this.filters.find((filter) => Object.keys(filter).includes(`${keyToChange}`));
+
+    if (filterToChange) {
+      filterToChange[keyToChange] = value;
+    }
+  }
+
+  private getTodayDate() {
+    const today = new Date();
+    const year = today.getFullYear();
+    let month = (today.getMonth() + 1).toString();
+    let day = today.getDate().toString();
+    let todayDate: string;
+
+    month = +month >= 10 ? month : `0${month}`;
+    day = +day >= 10 ? day : `0${day}`;
+
+    todayDate = `${year}-${month}-${day}`;
+
+    return todayDate;
+  }
+
   private changeColumnNameEqualToEndPoint(column: string): string {
     let endPointColumnName: string;
     switch (column) {
-      case 'orderStatus':
-        endPointColumnName = 'orderStatus';
-        break;
-      case 'orderPaymentStatus':
-        endPointColumnName = 'orderPaymentStatus';
+      case 'dateOfExport':
+        endPointColumnName = 'deliveryDate';
         break;
       case 'responsibleDriver':
         endPointColumnName = 'responsibleDriverId';
@@ -464,8 +516,8 @@ export class UbsAdminTableComponent implements OnInit, AfterViewChecked, OnDestr
       case 'responsibleLogicMan':
         endPointColumnName = 'responsibleLogicManId';
         break;
-      case 'receivingStation':
-        endPointColumnName = 'receivingStation';
+      default:
+        endPointColumnName = column;
         break;
     }
     return endPointColumnName;
