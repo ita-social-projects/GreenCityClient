@@ -29,7 +29,16 @@
       <img [src]="chatIcons.smile" alt="smile" title="Add emoji" />
     </button>
   </div>
-  <emoji-mart class="emoji-mart" set="apple" *ngIf="showEmojiPicker" (emojiSelect)="addEmoji($event)" title="Pick your emoji…"></emoji-mart>
+  <emoji-mart
+    *ngIf="showEmojiPicker"
+    class="emoji-mart"
+    [emojiSize]="20"
+    [totalFrequentLines]="2"
+    [darkMode]="false"
+    [showPreview]="false"
+    (emojiSelect)="addEmoji($event)"
+    title="Pick your emoji…"
+  ></emoji-mart>
   <input type="text" [formControl]="messageControl" />
   <button class="send-button" type="submit" [disabled]="!messageControl.value">
     <img [src]="chatIcons.send" alt="send" title="Send mail" />
