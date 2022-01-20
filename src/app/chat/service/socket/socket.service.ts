@@ -61,6 +61,10 @@ export class SocketService {
   }
 
   createNewChat() {
-    this.stompClient.send(`/app/user/18`, {});
+    const newChatInfo = {
+      currentUserId: 21,
+      participantsIds: 18
+    };
+    this.stompClient.send(`/app/chat/user`, {}, JSON.stringify(newChatInfo));
   }
 }
