@@ -11,6 +11,8 @@ import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { By } from '@angular/platform-browser';
 import { of, Subject } from 'rxjs';
 import { DropdownModule } from 'angular-bootstrap-md';
+import { Language } from 'src/app/main/i18n/Language';
+import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
 
 describe('UBSAddAddressPopUpComponent', () => {
   let component: UBSAddAddressPopUpComponent;
@@ -18,6 +20,8 @@ describe('UBSAddAddressPopUpComponent', () => {
   let orderService: OrderService;
 
   const fakeMatDialogRef = jasmine.createSpyObj(['close']);
+  const fakeLocalStorageService = jasmine.createSpyObj('LocalStorageService', ['getCurrentLanguage']);
+  fakeLocalStorageService.getCurrentLanguage = () => 'ua' as Language;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
@@ -27,7 +31,8 @@ describe('UBSAddAddressPopUpComponent', () => {
         OrderService,
         { provide: MatDialogRef, useValue: fakeMatDialogRef },
         { provide: MAT_DIALOG_DATA, useValue: {} },
-        { provide: MatSnackBarComponent, useValue: {} }
+        { provide: MatSnackBarComponent, useValue: {} },
+        { provide: LocalStorageService, useValue: fakeLocalStorageService }
       ],
       schemas: [CUSTOM_ELEMENTS_SCHEMA]
     }).compileComponents();

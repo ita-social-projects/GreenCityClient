@@ -79,40 +79,40 @@ export class UBSAddAddressPopUpComponent implements OnInit, OnDestroy {
 
   regionsKyiv = [
     { name: 'Голосіївський', lang: 'ua' },
-    { name: 'Holosiivskyi', lang: 'en' },
+    { name: `Holosiivs'kyi`, lang: 'en' },
     { name: 'Дарницький', lang: 'ua' },
-    { name: 'Darnytskyi', lang: 'en' },
+    { name: `Darnyts'kyi`, lang: 'en' },
     { name: 'Деснянський', lang: 'ua' },
-    { name: 'Desniansky', lang: 'en' },
+    { name: `Desnyans'kyi`, lang: 'en' },
     { name: 'Дніпровський', lang: 'ua' },
-    { name: 'Dniprovsky', lang: 'en' },
+    { name: `Dniprovs'kyi`, lang: 'en' },
     { name: 'Оболонський', lang: 'ua' },
-    { name: 'Obolonsky', lang: 'en' },
+    { name: 'Obolonskyi', lang: 'en' },
     { name: 'Печерський', lang: 'ua' },
-    { name: 'Pechersky', lang: 'en' },
+    { name: `Pechers'kyi`, lang: 'en' },
     { name: 'Подільський', lang: 'ua' },
-    { name: 'Podolsky', lang: 'en' },
+    { name: `Podil's'kyi`, lang: 'en' },
     { name: 'Святошинський', lang: 'ua' },
-    { name: 'Sviatoshynsky', lang: 'en' },
+    { name: `Svyatoshyns'kyi`, lang: 'en' },
     { name: `Солом'янський`, lang: 'ua' },
-    { name: 'Solomiansky', lang: 'en' },
+    { name: `Solom'yans'kyi`, lang: 'en' },
     { name: 'Шевченківський', lang: 'ua' },
-    { name: 'Shevchenkivskyi', lang: 'en' }
+    { name: `Shevchenkivs'kyi`, lang: 'en' }
   ];
 
   regions = [
     { name: 'Бориспільський', lang: 'ua' },
-    { name: 'Boryspilky', lang: 'en' },
+    { name: `Boryspil's'kyi`, lang: 'en' },
     { name: 'Броварський', lang: 'ua' },
-    { name: 'Brovarsky', lang: 'en' },
+    { name: `Brovars'kyi`, lang: 'en' },
     { name: 'Бучанський', lang: 'ua' },
-    { name: 'Buchansky', lang: 'en' },
+    { name: `Buchans'kyi`, lang: 'en' },
     { name: 'Вишгородський', lang: 'ua' },
-    { name: 'Vyshhorodsky', lang: 'en' },
+    { name: `Vyshhorods'kyi`, lang: 'en' },
     { name: 'Обухівський', lang: 'ua' },
-    { name: 'Obukhivsky', lang: 'en' },
+    { name: `Obukhivs'kyi`, lang: 'en' },
     { name: 'Фастівський', lang: 'ua' },
-    { name: 'Fastivsky', lang: 'en' }
+    { name: `Fastivs'kyi`, lang: 'en' }
   ];
 
   constructor(
@@ -167,8 +167,8 @@ export class UBSAddAddressPopUpComponent implements OnInit, OnDestroy {
     this.cities = this.cities.filter((el) => el.lang === this.currentLanguage);
     this.regionsKyiv = this.regionsKyiv.filter((el) => el.lang === this.currentLanguage);
     this.regions = this.regions.filter((el) => el.lang === this.currentLanguage);
-    this.currentDistrict = this.data.address.district;
-    this.currentLocation = this.data.currentLocation;
+    this.currentDistrict = this.data.address?.district;
+    this.currentLocation = this.data?.currentLocation;
     this.addAddressForm = this.fb.group({
       region: [this.data.edit ? this.data.address.region : null, Validators.required],
       city: [this.data.edit ? this.data.address.city : null, Validators.required],
@@ -202,8 +202,11 @@ export class UBSAddAddressPopUpComponent implements OnInit, OnDestroy {
     if (this.currentLocation === 'Kyiv' || this.currentLocation === 'Київ') {
       this.isKyiv = true;
       this.isDistrict = true;
-      this.addAddressForm.get('city').setValue(this.currentLocation);
+      if (!this.data.edit) {
+        this.addAddressForm.get('city').setValue(this.currentLocation);
+      }
     }
+    this.isDistrict = this.addAddressForm.get('city').value === 'Kyiv' || this.addAddressForm.get('city').value === 'Київ';
 
     // TODO: Must be removed if multi-region feature need to be implemented
     this.onCitySelected(this.KyivCoordinates);
@@ -272,11 +275,10 @@ export class UBSAddAddressPopUpComponent implements OnInit, OnDestroy {
     const getDistrict =
       this.currentLanguage === 'ua'
         ? event.address_components.filter((item) => item.long_name.includes('район'))[0]
-        : event.address_components.filter((item) => item.long_name.includes('Street'))[0];
-    console.log(event);
+        : event.address_components.filter((item) => item.long_name.toLowerCase().includes('district'))[0];
     if (getDistrict) {
       this.currentDistrict = getDistrict.long_name.split(' ')[0];
-      console.log(this.currentDistrict);
+      this.addAddressForm.get('district').setValue(this.currentDistrict);
     }
   }
 
@@ -339,5 +341,8 @@ export class UBSAddAddressPopUpComponent implements OnInit, OnDestroy {
   ngOnDestroy(): void {
     this.destroy.next();
     this.destroy.unsubscribe();
+    while (document.body.querySelector('.pac-container')) {
+      document.body.removeChild(document.querySelector('.pac-container'));
+    }
   }
 }

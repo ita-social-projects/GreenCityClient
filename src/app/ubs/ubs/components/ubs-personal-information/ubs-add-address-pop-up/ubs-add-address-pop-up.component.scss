@@ -1,5 +1,10 @@
 ::ng-deep .pac-container {
   position: fixed !important;
+  top: 230px !important;
+}
+
+::ng-deep .pac-container:last-child {
+  top: 310px !important;
 }
 
 form {
@@ -91,6 +96,10 @@ select {
 .validation {
   color: var(--error-red);
   font-size: 10px;
+}
+
+#auto {
+  position: relative;
 }
 
 .buttons {

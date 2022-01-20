@@ -21,18 +21,16 @@
       [options]="cityOptions"
     />
     <select *ngIf="isKyiv" formControlName="city" class="shadow-none form-control" (change)="selectCity($event)">
-      <option *ngFor="let city of cities">{{ city.cityName }}</option>
+      <option *ngFor="let city of cities" [ngValue]="city.cityName">{{ city.cityName }}</option>
     </select>
   </div>
   <div class="col-md-4 col-sm-4 form-group">
     <label>{{ 'personal-info.pop-up-district' | translate }}</label>
     <select *ngIf="!isDistrict" formControlName="district" class="shadow-none form-control">
-      <option hidden></option>
-      <option *ngFor="let region of regions">{{ region.name }}</option>
+      <option *ngFor="let region of regions" [ngValue]="region.name">{{ region.name }}</option>
     </select>
     <select *ngIf="isDistrict" formControlName="district" class="shadow-none form-control">
-      <option hidden></option>
-      <option *ngFor="let region of regionsKyiv">{{ region.name }}</option>
+      <option *ngFor="let region of regionsKyiv" [ngValue]="region.name">{{ region.name }}</option>
     </select>
     <div class="validation" *ngIf="district.invalid && addAddressForm.get('district').touched">
       <app-ubs-input-error [formElement]="district" [controlName]="'district'"></app-ubs-input-error>
