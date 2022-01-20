@@ -25,10 +25,20 @@
     <button type="button" (click)="newChat()">
       <img [src]="chatIcons.paperClip" alt="clip" title="Add file" />
     </button>
-    <button>
+    <button type="button" (click)="toggleEmojiPicker()">
       <img [src]="chatIcons.smile" alt="smile" title="Add emoji" />
     </button>
   </div>
+  <emoji-mart
+    *ngIf="showEmojiPicker"
+    class="emoji-mart"
+    [emojiSize]="20"
+    [totalFrequentLines]="2"
+    [darkMode]="false"
+    [showPreview]="false"
+    (emojiSelect)="addEmoji($event)"
+    title="Pick your emoji…"
+  ></emoji-mart>
   <input type="text" [formControl]="messageControl" />
   <button class="send-button" type="submit" [disabled]="!messageControl.value">
     <img [src]="chatIcons.send" alt="send" title="Send mail" />

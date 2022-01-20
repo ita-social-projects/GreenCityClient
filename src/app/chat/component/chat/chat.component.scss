@@ -105,6 +105,13 @@
   text-overflow: clip;
 }
 
+.emoji-mart {
+  position: absolute;
+  bottom: 40px;
+  right: 20px;
+  box-sizing: border-box;
+}
+
 .sender {
   @include flex(row, space-between, center);
   padding: 5px 10px;

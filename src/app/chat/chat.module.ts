@@ -14,6 +14,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 import { MatDialogModule } from '@angular/material/dialog';
 import { InfiniteScrollModule } from 'ngx-infinite-scroll';
+import { PickerModule } from '@ctrl/ngx-emoji-mart';
 
 @NgModule({
   declarations: [
@@ -27,7 +28,16 @@ import { InfiniteScrollModule } from 'ngx-infinite-scroll';
     ChatComponent,
     MessageFromDayPipe
   ],
-  imports: [BrowserModule, HttpClientModule, FormsModule, ReactiveFormsModule, NoopAnimationsModule, MatDialogModule, InfiniteScrollModule],
+  imports: [
+    BrowserModule,
+    HttpClientModule,
+    FormsModule,
+    ReactiveFormsModule,
+    NoopAnimationsModule,
+    MatDialogModule,
+    InfiniteScrollModule,
+    PickerModule
+  ],
   exports: [ChatPopupComponent],
   providers: []
 })

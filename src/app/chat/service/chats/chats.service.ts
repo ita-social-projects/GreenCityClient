@@ -3,7 +3,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Chat } from '../../model/Chat.model';
 import { environment } from '../../../../environments/environment';
-import { BehaviorSubject, Observable } from 'rxjs';
+import { BehaviorSubject, Observable, Subject } from 'rxjs';
 import { Message } from '../../model/Message.model';
 
 @Injectable({
@@ -13,6 +13,7 @@ export class ChatsService {
   public userChatsStream$: BehaviorSubject<Chat[]> = new BehaviorSubject<Chat[]>([]);
   public currentChatsStream$: BehaviorSubject<Chat> = new BehaviorSubject<Chat>(null);
   public currentChatMessagesStream$: BehaviorSubject<Message[]> = new BehaviorSubject<Message[]>([]);
+  public isChatUpdateStream$: Subject<boolean> = new Subject<boolean>();
   public chatsMessages: Object = {};
   private messagesIsLoading = false;
 
@@ -65,10 +66,8 @@ export class ChatsService {
 
     this.messagesIsLoading = true;
     this.getAllChatMessages(chat.id, 0).subscribe((messages: Messages) => {
-      console.log('Messages', messages);
       this.currentChatsStream$.next(chat);
       this.currentChatMessagesStream$.next(messages.page);
-      console.log(messages);
       this.chatsMessages[chat.id] = messages;
       this.messagesIsLoading = false;
     });
@@ -78,6 +77,7 @@ export class ChatsService {
     this.messagesIsLoading = true;
     this.getAllChatMessages(id, page).subscribe((messages: Messages) => {
       this.chatsMessages[id].page.unshift(...messages.page);
+      this.isChatUpdateStream$.next(true);
       this.messagesIsLoading = false;
     });
   }
