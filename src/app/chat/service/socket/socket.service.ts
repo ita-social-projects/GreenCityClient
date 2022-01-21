@@ -14,12 +14,12 @@ export class SocketService {
   private socket: WebSocket;
   private stompClient: CompatClient;
   private backendSocketLink = `${environment.socket}`;
-  private userId: string;
+  private userId: number;
 
   constructor(private chatsService: ChatsService, private localStorageService: LocalStorageService) {}
 
   public connect() {
-    this.userId = this.localStorageService.getUserId().toString();
+    this.userId = this.localStorageService.getUserId();
     this.socket = new SockJS(this.backendSocketLink);
     this.stompClient = Stomp.over(() => this.socket);
     this.stompClient.connect(
@@ -30,29 +30,25 @@ export class SocketService {
   }
 
   private onConnected() {
-    this.stompClient.subscribe(
-      '/room/message/chat-messages',
-      (data: IMessage) => {
-        // TODO bad logic, you might not be sitting in chat where message landed FIXIT
-        const newMessage: Message = JSON.parse(data.body);
-        console.log(newMessage);
-        const messages = this.chatsService.chatsMessages[newMessage.roomId];
-        if (messages) {
-          messages.page.push(newMessage);
-          this.chatsService.currentChatMessagesStream$.next(messages.page);
-        }
-      },
-      { id: this.userId }
-    );
-    this.stompClient.subscribe(
-      '/message/new-participant',
-      (participant) => {
-        console.log(participant);
-        const newChatParticipant: User = JSON.parse(participant.body);
-        this.chatsService.currentChat.participants.push(newChatParticipant);
-      },
-      { id: this.userId }
-    );
+    this.stompClient.subscribe(`/room/message/chat-messages${this.userId}`, (data: IMessage) => {
+      console.log(data);
+      // TODO bad logic, you might not be sitting in chat where message landed FIXIT
+      const newMessage: Message = JSON.parse(data.body);
+      console.log(newMessage);
+      const messages = this.chatsService.chatsMessages[newMessage.roomId];
+      if (messages) {
+        messages.page.push(newMessage);
+        this.chatsService.currentChatMessagesStream$.next(messages.page);
+      }
+    });
+    this.stompClient.subscribe('/message/new-participant', (participant) => {
+      console.log(participant);
+      const newChatParticipant: User = JSON.parse(participant.body);
+      this.chatsService.currentChat.participants.push(newChatParticipant);
+    });
+    this.stompClient.subscribe(`/rooms/user/new-chats${this.userId}`, (newChat) => {
+      console.log(newChat);
+    });
   }
 
   private onError(error) {
@@ -73,8 +69,8 @@ export class SocketService {
 
   createNewChat() {
     const newChatInfo = {
-      currentUserId: 22,
-      participantsIds: 18
+      currentUserId: this.userId,
+      participantsIds: 1
     };
     this.stompClient.send(`/app/chat/user`, {}, JSON.stringify(newChatInfo));
   }
