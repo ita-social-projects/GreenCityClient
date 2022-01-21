@@ -228,9 +228,9 @@ describe('OrderService', () => {
   });
 
   it('method processOrderLiqPayFromUserOrderList should retrieve LiqPay order information from the API via POST', () => {
-    const action: string = 'https://www.liqpay.ua/api/3/checkout';
-    const inputHidden: string = '<input type=hidden name=data /><input type=hidden name=signature value=9JepF5OvUsOPnW+3rV6hZczjs5s= />';
-    const inputImg: string = '<input type=image src=//static.liqpay.ua/buttons/p1en.radius.png name=btn_text />';
+    const action = 'https://www.liqpay.ua/api/3/checkout';
+    const inputHidden = '<input type=hidden name=data /><input type=hidden name=signature value=9JepF5OvUsOPnW+3rV6hZczjs5s= />';
+    const inputImg = '<input type=image src=//static.liqpay.ua/buttons/p1en.radius.png name=btn_text />';
     const responceOrderLiqPayModel: ResponceOrderLiqPayModel = {
       orderId: 7,
       liqPayButton: `<form method=post action=${action} accept-charset=utf-8><input type=hidden name=data />${
