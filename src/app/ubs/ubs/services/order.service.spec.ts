@@ -228,10 +228,14 @@ describe('OrderService', () => {
   });
 
   it('method processOrderLiqPayFromUserOrderList should retrieve LiqPay order information from the API via POST', () => {
+    const action: string = 'https://www.liqpay.ua/api/3/checkout';
+    const inputHidden: string = '<input type=hidden name=data /><input type=hidden name=signature value=9JepF5OvUsOPnW+3rV6hZczjs5s= />';
+    const inputImg: string = '<input type=image src=//static.liqpay.ua/buttons/p1en.radius.png name=btn_text />';
     const responceOrderLiqPayModel: ResponceOrderLiqPayModel = {
       orderId: 7,
-      liqPayButton:
-        '<form method=post action=https://www.liqpay.ua/api/3/checkout accept-charset=utf-8><input type=hidden name=data value=eyJhY3Rpb24iOiJwYXkiLCJhbW91bnQiOiI2MDAiLCJjdXJyZW5jeSI6IlVBSCIsImRlc2NyaXB0aW9uIjoi0YFvdXJpZXIiLCJsYW5ndWFnZSI6ImVuIiwib3JkZXJfaWQiOiIzNjY3XzEwXzM2NTUiLCJwYXl0eXBlcyI6ImNhcmQiLCJwdWJsaWNfa2V5Ijoic2FuZGJveF9pMTI4NjcxNjI4NTIiLCJyZXN1bHRfdXJsIjoiaHR0cHM6XC9cL2dyZWVuY2l0eS11YnMuYXp1cmV3ZWJzaXRlcy5uZXRcL3Vic1wvcmVjZWl2ZUxpcVBheVBheW1lbnQiLCJ2ZXJzaW9uIjoiMyJ9 /><input type=hidden name=signature value=9JepF5OvUsOPnW+3rV6hZczjs5s= /><input type=image src=//static.liqpay.ua/buttons/p1en.radius.png name=btn_text /></form>'
+      liqPayButton: `<form method=post action=${action} accept-charset=utf-8><input type=hidden name=data />${
+        inputHidden + inputImg
+      }</form>`
     };
     service.processOrderLiqPayFromUserOrderList(userOrderMock).subscribe((data) => {
       expect(data).toEqual(responceOrderLiqPayModel);
