@@ -174,10 +174,7 @@ export class AddPaymentComponent implements OnInit, OnDestroy {
   }
 
   enlargeImage(): void {
-    console.log('imagePreview.src', this.imagePreview.src);
-    console.log('pdf', this.imagePreview.src.match(this.pdf));
-    // this.imagePreview.src.match(this.pdf) ? this.openPdf() : this.openImg();
-    this.openPdf();
+    this.imagePreview.src.match(this.pdf) || this.file.type === 'application/pdf' ? this.openPdf() : this.openImg();
   }
 
   openImg(): void {

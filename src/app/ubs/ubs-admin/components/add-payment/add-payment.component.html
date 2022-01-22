@@ -43,10 +43,10 @@
     <span *ngIf="!viewMode" class="photo-requirement">{{ 'add-payment.requirement' | translate }}</span>
     <div appDrag (files)="filesDropped($event)">
       <div class="photo-container">
-        <!-- <div class="image-edit-head" *ngIf="imagePreview.src && (!viewMode || editMode)">
+        <div class="image-edit-head" *ngIf="imagePreview.src && (!viewMode || editMode)">
           <span class="image-name">{{ imagePreview?.name }}</span>
           <img class="user-image" src="assets/img/ubs/cross.svg" alt="close" (click)="removeImage()" />
-        </div> -->
+        </div>
         <img class="image-preview" *ngIf="imagePreview.src" [src]="imagePreview.src" alt="image-of-payment" (click)="enlargeImage()" />
         <p *ngIf="!imagePreview.src && !(viewMode && !editMode)" class="requirement-drag label">
           <span>
