@@ -48,15 +48,15 @@
           <img class="user-image" src="assets/img/ubs/cross.svg" alt="close" (click)="removeImage()" />
         </div>
         <img
-          id="image-preview"
           *ngIf="imagePreview.src && !isPdf()"
           [src]="imagePreview.src"
+          id="image-preview"
           alt="image-of-payment"
           (click)="enlargeImage()"
         />
         <pdf-viewer
-          id="pdf-viewer"
           *ngIf="imagePreview.src && isPdf()"
+          id="pdf-viewer"
           [src]="imagePreview.src"
           [page]="1"
           [show-all]="false"
