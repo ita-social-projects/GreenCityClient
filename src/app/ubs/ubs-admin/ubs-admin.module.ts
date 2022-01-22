@@ -70,6 +70,7 @@ import { AddPaymentComponent } from './components/add-payment/add-payment.compon
 import { UbsAdminCustomerViolationsComponent } from './components/ubs-admin-customers/ubs-admin-customer-violations/ubs-admin-customer-violations/ubs-admin-customer-violations.component';
 import { ShowImgsPopUpComponent } from './components/shared/components/show-imgs-pop-up/show-imgs-pop-up.component';
 import { PdfViewerModule } from 'ng2-pdf-viewer';
+import { ShowPdfPopUpComponent } from './components/shared/components/show-pdf-pop-up/show-pdf-pop-up.component';
 
 @NgModule({
   declarations: [
@@ -115,7 +116,8 @@ import { PdfViewerModule } from 'ng2-pdf-viewer';
     ResizeColumnDirective,
     AddPaymentComponent,
     UbsAdminCustomerViolationsComponent,
-    ShowImgsPopUpComponent
+    ShowImgsPopUpComponent,
+    ShowPdfPopUpComponent
   ],
   imports: [
     CommonModule,

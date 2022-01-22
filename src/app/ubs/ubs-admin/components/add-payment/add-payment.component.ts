@@ -9,6 +9,7 @@ import { IPaymentInfoDtos } from '../../models/ubs-admin.interface';
 import { OrderService } from '../../services/order.service';
 import { DialogPopUpComponent } from '../shared/components/dialog-pop-up/dialog-pop-up.component';
 import { ShowImgsPopUpComponent } from '../shared/components/show-imgs-pop-up/show-imgs-pop-up.component';
+import { ShowPdfPopUpComponent } from '../shared/components/show-pdf-pop-up/show-pdf-pop-up.component';
 
 interface InputData {
   orderId: number;
@@ -34,6 +35,7 @@ export class AddPaymentComponent implements OnInit, OnDestroy {
   payment: IPaymentInfoDtos | null;
   addPaymentForm: FormGroup;
   file;
+  pdf = /.pdf$/;
   imagePreview: any = { src: null };
   isImageSizeError = false;
   isImageTypeError = false;
@@ -171,6 +173,13 @@ export class AddPaymentComponent implements OnInit, OnDestroy {
     }
   }
 
+  enlargeImage(): void {
+    console.log('imagePreview.src', this.imagePreview.src);
+    console.log('pdf', this.imagePreview.src.match(this.pdf));
+    // this.imagePreview.src.match(this.pdf) ? this.openPdf() : this.openImg();
+    this.openPdf();
+  }
+
   openImg(): void {
     this.dialog.open(ShowImgsPopUpComponent, {
       hasBackdrop: true,
@@ -178,6 +187,16 @@ export class AddPaymentComponent implements OnInit, OnDestroy {
       data: {
         imgIndex: 0,
         images: [this.imagePreview]
+      }
+    });
+  }
+
+  openPdf(): void {
+    this.dialog.open(ShowPdfPopUpComponent, {
+      hasBackdrop: true,
+      panelClass: 'custom-img-pop-up',
+      data: {
+        pdfFile: this.imagePreview.src
       }
     });
   }
