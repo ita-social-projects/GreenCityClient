@@ -17,6 +17,19 @@ interface InputData {
   payment: IPaymentInfoDtos | null;
 }
 
+interface PaymentDetails {
+  settlementdate: string;
+  amount: number;
+  paymentId: string;
+  receiptLink: string;
+  imagePath?: string;
+}
+
+interface PostData {
+  form: PaymentDetails;
+  file: File;
+}
+
 @Component({
   selector: 'app-add-payment',
   templateUrl: './add-payment.component.html',
@@ -34,16 +47,16 @@ export class AddPaymentComponent implements OnInit, OnDestroy {
   isFileTypeWarning = false;
   payment: IPaymentInfoDtos | null;
   addPaymentForm: FormGroup;
-  file;
+  file: File;
   pdf = /.pdf$/;
-  imagePreview: any = { src: null };
+  imagePreview = { src: null, name: null };
   isImageSizeError = false;
   isImageTypeError = false;
   isInitialDataChanged = false;
   isInitialImageChanged = false;
   dataSource = new MatTableDataSource();
   public date = new Date();
-  public adminName;
+  public adminName: string;
   private maxImageSize = 10485760;
   private destroySub: Subject<boolean> = new Subject<boolean>();
   deleteDialogData = {
@@ -94,7 +107,7 @@ export class AddPaymentComponent implements OnInit, OnDestroy {
   }
 
   save() {
-    const result: any = {};
+    const result: PostData = { form: null, file: null };
     const paymentDetails = this.addPaymentForm.value;
     paymentDetails.amount *= 100;
     result.form = paymentDetails;
@@ -105,7 +118,7 @@ export class AddPaymentComponent implements OnInit, OnDestroy {
     this.processPayment(this.orderId, result);
   }
 
-  public processPayment(orderId: number, postData): void {
+  public processPayment(orderId: number, postData: PostData): void {
     this.isUploading = true;
     of(true)
       .pipe(
@@ -178,7 +191,7 @@ export class AddPaymentComponent implements OnInit, OnDestroy {
   }
 
   isPdf(): boolean {
-    return this.imagePreview.src.match(this.pdf) || this.file.type === 'application/pdf';
+    return this.imagePreview?.src.match(this.pdf) || this.file?.type === 'application/pdf';
   }
 
   openImg(): void {
