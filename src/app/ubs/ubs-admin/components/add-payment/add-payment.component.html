@@ -49,8 +49,8 @@
         </div>
         <img
           *ngIf="imagePreview.src && !isPdf()"
-          [src]="imagePreview.src"
           id="image-preview"
+          [src]="imagePreview.src"
           alt="image-of-payment"
           (click)="enlargeImage()"
         />
