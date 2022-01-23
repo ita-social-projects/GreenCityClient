@@ -5,8 +5,8 @@ import { MatSnackBarComponent } from '@global-errors/mat-snack-bar/mat-snack-bar
 import { UserOrdersService } from '../services/user-orders.service';
 import { Router } from '@angular/router';
 import { IOrderInfo } from '../../ubs-admin/models/ubs-admin.interface';
-import { BonusesModel } from '../ubs-user-bonuses/models/BonusesModel';
 import { BonusesService } from '../ubs-user-bonuses/services/bonuses.service';
+import { IBonus } from '../ubs-user-bonuses/models/IBonus.interface';
 
 @Component({
   selector: 'app-ubs-user-orders',
@@ -18,7 +18,7 @@ export class UbsUserOrdersComponent implements OnInit, OnDestroy {
   orders: IOrderInfo[];
   currentOrders: IOrderInfo[];
   orderHistory: IOrderInfo[];
-  bonuses: BonusesModel;
+  bonuses: number;
   loadingOrders = false;
   loadingBonuses = false;
 
@@ -57,8 +57,8 @@ export class UbsUserOrdersComponent implements OnInit, OnDestroy {
           (order) => order.generalOrderInfo.orderStatus === 'DONE' || order.generalOrderInfo.orderStatus === 'CANCELED'
         );
       });
-    this.bonusesService.getUserBonuses().subscribe((responce: BonusesModel) => {
-      this.bonuses = responce;
+    this.bonusesService.getUserBonuses().subscribe((responce: IBonus) => {
+      this.bonuses = responce.points;
       this.loadingBonuses = true;
     });
   }

@@ -34,7 +34,7 @@ export class UbsUserOrderPaymentPopUpComponent implements OnInit {
   public userOrder: IOrderDetailsUser = {
     id: this.data.orderId,
     sum: this.data.price,
-    bonusValue: 0
+    bonusValue: this.data.bonuses
   };
 
   public userCertificate: ICertificate = {
