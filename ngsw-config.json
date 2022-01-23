@@ -7,7 +7,11 @@
       "installMode": "prefetch",
       "resources": {
         "files": ["/favicon.ico", "/index.html", "/manifest.webmanifest", "/*.css", "/*.js"],
-        "urls": ["https://fonts.googleapis.com/**"]
+        "urls": [
+          "https://fonts.googleapis.com/**",
+          "https://fonts.gstatic.com/s/roboto/v29/KFOlCnqEu92Fr1MmEU9fBBc4.woff2",
+          "https://fonts.googleapis.com/icon?family=Material+Icons"
+        ]
       }
     },
     {
