@@ -14,7 +14,6 @@ import { AppRoutingModule } from './app-routing.module';
 import { UbsModule } from './ubs/ubs.module';
 import { appReducers } from './store/reducers/app.reducer';
 import { EmployeesEffects } from './store/effects/employee.effects';
-import { PdfViewerModule } from 'ng2-pdf-viewer';
 
 @NgModule({
   declarations: [AppComponent],
@@ -25,7 +24,6 @@ import { PdfViewerModule } from 'ng2-pdf-viewer';
     MainModule,
     UbsModule,
     HttpClientModule,
-    PdfViewerModule,
     TranslateModule.forRoot({
       loader: {
         provide: TranslateLoader,
