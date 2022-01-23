@@ -3,6 +3,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { UbsUserOrderPaymentPopUpComponent } from './ubs-user-order-payment-pop-up/ubs-user-order-payment-pop-up.component';
 import { UbsUserOrderCancelPopUpComponent } from './ubs-user-order-cancel-pop-up/ubs-user-order-cancel-pop-up.component';
 import { IOrderInfo } from 'src/app/ubs/ubs-admin/models/ubs-admin.interface';
+import { BonusesModel } from '../ubs-user-bonuses/models/BonusesModel';
 
 @Component({
   selector: 'app-ubs-user-orders-list',
@@ -11,6 +12,7 @@ import { IOrderInfo } from 'src/app/ubs/ubs-admin/models/ubs-admin.interface';
 })
 export class UbsUserOrdersListComponent implements OnInit {
   @Input() orders: IOrderInfo[];
+  @Input() bonuses: BonusesModel;
 
   constructor(public dialog: MatDialog) {}
 

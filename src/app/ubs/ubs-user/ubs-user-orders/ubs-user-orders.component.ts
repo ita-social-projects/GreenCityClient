@@ -4,6 +4,8 @@ import { Subject, throwError } from 'rxjs';
 import { MatSnackBarComponent } from '@global-errors/mat-snack-bar/mat-snack-bar.component';
 import { UserOrdersService } from '../services/user-orders.service';
 import { Router } from '@angular/router';
+import { IOrderInfo } from '../../ubs-admin/models/ubs-admin.interface';
+import { BonusesModel } from '../ubs-user-bonuses/models/BonusesModel';
 
 @Component({
   selector: 'app-ubs-user-orders',
@@ -12,10 +14,12 @@ import { Router } from '@angular/router';
 })
 export class UbsUserOrdersComponent implements OnInit, OnDestroy {
   destroy: Subject<boolean> = new Subject<boolean>();
-  orders: any[];
-  currentOrders: any[];
-  orderHistory: any[];
+  orders: IOrderInfo[];
+  currentOrders: IOrderInfo[];
+  orderHistory: IOrderInfo[];
+  bonuses: BonusesModel;
   loading = false;
+
   constructor(private router: Router, private snackBar: MatSnackBarComponent, private userOrdersService: UserOrdersService) {}
 
   redirectToOrder() {
