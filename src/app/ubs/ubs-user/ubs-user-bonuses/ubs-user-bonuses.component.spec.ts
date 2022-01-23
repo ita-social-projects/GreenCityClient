@@ -26,7 +26,7 @@ describe('UbsUserBonusesComponent', () => {
   let fixture: ComponentFixture<UbsUserBonusesComponent>;
   let bonusesServiceMock: BonusesService;
   let matSnackBarMock: MatSnackBarComponent;
-  bonusesServiceMock = jasmine.createSpyObj('BonusesService', ['getUserBonuses']);
+  bonusesServiceMock = jasmine.createSpyObj('BonusesService', ['getUserBonusesWithPaymentHistory']);
   bonusesServiceMock.getUserBonusesWithPaymentHistory = () => of(testBonuses);
   matSnackBarMock = jasmine.createSpyObj('MatSnackBarComponent', ['openSnackBar']);
   matSnackBarMock.openSnackBar = (type: string) => {};
@@ -67,13 +67,13 @@ describe('UbsUserBonusesComponent', () => {
   });
 
   it('should call getBonusesData and return error', () => {
-    bonusesServiceMock.getUserBonuses = () => ErrorObservable.create('error');
+    bonusesServiceMock.getUserBonusesWithPaymentHistory = () => ErrorObservable.create('error');
     component.getBonusesData();
     expect(component.isLoading).toEqual(false);
   });
 
   it('should call openSnackBar in case error', () => {
-    bonusesServiceMock.getUserBonuses = () => ErrorObservable.create('error');
+    bonusesServiceMock.getUserBonusesWithPaymentHistory = () => ErrorObservable.create('error');
     const spy = spyOn(matSnackBarMock, 'openSnackBar').and.callFake(() => {
       return EMPTY;
     });
