@@ -100,9 +100,11 @@ describe('UBSAddAddressPopUpComponent', () => {
   });
 
   it('method onDistrictSelected should invoke three another methods, and set region to addAddressForm', () => {
-    const eventMock = [];
+    const eventMock = {
+      address_components: [{ long_name: 'Бучанський район' }]
+    };
     const spy1 = spyOn(component, 'onLocationSelected');
-    const spy2 = spyOn(component, 'setDistrict');
+    const spy2 = spyOn(component, 'setDistrictAuto');
     const spy3 = spyOn(component, 'onAutocompleteSelected');
 
     component.onDistrictSelected(eventMock);
