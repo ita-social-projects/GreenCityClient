@@ -174,7 +174,6 @@ export class UBSAddAddressPopUpComponent implements OnInit, OnDestroy {
   ngOnInit() {
     this.currentLanguage = this.localStorageService.getCurrentLanguage();
     this.bigRegions = this.bigRegions.filter((el) => el.lang === this.currentLanguage);
-    this.currentDistrict = this.data.address?.district;
     this.currentLocation = this.data?.currentLocation;
     this.addAddressForm = this.fb.group({
       region: [this.data.edit ? this.data.address.region : null, Validators.required],
@@ -275,8 +274,8 @@ export class UBSAddAddressPopUpComponent implements OnInit, OnDestroy {
     });
   }
 
-  async translate(sourceText: string): Promise<void> {
-    await this.getJSON(sourceText, this.currentLanguage).subscribe((data) => {
+  translate(sourceText: string): void {
+    this.getJSON(sourceText, this.currentLanguage).subscribe((data) => {
       this.translation = data[0][0][0];
     });
   }
