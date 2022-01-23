@@ -1,4 +1,4 @@
-import { getTestBed, TestBed } from '@angular/core/testing';
+import { TestBed } from '@angular/core/testing';
 import { HttpClientTestingModule, HttpTestingController } from '@angular/common/http/testing';
 
 import { BonusesService } from './bonuses.service';
@@ -43,7 +43,7 @@ describe('BonusesService', () => {
   });
 
   it('should return bonuses', () => {
-    service.getUserBonuses().subscribe((bonuses) => {
+    service.getUserBonusesWithPaymentHistory().subscribe((bonuses) => {
       expect(bonuses).toEqual(testBonuses);
       expect(bonuses.userBonuses).toBe(100);
     });
