@@ -1,6 +1,6 @@
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
-import { MatDialogModule, MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { MatDialogModule, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { DomSanitizer } from '@angular/platform-browser';
 
 import { ShowPdfPopUpComponent } from './show-pdf-pop-up.component';
@@ -11,6 +11,9 @@ describe('ShowPdfPopUpComponent', () => {
   const fakeData = {
     pdfFile: 'http://fakeFile.pdf'
   };
+  const dialogRefStub = {
+    close() {}
+  };
   const domSanitizerMock = jasmine.createSpyObj('sanitizer', ['sanitize', 'bypassSecurityTrustResourceUrl']);
   domSanitizerMock.sanitize.and.returnValue(fakeData.pdfFile);
 
@@ -20,6 +23,7 @@ describe('ShowPdfPopUpComponent', () => {
       imports: [MatDialogModule],
       providers: [
         { provide: MAT_DIALOG_DATA, useValue: fakeData },
+        { provide: MatDialogRef, useValue: dialogRefStub },
         { provide: DomSanitizer, useValue: domSanitizerMock }
       ],
       schemas: [CUSTOM_ELEMENTS_SCHEMA]
