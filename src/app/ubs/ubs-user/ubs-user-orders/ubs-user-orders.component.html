@@ -3,7 +3,7 @@
     <h1 class="main_header-title">{{ 'user-orders.order-title' | translate }}</h1>
     <button class="btn_pay" (click)="redirectToOrder()">Нове замовлення</button>
   </div>
-  <div *ngIf="loading; else spinner">
+  <div *ngIf="loading(); else spinner">
     <div *ngIf="!orders || orders.length === 0" class="if_empty">
       <span>{{ 'user-orders.no-orders' | translate }}</span>
     </div>

@@ -19,7 +19,8 @@ export class UbsUserOrdersComponent implements OnInit, OnDestroy {
   currentOrders: IOrderInfo[];
   orderHistory: IOrderInfo[];
   bonuses: BonusesModel;
-  loading = false;
+  loadingOrders = false;
+  loadingBonuses = false;
 
   constructor(
     private router: Router,
@@ -30,6 +31,10 @@ export class UbsUserOrdersComponent implements OnInit, OnDestroy {
 
   redirectToOrder() {
     this.router.navigate(['ubs', 'order']);
+  }
+
+  public loading(): boolean {
+    return this.loadingOrders && this.loadingBonuses;
   }
 
   ngOnInit() {
@@ -44,7 +49,7 @@ export class UbsUserOrdersComponent implements OnInit, OnDestroy {
       )
       .subscribe((item) => {
         this.orders = item;
-        this.loading = true;
+        this.loadingOrders = true;
         this.currentOrders = this.orders.filter(
           (order) => order.generalOrderInfo.orderStatus !== 'DONE' && order.generalOrderInfo.orderStatus !== 'CANCELED'
         );
@@ -52,6 +57,10 @@ export class UbsUserOrdersComponent implements OnInit, OnDestroy {
           (order) => order.generalOrderInfo.orderStatus === 'DONE' || order.generalOrderInfo.orderStatus === 'CANCELED'
         );
       });
+    this.bonusesService.getUserBonuses().subscribe((responce: BonusesModel) => {
+      this.bonuses = responce;
+      this.loadingBonuses = true;
+    });
   }
 
   ngOnDestroy() {
