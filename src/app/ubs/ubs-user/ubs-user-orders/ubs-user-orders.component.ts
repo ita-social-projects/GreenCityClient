@@ -6,6 +6,7 @@ import { UserOrdersService } from '../services/user-orders.service';
 import { Router } from '@angular/router';
 import { IOrderInfo } from '../../ubs-admin/models/ubs-admin.interface';
 import { BonusesModel } from '../ubs-user-bonuses/models/BonusesModel';
+import { BonusesService } from '../ubs-user-bonuses/services/bonuses.service';
 
 @Component({
   selector: 'app-ubs-user-orders',
@@ -20,7 +21,12 @@ export class UbsUserOrdersComponent implements OnInit, OnDestroy {
   bonuses: BonusesModel;
   loading = false;
 
-  constructor(private router: Router, private snackBar: MatSnackBarComponent, private userOrdersService: UserOrdersService) {}
+  constructor(
+    private router: Router,
+    private snackBar: MatSnackBarComponent,
+    private bonusesService: BonusesService,
+    private userOrdersService: UserOrdersService
+  ) {}
 
   redirectToOrder() {
     this.router.navigate(['ubs', 'order']);
