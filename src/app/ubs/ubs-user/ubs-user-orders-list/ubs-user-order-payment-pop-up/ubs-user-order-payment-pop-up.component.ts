@@ -12,6 +12,7 @@ import { Router } from '@angular/router';
 import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
 import { IOrderData } from '../models/IOrderData.interface';
 import { UBSOrderFormService } from 'src/app/ubs/ubs/services/ubs-order-form.service';
+import { MatRadioChange } from '@angular/material/radio';
 
 @Component({
   selector: 'app-ubs-user-order-payment-pop-up',
@@ -204,4 +205,6 @@ export class UbsUserOrderPaymentPopUpComponent implements OnInit {
       });
     }
   }
+
+  public bunusOption(event: MatRadioChange): void {}
 }

@@ -58,7 +58,7 @@
         {{ 'ubs-client-profile.payment.curency' | translate }}.
       </div>
 
-      <mat-radio-group formControlName="bonus" class="radio-group">
+      <mat-radio-group formControlName="bonus" class="radio-group" (change)="bunusOption($event)">
         <mat-radio-button value="no" name="no">
           {{ 'ubs-client-profile.payment.no' | translate }}
         </mat-radio-button>
