@@ -62,7 +62,7 @@ export class UbsUserOrderPaymentPopUpComponent implements OnInit {
     public router: Router
   ) {}
 
-  public ngOnInit(): void {
+  ngOnInit(): void {
     this.initForm();
     this.isLiqPayLink = false;
     this.isUseBonuses = false;
