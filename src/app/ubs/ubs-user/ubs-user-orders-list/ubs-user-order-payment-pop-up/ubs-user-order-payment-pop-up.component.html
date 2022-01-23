@@ -52,13 +52,13 @@
     </div>
 
     <div *ngIf="userOrder.bonusValue > 0">
-      <div class="question">{{ 'ubs-client-profile.payment.bonus-need' | translate }}</div>
+      <div class="question">{{ 'ubs-client-profile.payment.bonus.need' | translate }}</div>
       <div class="text">
-        {{ 'ubs-client-profile.payment.bonus-left' | translate }} {{ userOrder.bonusValue }}
+        {{ 'ubs-client-profile.payment.bonus.present' | translate }} {{ userOrder.bonusValue }}
         {{ 'ubs-client-profile.payment.curency' | translate }}.
       </div>
 
-      <mat-radio-group formControlName="bonus" class="radio-group" (change)="bunusOption($event)">
+      <mat-radio-group formControlName="bonus" class="radio-group" (change)="bonusOption($event)">
         <mat-radio-button value="no" name="no">
           {{ 'ubs-client-profile.payment.no' | translate }}
         </mat-radio-button>
@@ -66,6 +66,16 @@
         <mat-radio-button value="yes" name="yes">
           {{ 'ubs-client-profile.payment.yes' | translate }}
         </mat-radio-button>
+        <div *ngIf="isUseBonuses" class="bonuses-color">
+          <div>
+            {{ 'ubs-client-profile.payment.bonus.used' | translate }} {{ bonusInfo.used }}
+            {{ 'ubs-client-profile.payment.curency' | translate }}.
+          </div>
+          <div>
+            {{ 'ubs-client-profile.payment.bonus.left' | translate }} {{ bonusInfo.left }}
+            {{ 'ubs-client-profile.payment.curency' | translate }}.
+          </div>
+        </div>
       </mat-radio-group>
     </div>
 
