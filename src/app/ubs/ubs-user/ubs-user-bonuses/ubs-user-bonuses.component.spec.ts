@@ -4,7 +4,6 @@ import { TranslateModule } from '@ngx-translate/core';
 import { BonusesService } from './services/bonuses.service';
 import { BonusesModel } from './models/BonusesModel';
 import { ErrorObservable } from 'rxjs/observable/ErrorObservable';
-import { By } from '@angular/platform-browser';
 import { MatSnackBarComponent } from '@global-errors/mat-snack-bar/mat-snack-bar.component';
 import { of, Subject } from 'rxjs';
 import { EMPTY } from 'rxjs';
@@ -28,7 +27,7 @@ describe('UbsUserBonusesComponent', () => {
   let bonusesServiceMock: BonusesService;
   let matSnackBarMock: MatSnackBarComponent;
   bonusesServiceMock = jasmine.createSpyObj('BonusesService', ['getUserBonuses']);
-  bonusesServiceMock.getUserBonuses = () => of(testBonuses);
+  bonusesServiceMock.getUserBonusesWithPaymentHistory = () => of(testBonuses);
   matSnackBarMock = jasmine.createSpyObj('MatSnackBarComponent', ['openSnackBar']);
   matSnackBarMock.openSnackBar = (type: string) => {};
 
@@ -61,7 +60,7 @@ describe('UbsUserBonusesComponent', () => {
   });
 
   it('should call getBonusesData and return expected data', () => {
-    bonusesServiceMock.getUserBonuses = () => of(testBonuses);
+    bonusesServiceMock.getUserBonusesWithPaymentHistory = () => of(testBonuses);
     component.getBonusesData();
     expect(component.dataSource.data).toEqual(testBonuses.ubsUserBonuses);
     expect(component.totalBonuses).toEqual(testBonuses.userBonuses);

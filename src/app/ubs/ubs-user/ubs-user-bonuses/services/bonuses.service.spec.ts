@@ -4,6 +4,7 @@ import { HttpClientTestingModule, HttpTestingController } from '@angular/common/
 import { BonusesService } from './bonuses.service';
 import { BonusesModel } from '../models/BonusesModel';
 import { environment } from '@environment/environment';
+import { IBonus } from '../models/IBonus.interface';
 
 describe('BonusesService', () => {
   let service: BonusesService;
@@ -25,6 +26,8 @@ describe('BonusesService', () => {
     userBonuses: 100
   };
 
+  const userBonusMock: IBonus = { points: 800 };
+
   beforeEach(() => {
     TestBed.configureTestingModule({
       imports: [HttpClientTestingModule]
@@ -42,7 +45,7 @@ describe('BonusesService', () => {
     expect(service).toBeTruthy();
   });
 
-  it('should return bonuses', () => {
+  it('should return bonuses and paid orders history', () => {
     service.getUserBonusesWithPaymentHistory().subscribe((bonuses) => {
       expect(bonuses).toEqual(testBonuses);
       expect(bonuses.userBonuses).toBe(100);
@@ -51,5 +54,16 @@ describe('BonusesService', () => {
     const req = httpMock.expectOne(`${environment.backendUbsLink}/ubs/client/users-pointsToUse`);
     expect(req.request.method).toBe('GET');
     req.flush(testBonuses);
+  });
+
+  it('should return bonuses', () => {
+    service.getUserBonuses().subscribe((bonuses) => {
+      expect(bonuses).toEqual(userBonusMock);
+      expect(userBonusMock.points).toBe(800);
+    });
+
+    const req = httpMock.expectOne(`${environment.backendUbsLink}/ubs/client/user-bonuses`);
+    expect(req.request.method).toBe('GET');
+    req.flush(userBonusMock);
   });
 });
