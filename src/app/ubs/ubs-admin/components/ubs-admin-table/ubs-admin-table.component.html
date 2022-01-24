@@ -42,10 +42,27 @@
               >
                 <div class="accordion-body">
                   <div *ngIf="column.key.toLowerCase().includes('date'); else nonDate">
-                    <mat-checkbox [(checked)]="column.checked">
-                      <input type="date" />
-                      <input type="date" />
-                    </mat-checkbox>
+                    <div>
+                      <mat-checkbox [(checked)]="column.checked" (change)="changeDateFilters($event, $event.checked, column.key)">
+                        {{ 'ubs-tables.date-range' | translate }}
+                      </mat-checkbox>
+                      <br />
+                      <label for="dateFrom">{{ 'ubs-tables.date-from' | translate }}</label>
+                      <input
+                        id="dateFrom{{ column.key }}"
+                        type="date"
+                        name="dateFrom"
+                        (change)="changeInputDateFilters($event.target.value, column.key, 'From')"
+                      />
+                      <br />
+                      <label for="dateTo">{{ 'ubs-tables.date-to' | translate }}</label>
+                      <input
+                        id="dateTo{{ column.key }}"
+                        type="date"
+                        name="dateTo"
+                        (change)="changeInputDateFilters($event.target.value, column.key, 'To')"
+                      />
+                    </div>
                   </div>
                   <ng-template #nonDate>
                     <li *ngFor="let option of column.values">
