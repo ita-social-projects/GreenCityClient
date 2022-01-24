@@ -5,6 +5,9 @@ import { BehaviorSubject, Subject } from 'rxjs';
 import { Order } from '../models/ubs.model';
 import { OrderService } from './order.service';
 import { UBSOrderFormService } from './ubs-order-form.service';
+import { OrderClientDto } from '../../ubs-user/ubs-user-orders-list/models/OrderClientDto';
+import { ResponceOrderFondyModel } from '../../ubs-user/ubs-user-orders-list/models/ResponceOrderFondyModel';
+import { ResponceOrderLiqPayModel } from '../../ubs-user/ubs-user-orders-list/models/ResponceOrderLiqPayModel';
 
 describe('OrderService', () => {
   const bagMock = {
@@ -59,9 +62,13 @@ describe('OrderService', () => {
     actual: true,
     id: 100500,
     city: '',
+    cityEn: '',
     region: '',
+    regionEn: '',
     district: '',
+    districtEn: '',
     street: '',
+    streetEn: '',
     houseCorpus: '',
     entranceNumber: '',
     houseNumber: '',
@@ -72,6 +79,7 @@ describe('OrderService', () => {
   };
 
   const orderMock = new Order([''], 7, [bagMock], [''], 5, '8', personalData, 9, true);
+  const userOrderMock = new OrderClientDto();
 
   let service: OrderService;
   let httpMock: HttpTestingController;
@@ -209,5 +217,34 @@ describe('OrderService', () => {
     spyOn(service, 'processLiqPayOrder');
     service.getLiqPayForm();
     expect(service.processLiqPayOrder).toHaveBeenCalled();
+  });
+
+  it('method processOrderFondyFromUserOrderList should retrieve Fondy order information from the API via POST', () => {
+    const responceOrderFondyModel: ResponceOrderFondyModel = {
+      orderId: 5,
+      link: 'https://pay.fondy.eu/merchants/b987e1aa765ebe6d5e76c027acb02cf7ba866d92/default/index.html'
+    };
+    service.processOrderFondyFromUserOrderList(userOrderMock).subscribe((data) => {
+      expect(data).toEqual(responceOrderFondyModel);
+    });
+
+    httpTest('client/processOrderFondy', 'POST', responceOrderFondyModel);
+  });
+
+  it('method processOrderLiqPayFromUserOrderList should retrieve LiqPay order information from the API via POST', () => {
+    const action = 'https://www.liqpay.ua/api/3/checkout';
+    const inputHidden = '<input type=hidden name=data /><input type=hidden name=signature value=9JepF5OvUsOPnW+3rV6hZczjs5s= />';
+    const inputImg = '<input type=image src=//static.liqpay.ua/buttons/p1en.radius.png name=btn_text />';
+    const responceOrderLiqPayModel: ResponceOrderLiqPayModel = {
+      orderId: 7,
+      liqPayButton: `<form method=post action=${action} accept-charset=utf-8><input type=hidden name=data />${
+        inputHidden + inputImg
+      }</form>`
+    };
+    service.processOrderLiqPayFromUserOrderList(userOrderMock).subscribe((data) => {
+      expect(data).toEqual(responceOrderLiqPayModel);
+    });
+
+    httpTest('client/processOrderLiqpay', 'POST', responceOrderLiqPayModel);
   });
 });

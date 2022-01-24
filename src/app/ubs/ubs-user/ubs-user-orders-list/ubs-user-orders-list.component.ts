@@ -11,43 +11,45 @@ import { IOrderInfo } from 'src/app/ubs/ubs-admin/models/ubs-admin.interface';
 })
 export class UbsUserOrdersListComponent implements OnInit {
   @Input() orders: IOrderInfo[];
+  @Input() bonuses: number;
 
   constructor(public dialog: MatDialog) {}
 
-  public ngOnInit(): void {
+  ngOnInit(): void {
     this.sortingOrdersByData();
   }
 
-  isOrderFormed(order: any) {
-    return order.generalOrderInfo.orderStatus === 'FORMED';
+  public isOrderPaid(order: IOrderInfo): boolean {
+    return order.generalOrderInfo.orderPaymentStatus === 'UNPAID';
   }
 
-  isOrderUnpaid(order: any) {
-    return order.generalOrderInfo.orderStatus === 'DONE_UNPAID' || order.generalOrderInfo.orderStatus === 'FORMED';
+  public isOrderHalfPaid(order: IOrderInfo): boolean {
+    return order.generalOrderInfo.orderPaymentStatus === 'HALF_PAID';
   }
 
-  isOrderDone(order: any) {
-    return (
-      order.generalOrderInfo.orderStatus === 'ON_THE_ROUTE' ||
-      order.generalOrderInfo.orderStatus === 'CONFIRMED' ||
-      order.generalOrderInfo.orderStatus === 'DONE'
-    );
+  public isOrderPriceGreaterThenZero(order: IOrderInfo): boolean {
+    return order.orderDiscountedPrice > 0;
   }
 
-  changeCard(id: number) {
+  public isOrderPaymentAccess(order: IOrderInfo): boolean {
+    return this.isOrderPriceGreaterThenZero(order) && (this.isOrderPaid(order) || this.isOrderHalfPaid(order));
+  }
+
+  public changeCard(id: number): void {
     this.orders.forEach((order) => (order.extend = order.generalOrderInfo.id === id ? !order.extend : false));
   }
 
-  openOrderPaymentDialog(order: IOrderInfo) {
+  public openOrderPaymentDialog(order: IOrderInfo): void {
     this.dialog.open(UbsUserOrderPaymentPopUpComponent, {
       data: {
+        orderId: order.generalOrderInfo.id,
         price: order.orderDiscountedPrice,
-        orderId: order.generalOrderInfo.id
+        bonuses: this.bonuses
       }
     });
   }
 
-  openOrderCancelDialog(order: IOrderInfo) {
+  public openOrderCancelDialog(order: IOrderInfo): void {
     this.dialog.open(UbsUserOrderCancelPopUpComponent, {
       data: {
         orderId: order.generalOrderInfo.id,

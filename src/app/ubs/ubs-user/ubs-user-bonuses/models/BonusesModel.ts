@@ -1,6 +1,6 @@
-import { BonuseModel } from './BonuseModel';
+import { BonusModel } from './BonusModel';
 
 export interface BonusesModel {
-  ubsUserBonuses: Array<BonuseModel>;
+  ubsUserBonuses: Array<BonusModel>;
   userBonuses: number;
 }

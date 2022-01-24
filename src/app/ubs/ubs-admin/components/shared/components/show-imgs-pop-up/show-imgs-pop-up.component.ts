@@ -12,10 +12,12 @@ export class ShowImgsPopUpComponent implements OnInit, OnDestroy {
   private destroyed$: Subject<boolean> = new Subject<boolean>();
   imgIndex: number;
   images: any;
+  isNavigationArrows: boolean;
 
   constructor(@Inject(MAT_DIALOG_DATA) public data, public dialogRef: MatDialogRef<ShowImgsPopUpComponent>) {
     this.imgIndex = data.imgIndex;
     this.images = data.images.filter((img) => img.src);
+    this.isNavigationArrows = this.images.length > 1;
   }
 
   ngOnInit(): void {
