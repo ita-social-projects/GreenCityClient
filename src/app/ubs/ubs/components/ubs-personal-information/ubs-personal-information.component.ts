@@ -81,7 +81,6 @@ export class UBSPersonalInformationComponent extends FormBaseComponent implement
       this.personalDataForm.controls.address.setValue(data);
       this.personalDataForm.controls.addressComment.setValue(data.addressComment);
     });
-    console.log(this.personalData);
   }
 
   ngOnChanges(changes: SimpleChanges) {
