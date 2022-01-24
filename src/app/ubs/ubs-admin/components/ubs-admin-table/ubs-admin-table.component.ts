@@ -452,19 +452,18 @@ export class UbsAdminTableComponent implements OnInit, AfterViewChecked, OnDestr
     const checkboxParent = (e.source._elementRef.nativeElement as HTMLElement).parentElement;
     const inputDateFrom = checkboxParent.querySelector(`#dateFrom${currentColumn}`) as HTMLInputElement;
     const inputDateTo = checkboxParent.querySelector(`#dateTo${currentColumn}`) as HTMLInputElement;
-    let dateFrom = inputDateFrom.value;
+    const dateFrom = inputDateFrom.value;
     let dateTo = inputDateTo.value;
 
-    if (!dateFrom && !dateTo) {
-      // What to set? dateFrom>dateTo?
-      dateFrom = dateTo = this.getTodayDate();
-    } else if (!dateTo) {
+    if (!dateTo) {
       dateTo = this.getTodayDate();
-    } else if (!dateFrom) {
-      // ???
     }
 
-    if (checked) {
+    if (Date.parse(dateFrom) > Date.parse(dateTo)) {
+      dateTo = dateFrom;
+    }
+
+    if (checked && dateFrom && dateTo) {
       elem[keyNameFrom] = dateFrom;
       elem[keyNameTo] = dateTo;
       this.filters.push(elem);
