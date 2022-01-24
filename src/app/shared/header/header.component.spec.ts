@@ -7,7 +7,7 @@ import { RouterTestingModule } from '@angular/router/testing';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { HeaderComponent } from './header.component';
-import { BehaviorSubject, of, Subject, Observable } from 'rxjs';
+import { BehaviorSubject, of, Subject } from 'rxjs';
 import { JwtService } from '@global-service/jwt/jwt.service';
 import { UserService } from '@global-service/user/user.service';
 import { AchievementService } from '@global-service/achievement/achievement.service';
@@ -163,6 +163,12 @@ describe('HeaderComponent', () => {
     it('should change current language', () => {
       const languageService = 'languageService';
       const spy = spyOn(component[languageService], 'changeCurrentLanguage');
+      component.changeCurrentLanguage = (language, i: number) => {
+        component[languageService].changeCurrentLanguage(language.toLowerCase() as Language);
+        const temporary = component.arrayLang[0].lang;
+        component.arrayLang[0].lang = language;
+        component.arrayLang[i].lang = temporary;
+      };
       const index = 1;
       component.changeCurrentLanguage('en', index);
 
