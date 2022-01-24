@@ -1,8 +1,8 @@
-import { Component, EventEmitter, Input, OnDestroy, OnInit, Output } from '@angular/core';
+import { Component, EventEmitter, OnDestroy, OnInit, Output } from '@angular/core';
 import { Subject, Subscription } from 'rxjs';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { ShoppingList } from '@global-user/models/shoppinglist.model';
-import { EditShoppingListService } from './edit-shopping-list.service';
+import { ShoppingListService } from './shopping-list.service';
 import { ActivatedRoute } from '@angular/router';
 import { HabitService } from '@global-service/habit/habit.service';
 import { take, takeUntil } from 'rxjs/operators';
@@ -23,15 +23,15 @@ export class HabitEditShoppingListComponent implements OnInit, OnDestroy {
   public list: ShoppingList[] = [];
   public subscription: Subscription;
   public habitId: number;
-  @Output() newList = new EventEmitter<ShoppingList[]>();
-  @Input() habitShoppingListIniteal: ShoppingList[];
   private destroySub: Subject<boolean> = new Subject<boolean>();
   private langChangeSub: Subscription;
+
+  @Output() newList = new EventEmitter<ShoppingList[]>();
 
   public shoppingItemNameLimit = 12;
 
   constructor(
-    public shoppinglistService: EditShoppingListService,
+    public shoppinglistService: ShoppingListService,
     private route: ActivatedRoute,
     private habitService: HabitService,
     private habitAssignService: HabitAssignService,
@@ -76,12 +76,7 @@ export class HabitEditShoppingListComponent implements OnInit, OnDestroy {
   }
 
   public getCustomItems() {
-    this.habitAssignService
-      .getCustomHabit(this.habitId)
-      .pipe(take(1))
-      .subscribe((habit) => {
-        this.shoppinglistService.fillList(habit.shoppingListItems);
-      });
+    this.shoppinglistService.getCustomItems(localStorage.getItem('userId'), this.habitId);
   }
 
   private bindLang(lang: string): void {

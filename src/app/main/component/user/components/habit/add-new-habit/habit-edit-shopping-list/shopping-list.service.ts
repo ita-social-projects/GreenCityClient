@@ -1,13 +1,19 @@
 import { Injectable } from '@angular/core';
 import { Observable, Subject } from 'rxjs';
 import { ShoppingList } from '@global-user/models/shoppinglist.model';
+import { HttpClient } from '@angular/common/http';
+import { mainLink } from '../../../../../../links';
 
 @Injectable({
   providedIn: 'root'
 })
-export class EditShoppingListService {
+export class ShoppingListService {
   public list = [];
   public list$ = new Subject();
+
+  private customList = [];
+
+  constructor(private http: HttpClient) {}
 
   public fillList(data: ShoppingList[]) {
     this.list = data;
@@ -25,6 +31,7 @@ export class EditShoppingListService {
       selected: false
     };
     this.list = [newItem, ...this.list];
+    this.customList.push(newItem);
     this.list$.next(this.list);
   }
 
@@ -35,5 +42,17 @@ export class EditShoppingListService {
 
   public select(item) {
     item.selected = !item.selected;
+  }
+
+  public saveCustomItems(userId: string, habitId: number) {
+    return this.http.post<Array<ShoppingList>>(`${mainLink}custom/shopping-list-items/${userId}/${habitId}/custom-shopping-list-items`, {
+      customShoppingListItemSaveRequestDtoList: this.customList
+    });
+  }
+
+  public getCustomItems(userId: string, habitId: number) {
+    this.http.get(`${mainLink}/custom/shopping-list-items/${userId}/${habitId}`).subscribe((res: ShoppingList[]) => {
+      this.fillList(res);
+    });
   }
 }
