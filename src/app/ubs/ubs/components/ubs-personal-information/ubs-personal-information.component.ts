@@ -10,6 +10,7 @@ import { UBSAddAddressPopUpComponent } from './ubs-add-address-pop-up/ubs-add-ad
 import { Address, Bag, OrderBag, OrderDetails, PersonalData } from '../../models/ubs.interface';
 import { Order } from '../../models/ubs.model';
 import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
+import { PhoneNumberValidator } from 'src/app/shared/phone-validator/phone.validator';
 
 @Component({
   selector: 'app-ubs-personal-information',
@@ -80,6 +81,7 @@ export class UBSPersonalInformationComponent extends FormBaseComponent implement
       this.personalDataForm.controls.address.setValue(data);
       this.personalDataForm.controls.addressComment.setValue(data.addressComment);
     });
+    console.log(this.personalData);
   }
 
   ngOnChanges(changes: SimpleChanges) {
@@ -122,7 +124,7 @@ export class UBSPersonalInformationComponent extends FormBaseComponent implement
       firstName: ['', this.personalDataFormValidators],
       lastName: ['', this.personalDataFormValidators],
       email: ['', [Validators.required, Validators.email]],
-      phoneNumber: ['+38 0', [Validators.required, Validators.minLength(12)]],
+      phoneNumber: ['+38 0', [Validators.required, Validators.minLength(12), PhoneNumberValidator('UA')]],
       anotherClientFirstName: [''],
       anotherClientLastName: [''],
       anotherClientEmail: ['', Validators.email],
@@ -302,7 +304,7 @@ export class UBSPersonalInformationComponent extends FormBaseComponent implement
     this.personalData.firstName = this.personalDataForm.get('firstName').value;
     this.personalData.lastName = this.personalDataForm.get('lastName').value;
     this.personalData.email = this.personalDataForm.get('email').value;
-    this.personalData.phoneNumber = this.personalDataForm.get('phoneNumber').value.slice(3);
+    this.personalData.phoneNumber = this.personalDataForm.get('phoneNumber').value;
     this.personalData.anotherClientFirstName = this.personalDataForm.get('anotherClientFirstName').value;
     this.personalData.anotherClientLastName = this.personalDataForm.get('anotherClientLastName').value;
     this.personalData.anotherClientEmail = this.personalDataForm.get('anotherClientEmail').value;
