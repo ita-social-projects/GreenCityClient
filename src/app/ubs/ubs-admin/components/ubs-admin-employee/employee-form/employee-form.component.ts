@@ -247,7 +247,7 @@ export class EmployeeFormComponent implements OnInit {
       panelClass: 'custom-img-pop-up',
       data: {
         imgIndex: 0,
-        images: [this.imageURL]
+        images: [{ src: this.imageURL }]
       }
     });
   }
