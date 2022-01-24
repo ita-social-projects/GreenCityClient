@@ -34,7 +34,7 @@
     </tr>
     <tr *ngIf="order.generalOrderInfo.orderPaymentStatus === 'PAID'" class="optional_row">
       <td colspan="4">{{ 'user-orders.details.paid-amount' | translate }}</td>
-      <td>{{ order.paymentTableInfoDto.paidAmount / 100 | currency | localizedCurrency }}</td>
+      <td>{{ order.paymentTableInfoDto.paidAmount | currency | localizedCurrency }}</td>
     </tr>
     <tr class="sum_to_pay">
       <td colspan="4">{{ 'user-orders.details.amount-due' | translate }}</td>
