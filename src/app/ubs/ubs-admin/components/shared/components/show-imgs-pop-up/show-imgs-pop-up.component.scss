@@ -3,13 +3,12 @@
     align-items: flex-end;
     flex-direction: column;
     position: absolute;
-    top: -20px;
-    left: -20px;
+    top: -10px;
     color: var(--ubs-quintynary-light-grey);
     opacity: 0.7;
     display: none;
-    height: 540px;
-    width: 540px;
+    width: 56vw;
+    height: 81vh;
 
     .arrows {
       display: flex;
@@ -38,8 +37,8 @@
 
   .wrapper {
     position: relative;
-    height: 500px;
-    width: 500px;
+    width: 55vw;
+    height: 80vh;
     display: flex;
     justify-content: center;
     align-items: center;

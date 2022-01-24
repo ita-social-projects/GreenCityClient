@@ -44,6 +44,11 @@ export class UbsAdminOrderPaymentComponent implements OnInit, OnChanges {
     this.pageOpen = !this.pageOpen;
   }
 
+  setOverpayment(overpayment: number): void {
+    this.message = this.orderService.getOverpaymentMsg(overpayment);
+    this.overpayment = Math.abs(overpayment);
+  }
+
   openPopup(viewMode: boolean, paymentIndex?: number) {
     this.dialog
       .open(AddPaymentComponent, {
@@ -59,12 +64,28 @@ export class UbsAdminOrderPaymentComponent implements OnInit, OnChanges {
       .pipe(take(1))
       .subscribe((res: IPaymentInfoDtos | number | null) => {
         if (typeof res === 'number') {
-          this.paymentsArray = this.paymentsArray.filter((payment) => payment.id !== res);
+          this.paymentsArray = this.paymentsArray.filter((payment) => {
+            if (payment.id === res) {
+              this.totalPaid -= payment.amount;
+              this.setOverpayment(this.totalPaid - this.actualPrice);
+            }
+            return payment.id !== res;
+          });
         }
         if (res !== null && typeof res === 'object') {
-          this.paymentsArray = this.paymentsArray.filter((payment) => payment.id === res.id).length
-            ? this.paymentsArray.map((payment) => (payment.id === res.id ? res : payment))
-            : [...this.paymentsArray, res];
+          if (this.paymentsArray.filter((payment) => payment.id === res.id).length) {
+            this.paymentsArray = this.paymentsArray.map((payment) => {
+              if (payment.id === res.id) {
+                this.totalPaid = this.totalPaid - payment.amount + res.amount;
+                return res;
+              }
+              return payment;
+            });
+          } else {
+            this.totalPaid += res.amount;
+            this.paymentsArray = [...this.paymentsArray, res];
+          }
+          this.setOverpayment(this.totalPaid - this.actualPrice);
         }
       });
   }

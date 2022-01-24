@@ -111,7 +111,7 @@
     "link-to-bill": "Link to electronic bill",
     "link-placeholder": "Link to external source",
     "label-for-photo": "Photo or screenshot of the bill",
-    "requirement": "You can upload images in PNG or JPG format up to 10MB",
+    "requirement": "You can upload files in PNG, JPG or PDF format up to 10MB",
     "drag-photo": "Drag the image here",
     "drag-photo-link": " download from the device",
     "drag-other-photo-link": "Download other",
@@ -283,7 +283,7 @@
   },
   "order-payment": {
     "title": "Order payment",
-    "order-size": "The order is executed in the amount of",
+    "order-size": "The order is paid in the amount of",
     "add-payment-btn": "Add payment",
     "order-date": "Payment date",
     "overpayment": "Overpayment is",

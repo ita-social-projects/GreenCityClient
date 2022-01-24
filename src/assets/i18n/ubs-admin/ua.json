@@ -118,7 +118,7 @@
     "link-to-bill": "Посилання на електронний чек",
     "link-placeholder": "Link to external source",
     "label-for-photo": "Фотографія або скріншот чека",
-    "requirement": "Ви можете завантажити зображення у форматі PNG чи JPG розміром до 10MБ",
+    "requirement": "Ви можете завантажити зображення у форматі PNG, JPG чи PDF розміром до 10MБ",
     "drag-photo": "Перетягніть зображення сюди або",
     "drag-photo-link": " завантажте з пристрою",
     "drag-other-photo-link": "Завантажити інше",
@@ -288,7 +288,7 @@
   },
   "order-payment": {
     "title": "Оплата замовлення",
-    "order-size": "Замовлення виконано у розмірі",
+    "order-size": "Замовлення оплачено у розмірі",
     "add-payment-btn": "Додати оплату",
     "order-date": "Дата оплати",
     "overpayment": "Переплата",
