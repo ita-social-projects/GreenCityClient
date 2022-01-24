@@ -51,8 +51,12 @@
       "choose-payment": "You can make a payment in one of the selected methods below.",
       "question-certificate": "Do you want to use the certificate?",
       "failed-certificate": "Certificate not accepted, please try again",
-      "bonus-need": "Do you want to take advantage of bonuses?",
-      "bonus-left": "On your bonus account:",
+      "bonus": {
+        "need": "Do you want to take advantage of bonuses?",
+        "present": "On your bonus account:",
+        "used": "Used",
+        "left": "Left"
+      },
       "certificate-number": "Enter the certificate number",
       "way-payment": "Choose a payment method",
       "add-certificate": "Add certificate",
