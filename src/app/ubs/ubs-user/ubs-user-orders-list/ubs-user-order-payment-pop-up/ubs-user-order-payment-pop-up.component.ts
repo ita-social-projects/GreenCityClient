@@ -12,6 +12,8 @@ import { Router } from '@angular/router';
 import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
 import { IOrderData } from '../models/IOrderData.interface';
 import { UBSOrderFormService } from 'src/app/ubs/ubs/services/ubs-order-form.service';
+import { MatRadioChange } from '@angular/material/radio';
+import { IBonusInfo } from '../models/IBonusInfo.interface';
 
 @Component({
   selector: 'app-ubs-user-order-payment-pop-up',
@@ -26,6 +28,7 @@ export class UbsUserOrderPaymentPopUpComponent implements OnInit {
   public certificateStatus: boolean[] = [];
   public orderClientDto: OrderClientDto;
   public selectedPayment: string;
+  public isUseBonuses: boolean;
   public liqPayButtonForm: SafeHtml;
   public liqPayButton: NodeListOf<HTMLElement>;
   public dataLoadingLiqPay: boolean;
@@ -34,7 +37,7 @@ export class UbsUserOrderPaymentPopUpComponent implements OnInit {
   public userOrder: IOrderDetailsUser = {
     id: this.data.orderId,
     sum: this.data.price,
-    bonusValue: 0
+    bonusValue: this.data.bonuses
   };
 
   public userCertificate: ICertificate = {
@@ -42,6 +45,11 @@ export class UbsUserOrderPaymentPopUpComponent implements OnInit {
     certificateError: false,
     certificateSum: 0,
     certificates: []
+  };
+
+  public bonusInfo: IBonusInfo = {
+    left: 0,
+    used: 0
   };
 
   constructor(
@@ -54,9 +62,10 @@ export class UbsUserOrderPaymentPopUpComponent implements OnInit {
     public router: Router
   ) {}
 
-  public ngOnInit(): void {
+  ngOnInit(): void {
     this.initForm();
     this.isLiqPayLink = false;
+    this.isUseBonuses = false;
     this.dataLoadingLiqPay = false;
     this.certificateStatus.push(true);
     this.orderClientDto = new OrderClientDto();
@@ -202,6 +211,23 @@ export class UbsUserOrderPaymentPopUpComponent implements OnInit {
           this.dataLoadingLiqPay = false;
         }
       });
+    }
+  }
+
+  public bonusOption(event: MatRadioChange): void {
+    if (event.value === 'yes') {
+      this.isUseBonuses = true;
+      if (this.userOrder.sum > this.userOrder.bonusValue) {
+        this.bonusInfo.used = this.userOrder.bonusValue;
+      } else {
+        this.bonusInfo.used = this.userOrder.sum;
+        this.bonusInfo.left = this.userOrder.bonusValue - this.userOrder.sum;
+      }
+      this.orderClientDto.pointsToUse = this.bonusInfo.used;
+    } else {
+      this.bonusInfo.left = 0;
+      this.bonusInfo.used = 0;
+      this.isUseBonuses = false;
     }
   }
 }

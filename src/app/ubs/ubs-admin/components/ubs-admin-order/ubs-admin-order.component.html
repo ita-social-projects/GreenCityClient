@@ -2,10 +2,7 @@
 <app-search-popup></app-search-popup>
 <div *ngIf="orderInfo; else spinner" class="container">
   <div class="row">
-    <button class="back-button-top" (click)="openGoBackModal()">
-      <
-      {{ 'order-edit.btn.back' | translate }}
-    </button>
+    <button class="back-button-top" (click)="openGoBackModal()">< {{ 'order-edit.btn.back' | translate }}</button>
   </div>
   <form [formGroup]="orderForm" (ngSubmit)="onSubmit()">
     <div class="box">
@@ -32,14 +29,13 @@
         (changeCurrentPrice)="onChangeCurrentPrice($event)"
       ></app-ubs-admin-order-details-form>
       <app-ubs-admin-order-payment
+        [actualPrice]="currentOrderPrice"
         [totalPaid]="totalPaid"
         [overpayment]="overpayment"
         [orderInfo]="orderInfo"
       ></app-ubs-admin-order-payment>
-      <app-ubs-admin-export-details
-        [exportDetailsDto]="getFormGroup('exportDetailsDto')"
-        [exportInfo]="exportInfo"
-      ></app-ubs-admin-export-details>
+      <app-ubs-admin-export-details [exportDetailsDto]="getFormGroup('exportDetailsDto')" [exportInfo]="exportInfo">
+      </app-ubs-admin-export-details>
       <app-ubs-admin-responsible-persons
         [responsiblePersonsForm]="getFormGroup('responsiblePersonsForm')"
         [responsiblePersonInfo]="responsiblePersonInfo"

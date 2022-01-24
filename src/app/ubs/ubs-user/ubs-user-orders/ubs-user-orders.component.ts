@@ -4,6 +4,9 @@ import { Subject, throwError } from 'rxjs';
 import { MatSnackBarComponent } from '@global-errors/mat-snack-bar/mat-snack-bar.component';
 import { UserOrdersService } from '../services/user-orders.service';
 import { Router } from '@angular/router';
+import { IOrderInfo } from '../../ubs-admin/models/ubs-admin.interface';
+import { BonusesService } from '../ubs-user-bonuses/services/bonuses.service';
+import { IBonus } from '../ubs-user-bonuses/models/IBonus.interface';
 
 @Component({
   selector: 'app-ubs-user-orders',
@@ -12,14 +15,26 @@ import { Router } from '@angular/router';
 })
 export class UbsUserOrdersComponent implements OnInit, OnDestroy {
   destroy: Subject<boolean> = new Subject<boolean>();
-  orders: any[];
-  currentOrders: any[];
-  orderHistory: any[];
-  loading = false;
-  constructor(private router: Router, private snackBar: MatSnackBarComponent, private userOrdersService: UserOrdersService) {}
+  orders: IOrderInfo[];
+  currentOrders: IOrderInfo[];
+  orderHistory: IOrderInfo[];
+  bonuses: number;
+  loadingOrders = false;
+  loadingBonuses = false;
+
+  constructor(
+    private router: Router,
+    private snackBar: MatSnackBarComponent,
+    private bonusesService: BonusesService,
+    private userOrdersService: UserOrdersService
+  ) {}
 
   redirectToOrder() {
     this.router.navigate(['ubs', 'order']);
+  }
+
+  public loading(): boolean {
+    return this.loadingOrders && this.loadingBonuses;
   }
 
   ngOnInit() {
@@ -34,7 +49,7 @@ export class UbsUserOrdersComponent implements OnInit, OnDestroy {
       )
       .subscribe((item) => {
         this.orders = item;
-        this.loading = true;
+        this.loadingOrders = true;
         this.currentOrders = this.orders.filter(
           (order) => order.generalOrderInfo.orderStatus !== 'DONE' && order.generalOrderInfo.orderStatus !== 'CANCELED'
         );
@@ -42,6 +57,10 @@ export class UbsUserOrdersComponent implements OnInit, OnDestroy {
           (order) => order.generalOrderInfo.orderStatus === 'DONE' || order.generalOrderInfo.orderStatus === 'CANCELED'
         );
       });
+    this.bonusesService.getUserBonuses().subscribe((responce: IBonus) => {
+      this.bonuses = responce.points;
+      this.loadingBonuses = true;
+    });
   }
 
   ngOnDestroy() {

@@ -4,4 +4,5 @@ export interface IOrderData {
   orderId: number;
   price: number;
   orders?: IOrderInfo[];
+  bonuses: number;
 }
