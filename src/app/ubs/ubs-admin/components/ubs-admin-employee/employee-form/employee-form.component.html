@@ -62,7 +62,7 @@
     </div>
     <ng-template #currentImageBlock>
       <div class="image-input current-image">
-        <div class="avatar-edit-head">
+        <div *ngIf="!viewMode || editMode" class="avatar-edit-head">
           <span class="image-name">{{ imageName }}</span>
           <img class="user-image" src="assets/img/ubs/cross.svg" alt="close" (click)="removeImage()" />
         </div>
