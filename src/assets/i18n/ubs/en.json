@@ -172,7 +172,10 @@
     "subTitle": "Your order will not be saved"
   },
   "confirm-page": {
-    "title-text": "Your order is accepted",
+    "title-text": {
+      "accepted": "Your order is accepted",
+      "paid": "Your order is paid"
+    },
     "to-personal-account": "To the personal account",
     "return-to-payment": "Return to the payment",
     "oops": "Oops, something went wrong...",
