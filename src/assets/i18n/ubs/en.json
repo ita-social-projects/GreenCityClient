@@ -2,7 +2,8 @@
   "input-error": {
     "required": "This field is required.",
     "email-wrong": "Enter the correct email.",
-    "minlength-short": "This field is required.",
+    "number-wrong": "Enter the correct phone number",
+    "minlength-short": "The field contains insufficient characters.",
     "max-length": "Maximum number of characters exceeded.",
     "pattern": "The field contains forbidden characters."
   },
@@ -172,7 +173,10 @@
     "subTitle": "Your order will not be saved"
   },
   "confirm-page": {
-    "title-text": "Your order is accepted",
+    "title-text": {
+      "accepted": "Your order is accepted",
+      "paid": "Your order is paid"
+    },
     "to-personal-account": "To the personal account",
     "return-to-payment": "Return to the payment",
     "oops": "Oops, something went wrong...",
@@ -352,6 +356,7 @@
   },
   "snack-bar": {
     "exist-address": "This address has already been added",
-    "saved-order": "Now you can find your order №{{orderId}} in your personal account and continue processing it at any time"
+    "saved-order": "Now you can find your order №{{orderId}} in your personal account and continue processing it at any time",
+    "no-internet": "No internet connection"
   }
 }

@@ -52,7 +52,7 @@ xdescribe('EcoNewsService', () => {
       expect(data).toBe(tagMock);
     });
 
-    const req = httpTestingController.expectOne(`${environment.backendLink}econews/tags/all?lang=en`);
+    const req = httpTestingController.expectOne(`${environment.backendLink}tags/search?lang=en&type=ECO_NEWS`);
     expect(req.request.method).toEqual('GET');
     req.flush(tagMock);
   });

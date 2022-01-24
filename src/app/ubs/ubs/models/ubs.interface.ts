@@ -101,9 +101,13 @@ export interface Address {
   actual: boolean;
   id: number;
   region: string;
+  regionEn: string;
   city: string;
+  cityEn: string;
   district: string;
+  districtEn: string;
   street: string;
+  streetEn: string;
   houseCorpus: string;
   entranceNumber: string;
   houseNumber: string;

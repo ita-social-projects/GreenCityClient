@@ -69,6 +69,8 @@ import { ResizeColumnDirective } from './derictives/resize-table-columns.directi
 import { AddPaymentComponent } from './components/add-payment/add-payment.component';
 import { UbsAdminCustomerViolationsComponent } from './components/ubs-admin-customers/ubs-admin-customer-violations/ubs-admin-customer-violations/ubs-admin-customer-violations.component';
 import { ShowImgsPopUpComponent } from './components/shared/components/show-imgs-pop-up/show-imgs-pop-up.component';
+import { PdfViewerModule } from 'ng2-pdf-viewer';
+import { ShowPdfPopUpComponent } from './components/shared/components/show-pdf-pop-up/show-pdf-pop-up.component';
 
 @NgModule({
   declarations: [
@@ -114,7 +116,8 @@ import { ShowImgsPopUpComponent } from './components/shared/components/show-imgs
     ResizeColumnDirective,
     AddPaymentComponent,
     UbsAdminCustomerViolationsComponent,
-    ShowImgsPopUpComponent
+    ShowImgsPopUpComponent,
+    ShowPdfPopUpComponent
   ],
   imports: [
     CommonModule,
@@ -149,7 +152,8 @@ import { ShowImgsPopUpComponent } from './components/shared/components/show-imgs
       },
       isolate: true
     }),
-    TooltipModule
+    TooltipModule,
+    PdfViewerModule
   ],
   providers: [
     AdminCertificateService,
