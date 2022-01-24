@@ -2,6 +2,26 @@
   width: 440px;
   background: var(--pre-secondary-light-grey);
   padding: 30px 56px;
+  position: relative;
+}
+
+.edit-employee {
+  position: absolute;
+  top: 80px;
+  right: 70px;
+
+  .mat-icon,
+  .edit-employee-btn {
+    font-size: 14px;
+    color: var(--ubs-electric-violet);
+    border: none;
+    background: transparent;
+  }
+
+  .edit-employee-btn:disabled,
+  .edit-employee-btn:disabled .mat-icon {
+    color: var(--ubs-primary-light-grey);
+  }
 }
 
 .popup-title {
@@ -107,8 +127,20 @@ label {
   display: flex;
   justify-content: flex-end;
   align-items: center;
-  column-gap: 16px;
-  padding: 16px 8px;
+  column-gap: 10px;
+  padding: 16px 0;
+}
+
+.delete-employee {
+  color: var(--error-red);
+  font-size: 14px;
+  font-weight: 500;
+  border: none;
+  background: transparent;
+}
+
+.delete-icon {
+  margin: -2px 5px 0 0;
 }
 
 .cancelButton,
@@ -121,7 +153,7 @@ label {
 }
 
 .cancelButton {
-  width: 117px;
+  width: 100px;
   border: 1px solid var(--ubs-quaternary-dark-grey);
   color: var(--ubs-quaternary-dark-grey);
   background: none;
@@ -182,6 +214,7 @@ label {
 
   img {
     height: 108px;
+    cursor: pointer;
   }
 }
 

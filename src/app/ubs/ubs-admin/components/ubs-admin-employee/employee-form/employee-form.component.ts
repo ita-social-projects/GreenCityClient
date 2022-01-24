@@ -1,12 +1,14 @@
 import { Component, Inject, OnInit } from '@angular/core';
-import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
+import { MAT_DIALOG_DATA, MatDialogRef, MatDialog } from '@angular/material/dialog';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { UbsAdminEmployeeService } from '../../../services/ubs-admin-employee.service';
 import { Employees, Page } from '../../../models/ubs-admin.interface';
 import { Store } from '@ngrx/store';
 import { IAppState } from 'src/app/store/state/app.state';
-import { AddEmployee, UpdateEmployee } from 'src/app/store/actions/employee.actions';
-import { skip } from 'rxjs/operators';
+import { AddEmployee, DeleteEmployee, UpdateEmployee } from 'src/app/store/actions/employee.actions';
+import { skip, take } from 'rxjs/operators';
+import { DialogPopUpComponent } from '../../shared/components/dialog-pop-up/dialog-pop-up.component';
+import { ShowImgsPopUpComponent } from '../../shared/components/show-imgs-pop-up/show-imgs-pop-up.component';
 
 @Component({
   selector: 'app-employee-form',
@@ -20,6 +22,9 @@ export class EmployeeFormComponent implements OnInit {
   employeePositions;
   receivingStations;
   employeeDataToSend: Page;
+  viewMode: boolean;
+  editMode = false;
+  isDeleting = false;
   phoneMask = '+{38\\0} (00) 000 00 00';
   private maxImageSize = 10485760;
   public isWarning = false;
@@ -29,6 +34,11 @@ export class EmployeeFormComponent implements OnInit {
   selectedFile;
   imageFile;
   defaultPhotoURL = 'https://csb10032000a548f571.blob.core.windows.net/allfiles/90370622-3311-4ff1-9462-20cc98a64d1ddefault_image.jpg';
+  deleteDialogData = {
+    popupTitle: 'employees.warning-title',
+    popupConfirm: 'employees.btn.yes',
+    popupCancel: 'employees.btn.no'
+  };
 
   ngOnInit() {
     this.employeeService.getAllPositions().subscribe(
@@ -54,6 +64,7 @@ export class EmployeeFormComponent implements OnInit {
       .pipe(skip(1))
       .subscribe(() => {
         this.isUploading = false;
+        this.isDeleting = false;
       });
   }
 
@@ -62,6 +73,7 @@ export class EmployeeFormComponent implements OnInit {
     private store: Store<IAppState>,
     public dialogRef: MatDialogRef<EmployeeFormComponent>,
     public fb: FormBuilder,
+    private dialog: MatDialog,
     @Inject(MAT_DIALOG_DATA) public data: Page
   ) {
     this.employeeForm = this.fb.group({
@@ -73,6 +85,10 @@ export class EmployeeFormComponent implements OnInit {
     this.employeePositions = this.data?.employeePositions ?? [];
     this.receivingStations = this.data?.receivingStations ?? [];
     this.imageURL = this.data?.image;
+    this.viewMode = !!this.data;
+    if (this.viewMode) {
+      this.employeeForm.disable();
+    }
   }
 
   get isUpdatingEmployee() {
@@ -147,6 +163,12 @@ export class EmployeeFormComponent implements OnInit {
     return formData;
   }
 
+  editEmployee(): void {
+    this.editMode = true;
+    this.employeeForm.enable();
+    this.employeeForm.markAsTouched();
+  }
+
   updateEmployee(): void {
     const image = this.selectedFile ? this.defaultPhotoURL : this.imageURL || this.defaultPhotoURL;
     const dataToSend = this.prepareEmployeeDataToSend('employeeDto', image);
@@ -156,6 +178,26 @@ export class EmployeeFormComponent implements OnInit {
   createEmployee(): void {
     const dataToSend = this.prepareEmployeeDataToSend('addEmployeeDto');
     this.store.dispatch(AddEmployee({ data: dataToSend, employee: this.employeeDataToSend }));
+  }
+
+  deleteEmployee() {
+    const matDialogRef = this.dialog.open(DialogPopUpComponent, {
+      data: this.deleteDialogData,
+      hasBackdrop: true,
+      closeOnNavigation: true,
+      disableClose: true,
+      panelClass: ''
+    });
+
+    matDialogRef
+      .afterClosed()
+      .pipe(take(1))
+      .subscribe((res) => {
+        if (res) {
+          this.isDeleting = true;
+          this.store.dispatch(DeleteEmployee({ id: this.data.id }));
+        }
+      });
   }
 
   treatFileInput(event: Event): void {
@@ -197,5 +239,16 @@ export class EmployeeFormComponent implements OnInit {
     this.imageURL = null;
     this.imageName = null;
     this.selectedFile = null;
+  }
+
+  openImg(): void {
+    this.dialog.open(ShowImgsPopUpComponent, {
+      hasBackdrop: true,
+      panelClass: 'custom-img-pop-up',
+      data: {
+        imgIndex: 0,
+        images: [this.imageURL]
+      }
+    });
   }
 }

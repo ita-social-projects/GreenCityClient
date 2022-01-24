@@ -1,7 +1,7 @@
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { FormBuilder, FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
-import { MatDialogModule, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { MatDialog, MatDialogModule, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { Store } from '@ngrx/store';
 import { TranslateModule } from '@ngx-translate/core';
 import { IMaskModule } from 'angular-imask';
@@ -15,7 +15,19 @@ describe('EmployeeFormComponent', () => {
 
   const defaultImagePath =
     'https://csb10032000a548f571.blob.core.windows.net/allfiles/90370622-3311-4ff1-9462-20cc98a64d1ddefault_image.jpg';
-  const matDialogRefMock = jasmine.createSpyObj('matDialogRefMock', ['close']);
+  const matDialogRefMock = jasmine.createSpyObj('matDialogRefMock', ['close', 'afterClosed']);
+  matDialogRefMock.afterClosed.and.returnValue(of(true));
+  const matDialogMock = jasmine.createSpyObj('matDialog', ['open']);
+  const dialogRefStub = {
+    afterClosed() {
+      return of(true);
+    }
+  };
+  const deleteDialogData = {
+    popupTitle: 'fake-title',
+    popupConfirm: 'fake-yes',
+    popupCancel: 'fake-no'
+  };
   const mockedEmployeePositions = [
     {
       id: 2,
@@ -62,6 +74,7 @@ describe('EmployeeFormComponent', () => {
       imports: [HttpClientTestingModule, MatDialogModule, TranslateModule.forRoot(), ReactiveFormsModule, IMaskModule],
       providers: [
         { provide: MatDialogRef, useValue: matDialogRefMock },
+        { provide: MatDialog, useValue: matDialogMock },
         { provide: MAT_DIALOG_DATA, useValue: mockedData },
         { provide: Store, useValue: storeMock },
         FormBuilder
@@ -208,5 +221,11 @@ describe('EmployeeFormComponent', () => {
     spyOn(EmployeeFormComponent.prototype as any, 'showWarning').and.returnValue(true);
     component[transferFile](dataFileMock);
     expect(component.imageName).toBe('fake');
+  });
+
+  it('should call deleteEmployee method inside deleteEmployee', () => {
+    matDialogMock.open.and.returnValue(dialogRefStub as any);
+    component.deleteEmployee();
+    expect(storeMock.dispatch).toHaveBeenCalled();
   });
 });
