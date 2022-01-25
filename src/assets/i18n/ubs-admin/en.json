@@ -440,6 +440,8 @@
   },
   "ubs-employee": {
     "add-employee": "Add employee",
+    "employee": "Employee",
+    "edit": "Edit",
     "required-fields": "*Required fields",
     "name": "Name*",
     "surname": "Surname*",
@@ -452,6 +454,7 @@
     "picture-description-2": "image here or",
     "browse-1": "upload from",
     "browse-2": "your device",
+    "delete": "Remove",
     "add": "Add",
     "cancel": "Cancel",
     "update": "Update"

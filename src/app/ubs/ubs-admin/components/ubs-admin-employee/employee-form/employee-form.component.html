@@ -1,9 +1,9 @@
 <div class="modal-wrapper">
-  <h1 class="popup-title">{{ 'ubs-employee.add-employee' | translate }}</h1>
+  <h1 class="popup-title">{{ (viewMode ? 'ubs-employee.employee' : 'ubs-employee.add-employee') | translate }}</h1>
   <div class="row justify-content-end edit-employee">
     <button *ngIf="viewMode" class="edit-employee-btn" [disabled]="editMode" (click)="editEmployee()">
       <mat-icon class="mat-icon">edit</mat-icon>
-      {{ 'add-payment.edit' | translate }}
+      {{ 'ubs-employee.edit' | translate }}
     </button>
   </div>
   <form [formGroup]="employeeForm">
@@ -85,13 +85,15 @@
       <button *ngIf="viewMode && !editMode" class="delete-employee" [disabled]="isDeleting" (click)="deleteEmployee()">
         <img *ngIf="!isDeleting" src="assets/img/icon/bin.svg" alt="delete-icon" class="delete-icon" />
         <span *ngIf="isDeleting" class="spinner-border spinner-border-sm" role="status" aria-hidden="true"> </span>
-        {{ 'add-payment.btn.delete' | translate }}
+        {{ 'ubs-employee.delete' | translate }}
       </button>
       <button mat-dialog-close class="cancelButton">{{ 'ubs-employee.cancel' | translate }}</button>
       <button
         type="submit"
         class="addButton"
-        [disabled]="employeeForm.invalid || !employeePositions.length || !receivingStations.length || isUploading"
+        [disabled]="
+          employeeForm.invalid || !employeePositions.length || !receivingStations.length || isUploading || (viewMode && !editMode)
+        "
         (click)="isUpdatingEmployee ? this.updateEmployee() : this.createEmployee()"
       >
         <span *ngIf="isUploading" class="spinner-border spinner-border-sm" role="status" aria-hidden="true"> </span>
