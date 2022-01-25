@@ -8,7 +8,12 @@
 <mat-drawer-container class="sidebar" autosize>
   <mat-drawer #drawer class="sidebar-slider" mode="side" opened disableClose>
     <ul class="sidebar-list">
-      <li class="sidebar-list-item" *ngFor="let listItem of listElements" [routerLink]="listItem.routerLink">
+      <li
+        *ngFor="let listItem of listElements"
+        [ngStyle]="innerWidth <= 960 && { padding: '15px 20px' }"
+        [routerLink]="listItem.routerLink"
+        class="sidebar-list-item"
+      >
         <img
           class="sidebar-list-item-icon"
           src="{{
@@ -16,10 +21,12 @@
           }}"
           alt="sidebar list item icon"
         />
-        <a class="sidebar-list-item-link" [routerLink]="listItem.routerLink">{{ listItem.name | translate }}</a>
-        <div class="count-unread-messages" *ngIf="listItem.name === 'ubs-user.messages' && serviceUserMessages.countOfNoReadeMessages">
-          ({{ serviceUserMessages.countOfNoReadeMessages }})
-        </div>
+        <ng-container *ngIf="innerWidth >= 960">
+          <a class="sidebar-list-item-link" [routerLink]="listItem.routerLink">{{ listItem.name | translate }}</a>
+          <div class="count-unread-messages" *ngIf="listItem.name === 'ubs-user.messages' && serviceUserMessages.countOfNoReadeMessages">
+            ({{ serviceUserMessages.countOfNoReadeMessages }})
+          </div>
+        </ng-container>
       </li>
     </ul>
   </mat-drawer>

@@ -1,4 +1,4 @@
-import { AfterViewInit, Component, ElementRef, Input, OnDestroy, ViewChild } from '@angular/core';
+import { AfterViewInit, Component, ElementRef, Input, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout';
 import { MatDrawer } from '@angular/material/sidenav';
 import { UserMessagesService } from '../../ubs/ubs-user/services/user-messages.service';
@@ -11,7 +11,7 @@ import { JwtService } from '@global-service/jwt/jwt.service';
   templateUrl: './ubs-base-sidebar.component.html',
   styleUrls: ['./ubs-base-sidebar.component.scss']
 })
-export class UbsBaseSidebarComponent implements AfterViewInit, OnDestroy {
+export class UbsBaseSidebarComponent implements OnInit, AfterViewInit, OnDestroy {
   private destroySub: Subject<boolean> = new Subject<boolean>();
   readonly bellsNoneNotification = 'assets/img/sidebarIcons/none_notification_Bell.svg';
   readonly bellsNotification = 'assets/img/sidebarIcons/notification_Bell.svg';
@@ -19,8 +19,10 @@ export class UbsBaseSidebarComponent implements AfterViewInit, OnDestroy {
   readonly arrowLeft = 'assets/img/ubs-admin-sidebar/arrowLeft.svg';
   public openClose = false;
   public stopClick = false;
+  public innerWidth: number;
   private adminRoleValue = 'ROLE_ADMIN';
   destroy: Subject<boolean> = new Subject<boolean>();
+
   @Input() public listElements: any[] = [];
   @ViewChild('sidebarToggler') sidebarToggler: ElementRef;
   @ViewChild('sideBarIcons') sideBarIcons: ElementRef;
@@ -32,6 +34,10 @@ export class UbsBaseSidebarComponent implements AfterViewInit, OnDestroy {
     public breakpointObserver: BreakpointObserver,
     public jwtService: JwtService
   ) {}
+
+  ngOnInit(): void {
+    this.innerWidth = window.innerWidth;
+  }
 
   public toggleSideBar(): void {
     if (this.openClose) {
