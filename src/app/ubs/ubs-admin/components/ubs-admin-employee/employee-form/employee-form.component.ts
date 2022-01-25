@@ -111,11 +111,10 @@ export class EmployeeFormComponent implements OnInit {
 
   onCheckChangeRole(role) {
     if (this.doesIncludeRole(role)) {
-      const removeIndex = this.findRole(role.id);
-      this.employeePositions.splice(removeIndex, 1);
+      this.employeePositions = this.employeePositions.filter((position) => position.id !== role.id);
       return;
     }
-    this.employeePositions.push(role);
+    this.employeePositions = [...this.employeePositions, role];
   }
 
   doesIncludeRole(role) {
@@ -130,11 +129,10 @@ export class EmployeeFormComponent implements OnInit {
 
   onCheckChangeLocation(location) {
     if (this.doesIncludeLocation(location)) {
-      const removeIndex = this.findLocation(location.id);
-      this.receivingStations.splice(removeIndex, 1);
+      this.receivingStations = this.receivingStations.filter((station) => station.id !== location.id);
       return;
     }
-    this.receivingStations.push(location);
+    this.receivingStations = [...this.receivingStations, location];
   }
 
   doesIncludeLocation(location): boolean {

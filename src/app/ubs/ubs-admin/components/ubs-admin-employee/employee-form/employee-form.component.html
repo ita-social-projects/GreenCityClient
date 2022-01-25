@@ -35,30 +35,34 @@
       >
         <label class="checkbox-label">
           {{ role.name }}
-          <input class="checkbox-input" type="checkbox" (change)="onCheckChangeRole({ id: role.id, name: role.name })"
+          <input
+            *ngIf="!viewMode || editMode"
+            class="checkbox-input"
+            type="checkbox"
+            (change)="onCheckChangeRole({ id: role.id, name: role.name })"
         /></label>
-        <img class="checkbox-close-button" src="assets/img/ubs/cross.svg" alt="close" />
+        <img *ngIf="!viewMode || editMode" class="checkbox-close-button" src="assets/img/ubs/cross.svg" alt="close" />
       </div>
     </div>
     <span class="group-title station-title">{{ 'ubs-employee.receiving-station' | translate }}</span>
     <div class="checkbox-section-station">
       <div
-        class="checkbox-location"
         *ngFor="let location of viewMode && !editMode ? receivingStations : locations"
+        class="checkbox-location"
         [ngClass]="{ 'active-location': doesIncludeLocation(location) }"
       >
         <label class="checkbox-label-station">
           {{ location.name }}
-          <input class="checkbox-input" type="checkbox" (change)="onCheckChangeLocation(location)" />
+          <input *ngIf="!viewMode || editMode" class="checkbox-input" type="checkbox" (change)="onCheckChangeLocation(location)" />
         </label>
-        <img class="checkbox-close-button" src="assets/img/ubs/cross.svg" alt="close" />
+        <img *ngIf="!viewMode || editMode" class="checkbox-close-button" src="assets/img/ubs/cross.svg" alt="close" />
       </div>
     </div>
     <span class="group-title image-title">
       {{ 'ubs-employee.image-input' | translate }}
     </span>
-    <div class="image-input" *ngIf="!imageURL || userHasDefaultPhoto; else currentImageBlock" appDrag (files)="filesDropped($event)">
-      <div class="file-input-label">
+    <div *ngIf="!imageURL || userHasDefaultPhoto; else currentImageBlock" class="image-input" appDrag (files)="filesDropped($event)">
+      <div *ngIf="!viewMode || editMode" class="file-input-label">
         {{ 'ubs-employee.picture-description-1' | translate }}<br />
         {{ 'ubs-employee.picture-description-2' | translate }}<br />
         <label for="file-input" class="download-from-device-button">
