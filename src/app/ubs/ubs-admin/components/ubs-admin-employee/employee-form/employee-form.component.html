@@ -92,7 +92,12 @@
         type="submit"
         class="addButton"
         [disabled]="
-          employeeForm.invalid || !employeePositions.length || !receivingStations.length || isUploading || (viewMode && !editMode)
+          employeeForm.invalid ||
+          !employeePositions.length ||
+          !receivingStations.length ||
+          isUploading ||
+          (viewMode && !editMode) ||
+          (editMode && !isInitialDataChanged && !isInitialImageChanged && !isInitialPositionsChanged && !isInitialStationsChanged)
         "
         (click)="isUpdatingEmployee ? this.updateEmployee() : this.createEmployee()"
       >

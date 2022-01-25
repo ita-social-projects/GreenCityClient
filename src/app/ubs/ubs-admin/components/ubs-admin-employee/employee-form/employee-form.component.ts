@@ -1,4 +1,4 @@
-import { Component, Inject, OnInit } from '@angular/core';
+import { Component, Inject, OnDestroy, OnInit } from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialogRef, MatDialog } from '@angular/material/dialog';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { UbsAdminEmployeeService } from '../../../services/ubs-admin-employee.service';
@@ -6,29 +6,56 @@ import { Employees, Page } from '../../../models/ubs-admin.interface';
 import { Store } from '@ngrx/store';
 import { IAppState } from 'src/app/store/state/app.state';
 import { AddEmployee, DeleteEmployee, UpdateEmployee } from 'src/app/store/actions/employee.actions';
-import { skip, take } from 'rxjs/operators';
+import { skip, take, takeUntil } from 'rxjs/operators';
 import { DialogPopUpComponent } from '../../shared/components/dialog-pop-up/dialog-pop-up.component';
 import { ShowImgsPopUpComponent } from '../../shared/components/show-imgs-pop-up/show-imgs-pop-up.component';
+import { Subject } from 'rxjs';
+
+interface IEmployeePositions {
+  id: number;
+  name: string;
+}
+
+interface IReceivingStations {
+  id: number;
+  name: string;
+}
+
+interface InitialData {
+  firstName: string;
+  lastName: string;
+  phoneNumber: string;
+  email: string;
+  imageURL: string;
+  employeePositionsIds: number[];
+  receivingStationsIds: number[];
+}
 
 @Component({
   selector: 'app-employee-form',
   templateUrl: './employee-form.component.html',
   styleUrls: ['./employee-form.component.scss']
 })
-export class EmployeeFormComponent implements OnInit {
-  locations;
-  roles;
+export class EmployeeFormComponent implements OnInit, OnDestroy {
+  locations: IReceivingStations[];
+  roles: IEmployeePositions[];
   employeeForm: FormGroup;
-  employeePositions;
-  receivingStations;
+  employeePositions: IEmployeePositions[];
+  receivingStations: IReceivingStations[];
   employeeDataToSend: Page;
   viewMode: boolean;
   editMode = false;
   isDeleting = false;
   phoneMask = '+{38\\0} (00) 000 00 00';
   private maxImageSize = 10485760;
+  private destroyed$: Subject<void> = new Subject<void>();
   public isWarning = false;
   public isUploading = false;
+  public isInitialDataChanged = false;
+  public isInitialImageChanged = false;
+  public isInitialPositionsChanged = false;
+  public isInitialStationsChanged = false;
+  initialData: InitialData;
   imageURL: string;
   imageName = 'Your Avatar';
   selectedFile;
@@ -68,6 +95,11 @@ export class EmployeeFormComponent implements OnInit {
       });
   }
 
+  ngOnDestroy(): void {
+    this.destroyed$.next();
+    this.destroyed$.complete();
+  }
+
   constructor(
     private employeeService: UbsAdminEmployeeService,
     private store: Store<IAppState>,
@@ -88,6 +120,15 @@ export class EmployeeFormComponent implements OnInit {
     this.viewMode = !!this.data;
     if (this.viewMode) {
       this.employeeForm.disable();
+      this.initialData = {
+        firstName: this.data.firstName,
+        lastName: this.data.lastName,
+        phoneNumber: this.data.phoneNumber,
+        email: this.data?.email,
+        imageURL: this.data?.image,
+        employeePositionsIds: this.data.employeePositions.map((position) => position.id),
+        receivingStationsIds: this.data.receivingStations.map((station) => station.id)
+      };
     }
   }
 
@@ -103,6 +144,22 @@ export class EmployeeFormComponent implements OnInit {
     return this.imageURL === this.defaultPhotoURL;
   }
 
+  checkIsInitialPositionsChanged(): boolean {
+    if (this.initialData.employeePositionsIds.length !== this.employeePositions.length) {
+      return true;
+    } else {
+      return this.employeePositions.filter((position) => !this.initialData.employeePositionsIds.includes(position.id)).length > 0;
+    }
+  }
+
+  checkIsInitialStationsChanged(): boolean {
+    if (this.initialData.receivingStationsIds.length !== this.receivingStations.length) {
+      return true;
+    } else {
+      return this.receivingStations.filter((station) => !this.initialData.receivingStationsIds.includes(station.id)).length > 0;
+    }
+  }
+
   findRole(id: number): number {
     return this.employeePositions.findIndex((role) => {
       return role.id === id;
@@ -112,9 +169,12 @@ export class EmployeeFormComponent implements OnInit {
   onCheckChangeRole(role) {
     if (this.doesIncludeRole(role)) {
       this.employeePositions = this.employeePositions.filter((position) => position.id !== role.id);
-      return;
+    } else {
+      this.employeePositions = [...this.employeePositions, role];
     }
-    this.employeePositions = [...this.employeePositions, role];
+    if (this.editMode) {
+      this.isInitialPositionsChanged = this.checkIsInitialPositionsChanged();
+    }
   }
 
   doesIncludeRole(role) {
@@ -130,9 +190,12 @@ export class EmployeeFormComponent implements OnInit {
   onCheckChangeLocation(location) {
     if (this.doesIncludeLocation(location)) {
       this.receivingStations = this.receivingStations.filter((station) => station.id !== location.id);
-      return;
+    } else {
+      this.receivingStations = [...this.receivingStations, location];
     }
-    this.receivingStations = [...this.receivingStations, location];
+    if (this.editMode) {
+      this.isInitialStationsChanged = this.checkIsInitialStationsChanged();
+    }
   }
 
   doesIncludeLocation(location): boolean {
@@ -165,6 +228,13 @@ export class EmployeeFormComponent implements OnInit {
     this.editMode = true;
     this.employeeForm.enable();
     this.employeeForm.markAsTouched();
+    this.employeeForm.valueChanges.pipe(takeUntil(this.destroyed$)).subscribe((values) => {
+      this.isInitialDataChanged =
+        this.initialData.firstName !== values.firstName ||
+        this.initialData.lastName !== values.lastName ||
+        this.initialData.phoneNumber.replace('+', '') !== values.phoneNumber.replace('+', '') ||
+        this.initialData.email !== values.email;
+    });
   }
 
   updateEmployee(): void {
@@ -221,6 +291,9 @@ export class EmployeeFormComponent implements OnInit {
       reader.readAsDataURL(this.selectedFile);
       reader.onload = () => {
         this.imageURL = reader.result as string;
+        if (this.editMode) {
+          this.isInitialImageChanged = true;
+        }
       };
     }
   }
@@ -237,6 +310,9 @@ export class EmployeeFormComponent implements OnInit {
     this.imageURL = null;
     this.imageName = null;
     this.selectedFile = null;
+    if (this.editMode) {
+      this.isInitialImageChanged = this.initialData.imageURL !== this.defaultPhotoURL;
+    }
   }
 
   openImg(): void {
