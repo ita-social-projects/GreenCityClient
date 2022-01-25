@@ -51,7 +51,7 @@
       </div>
     </div>
 
-    <div *ngIf="userOrder.bonusValue > 0">
+    <div *ngIf="userOrder.bonusValue > 0" [ngStyle]="userOrder.sum === 0 && { 'padding-bottom': '145px' }">
       <div class="question">{{ 'ubs-client-profile.payment.bonus.need' | translate }}</div>
       <div class="text">
         {{ 'ubs-client-profile.payment.bonus.present' | translate }} {{ userOrder.bonusValue }}
