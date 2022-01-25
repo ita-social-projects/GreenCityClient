@@ -28,7 +28,11 @@
     </div>
     <span class="group-title position-title">{{ 'ubs-employee.position' | translate }}</span>
     <div class="checkbox-section-role">
-      <div *ngFor="let role of roles" class="checkbox-role" [ngClass]="{ 'active-location': doesIncludeRole(role) }">
+      <div
+        *ngFor="let role of viewMode && !editMode ? employeePositions : roles"
+        class="checkbox-role"
+        [ngClass]="{ 'active-location': doesIncludeRole(role) }"
+      >
         <label class="checkbox-label">
           {{ role.name }}
           <input class="checkbox-input" type="checkbox" (change)="onCheckChangeRole({ id: role.id, name: role.name })"
@@ -38,7 +42,11 @@
     </div>
     <span class="group-title station-title">{{ 'ubs-employee.receiving-station' | translate }}</span>
     <div class="checkbox-section-station">
-      <div class="checkbox-location" *ngFor="let location of locations" [ngClass]="{ 'active-location': doesIncludeLocation(location) }">
+      <div
+        class="checkbox-location"
+        *ngFor="let location of viewMode && !editMode ? receivingStations : locations"
+        [ngClass]="{ 'active-location': doesIncludeLocation(location) }"
+      >
         <label class="checkbox-label-station">
           {{ location.name }}
           <input class="checkbox-input" type="checkbox" (change)="onCheckChangeLocation(location)" />
