@@ -13,7 +13,7 @@
 .dialog-container {
   padding: 20px;
   font-size: 14px;
-  font-family: var(--primary-font);
+  font-family: var(--ubs-quaternary-font);
 
   .text-order-sum {
     color: var(--ubs-electric-violet);
@@ -97,8 +97,9 @@
     border: 0;
   }
 
-  .bonuses-color {
+  .bonuses {
     color: var(--ubs-electric-violet);
+    font-size: 13px;
   }
 
   .action-btns {
