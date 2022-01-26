@@ -43,11 +43,8 @@ export class UsernameInputFieldComponent implements OnInit, OnDestroy {
     this.backEndError = null;
     this.userNameValue = this.nameField.value;
     this.nameField.markAsTouched();
-    if (this.nameField.valid && this.userNameInputForm.touched) {
-      this.popUpViewService.setUserNameInputField(true);
-    } else {
-      this.popUpViewService.setUserNameInputField(false);
-    }
+    const isValue = this.nameField.valid && this.userNameInputForm.touched;
+    this.popUpViewService.setUserNameInputField(isValue);
   }
 
   ngOnDestroy() {
