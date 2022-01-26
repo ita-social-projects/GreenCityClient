@@ -128,6 +128,12 @@ select {
     width: 100px;
     font-size: 0.8rem;
   }
+
+  .buttons {
+    flex-direction: row;
+    align-items: stretch;
+    flex-wrap: nowrap;
+  }
 }
 
 @media (max-width: 992px) {
