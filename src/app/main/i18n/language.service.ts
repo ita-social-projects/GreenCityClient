@@ -70,8 +70,9 @@ export class LanguageService {
     if (this.localStorageService.getCurrentLanguage() !== null) {
       this.translate.setDefaultLang(this.localStorageService.getCurrentLanguage());
     } else {
-      this.translate.setDefaultLang(this.getLanguageByString(navigator.language));
-      this.localStorageService.setCurrentLanguage(this.getLanguageByString(navigator.language));
+      const language = navigator.language !== 'en' && navigator.language !== 'ru' ? 'ua' : navigator.language;
+      this.translate.setDefaultLang(this.getLanguageByString(language));
+      this.localStorageService.setCurrentLanguage(this.getLanguageByString(language));
     }
   }
 
