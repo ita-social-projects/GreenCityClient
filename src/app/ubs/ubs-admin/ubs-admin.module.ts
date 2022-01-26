@@ -56,11 +56,9 @@ import { UbsAdminEmployeeTableComponent } from './components/ubs-admin-employee/
 import { UbsAdminCustomerDetailsComponent } from './components/ubs-admin-customers/ubs-admin-customer-details/ubs-admin-customer-details.component';
 import { UbsAdminOrderHistoryComponent } from './components/ubs-admin-order-history/ubs-admin-order-history.component';
 import { TooltipModule } from 'ngx-bootstrap/tooltip';
-import { UbsAdminTariffsAddLocationPopUpComponent } from './components/ubs-admin-tariffs/ubs-admin-tariffs-add-location-pop-up/ubs-admin-tariffs-add-location-pop-up.component';
 import { GooglePlaceModule } from 'ngx-google-places-autocomplete';
 import { AgmCoreModule } from '@agm/core';
 import { environment } from '@environment/environment';
-import { UbsAdminTariffsAddCourierPopUpComponent } from './components/ubs-admin-tariffs/ubs-admin-tariffs-add-courier-pop-up/ubs-admin-tariffs-add-courier-pop-up.component';
 import { MatDialogModule } from '@angular/material/dialog';
 import { UbsAdminCustomerOrdersComponent } from './components/ubs-admin-customers/ubs-admin-customer-orders/ubs-admin-customer-orders.component';
 import { AddOrderCancellationReasonComponent } from './components/add-order-cancellation-reason/add-order-cancellation-reason.component';
@@ -69,6 +67,10 @@ import { ResizeColumnDirective } from './derictives/resize-table-columns.directi
 import { AddPaymentComponent } from './components/add-payment/add-payment.component';
 import { UbsAdminCustomerViolationsComponent } from './components/ubs-admin-customers/ubs-admin-customer-violations/ubs-admin-customer-violations/ubs-admin-customer-violations.component';
 import { ShowImgsPopUpComponent } from './components/shared/components/show-imgs-pop-up/show-imgs-pop-up.component';
+import { ModalTextComponent } from './components/shared/components/modal-text/modal-text.component';
+import { DialogTariffComponent } from './components/shared/components/dialog-tariff/dialog-tariff.component';
+import { UbsAdminTariffsLocationPopUpComponent } from './components/ubs-admin-tariffs/ubs-admin-tariffs-location-pop-up/ubs-admin-tariffs-location-pop-up.component';
+import { UbsAdminTariffsAddNamePopUpComponent } from './components/ubs-admin-tariffs/ubs-admin-tariffs-add-name-pop-up/ubs-admin-tariffs-add-name-pop-up.component';
 
 @NgModule({
   declarations: [
@@ -105,8 +107,6 @@ import { ShowImgsPopUpComponent } from './components/shared/components/show-imgs
     UbsAdminTariffsLocationDashboardComponent,
     UbsAdminEmployeeTableComponent,
     UbsAdminCustomerDetailsComponent,
-    UbsAdminTariffsAddLocationPopUpComponent,
-    UbsAdminTariffsAddCourierPopUpComponent,
     UbsAdminCustomerOrdersComponent,
     UbsAdminOrderHistoryComponent,
     AddOrderCancellationReasonComponent,
@@ -114,7 +114,11 @@ import { ShowImgsPopUpComponent } from './components/shared/components/show-imgs
     ResizeColumnDirective,
     AddPaymentComponent,
     UbsAdminCustomerViolationsComponent,
-    ShowImgsPopUpComponent
+    ShowImgsPopUpComponent,
+    ModalTextComponent,
+    DialogTariffComponent,
+    UbsAdminTariffsLocationPopUpComponent,
+    UbsAdminTariffsAddNamePopUpComponent
   ],
   imports: [
     CommonModule,

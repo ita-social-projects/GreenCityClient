@@ -1,18 +1,18 @@
 import { Component, OnInit, OnDestroy, Injector } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
-import { MatDialog, MatDialogRef } from '@angular/material/dialog';
+import { MatDialog, MatDialogConfig, MatDialogRef } from '@angular/material/dialog';
 import { Location } from '@angular/common';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { TariffsService } from '../../../services/tariffs.service';
 import { takeUntil, take } from 'rxjs/operators';
-import { Bag, Service } from '../../../models/tariffs.interface';
+import { Bag, Service, Locations } from '../../../models/tariffs.interface';
 import { OrderService } from '../../../../ubs/services/order.service';
-import { Locations } from '../../../../ubs/models/ubs.interface';
 import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
 import { Subject } from 'rxjs';
 import { UbsAdminTariffsAddServicePopUpComponent } from './ubs-admin-tariffs-add-service-pop-up/ubs-admin-tariffs-add-service-pop-up.component';
 import { UbsAdminTariffsAddTariffServicePopUpComponent } from './ubs-admin-tariffs-add-tariff-service-pop-up/ubs-admin-tariffs-add-tariff-service-pop-up.component';
 import { UbsAdminTariffsDeletePopUpComponent } from './ubs-admin-tariffs-delete-pop-up/ubs-admin-tariffs-delete-pop-up.component';
+import { ModalTextComponent } from '../../shared/components/modal-text/modal-text.component';
 
 @Component({
   selector: 'app-ubs-admin-tariffs-pricing-page',
@@ -31,6 +31,7 @@ export class UbsAdminTariffsPricingPageComponent implements OnInit, OnDestroy {
   currentLocation;
   bags: Bag[];
   services: Service[];
+  thisLocation: Locations;
   private destroy: Subject<boolean> = new Subject<boolean>();
   public currentLanguage: string;
   public icons = {
@@ -47,7 +48,8 @@ export class UbsAdminTariffsPricingPageComponent implements OnInit, OnDestroy {
   constructor(
     private injector: Injector,
     public dialogRefService: MatDialogRef<UbsAdminTariffsAddServicePopUpComponent>,
-    public dialogRefTariff: MatDialogRef<UbsAdminTariffsAddTariffServicePopUpComponent>
+    public dialogRefTariff: MatDialogRef<UbsAdminTariffsAddTariffServicePopUpComponent>,
+    private router: Router
   ) {
     this.location = injector.get(Location);
     this.dialog = injector.get(MatDialog);
@@ -126,10 +128,15 @@ export class UbsAdminTariffsPricingPageComponent implements OnInit, OnDestroy {
     });
   }
 
+  navigateToBack() {
+    this.router.navigate([`ubs-admin/tariffs`]);
+  }
+
   openAddTariffForServicePopup() {
     const dialogRefTariff = this.dialog.open(UbsAdminTariffsAddTariffServicePopUpComponent, {
       hasBackdrop: true,
-      disableClose: true,
+      disableClose: false,
+      panelClass: 'address-matDialog-styles-pricing-page',
       data: {
         button: 'add',
         locationId: this.currentLocation
@@ -144,7 +151,8 @@ export class UbsAdminTariffsPricingPageComponent implements OnInit, OnDestroy {
   openAddServicePopup() {
     const dialogRefService = this.dialog.open(UbsAdminTariffsAddServicePopUpComponent, {
       hasBackdrop: true,
-      disableClose: true,
+      disableClose: false,
+      panelClass: 'address-matDialog-styles-pricing-page',
       data: {
         button: 'add',
         locationId: this.currentLocation
@@ -201,7 +209,8 @@ export class UbsAdminTariffsPricingPageComponent implements OnInit, OnDestroy {
   openUpdateTariffForServicePopup(bag: Bag) {
     const dialogRefTariff = this.dialog.open(UbsAdminTariffsAddTariffServicePopUpComponent, {
       hasBackdrop: true,
-      disableClose: true,
+      disableClose: false,
+      panelClass: 'address-matDialog-styles-pricing-page',
       data: {
         button: 'update',
         bagData: bag
@@ -216,7 +225,8 @@ export class UbsAdminTariffsPricingPageComponent implements OnInit, OnDestroy {
   openUpdateServicePopup(service: Service) {
     const dialogRefService = this.dialog.open(UbsAdminTariffsAddServicePopUpComponent, {
       hasBackdrop: true,
-      disableClose: true,
+      disableClose: false,
+      panelClass: 'address-matDialog-styles-pricing-page',
       data: {
         button: 'update',
         serviceData: service
@@ -229,12 +239,26 @@ export class UbsAdminTariffsPricingPageComponent implements OnInit, OnDestroy {
   }
 
   openDeleteTariffForService(bag: Bag) {
-    const dialogRefService = this.dialog.open(UbsAdminTariffsDeletePopUpComponent, {
-      hasBackdrop: true,
-      data: {
-        bagData: bag
-      }
-    });
+    const dialogConfig = new MatDialogConfig();
+    dialogConfig.panelClass = 'address-matDialog-styles-pricing-page';
+    const enText1 = 'Are you sure you want to deactivate the ""+bag.name+"" service? ';
+    const enText2 = 'Information about this service will be hidden from customers.';
+    if (this.currentLanguage === 'ua') {
+      dialogConfig.data = {
+        name: 'delete-tariff',
+        title: 'Деактивувати послугу',
+        text: 'Ви дійсно хочете деактивувати сервіс "" + bag.name + ""? Інформація про цей сервіс буде прихована від клієнтів.',
+        action: 'Деактивувати'
+      };
+    } else {
+      dialogConfig.data = {
+        name: 'delete-tariff',
+        title: 'Deactivate tariff for service',
+        text: enText1 + enText2,
+        action: 'Deactivate'
+      };
+    }
+    const dialogRefService = this.dialog.open(ModalTextComponent, dialogConfig);
     dialogRefService
       .afterClosed()
       .pipe(takeUntil(this.destroy))
