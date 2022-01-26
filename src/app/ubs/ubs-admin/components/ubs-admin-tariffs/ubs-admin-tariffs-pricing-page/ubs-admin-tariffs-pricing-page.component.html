@@ -13,7 +13,7 @@
   <div class="text-header">
     <p class="title">{{ 'ubs-tariffs.services' | translate }}</p>
     <button class="tariffs-add-button" [disabled]="isLoadBar1" (click)="openAddServicePopup()">
-      <mat-icon>add</mat-icon>
+      <mat-icon class="add-icon">add</mat-icon>
       {{ 'ubs-tariffs.btn.add_service' | translate }}
     </button>
   </div>
@@ -50,7 +50,7 @@
   <div class="text-header">
     <p class="title">{{ 'ubs-tariffs.tariffs_for_services' | translate }}</p>
     <button class="tariffs-add-button" [disabled]="isLoadBar" (click)="openAddTariffForServicePopup()">
-      <mat-icon>add</mat-icon>
+      <mat-icon class="add-icon">add</mat-icon>
       {{ 'ubs-tariffs.btn.add_service2' | translate }}
     </button>
   </div>

@@ -155,10 +155,6 @@ form {
   justify-content: center;
 }
 
-.setting-block[aria-expanded='true'] .tariff-img {
-  filter: invert(70%) sepia(69%) saturate(386%) hue-rotate(35deg) brightness(95%) contrast(85%);
-}
-
 .tariff-img {
   width: 20px;
   height: 20px;
@@ -167,6 +163,10 @@ form {
 
 .tariff-img:hover {
   filter: invert(87%) sepia(53%) saturate(423%) hue-rotate(21deg) brightness(95%) contrast(93%);
+}
+
+.setting-block[aria-expanded='true'] .tariff-img {
+  filter: invert(70%) sepia(69%) saturate(386%) hue-rotate(35deg) brightness(95%) contrast(85%);
 }
 
 .last-col {

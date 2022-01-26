@@ -38,7 +38,7 @@
     font-weight: bold;
     padding: 0 20px;
 
-    mat-icon {
+    .add-icon {
       margin-right: 5px;
       margin-top: 5px;
       font-size: 18px;
@@ -78,7 +78,6 @@ th:nth-child(4) {
     background: var(--ubs-primary-grey);
     color: var(--ubs-primary-white);
     font-size: 14px;
-    line-height: 20px;
     line-height: 20px;
     font-family: var(--ubs-quaternary-font);
   }
@@ -259,7 +258,7 @@ button[disabled] {
 }
 
 .container {
-  padding: 35px 0px;
+  padding: 35px 0;
 }
 
 .secondary-global-button {
