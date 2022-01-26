@@ -9,6 +9,8 @@ import { environment } from '@environment/environment.js';
 import { Order } from '../models/ubs.model';
 import { UBSOrderFormService } from './ubs-order-form.service';
 import { OrderClientDto } from 'src/app/ubs/ubs-user/ubs-user-orders-list/models/OrderClientDto';
+import { ResponceOrderFondyModel } from '../../ubs-user/ubs-user-orders-list/models/ResponceOrderFondyModel';
+import { ResponceOrderLiqPayModel } from '../../ubs-user/ubs-user-orders-list/models/ResponceOrderLiqPayModel';
 
 @Injectable({
   providedIn: 'root'
@@ -132,12 +134,12 @@ export class OrderService {
     return this.http.get(`${this.url}/client/get-data-for-order-surcharge/${orderId}/${lang}`);
   }
 
-  processOrderFondyFromUserOrderList(order: OrderClientDto): Observable<object> {
-    return this.http.post<OrderClientDto>(`${this.url}/client/processOrderFondy`, order);
+  processOrderFondyFromUserOrderList(order: OrderClientDto): Observable<ResponceOrderFondyModel> {
+    return this.http.post<ResponceOrderFondyModel>(`${this.url}/client/processOrderFondy`, order);
   }
 
-  processOrderLiqPayFromUserOrderList(order: OrderClientDto): Observable<object> {
-    return this.http.post<OrderClientDto>(`${this.url}/client/processOrderLiqpay`, order);
+  processOrderLiqPayFromUserOrderList(order: OrderClientDto): Observable<ResponceOrderLiqPayModel> {
+    return this.http.post<ResponceOrderLiqPayModel>(`${this.url}/client/processOrderLiqpay`, order);
   }
 
   cancelUBSwithoutSaving(): void {

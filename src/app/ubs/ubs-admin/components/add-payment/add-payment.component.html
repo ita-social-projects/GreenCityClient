@@ -47,7 +47,26 @@
           <span class="image-name">{{ imagePreview?.name }}</span>
           <img class="user-image" src="assets/img/ubs/cross.svg" alt="close" (click)="removeImage()" />
         </div>
-        <img class="image-preview" *ngIf="imagePreview.src" [src]="imagePreview.src" alt="image-of-payment" />
+        <img
+          *ngIf="imagePreview.src && !isPdf()"
+          id="image-preview"
+          [src]="imagePreview.src"
+          alt="image-of-payment"
+          (click)="enlargeImage()"
+        />
+        <pdf-viewer
+          *ngIf="imagePreview.src && isPdf()"
+          id="pdf-viewer"
+          [src]="imagePreview.src"
+          [page]="1"
+          [show-all]="false"
+          [render-text]="false"
+          [original-size]="false"
+          [zoom-scale]="'page-fit'"
+          alt="image-of-payment"
+          (click)="enlargeImage()"
+        >
+        </pdf-viewer>
         <p *ngIf="!imagePreview.src && !(viewMode && !editMode)" class="requirement-drag label">
           <span>
             {{ 'add-payment.drag-photo' | translate }}

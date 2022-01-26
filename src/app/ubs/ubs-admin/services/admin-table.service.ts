@@ -18,8 +18,16 @@ export class AdminTableService {
     let filtersQuery = '';
     if (filters.length) {
       filters.forEach((elem) => {
-        const key = Object.keys(elem)[0];
-        filtersQuery += `&${key}=${elem[key]}`;
+        const objKeys = Object.keys(elem);
+        if (objKeys.length === 1) {
+          const key = objKeys[0];
+          filtersQuery += `&${key}=${elem[key]}`;
+        }
+        if (objKeys.length === 2) {
+          const keyFrom = objKeys[0];
+          const keyTo = objKeys[1];
+          filtersQuery += `&${keyFrom}=${elem[keyFrom]}&${keyTo}=${elem[keyTo]}`;
+        }
       });
     }
     return this.http.get<any[]>(`${BASE_QUERY}${filtersQuery}`);
