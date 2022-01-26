@@ -133,15 +133,18 @@
   .ubs_profile-header {
     display: flex;
     align-items: flex-end;
+
     .edit {
       margin-right: 10px;
     }
   }
+
   .ubs_profile-footer {
     .footer-btns {
       padding-right: 26px;
     }
   }
+
   .ubs_profile-container {
     max-width: 600px;
   }
