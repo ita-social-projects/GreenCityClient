@@ -1,3 +1,4 @@
+import { IFilteredColumn, IFilteredColumnValue } from './../../models/ubs-admin.interface';
 import { TableHeightService } from '../../services/table-height.service';
 import { UbsAdminTableExcelPopupComponent } from './ubs-admin-table-excel-popup/ubs-admin-table-excel-popup.component';
 import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
@@ -13,6 +14,7 @@ import { Router } from '@angular/router';
 import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
 import { IEditCell, IAlertInfo } from '../../models/edit-cell.model';
 import { OrderService } from '../../services/order.service';
+import { MatCheckboxChange } from '@angular/material/checkbox';
 
 @Component({
   selector: 'app-ubs-admin-table',
@@ -21,7 +23,7 @@ import { OrderService } from '../../services/order.service';
 })
 export class UbsAdminTableComponent implements OnInit, AfterViewChecked, OnDestroy {
   currentLang: string;
-  columnsForFiltering = [];
+  columnsForFiltering: Array<IFilteredColumn> = [];
   nonSortableColumns = nonSortableColumns;
   sortingColumn: string;
   sortType: string;
@@ -61,6 +63,8 @@ export class UbsAdminTableComponent implements OnInit, AfterViewChecked, OnDestr
   startWidth: number;
   isResizingRight: boolean;
   previousSettings: string[];
+  displayedColumnsView: any[] = [];
+  displayedColumnsViewTitles: string[] = [];
   resizableMousemove: () => void;
   resizableMouseup: () => void;
   @ViewChild(MatTable, { read: ElementRef }) private matTableRef: ElementRef;
@@ -203,6 +207,8 @@ export class UbsAdminTableComponent implements OnInit, AfterViewChecked, OnDestr
       .subscribe((columns: any) => {
         this.tableViewHeaders = columns.columnBelongingList;
         this.columns = columns.columnDTOList;
+        this.displayedColumnsView = columns.columnDTOList;
+        this.displayedColumnsViewTitles = this.displayedColumnsView.map((item) => item.title.key);
         this.columns.forEach((column) => {
           if (column.filtered) {
             const filteredColumn = {
@@ -337,14 +343,16 @@ export class UbsAdminTableComponent implements OnInit, AfterViewChecked, OnDestr
   }
 
   private setDisplayedColumns(): void {
-    this.columns.forEach((column, index) => {
-      this.displayedColumns[index] = column.title.key;
+    this.displayedColumnsView.forEach((column, index) => {
+      this.displayedColumnsViewTitles[index] = column.title.key;
     });
     this.isAll = true;
-    this.count = this.displayedColumns.length;
+    this.displayedColumns = this.displayedColumnsViewTitles;
+    this.count = this.displayedColumnsViewTitles.length;
   }
 
   private setUnDisplayedColumns(): void {
+    this.displayedColumnsViewTitles = [];
     this.displayedColumns = [];
     this.isAll = false;
   }
@@ -406,8 +414,8 @@ export class UbsAdminTableComponent implements OnInit, AfterViewChecked, OnDestr
     });
   }
 
-  toggleAccordion(e) {
-    e.target.parentElement.parentElement.querySelector('.accordion-collapse').classList.toggle('show');
+  toggleAccordion(e: PointerEvent): void {
+    (e.target as HTMLElement).parentElement.parentElement.querySelector('.accordion-collapse').classList.toggle('show');
   }
 
   openOrder(id: number): void {
@@ -422,7 +430,7 @@ export class UbsAdminTableComponent implements OnInit, AfterViewChecked, OnDestr
     }
   }
 
-  changeFilters(checked, currentColumn, option) {
+  changeFilters(checked: boolean, currentColumn: string, option: IFilteredColumnValue): void {
     const elem = {};
     const columnName = this.changeColumnNameEqualToEndPoint(currentColumn);
     this.columnsForFiltering.find((column) => {
@@ -442,14 +450,64 @@ export class UbsAdminTableComponent implements OnInit, AfterViewChecked, OnDestr
     }
   }
 
-  private changeColumnNameEqualToEndPoint(column): string {
+  changeDateFilters(e: MatCheckboxChange, checked: boolean, currentColumn: string): void {
+    const elem = {};
+    const columnName = this.changeColumnNameEqualToEndPoint(currentColumn);
+    const keyNameFrom = `${columnName}From`;
+    const keyNameTo = `${columnName}To`;
+    const checkboxParent = (e.source._elementRef.nativeElement as HTMLElement).parentElement;
+    const inputDateFrom = checkboxParent.querySelector(`#dateFrom${currentColumn}`) as HTMLInputElement;
+    const inputDateTo = checkboxParent.querySelector(`#dateTo${currentColumn}`) as HTMLInputElement;
+    const dateFrom = inputDateFrom.value;
+    let dateTo = inputDateTo.value;
+
+    if (!dateTo) {
+      dateTo = this.getTodayDate();
+    }
+
+    if (Date.parse(dateFrom) > Date.parse(dateTo)) {
+      dateTo = dateFrom;
+    }
+
+    if (checked && dateFrom && dateTo) {
+      elem[keyNameFrom] = dateFrom;
+      elem[keyNameTo] = dateTo;
+      this.filters.push(elem);
+    } else {
+      this.filters = this.filters.filter((filteredElem) => !Object.keys(filteredElem).includes(`${keyNameFrom}`));
+    }
+  }
+
+  changeInputDateFilters(value: string, currentColumn: string, suffix: string): void {
+    const columnName = this.changeColumnNameEqualToEndPoint(currentColumn);
+    const keyToChange = `${columnName}${suffix}`;
+    const filterToChange = this.filters.find((filter) => Object.keys(filter).includes(`${keyToChange}`));
+
+    if (filterToChange) {
+      filterToChange[keyToChange] = value;
+    }
+  }
+
+  private getTodayDate() {
+    const today = new Date();
+    const year = today.getFullYear();
+    let month = (today.getMonth() + 1).toString();
+    let day = today.getDate().toString();
+    let todayDate: string;
+
+    month = +month >= 10 ? month : `0${month}`;
+    day = +day >= 10 ? day : `0${day}`;
+
+    todayDate = `${year}-${month}-${day}`;
+
+    return todayDate;
+  }
+
+  private changeColumnNameEqualToEndPoint(column: string): string {
     let endPointColumnName: string;
     switch (column) {
-      case 'orderStatus':
-        endPointColumnName = 'orderStatus';
-        break;
-      case 'paymentStatus':
-        endPointColumnName = 'orderPaymentStatus';
+      case 'dateOfExport':
+        endPointColumnName = 'deliveryDate';
         break;
       case 'responsibleDriver':
         endPointColumnName = 'responsibleDriverId';
@@ -463,8 +521,8 @@ export class UbsAdminTableComponent implements OnInit, AfterViewChecked, OnDestr
       case 'responsibleLogicMan':
         endPointColumnName = 'responsibleLogicManId';
         break;
-      case 'receivingStation':
-        endPointColumnName = 'receivingStation';
+      default:
+        endPointColumnName = column;
         break;
     }
     return endPointColumnName;

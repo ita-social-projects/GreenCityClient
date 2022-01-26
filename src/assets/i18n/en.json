@@ -286,7 +286,8 @@
   "snack-bar": {
     "error": {
       "default": "Oops, something went wrong. Please reload page or try again later.",
-      "restore-password-again": "The password reset link is no longer valid, please try to reset your password again"
+      "restore-password-again": "The password reset link is no longer valid, please try to reset your password again",
+      "no-internet": "No internet connection"
     },
     "attention": {
       "default": "Attention message. The action cannot be performed, because conditions weren’t met.",
