@@ -1,7 +1,7 @@
 import { UserSuccessSignIn } from '@global-models/user-success-sign-in';
 import { UserOwnSignIn } from '@global-models/user-own-sign-in';
 import { HttpErrorResponse } from '@angular/common/http';
-import { DebugElement } from '@angular/core';
+import { CUSTOM_ELEMENTS_SCHEMA, DebugElement } from '@angular/core';
 import { By } from '@angular/platform-browser';
 import { AuthService, AuthServiceConfig, LoginOpt, SocialUser } from 'angularx-social-login';
 import { async, ComponentFixture, inject, TestBed } from '@angular/core/testing';
@@ -109,7 +109,8 @@ describe('SignIn component', () => {
         { provide: UserOwnSignInService, useValue: signInServiceMock },
         { provide: Router, useValue: routerSpy },
         { provide: ProfileService }
-      ]
+      ],
+      schemas: [CUSTOM_ELEMENTS_SCHEMA]
     });
   }));
 
