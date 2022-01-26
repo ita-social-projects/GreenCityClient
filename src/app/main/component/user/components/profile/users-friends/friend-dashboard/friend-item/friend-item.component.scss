@@ -22,7 +22,7 @@ button {
   box-sizing: border-box;
   border-radius: 4px;
   width: 104px;
-  height: 36px;
+  height: 40px;
   color: var(--primary-green);
   border: 1px solid var(--primary-green);
   background: var(--primary-white);
@@ -84,12 +84,14 @@ button {
   margin-left: 28px;
 }
 
-.friend-btn {
+.buttons {
   display: flex;
   flex-direction: column;
   justify-content: center;
-  align-items: flex-end;
-  flex: 1;
+}
+
+.friend-btn {
+  margin-bottom: 20px;
 }
 
 .friend-img {

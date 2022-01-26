@@ -18,7 +18,13 @@
     </p>
     <p class="friend-city">{{ friend.city }}</p>
   </div>
-  <div class="friend-btn">
-    <button>{{ btnName }}</button>
+  <div class="buttons">
+    <div class="friend-btn">
+      <button id="addButton">{{ btnName }}</button>
+    </div>
+    <div class="friend-btn">
+      <button *ngIf="friend.friendsChatDto.chatExists" id="openChatButton">Відкрити чат</button>
+      <button *ngIf="!friend.friendsChatDto.chatExists" id="createChatButton">Створити чат</button>
+    </div>
   </div>
 </div>

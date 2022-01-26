@@ -1,3 +1,5 @@
+import { MatDialogModule } from '@angular/material/dialog';
+import { ChatsService } from './../../../../../../../../chat/service/chats/chats.service';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { CUSTOM_ELEMENTS_SCHEMA, NO_ERRORS_SCHEMA } from '@angular/core';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
@@ -13,7 +15,7 @@ describe('FriendItemComponent', () => {
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       declarations: [FriendItemComponent],
-      imports: [TranslateModule.forRoot(), HttpClientTestingModule, RouterTestingModule.withRoutes([])],
+      imports: [TranslateModule.forRoot(), HttpClientTestingModule, MatDialogModule, RouterTestingModule.withRoutes([])],
       schemas: [CUSTOM_ELEMENTS_SCHEMA, NO_ERRORS_SCHEMA]
     }).compileComponents();
   }));
@@ -21,7 +23,17 @@ describe('FriendItemComponent', () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(FriendItemComponent);
     component = fixture.componentInstance;
-    component.friend = { id: 1, name: 'Name', profilePicturePath: '', added: true, rating: 380 };
+    component.friend = {
+      id: 1,
+      name: 'Name',
+      profilePicturePath: '',
+      added: true,
+      rating: 380,
+      friendsChatDto: {
+        chatExists: true,
+        chatId: 2
+      }
+    };
     fixture.detectChanges();
   });
 

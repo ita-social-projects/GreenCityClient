@@ -8,3 +8,9 @@ export interface Chat {
   lastMessageDate: string;
   participants: User[];
 }
+
+export interface FriendChatInfo {
+  friendId: number;
+  chatExists: boolean;
+  chatId: number;
+}

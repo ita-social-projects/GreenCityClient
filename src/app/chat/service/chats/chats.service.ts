@@ -33,7 +33,6 @@ export class ChatsService {
 
   public getAllUserChats(userId: number): void {
     this.httpClient.get<Chat[]>(`${environment.backendChatLink}chat/`).subscribe((chats: Chat[]) => {
-      console.log(chats);
       this.userChatsStream$.next(chats);
     });
   }
@@ -47,7 +46,6 @@ export class ChatsService {
   }
 
   public setCurrentChat(chat: Chat | null): void {
-    console.log(chat);
     // If messages are already loading.
     if (this.messagesIsLoading) {
       return;
@@ -80,5 +78,11 @@ export class ChatsService {
       this.isChatUpdateStream$.next(true);
       this.messagesIsLoading = false;
     });
+  }
+
+  public openCurrentChat(chatId) {
+    const currentChat = this.userChats.find((chat) => chat.id === chatId);
+    console.log(currentChat);
+    this.setCurrentChat(currentChat);
   }
 }

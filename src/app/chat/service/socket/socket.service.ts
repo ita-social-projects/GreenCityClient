@@ -1,4 +1,3 @@
-import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
 import { Injectable } from '@angular/core';
 import * as SockJS from 'sockjs-client';
 import { environment } from '@environment/environment';
@@ -6,6 +5,9 @@ import { CompatClient, IMessage, Stomp } from '@stomp/stompjs';
 import { Message } from '../../model/Message.model';
 import { ChatsService } from '../chats/chats.service';
 import { User } from '../../model/User.model';
+import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
+import { Subject } from 'rxjs';
+import { FriendChatInfo } from '../../model/Chat.model';
 
 @Injectable({
   providedIn: 'root'
@@ -15,6 +17,9 @@ export class SocketService {
   private stompClient: CompatClient;
   private backendSocketLink = `${environment.socket}`;
   private userId: number;
+  private isOpenNewChat = false;
+
+  public updateFriendsChatsStream$: Subject<FriendChatInfo> = new Subject<FriendChatInfo>();
 
   constructor(private chatsService: ChatsService, private localStorageService: LocalStorageService) {}
 
@@ -47,7 +52,19 @@ export class SocketService {
       this.chatsService.currentChat.participants.push(newChatParticipant);
     });
     this.stompClient.subscribe(`/rooms/user/new-chats${this.userId}`, (newChat) => {
-      console.log(newChat);
+      const newUserChat = JSON.parse(newChat.body);
+      const usersChats = [...this.chatsService.userChats, newUserChat];
+      this.chatsService.userChatsStream$.next(usersChats);
+      const idFriend = newUserChat.participants.find((user) => user.id != this.userId).id;
+      this.updateFriendsChatsStream$.next({
+        friendId: idFriend,
+        chatExists: true,
+        chatId: newUserChat.id
+      });
+      if (this.isOpenNewChat) {
+        this.chatsService.openCurrentChat(newUserChat.id);
+        this.isOpenNewChat = false;
+      }
     });
   }
 
@@ -67,11 +84,12 @@ export class SocketService {
     // this.chatsService.updateChat(currentChat);
   }
 
-  createNewChat() {
+  createNewChat(participantsId) {
     const newChatInfo = {
       currentUserId: this.userId,
-      participantsIds: 1
+      participantsIds: participantsId
     };
     this.stompClient.send(`/app/chat/user`, {}, JSON.stringify(newChatInfo));
+    this.isOpenNewChat = true;
   }
 }

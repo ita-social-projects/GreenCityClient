@@ -20,7 +20,11 @@ describe('FriendProfileDashboardComponent', () => {
         added: true,
         rating: 380,
         city: 'Lviv',
-        mutualFriends: 5
+        mutualFriends: 5,
+        friendsChatDto: {
+          chatExists: true,
+          chatId: 2
+        }
       },
       {
         id: 2,
@@ -29,7 +33,11 @@ describe('FriendProfileDashboardComponent', () => {
         added: true,
         rating: 380,
         city: 'Lviv',
-        mutualFriends: 5
+        mutualFriends: 5,
+        friendsChatDto: {
+          chatExists: true,
+          chatId: 2
+        }
       }
     ]
   };
