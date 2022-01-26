@@ -1,6 +1,7 @@
 <form *ngIf="signInForm" class="sign-in-form" (ngSubmit)="signIn()" [formGroup]="signInForm">
   <app-email-input-field formControlName="email" ngDefaultControl></app-email-input-field>
-  <app-password-input-field formControlName="password" ngDefaultControl></app-password-input-field>
+  <app-password-input-field [passwordLabel]="'user.auth.sign-in.password'" [signIn]="true" formControlName="password" ngDefaultControl>
+  </app-password-input-field>
   <div class="forgot-wrapper">
     <a
       [ngClass]="isUbs ? 'ubs-forgot-password' : 'forgot-password'"
