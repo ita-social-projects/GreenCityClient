@@ -123,7 +123,7 @@ export class EmployeeFormComponent implements OnInit, OnDestroy {
       this.initialData = {
         firstName: this.data.firstName,
         lastName: this.data.lastName,
-        phoneNumber: this.data.phoneNumber,
+        phoneNumber: this.data.phoneNumber.replace('+', ''),
         email: this.data?.email,
         imageURL: this.data?.image,
         employeePositionsIds: this.data.employeePositions.map((position) => position.id),
@@ -147,17 +147,15 @@ export class EmployeeFormComponent implements OnInit, OnDestroy {
   checkIsInitialPositionsChanged(): boolean {
     if (this.initialData.employeePositionsIds.length !== this.employeePositions.length) {
       return true;
-    } else {
-      return this.employeePositions.filter((position) => !this.initialData.employeePositionsIds.includes(position.id)).length > 0;
     }
+    return this.employeePositions.filter((position) => !this.initialData.employeePositionsIds.includes(position.id)).length > 0;
   }
 
   checkIsInitialStationsChanged(): boolean {
     if (this.initialData.receivingStationsIds.length !== this.receivingStations.length) {
       return true;
-    } else {
-      return this.receivingStations.filter((station) => !this.initialData.receivingStationsIds.includes(station.id)).length > 0;
     }
+    return this.receivingStations.filter((station) => !this.initialData.receivingStationsIds.includes(station.id)).length > 0;
   }
 
   findRole(id: number): number {
@@ -232,7 +230,7 @@ export class EmployeeFormComponent implements OnInit, OnDestroy {
       this.isInitialDataChanged =
         this.initialData.firstName !== values.firstName ||
         this.initialData.lastName !== values.lastName ||
-        this.initialData.phoneNumber.replace('+', '') !== values.phoneNumber.replace('+', '') ||
+        this.initialData.phoneNumber !== values.phoneNumber.replace('+', '') ||
         this.initialData.email !== values.email;
     });
   }

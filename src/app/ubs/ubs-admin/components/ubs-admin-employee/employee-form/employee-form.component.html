@@ -75,7 +75,7 @@
     <ng-template #currentImageBlock>
       <div class="image-input current-image">
         <div *ngIf="!viewMode || editMode" class="avatar-edit-head">
-          <span class="image-name">{{ imageName }}</span>
+          <span class="image-name">{{ imageName | maxImageName }}</span>
           <img class="user-image" src="assets/img/ubs/cross.svg" alt="close" (click)="removeImage()" />
         </div>
         <img [src]="imageURL" alt="Your photo" (click)="openImg()" />
