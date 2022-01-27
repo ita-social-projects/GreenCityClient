@@ -48,6 +48,8 @@ export class AuthModalComponent implements OnInit, OnDestroy {
   }
 
   public closeWindow(): void {
+    this.popUpViewService.passwordValue = null;
+    this.popUpViewService.repeatPasswordValue = null;
     this.matDialogRef.close();
   }
 

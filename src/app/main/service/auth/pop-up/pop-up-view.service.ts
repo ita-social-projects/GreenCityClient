@@ -1,5 +1,5 @@
-import { Injectable, Injector, OnDestroy, OnInit } from '@angular/core';
-import { BehaviorSubject, Subject } from 'rxjs';
+import { Injectable, Injector, OnDestroy } from '@angular/core';
+import { BehaviorSubject, ReplaySubject, Subject } from 'rxjs';
 import { PopupTitleData } from '../../../component/auth/models/authPop-upContent';
 import { take, takeUntil } from 'rxjs/operators';
 import { SuccessSignUpDto, UserSuccessSignIn } from '@global-models/user-success-sign-in';
@@ -16,13 +16,17 @@ import { UserOwnSignIn } from '@global-models/user-own-sign-in';
 import { UserOwnSignUp } from '@global-models/user-own-sign-up';
 import { UserOwnSignUpService } from '@auth-service/user-own-sign-up.service';
 import { MatSnackBarComponent } from '@global-errors/mat-snack-bar/mat-snack-bar.component';
+import { ConfirmPasswordValidator } from '@global-auth/sign-up/sign-up.validator';
 
 @Injectable({
   providedIn: 'root'
 })
 export class PopUpViewService implements OnDestroy {
   private signInValue = 'sign-in';
+  private signUpValue = 'sign-up';
+  private validityStatus = 'noValid';
   private emailValueIsValid: boolean;
+  private userNameFieldIsValid: boolean;
   private passwordValueIsValid: boolean;
   private userOwnSignInService: UserOwnSignInService;
   private jwtService: JwtService;
@@ -36,46 +40,48 @@ export class PopUpViewService implements OnDestroy {
   private destroy: Subject<boolean> = new Subject<boolean>();
   private loadButtonAnimation = false;
   private snackBar: MatSnackBarComponent;
+  private popUpValue: PopupTitleData;
+  private isUbs: boolean;
+  private userOwnSignUp: UserOwnSignUp;
+  private currentLanguage: string;
+  private userOwnSignIn: UserOwnSignIn;
+  private backEndError: string;
+  private navigateToLink: string[];
+  private signInEmailErrorMessageBackEnd: string;
+  private signInPasswordErrorMessageBackEnd: string;
   private currentPage: string;
-  /*private errorsType = {
-    name: (error: string) => (),
-    email: (error: string) => (this.signUpEmailErrorMessageBackEnd = error = error),
-    password: (error: string) => (this.passwordErrorMessageBackEnd = error),
-    passwordConfirm: (error: string) => (this.passwordConfirmErrorMessageBackEnd = error)
-  };*/
-  loadButtonAnimationBehaviourSubject: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(this.getLoadButtonAnimation());
-  backendErrorSubject: Subject<string> = new Subject<string>();
-  buttonActive = false;
-  buttonActiveBehaviourSubject: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(this.getButtonActive());
-  regPopUpViewBehaviourSubject: BehaviorSubject<PopupTitleData> = new BehaviorSubject<PopupTitleData>(this.getPopupViewValue());
-  popUpValue: PopupTitleData;
-  isUbs: boolean;
-  userOwnSignUp: UserOwnSignUp;
-  currentLanguage: string;
-  userOwnSignIn: UserOwnSignIn;
-  navigateToLink: string[];
-  signInEmailErrorMessageBackEnd: string;
-  signInPasswordErrorMessageBackEnd: string;
-  signUpEmailErrorMessageBackEnd: string;
-  signUpPasswordErrorMessageBackEnd: string;
-  signUpFirstNameErrorMessageBackEnd: string;
-  signUpPasswordConfirmErrorMessageBackEnd: string;
-  backEndError: string;
-
+  private buttonActive = false;
+  private signUpEmailErrorMessageBackEnd: string;
+  private signUpPasswordErrorMessageBackEnd: string;
+  private signUpFirstNameErrorMessageBackEnd: string;
   private readonly signInTittle = {
     title: 'user.auth.sign-in.title',
     information: 'user.auth.sign-in.fill-form'
   };
-
-  private readonly signUpValue = {
+  private readonly signUpTittle = {
     title: 'user.auth.sign-up.title-up',
     information: 'user.auth.sign-up.fill-form-up'
   };
-
   private readonly restorePassword = {
     title: 'user.auth.forgot-password.title',
     information: 'user.auth.forgot-password.fill-form'
   };
+  private errorsType = {
+    name: (error: string) => (this.signUpFirstNameErrorMessageBackEnd = error),
+    email: (error: string) => (this.signUpEmailErrorMessageBackEnd = error),
+    password: (error: string) => (this.signUpPasswordErrorMessageBackEnd = error)
+  };
+  public passwordValue: string;
+  public repeatPasswordValue: string;
+  loadButtonAnimationBehaviourSubject: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(this.getLoadButtonAnimation());
+  backendErrorSubject: Subject<string> = new Subject<string>();
+  closePopUpSubject: Subject<string> = new Subject<string>();
+  passwordMismatchSubject: ReplaySubject<string> = new ReplaySubject<string>();
+  buttonActiveBehaviourSubject: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(this.getButtonActive());
+  regPopUpViewBehaviourSubject: BehaviorSubject<PopupTitleData> = new BehaviorSubject<PopupTitleData>(this.getPopupViewValue());
+  emailBackendErrorSubject: Subject<string> = new Subject<string>();
+  firstNameBackendErrorSubject: Subject<string> = new Subject<string>();
+  passwordBackendErrorSubject: Subject<string> = new Subject<string>();
 
   constructor(private injector: Injector) {
     this.localeStorageService = injector.get(LocalStorageService);
@@ -120,16 +126,38 @@ export class PopUpViewService implements OnDestroy {
     this.setButtonActive();
   }
 
-  public setPasswordInputField(value: boolean) {
-    this.passwordValueIsValid = value;
+  public setUserNameInputField(value: boolean) {
+    this.userNameFieldIsValid = value;
+    this.setButtonActive();
+  }
+
+  public setPasswordInputField(isValid: boolean, value?: string) {
+    if (this.currentPage === this.signUpValue) {
+      this.passwordValueIsValid = isValid;
+      this.passwordValue = value;
+    } else if (this.currentPage === this.signInValue) {
+      this.passwordValueIsValid = isValid;
+    }
+    this.setButtonActive();
+  }
+
+  public setRepeatPasswordValue(value: string) {
+    this.repeatPasswordValue = value;
     this.setButtonActive();
   }
 
   private setButtonActive() {
     if (this.currentPage === this.signInValue) {
-      this.buttonActive = this.emailValueIsValid && this.passwordValueIsValid;
-      this.buttonActiveBehaviourSubject.next(this.buttonActive);
+      this.buttonActive = this.emailValueIsValid && this.passwordValueIsValid && this.passwordValue !== '';
+    } else if (this.currentPage === this.signUpValue) {
+      const boolValue = ConfirmPasswordValidator(this.passwordValue, this.repeatPasswordValue);
+      this.buttonActive = this.emailValueIsValid && this.passwordValueIsValid && this.userNameFieldIsValid && boolValue;
+      this.validityStatus = !boolValue ? 'noValid' : 'valid';
+      if (this.passwordValueIsValid) {
+        this.passwordMismatchSubject.next(this.validityStatus);
+      }
     }
+    this.buttonActiveBehaviourSubject.next(this.buttonActive);
   }
 
   setPopupViewValue(page: string): void {
@@ -139,7 +167,8 @@ export class PopUpViewService implements OnDestroy {
     this.buttonActiveBehaviourSubject.next(this.buttonActive);
     this.currentPage = page;
     this.localeStorageService.ubsRegBehaviourSubject.pipe(takeUntil(this.destroy)).subscribe((value) => (this.isUbs = value));
-    this.popUpValue = page === this.signInValue ? this.signInTittle : page === 'restore-password' ? this.restorePassword : this.signUpValue;
+    this.popUpValue =
+      page === this.signInValue ? this.signInTittle : page === 'restore-password' ? this.restorePassword : this.signUpTittle;
     this.regPopUpViewBehaviourSubject.next(this.popUpValue);
   }
 
@@ -152,6 +181,8 @@ export class PopUpViewService implements OnDestroy {
   }
 
   public signUp(email: string, firstName: string, password: string): void {
+    this.loadButtonAnimation = true;
+    this.loadButtonAnimationBehaviourSubject.next(this.loadButtonAnimation);
     this.userOwnSignUp = new UserOwnSignUp();
     this.userOwnSignUp.email = email;
     this.userOwnSignUp.firstName = firstName;
@@ -173,9 +204,12 @@ export class PopUpViewService implements OnDestroy {
   }
 
   private onSubmitError(errors: HttpErrorResponse): void {
-    /*errors.error.map((error) => {
+    errors.error.map((error) => {
       this.errorsType[error.name](error.message);
-    });*/
+    });
+    this.emailBackendErrorSubject.next(this.signUpEmailErrorMessageBackEnd);
+    this.firstNameBackendErrorSubject.next(this.signUpFirstNameErrorMessageBackEnd);
+    this.passwordBackendErrorSubject.next(this.signUpPasswordErrorMessageBackEnd);
     this.loadButtonAnimation = false;
     this.loadButtonAnimationBehaviourSubject.next(this.loadButtonAnimation);
   }
@@ -183,6 +217,7 @@ export class PopUpViewService implements OnDestroy {
   private onSubmitSuccess(data: SuccessSignUpDto): void {
     this.loadButtonAnimation = false;
     this.loadButtonAnimationBehaviourSubject.next(this.loadButtonAnimation);
+    this.closePopUpSubject.next('close');
     this.snackBar.openSnackBar('signUp');
   }
 

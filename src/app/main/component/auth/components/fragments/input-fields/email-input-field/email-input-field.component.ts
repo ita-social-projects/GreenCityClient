@@ -1,5 +1,5 @@
 import { Component, forwardRef, OnDestroy, OnInit } from '@angular/core';
-import { AbstractControl, ControlValueAccessor, FormControl, FormGroup, NG_VALUE_ACCESSOR, Validators } from '@angular/forms';
+import { AbstractControl, FormControl, FormGroup, NG_VALUE_ACCESSOR, Validators } from '@angular/forms';
 import { PopUpViewService } from '@auth-service/pop-up/pop-up-view.service';
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
@@ -28,13 +28,25 @@ export class EmailInputFieldComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     this.popUpViewService.backendErrorSubject.pipe(takeUntil(this.destroy)).subscribe((value) => (this.backEndError = value));
+    this.popUpViewService.emailBackendErrorSubject.pipe(takeUntil(this.destroy)).subscribe((value) => {
+      this.emailErrorMessageBackEnd = value;
+      this.getEmailError();
+    });
     this.emailFormGroup = new FormGroup({
       email: new FormControl(null, [Validators.required, Validators.email])
     });
     this.emailControl = this.emailFormGroup.get('email');
   }
 
+  public getEmailError(): string {
+    return /already registered/.test(this.emailErrorMessageBackEnd)
+      ? 'user.auth.sign-up.the-user-already-exists-by-this-email'
+      : 'user.auth.sign-up.this-is-not-email';
+  }
+
   public configDefaultErrorMessage(): void {
+    this.backEndError = null;
+    this.emailErrorMessageBackEnd = null;
     this.emailControl.markAsTouched();
     this.emailFieldValue = this.emailControl.value;
     if (this.emailFormGroup.valid && this.emailControl.touched) {
