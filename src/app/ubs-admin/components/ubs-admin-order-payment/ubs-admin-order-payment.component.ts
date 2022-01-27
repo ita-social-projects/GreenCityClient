@@ -18,6 +18,7 @@ export class UbsAdminOrderPaymentComponent implements OnInit, OnChanges {
   @Input() orderInfo: IOrderInfo;
   @Input() actualPrice: number;
   @Input() totalPaid: number;
+  totalPaidWithoutBonus: number;
   orderId: number;
   paidAmount: number;
   unPaidAmount: number;
@@ -31,6 +32,8 @@ export class UbsAdminOrderPaymentComponent implements OnInit, OnChanges {
     this.paymentsArray = this.orderInfo.paymentTableInfoDto.paymentInfoDtos;
     this.paidAmount = this.paymentInfo.paidAmount;
     this.unPaidAmount = this.paymentInfo.unPaidAmount;
+    this.totalPaidWithoutBonus = this.orderInfo.orderCertificateTotalDiscount;
+    this.totalPaidWithoutBonus += this.orderInfo.paymentTableInfoDto.paidAmount;
   }
 
   constructor(private orderService: OrderService, private dialog: MatDialog) {}

@@ -10,7 +10,7 @@
         <span class="form__subtitle">{{ 'order-payment.order-size' | translate }}</span>
       </div>
       <div class="col-md-2">
-        <span class="price">{{ totalPaid | currency | localizedCurrency }}</span>
+        <span class="price">{{ totalPaidWithoutBonus | currency | localizedCurrency }}</span>
       </div>
       <div class="col-md-2">
         <button (click)="openPopup()" class="btn">+ {{ 'order-payment.add-payment-btn' | translate }}</button>
