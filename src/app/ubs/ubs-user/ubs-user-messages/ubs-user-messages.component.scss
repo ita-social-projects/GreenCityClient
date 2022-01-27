@@ -13,7 +13,7 @@
 }
 
 .wrapper {
-  width: 110%;
+  width: 100%;
   height: 100vh;
   position: relative;
   margin-left: -25px;
@@ -225,10 +225,9 @@
 
 @media (max-width: 990px) {
   .wrapper {
-    width: 110%;
+    width: 100vw;
     height: 100vh;
     position: relative;
-    margin-left: 0;
     padding: 0 20px;
     line-height: 24px;
     color: var(--ubs-primary-black);
@@ -239,7 +238,7 @@
 
 @media (max-width: 480px) {
   .content {
-    padding-bottom: 100px;
+    padding: 0 0 100px 10px;
   }
 
   .date {
