@@ -230,3 +230,17 @@ export interface CreateCertificate {
   monthCount: number;
   points: number;
 }
+
+export interface IFilteredColumn {
+  key: string;
+  en: string;
+  ua: string;
+  values: Array<IFilteredColumnValue>;
+}
+
+export interface IFilteredColumnValue {
+  key: string;
+  en: string;
+  ua: string;
+  filtered: boolean;
+}

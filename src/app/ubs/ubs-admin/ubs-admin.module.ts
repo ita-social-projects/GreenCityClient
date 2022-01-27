@@ -71,6 +71,8 @@ import { ModalTextComponent } from './components/shared/components/modal-text/mo
 import { DialogTariffComponent } from './components/shared/components/dialog-tariff/dialog-tariff.component';
 import { UbsAdminTariffsLocationPopUpComponent } from './components/ubs-admin-tariffs/ubs-admin-tariffs-location-pop-up/ubs-admin-tariffs-location-pop-up.component';
 import { UbsAdminTariffsAddNamePopUpComponent } from './components/ubs-admin-tariffs/ubs-admin-tariffs-add-name-pop-up/ubs-admin-tariffs-add-name-pop-up.component';
+import { PdfViewerModule } from 'ng2-pdf-viewer';
+import { ShowPdfPopUpComponent } from './components/shared/components/show-pdf-pop-up/show-pdf-pop-up.component';
 
 @NgModule({
   declarations: [
@@ -118,7 +120,8 @@ import { UbsAdminTariffsAddNamePopUpComponent } from './components/ubs-admin-tar
     ModalTextComponent,
     DialogTariffComponent,
     UbsAdminTariffsLocationPopUpComponent,
-    UbsAdminTariffsAddNamePopUpComponent
+    UbsAdminTariffsAddNamePopUpComponent,
+    ShowPdfPopUpComponent
   ],
   imports: [
     CommonModule,
@@ -153,7 +156,8 @@ import { UbsAdminTariffsAddNamePopUpComponent } from './components/ubs-admin-tar
       },
       isolate: true
     }),
-    TooltipModule
+    TooltipModule,
+    PdfViewerModule
   ],
   providers: [
     AdminCertificateService,

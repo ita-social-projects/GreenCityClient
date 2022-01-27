@@ -1,1 +1,12 @@
 @import 'src/typography/typography';
+
+.offline {
+  top: 50px;
+  left: 50%;
+  position: fixed;
+  font-weight: 500;
+  font-size: larger;
+  background: transparent;
+  color: var(--error-red);
+  z-index: 999;
+}

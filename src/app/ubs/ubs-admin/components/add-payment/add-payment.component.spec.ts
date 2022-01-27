@@ -123,7 +123,7 @@ describe('AddPaymentComponent', () => {
   describe('processPayment', () => {
     it('makes expected calls', () => {
       component.payment = { id: 7 } as any;
-      component.processPayment(5, { form: 'fakeForm', file: 'fakeFile' });
+      component.processPayment(5, { form: 'fakeForm' as any, file: 'fakeFile' as any });
       expect(matDialogRefMock.close).toHaveBeenCalled();
       expect(orderServiceMock.updatePaymentManually).toHaveBeenCalledWith(7, 'fakeForm', 'fakeFile');
       expect(orderServiceMock.addPaymentManually).toHaveBeenCalledWith(5, 'fakeForm', 'fakeFile');
@@ -162,7 +162,7 @@ describe('AddPaymentComponent', () => {
   describe('removeImage', () => {
     it(`is not edit mode`, () => {
       component.imagePreview = { src: 'fakePaht', name: 'fakeName' };
-      component.file = fakeFileHandle;
+      component.file = fakeFileHandle as any;
       component.removeImage();
       expect(component.imagePreview.name).toBeNull();
       expect(component.imagePreview.src).toBeNull();
@@ -173,7 +173,7 @@ describe('AddPaymentComponent', () => {
       component.editMode = true;
       component.payment = { imagePath: 'fakePath' } as any;
       component.imagePreview = { src: 'fakePath', name: 'fakeName' };
-      component.file = fakeFileHandle;
+      component.file = fakeFileHandle as any;
       component.removeImage();
       expect(component.imagePreview.name).toBeNull();
       expect(component.imagePreview.src).toBeNull();

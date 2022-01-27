@@ -2,13 +2,14 @@ import { Component, OnDestroy, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { MatSnackBarComponent } from '@global-errors/mat-snack-bar/mat-snack-bar.component';
 import { HabitAssignService } from '@global-service/habit-assign/habit-assign.service';
-import { take } from 'rxjs/operators';
+import { switchMap, take } from 'rxjs/operators';
 import { HabitAssignInterface, HabitResponseInterface } from 'src/app/main/interface/habit/habit-assign.interface';
 import { ShoppingList } from '@global-user/models/shoppinglist.model';
 import { HabitService } from '@global-service/habit/habit.service';
 import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
 import { TranslateService } from '@ngx-translate/core';
 import { Subscription } from 'rxjs';
+import { ShoppingListService } from './habit-edit-shopping-list/shopping-list.service';
 
 @Component({
   selector: 'app-add-new-habit',
@@ -37,6 +38,7 @@ export class AddNewHabitComponent implements OnInit, OnDestroy {
     private habitService: HabitService,
     private snackBar: MatSnackBarComponent,
     private habitAssignService: HabitAssignService,
+    private shoppingListService: ShoppingListService,
     private localStorageService: LocalStorageService,
     private translate: TranslateService
   ) {}
@@ -143,7 +145,10 @@ export class AddNewHabitComponent implements OnInit, OnDestroy {
     const defailtItemsIds = this.newList.filter((item) => item.selected === true).map((item) => item.id);
     this.habitAssignService
       .updateHabit(this.habitId, this.newDuration, defailtItemsIds)
-      .pipe(take(1))
+      .pipe(
+        take(1),
+        switchMap(() => this.shoppingListService.saveCustomItems(this.userId, this.habitId))
+      )
       .subscribe(() => {
         this.router.navigate(['profile', this.userId]);
         this.snackBar.openSnackBar('habitUpdated');

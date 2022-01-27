@@ -13,6 +13,7 @@ import { LocalStorageService } from '@global-service/localstorage/local-storage.
 export class EcoNewsService implements OnDestroy {
   private backEnd = environment.backendLink;
   private language: string;
+  private tagsType = 'ECO_NEWS';
   private destroyed$: ReplaySubject<any> = new ReplaySubject<any>(1);
 
   constructor(private http: HttpClient, private localStorageService: LocalStorageService) {
@@ -20,7 +21,7 @@ export class EcoNewsService implements OnDestroy {
   }
 
   public getAllPresentTags(): Observable<Array<NewsTagInterface>> {
-    return this.http.get<Array<NewsTagInterface>>(`${this.backEnd}econews/tags/all?lang=${this.language}`);
+    return this.http.get<Array<NewsTagInterface>>(`${this.backEnd}tags/search?lang=${this.language}&type=${this.tagsType}`);
   }
 
   public getEcoNewsListByPage(page: number, quantity: number) {

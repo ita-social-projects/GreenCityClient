@@ -2,7 +2,7 @@ import { Component, OnInit, ViewChild, OnDestroy } from '@angular/core';
 import { MatSort, Sort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
 import { BonusesModel } from './models/BonusesModel';
-import { BonuseModel } from './models/BonuseModel';
+import { BonusModel } from './models/BonusModel';
 import { BonusesService } from './services/bonuses.service';
 import { Subject, throwError } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
@@ -15,10 +15,10 @@ import { MatSnackBarComponent } from '@global-errors/mat-snack-bar/mat-snack-bar
 })
 export class UbsUserBonusesComponent implements OnInit, OnDestroy {
   displayedColumns: string[] = ['dateOfEnrollment', 'amount', 'reason'];
-  dataSource = new MatTableDataSource<BonuseModel>();
+  dataSource = new MatTableDataSource<BonusModel>();
   totalBonuses: number;
   isLoading = true;
-  bonusesList: BonuseModel[];
+  bonusesList: BonusModel[];
   destroy: Subject<boolean> = new Subject<boolean>();
 
   constructor(private snackBar: MatSnackBarComponent, private bonusesService: BonusesService) {}
@@ -33,7 +33,7 @@ export class UbsUserBonusesComponent implements OnInit, OnDestroy {
   getBonusesData() {
     this.isLoading = true;
     this.bonusesService
-      .getUserBonuses()
+      .getUserBonusesWithPaymentHistory()
       .pipe(takeUntil(this.destroy))
       .subscribe(
         (res: BonusesModel) => {

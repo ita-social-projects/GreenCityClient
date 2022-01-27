@@ -8,11 +8,26 @@ import { switchMap, take, takeUntil } from 'rxjs/operators';
 import { IPaymentInfoDtos } from '../../models/ubs-admin.interface';
 import { OrderService } from '../../services/order.service';
 import { DialogPopUpComponent } from '../shared/components/dialog-pop-up/dialog-pop-up.component';
+import { ShowImgsPopUpComponent } from '../shared/components/show-imgs-pop-up/show-imgs-pop-up.component';
+import { ShowPdfPopUpComponent } from '../shared/components/show-pdf-pop-up/show-pdf-pop-up.component';
 
 interface InputData {
   orderId: number;
   viewMode: boolean;
   payment: IPaymentInfoDtos | null;
+}
+
+interface PaymentDetails {
+  settlementdate: string;
+  amount: number;
+  paymentId: string;
+  receiptLink: string;
+  imagePath?: string;
+}
+
+interface PostData {
+  form: PaymentDetails;
+  file: File;
 }
 
 @Component({
@@ -32,15 +47,16 @@ export class AddPaymentComponent implements OnInit, OnDestroy {
   isFileTypeWarning = false;
   payment: IPaymentInfoDtos | null;
   addPaymentForm: FormGroup;
-  file;
-  imagePreview: any = { src: null };
+  file: File;
+  pdf = /.pdf$/;
+  imagePreview = { src: null, name: null };
   isImageSizeError = false;
   isImageTypeError = false;
   isInitialDataChanged = false;
   isInitialImageChanged = false;
   dataSource = new MatTableDataSource();
   public date = new Date();
-  public adminName;
+  public adminName: string;
   private maxImageSize = 10485760;
   private destroySub: Subject<boolean> = new Subject<boolean>();
   deleteDialogData = {
@@ -91,18 +107,18 @@ export class AddPaymentComponent implements OnInit, OnDestroy {
   }
 
   save() {
-    const result: any = {};
+    const result: PostData = { form: null, file: null };
     const paymentDetails = this.addPaymentForm.value;
     paymentDetails.amount *= 100;
     result.form = paymentDetails;
     result.file = this.file;
     if (this.editMode) {
-      result.form.imagePath = this.file ? null : this.imagePreview.src ?? null;
+      result.form.imagePath = this.file ? '' : this.imagePreview.src ?? '';
     }
     this.processPayment(this.orderId, result);
   }
 
-  public processPayment(orderId: number, postData): void {
+  public processPayment(orderId: number, postData: PostData): void {
     this.isUploading = true;
     of(true)
       .pipe(
@@ -137,7 +153,7 @@ export class AddPaymentComponent implements OnInit, OnDestroy {
 
   private showWarning(file: File): boolean {
     this.isFileSizeWarning = file.size > this.maxImageSize;
-    this.isFileTypeWarning = file.type !== 'image/jpeg' && file.type !== 'image/png';
+    this.isFileTypeWarning = file.type !== 'image/jpeg' && file.type !== 'image/png' && file.type !== 'application/pdf';
     return this.isFileSizeWarning || this.isFileTypeWarning;
   }
 
@@ -168,6 +184,35 @@ export class AddPaymentComponent implements OnInit, OnDestroy {
     if (this.editMode) {
       this.isInitialImageChanged = this.payment.imagePath !== this.imagePreview.src;
     }
+  }
+
+  enlargeImage(): void {
+    this.isPdf() ? this.openPdf() : this.openImg();
+  }
+
+  isPdf(): boolean {
+    return this.imagePreview?.src.match(this.pdf) || this.file?.type === 'application/pdf';
+  }
+
+  openImg(): void {
+    this.dialog.open(ShowImgsPopUpComponent, {
+      hasBackdrop: true,
+      panelClass: 'custom-img-pop-up',
+      data: {
+        imgIndex: 0,
+        images: [this.imagePreview]
+      }
+    });
+  }
+
+  openPdf(): void {
+    this.dialog.open(ShowPdfPopUpComponent, {
+      hasBackdrop: true,
+      panelClass: 'custom-img-pop-up',
+      data: {
+        pdfFile: this.imagePreview.src
+      }
+    });
   }
 
   editPayment() {

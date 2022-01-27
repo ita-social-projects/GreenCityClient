@@ -46,43 +46,54 @@ export class InterceptorService implements HttpInterceptor {
    * @param next - {@link HttpHandler}
    */
   intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
-    if (this.localStorageService.getAccessToken()) {
-      req = this.addAccessTokenToHeader(req, this.localStorageService.getAccessToken());
-    }
-    if (this.isQueryWithSecurity(req.url)) {
+    if (!window.navigator.onLine) {
+      // if there is no internet, open Error Window
       return next.handle(req).pipe(
         catchError((error: HttpErrorResponse) => {
-          if (error.status === 0) {
-            this.openErrorWindow('Error');
-          }
-          return throwError(error);
+          this.openErrorWindow('snack-bar.error.no-internet');
+          return EMPTY;
         })
       );
-    }
-    if (this.isQueryWithProcessOrder(req.url)) {
-      return next.handle(req).pipe(
-        catchError((error: HttpErrorResponse) => {
-          if (error.status >= 400) {
-            this.ubsOrderFormService.setOrderResponseErrorStatus(true);
-          }
-          return throwError(error);
-        })
-      );
-    }
-    if (req.url.includes('/admin/ubs-employee')) {
-      return next.handle(req).pipe(
-        catchError((error: HttpErrorResponse) => {
-          if (error.status !== UNAUTHORIZED) {
-            const message =
-              error?.error?.length > 0
-                ? error.error.map((errorItem: EmployeesError) => `${errorItem.name}: ${errorItem.message}`).join(', ')
-                : 'Error';
-            this.openErrorWindow(message);
+    } else {
+      // else return the normal request
+      if (this.localStorageService.getAccessToken()) {
+        req = this.addAccessTokenToHeader(req, this.localStorageService.getAccessToken());
+      }
+      if (this.isQueryWithSecurity(req.url)) {
+        return next.handle(req).pipe(
+          catchError((error: HttpErrorResponse) => {
+            if (error.status === 0) {
+              this.openErrorWindow('Error');
+            }
             return throwError(error);
-          }
-          return this.handleUnauthorized(req, next);
-        })
-      );
+          })
+        );
+      }
+      if (this.isQueryWithProcessOrder(req.url)) {
+        return next.handle(req).pipe(
+          catchError((error: HttpErrorResponse) => {
+            if (error.status >= 400) {
+              this.ubsOrderFormService.setOrderResponseErrorStatus(true);
+            }
+            return throwError(error);
+          })
+        );
+      }
+      if (req.url.includes('/admin/ubs-employee')) {
+        return next.handle(req).pipe(
+          catchError((error: HttpErrorResponse) => {
+            if (error.status !== UNAUTHORIZED) {
+              const message =
+                error?.error?.length > 0
+                  ? error.error.map((errorItem: EmployeesError) => `${errorItem.name}: ${errorItem.message}`).join(', ')
+                  : 'Error';
+              this.openErrorWindow(message);
+              return throwError(error);
+            }
+            return this.handleUnauthorized(req, next);
+          })
+        );
+      }
     }
     return next.handle(req).pipe(
       catchError((error: HttpErrorResponse) => {
