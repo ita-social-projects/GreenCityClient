@@ -102,6 +102,10 @@ export class UBSPersonalInformationComponent extends FormBaseComponent implement
     }
   }
 
+  getFormValues(): boolean {
+    return true;
+  }
+
   loadScript(): void {
     const script = document.getElementById('googleMaps') as HTMLScriptElement;
     if (script) {

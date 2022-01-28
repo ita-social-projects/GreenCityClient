@@ -16,6 +16,7 @@ import { appReducers } from './store/reducers/app.reducer';
 import { EmployeesEffects } from './store/effects/employee.effects';
 import { ServiceWorkerModule } from '@angular/service-worker';
 import { environment } from '../environments/environment';
+import { StoreDevtoolsModule } from '@ngrx/store-devtools';
 
 @NgModule({
   declarations: [AppComponent],
@@ -35,7 +36,11 @@ import { environment } from '../environments/environment';
     }),
     StoreModule.forRoot(appReducers),
     EffectsModule.forRoot([EmployeesEffects]),
-    ServiceWorkerModule.register('ngsw-worker.js', { enabled: environment.production })
+    ServiceWorkerModule.register('ngsw-worker.js', { enabled: environment.production }),
+    StoreDevtoolsModule.instrument({
+      maxAge: 25,
+      logOnly: environment.production
+    })
   ],
   providers: [
     // we use HashLocationStrategy because

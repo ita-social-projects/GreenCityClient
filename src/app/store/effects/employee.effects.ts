@@ -38,7 +38,14 @@ export class EmployeesEffects {
       ofType(AddEmployee),
       mergeMap((action: { data: any; employee: Page }) => {
         return this.ubsAdminEmployeeService.postEmployee(action.data).pipe(
-          map(() => AddEmployeeSuccess({ employee: action.employee })),
+          map((data) => {
+            const employee = JSON.parse(JSON.stringify(action.employee));
+            employee.id = data.id;
+            if (employee.image !== data.image) {
+              employee.image = data.image;
+            }
+            return AddEmployeeSuccess({ employee });
+          }),
           catchError((error) => of(ReceivedFailure(error)))
         );
       })
@@ -50,7 +57,13 @@ export class EmployeesEffects {
       ofType(UpdateEmployee),
       mergeMap((action: { data: any; employee: Page }) => {
         return this.ubsAdminEmployeeService.updateEmployee(action.data).pipe(
-          map(() => UpdateEmployeeSuccess({ employee: action.employee })),
+          map((data) => {
+            const employee = JSON.parse(JSON.stringify(action.employee));
+            if (employee.image !== data.image) {
+              employee.image = data.image;
+            }
+            return UpdateEmployeeSuccess({ employee });
+          }),
           catchError((error) => of(ReceivedFailure(error)))
         );
       })
