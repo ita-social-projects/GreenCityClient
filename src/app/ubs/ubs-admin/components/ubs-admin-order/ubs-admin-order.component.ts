@@ -249,21 +249,32 @@ export class UbsAdminOrderComponent implements OnInit, OnDestroy {
     this.orderStatusInfo = this.getOrderStatusInfo(this.currentOrderStatus);
   }
 
-  onSubmit() {
+  public setIdForUserAndAdress(arr: Object): void {
+    if (arr.hasOwnProperty('userInfoDto')) {
+      arr['userInfoDto']['recipientId'] = this.userInfo.recipientId;
+    }
+
+    if (arr.hasOwnProperty('addressExportDetailsDto')) {
+      arr['addressExportDetailsDto']['addressId'] = this.addressInfo.addressId;
+    }
+  }
+
+  public onSubmit(): void {
     const changedValues: any = {};
     this.getUpdates(this.orderForm, changedValues);
     this.formatExporteValue(changedValues.exportDetailsDto);
     changedValues.orderDetailDto = this.formatBagsValue(changedValues.orderDetailsForm);
     changedValues.ecoNumberFromShop = this.formatEcoNumbersFromShop(changedValues.orderDetailsForm);
     delete changedValues.orderDetailsForm;
-    console.log(JSON.stringify(changedValues));
 
     // TODO modify EcoNumbersFromShop and responsiblePersonsForm objects
+
+    this.setIdForUserAndAdress(changedValues);
 
     this.orderService
       .updateOrderInfo(this.orderId, this.currentLanguage, changedValues)
       .pipe(takeUntil(this.destroy$))
-      .subscribe((data) => {
+      .subscribe(() => {
         this.getOrderInfo(this.orderId, this.currentLanguage);
       });
   }

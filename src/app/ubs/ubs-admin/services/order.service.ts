@@ -73,6 +73,7 @@ export class OrderService {
   public getOrderDetails(orderId: number, lang: string): Observable<any> {
     return this.http.get<any>(`${this.backend}/management/read-order-info/${orderId}?language=${lang}`);
   }
+
   public getOrderSumDetails(orderId: number): Observable<any> {
     return this.http.get<any>(`${this.backend}/management/get-order-sum-detail/871`);
   }
