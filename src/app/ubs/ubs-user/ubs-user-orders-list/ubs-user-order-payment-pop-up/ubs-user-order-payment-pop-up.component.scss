@@ -124,3 +124,9 @@
     }
   }
 }
+
+@media (max-width: 420px) {
+  .dialog-container {
+    height: 100vh;
+  }
+}
