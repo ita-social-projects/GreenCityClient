@@ -21,7 +21,7 @@
     <app-error [formElement]="emailControl" [emailFieldValue]="emailFieldValue" [controlName]="'email'" tabindex="0"></app-error>
   </div>
   <div class="validation-email-error" *ngIf="emailErrorMessageBackEnd">
-    {{ emailErrorMessageBackEnd }}
+    {{ getEmailError() | translate }}
   </div>
   <div class="email-field-margin" *ngIf="backEndError"></div>
 </form>
