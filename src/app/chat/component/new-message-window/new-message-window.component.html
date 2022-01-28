@@ -18,25 +18,31 @@
         <img [src]="chatIcons.paperClip" alt="clip" title="Add file" />
       </button>
       <button>
-        <img [src]="chatIcons.smile" alt="smile" title="Add emoji" />
+        <img [src]="chatIcons.smile" alt="smile" title="Add emoji" (click)="toggleEmojiPicker()" />
       </button>
     </div>
     <button class="send-button" (click)="sendMessage()" [disabled]="!messageControl.value || !chatsService.currentChat">
       <img [src]="chatIcons.send" alt="send" title="Send mail" />
     </button>
   </div>
+  <emoji-mart
+    *ngIf="showEmojiPicker"
+    class="emoji-mart"
+    [emojiSize]="20"
+    [totalFrequentLines]="2"
+    [darkMode]="false"
+    [showPreview]="false"
+    (emojiSelect)="addEmoji($event)"
+    title="Pick your emoji…"
+  ></emoji-mart>
 </div>
 
 <ng-template #userSearch>
   <input type="text" class="search-field" placeholder="Search user..." [formControl]="userSearchControl" />
   <div class="search-dropdown" [class.active]="userSearchControl.value">
-    <div
-      class="chats-search-suggest"
-      *ngFor="let chat of chatsService.userChatsStream$ | async | chatsSearch: userSearchField"
-      (click)="chatsService.setCurrentChat(chat)"
-    >
+    <div class="chats-search-suggest" *ngFor="let friend of chatsService.searchedFriendsStream$ | async" (click)="checkChat(friend)">
       <img [src]="chatIcons.userLogo" alt="user-logo" />
-      <span class="chat-name">{{ chat.name }}</span>
+      <span class="chat-name">{{ friend.name }}</span>
     </div>
   </div>
 </ng-template>

@@ -134,6 +134,17 @@ textarea {
   }
 }
 
+.emoji-mart {
+  position: absolute;
+  bottom: 0px;
+  right: 250px;
+  box-sizing: border-box;
+}
+
+::ng-deep .emoji-mart-scroll {
+  height: 150px;
+}
+
 .sender-additional-buttons {
   @include flex(row, space-between, center);
   column-gap: 10px;

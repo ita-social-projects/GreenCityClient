@@ -1,10 +1,11 @@
-import { Messages } from './../../model/Message.model';
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Chat } from '../../model/Chat.model';
 import { environment } from '../../../../environments/environment';
 import { BehaviorSubject, Observable, Subject } from 'rxjs';
 import { Message } from '../../model/Message.model';
+import { FriendArrayModel, FriendModel } from '@global-user/models/friend.model';
+import { Messages } from './../../model/Message.model';
 
 @Injectable({
   providedIn: 'root'
@@ -13,6 +14,7 @@ export class ChatsService {
   public userChatsStream$: BehaviorSubject<Chat[]> = new BehaviorSubject<Chat[]>([]);
   public currentChatsStream$: BehaviorSubject<Chat> = new BehaviorSubject<Chat>(null);
   public currentChatMessagesStream$: BehaviorSubject<Message[]> = new BehaviorSubject<Message[]>([]);
+  public searchedFriendsStream$: BehaviorSubject<FriendModel[]> = new BehaviorSubject<FriendModel[]>([]);
   public isChatUpdateStream$: Subject<boolean> = new Subject<boolean>();
   public chatsMessages: Object = {};
   private messagesIsLoading = false;
@@ -80,9 +82,18 @@ export class ChatsService {
     });
   }
 
-  public openCurrentChat(chatId) {
+  public openCurrentChat(chatId: number) {
     const currentChat = this.userChats.find((chat) => chat.id === chatId);
     console.log(currentChat);
     this.setCurrentChat(currentChat);
+  }
+
+  public searchFriends(name: string) {
+    this.httpClient
+      .get(`${environment.backendUserLink}user/findUserByName?name=${name}&page=0&size=3`)
+      .subscribe((data: FriendArrayModel) => {
+        console.log(data);
+        this.searchedFriendsStream$.next(data.page);
+      });
   }
 }

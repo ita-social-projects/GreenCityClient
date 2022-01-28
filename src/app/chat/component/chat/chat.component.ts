@@ -65,7 +65,6 @@ export class ChatComponent implements OnInit, AfterViewChecked {
   }
 
   toggleEmojiPicker() {
-    console.log(this.showEmojiPicker);
     this.showEmojiPicker = !this.showEmojiPicker;
   }
 

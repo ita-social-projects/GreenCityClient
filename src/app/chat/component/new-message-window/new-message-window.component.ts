@@ -8,6 +8,7 @@ import { CommonService } from '../../service/common/common.service';
 import { SocketService } from '../../service/socket/socket.service';
 import { Message } from '../../model/Message.model';
 import { UserService } from '@global-service/user/user.service';
+import { FriendModel } from '@global-user/models/friend.model';
 
 @Component({
   selector: 'app-new-message-window',
@@ -20,6 +21,7 @@ export class NewMessageWindowComponent implements OnInit, OnDestroy {
   private onDestroy$ = new Subject();
   public userSearchControl: FormControl = new FormControl();
   public messageControl: FormControl = new FormControl('', [Validators.max(250)]);
+  public showEmojiPicker = false;
 
   constructor(
     public chatsService: ChatsService,
@@ -31,11 +33,21 @@ export class NewMessageWindowComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
     this.userSearchControl.valueChanges.pipe(debounceTime(500), takeUntil(this.onDestroy$)).subscribe((newInput) => {
       this.userSearchField = newInput;
+      this.chatsService.searchFriends(newInput);
     });
   }
 
   public close() {
     this.commonService.newMessageWindowRequireCloseStream$.next(true);
+  }
+
+  public checkChat(friend: FriendModel) {
+    if (friend.friendsChatDto.chatExists) {
+      const chat = this.chatsService.userChats.find((chat) => chat.id === friend.friendsChatDto.chatId);
+      this.chatsService.setCurrentChat(chat);
+    } else {
+      this.socketService.createNewChat(friend.id, false, true);
+    }
   }
 
   public sendMessage() {
@@ -46,6 +58,15 @@ export class NewMessageWindowComponent implements OnInit, OnDestroy {
     };
     this.socketService.sendMessage(message);
     this.close();
+  }
+
+  toggleEmojiPicker() {
+    this.showEmojiPicker = !this.showEmojiPicker;
+  }
+
+  addEmoji(event) {
+    const newValue = this.messageControl.value ? this.messageControl.value + event.emoji.native : event.emoji.native;
+    this.messageControl.setValue(newValue);
   }
 
   ngOnDestroy(): void {

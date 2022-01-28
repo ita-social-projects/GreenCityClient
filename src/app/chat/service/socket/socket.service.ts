@@ -18,6 +18,7 @@ export class SocketService {
   private backendSocketLink = `${environment.socket}`;
   private userId: number;
   private isOpenNewChat = false;
+  private isOpenNewChatInWindow = false;
 
   public updateFriendsChatsStream$: Subject<FriendChatInfo> = new Subject<FriendChatInfo>();
 
@@ -65,6 +66,9 @@ export class SocketService {
         this.chatsService.openCurrentChat(newUserChat.id);
         this.isOpenNewChat = false;
       }
+      if (this.isOpenNewChatInWindow) {
+        this.chatsService.setCurrentChat(newUserChat);
+      }
     });
   }
 
@@ -81,15 +85,15 @@ export class SocketService {
     const currentChat = this.chatsService.currentChat;
     currentChat.lastMessage = message.content;
     currentChat.lastMessageDate = message.createDate;
-    // this.chatsService.updateChat(currentChat);
   }
 
-  createNewChat(participantsId) {
+  createNewChat(participantsId, isOpen, isOpenInWindow?) {
     const newChatInfo = {
       currentUserId: this.userId,
       participantsIds: participantsId
     };
     this.stompClient.send(`/app/chat/user`, {}, JSON.stringify(newChatInfo));
-    this.isOpenNewChat = true;
+    this.isOpenNewChat = isOpen;
+    this.isOpenNewChatInWindow = isOpenInWindow;
   }
 }

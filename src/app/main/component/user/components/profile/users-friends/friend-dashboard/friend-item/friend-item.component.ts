@@ -1,10 +1,10 @@
-import { ChatsService } from './../../../../../../../../chat/service/chats/chats.service';
 import { MatDialog } from '@angular/material/dialog';
-import { ChatModalComponent } from './../../../../../../../../chat/component/chat-modal/chat-modal.component';
 import { Component, Input, Output, EventEmitter } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { FriendModel } from '@global-user/models/friend.model';
 import { SocketService } from 'src/app/chat/service/socket/socket.service';
+import { ChatsService } from 'src/app/chat/service/chats/chats.service';
+import { ChatModalComponent } from 'src/app/chat/component/chat-modal/chat-modal.component';
 
 @Component({
   selector: 'app-friend-item',
@@ -80,7 +80,7 @@ export class FriendItemComponent {
   }
 
   private onCreateChat() {
-    this.socketService.createNewChat(this.friend.id);
+    this.socketService.createNewChat(this.friend.id, true);
     this.dialog.closeAll();
     this.dialog.open(ChatModalComponent, this.dialogConfig);
     this.friend.friendsChatDto.chatExists = true;
