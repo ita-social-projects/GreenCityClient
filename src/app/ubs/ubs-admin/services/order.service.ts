@@ -1,7 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
-import { UserViolations, IOrderHistory } from '../models/ubs-admin.interface';
+import { UserViolations, IOrderHistory, IOrderInfo } from '../models/ubs-admin.interface';
 import { environment } from '@environment/environment';
 import { IViolation } from '../models/violation.model';
 
@@ -62,8 +62,8 @@ export class OrderService {
     }
   }
 
-  public getOrderInfo(orderId, lang) {
-    return this.http.get(`${this.backend}/management/get-data-for-order/${orderId}/${lang}`);
+  public getOrderInfo(orderId, lang): Observable<IOrderInfo> {
+    return this.http.get<IOrderInfo>(`${this.backend}/management/get-data-for-order/${orderId}/${lang}`);
   }
 
   public updateOrderInfo(orderId: number, lang: string, data: {}) {

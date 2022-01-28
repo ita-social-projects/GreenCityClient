@@ -72,7 +72,7 @@ export class UbsAdminOrderComponent implements OnInit, OnDestroy {
     this.orderService
       .getOrderInfo(orderId, lang)
       .pipe(takeUntil(this.destroy$))
-      .subscribe((data: any) => {
+      .subscribe((data: IOrderInfo) => {
         this.orderInfo = data;
         this.generalInfo = data.generalOrderInfo;
         this.currentOrderStatus = this.generalInfo.orderStatus;
