@@ -10,6 +10,7 @@
     width: 905px;
     display: flex;
     justify-content: space-between;
+    padding-right: 10px;
 
     .header-text {
       margin: 0 20px 20px 20px;
@@ -132,7 +133,8 @@
 @media (max-width: 992px) {
   .ubs_profile-header {
     display: flex;
-    align-items: flex-end;
+    flex-direction: column;
+    align-items: flex-start;
 
     .edit {
       margin-right: 10px;
