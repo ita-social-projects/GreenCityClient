@@ -36,9 +36,9 @@ export class EmployeesEffects {
   addEmployee = createEffect(() => {
     return this.actions.pipe(
       ofType(AddEmployee),
-      mergeMap((action: { data: any; employee: Page }) => {
+      mergeMap((action: { data: FormData; employee: Page }) => {
         return this.ubsAdminEmployeeService.postEmployee(action.data).pipe(
-          map((data) => {
+          map((data: Page) => {
             const employee = JSON.parse(JSON.stringify(action.employee));
             employee.id = data.id;
             if (employee.image !== data.image) {
@@ -55,9 +55,9 @@ export class EmployeesEffects {
   updateEmployee = createEffect(() => {
     return this.actions.pipe(
       ofType(UpdateEmployee),
-      mergeMap((action: { data: any; employee: Page }) => {
+      mergeMap((action: { data: FormData; employee: Page }) => {
         return this.ubsAdminEmployeeService.updateEmployee(action.data).pipe(
-          map((data) => {
+          map((data: Page) => {
             const employee = JSON.parse(JSON.stringify(action.employee));
             if (employee.image !== data.image) {
               employee.image = data.image;
