@@ -97,7 +97,7 @@
       <button class="btn btn-cancel" mat-dialog-close>
         {{ 'ubs-client-profile.payment.btn.cancel' | translate }}
       </button>
-      <button class="btn btn-pay" [disabled]="0 > userOrder.sum || dataLoadingLiqPay" (click)="processOrder()" mat-dialog-close>
+      <button class="btn btn-pay" [disabled]="0 > userOrder.sum || dataLoadingLiqPay" (click)="processOrder()">
         <span *ngIf="dataLoadingLiqPay" class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
         {{ 'ubs-client-profile.payment.btn.pay' | translate }}
       </button>

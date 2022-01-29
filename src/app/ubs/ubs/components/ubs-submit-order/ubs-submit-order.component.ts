@@ -171,7 +171,6 @@ export class UBSSubmitOrderComponent extends FormBaseComponent implements OnInit
         .pipe(takeUntil(this.destroy))
         .pipe(
           finalize(() => {
-            this.loadingAnim = false;
             this.shareFormService.isDataSaved = false;
             if (!this.shareFormService.orderUrl) {
               this.router.navigate(['ubs', 'confirm']);
@@ -198,7 +197,7 @@ export class UBSSubmitOrderComponent extends FormBaseComponent implements OnInit
           }
         );
     } else {
-      this.onNotSaveData();
+      this.getLiqPayButton();
     }
   }
 
@@ -207,22 +206,26 @@ export class UBSSubmitOrderComponent extends FormBaseComponent implements OnInit
     this.orderService
       .getLiqPayForm()
       .pipe(takeUntil(this.destroy))
-      .subscribe((res) => {
-        const { orderId, liqPayButton } = JSON.parse(res);
-        this.localStorageService.setUbsOrderId(orderId);
-        this.liqPayButtonForm = this.sanitizer.bypassSecurityTrustHtml(liqPayButton);
-        setTimeout(() => {
-          this.liqPayButton = document.getElementsByName('btn_text');
-          this.loadingAnim = false;
-        }, 0);
-      });
+      .subscribe(
+        (res) => {
+          const { orderId, liqPayButton } = JSON.parse(res);
+          this.localStorageService.setUbsOrderId(orderId);
+          this.liqPayButtonForm = this.sanitizer.bypassSecurityTrustHtml(liqPayButton);
+          setTimeout(() => {
+            this.liqPayButton = document.getElementsByName('btn_text');
+            this.onNotSaveData();
+          }, 0);
+        },
+        (error) => {
+          this.router.navigate(['ubs', 'confirm']);
+        }
+      );
   }
 
   orderButton(event: any) {
     this.selectedPayment = event.target.value;
     if (this.selectedPayment === 'LiqPay') {
       this.isLiqPay = true;
-      this.getLiqPayButton();
     } else {
       this.loadingAnim = false;
       this.isLiqPay = false;

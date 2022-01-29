@@ -1,6 +1,6 @@
 import { Component, Inject, OnInit } from '@angular/core';
 import { FormArray, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
-import { MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { OrderService } from 'src/app/ubs/ubs/services/order.service';
 import { ResponceOrderFondyModel } from '../models/ResponceOrderFondyModel';
 import { OrderClientDto } from '../models/OrderClientDto';
@@ -57,6 +57,7 @@ export class UbsUserOrderPaymentPopUpComponent implements OnInit {
     private orderService: OrderService,
     private sanitizer: DomSanitizer,
     @Inject(MAT_DIALOG_DATA) public data: IOrderData,
+    public dialogRef: MatDialogRef<UbsUserOrderPaymentPopUpComponent>,
     private localStorageService: LocalStorageService,
     private ubsOrderFormService: UBSOrderFormService,
     public router: Router
@@ -172,46 +173,54 @@ export class UbsUserOrderPaymentPopUpComponent implements OnInit {
   }
 
   public processOrder(): void {
+    this.dataLoadingLiqPay = true;
     this.fillOrderClientDto();
     this.localStorageService.clearPaymentInfo();
     this.localStorageService.setUserPagePayment(true);
 
     if (this.formPaymentSystem.value === 'Fondy') {
-      this.orderService.processOrderFondyFromUserOrderList(this.orderClientDto).subscribe((responce: ResponceOrderFondyModel) => {
-        if (responce.link) {
-          this.localStorageService.setUbsFondyOrderId(this.orderClientDto.orderId);
-          document.location.href = responce.link;
-        } else {
-          this.redirectionToConfirmPage();
+      this.orderService.processOrderFondyFromUserOrderList(this.orderClientDto).subscribe(
+        (responce: ResponceOrderFondyModel) => {
+          if (responce.link) {
+            this.localStorageService.setUbsFondyOrderId(this.orderClientDto.orderId);
+            document.location.href = responce.link;
+          } else {
+            this.redirectionToConfirmPage();
+            this.dialogRef.close();
+          }
+        },
+        () => {
+          this.dataLoadingLiqPay = false;
         }
-      });
-    } else {
-      if (this.isLiqPayLink) {
-        this.localStorageService.setUbsOrderId(this.orderClientDto.orderId);
-        this.liqPayButton[0].click();
-      } else {
-        this.redirectionToConfirmPage();
-      }
+      );
+    }
+
+    if (this.formPaymentSystem.value === 'LiqPay') {
+      this.orderService.processOrderLiqPayFromUserOrderList(this.orderClientDto).subscribe(
+        (responce: ResponceOrderLiqPayModel) => {
+          if (!responce.liqPayButton) {
+            this.redirectionToConfirmPage();
+            this.dialogRef.close();
+          } else {
+            this.isLiqPayLink = true;
+            this.liqPayButtonForm = this.sanitizer.bypassSecurityTrustHtml(responce.liqPayButton);
+            setTimeout(() => {
+              this.liqPayButton = document.getElementsByName('btn_text');
+              this.localStorageService.setUbsOrderId(this.orderClientDto.orderId);
+              this.liqPayButton[0].click();
+            }, 0);
+          }
+        },
+        () => {
+          this.dataLoadingLiqPay = false;
+        }
+      );
     }
   }
 
   public orderOptionPayment(event: Event): void {
     this.selectedPayment = (event.target as HTMLInputElement).value;
     this.fillOrderClientDto();
-
-    if (this.selectedPayment === 'LiqPay') {
-      this.dataLoadingLiqPay = true;
-      this.orderService.processOrderLiqPayFromUserOrderList(this.orderClientDto).subscribe(async (responce: ResponceOrderLiqPayModel) => {
-        if (!responce.liqPayButton) {
-          this.isLiqPayLink = false;
-        } else {
-          this.isLiqPayLink = true;
-          this.liqPayButtonForm = await this.sanitizer.bypassSecurityTrustHtml(responce.liqPayButton);
-          this.liqPayButton = document.getElementsByName('btn_text');
-          this.dataLoadingLiqPay = false;
-        }
-      });
-    }
   }
 
   public bonusOption(event: MatRadioChange): void {
