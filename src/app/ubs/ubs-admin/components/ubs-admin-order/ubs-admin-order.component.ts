@@ -249,27 +249,34 @@ export class UbsAdminOrderComponent implements OnInit, OnDestroy {
     this.orderStatusInfo = this.getOrderStatusInfo(this.currentOrderStatus);
   }
 
-  public setIdForUserAndAdress(obj: Object): void {
-    if (obj.hasOwnProperty('userInfoDto')) {
-      obj['userInfoDto']['recipientId'] = this.userInfo.recipientId;
+  public addIdForUserAndAdress(order: any): void {
+    if (order.hasOwnProperty('userInfoDto')) {
+      order['userInfoDto']['recipientId'] = this.userInfo.recipientId;
     }
 
-    if (obj.hasOwnProperty('addressExportDetailsDto')) {
-      obj['addressExportDetailsDto']['addressId'] = this.addressInfo.addressId;
+    if (order.hasOwnProperty('addressExportDetailsDto')) {
+      order['addressExportDetailsDto']['addressId'] = this.addressInfo.addressId;
     }
   }
 
   public onSubmit(): void {
     const changedValues: any = {};
     this.getUpdates(this.orderForm, changedValues);
-    this.formatExporteValue(changedValues.exportDetailsDto);
-    changedValues.orderDetailDto = this.formatBagsValue(changedValues.orderDetailsForm);
-    changedValues.ecoNumberFromShop = this.formatEcoNumbersFromShop(changedValues.orderDetailsForm);
-    delete changedValues.orderDetailsForm;
+
+    if (changedValues.exportDetailsDto) {
+      this.formatExporteValue(changedValues.exportDetailsDto);
+    }
+
+    if (changedValues.orderDetailsForm) {
+      changedValues.orderDetailDto = this.formatBagsValue(changedValues.orderDetailsForm);
+      changedValues.ecoNumberFromShop = changedValues.orderDetailsForm.storeOrderNumbers;
+    }
 
     // TODO modify EcoNumbersFromShop and responsiblePersonsForm objects
 
-    this.setIdForUserAndAdress(changedValues);
+    this.addIdForUserAndAdress(changedValues);
+
+    console.log(changedValues);
 
     this.orderService
       .updateOrderInfo(this.orderId, this.currentLanguage, changedValues)
@@ -279,7 +286,7 @@ export class UbsAdminOrderComponent implements OnInit, OnDestroy {
       });
   }
 
-  private getUpdates(formItem: FormGroup | FormArray | FormControl, changedValues: any, name?: string) {
+  private getUpdates(formItem: FormGroup | FormArray | FormControl, changedValues: IOrderInfo, name?: string) {
     if (formItem instanceof FormControl) {
       if (name && formItem.dirty) {
         changedValues[name] = formItem.value;
@@ -311,11 +318,7 @@ export class UbsAdminOrderComponent implements OnInit, OnDestroy {
     return date ? date.toISOString() : '';
   }
 
-  formatExporteValue(exportDetailsDto) {
-    if (!exportDetailsDto) {
-      return;
-    }
-
+  public formatExporteValue(exportDetailsDto): void {
     const exportDate = new Date(exportDetailsDto.dateExport);
 
     if (exportDetailsDto.dateExport) {
@@ -331,15 +334,7 @@ export class UbsAdminOrderComponent implements OnInit, OnDestroy {
     }
   }
 
-  formatEcoNumbersFromShop(orderDetailsForm) {
-    return orderDetailsForm ? orderDetailsForm.storeOrderNumbers : undefined;
-  }
-
-  formatBagsValue(orderDetailsForm) {
-    if (!orderDetailsForm) {
-      return;
-    }
-
+  public formatBagsValue(orderDetailsForm) {
     const confirmed = {};
     const exported = {};
 
