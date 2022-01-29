@@ -249,13 +249,18 @@ export class UbsAdminOrderComponent implements OnInit, OnDestroy {
     this.orderStatusInfo = this.getOrderStatusInfo(this.currentOrderStatus);
   }
 
-  public addIdForUserAndAdress(order: any): void {
-    if (order.hasOwnProperty('userInfoDto')) {
-      order['userInfoDto']['recipientId'] = this.userInfo.recipientId;
+  public addIdForUserAndAdress(order: FormGroup): void {
+    const addressId = 'addressId';
+    const recipientId = 'recipientId';
+    const keyUserInfo = 'userInfoDto';
+    const keyAddressExportDetails = 'addressExportDetailsDto';
+
+    if (order.hasOwnProperty(keyUserInfo)) {
+      order[keyUserInfo][recipientId] = this.userInfo.recipientId;
     }
 
-    if (order.hasOwnProperty('addressExportDetailsDto')) {
-      order['addressExportDetailsDto']['addressId'] = this.addressInfo.addressId;
+    if (order.hasOwnProperty(keyAddressExportDetails)) {
+      order[keyAddressExportDetails][addressId] = this.addressInfo.addressId;
     }
   }
 
