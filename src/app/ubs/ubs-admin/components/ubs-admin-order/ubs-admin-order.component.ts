@@ -318,7 +318,7 @@ export class UbsAdminOrderComponent implements OnInit, OnDestroy {
     return date ? date.toISOString() : '';
   }
 
-  public formatExporteValue(exportDetailsDto): void {
+  public formatExporteValue(exportDetailsDto: IExportDetails): void {
     const exportDate = new Date(exportDetailsDto.dateExport);
 
     if (exportDetailsDto.dateExport) {
