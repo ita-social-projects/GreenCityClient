@@ -38,6 +38,7 @@ export class SignUpComponent implements OnInit, OnDestroy {
     this.currentLanguage = this.localeStorageService.getCurrentLanguage();
     this.onFormInit();
     this.getFormFields();
+    this.checkIfUserId();
     this.popupViewService.closePopUpSubject.pipe(takeUntil(this.destroy)).subscribe((value) => {
       if (value === 'close') {
         this.closeSignUpWindow();
@@ -47,6 +48,14 @@ export class SignUpComponent implements OnInit, OnDestroy {
 
   public onSubmit(): void {
     this.popupViewService.signUp(this.emailControl.value, this.firstNameControl.value, this.passwordControl.value);
+  }
+
+  private checkIfUserId(): void {
+    this.localeStorageService.userIdBehaviourSubject.pipe(takeUntil(this.destroy)).subscribe((userId) => {
+      if (userId) {
+        this.matDialogRef.close();
+      }
+    });
   }
 
   private getFormFields(): void {

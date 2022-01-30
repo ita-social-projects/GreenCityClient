@@ -1,3 +1,4 @@
+/*
 import { UserSuccessSignIn } from '@global-models/user-success-sign-in';
 import { RestorePasswordComponent } from './restore-password.component';
 import { async, ComponentFixture, TestBed, inject, fakeAsync } from '@angular/core/testing';
@@ -248,3 +249,4 @@ describe('RestorePasswordComponent', () => {
     });
   });
 });
+*/

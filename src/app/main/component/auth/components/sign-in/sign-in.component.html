@@ -16,16 +16,16 @@
   <span class="or-use-google">{{ 'user.auth.sign-in.or-signin' | translate }}</span>
 </form>
 <div class="google-sign-in-block">
-  <app-google-btn (click)="signInWithGoogle()" [text]="'user.auth.sign-in.sign-in-with-google'"></app-google-btn>
+  <app-google-btn [text]="'user.auth.sign-in.sign-in-with-google'" (click)="signInWithGoogle()"></app-google-btn>
 </div>
 <div class="missing-account">
   <p>
     {{ 'user.auth.sign-in.havenot-account' | translate }}
     <a
-      (click)="onOpenModalWindow('sign-up')"
-      (keyup.enter)="onOpenModalWindow('sign-up')"
       [ngClass]="isUbs ? 'ubs-sign-up-link' : 'sign-up-link'"
       tabindex="0"
+      (click)="onOpenModalWindow('sign-up')"
+      (keyup.enter)="onOpenModalWindow('sign-up')"
     >
       {{ 'user.auth.sign-in.sign-up' | translate }}
     </a>

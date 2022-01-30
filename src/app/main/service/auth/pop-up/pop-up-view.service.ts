@@ -17,6 +17,7 @@ import { UserOwnSignUp } from '@global-models/user-own-sign-up';
 import { UserOwnSignUpService } from '@auth-service/user-own-sign-up.service';
 import { MatSnackBarComponent } from '@global-errors/mat-snack-bar/mat-snack-bar.component';
 import { ConfirmPasswordValidator } from '@global-auth/sign-up/sign-up.validator';
+import { RestorePasswordService } from '@auth-service/restore-password.service';
 
 @Injectable({
   providedIn: 'root'
@@ -24,6 +25,7 @@ import { ConfirmPasswordValidator } from '@global-auth/sign-up/sign-up.validator
 export class PopUpViewService implements OnDestroy {
   private signInValue = 'sign-in';
   private signUpValue = 'sign-up';
+  private restorePasswordValue = 'restore-password';
   private validityStatus = 'noValid';
   private emailValueIsValid: boolean;
   private userNameFieldIsValid: boolean;
@@ -32,6 +34,7 @@ export class PopUpViewService implements OnDestroy {
   private jwtService: JwtService;
   private router: Router;
   private authService: AuthService;
+  private restorePasswordService: RestorePasswordService;
   private googleService: GoogleSignInService;
   private localeStorageService: LocalStorageService;
   private userOwnAuthService: UserOwnAuthService;
@@ -54,6 +57,7 @@ export class PopUpViewService implements OnDestroy {
   private signUpEmailErrorMessageBackEnd: string;
   private signUpPasswordErrorMessageBackEnd: string;
   private signUpFirstNameErrorMessageBackEnd: string;
+  private restorePasswordEmailMessageBackEnd: string;
   private readonly signInTittle = {
     title: 'user.auth.sign-in.title',
     information: 'user.auth.sign-in.fill-form'
@@ -84,6 +88,7 @@ export class PopUpViewService implements OnDestroy {
   passwordBackendErrorSubject: Subject<string> = new Subject<string>();
 
   constructor(private injector: Injector) {
+    this.restorePasswordService = injector.get(RestorePasswordService);
     this.localeStorageService = injector.get(LocalStorageService);
     this.userOwnSignInService = injector.get(UserOwnSignInService);
     this.userOwnSignUpService = injector.get(UserOwnSignUpService);
@@ -108,6 +113,8 @@ export class PopUpViewService implements OnDestroy {
       .subscribe(
         (data: UserSuccessSignIn) => {
           this.onSignInSuccess(data);
+          this.loadButtonAnimation = false;
+          this.loadButtonAnimationBehaviourSubject.next(this.loadButtonAnimation);
         },
         (errors: HttpErrorResponse) => {
           this.onSignInFailure(errors);
@@ -135,7 +142,8 @@ export class PopUpViewService implements OnDestroy {
     if (this.currentPage === this.signUpValue) {
       this.passwordValueIsValid = isValid;
       this.passwordValue = value;
-    } else if (this.currentPage === this.signInValue) {
+    }
+    if (this.currentPage === this.signInValue) {
       this.passwordValueIsValid = isValid;
     }
     this.setButtonActive();
@@ -149,7 +157,8 @@ export class PopUpViewService implements OnDestroy {
   private setButtonActive() {
     if (this.currentPage === this.signInValue) {
       this.buttonActive = this.emailValueIsValid && this.passwordValueIsValid && this.passwordValue !== '';
-    } else if (this.currentPage === this.signUpValue) {
+    }
+    if (this.currentPage === this.signUpValue) {
       const boolValue = ConfirmPasswordValidator(this.passwordValue, this.repeatPasswordValue);
       this.buttonActive = this.emailValueIsValid && this.passwordValueIsValid && this.userNameFieldIsValid && boolValue;
       this.validityStatus = !boolValue ? 'noValid' : 'valid';
@@ -157,7 +166,32 @@ export class PopUpViewService implements OnDestroy {
         this.passwordMismatchSubject.next(this.validityStatus);
       }
     }
+    if (this.currentPage === this.restorePasswordValue) {
+      this.buttonActive = this.emailValueIsValid;
+    }
     this.buttonActiveBehaviourSubject.next(this.buttonActive);
+  }
+
+  sendEmail(email: string): void {
+    this.loadButtonAnimation = true;
+    this.loadButtonAnimationBehaviourSubject.next(this.loadButtonAnimation);
+    this.currentLanguage = this.localeStorageService.getCurrentLanguage();
+    this.restorePasswordService
+      .sendEmailForRestore(email, this.currentLanguage)
+      .pipe(take(1))
+      .subscribe({
+        next: () => {
+          this.closePopUpSubject.next('close');
+          this.snackBar.openSnackBar('successRestorePassword');
+          this.loadButtonAnimation = false;
+          this.loadButtonAnimationBehaviourSubject.next(this.loadButtonAnimation);
+        },
+        error: (error: HttpErrorResponse) => {
+          this.onSendEmailBadMessage(error);
+          this.loadButtonAnimation = false;
+          this.loadButtonAnimationBehaviourSubject.next(this.loadButtonAnimation);
+        }
+      });
   }
 
   setPopupViewValue(page: string): void {
@@ -168,7 +202,7 @@ export class PopUpViewService implements OnDestroy {
     this.currentPage = page;
     this.localeStorageService.ubsRegBehaviourSubject.pipe(takeUntil(this.destroy)).subscribe((value) => (this.isUbs = value));
     this.popUpValue =
-      page === this.signInValue ? this.signInTittle : page === 'restore-password' ? this.restorePassword : this.signUpTittle;
+      page === this.signInValue ? this.signInTittle : page === this.restorePasswordValue ? this.restorePassword : this.signUpTittle;
     this.regPopUpViewBehaviourSubject.next(this.popUpValue);
   }
 
@@ -194,6 +228,8 @@ export class PopUpViewService implements OnDestroy {
       .subscribe(
         (data: SuccessSignUpDto) => {
           this.onSubmitSuccess(data);
+          this.loadButtonAnimation = false;
+          this.loadButtonAnimationBehaviourSubject.next(this.loadButtonAnimation);
         },
         (error: HttpErrorResponse) => {
           this.onSubmitError(error);
@@ -203,6 +239,11 @@ export class PopUpViewService implements OnDestroy {
       );
   }
 
+  private onSendEmailBadMessage(error: HttpErrorResponse): void {
+    this.restorePasswordEmailMessageBackEnd = error.error.name === 'email' ? 'already-sent' : 'email-not-exist';
+    this.emailBackendErrorSubject.next(this.restorePasswordEmailMessageBackEnd);
+  }
+
   private onSubmitError(errors: HttpErrorResponse): void {
     errors.error.map((error) => {
       this.errorsType[error.name](error.message);
@@ -210,13 +251,24 @@ export class PopUpViewService implements OnDestroy {
     this.emailBackendErrorSubject.next(this.signUpEmailErrorMessageBackEnd);
     this.firstNameBackendErrorSubject.next(this.signUpFirstNameErrorMessageBackEnd);
     this.passwordBackendErrorSubject.next(this.signUpPasswordErrorMessageBackEnd);
-    this.loadButtonAnimation = false;
-    this.loadButtonAnimationBehaviourSubject.next(this.loadButtonAnimation);
+  }
+
+  private onSignInFailure(errors: HttpErrorResponse): void {
+    if (typeof errors === 'string') {
+      return;
+    } else if (!Array.isArray(errors.error)) {
+      this.backEndError = errors.error.message;
+      this.backendErrorSubject.next(this.backEndError);
+      return;
+    }
+
+    errors.error.forEach((error) => {
+      this.signInEmailErrorMessageBackEnd = error.name === 'email' ? error.message : this.signInEmailErrorMessageBackEnd;
+      this.signInPasswordErrorMessageBackEnd = error.name === 'password' ? error.message : this.signInPasswordErrorMessageBackEnd;
+    });
   }
 
   private onSubmitSuccess(data: SuccessSignUpDto): void {
-    this.loadButtonAnimation = false;
-    this.loadButtonAnimationBehaviourSubject.next(this.loadButtonAnimation);
     this.closePopUpSubject.next('close');
     this.snackBar.openSnackBar('signUp');
   }
@@ -255,8 +307,6 @@ export class PopUpViewService implements OnDestroy {
   }
 
   private onSignInSuccess(data: UserSuccessSignIn): void {
-    this.loadButtonAnimation = false;
-    this.loadButtonAnimationBehaviourSubject.next(this.loadButtonAnimation);
     this.userOwnSignInService.saveUserToLocalStorage(data);
     this.localeStorageService.setFirstName(data.name);
     this.localeStorageService.setFirstSignIn();
@@ -264,21 +314,6 @@ export class PopUpViewService implements OnDestroy {
     this.jwtService.userRole$.next(this.jwtService.getUserRole());
     this.navigateToLink = this.isUbs ? ['ubs', 'order'] : ['profile', data.userId];
     this.router.navigate(this.navigateToLink);
-  }
-
-  private onSignInFailure(errors: HttpErrorResponse): void {
-    if (typeof errors === 'string') {
-      return;
-    } else if (!Array.isArray(errors.error)) {
-      this.backEndError = errors.error.message;
-      this.backendErrorSubject.next(this.backEndError);
-      return;
-    }
-
-    errors.error.forEach((error) => {
-      this.signInEmailErrorMessageBackEnd = error.name === 'email' ? error.message : this.signInEmailErrorMessageBackEnd;
-      this.signInPasswordErrorMessageBackEnd = error.name === 'password' ? error.message : this.signInPasswordErrorMessageBackEnd;
-    });
   }
 
   ngOnDestroy() {

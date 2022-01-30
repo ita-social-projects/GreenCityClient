@@ -41,7 +41,11 @@ export class EmailInputFieldComponent implements OnInit, OnDestroy {
   public getEmailError(): string {
     return /already registered/.test(this.emailErrorMessageBackEnd)
       ? 'user.auth.sign-up.the-user-already-exists-by-this-email'
-      : 'user.auth.sign-up.this-is-not-email';
+      : 'user.auth.sign-up.this-is-not-email'
+      ? /already-sent/.test(this.emailErrorMessageBackEnd)
+        ? 'user.auth.forgot-password.already-sent'
+        : 'user.auth.forgot-password.email-not-exist'
+      : null;
   }
 
   public configDefaultErrorMessage(): void {
@@ -49,12 +53,8 @@ export class EmailInputFieldComponent implements OnInit, OnDestroy {
     this.emailErrorMessageBackEnd = null;
     this.emailControl.markAsTouched();
     this.emailFieldValue = this.emailControl.value;
-    if (this.emailFormGroup.valid && this.emailControl.touched) {
-      this.backEndError = null;
-      this.popUpViewService.setEmailInputField(true);
-    } else {
-      this.popUpViewService.setEmailInputField(false);
-    }
+    const isValid = this.emailFormGroup.valid && this.emailControl.touched;
+    this.popUpViewService.setEmailInputField(isValid);
   }
 
   ngOnDestroy() {
