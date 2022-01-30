@@ -107,12 +107,12 @@ export class UbsUserOrderPaymentPopUpComponent implements OnInit {
     this.userCertificate.certificateSum = 0;
     this.userCertificate.certificateStatusActive = false;
     this.orderService.processCertificate(certificate.value.certificateCode).subscribe(
-      (responce) => {
-        if (responce.certificateStatus === 'ACTIVE') {
-          this.userCertificate.certificateSum = responce.certificatePoints;
-          this.userCertificate.certificateDate = responce.certificateDate;
-          certificate.value.certificateSum = responce.certificatePoints;
-          this.userOrder.sum -= responce.certificatePoints;
+      (response) => {
+        if (response.certificateStatus === 'ACTIVE') {
+          this.userCertificate.certificateSum = response.certificatePoints;
+          this.userCertificate.certificateDate = response.certificateDate;
+          certificate.value.certificateSum = response.certificatePoints;
+          this.userOrder.sum -= response.certificatePoints;
           if (this.userOrder.sum < 0) {
             this.userOrder.sum = 0;
           }
@@ -180,10 +180,10 @@ export class UbsUserOrderPaymentPopUpComponent implements OnInit {
 
     if (this.formPaymentSystem.value === 'Fondy') {
       this.orderService.processOrderFondyFromUserOrderList(this.orderClientDto).subscribe(
-        (responce: ResponceOrderFondyModel) => {
-          if (responce.link) {
+        (response: ResponceOrderFondyModel) => {
+          if (response.link) {
             this.localStorageService.setUbsFondyOrderId(this.orderClientDto.orderId);
-            document.location.href = responce.link;
+            document.location.href = response.link;
           } else {
             this.redirectionToConfirmPage();
             this.dialogRef.close();
@@ -197,13 +197,13 @@ export class UbsUserOrderPaymentPopUpComponent implements OnInit {
 
     if (this.formPaymentSystem.value === 'LiqPay') {
       this.orderService.processOrderLiqPayFromUserOrderList(this.orderClientDto).subscribe(
-        (responce: ResponceOrderLiqPayModel) => {
-          if (!responce.liqPayButton) {
+        (response: ResponceOrderLiqPayModel) => {
+          if (!response.liqPayButton) {
             this.redirectionToConfirmPage();
             this.dialogRef.close();
           } else {
             this.isLiqPayLink = true;
-            this.liqPayButtonForm = this.sanitizer.bypassSecurityTrustHtml(responce.liqPayButton);
+            this.liqPayButtonForm = this.sanitizer.bypassSecurityTrustHtml(response.liqPayButton);
             setTimeout(() => {
               this.liqPayButton = document.getElementsByName('btn_text');
               this.localStorageService.setUbsOrderId(this.orderClientDto.orderId);
