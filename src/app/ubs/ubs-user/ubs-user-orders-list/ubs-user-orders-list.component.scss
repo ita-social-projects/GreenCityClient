@@ -17,6 +17,8 @@
   .mat-expansion-panel-header {
     height: 64px !important;
     margin: 0 0 44px 0;
+    display: flex !important;
+    flex-direction: row-reverse !important;
   }
 }
 
@@ -106,6 +108,7 @@
 .mat-expansion-panel-header-title {
   display: flex;
   align-items: center;
+  padding: 0 10px;
 }
 
 .mat-expansion-panel-header-description {
