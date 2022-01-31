@@ -1,0 +1,15 @@
+<div class="main-employee-container">
+  <div class="employee-header">
+    <div class="eployee-name">
+      <p class="h5 page-name">{{ 'employees.title' | translate }}</p>
+    </div>
+    <div class="employee-add">
+      <button class="primary-global-button button-name">
+        <div class="subtitle-2" (click)="openDialog()">{{ 'employees.btn.add-employee' | translate }}</div>
+      </button>
+    </div>
+  </div>
+  <div class="employees">
+    <app-ubs-admin-employee-table></app-ubs-admin-employee-table>
+  </div>
+</div>

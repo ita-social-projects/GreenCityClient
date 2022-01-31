@@ -17,7 +17,7 @@ import { environment } from '@environment/environment';
 import { Subject } from 'rxjs';
 import { MatDialog } from '@angular/material/dialog';
 import { HeaderService } from '@global-service/header/header.service';
-import { OrderService } from 'src/app/main/component/ubs/services/order.service';
+import { OrderService } from 'src/app/ubs/ubs/services/order.service';
 
 @Component({
   selector: 'app-header',
@@ -190,6 +190,7 @@ export class HeaderComponent implements OnInit, OnDestroy {
       const curLangId = this.languageService.getLanguageId(language.toLowerCase() as Language);
       this.userService.updateUserLanguage(curLangId).subscribe();
     }
+    window.location.reload();
   }
 
   public getUserId(): number | string {

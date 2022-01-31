@@ -1,0 +1,25 @@
+<div class="wrapper">
+  <div class="main_header">
+    <h1 class="main_header-title">{{ 'user-orders.order-title' | translate }}</h1>
+    <button class="btn_pay" (click)="redirectToOrder()">{{ 'user-orders.btn.new-order' | translate }}</button>
+  </div>
+  <div *ngIf="loading(); else spinner">
+    <div *ngIf="!orders || orders.length === 0" class="if_empty">
+      <span>{{ 'user-orders.no-orders' | translate }}</span>
+    </div>
+    <div *ngIf="orders && orders.length !== 0" class="cards">
+      <mat-tab-group animationDuration="0ms">
+        <mat-tab label="{{ 'user-orders.current-orders' | translate }}">
+          <app-ubs-user-orders-list [orders]="currentOrders" [bonuses]="bonuses"></app-ubs-user-orders-list>
+        </mat-tab>
+        <mat-tab label="{{ 'user-orders.order-history' | translate }}">
+          <app-ubs-user-orders-list [orders]="orderHistory" [bonuses]="bonuses"></app-ubs-user-orders-list>
+        </mat-tab>
+      </mat-tab-group>
+      <div class="empty"></div>
+    </div>
+  </div>
+  <ng-template #spinner>
+    <app-spinner></app-spinner>
+  </ng-template>
+</div>

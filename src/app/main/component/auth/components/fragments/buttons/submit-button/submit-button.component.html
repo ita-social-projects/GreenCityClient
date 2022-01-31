@@ -1,0 +1,4 @@
+<button [ngClass]="isUbs ? 'ubs-primary-global-button' : 'primary-global-button'" type="submit" [disabled]="!buttonIsActive">
+  <span [class.span]="isUbs">{{ buttonText | translate }}</span>
+  <span *ngIf="loadingAnim" class="spinner-border spinner-border-sm" role="status" aria-hidden="true"> </span>
+</button>

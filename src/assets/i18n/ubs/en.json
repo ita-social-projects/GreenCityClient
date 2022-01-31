@@ -2,7 +2,8 @@
   "input-error": {
     "required": "This field is required.",
     "email-wrong": "Enter the correct email.",
-    "minlength-short": "This field is required.",
+    "number-wrong": "Enter the correct phone number",
+    "minlength-short": "The field contains insufficient characters.",
     "max-length": "Maximum number of characters exceeded.",
     "pattern": "The field contains forbidden characters."
   },
@@ -172,7 +173,10 @@
     "subTitle": "Your order will not be saved"
   },
   "confirm-page": {
-    "title-text": "Your order is accepted",
+    "title-text": {
+      "accepted": "Your order is accepted",
+      "paid": "Your order is paid"
+    },
     "to-personal-account": "To the personal account",
     "return-to-payment": "Return to the payment",
     "oops": "Oops, something went wrong...",
@@ -258,11 +262,90 @@
       }
     }
   },
+  "top-bar": {
+    "sign-up": "Sign up ",
+    "sign-in": "Sign in"
+  },
   "user": {
     "lower-nav-bar": {
       "about-us": "About-us",
       "sorting-rules": "Sorting rules",
       "eco-shop": "Eco-Shop"
+    },
+    "auth": {
+      "sign-in": {
+        "title": "Welcome back!",
+        "fill-form": "Please enter your details to sign in",
+        "email": "Email",
+        "email-is-required": "Email is required",
+        "field-is-required": "This field is required",
+        "email-must-be-at-least-1-characters-long": "Email must be at least 1 characters long",
+        "this-is-not-email": "Please check that your e-mail address is indicated correctly",
+        "password": "Password",
+        "password-is-required": "Password is required",
+        "password-must-be-at-least-8-characters-long": "Password must be at least 8 characters long",
+        "sign-in": "Sign in",
+        "sign-up": "Sign up",
+        "sign-in-with-google": "Sign in with Google",
+        "bad-email-or-password": "Bad email or password",
+        "forgot-password": "Forgot password?",
+        "havenot-account": "Don't have an account yet?",
+        "or-signin": "or"
+      },
+      "sign-up": {
+        "title-up": "Hello!",
+        "fill-form-up": "Please enter your details to sign up",
+        "first-name": "User name",
+        "first-name-is-required": "User name is required",
+        "user-name-error": "User name is required",
+        "invalid-user-name": "Username must not contains a dot at the beginning, few dots in a row, special characters, Cyrillic letters",
+        "user-name-size": "The name must contain 6-30 characters and can contain letters(a-z), numbers(0-9) and a dot(.), dot at the start, at the end and consecutive dot is forbidden",
+        "first-name-must-be-at-least-1-characters-long": "User name must be at least 1 characters long",
+        "last-name": "Last name",
+        "last-name-is-required": "Last name is required",
+        "last-name-must-be-at-least-1-characters-long": "Last name must be at least 1 characters long",
+        "email": "Email",
+        "email-is-required": "Email is required",
+        "email-must-be-at-least-1-characters-long": "Email must be at least 1 characters long",
+        "this-is-not-email": "Please check that your e-mail address is indicated correctly",
+        "the-user-already-exists-by-this-email": "The user already exists by this email",
+        "password": "Password",
+        "password-is-required": "Password is required",
+        "password-must-be-at-least-8-characters-long": "Password must be at least 8 characters in length",
+        "password-spaces-error": "Password must be at least 8 characters long without spaces",
+        "password-symbols-error": "Password has contain at least one character of Uppercase letter (A-Z), Lowercase letter (a-z), Digit (0-9), Special character (~`!@#$%^&*()+=_-{}[]|:;”’?/<>,.)",
+        "password-match": "Passwords do not match",
+        "password-confirm": "Confirm password",
+        "submit": "Sign Up",
+        "or": "or",
+        "submit-with-google": "Sign Up with Google",
+        "haveyou-account": "Do you already have an account?",
+        "enter": "Sign in"
+      },
+      "submit-email": "Congrats! Your profile is created. Please check the email sent with a link to confirm your email address.",
+      "forgot-password": {
+        "already-sent": "Password restore link already sent, please check your email",
+        "email-not-exist": "The user does not exist by this email",
+        "title": "Problems sign in?",
+        "fill-form": "Enter your email address and we'll send you a link to regain access to your account.",
+        "email": "Email",
+        "send-btn": "Submit a login link",
+        "or-signin": "or sign in with",
+        "remember-your-password": "Remember your password?",
+        "back-to-the-sign-in": "Back to Sign-in"
+      },
+      "restore-password": {
+        "title": "Do you want to change your password?",
+        "fill-form": "Please, create your new password.",
+        "send-btn": "Change password",
+        "password": "Password",
+        "password-is-required": "Password is required",
+        "password-must-be-at-least-8-characters-long": "Password must be at least 8 characters in length",
+        "password-spaces-error": "Password must be at least 8 characters long without spaces",
+        "password-symbols-error": "Password has contain at least one character of Uppercase letter (A-Z), Lowercase letter (a-z), Digit (0-9), Special character (~`!@#$%^&*()+=_-{}[]|:;”’?/<>,.)",
+        "password-match": "Passwords do not match",
+        "password-confirm": "Confirm password"
+      }
     }
   },
   "nav-bar": {
@@ -273,6 +356,30 @@
   },
   "snack-bar": {
     "exist-address": "This address has already been added",
-    "saved-order": "Now you can find your order №{{orderId}} in your personal account and continue processing it at any time"
+    "saved-order": "Now you can find your order №{{orderId}} in your personal account and continue processing it at any time",
+    "no-internet": "No internet connection"
+  },
+  "footer": {
+    "station": "Station",
+    "address": "Kyiv, Saperno-Slobitska str,25",
+    "schedule": "Station work schedule",
+    "mon-tue": " mon-tue",
+    "day-off": "day off",
+    "wed-fri": " wed-fri",
+    "from": "from",
+    "to": "to",
+    "service": "*paid service «Sorting» is available",
+    "sat-sun": " sat-sun",
+    "accept-compost": "We accept compost during the week during the working hours of the station (except Monday and Tuesday).",
+    "ubs-world-community": "UBS - in the world community",
+    "glad-for-letters": "Glad for your letters",
+    "your-email": "Your email",
+    "subscribe-newsletter": "Subscribe to useful newsletter:",
+    "subscribe-us": "SUBSCRIBE",
+    "user-agreement": "User agreement",
+    "public-offer": "Public offer",
+    "help-the-project": "How to help the project",
+    "how-to-get-there": "How to get there?",
+    "ukraine-without-garbage": "Ukraine without garbage"
   }
 }

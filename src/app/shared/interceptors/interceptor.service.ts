@@ -8,13 +8,17 @@ import { LocalStorageService } from '../../main/service/localstorage/local-stora
 import { BAD_REQUEST, FORBIDDEN, UNAUTHORIZED } from '../../main/http-response-status';
 import { MatSnackBarComponent } from '@global-errors/mat-snack-bar/mat-snack-bar.component';
 import { UserOwnAuthService } from '@auth-service/user-own-auth.service';
-import { UBSOrderFormService } from 'src/app/main/component/ubs/services/ubs-order-form.service';
+import { UBSOrderFormService } from 'src/app/ubs/ubs/services/ubs-order-form.service';
 import { MatDialog } from '@angular/material/dialog';
 import { AuthModalComponent } from '@global-auth/auth-modal/auth-modal.component';
 
 interface NewTokenPair {
   accessToken: string;
   refreshToken: string;
+}
+interface EmployeesError {
+  name: string;
+  message: string;
 }
 
 @Injectable({
@@ -42,33 +46,59 @@ export class InterceptorService implements HttpInterceptor {
    * @param next - {@link HttpHandler}
    */
   intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
-    if (this.localStorageService.getAccessToken()) {
-      req = this.addAccessTokenToHeader(req, this.localStorageService.getAccessToken());
-    }
-    if (this.isQueryWithSecurity(req.url)) {
+    if (!window.navigator.onLine) {
+      // if there is no internet, open Error Window
       return next.handle(req).pipe(
         catchError((error: HttpErrorResponse) => {
-          if (error.status === 0) {
-            this.openErrorWindow('error');
-          }
-          return throwError(error);
+          this.openErrorWindow('snack-bar.error.no-internet');
+          return EMPTY;
         })
       );
-    }
-    if (this.isQueryWithProcessOrder(req.url)) {
-      return next.handle(req).pipe(
-        catchError((error: HttpErrorResponse) => {
-          if (error.status >= 400) {
-            this.ubsOrderFormService.setOrderResponseErrorStatus(true);
-          }
-          return throwError(error);
-        })
-      );
+    } else {
+      // else return the normal request
+      if (this.localStorageService.getAccessToken()) {
+        req = this.addAccessTokenToHeader(req, this.localStorageService.getAccessToken());
+      }
+      if (this.isQueryWithSecurity(req.url)) {
+        return next.handle(req).pipe(
+          catchError((error: HttpErrorResponse) => {
+            if (error.status === 0) {
+              this.openErrorWindow('Error');
+            }
+            return throwError(error);
+          })
+        );
+      }
+      if (this.isQueryWithProcessOrder(req.url)) {
+        return next.handle(req).pipe(
+          catchError((error: HttpErrorResponse) => {
+            if (error.status >= 400) {
+              this.ubsOrderFormService.setOrderResponseErrorStatus(true);
+            }
+            return throwError(error);
+          })
+        );
+      }
+      if (req.url.includes('/admin/ubs-employee')) {
+        return next.handle(req).pipe(
+          catchError((error: HttpErrorResponse) => {
+            if (error.status !== UNAUTHORIZED) {
+              const message =
+                error?.error?.length > 0
+                  ? error.error.map((errorItem: EmployeesError) => `${errorItem.name}: ${errorItem.message}`).join(', ')
+                  : 'Error';
+              this.openErrorWindow(message);
+              return throwError(error);
+            }
+            return this.handleUnauthorized(req, next);
+          })
+        );
+      }
     }
     return next.handle(req).pipe(
       catchError((error: HttpErrorResponse) => {
         if (this.checkIfErrorStatusIs(error.status, [BAD_REQUEST, FORBIDDEN])) {
-          const noErrorErrorMessage = error.message ?? 'error';
+          const noErrorErrorMessage = error.message ?? 'Error';
           const message = error.error?.message ?? noErrorErrorMessage;
           this.openErrorWindow(message);
           return EMPTY;

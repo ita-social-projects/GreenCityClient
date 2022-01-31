@@ -1,0 +1,260 @@
+import { HttpClientTestingModule } from '@angular/common/http/testing';
+import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
+import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { ReactiveFormsModule } from '@angular/forms';
+import { MatDialog, MatDialogModule, MatDialogRef } from '@angular/material/dialog';
+import { MatTableModule } from '@angular/material/table';
+import { Store } from '@ngrx/store';
+import { InfiniteScrollModule } from 'ngx-infinite-scroll';
+import { of } from 'rxjs';
+import { UbsAdminEmployeeService } from 'src/app/ubs/ubs-admin/services/ubs-admin-employee.service';
+import { EmployeeFormComponent } from '../employee-form/employee-form.component';
+
+import { UbsAdminEmployeeTableComponent } from './ubs-admin-employee-table.component';
+
+describe('UbsAdminEmployeeTableComponent', () => {
+  let component: UbsAdminEmployeeTableComponent;
+  let fixture: ComponentFixture<UbsAdminEmployeeTableComponent>;
+
+  const ubsAdminEmployeeServiceMock = jasmine.createSpyObj('ubsAdminEmployeeServiceMock', ['getAllStations', 'getAllPositions']);
+  const dialogRefStub = {
+    afterClosed() {
+      return of(true);
+    }
+  };
+  const fakeTableItems = {
+    content: ['fakeData1', 'fakeData2'],
+    totalPages: 7
+  };
+  const fakeTableDataStations = [
+    {
+      receivingStations: [{ id: 1 }, { id: 2 }, { id: 3 }]
+    },
+    {
+      receivingStations: [{ id: 11 }, { id: 22 }, { id: 33 }]
+    },
+    {
+      receivingStations: [{ id: 11 }, { id: 12 }, { id: 13 }]
+    }
+  ];
+  const fakeTableDataPositions = [
+    {
+      employeePositions: [{ id: 1 }, { id: 2 }, { id: 3 }]
+    },
+    {
+      employeePositions: [{ id: 11 }, { id: 22 }, { id: 33 }]
+    },
+    {
+      employeePositions: [{ id: 11 }, { id: 12 }, { id: 13 }]
+    }
+  ];
+  const fakeSelectedPositions = ['3', '12', '44'];
+  const fakeSelectedStations = ['1', '2', '3'];
+  const expectedAnswerForPositions = [
+    {
+      employeePositions: [{ id: 1 }, { id: 2 }, { id: 3 }]
+    },
+    {
+      employeePositions: [{ id: 11 }, { id: 12 }, { id: 13 }]
+    }
+  ];
+  const expectedAnswerForStations = [
+    {
+      receivingStations: [{ id: 1 }, { id: 2 }, { id: 3 }]
+    }
+  ];
+
+  ubsAdminEmployeeServiceMock.getAllStations.and.returnValue(of(['fakeStation1', 'fakeStation2', 'fakeStation3']));
+  ubsAdminEmployeeServiceMock.getAllPositions.and.returnValue(of(['fakePosition1', 'fakePosition2', 'fakePosition3']));
+  const storeMock = jasmine.createSpyObj('store', ['select', 'dispatch']);
+  storeMock.select = () => of(fakeTableItems as any);
+  const matDialogMock = jasmine.createSpyObj('matDialog', ['open']);
+
+  beforeEach(async(() => {
+    TestBed.configureTestingModule({
+      declarations: [UbsAdminEmployeeTableComponent],
+      imports: [HttpClientTestingModule, MatDialogModule, MatTableModule, InfiniteScrollModule, ReactiveFormsModule],
+      providers: [
+        { provide: MatDialogRef, useValue: dialogRefStub },
+        { provide: MatDialog, useValue: matDialogMock },
+        { provide: Store, useValue: storeMock },
+        { provide: UbsAdminEmployeeService, useValue: ubsAdminEmployeeServiceMock }
+      ],
+      schemas: [CUSTOM_ELEMENTS_SCHEMA]
+    }).compileComponents();
+  }));
+
+  beforeEach(() => {
+    fixture = TestBed.createComponent(UbsAdminEmployeeTableComponent);
+    component = fixture.componentInstance;
+    spyOn(component.searchValue, 'pipe').and.returnValue(of(''));
+    fixture.detectChanges();
+  });
+
+  it('should create', () => {
+    expect(component).toBeTruthy();
+  });
+
+  it('should call getTable inside ngOnInit', () => {
+    const spy = spyOn(component, 'getTable');
+    component.ngOnInit();
+    expect(spy).toHaveBeenCalled();
+  });
+
+  it('should call setDisplayedColumns inside getTable', () => {
+    component.firstPageLoad = true;
+    const spy = spyOn(component, 'setDisplayedColumns');
+    component.getTable();
+    expect(storeMock.dispatch).toHaveBeenCalled();
+    expect(spy).toHaveBeenCalled();
+    expect(component.tableData).toEqual(['fakeData1', 'fakeData2'] as any);
+    expect(component.dataSource.data).toEqual(['fakeData1', 'fakeData2']);
+    expect(component.totalPagesForTable).toBe(7);
+    expect(component.isUpdateTable).toBe(false);
+    expect(component.isLoading).toBe(false);
+  });
+
+  it('should change the init data after calling updateTable', () => {
+    component.updateTable();
+    expect(storeMock.dispatch).toHaveBeenCalled();
+  });
+
+  it('should change the init data after calling applyFilter', () => {
+    const event = { target: { value: 'TO LOWER CASE' } };
+    const spy = spyOn(component.searchValue, 'next');
+    component.applyFilter(event as any);
+    expect(spy).toHaveBeenCalledWith('to lower case');
+  });
+
+  it('should change the init data after calling setDisplayedColumns', () => {
+    component.displayedColumns = [];
+    component.setDisplayedColumns();
+    expect(component.displayedColumns).toEqual(['fullName', 'position', 'location', 'email', 'phoneNumber']);
+  });
+
+  it('should change the init data after calling onPositionSelected', () => {
+    component.dataSource.data = [];
+    component.filteredTableData = [];
+    component.tableData = fakeTableDataPositions as any;
+    component.selectedPositions = fakeSelectedPositions;
+    component.onPositionSelected();
+    expect(component.dataSource.data).toEqual(expectedAnswerForPositions);
+  });
+
+  it('should change the init data after calling onStationSelected', () => {
+    component.dataSource.data = [];
+    component.filteredTableData = [];
+    component.tableData = fakeTableDataStations as any;
+    component.selectedStations = fakeSelectedStations;
+    component.onStationSelected();
+    expect(component.dataSource.data).toEqual(expectedAnswerForStations);
+  });
+
+  it('should call getTable inside onScroll', () => {
+    component.isUpdateTable = false;
+    component.currentPageForTable = 3;
+    component.totalPagesForTable = 9;
+    const spy = spyOn(component, 'updateTable');
+    component.onScroll();
+    expect(spy).toHaveBeenCalled();
+    expect(component.currentPageForTable).toBe(4);
+  });
+
+  it('should change the init data after calling openPositions', () => {
+    component.isPositionsOpen = true;
+    component.allPositions = [];
+    component.selectedPositions = ['fake'];
+    component.openPositions();
+    expect(component.allPositions).toEqual(['fakePosition1', 'fakePosition2', 'fakePosition3']);
+    expect(component.selectedPositions).toEqual([]);
+  });
+
+  it('should change the init data after calling openStations', () => {
+    component.isStationsOpen = true;
+    component.allStations = [];
+    component.selectedStations = ['fake'];
+    component.openStations();
+    expect(component.allStations).toEqual(['fakeStation1', 'fakeStation2', 'fakeStation3']);
+    expect(component.selectedStations).toEqual([]);
+  });
+
+  it('should call onPositionSelected inside positionsFilter if length !== 0', () => {
+    component.selectedPositions = ['fake'];
+    const spy = spyOn(component, 'onPositionSelected');
+    component.positionsFilter();
+    expect(spy).toHaveBeenCalled();
+  });
+
+  it('should change the init data after calling stationsFilter with conditions', () => {
+    component.selectedPositions = [];
+    component.selectedStations = [];
+    component.dataSource.data = [];
+    component.tableData = ['newFakeData'] as any;
+    component.positionsFilter();
+    expect(component.dataSource.data).toEqual(['newFakeData']);
+  });
+
+  it('should call onPositionSelected inside stationsFilter if length !== 0', () => {
+    component.selectedStations = ['fake'];
+    const spy = spyOn(component, 'onStationSelected');
+    component.stationsFilter();
+    expect(spy).toHaveBeenCalled();
+  });
+
+  it('should change the init data after calling positionsFilter with conditions', () => {
+    component.selectedPositions = [];
+    component.selectedStations = [];
+    component.dataSource.data = [];
+    component.tableData = ['newFakeData'] as any;
+    component.stationsFilter();
+    expect(component.dataSource.data).toEqual(['newFakeData']);
+  });
+
+  it('should call positionsFilter inside getPositionId if checked', () => {
+    const e = { target: { checked: true } };
+    component.selectedPositions = [];
+    const spy = spyOn(component, 'positionsFilter');
+    component.getPositionId(e, '132');
+    expect(spy).toHaveBeenCalled();
+    expect(component.selectedPositions).toEqual(['132']);
+  });
+
+  it('should call positionsFilter inside getPositionId if not checked', () => {
+    const e = { target: { checked: false } };
+    component.selectedPositions = ['132', '312'];
+    const spy = spyOn(component, 'positionsFilter');
+    component.getPositionId(e, '312');
+    expect(spy).toHaveBeenCalled();
+    expect(component.selectedPositions).toEqual(['132']);
+  });
+
+  it('should call stationsFilter inside getStationId if checked', () => {
+    const e = { target: { checked: true } };
+    component.selectedStations = [];
+    const spy = spyOn(component, 'stationsFilter');
+    component.getStationId(e, '132');
+    expect(spy).toHaveBeenCalled();
+    expect(component.selectedStations).toEqual(['132']);
+  });
+
+  it('should call stationsFilter inside getStationId if not checked', () => {
+    const e = { target: { checked: false } };
+    component.selectedStations = ['132', '312'];
+    const spy = spyOn(component, 'stationsFilter');
+    component.getStationId(e, '312');
+    expect(spy).toHaveBeenCalled();
+    expect(component.selectedStations).toEqual(['132']);
+  });
+
+  it('should call open inside openModal', () => {
+    const employeeData = { data: 'fake' };
+    component.openModal(employeeData as any);
+    expect(matDialogMock.open).toHaveBeenCalledWith(EmployeeFormComponent, {
+      data: employeeData,
+      hasBackdrop: true,
+      closeOnNavigation: true,
+      disableClose: true,
+      panelClass: 'custom-dialog-container'
+    });
+  });
+});

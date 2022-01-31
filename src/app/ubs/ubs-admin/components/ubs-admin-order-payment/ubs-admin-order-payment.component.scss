@@ -1,0 +1,77 @@
+* {
+  font-family: var(--ubs-quaternary-font);
+}
+
+.empty_card {
+  padding-top: 20px;
+  padding-bottom: 20px;
+
+  h1 {
+    display: inline;
+  }
+
+  img {
+    width: 20px;
+    margin-right: 20px;
+  }
+}
+
+.empty_card:hover {
+  cursor: pointer;
+}
+
+.form__headline {
+  font-size: 20px;
+  font-weight: 700;
+  line-height: 28px;
+  letter-spacing: 0.002em;
+  color: var(--ubs-primary-grey);
+  margin-bottom: 30px;
+  margin-top: 36px;
+}
+
+.form__subtitle {
+  font-size: 16px;
+  font-weight: 700;
+  line-height: 24px;
+  color: var(--ubs-quaternary-dark-grey);
+  letter-spacing: 0.1px;
+}
+
+button {
+  color: var(--ubs-primary-green);
+  border: 1px solid var(--ubs-primary-green);
+  box-sizing: border-box;
+  border-radius: 4px;
+  width: 177px;
+  font-size: 14px;
+}
+
+.price {
+  background: var(--ubs-secondary-white);
+  border: 1px solid var(--ubs-primary-light-grey);
+  box-sizing: border-box;
+  border-radius: 4px;
+  padding: 7px;
+  height: 36px;
+  width: 85px;
+}
+
+.need-to-pay {
+  color: var(--ubs-primary-red);
+}
+
+td {
+  color: var(--ubs-primary-grey);
+  padding: 8px;
+}
+
+thead {
+  position: relative;
+  z-index: 0;
+}
+
+.paymentId:hover {
+  cursor: pointer;
+  color: var(--ubs-secondary-dark-grey);
+}

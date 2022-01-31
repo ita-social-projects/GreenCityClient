@@ -1,0 +1,108 @@
+@mixin height-and-width($height, $width) {
+  height: $height;
+  width: $width;
+}
+
+.dialog-container {
+  display: flex;
+  flex-direction: column;
+  align-content: center;
+  justify-content: space-around;
+  align-items: center;
+  max-width: 470px;
+  font-family: var(--primary-font);
+  font-weight: bold;
+  font-size: larger;
+
+  .title {
+    margin: 15px;
+    font-weight: bolder;
+  }
+
+  .form {
+    margin: 55px 20px 50px 20px;
+    font-size: 20px;
+
+    .select {
+      margin: 20px;
+      height: 50px;
+      padding: 0 10px;
+    }
+
+    .info {
+      text-align: center;
+    }
+  }
+
+  .close-container {
+    width: 100%;
+    display: flex;
+    justify-content: flex-end;
+  }
+
+  .close-btn {
+    border: none;
+    background-color: transparent;
+    outline: none;
+  }
+
+  .footer-btns {
+    bottom: 0;
+    right: 0;
+    margin: 20px 0 0 0;
+
+    button {
+      margin: 0 10px;
+      border-radius: 4px;
+      width: 9rem;
+      height: 3rem;
+    }
+  }
+
+  .btn-ubs {
+    @include height-and-width(44px, 200px);
+
+    font-size: 18px;
+    background-color: var(--ubs-button-light-green);
+    color: var(--ubs-tertiary-dark-grey);
+    margin-top: 25px;
+  }
+
+  .cancel-btn {
+    border-radius: 4px;
+    border: 1px solid var(--ubs-quaternary-dark-grey);
+    font-size: 18px;
+    color: var(--ubs-quaternary-dark-grey);
+  }
+}
+
+@media screen and (max-width: 575px) {
+  .dialog-container {
+    width: 100%;
+    height: 100vh;
+    justify-content: space-between;
+
+    .title {
+      line-height: 1.5em;
+      margin: 1em 0.5em;
+      text-align: center;
+    }
+
+    .close-btn {
+      img {
+        width: 20px;
+        height: 20px;
+      }
+    }
+
+    .footer-btns {
+      display: flex;
+      flex-direction: row;
+      gap: 2em;
+      align-content: space-between;
+      justify-content: center;
+      align-items: center;
+      padding-bottom: 10em;
+    }
+  }
+}

@@ -29,6 +29,7 @@ import { HomepageComponent, TipsListComponent } from 'src/app/main/component/hom
 import { SearchAllResultsComponent } from 'src/app/main/component/layout/components';
 import { MainComponent } from '../../../../main.component';
 import { UbsBaseSidebarComponent } from '../../../../../shared/ubs-base-sidebar/ubs-base-sidebar.component';
+import { environment } from '@environment/environment.js';
 
 xdescribe('CreateEditNewsComponent', () => {
   let component: CreateEditNewsComponent;
@@ -38,7 +39,7 @@ xdescribe('CreateEditNewsComponent', () => {
   let createEditNewsFormBuilderMock: CreateEditNewsFormBuilder;
   let router: Router;
   let location: Location;
-  const url = `https://greencity.azurewebsites.net/econews`;
+  const url = environment.backendLink + `econews`;
   const item: EcoNewsModel = {
     author: { id: 1601, name: 'Hryshko' },
     creationDate: '2020-10-26T16:43:29.336931Z',

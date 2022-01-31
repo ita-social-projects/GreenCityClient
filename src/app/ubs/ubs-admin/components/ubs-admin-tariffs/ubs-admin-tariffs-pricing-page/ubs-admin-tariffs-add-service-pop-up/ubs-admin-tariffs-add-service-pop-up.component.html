@@ -1,0 +1,96 @@
+<form [formGroup]="addServiceForm">
+  <div class="header-text" *ngIf="data.button === 'add'">
+    <h4>{{ 'ubs-tariffs.btn.add_service' | translate }}</h4>
+  </div>
+  <div class="header-text" *ngIf="data.button === 'update'">
+    <h4>{{ 'ubs-tariffs-add-service.edit_service' | translate }}</h4>
+  </div>
+  <app-dialog-tariff [row]="form" [newDate]="newDate" [name]="name"></app-dialog-tariff>
+  <ng-template #form>
+    <div class="service d-flex">
+      <div class="form-group">
+        <label for="name">{{ 'ubs-tariffs-add-service.name_of_the_service' | translate }}</label>
+        <input
+          type="text"
+          formControlName="name"
+          class="shadow-none form-control"
+          id="name"
+          placeholder="{{ 'ubs-tariffs-add-service.placeholder-service' | translate }}"
+        />
+      </div>
+      <div class="form-group">
+        <label for="name">{{ 'ubs-tariffs-add-service.name_of_the_service' | translate }}</label>
+        <input
+          type="text"
+          formControlName="englishName"
+          class="shadow-none form-control"
+          id="name"
+          placeholder="{{ 'ubs-tariffs-add-service.placeholder-service' | translate }}"
+        />
+      </div>
+    </div>
+    <div class="d-flex">
+      <div class="form-group">
+        <label class="form-label" for="capacity">{{ 'ubs-tariffs-add-service.capacity' | translate }}</label>
+        <input type="text" formControlName="capacity" maxlength="3" id="capacity" class="capacity-input" placeholder="0" />
+      </div>
+      <div class="form-group">
+        <label for="commission" class="form-label">{{ 'ubs-tariffs-add-service.commission' | translate }}</label>
+        <input type="text" formControlName="commission" maxlength="3" id="commission" class="courier-input" placeholder="0,00" />
+      </div>
+    </div>
+    <div class="basic-cost-input form-group">
+      <label for="price" class="form-label">{{ 'ubs-tariffs-add-service.basic_cost' | translate }}</label>
+      <input type="text" formControlName="price" maxlength="3" id="price" class="shadow-none form-control" placeholder="0,00" />
+    </div>
+    <div class="d-flex">
+      <div class="form-group">
+        <label for="description">{{ 'ubs-tariffs-add-service.service_description' | translate }}</label>
+        <textarea
+          class="description-input"
+          type="text"
+          formControlName="description"
+          id="description"
+          placeholder="{{ 'ubs-tariffs-add-service.placeholder-text' | translate }}"
+        >
+        </textarea>
+      </div>
+      <div class="form-group">
+        <label for="description">{{ 'ubs-tariffs-add-service.service_description' | translate }}</label>
+        <textarea
+          class="description-input"
+          type="text"
+          formControlName="englishDescription"
+          id="description"
+          placeholder="{{ 'ubs-tariffs-add-service.placeholder-text' | translate }}"
+        >
+        </textarea>
+      </div>
+    </div>
+    <div class="buttons d-flex justify-content-end">
+      <button mat-dialog-close class="secondary-global-button btn" type="button">
+        {{ 'ubs-tariffs-add-service.btn.cancel' | translate }}
+      </button>
+      <button
+        class="primary-global-button btn"
+        type="submit"
+        *ngIf="data.button === 'add'"
+        [disabled]="addServiceForm.invalid || loadingAnim"
+        (click)="addNewService()"
+      >
+        <span *ngIf="loadingAnim" class="spinner-border spinner-border-sm" role="status" aria-hidden="true"> </span>
+        {{ 'ubs-tariffs-add-service.btn.add' | translate }}
+      </button>
+      <button
+        type="button"
+        *ngIf="data.button === 'update'"
+        class="primary-global-button btn"
+        [disabled]="addServiceForm.invalid || addServiceForm.pristine || loadingAnim"
+        (click)="editService(receivedData)"
+      >
+        <span *ngIf="loadingAnim" class="spinner-border spinner-border-sm" role="status" aria-hidden="true"> </span>
+        {{ 'ubs-tariffs-add-service.btn.save' | translate }}
+      </button>
+    </div>
+  </ng-template>
+</form>

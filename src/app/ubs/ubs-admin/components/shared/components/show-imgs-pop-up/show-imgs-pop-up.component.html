@@ -1,0 +1,10 @@
+<div class="wrapper">
+  <img class="image-preview" [src]="images[imgIndex].src" alt="image-of-violation" />
+  <div class="navigation-block">
+    <mat-icon class="mat-icon" id="clear" (click)="dialogRef.close()">clear</mat-icon>
+    <div *ngIf="isNavigationArrows" class="arrows">
+      <mat-icon class="mat-icon" id="arrow-back" (click)="nextImg(false)">arrow_back_ios</mat-icon>
+      <mat-icon class="mat-icon" id="arrow-forward" (click)="nextImg(true)">arrow_forward_ios</mat-icon>
+    </div>
+  </div>
+</div>

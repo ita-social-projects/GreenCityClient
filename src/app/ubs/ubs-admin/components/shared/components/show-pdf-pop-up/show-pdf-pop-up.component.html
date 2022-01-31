@@ -1,0 +1,10 @@
+<div class="pdf-wrapper">
+  <div class="close-btn">
+    <mat-icon class="mat-icon" id="clear" (click)="dialogRef.close()">clear</mat-icon>
+  </div>
+
+  <div class="pdf-viewer">
+    <pdf-viewer id="pdf-viewer" [src]="pdfFile" [show-all]="true" [render-text]="false" [original-size]="false" [autoresize]="true">
+    </pdf-viewer>
+  </div>
+</div>

@@ -1,0 +1,201 @@
+::ng-deep {
+  .mat-tab-label-content {
+    font-size: 20px;
+  }
+
+  .mat-tab-labels .mat-tab-label-active {
+    .mat-tab-label-content {
+      color: var(--ubs-button-light-green);
+    }
+  }
+
+  .mat-tab-group.mat-primary .mat-ink-bar,
+  .mat-tab-nav-bar.mat-primary .mat-ink-bar {
+    background-color: var(--primary-green);
+  }
+
+  .mat-expansion-panel-header {
+    height: 64px !important;
+    margin: 0 0 44px 0;
+  }
+}
+
+.header_list {
+  display: flex;
+  flex-direction: row;
+  font-size: 14px;
+  font-weight: 500;
+  line-height: 20px;
+
+  .header_list-num {
+    flex-grow: 1;
+  }
+
+  .header_list-date,
+  .header_list-status,
+  .header_list-paymentStatus,
+  .header_list-paymentAmount {
+    flex-grow: 2;
+  }
+}
+
+.empty-div {
+  width: 300px;
+}
+
+.mat-content-wrapper {
+  display: flex;
+  flex-direction: row;
+  flex: 1;
+}
+
+.btns_group {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+
+  .btn_grid_cancel,
+  .btn_grid_pay,
+  .btn_grid_fake {
+    width: 114px;
+    margin: 0 20px 0 0;
+
+    .btn_pay {
+      height: 36px;
+      width: 114px;
+      border: none;
+      color: var(--ubs-primary-white);
+      padding: 8px 20px 8px 20px;
+      background: var(--ubs-button-light-green);
+      border-radius: 4px;
+    }
+
+    .btn_cancel {
+      height: 36px;
+      width: 114px;
+      color: var(--ubs-quaternary-dark-grey);
+      background: var(--ubs-primary-white);
+      border: 1px solid var(--ubs-primary-green);
+      border-radius: 4px;
+    }
+
+    .btn_fake {
+      display: none;
+    }
+  }
+
+  .btn_grid_order {
+    margin: 0 20px 0 64px;
+
+    .btn_order {
+      height: 36px;
+      color: var(--ubs-button-light-green);
+      border: 1px solid var(--ubs-button-light-green);
+      padding: 8px 24px 8px 24px;
+      background: var(--ubs-primary-white);
+      border-radius: 4px;
+    }
+  }
+}
+
+.mat-expansion-panel {
+  margin: 10px 0 10px 0;
+  box-shadow: none;
+}
+
+.mat-expansion-panel-header-title {
+  display: flex;
+  align-items: center;
+}
+
+.mat-expansion-panel-header-description {
+  display: flex;
+  align-items: center;
+}
+
+@media (max-width: 1060px) {
+  .header_list {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    font-size: 12px;
+    font-weight: 500;
+
+    .header_list-num {
+      flex-grow: 1;
+    }
+
+    .header_list-date,
+    .header_list-status,
+    .header_list-paymentStatus,
+    .header_list-paymentAmount {
+      flex-grow: 2;
+    }
+  }
+
+  .mat-expansion-panel-header {
+    height: 64px !important;
+    font-size: 13px;
+  }
+}
+
+@media (max-width: 800px) {
+  .header_list {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    font-size: 12px;
+    font-weight: 500;
+
+    .header_list-num {
+      flex-grow: 1;
+      width: 40px;
+      margin-right: 25px;
+    }
+
+    .header_list-date,
+    .header_list-status {
+      display: none;
+    }
+
+    .header_list-paymentStatus,
+    .header_list-paymentAmount {
+      flex-grow: 2;
+    }
+  }
+
+  .mat-expansion-panel-header {
+    height: 64px !important;
+    font-size: 13px;
+  }
+
+  .order_list-date,
+  .order_list-status {
+    display: none;
+  }
+}
+
+@media (max-width: 600px) {
+  ::ng-deep {
+    .mat-content {
+      display: flex;
+      flex-direction: column !important;
+    }
+  }
+
+  .mat-expansion-panel-header {
+    height: 90px !important;
+  }
+
+  .btns_group {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-around;
+    margin-top: 10px;
+  }
+
+  .empty-div {
+    display: none;
+  }
+}

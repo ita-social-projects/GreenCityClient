@@ -1,0 +1,27 @@
+<form [formGroup]="emailFormGroup">
+  <label for="email">{{ 'user.auth.sign-in.email' | translate }}</label>
+  <input
+    id="email"
+    type="email"
+    name="email"
+    formControlName="email"
+    placeholder="example@email.com"
+    required
+    aria-required="true"
+    aria-describedby="email-err-msg"
+    tabindex="0"
+    [ngClass]="
+      (emailControl.invalid && emailControl.touched) || backEndError || emailErrorMessageBackEnd
+        ? 'alert-email-validation'
+        : 'successful-email-validation'
+    "
+    (input)="configDefaultErrorMessage()"
+  />
+  <div class="validation-email-error" id="email-err-msg" *ngIf="emailControl.invalid && emailControl.touched">
+    <app-error [formElement]="emailControl" [emailFieldValue]="emailFieldValue" [controlName]="'email'" tabindex="0"></app-error>
+  </div>
+  <div class="validation-email-error" *ngIf="emailErrorMessageBackEnd">
+    {{ getEmailError() | translate }}
+  </div>
+  <div class="email-field-margin" *ngIf="backEndError"></div>
+</form>
