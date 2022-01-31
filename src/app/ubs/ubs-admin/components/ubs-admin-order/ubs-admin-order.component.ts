@@ -320,7 +320,7 @@ export class UbsAdminOrderComponent implements OnInit, OnDestroy {
     const minutes = dateStr.split(':')[1];
     date.setHours(+hours + 2);
     date.setMinutes(+minutes);
-    return date ? date.toISOString() : '';
+    return date ? date.toISOString().split('Z').join('') : '';
   }
 
   public formatExporteValue(exportDetailsDto: IExportDetails): void {
