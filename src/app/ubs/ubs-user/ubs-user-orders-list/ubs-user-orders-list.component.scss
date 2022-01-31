@@ -13,13 +13,14 @@
   .mat-tab-nav-bar.mat-primary .mat-ink-bar {
     background-color: var(--primary-green);
   }
+}
 
-  .mat-expansion-panel-header {
-    height: 64px !important;
-    margin: 0 0 44px 0;
-    display: flex !important;
-    flex-direction: row-reverse !important;
-  }
+.mat-expansion-panel-header {
+  height: 64px;
+  margin: 0 0 44px 0;
+  display: flex;
+  flex-direction: row-reverse;
+  padding: 0 7px;
 }
 
 .header_list {
