@@ -145,3 +145,55 @@
   grid-area: text;
   margin: 0 22px;
 }
+
+@media (max-width: 1100px) {
+  .full_card {
+    display: flex;
+    flex-direction: column;
+    max-width: 670px;
+    margin: 0;
+    color: var(--ubs-secondary-grey);
+
+    .header_details {
+      font-size: 20px;
+      line-height: 28px;
+      font-weight: bold;
+      letter-spacing: 0.002em;
+      color: var(--ubs-primary-black);
+      font-family: var(--primary-font);
+    }
+  }
+}
+
+@media (max-width: 460px) {
+  .download {
+    display: grid;
+    grid-template-areas: 'arrow text' 'maximize text';
+    grid-template-columns: 16px auto;
+    grid-template-rows: 17px auto;
+    justify-content: center;
+    margin: 20px 18px 33px 0;
+    color: var(--primary-green);
+  }
+
+  .order_details {
+    margin: 0;
+    width: auto;
+    color: var(--ubs-primary-grey);
+    font-family: var(--primary-font);
+
+    .recipient {
+      margin: 32px 0;
+    }
+
+    .bold_text {
+      font-weight: bold;
+    }
+
+    ol {
+      margin-bottom: 0;
+      padding: 0;
+      list-style-type: none;
+    }
+  }
+}

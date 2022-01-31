@@ -168,3 +168,27 @@ small.text-message.ng-star-inserted {
     }
   }
 }
+
+@media screen and (max-width: 575px) {
+  .addOrderBtn {
+    color: var(--ubs-button-light-grey);
+    border: 1px solid;
+    border-radius: 3px;
+    font-style: normal;
+    font-weight: bold;
+    padding: 0.5em 1em;
+    margin: 1em 0;
+    text-align: center;
+  }
+
+  .certificate-container,
+  .addCertificate {
+    flex-direction: column;
+    width: auto;
+
+    input {
+      padding: 0.7rem 1.9rem;
+      max-width: 128px;
+    }
+  }
+}

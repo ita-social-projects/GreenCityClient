@@ -1,5 +1,4 @@
 footer {
-  margin-top: 50px;
   box-shadow: 0 -4px 8px var(--quintynary-dark-grey);
 
   .container-fluid {
@@ -83,6 +82,10 @@ footer {
         button:hover {
           background-color: #690;
         }
+
+        button::first-letter {
+          text-transform: capitalize;
+        }
       }
 
       .footer-logo,
@@ -98,10 +101,9 @@ footer {
 
     .social-networks {
       width: 100%;
-      display: inline-flex;
-      justify-content: flex-end;
+      display: flex;
+      justify-content: center;
       margin-top: 60px;
-      padding-right: 30px;
       padding-bottom: 40px;
       border-bottom-style: inset;
       border-bottom-color: #ddd;
@@ -116,8 +118,12 @@ footer {
         align-items: center;
         justify-content: center;
         text-decoration: none;
-        margin-right: 8px;
+        margin-right: 45px;
         border-radius: 50%;
+
+        &:last-child {
+          margin-right: 0;
+        }
       }
 
       .fa-facebook,
@@ -140,7 +146,7 @@ footer {
       }
 
       .fa-instagram:hover {
-        background: #125688;
+        background: radial-gradient(circle at 30% 107%, #fdf497 0%, #fdf497 5%, #fd5949 45%, #d6249f 60%, #285aeb 90%);
         color: white;
       }
 
@@ -152,9 +158,9 @@ footer {
 
     .footer-bottom-part {
       width: 100%;
-      text-align: left;
+      text-align: center;
       margin-top: 50px;
-      margin-left: 25px;
+      padding-left: 25px;
       padding-bottom: 25px;
 
       .par {
@@ -219,6 +225,17 @@ footer {
           width: 100%;
           margin-top: 100px;
         }
+      }
+
+      .social-networks {
+        width: 100%;
+        display: inline-flex;
+        justify-content: space-around;
+        margin-top: 60px;
+        padding: 0 30px 40px 30px;
+        border-bottom-style: inset;
+        border-bottom-color: #ddd;
+        border-bottom-width: 2px;
       }
     }
   }

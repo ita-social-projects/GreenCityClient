@@ -9,6 +9,7 @@
   .mat-dialog-container {
     margin: auto !important;
     width: 80% !important;
+    max-height: 100vh;
   }
 
   .pac-container {
@@ -279,7 +280,6 @@ label,
 
   button,
   .btn {
-    width: 120px;
     font-size: 0.8rem;
   }
 
