@@ -38,7 +38,6 @@
 }
 
 .btn {
-  width: 115px;
   height: 40px;
   border-radius: 4px;
   white-space: nowrap;
@@ -54,6 +53,7 @@ select {
   font-size: 0.9rem;
   color: var(--ubs-quaternary-dark-grey);
   width: 220px;
+  display: block;
 
   option {
     color: var(--ubs-quaternary-dark-grey);
@@ -70,7 +70,6 @@ select {
   }
 
   .primary-global-button {
-    width: 106px;
     padding: 8px 14px;
     color: var(--ubs-quaternary-dark-grey);
     border-color: var(--ubs-button-light-green);
@@ -83,79 +82,14 @@ select {
   }
 }
 
-.hint-location {
-  margin: 24px 0 12px 0;
-  font-family: var(--ubs-quaternary-font);
-  color: var(--ubs-primary-grey);
-  font-size: 14px;
-  line-height: 20px;
-}
-
 .validation {
   color: var(--error-red);
   font-size: 10px;
   margin-top: -25px;
 }
 
-.listOfLocation {
-  margin-top: 16px;
-  margin-left: 5px;
-}
-
-.itemList {
-  margin: 4px;
-  font-size: 14px;
-  line-height: 20px;
-  font-family: var(--ubs-quaternary-font);
-  color: var(--ubs-primary-grey);
-}
-
-.delete-button-img {
-  cursor: pointer;
-  padding: 0 25px;
-}
-
-.info {
-  color: var(--quaternary-grey);
-  font-weight: normal;
-  font-size: 12px;
-  margin: 0;
-}
-
-.date {
-  color: var(--ubs-quaternary-dark-grey);
-  font-size: 14px;
-  margin-right: 30px;
-}
-
-.user {
-  color: var(--ubs-quaternary-dark-grey);
-  font-size: 14px;
-}
-
-.close-img {
-  cursor: pointer;
-  position: absolute;
-  top: 20px;
-  right: 20px;
-}
-
 .error-input {
   border-color: var(--error-red);
-}
-
-.english-hint {
-  height: 40px;
-  width: 47%;
-  font-family: var(--ubs-quaternary-font);
-  font-size: 14px;
-  line-height: 20px;
-  color: var(--ubs-primary-grey);
-}
-
-.english-row {
-  justify-content: end;
-  margin-bottom: 12px;
 }
 
 .add-city {
@@ -170,6 +104,9 @@ select {
 .cross-img {
   position: absolute;
   cursor: pointer;
-  bottom: 16px;
-  right: 15px;
+  bottom: 23px;
+  right: 20px;
+  color: var(--ubs-primary-grey);
+  width: 11px;
+  height: 11px;
 }

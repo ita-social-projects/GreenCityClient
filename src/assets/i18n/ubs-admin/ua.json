@@ -477,6 +477,7 @@
     "courier": "Кур'єр",
     "services": "Сервіси",
     "create": "Створити",
+    "back": "Назад",
     "station": "Станція приймання",
     "state": "Стан",
     "city": "Місто",
@@ -488,14 +489,15 @@
     "carriers_commission": "Комісія перевізника",
     "full_cost": "Повна вартість",
     "tariffs_for_services": "Тарифи на послуги",
+    "limits": "Ліміти",
     "order_limits": "Ліміти замовлення",
-    "min_order_amount": "Сума замовлення від",
-    "to": "до",
-    "min_number_of_packages": "Кількість пакетів від",
+    "min_order_amount": "Сума замовлення",
+    "min_number_of_packages": "Кількість пакетів",
     "min_set_of_packages": "Мінімальний набір пакетів",
     "info_about_order_limits_header": "Інформація про ліміти замовлення",
-    "safe_waste": "Текстильні відходи 120 л",
-    "textile_waste": "Безпечні відходи 120 л",
+    "safe_waste": "Безпечні відходи 120 л",
+    "textile_waste": "Текстильні відходи 120 л",
+    "textile_waste_20": "Текстильні відходи 20 л",
     "info_about_order_limits": "Інформація про ліміти замовлення",
     "placeholder_order_limits_info": "Інформація про ліміти замовлення, яка буде відображатись у формі замовлення клієнта",
     "btn": {
@@ -510,24 +512,32 @@
       "location": "Локація",
       "courier": "Кур'єр",
       "station": "Станція приймання",
-      "restore": "Відновити"
+      "restore": "Відновити",
+      "delete_page": "Видалити сторінку",
+      "duplicate_page": "Дублювати сторінку"
     }
   },
   "ubs-tariffs-add-location-pop-up": {
     "title": "Додати локацію",
+    "edit-title": "Редагувати картку",
+    "deactivate": "Деактивувати",
     "region": "Область",
     "locality": "Місто",
     "courier": "Кур'єр",
+    "station": "Станція приймання",
     "english-hint": "Введіть наступні дані АНГЛІЙСЬКОЮ мовою",
     "add_button": "Додати",
     "cancel_button": "Скасувати",
+    "save_button": "Зберегти",
     "error_message": "На жаль, область не знайдена. Введіть ще раз",
     "courier_title": "Додати кур'єра",
+    "station_title": "Додати станцію приймання",
     "date": "Дaта ",
     "user": "Додано ",
     "placeholder_region": "Виберіть область",
     "placeholder_location": "Виберіть місто",
-    "placeholder_courier": "Введіть кур'єра",
+    "placeholder_courier": "Оберіть кур'єра",
+    "placeholder_station": "Оберіть станцію",
     "add-city": "Додати місто"
   },
   "ubs-tariffs-add-service": {
@@ -547,6 +557,11 @@
       "cancel": "Скасувати",
       "save": "Зберегти"
     }
+  },
+  "modal-text": {
+    "cancel": "Скасувати",
+    "date": "Дата ",
+    "user": "Додано "
   },
   "ubs-user-notification": {
     "title": "Ваші повідомлення",

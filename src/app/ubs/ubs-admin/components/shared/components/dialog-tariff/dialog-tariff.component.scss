@@ -1,0 +1,31 @@
+.info {
+  color: var(--quaternary-grey);
+  font-weight: normal;
+  font-size: 12px;
+  margin: 0;
+}
+
+.date {
+  color: var(--ubs-quaternary-dark-grey);
+  font-size: 14px;
+  margin-right: 30px;
+}
+
+.user {
+  color: var(--ubs-quaternary-dark-grey);
+  font-size: 14px;
+}
+
+.english-hint {
+  height: 40px;
+  width: 46%;
+  font-family: var(--ubs-quaternary-font);
+  font-size: 14px;
+  line-height: 20px;
+  color: var(--ubs-primary-grey);
+}
+
+.english-row {
+  justify-content: end;
+  margin-bottom: 12px;
+}

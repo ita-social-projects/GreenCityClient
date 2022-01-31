@@ -473,6 +473,7 @@
     "courier": "Courier",
     "services": "Services",
     "create": "Add",
+    "back": "Back",
     "station": "Receiving station",
     "city": "City",
     "state": "State",
@@ -485,14 +486,15 @@
     "carriers_commission": "Carrier commission",
     "full_cost": "Full cost",
     "tariffs_for_services": "Tariffs for services",
+    "limits": "Limits",
     "order_limits": "Order limits",
-    "min_order_amount": "Minimum order amount from",
-    "to": "to",
-    "min_number_of_packages": "Minimum number of packages from",
+    "min_order_amount": "Minimum order amount",
+    "min_number_of_packages": "Minimum number of packages",
     "min_set_of_packages": "Minimum set of packages",
     "info_about_order_limits_header": "Information about order limits",
     "safe_waste": "Safe waste",
     "textile_waste": "Textile waste",
+    "textile_waste_20": "Textile waste",
     "info_about_order_limits": "Information about order limits",
     "placeholder_order_limits_info": "Information about order limits, which will be displayed in the order form",
     "btn": {
@@ -507,24 +509,32 @@
       "location": "Location",
       "courier": "Courier",
       "station": "Receiving station",
-      "restore": "Restore"
+      "restore": "Restore",
+      "delete_page": "Delete page",
+      "duplicate_page": "Duplicate page"
     }
   },
   "ubs-tariffs-add-location-pop-up": {
     "title": "Add location",
+    "edit-title": "Edit card",
+    "deactivate": "Deactivate",
     "region": "Region",
     "locality": "City",
     "english-hint": "Enter the following data in ENGLISH",
     "add_button": "Add",
     "cancel_button": "Cancel",
+    "save_button": "Save",
     "error_message": "Area not found. Enter again",
     "courier_title": "Add courier",
+    "station_title": "Add receiving station",
     "courier": "Courier",
+    "station": "Receiving station",
     "date": "Date ",
     "user": "Added by ",
     "placeholder_region": "Selet region",
     "placeholder_location": "Select city",
     "placeholder_courier": "Select courier",
+    "placeholder_station": "Select station",
     "add-city": "Add city"
   },
   "ubs-tariffs-add-service": {
@@ -544,6 +554,11 @@
       "cancel": "Cancel",
       "save": "Save"
     }
+  },
+  "modal-text": {
+    "cancel": "Cancel",
+    "date": "Date ",
+    "user": "Added by "
   },
   "ubs-user-notification": {
     "title": "Your messages",

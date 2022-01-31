@@ -1,5 +1,6 @@
 <div class="d-flex justify-content-between">
-  <p class="h5 main-text">{{ 'ubs-tariffs.tariffs' | translate }}</p>
+  <ng-template [ngTemplateOutlet]="textBack"></ng-template>
+  <p *ngIf="showTitle" class="h5 main-text">{{ 'ubs-tariffs.tariffs' | translate }}</p>
   <div class="mat-menu">
     <div class="setting-block" [matMenuTriggerFor]="menu">
       <img [src]="icons.setting" class="tariff-img" alt="settings" />
@@ -9,21 +10,21 @@
         <span class="menu-item">{{ 'ubs-tariffs.btn.add' | translate }}</span>
         <img [src]="icons.arrowRight" class="arrowRight-img" alt="settings" />
       </button>
-      <button mat-menu-item>
+      <button mat-menu-item (click)="openEditLocation()">
         <span class="menu-item">{{ 'ubs-tariffs.btn.edit' | translate }}</span>
       </button>
-      <button mat-menu-item>
+      <button mat-menu-item (click)="openDeactivateLocation()">
         <span class="menu-item">{{ 'ubs-tariffs.btn.deactivation' | translate }}</span>
       </button>
     </mat-menu>
     <mat-menu #add="matMenu">
-      <button mat-menu-item (click)="openAddLocationDialog()">
+      <button mat-menu-item (click)="openAddLocation()">
         <span class="menu-item">{{ 'ubs-tariffs.btn.location' | translate }}</span>
       </button>
       <button mat-menu-item (click)="openAddCourierDialog()">
         <span class="menu-item">{{ 'ubs-tariffs.btn.courier' | translate }}</span>
       </button>
-      <button mat-menu-item>
+      <button mat-menu-item (click)="openAddStationDialog()">
         <span class="menu-item">{{ 'ubs-tariffs.btn.station' | translate }}</span>
       </button>
     </mat-menu>
@@ -39,7 +40,7 @@
       </div>
     </div>
     <div class="col-item">
-      <p class="col-text">{{ 'ubs-tariffs.locations' | translate }}</p>
+      <p class="col-text">{{ 'ubs-tariffs.city' | translate }}</p>
       <div class="input-wrapper">
         <input type="text" placeholder="{{ 'ubs-tariffs.placeholder-locality' | translate }}" />
         <img [src]="icons.arrowDown" class="arrowDown-img" alt="arrowDown" />
@@ -77,50 +78,90 @@
 <table class="table-location">
   <thead>
     <tr>
-      <th>{{ 'ubs-tariffs.region' | translate }}</th>
-      <th>{{ 'ubs-tariffs.city' | translate }}</th>
-      <th>{{ 'ubs-tariffs.courier' | translate }}</th>
-      <th>{{ 'ubs-tariffs.station' | translate }}</th>
-      <th>{{ 'ubs-tariffs.state' | translate }}</th>
-      <th></th>
+      <th id="region">{{ 'ubs-tariffs.region' | translate }}</th>
+      <th id="city">{{ 'ubs-tariffs.city' | translate }}</th>
+      <th id="courier">{{ 'ubs-tariffs.courier' | translate }}</th>
+      <th id="station">{{ 'ubs-tariffs.station' | translate }}</th>
+      <th id="state">{{ 'ubs-tariffs.state' | translate }}</th>
+      <th id="action"></th>
     </tr>
   </thead>
   <tbody>
-    <tr *ngFor="let location of locations" [ngClass]="{ 'disabled-col': location.locationStatus == 'DEACTIVATED' }">
-      <td>
-        <div *ngFor="let regionItem of location.regionTranslationDtos | filterByLang">
-          {{ regionItem.regionName }}
-        </div>
-      </td>
-      <td>
-        <div *ngFor="let item of location.locationsDto" (click)="page(location)">
-          <div *ngFor="let name of item.locationTranslationDtoList | filterByLang">
-            {{ name.locationName }}
+    <ng-container *ngIf="locationCard">
+      <tr [ngClass]="{ 'disabled-col': locationCard.regionId == -1 }">
+        <td>
+          <div *ngFor="let regionItem of locationCard.regionTranslationDtos | filterByLang">
+            {{ regionItem.regionName }}
           </div>
-        </div>
-      </td>
-      <td>UBS-Courier</td>
-      <td>Слобідська</td>
-      <td>Active</td>
-      <td class="last-col" *ngIf="location.locationStatus != 'DEACTIVATED'" [matMenuTriggerFor]="crumbs">
-        <img class="tariff-img mr-3" [src]="icons.crumbs" alt="crumbs" />
-      </td>
-      <mat-menu #crumbs="matMenu">
-        <button mat-menu-item>
-          <span class="menu-item">{{ 'ubs-tariffs.btn.edit' | translate }}</span>
-        </button>
-        <button mat-menu-item>
-          <span class="menu-item">{{ 'ubs-tariffs.btn.deactivation' | translate }}</span>
-        </button>
-      </mat-menu>
-      <td class="last-col" *ngIf="location.locationStatus == 'DEACTIVATED'" [matMenuTriggerFor]="restore">
-        <img class="tariff-img mr-3" [src]="icons.restore" alt="restore" />
-      </td>
-      <mat-menu #restore="matMenu">
-        <button mat-menu-item>
-          <span class="menu-item">{{ 'ubs-tariffs.btn.restore' | translate }}</span>
-        </button>
-      </mat-menu>
-    </tr>
+        </td>
+        <td>
+          <div class="cursor-pointer" *ngFor="let item of locationCard.locationsDto" (click)="page(locationCard.regionId)">
+            <div *ngFor="let name of item.locationTranslationDtoList | filterByLang">
+              {{ name.locationName }}
+            </div>
+          </div>
+        </td>
+        <td>UBS-Courier</td>
+        <td>Слобідська</td>
+        <td>Active</td>
+        <td class="last-col" *ngIf="locationCard.regionId != -1" [matMenuTriggerFor]="crumbs">
+          <img class="tariff-img mr-3" [src]="icons.crumbs" alt="crumbs" />
+        </td>
+        <mat-menu #crumbs="matMenu">
+          <button mat-menu-item (click)="openEditLocation()">
+            <span class="menu-item">{{ 'ubs-tariffs.btn.edit' | translate }}</span>
+          </button>
+          <button mat-menu-item (click)="openDeactivateLocation()">
+            <span class="menu-item">{{ 'ubs-tariffs.btn.deactivation' | translate }}</span>
+          </button>
+        </mat-menu>
+        <td class="last-col" *ngIf="locationCard.regionId == -1" [matMenuTriggerFor]="restore">
+          <img class="tariff-img mr-3" [src]="icons.restore" alt="restore" />
+        </td>
+        <mat-menu #restore="matMenu">
+          <button mat-menu-item>
+            <span class="menu-item">{{ 'ubs-tariffs.btn.restore' | translate }}</span>
+          </button>
+        </mat-menu>
+      </tr>
+    </ng-container>
+    <ng-container *ngIf="!locationCard">
+      <tr *ngFor="let location of locations" [ngClass]="{ 'disabled-col': location.locationStatus == -1 }">
+        <td>
+          <div *ngFor="let regionItem of location.regionTranslationDtos | filterByLang">
+            {{ regionItem.regionName }}
+          </div>
+        </td>
+        <td>
+          <div class="cursor-pointer" *ngFor="let item of location.locationsDto" (click)="page(location.regionId)">
+            <div *ngFor="let name of item.locationTranslationDtoList | filterByLang">
+              {{ name.locationName }}
+            </div>
+          </div>
+        </td>
+        <td>UBS-Courier</td>
+        <td>Слобідська</td>
+        <td>Active</td>
+        <td class="last-col" *ngIf="location.locationStatus != -1" [matMenuTriggerFor]="crumbs">
+          <img class="tariff-img mr-3" [src]="icons.crumbs" alt="crumbs" />
+        </td>
+        <mat-menu #crumbs="matMenu">
+          <button mat-menu-item (click)="openEditLocation()">
+            <span class="menu-item">{{ 'ubs-tariffs.btn.edit' | translate }}</span>
+          </button>
+          <button mat-menu-item (click)="openDeactivateLocation()">
+            <span class="menu-item">{{ 'ubs-tariffs.btn.deactivation' | translate }}</span>
+          </button>
+        </mat-menu>
+        <td class="last-col" *ngIf="location.locationStatus == -1" [matMenuTriggerFor]="restore">
+          <img class="tariff-img mr-3" [src]="icons.restore" alt="restore" />
+        </td>
+        <mat-menu #restore="matMenu">
+          <button mat-menu-item>
+            <span class="menu-item">{{ 'ubs-tariffs.btn.restore' | translate }}</span>
+          </button>
+        </mat-menu>
+      </tr>
+    </ng-container>
   </tbody>
 </table>

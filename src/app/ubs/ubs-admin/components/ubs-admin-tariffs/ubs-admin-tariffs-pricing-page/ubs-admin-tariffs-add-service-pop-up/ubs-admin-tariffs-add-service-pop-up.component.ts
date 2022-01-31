@@ -6,6 +6,8 @@ import { Service } from '../../../../models/tariffs.interface';
 import { takeUntil } from 'rxjs/operators';
 import { Subject } from 'rxjs';
 import { CreateEditTariffsServicesFormBuilder } from '../../../../services/create-edit-tariffs-service-form-builder';
+import { DatePipe } from '@angular/common';
+import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
 
 @Component({
   selector: 'app-ubs-admin-tariffs-add-service-pop-up',
@@ -22,10 +24,10 @@ export class UbsAdminTariffsAddServicePopUpComponent implements OnInit, OnDestro
   namePattern = /^[А-Яа-яїЇіІєЄёЁ ]+$/;
   addServiceForm: FormGroup;
   private destroy: Subject<boolean> = new Subject<boolean>();
-  public icons = {
-    close: './assets/img/icon/sign-in/close-btn.svg'
-  };
-  slide = false;
+  name: string;
+  unsubscribe: Subject<any> = new Subject();
+  datePipe = new DatePipe('ua');
+  newDate = this.datePipe.transform(new Date(), 'MMM dd, yyyy');
 
   constructor(
     @Inject(MAT_DIALOG_DATA) public data,
@@ -33,12 +35,16 @@ export class UbsAdminTariffsAddServicePopUpComponent implements OnInit, OnDestro
     public dialog: MatDialog,
     public dialogRef: MatDialogRef<UbsAdminTariffsAddServicePopUpComponent>,
     private fb: FormBuilder,
-    private formBuilder: CreateEditTariffsServicesFormBuilder
+    private formBuilder: CreateEditTariffsServicesFormBuilder,
+    private localeStorageService: LocalStorageService
   ) {
     this.receivedData = data;
   }
 
   ngOnInit(): void {
+    this.localeStorageService.firstNameBehaviourSubject.pipe(takeUntil(this.unsubscribe)).subscribe((firstName) => {
+      this.name = firstName;
+    });
     this.initForm();
     this.fillFields(this.receivedData);
   }
@@ -54,10 +60,12 @@ export class UbsAdminTariffsAddServicePopUpComponent implements OnInit, OnDestro
   editForm(): void {
     this.addServiceForm = this.fb.group({
       name: new FormControl({ value: this.receivedData.serviceData.name, disabled: true }),
+      englishName: new FormControl(''),
       capacity: new FormControl({ value: this.receivedData.serviceData.capacity, disabled: true }),
       price: new FormControl('', [Validators.required, Validators.pattern('[0-9]{1,3}')]),
       commission: new FormControl('', [Validators.required, Validators.pattern('[0-9]{1,3}')]),
-      description: new FormControl({ value: this.receivedData.serviceData.description, disabled: true })
+      description: new FormControl({ value: this.receivedData.serviceData.description, disabled: true }),
+      englishDescription: new FormControl({ value: this.receivedData.serviceData.description, disabled: true })
     });
   }
 
