@@ -218,13 +218,16 @@ export class UbsUserOrderPaymentPopUpComponent implements OnInit {
     if (event.value === 'yes') {
       this.isUseBonuses = true;
       if (this.userOrder.sum > this.userOrder.bonusValue) {
+        this.userOrder.sum -= this.userOrder.bonusValue;
         this.bonusInfo.used = this.userOrder.bonusValue;
       } else {
         this.bonusInfo.used = this.userOrder.sum;
         this.bonusInfo.left = this.userOrder.bonusValue - this.userOrder.sum;
+        this.userOrder.sum = 0;
       }
       this.orderClientDto.pointsToUse = this.bonusInfo.used;
     } else {
+      this.userOrder.sum += this.bonusInfo.used;
       this.bonusInfo.left = 0;
       this.bonusInfo.used = 0;
       this.isUseBonuses = false;
