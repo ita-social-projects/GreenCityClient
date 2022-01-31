@@ -138,6 +138,7 @@ export interface IUserInfo {
 }
 
 export interface IAddressExportDetails {
+  addressId: number;
   addressCity: string;
   addressDistrict: string;
   addressEntranceNumber: number;
@@ -145,7 +146,6 @@ export interface IAddressExportDetails {
   addressHouseNumber: number;
   addressRegion: string;
   addressStreet: string;
-  id: number;
 }
 
 export interface IPaymentInfo {
