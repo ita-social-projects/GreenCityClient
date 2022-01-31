@@ -55,8 +55,14 @@
     <small class="text-danger" *ngIf="certStatus === 'EXPIRED' && failedCert">
       {{ 'order-details.expired' | translate: { certDate: certDate } }}
     </small>
-    <small class="text-message" *ngIf="certSize">
+    <small class="text-message" *ngIf="certSize && certificateSum <= showTotal">
       {{ 'order-details.activated' | translate: { certificateSum: certificateSum, certDate: certDate } }}
+    </small>
+    <small class="text-message" *ngIf="certSize && certificateSum >= showTotal">
+      {{
+        'order-details.activated-oversum'
+          | translate: { certificateSum: certificateSum, certDate: certDate, certificateLeft: certificateSum - showTotal }
+      }}
     </small>
     <small class="text-message" *ngIf="(certStatus === 'NEW' || certStatus === 'ACTIVE') && !certSize">
       {{ 'order-details.activated' | translate: { certificateSum: certificateSum, certDate: certDate } }}
