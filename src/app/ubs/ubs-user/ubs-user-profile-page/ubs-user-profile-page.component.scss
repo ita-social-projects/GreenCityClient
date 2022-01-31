@@ -10,21 +10,20 @@
     width: 905px;
     display: flex;
     justify-content: space-between;
-    padding-right: 10px;
 
     .header-text {
-      margin: 0 20px 20px 20px;
+      padding-top: 30px;
     }
   }
 
   .input-group {
-    margin: 0 10px;
     padding: 20px;
     width: 905px;
     box-shadow: 0 14px 28px rgba(0, 0, 0, 0.25);
 
     form {
       margin-left: 15px;
+      width: 100%;
     }
   }
 
@@ -81,6 +80,11 @@
       color: black;
       font-size: 16px;
     }
+  }
+
+  .inline {
+    display: flex;
+    flex-wrap: wrap;
   }
 
   .account {
@@ -153,6 +157,14 @@
 }
 
 @media (max-width: 600px) {
+  .ubs_profile-header {
+    margin-left: 20px;
+  }
+
+  .ubs_profile-container .input-group {
+    padding: 0;
+  }
+
   .house {
     display: flex;
     flex-direction: column;
