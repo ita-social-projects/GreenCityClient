@@ -1,5 +1,4 @@
 .news {
-  width: 554px;
   height: 206px;
   box-shadow: 1px 1px 12px rgba(27, 51, 38, 0.15);
   background: var(--primary-white);
@@ -9,7 +8,7 @@
   cursor: pointer;
 
   &-content {
-    width: 300px;
+    width: 100%;
     padding: 0 10px;
     display: flex;
     flex-direction: column;
@@ -49,4 +48,16 @@
 .user-info {
   display: flex;
   justify-content: space-between;
+}
+
+@media (max-width: 700px) {
+  .news {
+    height: auto;
+    margin: 0 auto 24px;
+    display: block;
+  }
+
+  .news-image {
+    width: 100%;
+  }
 }
