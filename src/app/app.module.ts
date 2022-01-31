@@ -3,6 +3,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { HashLocationStrategy, LocationStrategy, LOCATION_INITIALIZED } from '@angular/common';
 import { HttpClient, HttpClientModule } from '@angular/common/http';
 import { TranslateHttpLoader } from '@ngx-translate/http-loader';
+import { StoreDevtoolsModule } from '@ngrx/store-devtools';
 import { StoreModule } from '@ngrx/store';
 import { EffectsModule } from '@ngrx/effects';
 import { BrowserModule } from '@angular/platform-browser';
@@ -59,7 +60,11 @@ export function appInitializerFactory(translate: TranslateService, injector: Inj
     }),
     StoreModule.forRoot(appReducers),
     EffectsModule.forRoot([EmployeesEffects]),
-    ServiceWorkerModule.register('ngsw-worker.js', { enabled: environment.production })
+    ServiceWorkerModule.register('ngsw-worker.js', { enabled: environment.production }),
+    StoreDevtoolsModule.instrument({
+      maxAge: 25,
+      logOnly: environment.production
+    })
   ],
   providers: [
     // we use HashLocationStrategy because

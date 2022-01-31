@@ -25,6 +25,7 @@ import { NgxPageScrollModule } from 'ngx-page-scroll';
 import { SearchNotFoundComponent } from './search-not-found/search-not-found.component';
 import { UbsFooterComponent } from './ubs-footer/ubs-footer.component';
 import { FilterLocationListByLangPipe } from './filter-location-list-by-lang/filter-location-list-by-lang.pipe';
+import { MaxImageNamePipe } from '../ubs/ubs-admin/components/shared/max-image-name/max-image-name.pipe';
 
 @NgModule({
   declarations: [
@@ -45,7 +46,8 @@ import { FilterLocationListByLangPipe } from './filter-location-list-by-lang/fil
     SearchPopupComponent,
     SearchNotFoundComponent,
     UbsFooterComponent,
-    FilterLocationListByLangPipe
+    FilterLocationListByLangPipe,
+    MaxImageNamePipe
   ],
   imports: [
     CommonModule,
@@ -75,7 +77,8 @@ import { FilterLocationListByLangPipe } from './filter-location-list-by-lang/fil
     SearchItemComponent,
     SearchPopupComponent,
     SearchNotFoundComponent,
-    UbsFooterComponent
+    UbsFooterComponent,
+    MaxImageNamePipe
   ]
 })
 export class SharedModule {}

@@ -444,6 +444,8 @@
   },
   "ubs-employee": {
     "add-employee": "Додати працівника",
+    "employee": "Працівник",
+    "edit": "Редагувати",
     "required-fields": "*Обов’язкові поля",
     "name": "Ім’я*",
     "surname": "Прізвище*",
@@ -456,6 +458,7 @@
     "picture-description-2": "зображення або",
     "browse-1": "завантажте з",
     "browse-2": "пристрою",
+    "delete": "Видалити",
     "add": "Додати",
     "cancel": "Скасувати",
     "update": "Оновити"

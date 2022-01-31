@@ -8,9 +8,8 @@ import { Store } from '@ngrx/store';
 import { IAppState } from 'src/app/store/state/app.state';
 import { Employees, Page } from 'src/app/ubs/ubs-admin/models/ubs-admin.interface';
 import { UbsAdminEmployeeService } from 'src/app/ubs/ubs-admin/services/ubs-admin-employee.service';
-import { DialogPopUpComponent } from '../../shared/components/dialog-pop-up/dialog-pop-up.component';
 import { EmployeeFormComponent } from '../employee-form/employee-form.component';
-import { DeleteEmployee, GetEmployees } from 'src/app/store/actions/employee.actions';
+import { GetEmployees } from 'src/app/store/actions/employee.actions';
 
 @Component({
   selector: 'app-ubs-admin-employee-table',
@@ -36,11 +35,6 @@ export class UbsAdminEmployeeTableComponent implements OnInit {
   selectedStations: string[] = [];
   selectedPositions: string[] = [];
   filteredTableData: Page[] = [];
-  deleteDialogData = {
-    popupTitle: 'employees.warning-title',
-    popupConfirm: 'employees.btn.yes',
-    popupCancel: 'employees.btn.no'
-  };
   firstPageLoad = true;
   reset = true;
   employees$ = this.store.select((state: IAppState): Employees => state.employees.employees);
@@ -83,7 +77,7 @@ export class UbsAdminEmployeeTableComponent implements OnInit {
   }
 
   setDisplayedColumns() {
-    this.displayedColumns = ['editOrDelete', 'fullName', 'position', 'location', 'email', 'phoneNumber'];
+    this.displayedColumns = ['fullName', 'position', 'location', 'email', 'phoneNumber'];
   }
 
   updateTable() {
@@ -193,24 +187,5 @@ export class UbsAdminEmployeeTableComponent implements OnInit {
       disableClose: true,
       panelClass: 'custom-dialog-container'
     });
-  }
-
-  deleteEmployee(employeeId: number) {
-    const matDialogRef = this.dialog.open(DialogPopUpComponent, {
-      data: this.deleteDialogData,
-      hasBackdrop: true,
-      closeOnNavigation: true,
-      disableClose: true,
-      panelClass: ''
-    });
-
-    matDialogRef
-      .afterClosed()
-      .pipe(take(1))
-      .subscribe((res) => {
-        if (res) {
-          this.store.dispatch(DeleteEmployee({ id: employeeId }));
-        }
-      });
   }
 }

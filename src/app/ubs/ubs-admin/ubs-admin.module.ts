@@ -14,7 +14,6 @@ import { IMaskModule } from 'angular-imask';
 import { SharedModule } from '../../shared/shared.module';
 import { UbsAdminComponent } from './ubs-admin.component';
 import { UbsAdminEmployeeComponent } from './components/ubs-admin-employee/ubs-admin-employee.component';
-import { UbsAdminEmployeeCardComponent } from './components/ubs-admin-employee/ubs-admin-employee-card/ubs-admin-employee-card.component';
 import { PaginationComponent } from './components/shared/components/pagination/pagination.component';
 import { EmployeeFormComponent } from './components/ubs-admin-employee/employee-form/employee-form.component';
 import { UBSAdminRoutingModule } from './ubs-admin-routing.module';
@@ -82,7 +81,6 @@ import { ShowPdfPopUpComponent } from './components/shared/components/show-pdf-p
     UbsAdminSidebarComponent,
     UbsAdminComponent,
     UbsAdminEmployeeComponent,
-    UbsAdminEmployeeCardComponent,
     EmployeeFormComponent,
     UbsAdminOrderComponent,
     UbsAdminAddressDetailsComponent,
