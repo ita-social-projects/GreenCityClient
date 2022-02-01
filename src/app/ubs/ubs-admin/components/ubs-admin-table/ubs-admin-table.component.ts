@@ -1,3 +1,4 @@
+import { ColumnFiltersPopUpComponent } from './../shared/components/column-filters-pop-up/column-filters-pop-up.component';
 import { IFilteredColumn, IFilteredColumnValue } from './../../models/ubs-admin.interface';
 import { TableHeightService } from '../../services/table-height.service';
 import { UbsAdminTableExcelPopupComponent } from './ubs-admin-table-excel-popup/ubs-admin-table-excel-popup.component';
@@ -7,7 +8,17 @@ import { AdminTableService } from '../../services/admin-table.service';
 import { CdkDragDrop, moveItemInArray } from '@angular/cdk/drag-drop';
 import { debounceTime, take, takeUntil } from 'rxjs/operators';
 import { Subject, timer } from 'rxjs';
-import { Component, OnInit, ViewChild, OnDestroy, AfterViewChecked, ChangeDetectorRef, ElementRef, Renderer2 } from '@angular/core';
+import {
+  Component,
+  OnInit,
+  ViewChild,
+  OnDestroy,
+  AfterViewChecked,
+  ChangeDetectorRef,
+  ElementRef,
+  Renderer2,
+  TemplateRef
+} from '@angular/core';
 import { MatTable, MatTableDataSource } from '@angular/material/table';
 import { SelectionModel } from '@angular/cdk/collections';
 import { Router } from '@angular/router';
@@ -68,6 +79,8 @@ export class UbsAdminTableComponent implements OnInit, AfterViewChecked, OnDestr
   resizableMousemove: () => void;
   resizableMouseup: () => void;
   @ViewChild(MatTable, { read: ElementRef }) private matTableRef: ElementRef;
+  @ViewChild('columnFilterNonDateList', { static: false }) columnFilterNonDateList: TemplateRef<any>;
+  @ViewChild('columnFilterDateList', { static: false }) columnFilterDateList: TemplateRef<any>;
 
   constructor(
     private orderService: OrderService,
@@ -469,7 +482,7 @@ export class UbsAdminTableComponent implements OnInit, AfterViewChecked, OnDestr
       dateTo = dateFrom;
     }
 
-    if (checked && dateFrom && dateTo) {
+    if (checked) {
       elem[keyNameFrom] = dateFrom;
       elem[keyNameTo] = dateTo;
       this.filters.push(elem);
@@ -541,6 +554,55 @@ export class UbsAdminTableComponent implements OnInit, AfterViewChecked, OnDestr
   public applyFilters() {
     this.currentPage = 0;
     this.getTable(this.filterValue, this.sortingColumn || 'id', this.sortType || 'DESC', this.filters);
+  }
+
+  openColumnFilterPopup(event: PointerEvent, column) {
+    const popupWidth = 350;
+    const popupHeight = 400;
+    const columnName = this.changeColumnNameEqualToEndPoint(column.title.key);
+    const isDateFilter = column.title.key.toLowerCase().includes('date');
+    const htmlTemplate = isDateFilter ? this.columnFilterDateList : this.columnFilterNonDateList;
+    const target = new ElementRef(event.target);
+    let dialogRef = this.dialog.open(ColumnFiltersPopUpComponent, {
+      panelClass: 'dropdown-menu',
+      data: {
+        trigger: target,
+        htmlContent: htmlTemplate,
+        isDateFilter: isDateFilter,
+        columnsForFiltering: this.columnsForFiltering,
+        column: column,
+        columnName: columnName,
+        filters: this.filters,
+        width: popupWidth,
+        height: popupHeight
+      }
+    });
+    dialogRef.afterClosed().subscribe((data) => {
+      let buttonName: 'clear' | 'apply' | undefined;
+      if (data) {
+        buttonName = data[0];
+      }
+      console.log(buttonName);
+      if (buttonName === 'clear') {
+        const columnName = data[1];
+        this.columnsForFiltering.forEach((column) => {
+          if (column.key === columnName) {
+            column.values.forEach((value) => {
+              value.filtered = false;
+            });
+          }
+        });
+        this.filters = this.filters.filter((filteredElem) => !filteredElem[columnName]);
+        this.applyFilters();
+      }
+      if (buttonName === 'apply') {
+        const newFilters = data[2];
+        const newColumnsForFiltering = data[1];
+        this.filters = newFilters;
+        this.columnsForFiltering = newColumnsForFiltering;
+        this.applyFilters();
+      }
+    });
   }
 
   sortColumnsToDisplay() {

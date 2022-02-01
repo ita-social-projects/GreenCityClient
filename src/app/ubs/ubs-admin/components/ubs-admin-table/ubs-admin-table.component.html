@@ -156,13 +156,31 @@
           >
             {{ column.title | serverTranslate: currentLang }}
           </div>
-          <div class="icon-row" *ngIf="!nonSortableColumns.includes(column.title.key)">
-            <mat-icon *ngIf="arrowDirection !== column.title.key" (click)="getSortingData(column.title.key, 'ASC')">
-              arrow_downward
-            </mat-icon>
-            <mat-icon *ngIf="arrowDirection === column.title.key" (click)="getSortingData(column.title.key, 'DESC')">
-              arrow_upward
-            </mat-icon>
+          <div class="icon-row">
+            <ng-container *ngIf="column.filtered">
+              <mat-icon (click)="openColumnFilterPopup($event, column)">filter_list</mat-icon>
+              <ng-template #columnFilterNonDateList>
+                <div>NonDate</div>
+                <div>
+                  <li *ngFor="let option of data.column.checked">
+                    <mat-checkbox [checked]="option.filtered" (change)="changeFilters($event?.checked, column.key, option)">
+                      {{ option | serverTranslate: currentLang }}
+                    </mat-checkbox>
+                  </li>
+                </div>
+              </ng-template>
+              <ng-template #columnFilterDateList>
+                <div>Date</div>
+              </ng-template>
+            </ng-container>
+            <ng-container *ngIf="!nonSortableColumns.includes(column.title.key)">
+              <mat-icon *ngIf="arrowDirection !== column.title.key" (click)="getSortingData(column.title.key, 'ASC')">
+                arrow_downward
+              </mat-icon>
+              <mat-icon *ngIf="arrowDirection === column.title.key" (click)="getSortingData(column.title.key, 'DESC')">
+                arrow_upward
+              </mat-icon>
+            </ng-container>
           </div>
         </th>
         <th scope="row" *ngIf="column.title.key === 'select'" [ngStyle]="{ backgroundColor: '#fff', height: '16px', padding: '0px' }">
