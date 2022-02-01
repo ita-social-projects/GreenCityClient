@@ -274,10 +274,15 @@ export class UbsAdminOrderComponent implements OnInit, OnDestroy {
 
     if (changedValues.orderDetailsForm) {
       changedValues.orderDetailDto = this.formatBagsValue(changedValues.orderDetailsForm);
-      changedValues.ecoNumberFromShop = changedValues.orderDetailsForm.storeOrderNumbers;
+      if (changedValues.orderDetailsForm.storeOrderNumbers) {
+        const keyEcoNumberFromShop = 'ecoNumberFromShop';
+        changedValues[keyEcoNumberFromShop] = {
+          ecoNumber: changedValues.orderDetailsForm.storeOrderNumbers
+        };
+      }
     }
 
-    // TODO modify EcoNumbersFromShop and responsiblePersonsForm objects
+    // TODO responsiblePersonsForm objects
 
     this.addIdForUserAndAdress(changedValues);
 
