@@ -161,13 +161,13 @@
               <mat-icon (click)="openColumnFilterPopup($event, column)">filter_list</mat-icon>
               <ng-template #columnFilterNonDateList>
                 <div>NonDate</div>
-                <div>
+                <!-- <div>
                   <li *ngFor="let option of data.column.checked">
                     <mat-checkbox [checked]="option.filtered" (change)="changeFilters($event?.checked, column.key, option)">
                       {{ option | serverTranslate: currentLang }}
                     </mat-checkbox>
                   </li>
-                </div>
+                </div> -->
               </ng-template>
               <ng-template #columnFilterDateList>
                 <div>Date</div>

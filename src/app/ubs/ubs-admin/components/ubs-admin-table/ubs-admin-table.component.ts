@@ -582,7 +582,6 @@ export class UbsAdminTableComponent implements OnInit, AfterViewChecked, OnDestr
       if (data) {
         buttonName = data[0];
       }
-      console.log(buttonName);
       if (buttonName === 'clear') {
         const columnName = data[1];
         this.columnsForFiltering.forEach((column) => {

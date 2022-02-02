@@ -1,4 +1,4 @@
-import { Component, ElementRef, HostListener, Inject, Input, OnInit, TemplateRef } from '@angular/core';
+import { Component, ElementRef, HostListener, Inject, OnInit } from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 
 @Component({
@@ -17,7 +17,6 @@ export class ColumnFiltersPopUpComponent implements OnInit {
 
   ngOnInit(): void {
     this.setPopupPosUnderButton();
-    console.log(this.data);
   }
 
   @HostListener('document:click', ['$event'])
