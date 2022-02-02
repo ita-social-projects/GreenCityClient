@@ -23,11 +23,11 @@
           {{ order.generalOrderInfo.orderPaymentStatusName }}
         </mat-panel-description>
         <mat-panel-description class="order_list-paymentAmount">
-          {{ order.orderDiscountedPrice | currency | localizedCurrency }}
+          {{ order.orderFullPrice | currency | localizedCurrency }}
         </mat-panel-description>
       </div>
-      <div class="btns_group">
-        <div *ngIf="isOrderPaymentAccess(order)" class="btn_grid_cancel">
+      <div *ngIf="isOrderPaymentAccess(order)" class="btns_group">
+        <div class="btn_grid_cancel">
           <div class="btn_grid_cancel">
             <button class="btn_cancel" (click)="openOrderCancelDialog(order)">
               {{ 'user-orders.btn.cancel' | translate }}
