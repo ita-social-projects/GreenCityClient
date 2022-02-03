@@ -19,7 +19,7 @@ describe('LocalizedCurrencyPipe', () => {
       imports: [TranslateModule.forRoot()],
       providers: [
         { provide: TranslateService, useValue: translateMock },
-        { provide: LocalStorageService, useValue: LocalStorageService }
+        { provide: LocalStorageService, useValue: localStorageServiceMock }
       ]
     }).compileComponents();
     pipe = new LocalizedCurrencyPipe(translateMock, localStorageServiceMock);
@@ -29,7 +29,7 @@ describe('LocalizedCurrencyPipe', () => {
     expect(pipe).toBeTruthy();
   });
 
-  it('lang images has default value', () => {
+  it('lang has default value', () => {
     expect((pipe as any).lang).toBe('en');
   });
 
