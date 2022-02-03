@@ -12,13 +12,13 @@
   overflow-y: scroll;
 
   &::-webkit-scrollbar {
-    width: 10px;
-    background: #646464;
+    width: 5px;
+    background: var(--primary-white);
   }
 
   &::-webkit-scrollbar-thumb {
     border-radius: 5px;
-    background: #222222;
+    background: var(--quaternary-dark-grey);
   }
 }
 
@@ -85,10 +85,11 @@
   border-radius: 10px 10px 10px 0;
   position: relative;
   box-shadow: 0 0 1px 1px rgb(0 0 0 / 25%);
-
+  background: var(--primary-green);
   span {
     font-size: 14px;
-    color: black;
+    font-family: var(--primary-font);
+    color: #fff;
     overflow-wrap: break-word;
     width: 100%;
   }
@@ -97,6 +98,7 @@
 .message.own .msg-block {
   justify-content: flex-end;
   border-radius: 10px 10px 0 10px;
+  background: var(--quaternary-dark-grey);
 }
 
 .msg-time {
@@ -128,21 +130,27 @@
     @include flex(row, center, center);
 
     &:hover {
-      background: #eceff0;
+      background: var(--quaternary-grey);
     }
   }
 }
 
 .sender {
   width: 100%;
-  border-top: 1px solid rgba(0, 0, 0, 0.25);
+  height: 68px;
+  background: var(--quaternary-dark-grey);
 
   input {
     width: 100%;
-    border: 1px solid rgba(0, 0, 0, 0.25);
-    border-radius: 5px;
+    border: none;
     font-size: 15px;
     margin: 0 10px;
+    background: var(--quaternary-dark-grey);
+    color: #fff;
+
+    &:focus {
+      outline: 0;
+    }
   }
 }
 

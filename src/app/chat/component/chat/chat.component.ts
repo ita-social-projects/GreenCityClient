@@ -28,7 +28,6 @@ export class ChatComponent implements OnInit, AfterViewChecked {
   ngOnInit(): void {
     this.chatsService.currentChatMessagesStream$.subscribe((messages) => {
       this.shouldNotBeScrolled = false;
-      console.log(messages);
       this.isHaveMessages = messages.length != 0;
     });
     this.chatsService.isChatUpdateStream$.subscribe((isUpdate) => {

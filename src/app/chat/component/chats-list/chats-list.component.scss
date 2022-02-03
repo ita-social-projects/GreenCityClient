@@ -8,46 +8,31 @@
 
 .searching-panel {
   padding: 10px;
-  border-top: 1px solid rgba(0, 0, 0, 0.25);
-  border-bottom: 1px solid rgba(0, 0, 0, 0.25);
   @include flex(row, space-between, center);
   column-gap: 15px;
   width: 100%;
 
-  input {
-    background: #f2f2f2;
-    font-size: 15px;
-    width: 85%;
-    box-shadow: 0 0 2px 1px rgba(0, 0, 0, 0.25);
-    outline: none;
-    border: none;
-    padding: 5px 8px;
-    transition: all 0.1s linear;
-    border-radius: 3px;
-    font-family: 'Roboto', sans-serif;
+  .search {
+    background: var(--quintynary-light-grey);
+    width: 100%;
+    border-radius: 20px;
 
-    &:focus {
-      background: white;
-      box-shadow: 0 0 2px 1px rgb(0 0 0 / 67%);
+    input {
+      background: url('../../../../assets/img/chat/search.svg') no-repeat 5px center;
+      background-size: 20px;
+      font-size: 15px;
+      width: 85%;
+      box-shadow: 0 0 2px 1px rgba(0, 0, 0, 0.25);
+      outline: none;
+      border: none;
+      padding: 5px 8px 5px 35px;
+      transition: all 0.1s linear;
+      border-radius: 3px;
+      font-family: 'Roboto', sans-serif;
+      color: var(--primary-white);
+      width: 100%;
+      border-radius: 20px;
     }
-  }
-}
-
-.search-filter-button {
-  @include flex(row, center, center);
-  border-radius: 50%;
-  padding: 5px;
-  box-sizing: content-box;
-  cursor: pointer;
-  transition: background 0.2s linear;
-
-  img {
-    height: 20px;
-    width: 20px;
-  }
-
-  &:hover {
-    background: #d8d8d8;
   }
 }
 
@@ -57,12 +42,21 @@
   overflow-y: auto;
   flex: 1;
   width: 100%;
+
+  &::-webkit-scrollbar {
+    width: 3px;
+    background: var(--primary-white);
+  }
+
+  &::-webkit-scrollbar-thumb {
+    border-radius: 5px;
+    background: var(--quintynary-light-grey);
+  }
 }
 
 .chat {
   padding: 10px;
   width: 100%;
-  border-bottom: 1px solid rgba(0, 0, 0, 0.25);
   @include flex(row, flex-start, center);
   column-gap: 10px;
   cursor: pointer;
@@ -82,9 +76,9 @@
 }
 
 .chat-name {
-  color: #494a49;
-  font-size: 15px;
-  font-weight: 500;
+  font-family: var(--primary-font);
+  font-size: 16px;
+  font-weight: 700;
 }
 
 .chat-last-message {
@@ -94,7 +88,9 @@
 
 .chat-lm-text {
   font-size: 14px;
-  color: #676767;
+  font-family: var(--primary-font);
+  font-weight: 400;
+  color: #373737;
   text-overflow: ellipsis;
   width: 80%;
   max-width: 150px;

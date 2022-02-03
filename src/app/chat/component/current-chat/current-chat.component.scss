@@ -13,14 +13,19 @@
 .current-chat-title {
   @include flex(row, flex-start, center);
   width: 100%;
-  border-bottom: 1px solid rgba(0, 0, 0, 0.25);
   padding: 10px;
   column-gap: 7px;
   cursor: pointer;
+  background: var(--quaternary-dark-grey);
+
+  img {
+    height: 40px;
+  }
 }
 
 .current-chat-name {
   font-size: 16px;
+  color: var(--primary-white);
 }
 
 .current-chat-dot {
@@ -41,10 +46,10 @@
   overflow: hidden;
 }
 
-.green-planet-ph {
-  height: 250px;
+.green-people-ph {
+  height: 100%;
 }
 
-.choose-chat-ph {
-  font-size: 16px;
+.no-current-chat {
+  background: var(--quaternary-dark-grey);
 }

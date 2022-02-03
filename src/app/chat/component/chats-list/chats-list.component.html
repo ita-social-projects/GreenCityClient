@@ -1,10 +1,8 @@
 <div class="searching-panel">
-  <input type="text" placeholder="Search chat..." [formControl]="searchFieldControl" />
-  <button class="search-filter-button">
-    <img [src]="chatIcons.settings" alt="settings" />
-  </button>
+  <div class="search">
+    <input type="text" [formControl]="searchFieldControl" />
+  </div>
 </div>
-
 <div class="chats">
   <div
     class="chat"
@@ -14,10 +12,9 @@
     <img [src]="chatIcons.userLogo" alt="user logo" />
     <div class="chat-text">
       <span class="chat-name">{{ chat.name }}</span>
-      <div class="chat-last-message">
+      <div *ngIf="chat.lastMessage" class="chat-last-message">
         <span class="chat-lm-text">{{ chat.lastMessage }}</span>
-        <span class="chat-lm-point"></span>
-        <span class="chat-lm-date">{{ chat.lastMessageDate | date: messageDateTreat(chat.lastMessageDate) }}</span>
+        <span class="chat-lm-date">{{ chat.lastMessageDateTime | date: messageDateTreat(chat.lastMessageDateTime) }}</span>
       </div>
     </div>
   </div>

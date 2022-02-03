@@ -35,6 +35,6 @@
   height: 100%;
   width: 100%;
   @include flex(row, center, flex-start);
-  background: #ffffff;
+  background: var(--primary-white);
   position: relative;
 }

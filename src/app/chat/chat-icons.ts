@@ -6,11 +6,12 @@ export const CHAT_ICONS = {
   threeDots: 'assets/img/chat/three-dots.svg',
   userLogo: 'assets/img/chat/user.svg',
   close: 'assets/img/chat/close.svg',
-  greenPlanet: 'assets/img/chat/planet-earth.svg',
+  greenPeople: 'assets/img/illustration-people.png',
   smile: 'assets/img/chat/smile.svg',
   friends: 'assets/img/chat/friends.svg',
   file: 'assets/img/chat/file.svg',
   image: 'assets/img/chat/image.svg',
   send: 'assets/img/chat/send.svg',
-  voice: 'assets/img/chat/mic.svg'
+  voice: 'assets/img/chat/mic.svg',
+  search: 'assets/img/chat/search.svg'
 };

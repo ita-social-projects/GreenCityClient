@@ -7,6 +7,7 @@ export interface Chat {
   lastMessage: string;
   lastMessageDate: string;
   participants: User[];
+  logo?: string;
 }
 
 export interface FriendChatInfo {
