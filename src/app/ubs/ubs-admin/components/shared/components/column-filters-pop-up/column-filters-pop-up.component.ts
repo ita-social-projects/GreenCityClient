@@ -34,7 +34,7 @@ export class ColumnFiltersPopUpComponent implements OnInit {
 
   private setPopupPosUnderButton() {
     const rect = this.data.trigger.nativeElement.getBoundingClientRect();
-    let position = { left: `${rect.left}px`, top: `${rect.top + rect.height}px` };
+    const position = { left: `${rect.left}px`, top: `${rect.top + rect.height}px` };
 
     if (rect.left + this.data.width > document.body.clientWidth) {
       position.left = `${rect.left + rect.width - this.data.width}px`;
@@ -61,5 +61,93 @@ export class ColumnFiltersPopUpComponent implements OnInit {
     } else {
       this.data.filters = this.data.filters.filter((filteredElem) => filteredElem[columnName] !== option.key);
     }
+  }
+
+  getDateChecked(): boolean {
+    const currentColumnDateFilter = this.data.columnsForFiltering.find((column) => {
+      return column.key === this.data.column.title.key;
+    });
+    return currentColumnDateFilter.values[0]?.filtered;
+  }
+
+  getDateValue(suffix: 'From' | 'To'): boolean {
+    let date;
+    const currentColumnDateFilter = this.data.columnsForFiltering.find((column) => {
+      return column.key === this.data.column.title.key;
+    });
+    for (const key in currentColumnDateFilter?.values[0]) {
+      if (key.includes(suffix)) {
+        date = currentColumnDateFilter?.values[0]?.[key];
+      }
+    }
+    return date;
+  }
+
+  changeDateFilters(checked: boolean): void {
+    const elem = {};
+    const popup = this.matDialogRef.componentInstance.elementRef.nativeElement;
+    const columnName = this.data.columnName;
+    const keyNameFrom = `${columnName}From`;
+    const keyNameTo = `${columnName}To`;
+    const inputDateFrom = popup.querySelector(`#dateFrom${columnName}`) as HTMLInputElement;
+    const inputDateTo = popup.querySelector(`#dateTo${columnName}`) as HTMLInputElement;
+    const dateFrom = inputDateFrom.value;
+    let dateTo = inputDateTo.value;
+
+    if (!dateTo) {
+      dateTo = this.getTodayDate();
+    }
+
+    if (Date.parse(dateFrom) > Date.parse(dateTo)) {
+      dateTo = dateFrom;
+    }
+
+    if (checked) {
+      elem[keyNameFrom] = dateFrom;
+      elem[keyNameTo] = dateTo;
+      this.data.filters.push(elem);
+      this.saveDateFilters(checked, this.data.column.title.key, elem);
+    } else {
+      this.data.filters = this.data.filters.filter((filteredElem) => !Object.keys(filteredElem).includes(`${keyNameFrom}`));
+      this.saveDateFilters(checked, this.data.column.title.key, {});
+    }
+  }
+
+  changeInputDateFilters(value: string, suffix: string): void {
+    const columnName = this.data.columnName;
+    const keyToChange = `${columnName}${suffix}`;
+    const filterToChange = this.data.filters.find((filter) => Object.keys(filter).includes(`${keyToChange}`));
+
+    if (filterToChange) {
+      filterToChange[keyToChange] = value;
+      if (Date.parse(filterToChange[`${columnName}From`]) > Date.parse(filterToChange[`${columnName}To`])) {
+        filterToChange[`${columnName}To`] = filterToChange[`${columnName}From`];
+      }
+      const elem = { ...filterToChange };
+      this.saveDateFilters(true, this.data.column.title.key, elem);
+    }
+  }
+
+  private saveDateFilters(checked, currentColumn, elem) {
+    this.data.columnsForFiltering.forEach((column) => {
+      if (column.key === currentColumn) {
+        column.values = [{ ...elem, filtered: checked }];
+      }
+    });
+  }
+
+  private getTodayDate() {
+    const today = new Date();
+    const year = today.getFullYear();
+    let month = (today.getMonth() + 1).toString();
+    let day = today.getDate().toString();
+    let todayDate: string;
+
+    month = +month >= 10 ? month : `0${month}`;
+    day = +day >= 10 ? day : `0${day}`;
+
+    todayDate = `${year}-${month}-${day}`;
+
+    return todayDate;
   }
 }

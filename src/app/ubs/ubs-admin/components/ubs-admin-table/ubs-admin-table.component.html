@@ -43,7 +43,7 @@
                 <div class="accordion-body">
                   <div *ngIf="column.key.toLowerCase().includes('date'); else nonDate">
                     <div>
-                      <mat-checkbox [(checked)]="column.checked" (change)="changeDateFilters($event, $event.checked, column.key)">
+                      <mat-checkbox [checked]="getDateChecked(column.key)" (change)="changeDateFilters($event, $event.checked, column.key)">
                         {{ 'ubs-tables.date-range' | translate }}
                       </mat-checkbox>
                       <br />
@@ -52,6 +52,7 @@
                         id="dateFrom{{ column.key }}"
                         type="date"
                         name="dateFrom"
+                        [value]="getDateValue('From', column.key)"
                         (change)="changeInputDateFilters($event.target.value, column.key, 'From')"
                       />
                       <br />
@@ -60,6 +61,7 @@
                         id="dateTo{{ column.key }}"
                         type="date"
                         name="dateTo"
+                        [value]="getDateValue('To', column.key)"
                         (change)="changeInputDateFilters($event.target.value, column.key, 'To')"
                       />
                     </div>
@@ -159,19 +161,6 @@
           <div class="icon-row">
             <ng-container *ngIf="column.filtered">
               <mat-icon (click)="openColumnFilterPopup($event, column)">filter_list</mat-icon>
-              <ng-template #columnFilterNonDateList>
-                <div>NonDate</div>
-                <!-- <div>
-                  <li *ngFor="let option of data.column.checked">
-                    <mat-checkbox [checked]="option.filtered" (change)="changeFilters($event?.checked, column.key, option)">
-                      {{ option | serverTranslate: currentLang }}
-                    </mat-checkbox>
-                  </li>
-                </div> -->
-              </ng-template>
-              <ng-template #columnFilterDateList>
-                <div>Date</div>
-              </ng-template>
             </ng-container>
             <ng-container *ngIf="!nonSortableColumns.includes(column.title.key)">
               <mat-icon *ngIf="arrowDirection !== column.title.key" (click)="getSortingData(column.title.key, 'ASC')">

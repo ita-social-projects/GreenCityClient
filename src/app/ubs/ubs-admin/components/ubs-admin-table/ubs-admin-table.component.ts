@@ -8,17 +8,7 @@ import { AdminTableService } from '../../services/admin-table.service';
 import { CdkDragDrop, moveItemInArray } from '@angular/cdk/drag-drop';
 import { debounceTime, take, takeUntil } from 'rxjs/operators';
 import { Subject, timer } from 'rxjs';
-import {
-  Component,
-  OnInit,
-  ViewChild,
-  OnDestroy,
-  AfterViewChecked,
-  ChangeDetectorRef,
-  ElementRef,
-  Renderer2,
-  TemplateRef
-} from '@angular/core';
+import { Component, OnInit, ViewChild, OnDestroy, AfterViewChecked, ChangeDetectorRef, ElementRef, Renderer2 } from '@angular/core';
 import { MatTable, MatTableDataSource } from '@angular/material/table';
 import { SelectionModel } from '@angular/cdk/collections';
 import { Router } from '@angular/router';
@@ -79,8 +69,6 @@ export class UbsAdminTableComponent implements OnInit, AfterViewChecked, OnDestr
   resizableMousemove: () => void;
   resizableMouseup: () => void;
   @ViewChild(MatTable, { read: ElementRef }) private matTableRef: ElementRef;
-  @ViewChild('columnFilterNonDateList', { static: false }) columnFilterNonDateList: TemplateRef<any>;
-  @ViewChild('columnFilterDateList', { static: false }) columnFilterDateList: TemplateRef<any>;
 
   constructor(
     private orderService: OrderService,
@@ -486,8 +474,10 @@ export class UbsAdminTableComponent implements OnInit, AfterViewChecked, OnDestr
       elem[keyNameFrom] = dateFrom;
       elem[keyNameTo] = dateTo;
       this.filters.push(elem);
+      this.saveDateFilters(checked, currentColumn, elem);
     } else {
       this.filters = this.filters.filter((filteredElem) => !Object.keys(filteredElem).includes(`${keyNameFrom}`));
+      this.saveDateFilters(checked, currentColumn, {});
     }
   }
 
@@ -498,7 +488,40 @@ export class UbsAdminTableComponent implements OnInit, AfterViewChecked, OnDestr
 
     if (filterToChange) {
       filterToChange[keyToChange] = value;
+      if (Date.parse(filterToChange[`${columnName}From`]) > Date.parse(filterToChange[`${columnName}To`])) {
+        filterToChange[`${columnName}To`] = filterToChange[`${columnName}From`];
+      }
+      const elem = { ...filterToChange };
+      this.saveDateFilters(true, currentColumn, elem);
     }
+  }
+
+  getDateChecked(dateColumn): boolean {
+    const currentColumnDateFilter = this.columnsForFiltering.find((column) => {
+      return column.key === dateColumn;
+    });
+    return currentColumnDateFilter.values[0]?.filtered;
+  }
+
+  getDateValue(suffix: 'From' | 'To', dateColumn): boolean {
+    let date;
+    const currentColumnDateFilter = this.columnsForFiltering.find((column) => {
+      return column.key === dateColumn;
+    });
+    for (const key in currentColumnDateFilter?.values[0]) {
+      if (key.includes(suffix)) {
+        date = currentColumnDateFilter?.values[0]?.[key];
+      }
+    }
+    return date;
+  }
+
+  private saveDateFilters(checked, currentColumn, elem) {
+    this.columnsForFiltering.forEach((column) => {
+      if (column.key === currentColumn) {
+        column.values = [{ ...elem, filtered: checked }];
+      }
+    });
   }
 
   private getTodayDate() {
@@ -561,20 +584,19 @@ export class UbsAdminTableComponent implements OnInit, AfterViewChecked, OnDestr
     const popupHeight = 400;
     const columnName = this.changeColumnNameEqualToEndPoint(column.title.key);
     const isDateFilter = column.title.key.toLowerCase().includes('date');
-    const htmlTemplate = isDateFilter ? this.columnFilterDateList : this.columnFilterNonDateList;
     const target = new ElementRef(event.target);
-    let dialogRef = this.dialog.open(ColumnFiltersPopUpComponent, {
+    const dialogRef = this.dialog.open(ColumnFiltersPopUpComponent, {
       panelClass: 'dropdown-menu',
       data: {
         trigger: target,
-        htmlContent: htmlTemplate,
-        isDateFilter: isDateFilter,
+        isDateFilter,
         columnsForFiltering: this.columnsForFiltering,
-        column: column,
-        columnName: columnName,
+        column,
+        columnName,
         filters: this.filters,
         width: popupWidth,
-        height: popupHeight
+        height: popupHeight,
+        currentLang: this.currentLang
       }
     });
     dialogRef.afterClosed().subscribe((data) => {
@@ -583,15 +605,15 @@ export class UbsAdminTableComponent implements OnInit, AfterViewChecked, OnDestr
         buttonName = data[0];
       }
       if (buttonName === 'clear') {
-        const columnName = data[1];
-        this.columnsForFiltering.forEach((column) => {
-          if (column.key === columnName) {
-            column.values.forEach((value) => {
+        const colName = data[1];
+        this.columnsForFiltering.forEach((col) => {
+          if (column.key === colName) {
+            col.values.forEach((value) => {
               value.filtered = false;
             });
           }
         });
-        this.filters = this.filters.filter((filteredElem) => !filteredElem[columnName]);
+        this.filters = this.filters.filter((filteredElem) => !filteredElem[colName]);
         this.applyFilters();
       }
       if (buttonName === 'apply') {
