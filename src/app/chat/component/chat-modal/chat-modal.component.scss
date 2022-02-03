@@ -20,6 +20,23 @@
   z-index: 1500;
 }
 
+.controlPanel {
+  background: var(--quaternary-dark-grey);
+  height: 100%;
+  width: 46px;
+  @include flex(column, space-between, center);
+  padding: 60px 0 18px;
+
+  .switchView {
+    @include flex(column, space-between, center);
+    height: 70px;
+  }
+
+  img {
+    cursor: pointer;
+  }
+}
+
 .chat-modal-title {
   @include flex(row, center, center);
   padding: 10px;

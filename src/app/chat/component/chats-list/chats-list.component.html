@@ -1,4 +1,4 @@
-<div class="searching-panel">
+<div class="searching-panel" [ngClass]="{ 'searching-panel-in-popup': isPopup }">
   <div class="search">
     <input type="text" [formControl]="searchFieldControl" />
   </div>

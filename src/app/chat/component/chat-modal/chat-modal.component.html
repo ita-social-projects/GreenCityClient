@@ -2,6 +2,13 @@
   <button class="close-modal-button" type="button" (click)="close()" title="Close">
     <img [src]="chatIcons.close" alt="close" />
   </button>
+  <div class="controlPanel">
+    <div class="switchView">
+      <img [src]="chatIcons.profile" alt="profile" />
+      <img [src]="chatIcons.chats" alt="profile" />
+    </div>
+    <img [src]="chatIcons.setting" alt="profile" />
+  </div>
   <div class="chats">
     <app-chats-list></app-chats-list>
   </div>

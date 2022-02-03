@@ -13,5 +13,8 @@ export const CHAT_ICONS = {
   image: 'assets/img/chat/image.svg',
   send: 'assets/img/chat/send.svg',
   voice: 'assets/img/chat/mic.svg',
-  search: 'assets/img/chat/search.svg'
+  search: 'assets/img/chat/search.svg',
+  chats: 'assets/img/chat/chats.svg',
+  setting: 'assets/img/chat/setting.svg',
+  profile: 'assets/img/chat/profile.svg'
 };

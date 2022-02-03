@@ -1,4 +1,4 @@
-import { Component, EventEmitter, OnInit, Output } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { ChatsService } from '../../service/chats/chats.service';
 import { CHAT_ICONS } from '../../chat-icons';
 import { FormControl } from '@angular/forms';
@@ -14,6 +14,7 @@ export class ChatsListComponent implements OnInit {
   public chatIcons = CHAT_ICONS;
   public searchField = '';
   public searchFieldControl = new FormControl();
+  @Input() isPopup: boolean;
   @Output() createNewMessageWindow: EventEmitter<Chat> = new EventEmitter<Chat>();
 
   constructor(public chatService: ChatsService) {}

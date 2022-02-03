@@ -10,7 +10,7 @@
       </button>
     </div>
   </div>
-  <app-chats-list (createNewMessageWindow)="openNewMessageWindow(false)"></app-chats-list>
+  <app-chats-list [isPopup]="true" (createNewMessageWindow)="openNewMessageWindow(false)"></app-chats-list>
 </div>
 
 <div class="new-msg-container" *appReferenceDirective></div>
