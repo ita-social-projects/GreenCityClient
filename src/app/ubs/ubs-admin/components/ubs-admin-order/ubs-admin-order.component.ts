@@ -72,7 +72,7 @@ export class UbsAdminOrderComponent implements OnInit, OnDestroy {
     this.orderService
       .getOrderInfo(orderId, lang)
       .pipe(takeUntil(this.destroy$))
-      .subscribe((data: any) => {
+      .subscribe((data: IOrderInfo) => {
         this.orderInfo = data;
         this.generalInfo = data.generalOrderInfo;
         this.currentOrderStatus = this.generalInfo.orderStatus;
@@ -249,26 +249,54 @@ export class UbsAdminOrderComponent implements OnInit, OnDestroy {
     this.orderStatusInfo = this.getOrderStatusInfo(this.currentOrderStatus);
   }
 
-  onSubmit() {
+  public addIdForUserAndAdress(order: FormGroup): void {
+    const addressId = 'addressId';
+    const recipientId = 'recipientId';
+    const keyUserInfo = 'userInfoDto';
+    const keyAddressExportDetails = 'addressExportDetailsDto';
+
+    if (order.hasOwnProperty(keyUserInfo)) {
+      order[keyUserInfo][recipientId] = this.userInfo.recipientId;
+    }
+
+    if (order.hasOwnProperty(keyAddressExportDetails)) {
+      order[keyAddressExportDetails][addressId] = this.addressInfo.addressId;
+    }
+  }
+
+  public onSubmit(): void {
     const changedValues: any = {};
     this.getUpdates(this.orderForm, changedValues);
-    this.formatExporteValue(changedValues.exportDetailsDto);
-    changedValues.orderDetailDto = this.formatBagsValue(changedValues.orderDetailsForm);
-    changedValues.ecoNumberFromShop = this.formatEcoNumbersFromShop(changedValues.orderDetailsForm);
-    delete changedValues.orderDetailsForm;
-    console.log(JSON.stringify(changedValues));
 
-    // TODO modify EcoNumbersFromShop and responsiblePersonsForm objects
+    if (changedValues.exportDetailsDto) {
+      this.formatExporteValue(changedValues.exportDetailsDto);
+    }
+
+    if (changedValues.orderDetailsForm) {
+      changedValues.orderDetailDto = this.formatBagsValue(changedValues.orderDetailsForm);
+      if (changedValues.orderDetailsForm.storeOrderNumbers) {
+        const keyEcoNumberFromShop = 'ecoNumberFromShop';
+        changedValues[keyEcoNumberFromShop] = {
+          ecoNumber: changedValues.orderDetailsForm.storeOrderNumbers
+        };
+      }
+    }
+
+    // TODO responsiblePersonsForm objects
+
+    this.addIdForUserAndAdress(changedValues);
+
+    console.log(changedValues);
 
     this.orderService
       .updateOrderInfo(this.orderId, this.currentLanguage, changedValues)
       .pipe(takeUntil(this.destroy$))
-      .subscribe((data) => {
+      .subscribe(() => {
         this.getOrderInfo(this.orderId, this.currentLanguage);
       });
   }
 
-  private getUpdates(formItem: FormGroup | FormArray | FormControl, changedValues: any, name?: string) {
+  private getUpdates(formItem: FormGroup | FormArray | FormControl, changedValues: IOrderInfo, name?: string) {
     if (formItem instanceof FormControl) {
       if (name && formItem.dirty) {
         changedValues[name] = formItem.value;
@@ -297,14 +325,10 @@ export class UbsAdminOrderComponent implements OnInit, OnDestroy {
     const minutes = dateStr.split(':')[1];
     date.setHours(+hours + 2);
     date.setMinutes(+minutes);
-    return date ? date.toISOString() : '';
+    return date ? date.toISOString().split('Z').join('') : '';
   }
 
-  formatExporteValue(exportDetailsDto) {
-    if (!exportDetailsDto) {
-      return;
-    }
-
+  public formatExporteValue(exportDetailsDto: IExportDetails): void {
     const exportDate = new Date(exportDetailsDto.dateExport);
 
     if (exportDetailsDto.dateExport) {
@@ -320,15 +344,7 @@ export class UbsAdminOrderComponent implements OnInit, OnDestroy {
     }
   }
 
-  formatEcoNumbersFromShop(orderDetailsForm) {
-    return orderDetailsForm ? orderDetailsForm.storeOrderNumbers : undefined;
-  }
-
-  formatBagsValue(orderDetailsForm) {
-    if (!orderDetailsForm) {
-      return;
-    }
-
+  public formatBagsValue(orderDetailsForm) {
     const confirmed = {};
     const exported = {};
 

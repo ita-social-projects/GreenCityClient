@@ -1,14 +1,14 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Component, Input, OnDestroy, OnInit, TemplateRef } from '@angular/core';
 import { TariffsService } from '../../services/tariffs.service';
 import { takeUntil } from 'rxjs/operators';
 import { Locations } from '../../models/tariffs.interface';
 import { Subject } from 'rxjs';
 import { Router } from '@angular/router';
-import { UbsAdminTariffsAddLocationPopUpComponent } from './ubs-admin-tariffs-add-location-pop-up/ubs-admin-tariffs-add-location-pop-up.component';
 import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
-import { UbsAdminTariffsAddCourierPopUpComponent } from './ubs-admin-tariffs-add-courier-pop-up/ubs-admin-tariffs-add-courier-pop-up.component';
 import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
 import { FormControl } from '@angular/forms';
+import { UbsAdminTariffsLocationPopUpComponent } from './ubs-admin-tariffs-location-pop-up/ubs-admin-tariffs-location-pop-up.component';
+import { UbsAdminTariffsAddNamePopUpComponent } from './ubs-admin-tariffs-add-name-pop-up/ubs-admin-tariffs-add-name-pop-up.component';
 
 @Component({
   selector: 'app-ubs-admin-tariffs-location-dashboard',
@@ -16,6 +16,10 @@ import { FormControl } from '@angular/forms';
   styleUrls: ['./ubs-admin-tariffs-location-dashboard.component.scss']
 })
 export class UbsAdminTariffsLocationDashboardComponent implements OnInit, OnDestroy {
+  @Input() showTitle = true;
+  @Input() locationCard: Locations;
+  @Input() textBack: TemplateRef<any>;
+
   locations;
   selectedLocationId;
   disabledLocations;
@@ -69,8 +73,8 @@ export class UbsAdminTariffsLocationDashboardComponent implements OnInit, OnDest
       });
   }
 
-  page(location) {
-    this.router.navigate([`ubs-admin/tariffs/location/${location.id}`]);
+  page(locationID) {
+    this.router.navigate([`ubs-admin/tariffs/location/${locationID}`]);
   }
 
   getCouriers() {
@@ -100,16 +104,49 @@ export class UbsAdminTariffsLocationDashboardComponent implements OnInit, OnDest
       .subscribe(() => this.getLocations());
   }
 
-  openAddLocationDialog(): void {
-    const dialogConfig = new MatDialogConfig();
-    dialogConfig.panelClass = 'address-matDialog-styles';
-    this.dialog.open(UbsAdminTariffsAddLocationPopUpComponent, dialogConfig);
-  }
-
   openAddCourierDialog(): void {
     const dialogConfig = new MatDialogConfig();
-    dialogConfig.panelClass = 'address-matDialog-styles';
-    this.dialog.open(UbsAdminTariffsAddCourierPopUpComponent, dialogConfig);
+    dialogConfig.panelClass = 'address-matDialog-styles-w-100';
+    dialogConfig.data = {
+      headerText: 'addCourier'
+    };
+    this.dialog.open(UbsAdminTariffsAddNamePopUpComponent, dialogConfig);
+  }
+
+  openAddStationDialog(): void {
+    const dialogConfig = new MatDialogConfig();
+    dialogConfig.panelClass = 'address-matDialog-styles-w-100';
+    dialogConfig.data = {
+      headerText: 'addStation'
+    };
+    this.dialog.open(UbsAdminTariffsAddNamePopUpComponent, dialogConfig);
+  }
+
+  openAddLocation() {
+    const dialogConfig = new MatDialogConfig();
+    dialogConfig.panelClass = 'address-matDialog-styles-w-100';
+    dialogConfig.data = {
+      headerText: 'addTemplate'
+    };
+    this.dialog.open(UbsAdminTariffsLocationPopUpComponent, dialogConfig);
+  }
+
+  openEditLocation() {
+    const dialogConfig = new MatDialogConfig();
+    dialogConfig.panelClass = 'address-matDialog-styles-w-100';
+    dialogConfig.data = {
+      headerText: 'editTemplate'
+    };
+    this.dialog.open(UbsAdminTariffsLocationPopUpComponent, dialogConfig);
+  }
+
+  openDeactivateLocation() {
+    const dialogConfig = new MatDialogConfig();
+    dialogConfig.panelClass = 'address-matDialog-styles-w-100';
+    dialogConfig.data = {
+      headerText: 'deactivateTemplate'
+    };
+    this.dialog.open(UbsAdminTariffsLocationPopUpComponent, dialogConfig);
   }
 
   ngOnDestroy() {

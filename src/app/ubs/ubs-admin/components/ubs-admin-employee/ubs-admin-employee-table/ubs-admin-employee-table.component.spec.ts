@@ -15,17 +15,12 @@ import { UbsAdminEmployeeTableComponent } from './ubs-admin-employee-table.compo
 describe('UbsAdminEmployeeTableComponent', () => {
   let component: UbsAdminEmployeeTableComponent;
   let fixture: ComponentFixture<UbsAdminEmployeeTableComponent>;
-  let matDialog: MatDialog;
+
   const ubsAdminEmployeeServiceMock = jasmine.createSpyObj('ubsAdminEmployeeServiceMock', ['getAllStations', 'getAllPositions']);
   const dialogRefStub = {
     afterClosed() {
       return of(true);
     }
-  };
-  const deleteDialogData = {
-    popupTitle: 'fake-title',
-    popupConfirm: 'fake-yes',
-    popupCancel: 'fake-no'
   };
   const fakeTableItems = {
     content: ['fakeData1', 'fakeData2'],
@@ -73,6 +68,7 @@ describe('UbsAdminEmployeeTableComponent', () => {
   ubsAdminEmployeeServiceMock.getAllPositions.and.returnValue(of(['fakePosition1', 'fakePosition2', 'fakePosition3']));
   const storeMock = jasmine.createSpyObj('store', ['select', 'dispatch']);
   storeMock.select = () => of(fakeTableItems as any);
+  const matDialogMock = jasmine.createSpyObj('matDialog', ['open']);
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
@@ -80,6 +76,7 @@ describe('UbsAdminEmployeeTableComponent', () => {
       imports: [HttpClientTestingModule, MatDialogModule, MatTableModule, InfiniteScrollModule, ReactiveFormsModule],
       providers: [
         { provide: MatDialogRef, useValue: dialogRefStub },
+        { provide: MatDialog, useValue: matDialogMock },
         { provide: Store, useValue: storeMock },
         { provide: UbsAdminEmployeeService, useValue: ubsAdminEmployeeServiceMock }
       ],
@@ -90,8 +87,6 @@ describe('UbsAdminEmployeeTableComponent', () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(UbsAdminEmployeeTableComponent);
     component = fixture.componentInstance;
-    matDialog = TestBed.inject(MatDialog);
-    component.deleteDialogData = deleteDialogData;
     spyOn(component.searchValue, 'pipe').and.returnValue(of(''));
     fixture.detectChanges();
   });
@@ -134,7 +129,7 @@ describe('UbsAdminEmployeeTableComponent', () => {
   it('should change the init data after calling setDisplayedColumns', () => {
     component.displayedColumns = [];
     component.setDisplayedColumns();
-    expect(component.displayedColumns).toEqual(['editOrDelete', 'fullName', 'position', 'location', 'email', 'phoneNumber']);
+    expect(component.displayedColumns).toEqual(['fullName', 'position', 'location', 'email', 'phoneNumber']);
   });
 
   it('should change the init data after calling onPositionSelected', () => {
@@ -253,20 +248,13 @@ describe('UbsAdminEmployeeTableComponent', () => {
 
   it('should call open inside openModal', () => {
     const employeeData = { data: 'fake' };
-    const spy = spyOn(matDialog, 'open');
     component.openModal(employeeData as any);
-    expect(spy).toHaveBeenCalledWith(EmployeeFormComponent, {
+    expect(matDialogMock.open).toHaveBeenCalledWith(EmployeeFormComponent, {
       data: employeeData,
       hasBackdrop: true,
       closeOnNavigation: true,
       disableClose: true,
       panelClass: 'custom-dialog-container'
     });
-  });
-
-  it('should call deleteEmployee method inside deleteEmployee', () => {
-    spyOn(matDialog, 'open').and.returnValue(dialogRefStub as any);
-    component.deleteEmployee(7);
-    expect(storeMock.dispatch).toHaveBeenCalled();
   });
 });

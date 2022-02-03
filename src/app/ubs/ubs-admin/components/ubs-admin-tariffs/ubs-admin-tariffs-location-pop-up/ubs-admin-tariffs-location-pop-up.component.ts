@@ -1,22 +1,34 @@
-import { ChangeDetectorRef, Component, ElementRef, OnInit, QueryList, ViewChildren } from '@angular/core';
-import { FormArray, FormBuilder, FormControl, FormGroup } from '@angular/forms';
-import { MatDialogRef } from '@angular/material/dialog';
+import {
+  AfterViewChecked,
+  ChangeDetectorRef,
+  Component,
+  ElementRef,
+  Inject,
+  OnInit,
+  QueryList,
+  TemplateRef,
+  ViewChildren
+} from '@angular/core';
+import { FormArray, FormBuilder, FormGroup } from '@angular/forms';
+import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
 import { takeUntil } from 'rxjs/operators';
 import { Subject } from 'rxjs';
 import { DatePipe } from '@angular/common';
-import { TariffsService } from '../../../services/tariffs.service';
+import { TariffsService } from 'src/app/ubs/ubs-admin/services/tariffs.service';
 
 @Component({
-  selector: 'app-ubs-admin-tariffs-add-location-pop-up',
-  templateUrl: './ubs-admin-tariffs-add-location-pop-up.component.html',
-  styleUrls: ['./ubs-admin-tariffs-add-location-pop-up.component.scss'],
-  providers: [DatePipe]
+  selector: 'app-ubs-admin-tariffs-location-pop-up',
+  templateUrl: './ubs-admin-tariffs-location-pop-up.component.html',
+  styleUrls: ['./ubs-admin-tariffs-location-pop-up.component.scss']
 })
-export class UbsAdminTariffsAddLocationPopUpComponent implements OnInit {
+export class UbsAdminTariffsLocationPopUpComponent implements OnInit, AfterViewChecked {
   @ViewChildren('locationInput') inputs: QueryList<ElementRef>;
-
   locationForm = this.fb.group({
+    courier: [''],
+    englishCourier: [''],
+    station: [''],
+    englishStation: [''],
     region: [''],
     englishRegion: [''],
     items: this.fb.array([this.createItem()])
@@ -39,44 +51,55 @@ export class UbsAdminTariffsAddLocationPopUpComponent implements OnInit {
   datePipe = new DatePipe('ua');
   newDate = this.datePipe.transform(new Date(), 'MMM dd, yyyy');
   quantityOfLocations: number;
-
-  public icons = {
-    cross: '.././assets/img/ubs-tariff/smallCross.svg',
-    close: '.././assets/img/ubs-tariff/bigClose.svg'
-  };
+  regionSelected = false;
 
   constructor(
     private tariffsService: TariffsService,
     private fb: FormBuilder,
-    public dialogRef: MatDialogRef<UbsAdminTariffsAddLocationPopUpComponent>,
     private localeStorageService: LocalStorageService,
-    private cdr: ChangeDetectorRef
+    private cdr: ChangeDetectorRef,
+    public dialogRef: MatDialogRef<UbsAdminTariffsLocationPopUpComponent>,
+    @Inject(MAT_DIALOG_DATA)
+    public data: {
+      headerText: string;
+      template: TemplateRef<any>;
+    }
   ) {}
 
-  ngOnInit() {
+  ngOnInit(): void {
     this.localeStorageService.firstNameBehaviourSubject.pipe(takeUntil(this.unsubscribe)).subscribe((firstName) => {
       this.name = firstName;
     });
   }
 
-  translate(sourceText, input) {
+  translate(sourceText: string, input: any): void {
     this.tariffsService.getJSON(sourceText).subscribe((data) => {
       input.setValue(data[0][0][0]);
     });
   }
 
-  addCity() {
+  addCity(): void {
     this.items = this.locationForm.get('items') as FormArray;
-    this.items.push(this.createItem());
-    this.quantityOfLocations++;
+    if (this.regionSelected && this.checkIfAllCitysAreSelected()) {
+      this.items.push(this.createItem());
+      this.quantityOfLocations++;
+      this.cdr.detectChanges();
+      const tempInput = this.inputs.toArray()[this.quantityOfLocations - 1].nativeElement;
+      this.tempAutocomplete = new google.maps.places.Autocomplete(tempInput, this.localityOptions);
+      this.tempAutocomplete.setBounds(this.regionBounds);
+      this.tempAutocomplete.setOptions(this.localityOptions);
+      this.autocomplete.push(this.tempAutocomplete);
+      this.addEventToAutocomplete(this.quantityOfLocations - 1);
+    }
+  }
 
-    this.cdr.detectChanges();
-    const tempInput = this.inputs.toArray()[this.quantityOfLocations - 1].nativeElement;
-    this.tempAutocomplete = new google.maps.places.Autocomplete(tempInput, this.localityOptions);
-    this.tempAutocomplete.setBounds(this.regionBounds);
-    this.tempAutocomplete.setOptions(this.localityOptions);
-    this.autocomplete.push(this.tempAutocomplete);
-    this.addEventToAutocomplete(this.quantityOfLocations - 1);
+  checkIfAllCitysAreSelected(): boolean {
+    for (const item of this.autocomplete) {
+      if (!item.getPlace()) {
+        return false;
+      }
+    }
+    return true;
   }
 
   createItem(): FormGroup {
@@ -88,15 +111,15 @@ export class UbsAdminTariffsAddLocationPopUpComponent implements OnInit {
 
   deleteLocation(i: number) {
     const fa = this.locationForm.get('items') as FormArray;
-    fa.removeAt(i);
-    this.autocomplete.splice(i, 1);
-    this.quantityOfLocations--;
-    if (fa.length === 0) {
-      this.addCity();
+    if (fa.length !== 1) {
+      fa.removeAt(i);
+      this.autocomplete.splice(i, 1);
+      this.quantityOfLocations--;
     }
   }
 
-  onRegionSelected(event) {
+  onRegionSelected(event: any): void {
+    this.regionSelected = true;
     this.setValueOfRegion(event);
     this.quantityOfLocations = 1;
     const tempInput = this.inputs.toArray()[this.quantityOfLocations - 1].nativeElement;
@@ -118,13 +141,13 @@ export class UbsAdminTariffsAddLocationPopUpComponent implements OnInit {
     this.addEventToAutocomplete(this.quantityOfLocations - 1);
   }
 
-  setValueOfRegion(event) {
+  setValueOfRegion(event: any): void {
     this.locationForm.get('region').setValue(event.name);
     this.translate(event.name, this.locationForm.get('englishRegion'));
     this.locationForm.get('englishRegion').setValue(this.translatedText);
   }
 
-  addEventToAutocomplete(i) {
+  addEventToAutocomplete(i: number): void {
     this.autocomplete[i].addListener('place_changed', () => {
       const locationName = this.autocomplete[i].getPlace().name;
       const key = 'controls';
@@ -140,5 +163,9 @@ export class UbsAdminTariffsAddLocationPopUpComponent implements OnInit {
 
   onNoClick() {
     this.dialogRef.close();
+  }
+
+  ngAfterViewChecked(): void {
+    this.cdr.detectChanges();
   }
 }

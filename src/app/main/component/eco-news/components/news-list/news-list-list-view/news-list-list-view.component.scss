@@ -14,16 +14,16 @@ div {
 
 .eco-news_list-view-wrp {
   overflow: hidden;
-  width: 540px;
-  height: 192px;
+  width: 90%;
   -webkit-box-shadow: 1px 1px 12px rgba(27, 51, 38, 0.15);
   box-shadow: 1px 1px 12px rgba(27, 51, 38, 0.15);
   border-radius: 4px;
   background: #fff;
+  margin: 0 auto;
 }
 
 .eco-news_list-img {
-  display: none;
+  width: 100%;
 }
 
 .eco-news_list-tag {

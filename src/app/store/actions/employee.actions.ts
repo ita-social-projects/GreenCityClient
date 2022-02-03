@@ -20,7 +20,7 @@ export const GetEmployees = createAction(
 
 export const GetEmployeesSuccess = createAction(EmployeesActions.GetEmployeesSuccess, props<{ employees: Employees; reset: boolean }>());
 
-export const AddEmployee = createAction(EmployeesActions.AddEmployee, props<{ data: any; employee: Page }>());
+export const AddEmployee = createAction(EmployeesActions.AddEmployee, props<{ data: FormData; employee: Page }>());
 
 export const AddEmployeeSuccess = createAction(EmployeesActions.AddEmployeeSuccess, props<{ employee: Page }>());
 
@@ -28,7 +28,7 @@ export const DeleteEmployee = createAction(EmployeesActions.DeleteEmployee, prop
 
 export const DeleteEmployeeSuccess = createAction(EmployeesActions.DeleteEmployeeSuccess, props<{ id: number }>());
 
-export const UpdateEmployee = createAction(EmployeesActions.UpdateEmployee, props<{ data: any; employee: Page }>());
+export const UpdateEmployee = createAction(EmployeesActions.UpdateEmployee, props<{ data: FormData; employee: Page }>());
 
 export const UpdateEmployeeSuccess = createAction(EmployeesActions.UpdateEmployeeSuccess, props<{ employee: Page }>());
 

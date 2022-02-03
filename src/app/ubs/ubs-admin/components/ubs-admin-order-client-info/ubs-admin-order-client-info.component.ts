@@ -4,8 +4,7 @@ import { Subject } from 'rxjs';
 import { MatDialog } from '@angular/material/dialog';
 import { AddViolationsComponent } from '../add-violations/add-violations.component';
 import { IUserInfo } from '../../models/ubs-admin.interface';
-import { OrderService } from '../../services/order.service';
-import { take, takeUntil } from 'rxjs/operators';
+import { take } from 'rxjs/operators';
 
 @Component({
   selector: 'app-ubs-admin-order-client-info',
@@ -15,38 +14,27 @@ import { take, takeUntil } from 'rxjs/operators';
 export class UbsAdminOrderClientInfoComponent implements OnInit, OnDestroy {
   @Input() userInfo: IUserInfo;
   @Input() userInfoDto: FormGroup;
-  @Input() orderId;
+  @Input() orderId: number;
 
   private destroy$: Subject<boolean> = new Subject<boolean>();
   pageOpen: boolean;
   public userViolationForCurrentOrder: number;
   public totalUserViolations: number;
 
-  constructor(private dialog: MatDialog, private orderService: OrderService) {}
+  constructor(private dialog: MatDialog) {}
 
-  ngOnInit() {
+  ngOnInit(): void {
     this.pageOpen = true;
-    this.getUserInfo();
+    this.setViolationData();
   }
 
-  openDetails() {
+  openDetails(): void {
     this.pageOpen = !this.pageOpen;
   }
 
-  ngOnDestroy(): void {
-    this.destroy$.next();
-    this.destroy$.complete();
-  }
-
-  public getUserInfo() {
-    const lang = 'ua';
-    this.orderService
-      .getUserInfo(this.orderId, lang)
-      .pipe(takeUntil(this.destroy$))
-      .subscribe((data) => {
-        this.userViolationForCurrentOrder = data.userViolationForCurrentOrder;
-        this.totalUserViolations = data.totalUserViolations;
-      });
+  public setViolationData(): void {
+    this.totalUserViolations = this.userInfo.totalUserViolations;
+    this.userViolationForCurrentOrder = this.userInfo.userViolationForCurrentOrder;
   }
 
   openModal(viewMode: boolean): void {
@@ -70,5 +58,10 @@ export class UbsAdminOrderClientInfoComponent implements OnInit, OnDestroy {
           this.totalUserViolations += res;
         }
       });
+  }
+
+  ngOnDestroy(): void {
+    this.destroy$.next();
+    this.destroy$.complete();
   }
 }
