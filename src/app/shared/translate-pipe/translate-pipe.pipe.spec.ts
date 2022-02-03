@@ -14,8 +14,7 @@ describe('ServerTranslatePipe', () => {
   describe('transform', () => {
     it('if value is undefined', () => {
       const pipe = new ServerTranslatePipe();
-      let value = undefined;
-      const res = pipe.transform(value, 'ua');
+      const res = pipe.transform(undefined, 'ua');
       expect(res).toBe('Empty value');
     });
 
