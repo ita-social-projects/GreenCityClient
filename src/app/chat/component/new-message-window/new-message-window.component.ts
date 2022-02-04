@@ -1,4 +1,4 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit, ElementRef, ViewChild } from '@angular/core';
 import { CHAT_ICONS } from '../../chat-icons';
 import { FormControl, Validators } from '@angular/forms';
 import { debounceTime, takeUntil } from 'rxjs/operators';
@@ -22,12 +22,14 @@ export class NewMessageWindowComponent implements OnInit, OnDestroy {
   public userSearchControl: FormControl = new FormControl();
   public messageControl: FormControl = new FormControl('', [Validators.max(250)]);
   public showEmojiPicker = false;
+  public isHaveMessages = true;
+  @ViewChild('chat') chat: ElementRef;
 
   constructor(
     public chatsService: ChatsService,
     private commonService: CommonService,
     private socketService: SocketService,
-    private userService: UserService
+    public userService: UserService
   ) {}
 
   ngOnInit(): void {
@@ -37,14 +39,19 @@ export class NewMessageWindowComponent implements OnInit, OnDestroy {
     });
   }
 
+  ngAfterViewChecked(): void {
+    const element: HTMLElement = this.chat.nativeElement;
+    element.scrollTop = element.scrollHeight;
+  }
+
   public close() {
     this.commonService.newMessageWindowRequireCloseStream$.next(true);
   }
 
   public checkChat(friend: FriendModel) {
     if (friend.friendsChatDto.chatExists) {
-      const chat = this.chatsService.userChats.find((chat) => chat.id === friend.friendsChatDto.chatId);
-      this.chatsService.setCurrentChat(chat);
+      const userChat = this.chatsService.userChats.find((chat) => chat.id === friend.friendsChatDto.chatId);
+      this.chatsService.setCurrentChat(userChat);
     } else {
       this.socketService.createNewChat(friend.id, false, true);
     }
@@ -57,7 +64,7 @@ export class NewMessageWindowComponent implements OnInit, OnDestroy {
       content: this.messageControl.value
     };
     this.socketService.sendMessage(message);
-    this.close();
+    this.messageControl.setValue('');
   }
 
   toggleEmojiPicker() {

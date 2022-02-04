@@ -102,7 +102,6 @@
 }
 
 .msg-time {
-  color: #878787;
   font-size: 12px;
   text-overflow: clip;
 }
@@ -117,6 +116,9 @@
 .sender {
   @include flex(row, space-between, center);
   padding: 5px 10px;
+  width: 100%;
+  height: 68px;
+  background: var(--quaternary-dark-grey);
 
   img {
     height: 20px;
@@ -133,12 +135,6 @@
       background: var(--quaternary-grey);
     }
   }
-}
-
-.sender {
-  width: 100%;
-  height: 68px;
-  background: var(--quaternary-dark-grey);
 
   input {
     width: 100%;
@@ -146,8 +142,7 @@
     font-size: 15px;
     margin: 0 10px;
     background: var(--quaternary-dark-grey);
-    color: #fff;
-
+    color: var(--primary-white);
     &:focus {
       outline: 0;
     }

@@ -90,9 +90,8 @@ export class ChatsService {
 
   public searchFriends(name: string) {
     this.httpClient
-      .get(`${environment.backendUserLink}user/findUserByName?name=${name}&page=0&size=3`)
+      .get(`${environment.backendUserLink}user/findUserByName?name=${name}&page=0&size=5`)
       .subscribe((data: FriendArrayModel) => {
-        console.log(data);
         this.searchedFriendsStream$.next(data.page);
       });
   }

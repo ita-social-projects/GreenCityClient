@@ -3,28 +3,43 @@
     <span class="msg-title">New Message</span>
     <button class="close-new-msg" (click)="close()" title="Close">&times;</button>
   </div>
-  <div class="receiver" *ngIf="chatsService.currentChat; else userSearch">
+  <div class="receiver">
     <div class="account">
       <img [src]="chatIcons.userLogo" alt="user-logo" />
       <span class="chat-name">{{ chatsService.currentChat.name }}</span>
     </div>
-    <span class="reset-receiver" title="Remove receiver" (click)="chatsService.setCurrentChat(null)">&times;</span>
   </div>
-
-  <textarea placeholder="Type a message..." [formControl]="messageControl"></textarea>
-  <div class="message-sender">
+  <div class="chat" #chat>
+    <div *ngIf="isHaveMessages" class="chat-messages">
+      <div class="messages-from-day" *ngFor="let messagesFromDay of chatsService.currentChatMessagesStream$ | async | messageFromDay">
+        <div class="chat-days-separate-line">
+          <span>{{ messagesFromDay[0].createDate | date: 'dd.MM.yyyy' }}</span>
+        </div>
+        <div class="message" *ngFor="let message of messagesFromDay" [class.own]="message.senderId === userService.userId">
+          <img [src]="chatIcons.userLogo" alt="user logo" />
+          <div class="msg-block">
+            <span>{{ message.content }}</span>
+          </div>
+          <span class="msg-time">{{ message.createDate | date: 'HH:mm' }}</span>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div *ngIf="!isHaveMessages">Chat hasn't messages yet</div>
+  <form class="message-sender" (ngSubmit)="sendMessage()">
     <div class="sender-additional-buttons">
-      <button>
+      <button type="button">
         <img [src]="chatIcons.paperClip" alt="clip" title="Add file" />
       </button>
-      <button>
+      <button type="button">
         <img [src]="chatIcons.smile" alt="smile" title="Add emoji" (click)="toggleEmojiPicker()" />
       </button>
     </div>
-    <button class="send-button" (click)="sendMessage()" [disabled]="!messageControl.value || !chatsService.currentChat">
+    <input type="text" placeholder="Type something..." [formControl]="messageControl" />
+    <button class="send-button" (click)="sendMessage()" type="submit" [disabled]="!messageControl.value || !chatsService.currentChat">
       <img [src]="chatIcons.send" alt="send" title="Send mail" />
     </button>
-  </div>
+  </form>
   <emoji-mart
     *ngIf="showEmojiPicker"
     class="emoji-mart"
@@ -36,13 +51,3 @@
     title="Pick your emoji…"
   ></emoji-mart>
 </div>
-
-<ng-template #userSearch>
-  <input type="text" class="search-field" placeholder="Search user..." [formControl]="userSearchControl" />
-  <div class="search-dropdown" [class.active]="userSearchControl.value">
-    <div class="chats-search-suggest" *ngFor="let friend of chatsService.searchedFriendsStream$ | async" (click)="checkChat(friend)">
-      <img [src]="chatIcons.userLogo" alt="user-logo" />
-      <span class="chat-name">{{ friend.name }}</span>
-    </div>
-  </div>
-</ng-template>

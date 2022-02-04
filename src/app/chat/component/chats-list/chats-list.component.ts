@@ -1,5 +1,7 @@
+import { FriendModel } from '@global-user/models/friend.model';
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { ChatsService } from '../../service/chats/chats.service';
+import { SocketService } from 'src/app/chat/service/socket/socket.service';
 import { CHAT_ICONS } from '../../chat-icons';
 import { FormControl } from '@angular/forms';
 import { debounceTime } from 'rxjs/operators';
@@ -17,11 +19,12 @@ export class ChatsListComponent implements OnInit {
   @Input() isPopup: boolean;
   @Output() createNewMessageWindow: EventEmitter<Chat> = new EventEmitter<Chat>();
 
-  constructor(public chatService: ChatsService) {}
+  constructor(public chatService: ChatsService, private socketService: SocketService) {}
 
   ngOnInit(): void {
     this.searchFieldControl.valueChanges.pipe(debounceTime(500)).subscribe((newValue) => {
       this.searchField = newValue;
+      this.chatService.searchFriends(newValue);
     });
   }
 
@@ -33,6 +36,17 @@ export class ChatsListComponent implements OnInit {
     }
     const isToday = messageDate.getDate() === today.getDate() && messageDate.getMonth() === today.getMonth();
     return isToday ? 'HH:mm' : 'dd/MM';
+  }
+
+  public checkChat(friend: FriendModel) {
+    if (friend.friendsChatDto.chatExists) {
+      const userChat = this.chatService.userChats.find((chat) => chat.id === friend.friendsChatDto.chatId);
+      this.chatService.setCurrentChat(userChat);
+      this.createNewMessageWindow.emit();
+    } else {
+      this.socketService.createNewChat(friend.id, false, true);
+      this.createNewMessageWindow.emit();
+    }
   }
 
   openNewMessageWindow(chat: Chat) {

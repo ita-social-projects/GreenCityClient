@@ -49,6 +49,10 @@
   flex: 1;
   width: 100%;
 
+  .search-container {
+    width: 100%;
+  }
+
   &::-webkit-scrollbar {
     width: 3px;
     background: var(--primary-white);
