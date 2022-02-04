@@ -37,7 +37,7 @@ describe('AdminTableService', () => {
     service.getColumns().subscribe((data) => {
       expect(data).toBeDefined();
     });
-    const req = httpMock.expectOne(`${urlMock}/tableParams/0`);
+    const req = httpMock.expectOne(`${urlMock}/tableParams`);
     expect(req.request.method).toBe('GET');
   });
 

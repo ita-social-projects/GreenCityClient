@@ -26,7 +26,7 @@ export class AdminTableService {
   }
 
   getColumns() {
-    return this.http.get(`${this.url}tableParams/0`);
+    return this.http.get(`${this.url}tableParams`);
   }
 
   postData(orderId: number[], columnName: string, newValue: string) {
