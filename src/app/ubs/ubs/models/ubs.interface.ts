@@ -150,7 +150,11 @@ export interface CourierLocations {
   courierDtos: CourierDtos[];
   courierLimit: string;
   courierLocationId: number;
-  locationsDtos: LocationsDtos[];
+  locationInfoDtos: [
+    {
+      locationsDto: LocationsDtos[];
+    }
+  ];
   maxAmountOfBigBags: number;
   maxPriceOfOrder: number;
   minAmountOfBigBags: number;
