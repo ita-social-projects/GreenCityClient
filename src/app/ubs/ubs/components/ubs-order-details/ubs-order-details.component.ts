@@ -130,9 +130,9 @@ export class UBSOrderDetailsComponent extends FormBaseComponent implements OnIni
   }
 
   private setCurrentLocation(currentLanguage: string): void {
-    const currentLocationDto = this.locations.find((loc: CourierLocations) => loc.locationsDtos[0].locationId === this.selectedLocationId);
+    const currentLocationDto = this.locations.find((loc) => loc.locationInfoDtos[0].locationsDto[0].locationId === this.selectedLocationId);
     this.minAmountOfBigBags = currentLocationDto.minAmountOfBigBags;
-    this.currentLocation = currentLocationDto.locationsDtos[0].locationTranslationDtoList.find(
+    this.currentLocation = currentLocationDto.locationInfoDtos[0].locationsDto[0].locationTranslationDtoList.find(
       (lang: LocationTranslation) => lang.languageCode === currentLanguage
     ).locationName;
   }
