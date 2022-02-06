@@ -1,10 +1,16 @@
 import { initialBigOrderTableState } from '../state/bigOrderTable.state';
-import { GetColumnToDisplaySuccess, GetColumnsSuccess, GetTableSuccess, ReceivedFailure } from '../actions/bigOrderTable.actions';
+import {
+  GetColumnToDisplaySuccess,
+  SetColumnToDisplaySuccess,
+  GetColumnsSuccess,
+  GetTableSuccess,
+  ReceivedFailure
+} from '../actions/bigOrderTable.actions';
 import { createReducer, on } from '@ngrx/store';
 
 export const bigOrderTableReducer = createReducer(
   initialBigOrderTableState,
-  on(GetColumnToDisplaySuccess, (state, action) => {
+  on(GetColumnToDisplaySuccess, SetColumnToDisplaySuccess, (state, action) => {
     return {
       ...state,
       ordersViewParameters: action.ordersViewParameters

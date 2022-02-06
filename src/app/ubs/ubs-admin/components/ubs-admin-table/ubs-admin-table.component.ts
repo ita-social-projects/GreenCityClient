@@ -23,7 +23,7 @@ import { OrderService } from '../../services/order.service';
 import { MatCheckboxChange } from '@angular/material/checkbox';
 import { Store } from '@ngrx/store';
 import { IAppState } from 'src/app/store/state/app.state';
-import { GetColumns, GetColumnToDisplay, GetTable } from 'src/app/store/actions/bigOrderTable.actions';
+import { GetColumns, GetColumnToDisplay, GetTable, SetColumnToDisplay } from 'src/app/store/actions/bigOrderTable.actions';
 
 @Component({
   selector: 'app-ubs-admin-table',
@@ -190,7 +190,8 @@ export class UbsAdminTableComponent implements OnInit, AfterViewChecked, OnDestr
 
   dropListDropped(event: CdkDragDrop<string[]>) {
     moveItemInArray(this.displayedColumns, event.previousIndex, event.currentIndex);
-    this.orderService.setColumnToDisplay(encodeURIComponent(this.displayedColumns.join(','))).subscribe();
+    const displayedColumns = this.displayedColumns.join(',');
+    this.store.dispatch(SetColumnToDisplay({ columns: encodeURIComponent(displayedColumns), titles: displayedColumns }));
     this.stickyColumn = [];
     for (let i = 0; i < 4; i++) {
       this.stickyColumn.push(this.displayedColumns[i]);
@@ -266,8 +267,9 @@ export class UbsAdminTableComponent implements OnInit, AfterViewChecked, OnDestr
   public togglePopUp() {
     this.display = this.display === 'none' ? 'block' : 'none';
     this.isPopupOpen = !this.isPopupOpen;
-    if (this.isPopupOpen === false) {
-      this.orderService.setColumnToDisplay(encodeURIComponent(this.displayedColumns.join(','))).subscribe();
+    if (!this.isPopupOpen) {
+      const displayedColumns = this.displayedColumns.join(',');
+      this.store.dispatch(SetColumnToDisplay({ columns: encodeURIComponent(displayedColumns), titles: displayedColumns }));
     }
     this.previousSettings = this.displayedColumns;
   }
@@ -660,6 +662,7 @@ export class UbsAdminTableComponent implements OnInit, AfterViewChecked, OnDestr
   public resetSetting() {
     this.displayedColumns = this.previousSettings;
     this.display = 'none';
+    this.isPopupOpen = false;
   }
 
   ngOnDestroy() {

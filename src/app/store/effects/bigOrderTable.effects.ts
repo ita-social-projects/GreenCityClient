@@ -6,6 +6,8 @@ import { ofType } from '@ngrx/effects';
 import {
   GetColumnToDisplay,
   GetColumnToDisplaySuccess,
+  SetColumnToDisplay,
+  SetColumnToDisplaySuccess,
   GetColumns,
   GetColumnsSuccess,
   GetTable,
@@ -26,6 +28,18 @@ export class BigOrderTableEffects {
       mergeMap(() => {
         return this.orderService.getColumnToDisplay().pipe(
           map((ordersViewParameters: IOrdersViewParameters) => GetColumnToDisplaySuccess({ ordersViewParameters })),
+          catchError((error) => of(ReceivedFailure(error)))
+        );
+      })
+    );
+  });
+
+  setColumnToDisplay = createEffect(() => {
+    return this.actions.pipe(
+      ofType(SetColumnToDisplay),
+      mergeMap((action: { columns: string; titles: string }) => {
+        return this.orderService.setColumnToDisplay(action.columns).pipe(
+          map(() => SetColumnToDisplaySuccess({ ordersViewParameters: { titles: action.titles } })),
           catchError((error) => of(ReceivedFailure(error)))
         );
       })

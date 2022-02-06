@@ -4,6 +4,8 @@ import { IBigOrderTable, IBigOrderTableParams, IOrdersViewParameters } from 'src
 export enum BigOrderTableActions {
   GetColumnToDisplay = '[BigOrderTable] Get Columns To Display',
   GetColumnToDisplaySuccess = '[BigOrderTable] Get Columns To Display Success',
+  SetColumnToDisplay = '[BigOrderTable] Set Columns To Display',
+  SetColumnToDisplaySuccess = '[BigOrderTable] Set Columns To Display Success',
   GetColumns = '[BigOrderTable] Get Columns',
   GetColumnsSuccess = '[BigOrderTable] Get Columns Success',
   GetTable = '[BigOrderTable] Get Table',
@@ -15,6 +17,13 @@ export const GetColumnToDisplay = createAction(BigOrderTableActions.GetColumnToD
 
 export const GetColumnToDisplaySuccess = createAction(
   BigOrderTableActions.GetColumnToDisplaySuccess,
+  props<{ ordersViewParameters: IOrdersViewParameters }>()
+);
+
+export const SetColumnToDisplay = createAction(BigOrderTableActions.SetColumnToDisplay, props<{ columns: string; titles: string }>());
+
+export const SetColumnToDisplaySuccess = createAction(
+  BigOrderTableActions.SetColumnToDisplaySuccess,
   props<{ ordersViewParameters: IOrdersViewParameters }>()
 );
 
