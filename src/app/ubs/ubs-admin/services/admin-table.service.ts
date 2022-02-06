@@ -2,6 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { IAlertInfo } from '../models/edit-cell.model';
 import { environment } from '@environment/environment.js';
+import { IBigOrderTable } from '../models/ubs-admin.interface';
 
 @Injectable({
   providedIn: 'root'
@@ -30,7 +31,7 @@ export class AdminTableService {
         }
       });
     }
-    return this.http.get<any[]>(`${BASE_QUERY}${filtersQuery}`);
+    return this.http.get<IBigOrderTable>(`${BASE_QUERY}${filtersQuery}`);
   }
 
   getColumns() {
