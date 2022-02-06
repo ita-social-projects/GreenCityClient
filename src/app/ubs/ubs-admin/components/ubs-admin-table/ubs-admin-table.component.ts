@@ -19,11 +19,16 @@ import { SelectionModel } from '@angular/cdk/collections';
 import { Router } from '@angular/router';
 import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
 import { IEditCell, IAlertInfo } from '../../models/edit-cell.model';
-import { OrderService } from '../../services/order.service';
 import { MatCheckboxChange } from '@angular/material/checkbox';
 import { Store } from '@ngrx/store';
 import { IAppState } from 'src/app/store/state/app.state';
-import { GetColumns, GetColumnToDisplay, GetTable, SetColumnToDisplay } from 'src/app/store/actions/bigOrderTable.actions';
+import {
+  ChangingOrderData,
+  GetColumns,
+  GetColumnToDisplay,
+  GetTable,
+  SetColumnToDisplay
+} from 'src/app/store/actions/bigOrderTable.actions';
 
 @Component({
   selector: 'app-ubs-admin-table',
@@ -76,6 +81,7 @@ export class UbsAdminTableComponent implements OnInit, AfterViewChecked, OnDestr
   displayedColumnsViewTitles: string[] = [];
   firstPageLoad: boolean;
   isStoreEmpty: boolean;
+  isPostData = false;
   resizableMousemove: () => void;
   resizableMouseup: () => void;
   @ViewChild(MatTable, { read: ElementRef }) private matTableRef: ElementRef;
@@ -86,7 +92,6 @@ export class UbsAdminTableComponent implements OnInit, AfterViewChecked, OnDestr
 
   constructor(
     private store: Store<IAppState>,
-    private orderService: OrderService,
     private router: Router,
     private adminTableService: AdminTableService,
     private localStorageService: LocalStorageService,
@@ -117,6 +122,11 @@ export class UbsAdminTableComponent implements OnInit, AfterViewChecked, OnDestr
     this.isStoreEmpty = true;
     this.bigOrderTable$.subscribe((item) => {
       if (item) {
+        if (this.isPostData) {
+          this.idsToChange = [];
+        }
+        this.editCellProgressBar = false;
+        this.allChecked = false;
         this.isStoreEmpty = false;
         this.currentPage = item.number;
         if (this.firstPageLoad) {
@@ -447,12 +457,9 @@ export class UbsAdminTableComponent implements OnInit, AfterViewChecked, OnDestr
     this.postData([], e.nameOfColumn, e.newValue);
   }
 
-  private postData(id, nameOfColumn, newValue): void {
-    this.adminTableService.postData(id, nameOfColumn, newValue).subscribe(() => {
-      this.editCellProgressBar = false;
-      this.idsToChange = [];
-      this.allChecked = false;
-    });
+  private postData(orderId: number[], columnName: string, newValue: string): void {
+    this.store.dispatch(ChangingOrderData({ orderId, columnName, newValue }));
+    this.isPostData = true;
   }
 
   toggleAccordion(e: PointerEvent): void {

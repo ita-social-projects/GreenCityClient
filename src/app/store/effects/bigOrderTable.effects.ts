@@ -12,6 +12,8 @@ import {
   GetColumnsSuccess,
   GetTable,
   GetTableSuccess,
+  ChangingOrderData,
+  ChangingOrderDataSuccess,
   ReceivedFailure
 } from '../actions/bigOrderTable.actions';
 import { IBigOrderTable, IBigOrderTableParams, IOrdersViewParameters } from 'src/app/ubs/ubs-admin/models/ubs-admin.interface';
@@ -79,6 +81,18 @@ export class BigOrderTableEffects {
             );
         }
       )
+    );
+  });
+
+  changingOrderData = createEffect(() => {
+    return this.actions.pipe(
+      ofType(ChangingOrderData),
+      mergeMap((action: { orderId: number[]; columnName: string; newValue: string }) => {
+        return this.adminTableService.postData(action.orderId, action.columnName, action.newValue).pipe(
+          map(() => ChangingOrderDataSuccess({ orderId: action.orderId, columnName: action.columnName, newValue: action.newValue })),
+          catchError((error) => of(ReceivedFailure(error)))
+        );
+      })
     );
   });
 }

@@ -2,6 +2,7 @@ import { initialBigOrderTableState } from '../state/bigOrderTable.state';
 import {
   GetColumnToDisplaySuccess,
   SetColumnToDisplaySuccess,
+  ChangingOrderDataSuccess,
   GetColumnsSuccess,
   GetTableSuccess,
   ReceivedFailure
@@ -29,6 +30,23 @@ export const bigOrderTableReducer = createReducer(
       bigOrderTable: {
         ...action.bigOrderTable,
         content: [...prevContent, ...action.bigOrderTable.content]
+      }
+    };
+  }),
+
+  on(ChangingOrderDataSuccess, (state, action) => {
+    return {
+      ...state,
+      bigOrderTable: {
+        ...state.bigOrderTable,
+        content: state.bigOrderTable.content.map((orderData) => {
+          if (orderData.id === action.orderId[0]) {
+            const newOrderData = { ...orderData };
+            newOrderData[action.columnName] = action.newValue;
+            return newOrderData;
+          }
+          return orderData;
+        })
       }
     };
   }),

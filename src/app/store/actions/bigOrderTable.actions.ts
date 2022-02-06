@@ -10,6 +10,8 @@ export enum BigOrderTableActions {
   GetColumnsSuccess = '[BigOrderTable] Get Columns Success',
   GetTable = '[BigOrderTable] Get Table',
   GetTableSuccess = '[BigOrderTable] Get Table Success',
+  ChangingOrderData = '[BigOrderTable] Changing Order Data',
+  ChangingOrderDataSuccess = '[BigOrderTable] Changing Order Data Success',
   ReceivedFailure = '[BigOrderTable] Received Failure'
 }
 
@@ -42,6 +44,16 @@ export const GetTable = createAction(
 export const GetTableSuccess = createAction(
   BigOrderTableActions.GetTableSuccess,
   props<{ bigOrderTable: IBigOrderTable; reset: boolean }>()
+);
+
+export const ChangingOrderData = createAction(
+  BigOrderTableActions.ChangingOrderData,
+  props<{ orderId: number[]; columnName: string; newValue: string }>()
+);
+
+export const ChangingOrderDataSuccess = createAction(
+  BigOrderTableActions.ChangingOrderDataSuccess,
+  props<{ orderId: number[]; columnName: string; newValue: string }>()
 );
 
 export const ReceivedFailure = createAction(BigOrderTableActions.ReceivedFailure, props<{ error: string | null }>());
