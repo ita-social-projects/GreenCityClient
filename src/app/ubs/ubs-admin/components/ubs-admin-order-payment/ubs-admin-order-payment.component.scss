@@ -41,7 +41,7 @@
 .order-payment-size-container {
   display: flex;
   align-items: center;
-  margin: 12px 0 48px;
+  margin: 12px 0 36px;
 
   .order-payment-sum {
     margin: 0 115px 0 24px;
@@ -63,12 +63,16 @@
   margin-right: 8px;
 }
 
+.unpaid-amount {
+  margin-bottom: 8px;
+}
+
 .price {
   background: var(--ubs-secondary-white);
   border: 1px solid var(--ubs-primary-light-grey);
   box-sizing: border-box;
   border-radius: 4px;
-  padding: 7px;
+  padding: 8px;
   height: 36px;
   width: 85px;
 }

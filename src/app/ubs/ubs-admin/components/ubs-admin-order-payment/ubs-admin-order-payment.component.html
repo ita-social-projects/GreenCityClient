@@ -5,7 +5,7 @@
     <h1 class="my-4 form__headline">{{ 'order-payment.title' | translate }}</h1>
   </div>
   <div *ngIf="pageOpen">
-    <div class="order-payment-size-container">
+    <div class="order-payment-size-container" [ngStyle]="unPaidAmount && { 'margin-bottom': '4px' }">
       <div>
         <span class="form__subtitle">{{ 'order-payment.order-size' | translate }}</span>
       </div>
@@ -18,7 +18,7 @@
         </button>
       </div>
     </div>
-    <p class="need-to-pay" *ngIf="overpayment">{{ message | translate }} {{ overpayment | localizedCurrency }}</p>
+    <p *ngIf="unPaidAmount" class="need-to-pay unpaid-amount">Потрібно доплатити {{ overpayment | localizedCurrency }}</p>
     <div class="table-responsive-md col-md-10 pl-0" *ngIf="paymentsArray.length !== 0">
       <table class="table table-borderless">
         <thead>
@@ -38,6 +38,9 @@
           </tr>
         </tbody>
       </table>
+    </div>
+    <div *ngIf="overpayment">
+      <span class="need-to-pay" *ngIf="overpayment">{{ message | translate }} {{ overpayment | localizedCurrency }}</span>
     </div>
   </div>
   <hr />
