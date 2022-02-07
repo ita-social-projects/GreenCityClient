@@ -23,6 +23,8 @@ export class UbsAdminOrderPaymentComponent implements OnInit, OnChanges {
   paymentInfo: IPaymentInfo;
   paymentsArray: IPaymentInfoDtos[];
 
+  constructor(private orderService: OrderService, private dialog: MatDialog) {}
+
   ngOnInit() {
     this.orderId = this.orderInfo.generalOrderInfo.id;
     this.paymentInfo = this.orderInfo.paymentTableInfoDto;
@@ -31,8 +33,6 @@ export class UbsAdminOrderPaymentComponent implements OnInit, OnChanges {
     this.unPaidAmount = this.paymentInfo.unPaidAmount;
   }
 
-  constructor(private orderService: OrderService, private dialog: MatDialog) {}
-
   ngOnChanges(changes: SimpleChanges) {
     if (changes.overpayment) {
       this.message = this.orderService.getOverpaymentMsg(this.overpayment);
@@ -40,16 +40,16 @@ export class UbsAdminOrderPaymentComponent implements OnInit, OnChanges {
     }
   }
 
-  openDetails() {
+  public openDetails(): void {
     this.pageOpen = !this.pageOpen;
   }
 
-  setOverpayment(overpayment: number): void {
+  public setOverpayment(overpayment: number): void {
     this.message = this.orderService.getOverpaymentMsg(overpayment);
     this.overpayment = Math.abs(overpayment);
   }
 
-  openPopup(viewMode: boolean, paymentIndex?: number) {
+  public openPopup(viewMode: boolean, paymentIndex?: number): void {
     this.dialog
       .open(AddPaymentComponent, {
         hasBackdrop: true,
