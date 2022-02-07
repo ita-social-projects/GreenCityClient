@@ -208,7 +208,7 @@
           "li_1": "check out our Rules of sorting wastes (link).",
           "li_2": "Everything you give to the Courier must be clean and dry – it’s Must Have.",
           "li_3": "Recyclables and non-recyclable plastics can be put together in one package /sack of a 120 liters size - we will re-sort everything.",
-          "li_4": "We are accepting Fabric wastes (damaged clothes) for the utilization in a separate package of 120L size or 120L size",
+          "li_4": "We are accepting Fabric wastes (damaged clothes) for the utilization in a separate package of 120L size or 120L size.",
           "li_5": "1 package/sack should be up to 30 kg.",
           "li_6": "If you don't have a package/sack of the necessary size you can get it right from the Courier or order a whole roll of packages in our store and pack the wastes beforehand so you will save a big amount of time.",
           "li_7": "The courier picks up at least 2 packages within Kyiv.  Driving a long distance to take only 1 package is not environmentally friendly, and it significantly increases the waiting time for each customer. If you live within a radius of 20 km from Kyiv - the Courier takes out 20 packages of 120 liters.",
@@ -224,7 +224,7 @@
         }
       },
       "price": {
-        "caption": "The cost of the service “UBS Courier",
+        "caption": "The cost of the service “UBS Courier”",
         "price-title": {
           "li_1": "250 UAH / 1 package",
           "li_2": "300 UAH / 1 package",
