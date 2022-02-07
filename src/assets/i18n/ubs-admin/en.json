@@ -67,6 +67,12 @@
         "cancel": "Cancel",
         "active": "Active"
       }
+    },
+    "cancel-modal": {
+      "warning": "If you cancel, the changes will be lost.",
+      "question": "Do you really want to cancel the changes?",
+      "disagree": "No",
+      "agree": "Yes"
     }
   },
   "add-violation-modal": {
