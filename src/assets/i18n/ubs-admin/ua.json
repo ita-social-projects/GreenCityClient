@@ -293,6 +293,8 @@
     "order-date": "Дата оплати",
     "overpayment": "Переплата",
     "underpayment": "Потрібно доплатити",
+    "enroll-on-bonus-account": "Зарахувати на бонусний рахунок",
+    "return-money": "Повернути кошти",
     "payment-id": "ID платежу",
     "sum": "Сума",
     "comment-bill": "Коментар/Чек"
