@@ -19,11 +19,6 @@
     <p class="need-to-pay" *ngIf="overpayment">{{ message | translate }} {{ overpayment | localizedCurrency }}</p>
     <div class="table-responsive-md col-md-10 pl-0" *ngIf="paymentsArray.length !== 0">
       <table class="table table-borderless">
-        <caption>
-          {{
-            'order-payment.title' | translate
-          }}
-        </caption>
         <thead>
           <tr>
             <th id="paymentDate">{{ 'order-payment.order-date' | translate }}</th>
