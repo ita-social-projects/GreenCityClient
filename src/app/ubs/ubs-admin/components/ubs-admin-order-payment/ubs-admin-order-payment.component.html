@@ -18,7 +18,9 @@
         </button>
       </div>
     </div>
-    <p *ngIf="unPaidAmount" class="need-to-pay unpaid-amount">Потрібно доплатити {{ overpayment | localizedCurrency }}</p>
+    <p *ngIf="unPaidAmount" class="need-to-pay unpaid-amount">
+      {{ 'order-payment.underpayment' | translate }} {{ unPaidAmount | localizedCurrency }}
+    </p>
     <div class="table-responsive-md col-md-10 pl-0" *ngIf="paymentsArray.length !== 0">
       <table class="table table-borderless">
         <thead>
