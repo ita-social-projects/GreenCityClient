@@ -173,8 +173,18 @@ export interface IExportDetails {
   receivingStation: string;
 }
 
+export interface IEmployee {
+  name: string;
+  id: number;
+}
+
+export interface IUpdateResponsibleEmployee {
+  employeeId: number;
+  positionId: number;
+}
+
 export interface IResponsiblePersons {
-  allPositionsEmployees: Map<string, string[]>;
+  allPositionsEmployees: Map<string, IEmployee[]>;
   currentPositionEmployees: Map<string, string>;
   orderId: number;
 }

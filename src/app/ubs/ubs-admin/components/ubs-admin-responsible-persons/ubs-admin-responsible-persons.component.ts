@@ -1,7 +1,7 @@
 import { Component, Input, OnDestroy, OnInit } from '@angular/core';
 import { FormGroup } from '@angular/forms';
 import { Subject } from 'rxjs';
-import { IResponsiblePersons } from '../../models/ubs-admin.interface';
+import { IEmployee, IResponsiblePersons } from '../../models/ubs-admin.interface';
 
 @Component({
   selector: 'app-ubs-admin-responsible-persons',
@@ -35,10 +35,14 @@ export class UbsAdminResponsiblePersonsComponent implements OnInit, OnDestroy {
     this.allDrivers = this.getEmployeesById(employees, 5);
   }
 
-  getEmployeesById(employees: Map<string, string[]>, id: number): string[] {
-    for (const key of Object.keys(employees)) {
+  public getEmployeesById(employeeObjects: Map<string, IEmployee[]>, id: number): string[] {
+    for (const key of Object.keys(employeeObjects)) {
       if (key.includes(`id=${id},`)) {
-        return employees[key];
+        const resultEmployeeArr: string[] = [];
+        employeeObjects[key].forEach((emp: IEmployee) => {
+          resultEmployeeArr.push(emp.name);
+        });
+        return resultEmployeeArr;
       }
     }
     return [];

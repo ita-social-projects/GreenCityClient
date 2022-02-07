@@ -11,6 +11,7 @@ import { LocalStorageService } from '@global-service/localstorage/local-storage.
 import { Subject } from 'rxjs';
 import {
   IAddressExportDetails,
+  IEmployee,
   IExportDetails,
   IGeneralOrderInfo,
   IOrderDetails,
@@ -18,9 +19,17 @@ import {
   IOrderStatusInfo,
   IPaymentInfo,
   IResponsiblePersons,
+  IUpdateResponsibleEmployee,
   IUserInfo
 } from '../../models/ubs-admin.interface';
 import { formatDate } from '@angular/common';
+
+enum ResponsibleEmployee {
+  CallManager = 2,
+  Logistician,
+  Navigator,
+  Driver
+}
 
 @Component({
   selector: 'app-ubs-admin-order',
@@ -264,6 +273,23 @@ export class UbsAdminOrderComponent implements OnInit, OnDestroy {
     }
   }
 
+  public getFilledEmployeeData(responsibleEmployee: string, positionId: number): IUpdateResponsibleEmployee {
+    const currentEmployee: IUpdateResponsibleEmployee = {
+      employeeId: 0,
+      positionId: 0
+    };
+    const employeeObjects = this.responsiblePersonInfo.allPositionsEmployees;
+    currentEmployee.positionId = positionId;
+
+    for (const [key, value] of Object.entries(employeeObjects)) {
+      if (key.includes(`id=${positionId},`)) {
+        const selectedEmployee = value.find((emp: IEmployee) => emp.name === responsibleEmployee);
+        currentEmployee.employeeId = selectedEmployee.id;
+      }
+    }
+    return currentEmployee;
+  }
+
   public onSubmit(): void {
     const changedValues: any = {};
     this.getUpdates(this.orderForm, changedValues);
@@ -282,11 +308,32 @@ export class UbsAdminOrderComponent implements OnInit, OnDestroy {
       }
     }
 
-    // TODO responsiblePersonsForm objects
+    if (changedValues.responsiblePersonsForm) {
+      const arrEmployees: IUpdateResponsibleEmployee[] = [];
+
+      if (changedValues.responsiblePersonsForm.callManager) {
+        arrEmployees.push(this.getFilledEmployeeData(changedValues.responsiblePersonsForm.callManager, ResponsibleEmployee.CallManager));
+      }
+
+      if (changedValues.responsiblePersonsForm.logistician) {
+        arrEmployees.push(this.getFilledEmployeeData(changedValues.responsiblePersonsForm.logistician, ResponsibleEmployee.Logistician));
+      }
+
+      if (changedValues.responsiblePersonsForm.navigator) {
+        arrEmployees.push(this.getFilledEmployeeData(changedValues.responsiblePersonsForm.navigator, ResponsibleEmployee.Navigator));
+      }
+
+      if (changedValues.responsiblePersonsForm.driver) {
+        arrEmployees.push(this.getFilledEmployeeData(changedValues.responsiblePersonsForm.driver, ResponsibleEmployee.Driver));
+      }
+
+      const keyUpdateResponsibleEmployeeDto = 'updateResponsibleEmployeeDto';
+      changedValues[keyUpdateResponsibleEmployeeDto] = arrEmployees;
+
+      delete changedValues.responsiblePersonsForm;
+    }
 
     this.addIdForUserAndAdress(changedValues);
-
-    console.log(changedValues);
 
     this.orderService
       .updateOrderInfo(this.orderId, this.currentLanguage, changedValues)
