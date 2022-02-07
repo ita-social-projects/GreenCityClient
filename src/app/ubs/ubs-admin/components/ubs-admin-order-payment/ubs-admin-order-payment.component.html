@@ -5,15 +5,17 @@
     <h1 class="my-4 form__headline">{{ 'order-payment.title' | translate }}</h1>
   </div>
   <div *ngIf="pageOpen">
-    <div class="row align-items-baseline">
-      <div class="col-md-4 col-xl-4">
+    <div class="order-payment-size-container">
+      <div>
         <span class="form__subtitle">{{ 'order-payment.order-size' | translate }}</span>
       </div>
-      <div class="col-md-2">
+      <div class="order-payment-sum">
         <span class="price">{{ totalPaid | currency | localizedCurrency }}</span>
       </div>
-      <div class="col-md-2">
-        <button (click)="openPopup(false)" class="btn">+ {{ 'order-payment.add-payment-btn' | translate }}</button>
+      <div>
+        <button class="btn add-payment" (click)="openPopup(false)">
+          <span class="plus">+</span>{{ 'order-payment.add-payment-btn' | translate }}
+        </button>
       </div>
     </div>
     <p class="need-to-pay" *ngIf="overpayment">{{ message | translate }} {{ overpayment | localizedCurrency }}</p>

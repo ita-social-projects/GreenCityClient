@@ -38,13 +38,29 @@
   letter-spacing: 0.1px;
 }
 
-button {
+.order-payment-size-container {
+  display: flex;
+  align-items: center;
+  margin: 12px 0 48px;
+
+  .order-payment-sum {
+    margin: 0 115px 0 24px;
+  }
+}
+
+.add-payment {
   color: var(--ubs-primary-green);
   border: 1px solid var(--ubs-primary-green);
-  box-sizing: border-box;
+  letter-spacing: 0.1px;
   border-radius: 4px;
-  width: 177px;
+  font-weight: bold;
+  height: 36px;
+  width: 173px;
   font-size: 14px;
+}
+
+.plus {
+  margin-right: 8px;
 }
 
 .price {
