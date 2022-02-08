@@ -7,27 +7,13 @@
   padding-top: 20px;
   padding-bottom: 20px;
 
-  .underline-img {
-    display: inline-flex;
-    flex-direction: column;
-
-    hr {
-      border: none;
-      background-color: red;
-      color: red;
-      height: 2px;
-      width: 20px;
-      float: left;
-    }
-
-    img {
-      width: 20px;
-      margin-right: 20px;
-    }
-  }
-
   h1 {
     display: inline;
+  }
+
+  img {
+    width: 20px;
+    margin-right: 20px;
   }
 }
 
