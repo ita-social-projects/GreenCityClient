@@ -31,12 +31,23 @@ export class UbsAdminOrderPaymentComponent implements OnInit, OnChanges {
     this.paymentsArray = this.orderInfo.paymentTableInfoDto.paymentInfoDtos;
     this.paidAmount = this.paymentInfo.paidAmount;
     this.unPaidAmount = this.paymentInfo.unPaidAmount;
+    this.setDateInPaymentArray(this.paymentsArray);
   }
 
   ngOnChanges(changes: SimpleChanges) {
     if (changes.overpayment) {
       this.message = this.orderService.getOverpaymentMsg(this.overpayment);
       this.overpayment = Math.abs(this.overpayment);
+    }
+  }
+
+  public formatDate(date: string): string {
+    return date.split('-').reverse().join('.');
+  }
+
+  public setDateInPaymentArray(paymentsArray: IPaymentInfoDtos[]) {
+    for (const payment of paymentsArray) {
+      payment.settlementdate = this.formatDate(payment.settlementdate);
     }
   }
 
