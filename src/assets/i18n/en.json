@@ -580,15 +580,7 @@
         "title": "Are you sure that you want to remove this social network link from your profile?"
       }
     },
-    "footer": {
-      "about-us": "About us",
-      "eco-events": "Eco news",
-      "tips": "Tips & Tricks",
-      "map": "Places",
-      "my-habits": "My habits",
-      "follow-us": "Follow us",
-      "events": "Events"
-    },
+
     "user-goals": {
       "add-goal": {
         "update": "Update",
@@ -923,5 +915,14 @@
   },
   "accessibility": {
     "skip-to-the-main-content": "skip to the main content"
+  },
+  "footer": {
+    "about-us": "About us",
+    "eco-events": "Eco news",
+    "tips": "Tips & Tricks",
+    "map": "Places",
+    "my-habits": "My habits",
+    "follow-us": "Follow us",
+    "events": "Events"
   }
 }

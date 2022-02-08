@@ -25,7 +25,7 @@ export class VolumePipe implements PipeTransform, OnDestroy {
     });
   }
 
-  transform(value: any, ...args: any[]): any {
+  transform(value: any): any {
     return `${value} ${LOCALIZED_VOLUME[this.lang]}`;
   }
 

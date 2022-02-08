@@ -189,7 +189,7 @@ export class UBSSubmitOrderComponent extends FormBaseComponent implements OnInit
             } else {
               this.shareFormService.orderUrl = link.toString();
               this.localStorageService.setUbsFondyOrderId(orderId);
-              document.location.href = this.shareFormService.orderUrl;
+              this.redirectToExternalUrl(this.shareFormService.orderUrl);
             }
           },
           (error) => {
@@ -199,6 +199,10 @@ export class UBSSubmitOrderComponent extends FormBaseComponent implements OnInit
     } else {
       this.getLiqPayButton();
     }
+  }
+
+  private redirectToExternalUrl(url: string): void {
+    document.location.href = url;
   }
 
   getLiqPayButton() {

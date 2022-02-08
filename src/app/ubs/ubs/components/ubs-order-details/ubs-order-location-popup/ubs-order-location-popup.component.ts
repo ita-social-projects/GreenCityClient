@@ -41,8 +41,10 @@ export class UbsOrderLocationPopupComponent implements OnInit, OnDestroy {
 
   private setCurrentLocation(currentLanguage: string): void {
     this.currentLocation = this.locations
-      .find((loc: CourierLocations) => loc.locationsDtos[0].locationId === this.selectedLocationId)
-      .locationsDtos[0].locationTranslationDtoList.find((lang: LocationTranslation) => lang.languageCode === currentLanguage).locationName;
+      .find((loc: CourierLocations) => loc.locationInfoDtos[0].locationsDto[0].locationId === this.selectedLocationId)
+      .locationInfoDtos[0].locationsDto[0].locationTranslationDtoList.find(
+        (lang: LocationTranslation) => lang.languageCode === currentLanguage
+      ).locationName;
   }
 
   getLocations() {
