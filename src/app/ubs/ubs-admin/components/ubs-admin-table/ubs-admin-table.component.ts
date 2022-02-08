@@ -38,7 +38,6 @@ import {
 })
 export class UbsAdminTableComponent implements OnInit, AfterViewChecked, OnDestroy {
   currentLang: string;
-  columnsForFiltering: Array<IFilteredColumn> = [];
   nonSortableColumns = nonSortableColumns;
   sortingColumn: string;
   sortType: string;
@@ -149,6 +148,7 @@ export class UbsAdminTableComponent implements OnInit, AfterViewChecked, OnDestr
     });
     this.bigOrderTableParams$.subscribe((columns: IBigOrderTableParams) => {
       if (columns) {
+        const columnsForFiltering: Array<IFilteredColumn> = [];
         this.tableViewHeaders = columns.columnBelongingList;
         this.columns = JSON.parse(JSON.stringify(columns.columnDTOList));
         this.displayedColumnsView = columns.columnDTOList;
@@ -161,10 +161,11 @@ export class UbsAdminTableComponent implements OnInit, AfterViewChecked, OnDestr
               ua: column.title.ua,
               values: [...column.checked]
             };
-            this.columnsForFiltering.push(filteredColumn);
+            columnsForFiltering.push(filteredColumn);
           }
           column.width = 200;
         });
+        this.setColumnsForFiltering(columnsForFiltering);
         if (this.displayedColumns.length === 0) {
           this.setDisplayedColumns();
         }
@@ -482,7 +483,8 @@ export class UbsAdminTableComponent implements OnInit, AfterViewChecked, OnDestr
   changeFilters(checked: boolean, currentColumn: string, option: IFilteredColumnValue): void {
     const elem = {};
     const columnName = this.changeColumnNameEqualToEndPoint(currentColumn);
-    this.columnsForFiltering.find((column) => {
+    const columnsForFiltering = this.getColumnsForFiltering();
+    columnsForFiltering.find((column) => {
       if (column.key === currentColumn) {
         column.values.find((value) => {
           if (value.key === option.key) {
@@ -491,6 +493,7 @@ export class UbsAdminTableComponent implements OnInit, AfterViewChecked, OnDestr
         });
       }
     });
+    this.setColumnsForFiltering(columnsForFiltering);
     if (checked) {
       elem[columnName] = option.key;
       this.filters.push(elem);
@@ -545,7 +548,8 @@ export class UbsAdminTableComponent implements OnInit, AfterViewChecked, OnDestr
   }
 
   getDateChecked(dateColumn): boolean {
-    const currentColumnDateFilter = this.columnsForFiltering.find((column) => {
+    const columnsForFiltering = this.getColumnsForFiltering();
+    const currentColumnDateFilter = columnsForFiltering.find((column) => {
       return column.key === dateColumn;
     });
     return currentColumnDateFilter.values[0]?.filtered;
@@ -553,7 +557,8 @@ export class UbsAdminTableComponent implements OnInit, AfterViewChecked, OnDestr
 
   getDateValue(suffix: 'From' | 'To', dateColumn): boolean {
     let date;
-    const currentColumnDateFilter = this.columnsForFiltering.find((column) => {
+    const columnsForFiltering = this.getColumnsForFiltering();
+    const currentColumnDateFilter = columnsForFiltering.find((column) => {
       return column.key === dateColumn;
     });
     for (const key in currentColumnDateFilter?.values[0]) {
@@ -565,11 +570,13 @@ export class UbsAdminTableComponent implements OnInit, AfterViewChecked, OnDestr
   }
 
   private saveDateFilters(checked, currentColumn, elem) {
-    this.columnsForFiltering.forEach((column) => {
+    const columnsForFiltering = this.getColumnsForFiltering();
+    columnsForFiltering.forEach((column) => {
       if (column.key === currentColumn) {
         column.values = [{ ...elem, filtered: checked }];
       }
     });
+    this.setColumnsForFiltering(columnsForFiltering);
   }
 
   private getTodayDate() {
@@ -613,11 +620,13 @@ export class UbsAdminTableComponent implements OnInit, AfterViewChecked, OnDestr
   }
 
   public clearFilters(): void {
-    this.columnsForFiltering.forEach((column) => {
+    const columnsForFiltering = this.getColumnsForFiltering();
+    columnsForFiltering.forEach((column) => {
       column.values.forEach((value) => {
         value.filtered = false;
       });
     });
+    this.setColumnsForFiltering(columnsForFiltering);
     this.filters = [];
     this.applyFilters();
   }
@@ -638,7 +647,6 @@ export class UbsAdminTableComponent implements OnInit, AfterViewChecked, OnDestr
       data: {
         trigger: target,
         isDateFilter,
-        columnsForFiltering: this.columnsForFiltering,
         column,
         columnName,
         filters: this.filters,
@@ -654,13 +662,15 @@ export class UbsAdminTableComponent implements OnInit, AfterViewChecked, OnDestr
       }
       if (buttonName === 'clear') {
         const colName = data[1];
-        this.columnsForFiltering.forEach((col) => {
+        const columnsForFiltering = this.getColumnsForFiltering();
+        columnsForFiltering.forEach((col) => {
           if (column.key === colName) {
             col.values.forEach((value) => {
               value.filtered = false;
             });
           }
         });
+        this.setColumnsForFiltering(columnsForFiltering);
         this.filters = this.filters.filter((filteredElem) => !filteredElem[colName]);
         this.applyFilters();
       }
@@ -668,7 +678,7 @@ export class UbsAdminTableComponent implements OnInit, AfterViewChecked, OnDestr
         const newFilters = data[2];
         const newColumnsForFiltering = data[1];
         this.filters = newFilters;
-        this.columnsForFiltering = newColumnsForFiltering;
+        this.setColumnsForFiltering(newColumnsForFiltering);
         this.applyFilters();
       }
     });
@@ -753,6 +763,14 @@ export class UbsAdminTableComponent implements OnInit, AfterViewChecked, OnDestr
     this.displayedColumns = this.previousSettings;
     this.display = 'none';
     this.isPopupOpen = false;
+  }
+
+  getColumnsForFiltering(): Array<IFilteredColumn> {
+    return this.adminTableService.getColumnsForFiltering();
+  }
+
+  setColumnsForFiltering(columns): void {
+    this.adminTableService.setColumnsForFiltering(columns);
   }
 
   ngOnDestroy() {

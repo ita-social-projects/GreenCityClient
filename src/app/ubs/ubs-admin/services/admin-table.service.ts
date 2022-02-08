@@ -2,12 +2,13 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { IAlertInfo } from '../models/edit-cell.model';
 import { environment } from '@environment/environment.js';
-import { IBigOrderTable } from '../models/ubs-admin.interface';
+import { IBigOrderTable, IFilteredColumn } from '../models/ubs-admin.interface';
 
 @Injectable({
   providedIn: 'root'
 })
 export class AdminTableService {
+  columnsForFiltering: Array<IFilteredColumn> = [];
   url = environment.ubsAdmin.backendUbsAdminLink + '/management/';
 
   constructor(private http: HttpClient) {}
@@ -64,5 +65,13 @@ export class AdminTableService {
     if (!all && !group.length) {
       return [single];
     }
+  }
+
+  setColumnsForFiltering(columns): void {
+    this.columnsForFiltering = columns;
+  }
+
+  getColumnsForFiltering(): Array<IFilteredColumn> {
+    return this.columnsForFiltering;
   }
 }

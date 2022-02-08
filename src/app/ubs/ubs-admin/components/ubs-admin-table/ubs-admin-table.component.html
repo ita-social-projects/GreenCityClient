@@ -22,7 +22,7 @@
         </div>
         <p class="font-weight-bold">{{ 'ubs-tables.filters' | translate }}</p>
         <div class="accordion" (click)="$event.stopPropagation()">
-          <ng-container *ngFor="let column of columnsForFiltering; index as i">
+          <ng-container *ngFor="let column of getColumnsForFiltering(); index as i">
             <div class="accordion-item">
               <div
                 class="accordion-group-header"
