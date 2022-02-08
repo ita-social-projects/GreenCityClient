@@ -160,16 +160,19 @@ export class UbsAdminOrderComponent implements OnInit, OnDestroy {
         addressDistrict: this.addressInfo.addressDistrict
       }),
       exportDetailsDto: this.fb.group({
-        dateExport: this.exportInfo.dateExport ? formatDate(this.exportInfo.dateExport, 'yyyy-MM-dd', this.currentLanguage) : '',
-        timeDeliveryFrom: this.parseTimeToStr(this.exportInfo.timeDeliveryFrom),
-        timeDeliveryTo: this.parseTimeToStr(this.exportInfo.timeDeliveryTo),
-        receivingStation: this.exportInfo.receivingStation
+        dateExport: [
+          this.exportInfo.dateExport ? formatDate(this.exportInfo.dateExport, 'yyyy-MM-dd', this.currentLanguage) : '',
+          [Validators.required]
+        ],
+        timeDeliveryFrom: [this.parseTimeToStr(this.exportInfo.timeDeliveryFrom), [Validators.required]],
+        timeDeliveryTo: [this.parseTimeToStr(this.exportInfo.timeDeliveryTo), [Validators.required]],
+        receivingStation: [this.exportInfo.receivingStation, [Validators.required]]
       }),
       responsiblePersonsForm: this.fb.group({
-        callManager: this.getEmployeeById(currentEmployees, 2),
-        logistician: this.getEmployeeById(currentEmployees, 3),
-        navigator: this.getEmployeeById(currentEmployees, 4),
-        driver: this.getEmployeeById(currentEmployees, 5)
+        callManager: [this.getEmployeeById(currentEmployees, 2), [Validators.required]],
+        logistician: [this.getEmployeeById(currentEmployees, 3), [Validators.required]],
+        navigator: [this.getEmployeeById(currentEmployees, 4), [Validators.required]],
+        driver: [this.getEmployeeById(currentEmployees, 5), [Validators.required]]
       }),
       orderDetailsForm: this.fb.group({
         storeOrderNumbers: this.fb.array([]),
