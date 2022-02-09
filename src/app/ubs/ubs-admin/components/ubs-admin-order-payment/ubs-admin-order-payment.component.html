@@ -49,7 +49,7 @@
         <span class="price bg-price-none">{{ overpayment | currency | localizedCurrency }}</span>
       </div>
       <div>
-        <button class="btn button-payment-operations btn-enroll-to-bonus-account">
+        <button class="btn button-payment-operations btn-enroll-to-bonus-account" (click)="enrollToBonusAccount()">
           {{ 'order-payment.enroll-on-bonus-account' | translate }}
         </button>
         <button class="btn button-payment-operations btn-return-money">

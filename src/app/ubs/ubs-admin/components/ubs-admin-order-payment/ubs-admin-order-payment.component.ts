@@ -1,7 +1,7 @@
 import { Component, Input, OnInit, OnChanges, SimpleChanges } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { take } from 'rxjs/operators';
-import { IPaymentInfo, IPaymentInfoDtos, IOrderInfo } from '../../models/ubs-admin.interface';
+import { IPaymentInfo, IPaymentInfoDto, IOrderInfo, PaymentDetails } from '../../models/ubs-admin.interface';
 import { OrderService } from '../../services/order.service';
 import { AddPaymentComponent } from '../add-payment/add-payment.component';
 
@@ -21,7 +21,7 @@ export class UbsAdminOrderPaymentComponent implements OnInit, OnChanges {
   paidAmount: number;
   unPaidAmount: number;
   paymentInfo: IPaymentInfo;
-  paymentsArray: IPaymentInfoDtos[];
+  paymentsArray: IPaymentInfoDto[];
 
   constructor(private orderService: OrderService, private dialog: MatDialog) {}
 
@@ -45,7 +45,7 @@ export class UbsAdminOrderPaymentComponent implements OnInit, OnChanges {
     return date.split('-').reverse().join('.');
   }
 
-  public setDateInPaymentArray(paymentsArray: IPaymentInfoDtos[]) {
+  public setDateInPaymentArray(paymentsArray: IPaymentInfoDto[]) {
     for (const payment of paymentsArray) {
       payment.settlementdate = this.formatDate(payment.settlementdate);
     }
@@ -58,6 +58,20 @@ export class UbsAdminOrderPaymentComponent implements OnInit, OnChanges {
   public setOverpayment(overpayment: number): void {
     this.message = this.orderService.getOverpaymentMsg(overpayment);
     this.overpayment = Math.abs(overpayment);
+  }
+
+  public enrollToBonusAccount(): void {
+    const paymentDetails: PaymentDetails = {
+      amount: this.overpayment * 100,
+      receiptLink: 'Зарахування на бонусний рахунок',
+      settlementdate: '2022-02-09'
+    };
+
+    this.orderService.addPaymentManually(this.orderId, paymentDetails).subscribe((responce: IPaymentInfoDto) => {
+      responce.amount /= 100;
+      responce.settlementdate = this.formatDate(responce.settlementdate);
+      this.paymentsArray.push(responce);
+    });
   }
 
   public openPopup(viewMode: boolean, paymentIndex?: number): void {
@@ -73,7 +87,7 @@ export class UbsAdminOrderPaymentComponent implements OnInit, OnChanges {
       })
       .afterClosed()
       .pipe(take(1))
-      .subscribe((res: IPaymentInfoDtos | number | null) => {
+      .subscribe((res: IPaymentInfoDto | number | null) => {
         if (typeof res === 'number') {
           this.paymentsArray = this.paymentsArray.filter((payment) => {
             if (payment.id === res) {
@@ -84,7 +98,7 @@ export class UbsAdminOrderPaymentComponent implements OnInit, OnChanges {
           });
         } else if (res !== null && typeof res === 'object') {
           const checkPayment = (): number => {
-            return this.paymentsArray.filter((payment: IPaymentInfoDtos) => payment.id === res.id).length;
+            return this.paymentsArray.filter((payment: IPaymentInfoDto) => payment.id === res.id).length;
           };
 
           res.settlementdate = this.formatDate(res.settlementdate);

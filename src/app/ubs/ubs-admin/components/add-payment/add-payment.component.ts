@@ -5,7 +5,7 @@ import { MatTableDataSource } from '@angular/material/table';
 import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
 import { iif, of, Subject } from 'rxjs';
 import { switchMap, take, takeUntil } from 'rxjs/operators';
-import { IPaymentInfoDtos } from '../../models/ubs-admin.interface';
+import { IPaymentInfoDto, PaymentDetails } from '../../models/ubs-admin.interface';
 import { OrderService } from '../../services/order.service';
 import { DialogPopUpComponent } from '../shared/components/dialog-pop-up/dialog-pop-up.component';
 import { ShowImgsPopUpComponent } from '../shared/components/show-imgs-pop-up/show-imgs-pop-up.component';
@@ -14,15 +14,7 @@ import { ShowPdfPopUpComponent } from '../shared/components/show-pdf-pop-up/show
 interface InputData {
   orderId: number;
   viewMode: boolean;
-  payment: IPaymentInfoDtos | null;
-}
-
-interface PaymentDetails {
-  settlementdate: string;
-  amount: number;
-  paymentId: string;
-  receiptLink: string;
-  imagePath?: string;
+  payment: IPaymentInfoDto | null;
 }
 
 interface PostData {
@@ -45,7 +37,7 @@ export class AddPaymentComponent implements OnInit, OnDestroy {
   isWarning = false;
   isFileSizeWarning = false;
   isFileTypeWarning = false;
-  payment: IPaymentInfoDtos | null;
+  payment: IPaymentInfoDto | null;
   addPaymentForm: FormGroup;
   file: File;
   pdf = /.pdf$/;
@@ -132,7 +124,7 @@ export class AddPaymentComponent implements OnInit, OnDestroy {
         takeUntil(this.destroySub)
       )
       .subscribe(
-        (data: IPaymentInfoDtos) => {
+        (data: IPaymentInfoDto) => {
           data.amount /= 100;
           this.dialogRef.close(data);
         },
