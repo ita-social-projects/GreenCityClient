@@ -2,7 +2,7 @@ import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { MatDialog, MatDialogModule } from '@angular/material/dialog';
 import { TranslateModule } from '@ngx-translate/core';
 import { LocalizedCurrencyPipe } from 'src/app/shared/localized-currency-pipe/localized-currency.pipe';
-import { IEmployee, IOrderInfo } from '../../models/ubs-admin.interface';
+import { IEmployee, IOrderInfo, IPaymentInfoDtos } from '../../models/ubs-admin.interface';
 import { OrderService } from '../../services/order.service';
 
 import { UbsAdminOrderPaymentComponent } from './ubs-admin-order-payment.component';
@@ -15,6 +15,7 @@ describe('UbsAdminOrderPaymentComponent', () => {
       afterClosed: () => ({ pipe: () => ({ subscribe: (f) => f({}) }) })
     })
   });
+
   const orderServiceMock = jasmine.createSpyObj('orderService', ['getOverpaymentMsg']);
   orderServiceMock.getOverpaymentMsg.and.returnValue('fakeMessage');
 
@@ -176,7 +177,35 @@ describe('UbsAdminOrderPaymentComponent', () => {
     paymentTableInfoDto: {
       overpayment: 0,
       paidAmount: 0,
-      paymentInfoDtos: [],
+      paymentInfoDtos: [
+        {
+          amount: 200,
+          comment: null,
+          id: 40,
+          imagePath: null,
+          paymentId: '436436436',
+          receiptLink: '',
+          settlementdate: '2022-02-01'
+        },
+        {
+          amount: 100,
+          comment: null,
+          id: 44,
+          imagePath: null,
+          paymentId: '435643643',
+          receiptLink: '',
+          settlementdate: '2022-02-01'
+        },
+        {
+          amount: 350,
+          comment: null,
+          id: 45,
+          imagePath: null,
+          paymentId: '3253532',
+          receiptLink: '',
+          settlementdate: '2022-02-04'
+        }
+      ],
       unPaidAmount: 900
     },
     exportDetailsDto: {
@@ -208,10 +237,55 @@ describe('UbsAdminOrderPaymentComponent', () => {
     fixture = TestBed.createComponent(UbsAdminOrderPaymentComponent);
     component = fixture.componentInstance;
     component.orderInfo = fakeOrderInfo;
+    component.paymentsArray = fakeOrderInfo.paymentTableInfoDto.paymentInfoDtos;
+    component.pageOpen = false;
+    component.overpayment = 450;
     fixture.detectChanges();
   });
 
   it('should create', () => {
     expect(component).toBeTruthy();
+  });
+
+  it('life cycle hook ngOnInit', () => {
+    component.ngOnInit();
+    expect(component.orderId).toBe(23);
+    expect(component.paymentInfo).toBe(fakeOrderInfo.paymentTableInfoDto);
+    expect(component.paymentsArray).toBe(fakeOrderInfo.paymentTableInfoDto.paymentInfoDtos);
+    expect(component.paymentInfo).toBe(fakeOrderInfo.paymentTableInfoDto);
+    expect(component.paidAmount).toBe(component.paymentInfo.paidAmount);
+    expect(component.unPaidAmount).toBe(component.paymentInfo.unPaidAmount);
+  });
+
+  it('method formatDate', () => {
+    expect(component.formatDate('2020-07-02')).toBe('02.07.2020');
+  });
+
+  it('method setDateInPaymentArray', () => {
+    const fakePaymentsArray: IPaymentInfoDtos[] = component.paymentsArray;
+    const fakeSettlementdateArray: string[] = [];
+
+    for (const fakePayment of fakePaymentsArray) {
+      fakeSettlementdateArray.push(fakePayment.settlementdate);
+    }
+
+    component.setDateInPaymentArray(component.paymentsArray);
+
+    for (let i = 0; i < component.paymentsArray.length && i < fakeSettlementdateArray.length; i++) {
+      expect(component.paymentsArray[i].settlementdate).toBe(component.formatDate(fakeSettlementdateArray[i]));
+    }
+  });
+
+  it('method openDetails', () => {
+    component.openDetails();
+    expect(component.pageOpen).toBeTruthy();
+  });
+
+  it('method setOverpayment', () => {
+    const fakeModuleOverPayment = Math.abs(component.overpayment);
+    component.setOverpayment(component.overpayment);
+
+    expect(orderServiceMock.getOverpaymentMsg).toHaveBeenCalledWith(component.overpayment);
+    expect(component.overpayment).toBe(fakeModuleOverPayment);
   });
 });
