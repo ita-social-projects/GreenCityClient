@@ -1,3 +1,4 @@
+import { SimpleChange, SimpleChanges } from '@angular/core';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { MatDialog, MatDialogModule } from '@angular/material/dialog';
 import { TranslateModule } from '@ngx-translate/core';
@@ -255,6 +256,17 @@ describe('UbsAdminOrderPaymentComponent', () => {
     expect(component.paymentInfo).toBe(fakeOrderInfo.paymentTableInfoDto);
     expect(component.paidAmount).toBe(component.paymentInfo.paidAmount);
     expect(component.unPaidAmount).toBe(component.paymentInfo.unPaidAmount);
+  });
+
+  it('life cycle hook ngOnChanges', () => {
+    const previousValue = component.overpayment;
+    const currentValue = component.overpayment + 150;
+
+    const changesObj: SimpleChanges = {
+      name: new SimpleChange(previousValue, currentValue, true)
+    };
+
+    component.ngOnChanges(changesObj);
   });
 
   it('method formatDate', () => {
