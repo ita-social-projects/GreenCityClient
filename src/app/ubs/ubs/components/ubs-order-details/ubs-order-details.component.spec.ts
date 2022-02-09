@@ -77,6 +77,7 @@ describe('OrderDetailsFormComponent', () => {
     orderService = TestBed.inject(OrderService);
     spyOn(global, 'setTimeout');
     const spy = spyOn(orderService, 'getOrders').and.returnValue(of(mock));
+    spyOn(component as any, 'changeBagsIfLanguageChanged').and.returnValue(mock.bags);
     shareFormService.orderDetails = mock;
     localStorageService.getCurrentLanguage.and.callFake(() => Language.UA);
     fixture.detectChanges();

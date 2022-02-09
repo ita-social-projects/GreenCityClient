@@ -205,6 +205,20 @@ export class UBSOrderDetailsComponent extends FormBaseComponent implements OnIni
     });
   }
 
+  private changeBagsIfLanguageChanged(bags) {
+    const currenLanguageBags = bags.filter((bag) => bag.quantity && bag.code === this.currentLanguage);
+    if (!currenLanguageBags.length) {
+      const notCurrentLanguageBags = bags.reduce(
+        (acc, bag) => (bag.code !== this.currentLanguage ? { ...acc, [bag.id]: bag.quantity } : acc),
+        {}
+      );
+      bags.forEach((bag) => {
+        bag.quantity = bag.code !== this.currentLanguage ? null : notCurrentLanguageBags[bag.id];
+      });
+    }
+    return bags;
+  }
+
   public takeOrderData() {
     this.isFetching = true;
     this.currentLanguage = this.localStorageService.getCurrentLanguage();
@@ -213,7 +227,7 @@ export class UBSOrderDetailsComponent extends FormBaseComponent implements OnIni
       .pipe(takeUntil(this.destroy))
       .subscribe((orderData: OrderDetails) => {
         this.orders = this.shareFormService.orderDetails;
-        this.bags = this.orders.bags;
+        this.bags = this.changeBagsIfLanguageChanged(this.orders.bags);
         this.points = this.orders.points;
         this.defaultPoints = this.points;
         this.certificateLeft = orderData.points;
