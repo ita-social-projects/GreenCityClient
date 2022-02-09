@@ -82,9 +82,14 @@ export class UbsAdminOrderPaymentComponent implements OnInit, OnChanges {
             }
             return payment.id !== res;
           });
-        }
-        if (res !== null && typeof res === 'object') {
-          if (this.paymentsArray.filter((payment) => payment.id === res.id).length) {
+        } else if (res !== null && typeof res === 'object') {
+          const checkPayment = (): number => {
+            return this.paymentsArray.filter((payment: IPaymentInfoDtos) => payment.id === res.id).length;
+          };
+
+          res.settlementdate = this.formatDate(res.settlementdate);
+
+          if (checkPayment()) {
             this.paymentsArray = this.paymentsArray.map((payment) => {
               if (payment.id === res.id) {
                 this.totalPaid = this.totalPaid - payment.amount + res.amount;
