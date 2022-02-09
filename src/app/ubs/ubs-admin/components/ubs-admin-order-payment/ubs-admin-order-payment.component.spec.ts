@@ -3,7 +3,7 @@ import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { MatDialog, MatDialogModule } from '@angular/material/dialog';
 import { TranslateModule } from '@ngx-translate/core';
 import { LocalizedCurrencyPipe } from 'src/app/shared/localized-currency-pipe/localized-currency.pipe';
-import { IEmployee, IOrderInfo, IPaymentInfoDtos } from '../../models/ubs-admin.interface';
+import { IEmployee, IOrderInfo, IPaymentInfoDto } from '../../models/ubs-admin.interface';
 import { OrderService } from '../../services/order.service';
 
 import { UbsAdminOrderPaymentComponent } from './ubs-admin-order-payment.component';
@@ -186,7 +186,8 @@ describe('UbsAdminOrderPaymentComponent', () => {
           imagePath: null,
           paymentId: '436436436',
           receiptLink: '',
-          settlementdate: '2022-02-01'
+          settlementdate: '2022-02-01',
+          currentDate: '2022-02-09'
         },
         {
           amount: 100,
@@ -195,7 +196,8 @@ describe('UbsAdminOrderPaymentComponent', () => {
           imagePath: null,
           paymentId: '435643643',
           receiptLink: '',
-          settlementdate: '2022-02-01'
+          settlementdate: '2022-02-01',
+          currentDate: '2022-02-09'
         },
         {
           amount: 350,
@@ -204,7 +206,8 @@ describe('UbsAdminOrderPaymentComponent', () => {
           imagePath: null,
           paymentId: '3253532',
           receiptLink: '',
-          settlementdate: '2022-02-04'
+          settlementdate: '2022-02-04',
+          currentDate: '2022-02-09'
         }
       ],
       unPaidAmount: 900
@@ -274,7 +277,7 @@ describe('UbsAdminOrderPaymentComponent', () => {
   });
 
   it('method setDateInPaymentArray', () => {
-    const fakePaymentsArray: IPaymentInfoDtos[] = component.paymentsArray;
+    const fakePaymentsArray: IPaymentInfoDto[] = component.paymentsArray;
     const fakeSettlementdateArray: string[] = [];
 
     for (const fakePayment of fakePaymentsArray) {
