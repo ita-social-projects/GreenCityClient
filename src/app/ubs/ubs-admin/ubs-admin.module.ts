@@ -72,6 +72,7 @@ import { UbsAdminTariffsLocationPopUpComponent } from './components/ubs-admin-ta
 import { UbsAdminTariffsAddNamePopUpComponent } from './components/ubs-admin-tariffs/ubs-admin-tariffs-add-name-pop-up/ubs-admin-tariffs-add-name-pop-up.component';
 import { PdfViewerModule } from 'ng2-pdf-viewer';
 import { ShowPdfPopUpComponent } from './components/shared/components/show-pdf-pop-up/show-pdf-pop-up.component';
+import { UbsAdminSeveralOrdersPopUpComponent } from './components/ubs-admin-several-orders-pop-up/ubs-admin-several-orders-pop-up.component';
 
 @NgModule({
   declarations: [
@@ -119,7 +120,8 @@ import { ShowPdfPopUpComponent } from './components/shared/components/show-pdf-p
     DialogTariffComponent,
     UbsAdminTariffsLocationPopUpComponent,
     UbsAdminTariffsAddNamePopUpComponent,
-    ShowPdfPopUpComponent
+    ShowPdfPopUpComponent,
+    UbsAdminSeveralOrdersPopUpComponent
   ],
   imports: [
     CommonModule,
