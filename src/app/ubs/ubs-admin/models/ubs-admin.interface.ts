@@ -155,18 +155,18 @@ export interface IPaymentInfo {
   unPaidAmount: number;
 }
 
-export interface IPaymentInfoDto extends PaymentDetails {
-  id: number;
-  comment?: string;
-  currentDate: string;
-}
-
 export interface PaymentDetails {
   amount: number;
   settlementdate: string;
   paymentId?: string;
   receiptLink: string;
   imagePath?: string;
+}
+
+export interface IPaymentInfoDto extends PaymentDetails {
+  id: number;
+  comment?: string;
+  currentDate: string;
 }
 
 export interface IExportDetails {
