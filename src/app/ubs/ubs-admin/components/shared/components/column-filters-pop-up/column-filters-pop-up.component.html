@@ -1,21 +1,21 @@
 <ng-container class="dropdown-menu">
   <div class="btn-group">
-    <button type="button" class="btn filter-btn" [mat-dialog-close]="['clear', data.column.title.key]">
+    <button type="button" class="btn filter-btn" [mat-dialog-close]="['clear', data.columnName]">
       {{ 'ubs-tables.clear-filters' | translate }}
     </button>
-    <button type="button" class="btn filter-btn bg-lime" [mat-dialog-close]="['apply', data.columnsForFiltering, data.filters]">
+    <button type="button" class="btn filter-btn bg-lime" [mat-dialog-close]="['apply']">
       {{ 'ubs-tables.apply-filters' | translate }}
     </button>
   </div>
   <ng-container *ngIf="!data.isDateFilter; else date">
-    <li *ngFor="let option of data.column.checked">
-      <mat-checkbox [checked]="option.filtered" (change)="changeColumnFilters($event?.checked, data.column, option)">
+    <li *ngFor="let option of getOptionsForFiltering()">
+      <mat-checkbox [checked]="option.filtered" (change)="changeColumnFilters($event?.checked, data.columnName, option)">
         {{ option | serverTranslate: data.currentLang }}
       </mat-checkbox>
     </li>
   </ng-container>
   <ng-template #date>
-    <mat-checkbox [checked]="getDateChecked()" (change)="changeDateFilters($event.checked)">
+    <mat-checkbox [checked]="getDateChecked()" (change)="changeDateFilters($event, $event.checked)">
       {{ 'ubs-tables.date-range' | translate }}
     </mat-checkbox>
     <br />

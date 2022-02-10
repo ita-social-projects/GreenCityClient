@@ -1,5 +1,8 @@
+import { MatCheckboxChange } from '@angular/material/checkbox';
+import { AdminTableService } from 'src/app/ubs/ubs-admin/services/admin-table.service';
 import { Component, ElementRef, HostListener, Inject, OnInit } from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { IFilteredColumn, IFilteredColumnValue } from 'src/app/ubs/ubs-admin/models/ubs-admin.interface';
 
 @Component({
   selector: 'app-column-filters-pop-up',
@@ -12,7 +15,8 @@ export class ColumnFiltersPopUpComponent implements OnInit {
   constructor(
     @Inject(MAT_DIALOG_DATA) public data: any,
     private matDialogRef: MatDialogRef<ColumnFiltersPopUpComponent>,
-    private elementRef: ElementRef
+    private elementRef: ElementRef,
+    private adminTableService: AdminTableService
   ) {}
 
   ngOnInit(): void {
@@ -43,111 +47,36 @@ export class ColumnFiltersPopUpComponent implements OnInit {
     this.matDialogRef.updateSize(`${this.data.width}px`, `${this.data.height}px`);
   }
 
-  changeColumnFilters(checked, curColumn, option) {
-    const elem = {};
-    const columnName = this.data.columnName;
-    this.data.columnsForFiltering.find((column) => {
-      if (column.key === curColumn.title.key) {
-        column.values.find((value) => {
-          if (value.key === option.key) {
-            value.filtered = checked;
-          }
-        });
-      }
-    });
-    if (checked) {
-      elem[columnName] = option.key;
-      this.data.filters.push(elem);
-    } else {
-      this.data.filters = this.data.filters.filter((filteredElem) => filteredElem[columnName] !== option.key);
-    }
+  changeColumnFilters(checked: boolean, currentColumn: string, option: IFilteredColumnValue): void {
+    this.adminTableService.changeFilters(checked, currentColumn, option);
   }
 
   getDateChecked(): boolean {
-    const currentColumnDateFilter = this.data.columnsForFiltering.find((column) => {
-      return column.key === this.data.column.title.key;
-    });
-    return currentColumnDateFilter.values[0]?.filtered;
+    return this.adminTableService.getDateChecked(this.data.columnName);
   }
 
   getDateValue(suffix: 'From' | 'To'): boolean {
-    let date;
-    const currentColumnDateFilter = this.data.columnsForFiltering.find((column) => {
-      return column.key === this.data.column.title.key;
-    });
-    for (const key in currentColumnDateFilter?.values[0]) {
-      if (key.includes(suffix)) {
-        date = currentColumnDateFilter?.values[0]?.[key];
-      }
-    }
-    return date;
+    return this.adminTableService.getDateValue(suffix, this.data.columnName);
   }
 
-  changeDateFilters(checked: boolean): void {
-    const elem = {};
-    const popup = this.matDialogRef.componentInstance.elementRef.nativeElement;
-    const columnName = this.data.columnName;
-    const keyNameFrom = `${columnName}From`;
-    const keyNameTo = `${columnName}To`;
-    const inputDateFrom = popup.querySelector(`#dateFrom${columnName}`) as HTMLInputElement;
-    const inputDateTo = popup.querySelector(`#dateTo${columnName}`) as HTMLInputElement;
-    const dateFrom = inputDateFrom.value;
-    let dateTo = inputDateTo.value;
-
-    if (!dateTo) {
-      dateTo = this.getTodayDate();
-    }
-
-    if (Date.parse(dateFrom) > Date.parse(dateTo)) {
-      dateTo = dateFrom;
-    }
-
-    if (checked) {
-      elem[keyNameFrom] = dateFrom;
-      elem[keyNameTo] = dateTo;
-      this.data.filters.push(elem);
-      this.saveDateFilters(checked, this.data.column.title.key, elem);
-    } else {
-      this.data.filters = this.data.filters.filter((filteredElem) => !Object.keys(filteredElem).includes(`${keyNameFrom}`));
-      this.saveDateFilters(checked, this.data.column.title.key, {});
-    }
+  changeDateFilters(e: MatCheckboxChange, checked: boolean): void {
+    this.adminTableService.changeDateFilters(e, checked, this.data.columnName);
   }
 
   changeInputDateFilters(value: string, suffix: string): void {
-    const columnName = this.data.columnName;
-    const keyToChange = `${columnName}${suffix}`;
-    const filterToChange = this.data.filters.find((filter) => Object.keys(filter).includes(`${keyToChange}`));
-
-    if (filterToChange) {
-      filterToChange[keyToChange] = value;
-      if (Date.parse(filterToChange[`${columnName}From`]) > Date.parse(filterToChange[`${columnName}To`])) {
-        filterToChange[`${columnName}To`] = filterToChange[`${columnName}From`];
-      }
-      const elem = { ...filterToChange };
-      this.saveDateFilters(true, this.data.column.title.key, elem);
-    }
+    this.adminTableService.changeInputDateFilters(value, this.data.columnName, suffix);
   }
 
-  private saveDateFilters(checked, currentColumn, elem) {
-    this.data.columnsForFiltering.forEach((column) => {
-      if (column.key === currentColumn) {
-        column.values = [{ ...elem, filtered: checked }];
-      }
-    });
+  getOptionsForFiltering() {
+    const columnsForFiltering = this.getColumnsForFiltering();
+    let filteredCol: IFilteredColumn;
+
+    filteredCol = columnsForFiltering.find((column) => column.key === this.data.columnName);
+
+    return filteredCol.values;
   }
 
-  private getTodayDate() {
-    const today = new Date();
-    const year = today.getFullYear();
-    let month = (today.getMonth() + 1).toString();
-    let day = today.getDate().toString();
-    let todayDate: string;
-
-    month = +month >= 10 ? month : `0${month}`;
-    day = +day >= 10 ? day : `0${day}`;
-
-    todayDate = `${year}-${month}-${day}`;
-
-    return todayDate;
+  getColumnsForFiltering() {
+    return this.adminTableService.columnsForFiltering;
   }
 }

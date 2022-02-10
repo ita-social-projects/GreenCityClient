@@ -38,7 +38,7 @@ export const GetColumnsSuccess = createAction(
 
 export const GetTable = createAction(
   BigOrderTableActions.GetTable,
-  props<{ columnName?: string; page?: number; filter?: string; size?: number; sortingType?: string; filters?: any[]; reset?: boolean }>()
+  props<{ columnName?: string; page?: number; filter?: string; size?: number; sortingType?: string; reset?: boolean }>()
 );
 
 export const GetTableSuccess = createAction(

@@ -1,5 +1,5 @@
 import { AdminTableService } from './services/admin-table.service';
-import { NgModule } from '@angular/core';
+import { ModuleWithProviders, NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
 import { NgxPaginationModule } from 'ngx-pagination';
@@ -161,7 +161,6 @@ import { ColumnFiltersPopUpComponent } from './components/shared/components/colu
   ],
   providers: [
     AdminCertificateService,
-    AdminTableService,
     TranslateService,
     {
       provide: HTTP_INTERCEPTORS,
@@ -177,7 +176,14 @@ import { ColumnFiltersPopUpComponent } from './components/shared/components/colu
     UbsAdminGoBackModalComponent
   ]
 })
-export class UbsAdminModule {}
+export class UbsAdminModule {
+  static forRoot(): ModuleWithProviders {
+    return {
+      ngModule: UbsAdminModule,
+      providers: [AdminTableService]
+    };
+  }
+}
 
 export function createTranslateLoaderUbs(http: HttpClient) {
   return new TranslateHttpLoader(http, './assets/i18n/ubs-admin/', '.json');
