@@ -528,7 +528,6 @@ export class UbsAdminTableComponent implements OnInit, AfterViewChecked, OnDestr
       data: {
         trigger: target,
         isDateFilter,
-        column,
         columnName: column.title.key,
         width: popupWidth,
         height: popupHeight,
