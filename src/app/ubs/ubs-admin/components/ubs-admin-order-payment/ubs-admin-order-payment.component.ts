@@ -61,10 +61,25 @@ export class UbsAdminOrderPaymentComponent implements OnInit, OnChanges {
   }
 
   public enrollToBonusAccount(): void {
+    type YYYYMMDD = string;
+    const presently: Date = new Date();
+    let currentDate: YYYYMMDD = `${presently.getFullYear()}-${presently.getMonth() + 1}-${presently.getDate()}`;
+
+    if (presently.getMonth() + 1 < 10 && presently.getDate() < 10) {
+      currentDate = `${presently.getFullYear()}-0${presently.getMonth() + 1}-0${presently.getDate()}`;
+    } else {
+      if (presently.getMonth() + 1 < 10) {
+        currentDate = `${presently.getFullYear()}-0${presently.getMonth() + 1}-${presently.getDate()}`;
+      }
+      if (presently.getDate() < 10) {
+        currentDate = `${presently.getFullYear()}-${presently.getMonth() + 1}-0${presently.getDate()}`;
+      }
+    }
+
     const paymentDetails: PaymentDetails = {
       amount: this.overpayment * 100,
       receiptLink: 'Зарахування на бонусний рахунок',
-      settlementdate: '2022-02-09'
+      settlementdate: currentDate
     };
 
     this.orderService.addPaymentManually(this.orderId, paymentDetails).subscribe((responce: IPaymentInfoDto) => {
