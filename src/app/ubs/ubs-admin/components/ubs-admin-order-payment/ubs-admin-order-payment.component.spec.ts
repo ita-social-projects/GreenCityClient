@@ -176,8 +176,8 @@ describe('UbsAdminOrderPaymentComponent', () => {
     numbersFromShop: [],
     comment: '',
     paymentTableInfoDto: {
-      overpayment: 0,
-      paidAmount: 0,
+      overpayment: 480,
+      paidAmount: 250,
       paymentInfoDtos: [
         {
           amount: 200,
@@ -294,6 +294,13 @@ describe('UbsAdminOrderPaymentComponent', () => {
   it('method openDetails', () => {
     component.openDetails();
     expect(component.pageOpen).toBeTruthy();
+  });
+
+  it('method recountUnpaidAmount', () => {
+    component.recountUnpaidAmount(200);
+    expect(component.unPaidAmount).toBe(700);
+    component.recountUnpaidAmount(1000);
+    expect(component.unPaidAmount).toBe(0);
   });
 
   it('method setOverpayment', () => {
