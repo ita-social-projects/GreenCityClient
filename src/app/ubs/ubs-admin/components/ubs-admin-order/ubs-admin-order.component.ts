@@ -54,7 +54,8 @@ export class UbsAdminOrderComponent implements OnInit, OnDestroy {
   orderStatusInfo: IOrderStatusInfo;
   currentOrderPrice: number;
   currentOrderStatus: string;
-  overpayment = 0;
+  overpayment: number;
+  overpaymentForOrderDetailsForm: number;
   isMinOrder = true;
 
   constructor(
@@ -67,6 +68,7 @@ export class UbsAdminOrderComponent implements OnInit, OnDestroy {
   ) {}
 
   ngOnInit() {
+    this.overpaymentForOrderDetailsForm = 0;
     this.localStorageService.languageBehaviourSubject.pipe(takeUntil(this.destroy$)).subscribe((lang) => {
       this.currentLanguage = lang;
       this.translate.setDefaultLang(lang);
@@ -92,6 +94,7 @@ export class UbsAdminOrderComponent implements OnInit, OnDestroy {
         this.responsiblePersonInfo = data.employeePositionDtoRequest;
         this.totalPaid = this.orderInfo.orderCertificateTotalDiscount + this.orderInfo.orderBonusDiscount;
         this.totalPaid += data.paymentTableInfoDto.paidAmount;
+        this.overpayment = data.paymentTableInfoDto.overpayment;
         this.currentOrderPrice = data.orderFullPrice;
         this.setOrderDetails();
         this.initForm();
@@ -136,7 +139,6 @@ export class UbsAdminOrderComponent implements OnInit, OnDestroy {
 
   initForm() {
     const currentEmployees = this.responsiblePersonInfo.currentPositionEmployees;
-    this.overpayment = 0;
     this.orderForm = this.fb.group({
       generalOrderInfo: this.fb.group({
         orderStatus: this.generalInfo.orderStatus,
@@ -235,8 +237,8 @@ export class UbsAdminOrderComponent implements OnInit, OnDestroy {
     this.orderStatusInfo = this.getOrderStatusInfo(this.currentOrderStatus);
   }
 
-  public changeOverpayment(sum) {
-    this.overpayment = sum;
+  public changeOverpayment(sum: number): void {
+    this.overpaymentForOrderDetailsForm = sum;
   }
 
   public onChangeCurrentPrice(sum: number) {
