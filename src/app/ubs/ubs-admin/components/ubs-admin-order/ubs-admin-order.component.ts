@@ -55,7 +55,6 @@ export class UbsAdminOrderComponent implements OnInit, OnDestroy {
   currentOrderPrice: number;
   currentOrderStatus: string;
   overpayment: number;
-  overpaymentForOrderDetailsForm: number;
   isMinOrder = true;
 
   constructor(
@@ -68,7 +67,6 @@ export class UbsAdminOrderComponent implements OnInit, OnDestroy {
   ) {}
 
   ngOnInit() {
-    this.overpaymentForOrderDetailsForm = 0;
     this.localStorageService.languageBehaviourSubject.pipe(takeUntil(this.destroy$)).subscribe((lang) => {
       this.currentLanguage = lang;
       this.translate.setDefaultLang(lang);
@@ -238,7 +236,7 @@ export class UbsAdminOrderComponent implements OnInit, OnDestroy {
   }
 
   public changeOverpayment(sum: number): void {
-    this.overpaymentForOrderDetailsForm = sum;
+    this.overpayment = sum;
   }
 
   public onChangeCurrentPrice(sum: number) {

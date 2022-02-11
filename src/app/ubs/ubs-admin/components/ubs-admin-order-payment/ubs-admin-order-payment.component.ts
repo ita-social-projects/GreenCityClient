@@ -11,7 +11,6 @@ import { AddPaymentComponent } from '../add-payment/add-payment.component';
   styleUrls: ['./ubs-admin-order-payment.component.scss']
 })
 export class UbsAdminOrderPaymentComponent implements OnInit, OnChanges {
-  @Input() overpayment: number;
   @Input() orderInfo: IOrderInfo;
   @Input() actualPrice: number;
   @Input() totalPaid: number;
@@ -19,7 +18,7 @@ export class UbsAdminOrderPaymentComponent implements OnInit, OnChanges {
   public message: string;
   public pageOpen: boolean;
   public orderId: number;
-  //public overpayment
+  public overpayment: number;
   public paidAmount: number;
   public unPaidAmount: number;
   public paymentInfo: IPaymentInfo;
@@ -30,12 +29,11 @@ export class UbsAdminOrderPaymentComponent implements OnInit, OnChanges {
   ngOnInit() {
     this.orderId = this.orderInfo.generalOrderInfo.id;
     this.paymentInfo = this.orderInfo.paymentTableInfoDto;
-    this.paymentsArray = this.orderInfo.paymentTableInfoDto.paymentInfoDtos;
+    this.overpayment = this.paymentInfo.overpayment;
+    this.paymentsArray = this.paymentInfo.paymentInfoDtos;
     this.paidAmount = this.paymentInfo.paidAmount;
     this.unPaidAmount = this.paymentInfo.unPaidAmount;
     this.setDateInPaymentArray(this.paymentsArray);
-
-    console.log(this.overpayment);
   }
 
   ngOnChanges(changes: SimpleChanges) {
