@@ -62,7 +62,7 @@ export class UbsAdminOrderPaymentComponent implements OnInit, OnChanges {
   }
 
   public addZeroBeforeSingleDateValue(date: Date): string {
-    let resultDate: string = `${date.getFullYear()}-${date.getMonth() + 1}-${date.getDate()}`;
+    let resultDate = `${date.getFullYear()}-${date.getMonth() + 1}-${date.getDate()}`;
     if (date.getMonth() + 1 < 10 && date.getDate() < 10) {
       resultDate = `${date.getFullYear()}-0${date.getMonth() + 1}-0${date.getDate()}`;
     } else {
