@@ -195,9 +195,7 @@ export class UbsAdminTariffsPricingPageComponent implements OnInit, OnDestroy {
   }
 
   private filterBags(): void {
-    this.bags = this.bags
-      .filter((value) => value.languageCode === this.currentLanguage && value.locationId === this.currentLocation)
-      .sort((a, b) => b.price - a.price);
+    this.bags = this.bags.filter((value) => value.locationId === this.currentLocation).sort((a, b) => b.price - a.price);
   }
 
   filterServices() {
