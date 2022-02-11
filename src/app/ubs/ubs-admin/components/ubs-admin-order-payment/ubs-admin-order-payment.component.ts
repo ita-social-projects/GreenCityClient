@@ -95,6 +95,13 @@ export class UbsAdminOrderPaymentComponent implements OnInit, OnChanges {
     });
   }
 
+  public recountUnpaidAmount(value: number): void {
+    this.unPaidAmount -= value;
+    if (this.unPaidAmount < 0) {
+      this.unPaidAmount = 0;
+    }
+  }
+
   public openPopup(viewMode: boolean, paymentIndex?: number): void {
     this.dialog
       .open(AddPaymentComponent, {
@@ -122,6 +129,7 @@ export class UbsAdminOrderPaymentComponent implements OnInit, OnChanges {
             return this.paymentsArray.filter((payment: IPaymentInfoDto) => payment.id === res.id).length;
           };
 
+          this.recountUnpaidAmount(res.amount);
           res.settlementdate = this.formatDate(res.settlementdate);
 
           if (checkPaymentId()) {
