@@ -11,17 +11,18 @@ import { AddPaymentComponent } from '../add-payment/add-payment.component';
   styleUrls: ['./ubs-admin-order-payment.component.scss']
 })
 export class UbsAdminOrderPaymentComponent implements OnInit, OnChanges {
-  message: string;
-  pageOpen: boolean;
   @Input() overpayment: number;
   @Input() orderInfo: IOrderInfo;
   @Input() actualPrice: number;
   @Input() totalPaid: number;
-  orderId: number;
-  paidAmount: number;
-  unPaidAmount: number;
-  paymentInfo: IPaymentInfo;
-  paymentsArray: IPaymentInfoDto[];
+
+  public message: string;
+  public pageOpen: boolean;
+  public orderId: number;
+  public paidAmount: number;
+  public unPaidAmount: number;
+  public paymentInfo: IPaymentInfo;
+  public paymentsArray: IPaymentInfoDto[];
 
   constructor(private orderService: OrderService, private dialog: MatDialog) {}
 
@@ -60,21 +61,23 @@ export class UbsAdminOrderPaymentComponent implements OnInit, OnChanges {
     this.overpayment = Math.abs(overpayment);
   }
 
-  public enrollToBonusAccount(): void {
-    type YYYYMMDD = string;
-    const presently: Date = new Date();
-    let currentDate: YYYYMMDD = `${presently.getFullYear()}-${presently.getMonth() + 1}-${presently.getDate()}`;
-
-    if (presently.getMonth() + 1 < 10 && presently.getDate() < 10) {
-      currentDate = `${presently.getFullYear()}-0${presently.getMonth() + 1}-0${presently.getDate()}`;
+  public addZeroBeforeSingleDateValue(date: Date): string {
+    let resultDate: string = `${date.getFullYear()}-${date.getMonth() + 1}-${date.getDate()}`;
+    if (date.getMonth() + 1 < 10 && date.getDate() < 10) {
+      resultDate = `${date.getFullYear()}-0${date.getMonth() + 1}-0${date.getDate()}`;
     } else {
-      if (presently.getMonth() + 1 < 10) {
-        currentDate = `${presently.getFullYear()}-0${presently.getMonth() + 1}-${presently.getDate()}`;
+      if (date.getMonth() + 1 < 10) {
+        resultDate = `${date.getFullYear()}-0${date.getMonth() + 1}-${date.getDate()}`;
       }
-      if (presently.getDate() < 10) {
-        currentDate = `${presently.getFullYear()}-${presently.getMonth() + 1}-0${presently.getDate()}`;
+      if (date.getDate() < 10) {
+        resultDate = `${date.getFullYear()}-${date.getMonth() + 1}-0${date.getDate()}`;
       }
     }
+    return resultDate;
+  }
+
+  public enrollToBonusAccount(): void {
+    const currentDate: string = this.addZeroBeforeSingleDateValue(new Date());
 
     const paymentDetails: PaymentDetails = {
       amount: this.overpayment * 100,
@@ -86,6 +89,8 @@ export class UbsAdminOrderPaymentComponent implements OnInit, OnChanges {
       responce.amount /= 100;
       responce.settlementdate = this.formatDate(responce.settlementdate);
       this.paymentsArray.push(responce);
+      this.totalPaid -= this.overpayment;
+      this.overpayment = 0;
     });
   }
 
@@ -112,13 +117,13 @@ export class UbsAdminOrderPaymentComponent implements OnInit, OnChanges {
             return payment.id !== res;
           });
         } else if (res !== null && typeof res === 'object') {
-          const checkPayment = (): number => {
+          const checkPaymentId = (): number => {
             return this.paymentsArray.filter((payment: IPaymentInfoDto) => payment.id === res.id).length;
           };
 
           res.settlementdate = this.formatDate(res.settlementdate);
 
-          if (checkPayment()) {
+          if (checkPaymentId()) {
             this.paymentsArray = this.paymentsArray.map((payment) => {
               if (payment.id === res.id) {
                 this.totalPaid = this.totalPaid - payment.amount + res.amount;
