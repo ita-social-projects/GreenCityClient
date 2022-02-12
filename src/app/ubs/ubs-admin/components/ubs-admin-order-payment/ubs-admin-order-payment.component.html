@@ -22,7 +22,11 @@
       {{ 'order-payment.underpayment' | translate }} {{ unPaidAmount | localizedCurrency }}
     </p>
     <div class="table-responsive-md col-md-10 pl-0" *ngIf="paymentsArray.length !== 0">
-      <table class="table table-borderless">
+      <table
+        class="table table-borderless"
+        aria-label="Payment transactions"
+        aria-describedby="Table for saving information about payment transactions"
+      >
         <thead>
           <tr>
             <th id="paymentDate">{{ 'order-payment.order-date' | translate }}</th>
