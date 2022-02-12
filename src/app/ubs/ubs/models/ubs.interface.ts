@@ -146,6 +146,10 @@ export interface LocationsDtos {
   locationStatus: string;
   locationTranslationDtoList: LocationTranslation[];
 }
+export interface LocationsName {
+  locationId: number;
+  locationName: string;
+}
 export interface CourierLocations {
   courierDtos: CourierDtos[];
   courierLimit: string;
