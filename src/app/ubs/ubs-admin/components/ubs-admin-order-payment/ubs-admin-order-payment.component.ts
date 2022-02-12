@@ -102,6 +102,28 @@ export class UbsAdminOrderPaymentComponent implements OnInit, OnChanges {
     }
   }
 
+  public preconditionChangePaymentData(extraPayment: IPaymentInfoDto): void {
+    const checkPaymentId = (): number => {
+      return this.paymentsArray.filter((payment: IPaymentInfoDto) => payment.id === extraPayment.id).length;
+    };
+
+    this.recountUnpaidAmount(extraPayment.amount);
+    extraPayment.settlementdate = this.formatDate(extraPayment.settlementdate);
+
+    if (checkPaymentId()) {
+      this.paymentsArray = this.paymentsArray.map((payment): IPaymentInfoDto => {
+        if (payment.id === extraPayment.id) {
+          this.totalPaid = this.totalPaid - payment.amount + extraPayment.amount;
+          return extraPayment;
+        }
+        return payment;
+      });
+    } else {
+      this.totalPaid += extraPayment.amount;
+      this.paymentsArray = [...this.paymentsArray, extraPayment];
+    }
+  }
+
   public openPopup(viewMode: boolean, paymentIndex?: number): void {
     this.dialog
       .open(AddPaymentComponent, {
@@ -115,35 +137,17 @@ export class UbsAdminOrderPaymentComponent implements OnInit, OnChanges {
       })
       .afterClosed()
       .pipe(take(1))
-      .subscribe((res: IPaymentInfoDto | number | null) => {
-        if (typeof res === 'number') {
+      .subscribe((extraPayment: IPaymentInfoDto | number | null) => {
+        if (typeof extraPayment === 'number') {
           this.paymentsArray = this.paymentsArray.filter((payment) => {
-            if (payment.id === res) {
+            if (payment.id === extraPayment) {
               this.totalPaid -= payment.amount;
               this.setOverpayment(this.totalPaid - this.actualPrice);
             }
-            return payment.id !== res;
+            return payment.id !== extraPayment;
           });
-        } else if (res !== null && typeof res === 'object') {
-          const checkPaymentId = (): number => {
-            return this.paymentsArray.filter((payment: IPaymentInfoDto) => payment.id === res.id).length;
-          };
-
-          this.recountUnpaidAmount(res.amount);
-          res.settlementdate = this.formatDate(res.settlementdate);
-
-          if (checkPaymentId()) {
-            this.paymentsArray = this.paymentsArray.map((payment) => {
-              if (payment.id === res.id) {
-                this.totalPaid = this.totalPaid - payment.amount + res.amount;
-                return res;
-              }
-              return payment;
-            });
-          } else {
-            this.totalPaid += res.amount;
-            this.paymentsArray = [...this.paymentsArray, res];
-          }
+        } else if (extraPayment !== null && typeof extraPayment === 'object') {
+          this.preconditionChangePaymentData(extraPayment);
           this.setOverpayment(this.totalPaid - this.actualPrice);
         }
       });
