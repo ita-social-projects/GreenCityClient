@@ -1,44 +1,87 @@
-<div class="container mb-3">
-  <div class="form">
-    <div class="form-row">
-      <div class="form-group export-date col-md-2">
-        <label for="export-date">{{ 'export-details.export-date' | translate }}</label>
-        <input type="date" class="form-control" id="export-date" formControlName="dateExport" />
+<div>
+  <form>
+    <div class="form" formControlName="">
+      <div class="form-row">
+        <div class="form-group col-md-4">
+          <label class="form__label">{{ 'responsible-persons.call-manager' | translate }}</label>
+          <select formControlName="callManager" class="form-control form__select">
+            <!-- <option *ngFor="let employee of allCallManagers" [value]="employee">
+            {{ employee }}
+          </option> -->
+          </select>
+        </div>
       </div>
-      <div class="form-group">
-        <label for="export-time-from">{{ 'export-details.export-time' | translate }}</label>
-        <input
-          autocomplete="off"
-          placeholder="- -"
-          class="form-control time-from"
-          id="export-time-from"
-          formControlName="timeDeliveryFrom"
-          (click)="setExportTime()"
-        />
+      <div class="form-row">
+        <div class="form-group col-md-4">
+          <label class="form__label">{{ 'responsible-persons.logistician' | translate }}</label>
+          <select formControlName="logistician" class="form-control form__select">
+            <!-- <option *ngFor="let employee of allLogisticians" [value]="employee">
+            {{ employee }}
+          </option> -->
+          </select>
+        </div>
       </div>
-      <span class="hyphen">-</span>
-      <div class="form-group">
-        <label for="export-time-to"></label>
-        <input
-          autocomplete="off"
-          placeholder="- -"
-          class="form-control time-to"
-          id="export-time-to"
-          formControlName="timeDeliveryTo"
-          (click)="setExportTime()"
-        />
+      <div class="form-row">
+        <div class="form-group col-md-4">
+          <label class="form__label">{{ 'responsible-persons.navigator' | translate }}</label>
+          <select formControlName="navigator" class="form-control form__select">
+            <!-- <option *ngFor="let employee of allNavigators" [value]="employee">
+            {{ employee }}
+          </option> -->
+          </select>
+        </div>
       </div>
-      <div class="form-group col-md-4">
-        <label for="station">{{ 'export-details.station' | translate }}</label>
-        <select class="form-control" id="station">
-          <!-- <option *ngFor="let station of exportInfo.allReceivingStations" [value]="station">
-              {{ station }}
-            </option> -->
-        </select>
+      <div class="form-row">
+        <div class="form-group col-md-4">
+          <label class="form__label">{{ 'responsible-persons.driver' | translate }}</label>
+          <select formControlName="driver" class="form-control form__select">
+            <!-- <option *ngFor="let employee of allDrivers" [value]="employee">
+            {{ employee }}
+          </option> -->
+          </select>
+        </div>
       </div>
     </div>
-    <hr />
-  </div>
+    <div class="form" formControlName="">
+      <div class="form-row">
+        <div class="form-group export-date col-md-2">
+          <label for="export-date">{{ 'export-details.export-date' | translate }}</label>
+          <input type="date" class="form-control" id="export-date" formControlName="dateExport" />
+        </div>
+        <div class="form-group">
+          <label for="export-time-from">{{ 'export-details.export-time' | translate }}</label>
+          <input
+            autocomplete="off"
+            placeholder="- -"
+            class="form-control time-from"
+            id="export-time-from"
+            formControlName="timeDeliveryFrom"
+            (click)="setExportTime()"
+          />
+        </div>
+        <span class="hyphen">-</span>
+        <div class="form-group">
+          <label for="export-time-to"></label>
+          <input
+            autocomplete="off"
+            placeholder="- -"
+            class="form-control time-to"
+            id="export-time-to"
+            formControlName="timeDeliveryTo"
+            (click)="setExportTime()"
+          />
+        </div>
+        <div class="form-group col-md-4">
+          <label for="station">{{ 'export-details.station' | translate }}</label>
+          <select formControlName="receivingStation" class="form-control" id="station">
+            <!-- <option *ngFor="let station of exportInfo.allReceivingStations" [value]="station"> -->
+            <!-- {{ station }} -->
+            <!-- </option> -->
+          </select>
+        </div>
+      </div>
+    </div>
+  </form>
   <div *ngIf="showTimePicker" class="dropdown_time">
     <div class="set_time_container">
       <h3>{{ 'order-edit.title' | translate }}</h3>
