@@ -1,4 +1,5 @@
 import { Component, Input } from '@angular/core';
+import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
 
 @Component({
   selector: 'app-ubs-user-order-details',
@@ -8,4 +9,9 @@ import { Component, Input } from '@angular/core';
 export class UbsUserOrderDetailsComponent {
   @Input()
   order: any;
+  public currentLanguage: string;
+
+  constructor(private localStorageService: LocalStorageService) {
+    this.currentLanguage = this.localStorageService.getCurrentLanguage();
+  }
 }

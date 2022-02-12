@@ -1,8 +1,5 @@
-<app-ubs-admin-tariffs-location-dashboard
-  [showTitle]="false"
-  [locationCard]="thisLocation"
-  [textBack]="back"
-></app-ubs-admin-tariffs-location-dashboard>
+<app-ubs-admin-tariffs-location-dashboard [showTitle]="false" [locationCard]="thisLocation" [textBack]="back">
+</app-ubs-admin-tariffs-location-dashboard>
 <ng-template #back>
   <div class="ml-2 d-flex cursor-pointer align-items-center">
     <mat-icon>keyboard_arrow_left</mat-icon>
@@ -87,7 +84,8 @@
             />
           </div>
         </td>
-        <td>{{ bag.name }}</td>
+        <td *ngIf="currentLanguage === 'ua'">{{ bag.name }}</td>
+        <td *ngIf="currentLanguage === 'en'">{{ bag.nameEng }}</td>
         <td>{{ bag.capacity | volume }}</td>
         <td>{{ bag.description }}</td>
         <td>{{ bag.price | currency | localizedCurrency }}</td>
@@ -105,7 +103,7 @@
         <mat-radio-group formControlName="courierLimitsBy">
           <h6>{{ 'ubs-tariffs.order_limits' | translate }}</h6>
           <div class="sum-input">
-            <mat-radio-button id="min-order-amount" name="courierLimit" value="LIMIT_BY_SUM_OF_ORDER"></mat-radio-button>
+            <mat-radio-button id="min-order-amount" name="courierLimit" value="LIMIT_BY_SUM_OF_ORDER"> </mat-radio-button>
             <label for="min-order-amount">{{ 'ubs-tariffs.min_order_amount' | translate }}</label
             ><br />
             <input class="input" id="from" formControlName="minAmountOfOrder" />

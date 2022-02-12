@@ -81,8 +81,10 @@ export class UBSPersonalInformationComponent extends FormBaseComponent implement
     if (localStorage.getItem('currentLocationId')) {
       this.currentLocationId = JSON.parse(localStorage.getItem('currentLocationId'));
       this.locations = JSON.parse(localStorage.getItem('locations'));
-      const loc = this.locations.find((el) => el.locationsDtos[0].locationId === this.currentLocationId);
-      const location = loc.locationsDtos[0].locationTranslationDtoList.find((el) => el.languageCode === this.currentLanguage);
+      const loc = this.locations.find((el) => el.locationInfoDtos[0].locationsDto[0].locationId === this.currentLocationId);
+      const location = loc.locationInfoDtos[0].locationsDto[0].locationTranslationDtoList.find(
+        (el) => el.languageCode === this.currentLanguage
+      );
       this.currentLocation = location.locationName;
     }
     this.orderService.locationSub.subscribe((data) => {
