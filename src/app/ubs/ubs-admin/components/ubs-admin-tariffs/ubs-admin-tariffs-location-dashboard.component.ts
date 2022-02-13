@@ -44,9 +44,8 @@ export class UbsAdminTariffsLocationDashboardComponent implements OnInit, OnDest
 
   public regions = ['Київська область', 'Львівська область'];
   public cities = ['Київ', 'Ірпінь', 'Бориспіль', 'Львів', 'Наварія'];
-
   public stations = ['Слобідська', 'Неслобідська'];
-  public newCouriers = ["УБС-кур'єр", 'Уклон'];
+  public newCouriers = ['УБС-курєр', 'Уклон'];
 
   allSelected = false;
   filteredRegions;
