@@ -124,6 +124,10 @@ form {
   color: var(--ubs-primary-grey);
 }
 
+.disabled-col td {
+  color: var(--ubs-secondary-grey) !important;
+}
+
 .table-location tbody tr td {
   font-style: normal;
   font-weight: normal;
@@ -186,10 +190,6 @@ form {
   padding-right: 40px;
   justify-content: flex-end;
   display: flex;
-}
-
-.disabled-col td {
-  color: var(--ubs-secondary-grey) !important;
 }
 
 button {
