@@ -48,9 +48,9 @@ export class UbsAdminOrderPaymentComponent implements OnInit, OnChanges {
   }
 
   public setDateInPaymentArray(paymentsArray: IPaymentInfoDto[]) {
-    for (const payment of paymentsArray) {
+    paymentsArray.forEach((payment: IPaymentInfoDto) => {
       payment.settlementdate = this.formatDate(payment.settlementdate);
-    }
+    });
   }
 
   public openDetails(): void {

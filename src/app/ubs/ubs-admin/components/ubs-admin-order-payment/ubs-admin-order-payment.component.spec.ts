@@ -1,9 +1,8 @@
-import { SimpleChange, SimpleChanges } from '@angular/core';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { MatDialog, MatDialogModule } from '@angular/material/dialog';
 import { TranslateModule } from '@ngx-translate/core';
 import { LocalizedCurrencyPipe } from 'src/app/shared/localized-currency-pipe/localized-currency.pipe';
-import { IEmployee, IOrderInfo, IPaymentInfoDto } from '../../models/ubs-admin.interface';
+import { IEmployee, IOrderInfo } from '../../models/ubs-admin.interface';
 import { OrderService } from '../../services/order.service';
 
 import { UbsAdminOrderPaymentComponent } from './ubs-admin-order-payment.component';
@@ -196,7 +195,7 @@ describe('UbsAdminOrderPaymentComponent', () => {
           imagePath: null,
           paymentId: '435643643',
           receiptLink: '',
-          settlementdate: '2022-02-01',
+          settlementdate: '2022-08-22',
           currentDate: '2022-02-09'
         },
         {
@@ -206,7 +205,7 @@ describe('UbsAdminOrderPaymentComponent', () => {
           imagePath: null,
           paymentId: '3253532',
           receiptLink: '',
-          settlementdate: '2022-02-04',
+          settlementdate: '2020-02-18',
           currentDate: '2022-02-09'
         }
       ],
@@ -261,32 +260,14 @@ describe('UbsAdminOrderPaymentComponent', () => {
     expect(component.unPaidAmount).toBe(component.paymentInfo.unPaidAmount);
   });
 
-  it('life cycle hook ngOnChanges', () => {
-    const previousValue = component.overpayment;
-    const currentValue = component.overpayment + 150;
-
-    const changesObj: SimpleChanges = {
-      name: new SimpleChange(previousValue, currentValue, true)
-    };
-
-    component.ngOnChanges(changesObj);
-  });
-
   it('method formatDate', () => {
     expect(component.formatDate('2020-07-02')).toBe('02.07.2020');
   });
 
   it('method setDateInPaymentArray', () => {
-    const fakePaymentsArray: IPaymentInfoDto[] = component.paymentsArray;
-    const fakeSettlementdateArray: string[] = [];
-
-    for (const fakePayment of fakePaymentsArray) {
-      fakeSettlementdateArray.push(fakePayment.settlementdate);
-    }
-
+    const fakeSettlementdateArray: string[] = ['2022-02-01', '2022-08-22', '2020-02-18'];
     component.setDateInPaymentArray(component.paymentsArray);
-
-    for (let i = 0; i < component.paymentsArray.length && i < fakeSettlementdateArray.length; i++) {
+    for (let i = 0; i < component.paymentsArray.length; i++) {
       expect(component.paymentsArray[i].settlementdate).toBe(component.formatDate(fakeSettlementdateArray[i]));
     }
   });
