@@ -66,4 +66,8 @@ export class TariffsService {
   public getJSON(sourceText): Observable<any> {
     return ajax.getJSON('https://translate.googleapis.com/translate_a/single?client=gtx&sl=uk&tl=en&dt=t&q=' + encodeURI(sourceText));
   }
+
+  addLocation(card) {
+    return this.http.post(`${mainUbsLink}/ubs/superAdmin/addLocations`, card);
+  }
 }

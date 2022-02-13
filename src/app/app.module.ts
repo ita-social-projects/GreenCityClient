@@ -15,6 +15,7 @@ import { AppRoutingModule } from './app-routing.module';
 import { UbsModule } from './ubs/ubs.module';
 import { appReducers } from './store/reducers/app.reducer';
 import { EmployeesEffects } from './store/effects/employee.effects';
+import { LocationsEffects } from './store/effects/tariff.effects';
 import { ServiceWorkerModule } from '@angular/service-worker';
 import { environment } from '../environments/environment';
 import { LanguageService } from './main/i18n/language.service';
@@ -59,7 +60,7 @@ export function appInitializerFactory(translate: TranslateService, injector: Inj
       }
     }),
     StoreModule.forRoot(appReducers),
-    EffectsModule.forRoot([EmployeesEffects]),
+    EffectsModule.forRoot([EmployeesEffects, LocationsEffects]),
     ServiceWorkerModule.register('ngsw-worker.js', { enabled: environment.production }),
     StoreDevtoolsModule.instrument({
       maxAge: 25,
