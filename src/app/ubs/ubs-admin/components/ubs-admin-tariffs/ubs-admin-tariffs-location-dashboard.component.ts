@@ -1,4 +1,4 @@
-import { Component, Input, OnDestroy, OnInit, TemplateRef, ViewChild, AfterViewChecked } from '@angular/core';
+import { Component, Input, OnDestroy, OnInit, TemplateRef, ViewChild } from '@angular/core';
 import { TariffsService } from '../../services/tariffs.service';
 import { map, startWith, takeUntil } from 'rxjs/operators';
 import { Locations } from '../../models/tariffs.interface';
@@ -26,11 +26,9 @@ export class UbsAdminTariffsLocationDashboardComponent implements OnInit, OnDest
   @Input() showTitle = true;
   @Input() locationCard: Locations;
   @Input() textBack: TemplateRef<any>;
-  @ViewChild('select') select: MatSelect;
 
   locations;
   selectedLocationId;
-  disabledLocations;
   couriers;
   currentLanguage;
   reset = true;
