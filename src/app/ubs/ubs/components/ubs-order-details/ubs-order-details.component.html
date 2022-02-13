@@ -34,7 +34,8 @@
       <div class="main">
         <ul class="w-100 p-0 m-0">
           <li *ngFor="let bag of bags" class="main-list_item d-flex justify-content-between align-items-baseline">
-            <span class="col-3 p-0 m-0 bag-name">{{ bag.name }}</span>
+            <span *ngIf="currentLanguage === 'ua'" class="col-3 p-0 m-0 bag-name">{{ bag.name }}</span>
+            <span *ngIf="currentLanguage === 'en'" class="col-3 p-0 m-0 bag-name">{{ bag.nameEng }}</span>
             <span class="col-2 p-0 m-0 bag-name">{{ bag.capacity | volume }}</span>
             <span class="col-2 p-0 m-0 bag-name">{{ bag.price | currency | localizedCurrency }}</span>
             <div class="col-2 form-group count">

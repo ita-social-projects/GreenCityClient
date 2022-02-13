@@ -74,15 +74,15 @@ export class UbsUserOrderPaymentPopUpComponent implements OnInit {
 
   public createCertificateItem(): FormGroup {
     return this.fb.group({
-      certificateCode: new FormControl('', [Validators.minLength(8), Validators.pattern(this.certificatePattern)]),
-      certificateSum: new FormControl(0, [Validators.min(0)])
+      certificateCode: ['', [Validators.minLength(8), Validators.pattern(this.certificatePattern)]],
+      certificateSum: [0, [Validators.min(0)]]
     });
   }
 
   public initForm(): void {
     this.orderDetailsForm = this.fb.group({
-      bonus: new FormControl('no', [Validators.required]),
-      paymentSystem: new FormControl('Fondy', [Validators.required]),
+      bonus: ['no', [Validators.required]],
+      paymentSystem: ['Fondy', [Validators.required]],
       formArrayCertificates: this.fb.array([this.createCertificateItem()])
     });
   }
@@ -172,6 +172,10 @@ export class UbsUserOrderPaymentPopUpComponent implements OnInit {
     this.router.navigate(['ubs', 'confirm']);
   }
 
+  private redirectToExternalUrl(url: string): void {
+    document.location.href = url;
+  }
+
   public processOrder(): void {
     this.dataLoadingLiqPay = true;
     this.fillOrderClientDto();
@@ -183,7 +187,7 @@ export class UbsUserOrderPaymentPopUpComponent implements OnInit {
         (response: ResponceOrderFondyModel) => {
           if (response.link) {
             this.localStorageService.setUbsFondyOrderId(this.orderClientDto.orderId);
-            document.location.href = response.link;
+            this.redirectToExternalUrl(response.link);
           } else {
             this.redirectionToConfirmPage();
             this.dialogRef.close();
