@@ -12,7 +12,7 @@ export interface IAppState {
 
 export const initialAppState: IAppState = {
   employees: initialEmployeesState,
-  locations: initialLocationsState
+  locations: initialLocationsState,
   bigOrderTable: initialBigOrderTableState
 };
 

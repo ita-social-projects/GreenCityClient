@@ -8,6 +8,6 @@ import { bigOrderTableReducer } from './bigOrderTable.reducer';
 export const appReducers: ActionReducerMap<IAppState> = {
   router: routerReducer,
   employees: employeesReducer,
-  locations: tariffReducer
+  locations: tariffReducer,
   bigOrderTable: bigOrderTableReducer
 };
