@@ -175,7 +175,7 @@ export class UbsAdminTariffsLocationPopUpComponent implements OnInit, AfterViewC
     });
   }
 
-  addLocation() {
+  addLocation(): void {
     this.isDisabled = true;
     const enRegion = { languageCode: 'en', regionName: this.locationForm.value.englishRegion };
     const region = { languageCode: 'ua', regionName: this.locationForm.value.region };
@@ -200,7 +200,7 @@ export class UbsAdminTariffsLocationPopUpComponent implements OnInit, AfterViewC
     this.dialogRef.close({});
   }
 
-  onNoClick() {
+  onNoClick(): void {
     this.dialogRef.close();
   }
 

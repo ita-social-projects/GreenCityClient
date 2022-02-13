@@ -96,7 +96,7 @@ export class UbsAdminTariffsLocationDashboardComponent implements OnInit, OnDest
     this.initFilter();
   }
 
-  initFilter() {
+  initFilter(): void {
     this.filteredRegions = this.region.valueChanges.pipe(
       startWith(''),
       map((value) => this._filter(value, this.regions))
@@ -107,7 +107,7 @@ export class UbsAdminTariffsLocationDashboardComponent implements OnInit, OnDest
     );
   }
 
-  private _filter(name: string, items) {
+  private _filter(name: string, items: any[]): any[] {
     const filterValue = name.toLowerCase();
     return items.filter((option) => option.toLowerCase().includes(filterValue));
   }
@@ -125,7 +125,7 @@ export class UbsAdminTariffsLocationDashboardComponent implements OnInit, OnDest
     }
   }
 
-  selected(event: MatAutocompleteSelectedEvent, trigger): void {
+  selected(event: MatAutocompleteSelectedEvent, trigger: MatAutocompleteTrigger): void {
     if (event.option.value === 'all') {
       this.toggleSelectAll();
     } else {
@@ -138,7 +138,7 @@ export class UbsAdminTariffsLocationDashboardComponent implements OnInit, OnDest
     });
   }
 
-  selectCity(event) {
+  selectCity(event: MatAutocompleteSelectedEvent): void {
     const newValue = event.option.viewValue;
     if (this.checkedCities.includes(newValue)) {
       this.checkedCities = [...this.checkedCities.filter((item) => item !== newValue)];
@@ -147,15 +147,15 @@ export class UbsAdminTariffsLocationDashboardComponent implements OnInit, OnDest
     }
   }
 
-  isChecked() {
+  isChecked(): boolean {
     return this.checkedCities.length === this.cities.length;
   }
 
-  isEmpty() {
+  isEmpty(): boolean {
     return this.filteredLocations.length === 0;
   }
 
-  positionsFilter() {
+  positionsFilter(): void {
     if (this.checkedCities.length !== 0) {
       this.filteredLocations = this.onPositionSelected();
     } else {
@@ -163,7 +163,7 @@ export class UbsAdminTariffsLocationDashboardComponent implements OnInit, OnDest
     }
   }
 
-  onPositionSelected() {
+  onPositionSelected(): void {
     const isEmpty = (a) => Array.isArray(a) && a.every(isEmpty);
     return this.locations.filter((user) => {
       const res = user.locationsDto.map((it) =>
@@ -175,12 +175,12 @@ export class UbsAdminTariffsLocationDashboardComponent implements OnInit, OnDest
     });
   }
 
-  openAuto(event, trigger: MatAutocompleteTrigger) {
+  openAuto(event: Event, trigger: MatAutocompleteTrigger): void {
     event.stopPropagation();
     trigger.openPanel();
   }
 
-  toggleSelectAll() {
+  toggleSelectAll(): void {
     if (!this.isChecked()) {
       this.checkedCities.length = 0;
       this.cities.forEach((row) => {
@@ -204,7 +204,7 @@ export class UbsAdminTariffsLocationDashboardComponent implements OnInit, OnDest
     }
   }
 
-  getLocations() {
+  getLocations(): void {
     this.store.dispatch(GetLocations({ reset: this.reset }));
 
     this.locations$.subscribe((item) => {
@@ -217,11 +217,11 @@ export class UbsAdminTariffsLocationDashboardComponent implements OnInit, OnDest
     });
   }
 
-  page(locationID) {
+  page(locationID): void {
     this.router.navigate([`ubs-admin/tariffs/location/${locationID}`]);
   }
 
-  getCouriers() {
+  getCouriers(): void {
     this.tariffsService
       .getCouriers()
       .pipe(takeUntil(this.destroy))
@@ -230,7 +230,7 @@ export class UbsAdminTariffsLocationDashboardComponent implements OnInit, OnDest
       });
   }
 
-  activateLocation(location) {
+  activateLocation(location): void {
     const id = location.id;
     const languageCode = 'ua';
     this.tariffsService
@@ -239,7 +239,7 @@ export class UbsAdminTariffsLocationDashboardComponent implements OnInit, OnDest
       .subscribe(() => this.getLocations());
   }
 
-  deactivateLocation(location) {
+  deactivateLocation(location): void {
     const id = location.id;
     const languageCode = 'ua';
     this.tariffsService
@@ -266,7 +266,7 @@ export class UbsAdminTariffsLocationDashboardComponent implements OnInit, OnDest
     this.dialog.open(UbsAdminTariffsAddNamePopUpComponent, dialogConfig);
   }
 
-  openAddLocation() {
+  openAddLocation(): void {
     const dialogConfig = new MatDialogConfig();
     dialogConfig.panelClass = 'address-matDialog-styles-w-100';
     dialogConfig.data = {
@@ -275,7 +275,7 @@ export class UbsAdminTariffsLocationDashboardComponent implements OnInit, OnDest
     this.dialog.open(UbsAdminTariffsLocationPopUpComponent, dialogConfig);
   }
 
-  openEditLocation() {
+  openEditLocation(): void {
     const dialogConfig = new MatDialogConfig();
     dialogConfig.panelClass = 'address-matDialog-styles-w-100';
     dialogConfig.data = {
@@ -284,7 +284,7 @@ export class UbsAdminTariffsLocationDashboardComponent implements OnInit, OnDest
     this.dialog.open(UbsAdminTariffsLocationPopUpComponent, dialogConfig);
   }
 
-  openDeactivateLocation() {
+  openDeactivateLocation(): void {
     const dialogConfig = new MatDialogConfig();
     dialogConfig.panelClass = 'address-matDialog-styles-w-100';
     dialogConfig.data = {
@@ -293,7 +293,7 @@ export class UbsAdminTariffsLocationDashboardComponent implements OnInit, OnDest
     this.dialog.open(UbsAdminTariffsLocationPopUpComponent, dialogConfig);
   }
 
-  ngOnDestroy() {
+  ngOnDestroy(): void {
     this.destroy.next();
     this.destroy.unsubscribe();
   }

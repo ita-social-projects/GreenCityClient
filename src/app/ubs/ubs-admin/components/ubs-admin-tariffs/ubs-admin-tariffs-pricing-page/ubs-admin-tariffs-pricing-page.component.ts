@@ -66,7 +66,7 @@ export class UbsAdminTariffsPricingPageComponent implements OnInit, OnDestroy {
     this.fb = injector.get(FormBuilder);
   }
 
-  ngOnInit() {
+  ngOnInit(): void {
     this.subscribeToLangChange();
     this.routeParams();
     this.getLocations();
@@ -79,7 +79,7 @@ export class UbsAdminTariffsPricingPageComponent implements OnInit, OnDestroy {
     });
   }
 
-  private initForm() {
+  private initForm(): void {
     this.limitsForm = this.fb.group({
       courierLimitsBy: new FormControl(''),
       minAmountOfOrder: new FormControl(),
@@ -90,7 +90,7 @@ export class UbsAdminTariffsPricingPageComponent implements OnInit, OnDestroy {
     });
   }
 
-  fillFields(couriers) {
+  fillFields(): void {
     const { courierLimit, minPriceOfOrder, maxPriceOfOrder, minAmountOfBigBags, maxAmountOfBigBags, limitDescription } = this.couriers[0];
     this.limitsForm.patchValue({
       courierLimitsBy: courierLimit,
@@ -102,7 +102,7 @@ export class UbsAdminTariffsPricingPageComponent implements OnInit, OnDestroy {
     });
   }
 
-  saveChanges() {
+  saveChanges(): void {
     const { courierLimitsBy, minAmountOfOrder, maxAmountOfOrder, minAmountOfBigBag, maxAmountOfBigBag, limitDescription } =
       this.limitsForm.value;
     this.amount = {
@@ -125,7 +125,7 @@ export class UbsAdminTariffsPricingPageComponent implements OnInit, OnDestroy {
       });
   }
 
-  routeParams() {
+  routeParams(): void {
     this.route.params.pipe(takeUntil(this.destroy)).subscribe((res) => {
       this.getAllTariffsForService();
       this.selectedLocationId = +res.id;
@@ -134,11 +134,11 @@ export class UbsAdminTariffsPricingPageComponent implements OnInit, OnDestroy {
     });
   }
 
-  navigateToBack() {
+  navigateToBack(): void {
     this.router.navigate([`ubs-admin/tariffs`]);
   }
 
-  openAddTariffForServicePopup() {
+  openAddTariffForServicePopup(): void {
     const dialogRefTariff = this.dialog.open(UbsAdminTariffsAddTariffServicePopUpComponent, {
       hasBackdrop: true,
       disableClose: false,
@@ -154,7 +154,7 @@ export class UbsAdminTariffsPricingPageComponent implements OnInit, OnDestroy {
       .subscribe((result) => result && this.getAllTariffsForService());
   }
 
-  openAddServicePopup() {
+  openAddServicePopup(): void {
     const dialogRefService = this.dialog.open(UbsAdminTariffsAddServicePopUpComponent, {
       hasBackdrop: true,
       disableClose: false,
@@ -176,7 +176,7 @@ export class UbsAdminTariffsPricingPageComponent implements OnInit, OnDestroy {
     });
   }
 
-  getAllTariffsForService() {
+  getAllTariffsForService(): void {
     this.isLoadBar = true;
     this.tariffsService
       .getAllTariffsForService()
@@ -188,7 +188,7 @@ export class UbsAdminTariffsPricingPageComponent implements OnInit, OnDestroy {
       });
   }
 
-  getServices() {
+  getServices(): void {
     this.isLoadBar1 = true;
     this.tariffsService
       .getAllServices()
@@ -204,13 +204,13 @@ export class UbsAdminTariffsPricingPageComponent implements OnInit, OnDestroy {
     this.bags = this.bags.filter((value) => value.locationId === this.currentLocation).sort((a, b) => b.price - a.price);
   }
 
-  filterServices() {
+  filterServices(): void {
     this.services = this.services.filter(
       (service) => service.locationId === this.currentLocation && service.languageCode === this.currentLanguage
     );
   }
 
-  openUpdateTariffForServicePopup(bag: Bag) {
+  openUpdateTariffForServicePopup(bag: Bag): void {
     const dialogRefTariff = this.dialog.open(UbsAdminTariffsAddTariffServicePopUpComponent, {
       hasBackdrop: true,
       disableClose: false,
@@ -226,7 +226,7 @@ export class UbsAdminTariffsPricingPageComponent implements OnInit, OnDestroy {
       .subscribe((result) => result && this.getAllTariffsForService());
   }
 
-  openUpdateServicePopup(service: Service) {
+  openUpdateServicePopup(service: Service): void {
     const dialogRefService = this.dialog.open(UbsAdminTariffsAddServicePopUpComponent, {
       hasBackdrop: true,
       disableClose: false,
@@ -242,10 +242,10 @@ export class UbsAdminTariffsPricingPageComponent implements OnInit, OnDestroy {
       .subscribe((result) => result && this.getServices());
   }
 
-  openDeleteTariffForService(bag: Bag) {
+  openDeleteTariffForService(bag: Bag): void {
     const dialogConfig = new MatDialogConfig();
     dialogConfig.panelClass = 'address-matDialog-styles-pricing-page';
-    const enText1 = 'Are you sure you want to deactivate the ""+bag.name+"" service? ';
+    const enText1 = 'Are you sure you want to deactivate the " ' + bag.name + ' " service? ';
     const enText2 = 'Information about this service will be hidden from customers.';
     if (this.currentLanguage === 'ua') {
       dialogConfig.data = {
@@ -269,7 +269,7 @@ export class UbsAdminTariffsPricingPageComponent implements OnInit, OnDestroy {
       .subscribe((result) => result && this.getAllTariffsForService());
   }
 
-  openDeleteService(service: Service) {
+  openDeleteService(service: Service): void {
     const dialogRefService = this.dialog.open(UbsAdminTariffsDeletePopUpComponent, {
       hasBackdrop: true,
       data: {
@@ -282,7 +282,7 @@ export class UbsAdminTariffsPricingPageComponent implements OnInit, OnDestroy {
       .subscribe((result) => result && this.getServices());
   }
 
-  getLocations() {
+  getLocations(): void {
     this.locations$.subscribe((item) => {
       if (item) {
         const key = 'content';
@@ -293,7 +293,7 @@ export class UbsAdminTariffsPricingPageComponent implements OnInit, OnDestroy {
     });
   }
 
-  saveLocation() {
+  saveLocation(): void {
     this.isLoadBar1 = true;
     this.isLoadBar = true;
     const selectedLocation = { locationId: this.selectedLocationId };
@@ -309,17 +309,17 @@ export class UbsAdminTariffsPricingPageComponent implements OnInit, OnDestroy {
       });
   }
 
-  getCouriers() {
+  getCouriers(): void {
     this.tariffsService
       .getCouriers()
       .pipe(takeUntil(this.destroy))
       .subscribe((res) => {
         this.couriers = res;
-        this.fillFields(this.couriers[0]);
+        this.fillFields();
       });
   }
 
-  ngOnDestroy() {
+  ngOnDestroy(): void {
     this.destroy.next();
     this.destroy.unsubscribe();
   }
