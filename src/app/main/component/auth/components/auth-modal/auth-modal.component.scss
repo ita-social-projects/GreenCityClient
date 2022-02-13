@@ -15,12 +15,10 @@
   max-width: 960px;
   background-color: white;
   border-radius: 4px;
-  max-height: 1300px;
 
   .right-side {
     width: 100%;
     max-width: 480px;
-    max-height: 1300px;
     display: flex;
     flex-direction: column;
 
@@ -28,6 +26,7 @@
       display: flex;
       justify-content: flex-end;
       margin: 26px 26px 22px 90%;
+      width: min-content;
       padding: 5px;
     }
 
@@ -39,39 +38,8 @@
     div {
       align-self: center;
       width: 370px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
     }
   }
-}
-
-.title {
-  display: flex;
-  flex-direction: column;
-  text-align: center;
-
-  h1 {
-    margin-bottom: 8px;
-    font-family: var(--secondary-font);
-    font-style: normal;
-    font-weight: 500;
-    font-size: 38px;
-    line-height: 48px;
-    color: var(--tertiary-dark-grey);
-  }
-
-  h2 {
-    margin-bottom: 20px;
-    font-family: var(--primary-font);
-    font-size: 16px;
-    line-height: 26px;
-    color: var(--primary-dark-grey);
-  }
-}
-
-.ubs-main-picture {
-  padding-bottom: 200px;
 }
 
 @media screen and (max-width: 992px) {
@@ -85,32 +53,11 @@
   }
 }
 
-@media screen and (max-width: 575px) {
+@media screen and (max-width: 375px) {
   .wrapper {
-    min-height: 100vh;
-
     .right-side {
       div {
         max-width: 343px;
-        align-items: stretch;
-        justify-content: center;
-      }
-
-      .cross-btn {
-        width: 20px;
-        height: 20px;
-      }
-    }
-  }
-}
-
-@media screen and (max-width: 375px) and (max-height: 670px) {
-  .wrapper {
-    .right-side {
-      margin-bottom: 40px;
-
-      .close-modal-window {
-        margin: 26px 26px 10px 90%;
       }
     }
   }

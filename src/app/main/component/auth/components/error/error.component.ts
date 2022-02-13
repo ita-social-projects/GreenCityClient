@@ -1,15 +1,11 @@
-import { Component, Input, OnChanges, OnDestroy, OnInit } from '@angular/core';
+import { Component, Input, OnChanges } from '@angular/core';
 import { AbstractControl, FormControl } from '@angular/forms';
-import { PopUpViewService } from '@auth-service/pop-up/pop-up-view.service';
-import { Subject } from 'rxjs';
-import { takeUntil } from 'rxjs/operators';
 
 @Component({
   selector: 'app-error',
   templateUrl: './error.component.html'
 })
-export class ErrorComponent implements OnChanges, OnInit, OnDestroy {
-  private destroy: Subject<boolean> = new Subject<boolean>();
+export class ErrorComponent implements OnChanges {
   @Input() public controlName: string;
   @Input() public formElement: AbstractControl;
   @Input() public emailFieldValue: string;
@@ -17,8 +13,6 @@ export class ErrorComponent implements OnChanges, OnInit, OnDestroy {
   @Input() public passwordFieldValue: string;
   @Input() public passwordConfirmFieldValue: string;
   public errorMessage = '';
-
-  constructor(private popUpViewService: PopUpViewService) {}
 
   private getErrorMsg = {
     required: () => {
@@ -31,6 +25,7 @@ export class ErrorComponent implements OnChanges, OnInit, OnDestroy {
       }
     },
     email: () => (this.emailFieldValue ? 'user.auth.sign-in.this-is-not-email' : 'user.auth.sign-in.email-is-required'),
+    passwordMismatch: () => 'user.auth.sign-up.password-match',
     minlength: () => 'user.auth.sign-in.password-must-be-at-least-8-characters-long',
     symbolInvalid: () => (this.controlName === 'password' ? 'user.auth.sign-up.password-symbols-error' : 'user.auth.sign-up.user-name-size')
   };
@@ -40,24 +35,9 @@ export class ErrorComponent implements OnChanges, OnInit, OnDestroy {
   }
 
   private getType() {
-    try {
-      Object.keys(this.formElement.errors).forEach((error) => {
-        this.errorMessage = this.getErrorMsg[error]();
-        return this.errorMessage;
-      });
-    } catch (e) {}
-  }
-
-  ngOnInit(): void {
-    this.popUpViewService.passwordMismatchSubject.pipe(takeUntil(this.destroy)).subscribe((value) => {
-      if (value === 'noValid') {
-        this.errorMessage = 'user.auth.sign-up.password-match';
-      }
+    Object.keys(this.formElement.errors).forEach((error) => {
+      this.errorMessage = this.getErrorMsg[error]();
+      return this.errorMessage;
     });
-  }
-
-  ngOnDestroy(): void {
-    this.destroy.next(true);
-    this.destroy.complete();
   }
 }

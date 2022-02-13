@@ -1,4 +1,3 @@
-/*
 import { RestoreDto } from '@global-models/restroreDto';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { async, ComponentFixture, TestBed, fakeAsync } from '@angular/core/testing';
@@ -210,4 +209,3 @@ describe('ConfirmRestorePasswordComponent', () => {
     });
   });
 });
-*/

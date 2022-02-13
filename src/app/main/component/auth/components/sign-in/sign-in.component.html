@@ -1,18 +1,88 @@
+<h1>
+  {{ 'user.auth.sign-in.title' | translate }}
+</h1>
+<h2>{{ 'user.auth.sign-in.fill-form' | translate }}</h2>
 <form *ngIf="signInForm" class="sign-in-form" (ngSubmit)="signIn()" [formGroup]="signInForm">
-  <app-email-input-field formControlName="email" ngDefaultControl></app-email-input-field>
-  <app-password-input-field [passwordLabel]="'user.auth.sign-in.password'" [signIn]="true" formControlName="password" ngDefaultControl>
-  </app-password-input-field>
+  <label for="email" aria-required="true">{{ 'user.auth.sign-in.email' | translate }}</label>
+  <input
+    id="email"
+    type="email"
+    placeholder="example@email.com"
+    name="email"
+    required
+    formControlName="email"
+    (input)="configDefaultErrorMessage()"
+    [ngClass]="
+      (emailField.invalid && emailField.touched) || backEndError || emailErrorMessageBackEnd
+        ? 'alert-email-validation'
+        : 'successful-email-validation'
+    "
+    aria-required="true"
+    aria-describedby="email-err-msg"
+    tabindex="0"
+  />
+  <div class="validation-email-error" id="email-err-msg" *ngIf="emailField.invalid && emailField.touched">
+    <app-error [formElement]="emailField" [emailFieldValue]="emailFieldValue" [controlName]="'email'" tabindex="0"></app-error>
+  </div>
+  <div class="validation-email-error" *ngIf="emailErrorMessageBackEnd">
+    {{ emailErrorMessageBackEnd }}
+  </div>
+  <div class="email-field-margin" *ngIf="backEndError"></div>
+  <label for="password" aria-required="true">{{ 'user.auth.sign-in.password' | translate }}</label>
+  <div
+    class="password-input-btn-show-hide"
+    [ngClass]="
+      (passwordField.invalid && passwordField.touched) || backEndError || passwordErrorMessageBackEnd
+        ? 'alert-password-validation'
+        : 'successful-password-validation'
+    "
+  >
+    <input
+      id="password"
+      #input
+      type="password"
+      required
+      formControlName="password"
+      placeholder="{{ 'user.auth.sign-in.password' | translate }}"
+      name="form-control password-signin"
+      (input)="configDefaultErrorMessage()"
+      aria-required="true"
+      aria-describedby="pass-err-msg"
+    />
+    <span class="show-hide-btn" role="button" aria-label="show password button">
+      <img
+        (click)="togglePassword(input, src)"
+        (keydown.enter)="togglePassword(input, src)"
+        class="image-show-hide-password"
+        [src]="hideShowPasswordImage.hidePassword"
+        #src
+        alt="show-hide-password"
+      />
+    </span>
+  </div>
+  <div class="validation-password-error" id="pass-err-msg" *ngIf="passwordField.invalid && passwordField.touched">
+    <app-error [formElement]="passwordField" [passwordFieldValue]="passwordFieldValue" [controlName]="'password'" tabindex="0"></app-error>
+  </div>
+  <div class="validation-password-error" *ngIf="passwordErrorMessageBackEnd">
+    {{ passwordErrorMessageBackEnd }}
+  </div>
+  <div class="alert-general-error" *ngIf="backEndError">
+    {{ 'user.auth.sign-in.bad-email-or-password' | translate }}
+  </div>
   <div class="forgot-wrapper">
     <a
-      [ngClass]="isUbs ? 'ubs-forgot-password' : 'forgot-password'"
-      tabindex="0"
       (click)="onOpenModalWindow('restore-password')"
       (keyup.enter)="onOpenModalWindow('restore-password')"
+      class="forgot-password"
+      tabindex="0"
     >
       {{ 'user.auth.sign-in.forgot-password' | translate }}</a
     >
   </div>
-  <app-submit-button [buttonText]="'user.auth.sign-in.sign-in'"></app-submit-button>
+  <button class="primary-global-button" type="submit" [disabled]="!signInForm.valid">
+    <span *ngIf="loadingAnim" class="spinner-border spinner-border-sm" role="status" aria-hidden="true"> </span>
+    {{ 'user.auth.sign-in.sign-in' | translate }}
+  </button>
   <span class="or-use-google">{{ 'user.auth.sign-in.or-signin' | translate }}</span>
 </form>
 <div class="google-sign-in-block">
@@ -21,12 +91,7 @@
 <div class="missing-account">
   <p>
     {{ 'user.auth.sign-in.havenot-account' | translate }}
-    <a
-      (click)="onOpenModalWindow('sign-up')"
-      (keyup.enter)="onOpenModalWindow('sign-up')"
-      [ngClass]="isUbs ? 'ubs-sign-up-link' : 'sign-up-link'"
-      tabindex="0"
-    >
+    <a (click)="onOpenModalWindow('sign-up')" (keyup.enter)="onOpenModalWindow('sign-up')" class="sign-up-link" tabindex="0">
       {{ 'user.auth.sign-in.sign-up' | translate }}
     </a>
   </p>
