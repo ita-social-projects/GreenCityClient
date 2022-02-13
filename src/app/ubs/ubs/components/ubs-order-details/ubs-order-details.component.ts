@@ -130,9 +130,9 @@ export class UBSOrderDetailsComponent extends FormBaseComponent implements OnIni
   }
 
   private setCurrentLocation(currentLanguage: string): void {
-    const currentLocationDto = this.locations.find((loc: CourierLocations) => loc.locationsDtos[0].locationId === this.selectedLocationId);
+    const currentLocationDto = this.locations.find((loc) => loc.locationInfoDtos[0].locationsDto[0].locationId === this.selectedLocationId);
     this.minAmountOfBigBags = currentLocationDto.minAmountOfBigBags;
-    this.currentLocation = currentLocationDto.locationsDtos[0].locationTranslationDtoList.find(
+    this.currentLocation = currentLocationDto.locationInfoDtos[0].locationsDto[0].locationTranslationDtoList.find(
       (lang: LocationTranslation) => lang.languageCode === currentLanguage
     ).locationName;
   }
@@ -218,13 +218,11 @@ export class UBSOrderDetailsComponent extends FormBaseComponent implements OnIni
         this.defaultPoints = this.points;
         this.certificateLeft = orderData.points;
         this.bags.forEach((bag) => {
-          if (bag.code === this.currentLanguage) {
-            bag.quantity = bag.quantity === undefined ? null : bag.quantity;
-            this.orderDetailsForm.addControl('quantity' + String(bag.id), new FormControl('', [Validators.min(0), Validators.max(999)]));
-            const quantity = bag.quantity === null ? '' : +bag.quantity;
-            const valueName = 'quantity' + String(bag.id);
-            this.orderDetailsForm.controls[valueName].setValue(quantity);
-          }
+          bag.quantity = bag.quantity === undefined ? null : bag.quantity;
+          this.orderDetailsForm.addControl('quantity' + String(bag.id), new FormControl('', [Validators.min(0), Validators.max(999)]));
+          const quantity = bag.quantity === null ? '' : +bag.quantity;
+          const valueName = 'quantity' + String(bag.id);
+          this.orderDetailsForm.controls[valueName].setValue(quantity);
         });
         this.filterBags();
         this.isFetching = false;
@@ -236,7 +234,7 @@ export class UBSOrderDetailsComponent extends FormBaseComponent implements OnIni
   }
 
   private filterBags(): void {
-    this.bags = this.orders.bags.filter((value) => value.code === this.currentLanguage).sort((a, b) => b.price - a.price);
+    this.bags = this.orders.bags.sort((a, b) => b.price - a.price);
   }
 
   changeForm() {

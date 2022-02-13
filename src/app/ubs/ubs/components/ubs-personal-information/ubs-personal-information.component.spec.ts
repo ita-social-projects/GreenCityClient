@@ -71,13 +71,17 @@ describe('UBSPersonalInformationComponent', () => {
       courierDtos: [],
       courierLimit: 'fake',
       courierLocationId: 1,
-      locationsDtos: [
+      locationInfoDtos: [
         {
-          latitude: 50,
-          locationId: 1,
-          locationStatus: 'fake',
-          locationTranslationDtoList: [{ locationName: 'Київ', languageCode: 'ua' }],
-          longitude: 30
+          locationsDto: [
+            {
+              latitude: 50,
+              locationId: 1,
+              locationStatus: 'fake',
+              locationTranslationDtoList: [{ locationName: 'Київ', languageCode: 'ua' }],
+              longitude: 30
+            }
+          ]
         }
       ],
       maxAmountOfBigBags: 99,

@@ -82,9 +82,6 @@
   <div class="points">
     <h5>{{ 'order-details.bonus-need' | translate }}</h5>
     <p>{{ 'order-details.bonus-left' | translate }} {{ defaultPoints | currency | localizedCurrency }}</p>
-    <p>
-      <a href="#!" class="bonus-how-to-link">{{ 'order-details.bonus-how-to-get' | translate }}</a>
-    </p>
     <div class="radio-btn" *ngIf="defaultPoints !== 0 && showTotal !== 0">
       <label class="custom-radio-btn"
         >{{ 'order-details.no' | translate }}

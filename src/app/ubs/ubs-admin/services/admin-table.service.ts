@@ -2,6 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { IAlertInfo } from '../models/edit-cell.model';
 import { environment } from '@environment/environment.js';
+import { IBigOrderTable } from '../models/ubs-admin.interface';
 
 @Injectable({
   providedIn: 'root'
@@ -13,7 +14,7 @@ export class AdminTableService {
 
   getTable(columnName?: string, page?: number, filter?: string, size?: number, sortingType?: string, filters?: any[]) {
     const SORT_BY_AND_PAGE_NUMBER = `sortBy=${columnName}&pageNumber=${page}`;
-    const SEARCH_AND_PAGE_SIZE_AND_DIRECTION = `search=${filter}&pageSize=${size}&sortDirection=${sortingType}`;
+    const SEARCH_AND_PAGE_SIZE_AND_DIRECTION = filter ? `search=${filter}&` : '' + `pageSize=${size}&sortDirection=${sortingType}`;
     const BASE_QUERY = `${this.url}bigOrderTable?${SORT_BY_AND_PAGE_NUMBER}&${SEARCH_AND_PAGE_SIZE_AND_DIRECTION}`;
     let filtersQuery = '';
     if (filters.length) {
@@ -30,11 +31,11 @@ export class AdminTableService {
         }
       });
     }
-    return this.http.get<any[]>(`${BASE_QUERY}${filtersQuery}`);
+    return this.http.get<IBigOrderTable>(`${BASE_QUERY}${filtersQuery}`);
   }
 
   getColumns() {
-    return this.http.get(`${this.url}tableParams/0`);
+    return this.http.get(`${this.url}tableParams`);
   }
 
   postData(orderId: number[], columnName: string, newValue: string) {
