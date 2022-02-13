@@ -1,4 +1,4 @@
-import { Component, Input, OnDestroy, OnInit, TemplateRef, ViewChild } from '@angular/core';
+import { Component, Input, OnDestroy, OnInit, TemplateRef } from '@angular/core';
 import { TariffsService } from '../../services/tariffs.service';
 import { map, startWith, takeUntil } from 'rxjs/operators';
 import { Locations } from '../../models/tariffs.interface';
@@ -15,7 +15,6 @@ import { MatChipInputEvent } from '@angular/material/chips';
 import { IAppState } from 'src/app/store/state/app.state';
 import { GetLocations } from 'src/app/store/actions/tariff.actions';
 import { MatAutocompleteSelectedEvent, MatAutocompleteTrigger } from '@angular/material/autocomplete';
-import { MatSelect } from '@angular/material/select';
 
 @Component({
   selector: 'app-ubs-admin-tariffs-location-dashboard',
@@ -47,7 +46,7 @@ export class UbsAdminTariffsLocationDashboardComponent implements OnInit, OnDest
   public cities = ['Київ', 'Ірпінь', 'Бориспіль', 'Львів', 'Наварія'];
 
   public stations = ['Слобідська', 'Неслобідська'];
-  public newCouriers = ['Уклон', "УБС-кур'єр"];
+  public newCouriers = ["УБС-кур'єр", 'Уклон'];
 
   allSelected = false;
   filteredRegions;
