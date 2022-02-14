@@ -36,6 +36,7 @@ export class SignInComponent implements OnInit, OnDestroy {
   public passwordField: AbstractControl;
   public emailFieldValue: string;
   public passwordFieldValue: string;
+  public isUbs: boolean;
   private destroy: Subject<boolean> = new Subject<boolean>();
   @Output() private pageName = new EventEmitter();
 
@@ -53,6 +54,7 @@ export class SignInComponent implements OnInit, OnDestroy {
   ) {}
 
   ngOnInit() {
+    this.localStorageService.ubsRegBehaviourSubject.pipe(takeUntil(this.destroy)).subscribe((value) => (this.isUbs = value));
     this.userOwnSignIn = new UserOwnSignIn();
     this.configDefaultErrorMessage();
     this.checkIfUserId();
@@ -121,7 +123,7 @@ export class SignInComponent implements OnInit, OnDestroy {
     this.userOwnAuthService.getDataFromLocalStorage();
     this.jwtService.userRole$.next(this.jwtService.getUserRole());
     this.router
-      .navigate(['profile', data.userId])
+      .navigate(this.isUbs ? ['ubs'] : ['profile', data.userId])
       .then(() => {
         this.localStorageService.setFirstSignIn();
         this.profileService
@@ -155,7 +157,7 @@ export class SignInComponent implements OnInit, OnDestroy {
     this.localStorageService.setFirstSignIn();
     this.userOwnAuthService.getDataFromLocalStorage();
     this.jwtService.userRole$.next(this.jwtService.getUserRole());
-    this.router.navigate(['profile', data.userId]);
+    this.router.navigate(this.isUbs ? ['ubs'] : ['profile', data.userId]);
   }
 
   private onSignInFailure(errors: HttpErrorResponse): void {

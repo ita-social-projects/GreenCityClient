@@ -39,6 +39,7 @@ describe('SignIn component', () => {
 
   localStorageServiceMock = jasmine.createSpyObj('LocalStorageService', ['userIdBehaviourSubject']);
   localStorageServiceMock.userIdBehaviourSubject = new BehaviorSubject(1111);
+  localStorageServiceMock.ubsRegBehaviourSubject = of(false) as any;
   localStorageServiceMock.setFirstName = () => true;
   localStorageServiceMock.setFirstSignIn = () => true;
   localStorageServiceMock.getUserId = () => 1;

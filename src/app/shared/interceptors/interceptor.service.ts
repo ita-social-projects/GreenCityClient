@@ -178,8 +178,10 @@ export class InterceptorService implements HttpInterceptor {
       })
       .afterClosed()
       .pipe(take(1))
-      .subscribe(() => {
-        this.router.navigateByUrl(currentUrl);
+      .subscribe((isCanceled: boolean) => {
+        isCanceled && typeof isCanceled === 'boolean'
+          ? this.router.navigate(isUBS ? ['ubs'] : [''])
+          : this.router.navigateByUrl(currentUrl);
       });
     return of<HttpEvent<any>>();
   }
