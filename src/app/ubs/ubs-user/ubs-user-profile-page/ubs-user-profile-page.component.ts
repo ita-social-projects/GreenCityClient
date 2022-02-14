@@ -73,7 +73,7 @@ export class UbsUserProfilePageComponent implements OnInit {
     this.userProfile.addressDto.forEach((adres) => {
       const seperateAddress = new FormGroup({
         city: new FormControl(adres?.city, [Validators.pattern(this.regexp), Validators.maxLength(20)]),
-        street: new FormControl(adres?.street, [Validators.pattern(this.regexpWithDigits), Validators.maxLength(20)]),
+        street: new FormControl(adres?.street, [Validators.pattern(this.regexpWithDigits), Validators.maxLength(30)]),
         houseNumber: new FormControl(adres?.houseNumber, [Validators.pattern(this.regexpWithDigits), Validators.maxLength(4)]),
         houseCorpus: new FormControl(adres?.houseCorpus, [Validators.pattern(this.regexpWithDigits), Validators.maxLength(4)]),
         entranceNumber: new FormControl(adres?.entranceNumber, [Validators.pattern(this.regexpWithDigits), Validators.maxLength(4)]),
