@@ -29,6 +29,7 @@ import {
   GetTable,
   SetColumnToDisplay
 } from 'src/app/store/actions/bigOrderTable.actions';
+import { UbsAdminSeveralOrdersPopUpComponent } from '../ubs-admin-several-orders-pop-up/ubs-admin-several-orders-pop-up.component';
 
 @Component({
   selector: 'app-ubs-admin-table',
@@ -356,6 +357,10 @@ export class UbsAdminTableComponent implements OnInit, AfterViewChecked, OnDestr
     }
   }
 
+  editDetails(): void {
+    const dialogConfig = new MatDialogConfig();
+    const dialogRef = this.dialog.open(UbsAdminSeveralOrdersPopUpComponent, dialogConfig);
+  }
   selectRowsToChange(event, id: number) {
     if (event.checked) {
       this.idsToChange.push(id);
