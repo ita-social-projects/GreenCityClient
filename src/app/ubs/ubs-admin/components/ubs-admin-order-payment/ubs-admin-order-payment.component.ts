@@ -62,23 +62,12 @@ export class UbsAdminOrderPaymentComponent implements OnInit, OnChanges {
     this.overpayment = Math.abs(overpayment);
   }
 
-  public addZeroBeforeSingleDateValue(date: Date): string {
-    let resultDate = `${date.getFullYear()}-${date.getMonth() + 1}-${date.getDate()}`;
-    if (date.getMonth() + 1 < 10 && date.getDate() < 10) {
-      resultDate = `${date.getFullYear()}-0${date.getMonth() + 1}-0${date.getDate()}`;
-    } else {
-      if (date.getMonth() + 1 < 10) {
-        resultDate = `${date.getFullYear()}-0${date.getMonth() + 1}-${date.getDate()}`;
-      }
-      if (date.getDate() < 10) {
-        resultDate = `${date.getFullYear()}-${date.getMonth() + 1}-0${date.getDate()}`;
-      }
-    }
-    return resultDate;
+  public getStringDate(date: Date): string {
+    return date.toLocaleDateString('en-GB', { year: 'numeric', month: '2-digit', day: '2-digit' }).split('/').reverse().join('-');
   }
 
   public enrollToBonusAccount(): void {
-    const currentDate: string = this.addZeroBeforeSingleDateValue(new Date());
+    const currentDate: string = this.getStringDate(new Date());
 
     const paymentDetails: PaymentDetails = {
       amount: this.overpayment * 100,
@@ -146,10 +135,9 @@ export class UbsAdminOrderPaymentComponent implements OnInit, OnChanges {
             }
             return payment.id !== extraPayment;
           });
-        } else if (extraPayment !== null && typeof extraPayment === 'object') {
-          this.preconditionChangePaymentData(extraPayment);
-          this.setOverpayment(this.totalPaid - this.actualPrice);
         }
+        this.preconditionChangePaymentData(extraPayment as IPaymentInfoDto);
+        this.setOverpayment(this.totalPaid - this.actualPrice);
       });
   }
 }
