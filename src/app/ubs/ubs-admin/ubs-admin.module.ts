@@ -1,5 +1,5 @@
 import { AdminTableService } from './services/admin-table.service';
-import { NgModule } from '@angular/core';
+import { ModuleWithProviders, NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
 import { NgxPaginationModule } from 'ngx-pagination';
@@ -75,6 +75,7 @@ import { ShowPdfPopUpComponent } from './components/shared/components/show-pdf-p
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
 import { MatChipsModule } from '@angular/material/chips';
 import { MatSelectModule } from '@angular/material/select';
+import { ColumnFiltersPopUpComponent } from './components/shared/components/column-filters-pop-up/column-filters-pop-up.component';
 
 @NgModule({
   declarations: [
@@ -118,11 +119,12 @@ import { MatSelectModule } from '@angular/material/select';
     AddPaymentComponent,
     UbsAdminCustomerViolationsComponent,
     ShowImgsPopUpComponent,
+    ShowPdfPopUpComponent,
+    ColumnFiltersPopUpComponent,
     ModalTextComponent,
     DialogTariffComponent,
     UbsAdminTariffsLocationPopUpComponent,
-    UbsAdminTariffsAddNamePopUpComponent,
-    ShowPdfPopUpComponent
+    UbsAdminTariffsAddNamePopUpComponent
   ],
   imports: [
     CommonModule,
@@ -165,7 +167,6 @@ import { MatSelectModule } from '@angular/material/select';
   ],
   providers: [
     AdminCertificateService,
-    AdminTableService,
     TranslateService,
     {
       provide: HTTP_INTERCEPTORS,
@@ -181,7 +182,14 @@ import { MatSelectModule } from '@angular/material/select';
     UbsAdminGoBackModalComponent
   ]
 })
-export class UbsAdminModule {}
+export class UbsAdminModule {
+  static forRoot(): ModuleWithProviders {
+    return {
+      ngModule: UbsAdminModule,
+      providers: [AdminTableService]
+    };
+  }
+}
 
 export function createTranslateLoaderUbs(http: HttpClient) {
   return new TranslateHttpLoader(http, './assets/i18n/ubs-admin/', '.json');

@@ -17,28 +17,21 @@
 
 .mat-expansion-panel-header {
   height: 64px;
-  margin: 0 0 44px 0;
   display: flex;
   flex-direction: row-reverse;
   padding: 0 7px;
 }
 
 .header_list {
-  display: flex;
-  flex-direction: row;
+  display: grid;
+  grid-auto-flow: column;
+  grid-template-columns: 0.6fr 1fr 1fr 1fr 1fr;
   font-size: 14px;
   font-weight: 500;
   line-height: 20px;
 
   .header_list-num {
     flex-grow: 1;
-  }
-
-  .header_list-date,
-  .header_list-status,
-  .header_list-paymentStatus,
-  .header_list-paymentAmount {
-    flex-grow: 2;
   }
 }
 
@@ -109,12 +102,20 @@
 .mat-expansion-panel-header-title {
   display: flex;
   align-items: center;
-  padding: 0 10px;
+  padding: 0 20px;
 }
 
 .mat-expansion-panel-header-description {
-  display: flex;
+  display: grid;
   align-items: center;
+  grid-auto-rows: max-content;
+  grid-template-columns: 1fr;
+}
+
+.description {
+  box-sizing: border-box;
+  background-color: #fff;
+  padding: 10px;
 }
 
 @media (max-width: 1060px) {
@@ -201,5 +202,11 @@
 
   .empty-div {
     display: none;
+  }
+}
+
+@media (max-width: 375px) {
+  .description {
+    overflow-x: auto;
   }
 }

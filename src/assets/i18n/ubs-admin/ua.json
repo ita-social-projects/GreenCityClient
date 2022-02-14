@@ -614,5 +614,8 @@
     "help-the-project": "Як допомогти проєкту",
     "how-to-get-there": "Як доїхати?",
     "ukraine-without-garbage": "Україна без сміття"
+  },
+  "information-window": {
+    "message": "Заповніть,будь ласка, всі обов'язкові поля"
   }
 }

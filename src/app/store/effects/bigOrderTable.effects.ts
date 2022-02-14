@@ -63,24 +63,12 @@ export class BigOrderTableEffects {
   getTable = createEffect(() => {
     return this.actions.pipe(
       ofType(GetTable),
-      mergeMap(
-        (action: {
-          columnName?: string;
-          page?: number;
-          filter?: string;
-          size?: number;
-          sortingType?: string;
-          filters?: any[];
-          reset?: boolean;
-        }) => {
-          return this.adminTableService
-            .getTable(action.columnName, action.page, action.filter, action.size, action.sortingType, action.filters)
-            .pipe(
-              map((bigOrderTable: IBigOrderTable) => GetTableSuccess({ bigOrderTable, reset: action.reset })),
-              catchError((error) => of(ReceivedFailure(error)))
-            );
-        }
-      )
+      mergeMap((action: { columnName?: string; page?: number; filter?: string; size?: number; sortingType?: string; reset?: boolean }) => {
+        return this.adminTableService.getTable(action.columnName, action.page, action.filter, action.size, action.sortingType).pipe(
+          map((bigOrderTable: IBigOrderTable) => GetTableSuccess({ bigOrderTable, reset: action.reset })),
+          catchError((error) => of(ReceivedFailure(error)))
+        );
+      })
     );
   });
 
