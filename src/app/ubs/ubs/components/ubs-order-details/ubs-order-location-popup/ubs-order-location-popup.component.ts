@@ -44,7 +44,7 @@ export class UbsOrderLocationPopupComponent implements OnInit, OnDestroy {
     );
   }
 
-  displayFn(city: LocationsName) {
+  displayFn(city: LocationsName): string {
     return city && city.locationName ? city.locationName : '';
   }
 
