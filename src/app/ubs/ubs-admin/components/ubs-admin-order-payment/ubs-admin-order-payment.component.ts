@@ -136,8 +136,10 @@ export class UbsAdminOrderPaymentComponent implements OnInit, OnChanges {
             return payment.id !== extraPayment;
           });
         }
-        this.preconditionChangePaymentData(extraPayment as IPaymentInfoDto);
-        this.setOverpayment(this.totalPaid - this.actualPrice);
+        if (extraPayment !== null && typeof extraPayment === 'object') {
+          this.preconditionChangePaymentData(extraPayment);
+          this.setOverpayment(this.totalPaid - this.actualPrice);
+        }
       });
   }
 }
