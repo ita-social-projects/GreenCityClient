@@ -200,7 +200,7 @@ export class UbsAdminOrderComponent implements OnInit, OnDestroy, AfterContentCh
         new FormControl(bag.actual, [Validators.min(0), Validators.max(999)])
       );
     });
-    this.statusCanceled_or_Done();
+    this.statusCanceledOrDone();
   }
 
   getEmployeeById(allCurrentEmployees: Map<string, string>, id: number) {
@@ -238,7 +238,7 @@ export class UbsAdminOrderComponent implements OnInit, OnDestroy, AfterContentCh
   onChangedOrderStatus(status: string) {
     this.currentOrderStatus = status;
     this.orderStatusInfo = this.getOrderStatusInfo(this.currentOrderStatus);
-    this.NotRequiredFieldsStatuses();
+    this.notRequiredFieldsStatuses();
   }
 
   public changeOverpayment(sum) {
@@ -426,7 +426,7 @@ export class UbsAdminOrderComponent implements OnInit, OnDestroy, AfterContentCh
 
     return result;
   }
-  statusCanceled_or_Done(): void {
+  statusCanceledOrDone(): void {
     if (this.currentOrderStatus === 'CANCELED' || this.currentOrderStatus === 'DONE') {
       this.orderForm.get('exportDetailsDto').disable();
       this.orderForm.get('responsiblePersonsForm').disable();
@@ -435,7 +435,7 @@ export class UbsAdminOrderComponent implements OnInit, OnDestroy, AfterContentCh
       this.orderForm.get('responsiblePersonsForm').enable();
     }
   }
-  NotRequiredFieldsStatuses(): void {
+  notRequiredFieldsStatuses(): void {
     const exportDetails = this.orderForm.get('exportDetailsDto');
     const responsiblePersons = this.orderForm.get('responsiblePersonsForm');
     const exportDetaisFields = Object.keys(this.orderForm.get('exportDetailsDto').value);
@@ -451,7 +451,7 @@ export class UbsAdminOrderComponent implements OnInit, OnDestroy, AfterContentCh
       exportDetaisFields.map((el) => exportDetails.get(el).setValidators([Validators.required]));
       responsiblePersonNames.map((el) => responsiblePersons.get(el).setValidators([Validators.required]));
     }
-    this.statusCanceled_or_Done();
+    this.statusCanceledOrDone();
   }
   ngOnDestroy(): void {
     this.destroy$.next();
