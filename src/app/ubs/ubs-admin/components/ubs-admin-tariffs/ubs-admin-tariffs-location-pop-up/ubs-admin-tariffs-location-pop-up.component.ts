@@ -16,6 +16,10 @@ import { takeUntil } from 'rxjs/operators';
 import { Subject } from 'rxjs';
 import { DatePipe } from '@angular/common';
 import { TariffsService } from 'src/app/ubs/ubs-admin/services/tariffs.service';
+import { CreateLocation } from '../../../models/tariffs.interface';
+import { Store } from '@ngrx/store';
+import { IAppState } from 'src/app/store/state/app.state';
+import { AddLocations } from 'src/app/store/actions/tariff.actions';
 
 @Component({
   selector: 'app-ubs-admin-tariffs-location-pop-up',
@@ -39,6 +43,14 @@ export class UbsAdminTariffsLocationPopUpComponent implements OnInit, AfterViewC
     componentRestrictions: { country: 'UA' }
   };
 
+  createdCards: CreateLocation[] = [];
+  newCard: CreateLocation = {
+    addLocationDtoList: [],
+    latitude: 0,
+    longitude: 0,
+    regionTranslationDtos: []
+  };
+
   localityOptions;
   regionBounds;
   autocomplete = [];
@@ -59,6 +71,7 @@ export class UbsAdminTariffsLocationPopUpComponent implements OnInit, AfterViewC
     private localeStorageService: LocalStorageService,
     private cdr: ChangeDetectorRef,
     public dialogRef: MatDialogRef<UbsAdminTariffsLocationPopUpComponent>,
+    private store: Store<IAppState>,
     @Inject(MAT_DIALOG_DATA)
     public data: {
       headerText: string;
@@ -105,7 +118,9 @@ export class UbsAdminTariffsLocationPopUpComponent implements OnInit, AfterViewC
   createItem(): FormGroup {
     return this.fb.group({
       location: '',
-      englishLocation: ''
+      englishLocation: '',
+      latitude: 0,
+      longitude: 0
     });
   }
 
@@ -123,45 +138,69 @@ export class UbsAdminTariffsLocationPopUpComponent implements OnInit, AfterViewC
     this.setValueOfRegion(event);
     this.quantityOfLocations = 1;
     const tempInput = this.inputs.toArray()[this.quantityOfLocations - 1].nativeElement;
-    this.autocomplete[this.quantityOfLocations - 1] = new google.maps.places.Autocomplete(tempInput, this.localityOptions);
+    this.autocomplete[0] = new google.maps.places.Autocomplete(tempInput, this.localityOptions);
 
     const l = event.geometry.viewport.getSouthWest();
     const x = event.geometry.viewport.getNorthEast();
 
     this.regionBounds = new google.maps.LatLngBounds(l, x);
 
-    this.autocomplete[this.quantityOfLocations - 1].setBounds(this.regionBounds);
+    this.autocomplete[0].setBounds(event.geometry.viewport);
     this.localityOptions = {
       bounds: this.regionBounds,
       strictBounds: true,
       types: ['(cities)'],
       componentRestrictions: { country: 'ua' }
     };
-    this.autocomplete[this.quantityOfLocations - 1].setOptions(this.localityOptions);
-    this.addEventToAutocomplete(this.quantityOfLocations - 1);
+    this.autocomplete[0].setOptions(this.localityOptions);
+    this.addEventToAutocomplete(0);
   }
 
   setValueOfRegion(event: any): void {
     this.locationForm.get('region').setValue(event.name);
     this.translate(event.name, this.locationForm.get('englishRegion'));
-    this.locationForm.get('englishRegion').setValue(this.translatedText);
   }
 
   addEventToAutocomplete(i: number): void {
     this.autocomplete[i].addListener('place_changed', () => {
       const locationName = this.autocomplete[i].getPlace().name;
+      const latitude = this.autocomplete[i].getPlace().geometry.location.lat();
+      const longitude = this.autocomplete[i].getPlace().geometry.location.lng();
       const key = 'controls';
+
       this.locationForm.get('items')[key][i][key].location.setValue(locationName);
       this.translate(locationName, this.locationForm.get('items')[key][i][key].englishLocation);
-      this.locationForm.get('items')[key][i][key].englishLocation.setValue(this.translatedText);
+      this.locationForm.get('items')[key][i][key].latitude.setValue(latitude);
+      this.locationForm.get('items')[key][i][key].longitude.setValue(longitude);
     });
   }
 
-  addLocation() {
+  addLocation(): void {
     this.isDisabled = true;
+    const enRegion = { languageCode: 'en', regionName: this.locationForm.value.englishRegion };
+    const region = { languageCode: 'ua', regionName: this.locationForm.value.region };
+
+    for (let i = 0; i < this.quantityOfLocations; i++) {
+      const enLocation = { languageCode: 'en', locationName: this.locationForm.value.items[i].englishLocation };
+      const Location = { languageCode: 'ua', locationName: this.locationForm.value.items[i].location };
+
+      const lat = this.locationForm.value.items[i].latitude;
+      const lng = this.locationForm.value.items[i].longitude;
+
+      const cart: CreateLocation = {
+        latitude: lat,
+        addLocationDtoList: [enLocation, Location],
+        longitude: lng,
+        regionTranslationDtos: [enRegion, region]
+      };
+
+      this.createdCards.push(cart);
+    }
+    this.store.dispatch(AddLocations({ locations: this.createdCards }));
+    this.dialogRef.close({});
   }
 
-  onNoClick() {
+  onNoClick(): void {
     this.dialogRef.close();
   }
 

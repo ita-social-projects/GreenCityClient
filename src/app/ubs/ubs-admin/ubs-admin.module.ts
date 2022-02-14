@@ -72,6 +72,9 @@ import { UbsAdminTariffsLocationPopUpComponent } from './components/ubs-admin-ta
 import { UbsAdminTariffsAddNamePopUpComponent } from './components/ubs-admin-tariffs/ubs-admin-tariffs-add-name-pop-up/ubs-admin-tariffs-add-name-pop-up.component';
 import { PdfViewerModule } from 'ng2-pdf-viewer';
 import { ShowPdfPopUpComponent } from './components/shared/components/show-pdf-pop-up/show-pdf-pop-up.component';
+import { MatAutocompleteModule } from '@angular/material/autocomplete';
+import { MatChipsModule } from '@angular/material/chips';
+import { MatSelectModule } from '@angular/material/select';
 import { ColumnFiltersPopUpComponent } from './components/shared/components/column-filters-pop-up/column-filters-pop-up.component';
 
 @NgModule({
@@ -157,7 +160,10 @@ import { ColumnFiltersPopUpComponent } from './components/shared/components/colu
       isolate: true
     }),
     TooltipModule,
-    PdfViewerModule
+    PdfViewerModule,
+    MatAutocompleteModule,
+    MatChipsModule,
+    MatSelectModule
   ],
   providers: [
     AdminCertificateService,

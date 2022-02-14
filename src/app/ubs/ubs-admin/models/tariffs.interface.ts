@@ -66,3 +66,20 @@ export interface Locations {
     languageCode: string;
   };
 }
+
+export interface CreateLocation {
+  addLocationDtoList: Location[];
+  latitude: 0;
+  longitude: 0;
+  regionTranslationDtos: Region[];
+}
+
+interface Region {
+  languageCode: string;
+  regionName: string;
+}
+
+interface Location {
+  languageCode: string;
+  locationName: string;
+}
