@@ -4,10 +4,10 @@ import { Language } from './../../../../i18n/Language';
 import { LocalStorageService } from '../../../../service/localstorage/local-storage.service';
 import { async, ComponentFixture, TestBed, inject } from '@angular/core/testing';
 import { FormsModule } from '@angular/forms';
+import { MatDialogModule, MatDialogRef } from '@angular/material/dialog';
 import { TranslateModule } from '@ngx-translate/core';
 
 import { RestoreComponent } from './restore.component';
-import { MatDialogModule, MatDialogRef } from '@angular/material/dialog';
 
 describe('RestoreComponent', () => {
   let component: RestoreComponent;

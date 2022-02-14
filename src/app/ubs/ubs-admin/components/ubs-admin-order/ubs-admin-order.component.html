@@ -48,11 +48,23 @@
         {{ 'order-edit.btn.back' | translate }}
       </button>
       <div class="controls">
-        <button type="reset" class="cancel-button" (click)="$event.preventDefault(); openCancelModal()" [disabled]="!orderForm.touched">
+        <button type="reset" class="cancel-button" (click)="$event.preventDefault(); openCancelModal()">
           {{ 'order-edit.btn.cancel' | translate }}
         </button>
-        <button type="submit" class="save-button" [disabled]="!orderForm.touched || !orderForm.valid || !isMinOrder">
+        <button type="submit" class="save-button" [disabled]="!orderForm.valid || !isMinOrder">
           {{ 'order-edit.btn.save' | translate }}
+          <span class="inform-window">
+            {{ 'information-window.message' | translate }}
+            <ul>
+              <li>{{ 'export-details.export-date' | translate }}</li>
+              <li>{{ 'export-details.export-time' | translate }}</li>
+              <li>{{ 'export-details.station' | translate }}</li>
+              <li>{{ 'responsible-persons.call-manager' | translate }}</li>
+              <li>{{ 'responsible-persons.logistician' | translate }}</li>
+              <li>{{ 'responsible-persons.navigator' | translate }}</li>
+              <li>{{ 'responsible-persons.driver' | translate }}</li>
+            </ul>
+          </span>
         </button>
       </div>
     </div>

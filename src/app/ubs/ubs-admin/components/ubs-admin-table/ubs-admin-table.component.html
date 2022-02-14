@@ -26,7 +26,7 @@
         </div>
         <p class="font-weight-bold">{{ 'ubs-tables.filters' | translate }}</p>
         <div class="accordion" (click)="$event.stopPropagation()">
-          <ng-container *ngFor="let column of columnsForFiltering; index as i">
+          <ng-container *ngFor="let column of getColumnsForFiltering(); index as i">
             <div class="accordion-item">
               <div
                 class="accordion-group-header"
@@ -47,7 +47,7 @@
                 <div class="accordion-body">
                   <div *ngIf="column.key.toLowerCase().includes('date'); else nonDate">
                     <div>
-                      <mat-checkbox [(checked)]="column.checked" (change)="changeDateFilters($event, $event.checked, column.key)">
+                      <mat-checkbox [checked]="getDateChecked(column.key)" (change)="changeDateFilters($event, $event.checked, column.key)">
                         {{ 'ubs-tables.date-range' | translate }}
                       </mat-checkbox>
                       <br />
@@ -56,6 +56,7 @@
                         id="dateFrom{{ column.key }}"
                         type="date"
                         name="dateFrom"
+                        [value]="getDateValue('From', column.key)"
                         (change)="changeInputDateFilters($event.target.value, column.key, 'From')"
                       />
                       <br />
@@ -64,6 +65,7 @@
                         id="dateTo{{ column.key }}"
                         type="date"
                         name="dateTo"
+                        [value]="getDateValue('To', column.key)"
                         (change)="changeInputDateFilters($event.target.value, column.key, 'To')"
                       />
                     </div>
@@ -160,13 +162,18 @@
           >
             {{ column.title | serverTranslate: currentLang }}
           </div>
-          <div class="icon-row" *ngIf="!nonSortableColumns.includes(column.title.key)">
-            <mat-icon *ngIf="arrowDirection !== column.title.key" (click)="getSortingData(column.title.key, 'ASC')">
-              arrow_downward
-            </mat-icon>
-            <mat-icon *ngIf="arrowDirection === column.title.key" (click)="getSortingData(column.title.key, 'DESC')">
-              arrow_upward
-            </mat-icon>
+          <div class="icon-row">
+            <ng-container *ngIf="column.filtered">
+              <mat-icon (click)="openColumnFilterPopup($event, column)">filter_list</mat-icon>
+            </ng-container>
+            <ng-container *ngIf="!nonSortableColumns.includes(column.title.key)">
+              <mat-icon *ngIf="arrowDirection !== column.title.key" (click)="getSortingData(column.title.key, 'ASC')">
+                arrow_downward
+              </mat-icon>
+              <mat-icon *ngIf="arrowDirection === column.title.key" (click)="getSortingData(column.title.key, 'DESC')">
+                arrow_upward
+              </mat-icon>
+            </ng-container>
           </div>
         </th>
         <th scope="row" *ngIf="column.title.key === 'select'" [ngStyle]="{ backgroundColor: '#fff', height: '16px', padding: '0px' }">

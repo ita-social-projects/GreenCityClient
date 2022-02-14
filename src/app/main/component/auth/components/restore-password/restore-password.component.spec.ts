@@ -1,4 +1,4 @@
-import { UserSuccessSignIn } from '@global-models/user-success-sign-in';
+import { UserSuccessSignIn } from './../../../../model/user-success-sign-in';
 import { RestorePasswordComponent } from './restore-password.component';
 import { async, ComponentFixture, TestBed, inject, fakeAsync } from '@angular/core/testing';
 import { CUSTOM_ELEMENTS_SCHEMA, NO_ERRORS_SCHEMA } from '@angular/core';
@@ -29,12 +29,6 @@ describe('RestorePasswordComponent', () => {
   let MatSnackBarMock: MatSnackBarComponent;
   let promiseSocialUser;
   let userSuccessSignIn;
-
-  const onBackToSignIn = 'onBackToSignIn';
-  const matDialogRef = 'matDialogRef';
-  const onSignInWithGoogleSuccess = 'onSignInWithGoogleSuccess';
-  const onSentEmailBadMessage = 'onSentEmailBadMessage';
-  const onSignInFailure = 'onSignInFailure';
 
   promiseSocialUser = new Promise<SocialUser>((resolve) => {
     const val = new SocialUser();
@@ -112,15 +106,17 @@ describe('RestorePasswordComponent', () => {
     });
 
     it('should call onBackToSignIn', () => {
+      // @ts-ignore
       spyOn(component.dialog, 'open');
-      component[onBackToSignIn]('fake');
+      // @ts-ignore
+      component.onBackToSignIn();
+      // @ts-ignore
       expect(component.dialog).toBeDefined();
     });
 
     it('Should open sign in modal window', () => {
       spyOn(component, 'onBackToSignIn');
-      component.isUbs = false;
-      fixture.detectChanges();
+
       const nativeElement = fixture.nativeElement;
       const button = nativeElement.querySelector('.sign-in-link');
       button.dispatchEvent(new Event('click'));
@@ -131,7 +127,9 @@ describe('RestorePasswordComponent', () => {
     });
 
     it('should call onCloseRestoreWindow ', () => {
-      const spy = spyOn(component[matDialogRef], 'close').and.callThrough();
+      // @ts-ignore
+      const spy = spyOn(component.matDialogRef, 'close').and.callThrough();
+      // @ts-ignore
       component.onCloseRestoreWindow();
       expect(spy).toHaveBeenCalled();
     });
@@ -159,7 +157,8 @@ describe('RestorePasswordComponent', () => {
     }));
 
     it('signUpWithGoogleSuccess should navigate to homePage', fakeAsync(() => {
-      component[onSignInWithGoogleSuccess](userSuccessSignIn);
+      // @ts-ignore
+      component.onSignInWithGoogleSuccess(userSuccessSignIn);
       expect(routerSpy.navigate).toHaveBeenCalledWith(['/']);
     }));
 
@@ -206,7 +205,8 @@ describe('RestorePasswordComponent', () => {
     it('Should return an emailErrorMessageBackEnd when login failed', () => {
       errors = new HttpErrorResponse({ error: { message: 'Ups' } });
 
-      component[onSentEmailBadMessage](errors);
+      // @ts-ignore
+      component.onSentEmailBadMessage(errors);
       fixture.detectChanges();
       expect(component.emailErrorMessageBackEnd).toBe('email-not-exist');
     });
@@ -214,7 +214,8 @@ describe('RestorePasswordComponent', () => {
     it('Should return an emailErrorMessageBackEnd when login failed', () => {
       errors = new HttpErrorResponse({ error: [{ name: 'email', message: 'Ups' }] });
 
-      component[onSignInFailure](errors);
+      // @ts-ignore
+      component.onSignInFailure(errors);
       fixture.detectChanges();
       expect(component.emailErrorMessageBackEnd).toBe('Ups');
     });
@@ -222,7 +223,8 @@ describe('RestorePasswordComponent', () => {
     it('Should return an passwordErrorMessageBackEnd when login failed', () => {
       errors = new HttpErrorResponse({ error: [{ name: 'password', message: 'Ups' }] });
 
-      component[onSignInFailure](errors);
+      // @ts-ignore
+      component.onSignInFailure(errors);
       fixture.detectChanges();
       expect(component.passwordErrorMessageBackEnd).toBe('Ups');
     });
@@ -230,7 +232,8 @@ describe('RestorePasswordComponent', () => {
     it('Should return an backEndError when login failed', () => {
       errors = new HttpErrorResponse({ error: { message: 'Ups' } });
 
-      component[onSignInFailure](errors.error);
+      // @ts-ignore
+      component.onSignInFailure(errors.error);
       fixture.detectChanges();
       expect(component.backEndError).toBe('Ups');
     });

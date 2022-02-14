@@ -1,7 +1,7 @@
-import { Language } from '../../../../i18n/Language';
-import { UserOwnSignUp } from '@global-models/user-own-sign-up';
+import { Language } from './../../../../i18n/Language';
+import { UserOwnSignUp } from './../../../../model/user-own-sign-up';
 import { provideConfig } from 'src/app/main/config/GoogleAuthConfig';
-import { UserSuccessSignIn } from '@global-models/user-success-sign-in';
+import { UserSuccessSignIn } from './../../../../model/user-success-sign-in';
 import { async, ComponentFixture, TestBed, inject, fakeAsync, flush, discardPeriodicTasks } from '@angular/core/testing';
 import { CUSTOM_ELEMENTS_SCHEMA, DebugElement, NO_ERRORS_SCHEMA } from '@angular/core';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
@@ -15,7 +15,7 @@ import { BrowserModule, By } from '@angular/platform-browser';
 import { AgmCoreModule } from '@agm/core';
 import { TranslateModule } from '@ngx-translate/core';
 import { AuthService, AuthServiceConfig, LoginOpt, SocialUser } from 'angularx-social-login';
-import { BehaviorSubject, of, throwError } from 'rxjs';
+import { Observable, of, throwError } from 'rxjs';
 import { UserOwnSignUpService } from '@auth-service/user-own-sign-up.service';
 import { GoogleSignInService } from '@auth-service/google-sign-in.service';
 import { SubmitEmailComponent } from '@global-auth/submit-email/submit-email.component';
@@ -23,7 +23,6 @@ import { SignUpComponent } from './sign-up.component';
 import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { MatSnackBarComponent } from '@global-errors/mat-snack-bar/mat-snack-bar.component';
-import { SubmitButtonComponent } from '@global-auth/fragments/buttons/submit-button/submit-button.component';
 
 class UserOwnSignUpServiceMock {
   mockFormData = {
@@ -37,8 +36,8 @@ class UserOwnSignUpServiceMock {
   }
 }
 
-describe('SignUpComponent', async () => {
-  const component: SubmitButtonComponent = TestBed.inject(SubmitButtonComponent);
+describe('SignUpComponent', () => {
+  let component: SignUpComponent;
   let fixture: ComponentFixture<SignUpComponent>;
   let authServiceMock: AuthService;
   let MatSnackBarMock: MatSnackBarComponent;
@@ -50,12 +49,9 @@ describe('SignUpComponent', async () => {
   localStorageServiceMock.getUserId = () => 1;
   localStorageServiceMock.setAccessToken = () => true;
   localStorageServiceMock.setRefreshToken = () => true;
-  localStorageServiceMock.getAccessToken = () => '1';
   localStorageServiceMock.setUserId = () => true;
-  localStorageServiceMock.ubsRegBehaviourSubject = new BehaviorSubject(false);
 
   const routerSpy = { navigate: jasmine.createSpy('navigate') };
-
   class MatDialogRefMock {
     close() {}
   }
@@ -114,20 +110,21 @@ describe('SignUpComponent', async () => {
 
   beforeEach(() => {
     fixture = TestBed.createComponent(SignUpComponent);
+    component = fixture.componentInstance;
     fixture.detectChanges();
   });
 
   describe('Basic tests', () => {
     beforeEach(() => {
       // @ts-ignore
-      // spyOn(component.pageName, 'emit');
+      spyOn(component.pageName, 'emit');
     });
 
     it('should create SignUpComponent', () => {
-      expect(component).toBeDefined();
+      expect(component).toBeTruthy();
     });
 
-    /*it('should call closeSignUpWindow ', () => {
+    it('should call closeSignUpWindow ', () => {
       // @ts-ignore
       const spy = spyOn(component.matDialogRef, 'close').and.callThrough();
       // @ts-ignore
@@ -139,10 +136,10 @@ describe('SignUpComponent', async () => {
       component.openSignInWindow();
       // @ts-ignore
       expect(component.pageName.emit).toHaveBeenCalledWith('sign-in');
-    });*/
+    });
   });
 
-  /*describe('Reset error messages', () => {
+  describe('Reset error messages', () => {
     it('Should reset error messages', () => {
       component.firstNameErrorMessageBackEnd = 'I am error message';
       component.emailErrorMessageBackEnd = 'I am error message';
@@ -302,11 +299,10 @@ describe('SignUpComponent', async () => {
         // @ts-ignore
         component.signUpWithGoogleSuccess(mockUserSuccessSignIn);
         fixture.ngZone.run(() => {
-          fixture.detectChanges();
-          fixture.whenStable().then(() => {
-            expect(routerSpy.navigate).toHaveBeenCalledWith(['profile', mockUserSuccessSignIn.userId]);
-          });
+          expect(routerSpy.navigate).toHaveBeenCalledWith(['/profile', mockUserSuccessSignIn.userId]);
         });
+        fixture.destroy();
+        flush();
       }));
     });
   });
@@ -367,5 +363,5 @@ describe('SignUpComponent', async () => {
       component.signUpWithGoogleError(errors);
       expect(component.backEndError).toBe('Ups');
     });
-  });*/
+  });
 });

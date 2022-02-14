@@ -126,6 +126,7 @@ export class UbsUserProfilePageComponent implements OnInit {
         (res: UserProfile) => {
           this.isFetching = false;
           this.userProfile = this.composeFormData(res);
+          this.userProfile.recipientEmail = this.userForm.value.recipientEmail;
         },
         (err: Error) => {
           this.isFetching = false;
@@ -150,9 +151,9 @@ export class UbsUserProfilePageComponent implements OnInit {
   }
 
   formatedPhoneNumber(num: string) {
-    const match = num.match(/^(\d{2})(\d{3})(\d{2})(\d{2})$/);
+    const match = num?.match(/^(\d{2})(\d{3})(\d{2})(\d{2})$/);
     if (match) {
-      return ` (${match[1]}) ${match[2]} ${match[3]} ${match[4]}`;
+      return ` +380 (${match[1]}) ${match[2]} ${match[3]} ${match[4]}`;
     }
   }
 }

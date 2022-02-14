@@ -56,7 +56,7 @@
                 [unmask]="true"
                 [imask]="{ mask: phoneMask }"
               />
-              <p *ngIf="!isEditing">+380{{ formatedPhoneNumber(userProfile?.recipientPhone) }}</p>
+              <p *ngIf="!isEditing">{{ formatedPhoneNumber(userProfile?.recipientPhone) }}</p>
             </div>
           </div>
           <div class="address" formArrayName="address" *ngFor="let address of userForm.controls.address['controls']; let i = index">
