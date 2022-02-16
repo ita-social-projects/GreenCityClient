@@ -14,6 +14,7 @@ export class UbsAdminOrderPaymentComponent implements OnInit, OnChanges {
   @Input() orderInfo: IOrderInfo;
   @Input() actualPrice: number;
   @Input() totalPaid: number;
+  @Input() orderStatus: string;
 
   public message: string;
   public pageOpen: boolean;
@@ -23,10 +24,12 @@ export class UbsAdminOrderPaymentComponent implements OnInit, OnChanges {
   public unPaidAmount: number;
   public paymentInfo: IPaymentInfo;
   public paymentsArray: IPaymentInfoDto[];
+  public currentOrderStatus: string;
 
   constructor(private orderService: OrderService, private dialog: MatDialog) {}
 
   ngOnInit() {
+    this.currentOrderStatus = this.orderStatus;
     this.orderId = this.orderInfo.generalOrderInfo.id;
     this.paymentInfo = this.orderInfo.paymentTableInfoDto;
     this.overpayment = this.paymentInfo.overpayment;
@@ -41,13 +44,17 @@ export class UbsAdminOrderPaymentComponent implements OnInit, OnChanges {
       this.message = this.orderService.getOverpaymentMsg(this.overpayment);
       this.overpayment = Math.abs(this.overpayment);
     }
+
+    if (changes.orderStatus) {
+      this.currentOrderStatus = changes.orderStatus.currentValue;
+    }
   }
 
   public formatDate(date: string): string {
     return date.split('-').reverse().join('.');
   }
 
-  public setDateInPaymentArray(paymentsArray: IPaymentInfoDto[]) {
+  public setDateInPaymentArray(paymentsArray: IPaymentInfoDto[]): void {
     paymentsArray.forEach((payment: IPaymentInfoDto) => {
       payment.settlementdate = this.formatDate(payment.settlementdate);
     });
@@ -55,6 +62,10 @@ export class UbsAdminOrderPaymentComponent implements OnInit, OnChanges {
 
   public openDetails(): void {
     this.pageOpen = !this.pageOpen;
+  }
+
+  public accessOnCanceledStatus(): boolean {
+    return this.currentOrderStatus === 'CANCELED';
   }
 
   public setOverpayment(overpayment: number): void {
@@ -75,8 +86,7 @@ export class UbsAdminOrderPaymentComponent implements OnInit, OnChanges {
       settlementdate: currentDate
     };
 
-    this.orderService.addPaymentManually(this.orderId, paymentDetails).subscribe((responce: IPaymentInfoDto) => {
-      responce.amount /= 100;
+    this.orderService.addPaymentBonuses(this.orderId, paymentDetails).subscribe((responce: IPaymentInfoDto) => {
       responce.settlementdate = this.formatDate(responce.settlementdate);
       this.paymentsArray.push(responce);
       this.totalPaid -= this.overpayment;

@@ -131,6 +131,10 @@ export class OrderService {
     return this.http.post<IPaymentInfoDto>(`${this.backend}/management/add-manual-payment/${orderId}`, formData);
   }
 
+  public addPaymentBonuses(orderId: number, data: PaymentDetails): Observable<IPaymentInfoDto> {
+    return this.http.post<IPaymentInfoDto>(`${this.backend}/management/add-bonuses-user/${orderId}`, data);
+  }
+
   public updatePaymentManually(paymentId: number, postData, file): Observable<any> {
     const formData: FormData = new FormData();
     if (file) {
