@@ -241,6 +241,7 @@ describe('UbsAdminOrderPaymentComponent', () => {
     component = fixture.componentInstance;
     component.orderInfo = fakeOrderInfo;
     component.paymentsArray = fakeOrderInfo.paymentTableInfoDto.paymentInfoDtos;
+    component.orderStatus = 'Formed';
     component.pageOpen = false;
     component.overpayment = 450;
     fixture.detectChanges();
@@ -258,6 +259,7 @@ describe('UbsAdminOrderPaymentComponent', () => {
     expect(component.paymentInfo).toBe(fakeOrderInfo.paymentTableInfoDto);
     expect(component.paidAmount).toBe(component.paymentInfo.paidAmount);
     expect(component.unPaidAmount).toBe(component.paymentInfo.unPaidAmount);
+    expect(component.currentOrderStatus).toBe('Formed');
   });
 
   it('method formatDate', () => {
@@ -290,5 +292,21 @@ describe('UbsAdminOrderPaymentComponent', () => {
 
     expect(orderServiceMock.getOverpaymentMsg).toHaveBeenCalledWith(component.overpayment);
     expect(component.overpayment).toBe(fakeModuleOverPayment);
+  });
+
+  it('method accessOnCanceledStatus', () => {
+    expect(component.accessOnCanceledStatus()).toBeFalsy();
+    component.currentOrderStatus = 'CANCELED';
+    expect(component.accessOnCanceledStatus()).toBeTruthy();
+  });
+
+  it('method getStringDate', () => {
+    const currentTime: Date = new Date();
+    const formatDate: string = currentTime
+      .toLocaleDateString('en-GB', { year: 'numeric', month: '2-digit', day: '2-digit' })
+      .split('/')
+      .reverse()
+      .join('-');
+    expect(component.getStringDate(currentTime)).toBe(formatDate);
   });
 });
