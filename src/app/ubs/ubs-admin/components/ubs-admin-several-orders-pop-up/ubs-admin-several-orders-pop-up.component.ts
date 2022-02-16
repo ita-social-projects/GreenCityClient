@@ -1,24 +1,9 @@
 import { formatDate } from '@angular/common';
-import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup } from '@angular/forms';
-import { skip, takeUntil } from 'rxjs/operators';
-import { Employees, IExportDetails, IOrderInfo } from '../../models/ubs-admin.interface';
+import { Component, Input, OnInit } from '@angular/core';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { MatDialogRef } from '@angular/material/dialog';
 import { fromSelect, toSelect } from '../ubs-admin-table/table-cell-time/table-cell-time-range';
-import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
-import { TranslateService } from '@ngx-translate/core';
-import { IAppState } from 'src/app/store/state/app.state';
-import { UbsAdminEmployeeService } from '../../services/ubs-admin-employee.service';
-import { Store } from '@ngrx/store';
 
-interface IEmployeePositions {
-  id: number;
-  name: string;
-}
-
-interface IReceivingStations {
-  id: number;
-  name: string;
-}
 @Component({
   selector: 'app-ubs-admin-several-orders-pop-up',
   templateUrl: './ubs-admin-several-orders-pop-up.component.html',
@@ -33,66 +18,53 @@ export class UbsAdminSeveralOrdersPopUpComponent implements OnInit {
   public toInput: string;
   public from: string;
   public to: string;
-  exportInfo: IExportDetails;
+  public allCallManagers: string[];
+  public allLogisticians: string[];
+  public allNavigators: string[];
+  public allDrivers: string[];
+  public receivingStations: string;
   ordersForm: FormGroup;
-  locations: IReceivingStations[];
-  roles: IEmployeePositions[];
 
-  constructor(
-    private fb: FormBuilder,
-    private localStorageService: LocalStorageService,
-    private translate: TranslateService,
-    private employeeService: UbsAdminEmployeeService,
-    private store: Store<IAppState>
-  ) {}
-  setExportTime() {
-    this.showTimePicker = true;
-    this.fromSelect = fromSelect;
-    this.toSelect = toSelect;
-  }
+  @Input() dataFromTable;
+  constructor(private fb: FormBuilder, private dialogRef: MatDialogRef<UbsAdminSeveralOrdersPopUpComponent>) {}
+
   ngOnInit(): void {
-    this.localStorageService.languageBehaviourSubject.subscribe((lang) => {
-      this.currentLanguage = lang;
-      this.translate.setDefaultLang(lang);
-    });
-    this.employeeService.getAllPositions().subscribe(
-      (roles) => {
-        this.roles = roles;
-      },
-      (error) => console.error('Observer for role got an error: ' + error)
-    );
-    this.employeeService.getAllStations().subscribe(
-      (locations) => {
-        this.locations = locations;
-      },
-      (error) => console.error('Observer for stations got an error: ' + error)
-    );
-    this.store.select((state: IAppState): Employees => state.employees.employees).pipe(skip(1));
-
-    this.store.select((state: IAppState): string | null => state.employees.error).pipe(skip(1));
-
-    // this.initForm();
+    this.initForm();
   }
 
   initForm() {
     this.ordersForm = this.fb.group({
       exportDetailsDto: this.fb.group({
-        dateExport: this.exportInfo.dateExport ? formatDate(this.exportInfo.dateExport, 'yyyy-MM-dd', this.currentLanguage) : '',
-        timeDeliveryFrom: this.parseTimeToStr(this.exportInfo.timeDeliveryFrom),
-        timeDeliveryTo: this.parseTimeToStr(this.exportInfo.timeDeliveryTo),
-        // receivingStation: this.exportInfo.receivingStation
-        // dateExport:null,
-        receivingStation: null
+        dateExport: [null, [Validators.required]],
+        timeDeliveryFrom: [null, [Validators.required]],
+        timeDeliveryTo: [null, [Validators.required]],
+        receivingStation: [null, [Validators.required]]
       }),
 
       responsiblePersonsForm: this.fb.group({
-        callManager: null,
-        logistician: null,
-        navigator: null,
-        driver: null
+        callManager: [null, [Validators.required]],
+        logistician: [null, [Validators.required]],
+        navigator: [null, [Validators.required]],
+        driver: [null, [Validators.required]]
       })
     });
+    this.setEmployeesByPosition();
   }
+  parseDataFromOrdersTable(name: string): void {
+    switch (name) {
+      case 'receivingStation':
+        this.receivingStations = this.dataFromTable.filter((el) => el.title.key === 'receivingStation').checked;
+        break;
+    }
+  }
+  setExportTime() {
+    this.showTimePicker = true;
+    this.fromSelect = fromSelect;
+    this.toSelect = toSelect;
+    this.fromInput = this.ordersForm.get('exportDetailsDto').get('timeDeliveryFrom').value;
+    this.toInput = this.ordersForm.get('exportDetailsDto').get('timeDeliveryTo').value;
+  }
+
   onTimeFromChange() {
     const fromIdx = fromSelect.indexOf(this.fromInput);
     this.toSelect = toSelect.slice(fromIdx);
@@ -106,6 +78,16 @@ export class UbsAdminSeveralOrdersPopUpComponent implements OnInit {
   save() {
     this.from = this.fromInput;
     this.to = this.toInput;
+    if (this.fromInput && this.toInput) {
+      this.ordersForm.get('exportDetailsDto').get('timeDeliveryFrom').setValue(this.fromInput);
+      this.ordersForm.get('exportDetailsDto').get('timeDeliveryTo').setValue(this.toInput);
+      this.ordersForm.get('exportDetailsDto').get('timeDeliveryFrom').markAsDirty();
+      this.ordersForm.get('exportDetailsDto').get('timeDeliveryTo').markAsDirty();
+      this.showTimePicker = false;
+    }
+    console.log(this.from, this.to);
+    console.log(this.dataFromTable);
+    console.log(this.allNavigators);
   }
 
   cancel() {
@@ -116,9 +98,24 @@ export class UbsAdminSeveralOrdersPopUpComponent implements OnInit {
   parseTimeToStr(dateStr: string) {
     return dateStr ? formatDate(dateStr, 'HH:mm', this.currentLanguage) : '';
   }
-  getDetails() {
-    const res = this.ordersForm.get('exportDetailsDto');
-    const res2 = this.ordersForm.get('responsiblePersons');
-    console.log(res, res2);
+  setEmployeesByPosition(): void {
+    this.receivingStations = this.getEmployeesByPosition('receivingStation');
+    this.allCallManagers = this.getEmployeesByPosition('responsibleCaller');
+    this.allLogisticians = this.getEmployeesByPosition('responsibleLogicMan');
+    this.allNavigators = this.getEmployeesByPosition('responsibleNavigator');
+    this.allDrivers = this.getEmployeesByPosition('responsibleDriver');
+  }
+
+  getEmployeesByPosition(position: string): any {
+    let data: string[];
+    this.dataFromTable.map((element) => {
+      return element.title === position ? (data = element.arrayData.map((el) => el.ua)) : [];
+    });
+    return data;
+  }
+  public onSubmit(): void {}
+  cancelPopUp() {
+    this.ordersForm.reset();
+    this.dialogRef.close();
   }
 }

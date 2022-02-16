@@ -1,23 +1,55 @@
 * {
   font-family: var(--ubs-quaternary-font);
 }
+
 .main {
-  max-width: 60vw;
+  max-width: 40vw;
+
+  h6 {
+    color: var(--ubs-primary-grey);
+    font-family: sans-serif;
+    font-style: normal;
+    font-weight: 600;
+    font-size: 16px;
+  }
 }
+
 .form {
   flex: 50%;
   align-items: self-end;
   display: flex;
   flex-direction: column;
+  padding-left: 5px;
 }
+
 .form_styles {
   display: flex;
-  flex-direction: row;
+  flex-direction: column;
+
+  .form_container {
+    display: flex;
+    flex-direction: row;
+  }
 }
+
 .time_export {
   display: flex;
-  width: 100%;
+  flex-direction: column;
+
+  .time_container {
+    display: flex;
+    flex-direction: row;
+    align-content: flex-end;
+    align-items: flex-end;
+    height: 50px;
+  }
+
+  .label_time {
+    align-content: flex-end;
+    align-items: flex-end;
+  }
 }
+
 @mixin input {
   height: 36px;
   left: calc(50% - 170px);
@@ -47,11 +79,6 @@
   margin-top: 36px;
 }
 
-.title {
-  margin-left: 13px;
-  font-size: 24px;
-}
-
 .title-comment {
   font-size: 16px;
 }
@@ -77,25 +104,19 @@ input {
 }
 
 .time-from {
-  width: 65px;
+  width: 82px;
   border-right: none;
   border-radius: 4px 0 0 4px;
   text-align: center;
 }
 
 .time-to {
-  width: 65px;
+  width: 70px;
   margin-right: 40px;
   margin-top: 4px;
   text-align: center;
   border-left: none;
   border-radius: 0 4px 4px 0;
-}
-
-.hyphen {
-  margin: 36px 0 16px -44px;
-  border-top: 1px solid var(--ubs-quintynary-light-grey);
-  border-bottom: 1px solid var(--ubs-quintynary-light-grey);
 }
 
 select {
@@ -170,28 +191,9 @@ select {
   }
 }
 
-.container {
-  font-family: var(--primary-font);
-  line-height: 32px;
-}
-
-.form__headline {
-  font-size: 20px;
-  font-weight: 700;
-  line-height: 28px;
-  letter-spacing: 0.002em;
-  color: var(--ubs-primary-grey);
-  margin-bottom: 30px;
-  margin-top: 36px;
-}
-
 .title {
   margin-left: 13px;
   font-size: 24px;
-}
-
-.title-comment {
-  font-size: 16px;
 }
 
 .form__label {
@@ -214,8 +216,54 @@ select {
   }
 }
 
-@media (min-width: 992px) {
-  input {
-    width: 340px;
-  }
+button:disabled {
+  background-color: var(--ubs-quintynary-light-grey);
+  border: var(--ubs-quintynary-light-grey);
+  color: var(--ubs-secondary-light-grey);
+}
+
+.cancel-button,
+.save-button {
+  color: var(--ubs-tertiary-dark-grey);
+  font-weight: bold;
+  padding: 10px 25px;
+  margin-right: 20px;
+  margin-bottom: 35px;
+  border-radius: 5px;
+}
+
+.cancel-button {
+  border: 1px solid var(--ubs-tertiary-dark-grey);
+  background-color: transparent;
+}
+
+.save-button {
+  border: none;
+  background-color: var(--ubs-button-light-green);
+}
+
+.controls {
+  display: flex;
+  margin-left: auto;
+}
+
+.box {
+  box-shadow: 0 0 8px rgba(70, 70, 70, 0.25);
+  padding: 30px;
+  margin-bottom: 30px;
+}
+
+.save-button[disabled] {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+input.ng-touched.ng-invalid {
+  border-color: red;
+}
+
+select.ng-touched.ng-invalid {
+  border-color: red;
 }
