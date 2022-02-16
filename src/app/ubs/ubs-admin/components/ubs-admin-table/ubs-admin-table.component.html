@@ -1,5 +1,5 @@
-<div class="edit-order-detail-btn">
-  <button *ngIf="idsToChange.length > 1" (click)="editDetails()">Edit orders details</button>
+<div *ngIf="idsToChange.length > 1" class="edit-order-detail-btn">
+  <button (click)="editDetails()">Edit orders details</button>
 </div>
 
 <div class="research">

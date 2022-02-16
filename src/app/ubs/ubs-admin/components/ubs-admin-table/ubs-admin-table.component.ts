@@ -354,10 +354,15 @@ export class UbsAdminTableComponent implements OnInit, AfterViewChecked, OnDestr
       this.updateTableData();
     }
   }
-
   editDetails(): void {
     const dialogConfig = new MatDialogConfig();
-    const dialogRef = this.dialog.open(UbsAdminSeveralOrdersPopUpComponent, dialogConfig);
+    const dataForPopUp = [];
+    const keys = ['receivingStation', 'responsibleDriver', 'responsibleCaller', 'responsibleLogicMan', 'responsibleNavigator'];
+    this.displayedColumnsView
+      .filter((el) => keys.includes(el.title.key))
+      .map((field) => dataForPopUp.push({ arrayData: field.checked, title: field.titleForSorting }));
+    const modalRef = this.dialog.open(UbsAdminSeveralOrdersPopUpComponent, dialogConfig);
+    (modalRef.componentInstance as UbsAdminSeveralOrdersPopUpComponent).dataFromTable = dataForPopUp;
   }
   selectRowsToChange(event, id: number) {
     if (event.checked) {
