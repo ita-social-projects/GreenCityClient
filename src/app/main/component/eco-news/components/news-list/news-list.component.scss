@@ -28,6 +28,7 @@ div hr {
 }
 
 .main-wrapper {
+  width: 100%;
   margin-bottom: 42px;
   display: flex;
   justify-content: space-between;
@@ -134,8 +135,7 @@ div hr {
 
 @media screen and (max-width: 576px) {
   .container {
-    padding: 0;
     width: 100%;
-    margin: 0 18px;
+    padding: 0 18px;
   }
 }

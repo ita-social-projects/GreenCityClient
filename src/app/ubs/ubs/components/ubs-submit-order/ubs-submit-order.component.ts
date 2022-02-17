@@ -159,6 +159,7 @@ export class UBSSubmitOrderComponent extends FormBaseComponent implements OnInit
 
   redirectToOrder() {
     this.loadingAnim = true;
+    this.localStorageService.setUserPagePayment(false);
 
     if (this.isFinalSumZero) {
       this.isLiqPay = false;
@@ -170,7 +171,6 @@ export class UBSSubmitOrderComponent extends FormBaseComponent implements OnInit
         .pipe(takeUntil(this.destroy))
         .pipe(
           finalize(() => {
-            this.loadingAnim = false;
             this.shareFormService.isDataSaved = false;
             if (!this.shareFormService.orderUrl) {
               this.router.navigate(['ubs', 'confirm']);
@@ -189,7 +189,7 @@ export class UBSSubmitOrderComponent extends FormBaseComponent implements OnInit
             } else {
               this.shareFormService.orderUrl = link.toString();
               this.localStorageService.setUbsFondyOrderId(orderId);
-              document.location.href = this.shareFormService.orderUrl;
+              this.redirectToExternalUrl(this.shareFormService.orderUrl);
             }
           },
           (error) => {
@@ -197,8 +197,12 @@ export class UBSSubmitOrderComponent extends FormBaseComponent implements OnInit
           }
         );
     } else {
-      this.onNotSaveData();
+      this.getLiqPayButton();
     }
+  }
+
+  private redirectToExternalUrl(url: string): void {
+    document.location.href = url;
   }
 
   getLiqPayButton() {
@@ -206,22 +210,26 @@ export class UBSSubmitOrderComponent extends FormBaseComponent implements OnInit
     this.orderService
       .getLiqPayForm()
       .pipe(takeUntil(this.destroy))
-      .subscribe((res) => {
-        const { orderId, liqPayButton } = JSON.parse(res);
-        this.localStorageService.setUbsOrderId(orderId);
-        this.liqPayButtonForm = this.sanitizer.bypassSecurityTrustHtml(liqPayButton);
-        setTimeout(() => {
-          this.liqPayButton = document.getElementsByName('btn_text');
-          this.loadingAnim = false;
-        }, 0);
-      });
+      .subscribe(
+        (res) => {
+          const { orderId, liqPayButton } = JSON.parse(res);
+          this.localStorageService.setUbsOrderId(orderId);
+          this.liqPayButtonForm = this.sanitizer.bypassSecurityTrustHtml(liqPayButton);
+          setTimeout(() => {
+            this.liqPayButton = document.getElementsByName('btn_text');
+            this.onNotSaveData();
+          }, 0);
+        },
+        (error) => {
+          this.router.navigate(['ubs', 'confirm']);
+        }
+      );
   }
 
   orderButton(event: any) {
     this.selectedPayment = event.target.value;
     if (this.selectedPayment === 'LiqPay') {
       this.isLiqPay = true;
-      this.getLiqPayButton();
     } else {
       this.loadingAnim = false;
       this.isLiqPay = false;

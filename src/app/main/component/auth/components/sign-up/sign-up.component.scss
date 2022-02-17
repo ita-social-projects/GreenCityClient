@@ -1,12 +1,3 @@
-.ubs-primary-global-button {
-  margin-top: 25px;
-  height: 43px;
-
-  .span {
-    color: black;
-  }
-}
-
 .title-text {
   margin-bottom: 8px;
   font-family: var(--secondary-font);
@@ -27,7 +18,7 @@
 .form-content-container {
   display: flex;
   flex-direction: column;
-  margin: 0 0 40px;
+  margin: 19px 0 40px;
 
   .content-label {
     margin: 21px 0 4px;
@@ -135,11 +126,6 @@
   font-family: var(--primary-font);
   line-height: 16px;
   color: var(--primary-dark-grey);
-
-  .ubs-exist-sign-in {
-    text-decoration: underline;
-    color: var(--ubs-electric-violet);
-  }
 
   .exist-sign-in {
     text-decoration: underline;

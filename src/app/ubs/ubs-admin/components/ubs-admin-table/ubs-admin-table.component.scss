@@ -135,15 +135,6 @@ input {
   color: var(--ubs-secondary-grey);
 }
 
-.filter-button .mat-icon {
-  font-size: 12px;
-}
-
-.view-table-btn .mat-icon {
-  padding-top: 5px;
-  font-size: 15px;
-}
-
 .export-excel-btn {
   display: flex;
   justify-content: center;
@@ -166,7 +157,8 @@ input {
   }
 }
 
-.view-table-btn {
+.view-table-btn,
+.filter-table-btn {
   display: flex;
   justify-content: center;
   align-items: center;
@@ -193,6 +185,12 @@ input {
     height: 13px;
     margin-right: 9px;
   }
+}
+
+.view-table-btn .mat-icon,
+.filter-table-btn .mat-icon {
+  padding-top: 5px;
+  font-size: 15px;
 }
 
 .research {
@@ -267,14 +265,29 @@ input {
 
 .dropdown-menu {
   height: 400px;
-  min-width: 356px;
+  width: 356px;
   margin-right: 5px;
   overflow: scroll;
   padding: 16px 16px 0 16px;
-  margin-top: 80px;
-  top: -40px !important;
   color: var(--ubs-primary-grey);
   font-family: var(--primary-font);
+}
+
+.dropdown-menu input[type='date'] {
+  width: 155px;
+}
+
+.filter-btn {
+  display: flex;
+  width: 155px;
+  margin: 0 5px;
+  border: 1px solid var(--ubs-quaternary-dark-grey);
+  border-radius: 4px !important;
+}
+
+.bg-lime {
+  border: none;
+  background-color: var(--ubs-primary-lime-green);
 }
 
 .dropdown-menu li {
@@ -293,7 +306,8 @@ input {
 }
 
 .scrolling {
-  min-height: 400px;
+  min-height: 500px;
+  max-height: 1vh;
   overflow: scroll;
 }
 
@@ -356,6 +370,13 @@ input {
   background-color: var(--ubs-button-light-green) !important;
 }
 
+.accordion-group-header {
+  display: flex;
+  justify-content: space-between;
+  font-weight: bold;
+  cursor: pointer;
+}
+
 .head {
   font-family: sans-serif;
   font-style: normal;
@@ -377,16 +398,19 @@ input {
   line-height: 24px;
 }
 
-ul::-webkit-scrollbar {
+ul::-webkit-scrollbar,
+.scrollbar::-webkit-scrollbar {
   width: 8px;
   background-color: var(--primary-white);
 }
 
-ul::-webkit-scrollbar-track {
+ul::-webkit-scrollbar-track,
+.scrollbar::-webkit-scrollbar-track {
   box-shadow: 2px 2px 4px rgba(73, 74, 73, 0.2);
 }
 
-ul::-webkit-scrollbar-thumb {
+ul::-webkit-scrollbar-thumb,
+.scrollbar::-webkit-scrollbar-thumb {
   border-radius: 4px;
   background-color: var(--primary-dark-grey);
 }
@@ -395,4 +419,10 @@ ul::-webkit-scrollbar-thumb {
   display: flex;
   justify-content: space-between;
   position: relative;
+}
+
+.reset-settings {
+  float: right;
+  border: none;
+  border-radius: 100px;
 }

@@ -2,7 +2,6 @@
   <ng-container *ngIf="!isLoading">
     <div class="no-bonuses-wrapper" *ngIf="!totalBonuses">
       <span class="no-bonuses-text">{{ 'bonuses.no-bonuses' | translate }}</span>
-      <a href="#" class="more-about-bonuses-link">{{ 'bonuses.get-bonuses' | translate }}</a>
     </div>
     <div class="bonuses-exist-wrapper" *ngIf="totalBonuses">
       <div class="total-bonuses-number">

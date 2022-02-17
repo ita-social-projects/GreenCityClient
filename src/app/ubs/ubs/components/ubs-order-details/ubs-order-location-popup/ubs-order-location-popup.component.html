@@ -8,15 +8,14 @@
     <h5 class="title-text">{{ 'order-details.location.title' | translate }}</h5>
   </div>
   <form *ngIf="!isFetching; else spinner" class="form">
-    <select [(ngModel)]="selectedLocationId" name="region" class="select form-select form-select-lg">
-      <option
-        [ngValue]="location.locationId"
-        *ngFor="let location of locations | filterLocationListByLang"
-        (click)="changeLocation(location.locationId)"
-      >
-        {{ location.locationName }}
-      </option>
-    </select>
+    <mat-form-field>
+      <input type="text" matInput [formControl]="myControl" [matAutocomplete]="auto" />
+      <mat-autocomplete #auto="matAutocomplete" [displayWith]="displayFn">
+        <mat-option *ngFor="let city of filteredOptions | async" [value]="city" (click)="changeLocation(city.locationId)">
+          {{ city.locationName }}
+        </mat-option>
+      </mat-autocomplete>
+    </mat-form-field>
   </form>
   <div class="info" *ngIf="!isFetching">
     <p class="text" *ngIf="selectedLocationId === 1">{{ 'order-details.location.info-city' | translate }}</p>

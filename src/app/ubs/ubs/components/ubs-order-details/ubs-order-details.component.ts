@@ -130,9 +130,9 @@ export class UBSOrderDetailsComponent extends FormBaseComponent implements OnIni
   }
 
   private setCurrentLocation(currentLanguage: string): void {
-    const currentLocationDto = this.locations.find((loc: CourierLocations) => loc.locationsDtos[0].locationId === this.selectedLocationId);
+    const currentLocationDto = this.locations.find((loc) => loc.locationInfoDtos[0].locationsDto[0].locationId === this.selectedLocationId);
     this.minAmountOfBigBags = currentLocationDto.minAmountOfBigBags;
-    this.currentLocation = currentLocationDto.locationsDtos[0].locationTranslationDtoList.find(
+    this.currentLocation = currentLocationDto.locationInfoDtos[0].locationsDto[0].locationTranslationDtoList.find(
       (lang: LocationTranslation) => lang.languageCode === currentLanguage
     ).locationName;
   }
@@ -226,11 +226,15 @@ export class UBSOrderDetailsComponent extends FormBaseComponent implements OnIni
         });
         this.filterBags();
         this.isFetching = false;
+        setTimeout(() => {
+          this.shareFormService.changeOrderDetails();
+          this.checkTotalBigBags();
+        }, 0);
       });
   }
 
   private filterBags(): void {
-    this.bags = this.orders.bags.filter((value) => value.code === this.currentLanguage).sort((a, b) => b.price - a.price);
+    this.bags = this.orders.bags.sort((a, b) => b.price - a.price);
   }
 
   changeForm() {
@@ -294,6 +298,7 @@ export class UBSOrderDetailsComponent extends FormBaseComponent implements OnIni
       this.finalSum = this.total - this.certificateSum - this.pointsUsed;
       this.showCertificateUsed = this.certificateSum;
     }
+    this.shareFormService.changeAddCertButtonVisibility(this.finalSum > 0);
     this.changeOrderDetails();
   }
 
@@ -451,6 +456,7 @@ export class UBSOrderDetailsComponent extends FormBaseComponent implements OnIni
     this.finalSum = newItem.finalSum;
     this.isBonus = newItem.isBonus;
     this.certificateSum = newItem.certificateSum;
+    this.certificates = newItem.certificates;
   }
 
   openExtraPackages(): void {

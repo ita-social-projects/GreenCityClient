@@ -8,7 +8,11 @@
           </button>
         </div>
         <div class="error" *ngSwitchCase="orderResponseError === true">
-          <button class="btn-back" (click)="returnToPayment()">
+          <button *ngIf="!isUserPageOrderPayment()" class="btn-back" (click)="returnToPayment('/ubs/order')">
+            <i class="fas fa-chevron-left" aria-hidden="true"></i> &nbsp;
+            {{ 'confirm-page.return-to-payment' | translate }}
+          </button>
+          <button *ngIf="isUserPageOrderPayment()" class="btn-back" (click)="returnToPayment('/ubs-user/orders')">
             <i class="fas fa-chevron-left" aria-hidden="true"></i> &nbsp;
             {{ 'confirm-page.return-to-payment' | translate }}
           </button>
@@ -18,7 +22,8 @@
           </div>
         </div>
         <div *ngSwitchDefault>
-          <h2 class="title">{{ 'confirm-page.title-text' | translate }} (№{{ orderId }})</h2>
+          <h2 *ngIf="!isUserPageOrderPayment()" class="title">{{ 'confirm-page.title-text.accepted' | translate }} (№{{ orderId }})</h2>
+          <h2 *ngIf="isUserPageOrderPayment()" class="title">{{ 'confirm-page.title-text.paid' | translate }} (№{{ orderId }})</h2>
           <div class="description">
             <p>{{ 'confirm-page.description' | translate }}</p>
           </div>

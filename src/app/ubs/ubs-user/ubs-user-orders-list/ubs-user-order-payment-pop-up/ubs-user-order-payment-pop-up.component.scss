@@ -13,7 +13,7 @@
 .dialog-container {
   padding: 20px;
   font-size: 14px;
-  font-family: var(--primary-font);
+  font-family: var(--ubs-quaternary-font);
 
   .text-order-sum {
     color: var(--ubs-electric-violet);
@@ -97,6 +97,11 @@
     border: 0;
   }
 
+  .bonuses {
+    color: var(--ubs-electric-violet);
+    font-size: 13px;
+  }
+
   .action-btns {
     float: right;
     color: var(--ubs-tertiary-dark-grey);
@@ -118,5 +123,11 @@
       font-weight: 600;
       outline: 1px solid var(--ubs-tertiary-dark-grey);
     }
+  }
+}
+
+@media (max-width: 420px) {
+  .dialog-container {
+    height: 100vh;
   }
 }

@@ -1,6 +1,8 @@
 .bonuses-container {
-  padding: 40px 32px;
+  display: flex;
+  flex-direction: column;
   font-family: var(--primary-font);
+  height: 100vh;
 }
 
 .no-bonuses-wrapper {
@@ -26,7 +28,9 @@
 }
 
 .bonuses-exist-wrapper {
-  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
 
 .total-bonuses-number {
@@ -61,7 +65,7 @@
 .mat-header-cell,
 .mat-cell {
   color: var(--ubs-primary-grey);
-  padding: 17px 0;
+  padding: 17px 5px;
   font-size: 14px;
   line-height: 20px;
 }
@@ -75,4 +79,10 @@
 .mat-header-cell {
   font-weight: 700;
   letter-spacing: 0.1px;
+}
+
+@media (max-width: 420px) {
+  .bonuses-exist-wrapper {
+    width: 100vw;
+  }
 }

@@ -6,6 +6,80 @@
     <div class="icon-style"><i class="fa fa-search" aria-hidden="true"></i></div>
   </div>
   <div class="btn-group">
+    <div>
+      <button type="button" class="btn btn-default" class="filter-table-btn" data-toggle="dropdown">
+        <mat-icon>filter_list</mat-icon>
+        {{ 'ubs-tables.filters' | translate }}
+      </button>
+      <div class="dropdown-menu scrollbar">
+        <div class="btn-group">
+          <button type="button" class="btn filter-btn" (click)="clearFilters()">
+            {{ 'ubs-tables.clear-filters' | translate }}
+          </button>
+          <button type="button" class="btn filter-btn bg-lime" (click)="applyFilters()">
+            {{ 'ubs-tables.apply-filters' | translate }}
+          </button>
+        </div>
+        <p class="font-weight-bold">{{ 'ubs-tables.filters' | translate }}</p>
+        <div class="accordion" (click)="$event.stopPropagation()">
+          <ng-container *ngFor="let column of getColumnsForFiltering(); index as i">
+            <div class="accordion-item">
+              <div
+                class="accordion-group-header"
+                data-bs-toggle="collapse"
+                attr.data-bs-target="#panelsStayOpen-collapse{{ i }}"
+                aria-expanded="false"
+                attr.aria-controls="panelsStayOpen-collapse{{ i }}"
+                (click)="toggleAccordion($event)"
+              >
+                <span>{{ column | serverTranslate: currentLang }}</span>
+                <mat-icon>keyboard_arrow_down</mat-icon>
+              </div>
+              <div
+                id="panelsStayOpen-collapse{{ i }}"
+                class="accordion-collapse collapse"
+                attr.aria-labelledby="panelsStayOpen-heading{{ i }}"
+              >
+                <div class="accordion-body">
+                  <div *ngIf="column.key.toLowerCase().includes('date'); else nonDate">
+                    <div>
+                      <mat-checkbox [checked]="getDateChecked(column.key)" (change)="changeDateFilters($event, $event.checked, column.key)">
+                        {{ 'ubs-tables.date-range' | translate }}
+                      </mat-checkbox>
+                      <br />
+                      <label for="dateFrom">{{ 'ubs-tables.date-from' | translate }}</label>
+                      <input
+                        id="dateFrom{{ column.key }}"
+                        type="date"
+                        name="dateFrom"
+                        [value]="getDateValue('From', column.key)"
+                        (change)="changeInputDateFilters($event.target.value, column.key, 'From')"
+                      />
+                      <br />
+                      <label for="dateTo">{{ 'ubs-tables.date-to' | translate }}</label>
+                      <input
+                        id="dateTo{{ column.key }}"
+                        type="date"
+                        name="dateTo"
+                        [value]="getDateValue('To', column.key)"
+                        (change)="changeInputDateFilters($event.target.value, column.key, 'To')"
+                      />
+                    </div>
+                  </div>
+                  <ng-template #nonDate>
+                    <li *ngFor="let option of column.values">
+                      <mat-checkbox [checked]="option.filtered" (change)="changeFilters($event?.checked, column.key, option)">
+                        {{ option | serverTranslate: currentLang }}
+                      </mat-checkbox>
+                    </li>
+                  </ng-template>
+                </div>
+              </div>
+            </div>
+          </ng-container>
+        </div>
+      </div>
+    </div>
     <div class="button-group">
       <button type="button" class="btn btn-default view-table-btn" (click)="togglePopUp()">
         <img src="assets/img/edit.svg" alt="edit" />
@@ -15,6 +89,9 @@
         {{ 'ubs-tables.export-to-excel' | translate }}
       </button>
       <ul class="dropdown-menu" [style.display]="display">
+        <button type="button" class="reset-settings" (click)="resetSetting()">
+          <i class="fa fa-close" aria-hidden="true"></i>
+        </button>
         <li class="item">
           <mat-checkbox class="check" type="checkbox" [checked]="isAll" (change)="showAllColumns(isAll)">
             {{ 'ubs-tables.all-elements' | translate }}
@@ -23,7 +100,7 @@
         <ng-container *ngFor="let header of tableViewHeaders">
           <li class="head">{{ header | serverTranslate: currentLang }}</li>
           <div class="items">
-            <ng-container *ngFor="let column of columns">
+            <ng-container *ngFor="let column of displayedColumnsView">
               <li class="item" *ngIf="column.columnBelonging === header.key || column.title.key === 'select'">
                 <mat-checkbox
                   class="check"
@@ -68,7 +145,7 @@
     *ngIf="!isLoading; else spinner"
     aria-label="ordersTable"
   >
-    <ng-container *ngFor="let column of columns; let i = index" [matColumnDef]="column.title.key" [sticky]="column.sticky">
+    <ng-container *ngFor="let column of displayedColumnsView; let i = index" [matColumnDef]="column.title.key" [sticky]="column.sticky">
       <mat-header-cell *matHeaderCellDef cdkDrag cdkDragLockAxis="x" cdkDragBoundary="mat-header-row">
         <th scope="row" *ngIf="column.title.key !== 'select'" class="column_header">
           <div
@@ -81,13 +158,18 @@
           >
             {{ column.title | serverTranslate: currentLang }}
           </div>
-          <div class="icon-row" *ngIf="!nonSortableColumns.includes(column.title.key)">
-            <mat-icon *ngIf="arrowDirection !== column.title.key" (click)="getSortingData(column.title.key, 'ASC')">
-              arrow_downward
-            </mat-icon>
-            <mat-icon *ngIf="arrowDirection === column.title.key" (click)="getSortingData(column.title.key, 'DESC')">
-              arrow_upward
-            </mat-icon>
+          <div class="icon-row">
+            <ng-container *ngIf="column.filtered">
+              <mat-icon (click)="openColumnFilterPopup($event, column)">filter_list</mat-icon>
+            </ng-container>
+            <ng-container *ngIf="!nonSortableColumns.includes(column.title.key)">
+              <mat-icon *ngIf="arrowDirection !== column.title.key" (click)="getSortingData(column.title.key, 'ASC')">
+                arrow_downward
+              </mat-icon>
+              <mat-icon *ngIf="arrowDirection === column.title.key" (click)="getSortingData(column.title.key, 'DESC')">
+                arrow_upward
+              </mat-icon>
+            </ng-container>
           </div>
         </th>
         <th scope="row" *ngIf="column.title.key === 'select'" [ngStyle]="{ backgroundColor: '#fff', height: '16px', padding: '0px' }">

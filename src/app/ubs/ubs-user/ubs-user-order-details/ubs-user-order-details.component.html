@@ -10,7 +10,8 @@
     </tr>
     <ng-container *ngFor="let bag of order.bags">
       <tr *ngIf="order.amountOfBagsOrdered[bag.id]" class="data_table">
-        <td>{{ bag.name }}</td>
+        <td *ngIf="currentLanguage === 'ua'">{{ bag.name }}</td>
+        <td *ngIf="currentLanguage === 'en'">{{ bag.nameEng }}</td>
         <td>{{ bag.capacity }} {{ 'user-orders.details.litr' | translate }}</td>
         <td>{{ bag.price | currency | localizedCurrency }}</td>
         <td>{{ order.amountOfBagsOrdered[bag.id] }} {{ 'user-orders.details.pieces' | translate }}</td>
@@ -34,7 +35,7 @@
     </tr>
     <tr *ngIf="order.generalOrderInfo.orderPaymentStatus === 'PAID'" class="optional_row">
       <td colspan="4">{{ 'user-orders.details.paid-amount' | translate }}</td>
-      <td>{{ order.paymentTableInfoDto.paidAmount / 100 | currency | localizedCurrency }}</td>
+      <td>{{ order.paymentTableInfoDto.paidAmount | currency | localizedCurrency }}</td>
     </tr>
     <tr class="sum_to_pay">
       <td colspan="4">{{ 'user-orders.details.amount-due' | translate }}</td>
@@ -87,8 +88,12 @@
   </ol>
 </div>
 <div class="download">
-  <div class="arrow"><mat-icon [ngStyle]="{ fontSize: '16px' }">arrow_downward</mat-icon></div>
-  <div class="maximize"><mat-icon [ngStyle]="{ fontSize: '16px' }">maximize</mat-icon></div>
+  <div class="arrow">
+    <mat-icon [ngStyle]="{ fontSize: '16px' }">arrow_downward</mat-icon>
+  </div>
+  <div class="maximize">
+    <mat-icon [ngStyle]="{ fontSize: '16px' }">maximize</mat-icon>
+  </div>
   <div class="text">{{ 'user-orders.details.receipt' | translate }}</div>
 </div>
 <ng-template #spinner>

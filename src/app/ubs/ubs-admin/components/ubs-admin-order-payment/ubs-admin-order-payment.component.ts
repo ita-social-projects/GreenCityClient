@@ -1,7 +1,6 @@
 import { Component, Input, OnInit, OnChanges, SimpleChanges } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
-import { Subject } from 'rxjs';
-import { take, takeUntil } from 'rxjs/operators';
+import { take } from 'rxjs/operators';
 import { IPaymentInfo, IPaymentInfoDtos, IOrderInfo } from '../../models/ubs-admin.interface';
 import { OrderService } from '../../services/order.service';
 import { AddPaymentComponent } from '../add-payment/add-payment.component';
@@ -23,7 +22,6 @@ export class UbsAdminOrderPaymentComponent implements OnInit, OnChanges {
   unPaidAmount: number;
   paymentInfo: IPaymentInfo;
   paymentsArray: IPaymentInfoDtos[];
-  private destroy$: Subject<boolean> = new Subject<boolean>();
 
   ngOnInit() {
     this.orderId = this.orderInfo.generalOrderInfo.id;
@@ -46,27 +44,48 @@ export class UbsAdminOrderPaymentComponent implements OnInit, OnChanges {
     this.pageOpen = !this.pageOpen;
   }
 
-  public addPayment(orderId, postData): void {
-    this.orderService
-      .addPaymentManually(orderId, postData.form, postData.file)
-      .pipe(takeUntil(this.destroy$))
-      .subscribe((data: any) => {
-        console.log(data);
-      });
+  setOverpayment(overpayment: number): void {
+    this.message = this.orderService.getOverpaymentMsg(overpayment);
+    this.overpayment = Math.abs(overpayment);
   }
 
-  openPopup() {
+  openPopup(viewMode: boolean, paymentIndex?: number) {
     this.dialog
       .open(AddPaymentComponent, {
         hasBackdrop: true,
         panelClass: 'custom-dialog-container',
-        data: this.orderInfo.generalOrderInfo.id
+        data: {
+          orderId: this.orderInfo.generalOrderInfo.id,
+          viewMode,
+          payment: viewMode ? this.paymentsArray[paymentIndex] : null
+        }
       })
       .afterClosed()
       .pipe(take(1))
-      .subscribe((res) => {
-        if (res) {
-          this.addPayment(this.orderId, res);
+      .subscribe((res: IPaymentInfoDtos | number | null) => {
+        if (typeof res === 'number') {
+          this.paymentsArray = this.paymentsArray.filter((payment) => {
+            if (payment.id === res) {
+              this.totalPaid -= payment.amount;
+              this.setOverpayment(this.totalPaid - this.actualPrice);
+            }
+            return payment.id !== res;
+          });
+        }
+        if (res !== null && typeof res === 'object') {
+          if (this.paymentsArray.filter((payment) => payment.id === res.id).length) {
+            this.paymentsArray = this.paymentsArray.map((payment) => {
+              if (payment.id === res.id) {
+                this.totalPaid = this.totalPaid - payment.amount + res.amount;
+                return res;
+              }
+              return payment;
+            });
+          } else {
+            this.totalPaid += res.amount;
+            this.paymentsArray = [...this.paymentsArray, res];
+          }
+          this.setOverpayment(this.totalPaid - this.actualPrice);
         }
       });
   }

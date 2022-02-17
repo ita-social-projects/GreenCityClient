@@ -188,8 +188,9 @@ export class HeaderComponent implements OnInit, OnDestroy {
     this.langDropdownVisible = false;
     if (this.isLoggedIn) {
       const curLangId = this.languageService.getLanguageId(language.toLowerCase() as Language);
-      this.userService.updateUserLanguage(curLangId).subscribe();
+      this.userService.updateUserLanguage(curLangId);
     }
+    window.location.reload();
   }
 
   public getUserId(): number | string {

@@ -2,6 +2,8 @@ import { Injectable } from '@angular/core';
 import { mainUbsLink } from 'src/app/main/links';
 import { HttpClient } from '@angular/common/http';
 import { Bag, Service } from '../models/tariffs.interface';
+import { Observable } from 'rxjs';
+import { ajax } from 'rxjs/ajax';
 
 @Injectable({
   providedIn: 'root'
@@ -59,5 +61,13 @@ export class TariffsService {
 
   editInfo(info) {
     return this.http.patch(`${mainUbsLink}/ubs/superAdmin/editInfoAboutTariff`, info);
+  }
+
+  public getJSON(sourceText): Observable<any> {
+    return ajax.getJSON('https://translate.googleapis.com/translate_a/single?client=gtx&sl=uk&tl=en&dt=t&q=' + encodeURI(sourceText));
+  }
+
+  addLocation(card) {
+    return this.http.post(`${mainUbsLink}/ubs/superAdmin/addLocations`, card);
   }
 }

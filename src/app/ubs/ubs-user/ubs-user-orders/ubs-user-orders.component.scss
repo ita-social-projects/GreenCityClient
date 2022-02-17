@@ -1,7 +1,8 @@
 .wrapper {
-  height: 100vh;
-  max-width: 100vw;
-  margin-top: 35px;
+  min-height: 100vh;
+  width: 100%;
+  margin-left: -25px;
+  padding: 0 25px;
   font-size: 16px;
   line-height: 24px;
   color: var(--ubs-primary-black);
@@ -32,7 +33,7 @@
 }
 
 .cards {
-  width: 1010px;
+  width: 100%;
 
   .empty {
     height: 80px;
@@ -49,4 +50,41 @@
   padding: 8px 24px 8px 24px;
   background: var(--ubs-button-light-green);
   border-radius: 4px;
+}
+
+@media (max-width: 960px) {
+  .wrapper {
+    height: 100vh;
+    font-size: 16px;
+    line-height: 24px;
+    color: var(--ubs-primary-black);
+    font-family: var(--primary-font);
+    background-color: var(--after-primary-light-grey);
+    margin-bottom: 10px;
+  }
+
+  .main_header {
+    padding-right: 45px;
+  }
+}
+
+@media (max-width: 480px) {
+  .wrapper {
+    height: 100vh;
+    width: 100vw;
+    font-size: 16px;
+    line-height: 24px;
+    color: var(--ubs-primary-black);
+    font-family: var(--primary-font);
+    background-color: var(--after-primary-light-grey);
+  }
+
+  .main_header {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .main_header-title {
+    margin: 0;
+  }
 }

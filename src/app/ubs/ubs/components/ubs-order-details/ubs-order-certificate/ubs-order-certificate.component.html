@@ -55,8 +55,14 @@
     <small class="text-danger" *ngIf="certStatus === 'EXPIRED' && failedCert">
       {{ 'order-details.expired' | translate: { certDate: certDate } }}
     </small>
-    <small class="text-message" *ngIf="certSize">
+    <small class="text-message" *ngIf="certSize && certificateSum <= showTotal">
       {{ 'order-details.activated' | translate: { certificateSum: certificateSum, certDate: certDate } }}
+    </small>
+    <small class="text-message" *ngIf="certSize && certificateSum >= showTotal">
+      {{
+        'order-details.activated-oversum'
+          | translate: { certificateSum: certificateSum, certDate: certDate, certificateLeft: certificateSum - showTotal }
+      }}
     </small>
     <small class="text-message" *ngIf="(certStatus === 'NEW' || certStatus === 'ACTIVE') && !certSize">
       {{ 'order-details.activated' | translate: { certificateSum: certificateSum, certDate: certDate } }}
@@ -76,9 +82,6 @@
   <div class="points">
     <h5>{{ 'order-details.bonus-need' | translate }}</h5>
     <p>{{ 'order-details.bonus-left' | translate }} {{ defaultPoints | currency | localizedCurrency }}</p>
-    <p>
-      <a href="#!" class="bonus-how-to-link">{{ 'order-details.bonus-how-to-get' | translate }}</a>
-    </p>
     <div class="radio-btn" *ngIf="defaultPoints !== 0 && showTotal !== 0">
       <label class="custom-radio-btn"
         >{{ 'order-details.no' | translate }}

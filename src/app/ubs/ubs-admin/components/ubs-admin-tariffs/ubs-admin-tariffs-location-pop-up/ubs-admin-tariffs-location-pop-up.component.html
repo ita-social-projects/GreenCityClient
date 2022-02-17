@@ -1,0 +1,131 @@
+<form [formGroup]="locationForm">
+  <div *ngIf="this.data.headerText === 'addTemplate'" class="w-100">
+    <p class="add-location-title">{{ 'ubs-tariffs-add-location-pop-up.title' | translate }}</p>
+  </div>
+  <div *ngIf="this.data.headerText === 'editTemplate'" class="w-100">
+    <p class="add-location-title">{{ 'ubs-tariffs-add-location-pop-up.edit-title' | translate }}</p>
+  </div>
+  <div *ngIf="this.data.headerText === 'deactivateTemplate'" class="w-100">
+    <p class="add-location-title">{{ 'ubs-tariffs-add-location-pop-up.deactivate' | translate }}</p>
+  </div>
+  <app-dialog-tariff [row]="form" [newDate]="newDate" [name]="name"></app-dialog-tariff>
+  <ng-template #form>
+    <div *ngIf="this.data.headerText != 'addTemplate'" class="d-flex">
+      <div class="form-group">
+        <label>{{ 'ubs-tariffs-add-location-pop-up.courier' | translate }}</label>
+        <input
+          type="text"
+          class="shadow-none form-control"
+          required
+          formControlName="courier"
+          placeholder="{{ 'ubs-tariffs-add-location-pop-up.placeholder_courier' | translate }}"
+        />
+      </div>
+      <div class="form-group">
+        <label>{{ 'ubs-tariffs-add-location-pop-up.courier' | translate }}</label>
+        <input
+          type="text"
+          class="shadow-none form-control"
+          required
+          formControlName="englishCourier"
+          placeholder="{{ 'ubs-tariffs-add-location-pop-up.placeholder_courier' | translate }}"
+        />
+      </div>
+    </div>
+    <div *ngIf="this.data.headerText != 'addTemplate'" class="d-flex">
+      <div class="form-group">
+        <label>{{ 'ubs-tariffs-add-location-pop-up.station' | translate }}</label>
+        <input
+          type="text"
+          class="shadow-none form-control"
+          required
+          formControlName="station"
+          placeholder="{{ 'ubs-tariffs-add-location-pop-up.placeholder_station' | translate }}"
+        />
+      </div>
+      <div class="form-group">
+        <label>{{ 'ubs-tariffs-add-location-pop-up.station' | translate }}</label>
+        <input
+          type="text"
+          class="shadow-none form-control"
+          required
+          formControlName="englishStation"
+          placeholder="{{ 'ubs-tariffs-add-location-pop-up.placeholder_station' | translate }}"
+        />
+      </div>
+    </div>
+    <div class="d-flex">
+      <div>
+        <div class="form-group">
+          <label>{{ 'ubs-tariffs-add-location-pop-up.region' | translate }}</label>
+          <input
+            ngx-google-places-autocomplete
+            type="text"
+            [ngClass]="{ 'error-input': locationForm.get('region').invalid && locationForm.get('region').touched }"
+            class="shadow-none form-control"
+            required
+            [options]="regionOptions"
+            formControlName="region"
+            placeholder="{{ 'ubs-tariffs-add-location-pop-up.placeholder_region' | translate }}"
+            (onAddressChange)="onRegionSelected($event)"
+          />
+        </div>
+        <div class="w-100" *ngIf="locationForm.get('region').invalid && locationForm.get('region').touched">
+          <p class="validation">{{ 'ubs-tariffs-add-location-pop-up.error_message' | translate }}</p>
+        </div>
+      </div>
+      <div class="form-group">
+        <label>{{ 'ubs-tariffs-add-location-pop-up.region' | translate }}</label>
+        <input
+          type="text"
+          class="shadow-none form-control"
+          required
+          formControlName="englishRegion"
+          placeholder="{{ 'ubs-tariffs-add-location-pop-up.placeholder_region' | translate }}"
+          [attr.disabled]="locationForm.controls['region'].dirty ? null : true"
+        />
+      </div>
+    </div>
+    <div formArrayName="items" *ngFor="let item of locationForm.get('items')['controls']; let i = index">
+      <div [formGroupName]="i" class="d-flex">
+        <div class="form-group">
+          <label>{{ 'ubs-tariffs-add-location-pop-up.locality' | translate }}</label>
+          <input
+            #locationInput
+            class="shadow-none form-control mb-1"
+            formControlName="location"
+            placeholder="{{ 'ubs-tariffs-add-location-pop-up.placeholder_location' | translate }}"
+            [attr.disabled]="locationForm.controls['region'].dirty ? null : true"
+          />
+          <mat-icon class="cross-img" alt="close-icon" (click)="deleteLocation(i)">close</mat-icon>
+        </div>
+        <div class="form-group">
+          <label>{{ 'ubs-tariffs-add-location-pop-up.locality' | translate }}</label>
+          <input
+            class="shadow-none form-control mb-1"
+            formControlName="englishLocation"
+            placeholder="{{ 'ubs-tariffs-add-location-pop-up.placeholder_location' | translate }}"
+            [attr.disabled]="locationForm.controls['region'].dirty ? null : true"
+          />
+        </div>
+      </div>
+    </div>
+    <div class="d-flex">
+      <div class="add-city" (click)="addCity()">{{ 'ubs-tariffs-add-location-pop-up.add-city' | translate }}</div>
+    </div>
+    <div class="d-flex justify-content-end buttons" mat-dialog-actions>
+      <button class="secondary-global-button btn m-0 mr-2" mat-button (click)="onNoClick()">
+        {{ 'ubs-tariffs-add-location-pop-up.cancel_button' | translate }}
+      </button>
+      <button *ngIf="this.data.headerText === 'addTemplate'" class="primary-global-button btn m-0" (click)="addLocation()">
+        {{ 'ubs-tariffs-add-location-pop-up.add_button' | translate }}
+      </button>
+      <button *ngIf="this.data.headerText === 'editTemplate'" class="primary-global-button btn m-0">
+        {{ 'ubs-tariffs-add-location-pop-up.save_button' | translate }}
+      </button>
+      <button *ngIf="this.data.headerText === 'deactivateTemplate'" class="primary-global-button btn m-0">
+        {{ 'ubs-tariffs-add-location-pop-up.deactivate' | translate }}
+      </button>
+    </div>
+  </ng-template>
+</form>

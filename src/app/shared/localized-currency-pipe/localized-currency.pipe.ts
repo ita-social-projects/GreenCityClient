@@ -25,7 +25,7 @@ export class LocalizedCurrencyPipe implements PipeTransform, OnDestroy {
     });
   }
 
-  transform(value: any, ...args: any[]): any {
+  transform(value: any): any {
     return `${value} ${LOCALIZED_CURRENCY[this.lang]}`;
   }
 

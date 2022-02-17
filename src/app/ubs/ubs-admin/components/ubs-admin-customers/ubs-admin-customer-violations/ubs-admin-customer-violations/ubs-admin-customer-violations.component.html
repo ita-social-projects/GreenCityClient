@@ -5,39 +5,53 @@
   <div class="title_name">
     <p>{{ username }}</p>
   </div>
-  <table mat-table aria-label="Customer violation table" [dataSource]="dataSource">
-    <ng-container *ngFor="let column of columns; let i = index" [matColumnDef]="column.title.key">
-      <th id="i" mat-header-cell *matHeaderCellDef [appResizeColumn]="{ resizable: true, index: i }">
-        <div class="columns_header">
-          <span>{{ column.title | serverTranslate: currentLang }}</span>
-        </div>
-      </th>
-      <td mat-cell *matCellDef="let row" (mouseover)="switchViewButton = row.orderId" (mouseleave)="switchViewButton = null">
-        <div
-          class="column_cell"
-          [ngClass]="{
-            lowViolation: row[column.title.key] === 'LOW',
-            majorViolation: row[column.title.key] === 'MAJOR'
-          }"
-          [matTooltip]="row[column.title.key]"
-          matTooltipShowDelay="700"
-          matTooltipClass="tooltip_style"
-          [class.pointer]="column.title.key === 'orderId'"
-          (click)="column.title.key === 'orderId' && openOrder(row[column.title.key])"
-        >
-          <span>{{ row[column.title.key] }}</span>
-          <mat-icon
-            class="visibility-icon"
-            *ngIf="switchViewButton === row.orderId && column.title.key === 'violationLevel'"
-            (click)="openModal(row)"
+  <div
+    id="table-container"
+    infiniteScroll
+    [ngClass]="{ scrolling: isCanScroll }"
+    [infiniteScrollDistance]="0"
+    [infiniteScrollThrottle]="100"
+    (scrolled)="onScroll()"
+    [scrollWindow]="false"
+  >
+    <table mat-table aria-label="Customer violation table" [dataSource]="dataSource">
+      <ng-container *ngFor="let column of columns; let i = index" [matColumnDef]="column.title.key">
+        <th id="i" mat-header-cell *matHeaderCellDef [appResizeColumn]="{ resizable: true, index: i }">
+          <div class="columns_header">
+            <span>{{ column.title | serverTranslate: currentLang }}</span>
+            <mat-icon *ngIf="arrowDirection !== column.title.key" (click)="onSortTable(column.title.key, 'DESC')">
+              arrow_downward
+            </mat-icon>
+            <mat-icon *ngIf="arrowDirection === column.title.key" (click)="onSortTable(column.title.key, 'ASC')"> arrow_upward </mat-icon>
+          </div>
+        </th>
+        <td mat-cell *matCellDef="let row" (mouseover)="switchViewButton = row.orderId" (mouseleave)="switchViewButton = null">
+          <div
+            class="column_cell"
+            [ngClass]="{
+              lowViolation: row[column.title.key] === 'LOW',
+              majorViolation: row[column.title.key] === 'MAJOR'
+            }"
+            [matTooltip]="row[column.title.key]"
+            matTooltipShowDelay="700"
+            matTooltipClass="tooltip_style"
+            [class.pointer]="column.title.key === 'orderId'"
+            (click)="column.title.key === 'orderId' && openOrder(row[column.title.key])"
           >
-            visibility
-          </mat-icon>
-        </div>
-      </td>
-    </ng-container>
-    <tr mat-header-row *matHeaderRowDef="displayedColumns" class="tableHeaderRow"></tr>
-    <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
-  </table>
+            <span>{{ row[column.title.key] }}</span>
+            <mat-icon
+              class="visibility-icon"
+              *ngIf="switchViewButton === row.orderId && column.title.key === 'violationLevel'"
+              (click)="openModal(row)"
+            >
+              visibility
+            </mat-icon>
+          </div>
+        </td>
+      </ng-container>
+      <tr mat-header-row *matHeaderRowDef="displayedColumns" class="tableHeaderRow"></tr>
+      <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+    </table>
+  </div>
 </div>
 <app-spinner *ngIf="isLoading"></app-spinner>

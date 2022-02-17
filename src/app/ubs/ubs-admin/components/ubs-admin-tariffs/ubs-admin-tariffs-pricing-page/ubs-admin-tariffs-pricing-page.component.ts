@@ -1,18 +1,20 @@
 import { Component, OnInit, OnDestroy, Injector } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
-import { MatDialog, MatDialogRef } from '@angular/material/dialog';
+import { MatDialog, MatDialogConfig, MatDialogRef } from '@angular/material/dialog';
 import { Location } from '@angular/common';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { TariffsService } from '../../../services/tariffs.service';
 import { takeUntil, take } from 'rxjs/operators';
-import { Bag, Service } from '../../../models/tariffs.interface';
+import { Bag, Service, Locations } from '../../../models/tariffs.interface';
 import { OrderService } from '../../../../ubs/services/order.service';
-import { Locations } from '../../../../ubs/models/ubs.interface';
 import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
 import { Subject } from 'rxjs';
 import { UbsAdminTariffsAddServicePopUpComponent } from './ubs-admin-tariffs-add-service-pop-up/ubs-admin-tariffs-add-service-pop-up.component';
 import { UbsAdminTariffsAddTariffServicePopUpComponent } from './ubs-admin-tariffs-add-tariff-service-pop-up/ubs-admin-tariffs-add-tariff-service-pop-up.component';
 import { UbsAdminTariffsDeletePopUpComponent } from './ubs-admin-tariffs-delete-pop-up/ubs-admin-tariffs-delete-pop-up.component';
+import { ModalTextComponent } from '../../shared/components/modal-text/modal-text.component';
+import { Store } from '@ngrx/store';
+import { IAppState } from 'src/app/store/state/app.state';
 
 @Component({
   selector: 'app-ubs-admin-tariffs-pricing-page',
@@ -31,6 +33,8 @@ export class UbsAdminTariffsPricingPageComponent implements OnInit, OnDestroy {
   currentLocation;
   bags: Bag[];
   services: Service[];
+  thisLocation: Locations[];
+  reset = true;
   private destroy: Subject<boolean> = new Subject<boolean>();
   public currentLanguage: string;
   public icons = {
@@ -44,10 +48,14 @@ export class UbsAdminTariffsPricingPageComponent implements OnInit, OnDestroy {
   private route: ActivatedRoute;
   private location: Location;
   private fb: FormBuilder;
+  locations$ = this.store.select((state: IAppState): Locations => state.locations.locations);
+
   constructor(
     private injector: Injector,
     public dialogRefService: MatDialogRef<UbsAdminTariffsAddServicePopUpComponent>,
-    public dialogRefTariff: MatDialogRef<UbsAdminTariffsAddTariffServicePopUpComponent>
+    public dialogRefTariff: MatDialogRef<UbsAdminTariffsAddTariffServicePopUpComponent>,
+    private router: Router,
+    private store: Store<IAppState>
   ) {
     this.location = injector.get(Location);
     this.dialog = injector.get(MatDialog);
@@ -58,10 +66,10 @@ export class UbsAdminTariffsPricingPageComponent implements OnInit, OnDestroy {
     this.fb = injector.get(FormBuilder);
   }
 
-  ngOnInit() {
+  ngOnInit(): void {
     this.subscribeToLangChange();
-    this.getLocations();
     this.routeParams();
+    this.getLocations();
     this.initForm();
     this.getCouriers();
     this.orderService.locationSubject.pipe(takeUntil(this.destroy)).subscribe(() => {
@@ -71,7 +79,7 @@ export class UbsAdminTariffsPricingPageComponent implements OnInit, OnDestroy {
     });
   }
 
-  private initForm() {
+  private initForm(): void {
     this.limitsForm = this.fb.group({
       courierLimitsBy: new FormControl(''),
       minAmountOfOrder: new FormControl(),
@@ -82,7 +90,7 @@ export class UbsAdminTariffsPricingPageComponent implements OnInit, OnDestroy {
     });
   }
 
-  fillFields(couriers) {
+  fillFields(): void {
     const { courierLimit, minPriceOfOrder, maxPriceOfOrder, minAmountOfBigBags, maxAmountOfBigBags, limitDescription } = this.couriers[0];
     this.limitsForm.patchValue({
       courierLimitsBy: courierLimit,
@@ -94,7 +102,7 @@ export class UbsAdminTariffsPricingPageComponent implements OnInit, OnDestroy {
     });
   }
 
-  saveChanges() {
+  saveChanges(): void {
     const { courierLimitsBy, minAmountOfOrder, maxAmountOfOrder, minAmountOfBigBag, maxAmountOfBigBag, limitDescription } =
       this.limitsForm.value;
     this.amount = {
@@ -117,7 +125,7 @@ export class UbsAdminTariffsPricingPageComponent implements OnInit, OnDestroy {
       });
   }
 
-  routeParams() {
+  routeParams(): void {
     this.route.params.pipe(takeUntil(this.destroy)).subscribe((res) => {
       this.getAllTariffsForService();
       this.selectedLocationId = +res.id;
@@ -126,10 +134,15 @@ export class UbsAdminTariffsPricingPageComponent implements OnInit, OnDestroy {
     });
   }
 
-  openAddTariffForServicePopup() {
+  navigateToBack(): void {
+    this.router.navigate([`ubs-admin/tariffs`]);
+  }
+
+  openAddTariffForServicePopup(): void {
     const dialogRefTariff = this.dialog.open(UbsAdminTariffsAddTariffServicePopUpComponent, {
       hasBackdrop: true,
-      disableClose: true,
+      disableClose: false,
+      panelClass: 'address-matDialog-styles-pricing-page',
       data: {
         button: 'add',
         locationId: this.currentLocation
@@ -141,10 +154,11 @@ export class UbsAdminTariffsPricingPageComponent implements OnInit, OnDestroy {
       .subscribe((result) => result && this.getAllTariffsForService());
   }
 
-  openAddServicePopup() {
+  openAddServicePopup(): void {
     const dialogRefService = this.dialog.open(UbsAdminTariffsAddServicePopUpComponent, {
       hasBackdrop: true,
-      disableClose: true,
+      disableClose: false,
+      panelClass: 'address-matDialog-styles-pricing-page',
       data: {
         button: 'add',
         locationId: this.currentLocation
@@ -162,7 +176,7 @@ export class UbsAdminTariffsPricingPageComponent implements OnInit, OnDestroy {
     });
   }
 
-  getAllTariffsForService() {
+  getAllTariffsForService(): void {
     this.isLoadBar = true;
     this.tariffsService
       .getAllTariffsForService()
@@ -174,7 +188,7 @@ export class UbsAdminTariffsPricingPageComponent implements OnInit, OnDestroy {
       });
   }
 
-  getServices() {
+  getServices(): void {
     this.isLoadBar1 = true;
     this.tariffsService
       .getAllServices()
@@ -187,21 +201,20 @@ export class UbsAdminTariffsPricingPageComponent implements OnInit, OnDestroy {
   }
 
   private filterBags(): void {
-    this.bags = this.bags
-      .filter((value) => value.languageCode === this.currentLanguage && value.locationId === this.currentLocation)
-      .sort((a, b) => b.price - a.price);
+    this.bags = this.bags.filter((value) => value.locationId === this.currentLocation).sort((a, b) => b.price - a.price);
   }
 
-  filterServices() {
+  filterServices(): void {
     this.services = this.services.filter(
       (service) => service.locationId === this.currentLocation && service.languageCode === this.currentLanguage
     );
   }
 
-  openUpdateTariffForServicePopup(bag: Bag) {
+  openUpdateTariffForServicePopup(bag: Bag): void {
     const dialogRefTariff = this.dialog.open(UbsAdminTariffsAddTariffServicePopUpComponent, {
       hasBackdrop: true,
-      disableClose: true,
+      disableClose: false,
+      panelClass: 'address-matDialog-styles-pricing-page',
       data: {
         button: 'update',
         bagData: bag
@@ -213,10 +226,11 @@ export class UbsAdminTariffsPricingPageComponent implements OnInit, OnDestroy {
       .subscribe((result) => result && this.getAllTariffsForService());
   }
 
-  openUpdateServicePopup(service: Service) {
+  openUpdateServicePopup(service: Service): void {
     const dialogRefService = this.dialog.open(UbsAdminTariffsAddServicePopUpComponent, {
       hasBackdrop: true,
-      disableClose: true,
+      disableClose: false,
+      panelClass: 'address-matDialog-styles-pricing-page',
       data: {
         button: 'update',
         serviceData: service
@@ -228,20 +242,34 @@ export class UbsAdminTariffsPricingPageComponent implements OnInit, OnDestroy {
       .subscribe((result) => result && this.getServices());
   }
 
-  openDeleteTariffForService(bag: Bag) {
-    const dialogRefService = this.dialog.open(UbsAdminTariffsDeletePopUpComponent, {
-      hasBackdrop: true,
-      data: {
-        bagData: bag
-      }
-    });
+  openDeleteTariffForService(bag: Bag): void {
+    const dialogConfig = new MatDialogConfig();
+    dialogConfig.panelClass = 'address-matDialog-styles-pricing-page';
+    const enText1 = 'Are you sure you want to deactivate the " ' + bag.name + ' " service? ';
+    const enText2 = 'Information about this service will be hidden from customers.';
+    if (this.currentLanguage === 'ua') {
+      dialogConfig.data = {
+        name: 'delete-tariff',
+        title: 'Деактивувати послугу',
+        text: 'Ви дійсно хочете деактивувати сервіс "" + bag.name + ""? Інформація про цей сервіс буде прихована від клієнтів.',
+        action: 'Деактивувати'
+      };
+    } else {
+      dialogConfig.data = {
+        name: 'delete-tariff',
+        title: 'Deactivate tariff for service',
+        text: enText1 + enText2,
+        action: 'Deactivate'
+      };
+    }
+    const dialogRefService = this.dialog.open(ModalTextComponent, dialogConfig);
     dialogRefService
       .afterClosed()
       .pipe(takeUntil(this.destroy))
       .subscribe((result) => result && this.getAllTariffsForService());
   }
 
-  openDeleteService(service: Service) {
+  openDeleteService(service: Service): void {
     const dialogRefService = this.dialog.open(UbsAdminTariffsDeletePopUpComponent, {
       hasBackdrop: true,
       data: {
@@ -254,16 +282,18 @@ export class UbsAdminTariffsPricingPageComponent implements OnInit, OnDestroy {
       .subscribe((result) => result && this.getServices());
   }
 
-  getLocations() {
-    this.tariffsService
-      .getLocations()
-      .pipe(takeUntil(this.destroy))
-      .subscribe((res: Locations[]) => {
-        this.locations = res;
-      });
+  getLocations(): void {
+    this.locations$.subscribe((item) => {
+      if (item) {
+        const key = 'content';
+        this.locations = Array.from(Object.values(item[key]));
+        this.reset = false;
+        this.thisLocation = this.locations.filter((it) => it.regionId === this.selectedLocationId);
+      }
+    });
   }
 
-  saveLocation() {
+  saveLocation(): void {
     this.isLoadBar1 = true;
     this.isLoadBar = true;
     const selectedLocation = { locationId: this.selectedLocationId };
@@ -279,17 +309,17 @@ export class UbsAdminTariffsPricingPageComponent implements OnInit, OnDestroy {
       });
   }
 
-  getCouriers() {
+  getCouriers(): void {
     this.tariffsService
       .getCouriers()
       .pipe(takeUntil(this.destroy))
       .subscribe((res) => {
         this.couriers = res;
-        this.fillFields(this.couriers[0]);
+        this.fillFields();
       });
   }
 
-  ngOnDestroy() {
+  ngOnDestroy(): void {
     this.destroy.next();
     this.destroy.unsubscribe();
   }

@@ -1,7 +1,7 @@
-import { UserSuccessSignIn, SuccessSignUpDto } from '@global-models/user-success-sign-in';
-import { UserOwnSignUp } from '@global-models/user-own-sign-up';
-import { authImages } from '../../../../image-pathes/auth-images';
-import { Component, EventEmitter, OnInit, OnDestroy, Output, Injector } from '@angular/core';
+import { UserSuccessSignIn, SuccessSignUpDto } from './../../../../model/user-success-sign-in';
+import { UserOwnSignUp } from './../../../../model/user-own-sign-up';
+import { authImages } from './../../../../image-pathes/auth-images';
+import { Component, EventEmitter, OnInit, OnDestroy, Output } from '@angular/core';
 import { AbstractControl, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { HttpErrorResponse } from '@angular/common/http';
@@ -47,34 +47,22 @@ export class SignUpComponent implements OnInit, OnDestroy {
     password: (error: string) => (this.passwordErrorMessageBackEnd = error),
     passwordConfirm: (error: string) => (this.passwordConfirmErrorMessageBackEnd = error)
   };
-  public isUbs: boolean;
-  public navigateToLink;
   @Output() private pageName = new EventEmitter();
-  private dialog: MatDialog;
-  private formBuilder: FormBuilder;
-  private userOwnSignInService: UserOwnSignInService;
-  private userOwnSignUpService: UserOwnSignUpService;
-  private router: Router;
-  private authService: AuthService;
-  private googleService: GoogleSignInService;
-  private localeStorageService: LocalStorageService;
-  private snackBar: MatSnackBarComponent;
 
-  constructor(private matDialogRef: MatDialogRef<SignUpComponent>, private injector: Injector) {
-    this.dialog = injector.get(MatDialog);
-    this.formBuilder = injector.get(FormBuilder);
-    this.userOwnSignInService = injector.get(UserOwnSignInService);
-    this.userOwnSignUpService = injector.get(UserOwnSignUpService);
-    this.router = injector.get(Router);
-    this.authService = injector.get(AuthService);
-    this.googleService = injector.get(GoogleSignInService);
-    this.localeStorageService = injector.get(LocalStorageService);
-    this.snackBar = injector.get(MatSnackBarComponent);
-  }
+  constructor(
+    private matDialogRef: MatDialogRef<SignUpComponent>,
+    private dialog: MatDialog,
+    private formBuilder: FormBuilder,
+    private userOwnSignInService: UserOwnSignInService,
+    private userOwnSignUpService: UserOwnSignUpService,
+    private router: Router,
+    private authService: AuthService,
+    private googleService: GoogleSignInService,
+    private localStorageService: LocalStorageService,
+    private snackBar: MatSnackBarComponent
+  ) {}
 
   ngOnInit() {
-    this.localeStorageService.ubsRegBehaviourSubject.pipe(takeUntil(this.destroy)).subscribe((value) => (this.isUbs = value));
-    this.currentLanguage = this.localeStorageService.getCurrentLanguage();
     this.onFormInit();
     this.getFormFields();
     this.setNullAllMessage();
@@ -90,7 +78,7 @@ export class SignUpComponent implements OnInit, OnDestroy {
 
     this.setNullAllMessage();
     this.loadingAnim = true;
-    this.currentLanguage = this.localeStorageService.getCurrentLanguage();
+    this.currentLanguage = this.localStorageService.getCurrentLanguage();
     this.userOwnSignUpService
       .signUp(userOwnRegister, this.currentLanguage)
       .pipe(takeUntil(this.destroy))
@@ -187,10 +175,9 @@ export class SignUpComponent implements OnInit, OnDestroy {
   }
 
   private signUpWithGoogleSuccess(data: UserSuccessSignIn): void {
-    this.navigateToLink = this.isUbs ? ['ubs', 'order'] : ['profile', data.userId];
     this.userOwnSignInService.saveUserToLocalStorage(data);
     this.closeSignUpWindow();
-    this.router.navigate(this.navigateToLink);
+    this.router.navigate(['/profile', data.userId]);
   }
 
   private signUpWithGoogleError(errors: HttpErrorResponse): void {

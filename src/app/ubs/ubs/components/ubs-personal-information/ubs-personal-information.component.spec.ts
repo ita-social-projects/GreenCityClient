@@ -11,22 +11,29 @@ import { UBSInputErrorComponent } from '../ubs-input-error/ubs-input-error.compo
 import { UBSPersonalInformationComponent } from './ubs-personal-information.component';
 import { CUSTOM_ELEMENTS_SCHEMA, SimpleChange } from '@angular/core';
 import { IMaskModule } from 'angular-imask';
+import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
+import { Language } from 'src/app/main/i18n/Language';
 
 describe('UBSPersonalInformationComponent', () => {
   let component: UBSPersonalInformationComponent;
   let fixture: ComponentFixture<UBSPersonalInformationComponent>;
   let realTakeUserData;
 
-  const fakeLocalStorageResponse = JSON.stringify(null);
+  const fakeLocalStorageService = jasmine.createSpyObj('LocalStorageService', ['getCurrentLanguage']);
+  fakeLocalStorageService.getCurrentLanguage = () => 'ua' as Language;
   const listMock = {
     addressList: [
       {
         actual: true,
         id: 2,
         city: 'fake',
+        cityEn: 'fake',
         district: 'fake',
+        districtEn: 'fake',
         street: 'fake',
+        streetEn: 'fake',
         region: 'fake',
+        regionEn: 'fake',
         houseCorpus: 'fake',
         entranceNumber: 'fake',
         houseNumber: 'fake',
@@ -59,6 +66,31 @@ describe('UBSPersonalInformationComponent', () => {
     houseNumber: 'fake'
   };
 
+  const mockLocations = [
+    {
+      courierDtos: [],
+      courierLimit: 'fake',
+      courierLocationId: 1,
+      locationInfoDtos: [
+        {
+          locationsDto: [
+            {
+              latitude: 50,
+              locationId: 1,
+              locationStatus: 'fake',
+              locationTranslationDtoList: [{ locationName: 'Київ', languageCode: 'ua' }],
+              longitude: 30
+            }
+          ]
+        }
+      ],
+      maxAmountOfBigBags: 99,
+      maxPriceOfOrder: 500000,
+      minAmountOfBigBags: 2,
+      minPriceOfOrder: 500
+    }
+  ];
+
   const fakeShareFormService = jasmine.createSpyObj('fakeShareFormService', ['changePersonalData', 'orderDetails']);
   const fakeOrderService = jasmine.createSpyObj('OrderService', [
     'findAllAddresses',
@@ -69,6 +101,10 @@ describe('UBSPersonalInformationComponent', () => {
     'setLocationData',
     'addAdress'
   ]);
+
+  let localStorageServiceMock: LocalStorageService;
+  localStorageServiceMock = jasmine.createSpyObj('LocalStorageService', ['getCurrentLanguage']);
+  localStorageServiceMock.getCurrentLanguage = () => 'ua' as Language;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
@@ -85,13 +121,16 @@ describe('UBSPersonalInformationComponent', () => {
       providers: [
         { provide: MatDialogRef, useValue: {} },
         { provide: UBSOrderFormService, useValue: fakeShareFormService },
-        { provide: OrderService, useValue: fakeOrderService }
+        { provide: OrderService, useValue: fakeOrderService },
+        { provide: LocalStorageService, useValue: fakeLocalStorageService }
       ],
       schemas: [CUSTOM_ELEMENTS_SCHEMA]
     }).compileComponents();
   }));
 
   beforeEach(() => {
+    localStorage.setItem('locations', JSON.stringify(mockLocations));
+    localStorage.setItem('currentLocationId', JSON.stringify(1));
     fakeOrderService.locationSub = new Subject<any>();
     fakeOrderService.currentAddress = new Subject<any>();
     fakeOrderService.setCurrentAddress(listMock.addressList[0]);
@@ -103,9 +142,6 @@ describe('UBSPersonalInformationComponent', () => {
     component = fixture.componentInstance;
     realTakeUserData = component.takeUserData;
     spyOn(component, 'takeUserData').and.callFake(() => {});
-    spyOn(localStorage, 'setItem');
-    spyOn(localStorage, 'getItem').and.returnValue(fakeLocalStorageResponse);
-    spyOn(localStorage, 'removeItem');
     fixture.detectChanges();
   });
 
@@ -122,11 +158,11 @@ describe('UBSPersonalInformationComponent', () => {
   });
 
   it('method findAllAddresses should get data from orderService', () => {
-    const spy = spyOn<any>(component, 'getLastAddresses').and.callThrough();
     fakeOrderService.findAllAddresses.and.returnValue(of(listMock));
-    spyOn(component, 'checkAddress').and.callFake(() => {});
+    const spy = spyOn(component, 'checkAddress').and.callFake(() => {});
     component.findAllAddresses(true);
-    expect(spy).toHaveBeenCalledWith(listMock.addressList);
+    expect(component.addresses).toBeDefined();
+    expect(spy).toHaveBeenCalled();
   });
 
   it('destroy Subject should be closed after ngOnDestroy()', () => {
@@ -212,10 +248,6 @@ describe('UBSPersonalInformationComponent', () => {
     const spy = spyOn(component, 'getControl');
     component.getControl('address');
     expect(spy).toHaveBeenCalledTimes(1);
-  });
-
-  it('method getFormValues should return true', () => {
-    expect(component.getFormValues()).toBeTruthy();
   });
 
   it('method openDialog should open matDialog', () => {

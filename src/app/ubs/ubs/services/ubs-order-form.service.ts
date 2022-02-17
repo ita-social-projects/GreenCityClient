@@ -21,10 +21,17 @@ export class UBSOrderFormService {
   private orderID = new BehaviorSubject(null);
   orderId = this.orderID.asObservable();
 
+  private addCertSubj = new BehaviorSubject(false);
+  addCert = this.addCertSubj.asObservable();
+
   constructor(private localStorageService: LocalStorageService) {}
 
   transferOrderId(id: any) {
     this.orderID.next(id);
+  }
+
+  changeAddCertButtonVisibility(item: boolean) {
+    this.addCertSubj.next(item);
   }
 
   changeOrderDetails() {

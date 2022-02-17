@@ -27,10 +27,32 @@
   }
 
   .main-content {
-    .title {
-      font-size: 24px;
-      max-width: 500px;
+    .title-wrapper {
+      display: flex;
+      justify-content: space-between;
       margin-bottom: 20px;
+
+      .title {
+        font-size: 24px;
+        max-width: 500px;
+      }
+
+      .edit-payment {
+        margin: 5px 0 0 0;
+
+        .mat-icon,
+        .edit-payment-btn {
+          font-size: 14px;
+          color: var(--ubs-electric-violet);
+          border: none;
+          background: transparent;
+        }
+
+        .edit-payment-btn:disabled,
+        .edit-payment-btn:disabled .mat-icon {
+          color: var(--ubs-primary-light-grey);
+        }
+      }
     }
 
     .order-title {
@@ -84,16 +106,70 @@
     }
 
     .photo-container {
-      background-image: url("data:image/svg+xml,%3csvg width='100%25' height='100%25' xmlns='http://www.w3.org/2000/svg'%3e%3crect width='100%25' height='100%25' fill='none' stroke='%23333' stroke-width='1' stroke-dasharray='10' stroke-dashoffset='0' stroke-linecap='square'/%3e%3c/svg%3e");
+      position: relative;
+      height: 231px;
+      width: 100%;
+      overflow: hidden;
 
-      .image-preview {
+      &::after {
         display: block;
-        margin: 0 auto;
+        content: '';
+        background-image: url("data:image/svg+xml,%3csvg width='100%25' height='100%25' xmlns='http://www.w3.org/2000/svg'%3e%3crect width='100%25' height='100%25' fill='none' stroke='%23333' stroke-width='1' stroke-dasharray='10' stroke-dashoffset='0' stroke-linecap='square'/%3e%3c/svg%3e");
+        background-repeat: no-repeat;
+        background-position: center;
+        background-size: cover;
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        pointer-events: none;
+      }
+
+      #image-preview {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        max-width: 100%;
+        max-height: 100%;
+        object-fit: cover;
+        display: block;
+        transform: translate(-50%, -50%);
+        cursor: pointer;
+      }
+
+      #pdf-viewer {
+        display: block;
+        height: 100%;
+        cursor: pointer;
       }
 
       .requirement-drag {
         padding: 65px;
         color: var(--quaternary-grey);
+        display: flex;
+        flex-flow: column wrap;
+        justify-content: center;
+        align-items: center;
+      }
+
+      .image-edit-head {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        background: var(--ubs-quaternary-light-grey);
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 5px;
+        font-size: 12px;
+        visibility: hidden;
+        z-index: 2;
+      }
+
+      .image-name {
+        color: var(--ubs-primary-grey);
       }
     }
 
@@ -104,10 +180,37 @@
       padding: 6px 12px;
       cursor: pointer;
     }
+
+    .photo-container:hover {
+      .image-edit-head {
+        visibility: visible;
+      }
+    }
+
+    .user-image {
+      cursor: pointer;
+    }
+
+    .warning_message {
+      color: var(--ubs-error-ligh-red);
+    }
   }
 
   .btn-container {
     text-align-last: right;
+
+    .delete-payment {
+      color: var(--error-red);
+      font-size: 16px;
+      font-weight: bold;
+      border: none;
+      background: transparent;
+      margin-right: 25px;
+    }
+
+    .delete-icon {
+      margin: -2px 10px 0 0;
+    }
 
     .back {
       background: none;
@@ -121,7 +224,18 @@
       background-color: var(--ubs-button-light-green);
       border-radius: 4px;
       padding: 7px 20px 7px 20px;
+
+      &:disabled {
+        background: var(--ubs-quaternary-light-grey);
+        border-color: var(--ubs-quaternary-light-grey);
+        color: var(--ubs-primary-light-grey);
+      }
     }
+  }
+
+  .disabled {
+    opacity: 0.75;
+    cursor: default;
   }
 
   .add-info {

@@ -52,9 +52,34 @@ export interface Service {
 }
 
 export interface Locations {
-  id: number;
-  name: string;
+  locationsDto: {
+    latitude: number;
+    locationId: number;
+    locationTranslationDtoList: {
+      languageCode: string;
+      locationName: string;
+    };
+  };
+  regionId: number;
+  regionTranslationDtos: {
+    regionName: string;
+    languageCode: string;
+  };
+}
+
+export interface CreateLocation {
+  addLocationDtoList: Location[];
+  latitude: 0;
+  longitude: 0;
+  regionTranslationDtos: Region[];
+}
+
+interface Region {
   languageCode: string;
-  courier: string;
-  length: number;
+  regionName: string;
+}
+
+interface Location {
+  languageCode: string;
+  locationName: string;
 }

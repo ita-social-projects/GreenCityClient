@@ -101,9 +101,13 @@ export interface Address {
   actual: boolean;
   id: number;
   region: string;
+  regionEn: string;
   city: string;
+  cityEn: string;
   district: string;
+  districtEn: string;
   street: string;
+  streetEn: string;
   houseCorpus: string;
   entranceNumber: string;
   houseNumber: string;
@@ -142,11 +146,19 @@ export interface LocationsDtos {
   locationStatus: string;
   locationTranslationDtoList: LocationTranslation[];
 }
+export interface LocationsName {
+  locationId: number;
+  locationName: string;
+}
 export interface CourierLocations {
   courierDtos: CourierDtos[];
   courierLimit: string;
   courierLocationId: number;
-  locationsDtos: LocationsDtos[];
+  locationInfoDtos: [
+    {
+      locationsDto: LocationsDtos[];
+    }
+  ];
   maxAmountOfBigBags: number;
   maxPriceOfOrder: number;
   minAmountOfBigBags: number;
