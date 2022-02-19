@@ -49,8 +49,11 @@ export class HabitsPopupComponent implements OnInit, OnDestroy {
     this.destroy.complete();
   }
 
-  private formatDate(date: Date): string {
-    return date.toLocaleDateString().split('.').reverse().join('-');
+  private formatDate(date: string): string {
+    const dateArr = date.split('/');
+    return [dateArr[2], dateArr[0].length < 2 ? '0' + dateArr[0] : dateArr[0], dateArr[1].length < 2 ? '0' + dateArr[1] : dateArr[1]].join(
+      '-'
+    );
   }
 
   loadPopup() {
@@ -70,7 +73,7 @@ export class HabitsPopupComponent implements OnInit, OnDestroy {
 
   formatSelectedDate() {
     const today = new Date();
-    const monthLow = today.toLocaleDateString(this.language, { month: 'long' });
+    const monthLow = today.toLocaleDateString(this.language === 'ua' ? 'uk' : this.language, { month: 'long' });
     const month = monthLow.charAt(0).toUpperCase() + monthLow.slice(1);
     const day = today.getDate();
     const year = today.getFullYear();
@@ -146,9 +149,9 @@ export class HabitsPopupComponent implements OnInit, OnDestroy {
     this.arrayOfDate = this.habitAssignService.habitsInProgress.find((item) => item.habit.id === id).habitStatusCalendarDtoList;
     if (this.habitsCalendarSelectedDate === this.today) {
       if (isEnrolled) {
-        this.arrayOfDate.push({ enrollDate: this.formatDate(new Date()), id: null });
+        this.arrayOfDate.push({ enrollDate: this.formatDate(new Date().toLocaleDateString()), id: null });
       } else {
-        this.arrayOfDate = this.arrayOfDate.filter((item) => item.enrollDate !== this.formatDate(new Date()));
+        this.arrayOfDate = this.arrayOfDate.filter((item) => item.enrollDate !== this.formatDate(new Date().toLocaleDateString()));
       }
       this.updateHabitsCardsCircleAndStreak(id, isExistArray, this.arrayOfDate);
     }

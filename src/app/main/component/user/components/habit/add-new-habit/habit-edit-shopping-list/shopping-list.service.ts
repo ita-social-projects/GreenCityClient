@@ -51,7 +51,7 @@ export class ShoppingListService {
   }
 
   public getCustomItems(userId: string, habitId: number) {
-    this.http.get(`${mainLink}/custom/shopping-list-items/${userId}/${habitId}`).subscribe((res: ShoppingList[]) => {
+    this.http.get(`${mainLink}custom/shopping-list-items/${userId}/${habitId}`).subscribe((res: ShoppingList[]) => {
       this.fillList(res);
     });
   }
