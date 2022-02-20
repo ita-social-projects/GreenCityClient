@@ -13,4 +13,9 @@ describe('FormatDateService', () => {
   it('should be created', () => {
     expect(service).toBeTruthy();
   });
+
+  it('formatDate', () => {
+    const dateRes = service.formatDate('2/19/2022');
+    expect(dateRes).toBe('2022-02-19');
+  });
 });

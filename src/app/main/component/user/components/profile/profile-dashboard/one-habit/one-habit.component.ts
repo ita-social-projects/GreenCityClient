@@ -3,7 +3,7 @@ import { HabitAssignInterface } from '../../../../../../interface/habit/habit-as
 import { HabitAssignService } from '@global-service/habit-assign/habit-assign.service';
 import { FormatDateService } from '@global-user/services/format-date.service';
 import { take, takeUntil } from 'rxjs/operators';
-import { ActivatedRoute, Router } from '@angular/router';
+import { Router } from '@angular/router';
 import { HabitService } from '@global-service/habit/habit.service';
 import { HabitStatus } from '@global-models/habit/HabitStatus.enum';
 import { HabitMark } from '@global-user/models/HabitMark.enum';
@@ -48,7 +48,6 @@ export class OneHabitComponent implements OnInit, OnDestroy {
     private habitAssignService: HabitAssignService,
     public formatDateService: FormatDateService,
     public router: Router,
-    public route: ActivatedRoute,
     public habitService: HabitService
   ) {}
 
