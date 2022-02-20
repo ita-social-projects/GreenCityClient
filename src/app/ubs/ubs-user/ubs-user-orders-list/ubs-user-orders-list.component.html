@@ -1,5 +1,5 @@
 <div *ngIf="orders.length !== 0" class="header_list">
-  <div class="header_list-num">{{ 'user-orders.order-number' | translate }}</div>
+  <div class="header_list-num">№</div>
   <div class="header_list-date">{{ 'user-orders.order-date' | translate }}</div>
   <div class="header_list-status">{{ 'user-orders.order-status' | translate }}</div>
   <div class="header_list-paymentStatus">{{ 'user-orders.order-payment-status' | translate }}</div>
@@ -27,18 +27,20 @@
             {{ order.orderFullPrice | currency | localizedCurrency }}
           </mat-panel-description>
         </div>
-        <div *ngIf="isOrderPaymentAccess(order)" class="btns_group">
-          <div class="btn_grid_cancel">
+        <div class="btn-space">
+          <div *ngIf="isOrderPaymentAccess(order)" class="btns_group">
             <div class="btn_grid_cancel">
-              <button class="btn_cancel" (click)="openOrderCancelDialog(order)">
-                {{ 'user-orders.btn.cancel' | translate }}
+              <div class="btn_grid_cancel">
+                <button class="btn_cancel" (click)="openOrderCancelDialog(order)">
+                  {{ 'user-orders.btn.cancel' | translate }}
+                </button>
+              </div>
+            </div>
+            <div class="btn_grid_pay">
+              <button class="btn_pay" (click)="openOrderPaymentDialog(order)">
+                {{ 'user-orders.btn.pay' | translate }}
               </button>
             </div>
-          </div>
-          <div class="btn_grid_pay">
-            <button class="btn_pay" (click)="openOrderPaymentDialog(order)">
-              {{ 'user-orders.btn.pay' | translate }}
-            </button>
           </div>
         </div>
       </mat-expansion-panel-header>

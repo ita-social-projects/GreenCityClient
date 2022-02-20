@@ -25,7 +25,6 @@
 .header_list {
   display: grid;
   grid-auto-flow: column;
-  grid-template-columns: 0.6fr 1fr 1fr 1fr 1fr;
   font-size: 14px;
   font-weight: 500;
   line-height: 20px;
@@ -43,6 +42,11 @@
   display: flex;
   flex-direction: row;
   flex: 1;
+}
+
+.btn-space {
+  display: flex;
+  width: 30%;
 }
 
 .btns_group {
@@ -103,13 +107,14 @@
   display: flex;
   align-items: center;
   padding: 0 20px;
+  flex: 1 1 80px;
 }
 
 .mat-expansion-panel-header-description {
-  display: grid;
+  display: flex;
   align-items: center;
-  grid-auto-rows: max-content;
-  grid-template-columns: 1fr;
+  flex-wrap: wrap;
+  flex: 1 1 160px;
 }
 
 .description {
@@ -135,6 +140,9 @@
     .header_list-paymentStatus,
     .header_list-paymentAmount {
       flex-grow: 2;
+    }
+    .btns_group {
+      flex-direction: column;
     }
   }
 
@@ -189,7 +197,7 @@
   }
 
   .mat-expansion-panel-header {
-    height: 90px !important;
+    height: 100px !important;
   }
 
   .btns_group {
@@ -197,7 +205,10 @@
     flex-direction: row;
     align-items: center;
     justify-content: space-around;
-    margin-top: 10px;
+    margin: 10px 0 10px 25px;
+    button {
+      max-width: 114px;
+    }
   }
 
   .empty-div {
