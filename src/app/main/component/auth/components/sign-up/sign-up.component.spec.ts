@@ -15,7 +15,7 @@ import { BrowserModule, By } from '@angular/platform-browser';
 import { AgmCoreModule } from '@agm/core';
 import { TranslateModule } from '@ngx-translate/core';
 import { AuthService, AuthServiceConfig, LoginOpt, SocialUser } from 'angularx-social-login';
-import { Observable, of, throwError } from 'rxjs';
+import { of, throwError } from 'rxjs';
 import { UserOwnSignUpService } from '@auth-service/user-own-sign-up.service';
 import { GoogleSignInService } from '@auth-service/google-sign-in.service';
 import { SubmitEmailComponent } from '@global-auth/submit-email/submit-email.component';
@@ -43,6 +43,7 @@ describe('SignUpComponent', () => {
   let MatSnackBarMock: MatSnackBarComponent;
   let localStorageServiceMock: LocalStorageService;
   localStorageServiceMock = jasmine.createSpyObj('LocalStorageService', ['getCurrentLanguage']);
+  localStorageServiceMock.ubsRegBehaviourSubject = of(false) as any;
   localStorageServiceMock.getCurrentLanguage = () => 'ua' as Language;
   localStorageServiceMock.setFirstName = () => true;
   localStorageServiceMock.setFirstSignIn = () => true;
@@ -299,7 +300,7 @@ describe('SignUpComponent', () => {
         // @ts-ignore
         component.signUpWithGoogleSuccess(mockUserSuccessSignIn);
         fixture.ngZone.run(() => {
-          expect(routerSpy.navigate).toHaveBeenCalledWith(['/profile', mockUserSuccessSignIn.userId]);
+          expect(routerSpy.navigate).toHaveBeenCalledWith(['profile', mockUserSuccessSignIn.userId]);
         });
         fixture.destroy();
         flush();

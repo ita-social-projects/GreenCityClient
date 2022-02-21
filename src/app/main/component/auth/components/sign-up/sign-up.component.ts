@@ -40,6 +40,7 @@ export class SignUpComponent implements OnInit, OnDestroy {
   public passwordFieldValue: string;
   public passwordConfirmFieldValue: string;
   public currentLanguage: string;
+  public isUbs: boolean;
   private destroy: Subject<boolean> = new Subject<boolean>();
   private errorsType = {
     name: (error: string) => (this.firstNameErrorMessageBackEnd = error),
@@ -51,7 +52,6 @@ export class SignUpComponent implements OnInit, OnDestroy {
 
   constructor(
     private matDialogRef: MatDialogRef<SignUpComponent>,
-    private dialog: MatDialog,
     private formBuilder: FormBuilder,
     private userOwnSignInService: UserOwnSignInService,
     private userOwnSignUpService: UserOwnSignUpService,
@@ -67,6 +67,7 @@ export class SignUpComponent implements OnInit, OnDestroy {
     this.getFormFields();
     this.setNullAllMessage();
     this.userOwnSignUp = new UserOwnSignUp();
+    this.localStorageService.ubsRegBehaviourSubject.pipe(takeUntil(this.destroy)).subscribe((value) => (this.isUbs = value));
   }
 
   public onSubmit(userOwnRegister: UserOwnSignUp): void {
@@ -177,7 +178,7 @@ export class SignUpComponent implements OnInit, OnDestroy {
   private signUpWithGoogleSuccess(data: UserSuccessSignIn): void {
     this.userOwnSignInService.saveUserToLocalStorage(data);
     this.closeSignUpWindow();
-    this.router.navigate(['/profile', data.userId]);
+    this.router.navigate(this.isUbs ? ['ubs'] : ['profile', data.userId]);
   }
 
   private signUpWithGoogleError(errors: HttpErrorResponse): void {

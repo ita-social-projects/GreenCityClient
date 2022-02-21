@@ -586,6 +586,27 @@
       "about-us": "Про нас",
       "sorting-rules": "Правила сортування",
       "eco-shop": "Еко-магазин"
+    },
+    "auth": {
+      "sign-in": {
+        "title": "З поверненням!",
+        "fill-form": "Будь ласка, внеси свої дані для входу",
+        "email": "Електронна пошта",
+        "email-is-required": "Введіть адресу електронної пошти",
+        "field-is-required": "Це поле є обов'язковим",
+        "email-must-be-at-least-1-characters-long": "Пошта повинна містити принаймі 1 символ",
+        "this-is-not-email": "Перевірте, чи правильно вказано вашу адресу електронної пошти",
+        "password": "Пароль",
+        "password-is-required": "Введіть пароль",
+        "password-must-be-at-least-8-characters-long": "Пароль повинен містити принаймі 8 символів",
+        "bad-email-or-password": "Неправильна пошта або пароль",
+        "sign-in": "Увійти",
+        "sign-up": "Зареєструватись",
+        "sign-in-with-google": "Увійти через Google",
+        "forgot-password": "Забули пароль?",
+        "havenot-account": "Досі немає аккаунту?",
+        "or-signin": "або"
+      }
     }
   },
   "nav-bar": {
@@ -619,5 +640,9 @@
   },
   "information-window": {
     "message": "Заповніть,будь ласка, всі обов'язкові поля"
+  },
+  "top-bar": {
+    "sign-up": "Зареєструватись ",
+    "sign-in": "Увійти"
   }
 }
