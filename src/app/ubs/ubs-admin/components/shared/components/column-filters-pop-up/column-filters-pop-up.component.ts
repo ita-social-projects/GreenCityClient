@@ -36,7 +36,7 @@ export class ColumnFiltersPopUpComponent implements OnInit {
     }
   }
 
-  private setPopupPosUnderButton() {
+  private setPopupPosUnderButton(): void {
     const rect = this.data.trigger.nativeElement.getBoundingClientRect();
     const position = { left: `${rect.left}px`, top: `${rect.top + rect.height}px` };
 
