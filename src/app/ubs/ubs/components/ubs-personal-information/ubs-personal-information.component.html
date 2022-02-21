@@ -169,7 +169,7 @@
         class="btn add-address"
         mat-raised-button
         (click)="addNewAddress()"
-        [disabled]="addresses.length === maxAddressLength"
+        [disabled]="addresses.length >= maxAddressLength"
       >
         {{ 'personal-info.info-add-address' | translate }}
       </button>
