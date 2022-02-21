@@ -81,7 +81,7 @@ export class UbsAdminOrderPaymentComponent implements OnInit, OnChanges {
     const currentDate: string = this.getStringDate(new Date());
 
     const paymentDetails: PaymentDetails = {
-      amount: this.overpayment * 100,
+      amount: this.overpayment,
       receiptLink: 'Зарахування на бонусний рахунок',
       settlementdate: currentDate
     };
