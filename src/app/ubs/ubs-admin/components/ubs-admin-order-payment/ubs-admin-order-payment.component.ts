@@ -1,7 +1,7 @@
 import { Component, Input, OnInit, OnChanges, SimpleChanges } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { take } from 'rxjs/operators';
-import { IPaymentInfo, IPaymentInfoDtos, IOrderInfo } from '../../models/ubs-admin.interface';
+import { IPaymentInfo, IPaymentInfoDto, IOrderInfo, PaymentDetails } from '../../models/ubs-admin.interface';
 import { OrderService } from '../../services/order.service';
 import { AddPaymentComponent } from '../add-payment/add-payment.component';
 
@@ -11,45 +11,119 @@ import { AddPaymentComponent } from '../add-payment/add-payment.component';
   styleUrls: ['./ubs-admin-order-payment.component.scss']
 })
 export class UbsAdminOrderPaymentComponent implements OnInit, OnChanges {
-  message: string;
-  pageOpen: boolean;
-  @Input() overpayment: number;
   @Input() orderInfo: IOrderInfo;
   @Input() actualPrice: number;
   @Input() totalPaid: number;
-  orderId: number;
-  paidAmount: number;
-  unPaidAmount: number;
-  paymentInfo: IPaymentInfo;
-  paymentsArray: IPaymentInfoDtos[];
+  @Input() orderStatus: string;
 
-  ngOnInit() {
-    this.orderId = this.orderInfo.generalOrderInfo.id;
-    this.paymentInfo = this.orderInfo.paymentTableInfoDto;
-    this.paymentsArray = this.orderInfo.paymentTableInfoDto.paymentInfoDtos;
-    this.paidAmount = this.paymentInfo.paidAmount;
-    this.unPaidAmount = this.paymentInfo.unPaidAmount;
-  }
+  public message: string;
+  public pageOpen: boolean;
+  public orderId: number;
+  public overpayment: number;
+  public paidAmount: number;
+  public unPaidAmount: number;
+  public paymentInfo: IPaymentInfo;
+  public paymentsArray: IPaymentInfoDto[];
+  public currentOrderStatus: string;
 
   constructor(private orderService: OrderService, private dialog: MatDialog) {}
+
+  ngOnInit() {
+    this.currentOrderStatus = this.orderStatus;
+    this.orderId = this.orderInfo.generalOrderInfo.id;
+    this.paymentInfo = this.orderInfo.paymentTableInfoDto;
+    this.overpayment = this.paymentInfo.overpayment;
+    this.paymentsArray = this.paymentInfo.paymentInfoDtos;
+    this.paidAmount = this.paymentInfo.paidAmount;
+    this.unPaidAmount = this.paymentInfo.unPaidAmount;
+    this.setDateInPaymentArray(this.paymentsArray);
+  }
 
   ngOnChanges(changes: SimpleChanges) {
     if (changes.overpayment) {
       this.message = this.orderService.getOverpaymentMsg(this.overpayment);
       this.overpayment = Math.abs(this.overpayment);
     }
+
+    if (changes.orderStatus) {
+      this.currentOrderStatus = changes.orderStatus.currentValue;
+    }
   }
 
-  openDetails() {
+  public formatDate(date: string): string {
+    return date.split('-').reverse().join('.');
+  }
+
+  public setDateInPaymentArray(paymentsArray: IPaymentInfoDto[]): void {
+    paymentsArray.forEach((payment: IPaymentInfoDto) => {
+      payment.settlementdate = this.formatDate(payment.settlementdate);
+    });
+  }
+
+  public openDetails(): void {
     this.pageOpen = !this.pageOpen;
   }
 
-  setOverpayment(overpayment: number): void {
+  public accessOnCanceledStatus(): boolean {
+    return this.currentOrderStatus === 'CANCELED';
+  }
+
+  public setOverpayment(overpayment: number): void {
     this.message = this.orderService.getOverpaymentMsg(overpayment);
     this.overpayment = Math.abs(overpayment);
   }
 
-  openPopup(viewMode: boolean, paymentIndex?: number) {
+  public getStringDate(date: Date): string {
+    return date.toLocaleDateString('en-GB', { year: 'numeric', month: '2-digit', day: '2-digit' }).split('/').reverse().join('-');
+  }
+
+  public enrollToBonusAccount(): void {
+    const currentDate: string = this.getStringDate(new Date());
+
+    const paymentDetails: PaymentDetails = {
+      amount: this.overpayment,
+      receiptLink: 'Зарахування на бонусний рахунок',
+      settlementdate: currentDate
+    };
+
+    this.orderService.addPaymentBonuses(this.orderId, paymentDetails).subscribe((responce: IPaymentInfoDto) => {
+      responce.settlementdate = this.formatDate(responce.settlementdate);
+      this.paymentsArray.push(responce);
+      this.totalPaid -= this.overpayment;
+      this.overpayment = 0;
+    });
+  }
+
+  public recountUnpaidAmount(value: number): void {
+    this.unPaidAmount -= value;
+    if (this.unPaidAmount < 0) {
+      this.unPaidAmount = 0;
+    }
+  }
+
+  public preconditionChangePaymentData(extraPayment: IPaymentInfoDto): void {
+    const checkPaymentId = (): number => {
+      return this.paymentsArray.filter((payment: IPaymentInfoDto) => payment.id === extraPayment.id).length;
+    };
+
+    this.recountUnpaidAmount(extraPayment.amount);
+    extraPayment.settlementdate = this.formatDate(extraPayment.settlementdate);
+
+    if (checkPaymentId()) {
+      this.paymentsArray = this.paymentsArray.map((payment): IPaymentInfoDto => {
+        if (payment.id === extraPayment.id) {
+          this.totalPaid = this.totalPaid - payment.amount + extraPayment.amount;
+          return extraPayment;
+        }
+        return payment;
+      });
+    } else {
+      this.totalPaid += extraPayment.amount;
+      this.paymentsArray = [...this.paymentsArray, extraPayment];
+    }
+  }
+
+  public openPopup(viewMode: boolean, paymentIndex?: number): void {
     this.dialog
       .open(AddPaymentComponent, {
         hasBackdrop: true,
@@ -62,29 +136,18 @@ export class UbsAdminOrderPaymentComponent implements OnInit, OnChanges {
       })
       .afterClosed()
       .pipe(take(1))
-      .subscribe((res: IPaymentInfoDtos | number | null) => {
-        if (typeof res === 'number') {
+      .subscribe((extraPayment: IPaymentInfoDto | number | null) => {
+        if (typeof extraPayment === 'number') {
           this.paymentsArray = this.paymentsArray.filter((payment) => {
-            if (payment.id === res) {
+            if (payment.id === extraPayment) {
               this.totalPaid -= payment.amount;
               this.setOverpayment(this.totalPaid - this.actualPrice);
             }
-            return payment.id !== res;
+            return payment.id !== extraPayment;
           });
         }
-        if (res !== null && typeof res === 'object') {
-          if (this.paymentsArray.filter((payment) => payment.id === res.id).length) {
-            this.paymentsArray = this.paymentsArray.map((payment) => {
-              if (payment.id === res.id) {
-                this.totalPaid = this.totalPaid - payment.amount + res.amount;
-                return res;
-              }
-              return payment;
-            });
-          } else {
-            this.totalPaid += res.amount;
-            this.paymentsArray = [...this.paymentsArray, res];
-          }
+        if (extraPayment !== null && typeof extraPayment === 'object') {
+          this.preconditionChangePaymentData(extraPayment);
           this.setOverpayment(this.totalPaid - this.actualPrice);
         }
       });

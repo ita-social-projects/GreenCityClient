@@ -1,7 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
-import { UserViolations, IOrderHistory } from '../models/ubs-admin.interface';
+import { UserViolations, IOrderHistory, PaymentDetails, IPaymentInfoDto } from '../models/ubs-admin.interface';
 import { environment } from '@environment/environment';
 import { IViolation } from '../models/violation.model';
 
@@ -122,13 +122,17 @@ export class OrderService {
     return this.http.put<any>(`${this.backend}`, postData);
   }
 
-  public addPaymentManually(orderId: number, postData, file): Observable<any> {
+  public addPaymentManually(orderId: number, data: PaymentDetails, file?: File): Observable<IPaymentInfoDto> {
     const formData: FormData = new FormData();
     if (file) {
       formData.append('image', file);
     }
-    formData.append('manualPaymentDto', JSON.stringify(postData));
-    return this.http.post(`${this.backend}/management/add-manual-payment/${orderId}`, formData);
+    formData.append('manualPaymentDto', JSON.stringify(data));
+    return this.http.post<IPaymentInfoDto>(`${this.backend}/management/add-manual-payment/${orderId}`, formData);
+  }
+
+  public addPaymentBonuses(orderId: number, data: PaymentDetails): Observable<IPaymentInfoDto> {
+    return this.http.post<IPaymentInfoDto>(`${this.backend}/management/add-bonuses-user/${orderId}`, data);
   }
 
   public updatePaymentManually(paymentId: number, postData, file): Observable<any> {

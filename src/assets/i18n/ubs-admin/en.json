@@ -294,6 +294,8 @@
     "order-date": "Payment date",
     "overpayment": "Overpayment is",
     "underpayment": "Underpayment is",
+    "enroll-on-bonus-account": "Enroll to the bonus account",
+    "return-money": "Return money",
     "payment-id": "Payment ID",
     "sum": "Amount",
     "comment-bill": "Comment/Bill"
