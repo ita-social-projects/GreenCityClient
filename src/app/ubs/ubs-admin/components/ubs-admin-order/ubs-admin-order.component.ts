@@ -1,4 +1,4 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Component, OnInit, OnDestroy, AfterContentChecked, ChangeDetectorRef } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { ActivatedRoute, Params } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
@@ -36,7 +36,7 @@ enum ResponsibleEmployee {
   templateUrl: './ubs-admin-order.component.html',
   styleUrls: ['./ubs-admin-order.component.scss']
 })
-export class UbsAdminOrderComponent implements OnInit, OnDestroy {
+export class UbsAdminOrderComponent implements OnInit, OnDestroy, AfterContentChecked {
   currentLanguage: string;
   private destroy$: Subject<boolean> = new Subject<boolean>();
   orderForm: FormGroup;
@@ -63,8 +63,12 @@ export class UbsAdminOrderComponent implements OnInit, OnDestroy {
     private localStorageService: LocalStorageService,
     private fb: FormBuilder,
     private dialog: MatDialog,
-    private route: ActivatedRoute
+    private route: ActivatedRoute,
+    private changeDetector: ChangeDetectorRef
   ) {}
+  ngAfterContentChecked(): void {
+    this.changeDetector.detectChanges();
+  }
 
   ngOnInit() {
     this.localStorageService.languageBehaviourSubject.pipe(takeUntil(this.destroy$)).subscribe((lang) => {
@@ -160,16 +164,16 @@ export class UbsAdminOrderComponent implements OnInit, OnDestroy {
         addressDistrict: this.addressInfo.addressDistrict
       }),
       exportDetailsDto: this.fb.group({
-        dateExport: this.exportInfo.dateExport ? formatDate(this.exportInfo.dateExport, 'yyyy-MM-dd', this.currentLanguage) : '',
-        timeDeliveryFrom: this.parseTimeToStr(this.exportInfo.timeDeliveryFrom),
-        timeDeliveryTo: this.parseTimeToStr(this.exportInfo.timeDeliveryTo),
-        receivingStation: this.exportInfo.receivingStation
+        dateExport: [this.exportInfo.dateExport ? formatDate(this.exportInfo.dateExport, 'yyyy-MM-dd', this.currentLanguage) : ''],
+        timeDeliveryFrom: [this.parseTimeToStr(this.exportInfo.timeDeliveryFrom)],
+        timeDeliveryTo: [this.parseTimeToStr(this.exportInfo.timeDeliveryTo)],
+        receivingStation: [this.exportInfo.receivingStation]
       }),
       responsiblePersonsForm: this.fb.group({
-        callManager: this.getEmployeeById(currentEmployees, 2),
-        logistician: this.getEmployeeById(currentEmployees, 3),
-        navigator: this.getEmployeeById(currentEmployees, 4),
-        driver: this.getEmployeeById(currentEmployees, 5)
+        callManager: [this.getEmployeeById(currentEmployees, 2)],
+        logistician: [this.getEmployeeById(currentEmployees, 3)],
+        navigator: [this.getEmployeeById(currentEmployees, 4)],
+        driver: [this.getEmployeeById(currentEmployees, 5)]
       }),
       orderDetailsForm: this.fb.group({
         storeOrderNumbers: this.fb.array([]),
@@ -196,6 +200,7 @@ export class UbsAdminOrderComponent implements OnInit, OnDestroy {
         new FormControl(bag.actual, [Validators.min(0), Validators.max(999)])
       );
     });
+    this.statusCanceledOrDone();
   }
 
   getEmployeeById(allCurrentEmployees: Map<string, string>, id: number) {
@@ -233,6 +238,7 @@ export class UbsAdminOrderComponent implements OnInit, OnDestroy {
   onChangedOrderStatus(status: string) {
     this.currentOrderStatus = status;
     this.orderStatusInfo = this.getOrderStatusInfo(this.currentOrderStatus);
+    this.notRequiredFieldsStatuses();
   }
 
   public changeOverpayment(sum: number): void {
@@ -420,7 +426,33 @@ export class UbsAdminOrderComponent implements OnInit, OnDestroy {
 
     return result;
   }
+  statusCanceledOrDone(): void {
+    if (this.currentOrderStatus === 'CANCELED' || this.currentOrderStatus === 'DONE') {
+      this.orderForm.get('exportDetailsDto').disable();
+      this.orderForm.get('responsiblePersonsForm').disable();
+    } else {
+      this.orderForm.get('exportDetailsDto').enable();
+      this.orderForm.get('responsiblePersonsForm').enable();
+    }
+  }
+  notRequiredFieldsStatuses(): void {
+    const exportDetails = this.orderForm.get('exportDetailsDto');
+    const responsiblePersons = this.orderForm.get('responsiblePersonsForm');
+    const exportDetaisFields = Object.keys(this.orderForm.get('exportDetailsDto').value);
+    const responsiblePersonNames = Object.keys(this.orderForm.get('responsiblePersonsForm').value);
+    const statuses = ['BROUGHT_IT_HIMSELF', 'CANCELED', 'FORMED'];
 
+    if (statuses.includes(this.currentOrderStatus)) {
+      exportDetaisFields.map((el) => exportDetails.get(el).clearValidators());
+      responsiblePersonNames.map((el) => responsiblePersons.get(el).clearValidators());
+      exportDetails.reset();
+      responsiblePersons.reset();
+    } else {
+      exportDetaisFields.map((el) => exportDetails.get(el).setValidators([Validators.required]));
+      responsiblePersonNames.map((el) => responsiblePersons.get(el).setValidators([Validators.required]));
+    }
+    this.statusCanceledOrDone();
+  }
   ngOnDestroy(): void {
     this.destroy$.next();
     this.destroy$.complete();

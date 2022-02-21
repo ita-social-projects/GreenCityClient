@@ -23,7 +23,7 @@ form {
 .showing-block {
   background: var(--ubs-primary-white);
   box-shadow: 1px 4px 8px rgba(100, 114, 125, 0.18);
-  padding: 0 32px;
+  padding: 0 32px 25px;
   margin-bottom: 40px;
 }
 
@@ -40,7 +40,6 @@ form {
   height: 36px;
   border: 1px solid var(--ubs-primary-light-grey);
   border-radius: 4px;
-  margin-bottom: 50px;
   margin-right: 16px;
   position: relative;
 }
@@ -125,6 +124,10 @@ form {
   color: var(--ubs-primary-grey);
 }
 
+.disabled-col td {
+  color: var(--ubs-secondary-grey) !important;
+}
+
 .table-location tbody tr td {
   font-style: normal;
   font-weight: normal;
@@ -132,6 +135,14 @@ form {
   line-height: 20px;
   color: var(--ubs-quaternary-dark-grey);
   padding: 16px;
+}
+
+.city-item {
+  font-style: normal;
+  font-weight: normal;
+  font-size: 14px;
+  line-height: 20px;
+  color: var(--ubs-quaternary-dark-grey);
 }
 
 .table-location tbody tr {
@@ -143,6 +154,12 @@ form {
   border-collapse: separate;
   border-spacing: 0 8px;
   width: 100%;
+}
+
+.city-list {
+  display: flex;
+  flex-direction: column;
+  padding: 10px;
 }
 
 .setting-block {
@@ -175,10 +192,6 @@ form {
   display: flex;
 }
 
-.disabled-col {
-  color: var(--ubs-secondary-grey) !important;
-}
-
 button {
   outline: none;
 }
@@ -195,12 +208,6 @@ button {
   padding: 0 !important;
 }
 
-.arrowRight-img {
-  position: absolute;
-  top: 18px;
-  right: 18px;
-}
-
 .add-button {
   position: relative;
 }
@@ -214,7 +221,6 @@ button {
 }
 
 ::ng-deep .mat-form-field-infix {
-  padding: 8px 15px !important;
   border: 0 !important;
 }
 
@@ -223,7 +229,7 @@ button {
 }
 
 ::ng-deep .mat-form-field-wrapper {
-  padding: 0 !important;
+  padding: 2px 0 0 15px !important;
 }
 
 ::ng-deep .mat-form-field-ripple {
@@ -242,8 +248,42 @@ button {
   position: absolute;
   top: 15px;
   right: 15px;
+  cursor: pointer;
 }
 
 .cursor-pointer {
   cursor: pointer;
+}
+
+::ng-deep .mat-checkbox-checked:not(.mat-checkbox-disabled).mat-accent .mat-ripple-element {
+  background-color: var(--ubs-quaternary-dark-grey) !important;
+}
+
+::ng-deep .mat-checkbox-checked.mat-accent .mat-checkbox-background {
+  background-color: var(--ubs-quaternary-dark-grey) !important;
+}
+
+.cross-img {
+  font-size: 18px;
+  position: absolute;
+  top: 9px;
+  right: 30px;
+  cursor: pointer;
+  color: var(--ubs-primary-light-grey);
+}
+
+.checkbox-text {
+  position: absolute;
+  top: -2px;
+}
+
+.arrowRight-img {
+  position: absolute;
+  top: 18px;
+  right: 18px;
+}
+
+.validation {
+  color: var(--error-red);
+  font-size: 10px;
 }

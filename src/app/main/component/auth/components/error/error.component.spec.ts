@@ -1,4 +1,4 @@
-/*import { FormControl } from '@angular/forms';
+import { FormControl } from '@angular/forms';
 import { ErrorComponent } from './error.component';
 
 describe('error component', () => {
@@ -56,4 +56,4 @@ describe('error component', () => {
     // @ts-ignore
     expect(component.getErrorMsg[`symbolInvalid`]()).toBe('user.auth.sign-up.user-name-size');
   });
-});*/
+});

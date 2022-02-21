@@ -253,9 +253,9 @@ export interface IFilteredColumn {
 }
 
 export interface IFilteredColumnValue {
-  key: string;
-  en: string;
-  ua: string;
+  key?: string;
+  en?: string;
+  ua?: string;
   filtered: boolean;
 }
 

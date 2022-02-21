@@ -7,42 +7,44 @@
   <div class="empty-div"></div>
 </div>
 <mat-accordion multi="false">
-  <mat-expansion-panel *ngFor="let order of orders" (click)="changeCard(order.generalOrderInfo.id)">
-    <mat-expansion-panel-header>
-      <div class="mat-content-wrapper">
-        <mat-panel-title class="order_list-num">
-          {{ order.generalOrderInfo.id }}
-        </mat-panel-title>
-        <mat-panel-description class="order_list-date">
-          {{ order.generalOrderInfo.dateFormed | date: 'dd.MM.y' }}
-        </mat-panel-description>
-        <mat-panel-description class="order_list-status">
-          {{ order.generalOrderInfo.orderStatusName }}
-        </mat-panel-description>
-        <mat-panel-description class="order_list-paymentStatus">
-          {{ order.generalOrderInfo.orderPaymentStatusName }}
-        </mat-panel-description>
-        <mat-panel-description class="order_list-paymentAmount">
-          {{ order.orderFullPrice | currency | localizedCurrency }}
-        </mat-panel-description>
-      </div>
-      <div *ngIf="isOrderPaymentAccess(order)" class="btns_group">
-        <div class="btn_grid_cancel">
+  <div *ngFor="let order of orders">
+    <mat-expansion-panel (click)="changeCard(order.generalOrderInfo.id)">
+      <mat-expansion-panel-header>
+        <div class="mat-content-wrapper">
+          <mat-panel-title class="order_list-num">
+            {{ order.generalOrderInfo.id }}
+          </mat-panel-title>
+          <mat-panel-description class="order_list-date">
+            {{ order.generalOrderInfo.dateFormed | date: 'dd.MM.y' }}
+          </mat-panel-description>
+          <mat-panel-description class="order_list-status">
+            {{ order.generalOrderInfo.orderStatusName }}
+          </mat-panel-description>
+          <mat-panel-description class="order_list-paymentStatus">
+            {{ order.generalOrderInfo.orderPaymentStatusName }}
+          </mat-panel-description>
+          <mat-panel-description class="order_list-paymentAmount">
+            {{ order.orderFullPrice | currency | localizedCurrency }}
+          </mat-panel-description>
+        </div>
+        <div *ngIf="isOrderPaymentAccess(order)" class="btns_group">
           <div class="btn_grid_cancel">
-            <button class="btn_cancel" (click)="openOrderCancelDialog(order)">
-              {{ 'user-orders.btn.cancel' | translate }}
+            <div class="btn_grid_cancel">
+              <button class="btn_cancel" (click)="openOrderCancelDialog(order)">
+                {{ 'user-orders.btn.cancel' | translate }}
+              </button>
+            </div>
+          </div>
+          <div class="btn_grid_pay">
+            <button class="btn_pay" (click)="openOrderPaymentDialog(order)">
+              {{ 'user-orders.btn.pay' | translate }}
             </button>
           </div>
         </div>
-        <div class="btn_grid_pay">
-          <button class="btn_pay" (click)="openOrderPaymentDialog(order)">
-            {{ 'user-orders.btn.pay' | translate }}
-          </button>
-        </div>
-      </div>
-    </mat-expansion-panel-header>
+      </mat-expansion-panel-header>
+    </mat-expansion-panel>
     <div class="description" *ngIf="order.extend">
       <app-ubs-user-order-details [order]="order"></app-ubs-user-order-details>
     </div>
-  </mat-expansion-panel>
+  </div>
 </mat-accordion>

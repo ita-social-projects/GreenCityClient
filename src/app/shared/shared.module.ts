@@ -26,6 +26,8 @@ import { SearchNotFoundComponent } from './search-not-found/search-not-found.com
 import { UbsFooterComponent } from './ubs-footer/ubs-footer.component';
 import { FilterLocationListByLangPipe } from './filter-location-list-by-lang/filter-location-list-by-lang.pipe';
 import { MaxImageNamePipe } from '../ubs/ubs-admin/components/shared/max-image-name/max-image-name.pipe';
+import { OptionPipe } from './option-tariff/option-tariff.pipe';
+import { SearchPipe } from './search-tariff/search-tariff.pipe';
 
 @NgModule({
   declarations: [
@@ -47,7 +49,9 @@ import { MaxImageNamePipe } from '../ubs/ubs-admin/components/shared/max-image-n
     SearchNotFoundComponent,
     UbsFooterComponent,
     FilterLocationListByLangPipe,
-    MaxImageNamePipe
+    MaxImageNamePipe,
+    OptionPipe,
+    SearchPipe
   ],
   imports: [
     CommonModule,
@@ -78,7 +82,9 @@ import { MaxImageNamePipe } from '../ubs/ubs-admin/components/shared/max-image-n
     SearchPopupComponent,
     SearchNotFoundComponent,
     UbsFooterComponent,
-    MaxImageNamePipe
+    MaxImageNamePipe,
+    OptionPipe,
+    SearchPipe
   ]
 })
 export class SharedModule {}

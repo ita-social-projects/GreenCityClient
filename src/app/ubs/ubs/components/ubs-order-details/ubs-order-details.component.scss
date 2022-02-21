@@ -309,6 +309,7 @@ button {
 
   p {
     font-size: 12px;
+    min-width: 42vw;
   }
 
   .inactive {
@@ -498,6 +499,10 @@ li {
     padding: 0;
   }
 
+  .form-group {
+    width: 65% !important;
+  }
+
   .container {
     max-width: 100%;
     padding: 15px;
@@ -628,7 +633,7 @@ li {
 
     .eco-store {
       & > [input-close-button] {
-        top: 26px;
+        top: 1em;
       }
     }
 
