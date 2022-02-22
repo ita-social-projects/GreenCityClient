@@ -108,6 +108,7 @@ export class UbsAdminTableComponent implements OnInit, AfterViewChecked, OnDestr
 
     this.modelChanged.pipe(debounceTime(500)).subscribe((model) => {
       this.currentPage = 0;
+      this.tableData = [];
       this.getTable(model, 'id', 'DESC', true);
     });
 
@@ -168,8 +169,7 @@ export class UbsAdminTableComponent implements OnInit, AfterViewChecked, OnDestr
         if (this.displayedColumns.length === 0) {
           this.setDisplayedColumns();
         }
-        const { pageSize, sortDirection, sortBy } = columns.page;
-        this.pageSize = pageSize;
+        const { sortDirection, sortBy } = columns.page;
         if (this.isStoreEmpty) {
           this.getTable(this.filterValue, sortBy, sortDirection, true);
         }
@@ -293,7 +293,7 @@ export class UbsAdminTableComponent implements OnInit, AfterViewChecked, OnDestr
     this.store.dispatch(GetColumns());
   }
 
-  private getTable(filterValue, columnName = this.sortingColumn || 'id', sortingType = this.sortType || 'DESC', reset: boolean) {
+  private getTable(filterValue: string, columnName = this.sortingColumn || 'id', sortingType = this.sortType || 'DESC', reset: boolean) {
     this.isLoading = true;
     this.store.dispatch(GetTable({ columnName, page: this.currentPage, filter: filterValue, size: this.pageSize, sortingType, reset }));
   }
@@ -302,7 +302,7 @@ export class UbsAdminTableComponent implements OnInit, AfterViewChecked, OnDestr
     this.tableData.forEach((el) => {
       el.amountDue = parseFloat(el.amountDue).toFixed(2);
       el.totalOrderSum = parseFloat(el.totalOrderSum).toFixed(2);
-      const arr = el.orderCertificatePoints?.split(', ');
+      const arr = el.orderCertificateCode?.split(', ');
       if (arr && arr.length > 0) {
         el.orderCertificatePoints = arr.reduce((res, elem) => {
           res = parseInt(res, 10);

@@ -5,16 +5,9 @@
       <div class="user-location">
         <div>
           <h5>{{ 'order-details.current-location' | translate: { currentLocation: currentLocation } }}</h5>
-          <button class="change-location" (click)="changeLocation = !changeLocation">
+          <button class="change-location" (click)="redirectToZeroStep()">
             {{ 'order-details.choose-location' | translate }}
           </button>
-        </div>
-        <div *ngIf="changeLocation" class="list-locations">
-          <select name="region" class="choose-location" [(ngModel)]="selectedLocationId" (ngModelChange)="saveLocation(true)">
-            <option [ngValue]="location.locationId" *ngFor="let location of locations | filterLocationListByLang">
-              {{ location.locationName }}
-            </option>
-          </select>
         </div>
       </div>
       <p class="order-content" *ngIf="selectedLocationId === 1">{{ 'order-details.order-content' | translate }}</p>

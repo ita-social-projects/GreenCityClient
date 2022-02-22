@@ -464,6 +464,10 @@ export class UBSOrderDetailsComponent extends FormBaseComponent implements OnIni
     this.dialog.open(ExtraPackagesPopUpComponent, dialogConfig);
   }
 
+  redirectToZeroStep() {
+    this.openLocationDialog();
+  }
+
   ngOnDestroy() {
     this.destroy.next();
     this.destroy.unsubscribe();

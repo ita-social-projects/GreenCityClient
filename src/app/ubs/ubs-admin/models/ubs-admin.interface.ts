@@ -151,18 +151,22 @@ export interface IAddressExportDetails {
 export interface IPaymentInfo {
   overpayment: number;
   paidAmount: number;
-  paymentInfoDtos: IPaymentInfoDtos[];
+  paymentInfoDtos: IPaymentInfoDto[];
   unPaidAmount: number;
 }
 
-export interface IPaymentInfoDtos {
+export interface PaymentDetails {
   amount: number;
-  comment: string;
-  paymentId: string;
-  id: number;
   settlementdate: string;
-  imagePath: string;
+  paymentId?: string;
   receiptLink: string;
+  imagePath?: string;
+}
+
+export interface IPaymentInfoDto extends PaymentDetails {
+  id: number;
+  comment?: string;
+  currentDate: string;
 }
 
 export interface IExportDetails {

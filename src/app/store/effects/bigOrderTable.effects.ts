@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { of } from 'rxjs';
-import { catchError, map, mergeMap } from 'rxjs/operators';
+import { catchError, map, mergeMap, switchMap } from 'rxjs/operators';
 import { Actions, createEffect } from '@ngrx/effects';
 import { ofType } from '@ngrx/effects';
 import {
@@ -63,7 +63,7 @@ export class BigOrderTableEffects {
   getTable = createEffect(() => {
     return this.actions.pipe(
       ofType(GetTable),
-      mergeMap((action: { columnName?: string; page?: number; filter?: string; size?: number; sortingType?: string; reset?: boolean }) => {
+      switchMap((action: { columnName?: string; page?: number; filter?: string; size?: number; sortingType?: string; reset?: boolean }) => {
         return this.adminTableService.getTable(action.columnName, action.page, action.filter, action.size, action.sortingType).pipe(
           map((bigOrderTable: IBigOrderTable) => GetTableSuccess({ bigOrderTable, reset: action.reset })),
           catchError((error) => of(ReceivedFailure(error)))
