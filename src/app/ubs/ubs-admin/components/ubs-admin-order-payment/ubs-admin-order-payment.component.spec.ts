@@ -2,7 +2,7 @@ import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { MatDialog, MatDialogModule } from '@angular/material/dialog';
 import { TranslateModule } from '@ngx-translate/core';
 import { LocalizedCurrencyPipe } from 'src/app/shared/localized-currency-pipe/localized-currency.pipe';
-import { IEmployee, IOrderInfo } from '../../models/ubs-admin.interface';
+import { IEmployee, IOrderInfo, IPaymentInfoDto } from '../../models/ubs-admin.interface';
 import { OrderService } from '../../services/order.service';
 
 import { UbsAdminOrderPaymentComponent } from './ubs-admin-order-payment.component';
@@ -199,7 +199,7 @@ describe('UbsAdminOrderPaymentComponent', () => {
           currentDate: '2022-02-09'
         },
         {
-          amount: 350,
+          amount: -350,
           comment: null,
           id: 45,
           imagePath: null,
@@ -298,6 +298,13 @@ describe('UbsAdminOrderPaymentComponent', () => {
     expect(component.accessOnCanceledStatus()).toBeFalsy();
     component.currentOrderStatus = 'CANCELED';
     expect(component.accessOnCanceledStatus()).toBeTruthy();
+  });
+
+  it('method positivePaymentsArrayAmount', () => {
+    component.positivePaymentsArrayAmount();
+    component.paymentsArray.forEach((payment: IPaymentInfoDto) => {
+      expect(payment.amount).toBeGreaterThan(0);
+    });
   });
 
   it('method getStringDate', () => {
