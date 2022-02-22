@@ -16,8 +16,9 @@ export class AdminTableService {
   constructor(private http: HttpClient) {}
 
   getTable(columnName?: string, page?: number, filter?: string, size?: number, sortingType?: string) {
+    const searchValue = filter ? filter.split(' ').reduce((values, value) => (value ? values + `search=${value}&` : values), '') : '';
     const SORT_BY_AND_PAGE_NUMBER = `sortBy=${columnName}&pageNumber=${page}`;
-    const SEARCH_AND_PAGE_SIZE_AND_DIRECTION = filter ? `search=${filter}&` : '' + `pageSize=${size}&sortDirection=${sortingType}`;
+    const SEARCH_AND_PAGE_SIZE_AND_DIRECTION = searchValue + `pageSize=${size}&sortDirection=${sortingType}`;
     const BASE_QUERY = `${this.url}bigOrderTable?${SORT_BY_AND_PAGE_NUMBER}&${SEARCH_AND_PAGE_SIZE_AND_DIRECTION}`;
     let filtersQuery = '';
     if (this.filters.length) {

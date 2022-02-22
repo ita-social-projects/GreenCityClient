@@ -54,7 +54,7 @@ export class UbsAdminOrderComponent implements OnInit, OnDestroy, AfterContentCh
   orderStatusInfo: IOrderStatusInfo;
   currentOrderPrice: number;
   currentOrderStatus: string;
-  overpayment = 0;
+  overpayment: number;
   isMinOrder = true;
 
   constructor(
@@ -96,6 +96,7 @@ export class UbsAdminOrderComponent implements OnInit, OnDestroy, AfterContentCh
         this.responsiblePersonInfo = data.employeePositionDtoRequest;
         this.totalPaid = this.orderInfo.orderCertificateTotalDiscount + this.orderInfo.orderBonusDiscount;
         this.totalPaid += data.paymentTableInfoDto.paidAmount;
+        this.overpayment = data.paymentTableInfoDto.overpayment;
         this.currentOrderPrice = data.orderFullPrice;
         this.setOrderDetails();
         this.initForm();
@@ -140,7 +141,6 @@ export class UbsAdminOrderComponent implements OnInit, OnDestroy, AfterContentCh
 
   initForm() {
     const currentEmployees = this.responsiblePersonInfo.currentPositionEmployees;
-    this.overpayment = 0;
     this.orderForm = this.fb.group({
       generalOrderInfo: this.fb.group({
         orderStatus: this.generalInfo.orderStatus,
@@ -241,7 +241,7 @@ export class UbsAdminOrderComponent implements OnInit, OnDestroy, AfterContentCh
     this.notRequiredFieldsStatuses();
   }
 
-  public changeOverpayment(sum) {
+  public changeOverpayment(sum: number): void {
     this.overpayment = sum;
   }
 

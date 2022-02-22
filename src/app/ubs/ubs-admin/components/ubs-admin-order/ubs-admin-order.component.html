@@ -4,7 +4,7 @@
   <div class="row">
     <button class="back-button-top" (click)="openGoBackModal()">< {{ 'order-edit.btn.back' | translate }}</button>
   </div>
-  <form [formGroup]="orderForm" (ngSubmit)="onSubmit()">
+  <form [formGroup]="orderForm">
     <div class="box">
       <app-ubs-admin-order-status
         [currentOrderPrice]="currentOrderPrice"
@@ -31,8 +31,8 @@
       <app-ubs-admin-order-payment
         [actualPrice]="currentOrderPrice"
         [totalPaid]="totalPaid"
-        [overpayment]="overpayment"
         [orderInfo]="orderInfo"
+        [orderStatus]="currentOrderStatus"
       ></app-ubs-admin-order-payment>
       <app-ubs-admin-export-details [exportDetailsDto]="getFormGroup('exportDetailsDto')" [exportInfo]="exportInfo">
       </app-ubs-admin-export-details>
@@ -51,7 +51,7 @@
         <button type="reset" class="cancel-button" (click)="$event.preventDefault(); openCancelModal()">
           {{ 'order-edit.btn.cancel' | translate }}
         </button>
-        <button type="submit" class="save-button" [disabled]="!orderForm.valid || !isMinOrder">
+        <button type="submit" class="save-button" [disabled]="!orderForm.valid || !isMinOrder" (click)="onSubmit()">
           {{ 'order-edit.btn.save' | translate }}
           <span class="inform-window">
             {{ 'information-window.message' | translate }}

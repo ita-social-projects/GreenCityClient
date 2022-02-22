@@ -5,25 +5,28 @@
     <h1 class="my-4 form__headline">{{ 'order-payment.title' | translate }}</h1>
   </div>
   <div *ngIf="pageOpen">
-    <div class="row align-items-baseline">
-      <div class="col-md-4 col-xl-4">
+    <div class="order-payment-size-container" [ngStyle]="unPaidAmount && { 'margin-bottom': '4px' }">
+      <div>
         <span class="form__subtitle">{{ 'order-payment.order-size' | translate }}</span>
       </div>
-      <div class="col-md-2">
+      <div class="order-payment-sum">
         <span class="price">{{ totalPaid | currency | localizedCurrency }}</span>
       </div>
-      <div class="col-md-2">
-        <button (click)="openPopup(false)" class="btn">+ {{ 'order-payment.add-payment-btn' | translate }}</button>
+      <div>
+        <button class="btn button-payment-operations btn-add-payment" (click)="openPopup(false)">
+          <span class="plus">+</span>{{ 'order-payment.add-payment-btn' | translate }}
+        </button>
       </div>
     </div>
-    <p class="need-to-pay" *ngIf="overpayment">{{ message | translate }} {{ overpayment | localizedCurrency }}</p>
+    <p *ngIf="unPaidAmount" class="need-to-pay unpaid-amount">
+      {{ 'order-payment.underpayment' | translate }} {{ unPaidAmount | localizedCurrency }}
+    </p>
     <div class="table-responsive-md col-md-10 pl-0" *ngIf="paymentsArray.length !== 0">
-      <table class="table table-borderless">
-        <caption>
-          {{
-            'order-payment.title' | translate
-          }}
-        </caption>
+      <table
+        class="table table-borderless"
+        aria-label="Payment transactions"
+        aria-describedby="Table for saving information about payment transactions"
+      >
         <thead>
           <tr>
             <th id="paymentDate">{{ 'order-payment.order-date' | translate }}</th>
@@ -41,6 +44,22 @@
           </tr>
         </tbody>
       </table>
+    </div>
+    <div *ngIf="overpayment" class="order-overpayment-container">
+      <div>
+        <span class="form__subtitle">{{ 'order-payment.overpayment' | translate }}</span>
+      </div>
+      <div class="order-overpayment-sum">
+        <span class="price bg-price-none">{{ overpayment | currency | localizedCurrency }}</span>
+      </div>
+      <div>
+        <button class="btn button-payment-operations btn-enroll-to-bonus-account" [disabled]="!accessOnCanceledStatus()">
+          {{ 'order-payment.enroll-on-bonus-account' | translate }}
+        </button>
+        <button class="btn button-payment-operations btn-return-money" [disabled]="!accessOnCanceledStatus()">
+          {{ 'order-payment.return-money' | translate }}
+        </button>
+      </div>
     </div>
   </div>
   <hr />

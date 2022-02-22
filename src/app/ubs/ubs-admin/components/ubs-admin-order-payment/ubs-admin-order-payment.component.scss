@@ -38,13 +38,59 @@
   letter-spacing: 0.1px;
 }
 
-button {
+.order-payment-size-container {
+  display: flex;
+  align-items: center;
+  margin: 12px 0 36px;
+
+  .order-payment-sum {
+    margin: 0 115px 0 24px;
+  }
+}
+
+.order-overpayment-container {
+  display: flex;
+  align-items: center;
+  margin: 24px 0;
+
+  .order-overpayment-sum {
+    margin: 0 56px 0 24px;
+
+    .bg-price-none {
+      background: none;
+    }
+  }
+}
+
+.button-payment-operations {
   color: var(--ubs-primary-green);
   border: 1px solid var(--ubs-primary-green);
-  box-sizing: border-box;
-  border-radius: 4px;
-  width: 177px;
+  letter-spacing: 0.1px;
+  font-weight: bold;
   font-size: 14px;
+  border-radius: 4px;
+  height: 36px;
+}
+
+.btn-add-payment {
+  width: 173px;
+}
+
+.btn-enroll-to-bonus-account {
+  width: 267px;
+  margin-right: 16px;
+}
+
+.btn-return-money {
+  width: 167px;
+}
+
+.plus {
+  margin-right: 8px;
+}
+
+.unpaid-amount {
+  margin-bottom: 8px;
 }
 
 .price {
@@ -52,7 +98,7 @@ button {
   border: 1px solid var(--ubs-primary-light-grey);
   box-sizing: border-box;
   border-radius: 4px;
-  padding: 7px;
+  padding: 8px;
   height: 36px;
   width: 85px;
 }
