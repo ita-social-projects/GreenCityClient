@@ -1,5 +1,8 @@
 footer {
   box-shadow: 0 -4px 8px var(--quintynary-dark-grey);
+  position: absolute;
+  z-index: 1;
+  background-color: white;
 
   .container-fluid {
     padding: 70px 330px 0 330px;

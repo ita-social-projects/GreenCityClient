@@ -12,7 +12,7 @@
     </ul>
   </div>
   <mat-drawer-container class="sidebar" autosize>
-    <mat-drawer #drawer class="sidebar-slider" mode="side" opened="true" disableClose="false" autoFocus="false">
+    <mat-drawer #drawer class="sidebar-slider" mode="side" opened="true" disableClose="true" autoFocus="false">
       <ul class="sidebar-list">
         <li class="sidebar-list-item" *ngFor="let listItem of listElements" [routerLink]="listItem.routerLink">
           <img
