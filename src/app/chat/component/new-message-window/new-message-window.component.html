@@ -4,7 +4,7 @@
     <button class="close-new-msg" (click)="close()" title="Close">&times;</button>
   </div>
   <div class="receiver">
-    <div class="account">
+    <div *ngIf="chatsService.currentChat" class="account">
       <img [src]="chatIcons.userLogo" alt="user-logo" />
       <span class="chat-name">{{ chatsService.currentChat.name }}</span>
     </div>

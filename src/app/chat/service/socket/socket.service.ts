@@ -37,13 +37,11 @@ export class SocketService {
 
   private onConnected() {
     this.stompClient.subscribe(`/room/message/chat-messages${this.userId}`, (data: IMessage) => {
-      console.log(data);
-      // TODO bad logic, you might not be sitting in chat where message landed FIXIT
       const newMessage: Message = JSON.parse(data.body);
-      console.log(newMessage);
       const messages = this.chatsService.chatsMessages[newMessage.roomId];
       if (messages) {
         messages.page.push(newMessage);
+        console.log(messages);
         this.chatsService.currentChatMessagesStream$.next(messages.page);
       }
     });

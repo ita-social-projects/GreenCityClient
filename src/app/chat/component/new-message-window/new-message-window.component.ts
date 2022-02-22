@@ -37,6 +37,10 @@ export class NewMessageWindowComponent implements OnInit, OnDestroy {
       this.userSearchField = newInput;
       this.chatsService.searchFriends(newInput);
     });
+
+    this.chatsService.currentChatMessagesStream$.subscribe((messages) => {
+      this.isHaveMessages = messages.length != 0;
+    });
   }
 
   ngAfterViewChecked(): void {

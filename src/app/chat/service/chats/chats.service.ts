@@ -84,7 +84,6 @@ export class ChatsService {
 
   public openCurrentChat(chatId: number) {
     const currentChat = this.userChats.find((chat) => chat.id === chatId);
-    console.log(currentChat);
     this.setCurrentChat(currentChat);
   }
 

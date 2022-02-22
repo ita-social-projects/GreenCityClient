@@ -17,6 +17,5 @@ export class ChatModalComponent {
     this.chatsService.setCurrentChat(null);
     this.chatsService.chatsMessages = {};
     this.dialogRef.close();
-    console.log('close');
   }
 }

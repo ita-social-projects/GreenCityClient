@@ -1,4 +1,5 @@
-import { Component, OnInit } from '@angular/core';
+import { TranslateService } from '@ngx-translate/core';
+import { Component } from '@angular/core';
 import { ChatsService } from '../../service/chats/chats.service';
 import { CHAT_ICONS } from '../../chat-icons';
 
@@ -7,10 +8,8 @@ import { CHAT_ICONS } from '../../chat-icons';
   templateUrl: './current-chat.component.html',
   styleUrls: ['./current-chat.component.scss']
 })
-export class CurrentChatComponent implements OnInit {
+export class CurrentChatComponent {
   public chatIcons = CHAT_ICONS;
 
-  constructor(public chatsService: ChatsService) {}
-
-  ngOnInit(): void {}
+  constructor(public chatsService: ChatsService, private translate: TranslateService) {}
 }
