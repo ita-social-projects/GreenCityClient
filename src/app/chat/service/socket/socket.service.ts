@@ -15,7 +15,7 @@ import { FriendChatInfo } from '../../model/Chat.model';
 export class SocketService {
   private socket: WebSocket;
   private stompClient: CompatClient;
-  private backendSocketLink = `${environment.socket}`;
+  private backendSocketLink = `${environment.chatSocket}`;
   private userId: number;
   private isOpenNewChat = false;
   private isOpenNewChatInWindow = false;
@@ -41,7 +41,6 @@ export class SocketService {
       const messages = this.chatsService.chatsMessages[newMessage.roomId];
       if (messages) {
         messages.page.push(newMessage);
-        console.log(messages);
         this.chatsService.currentChatMessagesStream$.next(messages.page);
       }
     });
@@ -54,7 +53,7 @@ export class SocketService {
       const newUserChat = JSON.parse(newChat.body);
       const usersChats = [...this.chatsService.userChats, newUserChat];
       this.chatsService.userChatsStream$.next(usersChats);
-      const idFriend = newUserChat.participants.find((user) => user.id != this.userId).id;
+      const idFriend = newUserChat.participants.find((user) => user.id !== this.userId).id;
       this.updateFriendsChatsStream$.next({
         friendId: idFriend,
         chatExists: true,

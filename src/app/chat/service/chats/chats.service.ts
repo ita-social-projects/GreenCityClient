@@ -16,7 +16,7 @@ export class ChatsService {
   public currentChatMessagesStream$: BehaviorSubject<Message[]> = new BehaviorSubject<Message[]>([]);
   public searchedFriendsStream$: BehaviorSubject<FriendModel[]> = new BehaviorSubject<FriendModel[]>([]);
   public isChatUpdateStream$: Subject<boolean> = new Subject<boolean>();
-  public chatsMessages: Object = {};
+  public chatsMessages: object = {};
   private messagesIsLoading = false;
 
   constructor(private httpClient: HttpClient) {}

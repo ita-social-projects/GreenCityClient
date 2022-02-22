@@ -1,9 +1,10 @@
 @import 'src/app/chat/chat-styles-reset';
 
 :host {
+  @include flex(column, center, center);
+
   width: 100%;
   height: 100%;
-  @include flex(column, center, center);
 }
 
 .chat {
@@ -37,8 +38,8 @@
     font-size: 16px;
   }
 
-  &:after,
-  &:before {
+  &::after,
+  &::before {
     content: '';
     width: 40%;
     height: 1px;
@@ -50,17 +51,57 @@
     transform: translateY(-50%);
   }
 
-  &:before {
+  &::before {
     left: 0;
   }
 
-  &:after {
+  &::after {
     right: 0;
+  }
+}
+
+.sender {
+  @include flex(row, space-between, center);
+
+  padding: 5px 10px;
+  width: 100%;
+  height: 68px;
+  background: var(--quaternary-dark-grey);
+
+  img {
+    height: 20px;
+  }
+
+  button {
+    cursor: pointer;
+    border-radius: 50%;
+    padding: 5px;
+    box-sizing: content-box;
+
+    @include flex(row, center, center);
+
+    &:hover {
+      background: var(--quaternary-grey);
+    }
+  }
+
+  input {
+    width: 100%;
+    border: none;
+    font-size: 15px;
+    margin: 0 10px;
+    background: var(--quaternary-dark-grey);
+    color: var(--primary-white);
+
+    &:focus {
+      outline: 0;
+    }
   }
 }
 
 .message {
   @include flex(row, flex-start, flex-end);
+
   column-gap: 10px;
   padding: 10px;
   width: 100%;
@@ -80,12 +121,14 @@
 
 .msg-block {
   @include flex(row, flex-start, center);
+
   max-width: 45%;
   padding: 8px;
   border-radius: 10px 10px 10px 0;
   position: relative;
   box-shadow: 0 0 1px 1px rgb(0 0 0 / 25%);
   background: var(--primary-green);
+
   span {
     font-size: 14px;
     font-family: var(--primary-font);
@@ -111,42 +154,6 @@
   bottom: 68px;
   right: 200px;
   box-sizing: border-box;
-}
-
-.sender {
-  @include flex(row, space-between, center);
-  padding: 5px 10px;
-  width: 100%;
-  height: 68px;
-  background: var(--quaternary-dark-grey);
-
-  img {
-    height: 20px;
-  }
-
-  button {
-    cursor: pointer;
-    border-radius: 50%;
-    padding: 5px;
-    box-sizing: content-box;
-    @include flex(row, center, center);
-
-    &:hover {
-      background: var(--quaternary-grey);
-    }
-  }
-
-  input {
-    width: 100%;
-    border: none;
-    font-size: 15px;
-    margin: 0 10px;
-    background: var(--quaternary-dark-grey);
-    color: var(--primary-white);
-    &:focus {
-      outline: 0;
-    }
-  }
 }
 
 .sender-additional-buttons {

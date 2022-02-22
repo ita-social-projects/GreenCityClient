@@ -2,6 +2,7 @@
 
 .chat-popup {
   @include flex(column, flex-start, center);
+
   position: fixed;
   bottom: 0;
   right: 15px;
@@ -23,6 +24,7 @@
 
 .popup-top-panel {
   @include flex(row, space-between, center);
+
   width: 100%;
   padding: 7px 10px;
   position: relative;
@@ -32,7 +34,7 @@
   border: var(--primary-white) solid 0.5px;
   background: var(--quaternary-dark-grey);
 
-  &:after {
+  &::after {
     content: '';
     width: 20%;
     height: 3px;
@@ -45,7 +47,7 @@
     transition: 0.2s ease;
   }
 
-  .chat-popup.opened &:after {
+  .chat-popup.opened &::after {
     top: 100%;
     width: 10%;
     transform: translate(-50%, -100%);
@@ -54,6 +56,7 @@
 
 .panel-account {
   @include flex(row, flex-start, center);
+
   column-gap: 10px;
   width: 100%;
 
@@ -70,6 +73,7 @@
 
 .panel-buttons {
   @include flex(row, space-between, center);
+
   column-gap: 10px;
   cursor: default;
 }
@@ -78,13 +82,14 @@
   border-radius: 50%;
   height: 20px;
   width: 20px;
-  @include flex(row, center, center);
   padding: 5px;
   box-sizing: content-box;
   transition: background 0.2s linear;
   border: none;
   background: none;
   cursor: pointer;
+
+  @include flex(row, center, center);
 
   &:hover {
     background: var(--quaternary-grey);

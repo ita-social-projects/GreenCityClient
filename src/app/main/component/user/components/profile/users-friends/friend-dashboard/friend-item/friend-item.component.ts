@@ -1,5 +1,5 @@
 import { MatDialog } from '@angular/material/dialog';
-import { Component, Input, Output, EventEmitter } from '@angular/core';
+import { Component, Input, Output, EventEmitter, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { FriendModel } from '@global-user/models/friend.model';
 import { SocketService } from 'src/app/chat/service/socket/socket.service';
@@ -11,7 +11,7 @@ import { ChatModalComponent } from 'src/app/chat/component/chat-modal/chat-modal
   templateUrl: './friend-item.component.html',
   styleUrls: ['./friend-item.component.scss']
 })
-export class FriendItemComponent {
+export class FriendItemComponent implements OnInit {
   public userId: number;
   private dialogConfig = {
     hasBackdrop: true,

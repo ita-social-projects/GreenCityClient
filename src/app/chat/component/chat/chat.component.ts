@@ -19,7 +19,7 @@ export class ChatComponent implements OnInit, AfterViewChecked {
   public isHaveMessages = true;
   public showEmojiPicker = false;
 
-  private page: number = 0;
+  private page = 0;
   private oldScrollHeight: number;
   private isChatUpdate = false;
 
@@ -28,7 +28,7 @@ export class ChatComponent implements OnInit, AfterViewChecked {
   ngOnInit(): void {
     this.chatsService.currentChatMessagesStream$.subscribe((messages) => {
       this.shouldNotBeScrolled = false;
-      this.isHaveMessages = messages.length != 0;
+      this.isHaveMessages = messages.length !== 0;
     });
     this.chatsService.isChatUpdateStream$.subscribe((isUpdate) => {
       this.isChatUpdate = isUpdate;

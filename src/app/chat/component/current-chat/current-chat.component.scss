@@ -7,11 +7,13 @@
 
 .current-chat {
   @include flex(column, center, center);
+
   height: 100%;
 }
 
 .current-chat-title {
   @include flex(row, flex-start, center);
+
   width: 100%;
   padding: 10px;
   column-gap: 7px;
@@ -40,8 +42,9 @@
 }
 
 .current-chat-content {
-  width: 35vw;
   @include flex(row, center, center);
+
+  width: 35vw;
   flex: 1;
   overflow: hidden;
 }

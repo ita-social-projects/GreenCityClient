@@ -114,13 +114,14 @@ ul {
 blockquote,
 q {
   quotes: none;
-}
 
-blockquote:before,
-blockquote:after,
-q:before,
-q:after {
-  content: '';
+  &::before {
+    content: '';
+  }
+
+  &::after {
+    content: '';
+  }
 }
 
 table {
@@ -136,6 +137,7 @@ button {
 
 * {
   font-family: 'Roboto', sans-serif;
+  z-index: 1000;
 }
 
 @mixin flex($direction: row, $jc: flex-start, $ai: stretch) {
@@ -148,9 +150,6 @@ button {
 html,
 body {
   height: 100%;
-}
-
-body {
   margin: 0;
   font-family: Roboto, 'Helvetica Neue', sans-serif;
 }
@@ -167,9 +166,9 @@ body {
   height: 100%;
   min-height: inherit;
   max-height: 100vh;
-  background: white;
+  background: #fff;
   position: relative;
-  color: #222222;
+  color: #222;
 }
 
 .custom-dialog-container .mat-dialog-container::-webkit-scrollbar {
@@ -186,8 +185,4 @@ body {
   .custom-dialog-container .mat-dialog-container {
     padding: 30px 16px 27px;
   }
-}
-
-* {
-  z-index: 1000;
 }

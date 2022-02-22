@@ -19,7 +19,8 @@
 
 .new-msg-title {
   @include flex(row, space-between, center);
-  padding: 0px 10px;
+
+  padding: 0 10px;
   background: var(--quaternary-dark-grey);
   border: var(--primary-white) solid 0.5px;
   border-top-right-radius: 7px;
@@ -45,9 +46,10 @@
 }
 
 .receiver {
+  @include flex(row, space-between, center);
+
   width: 100%;
   height: 45px;
-  @include flex(row, space-between, center);
   position: relative;
   padding: 0 10px;
   border-left: var(--primary-white) solid 0.5px;
@@ -56,6 +58,7 @@
 
   .account {
     @include flex(row, center, center);
+
     color: var(--primary-white);
     font-family: var(--primary-font);
 
@@ -97,8 +100,8 @@
     font-size: 16px;
   }
 
-  &:after,
-  &:before {
+  &::after,
+  &::before {
     content: '';
     width: 25%;
     height: 1px;
@@ -110,17 +113,55 @@
     transform: translateY(-50%);
   }
 
-  &:before {
+  &::before {
     left: 0;
   }
 
-  &:after {
+  &::after {
     right: 0;
+  }
+}
+
+.message-sender {
+  @include flex(row, space-between, center);
+
+  padding: 10px;
+  background: var(--quaternary-dark-grey);
+
+  img {
+    height: 20px;
+  }
+
+  button {
+    cursor: pointer;
+    border-radius: 50%;
+    padding: 5px;
+    box-sizing: content-box;
+
+    @include flex(row, center, center);
+
+    &:hover {
+      background: var(--quaternary-grey);
+    }
+  }
+
+  input {
+    width: 100%;
+    border: none;
+    font-size: 15px;
+    margin: 0 10px;
+    background: var(--quaternary-dark-grey);
+    color: var(--primary-white);
+
+    &:focus {
+      outline: 0;
+    }
   }
 }
 
 .message {
   @include flex(row, flex-start, flex-end);
+
   column-gap: 10px;
   padding: 10px;
   width: 100%;
@@ -140,12 +181,14 @@
 
 .msg-block {
   @include flex(row, flex-start, center);
+
   max-width: 45%;
   padding: 8px;
   border-radius: 10px 10px 10px 0;
   position: relative;
   box-shadow: 0 0 1px 1px rgb(0 0 0 / 25%);
   background: var(--primary-green);
+
   span {
     font-size: 14px;
     font-family: var(--primary-font);
@@ -166,43 +209,9 @@
   text-overflow: clip;
 }
 
-.message-sender {
-  @include flex(row, space-between, center);
-  padding: 10px;
-  background: var(--quaternary-dark-grey);
-
-  img {
-    height: 20px;
-  }
-
-  button {
-    cursor: pointer;
-    border-radius: 50%;
-    padding: 5px;
-    box-sizing: content-box;
-    @include flex(row, center, center);
-
-    &:hover {
-      background: var(--quaternary-grey);
-    }
-  }
-
-  input {
-    width: 100%;
-    border: none;
-    font-size: 15px;
-    margin: 0 10px;
-    background: var(--quaternary-dark-grey);
-    color: var(--primary-white);
-    &:focus {
-      outline: 0;
-    }
-  }
-}
-
 .emoji-mart {
   position: absolute;
-  bottom: 0px;
+  bottom: 0;
   right: 250px;
   box-sizing: border-box;
 }
@@ -213,5 +222,6 @@
 
 .sender-additional-buttons {
   @include flex(row, space-between, center);
+
   column-gap: 10px;
 }

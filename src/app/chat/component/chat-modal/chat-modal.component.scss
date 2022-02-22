@@ -8,6 +8,7 @@
 .chats {
   height: 100%;
   width: 300px;
+
   @include flex(column, center, center);
 }
 
@@ -24,11 +25,13 @@
   background: var(--quaternary-dark-grey);
   height: 100%;
   width: 46px;
-  @include flex(column, space-between, center);
   padding: 60px 0 18px;
+
+  @include flex(column, space-between, center);
 
   .switchView {
     @include flex(column, space-between, center);
+
     height: 70px;
   }
 
@@ -39,6 +42,7 @@
 
 .chat-modal-title {
   @include flex(row, center, center);
+
   padding: 10px;
   width: 100%;
 
@@ -51,7 +55,8 @@
 .chat-modal-wrapper {
   height: 100%;
   width: 100%;
-  @include flex(row, center, flex-start);
   background: var(--primary-white);
   position: relative;
+
+  @include flex(row, center, flex-start);
 }

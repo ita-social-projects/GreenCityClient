@@ -1,4 +1,4 @@
-import { Component, OnDestroy, OnInit, ElementRef, ViewChild } from '@angular/core';
+import { Component, OnDestroy, OnInit, ElementRef, ViewChild, AfterViewChecked } from '@angular/core';
 import { CHAT_ICONS } from '../../chat-icons';
 import { FormControl, Validators } from '@angular/forms';
 import { debounceTime, takeUntil } from 'rxjs/operators';
@@ -15,7 +15,7 @@ import { FriendModel } from '@global-user/models/friend.model';
   templateUrl: './new-message-window.component.html',
   styleUrls: ['./new-message-window.component.scss']
 })
-export class NewMessageWindowComponent implements OnInit, OnDestroy {
+export class NewMessageWindowComponent implements OnInit, AfterViewChecked, OnDestroy {
   public chatIcons = CHAT_ICONS;
   public userSearchField = '';
   private onDestroy$ = new Subject();
@@ -39,7 +39,7 @@ export class NewMessageWindowComponent implements OnInit, OnDestroy {
     });
 
     this.chatsService.currentChatMessagesStream$.subscribe((messages) => {
-      this.isHaveMessages = messages.length != 0;
+      this.isHaveMessages = messages.length !== 0;
     });
   }
 
