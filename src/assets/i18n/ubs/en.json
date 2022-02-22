@@ -41,14 +41,13 @@
     "cancel": "Cancel",
     "failed-certificate": "Certificate not accepted, please try again",
     "not-found-certificate": "Certificate not found; check that the data is correct.",
-    "activated-oversum": "A certificate for {{certificateSum}}.00 UAH is activated in excess of the amount of your order. The balance of {{certificateLeft}}.00 UAH will be credited to your bonus account for the next order. The certificate is valid until {{ certDate}} ",
+    "activated-oversum": "A certificate for {{certificateSum}}.00 UAH is activated in excess of the amount of your order. The balance of {{certificateLeft}}.00 UAH does not return. The certificate is valid until {{ certDate}} ",
     "activated": "Certificate for {{certificateSum}} UAH activated. Certificate validity period is up to {{certDate}}",
     "already-used": "Certificate has already been used {{certDate}}",
     "expired": "Certificate is invalid. Certificate validity is up to {{certDate}}",
     "add-certificate": "Add certificate",
     "bonus-need": "Do you want to take advantage of bonuses?",
     "bonus-left": "On your bonus account:",
-    "bonus-how-to-get": "How to get bonuses",
     "yes": "Yes",
     "no": "No",
     "used": "Used",
@@ -208,7 +207,7 @@
           "li_1": "check out our Rules of sorting wastes (link).",
           "li_2": "Everything you give to the Courier must be clean and dry – it’s Must Have.",
           "li_3": "Recyclables and non-recyclable plastics can be put together in one package /sack of a 120 liters size - we will re-sort everything.",
-          "li_4": "We are accepting Fabric wastes (damaged clothes) for the utilization in a separate package of 120L size or 120L size",
+          "li_4": "We are accepting Fabric wastes (damaged clothes) for the utilization in a separate package of 120L size or 120L size.",
           "li_5": "1 package/sack should be up to 30 kg.",
           "li_6": "If you don't have a package/sack of the necessary size you can get it right from the Courier or order a whole roll of packages in our store and pack the wastes beforehand so you will save a big amount of time.",
           "li_7": "The courier picks up at least 2 packages within Kyiv.  Driving a long distance to take only 1 package is not environmentally friendly, and it significantly increases the waiting time for each customer. If you live within a radius of 20 km from Kyiv - the Courier takes out 20 packages of 120 liters.",
@@ -224,7 +223,7 @@
         }
       },
       "price": {
-        "caption": "The cost of the service “UBS Courier",
+        "caption": "The cost of the service “UBS Courier”",
         "price-title": {
           "li_1": "250 UAH / 1 package",
           "li_2": "300 UAH / 1 package",
@@ -358,5 +357,28 @@
     "exist-address": "This address has already been added",
     "saved-order": "Now you can find your order №{{orderId}} in your personal account and continue processing it at any time",
     "no-internet": "No internet connection"
+  },
+  "footer": {
+    "station": "Station",
+    "address": "Kyiv, Saperno-Slobitska str,25",
+    "schedule": "Station work schedule",
+    "mon-tue": " mon-tue",
+    "day-off": "day off",
+    "wed-fri": " wed-fri",
+    "from": "from",
+    "to": "to",
+    "service": "*paid service «Sorting» is available",
+    "sat-sun": " sat-sun",
+    "accept-compost": "We accept compost during the week during the working hours of the station (except Monday and Tuesday).",
+    "ubs-world-community": "UBS - in the world community",
+    "glad-for-letters": "Glad for your letters",
+    "your-email": "Your email",
+    "subscribe-newsletter": "Subscribe to useful newsletter:",
+    "subscribe-us": "SUBSCRIBE",
+    "user-agreement": "User agreement",
+    "public-offer": "Public offer",
+    "help-the-project": "How to help the project",
+    "how-to-get-there": "How to get there?",
+    "ukraine-without-garbage": "Ukraine without garbage"
   }
 }

@@ -10,25 +10,40 @@
   border-radius: 4px;
 }
 
-.services-header {
+.text-header {
   display: flex;
   justify-content: space-between;
-  width: 1151px;
   margin-bottom: 10px;
+  margin-top: 45px;
 
-  .header-text {
-    padding-top: 40px;
-    margin-left: 60px;
+  .title {
+    font-size: 24px;
+    line-height: 32px;
+    font-family: var(--ubs-quaternary-font);
+    color: var(--ubs-primary-black);
+    font-weight: bold;
   }
 
-  button {
-    margin-top: 35px;
-  }
-}
+  .tariffs-add-button {
+    border: 1px solid var(--ubs-primary-grey);
+    border-radius: 4px;
+    color: var(--ubs-primary-grey);
+    font-size: 14px;
+    line-height: 20px;
+    font-family: var(--ubs-quaternary-font);
+    background-color: var(--ubs-primary-white);
+    height: 36px;
+    display: flex;
+    align-items: center;
+    font-weight: bold;
+    padding: 0 20px;
 
-td:nth-child(1) {
-  background: var(--ubs-primary-liberty-green);
-  width: 56px;
+    .add-icon {
+      margin-right: 5px;
+      margin-top: 5px;
+      font-size: 18px;
+    }
+  }
 }
 
 th:nth-child(2) {
@@ -43,9 +58,7 @@ th:nth-child(4) {
 .tariffs-table {
   border: solid 1px var(--ubs-primary-light-grey);
   border-collapse: collapse;
-  margin-left: 60px;
   text-align: start;
-  width: 1092px;
 
   td,
   th {
@@ -62,10 +75,11 @@ th:nth-child(4) {
   }
 
   th {
-    background: var(--ubs-primary-liberty-green);
-    color: var(--ubs-primary-grey);
+    background: var(--ubs-primary-grey);
+    color: var(--ubs-primary-white);
     font-size: 14px;
     line-height: 20px;
+    font-family: var(--ubs-quaternary-font);
   }
 
   td {
@@ -90,31 +104,6 @@ h4 {
   line-height: 32px;
 }
 
-.limits-header {
-  margin: 40px 0 0 60px;
-  display: flex;
-  justify-content: space-between;
-  width: 1092px;
-}
-
-.primary-global-button {
-  font-style: normal;
-  font-weight: bold;
-  font-size: 18px;
-  line-height: 28px;
-  width: 179px;
-  height: 44px;
-}
-
-.secondary-global-button {
-  height: 35px;
-  background-color: var(--primary-white);
-  font-style: normal;
-  font-weight: bold;
-  font-size: 14px;
-  line-height: 20px;
-}
-
 .courier-select {
   width: 127px;
   height: 40px;
@@ -127,11 +116,23 @@ h4 {
 }
 
 .limits-form {
-  margin: 20px 0 0 60px;
   display: inline-block;
   width: 100%;
   font-size: 14px;
   color: var(--ubs-primary-grey);
+
+  h6 {
+    color: var(--ubs-primary-black);
+    font-weight: bold;
+    line-height: 24px;
+  }
+
+  span {
+    width: 12px;
+    height: 2px;
+    background: var(--ubs-grey-blue);
+    margin: 0 6px 5px;
+  }
 }
 
 .sum-input,
@@ -149,41 +150,43 @@ h4 {
     border: 1px solid var(--ubs-grey-blue);
     box-sizing: border-box;
     border-radius: 4px;
+    margin-bottom: 5px;
+    padding: 8px;
   }
 
   label {
-    padding: 5px 25px 0 20px;
+    padding: 0 25px 2px 0;
+    min-width: 140px;
+    white-space: nowrap;
   }
 }
 
 .min-bags-number {
-  margin-top: 30px;
   font-size: 16px;
   color: black;
-
-  label {
-    padding-left: 20px;
-    font-style: normal;
-    font-weight: normal;
-    font-size: 14px;
-    line-height: 20px;
-    color: var(--ubs-primary-grey);
-  }
 
   h6 {
     font-size: 16px;
     color: black;
   }
+}
 
-  input {
-    width: 16px;
-    height: 16px;
-  }
+::ng-deep .mat-checkbox-checked:not(.mat-checkbox-disabled).mat-accent .mat-ripple-element {
+  background-color: var(--ubs-quaternary-dark-grey) !important;
+}
 
-  label,
-  input {
-    padding-top: 15px;
-  }
+::ng-deep .mat-checkbox-checked.mat-accent .mat-checkbox-background {
+  background-color: var(--ubs-quaternary-dark-grey) !important;
+}
+
+::ng-deep .mat-checkbox-label {
+  padding-left: 10px;
+  font-style: normal;
+  font-weight: normal;
+  font-size: 14px;
+  line-height: 20px;
+  color: var(--ubs-primary-grey);
+  font-family: var(--ubs-quaternary-font);
 }
 
 .order-limit-textarea {
@@ -197,17 +200,13 @@ h4 {
 
   textarea {
     color: var(--ubs-quaternary-dark-grey);
-    font-size: 16px;
+    font-size: 14px;
     resize: none;
     width: 420px;
     height: 92px;
     border: 1px solid var(--ubs-grey-blue);
     border-radius: 4px;
-    padding: 5px 0 0 5px;
-  }
-
-  ::placeholder {
-    padding: 5px 0 0 5px;
+    padding: 8px;
   }
 }
 
@@ -215,7 +214,8 @@ h4 {
   margin: 20px 0;
 }
 
-img {
+img,
+.cursor-pointer {
   cursor: pointer;
 }
 
@@ -249,10 +249,63 @@ button[disabled] {
 }
 
 ::ng-deep .mat-radio-button.mat-accent .mat-radio-inner-circle {
-  background-color: var(--ubs-primary-green);
+  background-color: var(--ubs-quaternary-dark-grey);
 }
 
 ::ng-deep.mat-radio-button.mat-accent.mat-radio-checked .mat-radio-outer-circle {
   background-color: white;
-  border-color: var(--ubs-primary-green);
+  border-color: var(--ubs-quaternary-dark-grey);
+}
+
+.container {
+  padding: 35px 0;
+}
+
+.secondary-global-button {
+  height: 36px;
+  border: 1px solid var(--ubs-quaternary-dark-grey);
+  color: var(--ubs-quaternary-dark-grey);
+  margin-right: 1rem !important;
+  font-weight: bold;
+  font-size: 14px;
+  line-height: 20px;
+}
+
+.primary-global-button {
+  font-weight: bold;
+  font-size: 14px;
+  line-height: 20px;
+  height: 36px;
+  padding: 8px 14px;
+  color: var(--ubs-quaternary-dark-grey);
+  border-color: var(--ubs-button-light-green);
+  background: var(--ubs-button-light-green);
+
+  &:disabled {
+    background: var(--ubs-quaternary-light-grey);
+    border-color: var(--ubs-quaternary-light-grey);
+  }
+}
+
+.buttons {
+  margin-top: 80px;
+}
+
+.main-text {
+  display: none;
+}
+
+::ng-deep .address-matDialog-styles-pricing-page {
+  .mat-dialog-container {
+    width: 572px !important;
+    padding: 40px 45px 20px 45px;
+  }
+}
+
+.back {
+  font-style: normal;
+  font-weight: bold;
+  font-size: 14px;
+  line-height: 20px;
+  color: var(--ubs-quaternary-dark-grey);
 }

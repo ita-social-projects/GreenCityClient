@@ -13,7 +13,7 @@
 }
 
 .wrapper {
-  width: 110%;
+  width: 100%;
   height: 100vh;
   position: relative;
   margin-left: -25px;
@@ -188,8 +188,7 @@
 }
 
 .content {
-  margin: 0 0 0 30px;
-  padding-bottom: 100px;
+  padding: 0 0 100px 30px;
 }
 
 .textColorTitle {
@@ -222,4 +221,63 @@
 
 ::ng-deep .mat-progress-bar-buffer {
   background: #bfbfbf;
+}
+
+@media (max-width: 990px) {
+  .wrapper {
+    width: 100vw;
+    height: 100vh;
+    position: relative;
+    padding: 0 20px;
+    line-height: 24px;
+    color: var(--ubs-primary-black);
+    font-family: var(--primary-font);
+    background-color: var(--after-primary-light-grey);
+  }
+}
+
+@media (max-width: 480px) {
+  .content {
+    padding: 0 0 100px 10px;
+  }
+
+  .date {
+    padding-right: 0;
+  }
+
+  .header-list {
+    display: flex;
+    justify-content: space-between;
+    margin-top: -32px;
+
+    div {
+      color: var(--ubs-primary-grey);
+      font-size: 14px;
+      font-style: normal;
+      font-weight: 700;
+      line-height: 20px;
+      letter-spacing: 0.1px;
+      text-align: left;
+    }
+  }
+
+  .mat-expansion-panel-header {
+    width: 100%;
+    padding: 0 10px;
+
+    .mat-content {
+      align-items: center;
+    }
+  }
+
+  .wrapper {
+    width: 100vw;
+    position: relative;
+    margin-left: 0;
+    padding: 10px 15px 0 10px;
+    line-height: 24px;
+    color: var(--ubs-primary-black);
+    font-family: var(--primary-font);
+    background-color: var(--after-primary-light-grey);
+  }
 }

@@ -55,7 +55,7 @@
         "need": "Чи бажаєте Ви скористатися бонусами?",
         "present": "На Вашому бонусному рахунку:",
         "used": "Використано",
-        "left": "Залишилося"
+        "left": "Залишилось"
       },
       "certificate-number": "Номер сертифіката",
       "way-payment": "Оберіть спосіб оплати",
@@ -293,6 +293,8 @@
     "order-date": "Дата оплати",
     "overpayment": "Переплата",
     "underpayment": "Потрібно доплатити",
+    "enroll-on-bonus-account": "Зарахувати на бонусний рахунок",
+    "return-money": "Повернути кошти",
     "payment-id": "ID платежу",
     "sum": "Сума",
     "comment-bill": "Коментар/Чек"
@@ -444,6 +446,8 @@
   },
   "ubs-employee": {
     "add-employee": "Додати працівника",
+    "employee": "Працівник",
+    "edit": "Редагувати",
     "required-fields": "*Обов’язкові поля",
     "name": "Ім’я*",
     "surname": "Прізвище*",
@@ -456,6 +460,7 @@
     "picture-description-2": "зображення або",
     "browse-1": "завантажте з",
     "browse-2": "пристрою",
+    "delete": "Видалити",
     "add": "Додати",
     "cancel": "Скасувати",
     "update": "Оновити"
@@ -477,6 +482,7 @@
     "courier": "Кур'єр",
     "services": "Сервіси",
     "create": "Створити",
+    "back": "Назад",
     "station": "Станція приймання",
     "state": "Стан",
     "city": "Місто",
@@ -488,14 +494,15 @@
     "carriers_commission": "Комісія перевізника",
     "full_cost": "Повна вартість",
     "tariffs_for_services": "Тарифи на послуги",
+    "limits": "Ліміти",
     "order_limits": "Ліміти замовлення",
-    "min_order_amount": "Сума замовлення від",
-    "to": "до",
-    "min_number_of_packages": "Кількість пакетів від",
+    "min_order_amount": "Сума замовлення",
+    "min_number_of_packages": "Кількість пакетів",
     "min_set_of_packages": "Мінімальний набір пакетів",
     "info_about_order_limits_header": "Інформація про ліміти замовлення",
-    "safe_waste": "Текстильні відходи 120 л",
-    "textile_waste": "Безпечні відходи 120 л",
+    "safe_waste": "Безпечні відходи 120 л",
+    "textile_waste": "Текстильні відходи 120 л",
+    "textile_waste_20": "Текстильні відходи 20 л",
     "info_about_order_limits": "Інформація про ліміти замовлення",
     "placeholder_order_limits_info": "Інформація про ліміти замовлення, яка буде відображатись у формі замовлення клієнта",
     "btn": {
@@ -510,24 +517,32 @@
       "location": "Локація",
       "courier": "Кур'єр",
       "station": "Станція приймання",
-      "restore": "Відновити"
+      "restore": "Відновити",
+      "delete_page": "Видалити сторінку",
+      "duplicate_page": "Дублювати сторінку"
     }
   },
   "ubs-tariffs-add-location-pop-up": {
     "title": "Додати локацію",
+    "edit-title": "Редагувати картку",
+    "deactivate": "Деактивувати",
     "region": "Область",
     "locality": "Місто",
     "courier": "Кур'єр",
+    "station": "Станція приймання",
     "english-hint": "Введіть наступні дані АНГЛІЙСЬКОЮ мовою",
     "add_button": "Додати",
     "cancel_button": "Скасувати",
+    "save_button": "Зберегти",
     "error_message": "На жаль, область не знайдена. Введіть ще раз",
     "courier_title": "Додати кур'єра",
+    "station_title": "Додати станцію приймання",
     "date": "Дaта ",
     "user": "Додано ",
     "placeholder_region": "Виберіть область",
     "placeholder_location": "Виберіть місто",
-    "placeholder_courier": "Введіть кур'єра",
+    "placeholder_courier": "Оберіть кур'єра",
+    "placeholder_station": "Оберіть станцію",
     "add-city": "Додати місто"
   },
   "ubs-tariffs-add-service": {
@@ -548,6 +563,11 @@
       "save": "Зберегти"
     }
   },
+  "modal-text": {
+    "cancel": "Скасувати",
+    "date": "Дата ",
+    "user": "Додано "
+  },
   "ubs-user-notification": {
     "title": "Ваші повідомлення",
     "title-table": {
@@ -566,6 +586,27 @@
       "about-us": "Про нас",
       "sorting-rules": "Правила сортування",
       "eco-shop": "Еко-магазин"
+    },
+    "auth": {
+      "sign-in": {
+        "title": "З поверненням!",
+        "fill-form": "Будь ласка, внеси свої дані для входу",
+        "email": "Електронна пошта",
+        "email-is-required": "Введіть адресу електронної пошти",
+        "field-is-required": "Це поле є обов'язковим",
+        "email-must-be-at-least-1-characters-long": "Пошта повинна містити принаймі 1 символ",
+        "this-is-not-email": "Перевірте, чи правильно вказано вашу адресу електронної пошти",
+        "password": "Пароль",
+        "password-is-required": "Введіть пароль",
+        "password-must-be-at-least-8-characters-long": "Пароль повинен містити принаймі 8 символів",
+        "bad-email-or-password": "Неправильна пошта або пароль",
+        "sign-in": "Увійти",
+        "sign-up": "Зареєструватись",
+        "sign-in-with-google": "Увійти через Google",
+        "forgot-password": "Забули пароль?",
+        "havenot-account": "Досі немає аккаунту?",
+        "or-signin": "або"
+      }
     }
   },
   "nav-bar": {
@@ -596,5 +637,12 @@
     "help-the-project": "Як допомогти проєкту",
     "how-to-get-there": "Як доїхати?",
     "ukraine-without-garbage": "Україна без сміття"
+  },
+  "information-window": {
+    "message": "Заповніть,будь ласка, всі обов'язкові поля"
+  },
+  "top-bar": {
+    "sign-up": "Зареєструватись ",
+    "sign-in": "Увійти"
   }
 }

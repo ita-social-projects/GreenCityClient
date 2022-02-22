@@ -116,14 +116,14 @@ a {
       color: var(--primary-green);
     }
   }
-
-  .mat-tab-labels {
-    flex-wrap: wrap;
-  }
 }
 
 .scrolling {
   height: 100%;
+}
+
+.mat-tab-body-wrapper {
+  margin: 0 16px;
 }
 
 @media (max-width: 480px) {
@@ -140,13 +140,25 @@ a {
     }
 
     .in-progress {
-      margin-top: 132px;
       flex-wrap: wrap-reverse;
 
       a {
         width: 100%;
         margin-bottom: 32px;
       }
+    }
+  }
+
+  ::ng-deep {
+    .mat-tab-labels .mat-tab-label {
+      width: 100%;
+      padding: 0;
+    }
+
+    .mat-tab-header,
+    .mat-tab-nav-bar {
+      margin-right: -16px;
+      margin-left: -16px;
     }
   }
 }

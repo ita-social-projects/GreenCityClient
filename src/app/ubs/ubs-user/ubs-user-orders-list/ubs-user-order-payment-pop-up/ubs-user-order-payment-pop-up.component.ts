@@ -1,6 +1,6 @@
 import { Component, Inject, OnInit } from '@angular/core';
 import { FormArray, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
-import { MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { OrderService } from 'src/app/ubs/ubs/services/order.service';
 import { ResponceOrderFondyModel } from '../models/ResponceOrderFondyModel';
 import { OrderClientDto } from '../models/OrderClientDto';
@@ -57,6 +57,7 @@ export class UbsUserOrderPaymentPopUpComponent implements OnInit {
     private orderService: OrderService,
     private sanitizer: DomSanitizer,
     @Inject(MAT_DIALOG_DATA) public data: IOrderData,
+    public dialogRef: MatDialogRef<UbsUserOrderPaymentPopUpComponent>,
     private localStorageService: LocalStorageService,
     private ubsOrderFormService: UBSOrderFormService,
     public router: Router
@@ -73,15 +74,15 @@ export class UbsUserOrderPaymentPopUpComponent implements OnInit {
 
   public createCertificateItem(): FormGroup {
     return this.fb.group({
-      certificateCode: new FormControl('', [Validators.minLength(8), Validators.pattern(this.certificatePattern)]),
-      certificateSum: new FormControl(0, [Validators.min(0)])
+      certificateCode: ['', [Validators.minLength(8), Validators.pattern(this.certificatePattern)]],
+      certificateSum: [0, [Validators.min(0)]]
     });
   }
 
   public initForm(): void {
     this.orderDetailsForm = this.fb.group({
-      bonus: new FormControl('no', [Validators.required]),
-      paymentSystem: new FormControl('Fondy', [Validators.required]),
+      bonus: ['no', [Validators.required]],
+      paymentSystem: ['Fondy', [Validators.required]],
       formArrayCertificates: this.fb.array([this.createCertificateItem()])
     });
   }
@@ -106,12 +107,12 @@ export class UbsUserOrderPaymentPopUpComponent implements OnInit {
     this.userCertificate.certificateSum = 0;
     this.userCertificate.certificateStatusActive = false;
     this.orderService.processCertificate(certificate.value.certificateCode).subscribe(
-      (responce) => {
-        if (responce.certificateStatus === 'ACTIVE') {
-          this.userCertificate.certificateSum = responce.certificatePoints;
-          this.userCertificate.certificateDate = responce.certificateDate;
-          certificate.value.certificateSum = responce.certificatePoints;
-          this.userOrder.sum -= responce.certificatePoints;
+      (response) => {
+        if (response.certificateStatus === 'ACTIVE') {
+          this.userCertificate.certificateSum = response.certificatePoints;
+          this.userCertificate.certificateDate = response.certificateDate;
+          certificate.value.certificateSum = response.certificatePoints;
+          this.userOrder.sum -= response.certificatePoints;
           if (this.userOrder.sum < 0) {
             this.userOrder.sum = 0;
           }
@@ -171,60 +172,75 @@ export class UbsUserOrderPaymentPopUpComponent implements OnInit {
     this.router.navigate(['ubs', 'confirm']);
   }
 
+  private redirectToExternalUrl(url: string): void {
+    document.location.href = url;
+  }
+
   public processOrder(): void {
+    this.dataLoadingLiqPay = true;
     this.fillOrderClientDto();
     this.localStorageService.clearPaymentInfo();
     this.localStorageService.setUserPagePayment(true);
 
     if (this.formPaymentSystem.value === 'Fondy') {
-      this.orderService.processOrderFondyFromUserOrderList(this.orderClientDto).subscribe((responce: ResponceOrderFondyModel) => {
-        if (responce.link) {
-          this.localStorageService.setUbsFondyOrderId(this.orderClientDto.orderId);
-          document.location.href = responce.link;
-        } else {
-          this.redirectionToConfirmPage();
+      this.orderService.processOrderFondyFromUserOrderList(this.orderClientDto).subscribe(
+        (response: ResponceOrderFondyModel) => {
+          if (response.link) {
+            this.localStorageService.setUbsFondyOrderId(this.orderClientDto.orderId);
+            this.redirectToExternalUrl(response.link);
+          } else {
+            this.redirectionToConfirmPage();
+            this.dialogRef.close();
+          }
+        },
+        () => {
+          this.dataLoadingLiqPay = false;
         }
-      });
-    } else {
-      if (this.isLiqPayLink) {
-        this.localStorageService.setUbsOrderId(this.orderClientDto.orderId);
-        this.liqPayButton[0].click();
-      } else {
-        this.redirectionToConfirmPage();
-      }
+      );
+    }
+
+    if (this.formPaymentSystem.value === 'LiqPay') {
+      this.orderService.processOrderLiqPayFromUserOrderList(this.orderClientDto).subscribe(
+        (response: ResponceOrderLiqPayModel) => {
+          if (!response.liqPayButton) {
+            this.redirectionToConfirmPage();
+            this.dialogRef.close();
+          } else {
+            this.isLiqPayLink = true;
+            this.liqPayButtonForm = this.sanitizer.bypassSecurityTrustHtml(response.liqPayButton);
+            setTimeout(() => {
+              this.liqPayButton = document.getElementsByName('btn_text');
+              this.localStorageService.setUbsOrderId(this.orderClientDto.orderId);
+              this.liqPayButton[0].click();
+            }, 0);
+          }
+        },
+        () => {
+          this.dataLoadingLiqPay = false;
+        }
+      );
     }
   }
 
   public orderOptionPayment(event: Event): void {
     this.selectedPayment = (event.target as HTMLInputElement).value;
     this.fillOrderClientDto();
-
-    if (this.selectedPayment === 'LiqPay') {
-      this.dataLoadingLiqPay = true;
-      this.orderService.processOrderLiqPayFromUserOrderList(this.orderClientDto).subscribe(async (responce: ResponceOrderLiqPayModel) => {
-        if (!responce.liqPayButton) {
-          this.isLiqPayLink = false;
-        } else {
-          this.isLiqPayLink = true;
-          this.liqPayButtonForm = await this.sanitizer.bypassSecurityTrustHtml(responce.liqPayButton);
-          this.liqPayButton = document.getElementsByName('btn_text');
-          this.dataLoadingLiqPay = false;
-        }
-      });
-    }
   }
 
   public bonusOption(event: MatRadioChange): void {
     if (event.value === 'yes') {
       this.isUseBonuses = true;
       if (this.userOrder.sum > this.userOrder.bonusValue) {
+        this.userOrder.sum -= this.userOrder.bonusValue;
         this.bonusInfo.used = this.userOrder.bonusValue;
       } else {
         this.bonusInfo.used = this.userOrder.sum;
         this.bonusInfo.left = this.userOrder.bonusValue - this.userOrder.sum;
+        this.userOrder.sum = 0;
       }
       this.orderClientDto.pointsToUse = this.bonusInfo.used;
     } else {
+      this.userOrder.sum += this.bonusInfo.used;
       this.bonusInfo.left = 0;
       this.bonusInfo.used = 0;
       this.isUseBonuses = false;

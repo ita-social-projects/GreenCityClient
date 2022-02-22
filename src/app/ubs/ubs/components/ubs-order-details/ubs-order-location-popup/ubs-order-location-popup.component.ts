@@ -1,10 +1,11 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
+import { FormControl } from '@angular/forms';
 import { MatDialogRef } from '@angular/material/dialog';
 import { Router } from '@angular/router';
 import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
-import { Subject } from 'rxjs';
-import { takeUntil } from 'rxjs/operators';
-import { CourierLocations, LocationTranslation } from '../../../models/ubs.interface';
+import { Subject, Observable } from 'rxjs';
+import { takeUntil, startWith, map } from 'rxjs/operators';
+import { CourierLocations, LocationTranslation, LocationsName } from '../../../models/ubs.interface';
 import { OrderService } from '../../../services/order.service';
 
 @Component({
@@ -15,12 +16,15 @@ import { OrderService } from '../../../services/order.service';
 export class UbsOrderLocationPopupComponent implements OnInit, OnDestroy {
   closeButton = './assets/img/profile/icons/cancel.svg';
   public locations: CourierLocations[];
+  public cities: LocationsName[];
   public selectedLocationId: number;
   public isFetching = false;
   private courierId = 1;
   private currentLanguage: string;
-  private destroy$: Subject<boolean> = new Subject<boolean>();
   public currentLocation: string;
+  private destroy$: Subject<boolean> = new Subject<boolean>();
+  public myControl = new FormControl();
+  public filteredOptions: Observable<any>;
 
   constructor(
     private router: Router,
@@ -33,6 +37,20 @@ export class UbsOrderLocationPopupComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     this.getLocations();
+    this.filteredOptions = this.myControl.valueChanges.pipe(
+      startWith(''),
+      map((value) => (typeof value === 'string' ? value : value.locationName)),
+      map((locationName) => (locationName ? this._filter(locationName) : this.cities.slice()))
+    );
+  }
+
+  displayFn(city: LocationsName): string {
+    return city && city.locationName ? city.locationName : '';
+  }
+
+  private _filter(value: string) {
+    const filterValue = value.toLowerCase();
+    return this.cities.filter((option) => option.locationName.toLowerCase().includes(filterValue));
   }
 
   redirectToMain() {
@@ -41,8 +59,10 @@ export class UbsOrderLocationPopupComponent implements OnInit, OnDestroy {
 
   private setCurrentLocation(currentLanguage: string): void {
     this.currentLocation = this.locations
-      .find((loc: CourierLocations) => loc.locationsDtos[0].locationId === this.selectedLocationId)
-      .locationsDtos[0].locationTranslationDtoList.find((lang: LocationTranslation) => lang.languageCode === currentLanguage).locationName;
+      .find((loc: CourierLocations) => loc.locationInfoDtos[0].locationsDto[0].locationId === this.selectedLocationId)
+      .locationInfoDtos[0].locationsDto[0].locationTranslationDtoList.find(
+        (lang: LocationTranslation) => lang.languageCode === currentLanguage
+      ).locationName;
   }
 
   getLocations() {
@@ -54,6 +74,12 @@ export class UbsOrderLocationPopupComponent implements OnInit, OnDestroy {
         this.locations = res;
         this.selectedLocationId = res[0].courierLocationId;
         this.isFetching = false;
+        this.cities = this.locations.map((location) => ({
+          locationId: location.locationInfoDtos[0].locationsDto[0].locationId,
+          locationName: location.locationInfoDtos[0].locationsDto[0].locationTranslationDtoList.filter(
+            (item) => item.languageCode === this.currentLanguage
+          )[0].locationName
+        }));
       });
   }
 

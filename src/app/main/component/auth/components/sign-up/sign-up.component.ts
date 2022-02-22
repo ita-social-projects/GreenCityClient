@@ -1,7 +1,7 @@
-import { UserSuccessSignIn, SuccessSignUpDto } from '@global-models/user-success-sign-in';
-import { UserOwnSignUp } from '@global-models/user-own-sign-up';
-import { authImages } from '../../../../image-pathes/auth-images';
-import { Component, EventEmitter, OnInit, OnDestroy, Output, Injector } from '@angular/core';
+import { UserSuccessSignIn, SuccessSignUpDto } from './../../../../model/user-success-sign-in';
+import { UserOwnSignUp } from './../../../../model/user-own-sign-up';
+import { authImages } from './../../../../image-pathes/auth-images';
+import { Component, EventEmitter, OnInit, OnDestroy, Output } from '@angular/core';
 import { AbstractControl, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { HttpErrorResponse } from '@angular/common/http';
@@ -15,7 +15,6 @@ import { UserOwnSignInService } from '@auth-service/user-own-sign-in.service';
 import { UserOwnSignUpService } from '@auth-service/user-own-sign-up.service';
 import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
 import { MatSnackBarComponent } from '@global-errors/mat-snack-bar/mat-snack-bar.component';
-import { PopUpViewService } from '@auth-service/pop-up/pop-up-view.service';
 
 @Component({
   selector: 'app-sign-up',
@@ -29,8 +28,8 @@ export class SignUpComponent implements OnInit, OnDestroy {
   public passwordControl: AbstractControl;
   public passwordControlConfirm: AbstractControl;
   public signUpImages = authImages;
-  // public userOwnSignUp: UserOwnSignUp;
-  // public loadingAnim: boolean;
+  public userOwnSignUp: UserOwnSignUp;
+  public loadingAnim: boolean;
   public emailErrorMessageBackEnd: string;
   public passwordErrorMessageBackEnd: string;
   public firstNameErrorMessageBackEnd: string;
@@ -41,60 +40,46 @@ export class SignUpComponent implements OnInit, OnDestroy {
   public passwordFieldValue: string;
   public passwordConfirmFieldValue: string;
   public currentLanguage: string;
+  public isUbs: boolean;
   private destroy: Subject<boolean> = new Subject<boolean>();
-  /*private errorsType = {
+  private errorsType = {
     name: (error: string) => (this.firstNameErrorMessageBackEnd = error),
     email: (error: string) => (this.emailErrorMessageBackEnd = error),
     password: (error: string) => (this.passwordErrorMessageBackEnd = error),
     passwordConfirm: (error: string) => (this.passwordConfirmErrorMessageBackEnd = error)
-  };*/
-  public isUbs: boolean;
-  // public navigateToLink;
+  };
   @Output() private pageName = new EventEmitter();
-  private dialog: MatDialog;
-  private formBuilder: FormBuilder;
-  /*private userOwnSignInService: UserOwnSignInService;
-  private userOwnSignUpService: UserOwnSignUpService;*/
-  private router: Router;
-  /*private authService: AuthService;
-  private googleService: GoogleSignInService;*/
-  private localeStorageService: LocalStorageService;
-  // private snackBar: MatSnackBarComponent;
-  private popUpViewService: PopUpViewService;
 
-  constructor(private matDialogRef: MatDialogRef<SignUpComponent>, private injector: Injector) {
-    this.dialog = injector.get(MatDialog);
-    this.formBuilder = injector.get(FormBuilder);
-    // this.userOwnSignInService = injector.get(UserOwnSignInService);
-    // this.userOwnSignUpService = injector.get(UserOwnSignUpService);
-    this.router = injector.get(Router);
-    // this.authService = injector.get(AuthService);
-    // this.googleService = injector.get(GoogleSignInService);
-    this.localeStorageService = injector.get(LocalStorageService);
-    // this.snackBar = injector.get(MatSnackBarComponent);
-    this.popUpViewService = injector.get(PopUpViewService);
-  }
+  constructor(
+    private matDialogRef: MatDialogRef<SignUpComponent>,
+    private formBuilder: FormBuilder,
+    private userOwnSignInService: UserOwnSignInService,
+    private userOwnSignUpService: UserOwnSignUpService,
+    private router: Router,
+    private authService: AuthService,
+    private googleService: GoogleSignInService,
+    private localStorageService: LocalStorageService,
+    private snackBar: MatSnackBarComponent
+  ) {}
 
   ngOnInit() {
-    this.localeStorageService.ubsRegBehaviourSubject.pipe(takeUntil(this.destroy)).subscribe((value) => (this.isUbs = value));
-    this.currentLanguage = this.localeStorageService.getCurrentLanguage();
     this.onFormInit();
-    this.checkIfUserId();
     this.getFormFields();
-    // this.setNullAllMessage();
-    // this.userOwnSignUp = new UserOwnSignUp();
+    this.setNullAllMessage();
+    this.userOwnSignUp = new UserOwnSignUp();
+    this.localStorageService.ubsRegBehaviourSubject.pipe(takeUntil(this.destroy)).subscribe((value) => (this.isUbs = value));
   }
 
-  public onSubmit(): void {
-    /*const {email, firstName, password} = this.signUpForm.value;
+  public onSubmit(userOwnRegister: UserOwnSignUp): void {
+    const { email, firstName, password } = this.signUpForm.value;
 
     userOwnRegister.email = email;
     userOwnRegister.firstName = firstName;
     userOwnRegister.password = password;
 
     this.setNullAllMessage();
-    // this.loadingAnim = true;
-    this.currentLanguage = this.localeStorageService.getCurrentLanguage();
+    this.loadingAnim = true;
+    this.currentLanguage = this.localStorageService.getCurrentLanguage();
     this.userOwnSignUpService
       .signUp(userOwnRegister, this.currentLanguage)
       .pipe(takeUntil(this.destroy))
@@ -105,22 +90,22 @@ export class SignUpComponent implements OnInit, OnDestroy {
         (error: HttpErrorResponse) => {
           this.onSubmitError(error);
         }
-      );*/
+      );
   }
 
   public signUpWithGoogle(): void {
-    this.popUpViewService.signInWithGoogle();
+    this.authService
+      .signIn(GoogleLoginProvider.PROVIDER_ID)
+      .then((data) => {
+        this.googleService
+          .signIn(data.idToken, this.currentLanguage)
+          .pipe(takeUntil(this.destroy))
+          .subscribe((successData) => this.signUpWithGoogleSuccess(successData));
+      })
+      .catch((errorData) => this.signUpWithGoogleError(errorData));
   }
 
-  private checkIfUserId(): void {
-    this.localeStorageService.userIdBehaviourSubject.pipe(takeUntil(this.destroy)).subscribe((userId) => {
-      if (userId) {
-        this.matDialogRef.close();
-      }
-    });
-  }
-
-  /*public setEmailBackendErr(): void {
+  public setEmailBackendErr(): void {
     this.emailErrorMessageBackEnd = null;
     if (this.signUpForm) {
       this.emailFieldValue = this.emailControl.value;
@@ -128,12 +113,12 @@ export class SignUpComponent implements OnInit, OnDestroy {
       this.passwordFieldValue = this.passwordControl.value;
       this.passwordConfirmFieldValue = this.passwordControlConfirm.value;
     }
-  }*/
+  }
 
-  /*public setPasswordVisibility(htmlInput: HTMLInputElement, htmlImage: HTMLImageElement): void {
+  public setPasswordVisibility(htmlInput: HTMLInputElement, htmlImage: HTMLImageElement): void {
     htmlInput.type = htmlInput.type === 'password' ? 'text' : 'password';
     htmlImage.src = htmlInput.type === 'password' ? this.signUpImages.hiddenEye : this.signUpImages.openEye;
-  }*/
+  }
 
   public openSignInWindow(): void {
     this.pageName.emit('sign-in');
@@ -148,7 +133,7 @@ export class SignUpComponent implements OnInit, OnDestroy {
   private onFormInit(): void {
     this.signUpForm = this.formBuilder.group(
       {
-        email: ['', []],
+        email: ['', [Validators.required, Validators.email]],
         firstName: ['', []],
         password: ['', []],
         repeatPassword: ['', []]
@@ -173,29 +158,42 @@ export class SignUpComponent implements OnInit, OnDestroy {
     this.passwordConfirmErrorMessageBackEnd = null;
   }
 
-  /*private onSubmitSuccess(data: SuccessSignUpDto): void {
-    // this.loadingAnim = false;
+  private onSubmitSuccess(data: SuccessSignUpDto): void {
+    this.loadingAnim = false;
     this.closeSignUpWindow();
     this.snackBar.openSnackBar('signUp');
-  }*/
+  }
 
   private closeSignUpWindow(): void {
     this.matDialogRef.close();
   }
 
-  /*private onSubmitError(errors: HttpErrorResponse): void {
+  private onSubmitError(errors: HttpErrorResponse): void {
     errors.error.map((error) => {
       this.errorsType[error.name](error.message);
     });
-    // this.loadingAnim = false;
-  }*/
+    this.loadingAnim = false;
+  }
 
-  /*private signUpWithGoogleSuccess(data: UserSuccessSignIn): void {
-    this.navigateToLink = this.isUbs ? ['ubs', 'order'] : ['profile', data.userId];
+  private signUpWithGoogleSuccess(data: UserSuccessSignIn): void {
     this.userOwnSignInService.saveUserToLocalStorage(data);
     this.closeSignUpWindow();
-    this.router.navigate(this.navigateToLink);
-  }*/
+    this.router.navigate(this.isUbs ? ['ubs'] : ['profile', data.userId]);
+  }
+
+  private signUpWithGoogleError(errors: HttpErrorResponse): void {
+    if (typeof errors === 'string') {
+      return;
+    } else if (!Array.isArray(errors.error)) {
+      this.backEndError = errors.error.message;
+      return;
+    }
+
+    errors.error.forEach((error) => {
+      this.emailErrorMessageBackEnd = error.name === 'email' ? error.message : this.emailErrorMessageBackEnd;
+      this.passwordConfirmErrorMessageBackEnd = error.name === 'password' ? error.message : this.passwordConfirmErrorMessageBackEnd;
+    });
+  }
 
   ngOnDestroy(): void {
     this.destroy.next(true);

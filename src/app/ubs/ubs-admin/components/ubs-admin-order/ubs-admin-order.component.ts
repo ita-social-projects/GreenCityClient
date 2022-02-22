@@ -1,4 +1,4 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Component, OnInit, OnDestroy, AfterContentChecked, ChangeDetectorRef } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { ActivatedRoute, Params } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
@@ -11,6 +11,7 @@ import { LocalStorageService } from '@global-service/localstorage/local-storage.
 import { Subject } from 'rxjs';
 import {
   IAddressExportDetails,
+  IEmployee,
   IExportDetails,
   IGeneralOrderInfo,
   IOrderDetails,
@@ -18,16 +19,24 @@ import {
   IOrderStatusInfo,
   IPaymentInfo,
   IResponsiblePersons,
+  IUpdateResponsibleEmployee,
   IUserInfo
 } from '../../models/ubs-admin.interface';
 import { formatDate } from '@angular/common';
+
+enum ResponsibleEmployee {
+  CallManager = 2,
+  Logistician,
+  Navigator,
+  Driver
+}
 
 @Component({
   selector: 'app-ubs-admin-order',
   templateUrl: './ubs-admin-order.component.html',
   styleUrls: ['./ubs-admin-order.component.scss']
 })
-export class UbsAdminOrderComponent implements OnInit, OnDestroy {
+export class UbsAdminOrderComponent implements OnInit, OnDestroy, AfterContentChecked {
   currentLanguage: string;
   private destroy$: Subject<boolean> = new Subject<boolean>();
   orderForm: FormGroup;
@@ -45,7 +54,7 @@ export class UbsAdminOrderComponent implements OnInit, OnDestroy {
   orderStatusInfo: IOrderStatusInfo;
   currentOrderPrice: number;
   currentOrderStatus: string;
-  overpayment = 0;
+  overpayment: number;
   isMinOrder = true;
 
   constructor(
@@ -54,8 +63,12 @@ export class UbsAdminOrderComponent implements OnInit, OnDestroy {
     private localStorageService: LocalStorageService,
     private fb: FormBuilder,
     private dialog: MatDialog,
-    private route: ActivatedRoute
+    private route: ActivatedRoute,
+    private changeDetector: ChangeDetectorRef
   ) {}
+  ngAfterContentChecked(): void {
+    this.changeDetector.detectChanges();
+  }
 
   ngOnInit() {
     this.localStorageService.languageBehaviourSubject.pipe(takeUntil(this.destroy$)).subscribe((lang) => {
@@ -72,7 +85,7 @@ export class UbsAdminOrderComponent implements OnInit, OnDestroy {
     this.orderService
       .getOrderInfo(orderId, lang)
       .pipe(takeUntil(this.destroy$))
-      .subscribe((data: any) => {
+      .subscribe((data: IOrderInfo) => {
         this.orderInfo = data;
         this.generalInfo = data.generalOrderInfo;
         this.currentOrderStatus = this.generalInfo.orderStatus;
@@ -83,6 +96,7 @@ export class UbsAdminOrderComponent implements OnInit, OnDestroy {
         this.responsiblePersonInfo = data.employeePositionDtoRequest;
         this.totalPaid = this.orderInfo.orderCertificateTotalDiscount + this.orderInfo.orderBonusDiscount;
         this.totalPaid += data.paymentTableInfoDto.paidAmount;
+        this.overpayment = data.paymentTableInfoDto.overpayment;
         this.currentOrderPrice = data.orderFullPrice;
         this.setOrderDetails();
         this.initForm();
@@ -127,7 +141,6 @@ export class UbsAdminOrderComponent implements OnInit, OnDestroy {
 
   initForm() {
     const currentEmployees = this.responsiblePersonInfo.currentPositionEmployees;
-    this.overpayment = 0;
     this.orderForm = this.fb.group({
       generalOrderInfo: this.fb.group({
         orderStatus: this.generalInfo.orderStatus,
@@ -151,16 +164,16 @@ export class UbsAdminOrderComponent implements OnInit, OnDestroy {
         addressDistrict: this.addressInfo.addressDistrict
       }),
       exportDetailsDto: this.fb.group({
-        dateExport: this.exportInfo.dateExport ? formatDate(this.exportInfo.dateExport, 'yyyy-MM-dd', this.currentLanguage) : '',
-        timeDeliveryFrom: this.parseTimeToStr(this.exportInfo.timeDeliveryFrom),
-        timeDeliveryTo: this.parseTimeToStr(this.exportInfo.timeDeliveryTo),
-        receivingStation: this.exportInfo.receivingStation
+        dateExport: [this.exportInfo.dateExport ? formatDate(this.exportInfo.dateExport, 'yyyy-MM-dd', this.currentLanguage) : ''],
+        timeDeliveryFrom: [this.parseTimeToStr(this.exportInfo.timeDeliveryFrom)],
+        timeDeliveryTo: [this.parseTimeToStr(this.exportInfo.timeDeliveryTo)],
+        receivingStation: [this.exportInfo.receivingStation]
       }),
       responsiblePersonsForm: this.fb.group({
-        callManager: this.getEmployeeById(currentEmployees, 2),
-        logistician: this.getEmployeeById(currentEmployees, 3),
-        navigator: this.getEmployeeById(currentEmployees, 4),
-        driver: this.getEmployeeById(currentEmployees, 5)
+        callManager: [this.getEmployeeById(currentEmployees, 2)],
+        logistician: [this.getEmployeeById(currentEmployees, 3)],
+        navigator: [this.getEmployeeById(currentEmployees, 4)],
+        driver: [this.getEmployeeById(currentEmployees, 5)]
       }),
       orderDetailsForm: this.fb.group({
         storeOrderNumbers: this.fb.array([]),
@@ -187,6 +200,7 @@ export class UbsAdminOrderComponent implements OnInit, OnDestroy {
         new FormControl(bag.actual, [Validators.min(0), Validators.max(999)])
       );
     });
+    this.statusCanceledOrDone();
   }
 
   getEmployeeById(allCurrentEmployees: Map<string, string>, id: number) {
@@ -224,9 +238,10 @@ export class UbsAdminOrderComponent implements OnInit, OnDestroy {
   onChangedOrderStatus(status: string) {
     this.currentOrderStatus = status;
     this.orderStatusInfo = this.getOrderStatusInfo(this.currentOrderStatus);
+    this.notRequiredFieldsStatuses();
   }
 
-  public changeOverpayment(sum) {
+  public changeOverpayment(sum: number): void {
     this.overpayment = sum;
   }
 
@@ -249,26 +264,92 @@ export class UbsAdminOrderComponent implements OnInit, OnDestroy {
     this.orderStatusInfo = this.getOrderStatusInfo(this.currentOrderStatus);
   }
 
-  onSubmit() {
+  public addIdForUserAndAdress(order: FormGroup): void {
+    const addressId = 'addressId';
+    const recipientId = 'recipientId';
+    const keyUserInfo = 'userInfoDto';
+    const keyAddressExportDetails = 'addressExportDetailsDto';
+
+    if (order.hasOwnProperty(keyUserInfo)) {
+      order[keyUserInfo][recipientId] = this.userInfo.recipientId;
+    }
+
+    if (order.hasOwnProperty(keyAddressExportDetails)) {
+      order[keyAddressExportDetails][addressId] = this.addressInfo.addressId;
+    }
+  }
+
+  public getFilledEmployeeData(responsibleEmployee: string, positionId: number): IUpdateResponsibleEmployee {
+    const currentEmployee: IUpdateResponsibleEmployee = {
+      employeeId: 0,
+      positionId: 0
+    };
+    const employeeObjects = this.responsiblePersonInfo.allPositionsEmployees;
+    currentEmployee.positionId = positionId;
+
+    for (const [key, value] of Object.entries(employeeObjects)) {
+      if (key.includes(`id=${positionId},`)) {
+        const selectedEmployee = value.find((emp: IEmployee) => emp.name === responsibleEmployee);
+        currentEmployee.employeeId = selectedEmployee.id;
+      }
+    }
+    return currentEmployee;
+  }
+
+  public onSubmit(): void {
     const changedValues: any = {};
     this.getUpdates(this.orderForm, changedValues);
-    this.formatExporteValue(changedValues.exportDetailsDto);
-    changedValues.orderDetailDto = this.formatBagsValue(changedValues.orderDetailsForm);
-    changedValues.ecoNumberFromShop = this.formatEcoNumbersFromShop(changedValues.orderDetailsForm);
-    delete changedValues.orderDetailsForm;
-    console.log(JSON.stringify(changedValues));
 
-    // TODO modify EcoNumbersFromShop and responsiblePersonsForm objects
+    if (changedValues.exportDetailsDto) {
+      this.formatExporteValue(changedValues.exportDetailsDto);
+    }
+
+    if (changedValues.orderDetailsForm) {
+      changedValues.orderDetailDto = this.formatBagsValue(changedValues.orderDetailsForm);
+      if (changedValues.orderDetailsForm.storeOrderNumbers) {
+        const keyEcoNumberFromShop = 'ecoNumberFromShop';
+        changedValues[keyEcoNumberFromShop] = {
+          ecoNumber: changedValues.orderDetailsForm.storeOrderNumbers
+        };
+      }
+    }
+
+    if (changedValues.responsiblePersonsForm) {
+      const arrEmployees: IUpdateResponsibleEmployee[] = [];
+
+      if (changedValues.responsiblePersonsForm.callManager) {
+        arrEmployees.push(this.getFilledEmployeeData(changedValues.responsiblePersonsForm.callManager, ResponsibleEmployee.CallManager));
+      }
+
+      if (changedValues.responsiblePersonsForm.logistician) {
+        arrEmployees.push(this.getFilledEmployeeData(changedValues.responsiblePersonsForm.logistician, ResponsibleEmployee.Logistician));
+      }
+
+      if (changedValues.responsiblePersonsForm.navigator) {
+        arrEmployees.push(this.getFilledEmployeeData(changedValues.responsiblePersonsForm.navigator, ResponsibleEmployee.Navigator));
+      }
+
+      if (changedValues.responsiblePersonsForm.driver) {
+        arrEmployees.push(this.getFilledEmployeeData(changedValues.responsiblePersonsForm.driver, ResponsibleEmployee.Driver));
+      }
+
+      const keyUpdateResponsibleEmployeeDto = 'updateResponsibleEmployeeDto';
+      changedValues[keyUpdateResponsibleEmployeeDto] = arrEmployees;
+
+      delete changedValues.responsiblePersonsForm;
+    }
+
+    this.addIdForUserAndAdress(changedValues);
 
     this.orderService
       .updateOrderInfo(this.orderId, this.currentLanguage, changedValues)
       .pipe(takeUntil(this.destroy$))
-      .subscribe((data) => {
+      .subscribe(() => {
         this.getOrderInfo(this.orderId, this.currentLanguage);
       });
   }
 
-  private getUpdates(formItem: FormGroup | FormArray | FormControl, changedValues: any, name?: string) {
+  private getUpdates(formItem: FormGroup | FormArray | FormControl, changedValues: IOrderInfo, name?: string) {
     if (formItem instanceof FormControl) {
       if (name && formItem.dirty) {
         changedValues[name] = formItem.value;
@@ -297,14 +378,10 @@ export class UbsAdminOrderComponent implements OnInit, OnDestroy {
     const minutes = dateStr.split(':')[1];
     date.setHours(+hours + 2);
     date.setMinutes(+minutes);
-    return date ? date.toISOString() : '';
+    return date ? date.toISOString().split('Z').join('') : '';
   }
 
-  formatExporteValue(exportDetailsDto) {
-    if (!exportDetailsDto) {
-      return;
-    }
-
+  public formatExporteValue(exportDetailsDto: IExportDetails): void {
     const exportDate = new Date(exportDetailsDto.dateExport);
 
     if (exportDetailsDto.dateExport) {
@@ -320,15 +397,7 @@ export class UbsAdminOrderComponent implements OnInit, OnDestroy {
     }
   }
 
-  formatEcoNumbersFromShop(orderDetailsForm) {
-    return orderDetailsForm ? orderDetailsForm.storeOrderNumbers : undefined;
-  }
-
-  formatBagsValue(orderDetailsForm) {
-    if (!orderDetailsForm) {
-      return;
-    }
-
+  public formatBagsValue(orderDetailsForm) {
     const confirmed = {};
     const exported = {};
 
@@ -357,7 +426,33 @@ export class UbsAdminOrderComponent implements OnInit, OnDestroy {
 
     return result;
   }
+  statusCanceledOrDone(): void {
+    if (this.currentOrderStatus === 'CANCELED' || this.currentOrderStatus === 'DONE') {
+      this.orderForm.get('exportDetailsDto').disable();
+      this.orderForm.get('responsiblePersonsForm').disable();
+    } else {
+      this.orderForm.get('exportDetailsDto').enable();
+      this.orderForm.get('responsiblePersonsForm').enable();
+    }
+  }
+  notRequiredFieldsStatuses(): void {
+    const exportDetails = this.orderForm.get('exportDetailsDto');
+    const responsiblePersons = this.orderForm.get('responsiblePersonsForm');
+    const exportDetaisFields = Object.keys(this.orderForm.get('exportDetailsDto').value);
+    const responsiblePersonNames = Object.keys(this.orderForm.get('responsiblePersonsForm').value);
+    const statuses = ['BROUGHT_IT_HIMSELF', 'CANCELED', 'FORMED'];
 
+    if (statuses.includes(this.currentOrderStatus)) {
+      exportDetaisFields.map((el) => exportDetails.get(el).clearValidators());
+      responsiblePersonNames.map((el) => responsiblePersons.get(el).clearValidators());
+      exportDetails.reset();
+      responsiblePersons.reset();
+    } else {
+      exportDetaisFields.map((el) => exportDetails.get(el).setValidators([Validators.required]));
+      responsiblePersonNames.map((el) => responsiblePersons.get(el).setValidators([Validators.required]));
+    }
+    this.statusCanceledOrDone();
+  }
   ngOnDestroy(): void {
     this.destroy$.next();
     this.destroy$.complete();

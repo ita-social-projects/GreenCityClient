@@ -5,8 +5,9 @@ import { takeUntil } from 'rxjs/operators';
 import { calendarIcons } from 'src/app/main/image-pathes/calendar-icons';
 import { HabitPopupInterface } from '../habit-popup-interface';
 import { HabitAssignService } from '@global-service/habit-assign/habit-assign.service';
-import { HabitStatusCalendarListInterface } from '../../../../../../interface/habit/habit-assign.interface';
 import { LanguageService } from '../../../../../../i18n/language.service';
+import { FormatDateService } from '@global-user/services/format-date.service';
+import { HabitStatusCalendarListInterface } from '../../../../../../interface/habit/habit-assign.interface';
 
 @Component({
   selector: 'app-habits-popup',
@@ -30,6 +31,7 @@ export class HabitsPopupComponent implements OnInit, OnDestroy {
   constructor(
     public dialogRef: MatDialogRef<HabitsPopupComponent>,
     public habitAssignService: HabitAssignService,
+    public formatDateService: FormatDateService,
     public languageService: LanguageService,
     @Inject(MAT_DIALOG_DATA)
     public data: {
@@ -49,10 +51,6 @@ export class HabitsPopupComponent implements OnInit, OnDestroy {
     this.destroy.complete();
   }
 
-  private formatDate(date: Date): string {
-    return date.toLocaleDateString().split('.').reverse().join('-');
-  }
-
   loadPopup() {
     this.language = this.languageService.getCurrentLanguage();
     this.habitsCalendarSelectedDate = this.data.habitsCalendarSelectedDate;
@@ -70,7 +68,7 @@ export class HabitsPopupComponent implements OnInit, OnDestroy {
 
   formatSelectedDate() {
     const today = new Date();
-    const monthLow = today.toLocaleDateString(this.language, { month: 'long' });
+    const monthLow = today.toLocaleDateString(this.language === 'ua' ? 'uk' : this.language, { month: 'long' });
     const month = monthLow.charAt(0).toUpperCase() + monthLow.slice(1);
     const day = today.getDate();
     const year = today.getFullYear();
@@ -146,9 +144,11 @@ export class HabitsPopupComponent implements OnInit, OnDestroy {
     this.arrayOfDate = this.habitAssignService.habitsInProgress.find((item) => item.habit.id === id).habitStatusCalendarDtoList;
     if (this.habitsCalendarSelectedDate === this.today) {
       if (isEnrolled) {
-        this.arrayOfDate.push({ enrollDate: this.formatDate(new Date()), id: null });
+        this.arrayOfDate.push({ enrollDate: this.formatDateService.formatDate(new Date().toLocaleDateString()), id: null });
       } else {
-        this.arrayOfDate = this.arrayOfDate.filter((item) => item.enrollDate !== this.formatDate(new Date()));
+        this.arrayOfDate = this.arrayOfDate.filter(
+          (item) => item.enrollDate !== this.formatDateService.formatDate(new Date().toLocaleDateString())
+        );
       }
       this.updateHabitsCardsCircleAndStreak(id, isExistArray, this.arrayOfDate);
     }

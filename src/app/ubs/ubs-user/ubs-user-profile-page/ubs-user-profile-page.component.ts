@@ -73,7 +73,7 @@ export class UbsUserProfilePageComponent implements OnInit {
     this.userProfile.addressDto.forEach((adres) => {
       const seperateAddress = new FormGroup({
         city: new FormControl(adres?.city, [Validators.pattern(this.regexp), Validators.maxLength(20)]),
-        street: new FormControl(adres?.street, [Validators.pattern(this.regexpWithDigits), Validators.maxLength(20)]),
+        street: new FormControl(adres?.street, [Validators.pattern(this.regexpWithDigits), Validators.maxLength(30)]),
         houseNumber: new FormControl(adres?.houseNumber, [Validators.pattern(this.regexpWithDigits), Validators.maxLength(4)]),
         houseCorpus: new FormControl(adres?.houseCorpus, [Validators.pattern(this.regexpWithDigits), Validators.maxLength(4)]),
         entranceNumber: new FormControl(adres?.entranceNumber, [Validators.pattern(this.regexpWithDigits), Validators.maxLength(4)]),
@@ -126,6 +126,7 @@ export class UbsUserProfilePageComponent implements OnInit {
         (res: UserProfile) => {
           this.isFetching = false;
           this.userProfile = this.composeFormData(res);
+          this.userProfile.recipientEmail = this.userForm.value.recipientEmail;
         },
         (err: Error) => {
           this.isFetching = false;
@@ -150,9 +151,9 @@ export class UbsUserProfilePageComponent implements OnInit {
   }
 
   formatedPhoneNumber(num: string) {
-    const match = num.match(/^(\d{2})(\d{3})(\d{2})(\d{2})$/);
+    const match = num?.match(/^(\d{2})(\d{3})(\d{2})(\d{2})$/);
     if (match) {
-      return ` (${match[1]}) ${match[2]} ${match[3]} ${match[4]}`;
+      return ` +380 (${match[1]}) ${match[2]} ${match[3]} ${match[4]}`;
     }
   }
 }

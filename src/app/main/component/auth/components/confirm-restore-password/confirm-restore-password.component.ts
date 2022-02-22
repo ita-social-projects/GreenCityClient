@@ -77,14 +77,15 @@ export class ConfirmRestorePasswordComponent implements OnInit {
     this.changePasswordService.restorePassword(this.restoreDto).subscribe(
       (data) => {
         this.form = data;
-        this.snackBar.openSnackBar('successConfirmPassword');
       },
       (error) => {
         this.form = error;
-        this.snackBar.openSnackBar('error');
       }
     );
-    this.router.navigate(['']);
+    setTimeout(() => {
+      this.router.navigate(['']);
+      this.snackBar.openSnackBar('successConfirmPassword');
+    }, 2000);
   }
 
   public setPasswordBackendErr(): void {

@@ -4,25 +4,6 @@
   padding-left: 10px;
   padding-top: 32px;
 
-  .switcher {
-    display: flex;
-    align-items: center;
-    justify-content: flex-start;
-
-    .switch-btn {
-      background-color: white;
-      border: 0;
-      width: 30px;
-      height: 30px;
-      color: var(--primary-grey);
-    }
-
-    .switch-btn:focus {
-      color: var(--primary-green);
-      outline: none;
-    }
-  }
-
   .employee-header {
     display: flex;
     flex-direction: row;
@@ -59,12 +40,6 @@
 
   .employees {
     padding-bottom: 77px;
-
-    .paginate {
-      display: flex;
-      justify-content: center;
-      max-width: 920px;
-    }
   }
 }
 

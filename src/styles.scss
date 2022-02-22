@@ -221,15 +221,3 @@ body {
   font-size: 14px;
   border: 1px solid var(--primary-green);
 }
-
-@media (max-width: 375px) {
-  .custom-dialog-container .mat-dialog-container {
-    padding: 30px 24px 27px 10px;
-  }
-}
-
-@media (max-width: 320px) {
-  .custom-dialog-container .mat-dialog-container {
-    padding: 30px 16px 27px;
-  }
-}

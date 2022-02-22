@@ -21,10 +21,12 @@
             <div class="form-group col-sm-6">
               <label for="recipientName">{{ 'ubs-client-profile.name' | translate }}</label>
               <input *ngIf="isEditing" type="text" class="form-control" id="recipientName" formControlName="recipientName" />
+              <p *ngIf="!isEditing">{{ userProfile?.recipientName }}</p>
             </div>
             <div class="form-group col-sm-6">
               <label for="recipientSurname">{{ 'ubs-client-profile.surname' | translate }}</label>
               <input *ngIf="isEditing" type="text" class="form-control" id="recipientSurname" formControlName="recipientSurname" />
+              <p *ngIf="!isEditing">{{ userProfile?.recipientSurname }}</p>
             </div>
           </div>
           <h5>{{ 'ubs-client-profile.contacts' | translate }}</h5>
@@ -54,7 +56,7 @@
                 [unmask]="true"
                 [imask]="{ mask: phoneMask }"
               />
-              <p *ngIf="!isEditing">+380{{ formatedPhoneNumber(userProfile?.recipientPhone) }}</p>
+              <p *ngIf="!isEditing">{{ formatedPhoneNumber(userProfile?.recipientPhone) }}</p>
             </div>
           </div>
           <div class="address" formArrayName="address" *ngFor="let address of userForm.controls.address['controls']; let i = index">

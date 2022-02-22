@@ -13,12 +13,12 @@ export class CreateEditTariffsServicesFormBuilder {
   createTariffService() {
     return this.fb.group({
       name: new FormControl('', [Validators.required, Validators.pattern(this.namePattern)]),
+      englishName: new FormControl('', [Validators.required, Validators.pattern(this.enPattern)]),
       capacity: new FormControl('', [Validators.required, Validators.pattern('[0-9]{1,3}')]),
       price: new FormControl('', [Validators.required, Validators.pattern('[0-9]{1,3}')]),
       commission: new FormControl('', [Validators.required, Validators.pattern('[0-9]{1,3}')]),
       description: new FormControl('', [Validators.required]),
-      nameEn: new FormControl('', [Validators.required, Validators.pattern(this.enPattern)]),
-      descriptionEn: new FormControl('', [Validators.required, Validators.pattern(this.enPattern)])
+      englishDescription: new FormControl('', [Validators.required, Validators.pattern(this.enPattern)])
     });
   }
 }

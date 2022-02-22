@@ -67,6 +67,12 @@
         "cancel": "Cancel",
         "active": "Active"
       }
+    },
+    "cancel-modal": {
+      "warning": "If you cancel, the changes will be lost.",
+      "question": "Do you really want to cancel the changes?",
+      "disagree": "No",
+      "agree": "Yes"
     }
   },
   "add-violation-modal": {
@@ -288,6 +294,8 @@
     "order-date": "Payment date",
     "overpayment": "Overpayment is",
     "underpayment": "Underpayment is",
+    "enroll-on-bonus-account": "Enroll to the bonus account",
+    "return-money": "Return money",
     "payment-id": "Payment ID",
     "sum": "Amount",
     "comment-bill": "Comment/Bill"
@@ -440,6 +448,8 @@
   },
   "ubs-employee": {
     "add-employee": "Add employee",
+    "employee": "Employee",
+    "edit": "Edit",
     "required-fields": "*Required fields",
     "name": "Name*",
     "surname": "Surname*",
@@ -452,6 +462,7 @@
     "picture-description-2": "image here or",
     "browse-1": "upload from",
     "browse-2": "your device",
+    "delete": "Remove",
     "add": "Add",
     "cancel": "Cancel",
     "update": "Update"
@@ -473,6 +484,7 @@
     "courier": "Courier",
     "services": "Services",
     "create": "Add",
+    "back": "Back",
     "station": "Receiving station",
     "city": "City",
     "state": "State",
@@ -485,14 +497,15 @@
     "carriers_commission": "Carrier commission",
     "full_cost": "Full cost",
     "tariffs_for_services": "Tariffs for services",
+    "limits": "Limits",
     "order_limits": "Order limits",
-    "min_order_amount": "Minimum order amount from",
-    "to": "to",
-    "min_number_of_packages": "Minimum number of packages from",
+    "min_order_amount": "Minimum order amount",
+    "min_number_of_packages": "Minimum number of packages",
     "min_set_of_packages": "Minimum set of packages",
     "info_about_order_limits_header": "Information about order limits",
     "safe_waste": "Safe waste",
     "textile_waste": "Textile waste",
+    "textile_waste_20": "Textile waste",
     "info_about_order_limits": "Information about order limits",
     "placeholder_order_limits_info": "Information about order limits, which will be displayed in the order form",
     "btn": {
@@ -507,24 +520,32 @@
       "location": "Location",
       "courier": "Courier",
       "station": "Receiving station",
-      "restore": "Restore"
+      "restore": "Restore",
+      "delete_page": "Delete page",
+      "duplicate_page": "Duplicate page"
     }
   },
   "ubs-tariffs-add-location-pop-up": {
     "title": "Add location",
+    "edit-title": "Edit card",
+    "deactivate": "Deactivate",
     "region": "Region",
     "locality": "City",
     "english-hint": "Enter the following data in ENGLISH",
     "add_button": "Add",
     "cancel_button": "Cancel",
+    "save_button": "Save",
     "error_message": "Area not found. Enter again",
     "courier_title": "Add courier",
+    "station_title": "Add receiving station",
     "courier": "Courier",
+    "station": "Receiving station",
     "date": "Date ",
     "user": "Added by ",
     "placeholder_region": "Selet region",
     "placeholder_location": "Select city",
     "placeholder_courier": "Select courier",
+    "placeholder_station": "Select station",
     "add-city": "Add city"
   },
   "ubs-tariffs-add-service": {
@@ -545,6 +566,11 @@
       "save": "Save"
     }
   },
+  "modal-text": {
+    "cancel": "Cancel",
+    "date": "Date ",
+    "user": "Added by "
+  },
   "ubs-user-notification": {
     "title": "Your messages",
     "title-table": {
@@ -563,6 +589,27 @@
       "about-us": "About-us",
       "sorting-rules": "Sorting rules",
       "eco-shop": "Eco-Shop"
+    },
+    "auth": {
+      "sign-in": {
+        "title": "Welcome back!",
+        "fill-form": "Please enter your details to sign in",
+        "email": "Email",
+        "email-is-required": "Email is required",
+        "field-is-required": "This field is required",
+        "email-must-be-at-least-1-characters-long": "Email must be at least 1 characters long",
+        "this-is-not-email": "Please check that your e-mail address is indicated correctly",
+        "password": "Password",
+        "password-is-required": "Password is required",
+        "password-must-be-at-least-8-characters-long": "Password must be at least 8 characters long",
+        "sign-in": "Sign in",
+        "sign-up": "Sign up",
+        "sign-in-with-google": "Sign in with Google",
+        "bad-email-or-password": "Bad email or password",
+        "forgot-password": "Forgot password?",
+        "havenot-account": "Don't have an account yet?",
+        "or-signin": "or"
+      }
     }
   },
   "nav-bar": {
@@ -593,5 +640,12 @@
     "help-the-project": "How to help the project",
     "how-to-get-there": "How to get there?",
     "ukraine-without-garbage": "Ukraine without garbage"
+  },
+  "information-window": {
+    "message": "Fill in all required fields"
+  },
+  "top-bar": {
+    "sign-up": "Sign up ",
+    "sign-in": "Sign in"
   }
 }

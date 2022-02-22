@@ -1,9 +1,9 @@
 import { Component, Input, OnInit, Output, EventEmitter, OnDestroy } from '@angular/core';
 import { HabitAssignInterface } from '../../../../../../interface/habit/habit-assign.interface';
 import { HabitAssignService } from '@global-service/habit-assign/habit-assign.service';
+import { FormatDateService } from '@global-user/services/format-date.service';
 import { take, takeUntil } from 'rxjs/operators';
-import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
-import { ActivatedRoute, Router } from '@angular/router';
+import { Router } from '@angular/router';
 import { HabitService } from '@global-service/habit/habit.service';
 import { HabitStatus } from '@global-models/habit/HabitStatus.enum';
 import { HabitMark } from '@global-user/models/HabitMark.enum';
@@ -45,15 +45,14 @@ export class OneHabitComponent implements OnInit, OnDestroy {
   @Output() nowAcquiredHabit = new EventEmitter();
 
   constructor(
-    private localStorageService: LocalStorageService,
     private habitAssignService: HabitAssignService,
+    public formatDateService: FormatDateService,
     public router: Router,
-    public route: ActivatedRoute,
     public habitService: HabitService
   ) {}
 
   ngOnInit() {
-    this.currentDate = this.formatDate(new Date());
+    this.currentDate = this.formatDateService.formatDate(new Date().toLocaleDateString());
     this.buildHabitDescription();
   }
 
@@ -75,14 +74,14 @@ export class OneHabitComponent implements OnInit, OnDestroy {
     }
   }
 
-  private formatDate(date: Date): string {
-    return date.toLocaleDateString().split('.').reverse().join('-');
-  }
-
   setGreenCircleInCalendar(isSetCircle: boolean) {
-    const currentDate = this.formatDate(new Date());
-    const lastDayInMonth = this.formatDate(new Date(new Date().getFullYear(), new Date().getMonth() + 1, 0));
-    const dataFromDashBoard = this.habitAssignService.habitsFromDashBoard.find((item) => item.enrollDate === this.formatDate(new Date()));
+    const currentDate = this.formatDateService.formatDate(new Date().toLocaleDateString());
+    const lastDayInMonth = this.formatDateService.formatDate(
+      new Date(new Date().getFullYear(), new Date().getMonth() + 1, 0).toLocaleDateString()
+    );
+    const dataFromDashBoard = this.habitAssignService.habitsFromDashBoard.find(
+      (item) => item.enrollDate === this.formatDateService.formatDate(new Date().toLocaleDateString())
+    );
     if (dataFromDashBoard) {
       dataFromDashBoard.habitAssigns.find((item) => item.habitId === this.habit.habit.id).enrolled = isSetCircle;
     } else {
@@ -92,7 +91,7 @@ export class OneHabitComponent implements OnInit, OnDestroy {
         .subscribe((res) => {
           this.habitAssignService.habitsFromDashBoard = res;
           this.habitAssignService.habitsFromDashBoard
-            .find((item) => item.enrollDate === this.formatDate(new Date()))
+            .find((item) => item.enrollDate === this.formatDateService.formatDate(new Date().toLocaleDateString()))
             .habitAssigns.find((item) => item.habitId === this.habit.habit.id).enrolled = isSetCircle;
         });
     }

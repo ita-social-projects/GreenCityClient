@@ -1,11 +1,12 @@
-import { UserSuccessSignIn } from '@global-models/user-success-sign-in';
-import { UserOwnSignIn } from '@global-models/user-own-sign-in';
+import { UserSuccessSignIn } from './../../../../model/user-success-sign-in';
+import { UserOwnSignIn } from './../../../../model/user-own-sign-in';
 import { HttpErrorResponse } from '@angular/common/http';
 import { DebugElement } from '@angular/core';
 import { By } from '@angular/platform-browser';
 import { AuthService, AuthServiceConfig, LoginOpt, SocialUser } from 'angularx-social-login';
 import { async, ComponentFixture, inject, TestBed } from '@angular/core/testing';
 import { RouterTestingModule } from '@angular/router/testing';
+import { MatDialogModule, MatDialogRef } from '@angular/material/dialog';
 import { Router } from '@angular/router';
 import { ReactiveFormsModule } from '@angular/forms';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
@@ -18,19 +19,16 @@ import { LocalStorageService } from '@global-service/localstorage/local-storage.
 import { ProfileService } from '../../../user/components/profile/profile-service/profile.service';
 
 import { UserOwnSignInService } from '@auth-service/user-own-sign-in.service';
-import { GoogleBtnComponent } from '../fragments/buttons/google-btn/google-btn.component';
+import { GoogleBtnComponent } from '../google-btn/google-btn.component';
 import { ErrorComponent } from '../error/error.component';
 import { SignInComponent } from './sign-in.component';
 import { provideConfig } from 'src/app/main/config/GoogleAuthConfig';
 import { JwtService } from '@global-service/jwt/jwt.service';
-import { MatDialogModule, MatDialogRef } from '@angular/material/dialog';
-import { MatSnackBarComponent } from '@global-errors/mat-snack-bar/mat-snack-bar.component';
 
 describe('SignIn component', () => {
   let component: SignInComponent;
   let fixture: ComponentFixture<SignInComponent>;
   let localStorageServiceMock: LocalStorageService;
-  let matSnackBarMock: MatSnackBarComponent;
   let matDialogMock: MatDialogRef<SignInComponent>;
   let signInServiceMock: UserOwnSignInService;
   let authServiceMock: AuthService;
@@ -41,14 +39,11 @@ describe('SignIn component', () => {
 
   localStorageServiceMock = jasmine.createSpyObj('LocalStorageService', ['userIdBehaviourSubject']);
   localStorageServiceMock.userIdBehaviourSubject = new BehaviorSubject(1111);
+  localStorageServiceMock.ubsRegBehaviourSubject = of(false) as any;
   localStorageServiceMock.setFirstName = () => true;
   localStorageServiceMock.setFirstSignIn = () => true;
   localStorageServiceMock.getUserId = () => 1;
   localStorageServiceMock.getAccessToken = () => '1';
-  localStorageServiceMock.ubsRegBehaviourSubject = new BehaviorSubject(true);
-
-  matSnackBarMock = jasmine.createSpyObj('MatSnackBarComponent', ['openSnackBar']);
-  matSnackBarMock.openSnackBar = (type: string) => {};
 
   matDialogMock = jasmine.createSpyObj('MatDialogRef', ['close']);
   matDialogMock.close = () => 'Close the window please';
@@ -104,7 +99,6 @@ describe('SignIn component', () => {
         { provide: LocalStorageService, useValue: localStorageServiceMock },
         { provide: AuthServiceConfig, useFactory: provideConfig },
         { provide: JwtService, useValue: jwtServiceMock },
-        { provide: MatSnackBarComponent, useValue: matSnackBarMock },
         { provide: MatDialogRef, useValue: matDialogMock },
         { provide: UserOwnSignInService, useValue: signInServiceMock },
         { provide: Router, useValue: routerSpy },
@@ -119,16 +113,16 @@ describe('SignIn component', () => {
     fixture.detectChanges();
   });
 
-  describe('Basic tests', async () => {
+  describe('Basic tests', () => {
     it('Should create component', () => {
       expect(component).toBeDefined();
     });
 
-    /*    it('Should open forgot password modal window', () => {
+    it('Should open forgot password modal window', () => {
       spyOn(component, 'onOpenModalWindow');
 
       const nativeElement = fixture.nativeElement;
-      const button = nativeElement.querySelector('.ubs-forgot-password');
+      const button = nativeElement.querySelector('.forgot-password');
       button.dispatchEvent(new Event('click'));
 
       fixture.detectChanges();
@@ -159,8 +153,8 @@ describe('SignIn component', () => {
       });
     }));
 
-    xit('Should call sinIn method', inject([AuthService, GoogleSignInService], (service: AuthService, service2: GoogleSignInService) => {
-      // component.onSignInWithGoogleSuccess = () => true;
+    it('Should call sinIn method', inject([AuthService, GoogleSignInService], (service: AuthService, service2: GoogleSignInService) => {
+      component.onSignInWithGoogleSuccess = () => true;
       const serviceSpy = spyOn(service, 'signIn').and.returnValue(promiseSocialUser);
       spyOn(service2, 'signIn').and.returnValue(of(userSuccessSignIn));
       component.signInWithGoogle();
@@ -217,9 +211,8 @@ describe('SignIn component', () => {
       })
     ));
 
-    it('Should navigate to profile after sign in if is not ubs', async(() => {
+    it('Sohuld navige to profile after sign in', async(() => {
       fixture.ngZone.run(() => {
-        component.isUbs = false;
         // @ts-ignore
         component.onSignInSuccess(userSuccessSignIn);
         fixture.detectChanges();
@@ -228,22 +221,10 @@ describe('SignIn component', () => {
         });
       });
     }));
-
-    it('Should navigate to ubs courier after sign in if is ubs', async(() => {
-      fixture.ngZone.run(() => {
-        component.isUbs = true;
-        // @ts-ignore
-        component.onSignInSuccess(userSuccessSignIn);
-        fixture.detectChanges();
-        fixture.whenStable().then(() => {
-          expect(routerSpy.navigate).toHaveBeenCalledWith(['ubs']);
-        });
-      });
-    }));*/
   });
 
-  /*describe('Error functionality testing', () => {
-    // let errors;
+  describe('Error functionality testing', () => {
+    let errors;
 
     it('Should return an emailErrorMessageBackEnd when login failed', () => {
       errors = new HttpErrorResponse({ error: [{ name: 'email', message: 'Ups' }] });
@@ -329,5 +310,5 @@ describe('SignIn component', () => {
       hiddenEyeImg.click();
       expect(hiddenEyeInput.type).toEqual('password');
     });
-  });*/
+  });
 });

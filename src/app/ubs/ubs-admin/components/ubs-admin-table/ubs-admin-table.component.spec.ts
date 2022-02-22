@@ -14,10 +14,14 @@ import { MatCheckboxModule } from '@angular/material/checkbox';
 import { TranslateModule } from '@ngx-translate/core';
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { RouterTestingModule } from '@angular/router/testing';
+import { Store } from '@ngrx/store';
+import { of } from 'rxjs';
 
 describe('UsbAdminTableComponent', () => {
   let component: UbsAdminTableComponent;
   let fixture: ComponentFixture<UbsAdminTableComponent>;
+  const storeMock = jasmine.createSpyObj('store', ['select', 'dispatch']);
+  storeMock.select = () => of(false);
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
@@ -37,6 +41,7 @@ describe('UsbAdminTableComponent', () => {
         TranslateModule.forRoot()
       ],
       declarations: [UbsAdminTableComponent],
+      providers: [{ provide: Store, useValue: storeMock }],
       schemas: [CUSTOM_ELEMENTS_SCHEMA]
     }).compileComponents();
   }));

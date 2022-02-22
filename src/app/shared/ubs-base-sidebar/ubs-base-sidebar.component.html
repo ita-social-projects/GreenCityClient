@@ -1,31 +1,38 @@
-<div class="sidebar-icons" #sideBarIcons>
-  <ul class="sidebar-list">
-    <li class="sidebar-list-item" (click)="toggleSideBar()" *ngFor="let listItem of listElements">
-      <img class="sidebar-list-item-icon" src="{{ listItem.link }}" alt="sidebar list item icon" />
-    </li>
-  </ul>
-</div>
-<mat-drawer-container class="sidebar" autosize>
-  <mat-drawer #drawer class="sidebar-slider" mode="side" opened disableClose>
+<div class="main">
+  <mat-toolbar class="mobile-toolbar">
+    <button mat-icon-button class="mobile-menu" aria-label="Sidebar menu" (click)="toggleSideBar()">
+      <mat-icon class="mobile-icon">{{ !drawer.opened ? 'menu' : 'close' }}</mat-icon>
+    </button>
+  </mat-toolbar>
+  <div class="sidebar-icons" #sideBarIcons>
     <ul class="sidebar-list">
-      <li class="sidebar-list-item" *ngFor="let listItem of listElements" [routerLink]="listItem.routerLink">
-        <img
-          class="sidebar-list-item-icon"
-          src="{{
-            listItem.link === bellsNoneNotification && serviceUserMessages.countOfNoReadeMessages ? bellsNotification : listItem.link
-          }}"
-          alt="sidebar list item icon"
-        />
-        <a class="sidebar-list-item-link" [routerLink]="listItem.routerLink">{{ listItem.name | translate }}</a>
-        <div class="count-unread-messages" *ngIf="listItem.name === 'ubs-user.messages' && serviceUserMessages.countOfNoReadeMessages">
-          ({{ serviceUserMessages.countOfNoReadeMessages }})
-        </div>
+      <li class="sidebar-list-item" (click)="toggleSideBar()" *ngFor="let listItem of listElements">
+        <img class="sidebar-list-item-icon" src="{{ listItem.link }}" alt="sidebar list item icon" />
       </li>
     </ul>
-  </mat-drawer>
-  <mat-drawer-content class="main-content">
-    <div class="sidebar-container" #sidebarContainer>
-      <ng-content></ng-content>
-    </div>
-  </mat-drawer-content>
-</mat-drawer-container>
+  </div>
+  <mat-drawer-container class="sidebar" autosize>
+    <mat-drawer #drawer class="sidebar-slider" mode="side" opened="true" disableClose="false" autoFocus="false">
+      <ul class="sidebar-list">
+        <li class="sidebar-list-item" *ngFor="let listItem of listElements" [routerLink]="listItem.routerLink">
+          <img
+            class="sidebar-list-item-icon"
+            src="{{
+              listItem.link === bellsNoneNotification && serviceUserMessages.countOfNoReadeMessages ? bellsNotification : listItem.link
+            }}"
+            alt="sidebar list item icon"
+          />
+          <a class="sidebar-list-item-link" [routerLink]="listItem.routerLink">{{ listItem.name | translate }}</a>
+          <div class="count-unread-messages" *ngIf="listItem.name === 'ubs-user.messages' && serviceUserMessages.countOfNoReadeMessages">
+            ({{ serviceUserMessages.countOfNoReadeMessages }})
+          </div>
+        </li>
+      </ul>
+    </mat-drawer>
+    <mat-drawer-content class="main-content">
+      <div class="sidebar-container" #sidebarContainer>
+        <ng-content></ng-content>
+      </div>
+    </mat-drawer-content>
+  </mat-drawer-container>
+</div>

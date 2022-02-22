@@ -5,16 +5,9 @@
       <div class="user-location">
         <div>
           <h5>{{ 'order-details.current-location' | translate: { currentLocation: currentLocation } }}</h5>
-          <button class="change-location" (click)="changeLocation = !changeLocation">
+          <button class="change-location" (click)="redirectToZeroStep()">
             {{ 'order-details.choose-location' | translate }}
           </button>
-        </div>
-        <div *ngIf="changeLocation" class="list-locations">
-          <select name="region" class="choose-location" [(ngModel)]="selectedLocationId" (ngModelChange)="saveLocation(true)">
-            <option [ngValue]="location.locationId" *ngFor="let location of locations | filterLocationListByLang">
-              {{ location.locationName }}
-            </option>
-          </select>
         </div>
       </div>
       <p class="order-content" *ngIf="selectedLocationId === 1">{{ 'order-details.order-content' | translate }}</p>
@@ -34,7 +27,8 @@
       <div class="main">
         <ul class="w-100 p-0 m-0">
           <li *ngFor="let bag of bags" class="main-list_item d-flex justify-content-between align-items-baseline">
-            <span class="col-3 p-0 m-0 bag-name">{{ bag.name }}</span>
+            <span *ngIf="currentLanguage === 'ua'" class="col-3 p-0 m-0 bag-name">{{ bag.name }}</span>
+            <span *ngIf="currentLanguage === 'en'" class="col-3 p-0 m-0 bag-name">{{ bag.nameEng }}</span>
             <span class="col-2 p-0 m-0 bag-name">{{ bag.capacity | volume }}</span>
             <span class="col-2 p-0 m-0 bag-name">{{ bag.price | currency | localizedCurrency }}</span>
             <div class="col-2 form-group count">

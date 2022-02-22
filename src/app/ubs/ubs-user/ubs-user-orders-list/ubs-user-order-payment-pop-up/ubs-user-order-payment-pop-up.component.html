@@ -3,7 +3,7 @@
     <h2>{{ 'ubs-client-profile.payment.title' | translate }}</h2>
     <h6 class="text-order-sum">
       {{ 'ubs-client-profile.payment.sum' | translate }} {{ userOrder.sum | currency }}
-      {{ 'ubs-client-profile.payment.curency' | translate }}.
+      {{ 'ubs-client-profile.payment.curency' | translate }}
     </h6>
   </div>
 
@@ -51,7 +51,7 @@
       </div>
     </div>
 
-    <div *ngIf="userOrder.bonusValue > 0">
+    <div *ngIf="userOrder.bonusValue > 0" [ngStyle]="userOrder.sum === 0 && { 'padding-bottom': '145px' }">
       <div class="question">{{ 'ubs-client-profile.payment.bonus.need' | translate }}</div>
       <div class="text">
         {{ 'ubs-client-profile.payment.bonus.present' | translate }} {{ userOrder.bonusValue }}
@@ -66,14 +66,14 @@
         <mat-radio-button value="yes" name="yes">
           {{ 'ubs-client-profile.payment.yes' | translate }}
         </mat-radio-button>
-        <div *ngIf="isUseBonuses" class="bonuses-color">
+        <div *ngIf="isUseBonuses" class="bonuses">
           <div>
             {{ 'ubs-client-profile.payment.bonus.used' | translate }} {{ bonusInfo.used }}
-            {{ 'ubs-client-profile.payment.curency' | translate }}.
+            {{ 'ubs-client-profile.payment.curency' | translate }}
           </div>
           <div>
             {{ 'ubs-client-profile.payment.bonus.left' | translate }} {{ bonusInfo.left }}
-            {{ 'ubs-client-profile.payment.curency' | translate }}.
+            {{ 'ubs-client-profile.payment.curency' | translate }}
           </div>
         </div>
       </mat-radio-group>
@@ -97,7 +97,7 @@
       <button class="btn btn-cancel" mat-dialog-close>
         {{ 'ubs-client-profile.payment.btn.cancel' | translate }}
       </button>
-      <button class="btn btn-pay" [disabled]="0 > userOrder.sum || dataLoadingLiqPay" (click)="processOrder()" mat-dialog-close>
+      <button class="btn btn-pay" [disabled]="0 > userOrder.sum || dataLoadingLiqPay" (click)="processOrder()">
         <span *ngIf="dataLoadingLiqPay" class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
         {{ 'ubs-client-profile.payment.btn.pay' | translate }}
       </button>
