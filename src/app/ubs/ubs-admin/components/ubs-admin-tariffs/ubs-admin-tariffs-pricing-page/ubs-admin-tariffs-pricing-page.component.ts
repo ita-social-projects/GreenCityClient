@@ -15,6 +15,7 @@ import { UbsAdminTariffsDeletePopUpComponent } from './ubs-admin-tariffs-delete-
 import { ModalTextComponent } from '../../shared/components/modal-text/modal-text.component';
 import { Store } from '@ngrx/store';
 import { IAppState } from 'src/app/store/state/app.state';
+import { GetLocations } from 'src/app/store/actions/tariff.actions';
 
 @Component({
   selector: 'app-ubs-admin-tariffs-pricing-page',
@@ -69,13 +70,13 @@ export class UbsAdminTariffsPricingPageComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
     this.subscribeToLangChange();
     this.routeParams();
-    this.getLocations();
     this.initForm();
     this.getCouriers();
     this.orderService.locationSubject.pipe(takeUntil(this.destroy)).subscribe(() => {
       this.getServices();
       this.getCouriers();
       this.getAllTariffsForService();
+      this.getLocations();
     });
   }
 
@@ -283,6 +284,7 @@ export class UbsAdminTariffsPricingPageComponent implements OnInit, OnDestroy {
   }
 
   getLocations(): void {
+    this.store.dispatch(GetLocations({ reset: this.reset }));
     this.locations$.subscribe((item) => {
       if (item) {
         const key = 'content';

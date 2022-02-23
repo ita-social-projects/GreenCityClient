@@ -62,7 +62,7 @@ export class UbsAdminTariffsLocationPopUpComponent implements OnInit, AfterViewC
   unsubscribe: Subject<any> = new Subject();
   datePipe = new DatePipe('ua');
   newDate = this.datePipe.transform(new Date(), 'MMM dd, yyyy');
-  quantityOfLocations: number;
+  quantityOfLocations: number = 0;
   regionSelected = false;
 
   constructor(

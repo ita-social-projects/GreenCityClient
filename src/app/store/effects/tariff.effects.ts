@@ -22,7 +22,7 @@ export class LocationsEffects {
     );
   });
 
-  addEmployee = createEffect(() => {
+  addLocations = createEffect(() => {
     return this.actions.pipe(
       ofType(AddLocations),
       mergeMap((action: { locations: CreateLocation[] }) => {
