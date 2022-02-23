@@ -26,7 +26,7 @@ import { Bag, Locations } from 'src/app/ubs/ubs-admin/models/tariffs.interface';
 import { Store } from '@ngrx/store';
 import { UbsAdminTariffsLocationDashboardComponent } from '../ubs-admin-tariffs-location-dashboard.component';
 
-fdescribe('UbsAdminPricingPageComponent', () => {
+describe('UbsAdminPricingPageComponent', () => {
   let component: UbsAdminTariffsPricingPageComponent;
   let fixture: ComponentFixture<UbsAdminTariffsPricingPageComponent>;
   let httpMock: HttpTestingController;
