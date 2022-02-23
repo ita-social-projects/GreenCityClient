@@ -3,7 +3,7 @@ import { SpecificationService } from './specification.service';
 import { HttpClientTestingModule, HttpTestingController } from '@angular/common/http/testing';
 import { environment } from '@environment/environment.js';
 
-xdescribe('Specification Service', () => {
+describe('Specification Service', () => {
   let specificationService: SpecificationService;
   let httpMock: HttpTestingController;
   const mainLink = environment.backendLink;

@@ -4,7 +4,7 @@ import { HttpClientTestingModule, HttpTestingController } from '@angular/common/
 import { CategoryDto } from '../model/category.model';
 import { environment } from '@environment/environment.js';
 
-xdescribe('Category Service', () => {
+describe('Category Service', () => {
   let service: CategoryService;
   let httpMock: HttpTestingController;
   let category: CategoryDto;

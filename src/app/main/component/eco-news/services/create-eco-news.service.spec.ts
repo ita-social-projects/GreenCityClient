@@ -4,7 +4,7 @@ import { FormArray, FormControl, FormGroup, ReactiveFormsModule } from '@angular
 import { CreateEcoNewsService } from './create-eco-news.service';
 import { environment } from '@environment/environment.js';
 
-xdescribe('CreateEcoNewsService', () => {
+describe('CreateEcoNewsService', () => {
   let service: CreateEcoNewsService;
   let httpTestingController: HttpTestingController;
   const defaultImagePath =

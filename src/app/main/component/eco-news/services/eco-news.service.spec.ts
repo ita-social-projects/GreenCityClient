@@ -6,7 +6,7 @@ import { environment } from '@environment/environment.js';
 
 import { EcoNewsService } from './eco-news.service';
 
-xdescribe('EcoNewsService', () => {
+describe('EcoNewsService', () => {
   let service: EcoNewsService;
   let httpTestingController: HttpTestingController;
   const newsMock = {
