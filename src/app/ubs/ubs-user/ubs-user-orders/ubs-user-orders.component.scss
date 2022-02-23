@@ -66,6 +66,10 @@
   .main_header {
     padding-right: 45px;
   }
+
+  .main_header-title {
+    margin: 0;
+  }
 }
 
 @media (max-width: 480px) {
@@ -86,5 +90,11 @@
 
   .main_header-title {
     margin: 0;
+  }
+}
+
+@media (min-width: 1000px) {
+  .wrapper {
+    min-width: 85vw;
   }
 }
