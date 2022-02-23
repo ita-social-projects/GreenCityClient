@@ -268,14 +268,17 @@ export class HeaderComponent implements OnInit, OnDestroy {
 
   public signOut(): void {
     this.dropdownVisible = false;
-    this.userOwnAuthService.isLoginUserSubject.next(false);
-    this.localeStorageService.clear();
-    this.habitStatisticService.onLogout();
-    this.achievementService.onLogout();
-    this.router.navigateByUrl(this.isUBS ? '/ubs' : '/').then((r) => r);
-    this.orderService.cancelUBSwithoutSaving();
-    this.userOwnAuthService.getDataFromLocalStorage();
-    this.jwtService.userRole$.next('');
+    this.router.navigateByUrl(this.isUBS ? '/ubs' : '/').then((isRedirected: boolean) => {
+      if (isRedirected) {
+        this.userOwnAuthService.isLoginUserSubject.next(false);
+        this.localeStorageService.clear();
+        this.habitStatisticService.onLogout();
+        this.achievementService.onLogout();
+        this.orderService.cancelUBSwithoutSaving();
+        this.userOwnAuthService.getDataFromLocalStorage();
+        this.jwtService.userRole$.next('');
+      }
+    });
   }
 
   public toggleScroll(): void {
