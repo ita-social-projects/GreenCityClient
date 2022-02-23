@@ -1,6 +1,6 @@
 import { MatSnackBarComponent } from '@global-errors/mat-snack-bar/mat-snack-bar.component';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { async, ComponentFixture, TestBed, fakeAsync, tick } from '@angular/core/testing';
 import { RouterTestingModule } from '@angular/router/testing';
 import { AddNewHabitComponent } from './add-new-habit.component';
 import { CUSTOM_ELEMENTS_SCHEMA, NO_ERRORS_SCHEMA } from '@angular/core';
@@ -12,7 +12,7 @@ import { HabitAssignService } from '@global-service/habit-assign/habit-assign.se
 import { of, Subject, Subscription } from 'rxjs';
 import { ActivatedRoute } from '@angular/router';
 
-describe('AddNewHabitComponent', () => {
+fdescribe('AddNewHabitComponent', () => {
   let component: AddNewHabitComponent;
   let fixture: ComponentFixture<AddNewHabitComponent>;
   let matSnackBarMock: MatSnackBarComponent;
@@ -24,10 +24,26 @@ describe('AddNewHabitComponent', () => {
     //   subscribe: of({ habitId: 2 })
     // }
   };
-  fakeHabitAssignService = jasmine.createSpyObj('MatSnackBarComponent', {
-    getAssignedHabits: of('mock data')
+  fakeHabitAssignService = jasmine.createSpyObj('fakeHabitAssignService', {
+    // getAssignedHabits: of('mock'),
+    getAssignedHabits: of([
+      {
+        habit: {
+          id: 2
+        }
+      }
+    ]),
+    deleteHabitById: of('test'),
+    getCustomHabit: of('test')
   });
-  fakeLocalStorageService = jasmine.createSpyObj('MatSnackBarComponent', {
+  // fakeHabitAssignService = jasmine.createSpyObj('fakeHabitAssignService', [
+  //   'getAssignedHabits',
+  //   'deleteHabitById',
+  //   'getCustomHabit',
+  //   'assignCustomHabit',
+  //   'updateHabit'
+  // ]);
+  fakeLocalStorageService = jasmine.createSpyObj('fakeLocalStorageService', {
     getCurrentLanguage: () => 'ua'
     // 'languageSubject': of('ua')
   });
@@ -58,27 +74,39 @@ describe('AddNewHabitComponent', () => {
     fixture.detectChanges();
   });
 
+  afterEach(() => {
+    fixture.destroy();
+  });
+
   it('should create', () => {
-    // spyOn(component, 'checkIfAssigned').and.callFake(() => {});
-    // // @ts-ignore
-    // spyOn(component, 'getUserId').and.callFake(() => {});
-    // // @ts-ignore
-    // spyOn(component, 'bindLang').and.callFake(() => {});
-    // // @ts-ignore
-    // spyOn(component, 'subscribeToLangChange').and.callFake(() => {});
-    spyOn(component, 'ngOnInit').and.callFake(() => {});
+    // spyOn(component, 'ngOnInit').and.returnValue();
     expect(component).toBeTruthy();
   });
 
-  // it('ngOnDestroy should unsubscribe from subscription', () => {
-  //   // @ts-ignore
-  //   // const spy = (component.langChangeSub, 'unsubscribe');
-  //   const spy = (Subscription.prototype, 'unsubscribe');
-  //   // component.langChangeSub = new Subscription();
-  //   // fixture.detectChanges();
-  //   component.ngOnDestroy();
-  //   // expect(component.langChangeSub.unsubscribe).toHaveBeenCalledTimes(2);
-  //   // @ts-ignore
-  //   expect(spy).toHaveBeenCalledTimes(2);
-  // });
+  it('method deleteHabbit should navigate and openSnackBar', (done) => {
+    component.userId = '33';
+    component.habitId = 33;
+    fixture.detectChanges();
+    // @ts-ignore
+    spyOn(component.snackBar, 'openSnackBar');
+    // // const spy = spyOn(component.snackBar, 'openSnackBar').and.returnValue();
+    fakeHabitAssignService.deleteHabitById(component.habitId).subscribe(() => {
+      console.log('DONE');
+      // @ts-ignore
+      expect(component.snackBar.openSnackBar).toHaveBeenCalledWith('habitDeleted2');
+      done();
+    });
+    component.deleteHabit();
+    // tick();
+
+    // expect(spy).toHaveBeenCalledWith("habitDeleted222");
+  });
+
+  it('ngOnDestroy should unsubscribe from subscription', () => {
+    // @ts-ignore
+    spyOn(component.langChangeSub, 'unsubscribe');
+    component.ngOnDestroy();
+    // @ts-ignore
+    expect(component.langChangeSub.unsubscribe).toHaveBeenCalled();
+  });
 });
