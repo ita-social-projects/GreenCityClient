@@ -95,21 +95,16 @@ describe('AddNewHabitComponent', () => {
   });
 
   it('bindLang(lang) should invoke translate.setDefaultLang(lang)', () => {
-    // @ts-ignore
-    spyOn(component.translate, 'setDefaultLang').and.returnValue();
-    // @ts-ignore
-    component.bindLang('en');
-    // @ts-ignore
-    expect(component.translate.setDefaultLang).toHaveBeenCalledWith('en');
+    spyOn((component as any).translate, 'setDefaultLang').and.returnValue('test');
+    (component as any).bindLang('en');
+    expect((component as any).translate.setDefaultLang).toHaveBeenCalledWith('en');
   });
 
   it('changing of fakeLocalStorageService.languageSubject should invoke methods', () => {
     spyOn(component, 'checkIfAssigned').and.returnValue();
-    // @ts-ignore
-    spyOn(component, 'bindLang').and.returnValue();
+    spyOn(component as any, 'bindLang').and.returnValue('test');
     fakeLocalStorageService.languageSubject.subscribe((lang) => {
-      // @ts-ignore
-      expect(component.bindLang).toHaveBeenCalledWith(lang);
+      expect((component as any).bindLang).toHaveBeenCalledWith(lang);
       expect(component.checkIfAssigned).toHaveBeenCalled();
     });
     fakeLocalStorageService.languageSubject.next('en');
@@ -138,17 +133,14 @@ describe('AddNewHabitComponent', () => {
 
   it('goToMyHabits method should navigate', () => {
     component.userId = '2';
-    // @ts-ignore
-    spyOn(component.router, 'navigate').and.returnValue();
+    spyOn((component as any).router, 'navigate').and.returnValue('test');
     component.goToMyHabits();
-    // @ts-ignore
-    expect(component.router.navigate).toHaveBeenCalledWith([`/profile/2/allhabits`]);
+    expect((component as any).router.navigate).toHaveBeenCalledWith([`/profile/2/allhabits`]);
   });
 
   it('getUserId should set this.userId', () => {
     localStorage.setItem('userId', '2');
-    // @ts-ignore
-    component.getUserId();
+    (component as any).getUserId();
     expect(component.userId).toBe('2');
   });
 
@@ -180,11 +172,9 @@ describe('AddNewHabitComponent', () => {
 
   it('cancel method should navigate', () => {
     component.userId = '2';
-    // @ts-ignore
-    spyOn(component.router, 'navigate').and.returnValue();
+    spyOn((component as any).router, 'navigate').and.returnValue('test');
     component.cancel();
-    // @ts-ignore
-    expect(component.router.navigate).toHaveBeenCalledWith(['profile', component.userId]);
+    expect((component as any).router.navigate).toHaveBeenCalledWith(['profile', component.userId]);
   });
 
   it('method addHabit should navigate and openSnackBar', () => {
@@ -197,15 +187,11 @@ describe('AddNewHabitComponent', () => {
         text: 'test'
       }
     ];
-    // @ts-ignore
-    spyOn(component.router, 'navigate').and.returnValue();
-    // @ts-ignore
-    spyOn(component.snackBar, 'openSnackBar').and.returnValue();
+    spyOn((component as any).router, 'navigate').and.returnValue('test');
+    spyOn((component as any).snackBar, 'openSnackBar').and.returnValue('test');
     component.addHabit();
-    // @ts-ignore
-    expect(component.snackBar.openSnackBar).toHaveBeenCalledWith('habitAdded');
-    // @ts-ignore
-    expect(component.router.navigate).toHaveBeenCalledWith(['profile', component.userId]);
+    expect((component as any).snackBar.openSnackBar).toHaveBeenCalledWith('habitAdded');
+    expect((component as any).router.navigate).toHaveBeenCalledWith(['profile', component.userId]);
   });
 
   it('method updateHabit should navigate and openSnackBar', () => {
@@ -218,35 +204,25 @@ describe('AddNewHabitComponent', () => {
         text: 'test'
       }
     ];
-    // @ts-ignore
-    spyOn(component.router, 'navigate').and.returnValue();
-    // @ts-ignore
-    spyOn(component.snackBar, 'openSnackBar').and.returnValue();
+    spyOn((component as any).router, 'navigate').and.returnValue('test');
+    spyOn((component as any).snackBar, 'openSnackBar').and.returnValue('test');
     component.updateHabit();
-    // @ts-ignore
-    expect(component.snackBar.openSnackBar).toHaveBeenCalledWith('habitUpdated');
-    // @ts-ignore
-    expect(component.router.navigate).toHaveBeenCalledWith(['profile', component.userId]);
+    expect((component as any).snackBar.openSnackBar).toHaveBeenCalledWith('habitUpdated');
+    expect((component as any).router.navigate).toHaveBeenCalledWith(['profile', component.userId]);
   });
 
   it('method deleteHabit should navigate and openSnackBar', () => {
     component.userId = '2';
-    // @ts-ignore
-    spyOn(component.router, 'navigate').and.returnValue();
-    // @ts-ignore
-    spyOn(component.snackBar, 'openSnackBar').and.returnValue();
+    spyOn((component as any).router, 'navigate').and.returnValue('test');
+    spyOn((component as any).snackBar, 'openSnackBar').and.returnValue('test');
     component.deleteHabit();
-    // @ts-ignore
-    expect(component.snackBar.openSnackBar).toHaveBeenCalledWith('habitDeleted');
-    // @ts-ignore
-    expect(component.router.navigate).toHaveBeenCalledWith(['profile', component.userId]);
+    expect((component as any).snackBar.openSnackBar).toHaveBeenCalledWith('habitDeleted');
+    expect((component as any).router.navigate).toHaveBeenCalledWith(['profile', component.userId]);
   });
 
   it('ngOnDestroy should unsubscribe from subscription', () => {
-    // @ts-ignore
-    spyOn(component.langChangeSub, 'unsubscribe');
+    spyOn((component as any).langChangeSub, 'unsubscribe');
     component.ngOnDestroy();
-    // @ts-ignore
-    expect(component.langChangeSub.unsubscribe).toHaveBeenCalled();
+    expect((component as any).langChangeSub.unsubscribe).toHaveBeenCalled();
   });
 });
