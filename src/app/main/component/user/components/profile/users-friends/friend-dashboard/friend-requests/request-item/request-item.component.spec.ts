@@ -21,7 +21,17 @@ describe('RequestItemComponent', () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(RequestItemComponent);
     component = fixture.componentInstance;
-    component.request = { id: 1, name: 'Name', profilePicturePath: '', added: true, rating: 380 };
+    component.request = {
+      id: 1,
+      name: 'Name',
+      profilePicturePath: '',
+      added: true,
+      rating: 380,
+      friendsChatDto: {
+        chatExists: true,
+        chatId: 2
+      }
+    };
     fixture.detectChanges();
   });
 

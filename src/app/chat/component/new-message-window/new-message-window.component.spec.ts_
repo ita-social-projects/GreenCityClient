@@ -1,0 +1,25 @@
+import { ComponentFixture, TestBed } from '@angular/core/testing';
+
+import { NewMessageWindowComponent } from './new-message-window.component';
+
+describe('NewMessageWindowComponent', () => {
+  let component: NewMessageWindowComponent;
+  let fixture: ComponentFixture<NewMessageWindowComponent>;
+
+  beforeEach(async () => {
+    await TestBed.configureTestingModule({
+      declarations: [ NewMessageWindowComponent ]
+    })
+    .compileComponents();
+  });
+
+  beforeEach(() => {
+    fixture = TestBed.createComponent(NewMessageWindowComponent);
+    component = fixture.componentInstance;
+    fixture.detectChanges();
+  });
+
+  it('should create', () => {
+    expect(component).toBeTruthy();
+  });
+});

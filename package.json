@@ -29,6 +29,7 @@
     "@angular/platform-browser": "^9.1.13",
     "@angular/platform-browser-dynamic": "^9.1.13",
     "@angular/router": "^9.1.13",
+    "@ctrl/ngx-emoji-mart": "^3.1.0",
     "@angular/service-worker": "^9.1.13",
     "@ng-bootstrap/ng-bootstrap": "^5.1.1",
     "@ng-select/ng-select": "^3.0.7",

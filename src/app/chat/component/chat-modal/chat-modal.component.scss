@@ -1,0 +1,62 @@
+@import 'src/app/chat/chat-styles-reset';
+
+:host {
+  height: 100%;
+  width: 100%;
+}
+
+.chats {
+  height: 100%;
+  width: 300px;
+
+  @include flex(column, center, center);
+}
+
+.close-modal-button {
+  font-size: 45px;
+  cursor: pointer;
+  position: absolute;
+  top: -15px;
+  right: 10px;
+  z-index: 1500;
+}
+
+.controlPanel {
+  background: var(--quaternary-dark-grey);
+  height: 100%;
+  width: 46px;
+  padding: 60px 0 18px;
+
+  @include flex(column, space-between, center);
+
+  .switchView {
+    @include flex(column, space-between, center);
+
+    height: 70px;
+  }
+
+  img {
+    cursor: pointer;
+  }
+}
+
+.chat-modal-title {
+  @include flex(row, center, center);
+
+  padding: 10px;
+  width: 100%;
+
+  h3 {
+    font-size: 16px;
+    font-weight: 500;
+  }
+}
+
+.chat-modal-wrapper {
+  height: 100%;
+  width: 100%;
+  background: var(--primary-white);
+  position: relative;
+
+  @include flex(row, center, flex-start);
+}

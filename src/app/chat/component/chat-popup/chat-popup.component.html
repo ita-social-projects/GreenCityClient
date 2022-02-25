@@ -1,0 +1,16 @@
+<div class="chat-popup" [class.opened]="isOpen">
+  <div class="popup-top-panel">
+    <div class="panel-account" (click)="isOpen = !isOpen">
+      <span class="panel-account-title">Messages</span>
+    </div>
+
+    <div class="panel-buttons">
+      <button class="panel-button">
+        <img [src]="chatIcons.chat" (click)="openChatModal()" alt="open chat" title="Open chat" />
+      </button>
+    </div>
+  </div>
+  <app-chats-list [isPopup]="true" (createNewMessageWindow)="openNewMessageWindow(false)"></app-chats-list>
+</div>
+
+<div class="new-msg-container" *appReferenceDirective></div>

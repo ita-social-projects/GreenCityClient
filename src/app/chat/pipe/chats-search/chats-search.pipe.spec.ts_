@@ -1,0 +1,8 @@
+import { ChatsSearchPipe } from './chats-search.pipe';
+
+describe('ChatsSearchPipe', () => {
+  it('create an instance', () => {
+    const pipe = new ChatsSearchPipe();
+    expect(pipe).toBeTruthy();
+  });
+});

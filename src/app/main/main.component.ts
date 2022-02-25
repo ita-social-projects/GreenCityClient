@@ -4,6 +4,7 @@ import { LanguageService } from './i18n/language.service';
 import { NavigationEnd, Router } from '@angular/router';
 import { UiActionsService } from '@global-service/ui-actions/ui-actions.service';
 import { UserService } from '@global-service/user/user.service';
+import { UserOwnAuthService } from '@global-service/auth/user-own-auth.service';
 
 @Component({
   selector: 'app-main',
@@ -12,13 +13,16 @@ import { UserService } from '@global-service/user/user.service';
 })
 export class MainComponent implements OnInit {
   public toggle: boolean;
+  public isUBS: boolean;
+  public isLogin: boolean;
 
   constructor(
     private languageService: LanguageService,
     private titleAndMetaTagsService: TitleAndMetaTagsService,
     private router: Router,
     private uiActionsService: UiActionsService,
-    private userService: UserService
+    private userService: UserService,
+    private userOwnAuthService: UserOwnAuthService
   ) {}
 
   @ViewChild('focusFirst', { static: true }) focusFirst: ElementRef;
@@ -29,6 +33,7 @@ export class MainComponent implements OnInit {
     this.navigateToStartingPositionOnPage();
     this.titleAndMetaTagsService.useTitleMetasData();
     this.uiActionsService.stopScrollingSubject.subscribe((data) => (this.toggle = data));
+    this.checkLogin();
   }
 
   @HostListener('window:beforeunload')
@@ -51,6 +56,12 @@ export class MainComponent implements OnInit {
       }
 
       this.router.routeReuseStrategy.shouldReuseRoute = () => false;
+    });
+  }
+
+  private checkLogin() {
+    this.userOwnAuthService.isLoginUserSubject.subscribe((status) => {
+      this.isLogin = status;
     });
   }
 }

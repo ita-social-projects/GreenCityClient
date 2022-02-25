@@ -6,6 +6,10 @@ export interface FriendModel {
   rating: number;
   city?: string;
   mutualFriends?: number | string;
+  friendsChatDto: {
+    chatExists: boolean;
+    chatId?: number;
+  };
 }
 
 export interface FriendArrayModel {

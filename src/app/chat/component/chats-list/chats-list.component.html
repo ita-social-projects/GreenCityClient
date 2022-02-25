@@ -1,0 +1,25 @@
+<div class="searching-panel" [ngClass]="{ 'searching-panel-in-popup': isPopup }">
+  <div class="search">
+    <input type="text" [formControl]="searchFieldControl" />
+  </div>
+</div>
+<div class="chats">
+  <div *ngIf="searchField; else chats" class="search-container">
+    <div class="chat" *ngFor="let friend of chatService.searchedFriendsStream$ | async" (click)="checkChat(friend)">
+      <img [src]="chatIcons.userLogo" alt="user-logo" />
+      <span class="chat-name">{{ friend.name }}</span>
+    </div>
+  </div>
+  <ng-template #chats>
+    <div class="chat" *ngFor="let chat of chatService.userChatsStream$ | async" (click)="openNewMessageWindow(chat)">
+      <img [src]="chatIcons.userLogo" alt="user logo" />
+      <div class="chat-text">
+        <span class="chat-name">{{ chat.name }}</span>
+        <div *ngIf="chat.lastMessage" class="chat-last-message">
+          <span class="chat-lm-text">{{ chat.lastMessage }}</span>
+          <span class="chat-lm-date">{{ chat.lastMessageDateTime | date: messageDateTreat(chat.lastMessageDateTime) }}</span>
+        </div>
+      </div>
+    </div>
+  </ng-template>
+</div>
