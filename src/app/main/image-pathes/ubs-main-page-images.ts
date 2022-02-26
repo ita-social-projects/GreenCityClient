@@ -1,5 +1,5 @@
 export const ubsMainPageImages = {
-  ubsArmoredTrack: 'assets/img/ubs/armored_truck.svg',
+  ubsArmoredTrack: 'assets/img/ubs/ubrs.jpg',
   ubsGreenGarbage: 'assets/img/ubs/green_garbage_bag.svg',
   ubsBlackGarbage: 'assets/img/ubs/black_garbage_bag.svg',
   ubsRectangle: 'assets/img/ubs/second_rectangle.png',
