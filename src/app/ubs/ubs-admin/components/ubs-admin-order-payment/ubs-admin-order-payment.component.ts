@@ -37,6 +37,7 @@ export class UbsAdminOrderPaymentComponent implements OnInit, OnChanges {
     this.paidAmount = this.paymentInfo.paidAmount;
     this.unPaidAmount = this.paymentInfo.unPaidAmount;
     this.setDateInPaymentArray(this.paymentsArray);
+    this.positivePaymentsArrayAmount();
   }
 
   ngOnChanges(changes: SimpleChanges) {
@@ -52,6 +53,12 @@ export class UbsAdminOrderPaymentComponent implements OnInit, OnChanges {
 
   public formatDate(date: string): string {
     return date.split('-').reverse().join('.');
+  }
+
+  public positivePaymentsArrayAmount(): void {
+    this.paymentsArray.forEach((payment: IPaymentInfoDto) => {
+      payment.amount = Math.abs(payment.amount);
+    });
   }
 
   public setDateInPaymentArray(paymentsArray: IPaymentInfoDto[]): void {

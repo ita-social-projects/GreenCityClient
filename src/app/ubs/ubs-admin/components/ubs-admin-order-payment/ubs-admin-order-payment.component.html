@@ -38,7 +38,8 @@
         <tbody>
           <tr *ngFor="let payment of paymentsArray; let i = index">
             <td>{{ payment.settlementdate }}</td>
-            <td class="paymentId" (click)="openPopup(true, i)">№{{ payment.paymentId }}</td>
+            <td *ngIf="payment.paymentId" class="paymentId" (click)="openPopup(true, i)">№{{ payment.paymentId }}</td>
+            <td *ngIf="!payment.paymentId"></td>
             <td>{{ payment.amount | currency | localizedCurrency }}</td>
             <td>{{ payment.receiptLink }}</td>
           </tr>
@@ -53,7 +54,11 @@
         <span class="price bg-price-none">{{ overpayment | currency | localizedCurrency }}</span>
       </div>
       <div>
-        <button class="btn button-payment-operations btn-enroll-to-bonus-account" [disabled]="!accessOnCanceledStatus()">
+        <button
+          class="btn button-payment-operations btn-enroll-to-bonus-account"
+          [disabled]="!accessOnCanceledStatus()"
+          (click)="enrollToBonusAccount()"
+        >
           {{ 'order-payment.enroll-on-bonus-account' | translate }}
         </button>
         <button class="btn button-payment-operations btn-return-money" [disabled]="!accessOnCanceledStatus()">
