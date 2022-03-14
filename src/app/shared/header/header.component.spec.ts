@@ -4,7 +4,7 @@ import { LocalStorageService } from '@global-service/localstorage/local-storage.
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { TranslateModule } from '@ngx-translate/core';
 import { RouterTestingModule } from '@angular/router/testing';
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { async, ComponentFixture, fakeAsync, TestBed, tick } from '@angular/core/testing';
 
 import { HeaderComponent } from './header.component';
 import { BehaviorSubject, of, Subject } from 'rxjs';
@@ -77,7 +77,6 @@ describe('HeaderComponent', () => {
   let userOwnAuthServiceMock: UserOwnAuthService;
   userOwnAuthServiceMock = jasmine.createSpyObj('UserOwnAuthService', ['getDataFromLocalStorage', 'isLoginUserSubject']);
   userOwnAuthServiceMock.getDataFromLocalStorage = () => true;
-  userOwnAuthServiceMock.isLoginUserSubject = new BehaviorSubject(true);
 
   let dialog: MatDialog;
   let router: Router;
@@ -115,7 +114,7 @@ describe('HeaderComponent', () => {
     spyOn(router, 'navigateByUrl').and.returnValue(Promise.resolve(true));
     spyOn(router.url, 'includes');
     spyOn(router.events, 'pipe').and.returnValue(of(true));
-
+    userOwnAuthServiceMock.isLoginUserSubject = new BehaviorSubject(true);
     fixture.detectChanges();
   });
 
@@ -147,7 +146,6 @@ describe('HeaderComponent', () => {
 
     it('should open Auth modal window', () => {
       const spy = spyOn(dialog, 'open');
-
       component.openAuthModalWindow('sign-in');
       expect(spy).toHaveBeenCalled();
     });
@@ -156,8 +154,46 @@ describe('HeaderComponent', () => {
       const searchSearch = 'searchSearch';
       const spy = spyOn(component[searchSearch], 'toggleSearchModal');
       component.toggleSearchPage();
-
       expect(spy).toHaveBeenCalled();
+    });
+
+    it('makes expected calls in autoOffBurgerBtn', () => {
+      const spy = spyOn(component, 'toggleScroll');
+      (component as any).autoOffBurgerBtn();
+      expect(component.toggleBurgerMenu).toBeFalsy();
+      expect(spy).toHaveBeenCalled();
+    });
+
+    it('makes expected calls in assignData', (done) => {
+      (component as any).assignData(3);
+      expect((component as any).userId).toBe(3);
+      userOwnAuthServiceMock.isLoginUserSubject.subscribe((value) => {
+        expect(value).toBeTruthy();
+        done();
+      });
+    });
+
+    it('makes expected calls in openSearchSubscription', () => {
+      (component as any).openSearchSubscription(true);
+      expect(component.isSearchClicked).toBeTruthy();
+    });
+
+    it('makes expected calls in openAllSearchSubscription', () => {
+      (component as any).openAllSearchSubscription(true);
+      expect(component.isAllSearchOpen).toBeTruthy();
+    });
+
+    it('makes expected calls in openSettingDialog', () => {
+      (component as any).userId = 123;
+      component.openSettingDialog();
+      expect(component.dropdownVisible).toBeFalsy();
+      expect((component as any).router.navigate).toHaveBeenCalledWith(['/profile', 123, 'edit']);
+    });
+
+    it('makes expected calls in initUser', () => {
+      const assignDataSpy = spyOn(component as any, 'assignData');
+      (component as any).initUser();
+      expect(assignDataSpy).toHaveBeenCalledWith(1111);
     });
 
     it('should change current language', () => {
@@ -176,14 +212,15 @@ describe('HeaderComponent', () => {
       expect(component.arrayLang[0].lang).toBe('en');
     });
 
-    it('should log out the user', () => {
+    it('should log out the user', fakeAsync(() => {
       const localeStorageService = 'localeStorageService';
       const orderService = 'orderService';
       const spy = spyOn(component[localeStorageService], 'clear');
       const cancelUBSwithoutSavingSpy = spyOn(component[orderService], 'cancelUBSwithoutSaving');
       component.signOut();
+      tick();
       expect(spy).toHaveBeenCalled();
       expect(cancelUBSwithoutSavingSpy).toHaveBeenCalled();
-    });
+    }));
   });
 });
