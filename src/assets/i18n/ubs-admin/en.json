@@ -326,6 +326,9 @@
     "reset": "Reset filters",
     "nothing-found": "Nothing was found for your filters"
   },
+  "several-orders-pop-up": {
+    "title": "Please, provide details of removal and responsible persons for selected orders"
+  },
   "export-details": {
     "title": "Export details",
     "export-date": "Export date",

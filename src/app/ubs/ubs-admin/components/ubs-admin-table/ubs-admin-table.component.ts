@@ -30,6 +30,7 @@ import {
   GetTable,
   SetColumnToDisplay
 } from 'src/app/store/actions/bigOrderTable.actions';
+import { UbsAdminSeveralOrdersPopUpComponent } from '../ubs-admin-several-orders-pop-up/ubs-admin-several-orders-pop-up.component';
 
 @Component({
   selector: 'app-ubs-admin-table',
@@ -353,7 +354,16 @@ export class UbsAdminTableComponent implements OnInit, AfterViewChecked, OnDestr
       this.updateTableData();
     }
   }
-
+  editDetails(): void {
+    const dialogConfig = new MatDialogConfig();
+    const dataForPopUp = [];
+    const keys = ['receivingStation', 'responsibleDriver', 'responsibleCaller', 'responsibleLogicMan', 'responsibleNavigator'];
+    this.displayedColumnsView
+      .filter((el) => keys.includes(el.title.key))
+      .map((field) => dataForPopUp.push({ arrayData: field.checked, title: field.titleForSorting }));
+    const modalRef = this.dialog.open(UbsAdminSeveralOrdersPopUpComponent, dialogConfig);
+    (modalRef.componentInstance as UbsAdminSeveralOrdersPopUpComponent).dataFromTable = dataForPopUp;
+  }
   selectRowsToChange(event, id: number) {
     if (event.checked) {
       this.idsToChange.push(id);

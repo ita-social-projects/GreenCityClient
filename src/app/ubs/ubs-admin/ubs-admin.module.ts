@@ -72,6 +72,7 @@ import { UbsAdminTariffsLocationPopUpComponent } from './components/ubs-admin-ta
 import { UbsAdminTariffsAddNamePopUpComponent } from './components/ubs-admin-tariffs/ubs-admin-tariffs-add-name-pop-up/ubs-admin-tariffs-add-name-pop-up.component';
 import { PdfViewerModule } from 'ng2-pdf-viewer';
 import { ShowPdfPopUpComponent } from './components/shared/components/show-pdf-pop-up/show-pdf-pop-up.component';
+import { UbsAdminSeveralOrdersPopUpComponent } from '../ubs-admin/components/ubs-admin-several-orders-pop-up/ubs-admin-several-orders-pop-up.component';
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
 import { MatChipsModule } from '@angular/material/chips';
 import { MatSelectModule } from '@angular/material/select';
@@ -124,6 +125,9 @@ import { ColumnFiltersPopUpComponent } from './components/shared/components/colu
     ModalTextComponent,
     DialogTariffComponent,
     UbsAdminTariffsLocationPopUpComponent,
+    UbsAdminTariffsAddNamePopUpComponent,
+    ShowPdfPopUpComponent,
+    UbsAdminSeveralOrdersPopUpComponent,
     UbsAdminTariffsAddNamePopUpComponent
   ],
   imports: [
