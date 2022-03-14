@@ -23,26 +23,40 @@
 }
 
 .header_list {
-  display: grid;
-  grid-auto-flow: column;
-  grid-template-columns: 0.6fr 1fr 1fr 1fr 1fr;
+  display: flex;
+  flex-direction: row;
   font-size: 14px;
   font-weight: 500;
   line-height: 20px;
 
   .header_list-num {
-    flex-grow: 1;
+    width: 95px;
   }
-}
 
-.empty-div {
-  width: 300px;
+  .header_list-paymentStatus {
+    width: 110px;
+    margin-left: 7px;
+  }
+
+  div {
+    width: 120px;
+    flex: auto;
+  }
+
+  .empty-div {
+    width: 300px;
+  }
 }
 
 .mat-content-wrapper {
   display: flex;
   flex-direction: row;
   flex: 1;
+}
+
+.btn-space {
+  display: flex;
+  width: 30%;
 }
 
 .btns_group {
@@ -103,13 +117,14 @@
   display: flex;
   align-items: center;
   padding: 0 20px;
+  flex: 1 1 80px;
 }
 
 .mat-expansion-panel-header-description {
-  display: grid;
+  display: flex;
   align-items: center;
-  grid-auto-rows: max-content;
-  grid-template-columns: 1fr;
+  flex-wrap: wrap;
+  flex: 1 1 117px;
 }
 
 .description {
@@ -136,27 +151,36 @@
     .header_list-paymentAmount {
       flex-grow: 2;
     }
+
+    .btns_group {
+      flex-direction: column;
+    }
+
+    .mat-expansion-panel-header-description {
+      display: flex;
+      align-items: center;
+      flex-wrap: wrap;
+      flex: 1 1 120px;
+    }
   }
 
   .mat-expansion-panel-header {
     height: 64px !important;
     font-size: 13px;
   }
+
+  .mat-content-wrapper {
+    flex: 0.95;
+  }
 }
 
-@media (max-width: 800px) {
+@media (max-width: 920px) {
   .header_list {
     display: flex;
     flex-direction: row;
     align-items: center;
     font-size: 12px;
     font-weight: 500;
-
-    .header_list-num {
-      flex-grow: 1;
-      width: 40px;
-      margin-right: 25px;
-    }
 
     .header_list-date,
     .header_list-status {
@@ -178,6 +202,10 @@
   .order_list-status {
     display: none;
   }
+
+  .mat-content-wrapper {
+    flex: 0.8;
+  }
 }
 
 @media (max-width: 600px) {
@@ -189,7 +217,7 @@
   }
 
   .mat-expansion-panel-header {
-    height: 90px !important;
+    height: 100px !important;
   }
 
   .btns_group {
@@ -197,7 +225,11 @@
     flex-direction: row;
     align-items: center;
     justify-content: space-around;
-    margin-top: 10px;
+    margin: 10px 0 0 45px;
+
+    button {
+      max-width: 114px;
+    }
   }
 
   .empty-div {
@@ -205,8 +237,28 @@
   }
 }
 
+@media (width: 820px) {
+  .header_list-date,
+  .header_list-status {
+    display: none;
+  }
+
+  .order_list-date,
+  .order_list-status {
+    display: none;
+  }
+
+  .mat-content-wrapper {
+    flex: 0 1 285px;
+  }
+}
+
 @media (max-width: 375px) {
   .description {
     overflow-x: auto;
+  }
+
+  .btns_group {
+    margin: 10px 0 0 30px;
   }
 }

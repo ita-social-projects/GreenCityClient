@@ -27,18 +27,20 @@
             {{ order.orderFullPrice | currency | localizedCurrency }}
           </mat-panel-description>
         </div>
-        <div *ngIf="isOrderPaymentAccess(order)" class="btns_group">
-          <div class="btn_grid_cancel">
+        <div class="btn-space">
+          <div *ngIf="isOrderPaymentAccess(order)" class="btns_group">
             <div class="btn_grid_cancel">
-              <button class="btn_cancel" (click)="openOrderCancelDialog(order)">
-                {{ 'user-orders.btn.cancel' | translate }}
+              <div class="btn_grid_cancel">
+                <button class="btn_cancel" (click)="openOrderCancelDialog(order)">
+                  {{ 'user-orders.btn.cancel' | translate }}
+                </button>
+              </div>
+            </div>
+            <div class="btn_grid_pay">
+              <button class="btn_pay" (click)="openOrderPaymentDialog(order)">
+                {{ 'user-orders.btn.pay' | translate }}
               </button>
             </div>
-          </div>
-          <div class="btn_grid_pay">
-            <button class="btn_pay" (click)="openOrderPaymentDialog(order)">
-              {{ 'user-orders.btn.pay' | translate }}
-            </button>
           </div>
         </div>
       </mat-expansion-panel-header>
