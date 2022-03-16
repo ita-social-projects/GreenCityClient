@@ -56,6 +56,7 @@ describe('UbsOrderLocationPopupComponent', () => {
   }));
 
   it('method ngOnDestroy should invoke method passDataToComponent()', () => {
+    component.isSaveLocation = true;
     const spy = spyOn(component, 'passDataToComponent').and.callFake(() => {});
     component.ngOnDestroy();
     expect(spy).toHaveBeenCalled();
@@ -77,13 +78,6 @@ describe('UbsOrderLocationPopupComponent', () => {
     fixture.detectChanges();
     expect(spyMethod).toHaveBeenCalled();
   }));
-
-  it('method redirectToMain should redirect to [ubs] ', () => {
-    const routerstub: Router = TestBed.inject(Router);
-    spyOn(routerstub, 'navigate');
-    component.redirectToMain();
-    expect(routerstub.navigate).toHaveBeenCalledWith(['ubs']);
-  });
 
   it('destroy Subject should be closed after ngOnDestroy()', () => {
     // @ts-ignore

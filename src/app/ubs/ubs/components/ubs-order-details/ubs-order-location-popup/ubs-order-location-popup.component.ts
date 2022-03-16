@@ -19,7 +19,7 @@ export class UbsOrderLocationPopupComponent implements OnInit, OnDestroy {
   public cities: LocationsName[];
   public selectedLocationId: number;
   public isFetching = false;
-  isSaveLocation: boolean;
+  public isSaveLocation: boolean;
   private courierId = 1;
   private currentLanguage: string;
   public currentLocation: string;

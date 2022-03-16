@@ -92,7 +92,6 @@ export class UbsMainPageComponent {
       .pipe(takeUntil(this.destroy))
       .subscribe((res) => {
         if (res.data) {
-          console.log(res.data);
           this.router.navigate(['ubs', 'order']);
         }
       });
