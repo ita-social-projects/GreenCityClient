@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnDestroy } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { Router } from '@angular/router';
 import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
@@ -12,7 +12,7 @@ import { UbsOrderLocationPopupComponent } from '../ubs-order-details/ubs-order-l
   templateUrl: './ubs-main-page.component.html',
   styleUrls: ['./ubs-main-page.component.scss']
 })
-export class UbsMainPageComponent {
+export class UbsMainPageComponent implements OnDestroy {
   private destroy: Subject<boolean> = new Subject<boolean>();
   ubsMainPageImages = ubsMainPageImages;
   priceCard = [
