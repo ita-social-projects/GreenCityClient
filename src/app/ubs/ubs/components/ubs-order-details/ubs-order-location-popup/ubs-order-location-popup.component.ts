@@ -19,6 +19,7 @@ export class UbsOrderLocationPopupComponent implements OnInit, OnDestroy {
   public cities: LocationsName[];
   public selectedLocationId: number;
   public isFetching = false;
+  isSaveLocation: boolean;
   private courierId = 1;
   private currentLanguage: string;
   public currentLocation: string;
@@ -54,7 +55,7 @@ export class UbsOrderLocationPopupComponent implements OnInit, OnDestroy {
   }
 
   redirectToMain() {
-    this.router.navigate(['ubs']);
+    this.isSaveLocation = false;
   }
 
   private setCurrentLocation(currentLanguage: string): void {
@@ -84,6 +85,7 @@ export class UbsOrderLocationPopupComponent implements OnInit, OnDestroy {
   }
 
   saveLocation() {
+    this.isSaveLocation = true;
     this.orderService.completedLocation(true);
     this.localStorageService.setLocationId(this.selectedLocationId);
     this.localStorageService.setLocations(this.locations);
@@ -100,7 +102,9 @@ export class UbsOrderLocationPopupComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy() {
-    this.passDataToComponent();
+    if (this.isSaveLocation) {
+      this.passDataToComponent();
+    }
     this.destroy$.next();
     this.destroy$.complete();
   }
