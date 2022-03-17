@@ -5,11 +5,13 @@ import { UbsMainPageComponent } from './ubs-main-page.component';
 import { MatDialog } from '@angular/material/dialog';
 import { of } from 'rxjs';
 import { Router } from '@angular/router';
+import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
 
 describe('UbsMainPageComponent', () => {
   let component: UbsMainPageComponent;
   let fixture: ComponentFixture<UbsMainPageComponent>;
 
+  const localeStorageServiceMock = jasmine.createSpyObj('localeStorageService', ['setUbsRegistration']);
   const routerMock = jasmine.createSpyObj('router', ['navigate']);
   const matDialogMock = jasmine.createSpyObj('matDialog', ['open']);
   const dialogRefStub = {
@@ -24,7 +26,8 @@ describe('UbsMainPageComponent', () => {
       declarations: [UbsMainPageComponent],
       providers: [
         { provide: MatDialog, useValue: matDialogMock },
-        { provide: Router, useValue: routerMock }
+        { provide: Router, useValue: routerMock },
+        { provide: LocalStorageService, useValue: localeStorageServiceMock }
       ]
     }).compileComponents();
   }));
@@ -39,9 +42,16 @@ describe('UbsMainPageComponent', () => {
     expect(component).toBeTruthy();
   });
 
-  xit('should call deleteEmployee method inside deleteEmployee', () => {
+  it('should make expected calls inside openLocationDialog', () => {
     matDialogMock.open.and.returnValue(dialogRefStub as any);
     component.openLocationDialog();
     expect(routerMock.navigate).toHaveBeenCalledWith(['ubs', 'order']);
+  });
+
+  it('should make expected calls inside redirectToOrder', () => {
+    const spy = spyOn(component, 'openLocationDialog');
+    component.redirectToOrder();
+    expect(localeStorageServiceMock.setUbsRegistration).toHaveBeenCalledWith(true);
+    expect(spy).toHaveBeenCalled();
   });
 });

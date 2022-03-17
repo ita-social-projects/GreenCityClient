@@ -1,7 +1,6 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormControl } from '@angular/forms';
 import { MatDialogRef } from '@angular/material/dialog';
-import { Router } from '@angular/router';
 import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
 import { Subject, Observable } from 'rxjs';
 import { takeUntil, startWith, map } from 'rxjs/operators';
@@ -28,7 +27,6 @@ export class UbsOrderLocationPopupComponent implements OnInit, OnDestroy {
   public filteredOptions: Observable<any>;
 
   constructor(
-    private router: Router,
     private orderService: OrderService,
     private dialogRef: MatDialogRef<UbsOrderLocationPopupComponent>,
     private localStorageService: LocalStorageService

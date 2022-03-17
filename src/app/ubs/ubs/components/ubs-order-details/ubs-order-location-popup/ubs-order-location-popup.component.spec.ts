@@ -3,12 +3,9 @@ import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { async, ComponentFixture, fakeAsync, TestBed, tick } from '@angular/core/testing';
 import { MatDialogModule, MatDialogRef } from '@angular/material/dialog';
 import { By } from '@angular/platform-browser';
-import { Router } from '@angular/router';
-import { RouterTestingModule } from '@angular/router/testing';
 import { TranslateModule } from '@ngx-translate/core';
 import { Subject } from 'rxjs';
 import { FilterLocationListByLangPipe } from 'src/app/shared/filter-location-list-by-lang/filter-location-list-by-lang.pipe';
-import { UbsMainPageComponent } from '../../ubs-main-page/ubs-main-page.component';
 import { UbsOrderLocationPopupComponent } from './ubs-order-location-popup.component';
 
 describe('UbsOrderLocationPopupComponent', () => {
@@ -20,12 +17,7 @@ describe('UbsOrderLocationPopupComponent', () => {
     TestBed.configureTestingModule({
       declarations: [UbsOrderLocationPopupComponent, FilterLocationListByLangPipe],
       providers: [{ provide: MatDialogRef, useValue: dialogMock }],
-      imports: [
-        RouterTestingModule.withRoutes([{ path: 'ubs', component: UbsMainPageComponent }]),
-        HttpClientTestingModule,
-        MatDialogModule,
-        TranslateModule.forRoot()
-      ],
+      imports: [HttpClientTestingModule, MatDialogModule, TranslateModule.forRoot()],
       schemas: [CUSTOM_ELEMENTS_SCHEMA]
     }).compileComponents();
   }));
@@ -87,5 +79,33 @@ describe('UbsOrderLocationPopupComponent', () => {
     component.ngOnDestroy();
     // @ts-ignore
     expect(component.destroy$.complete).toHaveBeenCalledTimes(1);
+  });
+
+  describe('displayFn', () => {
+    it('makes expected calls', () => {
+      const city = {
+        locationId: 3,
+        locationName: 'fakeName'
+      };
+      const res = component.displayFn(city);
+      expect(res).toBe('fakeName');
+    });
+
+    it('makes expected calls if city is null', () => {
+      const city = null;
+      const res = component.displayFn(city);
+      expect(res).toBe('');
+    });
+  });
+
+  it('expected result in redirectToMain', () => {
+    component.isSaveLocation = true;
+    component.redirectToMain();
+    expect(component.isSaveLocation).toBeFalsy();
+  });
+
+  it('expected result in changeLocation', () => {
+    component.changeLocation(3);
+    expect(component.selectedLocationId).toBe(3);
   });
 });
