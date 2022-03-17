@@ -4,8 +4,14 @@
       <mat-icon class="mobile-icon">{{ !drawer.opened ? 'menu' : 'close' }}</mat-icon>
     </button>
   </mat-toolbar>
+
   <div class="sidebar-icons" #sideBarIcons>
     <ul class="sidebar-list">
+      <li class="toggle-arrow">
+        <button mat-icon-button (click)="toggleSideBar()">
+          <mat-icon class="mobile-icon">{{ !drawer.opened ? 'arrow_forward' : 'arrow_back' }}</mat-icon>
+        </button>
+      </li>
       <li class="sidebar-list-item" (click)="toggleSideBar()" *ngFor="let listItem of listElements">
         <img class="sidebar-list-item-icon" src="{{ listItem.link }}" alt="sidebar list item icon" />
       </li>
