@@ -10,7 +10,7 @@ import { ubsAdminEmployeeLink, ubsAdminStationLink } from 'src/app/main/links';
 })
 export class UbsAdminEmployeeService {
   backend: string = environment.ubsAdmin.backendEmployeesLink;
-  getAllEmployees: string = `${ubsAdminEmployeeLink}/getAll-active-employees`; // we can change backend var
+  getAllEmployees: string = ubsAdminEmployeeLink + '/getAll-active-employees'; // we can change backend var
 
   constructor(private http: HttpClient) {}
 
