@@ -2,14 +2,12 @@ import { Observable } from 'rxjs';
 import { Employees } from '../models/ubs-admin.interface';
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { environment } from '@environment/environment';
 import { ubsAdminEmployeeLink, ubsAdminStationLink } from 'src/app/main/links';
 
 @Injectable({
   providedIn: 'root'
 })
 export class UbsAdminEmployeeService {
-  backend: string = environment.ubsAdmin.backendEmployeesLink;
   getAllEmployees: string = ubsAdminEmployeeLink + '/getAll-active-employees'; // we can change backend var
 
   constructor(private http: HttpClient) {}
@@ -19,7 +17,7 @@ export class UbsAdminEmployeeService {
       (acc, item) => (Object.values(item)[0] ? `${acc}&${Object.keys(item)[0]}=${Object.values(item)[0]}` : acc),
       ``
     );
-    return this.http.get<Employees>(`${this.backend}?pageNumber=${pageNumber}&pageSize=${pageSize}${urlAttr}`);
+    return this.http.get<Employees>(`${this.getAllEmployees}?pageNumber=${pageNumber}&pageSize=${pageSize}${urlAttr}`);
   }
 
   getAllPositions(): Observable<any[]> {
