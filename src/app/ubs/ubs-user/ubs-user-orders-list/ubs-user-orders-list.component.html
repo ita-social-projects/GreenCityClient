@@ -30,7 +30,7 @@
         <div class="btn-space">
           <div *ngIf="isOrderPaymentAccess(order)" class="btns_group">
             <div class="btn_grid_cancel">
-              <div class="btn_grid_cancel">
+              <div *ngIf="!isOrderHalfPaid(order)" class="btn_grid_cancel">
                 <button class="btn_cancel" (click)="openOrderCancelDialog(order)">
                   {{ 'user-orders.btn.cancel' | translate }}
                 </button>
