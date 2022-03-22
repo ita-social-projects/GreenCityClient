@@ -12,6 +12,8 @@
   display: flex;
   justify-content: space-between;
   width: 100%;
+  height: 100%;
+  max-height: 717px;
   max-width: 960px;
   background-color: white;
   border-radius: 4px;
@@ -44,12 +46,14 @@
 
 @media screen and (max-width: 992px) {
   .left-side {
-    display: none;
+    display: flex;
+    flex-direction: column;
   }
 
   .wrapper {
     width: 100%;
     max-width: 480px;
+    height: 1000px;
   }
 }
 
