@@ -17,6 +17,7 @@ describe('UbsAdminTariffsLocationPopUpComponent ', () => {
   let component: UbsAdminTariffsLocationPopUpComponent;
   let fixture: ComponentFixture<UbsAdminTariffsLocationPopUpComponent>;
 
+  const items = 'items';
   const mockedItems = [
     {
       location: 'fake',
@@ -82,34 +83,34 @@ describe('UbsAdminTariffsLocationPopUpComponent ', () => {
   });
 
   it('method deleteLocation should not delete item by id if item is only one', () => {
-    let array: FormGroup[] = [];
+    const array: FormGroup[] = [];
     array.push(mockedForm);
-    let formArray = new FormArray(array);
+    const formArray = new FormArray(array);
     component.locationForm = new FormGroup({
       items: formArray
     });
 
     component.deleteLocation(1);
-    expect((component.locationForm.controls['items'] as FormArray).length).toBe(1);
+    expect((component.locationForm.controls[items] as FormArray).length).toBe(1);
   });
 
   it('method deleteLocation should delete item by id', () => {
-    let array: FormGroup[] = [];
+    const array: FormGroup[] = [];
     array.push(mockedForm);
     array.push(mockedForm);
-    let formArray = new FormArray(array);
+    const formArray = new FormArray(array);
     component.locationForm = new FormGroup({
       items: formArray
     });
 
     component.deleteLocation(1);
-    expect((component.locationForm.controls['items'] as FormArray).length).toBe(1);
+    expect((component.locationForm.controls[items] as FormArray).length).toBe(1);
   });
 
   it('method addCity should not add new item and add autocomplete if all cities are not selected', () => {
-    let array: FormGroup[] = [];
+    const array: FormGroup[] = [];
     array.push(mockedForm);
-    let formArray = new FormArray(array);
+    const formArray = new FormArray(array);
     component.locationForm = new FormGroup({
       items: formArray
     });
@@ -117,7 +118,7 @@ describe('UbsAdminTariffsLocationPopUpComponent ', () => {
     spyOn(component, 'checkIfAllCitysAreSelected').and.returnValue(false);
 
     component.addCity();
-    expect((component.locationForm.controls['items'] as FormArray).length).toBe(1);
+    expect((component.locationForm.controls[items] as FormArray).length).toBe(1);
     expect(component.tempAutocomplete).toBeFalsy();
   });
 

@@ -1,6 +1,6 @@
 import { Component, Input, OnDestroy, OnInit, TemplateRef } from '@angular/core';
 import { TariffsService } from '../../services/tariffs.service';
-import { map, startWith, takeUntil } from 'rxjs/operators';
+import { map, skip, startWith, takeUntil } from 'rxjs/operators';
 import { Locations } from '../../models/tariffs.interface';
 import { Subject } from 'rxjs';
 import { Router } from '@angular/router';
@@ -218,16 +218,16 @@ export class UbsAdminTariffsLocationDashboardComponent implements OnInit, OnDest
   getLocations(): void {
     this.store.dispatch(GetLocations({ reset: this.reset }));
 
-    this.locations$.pipe(takeUntil(this.destroy)).subscribe((item) => {
+    this.locations$.pipe(skip(1)).subscribe((item) => {
       if (item) {
         const key = 'content';
         this.locations = item[key];
-        if (this.locations) {
-          this.filteredLocations = this.locations;
-          this.regions = [].concat(
-            ...this.locations.map((it) => it.regionTranslationDtos.filter((it) => it.languageCode === 'ua').map((it) => it.regionName))
-          );
-        }
+        this.filteredLocations = this.locations;
+        this.regions = [].concat(
+          ...this.locations.map((element) =>
+            element.regionTranslationDtos.filter((it) => it.languageCode === 'ua').map((it) => it.regionName)
+          )
+        );
         console.log('item', item[`content`]);
         this.filteredRegions = this.region.valueChanges.pipe(
           startWith(''),
@@ -252,7 +252,7 @@ export class UbsAdminTariffsLocationDashboardComponent implements OnInit, OnDest
   }
 
   checkRegionValue(value): void {
-    const currentRegion = this.locations.filter((it) => it.regionTranslationDtos.find((it) => it.regionName === value));
+    const currentRegion = this.locations.filter((element) => element.regionTranslationDtos.find((it) => it.regionName === value));
     console.log(this.selectCities(currentRegion));
     if (value && this.selectCities(currentRegion)) {
       this.city.enable();
@@ -262,8 +262,10 @@ export class UbsAdminTariffsLocationDashboardComponent implements OnInit, OnDest
   }
 
   selectCities(currentRegion): boolean {
-    this.cities = currentRegion.map((it) =>
-      it.locationsDto.map((it) => it.locationTranslationDtoList.filter((it) => it.languageCode === 'ua').map((it) => it.locationName))
+    this.cities = currentRegion.map((element) =>
+      element.locationsDto.map((item) =>
+        item.locationTranslationDtoList.filter((it) => it.languageCode === 'ua').map((it) => it.locationName)
+      )
     );
     this.cities = this.cities.reduce((acc, val) => acc.concat(val), []).reduce((acc, val) => acc.concat(val), []);
     console.log(this.cities);
@@ -271,7 +273,7 @@ export class UbsAdminTariffsLocationDashboardComponent implements OnInit, OnDest
       startWith(''),
       map((value: string) => (value ? this._filter(value, this.cities) : this.cities.slice()))
     );
-    return this.cities.length != 0 ? true : false;
+    return this.cities.length !== 0 ? true : false;
   }
 
   openAddCourierDialog(): void {

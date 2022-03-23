@@ -71,7 +71,7 @@ export class UbsAdminTariffsPricingPageComponent implements OnInit, OnDestroy {
     this.subscribeToLangChange();
     this.routeParams();
     this.initForm();
-    //this.getLocations();
+    // this.getLocations();
     this.orderService.locationSubject.pipe(takeUntil(this.destroy)).subscribe(() => {
       this.getServices();
       this.getCouriers();
@@ -248,7 +248,9 @@ export class UbsAdminTariffsPricingPageComponent implements OnInit, OnDestroy {
     dialogConfig.data = {
       name: 'delete-tariff',
       title: 'confirmation.title',
-      text: 'ubs-tariffs-pricing-page.delete-tariff-text1' + bag.name + 'ubs-tariffs-pricing-page.delete-tariff-text2',
+      text: 'ubs-tariffs-pricing-page.delete-tariff-text1',
+      text2: 'ubs-tariffs-pricing-page.delete-tariff-text2',
+      bagName: this.currentLanguage === 'ua' ? bag.name : bag.nameEng,
       action: 'ubs-tariffs-pricing-page.delete-tariff-action'
     };
     const dialogRefService = this.dialog.open(ModalTextComponent, dialogConfig);

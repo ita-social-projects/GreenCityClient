@@ -3,7 +3,7 @@
     <p class="title">{{ title | translate }}</p>
   </div>
   <div>
-    <p class="modal-text">{{ text | translate }}</p>
+    <p class="modal-text">{{ text | translate }}{{ text2 | translate: { bagName: bagName } }}</p>
   </div>
   <div class="d-flex justify-content-end buttons" mat-dialog-actions>
     <button class="secondary-global-button btn m-0 mr-2" mat-button (click)="onNoClick()">

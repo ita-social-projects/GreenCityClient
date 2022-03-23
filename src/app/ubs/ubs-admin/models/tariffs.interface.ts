@@ -1,5 +1,6 @@
 export interface Bag {
   name?: string;
+  nameEng?: string;
   capacity: number;
   price: number;
   commission: number;
