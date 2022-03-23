@@ -26,7 +26,7 @@ export class UbsAdminTariffsLocationDashboardComponent implements OnInit, OnDest
   @Input() locationCard: Locations;
   @Input() textBack: TemplateRef<any>;
 
-  locations;
+  locations = [];
   selectedLocationId;
   couriers;
   currentLanguage;
@@ -34,23 +34,16 @@ export class UbsAdminTariffsLocationDashboardComponent implements OnInit, OnDest
   checkedCities = [];
   pattern = /^[А-Яа-яїЇіІєЄёЁ.\'\-\ ]*/;
 
-  searchForm = this.fb.group({
-    region: ['', [Validators.required, Validators.minLength(3), Validators.maxLength(40), Validators.pattern(this.pattern)]],
-    city: ['', [Validators.required, Validators.maxLength(40)]],
-    courier: ['', [Validators.required]],
-    station: ['', [Validators.required]],
-    state: ['all']
-  });
-
-  public regions = ['Київська область', 'Львівська область'];
-  public cities = ['Київ', 'Ірпінь', 'Бориспіль', 'Львів', 'Наварія'];
+  searchForm;
+  regions = [];
+  cities = [];
   public stations = ['Слобідська', 'Неслобідська'];
   public newCouriers = ['УБС-курєр', 'Уклон'];
 
   allSelected = false;
   filteredRegions;
   filteredCities;
-  filteredLocations;
+  filteredLocations = [];
   private destroy: Subject<boolean> = new Subject<boolean>();
 
   mainUrl = 'https://maps.googleapis.com/maps/api/js?key=AIzaSyB3xs7Kczo46LFcQRFKPMdrE0lU4qsR_S4&libraries=places&language=';
@@ -61,7 +54,7 @@ export class UbsAdminTariffsLocationDashboardComponent implements OnInit, OnDest
     arrowDown: './assets/img/ubs-tariff/arrow-down.svg',
     arrowRight: './assets/img/ubs-tariff/arrow-right.svg'
   };
-  locations$ = this.store.select((state: IAppState): Locations => state.locations.locations);
+  locations$ = this.store.select((state: IAppState): Locations[] => state.locations.locations);
 
   constructor(
     private tariffsService: TariffsService,
@@ -89,17 +82,33 @@ export class UbsAdminTariffsLocationDashboardComponent implements OnInit, OnDest
   }
 
   ngOnInit(): void {
+    this.initForm();
     this.getLocations();
     this.getCouriers();
     this.loadScript();
+    this.city.disable();
     this.currentLanguage = this.localeStorageService.getCurrentLanguage();
-    this.initFilter();
+    this.region.valueChanges.subscribe((value) => {
+      this.checkRegionValue(value);
+      this.checkedCities = [];
+      this.positionsFilter();
+    });
+  }
+
+  private initForm(): void {
+    this.searchForm = this.fb.group({
+      region: ['', [Validators.required, Validators.minLength(3), Validators.maxLength(40), Validators.pattern(this.pattern)]],
+      city: [{ value: '', disabled: true }, [Validators.required, Validators.maxLength(40)]],
+      courier: ['', [Validators.required]],
+      station: ['', [Validators.required]],
+      state: ['all']
+    });
   }
 
   initFilter(): void {
     this.filteredRegions = this.region.valueChanges.pipe(
       startWith(''),
-      map((value) => this._filter(value, this.regions))
+      map((value: string) => this._filter(value, this.regions))
     );
     this.filteredCities = this.city.valueChanges.pipe(
       startWith(''),
@@ -163,7 +172,7 @@ export class UbsAdminTariffsLocationDashboardComponent implements OnInit, OnDest
     }
   }
 
-  onPositionSelected(): void {
+  onPositionSelected(): any[] {
     const isEmpty = (a) => Array.isArray(a) && a.every(isEmpty);
     return this.locations.filter((user) => {
       const res = user.locationsDto.map((it) =>
@@ -175,9 +184,11 @@ export class UbsAdminTariffsLocationDashboardComponent implements OnInit, OnDest
     });
   }
 
-  openAuto(event: Event, trigger: MatAutocompleteTrigger): void {
-    event.stopPropagation();
-    trigger.openPanel();
+  openAuto(event: Event, trigger: MatAutocompleteTrigger, flag: boolean): void {
+    if (!flag) {
+      event.stopPropagation();
+      trigger.openPanel();
+    }
   }
 
   toggleSelectAll(): void {
@@ -207,11 +218,21 @@ export class UbsAdminTariffsLocationDashboardComponent implements OnInit, OnDest
   getLocations(): void {
     this.store.dispatch(GetLocations({ reset: this.reset }));
 
-    this.locations$.subscribe((item) => {
+    this.locations$.pipe(takeUntil(this.destroy)).subscribe((item) => {
       if (item) {
         const key = 'content';
-        this.locations = Array.from(Object.values(item[key]));
-        this.filteredLocations = this.locations;
+        this.locations = item[key];
+        if (this.locations) {
+          this.filteredLocations = this.locations;
+          this.regions = [].concat(
+            ...this.locations.map((it) => it.regionTranslationDtos.filter((it) => it.languageCode === 'ua').map((it) => it.regionName))
+          );
+        }
+        console.log('item', item[`content`]);
+        this.filteredRegions = this.region.valueChanges.pipe(
+          startWith(''),
+          map((value: string) => this._filter(value, this.regions))
+        );
         this.reset = false;
       }
     });
@@ -230,22 +251,27 @@ export class UbsAdminTariffsLocationDashboardComponent implements OnInit, OnDest
       });
   }
 
-  activateLocation(location): void {
-    const id = location.id;
-    const languageCode = 'ua';
-    this.tariffsService
-      .activateLocation(id, languageCode)
-      .pipe(takeUntil(this.destroy))
-      .subscribe(() => this.getLocations());
+  checkRegionValue(value): void {
+    const currentRegion = this.locations.filter((it) => it.regionTranslationDtos.find((it) => it.regionName === value));
+    console.log(this.selectCities(currentRegion));
+    if (value && this.selectCities(currentRegion)) {
+      this.city.enable();
+    } else {
+      this.city.disable();
+    }
   }
 
-  deactivateLocation(location): void {
-    const id = location.id;
-    const languageCode = 'ua';
-    this.tariffsService
-      .deactivateLocation(id, languageCode)
-      .pipe(takeUntil(this.destroy))
-      .subscribe(() => this.getLocations());
+  selectCities(currentRegion): boolean {
+    this.cities = currentRegion.map((it) =>
+      it.locationsDto.map((it) => it.locationTranslationDtoList.filter((it) => it.languageCode === 'ua').map((it) => it.locationName))
+    );
+    this.cities = this.cities.reduce((acc, val) => acc.concat(val), []).reduce((acc, val) => acc.concat(val), []);
+    console.log(this.cities);
+    this.filteredCities = this.city.valueChanges.pipe(
+      startWith(''),
+      map((value: string) => (value ? this._filter(value, this.cities) : this.cities.slice()))
+    );
+    return this.cities.length != 0 ? true : false;
   }
 
   openAddCourierDialog(): void {

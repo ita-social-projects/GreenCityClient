@@ -10,7 +10,7 @@ export const tariffReducer = createReducer(
       ...state,
       locations: {
         ...state.locations,
-        content: { ...prevLocations, ...action.locations }
+        content: [...prevLocations, ...action.locations]
       }
     };
   }),

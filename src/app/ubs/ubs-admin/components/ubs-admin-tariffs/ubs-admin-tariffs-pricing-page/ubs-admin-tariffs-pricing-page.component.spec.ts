@@ -79,6 +79,18 @@ describe('UbsAdminPricingPageComponent', () => {
   const fakeParams = {
     id: '159'
   };
+  const fakeAmount = {
+    bagId: 1,
+    courierId: 1,
+    languageId: 1,
+    courierLimitsBy: 'fake',
+    limitDescription: 'fake',
+    maxAmountOfBigBag: 'fake',
+    maxAmountOfOrder: 'fake',
+    minAmountOfBigBag: 'fake',
+    minAmountOfOrder: 'fake',
+    minimalAmountOfBagStatus: 'INCLUDE'
+  };
   const dialogStub = {
     afterClosed() {
       return of(true);
@@ -92,7 +104,6 @@ describe('UbsAdminPricingPageComponent', () => {
     'getAllServices',
     'getAllTariffsForService'
   ]);
-  tariffsServiceMock.getLocations.and.returnValue(of([fakeLocations]));
   tariffsServiceMock.editInfo.and.returnValue(of([]));
   tariffsServiceMock.getCouriers.and.returnValue(of([fakeCouriers]));
   tariffsServiceMock.getAllServices.and.returnValue(of([fakeService]));
@@ -103,14 +114,11 @@ describe('UbsAdminPricingPageComponent', () => {
 
   const localStorageServiceMock = jasmine.createSpyObj('localStorageServiceMock', ['getCurrentLanguage']);
   localStorageServiceMock.languageBehaviourSubject = of();
-  localStorageServiceMock.languageSubject = of('ua');
 
-  const orderServiceMock = jasmine.createSpyObj('orderServiceMock', ['addLocation', 'completedLocation']);
-  orderServiceMock.addLocation = () => of();
-  orderServiceMock.locationSubject = of();
+  const orderServiceMock = jasmine.createSpyObj('orderServiceMock', ['completedLocation']);
 
   const storeMock = jasmine.createSpyObj('store', ['select', 'dispatch']);
-  storeMock.select = () => of(fakeLocations as any);
+  storeMock.select = () => of([fakeLocations]);
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
@@ -148,6 +156,10 @@ describe('UbsAdminPricingPageComponent', () => {
   }));
 
   beforeEach(() => {
+    orderServiceMock.locationSubject = new Subject<any>();
+  });
+
+  beforeEach(() => {
     fixture = TestBed.createComponent(UbsAdminTariffsPricingPageComponent);
     component = fixture.componentInstance;
     httpMock = TestBed.inject(HttpTestingController);
@@ -162,22 +174,23 @@ describe('UbsAdminPricingPageComponent', () => {
     expect(component).toBeTruthy();
   });
 
-  // it('should fillFields correctly', () => {
-  //   component.couriers = [fakeCouriers];
-  //   component.fillFields();
-  //   expect(component.limitsForm).toEqual(fakeCourerForm);
-  // });
+  it('should call all methods in ngOnInit', () => {
+    const spy = spyOn(component, 'routeParams');
+    component.ngOnInit();
+    expect(spy).toHaveBeenCalled();
+  });
+
+  it('should fillFields correctly', () => {
+    component.couriers = [fakeCouriers];
+    component.fillFields();
+    expect(component.limitsForm.value).toEqual(fakeCourerForm.value);
+  });
 
   it('should call saveChanges', () => {
-    component.limitsForm.patchValue(fakeCourerForm);
+    component.limitsForm.patchValue(fakeCourerForm.value);
     component.saveChanges();
     expect(tariffsServiceMock.editInfo).toHaveBeenCalled();
-    expect(component.amount.maxAmountOfBigBag).toEqual(fakeCouriers.maxAmountOfBigBags);
-    expect(component.amount.minAmountOfBigBag).toEqual(fakeCouriers.minAmountOfBigBags);
-    expect(component.amount.maxAmountOfOrder).toEqual(fakeCouriers.maxPriceOfOrder);
-    expect(component.amount.minAmountOfOrder).toEqual(fakeCouriers.minPriceOfOrder);
-    expect(component.amount.limitDescription).toEqual(fakeCouriers.limitDescription);
-    expect(component.amount.courierLimitsBy).toEqual(fakeCouriers.courierLimit);
+    expect(component.amount).toEqual(fakeAmount);
   });
 
   it('should take id from route', () => {
@@ -250,13 +263,27 @@ describe('UbsAdminPricingPageComponent', () => {
   });
 
   it('should get all tariffs for service', () => {
+    const spy = spyOn<any>(component, 'filterBags');
+    component.bags = [];
     component.getAllTariffsForService();
     expect(component.isLoadBar).toEqual(false);
+    expect(component.bags).toEqual([fakeBag]);
+    expect(spy).toHaveBeenCalled();
   });
 
   it('should get all services', () => {
+    const spy = spyOn<any>(component, 'filterServices');
     component.getServices();
     expect(component.isLoadBar1).toEqual(false);
+    expect(component.services).toEqual([fakeService]);
+    expect(spy).toHaveBeenCalled();
+  });
+
+  it('should get couriers', () => {
+    const spy = spyOn(component, 'fillFields');
+    component.getCouriers();
+    expect(spy).toHaveBeenCalled();
+    expect(component.couriers).toEqual([fakeCouriers]);
   });
 
   it('destroy Subject should be closed after ngOnDestroy()', () => {

@@ -171,6 +171,12 @@
     "title": "Are you sure you want to exit?",
     "subTitle": "Your order will not be saved"
   },
+  "ubs-tariffs-pricing-page": {
+    "delete-tariff-title": "Deactivate tariff for service",
+    "delete-tariff-action": "Deactivate",
+    "delete-tariff-text1": "Are you sure you want to deactivate the \"",
+    "delete-tariff-text2": "\" service? Information about this service will be hidden from customers."
+  },
   "confirm-page": {
     "title-text": {
       "accepted": "Your order is accepted",

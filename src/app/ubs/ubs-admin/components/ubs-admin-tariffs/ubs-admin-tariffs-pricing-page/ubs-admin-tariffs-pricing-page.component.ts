@@ -24,7 +24,7 @@ import { GetLocations } from 'src/app/store/actions/tariff.actions';
 })
 export class UbsAdminTariffsPricingPageComponent implements OnInit, OnDestroy {
   minAmountOfBigBags: number;
-  locations: Locations[];
+  locations: Locations[] = [];
   isLoadBar1: boolean;
   isLoadBar: boolean;
   selectedLocationId;
@@ -32,8 +32,8 @@ export class UbsAdminTariffsPricingPageComponent implements OnInit, OnDestroy {
   couriers;
   limitsForm: FormGroup;
   currentLocation;
-  bags: Bag[];
-  services: Service[];
+  bags: Bag[] = [];
+  services: Service[] = [];
   thisLocation: Locations[];
   reset = true;
   private destroy: Subject<boolean> = new Subject<boolean>();
@@ -49,7 +49,7 @@ export class UbsAdminTariffsPricingPageComponent implements OnInit, OnDestroy {
   private route: ActivatedRoute;
   private location: Location;
   private fb: FormBuilder;
-  locations$ = this.store.select((state: IAppState): Locations => state.locations.locations);
+  locations$ = this.store.select((state: IAppState): Locations[] => state.locations.locations);
 
   constructor(
     private injector: Injector,
@@ -71,12 +71,11 @@ export class UbsAdminTariffsPricingPageComponent implements OnInit, OnDestroy {
     this.subscribeToLangChange();
     this.routeParams();
     this.initForm();
-    this.getCouriers();
+    //this.getLocations();
     this.orderService.locationSubject.pipe(takeUntil(this.destroy)).subscribe(() => {
       this.getServices();
       this.getCouriers();
       this.getAllTariffsForService();
-      this.getLocations();
     });
   }
 
@@ -205,7 +204,7 @@ export class UbsAdminTariffsPricingPageComponent implements OnInit, OnDestroy {
     this.bags = this.bags.filter((value) => value.locationId === this.currentLocation).sort((a, b) => b.price - a.price);
   }
 
-  filterServices(): void {
+  private filterServices(): void {
     this.services = this.services.filter(
       (service) => service.locationId === this.currentLocation && service.languageCode === this.currentLanguage
     );
@@ -246,23 +245,12 @@ export class UbsAdminTariffsPricingPageComponent implements OnInit, OnDestroy {
   openDeleteTariffForService(bag: Bag): void {
     const dialogConfig = new MatDialogConfig();
     dialogConfig.panelClass = 'address-matDialog-styles-pricing-page';
-    const enText1 = 'Are you sure you want to deactivate the " ' + bag.name + ' " service? ';
-    const enText2 = 'Information about this service will be hidden from customers.';
-    if (this.currentLanguage === 'ua') {
-      dialogConfig.data = {
-        name: 'delete-tariff',
-        title: 'Деактивувати послугу',
-        text: 'Ви дійсно хочете деактивувати сервіс "" + bag.name + ""? Інформація про цей сервіс буде прихована від клієнтів.',
-        action: 'Деактивувати'
-      };
-    } else {
-      dialogConfig.data = {
-        name: 'delete-tariff',
-        title: 'Deactivate tariff for service',
-        text: enText1 + enText2,
-        action: 'Deactivate'
-      };
-    }
+    dialogConfig.data = {
+      name: 'delete-tariff',
+      title: 'confirmation.title',
+      text: 'ubs-tariffs-pricing-page.delete-tariff-text1' + bag.name + 'ubs-tariffs-pricing-page.delete-tariff-text2',
+      action: 'ubs-tariffs-pricing-page.delete-tariff-action'
+    };
     const dialogRefService = this.dialog.open(ModalTextComponent, dialogConfig);
     dialogRefService
       .afterClosed()
@@ -288,27 +276,11 @@ export class UbsAdminTariffsPricingPageComponent implements OnInit, OnDestroy {
     this.locations$.subscribe((item) => {
       if (item) {
         const key = 'content';
-        this.locations = Array.from(Object.values(item[key]));
+        this.locations = item[key];
         this.reset = false;
         this.thisLocation = this.locations.filter((it) => it.regionId === this.selectedLocationId);
       }
     });
-  }
-
-  saveLocation(): void {
-    this.isLoadBar1 = true;
-    this.isLoadBar = true;
-    const selectedLocation = { locationId: this.selectedLocationId };
-    this.orderService
-      .addLocation(selectedLocation)
-      .pipe(take(1))
-      .subscribe(() => {
-        this.isLoadBar1 = false;
-        this.isLoadBar = false;
-        this.currentLocation = this.selectedLocationId;
-        this.orderService.completedLocation(true);
-        this.location.go(`/ubs-admin/tariffs/location/${this.currentLocation}`);
-      });
   }
 
   getCouriers(): void {

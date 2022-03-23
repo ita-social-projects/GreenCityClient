@@ -15,6 +15,9 @@ export class ModalTextComponent implements OnInit {
   newDate = this.datePipe.transform(new Date(), 'MMM dd, yyyy');
   name: string;
   unsubscribe: Subject<any> = new Subject();
+  title: string;
+  text: string;
+  action: string;
   constructor(
     public dialogRef: MatDialogRef<ModalTextComponent>,
     @Inject(MAT_DIALOG_DATA) public modalData: any,
@@ -24,6 +27,9 @@ export class ModalTextComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    this.title = this.modalData.title;
+    this.text = this.modalData.text;
+    this.action = this.modalData.action;
     this.localeStorageService.firstNameBehaviourSubject.pipe(takeUntil(this.unsubscribe)).subscribe((firstName) => {
       this.name = firstName;
     });

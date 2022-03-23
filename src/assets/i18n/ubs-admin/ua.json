@@ -520,6 +520,12 @@
       "duplicate_page": "Дублювати сторінку"
     }
   },
+  "ubs-tariffs-pricing-page": {
+    "delete-tariff-title": "Деактивувати послугу",
+    "delete-tariff-action": "Деактивувати",
+    "delete-tariff-text1": "Ви дійсно хочете деактивувати сервіс the \"",
+    "delete-tariff-text2": "\"? Інформація про цей сервіс буде прихована від клієнтів."
+  },
   "ubs-tariffs-add-location-pop-up": {
     "title": "Додати локацію",
     "edit-title": "Редагувати картку",
