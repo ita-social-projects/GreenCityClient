@@ -8,7 +8,7 @@ import { ubsAdminEmployeeLink, ubsAdminStationLink } from 'src/app/main/links';
   providedIn: 'root'
 })
 export class UbsAdminEmployeeService {
-  getAllEmployees: string = `${ubsAdminEmployeeLink}/getAll-active-employees`;
+  getAllEmployees = `${ubsAdminEmployeeLink}/getAll-active-employees`;
 
   constructor(private http: HttpClient) {}
 
