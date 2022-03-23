@@ -63,6 +63,7 @@
           placeholder="{{ 'ubs-tariffs.placeholder-locality' | translate }}"
           #autocompleteTriggerCity="matAutocompleteTrigger"
           formControlName="city"
+          [disabled]="city.disabled"
           [matAutocomplete]="autoCity"
           [matChipInputFor]="chipListCity"
           (matChipInputTokenEnd)="addItem($event)"

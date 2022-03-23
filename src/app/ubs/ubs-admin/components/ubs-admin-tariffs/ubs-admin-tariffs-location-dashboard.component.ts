@@ -86,7 +86,6 @@ export class UbsAdminTariffsLocationDashboardComponent implements OnInit, OnDest
     this.getLocations();
     this.getCouriers();
     this.loadScript();
-    this.city.disable();
     this.currentLanguage = this.localeStorageService.getCurrentLanguage();
     this.region.valueChanges.subscribe((value) => {
       this.checkRegionValue(value);
