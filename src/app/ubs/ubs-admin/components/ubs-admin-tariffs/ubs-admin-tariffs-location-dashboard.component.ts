@@ -227,7 +227,6 @@ export class UbsAdminTariffsLocationDashboardComponent implements OnInit, OnDest
             element.regionTranslationDtos.filter((it) => it.languageCode === 'ua').map((it) => it.regionName)
           )
         );
-        console.log('item', item[`content`]);
         this.filteredRegions = this.region.valueChanges.pipe(
           startWith(''),
           map((value: string) => this._filter(value, this.regions))
@@ -252,7 +251,6 @@ export class UbsAdminTariffsLocationDashboardComponent implements OnInit, OnDest
 
   checkRegionValue(value): void {
     const currentRegion = this.locations.filter((element) => element.regionTranslationDtos.find((it) => it.regionName === value));
-    console.log(this.selectCities(currentRegion));
     if (value && this.selectCities(currentRegion)) {
       this.city.enable();
     } else {
@@ -267,7 +265,6 @@ export class UbsAdminTariffsLocationDashboardComponent implements OnInit, OnDest
       )
     );
     this.cities = this.cities.reduce((acc, val) => acc.concat(val), []).reduce((acc, val) => acc.concat(val), []);
-    console.log(this.cities);
     this.filteredCities = this.city.valueChanges.pipe(
       startWith(''),
       map((value: string) => (value ? this._filter(value, this.cities) : this.cities.slice()))
