@@ -50,7 +50,7 @@
           </mat-option>
         </mat-autocomplete>
         <mat-icon class="cross-img" (click)="region.setValue('')">close</mat-icon>
-        <img [src]="icons.arrowDown" class="arrowDown-img" alt="arrowDown" (click)="openAuto($event, autocompleteTriggerRegion)" />
+        <img [src]="icons.arrowDown" class="arrowDown-img" alt="arrowDown" (click)="openAuto($event, autocompleteTriggerRegion, false)" />
       </div>
       <div class="validation" *ngIf="region.invalid && region.touched">
         <div>Wrong input</div>
@@ -63,6 +63,7 @@
           placeholder="{{ 'ubs-tariffs.placeholder-locality' | translate }}"
           #autocompleteTriggerCity="matAutocompleteTrigger"
           formControlName="city"
+          [disabled]="city.disabled"
           [matAutocomplete]="autoCity"
           [matChipInputFor]="chipListCity"
           (matChipInputTokenEnd)="addItem($event)"
@@ -82,7 +83,12 @@
             <span class="checkbox-text">{{ item }}</span>
           </mat-option>
         </mat-autocomplete>
-        <img [src]="icons.arrowDown" class="arrowDown-img" alt="arrowDown" (click)="openAuto($event, autocompleteTriggerCity)" />
+        <img
+          [src]="icons.arrowDown"
+          class="arrowDown-img"
+          alt="arrowDown"
+          (click)="openAuto($event, autocompleteTriggerCity, city.disabled)"
+        />
       </div>
       <mat-chip-list #chipListCity aria-label="City selection">
         <div class="city-list">
@@ -144,7 +150,7 @@
       <th id="action"></th>
     </tr>
   </thead>
-  <tbody *ngIf="!locationCard">
+  <tbody *ngIf="!locationCard && filteredLocations">
     <tr
       *ngFor="
         let location of filteredLocations
@@ -189,7 +195,7 @@
       </mat-menu>
     </tr>
   </tbody>
-  <tbody *ngIf="locationCard">
+  <tbody *ngIf="locationCard && filteredLocations">
     <tr *ngFor="let location of locationCard" [ngClass]="{ 'disabled-col': location.status === 'Неактивно' }">
       <td>
         <div *ngFor="let regionItem of location.regionTranslationDtos | filterByLang">

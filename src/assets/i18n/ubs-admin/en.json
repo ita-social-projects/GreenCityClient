@@ -528,6 +528,21 @@
       "duplicate_page": "Duplicate page"
     }
   },
+  "confirmation": {
+    "cancel": "Yes, exit",
+    "dismiss": "Continue",
+    "delete": "No, delete",
+    "ok": "Yes, save",
+    "submit-title": "In case of closing, your order will be saved in your personal account. Do you want to save this order?",
+    "title": "Are you sure you want to exit?",
+    "subTitle": "Your order will not be saved"
+  },
+  "ubs-tariffs-pricing-page": {
+    "delete-tariff-title": "Deactivate tariff for service",
+    "delete-tariff-action": "Deactivate",
+    "delete-tariff-text1": "Are you sure you want to deactivate the \"",
+    "delete-tariff-text2": "{{bagName}}\" service? Information about this service will be hidden from customers."
+  },
   "ubs-tariffs-add-location-pop-up": {
     "title": "Add location",
     "edit-title": "Edit card",
