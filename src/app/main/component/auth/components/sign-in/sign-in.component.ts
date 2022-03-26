@@ -15,7 +15,7 @@ import { LocalStorageService } from '@global-service/localstorage/local-storage.
 import { UserOwnAuthService } from '@auth-service/user-own-auth.service';
 import { takeUntil, take } from 'rxjs/operators';
 import { ProfileService } from '../../../user/components/profile/profile-service/profile.service';
-
+import { FlexDirective, StyleDirective } from '@angular/flex-layout';
 @Component({
   selector: 'app-sign-in',
   templateUrl: './sign-in.component.html',
@@ -37,6 +37,7 @@ export class SignInComponent implements OnInit, OnDestroy {
   public emailFieldValue: string;
   public passwordFieldValue: string;
   public isUbs: boolean;
+  public UBS: string;
   private destroy: Subject<boolean> = new Subject<boolean>();
   @Output() private pageName = new EventEmitter();
 
@@ -66,6 +67,7 @@ export class SignInComponent implements OnInit, OnDestroy {
     // Get form fields to use it in the template
     this.emailField = this.signInForm.get('email');
     this.passwordField = this.signInForm.get('password');
+    this.checkIfItUbs();
   }
 
   public configDefaultErrorMessage(): void {
@@ -172,6 +174,14 @@ export class SignInComponent implements OnInit, OnDestroy {
       this.emailErrorMessageBackEnd = error.name === 'email' ? error.message : this.emailErrorMessageBackEnd;
       this.passwordErrorMessageBackEnd = error.name === 'password' ? error.message : this.passwordErrorMessageBackEnd;
     });
+  }
+
+  checkIfItUbs() {
+    if (this.isUbs == true) {
+      this.UBS = 'ubsStyle';
+    } else {
+      this.UBS = 'greenStyle';
+    }
   }
 
   ngOnDestroy() {

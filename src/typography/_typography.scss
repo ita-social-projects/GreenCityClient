@@ -125,7 +125,7 @@
   line-height: 16px;
   align-items: center;
   text-align: center;
-  color: #1d2830;
+  color: #fff;
 }
 
 .ubs-primary-global-button:active {
@@ -141,7 +141,8 @@
 .ubs-primary-global-button:hover,
 .ubs-primary-global-button:disabled,
 .primary-global-button:disabled {
-  background-color: #afd85a;
+  background-color: var(--primary-grey);
+  border: 1px solid var(--primary-grey);
 }
 
 .secondary-global-button {

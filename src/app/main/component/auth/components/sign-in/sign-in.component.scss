@@ -127,14 +127,36 @@ h2 {
   }
 }
 
-.primary-global-button {
+.ubsStyle {
+  background-color: var(--primary-green);
+  color: #fff;
   height: 48px;
   font-weight: 600;
   margin-bottom: 8px;
   border-radius: 3px;
+  border: none;
   display: flex;
   align-items: center;
   justify-content: center;
+  font-family: var(--primary-font);
+
+  .spinner-border {
+    margin-right: 10px;
+  }
+}
+
+.greenStyle {
+  background-color: var(--primary-grey);
+  color: #fff;
+  height: 48px;
+  font-weight: 600;
+  margin-bottom: 8px;
+  border-radius: 3px;
+  border: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: var(--primary-font);
 
   .spinner-border {
     margin-right: 10px;

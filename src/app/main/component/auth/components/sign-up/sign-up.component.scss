@@ -95,16 +95,40 @@
     margin-bottom: 4px;
   }
 
-  .primary-global-button {
+  .ubsStyle {
+    background-color: var(--primary-green);
+    color: #fff;
     margin-top: 40px;
     height: 48px;
     width: 368px;
     padding: 16px 116px;
     font-weight: 600;
     border-radius: 3px;
+    border: none;
     display: flex;
     align-items: center;
     justify-content: center;
+    font-family: var(--primary-font);
+
+    .spinner-border {
+      margin-right: 10px;
+    }
+  }
+
+  .greenStyle {
+    background-color: var(--primary-grey);
+    color: #fff;
+    margin-top: 40px;
+    height: 48px;
+    width: 368px;
+    padding: 16px 116px;
+    font-weight: 600;
+    border-radius: 3px;
+    border: none;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: var(--primary-font);
 
     .spinner-border {
       margin-right: 10px;
