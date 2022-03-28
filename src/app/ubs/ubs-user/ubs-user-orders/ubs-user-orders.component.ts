@@ -4,9 +4,9 @@ import { Subject, throwError } from 'rxjs';
 import { MatSnackBarComponent } from '@global-errors/mat-snack-bar/mat-snack-bar.component';
 import { UserOrdersService } from '../services/user-orders.service';
 import { Router } from '@angular/router';
-import { IOrderInfo } from '../../ubs-admin/models/ubs-admin.interface';
 import { BonusesService } from '../ubs-user-bonuses/services/bonuses.service';
 import { IBonus } from '../ubs-user-bonuses/models/IBonus.interface';
+import { IUserOrderInfo } from '../ubs-user-orders-list/models/UserOrder.interface';
 
 @Component({
   selector: 'app-ubs-user-orders',
@@ -15,9 +15,9 @@ import { IBonus } from '../ubs-user-bonuses/models/IBonus.interface';
 })
 export class UbsUserOrdersComponent implements OnInit, OnDestroy {
   destroy: Subject<boolean> = new Subject<boolean>();
-  orders: IOrderInfo[];
-  currentOrders: IOrderInfo[];
-  orderHistory: IOrderInfo[];
+  orders: IUserOrderInfo[];
+  currentOrders: IUserOrderInfo[];
+  orderHistory: IUserOrderInfo[];
   bonuses: number;
   loadingOrders = false;
   loadingBonuses = false;
@@ -50,12 +50,8 @@ export class UbsUserOrdersComponent implements OnInit, OnDestroy {
       .subscribe((item) => {
         this.orders = item;
         this.loadingOrders = true;
-        this.currentOrders = this.orders.filter(
-          (order) => order.generalOrderInfo.orderStatus !== 'DONE' && order.generalOrderInfo.orderStatus !== 'CANCELED'
-        );
-        this.orderHistory = this.orders.filter(
-          (order) => order.generalOrderInfo.orderStatus === 'DONE' || order.generalOrderInfo.orderStatus === 'CANCELED'
-        );
+        this.currentOrders = this.orders.filter((order) => order.orderStatus !== 'Done' && order.orderStatus !== 'Canceled');
+        this.orderHistory = this.orders.filter((order) => order.orderStatus === 'Done' || order.orderStatus === 'Canceled');
       });
     this.bonusesService.getUserBonuses().subscribe((responce: IBonus) => {
       this.bonuses = responce.points;

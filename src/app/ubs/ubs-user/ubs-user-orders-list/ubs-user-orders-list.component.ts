@@ -2,7 +2,7 @@ import { Component, Input, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { UbsUserOrderPaymentPopUpComponent } from './ubs-user-order-payment-pop-up/ubs-user-order-payment-pop-up.component';
 import { UbsUserOrderCancelPopUpComponent } from './ubs-user-order-cancel-pop-up/ubs-user-order-cancel-pop-up.component';
-import { IOrderInfo } from 'src/app/ubs/ubs-admin/models/ubs-admin.interface';
+import { IUserOrderInfo } from './models/UserOrder.interface';
 
 @Component({
   selector: 'app-ubs-user-orders-list',
@@ -10,7 +10,7 @@ import { IOrderInfo } from 'src/app/ubs/ubs-admin/models/ubs-admin.interface';
   styleUrls: ['./ubs-user-orders-list.component.scss']
 })
 export class UbsUserOrdersListComponent implements OnInit {
-  @Input() orders: IOrderInfo[];
+  @Input() orders: IUserOrderInfo[];
   @Input() bonuses: number;
 
   constructor(public dialog: MatDialog) {}
@@ -19,48 +19,48 @@ export class UbsUserOrdersListComponent implements OnInit {
     this.sortingOrdersByData();
   }
 
-  public isOrderPaid(order: IOrderInfo): boolean {
-    return order.generalOrderInfo.orderPaymentStatus === 'UNPAID';
+  public isOrderPaid(order: IUserOrderInfo): boolean {
+    return order.paymentStatus === 'Unpaid';
   }
 
-  public isOrderHalfPaid(order: IOrderInfo): boolean {
-    return order.generalOrderInfo.orderPaymentStatus === 'HALF_PAID';
+  public isOrderHalfPaid(order: IUserOrderInfo): boolean {
+    return order.paymentStatus === 'Half paid';
   }
 
-  public isOrderPriceGreaterThenZero(order: IOrderInfo): boolean {
-    return order.orderDiscountedPrice > 0;
+  public isOrderPriceGreaterThenZero(order: IUserOrderInfo): boolean {
+    return order.orderFullPrice > 0;
   }
 
-  public isOrderPaymentAccess(order: IOrderInfo): boolean {
+  public isOrderPaymentAccess(order: IUserOrderInfo): boolean {
     return this.isOrderPriceGreaterThenZero(order) && (this.isOrderPaid(order) || this.isOrderHalfPaid(order));
   }
 
   public changeCard(id: number): void {
-    this.orders.forEach((order) => (order.extend = order.generalOrderInfo.id === id ? !order.extend : false));
+    this.orders.forEach((order) => (order.extend = order.id === id ? !order.extend : false));
   }
 
-  public openOrderPaymentDialog(order: IOrderInfo): void {
+  public openOrderPaymentDialog(order: IUserOrderInfo): void {
     this.dialog.open(UbsUserOrderPaymentPopUpComponent, {
       data: {
-        orderId: order.generalOrderInfo.id,
-        price: order.orderDiscountedPrice,
+        orderId: order.id,
+        price: order.orderFullPrice,
         bonuses: this.bonuses
       }
     });
   }
 
-  public openOrderCancelDialog(order: IOrderInfo): void {
+  public openOrderCancelDialog(order: IUserOrderInfo): void {
     this.dialog.open(UbsUserOrderCancelPopUpComponent, {
       data: {
-        orderId: order.generalOrderInfo.id,
+        orderId: order.id,
         orders: this.orders
       }
     });
   }
 
   public sortingOrdersByData(): void {
-    this.orders.sort((a: IOrderInfo, b: IOrderInfo): number => {
-      return a.generalOrderInfo.dateFormed < b.generalOrderInfo.dateFormed ? 1 : -1;
+    this.orders.sort((a: IUserOrderInfo, b: IUserOrderInfo): number => {
+      return a.dateForm < b.dateForm ? 1 : -1;
     });
   }
 }
