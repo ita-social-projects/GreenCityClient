@@ -55,7 +55,13 @@
         [routerLinkActive]="['active']"
         *ngFor="let listItem of listElementsMobile"
       >
-        <img class="sidebar-list-item-icon" src="{{ listItem.link }}" alt="sidebar list item icon" />
+        <img
+          class="sidebar-list-item-icon"
+          src="{{
+            listItem.link === bellsNoneNotification && serviceUserMessages.countOfNoReadeMessages ? bellsNotification : listItem.link
+          }}"
+          alt="sidebar list item icon"
+        />
         <span class="sidebar-list-item-text">{{ listItem.name | translate }}</span>
       </li>
     </ul>
