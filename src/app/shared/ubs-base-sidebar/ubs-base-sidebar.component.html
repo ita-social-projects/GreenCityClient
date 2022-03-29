@@ -1,44 +1,63 @@
 <div class="main">
-  <mat-toolbar class="mobile-toolbar">
-    <button mat-icon-button class="mobile-menu" aria-label="Sidebar menu" (click)="toggleSideBar()">
-      <mat-icon class="mobile-icon">{{ !drawer.opened ? 'menu' : 'close' }}</mat-icon>
-    </button>
-  </mat-toolbar>
-
   <div class="sidebar-icons" #sideBarIcons>
     <ul class="sidebar-list">
       <li class="toggle-arrow">
-        <button mat-icon-button (click)="toggleSideBar()">
-          <mat-icon class="mobile-icon">{{ !drawer.opened ? 'arrow_forward' : 'arrow_back' }}</mat-icon>
+        <button mat-icon-button aria-label="Sidebar menu" (click)="toggleSideBar()">
+          <mat-icon>{{ !drawer.opened ? 'arrow_forward' : 'arrow_back' }}</mat-icon>
         </button>
       </li>
-      <li class="sidebar-list-item" (click)="toggleSideBar()" *ngFor="let listItem of listElements">
-        <img class="sidebar-list-item-icon" src="{{ listItem.link }}" alt="sidebar list item icon" />
+      <li
+        class="sidebar-list-item"
+        [routerLink]="listItem.routerLink"
+        [routerLinkActive]="['active']"
+        *ngFor="let listItem of listElements"
+      >
+        <img
+          class="sidebar-list-item-icon"
+          src="{{
+            listItem.link === bellsNoneNotification && serviceUserMessages.countOfNoReadeMessages ? bellsNotification : listItem.link
+          }}"
+          alt="sidebar list item icon"
+        />
       </li>
     </ul>
   </div>
+
   <mat-drawer-container class="sidebar" autosize>
     <mat-drawer #drawer class="sidebar-slider" mode="side" opened="true" disableClose="true" autoFocus="false">
       <ul class="sidebar-list">
-        <li class="sidebar-list-item" *ngFor="let listItem of listElements" [routerLink]="listItem.routerLink">
-          <img
-            class="sidebar-list-item-icon"
-            src="{{
-              listItem.link === bellsNoneNotification && serviceUserMessages.countOfNoReadeMessages ? bellsNotification : listItem.link
-            }}"
-            alt="sidebar list item icon"
-          />
-          <a class="sidebar-list-item-link" [routerLink]="listItem.routerLink">{{ listItem.name | translate }}</a>
+        <li
+          class="sidebar-list-item"
+          *ngFor="let listItem of listElements"
+          [routerLink]="listItem.routerLink"
+          [routerLinkActive]="['active']"
+        >
+          <span class="sidebar-list-item-link">{{ listItem.name | translate }}</span>
           <div class="count-unread-messages" *ngIf="listItem.name === 'ubs-user.messages' && serviceUserMessages.countOfNoReadeMessages">
             ({{ serviceUserMessages.countOfNoReadeMessages }})
           </div>
         </li>
       </ul>
     </mat-drawer>
+
     <mat-drawer-content class="main-content">
       <div class="sidebar-container" #sidebarContainer>
         <ng-content></ng-content>
       </div>
     </mat-drawer-content>
   </mat-drawer-container>
+
+  <div class="mobile-sidebar">
+    <ul class="sidebar-list">
+      <li
+        class="sidebar-list-item-mobile"
+        [routerLink]="listItem.routerLink"
+        [routerLinkActive]="['active']"
+        *ngFor="let listItem of listElementsMobile"
+      >
+        <img class="sidebar-list-item-icon" src="{{ listItem.link }}" alt="sidebar list item icon" />
+        <span class="sidebar-list-item-text">{{ listItem.name | translate }}</span>
+      </li>
+    </ul>
+  </div>
 </div>

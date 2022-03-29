@@ -2,20 +2,14 @@
   position: relative;
   display: grid;
 
-  .mobile-toolbar {
-    margin-top: 80px;
-    display: none;
-    background-color: var(--ubs-primary-grey);
-
-    .mobile-icon {
-      color: var(--ubs-grey-white);
-    }
+  .active {
+    background-color: var(--ubs-secondary-grey);
   }
 
   .sidebar {
     .sidebar-container {
       margin-left: 80px;
-      width: calc(100% - 120px);
+      width: calc(100% - 100px);
     }
 
     .sidebar-slider {
@@ -23,11 +17,7 @@
       top: 80px;
       left: 56px;
       background-color: var(--ubs-primary-grey);
-      padding-top: 40px;
-    }
-
-    .sidebar-list-item-icon {
-      display: none;
+      padding-top: 54px;
     }
   }
 
@@ -49,11 +39,6 @@
       column-gap: 20px;
       cursor: pointer;
       padding: 15px 39px 15px 15px;
-
-      &:hover,
-      &:focus {
-        background-color: var(--ubs-secondary-grey);
-      }
     }
   }
 
@@ -77,27 +62,35 @@
     -ms-user-select: none;
     user-select: none;
     z-index: 2;
+
+    .toggle-arrow {
+      margin: 7px 0;
+    }
   }
 
-  .sidebar-toggler {
-    width: 25px;
-    height: 25px;
-    border-radius: 50%;
-    border: 1px solid var(--ubs-primary-green);
-    float: right;
-    background-color: var(--ubs-primary-grey);
-    -webkit-user-select: none;
-    -moz-user-select: none;
-    -ms-user-select: none;
-    user-select: none;
-    display: flex;
-    align-items: center;
-    margin: 7px;
+  .mobile-sidebar {
+    display: none;
   }
 
-  .arrow {
-    width: 15px;
-  }
+  // .sidebar-toggler {
+  //   width: 25px;
+  //   height: 25px;
+  //   border-radius: 50%;
+  //   border: 1px solid var(--ubs-primary-green);
+  //   float: right;
+  //   background-color: var(--ubs-primary-grey);
+  //   -webkit-user-select: none;
+  //   -moz-user-select: none;
+  //   -ms-user-select: none;
+  //   user-select: none;
+  //   display: flex;
+  //   align-items: center;
+  //   margin: 7px;
+  // }
+
+  // .arrow {
+  //   width: 15px;
+  // }
 
   .count-unread-messages {
     color: var(--ubs-primary-white);
@@ -105,50 +98,56 @@
   }
 
   @media (max-width: 480px) {
-    .toggle-arrow {
-      display: none;
-    }
-
-    .sidebar-icons {
-      display: none;
-    }
-
-    .mobile-toolbar {
-      margin-top: 80px;
-      display: flex;
+    .mobile-sidebar {
+      display: block;
+      position: fixed;
+      bottom: 0;
+      width: 100%;
+      color: var(--ubs-grey-white);
+      z-index: 4;
       background-color: var(--ubs-primary-grey);
 
-      .mobile-icon {
-        color: var(--ubs-grey-white);
+      .sidebar-list {
+        display: flex;
+        justify-content: space-around;
+        flex-wrap: wrap;
+
+        .sidebar-list-item-mobile {
+          display: flex;
+          flex-direction: column;
+          align-items: center;
+          cursor: pointer;
+          width: 25%;
+          padding: 9px;
+        }
+        .sidebar-list-item-text {
+          display: flex;
+          margin-top: 6px;
+          font-size: 10px;
+          line-height: 12px;
+        }
       }
     }
 
     .main-content {
-      margin-top: 40px;
-      overflow-x: hidden;
-      min-height: 345px;
+      margin-top: 80px;
       display: flex;
-      flex-direction: row;
       justify-content: flex-end;
     }
 
     .sidebar {
       .sidebar-container {
-        padding-left: 25px;
         width: 100%;
+        margin-bottom: 125px;
       }
 
       .sidebar-slider {
-        padding: 0;
-        position: fixed;
-        top: 136px;
-        left: 0;
-        background-color: var(--ubs-primary-grey);
+        display: none;
       }
+    }
 
-      .sidebar-list-item-icon {
-        display: inline;
-      }
+    .sidebar-icons {
+      display: none;
     }
   }
 }

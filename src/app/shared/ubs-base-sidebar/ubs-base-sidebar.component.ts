@@ -17,15 +17,12 @@ export class UbsBaseSidebarComponent implements AfterViewInit, OnDestroy {
   readonly bellsNotification = 'assets/img/sidebarIcons/notification_Bell.svg';
   readonly arrowRight = 'assets/img/ubs-admin-sidebar/arrowRight.svg';
   readonly arrowLeft = 'assets/img/ubs-admin-sidebar/arrowLeft.svg';
-  // public openClose = false;
-  // public stopClick = false;
   private adminRoleValue = 'ROLE_ADMIN';
   destroy: Subject<boolean> = new Subject<boolean>();
   @Input() public listElements: any[] = [];
+  @Input() public listElementsMobile: any[] = [];
   @ViewChild('sidebarToggler') sidebarToggler: ElementRef;
-  // @ViewChild('sideBarIcons') sideBarIcons: ElementRef;
   @ViewChild('drawer') drawer: MatDrawer;
-  // @ViewChild('sidebarContainer') sidebarContainer: ElementRef;
 
   constructor(
     public serviceUserMessages: UserMessagesService,
@@ -35,21 +32,6 @@ export class UbsBaseSidebarComponent implements AfterViewInit, OnDestroy {
 
   public toggleSideBar(): void {
     this.drawer.toggle();
-    // if (this.openClose) {
-    //   this.drawer.toggle();
-    //   this.stopClick = true;
-    //   setTimeout(() => {
-    //     this.sideBarIcons.nativeElement.style.zIndex = '0';
-    //     this.sidebarContainer.nativeElement.style.marginLeft = '25px';
-    //     this.stopClick = false;
-    //   }, 350);
-    //   this.openClose = false;
-    // } else {
-    //   this.drawer.toggle();
-    //   this.sidebarContainer.nativeElement.style.marginLeft = '85px';
-    //   this.sideBarIcons.nativeElement.style.zIndex = '4';
-    //   this.openClose = true;
-    // }
   }
 
   getCountOfUnreadNotification() {

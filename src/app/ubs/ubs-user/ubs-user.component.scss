@@ -1,3 +1,22 @@
 :host {
   font-family: var(--primary-font);
 }
+app-ubs-footer {
+  display: flex;
+  margin-left: 242px;
+}
+
+@media (max-width: 600px) {
+  app-ubs-footer {
+    margin-left: 60px;
+  }
+}
+
+@media (max-width: 480px) {
+  app-ubs-footer {
+    margin-left: 0;
+    position: sticky;
+    bottom: 60px;
+    z-index: 3;
+  }
+}
