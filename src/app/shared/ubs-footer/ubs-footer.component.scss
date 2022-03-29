@@ -18,6 +18,7 @@
         margin-top: 80px;
         width: 226px;
         height: 226px;
+
         a {
           img {
             width: 100%;
@@ -160,6 +161,7 @@
         color: white;
       }
     }
+
     .toggle-footer-button {
       position: absolute;
       right: 10%;
@@ -179,12 +181,15 @@
       vertical-align: middle;
       color: #646363;
     }
+
     .foot-check {
       display: none;
     }
+
     input.foot-check:checked + .main-content {
       display: inline-flex;
     }
+
     input.foot-check:checked ~ .toggle-footer-button {
       .toggler-icon::before {
         content: 'keyboard_arrow_down';
@@ -209,12 +214,14 @@
       .toggle-footer-button {
         right: 5%;
       }
+
       .main-content {
         flex-direction: column;
         margin: 0;
 
         .footer-logo {
           margin-top: 0;
+
           a {
             img {
               width: 226px;
@@ -241,6 +248,7 @@
         border-radius: 0;
         right: 30%;
       }
+
       .social-networks {
         justify-content: space-around;
         padding: 0 30px 80px 30px;
@@ -257,13 +265,16 @@
           margin-right: 30px;
         }
       }
+
       input.foot-check:checked + .main-content {
         margin-top: 80px;
       }
+
       .footer-bottom-part {
         padding: 0 8px;
         margin-top: 20px;
       }
+
       .toggle-footer-button {
         bottom: 80px;
       }
