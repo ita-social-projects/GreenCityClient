@@ -6,7 +6,7 @@ import { UserOrdersService } from '../services/user-orders.service';
 import { Router } from '@angular/router';
 import { BonusesService } from '../ubs-user-bonuses/services/bonuses.service';
 import { IBonus } from '../ubs-user-bonuses/models/IBonus.interface';
-import { IUserOrderInfo } from '../ubs-user-orders-list/models/UserOrder.interface';
+import { IUserOrderInfo, CheckOrderStatus } from '../ubs-user-orders-list/models/UserOrder.interface';
 
 @Component({
   selector: 'app-ubs-user-orders',
@@ -50,8 +50,12 @@ export class UbsUserOrdersComponent implements OnInit, OnDestroy {
       .subscribe((item) => {
         this.orders = item;
         this.loadingOrders = true;
-        this.currentOrders = this.orders.filter((order) => order.orderStatus !== 'Done' && order.orderStatus !== 'Canceled');
-        this.orderHistory = this.orders.filter((order) => order.orderStatus === 'Done' || order.orderStatus === 'Canceled');
+        this.currentOrders = this.orders.filter(
+          (order) => order.orderStatus !== CheckOrderStatus.DONE && order.orderStatus !== CheckOrderStatus.CANCELED
+        );
+        this.orderHistory = this.orders.filter(
+          (order) => order.orderStatus === CheckOrderStatus.DONE || order.orderStatus === CheckOrderStatus.CANCELED
+        );
       });
     this.bonusesService.getUserBonuses().subscribe((responce: IBonus) => {
       this.bonuses = responce.points;

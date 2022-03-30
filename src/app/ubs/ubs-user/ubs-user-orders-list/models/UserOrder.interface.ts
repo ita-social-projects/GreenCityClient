@@ -39,3 +39,17 @@ export interface IBags {
   service: string;
   totalPrice: number;
 }
+
+export enum CheckPaymentStatus {
+  PAID = 'Paid',
+  UNPAID = 'Unpaid',
+  HALFPAID = 'Half paid'
+}
+
+export enum CheckOrderStatus {
+  DONE = 'Done',
+  CANCELED = 'Canceled',
+  CONFIRMED = 'Confirmed',
+  FORMED = 'Formed',
+  ADJUSTMENT = 'Adjustment'
+}
