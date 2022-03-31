@@ -65,9 +65,13 @@
       </span>
     </li>
   </ol>
-  <ol *ngIf="order.address.addressComment !== ''">
+  <ol class="recipient" *ngIf="order.address.addressComment !== ''">
     <h6 class="bold_text">{{ 'user-orders.details.comment-address' | translate }}</h6>
     <li>{{ order.address.addressComment }}</li>
+  </ol>
+  <ol class="recipient" *ngIf="order.orderComment !== ''">
+    <h6 class="bold_text">{{ 'user-orders.details.comment-order' | translate }}</h6>
+    <li>{{ order.orderComment }}</li>
   </ol>
 </div>
 <div class="download">
