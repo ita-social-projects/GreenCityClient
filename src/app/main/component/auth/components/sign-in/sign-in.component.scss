@@ -1,5 +1,22 @@
 $inputHeight: 48px;
 
+@mixin button {
+  height: 48px;
+  font-weight: 600;
+  margin-bottom: 8px;
+  border-radius: 3px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 0;
+  color: #fff;
+  font-family: var(--primary-font);
+
+  .spinner-border {
+    margin-right: 10px;
+  }
+}
+
 h1 {
   margin-bottom: 8px;
   font-family: var(--secondary-font);
@@ -127,39 +144,21 @@ h2 {
   }
 }
 
-.ubsStyle {
+.greenStyle {
+  @include button;
   background-color: var(--primary-green);
-  color: #fff;
-  height: 48px;
-  font-weight: 600;
-  margin-bottom: 8px;
-  border-radius: 3px;
-  border: none;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-family: var(--primary-font);
 
-  .spinner-border {
-    margin-right: 10px;
+  &:disabled {
+    background-color: var(--success-light-green);
   }
 }
 
-.greenStyle {
-  background-color: var(--primary-grey);
-  color: #fff;
-  height: 48px;
-  font-weight: 600;
-  margin-bottom: 8px;
-  border-radius: 3px;
-  border: none;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-family: var(--primary-font);
+.ubsStyle {
+  @include button;
+  background-color: var(--ubs-button-light-green);
 
-  .spinner-border {
-    margin-right: 10px;
+  &:disabled {
+    background-color: var(--ubs-quaternary-light-grey);
   }
 }
 

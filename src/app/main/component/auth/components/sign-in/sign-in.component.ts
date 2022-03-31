@@ -37,7 +37,7 @@ export class SignInComponent implements OnInit, OnDestroy {
   public emailFieldValue: string;
   public passwordFieldValue: string;
   public isUbs: boolean;
-  public UBS: string;
+  public ubsStyle: string;
   private destroy: Subject<boolean> = new Subject<boolean>();
   @Output() private pageName = new EventEmitter();
 
@@ -53,6 +53,7 @@ export class SignInComponent implements OnInit, OnDestroy {
     private userOwnAuthService: UserOwnAuthService,
     private profileService: ProfileService
   ) {}
+  ngOnDestroy(): void {}
 
   ngOnInit() {
     this.localStorageService.ubsRegBehaviourSubject.pipe(takeUntil(this.destroy)).subscribe((value) => (this.isUbs = value));
@@ -177,15 +178,10 @@ export class SignInComponent implements OnInit, OnDestroy {
   }
 
   checkIfItUbs() {
-    if (this.isUbs == true) {
-      this.UBS = 'ubsStyle';
+    if (this.isUbs) {
+      this.ubsStyle = 'ubsStyle';
     } else {
-      this.UBS = 'greenStyle';
+      this.ubsStyle = 'greenStyle';
     }
-  }
-
-  ngOnDestroy() {
-    this.destroy.next(true);
-    this.destroy.complete();
   }
 }

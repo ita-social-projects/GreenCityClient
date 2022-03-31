@@ -1,3 +1,21 @@
+@mixin button {
+  height: 48px;
+  font-weight: 600;
+  margin-top: 40px;
+  margin-bottom: 8px;
+  border-radius: 3px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 0;
+  color: #fff;
+  font-family: var(--primary-font);
+
+  .spinner-border {
+    margin-right: 10px;
+  }
+}
+
 .title-text {
   margin-bottom: 8px;
   font-family: var(--secondary-font);
@@ -95,43 +113,21 @@
     margin-bottom: 4px;
   }
 
-  .ubsStyle {
+  .greenStyle {
+    @include button;
     background-color: var(--primary-green);
-    color: #fff;
-    margin-top: 40px;
-    height: 48px;
-    width: 368px;
-    padding: 16px 116px;
-    font-weight: 600;
-    border-radius: 3px;
-    border: none;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-family: var(--primary-font);
 
-    .spinner-border {
-      margin-right: 10px;
+    &:disabled {
+      background-color: var(--success-light-green);
     }
   }
 
-  .greenStyle {
-    background-color: var(--primary-grey);
-    color: #fff;
-    margin-top: 40px;
-    height: 48px;
-    width: 368px;
-    padding: 16px 116px;
-    font-weight: 600;
-    border-radius: 3px;
-    border: none;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-family: var(--primary-font);
+  .ubsStyle {
+    @include button;
+    background-color: var(--ubs-button-light-green);
 
-    .spinner-border {
-      margin-right: 10px;
+    &:disabled {
+      background-color: var(--ubs-quaternary-light-grey);
     }
   }
 

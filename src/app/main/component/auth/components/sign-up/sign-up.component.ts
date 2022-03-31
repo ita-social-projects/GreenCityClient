@@ -41,7 +41,7 @@ export class SignUpComponent implements OnInit, OnDestroy {
   public passwordConfirmFieldValue: string;
   public currentLanguage: string;
   public isUbs: boolean;
-  public UBS: string;
+  public ubsStyle: string;
   private destroy: Subject<boolean> = new Subject<boolean>();
   private errorsType = {
     name: (error: string) => (this.firstNameErrorMessageBackEnd = error),
@@ -198,10 +198,10 @@ export class SignUpComponent implements OnInit, OnDestroy {
   }
 
   checkIfItUbs() {
-    if (this.isUbs == true) {
-      this.UBS = 'ubsStyle';
+    if (this.isUbs) {
+      this.ubsStyle = 'ubsStyle';
     } else {
-      this.UBS = 'greenStyle';
+      this.ubsStyle = 'greenStyle';
     }
   }
 
