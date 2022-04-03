@@ -15,7 +15,7 @@ export class UbsUserOrderDetailsComponent {
   constructor(private localStorageService: LocalStorageService) {
     this.currentLanguage = this.localStorageService.getCurrentLanguage();
   }
-  isPaid(order: IUserOrderInfo) {
+  isPaid(order: IUserOrderInfo): boolean {
     return order.paymentStatus === CheckPaymentStatus.PAID;
   }
 }
