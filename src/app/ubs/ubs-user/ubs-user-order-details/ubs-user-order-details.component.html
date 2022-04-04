@@ -13,7 +13,7 @@
         <td *ngIf="currentLanguage === 'ua'">{{ bag.service }}</td>
         <td *ngIf="currentLanguage === 'en'">{{ bag.service }}</td>
         <td>{{ bag.capacity }} {{ 'user-orders.details.litr' | translate }}</td>
-        <td>{{ bag.price }} {{ 'user-orders.details.litr' | translate }}</td>
+        <td>{{ bag.price }} {{ 'user-orders.details.currency' | translate }}</td>
         <td>{{ bag.count }} {{ 'user-orders.details.pieces' | translate }}</td>
         <td>{{ bag.totalPrice | currency | localizedCurrency }}</td>
       </tr>
@@ -32,7 +32,7 @@
       <td colspan="4">{{ 'user-orders.details.bonuses' | translate }}</td>
       <td>-{{ order.bonuses | currency | localizedCurrency }}</td>
     </tr>
-    <tr *ngIf="order.paymentStatus === 'Paid'" class="optional_row">
+    <tr *ngIf="isPaid(order)" class="optional_row">
       <td colspan="4">{{ 'user-orders.details.paid-amount' | translate }}</td>
       <td>{{ order.paidAmount | currency | localizedCurrency }}</td>
     </tr>

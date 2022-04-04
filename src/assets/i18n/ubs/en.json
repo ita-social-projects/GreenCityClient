@@ -7,6 +7,27 @@
     "max-length": "Maximum number of characters exceeded.",
     "pattern": "The field contains forbidden characters."
   },
+  "snack-bar": {
+    "exist-address": "This address has already been added",
+    "saved-order": "Now you can find your order №{{orderId}} in your personal account and continue processing it at any time",
+    "no-internet": "No internet connection",
+    "error": {
+      "default": "Oops, something went wrong. Please reload page or try again later.",
+      "restore-password-again": "The password reset link is no longer valid, please try to reset your password again",
+      "no-internet": "No internet connection"
+    },
+    "attention": {
+      "default": "Attention message. The action cannot be performed, because conditions weren’t met.",
+      "exit-confirm-restore-password": "Your password hasn`t been changed."
+    },
+    "success": {
+      "default": "Success message. The action was successful.",
+      "confirm-restore-password": "Your password has just been reset.",
+      "confirm-email": "Your email has been verified.",
+      "restore-password": "Restore password link was sent to your email address.",
+      "sign-up": "Congratulations! You have successfully registered on the site. Please confirm your email address in the email box."
+    }
+  },
   "order-details": {
     "location": {
       "title": "Welcome to UBS! First choose location of waste disposal. Currently we work only in Kyiv and selected cities.",
@@ -359,11 +380,7 @@
     "sign-in": "Sign in",
     "management": "Management"
   },
-  "snack-bar": {
-    "exist-address": "This address has already been added",
-    "saved-order": "Now you can find your order №{{orderId}} in your personal account and continue processing it at any time",
-    "no-internet": "No internet connection"
-  },
+
   "footer": {
     "station": "Station",
     "address": "Kyiv, Saperno-Slobitska str,25",

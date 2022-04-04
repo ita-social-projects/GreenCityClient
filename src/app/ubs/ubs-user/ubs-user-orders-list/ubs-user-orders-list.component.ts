@@ -2,7 +2,7 @@ import { Component, Input, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { UbsUserOrderPaymentPopUpComponent } from './ubs-user-order-payment-pop-up/ubs-user-order-payment-pop-up.component';
 import { UbsUserOrderCancelPopUpComponent } from './ubs-user-order-cancel-pop-up/ubs-user-order-cancel-pop-up.component';
-import { IUserOrderInfo } from './models/UserOrder.interface';
+import { IUserOrderInfo, CheckPaymentStatus } from './models/UserOrder.interface';
 
 @Component({
   selector: 'app-ubs-user-orders-list',
@@ -20,11 +20,11 @@ export class UbsUserOrdersListComponent implements OnInit {
   }
 
   public isOrderPaid(order: IUserOrderInfo): boolean {
-    return order.paymentStatus === 'Unpaid';
+    return order.paymentStatus === CheckPaymentStatus.UNPAID;
   }
 
   public isOrderHalfPaid(order: IUserOrderInfo): boolean {
-    return order.paymentStatus === 'Half paid';
+    return order.paymentStatus === CheckPaymentStatus.HALFPAID;
   }
 
   public isOrderPriceGreaterThenZero(order: IUserOrderInfo): boolean {
