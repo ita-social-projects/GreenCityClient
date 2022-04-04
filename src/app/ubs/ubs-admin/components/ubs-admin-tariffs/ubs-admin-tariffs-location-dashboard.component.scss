@@ -53,12 +53,17 @@ form {
 
 .input-wrapper input,
 .input-wrapper select {
-  padding: 5px 0 0 15px;
+  padding-left: 15px;
   margin: 0;
   width: 100%;
+  height: 100%;
   background: transparent;
   border: none;
   outline: none;
+}
+
+.input-wrapper input:disabled {
+  background-color: gainsboro;
 }
 
 .col-item {

@@ -9,6 +9,8 @@ describe('UbsAdminEmployeeService', () => {
   let service: UbsAdminEmployeeService;
 
   const urlMock = environment.backendUbsLink + '/admin/ubs-employee';
+  const urlMockStation = environment.backendUbsLink + '/ubs/superAdmin';
+
   const employeeMock = {
     currentPage: 0,
     first: true,
@@ -65,7 +67,7 @@ describe('UbsAdminEmployeeService', () => {
     service.getAllStations().subscribe((data) => {
       expect(data).toBe(positionMock);
     });
-    const req = httpMock.expectOne(`${urlMock}/get-all-receiving-station`);
+    const req = httpMock.expectOne(`${urlMockStation}/get-all-receiving-station`);
     expect(req.request.method).toBe('GET');
     req.flush(positionMock);
   });

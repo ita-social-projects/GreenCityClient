@@ -1,14 +1,19 @@
-import { Component } from '@angular/core';
+import { Component, OnDestroy } from '@angular/core';
+import { MatDialog } from '@angular/material/dialog';
 import { Router } from '@angular/router';
 import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
+import { Subject } from 'rxjs';
+import { takeUntil } from 'rxjs/operators';
 import { ubsMainPageImages } from '../../../../main/image-pathes/ubs-main-page-images';
+import { UbsOrderLocationPopupComponent } from '../ubs-order-details/ubs-order-location-popup/ubs-order-location-popup.component';
 
 @Component({
   selector: 'app-ubs-main-page',
   templateUrl: './ubs-main-page.component.html',
   styleUrls: ['./ubs-main-page.component.scss']
 })
-export class UbsMainPageComponent {
+export class UbsMainPageComponent implements OnDestroy {
+  private destroy: Subject<boolean> = new Subject<boolean>();
   ubsMainPageImages = ubsMainPageImages;
   priceCard = [
     {
@@ -64,10 +69,31 @@ export class UbsMainPageComponent {
     'ubs-homepage.ubs-courier.rules.content.li_3'
   ];
 
-  constructor(private router: Router, private localeStorageService: LocalStorageService) {}
+  constructor(private router: Router, private dialog: MatDialog, private localeStorageService: LocalStorageService) {}
+
+  ngOnDestroy() {
+    this.destroy.next();
+    this.destroy.unsubscribe();
+  }
 
   redirectToOrder() {
     this.localeStorageService.setUbsRegistration(true);
-    this.router.navigate(['ubs', 'order']);
+    this.openLocationDialog();
+  }
+
+  openLocationDialog() {
+    const dialogRef = this.dialog.open(UbsOrderLocationPopupComponent, {
+      hasBackdrop: true,
+      disableClose: true
+    });
+
+    dialogRef
+      .afterClosed()
+      .pipe(takeUntil(this.destroy))
+      .subscribe((res) => {
+        if (res.data) {
+          this.router.navigate(['ubs', 'order']);
+        }
+      });
   }
 }

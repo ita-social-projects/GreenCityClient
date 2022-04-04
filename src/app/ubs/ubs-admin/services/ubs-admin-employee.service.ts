@@ -2,14 +2,13 @@ import { Observable } from 'rxjs';
 import { Employees } from '../models/ubs-admin.interface';
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { environment } from '@environment/environment';
-import { ubsAdminEmployeeLink } from 'src/app/main/links';
+import { ubsAdminEmployeeLink, ubsAdminStationLink } from 'src/app/main/links';
 
 @Injectable({
   providedIn: 'root'
 })
 export class UbsAdminEmployeeService {
-  backend: string = environment.ubsAdmin.backendEmployeesLink;
+  getAllEmployees = `${ubsAdminEmployeeLink}/getAll-active-employees`;
 
   constructor(private http: HttpClient) {}
 
@@ -18,7 +17,7 @@ export class UbsAdminEmployeeService {
       (acc, item) => (Object.values(item)[0] ? `${acc}&${Object.keys(item)[0]}=${Object.values(item)[0]}` : acc),
       ``
     );
-    return this.http.get<Employees>(`${this.backend}?pageNumber=${pageNumber}&pageSize=${pageSize}${urlAttr}`);
+    return this.http.get<Employees>(`${this.getAllEmployees}?pageNumber=${pageNumber}&pageSize=${pageSize}${urlAttr}`);
   }
 
   getAllPositions(): Observable<any[]> {
@@ -26,7 +25,7 @@ export class UbsAdminEmployeeService {
   }
 
   getAllStations(): Observable<any[]> {
-    return this.http.get<any[]>(`${ubsAdminEmployeeLink}/get-all-receiving-station`);
+    return this.http.get<any[]>(`${ubsAdminStationLink}/get-all-receiving-station`);
   }
 
   postEmployee(data): Observable<any> {

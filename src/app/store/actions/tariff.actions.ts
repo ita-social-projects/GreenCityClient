@@ -11,7 +11,7 @@ export enum TariffActions {
 
 export const GetLocations = createAction(TariffActions.GetLocations, props<{ reset: boolean }>());
 
-export const GetLocationsSuccess = createAction(TariffActions.GetLocationsSuccess, props<{ locations: Locations; reset: boolean }>());
+export const GetLocationsSuccess = createAction(TariffActions.GetLocationsSuccess, props<{ locations: Locations[]; reset: boolean }>());
 
 export const AddLocations = createAction(TariffActions.AddLocations, props<{ locations: CreateLocation[] }>());
 

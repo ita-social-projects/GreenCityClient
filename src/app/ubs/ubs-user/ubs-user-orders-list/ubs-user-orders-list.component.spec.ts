@@ -15,9 +15,9 @@ describe('UbsUserOrdersListComponent', () => {
 
   const matDialogMock = jasmine.createSpyObj('dialog', ['open']);
   const fakeIputOrderData = [
-    { generalOrderInfo: { id: 3, dateFormed: 55, orderPaymentStatus: 'UNPAID' }, orderDiscountedPrice: 55, extend: true },
-    { generalOrderInfo: { id: 7, dateFormed: 66, orderPaymentStatus: 'HALF_PAID' }, orderDiscountedPrice: 0, extend: false },
-    { generalOrderInfo: { id: 1, dateFormed: 11, orderPaymentStatus: 'PAID' }, orderDiscountedPrice: -55, extend: false }
+    { id: 3, dateForm: 55, paymentStatus: 'Unpaid', orderFullPrice: 55, extend: true },
+    { id: 7, dateForm: 66, paymentStatus: 'Half paid', orderFullPrice: 0, extend: false },
+    { id: 1, dateForm: 11, paymentStatus: 'Paid', orderFullPrice: -55, extend: false }
   ];
   const fakePoints = 111;
 
@@ -138,9 +138,9 @@ describe('UbsUserOrdersListComponent', () => {
   describe('sortingOrdersByData', () => {
     it('sort orsers data', () => {
       const resultOrderData = [
-        { generalOrderInfo: { id: 7, dateFormed: 66, orderPaymentStatus: 'HALF_PAID' }, orderDiscountedPrice: 0, extend: false },
-        { generalOrderInfo: { id: 3, dateFormed: 55, orderPaymentStatus: 'UNPAID' }, orderDiscountedPrice: 55, extend: true },
-        { generalOrderInfo: { id: 1, dateFormed: 11, orderPaymentStatus: 'PAID' }, orderDiscountedPrice: -55, extend: false }
+        { id: 7, dateForm: 66, paymentStatus: 'Half paid', orderFullPrice: 0, extend: false },
+        { id: 3, dateForm: 55, paymentStatus: 'Unpaid', orderFullPrice: 55, extend: true },
+        { id: 1, dateForm: 11, paymentStatus: 'Paid', orderFullPrice: -55, extend: false }
       ];
       component.sortingOrdersByData();
       expect(component.orders).toEqual(resultOrderData as any);

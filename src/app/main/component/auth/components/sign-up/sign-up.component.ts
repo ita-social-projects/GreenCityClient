@@ -5,7 +5,7 @@ import { Component, EventEmitter, OnInit, OnDestroy, Output } from '@angular/cor
 import { AbstractControl, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { HttpErrorResponse } from '@angular/common/http';
-import { MatDialog, MatDialogRef } from '@angular/material/dialog';
+import { MatDialogRef } from '@angular/material/dialog';
 import { AuthService, GoogleLoginProvider } from 'angularx-social-login';
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
@@ -198,11 +198,7 @@ export class SignUpComponent implements OnInit, OnDestroy {
   }
 
   checkIfItUbs() {
-    if (this.isUbs) {
-      this.ubsStyle = 'ubsStyle';
-    } else {
-      this.ubsStyle = 'greenStyle';
-    }
+    this.ubsStyle = this.isUbs ? 'ubsStyle' : 'greenStyle';
   }
 
   ngOnDestroy(): void {

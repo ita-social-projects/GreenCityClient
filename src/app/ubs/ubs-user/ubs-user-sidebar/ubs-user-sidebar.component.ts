@@ -31,6 +31,28 @@ export class UbsUserSidebarComponent extends UbsBaseSidebarComponent {
       routerLink: 'messages/1'
     }
   ];
+  public listElementsUserMobile: any[] = [
+    {
+      link: 'assets/img/sidebarIcons/workers_icon.svg',
+      name: 'ubs-user.user',
+      routerLink: 'profile'
+    },
+    {
+      link: './assets/img/sidebarIcons/achievement_icon.svg',
+      name: 'ubs-user.invoice',
+      routerLink: 'bonuses'
+    },
+    {
+      link: 'assets/img/sidebarIcons/none_notification_Bell.svg',
+      name: 'ubs-user.messages',
+      routerLink: 'messages/1'
+    },
+    {
+      link: 'assets/img/sidebarIcons/shopping-cart_icon.svg',
+      name: 'ubs-user.orders',
+      routerLink: 'orders'
+    }
+  ];
 
   constructor(public service: UserMessagesService, public breakpointObserver: BreakpointObserver, public jwtService: JwtService) {
     super(service, breakpointObserver, jwtService);

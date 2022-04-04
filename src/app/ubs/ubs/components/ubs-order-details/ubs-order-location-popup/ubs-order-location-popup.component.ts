@@ -1,7 +1,6 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormControl } from '@angular/forms';
 import { MatDialogRef } from '@angular/material/dialog';
-import { Router } from '@angular/router';
 import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
 import { Subject, Observable } from 'rxjs';
 import { takeUntil, startWith, map } from 'rxjs/operators';
@@ -19,6 +18,7 @@ export class UbsOrderLocationPopupComponent implements OnInit, OnDestroy {
   public cities: LocationsName[];
   public selectedLocationId: number;
   public isFetching = false;
+  public isSaveLocation: boolean;
   private courierId = 1;
   private currentLanguage: string;
   public currentLocation: string;
@@ -27,7 +27,6 @@ export class UbsOrderLocationPopupComponent implements OnInit, OnDestroy {
   public filteredOptions: Observable<any>;
 
   constructor(
-    private router: Router,
     private orderService: OrderService,
     private dialogRef: MatDialogRef<UbsOrderLocationPopupComponent>,
     private localStorageService: LocalStorageService
@@ -54,7 +53,7 @@ export class UbsOrderLocationPopupComponent implements OnInit, OnDestroy {
   }
 
   redirectToMain() {
-    this.router.navigate(['ubs']);
+    this.isSaveLocation = false;
   }
 
   private setCurrentLocation(currentLanguage: string): void {
@@ -84,6 +83,7 @@ export class UbsOrderLocationPopupComponent implements OnInit, OnDestroy {
   }
 
   saveLocation() {
+    this.isSaveLocation = true;
     this.orderService.completedLocation(true);
     this.localStorageService.setLocationId(this.selectedLocationId);
     this.localStorageService.setLocations(this.locations);
@@ -100,7 +100,9 @@ export class UbsOrderLocationPopupComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy() {
-    this.passDataToComponent();
+    if (this.isSaveLocation) {
+      this.passDataToComponent();
+    }
     this.destroy$.next();
     this.destroy$.complete();
   }

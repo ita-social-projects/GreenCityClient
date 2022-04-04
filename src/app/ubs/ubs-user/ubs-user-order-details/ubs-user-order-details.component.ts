@@ -1,5 +1,6 @@
 import { Component, Input } from '@angular/core';
 import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
+import { IUserOrderInfo, CheckPaymentStatus } from '../ubs-user-orders-list/models/UserOrder.interface';
 
 @Component({
   selector: 'app-ubs-user-order-details',
@@ -8,10 +9,13 @@ import { LocalStorageService } from '@global-service/localstorage/local-storage.
 })
 export class UbsUserOrderDetailsComponent {
   @Input()
-  order: any;
+  order: IUserOrderInfo;
   public currentLanguage: string;
 
   constructor(private localStorageService: LocalStorageService) {
     this.currentLanguage = this.localStorageService.getCurrentLanguage();
+  }
+  isPaid(order: IUserOrderInfo): boolean {
+    return order.paymentStatus === CheckPaymentStatus.PAID;
   }
 }
