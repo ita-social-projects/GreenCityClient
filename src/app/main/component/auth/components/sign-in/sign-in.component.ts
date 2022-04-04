@@ -15,7 +15,6 @@ import { LocalStorageService } from '@global-service/localstorage/local-storage.
 import { UserOwnAuthService } from '@auth-service/user-own-auth.service';
 import { takeUntil, take } from 'rxjs/operators';
 import { ProfileService } from '../../../user/components/profile/profile-service/profile.service';
-import { FlexDirective, StyleDirective } from '@angular/flex-layout';
 @Component({
   selector: 'app-sign-in',
   templateUrl: './sign-in.component.html',
@@ -53,7 +52,10 @@ export class SignInComponent implements OnInit, OnDestroy {
     private userOwnAuthService: UserOwnAuthService,
     private profileService: ProfileService
   ) {}
-  ngOnDestroy(): void {}
+  ngOnDestroy(): void {
+    this.destroy.next(true);
+    this.destroy.complete();
+  }
 
   ngOnInit() {
     this.localStorageService.ubsRegBehaviourSubject.pipe(takeUntil(this.destroy)).subscribe((value) => (this.isUbs = value));
