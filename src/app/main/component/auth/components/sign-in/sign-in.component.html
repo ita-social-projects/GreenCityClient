@@ -79,7 +79,7 @@
       {{ 'user.auth.sign-in.forgot-password' | translate }}</a
     >
   </div>
-  <button class="primary-global-button" type="submit" [disabled]="!signInForm.valid">
+  <button [class]="ubsStyle" type="submit" [disabled]="!signInForm.valid">
     <span *ngIf="loadingAnim" class="spinner-border spinner-border-sm" role="status" aria-hidden="true"> </span>
     {{ 'user.auth.sign-in.sign-in' | translate }}
   </button>

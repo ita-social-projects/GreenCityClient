@@ -5,7 +5,7 @@ import { Component, EventEmitter, OnInit, OnDestroy, Output } from '@angular/cor
 import { AbstractControl, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { HttpErrorResponse } from '@angular/common/http';
-import { MatDialog, MatDialogRef } from '@angular/material/dialog';
+import { MatDialogRef } from '@angular/material/dialog';
 import { AuthService, GoogleLoginProvider } from 'angularx-social-login';
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
@@ -41,6 +41,7 @@ export class SignUpComponent implements OnInit, OnDestroy {
   public passwordConfirmFieldValue: string;
   public currentLanguage: string;
   public isUbs: boolean;
+  public ubsStyle: string;
   private destroy: Subject<boolean> = new Subject<boolean>();
   private errorsType = {
     name: (error: string) => (this.firstNameErrorMessageBackEnd = error),
@@ -68,6 +69,7 @@ export class SignUpComponent implements OnInit, OnDestroy {
     this.setNullAllMessage();
     this.userOwnSignUp = new UserOwnSignUp();
     this.localStorageService.ubsRegBehaviourSubject.pipe(takeUntil(this.destroy)).subscribe((value) => (this.isUbs = value));
+    this.checkIfItUbs();
   }
 
   public onSubmit(userOwnRegister: UserOwnSignUp): void {
@@ -193,6 +195,10 @@ export class SignUpComponent implements OnInit, OnDestroy {
       this.emailErrorMessageBackEnd = error.name === 'email' ? error.message : this.emailErrorMessageBackEnd;
       this.passwordConfirmErrorMessageBackEnd = error.name === 'password' ? error.message : this.passwordConfirmErrorMessageBackEnd;
     });
+  }
+
+  checkIfItUbs() {
+    this.ubsStyle = this.isUbs ? 'ubsStyle' : 'greenStyle';
   }
 
   ngOnDestroy(): void {

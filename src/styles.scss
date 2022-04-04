@@ -40,6 +40,12 @@ body {
   flex: 1 1 auto;
 }
 
+.cdk-global-scrollblock {
+  position: static !important;
+  width: initial !important;
+  overflow-y: inherit !important;
+}
+
 .cdk-drag-preview {
   box-sizing: border-box;
   border-radius: 4px;
