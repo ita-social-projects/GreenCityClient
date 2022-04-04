@@ -472,7 +472,8 @@
     "orders": "Замовлення",
     "invoice": "Рахунок",
     "user_data": "Дані користувача",
-    "messages": "Повідомлення"
+    "messages": "Повідомлення",
+    "user": "Користувач"
   },
   "ubs-tariffs": {
     "placeholder-region": "Оберіть область",
