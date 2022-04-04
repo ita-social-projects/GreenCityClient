@@ -198,11 +198,7 @@ export class SignUpComponent implements OnInit, OnDestroy {
   }
 
   checkIfItUbs() {
-    if (this.isUbs) {
-      this.ubsStyle = 'ubsStyle';
-    } else {
-      this.ubsStyle = 'greenStyle';
-    }
+    this.ubsStyle = this.isUbs ? 'ubsStyle' : 'greenStyle';
   }
 
   ngOnDestroy(): void {

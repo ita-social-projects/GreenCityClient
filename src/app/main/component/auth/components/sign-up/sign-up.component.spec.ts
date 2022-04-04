@@ -365,4 +365,18 @@ describe('SignUpComponent', () => {
       expect(component.backEndError).toBe('Ups');
     });
   });
+
+  describe('checkIfItUbs', () => {
+    it('expected result if isUbs is true', () => {
+      component.isUbs = true;
+      component.checkIfItUbs();
+      expect(component.ubsStyle).toBe('ubsStyle');
+    });
+
+    it('expected result if isUbs is false', () => {
+      component.isUbs = false;
+      component.checkIfItUbs();
+      expect(component.ubsStyle).toBe('greenStyle');
+    });
+  });
 });
