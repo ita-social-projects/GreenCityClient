@@ -1,3 +1,14 @@
+$btnblackcol: #1d2830;
+@mixin btnstyle {
+  width: 168px;
+  height: 36px;
+  font-family: 'Lato';
+  font-style: normal;
+  font-weight: 700;
+  font-size: 14px;
+  line-height: 20px;
+}
+
 .ubs_profile-container {
   font-family: var(--primary-font);
   font-size: 0.9em;
@@ -12,14 +23,30 @@
     justify-content: space-between;
 
     .header-text {
-      padding-top: 30px;
+      display: flex;
+      width: 1000px;
+      align-items: baseline;
+
+      .open {
+        @include btnstyle;
+        margin-left: 280px;
+        color: $btnblackcol;
+        border-color: $btnblackcol;
+      }
+      .delete {
+        @include btnstyle;
+        color: var(--ubs-button-light-green);
+        border: none;
+      }
     }
   }
 
   .input-group {
+    background-color: #ffffff;
     padding: 20px;
     width: 905px;
-    box-shadow: 0 14px 28px rgba(0, 0, 0, 0.25);
+    box-shadow: 4px 4px 10px rgba(151, 151, 151, 0.3);
+    border-radius: 10px;
 
     form {
       margin-left: 15px;
@@ -58,6 +85,13 @@
     border-color: var(--ubs-button-light-green);
   }
 
+  .edit {
+    @include btnstyle;
+    color: #5639bb;
+    border-color: #5639bb;
+    margin-left: 13px;
+  }
+
   .btn-ubs-outline-success:hover {
     color: var(--ubs-secondary-dark-grey);
     background-color: var(--ubs-button-light-green);
@@ -66,37 +100,35 @@
 
   h5 {
     font-weight: bold;
-    margin: 30px 0 30px 15px;
+    margin: 0px 0 30px 0px;
+    padding: 0;
+  }
+
+  .profile-contacts-h5-style {
+    font-weight: thin;
   }
 
   h3 {
     font-weight: bold;
-    color: black;
+    color: $btnblackcol;
+    margin-bottom: 30px;
   }
 
   .form-group {
     p {
       padding: 13px 13px 13px 0;
-      color: black;
+      color: $btnblackcol;
       font-size: 16px;
     }
   }
 
   .inline {
     display: flex;
-    flex-wrap: wrap;
-  }
+    width: 350px;
 
-  .account {
-    display: flex;
-    margin: 20px;
-
-    img {
-      width: 50px;
-    }
-
-    p {
-      margin: 15px 30px;
+    .col-sm-6 {
+      padding: 0;
+      margin-bottom: 0;
     }
   }
 
@@ -125,6 +157,11 @@
       margin: 0 10px;
       box-shadow: 0 14px 28px rgba(0, 0, 0, 0.25);
     }
+  }
+
+  .contacts {
+    display: block;
+    width: 100%;
   }
 }
 

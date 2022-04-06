@@ -4,10 +4,15 @@
       <div class="ubs_profile-header">
         <div class="header-text">
           <h3>{{ 'ubs-client-profile.data' | translate }}</h3>
+          <ng-container *ngIf="!isEditing">
+            <button class="btn btn-outline-success open" (click)="openChangePasswordDialog()">
+              {{ 'ubs-client-profile.btn.change-password' | translate }}
+            </button>
+            <button class="btn btn-outline-success delete" (click)="openDeleteProfileDialog()">
+              {{ 'ubs-client-profile.btn.delete-profile' | translate }}
+            </button>
+          </ng-container>
         </div>
-        <button class="btn btn-outline-success edit" (click)="onEdit()" [disabled]="isEditing || isFetching">
-          {{ 'ubs-client-profile.btn.edit' | translate }}
-        </button>
       </div>
       <div class="container-fluid">
         <p *ngIf="isEditing" class="message-text">
@@ -29,7 +34,7 @@
               <p *ngIf="!isEditing">{{ userProfile?.recipientSurname }}</p>
             </div>
           </div>
-          <h5>{{ 'ubs-client-profile.contacts' | translate }}</h5>
+          <h5 class="profile-contacts-h5-style">{{ 'ubs-client-profile.contacts' | translate }}</h5>
           <div class="contacts inline">
             <div class="form-group col-sm-6">
               <label for="recipientEmail" class="form-label">{{ 'ubs-client-profile.email' | translate }}</label>
@@ -57,6 +62,9 @@
                 [imask]="{ mask: phoneMask }"
               />
               <p *ngIf="!isEditing">{{ formatedPhoneNumber(userProfile?.recipientPhone) }}</p>
+            </div>
+            <div class="form-group col-sm-6">
+              <label for="recipientNotification" class="form-label">{{ 'ubs-client-profile.get-notification-in' | translate }}</label>
             </div>
           </div>
           <div class="address" formArrayName="address" *ngFor="let address of userForm.controls.address['controls']; let i = index">
@@ -103,14 +111,10 @@
               </div>
             </div>
           </div>
-          <h5>{{ 'ubs-client-profile.account' | translate }}</h5>
-          <div class="account">
-            <span>
-              <img [src]="googleIcon" alt="google bind" />
-            </span>
-            <p>{{ 'ubs-client-profile.account-message' | translate }}</p>
-          </div>
         </form>
+        <button class="btn btn-outline-success edit" (click)="onEdit()" [disabled]="isEditing || isFetching">
+          {{ 'ubs-client-profile.btn.edit' | translate }}
+        </button>
       </div>
       <div class="submit-btns" *ngIf="isEditing">
         <button class="btn btn-outline-success cancel" type="submit" (click)="onCancel()">
@@ -119,19 +123,6 @@
         <button class="btn btn-success" type="submit" (click)="onSubmit()" [disabled]="!userForm.valid">
           {{ 'ubs-client-profile.btn.save' | translate }}
         </button>
-      </div>
-      <div class="ubs_profile-footer" *ngIf="!isEditing">
-        <div class="footer-text">
-          <h3>{{ 'ubs-client-profile.additional' | translate }}</h3>
-        </div>
-        <div class="footer-btns">
-          <button class="btn btn-outline-success open" (click)="openChangePasswordDialog()">
-            {{ 'ubs-client-profile.btn.change-password' | translate }}
-          </button>
-          <button class="btn btn-outline-success delete" (click)="openDeleteProfileDialog()">
-            {{ 'ubs-client-profile.btn.delete-profile' | translate }}
-          </button>
-        </div>
       </div>
     </div>
     <ng-template #spinner>
