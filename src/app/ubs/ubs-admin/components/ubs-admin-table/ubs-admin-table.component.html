@@ -1,7 +1,3 @@
-<div *ngIf="idsToChange.length > 1" class="edit-order-detail-btn">
-  <button (click)="editDetails()">Edit orders details</button>
-</div>
-
 <div class="research">
   <div class="search">
     <div class="search-input">
@@ -206,14 +202,20 @@
           [nameOfColumn]="column.title.key"
           [ordersToChange]="idsToChange"
           [isAllChecked]="allChecked"
+          [doneOrCanceled]="checkStatusOfOrders(row.id)"
+          [dataForPopUp]="dataForPopUp"
+          [showPopUp]="showPopUp"
           (editCellSelect)="editCell($event)"
+          (editButtonClick)="openPopUpRequires($event)"
           (cancelEdit)="cancelEditCell($event)"
           (showBlockedInfo)="showBlockedMessage($event)"
           class="column_cell"
         >
+          <!-- (getIdOfOrder)="" -->
         </app-table-cell-select>
         <app-table-cell-date
           *ngIf="column.editType === 'DATE'"
+          [doneOrCanceled]="checkStatusOfOrders(row.id)"
           [date]="row[column.title.key]"
           [nameOfColumn]="column.title.key"
           [id]="row.id"
@@ -231,6 +233,7 @@
           [id]="row.id"
           [ordersToChange]="idsToChange"
           [isAllChecked]="allChecked"
+          [doneOrCanceled]="checkStatusOfOrders(row.id)"
           (cancelEdit)="cancelEditCell($event)"
           (editTimeCell)="editCell($event)"
           (showBlockedInfo)="showBlockedMessage($event)"
@@ -238,6 +241,7 @@
         </app-table-cell-time>
         <mat-checkbox
           *ngIf="column.editType === 'CHECKBOX'"
+          [disabled]="checkStatusOfOrders(row.id)"
           (change)="selectRowsToChange($event, row.id)"
           class="select-cell"
           (change)="$event ? selection.toggle(row) : null"
