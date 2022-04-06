@@ -13,6 +13,7 @@ export class TableCellDateComponent {
   @Input() id: number;
   @Input() ordersToChange: number[];
   @Input() isAllChecked: boolean;
+  @Input() doneOrCanceled: boolean;
 
   @Output() editDateCell = new EventEmitter();
   @Output() showBlockedInfo = new EventEmitter();

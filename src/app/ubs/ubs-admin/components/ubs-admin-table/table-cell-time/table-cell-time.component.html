@@ -1,4 +1,4 @@
-<div class="time_to_show">
+<div class="time_to_show" *ngIf="!doneOrCanceled">
   <span>{{ from }} - {{ to }}</span>
   <span *ngIf="!isEditable && !isBlocked" class="pointer" (click)="edit()">&#9998;</span>
   <mat-spinner *ngIf="isBlocked" strokeWidth="3" diameter="20"></mat-spinner>

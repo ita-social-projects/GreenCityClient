@@ -1,4 +1,4 @@
-<div *ngIf="!isEditable" class="date_to_show">
+<div *ngIf="!isEditable && !doneOrCanceled" class="date_to_show">
   <!-- Clear when back send normal value -->
   <span *ngIf="date === '-'">{{ date }}</span>
   <!--  -->
