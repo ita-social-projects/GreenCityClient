@@ -187,6 +187,13 @@ export interface IUpdateResponsibleEmployee {
   positionId: number;
 }
 
+export interface IUpdateExportDetails {
+  receivingStationId: number;
+  dateExport: string;
+  timeDeliveryFrom: string;
+  timeDeliveryTo: string;
+}
+
 export interface IResponsiblePersons {
   allPositionsEmployees: Map<string, IEmployee[]>;
   currentPositionEmployees: Map<string, string>;
@@ -366,4 +373,10 @@ export interface IBigOrderTableParams {
 
 export interface IOrdersViewParameters {
   titles: string;
+}
+
+export interface IResponsiblePersonsData {
+  translate: string;
+  formControlName: string;
+  responsiblePersonsArray: string[];
 }
