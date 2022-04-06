@@ -3,23 +3,31 @@
 }
 
 .main {
-  max-width: 40vw;
+  min-width: 670px;
+  background: #fff;
+  border-radius: 2px;
 
-  h6 {
-    color: var(--ubs-primary-grey);
-    font-family: sans-serif;
-    font-style: normal;
-    font-weight: 600;
-    font-size: 16px;
+  .title-block {
+    width: 544px;
+    padding: 7px 0 31px 45px;
+
+    h4 {
+      font-style: normal;
+      font-weight: 700;
+      font-size: 16px;
+      line-height: 20px;
+      letter-spacing: 0.1px;
+      color: var(--ubs-primary-grey);
+    }
   }
 }
 
 .form {
   flex: 50%;
-  align-items: self-end;
   display: flex;
+  align-items: stretch;
   flex-direction: column;
-  padding-left: 5px;
+  padding: 0 45px;
 }
 
 .form_styles {
@@ -104,23 +112,27 @@ input {
 }
 
 .time-from {
-  width: 82px;
+  width: 69px;
   border-right: none;
   border-radius: 4px 0 0 4px;
   text-align: center;
 }
 
 .time-to {
-  width: 70px;
+  width: 100px;
   margin-right: 40px;
   margin-top: 4px;
-  text-align: center;
+  text-align: left;
   border-left: none;
   border-radius: 0 4px 4px 0;
+  background: right url(../../../../../assets/img/ubs/clock.png) no-repeat;
+  background-size: 16px;
+  background-position-x: 80%;
 }
 
 select {
-  width: 215px;
+  width: 224px;
+  height: 36px;
 
   @include input;
 }
@@ -204,8 +216,6 @@ select {
 }
 
 .form__select {
-  width: 268px;
-  height: 36px;
   background: var(--ubs-primary-white);
   border: 1px solid var(--ubs-quintynary-light-grey);
   box-sizing: border-box;
@@ -216,35 +226,49 @@ select {
   }
 }
 
-button:disabled {
-  background-color: var(--ubs-quintynary-light-grey);
-  border: var(--ubs-quintynary-light-grey);
-  color: var(--ubs-secondary-light-grey);
+.form__select:focus {
+  outline: none;
 }
 
-.cancel-button,
-.save-button {
-  color: var(--ubs-tertiary-dark-grey);
-  font-weight: bold;
-  padding: 10px 25px;
-  margin-right: 20px;
-  margin-bottom: 35px;
-  border-radius: 5px;
-}
-
-.cancel-button {
-  border: 1px solid var(--ubs-tertiary-dark-grey);
-  background-color: transparent;
-}
-
-.save-button {
-  border: none;
-  background-color: var(--ubs-button-light-green);
+.form__select.ng-touched.ng-invalid {
+  border-color: red;
 }
 
 .controls {
   display: flex;
-  margin-left: auto;
+  width: 100%;
+  justify-content: flex-end;
+  padding: 0 60px;
+  margin: 10px 50px 10px 10px;
+
+  .cancel-button,
+  .save-button {
+    color: var(--ubs-tertiary-dark-grey);
+    width: 127px;
+    font-weight: bold;
+    font-size: 16px;
+    line-height: 28px;
+    padding: 8px 24px;
+    margin-right: 20px;
+    margin-bottom: 35px;
+    border-radius: 5px;
+  }
+
+  .cancel-button {
+    border: 1px solid var(--ubs-tertiary-dark-grey);
+    background-color: transparent;
+  }
+
+  .save-button {
+    border: none;
+    background-color: var(--ubs-button-light-green);
+  }
+
+  .save-button[disabled] {
+    background-color: var(--ubs-quintynary-light-grey);
+    border: var(--ubs-quintynary-light-grey);
+    color: var(--ubs-secondary-light-grey);
+  }
 }
 
 .box {
@@ -253,15 +277,12 @@ button:disabled {
   margin-bottom: 30px;
 }
 
-.save-button[disabled] {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-}
-
 input.ng-touched.ng-invalid {
   border-color: red;
+}
+
+input:disabled {
+  background: var(--ubs-primary-white);
 }
 
 select.ng-touched.ng-invalid {

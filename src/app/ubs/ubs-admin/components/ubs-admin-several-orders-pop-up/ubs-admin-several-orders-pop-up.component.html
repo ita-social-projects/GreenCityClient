@@ -1,15 +1,15 @@
 <div class="main">
   <div class="title-block">
-    <h6>{{ 'several-orders-pop-up.title' | translate }}</h6>
+    <h4>{{ 'several-orders-pop-up.title' | translate }}</h4>
   </div>
 
   <form class="form_styles" *ngIf="ordersForm" [formGroup]="ordersForm">
     <div class="form_container">
       <div class="form" formGroupName="exportDetailsDto">
-        <div class="form-row">
-          <div class="form-group export-date row-md-4">
+        <div class="form-row-container">
+          <div class="form-group export-date">
             <label class="form__label" for="export-date">{{ 'export-details.export-date' | translate }}</label>
-            <input type="date" class="form-control" id="export-date" formControlName="dateExport" />
+            <input type="date" class="form-control" id="export-date" formControlName="dateExport" min="{{ this.currentDate }}" />
           </div>
 
           <div class="time_export">
@@ -20,7 +20,6 @@
               <div class="form-group">
                 <input
                   autocomplete="off"
-                  placeholder="- -"
                   class="form-control time-from"
                   id="export-time-from"
                   formControlName="timeDeliveryFrom"
@@ -32,7 +31,6 @@
                 <label class="form__label" for="export-time-to"></label>
                 <input
                   autocomplete="off"
-                  placeholder="- -"
                   class="form-control time-to"
                   id="export-time-to"
                   formControlName="timeDeliveryTo"
@@ -41,9 +39,9 @@
               </div>
             </div>
           </div>
-          <div class="form-group col-md-4">
+          <div class="form-group">
             <label class="form__label" for="station">{{ 'export-details.station' | translate }}</label>
-            <select formControlName="receivingStation" class="form-control" id="station">
+            <select formControlName="receivingStationId" class="form-control form__select" id="station">
               <option *ngFor="let station of receivingStations" [value]="station">
                 {{ station }}
               </option>
@@ -52,41 +50,11 @@
         </div>
       </div>
       <div class="form" formGroupName="responsiblePersonsForm">
-        <div class="form-row">
-          <div class="form-group col-md-4">
-            <label class="form__label">{{ 'responsible-persons.call-manager' | translate }}</label>
-            <select formControlName="callManager" class="form-control form__select">
-              <option *ngFor="let employee of allCallManagers" [value]="employee">
-                {{ employee }}
-              </option>
-            </select>
-          </div>
-        </div>
-        <div class="form-row">
-          <div class="form-group col-md-4">
-            <label class="form__label">{{ 'responsible-persons.logistician' | translate }}</label>
-            <select formControlName="logistician" class="form-control form__select">
-              <option *ngFor="let employee of allLogisticians" [value]="employee">
-                {{ employee }}
-              </option>
-            </select>
-          </div>
-        </div>
-        <div class="form-row">
-          <div class="form-group col-md-4">
-            <label class="form__label">{{ 'responsible-persons.navigator' | translate }}</label>
-            <select formControlName="navigator" class="form-control form__select">
-              <option *ngFor="let employee of allNavigators" [value]="employee">
-                {{ employee }}
-              </option>
-            </select>
-          </div>
-        </div>
-        <div class="form-row">
-          <div class="form-group col-md-4">
-            <label class="form__label">{{ 'responsible-persons.driver' | translate }}</label>
-            <select formControlName="driver" class="form-control form__select">
-              <option *ngFor="let employee of allDrivers" [value]="employee">
+        <div class="form-row" *ngFor="let person of responsiblePersonsData">
+          <div class="form-group">
+            <label class="form__label">{{ person.translate | translate }}</label>
+            <select formControlName="{{ person.formControlName }}" class="form-control form__select">
+              <option *ngFor="let employee of person.responsiblePersonsArray" [value]="employee">
                 {{ employee }}
               </option>
             </select>
@@ -94,12 +62,12 @@
         </div>
       </div>
     </div>
-    <div class="row">
+    <div class="controls-row">
       <div class="controls">
-        <button type="reset" class="cancel-button" (click)="cancelPopUp()">
+        <button type="reset" class="cancel-button" [mat-dialog-close]="false">
           {{ 'order-edit.btn.cancel' | translate }}
         </button>
-        <button type="submit" class="save-button" [disabled]="ordersForm.valid">
+        <button type="submit" class="save-button" [disabled]="!ordersForm.valid" (click)="onSubmit()">
           {{ 'order-edit.btn.save' | translate }}
         </button>
       </div>
