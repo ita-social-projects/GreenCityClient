@@ -67,8 +67,7 @@ export class OrderService {
   }
 
   deleteAddress(address: Address): Observable<any> {
-    const body = address.id;
-    return this.http.post<any>(`${this.url}/${address.id}/delete-order-address`, body);
+    return this.http.delete<any>(`${this.url}/order-addresses/${address.id}`);
   }
 
   findAllAddresses(): Observable<any> {
