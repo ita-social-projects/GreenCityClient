@@ -121,12 +121,12 @@ describe('UBSAddAddressPopUpComponent', () => {
   });
 
   it('component function addAdress should set updatedAddresses from via orderService', () => {
-    const response: Address[] = [];
+    const response: { addressList: Address[] } = { addressList: [] };
     orderService = TestBed.inject(OrderService);
     spyOn(orderService, 'addAdress').and.returnValue(of(response));
     component.addAdress();
     fixture.detectChanges();
-    expect(component.updatedAddresses).toEqual(response);
+    expect(component.updatedAddresses).toEqual(response.addressList);
   });
 
   it('destroy Subject should be closed after ngOnDestroy()', () => {
