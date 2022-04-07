@@ -265,7 +265,7 @@ export class UBSPersonalInformationComponent extends FormBaseComponent implement
     this.orderService
       .deleteAddress(address)
       .pipe(takeUntil(this.destroy))
-      .subscribe((list) => {
+      .subscribe((list: { addressList: Address[] }) => {
         this.addresses = list.addressList;
         if (this.addresses[0]) {
           this.checkAddress(this.addresses[0].id);

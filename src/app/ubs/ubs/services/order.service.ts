@@ -63,15 +63,15 @@ export class OrderService {
   }
 
   addAdress(adress: Address): Observable<any> {
-    return this.http.post<Address>(`${this.url}/save-order-address`, adress);
+    return this.http.post<{ addressList: Address[] }>(`${this.url}/save-order-address`, adress);
   }
 
   deleteAddress(address: Address): Observable<any> {
-    return this.http.delete<any>(`${this.url}/order-addresses/${address.id}`);
+    return this.http.delete<{ addressList: Address[] }>(`${this.url}/order-addresses/${address.id}`);
   }
 
   findAllAddresses(): Observable<any> {
-    return this.http.get<Address[]>(`${this.url}/findAll-order-address`);
+    return this.http.get<{ addressList: Address[] }>(`${this.url}/findAll-order-address`);
   }
 
   setOrder(order: Order) {
