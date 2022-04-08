@@ -62,11 +62,6 @@ $btnblackcol: #1d2830;
     }
   }
 
-  label {
-    margin: 0;
-    color: var(--ubs-secondary-grey);
-  }
-
   input {
     font-size: 1em;
   }
@@ -129,6 +124,11 @@ $btnblackcol: #1d2830;
     .col-sm-6 {
       padding: 0;
       margin-bottom: 0;
+
+      label {
+        margin: 0;
+        color: var(--ubs-secondary-grey);
+      }
     }
   }
 
@@ -210,4 +210,17 @@ $btnblackcol: #1d2830;
       margin-right: 30px;
     }
   }
+}
+
+::ng-deep .mat-checkbox-checked .mat-checkbox-background,
+::ng-deep .mat-checkbox-indeterminate .mat-checkbox-background,
+::ng-deep .mat-checkbox-checked:not(.mat-checkbox-disabled).mat-accent .mat-ripple-element,
+::ng-deep .mat-checkbox:active:not(.mat-checkbox-disabled).mat-accent .mat-ripple-element {
+  background-color: var(--ubs-quaternary-dark-grey) !important;
+}
+
+.checkbox-wrapper {
+  width: 180px;
+  display: flex;
+  justify-content: space-between;
 }
