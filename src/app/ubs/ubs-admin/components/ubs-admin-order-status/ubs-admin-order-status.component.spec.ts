@@ -2,7 +2,7 @@ import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { TranslateModule } from '@ngx-translate/core';
 import { MatDialog } from '@angular/material/dialog';
 import { OrderService } from '../../services/order.service';
-import { FormGroup, FormControl } from '@angular/forms';
+import { FormGroup, FormControl, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { AddOrderCancellationReasonComponent } from '../add-order-cancellation-reason/add-order-cancellation-reason.component';
 
 import { UbsAdminOrderStatusComponent } from './ubs-admin-order-status.component';
@@ -30,12 +30,14 @@ describe('UbsAdminOrderStatusComponent', () => {
 
   const FormGroupMock = new FormGroup({
     orderStatus: new FormControl(''),
+    adminComment: new FormControl(''),
     cancellationReason: new FormControl(''),
     cancellationComment: new FormControl('')
   });
 
   const GeneralInfoFake = {
     orderStatus: 'DONE',
+    adminComment: 'Admin',
     orderPaymentStatus: 'PAID',
     orderStatusesDtos: [
       { ableActualChange: false, key: 'DONE', translation: 'Formed' },
@@ -47,7 +49,7 @@ describe('UbsAdminOrderStatusComponent', () => {
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       declarations: [UbsAdminOrderStatusComponent],
-      imports: [TranslateModule.forRoot()],
+      imports: [TranslateModule.forRoot(), FormsModule, ReactiveFormsModule],
       providers: [
         { provide: OrderService, useValue: OrderServiceFake },
         { provide: MatDialog, useValue: matDialogMock }

@@ -3,11 +3,16 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { TranslateModule } from '@ngx-translate/core';
 import { MatDialog } from '@angular/material/dialog';
 import { AddViolationsComponent } from '../../../add-violations/add-violations.component';
+import { MatTooltipModule } from '@angular/material/tooltip';
 
 import { UbsAdminCustomerViolationsComponent } from './ubs-admin-customer-violations.component';
 import { AdminCustomersService } from 'src/app/ubs/ubs-admin/services/admin-customers.service';
 import { of } from 'rxjs';
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
+import { InfiniteScrollModule } from 'ngx-infinite-scroll';
+import { MatTableModule } from '@angular/material/table';
+import { ServerTranslatePipe } from 'src/app/shared/translate-pipe/translate-pipe.pipe';
+import { ResizeColumnDirective } from 'src/app/ubs/ubs-admin/derictives/resize-table-columns.directive';
 
 describe('UbsAdminCustomerViolationsComponent', () => {
   let component: UbsAdminCustomerViolationsComponent;
@@ -42,8 +47,8 @@ describe('UbsAdminCustomerViolationsComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [UbsAdminCustomerViolationsComponent],
-      imports: [TranslateModule.forRoot()],
+      declarations: [UbsAdminCustomerViolationsComponent, ServerTranslatePipe, ResizeColumnDirective],
+      imports: [TranslateModule.forRoot(), InfiniteScrollModule, MatTableModule, MatTooltipModule],
       providers: [
         { provide: ActivatedRoute, useValue: ActivatedRouteFake },
         { provide: Router, useValue: RouteFake },
