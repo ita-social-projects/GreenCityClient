@@ -35,7 +35,6 @@ describe('UbsAdminCustomerOrdersComponent', () => {
       ]
     })
   );
-  //MatTableModule
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       declarations: [UbsAdminCustomerOrdersComponent, ServerTranslatePipe, ResizeColumnDirective],
