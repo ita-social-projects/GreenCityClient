@@ -83,7 +83,6 @@ describe('UbsAdminTariffsCourierPopUpComponent', () => {
   it('should add a new courier', () => {
     component.addCourier();
     expect(tariffsServiceMock.addCourier).toHaveBeenCalled();
-    expect(matDialogRefMock.close).toHaveBeenCalled();
   });
 
   it('should edit the courier', () => {
