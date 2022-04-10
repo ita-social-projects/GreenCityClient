@@ -220,17 +220,6 @@ describe('TariffsService', () => {
     request.flush(courier);
   });
 
-  it('should add station', () => {
-    service.addStation(station).subscribe((data) => {
-      expect(data).toBe(station);
-    });
-
-    const request = httpMock.expectOne(mainUbsLink + '/ubs/superAdmin/create-receiving-station');
-    expect(request.request.method).toBe('POST');
-    expect(request.request.body).toEqual(station);
-    request.flush(station);
-  });
-
   it('should edit station', () => {
     service.editStation(station).subscribe((data) => {
       expect(data).toBe(station);
