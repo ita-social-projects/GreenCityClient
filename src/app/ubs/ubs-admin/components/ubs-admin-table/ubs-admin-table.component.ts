@@ -383,7 +383,7 @@ export class UbsAdminTableComponent implements OnInit, AfterViewChecked, OnDestr
       .filter((array) => array.length !== 0);
     this.showPopUp = sortedOrders.length !== 0 ? true : false;
   }
-  selectRowsToChange(event, id: number) {
+  selectRowsToChange(event, id: number): void {
     if (event.checked) {
       this.idsToChange.push(id);
     } else {

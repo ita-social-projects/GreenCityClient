@@ -1,26 +1,16 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { FormBuilder, FormGroup, NumberValueAccessor, Validators } from '@angular/forms';
 import { MatDialogRef } from '@angular/material/dialog';
-import { IResponsiblePersonsData, IUpdateExportDetails, IUpdateResponsibleEmployee } from '../../models/ubs-admin.interface';
+import {
+  IResponsiblePersonsData,
+  IUpdateExportDetails,
+  IUpdateResponsibleEmployee,
+  ResponsibleEmployee,
+  FormFieldsName,
+  IDataForPopUp
+} from '../../models/ubs-admin.interface';
 import { OrderService } from '../../services/order.service';
 import { fromSelect, toSelect } from '../ubs-admin-table/table-cell-time/table-cell-time-range';
-
-enum ResponsibleEmployee {
-  CallManager = 2,
-  Logistician,
-  Navigator,
-  Driver
-}
-
-enum FormFieldsName {
-  CallManager = 'responsibleCaller',
-  Logistician = 'responsibleLogicMan',
-  Navigator = 'responsibleNavigator',
-  Driver = 'responsibleDriver',
-  TimeDeliveryFrom = 'timeDeliveryFrom',
-  TimeDeliveryTo = 'timeDeliveryTo',
-  ReceivingStation = 'receivingStation'
-}
 
 @Component({
   selector: 'app-ubs-admin-several-orders-pop-up',
@@ -46,9 +36,9 @@ export class UbsAdminSeveralOrdersPopUpComponent implements OnInit {
   values = {};
   ordersForm: FormGroup;
 
-  @Input() dataFromTable;
-  @Input() ordersId;
-  @Input() currentLang;
+  @Input() dataFromTable: IDataForPopUp[];
+  @Input() ordersId: number[];
+  @Input() currentLang: string;
 
   constructor(
     private fb: FormBuilder,
@@ -58,10 +48,11 @@ export class UbsAdminSeveralOrdersPopUpComponent implements OnInit {
 
   ngOnInit(): void {
     this.initForm();
+    console.log(this.dataFromTable);
     this.currentDate = new Date().toISOString().split('T')[0];
   }
 
-  initForm() {
+  initForm(): void {
     this.ordersForm = this.fb.group({
       exportDetailsDto: this.fb.group({
         dateExport: [null, [Validators.required]],
@@ -118,7 +109,7 @@ export class UbsAdminSeveralOrdersPopUpComponent implements OnInit {
     this.showTimePicker = false;
   }
 
-  parseStrToTime(dateStr: string, date: Date) {
+  parseStrToTime(dateStr: string, date: Date): string {
     const hours = dateStr.split(':')[0];
     const minutes = dateStr.split(':')[1];
     date.setHours(+hours + 2);
@@ -166,31 +157,16 @@ export class UbsAdminSeveralOrdersPopUpComponent implements OnInit {
     this.ordersForm.disable();
     newValues.orderId = this.ordersId;
     const responsibleEmployeeData = this.ordersForm.get('responsiblePersonsForm').value;
+    const responsibleProps = Object.keys(responsibleEmployeeData);
     const arrEmployees: IUpdateResponsibleEmployee[] = [];
     newValues.exportDetailsDto = this.createExportDetailsDto(this.ordersForm.get('exportDetailsDto').value);
-    if (responsibleEmployeeData.responsibleCaller) {
-      arrEmployees.push(
-        this.getFilledEmployeeData(responsibleEmployeeData.responsibleCaller, ResponsibleEmployee.CallManager, FormFieldsName.CallManager)
-      );
-    }
-
-    if (responsibleEmployeeData.responsibleLogicMan) {
-      arrEmployees.push(
-        this.getFilledEmployeeData(responsibleEmployeeData.responsibleLogicMan, ResponsibleEmployee.Logistician, FormFieldsName.Logistician)
-      );
-    }
-
-    if (responsibleEmployeeData.responsibleNavigator) {
-      arrEmployees.push(
-        this.getFilledEmployeeData(responsibleEmployeeData.responsibleNavigator, ResponsibleEmployee.Navigator, FormFieldsName.Navigator)
-      );
-    }
-
-    if (responsibleEmployeeData.responsibleDriver) {
-      arrEmployees.push(
-        this.getFilledEmployeeData(responsibleEmployeeData.responsibleDriver, ResponsibleEmployee.Driver, FormFieldsName.Driver)
-      );
-    }
+    console.log(responsibleEmployeeData);
+    responsibleProps.forEach((item: string) => {
+      const value = responsibleEmployeeData[item];
+      if (value) {
+        arrEmployees.push(this.getFilledEmployeeData(value, this.matchProps(item), item));
+      }
+    });
     newValues.updateResponsibleEmployeeDto = arrEmployees;
     this.values = newValues;
 
@@ -203,6 +179,19 @@ export class UbsAdminSeveralOrdersPopUpComponent implements OnInit {
     exportDetails.timeDeliveryTo = this.parseStrToTime(exportDetails.timeDeliveryTo, new Date(exportDetails.dateExport));
 
     return exportDetails;
+  }
+
+  matchProps(prop: string): number {
+    switch (prop) {
+      case FormFieldsName.CallManager:
+        return ResponsibleEmployee.CallManager;
+      case FormFieldsName.Driver:
+        return ResponsibleEmployee.Driver;
+      case FormFieldsName.Logistician:
+        return ResponsibleEmployee.Logistician;
+      case FormFieldsName.Navigator:
+        return ResponsibleEmployee.Navigator;
+    }
   }
 
   getReceivingStationId(receivingStationName: string): number {

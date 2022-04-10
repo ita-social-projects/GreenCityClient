@@ -3,6 +3,7 @@ import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
 import { take } from 'rxjs/operators';
 import { IAlertInfo, IEditCell } from 'src/app/ubs/ubs-admin/models/edit-cell.model';
 import { AdminTableService } from 'src/app/ubs/ubs-admin/services/admin-table.service';
+import { IDataForPopUp } from '../../../models/ubs-admin.interface';
 import { OrderService } from '../../../services/order.service';
 
 import { UbsAdminSeveralOrdersPopUpComponent } from '../../ubs-admin-several-orders-pop-up/ubs-admin-several-orders-pop-up.component';
@@ -12,17 +13,17 @@ import { UbsAdminSeveralOrdersPopUpComponent } from '../../ubs-admin-several-ord
   styleUrls: ['./table-cell-select.component.scss']
 })
 export class TableCellSelectComponent implements OnInit {
-  @Input() optional;
+  @Input() optional: any;
   @Input() id: number;
   @Input() nameOfColumn: string;
   @Input() key: string;
-  @Input() currentValue;
+  @Input() currentValue: string;
   @Input() lang: string;
   @Input() ordersToChange: number[];
   @Input() isAllChecked: boolean;
   @Input() doneOrCanceled: boolean;
   @Input() showPopUp: boolean;
-  @Input() dataForPopUp: any;
+  @Input() dataForPopUp: IDataForPopUp[];
 
   public isEditable: boolean;
   public isBlocked: boolean;
