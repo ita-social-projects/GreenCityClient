@@ -1,5 +1,5 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, NumberValueAccessor, Validators } from '@angular/forms';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MatDialogRef } from '@angular/material/dialog';
 import {
   IResponsiblePersonsData,
@@ -48,7 +48,6 @@ export class UbsAdminSeveralOrdersPopUpComponent implements OnInit {
 
   ngOnInit(): void {
     this.initForm();
-    console.log(this.dataFromTable);
     this.currentDate = new Date().toISOString().split('T')[0];
   }
 
@@ -160,7 +159,6 @@ export class UbsAdminSeveralOrdersPopUpComponent implements OnInit {
     const responsibleProps = Object.keys(responsibleEmployeeData);
     const arrEmployees: IUpdateResponsibleEmployee[] = [];
     newValues.exportDetailsDto = this.createExportDetailsDto(this.ordersForm.get('exportDetailsDto').value);
-    console.log(responsibleEmployeeData);
     responsibleProps.forEach((item: string) => {
       const value = responsibleEmployeeData[item];
       if (value) {
@@ -198,7 +196,7 @@ export class UbsAdminSeveralOrdersPopUpComponent implements OnInit {
     let receivingStationId = 0;
     this.dataFromTable.forEach((e) => {
       if (e.title === FormFieldsName.ReceivingStation) {
-        e.arrayData.find((el) => {
+        e.arrayData.forEach((el) => {
           if (el.ua === receivingStationName) {
             receivingStationId = Number(el.key);
           }
