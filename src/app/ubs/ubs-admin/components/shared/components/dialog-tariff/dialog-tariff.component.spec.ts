@@ -1,4 +1,6 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { TranslateModule } from '@ngx-translate/core';
+import { FilterListByLangPipe } from 'src/app/shared/sort-list-by-lang/filter-list-by-lang.pipe';
 
 import { DialogTariffComponent } from './dialog-tariff.component';
 
@@ -8,7 +10,8 @@ describe('DialogTariffComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [DialogTariffComponent]
+      declarations: [DialogTariffComponent],
+      imports: [TranslateModule.forRoot()]
     }).compileComponents();
   }));
 

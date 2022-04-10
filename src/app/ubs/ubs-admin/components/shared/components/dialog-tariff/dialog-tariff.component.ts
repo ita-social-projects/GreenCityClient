@@ -9,6 +9,7 @@ export class DialogTariffComponent implements OnInit {
   @Input() row: TemplateRef<any>;
   @Input() newDate;
   @Input() name: string;
+  @Input() edit: boolean;
 
   constructor() {}
 
