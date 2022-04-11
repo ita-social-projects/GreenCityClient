@@ -557,6 +557,10 @@
     "error_message": "Area not found. Enter again",
     "courier_title": "Add courier",
     "station_title": "Add receiving station",
+    "courier_edit_title": "Edit courier",
+    "station_edit_title": "Edit receiving station",
+    "courier_edit_text": "Choose courier and edit",
+    "station_edit_text": "Choose receiving station",
     "courier": "Courier",
     "station": "Receiving station",
     "date": "Date ",
@@ -565,7 +569,10 @@
     "placeholder_location": "Select city",
     "placeholder_courier": "Select courier",
     "placeholder_station": "Select station",
-    "add-city": "Add city"
+    "add-city": "Add city",
+    "error": "Only alphabetic characters and special characters “-” (hyphen), \" \" (space) and \" ' \" (apostrophe), numbers are allowed. From minimum 3 to maximum 40 characters are allowed.",
+    "stationExist": "The receiving station already exists in the system",
+    "courierExist": "The courier already exists in the system"
   },
   "ubs-tariffs-add-service": {
     "add_service": "Add service",

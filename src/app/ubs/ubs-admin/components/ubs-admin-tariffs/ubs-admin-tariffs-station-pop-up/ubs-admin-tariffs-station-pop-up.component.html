@@ -1,0 +1,65 @@
+<form [formGroup]="stationForm">
+  <div class="w-100">
+    <p *ngIf="!data.edit" class="add-location-title">{{ 'ubs-tariffs-add-location-pop-up.station_title' | translate }}</p>
+    <p *ngIf="data.edit" class="add-location-title">{{ 'ubs-tariffs-add-location-pop-up.station_edit_title' | translate }}</p>
+  </div>
+  <app-dialog-tariff [row]="form" [newDate]="newDate" [name]="authorName" [edit]="true"></app-dialog-tariff>
+  <ng-template #form>
+    <p *ngIf="data.edit" class="edit-text">{{ 'ubs-tariffs-add-location-pop-up.station_edit_text' | translate }}</p>
+    <div class="d-flex">
+      <div class="form-group">
+        <label>{{ 'ubs-tariffs-add-location-pop-up.station' | translate }}</label>
+        <input
+          type="text"
+          class="shadow-none form-control"
+          formControlName="name"
+          #autocompleteTrigger="matAutocompleteTrigger"
+          placeholder="{{ 'ubs-tariffs-add-location-pop-up.placeholder_station' | translate }}"
+          [matAutocomplete]="auto"
+        />
+        <mat-autocomplete #auto="matAutocomplete" (optionSelected)="selectedStation($event)">
+          <ng-container *ngIf="data.edit">
+            <mat-option *ngFor="let option of stations" [value]="option.name">
+              {{ option.name }}
+            </mat-option>
+          </ng-container>
+        </mat-autocomplete>
+        <img
+          *ngIf="data.edit"
+          [src]="icons.arrowDown"
+          class="arrowDown-img"
+          alt="arrowDown"
+          (click)="openAuto($event, autocompleteTrigger)"
+        />
+        <mat-icon *ngIf="name.value.length && !data.edit" class="cross-img" (click)="name.setValue('')">close</mat-icon>
+        <div class="error" *ngIf="name.invalid && name.touched">
+          <p class="validation">{{ 'ubs-tariffs-add-location-pop-up.error' | translate }}</p>
+        </div>
+        <div class="w-100" *ngIf="stationExist">
+          <p class="validation">{{ 'ubs-tariffs-add-location-pop-up.stationExist' | translate }}</p>
+        </div>
+      </div>
+    </div>
+    <div class="d-flex justify-content-end buttons" mat-dialog-actions>
+      <button class="secondary-global-button btn m-0 mr-2" mat-button (click)="onNoClick()">
+        {{ 'ubs-tariffs-add-location-pop-up.cancel_button' | translate }}
+      </button>
+      <button
+        *ngIf="!data.edit"
+        class="primary-global-button btn m-0"
+        [disabled]="stationForm.invalid || stationExist"
+        (click)="addStation()"
+      >
+        {{ 'ubs-tariffs-add-location-pop-up.add_button' | translate }}
+      </button>
+      <button
+        *ngIf="data.edit"
+        class="primary-global-button btn m-0"
+        [disabled]="stationForm.invalid || stationExist"
+        (click)="editStation()"
+      >
+        {{ 'ubs-tariffs-add-location-pop-up.save_button' | translate }}
+      </button>
+    </div>
+  </ng-template>
+</form>

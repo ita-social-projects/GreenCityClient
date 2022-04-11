@@ -47,16 +47,8 @@ export class TariffsService {
     return this.http.get(`${mainUbsLink}/ubs/superAdmin/getLocations`);
   }
 
-  getCouriers() {
-    return this.http.get(`${mainUbsLink}/ubs/superAdmin/getCouriers`);
-  }
-
-  activateLocation(id: number, languageCode) {
-    return this.http.patch(`${mainUbsLink}/ubs/superAdmin/activeLocations/${id}?languageCode=${languageCode}`, languageCode);
-  }
-
-  deactivateLocation(id: number, languageCode) {
-    return this.http.patch(`${mainUbsLink}/ubs/superAdmin/deactivateLocations/${id}?languageCode=${languageCode}`, languageCode);
+  getCouriers(): Observable<any[]> {
+    return this.http.get<any[]>(`${mainUbsLink}/ubs/superAdmin/getCouriers`);
   }
 
   editInfo(info) {
@@ -69,5 +61,25 @@ export class TariffsService {
 
   addLocation(card) {
     return this.http.post(`${mainUbsLink}/ubs/superAdmin/addLocations`, card);
+  }
+
+  getAllStations(): Observable<any[]> {
+    return this.http.get<any[]>(`${mainUbsLink}/ubs/superAdmin/get-all-receiving-station`);
+  }
+
+  addStation(nameOfStation) {
+    return this.http.post(`${mainUbsLink}/ubs/superAdmin/create-receiving-station?name=${nameOfStation}`, nameOfStation);
+  }
+
+  addCourier(nameOfCourier) {
+    return this.http.post(`${mainUbsLink}/ubs/superAdmin/createCourier`, nameOfCourier);
+  }
+
+  editStation(newStation) {
+    return this.http.put(`${mainUbsLink}/ubs/superAdmin/update-receiving-station`, newStation);
+  }
+
+  editCourier(newCourier) {
+    return this.http.put(`${mainUbsLink}/ubs/superAdmin/update-courier`, newCourier);
   }
 }

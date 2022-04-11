@@ -117,7 +117,12 @@
       <button class="secondary-global-button btn m-0 mr-2" mat-button (click)="onNoClick()">
         {{ 'ubs-tariffs-add-location-pop-up.cancel_button' | translate }}
       </button>
-      <button *ngIf="this.data.headerText === 'addTemplate'" class="primary-global-button btn m-0" (click)="addLocation()">
+      <button
+        *ngIf="this.data.headerText === 'addTemplate'"
+        class="primary-global-button btn m-0"
+        [disabled]="locationForm.invalid"
+        (click)="addLocation()"
+      >
         {{ 'ubs-tariffs-add-location-pop-up.add_button' | translate }}
       </button>
       <button *ngIf="this.data.headerText === 'editTemplate'" class="primary-global-button btn m-0">

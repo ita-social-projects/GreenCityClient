@@ -10,8 +10,9 @@
         <span class="menu-item">{{ 'ubs-tariffs.btn.add' | translate }}</span>
         <img [src]="icons.arrowRight" class="arrowRight-img" alt="settings" />
       </button>
-      <button mat-menu-item (click)="openEditLocation()">
+      <button mat-menu-item [matMenuTriggerFor]="edit" class="add-button">
         <span class="menu-item">{{ 'ubs-tariffs.btn.edit' | translate }}</span>
+        <img [src]="icons.arrowRight" class="arrowRight-img" alt="settings" />
       </button>
       <button mat-menu-item (click)="openDeactivateLocation()">
         <span class="menu-item">{{ 'ubs-tariffs.btn.deactivation' | translate }}</span>
@@ -25,6 +26,17 @@
         <span class="menu-item">{{ 'ubs-tariffs.btn.courier' | translate }}</span>
       </button>
       <button mat-menu-item (click)="openAddStationDialog()">
+        <span class="menu-item">{{ 'ubs-tariffs.btn.station' | translate }}</span>
+      </button>
+    </mat-menu>
+    <mat-menu #edit="matMenu">
+      <button mat-menu-item (click)="openEditLocation()">
+        <span class="menu-item">{{ 'ubs-tariffs.btn.location' | translate }}</span>
+      </button>
+      <button mat-menu-item (click)="openEditCourier()">
+        <span class="menu-item">{{ 'ubs-tariffs.btn.courier' | translate }}</span>
+      </button>
+      <button mat-menu-item (click)="openEditStation()">
         <span class="menu-item">{{ 'ubs-tariffs.btn.station' | translate }}</span>
       </button>
     </mat-menu>
@@ -63,7 +75,6 @@
           placeholder="{{ 'ubs-tariffs.placeholder-locality' | translate }}"
           #autocompleteTriggerCity="matAutocompleteTrigger"
           formControlName="city"
-          [disabled]="city.disabled"
           [matAutocomplete]="autoCity"
           [matChipInputFor]="chipListCity"
           (matChipInputTokenEnd)="addItem($event)"
@@ -102,7 +113,7 @@
         <mat-form-field floatLabel="never">
           <mat-select #courierSelect formControlName="courier" placeholder="{{ 'ubs-tariffs.placeholder-courier' | translate }}">
             <mat-option class="option-state" value="all">Усі</mat-option>
-            <mat-option class="option-state" *ngFor="let option of newCouriers" [value]="option">
+            <mat-option class="option-state" *ngFor="let option of couriers" [value]="option">
               {{ option }}
             </mat-option>
           </mat-select>
@@ -117,7 +128,7 @@
           <mat-select placeholder="{{ 'ubs-tariffs.placeholder-station' | translate }}" #stationSelect formControlName="station">
             <mat-option class="option-state" value="all">Усі</mat-option>
             <mat-option class="option-state" *ngFor="let option of stations" [value]="option">
-              {{ option }}
+              {{ option.name }}
             </mat-option>
           </mat-select>
         </mat-form-field>
