@@ -1,46 +1,66 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
 import { take } from 'rxjs/operators';
 import { IAlertInfo, IEditCell } from 'src/app/ubs/ubs-admin/models/edit-cell.model';
 import { AdminTableService } from 'src/app/ubs/ubs-admin/services/admin-table.service';
-import { OrderService } from 'src/app/ubs/ubs-admin/services/order.service';
+import { IDataForPopUp } from '../../../models/ubs-admin.interface';
+import { OrderService } from '../../../services/order.service';
 
+import { UbsAdminSeveralOrdersPopUpComponent } from '../../ubs-admin-several-orders-pop-up/ubs-admin-several-orders-pop-up.component';
 @Component({
   selector: 'app-table-cell-select',
   templateUrl: './table-cell-select.component.html',
   styleUrls: ['./table-cell-select.component.scss']
 })
 export class TableCellSelectComponent implements OnInit {
-  @Input() optional;
+  @Input() optional: any;
   @Input() id: number;
   @Input() nameOfColumn: string;
-  @Input() key;
-  @Input() currentValue;
+  @Input() key: string;
+  @Input() currentValue: string;
   @Input() lang: string;
   @Input() ordersToChange: number[];
   @Input() isAllChecked: boolean;
+  @Input() doneOrCanceled: boolean;
+  @Input() showPopUp: boolean;
+  @Input() dataForPopUp: IDataForPopUp[];
 
   public isEditable: boolean;
   public isBlocked: boolean;
   private newOption: string;
   private typeOfChange: number[];
+  private checkStatus: boolean;
+  private dialogConfig = new MatDialogConfig();
 
   @Output() cancelEdit = new EventEmitter();
   @Output() editCellSelect = new EventEmitter();
   @Output() showBlockedInfo = new EventEmitter();
+  @Output() editButtonClick = new EventEmitter();
 
-  constructor(private adminTableService: AdminTableService, private orderSevice: OrderService) {}
+  constructor(private adminTableService: AdminTableService, private orderSevice: OrderService, public dialog: MatDialog) {}
 
   ngOnInit() {
     this.currentValue = this.optional.filter((item) => item.key === this.key)[0];
+    if (!this.currentValue) {
+      this.currentValue = '';
+    }
     this.filterStatuses();
   }
 
-  private filterStatuses() {
+  private filterStatuses(): void {
     if (this.nameOfColumn === 'orderStatus') {
       this.optional = this.orderSevice.getAvailableOrderStatuses(this.key, this.optional);
     }
   }
-
+  // The condition of pickup details for required fields
+  private filterStatusesForPopUp(): boolean {
+    const statuses = ['ADJUSTMENT', 'CONFIRMED', 'ON_THE_ROUTE', 'DONE'];
+    const key = this.optional[this.findKeyForNewOption()].key;
+    return statuses.includes(key);
+  }
+  private findKeyForNewOption(): number {
+    return this.optional.findIndex((item) => item[this.lang] === this.newOption);
+  }
   public edit(): void {
     this.isEditable = false;
     this.isBlocked = true;
@@ -58,10 +78,11 @@ export class TableCellSelectComponent implements OnInit {
           this.showBlockedInfo.emit(res);
         }
       });
+    this.editButtonClick.emit(this.id);
   }
 
   public save(): void {
-    const newValueObj = this.optional.findIndex((item) => item[this.lang] === this.newOption);
+    const newValueObj = this.findKeyForNewOption();
     if (newValueObj === -1) {
       this.typeOfChange = this.adminTableService.howChangeCell(this.isAllChecked, this.ordersToChange, this.id);
       this.isEditable = false;
@@ -78,7 +99,26 @@ export class TableCellSelectComponent implements OnInit {
       this.cancelEdit.emit(this.typeOfChange);
     }
   }
+  private openPopUp(): void {
+    this.dialogConfig.disableClose = true;
+    const modalRef = this.dialog.open(UbsAdminSeveralOrdersPopUpComponent, this.dialogConfig);
+    modalRef.componentInstance.dataFromTable = this.dataForPopUp;
+    modalRef.componentInstance.ordersId = this.ordersToChange;
+    modalRef.componentInstance.currentLang = this.lang;
+    modalRef.afterClosed().subscribe((result) => {
+      result ? this.save() : this.cancel();
+    });
+  }
 
+  public saveClick(): void {
+    if (this.nameOfColumn === 'orderStatus' && this.checkStatus && this.showPopUp) {
+      this.openPopUp();
+    } else if (this.nameOfColumn === 'orderStatus') {
+      this.save();
+    } else {
+      this.save();
+    }
+  }
   public cancel(): void {
     this.typeOfChange = this.adminTableService.howChangeCell(this.isAllChecked, this.ordersToChange, this.id);
     this.cancelEdit.emit(this.typeOfChange);
@@ -88,5 +128,6 @@ export class TableCellSelectComponent implements OnInit {
 
   public chosenOption(e: any): void {
     this.newOption = e.target.value;
+    this.checkStatus = this.filterStatusesForPopUp();
   }
 }

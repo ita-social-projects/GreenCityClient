@@ -187,6 +187,13 @@ export interface IUpdateResponsibleEmployee {
   positionId: number;
 }
 
+export interface IUpdateExportDetails {
+  receivingStationId: number;
+  dateExport: string;
+  timeDeliveryFrom: string;
+  timeDeliveryTo: string;
+}
+
 export interface IResponsiblePersons {
   allPositionsEmployees: Map<string, IEmployee[]>;
   currentPositionEmployees: Map<string, string>;
@@ -315,6 +322,7 @@ export interface IColumnBelonging {
   key: string;
   ua: string;
   en: string;
+  filtered?: boolean;
 }
 
 export interface IColumnDTO {
@@ -366,4 +374,32 @@ export interface IBigOrderTableParams {
 
 export interface IOrdersViewParameters {
   titles: string;
+}
+
+export interface IResponsiblePersonsData {
+  translate: string;
+  formControlName: string;
+  responsiblePersonsArray: string[];
+}
+
+export interface IDataForPopUp {
+  arrayData: IColumnBelonging[];
+  title: string;
+}
+
+export enum ResponsibleEmployee {
+  CallManager = 2,
+  Logistician,
+  Navigator,
+  Driver
+}
+
+export enum FormFieldsName {
+  CallManager = 'responsibleCaller',
+  Logistician = 'responsibleLogicMan',
+  Navigator = 'responsibleNavigator',
+  Driver = 'responsibleDriver',
+  TimeDeliveryFrom = 'timeDeliveryFrom',
+  TimeDeliveryTo = 'timeDeliveryTo',
+  ReceivingStation = 'receivingStation'
 }
