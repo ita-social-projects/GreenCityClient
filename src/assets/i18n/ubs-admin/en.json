@@ -28,7 +28,7 @@
     "password-error-new": "Enter the new password!",
     "delete-title": "Delete profile",
     "delete-message": "If you delete your profile, your bonuses will burn out and your order information will be deleted without the possibility of recovery",
-    "get-notification-in": "Get notification in:",
+    "get-notification-in": "Get notification in",
     "btn": {
       "edit": "Edit data",
       "cancel": "Discard changes",
