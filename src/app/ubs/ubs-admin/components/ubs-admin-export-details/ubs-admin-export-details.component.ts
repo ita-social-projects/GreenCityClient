@@ -1,4 +1,4 @@
-import { Component, Input, OnDestroy } from '@angular/core';
+import { Component, Input, OnDestroy, OnInit } from '@angular/core';
 import { FormGroup } from '@angular/forms';
 import { Subject } from 'rxjs';
 import { IExportDetails } from '../../models/ubs-admin.interface';
@@ -9,7 +9,7 @@ import { fromSelect, toSelect } from '../ubs-admin-table/table-cell-time/table-c
   templateUrl: './ubs-admin-export-details.component.html',
   styleUrls: ['./ubs-admin-export-details.component.scss']
 })
-export class UbsAdminExportDetailsComponent implements OnDestroy {
+export class UbsAdminExportDetailsComponent implements OnInit, OnDestroy {
   @Input() exportInfo: IExportDetails;
   @Input() exportDetailsDto: FormGroup;
 
@@ -22,6 +22,11 @@ export class UbsAdminExportDetailsComponent implements OnDestroy {
   public toInput: string;
   public from: string;
   public to: string;
+  public allReceivingStations: string[];
+
+  ngOnInit() {
+    this.allReceivingStations = this.exportInfo.allReceivingStations.map((e) => e.name);
+  }
 
   openDetails() {
     this.pageOpen = !this.pageOpen;
