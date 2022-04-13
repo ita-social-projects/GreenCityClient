@@ -169,12 +169,19 @@ export interface IPaymentInfoDto extends PaymentDetails {
   currentDate: string;
 }
 
+export interface IReceivingStation {
+  createDate: string;
+  createdBy: string;
+  id: number;
+  name: string;
+}
+
 export interface IExportDetails {
-  allReceivingStations: string[];
+  allReceivingStations: IReceivingStation[];
   dateExport: any;
   timeDeliveryFrom: string;
   timeDeliveryTo: string;
-  receivingStation: string;
+  receivingStationId: number;
 }
 
 export interface IEmployee {
