@@ -7,8 +7,8 @@
     "name": "Ім'я",
     "surname": "Прізвище",
     "contacts": "Контакти",
-    "email": "Електронна скринька:",
-    "phone": "№ телефону:",
+    "email": "Електронна скринька",
+    "phone": "№ телефону",
     "address": "Адреса",
     "city": "Місто",
     "region": "Область",
@@ -37,7 +37,9 @@
       "change-password-cancel": "Скасувати",
       "delete-profile": "Видалити профіль",
       "delete-profile-cancel": "Назад",
-      "delete-profile-save": "Видалити"
+      "delete-profile-save": "Видалити",
+      "alternative-email": "Додати альтернативний email",
+      "add-address": "Додати адресу"
     },
     "payment": {
       "title": "Оплата",

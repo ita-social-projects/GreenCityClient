@@ -1,4 +1,10 @@
 $btnblackcol: #1d2830;
+$whitecol: white;
+
+@mixin turnoffboxshadow {
+  box-shadow: none;
+}
+
 @mixin btnstyle {
   width: 168px;
   height: 36px;
@@ -29,27 +35,60 @@ $btnblackcol: #1d2830;
 
       .open {
         @include btnstyle;
-        margin-left: 280px;
+        margin-left: 250px;
         color: $btnblackcol;
         border-color: $btnblackcol;
       }
+
+      .open:hover {
+        background-color: #eff0f1;
+        border-color: var(--ubs-quaternary-dark-grey);
+      }
+
+      .open:active {
+        @include turnoffboxshadow;
+      }
+
+      .open:focus {
+        @include turnoffboxshadow;
+      }
+
+      .open:not(:disabled):not(.disabled):active {
+        background-color: $whitecol;
+        @include turnoffboxshadow;
+      }
+
       .delete {
         @include btnstyle;
-        color: var(--ubs-button-light-green);
+        color: var(--ubs-primary-red);
         border: none;
+      }
+
+      .delete:hover {
+        background-color: $whitecol;
+        border-color: $whitecol;
+      }
+
+      .delete:active {
+        box-shadow: none;
+        background-color: $whitecol;
+      }
+
+      .delete:focus {
+        box-shadow: none;
       }
     }
   }
 
   .input-group {
-    background-color: #ffffff;
+    background-color: $whitecol;
     padding: 20px;
     width: 905px;
     box-shadow: 4px 4px 10px rgba(151, 151, 151, 0.3);
     border-radius: 10px;
 
     form {
-      margin-left: 15px;
+      margin-left: 40px;
       width: 100%;
     }
   }
@@ -71,7 +110,7 @@ $btnblackcol: #1d2830;
   }
 
   button {
-    margin: 30px 0 30px 30px;
+    margin: 53px 30px 30px 0px;
     font-family: var(--secondary-font);
   }
 
@@ -82,20 +121,38 @@ $btnblackcol: #1d2830;
 
   .edit {
     @include btnstyle;
-    color: #5639bb;
-    border-color: #5639bb;
-    margin-left: 13px;
+    color: var(--ubs-electric-violet);
+    border-color: var(--ubs-electric-violet);
+    margin-left: 0px;
+  }
+  .edit:hover {
+    background-color: $whitecol;
   }
 
-  .btn-ubs-outline-success:hover {
-    color: var(--ubs-secondary-dark-grey);
-    background-color: var(--ubs-button-light-green);
-    border-color: var(--ubs-button-light-green);
+  .edit:not(:disabled):not(.disabled):active {
+    background-color: $whitecol;
+  }
+
+  .edit:focus {
+    box-shadow: none;
+  }
+
+  .margbtn {
+    margin: 26px 30px 20px 0px;
+  }
+
+  .h5MarginBottom {
+    margin: 0 0 14px 0;
+    padding: 0;
+  }
+
+  .h5MarginTop {
+    margin: 28px 0 10px 0;
   }
 
   h5 {
     font-weight: bold;
-    margin: 0px 0 30px 0px;
+    margin: 0px 0 18px 0px;
     padding: 0;
   }
 
@@ -107,11 +164,13 @@ $btnblackcol: #1d2830;
     font-weight: bold;
     color: $btnblackcol;
     margin-bottom: 30px;
+    margin-left: 30px;
+    width: 250px;
   }
 
   .form-group {
     p {
-      padding: 13px 13px 13px 0;
+      padding: 10px 13px 13px 0;
       color: $btnblackcol;
       font-size: 16px;
     }
@@ -119,14 +178,23 @@ $btnblackcol: #1d2830;
 
   .inline {
     display: flex;
-    width: 350px;
+    justify-content: space-between;
+    width: 247px;
 
     .col-sm-6 {
       padding: 0;
       margin-bottom: 0;
 
+      .notificationEdit {
+        margin-top: 20px;
+      }
+
+      .form-control {
+        background-color: $whitecol;
+      }
+
       label {
-        margin: 0;
+        margin: 0 0 0 1px;
         color: var(--ubs-secondary-grey);
       }
     }
@@ -135,7 +203,38 @@ $btnblackcol: #1d2830;
   .submit-btns {
     width: 905px;
     display: flex;
-    justify-content: flex-end;
+    justify-content: flex-start;
+
+    button {
+      width: 163px;
+      height: 36px;
+      border-radius: 4px;
+      font-family: 'Lato';
+      font-style: normal;
+      font-weight: 700;
+      font-size: 14px;
+      line-height: 20px;
+    }
+
+    .save {
+      background-color: var(--ubs-button-light-green);
+      color: $btnblackcol;
+      border: none;
+    }
+
+    .save:focus {
+      @include turnoffboxshadow;
+    }
+
+    .cancel {
+      background-color: $whitecol;
+      color: $btnblackcol;
+      border-color: $btnblackcol;
+    }
+
+    .cancel:focus {
+      @include turnoffboxshadow;
+    }
   }
 
   button:disabled {
@@ -223,4 +322,65 @@ $btnblackcol: #1d2830;
   width: 180px;
   display: flex;
   justify-content: space-between;
+  margin-bottom: 16px;
+}
+
+.inputMargin {
+  margin-right: 140px;
+
+  input {
+    width: 260px;
+  }
+}
+
+.wrapper-btn {
+  display: flex;
+  align-items: center;
+  width: 300px;
+
+  .btn-alternative-email {
+    width: 16px;
+    height: 16px;
+    margin: 14px 0 22px 0;
+    border-radius: 50%;
+    border: none;
+    background-color: #ffffff;
+    background-image: url(../../../../assets/img/ubs/Allternative-email-btn.svg);
+
+    .alternative-email-subtite {
+      margin: 14px 0 22px 0;
+      font-family: 'Lato';
+      font-weight: 700;
+      font-size: 14px;
+      line-height: 20px;
+      letter-spacing: 0.1px;
+      color: #9ec848;
+    }
+  }
+
+  p {
+    margin: 14px 0 22px 10px;
+    font-family: 'Lato';
+    font-weight: 700;
+    font-size: 14px;
+    line-height: 20px;
+    letter-spacing: 0.1px;
+    color: #9ec848;
+  }
+}
+
+.address {
+  .house {
+    max-width: 400px;
+  }
+
+  .form-group {
+    margin: 0;
+    padding: 0;
+    color: var(--ubs-secondary-grey);
+
+    .col-sm-4 .city {
+      margin-right: 150px;
+    }
+  }
 }
