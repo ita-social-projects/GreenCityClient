@@ -394,20 +394,11 @@ export class UbsAdminOrderComponent implements OnInit, OnDestroy, AfterContentCh
     }
   }
   public getReceivingStationIdByName(receivingStationName: string): number {
-    return this.exportInfo.allReceivingStations.find((element) => {
-      if (receivingStationName === element.name) {
-        return element;
-      }
-    }).id;
+    return this.exportInfo.allReceivingStations.find((element) => receivingStationName === element.name).id;
   }
-  public getReceivingStationById(receivingStationId: number): string {
-    return receivingStationId
-      ? this.exportInfo.allReceivingStations.find((element) => {
-          if (receivingStationId === element.id) {
-            return element;
-          }
-        }).name
-      : null;
+  public getReceivingStationById(receivingStationId: number): string | null {
+    const receivingStationName = this.exportInfo.allReceivingStations.find((element) => receivingStationId === element.id)?.name;
+    return receivingStationName || null;
   }
   public formatBagsValue(orderDetailsForm) {
     const confirmed = {};
