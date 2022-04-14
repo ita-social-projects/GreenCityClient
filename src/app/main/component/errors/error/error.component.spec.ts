@@ -3,7 +3,7 @@ import { MatDialogRef } from '@angular/material/dialog';
 
 import { ErrorComponent } from './error.component';
 
-fdescribe('ErrorComponent', () => {
+describe('ErrorComponent', () => {
   let component: ErrorComponent;
   let fixture: ComponentFixture<ErrorComponent>;
 
