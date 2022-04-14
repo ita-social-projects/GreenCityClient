@@ -5,7 +5,7 @@ import { TranslateModule } from '@ngx-translate/core';
 
 import { AdminComponent } from './admin.component';
 
-fdescribe('AdminComponent', () => {
+describe('AdminComponent', () => {
   let component: AdminComponent;
   let fixture: ComponentFixture<AdminComponent>;
 
