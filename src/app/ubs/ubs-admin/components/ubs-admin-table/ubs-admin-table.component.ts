@@ -431,7 +431,7 @@ export class UbsAdminTableComponent implements OnInit, AfterViewChecked, OnDestr
 
   private setUnDisplayedColumns(): void {
     this.displayedColumnsViewTitles = [];
-    this.displayedColumns = [];
+    this.displayedColumns = ['select'];
     this.isAll = false;
   }
 

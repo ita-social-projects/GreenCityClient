@@ -20,16 +20,10 @@ import {
   IPaymentInfo,
   IResponsiblePersons,
   IUpdateResponsibleEmployee,
-  IUserInfo
+  IUserInfo,
+  ResponsibleEmployee
 } from '../../models/ubs-admin.interface';
 import { formatDate } from '@angular/common';
-
-enum ResponsibleEmployee {
-  CallManager = 2,
-  Logistician,
-  Navigator,
-  Driver
-}
 
 @Component({
   selector: 'app-ubs-admin-order',
@@ -167,13 +161,13 @@ export class UbsAdminOrderComponent implements OnInit, OnDestroy, AfterContentCh
         dateExport: [this.exportInfo.dateExport ? formatDate(this.exportInfo.dateExport, 'yyyy-MM-dd', this.currentLanguage) : ''],
         timeDeliveryFrom: [this.parseTimeToStr(this.exportInfo.timeDeliveryFrom)],
         timeDeliveryTo: [this.parseTimeToStr(this.exportInfo.timeDeliveryTo)],
-        receivingStation: [this.exportInfo.receivingStation]
+        receivingStationId: [this.getReceivingStationById(this.exportInfo.receivingStationId)]
       }),
       responsiblePersonsForm: this.fb.group({
-        callManager: [this.getEmployeeById(currentEmployees, 2)],
-        logistician: [this.getEmployeeById(currentEmployees, 3)],
-        navigator: [this.getEmployeeById(currentEmployees, 4)],
-        driver: [this.getEmployeeById(currentEmployees, 5)]
+        callManager: [this.getEmployeeById(currentEmployees, ResponsibleEmployee.CallManager)],
+        logistician: [this.getEmployeeById(currentEmployees, ResponsibleEmployee.Logistician)],
+        navigator: [this.getEmployeeById(currentEmployees, ResponsibleEmployee.Navigator)],
+        driver: [this.getEmployeeById(currentEmployees, ResponsibleEmployee.Driver)]
       }),
       orderDetailsForm: this.fb.group({
         storeOrderNumbers: this.fb.array([]),
@@ -395,8 +389,17 @@ export class UbsAdminOrderComponent implements OnInit, OnDestroy, AfterContentCh
     if (exportDetailsDto.timeDeliveryTo) {
       exportDetailsDto.timeDeliveryTo = this.parseStrToTime(exportDetailsDto.timeDeliveryTo, exportDate);
     }
+    if (exportDetailsDto.receivingStationId) {
+      exportDetailsDto.receivingStationId = this.getReceivingStationIdByName(exportDetailsDto.receivingStationId.toString());
+    }
   }
-
+  public getReceivingStationIdByName(receivingStationName: string): number {
+    return this.exportInfo.allReceivingStations.find((element) => receivingStationName === element.name).id;
+  }
+  public getReceivingStationById(receivingStationId: number): string | null {
+    const receivingStationName = this.exportInfo.allReceivingStations.find((element) => receivingStationId === element.id)?.name;
+    return receivingStationName || null;
+  }
   public formatBagsValue(orderDetailsForm) {
     const confirmed = {};
     const exported = {};
