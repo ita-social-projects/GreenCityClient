@@ -24,7 +24,6 @@ describe('UsbAdminTableComponent', () => {
   let component: UbsAdminTableComponent;
   let fixture: ComponentFixture<UbsAdminTableComponent>;
   const storeMock = jasmine.createSpyObj('store', ['select', 'dispatch']);
-  storeMock.select = () => of(false);
 
   const FakeMatDialogConfig = {};
 
@@ -63,7 +62,6 @@ describe('UsbAdminTableComponent', () => {
   });
 
   it('should create', () => {
-    // console.log(component.modelChanged);
     expect(component).toBeTruthy();
   });
 
