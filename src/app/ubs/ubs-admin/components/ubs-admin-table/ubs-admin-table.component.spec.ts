@@ -16,13 +16,9 @@ import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { RouterTestingModule } from '@angular/router/testing';
 import { Store } from '@ngrx/store';
 import { Observable, of } from 'rxjs';
-import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
+import { MatDialogConfig } from '@angular/material/dialog';
 import { ServerTranslatePipe } from 'src/app/shared/translate-pipe/translate-pipe.pipe';
 import { MatTooltipModule } from '@angular/material/tooltip';
-
-import { ElementRef } from '@angular/core';
-
-// import { MatTable, MatTableDataSource } from '@angular/material/table';
 
 describe('UsbAdminTableComponent', () => {
   let component: UbsAdminTableComponent;
@@ -53,13 +49,12 @@ describe('UsbAdminTableComponent', () => {
       declarations: [UbsAdminTableComponent, ServerTranslatePipe],
       providers: [
         { provide: Store, useValue: storeMock },
-        { provide: MatDialogConfig, useValue: FakeMatDialogConfig },
-        { provide: ElementRef, useValue: {} }
+        { provide: MatDialogConfig, useValue: FakeMatDialogConfig }
       ],
       schemas: [CUSTOM_ELEMENTS_SCHEMA]
     }).compileComponents();
   }));
-  // for test
+
   beforeEach(() => {
     storeMock.select = () => of(false);
     fixture = TestBed.createComponent(UbsAdminTableComponent);
