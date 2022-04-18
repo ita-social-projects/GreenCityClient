@@ -61,12 +61,14 @@ describe('UsbAdminTableComponent', () => {
   }));
   // for test
   beforeEach(() => {
+    storeMock.select = () => of(false);
     fixture = TestBed.createComponent(UbsAdminTableComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });
 
   it('should create', () => {
+    // console.log(component.modelChanged);
     expect(component).toBeTruthy();
   });
 
@@ -74,6 +76,68 @@ describe('UsbAdminTableComponent', () => {
     spyOn(component.modelChanged, 'pipe').and.returnValue(of({}));
     component.ngOnInit();
     expect(component.modelChanged.pipe).toHaveBeenCalled();
+  });
+
+  it('ordersViewParameters$ expect displayedColumns should be [title]', () => {
+    storeMock.select = () => of({ titles: 'title' });
+    component.ordersViewParameters$ = (component as any).store.select();
+    component.ngOnInit();
+    component.ordersViewParameters$.subscribe((item: any) => {
+      expect(component.displayedColumns).toEqual(['title']);
+    });
+  });
+
+  it('bigOrderTable$ expect changeView has call', () => {
+    spyOn(component, 'changeView');
+    storeMock.select = () => of({ number: 2, totalElements: 10, content: [{ content: 'content' }], totalPages: 1 });
+    component.bigOrderTable$ = (component as any).store.select();
+    component.ngOnInit();
+    component.bigOrderTable$.subscribe((items: any) => {
+      expect(component.currentPage).toBe(2);
+      expect(component.tableData[0].content).toBe('content');
+      expect(component.changeView).toHaveBeenCalledTimes(1);
+    });
+  });
+
+  it('bigOrderTable$ expect totalElements to be 10 ', () => {
+    storeMock.select = () => of({ number: 2, totalElements: 10, content: [{ content: 'content' }], totalPages: 1 });
+    component.bigOrderTable$ = (component as any).store.select();
+    component.firstPageLoad = true;
+    component.ngOnInit();
+    component.bigOrderTable$.subscribe((items: any) => {
+      expect(component.totalElements).toBe(10);
+    });
+  });
+
+  it('bigOrderTableParams ', () => {
+    spyOn(component, 'setColumnsForFiltering');
+    spyOn(component, 'sortColumnsToDisplay');
+    spyOn(component as any, 'getTable');
+    storeMock.select = () =>
+      of({
+        columnBelongingList: ['columnBelongingList'],
+        columnDTOList: [
+          {
+            columnBelonging: 'string',
+            editType: 'string',
+            filtered: false,
+            index: 1,
+            title: { key: 'key', ua: 'ua', en: 'en', filtered: false }
+          }
+        ],
+        orderSearchCriteria: {},
+        page: {}
+      });
+    component.bigOrderTableParams$ = (component as any).store.select();
+    component.isStoreEmpty = true;
+    component.ngOnInit();
+    component.bigOrderTableParams$.subscribe((columns: any) => {
+      expect(component.tableViewHeaders).toEqual(['columnBelongingList']);
+      expect(component.displayedColumnsViewTitles).toEqual(['key']);
+      expect(component.setColumnsForFiltering).toHaveBeenCalledTimes(1);
+      expect((component as any).getTable).toHaveBeenCalledTimes(1);
+      expect(component.sortColumnsToDisplay).toHaveBeenCalledTimes(1);
+    });
   });
 
   it('ngAfterViewChecked ', () => {
