@@ -115,27 +115,27 @@
                 <label for="district" class="form-label">{{ 'ubs-client-profile.district' | translate }}</label>
                 <input *ngIf="isEditing" type="text" class="form-control" id="district" formControlName="district" />
                 <p *ngIf="!isEditing">{{ address.value?.district }}</p>
-                <ng-container *ngIf="!isEditing">
-                  <button [ngClass]="{ margbtn: !isEditing }" class="btn btn-outline-success edit" (click)="onEdit()">
-                    {{ 'ubs-client-profile.btn.edit' | translate }}
-                  </button>
-                </ng-container>
-              </div>
-              <div *ngIf="isEditing">
-                <div class="wrapper-btn">
-                  <button class="btn-alternative-email"></button>
-                  <p>{{ 'ubs-client-profile.btn.add-address' | translate }}</p>
-                </div>
               </div>
             </div>
-            <div class="submit-btns" *ngIf="isEditing">
-              <button class="btn btn-success save" type="submit" (click)="onSubmit()" [disabled]="!userForm.valid">
-                {{ 'ubs-client-profile.btn.save' | translate }}
-              </button>
-              <button class="btn btn-outline-success cancel" type="submit" (click)="onCancel()">
-                {{ 'ubs-client-profile.btn.cancel' | translate }}
-              </button>
+          </div>
+          <ng-container *ngIf="!isEditing">
+            <button [ngClass]="{ margbtn: !isEditing }" class="btn btn-outline-success edit" (click)="onEdit()">
+              {{ 'ubs-client-profile.btn.edit' | translate }}
+            </button>
+          </ng-container>
+          <div *ngIf="isEditing">
+            <div class="wrapper-btn">
+              <button class="btn-alternative-email"></button>
+              <p>{{ 'ubs-client-profile.btn.add-address' | translate }}</p>
             </div>
+          </div>
+          <div class="submit-btns" *ngIf="isEditing">
+            <button class="btn btn-success save" type="submit" (click)="onSubmit()" [disabled]="!userForm.valid">
+              {{ 'ubs-client-profile.btn.save' | translate }}
+            </button>
+            <button class="btn btn-outline-success cancel" type="submit" (click)="onCancel()">
+              {{ 'ubs-client-profile.btn.cancel' | translate }}
+            </button>
           </div>
         </form>
       </div>
