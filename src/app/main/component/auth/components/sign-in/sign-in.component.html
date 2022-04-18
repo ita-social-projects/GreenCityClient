@@ -12,6 +12,7 @@
     required
     formControlName="email"
     (input)="configDefaultErrorMessage()"
+    (blur)="configDefaultErrorMessage()"
     [ngClass]="
       (emailField.invalid && emailField.touched) || backEndError || emailErrorMessageBackEnd
         ? 'alert-email-validation'
@@ -21,11 +22,19 @@
     aria-describedby="email-err-msg"
     tabindex="0"
   />
-  <div class="validation-email-error" id="email-err-msg" *ngIf="emailField.invalid && emailField.touched">
+  <div
+    class="validation-email-error"
+    id="email-err-msg"
+    *ngIf="emailField.invalid && emailField.touched && !emailErrorMessageBackEnd && (!passwordField.touched || passwordFieldValue)"
+  >
     <app-error [formElement]="emailField" [emailFieldValue]="emailFieldValue" [controlName]="'email'" tabindex="0"></app-error>
   </div>
+  <!--added-->
+  <!-- <div *ngIf="emailField.touched && !this.emailFieldValue">email touched and empty</div> -->
+  <!--added-->
+  <!-- не потрібно -->
   <div class="validation-email-error" *ngIf="emailErrorMessageBackEnd">
-    {{ emailErrorMessageBackEnd }}
+    {{ 'user.auth.sign-in.email-is-required' | translate }}
   </div>
   <div class="email-field-margin" *ngIf="backEndError"></div>
   <label for="password" aria-required="true">{{ 'user.auth.sign-in.password' | translate }}</label>
@@ -46,6 +55,7 @@
       placeholder="{{ 'user.auth.sign-in.password' | translate }}"
       name="form-control password-signin"
       (input)="configDefaultErrorMessage()"
+      (blur)="configDefaultErrorMessage()"
       aria-required="true"
       aria-describedby="pass-err-msg"
     />
@@ -60,15 +70,31 @@
       />
     </span>
   </div>
-  <div class="validation-password-error" id="pass-err-msg" *ngIf="passwordField.invalid && passwordField.touched">
+  <div
+    class="validation-password-error"
+    id="pass-err-msg"
+    *ngIf="
+      passwordField.invalid &&
+      passwordField.touched &&
+      (!emailField.touched || emailFieldValue) &&
+      !passwordErrorMessageBackEnd &&
+      !backEndError
+    "
+  >
     <app-error [formElement]="passwordField" [passwordFieldValue]="passwordFieldValue" [controlName]="'password'" tabindex="0"></app-error>
   </div>
   <div class="validation-password-error" *ngIf="passwordErrorMessageBackEnd">
-    {{ passwordErrorMessageBackEnd }}
+    FROM BACKEND: {{ 'user.auth.sign-in.password-is-required' | translate }}
   </div>
+
+  <div class="alert-general-error" *ngIf="emailAndPasswordEmpty && !backEndError">
+    {{ 'user.auth.sign-in.fill-all-red-fields' | translate }}
+  </div>
+
   <div class="alert-general-error" *ngIf="backEndError">
-    {{ 'user.auth.sign-in.bad-email-or-password' | translate }}
+    {{ backEndError | translate }}
   </div>
+
   <div class="forgot-wrapper">
     <a
       (click)="onOpenModalWindow('restore-password')"
@@ -79,7 +105,8 @@
       {{ 'user.auth.sign-in.forgot-password' | translate }}</a
     >
   </div>
-  <button [class]="ubsStyle" type="submit" [disabled]="!signInForm.valid">
+  <!-- <button [class]="ubsStyle" type="submit" [disabled]="!signInForm.valid" > -->
+  <button [class]="ubsStyle" type="submit" [disabled]="!emailField.valid || !passwordField.touched">
     <span *ngIf="loadingAnim" class="spinner-border spinner-border-sm" role="status" aria-hidden="true"> </span>
     {{ 'user.auth.sign-in.sign-in' | translate }}
   </button>

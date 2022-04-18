@@ -1,7 +1,7 @@
 import { UserSuccessSignIn } from './../../../../model/user-success-sign-in';
 import { SignInIcons } from './../../../../image-pathes/sign-in-icons';
 import { UserOwnSignIn } from './../../../../model/user-own-sign-in';
-import { FormGroup, FormControl, Validators, AbstractControl } from '@angular/forms';
+import { FormGroup, FormControl, Validators, AbstractControl, ValidatorFn, ValidationErrors } from '@angular/forms';
 import { Component, EventEmitter, OnInit, OnDestroy, Output } from '@angular/core';
 import { Router } from '@angular/router';
 import { HttpErrorResponse } from '@angular/common/http';
@@ -38,6 +38,9 @@ export class SignInComponent implements OnInit, OnDestroy {
   public isUbs: boolean;
   public ubsStyle: string;
   private destroy: Subject<boolean> = new Subject<boolean>();
+
+  public emailAndPasswordEmpty: boolean;
+
   @Output() private pageName = new EventEmitter();
 
   constructor(
@@ -62,16 +65,29 @@ export class SignInComponent implements OnInit, OnDestroy {
     this.userOwnSignIn = new UserOwnSignIn();
     this.configDefaultErrorMessage();
     this.checkIfUserId();
+
     // Initialization of reactive form
     this.signInForm = new FormGroup({
       email: new FormControl(null, [Validators.required, Validators.email]),
       password: new FormControl(null, [Validators.required, Validators.minLength(8)])
     });
+    // }, { validators: this.myFormValidator, updateOn: 'blur'});
+    // }, { validators: this.myFormValidator, updateOn: 'blur' });
+
     // Get form fields to use it in the template
     this.emailField = this.signInForm.get('email');
     this.passwordField = this.signInForm.get('password');
     this.checkIfItUbs();
   }
+
+  // public myFormValidator: ValidatorFn = (signInForm: FormGroup): ValidationErrors | null => {
+  //     const { email, password } = signInForm.controls;
+  //     if (email.touched && password.touched && !email.value && !password.value) {
+  //       return { 'allFieldsAreEmpty': true };
+  //     } else {
+  //       return null;
+  //     }
+  //   };
 
   public configDefaultErrorMessage(): void {
     this.emailErrorMessageBackEnd = null;
@@ -80,6 +96,8 @@ export class SignInComponent implements OnInit, OnDestroy {
     if (this.signInForm) {
       this.emailFieldValue = this.emailField.value;
       this.passwordFieldValue = this.passwordField.value;
+      this.emailAndPasswordEmpty =
+        this.passwordField.touched && !this.passwordFieldValue && this.emailField.touched && !this.emailFieldValue;
     }
   }
 
@@ -166,10 +184,12 @@ export class SignInComponent implements OnInit, OnDestroy {
   }
 
   private onSignInFailure(errors: HttpErrorResponse): void {
+    console.log('errors from onSignInFailure', errors);
     if (typeof errors === 'string') {
       return;
     } else if (!Array.isArray(errors.error)) {
-      this.backEndError = errors.error.message;
+      // this.backEndError = errors.error.message;
+      this.backEndError = 'user.auth.sign-in.bad-email-or-password';
       return;
     }
 
