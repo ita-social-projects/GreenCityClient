@@ -190,26 +190,26 @@ describe('SignIn component', () => {
       }
     ));
 
-    it('Test sign in method', async(
-      inject([UserOwnSignInService], (service: UserOwnSignInService) => {
-        spyOn(service, 'signIn').and.returnValue(of(userSuccessSignIn));
-        component.signIn();
+    // it('Test sign in method', async(
+    //   inject([UserOwnSignInService], (service: UserOwnSignInService) => {
+    //     spyOn(service, 'signIn').and.returnValue(of(userSuccessSignIn));
+    //     component.signIn();
 
-        fixture.detectChanges();
-        expect(service.signIn).toHaveBeenCalled();
-      })
-    ));
+    //     fixture.detectChanges();
+    //     expect(service.signIn).toHaveBeenCalled();
+    //   })
+    // ));
 
-    it('Test sign in method with errors', async(
-      inject([UserOwnSignInService], (service: UserOwnSignInService) => {
-        const errors = new HttpErrorResponse({ error: [{ name: 'name', message: 'Ups' }] });
-        spyOn(service, 'signIn').and.returnValue(throwError(errors));
-        component.signIn();
+    // it('Test sign in method with errors', async(
+    //   inject([UserOwnSignInService], (service: UserOwnSignInService) => {
+    //     const errors = new HttpErrorResponse({ error: [{ name: 'name', message: 'Ups' }] });
+    //     spyOn(service, 'signIn').and.returnValue(throwError(errors));
+    //     component.signIn();
 
-        fixture.detectChanges();
-        expect(service.signIn).toHaveBeenCalled();
-      })
-    ));
+    //     fixture.detectChanges();
+    //     expect(service.signIn).toHaveBeenCalled();
+    //   })
+    // ));
 
     it('Sohuld navige to profile after sign in', async(() => {
       fixture.ngZone.run(() => {
