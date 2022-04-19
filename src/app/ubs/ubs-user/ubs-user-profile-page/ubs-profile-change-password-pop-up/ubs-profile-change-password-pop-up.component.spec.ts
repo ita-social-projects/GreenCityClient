@@ -9,9 +9,12 @@ import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { UpdatePasswordDto } from '@global-models/updatePasswordDto';
 import { of } from 'rxjs';
 
-describe('UbsProfileChangePasswordPopUpComponent', () => {
+fdescribe('UbsProfileChangePasswordPopUpComponent', () => {
   let component: UbsProfileChangePasswordPopUpComponent;
   let fixture: ComponentFixture<UbsProfileChangePasswordPopUpComponent>;
+  const password = 'password';
+  const currentPassword = 'currentPassword';
+  const confirmPassword = 'confirmPassword';
 
   const changePasswordServiceFake = jasmine.createSpyObj('ChangePasswordService', ['changePassword']);
   changePasswordServiceFake.changePassword.and.returnValue(of({}));
@@ -60,9 +63,9 @@ describe('UbsProfileChangePasswordPopUpComponent', () => {
 
   it('submitting a form', () => {
     expect(component.formConfig.valid).toBeFalsy();
-    component.formConfig.controls['password'].setValue('Test!2334');
-    component.formConfig.controls['currentPassword'].setValue('Test!2334dfff');
-    component.formConfig.controls['confirmPassword'].setValue('Test!2334');
+    component.formConfig.controls[password].setValue('Test!2334');
+    component.formConfig.controls[currentPassword].setValue('Test!2334dfff');
+    component.formConfig.controls[confirmPassword].setValue('Test!2334');
     expect(component.formConfig.valid).toBeTruthy();
 
     const updatePasswordDto: UpdatePasswordDto = component.formConfig.value;
