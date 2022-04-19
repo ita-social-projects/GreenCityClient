@@ -1,14 +1,16 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { TranslateModule } from '@ngx-translate/core';
 
 import { TimePickerComponent } from './time-picker.component';
 
-describe('TimePickerComponent', () => {
+fdescribe('TimePickerComponent', () => {
   let component: TimePickerComponent;
   let fixture: ComponentFixture<TimePickerComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [TimePickerComponent]
+      declarations: [TimePickerComponent],
+      imports: [TranslateModule.forRoot()]
     }).compileComponents();
   }));
 
