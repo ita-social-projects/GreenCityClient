@@ -91,7 +91,6 @@ export class SignInComponent implements OnInit, OnDestroy {
   public onBlur() {
     const emailAndPasswordEmpty =
       this.passwordField.touched && !this.passwordField.value && this.emailField.touched && !this.emailField.value;
-
     this.generalError = emailAndPasswordEmpty ? 'user.auth.sign-in.fill-all-red-fields' : null;
   }
 
