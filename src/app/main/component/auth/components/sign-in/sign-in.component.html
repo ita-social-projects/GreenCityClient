@@ -12,12 +12,8 @@
     required
     formControlName="email"
     (input)="configDefaultErrorMessage()"
-    (blur)="configDefaultErrorMessage()"
-    [ngClass]="
-      (emailField.invalid && emailField.touched) || backEndError || emailErrorMessageBackEnd
-        ? 'alert-email-validation'
-        : 'successful-email-validation'
-    "
+    (blur)="onBlur()"
+    [ngClass]="(emailField.invalid && emailField.touched) || generalError ? 'alert-email-validation' : 'successful-email-validation'"
     aria-required="true"
     aria-describedby="email-err-msg"
     tabindex="0"
@@ -25,25 +21,17 @@
   <div
     class="validation-email-error"
     id="email-err-msg"
-    *ngIf="emailField.invalid && emailField.touched && !emailErrorMessageBackEnd && (!passwordField.touched || passwordFieldValue)"
+    *ngIf="emailField.invalid && emailField.touched && (!passwordField.touched || passwordFieldValue) && !generalError"
   >
     <app-error [formElement]="emailField" [emailFieldValue]="emailFieldValue" [controlName]="'email'" tabindex="0"></app-error>
   </div>
-  <!--added-->
-  <!-- <div *ngIf="emailField.touched && !this.emailFieldValue">email touched and empty</div> -->
-  <!--added-->
-  <!-- не потрібно -->
-  <div class="validation-email-error" *ngIf="emailErrorMessageBackEnd">
-    {{ 'user.auth.sign-in.email-is-required' | translate }}
-  </div>
-  <div class="email-field-margin" *ngIf="backEndError"></div>
+
+  <div class="email-field-margin" *ngIf="generalError"></div>
   <label for="password" aria-required="true">{{ 'user.auth.sign-in.password' | translate }}</label>
   <div
     class="password-input-btn-show-hide"
     [ngClass]="
-      (passwordField.invalid && passwordField.touched) || backEndError || passwordErrorMessageBackEnd
-        ? 'alert-password-validation'
-        : 'successful-password-validation'
+      (passwordField.invalid && passwordField.touched) || generalError ? 'alert-password-validation' : 'successful-password-validation'
     "
   >
     <input
@@ -55,7 +43,7 @@
       placeholder="{{ 'user.auth.sign-in.password' | translate }}"
       name="form-control password-signin"
       (input)="configDefaultErrorMessage()"
-      (blur)="configDefaultErrorMessage()"
+      (blur)="onBlur()"
       aria-required="true"
       aria-describedby="pass-err-msg"
     />
@@ -73,26 +61,13 @@
   <div
     class="validation-password-error"
     id="pass-err-msg"
-    *ngIf="
-      passwordField.invalid &&
-      passwordField.touched &&
-      (!emailField.touched || emailFieldValue) &&
-      !passwordErrorMessageBackEnd &&
-      !backEndError
-    "
+    *ngIf="passwordField.invalid && passwordField.touched && (!emailField.touched || emailFieldValue) && !generalError"
   >
     <app-error [formElement]="passwordField" [passwordFieldValue]="passwordFieldValue" [controlName]="'password'" tabindex="0"></app-error>
   </div>
-  <div class="validation-password-error" *ngIf="passwordErrorMessageBackEnd">
-    FROM BACKEND: {{ 'user.auth.sign-in.password-is-required' | translate }}
-  </div>
 
-  <div class="alert-general-error" *ngIf="emailAndPasswordEmpty && !backEndError">
-    {{ 'user.auth.sign-in.fill-all-red-fields' | translate }}
-  </div>
-
-  <div class="alert-general-error" *ngIf="backEndError">
-    {{ backEndError | translate }}
+  <div class="alert-general-error" *ngIf="generalError">
+    {{ generalError | translate }}
   </div>
 
   <div class="forgot-wrapper">
@@ -105,11 +80,11 @@
       {{ 'user.auth.sign-in.forgot-password' | translate }}</a
     >
   </div>
-  <!-- <button [class]="ubsStyle" type="submit" [disabled]="!signInForm.valid" > -->
-  <button [class]="ubsStyle" type="submit" [disabled]="!emailField.valid || !passwordField.touched">
-    <span *ngIf="loadingAnim" class="spinner-border spinner-border-sm" role="status" aria-hidden="true"> </span>
+  <button [class]="ubsStyle" [disabled]="(emailField.invalid || !passwordField.touched) && passwordField.invalid" type="submit">
+    <span *ngIf="loadingAnim" class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
     {{ 'user.auth.sign-in.sign-in' | translate }}
   </button>
+
   <span class="or-use-google">{{ 'user.auth.sign-in.or-signin' | translate }}</span>
 </form>
 <div class="google-sign-in-block">

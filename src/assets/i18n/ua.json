@@ -333,6 +333,7 @@
         "sign-up": "Зареєструватись",
         "sign-in-with-google": "Увійти через Google",
         "forgot-password": "Забули пароль?",
+        "account-has-been-deleted": "Ваш аккаунт було видалено, будь ласка зв'яжіться з нами щоб відновити його",
         "havenot-account": "Досі немає аккаунту?",
         "or-signin": "або"
       },

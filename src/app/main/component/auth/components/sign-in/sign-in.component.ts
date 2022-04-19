@@ -27,9 +27,6 @@ export class SignInComponent implements OnInit, OnDestroy {
   public hideShowPasswordImage = SignInIcons;
   public userOwnSignIn: UserOwnSignIn;
   public loadingAnim: boolean;
-  public emailErrorMessageBackEnd: string;
-  public passwordErrorMessageBackEnd: string;
-  public backEndError: string;
   public signInForm: FormGroup;
   public emailField: AbstractControl;
   public passwordField: AbstractControl;
@@ -39,7 +36,11 @@ export class SignInComponent implements OnInit, OnDestroy {
   public ubsStyle: string;
   private destroy: Subject<boolean> = new Subject<boolean>();
 
-  public emailAndPasswordEmpty: boolean;
+  //generalError can contain:
+  //'user.auth.sign-in.fill-all-red-fields', or
+  //'user.auth.sign-in.account-has-been-deleted', or
+  //'user.auth.sign-in.bad-email-or-password' error
+  public generalError: string;
 
   @Output() private pageName = new EventEmitter();
 
@@ -71,8 +72,6 @@ export class SignInComponent implements OnInit, OnDestroy {
       email: new FormControl(null, [Validators.required, Validators.email]),
       password: new FormControl(null, [Validators.required, Validators.minLength(8)])
     });
-    // }, { validators: this.myFormValidator, updateOn: 'blur'});
-    // }, { validators: this.myFormValidator, updateOn: 'blur' });
 
     // Get form fields to use it in the template
     this.emailField = this.signInForm.get('email');
@@ -80,35 +79,28 @@ export class SignInComponent implements OnInit, OnDestroy {
     this.checkIfItUbs();
   }
 
-  // public myFormValidator: ValidatorFn = (signInForm: FormGroup): ValidationErrors | null => {
-  //     const { email, password } = signInForm.controls;
-  //     if (email.touched && password.touched && !email.value && !password.value) {
-  //       return { 'allFieldsAreEmpty': true };
-  //     } else {
-  //       return null;
-  //     }
-  //   };
-
   public configDefaultErrorMessage(): void {
-    this.emailErrorMessageBackEnd = null;
-    this.passwordErrorMessageBackEnd = null;
-    this.backEndError = null;
+    this.generalError = null;
     if (this.signInForm) {
       this.emailFieldValue = this.emailField.value;
       this.passwordFieldValue = this.passwordField.value;
-      this.emailAndPasswordEmpty =
-        this.passwordField.touched && !this.passwordFieldValue && this.emailField.touched && !this.emailFieldValue;
     }
   }
 
+  //Checks if email and password fields are simultaneously empty:
+  public onBlur() {
+    const emailAndPasswordEmpty =
+      this.passwordField.touched && !this.passwordField.value && this.emailField.touched && !this.emailField.value;
+
+    this.generalError = emailAndPasswordEmpty ? 'user.auth.sign-in.fill-all-red-fields' : null;
+  }
+
   public signIn(): void {
+    if (this.signInForm.invalid) return;
     this.loadingAnim = true;
-
     const { email, password } = this.signInForm.value;
-
     this.userOwnSignIn.email = email;
     this.userOwnSignIn.password = password;
-
     this.userOwnSignInService
       .signIn(this.userOwnSignIn)
       .pipe(takeUntil(this.destroy))
@@ -184,19 +176,13 @@ export class SignInComponent implements OnInit, OnDestroy {
   }
 
   private onSignInFailure(errors: HttpErrorResponse): void {
-    console.log('errors from onSignInFailure', errors);
     if (typeof errors === 'string') {
       return;
     } else if (!Array.isArray(errors.error)) {
-      // this.backEndError = errors.error.message;
-      this.backEndError = 'user.auth.sign-in.bad-email-or-password';
+      this.generalError =
+        errors.error.error === 'Unauthorized' ? 'user.auth.sign-in.account-has-been-deleted' : 'user.auth.sign-in.bad-email-or-password';
       return;
     }
-
-    errors.error.forEach((error) => {
-      this.emailErrorMessageBackEnd = error.name === 'email' ? error.message : this.emailErrorMessageBackEnd;
-      this.passwordErrorMessageBackEnd = error.name === 'password' ? error.message : this.passwordErrorMessageBackEnd;
-    });
   }
 
   checkIfItUbs() {

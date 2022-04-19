@@ -253,6 +253,24 @@ describe('SignIn component', () => {
       expect(component.backEndError).toBe('Ups');
     });
 
+    it('Should return an generalError when login failed', () => {
+      errors = new HttpErrorResponse({ error: { message: 'Ups' } });
+
+      // @ts-ignore
+      component.onSignInFailure(errors);
+      fixture.detectChanges();
+      expect(component.generalError).toBe('user.auth.sign-in.bad-email-or-password');
+    });
+
+    it('Should return an generalError when login failed with deleted user', () => {
+      errors = new HttpErrorResponse({ error: { error: 'Unauthorized' } });
+
+      // @ts-ignore
+      component.onSignInFailure(errors);
+      fixture.detectChanges();
+      expect(component.generalError).toBe('user.auth.sign-in.account-has-been-deleted');
+    });
+
     it('Should reset error messages', () => {
       component.emailErrorMessageBackEnd = 'I am error message';
       component.passwordErrorMessageBackEnd = 'I am error message';
