@@ -1,7 +1,14 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
-import { UserViolations, IOrderHistory, PaymentDetails, IPaymentInfoDto } from '../models/ubs-admin.interface';
+import {
+  UserViolations,
+  IOrderHistory,
+  PaymentDetails,
+  IPaymentInfoDto,
+  FormFieldsName,
+  ResponsibleEmployee
+} from '../models/ubs-admin.interface';
 import { environment } from '@environment/environment';
 import { IViolation } from '../models/violation.model';
 
@@ -180,5 +187,17 @@ export class OrderService {
       message = UNDERPAYMENT_MESSAGE;
     }
     return message;
+  }
+  public matchProps(prop: string): number {
+    switch (prop) {
+      case FormFieldsName.CallManager:
+        return ResponsibleEmployee.CallManager;
+      case FormFieldsName.Driver:
+        return ResponsibleEmployee.Driver;
+      case FormFieldsName.Logistician:
+        return ResponsibleEmployee.Logistician;
+      case FormFieldsName.Navigator:
+        return ResponsibleEmployee.Navigator;
+    }
   }
 }
