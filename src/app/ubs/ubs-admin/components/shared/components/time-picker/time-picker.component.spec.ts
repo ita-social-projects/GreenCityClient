@@ -3,7 +3,7 @@ import { TranslateModule } from '@ngx-translate/core';
 
 import { TimePickerComponent } from './time-picker.component';
 
-fdescribe('TimePickerComponent', () => {
+describe('TimePickerComponent', () => {
   let component: TimePickerComponent;
   let fixture: ComponentFixture<TimePickerComponent>;
 
