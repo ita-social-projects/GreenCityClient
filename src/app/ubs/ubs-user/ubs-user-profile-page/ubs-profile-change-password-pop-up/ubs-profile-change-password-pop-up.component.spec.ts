@@ -9,7 +9,7 @@ import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { UpdatePasswordDto } from '@global-models/updatePasswordDto';
 import { of } from 'rxjs';
 
-fdescribe('UbsProfileChangePasswordPopUpComponent', () => {
+describe('UbsProfileChangePasswordPopUpComponent', () => {
   let component: UbsProfileChangePasswordPopUpComponent;
   let fixture: ComponentFixture<UbsProfileChangePasswordPopUpComponent>;
   const password = 'password';
