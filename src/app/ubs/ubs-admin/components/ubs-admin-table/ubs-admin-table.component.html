@@ -129,6 +129,7 @@
 <div
   id="table-container"
   class="scrolling"
+  [style.display]="showTable()"
   infiniteScroll
   [infiniteScrollDistance]="0"
   [infiniteScrollThrottle]="100"
@@ -226,8 +227,7 @@
         </app-table-cell-date>
         <app-table-cell-time
           *ngIf="column.editType === 'TIME'"
-          [from]="row[column.title.key].slice(0, 5)"
-          [to]="row[column.title.key].slice(6, 11)"
+          [timeOfExport]="row[column.title.key]"
           [nameOfColumn]="column.title.key"
           [id]="row.id"
           [ordersToChange]="idsToChange"

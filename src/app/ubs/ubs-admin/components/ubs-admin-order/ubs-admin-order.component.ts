@@ -164,10 +164,10 @@ export class UbsAdminOrderComponent implements OnInit, OnDestroy, AfterContentCh
         receivingStationId: [this.getReceivingStationById(this.exportInfo.receivingStationId)]
       }),
       responsiblePersonsForm: this.fb.group({
-        callManager: [this.getEmployeeById(currentEmployees, ResponsibleEmployee.CallManager)],
-        logistician: [this.getEmployeeById(currentEmployees, ResponsibleEmployee.Logistician)],
-        navigator: [this.getEmployeeById(currentEmployees, ResponsibleEmployee.Navigator)],
-        driver: [this.getEmployeeById(currentEmployees, ResponsibleEmployee.Driver)]
+        responsibleCaller: [this.getEmployeeById(currentEmployees, ResponsibleEmployee.CallManager)],
+        responsibleLogicMan: [this.getEmployeeById(currentEmployees, ResponsibleEmployee.Logistician)],
+        responsibleNavigator: [this.getEmployeeById(currentEmployees, ResponsibleEmployee.Navigator)],
+        responsibleDriver: [this.getEmployeeById(currentEmployees, ResponsibleEmployee.Driver)]
       }),
       orderDetailsForm: this.fb.group({
         storeOrderNumbers: this.fb.array([]),
@@ -310,26 +310,12 @@ export class UbsAdminOrderComponent implements OnInit, OnDestroy, AfterContentCh
 
     if (changedValues.responsiblePersonsForm) {
       const arrEmployees: IUpdateResponsibleEmployee[] = [];
-
-      if (changedValues.responsiblePersonsForm.callManager) {
-        arrEmployees.push(this.getFilledEmployeeData(changedValues.responsiblePersonsForm.callManager, ResponsibleEmployee.CallManager));
-      }
-
-      if (changedValues.responsiblePersonsForm.logistician) {
-        arrEmployees.push(this.getFilledEmployeeData(changedValues.responsiblePersonsForm.logistician, ResponsibleEmployee.Logistician));
-      }
-
-      if (changedValues.responsiblePersonsForm.navigator) {
-        arrEmployees.push(this.getFilledEmployeeData(changedValues.responsiblePersonsForm.navigator, ResponsibleEmployee.Navigator));
-      }
-
-      if (changedValues.responsiblePersonsForm.driver) {
-        arrEmployees.push(this.getFilledEmployeeData(changedValues.responsiblePersonsForm.driver, ResponsibleEmployee.Driver));
-      }
-
+      const responsibleProps = Object.keys(changedValues.responsiblePersonsForm);
+      responsibleProps.forEach((e) =>
+        arrEmployees.push(this.getFilledEmployeeData(changedValues.responsiblePersonsForm[e], this.orderService.matchProps(e)))
+      );
       const keyUpdateResponsibleEmployeeDto = 'updateResponsibleEmployeeDto';
       changedValues[keyUpdateResponsibleEmployeeDto] = arrEmployees;
-
       delete changedValues.responsiblePersonsForm;
     }
 
@@ -446,13 +432,13 @@ export class UbsAdminOrderComponent implements OnInit, OnDestroy, AfterContentCh
     const statuses = ['BROUGHT_IT_HIMSELF', 'CANCELED', 'FORMED'];
 
     if (statuses.includes(this.currentOrderStatus)) {
-      exportDetaisFields.map((el) => exportDetails.get(el).clearValidators());
-      responsiblePersonNames.map((el) => responsiblePersons.get(el).clearValidators());
+      exportDetaisFields.forEach((el) => exportDetails.get(el).clearValidators());
+      responsiblePersonNames.forEach((el) => responsiblePersons.get(el).clearValidators());
       exportDetails.reset();
       responsiblePersons.reset();
     } else {
-      exportDetaisFields.map((el) => exportDetails.get(el).setValidators([Validators.required]));
-      responsiblePersonNames.map((el) => responsiblePersons.get(el).setValidators([Validators.required]));
+      exportDetaisFields.forEach((el) => exportDetails.get(el).setValidators([Validators.required]));
+      responsiblePersonNames.forEach((el) => responsiblePersons.get(el).setValidators([Validators.required]));
     }
     this.statusCanceledOrDone();
   }
