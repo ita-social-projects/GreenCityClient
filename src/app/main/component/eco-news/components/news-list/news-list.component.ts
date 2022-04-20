@@ -29,6 +29,8 @@ export class NewsListComponent implements OnInit, OnDestroy {
   public tagList: string[];
   private destroyed$: ReplaySubject<any> = new ReplaySubject<any>(1);
 
+  public scrollPermission = false;
+
   constructor(
     private ecoNewsService: EcoNewsService,
     private userOwnAuthService: UserOwnAuthService,
@@ -72,8 +74,10 @@ export class NewsListComponent implements OnInit, OnDestroy {
   }
 
   public onScroll(): void {
-    this.scroll = true;
-    this.addElemsToCurrentList();
+    if (this.scrollPermission) {
+      this.scroll = true;
+      this.addElemsToCurrentList();
+    }
   }
 
   public changeView(event: boolean): void {
@@ -123,6 +127,7 @@ export class NewsListComponent implements OnInit, OnDestroy {
     this.remaining = data.totalElements;
     this.elements = this.scroll ? [...this.elements, ...data.page] : [...data.page];
     this.elementsArePresent = this.elements.length < data.totalElements;
+    this.scrollPermission = true;
   }
 
   private setNullList(): void {

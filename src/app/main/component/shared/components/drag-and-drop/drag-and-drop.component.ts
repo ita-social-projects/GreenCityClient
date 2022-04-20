@@ -7,7 +7,7 @@ import { FileHandle } from '@eco-news-models/create-news-interface';
 @Component({
   selector: 'app-drag-and-drop',
   templateUrl: './drag-and-drop.component.html',
-  styleUrls: ['./drag-and-drop.component.scss'],
+  styleUrls: ['./drag-and-drop.component.scss']
 })
 export class DragAndDropComponent implements OnInit {
   public selectedFile: File = null;
