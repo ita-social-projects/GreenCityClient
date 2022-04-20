@@ -15,8 +15,6 @@ export class AdminNavComponent {
       width: '800px'
     });
 
-    dialogRef.afterClosed().subscribe((result) => {
-      console.log('after close save');
-    });
+    dialogRef.afterClosed().subscribe();
   }
 }

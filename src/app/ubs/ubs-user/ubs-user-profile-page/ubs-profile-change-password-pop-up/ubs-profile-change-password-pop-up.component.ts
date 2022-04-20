@@ -21,7 +21,7 @@ export class UbsProfileChangePasswordPopUpComponent implements OnInit {
     this.updatePasswordDto = new UpdatePasswordDto();
   }
 
-  private initForm(): void {
+  public initForm(): void {
     this.formConfig = this.fb.group(
       {
         password: ['', [Validators.required, Validators.pattern(this.passRegexp)]],
