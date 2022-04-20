@@ -11,7 +11,7 @@ import { ChatComponent } from './component/chat/chat.component';
 import { MessageFromDayPipe } from './pipe/message-from-day/message-from-day.pipe';
 import { HttpClientModule } from '@angular/common/http';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { NoopAnimationsModule } from '@angular/platform-browser/animations';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MatDialogModule } from '@angular/material/dialog';
 import { InfiniteScrollModule } from 'ngx-infinite-scroll';
 import { PickerModule } from '@ctrl/ngx-emoji-mart';
@@ -33,7 +33,7 @@ import { PickerModule } from '@ctrl/ngx-emoji-mart';
     HttpClientModule,
     FormsModule,
     ReactiveFormsModule,
-    NoopAnimationsModule,
+    BrowserAnimationsModule,
     MatDialogModule,
     InfiniteScrollModule,
     PickerModule
