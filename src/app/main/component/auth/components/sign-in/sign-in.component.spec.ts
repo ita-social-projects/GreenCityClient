@@ -190,26 +190,40 @@ describe('SignIn component', () => {
       }
     ));
 
-    // it('Test sign in method', async(
-    //   inject([UserOwnSignInService], (service: UserOwnSignInService) => {
-    //     spyOn(service, 'signIn').and.returnValue(of(userSuccessSignIn));
-    //     component.signIn();
+    it('Test sign in method', async(
+      inject([UserOwnSignInService], (service: UserOwnSignInService) => {
+        spyOn(service, 'signIn').and.returnValue(of(userSuccessSignIn));
+        if (component.signInForm.invalid) {
+          component.signIn();
 
-    //     fixture.detectChanges();
-    //     expect(service.signIn).toHaveBeenCalled();
-    //   })
-    // ));
+          fixture.detectChanges();
+          expect(service.signIn).not.toHaveBeenCalled();
+        } else {
+          component.signIn();
 
-    // it('Test sign in method with errors', async(
-    //   inject([UserOwnSignInService], (service: UserOwnSignInService) => {
-    //     const errors = new HttpErrorResponse({ error: [{ name: 'name', message: 'Ups' }] });
-    //     spyOn(service, 'signIn').and.returnValue(throwError(errors));
-    //     component.signIn();
+          fixture.detectChanges();
+          expect(service.signIn).toHaveBeenCalled();
+        }
+      })
+    ));
 
-    //     fixture.detectChanges();
-    //     expect(service.signIn).toHaveBeenCalled();
-    //   })
-    // ));
+    it('Test sign in method with errors', async(
+      inject([UserOwnSignInService], (service: UserOwnSignInService) => {
+        const errors = new HttpErrorResponse({ error: [{ name: 'name', message: 'Ups' }] });
+        spyOn(service, 'signIn').and.returnValue(throwError(errors));
+        if (component.signInForm.invalid) {
+          component.signIn();
+
+          fixture.detectChanges();
+          expect(service.signIn).not.toHaveBeenCalled();
+        } else {
+          component.signIn();
+
+          fixture.detectChanges();
+          expect(service.signIn).toHaveBeenCalled();
+        }
+      })
+    ));
 
     it('Sohuld navige to profile after sign in', async(() => {
       fixture.ngZone.run(() => {
@@ -225,33 +239,6 @@ describe('SignIn component', () => {
 
   describe('Error functionality testing', () => {
     let errors;
-
-    // it('Should return an emailErrorMessageBackEnd when login failed', () => {
-    //   errors = new HttpErrorResponse({ error: [{ name: 'email', message: 'Ups' }] });
-
-    //   // @ts-ignore
-    //   component.onSignInFailure(errors);
-    //   fixture.detectChanges();
-    //   expect(component.emailErrorMessageBackEnd).toBe('Ups');
-    // });
-
-    // it('Should return an passwordErrorMessageBackEnd when login failed', () => {
-    //   errors = new HttpErrorResponse({ error: [{ name: 'password', message: 'Ups' }] });
-
-    //   // @ts-ignore
-    //   component.onSignInFailure(errors);
-    //   fixture.detectChanges();
-    //   expect(component.passwordErrorMessageBackEnd).toBe('Ups');
-    // });
-
-    // it('Should return an backEndError when login failed', () => {
-    //   errors = new HttpErrorResponse({ error: { message: 'Ups' } });
-
-    //   // @ts-ignore
-    //   component.onSignInFailure(errors);
-    //   fixture.detectChanges();
-    //   expect(component.backEndError).toBe('Ups');
-    // });
 
     it('Should return an generalError when login failed', () => {
       errors = new HttpErrorResponse({ error: { message: 'Ups' } });
@@ -271,17 +258,13 @@ describe('SignIn component', () => {
       expect(component.generalError).toBe('user.auth.sign-in.account-has-been-deleted');
     });
 
-    // it('Should reset error messages', () => {
-    //   component.emailErrorMessageBackEnd = 'I am error message';
-    //   component.passwordErrorMessageBackEnd = 'I am error message';
-    //   component.backEndError = 'I am error message';
-    //   // @ts-ignore
-    //   component.configDefaultErrorMessage();
+    it('Should reset error messages', () => {
+      component.generalError = 'I am error message';
+      // @ts-ignore
+      component.configDefaultErrorMessage();
 
-    //   expect(component.backEndError).toBeNull();
-    //   expect(component.passwordErrorMessageBackEnd).toBeNull();
-    //   expect(component.emailErrorMessageBackEnd).toBeNull();
-    // });
+      expect(component.generalError).toBeNull();
+    });
 
     it('onSignInFailure should set errors', () => {
       // @ts-ignore

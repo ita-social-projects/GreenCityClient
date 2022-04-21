@@ -28,6 +28,7 @@ export class SignInComponent implements OnInit, OnDestroy {
   public userOwnSignIn: UserOwnSignIn;
   public loadingAnim: boolean;
   public signInForm: FormGroup;
+  public signInFormValid: boolean;
   public emailField: AbstractControl;
   public passwordField: AbstractControl;
   public emailFieldValue: string;
