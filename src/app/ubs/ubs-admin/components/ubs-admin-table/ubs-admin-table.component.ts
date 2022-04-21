@@ -431,7 +431,7 @@ export class UbsAdminTableComponent implements OnInit, AfterViewChecked, OnDestr
 
   private setUnDisplayedColumns(): void {
     this.displayedColumnsViewTitles = [];
-    this.displayedColumns = [];
+    this.displayedColumns = ['select'];
     this.isAll = false;
   }
 
@@ -667,7 +667,9 @@ export class UbsAdminTableComponent implements OnInit, AfterViewChecked, OnDestr
   checkStatusOfOrders(id: number): boolean {
     return this.uneditableStatuses.includes(this.tableData.find((el) => el.id === id).orderStatus);
   }
-
+  showTable(): string {
+    return this.displayedColumns.length > 1 ? 'block' : 'none';
+  }
   ngOnDestroy() {
     this.destroy.next();
     this.destroy.unsubscribe();

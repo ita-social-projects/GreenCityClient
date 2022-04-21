@@ -214,9 +214,9 @@ describe('UbsAdminOrderPaymentComponent', () => {
       unPaidAmount: 900
     },
     exportDetailsDto: {
-      allReceivingStations: ['Саперно-Слобідська'],
+      allReceivingStations: [],
       dateExport: null,
-      receivingStation: null,
+      receivingStationId: null,
       timeDeliveryFrom: null,
       timeDeliveryTo: null
     },

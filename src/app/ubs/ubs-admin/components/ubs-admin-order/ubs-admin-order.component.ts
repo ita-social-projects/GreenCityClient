@@ -20,16 +20,10 @@ import {
   IPaymentInfo,
   IResponsiblePersons,
   IUpdateResponsibleEmployee,
-  IUserInfo
+  IUserInfo,
+  ResponsibleEmployee
 } from '../../models/ubs-admin.interface';
 import { formatDate } from '@angular/common';
-
-enum ResponsibleEmployee {
-  CallManager = 2,
-  Logistician,
-  Navigator,
-  Driver
-}
 
 @Component({
   selector: 'app-ubs-admin-order',
@@ -167,13 +161,13 @@ export class UbsAdminOrderComponent implements OnInit, OnDestroy, AfterContentCh
         dateExport: [this.exportInfo.dateExport ? formatDate(this.exportInfo.dateExport, 'yyyy-MM-dd', this.currentLanguage) : ''],
         timeDeliveryFrom: [this.parseTimeToStr(this.exportInfo.timeDeliveryFrom)],
         timeDeliveryTo: [this.parseTimeToStr(this.exportInfo.timeDeliveryTo)],
-        receivingStation: [this.exportInfo.receivingStation]
+        receivingStationId: [this.getReceivingStationById(this.exportInfo.receivingStationId)]
       }),
       responsiblePersonsForm: this.fb.group({
-        callManager: [this.getEmployeeById(currentEmployees, 2)],
-        logistician: [this.getEmployeeById(currentEmployees, 3)],
-        navigator: [this.getEmployeeById(currentEmployees, 4)],
-        driver: [this.getEmployeeById(currentEmployees, 5)]
+        responsibleCaller: [this.getEmployeeById(currentEmployees, ResponsibleEmployee.CallManager)],
+        responsibleLogicMan: [this.getEmployeeById(currentEmployees, ResponsibleEmployee.Logistician)],
+        responsibleNavigator: [this.getEmployeeById(currentEmployees, ResponsibleEmployee.Navigator)],
+        responsibleDriver: [this.getEmployeeById(currentEmployees, ResponsibleEmployee.Driver)]
       }),
       orderDetailsForm: this.fb.group({
         storeOrderNumbers: this.fb.array([]),
@@ -316,26 +310,12 @@ export class UbsAdminOrderComponent implements OnInit, OnDestroy, AfterContentCh
 
     if (changedValues.responsiblePersonsForm) {
       const arrEmployees: IUpdateResponsibleEmployee[] = [];
-
-      if (changedValues.responsiblePersonsForm.callManager) {
-        arrEmployees.push(this.getFilledEmployeeData(changedValues.responsiblePersonsForm.callManager, ResponsibleEmployee.CallManager));
-      }
-
-      if (changedValues.responsiblePersonsForm.logistician) {
-        arrEmployees.push(this.getFilledEmployeeData(changedValues.responsiblePersonsForm.logistician, ResponsibleEmployee.Logistician));
-      }
-
-      if (changedValues.responsiblePersonsForm.navigator) {
-        arrEmployees.push(this.getFilledEmployeeData(changedValues.responsiblePersonsForm.navigator, ResponsibleEmployee.Navigator));
-      }
-
-      if (changedValues.responsiblePersonsForm.driver) {
-        arrEmployees.push(this.getFilledEmployeeData(changedValues.responsiblePersonsForm.driver, ResponsibleEmployee.Driver));
-      }
-
+      const responsibleProps = Object.keys(changedValues.responsiblePersonsForm);
+      responsibleProps.forEach((e) =>
+        arrEmployees.push(this.getFilledEmployeeData(changedValues.responsiblePersonsForm[e], this.orderService.matchProps(e)))
+      );
       const keyUpdateResponsibleEmployeeDto = 'updateResponsibleEmployeeDto';
       changedValues[keyUpdateResponsibleEmployeeDto] = arrEmployees;
-
       delete changedValues.responsiblePersonsForm;
     }
 
@@ -395,8 +375,17 @@ export class UbsAdminOrderComponent implements OnInit, OnDestroy, AfterContentCh
     if (exportDetailsDto.timeDeliveryTo) {
       exportDetailsDto.timeDeliveryTo = this.parseStrToTime(exportDetailsDto.timeDeliveryTo, exportDate);
     }
+    if (exportDetailsDto.receivingStationId) {
+      exportDetailsDto.receivingStationId = this.getReceivingStationIdByName(exportDetailsDto.receivingStationId.toString());
+    }
   }
-
+  public getReceivingStationIdByName(receivingStationName: string): number {
+    return this.exportInfo.allReceivingStations.find((element) => receivingStationName === element.name).id;
+  }
+  public getReceivingStationById(receivingStationId: number): string | null {
+    const receivingStationName = this.exportInfo.allReceivingStations.find((element) => receivingStationId === element.id)?.name;
+    return receivingStationName || null;
+  }
   public formatBagsValue(orderDetailsForm) {
     const confirmed = {};
     const exported = {};
@@ -443,13 +432,13 @@ export class UbsAdminOrderComponent implements OnInit, OnDestroy, AfterContentCh
     const statuses = ['BROUGHT_IT_HIMSELF', 'CANCELED', 'FORMED'];
 
     if (statuses.includes(this.currentOrderStatus)) {
-      exportDetaisFields.map((el) => exportDetails.get(el).clearValidators());
-      responsiblePersonNames.map((el) => responsiblePersons.get(el).clearValidators());
+      exportDetaisFields.forEach((el) => exportDetails.get(el).clearValidators());
+      responsiblePersonNames.forEach((el) => responsiblePersons.get(el).clearValidators());
       exportDetails.reset();
       responsiblePersons.reset();
     } else {
-      exportDetaisFields.map((el) => exportDetails.get(el).setValidators([Validators.required]));
-      responsiblePersonNames.map((el) => responsiblePersons.get(el).setValidators([Validators.required]));
+      exportDetaisFields.forEach((el) => exportDetails.get(el).setValidators([Validators.required]));
+      responsiblePersonNames.forEach((el) => responsiblePersons.get(el).setValidators([Validators.required]));
     }
     this.statusCanceledOrDone();
   }
