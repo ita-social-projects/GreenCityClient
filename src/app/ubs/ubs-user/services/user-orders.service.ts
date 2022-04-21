@@ -12,8 +12,7 @@ export class UserOrdersService {
   constructor(private http: HttpClient) {}
 
   getAllUserOrders(): Observable<any> {
-    const lang = localStorage.getItem('language') === 'ua' ? 1 : 2;
-    return this.http.get<any[]>(`${this.url}/get-all-orders-data/${lang}`);
+    return this.http.get<any[]>(`${this.url}/user-orders`);
   }
 
   public deleteOrder(orderId: number): Observable<object> {

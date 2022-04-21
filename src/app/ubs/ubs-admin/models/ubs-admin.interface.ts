@@ -106,21 +106,27 @@ export interface IGeneralOrderInfo {
   adminComment: string;
   orderStatus: string;
   orderStatusName: string;
+  orderStatusNameEng: string;
   orderStatusesDtos: IOrderStatusesDtos[];
   orderPaymentStatus: string;
   orderPaymentStatusName: string;
+  orderPaymentStatusNameEng: string;
   orderPaymentStatusesDto: IOrderPaymentStatusesDto[];
 }
 
 export interface IOrderStatusesDtos {
   ableActualChange: boolean;
   key: string;
-  translation: string;
+  translation?: string;
+  ua?: string;
+  eng?: string;
 }
 
 export interface IOrderPaymentStatusesDto {
   key: string;
-  translation: string;
+  translation?: string;
+  ua?: string;
+  eng?: string;
 }
 
 export interface IUserInfo {
@@ -210,7 +216,9 @@ export interface IOrderHistory {
 export interface IOrderStatusInfo {
   key: string;
   ableActualChange: boolean;
-  translation: string;
+  translation?: string;
+  ua?: string;
+  eng?: string;
 }
 
 export interface UserViolations {

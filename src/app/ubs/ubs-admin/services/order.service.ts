@@ -62,8 +62,8 @@ export class OrderService {
     }
   }
 
-  public getOrderInfo(orderId, lang) {
-    return this.http.get(`${this.backend}/management/get-data-for-order/${orderId}/${lang}`);
+  public getOrderInfo(orderId) {
+    return this.http.get(`${this.backend}/management/get-data-for-order/${orderId}`);
   }
 
   public updateOrderInfo(orderId: number, lang: string, data: {}) {
