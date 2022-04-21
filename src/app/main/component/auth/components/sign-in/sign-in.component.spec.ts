@@ -235,6 +235,16 @@ describe('SignIn component', () => {
         });
       });
     }));
+
+    it('Should update the value of the variable', () => {
+      if (component.emailAndPasswordEmpty) {
+        component.allFieldsEmptyCheck();
+        expect(component.generalError).toEqual('user.auth.sign-in.fill-all-red-fields');
+      } else {
+        component.allFieldsEmptyCheck();
+        expect(component.generalError).toEqual(null);
+      }
+    });
   });
 
   describe('Error functionality testing', () => {

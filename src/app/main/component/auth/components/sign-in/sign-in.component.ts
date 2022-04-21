@@ -37,11 +37,12 @@ export class SignInComponent implements OnInit, OnDestroy {
   public ubsStyle: string;
   private destroy: Subject<boolean> = new Subject<boolean>();
 
-  //generalError can contain:
-  //'user.auth.sign-in.fill-all-red-fields', or
-  //'user.auth.sign-in.account-has-been-deleted', or
-  //'user.auth.sign-in.bad-email-or-password' error
+  // generalError can contain:
+  // 'user.auth.sign-in.fill-all-red-fields', or
+  // 'user.auth.sign-in.account-has-been-deleted', or
+  // 'user.auth.sign-in.bad-email-or-password' error
   public generalError: string;
+  public emailAndPasswordEmpty: boolean;
 
   @Output() private pageName = new EventEmitter();
 
@@ -88,15 +89,18 @@ export class SignInComponent implements OnInit, OnDestroy {
     }
   }
 
-  //Checks if email and password fields are simultaneously empty:
-  public onBlur() {
-    const emailAndPasswordEmpty =
+  // Checks if email and password fields are simultaneously empty:
+  // public onBlur() {
+  public allFieldsEmptyCheck() {
+    this.emailAndPasswordEmpty =
       this.passwordField.touched && !this.passwordField.value && this.emailField.touched && !this.emailField.value;
-    this.generalError = emailAndPasswordEmpty ? 'user.auth.sign-in.fill-all-red-fields' : null;
+    this.generalError = this.emailAndPasswordEmpty ? 'user.auth.sign-in.fill-all-red-fields' : null;
   }
 
   public signIn(): void {
-    if (this.signInForm.invalid) return;
+    if (this.signInForm.invalid) {
+      return;
+    }
     this.loadingAnim = true;
     const { email, password } = this.signInForm.value;
     this.userOwnSignIn.email = email;

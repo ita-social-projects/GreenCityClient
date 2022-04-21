@@ -12,7 +12,7 @@
     required
     formControlName="email"
     (input)="configDefaultErrorMessage()"
-    (blur)="onBlur()"
+    (blur)="allFieldsEmptyCheck()"
     [ngClass]="(emailField.invalid && emailField.touched) || generalError ? 'alert-email-validation' : 'successful-email-validation'"
     aria-required="true"
     aria-describedby="email-err-msg"
@@ -43,7 +43,7 @@
       placeholder="{{ 'user.auth.sign-in.password' | translate }}"
       name="form-control password-signin"
       (input)="configDefaultErrorMessage()"
-      (blur)="onBlur()"
+      (blur)="allFieldsEmptyCheck()"
       aria-required="true"
       aria-describedby="pass-err-msg"
     />
