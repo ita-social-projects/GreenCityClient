@@ -12,8 +12,10 @@ export interface IUserOrderInfo {
   orderComment: string;
   orderFullPrice: number;
   orderStatus: string;
+  orderStatusEng: string;
   paidAmount: number;
   paymentStatus: string;
+  paymentStatusEng: string;
   sender: IUserInfo;
 }
 
@@ -26,10 +28,14 @@ export interface IUserInfo {
 
 export interface IAddressExportDetails {
   addressCity: string;
+  addressCityEng: string;
   addressComment: string;
   addressDistinct: string;
+  addressDistinctEng: string;
   addressRegion: string;
+  addressRegionEng: string;
   addressStreet: string;
+  addressStreetEng: string;
 }
 
 export interface IBags {
