@@ -40,6 +40,10 @@ export class MatSnackBarComponent {
       this.className = 'success-snackbar';
       this.getSnackBarMessage('snack-bar.success.sign-up');
     },
+    signUpUbs: () => {
+      this.className = 'success-snackbar-ubs';
+      this.getSnackBarMessage('snack-bar.success.sign-up');
+    },
     successConfirmEmail: () => {
       this.className = 'success-snackbar';
       this.getSnackBarMessage('snack-bar.success.confirm-email');
@@ -108,7 +112,7 @@ export class MatSnackBarComponent {
     const addValue = additionalValue ? { orderId: additionalValue } : {};
     this.translate.get(key, addValue).subscribe((translation) => {
       this.message = translation;
-      this.snackBar.open(this.message, 'X', {
+      this.snackBar.open(this.message, 'close', {
         duration: 15000,
         verticalPosition: 'top',
         horizontalPosition: 'center',

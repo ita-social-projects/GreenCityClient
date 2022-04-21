@@ -163,7 +163,11 @@ export class SignUpComponent implements OnInit, OnDestroy {
   private onSubmitSuccess(data: SuccessSignUpDto): void {
     this.loadingAnim = false;
     this.closeSignUpWindow();
-    this.snackBar.openSnackBar('signUp');
+    if (this.router.url === '/ubs') {
+      this.snackBar.openSnackBar('signUpUbs');
+    } else {
+      this.snackBar.openSnackBar('signUp');
+    }
   }
 
   private closeSignUpWindow(): void {
