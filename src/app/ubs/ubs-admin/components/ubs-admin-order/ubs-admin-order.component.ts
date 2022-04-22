@@ -1,4 +1,4 @@
-import { Component, OnInit, OnDestroy, AfterContentChecked, ChangeDetectorRef } from '@angular/core';
+import { Component, OnInit, OnDestroy, AfterContentChecked, ChangeDetectorRef, Injector } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { ActivatedRoute, Params } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
@@ -24,6 +24,7 @@ import {
   ResponsibleEmployee
 } from '../../models/ubs-admin.interface';
 import { formatDate } from '@angular/common';
+import { MatSnackBarComponent } from '@global-errors/mat-snack-bar/mat-snack-bar.component';
 
 @Component({
   selector: 'app-ubs-admin-order',
@@ -50,7 +51,6 @@ export class UbsAdminOrderComponent implements OnInit, OnDestroy, AfterContentCh
   currentOrderStatus: string;
   overpayment: number;
   isMinOrder = true;
-
   constructor(
     private translate: TranslateService,
     private orderService: OrderService,
@@ -58,7 +58,8 @@ export class UbsAdminOrderComponent implements OnInit, OnDestroy, AfterContentCh
     private fb: FormBuilder,
     private dialog: MatDialog,
     private route: ActivatedRoute,
-    private changeDetector: ChangeDetectorRef
+    private changeDetector: ChangeDetectorRef,
+    private matSnackBar: MatSnackBarComponent
   ) {}
   ngAfterContentChecked(): void {
     this.changeDetector.detectChanges();
@@ -324,11 +325,11 @@ export class UbsAdminOrderComponent implements OnInit, OnDestroy, AfterContentCh
     this.orderService
       .updateOrderInfo(this.orderId, this.currentLanguage, changedValues)
       .pipe(takeUntil(this.destroy$))
-      .subscribe(() => {
+      .subscribe((response) => {
+        response ? this.matSnackBar.snackType.changesSaved() : this.matSnackBar.snackType.error();
         this.getOrderInfo(this.orderId);
       });
   }
-
   private getUpdates(formItem: FormGroup | FormArray | FormControl, changedValues: IOrderInfo, name?: string) {
     if (formItem instanceof FormControl) {
       if (name && formItem.dirty) {
