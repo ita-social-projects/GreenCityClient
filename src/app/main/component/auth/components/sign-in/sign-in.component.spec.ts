@@ -143,6 +143,26 @@ describe('SignIn component', () => {
     });
   });
 
+  describe('Check valid state of both input fields functionality testing', () => {
+    it('Should change value of generalError to error message', () => {
+      const passwordControl = component.signInForm.get('password');
+      passwordControl.markAsTouched();
+      const emailControl = component.signInForm.get('email');
+      emailControl.markAsTouched();
+      component.allFieldsEmptyCheck();
+      expect(component.generalError).toEqual('user.auth.sign-in.fill-all-red-fields');
+    });
+
+    it('Should change value of generalError to null', () => {
+      const emailControl = component.signInForm.get('email');
+      emailControl.markAsTouched();
+      emailControl.setValue('test');
+
+      component.allFieldsEmptyCheck();
+      expect(component.generalError).toEqual(null);
+    });
+  });
+
   describe('Login functionality testing', () => {
     it('Check what data comes on subscription', async(() => {
       const userOwnSignIn = new UserOwnSignIn();
@@ -190,20 +210,35 @@ describe('SignIn component', () => {
       }
     ));
 
-    it('Test sign in method', async(
+    it('Test sign in method with invalid signInForm', async(
       inject([UserOwnSignInService], (service: UserOwnSignInService) => {
         spyOn(service, 'signIn').and.returnValue(of(userSuccessSignIn));
-        if (component.signInForm.invalid) {
-          component.signIn();
+        const passwordControl = component.signInForm.get('password');
+        passwordControl.markAsTouched();
+        passwordControl.setValue('');
+        const emailControl = component.signInForm.get('email');
+        emailControl.markAsTouched();
+        emailControl.setValue('test@test.gmail.com');
 
-          fixture.detectChanges();
-          expect(service.signIn).not.toHaveBeenCalled();
-        } else {
-          component.signIn();
+        component.signIn();
+        fixture.detectChanges();
+        expect(service.signIn).not.toHaveBeenCalled();
+      })
+    ));
 
-          fixture.detectChanges();
-          expect(service.signIn).toHaveBeenCalled();
-        }
+    it('Test sign in method with valid signInForm', async(
+      inject([UserOwnSignInService], (service: UserOwnSignInService) => {
+        spyOn(service, 'signIn').and.returnValue(of(userSuccessSignIn));
+        const passwordControl = component.signInForm.get('password');
+        passwordControl.markAsTouched();
+        passwordControl.setValue('888888888');
+        const emailControl = component.signInForm.get('email');
+        emailControl.markAsTouched();
+        emailControl.setValue('test@test.gmail.com');
+
+        component.signIn();
+        fixture.detectChanges();
+        expect(service.signIn).toHaveBeenCalled();
       })
     ));
 
@@ -211,17 +246,15 @@ describe('SignIn component', () => {
       inject([UserOwnSignInService], (service: UserOwnSignInService) => {
         const errors = new HttpErrorResponse({ error: [{ name: 'name', message: 'Ups' }] });
         spyOn(service, 'signIn').and.returnValue(throwError(errors));
-        if (component.signInForm.invalid) {
-          component.signIn();
-
-          fixture.detectChanges();
-          expect(service.signIn).not.toHaveBeenCalled();
-        } else {
-          component.signIn();
-
-          fixture.detectChanges();
-          expect(service.signIn).toHaveBeenCalled();
-        }
+        const passwordControl = component.signInForm.get('password');
+        passwordControl.markAsTouched();
+        passwordControl.setValue('888888888');
+        const emailControl = component.signInForm.get('email');
+        emailControl.markAsTouched();
+        emailControl.setValue('test@test.gmail.com');
+        component.signIn();
+        fixture.detectChanges();
+        expect(service.signIn).toHaveBeenCalled();
       })
     ));
 
@@ -235,16 +268,6 @@ describe('SignIn component', () => {
         });
       });
     }));
-
-    it('Should update the value of the variable', () => {
-      if (component.emailAndPasswordEmpty) {
-        component.allFieldsEmptyCheck();
-        expect(component.generalError).toEqual('user.auth.sign-in.fill-all-red-fields');
-      } else {
-        component.allFieldsEmptyCheck();
-        expect(component.generalError).toEqual(null);
-      }
-    });
   });
 
   describe('Error functionality testing', () => {

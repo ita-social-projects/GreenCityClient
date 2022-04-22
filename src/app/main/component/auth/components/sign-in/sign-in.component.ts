@@ -42,8 +42,6 @@ export class SignInComponent implements OnInit, OnDestroy {
   // 'user.auth.sign-in.account-has-been-deleted', or
   // 'user.auth.sign-in.bad-email-or-password' error
   public generalError: string;
-  public emailAndPasswordEmpty: boolean;
-
   @Output() private pageName = new EventEmitter();
 
   constructor(
@@ -92,9 +90,9 @@ export class SignInComponent implements OnInit, OnDestroy {
   // Checks if email and password fields are simultaneously empty:
   // public onBlur() {
   public allFieldsEmptyCheck() {
-    this.emailAndPasswordEmpty =
+    const emailAndPasswordEmpty =
       this.passwordField.touched && !this.passwordField.value && this.emailField.touched && !this.emailField.value;
-    this.generalError = this.emailAndPasswordEmpty ? 'user.auth.sign-in.fill-all-red-fields' : null;
+    this.generalError = emailAndPasswordEmpty ? 'user.auth.sign-in.fill-all-red-fields' : null;
   }
 
   public signIn(): void {
