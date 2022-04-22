@@ -2,7 +2,7 @@ import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
 import { UbsFooterComponent } from './ubs-footer.component';
 import { of } from 'rxjs';
-import { EventEmitter, Injectable } from '@angular/core';
+import { CUSTOM_ELEMENTS_SCHEMA, EventEmitter, Injectable } from '@angular/core';
 
 @Injectable()
 class TranslationServiceStub {
@@ -42,7 +42,8 @@ describe('UbsFooterComponent', () => {
     TestBed.configureTestingModule({
       declarations: [UbsFooterComponent],
       imports: [TranslateModule.forRoot()],
-      providers: [{ provide: TranslateService, useClass: TranslationServiceStub }]
+      providers: [{ provide: TranslateService, useClass: TranslationServiceStub }],
+      schemas: [CUSTOM_ELEMENTS_SCHEMA]
     }).compileComponents();
   }));
 
