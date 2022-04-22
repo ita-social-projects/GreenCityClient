@@ -7,7 +7,7 @@ export const authImages = {
 };
 
 export const ubsAuthImages = {
-  mainImage: 'assets/img/ubs/green_garbage_bag.svg',
+  mainImage: 'assets/img/ubs/Garbage_Bag_Green.svg',
   cross: 'assets/img/auth/cross.svg',
   hiddenEye: 'assets/img/auth/hided_eye.svg',
   openEye: 'assets/img/auth/open_eye.svg',

@@ -4,6 +4,8 @@
 
 .google-sign-in {
   display: flex;
+  justify-content: center;
+  align-items: center;
   padding: 0;
   height: 40px;
   width: 100%;
@@ -14,19 +16,15 @@
 }
 
 .google-sign {
-  align-self: center;
-  padding-left: 10px;
+  margin-right: 8px;
+  width: 18px;
 }
 
 .google-text-sign-in {
-  align-self: center;
-  font-family: var(--tertiary-font);
+  font-family: var(--ubs-quaternary-font);
   font-style: normal;
-  font-weight: normal;
+  font-weight: 400;
   font-size: 14px;
-  line-height: 16px;
-  letter-spacing: 0.21875px;
+  line-height: 20px;
   color: var(--primary-dark-grey);
-  width: 100%;
-  margin-left: -34px;
 }
