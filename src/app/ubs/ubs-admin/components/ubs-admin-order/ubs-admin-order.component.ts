@@ -51,16 +51,20 @@ export class UbsAdminOrderComponent implements OnInit, OnDestroy, AfterContentCh
   currentOrderStatus: string;
   overpayment: number;
   isMinOrder = true;
+  private matSnackBar: MatSnackBarComponent;
+  private orderService: OrderService;
   constructor(
     private translate: TranslateService,
-    private orderService: OrderService,
     private localStorageService: LocalStorageService,
     private fb: FormBuilder,
     private dialog: MatDialog,
     private route: ActivatedRoute,
     private changeDetector: ChangeDetectorRef,
-    private matSnackBar: MatSnackBarComponent
-  ) {}
+    private injector: Injector
+  ) {
+    this.matSnackBar = injector.get<MatSnackBarComponent>(MatSnackBarComponent);
+    this.orderService = injector.get<OrderService>(OrderService);
+  }
   ngAfterContentChecked(): void {
     this.changeDetector.detectChanges();
   }
