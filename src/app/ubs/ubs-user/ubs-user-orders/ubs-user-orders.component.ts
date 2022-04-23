@@ -48,7 +48,7 @@ export class UbsUserOrdersComponent implements OnInit, OnDestroy {
         })
       )
       .subscribe((item) => {
-        this.orders = item;
+        this.orders = item.page;
         this.loadingOrders = true;
         this.currentOrders = this.orders.filter(
           (order) => order.orderStatus !== CheckOrderStatus.DONE && order.orderStatus !== CheckOrderStatus.CANCELED

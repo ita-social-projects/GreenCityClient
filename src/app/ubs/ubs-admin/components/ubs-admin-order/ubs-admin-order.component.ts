@@ -72,12 +72,12 @@ export class UbsAdminOrderComponent implements OnInit, OnDestroy, AfterContentCh
     this.route.params.subscribe((params: Params) => {
       this.orderId = +params.id;
     });
-    this.getOrderInfo(this.orderId, this.currentLanguage);
+    this.getOrderInfo(this.orderId);
   }
 
-  public getOrderInfo(orderId, lang): void {
+  public getOrderInfo(orderId): void {
     this.orderService
-      .getOrderInfo(orderId, lang)
+      .getOrderInfo(orderId)
       .pipe(takeUntil(this.destroy$))
       .subscribe((data: IOrderInfo) => {
         this.orderInfo = data;
@@ -325,7 +325,7 @@ export class UbsAdminOrderComponent implements OnInit, OnDestroy, AfterContentCh
       .updateOrderInfo(this.orderId, this.currentLanguage, changedValues)
       .pipe(takeUntil(this.destroy$))
       .subscribe(() => {
-        this.getOrderInfo(this.orderId, this.currentLanguage);
+        this.getOrderInfo(this.orderId);
       });
   }
 

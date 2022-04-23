@@ -11,7 +11,7 @@
     <ng-container *ngFor="let bag of order.bags">
       <tr class="data_table">
         <td *ngIf="currentLanguage === 'ua'">{{ bag.service }}</td>
-        <td *ngIf="currentLanguage === 'en'">{{ bag.service }}</td>
+        <td *ngIf="currentLanguage === 'en'">{{ bag.serviceEng }}</td>
         <td>{{ bag.capacity }} {{ 'user-orders.details.litr' | translate }}</td>
         <td>{{ bag.price }} {{ 'user-orders.details.currency' | translate }}</td>
         <td>{{ bag.count }} {{ 'user-orders.details.pieces' | translate }}</td>
@@ -54,9 +54,11 @@
   </ol>
   <ol class="recipient">
     <h6 class="bold_text">{{ 'user-orders.details.export-address' | translate }}</h6>
-    <li>{{ order.address.addressCity }}</li>
+    <li *ngIf="currentLanguage === 'ua'">{{ order.address.addressCity }}</li>
+    <li *ngIf="currentLanguage === 'en'">{{ order.address.addressCityEng }}</li>
     <li>
-      <span>{{ order.address.addressStreet }} </span>
+      <span *ngIf="currentLanguage === 'ua'">{{ order.address.addressStreet }} </span>
+      <span *ngIf="currentLanguage === 'en'">{{ order.address.addressStreetEng }} </span>
 
       <span>, {{ 'user-orders.details.block-number' | translate }}unreceived</span>
 

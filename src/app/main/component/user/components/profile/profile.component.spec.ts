@@ -1,4 +1,5 @@
 import { LiveAnnouncer } from '@angular/cdk/a11y';
+import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
@@ -33,7 +34,8 @@ describe('ProfileComponent', () => {
         { provide: LocalStorageService, useValue: localStorageServiceMock },
         { provide: ProfileService, useValue: profileServiceMock },
         { provide: TranslateService, useValue: translateServiceMock }
-      ]
+      ],
+      schemas: [CUSTOM_ELEMENTS_SCHEMA]
     }).compileComponents();
   }));
 
