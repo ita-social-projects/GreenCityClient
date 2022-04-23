@@ -4,6 +4,7 @@ import { UbsAdminTariffsDeletePopUpComponent } from './ubs-admin-tariffs-delete-
 import { MatDialogModule } from '@angular/material/dialog';
 import { HttpClientTestingModule, HttpTestingController } from '@angular/common/http/testing';
 import { TranslateModule } from '@ngx-translate/core';
+import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 
 describe('UbsAdminTariffsDeletePopupComponent', () => {
   let component: UbsAdminTariffsDeletePopUpComponent;
@@ -21,7 +22,8 @@ describe('UbsAdminTariffsDeletePopupComponent', () => {
       providers: [
         { provide: MAT_DIALOG_DATA, useValue: data },
         { provide: MatDialogRef, useValue: {} }
-      ]
+      ],
+      schemas: [CUSTOM_ELEMENTS_SCHEMA]
     }).compileComponents();
   }));
 

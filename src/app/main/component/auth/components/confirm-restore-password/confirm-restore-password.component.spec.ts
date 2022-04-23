@@ -118,6 +118,7 @@ describe('ConfirmRestorePasswordComponent', () => {
     });
 
     it('Test sendPasswords method', () => {
+      spyOn(global, 'setTimeout');
       const spy = (changePasswordServiceMock.restorePassword = jasmine.createSpy('restore').and.returnValue(Observable.of(mockFormData)));
       component.sendPasswords();
       fixture.detectChanges();
