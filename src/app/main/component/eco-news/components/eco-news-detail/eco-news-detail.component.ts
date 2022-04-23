@@ -5,7 +5,7 @@ import { Subject } from 'rxjs';
 import { EcoNewsService } from '@eco-news-service/eco-news.service';
 import { EcoNewsModel } from '@eco-news-models/eco-news-model';
 import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
-import { take, takeUntil } from 'rxjs/operators';
+import { take } from 'rxjs/operators';
 import { Store } from '@ngrx/store';
 import { IAppState } from 'src/app/store/state/app.state';
 import { IEcoNewsState } from 'src/app/store/state/ecoNews.state';

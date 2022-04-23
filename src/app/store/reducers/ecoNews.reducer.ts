@@ -1,10 +1,10 @@
 import { createReducer, on } from '@ngrx/store';
-import { GetEcoNewsByPageSuccess, GetEcoNewsByTagsSuccess } from '../actions/ecoNews.actions';
+import { GetEcoNewsByPageSuccessAction, GetEcoNewsByTagsSuccessAction } from '../actions/ecoNews.actions';
 import { initialNewsState } from '../state/ecoNews.state';
 
 export const EcoNewsReducer = createReducer(
   initialNewsState,
-  on(GetEcoNewsByPageSuccess, GetEcoNewsByTagsSuccess, (state, action) => {
+  on(GetEcoNewsByPageSuccessAction, GetEcoNewsByTagsSuccessAction, (state, action) => {
     let prevLocations = state.pages;
     let prevNumber = state.pageNumber;
     if (action.reset) {

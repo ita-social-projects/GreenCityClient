@@ -1,5 +1,4 @@
 import { EcoNewsDto } from '@eco-news-models/eco-news-dto';
-import { EcoNewsModel } from '@eco-news-models/eco-news-model';
 import { createAction, props } from '@ngrx/store';
 
 export enum NewsActions {
@@ -9,16 +8,22 @@ export enum NewsActions {
   GetEcoNewsByPageSuccess = '[News] Get news by page Success'
 }
 
-export const GetEcoNewsByTags = createAction(
+export const GetEcoNewsByTagsAction = createAction(
   NewsActions.GetEcoNewsByTags,
   props<{ currentPage: number; numberOfNews: number; tagsList: string[]; reset: boolean }>()
 );
 
-export const GetEcoNewsByTagsSuccess = createAction(NewsActions.GetEcoNewsByTagsSuccess, props<{ ecoNews: EcoNewsDto; reset: boolean }>());
+export const GetEcoNewsByTagsSuccessAction = createAction(
+  NewsActions.GetEcoNewsByTagsSuccess,
+  props<{ ecoNews: EcoNewsDto; reset: boolean }>()
+);
 
-export const GetEcoNewsByPage = createAction(
+export const GetEcoNewsByPageAction = createAction(
   NewsActions.GetEcoNewsByPage,
   props<{ currentPage: number; numberOfNews: number; reset: boolean }>()
 );
 
-export const GetEcoNewsByPageSuccess = createAction(NewsActions.GetEcoNewsByPageSuccess, props<{ ecoNews: EcoNewsDto; reset: boolean }>());
+export const GetEcoNewsByPageSuccessAction = createAction(
+  NewsActions.GetEcoNewsByPageSuccess,
+  props<{ ecoNews: EcoNewsDto; reset: boolean }>()
+);

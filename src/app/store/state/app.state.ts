@@ -1,4 +1,3 @@
-import { EcoNewsModel } from '@eco-news-models/eco-news-model';
 import { RouterReducerState } from '@ngrx/router-store';
 import { IBigOrderTableState, initialBigOrderTableState } from './bigOrderTable.state';
 import { IEmployeesState, initialEmployeesState } from './employee.state';
