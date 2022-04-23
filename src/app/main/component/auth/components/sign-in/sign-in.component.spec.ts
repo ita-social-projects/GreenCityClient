@@ -144,7 +144,7 @@ describe('SignIn component', () => {
   });
 
   describe('Check valid state of both input fields functionality testing', () => {
-    it('Should change value of generalError to error message', () => {
+    it('Should change value of generalError to error message if both fiels are touched and empty', () => {
       const passwordControl = component.signInForm.get('password');
       passwordControl.markAsTouched();
       const emailControl = component.signInForm.get('email');
@@ -153,7 +153,7 @@ describe('SignIn component', () => {
       expect(component.generalError).toEqual('user.auth.sign-in.fill-all-red-fields');
     });
 
-    it('Should change value of generalError to null', () => {
+    it('Should change value of generalError to null if at least one has value', () => {
       const emailControl = component.signInForm.get('email');
       emailControl.markAsTouched();
       emailControl.setValue('test');

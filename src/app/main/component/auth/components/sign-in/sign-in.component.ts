@@ -87,8 +87,6 @@ export class SignInComponent implements OnInit, OnDestroy {
     }
   }
 
-  // Checks if email and password fields are simultaneously empty:
-  // public onBlur() {
   public allFieldsEmptyCheck() {
     const emailAndPasswordEmpty =
       this.passwordField.touched && !this.passwordField.value && this.emailField.touched && !this.emailField.value;
