@@ -6,6 +6,9 @@ import { EcoNewsService } from '@eco-news-service/eco-news.service';
 import { EcoNewsModel } from '@eco-news-models/eco-news-model';
 import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
 import { take, takeUntil } from 'rxjs/operators';
+import { Store } from '@ngrx/store';
+import { IAppState } from 'src/app/store/state/app.state';
+import { IEcoNewsState } from 'src/app/store/state/ecoNews.state';
 
 @Component({
   selector: 'app-eco-news-detail',
@@ -27,18 +30,23 @@ export class EcoNewsDetailComponent implements OnInit, OnDestroy {
   private newsImage: string;
   private destroy: Subject<boolean> = new Subject<boolean>();
 
-  constructor(private route: ActivatedRoute, private ecoNewsService: EcoNewsService, private localStorageService: LocalStorageService) {}
+  ecoNewById$ = this.store.select((state: IAppState): IEcoNewsState => state.ecoNewsState);
+
+  constructor(
+    private route: ActivatedRoute,
+    private ecoNewsService: EcoNewsService,
+    private localStorageService: LocalStorageService,
+    private store: Store
+  ) {}
 
   ngOnInit() {
     this.canUserEditNews();
     this.setNewsId();
-    this.setNewsIdSubscription();
     this.getIsLiked();
-  }
 
-  public setNewsItem(item: EcoNewsModel): void {
-    const nestedNewsItem = { authorId: item.author.id, authorName: item.author.name };
-    this.newsItem = { ...item, ...nestedNewsItem };
+    this.ecoNewById$.subscribe((value) => {
+      this.newsItem = value.pages.find((item) => item.id === +this.newsId);
+    });
   }
 
   public checkNewsImage(): string {
@@ -83,21 +91,6 @@ export class EcoNewsDetailComponent implements OnInit, OnDestroy {
 
   private setNewsId(): void {
     this.newsId = this.route.snapshot.params.id;
-  }
-
-  private setNewsIdSubscription(): void {
-    this.route.paramMap.pipe(takeUntil(this.destroy)).subscribe((params) => {
-      this.newsId = +params.get('id');
-      this.fetchNewsItem();
-    });
-  }
-
-  private fetchNewsItem(): void {
-    const id = this.newsId.toString();
-    this.ecoNewsService
-      .getEcoNewsById(id)
-      .pipe(takeUntil(this.destroy))
-      .subscribe((item: EcoNewsModel) => this.setNewsItem(item));
   }
 
   private getIsLiked(): void {

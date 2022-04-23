@@ -3,14 +3,14 @@ import { EcoNewsModel } from '@eco-news-models/eco-news-model';
 
 export interface IEcoNewsState {
   ecoNews: EcoNewsDto;
-  error: string | null;
-  page: EcoNewsModel[];
+  pages: EcoNewsModel[];
   pageNumber: number;
+  error: string | null;
 }
 
 export const initialNewsState: IEcoNewsState = {
   ecoNews: null,
-  page: [],
-  error: null,
-  pageNumber: 0
+  pages: [],
+  pageNumber: 0,
+  error: null
 };

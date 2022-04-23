@@ -11,5 +11,5 @@ export const appReducers: ActionReducerMap<IAppState> = {
   employees: employeesReducer,
   locations: tariffReducer,
   bigOrderTable: bigOrderTableReducer,
-  ecoNews: EcoNewsReducer
+  ecoNewsState: EcoNewsReducer
 };

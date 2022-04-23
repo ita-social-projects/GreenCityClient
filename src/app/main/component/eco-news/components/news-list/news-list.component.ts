@@ -46,8 +46,6 @@ export class NewsListComponent implements OnInit, OnDestroy {
     private store: Store
   ) {}
 
-  hewsArr = [];
-
   ngOnInit() {
     this.onResize();
     this.setDefaultNumberOfNews(12);
@@ -58,23 +56,23 @@ export class NewsListComponent implements OnInit, OnDestroy {
 
     this.dispatchStore(false);
 
-    this.econews$.subscribe((val) => {
-      this.currentPage = val.pageNumber;
-      if (val.ecoNews) {
-        this.hasNext = val.ecoNews.hasNext;
-        const data = val.ecoNews;
+    this.econews$.subscribe((value: IEcoNewsState) => {
+      this.currentPage = value.pageNumber;
+      if (value.ecoNews) {
+        this.elements = [...value.pages];
+        const data = value.ecoNews;
+        this.hasNext = data.hasNext;
         this.remaining = data.totalElements;
-        this.elements = [...val.page];
         this.elementsArePresent = this.elements.length < data.totalElements;
       }
     });
   }
 
-  private setLocalizedTags() {
+  private setLocalizedTags(): void {
     this.localStorageService.languageBehaviourSubject.pipe(takeUntil(this.destroyed$)).subscribe(() => this.getAllTags());
   }
 
-  private getAllTags() {
+  private getAllTags(): void {
     this.ecoNewsService
       .getAllPresentTags()
       .pipe(take(1))
@@ -88,7 +86,7 @@ export class NewsListComponent implements OnInit, OnDestroy {
     this.view = this.windowSize > Breakpoints.tabletLow ? true : isGalleryView;
   }
 
-  private getSessionStorageView() {
+  private getSessionStorageView(): void {
     const view = sessionStorage.getItem('viewGallery');
     if (view) {
       this.gallery = JSON.parse(view);
@@ -116,15 +114,13 @@ export class NewsListComponent implements OnInit, OnDestroy {
     }
   }
 
-  public dispatchStore(reset: boolean) {
+  public dispatchStore(res: boolean): void {
     if (this.hasNext && this.currentPage !== undefined) {
-      if (this.tagsList.length > 0) {
-        this.store.dispatch(
-          GetEcoNewsByTags({ currentPage: this.currentPage, numberOfNews: this.numberOfNews, tagsList: this.tagsList, reset: reset })
-        );
-      } else {
-        this.store.dispatch(GetEcoNewsByPage({ currentPage: this.currentPage, numberOfNews: this.numberOfNews, reset: reset }));
-      }
+      this.tagsList.length > 0
+        ? this.store.dispatch(
+            GetEcoNewsByTags({ currentPage: this.currentPage, numberOfNews: this.numberOfNews, tagsList: this.tagsList, reset: res })
+          )
+        : this.store.dispatch(GetEcoNewsByPage({ currentPage: this.currentPage, numberOfNews: this.numberOfNews, reset: res }));
     }
   }
 
@@ -136,7 +132,7 @@ export class NewsListComponent implements OnInit, OnDestroy {
     this.numberOfNews = quantity;
   }
 
-  ngOnDestroy() {
+  ngOnDestroy(): void {
     this.destroyed$.next(true);
     this.destroyed$.complete();
   }
