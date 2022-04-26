@@ -20,7 +20,7 @@ export class TableCellDateComponent {
 
   public isBlocked: boolean;
   public isEditable: boolean;
-  public current: Date = new Date();
+  public current: string = new Date().toISOString().split('T')[0];
 
   constructor(private adminTableService: AdminTableService) {}
 
