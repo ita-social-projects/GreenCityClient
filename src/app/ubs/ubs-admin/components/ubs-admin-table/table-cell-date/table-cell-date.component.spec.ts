@@ -25,7 +25,7 @@ describe('TableCellDateComponent', () => {
     fixture.detectChanges();
   });
 
-  fdescribe('TableCellDateComponent', () => {
+  describe('TableCellDateComponent', () => {
     it('should create component', () => {
       component.doneOrCanceled = false;
       component.isEditable = false;
