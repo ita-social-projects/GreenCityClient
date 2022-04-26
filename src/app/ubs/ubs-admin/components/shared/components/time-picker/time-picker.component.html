@@ -4,7 +4,7 @@
     <div class="set_time_select">
       <div class="select_from_wr">
         <span>{{ 'order-edit.export-time.from' | translate }}</span>
-        <select class="select" (change)="onTimeFromChange()" [(ngModel)]="fromInput">
+        <select class="select" id="timeFrom" (change)="onTimeFromChange()" [(ngModel)]="fromInput">
           <option value="" selected hidden></option>
           <option *ngFor="let timeFrom of fromSelect" [value]="timeFrom">
             {{ timeFrom }}
@@ -13,7 +13,7 @@
       </div>
       <div class="select_to_wr">
         <span>{{ 'order-edit.export-time.to' | translate }}</span>
-        <select class="select" (change)="onTimeToChange()" [(ngModel)]="toInput">
+        <select class="select" id="timeTo" (change)="onTimeToChange()" [(ngModel)]="toInput">
           <option value="" selected hidden></option>
           <option *ngFor="let timeTo of toSelect; let i = index" [id]="timeTo" [value]="timeTo">
             {{ timeTo }}

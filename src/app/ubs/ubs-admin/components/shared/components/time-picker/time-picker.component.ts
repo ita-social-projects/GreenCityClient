@@ -16,10 +16,7 @@ export class TimePickerComponent implements OnInit {
 
   @Input() setTimeFrom: string;
   @Input() setTimeTo: string;
-  @Output() timeOfExport = new EventEmitter();
-
-  constructor() {}
-
+  @Output() timeOfExport = new EventEmitter<object>();
   ngOnInit(): void {
     this.fromInput = this.setTimeFrom;
     this.toInput = this.setTimeTo;

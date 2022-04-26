@@ -330,7 +330,7 @@ export class UbsAdminOrderComponent implements OnInit, OnDestroy, AfterContentCh
       .updateOrderInfo(this.orderId, this.currentLanguage, changedValues)
       .pipe(takeUntil(this.destroy$))
       .subscribe((response) => {
-        response ? this.matSnackBar.snackType.changesSaved() : this.matSnackBar.snackType.error();
+        response.ok ? this.matSnackBar.snackType.changesSaved() : this.matSnackBar.snackType.error();
         this.getOrderInfo(this.orderId);
       });
   }
