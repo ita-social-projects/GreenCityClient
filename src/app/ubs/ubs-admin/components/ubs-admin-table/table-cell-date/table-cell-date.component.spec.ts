@@ -6,7 +6,6 @@ import { AdminTableService } from 'src/app/ubs/ubs-admin/services/admin-table.se
 describe('TableCellDateComponent', () => {
   let component: TableCellDateComponent;
   let fixture: ComponentFixture<TableCellDateComponent>;
-  const mockDate = '2022-01-01';
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
@@ -18,18 +17,19 @@ describe('TableCellDateComponent', () => {
 
   beforeEach(() => {
     jasmine.clock().install();
-    jasmine.clock().mockDate(new Date(mockDate));
+    jasmine.clock().mockDate(new Date());
 
     fixture = TestBed.createComponent(TableCellDateComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });
 
-  describe('TableCellDateComponent', () => {
-    it('should create component', () => {
-      component.doneOrCanceled = false;
-      component.isEditable = false;
+  afterEach(() => {
+    jasmine.clock().uninstall();
+  });
 
+  fdescribe('TableCellDateComponent', () => {
+    it('should create component', () => {
       expect(component).toBeTruthy();
     });
 
@@ -38,11 +38,7 @@ describe('TableCellDateComponent', () => {
       fixture.detectChanges();
       const inputElem = fixture.debugElement.nativeElement.querySelector('#date-input');
 
-      expect(inputElem.min).toBe(mockDate);
+      expect(inputElem.min).toEqual(new Date().toString());
     });
-  });
-
-  afterEach(() => {
-    jasmine.clock().uninstall();
   });
 });
