@@ -20,6 +20,7 @@ import { BigOrderTableEffects } from './store/effects/bigOrderTable.effects';
 import { ServiceWorkerModule } from '@angular/service-worker';
 import { environment } from '../environments/environment';
 import { LanguageService } from './main/i18n/language.service';
+import { NewsEffects } from './store/effects/ecoNews.effects';
 
 export function appInitializerFactory(translate: TranslateService, injector: Injector, languageService: LanguageService) {
   return () =>
@@ -61,7 +62,7 @@ export function appInitializerFactory(translate: TranslateService, injector: Inj
       }
     }),
     StoreModule.forRoot(appReducers),
-    EffectsModule.forRoot([EmployeesEffects, LocationsEffects, BigOrderTableEffects]),
+    EffectsModule.forRoot([EmployeesEffects, LocationsEffects, BigOrderTableEffects, NewsEffects]),
     ServiceWorkerModule.register('ngsw-worker.js', { enabled: environment.production }),
     StoreDevtoolsModule.instrument({
       maxAge: 25,
