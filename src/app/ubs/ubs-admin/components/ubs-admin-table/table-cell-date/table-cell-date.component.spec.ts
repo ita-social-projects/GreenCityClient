@@ -28,7 +28,7 @@ describe('TableCellDateComponent', () => {
     jasmine.clock().uninstall();
   });
 
-  fdescribe('TableCellDateComponent', () => {
+  describe('TableCellDateComponent', () => {
     it('should create component', () => {
       expect(component).toBeTruthy();
     });
