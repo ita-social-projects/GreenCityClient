@@ -8,11 +8,11 @@ import { of } from 'rxjs';
 describe('TableCellDateComponent', () => {
   let component: TableCellDateComponent;
   let fixture: ComponentFixture<TableCellDateComponent>;
-  let iAlertInfo: IAlertInfo[] = [
+  const iAlertInfo: IAlertInfo[] = [
     { orderId: 1, userName: 'userName1' },
     { orderId: 2, userName: 'userName2' }
   ];
-  let iEditCell: IEditCell = {
+  const iEditCell: IEditCell = {
     id: 1,
     nameOfColumn: 'name-of-column',
     newValue: 'newDate'
@@ -45,7 +45,7 @@ describe('TableCellDateComponent', () => {
     });
 
     it('component.current should be current date', () => {
-      let mockDate = new Date();
+      const mockDate = new Date();
 
       expect(component.current).toEqual(mockDate);
     });

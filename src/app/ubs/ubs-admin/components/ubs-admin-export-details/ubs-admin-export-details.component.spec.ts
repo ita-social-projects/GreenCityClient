@@ -83,7 +83,7 @@ describe('UbsAdminExportDetailsComponent', () => {
   });
 
   it('setExportTime should re-assign values to properties', () => {
-    let data = {
+    const data = {
       from: '9-00',
       to: '10-00',
       dataWasChanged: true
