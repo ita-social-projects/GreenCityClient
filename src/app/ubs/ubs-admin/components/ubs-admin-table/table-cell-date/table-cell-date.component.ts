@@ -20,6 +20,7 @@ export class TableCellDateComponent {
 
   public isBlocked: boolean;
   public isEditable: boolean;
+  public current: Date = new Date();
 
   constructor(private adminTableService: AdminTableService) {}
 

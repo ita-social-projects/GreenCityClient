@@ -13,7 +13,7 @@ import { LanguageService } from './i18n/language.service';
 import { TitleAndMetaTagsService } from '@global-service/title-meta-tags/title-and-meta-tags.service';
 import { UiActionsService } from '@global-service/ui-actions/ui-actions.service';
 import { UserService } from '@global-service/user/user.service';
-import { ElementRef } from '@angular/core';
+import { CUSTOM_ELEMENTS_SCHEMA, ElementRef } from '@angular/core';
 
 describe('MainComponent', () => {
   const navigateToStartingPositionOnPage = 'navigateToStartingPositionOnPage';
@@ -47,7 +47,8 @@ describe('MainComponent', () => {
         { provide: UiActionsService, useValue: uiActionsServiceMock },
         { provide: UserService, useValue: userServiceMock },
         { provide: ElementRef, useValue: {} }
-      ]
+      ],
+      schemas: [CUSTOM_ELEMENTS_SCHEMA]
     }).compileComponents();
   }));
 
@@ -56,6 +57,7 @@ describe('MainComponent', () => {
     app = fixture.componentInstance;
     router = fixture.debugElement.injector.get(Router);
     spyOn(router.url, 'includes').and.returnValue(false);
+    spyOn(app as any, 'checkLogin');
     localStorage.clear();
     fixture.detectChanges();
   });

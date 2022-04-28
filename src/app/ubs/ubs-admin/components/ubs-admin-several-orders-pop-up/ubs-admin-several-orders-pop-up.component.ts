@@ -5,12 +5,10 @@ import {
   IResponsiblePersonsData,
   IUpdateExportDetails,
   IUpdateResponsibleEmployee,
-  ResponsibleEmployee,
   FormFieldsName,
   IDataForPopUp
 } from '../../models/ubs-admin.interface';
 import { OrderService } from '../../services/order.service';
-import { fromSelect, toSelect } from '../ubs-admin-table/table-cell-time/table-cell-time-range';
 
 @Component({
   selector: 'app-ubs-admin-several-orders-pop-up',
@@ -70,41 +68,21 @@ export class UbsAdminSeveralOrdersPopUpComponent implements OnInit {
     this.setEmployeesByPosition();
   }
 
-  setExportTime(): void {
-    this.ordersForm.get('exportDetailsDto').get(FormFieldsName.TimeDeliveryFrom).markAsTouched();
-    this.ordersForm.get('exportDetailsDto').get(FormFieldsName.TimeDeliveryTo).markAsTouched();
+  showTimePickerClick(): void {
     this.showTimePicker = true;
-    this.fromSelect = fromSelect;
-    this.toSelect = toSelect;
+  }
+
+  formAction(groupName: string, fieldName: string, data?: string): void {
+    this.ordersForm.get(groupName).get(fieldName).setValue(data);
+    this.ordersForm.get(groupName).get(fieldName).markAsDirty();
+    this.ordersForm.get(groupName).get(fieldName).markAsTouched();
+  }
+
+  setExportTime(data: any): void {
+    this.formAction('exportDetailsDto', FormFieldsName.TimeDeliveryFrom, data.from);
+    this.formAction('exportDetailsDto', FormFieldsName.TimeDeliveryTo, data.to);
     this.fromInput = this.ordersForm.get('exportDetailsDto').get(FormFieldsName.TimeDeliveryFrom).value;
     this.toInput = this.ordersForm.get('exportDetailsDto').get(FormFieldsName.TimeDeliveryTo).value;
-  }
-
-  onTimeFromChange(): void {
-    const fromIdx = fromSelect.indexOf(this.fromInput);
-    this.toSelect = toSelect.slice(fromIdx);
-  }
-
-  onTimeToChange(): void {
-    const toIdx = toSelect.indexOf(this.toInput);
-    this.fromSelect = fromSelect.slice(0, toIdx + 1);
-  }
-
-  save(): void {
-    this.from = this.fromInput;
-    this.to = this.toInput;
-    if (this.fromInput && this.toInput) {
-      this.ordersForm.get('exportDetailsDto').get(FormFieldsName.TimeDeliveryFrom).setValue(this.fromInput);
-      this.ordersForm.get('exportDetailsDto').get(FormFieldsName.TimeDeliveryTo).setValue(this.toInput);
-      this.ordersForm.get('exportDetailsDto').get(FormFieldsName.TimeDeliveryFrom).markAsDirty();
-      this.ordersForm.get('exportDetailsDto').get(FormFieldsName.TimeDeliveryTo).markAsDirty();
-      this.showTimePicker = false;
-    }
-  }
-
-  cancel(): void {
-    this.fromInput = this.from;
-    this.toInput = this.to;
     this.showTimePicker = false;
   }
 
@@ -126,28 +104,18 @@ export class UbsAdminSeveralOrdersPopUpComponent implements OnInit {
   }
 
   getDataByColumnName(position: string): string[] {
-    let data: string[];
-    this.dataFromTable.forEach((element) => {
-      return element.title === position ? (data = element.arrayData.map((el) => el.ua)) : [];
-    });
-    return data;
+    return this.dataFromTable.find((element) => element.title === position).arrayData.map((e) => e.ua);
   }
+
   getFilledEmployeeData(responsibleEmployee: string, responiblePersonId: number, positionName: string): IUpdateResponsibleEmployee {
     const newEmployee: IUpdateResponsibleEmployee = {
       employeeId: 0,
       positionId: responiblePersonId
     };
-
-    this.dataFromTable.forEach((e) => {
-      if (e.title === positionName) {
-        e.arrayData.forEach((el) => {
-          if (el.ua === responsibleEmployee) {
-            newEmployee.employeeId = Number(el.key);
-          }
-        });
-      }
-    });
-
+    const employeeId = this.dataFromTable
+      .find((e) => e.title === positionName)
+      .arrayData.find((element) => element.ua === responsibleEmployee).key;
+    newEmployee.employeeId = Number(employeeId);
     return newEmployee;
   }
 
@@ -159,12 +127,9 @@ export class UbsAdminSeveralOrdersPopUpComponent implements OnInit {
     const responsibleProps = Object.keys(responsibleEmployeeData);
     const arrEmployees: IUpdateResponsibleEmployee[] = [];
     newValues.exportDetailsDto = this.createExportDetailsDto(this.ordersForm.get('exportDetailsDto').value);
-    responsibleProps.forEach((item: string) => {
-      const value = responsibleEmployeeData[item];
-      if (value) {
-        arrEmployees.push(this.getFilledEmployeeData(value, this.matchProps(item), item));
-      }
-    });
+    responsibleProps.forEach((item: string) =>
+      arrEmployees.push(this.getFilledEmployeeData(responsibleEmployeeData[item], this.orderService.matchProps(item), item))
+    );
     newValues.updateResponsibleEmployeeDto = arrEmployees;
     this.values = newValues;
 
@@ -179,31 +144,11 @@ export class UbsAdminSeveralOrdersPopUpComponent implements OnInit {
     return exportDetails;
   }
 
-  matchProps(prop: string): number {
-    switch (prop) {
-      case FormFieldsName.CallManager:
-        return ResponsibleEmployee.CallManager;
-      case FormFieldsName.Driver:
-        return ResponsibleEmployee.Driver;
-      case FormFieldsName.Logistician:
-        return ResponsibleEmployee.Logistician;
-      case FormFieldsName.Navigator:
-        return ResponsibleEmployee.Navigator;
-    }
-  }
-
   getReceivingStationId(receivingStationName: string): number {
-    let receivingStationId = 0;
-    this.dataFromTable.forEach((e) => {
-      if (e.title === FormFieldsName.ReceivingStation) {
-        e.arrayData.forEach((el) => {
-          if (el.ua === receivingStationName) {
-            receivingStationId = Number(el.key);
-          }
-        });
-      }
-    });
-    return receivingStationId;
+    const receivingStationId = this.dataFromTable
+      .find((e) => e.title === FormFieldsName.ReceivingStation)
+      .arrayData.find((element) => element.ua === receivingStationName).key;
+    return Number(receivingStationId);
   }
 
   getResponsiblePersonsData(): void {

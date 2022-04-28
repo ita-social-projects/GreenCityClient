@@ -79,6 +79,7 @@ import { ColumnFiltersPopUpComponent } from './components/shared/components/colu
 import { UbsAdminTariffsCourierPopUpComponent } from './components/ubs-admin-tariffs/ubs-admin-tariffs-courier-pop-up/ubs-admin-tariffs-courier-pop-up.component';
 import { UbsAdminTariffsStationPopUpComponent } from './components/ubs-admin-tariffs/ubs-admin-tariffs-station-pop-up/ubs-admin-tariffs-station-pop-up.component';
 import { MatExpansionModule } from '@angular/material/expansion';
+import { TimePickerComponent } from './components/shared/components/time-picker/time-picker.component';
 
 @NgModule({
   declarations: [
@@ -130,7 +131,8 @@ import { MatExpansionModule } from '@angular/material/expansion';
     ShowPdfPopUpComponent,
     UbsAdminSeveralOrdersPopUpComponent,
     UbsAdminTariffsCourierPopUpComponent,
-    UbsAdminTariffsStationPopUpComponent
+    UbsAdminTariffsStationPopUpComponent,
+    TimePickerComponent
   ],
   imports: [
     CommonModule,
