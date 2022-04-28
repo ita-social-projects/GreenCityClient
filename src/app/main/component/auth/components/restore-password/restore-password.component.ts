@@ -33,7 +33,9 @@ export class RestorePasswordComponent implements OnInit, OnDestroy {
   public loadingAnim: boolean;
   public currentLanguage: string;
   public userIdSubscription: Subscription;
+  public isUbsValue: Subscription;
   public emailFieldValue: string;
+  public isUbs: boolean;
   @Output() public pageName = new EventEmitter();
 
   constructor(
@@ -49,6 +51,7 @@ export class RestorePasswordComponent implements OnInit, OnDestroy {
   ) {}
 
   ngOnInit() {
+    this.isUbsValue = this.localStorageService.ubsRegBehaviourSubject.subscribe((value) => (this.isUbs = value));
     this.userOwnSignIn = new UserOwnSignIn();
     this.initFormReactive();
     this.configDefaultErrorMessage();
@@ -142,5 +145,6 @@ export class RestorePasswordComponent implements OnInit, OnDestroy {
 
   ngOnDestroy() {
     this.userIdSubscription.unsubscribe();
+    this.isUbsValue.unsubscribe();
   }
 }
