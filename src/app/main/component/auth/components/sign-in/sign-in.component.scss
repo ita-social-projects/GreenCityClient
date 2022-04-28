@@ -20,6 +20,14 @@ $inputHeight: 36px;
   }
 }
 
+@mixin link-style {
+  font-family: var(--primary-font);
+  font-size: 16px;
+  line-height: 24px;
+  text-decoration-line: underline;
+  text-underline-offset: 3px;
+}
+
 h1 {
   margin-bottom: 8px;
   font-family: var(--primary-font);
@@ -40,8 +48,6 @@ h2 {
 }
 
 .password-input-btn-show-hide {
-  // height: $inputHeight;
-  box-sizing: border-box;
   border-radius: 5px;
 }
 
@@ -71,7 +77,7 @@ h2 {
 }
 
 .validation-email-error {
-  margin-bottom: 9px;
+  margin-bottom: 8px;
 }
 
 .sign-in-form {
@@ -92,20 +98,13 @@ h2 {
     font-size: 14px;
     line-height: 20px;
     background: #fff;
-    box-sizing: border-box;
     color: var(--primary-dark-grey);
     border-radius: 5px;
     padding: 8px;
     height: $inputHeight;
   }
 
-  input[type='email'] {
-    // height: $inputHeight;
-    // background: #fff;
-    // font-family: var(--primary-font);
-  }
-
-  input[type='email']:focus {
+  input:focus {
     outline: none;
   }
 
@@ -113,13 +112,6 @@ h2 {
   input[type='text'] {
     border: transparent;
     width: 90%;
-    // font-family: var(--primary-font);
-  }
-
-  input[type='password']:focus,
-  input[type='text']:focus {
-    // height: 46px;
-    outline: none;
   }
 
   .email-field-margin {
@@ -144,11 +136,47 @@ h2 {
   margin-bottom: 24px;
 
   .forgot-password {
-    color: var(--secondary-dark-green);
+    color: var(--primary-green);
     font-family: var(--primary-font);
     font-size: 12px;
     line-height: 16px;
     text-decoration-line: underline;
+    text-underline-offset: 3px;
+  }
+}
+
+.forgot-wrapper-ubs {
+  display: flex;
+  justify-content: center;
+  margin-top: 32px;
+
+  .forgot-password-ubs {
+    @include link-style();
+
+    color: var(--ubs-dark-purple);
+  }
+}
+
+.greenStyle {
+  @include button;
+
+  background-color: var(--primary-green);
+
+  &:disabled {
+    background-color: var(--success-light-green);
+  }
+}
+
+.ubsStyle {
+  @include button;
+
+  margin-top: 24px;
+  background-color: var(--ubs-button-light-green);
+  color: var(--ubs-quaternary-dark-grey);
+
+  &:disabled {
+    background-color: var(--ubs-quaternary-light-grey);
+    color: var(--ubs-secondary-grey);
   }
 }
 
@@ -169,33 +197,17 @@ h2 {
   line-height: 24px;
   color: var(--quaternary-dark-grey);
 
-  .sign-up-link {
-    font-size: 16px;
-    line-height: 24px;
-    text-decoration-line: underline;
+  .ubs-link {
+    @include link-style();
+
     color: var(--ubs-dark-purple);
-    text-underline-offset: 3px;
-    // margin-left:16px;
-    // color: var(--secondary-dark-green);
+    margin-left: 16px;
   }
-}
 
-.greenStyle {
-  @include button;
-  background-color: var(--primary-green);
+  .green-link {
+    @include link-style();
 
-  &:disabled {
-    background-color: var(--success-light-green);
-  }
-}
-
-.ubsStyle {
-  @include button;
-  background-color: var(--ubs-button-light-green);
-  color: var(--ubs-quaternary-dark-grey);
-
-  &:disabled {
-    background-color: var(--ubs-quaternary-light-grey);
-    color: var(--ubs-secondary-grey);
+    color: var(--primary-green);
+    margin-left: 16px;
   }
 }
