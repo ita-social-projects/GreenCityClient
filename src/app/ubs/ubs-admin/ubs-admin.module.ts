@@ -78,6 +78,7 @@ import { MatSelectModule } from '@angular/material/select';
 import { ColumnFiltersPopUpComponent } from './components/shared/components/column-filters-pop-up/column-filters-pop-up.component';
 import { UbsAdminTariffsCourierPopUpComponent } from './components/ubs-admin-tariffs/ubs-admin-tariffs-courier-pop-up/ubs-admin-tariffs-courier-pop-up.component';
 import { UbsAdminTariffsStationPopUpComponent } from './components/ubs-admin-tariffs/ubs-admin-tariffs-station-pop-up/ubs-admin-tariffs-station-pop-up.component';
+import { MatExpansionModule } from '@angular/material/expansion';
 
 @NgModule({
   declarations: [
@@ -168,7 +169,8 @@ import { UbsAdminTariffsStationPopUpComponent } from './components/ubs-admin-tar
     PdfViewerModule,
     MatAutocompleteModule,
     MatChipsModule,
-    MatSelectModule
+    MatSelectModule,
+    MatExpansionModule
   ],
   providers: [
     AdminCertificateService,

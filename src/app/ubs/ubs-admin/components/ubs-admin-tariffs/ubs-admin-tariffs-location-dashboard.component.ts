@@ -16,6 +16,7 @@ import { GetLocations } from 'src/app/store/actions/tariff.actions';
 import { MatAutocompleteSelectedEvent, MatAutocompleteTrigger } from '@angular/material/autocomplete';
 import { UbsAdminTariffsCourierPopUpComponent } from './ubs-admin-tariffs-courier-pop-up/ubs-admin-tariffs-courier-pop-up.component';
 import { UbsAdminTariffsStationPopUpComponent } from './ubs-admin-tariffs-station-pop-up/ubs-admin-tariffs-station-pop-up.component';
+import { ubsNamePattern } from '../shared/validators-pattern/ubs-name-patterns';
 
 @Component({
   selector: 'app-ubs-admin-tariffs-location-dashboard',
@@ -31,10 +32,8 @@ export class UbsAdminTariffsLocationDashboardComponent implements OnInit, OnDest
   selectedLocationId;
   couriers;
   stations;
-  currentLanguage;
   reset = true;
   checkedCities = [];
-  namePattern = /^[A-Za-zА-Яа-яїЇіІєЄ0-9\'\-\ ]+[A-Za-zА-Яа-яїЇіІєЄ0-9\'\-\ ]$/;
   currentRegion;
 
   searchForm;
@@ -47,7 +46,7 @@ export class UbsAdminTariffsLocationDashboardComponent implements OnInit, OnDest
   filteredLocations = [];
   private destroy: Subject<boolean> = new Subject<boolean>();
 
-  mainUrl = 'https://maps.googleapis.com/maps/api/js?key=AIzaSyB3xs7Kczo46LFcQRFKPMdrE0lU4qsR_S4&libraries=places&language=';
+  mainUrl = 'https://maps.googleapis.com/maps/api/js?key=AIzaSyB3xs7Kczo46LFcQRFKPMdrE0lU4qsR_S4&libraries=places&language=uk';
   public icons = {
     setting: './assets/img/ubs-tariff/setting.svg',
     crumbs: './assets/img/ubs-tariff/crumbs.svg',
@@ -89,7 +88,6 @@ export class UbsAdminTariffsLocationDashboardComponent implements OnInit, OnDest
     this.getCouriers();
     this.getReceivingStation();
     this.loadScript();
-    this.currentLanguage = this.localeStorageService.getCurrentLanguage();
     this.region.valueChanges.subscribe((value) => {
       this.checkRegionValue(value);
       this.checkedCities = [];
@@ -99,8 +97,14 @@ export class UbsAdminTariffsLocationDashboardComponent implements OnInit, OnDest
 
   private initForm(): void {
     this.searchForm = this.fb.group({
-      region: ['', [Validators.required, Validators.minLength(3), Validators.maxLength(40), Validators.pattern(this.namePattern)]],
-      city: [{ value: '', disabled: true }, [Validators.required, Validators.maxLength(40), Validators.pattern(this.namePattern)]],
+      region: [
+        '',
+        [Validators.required, Validators.minLength(3), Validators.maxLength(40), Validators.pattern(ubsNamePattern.namePattern)]
+      ],
+      city: [
+        { value: '', disabled: true },
+        [Validators.required, Validators.maxLength(40), Validators.pattern(ubsNamePattern.namePattern)]
+      ],
       courier: ['', [Validators.required]],
       station: ['', [Validators.required]],
       state: ['all']
@@ -196,12 +200,12 @@ export class UbsAdminTariffsLocationDashboardComponent implements OnInit, OnDest
   loadScript(): void {
     const script = document.getElementById('googleMaps') as HTMLScriptElement;
     if (script) {
-      script.src = this.mainUrl + this.currentLanguage;
+      script.src = this.mainUrl;
     } else {
       const google = document.createElement('script');
       google.type = 'text/javascript';
       google.id = 'googleMaps';
-      google.setAttribute('src', this.mainUrl + this.currentLanguage);
+      google.setAttribute('src', this.mainUrl);
       document.getElementsByTagName('head')[0].appendChild(google);
     }
   }

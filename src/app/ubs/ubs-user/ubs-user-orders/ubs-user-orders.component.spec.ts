@@ -13,6 +13,7 @@ import { Subject, of } from 'rxjs';
 
 import { UserOrdersService } from '../services/user-orders.service';
 import { BonusesService } from '../ubs-user-bonuses/services/bonuses.service';
+import { APP_BASE_HREF } from '@angular/common';
 
 describe('UbsUserOrdersComponent', () => {
   let component: UbsUserOrdersComponent;
@@ -56,7 +57,8 @@ describe('UbsUserOrdersComponent', () => {
       providers: [
         { provide: MatSnackBarComponent, useValue: MatSnackBarMock },
         { provide: UserOrdersService, useValue: userOrderServiceMock },
-        { provide: BonusesService, useValue: bonusesServiceMock }
+        { provide: BonusesService, useValue: bonusesServiceMock },
+        { provide: APP_BASE_HREF, useValue: '/' }
       ],
       schemas: [CUSTOM_ELEMENTS_SCHEMA]
     }).compileComponents();

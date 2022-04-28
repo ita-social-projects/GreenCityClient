@@ -555,6 +555,7 @@
     "cancel_button": "Cancel",
     "save_button": "Save",
     "error_message": "Area not found. Enter again",
+    "city_error_message": "City not found. Enter again",
     "courier_title": "Add courier",
     "station_title": "Add receiving station",
     "courier_edit_title": "Edit courier",
@@ -572,7 +573,8 @@
     "add-city": "Add city",
     "error": "Only alphabetic characters and special characters “-” (hyphen), \" \" (space) and \" ' \" (apostrophe), numbers are allowed. From minimum 3 to maximum 40 characters are allowed.",
     "stationExist": "The receiving station already exists in the system",
-    "courierExist": "The courier already exists in the system"
+    "courierExist": "The courier already exists in the system",
+    "activeCities": "Active cities"
   },
   "ubs-tariffs-add-service": {
     "add_service": "Add service",
@@ -595,7 +597,10 @@
   "modal-text": {
     "cancel": "Cancel",
     "date": "Date ",
-    "user": "Added by "
+    "user": "Added by ",
+    "no": "No",
+    "yes": "Yes",
+    "cancel-message": "Cancel. Are you sure you want to undo the changes?"
   },
   "ubs-user-notification": {
     "title": "Your messages",

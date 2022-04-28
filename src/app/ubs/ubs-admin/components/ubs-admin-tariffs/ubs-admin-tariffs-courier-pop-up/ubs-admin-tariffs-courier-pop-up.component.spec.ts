@@ -30,9 +30,10 @@ describe('UbsAdminTariffsCourierPopUpComponent', () => {
     ]
   };
 
-  const tariffsServiceMock = jasmine.createSpyObj('tariffsServiceMock', ['getCouriers', 'addCourier']);
+  const tariffsServiceMock = jasmine.createSpyObj('tariffsServiceMock', ['getCouriers', 'addCourier', 'editCourier']);
   tariffsServiceMock.getCouriers.and.returnValue(of([fakeCouriers]));
   tariffsServiceMock.addCourier.and.returnValue(of());
+  tariffsServiceMock.editCourier.and.returnValue(of());
 
   const localStorageServiceStub = () => ({
     firstNameBehaviourSubject: { pipe: () => of('fakeName') }
@@ -77,7 +78,7 @@ describe('UbsAdminTariffsCourierPopUpComponent', () => {
   it('should get all couriers', () => {
     component.getCouriers();
     expect(component.couriers).toEqual([fakeCouriers]);
-    expect(component.couriersName).toEqual([['fakeCourier']]);
+    expect(component.couriersName).toEqual(['fakeCourier']);
   });
 
   it('should add a new courier', () => {
@@ -86,8 +87,9 @@ describe('UbsAdminTariffsCourierPopUpComponent', () => {
   });
 
   it('should edit the courier', () => {
+    component.enValue = [{ courierId: 0 }];
     component.editCourier();
-    expect(matDialogRefMock.close).toHaveBeenCalled();
+    expect(tariffsServiceMock.editCourier).toHaveBeenCalled();
   });
 
   it('method onNoClick should invoke destroyRef.close()', () => {
