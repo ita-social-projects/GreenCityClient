@@ -74,7 +74,9 @@ export class OrderService {
   }
 
   public updateOrderInfo(orderId: number, lang: string, data: {}) {
-    return this.http.patch(`${this.backend}/management/update-order-page-admin-info/${orderId}?lang=${lang}`, data);
+    return this.http.patch(`${this.backend}/management/update-order-page-admin-info/${orderId}?lang=${lang}`, data, {
+      observe: 'response'
+    });
   }
 
   public getOrderDetails(orderId: number, lang: string): Observable<any> {

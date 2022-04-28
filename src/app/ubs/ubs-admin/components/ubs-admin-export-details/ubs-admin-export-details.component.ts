@@ -22,9 +22,11 @@ export class UbsAdminExportDetailsComponent implements OnInit, OnDestroy {
   public from: string;
   public to: string;
   public allReceivingStations: string[];
+  public current: string;
 
   ngOnInit(): void {
     this.allReceivingStations = this.exportInfo.allReceivingStations.map((e) => e.name);
+    this.current = new Date().toISOString().split('T')[0];
   }
 
   openDetails(): void {

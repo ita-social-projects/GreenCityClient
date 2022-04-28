@@ -4,4 +4,5 @@ export interface EcoNewsDto {
   page: Array<EcoNewsModel>;
   totalElements: number;
   currentPage: number;
+  hasNext?: boolean;
 }
