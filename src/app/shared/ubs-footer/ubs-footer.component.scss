@@ -1,3 +1,8 @@
+@mixin height-and-width($height, $width) {
+  height: $height;
+  width: $width;
+}
+
 .footer {
   width: 100%;
   display: flex;
@@ -69,30 +74,21 @@
           border: 1px solid #9ca7b0;
         }
 
-        button {
-          margin-top: 7px;
-          border: 1px solid #690;
-          background-color: #9c0;
-          font-family: Verdana, 'Raleway', Arial, sans-serif;
-          font-weight: bold;
-          color: white;
-          line-height: 35px;
-          font-size: 15px;
+        .button {
+          @include height-and-width(44px, 100%);
+          font-size: 18px;
+          background-color: var(--ubs-button-light-green);
+          color: var(--ubs-tertiary-dark-grey);
+        }
+
+        .button:hover {
+          color: beige;
         }
 
         p,
         label,
-        input,
-        button {
+        input {
           width: 100%;
-        }
-
-        button:hover {
-          background-color: #690;
-        }
-
-        button::first-letter {
-          text-transform: capitalize;
         }
       }
 
