@@ -27,13 +27,13 @@
                     totalItems: count
                   }
           "
-          (click)="setRead(notification.id, notification.read)"
+          (click)="setRead(notification.orderId, notification.read)"
           (opened)="panelOpenState = true"
           (closed)="panelOpenState = false"
         >
           <mat-expansion-panel-header>
             <mat-panel-title [ngClass]="{ textColorTitle: !notification.read }">
-              <div class="col-2">{{ notification.id }}</div>
+              <div class="col-2">{{ notification.orderId }}</div>
             </mat-panel-title>
             <mat-panel-description [ngClass]="{ textColorTitle: !notification.read }" class="title">
               {{ notification.title }}

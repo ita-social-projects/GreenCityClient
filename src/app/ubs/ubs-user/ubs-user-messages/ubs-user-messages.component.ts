@@ -70,7 +70,7 @@ export class UbsUserMessagesComponent implements OnInit, OnDestroy {
   setRead(notificationId: number, isRead: boolean) {
     let isGetNotificationBody = true;
     let notificationItem: NotificationBody;
-    notificationItem = this.notifications.find((item) => item.id === notificationId);
+    notificationItem = this.notifications.find((item) => item.orderId === notificationId);
     if (notificationItem.body) {
       isGetNotificationBody = false;
     }
@@ -79,7 +79,7 @@ export class UbsUserMessagesComponent implements OnInit, OnDestroy {
     }
     if (isGetNotificationBody) {
       this.notifications.forEach((item) => {
-        if (item.id === notificationId) {
+        if (item.orderId === notificationId) {
           item.read = true;
         }
       });
@@ -88,7 +88,7 @@ export class UbsUserMessagesComponent implements OnInit, OnDestroy {
         .setReadNotification(notificationId)
         .pipe(takeUntil(this.destroy))
         .subscribe((response) => {
-          const findNotification = this.notifications.find((item) => item.id === notificationId);
+          const findNotification = this.notifications.find((item) => item.orderId === notificationId);
           findNotification.body = response.body;
           findNotification.isOpen = true;
           this.isLoadSmallSpinner = false;

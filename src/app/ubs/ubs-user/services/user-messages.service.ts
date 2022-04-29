@@ -27,8 +27,8 @@ export class UserMessagesService implements OnDestroy {
     return this.http.get<number>(`${this.url}/notifications/quantityUnreadenNotifications`);
   }
 
-  setReadNotification(id: number): Observable<any> {
-    return this.http.post(`${this.url}/notifications/${id}?lang=${this.language}`, {});
+  setReadNotification(orderId: number): Observable<any> {
+    return this.http.post(`${this.url}/notifications/${orderId}?lang=${this.language}`, {});
   }
 
   ngOnDestroy() {
