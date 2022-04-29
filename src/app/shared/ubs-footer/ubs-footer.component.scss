@@ -72,6 +72,7 @@
         button {
           margin-top: 7px;
           height: 44px;
+          width: 100%;
           font-size: 18px;
           background-color: var(--ubs-button-light-green);
           color: var(--ubs-tertiary-dark-grey);
@@ -83,8 +84,7 @@
 
         p,
         label,
-        input,
-        button {
+        input {
           width: 100%;
         }
       }
