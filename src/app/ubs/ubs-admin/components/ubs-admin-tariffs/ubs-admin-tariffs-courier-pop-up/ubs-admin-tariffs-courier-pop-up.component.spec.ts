@@ -25,7 +25,7 @@ describe('UbsAdminTariffsCourierPopUpComponent', () => {
     courierTranslationDtos: [
       {
         languageCode: 'ua',
-        name: "фейкКур'єр"
+        name: 'фейкКурєр'
       },
       {
         languageCode: 'en',
@@ -69,12 +69,12 @@ describe('UbsAdminTariffsCourierPopUpComponent', () => {
   });
 
   it('should check if courier exists', () => {
-    component.name.setValue("фейкКур'єр");
+    component.name.setValue('фейкКурєр');
     expect(component.courierExist).toBe(true);
   });
 
   it('should check if courier exists', () => {
-    component.name.setValue("новийКур'єр");
+    component.name.setValue('новийКурєр');
     expect(component.courierExist).toBe(false);
   });
 
@@ -91,7 +91,7 @@ describe('UbsAdminTariffsCourierPopUpComponent', () => {
   it('should select one courier from list', () => {
     const eventMock = {
       option: {
-        value: ["фейкКур'єр"]
+        value: ['фейкКурєр']
       }
     };
     component.couriers = [fakeCouriers];
@@ -103,7 +103,7 @@ describe('UbsAdminTariffsCourierPopUpComponent', () => {
   it('should not select one courier if it does not exist', () => {
     const eventMock = {
       option: {
-        value: ["новийКур'єр"]
+        value: ['новийКурєр']
       }
     };
     component.couriers = [fakeCouriers];
@@ -125,7 +125,7 @@ describe('UbsAdminTariffsCourierPopUpComponent', () => {
   it('should get all couriers', () => {
     component.getCouriers();
     expect(component.couriers).toEqual([fakeCouriers]);
-    expect(component.couriersName).toEqual(["фейкКур'єр"]);
+    expect(component.couriersName).toEqual(['фейкКурєр']);
   });
 
   it('should add a new courier', () => {
