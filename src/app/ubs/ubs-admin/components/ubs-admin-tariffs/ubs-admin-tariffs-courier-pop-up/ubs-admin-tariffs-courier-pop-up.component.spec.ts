@@ -1,6 +1,6 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { FormBuilder, ReactiveFormsModule } from '@angular/forms';
-import { MatDialog, MatDialogModule, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { MatDialogModule, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { TranslateModule } from '@ngx-translate/core';
 import { of, Subject } from 'rxjs';
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
@@ -25,6 +25,10 @@ describe('UbsAdminTariffsCourierPopUpComponent', () => {
     courierTranslationDtos: [
       {
         languageCode: 'ua',
+        name: "фейкКур'єр"
+      },
+      {
+        languageCode: 'en',
         name: 'fakeCourier'
       }
     ]
@@ -64,6 +68,49 @@ describe('UbsAdminTariffsCourierPopUpComponent', () => {
     expect(component).toBeTruthy();
   });
 
+  it('should check if courier exists', () => {
+    component.name.setValue("фейкКур'єр");
+    expect(component.courierExist).toBe(true);
+  });
+
+  it('should check if courier exists', () => {
+    component.name.setValue("новийКур'єр");
+    expect(component.courierExist).toBe(false);
+  });
+
+  it('should check if courier exists', () => {
+    component.englishName.setValue('fakeCourier');
+    expect(component.enCourierExist).toBe(true);
+  });
+
+  it('should check if courier exists', () => {
+    component.englishName.setValue('newCourier');
+    expect(component.enCourierExist).toBe(false);
+  });
+
+  it('should select one courier from list', () => {
+    const eventMock = {
+      option: {
+        value: ["фейкКур'єр"]
+      }
+    };
+    component.couriers = [fakeCouriers];
+    component.selectedCourier(eventMock);
+    expect(component.enValue).toEqual([fakeCouriers]);
+    expect(component.englishName.value).toEqual('fakeCourier');
+  });
+
+  it('should not select one courier if it does not exist', () => {
+    const eventMock = {
+      option: {
+        value: ["новийКур'єр"]
+      }
+    };
+    component.couriers = [fakeCouriers];
+    component.selectedCourier(eventMock);
+    expect(component.enValue).toEqual([]);
+  });
+
   it('should has correct data', () => {
     expect(component.data.edit).toEqual(false);
     expect(component.data.headerText).toEqual('courier');
@@ -78,7 +125,7 @@ describe('UbsAdminTariffsCourierPopUpComponent', () => {
   it('should get all couriers', () => {
     component.getCouriers();
     expect(component.couriers).toEqual([fakeCouriers]);
-    expect(component.couriersName).toEqual(['fakeCourier']);
+    expect(component.couriersName).toEqual(["фейкКур'єр"]);
   });
 
   it('should add a new courier', () => {
@@ -92,7 +139,7 @@ describe('UbsAdminTariffsCourierPopUpComponent', () => {
     expect(tariffsServiceMock.editCourier).toHaveBeenCalled();
   });
 
-  it('method onNoClick should invoke destroyRef.close()', () => {
+  it('method onNoClick should invoke destroyRef.close', () => {
     component.onNoClick();
     expect(matDialogRefMock.close).toHaveBeenCalled();
   });

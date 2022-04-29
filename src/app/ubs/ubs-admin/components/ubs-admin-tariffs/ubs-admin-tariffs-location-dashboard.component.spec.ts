@@ -10,7 +10,7 @@ import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { TariffsService } from '../../services/tariffs.service';
 import { of, Subject } from 'rxjs';
 import { Router } from '@angular/router';
-import { Store, StoreModule } from '@ngrx/store';
+import { Store } from '@ngrx/store';
 import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
 import { Locations } from '../../models/tariffs.interface';
 import { MatMenuModule } from '@angular/material/menu';
@@ -22,8 +22,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatIconModule } from '@angular/material/icon';
 import { MatChipsModule } from '@angular/material/chips';
-import { provideMockStore, MockStore, getMockStore } from '@ngrx/store/testing';
-import { map } from 'rxjs/operator/map';
+import { MockStore } from '@ngrx/store/testing';
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { UbsAdminTariffsCourierPopUpComponent } from './ubs-admin-tariffs-courier-pop-up/ubs-admin-tariffs-courier-pop-up.component';
 import { UbsAdminTariffsStationPopUpComponent } from './ubs-admin-tariffs-station-pop-up/ubs-admin-tariffs-station-pop-up.component';
@@ -35,6 +34,76 @@ describe('UbsAdminTariffsLocationDashboardComponent', () => {
   let httpMock: HttpTestingController;
   let router: Router;
   let store: MockStore;
+
+  const mockRegion = [
+    {
+      regionTranslationDtos: [
+        {
+          regionName: 'Фейк область',
+          languageCode: 'ua'
+        },
+        {
+          regionName: 'Fake region',
+          languageCode: 'en'
+        }
+      ],
+      locationsDto: [
+        {
+          locationTranslationDtoList: [
+            {
+              locationName: 'Фейк1',
+              languageCode: 'ua'
+            },
+            {
+              locationName: 'Fake1',
+              languageCode: 'en'
+            }
+          ]
+        },
+        {
+          locationTranslationDtoList: [
+            {
+              locationName: 'Фейк2',
+              languageCode: 'ua'
+            },
+            {
+              locationName: 'Fake2',
+              languageCode: 'en'
+            }
+          ]
+        }
+      ]
+    }
+  ];
+
+  const mockFilteredLocation = [
+    {
+      regionTranslationDtos: [
+        {
+          regionName: 'Фейк область',
+          languageCode: 'ua'
+        },
+        {
+          regionName: 'Fake region',
+          languageCode: 'en'
+        }
+      ],
+      locationsDto: [
+        {
+          locationTranslationDtoList: [
+            {
+              locationName: 'Фейк1',
+              languageCode: 'ua'
+            },
+            {
+              locationName: 'Fake1',
+              languageCode: 'en'
+            }
+          ]
+        }
+      ]
+    }
+  ];
 
   const fakeCouriers = {
     courierId: 1,
@@ -73,10 +142,6 @@ describe('UbsAdminTariffsLocationDashboardComponent', () => {
       languageCode: 'fake'
     }
   };
-
-  const initialState = { locations: [fakeLocations] };
-  const fakeRegions = ['First region', 'Second region'];
-  const fakeCities = ['First city', 'Second city'];
 
   const tariffsServiceMock = jasmine.createSpyObj('tariffsServiceMock', ['getCouriers', 'getAllStations']);
   tariffsServiceMock.getCouriers.and.returnValue(of([fakeCouriers]));
@@ -134,6 +199,188 @@ describe('UbsAdminTariffsLocationDashboardComponent', () => {
     expect(component).toBeTruthy();
   });
 
+  it('should add new city item', () => {
+    const eventMock = {
+      value: ''
+    };
+    component.checkedCities = [];
+    component.addItem(eventMock as any);
+    expect(component.checkedCities.length).toEqual(0);
+    expect(component.city.value).toEqual('');
+  });
+
+  it('should add new city item', () => {
+    const eventMock = {
+      value: 'First'
+    };
+    component.checkedCities = [];
+    component.addItem(eventMock as any);
+    expect(component.checkedCities.length).toEqual(1);
+    expect(component.city.value).toEqual('');
+  });
+
+  it('should call method for selecting one city', () => {
+    const eventMock = {
+      option: {
+        value: 'First'
+      }
+    };
+    const spy = spyOn(component, 'selectCity');
+    const spy1 = spyOn(component, 'positionsFilter');
+    component.selected(eventMock as any);
+    expect(spy).toHaveBeenCalledWith(eventMock);
+    expect(spy1).toHaveBeenCalled();
+    expect(component.city.value).toEqual('');
+  });
+
+  it('should call method for selecting all cities', () => {
+    const eventMock = {
+      option: {
+        value: 'all'
+      }
+    };
+    const spy = spyOn(component, 'toggleSelectAll');
+    const spy1 = spyOn(component, 'positionsFilter');
+    component.selected(eventMock as any);
+    expect(spy).toHaveBeenCalled();
+    expect(spy1).toHaveBeenCalled();
+    expect(component.city.value).toEqual('');
+  });
+
+  it('should remove selected city if it exists in list', () => {
+    const eventMock = {
+      option: {
+        viewValue: 'First'
+      }
+    };
+    component.checkedCities = ['First', 'Second'];
+    component.selectCity(eventMock as any);
+    expect(component.checkedCities).toEqual(['Second']);
+  });
+
+  it('should add new selected city if it doesnot exist in list', () => {
+    const eventMock = {
+      option: {
+        viewValue: 'First'
+      }
+    };
+    component.checkedCities = ['Second'];
+    component.selectCity(eventMock as any);
+    expect(component.checkedCities).toEqual(['Second', 'First']);
+  });
+
+  it('should check if all is not choosen', () => {
+    component.checkedCities = ['First'];
+    component.cities = ['First', 'Second'];
+    const result = component.isChecked();
+    expect(result).toEqual(false);
+  });
+
+  it('should check if all is choosen', () => {
+    component.checkedCities = ['First', 'Second'];
+    component.cities = ['First', 'Second'];
+    const result = component.isChecked();
+    expect(result).toEqual(true);
+  });
+
+  it('should check if the list is not empty', () => {
+    component.filteredLocations = mockRegion;
+    const result = component.isEmpty();
+    expect(result).toEqual(false);
+  });
+
+  it('should check if the list is empty', () => {
+    component.filteredLocations = [];
+    const result = component.isEmpty();
+    expect(result).toEqual(true);
+  });
+
+  it('should not filter locations', () => {
+    component.locations = mockRegion;
+    component.checkedCities = [];
+    component.positionsFilter();
+    expect(component.filteredLocations).toEqual(mockRegion);
+  });
+
+  it('should filter locations', () => {
+    const spy = spyOn(component, 'onPositionSelected').and.returnValue(mockFilteredLocation);
+    component.checkedCities = ['Фейк1'];
+    component.positionsFilter();
+    expect(component.filteredLocations).toEqual(mockFilteredLocation);
+    expect(spy).toHaveBeenCalled();
+  });
+
+  it('should return new list of locations', () => {
+    component.locations = mockRegion;
+    component.checkedCities = ['Фейк1'];
+    const result = component.onPositionSelected();
+    expect(result).toEqual(mockRegion);
+  });
+
+  it('should select all items of cities', () => {
+    const spy = spyOn(component, 'isChecked').and.returnValue(false);
+    component.cities = ['First', 'Second'];
+    component.toggleSelectAll();
+    expect(spy).toHaveBeenCalled();
+    expect(component.checkedCities.length).toEqual(2);
+    expect(component.checkedCities).toEqual(['First', 'Second']);
+  });
+
+  it('should not select all items of cities', () => {
+    const spy = spyOn(component, 'isChecked').and.returnValue(true);
+    component.toggleSelectAll();
+    expect(spy).toHaveBeenCalled();
+    expect(component.checkedCities.length).toEqual(0);
+  });
+
+  it('should get locations', () => {
+    component.filteredRegions = [];
+    component.getLocations();
+    expect(storeMock.dispatch).toHaveBeenCalled();
+  });
+
+  it('should call methods on changes of region', () => {
+    const spy = spyOn(component, 'checkRegionValue');
+    const spy1 = spyOn(component, 'positionsFilter');
+    component.region.setValue('Fake region');
+    expect(spy).toHaveBeenCalledWith('Fake region');
+    expect(spy1).toHaveBeenCalled();
+    expect(component.checkedCities).toEqual([]);
+  });
+
+  it('navigate to pricing page', () => {
+    const spy = spyOn(router, 'navigate');
+    component.page(1);
+    expect(spy).toHaveBeenCalledWith([`ubs-admin/tariffs/location/1`]);
+  });
+
+  it('should return a list of cities', () => {
+    expect(component.selectCities(mockRegion)).toEqual(true);
+    expect(component.cities).toEqual(['Фейк1', 'Фейк2']);
+  });
+
+  it('should not return a list of cities', () => {
+    expect(component.selectCities([])).toEqual(false);
+    expect(component.cities).toEqual([]);
+  });
+
+  it('should set all values', () => {
+    const spy = spyOn(component, 'selectCities').and.returnValue(true);
+    component.locations = mockRegion;
+    component.checkRegionValue('Усі');
+    expect(component.currentRegion).toEqual(mockRegion);
+    expect(spy).toHaveBeenCalled();
+    expect(component.city.disabled).toEqual(false);
+  });
+
+  it('should set current value', () => {
+    spyOn(component, 'selectCities').and.returnValue(false);
+    component.locations = mockRegion;
+    component.checkRegionValue('Fake region');
+    expect(component.currentRegion).toEqual(mockRegion);
+    expect(component.city.disabled).toEqual(true);
+  });
+
   it('should call methods in OnInit', () => {
     const spy1 = spyOn(component, 'getLocations');
     const spy2 = spyOn(component, 'getCouriers');
@@ -145,26 +392,6 @@ describe('UbsAdminTariffsLocationDashboardComponent', () => {
     expect(spy3).toHaveBeenCalled();
     expect(spy4).toHaveBeenCalled();
   });
-
-  // it('should filter correctly', async () => {
-  //   component.regions = fakeRegions;
-  //   component.cities = fakeCities;
-  //   component.region.setValue('First');
-  //   component.city.setValue('First');
-  //   component.initFilter();
-  //   expect(await component.filteredRegions).toEqual(['First region']);
-  //   expect(await component.filteredCities).toEqual(['First city'])
-  // });
-
-  // it('should filter correctly and return empty array if option not match', () => {
-  //   component.regions = fakeRegions;
-  //   component.cities = fakeCities;
-  //   component.region.setValue('Fake');
-  //   component.city.setValue('Fake');
-  //   component.initFilter();
-  //   expect(component.filteredRegions).toEqual([]);
-  //   expect(component.filteredCities).toEqual([]);
-  // });
 
   it('should get all couriers', () => {
     component.getCouriers();

@@ -57,6 +57,13 @@ describe('UbsAdminTariffsLocationPopUpComponent ', () => {
     }
   ];
 
+  const localItem = {
+    location: 'фейк',
+    englishLocation: 'fake',
+    latitute: 0,
+    longitude: 0
+  };
+
   const matDialogMock = jasmine.createSpyObj('matDialog', ['open']);
   const fakeMatDialogRef = jasmine.createSpyObj(['close', 'afterClosed']);
   fakeMatDialogRef.afterClosed.and.returnValue(of(true));
@@ -104,6 +111,11 @@ describe('UbsAdminTariffsLocationPopUpComponent ', () => {
   it('should return a list of cities', () => {
     component.selectCities(mockRegion);
     expect(component.cities).toEqual(['Фейк1', 'Фейк2']);
+  });
+
+  it('should not return a list of cities if region is empty', () => {
+    component.selectCities([]);
+    expect(component.cities).toEqual([]);
   });
 
   it('should not add city if input is empty', () => {
@@ -179,20 +191,55 @@ describe('UbsAdminTariffsLocationPopUpComponent ', () => {
     expect(spy).toHaveBeenCalledWith(mockRegion);
   });
 
+  it('should call selectCities with empty value', () => {
+    const spy = spyOn(component, 'selectCities');
+    component.region.setValue('New region');
+    component.locations = [];
+    expect(spy).toHaveBeenCalledWith([]);
+  });
+
+  it('should not find new region if regionSelected is true', () => {
+    component.locations = mockRegion;
+    component.regionSelected = true;
+    component.region.setValue('Fake region');
+    expect(component.regionExist).toEqual(false);
+  });
+
+  it('should not find new region if inputs length is less than 3', () => {
+    component.locations = mockRegion;
+    component.regionSelected = false;
+    component.region.setValue('F');
+    expect(component.regionExist).toEqual(false);
+  });
+
   it('should check if city exists', () => {
     component.location.setValue('Fake city');
     component.citySelected = false;
     expect(component.cityExist).toEqual(true);
   });
 
+  it('should not check if city exists if citySelected is true', () => {
+    component.location.setValue('Fake city');
+    component.citySelected = true;
+    expect(component.cityExist).toEqual(true);
+  });
+
+  it('should not check if city exists if inputs length is less than 3', () => {
+    component.location.setValue('F');
+    component.citySelected = false;
+    expect(component.cityExist).toEqual(false);
+  });
+
   it('should delete city from the list', () => {
-    component.selectedCities = [{ location: 'fake', englishLocation: 'fake', latitute: 0, longitude: 0 }];
+    component.selectedCities.push(localItem);
     component.deleteCity(0);
     expect(component.selectedCities.length).toEqual(0);
   });
 
   it('component function addAdress should add locations', () => {
+    component.selectedCities.push(localItem);
     component.addLocation();
+    expect(component.createdCards.length).toBe(1);
     expect(storeMock.dispatch).toHaveBeenCalled();
   });
 

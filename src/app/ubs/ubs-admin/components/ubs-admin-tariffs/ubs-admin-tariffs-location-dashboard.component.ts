@@ -4,8 +4,7 @@ import { map, skip, startWith, takeUntil } from 'rxjs/operators';
 import { Locations } from '../../models/tariffs.interface';
 import { Subject } from 'rxjs';
 import { Router } from '@angular/router';
-import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
-import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
+import { MatDialog } from '@angular/material/dialog';
 import { FormBuilder, Validators } from '@angular/forms';
 import { UbsAdminTariffsLocationPopUpComponent } from './ubs-admin-tariffs-location-pop-up/ubs-admin-tariffs-location-pop-up.component';
 import { Store } from '@ngrx/store';
@@ -60,7 +59,6 @@ export class UbsAdminTariffsLocationDashboardComponent implements OnInit, OnDest
     private tariffsService: TariffsService,
     private router: Router,
     public dialog: MatDialog,
-    private localeStorageService: LocalStorageService,
     private store: Store<IAppState>,
     private fb: FormBuilder
   ) {}
@@ -117,19 +115,18 @@ export class UbsAdminTariffsLocationDashboardComponent implements OnInit, OnDest
   }
 
   addItem(event: MatChipInputEvent): void {
-    const input = event.input;
     const value = event.value;
 
     if ((value || '').trim()) {
       this.checkedCities.push(value.trim());
     }
 
-    if (input) {
-      input.value = '';
+    if (this.city.value) {
+      this.city.setValue('');
     }
   }
 
-  selected(event: MatAutocompleteSelectedEvent, trigger: MatAutocompleteTrigger): void {
+  selected(event: MatAutocompleteSelectedEvent, trigger?: MatAutocompleteTrigger): void {
     if (event.option.value === 'all') {
       this.toggleSelectAll();
     } else {
@@ -137,9 +134,11 @@ export class UbsAdminTariffsLocationDashboardComponent implements OnInit, OnDest
     }
     this.positionsFilter();
     this.city.setValue('');
-    requestAnimationFrame(() => {
-      trigger.openPanel();
-    });
+    if (trigger) {
+      requestAnimationFrame(() => {
+        trigger.openPanel();
+      });
+    }
   }
 
   selectCity(event: MatAutocompleteSelectedEvent): void {
