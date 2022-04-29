@@ -69,21 +69,22 @@
           border: 1px solid #9ca7b0;
         }
 
-        .button {
+        button {
+          margin-top: 7px;
           height: 44px;
-          width: 100%;
           font-size: 18px;
           background-color: var(--ubs-button-light-green);
           color: var(--ubs-tertiary-dark-grey);
         }
 
-        .button:hover {
+        button:hover {
           color: beige;
         }
 
         p,
         label,
-        input {
+        input,
+        button {
           width: 100%;
         }
       }
