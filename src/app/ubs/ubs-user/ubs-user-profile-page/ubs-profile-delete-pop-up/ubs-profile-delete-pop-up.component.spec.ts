@@ -1,4 +1,6 @@
+import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { TranslateModule } from '@ngx-translate/core';
 
 import { UbsProfileDeletePopUpComponent } from './ubs-profile-delete-pop-up.component';
 
@@ -8,9 +10,10 @@ describe('UbsProfileDeletePopUpComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ UbsProfileDeletePopUpComponent ]
-    })
-    .compileComponents();
+      declarations: [UbsProfileDeletePopUpComponent],
+      imports: [TranslateModule.forRoot()],
+      schemas: [CUSTOM_ELEMENTS_SCHEMA]
+    }).compileComponents();
   }));
 
   beforeEach(() => {

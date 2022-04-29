@@ -204,10 +204,10 @@ describe('OrderService', () => {
   });
 
   it('should return info about order', () => {
-    service.getOrderInfo(1, 'en').subscribe((data) => {
+    service.getOrderInfo(1).subscribe((data) => {
       expect(data).toBe(userMock);
     });
-    const req = httpMock.expectOne(`${urlMock}/management/get-data-for-order/1/en`);
+    const req = httpMock.expectOne(`${urlMock}/management/get-data-for-order/1`);
     expect(req.request.method).toBe('GET');
     req.flush(userMock);
   });

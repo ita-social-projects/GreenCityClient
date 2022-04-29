@@ -19,10 +19,10 @@
                 <select id="order" class="form-control" formControlName="orderStatus" (change)="onChangedOrderStatus($event.target.value)">
                   <option
                     *ngFor="let status of availableOrderStatuses"
-                    [selected]="status.key === generalInfo.orderStatus"
-                    [value]="status.key"
+                    [selected]="status?.key === generalInfo.orderStatus"
+                    [value]="status?.key"
                   >
-                    {{ status.translation }}
+                    {{ this.currentLanguage === 'ua' ? status?.ua : status?.eng }}
                   </option>
                 </select>
               </div>
@@ -37,9 +37,9 @@
                 <select id="payment" class="form-control payment" disabled>
                   <option
                     *ngFor="let status of generalInfo.orderPaymentStatusesDto"
-                    [selected]="status.key === generalInfo.orderPaymentStatus"
+                    [selected]="status?.key === generalInfo.orderPaymentStatus"
                   >
-                    {{ status.translation }}
+                    {{ this.currentLanguage === 'ua' ? status?.ua : status?.eng }}
                   </option>
                 </select>
               </div>

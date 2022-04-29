@@ -1,4 +1,5 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { TranslateModule } from '@ngx-translate/core';
 
 import { ErrorComponent } from './error.component';
 
@@ -8,9 +9,9 @@ describe('ErrorComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ ErrorComponent ]
-    })
-    .compileComponents();
+      declarations: [ErrorComponent],
+      imports: [TranslateModule.forRoot()]
+    }).compileComponents();
   }));
 
   beforeEach(() => {

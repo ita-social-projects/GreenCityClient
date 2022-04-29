@@ -1,4 +1,5 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { MatDialogRef } from '@angular/material/dialog';
 
 import { ErrorComponent } from './error.component';
 
@@ -8,9 +9,9 @@ describe('ErrorComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ ErrorComponent ]
-    })
-    .compileComponents();
+      declarations: [ErrorComponent],
+      providers: [{ provide: MatDialogRef, useValue: { close: () => {} } }]
+    }).compileComponents();
   }));
 
   beforeEach(() => {
@@ -21,5 +22,12 @@ describe('ErrorComponent', () => {
 
   it('should create', () => {
     expect(component).toBeTruthy();
+  });
+
+  it('should call closePopup', () => {
+    // @ts-ignore
+    const spy = spyOn(component.matDialogRef, 'close');
+    component.closePopup();
+    expect(spy).toHaveBeenCalled();
   });
 });

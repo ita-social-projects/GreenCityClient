@@ -3,6 +3,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { UbsUserOrderPaymentPopUpComponent } from './ubs-user-order-payment-pop-up/ubs-user-order-payment-pop-up.component';
 import { UbsUserOrderCancelPopUpComponent } from './ubs-user-order-cancel-pop-up/ubs-user-order-cancel-pop-up.component';
 import { IUserOrderInfo, CheckPaymentStatus } from './models/UserOrder.interface';
+import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
 
 @Component({
   selector: 'app-ubs-user-orders-list',
@@ -13,18 +14,21 @@ export class UbsUserOrdersListComponent implements OnInit {
   @Input() orders: IUserOrderInfo[];
   @Input() bonuses: number;
 
-  constructor(public dialog: MatDialog) {}
+  public currentLanguage: string;
+
+  constructor(public dialog: MatDialog, private localStorageService: LocalStorageService) {}
 
   ngOnInit(): void {
+    this.currentLanguage = this.localStorageService.getCurrentLanguage();
     this.sortingOrdersByData();
   }
 
   public isOrderPaid(order: IUserOrderInfo): boolean {
-    return order.paymentStatus === CheckPaymentStatus.UNPAID;
+    return order.paymentStatusEng === CheckPaymentStatus.UNPAID;
   }
 
   public isOrderHalfPaid(order: IUserOrderInfo): boolean {
-    return order.paymentStatus === CheckPaymentStatus.HALFPAID;
+    return order.paymentStatusEng === CheckPaymentStatus.HALFPAID;
   }
 
   public isOrderPriceGreaterThenZero(order: IUserOrderInfo): boolean {

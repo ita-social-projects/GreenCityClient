@@ -40,7 +40,7 @@ describe('UbsUserOrdersComponent', () => {
 
   const userOrderServiceMock = jasmine.createSpyObj('userOrderService', ['getAllUserOrders']);
 
-  userOrderServiceMock.getAllUserOrders.and.returnValue(of([fakeOrder1, fakeOrder2]));
+  userOrderServiceMock.getAllUserOrders.and.returnValue(of({ page: [fakeOrder1, fakeOrder2] }));
 
   const bonusesServiceMock = jasmine.createSpyObj('bonusesService', ['getUserBonuses']);
 
@@ -94,7 +94,7 @@ describe('UbsUserOrdersComponent', () => {
     expect(isLoadingTrue).toBeFalsy();
   });
 
-  it('should call getAllUserOrders  and getUserBonuses ', () => {
+  it('should call getAllUserOrders and getUserBonuses ', () => {
     fakeOrder1.orderStatus = 'Adjustment';
     component.loadingBonuses = false;
     component.ngOnInit();

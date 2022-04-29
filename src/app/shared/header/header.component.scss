@@ -296,7 +296,6 @@ $ubs-header-height: 80px;
   .header_lang-switcher-wrp.header_navigation-menu-right-list {
     cursor: pointer;
     width: 60px;
-    height: 100%;
     display: flex;
     justify-content: center;
 
@@ -316,7 +315,7 @@ $ubs-header-height: 80px;
     border-radius: 2px;
     display: flex;
     flex-direction: column;
-    height: 132px;
+    height: 88px;
     margin: auto 0;
     width: 60px;
     z-index: 1;

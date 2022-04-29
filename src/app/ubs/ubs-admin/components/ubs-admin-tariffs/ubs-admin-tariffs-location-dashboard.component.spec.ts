@@ -190,6 +190,7 @@ describe('UbsAdminTariffsLocationDashboardComponent', () => {
     fixture = TestBed.createComponent(UbsAdminTariffsLocationDashboardComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
+    spyOn(global, 'setTimeout');
     router = TestBed.inject(Router);
     httpMock = TestBed.inject(HttpTestingController);
     store = TestBed.inject(Store) as MockStore;
