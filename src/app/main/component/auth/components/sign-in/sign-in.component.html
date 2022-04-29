@@ -87,9 +87,8 @@
 
   <span class="or-use-google">{{ 'user.auth.sign-in.or-signin' | translate }}</span>
 </form>
-<div class="google-sign-in-block">
-  <app-google-btn (click)="signInWithGoogle()" [text]="'user.auth.sign-in.sign-in-with-google'"></app-google-btn>
-</div>
+<app-google-btn (click)="signInWithGoogle()" [text]="'user.auth.sign-in.sign-in-with-google'"></app-google-btn>
+
 <div *ngIf="isUbs" class="forgot-wrapper-ubs">
   <a
     (click)="onOpenModalWindow('restore-password')"

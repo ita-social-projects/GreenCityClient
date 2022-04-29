@@ -164,7 +164,7 @@
 <div class="exist-account">
   <span>
     {{ 'user.auth.sign-up.haveyou-account' | translate }}
-    <a class="exist-sign-in" tabindex="0" (keyup.enter)="openSignInWindow()" (click)="openSignInWindow()">
+    <a [ngClass]="isUbs ? 'ubs-link' : 'green-link'" tabindex="0" (keyup.enter)="openSignInWindow()" (click)="openSignInWindow()">
       {{ 'user.auth.sign-up.enter' | translate }}
     </a>
   </span>
