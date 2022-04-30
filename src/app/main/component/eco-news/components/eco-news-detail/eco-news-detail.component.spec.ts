@@ -51,7 +51,7 @@ describe('EcoNewsDetailComponent', () => {
   };
 
   const storeMock = jasmine.createSpyObj('store', ['select', 'dispatch']);
-  storeMock.select = () => of({ pages: [{ id: 3 }] });
+  storeMock.select = () => of({ pages: [{ id: 3 }], autorNews: [{ id: 3 }] });
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
@@ -79,7 +79,8 @@ describe('EcoNewsDetailComponent', () => {
 
   it('ngOnInit should init three method', () => {
     (component as any).newsId = 3;
-    component.backRoute = '/news';
+    spyOn(global.localStorage, 'getItem').and.returnValue('/news');
+
     spyOn(component as any, 'setNewsId');
     spyOn(component as any, 'getIsLiked');
     spyOn(component as any, 'canUserEditNews');
