@@ -30,6 +30,8 @@ export class EcoNewsDetailComponent implements OnInit, OnDestroy {
   private newsImage: string;
   private destroy: Subject<boolean> = new Subject<boolean>();
 
+  public backRoute: string;
+
   ecoNewById$ = this.store.select((state: IAppState): IEcoNewsState => state.ecoNewsState);
 
   constructor(
@@ -43,9 +45,15 @@ export class EcoNewsDetailComponent implements OnInit, OnDestroy {
     this.canUserEditNews();
     this.setNewsId();
     this.getIsLiked();
+    this.backRoute = localStorage.getItem('Route');
 
     this.ecoNewById$.subscribe((value) => {
-      this.newsItem = value.pages.find((item) => item.id === +this.newsId);
+      if (this.backRoute === '/news') {
+        this.newsItem = value.pages.find((item) => item.id === +this.newsId);
+      }
+      if (this.backRoute === '/profile') {
+        this.newsItem = value.autorNews.find((item) => item.id === +this.newsId);
+      }
     });
   }
 

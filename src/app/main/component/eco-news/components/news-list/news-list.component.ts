@@ -65,6 +65,7 @@ export class NewsListComponent implements OnInit, OnDestroy {
         this.elementsArePresent = this.elements.length < data.totalElements;
       }
     });
+    localStorage.setItem('Route', '/news');
   }
 
   private setLocalizedTags(): void {

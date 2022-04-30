@@ -79,6 +79,7 @@ describe('EcoNewsDetailComponent', () => {
 
   it('ngOnInit should init three method', () => {
     (component as any).newsId = 3;
+    component.backRoute = '/news';
     spyOn(component as any, 'setNewsId');
     spyOn(component as any, 'getIsLiked');
     spyOn(component as any, 'canUserEditNews');

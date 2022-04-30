@@ -69,8 +69,8 @@
       }
     },
     "cancel-modal": {
-      "warning": "If you cancel, the changes will be lost.",
-      "question": "Do you really want to cancel the changes?",
+      "warning": "If canceled, this order will be deleted.",
+      "question": "Do you really want to cancel the order?",
       "disagree": "No",
       "agree": "Yes"
     }

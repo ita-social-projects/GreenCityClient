@@ -8,7 +8,7 @@ import { EcoNewsModel } from '@eco-news-models/eco-news-model';
 @Component({
   selector: 'app-eco-news-widget',
   templateUrl: './eco-news-widget.component.html',
-  styleUrls: ['./eco-news-widget.component.scss'],
+  styleUrls: ['./eco-news-widget.component.scss']
 })
 export class EcoNewsWidgetComponent implements OnInit, OnDestroy {
   public recommendedNews: EcoNewsModel;
