@@ -5,7 +5,6 @@ import { LocalStorageService } from '@global-service/localstorage/local-storage.
 import { HabitAssignService } from '@global-service/habit-assign/habit-assign.service';
 import { HabitAssignInterface } from '../../../../../interface/habit/habit-assign.interface';
 import { HabitStatus } from '../../../../../model/habit/HabitStatus.enum';
-import { EcoNewsService } from '@eco-news-service/eco-news.service';
 import { MatTabChangeEvent } from '@angular/material/tabs';
 import { Store } from '@ngrx/store';
 import { IAppState } from 'src/app/store/state/app.state';
@@ -56,7 +55,7 @@ export class ProfileDashboardComponent implements OnInit, OnDestroy {
       }
     });
 
-    localStorage.setItem('Route', '/profile');
+    this.localStorageService.setCurentPage('previousPage', '/profile');
   }
 
   public dispatchNews(res: boolean) {

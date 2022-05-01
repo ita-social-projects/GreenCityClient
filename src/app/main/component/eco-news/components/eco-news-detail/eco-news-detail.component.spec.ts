@@ -51,7 +51,7 @@ describe('EcoNewsDetailComponent', () => {
   };
 
   const storeMock = jasmine.createSpyObj('store', ['select', 'dispatch']);
-  storeMock.select = () => of({ pages: [{ id: 3 }], autorNews: [{ id: 3 }] });
+  storeMock.select = () => of({ pages: [{ id: 3 }], autorNews: [{ id: 4 }] });
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
@@ -79,7 +79,7 @@ describe('EcoNewsDetailComponent', () => {
 
   it('ngOnInit should init three method', () => {
     (component as any).newsId = 3;
-    spyOn(global.localStorage, 'getItem').and.returnValue('/news');
+    spyOn((component as any).localStorageService, 'getPreviousPage').and.returnValue('/news');
 
     spyOn(component as any, 'setNewsId');
     spyOn(component as any, 'getIsLiked');
@@ -91,6 +91,15 @@ describe('EcoNewsDetailComponent', () => {
     expect((component as any).getIsLiked).toHaveBeenCalledTimes(1);
     expect((component as any).setNewsId).toHaveBeenCalledTimes(1);
     expect((component as any).canUserEditNews).toHaveBeenCalledTimes(1);
+  });
+
+  it('onInit newsItem.id should be 4', () => {
+    (component as any).newsId = 4;
+    spyOn((component as any).localStorageService, 'getPreviousPage').and.returnValue('/profile');
+    component.ngOnInit();
+    component.ecoNewById$.subscribe((item: any) => {
+      expect(component.newsItem.id).toBe(4);
+    });
   });
 
   it('checkNewsImage should return existing image src', () => {

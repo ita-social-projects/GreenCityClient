@@ -19,7 +19,6 @@ export class EcoNewsDetailComponent implements OnInit, OnDestroy {
   public newsItem: EcoNewsModel;
   public images = singleNewsImages;
   public userId: number;
-  public userInfo;
   public isLiked: boolean;
   public likesType = {
     like: 'assets/img/comments/like.png',
@@ -45,7 +44,7 @@ export class EcoNewsDetailComponent implements OnInit, OnDestroy {
     this.canUserEditNews();
     this.setNewsId();
     this.getIsLiked();
-    this.backRoute = localStorage.getItem('Route');
+    this.backRoute = this.localStorageService.getPreviousPage();
 
     this.ecoNewById$.subscribe((value) => {
       if (this.backRoute === '/news') {
