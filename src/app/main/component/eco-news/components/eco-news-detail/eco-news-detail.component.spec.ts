@@ -11,7 +11,6 @@ import { ActivatedRoute } from '@angular/router';
 import { TranslateModule } from '@ngx-translate/core';
 import { CUSTOM_ELEMENTS_SCHEMA, Pipe, PipeTransform } from '@angular/core';
 import { DateLocalisationPipe } from '@pipe/date-localisation-pipe/date-localisation.pipe';
-// import { environment } from '@environment/environment.js';
 
 import { Store } from '@ngrx/store';
 import { of } from 'rxjs';
@@ -91,15 +90,6 @@ describe('EcoNewsDetailComponent', () => {
     expect((component as any).getIsLiked).toHaveBeenCalledTimes(1);
     expect((component as any).setNewsId).toHaveBeenCalledTimes(1);
     expect((component as any).canUserEditNews).toHaveBeenCalledTimes(1);
-  });
-
-  it('onInit newsItem.id should be 4', () => {
-    (component as any).newsId = 4;
-    spyOn((component as any).localStorageService, 'getPreviousPage').and.returnValue('/profile');
-    component.ngOnInit();
-    component.ecoNewById$.subscribe((item: any) => {
-      expect(component.newsItem.id).toBe(4);
-    });
   });
 
   it('checkNewsImage should return existing image src', () => {
