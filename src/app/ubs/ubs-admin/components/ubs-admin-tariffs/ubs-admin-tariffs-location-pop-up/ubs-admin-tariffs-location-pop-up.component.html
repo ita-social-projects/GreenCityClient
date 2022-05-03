@@ -21,7 +21,7 @@
           />
           <img
             *ngIf="region.value.length"
-            src=".././assets/img/ubs/cross.svg"
+            [src]="icons.cross"
             class="cross-img"
             alt="close-icon"
             (click)="region.setValue(''); regionSelected = false"
@@ -43,7 +43,7 @@
         />
         <img
           *ngIf="englishRegion.value.length"
-          src=".././assets/img/ubs/cross.svg"
+          [src]="icons.cross"
           class="cross-img"
           alt="close-icon"
           (click)="englishRegion.setValue('')"
@@ -76,7 +76,7 @@
           />
           <img
             *ngIf="location.value.length"
-            src=".././assets/img/ubs/cross.svg"
+            [src]="icons.cross"
             class="cross-img"
             alt="close-icon"
             (click)="location.setValue(''); citySelected = false"
@@ -96,7 +96,7 @@
         />
         <img
           *ngIf="englishLocation.value.length"
-          src=".././assets/img/ubs/cross.svg"
+          [src]="icons.cross"
           class="cross-img"
           alt="close-icon"
           (click)="englishLocation.setValue('')"
@@ -110,7 +110,7 @@
       <div *ngFor="let item of selectedCities; let index = index">
         <div class="d-flex">
           <div class="itemList">{{ item.location }}</div>
-          <img src=".././assets/img/ubs/cross.svg" class="delete-button-img" alt="edit-icon" (click)="deleteCity(index)" />
+          <img [src]="icons.cross" class="delete-button-img" alt="edit-icon" (click)="deleteCity(index)" />
           <div class="itemList">{{ item.englishLocation }}</div>
         </div>
       </div>

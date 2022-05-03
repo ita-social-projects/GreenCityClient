@@ -70,6 +70,10 @@ export class UbsAdminTariffsLocationPopUpComponent implements OnInit, AfterViewC
   cities = [];
   locations$ = this.store.select((state: IAppState): Locations[] => state.locations.locations);
 
+  public icons = {
+    cross: '././assets/img/ubs/cross.svg'
+  };
+
   constructor(
     private tariffsService: TariffsService,
     private fb: FormBuilder,

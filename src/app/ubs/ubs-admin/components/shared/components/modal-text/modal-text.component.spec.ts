@@ -55,4 +55,14 @@ describe('ModalTextComponent', () => {
     expect(component.text2).toBe(fakeTitles.text2);
     expect(component.action).toBe(fakeTitles.action);
   });
+
+  it('should return true if value is cancel', () => {
+    const result = component.check('cancel');
+    expect(result).toEqual(true);
+  });
+
+  it('should return false if value is not cancel', () => {
+    const result = component.check('nocancel');
+    expect(result).toEqual(false);
+  });
 });

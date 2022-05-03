@@ -40,4 +40,8 @@ export class ModalTextComponent implements OnInit {
   onNoClick(reply: boolean): void {
     this.dialogRef.close(reply);
   }
+
+  check(val: string): boolean {
+    return val === 'cancel';
+  }
 }

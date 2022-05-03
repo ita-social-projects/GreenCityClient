@@ -36,7 +36,8 @@ export class UbsAdminTariffsCourierPopUpComponent implements OnInit, OnDestroy {
   private destroy: Subject<boolean> = new Subject<boolean>();
 
   public icons = {
-    arrowDown: '././assets/img/ubs-tariff/arrow-down.svg'
+    arrowDown: '././assets/img/ubs-tariff/arrow-down.svg',
+    cross: '././assets/img/ubs/cross.svg'
   };
 
   constructor(
