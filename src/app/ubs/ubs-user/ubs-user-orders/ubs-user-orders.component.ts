@@ -51,10 +51,10 @@ export class UbsUserOrdersComponent implements OnInit, OnDestroy {
         this.orders = item.page;
         this.loadingOrders = true;
         this.currentOrders = this.orders.filter(
-          (order) => order.orderStatus !== CheckOrderStatus.DONE && order.orderStatus !== CheckOrderStatus.CANCELED
+          (order) => order.orderStatusEng !== CheckOrderStatus.DONE && order.orderStatusEng !== CheckOrderStatus.CANCELED
         );
         this.orderHistory = this.orders.filter(
-          (order) => order.orderStatus === CheckOrderStatus.DONE || order.orderStatus === CheckOrderStatus.CANCELED
+          (order) => order.orderStatusEng === CheckOrderStatus.DONE || order.orderStatusEng === CheckOrderStatus.CANCELED
         );
       });
     this.bonusesService.getUserBonuses().subscribe((responce: IBonus) => {
