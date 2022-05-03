@@ -8,7 +8,7 @@ $whitecol: white;
 @mixin btnstyle {
   width: 168px;
   height: 36px;
-  font-family: 'Lato';
+  font-family: var(--ubs-quaternary-font);
   font-style: normal;
   font-weight: 700;
   font-size: 14px;
@@ -35,6 +35,7 @@ $whitecol: white;
 
       .open {
         @include btnstyle;
+
         margin-left: 250px;
         color: $btnblackcol;
         border-color: $btnblackcol;
@@ -55,11 +56,13 @@ $whitecol: white;
 
       .open:not(:disabled):not(.disabled):active {
         background-color: $whitecol;
+
         @include turnoffboxshadow;
       }
 
       .delete {
         @include btnstyle;
+
         color: var(--ubs-primary-red);
         border: none;
       }
@@ -110,7 +113,7 @@ $whitecol: white;
   }
 
   button {
-    margin: 53px 30px 30px 0px;
+    margin: 53px 30px 30px 0;
     font-family: var(--secondary-font);
   }
 
@@ -121,15 +124,13 @@ $whitecol: white;
 
   .edit {
     @include btnstyle;
+
     color: var(--ubs-electric-violet);
     border-color: var(--ubs-electric-violet);
-    margin-left: 0px;
-  }
-  .edit:hover {
-    background-color: $whitecol;
+    margin-left: 0;
   }
 
-  .edit:not(:disabled):not(.disabled):active {
+  .edit:hover {
     background-color: $whitecol;
   }
 
@@ -137,8 +138,12 @@ $whitecol: white;
     box-shadow: none;
   }
 
+  .edit:not(:disabled):not(.disabled):active {
+    background-color: $whitecol;
+  }
+
   .margbtn {
-    margin: 26px 30px 20px 0px;
+    margin: 26px 30px 20px 0;
   }
 
   .h5MarginBottom {
@@ -152,7 +157,7 @@ $whitecol: white;
 
   h5 {
     font-weight: bold;
-    margin: 10px 0 18px 0px;
+    margin: 10px 0 18px 0;
     padding: 0;
   }
 
@@ -168,9 +173,45 @@ $whitecol: white;
     width: 250px;
   }
 
+  .wrapper-btn {
+    display: flex;
+    align-items: center;
+    width: 300px;
+
+    .btn-alternative-email {
+      width: 16px;
+      height: 16px;
+      margin: 14px 0 22px 0;
+      border-radius: 50%;
+      border: none;
+      background-color: #fff;
+      background-image: url(../../../../assets/img/ubs/Allternative-email-btn.svg);
+
+      .alternative-email-subtite {
+        margin: 14px 0 22px 0;
+        font-family: var(--ubs-quaternary-font);
+        font-weight: 700;
+        font-size: 14px;
+        line-height: 20px;
+        letter-spacing: 0.1px;
+        color: #9ec848;
+      }
+    }
+
+    p {
+      margin: 14px 0 22px 10px;
+      font-family: var(--ubs-quaternary-font);
+      font-weight: 700;
+      font-size: 14px;
+      line-height: 20px;
+      letter-spacing: 0.1px;
+      color: #9ec848;
+    }
+  }
+
   .form-group {
     p {
-      padding: 0px 13px 0px 0;
+      padding: 0 13px 0 0;
       color: $btnblackcol;
       font-size: 16px;
     }
@@ -208,7 +249,7 @@ $whitecol: white;
       width: 163px;
       height: 36px;
       border-radius: 4px;
-      font-family: 'Lato';
+      font-family: var(--ubs-quaternary-font);
       font-style: normal;
       font-weight: 700;
       font-size: 14px;
@@ -322,7 +363,7 @@ $whitecol: white;
   display: flex;
   justify-content: space-between;
   margin-bottom: 16px;
-  margin-top: 0px;
+  margin-top: 0;
 }
 
 .inputMargin {
@@ -330,42 +371,6 @@ $whitecol: white;
 
   input {
     width: 260px;
-  }
-}
-
-.wrapper-btn {
-  display: flex;
-  align-items: center;
-  width: 300px;
-
-  .btn-alternative-email {
-    width: 16px;
-    height: 16px;
-    margin: 14px 0 22px 0;
-    border-radius: 50%;
-    border: none;
-    background-color: #ffffff;
-    background-image: url(../../../../assets/img/ubs/Allternative-email-btn.svg);
-
-    .alternative-email-subtite {
-      margin: 14px 0 22px 0;
-      font-family: 'Lato';
-      font-weight: 700;
-      font-size: 14px;
-      line-height: 20px;
-      letter-spacing: 0.1px;
-      color: #9ec848;
-    }
-  }
-
-  p {
-    margin: 14px 0 22px 10px;
-    font-family: 'Lato';
-    font-weight: 700;
-    font-size: 14px;
-    line-height: 20px;
-    letter-spacing: 0.1px;
-    color: #9ec848;
   }
 }
 

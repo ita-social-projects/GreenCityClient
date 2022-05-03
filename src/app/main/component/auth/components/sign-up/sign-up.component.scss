@@ -115,6 +115,7 @@
 
   .greenStyle {
     @include button;
+
     background-color: var(--primary-green);
 
     &:disabled {
@@ -124,6 +125,7 @@
 
   .ubsStyle {
     @include button;
+
     background-color: var(--ubs-button-light-green);
 
     &:disabled {
