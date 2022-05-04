@@ -11,7 +11,6 @@ import { ActivatedRoute } from '@angular/router';
 import { TranslateModule } from '@ngx-translate/core';
 import { CUSTOM_ELEMENTS_SCHEMA, Pipe, PipeTransform } from '@angular/core';
 import { DateLocalisationPipe } from '@pipe/date-localisation-pipe/date-localisation.pipe';
-// import { environment } from '@environment/environment.js';
 
 import { Store } from '@ngrx/store';
 import { of } from 'rxjs';
@@ -51,7 +50,7 @@ describe('EcoNewsDetailComponent', () => {
   };
 
   const storeMock = jasmine.createSpyObj('store', ['select', 'dispatch']);
-  storeMock.select = () => of({ pages: [{ id: 3 }] });
+  storeMock.select = () => of({ pages: [{ id: 3 }], autorNews: [{ id: 4 }] });
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
@@ -79,6 +78,8 @@ describe('EcoNewsDetailComponent', () => {
 
   it('ngOnInit should init three method', () => {
     (component as any).newsId = 3;
+    spyOn((component as any).localStorageService, 'getPreviousPage').and.returnValue('/news');
+
     spyOn(component as any, 'setNewsId');
     spyOn(component as any, 'getIsLiked');
     spyOn(component as any, 'canUserEditNews');

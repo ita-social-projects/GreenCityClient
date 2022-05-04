@@ -65,6 +65,7 @@ export class NewsListComponent implements OnInit, OnDestroy {
         this.elementsArePresent = this.elements.length < data.totalElements;
       }
     });
+    this.localStorageService.setCurentPage('previousPage', '/news');
   }
 
   private setLocalizedTags(): void {
@@ -115,7 +116,7 @@ export class NewsListComponent implements OnInit, OnDestroy {
 
   public dispatchStore(res: boolean): void {
     if (this.hasNext && this.currentPage !== undefined) {
-      this.tagsList.length > 0
+      this.tagsList.length
         ? this.store.dispatch(
             GetEcoNewsByTagsAction({ currentPage: this.currentPage, numberOfNews: this.numberOfNews, tagsList: this.tagsList, reset: res })
           )

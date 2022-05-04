@@ -19,7 +19,6 @@ export class EcoNewsDetailComponent implements OnInit, OnDestroy {
   public newsItem: EcoNewsModel;
   public images = singleNewsImages;
   public userId: number;
-  public userInfo;
   public isLiked: boolean;
   public likesType = {
     like: 'assets/img/comments/like.png',
@@ -29,6 +28,8 @@ export class EcoNewsDetailComponent implements OnInit, OnDestroy {
   private newsId: number;
   private newsImage: string;
   private destroy: Subject<boolean> = new Subject<boolean>();
+
+  public backRoute: string;
 
   ecoNewById$ = this.store.select((state: IAppState): IEcoNewsState => state.ecoNewsState);
 
@@ -43,9 +44,15 @@ export class EcoNewsDetailComponent implements OnInit, OnDestroy {
     this.canUserEditNews();
     this.setNewsId();
     this.getIsLiked();
+    this.backRoute = this.localStorageService.getPreviousPage();
 
     this.ecoNewById$.subscribe((value) => {
-      this.newsItem = value.pages.find((item) => item.id === +this.newsId);
+      if (this.backRoute === '/news') {
+        this.newsItem = value.pages.find((item) => item.id === +this.newsId);
+      }
+      if (this.backRoute === '/profile') {
+        this.newsItem = value.autorNews.find((item) => item.id === +this.newsId);
+      }
     });
   }
 

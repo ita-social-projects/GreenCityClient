@@ -8,7 +8,9 @@ import {
   GetEcoNewsByTagsAction,
   GetEcoNewsByTagsSuccessAction,
   GetEcoNewsByPageAction,
-  GetEcoNewsByPageSuccessAction
+  GetEcoNewsByPageSuccessAction,
+  GetEcoNewsByAuthorAction,
+  GetEcoNewsByAuthorSuccessAction
 } from '../actions/ecoNews.actions';
 import { EcoNewsDto } from '@eco-news-models/eco-news-dto';
 
@@ -37,6 +39,20 @@ export class NewsEffects {
         return this.newsService.getEcoNewsListByPage(actions.currentPage, actions.numberOfNews).pipe(
           map(
             (ecoNews: EcoNewsDto) => GetEcoNewsByPageSuccessAction({ ecoNews, reset: actions.reset }),
+            catchError(() => EMPTY)
+          )
+        );
+      })
+    );
+  });
+
+  getEcoNewsListByAutorId = createEffect(() => {
+    return this.actions.pipe(
+      ofType(GetEcoNewsByAuthorAction),
+      mergeMap((actions: { currentPage: number; numberOfNews: number; reset: boolean }) => {
+        return this.newsService.getEcoNewsListByAutorId(actions.currentPage, actions.numberOfNews).pipe(
+          map(
+            (ecoNews: EcoNewsDto) => GetEcoNewsByAuthorSuccessAction({ ecoNews, reset: actions.reset }),
             catchError(() => EMPTY)
           )
         );

@@ -4,5 +4,6 @@ export interface EcoNewsDto {
   page: Array<EcoNewsModel>;
   totalElements: number;
   currentPage: number;
+  totalPages: number;
   hasNext?: boolean;
 }
