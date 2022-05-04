@@ -67,11 +67,11 @@ export class UbsAdminTariffsCourierPopUpComponent implements OnInit, OnDestroy {
       this.authorName = firstName;
     });
     this.name.valueChanges.subscribe((value) => {
-      const temp = this.couriers.filter((it) => it.courierTranslationDtos.find((ob) => ob.name === value.toString()));
+      const temp = this.couriers.filter((it) => it.courierTranslationDtos.find((ob) => (ob.name === value ? value.trim() : '')));
       this.courierExist = temp.length !== 0;
     });
     this.englishName.valueChanges.subscribe((value) => {
-      const temp = this.couriers.filter((it) => it.courierTranslationDtos.find((ob) => ob.name === value.toString()));
+      const temp = this.couriers.filter((it) => it.courierTranslationDtos.find((ob) => (ob.name === value ? value.trim() : '')));
       this.enCourierExist = temp.length !== 0;
     });
   }
@@ -94,7 +94,7 @@ export class UbsAdminTariffsCourierPopUpComponent implements OnInit, OnDestroy {
   }
 
   selectedCourier(event): void {
-    this.enValue = this.couriers.filter((it) => it.courierTranslationDtos.find((ob) => ob.name === event.option?.value.toString()));
+    this.enValue = this.couriers.filter((it) => it.courierTranslationDtos.find((ob) => ob.name === event.option.value.toString()));
     this.englishName.setValue(
       this.enValue
         .map((it) => it.courierTranslationDtos.filter((ob) => ob.languageCode === 'en').map((i) => i.name))

@@ -56,7 +56,7 @@ export class UbsAdminTariffsStationPopUpComponent implements OnInit, OnDestroy {
       this.authorName = firstName;
     });
     this.name.valueChanges.subscribe((value) => {
-      this.stationExist = this.stations.some((it) => it.name === value);
+      this.stationExist = this.stations.some((it) => it.name === value.trim());
     });
   }
 
