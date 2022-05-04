@@ -40,7 +40,7 @@
           {{ 'ubs-client-profile.payment.certificate-activated.sum' | translate: { certificateSum: userCertificate.certificateSum } }}
         </div>
         <div class="text-danger">
-          {{ 'ubs-client-profile.payment.certificate-activated.data' | translate: { certDate: userCertificate.certificateDate } }}
+          {{ 'ubs-client-profile.payment.certificate-activated.data' | translate: { certDate: userCertificate.creationDate } }}
         </div>
         <button *ngIf="userOrder.sum > 0" class="btn btn-add-certificate" (click)="addNewCertificate()">
           {{ 'ubs-client-profile.payment.add-certificate' | translate }}

@@ -53,8 +53,8 @@ describe('OrderService', () => {
     points: 100500
   };
   const certificateMock = {
-    certificateDate: 'string',
-    certificatePoints: 0,
+    creationDate: 'string',
+    points: 0,
     certificateStatus: 'string'
   };
 
