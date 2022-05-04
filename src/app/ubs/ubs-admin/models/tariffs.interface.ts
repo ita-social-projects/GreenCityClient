@@ -70,8 +70,8 @@ export interface Locations {
 
 export interface CreateLocation {
   addLocationDtoList: Location[];
-  latitude: 0;
-  longitude: 0;
+  latitude: number;
+  longitude: number;
   regionTranslationDtos: Region[];
 }
 
