@@ -1,7 +1,7 @@
 import { UserOwnSignIn } from './../../../../model/user-own-sign-in';
 import { UserSuccessSignIn } from './../../../../model/user-success-sign-in';
 import { SignInIcons } from './../../../../image-pathes/sign-in-icons';
-import { Component, EventEmitter, OnInit, OnDestroy, Output } from '@angular/core';
+import { Component, EventEmitter, OnInit, OnDestroy, Output, OnChanges } from '@angular/core';
 import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { AbstractControl, FormGroup, FormControl, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
@@ -20,7 +20,7 @@ import { MatSnackBarComponent } from '@global-errors/mat-snack-bar/mat-snack-bar
   templateUrl: './restore-password.component.html',
   styleUrls: ['./restore-password.component.scss']
 })
-export class RestorePasswordComponent implements OnInit, OnDestroy {
+export class RestorePasswordComponent implements OnInit, OnDestroy, OnChanges {
   public restorePasswordForm: FormGroup;
   public emailField: AbstractControl;
   public closeBtn = SignInIcons;
@@ -57,6 +57,10 @@ export class RestorePasswordComponent implements OnInit, OnDestroy {
     this.configDefaultErrorMessage();
     this.checkIfUserId();
     this.emailField = this.restorePasswordForm.get('email');
+  }
+
+  ngOnChanges(): void {
+    this.classCheck();
   }
 
   public initFormReactive(): void {
@@ -141,6 +145,12 @@ export class RestorePasswordComponent implements OnInit, OnDestroy {
   private onSignInWithGoogleSuccess(data: UserSuccessSignIn): void {
     this.userOwnSignInService.saveUserToLocalStorage(data);
     this.router.navigate(['/']);
+  }
+
+  public classCheck(): string {
+    return (this.emailField.invalid && this.emailField.touched) || this.backEndError || this.emailErrorMessageBackEnd
+      ? 'alert-email-validation'
+      : 'successful-email-validation';
   }
 
   ngOnDestroy() {

@@ -4,7 +4,7 @@
 <h2 class="subtitle-text">
   {{ 'user.auth.sign-up.fill-form-up' | translate }}
 </h2>
-<form *ngIf="signUpForm" (ngSubmit)="onSubmit(userOwnSignUp)" [formGroup]="signUpForm" class="form-content-container">
+<form *ngIf="signUpForm" [formGroup]="signUpForm" class="form-content-container" (ngSubmit)="onSubmit(userOwnSignUp)">
   <label class="content-label" for="email" aria-required="true">
     {{ 'user.auth.sign-up.email' | translate }}
   </label>
@@ -16,11 +16,7 @@
     required
     formControlName="email"
     (input)="setEmailBackendErr()"
-    [ngClass]="
-      (emailControl.invalid && emailControl.touched) || emailErrorMessageBackEnd || backEndError
-        ? 'main-data-input wrong-input'
-        : 'main-data-input'
-    "
+    [ngClass]="emailClassCheck()"
     aria-required="true"
     aria-describedby="email-err-msg"
     tabindex="0"
@@ -42,7 +38,7 @@
     required
     formControlName="firstName"
     (input)="setEmailBackendErr()"
-    [ngClass]="(firstNameControl.invalid && firstNameControl.touched) || backEndError ? 'main-data-input wrong-input' : 'main-data-input'"
+    [ngClass]="firstNameClassCheck()"
     aria-required="true"
     aria-describedby="firstname-err-msg"
     tabindex="0"
@@ -56,13 +52,7 @@
   <label class="content-label under-error" for="password" aria-required="true">
     {{ 'user.auth.sign-up.password' | translate }}
   </label>
-  <div
-    [ngClass]="
-      (passwordControl.invalid && passwordControl.touched) || backEndError
-        ? 'main-data-input-password wrong-input'
-        : 'main-data-input-password'
-    "
-  >
+  <div [ngClass]="passwordClassCheck()">
     <input
       type="password"
       placeholder="{{ 'user.auth.sign-up.password' | translate }}"
@@ -98,16 +88,7 @@
   <label class="content-label under-error" for="repeatPassword" aria-required="true">
     {{ 'user.auth.sign-up.password-confirm' | translate }}
   </label>
-  <div
-    [ngClass]="
-      (passwordControlConfirm.invalid && passwordControlConfirm.touched) ||
-      backEndError ||
-      (inputPassword.value !== repeatPassword.value && repeatPassword.value !== '')
-        ? 'main-data-input-password wrong-input'
-        : 'main-data-input-password'
-    "
-    #repeatInput
-  >
+  <div [ngClass]="passwordConfirmClassCheck()" #repeatInput>
     <input
       type="password"
       placeholder="{{ 'user.auth.sign-up.password' | translate }}"
@@ -158,7 +139,7 @@
   <div class="switch-sign-up">
     {{ 'user.auth.sign-up.or' | translate }}
   </div>
-  <app-google-btn (click)="signUpWithGoogle()" [text]="'user.auth.sign-up.submit-with-google'"></app-google-btn>
+  <app-google-btn [text]="'user.auth.sign-up.submit-with-google'" (click)="signUpWithGoogle()"></app-google-btn>
 </form>
 
 <div class="exist-account">
