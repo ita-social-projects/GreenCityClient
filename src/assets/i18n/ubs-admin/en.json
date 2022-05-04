@@ -624,7 +624,7 @@
     "auth": {
       "sign-in": {
         "title": "Welcome back!",
-        "fill-form": "Please enter your details to sign in",
+        "fill-form": "Please enter your details to sign in.",
         "email": "Email",
         "email-is-required": "Email is required",
         "field-is-required": "This field is required",
