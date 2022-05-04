@@ -36,7 +36,11 @@ describe('NewsListComponent', () => {
   ecoNewsServiceMock.getEcoNewsListByPage = () => new Observable();
 
   let localStorageServiceMock: LocalStorageService;
-  localStorageServiceMock = jasmine.createSpyObj('LocalStorageService', ['userIdBehaviourSubject', 'languageBehaviourSubject']);
+  localStorageServiceMock = jasmine.createSpyObj('LocalStorageService', [
+    'userIdBehaviourSubject',
+    'languageBehaviourSubject',
+    'setCurentPage'
+  ]);
   localStorageServiceMock.userIdBehaviourSubject = new BehaviorSubject(1111);
   localStorageServiceMock.languageBehaviourSubject = new BehaviorSubject('en');
 
