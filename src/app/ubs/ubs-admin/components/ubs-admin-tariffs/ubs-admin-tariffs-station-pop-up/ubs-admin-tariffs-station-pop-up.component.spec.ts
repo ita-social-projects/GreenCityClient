@@ -1,4 +1,4 @@
-import { async, ComponentFixture, fakeAsync, TestBed } from '@angular/core/testing';
+import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { FormBuilder, ReactiveFormsModule } from '@angular/forms';
 import { MatDialog, MatDialogModule, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { TranslateModule } from '@ngx-translate/core';
@@ -56,6 +56,29 @@ describe('UbsAdminTariffsStationPopUpComponent', () => {
 
   it('should create', () => {
     expect(component).toBeTruthy();
+  });
+
+  it('should check if station exist', () => {
+    component.stations = [fakeStation];
+    component.name.setValue('fakeStation');
+    expect(component.stationExist).toEqual(true);
+  });
+
+  it('should check if station exist', () => {
+    component.stations = [fakeStation];
+    component.name.setValue('newStation');
+    expect(component.stationExist).toEqual(false);
+  });
+
+  it('should return id of selected station', () => {
+    const eventMock = {
+      option: {
+        value: 'fakeStation'
+      }
+    };
+    component.stations = [fakeStation];
+    component.selectedStation(eventMock);
+    expect(component.currentId).toEqual(1);
   });
 
   it('should has correct data', () => {

@@ -24,9 +24,7 @@ export class ModalTextComponent implements OnInit {
     public dialogRef: MatDialogRef<ModalTextComponent>,
     @Inject(MAT_DIALOG_DATA) public modalData: any,
     private localeStorageService: LocalStorageService
-  ) {
-    console.log(modalData);
-  }
+  ) {}
 
   ngOnInit(): void {
     this.title = this.modalData.title;
@@ -39,7 +37,11 @@ export class ModalTextComponent implements OnInit {
     });
   }
 
-  onNoClick() {
-    this.dialogRef.close();
+  onNoClick(reply: boolean): void {
+    this.dialogRef.close(reply);
+  }
+
+  check(val: string): boolean {
+    return val === 'cancel';
   }
 }

@@ -31,7 +31,7 @@
           alt="arrowDown"
           (click)="openAuto($event, autocompleteTrigger)"
         />
-        <mat-icon *ngIf="name.value.length && !data.edit" class="cross-img" (click)="name.setValue('')">close</mat-icon>
+        <img *ngIf="name.value.length && !data.edit" [src]="icons.cross" class="cross-img" alt="close-icon" (click)="name.setValue('')" />
         <div class="error" *ngIf="name.invalid && name.touched">
           <p class="validation">{{ 'ubs-tariffs-add-location-pop-up.error' | translate }}</p>
         </div>
