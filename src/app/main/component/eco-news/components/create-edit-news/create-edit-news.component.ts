@@ -3,7 +3,7 @@ import { FormArray, FormGroup, FormControl } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { MatDialog } from '@angular/material/dialog';
 import { takeUntil, catchError, take } from 'rxjs/operators';
-import { QueryParams, TextAreasHeight } from '../../models/create-news-interface';
+import { NewsResponseDTO, QueryParams, TextAreasHeight } from '../../models/create-news-interface';
 import { EcoNewsService } from '../../services/eco-news.service';
 import { Subscription, ReplaySubject, throwError, BehaviorSubject } from 'rxjs';
 import { CreateEcoNewsService } from '@eco-news-service/create-eco-news.service';
@@ -21,7 +21,8 @@ import 'quill-emoji/dist/quill-emoji.js';
 import ImageResize from 'quill-image-resize-module';
 import { checkImages, dataURLtoFile, quillConfig } from './quillEditorFunc';
 import { Store } from '@ngrx/store';
-import { EditEcoNewsAction } from 'src/app/store/actions/ecoNews.actions';
+import { CreateEcoNewsSuccessAction, EditEcoNewsSuccessAction } from 'src/app/store/actions/ecoNews.actions';
+import { EcoNewsDto } from '@eco-news-models/eco-news-dto';
 
 @Component({
   selector: 'app-create-edit-news',
@@ -93,10 +94,12 @@ export class CreateEditNewsComponent extends FormBaseComponent implements OnInit
   public editorText = '';
   public editorHTML = '';
   public savingImages = false;
+  public backRoute: string;
 
   // TODO: add types | DTO to service
 
   ngOnInit() {
+    this.backRoute = this.localStorageService.getPreviousPage();
     this.getNewsIdFromQueryParams();
     this.initPageForCreateOrEdit();
     this.onSourceChange();
@@ -224,7 +227,10 @@ export class CreateEditNewsComponent extends FormBaseComponent implements OnInit
           return throwError(err);
         })
       )
-      .subscribe(() => this.escapeFromCreatePage());
+      .subscribe((data) => {
+        this.store.dispatch(CreateEcoNewsSuccessAction({ newEcoNews: data }));
+        this.escapeFromCreatePage();
+      });
 
     this.localStorageService.removeTagsOfNews('newsTags');
   }
@@ -253,7 +259,7 @@ export class CreateEditNewsComponent extends FormBaseComponent implements OnInit
   public escapeFromCreatePage(): void {
     this.isPosting = false;
     this.allowUserEscape();
-    this.router.navigate(['/news']).catch((err) => console.error(err));
+    this.router.navigate([this.backRoute]).catch((err) => console.error(err));
   }
 
   public editData(text: string): void {
@@ -262,7 +268,6 @@ export class CreateEditNewsComponent extends FormBaseComponent implements OnInit
       id: this.newsId
     };
     dataToEdit.content = text;
-    // this.store.dispatch(EditEcoNewsAction({ form: dataToEdit }));
 
     this.createEcoNewsService
       .editNews(dataToEdit)
@@ -272,9 +277,8 @@ export class CreateEditNewsComponent extends FormBaseComponent implements OnInit
           return throwError(error);
         })
       )
-
-      .subscribe((data) => {
-        console.log(data);
+      .subscribe((data: NewsResponseDTO) => {
+        this.store.dispatch(EditEcoNewsSuccessAction({ newsResponse: data }));
         this.escapeFromCreatePage();
       });
   }

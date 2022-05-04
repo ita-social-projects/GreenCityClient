@@ -13,6 +13,15 @@ export interface EcoNewsModel {
   likes: number;
   source?: string;
 }
+// export interface NewsResponseDTO {
+//   id: number;
+//   title: string;
+//   text: string;
+//   ecoNewsAuthorDto: { id: number; firstName: string; lastName: string };
+//   creationDate: string;
+//   imagePath: string;
+//   tags: Array<string>;
+// }
 
 export interface NewsTagInterface {
   id: number;

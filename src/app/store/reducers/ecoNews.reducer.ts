@@ -3,7 +3,8 @@ import {
   GetEcoNewsByPageSuccessAction,
   GetEcoNewsByTagsSuccessAction,
   GetEcoNewsByAuthorSuccessAction,
-  EditEcoNewsSuccessAction
+  EditEcoNewsSuccessAction,
+  CreateEcoNewsSuccessAction
 } from '../actions/ecoNews.actions';
 import { initialNewsState } from '../state/ecoNews.state';
 
@@ -42,17 +43,31 @@ export const EcoNewsReducer = createReducer(
     return {
       ...state,
       pages: state.pages.map((val) => {
-        if (val.id === +action.form.id) {
-          const newOrderData = { ...val };
-          // val.content = action.form.content;
-          newOrderData.imagePath = action.form.imagePath;
-          newOrderData.title = action.form.title;
-          newOrderData.tags = [...action.form.tags];
-          newOrderData.source = action.form.source;
+        if (val && val.id === +action.newsResponse.id) {
+          const newOrderData = { ...action.newsResponse };
+          return newOrderData;
+        }
+        return val;
+      }),
+      autorNews: state.autorNews.map((val) => {
+        if (val && val.id === +action.newsResponse.id) {
+          const newOrderData = { ...action.newsResponse };
           return newOrderData;
         }
         return val;
       })
+    };
+  }),
+
+  on(CreateEcoNewsSuccessAction, (state, action) => {
+    const actionNews = { ...action.newEcoNews };
+    actionNews.author = action.newEcoNews.ecoNewsAuthorDto;
+    actionNews.countComments = 0;
+    actionNews.likes = 0;
+    return {
+      ...state,
+      pages: [actionNews, ...state.pages],
+      autorNews: [actionNews, ...state.autorNews]
     };
   })
 );

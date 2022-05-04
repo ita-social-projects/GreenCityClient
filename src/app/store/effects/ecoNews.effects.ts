@@ -10,13 +10,10 @@ import {
   GetEcoNewsByPageAction,
   GetEcoNewsByPageSuccessAction,
   GetEcoNewsByAuthorAction,
-  GetEcoNewsByAuthorSuccessAction,
-  EditEcoNewsAction,
-  EditEcoNewsSuccessAction
+  GetEcoNewsByAuthorSuccessAction
 } from '../actions/ecoNews.actions';
 import { EcoNewsDto } from '@eco-news-models/eco-news-dto';
 import { CreateEcoNewsService } from '@eco-news-service/create-eco-news.service';
-import { NewsDTO, NewsResponseDTO } from '@eco-news-models/create-news-interface';
 
 @Injectable()
 export class NewsEffects {
@@ -57,21 +54,6 @@ export class NewsEffects {
         return this.newsService.getEcoNewsListByAutorId(actions.currentPage, actions.numberOfNews).pipe(
           map(
             (ecoNews: EcoNewsDto) => GetEcoNewsByAuthorSuccessAction({ ecoNews, reset: actions.reset }),
-            catchError(() => EMPTY)
-          )
-        );
-      })
-    );
-  });
-
-  editEconews = createEffect(() => {
-    return this.actions.pipe(
-      ofType(EditEcoNewsAction),
-      mergeMap((actions: { form: NewsDTO }) => {
-        return this.createEcoNewsService.editNews(actions.form).pipe(
-          map(
-            () => EditEcoNewsSuccessAction({ form: actions }),
-
             catchError(() => EMPTY)
           )
         );
