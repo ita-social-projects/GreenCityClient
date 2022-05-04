@@ -1,19 +1,27 @@
-footer {
-  box-shadow: 0 -4px 8px var(--quintynary-dark-grey);
+.footer {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  background-color: #fff;
 
   .container-fluid {
-    padding: 70px 330px 0 330px;
+    padding: 0;
+    max-width: 1180px;
+    position: relative;
 
     .main-content {
       width: 100%;
-      display: inline-flex;
+      display: none;
+      margin: 60px 0 20px 0;
 
       .footer-logo {
+        margin-top: 80px;
+        width: 226px;
+        height: 226px;
+
         a {
           img {
-            margin-top: 80px;
-            width: 230px;
-            height: 95px;
+            width: 100%;
           }
         }
       }
@@ -63,28 +71,21 @@ footer {
 
         button {
           margin-top: 7px;
-          border: 1px solid #690;
-          background-color: #9c0;
-          font-family: Verdana, 'Raleway', Arial, sans-serif;
-          font-weight: bold;
-          color: white;
-          line-height: 35px;
-          font-size: 15px;
+          height: 44px;
+          width: 100%;
+          font-size: 18px;
+          background-color: var(--ubs-button-light-green);
+          color: var(--ubs-tertiary-dark-grey);
+        }
+
+        button:hover {
+          color: beige;
         }
 
         p,
         label,
-        input,
-        button {
+        input {
           width: 100%;
-        }
-
-        button:hover {
-          background-color: #690;
-        }
-
-        button::first-letter {
-          text-transform: capitalize;
         }
       }
 
@@ -103,11 +104,9 @@ footer {
       width: 100%;
       display: flex;
       justify-content: center;
-      margin-top: 60px;
+      margin-top: 40px;
       padding-bottom: 40px;
-      border-bottom-style: inset;
-      border-bottom-color: #ddd;
-      border-bottom-width: 2px;
+      border-bottom: 2px inset #ddd;
 
       .fa {
         padding: 20px;
@@ -156,6 +155,40 @@ footer {
       }
     }
 
+    .toggle-footer-button {
+      position: absolute;
+      right: 10%;
+      bottom: 152px;
+      border: 1px solid gainsboro;
+      width: 42px;
+      height: 42px;
+
+      .show-footer-label {
+        width: 100%;
+        cursor: pointer;
+      }
+    }
+
+    .toggler-icon::before {
+      content: 'keyboard_arrow_up';
+      vertical-align: middle;
+      color: #646363;
+    }
+
+    .foot-check {
+      display: none;
+    }
+
+    input.foot-check:checked + .main-content {
+      display: inline-flex;
+    }
+
+    input.foot-check:checked ~ .toggle-footer-button {
+      .toggler-icon::before {
+        content: 'keyboard_arrow_down';
+      }
+    }
+
     .footer-bottom-part {
       width: 100%;
       text-align: center;
@@ -169,52 +202,23 @@ footer {
     }
   }
 
-  @media (max-width: 1550px) {
+  @media (max-width: 992px) {
     .container-fluid {
-      padding: 90px 100px 0 100px;
-
-      .main-content {
-        .footer-logo {
-          a {
-            img {
-              width: 200px;
-              height: 75px;
-            }
-          }
-        }
+      .toggle-footer-button {
+        right: 5%;
       }
-    }
-  }
-
-  @media (max-width: 990px) {
-    .container-fluid {
-      padding: 90px 20px 0 20px;
 
       .main-content {
-        .footer-logo {
-          a {
-            img {
-              width: 120px;
-              height: 65px;
-            }
-          }
-        }
-      }
-    }
-  }
-
-  @media (max-width: 760px) {
-    .container-fluid {
-      padding: 20px 10px 0 10px;
-
-      .main-content {
-        display: block;
+        flex-direction: column;
+        margin: 0;
 
         .footer-logo {
+          margin-top: 0;
+
           a {
             img {
-              width: 230px;
-              height: 95px;
+              width: 226px;
+              height: 226px;
             }
           }
         }
@@ -223,19 +227,49 @@ footer {
         .footer-subscribe-us,
         .footer-links {
           width: 100%;
-          margin-top: 100px;
+          margin-top: 50px;
         }
+      }
+    }
+  }
+
+  @media (max-width: 768px) {
+    .container-fluid {
+      .toggle-footer-button {
+        width: 40%;
+        bottom: 140px;
+        border-radius: 0;
+        right: 30%;
       }
 
       .social-networks {
-        width: 100%;
-        display: inline-flex;
         justify-content: space-around;
-        margin-top: 60px;
-        padding: 0 30px 40px 30px;
-        border-bottom-style: inset;
-        border-bottom-color: #ddd;
-        border-bottom-width: 2px;
+        padding: 0 30px 80px 30px;
+      }
+    }
+  }
+
+  @media (max-width: 480px) {
+    .container-fluid {
+      .social-networks {
+        margin-top: 20px;
+
+        .fa {
+          margin-right: 30px;
+        }
+      }
+
+      input.foot-check:checked + .main-content {
+        margin-top: 80px;
+      }
+
+      .footer-bottom-part {
+        padding: 0 8px;
+        margin-top: 20px;
+      }
+
+      .toggle-footer-button {
+        bottom: 80px;
       }
     }
   }

@@ -10,12 +10,12 @@ import { fromSelect, toSelect } from './table-cell-time-range';
   styleUrls: ['./table-cell-time.component.scss']
 })
 export class TableCellTimeComponent implements OnInit {
-  @Input() from;
-  @Input() to;
   @Input() nameOfColumn: string;
   @Input() id: number;
   @Input() ordersToChange: number[];
   @Input() isAllChecked: boolean;
+  @Input() doneOrCanceled: boolean;
+  @Input() timeOfExport: string;
 
   @Output() cancelEdit = new EventEmitter();
   @Output() editTimeCell = new EventEmitter();
@@ -26,19 +26,34 @@ export class TableCellTimeComponent implements OnInit {
   public fromSelect: string[];
   public toSelect: string[];
   public isEditable: boolean;
-  public isError = '';
   public isBlocked: boolean;
   private typeOfChange: number[];
+  public from: string;
+  public to: string;
+  public parseTime = [];
 
   constructor(private adminTableService: AdminTableService) {}
 
   ngOnInit() {
     this.fromSelect = fromSelect;
     this.toSelect = toSelect;
+    this.parseTime_(this.timeOfExport);
     this.fromInput = this.from;
     this.toInput = this.to;
   }
 
+  public parseTime_(timeExport: string): void {
+    let arr = [];
+    const res = timeExport.split('-').map((e) => {
+      arr = e.split(':');
+      if (arr.length > 2) {
+        arr.pop();
+      }
+      return arr.join(':');
+    });
+    this.from = res[0];
+    this.to = res[1];
+  }
   public edit(): void {
     this.isEditable = false;
     this.isBlocked = true;
@@ -60,37 +75,22 @@ export class TableCellTimeComponent implements OnInit {
       });
   }
 
-  save() {
-    if (this.fromInput === this.from && this.toInput === this.to) {
-      this.isEditable = false;
-      this.isError = '';
-      return;
-    }
-    if (this.fromInput === this.toInput) {
-      this.isError = 'Can not be the same';
-      return;
-    }
-    if (this.fromInput.slice(0, 2) > this.toInput.slice(0, 2)) {
-      this.isError = 'time error';
-      return;
-    }
-    const newTimeValue: IEditCell = {
-      id: this.id,
-      nameOfColumn: this.nameOfColumn,
-      newValue: `${this.fromInput}-${this.toInput}`
-    };
-    this.editTimeCell.emit(newTimeValue);
-    this.isError = '';
-    this.isEditable = false;
-    this.cancelEdit.emit(this.typeOfChange);
-  }
+  setExportTime(data: any): void {
+    if (data.dataWasChanged) {
+      const newTimeValue: IEditCell = {
+        id: this.id,
+        nameOfColumn: this.nameOfColumn,
+        newValue: `${data.from}-${data.to}`
+      };
+      this.editTimeCell.emit(newTimeValue);
+    } else {
+      this.typeOfChange = this.adminTableService.howChangeCell(this.isAllChecked, this.ordersToChange, this.id);
 
-  cancel() {
-    this.typeOfChange = this.adminTableService.howChangeCell(this.isAllChecked, this.ordersToChange, this.id);
+      this.fromInput = this.from;
+      this.toInput = this.to;
+    }
+
     this.cancelEdit.emit(this.typeOfChange);
-    this.isError = '';
     this.isEditable = false;
-    this.fromInput = this.from;
-    this.toInput = this.to;
   }
 }

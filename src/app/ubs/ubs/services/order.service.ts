@@ -63,16 +63,15 @@ export class OrderService {
   }
 
   addAdress(adress: Address): Observable<any> {
-    return this.http.post<Address>(`${this.url}/save-order-address`, adress);
+    return this.http.post<{ addressList: Address[] }>(`${this.url}/save-order-address`, adress);
   }
 
   deleteAddress(address: Address): Observable<any> {
-    const body = address.id;
-    return this.http.post<any>(`${this.url}/${address.id}/delete-order-address`, body);
+    return this.http.delete<{ addressList: Address[] }>(`${this.url}/order-addresses/${address.id}`);
   }
 
   findAllAddresses(): Observable<any> {
-    return this.http.get<Address[]>(`${this.url}/findAll-order-address`);
+    return this.http.get<{ addressList: Address[] }>(`${this.url}/findAll-order-address`);
   }
 
   setOrder(order: Order) {
@@ -130,8 +129,7 @@ export class OrderService {
   }
 
   getOrderFromNotification(orderId: number) {
-    const lang = localStorage.getItem('language') === 'ua' ? 1 : 2;
-    return this.http.get(`${this.url}/client/get-data-for-order-surcharge/${orderId}/${lang}`);
+    return this.http.get(`${this.url}/client/get-data-for-order-surcharge/${orderId}`);
   }
 
   processOrderFondyFromUserOrderList(order: OrderClientDto): Observable<ResponceOrderFondyModel> {

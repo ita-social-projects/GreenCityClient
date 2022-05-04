@@ -1,7 +1,14 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
-import { UserViolations, IOrderHistory, PaymentDetails, IPaymentInfoDto } from '../models/ubs-admin.interface';
+import {
+  UserViolations,
+  IOrderHistory,
+  PaymentDetails,
+  IPaymentInfoDto,
+  FormFieldsName,
+  ResponsibleEmployee
+} from '../models/ubs-admin.interface';
 import { environment } from '@environment/environment';
 import { IViolation } from '../models/violation.model';
 
@@ -62,12 +69,14 @@ export class OrderService {
     }
   }
 
-  public getOrderInfo(orderId, lang) {
-    return this.http.get(`${this.backend}/management/get-data-for-order/${orderId}/${lang}`);
+  public getOrderInfo(orderId) {
+    return this.http.get(`${this.backend}/management/get-data-for-order/${orderId}`);
   }
 
   public updateOrderInfo(orderId: number, lang: string, data: {}) {
-    return this.http.patch(`${this.backend}/management/update-order-page-admin-info/${orderId}?lang=${lang}`, data);
+    return this.http.patch(`${this.backend}/management/update-order-page-admin-info/${orderId}?lang=${lang}`, data, {
+      observe: 'response'
+    });
   }
 
   public getOrderDetails(orderId: number, lang: string): Observable<any> {
@@ -121,7 +130,9 @@ export class OrderService {
   public updateRecipientsData(postData: any) {
     return this.http.put<any>(`${this.backend}`, postData);
   }
-
+  public updateOrdersInfo(lang: string, data: {}) {
+    return this.http.put(`${this.backend}/management/all-order-page-admin-info?lang=${lang}`, data);
+  }
   public addPaymentManually(orderId: number, data: PaymentDetails, file?: File): Observable<IPaymentInfoDto> {
     const formData: FormData = new FormData();
     if (file) {
@@ -178,5 +189,17 @@ export class OrderService {
       message = UNDERPAYMENT_MESSAGE;
     }
     return message;
+  }
+  public matchProps(prop: string): number {
+    switch (prop) {
+      case FormFieldsName.CallManager:
+        return ResponsibleEmployee.CallManager;
+      case FormFieldsName.Driver:
+        return ResponsibleEmployee.Driver;
+      case FormFieldsName.Logistician:
+        return ResponsibleEmployee.Logistician;
+      case FormFieldsName.Navigator:
+        return ResponsibleEmployee.Navigator;
+    }
   }
 }

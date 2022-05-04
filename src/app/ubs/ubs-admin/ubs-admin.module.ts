@@ -69,7 +69,6 @@ import { ShowImgsPopUpComponent } from './components/shared/components/show-imgs
 import { ModalTextComponent } from './components/shared/components/modal-text/modal-text.component';
 import { DialogTariffComponent } from './components/shared/components/dialog-tariff/dialog-tariff.component';
 import { UbsAdminTariffsLocationPopUpComponent } from './components/ubs-admin-tariffs/ubs-admin-tariffs-location-pop-up/ubs-admin-tariffs-location-pop-up.component';
-import { UbsAdminTariffsAddNamePopUpComponent } from './components/ubs-admin-tariffs/ubs-admin-tariffs-add-name-pop-up/ubs-admin-tariffs-add-name-pop-up.component';
 import { PdfViewerModule } from 'ng2-pdf-viewer';
 import { ShowPdfPopUpComponent } from './components/shared/components/show-pdf-pop-up/show-pdf-pop-up.component';
 import { UbsAdminSeveralOrdersPopUpComponent } from '../ubs-admin/components/ubs-admin-several-orders-pop-up/ubs-admin-several-orders-pop-up.component';
@@ -77,6 +76,10 @@ import { MatAutocompleteModule } from '@angular/material/autocomplete';
 import { MatChipsModule } from '@angular/material/chips';
 import { MatSelectModule } from '@angular/material/select';
 import { ColumnFiltersPopUpComponent } from './components/shared/components/column-filters-pop-up/column-filters-pop-up.component';
+import { UbsAdminTariffsCourierPopUpComponent } from './components/ubs-admin-tariffs/ubs-admin-tariffs-courier-pop-up/ubs-admin-tariffs-courier-pop-up.component';
+import { UbsAdminTariffsStationPopUpComponent } from './components/ubs-admin-tariffs/ubs-admin-tariffs-station-pop-up/ubs-admin-tariffs-station-pop-up.component';
+import { MatExpansionModule } from '@angular/material/expansion';
+import { TimePickerComponent } from './components/shared/components/time-picker/time-picker.component';
 
 @NgModule({
   declarations: [
@@ -125,10 +128,11 @@ import { ColumnFiltersPopUpComponent } from './components/shared/components/colu
     ModalTextComponent,
     DialogTariffComponent,
     UbsAdminTariffsLocationPopUpComponent,
-    UbsAdminTariffsAddNamePopUpComponent,
     ShowPdfPopUpComponent,
     UbsAdminSeveralOrdersPopUpComponent,
-    UbsAdminTariffsAddNamePopUpComponent
+    UbsAdminTariffsCourierPopUpComponent,
+    UbsAdminTariffsStationPopUpComponent,
+    TimePickerComponent
   ],
   imports: [
     CommonModule,
@@ -167,7 +171,8 @@ import { ColumnFiltersPopUpComponent } from './components/shared/components/colu
     PdfViewerModule,
     MatAutocompleteModule,
     MatChipsModule,
-    MatSelectModule
+    MatSelectModule,
+    MatExpansionModule
   ],
   providers: [
     AdminCertificateService,

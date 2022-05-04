@@ -5,8 +5,12 @@ import { LocalStorageService } from '@global-service/localstorage/local-storage.
 import { HabitAssignService } from '@global-service/habit-assign/habit-assign.service';
 import { HabitAssignInterface } from '../../../../../interface/habit/habit-assign.interface';
 import { HabitStatus } from '../../../../../model/habit/HabitStatus.enum';
-import { EcoNewsService } from '@eco-news-service/eco-news.service';
 import { MatTabChangeEvent } from '@angular/material/tabs';
+import { Store } from '@ngrx/store';
+import { IAppState } from 'src/app/store/state/app.state';
+import { IEcoNewsState } from 'src/app/store/state/ecoNews.state';
+import { GetEcoNewsByAuthorAction } from 'src/app/store/actions/ecoNews.actions';
+import { EcoNewsModel } from '@eco-news-models/eco-news-model';
 
 @Component({
   selector: 'app-profile-dashboard',
@@ -26,21 +30,44 @@ export class ProfileDashboardComponent implements OnInit, OnDestroy {
   };
   isActiveInfinityScroll = false;
   userId: number;
-  news: any;
-  private totalPages: number;
-  private currentPage = 0;
-  private newsCount = 5;
+  news: EcoNewsModel[];
+  private hasNext = true;
+  private currentPage: number;
+  private newsCount = 3;
 
-  constructor(
-    private localStorageService: LocalStorageService,
-    public habitAssignService: HabitAssignService,
-    private ecoNewsService: EcoNewsService
-  ) {}
+  public totalNews = 0;
+
+  authorNews$ = this.store.select((state: IAppState): IEcoNewsState => state.ecoNewsState);
+
+  constructor(private localStorageService: LocalStorageService, public habitAssignService: HabitAssignService, private store: Store) {}
 
   ngOnInit() {
     this.subscribeToLangChange();
     this.getUserId();
-    this.getNews(this.currentPage, this.newsCount);
+    this.dispatchNews(false);
+
+    this.authorNews$.subscribe((val: IEcoNewsState) => {
+      this.currentPage = val.authorNewsPage;
+      if (val.ecoNewsByAuthor) {
+        this.totalNews = val.ecoNewsByAuthor.totalElements;
+        this.hasNext = val.ecoNewsByAuthor.hasNext;
+        this.news = val.autorNews;
+      }
+    });
+
+    this.localStorageService.setCurentPage('previousPage', '/profile');
+  }
+
+  public dispatchNews(res: boolean) {
+    if (this.currentPage !== undefined && this.hasNext) {
+      this.store.dispatch(
+        GetEcoNewsByAuthorAction({
+          currentPage: this.currentPage,
+          numberOfNews: this.newsCount,
+          reset: res
+        })
+      );
+    }
   }
 
   public changeStatus(habit: HabitAssignInterface) {
@@ -103,29 +130,12 @@ export class ProfileDashboardComponent implements OnInit, OnDestroy {
     });
   }
 
-  private getNews(page: number, count: number): void {
-    this.ecoNewsService
-      .getEcoNewsListByPage(page, count)
-      .pipe(takeUntil(this.destroyed$))
-      .subscribe((list: any) => {
-        this.totalPages = list.totalPages;
-        if (!this.news) {
-          this.news = list.page;
-        } else {
-          this.news = [...this.news, ...list.page];
-        }
-      });
-  }
-
   tabChanged(tabChangeEvent: MatTabChangeEvent): void {
     this.isActiveInfinityScroll = tabChangeEvent.index === 1;
   }
 
   onScroll(): void {
-    if (!this.loading && this.currentPage < this.totalPages) {
-      this.currentPage++;
-      this.getNews(this.currentPage, this.newsCount);
-    }
+    this.dispatchNews(false);
   }
 
   ngOnDestroy(): void {

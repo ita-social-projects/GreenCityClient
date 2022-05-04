@@ -3,7 +3,8 @@
     "orders": "Orders",
     "invoice": "Invoice",
     "user_data": "User data",
-    "messages": "Messages"
+    "messages": "Messages",
+    "user": "User"
   },
   "ubs-user-notification": {
     "title": "Your messages",

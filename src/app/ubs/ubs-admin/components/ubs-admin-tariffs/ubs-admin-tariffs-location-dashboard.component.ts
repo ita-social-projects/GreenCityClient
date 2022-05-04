@@ -1,20 +1,21 @@
 import { Component, Input, OnDestroy, OnInit, TemplateRef } from '@angular/core';
 import { TariffsService } from '../../services/tariffs.service';
-import { map, startWith, takeUntil } from 'rxjs/operators';
+import { map, skip, startWith, takeUntil } from 'rxjs/operators';
 import { Locations } from '../../models/tariffs.interface';
 import { Subject } from 'rxjs';
 import { Router } from '@angular/router';
-import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
-import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
+import { MatDialog } from '@angular/material/dialog';
 import { FormBuilder, Validators } from '@angular/forms';
 import { UbsAdminTariffsLocationPopUpComponent } from './ubs-admin-tariffs-location-pop-up/ubs-admin-tariffs-location-pop-up.component';
-import { UbsAdminTariffsAddNamePopUpComponent } from './ubs-admin-tariffs-add-name-pop-up/ubs-admin-tariffs-add-name-pop-up.component';
 import { Store } from '@ngrx/store';
 import { MatChipInputEvent } from '@angular/material/chips';
 
 import { IAppState } from 'src/app/store/state/app.state';
 import { GetLocations } from 'src/app/store/actions/tariff.actions';
 import { MatAutocompleteSelectedEvent, MatAutocompleteTrigger } from '@angular/material/autocomplete';
+import { UbsAdminTariffsCourierPopUpComponent } from './ubs-admin-tariffs-courier-pop-up/ubs-admin-tariffs-courier-pop-up.component';
+import { UbsAdminTariffsStationPopUpComponent } from './ubs-admin-tariffs-station-pop-up/ubs-admin-tariffs-station-pop-up.component';
+import { ubsNamePattern } from '../shared/validators-pattern/ubs-name-patterns';
 
 @Component({
   selector: 'app-ubs-admin-tariffs-location-dashboard',
@@ -26,34 +27,25 @@ export class UbsAdminTariffsLocationDashboardComponent implements OnInit, OnDest
   @Input() locationCard: Locations;
   @Input() textBack: TemplateRef<any>;
 
-  locations;
+  locations = [];
   selectedLocationId;
   couriers;
-  currentLanguage;
+  stations;
   reset = true;
   checkedCities = [];
-  pattern = /^[А-Яа-яїЇіІєЄёЁ.\'\-\ ]*/;
+  currentRegion;
 
-  searchForm = this.fb.group({
-    region: ['', [Validators.required, Validators.minLength(3), Validators.maxLength(40), Validators.pattern(this.pattern)]],
-    city: ['', [Validators.required, Validators.maxLength(40)]],
-    courier: ['', [Validators.required]],
-    station: ['', [Validators.required]],
-    state: ['all']
-  });
-
-  public regions = ['Київська область', 'Львівська область'];
-  public cities = ['Київ', 'Ірпінь', 'Бориспіль', 'Львів', 'Наварія'];
-  public stations = ['Слобідська', 'Неслобідська'];
-  public newCouriers = ['УБС-курєр', 'Уклон'];
+  searchForm;
+  regions = [];
+  cities = [];
 
   allSelected = false;
   filteredRegions;
   filteredCities;
-  filteredLocations;
+  filteredLocations = [];
   private destroy: Subject<boolean> = new Subject<boolean>();
 
-  mainUrl = 'https://maps.googleapis.com/maps/api/js?key=AIzaSyB3xs7Kczo46LFcQRFKPMdrE0lU4qsR_S4&libraries=places&language=';
+  mainUrl = 'https://maps.googleapis.com/maps/api/js?key=AIzaSyB3xs7Kczo46LFcQRFKPMdrE0lU4qsR_S4&libraries=places&language=uk';
   public icons = {
     setting: './assets/img/ubs-tariff/setting.svg',
     crumbs: './assets/img/ubs-tariff/crumbs.svg',
@@ -61,13 +53,12 @@ export class UbsAdminTariffsLocationDashboardComponent implements OnInit, OnDest
     arrowDown: './assets/img/ubs-tariff/arrow-down.svg',
     arrowRight: './assets/img/ubs-tariff/arrow-right.svg'
   };
-  locations$ = this.store.select((state: IAppState): Locations => state.locations.locations);
+  locations$ = this.store.select((state: IAppState): Locations[] => state.locations.locations);
 
   constructor(
     private tariffsService: TariffsService,
     private router: Router,
     public dialog: MatDialog,
-    private localeStorageService: LocalStorageService,
     private store: Store<IAppState>,
     private fb: FormBuilder
   ) {}
@@ -89,22 +80,33 @@ export class UbsAdminTariffsLocationDashboardComponent implements OnInit, OnDest
   }
 
   ngOnInit(): void {
+    this.initForm();
+    setTimeout(() => this.city.disable());
     this.getLocations();
     this.getCouriers();
+    this.getReceivingStation();
     this.loadScript();
-    this.currentLanguage = this.localeStorageService.getCurrentLanguage();
-    this.initFilter();
+    this.region.valueChanges.subscribe((value) => {
+      this.checkRegionValue(value);
+      this.checkedCities = [];
+      this.positionsFilter();
+    });
   }
 
-  initFilter(): void {
-    this.filteredRegions = this.region.valueChanges.pipe(
-      startWith(''),
-      map((value) => this._filter(value, this.regions))
-    );
-    this.filteredCities = this.city.valueChanges.pipe(
-      startWith(''),
-      map((value: string) => (value ? this._filter(value, this.cities) : this.cities.slice()))
-    );
+  private initForm(): void {
+    this.searchForm = this.fb.group({
+      region: [
+        '',
+        [Validators.required, Validators.minLength(3), Validators.maxLength(40), Validators.pattern(ubsNamePattern.namePattern)]
+      ],
+      city: [
+        { value: '', disabled: true },
+        [Validators.required, Validators.maxLength(40), Validators.pattern(ubsNamePattern.namePattern)]
+      ],
+      courier: ['', [Validators.required]],
+      station: ['', [Validators.required]],
+      state: ['all']
+    });
   }
 
   private _filter(name: string, items: any[]): any[] {
@@ -113,19 +115,18 @@ export class UbsAdminTariffsLocationDashboardComponent implements OnInit, OnDest
   }
 
   addItem(event: MatChipInputEvent): void {
-    const input = event.input;
     const value = event.value;
 
     if ((value || '').trim()) {
       this.checkedCities.push(value.trim());
     }
 
-    if (input) {
-      input.value = '';
+    if (this.city.value) {
+      this.city.setValue('');
     }
   }
 
-  selected(event: MatAutocompleteSelectedEvent, trigger: MatAutocompleteTrigger): void {
+  selected(event: MatAutocompleteSelectedEvent, trigger?: MatAutocompleteTrigger): void {
     if (event.option.value === 'all') {
       this.toggleSelectAll();
     } else {
@@ -133,9 +134,11 @@ export class UbsAdminTariffsLocationDashboardComponent implements OnInit, OnDest
     }
     this.positionsFilter();
     this.city.setValue('');
-    requestAnimationFrame(() => {
-      trigger.openPanel();
-    });
+    if (trigger) {
+      requestAnimationFrame(() => {
+        trigger.openPanel();
+      });
+    }
   }
 
   selectCity(event: MatAutocompleteSelectedEvent): void {
@@ -163,7 +166,7 @@ export class UbsAdminTariffsLocationDashboardComponent implements OnInit, OnDest
     }
   }
 
-  onPositionSelected(): void {
+  onPositionSelected(): any[] {
     const isEmpty = (a) => Array.isArray(a) && a.every(isEmpty);
     return this.locations.filter((user) => {
       const res = user.locationsDto.map((it) =>
@@ -175,9 +178,11 @@ export class UbsAdminTariffsLocationDashboardComponent implements OnInit, OnDest
     });
   }
 
-  openAuto(event: Event, trigger: MatAutocompleteTrigger): void {
-    event.stopPropagation();
-    trigger.openPanel();
+  openAuto(event: Event, trigger: MatAutocompleteTrigger, flag: boolean): void {
+    if (!flag) {
+      event.stopPropagation();
+      trigger.openPanel();
+    }
   }
 
   toggleSelectAll(): void {
@@ -194,12 +199,12 @@ export class UbsAdminTariffsLocationDashboardComponent implements OnInit, OnDest
   loadScript(): void {
     const script = document.getElementById('googleMaps') as HTMLScriptElement;
     if (script) {
-      script.src = this.mainUrl + this.currentLanguage;
+      script.src = this.mainUrl;
     } else {
       const google = document.createElement('script');
       google.type = 'text/javascript';
       google.id = 'googleMaps';
-      google.setAttribute('src', this.mainUrl + this.currentLanguage);
+      google.setAttribute('src', this.mainUrl);
       document.getElementsByTagName('head')[0].appendChild(google);
     }
   }
@@ -207,11 +212,20 @@ export class UbsAdminTariffsLocationDashboardComponent implements OnInit, OnDest
   getLocations(): void {
     this.store.dispatch(GetLocations({ reset: this.reset }));
 
-    this.locations$.subscribe((item) => {
+    this.locations$.pipe(skip(1)).subscribe((item) => {
       if (item) {
         const key = 'content';
-        this.locations = Array.from(Object.values(item[key]));
+        this.locations = item[key];
         this.filteredLocations = this.locations;
+        this.regions = [].concat(
+          ...this.locations.map((element) =>
+            element.regionTranslationDtos.filter((it) => it.languageCode === 'ua').map((it) => it.regionName)
+          )
+        );
+        this.filteredRegions = this.region.valueChanges.pipe(
+          startWith(''),
+          map((value: string) => this._filter(value, this.regions))
+        );
         this.reset = false;
       }
     });
@@ -226,71 +240,118 @@ export class UbsAdminTariffsLocationDashboardComponent implements OnInit, OnDest
       .getCouriers()
       .pipe(takeUntil(this.destroy))
       .subscribe((res) => {
-        this.couriers = res;
+        this.couriers = res.map((it) => it.courierTranslationDtos.filter((ob) => ob.languageCode === 'ua').map((el) => el.name));
       });
   }
 
-  activateLocation(location): void {
-    const id = location.id;
-    const languageCode = 'ua';
+  getReceivingStation(): void {
     this.tariffsService
-      .activateLocation(id, languageCode)
+      .getAllStations()
       .pipe(takeUntil(this.destroy))
-      .subscribe(() => this.getLocations());
+      .subscribe((res) => {
+        this.stations = res;
+      });
   }
 
-  deactivateLocation(location): void {
-    const id = location.id;
-    const languageCode = 'ua';
-    this.tariffsService
-      .deactivateLocation(id, languageCode)
-      .pipe(takeUntil(this.destroy))
-      .subscribe(() => this.getLocations());
+  checkRegionValue(value): void {
+    if (value === 'Усі') {
+      this.currentRegion = this.locations;
+    } else {
+      this.currentRegion = this.locations.filter((element) => element.regionTranslationDtos.find((it) => it.regionName === value));
+    }
+    if (value && this.selectCities(this.currentRegion)) {
+      this.city.enable();
+    } else {
+      this.city.disable();
+    }
+  }
+
+  selectCities(currentRegion): boolean {
+    this.cities = currentRegion.map((element) =>
+      element.locationsDto.map((item) =>
+        item.locationTranslationDtoList.filter((it) => it.languageCode === 'ua').map((it) => it.locationName)
+      )
+    );
+    this.cities = this.cities.reduce((acc, val) => acc.concat(val), []).reduce((acc, val) => acc.concat(val), []);
+    this.filteredCities = this.city.valueChanges.pipe(
+      startWith(''),
+      map((value: string) => (value ? this._filter(value, this.cities) : this.cities.slice()))
+    );
+    return this.cities.length !== 0 ? true : false;
   }
 
   openAddCourierDialog(): void {
-    const dialogConfig = new MatDialogConfig();
-    dialogConfig.panelClass = 'address-matDialog-styles-w-100';
-    dialogConfig.data = {
-      headerText: 'addCourier'
-    };
-    this.dialog.open(UbsAdminTariffsAddNamePopUpComponent, dialogConfig);
+    this.dialog.open(UbsAdminTariffsCourierPopUpComponent, {
+      hasBackdrop: true,
+      panelClass: 'address-matDialog-styles-w-100',
+      data: {
+        headerText: 'addCourier',
+        edit: false
+      }
+    });
+  }
+
+  openEditCourier(): void {
+    this.dialog.open(UbsAdminTariffsCourierPopUpComponent, {
+      hasBackdrop: true,
+      panelClass: 'address-matDialog-styles-w-100',
+      data: {
+        headerText: 'editCourier',
+        edit: true
+      }
+    });
   }
 
   openAddStationDialog(): void {
-    const dialogConfig = new MatDialogConfig();
-    dialogConfig.panelClass = 'address-matDialog-styles-w-100';
-    dialogConfig.data = {
-      headerText: 'addStation'
-    };
-    this.dialog.open(UbsAdminTariffsAddNamePopUpComponent, dialogConfig);
+    this.dialog.open(UbsAdminTariffsStationPopUpComponent, {
+      hasBackdrop: true,
+      panelClass: 'address-matDialog-styles-w-100',
+      data: {
+        headerText: 'addStation',
+        edit: false
+      }
+    });
+  }
+
+  openEditStation(): void {
+    this.dialog.open(UbsAdminTariffsStationPopUpComponent, {
+      hasBackdrop: true,
+      panelClass: 'address-matDialog-styles-w-100',
+      data: {
+        headerText: 'editStation',
+        edit: true
+      }
+    });
   }
 
   openAddLocation(): void {
-    const dialogConfig = new MatDialogConfig();
-    dialogConfig.panelClass = 'address-matDialog-styles-w-100';
-    dialogConfig.data = {
-      headerText: 'addTemplate'
-    };
-    this.dialog.open(UbsAdminTariffsLocationPopUpComponent, dialogConfig);
+    this.dialog.open(UbsAdminTariffsLocationPopUpComponent, {
+      hasBackdrop: true,
+      panelClass: 'address-matDialog-styles-w-100',
+      data: {
+        headerText: 'addTemplate'
+      }
+    });
   }
 
   openEditLocation(): void {
-    const dialogConfig = new MatDialogConfig();
-    dialogConfig.panelClass = 'address-matDialog-styles-w-100';
-    dialogConfig.data = {
-      headerText: 'editTemplate'
-    };
-    this.dialog.open(UbsAdminTariffsLocationPopUpComponent, dialogConfig);
+    this.dialog.open(UbsAdminTariffsLocationPopUpComponent, {
+      hasBackdrop: true,
+      panelClass: 'address-matDialog-styles-w-100',
+      data: {
+        headerText: 'editTemplate'
+      }
+    });
   }
 
   openDeactivateLocation(): void {
-    const dialogConfig = new MatDialogConfig();
-    dialogConfig.panelClass = 'address-matDialog-styles-w-100';
-    dialogConfig.data = {
-      headerText: 'deactivateTemplate'
-    };
-    this.dialog.open(UbsAdminTariffsLocationPopUpComponent, dialogConfig);
+    this.dialog.open(UbsAdminTariffsLocationPopUpComponent, {
+      hasBackdrop: true,
+      panelClass: 'address-matDialog-styles-w-100',
+      data: {
+        headerText: 'deactivateTemplate'
+      }
+    });
   }
 
   ngOnDestroy(): void {

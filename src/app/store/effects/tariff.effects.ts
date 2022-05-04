@@ -15,14 +15,14 @@ export class LocationsEffects {
       ofType(GetLocations),
       mergeMap((actions: { reset: boolean }) => {
         return this.tariffsService.getLocations().pipe(
-          map((locations: Locations) => GetLocationsSuccess({ locations, reset: actions.reset })),
+          map((locations: Locations[]) => GetLocationsSuccess({ locations, reset: actions.reset })),
           catchError(() => EMPTY)
         );
       })
     );
   });
 
-  addEmployee = createEffect(() => {
+  addLocations = createEffect(() => {
     return this.actions.pipe(
       ofType(AddLocations),
       mergeMap((action: { locations: CreateLocation[] }) => {

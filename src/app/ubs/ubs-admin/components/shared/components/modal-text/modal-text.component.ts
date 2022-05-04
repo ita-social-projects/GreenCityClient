@@ -15,21 +15,33 @@ export class ModalTextComponent implements OnInit {
   newDate = this.datePipe.transform(new Date(), 'MMM dd, yyyy');
   name: string;
   unsubscribe: Subject<any> = new Subject();
+  title: string;
+  text: string;
+  text2: string;
+  bagName: string;
+  action: string;
   constructor(
     public dialogRef: MatDialogRef<ModalTextComponent>,
     @Inject(MAT_DIALOG_DATA) public modalData: any,
     private localeStorageService: LocalStorageService
-  ) {
-    console.log(modalData);
-  }
+  ) {}
 
   ngOnInit(): void {
+    this.title = this.modalData.title;
+    this.text = this.modalData.text;
+    this.text2 = this.modalData.text2 ?? '';
+    this.bagName = this.modalData.bagName ?? '';
+    this.action = this.modalData.action;
     this.localeStorageService.firstNameBehaviourSubject.pipe(takeUntil(this.unsubscribe)).subscribe((firstName) => {
       this.name = firstName;
     });
   }
 
-  onNoClick() {
-    this.dialogRef.close();
+  onNoClick(reply: boolean): void {
+    this.dialogRef.close(reply);
+  }
+
+  check(val: string): boolean {
+    return val === 'cancel';
   }
 }

@@ -106,21 +106,27 @@ export interface IGeneralOrderInfo {
   adminComment: string;
   orderStatus: string;
   orderStatusName: string;
+  orderStatusNameEng: string;
   orderStatusesDtos: IOrderStatusesDtos[];
   orderPaymentStatus: string;
   orderPaymentStatusName: string;
+  orderPaymentStatusNameEng: string;
   orderPaymentStatusesDto: IOrderPaymentStatusesDto[];
 }
 
 export interface IOrderStatusesDtos {
   ableActualChange: boolean;
   key: string;
-  translation: string;
+  translation?: string;
+  ua?: string;
+  eng?: string;
 }
 
 export interface IOrderPaymentStatusesDto {
   key: string;
-  translation: string;
+  translation?: string;
+  ua?: string;
+  eng?: string;
 }
 
 export interface IUserInfo {
@@ -169,12 +175,19 @@ export interface IPaymentInfoDto extends PaymentDetails {
   currentDate: string;
 }
 
+export interface IReceivingStation {
+  createDate: string;
+  createdBy: string;
+  id: number;
+  name: string;
+}
+
 export interface IExportDetails {
-  allReceivingStations: string[];
+  allReceivingStations: IReceivingStation[];
   dateExport: any;
   timeDeliveryFrom: string;
   timeDeliveryTo: string;
-  receivingStation: string;
+  receivingStationId: number;
 }
 
 export interface IEmployee {
@@ -185,6 +198,13 @@ export interface IEmployee {
 export interface IUpdateResponsibleEmployee {
   employeeId: number;
   positionId: number;
+}
+
+export interface IUpdateExportDetails {
+  receivingStationId: number;
+  dateExport: string;
+  timeDeliveryFrom: string;
+  timeDeliveryTo: string;
 }
 
 export interface IResponsiblePersons {
@@ -203,7 +223,9 @@ export interface IOrderHistory {
 export interface IOrderStatusInfo {
   key: string;
   ableActualChange: boolean;
-  translation: string;
+  translation?: string;
+  ua?: string;
+  eng?: string;
 }
 
 export interface UserViolations {
@@ -315,6 +337,7 @@ export interface IColumnBelonging {
   key: string;
   ua: string;
   en: string;
+  filtered?: boolean;
 }
 
 export interface IColumnDTO {
@@ -366,4 +389,32 @@ export interface IBigOrderTableParams {
 
 export interface IOrdersViewParameters {
   titles: string;
+}
+
+export interface IResponsiblePersonsData {
+  translate: string;
+  formControlName: string;
+  responsiblePersonsArray: string[];
+}
+
+export interface IDataForPopUp {
+  arrayData: IColumnBelonging[];
+  title: string;
+}
+
+export enum ResponsibleEmployee {
+  CallManager = 2,
+  Logistician,
+  Navigator,
+  Driver
+}
+
+export enum FormFieldsName {
+  CallManager = 'responsibleCaller',
+  Logistician = 'responsibleLogicMan',
+  Navigator = 'responsibleNavigator',
+  Driver = 'responsibleDriver',
+  TimeDeliveryFrom = 'timeDeliveryFrom',
+  TimeDeliveryTo = 'timeDeliveryTo',
+  ReceivingStation = 'receivingStation'
 }

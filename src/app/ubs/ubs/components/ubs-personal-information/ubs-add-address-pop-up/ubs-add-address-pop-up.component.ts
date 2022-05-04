@@ -426,10 +426,10 @@ export class UBSAddAddressPopUpComponent implements OnInit, OnDestroy {
           return throwError(error);
         })
       )
-      .subscribe((list: Address[]) => {
+      .subscribe((list: { addressList: Address[] }) => {
         this.orderService.setCurrentAddress(this.addAddressForm.value);
 
-        this.updatedAddresses = list;
+        this.updatedAddresses = list.addressList;
         this.dialogRef.close('Added');
         this.isDisabled = false;
       });

@@ -7,6 +7,27 @@
     "max-length": "Maximum number of characters exceeded.",
     "pattern": "The field contains forbidden characters."
   },
+  "snack-bar": {
+    "exist-address": "This address has already been added",
+    "saved-order": "Now you can find your order №{{orderId}} in your personal account and continue processing it at any time",
+    "no-internet": "No internet connection",
+    "error": {
+      "default": "Oops, something went wrong. Please reload page or try again later.",
+      "restore-password-again": "The password reset link is no longer valid, please try to reset your password again",
+      "no-internet": "No internet connection"
+    },
+    "attention": {
+      "default": "Attention message. The action cannot be performed, because conditions weren’t met.",
+      "exit-confirm-restore-password": "Your password hasn`t been changed."
+    },
+    "success": {
+      "default": "Success message. The action was successful.",
+      "confirm-restore-password": "Your password has just been reset.",
+      "confirm-email": "Your email has been verified.",
+      "restore-password": "Restore password link was sent to your email address.",
+      "sign-up": "Congratulations! You have successfully registered on the site. Please confirm your email address in the email box."
+    }
+  },
   "order-details": {
     "location": {
       "title": "Welcome to UBS! First choose location of waste disposal. Currently we work only in Kyiv and selected cities.",
@@ -171,6 +192,12 @@
     "title": "Are you sure you want to exit?",
     "subTitle": "Your order will not be saved"
   },
+  "ubs-tariffs-pricing-page": {
+    "delete-tariff-title": "Deactivate tariff for service",
+    "delete-tariff-action": "Deactivate",
+    "delete-tariff-text1": "Are you sure you want to deactivate the \"",
+    "delete-tariff-text2": "\" service? Information about this service will be hidden from customers."
+  },
   "confirm-page": {
     "title-text": {
       "accepted": "Your order is accepted",
@@ -204,7 +231,7 @@
       "preparing": {
         "caption": "How to prepare?",
         "content": {
-          "li_1": "check out our Rules of sorting wastes (link).",
+          "li_1": "Check out our Rules of sorting wastes (link).",
           "li_2": "Everything you give to the Courier must be clean and dry – it’s Must Have.",
           "li_3": "Recyclables and non-recyclable plastics can be put together in one package /sack of a 120 liters size - we will re-sort everything.",
           "li_4": "We are accepting Fabric wastes (damaged clothes) for the utilization in a separate package of 120L size or 120L size.",
@@ -274,26 +301,28 @@
     "auth": {
       "sign-in": {
         "title": "Welcome back!",
-        "fill-form": "Please enter your details to sign in",
+        "fill-form": "Please enter your details to sign in.",
         "email": "Email",
         "email-is-required": "Email is required",
         "field-is-required": "This field is required",
         "email-must-be-at-least-1-characters-long": "Email must be at least 1 characters long",
         "this-is-not-email": "Please check that your e-mail address is indicated correctly",
         "password": "Password",
-        "password-is-required": "Password is required",
-        "password-must-be-at-least-8-characters-long": "Password must be at least 8 characters long",
+        "password-is-required": "Please enter your password",
+        "password-must-be-at-least-8-characters-long": "Password must be at least 8 characters long without spaces",
         "sign-in": "Sign in",
         "sign-up": "Sign up",
         "sign-in-with-google": "Sign in with Google",
         "bad-email-or-password": "Bad email or password",
+        "fill-all-red-fields": "Please fill all red fields",
         "forgot-password": "Forgot password?",
+        "account-has-been-deleted": "Your account has been deleted, please contact us to restore it",
         "havenot-account": "Don't have an account yet?",
         "or-signin": "or"
       },
       "sign-up": {
         "title-up": "Hello!",
-        "fill-form-up": "Please enter your details to sign up",
+        "fill-form-up": "Please enter your details to sign up.",
         "first-name": "User name",
         "first-name-is-required": "User name is required",
         "user-name-error": "User name is required",
@@ -353,11 +382,7 @@
     "sign-in": "Sign in",
     "management": "Management"
   },
-  "snack-bar": {
-    "exist-address": "This address has already been added",
-    "saved-order": "Now you can find your order №{{orderId}} in your personal account and continue processing it at any time",
-    "no-internet": "No internet connection"
-  },
+
   "footer": {
     "station": "Station",
     "address": "Kyiv, Saperno-Slobitska str,25",

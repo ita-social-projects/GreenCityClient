@@ -30,7 +30,6 @@ import {
   GetTable,
   SetColumnToDisplay
 } from 'src/app/store/actions/bigOrderTable.actions';
-import { UbsAdminSeveralOrdersPopUpComponent } from '../ubs-admin-several-orders-pop-up/ubs-admin-several-orders-pop-up.component';
 
 @Component({
   selector: 'app-ubs-admin-table',
@@ -82,6 +81,9 @@ export class UbsAdminTableComponent implements OnInit, AfterViewChecked, OnDestr
   firstPageLoad: boolean;
   isStoreEmpty: boolean;
   isPostData = false;
+  dataForPopUp = [];
+  uneditableStatuses = ['CANCELED', 'DONE'];
+  public showPopUp: boolean;
   resizableMousemove: () => void;
   resizableMouseup: () => void;
   @ViewChild(MatTable, { read: ElementRef }) private matTableRef: ElementRef;
@@ -175,6 +177,7 @@ export class UbsAdminTableComponent implements OnInit, AfterViewChecked, OnDestr
           this.getTable(this.filterValue, sortBy, sortDirection, true);
         }
         this.sortColumnsToDisplay();
+        this.editDetails();
       }
     });
     if (this.isStoreEmpty) {
@@ -355,16 +358,32 @@ export class UbsAdminTableComponent implements OnInit, AfterViewChecked, OnDestr
     }
   }
   editDetails(): void {
-    const dialogConfig = new MatDialogConfig();
-    const dataForPopUp = [];
     const keys = ['receivingStation', 'responsibleDriver', 'responsibleCaller', 'responsibleLogicMan', 'responsibleNavigator'];
     this.displayedColumnsView
       .filter((el) => keys.includes(el.title.key))
-      .map((field) => dataForPopUp.push({ arrayData: field.checked, title: field.titleForSorting }));
-    const modalRef = this.dialog.open(UbsAdminSeveralOrdersPopUpComponent, dialogConfig);
-    (modalRef.componentInstance as UbsAdminSeveralOrdersPopUpComponent).dataFromTable = dataForPopUp;
+      .forEach((field) => this.dataForPopUp.push({ arrayData: field.checked, title: field.titleForSorting }));
   }
-  selectRowsToChange(event, id: number) {
+  // checks if all required fields is filled in
+  openPopUpRequires(orderId?: number): void {
+    const keysForEditDetails = [
+      'responsibleDriver',
+      'responsibleCaller',
+      'responsibleLogicMan',
+      'responsibleNavigator',
+      'dateOfExport',
+      'timeOfExport',
+      'receivingStation'
+    ];
+    if (this.idsToChange.length === 0) {
+      this.idsToChange.push(orderId);
+    }
+    let sortedOrders = this.tableData.filter((el) => this.idsToChange.includes(el.id));
+    sortedOrders = sortedOrders
+      .map((e) => keysForEditDetails.filter((elem) => e[elem] === null || e[elem] === ''))
+      .filter((array) => array.length !== 0);
+    this.showPopUp = sortedOrders.length !== 0 ? true : false;
+  }
+  selectRowsToChange(event, id: number): void {
     if (event.checked) {
       this.idsToChange.push(id);
     } else {
@@ -412,7 +431,7 @@ export class UbsAdminTableComponent implements OnInit, AfterViewChecked, OnDestr
 
   private setUnDisplayedColumns(): void {
     this.displayedColumnsViewTitles = [];
-    this.displayedColumns = [];
+    this.displayedColumns = ['select'];
     this.isAll = false;
   }
 
@@ -423,6 +442,7 @@ export class UbsAdminTableComponent implements OnInit, AfterViewChecked, OnDestr
     const newTableData = [...this.tableData.slice(0, id), newRow, ...this.tableData.slice(id + 1)];
     this.tableData = newTableData;
     this.dataSource = new MatTableDataSource(newTableData);
+    this.openPopUpRequires(id);
     this.postData([e.id], e.nameOfColumn, e.newValue);
   }
 
@@ -644,6 +664,12 @@ export class UbsAdminTableComponent implements OnInit, AfterViewChecked, OnDestr
     this.adminTableService.setColumnsForFiltering(columns);
   }
 
+  checkStatusOfOrders(id: number): boolean {
+    return this.uneditableStatuses.includes(this.tableData.find((el) => el.id === id).orderStatus);
+  }
+  showTable(): string {
+    return this.displayedColumns.length > 1 ? 'block' : 'none';
+  }
   ngOnDestroy() {
     this.destroy.next();
     this.destroy.unsubscribe();

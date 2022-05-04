@@ -38,6 +38,7 @@ describe('UbsAdminOrderPaymentComponent', () => {
       adminComment: null,
       orderStatus: 'FORMED',
       orderStatusName: 'Сформовано',
+      orderStatusNameEng: 'Formed',
       orderStatusesDtos: [
         {
           ableActualChange: false,
@@ -82,6 +83,7 @@ describe('UbsAdminOrderPaymentComponent', () => {
       ],
       orderPaymentStatus: 'UNPAID',
       orderPaymentStatusName: 'Не оплачено',
+      orderPaymentStatusNameEng: 'Unpaid',
       orderPaymentStatusesDto: [
         {
           key: 'PAID',
@@ -212,9 +214,9 @@ describe('UbsAdminOrderPaymentComponent', () => {
       unPaidAmount: 900
     },
     exportDetailsDto: {
-      allReceivingStations: ['Саперно-Слобідська'],
+      allReceivingStations: [],
       dateExport: null,
-      receivingStation: null,
+      receivingStationId: null,
       timeDeliveryFrom: null,
       timeDeliveryTo: null
     },

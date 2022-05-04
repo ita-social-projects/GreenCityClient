@@ -143,6 +143,26 @@ describe('SignIn component', () => {
     });
   });
 
+  describe('Check valid state of both input fields functionality testing', () => {
+    it('Should change value of generalError to error message if both fiels are touched and empty', () => {
+      const passwordControl = component.signInForm.get('password');
+      passwordControl.markAsTouched();
+      const emailControl = component.signInForm.get('email');
+      emailControl.markAsTouched();
+      component.allFieldsEmptyCheck();
+      expect(component.generalError).toEqual('user.auth.sign-in.fill-all-red-fields');
+    });
+
+    it('Should change value of generalError to null if at least one has value', () => {
+      const emailControl = component.signInForm.get('email');
+      emailControl.markAsTouched();
+      emailControl.setValue('test');
+
+      component.allFieldsEmptyCheck();
+      expect(component.generalError).toEqual(null);
+    });
+  });
+
   describe('Login functionality testing', () => {
     it('Check what data comes on subscription', async(() => {
       const userOwnSignIn = new UserOwnSignIn();
@@ -190,11 +210,33 @@ describe('SignIn component', () => {
       }
     ));
 
-    it('Test sign in method', async(
+    it('Test sign in method with invalid signInForm', async(
       inject([UserOwnSignInService], (service: UserOwnSignInService) => {
         spyOn(service, 'signIn').and.returnValue(of(userSuccessSignIn));
-        component.signIn();
+        const passwordControl = component.signInForm.get('password');
+        passwordControl.markAsTouched();
+        passwordControl.setValue('');
+        const emailControl = component.signInForm.get('email');
+        emailControl.markAsTouched();
+        emailControl.setValue('test@test.gmail.com');
 
+        component.signIn();
+        fixture.detectChanges();
+        expect(service.signIn).not.toHaveBeenCalled();
+      })
+    ));
+
+    it('Test sign in method with valid signInForm', async(
+      inject([UserOwnSignInService], (service: UserOwnSignInService) => {
+        spyOn(service, 'signIn').and.returnValue(of(userSuccessSignIn));
+        const passwordControl = component.signInForm.get('password');
+        passwordControl.markAsTouched();
+        passwordControl.setValue('888888888');
+        const emailControl = component.signInForm.get('email');
+        emailControl.markAsTouched();
+        emailControl.setValue('test@test.gmail.com');
+
+        component.signIn();
         fixture.detectChanges();
         expect(service.signIn).toHaveBeenCalled();
       })
@@ -204,8 +246,13 @@ describe('SignIn component', () => {
       inject([UserOwnSignInService], (service: UserOwnSignInService) => {
         const errors = new HttpErrorResponse({ error: [{ name: 'name', message: 'Ups' }] });
         spyOn(service, 'signIn').and.returnValue(throwError(errors));
+        const passwordControl = component.signInForm.get('password');
+        passwordControl.markAsTouched();
+        passwordControl.setValue('888888888');
+        const emailControl = component.signInForm.get('email');
+        emailControl.markAsTouched();
+        emailControl.setValue('test@test.gmail.com');
         component.signIn();
-
         fixture.detectChanges();
         expect(service.signIn).toHaveBeenCalled();
       })
@@ -226,43 +273,30 @@ describe('SignIn component', () => {
   describe('Error functionality testing', () => {
     let errors;
 
-    it('Should return an emailErrorMessageBackEnd when login failed', () => {
-      errors = new HttpErrorResponse({ error: [{ name: 'email', message: 'Ups' }] });
-
-      // @ts-ignore
-      component.onSignInFailure(errors);
-      fixture.detectChanges();
-      expect(component.emailErrorMessageBackEnd).toBe('Ups');
-    });
-
-    it('Should return an passwordErrorMessageBackEnd when login failed', () => {
-      errors = new HttpErrorResponse({ error: [{ name: 'password', message: 'Ups' }] });
-
-      // @ts-ignore
-      component.onSignInFailure(errors);
-      fixture.detectChanges();
-      expect(component.passwordErrorMessageBackEnd).toBe('Ups');
-    });
-
-    it('Should return an backEndError when login failed', () => {
+    it('Should return an generalError when login failed', () => {
       errors = new HttpErrorResponse({ error: { message: 'Ups' } });
 
       // @ts-ignore
       component.onSignInFailure(errors);
       fixture.detectChanges();
-      expect(component.backEndError).toBe('Ups');
+      expect(component.generalError).toBe('user.auth.sign-in.bad-email-or-password');
+    });
+
+    it('Should return an generalError when login failed with deleted user', () => {
+      errors = new HttpErrorResponse({ error: { error: 'Unauthorized' } });
+
+      // @ts-ignore
+      component.onSignInFailure(errors);
+      fixture.detectChanges();
+      expect(component.generalError).toBe('user.auth.sign-in.account-has-been-deleted');
     });
 
     it('Should reset error messages', () => {
-      component.emailErrorMessageBackEnd = 'I am error message';
-      component.passwordErrorMessageBackEnd = 'I am error message';
-      component.backEndError = 'I am error message';
+      component.generalError = 'I am error message';
       // @ts-ignore
       component.configDefaultErrorMessage();
 
-      expect(component.backEndError).toBeNull();
-      expect(component.passwordErrorMessageBackEnd).toBeNull();
-      expect(component.emailErrorMessageBackEnd).toBeNull();
+      expect(component.generalError).toBeNull();
     });
 
     it('onSignInFailure should set errors', () => {
@@ -309,6 +343,20 @@ describe('SignIn component', () => {
 
       hiddenEyeImg.click();
       expect(hiddenEyeInput.type).toEqual('password');
+    });
+  });
+
+  describe('checkIfItUbs', () => {
+    it('expected result if isUbs is true', () => {
+      component.isUbs = true;
+      component.checkIfItUbs();
+      expect(component.ubsStyle).toBe('ubsStyle');
+    });
+
+    it('expected result if isUbs is false', () => {
+      component.isUbs = false;
+      component.checkIfItUbs();
+      expect(component.ubsStyle).toBe('greenStyle');
     });
   });
 });

@@ -16,6 +16,8 @@ import { RemainingCountComponent } from '../remaining-count/remaining-count.comp
 import { SharedModule } from 'src/app/shared/shared.module';
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 
+import { Store } from '@ngrx/store';
+
 describe('NewsListComponent', () => {
   let component: NewsListComponent;
   let fixture: ComponentFixture<NewsListComponent>;
@@ -34,7 +36,11 @@ describe('NewsListComponent', () => {
   ecoNewsServiceMock.getEcoNewsListByPage = () => new Observable();
 
   let localStorageServiceMock: LocalStorageService;
-  localStorageServiceMock = jasmine.createSpyObj('LocalStorageService', ['userIdBehaviourSubject', 'languageBehaviourSubject']);
+  localStorageServiceMock = jasmine.createSpyObj('LocalStorageService', [
+    'userIdBehaviourSubject',
+    'languageBehaviourSubject',
+    'setCurentPage'
+  ]);
   localStorageServiceMock.userIdBehaviourSubject = new BehaviorSubject(1111);
   localStorageServiceMock.languageBehaviourSubject = new BehaviorSubject('en');
 
@@ -43,6 +49,9 @@ describe('NewsListComponent', () => {
   userOwnAuthServiceMock.getDataFromLocalStorage = () => true;
   userOwnAuthServiceMock.credentialDataSubject = new Subject();
   userOwnAuthServiceMock.isLoginUserSubject = new BehaviorSubject(true);
+
+  const storeMock = jasmine.createSpyObj('store', ['select', 'dispatch']);
+  storeMock.select = () => of({ ecoNews: {}, pages: [], pageNumber: 1, error: 'error' });
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
@@ -64,7 +73,8 @@ describe('NewsListComponent', () => {
       providers: [
         { provide: LocalStorageService, useValue: localStorageServiceMock },
         { provide: EcoNewsService, useValue: ecoNewsServiceMock },
-        { provide: UserOwnAuthService, useValue: userOwnAuthServiceMock }
+        { provide: UserOwnAuthService, useValue: userOwnAuthServiceMock },
+        { provide: Store, useValue: storeMock }
       ],
       schemas: [CUSTOM_ELEMENTS_SCHEMA]
     }).compileComponents();
@@ -81,28 +91,16 @@ describe('NewsListComponent', () => {
   });
 
   it('should set localized tags', () => {
-    // @ts-ignore
-    const spy = spyOn(component, 'getAllTags');
-    // @ts-ignore
-    component.setLocalizedTags();
+    const spy = spyOn(component as any, 'getAllTags');
+
+    (component as any).setLocalizedTags();
     expect(spy).toHaveBeenCalled();
   });
 
   it('should add elements to current list if scroll', () => {
-    // @ts-ignore
-    const spy = spyOn(component, 'addElemsToCurrentList');
+    spyOn(component, 'dispatchStore');
     component.onScroll();
-    expect(component.scroll).toBeTruthy();
-    expect(spy).toHaveBeenCalled();
-  });
-
-  it('should change current page', () => {
-    // @ts-ignore
-    component.currentPage = 5;
-    // @ts-ignore
-    component.changeCurrentPage();
-    // @ts-ignore
-    expect(component.currentPage).toBe(6);
+    expect(component.dispatchStore).toHaveBeenCalledTimes(1);
   });
 
   it('should change view', () => {
@@ -110,57 +108,27 @@ describe('NewsListComponent', () => {
     expect(component.view).toBeTruthy();
   });
 
-  it('should set list with news', () => {
-    const listMock = {
-      totalElements: 25,
-      page: [
-        {
-          id: 11,
-          imagePath: 'somepath',
-          title: 'somestring',
-          text: 'sometext',
-          author: { id: 125, name: 'somename' },
-          tags: [{ id: 77, name: 'stringname' }],
-          creationDate: 'somedate',
-          likes: 0,
-          countComments: 2
-        }
-      ],
-      currentPage: 1
-    };
-    component.scroll = false;
-    // @ts-ignore
-    component.setList(listMock);
-    expect(component.remaining).toBe(25);
-    expect(component.elements).toEqual(listMock.page);
-    expect(component.elementsArePresent).toBeTruthy();
-  });
-
   it('should set default number of news', () => {
-    // @ts-ignore
-    component.setDefaultNumberOfNews(12);
+    (component as any).setDefaultNumberOfNews(12);
     expect(component.numberOfNews).toBe(12);
   });
 
   it('should check if user logged in', () => {
     let userID = null;
-    // @ts-ignore
-    component.userOwnAuthService.isLoginUserSubject.subscribe((id) => (userID = id));
+
+    (component as any).userOwnAuthService.isLoginUserSubject.subscribe((id) => (userID = id));
     expect(userID).toBeDefined();
   });
 
   it('should filter data', () => {
-    const mockTag = ['Ads'];
-    // @ts-ignore
-    const spy = spyOn(component, 'setNullList');
-    component.getFilterData(mockTag);
-    expect(spy).toHaveBeenCalled();
-    expect(component.tagsList).toEqual(['Ads']);
+    component.filterPermission = true;
+    spyOn(component, 'dispatchStore');
+    component.getFilterData([]);
+    expect(component.dispatchStore).toHaveBeenCalledTimes(1);
   });
 
   it('should resize window and set view', () => {
-    // @ts-ignore
-    const spy = spyOn(component, 'getSessionStorageView');
+    const spy = spyOn(component as any, 'getSessionStorageView');
     component.onResize();
     expect(spy).toHaveBeenCalled();
     expect(component.view).toBeDefined();
@@ -171,8 +139,8 @@ describe('NewsListComponent', () => {
     const spy = spyOn(sessionStorage, 'getItem').and.callFake((key) => {
       return store[key];
     });
-    // @ts-ignore
-    component.getSessionStorageView();
+
+    (component as any).getSessionStorageView();
     expect(spy('viewGallery')).toBe('true');
   });
 });

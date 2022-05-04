@@ -72,8 +72,8 @@
       }
     },
     "cancel-modal": {
-      "warning": "If you cancel, the changes will be lost.",
-      "question": "Do you really want to cancel the changes?",
+      "warning": "If canceled, this order will be deleted.",
+      "question": "Do you really want to cancel the order?",
       "disagree": "No",
       "agree": "Yes"
     }
@@ -477,7 +477,8 @@
     "orders": "Orders",
     "invoice": "Invoice",
     "user_data": "User data",
-    "messages": "Messages"
+    "messages": "Messages",
+    "user": "User"
   },
   "ubs-tariffs": {
     "placeholder-region": "Select region",
@@ -531,6 +532,21 @@
       "duplicate_page": "Duplicate page"
     }
   },
+  "confirmation": {
+    "cancel": "Yes, exit",
+    "dismiss": "Continue",
+    "delete": "No, delete",
+    "ok": "Yes, save",
+    "submit-title": "In case of closing, your order will be saved in your personal account. Do you want to save this order?",
+    "title": "Are you sure you want to exit?",
+    "subTitle": "Your order will not be saved"
+  },
+  "ubs-tariffs-pricing-page": {
+    "delete-tariff-title": "Deactivate tariff for service",
+    "delete-tariff-action": "Deactivate",
+    "delete-tariff-text1": "Are you sure you want to deactivate the \"",
+    "delete-tariff-text2": "{{bagName}}\" service? Information about this service will be hidden from customers."
+  },
   "ubs-tariffs-add-location-pop-up": {
     "title": "Add location",
     "edit-title": "Edit card",
@@ -542,8 +558,13 @@
     "cancel_button": "Cancel",
     "save_button": "Save",
     "error_message": "Area not found. Enter again",
+    "city_error_message": "City not found. Enter again",
     "courier_title": "Add courier",
     "station_title": "Add receiving station",
+    "courier_edit_title": "Edit courier",
+    "station_edit_title": "Edit receiving station",
+    "courier_edit_text": "Choose courier and edit",
+    "station_edit_text": "Choose receiving station",
     "courier": "Courier",
     "station": "Receiving station",
     "date": "Date ",
@@ -552,7 +573,11 @@
     "placeholder_location": "Select city",
     "placeholder_courier": "Select courier",
     "placeholder_station": "Select station",
-    "add-city": "Add city"
+    "add-city": "Add city",
+    "error": "Only alphabetic characters and special characters “-” (hyphen), \" \" (space) and \" ' \" (apostrophe), numbers are allowed. From minimum 3 to maximum 40 characters are allowed.",
+    "stationExist": "The receiving station already exists in the system",
+    "courierExist": "The courier already exists in the system",
+    "activeCities": "Active cities"
   },
   "ubs-tariffs-add-service": {
     "add_service": "Add service",
@@ -575,7 +600,10 @@
   "modal-text": {
     "cancel": "Cancel",
     "date": "Date ",
-    "user": "Added by "
+    "user": "Added by ",
+    "no": "No",
+    "yes": "Yes",
+    "cancel-message": "Cancel. Are you sure you want to undo the changes?"
   },
   "ubs-user-notification": {
     "title": "Your messages",
@@ -599,7 +627,7 @@
     "auth": {
       "sign-in": {
         "title": "Welcome back!",
-        "fill-form": "Please enter your details to sign in",
+        "fill-form": "Please enter your details to sign in.",
         "email": "Email",
         "email-is-required": "Email is required",
         "field-is-required": "This field is required",

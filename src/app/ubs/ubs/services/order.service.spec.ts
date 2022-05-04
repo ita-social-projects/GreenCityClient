@@ -176,7 +176,7 @@ describe('OrderService', () => {
     service.deleteAddress(address).subscribe((data) => {
       expect(data).toEqual(address);
     });
-    httpTest(address.id + '/delete-order-address', 'POST', address);
+    httpTest('order-addresses/' + address.id, 'DELETE', address);
   });
   it('method addLocation should add location and make post request', () => {
     const location = { locationId: 0 };

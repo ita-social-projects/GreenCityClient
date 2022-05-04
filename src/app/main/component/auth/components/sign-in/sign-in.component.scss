@@ -1,10 +1,13 @@
-$inputHeight: 48px;
+$inputHeight: 36px;
 
 @mixin button {
-  height: 48px;
-  font-weight: 600;
+  height: 44px;
+  font-weight: 700;
+  font-size: 18px;
+  line-height: 28px;
+  letter-spacing: 0.2px;
   margin-bottom: 8px;
-  border-radius: 3px;
+  border-radius: 4px;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -17,26 +20,34 @@ $inputHeight: 48px;
   }
 }
 
+@mixin link-style {
+  font-family: var(--primary-font);
+  font-size: 16px;
+  line-height: 24px;
+  text-decoration-line: underline;
+  text-underline-offset: 3px;
+}
+
 h1 {
   margin-bottom: 8px;
-  font-family: var(--secondary-font);
+  font-family: var(--primary-font);
   font-style: normal;
-  font-weight: 500;
-  font-size: 38px;
-  line-height: 48px;
-  color: var(--tertiary-dark-grey);
+  font-weight: 700;
+  font-size: 32px;
+  line-height: 40px;
+  letter-spacing: 0.002em;
+  color: var(--quaternary-dark-grey);
 }
 
 h2 {
-  margin-bottom: 40px;
+  margin-bottom: 28px;
   font-family: var(--primary-font);
   font-size: 16px;
-  line-height: 16px;
+  line-height: 24px;
+  color: var(--quaternary-dark-grey);
 }
 
 .password-input-btn-show-hide {
-  height: $inputHeight;
-  box-sizing: border-box;
   border-radius: 5px;
 }
 
@@ -66,7 +77,7 @@ h2 {
 }
 
 .validation-email-error {
-  margin-bottom: 9px;
+  margin-bottom: 8px;
 }
 
 .sign-in-form {
@@ -77,28 +88,23 @@ h2 {
   label[for='password'] {
     margin-bottom: 4px;
     font-family: var(--primary-font);
-    font-size: 12px;
-    line-height: 14px;
-    color: var(--primary-dark-grey);
+    font-size: 16px;
+    line-height: 24px;
+    color: var(--quaternary-grey);
   }
 
   input {
+    font-family: var(--primary-font);
+    font-size: 14px;
+    line-height: 20px;
     background: #fff;
-    box-sizing: border-box;
     color: var(--primary-dark-grey);
     border-radius: 5px;
-    padding: 12px 40px 12px 16px;
-    font-size: 16px;
-    line-height: 22px;
-  }
-
-  input[type='email'] {
+    padding: 8px;
     height: $inputHeight;
-    background: #fff;
-    font-family: var(--primary-font);
   }
 
-  input[type='email']:focus {
+  input:focus {
     outline: none;
   }
 
@@ -106,17 +112,10 @@ h2 {
   input[type='text'] {
     border: transparent;
     width: 90%;
-    font-family: var(--primary-font);
-  }
-
-  input[type='password']:focus,
-  input[type='text']:focus {
-    height: 46px;
-    outline: none;
   }
 
   .email-field-margin {
-    height: 21px;
+    height: 16px;
   }
 
   .image-show-hide-password {
@@ -128,6 +127,7 @@ h2 {
 
 .google-sign-in-block {
   display: flex;
+  height: $inputHeight;
 }
 
 .forgot-wrapper {
@@ -136,11 +136,24 @@ h2 {
   margin-bottom: 24px;
 
   .forgot-password {
-    color: var(--secondary-dark-green);
+    color: var(--primary-green);
     font-family: var(--primary-font);
     font-size: 12px;
     line-height: 16px;
     text-decoration-line: underline;
+    text-underline-offset: 3px;
+  }
+}
+
+.forgot-wrapper-ubs {
+  display: flex;
+  justify-content: center;
+  margin-top: 32px;
+
+  .forgot-password-ubs {
+    @include link-style();
+
+    color: var(--ubs-dark-purple);
   }
 }
 
@@ -157,10 +170,13 @@ h2 {
 .ubsStyle {
   @include button;
 
+  margin-top: 24px;
   background-color: var(--ubs-button-light-green);
+  color: var(--ubs-quaternary-dark-grey);
 
   &:disabled {
     background-color: var(--ubs-quaternary-light-grey);
+    color: var(--ubs-secondary-grey);
   }
 }
 
@@ -168,8 +184,8 @@ h2 {
   text-align: center;
   font-family: var(--primary-font);
   font-size: 12px;
-  line-height: 12px;
-  color: var(--primary-dark-grey);
+  line-height: 14px;
+  color: var(--quaternary-dark-grey);
   margin-bottom: 8px;
 }
 
@@ -178,12 +194,20 @@ h2 {
   margin-bottom: 40px;
   font-family: var(--primary-font);
   font-size: 16px;
-  line-height: 16px;
-  color: var(--primary-dark-grey);
+  line-height: 24px;
+  color: var(--quaternary-dark-grey);
 
-  .sign-up-link {
-    margin-left: 8px;
-    text-decoration-line: underline;
-    color: var(--secondary-dark-green);
+  .ubs-link {
+    @include link-style();
+
+    color: var(--ubs-dark-purple);
+    margin-left: 16px;
+  }
+
+  .green-link {
+    @include link-style();
+
+    color: var(--primary-green);
+    margin-left: 16px;
   }
 }

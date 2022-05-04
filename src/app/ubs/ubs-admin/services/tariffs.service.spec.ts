@@ -2,6 +2,7 @@ import { TestBed } from '@angular/core/testing';
 import { HttpClientTestingModule, HttpTestingController } from '@angular/common/http/testing';
 import { TariffsService } from './tariffs.service';
 import { mainUbsLink } from '../../../main/links';
+import { of } from 'rxjs';
 
 const service1 = {
   name: 'fake1',
@@ -20,24 +21,40 @@ const tariff = {
 };
 
 const location = {
-  id: 0,
-  languageCode: 'fake',
-  locationStatus: 'fake',
-  name: 'fake',
-  region: 'fake'
+  locationsDto: [
+    {
+      latitude: 1,
+      locationId: 1,
+      locationStatus: 'fake',
+      locationTranslationDtoList: [
+        {
+          languageCode: 'fake',
+          locationName: 'fake'
+        }
+      ],
+      longitude: 1
+    }
+  ],
+  regionId: 1,
+  regionTranslationDtos: [
+    {
+      languageCode: 'fake',
+      regionName: 'fake'
+    }
+  ]
 };
 
 const courier = {
-  courierLimit: 'fake',
-  id: 0,
-  languageCode: 'fake',
-  limitDescription: 'fake',
-  locationId: 0,
-  maxAmountOfBigBags: 0,
-  maxPriceOfOrder: 0,
-  minAmountOfBigBags: 0,
-  minPriceOfOrder: 0,
-  name: 'fake'
+  courierId: 1,
+  courierStatus: 'fake',
+  courierTranslationDtos: [
+    {
+      languageCode: 'fake',
+      name: 'fake'
+    }
+  ],
+  createDate: 'fake',
+  createdBy: 'fake'
 };
 
 const info = {
@@ -51,6 +68,11 @@ const info = {
   minAmountOfBigBag: 0,
   minAmountOfOrder: 0,
   minimalAmountOfBagStatus: 'fake'
+};
+
+const station = {
+  id: 1,
+  name: 'fake'
 };
 
 describe('TariffsService', () => {
@@ -154,26 +176,18 @@ describe('TariffsService', () => {
 
   it('should return all couriers', () => {
     service.getCouriers().subscribe((data) => {
-      expect(data).toBe(courier);
+      expect(data).toBe(courier as any);
     });
 
     httpTest('/ubs/superAdmin/getCouriers', 'GET', courier);
   });
 
-  it('should activate location', () => {
-    service.activateLocation(0, 'en').subscribe((data) => {
-      expect(data).toBe(courier);
+  it('should return all stations', () => {
+    service.getAllStations().subscribe((data) => {
+      expect(data).toBe(station as any);
     });
 
-    httpTest('/ubs/superAdmin/activeLocations/0?languageCode=en', 'PATCH', courier);
-  });
-
-  it('should deactivate location', () => {
-    service.deactivateLocation(0, 'en').subscribe((data) => {
-      expect(data).toBe(courier);
-    });
-
-    httpTest('/ubs/superAdmin/deactivateLocations/0?languageCode=en', 'PATCH', courier);
+    httpTest('/ubs/superAdmin/get-all-receiving-station', 'GET', station);
   });
 
   it('should edit info', () => {
@@ -182,5 +196,41 @@ describe('TariffsService', () => {
     });
 
     httpTest('/ubs/superAdmin/editInfoAboutTariff', 'PATCH', info);
+  });
+
+  it('should add location', () => {
+    service.addLocation(location).subscribe((data) => {
+      expect(data).toBe(location);
+    });
+
+    const request = httpMock.expectOne(mainUbsLink + '/ubs/superAdmin/addLocations');
+    expect(request.request.method).toBe('POST');
+    expect(request.request.body).toEqual(location);
+    request.flush(location);
+  });
+
+  it('should add courier', () => {
+    service.addCourier(courier).subscribe((data) => {
+      expect(data).toBe(courier);
+    });
+
+    const request = httpMock.expectOne(mainUbsLink + '/ubs/superAdmin/createCourier');
+    expect(request.request.method).toBe('POST');
+    expect(request.request.body).toEqual(courier);
+    request.flush(courier);
+  });
+
+  it('should edit station', () => {
+    service.editStation(station).subscribe((data) => {
+      expect(data).toBe(station);
+    });
+    httpTest('/ubs/superAdmin/update-receiving-station', 'PUT', station);
+  });
+
+  it('should edit courier', () => {
+    service.editCourier(courier).subscribe((data) => {
+      expect(data).toBe(courier);
+    });
+    httpTest('/ubs/superAdmin/update-courier', 'PUT', courier);
   });
 });

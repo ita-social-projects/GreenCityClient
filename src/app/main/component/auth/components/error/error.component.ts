@@ -12,6 +12,7 @@ export class ErrorComponent implements OnChanges {
   @Input() public nameFieldValue: string;
   @Input() public passwordFieldValue: string;
   @Input() public passwordConfirmFieldValue: string;
+
   public errorMessage = '';
 
   private getErrorMsg = {

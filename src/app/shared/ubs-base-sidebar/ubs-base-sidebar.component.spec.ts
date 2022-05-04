@@ -14,6 +14,7 @@ import { UbsAdminTableComponent } from '../../ubs/ubs-admin/components/ubs-admin
 import { HeaderComponent } from '../../../app/shared/header/header.component';
 
 import { UbsBaseSidebarComponent } from './ubs-base-sidebar.component';
+import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 
 describe('UbsBaseSidebarComponent', () => {
   let component: UbsBaseSidebarComponent;
@@ -34,7 +35,8 @@ describe('UbsBaseSidebarComponent', () => {
         RouterTestingModule,
         InfiniteScrollModule
       ],
-      declarations: [UbsBaseSidebarComponent, UbsAdminTableComponent, HeaderComponent]
+      declarations: [UbsBaseSidebarComponent, UbsAdminTableComponent, HeaderComponent],
+      schemas: [CUSTOM_ELEMENTS_SCHEMA]
     }).compileComponents();
   }));
 
