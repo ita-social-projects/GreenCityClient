@@ -1,9 +1,11 @@
 import { Injectable } from '@angular/core';
 import { NewsDTO, NewsResponseDTO, FileHandle } from '../models/create-news-interface';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { Observable } from 'rxjs';
+import { BehaviorSubject, Observable } from 'rxjs';
 import { environment } from '@environment/environment';
 import { FormGroup } from '@angular/forms';
+import { Store } from '@ngrx/store';
+import { EditEcoNewsAction } from 'src/app/store/actions/ecoNews.actions';
 
 @Injectable({
   providedIn: 'root'
@@ -23,7 +25,7 @@ export class CreateEcoNewsService {
     })
   };
 
-  constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient, private store: Store) {}
 
   public getFormData(): FormGroup {
     return this.currentForm;
@@ -34,12 +36,14 @@ export class CreateEcoNewsService {
   }
 
   public editNews(form): Observable<NewsResponseDTO> {
+    console.log(form, 'FORM');
     let body: NewsDTO = {
       id: form.id,
       tags: form.tags,
-      text: form.content,
+      content: form.content,
       title: form.title,
-      source: form.source
+      source: form.source,
+      text: form.content
     };
 
     const formData = new FormData();

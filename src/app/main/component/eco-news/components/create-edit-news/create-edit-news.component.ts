@@ -5,7 +5,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { takeUntil, catchError, take } from 'rxjs/operators';
 import { QueryParams, TextAreasHeight } from '../../models/create-news-interface';
 import { EcoNewsService } from '../../services/eco-news.service';
-import { Subscription, ReplaySubject, throwError } from 'rxjs';
+import { Subscription, ReplaySubject, throwError, BehaviorSubject } from 'rxjs';
 import { CreateEcoNewsService } from '@eco-news-service/create-eco-news.service';
 import { CreateEditNewsFormBuilder } from './create-edit-news-form-builder';
 import { FilterModel } from '@eco-news-models/create-news-interface';
@@ -20,6 +20,8 @@ import Quill from 'quill';
 import 'quill-emoji/dist/quill-emoji.js';
 import ImageResize from 'quill-image-resize-module';
 import { checkImages, dataURLtoFile, quillConfig } from './quillEditorFunc';
+import { Store } from '@ngrx/store';
+import { EditEcoNewsAction } from 'src/app/store/actions/ecoNews.actions';
 
 @Component({
   selector: 'app-create-edit-news',
@@ -28,6 +30,7 @@ import { checkImages, dataURLtoFile, quillConfig } from './quillEditorFunc';
 })
 export class CreateEditNewsComponent extends FormBaseComponent implements OnInit, OnDestroy {
   constructor(
+    private store: Store,
     public router: Router,
     public dialog: MatDialog,
     private injector: Injector,
@@ -259,6 +262,7 @@ export class CreateEditNewsComponent extends FormBaseComponent implements OnInit
       id: this.newsId
     };
     dataToEdit.content = text;
+    // this.store.dispatch(EditEcoNewsAction({ form: dataToEdit }));
 
     this.createEcoNewsService
       .editNews(dataToEdit)
@@ -268,7 +272,11 @@ export class CreateEditNewsComponent extends FormBaseComponent implements OnInit
           return throwError(error);
         })
       )
-      .subscribe(() => this.escapeFromCreatePage());
+
+      .subscribe((data) => {
+        console.log(data);
+        this.escapeFromCreatePage();
+      });
   }
 
   public editNews(): void {
