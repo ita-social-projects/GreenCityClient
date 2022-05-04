@@ -35,8 +35,8 @@ describe('UbsUserOrderPaymentPopUpComponent', () => {
   };
   const fakeCertificates = {
     certificateStatus: 'ACTIVE',
-    certificatePoints: 222,
-    certificateDate: 'fakeDate'
+    points: 222,
+    creationDate: 'fakeDate'
   };
   const fakeFondyResponse = {
     orderId: 11,
@@ -154,7 +154,7 @@ describe('UbsUserOrderPaymentPopUpComponent', () => {
       const certificate = { value: { certificateCode: 3 } };
       component.calculateCertificate(certificate as any);
       expect(component.userCertificate.certificateSum).toBe(222);
-      expect(component.userCertificate.certificateDate).toBe('fakeDate');
+      expect(component.userCertificate.creationDate).toBe('fakeDate');
       expect(component.userOrder.sum).toBe(555);
       expect(component.userCertificate.certificateStatusActive).toBeTruthy();
     });
@@ -164,7 +164,7 @@ describe('UbsUserOrderPaymentPopUpComponent', () => {
       component.userOrder.sum = 111;
       component.calculateCertificate(certificate as any);
       expect(component.userCertificate.certificateSum).toBe(222);
-      expect(component.userCertificate.certificateDate).toBe('fakeDate');
+      expect(component.userCertificate.creationDate).toBe('fakeDate');
       expect(component.userOrder.sum).toBe(0);
       expect(component.userCertificate.certificateStatusActive).toBeTruthy();
     });
