@@ -28,6 +28,7 @@
     "password-error-new": "Введіть новий пароль!",
     "delete-title": "Видалення профілю",
     "delete-message": "Якщо Ви видалите свій профіль, ваші бонуси згорять, а інформацію про ваші замовлення буде видалено без можливості відновлення",
+    "get-notification-in": "Отримувати сповіщення у",
     "btn": {
       "edit": "Редагувати дані",
       "cancel": "Скасувати зміни",
@@ -36,7 +37,9 @@
       "change-password-cancel": "Скасувати",
       "delete-profile": "Видалити профіль",
       "delete-profile-cancel": "Назад",
-      "delete-profile-save": "Видалити"
+      "delete-profile-save": "Видалити",
+      "alternative-email": "Додати альтернативний email",
+      "add-address": "Додати адресу"
     },
     "payment": {
       "title": "Оплата",
