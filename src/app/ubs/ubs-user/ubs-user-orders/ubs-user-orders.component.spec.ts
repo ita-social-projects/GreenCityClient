@@ -22,7 +22,7 @@ describe('UbsUserOrdersComponent', () => {
     extend: true,
     id: 1,
     orderFullPrice: 1100,
-    orderStatus: 'Adjustment',
+    orderStatusEng: 'Adjustment',
     paidAmount: 1100,
     paymentStatus: 'Paid'
   };
@@ -30,7 +30,7 @@ describe('UbsUserOrdersComponent', () => {
     extend: true,
     id: 2,
     orderFullPrice: 1100,
-    orderStatus: 'Adjustment',
+    orderStatusEng: 'Adjustment',
     paidAmount: 1100,
     paymentStatus: 'Paid'
   };
@@ -93,7 +93,6 @@ describe('UbsUserOrdersComponent', () => {
   });
 
   it('should call getAllUserOrders and getUserBonuses ', () => {
-    fakeOrder1.orderStatus = 'Adjustment';
     component.loadingBonuses = false;
     component.ngOnInit();
     expect((component as any).userOrdersService.getAllUserOrders).toHaveBeenCalled();
@@ -102,7 +101,7 @@ describe('UbsUserOrdersComponent', () => {
   });
 
   it('orderHistory length should been 1', () => {
-    fakeOrder1.orderStatus = 'Done';
+    fakeOrder1.orderStatusEng = 'Done';
     component.ngOnInit();
     expect(component.orderHistory.length).toBe(1);
   });

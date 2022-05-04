@@ -15,9 +15,9 @@ describe('UbsUserOrdersListComponent', () => {
 
   const matDialogMock = jasmine.createSpyObj('dialog', ['open']);
   const fakeIputOrderData = [
-    { id: 3, dateForm: 55, paymentStatusEng: 'Unpaid', orderFullPrice: 55, extend: true },
-    { id: 7, dateForm: 66, paymentStatusEng: 'Half paid', orderFullPrice: 0, extend: false },
-    { id: 1, dateForm: 11, paymentStatusEng: 'Paid', orderFullPrice: -55, extend: false }
+    { id: 3, dateForm: 55, orderStatusEng: 'Done', paymentStatusEng: 'Unpaid', orderFullPrice: 55, extend: true },
+    { id: 7, dateForm: 66, orderStatusEng: 'Formed', paymentStatusEng: 'Half paid', orderFullPrice: 0, extend: false },
+    { id: 1, dateForm: 11, orderStatusEng: 'Canceled', paymentStatusEng: 'Paid', orderFullPrice: -55, extend: false }
   ];
   const fakePoints = 111;
 
@@ -48,14 +48,14 @@ describe('UbsUserOrdersListComponent', () => {
     expect(sortingOrdersByDataSpy).toHaveBeenCalled();
   });
 
-  describe('isOrderPaid', () => {
+  describe('isOrderUnpaid', () => {
     it('order is unpaid', () => {
-      const isOrderPaidRes = component.isOrderPaid(fakeIputOrderData[0] as any);
+      const isOrderPaidRes = component.isOrderUnpaid(fakeIputOrderData[0] as any);
       expect(isOrderPaidRes).toBeTruthy();
     });
 
     it('order is not unpaid', () => {
-      const isOrderPaidRes = component.isOrderPaid(fakeIputOrderData[1] as any);
+      const isOrderPaidRes = component.isOrderUnpaid(fakeIputOrderData[1] as any);
       expect(isOrderPaidRes).toBeFalsy();
     });
   });
@@ -87,7 +87,7 @@ describe('UbsUserOrdersListComponent', () => {
   describe('isOrderPaymentAccess', () => {
     it('isOrderPriceGreaterThenZero and isOrderPaid are true', () => {
       spyOn(component, 'isOrderPriceGreaterThenZero').and.returnValue(true);
-      spyOn(component, 'isOrderPaid').and.returnValue(true);
+      spyOn(component, 'isOrderUnpaid').and.returnValue(true);
       const isOrderPaymentAccessRes = component.isOrderPaymentAccess(fakeIputOrderData[0] as any);
       expect(isOrderPaymentAccessRes).toBeTruthy();
     });
@@ -103,6 +103,30 @@ describe('UbsUserOrdersListComponent', () => {
       spyOn(component, 'isOrderPriceGreaterThenZero').and.returnValue(false);
       const isOrderPaymentAccessRes = component.isOrderPaymentAccess(fakeIputOrderData[2] as any);
       expect(isOrderPaymentAccessRes).toBeFalsy();
+    });
+  });
+
+  describe('isOrderDone ', () => {
+    it('order has status Done', () => {
+      const isOrderStatusRes = component.isOrderDone(fakeIputOrderData[0] as any);
+      expect(isOrderStatusRes).toBeTruthy();
+    });
+
+    it('order has not status Done', () => {
+      const isOrderStatusRes = component.isOrderDone(fakeIputOrderData[1] as any);
+      expect(isOrderStatusRes).toBeFalsy();
+    });
+  });
+
+  describe('isOrderCanceled ', () => {
+    it('order has status Canceled', () => {
+      const isOrderStatusRes = component.isOrderCanceled(fakeIputOrderData[2] as any);
+      expect(isOrderStatusRes).toBeTruthy();
+    });
+
+    it('order has not status Canceled', () => {
+      const isOrderStatusRes = component.isOrderCanceled(fakeIputOrderData[1] as any);
+      expect(isOrderStatusRes).toBeFalsy();
     });
   });
 
@@ -138,9 +162,9 @@ describe('UbsUserOrdersListComponent', () => {
   describe('sortingOrdersByData', () => {
     it('sort orsers data', () => {
       const resultOrderData = [
-        { id: 7, dateForm: 66, paymentStatusEng: 'Half paid', orderFullPrice: 0, extend: false },
-        { id: 3, dateForm: 55, paymentStatusEng: 'Unpaid', orderFullPrice: 55, extend: true },
-        { id: 1, dateForm: 11, paymentStatusEng: 'Paid', orderFullPrice: -55, extend: false }
+        { id: 7, dateForm: 66, orderStatusEng: 'Formed', paymentStatusEng: 'Half paid', orderFullPrice: 0, extend: false },
+        { id: 3, dateForm: 55, orderStatusEng: 'Done', paymentStatusEng: 'Unpaid', orderFullPrice: 55, extend: true },
+        { id: 1, dateForm: 11, orderStatusEng: 'Canceled', paymentStatusEng: 'Paid', orderFullPrice: -55, extend: false }
       ];
       component.sortingOrdersByData();
       expect(component.orders).toEqual(resultOrderData as any);
