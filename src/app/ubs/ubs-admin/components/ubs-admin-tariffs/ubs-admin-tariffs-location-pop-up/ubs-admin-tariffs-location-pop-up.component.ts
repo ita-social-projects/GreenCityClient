@@ -1,4 +1,14 @@
-import { AfterViewChecked, ChangeDetectorRef, Component, ElementRef, Inject, OnInit, TemplateRef, ViewChild } from '@angular/core';
+import {
+  AfterViewChecked,
+  ChangeDetectorRef,
+  Component,
+  ElementRef,
+  Inject,
+  OnDestroy,
+  OnInit,
+  TemplateRef,
+  ViewChild
+} from '@angular/core';
 import { FormBuilder, Validators } from '@angular/forms';
 import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
@@ -25,7 +35,7 @@ interface LocationItem {
   templateUrl: './ubs-admin-tariffs-location-pop-up.component.html',
   styleUrls: ['./ubs-admin-tariffs-location-pop-up.component.scss']
 })
-export class UbsAdminTariffsLocationPopUpComponent implements OnInit, AfterViewChecked {
+export class UbsAdminTariffsLocationPopUpComponent implements OnInit, AfterViewChecked, OnDestroy {
   @ViewChild('locationInput') input: ElementRef;
 
   locationForm = this.fb.group({
@@ -59,6 +69,7 @@ export class UbsAdminTariffsLocationPopUpComponent implements OnInit, AfterViewC
   localityOptions;
   regionBounds;
   autocomplete;
+  autocompleteLsr;
   name: string;
   unsubscribe: Subject<any> = new Subject();
   datePipe = new DatePipe('ua');
@@ -182,7 +193,7 @@ export class UbsAdminTariffsLocationPopUpComponent implements OnInit, AfterViewC
   }
 
   addEventToAutocomplete(): void {
-    this.autocomplete.addListener('place_changed', () => {
+    this.autocompleteLsr = this.autocomplete.addListener('place_changed', () => {
       this.citySelected = true;
       const locationName = this.autocomplete.getPlace().name;
       this.currentLatitude = this.autocomplete.getPlace().geometry.location.lat();
@@ -243,5 +254,10 @@ export class UbsAdminTariffsLocationPopUpComponent implements OnInit, AfterViewC
 
   ngAfterViewChecked(): void {
     this.cdr.detectChanges();
+  }
+
+  ngOnDestroy(): void {
+    google.maps.event.removeListener(this.autocompleteLsr);
+    google.maps.event.clearInstanceListeners(this.autocomplete);
   }
 }
