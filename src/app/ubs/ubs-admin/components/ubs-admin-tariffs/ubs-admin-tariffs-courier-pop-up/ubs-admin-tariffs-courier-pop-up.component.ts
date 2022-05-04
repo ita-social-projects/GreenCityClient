@@ -94,7 +94,7 @@ export class UbsAdminTariffsCourierPopUpComponent implements OnInit, OnDestroy {
   }
 
   selectedCourier(event): void {
-    this.enValue = this.couriers.filter((it) => it.courierTranslationDtos.find((ob) => ob.name === event.option.value.toString()));
+    this.enValue = this.couriers.filter((it) => it.courierTranslationDtos.find((ob) => ob.name === event.option?.value.toString()));
     this.englishName.setValue(
       this.enValue
         .map((it) => it.courierTranslationDtos.filter((ob) => ob.languageCode === 'en').map((i) => i.name))
