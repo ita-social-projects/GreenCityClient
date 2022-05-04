@@ -7,8 +7,8 @@
     "name": "Name",
     "surname": "Surname",
     "contacts": "Contacts",
-    "email": "email",
-    "phone": "phone",
+    "email": "Email",
+    "phone": "Phone",
     "address": "Address",
     "city": "City",
     "region": "Region",
@@ -28,6 +28,7 @@
     "password-error-new": "Enter the new password!",
     "delete-title": "Delete profile",
     "delete-message": "If you delete your profile, your bonuses will burn out and your order information will be deleted without the possibility of recovery",
+    "get-notification-in": "Get notification in",
     "btn": {
       "edit": "Edit data",
       "cancel": "Discard changes",
@@ -36,7 +37,9 @@
       "change-password-cancel": "Cancel",
       "delete-profile": "Delete profile",
       "delete-profile-cancel": "Back",
-      "delete-profile-save": "Delete"
+      "delete-profile-save": "Delete",
+      "alternative-email": "Add alternative email",
+      "add-address": "Add address"
     },
     "payment": {
       "title": "Payment",

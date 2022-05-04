@@ -4,32 +4,32 @@
       <div class="ubs_profile-header">
         <div class="header-text">
           <h3>{{ 'ubs-client-profile.data' | translate }}</h3>
+          <ng-container *ngIf="!isEditing">
+            <button class="btn btn-outline-success open" (click)="openChangePasswordDialog()">
+              {{ 'ubs-client-profile.btn.change-password' | translate }}
+            </button>
+            <button class="btn btn-outline-success delete" (click)="openDeleteProfileDialog()">
+              {{ 'ubs-client-profile.btn.delete-profile' | translate }}
+            </button>
+          </ng-container>
         </div>
-        <button class="btn btn-outline-success edit" (click)="onEdit()" [disabled]="isEditing || isFetching">
-          {{ 'ubs-client-profile.btn.edit' | translate }}
-        </button>
-      </div>
-      <div class="container-fluid">
-        <p *ngIf="isEditing" class="message-text">
-          {{ 'ubs-client-profile.message-if-edit' | translate }}
-        </p>
       </div>
       <div class="input-group input-group-sm">
         <form *ngIf="!isFetching; else spinner" [formGroup]="userForm">
-          <h5>{{ 'ubs-client-profile.personal' | translate }}</h5>
+          <h5 [ngClass]="{ h5MarginBottom: isEditing }">{{ 'ubs-client-profile.personal' | translate }}</h5>
           <div class="personal inline">
-            <div class="form-group col-sm-6">
+            <div [ngClass]="{ inputMargin: isEditing }" class="form-group col-sm-6">
               <label for="recipientName">{{ 'ubs-client-profile.name' | translate }}</label>
               <input *ngIf="isEditing" type="text" class="form-control" id="recipientName" formControlName="recipientName" />
               <p *ngIf="!isEditing">{{ userProfile?.recipientName }}</p>
             </div>
-            <div class="form-group col-sm-6">
+            <div [ngClass]="{ inputMargin: isEditing }" class="form-group col-sm-6">
               <label for="recipientSurname">{{ 'ubs-client-profile.surname' | translate }}</label>
               <input *ngIf="isEditing" type="text" class="form-control" id="recipientSurname" formControlName="recipientSurname" />
               <p *ngIf="!isEditing">{{ userProfile?.recipientSurname }}</p>
             </div>
           </div>
-          <h5>{{ 'ubs-client-profile.contacts' | translate }}</h5>
+          <h5 [ngClass]="{ h5MarginTop: isEditing }" class="profile-contacts-h5-style">{{ 'ubs-client-profile.contacts' | translate }}</h5>
           <div class="contacts inline">
             <div class="form-group col-sm-6">
               <label for="recipientEmail" class="form-label">{{ 'ubs-client-profile.email' | translate }}</label>
@@ -43,6 +43,12 @@
                 aria-describedby="emailHelp"
               />
               <p *ngIf="!isEditing">{{ userProfile?.recipientEmail }}</p>
+            </div>
+            <div *ngIf="isEditing">
+              <div class="wrapper-btn">
+                <button class="btn-alternative-email"></button>
+                <p>{{ 'ubs-client-profile.btn.alternative-email' | translate }}</p>
+              </div>
             </div>
             <div class="form-group col-sm-6">
               <label for="recipientPhone" class="form-label">{{ 'ubs-client-profile.phone' | translate }}</label>
@@ -58,25 +64,29 @@
               />
               <p *ngIf="!isEditing">{{ formatedPhoneNumber(userProfile?.recipientPhone) }}</p>
             </div>
+            <div class="form-group col-sm-6">
+              <label for="recipientNotification" [ngClass]="{ notificationEdit: isEditing }" class="form-label">{{
+                'ubs-client-profile.get-notification-in' | translate
+              }}</label>
+            </div>
+          </div>
+          <div class="checkbox-wrapper">
+            <mat-checkbox class="check" type="checkbox" value="id1">Telegram</mat-checkbox>
+            <mat-checkbox class="check" type="checkbox" value="id1">Viber</mat-checkbox>
           </div>
           <div class="address" formArrayName="address" *ngFor="let address of userForm.controls.address['controls']; let i = index">
             <h5>{{ 'ubs-client-profile.address' | translate }} №{{ i + 1 }}</h5>
-            <div formGroupName="{{ i }}">
+            <div formGroupName="{{ i }}" class="ubs-cliend-profile-group">
               <div class="region inline">
-                <div class="form-group col-sm-4">
-                  <label for="city" class="form-label">{{ 'ubs-client-profile.city' | translate }}</label>
-                  <input *ngIf="isEditing" type="text" class="form-control" id="city" formControlName="city" />
-                  <p *ngIf="!isEditing">{{ address.value?.city }}</p>
-                </div>
                 <div class="form-group col-sm-4">
                   <label for="region" class="form-label">{{ 'ubs-client-profile.region' | translate }}</label>
                   <input *ngIf="isEditing" type="text" class="form-control" id="region" formControlName="region" />
                   <p *ngIf="!isEditing">{{ address.value?.region }}</p>
                 </div>
-                <div class="form-group col-sm-3">
-                  <label for="district" class="form-label">{{ 'ubs-client-profile.district' | translate }}</label>
-                  <input *ngIf="isEditing" type="text" class="form-control" id="district" formControlName="district" />
-                  <p *ngIf="!isEditing">{{ address.value?.district }}</p>
+                <div class="form-group col-sm-4">
+                  <label for="city" class="form-label">{{ 'ubs-client-profile.city' | translate }}</label>
+                  <input *ngIf="isEditing" type="text" class="form-control" id="city" formControlName="city" />
+                  <p *ngIf="!isEditing">{{ address.value?.city }}</p>
                 </div>
               </div>
               <div class="house">
@@ -101,41 +111,37 @@
                   <p *ngIf="!isEditing">{{ address.value?.entranceNumber }}</p>
                 </div>
               </div>
+              <div class="form-group col-sm-3 mrgbtn">
+                <label for="district" class="form-label">{{ 'ubs-client-profile.district' | translate }}</label>
+                <input *ngIf="isEditing" type="text" class="form-control" id="district" formControlName="district" />
+                <p *ngIf="!isEditing">{{ address.value?.district }}</p>
+              </div>
             </div>
           </div>
-          <h5>{{ 'ubs-client-profile.account' | translate }}</h5>
-          <div class="account">
-            <span>
-              <img [src]="googleIcon" alt="google bind" />
-            </span>
-            <p>{{ 'ubs-client-profile.account-message' | translate }}</p>
+          <ng-container *ngIf="!isEditing">
+            <button [ngClass]="{ margbtn: !isEditing }" class="btn btn-outline-success edit" (click)="onEdit()">
+              {{ 'ubs-client-profile.btn.edit' | translate }}
+            </button>
+          </ng-container>
+          <div *ngIf="isEditing">
+            <div class="wrapper-btn">
+              <button class="btn-alternative-email"></button>
+              <p>{{ 'ubs-client-profile.btn.add-address' | translate }}</p>
+            </div>
+          </div>
+          <div class="submit-btns" *ngIf="isEditing">
+            <button class="btn btn-success save" type="submit" (click)="onSubmit()" [disabled]="!userForm.valid">
+              {{ 'ubs-client-profile.btn.save' | translate }}
+            </button>
+            <button class="btn btn-outline-success cancel" type="submit" (click)="onCancel()">
+              {{ 'ubs-client-profile.btn.cancel' | translate }}
+            </button>
           </div>
         </form>
       </div>
-      <div class="submit-btns" *ngIf="isEditing">
-        <button class="btn btn-outline-success cancel" type="submit" (click)="onCancel()">
-          {{ 'ubs-client-profile.btn.cancel' | translate }}
-        </button>
-        <button class="btn btn-success" type="submit" (click)="onSubmit()" [disabled]="!userForm.valid">
-          {{ 'ubs-client-profile.btn.save' | translate }}
-        </button>
-      </div>
-      <div class="ubs_profile-footer" *ngIf="!isEditing">
-        <div class="footer-text">
-          <h3>{{ 'ubs-client-profile.additional' | translate }}</h3>
-        </div>
-        <div class="footer-btns">
-          <button class="btn btn-outline-success open" (click)="openChangePasswordDialog()">
-            {{ 'ubs-client-profile.btn.change-password' | translate }}
-          </button>
-          <button class="btn btn-outline-success delete" (click)="openDeleteProfileDialog()">
-            {{ 'ubs-client-profile.btn.delete-profile' | translate }}
-          </button>
-        </div>
-      </div>
     </div>
-    <ng-template #spinner>
-      <app-spinner class="mx-auto"></app-spinner>
-    </ng-template>
   </div>
+  <ng-template #spinner>
+    <app-spinner class="mx-auto"></app-spinner>
+  </ng-template>
 </div>
