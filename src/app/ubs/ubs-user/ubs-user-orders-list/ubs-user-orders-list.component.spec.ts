@@ -106,30 +106,6 @@ describe('UbsUserOrdersListComponent', () => {
     });
   });
 
-  describe('isOrderDone ', () => {
-    it('order has status Done', () => {
-      const isOrderStatusRes = component.isOrderDone(fakeIputOrderData[0] as any);
-      expect(isOrderStatusRes).toBeTruthy();
-    });
-
-    it('order has not status Done', () => {
-      const isOrderStatusRes = component.isOrderDone(fakeIputOrderData[1] as any);
-      expect(isOrderStatusRes).toBeFalsy();
-    });
-  });
-
-  describe('isOrderCanceled ', () => {
-    it('order has status Canceled', () => {
-      const isOrderStatusRes = component.isOrderCanceled(fakeIputOrderData[2] as any);
-      expect(isOrderStatusRes).toBeTruthy();
-    });
-
-    it('order has not status Canceled', () => {
-      const isOrderStatusRes = component.isOrderCanceled(fakeIputOrderData[1] as any);
-      expect(isOrderStatusRes).toBeFalsy();
-    });
-  });
-
   describe('changeCard', () => {
     it('makes expected calls', () => {
       component.changeCard(7);
