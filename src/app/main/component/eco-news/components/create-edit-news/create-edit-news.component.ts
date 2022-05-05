@@ -3,9 +3,9 @@ import { FormArray, FormGroup, FormControl } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { MatDialog } from '@angular/material/dialog';
 import { takeUntil, catchError, take } from 'rxjs/operators';
-import { NewsResponseDTO, QueryParams, TextAreasHeight } from '../../models/create-news-interface';
+import { QueryParams, TextAreasHeight } from '../../models/create-news-interface';
 import { EcoNewsService } from '../../services/eco-news.service';
-import { Subscription, ReplaySubject, throwError, BehaviorSubject } from 'rxjs';
+import { Subscription, ReplaySubject, throwError } from 'rxjs';
 import { CreateEcoNewsService } from '@eco-news-service/create-eco-news.service';
 import { CreateEditNewsFormBuilder } from './create-edit-news-form-builder';
 import { FilterModel } from '@eco-news-models/create-news-interface';
@@ -20,9 +20,9 @@ import Quill from 'quill';
 import 'quill-emoji/dist/quill-emoji.js';
 import ImageResize from 'quill-image-resize-module';
 import { checkImages, dataURLtoFile, quillConfig } from './quillEditorFunc';
-import { Store } from '@ngrx/store';
-import { CreateEcoNewsSuccessAction, EditEcoNewsSuccessAction } from 'src/app/store/actions/ecoNews.actions';
-import { EcoNewsDto } from '@eco-news-models/eco-news-dto';
+import { ActionsSubject, Store } from '@ngrx/store';
+import { CreateEcoNewsAction, EditEcoNewsAction, NewsActions } from 'src/app/store/actions/ecoNews.actions';
+import { ofType } from '@ngrx/effects';
 
 @Component({
   selector: 'app-create-edit-news',
@@ -31,6 +31,7 @@ import { EcoNewsDto } from '@eco-news-models/eco-news-dto';
 })
 export class CreateEditNewsComponent extends FormBaseComponent implements OnInit, OnDestroy {
   constructor(
+    private actionsSubj: ActionsSubject,
     private store: Store,
     public router: Router,
     public dialog: MatDialog,
@@ -218,9 +219,12 @@ export class CreateEditNewsComponent extends FormBaseComponent implements OnInit
 
   public sendData(text: string): void {
     this.form.value.content = text;
-    this.createEcoNewsService
-      .sendFormData(this.form)
+
+    this.store.dispatch(CreateEcoNewsAction({ value: this.form.value }));
+
+    this.actionsSubj
       .pipe(
+        ofType(NewsActions.CreateEcoNewsSuccess),
         takeUntil(this.destroyed$),
         catchError((err) => {
           this.snackBar.openSnackBar('Oops, something went wrong. Please reload page or try again later.');
@@ -228,7 +232,6 @@ export class CreateEditNewsComponent extends FormBaseComponent implements OnInit
         })
       )
       .subscribe((data) => {
-        this.store.dispatch(CreateEcoNewsSuccessAction({ newEcoNews: data }));
         this.escapeFromCreatePage();
       });
 
@@ -269,16 +272,17 @@ export class CreateEditNewsComponent extends FormBaseComponent implements OnInit
     };
     dataToEdit.content = text;
 
-    this.createEcoNewsService
-      .editNews(dataToEdit)
+    this.store.dispatch(EditEcoNewsAction({ form: dataToEdit }));
+
+    this.actionsSubj
       .pipe(
+        ofType(NewsActions.EditEcoNewsSuccess),
         catchError((error) => {
           this.snackBar.openSnackBar('Something went wrong. Please reload page or try again later.');
           return throwError(error);
         })
       )
-      .subscribe((data: NewsResponseDTO) => {
-        this.store.dispatch(EditEcoNewsSuccessAction({ newsResponse: data }));
+      .subscribe((data) => {
         this.escapeFromCreatePage();
       });
   }
@@ -392,7 +396,7 @@ export class CreateEditNewsComponent extends FormBaseComponent implements OnInit
     this.destroyed$.next(true);
     this.destroyed$.complete();
     if (this.formChangeSub) {
-      this.formChangeSub.unsubscribe();
+      // this.formChangeSub.unsubscribe();
     }
   }
 }

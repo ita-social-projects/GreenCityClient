@@ -72,10 +72,10 @@ export class CreateEcoNewsService {
 
   public sendFormData(form): Observable<NewsResponseDTO> {
     const body: NewsDTO = {
-      tags: form.value.tags,
-      text: form.value.content,
-      title: form.value.title,
-      source: form.value.source
+      tags: form.tags,
+      text: form.content,
+      title: form.title,
+      source: form.source
     };
 
     const formData = new FormData();

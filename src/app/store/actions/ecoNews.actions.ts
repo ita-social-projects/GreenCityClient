@@ -1,7 +1,6 @@
 import { EcoNewsDto } from '@eco-news-models/eco-news-dto';
 import { createAction, props } from '@ngrx/store';
 
-import { SafeUrl } from '@angular/platform-browser';
 import { NewsDTO, NewsResponseDTO } from '@eco-news-models/create-news-interface';
 
 export enum NewsActions {
@@ -12,7 +11,10 @@ export enum NewsActions {
   GetEcoNewsByAuthor = '[News] Get news by author',
   GetEcoNewsByAuthorSuccess = '[News] Get news by author Success',
 
+  EditEcoNews = '[News] Edit news',
   EditEcoNewsSuccess = '[News] Edit news Success',
+
+  CreateEcoNews = '[News] Create news',
   CreateEcoNewsSuccess = '[News] Create news Success'
 }
 
@@ -46,6 +48,8 @@ export const GetEcoNewsByAuthorSuccessAction = createAction(
   props<{ ecoNews: EcoNewsDto; reset: boolean }>()
 );
 
-export const EditEcoNewsSuccessAction = createAction(NewsActions.EditEcoNewsSuccess, props<{ newsResponse: NewsResponseDTO }>());
+export const EditEcoNewsAction = createAction(NewsActions.EditEcoNews, props<{ form: any }>());
+export const EditEcoNewsSuccessAction = createAction(NewsActions.EditEcoNewsSuccess, props<{ editedNews: NewsResponseDTO }>());
 
-export const CreateEcoNewsSuccessAction = createAction(NewsActions.CreateEcoNewsSuccess, props<{ newEcoNews: any }>());
+export const CreateEcoNewsAction = createAction(NewsActions.CreateEcoNews, props<{ value: NewsDTO }>());
+export const CreateEcoNewsSuccessAction = createAction(NewsActions.CreateEcoNewsSuccess, props<{ newEcoNews: NewsResponseDTO }>());
