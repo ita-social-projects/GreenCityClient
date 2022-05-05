@@ -15,14 +15,13 @@ export class UbsBaseSidebarComponent implements AfterViewInit, OnDestroy {
   private destroySub: Subject<boolean> = new Subject<boolean>();
   readonly bellsNoneNotification = 'assets/img/sidebarIcons/none_notification_Bell.svg';
   readonly bellsNotification = 'assets/img/sidebarIcons/notification_Bell.svg';
-  readonly arrowRight = 'assets/img/ubs-admin-sidebar/arrowRight.svg';
-  readonly arrowLeft = 'assets/img/ubs-admin-sidebar/arrowLeft.svg';
   private adminRoleValue = 'ROLE_ADMIN';
   destroy: Subject<boolean> = new Subject<boolean>();
   @Input() public listElements: any[] = [];
   @Input() public listElementsMobile: any[] = [];
-  @ViewChild('sidebarToggler') sidebarToggler: ElementRef;
   @ViewChild('drawer') drawer: MatDrawer;
+  @ViewChild('sideBarIcons') sideBarIcons: ElementRef;
+  @ViewChild('sidebarContainer') sidebarContainer: ElementRef;
 
   constructor(
     public serviceUserMessages: UserMessagesService,
@@ -32,6 +31,15 @@ export class UbsBaseSidebarComponent implements AfterViewInit, OnDestroy {
 
   public toggleSideBar(): void {
     this.drawer.toggle();
+    if (this.drawer.opened) {
+      setTimeout(() => {
+        this.sideBarIcons.nativeElement.style.zIndex = '0';
+        this.sidebarContainer.nativeElement.style.marginLeft = '25px';
+      }, 150);
+    } else {
+      this.sideBarIcons.nativeElement.style.zIndex = '2';
+      this.sidebarContainer.nativeElement.style.marginLeft = '85px';
+    }
   }
 
   getCountOfUnreadNotification() {

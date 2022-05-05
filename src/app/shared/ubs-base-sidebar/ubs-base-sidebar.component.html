@@ -3,14 +3,14 @@
     <ul class="sidebar-list">
       <li class="toggle-arrow">
         <button mat-icon-button aria-label="Sidebar menu" (click)="toggleSideBar()">
-          <mat-icon>{{ !drawer.opened ? 'arrow_forward' : 'arrow_back' }}</mat-icon>
+          <mat-icon>arrow_forward</mat-icon>
         </button>
       </li>
       <li
-        class="sidebar-list-item"
+        *ngFor="let listItem of listElements"
         [routerLink]="listItem.routerLink"
         [routerLinkActive]="['active']"
-        *ngFor="let listItem of listElements"
+        class="sidebar-list-item"
       >
         <img
           class="sidebar-list-item-icon"
@@ -26,12 +26,24 @@
   <mat-drawer-container class="sidebar" autosize>
     <mat-drawer #drawer class="sidebar-slider" mode="side" opened="true" disableClose="true" autoFocus="false">
       <ul class="sidebar-list">
+        <li class="toggle-arrow">
+          <button mat-icon-button aria-label="Sidebar menu" (click)="toggleSideBar()">
+            <mat-icon>arrow_back</mat-icon>
+          </button>
+        </li>
         <li
-          class="sidebar-list-item"
           *ngFor="let listItem of listElements"
           [routerLink]="listItem.routerLink"
           [routerLinkActive]="['active']"
+          class="sidebar-list-item"
         >
+          <img
+            class="sidebar-list-item-icon"
+            src="{{
+              listItem.link === bellsNoneNotification && serviceUserMessages.countOfNoReadeMessages ? bellsNotification : listItem.link
+            }}"
+            alt="sidebar list item icon"
+          />
           <span class="sidebar-list-item-link">{{ listItem.name | translate }}</span>
           <div class="count-unread-messages" *ngIf="listItem.name === 'ubs-user.messages' && serviceUserMessages.countOfNoReadeMessages">
             ({{ serviceUserMessages.countOfNoReadeMessages }})
@@ -50,10 +62,10 @@
   <div class="mobile-sidebar">
     <ul class="sidebar-list">
       <li
-        class="sidebar-list-item-mobile"
+        *ngFor="let listItem of listElementsMobile"
         [routerLink]="listItem.routerLink"
         [routerLinkActive]="['active']"
-        *ngFor="let listItem of listElementsMobile"
+        class="sidebar-list-item-mobile"
       >
         <img
           class="sidebar-list-item-icon"
