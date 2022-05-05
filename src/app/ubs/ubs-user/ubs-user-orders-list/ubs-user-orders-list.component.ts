@@ -2,7 +2,7 @@ import { Component, Input, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { UbsUserOrderPaymentPopUpComponent } from './ubs-user-order-payment-pop-up/ubs-user-order-payment-pop-up.component';
 import { UbsUserOrderCancelPopUpComponent } from './ubs-user-order-cancel-pop-up/ubs-user-order-cancel-pop-up.component';
-import { IUserOrderInfo, CheckPaymentStatus } from './models/UserOrder.interface';
+import { IUserOrderInfo, CheckPaymentStatus, CheckOrderStatus } from './models/UserOrder.interface';
 import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
 
 @Component({
@@ -29,6 +29,10 @@ export class UbsUserOrdersListComponent implements OnInit {
 
   public isOrderHalfPaid(order: IUserOrderInfo): boolean {
     return order.paymentStatusEng === CheckPaymentStatus.HALFPAID;
+  }
+
+  public isOrderCanceled(order: IUserOrderInfo): boolean {
+    return order.orderStatusEng === CheckOrderStatus.CANCELED;
   }
 
   public isOrderPriceGreaterThenZero(order: IUserOrderInfo): boolean {

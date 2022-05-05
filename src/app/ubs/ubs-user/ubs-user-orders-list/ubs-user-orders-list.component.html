@@ -37,9 +37,11 @@
               </div>
             </div>
             <div class="btn_grid_pay">
-              <button class="btn_pay" (click)="openOrderPaymentDialog(order)">
-                {{ 'user-orders.btn.pay' | translate }}
-              </button>
+              <div *ngIf="!isOrderCanceled(order)" class="btn_grid_pay">
+                <button class="btn_pay" (click)="openOrderPaymentDialog(order)">
+                  {{ 'user-orders.btn.pay' | translate }}
+                </button>
+              </div>
             </div>
           </div>
         </div>
