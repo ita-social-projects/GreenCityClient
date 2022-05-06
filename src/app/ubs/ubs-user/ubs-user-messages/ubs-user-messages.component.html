@@ -46,7 +46,7 @@
             <mat-spinner class="custom-spinner" diameter="60"></mat-spinner>
           </div>
           <div class="description" *ngIf="!isLoadSmallSpinner">
-            <app-notification-body [body]="notification.body" [orderId]="notification.orderId/app-notification-body>
+            <app-notification-body [body]="notification.body" [orderId]="notification.orderId"> </app-notification-body>
           </div>
           <div *ngIf="notification.img" class="description title-img">Фотографії порушення</div>
           <div *ngIf="notification.img" class="description img"><img src="{{ notification.img }}" alt="" /></div>
