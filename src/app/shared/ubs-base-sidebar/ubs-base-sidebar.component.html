@@ -12,13 +12,7 @@
         [routerLinkActive]="['active']"
         class="sidebar-list-item"
       >
-        <img
-          class="sidebar-list-item-icon"
-          src="{{
-            listItem.link === bellsNoneNotification && serviceUserMessages.countOfNoReadeMessages ? bellsNotification : listItem.link
-          }}"
-          alt="sidebar list item icon"
-        />
+        <img [src]="getIcon(listItem)" class="sidebar-list-item-icon" alt="sidebar list item icon" />
       </li>
     </ul>
   </div>
@@ -37,15 +31,9 @@
           [routerLinkActive]="['active']"
           class="sidebar-list-item"
         >
-          <img
-            class="sidebar-list-item-icon"
-            src="{{
-              listItem.link === bellsNoneNotification && serviceUserMessages.countOfNoReadeMessages ? bellsNotification : listItem.link
-            }}"
-            alt="sidebar list item icon"
-          />
+          <img [src]="getIcon(listItem)" class="sidebar-list-item-icon" alt="sidebar list item icon" />
           <span class="sidebar-list-item-link">{{ listItem.name | translate }}</span>
-          <div class="count-unread-messages" *ngIf="listItem.name === 'ubs-user.messages' && serviceUserMessages.countOfNoReadeMessages">
+          <div *ngIf="listItem.name === 'ubs-user.messages' && serviceUserMessages.countOfNoReadeMessages" class="count-unread-messages">
             ({{ serviceUserMessages.countOfNoReadeMessages }})
           </div>
         </li>
@@ -67,13 +55,7 @@
         [routerLinkActive]="['active']"
         class="sidebar-list-item-mobile"
       >
-        <img
-          class="sidebar-list-item-icon"
-          src="{{
-            listItem.link === bellsNoneNotification && serviceUserMessages.countOfNoReadeMessages ? bellsNotification : listItem.link
-          }}"
-          alt="sidebar list item icon"
-        />
+        <img [src]="getIcon(listItem)" class="sidebar-list-item-icon" alt="sidebar list item icon" />
         <span class="sidebar-list-item-text">{{ listItem.name | translate }}</span>
       </li>
     </ul>
