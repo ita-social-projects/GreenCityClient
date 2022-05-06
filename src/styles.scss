@@ -21,13 +21,14 @@ a:active {
 
 html {
   height: 100%;
+  margin-right: calc(-100vw + 100%);
 }
 
 body {
   margin: 0;
   height: 100%;
   font-family: var(--tertiary-font);
-  overflow-y: scroll;
+  overflow-y: auto;
   overflow-x: hidden;
 }
 
