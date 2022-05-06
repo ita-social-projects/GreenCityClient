@@ -118,7 +118,7 @@ export class UbsAdminTableComponent implements OnInit, AfterViewChecked, OnDestr
     this.ordersViewParameters$.subscribe((items: IOrdersViewParameters) => {
       if (items) {
         this.displayedColumns = items.titles.split(',')[0] === '' ? [] : items.titles.split(',');
-        this.isAll = false;
+        this.isAll = this.displayedColumns.length === 35 ? true : false;
       }
     });
 
@@ -276,7 +276,7 @@ export class UbsAdminTableComponent implements OnInit, AfterViewChecked, OnDestr
     this.displayedColumns = checked
       ? [...this.displayedColumns.slice(0, positionIndex), key, ...this.displayedColumns.slice(positionIndex)]
       : this.displayedColumns.filter((item) => item !== key);
-    this.isAll = this.count === this.displayedColumns.length;
+    this.isAll = this.displayedColumns.length === this.displayedColumnsView.length;
   }
 
   public togglePopUp() {
