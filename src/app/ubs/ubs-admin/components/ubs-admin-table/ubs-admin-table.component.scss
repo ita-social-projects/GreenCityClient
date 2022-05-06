@@ -85,6 +85,10 @@ input {
   line-height: 2.9;
 }
 
+.mat-column-paymentDate {
+  cursor: default;
+}
+
 .primary-color {
   color: var(--primary-green);
 }
@@ -339,6 +343,7 @@ input {
   overflow: hidden;
   text-overflow: ellipsis;
   padding: 0;
+  cursor: default;
 }
 
 .pointer {
