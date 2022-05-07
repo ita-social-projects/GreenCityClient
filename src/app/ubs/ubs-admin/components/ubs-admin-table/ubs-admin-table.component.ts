@@ -118,7 +118,6 @@ export class UbsAdminTableComponent implements OnInit, AfterViewChecked, OnDestr
     this.ordersViewParameters$.subscribe((items: IOrdersViewParameters) => {
       if (items) {
         this.displayedColumns = items.titles.split(',')[0] === '' ? [] : items.titles.split(',');
-        this.isAll = this.displayedColumns.length === 35 ? true : false;
       }
     });
 
@@ -155,6 +154,7 @@ export class UbsAdminTableComponent implements OnInit, AfterViewChecked, OnDestr
         this.tableViewHeaders = columns.columnBelongingList;
         this.columns = JSON.parse(JSON.stringify(columns.columnDTOList));
         this.displayedColumnsView = columns.columnDTOList;
+        this.isAll = this.displayedColumns.length === this.displayedColumnsView.length ? true : false;
         this.displayedColumnsViewTitles = this.displayedColumnsView.map((item) => item.title.key);
         this.columns.forEach((column) => {
           if (column.filtered) {

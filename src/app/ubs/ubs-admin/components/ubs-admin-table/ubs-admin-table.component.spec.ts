@@ -194,19 +194,35 @@ describe('UsbAdminTableComponent', () => {
     expect(component.blockedInfo[0].userName).toEqual('name');
   });
 
-  it('changeColumns true expect  component.isAll to be true', () => {
+  it('changeColumns expect component.isAll to be true', () => {
     component.isAll = false;
-    component.count = 1;
-    component.changeColumns(true, 'key', 2);
+    component.displayedColumnsView.length = 4;
+    component.displayedColumns = ['title1', 'title2', 'title4'];
+    component.changeColumns(true, 'title3', 2);
+
     expect(component.isAll).toBe(true);
   });
 
-  it('changeColumns false expect  component.isAll to be true', () => {
-    component.isAll = false;
-    component.displayedColumns = ['name'];
-    component.count = 1;
-    component.changeColumns(false, '2', 2);
-    expect(component.isAll).toBe(true);
+  it('changeColumns expect component.isAll to be false', () => {
+    component.isAll = true;
+    component.displayedColumns.length = 4;
+    component.displayedColumns = ['title1', 'title2', 'title3', 'title4'];
+    component.changeColumns(false, 'title2', 1);
+    expect(component.isAll).toBe(false);
+  });
+
+  it('changeColumns expect to filter columns when box is unchecked', () => {
+    component.displayedColumns = ['title1', 'title2', 'title3', 'title4'];
+    component.changeColumns(false, 'title3', 2);
+
+    expect(component.displayedColumns).toEqual(['title1', 'title2', 'title4']);
+  });
+
+  it('changeColumns expect to add column when box is checked ', () => {
+    component.displayedColumns = ['title1', 'title2', 'title4'];
+    component.changeColumns(true, 'title3', 2);
+
+    expect(component.displayedColumns).toEqual(['title1', 'title2', 'title3', 'title4']);
   });
 
   it('togglePopUp expect store.dispatch have been called', () => {
