@@ -654,12 +654,6 @@ export class UbsAdminTableComponent implements OnInit, AfterViewChecked, OnDestr
     });
   }
 
-  public resetSetting() {
-    this.displayedColumns = this.previousSettings;
-    this.display = 'none';
-    this.isPopupOpen = false;
-  }
-
   setColumnsForFiltering(columns): void {
     this.adminTableService.setColumnsForFiltering(columns);
   }
