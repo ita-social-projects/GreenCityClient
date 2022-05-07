@@ -20,7 +20,7 @@ import { MatDialogConfig } from '@angular/material/dialog';
 import { ServerTranslatePipe } from 'src/app/shared/translate-pipe/translate-pipe.pipe';
 import { MatTooltipModule } from '@angular/material/tooltip';
 
-fdescribe('UsbAdminTableComponent', () => {
+describe('UsbAdminTableComponent', () => {
   let component: UbsAdminTableComponent;
   let fixture: ComponentFixture<UbsAdminTableComponent>;
   const storeMock = jasmine.createSpyObj('store', ['select', 'dispatch']);
