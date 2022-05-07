@@ -62,7 +62,7 @@ export class UbsAdminTableComponent implements OnInit, AfterViewChecked, OnDestr
   allChecked = false;
   tableViewHeaders = [];
   public blockedInfo: IAlertInfo[] = [];
-  isAll: boolean;
+  isAll: boolean = true;
   count: number;
   display = 'none';
   filterValue = '';
@@ -154,7 +154,6 @@ export class UbsAdminTableComponent implements OnInit, AfterViewChecked, OnDestr
         this.tableViewHeaders = columns.columnBelongingList;
         this.columns = JSON.parse(JSON.stringify(columns.columnDTOList));
         this.displayedColumnsView = columns.columnDTOList;
-        this.isAll = this.displayedColumns.length === this.displayedColumnsView.length ? true : false;
         this.displayedColumnsViewTitles = this.displayedColumnsView.map((item) => item.title.key);
         this.columns.forEach((column) => {
           if (column.filtered) {
@@ -180,6 +179,7 @@ export class UbsAdminTableComponent implements OnInit, AfterViewChecked, OnDestr
         this.editDetails();
       }
     });
+
     if (this.isStoreEmpty) {
       this.getColumns();
       this.store.dispatch(GetColumnToDisplay());
