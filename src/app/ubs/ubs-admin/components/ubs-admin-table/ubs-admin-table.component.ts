@@ -62,7 +62,7 @@ export class UbsAdminTableComponent implements OnInit, AfterViewChecked, OnDestr
   allChecked = false;
   tableViewHeaders = [];
   public blockedInfo: IAlertInfo[] = [];
-  isAll: boolean = true;
+  isAll = true;
   count: number;
   display = 'none';
   filterValue = '';
