@@ -94,14 +94,13 @@ describe('NewsPreviewPageComponent', () => {
       creationDate: '2020-10-26T16:43:29.336931Z',
       id: 7777,
       imagePath: 'assets/img/icon/econews/news-default-large.png',
-      tags: [
-        { id: 1, name: 'Events' },
-        { id: 2, name: 'Education' }
-      ],
-      text: 'text for itemMock',
+      tags: ['Events', 'Education'],
+      content: 'text for itemMock',
       title: 'title for itemMock',
       likes: 0,
-      countComments: 2
+      countComments: 2,
+      shortInfo: 'info',
+      source: null
     };
 
     router = TestBed.inject(Router);

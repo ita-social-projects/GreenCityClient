@@ -48,23 +48,20 @@ export const EcoNewsReducer = createReducer(
         }
         return val;
       }),
-      autorNews: state.autorNews.map((val) => {
-        if (val && val.id === +action.editedNews.id) {
+      autorNews: state.autorNews.map((value) => {
+        if (value && value.id === +action.editedNews.id) {
           return action.editedNews;
         }
-        return val;
+        return value;
       })
     };
   }),
 
   on(CreateEcoNewsSuccessAction, (state, action) => {
-    const actionNews: any = { ...action.newEcoNews };
-    actionNews.author = action.newEcoNews.ecoNewsAuthorDto;
-
     return {
       ...state,
-      pages: [actionNews, ...state.pages],
-      autorNews: [actionNews, ...state.autorNews]
+      pages: [action.newEcoNews, ...state.pages],
+      autorNews: [action.newEcoNews, ...state.autorNews]
     };
   })
 );

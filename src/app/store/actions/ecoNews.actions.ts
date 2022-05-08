@@ -1,7 +1,8 @@
 import { EcoNewsDto } from '@eco-news-models/eco-news-dto';
 import { createAction, props } from '@ngrx/store';
 
-import { NewsDTO, NewsResponseDTO } from '@eco-news-models/create-news-interface';
+import { NewsDTO } from '@eco-news-models/create-news-interface';
+import { EcoNewsModel } from '@eco-news-models/eco-news-model';
 
 export enum NewsActions {
   GetEcoNewsByTags = '[News] Get news by tags',
@@ -48,8 +49,8 @@ export const GetEcoNewsByAuthorSuccessAction = createAction(
   props<{ ecoNews: EcoNewsDto; reset: boolean }>()
 );
 
-export const EditEcoNewsAction = createAction(NewsActions.EditEcoNews, props<{ form: any }>());
-export const EditEcoNewsSuccessAction = createAction(NewsActions.EditEcoNewsSuccess, props<{ editedNews: NewsResponseDTO }>());
+export const EditEcoNewsAction = createAction(NewsActions.EditEcoNews, props<{ form: NewsDTO }>());
+export const EditEcoNewsSuccessAction = createAction(NewsActions.EditEcoNewsSuccess, props<{ editedNews: EcoNewsModel }>());
 
 export const CreateEcoNewsAction = createAction(NewsActions.CreateEcoNews, props<{ value: NewsDTO }>());
-export const CreateEcoNewsSuccessAction = createAction(NewsActions.CreateEcoNewsSuccess, props<{ newEcoNews: NewsResponseDTO }>());
+export const CreateEcoNewsSuccessAction = createAction(NewsActions.CreateEcoNewsSuccess, props<{ newEcoNews: EcoNewsModel }>());

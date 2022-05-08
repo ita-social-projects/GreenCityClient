@@ -5,6 +5,7 @@ import { Observable } from 'rxjs';
 import { environment } from '@environment/environment';
 import { FormGroup } from '@angular/forms';
 import { Store } from '@ngrx/store';
+import { EcoNewsModel } from '@eco-news-models/eco-news-model';
 
 @Injectable({
   providedIn: 'root'
@@ -34,7 +35,7 @@ export class CreateEcoNewsService {
     return this.newsId;
   }
 
-  public editNews(form): Observable<NewsResponseDTO> {
+  public editNews(form): Observable<EcoNewsModel> {
     let body: NewsDTO = {
       id: form.id,
       tags: form.tags,
@@ -56,7 +57,7 @@ export class CreateEcoNewsService {
     formData.append('updateEcoNewsDto', JSON.stringify(body));
     this.httpOptions.headers.set('Authorization', `Bearer ${this.accessToken}`);
 
-    return this.http.put<NewsResponseDTO>(environment.backendLink + 'econews/update', formData, this.httpOptions);
+    return this.http.put<EcoNewsModel>(environment.backendLink + 'econews/update', formData, this.httpOptions);
   }
 
   public setForm(form: FormGroup): void {
@@ -70,7 +71,7 @@ export class CreateEcoNewsService {
     this.newsId = id;
   }
 
-  public sendFormData(form): Observable<NewsResponseDTO> {
+  public sendFormData(form): Observable<EcoNewsModel> {
     const body: NewsDTO = {
       tags: form.tags,
       text: form.content,
@@ -87,7 +88,7 @@ export class CreateEcoNewsService {
 
     formData.append('addEcoNewsDtoRequest', JSON.stringify(body));
     this.httpOptions.headers.set('Authorization', `Bearer ${this.accessToken}`);
-    return this.http.post<NewsResponseDTO>(`${this.url}econews`, formData, this.httpOptions);
+    return this.http.post<EcoNewsModel>(`${this.url}econews`, formData, this.httpOptions);
   }
 
   public sendImagesData(imagesFilesArr: File[]): Observable<[string]> {

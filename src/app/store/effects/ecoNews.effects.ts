@@ -18,7 +18,8 @@ import {
 } from '../actions/ecoNews.actions';
 import { EcoNewsDto } from '@eco-news-models/eco-news-dto';
 import { CreateEcoNewsService } from '@eco-news-service/create-eco-news.service';
-import { NewsDTO, NewsResponseDTO } from '@eco-news-models/create-news-interface';
+import { NewsDTO } from '@eco-news-models/create-news-interface';
+import { EcoNewsModel } from '@eco-news-models/eco-news-model';
 
 @Injectable()
 export class NewsEffects {
@@ -72,7 +73,7 @@ export class NewsEffects {
       mergeMap((actions: { form: NewsDTO }) => {
         return this.createEcoNewsService.editNews(actions.form).pipe(
           map(
-            (editedNews: NewsResponseDTO) => EditEcoNewsSuccessAction({ editedNews }),
+            (editedNews: EcoNewsModel) => EditEcoNewsSuccessAction({ editedNews }),
             catchError(() => EMPTY)
           )
         );
@@ -86,7 +87,7 @@ export class NewsEffects {
       mergeMap((actions: { value: NewsDTO }) => {
         return this.createEcoNewsService.sendFormData(actions.value).pipe(
           map(
-            (newEcoNews: NewsResponseDTO) => CreateEcoNewsSuccessAction({ newEcoNews }),
+            (newEcoNews: EcoNewsModel) => CreateEcoNewsSuccessAction({ newEcoNews }),
             catchError(() => EMPTY)
           )
         );

@@ -324,7 +324,7 @@ export class CreateEditNewsComponent extends FormBaseComponent implements OnInit
   public setActiveFilters(itemToUpdate: EcoNewsModel): void {
     if (itemToUpdate.tags.length) {
       this.isArrayEmpty = false;
-      itemToUpdate.tags.forEach((tag: NewsTagInterface) => {
+      itemToUpdate.tags.forEach((tag: string) => {
         const index = this.filters.findIndex((filterObj: FilterModel) => filterObj.name === `${tag}`);
         this.filters = this.filterArr({ name: `${tag}`, isActive: true }, index);
       });
