@@ -220,6 +220,7 @@ export class CreateEditNewsComponent extends FormBaseComponent implements OnInit
   public sendData(text: string): void {
     this.form.value.content = text;
 
+    this.isPosting = true;
     this.store.dispatch(CreateEcoNewsAction({ value: this.form.value }));
 
     this.actionsSubj
@@ -231,9 +232,7 @@ export class CreateEditNewsComponent extends FormBaseComponent implements OnInit
           return throwError(err);
         })
       )
-      .subscribe((data) => {
-        this.escapeFromCreatePage();
-      });
+      .subscribe(() => this.escapeFromCreatePage());
 
     this.localStorageService.removeTagsOfNews('newsTags');
   }
@@ -271,6 +270,7 @@ export class CreateEditNewsComponent extends FormBaseComponent implements OnInit
       id: this.newsId
     };
     dataToEdit.content = text;
+    this.isPosting = true;
 
     this.store.dispatch(EditEcoNewsAction({ form: dataToEdit }));
 
@@ -282,9 +282,7 @@ export class CreateEditNewsComponent extends FormBaseComponent implements OnInit
           return throwError(error);
         })
       )
-      .subscribe((data) => {
-        this.escapeFromCreatePage();
-      });
+      .subscribe(() => this.escapeFromCreatePage());
   }
 
   public editNews(): void {
@@ -396,7 +394,7 @@ export class CreateEditNewsComponent extends FormBaseComponent implements OnInit
     this.destroyed$.next(true);
     this.destroyed$.complete();
     if (this.formChangeSub) {
-      // this.formChangeSub.unsubscribe();
+      this.formChangeSub.unsubscribe();
     }
   }
 }

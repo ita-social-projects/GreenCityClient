@@ -44,15 +44,13 @@ export const EcoNewsReducer = createReducer(
       ...state,
       pages: state.pages.map((val) => {
         if (val && val.id === +action.editedNews.id) {
-          const newOrderData = { ...action.editedNews };
-          return newOrderData;
+          return action.editedNews;
         }
         return val;
       }),
       autorNews: state.autorNews.map((val) => {
         if (val && val.id === +action.editedNews.id) {
-          const newOrderData: any = { ...action.editedNews };
-          return newOrderData;
+          return action.editedNews;
         }
         return val;
       })

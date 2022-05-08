@@ -41,7 +41,8 @@
         "initiatives": "Initiatives",
         "ads": "Ads",
         "education": "Education",
-        "lifehacks": "Lifehacks"
+        "lifehacks": "Lifehacks",
+        "courses": "Courses"
       },
       "items-found": {
         "item-at-1": "item found",
