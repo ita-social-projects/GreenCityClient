@@ -62,7 +62,7 @@ export class UbsAdminTableComponent implements OnInit, AfterViewChecked, OnDestr
   allChecked = false;
   tableViewHeaders = [];
   public blockedInfo: IAlertInfo[] = [];
-  isAll = true;
+  isAllColumnsDisplayed: boolean;
   count: number;
   display = 'none';
   filterValue = '';
@@ -178,6 +178,7 @@ export class UbsAdminTableComponent implements OnInit, AfterViewChecked, OnDestr
         this.sortColumnsToDisplay();
         this.editDetails();
       }
+      this.checkAllColumnsDisplayed();
     });
 
     if (this.isStoreEmpty) {
@@ -196,6 +197,10 @@ export class UbsAdminTableComponent implements OnInit, AfterViewChecked, OnDestr
       }
     }
     this.cdr.detectChanges();
+  }
+
+  checkAllColumnsDisplayed() {
+    this.isAllColumnsDisplayed = this.displayedColumns.length === this.displayedColumnsView.length;
   }
 
   applyFilter(filterValue: string): void {
@@ -276,7 +281,7 @@ export class UbsAdminTableComponent implements OnInit, AfterViewChecked, OnDestr
     this.displayedColumns = checked
       ? [...this.displayedColumns.slice(0, positionIndex), key, ...this.displayedColumns.slice(positionIndex)]
       : this.displayedColumns.filter((item) => item !== key);
-    this.isAll = this.displayedColumns.length === this.displayedColumnsView.length;
+    this.checkAllColumnsDisplayed();
   }
 
   public togglePopUp() {
@@ -424,7 +429,7 @@ export class UbsAdminTableComponent implements OnInit, AfterViewChecked, OnDestr
     this.displayedColumnsView.forEach((column, index) => {
       this.displayedColumnsViewTitles[index] = column.title.key;
     });
-    this.isAll = true;
+    this.isAllColumnsDisplayed = true;
     this.displayedColumns = this.displayedColumnsViewTitles;
     this.count = this.displayedColumnsViewTitles.length;
   }
@@ -432,7 +437,7 @@ export class UbsAdminTableComponent implements OnInit, AfterViewChecked, OnDestr
   private setUnDisplayedColumns(): void {
     this.displayedColumnsViewTitles = [];
     this.displayedColumns = ['select'];
-    this.isAll = false;
+    this.isAllColumnsDisplayed = false;
   }
 
   private editSingle(e: IEditCell): void {
