@@ -16,7 +16,6 @@ ul::-webkit-scrollbar-thumb,
 }
 
 .filter-btn {
-  display: flex;
   width: 155px;
   margin: 0 5px;
   border: 1px solid var(--ubs-quaternary-dark-grey);
@@ -26,4 +25,19 @@ ul::-webkit-scrollbar-thumb,
 .bg-lime {
   border: none;
   background-color: var(--ubs-primary-lime-green);
+}
+
+input[type='date'] {
+  text-align: center;
+}
+
+.input-group {
+  display: flex;
+  flex-direction: column;
+  align-content: space-between;
+
+  label {
+    display: flex;
+    justify-content: flex-end;
+  }
 }
