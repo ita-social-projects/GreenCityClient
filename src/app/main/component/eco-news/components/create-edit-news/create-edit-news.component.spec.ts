@@ -45,24 +45,27 @@ xdescribe('CreateEditNewsComponent', () => {
     creationDate: '2020-10-26T16:43:29.336931Z',
     id: 4705,
     imagePath: 'https://storage.cloud.google.com/staging.greencity-c5a3a.appspot.com/35fce8fe-7949-48b8-bf8c-0d9a768ecb42',
-    tags: [
-      { id: 1, name: 'Events' },
-      { id: 2, name: 'Education' }
-    ],
-    text: 'hellohellohellohellohellohellohellohellohellohello',
+    tags: ['Events', 'Education'],
+    content: 'hellohellohellohellohellohellohellohellohellohello',
     title: 'hello',
     likes: 0,
-    countComments: 2
+    countComments: 2,
+    shortInfo: 'info',
+    source: null
   };
   let http: HttpTestingController;
-  const newsResponseMock: NewsResponseDTO = {
+  const newsResponseMock: EcoNewsModel = {
     id: 4705,
-    text: 'hellohellohellohellohellohellohellohellohellohello',
+    content: 'hellohellohellohellohellohellohellohellohellohello',
     title: 'hello',
-    ecoNewsAuthorDto: { id: 1601, firstName: 'Anton', lastName: 'Hryshko' },
+    author: { id: 1601, name: 'Anton Hryshko' },
     creationDate: '2020-10-26T16:43:29.336931Z',
     imagePath: 'https://storage.cloud.google.com/staging.greencity-c5a3a.appspot.com/35fce8fe-7949-48b8-bf8c-0d9a768ecb42',
-    tags: ['Events', 'Education']
+    tags: ['Events', 'Education'],
+    countComments: 2,
+    likes: 3,
+    shortInfo: 'info',
+    source: null
   };
 
   const validNews = {
@@ -339,20 +342,18 @@ xdescribe('CreateEditNewsComponent', () => {
   }));
 
   it('should set isArrayEmpty to false', () => {
-    const expectedData = {
+    const expectedData: EcoNewsModel = {
       author: { id: 1601, name: 'Hryshko' },
       creationDate: '2020-10-26T16:43:29.336931Z',
       id: 4705,
       imagePath: 'https://storage.cloud.google.com/staging.greencity-c5a3a.appspot.com/35fce8fe-7949-48b8-bf8c-0d9a768ecb42',
       source: '',
-      tags: [
-        { id: 1, name: 'Events' },
-        { id: 2, name: 'Education' }
-      ],
-      text: 'hellohellohellohellohellohellohellohellohellohello',
+      tags: ['Events', 'Education'],
+      content: 'hellohellohellohellohellohellohellohellohellohello',
       title: 'hello',
       likes: 0,
-      countComments: 2
+      countComments: 2,
+      shortInfo: 'info'
     };
     component.setActiveFilters(expectedData);
     expect(component.isArrayEmpty).toBeFalsy();

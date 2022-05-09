@@ -21,6 +21,7 @@ a:active {
 
 html {
   height: 100%;
+  margin-right: calc(-100vw + 100%);
 }
 
 body {
@@ -28,6 +29,7 @@ body {
   height: 100%;
   font-family: var(--tertiary-font);
   overflow-y: auto;
+  overflow-x: hidden;
 }
 
 .app-wrapper {
