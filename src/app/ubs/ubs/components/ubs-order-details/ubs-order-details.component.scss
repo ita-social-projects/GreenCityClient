@@ -204,8 +204,8 @@ button {
   text-align: right;
 
   .total-content {
-    display: flex;
-    justify-content: flex-end;
+    display: grid;
+    grid-template-columns: 2fr 1fr;
     color: var(--ubs-secondary-grey);
     font-family: var(--ubs-quaternary-font);
     padding-right: 0.5rem;
