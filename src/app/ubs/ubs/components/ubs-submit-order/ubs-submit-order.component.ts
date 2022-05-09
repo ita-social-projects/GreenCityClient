@@ -54,6 +54,7 @@ export class UBSSubmitOrderComponent extends FormBaseComponent implements OnInit
   @Input() public orderIdFromNotification: number;
   isFinalSumZero = true;
   isTotalAmountZero = true;
+  public currentLanguage: string;
 
   constructor(
     public orderService: OrderService,
@@ -69,6 +70,10 @@ export class UBSSubmitOrderComponent extends FormBaseComponent implements OnInit
   }
 
   ngOnInit(): void {
+    this.currentLanguage = this.localStorageService.getCurrentLanguage();
+    this.localStorageService.languageSubject.pipe(takeUntil(this.destroy)).subscribe((lang: string) => {
+      this.currentLanguage = lang;
+    });
     if (this.isNotification) {
       this.isDownloadDataNotification = false;
       this.getOrderFormNotifications();

@@ -7,6 +7,7 @@ import { LocalStorageService } from '@global-service/localstorage/local-storage.
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 import { TariffsService } from '../../../services/tariffs.service';
+import { ubsNamePattern } from '../../shared/validators-pattern/ubs-name-patterns';
 
 @Component({
   selector: 'app-ubs-admin-tariffs-station-pop-up',
@@ -14,9 +15,8 @@ import { TariffsService } from '../../../services/tariffs.service';
   styleUrls: ['./ubs-admin-tariffs-station-pop-up.component.scss']
 })
 export class UbsAdminTariffsStationPopUpComponent implements OnInit, OnDestroy {
-  namePattern = /^[A-Za-zА-Яа-яїЇіІєЄ0-9\'\-\ ]+[A-Za-zА-Яа-яїЇіІєЄ0-9\'\-\ ]$/;
   stationForm = this.fb.group({
-    name: ['', [Validators.required, Validators.minLength(3), Validators.maxLength(40), Validators.pattern(this.namePattern)]]
+    name: ['', [Validators.required, Validators.minLength(3), Validators.maxLength(40), Validators.pattern(ubsNamePattern.namePattern)]]
   });
 
   get name() {
@@ -33,7 +33,8 @@ export class UbsAdminTariffsStationPopUpComponent implements OnInit, OnDestroy {
   private destroy: Subject<boolean> = new Subject<boolean>();
 
   public icons = {
-    arrowDown: '././assets/img/ubs-tariff/arrow-down.svg'
+    arrowDown: '././assets/img/ubs-tariff/arrow-down.svg',
+    cross: '././assets/img/ubs/cross.svg'
   };
 
   constructor(
@@ -55,7 +56,7 @@ export class UbsAdminTariffsStationPopUpComponent implements OnInit, OnDestroy {
       this.authorName = firstName;
     });
     this.name.valueChanges.subscribe((value) => {
-      this.stationExist = this.stations.some((it) => it.name === value);
+      this.stationExist = this.stations.some((it) => it.name === value.trim());
     });
   }
 

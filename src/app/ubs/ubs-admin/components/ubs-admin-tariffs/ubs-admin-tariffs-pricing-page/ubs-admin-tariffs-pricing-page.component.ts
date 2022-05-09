@@ -4,7 +4,7 @@ import { MatDialog, MatDialogConfig, MatDialogRef } from '@angular/material/dial
 import { Location } from '@angular/common';
 import { ActivatedRoute, Router } from '@angular/router';
 import { TariffsService } from '../../../services/tariffs.service';
-import { takeUntil, take } from 'rxjs/operators';
+import { takeUntil, take, skip } from 'rxjs/operators';
 import { Bag, Service, Locations } from '../../../models/tariffs.interface';
 import { OrderService } from '../../../../ubs/services/order.service';
 import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
@@ -71,7 +71,7 @@ export class UbsAdminTariffsPricingPageComponent implements OnInit, OnDestroy {
     this.subscribeToLangChange();
     this.routeParams();
     this.initForm();
-    // this.getLocations();
+    this.getLocations();
     this.orderService.locationSubject.pipe(takeUntil(this.destroy)).subscribe(() => {
       this.getServices();
       this.getCouriers();
@@ -275,7 +275,7 @@ export class UbsAdminTariffsPricingPageComponent implements OnInit, OnDestroy {
 
   getLocations(): void {
     this.store.dispatch(GetLocations({ reset: this.reset }));
-    this.locations$.subscribe((item) => {
+    this.locations$.pipe(skip(1)).subscribe((item) => {
       if (item) {
         const key = 'content';
         this.locations = item[key];

@@ -17,7 +17,8 @@
       <ul class="services-list w-100 p-0 m-0">
         <li class="services-list_item d-flex justify-content-between align-items-baseline" *ngFor="let bag of bags">
           <ng-container *ngIf="bag.quantity">
-            <span class="col-3 p-0 m-0 bag-name">{{ bag.name }}</span>
+            <span *ngIf="currentLanguage === 'ua'" class="col-3 p-0 m-0 bag-name">{{ bag.name }}</span>
+            <span *ngIf="currentLanguage === 'en'" class="col-3 p-0 m-0 bag-name">{{ bag.nameEng }}</span>
             <span class="col-2 p-0 m-0 bag-name">{{ bag.capacity }} {{ 'order-details.litr' | translate }}</span>
             <span class="col-2 p-0 m-0 bag-name">{{ bag.price | currency }} {{ 'order-details.currency' | translate }}</span>
             <span class="col-2 p-0 m-0 bag-name">{{ bag.quantity }} {{ 'order-details.pieces' | translate }}</span>

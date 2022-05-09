@@ -85,6 +85,10 @@ input {
   line-height: 2.9;
 }
 
+.mat-column-paymentDate {
+  cursor: default;
+}
+
 .primary-color {
   color: var(--primary-green);
 }
@@ -99,6 +103,7 @@ input {
   word-wrap: break-word !important;
   white-space: nowrap !important;
   align-items: unset !important;
+  cursor: url(../../../../../assets/img/ubs-admin-orders/Move-White.svg) 4 4, auto;
 }
 
 .mat-column-select {
@@ -307,7 +312,7 @@ input {
 
 .scrolling {
   min-height: 500px;
-  max-height: 1vh;
+  height: 100vh;
   overflow: scroll;
 }
 
@@ -339,6 +344,7 @@ input {
   overflow: hidden;
   text-overflow: ellipsis;
   padding: 0;
+  cursor: default;
 }
 
 .pointer {

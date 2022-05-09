@@ -8,6 +8,7 @@ import { LocalStorageService } from '@global-service/localstorage/local-storage.
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 import { TariffsService } from '../../../services/tariffs.service';
+import { ubsNamePattern } from '../../shared/validators-pattern/ubs-name-patterns';
 
 @Component({
   selector: 'app-ubs-admin-tariffs-courier-pop-up',
@@ -15,13 +16,16 @@ import { TariffsService } from '../../../services/tariffs.service';
   styleUrls: ['./ubs-admin-tariffs-courier-pop-up.component.scss']
 })
 export class UbsAdminTariffsCourierPopUpComponent implements OnInit, OnDestroy {
-  namePattern = /^[A-Za-zА-Яа-яїЇіІєЄ0-9\'\-\ ]+[A-Za-zА-Яа-яїЇіІєЄ0-9\'\-\ ]$/;
   courierForm = this.fb.group({
-    name: ['', [Validators.required, Validators.minLength(3), Validators.maxLength(40), Validators.pattern(this.namePattern)]],
-    englishName: ['', [Validators.required, Validators.minLength(3), Validators.maxLength(40), Validators.pattern(this.namePattern)]]
+    name: ['', [Validators.required, Validators.minLength(3), Validators.maxLength(40), Validators.pattern(ubsNamePattern.namePattern)]],
+    englishName: [
+      '',
+      [Validators.required, Validators.minLength(3), Validators.maxLength(40), Validators.pattern(ubsNamePattern.englishPattern)]
+    ]
   });
 
   courierExist = false;
+  enCourierExist = false;
   authorName: string;
   unsubscribe: Subject<any> = new Subject();
   datePipe = new DatePipe('ua');
@@ -32,7 +36,8 @@ export class UbsAdminTariffsCourierPopUpComponent implements OnInit, OnDestroy {
   private destroy: Subject<boolean> = new Subject<boolean>();
 
   public icons = {
-    arrowDown: '././assets/img/ubs-tariff/arrow-down.svg'
+    arrowDown: '././assets/img/ubs-tariff/arrow-down.svg',
+    cross: '././assets/img/ubs/cross.svg'
   };
 
   constructor(
@@ -62,8 +67,12 @@ export class UbsAdminTariffsCourierPopUpComponent implements OnInit, OnDestroy {
       this.authorName = firstName;
     });
     this.name.valueChanges.subscribe((value) => {
-      const temp = this.couriers.filter((it) => it.courierTranslationDtos.find((ob) => ob.name === value));
-      this.courierExist = temp.length === 0 ? false : true;
+      const temp = this.couriers.filter((it) => it.courierTranslationDtos.find((ob) => (ob.name === value ? value.trim() : '')));
+      this.courierExist = temp.length !== 0;
+    });
+    this.englishName.valueChanges.subscribe((value) => {
+      const temp = this.couriers.filter((it) => it.courierTranslationDtos.find((ob) => (ob.name === value ? value.trim() : '')));
+      this.enCourierExist = temp.length !== 0;
     });
   }
 
@@ -73,7 +82,9 @@ export class UbsAdminTariffsCourierPopUpComponent implements OnInit, OnDestroy {
       .pipe(takeUntil(this.destroy))
       .subscribe((res) => {
         this.couriers = res;
-        this.couriersName = res.map((it) => it.courierTranslationDtos.filter((ob) => ob.languageCode === 'ua').map((item) => item.name));
+        this.couriersName = res
+          .map((it) => it.courierTranslationDtos.filter((ob) => ob.languageCode === 'ua').map((item) => item.name))
+          .reduce((acc, val) => acc.concat(val), []);
       });
   }
 
@@ -83,11 +94,11 @@ export class UbsAdminTariffsCourierPopUpComponent implements OnInit, OnDestroy {
   }
 
   selectedCourier(event): void {
-    console.log(event.option.value);
     this.enValue = this.couriers.filter((it) => it.courierTranslationDtos.find((ob) => ob.name === event.option.value.toString()));
-    console.log(this.enValue[0].courierId);
     this.englishName.setValue(
-      this.enValue.map((it) => it.courierTranslationDtos.filter((ob) => ob.languageCode === 'en').map((i) => i.name))
+      this.enValue
+        .map((it) => it.courierTranslationDtos.filter((ob) => ob.languageCode === 'en').map((i) => i.name))
+        .reduce((acc, val) => acc.concat(val), [])[0]
     );
   }
 
@@ -102,7 +113,25 @@ export class UbsAdminTariffsCourierPopUpComponent implements OnInit, OnDestroy {
   }
 
   editCourier(): void {
-    this.dialogRef.close();
+    const newCourier = {
+      courierId: this.enValue[0].courierId,
+      courierTranslationDtos: [
+        {
+          languageCode: 'ua',
+          name: this.name.value
+        },
+        {
+          languageCode: 'en',
+          name: this.englishName.value
+        }
+      ]
+    };
+    this.tariffsService
+      .editCourier(newCourier)
+      .pipe(takeUntil(this.destroy))
+      .subscribe(() => {
+        this.dialogRef.close();
+      });
   }
 
   onNoClick(): void {

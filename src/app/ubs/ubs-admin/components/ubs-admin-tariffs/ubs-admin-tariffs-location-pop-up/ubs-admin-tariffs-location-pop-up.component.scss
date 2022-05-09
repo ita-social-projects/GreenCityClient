@@ -9,7 +9,7 @@
 }
 
 .form-group {
-  margin-bottom: 28px;
+  margin-bottom: 8px;
   position: relative;
 
   label {
@@ -30,6 +30,12 @@
 
   select.ng-invalid {
     color: var(--ubs-primary-light-grey);
+  }
+}
+
+.first-row {
+  .form-group {
+    margin-bottom: 28px;
   }
 }
 
@@ -62,6 +68,7 @@ select {
 
 .buttons {
   margin-bottom: 20px;
+  margin-top: 10px;
 
   .secondary-global-button {
     border: 1px solid var(--ubs-quaternary-dark-grey);
@@ -88,6 +95,11 @@ select {
   margin-top: -25px;
 }
 
+.validation-city {
+  color: var(--error-red);
+  font-size: 10px;
+}
+
 .error-input {
   border-color: var(--error-red);
 }
@@ -99,13 +111,14 @@ select {
   text-decoration-line: underline;
   color: var(--ubs-dark-purple);
   cursor: pointer;
+  margin-bottom: 10px;
 }
 
 .cross-img {
   position: absolute;
   cursor: pointer;
-  bottom: 23px;
-  right: 20px;
+  top: 37px;
+  right: 10px;
   color: var(--ubs-quintynary-light-grey);
   width: 11px;
   height: 11px;
@@ -127,4 +140,37 @@ select {
 input.ng-touched.ng-invalid {
   border: 1px solid var(--ubs-error-ligh-red);
   font-size: 10px;
+}
+
+.itemList {
+  width: 215px;
+  font-size: 14px;
+  line-height: 20px;
+}
+
+.delete-button-img {
+  margin: 0 15px;
+  cursor: pointer;
+}
+
+::ng-deep .mat-expansion-panel {
+  box-shadow: none !important;
+  margin-bottom: 28px !important;
+}
+
+::ng-deep .mat-expansion-panel-header {
+  padding: 0 !important;
+}
+
+::ng-deep .mat-content {
+  padding: 5px;
+  flex: none !important;
+}
+
+::ng-deep .mat-expansion-indicator::after {
+  margin-bottom: 6px;
+}
+
+::ng-deep .mat-expansion-panel-body {
+  padding: 5px 0 !important;
 }

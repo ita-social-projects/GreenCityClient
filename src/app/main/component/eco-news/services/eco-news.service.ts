@@ -28,6 +28,10 @@ export class EcoNewsService implements OnDestroy {
     return this.http.get(`${this.backEnd}econews?page=${page}&size=${quantity}`);
   }
 
+  public getEcoNewsListByAutorId(page: number, quantity: number) {
+    return this.http.get(`${this.backEnd}econews/byUserPage?page=${page}&size=${quantity}`);
+  }
+
   public getNewsListByTags(page: number, quantity: number, tags: Array<string>) {
     return this.http.get(`${this.backEnd}econews/tags?page=${page}&size=${quantity}&tags=${tags}`);
   }

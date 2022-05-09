@@ -6,7 +6,7 @@ import { Subscription } from 'rxjs';
 @Component({
   selector: 'app-eco-news',
   templateUrl: './eco-news.component.html',
-  styleUrls: ['./eco-news.component.scss'],
+  styleUrls: ['./eco-news.component.scss']
 })
 export class EcoNewsComponent implements OnInit {
   private langChangeSub: Subscription;

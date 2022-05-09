@@ -11,6 +11,7 @@ export class LocalStorageService {
   private readonly REFRESH_TOKEN = 'refreshToken';
   private readonly USER_ID = 'userId';
   private readonly NAME = 'name';
+  private readonly PREVIOUSPAGE = 'previousPage';
 
   languageSubject: Subject<string> = new Subject<string>();
   firstNameBehaviourSubject: BehaviorSubject<string> = new BehaviorSubject<string>(this.getName());
@@ -33,6 +34,14 @@ export class LocalStorageService {
 
   private getName(): string {
     return localStorage.getItem(this.NAME);
+  }
+
+  public getPreviousPage(): string {
+    return localStorage.getItem(this.PREVIOUSPAGE);
+  }
+
+  public setCurentPage(key: string, pageName: string) {
+    localStorage.setItem(key, pageName);
   }
 
   public setAccessToken(accessToken: string): void {

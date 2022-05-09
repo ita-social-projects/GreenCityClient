@@ -11,7 +11,9 @@ import { ActivatedRoute } from '@angular/router';
 import { TranslateModule } from '@ngx-translate/core';
 import { CUSTOM_ELEMENTS_SCHEMA, Pipe, PipeTransform } from '@angular/core';
 import { DateLocalisationPipe } from '@pipe/date-localisation-pipe/date-localisation.pipe';
-import { environment } from '@environment/environment.js';
+
+import { Store } from '@ngrx/store';
+import { of } from 'rxjs';
 
 @Pipe({ name: 'translate' })
 class TranslatePipeMock implements PipeTransform {
@@ -33,25 +35,28 @@ describe('EcoNewsDetailComponent', () => {
     id: 1,
     imagePath: defaultImagePath,
     title: 'test title',
-    text: 'some description',
+    content: 'some description',
     author: {
       id: 777,
       name: 'John Snow'
     },
-    tags: [
-      { id: 1, name: 'Events' },
-      { id: 2, name: 'Education' }
-    ],
+    tags: ['Events', 'Education'],
     creationDate: '2020-06-16T18:08:00.604Z',
     likes: 0,
-    countComments: 2
+    countComments: 2,
+    shortInfo: 'info',
+    source: null
   };
+
+  const storeMock = jasmine.createSpyObj('store', ['select', 'dispatch']);
+  storeMock.select = () => of({ pages: [{ id: 3 }], autorNews: [{ id: 4 }] });
+
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       declarations: [EcoNewsDetailComponent, EcoNewsWidgetComponent, NewsListGalleryViewComponent, TranslatePipeMock, DateLocalisationPipe],
       schemas: [CUSTOM_ELEMENTS_SCHEMA],
       imports: [RouterTestingModule, HttpClientTestingModule, TranslateModule.forRoot()],
-      providers: [LocalStorageService, EcoNewsService]
+      providers: [LocalStorageService, EcoNewsService, { provide: Store, useValue: storeMock }]
     }).compileComponents();
 
     localStorageService = TestBed.inject(LocalStorageService);
@@ -71,23 +76,19 @@ describe('EcoNewsDetailComponent', () => {
   });
 
   it('ngOnInit should init three method', () => {
-    spyOn(component as any, 'setNewsId');
-    spyOn(component as any, 'canUserEditNews');
-    spyOn(component as any, 'setNewsIdSubscription');
-    component.ngOnInit();
+    (component as any).newsId = 3;
+    spyOn((component as any).localStorageService, 'getPreviousPage').and.returnValue('/news');
 
+    spyOn(component as any, 'setNewsId');
+    spyOn(component as any, 'getIsLiked');
+    spyOn(component as any, 'canUserEditNews');
+    component.ngOnInit();
+    component.ecoNewById$.subscribe((item: any) => {
+      expect(component.newsItem).toEqual({ id: 3 } as any);
+    });
+    expect((component as any).getIsLiked).toHaveBeenCalledTimes(1);
     expect((component as any).setNewsId).toHaveBeenCalledTimes(1);
     expect((component as any).canUserEditNews).toHaveBeenCalledTimes(1);
-    expect((component as any).setNewsIdSubscription).toHaveBeenCalledTimes(1);
-  });
-
-  it('setNewsItem should compare edited item with EcoNewsModel interface', () => {
-    const nestedNewsItem = {
-      authorId: 777,
-      authorName: 'John Snow'
-    };
-    component.setNewsItem(mockEcoNewsModel);
-    expect(component.newsItem).toEqual({ ...mockEcoNewsModel, ...nestedNewsItem });
   });
 
   it('checkNewsImage should return existing image src', () => {
@@ -133,19 +134,4 @@ describe('EcoNewsDetailComponent', () => {
       expect(component.userId).toEqual(3);
     });
   });
-
-  // it('fetchNewsItem should return item by id', async () => {
-  //   const id = '1';
-
-  //   spyOn(component, 'setNewsItem');
-  //   (component as any).newsItemSubscription = ecoNewsService.getEcoNewsById(id).subscribe((item: EcoNewsModel) => {
-  //     component.setNewsItem(item);
-  //     expect(component.setNewsItem).toHaveBeenCalledWith(item);
-  //   });
-
-  //   const request = httpMock.expectOne(`${environment.backendLink}econews/${id}?lang=en`);
-  //   request.flush(mockEcoNewsModel);
-
-  //   expect((component as any).newsItemSubscription).not.toEqual(undefined);
-  // });
 });

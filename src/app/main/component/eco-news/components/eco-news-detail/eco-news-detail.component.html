@@ -2,7 +2,7 @@
   <div class="container" *ngIf="newsItem">
     <div class="top-elements">
       <div class="back-button">
-        <a [routerLink]="['/news']" class="button-link">
+        <a [routerLink]="[backRoute]" class="button-link">
           <div class="button-content">
             <div class="button-arrow">
               <img [src]="images.arrowLeft" aria-hidden="true" alt="arrow" class="button-arrow-img" />
@@ -57,7 +57,7 @@
         </div>
         <div class="news-text">
           <div class="news-text-content word-wrap ql-snow">
-            <div class="ql-editor" [innerHTML]="newsItem.text | safeHtml"></div>
+            <div class="ql-editor" [innerHTML]="newsItem.content | safeHtml"></div>
           </div>
           <div class="source-field" *ngIf="newsItem?.source">
             <div class="source-title">

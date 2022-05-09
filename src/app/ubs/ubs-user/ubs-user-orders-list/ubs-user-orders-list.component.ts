@@ -2,7 +2,7 @@ import { Component, Input, OnDestroy, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { UbsUserOrderPaymentPopUpComponent } from './ubs-user-order-payment-pop-up/ubs-user-order-payment-pop-up.component';
 import { UbsUserOrderCancelPopUpComponent } from './ubs-user-order-cancel-pop-up/ubs-user-order-cancel-pop-up.component';
-import { IUserOrderInfo, CheckPaymentStatus } from './models/UserOrder.interface';
+import { IUserOrderInfo, CheckPaymentStatus, CheckOrderStatus } from './models/UserOrder.interface';
 import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
@@ -34,7 +34,7 @@ export class UbsUserOrdersListComponent implements OnInit, OnDestroy {
     this.destroy$.complete();
   }
 
-  public isOrderPaid(order: IUserOrderInfo): boolean {
+  public isOrderUnpaid(order: IUserOrderInfo): boolean {
     return order.paymentStatusEng === CheckPaymentStatus.UNPAID;
   }
 
@@ -42,12 +42,16 @@ export class UbsUserOrdersListComponent implements OnInit, OnDestroy {
     return order.paymentStatusEng === CheckPaymentStatus.HALFPAID;
   }
 
+  public isOrderCanceled(order: IUserOrderInfo): boolean {
+    return order.orderStatusEng === CheckOrderStatus.CANCELED;
+  }
+
   public isOrderPriceGreaterThenZero(order: IUserOrderInfo): boolean {
     return order.orderFullPrice > 0;
   }
 
   public isOrderPaymentAccess(order: IUserOrderInfo): boolean {
-    return this.isOrderPriceGreaterThenZero(order) && (this.isOrderPaid(order) || this.isOrderHalfPaid(order));
+    return this.isOrderPriceGreaterThenZero(order) && (this.isOrderUnpaid(order) || this.isOrderHalfPaid(order));
   }
 
   public changeCard(id: number): void {

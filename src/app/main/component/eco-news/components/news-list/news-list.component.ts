@@ -1,13 +1,16 @@
 import { Breakpoints } from '../../../../config/breakpoints.constants';
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { ReplaySubject } from 'rxjs';
-import { catchError, take, takeUntil } from 'rxjs/operators';
+import { take, takeUntil } from 'rxjs/operators';
 import { EcoNewsService } from '@eco-news-service/eco-news.service';
 import { EcoNewsModel, NewsTagInterface } from '@eco-news-models/eco-news-model';
 import { UserOwnAuthService } from '@auth-service/user-own-auth.service';
-import { EcoNewsDto } from '@eco-news-models/eco-news-dto';
 import { MatSnackBarComponent } from '@global-errors/mat-snack-bar/mat-snack-bar.component';
 import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
+import { Store } from '@ngrx/store';
+import { IAppState } from 'src/app/store/state/app.state';
+import { IEcoNewsState } from 'src/app/store/state/ecoNews.state';
+import { GetEcoNewsByTagsAction, GetEcoNewsByPageAction } from 'src/app/store/actions/ecoNews.actions';
 
 @Component({
   selector: 'app-news-list',
@@ -17,7 +20,7 @@ import { LocalStorageService } from '@global-service/localstorage/local-storage.
 export class NewsListComponent implements OnInit, OnDestroy {
   public view: boolean;
   public gallery: boolean;
-  public tagsList: Array<string>;
+  public tagsList: Array<string> = [];
   public elements: EcoNewsModel[];
   public remaining = 0;
   public windowSize: number;
@@ -29,28 +32,47 @@ export class NewsListComponent implements OnInit, OnDestroy {
   public tagList: string[];
   private destroyed$: ReplaySubject<any> = new ReplaySubject<any>(1);
 
+  public filterPermission = false;
+  public hasNext = true;
+
+  econews$ = this.store.select((state: IAppState): IEcoNewsState => state.ecoNewsState);
+
   constructor(
     private ecoNewsService: EcoNewsService,
     private userOwnAuthService: UserOwnAuthService,
     private snackBar: MatSnackBarComponent,
-    private localStorageService: LocalStorageService
+    private localStorageService: LocalStorageService,
+    private store: Store
   ) {}
 
   ngOnInit() {
     this.onResize();
     this.setDefaultNumberOfNews(12);
-    this.setNullList();
     this.checkUserSingIn();
     this.userOwnAuthService.getDataFromLocalStorage();
     this.scroll = false;
     this.setLocalizedTags();
+
+    this.dispatchStore(false);
+
+    this.econews$.subscribe((value: IEcoNewsState) => {
+      this.currentPage = value.pageNumber;
+      if (value.ecoNews) {
+        this.elements = [...value.pages];
+        const data = value.ecoNews;
+        this.hasNext = data.hasNext;
+        this.remaining = data.totalElements;
+        this.elementsArePresent = this.elements.length < data.totalElements;
+      }
+    });
+    this.localStorageService.setCurentPage('previousPage', '/news');
   }
 
-  private setLocalizedTags() {
+  private setLocalizedTags(): void {
     this.localStorageService.languageBehaviourSubject.pipe(takeUntil(this.destroyed$)).subscribe(() => this.getAllTags());
   }
 
-  private getAllTags() {
+  private getAllTags(): void {
     this.ecoNewsService
       .getAllPresentTags()
       .pipe(take(1))
@@ -64,7 +86,7 @@ export class NewsListComponent implements OnInit, OnDestroy {
     this.view = this.windowSize > Breakpoints.tabletLow ? true : isGalleryView;
   }
 
-  private getSessionStorageView() {
+  private getSessionStorageView(): void {
     const view = sessionStorage.getItem('viewGallery');
     if (view) {
       this.gallery = JSON.parse(view);
@@ -73,7 +95,8 @@ export class NewsListComponent implements OnInit, OnDestroy {
 
   public onScroll(): void {
     this.scroll = true;
-    this.addElemsToCurrentList();
+    this.dispatchStore(false);
+    this.filterPermission = true;
   }
 
   public changeView(event: boolean): void {
@@ -81,65 +104,35 @@ export class NewsListComponent implements OnInit, OnDestroy {
   }
 
   public getFilterData(value: Array<string>): void {
-    if (this.tagsList !== value) {
-      this.setNullList();
-      this.tagsList = value;
+    if (this.filterPermission) {
+      if (this.tagsList !== value) {
+        this.tagsList = value;
+      }
+      this.hasNext = true;
+      this.currentPage = 0;
+      this.dispatchStore(true);
     }
-    this.addElemsToCurrentList();
+  }
+
+  public dispatchStore(res: boolean): void {
+    if (this.hasNext && this.currentPage !== undefined) {
+      this.tagsList.length
+        ? this.store.dispatch(
+            GetEcoNewsByTagsAction({ currentPage: this.currentPage, numberOfNews: this.numberOfNews, tagsList: this.tagsList, reset: res })
+          )
+        : this.store.dispatch(GetEcoNewsByPageAction({ currentPage: this.currentPage, numberOfNews: this.numberOfNews, reset: res }));
+    }
   }
 
   private checkUserSingIn(): void {
     this.userOwnAuthService.credentialDataSubject.subscribe((data) => (this.isLoggedIn = data && data.userId));
   }
 
-  private addElemsToCurrentList(): void {
-    if (this.tagsList) {
-      this.ecoNewsService
-        .getNewsListByTags(this.currentPage, this.numberOfNews, this.tagsList)
-        .pipe(
-          takeUntil(this.destroyed$),
-          catchError((error) => {
-            this.snackBar.openSnackBar('error');
-            return error;
-          })
-        )
-        .subscribe((list: EcoNewsDto) => this.setList(list));
-    } else {
-      this.ecoNewsService
-        .getEcoNewsListByPage(this.currentPage, this.numberOfNews)
-        .pipe(
-          takeUntil(this.destroyed$),
-          catchError((err) => {
-            this.snackBar.openSnackBar('error');
-            return err;
-          })
-        )
-        .subscribe((list: EcoNewsDto) => this.setList(list));
-    }
-    this.changeCurrentPage();
-  }
-
-  private setList(data: EcoNewsDto): void {
-    this.remaining = data.totalElements;
-    this.elements = this.scroll ? [...this.elements, ...data.page] : [...data.page];
-    this.elementsArePresent = this.elements.length < data.totalElements;
-  }
-
-  private setNullList(): void {
-    this.currentPage = 0;
-    this.elements = [];
-    this.elementsArePresent = true;
-  }
-
   private setDefaultNumberOfNews(quantity: number): void {
     this.numberOfNews = quantity;
   }
 
-  private changeCurrentPage(): void {
-    this.currentPage += 1;
-  }
-
-  ngOnDestroy() {
+  ngOnDestroy(): void {
     this.destroyed$.next(true);
     this.destroyed$.complete();
   }

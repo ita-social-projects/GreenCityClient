@@ -69,9 +69,9 @@ export interface FinalOrder {
 }
 
 export interface ICertificate {
-  certificatePoints: number;
+  points: number;
   certificateStatus: string;
-  certificateDate?: string;
+  creationDate?: string;
 }
 
 export interface PersonalData {

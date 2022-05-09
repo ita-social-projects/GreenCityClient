@@ -115,13 +115,13 @@ export class UbsOrderCertificateComponent implements OnInit, OnDestroy {
 
   certificateMatch(cert): void {
     if (cert.certificateStatus === CertificateStatus.ACTIVE || cert.certificateStatus === CertificateStatus.NEW) {
-      this.certificateSum += cert.certificatePoints;
+      this.certificateSum += cert.points;
       this.displayCert = true;
       this.shareFormService.changeAddCertButtonVisibility(true);
     }
     this.failedCert = cert.certificateStatus === CertificateStatus.EXPIRED || cert.certificateStatus === CertificateStatus.USED;
     this.certificateSum = this.failedCert && this.formArrayCertificates.length === 1 ? 0 : this.certificateSum;
-    this.certDate = this.certificateDateTreat(cert.certificateDate);
+    this.certDate = this.certificateDateTreat(cert.creationDate);
     this.certStatus = cert.certificateStatus;
     this.fullCertificate = this.certificateSum;
   }

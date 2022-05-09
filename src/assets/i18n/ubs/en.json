@@ -301,26 +301,28 @@
     "auth": {
       "sign-in": {
         "title": "Welcome back!",
-        "fill-form": "Please enter your details to sign in",
+        "fill-form": "Please enter your details to sign in.",
         "email": "Email",
         "email-is-required": "Email is required",
         "field-is-required": "This field is required",
         "email-must-be-at-least-1-characters-long": "Email must be at least 1 characters long",
         "this-is-not-email": "Please check that your e-mail address is indicated correctly",
         "password": "Password",
-        "password-is-required": "Password is required",
-        "password-must-be-at-least-8-characters-long": "Password must be at least 8 characters long",
+        "password-is-required": "Please enter your password",
+        "password-must-be-at-least-8-characters-long": "Password must be at least 8 characters long without spaces",
         "sign-in": "Sign in",
         "sign-up": "Sign up",
         "sign-in-with-google": "Sign in with Google",
         "bad-email-or-password": "Bad email or password",
+        "fill-all-red-fields": "Please fill all red fields",
         "forgot-password": "Forgot password?",
+        "account-has-been-deleted": "Your account has been deleted, please contact us to restore it",
         "havenot-account": "Don't have an account yet?",
         "or-signin": "or"
       },
       "sign-up": {
         "title-up": "Hello!",
-        "fill-form-up": "Please enter your details to sign up",
+        "fill-form-up": "Please enter your details to sign up.",
         "first-name": "User name",
         "first-name-is-required": "User name is required",
         "user-name-error": "User name is required",
@@ -358,7 +360,7 @@
         "send-btn": "Submit a login link",
         "or-signin": "or sign in with",
         "remember-your-password": "Remember your password?",
-        "back-to-the-sign-in": "Back to Sign-in"
+        "back-to-the-sign-in": "Back to Sign in"
       },
       "restore-password": {
         "title": "Do you want to change your password?",

@@ -29,6 +29,6 @@ export class NewsListGalleryViewComponent implements AfterViewInit {
   }
 
   ngAfterViewInit() {
-    this.text.nativeElement.innerHTML = this.ecoNewsModel.text;
+    this.text.nativeElement.innerHTML = this.ecoNewsModel.content;
   }
 }

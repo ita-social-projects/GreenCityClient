@@ -41,7 +41,8 @@
         "initiatives": "Ініціативи",
         "ads": "Оголошення",
         "education": "Навчання",
-        "lifehacks": "Лайфхаки"
+        "lifehacks": "Лайфхаки",
+        "courses": "Курси"
       },
       "items-found": {
         "item-at-1": "новину знайдено",
@@ -318,26 +319,28 @@
     "auth": {
       "sign-in": {
         "title": "З поверненням!",
-        "fill-form": "Будь ласка, внеси свої дані для входу",
+        "fill-form": "Будь ласка, внеси свої дані для входу.",
         "email": "Електронна пошта",
         "email-is-required": "Введіть адресу електронної пошти",
         "field-is-required": "Це поле є обов'язковим",
         "email-must-be-at-least-1-characters-long": "Пошта повинна містити принаймі 1 символ",
         "this-is-not-email": "Перевірте, чи правильно вказано вашу адресу електронної пошти",
         "password": "Пароль",
-        "password-is-required": "Введіть пароль",
-        "password-must-be-at-least-8-characters-long": "Пароль повинен містити принаймі 8 символів",
-        "bad-email-or-password": "Неправильна пошта або пароль",
+        "password-is-required": "Будь ласка введіть пароль",
+        "password-must-be-at-least-8-characters-long": "Пароль повинен містити принаймі 8 символів без пробілів",
+        "bad-email-or-password": "Введено невірний email або пароль",
+        "fill-all-red-fields": "Будь ласка заповніть всі обов'язкові поля",
         "sign-in": "Увійти",
         "sign-up": "Зареєструватись",
         "sign-in-with-google": "Увійти через Google",
         "forgot-password": "Забули пароль?",
+        "account-has-been-deleted": "Ваш аккаунт було видалено, будь ласка зв'яжіться з нами щоб відновити його",
         "havenot-account": "Досі немає аккаунту?",
         "or-signin": "або"
       },
       "sign-up": {
         "title-up": "Вітаємо!",
-        "fill-form-up": "Буль ласка, внеси свої дані для реєстрації",
+        "fill-form-up": "Будь ласка, внеси свої дані для реєстрації.",
         "first-name": "Ім'я користувача",
         "first-name-is-required": "Введіть ім'я",
         "user-name-error": "Iм'я користувача обов'язкове",
@@ -912,7 +915,7 @@
     "news-source": "Джерело:"
   },
   "eco-news-single-view": {
-    "back-button": "Повернутися до новин",
+    "back-button": "Повернутися",
     "edit-news-button": "Редагувати новину",
     "author": "автор",
     "tags": {

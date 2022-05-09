@@ -1,7 +1,7 @@
 export interface ICertificate {
   certificateCode?: string;
   certificateSum: number;
-  certificateDate?: string;
+  creationDate?: string;
   certificates: ICertificatePayment[];
   certificateStatusActive: boolean;
   certificateError: boolean;

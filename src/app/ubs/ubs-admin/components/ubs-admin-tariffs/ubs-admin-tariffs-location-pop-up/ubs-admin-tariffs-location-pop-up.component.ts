@@ -4,38 +4,48 @@ import {
   Component,
   ElementRef,
   Inject,
+  OnDestroy,
   OnInit,
-  QueryList,
   TemplateRef,
-  ViewChildren
+  ViewChild
 } from '@angular/core';
-import { FormArray, FormBuilder, FormGroup } from '@angular/forms';
-import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { FormBuilder, Validators } from '@angular/forms';
+import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
-import { takeUntil } from 'rxjs/operators';
+import { skip, takeUntil } from 'rxjs/operators';
 import { Subject } from 'rxjs';
 import { DatePipe } from '@angular/common';
 import { TariffsService } from 'src/app/ubs/ubs-admin/services/tariffs.service';
-import { CreateLocation } from '../../../models/tariffs.interface';
+import { CreateLocation, Locations } from '../../../models/tariffs.interface';
 import { Store } from '@ngrx/store';
 import { IAppState } from 'src/app/store/state/app.state';
-import { AddLocations } from 'src/app/store/actions/tariff.actions';
+import { AddLocations, GetLocations } from 'src/app/store/actions/tariff.actions';
+import { ModalTextComponent } from '../../shared/components/modal-text/modal-text.component';
+import { ubsNamePattern } from '../../shared/validators-pattern/ubs-name-patterns';
+
+interface LocationItem {
+  location: string;
+  englishLocation: string;
+  latitute: number;
+  longitude: number;
+}
 
 @Component({
   selector: 'app-ubs-admin-tariffs-location-pop-up',
   templateUrl: './ubs-admin-tariffs-location-pop-up.component.html',
   styleUrls: ['./ubs-admin-tariffs-location-pop-up.component.scss']
 })
-export class UbsAdminTariffsLocationPopUpComponent implements OnInit, AfterViewChecked {
-  @ViewChildren('locationInput') inputs: QueryList<ElementRef>;
+export class UbsAdminTariffsLocationPopUpComponent implements OnInit, AfterViewChecked, OnDestroy {
+  @ViewChild('locationInput') input: ElementRef;
+
   locationForm = this.fb.group({
-    courier: [''],
-    englishCourier: [''],
-    station: [''],
-    englishStation: [''],
-    region: [''],
-    englishRegion: [''],
-    items: this.fb.array([this.createItem()])
+    region: ['', [Validators.required, Validators.minLength(3), Validators.maxLength(40), Validators.pattern(ubsNamePattern.namePattern)]],
+    englishRegion: [
+      '',
+      [Validators.required, Validators.minLength(3), Validators.maxLength(40), Validators.pattern(ubsNamePattern.englishPattern)]
+    ],
+    location: ['', [Validators.minLength(3), Validators.maxLength(40), Validators.pattern(ubsNamePattern.namePattern)]],
+    englishLocation: ['', [Validators.minLength(3), Validators.maxLength(40), Validators.pattern(ubsNamePattern.englishPattern)]]
   });
 
   regionOptions = {
@@ -51,25 +61,36 @@ export class UbsAdminTariffsLocationPopUpComponent implements OnInit, AfterViewC
     regionTranslationDtos: []
   };
 
+  selectedCities: LocationItem[] = [];
+  locations = [];
+  currentLatitude: number;
+  currentLongitude: number;
+  reset = true;
   localityOptions;
   regionBounds;
-  autocomplete = [];
-  tempAutocomplete;
-  items: FormArray;
-  translatedText: string;
-  isDisabled = false;
+  autocomplete;
+  autocompleteLsr;
   name: string;
   unsubscribe: Subject<any> = new Subject();
   datePipe = new DatePipe('ua');
   newDate = this.datePipe.transform(new Date(), 'MMM dd, yyyy');
-  quantityOfLocations = 0;
   regionSelected = false;
+  regionExist = false;
+  citySelected = false;
+  cityExist = false;
+  cities = [];
+  locations$ = this.store.select((state: IAppState): Locations[] => state.locations.locations);
+
+  public icons = {
+    cross: '././assets/img/ubs/cross.svg'
+  };
 
   constructor(
     private tariffsService: TariffsService,
     private fb: FormBuilder,
     private localeStorageService: LocalStorageService,
     private cdr: ChangeDetectorRef,
+    public dialog: MatDialog,
     public dialogRef: MatDialogRef<UbsAdminTariffsLocationPopUpComponent>,
     private store: Store<IAppState>,
     @Inject(MAT_DIALOG_DATA)
@@ -79,10 +100,44 @@ export class UbsAdminTariffsLocationPopUpComponent implements OnInit, AfterViewC
     }
   ) {}
 
+  get region() {
+    return this.locationForm.get('region');
+  }
+
+  get englishRegion() {
+    return this.locationForm.get('englishRegion');
+  }
+
+  get location() {
+    return this.locationForm.get('location');
+  }
+
+  get englishLocation() {
+    return this.locationForm.get('englishLocation');
+  }
+
   ngOnInit(): void {
+    this.getLocations();
     this.localeStorageService.firstNameBehaviourSubject.pipe(takeUntil(this.unsubscribe)).subscribe((firstName) => {
       this.name = firstName;
     });
+    this.region.valueChanges.subscribe((item) => {
+      this.regionExist = !this.regionSelected && item.length > 3;
+      const currentRegion = this.locations.filter((element) => element.regionTranslationDtos.find((it) => it.regionName === item));
+      this.selectCities(currentRegion);
+    });
+    this.location.valueChanges.subscribe((item) => {
+      this.cityExist = !this.citySelected && item.length > 3;
+    });
+  }
+
+  selectCities(currentRegion): void {
+    this.cities = currentRegion.map((element) =>
+      element.locationsDto.map((item) =>
+        item.locationTranslationDtoList.filter((it) => it.languageCode === 'ua').map((it) => it.locationName)
+      )
+    );
+    this.cities = this.cities.reduce((acc, val) => acc.concat(val), []).reduce((acc, val) => acc.concat(val), []);
   }
 
   translate(sourceText: string, input: any): void {
@@ -92,105 +147,85 @@ export class UbsAdminTariffsLocationPopUpComponent implements OnInit, AfterViewC
   }
 
   addCity(): void {
-    this.items = this.locationForm.get('items') as FormArray;
-    if (this.regionSelected && this.checkIfAllCitysAreSelected()) {
-      this.items.push(this.createItem());
-      this.quantityOfLocations++;
-      this.cdr.detectChanges();
-      const tempInput = this.inputs.toArray()[this.quantityOfLocations - 1].nativeElement;
-      this.tempAutocomplete = new google.maps.places.Autocomplete(tempInput, this.localityOptions);
-      this.tempAutocomplete.setBounds(this.regionBounds);
-      this.tempAutocomplete.setOptions(this.localityOptions);
-      this.autocomplete.push(this.tempAutocomplete);
-      this.addEventToAutocomplete(this.quantityOfLocations - 1);
+    if (this.location.value && this.englishLocation.value && !this.cities.includes(this.location.value) && this.citySelected) {
+      const tempItem: LocationItem = {
+        location: this.location.value,
+        englishLocation: this.englishLocation.value,
+        latitute: this.currentLatitude,
+        longitude: this.currentLongitude
+      };
+      this.selectedCities.push(tempItem);
+      this.location.setValue('');
+      this.englishLocation.setValue('');
+      this.citySelected = false;
     }
   }
 
-  checkIfAllCitysAreSelected(): boolean {
-    for (const item of this.autocomplete) {
-      if (!item.getPlace()) {
-        return false;
-      }
-    }
-    return true;
-  }
-
-  createItem(): FormGroup {
-    return this.fb.group({
-      location: '',
-      englishLocation: '',
-      latitude: 0,
-      longitude: 0
-    });
-  }
-
-  deleteLocation(i: number) {
-    const fa = this.locationForm.get('items') as FormArray;
-    if (fa.length !== 1) {
-      fa.removeAt(i);
-      this.autocomplete.splice(i, 1);
-      this.quantityOfLocations--;
-    }
+  deleteCity(index): void {
+    this.selectedCities.splice(index, 1);
   }
 
   onRegionSelected(event: any): void {
     this.regionSelected = true;
     this.setValueOfRegion(event);
-    this.quantityOfLocations = 1;
-    const tempInput = this.inputs.toArray()[this.quantityOfLocations - 1].nativeElement;
-    this.autocomplete[0] = new google.maps.places.Autocomplete(tempInput, this.localityOptions);
 
+    if (!this.autocomplete) {
+      this.autocomplete = new google.maps.places.Autocomplete(this.input.nativeElement, this.localityOptions);
+    }
     const l = event.geometry.viewport.getSouthWest();
     const x = event.geometry.viewport.getNorthEast();
-
     this.regionBounds = new google.maps.LatLngBounds(l, x);
 
-    this.autocomplete[0].setBounds(event.geometry.viewport);
+    this.autocomplete.setBounds(event.geometry.viewport);
     this.localityOptions = {
       bounds: this.regionBounds,
       strictBounds: true,
       types: ['(cities)'],
       componentRestrictions: { country: 'ua' }
     };
-    this.autocomplete[0].setOptions(this.localityOptions);
-    this.addEventToAutocomplete(0);
+    this.autocomplete.setOptions(this.localityOptions);
+    this.addEventToAutocomplete();
   }
 
   setValueOfRegion(event: any): void {
-    this.locationForm.get('region').setValue(event.name);
-    this.translate(event.name, this.locationForm.get('englishRegion'));
+    this.region.setValue(event.name);
+    this.translate(event.name, this.englishRegion);
   }
 
-  addEventToAutocomplete(i: number): void {
-    this.autocomplete[i].addListener('place_changed', () => {
-      const locationName = this.autocomplete[i].getPlace().name;
-      const latitude = this.autocomplete[i].getPlace().geometry.location.lat();
-      const longitude = this.autocomplete[i].getPlace().geometry.location.lng();
-      const key = 'controls';
+  addEventToAutocomplete(): void {
+    this.autocompleteLsr = this.autocomplete.addListener('place_changed', () => {
+      this.citySelected = true;
+      const locationName = this.autocomplete.getPlace().name;
+      this.currentLatitude = this.autocomplete.getPlace().geometry.location.lat();
+      this.currentLongitude = this.autocomplete.getPlace().geometry.location.lng();
+      this.location.setValue(locationName);
+      this.translate(locationName, this.englishLocation);
+    });
+  }
 
-      this.locationForm.get('items')[key][i][key].location.setValue(locationName);
-      this.translate(locationName, this.locationForm.get('items')[key][i][key].englishLocation);
-      this.locationForm.get('items')[key][i][key].latitude.setValue(latitude);
-      this.locationForm.get('items')[key][i][key].longitude.setValue(longitude);
+  getLocations(): void {
+    this.store.dispatch(GetLocations({ reset: this.reset }));
+    this.locations$.pipe(skip(1)).subscribe((item) => {
+      if (item) {
+        const key = 'content';
+        this.locations = item[key];
+        this.reset = false;
+      }
     });
   }
 
   addLocation(): void {
-    this.isDisabled = true;
     const enRegion = { languageCode: 'en', regionName: this.locationForm.value.englishRegion };
     const region = { languageCode: 'ua', regionName: this.locationForm.value.region };
 
-    for (let i = 0; i < this.quantityOfLocations; i++) {
-      const enLocation = { languageCode: 'en', locationName: this.locationForm.value.items[i].englishLocation };
-      const Location = { languageCode: 'ua', locationName: this.locationForm.value.items[i].location };
-
-      const lat = this.locationForm.value.items[i].latitude;
-      const lng = this.locationForm.value.items[i].longitude;
+    for (const item of this.selectedCities) {
+      const enLocation = { languageCode: 'en', locationName: item.englishLocation };
+      const Location = { languageCode: 'ua', locationName: item.location };
 
       const cart: CreateLocation = {
-        latitude: lat,
+        latitude: item.latitute,
         addLocationDtoList: [enLocation, Location],
-        longitude: lng,
+        longitude: item.longitude,
         regionTranslationDtos: [enRegion, region]
       };
 
@@ -201,10 +236,28 @@ export class UbsAdminTariffsLocationPopUpComponent implements OnInit, AfterViewC
   }
 
   onNoClick(): void {
-    this.dialogRef.close();
+    const matDialogRef = this.dialog.open(ModalTextComponent, {
+      hasBackdrop: true,
+      panelClass: 'address-matDialog-styles-w-100',
+      data: {
+        name: 'cancel',
+        text: 'modal-text.cancel-message',
+        action: 'modal-text.yes'
+      }
+    });
+    matDialogRef.afterClosed().subscribe((res) => {
+      if (res) {
+        this.dialogRef.close();
+      }
+    });
   }
 
   ngAfterViewChecked(): void {
     this.cdr.detectChanges();
+  }
+
+  ngOnDestroy(): void {
+    google.maps.event.removeListener(this.autocompleteLsr);
+    google.maps.event.clearInstanceListeners(this.autocomplete);
   }
 }

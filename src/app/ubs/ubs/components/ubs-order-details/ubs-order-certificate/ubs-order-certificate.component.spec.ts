@@ -94,7 +94,7 @@ describe('UbsOrderCertificateComponent', () => {
 
   it('method calculateCertificates with arr.length>0 should asyncly invoke certificateMatch method', async(() => {
     const response: ICertificate = {
-      certificatePoints: 0,
+      points: 0,
       certificateStatus: 'string'
     };
     const certificate = of(response);

@@ -2,7 +2,7 @@ import { UserSuccessSignIn } from './../../../../model/user-success-sign-in';
 import { SignInIcons } from './../../../../image-pathes/sign-in-icons';
 import { UserOwnSignIn } from './../../../../model/user-own-sign-in';
 import { FormGroup, FormControl, Validators, AbstractControl } from '@angular/forms';
-import { Component, EventEmitter, OnInit, OnDestroy, Output } from '@angular/core';
+import { Component, EventEmitter, OnInit, OnDestroy, Output, OnChanges } from '@angular/core';
 import { Router } from '@angular/router';
 import { HttpErrorResponse } from '@angular/common/http';
 import { MatDialog, MatDialogRef } from '@angular/material/dialog';
@@ -20,17 +20,15 @@ import { ProfileService } from '../../../user/components/profile/profile-service
   templateUrl: './sign-in.component.html',
   styleUrls: ['./sign-in.component.scss']
 })
-export class SignInComponent implements OnInit, OnDestroy {
+export class SignInComponent implements OnInit, OnDestroy, OnChanges {
   public closeBtn = SignInIcons;
   public mainSignInImage = SignInIcons;
   public googleImage = SignInIcons;
   public hideShowPasswordImage = SignInIcons;
   public userOwnSignIn: UserOwnSignIn;
   public loadingAnim: boolean;
-  public emailErrorMessageBackEnd: string;
-  public passwordErrorMessageBackEnd: string;
-  public backEndError: string;
   public signInForm: FormGroup;
+  public signInFormValid: boolean;
   public emailField: AbstractControl;
   public passwordField: AbstractControl;
   public emailFieldValue: string;
@@ -38,6 +36,12 @@ export class SignInComponent implements OnInit, OnDestroy {
   public isUbs: boolean;
   public ubsStyle: string;
   private destroy: Subject<boolean> = new Subject<boolean>();
+
+  // generalError can contain:
+  // 'user.auth.sign-in.fill-all-red-fields', or
+  // 'user.auth.sign-in.account-has-been-deleted', or
+  // 'user.auth.sign-in.bad-email-or-password' error
+  public generalError: string;
   @Output() private pageName = new EventEmitter();
 
   constructor(
@@ -62,35 +66,46 @@ export class SignInComponent implements OnInit, OnDestroy {
     this.userOwnSignIn = new UserOwnSignIn();
     this.configDefaultErrorMessage();
     this.checkIfUserId();
+
     // Initialization of reactive form
     this.signInForm = new FormGroup({
       email: new FormControl(null, [Validators.required, Validators.email]),
       password: new FormControl(null, [Validators.required, Validators.minLength(8)])
     });
+
     // Get form fields to use it in the template
     this.emailField = this.signInForm.get('email');
     this.passwordField = this.signInForm.get('password');
     this.checkIfItUbs();
   }
 
+  ngOnChanges(): void {
+    this.emailClassCheck();
+    this.passwordClassCheck();
+  }
+
   public configDefaultErrorMessage(): void {
-    this.emailErrorMessageBackEnd = null;
-    this.passwordErrorMessageBackEnd = null;
-    this.backEndError = null;
+    this.generalError = null;
     if (this.signInForm) {
       this.emailFieldValue = this.emailField.value;
       this.passwordFieldValue = this.passwordField.value;
     }
   }
 
+  public allFieldsEmptyCheck() {
+    const emailAndPasswordEmpty =
+      this.passwordField.touched && !this.passwordField.value && this.emailField.touched && !this.emailField.value;
+    this.generalError = emailAndPasswordEmpty ? 'user.auth.sign-in.fill-all-red-fields' : null;
+  }
+
   public signIn(): void {
+    if (this.signInForm.invalid) {
+      return;
+    }
     this.loadingAnim = true;
-
     const { email, password } = this.signInForm.value;
-
     this.userOwnSignIn.email = email;
     this.userOwnSignIn.password = password;
-
     this.userOwnSignInService
       .signIn(this.userOwnSignIn)
       .pipe(takeUntil(this.destroy))
@@ -169,17 +184,25 @@ export class SignInComponent implements OnInit, OnDestroy {
     if (typeof errors === 'string') {
       return;
     } else if (!Array.isArray(errors.error)) {
-      this.backEndError = errors.error.message;
+      this.generalError =
+        errors.error.error === 'Unauthorized' ? 'user.auth.sign-in.account-has-been-deleted' : 'user.auth.sign-in.bad-email-or-password';
       return;
     }
-
-    errors.error.forEach((error) => {
-      this.emailErrorMessageBackEnd = error.name === 'email' ? error.message : this.emailErrorMessageBackEnd;
-      this.passwordErrorMessageBackEnd = error.name === 'password' ? error.message : this.passwordErrorMessageBackEnd;
-    });
   }
 
   checkIfItUbs() {
     this.ubsStyle = this.isUbs ? 'ubsStyle' : 'greenStyle';
+  }
+
+  public emailClassCheck(): string {
+    return (this.emailField.invalid && this.emailField.touched) || this.generalError
+      ? 'alert-email-validation'
+      : 'successful-email-validation';
+  }
+
+  public passwordClassCheck(): string {
+    return (this.passwordField.invalid && this.passwordField.touched) || this.generalError
+      ? 'alert-password-validation'
+      : 'successful-password-validation';
   }
 }
