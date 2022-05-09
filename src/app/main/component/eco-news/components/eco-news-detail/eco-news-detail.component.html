@@ -57,7 +57,7 @@
         </div>
         <div class="news-text">
           <div class="news-text-content word-wrap ql-snow">
-            <div class="ql-editor" [innerHTML]="newsItem.text | safeHtml"></div>
+            <div class="ql-editor" [innerHTML]="newsItem.content | safeHtml"></div>
           </div>
           <div class="source-field" *ngIf="newsItem?.source">
             <div class="source-title">

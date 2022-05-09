@@ -1,5 +1,11 @@
 import { createReducer, on } from '@ngrx/store';
-import { GetEcoNewsByPageSuccessAction, GetEcoNewsByTagsSuccessAction, GetEcoNewsByAuthorSuccessAction } from '../actions/ecoNews.actions';
+import {
+  GetEcoNewsByPageSuccessAction,
+  GetEcoNewsByTagsSuccessAction,
+  GetEcoNewsByAuthorSuccessAction,
+  CreateEcoNewsSuccessAction,
+  EditEcoNewsSuccessAction
+} from '../actions/ecoNews.actions';
 import { initialNewsState } from '../state/ecoNews.state';
 
 export const EcoNewsReducer = createReducer(
@@ -30,6 +36,32 @@ export const EcoNewsReducer = createReducer(
       autorNews: [...prevAuthorNews, ...action.ecoNews.page],
       ecoNewsByAuthor: { ...action.ecoNews },
       authorNewsPage: prevNumber + 1
+    };
+  }),
+
+  on(EditEcoNewsSuccessAction, (state, action) => {
+    return {
+      ...state,
+      pages: state.pages.map((val) => {
+        if (val && val.id === +action.editedNews.id) {
+          return action.editedNews;
+        }
+        return val;
+      }),
+      autorNews: state.autorNews.map((value) => {
+        if (value && value.id === +action.editedNews.id) {
+          return action.editedNews;
+        }
+        return value;
+      })
+    };
+  }),
+
+  on(CreateEcoNewsSuccessAction, (state, action) => {
+    return {
+      ...state,
+      pages: [action.newEcoNews, ...state.pages],
+      autorNews: [action.newEcoNews, ...state.autorNews]
     };
   })
 );

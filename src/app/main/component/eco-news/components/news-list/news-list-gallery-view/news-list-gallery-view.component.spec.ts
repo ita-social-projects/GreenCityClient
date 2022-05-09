@@ -14,16 +14,18 @@ describe('NewsListGalleryViewComponent', () => {
     id: 1,
     imagePath: defaultImagePath,
     title: 'string',
-    text: 'string',
+    content: 'string',
     author: {
       id: 1,
       name: 'string'
     },
-    tags: [{ id: 1, name: 'test' }],
+    tags: ['test'],
 
     creationDate: '11',
     likes: 0,
-    countComments: 2
+    countComments: 2,
+    shortInfo: 'info',
+    source: null
   };
 
   beforeEach(async(() => {

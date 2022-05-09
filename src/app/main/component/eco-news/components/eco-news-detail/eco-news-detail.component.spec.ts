@@ -35,18 +35,17 @@ describe('EcoNewsDetailComponent', () => {
     id: 1,
     imagePath: defaultImagePath,
     title: 'test title',
-    text: 'some description',
+    content: 'some description',
     author: {
       id: 777,
       name: 'John Snow'
     },
-    tags: [
-      { id: 1, name: 'Events' },
-      { id: 2, name: 'Education' }
-    ],
+    tags: ['Events', 'Education'],
     creationDate: '2020-06-16T18:08:00.604Z',
     likes: 0,
-    countComments: 2
+    countComments: 2,
+    shortInfo: 'info',
+    source: null
   };
 
   const storeMock = jasmine.createSpyObj('store', ['select', 'dispatch']);
