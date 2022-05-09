@@ -133,6 +133,12 @@ describe('UsbAdminTableComponent', () => {
     });
   });
 
+  it('ngOnInit should call checkAllColumnsDisplayed()', () => {
+    spyOn(component, 'checkAllColumnsDisplayed');
+    component.ngOnInit();
+    expect(component.checkAllColumnsDisplayed).toHaveBeenCalled();
+  });
+
   it('ngAfterViewChecked ', () => {
     component.isTableHeightSet = false;
     spyOn((component as any).tableHeightService, 'setTableHeightToContainerHeight').and.returnValue(true);
@@ -141,6 +147,22 @@ describe('UsbAdminTableComponent', () => {
     component.ngAfterViewChecked();
     expect((component as any).cdr.detectChanges).toHaveBeenCalledTimes(1);
     expect(component.isTableHeightSet).toBe(true);
+  });
+
+  it('isAllColumnsDisplayed sould be true ', () => {
+    component.displayedColumnsView.length = 4;
+    component.displayedColumns = ['title1', 'title2', 'title3', 'title4'];
+    component.checkAllColumnsDisplayed();
+
+    expect(component.isAllColumnsDisplayed).toBe(true);
+  });
+
+  it('isAllColumnsDisplayed sould be false ', () => {
+    component.displayedColumnsView.length = 4;
+    component.displayedColumns = ['title1', 'title2', 'title4'];
+    component.checkAllColumnsDisplayed();
+
+    expect(component.isAllColumnsDisplayed).toBe(false);
   });
 
   it('applyFilter call, expect modelChanged should been called with filter', () => {
@@ -194,19 +216,35 @@ describe('UsbAdminTableComponent', () => {
     expect(component.blockedInfo[0].userName).toEqual('name');
   });
 
-  it('changeColumns true expect  component.isAll to be true', () => {
-    component.isAll = false;
-    component.count = 1;
-    component.changeColumns(true, 'key', 2);
-    expect(component.isAll).toBe(true);
+  it('changeColumns expect component.isAllColumnsDisplayed to be true', () => {
+    component.isAllColumnsDisplayed = false;
+    component.displayedColumnsView.length = 4;
+    component.displayedColumns = ['title1', 'title2', 'title4'];
+    component.changeColumns(true, 'title3', 2);
+
+    expect(component.isAllColumnsDisplayed).toBe(true);
   });
 
-  it('changeColumns false expect  component.isAll to be true', () => {
-    component.isAll = false;
-    component.displayedColumns = ['name'];
-    component.count = 1;
-    component.changeColumns(false, '2', 2);
-    expect(component.isAll).toBe(true);
+  it('changeColumns expect component.isAllColumnsDisplayed to be false', () => {
+    component.isAllColumnsDisplayed = true;
+    component.displayedColumns.length = 4;
+    component.displayedColumns = ['title1', 'title2', 'title3', 'title4'];
+    component.changeColumns(false, 'title2', 1);
+    expect(component.isAllColumnsDisplayed).toBe(false);
+  });
+
+  it('changeColumns expect to filter columns when box is unchecked', () => {
+    component.displayedColumns = ['title1', 'title2', 'title3', 'title4'];
+    component.changeColumns(false, 'title3', 2);
+
+    expect(component.displayedColumns).toEqual(['title1', 'title2', 'title4']);
+  });
+
+  it('changeColumns expect to add column when box is checked ', () => {
+    component.displayedColumns = ['title1', 'title2', 'title4'];
+    component.changeColumns(true, 'title3', 2);
+
+    expect(component.displayedColumns).toEqual(['title1', 'title2', 'title3', 'title4']);
   });
 
   it('togglePopUp expect store.dispatch have been called', () => {
@@ -362,20 +400,20 @@ describe('UsbAdminTableComponent', () => {
   });
 
   it('setDisplayedColumns  expect displayedColumnsViewTitles should change', () => {
-    component.isAll = false;
+    component.isAllColumnsDisplayed = false;
     component.displayedColumnsView = [{ title: { key: 'key' } }];
     (component as any).setDisplayedColumns();
     expect(component.displayedColumnsViewTitles).toEqual(['key']);
     expect(component.count).toBe(1);
-    expect(component.isAll).toBe(true);
+    expect(component.isAllColumnsDisplayed).toBe(true);
   });
 
   it('setUnDisplayedColumns expect displayedColumnsViewTitles should be empty', () => {
     component.displayedColumnsViewTitles = ['not empty'];
-    component.isAll = true;
+    component.isAllColumnsDisplayed = true;
     (component as any).setUnDisplayedColumns();
     expect(component.displayedColumnsViewTitles).toEqual([]);
-    expect(component.isAll).toBe(false);
+    expect(component.isAllColumnsDisplayed).toBe(false);
   });
 
   it('editSingle expect openPopUpRequires and postData should be call', () => {
@@ -545,14 +583,6 @@ describe('UsbAdminTableComponent', () => {
     component.columns = [{ width: 300 }, { width: 60 }, { width: 320 }, { width: 300 }, { width: 60 }];
     (component as any).setColumnWidthChanges(4, 200);
     expect((component as any).setColumnWidth).toHaveBeenCalledTimes(2);
-  });
-
-  it('resetSetting', () => {
-    component.display = '';
-    component.previousSettings = ['value'];
-    component.resetSetting();
-    expect(component.displayedColumns).toEqual(['value']);
-    expect(component.display).toBe('none');
   });
 
   it('setColumnsForFiltering', () => {
