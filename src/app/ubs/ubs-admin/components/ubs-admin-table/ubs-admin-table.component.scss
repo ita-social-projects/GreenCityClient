@@ -276,6 +276,7 @@ input {
   padding: 16px 16px 0 16px;
   color: var(--ubs-primary-grey);
   font-family: var(--primary-font);
+  background-color: var(--ubs-secondary-white);
 }
 
 .dropdown-menu input[type='date'] {
@@ -425,6 +426,10 @@ ul::-webkit-scrollbar-thumb,
   display: flex;
   justify-content: space-between;
   position: relative;
+
+  .head {
+    color: #000000;
+  }
 }
 
 .reset-settings {
