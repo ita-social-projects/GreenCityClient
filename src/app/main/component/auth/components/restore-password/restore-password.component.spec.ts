@@ -118,7 +118,7 @@ describe('RestorePasswordComponent', () => {
       spyOn(component, 'onBackToSignIn');
 
       const nativeElement = fixture.nativeElement;
-      const button = nativeElement.querySelector('.sign-in-link');
+      const button = nativeElement.querySelector('a');
       button.dispatchEvent(new Event('click'));
 
       fixture.detectChanges();

@@ -1,4 +1,5 @@
 import { SafeUrl } from '@angular/platform-browser';
+import { NewsTagInterface } from './eco-news-model';
 
 export interface NewsModel {
   text: string;
@@ -30,11 +31,12 @@ export interface TranslationDTO {
 
 export interface NewsDTO {
   id?: string;
-  tags: Array<string>;
+  tags: Array<NewsTagInterface>;
   text: string;
   title: string;
   source: string;
   image?: SafeUrl;
+  content?: string;
 }
 
 export interface NewsResponseDTO {

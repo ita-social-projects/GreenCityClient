@@ -41,7 +41,7 @@ export class NewsListListViewComponent implements AfterViewChecked, AfterViewIni
   }
 
   ngAfterViewInit() {
-    this.text.nativeElement.innerHTML = this.ecoNewsModel.text;
+    this.text.nativeElement.innerHTML = this.ecoNewsModel.content;
   }
 
   // the idea is to get the height of the header and based on it visualize the Description and Header by adding specific class names

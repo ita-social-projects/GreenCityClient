@@ -7,6 +7,7 @@ import { Router } from '@angular/router';
 import { BonusesService } from '../ubs-user-bonuses/services/bonuses.service';
 import { IBonus } from '../ubs-user-bonuses/models/IBonus.interface';
 import { IUserOrderInfo, CheckOrderStatus } from '../ubs-user-orders-list/models/UserOrder.interface';
+import { TranslateService } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-ubs-user-orders',
@@ -26,7 +27,8 @@ export class UbsUserOrdersComponent implements OnInit, OnDestroy {
     private router: Router,
     private snackBar: MatSnackBarComponent,
     private bonusesService: BonusesService,
-    private userOrdersService: UserOrdersService
+    private userOrdersService: UserOrdersService,
+    private translate: TranslateService
   ) {}
 
   redirectToOrder() {
@@ -43,7 +45,8 @@ export class UbsUserOrdersComponent implements OnInit, OnDestroy {
       .pipe(
         takeUntil(this.destroy),
         catchError((err) => {
-          this.snackBar.openSnackBar('Oops, something went wrong. Please reload page or try again later.');
+          const errorMessage = this.translate.instant('snack-bar.error.default');
+          this.snackBar.openSnackBar(errorMessage);
           return throwError(err);
         })
       )
@@ -51,10 +54,10 @@ export class UbsUserOrdersComponent implements OnInit, OnDestroy {
         this.orders = item.page;
         this.loadingOrders = true;
         this.currentOrders = this.orders.filter(
-          (order) => order.orderStatus !== CheckOrderStatus.DONE && order.orderStatus !== CheckOrderStatus.CANCELED
+          (order) => order.orderStatusEng !== CheckOrderStatus.DONE && order.orderStatusEng !== CheckOrderStatus.CANCELED
         );
         this.orderHistory = this.orders.filter(
-          (order) => order.orderStatus === CheckOrderStatus.DONE || order.orderStatus === CheckOrderStatus.CANCELED
+          (order) => order.orderStatusEng === CheckOrderStatus.DONE || order.orderStatusEng === CheckOrderStatus.CANCELED
         );
       });
     this.bonusesService.getUserBonuses().subscribe((responce: IBonus) => {

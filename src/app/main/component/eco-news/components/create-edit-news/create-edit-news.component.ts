@@ -20,6 +20,9 @@ import Quill from 'quill';
 import 'quill-emoji/dist/quill-emoji.js';
 import ImageResize from 'quill-image-resize-module';
 import { checkImages, dataURLtoFile, quillConfig } from './quillEditorFunc';
+import { ActionsSubject, Store } from '@ngrx/store';
+import { CreateEcoNewsAction, EditEcoNewsAction, NewsActions } from 'src/app/store/actions/ecoNews.actions';
+import { ofType } from '@ngrx/effects';
 
 @Component({
   selector: 'app-create-edit-news',
@@ -28,6 +31,8 @@ import { checkImages, dataURLtoFile, quillConfig } from './quillEditorFunc';
 })
 export class CreateEditNewsComponent extends FormBaseComponent implements OnInit, OnDestroy {
   constructor(
+    private actionsSubj: ActionsSubject,
+    private store: Store,
     public router: Router,
     public dialog: MatDialog,
     private injector: Injector,
@@ -90,10 +95,12 @@ export class CreateEditNewsComponent extends FormBaseComponent implements OnInit
   public editorText = '';
   public editorHTML = '';
   public savingImages = false;
+  public backRoute: string;
 
   // TODO: add types | DTO to service
 
   ngOnInit() {
+    this.backRoute = this.localStorageService.getPreviousPage();
     this.getNewsIdFromQueryParams();
     this.initPageForCreateOrEdit();
     this.onSourceChange();
@@ -212,9 +219,13 @@ export class CreateEditNewsComponent extends FormBaseComponent implements OnInit
 
   public sendData(text: string): void {
     this.form.value.content = text;
-    this.createEcoNewsService
-      .sendFormData(this.form)
+
+    this.isPosting = true;
+    this.store.dispatch(CreateEcoNewsAction({ value: this.form.value }));
+
+    this.actionsSubj
       .pipe(
+        ofType(NewsActions.CreateEcoNewsSuccess),
         takeUntil(this.destroyed$),
         catchError((err) => {
           this.snackBar.openSnackBar('Oops, something went wrong. Please reload page or try again later.');
@@ -250,7 +261,7 @@ export class CreateEditNewsComponent extends FormBaseComponent implements OnInit
   public escapeFromCreatePage(): void {
     this.isPosting = false;
     this.allowUserEscape();
-    this.router.navigate(['/news']).catch((err) => console.error(err));
+    this.router.navigate([this.backRoute]).catch((err) => console.error(err));
   }
 
   public editData(text: string): void {
@@ -259,10 +270,13 @@ export class CreateEditNewsComponent extends FormBaseComponent implements OnInit
       id: this.newsId
     };
     dataToEdit.content = text;
+    this.isPosting = true;
 
-    this.createEcoNewsService
-      .editNews(dataToEdit)
+    this.store.dispatch(EditEcoNewsAction({ form: dataToEdit }));
+
+    this.actionsSubj
       .pipe(
+        ofType(NewsActions.EditEcoNewsSuccess),
         catchError((error) => {
           this.snackBar.openSnackBar('Something went wrong. Please reload page or try again later.');
           return throwError(error);
@@ -310,7 +324,7 @@ export class CreateEditNewsComponent extends FormBaseComponent implements OnInit
   public setActiveFilters(itemToUpdate: EcoNewsModel): void {
     if (itemToUpdate.tags.length) {
       this.isArrayEmpty = false;
-      itemToUpdate.tags.forEach((tag: NewsTagInterface) => {
+      itemToUpdate.tags.forEach((tag: string) => {
         const index = this.filters.findIndex((filterObj: FilterModel) => filterObj.name === `${tag}`);
         this.filters = this.filterArr({ name: `${tag}`, isActive: true }, index);
       });
