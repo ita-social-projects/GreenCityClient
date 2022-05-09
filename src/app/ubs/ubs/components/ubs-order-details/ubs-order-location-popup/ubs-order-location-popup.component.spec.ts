@@ -3,6 +3,8 @@ import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { async, ComponentFixture, fakeAsync, TestBed, tick } from '@angular/core/testing';
 import { MatDialogModule, MatDialogRef } from '@angular/material/dialog';
 import { By } from '@angular/platform-browser';
+import { Router } from '@angular/router';
+import { RouterTestingModule } from '@angular/router/testing';
 import { TranslateModule } from '@ngx-translate/core';
 import { Subject } from 'rxjs';
 import { FilterLocationListByLangPipe } from 'src/app/shared/filter-location-list-by-lang/filter-location-list-by-lang.pipe';
@@ -11,13 +13,17 @@ import { UbsOrderLocationPopupComponent } from './ubs-order-location-popup.compo
 describe('UbsOrderLocationPopupComponent', () => {
   let component: UbsOrderLocationPopupComponent;
   let fixture: ComponentFixture<UbsOrderLocationPopupComponent>;
-  const dialogMock = { close: () => {} };
+  const dialogMock = jasmine.createSpyObj('dialogRef', ['close']);
+  const routerMock = jasmine.createSpyObj('router', ['navigate']);
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       declarations: [UbsOrderLocationPopupComponent, FilterLocationListByLangPipe],
-      providers: [{ provide: MatDialogRef, useValue: dialogMock }],
-      imports: [HttpClientTestingModule, MatDialogModule, TranslateModule.forRoot()],
+      providers: [
+        { provide: MatDialogRef, useValue: dialogMock },
+        { provide: Router, useValue: routerMock }
+      ],
+      imports: [HttpClientTestingModule, MatDialogModule, TranslateModule.forRoot(), RouterTestingModule.withRoutes([])],
       schemas: [CUSTOM_ELEMENTS_SCHEMA]
     }).compileComponents();
   }));
@@ -55,11 +61,8 @@ describe('UbsOrderLocationPopupComponent', () => {
   });
 
   it('method passDataToComponent should invoke this.dialogRef.close({})', () => {
-    // @ts-ignore
-    spyOn(component.dialogRef, 'close');
     component.passDataToComponent();
-    // @ts-ignore
-    expect(component.dialogRef.close).toHaveBeenCalled();
+    expect(dialogMock.close).toHaveBeenCalled();
   });
 
   it('method redirectToMain should call by click back button', fakeAsync(() => {
@@ -72,13 +75,12 @@ describe('UbsOrderLocationPopupComponent', () => {
   }));
 
   it('destroy Subject should be closed after ngOnDestroy()', () => {
-    // @ts-ignore
-    component.destroy$ = new Subject<boolean>();
-    // @ts-ignore
-    spyOn(component.destroy$, 'complete');
+    (component as any).destroy$ = new Subject<boolean>();
+    spyOn((component as any).destroy$, 'complete');
+    spyOn(window.localStorage, 'getItem');
     component.ngOnDestroy();
-    // @ts-ignore
-    expect(component.destroy$.complete).toHaveBeenCalledTimes(1);
+    expect((component as any).destroy$.complete).toHaveBeenCalledTimes(1);
+    expect(routerMock.navigate).toHaveBeenCalledWith(['ubs']);
   });
 
   describe('displayFn', () => {

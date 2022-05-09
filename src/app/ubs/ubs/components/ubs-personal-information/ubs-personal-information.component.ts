@@ -352,7 +352,7 @@ export class UBSPersonalInformationComponent extends FormBaseComponent implement
     this.addresses.forEach((address) => {
       if (address.actual) {
         address.addressComment = this.personalDataForm.controls.addressComment.value;
-        this.orderService.addAdress(address).subscribe(() => {
+        this.orderService.updateAdress(address).subscribe(() => {
           this.orderService.setCurrentAddress(address);
           this.findAllAddresses(false);
         });

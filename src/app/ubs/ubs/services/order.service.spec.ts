@@ -167,7 +167,7 @@ describe('OrderService', () => {
   });
 
   it('method addAdress should makes post request', () => {
-    service.addAdress(address).subscribe((data) => {
+    service.addAdress(address as any).subscribe((data) => {
       expect(data).toEqual(address);
     });
     httpTest('save-order-address', 'POST', address);

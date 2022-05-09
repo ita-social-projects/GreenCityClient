@@ -98,24 +98,37 @@ export interface PersonalData {
 }
 
 export interface Address {
-  actual: boolean;
-  id: number;
-  region: string;
-  regionEn: string;
+  id?: number;
   city: string;
   cityEn: string;
   district: string;
   districtEn: string;
+  region: string;
+  regionEn: string;
+  entranceNumber: string;
   street: string;
   streetEn: string;
   houseCorpus: string;
-  entranceNumber: string;
   houseNumber: string;
   addressComment?: string;
+  actual: boolean;
+  searchAddress?: string;
   coordinates: {
     latitude?: number;
     longitude?: number;
   };
+}
+
+export interface AddressData {
+  addressComment: string;
+  districtEn: string;
+  district: string;
+  entranceNumber: string;
+  houseCorpus: string;
+  houseNumber: string;
+  regionEn: string;
+  region: string;
+  searchAddress: string;
 }
 
 export interface Locations {

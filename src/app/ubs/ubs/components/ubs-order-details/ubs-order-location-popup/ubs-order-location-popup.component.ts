@@ -1,6 +1,7 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormControl } from '@angular/forms';
 import { MatDialogRef } from '@angular/material/dialog';
+import { Router } from '@angular/router';
 import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
 import { Subject, Observable } from 'rxjs';
 import { takeUntil, startWith, map } from 'rxjs/operators';
@@ -28,6 +29,7 @@ export class UbsOrderLocationPopupComponent implements OnInit, OnDestroy {
 
   constructor(
     private orderService: OrderService,
+    private router: Router,
     private dialogRef: MatDialogRef<UbsOrderLocationPopupComponent>,
     private localStorageService: LocalStorageService
   ) {
@@ -102,6 +104,9 @@ export class UbsOrderLocationPopupComponent implements OnInit, OnDestroy {
   ngOnDestroy() {
     if (this.isSaveLocation) {
       this.passDataToComponent();
+    }
+    if (!localStorage.getItem('currentLocationId')) {
+      this.router.navigate(['ubs']);
     }
     this.destroy$.next();
     this.destroy$.complete();
