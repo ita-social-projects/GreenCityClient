@@ -1,0 +1,25 @@
+<div class="wrapper">
+  <h1>Event-list</h1>
+
+  <div class="cont">
+    <h1 class="main-header">{{ 'homepage.events.title' | translate }}</h1>
+    <a class="create" [routerLink]="['create-event']" *ngIf="true">
+      <div id="create-button" class="secondary-global-button">
+        <span id="create-button-text">Create</span>
+      </div>
+    </a>
+    <a class="create" (click)="addEvent()">
+      <div id="create-button" class="secondary-global-button">
+        <span id="create-button-text">add event</span>
+      </div>
+    </a>
+  </div>
+
+  <div class="listContainer">
+    <div *ngFor="let event of list">
+      <p>{{ event.dateTime }}</p>
+      <p>{{ event.description }}</p>
+      <img class="icon eventImage" [src]="event.images" alt="calendar icon" />
+    </div>
+  </div>
+</div>

@@ -1,0 +1,47 @@
+<div>
+  <a [routerLink]="['/events']">
+    <div class="edit-news">back</div>
+  </a>
+
+  <div class="form-container">
+    <div class="item-block">
+      <mat-form-field class="example-full-width" appearance="outline">
+        <mat-label>Event name up to 70 symbols.</mat-label>
+        <input matInput placeholder="" [(ngModel)]="title" />
+      </mat-form-field>
+    </div>
+
+    <div *ngFor="let title of titles">
+      <mat-form-field appearance="outline">
+        <mat-label>Choose a date</mat-label>
+        <input matInput [matDatepicker]="picker" (dateChange)="getDate($event)" />
+        <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+        <mat-datepicker #picker (onclick)="showPicker($event)"></mat-datepicker>
+      </mat-form-field>
+    </div>
+
+    <button mat-button color="primary" (click)="addDate()">Primary</button>
+
+    <mat-card class="example-card">
+      <mat-card-actions>
+        <div class="image-container">
+          <img class="image-preview" *ngIf="image.src" [src]="image.src" alt="image-of-violation" />
+        </div>
+        <button mat-button (click)="deleteImage()">X</button>
+      </mat-card-actions>
+    </mat-card>
+
+    <div class="row mb-5 label-g" [class.invisible]="false">
+      <label for="file-upload"> add Image </label>
+      <input
+        #takeInput
+        id="file-upload"
+        class="d-none"
+        [disabled]="false"
+        type="file"
+        accept="image/png,image/jpeg"
+        (change)="loadFile($event)"
+      />
+    </div>
+  </div>
+</div>
