@@ -34,6 +34,6 @@ describe('VolumePipe', () => {
   });
 
   it('transform', () => {
-    expect(pipe.transform(333)).toBe('333 l');
+    expect(pipe.transform(333)).toBe('333l');
   });
 });
