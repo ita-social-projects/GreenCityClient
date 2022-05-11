@@ -346,18 +346,4 @@ describe('SignIn component', () => {
       expect(hiddenEyeInput.type).toEqual('password');
     });
   });
-
-  // describe('checkIfItUbs', () => {
-  //   it('expected result if isUbs is true', () => {
-  //     component.isUbs = true;
-  //     component.checkIfItUbs();
-  //     expect(component.ubsStyle).toBe('ubsStyle');
-  //   });
-
-  //   it('expected result if isUbs is false', () => {
-  //     component.isUbs = false;
-  //     component.checkIfItUbs();
-  //     expect(component.ubsStyle).toBe('greenStyle');
-  //   });
-  // });
 });
