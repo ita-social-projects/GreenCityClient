@@ -32,14 +32,13 @@ describe('SignIn component', () => {
   let matDialogMock: MatDialogRef<SignInComponent>;
   let signInServiceMock: UserOwnSignInService;
   let authServiceMock: AuthService;
-  const routerSpy = { navigate: jasmine.createSpy('navigate') };
+  let router: Router;
   let googleServiceMock: GoogleSignInService;
   let promiseSocialUser;
   let userSuccessSignIn;
 
   localStorageServiceMock = jasmine.createSpyObj('LocalStorageService', ['userIdBehaviourSubject']);
   localStorageServiceMock.userIdBehaviourSubject = new BehaviorSubject(1111);
-  localStorageServiceMock.ubsRegBehaviourSubject = of(false) as any;
   localStorageServiceMock.setFirstName = () => true;
   localStorageServiceMock.setFirstSignIn = () => true;
   localStorageServiceMock.getUserId = () => 1;
@@ -101,7 +100,6 @@ describe('SignIn component', () => {
         { provide: JwtService, useValue: jwtServiceMock },
         { provide: MatDialogRef, useValue: matDialogMock },
         { provide: UserOwnSignInService, useValue: signInServiceMock },
-        { provide: Router, useValue: routerSpy },
         { provide: ProfileService }
       ]
     });
@@ -111,6 +109,9 @@ describe('SignIn component', () => {
     fixture = TestBed.createComponent(SignInComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
+    router = fixture.debugElement.injector.get(Router);
+    spyOn(router.url, 'includes').and.returnValue(false);
+    spyOn(router, 'navigate');
   });
 
   describe('Basic tests', () => {
@@ -264,7 +265,7 @@ describe('SignIn component', () => {
         component.onSignInSuccess(userSuccessSignIn);
         fixture.detectChanges();
         fixture.whenStable().then(() => {
-          expect(routerSpy.navigate).toHaveBeenCalledWith(['profile', userSuccessSignIn.userId]);
+          expect(router.navigate).toHaveBeenCalledWith(['profile', userSuccessSignIn.userId]);
         });
       });
     }));
@@ -346,17 +347,17 @@ describe('SignIn component', () => {
     });
   });
 
-  describe('checkIfItUbs', () => {
-    it('expected result if isUbs is true', () => {
-      component.isUbs = true;
-      component.checkIfItUbs();
-      expect(component.ubsStyle).toBe('ubsStyle');
-    });
+  // describe('checkIfItUbs', () => {
+  //   it('expected result if isUbs is true', () => {
+  //     component.isUbs = true;
+  //     component.checkIfItUbs();
+  //     expect(component.ubsStyle).toBe('ubsStyle');
+  //   });
 
-    it('expected result if isUbs is false', () => {
-      component.isUbs = false;
-      component.checkIfItUbs();
-      expect(component.ubsStyle).toBe('greenStyle');
-    });
-  });
+  //   it('expected result if isUbs is false', () => {
+  //     component.isUbs = false;
+  //     component.checkIfItUbs();
+  //     expect(component.ubsStyle).toBe('greenStyle');
+  //   });
+  // });
 });
