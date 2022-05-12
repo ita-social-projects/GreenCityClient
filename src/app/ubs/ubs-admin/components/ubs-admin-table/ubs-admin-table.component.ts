@@ -497,6 +497,8 @@ export class UbsAdminTableComponent implements OnInit, AfterViewChecked, OnDestr
 
   toggleAccordion(e: PointerEvent): void {
     (e.target as HTMLElement).parentElement.parentElement.querySelector('.accordion-collapse').classList.toggle('show');
+    (e.target as HTMLElement).textContent =
+      (e.target as HTMLElement).textContent == 'keyboard_arrow_down' ? 'keyboard_arrow_up' : 'keyboard_arrow_down';
   }
 
   openOrder(id: number): void {
