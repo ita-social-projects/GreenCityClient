@@ -8,18 +8,7 @@
         <span id="create-button-text">Create</span>
       </div>
     </a>
-    <a class="create" (click)="addEvent()">
-      <div id="create-button" class="secondary-global-button">
-        <span id="create-button-text">add event</span>
-      </div>
-    </a>
   </div>
 
-  <div class="listContainer">
-    <div *ngFor="let event of list">
-      <p>{{ event.dateTime }}</p>
-      <p>{{ event.description }}</p>
-      <img class="icon eventImage" [src]="event.images" alt="calendar icon" />
-    </div>
-  </div>
+  <app-map-event (location)="getLocation($event)"></app-map-event>
 </div>

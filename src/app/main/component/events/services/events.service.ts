@@ -7,7 +7,7 @@ import { environment } from '@environment/environment';
 @Injectable({
   providedIn: 'root'
 })
-export class EventsService implements OnDestroy, OnInit {
+export class EventsService implements OnDestroy {
   private backEnd = environment.backendLink;
   private language: string;
   private accessToken: string = localStorage.getItem('accessToken');
@@ -19,8 +19,6 @@ export class EventsService implements OnDestroy, OnInit {
   };
 
   constructor(private http: HttpClient, private localStorageService: LocalStorageService) {}
-
-  ngOnInit(): void {}
 
   public createEvent(): Observable<any> {
     console.log('INSIDE');

@@ -5,6 +5,11 @@ import { TranslateHttpLoader } from '@ngx-translate/http-loader';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
+import { MatSelectModule } from '@angular/material/select';
+import { MatButtonModule } from '@angular/material/button';
+
+import { AgmCoreModule } from '@agm/core';
+import { environment } from '@environment/environment.js';
 
 import { SharedMainModule } from '@shared/shared-main.module';
 import { SharedModule } from 'src/app/shared/shared.module';
@@ -17,26 +22,38 @@ import { EventsListComponent } from './components/events-list/events-list.compon
 import { HttpClient } from '@angular/common/http';
 import { CreateEditEventsComponent } from './components/create-edit-events/create-edit-events.component';
 import { MatNativeDateModule } from '@angular/material/core';
+import { EventDateTimePickerComponent } from './components/event-date-time-picker/event-date-time-picker.component';
+import { MapEventComponent } from './components/map-event/map-event.component';
+import { ImagesContainerComponent } from './components/images-container/images-container.component';
 
 @NgModule({
-  declarations: [EventsComponent, EventsListComponent, CreateEditEventsComponent],
+  declarations: [
+    EventsComponent,
+    EventsListComponent,
+    CreateEditEventsComponent,
+    EventDateTimePickerComponent,
+    MapEventComponent,
+    ImagesContainerComponent
+  ],
   imports: [
     CommonModule,
     EventsRoutingModule,
     MatDatepickerModule,
     MatInputModule,
+    MatButtonModule,
+
+    AgmCoreModule,
+    AgmCoreModule.forRoot({
+      apiKey: environment.apiMapKey
+    }),
 
     MatFormFieldModule,
     MatNativeDateModule,
+    MatSelectModule,
 
     SharedMainModule,
     SharedModule,
-    // MatIconModule,
     InfiniteScrollModule,
-    // EcoNewsRoutingModule,
-    // ImageCropperModule,
-    // MatSnackBarModule,
-    // CommentsModule,
 
     TranslateModule.forChild({
       loader: {

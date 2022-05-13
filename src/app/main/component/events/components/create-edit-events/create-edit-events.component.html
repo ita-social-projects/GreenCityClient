@@ -4,44 +4,54 @@
   </a>
 
   <div class="form-container">
+    <mat-label>Enter name for Event</mat-label>
     <div class="item-block">
-      <mat-form-field class="example-full-width" appearance="outline">
+      <mat-form-field class="event-input" appearance="outline">
         <mat-label>Event name up to 70 symbols.</mat-label>
         <input matInput placeholder="" [(ngModel)]="title" />
       </mat-form-field>
     </div>
 
-    <div *ngFor="let title of titles">
-      <mat-form-field appearance="outline">
-        <mat-label>Choose a date</mat-label>
-        <input matInput [matDatepicker]="picker" (dateChange)="getDate($event)" />
-        <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
-        <mat-datepicker #picker (onclick)="showPicker($event)"></mat-datepicker>
+    <mat-label>You can add up to seven date</mat-label>
+    <div class="dateContainer">
+      <div *ngFor="let date of dates; index as i" class="dateEvent">
+        <app-event-date-time-picker
+          (date)="getDate($event, i)"
+          (startTime)="setStartTime($event, i)"
+          (endTime)="setEndTime($event, i)"
+        ></app-event-date-time-picker>
+        <button mat-button color="warn" (click)="deleteDate(i)">X</button>
+      </div>
+    </div>
+    <button mat-raised-button color="basic" (click)="addDate()">AddDate</button>
+
+    <app-images-container (imgArrayOutput)="getImageTosend($event)"></app-images-container>
+
+    <div class="textarea-wrapper">
+      <h3 class="textarea-title">Events Description</h3>
+      <quill-editor
+        class="editor"
+        [modules]="quillModules"
+        placeholder="{{ 'create-news.content-placeholder' | translate }}"
+        (onEditorChanged)="changedEditor($event)"
+      ></quill-editor>
+      <p class="textarea-description">{{ 'create-news.content-tooltip' | translate }}</p>
+    </div>
+
+    <mat-checkbox class="example-margin" [(ngModel)]="isOffLine" [labelPosition]="'before'">Event will be Offline</mat-checkbox>
+
+    <div [ngClass]="isOffLine ? 'google-map' : 'google-map isOnline'" #map>
+      <app-map-event (location)="addMarker($event)"></app-map-event>
+    </div>
+
+    <div class="item-block" [ngClass]="isOffLine ? 'item-block isOnline' : 'item-block'">
+      <mat-label>You can Add link to your online Event</mat-label>
+      <mat-form-field class="example-full-width" appearance="outline">
+        <mat-label>Add link to online Event.</mat-label>
+        <input matInput placeholder="" [(ngModel)]="onlineLink" />
       </mat-form-field>
     </div>
 
-    <button mat-button color="primary" (click)="addDate()">Primary</button>
-
-    <mat-card class="example-card">
-      <mat-card-actions>
-        <div class="image-container">
-          <img class="image-preview" *ngIf="image.src" [src]="image.src" alt="image-of-violation" />
-        </div>
-        <button mat-button (click)="deleteImage()">X</button>
-      </mat-card-actions>
-    </mat-card>
-
-    <div class="row mb-5 label-g" [class.invisible]="false">
-      <label for="file-upload"> add Image </label>
-      <input
-        #takeInput
-        id="file-upload"
-        class="d-none"
-        [disabled]="false"
-        type="file"
-        accept="image/png,image/jpeg"
-        (change)="loadFile($event)"
-      />
-    </div>
+    <button mat-raised-button color="primary" (click)="onSubmit()">SendData</button>
   </div>
 </div>

@@ -1,19 +1,37 @@
-.image-preview {
-  max-width: 200px;
+.form-container {
+  padding: 0 40px;
+  align-items: center;
 }
 
-.image-container {
-  width: 200px;
-  height: 200px;
-  border: 1px solid #000;
+.event-input {
+  width: 500px;
 }
 
-.example-form {
-  min-width: 150px;
-  max-width: 500px;
-  width: 100%;
+.dateContainer {
+  display: flex;
+  flex-wrap: wrap;
 }
 
-.example-full-width {
-  width: 100%;
+::ng-deep {
+  .ql-container {
+    min-height: 200px;
+  }
+}
+
+.item-block {
+  transition: 1.2s;
+}
+
+.google-map {
+  margin: 10px 0 60px;
+  height: 340px;
+  width: 70%;
+  padding: 0 0 40px 0;
+  transition: 1.2s;
+}
+
+.isOnline {
+  overflow: hidden;
+  height: 0;
+  padding: 0;
 }

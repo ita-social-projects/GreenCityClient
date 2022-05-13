@@ -1,0 +1,14 @@
+<div class="google-map">
+  <agm-map [style.width.%]="100" [style.height.%]="100" [zoom]="12" (mapReady)="onMapReady($event)" (mapClick)="addMarker($event)">
+    <agm-marker
+      *ngFor="let place of places"
+      [latitude]="place.location.lat"
+      [longitude]="place.location.lng"
+      [label]="'Event'"
+      (mouseOver)="markerOver(place)"
+      (mouseOut)="markerOut(place)"
+      [animation]="place.animation"
+    ></agm-marker>
+  </agm-map>
+  <button mat-raised-button color="warn" (click)="deletePlace()">Clear Mark</button>
+</div>

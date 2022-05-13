@@ -1,7 +1,14 @@
-import { Component, ElementRef, OnInit } from '@angular/core';
-import { FormGroup } from '@angular/forms';
-import { ActivatedRoute } from '@angular/router';
+import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
+
+import { quillConfig } from './quillEditorFunc';
 import { EventsService } from '../../services/events.service';
+import { EditorChangeContent, EditorChangeSelection } from 'ngx-quill';
+
+import Quill from 'quill';
+import 'quill-emoji/dist/quill-emoji.js';
+import ImageResize from 'quill-image-resize-module';
+import { Place } from '../../../places/models/place';
+import { Coords, DateEvent, EventDTO } from '../../models/events.interface';
 
 @Component({
   selector: 'app-create-edit-events',
@@ -9,80 +16,102 @@ import { EventsService } from '../../services/events.service';
   styleUrls: ['./create-edit-events.component.scss']
 })
 export class CreateEditEventsComponent implements OnInit {
-  InputVar: ElementRef;
-  public form: FormGroup;
-  image = {
-    src: null,
-    label: null,
-    name: null
-  };
-  title = '';
-  titles = [{ title: '' }];
-  imgArray = [];
-  dragAndDropLabel = 'value';
-  maxNumberOfImgs = 1;
+  public title = '';
+  public dates: DateEvent[] = [];
+  private imgArray: Array<File> = [];
 
-  isImageSizeError = false;
-  isImageTypeError = false;
-  isLabel = false;
-  range: any;
-  picker: any;
+  private maxNumberOfDates = 7;
 
-  constructor(private eventService: EventsService, private route: ActivatedRoute) {}
+  public isOffLine = true;
+  public onlineLink = '';
+  private latitude: number;
+  private longitude: number;
+
+  public quillModules = {};
+  public editorHTML = '';
+
+  public places: Place[] = [];
+
+  constructor(private eventService: EventsService) {
+    this.quillModules = quillConfig;
+    Quill.register('modules/imageResize', ImageResize);
+  }
+
+  @ViewChild('takeInput') InputVar: ElementRef;
 
   ngOnInit(): void {}
 
-  createEvent() {
-    console.log('click');
-    this.eventService.createEvent().subscribe((val) => console.log(val));
+  getImageTosend(imageArr: Array<File>) {
+    this.imgArray = [...imageArr];
   }
 
-  loadFile(event): void {
-    const imageFile = (event.target as HTMLInputElement).files[0];
-    this.transferFile(imageFile);
-    console.log(this.title);
+  public getDate(event: Date, ind: number): void {
+    this.dates[ind].title = `date ${ind + 1}`;
+    this.dates[ind].date = event;
   }
 
-  private transferFile(imageFile: File): void {
-    if (!this.isImageTypeError) {
-      const reader: FileReader = new FileReader();
-      this.imgArray.push(imageFile);
-      reader.readAsDataURL(imageFile);
-      reader.onload = () => {
-        this.assignImage(reader.result, imageFile.name);
+  public setStartTime(time: string, ind: number) {
+    this.dates[ind].timeStart = time;
+  }
+  public setEndTime(time: string, ind: number) {
+    this.dates[ind].timeEnd = time;
+  }
+
+  public addDate(): void {
+    if (this.dates.length < this.maxNumberOfDates) {
+      const newDate: DateEvent = {
+        title: '',
+        date: null,
+        timeStart: '',
+        timeEnd: ''
       };
-      // if (this.editMode) {
-      //   this.isInitialImageDataChanged = true;
-      // }
+      this.dates.push(newDate);
     }
   }
 
-  assignImage(result: any, name: string): void {
-    this.image.label = this.dragAndDropLabel;
-    this.image.src = result;
-    this.image.name = name;
+  public deleteDate(ind: number) {
+    this.dates.splice(ind, 1);
   }
 
-  deleteImage() {
-    this.image = {
-      src: null,
-      label: null,
-      name: null
+  public changedEditor(event: EditorChangeContent | EditorChangeSelection): void {
+    if (event.event !== 'selection-change') {
+      this.editorHTML = event.html;
+    }
+  }
+
+  public addMarker(ev: Coords) {
+    this.latitude = ev.coords.lat;
+    this.longitude = ev.coords.lng;
+  }
+
+  public onSubmit() {
+    if (this.isOffLine) {
+      this.onlineLink = '';
+    }
+    if (!this.isOffLine) {
+      this.latitude = null;
+      this.longitude = null;
+    }
+
+    const sendEventDto: EventDTO = {
+      title: this.title,
+      content: this.editorHTML,
+      dates: this.dates,
+      onlineLink: this.onlineLink,
+      location: {
+        latitude: this.latitude,
+        longitude: this.longitude
+      }
     };
-    this.imgArray = [];
-  }
 
-  getDate(event) {
-    console.log(event);
+    const formData: FormData = new FormData();
+    const stringifiedDataToSend = JSON.stringify(sendEventDto);
+    formData.append('dto', stringifiedDataToSend);
+    for (const images of this.imgArray) {
+      formData.append('image', images);
+    }
+    // console.log(formData.getAll('dto'));
+    // console.log(formData.getAll('image'));
+    return formData;
   }
-
-  addDate() {
-    this.titles.push({ title: '' });
-  }
-
-  showPicker(ev) {
-    console.log(ev);
-  }
-
-  onSubmit() {}
 }
