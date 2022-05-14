@@ -1,5 +1,6 @@
 import { Component, ElementRef, EventEmitter, OnInit, Output, ViewChild } from '@angular/core';
 import { FileHandle } from 'src/app/ubs/ubs-admin/models/file-handle.model';
+import { EventImage } from '../../models/events.interface';
 
 @Component({
   selector: 'app-images-container',
@@ -9,22 +10,21 @@ import { FileHandle } from 'src/app/ubs/ubs-admin/models/file-handle.model';
 export class ImagesContainerComponent implements OnInit {
   private isImageTypeError = false;
   private dragAndDropLabel = 'Drag Image';
-  private imgArray = [];
+  private imgArray: File[] = [];
+  private imagesCount = 5;
 
-  public images = [];
+  public images: EventImage[] = [];
 
   @ViewChild('takeInput') InputVar: ElementRef;
 
   @Output() imgArrayOutput = new EventEmitter<Array<File>>();
-
-  constructor() {}
 
   ngOnInit(): void {
     this.initImages();
   }
 
   private initImages(): void {
-    for (let i = 0; i < 5; i++) {
+    for (let i = 0; i < this.imagesCount; i++) {
       this.images.push({ src: null, label: this.dragAndDropLabel, isLabel: false });
     }
     this.images[0].isLabel = true;
@@ -53,7 +53,9 @@ export class ImagesContainerComponent implements OnInit {
     for (let i = 0; i < this.images.length; i++) {
       if (!this.images[i].src) {
         this.images[i].src = result;
-        this.images[i + 1].isLabel = true;
+        if (this.images[i + 1]) {
+          this.images[i + 1].isLabel = true;
+        }
         this.images[i].isLabel = false;
         break;
       }

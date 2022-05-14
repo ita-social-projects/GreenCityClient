@@ -1,13 +1,17 @@
 <div class="google-map">
+  <mat-checkbox class="example-margin" [(ngModel)]="mapDeactivate" [labelPosition]="'before'" (change)="showCurLocation()"
+    >Show Your curent location</mat-checkbox
+  >
+  <p>Event address: {{ adress }}</p>
   <agm-map [style.width.%]="100" [style.height.%]="100" [zoom]="12" (mapReady)="onMapReady($event)" (mapClick)="addMarker($event)">
     <agm-marker
-      *ngFor="let place of places"
-      [latitude]="place.location.lat"
-      [longitude]="place.location.lng"
-      [label]="'Event'"
-      (mouseOver)="markerOver(place)"
-      (mouseOut)="markerOut(place)"
-      [animation]="place.animation"
+      *ngIf="eventPlace"
+      [latitude]="eventPlace.location.lat"
+      [longitude]="eventPlace.location.lng"
+      [title]="markerContent"
+      (mouseOver)="markerOver(eventPlace)"
+      (mouseOut)="markerOut(eventPlace)"
+      [animation]="eventPlace.animation"
     ></agm-marker>
   </agm-map>
   <button mat-raised-button color="warn" (click)="deletePlace()">Clear Mark</button>

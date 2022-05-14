@@ -35,3 +35,9 @@ export interface MapMarker {
   };
   animation: string;
 }
+
+export interface EventImage {
+  src: string;
+  label: string;
+  isLabel: boolean;
+}

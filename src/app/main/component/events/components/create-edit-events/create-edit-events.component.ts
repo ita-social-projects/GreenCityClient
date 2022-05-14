@@ -1,4 +1,4 @@
-import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
+import { Component, ElementRef, ViewChild } from '@angular/core';
 
 import { quillConfig } from './quillEditorFunc';
 import { EventsService } from '../../services/events.service';
@@ -15,7 +15,7 @@ import { Coords, DateEvent, EventDTO } from '../../models/events.interface';
   templateUrl: './create-edit-events.component.html',
   styleUrls: ['./create-edit-events.component.scss']
 })
-export class CreateEditEventsComponent implements OnInit {
+export class CreateEditEventsComponent {
   public title = '';
   public dates: DateEvent[] = [];
   private imgArray: Array<File> = [];
@@ -38,8 +38,6 @@ export class CreateEditEventsComponent implements OnInit {
   }
 
   @ViewChild('takeInput') InputVar: ElementRef;
-
-  ngOnInit(): void {}
 
   getImageTosend(imageArr: Array<File>) {
     this.imgArray = [...imageArr];
@@ -103,7 +101,7 @@ export class CreateEditEventsComponent implements OnInit {
         longitude: this.longitude
       }
     };
-
+    // console.log(sendEventDto);
     const formData: FormData = new FormData();
     const stringifiedDataToSend = JSON.stringify(sendEventDto);
     formData.append('dto', stringifiedDataToSend);

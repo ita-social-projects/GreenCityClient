@@ -19,8 +19,6 @@ export class EventDateTimePickerComponent implements OnInit {
   @Output() startTime = new EventEmitter<string>();
   @Output() endTime = new EventEmitter<string>();
 
-  constructor() {}
-
   ngOnInit(): void {
     this.minDate = new Date();
     this.fillTimeArray();
@@ -29,8 +27,8 @@ export class EventDateTimePickerComponent implements OnInit {
 
   private fillTimeArray(): void {
     for (let i = 0; i < 24; i++) {
-      this.timeArrStart.push(`${i}-00`);
-      this.timeArrEnd.push(`${i}-00`);
+      this.timeArrStart.push(`${i} : 00`);
+      this.timeArrEnd.push(`${i} : 00`);
     }
   }
 
@@ -43,9 +41,9 @@ export class EventDateTimePickerComponent implements OnInit {
     this.startTime.emit(time.value);
     this.startDisabled = true;
     this.endDisabled = false;
-    const checkTime = time.value.split('-');
+    const checkTime = time.value.split(':');
 
-    +checkTime[0] === 23 ? (this.timeArrEnd = ['23-59']) : (this.timeArrEnd = [...this.timeArrStart.slice(+checkTime[0] + 1)]);
+    +checkTime[0] === 23 ? (this.timeArrEnd = ['23 : 59']) : (this.timeArrEnd = [...this.timeArrStart.slice(+checkTime[0] + 1)]);
   }
   public addEndTime(time: MatSelectChange): void {
     this.endTime.emit(time.value);
