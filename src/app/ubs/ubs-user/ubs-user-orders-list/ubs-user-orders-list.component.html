@@ -1,6 +1,7 @@
 <div *ngIf="orders.length !== 0" class="header_list">
   <div class="header_list-num">{{ 'user-orders.order-number' | translate }}</div>
   <div class="header_list-date">{{ 'user-orders.order-date' | translate }}</div>
+  <div class="header_list-paymentDate">{{ 'add-payment.payment-date' | translate }}</div>
   <div class="header_list-status">{{ 'user-orders.order-status' | translate }}</div>
   <div class="header_list-paymentStatus">{{ 'user-orders.order-payment-status' | translate }}</div>
   <div class="header_list-paymentAmount">{{ 'user-orders.payment-amount' | translate }}</div>
@@ -16,6 +17,9 @@
           </mat-panel-title>
           <mat-panel-description class="order_list-date">
             {{ order.dateForm | date: 'dd.MM.y' }}
+          </mat-panel-description>
+          <mat-panel-description class="order_list-paymentDate">
+            {{ order.datePaid | date: 'dd.MM.y' }}
           </mat-panel-description>
           <mat-panel-description class="order_list-status">
             {{ currentLanguage === 'ua' ? order.orderStatus : order.orderStatusEng }}
