@@ -4,6 +4,7 @@ import { TranslateModule } from '@ngx-translate/core';
 import { LocalizedCurrencyPipe } from 'src/app/shared/localized-currency-pipe/localized-currency.pipe';
 import { IEmployee, IOrderInfo, IPaymentInfoDto } from '../../models/ubs-admin.interface';
 import { OrderService } from '../../services/order.service';
+import { StoreModule } from '@ngrx/store';
 
 import { UbsAdminOrderPaymentComponent } from './ubs-admin-order-payment.component';
 
@@ -230,7 +231,7 @@ describe('UbsAdminOrderPaymentComponent', () => {
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       declarations: [UbsAdminOrderPaymentComponent, LocalizedCurrencyPipe],
-      imports: [MatDialogModule, TranslateModule.forRoot()],
+      imports: [MatDialogModule, TranslateModule.forRoot(), StoreModule.forRoot({})],
       providers: [
         { provide: MatDialog, useFactory: matDialogMock },
         { provide: OrderService, useValue: orderServiceMock }
