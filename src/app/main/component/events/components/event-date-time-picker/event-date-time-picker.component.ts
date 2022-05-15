@@ -1,3 +1,4 @@
+import { DatePipe } from '@angular/common';
 import { Component, EventEmitter, OnInit, Output } from '@angular/core';
 import { MatDatepickerInputEvent } from '@angular/material/datepicker';
 import { MatSelectChange } from '@angular/material/select';
@@ -15,7 +16,9 @@ export class EventDateTimePickerComponent implements OnInit {
   public timeArrStart = [];
   public timeArrEnd = [];
 
-  @Output() date = new EventEmitter<Date>();
+  private pipe = new DatePipe('en-US');
+
+  @Output() date = new EventEmitter<string>();
   @Output() startTime = new EventEmitter<string>();
   @Output() endTime = new EventEmitter<string>();
 
@@ -33,7 +36,8 @@ export class EventDateTimePickerComponent implements OnInit {
   }
 
   public addDate(date: MatDatepickerInputEvent<Date>): void {
-    this.date.emit(date.value);
+    const formattedDate = this.pipe.transform(date.value, 'yyyy/MM/dd');
+    this.date.emit(formattedDate);
     this.dateDisabled = true;
   }
 

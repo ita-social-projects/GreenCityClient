@@ -1,7 +1,6 @@
-import { Injectable, OnDestroy, OnInit } from '@angular/core';
+import { Injectable, OnDestroy } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
-import { Observable, Observer, ReplaySubject } from 'rxjs';
+import { Observable, ReplaySubject } from 'rxjs';
 import { environment } from '@environment/environment';
 
 @Injectable({
@@ -18,25 +17,9 @@ export class EventsService implements OnDestroy {
     })
   };
 
-  constructor(private http: HttpClient, private localStorageService: LocalStorageService) {}
+  constructor(private http: HttpClient) {}
 
-  public createEvent(): Observable<any> {
-    console.log('INSIDE');
-    const body = {
-      coordinates: {
-        latitude: 0,
-        longitude: 0
-      },
-      dateTime: '2022-05-06T13:20:36.358Z',
-      description: 'string',
-      title: 'string',
-      titleImage: 'string'
-    };
-
-    const formData = new FormData();
-    formData.append('addEventDtoRequest ', JSON.stringify(body));
-    this.httpOptions.headers.set('Authorization', `Bearer ${this.accessToken}`);
-    console.log(formData);
+  public createEvent(formData: FormData): Observable<any> {
     return this.http.post<any>(`${this.backEnd}events/create`, formData);
   }
 

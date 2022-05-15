@@ -43,25 +43,23 @@ export class CreateEditEventsComponent {
     this.imgArray = [...imageArr];
   }
 
-  public getDate(event: Date, ind: number): void {
-    this.dates[ind].title = `date ${ind + 1}`;
+  public getDate(event: string, ind: number): void {
     this.dates[ind].date = event;
   }
 
   public setStartTime(time: string, ind: number) {
-    this.dates[ind].timeStart = time;
+    this.dates[ind].startDate = time;
   }
   public setEndTime(time: string, ind: number) {
-    this.dates[ind].timeEnd = time;
+    this.dates[ind].finishDate = time;
   }
 
   public addDate(): void {
     if (this.dates.length < this.maxNumberOfDates) {
       const newDate: DateEvent = {
-        title: '',
-        date: null,
-        timeStart: '',
-        timeEnd: ''
+        date: '',
+        startDate: '',
+        finishDate: ''
       };
       this.dates.push(newDate);
     }
@@ -91,25 +89,33 @@ export class CreateEditEventsComponent {
       this.longitude = null;
     }
 
+    const datesDto = this.dates.reduce((ac, cur) => {
+      const date = {
+        startDate: [...cur.date.split('/'), ...cur.startDate.split(':')].map((it) => +it),
+        finishDate: [...cur.date.split('/'), ...cur.finishDate.split(':')].map((it) => +it)
+      };
+      ac.push(date);
+      return ac;
+    }, []);
+
     const sendEventDto: EventDTO = {
       title: this.title,
-      content: this.editorHTML,
-      dates: this.dates,
+      description: this.editorHTML,
+      dates: datesDto,
       onlineLink: this.onlineLink,
-      location: {
+      coordinates: {
         latitude: this.latitude,
         longitude: this.longitude
       }
     };
-    // console.log(sendEventDto);
+
     const formData: FormData = new FormData();
     const stringifiedDataToSend = JSON.stringify(sendEventDto);
-    formData.append('dto', stringifiedDataToSend);
+    formData.append('addEventDtoRequest', stringifiedDataToSend);
     for (const images of this.imgArray) {
-      formData.append('image', images);
+      formData.append('images', images);
     }
-    // console.log(formData.getAll('dto'));
-    // console.log(formData.getAll('image'));
-    return formData;
+
+    this.eventService.createEvent(formData).subscribe((res) => res);
   }
 }

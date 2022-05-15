@@ -1,9 +1,9 @@
 export interface EventDTO {
   title: string;
-  content: string;
+  description: string;
   dates: Array<any>;
   onlineLink: string;
-  location: {
+  coordinates: {
     latitude: number;
     longitude: number;
   };
@@ -17,10 +17,9 @@ export interface DateDto {
 }
 
 export interface DateEvent {
-  title: string;
-  date: Date;
-  timeStart: string;
-  timeEnd: string;
+  date: string;
+  startDate: string;
+  finishDate: string;
 }
 
 export interface Coords {
