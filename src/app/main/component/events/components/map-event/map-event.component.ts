@@ -9,21 +9,21 @@ import { Coords, MapMarker } from '../../models/events.interface';
 })
 export class MapEventComponent implements OnInit {
   private map: any;
-  private isPlaceChoosed = false;
+  private isPlaceChoosed: boolean;
+  private geoCoder: any;
 
   public eventPlace: MapMarker;
-
-  private geoCoder: any;
   public adress: string;
   public markerContent: string;
-
-  public mapDeactivate = false;
+  public mapDeactivate: boolean;
 
   @Output() location = new EventEmitter<Coords>();
 
   constructor(private mapsAPILoader: MapsAPILoader) {}
 
   ngOnInit(): void {
+    this.isPlaceChoosed = false;
+    this.mapDeactivate = false;
     this.mapsAPILoader.load().then(() => {
       this.geoCoder = new google.maps.Geocoder();
     });
@@ -52,7 +52,7 @@ export class MapEventComponent implements OnInit {
     });
   }
 
-  public addMarker(value: Coords) {
+  public addMarker(value: Coords): void {
     if (!this.isPlaceChoosed) {
       this.location.emit(value);
       const newMarker: MapMarker = {
@@ -70,32 +70,28 @@ export class MapEventComponent implements OnInit {
     }
   }
 
-  public markerOver(marker: MapMarker) {
+  public markerOver(marker: MapMarker): void {
     this.markerContent = this.adress;
     marker.animation = 'BOUNCE';
   }
-  public markerOut(marker: MapMarker) {
+  public markerOut(marker: MapMarker): void {
     this.markerContent = '';
     marker.animation = '';
   }
 
-  public deletePlace() {
+  public deletePlace(): void {
     this.eventPlace = null;
     this.isPlaceChoosed = false;
     this.adress = '';
   }
 
-  getAddress(latitude: number, longitude: number) {
+  getAddress(latitude: number, longitude: number): void {
     this.geoCoder.geocode({ location: { lat: latitude, lng: longitude } }, (results, status) => {
-      if (status === 'OK') {
-        if (results[0]) {
-          this.adress = results[0].formatted_address;
-        } else {
-          window.alert('No results found');
-        }
-      } else {
-        window.alert('Geocoder failed due to: ' + status);
-      }
+      status === 'OK'
+        ? results[0]
+          ? (this.adress = results[0].formatted_address)
+          : window.alert('No results found')
+        : window.alert('Geocoder failed due to: ' + status);
     });
   }
 }

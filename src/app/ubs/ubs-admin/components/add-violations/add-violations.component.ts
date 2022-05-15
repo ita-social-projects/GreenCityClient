@@ -223,7 +223,6 @@ export class AddViolationsComponent implements OnInit, OnDestroy {
     this.isImageSizeError = false;
     this.isImageTypeError = false;
     for (let i = 0; i < this.images.length; i++) {
-      console.log(this.images, 'IMAGES');
       this.images[i].label = null;
       if (!this.images[i].src) {
         this.images[i].src = result;
