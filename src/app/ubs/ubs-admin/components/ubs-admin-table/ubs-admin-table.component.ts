@@ -284,6 +284,10 @@ export class UbsAdminTableComponent implements OnInit, AfterViewChecked, OnDestr
     this.checkAllColumnsDisplayed();
   }
 
+  public closeFilters() {
+    this.display = 'none';
+  }
+
   public togglePopUp() {
     this.display = this.display === 'none' ? 'block' : 'none';
     this.isPopupOpen = !this.isPopupOpen;
@@ -514,6 +518,7 @@ export class UbsAdminTableComponent implements OnInit, AfterViewChecked, OnDestr
   }
 
   getColumnsForFiltering() {
+    console.log('this.adminTableService.columnsForFiltering ', this.adminTableService.columnsForFiltering);
     return this.adminTableService.columnsForFiltering;
   }
 

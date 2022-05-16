@@ -19,6 +19,9 @@
           <button type="button" class="btn filter-btn bg-lime" (click)="applyFilters()">
             {{ 'ubs-tables.apply-filters' | translate }}
           </button>
+          <button type="button" class="reset-settings" (click)="closeFilters()">
+            <i class="fa fa-close" aria-hidden="true"></i>
+          </button>
         </div>
         <p class="font-weight-bold">{{ 'ubs-tables.filters' | translate }}</p>
         <div class="accordion" (click)="$event.stopPropagation()">
