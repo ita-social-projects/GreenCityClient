@@ -129,7 +129,7 @@
   </div>
   <button
     type="submit"
-    [class]="ubsStyle"
+    [ngClass]="isUbs ? 'ubsStyle' : 'greenStyle'"
     role="link"
     [disabled]="!signUpForm.valid || inputPassword.value !== repeatPassword.value || emailErrorMessageBackEnd"
   >
