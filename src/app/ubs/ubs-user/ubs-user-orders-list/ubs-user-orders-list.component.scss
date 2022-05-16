@@ -29,13 +29,15 @@
   font-weight: 500;
   line-height: 20px;
 
-  .header_list-num {
-    width: 95px;
-  }
-
-  .header_list-paymentStatus {
-    width: 110px;
-    margin-left: 7px;
+  .header_list-num,
+  .header_list-paymentStatus,
+  .header_list-paymentAmount,
+  .header_list-status,
+  .header_list-paymentDate,
+  .header_list-date {
+    width: 97px;
+    line-height: 20px;
+    font-style: normal;
   }
 
   div {
