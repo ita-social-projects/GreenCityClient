@@ -47,7 +47,7 @@
     <app-error [formElement]="firstNameControl" [nameFieldValue]="nameFieldValue" [controlName]="'firstName'" tabindex="0"></app-error>
   </div>
   <div *ngIf="firstNameErrorMessageBackEnd" class="error-message error-message-show">
-    {{ 'user.auth.sign-up.invalid-user-name' | translate }}
+    {{ 'user.auth.sign-up.user-name-size' | translate }}
   </div>
   <label class="content-label under-error" for="password" aria-required="true">
     {{ 'user.auth.sign-up.password' | translate }}
@@ -124,7 +124,7 @@
   <div *ngIf="passwordErrorMessageBackEnd" class="error-message error-message-show">
     {{ 'user.auth.sign-up.password-symbols-error' | translate }}
   </div>
-  <div class="alert-general-error" *ngIf="backEndError">
+  <div *ngIf="backEndError" class="alert-general-error">
     {{ 'user.auth.sign-in.bad-email-or-password' | translate }}
   </div>
   <button
