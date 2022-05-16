@@ -15,18 +15,18 @@
     },
     "header": {
       "caption": "A new way to cultivate useful habits",
-      "content": "In Ukraine, every person uses more than 500 disposable bags and about 70 paper cups every year. It is enough to bring an eco-bag and your cup with you and this will help to save the lives of 3 dolphins, one turtle and to keep the oceans clean for the next generation."
+      "content": "People in Ukraine use an average of 500 disposable bags and 70 paper cups per year. It is as easy as bringing your own eco-bag and cup to save the lives of three dolphins or one turtle and keep the oceans clean for the next generation."
     },
     "stats": {
       "caption-before": "There are",
       "caption-after": "of us and today we",
       "bag-stat-before": "Did not take",
       "bag-stat-after": "bags",
-      "bag-question": "And how many packages you did not take today?",
+      "bag-question": "And how many packages did you not take today?",
       "bag-link": "you can buy eco-bags here",
       "cup-stat-before": "Did not throw away",
       "cup-stat-after": "cups",
-      "cup-question": "And how many cups you did not throw away today?",
+      "cup-question": "And how many cups did you not throw away today?",
       "cup-link": "places that make a discount on a drink in your cup"
     },
     "eco-news": {
@@ -346,7 +346,7 @@
         "first-name-is-required": "User name is required",
         "user-name-error": "User name is required",
         "invalid-user-name": "Username must not contains a dot at the beginning, few dots in a row, special characters, Cyrillic letters",
-        "user-name-size": "The name must contain 6-30 characters and can contain letters(a-z), numbers(0-9) and a dot(.), dot at the start, at the end and consecutive dot is forbidden",
+        "user-name-size": "The name must contain 6-30 characters and can contain letters(a-z), numbers(0-9) and a dot(.); dot at the start, at the end, and consecutive dot are forbidden",
         "first-name-must-be-at-least-1-characters-long": "User name must be at least 1 characters long",
         "last-name": "Last name",
         "last-name-is-required": "Last name is required",
@@ -355,25 +355,25 @@
         "email-is-required": "Email is required",
         "email-must-be-at-least-1-characters-long": "Email must be at least 1 characters long",
         "this-is-not-email": "Please check that your e-mail address is indicated correctly",
-        "the-user-already-exists-by-this-email": "The user already exists by this email",
+        "the-user-already-exists-by-this-email": "The user with this email already exists",
         "password": "Password",
         "password-is-required": "Password is required",
         "password-must-be-at-least-8-characters-long": "Password must be at least 8 characters in length",
         "password-spaces-error": "Password must be at least 8 characters long without spaces",
-        "password-symbols-error": "Password has contain at least one character of Uppercase letter (A-Z), Lowercase letter (a-z), Digit (0-9), Special character (~`!@#$%^&*()+=_-{}[]|:;”’?/<>,.)",
+        "password-symbols-error": "Password must contain at least one uppercase letter (A-Z), one lowercase letter (a-z), a digit (0-9), and a special character (~`!@#$%^&*()+=_-{}[]|:;”’?/<>,.)",
         "password-match": "Passwords do not match",
         "password-confirm": "Confirm password",
-        "submit": "Sign Up",
+        "submit": "Sign up",
         "or": "or",
-        "submit-with-google": "Sign Up with Google",
+        "submit-with-google": "Sign up with Google",
         "haveyou-account": "Do you already have an account?",
         "enter": "Sign in"
       },
       "submit-email": "Congrats! Your profile is created. Please check the email sent with a link to confirm your email address.",
       "forgot-password": {
-        "already-sent": "Password restore link already sent, please check your email",
-        "email-not-exist": "The user does not exist by this email",
-        "title": "Problems sign in?",
+        "already-sent": "Password restore link already sent, please check your email: ",
+        "email-not-exist": "The user with this email does not exist",
+        "title": "Trouble singing in?",
         "fill-form": "Enter your email address and we'll send you a link to regain access to your account.",
         "email": "Email",
         "send-btn": "Submit a login link",
@@ -383,7 +383,7 @@
       },
       "restore-password": {
         "title": "Do you want to change your password?",
-        "fill-form": "Please, create your new password.",
+        "fill-form": "Please create your new password.",
         "send-btn": "Change password",
         "password": "Password",
         "password-is-required": "Password is required",
@@ -544,7 +544,7 @@
       "edit-button": "Edit Picture",
       "info": "Personal info",
       "name": "Name",
-      "name-warning": "The name must contain 6-30 characters and can contain letters(a-z), numbers(0-9) and a dot(.), dot at the start, at the end and consecutive dot is forbidden",
+      "name-warning": "The name must contain 6-30 characters and can contain letters(a-z), numbers(0-9) and a dot(.); dot at the start, at the end, and consecutive dot are forbidden",
       "city": "City",
       "city-warning": "Should contain maximum 85 symbols and may contain letters, and next special characters: ()!,-’",
       "title": "Credo",
@@ -737,12 +737,12 @@
     "intro": {
       "block-1": {
         "header": "About Us",
-        "text": "GreenCity project addresses the challenge of significant changes in behaviours and lifestyles\nof Lviv citizens",
+        "text": "GreenCity project addresses the challenge of significant changes in behaviors and lifestyles of Lviv citizens",
         "button": "Form Habit"
       },
       "block-2": {
         "header": "Our vision",
-        "text": "Is to help people get sustainable eco habits in\nan easy and fun way and gain support of the likeminded people.",
+        "text": "Is to help people get sustainable eco habits in an easy and fun way and gain support of the like-minded people.",
         "button": "Form Habit"
       }
     },
@@ -750,7 +750,7 @@
       "title": "It’s easier with Us",
       "block-1": {
         "header": "I don’t have time to look for eco stores",
-        "text": "We will help you to find eco places near to your homes and offices. And we will tell you about discounts.",
+        "text": "We will help you to find eco places near your homes and offices. And we will tell you about discounts.",
         "button": "Find eco places"
       },
       "block-2": {
@@ -760,17 +760,17 @@
       },
       "block-3": {
         "header": "Eco products are too expensive",
-        "text": "With us you may find like minded people, with whom you can easily share purchases (wholesale).",
+        "text": "With us, you will find like-minded people with whom you can easily share purchases (wholesale).",
         "button": "Find people"
       },
       "block-4": {
         "header": "I can do nothing to change the situation",
-        "text": "You may get inspired with stories of other people who gained eco habits and changes their lives.",
+        "text": "You may get inspired with stories of other people who gained eco habits and changed their lives.",
         "button": "Get inspired"
       },
       "block-5": {
         "header": "I don’t feel support from family and society",
-        "text": "With our help you may find this support in our community.",
+        "text": "With our help, you will find this support in our community.",
         "button": "Find people"
       }
     }
@@ -800,7 +800,7 @@
         "habit-at-all": "habits"
       },
       "no-habits-in-progress": "Hi Eco Friend ;-)",
-      "no-habits-in-progress-advice": "Welcome to My Habits. It seems you don’t have habits in progress. Let’s start to acquire a new one!",
+      "no-habits-in-progress-advice": "Welcome to My Habits. It seems you don’t have any habits in progress. Let’s start to acquire a new one!",
       "news-list": "List of news",
       "news": {
         "news-at-1": "item of news",

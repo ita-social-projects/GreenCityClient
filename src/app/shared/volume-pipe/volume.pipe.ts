@@ -26,7 +26,7 @@ export class VolumePipe implements PipeTransform, OnDestroy {
   }
 
   transform(value: any): any {
-    return `${value} ${LOCALIZED_VOLUME[this.lang]}`;
+    return `${value}${LOCALIZED_VOLUME[this.lang]}`;
   }
 
   ngOnDestroy() {
