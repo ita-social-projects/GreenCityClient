@@ -105,6 +105,9 @@
         "no-news-advice": "We couldn't find any more news. Please change filters to get another result."
       }
     },
+    "events": {
+      "title": "Events"
+    },
     "eco-advices": {
       "caption": "Tips & Tricks"
     },

@@ -1,0 +1,14 @@
+<div class="wrapper">
+  <h1>Event-list</h1>
+
+  <div class="cont">
+    <h1 class="main-header">{{ 'homepage.events.title' | translate }}</h1>
+    <a class="create" [routerLink]="['create-event']" *ngIf="true">
+      <div id="create-button" class="secondary-global-button">
+        <span id="create-button-text">Create</span>
+      </div>
+    </a>
+  </div>
+
+  <app-map-event></app-map-event>
+</div>
