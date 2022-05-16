@@ -13,10 +13,10 @@
       </button>
       <div class="dropdown-menu scrollbar">
         <div class="btn-group">
-          <button type="button" class="btn filter-btn" (click)="clearFilters()">
+          <button type="button" class="btn filter-btn" (click)="clearFilters()" [hidden]="!areFiltersApplied">
             {{ 'ubs-tables.clear-filters' | translate }}
           </button>
-          <button type="button" class="btn filter-btn bg-lime" (click)="applyFilters()">
+          <button type="button" class="btn filter-btn bg-lime" (click)="applyFilters()" [hidden]="!areFiltersApplied">
             {{ 'ubs-tables.apply-filters' | translate }}
           </button>
           <button type="button" class="reset-settings" (click)="closeFilters()">

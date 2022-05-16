@@ -83,6 +83,7 @@ export class UbsAdminTableComponent implements OnInit, AfterViewChecked, OnDestr
   isPostData = false;
   dataForPopUp = [];
   uneditableStatuses = ['CANCELED', 'DONE'];
+  areFiltersApplied = false;
   public showPopUp: boolean;
   resizableMousemove: () => void;
   resizableMouseup: () => void;
@@ -284,7 +285,7 @@ export class UbsAdminTableComponent implements OnInit, AfterViewChecked, OnDestr
     this.checkAllColumnsDisplayed();
   }
 
-  public closeFilters() {
+  public closeFilters(): void {
     this.display = 'none';
   }
 
@@ -501,8 +502,11 @@ export class UbsAdminTableComponent implements OnInit, AfterViewChecked, OnDestr
 
   toggleAccordion(e: PointerEvent): void {
     (e.target as HTMLElement).parentElement.parentElement.querySelector('.accordion-collapse').classList.toggle('show');
-    (e.target as HTMLElement).textContent =
-      (e.target as HTMLElement).textContent == 'keyboard_arrow_down' ? 'keyboard_arrow_up' : 'keyboard_arrow_down';
+    let matIcon =
+      (e.target as HTMLElement) instanceof HTMLSpanElement
+        ? (e.target as HTMLElement).parentElement.children[1]
+        : (e.target as HTMLElement);
+    matIcon.textContent = matIcon.textContent === 'keyboard_arrow_down' ? 'keyboard_arrow_up' : 'keyboard_arrow_down';
   }
 
   openOrder(id: number): void {
@@ -518,16 +522,17 @@ export class UbsAdminTableComponent implements OnInit, AfterViewChecked, OnDestr
   }
 
   getColumnsForFiltering() {
-    console.log('this.adminTableService.columnsForFiltering ', this.adminTableService.columnsForFiltering);
     return this.adminTableService.columnsForFiltering;
   }
 
   changeFilters(checked: boolean, currentColumn: string, option: IFilteredColumnValue): void {
     this.adminTableService.changeFilters(checked, currentColumn, option);
+    this.areFiltersApplied = this.adminTableService.filters.length > 0;
   }
 
   changeDateFilters(e: MatCheckboxChange, checked: boolean, currentColumn: string): void {
     this.adminTableService.changeDateFilters(e, checked, currentColumn);
+    this.areFiltersApplied = this.adminTableService.filters.length > 0;
   }
 
   changeInputDateFilters(value: string, currentColumn: string, suffix: string): void {
