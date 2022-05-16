@@ -199,7 +199,7 @@ export class UbsAdminTableComponent implements OnInit, AfterViewChecked, OnDestr
     this.cdr.detectChanges();
   }
 
-  checkAllColumnsDisplayed() {
+  checkAllColumnsDisplayed(): void {
     this.isAllColumnsDisplayed = this.displayedColumns.length === this.displayedColumnsView.length;
   }
 

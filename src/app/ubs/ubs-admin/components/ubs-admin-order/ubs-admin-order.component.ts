@@ -54,7 +54,7 @@ export class UbsAdminOrderComponent implements OnInit, OnDestroy, AfterContentCh
   currentOrderStatus: string;
   overpayment: number;
   isMinOrder = true;
-  submitted = false;
+  isSubmitted = false;
   private matSnackBar: MatSnackBarComponent;
   private orderService: OrderService;
   constructor(
@@ -235,14 +235,10 @@ export class UbsAdminOrderComponent implements OnInit, OnDestroy, AfterContentCh
       });
   }
 
-  goBack() {
-    if (this.orderForm.dirty && !this.submitted) {
-      this.dialog.open(UbsAdminGoBackModalComponent, {
-        hasBackdrop: true
-      });
-    } else {
-      this.router.navigate(['ubs-admin', 'orders']);
-    }
+  goBack(): void {
+    this.orderForm.dirty && !this.isSubmitted
+      ? this.dialog.open(UbsAdminGoBackModalComponent, { hasBackdrop: true })
+      : this.router.navigate(['ubs-admin', 'orders']);
   }
 
   onChangedOrderStatus(status: string) {
@@ -307,7 +303,7 @@ export class UbsAdminOrderComponent implements OnInit, OnDestroy, AfterContentCh
   }
 
   public onSubmit(): void {
-    this.submitted = true;
+    this.isSubmitted = true;
     const changedValues: any = {};
     this.getUpdates(this.orderForm, changedValues);
 
@@ -345,11 +341,11 @@ export class UbsAdminOrderComponent implements OnInit, OnDestroy, AfterContentCh
         response.ok ? this.matSnackBar.snackType.changesSaved() : this.matSnackBar.snackType.error();
         if (response.ok) {
           this.getOrderInfo(this.orderId);
-          for (const key in changedValues.generalOrderInfo) {
-            if (key && changedValues.generalOrderInfo[key]) {
+          Object.keys(changedValues.generalOrderInfo).forEach((key: string) => {
+            if (changedValues.generalOrderInfo[key]) {
               this.postDataItem([this.orderId], key, changedValues.generalOrderInfo[key]);
             }
-          }
+          });
         }
       });
   }
