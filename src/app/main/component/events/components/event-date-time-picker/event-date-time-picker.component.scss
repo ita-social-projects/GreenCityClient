@@ -1,0 +1,18 @@
+.date-container {
+  display: inline-block;
+  max-width: 250px;
+  margin: 20px;
+}
+
+.time-container {
+  display: flex;
+  width: 100%;
+}
+
+.time-item {
+  width: 50%;
+}
+
+.time-button {
+  min-width: 100%;
+}

@@ -7,13 +7,16 @@ import { RestorePasswordComponent } from '../restore-password/restore-password.c
 import { SignUpComponent } from '../sign-up/sign-up.component';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { SignInComponent } from '@global-auth/sign-in/sign-in.component';
+import { RouterTestingModule } from '@angular/router/testing';
 
 import { AuthModalComponent } from './auth-modal.component';
 import { MatDialogModule, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { Router } from '@angular/router';
 
 describe('AuthModalComponent', () => {
   let component: AuthModalComponent;
   let fixture: ComponentFixture<AuthModalComponent>;
+  let router: Router;
 
   const MatDialogRefMock = {
     close: () => {}
@@ -22,7 +25,7 @@ describe('AuthModalComponent', () => {
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       declarations: [AuthModalComponent, SignInComponent, SignUpComponent, RestorePasswordComponent, ErrorComponent, GoogleBtnComponent],
-      imports: [TranslateModule.forRoot(), ReactiveFormsModule, FormsModule, HttpClientModule, MatDialogModule],
+      imports: [TranslateModule.forRoot(), ReactiveFormsModule, FormsModule, HttpClientModule, MatDialogModule, RouterTestingModule],
       providers: [
         { provide: MAT_DIALOG_DATA, useValue: {} },
         { provide: MatDialogRef, useValue: MatDialogRefMock }
@@ -34,6 +37,8 @@ describe('AuthModalComponent', () => {
     fixture = TestBed.createComponent(AuthModalComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
+    router = fixture.debugElement.injector.get(Router);
+    spyOn(router.url, 'includes').and.returnValue(false);
   });
 
   it('should create', () => {

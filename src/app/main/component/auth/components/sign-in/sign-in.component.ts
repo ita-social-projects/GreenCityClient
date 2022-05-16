@@ -34,7 +34,6 @@ export class SignInComponent implements OnInit, OnDestroy, OnChanges {
   public emailFieldValue: string;
   public passwordFieldValue: string;
   public isUbs: boolean;
-  public ubsStyle: string;
   private destroy: Subject<boolean> = new Subject<boolean>();
 
   // generalError can contain:
@@ -56,13 +55,14 @@ export class SignInComponent implements OnInit, OnDestroy, OnChanges {
     private userOwnAuthService: UserOwnAuthService,
     private profileService: ProfileService
   ) {}
+
   ngOnDestroy(): void {
     this.destroy.next(true);
     this.destroy.complete();
   }
 
   ngOnInit() {
-    this.localStorageService.ubsRegBehaviourSubject.pipe(takeUntil(this.destroy)).subscribe((value) => (this.isUbs = value));
+    this.isUbs = this.router.url.includes('ubs') ? true : false;
     this.userOwnSignIn = new UserOwnSignIn();
     this.configDefaultErrorMessage();
     this.checkIfUserId();
@@ -76,7 +76,6 @@ export class SignInComponent implements OnInit, OnDestroy, OnChanges {
     // Get form fields to use it in the template
     this.emailField = this.signInForm.get('email');
     this.passwordField = this.signInForm.get('password');
-    this.checkIfItUbs();
   }
 
   ngOnChanges(): void {
@@ -188,10 +187,6 @@ export class SignInComponent implements OnInit, OnDestroy, OnChanges {
         errors.error.error === 'Unauthorized' ? 'user.auth.sign-in.account-has-been-deleted' : 'user.auth.sign-in.bad-email-or-password';
       return;
     }
-  }
-
-  checkIfItUbs() {
-    this.ubsStyle = this.isUbs ? 'ubsStyle' : 'greenStyle';
   }
 
   public emailClassCheck(): string {

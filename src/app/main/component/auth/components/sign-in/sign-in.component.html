@@ -75,7 +75,11 @@
       {{ 'user.auth.sign-in.forgot-password' | translate }}</a
     >
   </div>
-  <button [class]="ubsStyle" [disabled]="(emailField.invalid || !passwordField.touched) && passwordField.invalid" type="submit">
+  <button
+    [ngClass]="isUbs ? 'ubsStyle' : 'greenStyle'"
+    [disabled]="(emailField.invalid || !passwordField.touched) && passwordField.invalid"
+    type="submit"
+  >
     <span *ngIf="loadingAnim" class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
     {{ 'user.auth.sign-in.sign-in' | translate }}
   </button>
