@@ -22,6 +22,7 @@ export class UserOwnSignUpService {
       return of<any>();
     }
     const isUbs = this.localStorageService.getUbsRegistration();
+    userOwnRegister.isUbs = isUbs;
     const body = {
       email: userOwnRegister.email,
       name: userOwnRegister.firstName,

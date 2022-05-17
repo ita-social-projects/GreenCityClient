@@ -6,7 +6,7 @@ export class UserOwnSignUp {
   // tslint:disable-next-line:variable-name
   private _password: string;
   // tslint:disable-next-line:variable-name
-  private _isUbs: string;
+  private _isUbs: boolean;
 
   get firstName(): string {
     return this._firstName;
@@ -32,11 +32,11 @@ export class UserOwnSignUp {
     this._password = value;
   }
 
-  get isUbs(): string {
+  get isUbs(): boolean {
     return this._isUbs;
   }
 
-  set isUbs(value: string) {
+  set isUbs(value: boolean) {
     this._isUbs = value;
   }
 }
