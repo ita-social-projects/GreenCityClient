@@ -67,7 +67,7 @@ export class SignUpComponent implements OnInit, OnDestroy, OnChanges {
     this.getFormFields();
     this.setNullAllMessage();
     this.userOwnSignUp = new UserOwnSignUp();
-    this.isUbs = this.router.url.includes('ubs') ? true : false;
+    this.isUbs = this.router.url.includes('ubs');
   }
 
   ngOnChanges(): void {
