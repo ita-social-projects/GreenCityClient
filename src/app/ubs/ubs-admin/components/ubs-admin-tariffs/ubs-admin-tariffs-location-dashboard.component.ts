@@ -329,7 +329,8 @@ export class UbsAdminTariffsLocationDashboardComponent implements OnInit, OnDest
       hasBackdrop: true,
       panelClass: 'address-matDialog-styles-w-100',
       data: {
-        headerText: 'addTemplate'
+        headerText: 'addLocation',
+        edit: false
       }
     });
   }
@@ -339,7 +340,8 @@ export class UbsAdminTariffsLocationDashboardComponent implements OnInit, OnDest
       hasBackdrop: true,
       panelClass: 'address-matDialog-styles-w-100',
       data: {
-        headerText: 'editTemplate'
+        headerText: 'editLocation',
+        edit: true
       }
     });
   }

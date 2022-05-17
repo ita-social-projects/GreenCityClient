@@ -97,6 +97,7 @@ export class UbsAdminTariffsLocationPopUpComponent implements OnInit, AfterViewC
     public data: {
       headerText: string;
       template: TemplateRef<any>;
+      edit: boolean;
     }
   ) {}
 
@@ -233,6 +234,10 @@ export class UbsAdminTariffsLocationPopUpComponent implements OnInit, AfterViewC
     }
     this.store.dispatch(AddLocations({ locations: this.createdCards }));
     this.dialogRef.close({});
+  }
+
+  public editLocation(): void {
+    console.log('qwwe');
   }
 
   onNoClick(): void {

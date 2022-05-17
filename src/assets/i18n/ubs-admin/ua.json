@@ -546,7 +546,7 @@
   },
   "ubs-tariffs-add-location-pop-up": {
     "title": "Додати локацію",
-    "edit-title": "Редагувати картку",
+    "edit-title": "Редагувати локацію",
     "deactivate": "Деактивувати",
     "region": "Область",
     "locality": "Місто",
@@ -564,6 +564,8 @@
     "station_edit_title": "Редагувати станцію приймання",
     "courier_edit_text": "Оберіть кур'єра та редагуйте",
     "station_edit_text": "Оберіть станцію приймання та редагуйте",
+    "region_edit_text": "Оберіть область",
+    "city_edit_text": "Оберіть місто та редагуйте",
     "date": "Дaта ",
     "user": "Додано ",
     "placeholder_region": "Виберіть область",

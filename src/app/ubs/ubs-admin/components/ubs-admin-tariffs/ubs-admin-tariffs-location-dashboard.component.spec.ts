@@ -458,7 +458,8 @@ describe('UbsAdminTariffsLocationDashboardComponent', () => {
       hasBackdrop: true,
       panelClass: 'address-matDialog-styles-w-100',
       data: {
-        headerText: 'addTemplate'
+        headerText: 'addLocation',
+        edit: false
       }
     });
   });
@@ -469,7 +470,8 @@ describe('UbsAdminTariffsLocationDashboardComponent', () => {
       hasBackdrop: true,
       panelClass: 'address-matDialog-styles-w-100',
       data: {
-        headerText: 'editTemplate'
+        headerText: 'editLocation',
+        edit: true
       }
     });
   });

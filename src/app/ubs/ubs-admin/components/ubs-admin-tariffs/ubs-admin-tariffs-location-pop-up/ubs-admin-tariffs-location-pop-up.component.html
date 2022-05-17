@@ -1,9 +1,11 @@
 <form [formGroup]="locationForm">
-  <div *ngIf="this.data.headerText === 'addTemplate'" class="w-100">
-    <p class="add-location-title">{{ 'ubs-tariffs-add-location-pop-up.title' | translate }}</p>
+  <div class="w-100">
+    <p *ngIf="!data.edit" class="add-location-title">{{ 'ubs-tariffs-add-location-pop-up.title' | translate }}</p>
+    <p *ngIf="data.edit" class="add-location-title">{{ 'ubs-tariffs-add-location-pop-up.edit-title' | translate }}</p>
   </div>
-  <app-dialog-tariff [row]="form" [newDate]="newDate" [name]="name"></app-dialog-tariff>
+  <app-dialog-tariff [row]="form" [newDate]="newDate" [name]="name" [edit]="data.edit"></app-dialog-tariff>
   <ng-template #form>
+    <p *ngIf="data.edit" class="edit-text">{{ 'ubs-tariffs-add-location-pop-up.region_edit_text' | translate }}</p>
     <div class="d-flex first-row">
       <div>
         <div class="form-group">
@@ -50,7 +52,7 @@
         />
       </div>
     </div>
-    <mat-expansion-panel *ngIf="cities.length">
+    <mat-expansion-panel *ngIf="cities.length && !data.edit">
       <mat-expansion-panel-header [collapsedHeight]="'20px'" [expandedHeight]="'20px'">
         <mat-panel-title>
           {{ 'ubs-tariffs-add-location-pop-up.activeCities' | translate }}
@@ -61,6 +63,7 @@
         {{ item }}
       </div>
     </mat-expansion-panel>
+    <p *ngIf="data.edit" class="edit-text">{{ 'ubs-tariffs-add-location-pop-up.city_edit_text' | translate }}</p>
     <div class="d-flex">
       <div>
         <div class="form-group">
@@ -120,12 +123,20 @@
         {{ 'ubs-tariffs-add-location-pop-up.cancel_button' | translate }}
       </button>
       <button
-        *ngIf="this.data.headerText === 'addTemplate'"
+        *ngIf="!data.edit"
         class="primary-global-button btn m-0"
         [disabled]="locationForm.invalid || selectedCities.length === 0"
         (click)="addLocation()"
       >
         {{ 'ubs-tariffs-add-location-pop-up.add_button' | translate }}
+      </button>
+      <button
+        *ngIf="data.edit"
+        class="primary-global-button btn m-0"
+        [disabled]="locationForm.invalid || selectedCities.length === 0"
+        (click)="editLocation()"
+      >
+        {{ 'ubs-tariffs-add-location-pop-up.save_button' | translate }}
       </button>
     </div>
   </ng-template>

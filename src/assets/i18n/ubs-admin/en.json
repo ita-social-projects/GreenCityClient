@@ -549,7 +549,7 @@
   },
   "ubs-tariffs-add-location-pop-up": {
     "title": "Add location",
-    "edit-title": "Edit card",
+    "edit-title": "Edit location",
     "deactivate": "Deactivate",
     "region": "Region",
     "locality": "City",
@@ -565,6 +565,8 @@
     "station_edit_title": "Edit receiving station",
     "courier_edit_text": "Choose courier and edit",
     "station_edit_text": "Choose receiving station",
+    "region_edit_text": "Choose region",
+    "city_edit_text": "Choose city and edit",
     "courier": "Courier",
     "station": "Receiving station",
     "date": "Date ",
