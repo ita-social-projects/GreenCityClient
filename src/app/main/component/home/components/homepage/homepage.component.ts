@@ -1,12 +1,9 @@
+import { CheckTokenService } from './../../../../service/auth/check-token/check-token.service';
 import { Component, OnInit, OnDestroy } from '@angular/core';
-import { ActivatedRoute, Router } from '@angular/router';
+import { Router } from '@angular/router';
 import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
 import { UserService } from '@global-service/user/user.service';
-import { MatSnackBarComponent } from '@global-errors/mat-snack-bar/mat-snack-bar.component';
-import { VerifyEmailService } from '@auth-service/verify-email/verify-email.service';
-import { Subscription, EMPTY } from 'rxjs';
-import { AuthModalComponent } from '@global-auth/auth-modal/auth-modal.component';
-import { switchMap } from 'rxjs/operators';
+import { Subscription } from 'rxjs';
 import { MatDialog } from '@angular/material/dialog';
 
 @Component({
@@ -27,10 +24,8 @@ export class HomepageComponent implements OnInit, OnDestroy {
     private router: Router,
     private localStorageService: LocalStorageService,
     private userService: UserService,
-    private activatedRoute: ActivatedRoute,
-    private verifyEmailService: VerifyEmailService,
-    private snackBar: MatSnackBarComponent,
-    public dialog: MatDialog
+    public dialog: MatDialog,
+    private checkTokenservice: CheckTokenService
   ) {}
 
   ngOnInit() {
@@ -43,38 +38,8 @@ export class HomepageComponent implements OnInit, OnDestroy {
     this.router.navigate(['/profile', this.userId]);
   }
 
-  // check if the token is still valid
   private onCheckToken(): void {
-    this.subs.add(
-      this.activatedRoute.queryParams
-        .pipe(
-          switchMap((params) => {
-            const { token, user_id } = params;
-            if (token && user_id) {
-              return this.verifyEmailService.onCheckToken(token, user_id);
-            } else {
-              return EMPTY;
-            }
-          })
-        )
-        .subscribe((res) => {
-          if (res) {
-            this.snackBar.openSnackBar('successConfirmEmail');
-            this.openAuthModalWindow();
-          }
-        })
-    );
-  }
-
-  private openAuthModalWindow(): void {
-    this.dialog.open(AuthModalComponent, {
-      hasBackdrop: true,
-      closeOnNavigation: true,
-      panelClass: ['custom-dialog-container', 'transparent'],
-      data: {
-        popUpName: 'sign-in'
-      }
-    });
+    this.checkTokenservice.onCheckToken(this.subs);
   }
 
   ngOnDestroy() {
