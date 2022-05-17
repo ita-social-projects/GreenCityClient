@@ -83,7 +83,7 @@ export class UbsAdminTableComponent implements OnInit, AfterViewChecked, OnDestr
   isPostData = false;
   dataForPopUp = [];
   uneditableStatuses = ['CANCELED', 'DONE'];
-  areFiltersApplied = false;
+  noFiltersApplied = true;
   public showPopUp: boolean;
   resizableMousemove: () => void;
   resizableMouseup: () => void;
@@ -524,12 +524,12 @@ export class UbsAdminTableComponent implements OnInit, AfterViewChecked, OnDestr
 
   changeFilters(checked: boolean, currentColumn: string, option: IFilteredColumnValue): void {
     this.adminTableService.changeFilters(checked, currentColumn, option);
-    this.areFiltersApplied = this.adminTableService.filters.length > 0;
+    this.noFiltersApplied = this.adminTableService.filters.length === 0;
   }
 
   changeDateFilters(e: MatCheckboxChange, checked: boolean, currentColumn: string): void {
     this.adminTableService.changeDateFilters(e, checked, currentColumn);
-    this.areFiltersApplied = this.adminTableService.filters.length > 0;
+    this.noFiltersApplied = this.adminTableService.filters.length === 0;
   }
 
   changeInputDateFilters(value: string, currentColumn: string, suffix: string): void {
