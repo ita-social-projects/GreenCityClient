@@ -50,7 +50,12 @@
         {{ 'order-edit.btn.back' | translate }}
       </button>
       <div class="controls">
-        <button type="reset" class="cancel-button" [disabled]="orderForm.pristine" (click)="$event.preventDefault(); openCancelModal()">
+        <button
+          type="reset"
+          class="cancel-button"
+          [disabled]="orderForm.pristine || !orderForm.valid || !isMinOrder"
+          (click)="$event.preventDefault(); openCancelModal()"
+        >
           {{ 'order-edit.btn.cancel' | translate }}
         </button>
         <button type="submit" class="save-button" [disabled]="orderForm.pristine || !orderForm.valid || !isMinOrder" (click)="onSubmit()">
