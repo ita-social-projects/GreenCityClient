@@ -26,7 +26,7 @@ export class UserOwnSignUpService {
       email: userOwnRegister.email,
       name: userOwnRegister.firstName,
       password: userOwnRegister.password,
-      isUbs: isUbs
+      isUbs: userOwnRegister.isUbs
     };
     return this.http.post(`${userOwnSignUpLink}?lang=${lang}`, body);
   }
