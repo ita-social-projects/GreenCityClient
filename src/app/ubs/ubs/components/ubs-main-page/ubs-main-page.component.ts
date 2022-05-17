@@ -1,5 +1,5 @@
 import { CheckTokenService } from './../../../../main/service/auth/check-token/check-token.service';
-import { Component, OnDestroy } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { Router } from '@angular/router';
 import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
@@ -14,7 +14,7 @@ import { Subscription } from 'rxjs';
   templateUrl: './ubs-main-page.component.html',
   styleUrls: ['./ubs-main-page.component.scss']
 })
-export class UbsMainPageComponent implements OnDestroy {
+export class UbsMainPageComponent implements OnInit, OnDestroy {
   private subs = new Subscription();
   private destroy: Subject<boolean> = new Subject<boolean>();
   ubsMainPageImages = ubsMainPageImages;
