@@ -3,10 +3,11 @@ import { TranslateModule } from '@ngx-translate/core';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { UbsMainPageComponent } from './ubs-main-page.component';
 import { MatDialog } from '@angular/material/dialog';
-import { of } from 'rxjs';
+import { of, Subject } from 'rxjs';
 import { Router } from '@angular/router';
 import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
+import { OrderService } from '../../services/order.service';
 
 describe('UbsMainPageComponent', () => {
   let component: UbsMainPageComponent;
@@ -20,6 +21,7 @@ describe('UbsMainPageComponent', () => {
       return of({ data: true });
     }
   };
+  const orderServiceMock = jasmine.createSpyObj('orderService', ['getLocations']);
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
@@ -28,7 +30,8 @@ describe('UbsMainPageComponent', () => {
       providers: [
         { provide: MatDialog, useValue: matDialogMock },
         { provide: Router, useValue: routerMock },
-        { provide: LocalStorageService, useValue: localeStorageServiceMock }
+        { provide: LocalStorageService, useValue: localeStorageServiceMock },
+        { provide: OrderService, useValue: orderServiceMock }
       ]
     }).compileComponents();
   }));
@@ -43,6 +46,15 @@ describe('UbsMainPageComponent', () => {
     expect(component).toBeTruthy();
   });
 
+  it('destroy Subject should be closed after ngOnDestroy()', () => {
+    (component as any).destroy = new Subject<boolean>();
+    const nextSpy = spyOn((component as any).destroy, 'next');
+    const unsubscribeSpy = spyOn((component as any).destroy, 'unsubscribe');
+    component.ngOnDestroy();
+    expect(nextSpy).toHaveBeenCalledTimes(1);
+    expect(unsubscribeSpy).toHaveBeenCalledTimes(1);
+  });
+
   it('should make expected calls inside openLocationDialog', () => {
     matDialogMock.open.and.returnValue(dialogRefStub as any);
     component.openLocationDialog('fake locations' as any);
@@ -54,5 +66,22 @@ describe('UbsMainPageComponent', () => {
     component.redirectToOrder();
     expect(localeStorageServiceMock.setUbsRegistration).toHaveBeenCalledWith(true);
     expect(spy).toHaveBeenCalled();
+  });
+
+  it('should make expected calls inside redirectToOrder if orderIsPresent is false', () => {
+    orderServiceMock.getLocations.and.returnValue(of({ orderIsPresent: false }));
+    const spy = spyOn(component, 'openLocationDialog');
+    component.getLocations();
+    expect(component.isFetching).toBeFalsy();
+    expect(spy).toHaveBeenCalledWith({ orderIsPresent: false });
+  });
+
+  it('should make expected calls inside redirectToOrder if orderIsPresent is true', () => {
+    orderServiceMock.getLocations.and.returnValue(of({ orderIsPresent: true }));
+    const spy = spyOn(component, 'saveLocation');
+    component.getLocations();
+    expect(component.isFetching).toBeFalsy();
+    expect(spy).toHaveBeenCalledWith({ orderIsPresent: true });
+    expect(routerMock.navigate).toHaveBeenCalledWith(['ubs', 'order']);
   });
 });
