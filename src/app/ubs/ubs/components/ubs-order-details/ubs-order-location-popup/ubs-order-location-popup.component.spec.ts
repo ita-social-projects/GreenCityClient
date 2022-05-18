@@ -1,23 +1,49 @@
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { async, ComponentFixture, fakeAsync, TestBed, tick } from '@angular/core/testing';
-import { MatDialogModule, MatDialogRef } from '@angular/material/dialog';
+import { MatAutocompleteModule } from '@angular/material/autocomplete';
+import { MatDialogModule, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { By } from '@angular/platform-browser';
 import { TranslateModule } from '@ngx-translate/core';
-import { Subject } from 'rxjs';
+import { of, Subject } from 'rxjs';
 import { FilterLocationListByLangPipe } from 'src/app/shared/filter-location-list-by-lang/filter-location-list-by-lang.pipe';
+import { OrderService } from '../../../services/order.service';
 import { UbsOrderLocationPopupComponent } from './ubs-order-location-popup.component';
 
 describe('UbsOrderLocationPopupComponent', () => {
   let component: UbsOrderLocationPopupComponent;
   let fixture: ComponentFixture<UbsOrderLocationPopupComponent>;
-  const dialogMock = { close: () => {} };
+  const dialogMock = jasmine.createSpyObj('dialogRef', ['close']);
+  const orderServiceMock = jasmine.createSpyObj('orderService', ['getLocations']);
+  const fakeData = {
+    allActiveLocationsDtos: [
+      {
+        locations: [
+          {
+            locationId: 2,
+            nameEn: 'fake location en',
+            nameUk: 'fake location ua'
+          }
+        ],
+        nameEn: 'fake name en',
+        nameUk: 'fake name ua',
+        regionId: 1
+      }
+    ],
+    tariffsForLocationDto: null,
+    orderIsPresent: true
+  };
+  orderServiceMock.getLocations.and.returnValue(of(fakeData));
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       declarations: [UbsOrderLocationPopupComponent, FilterLocationListByLangPipe],
-      providers: [{ provide: MatDialogRef, useValue: dialogMock }],
-      imports: [HttpClientTestingModule, MatDialogModule, TranslateModule.forRoot()],
+      providers: [
+        { provide: MatDialogRef, useValue: dialogMock },
+        { provide: OrderService, useValue: orderServiceMock },
+        { provide: MAT_DIALOG_DATA, useValue: fakeData }
+      ],
+      imports: [HttpClientTestingModule, MatDialogModule, MatAutocompleteModule, TranslateModule.forRoot()],
       schemas: [CUSTOM_ELEMENTS_SCHEMA]
     }).compileComponents();
   }));
@@ -25,6 +51,7 @@ describe('UbsOrderLocationPopupComponent', () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(UbsOrderLocationPopupComponent);
     component = fixture.componentInstance;
+    component.data = fakeData;
     fixture.detectChanges();
   });
 
@@ -47,38 +74,16 @@ describe('UbsOrderLocationPopupComponent', () => {
     expect(spy).toHaveBeenCalled();
   }));
 
-  it('method ngOnDestroy should invoke method passDataToComponent()', () => {
-    component.isSaveLocation = true;
-    const spy = spyOn(component, 'passDataToComponent').and.callFake(() => {});
-    component.ngOnDestroy();
-    expect(spy).toHaveBeenCalled();
-  });
-
   it('method passDataToComponent should invoke this.dialogRef.close({})', () => {
-    // @ts-ignore
-    spyOn(component.dialogRef, 'close');
     component.passDataToComponent();
-    // @ts-ignore
-    expect(component.dialogRef.close).toHaveBeenCalled();
+    expect(dialogMock.close).toHaveBeenCalled();
   });
-
-  it('method redirectToMain should call by click back button', fakeAsync(() => {
-    const spyMethod = spyOn(component, 'redirectToMain');
-    const btn = fixture.debugElement.query(By.css('.secondary-global-button'));
-    btn.triggerEventHandler('click', null);
-    tick();
-    fixture.detectChanges();
-    expect(spyMethod).toHaveBeenCalled();
-  }));
 
   it('destroy Subject should be closed after ngOnDestroy()', () => {
-    // @ts-ignore
-    component.destroy$ = new Subject<boolean>();
-    // @ts-ignore
-    spyOn(component.destroy$, 'complete');
+    (component as any).destroy$ = new Subject<boolean>();
+    spyOn((component as any).destroy$, 'complete');
     component.ngOnDestroy();
-    // @ts-ignore
-    expect(component.destroy$.complete).toHaveBeenCalledTimes(1);
+    expect((component as any).destroy$.complete).toHaveBeenCalledTimes(1);
   });
 
   describe('displayFn', () => {
@@ -98,14 +103,9 @@ describe('UbsOrderLocationPopupComponent', () => {
     });
   });
 
-  it('expected result in redirectToMain', () => {
-    component.isSaveLocation = true;
-    component.redirectToMain();
-    expect(component.isSaveLocation).toBeFalsy();
-  });
-
   it('expected result in changeLocation', () => {
-    component.changeLocation(3);
+    component.changeLocation(3, 'fakeCity, fakeRegion');
     expect(component.selectedLocationId).toBe(3);
+    expect(component.currentLocation).toBe('fakeCity');
   });
 });

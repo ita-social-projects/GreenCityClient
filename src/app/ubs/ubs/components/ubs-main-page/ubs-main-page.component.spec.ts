@@ -6,6 +6,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { of } from 'rxjs';
 import { Router } from '@angular/router';
 import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
+import { HttpClientTestingModule } from '@angular/common/http/testing';
 
 describe('UbsMainPageComponent', () => {
   let component: UbsMainPageComponent;
@@ -22,7 +23,7 @@ describe('UbsMainPageComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      imports: [TranslateModule.forRoot(), RouterTestingModule],
+      imports: [TranslateModule.forRoot(), RouterTestingModule, HttpClientTestingModule],
       declarations: [UbsMainPageComponent],
       providers: [
         { provide: MatDialog, useValue: matDialogMock },
@@ -44,12 +45,12 @@ describe('UbsMainPageComponent', () => {
 
   it('should make expected calls inside openLocationDialog', () => {
     matDialogMock.open.and.returnValue(dialogRefStub as any);
-    component.openLocationDialog();
+    component.openLocationDialog('fake locations' as any);
     expect(routerMock.navigate).toHaveBeenCalledWith(['ubs', 'order']);
   });
 
   it('should make expected calls inside redirectToOrder', () => {
-    const spy = spyOn(component, 'openLocationDialog');
+    const spy = spyOn(component, 'getLocations');
     component.redirectToOrder();
     expect(localeStorageServiceMock.setUbsRegistration).toHaveBeenCalledWith(true);
     expect(spy).toHaveBeenCalled();
