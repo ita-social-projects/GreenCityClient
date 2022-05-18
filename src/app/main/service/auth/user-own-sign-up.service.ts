@@ -21,12 +21,13 @@ export class UserOwnSignUpService {
     if (userOwnRegister.password === undefined) {
       return of<any>();
     }
-    const isUbs = this.localStorageService.getUbsRegistration();
+
+    userOwnRegister.isUbs = this.localStorageService.getUbsRegistration();
     const body = {
       email: userOwnRegister.email,
       name: userOwnRegister.firstName,
       password: userOwnRegister.password,
-      isUbs: isUbs
+      isUbs: userOwnRegister.isUbs
     };
     return this.http.post(`${userOwnSignUpLink}?lang=${lang}`, body);
   }
