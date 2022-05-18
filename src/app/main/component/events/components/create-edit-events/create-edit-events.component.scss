@@ -1,0 +1,37 @@
+.form-container {
+  padding: 0 40px;
+  align-items: center;
+}
+
+.event-input {
+  width: 500px;
+}
+
+.dateContainer {
+  display: flex;
+  flex-wrap: wrap;
+}
+
+::ng-deep {
+  .ql-container {
+    min-height: 200px;
+  }
+}
+
+.item-block {
+  transition: 1.2s;
+}
+
+.google-map {
+  margin: 10px 0 60px;
+  height: 340px;
+  width: 70%;
+  padding: 0 0 40px 0;
+  transition: 1.2s;
+}
+
+.isOnline {
+  overflow: hidden;
+  height: 0;
+  padding: 0;
+}

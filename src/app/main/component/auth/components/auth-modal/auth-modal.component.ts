@@ -2,9 +2,8 @@ import { authImages, ubsAuthImages } from './../../../../image-pathes/auth-image
 import { Component, Inject, OnDestroy, OnInit } from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { LiveAnnouncer } from '@angular/cdk/a11y';
-import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
 import { Subject } from 'rxjs';
-import { takeUntil } from 'rxjs/operators';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-auth-modal',
@@ -19,14 +18,13 @@ export class AuthModalComponent implements OnInit, OnDestroy {
 
   constructor(
     private announcer: LiveAnnouncer,
+    private router: Router,
     public matDialogRef: MatDialogRef<AuthModalComponent>,
-    private localeStorageService: LocalStorageService,
     @Inject(MAT_DIALOG_DATA) public data
   ) {}
 
   ngOnInit(): void {
-    this.localeStorageService.ubsRegBehaviourSubject.pipe(takeUntil(this.destroySub)).subscribe((value) => (this.authImageValue = value));
-    this.authImages = this.authImageValue ? ubsAuthImages : authImages;
+    this.authImages = this.router.url.includes('ubs') ? ubsAuthImages : authImages;
     this.setAuthPage();
     this.announce();
   }

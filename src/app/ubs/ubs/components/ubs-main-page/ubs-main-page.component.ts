@@ -4,8 +4,10 @@ import { MatDialog } from '@angular/material/dialog';
 import { Router } from '@angular/router';
 import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
 import { Subject } from 'rxjs';
-import { takeUntil } from 'rxjs/operators';
+import { takeUntil, finalize } from 'rxjs/operators';
 import { ubsMainPageImages } from '../../../../main/image-pathes/ubs-main-page-images';
+import { AllLocationsDtos, CourierLocations } from '../../models/ubs.interface';
+import { OrderService } from '../../services/order.service';
 import { UbsOrderLocationPopupComponent } from '../ubs-order-details/ubs-order-location-popup/ubs-order-location-popup.component';
 import { Subscription } from 'rxjs';
 
@@ -18,6 +20,11 @@ export class UbsMainPageComponent implements OnInit, OnDestroy {
   private subs = new Subscription();
   private destroy: Subject<boolean> = new Subject<boolean>();
   ubsMainPageImages = ubsMainPageImages;
+  locations: CourierLocations;
+  selectedLocationId: number;
+  isFetching: boolean;
+  currentLocation: string;
+
   priceCard = [
     {
       header: 'ubs-homepage.ubs-courier.price.price-title.li_1',
@@ -76,12 +83,15 @@ export class UbsMainPageComponent implements OnInit, OnDestroy {
     private router: Router,
     private dialog: MatDialog,
     private localeStorageService: LocalStorageService,
-    private checkTokenservice: CheckTokenService
+    private checkTokenservice: CheckTokenService,
+    private localStorageService: LocalStorageService,
+    private orderService: OrderService
   ) {}
 
   ngOnInit(): void {
     this.onCheckToken();
   }
+  
   ngOnDestroy() {
     this.destroy.next();
     this.destroy.unsubscribe();
@@ -93,14 +103,45 @@ export class UbsMainPageComponent implements OnInit, OnDestroy {
   }
 
   redirectToOrder() {
-    this.localeStorageService.setUbsRegistration(true);
-    this.openLocationDialog();
+    this.localStorageService.setUbsRegistration(true);
+    this.getLocations();
   }
 
-  openLocationDialog() {
+  getLocations(): void {
+    this.isFetching = true;
+    this.orderService
+      .getLocations()
+      .pipe(
+        takeUntil(this.destroy),
+        finalize(() => {
+          this.isFetching = false;
+        })
+      )
+      .subscribe((res: any) => {
+        if (res.orderIsPresent) {
+          this.saveLocation(res);
+          this.router.navigate(['ubs', 'order']);
+        } else {
+          this.openLocationDialog(res);
+        }
+      });
+  }
+
+  saveLocation(locationsData: AllLocationsDtos): void {
+    this.locations = locationsData.tariffsForLocationDto;
+    this.selectedLocationId = locationsData.tariffsForLocationDto.locationsDtosList[0].locationId;
+    this.currentLocation = locationsData.tariffsForLocationDto.locationsDtosList[0].nameEn;
+    this.orderService.completedLocation(true);
+    this.localStorageService.setLocationId(this.selectedLocationId);
+    this.localStorageService.setLocations(this.locations);
+    this.orderService.setLocationData(this.currentLocation);
+  }
+
+  openLocationDialog(locationsData: AllLocationsDtos) {
     const dialogRef = this.dialog.open(UbsOrderLocationPopupComponent, {
       hasBackdrop: true,
-      disableClose: true
+      disableClose: true,
+      data: locationsData
     });
 
     dialogRef
