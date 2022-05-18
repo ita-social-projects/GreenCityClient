@@ -103,6 +103,45 @@ describe('UbsOrderLocationPopupComponent', () => {
     });
   });
 
+  it('method _filter should return filtered data', () => {
+    const cities = [
+      {
+        locationId: 1,
+        locationName: `city, region`
+      }
+    ];
+    component.cities = cities;
+    const city = (component as any)._filter('CITY');
+    expect(component.currentLocation).toBeNull();
+    expect(city).toEqual(cities);
+  });
+
+  it('method getLocations should set cities for "en"', () => {
+    const cities = [
+      {
+        locationId: 2,
+        locationName: `fake location en, fake name en`
+      }
+    ];
+    (component as any).currentLanguage = 'en';
+    component.getLocations();
+    expect(component.isFetching).toBeFalsy();
+    expect(component.cities).toEqual(cities);
+  });
+
+  it('method getLocations should set cities for "ua"', () => {
+    const cities = [
+      {
+        locationId: 2,
+        locationName: `fake location ua, fake name ua`
+      }
+    ];
+    (component as any).currentLanguage = 'ua';
+    component.getLocations();
+    expect(component.isFetching).toBeFalsy();
+    expect(component.cities).toEqual(cities);
+  });
+
   it('expected result in changeLocation', () => {
     component.changeLocation(3, 'fakeCity, fakeRegion');
     expect(component.selectedLocationId).toBe(3);
