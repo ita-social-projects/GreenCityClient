@@ -25,7 +25,7 @@
         <h2>{{ 'ubs-homepage.ubs-courier.preparing.caption' | translate }}</h2>
         <ul>
           <li *ngFor="let li of preparingContent; let first = first; let i = index">
-            <a *ngIf="first" routerLink="/">{{ li | translate }}</a>
+            <a *ngIf="first" href="https://nowaste.com.ua/yak-sortyvaty-na-karantuni/" target="_blank">{{ li | translate }}</a>
             <p *ngIf="!first">{{ li | translate }}</p>
           </li>
         </ul>

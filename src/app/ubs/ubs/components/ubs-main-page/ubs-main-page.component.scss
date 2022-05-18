@@ -499,3 +499,13 @@ hr {
     }
   }
 }
+
+li a:hover {
+  color: var(--ubs-electric-violet);
+}
+
+li a {
+  color: var(--ubs-primary-grey);
+  font-style: normal;
+  text-decoration: underline;
+}
