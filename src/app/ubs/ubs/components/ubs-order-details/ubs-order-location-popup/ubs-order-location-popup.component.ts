@@ -1,10 +1,10 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
-import { FormControl } from '@angular/forms';
-import { MatDialogRef } from '@angular/material/dialog';
+import { Component, Inject, OnDestroy, OnInit } from '@angular/core';
+import { FormControl, Validators } from '@angular/forms';
+import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
-import { Subject, Observable } from 'rxjs';
-import { takeUntil, startWith, map } from 'rxjs/operators';
-import { CourierLocations, LocationTranslation, LocationsName } from '../../../models/ubs.interface';
+import { Subject, Observable, of, iif } from 'rxjs';
+import { takeUntil, startWith, map, mergeMap } from 'rxjs/operators';
+import { CourierLocations, AllLocationsDtos, LocationsName } from '../../../models/ubs.interface';
 import { OrderService } from '../../../services/order.service';
 
 @Component({
@@ -14,12 +14,10 @@ import { OrderService } from '../../../services/order.service';
 })
 export class UbsOrderLocationPopupComponent implements OnInit, OnDestroy {
   closeButton = './assets/img/profile/icons/cancel.svg';
-  public locations: CourierLocations[];
+  public locations: CourierLocations;
   public cities: LocationsName[];
   public selectedLocationId: number;
   public isFetching = false;
-  public isSaveLocation: boolean;
-  private courierId = 1;
   private currentLanguage: string;
   public currentLocation: string;
   private destroy$: Subject<boolean> = new Subject<boolean>();
@@ -29,7 +27,8 @@ export class UbsOrderLocationPopupComponent implements OnInit, OnDestroy {
   constructor(
     private orderService: OrderService,
     private dialogRef: MatDialogRef<UbsOrderLocationPopupComponent>,
-    private localStorageService: LocalStorageService
+    private localStorageService: LocalStorageService,
+    @Inject(MAT_DIALOG_DATA) public data: any
   ) {
     this.currentLanguage = this.localStorageService.getCurrentLanguage();
   }
@@ -41,68 +40,70 @@ export class UbsOrderLocationPopupComponent implements OnInit, OnDestroy {
       map((value) => (typeof value === 'string' ? value : value.locationName)),
       map((locationName) => (locationName ? this._filter(locationName) : this.cities.slice()))
     );
+    this.myControl.setValidators(Validators.required);
   }
 
   displayFn(city: LocationsName): string {
     return city && city.locationName ? city.locationName : '';
   }
 
-  private _filter(value: string) {
+  private _filter(value: string): LocationsName[] {
+    this.currentLocation = null;
+
     const filterValue = value.toLowerCase();
     return this.cities.filter((option) => option.locationName.toLowerCase().includes(filterValue));
   }
 
-  redirectToMain() {
-    this.isSaveLocation = false;
-  }
-
-  private setCurrentLocation(currentLanguage: string): void {
-    this.currentLocation = this.locations
-      .find((loc: CourierLocations) => loc.locationInfoDtos[0].locationsDto[0].locationId === this.selectedLocationId)
-      .locationInfoDtos[0].locationsDto[0].locationTranslationDtoList.find(
-        (lang: LocationTranslation) => lang.languageCode === currentLanguage
-      ).locationName;
-  }
-
-  getLocations() {
+  getLocations(): void {
     this.isFetching = true;
-    this.orderService
-      .getLocations(this.courierId)
-      .pipe(takeUntil(this.destroy$))
-      .subscribe((res: CourierLocations[]) => {
-        this.locations = res;
-        this.selectedLocationId = res[0].courierLocationId;
+    of(true)
+      .pipe(
+        takeUntil(this.destroy$),
+        mergeMap(() => iif(() => this.data, of(this.data), this.orderService.getLocations(true)))
+      )
+      .subscribe((res: AllLocationsDtos) => {
         this.isFetching = false;
-        this.cities = this.locations.map((location) => ({
-          locationId: location.locationInfoDtos[0].locationsDto[0].locationId,
-          locationName: location.locationInfoDtos[0].locationsDto[0].locationTranslationDtoList.filter(
-            (item) => item.languageCode === this.currentLanguage
-          )[0].locationName
-        }));
+
+        this.cities = res.allActiveLocationsDtos.reduce(
+          (acc, region) => [
+            ...acc,
+            ...region.locations.map((city) => ({
+              locationId: city.locationId,
+              locationName: this.currentLanguage === 'ua' ? `${city.nameUk}, ${region.nameUk}` : `${city.nameEn}, ${region.nameEn}`
+            }))
+          ],
+          []
+        );
       });
   }
 
-  saveLocation() {
-    this.isSaveLocation = true;
-    this.orderService.completedLocation(true);
-    this.localStorageService.setLocationId(this.selectedLocationId);
-    this.localStorageService.setLocations(this.locations);
-    this.setCurrentLocation(this.currentLanguage);
-    this.orderService.setLocationData(this.currentLocation);
+  saveLocation(): void {
+    this.orderService
+      .getInfoAboutTariff(this.selectedLocationId)
+      .pipe(takeUntil(this.destroy$))
+      .subscribe((res: AllLocationsDtos) => {
+        if (res.orderIsPresent) {
+          this.locations = res.tariffsForLocationDto;
+          this.selectedLocationId = res.tariffsForLocationDto.locationsDtosList[0].locationId;
+          this.orderService.completedLocation(true);
+          this.localStorageService.setLocationId(this.selectedLocationId);
+          this.localStorageService.setLocations(this.locations);
+          this.orderService.setLocationData(this.currentLocation);
+          this.passDataToComponent();
+        }
+      });
   }
 
-  passDataToComponent() {
+  passDataToComponent(): void {
     this.dialogRef.close({ locationId: this.selectedLocationId, currentLanguage: this.currentLanguage, data: this.locations });
   }
 
-  changeLocation(id: number): void {
+  changeLocation(id: number, locationName: string): void {
     this.selectedLocationId = id;
+    this.currentLocation = locationName.split(',')[0];
   }
 
-  ngOnDestroy() {
-    if (this.isSaveLocation) {
-      this.passDataToComponent();
-    }
+  ngOnDestroy(): void {
     this.destroy$.next();
     this.destroy$.complete();
   }

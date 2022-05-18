@@ -8,7 +8,7 @@ import { LocalStorageService } from '@global-service/localstorage/local-storage.
 import { FormBuilder, FormGroup, FormArray, Validators, FormControl } from '@angular/forms';
 import { OrderService } from '../../services/order.service';
 import { UBSOrderFormService } from '../../services/ubs-order-form.service';
-import { Bag, FinalOrder, LocationTranslation, OrderDetails } from '../../models/ubs.interface';
+import { Bag, CourierLocations, FinalOrder, OrderDetails } from '../../models/ubs.interface';
 import { UbsOrderLocationPopupComponent } from './ubs-order-location-popup/ubs-order-location-popup.component';
 import { ExtraPackagesPopUpComponent } from './extra-packages-pop-up/extra-packages-pop-up.component';
 
@@ -77,7 +77,7 @@ export class UBSOrderDetailsComponent extends FormBaseComponent implements OnIni
       isUBS: true
     }
   };
-  public locations: any[];
+  public locations: CourierLocations;
   public selectedLocationId: number;
   public currentLocation: string;
   public isFetching = false;
@@ -117,7 +117,6 @@ export class UBSOrderDetailsComponent extends FormBaseComponent implements OnIni
 
   saveLocation(isCheck: boolean) {
     this.isFetching = true;
-    const selectedLocation = { locationId: this.selectedLocationId };
     this.setCurrentLocation(this.currentLanguage);
     this.isFetching = false;
     this.changeLocation = false;
@@ -130,11 +129,8 @@ export class UBSOrderDetailsComponent extends FormBaseComponent implements OnIni
   }
 
   private setCurrentLocation(currentLanguage: string): void {
-    const currentLocationDto = this.locations.find((loc) => loc.locationInfoDtos[0].locationsDto[0].locationId === this.selectedLocationId);
-    this.minAmountOfBigBags = currentLocationDto.minAmountOfBigBags;
-    this.currentLocation = currentLocationDto.locationInfoDtos[0].locationsDto[0].locationTranslationDtoList.find(
-      (lang: LocationTranslation) => lang.languageCode === currentLanguage
-    ).locationName;
+    this.minAmountOfBigBags = this.locations.minAmountOfBigBags;
+    this.currentLocation = currentLanguage === 'en' ? this.locations.regionDto.nameEn : this.locations.regionDto.nameUk;
   }
 
   getFormValues(): boolean {
