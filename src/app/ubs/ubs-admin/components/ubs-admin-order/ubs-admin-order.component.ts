@@ -247,16 +247,14 @@ export class UbsAdminOrderComponent implements OnInit, OnDestroy, AfterContentCh
   }
 
   onChangedOrderStatus(status: string) {
-    console.log('STATUS ', status);
     this.currentOrderStatus = status;
     this.orderStatusInfo = this.getOrderStatusInfo(this.currentOrderStatus);
     this.notRequiredFieldsStatuses();
   }
 
   private onUpdatePaymentStatus(newPaymentStatus: string) {
-    console.log('ORDER newPaymentStatus ', newPaymentStatus);
     this.additionalPayment = newPaymentStatus;
-    console.log('ORDER this.additionalPayment ', this.additionalPayment);
+    this.orderForm.markAsDirty();
   }
 
   public changeOverpayment(sum: number): void {
