@@ -8,6 +8,7 @@ import { OrderService } from '../../services/order.service';
 import { AddPaymentComponent } from '../add-payment/add-payment.component';
 import { IAppState } from 'src/app/store/state/app.state';
 import { Store } from '@ngrx/store';
+import { Output, EventEmitter } from '@angular/core';
 
 @Component({
   selector: 'app-ubs-admin-order-payment',
@@ -19,6 +20,8 @@ export class UbsAdminOrderPaymentComponent implements OnInit, OnChanges, OnDestr
   @Input() actualPrice: number;
   @Input() totalPaid: number;
   @Input() orderStatus: string;
+
+  @Output() newPaymentStatus = new EventEmitter<string>();
 
   public message: string;
   public pageOpen: boolean;
@@ -172,9 +175,16 @@ export class UbsAdminOrderPaymentComponent implements OnInit, OnChanges, OnDestr
             .subscribe((data: IOrderInfo) => {
               const newValue = data.generalOrderInfo.orderPaymentStatus;
               this.postDataItem(this.orderId, newValue);
+              console.log('updatePaymentStatus ', newValue);
+              this.updatePaymentStatus(newValue);
             });
         }
       });
+  }
+
+  updatePaymentStatus(value: string) {
+    console.log('EMITS ', value);
+    this.newPaymentStatus.emit(value);
   }
 
   ngOnDestroy(): void {

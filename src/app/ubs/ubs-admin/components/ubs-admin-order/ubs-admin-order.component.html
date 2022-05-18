@@ -12,6 +12,7 @@
         [generalInfo]="generalInfo"
         [totalPaid]="totalPaid"
         [currentLanguage]="currentLanguage"
+        [additionalPayment]="additionalPayment"
         (changedOrderStatus)="onChangedOrderStatus($event)"
       >
       </app-ubs-admin-order-status>
@@ -35,6 +36,7 @@
         [totalPaid]="totalPaid"
         [orderInfo]="orderInfo"
         [orderStatus]="currentOrderStatus"
+        (newPaymentStatus)="onUpdatePaymentStatus($event)"
       ></app-ubs-admin-order-payment>
       <app-ubs-admin-export-details [exportDetailsDto]="getFormGroup('exportDetailsDto')" [exportInfo]="exportInfo">
       </app-ubs-admin-export-details>
