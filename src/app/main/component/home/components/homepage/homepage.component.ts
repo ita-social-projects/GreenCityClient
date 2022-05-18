@@ -39,7 +39,7 @@ export class HomepageComponent implements OnInit, OnDestroy {
   }
 
   private onCheckToken(): void {
-    this.checkTokenservice.onCheckToken(this.subs);
+    this.subs.add(this.checkTokenservice.onCheckToken());
   }
 
   ngOnDestroy() {

@@ -88,8 +88,8 @@ export class UbsMainPageComponent implements OnInit, OnDestroy {
     this.subs.unsubscribe();
   }
 
-  private onCheckToken(): void {
-    this.checkTokenservice.onCheckToken(this.subs);
+  public onCheckToken(): void {
+    this.subs.add(this.checkTokenservice.onCheckToken());
   }
 
   redirectToOrder() {

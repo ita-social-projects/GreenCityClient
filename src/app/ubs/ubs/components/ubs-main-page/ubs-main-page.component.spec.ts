@@ -6,6 +6,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { of } from 'rxjs';
 import { Router } from '@angular/router';
 import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
+import { CheckTokenService } from '@global-service/auth/check-token/check-token.service';
 
 describe('UbsMainPageComponent', () => {
   let component: UbsMainPageComponent;
@@ -14,6 +15,7 @@ describe('UbsMainPageComponent', () => {
   const localeStorageServiceMock = jasmine.createSpyObj('localeStorageService', ['setUbsRegistration']);
   const routerMock = jasmine.createSpyObj('router', ['navigate']);
   const matDialogMock = jasmine.createSpyObj('matDialog', ['open']);
+  const checkTokenServiceMock = jasmine.createSpyObj('CheckTokenService', ['onCheckToken']);
   const dialogRefStub = {
     afterClosed() {
       return of({ data: true });
@@ -27,7 +29,8 @@ describe('UbsMainPageComponent', () => {
       providers: [
         { provide: MatDialog, useValue: matDialogMock },
         { provide: Router, useValue: routerMock },
-        { provide: LocalStorageService, useValue: localeStorageServiceMock }
+        { provide: LocalStorageService, useValue: localeStorageServiceMock },
+        { provide: CheckTokenService, useValue: checkTokenServiceMock }
       ]
     }).compileComponents();
   }));
