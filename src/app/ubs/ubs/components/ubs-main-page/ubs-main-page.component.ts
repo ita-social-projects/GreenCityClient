@@ -3,13 +3,12 @@ import { Component, OnDestroy, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { Router } from '@angular/router';
 import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
-import { Subject } from 'rxjs';
+import { Subject, Subscription } from 'rxjs';
 import { takeUntil, finalize } from 'rxjs/operators';
 import { ubsMainPageImages } from '../../../../main/image-pathes/ubs-main-page-images';
 import { AllLocationsDtos, CourierLocations } from '../../models/ubs.interface';
 import { OrderService } from '../../services/order.service';
 import { UbsOrderLocationPopupComponent } from '../ubs-order-details/ubs-order-location-popup/ubs-order-location-popup.component';
-import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-ubs-main-page',
