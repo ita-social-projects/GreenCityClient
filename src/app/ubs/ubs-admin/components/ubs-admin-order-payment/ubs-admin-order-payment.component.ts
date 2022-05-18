@@ -175,7 +175,6 @@ export class UbsAdminOrderPaymentComponent implements OnInit, OnChanges, OnDestr
             .subscribe((data: IOrderInfo) => {
               const newValue = data.generalOrderInfo.orderPaymentStatus;
               this.postDataItem(this.orderId, newValue);
-              console.log('updatePaymentStatus ', newValue);
               this.updatePaymentStatus(newValue);
             });
         }
@@ -183,7 +182,6 @@ export class UbsAdminOrderPaymentComponent implements OnInit, OnChanges, OnDestr
   }
 
   updatePaymentStatus(value: string) {
-    console.log('EMITS ', value);
     this.newPaymentStatus.emit(value);
   }
 

@@ -29,16 +29,11 @@ export class UbsAdminOrderStatusComponent implements OnChanges, OnInit, OnDestro
 
   ngOnChanges(changes: SimpleChanges): void {
     if (changes.additionalPayment) {
-      this.onAdditionalPayments(changes.additionalPayment.currentValue);
+      this.generalInfo.orderPaymentStatus = changes.additionalPayment.currentValue;
     }
     if (changes.currentOrderPrice || changes.totalPaid) {
       this.setOrderPaymentStatus();
     }
-  }
-
-  onAdditionalPayments(newStatus: string) {
-    console.log(newStatus);
-    this.generalInfo.orderPaymentStatus = newStatus;
   }
 
   ngOnInit() {
@@ -78,7 +73,6 @@ export class UbsAdminOrderStatusComponent implements OnChanges, OnInit, OnDestro
   }
 
   public setOrderPaymentStatus() {
-    console.log('setOrderPaymentStatus ');
     let orderState: string;
     this.generalInfo.orderStatusesDtos.find((status) => {
       if (status.key === this.generalInfo.orderStatus) {
@@ -127,7 +121,6 @@ export class UbsAdminOrderStatusComponent implements OnChanges, OnInit, OnDestro
 
       // TODO: ADD PAYMENT_REFUNDED CASE THEN IT WILL BE IMPLEMENTED
     }
-    console.log('STATUS FROM BACK ', this.generalInfo.orderPaymentStatus);
   }
 
   ngOnDestroy(): void {
