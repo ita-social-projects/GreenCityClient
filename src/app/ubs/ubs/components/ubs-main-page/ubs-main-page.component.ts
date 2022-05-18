@@ -91,7 +91,7 @@ export class UbsMainPageComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
     this.onCheckToken();
   }
-  
+
   ngOnDestroy() {
     this.destroy.next();
     this.destroy.unsubscribe();
