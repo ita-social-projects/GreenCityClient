@@ -252,7 +252,7 @@ export class UbsAdminOrderComponent implements OnInit, OnDestroy, AfterContentCh
     this.notRequiredFieldsStatuses();
   }
 
-  private onUpdatePaymentStatus(newPaymentStatus: string) {
+  public onUpdatePaymentStatus(newPaymentStatus: string) {
     this.additionalPayment = newPaymentStatus;
     this.orderForm.markAsDirty();
   }
