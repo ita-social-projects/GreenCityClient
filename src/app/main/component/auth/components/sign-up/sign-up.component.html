@@ -108,12 +108,11 @@
       aria-label="Password Visiable Button"
     />
   </div>
-  <div *ngIf="passwordControlConfirm.invalid && passwordControlConfirm.touched" class="error-message" id="confirm-err-msg">
+  <div *ngIf="passwordControlConfirm.invalid && passwordControlConfirm.touched" class="error-message" id="confirm-err-msg" tabindex="0">
     <app-error
       [formElement]="passwordControlConfirm"
       [passwordConfirmFieldValue]="passwordConfirmFieldValue"
       [controlName]="'repeatPassword'"
-      tabindex="0"
     ></app-error>
   </div>
   <div *ngIf="passwordErrorMessageBackEnd" class="error-message error-message-show">
@@ -134,7 +133,11 @@
   <div class="switch-sign-up">
     {{ 'user.auth.sign-up.or' | translate }}
   </div>
-  <app-google-btn [text]="'user.auth.sign-up.submit-with-google'" (click)="signUpWithGoogle()"></app-google-btn>
+  <app-google-btn
+    [text]="'user.auth.sign-up.submit-with-google'"
+    (click)="signUpWithGoogle()"
+    aria-label="Sign in with Google"
+  ></app-google-btn>
 </form>
 
 <div class="exist-account">
