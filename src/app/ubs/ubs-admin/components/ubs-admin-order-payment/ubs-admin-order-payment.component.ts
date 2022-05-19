@@ -175,14 +175,10 @@ export class UbsAdminOrderPaymentComponent implements OnInit, OnChanges, OnDestr
             .subscribe((data: IOrderInfo) => {
               const newValue = data.generalOrderInfo.orderPaymentStatus;
               this.postDataItem(this.orderId, newValue);
-              this.updatePaymentStatus(newValue);
+              this.newPaymentStatus.emit(newValue);
             });
         }
       });
-  }
-
-  updatePaymentStatus(value: string) {
-    this.newPaymentStatus.emit(value);
   }
 
   ngOnDestroy(): void {
