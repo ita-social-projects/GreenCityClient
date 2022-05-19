@@ -11,8 +11,8 @@ export class UserOrdersService {
 
   constructor(private http: HttpClient) {}
 
-  getAllUserOrders(): Observable<any> {
-    return this.http.get<any[]>(`${this.url}/user-orders`);
+  getAllUserOrders(page: number, itemsPerPage: number): Observable<any> {
+    return this.http.get<any[]>(`${this.url}/user-orders?page=${page}&size=${itemsPerPage}`);
   }
 
   public deleteOrder(orderId: number): Observable<object> {

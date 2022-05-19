@@ -22,6 +22,9 @@ export class UbsUserOrdersComponent implements OnInit, OnDestroy {
   bonuses: number;
   loadingOrders = false;
   loadingBonuses = false;
+  page: number;
+  numberOfOrders: number;
+  ordersOnPage = 10;
 
   constructor(
     private router: Router,
@@ -30,6 +33,12 @@ export class UbsUserOrdersComponent implements OnInit, OnDestroy {
     private userOrdersService: UserOrdersService,
     private translate: TranslateService
   ) {}
+
+  onPageChange(e) {
+    const ordersLeft = this.numberOfOrders - (e - 1) * 10;
+    this.ordersOnPage = ordersLeft < 10 ? ordersLeft : 10;
+    this.getOrders(e - 1, this.ordersOnPage);
+  }
 
   redirectToOrder() {
     this.router.navigate(['ubs', 'order']);
@@ -40,8 +49,16 @@ export class UbsUserOrdersComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit() {
+    this.getOrders(0, 10);
+    this.bonusesService.getUserBonuses().subscribe((responce: IBonus) => {
+      this.bonuses = responce.points;
+      this.loadingBonuses = true;
+    });
+  }
+
+  getOrders(pageNumber: number, ordersOnPage: number) {
     this.userOrdersService
-      .getAllUserOrders()
+      .getAllUserOrders(pageNumber, ordersOnPage)
       .pipe(
         takeUntil(this.destroy),
         catchError((err) => {
@@ -51,6 +68,9 @@ export class UbsUserOrdersComponent implements OnInit, OnDestroy {
         })
       )
       .subscribe((item) => {
+        if (pageNumber === 0) {
+          this.numberOfOrders = item.totalElements;
+        }
         this.orders = item.page;
         this.loadingOrders = true;
         this.currentOrders = this.orders.filter(
@@ -60,10 +80,6 @@ export class UbsUserOrdersComponent implements OnInit, OnDestroy {
           (order) => order.orderStatusEng === CheckOrderStatus.DONE || order.orderStatusEng === CheckOrderStatus.CANCELED
         );
       });
-    this.bonusesService.getUserBonuses().subscribe((responce: IBonus) => {
-      this.bonuses = responce.points;
-      this.loadingBonuses = true;
-    });
   }
 
   ngOnDestroy() {

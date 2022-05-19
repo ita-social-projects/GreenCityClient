@@ -10,12 +10,39 @@
     <div *ngIf="orders && orders.length !== 0" class="cards">
       <mat-tab-group animationDuration="0ms">
         <mat-tab label="{{ 'user-orders.current-orders' | translate }}">
-          <app-ubs-user-orders-list [orders]="currentOrders" [bonuses]="bonuses"></app-ubs-user-orders-list>
+          <app-ubs-user-orders-list
+            [orders]="
+              currentOrders
+                | paginate
+                  : {
+                      itemsPerPage: ordersOnPage,
+                      currentPage: page,
+                      totalItems: numberOfOrders
+                    }
+            "
+            [bonuses]="bonuses"
+          ></app-ubs-user-orders-list>
         </mat-tab>
         <mat-tab label="{{ 'user-orders.order-history' | translate }}">
-          <app-ubs-user-orders-list [orders]="orderHistory" [bonuses]="bonuses"></app-ubs-user-orders-list>
+          <app-ubs-user-orders-list
+            [orders]="
+              orderHistory
+                | paginate
+                  : {
+                      itemsPerPage: ordersOnPage,
+                      currentPage: page,
+                      totalItems: numberOfOrders
+                    }
+            "
+            [bonuses]="bonuses"
+          ></app-ubs-user-orders-list>
         </mat-tab>
       </mat-tab-group>
+      <pagination-controls
+        (pageChange)="onPageChange($event)"
+        (pageChange)="page = $event"
+        class="user-orders-pagination"
+      ></pagination-controls>
       <div class="empty"></div>
     </div>
   </div>
