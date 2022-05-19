@@ -26,6 +26,8 @@ import { EventDateTimePickerComponent } from './components/event-date-time-picke
 import { MapEventComponent } from './components/map-event/map-event.component';
 import { ImagesContainerComponent } from './components/images-container/images-container.component';
 
+import { GooglePlaceModule } from 'ngx-google-places-autocomplete';
+
 @NgModule({
   declarations: [
     EventsComponent,
@@ -36,6 +38,7 @@ import { ImagesContainerComponent } from './components/images-container/images-c
     ImagesContainerComponent
   ],
   imports: [
+    GooglePlaceModule,
     CommonModule,
     EventsRoutingModule,
     MatDatepickerModule,
@@ -44,7 +47,8 @@ import { ImagesContainerComponent } from './components/images-container/images-c
 
     AgmCoreModule,
     AgmCoreModule.forRoot({
-      apiKey: environment.apiMapKey
+      apiKey: environment.apiMapKey,
+      libraries: ['places']
     }),
 
     MatFormFieldModule,

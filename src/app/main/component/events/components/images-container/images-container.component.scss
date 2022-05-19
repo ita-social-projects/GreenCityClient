@@ -1,7 +1,7 @@
 .image-container {
   position: relative;
-  height: 105px;
-  width: 150px;
+  width: 108px;
+  height: 64px;
   background: var(--ubs-secondary-white);
   border: 1px solid var(--ubs-primary-light-grey);
   box-sizing: border-box;
@@ -9,13 +9,14 @@
 }
 
 .drag-inscription {
-  font-size: 12px;
+  font-size: 22px;
   color: var(--quaternary-grey);
   position: absolute;
   top: 50%;
   left: 50%;
   text-align: center;
   transform: translate(-50%, -50%);
+  cursor: pointer;
 }
 
 .delete-block {
@@ -25,7 +26,7 @@
   left: 0;
   background: var(--ubs-quaternary-light-grey);
   opacity: 0.7;
-  width: 150px;
+  width: 100%;
   display: none;
   max-height: 45px;
 
@@ -45,11 +46,22 @@
 }
 
 .image-preview {
-  width: 150px;
-  height: 104px;
+  width: 108px;
+  height: 64px;
+  object-fit: contain;
   cursor: pointer;
 
   &:hover + .delete-block {
     display: flex;
   }
+}
+
+.title-wrapper {
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+}
+
+.image-title {
+  font-size: 12px;
 }

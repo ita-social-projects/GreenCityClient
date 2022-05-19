@@ -1,4 +1,4 @@
-import { Component, ElementRef, ViewChild } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 
 import { quillConfig } from './quillEditorFunc';
 import { EventsService } from '../../services/events.service';
@@ -8,38 +8,73 @@ import Quill from 'quill';
 import 'quill-emoji/dist/quill-emoji.js';
 import ImageResize from 'quill-image-resize-module';
 import { Place } from '../../../places/models/place';
-import { Coords, DateEvent, EventDTO } from '../../models/events.interface';
+import { DateEvent, Dates, EventDTO, OnlineOflineDto } from '../../models/events.interface';
+import { MatSelectChange } from '@angular/material/select';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-create-edit-events',
   templateUrl: './create-edit-events.component.html',
   styleUrls: ['./create-edit-events.component.scss']
 })
-export class CreateEditEventsComponent {
+export class CreateEditEventsComponent implements OnInit {
   public title = '';
   public dates: DateEvent[] = [];
   private imgArray: Array<File> = [];
 
-  private maxNumberOfDates = 7;
-
   public isOffLine = true;
-  public onlineLink = '';
-  private latitude: number;
-  private longitude: number;
 
   public quillModules = {};
   public editorHTML = '';
 
+  public isOpen = true;
+
   public places: Place[] = [];
 
-  constructor(private eventService: EventsService) {
+  public dateArrCount = ['1 day', '2 days', '3 days', '4 days', '5 days', '6 days', '7 days'];
+
+  filters = [
+    { name: 'Environmental', isActive: false },
+    { name: 'Social', isActive: true },
+    { name: 'economic', isActive: true }
+  ];
+
+  ngOnInit(): void {}
+
+  constructor(private eventService: EventsService, public router: Router) {
     this.quillModules = quillConfig;
     Quill.register('modules/imageResize', ImageResize);
   }
 
-  @ViewChild('takeInput') InputVar: ElementRef;
+  public escapeFromCreateEvent(): void {
+    this.router.navigate(['/events']).catch((err) => console.error(err));
+  }
 
-  getImageTosend(imageArr: Array<File>) {
+  changeToOpen(): void {
+    this.isOpen = true;
+  }
+  changeToClose(): void {
+    this.isOpen = false;
+  }
+
+  setDateCount(ev: MatSelectChange): void {
+    this.dates.length = +ev.value.split(' ')[0];
+
+    for (let i = 0; i < this.dates.length; i++) {
+      this.dates[i] = {
+        date: '',
+        startDate: '',
+        finishDate: '',
+        coordinatesDto: {
+          latitude: null,
+          longitude: null
+        },
+        onlineLink: ''
+      };
+    }
+  }
+
+  getImageTosend(imageArr: Array<File>): void {
     this.imgArray = [...imageArr];
   }
 
@@ -47,26 +82,11 @@ export class CreateEditEventsComponent {
     this.dates[ind].date = event;
   }
 
-  public setStartTime(time: string, ind: number) {
+  public setStartTime(time: string, ind: number): void {
     this.dates[ind].startDate = time;
   }
-  public setEndTime(time: string, ind: number) {
+  public setEndTime(time: string, ind: number): void {
     this.dates[ind].finishDate = time;
-  }
-
-  public addDate(): void {
-    if (this.dates.length < this.maxNumberOfDates) {
-      const newDate: DateEvent = {
-        date: '',
-        startDate: '',
-        finishDate: ''
-      };
-      this.dates.push(newDate);
-    }
-  }
-
-  public deleteDate(ind: number) {
-    this.dates.splice(ind, 1);
   }
 
   public changedEditor(event: EditorChangeContent | EditorChangeSelection): void {
@@ -75,24 +95,22 @@ export class CreateEditEventsComponent {
     }
   }
 
-  public addMarker(ev: Coords) {
-    this.latitude = ev.coords.lat;
-    this.longitude = ev.coords.lng;
+  public setCoordsOnlOff(ev: OnlineOflineDto, i: number): void {
+    this.dates[i].coordinatesDto.latitude = ev.latitude;
+    this.dates[i].coordinatesDto.longitude = ev.longitude;
+    this.dates[i].onlineLink = ev.onlineLink;
   }
 
-  public onSubmit() {
-    if (this.isOffLine) {
-      this.onlineLink = '';
-    }
-    if (!this.isOffLine) {
-      this.latitude = null;
-      this.longitude = null;
-    }
-
+  public onSubmit(): void {
     const datesDto = this.dates.reduce((ac, cur) => {
-      const date = {
-        startDate: [...cur.date.split('/'), ...cur.startDate.split(':')].map((it) => +it),
-        finishDate: [...cur.date.split('/'), ...cur.finishDate.split(':')].map((it) => +it)
+      const date: Dates = {
+        startDate: [...cur.date.split('/'), ...cur.startDate.split(':')].map((item) => +item),
+        finishDate: [...cur.date.split('/'), ...cur.finishDate.split(':')].map((item) => +item),
+        coordinatesDto: {
+          latitude: cur.coordinatesDto.latitude,
+          longitude: cur.coordinatesDto.longitude
+        },
+        onlineLink: cur.onlineLink
       };
       ac.push(date);
       return ac;
@@ -101,12 +119,8 @@ export class CreateEditEventsComponent {
     const sendEventDto: EventDTO = {
       title: this.title,
       description: this.editorHTML,
-      dates: datesDto,
-      onlineLink: this.onlineLink,
-      coordinates: {
-        latitude: this.latitude,
-        longitude: this.longitude
-      }
+      open: this.isOpen,
+      dates: datesDto
     };
 
     const formData: FormData = new FormData();

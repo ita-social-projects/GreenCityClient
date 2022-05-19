@@ -23,6 +23,10 @@ export class EventsService implements OnDestroy {
     return this.http.post<any>(`${this.backEnd}events/create`, formData);
   }
 
+  public getEvents(page: number, quantity: number) {
+    return this.http.get(`${this.backEnd}events?page=${page}&size=${quantity}`);
+  }
+
   ngOnDestroy(): void {
     this.destroyed$.next(true);
     this.destroyed$.complete();
