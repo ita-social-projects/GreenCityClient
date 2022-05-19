@@ -53,7 +53,7 @@
                 <strong class="money-saved">-{{ orderDetails.pointsToUse }} {{ 'order-details.currency' | translate }}</strong>
               </span>
             </p>
-            <p class="total-content">
+            <p class="total-content bold">
               <span>{{ 'order-details.amount-due' | translate }} </span>
               <span>
                 <strong>{{ orderDetails.finalSum | currency }} {{ 'order-details.currency' | translate }}</strong>
@@ -86,30 +86,35 @@
               </ul>
             </ng-template>
           </div>
-          <div class="order-info m-0">
+          <div class="order-info">
             <p class="order-header">{{ 'order-details.export-address' | translate }}</p>
             <ul class="order-list">
               <li class="order-list-item">
-                {{ 'personal-info.address-city' | translate }} {{ 'personal-info.pop-up-city-name' | translate }}
+                <span>{{ 'personal-info.address-city' | translate }} {{ 'personal-info.pop-up-city-name' | translate }}, </span>
+                <span>{{ personalData.street }}, {{ personalData.houseNumber }}, </span>
+                <span *ngIf="personalData.houseCorpus">
+                  {{ 'personal-info.address-corp' | translate }} {{ personalData.houseCorpus }}
+                </span>
+                <span *ngIf="personalData.entranceNumber">
+                  {{ 'personal-info.address-entrance' | translate }} {{ personalData.entranceNumber }}
+                </span>
               </li>
-              <li class="order-list-item">{{ 'personal-info.address-district' | translate }} {{ personalData.district }}</li>
               <li class="order-list-item">
-                <span>{{ personalData.street }}, {{ personalData.houseNumber }}</span>
-                <span *ngIf="personalData.houseCorpus"
-                  >, {{ 'personal-info.address-corp' | translate }} {{ personalData.houseCorpus }}</span
-                >
-                <span *ngIf="personalData.entranceNumber"
-                  >, {{ 'personal-info.address-entrance' | translate }} {{ personalData.entranceNumber }}</span
-                >
-              </li>
-              <li class="order-list-item">{{ personalData.region }}</li>
-              <li class="order-list-item" *ngIf="personalData.addressComment">
-                {{ 'order-details.address-comment' | translate }} {{ personalData.addressComment }}
-              </li>
-              <li class="order-list-item" *ngIf="orderDetails.orderComment">
-                {{ 'order-details.order-comment' | translate }} {{ orderDetails.orderComment }}
+                <span>{{ 'personal-info.address-district' | translate }} {{ personalData.district }}, </span>
+                <span>{{ personalData.region }}</span>
               </li>
             </ul>
+          </div>
+          <div class="order-info m-0">
+            <p class="order-header" *ngIf="personalData.addressComment">
+              {{ 'order-details.address-comment' | translate }}
+            </p>
+            <li class="order-list-item" *ngIf="personalData.addressComment">
+              {{ personalData.addressComment }}
+            </li>
+            <li class="order-list-item" *ngIf="orderDetails.orderComment">
+              {{ 'order-details.order-comment' | translate }} {{ orderDetails.orderComment }}
+            </li>
           </div>
         </div>
       </div>
@@ -136,7 +141,7 @@
   *ngIf="(bags.length && personalData) || (isNotification && isDownloadDataNotification)"
 >
   <button *ngIf="!isNotification" class="secondary-global-button btn btn-back" matStepperPrevious>
-    <i class="fas fa-chevron-left" aria-hidden="true"></i> &nbsp; {{ 'submit-order.back' | translate }}
+    <i class="fas fa-chevron-left" aria-hidden="true"></i> &nbsp;<span> {{ 'submit-order.back' | translate }}</span>
   </button>
   <div class="w-100 d-flex justify-content-end">
     <button class="secondary-global-button btn cansel-button btn-main" (click)="cancelUBS(true)">
