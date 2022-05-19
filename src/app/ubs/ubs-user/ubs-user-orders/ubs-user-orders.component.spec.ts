@@ -14,8 +14,9 @@ import { Subject, of } from 'rxjs';
 import { UserOrdersService } from '../services/user-orders.service';
 import { BonusesService } from '../ubs-user-bonuses/services/bonuses.service';
 import { APP_BASE_HREF } from '@angular/common';
+import { NgxPaginationModule } from 'ngx-pagination';
 
-describe('UbsUserOrdersComponent', () => {
+fdescribe('UbsUserOrdersComponent', () => {
   let component: UbsUserOrdersComponent;
   let fixture: ComponentFixture<UbsUserOrdersComponent>;
 
@@ -53,7 +54,7 @@ describe('UbsUserOrdersComponent', () => {
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       declarations: [UbsUserOrdersComponent, LocalizedCurrencyPipe],
-      imports: [TranslateModule.forRoot(), HttpClientTestingModule, RouterModule.forRoot([])],
+      imports: [TranslateModule.forRoot(), NgxPaginationModule, HttpClientTestingModule, RouterModule.forRoot([])],
       providers: [
         { provide: MatSnackBarComponent, useValue: MatSnackBarMock },
         { provide: UserOrdersService, useValue: userOrderServiceMock },
@@ -105,6 +106,9 @@ describe('UbsUserOrdersComponent', () => {
   it('orderHistory length should been 1', () => {
     fakeOrder1.orderStatusEng = 'Done';
     component.ngOnInit();
+    fixture.detectChanges();
+    //fixture.componentInstance.ngOnInit();
+
     expect(component.orderHistory.length).toBe(1);
   });
 
@@ -112,6 +116,8 @@ describe('UbsUserOrdersComponent', () => {
     component.destroy = new Subject<boolean>();
     spyOn(component.destroy, 'unsubscribe');
     component.ngOnDestroy();
-    expect(component.destroy.unsubscribe).toHaveBeenCalledTimes(1);
+    fixture.componentInstance.ngOnDestroy();
+
+    expect(component.destroy.unsubscribe).toHaveBeenCalledTimes(2);
   });
 });

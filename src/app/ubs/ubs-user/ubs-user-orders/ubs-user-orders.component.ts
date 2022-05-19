@@ -22,7 +22,7 @@ export class UbsUserOrdersComponent implements OnInit, OnDestroy {
   bonuses: number;
   loadingOrders = false;
   loadingBonuses = false;
-  page: number;
+  page = 0;
   numberOfOrders: number;
   ordersOnPage = 10;
 
@@ -35,6 +35,7 @@ export class UbsUserOrdersComponent implements OnInit, OnDestroy {
   ) {}
 
   onPageChange(e) {
+    this.page = e;
     const ordersLeft = this.numberOfOrders - (e - 1) * 10;
     this.ordersOnPage = ordersLeft < 10 ? ordersLeft : 10;
     this.getOrders(e - 1, this.ordersOnPage);
@@ -72,6 +73,7 @@ export class UbsUserOrdersComponent implements OnInit, OnDestroy {
           this.numberOfOrders = item.totalElements;
         }
         this.orders = item.page;
+        console.log('ORDERS ', this.orders);
         this.loadingOrders = true;
         this.currentOrders = this.orders.filter(
           (order) => order.orderStatusEng !== CheckOrderStatus.DONE && order.orderStatusEng !== CheckOrderStatus.CANCELED
