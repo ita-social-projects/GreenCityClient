@@ -134,13 +134,13 @@ h3 {
     display: flex;
     align-items: flex-end;
 
-    &.bold span {
-      font-weight: 700;
-    }
-
     span {
       width: 140px;
     }
+  }
+
+  .bold {
+    font-weight: 700;
   }
 
   strong {
