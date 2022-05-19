@@ -12,10 +12,10 @@
 
   <div>
     <div class="event" *ngFor="let event of eventsList">
-      <img class="eventImage" src="{{ event.titleImage }}" />
+      <img class="eventImage" src="{{ event.titleImage }}" alt="event" />
       <div class="img-container">
         <div *ngFor="let image of event.additionalImages">
-          <img class="img" src="{{ image }}" />
+          <img class="img" src="{{ image }}" alt="event" />
         </div>
       </div>
 
