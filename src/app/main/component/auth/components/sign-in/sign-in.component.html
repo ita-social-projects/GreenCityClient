@@ -25,7 +25,6 @@
   >
     <app-error [formElement]="emailField" [emailFieldValue]="emailFieldValue" [controlName]="'email'" tabindex="0"></app-error>
   </div>
-
   <div *ngIf="generalError" class="email-field-margin"></div>
   <label for="password" aria-required="true">{{ 'user.auth.sign-in.password' | translate }}</label>
   <div class="password-input-btn-show-hide" [ngClass]="passwordClassCheck()">
@@ -42,7 +41,7 @@
       aria-required="true"
       aria-describedby="pass-err-msg"
     />
-    <span class="show-hide-btn" role="button" aria-label="show password button">
+    <span class="show-hide-btn" role="button" tabindex="0" aria-label="show password">
       <img
         [src]="hideShowPasswordImage.hidePassword"
         #src
