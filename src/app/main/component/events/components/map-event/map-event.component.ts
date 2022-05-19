@@ -17,7 +17,17 @@ export class MapEventComponent implements OnInit {
   public markerContent: string;
   public mapDeactivate: boolean;
 
+  private googlePlacesService: any;
+
   @Output() location = new EventEmitter<Coords>();
+
+  regionOptions = {
+    types: ['(regions)'],
+    componentRestrictions: { country: 'UA' }
+  };
+
+  place: any;
+  autocomplete: any;
 
   constructor(private mapsAPILoader: MapsAPILoader) {}
 

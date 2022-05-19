@@ -9,11 +9,13 @@ import { EventImage } from '../../models/events.interface';
 })
 export class ImagesContainerComponent implements OnInit {
   private isImageTypeError = false;
-  private dragAndDropLabel = 'Drag Image';
+  private dragAndDropLabel = '+';
   private imgArray: File[] = [];
   private imagesCount = 5;
 
   public images: EventImage[] = [];
+
+  public imageCount = 0;
 
   @ViewChild('takeInput') InputVar: ElementRef;
 
@@ -57,6 +59,7 @@ export class ImagesContainerComponent implements OnInit {
           this.images[i + 1].isLabel = true;
         }
         this.images[i].isLabel = false;
+        this.imageCount++;
         break;
       }
     }
@@ -67,6 +70,7 @@ export class ImagesContainerComponent implements OnInit {
     this.imgArray.splice(i, 1);
     this.imgArrayOutput.emit(this.imgArray);
     this.images.push({ src: null, label: this.dragAndDropLabel, isLabel: false });
+    this.imageCount--;
   }
 
   public loadFile(event: Event): void {
