@@ -7,41 +7,44 @@
     <div *ngIf="!orders || orders.length === 0" class="if_empty">
       <span>{{ 'user-orders.no-orders' | translate }}</span>
     </div>
-    <div *ngIf="orders && orders.length !== 0" class="cards">
-      <mat-tab-group animationDuration="0ms">
-        <mat-tab label="{{ 'user-orders.current-orders' | translate }}">
+    <mat-tab-group animationDuration="0ms">
+      <mat-tab label="{{ 'user-orders.current-orders' | translate }}">
+        <div *ngIf="currentOrders && currentOrders.length !== 0" class="cards">
           <app-ubs-user-orders-list
             [orders]="
               currentOrders
                 | paginate
                   : {
-                      itemsPerPage: ordersOnPage,
+                      itemsPerPage: currentOrdersOnPage,
                       currentPage: page,
-                      totalItems: numberOfOrders
+                      totalItems: numberOfCurrentOrders
                     }
             "
             [bonuses]="bonuses"
           ></app-ubs-user-orders-list>
-        </mat-tab>
-        <mat-tab label="{{ 'user-orders.order-history' | translate }}">
+        </div>
+      </mat-tab>
+      <mat-tab label="{{ 'user-orders.order-history' | translate }}">
+        <div *ngIf="orderHistory && orderHistory.length !== 0" class="cards">
           <app-ubs-user-orders-list
             [orders]="
               orderHistory
                 | paginate
                   : {
-                      itemsPerPage: ordersOnPage,
+                      itemsPerPage: historyOrdersOnPage,
                       currentPage: page,
-                      totalItems: numberOfOrders
+                      totalItems: numberOfHistoryOrders
                     }
             "
             [bonuses]="bonuses"
           ></app-ubs-user-orders-list>
-        </mat-tab>
-      </mat-tab-group>
-      <pagination-controls (pageChange)="onPageChange($event)" class="user-orders-pagination"></pagination-controls>
-      <div class="empty"></div>
-    </div>
+        </div>
+      </mat-tab>
+    </mat-tab-group>
+    <pagination-controls (pageChange)="onPageChange($event)" class="user-orders-pagination"></pagination-controls>
+    <div class="empty"></div>
   </div>
+
   <ng-template #spinner>
     <app-spinner></app-spinner>
   </ng-template>

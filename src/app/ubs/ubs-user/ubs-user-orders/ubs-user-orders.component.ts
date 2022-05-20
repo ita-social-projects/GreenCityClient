@@ -23,8 +23,10 @@ export class UbsUserOrdersComponent implements OnInit, OnDestroy {
   loadingOrders = false;
   loadingBonuses = false;
   page = 0;
-  numberOfOrders: number;
-  ordersOnPage = 10;
+  numberOfCurrentOrders: number;
+  numberOfHistoryOrders: number;
+  currentOrdersOnPage = 10;
+  historyOrdersOnPage = 10;
 
   constructor(
     private router: Router,
@@ -36,9 +38,12 @@ export class UbsUserOrdersComponent implements OnInit, OnDestroy {
 
   onPageChange(e) {
     this.page = e;
-    const ordersLeft = this.numberOfOrders - (e - 1) * 10;
-    this.ordersOnPage = ordersLeft < 10 ? ordersLeft : 10;
-    this.getOrders(e - 1, this.ordersOnPage);
+    const numberOfCurrenordersLeft = this.numberOfCurrentOrders - (e - 1) * 10;
+    const numberOfHistoryOrdersLeft = this.numberOfHistoryOrders - (e - 1) * 10;
+    this.currentOrdersOnPage = numberOfCurrenordersLeft < 10 ? this.currentOrdersOnPage : 10;
+    this.historyOrdersOnPage = numberOfHistoryOrdersLeft < 10 ? this.historyOrdersOnPage : 10;
+    this.getCurrentOrders(e - 1, this.currentOrdersOnPage);
+    this.getHistoryOrders(e - 1, this.historyOrdersOnPage);
   }
 
   redirectToOrder() {
@@ -50,16 +55,17 @@ export class UbsUserOrdersComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit() {
-    this.getOrders(0, 10);
+    this.getCurrentOrders(0, 10);
+    this.getHistoryOrders(0, 10);
     this.bonusesService.getUserBonuses().subscribe((responce: IBonus) => {
       this.bonuses = responce.points;
       this.loadingBonuses = true;
     });
   }
 
-  getOrders(pageNumber: number, ordersOnPage: number) {
+  getCurrentOrders(pageNumber: number, ordersOnPage: number) {
     this.userOrdersService
-      .getAllUserOrders(pageNumber, ordersOnPage)
+      .getAllUserOrders(pageNumber, ordersOnPage, 'current')
       .pipe(
         takeUntil(this.destroy),
         catchError((err) => {
@@ -70,17 +76,32 @@ export class UbsUserOrdersComponent implements OnInit, OnDestroy {
       )
       .subscribe((item) => {
         if (pageNumber === 0) {
-          this.numberOfOrders = item.totalElements;
+          this.numberOfCurrentOrders = item.totalElements;
         }
         this.orders = item.page;
-        console.log('ORDERS ', this.orders);
         this.loadingOrders = true;
-        this.currentOrders = this.orders.filter(
-          (order) => order.orderStatusEng !== CheckOrderStatus.DONE && order.orderStatusEng !== CheckOrderStatus.CANCELED
-        );
-        this.orderHistory = this.orders.filter(
-          (order) => order.orderStatusEng === CheckOrderStatus.DONE || order.orderStatusEng === CheckOrderStatus.CANCELED
-        );
+        this.currentOrders = this.orders;
+      });
+  }
+
+  getHistoryOrders(pageNumber: number, ordersOnPage: number) {
+    this.userOrdersService
+      .getAllUserOrders(pageNumber, ordersOnPage, 'history')
+      .pipe(
+        takeUntil(this.destroy),
+        catchError((err) => {
+          const errorMessage = this.translate.instant('snack-bar.error.default');
+          this.snackBar.openSnackBar(errorMessage);
+          return throwError(err);
+        })
+      )
+      .subscribe((item) => {
+        if (pageNumber === 0) {
+          this.numberOfHistoryOrders = item.totalElements;
+        }
+        this.orders = item.page;
+        this.loadingOrders = true;
+        this.orderHistory = this.orders;
       });
   }
 
