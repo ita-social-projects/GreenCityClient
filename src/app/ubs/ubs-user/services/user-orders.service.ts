@@ -11,8 +11,12 @@ export class UserOrdersService {
 
   constructor(private http: HttpClient) {}
 
-  getAllUserOrders(page: number, itemsPerPage: number): Observable<any> {
-    return this.http.get<any[]>(`${this.url}/user-orders?page=${page}&size=${itemsPerPage}`);
+  getAllUserOrders(page: number, itemsPerPage: number, table: string): Observable<any> {
+    const ordersStatusesParams =
+      table == 'current'
+        ? 'status=ADJUSTMENT&status=BROUGHT_IT_HIMSELF&status=FORMED&status=CONFIRMED&status=ON_THE_ROUTE&status=NOT_TAKEN_OUT'
+        : 'status=DONE&status=CANCELED';
+    return this.http.get<any[]>(`${this.url}/user-orders?page=${page}&size=${itemsPerPage}&${ordersStatusesParams}`);
   }
 
   public deleteOrder(orderId: number): Observable<object> {
