@@ -170,7 +170,7 @@ describe('UBSAddAddressPopUpComponent', () => {
   });
 
   it('method onStreetSelected should invoke getDetails', () => {
-    component.placeService = { getDetails: (a, b) => {} } as any;
+    component.placeService = { getDetails: (a, b) => { } } as any;
     spyOn(component.placeService, 'getDetails').and.callThrough();
     const fakeStreetData = { place_id: 123 };
     component.onStreetSelected(fakeStreetData);
@@ -236,13 +236,13 @@ describe('UBSAddAddressPopUpComponent', () => {
       component.isDistrict = false;
       component.currentLanguage = 'ua';
       component.setDistrictTranslation('Фастівський');
-      expect(component.districtEn.value).toBe("Fastivs'kyi");
+      expect(component.districtEn.value).toBe('Fastivs\'kyi');
     });
 
     it('makes expected calls if region is "Fastivs\'kyi" and currentLanguage is "en"', () => {
       component.isDistrict = false;
       component.currentLanguage = 'en';
-      component.setDistrictTranslation("Fastivs'kyi");
+      component.setDistrictTranslation('Fastivs\'kyi');
       expect(component.district.value).toBe('Фастівський');
     });
   });
