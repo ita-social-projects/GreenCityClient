@@ -1,0 +1,67 @@
+.image-container {
+  position: relative;
+  width: 108px;
+  height: 64px;
+  background: var(--ubs-secondary-white);
+  border: 1px solid var(--ubs-primary-light-grey);
+  box-sizing: border-box;
+  margin: 1px 1px 50px 1px;
+}
+
+.drag-inscription {
+  font-size: 22px;
+  color: var(--quaternary-grey);
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  text-align: center;
+  transform: translate(-50%, -50%);
+  cursor: pointer;
+}
+
+.delete-block {
+  justify-content: space-between;
+  position: absolute;
+  top: 0;
+  left: 0;
+  background: var(--ubs-quaternary-light-grey);
+  opacity: 0.7;
+  width: 100%;
+  display: none;
+  max-height: 45px;
+
+  &:hover {
+    display: flex;
+    cursor: pointer;
+  }
+
+  div:nth-of-type(1) {
+    width: calc(100% - 25px);
+    overflow: hidden;
+  }
+
+  div:nth-of-type(2) {
+    width: 15px;
+  }
+}
+
+.image-preview {
+  width: 108px;
+  height: 64px;
+  object-fit: contain;
+  cursor: pointer;
+
+  &:hover + .delete-block {
+    display: flex;
+  }
+}
+
+.title-wrapper {
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+}
+
+.image-title {
+  font-size: 12px;
+}

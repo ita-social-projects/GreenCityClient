@@ -14,7 +14,6 @@ export class UserOrdersService {
   getAllUserOrders(): Observable<any> {
     return this.http.get<any[]>(`${this.url}/user-orders`);
   }
-
   public deleteOrder(orderId: number): Observable<object> {
     return this.http.delete<object>(`${this.url}/delete-order/${orderId}`);
   }

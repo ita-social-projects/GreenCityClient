@@ -276,6 +276,7 @@ input {
   padding: 16px 16px 0 16px;
   color: var(--ubs-primary-grey);
   font-family: var(--primary-font);
+  background-color: var(--ubs-secondary-white);
 }
 
 .dropdown-menu input[type='date'] {
@@ -373,7 +374,7 @@ input {
 ::ng-deep .mat-checkbox-indeterminate .mat-checkbox-background,
 ::ng-deep .mat-checkbox-checked:not(.mat-checkbox-disabled).mat-accent .mat-ripple-element,
 ::ng-deep .mat-checkbox:active:not(.mat-checkbox-disabled).mat-accent .mat-ripple-element {
-  background-color: var(--ubs-button-light-green) !important;
+  background-color: var(--ubs-quaternary-dark-grey) !important;
 }
 
 .accordion-group-header {
@@ -425,6 +426,10 @@ ul::-webkit-scrollbar-thumb,
   display: flex;
   justify-content: space-between;
   position: relative;
+
+  .head {
+    color: var(--ubs-black);
+  }
 }
 
 .reset-settings {

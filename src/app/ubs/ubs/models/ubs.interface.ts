@@ -163,17 +163,49 @@ export interface LocationsName {
   locationId: number;
   locationName: string;
 }
+
+export interface LocationsDtosList {
+  locationId: number;
+  nameEn: string;
+  nameUk: string;
+}
+
+export interface CourierTranslation {
+  languageCode: string;
+  name: string;
+}
 export interface CourierLocations {
-  courierDtos: CourierDtos[];
   courierLimit: string;
-  courierLocationId: number;
-  locationInfoDtos: [
-    {
-      locationsDto: LocationsDtos[];
-    }
-  ];
+  courierStatus: string;
+  tariffInfoId: number;
+  locationsDtosList: LocationsDtosList[];
+  courierTranslationDtos: CourierTranslation[];
+  regionDto: {
+    nameEn: string;
+    nameUk: string;
+    regionId: number;
+  };
   maxAmountOfBigBags: number;
   maxPriceOfOrder: number;
   minAmountOfBigBags: number;
   minPriceOfOrder: number;
+}
+
+export interface ActiveLocations {
+  locationId: number;
+  nameEn: string;
+  nameUk: string;
+}
+
+export interface ActiveLocationsDtos {
+  locations: ActiveLocations[];
+  nameEn: string;
+  nameUk: string;
+  regionId: number;
+}
+
+export interface AllLocationsDtos {
+  allActiveLocationsDtos: ActiveLocationsDtos[] | null;
+  tariffsForLocationDto: CourierLocations | null;
+  orderIsPresent: boolean;
 }

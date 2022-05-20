@@ -4,12 +4,16 @@ import { TranslateModule } from '@ngx-translate/core';
 import { LocalizedCurrencyPipe } from 'src/app/shared/localized-currency-pipe/localized-currency.pipe';
 import { IEmployee, IOrderInfo, IPaymentInfoDto } from '../../models/ubs-admin.interface';
 import { OrderService } from '../../services/order.service';
+import { Store, StoreModule } from '@ngrx/store';
 
 import { UbsAdminOrderPaymentComponent } from './ubs-admin-order-payment.component';
+import { ChangingOrderPaymentStatus } from 'src/app/store/actions/bigOrderTable.actions';
+import { Subject } from 'rxjs';
 
 describe('UbsAdminOrderPaymentComponent', () => {
   let component: UbsAdminOrderPaymentComponent;
   let fixture: ComponentFixture<UbsAdminOrderPaymentComponent>;
+  let storeMock;
   const matDialogMock = () => ({
     open: () => ({
       afterClosed: () => ({ pipe: () => ({ subscribe: (f) => f({}) }) })
@@ -228,12 +232,17 @@ describe('UbsAdminOrderPaymentComponent', () => {
   };
 
   beforeEach(async(() => {
+    storeMock = {
+      dispatch: jasmine.createSpy('dispatch')
+    };
+
     TestBed.configureTestingModule({
       declarations: [UbsAdminOrderPaymentComponent, LocalizedCurrencyPipe],
-      imports: [MatDialogModule, TranslateModule.forRoot()],
+      imports: [MatDialogModule, TranslateModule.forRoot(), StoreModule.forRoot({})],
       providers: [
         { provide: MatDialog, useFactory: matDialogMock },
-        { provide: OrderService, useValue: orderServiceMock }
+        { provide: OrderService, useValue: orderServiceMock },
+        { provide: Store, useValue: storeMock }
       ]
     }).compileComponents();
   }));
@@ -307,6 +316,12 @@ describe('UbsAdminOrderPaymentComponent', () => {
     component.paymentsArray.forEach((payment: IPaymentInfoDto) => {
       expect(payment.amount).toBeGreaterThan(0);
     });
+  });
+
+  it('method postDataItem', () => {
+    (component as any).postDataItem(250, 'PAID');
+
+    expect(storeMock.dispatch).toHaveBeenCalled();
   });
 
   it('method getStringDate', () => {
