@@ -1,4 +1,6 @@
 .container {
+  height: 900px;
+  overflow-y: auto;
   width: 560px;
   position: relative;
   font-family: var(--primary-font);
