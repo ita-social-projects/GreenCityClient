@@ -1,0 +1,123 @@
+.dateContainer {
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.dateEvent {
+  align-items: flex-start;
+  display: flex;
+  margin: 20px 0;
+}
+
+::ng-deep {
+  .ql-container {
+    min-height: 200px;
+  }
+}
+
+.event-container {
+  padding: 0 100px;
+}
+
+.event-header {
+  margin: 24px 0;
+}
+
+.main-title {
+  display: flex;
+  align-items: center;
+}
+
+.title-wrapper {
+  display: flex;
+  justify-content: space-between;
+}
+
+.event-main {
+  display: flex;
+}
+
+.event-main-block {
+  background: rgb(248, 247, 247);
+}
+
+.mat-form-field {
+  font-size: 12px;
+  padding-left: 0;
+}
+
+.event-input {
+  width: 484px;
+}
+
+.date-item {
+  width: 96px;
+}
+
+.duration-choice {
+  margin: 0 0 0 20px;
+}
+
+.left {
+  max-width: 652px;
+}
+
+.date-event-block {
+  margin: 0 0 0 20px;
+}
+
+.date-day {
+  background-color: rgb(216, 213, 213);
+  width: 64px;
+  height: 32px;
+  padding: 5px 0;
+  text-align: center;
+  margin-top: 10px;
+}
+
+.checkbox {
+  width: 150px;
+  display: flex;
+  justify-content: space-between;
+}
+
+.right {
+  padding: 24px;
+  margin-left: 32px;
+}
+
+.buttons-container {
+  margin-bottom: 30px;
+}
+
+.label {
+  margin-bottom: 40px;
+}
+
+.ul-eco-buttons {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  overflow: auto;
+  white-space: nowrap;
+  min-height: 42px;
+
+  li {
+    display: inline-block;
+  }
+}
+
+.flex-container {
+  display: flex;
+  justify-content: flex-start;
+}
+
+.submit-container {
+  padding: 40px 0 60px;
+  display: flex;
+  justify-content: flex-end;
+
+  button {
+    margin-left: 30px;
+  }
+}

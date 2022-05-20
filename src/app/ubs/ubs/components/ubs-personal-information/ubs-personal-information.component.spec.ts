@@ -67,30 +67,33 @@ describe('UBSPersonalInformationComponent', () => {
     houseNumber: 'fake'
   };
 
-  const mockLocations = [
-    {
-      courierDtos: [],
-      courierLimit: 'fake',
-      courierLocationId: 1,
-      locationInfoDtos: [
-        {
-          locationsDto: [
-            {
-              latitude: 50,
-              locationId: 1,
-              locationStatus: 'fake',
-              locationTranslationDtoList: [{ locationName: 'Київ', languageCode: 'ua' }],
-              longitude: 30
-            }
-          ]
-        }
-      ],
-      maxAmountOfBigBags: 99,
-      maxPriceOfOrder: 500000,
-      minAmountOfBigBags: 2,
-      minPriceOfOrder: 500
-    }
-  ];
+  const mockLocations = {
+    courierLimit: 'fake',
+    courierStatus: 'fake status',
+    tariffInfoId: 1,
+    regionDto: {
+      nameEn: 'fake name en',
+      nameUk: 'fake name ua',
+      regionId: 2
+    },
+    locationsDtosList: [
+      {
+        locationId: 3,
+        nameEn: 'fake location en',
+        nameUk: 'fake location ua'
+      }
+    ],
+    courierTranslationDtos: [
+      {
+        languageCode: 'ua',
+        name: 'fake name'
+      }
+    ],
+    maxAmountOfBigBags: 99,
+    maxPriceOfOrder: 500000,
+    minAmountOfBigBags: 2,
+    minPriceOfOrder: 500
+  };
 
   const fakeShareFormService = jasmine.createSpyObj('fakeShareFormService', ['changePersonalData', 'orderDetails']);
   const fakeOrderService = jasmine.createSpyObj('OrderService', [

@@ -31,7 +31,7 @@
   "order-details": {
     "location": {
       "title": "Welcome to UBS! First choose location of waste disposal. Currently we work only in Kyiv and selected cities.",
-      "info-city": "The city of Kyiv also includes Gatne, Gorenka, Zazymie, Irpin, Knyazhychi, Kotsyubynske, Novosilky, Petropavlivska Borshchahivka, Pohreby, Prolisky, Sofiivska Borshchahivka, Chayky, and Shchaslyve.",
+      "info-city": "The location of Kyiv also includes Hatne, Horenka, Zazymie, Irpin, Kniazhychi, Kotsiubynske, Novosilky, Petropavlivska Borshchahivka, Pohreby, Prolisky, Sofiivska Borshchahivka, Chaiky, and Shchaslyve.",
       "info-region": "Currently, the Kyiv region includes cities within 20 km of Kyiv",
       "btn": {
         "back": "Back",
@@ -41,7 +41,7 @@
     "order-title": "Services",
     "choose-location": "Change your region",
     "current-location": "You region {{currentLocation}}",
-    "order-content": "Please note that the minimum order amount must be 500.00 UAH",
+    "order-content": "Please note that the minimum order amount is 500.00 UAH",
     "service": "Service",
     "volume": "Volume",
     "cost": "Cost",
@@ -55,7 +55,7 @@
     "bonuses": "Bonuses: ",
     "amount-due": "Amount due: ",
     "min-sum": "The minimum order amount must be 500.00 UAH",
-    "min-big-bags": "Please note that the minimum order must contain at least {{minAmountOfBigBags}} packages of 120 liters",
+    "min-big-bags": "Please note that the minimum order must contain at least {{minAmountOfBigBags}} packages of 120l",
     "question-certificate": "Do you want to use the certificate?",
     "certificate-number": "Enter the certificate number",
     "activate": "Activate",
@@ -73,13 +73,13 @@
     "no": "No",
     "used": "Used",
     "balance": "Left",
-    "eco-shop": "Eco store",
-    "shop-order-question": "Are you waiting for an order from our Eco-store?",
-    "cant-found-order": "If you could not find the order number, please indicate your name and surname for which you placed the order, in the comments.",
+    "eco-shop": "Eco-shop",
+    "shop-order-question": "Are you waiting for an order from our Eco-shop?",
+    "cant-found-order": "If you cannot find the order number, please indicate your name and surname for which you placed the order in the comments.",
     "enter-order-num": "Order number",
     "additional-orders": "Add another order number",
     "comment": "Comment",
-    "comment-subtitle": "Do you want to add free extra items to your order? Specify here.",
+    "comment-subtitle": "Do you want to add extra items to your order for free? Please specify here.",
     "link": "Learn more about extra packages",
     "any-details": "Any details you would like to report further about this order",
     "next": "Next",
@@ -89,14 +89,14 @@
     "store-delivery": "Delivery from the Eco store",
     "order-numbers": "Your order numbers:",
     "comment-error": "You can't enter more than 255 characters.",
-    "order-error": "The number was entered incorrectly. Try again.",
+    "order-error": "The number was entered incorrectly.  Please try again.",
     "address-comment": "Comment to the address:",
     "order-comment": "Comment to the order:",
     "choose-payment": "You can make a payment in one of the selected methods below"
   },
   "order-form": {
     "ubs-title": "Order garbage collection",
-    "ubs-courier": "UBS courier",
+    "ubs-courier": "UBS Courier",
     "order-details": "Order details",
     "personal-data": "Personal data",
     "confirm": "Confirmation",
@@ -105,16 +105,16 @@
   "extra-packages-pop-up": {
     "title": "Extra packages",
     "subtitle-start": "In addition to packages, UBS Courier can",
-    "free": "free",
-    "subtitle-end": "pick up some extra items of recyclables for recycling free of charge:",
+    "free": "free of charge:",
+    "subtitle-end": "pick up some extra items of recyclables for recycling",
     "subtitle-first": "You can submit an",
     "unlimited": "unlimited",
-    "subtitle-second": "number of UBS extras to the Courier, provided that you meet the following simple conditions:",
-    "aluminum": "aluminum cans (put in a separate bag / bag and tie);",
-    "metal": "household metal (always tears plastic bags, so it is better to give it in a bag / box);",
-    "bottles": "PET bottles are transparent from under drinks (put in a separate bag / bag and tie);",
-    "cardboard": "corrugated cardboard (separate the tape, stickers and all metal staples, and to make it easy to transport - fold it so that it was flat);",
-    "polyfoam": "polyfoam (only if the volume of the package does not exceed 120 l / for 1 export).",
+    "subtitle-second": "number of extras to the UBS Courier, provided that you meet the following simple conditions:",
+    "aluminum": "aluminum cans (put in a separate sack/bag and tie);",
+    "metal": "household metal (it always tears plastic bags, so it is better to give it in a sack/box);",
+    "bottles": "Transparent PET bottles used for drinks (put in a separate sack/bag and tie);",
+    "cardboard": "corrugated cardboard (separate the tape, stickers and all metal staples, and to make it easy to transport, fold it so that it is flat);",
+    "polyfoam": "polyfoam (only if the volume of the package does not exceed 120l per export).",
     "condition1": "When ordering the service, indicate that you plan to give the Courier free items, as well as their volume.",
     "condition2": "Fold each type of packaging separately. And if, for example, you only have one frying pan, just give it to the Courier separately.",
     "button": "Of course"
@@ -153,7 +153,7 @@
     "info-back": "Back",
     "info-cancel": "Cancel",
     "info-next": "Next",
-    "first-order": "Please note: the courier picks up the packages at the entrance, does not go upstairs "
+    "first-order": "Please note, the Courier picks up the packages at the entrance and does not go upstairs"
   },
   "submit-order": {
     "your-order": "Your order",
@@ -223,43 +223,43 @@
     "general": "UBS Courier",
     "header": {
       "caption": "It's even easier than before!",
-      "content": "If you want to take care about our environment and get rid of your wastes, but you are extremely busy and can't get to the sorting station? UBS Courier will come to take your recyclable materials! We provide emergency garbage assistance",
-      "btn-order-courier": "call-up the courier"
+      "content": "Do you want to take care of our environment and get rid of your waste, but you’re too busy to get to the sorting station? UBS Courier will come to pick up your recyclable materials! We provide emergency garbage assistance.",
+      "btn-order-courier": "Call the Courier"
     },
     "ubs-courier": {
-      "info-header": "The UBS Courier service will save your time and money for getting to the sorting station. And as a bonus, you will receive a free delivery of our eco-products around Kyiv.",
+      "info-header": "The UBS Courier service will save you time and money on the trip to the station. As a bonus, you will get free delivery on our eco-goods in Kyiv.",
       "preparing": {
         "caption": "How to prepare?",
         "content": {
           "li_1": "Check out our Rules of sorting wastes (link).",
-          "li_2": "Everything you give to the Courier must be clean and dry – it’s Must Have.",
-          "li_3": "Recyclables and non-recyclable plastics can be put together in one package /sack of a 120 liters size - we will re-sort everything.",
-          "li_4": "We are accepting Fabric wastes (damaged clothes) for the utilization in a separate package of 120L size or 120L size.",
+          "li_2": "Everything you give to the Courier needs to be clean and dry – it’s a must-have.",
+          "li_3": "Recyclables and non-recyclable plastics can be put together in one package/sack of a 120 liters size - we will re-sort everything.",
+          "li_4": "We accept textile wastes (damaged clothes) for the utilization in separate packages of 120l or 20l.",
           "li_5": "1 package/sack should be up to 30 kg.",
-          "li_6": "If you don't have a package/sack of the necessary size you can get it right from the Courier or order a whole roll of packages in our store and pack the wastes beforehand so you will save a big amount of time.",
-          "li_7": "The courier picks up at least 2 packages within Kyiv.  Driving a long distance to take only 1 package is not environmentally friendly, and it significantly increases the waiting time for each customer. If you live within a radius of 20 km from Kyiv - the Courier takes out 20 packages of 120 liters.",
+          "li_6": "If you don't have a package/sack of the necessary size, you can get it right from the Courier or order a whole roll in our store and pack the wastes beforehand to save a lot of time.",
+          "li_7": "The Courier picks up at least 2 packages within Kyiv. Driving a long distance for only 1 package is not environmentally friendly, and it significantly increases the waiting time for each customer. If you live within a radius of 20 km from Kyiv, the Courier takes out 20 packages of 120l.",
           "li_8": "The courier picks up the packages at the main entrance. You can also leave your packages at the concierge, the security post or any other places where the Courier can easily pick them up."
         }
       },
       "rules": {
-        "caption": "The necessary rule for picking up damaged clothes",
+        "caption": "The necessary rules for picking up damaged clothes",
         "content": {
-          "li_1": "We are taking only rags (clothes, shoes, bags, soft toys, bed linen and towels) for incineration, clothes which are completely unsuitable for wearing. If those clothes can still be useful for someone, please, give them to the people who need them.",
+          "li_1": "We are taking only rags (clothes, shoes, bags, soft toys, bed linen and towels) for incineration, clothes that are completely unsuitable for wearing. If those clothes can still be useful for someone, please give them to the people who need them.",
           "li_2": "Large metal parts must be removed from the clothing, and small ones can be left if they are part of it (for example, small zips, buttons, etc.)!",
           "li_3": "Be sure to remove all metal parts and batteries from the stuffed toys!"
         }
       },
       "price": {
-        "caption": "The cost of the service “UBS Courier”",
+        "caption": "The cost of “UBS Courier” service",
         "price-title": {
           "li_1": "250 UAH / 1 package",
           "li_2": "300 UAH / 1 package",
           "li_3": "50 UAH / 1 package"
         },
         "price-description": {
-          "li_1": "with recycled materials and illiquid plastics with a volume of 120 L size.",
-          "li_2": "with textile waste of 120 L size.",
-          "li_3": "with textile waste of 20 L size."
+          "li_1": "with recyclable materials and illiquid plastics with a volume of 120l.",
+          "li_2": "with textile waste of 120l size.",
+          "li_3": "with textile waste of 20l size."
         },
         "steps-title": {
           "li_1": "Register",
@@ -270,7 +270,7 @@
         "steps-content": {
           "li_1": "Create your personal account, where the history of your orders will be stored.",
           "li_2": "Preparation of the route will take from 2 to 9 days.",
-          "li_3": "If you can not be on site at the agreed time, then leave the packages at the concierge, but be sure to pre-Courier.",
+          "li_3": "If you can’t be there at the agreed time, then leave the packages at the concierge but be sure to notify the Courier.",
           "li_4": "Keep track of your order history."
         }
       },
@@ -278,10 +278,10 @@
         "header": "How UBS Courier works",
         "time": {
           "pre_1": "On weekdays - from 10:00 to 17:30.",
-          "pre_2": "Courier waiting time is 2 to 9 business days."
+          "pre_2": "Courier waiting time is 2-9 business days."
         },
         "content": {
-          "pre_1": "Along with the export of recycled materials, you can also order eco-goods from our NO WASTE Shop.",
+          "pre_1": "Along with the export of recyclable materials, you can also order eco-goods from our NoWaste Shop.",
           "pre_2": "Delivery of goods is free of charge for UBS Courier customers."
         },
         "button": "Order Courier"
@@ -294,7 +294,7 @@
   },
   "user": {
     "lower-nav-bar": {
-      "about-us": "About-us",
+      "about-us": "About us",
       "sorting-rules": "Sorting rules",
       "eco-shop": "Eco-Shop"
     },
@@ -327,7 +327,7 @@
         "first-name-is-required": "User name is required",
         "user-name-error": "User name is required",
         "invalid-user-name": "Username must not contains a dot at the beginning, few dots in a row, special characters, Cyrillic letters",
-        "user-name-size": "The name must contain 6-30 characters and can contain letters(a-z), numbers(0-9) and a dot(.), dot at the start, at the end and consecutive dot is forbidden",
+        "user-name-size": "The name must contain 6-30 characters and can contain letters(a-z), numbers(0-9) and a dot(.); dot at the start, at the end, and consecutive dot are forbidden",
         "first-name-must-be-at-least-1-characters-long": "User name must be at least 1 characters long",
         "last-name": "Last name",
         "last-name-is-required": "Last name is required",
@@ -336,25 +336,26 @@
         "email-is-required": "Email is required",
         "email-must-be-at-least-1-characters-long": "Email must be at least 1 characters long",
         "this-is-not-email": "Please check that your e-mail address is indicated correctly",
-        "the-user-already-exists-by-this-email": "The user already exists by this email",
+        "the-user-already-exists-by-this-email": "The user with this email already exists",
         "password": "Password",
         "password-is-required": "Password is required",
         "password-must-be-at-least-8-characters-long": "Password must be at least 8 characters in length",
+        "too-long-password": "Password is too long, a maximum of 20 characters allowed",
         "password-spaces-error": "Password must be at least 8 characters long without spaces",
-        "password-symbols-error": "Password has contain at least one character of Uppercase letter (A-Z), Lowercase letter (a-z), Digit (0-9), Special character (~`!@#$%^&*()+=_-{}[]|:;”’?/<>,.)",
+        "password-symbols-error": "Password must contain at least one uppercase letter (A-Z), one lowercase letter (a-z), a digit (0-9), and a special character (~`!@#$%^&*()+=_-{}[]|:;”’?/<>,.)",
         "password-match": "Passwords do not match",
         "password-confirm": "Confirm password",
-        "submit": "Sign Up",
+        "submit": "Sign up",
         "or": "or",
-        "submit-with-google": "Sign Up with Google",
+        "submit-with-google": "Sign up with Google",
         "haveyou-account": "Do you already have an account?",
         "enter": "Sign in"
       },
       "submit-email": "Congrats! Your profile is created. Please check the email sent with a link to confirm your email address.",
       "forgot-password": {
         "already-sent": "Password restore link already sent, please check your email",
-        "email-not-exist": "The user does not exist by this email",
-        "title": "Problems sign in?",
+        "email-not-exist": "The user with this email does not exist",
+        "title": "Trouble singing in?",
         "fill-form": "Enter your email address and we'll send you a link to regain access to your account.",
         "email": "Email",
         "send-btn": "Submit a login link",
@@ -385,7 +386,7 @@
 
   "footer": {
     "station": "Station",
-    "address": "Kyiv, Saperno-Slobitska str,25",
+    "address": "Saperno-Slobidska St, 25, Kyiv, Ukraine",
     "schedule": "Station work schedule",
     "mon-tue": " mon-tue",
     "day-off": "day off",
@@ -402,7 +403,7 @@
     "subscribe-us": "SUBSCRIBE",
     "user-agreement": "User agreement",
     "public-offer": "Public offer",
-    "help-the-project": "How to help the project",
+    "help-the-project": "How to help the project?",
     "how-to-get-there": "How to get there?",
     "ukraine-without-garbage": "Ukraine without garbage"
   }

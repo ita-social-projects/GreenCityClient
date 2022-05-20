@@ -10,7 +10,6 @@
   </label>
   <input
     type="email"
-    role="email-hahah"
     placeholder="example@email.com"
     id="email"
     name="email"
@@ -44,7 +43,7 @@
     <app-error [formElement]="firstNameControl" [nameFieldValue]="nameFieldValue" [controlName]="'firstName'"></app-error>
   </div>
   <div *ngIf="firstNameErrorMessageBackEnd" class="error-message error-message-show">
-    {{ 'user.auth.sign-up.invalid-user-name' | translate }}
+    {{ 'user.auth.sign-up.user-name-size' | translate }}
   </div>
   <label class="content-label under-error" for="password">
     {{ 'user.auth.sign-up.password' | translate }}
@@ -118,13 +117,13 @@
   <div *ngIf="passwordErrorMessageBackEnd" class="error-message error-message-show">
     {{ 'user.auth.sign-up.password-symbols-error' | translate }}
   </div>
-  <div class="alert-general-error" *ngIf="backEndError">
+  <div *ngIf="backEndError" class="alert-general-error">
     {{ 'user.auth.sign-in.bad-email-or-password' | translate }}
   </div>
   <button
     type="submit"
-    [class]="ubsStyle"
-    role="button"
+    [ngClass]="isUbs ? 'ubsStyle' : 'greenStyle'"
+    role="link"
     [disabled]="!signUpForm.valid || inputPassword.value !== repeatPassword.value || emailErrorMessageBackEnd"
   >
     <span *ngIf="loadingAnim" class="spinner-border spinner-border-sm" role="status"> </span>

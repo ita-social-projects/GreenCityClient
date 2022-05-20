@@ -160,10 +160,28 @@ describe('OrderService', () => {
   it('method getLocations should return user location', () => {
     const locationsMock = [{ id: 1, name: 'city', languageCode: 'ua' }];
 
-    service.getLocations(1).subscribe((data) => {
+    service.getLocations().subscribe((data) => {
       expect(data).toEqual(locationsMock as any);
     });
-    httpTest('courier/1', 'GET', locationsMock);
+    httpTest('allLocations', 'GET', locationsMock);
+  });
+
+  it('method getLocations should return all user location', () => {
+    const locationsMock = [{ id: 1, name: 'city', languageCode: 'ua' }];
+
+    service.getLocations(true).subscribe((data) => {
+      expect(data).toEqual(locationsMock as any);
+    });
+    httpTest('allLocations?changeLoc=changeLocation', 'GET', locationsMock);
+  });
+
+  it('method getInfoAboutTariff should return user location tariff', () => {
+    const tariffMock = { tariff: 'fake tariff' };
+
+    service.getInfoAboutTariff(1).subscribe((data) => {
+      expect(data).toEqual(tariffMock as any);
+    });
+    httpTest('tariffinfo-for-location/1', 'GET', tariffMock);
   });
 
   it('method addAdress should makes post request', () => {
