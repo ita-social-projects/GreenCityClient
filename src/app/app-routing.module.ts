@@ -39,10 +39,6 @@ export const routes: Routes = [
         loadChildren: () => import('./main/component/user/user.module').then((mod) => mod.UserModule)
       },
       {
-        path: 'tips',
-        component: TipsListComponent
-      },
-      {
         path: 'search',
         component: SearchAllResultsComponent
       },
