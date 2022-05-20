@@ -16,7 +16,7 @@ import { BonusesService } from '../ubs-user-bonuses/services/bonuses.service';
 import { APP_BASE_HREF } from '@angular/common';
 import { NgxPaginationModule } from 'ngx-pagination';
 
-fdescribe('UbsUserOrdersComponent', () => {
+describe('UbsUserOrdersComponent', () => {
   let component: UbsUserOrdersComponent;
   let fixture: ComponentFixture<UbsUserOrdersComponent>;
 
@@ -103,13 +103,30 @@ fdescribe('UbsUserOrdersComponent', () => {
     expect(component.loadingBonuses).toBe(true);
   });
 
-  it('orderHistory length should been 1', () => {
-    fakeOrder1.orderStatusEng = 'Done';
-    component.ngOnInit();
-    fixture.detectChanges();
-    //fixture.componentInstance.ngOnInit();
+  it('getCurrentOrders should call getAllUserOrders ', () => {
+    component.getCurrentOrders(0, 10);
+    expect((component as any).userOrdersService.getAllUserOrders).toHaveBeenCalledWith(0, 10, 'current');
+  });
 
-    expect(component.orderHistory.length).toBe(1);
+  it('getHistoryOrders should call getAllUserOrders ', () => {
+    component.getHistoryOrders(0, 10);
+    expect((component as any).userOrdersService.getAllUserOrders).toHaveBeenCalledWith(0, 10, 'history');
+  });
+
+  it('onPageChange should call getCurrentOrders ', () => {
+    spyOn(component as any, 'getCurrentOrders');
+    component.numberOfCurrentOrders = 10;
+    component.onPageChange(1);
+
+    expect((component as any).getCurrentOrders).toHaveBeenCalledWith(0, 10);
+  });
+
+  it('onPageChange should call getHistoryOrders ', () => {
+    spyOn(component as any, 'getHistoryOrders');
+    component.numberOfHistoryOrders = 10;
+    component.onPageChange(1);
+
+    expect((component as any).getHistoryOrders).toHaveBeenCalledWith(0, 10);
   });
 
   it('destroy Subject should be closed after ngOnDestroy()', () => {
