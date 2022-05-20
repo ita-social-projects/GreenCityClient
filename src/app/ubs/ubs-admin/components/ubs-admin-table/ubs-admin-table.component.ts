@@ -502,7 +502,7 @@ export class UbsAdminTableComponent implements OnInit, AfterViewChecked, OnDestr
 
   toggleAccordion(e: PointerEvent): void {
     (e.target as HTMLElement).parentElement.parentElement.querySelector('.accordion-collapse').classList.toggle('show');
-    let matIcon = (e.target as HTMLElement).closest('div').querySelector('mat-icon');
+    const matIcon = (e.target as HTMLElement).closest('div').querySelector('mat-icon');
     matIcon.textContent = matIcon.textContent === 'keyboard_arrow_down' ? 'keyboard_arrow_up' : 'keyboard_arrow_down';
   }
 
