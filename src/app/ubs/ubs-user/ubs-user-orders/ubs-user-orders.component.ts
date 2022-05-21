@@ -42,8 +42,8 @@ export class UbsUserOrdersComponent implements OnInit, OnDestroy {
     const numberOfHistoryOrdersLeft = this.numberOfHistoryOrders - (e - 1) * 10;
     this.currentOrdersOnPage = numberOfCurrenordersLeft < 10 ? this.currentOrdersOnPage : 10;
     this.historyOrdersOnPage = numberOfHistoryOrdersLeft < 10 ? this.historyOrdersOnPage : 10;
-    this.getCurrentOrders(e - 1, this.currentOrdersOnPage);
-    this.getHistoryOrders(e - 1, this.historyOrdersOnPage);
+    this.getOrders(e - 1, this.currentOrdersOnPage, 'current');
+    this.getOrders(e - 1, this.historyOrdersOnPage, 'history');
   }
 
   redirectToOrder() {
@@ -55,17 +55,17 @@ export class UbsUserOrdersComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit() {
-    this.getCurrentOrders(0, 10);
-    this.getHistoryOrders(0, 10);
+    this.getOrders(0, 10, 'current');
+    this.getOrders(0, 10, 'history');
     this.bonusesService.getUserBonuses().subscribe((responce: IBonus) => {
       this.bonuses = responce.points;
       this.loadingBonuses = true;
     });
   }
 
-  getCurrentOrders(pageNumber: number, ordersOnPage: number) {
+  getOrders(pageNumber: number, ordersOnPage: number, table: string) {
     this.userOrdersService
-      .getAllUserOrders(pageNumber, ordersOnPage, 'current')
+      .getAllUserOrders(pageNumber, ordersOnPage, table)
       .pipe(
         takeUntil(this.destroy),
         catchError((err) => {
@@ -76,32 +76,13 @@ export class UbsUserOrdersComponent implements OnInit, OnDestroy {
       )
       .subscribe((item) => {
         if (pageNumber === 0) {
-          this.numberOfCurrentOrders = item.totalElements;
+          this.numberOfCurrentOrders = table === 'current' ? item.totalElements : this.numberOfCurrentOrders;
+          this.numberOfHistoryOrders = table === 'history' ? item.totalElements : this.numberOfHistoryOrders;
         }
         this.orders = item.page;
         this.loadingOrders = true;
-        this.currentOrders = this.orders;
-      });
-  }
-
-  getHistoryOrders(pageNumber: number, ordersOnPage: number) {
-    this.userOrdersService
-      .getAllUserOrders(pageNumber, ordersOnPage, 'history')
-      .pipe(
-        takeUntil(this.destroy),
-        catchError((err) => {
-          const errorMessage = this.translate.instant('snack-bar.error.default');
-          this.snackBar.openSnackBar(errorMessage);
-          return throwError(err);
-        })
-      )
-      .subscribe((item) => {
-        if (pageNumber === 0) {
-          this.numberOfHistoryOrders = item.totalElements;
-        }
-        this.orders = item.page;
-        this.loadingOrders = true;
-        this.orderHistory = this.orders;
+        this.currentOrders = table === 'current' ? this.orders : this.currentOrders;
+        this.orderHistory = table === 'history' ? this.orders : this.orderHistory;
       });
   }
 

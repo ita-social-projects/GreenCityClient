@@ -103,30 +103,24 @@ describe('UbsUserOrdersComponent', () => {
     expect(component.loadingBonuses).toBe(true);
   });
 
-  it('getCurrentOrders should call getAllUserOrders ', () => {
-    component.getCurrentOrders(0, 10);
+  it('getOrders should call getAllUserOrders ', () => {
+    component.getOrders(0, 10, 'current');
     expect((component as any).userOrdersService.getAllUserOrders).toHaveBeenCalledWith(0, 10, 'current');
   });
 
-  it('getHistoryOrders should call getAllUserOrders ', () => {
-    component.getHistoryOrders(0, 10);
+  it('getOrders should call getAllUserOrders ', () => {
+    component.getOrders(0, 10, 'history');
     expect((component as any).userOrdersService.getAllUserOrders).toHaveBeenCalledWith(0, 10, 'history');
   });
 
   it('onPageChange should call getCurrentOrders ', () => {
-    spyOn(component as any, 'getCurrentOrders');
+    spyOn(component as any, 'getOrders');
     component.numberOfCurrentOrders = 10;
-    component.onPageChange(1);
-
-    expect((component as any).getCurrentOrders).toHaveBeenCalledWith(0, 10);
-  });
-
-  it('onPageChange should call getHistoryOrders ', () => {
-    spyOn(component as any, 'getHistoryOrders');
     component.numberOfHistoryOrders = 10;
     component.onPageChange(1);
 
-    expect((component as any).getHistoryOrders).toHaveBeenCalledWith(0, 10);
+    expect((component as any).getOrders).toHaveBeenCalledWith(0, 10, 'current');
+    expect((component as any).getOrders).toHaveBeenCalledWith(0, 10, 'history');
   });
 
   it('destroy Subject should be closed after ngOnDestroy()', () => {
