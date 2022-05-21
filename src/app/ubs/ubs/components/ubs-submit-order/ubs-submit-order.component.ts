@@ -120,9 +120,13 @@ export class UBSSubmitOrderComponent extends FormBaseComponent implements OnInit
       phoneNumber: data.recipientPhone,
       addressComment: data.addressComment,
       city: data.addressCity,
+      cityEn: data.addressCityEn,
       district: data.addressDistrict,
+      districtEn: data.addressDistrictEn,
       street: data.addressStreet,
-      region: data.addressRegion
+      streetEn: data.addressStreetEn,
+      region: data.addressRegion,
+      regionEn: data.addressRegionEn
     };
   }
 

@@ -37,8 +37,11 @@ describe('UBSSubmitOrderComponent', () => {
     anotherClientEmail: 'fake',
     anotherClientPhoneNumber: 'fake',
     city: 'fake',
+    cityEn: 'fakeEn',
     district: 'fake',
+    districtEn: 'fakeEn',
     street: 'fake',
+    streetEn: 'fakeEn',
     houseCorpus: 'fake',
     entranceNumber: 'fake',
     houseNumber: 'fake'

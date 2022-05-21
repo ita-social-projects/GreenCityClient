@@ -53,9 +53,13 @@ export interface OrderDetailsNotification {
   recipientEmail?: string;
   recipientPhone?: string;
   addressCity?: string;
+  addressCityEn?: string;
   addressStreet?: string;
+  addressStreetEn?: string;
   addressDistrict?: string;
+  addressDistrictEn?: string;
   addressRegion?: string;
+  addressRegionEn?: string;
 }
 
 export interface FinalOrder {
@@ -87,9 +91,13 @@ export interface PersonalData {
   anotherClientPhoneNumber?: string;
   addressComment: string;
   city: string;
+  cityEn: string;
   district: string;
+  districtEn: string;
   street?: string;
+  streetEn?: string;
   region?: string;
+  regionEn?: string;
   houseCorpus?: string;
   entranceNumber?: string;
   houseNumber?: string;
