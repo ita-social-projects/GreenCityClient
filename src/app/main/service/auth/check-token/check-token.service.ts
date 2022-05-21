@@ -23,11 +23,7 @@ export class CheckTokenService {
       .pipe(
         switchMap((params) => {
           const { token, user_id } = params;
-          if (token && user_id) {
-            return this.verifyEmailService.onCheckToken(token, user_id);
-          } else {
-            return EMPTY;
-          }
+          return token && user_id ? this.verifyEmailService.onCheckToken(token, user_id) : EMPTY;
         })
       )
       .subscribe((res) => {
