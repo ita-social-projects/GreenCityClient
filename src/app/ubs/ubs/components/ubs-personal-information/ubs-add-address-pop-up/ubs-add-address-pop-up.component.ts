@@ -336,7 +336,7 @@ export class UBSAddAddressPopUpComponent implements OnInit, OnDestroy, AfterView
     // TODO: Must be removed if multi-region feature need to be implemented
     this.region.setValue('Київська область');
     this.region.disable();
-    this.regionEn.setValue("Kyivs'ka oblast'");
+    this.regionEn.setValue(`Kyivs'ka oblast'`);
     this.regionEn.disable();
 
     if (this.currentLocation === 'Kyiv' || this.currentLocation === 'Київ') {
