@@ -34,7 +34,7 @@ import { Store, ActionsSubject } from '@ngrx/store';
 import { QuillModule } from 'ngx-quill';
 import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
 
-fdescribe('CreateEditNewsComponent', () => {
+describe('CreateEditNewsComponent', () => {
   let component: CreateEditNewsComponent;
   let fixture: ComponentFixture<CreateEditNewsComponent>;
   let ecoNewsServiceMock: EcoNewsService;
