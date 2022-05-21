@@ -23,11 +23,14 @@
 }
 
 .header_list {
-  display: flex;
-  flex-direction: row;
+  display: grid;
+  grid-template-columns: repeat(6, 109px);
+  column-gap: 1.7vw;
+  align-items: center;
   font-size: 14px;
   font-weight: 500;
   line-height: 20px;
+  margin-left: 17px;
 
   .header_list-num,
   .header_list-paymentStatus,
@@ -35,9 +38,20 @@
   .header_list-status,
   .header_list-paymentDate,
   .header_list-date {
-    width: 97px;
     line-height: 20px;
     font-style: normal;
+  }
+
+  .header_list-date {
+    padding-left: 0.4vw;
+  }
+
+  .header_list-paymentStatus {
+    padding-right: 0.4vw;
+  }
+
+  .header_list-paymentDate {
+    padding-left: 0.3vw;
   }
 
   div {
@@ -51,9 +65,9 @@
 }
 
 .mat-content-wrapper {
-  display: flex;
-  flex-direction: row;
-  flex: 1;
+  display: grid;
+  grid-template-columns: repeat(6, 109px);
+  column-gap: 1.57vw;
 }
 
 .btn-space {
@@ -65,6 +79,7 @@
   display: flex;
   flex-direction: row;
   align-items: center;
+  margin-left: 30px;
 
   .btn_grid_cancel,
   .btn_grid_pay,
@@ -137,32 +152,11 @@
 
 @media (max-width: 1060px) {
   .header_list {
-    display: flex;
-    flex-direction: row;
-    align-items: center;
     font-size: 12px;
     font-weight: 500;
 
-    .header_list-num {
-      flex-grow: 1;
-    }
-
-    .header_list-date,
-    .header_list-status,
-    .header_list-paymentStatus,
-    .header_list-paymentAmount {
-      flex-grow: 2;
-    }
-
     .btns_group {
       flex-direction: column;
-    }
-
-    .mat-expansion-panel-header-description {
-      display: flex;
-      align-items: center;
-      flex-wrap: wrap;
-      flex: 1 1 120px;
     }
   }
 
@@ -170,28 +164,16 @@
     height: 64px !important;
     font-size: 13px;
   }
-
-  .mat-content-wrapper {
-    flex: 0.95;
-  }
 }
 
 @media (max-width: 920px) {
   .header_list {
-    display: flex;
-    flex-direction: row;
-    align-items: center;
     font-size: 12px;
     font-weight: 500;
 
     .header_list-date,
     .header_list-status {
       display: none;
-    }
-
-    .header_list-paymentStatus,
-    .header_list-paymentAmount {
-      flex-grow: 2;
     }
   }
 
@@ -203,10 +185,6 @@
   .order_list-date,
   .order_list-status {
     display: none;
-  }
-
-  .mat-content-wrapper {
-    flex: 0.8;
   }
 }
 
@@ -248,10 +226,6 @@
   .order_list-date,
   .order_list-status {
     display: none;
-  }
-
-  .mat-content-wrapper {
-    flex: 0 1 285px;
   }
 }
 
