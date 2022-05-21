@@ -40,8 +40,11 @@ describe('OrderService', () => {
     anotherClientPhoneNumber: '',
     addressComment: '',
     city: '',
+    cityEn: '',
     district: '',
+    districtEn: '',
     street: '',
+    streetEn: '',
     houseCorpus: '',
     entranceNumber: '',
     houseNumber: '',
@@ -185,17 +188,26 @@ describe('OrderService', () => {
   });
 
   it('method addAdress should makes post request', () => {
-    service.addAdress(address).subscribe((data) => {
+    service.addAdress(address as any).subscribe((data) => {
       expect(data).toEqual(address);
     });
     httpTest('save-order-address', 'POST', address);
   });
+
+  it('method updateAdress should makes post request', () => {
+    service.updateAdress(address as any).subscribe((data) => {
+      expect(data).toEqual(address);
+    });
+    httpTest('update-order-address', 'PUT', address);
+  });
+
   it('method deleteAddress should delete address and make post request', () => {
     service.deleteAddress(address).subscribe((data) => {
       expect(data).toEqual(address);
     });
     httpTest('order-addresses/' + address.id, 'DELETE', address);
   });
+
   it('method addLocation should add location and make post request', () => {
     const location = { locationId: 0 };
     service.addLocation(location).subscribe((data) => {

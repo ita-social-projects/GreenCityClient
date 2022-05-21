@@ -90,11 +90,14 @@
             <p class="order-header">{{ 'order-details.export-address' | translate }}</p>
             <ul class="order-list">
               <li class="order-list-item">
-                {{ 'personal-info.address-city' | translate }} {{ 'personal-info.pop-up-city-name' | translate }}
+                {{ 'personal-info.address-city' | translate }} {{ currentLanguage === 'ua' ? personalData.city : personalData.cityEn }}
               </li>
-              <li class="order-list-item">{{ 'personal-info.address-district' | translate }} {{ personalData.district }}</li>
               <li class="order-list-item">
-                <span>{{ personalData.street }}, {{ personalData.houseNumber }}</span>
+                {{ 'personal-info.address-district' | translate }}
+                {{ currentLanguage === 'ua' ? personalData.district : personalData.districtEn }}
+              </li>
+              <li class="order-list-item">
+                <span>{{ currentLanguage === 'ua' ? personalData.street : personalData.streetEn }}, {{ personalData.houseNumber }}</span>
                 <span *ngIf="personalData.houseCorpus"
                   >, {{ 'personal-info.address-corp' | translate }} {{ personalData.houseCorpus }}</span
                 >
@@ -102,7 +105,7 @@
                   >, {{ 'personal-info.address-entrance' | translate }} {{ personalData.entranceNumber }}</span
                 >
               </li>
-              <li class="order-list-item">{{ personalData.region }}</li>
+              <li class="order-list-item">{{ currentLanguage === 'ua' ? personalData.region : personalData.regionEn }}</li>
               <li class="order-list-item" *ngIf="personalData.addressComment">
                 {{ 'order-details.address-comment' | translate }} {{ personalData.addressComment }}
               </li>

@@ -183,9 +183,13 @@ export class UBSPersonalInformationComponent extends FormBaseComponent implement
   changeAddressInPersonalData() {
     const activeAddress = this.addresses.find((address) => address.actual);
     this.personalData.city = activeAddress.city;
+    this.personalData.cityEn = activeAddress.cityEn;
     this.personalData.district = activeAddress.district;
+    this.personalData.districtEn = activeAddress.districtEn;
     this.personalData.region = activeAddress.region;
+    this.personalData.regionEn = activeAddress.regionEn;
     this.personalData.street = activeAddress.street;
+    this.personalData.streetEn = activeAddress.streetEn;
     this.personalData.houseNumber = activeAddress.houseNumber;
     this.personalData.houseCorpus = activeAddress.houseCorpus;
     this.personalData.entranceNumber = activeAddress.entranceNumber;
@@ -349,7 +353,7 @@ export class UBSPersonalInformationComponent extends FormBaseComponent implement
     this.addresses.forEach((address) => {
       if (address.actual) {
         address.addressComment = this.personalDataForm.controls.addressComment.value;
-        this.orderService.addAdress(address).subscribe(() => {
+        this.orderService.updateAdress(address).subscribe(() => {
           this.orderService.setCurrentAddress(address);
           this.findAllAddresses(false);
         });
