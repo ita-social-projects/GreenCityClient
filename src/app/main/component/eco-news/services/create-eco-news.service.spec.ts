@@ -65,9 +65,10 @@ describe('CreateEcoNewsService', () => {
   });
 
   it('should set image value to empty string', () => {
+    service.fileUrl = 'new URL';
     service.files[0] = null;
     service.setForm(form);
-    expect(service.currentForm.value.image).toEqual('');
+    expect(service.currentForm.value.image).toEqual('new URL');
   });
 
   it('should make POST request', () => {

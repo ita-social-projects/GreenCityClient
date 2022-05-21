@@ -63,7 +63,7 @@ export class CreateEcoNewsService {
   public setForm(form: FormGroup): void {
     this.currentForm = form;
     if (this.currentForm) {
-      this.currentForm.value.image = this.files[0] ? this.files[0].url : '';
+      this.currentForm.value.image = this.files[0] ? this.files[0].url : this.fileUrl;
     }
   }
 

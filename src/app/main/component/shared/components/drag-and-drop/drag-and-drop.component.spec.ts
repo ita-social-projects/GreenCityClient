@@ -26,9 +26,16 @@ describe('DragAndDropComponent', () => {
     offsetImagePosition: null
   };
 
-  const createEcoNewsServiceMock = jasmine.createSpyObj('CreateEcoNewsService', ['isBackToEditing', 'isImageValid']);
+  const createEcoNewsServiceMock = jasmine.createSpyObj('CreateEcoNewsService', [
+    'isBackToEditing',
+    'files',
+    'isImageValid',
+    'getFormData'
+  ]);
   createEcoNewsServiceMock.isBackToEditing = true;
+  createEcoNewsServiceMock.files = ['files'];
   createEcoNewsServiceMock.isImageValid = true;
+  createEcoNewsServiceMock.getFormData.and.returnValue({ value: { image: defaultImagePath } });
 
   const formDataMock: FormGroup = new FormGroup({
     content: new FormControl('asd aspd kasd ksdfj ksdjfi sdjf osd'),
@@ -65,6 +72,12 @@ describe('DragAndDropComponent', () => {
     expect(component).toBeTruthy();
   });
 
+  it('ngOnInit', () => {
+    spyOn(component, 'patchImage');
+    component.ngOnInit();
+    expect(component.patchImage).toHaveBeenCalledTimes(1);
+  });
+
   it('should an image is cropped', () => {
     spyOn(component, 'imageCropped').withArgs(imageCroppedEventMock);
     component.imageCropped(imageCroppedEventMock);
@@ -72,8 +85,10 @@ describe('DragAndDropComponent', () => {
   });
 
   it('should cancel changes', () => {
+    component.files = ['not empty'] as any;
     component.cancelChanges();
     expect(component.files).toEqual([]);
+    expect(createEcoNewsServiceMock.files).toEqual([]);
     expect(component.isCropper).toBe(true);
   });
 
@@ -99,9 +114,25 @@ describe('DragAndDropComponent', () => {
   });
 
   it('should patch an image', () => {
-    spyOn(component, 'patchImage');
+    component.isCropper = true;
     component.patchImage();
     expect(component.isCropper).toBe(false);
-    expect(component.patchImage).toHaveBeenCalled();
+  });
+
+  it('patchImage should use getPreviewImg ', () => {
+    component.files[0].file = new File(['some content'], 'text-file.jpeg', { type: 'image/jpeg' });
+    formDataMock.value.image = '';
+    component.patchImage();
+    expect(component.files[0].url).toBe(defaultImagePath);
+    expect(component.files[0].file).toBe(null);
+
+    formDataMock.value.image = defaultImagePath;
+  });
+
+  it('showWarning', () => {
+    component.files[0].file = new File(['some content'], 'text-file.jpeg', { type: 'image/jpeg' });
+    component.isWarning = true;
+    component.showWarning();
+    expect(component.isWarning).toBeFalsy();
   });
 });

@@ -10,7 +10,7 @@ import { NO_ERRORS_SCHEMA } from '@angular/core';
 import { Location } from '@angular/common';
 import { Router } from '@angular/router';
 import { By } from '@angular/platform-browser';
-import { of } from 'rxjs';
+import { BehaviorSubject, of } from 'rxjs';
 import { TranslateModule } from '@ngx-translate/core';
 import { ImageCropperModule } from 'ngx-image-cropper';
 import { EcoNewsService } from '@eco-news-service/eco-news.service';
@@ -30,8 +30,11 @@ import { SearchAllResultsComponent } from 'src/app/main/component/layout/compone
 import { MainComponent } from '../../../../main.component';
 import { UbsBaseSidebarComponent } from '../../../../../shared/ubs-base-sidebar/ubs-base-sidebar.component';
 import { environment } from '@environment/environment.js';
+import { Store, ActionsSubject } from '@ngrx/store';
+import { QuillModule } from 'ngx-quill';
+import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
 
-xdescribe('CreateEditNewsComponent', () => {
+fdescribe('CreateEditNewsComponent', () => {
   let component: CreateEditNewsComponent;
   let fixture: ComponentFixture<CreateEditNewsComponent>;
   let ecoNewsServiceMock: EcoNewsService;
@@ -53,6 +56,7 @@ xdescribe('CreateEditNewsComponent', () => {
     shortInfo: 'info',
     source: null
   };
+
   let http: HttpTestingController;
   const newsResponseMock: EcoNewsModel = {
     id: 4705,
@@ -130,13 +134,26 @@ xdescribe('CreateEditNewsComponent', () => {
 
   createEditNewsFormBuilderMock.getEditForm = (data) => {
     return new FormGroup({
-      title: new FormControl(data.title),
+      title: new FormControl('data.title'),
       content: new FormControl(data.content),
       tags: new FormArray(data.tags),
       image: new FormControl(data.imagePath),
       source: new FormControl(data.source)
     });
   };
+
+  const actionSub: ActionsSubject = new ActionsSubject();
+
+  const storeMock = jasmine.createSpyObj('store', ['select', 'dispatch']);
+
+  const localStorageServiceMock = jasmine.createSpyObj('localStorageService', [
+    'getPreviousPage',
+    'removeTagsOfNews',
+    'languageBehaviourSubject',
+    'getTagsOfNews',
+    'setTagsOfNews'
+  ]);
+  localStorageServiceMock.languageBehaviourSubject = new BehaviorSubject('en');
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
@@ -159,7 +176,8 @@ xdescribe('CreateEditNewsComponent', () => {
         ImageCropperModule,
         HttpClientTestingModule,
         MatSnackBarModule,
-        MatDialogModule
+        MatDialogModule,
+        QuillModule.forRoot()
       ],
       providers: [
         { provide: MAT_DIALOG_DATA, useValue: {} },
@@ -168,6 +186,9 @@ xdescribe('CreateEditNewsComponent', () => {
         { provide: EcoNewsService, useValue: ecoNewsServiceMock },
         { provide: CreateEcoNewsService, useValue: createEcoNewsServiceMock },
         { provide: CreateEditNewsFormBuilder, useValue: createEditNewsFormBuilderMock },
+        { provide: ActionsSubject, useValue: actionSub },
+        { provide: Store, useValue: storeMock },
+        { provide: LocalStorageService, useValue: localStorageServiceMock },
         MatSnackBarComponent,
         FormBuilder
       ],
@@ -189,40 +210,15 @@ xdescribe('CreateEditNewsComponent', () => {
     http.verify();
   });
 
-  it('navigate to "news" redirects you to /news', fakeAsync(() => {
-    component.createNews();
-    tick(5000);
-    fixture.detectChanges();
-    fixture.ngZone.run(() => {
-      fixture.whenStable().then(() => {
-        expect(router.navigate).toHaveBeenCalledWith(['/news']);
-      });
-    });
-  }));
-
-  it('navigate to "news" redirects you to /news', fakeAsync(() => {
-    component.editNews();
-    tick(5000);
-    fixture.detectChanges();
-    fixture.ngZone.run(() => {
-      fixture.whenStable().then(() => {
-        expect(router.navigate).toHaveBeenCalledWith(['/news']);
-      });
-    });
-  }));
-
-  it('fakeAsync works', fakeAsync(() => {
-    const promise = new Promise((resolve) => {
-      setTimeout(resolve, 10);
-    });
-    let done = false;
-    promise.then(() => (done = true));
-    tick(50);
-    expect(done).toBeTruthy();
-  }));
-
   it('should create', () => {
     expect(component).toBeTruthy();
+  });
+
+  it('ngOnInit', () => {
+    const spy1 = spyOn(component, 'getNewsIdFromQueryParams');
+    component.ngOnInit();
+    expect(spy1).toHaveBeenCalledTimes(1);
+    expect(localStorageServiceMock.getTagsOfNews).toHaveBeenCalledWith('newsTags');
   });
 
   it('should get econews by id', () => {
@@ -242,20 +238,6 @@ xdescribe('CreateEditNewsComponent', () => {
     };
     component.ngOnInit();
     expect(component.form.value).toEqual(testForm);
-  });
-
-  it('should POST econews', () => {
-    createEcoNewsServiceMock.sendFormData(item).subscribe((data) => {
-      expect(data).toEqual(newsResponseMock);
-      expect(component.isPosting).toBeFalsy();
-    });
-  });
-
-  it(`should containe object from list`, () => {
-    const fScene = { name: 'Events', isActive: false };
-    const sScene = { name: 'Education', isActive: false };
-    const tScene = { name: 'News', isActive: false };
-    expect(component.filters).toContain(fScene || sScene || tScene);
   });
 
   it('should addFilters', () => {
@@ -278,12 +260,6 @@ xdescribe('CreateEditNewsComponent', () => {
 
     component.toggleIsActive(filter, true);
     expect(component.toggleIsActive).toHaveBeenCalledWith(filter, true);
-  });
-
-  it('should call getNewsIdFromQueryParams method in ngOnInit', () => {
-    spyOn(component, 'getNewsIdFromQueryParams');
-    component.ngOnInit();
-    expect(component.getNewsIdFromQueryParams).toHaveBeenCalled();
   });
 
   it('should change isArrayEmpty to false property after adding tag', () => {
