@@ -234,13 +234,13 @@ describe('UBSAddAddressPopUpComponent', () => {
       component.isDistrict = false;
       component.currentLanguage = 'ua';
       component.setDistrictTranslation('Фастівський');
-      expect(component.districtEn.value).toBe("Fastivs'kyi");
+      expect(component.districtEn.value).toBe(`Fastivs'kyi`);
     });
 
     it('makes expected calls if region is "Fastivs\'kyi" and currentLanguage is "en"', () => {
       component.isDistrict = false;
       component.currentLanguage = 'en';
-      component.setDistrictTranslation("Fastivs'kyi");
+      component.setDistrictTranslation(`Fastivs'kyi`);
       expect(component.district.value).toBe('Фастівський');
     });
   });
