@@ -90,8 +90,10 @@
             <p class="order-header">{{ 'order-details.export-address' | translate }}</p>
             <ul class="order-list">
               <li class="order-list-item">
-                <span>{{ 'personal-info.address-city' | translate }} {{ 'personal-info.pop-up-city-name' | translate }}, </span>
-                <span>{{ personalData.street }}, {{ personalData.houseNumber }}, </span>
+                <span
+                  >{{ 'personal-info.address-city' | translate }} {{ currentLanguage === 'ua' ? personalData.city : personalData.cityEn }},
+                </span>
+                <span>{{ currentLanguage === 'ua' ? personalData.street : personalData.streetEn }}, {{ personalData.houseNumber }}, </span>
                 <span *ngIf="personalData.houseCorpus">
                   {{ 'personal-info.address-corp' | translate }} {{ personalData.houseCorpus }}
                 </span>
@@ -100,8 +102,11 @@
                 </span>
               </li>
               <li class="order-list-item">
-                <span>{{ 'personal-info.address-district' | translate }} {{ personalData.district }}, </span>
-                <span>{{ personalData.region }}</span>
+                <span
+                  >{{ 'personal-info.address-district' | translate }}
+                  {{ currentLanguage === 'ua' ? personalData.district.split(' ')[0] : personalData.districtEn.split(' ')[0] }},
+                </span>
+                <span>{{ currentLanguage === 'ua' ? personalData.region : personalData.regionEn }}</span>
               </li>
             </ul>
           </div>

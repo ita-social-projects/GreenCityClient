@@ -1,5 +1,5 @@
 import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
-import { Address, AllLocationsDtos } from '../models/ubs.interface';
+import { Address, AddressData, AllLocationsDtos } from '../models/ubs.interface';
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { BehaviorSubject, Observable, Subject, throwError } from 'rxjs';
@@ -62,8 +62,12 @@ export class OrderService {
     return this.http.get<ICertificate>(`${this.url}/certificate/${certificate}`);
   }
 
-  addAdress(adress: Address): Observable<any> {
+  addAdress(adress: AddressData): Observable<any> {
     return this.http.post<{ addressList: Address[] }>(`${this.url}/save-order-address`, adress);
+  }
+
+  updateAdress(adress: Address): Observable<any> {
+    return this.http.put<{ addressList: Address[] }>(`${this.url}/update-order-address`, adress);
   }
 
   deleteAddress(address: Address): Observable<any> {

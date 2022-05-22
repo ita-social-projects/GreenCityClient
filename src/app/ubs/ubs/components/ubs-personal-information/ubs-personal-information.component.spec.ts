@@ -267,7 +267,7 @@ describe('UBSPersonalInformationComponent', () => {
       points: 9,
       additionalOrders: ['']
     };
-    component.personalData = mockedPersonalData;
+    component.personalData = mockedPersonalData as any;
     fakeShareFormService.orderDetails = mockedOrderDetails;
     fixture.detectChanges();
     spyOn(component, 'activeAddressId').and.callFake(() => {});

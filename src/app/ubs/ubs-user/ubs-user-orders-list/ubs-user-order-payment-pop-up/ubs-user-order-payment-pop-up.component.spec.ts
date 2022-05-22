@@ -1,3 +1,4 @@
+import { HttpErrorResponse } from '@angular/common/http';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { FormArray, FormBuilder, FormControl, FormGroup, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatDialogModule, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
@@ -172,6 +173,16 @@ describe('UbsUserOrderPaymentPopUpComponent', () => {
     it('makes expected calls when certificateStatus !== "ACTIVE"', () => {
       const certificate = { value: { certificateCode: 3 } };
       orderServiceMock.processCertificate.and.returnValue(of({ certificateStatus: 'FAKE' }));
+      component.calculateCertificate(certificate as any);
+      expect(component.userCertificate.certificateError).toBeTruthy();
+    });
+
+    it('makes expected calls when throws error', () => {
+      const certificate = { value: { certificateCode: 3 } };
+      const errorResponse = new HttpErrorResponse({
+        status: 404
+      });
+      orderServiceMock.processCertificate.and.returnValue(throwError(errorResponse));
       component.calculateCertificate(certificate as any);
       expect(component.userCertificate.certificateError).toBeTruthy();
     });
