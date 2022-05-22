@@ -20,7 +20,6 @@ import { MatSnackBarComponent } from '@global-errors/mat-snack-bar/mat-snack-bar
 import { ConfirmRestorePasswordComponent } from '@global-auth/confirm-restore-password/confirm-restore-password.component';
 import { DragAndDropComponent } from '@shared/components/drag-and-drop/drag-and-drop.component';
 import { routes } from 'src/app/app-routing.module';
-import { NewsResponseDTO } from '../../models/create-news-interface';
 import { CreateEditNewsComponent } from './create-edit-news.component';
 import { PostNewsLoaderComponent } from '..';
 import { ACTION_CONFIG, ACTION_TOKEN } from './action.constants';
@@ -107,13 +106,17 @@ describe('CreateEditNewsComponent', () => {
     'editNews',
     'setForm',
     'getNewsId',
-    'getFormData'
+    'getFormData',
+    'isBackToEditing',
+    'sendImagesData'
   ]);
   createEcoNewsServiceMock.sendFormData = (form) => of(newsResponseMock);
   createEcoNewsServiceMock.getFormData = () => emptyForm();
   createEcoNewsServiceMock.editNews = (form) => of(newsResponseMock);
   createEcoNewsServiceMock.setForm = (form) => of();
   createEcoNewsServiceMock.getNewsId = () => '15';
+  createEcoNewsServiceMock.isBackToEditing = false;
+  createEcoNewsServiceMock.sendImagesData = () => of(['image']);
 
   ecoNewsServiceMock = jasmine.createSpyObj('EcoNewsService', ['getEcoNewsById', 'getAllPresentTags']);
   ecoNewsServiceMock.getEcoNewsById = (id) => {
@@ -134,7 +137,7 @@ describe('CreateEditNewsComponent', () => {
 
   createEditNewsFormBuilderMock.getEditForm = (data) => {
     return new FormGroup({
-      title: new FormControl('data.title'),
+      title: new FormControl(data.title),
       content: new FormControl(data.content),
       tags: new FormArray(data.tags),
       image: new FormControl(data.imagePath),
@@ -153,6 +156,9 @@ describe('CreateEditNewsComponent', () => {
     'getTagsOfNews',
     'setTagsOfNews'
   ]);
+  localStorageServiceMock.getTagsOfNews = () => {
+    return [{ name: 'Events', isActive: false }];
+  };
   localStorageServiceMock.languageBehaviourSubject = new BehaviorSubject('en');
 
   beforeEach(async(() => {
@@ -210,6 +216,56 @@ describe('CreateEditNewsComponent', () => {
     http.verify();
   });
 
+  it('getAllTags called , filters should change', () => {
+    ecoNewsServiceMock.getAllPresentTags = () => of([{ id: 1, name: 'Events' }]);
+    (component as any).getAllTags();
+    expect(component.filters).toEqual([{ name: 'Events', isActive: false }]);
+
+    ecoNewsServiceMock.getAllPresentTags = () => of(tagsArray);
+  });
+
+  it('initPageForCreateOrEdit expect setDataForCreate should be call', () => {
+    const spy = spyOn(component, 'setDataForCreate');
+    createEcoNewsServiceMock.isBackToEditing = true;
+    createEcoNewsServiceMock.getNewsId = () => '';
+
+    component.initPageForCreateOrEdit();
+    expect(spy).toHaveBeenCalledTimes(1);
+
+    createEcoNewsServiceMock.isBackToEditing = false;
+    createEcoNewsServiceMock.getNewsId = () => '15';
+  });
+
+  it('initPageForCreateOrEdit expect fetchNewsItemToEdit should be call', () => {
+    const spy = spyOn(component, 'fetchNewsItemToEdit');
+    component.newsId = '20';
+    createEcoNewsServiceMock.getNewsId();
+
+    component.initPageForCreateOrEdit();
+    expect(spy).toHaveBeenCalledTimes(1);
+  });
+
+  it('setDataForEdit  attributes.title should change ', () => {
+    component.setDataForEdit();
+    expect(component.attributes.title).toBe('create-news.edit-title');
+  });
+
+  it('createNews expect sendData should be called', () => {
+    const spy = spyOn(component, 'sendData');
+    component.editorHTML = 'data:image/png;base64, iVBORw0KGgoAAAANSUhEUgAAAAUA';
+
+    component.createNews();
+    expect(spy).toHaveBeenCalledWith('image');
+  });
+
+  it('addFilters expect filtersValidation should be called', () => {
+    const spy = spyOn(component, 'filtersValidation');
+    component.isArrayEmpty = true;
+    component.addFilters({ name: 'string', isActive: false });
+    expect(spy).toHaveBeenCalledWith({ name: 'string', isActive: false });
+    expect(component.isArrayEmpty).toBeFalsy();
+  });
+
   it('should create', () => {
     expect(component).toBeTruthy();
   });
@@ -218,7 +274,7 @@ describe('CreateEditNewsComponent', () => {
     const spy1 = spyOn(component, 'getNewsIdFromQueryParams');
     component.ngOnInit();
     expect(spy1).toHaveBeenCalledTimes(1);
-    expect(localStorageServiceMock.getTagsOfNews).toHaveBeenCalledWith('newsTags');
+    expect(localStorageServiceMock.removeTagsOfNews).toHaveBeenCalledWith('newsTags');
   });
 
   it('should get econews by id', () => {
@@ -424,12 +480,6 @@ describe('CreateEditNewsComponent', () => {
     const buttons = fixture.debugElement.queryAll(By.css('button'));
     const nativeButton: HTMLButtonElement = buttons[0].nativeElement;
     expect(nativeButton.textContent.trim()).toBe('Events');
-  });
-
-  it('should be a Education button on the page', () => {
-    const buttons = fixture.debugElement.queryAll(By.css('.tag-news'));
-    const listOfTags = buttons.map((tag) => tag.nativeElement.innerHTML.trim());
-    expect(listOfTags).toContain('Education');
   });
 
   it('should be a Preview button on the page', () => {

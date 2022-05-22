@@ -124,7 +124,6 @@ describe('DragAndDropComponent', () => {
     formDataMock.value.image = '';
     component.patchImage();
     expect(component.files[0].url).toBe(defaultImagePath);
-    expect(component.files[0].file).toBe(null);
 
     formDataMock.value.image = defaultImagePath;
   });

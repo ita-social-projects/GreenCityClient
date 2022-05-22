@@ -48,6 +48,15 @@ export class NewsPreviewPageComponent implements OnInit, OnDestroy {
       this.attributes = this.config.create;
       this.onSubmit = this.postNewsItem;
     }
+
+    this.actionsSubj
+      .pipe(
+        ofType(NewsActions.CreateEcoNewsSuccess, NewsActions.EditEcoNewsSuccess),
+        catchError((err) => {
+          return throwError(err);
+        })
+      )
+      .subscribe(() => this.router.navigate(['/news']));
   }
 
   public isBackToEdit(): void {
@@ -73,15 +82,6 @@ export class NewsPreviewPageComponent implements OnInit, OnDestroy {
     const dataToEdit = this.previewItem.value;
 
     this.store.dispatch(CreateEcoNewsAction({ value: dataToEdit }));
-
-    this.actionsSubj
-      .pipe(
-        ofType(NewsActions.CreateEcoNewsSuccess),
-        catchError((err) => {
-          return throwError(err);
-        })
-      )
-      .subscribe(() => this.router.navigate(['/news']));
   }
 
   public editNews(): void {
@@ -93,15 +93,6 @@ export class NewsPreviewPageComponent implements OnInit, OnDestroy {
     this.isPosting = true;
 
     this.store.dispatch(EditEcoNewsAction({ form: dataToEdit }));
-
-    this.actionsSubj
-      .pipe(
-        ofType(NewsActions.EditEcoNewsSuccess),
-        catchError((error) => {
-          return throwError(error);
-        })
-      )
-      .subscribe(() => this.router.navigate(['/news']));
   }
 
   public getImagePath(): string {

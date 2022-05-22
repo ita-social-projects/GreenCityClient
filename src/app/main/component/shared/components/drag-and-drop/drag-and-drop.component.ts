@@ -44,9 +44,9 @@ export class DragAndDropComponent implements OnInit {
     if (this.formData.value.image) {
       this.isCropper = false;
       this.files = [{ file: this.formData.value.file, url: this.formData.value.image }];
-    } else if (getPreviewImg.value.image) {
+    } else if (getPreviewImg) {
       this.isCropper = false;
-      this.files = [{ file: null, url: getPreviewImg.value.image }];
+      this.files = [{ file: getPreviewImg.value.file, url: getPreviewImg.value.image }];
     }
   }
 
