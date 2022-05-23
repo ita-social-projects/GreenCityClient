@@ -54,7 +54,7 @@ export class UbsAdminOrderComponent implements OnInit, OnDestroy, AfterContentCh
   currentOrderStatus: string;
   overpayment: number;
   isMinOrder = true;
-  submitted = false;
+  isSubmitted = false;
   additionalPayment: string;
   private matSnackBar: MatSnackBarComponent;
   private orderService: OrderService;
@@ -237,7 +237,7 @@ export class UbsAdminOrderComponent implements OnInit, OnDestroy, AfterContentCh
   }
 
   goBack() {
-    if (this.orderForm.dirty && !this.submitted) {
+    if (this.orderForm.dirty && !this.isSubmitted) {
       this.dialog.open(UbsAdminGoBackModalComponent, {
         hasBackdrop: true
       });
@@ -313,7 +313,7 @@ export class UbsAdminOrderComponent implements OnInit, OnDestroy, AfterContentCh
   }
 
   public onSubmit(): void {
-    this.submitted = true;
+    this.isSubmitted = true;
     const changedValues: any = {};
     this.getUpdates(this.orderForm, changedValues);
 
