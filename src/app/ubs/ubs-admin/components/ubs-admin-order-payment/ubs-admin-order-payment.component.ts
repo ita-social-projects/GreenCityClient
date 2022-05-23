@@ -1,4 +1,4 @@
-import { Component, Input, OnInit, OnChanges, SimpleChanges, OnDestroy } from '@angular/core';
+import { Component, Input, OnInit, OnChanges, SimpleChanges, OnDestroy, Output, EventEmitter } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { Subject } from 'rxjs';
 import { take, takeUntil } from 'rxjs/operators';
@@ -8,7 +8,6 @@ import { OrderService } from '../../services/order.service';
 import { AddPaymentComponent } from '../add-payment/add-payment.component';
 import { IAppState } from 'src/app/store/state/app.state';
 import { Store } from '@ngrx/store';
-import { Output, EventEmitter } from '@angular/core';
 
 @Component({
   selector: 'app-ubs-admin-order-payment',
