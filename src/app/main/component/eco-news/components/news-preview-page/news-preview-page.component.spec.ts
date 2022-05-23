@@ -12,6 +12,7 @@ import { NewsPreviewPageComponent } from './news-preview-page.component';
 import { RouterTestingModule } from '@angular/router/testing';
 import { EcoNewsComponent } from '../../eco-news.component';
 import { Router } from '@angular/router';
+import { Store, ActionsSubject } from '@ngrx/store';
 
 describe('NewsPreviewPageComponent', () => {
   let component: NewsPreviewPageComponent;
@@ -22,6 +23,10 @@ describe('NewsPreviewPageComponent', () => {
   let newsResponseMock: NewsResponseDTO;
   let itemMock: EcoNewsModel;
   let router: Router;
+
+  const storeMock = jasmine.createSpyObj('store', ['select', 'dispatch']);
+
+  const actionSub: ActionsSubject = new ActionsSubject();
 
   const createEcoNewsServiceMock = jasmine.createSpyObj('CreateEcoNewsService', [
     'getFormData',
@@ -48,7 +53,9 @@ describe('NewsPreviewPageComponent', () => {
       ],
       providers: [
         { provide: CreateEcoNewsService, useValue: createEcoNewsServiceMock },
-        { provide: ACTION_TOKEN, useValue: ACTION_CONFIG }
+        { provide: ACTION_TOKEN, useValue: ACTION_CONFIG },
+        { provide: Store, useValue: storeMock },
+        { provide: ActionsSubject, useValue: actionSub }
       ]
     }).compileComponents();
   });
@@ -124,14 +131,13 @@ describe('NewsPreviewPageComponent', () => {
   });
 
   it('testing of method postNewItem', () => {
+    component.isPosting = false;
     component.postNewsItem();
-    expect(!component.isPosting).toBe(true);
-    createEcoNewsServiceMock.sendFormData(itemMock).subscribe(() => {
-      expect(component.isPosting).toBe(false);
-    });
+    expect(component.isPosting).toBe(true);
   });
 
   it('testing of method editNews', () => {
+    component.isPosting = false;
     const dataToEdit = {
       ...component.previewItem.value,
       id: component.newsId
@@ -142,7 +148,7 @@ describe('NewsPreviewPageComponent', () => {
     expect(dataToEdit).toBeTruthy();
 
     createEcoNewsServiceMock.editNews(dataToEdit).subscribe(() => {
-      expect(component.isPosting).toBe(false);
+      expect(component.isPosting).toBe(true);
     });
   });
 
