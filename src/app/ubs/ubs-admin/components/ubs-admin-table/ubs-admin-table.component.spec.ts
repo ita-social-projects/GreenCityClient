@@ -71,6 +71,11 @@ describe('UsbAdminTableComponent', () => {
     expect(component.modelChanged.pipe).toHaveBeenCalled();
   });
 
+  it('ngOnInit component.noFiltersApplied initially true ', () => {
+    component.ngOnInit();
+    expect(component.noFiltersApplied).toEqual(true);
+  });
+
   it('ordersViewParameters$ expect displayedColumns should be [title]', () => {
     storeMock.select = () => of({ titles: 'title' });
     component.ordersViewParameters$ = (component as any).store.select();
@@ -245,6 +250,13 @@ describe('UsbAdminTableComponent', () => {
     component.changeColumns(true, 'title3', 2);
 
     expect(component.displayedColumns).toEqual(['title1', 'title2', 'title3', 'title4']);
+  });
+
+  it('closeFilters expect set display to none ', () => {
+    component.display = 'block';
+    component.closeFilters();
+
+    expect(component.display).toEqual('none');
   });
 
   it('togglePopUp expect store.dispatch have been called', () => {
