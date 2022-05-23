@@ -1,6 +1,6 @@
 button {
-  width: 9rem;
-  height: 3rem;
+  width: 8.25rem;
+  height: 2.75rem;
   border-radius: 4px;
   border: none;
 }
@@ -37,6 +37,20 @@ h3 {
 .btn-back {
   border: 0;
   color: var(--ubs-quaternary-dark-grey);
+
+  span {
+    position: relative;
+
+    &::after {
+      content: '';
+      position: absolute;
+      top: 22.3px;
+      left: 3.6px;
+      width: 53px;
+      height: 1.5px;
+      background-color: var(--ubs-quaternary-dark-grey);
+    }
+  }
 }
 
 .container {
@@ -123,6 +137,10 @@ h3 {
     span {
       width: 140px;
     }
+  }
+
+  .bold {
+    font-weight: 700;
   }
 
   strong {
@@ -230,6 +248,12 @@ h3 {
       background: var(--ubs-button-light-green);
       color: var(--ubs-primary-white);
     }
+  }
+}
+
+@media (min-width: 992px) {
+  .col-3.label.m-0.text-center {
+    margin-left: 3.5% !important;
   }
 }
 
