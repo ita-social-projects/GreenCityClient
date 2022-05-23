@@ -1,14 +1,16 @@
+import { MapsAPILoader } from '@agm/core';
 import { DatePipe } from '@angular/common';
-import { Component, EventEmitter, OnInit, Output } from '@angular/core';
+import { AfterViewInit, Component, ElementRef, EventEmitter, OnInit, Output, ViewChild } from '@angular/core';
 import { MatDatepickerInputEvent } from '@angular/material/datepicker';
 import { MatSelectChange } from '@angular/material/select';
+import { OnlineOflineDto } from '../../models/events.interface';
 
 @Component({
   selector: 'app-event-date-time-picker',
   templateUrl: './event-date-time-picker.component.html',
   styleUrls: ['./event-date-time-picker.component.scss']
 })
-export class EventDateTimePickerComponent implements OnInit {
+export class EventDateTimePickerComponent implements OnInit, AfterViewInit {
   public minDate: Date;
   public startDisabled: boolean;
   public endDisabled: boolean;
@@ -16,16 +18,67 @@ export class EventDateTimePickerComponent implements OnInit {
   public timeArrStart = [];
   public timeArrEnd = [];
 
+  coordinates: OnlineOflineDto = {
+    latitude: null,
+    longitude: null,
+    onlineLink: ''
+  };
+
+  public onlineLink: string;
+
+  public isOfline: boolean;
+  public isOnline: boolean;
+
+  public autocomplete: google.maps.places.Autocomplete;
+
+  private regionOptions = {
+    types: ['(regions)'],
+    componentRestrictions: { country: 'UA' }
+  };
+
   private pipe = new DatePipe('en-US');
 
   @Output() date = new EventEmitter<string>();
   @Output() startTime = new EventEmitter<string>();
   @Output() endTime = new EventEmitter<string>();
 
+  @Output() coordOflineOnline = new EventEmitter<OnlineOflineDto>();
+
+  @ViewChild('placesRef') placesRef: ElementRef;
+
+  constructor(private mapsAPILoader: MapsAPILoader) {}
+
   ngOnInit(): void {
     this.minDate = new Date();
     this.fillTimeArray();
     this.endDisabled = true;
+  }
+
+  ngAfterViewInit(): void {
+    this.mapsAPILoader.load().then(() => {
+      this.autocomplete = new google.maps.places.Autocomplete(this.placesRef.nativeElement, this.regionOptions);
+
+      this.autocomplete.addListener('place_changed', () => {
+        const locationName = this.autocomplete.getPlace();
+
+        this.coordinates.latitude = locationName.geometry.location.lat();
+        this.coordinates.longitude = locationName.geometry.location.lng();
+        this.coordinates.onlineLink = this.onlineLink;
+        if (!this.isOnline) {
+          this.coordinates.onlineLink = '';
+        }
+        this.coordOflineOnline.emit(this.coordinates);
+      });
+    });
+  }
+
+  public setOnlineLink(): void {
+    this.coordinates.onlineLink = this.onlineLink;
+    if (!this.isOfline) {
+      this.coordinates.latitude = null;
+      this.coordinates.longitude = null;
+    }
+    this.coordOflineOnline.emit(this.coordinates);
   }
 
   private fillTimeArray(): void {

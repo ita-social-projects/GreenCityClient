@@ -1,30 +1,48 @@
 <div class="date-container">
-  <mat-form-field appearance="outline">
+  <mat-form-field appearance="outline" class="date">
     <mat-label>Choose a date </mat-label>
     <input [min]="minDate" matInput [matDatepicker]="picker" (dateChange)="addDate($event)" [disabled]="dateDisabled" />
     <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
     <mat-datepicker #picker></mat-datepicker>
   </mat-form-field>
 
-  <div>
-    <div class="time-container">
-      <mat-form-field appearance="outline" class="time-item">
-        <mat-label>Set Start Time</mat-label>
-        <mat-select [disabled]="startDisabled" (selectionChange)="addStartTime($event)">
-          <mat-option *ngFor="let time of timeArrStart" [value]="time">
-            {{ time }}
-          </mat-option>
-        </mat-select>
-      </mat-form-field>
-      <mat-form-field appearance="outline" class="time-item">
-        <mat-label>Set End Time</mat-label>
-        <mat-select [disabled]="endDisabled" (selectionChange)="addEndTime($event)">
-          <mat-option *ngFor="let time of timeArrEnd" [value]="time">
-            {{ time }}
-          </mat-option>
-        </mat-select>
-      </mat-form-field>
-    </div>
-    <button mat-raised-button color="primary" class="time-button" (click)="clear()">clear</button>
-  </div>
+  <mat-form-field appearance="outline" class="time-item">
+    <mat-label>Set Start Time</mat-label>
+    <mat-select [disabled]="startDisabled" (selectionChange)="addStartTime($event)">
+      <mat-option *ngFor="let time of timeArrStart" [value]="time">
+        {{ time }}
+      </mat-option>
+    </mat-select>
+  </mat-form-field>
+  <h5 class="time-item">--</h5>
+  <mat-form-field appearance="outline" class="time-item">
+    <mat-label>Set End Time</mat-label>
+    <mat-select [disabled]="endDisabled" (selectionChange)="addEndTime($event)">
+      <mat-option *ngFor="let time of timeArrEnd" [value]="time">
+        {{ time }}
+      </mat-option>
+    </mat-select>
+  </mat-form-field>
+
+  <mat-checkbox class="example-margin">all day</mat-checkbox>
+</div>
+<div class="checkbox">
+  <mat-checkbox class="example-margin" [(ngModel)]="isOfline">Place</mat-checkbox>
+  <mat-checkbox class="example-margin" [(ngModel)]="isOnline">Online</mat-checkbox>
+</div>
+
+<div [ngClass]="isOfline ? 'isOfline active' : 'isOfline'">
+  <mat-label>Location</mat-label>
+  <mat-form-field appearance="outline" class="">
+    <mat-label>Event Ofline place.</mat-label>
+    <input matInput #placesRef matGoogleMapsAutocomplete />
+  </mat-form-field>
+</div>
+
+<div [ngClass]="isOnline ? 'isOfline active' : 'isOfline'">
+  <mat-label>Online Link</mat-label>
+  <mat-form-field appearance="outline" class="event-input">
+    <mat-label>EventOnline link.</mat-label>
+    <input matInput [(ngModel)]="onlineLink" (change)="setOnlineLink()" />
+  </mat-form-field>
 </div>

@@ -1,26 +1,37 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input, OnDestroy, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { UbsUserOrderPaymentPopUpComponent } from './ubs-user-order-payment-pop-up/ubs-user-order-payment-pop-up.component';
 import { UbsUserOrderCancelPopUpComponent } from './ubs-user-order-cancel-pop-up/ubs-user-order-cancel-pop-up.component';
 import { IUserOrderInfo, CheckPaymentStatus, CheckOrderStatus } from './models/UserOrder.interface';
 import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
+import { Subject } from 'rxjs';
+import { takeUntil } from 'rxjs/operators';
 
 @Component({
   selector: 'app-ubs-user-orders-list',
   templateUrl: './ubs-user-orders-list.component.html',
   styleUrls: ['./ubs-user-orders-list.component.scss']
 })
-export class UbsUserOrdersListComponent implements OnInit {
+export class UbsUserOrdersListComponent implements OnInit, OnDestroy {
   @Input() orders: IUserOrderInfo[];
   @Input() bonuses: number;
 
   public currentLanguage: string;
+  private destroy$: Subject<boolean> = new Subject<boolean>();
 
   constructor(public dialog: MatDialog, private localStorageService: LocalStorageService) {}
 
   ngOnInit(): void {
     this.currentLanguage = this.localStorageService.getCurrentLanguage();
+    this.localStorageService.languageSubject.pipe(takeUntil(this.destroy$)).subscribe((lang: string) => {
+      this.currentLanguage = lang;
+    });
     this.sortingOrdersByData();
+  }
+
+  ngOnDestroy(): void {
+    this.destroy$.next(true);
+    this.destroy$.complete();
   }
 
   public isOrderUnpaid(order: IUserOrderInfo): boolean {

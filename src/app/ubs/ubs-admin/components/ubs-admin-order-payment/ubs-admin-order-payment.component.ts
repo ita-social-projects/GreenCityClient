@@ -146,6 +146,7 @@ export class UbsAdminOrderPaymentComponent implements OnInit, OnChanges, OnDestr
       .open(AddPaymentComponent, {
         hasBackdrop: true,
         panelClass: 'custom-dialog-container',
+        height: '100%',
         data: {
           orderId: this.orderInfo.generalOrderInfo.id,
           viewMode,

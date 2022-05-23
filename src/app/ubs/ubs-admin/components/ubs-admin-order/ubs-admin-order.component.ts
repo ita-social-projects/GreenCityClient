@@ -55,7 +55,9 @@ export class UbsAdminOrderComponent implements OnInit, OnDestroy, AfterContentCh
   overpayment: number;
   isMinOrder = true;
   isSubmitted = false;
+
   additionalPayment: string;
+
   private matSnackBar: MatSnackBarComponent;
   private orderService: OrderService;
   constructor(
@@ -236,7 +238,7 @@ export class UbsAdminOrderComponent implements OnInit, OnDestroy, AfterContentCh
       });
   }
 
-  goBack() {
+  goBack(): void {
     if (this.orderForm.dirty && !this.isSubmitted) {
       this.dialog.open(UbsAdminGoBackModalComponent, {
         hasBackdrop: true
@@ -244,7 +246,6 @@ export class UbsAdminOrderComponent implements OnInit, OnDestroy, AfterContentCh
     } else {
       this.router.navigate(['ubs-admin', 'orders']);
     }
-  }
 
   onChangedOrderStatus(status: string) {
     this.currentOrderStatus = status;
@@ -351,11 +352,11 @@ export class UbsAdminOrderComponent implements OnInit, OnDestroy, AfterContentCh
         response.ok ? this.matSnackBar.snackType.changesSaved() : this.matSnackBar.snackType.error();
         if (response.ok) {
           this.getOrderInfo(this.orderId);
-          for (const key in changedValues.generalOrderInfo) {
-            if (key && changedValues.generalOrderInfo[key]) {
+          Object.keys(changedValues.generalOrderInfo).forEach((key: string) => {
+            if (changedValues.generalOrderInfo[key]) {
               this.postDataItem([this.orderId], key, changedValues.generalOrderInfo[key]);
             }
-          }
+          });
         }
       });
   }

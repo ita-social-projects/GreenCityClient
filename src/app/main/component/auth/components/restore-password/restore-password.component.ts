@@ -50,7 +50,7 @@ export class RestorePasswordComponent implements OnInit, OnDestroy, OnChanges {
   ) {}
 
   ngOnInit() {
-    this.isUbs = this.router.url.includes('ubs') ? true : false;
+    this.isUbs = this.router.url.includes('ubs');
     this.userOwnSignIn = new UserOwnSignIn();
     this.initFormReactive();
     this.configDefaultErrorMessage();

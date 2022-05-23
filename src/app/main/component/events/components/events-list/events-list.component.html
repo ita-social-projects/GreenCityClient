@@ -10,5 +10,17 @@
     </a>
   </div>
 
-  <app-map-event></app-map-event>
+  <div>
+    <div class="event" *ngFor="let event of eventsList">
+      <img class="eventImage" src="{{ event.titleImage }}" alt="event" />
+      <div class="img-container">
+        <div *ngFor="let image of event.additionalImages">
+          <img class="img" src="{{ image }}" alt="event" />
+        </div>
+      </div>
+
+      <h3>{{ event.title }}</h3>
+      <div [innerHTML]="event.description"></div>
+    </div>
+  </div>
 </div>
