@@ -1,8 +1,9 @@
-import { Component, OnDestroy } from '@angular/core';
+import { CheckTokenService } from './../../../../main/service/auth/check-token/check-token.service';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { Router } from '@angular/router';
 import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
-import { Subject } from 'rxjs';
+import { Subject, Subscription } from 'rxjs';
 import { takeUntil, finalize } from 'rxjs/operators';
 import { ubsMainPageImages } from '../../../../main/image-pathes/ubs-main-page-images';
 import { AllLocationsDtos, CourierLocations } from '../../models/ubs.interface';
@@ -14,7 +15,8 @@ import { UbsOrderLocationPopupComponent } from '../ubs-order-details/ubs-order-l
   templateUrl: './ubs-main-page.component.html',
   styleUrls: ['./ubs-main-page.component.scss']
 })
-export class UbsMainPageComponent implements OnDestroy {
+export class UbsMainPageComponent implements OnInit, OnDestroy {
+  private subs = new Subscription();
   private destroy: Subject<boolean> = new Subject<boolean>();
   ubsMainPageImages = ubsMainPageImages;
   locations: CourierLocations;
@@ -79,13 +81,24 @@ export class UbsMainPageComponent implements OnDestroy {
   constructor(
     private router: Router,
     private dialog: MatDialog,
+    private localeStorageService: LocalStorageService,
+    private checkTokenservice: CheckTokenService,
     private localStorageService: LocalStorageService,
     private orderService: OrderService
   ) {}
 
+  ngOnInit(): void {
+    this.onCheckToken();
+  }
+
   ngOnDestroy() {
     this.destroy.next();
     this.destroy.unsubscribe();
+    this.subs.unsubscribe();
+  }
+
+  public onCheckToken(): void {
+    this.subs.add(this.checkTokenservice.onCheckToken());
   }
 
   redirectToOrder() {

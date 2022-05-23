@@ -6,6 +6,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { of, Subject } from 'rxjs';
 import { Router } from '@angular/router';
 import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
+import { CheckTokenService } from '@global-service/auth/check-token/check-token.service';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { OrderService } from '../../services/order.service';
 
@@ -16,6 +17,7 @@ describe('UbsMainPageComponent', () => {
   const localeStorageServiceMock = jasmine.createSpyObj('localeStorageService', ['setUbsRegistration']);
   const routerMock = jasmine.createSpyObj('router', ['navigate']);
   const matDialogMock = jasmine.createSpyObj('matDialog', ['open']);
+  const checkTokenServiceMock = jasmine.createSpyObj('CheckTokenService', ['onCheckToken']);
   const dialogRefStub = {
     afterClosed() {
       return of({ data: true });
@@ -31,6 +33,7 @@ describe('UbsMainPageComponent', () => {
         { provide: MatDialog, useValue: matDialogMock },
         { provide: Router, useValue: routerMock },
         { provide: LocalStorageService, useValue: localeStorageServiceMock },
+        { provide: CheckTokenService, useValue: checkTokenServiceMock },
         { provide: OrderService, useValue: orderServiceMock }
       ]
     }).compileComponents();
