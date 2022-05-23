@@ -10,17 +10,46 @@
     </a>
   </div>
 
-  <div>
-    <div class="event" *ngFor="let event of eventsList">
-      <img class="eventImage" src="{{ event.titleImage }}" alt="event" />
-      <div class="img-container">
-        <div *ngFor="let image of event.additionalImages">
-          <img class="img" src="{{ image }}" alt="event" />
+  <div class="event-list">
+    <mat-card class="event-list-item" *ngFor="let event of eventsList">
+      <div class="image-container">
+        <img class="event-image" src="{{ event.titleImage }}" alt="event" />
+        <div class="event-stars">
+          <span class="fill"></span>
+          <span class="empty"></span>
+          <span class="empty"></span>
+        </div>
+        <div class="event-flags">
+          <span class="flag"></span>
+        </div>
+        <div class="event-title">
+          <h3>{{ event.title }}</h3>
         </div>
       </div>
 
-      <h3>{{ event.title }}</h3>
-      <div [innerHTML]="event.description"></div>
-    </div>
+      <div class="main-container">
+        <div *ngIf="event.dates[0]" class="date-container">
+          <span class="clock"></span>
+          <div class="date">
+            {{ event.dates[0].startDate | date }}
+          </div>
+          <h5>{{ ' | ' }}</h5>
+          <div class="time">{{ event.dates[0].startDate | date: 'shortTime' }}...</div>
+        </div>
+        <div *ngIf="event.dates[0]" class="date-container">
+          <div>
+            <span class="place"></span>
+          </div>
+          <div>
+            {{ 'Here should be adrress' }}
+          </div>
+        </div>
+
+        <div [innerHTML]="event.description"></div>
+
+        <button class="secondary-global-button event-button">More</button>
+        <button class="primary-global-button event-button">Join Event</button>
+      </div>
+    </mat-card>
   </div>
 </div>

@@ -1,8 +1,11 @@
 import { MapsAPILoader } from '@agm/core';
 import { DatePipe } from '@angular/common';
-import { AfterViewInit, Component, ElementRef, EventEmitter, OnInit, Output, ViewChild } from '@angular/core';
+import { AfterViewInit, Component, ElementRef, EventEmitter, OnDestroy, OnInit, Output, ViewChild } from '@angular/core';
 import { MatDatepickerInputEvent } from '@angular/material/datepicker';
 import { MatSelectChange } from '@angular/material/select';
+import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
+import { Subject } from 'rxjs';
+import { takeUntil } from 'rxjs/operators';
 import { OnlineOflineDto } from '../../models/events.interface';
 
 @Component({
@@ -46,7 +49,7 @@ export class EventDateTimePickerComponent implements OnInit, AfterViewInit {
 
   @ViewChild('placesRef') placesRef: ElementRef;
 
-  constructor(private mapsAPILoader: MapsAPILoader) {}
+  constructor(private mapsAPILoader: MapsAPILoader, private localStorageService: LocalStorageService) {}
 
   ngOnInit(): void {
     this.minDate = new Date();
