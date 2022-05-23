@@ -25,7 +25,6 @@
   >
     <app-error [formElement]="emailField" [emailFieldValue]="emailFieldValue" [controlName]="'email'" tabindex="0"></app-error>
   </div>
-
   <div *ngIf="generalError" class="email-field-margin"></div>
   <label for="password" aria-required="true">{{ 'user.auth.sign-in.password' | translate }}</label>
   <div class="password-input-btn-show-hide" [ngClass]="passwordClassCheck()">
@@ -42,7 +41,7 @@
       aria-required="true"
       aria-describedby="pass-err-msg"
     />
-    <span class="show-hide-btn" role="button" aria-label="show password button">
+    <span class="show-hide-btn" role="button" tabindex="0" aria-label="show password">
       <img
         [src]="hideShowPasswordImage.hidePassword"
         #src
@@ -54,17 +53,16 @@
     </span>
   </div>
   <div
+    tabindex="0"
     *ngIf="passwordField.invalid && passwordField.touched && (!emailField.touched || emailFieldValue) && !generalError"
     id="pass-err-msg"
     class="validation-password-error"
   >
-    <app-error [formElement]="passwordField" [passwordFieldValue]="passwordFieldValue" [controlName]="'password'" tabindex="0"></app-error>
+    <app-error [formElement]="passwordField" [passwordFieldValue]="passwordFieldValue" [controlName]="'password'"></app-error>
   </div>
-
-  <div *ngIf="generalError" class="alert-general-error">
+  <div *ngIf="generalError" class="alert-general-error" tabindex="0">
     {{ generalError | translate }}
   </div>
-
   <div *ngIf="!isUbs" class="forgot-wrapper">
     <a
       class="forgot-password"
@@ -86,7 +84,11 @@
 
   <span class="or-use-google">{{ 'user.auth.sign-in.or-signin' | translate }}</span>
 </form>
-<app-google-btn [text]="'user.auth.sign-in.sign-in-with-google'" (click)="signInWithGoogle()"></app-google-btn>
+<app-google-btn
+  [text]="'user.auth.sign-in.sign-in-with-google'"
+  (click)="signInWithGoogle()"
+  aria-label="Sign in with Google"
+></app-google-btn>
 
 <div *ngIf="isUbs" class="forgot-wrapper-ubs">
   <a
@@ -104,6 +106,7 @@
     <a
       [ngClass]="isUbs ? 'ubs-link' : 'green-link'"
       tabindex="0"
+      aria-label="sign up modal window"
       (click)="onOpenModalWindow('sign-up')"
       (keyup.enter)="onOpenModalWindow('sign-up')"
     >
