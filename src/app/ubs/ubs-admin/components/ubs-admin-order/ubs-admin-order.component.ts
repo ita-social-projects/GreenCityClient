@@ -55,6 +55,7 @@ export class UbsAdminOrderComponent implements OnInit, OnDestroy, AfterContentCh
   overpayment: number;
   isMinOrder = true;
   isSubmitted = false;
+  additionalPayment: string;
   private matSnackBar: MatSnackBarComponent;
   private orderService: OrderService;
   constructor(
@@ -245,6 +246,11 @@ export class UbsAdminOrderComponent implements OnInit, OnDestroy, AfterContentCh
     this.currentOrderStatus = status;
     this.orderStatusInfo = this.getOrderStatusInfo(this.currentOrderStatus);
     this.notRequiredFieldsStatuses();
+  }
+
+  public onUpdatePaymentStatus(newPaymentStatus: string): void {
+    this.additionalPayment = newPaymentStatus;
+    this.orderForm.markAsDirty();
   }
 
   public changeOverpayment(sum: number): void {
