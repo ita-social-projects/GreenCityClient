@@ -2,7 +2,7 @@
 <app-search-popup></app-search-popup>
 <div *ngIf="orderInfo; else spinner" class="container">
   <div class="row">
-    <button class="back-button-top" (click)="openGoBackModal()">< {{ 'order-edit.btn.back' | translate }}</button>
+    <button class="back-button-top" (click)="goBack()">{{ 'order-edit.btn.back' | translate }}</button>
   </div>
   <form [formGroup]="orderForm">
     <div class="box">
@@ -12,6 +12,7 @@
         [generalInfo]="generalInfo"
         [totalPaid]="totalPaid"
         [currentLanguage]="currentLanguage"
+        [additionalPayment]="additionalPayment"
         (changedOrderStatus)="onChangedOrderStatus($event)"
       >
       </app-ubs-admin-order-status>
@@ -35,6 +36,7 @@
         [totalPaid]="totalPaid"
         [orderInfo]="orderInfo"
         [orderStatus]="currentOrderStatus"
+        (newPaymentStatus)="onUpdatePaymentStatus($event)"
       ></app-ubs-admin-order-payment>
       <app-ubs-admin-export-details [exportDetailsDto]="getFormGroup('exportDetailsDto')" [exportInfo]="exportInfo">
       </app-ubs-admin-export-details>
@@ -46,14 +48,19 @@
       <app-ubs-admin-order-history [orderId]="orderId"></app-ubs-admin-order-history>
     </div>
     <div class="row">
-      <button class="back-button" (click)="openGoBackModal()">
+      <button class="back-button" (click)="goBack()">
         {{ 'order-edit.btn.back' | translate }}
       </button>
       <div class="controls">
-        <button type="reset" class="cancel-button" (click)="$event.preventDefault(); openCancelModal()">
+        <button
+          type="reset"
+          class="cancel-button"
+          [disabled]="orderForm.pristine || !orderForm.valid || !isMinOrder"
+          (click)="$event.preventDefault(); openCancelModal()"
+        >
           {{ 'order-edit.btn.cancel' | translate }}
         </button>
-        <button type="submit" class="save-button" [disabled]="!orderForm.valid || !isMinOrder" (click)="onSubmit()">
+        <button type="submit" class="save-button" [disabled]="orderForm.pristine || !orderForm.valid || !isMinOrder" (click)="onSubmit()">
           {{ 'order-edit.btn.save' | translate }}
           <span class="inform-window">
             {{ 'information-window.message' | translate }}

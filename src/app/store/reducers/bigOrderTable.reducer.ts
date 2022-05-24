@@ -3,6 +3,7 @@ import {
   GetColumnToDisplaySuccess,
   SetColumnToDisplaySuccess,
   ChangingOrderDataSuccess,
+  ChangingOrderPaymentStatus,
   GetColumnsSuccess,
   GetTableSuccess,
   ReceivedFailure
@@ -43,6 +44,24 @@ export const bigOrderTableReducer = createReducer(
           if (orderData.id === action.orderId[0]) {
             const newOrderData = { ...orderData };
             newOrderData[action.columnName] = action.newValue;
+            return newOrderData;
+          }
+          return orderData;
+        })
+      }
+    };
+  }),
+
+  on(ChangingOrderPaymentStatus, (state, action) => {
+    return {
+      ...state,
+      bigOrderTable: {
+        ...state.bigOrderTable,
+        content: state.bigOrderTable.content.map((orderData) => {
+          if (orderData.id === action.orderId) {
+            const newOrderData = { ...orderData };
+            const columnName = 'orderPaymentStatus';
+            newOrderData[columnName] = action.newValue;
             return newOrderData;
           }
           return orderData;

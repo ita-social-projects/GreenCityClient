@@ -1,6 +1,6 @@
 import { Component, OnInit, OnDestroy, AfterContentChecked, ChangeDetectorRef, Injector } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
-import { ActivatedRoute, Params } from '@angular/router';
+import { ActivatedRoute, Params, Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
 import { UbsAdminCancelModalComponent } from '../ubs-admin-cancel-modal/ubs-admin-cancel-modal.component';
 import { UbsAdminGoBackModalComponent } from '../ubs-admin-go-back-modal/ubs-admin-go-back-modal.component';
@@ -25,6 +25,9 @@ import {
 } from '../../models/ubs-admin.interface';
 import { formatDate } from '@angular/common';
 import { MatSnackBarComponent } from '@global-errors/mat-snack-bar/mat-snack-bar.component';
+import { IAppState } from 'src/app/store/state/app.state';
+import { Store } from '@ngrx/store';
+import { ChangingOrderData } from 'src/app/store/actions/bigOrderTable.actions';
 
 @Component({
   selector: 'app-ubs-admin-order',
@@ -51,6 +54,8 @@ export class UbsAdminOrderComponent implements OnInit, OnDestroy, AfterContentCh
   currentOrderStatus: string;
   overpayment: number;
   isMinOrder = true;
+  isSubmitted = false;
+  additionalPayment: string;
   private matSnackBar: MatSnackBarComponent;
   private orderService: OrderService;
   constructor(
@@ -59,8 +64,10 @@ export class UbsAdminOrderComponent implements OnInit, OnDestroy, AfterContentCh
     private fb: FormBuilder,
     private dialog: MatDialog,
     private route: ActivatedRoute,
+    private router: Router,
     private changeDetector: ChangeDetectorRef,
-    private injector: Injector
+    private injector: Injector,
+    private store: Store<IAppState>
   ) {
     this.matSnackBar = injector.get<MatSnackBarComponent>(MatSnackBarComponent);
     this.orderService = injector.get<OrderService>(OrderService);
@@ -106,7 +113,7 @@ export class UbsAdminOrderComponent implements OnInit, OnDestroy, AfterContentCh
     this.setPreviousBagsIfEmpty(this.currentOrderStatus);
     const bagsObj = this.orderInfo.bags.map((bag) => {
       bag.planned = this.orderInfo.amountOfBagsOrdered[bag.id] || 0;
-      bag.confirmed = this.orderInfo.amountOfBagsConfirmed[bag.id] || 0;
+      bag.confirmed = this.orderInfo.amountOfBagsConfirmed[bag.id] || bag.planned;
       bag.actual = this.orderInfo.amountOfBagsExported[bag.id] || 0;
       return bag;
     });
@@ -143,6 +150,7 @@ export class UbsAdminOrderComponent implements OnInit, OnDestroy, AfterContentCh
     this.orderForm = this.fb.group({
       generalOrderInfo: this.fb.group({
         orderStatus: this.generalInfo.orderStatus,
+        paymentStatus: this.generalInfo.orderPaymentStatus,
         adminComment: this.generalInfo.adminComment,
         cancellationComment: '', // TODO add this fields to controller
         cancellationReason: '' // TODO
@@ -228,16 +236,21 @@ export class UbsAdminOrderComponent implements OnInit, OnDestroy, AfterContentCh
       });
   }
 
-  openGoBackModal() {
-    this.dialog.open(UbsAdminGoBackModalComponent, {
-      hasBackdrop: true
-    });
+  goBack(): void {
+    this.orderForm.dirty && !this.isSubmitted
+      ? this.dialog.open(UbsAdminGoBackModalComponent, { hasBackdrop: true })
+      : this.router.navigate(['ubs-admin', 'orders']);
   }
 
   onChangedOrderStatus(status: string) {
     this.currentOrderStatus = status;
     this.orderStatusInfo = this.getOrderStatusInfo(this.currentOrderStatus);
     this.notRequiredFieldsStatuses();
+  }
+
+  public onUpdatePaymentStatus(newPaymentStatus: string): void {
+    this.additionalPayment = newPaymentStatus;
+    this.orderForm.markAsDirty();
   }
 
   public changeOverpayment(sum: number): void {
@@ -296,6 +309,7 @@ export class UbsAdminOrderComponent implements OnInit, OnDestroy, AfterContentCh
   }
 
   public onSubmit(): void {
+    this.isSubmitted = true;
     const changedValues: any = {};
     this.getUpdates(this.orderForm, changedValues);
 
@@ -331,9 +345,21 @@ export class UbsAdminOrderComponent implements OnInit, OnDestroy, AfterContentCh
       .pipe(takeUntil(this.destroy$))
       .subscribe((response) => {
         response.ok ? this.matSnackBar.snackType.changesSaved() : this.matSnackBar.snackType.error();
-        this.getOrderInfo(this.orderId);
+        if (response.ok) {
+          this.getOrderInfo(this.orderId);
+          Object.keys(changedValues.generalOrderInfo).forEach((key: string) => {
+            if (changedValues.generalOrderInfo[key]) {
+              this.postDataItem([this.orderId], key, changedValues.generalOrderInfo[key]);
+            }
+          });
+        }
       });
   }
+
+  private postDataItem(orderId: number[], columnName: string, newValue: string): void {
+    this.store.dispatch(ChangingOrderData({ orderId, columnName, newValue }));
+  }
+
   private getUpdates(formItem: FormGroup | FormArray | FormControl, changedValues: IOrderInfo, name?: string) {
     if (formItem instanceof FormControl) {
       if (name && formItem.dirty) {

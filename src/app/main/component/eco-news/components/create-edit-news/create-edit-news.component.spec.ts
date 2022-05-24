@@ -10,7 +10,7 @@ import { NO_ERRORS_SCHEMA } from '@angular/core';
 import { Location } from '@angular/common';
 import { Router } from '@angular/router';
 import { By } from '@angular/platform-browser';
-import { of } from 'rxjs';
+import { BehaviorSubject, of } from 'rxjs';
 import { TranslateModule } from '@ngx-translate/core';
 import { ImageCropperModule } from 'ngx-image-cropper';
 import { EcoNewsService } from '@eco-news-service/eco-news.service';
@@ -20,7 +20,6 @@ import { MatSnackBarComponent } from '@global-errors/mat-snack-bar/mat-snack-bar
 import { ConfirmRestorePasswordComponent } from '@global-auth/confirm-restore-password/confirm-restore-password.component';
 import { DragAndDropComponent } from '@shared/components/drag-and-drop/drag-and-drop.component';
 import { routes } from 'src/app/app-routing.module';
-import { NewsResponseDTO } from '../../models/create-news-interface';
 import { CreateEditNewsComponent } from './create-edit-news.component';
 import { PostNewsLoaderComponent } from '..';
 import { ACTION_CONFIG, ACTION_TOKEN } from './action.constants';
@@ -30,8 +29,11 @@ import { SearchAllResultsComponent } from 'src/app/main/component/layout/compone
 import { MainComponent } from '../../../../main.component';
 import { UbsBaseSidebarComponent } from '../../../../../shared/ubs-base-sidebar/ubs-base-sidebar.component';
 import { environment } from '@environment/environment.js';
+import { Store, ActionsSubject } from '@ngrx/store';
+import { QuillModule } from 'ngx-quill';
+import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
 
-xdescribe('CreateEditNewsComponent', () => {
+describe('CreateEditNewsComponent', () => {
   let component: CreateEditNewsComponent;
   let fixture: ComponentFixture<CreateEditNewsComponent>;
   let ecoNewsServiceMock: EcoNewsService;
@@ -53,6 +55,7 @@ xdescribe('CreateEditNewsComponent', () => {
     shortInfo: 'info',
     source: null
   };
+
   let http: HttpTestingController;
   const newsResponseMock: EcoNewsModel = {
     id: 4705,
@@ -103,13 +106,17 @@ xdescribe('CreateEditNewsComponent', () => {
     'editNews',
     'setForm',
     'getNewsId',
-    'getFormData'
+    'getFormData',
+    'isBackToEditing',
+    'sendImagesData'
   ]);
   createEcoNewsServiceMock.sendFormData = (form) => of(newsResponseMock);
   createEcoNewsServiceMock.getFormData = () => emptyForm();
   createEcoNewsServiceMock.editNews = (form) => of(newsResponseMock);
   createEcoNewsServiceMock.setForm = (form) => of();
   createEcoNewsServiceMock.getNewsId = () => '15';
+  createEcoNewsServiceMock.isBackToEditing = false;
+  createEcoNewsServiceMock.sendImagesData = () => of(['image']);
 
   ecoNewsServiceMock = jasmine.createSpyObj('EcoNewsService', ['getEcoNewsById', 'getAllPresentTags']);
   ecoNewsServiceMock.getEcoNewsById = (id) => {
@@ -138,6 +145,22 @@ xdescribe('CreateEditNewsComponent', () => {
     });
   };
 
+  const actionSub: ActionsSubject = new ActionsSubject();
+
+  const storeMock = jasmine.createSpyObj('store', ['select', 'dispatch']);
+
+  const localStorageServiceMock = jasmine.createSpyObj('localStorageService', [
+    'getPreviousPage',
+    'removeTagsOfNews',
+    'languageBehaviourSubject',
+    'getTagsOfNews',
+    'setTagsOfNews'
+  ]);
+  localStorageServiceMock.getTagsOfNews = () => {
+    return [{ name: 'Events', isActive: false }];
+  };
+  localStorageServiceMock.languageBehaviourSubject = new BehaviorSubject('en');
+
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       declarations: [
@@ -159,7 +182,8 @@ xdescribe('CreateEditNewsComponent', () => {
         ImageCropperModule,
         HttpClientTestingModule,
         MatSnackBarModule,
-        MatDialogModule
+        MatDialogModule,
+        QuillModule.forRoot()
       ],
       providers: [
         { provide: MAT_DIALOG_DATA, useValue: {} },
@@ -168,6 +192,9 @@ xdescribe('CreateEditNewsComponent', () => {
         { provide: EcoNewsService, useValue: ecoNewsServiceMock },
         { provide: CreateEcoNewsService, useValue: createEcoNewsServiceMock },
         { provide: CreateEditNewsFormBuilder, useValue: createEditNewsFormBuilderMock },
+        { provide: ActionsSubject, useValue: actionSub },
+        { provide: Store, useValue: storeMock },
+        { provide: LocalStorageService, useValue: localStorageServiceMock },
         MatSnackBarComponent,
         FormBuilder
       ],
@@ -189,40 +216,65 @@ xdescribe('CreateEditNewsComponent', () => {
     http.verify();
   });
 
-  it('navigate to "news" redirects you to /news', fakeAsync(() => {
+  it('getAllTags called , filters should change', () => {
+    ecoNewsServiceMock.getAllPresentTags = () => of([{ id: 1, name: 'Events' }]);
+    (component as any).getAllTags();
+    expect(component.filters).toEqual([{ name: 'Events', isActive: false }]);
+
+    ecoNewsServiceMock.getAllPresentTags = () => of(tagsArray);
+  });
+
+  it('initPageForCreateOrEdit expect setDataForCreate should be call', () => {
+    const spy = spyOn(component, 'setDataForCreate');
+    createEcoNewsServiceMock.isBackToEditing = true;
+    createEcoNewsServiceMock.getNewsId = () => '';
+
+    component.initPageForCreateOrEdit();
+    expect(spy).toHaveBeenCalledTimes(1);
+
+    createEcoNewsServiceMock.isBackToEditing = false;
+    createEcoNewsServiceMock.getNewsId = () => '15';
+  });
+
+  it('initPageForCreateOrEdit expect fetchNewsItemToEdit should be call', () => {
+    const spy = spyOn(component, 'fetchNewsItemToEdit');
+    component.newsId = '20';
+    createEcoNewsServiceMock.getNewsId();
+
+    component.initPageForCreateOrEdit();
+    expect(spy).toHaveBeenCalledTimes(1);
+  });
+
+  it('setDataForEdit  attributes.title should change ', () => {
+    component.setDataForEdit();
+    expect(component.attributes.title).toBe('create-news.edit-title');
+  });
+
+  it('createNews expect sendData should be called', () => {
+    const spy = spyOn(component, 'sendData');
+    component.editorHTML = 'data:image/png;base64, iVBORw0KGgoAAAANSUhEUgAAAAUA';
+
     component.createNews();
-    tick(5000);
-    fixture.detectChanges();
-    fixture.ngZone.run(() => {
-      fixture.whenStable().then(() => {
-        expect(router.navigate).toHaveBeenCalledWith(['/news']);
-      });
-    });
-  }));
+    expect(spy).toHaveBeenCalledWith('image');
+  });
 
-  it('navigate to "news" redirects you to /news', fakeAsync(() => {
-    component.editNews();
-    tick(5000);
-    fixture.detectChanges();
-    fixture.ngZone.run(() => {
-      fixture.whenStable().then(() => {
-        expect(router.navigate).toHaveBeenCalledWith(['/news']);
-      });
-    });
-  }));
-
-  it('fakeAsync works', fakeAsync(() => {
-    const promise = new Promise((resolve) => {
-      setTimeout(resolve, 10);
-    });
-    let done = false;
-    promise.then(() => (done = true));
-    tick(50);
-    expect(done).toBeTruthy();
-  }));
+  it('addFilters expect filtersValidation should be called', () => {
+    const spy = spyOn(component, 'filtersValidation');
+    component.isArrayEmpty = true;
+    component.addFilters({ name: 'string', isActive: false });
+    expect(spy).toHaveBeenCalledWith({ name: 'string', isActive: false });
+    expect(component.isArrayEmpty).toBeFalsy();
+  });
 
   it('should create', () => {
     expect(component).toBeTruthy();
+  });
+
+  it('ngOnInit', () => {
+    const spy1 = spyOn(component, 'getNewsIdFromQueryParams');
+    component.ngOnInit();
+    expect(spy1).toHaveBeenCalledTimes(1);
+    expect(localStorageServiceMock.removeTagsOfNews).toHaveBeenCalledWith('newsTags');
   });
 
   it('should get econews by id', () => {
@@ -242,20 +294,6 @@ xdescribe('CreateEditNewsComponent', () => {
     };
     component.ngOnInit();
     expect(component.form.value).toEqual(testForm);
-  });
-
-  it('should POST econews', () => {
-    createEcoNewsServiceMock.sendFormData(item).subscribe((data) => {
-      expect(data).toEqual(newsResponseMock);
-      expect(component.isPosting).toBeFalsy();
-    });
-  });
-
-  it(`should containe object from list`, () => {
-    const fScene = { name: 'Events', isActive: false };
-    const sScene = { name: 'Education', isActive: false };
-    const tScene = { name: 'News', isActive: false };
-    expect(component.filters).toContain(fScene || sScene || tScene);
   });
 
   it('should addFilters', () => {
@@ -278,12 +316,6 @@ xdescribe('CreateEditNewsComponent', () => {
 
     component.toggleIsActive(filter, true);
     expect(component.toggleIsActive).toHaveBeenCalledWith(filter, true);
-  });
-
-  it('should call getNewsIdFromQueryParams method in ngOnInit', () => {
-    spyOn(component, 'getNewsIdFromQueryParams');
-    component.ngOnInit();
-    expect(component.getNewsIdFromQueryParams).toHaveBeenCalled();
   });
 
   it('should change isArrayEmpty to false property after adding tag', () => {
@@ -448,12 +480,6 @@ xdescribe('CreateEditNewsComponent', () => {
     const buttons = fixture.debugElement.queryAll(By.css('button'));
     const nativeButton: HTMLButtonElement = buttons[0].nativeElement;
     expect(nativeButton.textContent.trim()).toBe('Events');
-  });
-
-  it('should be a Education button on the page', () => {
-    const buttons = fixture.debugElement.queryAll(By.css('.tag-news'));
-    const listOfTags = buttons.map((tag) => tag.nativeElement.innerHTML.trim());
-    expect(listOfTags).toContain('Education');
   });
 
   it('should be a Preview button on the page', () => {

@@ -10,12 +10,16 @@ import { UBSOrderFormService } from '../../services/ubs-order-form.service';
 import { HttpErrorResponse } from '@angular/common/http';
 import { MatDialogModule } from '@angular/material/dialog';
 import { Router } from '@angular/router';
+import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
 
 describe('UBSSubmitOrderComponent', () => {
   let component: UBSSubmitOrderComponent;
   let fixture: ComponentFixture<UBSSubmitOrderComponent>;
   let mockedtakeOrderDetails;
   let router: Router;
+  const fakeLocalStorageService = jasmine.createSpyObj('localStorageService', ['getCurrentLanguage', 'setUserPagePayment']);
+  fakeLocalStorageService.getCurrentLanguage.and.returnValue('ua');
+  fakeLocalStorageService.languageSubject = of('ua');
   const fakeOrderService = jasmine.createSpyObj('fakeOrderService', ['getOrderUrl']);
   const mockedOrderDetails = {
     bags: [],
@@ -33,8 +37,11 @@ describe('UBSSubmitOrderComponent', () => {
     anotherClientEmail: 'fake',
     anotherClientPhoneNumber: 'fake',
     city: 'fake',
+    cityEn: 'fakeEn',
     district: 'fake',
+    districtEn: 'fakeEn',
     street: 'fake',
+    streetEn: 'fakeEn',
     houseCorpus: 'fake',
     entranceNumber: 'fake',
     houseNumber: 'fake'
@@ -55,7 +62,8 @@ describe('UBSSubmitOrderComponent', () => {
       declarations: [UBSSubmitOrderComponent],
       providers: [
         { provide: UBSOrderFormService, useClass: FakeShareFormService },
-        { provide: OrderService, useValue: fakeOrderService }
+        { provide: OrderService, useValue: fakeOrderService },
+        { provide: LocalStorageService, useValue: fakeLocalStorageService }
       ]
     }).compileComponents();
   }));
@@ -74,14 +82,27 @@ describe('UBSSubmitOrderComponent', () => {
     expect(component).toBeTruthy();
   });
 
+  it('method ngOnInit should invoke method getOrderFormNotifications()', () => {
+    component.isNotification = true;
+    const getOrderFormNotificationsSpy = spyOn(component, 'getOrderFormNotifications');
+    component.ngOnInit();
+    expect(getOrderFormNotificationsSpy).toHaveBeenCalled();
+    expect(component.isDownloadDataNotification).toBeFalsy();
+    expect(component.currentLanguage).toBe('ua');
+  });
+
+  it('method ngOnInit should invoke method takeOrderDetails()', () => {
+    component.isNotification = false;
+    component.ngOnInit();
+    expect(component.takeOrderDetails).toHaveBeenCalled();
+    expect(component.currentLanguage).toBe('ua');
+  });
+
   it('destroy Subject should be closed after ngOnDestroy()', () => {
-    // @ts-ignore
-    component.destroy = new Subject<boolean>();
-    // @ts-ignore
-    spyOn(component.destroy, 'unsubscribe');
+    (component as any).destroy = new Subject<boolean>();
+    spyOn((component as any).destroy, 'unsubscribe');
     component.ngOnDestroy();
-    // @ts-ignore
-    expect(component.destroy.unsubscribe).toHaveBeenCalledTimes(1);
+    expect((component as any).destroy.unsubscribe).toHaveBeenCalledTimes(1);
   });
 
   it('takeOrderDetails should correctly set data from subscription', () => {

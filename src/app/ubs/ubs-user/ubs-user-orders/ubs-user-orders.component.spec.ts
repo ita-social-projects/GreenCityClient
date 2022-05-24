@@ -14,6 +14,7 @@ import { Subject, of } from 'rxjs';
 import { UserOrdersService } from '../services/user-orders.service';
 import { BonusesService } from '../ubs-user-bonuses/services/bonuses.service';
 import { APP_BASE_HREF } from '@angular/common';
+import { NgxPaginationModule } from 'ngx-pagination';
 
 describe('UbsUserOrdersComponent', () => {
   let component: UbsUserOrdersComponent;
@@ -53,7 +54,7 @@ describe('UbsUserOrdersComponent', () => {
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       declarations: [UbsUserOrdersComponent, LocalizedCurrencyPipe],
-      imports: [TranslateModule.forRoot(), HttpClientTestingModule, RouterModule.forRoot([])],
+      imports: [TranslateModule.forRoot(), NgxPaginationModule, HttpClientTestingModule, RouterModule.forRoot([])],
       providers: [
         { provide: MatSnackBarComponent, useValue: MatSnackBarMock },
         { provide: UserOrdersService, useValue: userOrderServiceMock },
@@ -102,16 +103,32 @@ describe('UbsUserOrdersComponent', () => {
     expect(component.loadingBonuses).toBe(true);
   });
 
-  it('orderHistory length should been 1', () => {
-    fakeOrder1.orderStatusEng = 'Done';
-    component.ngOnInit();
-    expect(component.orderHistory.length).toBe(1);
+  it('getOrders should call getAllUserOrders ', () => {
+    component.getOrders(0, 10, 'current');
+    expect((component as any).userOrdersService.getAllUserOrders).toHaveBeenCalledWith(0, 10, 'current');
+  });
+
+  it('getOrders should call getAllUserOrders ', () => {
+    component.getOrders(0, 10, 'history');
+    expect((component as any).userOrdersService.getAllUserOrders).toHaveBeenCalledWith(0, 10, 'history');
+  });
+
+  it('onPageChange should call getCurrentOrders ', () => {
+    spyOn(component as any, 'getOrders');
+    component.numberOfCurrentOrders = 10;
+    component.numberOfHistoryOrders = 10;
+    component.onPageChange(1);
+
+    expect((component as any).getOrders).toHaveBeenCalledWith(0, 10, 'current');
+    expect((component as any).getOrders).toHaveBeenCalledWith(0, 10, 'history');
   });
 
   it('destroy Subject should be closed after ngOnDestroy()', () => {
     component.destroy = new Subject<boolean>();
     spyOn(component.destroy, 'unsubscribe');
     component.ngOnDestroy();
-    expect(component.destroy.unsubscribe).toHaveBeenCalledTimes(1);
+    fixture.componentInstance.ngOnDestroy();
+
+    expect(component.destroy.unsubscribe).toHaveBeenCalledTimes(2);
   });
 });

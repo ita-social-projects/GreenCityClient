@@ -374,6 +374,7 @@ export class CreateEditNewsComponent extends FormBaseComponent implements OnInit
 
   public goToPreview(): void {
     this.allowUserEscape();
+    this.createEcoNewsService.fileUrl = this.form.value.image;
     this.createEcoNewsService.setForm(this.form);
     this.createEcoNewsService.setNewsId(this.newsId);
     this.router.navigate(['news', 'preview']).catch((err) => console.error(err));

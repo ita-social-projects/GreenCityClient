@@ -30,6 +30,7 @@ describe('UbsAdminOrderStatusComponent', () => {
 
   const FormGroupMock = new FormGroup({
     orderStatus: new FormControl(''),
+    paymentStatus: new FormControl(''),
     adminComment: new FormControl(''),
     cancellationReason: new FormControl(''),
     cancellationComment: new FormControl('')
