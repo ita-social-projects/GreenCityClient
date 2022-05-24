@@ -11,7 +11,7 @@ import { UbsAdminTableExcelPopupComponent } from './ubs-admin-table-excel-popup/
 import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
 import { nonSortableColumns } from '../../models/non-sortable-columns.model';
 import { AdminTableService } from '../../services/admin-table.service';
-import { CdkDragDrop, moveItemInArray } from '@angular/cdk/drag-drop';
+import { CdkDragDrop, CdkDragStart, moveItemInArray } from '@angular/cdk/drag-drop';
 import { debounceTime, take, takeUntil } from 'rxjs/operators';
 import { Subject, timer } from 'rxjs';
 import { Component, OnInit, ViewChild, OnDestroy, AfterViewChecked, ChangeDetectorRef, ElementRef, Renderer2 } from '@angular/core';
@@ -30,6 +30,7 @@ import {
   GetTable,
   SetColumnToDisplay
 } from 'src/app/store/actions/bigOrderTable.actions';
+import { ItemsList } from '@ng-select/ng-select/lib/items-list';
 
 @Component({
   selector: 'app-ubs-admin-table',
@@ -83,6 +84,8 @@ export class UbsAdminTableComponent implements OnInit, AfterViewChecked, OnDestr
   isPostData = false;
   dataForPopUp = [];
   uneditableStatuses = ['CANCELED', 'DONE'];
+  stickyColumnsAmount: number = 4;
+  nestedSortProperty = 'title.key';
   public showPopUp: boolean;
   resizableMousemove: () => void;
   resizableMouseup: () => void;
@@ -175,9 +178,9 @@ export class UbsAdminTableComponent implements OnInit, AfterViewChecked, OnDestr
         if (this.isStoreEmpty) {
           this.getTable(this.filterValue, sortBy, sortDirection, true);
         }
-        this.sortColumnsToDisplay();
         this.editDetails();
       }
+      this.sortColumnsToDisplay();
       this.checkAllColumnsDisplayed();
     });
 
@@ -210,16 +213,25 @@ export class UbsAdminTableComponent implements OnInit, AfterViewChecked, OnDestr
 
   dropListDropped(event: CdkDragDrop<string[]>) {
     moveItemInArray(this.displayedColumns, event.previousIndex, event.currentIndex);
+    this.sortColumnsToDisplay();
     const displayedColumns = this.displayedColumns.join(',');
     this.store.dispatch(SetColumnToDisplay({ columns: encodeURIComponent(displayedColumns), titles: displayedColumns }));
+    this.stickColumns();
+  }
+
+  stickColumns() {
     this.stickyColumn = [];
-    for (let i = 0; i < 4; i++) {
+    const displayedColumnsViewCopy = JSON.parse(JSON.stringify(this.displayedColumnsView));
+
+    for (let i = 0; i < this.stickyColumnsAmount; i++) {
       this.stickyColumn.push(this.displayedColumns[i]);
     }
-    this.columns.forEach((item) => {
+
+    displayedColumnsViewCopy.forEach((item) => {
       item.sticky = this.stickyColumn.includes(item.title.key);
     });
-    this.sortColumnsToDisplay();
+
+    this.displayedColumnsView = displayedColumnsViewCopy;
   }
 
   isAllSelected() {
@@ -282,6 +294,7 @@ export class UbsAdminTableComponent implements OnInit, AfterViewChecked, OnDestr
       ? [...this.displayedColumns.slice(0, positionIndex), key, ...this.displayedColumns.slice(positionIndex)]
       : this.displayedColumns.filter((item) => item !== key);
     this.checkAllColumnsDisplayed();
+    this.sortColumnsToDisplay();
   }
 
   public togglePopUp() {
@@ -432,12 +445,13 @@ export class UbsAdminTableComponent implements OnInit, AfterViewChecked, OnDestr
     this.isAllColumnsDisplayed = true;
     this.displayedColumns = this.displayedColumnsViewTitles;
     this.count = this.displayedColumnsViewTitles.length;
+    this.sortColumnsToDisplay();
   }
-
   private setUnDisplayedColumns(): void {
     this.displayedColumnsViewTitles = [];
     this.displayedColumns = ['select'];
     this.isAllColumnsDisplayed = false;
+    this.sortColumnsToDisplay();
   }
 
   private editSingle(e: IEditCell): void {
@@ -585,11 +599,40 @@ export class UbsAdminTableComponent implements OnInit, AfterViewChecked, OnDestr
   }
 
   sortColumnsToDisplay() {
-    const arr = [];
-    this.columns.forEach((el) => {
-      arr[this.displayedColumns.findIndex((res) => res === el.title.key)] = el;
+    const displayedColumnsCopy = JSON.parse(JSON.stringify(this.displayedColumns));
+    const prop = this.nestedSortProperty.split('.');
+    let len = prop.length;
+
+    this.columns.sort(function (a, b) {
+      let i = 0;
+      while (i < len) {
+        a = a[prop[i]];
+        b = b[prop[i]];
+        i++;
+      }
+
+      return displayedColumnsCopy.indexOf(a) - displayedColumnsCopy.indexOf(b);
     });
-    this.columns = arr;
+
+    this.checkAllColumnsDisplayed();
+    if (!this.isAllColumnsDisplayed) {
+      const undisplayedColumns = [];
+      for (let i = 0; i < this.columns.length; i++) {
+        if (!this.displayedColumns.includes(this.columns[i].title.key)) {
+          undisplayedColumns.push(this.columns[i]);
+        }
+      }
+      undisplayedColumns.length = undisplayedColumns.length % this.columns.length;
+      for (let i = 0; i < undisplayedColumns.length; i++) {
+        this.columns.push(this.columns[i]);
+      }
+      this.columns.splice(0, undisplayedColumns.length);
+    }
+    this.columns.forEach((item) => {
+      item.index = this.columns.indexOf(item);
+    });
+    this.displayedColumnsView = this.columns;
+    this.stickColumns();
   }
 
   public onResizeColumn(event: any, index: number) {
@@ -642,8 +685,8 @@ export class UbsAdminTableComponent implements OnInit, AfterViewChecked, OnDestr
     if (dx !== 0) {
       const j = this.isResizingRight ? index + 1 : index - 1;
       const newWidth = this.columns[j].width - dx;
-
-      if (newWidth > 100 && index > 3) {
+      if (newWidth > 100 && index > this.stickyColumnsAmount - 1) {
+        console.log('index: ', index, 'column:', this.columns[index].title.key);
         this.columns[index].width = width;
         this.setColumnWidth(this.columns[index]);
         this.columns[j].width = newWidth;
