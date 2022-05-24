@@ -1,7 +1,5 @@
-import { Component, Input, OnDestroy, ValueSansProvider } from '@angular/core';
+import { Component, Input, OnDestroy } from '@angular/core';
 import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
-import { AnyFn } from '@ngrx/store/src/selector';
-import { AnySoaRecord } from 'dns';
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 import { IUserOrderInfo, CheckPaymentStatus } from '../ubs-user-orders-list/models/UserOrder.interface';
@@ -24,6 +22,7 @@ export class UbsUserOrderDetailsComponent implements OnDestroy {
       this.currentLanguage = lang;
     });
   }
+
   isPaid(order: IUserOrderInfo): boolean {
     return order.paymentStatus === CheckPaymentStatus.PAID;
   }
