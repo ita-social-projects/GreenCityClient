@@ -686,7 +686,6 @@ export class UbsAdminTableComponent implements OnInit, AfterViewChecked, OnDestr
       const j = this.isResizingRight ? index + 1 : index - 1;
       const newWidth = this.columns[j].width - dx;
       if (newWidth > 100 && index > this.stickyColumnsAmount - 1) {
-        console.log('index: ', index, 'column:', this.columns[index].title.key);
         this.columns[index].width = width;
         this.setColumnWidth(this.columns[index]);
         this.columns[j].width = newWidth;
