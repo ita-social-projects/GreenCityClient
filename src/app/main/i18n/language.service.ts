@@ -97,6 +97,7 @@ export class LanguageService {
   public changeCurrentLanguage(language: Language) {
     this.localStorageService.setCurrentLanguage(language);
     this.translate.setDefaultLang(language);
+    this.translate.use(language);
   }
 
   public getLanguageId(language: Language) {

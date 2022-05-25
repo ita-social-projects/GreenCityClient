@@ -11,6 +11,7 @@ describe('LanguageService', () => {
   let getCurrentLanguageMock: any;
   let setCurrentLanguageMock: any;
   let setDefaultLangMock: any;
+  let setUseMock: any;
 
   const getLanguageByString = 'getLanguageByString';
   const defaultLanguage = 'defaultLanguage';
@@ -26,6 +27,7 @@ describe('LanguageService', () => {
     getCurrentLanguageMock = spyOn(localStorageService, 'getCurrentLanguage');
     setCurrentLanguageMock = spyOn(localStorageService, 'setCurrentLanguage');
     setDefaultLangMock = spyOn(translate, 'setDefaultLang');
+    setUseMock = spyOn(translate, 'use');
   });
 
   it('should be created', () => {
@@ -73,6 +75,7 @@ describe('LanguageService', () => {
     service.changeCurrentLanguage(Language.UA);
     expect(setDefaultLangMock).toHaveBeenCalledWith('ua');
     expect(setCurrentLanguageMock).toHaveBeenCalledWith('ua');
+    expect(setUseMock).toHaveBeenCalledWith('ua');
   });
 
   it('getLanguageId should return the value', () => {
