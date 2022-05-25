@@ -11,7 +11,7 @@ import { UbsAdminTableExcelPopupComponent } from './ubs-admin-table-excel-popup/
 import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
 import { nonSortableColumns } from '../../models/non-sortable-columns.model';
 import { AdminTableService } from '../../services/admin-table.service';
-import { CdkDragDrop, CdkDragStart, moveItemInArray } from '@angular/cdk/drag-drop';
+import { CdkDragDrop, moveItemInArray } from '@angular/cdk/drag-drop';
 import { debounceTime, take, takeUntil } from 'rxjs/operators';
 import { Subject, timer } from 'rxjs';
 import { Component, OnInit, ViewChild, OnDestroy, AfterViewChecked, ChangeDetectorRef, ElementRef, Renderer2 } from '@angular/core';
@@ -624,7 +624,7 @@ export class UbsAdminTableComponent implements OnInit, AfterViewChecked, OnDestr
     if (!this.isAllColumnsDisplayed) {
       const undisplayedColumns = [];
       for (const column of this.columns) {
-        if (!this.displayedColumns.includes(this.columns[column].title.key)) {
+        if (!this.displayedColumns.includes(column.title.key)) {
           undisplayedColumns.push(this.columns[column]);
         }
       }
