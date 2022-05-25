@@ -217,7 +217,6 @@ export class UbsAdminTableComponent implements OnInit, AfterViewChecked, OnDestr
     this.sortColumnsToDisplay();
     const displayedColumns = this.displayedColumns.join(',');
     this.store.dispatch(SetColumnToDisplay({ columns: encodeURIComponent(displayedColumns), titles: displayedColumns }));
-    this.stickColumns();
   }
 
   stickColumns() {
@@ -456,7 +455,6 @@ export class UbsAdminTableComponent implements OnInit, AfterViewChecked, OnDestr
     this.displayedColumnsViewTitles = [];
     this.displayedColumns = ['select'];
     this.isAllColumnsDisplayed = false;
-    this.sortColumnsToDisplay();
   }
 
   private editSingle(e: IEditCell): void {
@@ -619,7 +617,6 @@ export class UbsAdminTableComponent implements OnInit, AfterViewChecked, OnDestr
         b = b[prop[i]];
         i++;
       }
-
       return displayedColumnsCopy.indexOf(a) - displayedColumnsCopy.indexOf(b);
     });
 
