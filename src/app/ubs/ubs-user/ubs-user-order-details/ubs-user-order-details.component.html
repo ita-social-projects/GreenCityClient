@@ -25,9 +25,9 @@
       <td colspan="4">{{ 'user-orders.details.order-sum' | translate }}</td>
       <td>{{ order.orderFullPrice | currency | localizedCurrency }}</td>
     </tr>
-    <tr *ngIf="reduceCertificate(order) && order.certificate.length > 0" class="optional_row">
+    <tr *ngIf="order.certificate.length" class="optional_row">
       <td colspan="4">{{ 'user-orders.details.certificate' | translate }}</td>
-      <td>-{{ points | currency | localizedCurrency }}</td>
+      <td>-{{ certificatesAmount | currency | localizedCurrency }}</td>
     </tr>
     <tr *ngIf="order.bonuses !== 0" class="optional_row">
       <td colspan="4">{{ 'user-orders.details.bonuses' | translate }}</td>
