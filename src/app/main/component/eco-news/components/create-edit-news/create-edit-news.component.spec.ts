@@ -24,7 +24,7 @@ import { CreateEditNewsComponent } from './create-edit-news.component';
 import { PostNewsLoaderComponent } from '..';
 import { ACTION_CONFIG, ACTION_TOKEN } from './action.constants';
 import { CreateEditNewsFormBuilder } from './create-edit-news-form-builder';
-import { HomepageComponent, TipsListComponent } from 'src/app/main/component/home/components';
+import { HomepageComponent } from 'src/app/main/component/home/components';
 import { SearchAllResultsComponent } from 'src/app/main/component/layout/components';
 import { MainComponent } from '../../../../main.component';
 import { UbsBaseSidebarComponent } from '../../../../../shared/ubs-base-sidebar/ubs-base-sidebar.component';
@@ -170,7 +170,6 @@ describe('CreateEditNewsComponent', () => {
         MainComponent,
         UbsBaseSidebarComponent,
         HomepageComponent,
-        TipsListComponent,
         SearchAllResultsComponent,
         ConfirmRestorePasswordComponent
       ],

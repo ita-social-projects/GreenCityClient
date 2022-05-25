@@ -125,7 +125,6 @@
       "placeholder": "Пошук",
       "items-found": "знайдено",
       "news": "Новини",
-      "tips": "Поради",
       "see-all-news": "Дивіться всі новини",
       "see-all-tips": "Дивіться всі поради та підказки",
       "see-all-results": "Дивіться всі результати"
@@ -135,14 +134,12 @@
       "choose-alternative": "Можливо, ви можете знайти тут щось цікаве:",
       "alternative-header-news": "Новини",
       "alternative-description-news": "Знайдіть останні новини, події та ініціативи тут. Знайдіть новини та створіть їх.",
-      "alternative-header-tips": "Поради",
       "alternative-description-tips": "Як сортувати сміття? Де знайти еко-речі? І багато інших корисних речей для екологічності."
     },
     "search-all-results": {
       "placeholder": "Пошук",
       "items-found": "знайдено",
       "news": "Новини",
-      "tips": "Поради",
       "sort": "Сортувати за:",
       "filter": "Фільтрувати за:",
       "relevance": "Актуальністю",
@@ -936,7 +933,6 @@
   "footer": {
     "about-us": "Про нас",
     "eco-events": "Еко новини",
-    "tips": "Поради",
     "map": "Місця",
     "my-habits": "Мої звички",
     "follow-us": "Приєднуйтесь до нас",

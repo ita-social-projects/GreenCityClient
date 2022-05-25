@@ -29,7 +29,6 @@ describe('ProfileProgressComponent', () => {
     mockProgress = {
       amountHabitsInProgress: 0,
       amountHabitsAcquired: 0,
-      amountWrittenTipsAndTrick: 0,
       amountPublishedNews: 0
     };
     spy = spyOn(profileService, 'getUserProfileStatistics').and.returnValue(Observable.of(mockProgress));

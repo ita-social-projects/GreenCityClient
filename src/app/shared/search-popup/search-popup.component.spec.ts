@@ -53,15 +53,13 @@ describe('SearchPopupComponent', () => {
   };
 
   const searchModelMock = {
-    countOfResults: 2,
-    ecoNews: [mockNewsData],
-    tipsAndTricks: [mockTipData]
+    countOfResults: 1,
+    ecoNews: [mockNewsData]
   };
 
   let searchMock: SearchService;
   searchMock = jasmine.createSpyObj('SearchService', ['getAllResults']);
   searchMock.searchSubject = new Subject();
-  searchMock.getAllResults = () => of(searchModelMock);
   searchMock.closeSearchSignal = () => true;
 
   beforeEach(async(() => {

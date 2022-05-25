@@ -16,7 +16,7 @@ img {
 }
 
 .steps-wrapper {
-  margin-top: -3767px;
+  margin-top: -3117px;
 }
 
 .full-text-block {
@@ -119,17 +119,9 @@ img {
   margin-bottom: 175px;
 }
 
-.card-eco-place {
-  .card-title-number::before {
-    content: url('~/assets/img/2.png');
-  }
-
-  margin-bottom: 270px;
-}
-
 .card-eco-products {
   .card-title-number::before {
-    content: url('~/assets/img/3.png');
+    content: url('~/assets/img/2.png');
   }
 
   margin-top: 216px;
@@ -142,7 +134,7 @@ img {
 
 .card-story {
   .card-title-number::before {
-    content: url('~/assets/img/4.png');
+    content: url('~/assets/img/3.png');
   }
 
   margin-top: 300px;
@@ -150,7 +142,7 @@ img {
 
 .card-people {
   .card-title-number::before {
-    content: url('~/assets/img/5.png');
+    content: url('~/assets/img/4.png');
   }
 
   margin-top: 320px;
@@ -160,7 +152,7 @@ img {
   position: relative;
   background: url('~/assets/img/dashed-line.png');
   width: 832px;
-  height: 3576px;
+  height: 2926px;
   margin: auto;
   z-index: -1;
 }
@@ -171,7 +163,7 @@ img {
   left: 107px;
   background: url('~/assets/img/leaves.png') no-repeat;
   width: 641px;
-  height: 3214px;
+  height: 2564px;
   z-index: -1;
 }
 

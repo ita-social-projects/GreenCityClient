@@ -108,9 +108,6 @@
     "events": {
       "title": "Events"
     },
-    "eco-advices": {
-      "caption": "Tips & Tricks"
-    },
     "subscription": {
       "caption": "Receive interesting news",
       "content": "Subscribe for our newsletter and always be up to date with news and updates",
@@ -125,9 +122,7 @@
       "placeholder": "Search",
       "items-found": "items found",
       "news": "News",
-      "tips": "Tips & Tricks",
       "see-all-news": "See all News",
-      "see-all-tips": "See all Tips & Tricks",
       "see-all-results": "See all results"
     },
     "search-not-found": {
@@ -135,14 +130,12 @@
       "choose-alternative": "Maybe you can find some interesting stuff here:",
       "alternative-header-news": "News",
       "alternative-description-news": "Find the latest news, events and initiatives here. Find news and create ones.",
-      "alternative-header-tips": "Tips & Tricks",
       "alternative-description-tips": "How to sort garbage? Where to find eco stuff? And many other useful stuff for being eco friendly."
     },
     "search-all-results": {
       "placeholder": "Search",
       "items-found": "items found",
       "news": "News",
-      "tips": "Tips & Tricks",
       "sort": "Sort by:",
       "filter": "Filter by:",
       "relevance": "Relevance",
@@ -753,11 +746,6 @@
         "text": "We will help you to find eco places near your homes and offices. And we will tell you about discounts.",
         "button": "Find eco places"
       },
-      "block-2": {
-        "header": "I don’t know how to do better for the environment",
-        "text": "You will get useful information from our Tips & Tricks section and get inspired with list of possible eco habits.",
-        "button": "Go to Tips & Tricks"
-      },
       "block-3": {
         "header": "Eco products are too expensive",
         "text": "With us, you will find like-minded people with whom you can easily share purchases (wholesale).",
@@ -789,7 +777,6 @@
       "my-habits": "My habits",
       "my-news": "My news",
       "my-articles": "My articles",
-      "my-tips-and-tricks": "My tips and tricks",
       "habits-inprogress": "In progress",
       "add-new-habit": "Add New Habit",
       "habits-acquired": "Acquired",
@@ -925,7 +912,6 @@
   "footer": {
     "about-us": "About us",
     "eco-events": "Eco news",
-    "tips": "Tips & Tricks",
     "map": "Places",
     "my-habits": "My habits",
     "follow-us": "Follow us",
