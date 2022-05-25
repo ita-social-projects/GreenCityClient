@@ -672,6 +672,10 @@ export class UbsAdminTableComponent implements OnInit, AfterViewChecked, OnDestr
     this.adminTableService.setColumnsForFiltering(columns);
   }
 
+  checkForCheckedBoxes(column) {
+    return column.values.some((item) => item.filtered);
+  }
+
   checkStatusOfOrders(id: number): boolean {
     return this.uneditableStatuses.includes(this.tableData.find((el) => el.id === id).orderStatus);
   }

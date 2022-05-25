@@ -34,6 +34,7 @@
                 aria-expanded="false"
                 attr.aria-controls="panelsStayOpen-collapse{{ i }}"
                 (click)="toggleAccordion($event)"
+                [ngClass]="checkForCheckedBoxes(column) ? 'accordion-group-header hignlighted' : 'accordion-group-header'"
               >
                 <span>{{ column | serverTranslate: currentLang }}</span>
                 <mat-icon>keyboard_arrow_down</mat-icon>
