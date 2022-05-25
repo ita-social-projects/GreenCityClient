@@ -554,6 +554,7 @@ export class UbsAdminTableComponent implements OnInit, AfterViewChecked, OnDestr
     this.setColumnsForFiltering(columnsForFiltering);
     this.adminTableService.setFilters([]);
     this.applyFilters();
+    this.noFiltersApplied = true;
   }
 
   public applyFilters() {
@@ -674,6 +675,11 @@ export class UbsAdminTableComponent implements OnInit, AfterViewChecked, OnDestr
 
   checkForCheckedBoxes(column) {
     return column.values.some((item) => item.filtered);
+  }
+
+  checkIfFilteredBy(columnKey) {
+    let key = columnKey === 'paymentDate' ? 'paymentDateFrom' : columnKey === 'orderDate' ? 'orderDateFrom' : columnKey;
+    return this.adminTableService.filters ? this.adminTableService.filters.some((obj) => Object.keys(obj)[0] === key) : false;
   }
 
   checkStatusOfOrders(id: number): boolean {

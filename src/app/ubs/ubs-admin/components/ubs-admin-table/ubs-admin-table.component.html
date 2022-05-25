@@ -187,7 +187,11 @@
           </mat-checkbox>
         </th>
       </mat-header-cell>
-      <mat-cell *matCellDef="let row" (mousedown)="onResizeColumn($event, i)">
+      <mat-cell
+        *matCellDef="let row"
+        (mousedown)="onResizeColumn($event, i)"
+        [ngClass]="{ hignlighted: checkIfFilteredBy(column.title.key) }"
+      >
         <app-table-cell-readonly
           *ngIf="column.editType === 'READ_ONLY'"
           [title]="row[column.title.key]"
