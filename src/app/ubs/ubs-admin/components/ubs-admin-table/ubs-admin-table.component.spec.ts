@@ -263,7 +263,7 @@ describe('UsbAdminTableComponent', () => {
     storeMock.dispatch.calls.reset();
     component.displayedColumns = ['1', '2'];
     component.isPopupOpen = true;
-    component.togglePopUp();
+    component.toggleTableView();
     expect(component.previousSettings).toEqual(['1', '2']);
     expect((component as any).store.dispatch).toHaveBeenCalledTimes(1);
   });
@@ -607,5 +607,31 @@ describe('UsbAdminTableComponent', () => {
     component.tableData = [{ id: 1, orderStatus: 'DONE' }];
     const Res = component.checkStatusOfOrders(1);
     expect(Res).toBe(true);
+  });
+
+  it('checkForCheckedBoxes', () => {
+    const column = {
+      key: 'orderStatus',
+      en: 'orderStatus',
+      ua: 'Статус замовлення',
+      values: [
+        {
+          key: 'done',
+          en: 'done',
+          ua: 'виконано',
+          filtered: true
+        },
+        {
+          key: 'formed',
+          en: 'formed',
+          ua: 'сформовано',
+          filtered: false
+        }
+      ]
+    };
+
+    const result = component.checkForCheckedBoxes(column);
+
+    expect(result).toBe(true);
   });
 });

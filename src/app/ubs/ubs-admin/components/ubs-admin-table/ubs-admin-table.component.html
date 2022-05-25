@@ -87,7 +87,7 @@
       </div>
     </div>
     <div class="button-group">
-      <button type="button" class="btn btn-default view-table-btn" (click)="togglePopUp()">
+      <button type="button" class="btn btn-default view-table-btn" (click)="toggleTableView()">
         <img src="assets/img/edit.svg" alt="edit" />
         {{ 'ubs-tables.table-view' | translate }}
       </button>
@@ -95,7 +95,7 @@
         {{ 'ubs-tables.export-to-excel' | translate }}
       </button>
       <ul class="dropdown-menu" [style.display]="display">
-        <button type="button" class="reset-settings" (click)="togglePopUp()">
+        <button type="button" class="reset-settings" (click)="toggleTableView()">
           <i class="fa fa-close" aria-hidden="true"></i>
         </button>
         <li class="item">
