@@ -7,6 +7,7 @@ export interface SearchModel {
 
 export interface SearchDataModel {
   currentPage: number;
+  page: Array<TipsSearchModel>;
   totalElements: number;
   totalPages: number;
 }
