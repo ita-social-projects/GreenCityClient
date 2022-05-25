@@ -4,7 +4,7 @@ export interface IUserOrderInfo {
   amountBeforePayment: number;
   bags: IBags[];
   bonuses: number;
-  certificate: string[];
+  certificate: ICertificate[];
   dateForm: string;
   datePaid: string;
   extend?: boolean;
@@ -44,6 +44,13 @@ export interface IBags {
   price: number;
   service: string;
   totalPrice: number;
+}
+
+export interface ICertificate {
+  certificateStatus: string;
+  code: string;
+  creationDate: string;
+  points: number;
 }
 
 export enum CheckPaymentStatus {
