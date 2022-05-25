@@ -84,7 +84,7 @@ export class UbsAdminTableComponent implements OnInit, AfterViewChecked, OnDestr
   isPostData = false;
   dataForPopUp = [];
   uneditableStatuses = ['CANCELED', 'DONE'];
-  stickyColumnsAmount: number = 4;
+  stickyColumnsAmount = 4;
   nestedSortProperty = 'title.key';
   noFiltersApplied = true;
   public showPopUp: boolean;
@@ -608,9 +608,9 @@ export class UbsAdminTableComponent implements OnInit, AfterViewChecked, OnDestr
   sortColumnsToDisplay() {
     const displayedColumnsCopy = JSON.parse(JSON.stringify(this.displayedColumns));
     const prop = this.nestedSortProperty.split('.');
-    let len = prop.length;
+    const len = prop.length;
 
-    this.columns.sort(function (a, b) {
+    this.columns.sort((a, b) => {
       let i = 0;
       while (i < len) {
         a = a[prop[i]];
@@ -623,9 +623,9 @@ export class UbsAdminTableComponent implements OnInit, AfterViewChecked, OnDestr
     this.checkAllColumnsDisplayed();
     if (!this.isAllColumnsDisplayed) {
       const undisplayedColumns = [];
-      for (let i = 0; i < this.columns.length; i++) {
-        if (!this.displayedColumns.includes(this.columns[i].title.key)) {
-          undisplayedColumns.push(this.columns[i]);
+      for (const column of this.columns) {
+        if (!this.displayedColumns.includes(this.columns[column].title.key)) {
+          undisplayedColumns.push(this.columns[column]);
         }
       }
       undisplayedColumns.length = undisplayedColumns.length % this.columns.length;
