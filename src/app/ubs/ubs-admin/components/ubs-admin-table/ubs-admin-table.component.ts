@@ -84,6 +84,7 @@ export class UbsAdminTableComponent implements OnInit, AfterViewChecked, OnDestr
   dataForPopUp = [];
   uneditableStatuses = ['CANCELED', 'DONE'];
   noFiltersApplied = true;
+  filtersOpened = false;
   public showPopUp: boolean;
   resizableMousemove: () => void;
   resizableMouseup: () => void;
@@ -285,8 +286,8 @@ export class UbsAdminTableComponent implements OnInit, AfterViewChecked, OnDestr
     this.checkAllColumnsDisplayed();
   }
 
-  public closeFilters(): void {
-    this.display = 'none';
+  public toggleFilters(): void {
+    this.filtersOpened = !this.filtersOpened;
   }
 
   public toggleTableView() {

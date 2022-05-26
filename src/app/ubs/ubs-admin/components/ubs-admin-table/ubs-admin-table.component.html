@@ -6,15 +6,15 @@
     <div class="icon-style"><i class="fa fa-search" aria-hidden="true"></i></div>
   </div>
   <div class="btn-group">
-    <div>
-      <button type="button" class="btn btn-default" class="filter-table-btn" data-toggle="dropdown">
+    <div class="filters-dropdown-wrapper">
+      <button type="button" class="btn btn-default filter-table-btn" (click)="toggleFilters()">
         <mat-icon>filter_list</mat-icon>
         {{ 'ubs-tables.filters' | translate }}
       </button>
-      <div class="dropdown-menu dropdown-menu-right">
+      <div class="dropdown-menu dropdown-menu-right" [ngClass]="{ show: filtersOpened }">
         <div class="sticky-top filter-close-btn">
           <p class="font-weight-bold">{{ 'ubs-tables.filters' | translate }}</p>
-          <button type="button" class="reset-settings" (click)="closeFilters()">
+          <button type="button" class="reset-settings" (click)="toggleFilters()">
             <i class="fa fa-close" aria-hidden="true"></i>
           </button>
         </div>
@@ -30,8 +30,8 @@
                 (click)="toggleAccordion($event)"
                 [ngClass]="checkForCheckedBoxes(column) ? 'accordion-group-header hignlighted' : 'accordion-group-header'"
               >
-                <span>{{ column | serverTranslate: currentLang }}</span>
                 <mat-icon>keyboard_arrow_down</mat-icon>
+                <span>{{ column | serverTranslate: currentLang }}</span>
               </div>
               <div
                 id="panelsStayOpen-collapse{{ i }}"
@@ -77,11 +77,11 @@
           </ng-container>
         </div>
         <div class="sticky-bottom clear-apply-group">
-          <button type="button" class="filter-btn" (click)="clearFilters()" [hidden]="noFiltersApplied">
-            {{ 'ubs-tables.clear-filters' | translate }}
-          </button>
           <button type="button" class="filter-btn bg-lime" (click)="applyFilters()" [hidden]="noFiltersApplied">
             {{ 'ubs-tables.apply-filters' | translate }}
+          </button>
+          <button type="button" class="filter-btn" (click)="clearFilters()" [hidden]="noFiltersApplied">
+            {{ 'ubs-tables.clear-filters' | translate }}
           </button>
         </div>
       </div>

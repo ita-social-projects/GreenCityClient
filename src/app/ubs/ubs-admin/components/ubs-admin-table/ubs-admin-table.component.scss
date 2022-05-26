@@ -302,6 +302,10 @@ input {
   background-color: var(--ubs-secondary-white);
 }
 
+.filters-dropdown-wrapper {
+  position: relative;
+}
+
 .bg-lime {
   border: none;
   background-color: var(--ubs-button-dark-green);
@@ -322,7 +326,7 @@ input {
 }
 
 .dropdown-menu-right {
-  margin-right: 0;
+  margin-right: 20px;
   margin-top: 17px;
 }
 
@@ -435,7 +439,8 @@ input {
 
 .accordion-group-header {
   display: flex;
-  justify-content: space-between;
+  justify-content: left;
+  gap: 5px;
   font-weight: bold;
   cursor: pointer;
 }
