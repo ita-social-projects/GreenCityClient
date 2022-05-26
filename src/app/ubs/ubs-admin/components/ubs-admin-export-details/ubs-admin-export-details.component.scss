@@ -78,26 +78,22 @@ input {
   margin-right: 30px;
 }
 
+.time-picker-container {
+  display: flex;
+  border-radius: 4px;
+  border: 1px solid var(--ubs-quintynary-light-grey);
+  margin-right: 40px;
+}
 .time-from {
+  border: none;
   width: 65px;
-  border-right: none;
-  border-radius: 4px 0 0 4px;
   text-align: center;
 }
 
 .time-to {
+  border: none;
   width: 65px;
-  margin-right: 40px;
-  margin-top: 4px;
   text-align: center;
-  border-left: none;
-  border-radius: 0 4px 4px 0;
-}
-
-.hyphen {
-  margin: 36px 0 16px -16px;
-  border-top: 1px solid var(--ubs-quintynary-light-grey);
-  border-bottom: 1px solid var(--ubs-quintynary-light-grey);
 }
 
 select {
