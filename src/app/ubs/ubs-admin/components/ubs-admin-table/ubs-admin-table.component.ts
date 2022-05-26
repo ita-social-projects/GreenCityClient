@@ -679,7 +679,7 @@ export class UbsAdminTableComponent implements OnInit, AfterViewChecked, OnDestr
   }
 
   checkIfFilteredBy(columnKey) {
-    let key = columnKey === 'paymentDate' ? 'paymentDateFrom' : columnKey === 'orderDate' ? 'orderDateFrom' : columnKey;
+    const key = columnKey === 'paymentDate' ? 'paymentDateFrom' : columnKey === 'orderDate' ? 'orderDateFrom' : columnKey;
     return this.adminTableService.filters ? this.adminTableService.filters.some((obj) => Object.keys(obj)[0] === key) : false;
   }
 
