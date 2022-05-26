@@ -215,7 +215,7 @@ describe('UbsAdminOrderPaymentComponent', () => {
           currentDate: '2022-02-09'
         }
       ],
-      unPaidAmount: 900
+      unPaidAmount: 650
     },
     exportDetailsDto: {
       allReceivingStations: [],
@@ -254,7 +254,7 @@ describe('UbsAdminOrderPaymentComponent', () => {
     component.paymentsArray = fakeOrderInfo.paymentTableInfoDto.paymentInfoDtos;
     component.orderStatus = 'Formed';
     component.pageOpen = false;
-    component.overpayment = 450;
+    component.overpayment = 700;
     fixture.detectChanges();
   });
 
@@ -292,7 +292,7 @@ describe('UbsAdminOrderPaymentComponent', () => {
 
   it('method recountUnpaidAmount', () => {
     component.recountUnpaidAmount(200);
-    expect(component.unPaidAmount).toBe(700);
+    expect(component.unPaidAmount).toBe(450);
     component.recountUnpaidAmount(1000);
     expect(component.unPaidAmount).toBe(0);
   });

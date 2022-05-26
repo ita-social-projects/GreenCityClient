@@ -113,7 +113,7 @@ export class UbsAdminOrderComponent implements OnInit, OnDestroy, AfterContentCh
     this.setPreviousBagsIfEmpty(this.currentOrderStatus);
     const bagsObj = this.orderInfo.bags.map((bag) => {
       bag.planned = this.orderInfo.amountOfBagsOrdered[bag.id] || 0;
-      bag.confirmed = this.orderInfo.amountOfBagsConfirmed[bag.id] || bag.planned;
+      bag.confirmed = this.orderInfo.amountOfBagsConfirmed[bag.id] ?? bag.planned;
       bag.actual = this.orderInfo.amountOfBagsExported[bag.id] || 0;
       return bag;
     });
@@ -362,6 +362,9 @@ export class UbsAdminOrderComponent implements OnInit, OnDestroy, AfterContentCh
 
   private getUpdates(formItem: FormGroup | FormArray | FormControl, changedValues: IOrderInfo, name?: string) {
     if (formItem instanceof FormControl) {
+      if (name?.includes('confirmedQuantity')) {
+        formItem.markAsDirty();
+      }
       if (name && formItem.dirty) {
         changedValues[name] = formItem.value;
       }
