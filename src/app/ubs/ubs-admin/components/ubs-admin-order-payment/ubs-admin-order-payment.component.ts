@@ -43,7 +43,8 @@ export class UbsAdminOrderPaymentComponent implements OnInit, OnChanges, OnDestr
     this.paymentsArray = this.paymentInfo.paymentInfoDtos;
     this.paidAmount = this.paymentInfo.paidAmount;
     const sumDiscount = this.orderInfo.orderBonusDiscount + this.orderInfo.orderCertificateTotalDiscount;
-    this.unPaidAmount = this.orderInfo.orderFullPrice - this.orderInfo.paymentTableInfoDto.paidAmount - sumDiscount;
+    const notPaid = this.orderInfo.orderFullPrice - this.orderInfo.paymentTableInfoDto.paidAmount - sumDiscount;
+    this.unPaidAmount = notPaid > 0 ? notPaid : 0;
     this.setDateInPaymentArray(this.paymentsArray);
     this.positivePaymentsArrayAmount();
   }
