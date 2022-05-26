@@ -252,11 +252,11 @@ describe('UsbAdminTableComponent', () => {
     expect(component.displayedColumns).toEqual(['title1', 'title2', 'title3', 'title4']);
   });
 
-  it('closeFilters expect set display to none ', () => {
-    component.display = 'block';
-    component.closeFilters();
+  it('toggleFilters expect set filtersOpened to !filtersOpened', () => {
+    component.filtersOpened = false;
+    component.toggleFilters();
 
-    expect(component.display).toEqual('none');
+    expect(component.filtersOpened).toEqual(true);
   });
 
   it('togglePopUp expect store.dispatch have been called', () => {
@@ -631,6 +631,13 @@ describe('UsbAdminTableComponent', () => {
     };
 
     const result = component.checkForCheckedBoxes(column);
+
+    expect(result).toBe(true);
+  });
+
+  it('checkIfFilteredBy', () => {
+    (component as any).adminTableService.filters = [{ orderStatus: 'done' }];
+    const result = component.checkIfFilteredBy('orderStatus');
 
     expect(result).toBe(true);
   });
