@@ -1,4 +1,4 @@
-import { Component, Input, OnInit, OnChanges, SimpleChanges, OnDestroy } from '@angular/core';
+import { Component, Input, OnInit, OnChanges, SimpleChanges, OnDestroy, Output, EventEmitter } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { Subject } from 'rxjs';
 import { take, takeUntil } from 'rxjs/operators';
@@ -20,6 +20,8 @@ export class UbsAdminOrderPaymentComponent implements OnInit, OnChanges, OnDestr
   @Input() totalPaid: number;
   @Input() orderStatus: string;
 
+  @Output() newPaymentStatus = new EventEmitter<string>();
+
   public message: string;
   public pageOpen: boolean;
   public orderId: number;
@@ -40,7 +42,9 @@ export class UbsAdminOrderPaymentComponent implements OnInit, OnChanges, OnDestr
     this.overpayment = this.paymentInfo.overpayment;
     this.paymentsArray = this.paymentInfo.paymentInfoDtos;
     this.paidAmount = this.paymentInfo.paidAmount;
-    this.unPaidAmount = this.paymentInfo.unPaidAmount;
+    const sumDiscount = this.orderInfo.orderBonusDiscount + this.orderInfo.orderCertificateTotalDiscount;
+    const notPaid = this.orderInfo.orderFullPrice - this.orderInfo.paymentTableInfoDto.paidAmount - sumDiscount;
+    this.unPaidAmount = notPaid > 0 ? notPaid : 0;
     this.setDateInPaymentArray(this.paymentsArray);
     this.positivePaymentsArrayAmount();
   }
@@ -173,6 +177,7 @@ export class UbsAdminOrderPaymentComponent implements OnInit, OnChanges, OnDestr
             .subscribe((data: IOrderInfo) => {
               const newValue = data.generalOrderInfo.orderPaymentStatus;
               this.postDataItem(this.orderId, newValue);
+              this.newPaymentStatus.emit(newValue);
             });
         }
       });

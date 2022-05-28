@@ -31,7 +31,10 @@ describe('UbsUserOrderDetailsComponent', () => {
       }
     ],
     bonuses: 0,
-    certificate: [],
+    certificate: [
+      { certificateStatus: 'USED', points: 10, creationDate: '2022-05-09', code: '9953-7741' },
+      { certificateStatus: 'USED', points: 500, creationDate: '2022-04-15', code: '3003-1992' }
+    ],
     dateForm: '2022-03-24T23:48:21.689274',
     datePaid: '2022-03-24T23:48:21.689274',
     extend: true,
@@ -66,6 +69,11 @@ describe('UbsUserOrderDetailsComponent', () => {
 
   it('should create', () => {
     expect(component).toBeTruthy();
+  });
+
+  it('method ngOnInit should calcuate certificatesAmount', () => {
+    component.ngOnInit();
+    expect(component.certificatesAmount).toBe(510);
   });
 
   describe('isOrderPaid', () => {
