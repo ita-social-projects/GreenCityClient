@@ -92,7 +92,7 @@ describe('EcoNewsDetailComponent', () => {
     expect((component as any).canUserEditNews).toHaveBeenCalledTimes(1);
   });
 
-  it('ngOnInit should init three method', () => {
+  it('ngOnInit should init two method', () => {
     (component as any).newsId = 3;
     spyOn((component as any).localStorageService, 'getPreviousPage').and.returnValue('/news');
 
@@ -103,6 +103,7 @@ describe('EcoNewsDetailComponent', () => {
     component.ecoNewById$.subscribe((item: any) => {
       expect(component.newsItem).toEqual({ id: 3 } as any);
     });
+    component.userId = null;
     expect((component as any).getIsLiked).toHaveBeenCalledTimes(0);
     expect((component as any).setNewsId).toHaveBeenCalledTimes(1);
     expect((component as any).canUserEditNews).toHaveBeenCalledTimes(1);
