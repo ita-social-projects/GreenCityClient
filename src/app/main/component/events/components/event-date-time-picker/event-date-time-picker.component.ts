@@ -1,37 +1,28 @@
 import { MapsAPILoader } from '@agm/core';
-import { DatePipe } from '@angular/common';
-import { AfterViewInit, Component, ElementRef, EventEmitter, OnDestroy, OnInit, Output, ViewChild } from '@angular/core';
-import { MatDatepickerInputEvent } from '@angular/material/datepicker';
-import { MatSelectChange } from '@angular/material/select';
-import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
-import { Subject } from 'rxjs';
-import { takeUntil } from 'rxjs/operators';
-import { OnlineOflineDto } from '../../models/events.interface';
+import { Component, ElementRef, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges, ViewChild } from '@angular/core';
+import { OfflineDto } from '../../models/events.interface';
+
+import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { MatCheckboxChange } from '@angular/material/checkbox';
 
 @Component({
   selector: 'app-event-date-time-picker',
   templateUrl: './event-date-time-picker.component.html',
   styleUrls: ['./event-date-time-picker.component.scss']
 })
-export class EventDateTimePickerComponent implements OnInit, AfterViewInit {
-  public minDate: Date;
-  public startDisabled: boolean;
-  public endDisabled: boolean;
-  public dateDisabled: boolean;
+export class EventDateTimePickerComponent implements OnInit, OnChanges {
+  public minDate = new Date();
   public timeArrStart = [];
   public timeArrEnd = [];
 
-  coordinates: OnlineOflineDto = {
+  public timeArr = [];
+
+  private coordinates: OfflineDto = {
     latitude: null,
-    longitude: null,
-    onlineLink: ''
+    longitude: null
   };
 
-  public onlineLink: string;
-
   public isOfline: boolean;
-  public isOnline: boolean;
-
   public autocomplete: google.maps.places.Autocomplete;
 
   private regionOptions = {
@@ -39,25 +30,81 @@ export class EventDateTimePickerComponent implements OnInit, AfterViewInit {
     componentRestrictions: { country: 'UA' }
   };
 
-  private pipe = new DatePipe('en-US');
+  @Input() check: boolean;
 
-  @Output() date = new EventEmitter<string>();
-  @Output() startTime = new EventEmitter<string>();
-  @Output() endTime = new EventEmitter<string>();
-
-  @Output() coordOflineOnline = new EventEmitter<OnlineOflineDto>();
+  @Output() status = new EventEmitter<boolean>();
+  @Output() datesForm = new EventEmitter<string>();
+  @Output() coordOffline = new EventEmitter<OfflineDto>();
 
   @ViewChild('placesRef') placesRef: ElementRef;
 
-  constructor(private mapsAPILoader: MapsAPILoader, private localStorageService: LocalStorageService) {}
+  public dateForm: FormGroup;
+
+  constructor(private mapsAPILoader: MapsAPILoader) {}
 
   ngOnInit(): void {
-    this.minDate = new Date();
+    const curDay = new Date().getDate();
+    this.minDate.setDate(curDay + 1);
     this.fillTimeArray();
-    this.endDisabled = true;
+
+    this.dateForm = new FormGroup({
+      date: new FormControl('', [Validators.required]),
+      startTime: new FormControl('', [Validators.required]),
+      endTime: new FormControl('', [Validators.required])
+    });
+
+    this.dateForm.valueChanges.subscribe((value) => {
+      this.checkStartTime(value.startTime);
+      this.checkEndTime(value.endTime);
+
+      this.coordOffline.emit(this.coordinates);
+      this.status.emit(this.dateForm.valid);
+
+      this.datesForm.emit(value);
+    });
   }
 
-  ngAfterViewInit(): void {
+  checkIfAllDay(event: MatCheckboxChange) {
+    if (event.checked) {
+      this.dateForm.get('startTime').disable();
+      this.dateForm.get('endTime').disable();
+    } else {
+      this.dateForm.get('startTime').enable();
+      this.dateForm.get('endTime').enable();
+    }
+  }
+
+  ngOnChanges(changes: SimpleChanges): void {
+    if (this.check) {
+      this.dateForm.markAllAsTouched();
+    }
+  }
+
+  checkIfOnline(event: MatCheckboxChange): void {
+    if (event.checked) {
+      this.dateForm.addControl('onlineLink', new FormControl('', [Validators.required, Validators.pattern(/^$|^https?:\/\//)]));
+    } else {
+      this.dateForm.removeControl('onlineLink');
+    }
+  }
+
+  checkIfOffline(event: MatCheckboxChange): void {
+    if (event.checked) {
+      this.isOfline = true;
+      this.dateForm.addControl('place', new FormControl('', [Validators.required]));
+      setTimeout(() => this.setPlaceAutocomplete(), 0);
+    }
+    if (!event.checked) {
+      this.isOfline = false;
+      this.coordinates.latitude = null;
+      this.coordinates.longitude = null;
+      this.coordOffline.emit(this.coordinates);
+      this.autocomplete.unbindAll();
+      this.dateForm.removeControl('place');
+    }
+  }
+
+  setPlaceAutocomplete(): void {
     this.mapsAPILoader.load().then(() => {
       this.autocomplete = new google.maps.places.Autocomplete(this.placesRef.nativeElement, this.regionOptions);
 
@@ -66,52 +113,36 @@ export class EventDateTimePickerComponent implements OnInit, AfterViewInit {
 
         this.coordinates.latitude = locationName.geometry.location.lat();
         this.coordinates.longitude = locationName.geometry.location.lng();
-        this.coordinates.onlineLink = this.onlineLink;
-        if (!this.isOnline) {
-          this.coordinates.onlineLink = '';
-        }
-        this.coordOflineOnline.emit(this.coordinates);
+
+        this.coordOffline.emit(this.coordinates);
+
+        this.dateForm.patchValue({
+          place: locationName.formatted_address
+        });
       });
     });
   }
 
-  public setOnlineLink(): void {
-    this.coordinates.onlineLink = this.onlineLink;
-    if (!this.isOfline) {
-      this.coordinates.latitude = null;
-      this.coordinates.longitude = null;
-    }
-    this.coordOflineOnline.emit(this.coordinates);
-  }
-
   private fillTimeArray(): void {
     for (let i = 0; i < 24; i++) {
+      this.timeArr.push(`${i} : 00`);
       this.timeArrStart.push(`${i} : 00`);
       this.timeArrEnd.push(`${i} : 00`);
     }
   }
 
-  public addDate(date: MatDatepickerInputEvent<Date>): void {
-    const formattedDate = this.pipe.transform(date.value, 'yyyy/MM/dd');
-    this.date.emit(formattedDate);
-    this.dateDisabled = true;
+  checkEndTime(time: string): void {
+    if (time) {
+      const checkTime = time.split(':');
+
+      this.timeArrStart = [...this.timeArr.slice(0, +checkTime[0])];
+    }
   }
 
-  public addStartTime(time: MatSelectChange): void {
-    this.startTime.emit(time.value);
-    this.startDisabled = true;
-    this.endDisabled = false;
-    const checkTime = time.value.split(':');
-
-    +checkTime[0] === 23 ? (this.timeArrEnd = ['23 : 59']) : (this.timeArrEnd = [...this.timeArrStart.slice(+checkTime[0] + 1)]);
-  }
-  public addEndTime(time: MatSelectChange): void {
-    this.endTime.emit(time.value);
-    this.endDisabled = true;
-  }
-
-  public clear(): void {
-    this.startDisabled = false;
-    this.dateDisabled = false;
+  checkStartTime(time: string): void {
+    if (time) {
+      const checkTime = time.split(':');
+      +checkTime[0] === 23 ? (this.timeArrEnd = ['23 : 59']) : (this.timeArrEnd = [...this.timeArr.slice(+checkTime[0] + 1)]);
+    }
   }
 }

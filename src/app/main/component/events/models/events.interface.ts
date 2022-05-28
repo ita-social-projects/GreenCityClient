@@ -2,13 +2,14 @@ export interface EventDTO {
   title: string;
   description: string;
   open: boolean;
-  dates: Array<Dates>;
+  datesLocations: Array<Dates>;
+  tags: Array<string>;
 }
 
 export interface Dates {
-  startDate: Array<number>;
-  finishDate: Array<number>;
-  coordinatesDto: {
+  startDate: string;
+  finishDate: string;
+  coordinates: {
     latitude: number;
     longitude: number;
   };
@@ -16,7 +17,7 @@ export interface Dates {
 }
 
 export interface DateEvent {
-  date: string;
+  date: Date;
   startDate: string;
   finishDate: string;
   coordinatesDto: {
@@ -24,6 +25,8 @@ export interface DateEvent {
     longitude: number;
   };
   onlineLink: string;
+  valid: boolean;
+  check: boolean;
 }
 
 export interface Coords {
@@ -82,8 +85,20 @@ export interface DateEventResponceDto {
   startDate: string;
 }
 
-export interface OnlineOflineDto {
+export interface OfflineDto {
   latitude: number;
   longitude: number;
-  onlineLink: string;
+}
+
+export interface TagObj {
+  name: string;
+  isActive: boolean;
+}
+
+export interface DateFormObj {
+  date: Date;
+  endTime?: string;
+  onlineLink?: string;
+  place: string;
+  startTime?: string;
 }

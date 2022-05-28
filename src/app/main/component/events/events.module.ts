@@ -10,11 +10,13 @@ import { MatButtonModule } from '@angular/material/button';
 
 import { AgmCoreModule } from '@agm/core';
 import { environment } from '@environment/environment.js';
+import { ReactiveFormsModule } from '@angular/forms';
 
 import { SharedMainModule } from '@shared/shared-main.module';
 import { SharedModule } from 'src/app/shared/shared.module';
 import { InfiniteScrollModule } from 'ngx-infinite-scroll';
 import { QuillModule } from 'ngx-quill';
+import { NgxPaginationModule } from 'ngx-pagination';
 
 import { EventsRoutingModule } from './events-routing.module';
 import { EventsComponent } from './events.component';
@@ -38,12 +40,15 @@ import { GooglePlaceModule } from 'ngx-google-places-autocomplete';
     ImagesContainerComponent
   ],
   imports: [
+    ReactiveFormsModule,
+
     GooglePlaceModule,
     CommonModule,
     EventsRoutingModule,
     MatDatepickerModule,
     MatInputModule,
     MatButtonModule,
+    NgxPaginationModule,
 
     AgmCoreModule,
     AgmCoreModule.forRoot({

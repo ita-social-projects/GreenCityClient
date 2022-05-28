@@ -3,15 +3,26 @@
 
   <div class="cont">
     <h1 class="main-header">{{ 'homepage.events.title' | translate }}</h1>
-    <a class="create" [routerLink]="['create-event']" *ngIf="true">
-      <div id="create-button" class="secondary-global-button">
-        <span id="create-button-text">Create</span>
+    <a class="create" [routerLink]="['create-event']" *ngIf="isLoggedIn">
+      <div class="secondary-global-button create-button">
+        <span class="create-button-text">Create</span>
       </div>
     </a>
   </div>
 
   <div class="event-list">
-    <mat-card class="event-list-item" *ngFor="let event of eventsList">
+    <mat-card
+      class="event-list-item"
+      *ngFor="
+        let event of eventsList
+          | paginate
+            : {
+                itemsPerPage: 9,
+                currentPage: page,
+                totalItems: total
+              }
+      "
+    >
       <div class="image-container">
         <img class="event-image" src="{{ event.titleImage }}" alt="event" />
         <div class="event-stars">
@@ -51,5 +62,7 @@
         <button class="primary-global-button event-button">Join Event</button>
       </div>
     </mat-card>
+
+    <pagination-controls (pageChange)="setPage($event)"></pagination-controls>
   </div>
 </div>

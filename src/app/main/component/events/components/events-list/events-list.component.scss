@@ -36,23 +36,23 @@
 
 .create {
   height: 40px;
-}
 
-#create-button {
-  border-radius: 5px;
-  line-height: 16px;
-  min-width: 139px;
-  min-height: 40px;
-  padding: 8px 20px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
+  .create-button {
+    border-radius: 5px;
+    line-height: 16px;
+    min-width: 139px;
+    min-height: 40px;
+    padding: 8px 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 
-#create-button span {
-  display: block;
-  height: 16px;
-  white-space: nowrap;
+    span {
+      display: block;
+      height: 16px;
+      white-space: nowrap;
+    }
+  }
 }
 
 .eventImage {
@@ -116,9 +116,11 @@
       width: 25px;
       height: 25px;
     }
+
     .fill {
       background: url('src/assets/events-icons/star-filled.png') no-repeat center;
     }
+
     .empty {
       background: url('src/assets/events-icons/Vector.png') no-repeat center;
     }
@@ -141,6 +143,7 @@
       width: 25px;
       height: 25px;
     }
+
     .flag {
       background: url('src/assets/events-icons/bookmark-set.png') no-repeat center;
     }
@@ -163,7 +166,7 @@
     display: flex;
     align-items: center;
 
-    span {
+    .main-container .date-container span {
       display: inline-block;
       width: 25px;
       height: 25px;

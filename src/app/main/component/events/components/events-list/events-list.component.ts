@@ -1,38 +1,50 @@
 import { MapsAPILoader } from '@agm/core';
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { EventPageResponceDto, EventResponseDto } from '../../models/events.interface';
 import { EventsService } from '../../services/events.service';
+import { UserOwnAuthService } from '@auth-service/user-own-auth.service';
+import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
+import { ReplaySubject } from 'rxjs';
 
 @Component({
   selector: 'app-events-list',
   templateUrl: './events-list.component.html',
   styleUrls: ['./events-list.component.scss']
 })
-export class EventsListComponent implements OnInit {
+export class EventsListComponent implements OnInit, OnDestroy {
   eventsList: EventPageResponceDto[] = [];
 
-  private geoCoder: any;
+  public isLoggedIn: string;
+  private destroyed$: ReplaySubject<any> = new ReplaySubject<any>(1);
 
-  constructor(private eventService: EventsService, private mapsAPILoader: MapsAPILoader) {}
+  public total = 0;
+  public page = 0;
+
+  constructor(private eventService: EventsService, private userOwnAuthService: UserOwnAuthService) {}
 
   ngOnInit(): void {
-    this.eventService.getEvents(0, 14).subscribe((res: EventResponseDto) => {
-      this.eventsList = [...res.page];
-      console.log(res.page);
-    });
+    this.checkUserSingIn();
+    this.userOwnAuthService.getDataFromLocalStorage();
 
-    this.mapsAPILoader.load().then(() => {
-      this.geoCoder = new google.maps.Geocoder();
+    this.eventService.getEvents(this.page, 9).subscribe((res: EventResponseDto) => {
+      this.eventsList = [...res.page];
+      this.total = res.totalElements;
     });
   }
 
-  getAddress(latitude: number, longitude: number): void {
-    this.geoCoder.geocode({ location: { lat: latitude, lng: longitude } }, (results, status) => {
-      status === 'OK'
-        ? results[0]
-          ? results[0].formatted_address
-          : window.alert('No results found')
-        : window.alert('Geocoder failed due to: ' + status);
+  private checkUserSingIn(): void {
+    this.userOwnAuthService.credentialDataSubject.subscribe((data) => (this.isLoggedIn = data && data.userId));
+  }
+
+  public setPage(event: number) {
+    this.page = event;
+    this.eventService.getEvents(event - 1, 9).subscribe((res: EventResponseDto) => {
+      this.eventsList = [...res.page];
     });
+  }
+
+  ngOnDestroy(): void {
+    this.destroyed$.next(true);
+    this.destroyed$.complete();
   }
 }
