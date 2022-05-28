@@ -99,11 +99,11 @@ describe('EcoNewsDetailComponent', () => {
     spyOn(component as any, 'setNewsId');
     spyOn(component as any, 'getIsLiked');
     spyOn(component as any, 'canUserEditNews');
+    component.userId = null;
     component.ngOnInit();
     component.ecoNewById$.subscribe((item: any) => {
       expect(component.newsItem).toEqual({ id: 3 } as any);
     });
-    component.userId = null;
     expect((component as any).getIsLiked).toHaveBeenCalledTimes(0);
     expect((component as any).setNewsId).toHaveBeenCalledTimes(1);
     expect((component as any).canUserEditNews).toHaveBeenCalledTimes(1);
