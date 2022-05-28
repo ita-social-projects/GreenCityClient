@@ -43,7 +43,9 @@ export class EcoNewsDetailComponent implements OnInit, OnDestroy {
   ngOnInit() {
     this.canUserEditNews();
     this.setNewsId();
-    this.getIsLiked();
+    if (this.userId) {
+      this.getIsLiked();
+    }
     this.backRoute = this.localStorageService.getPreviousPage();
 
     this.ecoNewById$.subscribe((value) => {
