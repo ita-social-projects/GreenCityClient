@@ -130,13 +130,7 @@ export class CreateEditEventsComponent implements OnInit {
       item.check = !item.valid;
     });
 
-    for (const value of this.dates) {
-      if (!value.valid) {
-        this.checkdates = false;
-        break;
-      }
-      this.checkdates = true;
-    }
+    this.checkdates = this.dates.find((element) => !element.valid) ? false : true;
   }
 
   private getFormattedDate(dateString: Date, hour: number, min: number) {
@@ -193,9 +187,10 @@ export class CreateEditEventsComponent implements OnInit {
       const formData: FormData = new FormData();
       const stringifiedDataToSend = JSON.stringify(sendEventDto);
       formData.append('addEventDtoRequest', stringifiedDataToSend);
-      for (const images of this.imgArray) {
-        formData.append('images', images);
-      }
+      this.imgArray.forEach((item) => {
+        formData.append('images', item);
+      });
+
       this.isPosting = true;
       this.eventService
         .createEvent(formData)

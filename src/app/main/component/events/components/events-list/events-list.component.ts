@@ -34,7 +34,7 @@ export class EventsListComponent implements OnInit, OnDestroy {
     this.userOwnAuthService.credentialDataSubject.subscribe((data) => (this.isLoggedIn = data && data.userId));
   }
 
-  public setPage(event: number) {
+  public setPage(event: number): void {
     this.page = event;
     this.eventService.getEvents(event - 1, 9).subscribe((res: EventResponseDto) => {
       this.eventsList = [...res.page];

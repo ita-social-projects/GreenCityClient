@@ -7,17 +7,14 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatSelectModule } from '@angular/material/select';
 import { MatButtonModule } from '@angular/material/button';
-
 import { AgmCoreModule } from '@agm/core';
 import { environment } from '@environment/environment.js';
 import { ReactiveFormsModule } from '@angular/forms';
-
 import { SharedMainModule } from '@shared/shared-main.module';
 import { SharedModule } from 'src/app/shared/shared.module';
 import { InfiniteScrollModule } from 'ngx-infinite-scroll';
 import { QuillModule } from 'ngx-quill';
 import { NgxPaginationModule } from 'ngx-pagination';
-
 import { EventsRoutingModule } from './events-routing.module';
 import { EventsComponent } from './events.component';
 import { EventsListComponent } from './components/events-list/events-list.component';
@@ -27,9 +24,7 @@ import { MatNativeDateModule } from '@angular/material/core';
 import { EventDateTimePickerComponent } from './components/event-date-time-picker/event-date-time-picker.component';
 import { MapEventComponent } from './components/map-event/map-event.component';
 import { ImagesContainerComponent } from './components/images-container/images-container.component';
-
 import { GooglePlaceModule } from 'ngx-google-places-autocomplete';
-
 @NgModule({
   declarations: [
     EventsComponent,
@@ -41,7 +36,6 @@ import { GooglePlaceModule } from 'ngx-google-places-autocomplete';
   ],
   imports: [
     ReactiveFormsModule,
-
     GooglePlaceModule,
     CommonModule,
     EventsRoutingModule,
@@ -49,21 +43,17 @@ import { GooglePlaceModule } from 'ngx-google-places-autocomplete';
     MatInputModule,
     MatButtonModule,
     NgxPaginationModule,
-
     AgmCoreModule,
     AgmCoreModule.forRoot({
       apiKey: environment.apiMapKey,
       libraries: ['places']
     }),
-
     MatFormFieldModule,
     MatNativeDateModule,
     MatSelectModule,
-
     SharedMainModule,
     SharedModule,
     InfiniteScrollModule,
-
     TranslateModule.forChild({
       loader: {
         provide: TranslateLoader,
@@ -77,7 +67,6 @@ import { GooglePlaceModule } from 'ngx-google-places-autocomplete';
   exports: [TranslateModule]
 })
 export class EventsModule {}
-
 export function createTranslateLoader(http: HttpClient) {
   return new TranslateHttpLoader(http, './assets/i18n/', '.json');
 }
