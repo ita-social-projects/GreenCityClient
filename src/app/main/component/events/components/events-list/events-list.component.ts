@@ -27,7 +27,6 @@ export class EventsListComponent implements OnInit, OnDestroy {
     this.eventService.getEvents(this.page, 9).subscribe((res: EventResponseDto) => {
       this.eventsList = [...res.page];
       this.total = res.totalElements;
-      console.log(res);
     });
   }
 

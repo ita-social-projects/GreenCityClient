@@ -179,7 +179,6 @@ export class CreateEditEventsComponent implements OnInit {
     }
 
     const tagsArr: Array<string> = this.filters.filter((tag) => tag.isActive).reduce((ac, cur) => [...ac, cur.name], []);
-    console.log(tagsArr);
 
     const sendEventDto: EventDTO = {
       title: this.titleForm.value,
