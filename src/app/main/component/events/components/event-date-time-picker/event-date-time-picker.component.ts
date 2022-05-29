@@ -1,5 +1,5 @@
 import { MapsAPILoader } from '@agm/core';
-import { Component, ElementRef, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges, ViewChild } from '@angular/core';
+import { Component, ElementRef, EventEmitter, Input, OnChanges, OnInit, Output, ViewChild } from '@angular/core';
 import { DateFormObj, OfflineDto } from '../../models/events.interface';
 
 import { FormControl, FormGroup, Validators } from '@angular/forms';
@@ -139,7 +139,7 @@ export class EventDateTimePickerComponent implements OnInit, OnChanges {
   checkStartTime(time: string): void {
     if (time) {
       const checkTime = time.split(':');
-      +checkTime[0] === 23 ? (this.timeArrEnd = ['23 : 59']) : (this.timeArrEnd = [...this.timeArr.slice(+checkTime[0] + 1)]);
+      this.timeArrEnd = +checkTime[0] === 23 ? ['23 : 59'] : [...this.timeArr.slice(+checkTime[0] + 1)];
     }
   }
 }

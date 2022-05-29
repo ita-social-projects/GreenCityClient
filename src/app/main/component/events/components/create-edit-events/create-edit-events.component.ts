@@ -178,7 +178,8 @@ export class CreateEditEventsComponent implements OnInit {
       datesDto = this.createDates();
     }
 
-    const tagsArr: Array<string> = this.filters.filter((tag) => tag.isActive).reduce((ac, cur) => (ac = [...ac, cur.name]), []);
+    const tagsArr: Array<string> = this.filters.filter((tag) => tag.isActive).reduce((ac, cur) => [...ac, cur.name], []);
+    console.log(tagsArr);
 
     const sendEventDto: EventDTO = {
       title: this.titleForm.value,
