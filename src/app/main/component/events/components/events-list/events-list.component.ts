@@ -1,9 +1,7 @@
-import { MapsAPILoader } from '@agm/core';
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { EventPageResponceDto, EventResponseDto } from '../../models/events.interface';
 import { EventsService } from '../../services/events.service';
 import { UserOwnAuthService } from '@auth-service/user-own-auth.service';
-import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
 import { ReplaySubject } from 'rxjs';
 
 @Component({
@@ -29,6 +27,7 @@ export class EventsListComponent implements OnInit, OnDestroy {
     this.eventService.getEvents(this.page, 9).subscribe((res: EventResponseDto) => {
       this.eventsList = [...res.page];
       this.total = res.totalElements;
+      console.log(res);
     });
   }
 

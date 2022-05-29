@@ -1,6 +1,6 @@
 import { MapsAPILoader } from '@agm/core';
 import { Component, ElementRef, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges, ViewChild } from '@angular/core';
-import { OfflineDto } from '../../models/events.interface';
+import { DateFormObj, OfflineDto } from '../../models/events.interface';
 
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { MatCheckboxChange } from '@angular/material/checkbox';
@@ -15,7 +15,7 @@ export class EventDateTimePickerComponent implements OnInit, OnChanges {
   public timeArrStart = [];
   public timeArrEnd = [];
 
-  public timeArr = [];
+  public timeArr: Array<string> = [];
 
   private coordinates: OfflineDto = {
     latitude: null,
@@ -33,7 +33,7 @@ export class EventDateTimePickerComponent implements OnInit, OnChanges {
   @Input() check: boolean;
 
   @Output() status = new EventEmitter<boolean>();
-  @Output() datesForm = new EventEmitter<string>();
+  @Output() datesForm = new EventEmitter<DateFormObj>();
   @Output() coordOffline = new EventEmitter<OfflineDto>();
 
   @ViewChild('placesRef') placesRef: ElementRef;
@@ -74,18 +74,16 @@ export class EventDateTimePickerComponent implements OnInit, OnChanges {
     }
   }
 
-  ngOnChanges(changes: SimpleChanges): void {
+  ngOnChanges(): void {
     if (this.check) {
       this.dateForm.markAllAsTouched();
     }
   }
 
   checkIfOnline(event: MatCheckboxChange): void {
-    if (event.checked) {
-      this.dateForm.addControl('onlineLink', new FormControl('', [Validators.required, Validators.pattern(/^$|^https?:\/\//)]));
-    } else {
-      this.dateForm.removeControl('onlineLink');
-    }
+    event.checked
+      ? this.dateForm.addControl('onlineLink', new FormControl('', [Validators.required, Validators.pattern(/^$|^https?:\/\//)]))
+      : this.dateForm.removeControl('onlineLink');
   }
 
   checkIfOffline(event: MatCheckboxChange): void {
@@ -93,8 +91,7 @@ export class EventDateTimePickerComponent implements OnInit, OnChanges {
       this.isOfline = true;
       this.dateForm.addControl('place', new FormControl('', [Validators.required]));
       setTimeout(() => this.setPlaceAutocomplete(), 0);
-    }
-    if (!event.checked) {
+    } else {
       this.isOfline = false;
       this.coordinates.latitude = null;
       this.coordinates.longitude = null;

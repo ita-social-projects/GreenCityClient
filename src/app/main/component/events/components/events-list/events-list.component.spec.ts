@@ -64,6 +64,5 @@ describe('EventsListComponent', () => {
     const spy = spyOn((component as any).eventService, 'getEvents').and.returnValue(of(MockReqest));
     component.setPage(3);
     expect(spy).toHaveBeenCalledTimes(1);
-    // expect((component as any).EventsServiceMock.getEvents).toHaveBeenCalledTimes(1);
   });
 });

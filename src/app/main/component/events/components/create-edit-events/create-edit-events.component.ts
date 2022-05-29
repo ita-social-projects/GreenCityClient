@@ -74,22 +74,23 @@ export class CreateEditEventsComponent implements OnInit {
     this.dates[ind].onlineLink = form.onlineLink;
   }
 
-  checkStatus(event: boolean, ind: number): void {
+  public checkStatus(event: boolean, ind: number): void {
     this.dates[ind].valid = event;
   }
 
   public escapeFromCreateEvent(): void {
-    this.router.navigate(['/events']).catch((err) => console.error(err));
+    this.router.navigate(['/events']);
   }
 
-  changeToOpen(): void {
+  public changeToOpen(): void {
     this.isOpen = true;
   }
-  changeToClose(): void {
+
+  public changeToClose(): void {
     this.isOpen = false;
   }
 
-  setDateCount(event: MatSelectChange): void {
+  public setDateCount(event: MatSelectChange): void {
     this.dates.length = +event.value.split(' ')[0];
 
     for (let i = 0; i < this.dates.length; i++) {
@@ -108,14 +109,14 @@ export class CreateEditEventsComponent implements OnInit {
     }
   }
 
-  getImageTosend(imageArr: Array<File>): void {
+  public getImageTosend(imageArr: Array<File>): void {
     this.imgArray = [...imageArr];
   }
 
   public changedEditor(event: EditorChangeContent | EditorChangeSelection): void {
     if (event.event !== 'selection-change') {
       this.editorHTML = event.html;
-      event.text.length < 20 || event.text.length > 63206 ? (this.contentValid = false) : (this.contentValid = true);
+      this.contentValid = !(event.text.length < 20 || event.text.length > 63206);
     }
   }
 
@@ -126,7 +127,7 @@ export class CreateEditEventsComponent implements OnInit {
 
   private checkDates() {
     this.dates.forEach((item) => {
-      !item.valid ? (item.check = true) : (item.check = false);
+      item.check = !item.valid;
     });
 
     for (const value of this.dates) {
@@ -138,7 +139,7 @@ export class CreateEditEventsComponent implements OnInit {
     }
   }
 
-  private getFormattedDate(dateString: Date, hour: number, min = 0) {
+  private getFormattedDate(dateString: Date, hour: number, min: number) {
     const date = new Date(dateString);
     date.setHours(hour, min);
     return date.toString();
@@ -205,7 +206,7 @@ export class CreateEditEventsComponent implements OnInit {
             return throwError(err);
           })
         )
-        .subscribe((res) => {
+        .subscribe(() => {
           this.isPosting = false;
           this.router.navigate(['/events']);
         });
