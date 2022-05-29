@@ -50,10 +50,6 @@ $whitecol: white;
         @include turnoffboxshadow;
       }
 
-      .open:focus {
-        @include turnoffboxshadow;
-      }
-
       .open:not(:disabled):not(.disabled):active {
         background-color: $whitecol;
 
@@ -75,10 +71,6 @@ $whitecol: white;
       .delete:active {
         box-shadow: none;
         background-color: $whitecol;
-      }
-
-      .delete:focus {
-        box-shadow: none;
       }
     }
   }
@@ -132,10 +124,6 @@ $whitecol: white;
 
   .edit:hover {
     background-color: $whitecol;
-  }
-
-  .edit:focus {
-    box-shadow: none;
   }
 
   .edit:not(:disabled):not(.disabled):active {
