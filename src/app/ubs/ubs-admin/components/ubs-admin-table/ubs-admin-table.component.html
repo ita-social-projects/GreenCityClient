@@ -18,7 +18,7 @@
             <i class="fa fa-close" aria-hidden="true"></i>
           </button>
         </div>
-        <div (click)="$event.stopPropagation()" class="accordion scrollbar">
+        <div class="accordion scrollbar" (click)="$event.stopPropagation()">
           <ng-container *ngFor="let column of getColumnsForFiltering(); index as i">
             <div class="accordion-item">
               <div
@@ -191,8 +191,8 @@
       </mat-header-cell>
       <mat-cell
         *matCellDef="let row"
-        (mousedown)="onResizeColumn($event, i)"
         [ngClass]="{ hignlighted: checkIfFilteredBy(column.title.key) }"
+        (mousedown)="onResizeColumn($event, i)"
       >
         <app-table-cell-readonly
           *ngIf="column.editType === 'READ_ONLY'"

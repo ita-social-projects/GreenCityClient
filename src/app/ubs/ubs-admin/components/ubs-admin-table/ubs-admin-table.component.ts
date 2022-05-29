@@ -290,7 +290,7 @@ export class UbsAdminTableComponent implements OnInit, AfterViewChecked, OnDestr
     this.filtersOpened = !this.filtersOpened;
   }
 
-  public toggleTableView() {
+  public toggleTableView(): void {
     this.display = this.display === 'none' ? 'block' : 'none';
     this.isPopupOpen = !this.isPopupOpen;
     if (!this.isPopupOpen) {
