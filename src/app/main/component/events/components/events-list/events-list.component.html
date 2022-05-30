@@ -3,24 +3,66 @@
 
   <div class="cont">
     <h1 class="main-header">{{ 'homepage.events.title' | translate }}</h1>
-    <a class="create" [routerLink]="['create-event']" *ngIf="true">
-      <div id="create-button" class="secondary-global-button">
-        <span id="create-button-text">Create</span>
+    <a class="create" [routerLink]="['create-event']" *ngIf="isLoggedIn">
+      <div class="secondary-global-button create-button">
+        <span class="create-button-text">Create</span>
       </div>
     </a>
   </div>
 
-  <div>
-    <div class="event" *ngFor="let event of eventsList">
-      <img class="eventImage" src="{{ event.titleImage }}" alt="event" />
-      <div class="img-container">
-        <div *ngFor="let image of event.additionalImages">
-          <img class="img" src="{{ image }}" alt="event" />
+  <div class="event-list">
+    <mat-card
+      class="event-list-item"
+      *ngFor="
+        let event of eventsList
+          | paginate
+            : {
+                itemsPerPage: 9,
+                currentPage: page,
+                totalItems: total
+              }
+      "
+    >
+      <div class="image-container">
+        <img class="event-image" src="{{ event.titleImage }}" alt="event" />
+        <div class="event-stars">
+          <span class="fill"></span>
+          <span class="empty"></span>
+          <span class="empty"></span>
+        </div>
+        <div class="event-flags">
+          <span class="flag"></span>
+        </div>
+        <div class="event-title">
+          <h3>{{ event.title }}</h3>
         </div>
       </div>
 
-      <h3>{{ event.title }}</h3>
-      <div [innerHTML]="event.description"></div>
-    </div>
+      <div class="main-container">
+        <div *ngIf="event.dates[0]" class="date-container">
+          <span class="clock"></span>
+          <div class="date">
+            {{ event.dates[0].startDate | date }}
+          </div>
+          <h5>{{ ' | ' }}</h5>
+          <div class="time">{{ event.dates[0].startDate | date: 'shortTime' }}...</div>
+        </div>
+        <div *ngIf="event.dates[0]" class="date-container">
+          <div>
+            <span class="place"></span>
+          </div>
+          <div>
+            {{ 'Here should be adrress' }}
+          </div>
+        </div>
+
+        <div [innerHTML]="event.description"></div>
+
+        <button class="secondary-global-button event-button">More</button>
+        <button class="primary-global-button event-button">Join Event</button>
+      </div>
+    </mat-card>
+
+    <pagination-controls (pageChange)="setPage($event)"></pagination-controls>
   </div>
 </div>
