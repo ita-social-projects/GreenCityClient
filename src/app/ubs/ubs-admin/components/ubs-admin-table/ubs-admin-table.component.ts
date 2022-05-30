@@ -84,7 +84,7 @@ export class UbsAdminTableComponent implements OnInit, AfterViewChecked, OnDestr
   dataForPopUp = [];
   uneditableStatuses = ['CANCELED', 'DONE'];
   noFiltersApplied = true;
-  filtersOpened = false;
+  isFiltersOpened = false;
   public showPopUp: boolean;
   resizableMousemove: () => void;
   resizableMouseup: () => void;
@@ -287,7 +287,7 @@ export class UbsAdminTableComponent implements OnInit, AfterViewChecked, OnDestr
   }
 
   public toggleFilters(): void {
-    this.filtersOpened = !this.filtersOpened;
+    this.isFiltersOpened = !this.isFiltersOpened;
   }
 
   public toggleTableView(): void {
@@ -674,11 +674,11 @@ export class UbsAdminTableComponent implements OnInit, AfterViewChecked, OnDestr
     this.adminTableService.setColumnsForFiltering(columns);
   }
 
-  checkForCheckedBoxes(column) {
+  checkForCheckedBoxes(column): boolean {
     return column.values.some((item) => item.filtered);
   }
 
-  checkIfFilteredBy(columnKey) {
+  checkIfFilteredBy(columnKey): boolean {
     let key: string;
     if (columnKey === 'paymentDate') {
       key = 'paymentDateFrom';

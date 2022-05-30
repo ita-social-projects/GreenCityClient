@@ -253,10 +253,10 @@ describe('UsbAdminTableComponent', () => {
   });
 
   it('toggleFilters expect set filtersOpened to !filtersOpened', () => {
-    component.filtersOpened = false;
+    component.isFiltersOpened = false;
     component.toggleFilters();
 
-    expect(component.filtersOpened).toEqual(true);
+    expect(component.isFiltersOpened).toEqual(true);
   });
 
   it('togglePopUp expect store.dispatch have been called', () => {

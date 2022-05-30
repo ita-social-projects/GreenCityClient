@@ -11,7 +11,7 @@
         <mat-icon>filter_list</mat-icon>
         {{ 'ubs-tables.filters' | translate }}
       </button>
-      <div [ngClass]="{ show: filtersOpened }" class="dropdown-menu dropdown-menu-right">
+      <div [ngClass]="{ show: isFiltersOpened }" class="dropdown-menu dropdown-menu-right">
         <div class="sticky-top filter-close-btn">
           <p class="font-weight-bold">{{ 'ubs-tables.filters' | translate }}</p>
           <button type="button" class="reset-settings" (click)="toggleFilters()">
