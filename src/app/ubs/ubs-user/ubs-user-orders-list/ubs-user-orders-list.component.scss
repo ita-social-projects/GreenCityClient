@@ -79,17 +79,17 @@
   display: flex;
   flex-direction: row;
   align-items: center;
-  margin-left: 30px;
+  margin-left: 25px;
 
   .btn_grid_cancel,
   .btn_grid_pay,
   .btn_grid_fake {
-    width: 114px;
-    margin: 0 20px 0 0;
+    width: 100px;
+    margin: 0 15px 0 0;
 
     .btn_pay {
       height: 36px;
-      width: 114px;
+      width: 100px;
       border: none;
       color: var(--ubs-primary-white);
       padding: 8px 20px 8px 20px;
@@ -99,7 +99,7 @@
 
     .btn_cancel {
       height: 36px;
-      width: 114px;
+      width: 100px;
       color: var(--ubs-quaternary-dark-grey);
       background: var(--ubs-primary-white);
       border: 1px solid var(--ubs-primary-green);
