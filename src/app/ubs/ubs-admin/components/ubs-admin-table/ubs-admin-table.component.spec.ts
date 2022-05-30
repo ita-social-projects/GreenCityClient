@@ -19,11 +19,14 @@ import { Observable, of } from 'rxjs';
 import { MatDialogConfig } from '@angular/material/dialog';
 import { ServerTranslatePipe } from 'src/app/shared/translate-pipe/translate-pipe.pipe';
 import { MatTooltipModule } from '@angular/material/tooltip';
+import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
 
 describe('UsbAdminTableComponent', () => {
   let component: UbsAdminTableComponent;
   let fixture: ComponentFixture<UbsAdminTableComponent>;
   const storeMock = jasmine.createSpyObj('store', ['select', 'dispatch']);
+  const localStorageServiceMock = jasmine.createSpyObj('localStorageService', ['']);
+  localStorageServiceMock.languageBehaviourSubject = of('ua');
 
   const FakeMatDialogConfig = {};
 
@@ -48,7 +51,8 @@ describe('UsbAdminTableComponent', () => {
       declarations: [UbsAdminTableComponent, ServerTranslatePipe],
       providers: [
         { provide: Store, useValue: storeMock },
-        { provide: MatDialogConfig, useValue: FakeMatDialogConfig }
+        { provide: MatDialogConfig, useValue: FakeMatDialogConfig },
+        { provide: LocalStorageService, useValue: localStorageServiceMock }
       ],
       schemas: [CUSTOM_ELEMENTS_SCHEMA]
     }).compileComponents();
@@ -58,6 +62,10 @@ describe('UsbAdminTableComponent', () => {
     storeMock.select = () => of(false);
     fixture = TestBed.createComponent(UbsAdminTableComponent);
     component = fixture.componentInstance;
+    spyOn(component.modelChanged, 'pipe').and.returnValue(of({}));
+    component.ordersViewParameters$ = of(false) as any;
+    component.bigOrderTableParams$ = of(false) as any;
+    component.bigOrderTable$ = of(false) as any;
     fixture.detectChanges();
   });
 
@@ -66,7 +74,6 @@ describe('UsbAdminTableComponent', () => {
   });
 
   it('ngOnInit', () => {
-    spyOn(component.modelChanged, 'pipe').and.returnValue(of({}));
     component.ngOnInit();
     expect(component.modelChanged.pipe).toHaveBeenCalled();
   });
@@ -77,8 +84,7 @@ describe('UsbAdminTableComponent', () => {
   });
 
   it('ordersViewParameters$ expect displayedColumns should be [title]', () => {
-    storeMock.select = () => of({ titles: 'title' });
-    component.ordersViewParameters$ = (component as any).store.select();
+    component.ordersViewParameters$ = of({ titles: 'title' });
     component.ngOnInit();
     component.ordersViewParameters$.subscribe((item: any) => {
       expect(component.displayedColumns).toEqual(['title']);
@@ -87,8 +93,7 @@ describe('UsbAdminTableComponent', () => {
 
   it('bigOrderTable$ expect changeView has call', () => {
     spyOn(component, 'changeView');
-    storeMock.select = () => of({ number: 2, totalElements: 10, content: [{ content: 'content' }], totalPages: 1 });
-    component.bigOrderTable$ = (component as any).store.select();
+    component.bigOrderTable$ = of({ number: 2, totalElements: 10, content: [{ content: 'content' }], totalPages: 1 }) as any;
     component.ngOnInit();
     component.bigOrderTable$.subscribe((items: any) => {
       expect(component.currentPage).toBe(2);
@@ -98,8 +103,7 @@ describe('UsbAdminTableComponent', () => {
   });
 
   it('bigOrderTable$ expect totalElements to be 10 ', () => {
-    storeMock.select = () => of({ number: 2, totalElements: 10, content: [{ content: 'content' }], totalPages: 1 });
-    component.bigOrderTable$ = (component as any).store.select();
+    component.bigOrderTable$ = of({ number: 2, totalElements: 10, content: [{ content: 'content' }], totalPages: 1 }) as any;
     component.firstPageLoad = true;
     component.ngOnInit();
     component.bigOrderTable$.subscribe((items: any) => {
@@ -111,29 +115,28 @@ describe('UsbAdminTableComponent', () => {
     spyOn(component, 'setColumnsForFiltering');
     spyOn(component, 'sortColumnsToDisplay');
     spyOn(component as any, 'getTable');
-    storeMock.select = () =>
-      of({
-        columnBelongingList: ['columnBelongingList'],
-        columnDTOList: [
-          {
-            columnBelonging: 'string',
-            editType: 'string',
-            filtered: false,
-            index: 1,
-            title: { key: 'key', ua: 'ua', en: 'en', filtered: false }
-          }
-        ],
-        orderSearchCriteria: {},
-        page: {}
-      });
-    component.bigOrderTableParams$ = (component as any).store.select();
+    const bigOrderTableParamsMock = of({
+      columnBelongingList: ['columnBelongingList'],
+      columnDTOList: [
+        {
+          columnBelonging: 'string',
+          editType: 'string',
+          filtered: false,
+          index: 1,
+          title: { key: 'key', ua: 'ua', en: 'en', filtered: false }
+        }
+      ],
+      orderSearchCriteria: {},
+      page: {}
+    });
+    component.bigOrderTableParams$ = bigOrderTableParamsMock as any;
     component.isStoreEmpty = true;
     component.ngOnInit();
     component.bigOrderTableParams$.subscribe((columns: any) => {
       expect(component.tableViewHeaders).toEqual(['columnBelongingList']);
       expect(component.displayedColumnsViewTitles).toEqual(['key']);
       expect(component.setColumnsForFiltering).toHaveBeenCalledTimes(1);
-      expect((component as any).getTable).toHaveBeenCalledTimes(1);
+      expect((component as any).getTable).toHaveBeenCalled();
       expect(component.sortColumnsToDisplay).toHaveBeenCalledTimes(2);
     });
   });
