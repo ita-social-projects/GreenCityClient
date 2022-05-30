@@ -1,7 +1,7 @@
 {
   "input-error": {
     "required": "This field is required.",
-    "email-wrong": "Enter the correct email.",
+    "email-wrong": "Please enter the correct email.",
     "number-wrong": "Enter the correct phone number",
     "minlength-short": "The field contains insufficient characters.",
     "max-length": "Maximum number of characters exceeded.",
@@ -112,7 +112,7 @@
     "subtitle-second": "number of extras to the UBS Courier, provided that you meet the following simple conditions:",
     "aluminum": "aluminum cans (put in a separate sack/bag and tie);",
     "metal": "household metal (it always tears plastic bags, so it is better to give it in a sack/box);",
-    "bottles": "Transparent PET bottles used for drinks (put in a separate sack/bag and tie);",
+    "bottles": "transparent PET bottles used for drinks (put in a separate sack/bag and tie);",
     "cardboard": "corrugated cardboard (separate the tape, stickers and all metal staples, and to make it easy to transport, fold it so that it is flat);",
     "polyfoam": "polyfoam (only if the volume of the package does not exceed 120l per export).",
     "condition1": "When ordering the service, indicate that you plan to give the Courier free items, as well as their volume.",
@@ -281,8 +281,9 @@
           "pre_2": "Courier waiting time is 2-9 business days."
         },
         "content": {
-          "pre_1": "Along with the export of recyclable materials, you can also order eco-goods from our NoWaste Shop.",
-          "pre_2": "Delivery of goods is free of charge for UBS Courier customers."
+          "pre_1": "Along with the export of recyclable materials, you can also order eco-goods from our ",
+          "pre_2": "Delivery of goods is free of charge for UBS Courier customers.",
+          "link": "NOWASTE Shop."
         },
         "button": "Order Courier"
       }
