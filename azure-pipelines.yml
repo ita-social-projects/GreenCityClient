@@ -1,0 +1,40 @@
+# Node.js
+
+# Build a general Node.js project with npm.
+# Add steps that analyze code, save build artifacts, deploy, and more:
+# https://docs.microsoft.com/azure/devops/pipelines/languages/javascript
+
+trigger:
+- master
+- dev
+
+variables:
+  agentOS: ubuntu-latest
+  docker_repo: skyere/greencity-front
+
+stages:
+- stage: Build
+  jobs: 
+  - job: Build
+    pool:
+      vmImage: $(agentOS)
+    steps:
+
+    - task: Docker@2
+      inputs:
+        containerRegistry: 'Dockerhub_Skyere'
+        repository: '$(docker_repo)'
+        command: 'build'
+        Dockerfile: 'Dockerfile'
+        tags: |
+          $(Build.BuildId)
+          latest
+    
+    - task: Docker@2
+      inputs:
+        containerRegistry: 'Dockerhub_Skyere'
+        repository: '$(docker_repo)'
+        command: 'push'
+        tags: |
+          $(Build.BuildId)
+          latest
