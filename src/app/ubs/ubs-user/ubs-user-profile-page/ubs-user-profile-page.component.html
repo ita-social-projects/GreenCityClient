@@ -14,7 +14,7 @@
           </ng-container>
         </div>
       </div>
-      <div class="input-group input-group-sm">
+      <div role="form" tabindex="0" id="form" class="input-group input-group-sm">
         <form *ngIf="!isFetching; else spinner" [formGroup]="userForm">
           <h5 [ngClass]="{ h5MarginBottom: isEditing }">{{ 'ubs-client-profile.personal' | translate }}</h5>
           <div class="personal inline">
@@ -70,7 +70,7 @@
               }}</label>
             </div>
           </div>
-          <div class="checkbox-wrapper">
+          <div tabindex="0" role="checkbox" class="checkbox-wrapper">
             <mat-checkbox class="check" type="checkbox" value="id1">Telegram</mat-checkbox>
             <mat-checkbox class="check" type="checkbox" value="id1">Viber</mat-checkbox>
           </div>
