@@ -41,7 +41,7 @@
         </div>
       </mat-tab>
     </mat-tab-group>
-    <div *ngIf="moreThenOnePage">
+    <div *ngIf="isMoreThenOnePage">
       <pagination-controls (pageChange)="onPageChange($event)" class="user-orders-pagination"></pagination-controls>
     </div>
     <div class="empty"></div>

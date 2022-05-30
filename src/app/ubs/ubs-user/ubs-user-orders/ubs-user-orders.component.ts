@@ -27,7 +27,7 @@ export class UbsUserOrdersComponent implements OnInit, OnDestroy {
   numberOfHistoryOrders: number;
   currentOrdersOnPage = 10;
   historyOrdersOnPage = 10;
-  moreThenOnePage: boolean;
+  isMoreThenOnePage: boolean;
 
   constructor(
     private router: Router,
@@ -86,7 +86,7 @@ export class UbsUserOrdersComponent implements OnInit, OnDestroy {
         this.orderHistory = table === 'history' ? this.orders : this.orderHistory;
 
         if (this.numberOfCurrentOrders && this.numberOfHistoryOrders) {
-          this.moreThenOnePage = this.numberOfCurrentOrders > 10 || this.numberOfHistoryOrders > 10;
+          this.isMoreThenOnePage = this.numberOfCurrentOrders > 10 || this.numberOfHistoryOrders > 10;
         }
       });
   }
