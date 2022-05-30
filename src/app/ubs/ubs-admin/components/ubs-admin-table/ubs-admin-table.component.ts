@@ -30,7 +30,6 @@ import {
   GetTable,
   SetColumnToDisplay
 } from 'src/app/store/actions/bigOrderTable.actions';
-import { ItemsList } from '@ng-select/ng-select/lib/items-list';
 
 @Component({
   selector: 'app-ubs-admin-table',
@@ -403,8 +402,8 @@ export class UbsAdminTableComponent implements OnInit, AfterViewChecked, OnDestr
     let sortedOrders = this.tableData.filter((el) => this.idsToChange.includes(el.id));
     sortedOrders = sortedOrders
       .map((e) => keysForEditDetails.filter((elem) => e[elem] === null || e[elem] === ''))
-      .filter((array) => array.length !== 0);
-    this.showPopUp = sortedOrders.length !== 0 ? true : false;
+      .filter((arrayList) => arrayList?.length !== 0);
+    this.showPopUp = sortedOrders.length !== 0;
   }
   selectRowsToChange(event, id: number): void {
     if (event.checked) {
@@ -630,7 +629,8 @@ export class UbsAdminTableComponent implements OnInit, AfterViewChecked, OnDestr
           undisplayedColumns.push(this.columns[column]);
         }
       }
-      undisplayedColumns.length = undisplayedColumns.length % this.columns.length;
+      undisplayedColumns.length =
+        undisplayedColumns.length % this.columns.length >= 0 ? undisplayedColumns.length % this.columns.length : 0;
       for (let i = 0; i < undisplayedColumns.length; i++) {
         this.columns.push(this.columns[i]);
       }
