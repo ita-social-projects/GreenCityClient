@@ -66,3 +66,10 @@ export enum CheckOrderStatus {
   FORMED = 'Formed',
   ADJUSTMENT = 'Adjustment'
 }
+
+export interface IUserOrdersInfo {
+  currentPage: number;
+  page: IUserOrderInfo[];
+  totalElements: number;
+  totalPages: number;
+}
