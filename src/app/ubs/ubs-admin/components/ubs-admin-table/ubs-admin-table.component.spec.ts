@@ -134,7 +134,7 @@ describe('UsbAdminTableComponent', () => {
       expect(component.displayedColumnsViewTitles).toEqual(['key']);
       expect(component.setColumnsForFiltering).toHaveBeenCalledTimes(1);
       expect((component as any).getTable).toHaveBeenCalledTimes(1);
-      expect(component.sortColumnsToDisplay).toHaveBeenCalledTimes(1);
+      expect(component.sortColumnsToDisplay).toHaveBeenCalledTimes(2);
     });
   });
 
@@ -226,29 +226,35 @@ describe('UsbAdminTableComponent', () => {
     component.displayedColumnsView.length = 4;
     component.displayedColumns = ['title1', 'title2', 'title4'];
     component.changeColumns(true, 'title3', 2);
-
     expect(component.isAllColumnsDisplayed).toBe(true);
   });
 
   it('changeColumns expect component.isAllColumnsDisplayed to be false', () => {
+    component.columns = [{ title: { key: 'title1' } }, { title: { key: 'title2' } }, { title: { key: 'title3' } }];
     component.isAllColumnsDisplayed = true;
     component.displayedColumns.length = 4;
-    component.displayedColumns = ['title1', 'title2', 'title3', 'title4'];
-    component.changeColumns(false, 'title2', 1);
+    component.displayedColumns = ['title1', 'title2', 'title3'];
+    component.changeColumns(false, 'title2', 2);
     expect(component.isAllColumnsDisplayed).toBe(false);
   });
 
-  it('changeColumns expect to filter columns when box is unchecked', () => {
-    component.displayedColumns = ['title1', 'title2', 'title3', 'title4'];
-    component.changeColumns(false, 'title3', 2);
-
-    expect(component.displayedColumns).toEqual(['title1', 'title2', 'title4']);
+  it('sortColumnsToDisplay expect to filter columns when box is unchecked', () => {
+    component.columns = [{ title: { key: 'title1' } }, { title: { key: 'title2' } }, { title: { key: 'title3' } }];
+    component.displayedColumns = ['title1', 'title2', 'title3'];
+    component.changeColumns(false, 'title1', 1);
+    component.sortColumnsToDisplay();
+    expect(component.columns).toEqual([
+      { title: { key: 'title2' }, index: 0 },
+      { title: { key: 'title3' }, index: 1 },
+      { title: { key: 'title1' }, index: 2 }
+    ]);
   });
 
   it('changeColumns expect to add column when box is checked ', () => {
+    component.columns = [{ title: { key: 'title1' } }, { title: { key: 'title2' } }, { title: { key: 'title4' } }];
     component.displayedColumns = ['title1', 'title2', 'title4'];
     component.changeColumns(true, 'title3', 2);
-
+    component.sortColumnsToDisplay();
     expect(component.displayedColumns).toEqual(['title1', 'title2', 'title3', 'title4']);
   });
 
@@ -555,11 +561,11 @@ describe('UsbAdminTableComponent', () => {
     expect(component.dialog.open).toHaveBeenCalledTimes(1);
   });
 
-  it('sortColumnsToDisplay expect columns.length to be 1', () => {
+  it('sortColumnsToDisplay expect columns.length to be 3', () => {
     component.columns = [{ title: { key: 'key' } }, { title: { key: 'gg' } }, { title: { key: 'dd' } }];
     component.displayedColumns = ['key', 'kol'];
     component.sortColumnsToDisplay();
-    expect(component.columns.length).toBe(1);
+    expect(component.columns.length).toBe(3);
   });
 
   it('onResizeColumn', () => {
