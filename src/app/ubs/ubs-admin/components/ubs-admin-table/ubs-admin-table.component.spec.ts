@@ -258,18 +258,18 @@ describe('UsbAdminTableComponent', () => {
     expect(component.displayedColumns).toEqual(['title1', 'title2', 'title3', 'title4']);
   });
 
-  it('closeFilters expect set display to none ', () => {
-    component.display = 'block';
-    component.closeFilters();
+  it('toggleFilters expect set filtersOpened to !filtersOpened', () => {
+    component.isFiltersOpened = false;
+    component.toggleFilters();
 
-    expect(component.display).toEqual('none');
+    expect(component.isFiltersOpened).toEqual(true);
   });
 
   it('togglePopUp expect store.dispatch have been called', () => {
     storeMock.dispatch.calls.reset();
     component.displayedColumns = ['1', '2'];
     component.isPopupOpen = true;
-    component.togglePopUp();
+    component.toggleTableView();
     expect(component.previousSettings).toEqual(['1', '2']);
     expect((component as any).store.dispatch).toHaveBeenCalledTimes(1);
   });
@@ -613,5 +613,38 @@ describe('UsbAdminTableComponent', () => {
     component.tableData = [{ id: 1, orderStatus: 'DONE' }];
     const Res = component.checkStatusOfOrders(1);
     expect(Res).toBe(true);
+  });
+
+  it('checkForCheckedBoxes', () => {
+    const column = {
+      key: 'orderStatus',
+      en: 'orderStatus',
+      ua: 'Статус замовлення',
+      values: [
+        {
+          key: 'done',
+          en: 'done',
+          ua: 'виконано',
+          filtered: true
+        },
+        {
+          key: 'formed',
+          en: 'formed',
+          ua: 'сформовано',
+          filtered: false
+        }
+      ]
+    };
+
+    const result = component.checkForCheckedBoxes(column);
+
+    expect(result).toBe(true);
+  });
+
+  it('checkIfFilteredBy', () => {
+    (component as any).adminTableService.filters = [{ orderStatus: 'done' }];
+    const result = component.checkIfFilteredBy('orderStatus');
+
+    expect(result).toBe(true);
   });
 });

@@ -87,6 +87,7 @@ export class UbsAdminTableComponent implements OnInit, AfterViewChecked, OnDestr
   stickyColumnsAmount = 4;
   nestedSortProperty = 'title.key';
   noFiltersApplied = true;
+  isFiltersOpened = false;
   public showPopUp: boolean;
   resizableMousemove: () => void;
   resizableMouseup: () => void;
@@ -297,11 +298,11 @@ export class UbsAdminTableComponent implements OnInit, AfterViewChecked, OnDestr
     this.sortColumnsToDisplay();
   }
 
-  public closeFilters(): void {
-    this.display = 'none';
+  public toggleFilters(): void {
+    this.isFiltersOpened = !this.isFiltersOpened;
   }
 
-  public togglePopUp() {
+  public toggleTableView(): void {
     this.display = this.display === 'none' ? 'block' : 'none';
     this.isPopupOpen = !this.isPopupOpen;
     if (!this.isPopupOpen) {
@@ -566,6 +567,7 @@ export class UbsAdminTableComponent implements OnInit, AfterViewChecked, OnDestr
     this.setColumnsForFiltering(columnsForFiltering);
     this.adminTableService.setFilters([]);
     this.applyFilters();
+    this.noFiltersApplied = true;
   }
 
   public applyFilters() {
@@ -709,6 +711,21 @@ export class UbsAdminTableComponent implements OnInit, AfterViewChecked, OnDestr
 
   setColumnsForFiltering(columns): void {
     this.adminTableService.setColumnsForFiltering(columns);
+  }
+
+  checkForCheckedBoxes(column): boolean {
+    return column.values.some((item) => item.filtered);
+  }
+
+  checkIfFilteredBy(columnKey): boolean {
+    let key: string;
+    if (columnKey === 'paymentDate') {
+      key = 'paymentDateFrom';
+    } else {
+      key = columnKey === 'orderDate' ? 'orderDateFrom' : columnKey;
+    }
+
+    return this.adminTableService.filters ? this.adminTableService.filters.some((obj) => Object.keys(obj)[0] === key) : false;
   }
 
   checkStatusOfOrders(id: number): boolean {
