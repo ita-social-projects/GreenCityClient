@@ -29,10 +29,7 @@ export class SearchAllResultsComponent implements OnInit, OnDestroy {
   public inputValue: string;
   public isLoading = true;
   public searchIcons = searchIcons;
-  public filterByItems: FilterByitem[] = [
-    { category: 'econews', name: 'news' },
-    { category: 'tipsandtricks', name: 'tips' }
-  ];
+  public filterByItems: FilterByitem[] = [{ category: 'econews', name: 'news' }];
   private destroySub: Subject<boolean> = new Subject<boolean>();
 
   constructor(private search: SearchService, private route: ActivatedRoute, private router: Router) {}
