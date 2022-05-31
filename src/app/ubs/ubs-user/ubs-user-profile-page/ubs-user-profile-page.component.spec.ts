@@ -136,7 +136,7 @@ describe('UbsUserProfilePageComponent', () => {
     expect(spiner).toBeDefined();
   });
 
-  it('Form should be defined by clicking on the edit button', fakeAsync(() => {
+  xit('Form should be defined by clicking on the edit button', fakeAsync(() => {
     const editButton = fixture.debugElement.query(By.css('.edit')).nativeElement;
     editButton.click();
     tick();
