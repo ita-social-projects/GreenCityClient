@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, ElementRef, OnInit, ViewChild, AfterViewInit } from '@angular/core';
 import { FormControl, FormGroup, Validators, FormArray } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { SignInIcons } from 'src/app/main/image-pathes/sign-in-icons';
@@ -35,10 +35,14 @@ export class UbsUserProfilePageComponent implements OnInit {
   googleIcon = SignInIcons.picGoogle;
   isEditing = false;
   isFetching = false;
+  focusInput: any;
   phoneMask = '+{38\\0} (00) 000 00 00';
   private readonly regexp = /^([a-zа-яїєґі '-])+$/iu;
   private readonly regexpEmail = /^[a-zA-Z0-9.!#$%&’*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/;
   private readonly regexpWithDigits = /^([a-zа-яїєґі0-9 '-])+$/iu;
+
+  @ViewChild('focusFirst', { static: true }) focusFirst: ElementRef;
+  @ViewChild('focusLast', { static: true }) focusLast: ElementRef;
 
   constructor(public dialog: MatDialog, private clientProfileService: ClientProfileService, private snackBar: MatSnackBarComponent) {}
 
@@ -95,6 +99,12 @@ export class UbsUserProfilePageComponent implements OnInit {
   onEdit() {
     this.isEditing = true;
     this.isFetching = false;
+    setTimeout(() => this.onClick());
+  }
+
+  onClick() {
+    this.focusInput = document.getElementById('recipientName');
+    this.focusInput.focus();
   }
 
   onCancel() {
