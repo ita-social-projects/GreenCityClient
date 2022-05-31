@@ -231,7 +231,8 @@
       "preparing": {
         "caption": "How to prepare?",
         "content": {
-          "li_1": "Check out our Rules of sorting wastes (link).",
+          "li_1": "Check out our Rules of sorting wastes",
+          "li_1.1": "link",
           "li_2": "Everything you give to the Courier needs to be clean and dry – it’s a must-have.",
           "li_3": "Recyclables and non-recyclable plastics can be put together in one package/sack of a 120 liters size - we will re-sort everything.",
           "li_4": "We accept textile wastes (damaged clothes) for the utilization in separate packages of 120l or 20l.",

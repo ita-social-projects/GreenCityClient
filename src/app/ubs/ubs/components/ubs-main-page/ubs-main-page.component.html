@@ -25,9 +25,11 @@
         <h2>{{ 'ubs-homepage.ubs-courier.preparing.caption' | translate }}</h2>
         <ul>
           <li>
-            <a href="https://nowaste.com.ua/yak-sortyvaty-na-karantuni/" target="_blank">{{ preparingContent[0] | translate }}</a>
+            {{ preparingContent[0] | translate }}
+            (<a href="https://nowaste.com.ua/sort-station/" target="_blank">{{ preparingContent[1] | translate }}</a
+            >).
           </li>
-          <li *ngFor="let li of preparingContent | slice: 1">
+          <li *ngFor="let li of preparingContent | slice: 2">
             {{ li | translate }}
           </li>
         </ul>
