@@ -480,14 +480,11 @@ describe('UsbAdminTableComponent', () => {
   });
 
   it('showTooltip', () => {
-    const tooltip = {
-      toggle() {
-        return true;
-      }
-    };
-    spyOn(tooltip, 'toggle');
+    const event = jasmine.createSpyObj('event', ['stopImmediatePropagation']);
+    const tooltip = jasmine.createSpyObj('tooltip', ['toggle', 'show', 'hide']);
+
     component.currentLang = 'ua';
-    component.showTooltip({ ua: 'title on Ukrainian', en: '' }, tooltip);
+    component.showTooltip(event, { ua: 'title on Ukrainian', en: '' }, tooltip);
     expect(tooltip.toggle).toHaveBeenCalledTimes(1);
   });
 

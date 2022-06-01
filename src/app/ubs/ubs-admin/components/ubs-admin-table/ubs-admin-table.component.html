@@ -159,9 +159,9 @@
             #tooltip="matTooltip"
             class="column-title"
             [matTooltip]="column.title | serverTranslate: currentLang"
-            (mouseenter)="$event.stopImmediatePropagation()"
-            (mouseleave)="$event.stopImmediatePropagation()"
-            (click)="showTooltip(column.title, tooltip)"
+            (mouseenter)="showTooltip($event, column.title, tooltip)"
+            (mouseleave)="showTooltip($event, column.title, tooltip)"
+            (click)="showTooltip($event, column.title, tooltip)"
           >
             {{ column.title | serverTranslate: currentLang }}
           </div>
