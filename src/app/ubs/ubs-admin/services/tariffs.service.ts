@@ -83,7 +83,7 @@ export class TariffsService {
     return this.http.put(`${mainUbsLink}/ubs/superAdmin/update-courier`, newCourier);
   }
 
-  editLocation(newLocation) {
-    return this.http.put(`${mainUbsLink}/ubs/superAdmin/update-location`, newLocation);
+  editLocationName(newLocation) {
+    return this.http.put(`${mainUbsLink}/ubs/superAdmin/locations/update`, newLocation);
   }
 }

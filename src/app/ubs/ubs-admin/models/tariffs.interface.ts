@@ -84,3 +84,9 @@ interface Location {
   languageCode: string;
   locationName: string;
 }
+
+export interface EditLocationName {
+  location: string;
+  englishLocation: string;
+  locationId: number;
+}

@@ -11,8 +11,11 @@
         <img [src]="icons.arrowRight" class="arrowRight-img" alt="settings" />
       </button>
       <button mat-menu-item [matMenuTriggerFor]="edit" class="add-button">
-        <span class="menu-item">{{ 'ubs-tariffs.btn.edit' | translate }}</span>
+        <span class="menu-item">{{ 'ubs-tariffs.btn.edit_name' | translate }}</span>
         <img [src]="icons.arrowRight" class="arrowRight-img" alt="settings" />
+      </button>
+      <button mat-menu-item>
+        <span class="menu-item">{{ 'ubs-tariffs.btn.create_card' | translate }}</span>
       </button>
       <button mat-menu-item (click)="openDeactivateLocation()">
         <span class="menu-item">{{ 'ubs-tariffs.btn.deactivation' | translate }}</span>
@@ -152,7 +155,7 @@
 </div>
 <table class="table-location">
   <thead *ngIf="filteredLocations?.length !== 0">
-    <tr>
+     <tr>
       <th id="region">{{ 'ubs-tariffs.region' | translate }}</th>
       <th id="city">{{ 'ubs-tariffs.city' | translate }}</th>
       <th id="courier">{{ 'ubs-tariffs.courier' | translate }}</th>
@@ -189,7 +192,7 @@
         <img class="tariff-img mr-3" [src]="icons.crumbs" alt="crumbs" />
       </td>
       <mat-menu #crumbs="matMenu">
-        <button mat-menu-item (click)="openEditLocation()">
+        <button mat-menu-item>
           <span class="menu-item">{{ 'ubs-tariffs.btn.edit' | translate }}</span>
         </button>
         <button mat-menu-item (click)="openDeactivateLocation()">
@@ -204,7 +207,7 @@
           <span class="menu-item">{{ 'ubs-tariffs.btn.restore' | translate }}</span>
         </button>
       </mat-menu>
-    </tr>
+    </tr> 
   </tbody>
   <tbody *ngIf="locationCard && filteredLocations">
     <tr *ngFor="let location of locationCard" [ngClass]="{ 'disabled-col': location.status === 'Неактивно' }">
@@ -227,7 +230,7 @@
         <img class="tariff-img mr-3" [src]="icons.crumbs" alt="crumbs" />
       </td>
       <mat-menu #crumbs="matMenu">
-        <button mat-menu-item (click)="openEditLocation()">
+        <button mat-menu-item>
           <span class="menu-item">{{ 'ubs-tariffs.btn.edit' | translate }}</span>
         </button>
         <button mat-menu-item (click)="openDeactivateLocation()">
