@@ -41,6 +41,8 @@ describe('EcoNewsDetailComponent', () => {
       name: 'John Snow'
     },
     tags: ['Events', 'Education'],
+    tagsEn: ['Events', 'Education'],
+    tagsUa: ['Події', 'Освіта'],
     creationDate: '2020-06-16T18:08:00.604Z',
     likes: 0,
     countComments: 2,
@@ -69,6 +71,12 @@ describe('EcoNewsDetailComponent', () => {
     fixture = TestBed.createComponent(EcoNewsDetailComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
+  });
+
+  beforeEach(() => {
+    component.newsItem = mockEcoNewsModel;
+    spyOn((component as any).localStorageService, 'getCurrentLanguage').and.returnValue('en');
+    spyOn((component as any).localStorageService, 'getPreviousPage').and.returnValue('/news');
   });
 
   it('should create', () => {
@@ -109,9 +117,10 @@ describe('EcoNewsDetailComponent', () => {
     expect((component as any).canUserEditNews).toHaveBeenCalledTimes(1);
   });
 
-  it('checkNewsImage should return existing image src', () => {
-    component.newsItem = mockEcoNewsModel;
+  fit('checkNewsImage should return existing image src', () => {
     component.newsItem.imagePath = defaultImagePath;
+    component.newsItem = mockEcoNewsModel;
+    console.log(component.newsItem);
     const imagePath = component.checkNewsImage();
     expect(imagePath).toEqual(defaultImagePath);
   });

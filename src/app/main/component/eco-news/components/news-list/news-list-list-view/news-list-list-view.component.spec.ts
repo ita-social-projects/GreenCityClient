@@ -27,6 +27,8 @@ describe('NewsListListViewComponent', () => {
       name: 'string'
     },
     tags: ['test'],
+    tagsEn: ['test'],
+    tagsUa: ['test'],
     creationDate: '11',
     likes: 0,
     shortInfo: 'info',

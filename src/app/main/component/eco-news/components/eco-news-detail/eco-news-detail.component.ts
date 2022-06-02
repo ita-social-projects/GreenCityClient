@@ -5,7 +5,7 @@ import { Subject } from 'rxjs';
 import { EcoNewsService } from '@eco-news-service/eco-news.service';
 import { EcoNewsModel } from '@eco-news-models/eco-news-model';
 import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
-import { take } from 'rxjs/operators';
+import { take, takeUntil } from 'rxjs/operators';
 import { Store } from '@ngrx/store';
 import { IAppState } from 'src/app/store/state/app.state';
 import { IEcoNewsState } from 'src/app/store/state/ecoNews.state';
@@ -20,6 +20,8 @@ export class EcoNewsDetailComponent implements OnInit, OnDestroy {
   public images = singleNewsImages;
   public userId: number;
   public isLiked: boolean;
+  public tags: Array<string>;
+  public currentLang: string;
   public likesType = {
     like: 'assets/img/comments/like.png',
     liked: 'assets/img/comments/liked.png'
@@ -47,6 +49,9 @@ export class EcoNewsDetailComponent implements OnInit, OnDestroy {
       this.getIsLiked();
     }
     this.backRoute = this.localStorageService.getPreviousPage();
+    console.log(this.localStorageService.getCurrentLanguage());
+    console.log(this.localStorageService.getPreviousPage());
+    console.log(this);
 
     this.ecoNewById$.subscribe((value) => {
       if (this.backRoute === '/news') {
@@ -56,10 +61,18 @@ export class EcoNewsDetailComponent implements OnInit, OnDestroy {
         this.newsItem = value.autorNews.find((item) => item.id === +this.newsId);
       }
     });
+    this.currentLang = this.localStorageService.getCurrentLanguage();
+    console.log(this.newsItem);
+    this.tags = this.currentLang === 'ua' || this.currentLang === 'ru' ? this.newsItem.tagsUa : this.newsItem.tagsEn;
+    this.localStorageService.languageSubject.pipe(takeUntil(this.destroy)).subscribe((lang: string) => {
+      this.currentLang = lang;
+      this.tags = this.currentLang === 'ua' || this.currentLang === 'ru' ? this.newsItem.tagsUa : this.newsItem.tagsEn;
+    });
   }
 
   public checkNewsImage(): string {
     this.newsImage = this.newsItem.imagePath && this.newsItem.imagePath !== ' ' ? this.newsItem.imagePath : this.images.largeImage;
+    console.log(this.newsItem);
     return this.newsImage;
   }
 
@@ -90,11 +103,10 @@ export class EcoNewsDetailComponent implements OnInit, OnDestroy {
 
   private shareLinks() {
     const currentPage: string = window.location.href;
-
     return {
       fb: () => `https://www.facebook.com/sharer/sharer.php?u=${currentPage}`,
       linkedin: () => `https://www.linkedin.com/sharing/share-offsite/?url=${currentPage}`,
-      twitter: () => `https://twitter.com/share?url=${currentPage}&text=${this.newsItem.title}&hashtags=${this.newsItem.tags.join(',')}`
+      twitter: () => `https://twitter.com/share?url=${currentPage}&text=${this.newsItem.title}&hashtags=${this.tags.join(',')}`
     };
   }
 

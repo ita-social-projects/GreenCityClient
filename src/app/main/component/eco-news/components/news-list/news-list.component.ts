@@ -1,6 +1,6 @@
 import { Breakpoints } from '../../../../config/breakpoints.constants';
 import { Component, OnInit, OnDestroy } from '@angular/core';
-import { ReplaySubject } from 'rxjs';
+import { Observable, ReplaySubject } from 'rxjs';
 import { take, takeUntil } from 'rxjs/operators';
 import { EcoNewsService } from '@eco-news-service/eco-news.service';
 import { EcoNewsModel, NewsTagInterface } from '@eco-news-models/eco-news-model';
@@ -31,6 +31,7 @@ export class NewsListComponent implements OnInit, OnDestroy {
   public elementsArePresent = true;
   public tagList: string[];
   private destroyed$: ReplaySubject<any> = new ReplaySubject<any>(1);
+  public tags: Observable<Array<NewsTagInterface>>;
 
   public filterPermission = false;
   public hasNext = true;
@@ -51,6 +52,7 @@ export class NewsListComponent implements OnInit, OnDestroy {
     this.checkUserSingIn();
     this.userOwnAuthService.getDataFromLocalStorage();
     this.scroll = false;
+    this.tags = this.ecoNewsService.getAllPresentTags();
     this.setLocalizedTags();
 
     this.dispatchStore(false);
@@ -73,10 +75,13 @@ export class NewsListComponent implements OnInit, OnDestroy {
   }
 
   private getAllTags(): void {
-    this.ecoNewsService
-      .getAllPresentTags()
+    this.tags
       .pipe(take(1))
-      .subscribe((tagsArray: Array<NewsTagInterface>) => (this.tagList = tagsArray.map((tag) => tag.name)));
+      .subscribe((tagsArray: Array<NewsTagInterface>) =>
+        this.localStorageService.getCurrentLanguage() === 'ua' || this.localStorageService.getCurrentLanguage() === 'ru'
+          ? (this.tagList = tagsArray.map((tag) => tag.nameUa))
+          : (this.tagList = tagsArray.map((tag) => tag.name))
+      );
   }
 
   public onResize(): void {

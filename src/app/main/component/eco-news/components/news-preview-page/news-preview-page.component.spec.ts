@@ -101,6 +101,8 @@ describe('NewsPreviewPageComponent', () => {
       creationDate: '2020-10-26T16:43:29.336931Z',
       id: 7777,
       imagePath: 'assets/img/icon/econews/news-default-large.png',
+      tagsEn: ['Events', 'Education'],
+      tagsUa: ['Події', 'Освіта'],
       tags: ['Events', 'Education'],
       content: 'text for itemMock',
       title: 'title for itemMock',

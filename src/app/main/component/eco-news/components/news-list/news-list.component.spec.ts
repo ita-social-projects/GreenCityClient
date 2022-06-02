@@ -26,11 +26,11 @@ describe('NewsListComponent', () => {
   ecoNewsServiceMock = jasmine.createSpyObj('EcoNewsService', ['getAllPresentTags', 'getNewsListByTags', 'getEcoNewsListByPage']);
   ecoNewsServiceMock.getAllPresentTags = () =>
     of([
-      { id: 1, name: 'News' },
-      { id: 2, name: 'Ads' },
-      { id: 3, name: 'Events' },
-      { id: 4, name: 'Initiatives' },
-      { id: 5, name: 'Education' }
+      { id: 1, name: 'News', nameUa: 'Новини' },
+      { id: 2, name: 'Ads', nameUa: 'Реклама' },
+      { id: 3, name: 'Events', nameUa: 'Події' },
+      { id: 4, name: 'Initiatives', nameUa: 'Ініціативи' },
+      { id: 5, name: 'Education', nameUa: 'Освіта' }
     ]);
   ecoNewsServiceMock.getNewsListByTags = () => new Observable();
   ecoNewsServiceMock.getEcoNewsListByPage = () => new Observable();

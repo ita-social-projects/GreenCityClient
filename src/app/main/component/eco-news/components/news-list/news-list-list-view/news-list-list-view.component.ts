@@ -7,12 +7,17 @@ import {
   Renderer2,
   AfterViewChecked,
   ChangeDetectionStrategy,
-  AfterViewInit
+  AfterViewInit,
+  OnInit,
+  OnDestroy
 } from '@angular/core';
 import { EcoNewsModel } from '@eco-news-models/eco-news-model';
 import { TranslateService } from '@ngx-translate/core';
 
 import { possibleDescHeight, possibleTitleHeight } from './breakpoints';
+import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
+import { takeUntil } from 'rxjs/operators';
+import { Subject } from 'rxjs';
 
 @Component({
   selector: 'app-news-list-list-view',
@@ -20,7 +25,7 @@ import { possibleDescHeight, possibleTitleHeight } from './breakpoints';
   styleUrls: ['./news-list-list-view.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class NewsListListViewComponent implements AfterViewChecked, AfterViewInit {
+export class NewsListListViewComponent implements AfterViewChecked, AfterViewInit, OnInit, OnDestroy {
   @Input() ecoNewsModel: EcoNewsModel;
   @Input() ecoNewsText: string;
   @ViewChild('ecoNewsText', { static: true }) text: ElementRef;
@@ -29,12 +34,23 @@ export class NewsListListViewComponent implements AfterViewChecked, AfterViewIni
 
   private smallHeight = 'smallHeight';
   private bigHeight = 'bigHeight';
-  // breakpoints for different line height and font size
 
   public profileIcons = ecoNewsIcons;
   public newsImage: string;
+  public tags: Array<string>;
+  public localStorageService: LocalStorageService;
+  public currentLang: string;
+  private destroy: Subject<boolean> = new Subject<boolean>();
 
   constructor(private renderer: Renderer2, public translate: TranslateService) {}
+  ngOnInit() {
+    this.currentLang = this.localStorageService.getCurrentLanguage();
+    this.tags = this.currentLang === 'ua' || this.currentLang === 'ru' ? this.ecoNewsModel.tagsUa : this.ecoNewsModel.tagsEn;
+    this.localStorageService.languageSubject.pipe(takeUntil(this.destroy)).subscribe((lang: string) => {
+      this.currentLang = lang;
+      this.tags = this.currentLang === 'ua' || this.currentLang === 'ru' ? this.ecoNewsModel.tagsUa : this.ecoNewsModel.tagsEn;
+    });
+  }
 
   ngAfterViewChecked() {
     this.checkHeightOfTittle();
@@ -79,5 +95,10 @@ export class NewsListListViewComponent implements AfterViewChecked, AfterViewIni
     const smallTitleHeight = titleHeight > 26 ? 'two-row' : 'one-row';
     const midTitleHeight = titleHeight > 52 ? 'tree-row' : smallTitleHeight;
     return result ? result : midTitleHeight;
+  }
+
+  ngOnDestroy() {
+    this.destroy.next();
+    this.destroy.unsubscribe();
   }
 }
