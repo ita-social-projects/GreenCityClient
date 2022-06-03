@@ -49,9 +49,6 @@ export class EcoNewsDetailComponent implements OnInit, OnDestroy {
       this.getIsLiked();
     }
     this.backRoute = this.localStorageService.getPreviousPage();
-    console.log(this.localStorageService.getCurrentLanguage());
-    console.log(this.localStorageService.getPreviousPage());
-    console.log(this);
 
     this.ecoNewById$.subscribe((value) => {
       if (this.backRoute === '/news') {
@@ -62,17 +59,18 @@ export class EcoNewsDetailComponent implements OnInit, OnDestroy {
       }
     });
     this.currentLang = this.localStorageService.getCurrentLanguage();
-    console.log(this.newsItem);
-    this.tags = this.currentLang === 'ua' || this.currentLang === 'ru' ? this.newsItem.tagsUa : this.newsItem.tagsEn;
+    this.tags = this.getAllTags();
     this.localStorageService.languageSubject.pipe(takeUntil(this.destroy)).subscribe((lang: string) => {
       this.currentLang = lang;
-      this.tags = this.currentLang === 'ua' || this.currentLang === 'ru' ? this.newsItem.tagsUa : this.newsItem.tagsEn;
+      this.tags = this.getAllTags();
     });
   }
 
+  public getAllTags(): Array<string> {
+    return this.currentLang === 'ua' || this.currentLang === 'ru' ? this.newsItem.tagsUa : this.newsItem.tagsEn;
+  }
   public checkNewsImage(): string {
     this.newsImage = this.newsItem.imagePath && this.newsItem.imagePath !== ' ' ? this.newsItem.imagePath : this.images.largeImage;
-    console.log(this.newsItem);
     return this.newsImage;
   }
 

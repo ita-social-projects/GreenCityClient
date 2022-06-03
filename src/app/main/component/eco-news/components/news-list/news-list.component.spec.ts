@@ -17,6 +17,7 @@ import { SharedModule } from 'src/app/shared/shared.module';
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 
 import { Store } from '@ngrx/store';
+import { Language } from '../../../../i18n/Language';
 
 describe('NewsListComponent', () => {
   let component: NewsListComponent;
@@ -39,10 +40,12 @@ describe('NewsListComponent', () => {
   localStorageServiceMock = jasmine.createSpyObj('LocalStorageService', [
     'userIdBehaviourSubject',
     'languageBehaviourSubject',
-    'setCurentPage'
+    'setCurentPage',
+    'getCurrentLanguage'
   ]);
   localStorageServiceMock.userIdBehaviourSubject = new BehaviorSubject(1111);
   localStorageServiceMock.languageBehaviourSubject = new BehaviorSubject('en');
+  localStorageServiceMock.getCurrentLanguage = () => 'en' as Language;
 
   let userOwnAuthServiceMock: UserOwnAuthService;
   userOwnAuthServiceMock = jasmine.createSpyObj('UserOwnAuthService', ['getDataFromLocalStorage']);

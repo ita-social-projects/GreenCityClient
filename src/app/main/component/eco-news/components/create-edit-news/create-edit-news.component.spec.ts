@@ -138,7 +138,7 @@ describe('CreateEditNewsComponent', () => {
     return new FormGroup({
       title: new FormControl(data.title),
       content: new FormControl(data.content),
-      tags: new FormArray(data.tags),
+      tags: new FormArray([new FormControl(data.tags)]),
       image: new FormControl(data.imagePath),
       source: new FormControl(data.source)
     });
@@ -154,13 +154,13 @@ describe('CreateEditNewsComponent', () => {
     'languageBehaviourSubject',
     'getTagsOfNews',
     'setTagsOfNews',
-    'getCurrentLanguage'
+    'getCurrentLanguage',
+    'setTagsOfNews',
+    'getTagsOfNews'
   ]);
-  localStorageServiceMock.getTagsOfNews = () => {
-    return [{ name: 'Events', isActive: false }];
-  };
   localStorageServiceMock.languageBehaviourSubject = new BehaviorSubject('en');
   localStorageServiceMock.getCurrentLanguage = () => 'en' as Language;
+  localStorageServiceMock.languageSubject = of('en');
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
@@ -211,21 +211,35 @@ describe('CreateEditNewsComponent', () => {
     spyOn(router, 'navigate');
     location = TestBed.inject(Location);
     http = TestBed.inject(HttpTestingController);
+    localStorageServiceMock.getTagsOfNews = () => {
+      return [{ name: 'Events', isActive: false }];
+    };
   });
 
   afterEach(() => {
     http.verify();
   });
 
-  it('getAllTags called , filters should change', () => {
-    ecoNewsServiceMock.getAllPresentTags = () => of([{ id: 1, name: 'Events', nameUa: 'Події' }]);
+  it('when get all tags will be called, tags from existing eco news must be true', () => {
+    localStorageServiceMock.getTagsOfNews = () => {
+      return null;
+    };
+    ecoNewsServiceMock.getAllPresentTags = () =>
+      of([
+        { id: 1, name: 'Events', nameUa: 'Події' },
+        { id: 2, name: 'Education', nameUa: 'Освіта' }
+      ]);
     (component as any).getAllTags();
-    expect(component.filters).toEqual([{ name: 'Events', nameUa: 'Події', isActive: false }]);
-
-    ecoNewsServiceMock.getAllPresentTags = () => of(tagsArray);
+    expect(component.filters).toEqual([
+      { name: 'Events', nameUa: 'Події', isActive: true },
+      { name: 'Education', nameUa: 'Освіта', isActive: true }
+    ]);
   });
 
   it('initPageForCreateOrEdit expect setDataForCreate should be call', () => {
+    localStorageServiceMock.getTagsOfNews = () => {
+      return null;
+    };
     const spy = spyOn(component, 'setDataForCreate');
     createEcoNewsServiceMock.isBackToEditing = true;
     createEcoNewsServiceMock.getNewsId = () => '';
@@ -272,6 +286,9 @@ describe('CreateEditNewsComponent', () => {
   });
 
   it('ngOnInit', () => {
+    localStorageServiceMock.getTagsOfNews = () => {
+      return null;
+    };
     const spy1 = spyOn(component, 'getNewsIdFromQueryParams');
     component.ngOnInit();
     expect(spy1).toHaveBeenCalledTimes(1);
@@ -345,6 +362,9 @@ describe('CreateEditNewsComponent', () => {
   });
 
   it('should add not more 3 filters ', fakeAsync(() => {
+    localStorageServiceMock.getTagsOfNews = () => {
+      return null;
+    };
     const arr = [
       { name: 'News', nameUa: 'Новини', isActive: false },
       { name: 'Events', nameUa: 'Події', isActive: false },
@@ -401,6 +421,9 @@ describe('CreateEditNewsComponent', () => {
   it('should add filters', () => {
     const activeFilter = { name: 'News', nameUa: 'Новини', isActive: false };
     const notActiveFilter = { name: 'News', nameUa: 'Новини', isActive: true };
+    localStorageServiceMock.getTagsOfNews = () => {
+      return null;
+    };
     component.addFilters(activeFilter);
     expect(component.isArrayEmpty).toBeFalsy();
     expect(component.tags().length).toBe(1);

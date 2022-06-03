@@ -38,11 +38,10 @@ export class NewsListListViewComponent implements AfterViewChecked, AfterViewIni
   public profileIcons = ecoNewsIcons;
   public newsImage: string;
   public tags: Array<string>;
-  public localStorageService: LocalStorageService;
   public currentLang: string;
   private destroy: Subject<boolean> = new Subject<boolean>();
 
-  constructor(private renderer: Renderer2, public translate: TranslateService) {}
+  constructor(private renderer: Renderer2, public translate: TranslateService, public localStorageService: LocalStorageService) {}
   ngOnInit() {
     this.currentLang = this.localStorageService.getCurrentLanguage();
     this.tags = this.currentLang === 'ua' || this.currentLang === 'ru' ? this.ecoNewsModel.tagsUa : this.ecoNewsModel.tagsEn;

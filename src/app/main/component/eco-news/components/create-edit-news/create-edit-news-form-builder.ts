@@ -23,7 +23,6 @@ export class CreateEditNewsFormBuilder {
       title: [data.title, [Validators.required, Validators.maxLength(170), this.noWhitespaceValidator]],
       source: [data.source],
       content: [data.text || data.content || data.content.html, [Validators.required, Validators.minLength(20)]],
-      // tslint:disable-next-line:max-line-length
       tags: this.fb.array(
         this.localStorageService.getCurrentLanguage() === 'ua' || this.localStorageService.getCurrentLanguage() === 'ru'
           ? data.tagsUa

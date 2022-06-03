@@ -98,7 +98,6 @@ export class CreateEditNewsComponent extends FormBaseComponent implements OnInit
   public backRoute: string;
   public updatedEcoNewsTags: Array<string>;
   public currentLang: string;
-  public usedFromDto: EcoNewsModel;
   public newsTags: Observable<Array<NewsTagInterface>>;
 
   // TODO: add types | DTO to service
@@ -323,7 +322,6 @@ export class CreateEditNewsComponent extends FormBaseComponent implements OnInit
       .getEcoNewsById(this.newsId)
       .pipe(takeUntil(this.destroyed$))
       .subscribe((item: EcoNewsModel) => {
-        this.usedFromDto = item;
         this.form = this.createEditNewsFormBuilder.getEditForm(item);
         this.setActiveFilters(item);
         this.onSourceChange();
@@ -332,17 +330,16 @@ export class CreateEditNewsComponent extends FormBaseComponent implements OnInit
   }
 
   public setActiveFilters(itemToUpdate: EcoNewsModel): void {
-    this.updatedEcoNewsTags =
-      this.localStorageService.getCurrentLanguage() === 'ua' || this.localStorageService.getCurrentLanguage() === 'ru'
-        ? itemToUpdate.tagsUa
-        : itemToUpdate.tags;
-    this.filters.forEach((filter) => {
-      itemToUpdate.tagsUa.forEach((tag, index) => {
-        if (filter.nameUa === tag || filter.name === tag) {
-          this.filters[index] = { ...filter, isActive: true };
-        }
+    if (itemToUpdate.tags.length && itemToUpdate.tagsUa.length) {
+      this.isArrayEmpty = false;
+      this.filters.forEach((filter) => {
+        itemToUpdate.tagsUa.forEach((tag, index) => {
+          if (filter.nameUa === tag || filter.name === tag) {
+            this.filters[index] = { ...filter, isActive: true };
+          }
+        });
       });
-    });
+    }
   }
 
   tags(): FormArray {
