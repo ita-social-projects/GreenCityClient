@@ -131,10 +131,10 @@
                     <ng-container *ngFor="let column of displayedColumnsView">
                       <li class="item" *ngIf="column.columnBelonging === header.key">
                         <mat-checkbox
+                          [checked]="displayedColumns.includes(column.title.key)"
                           class="check"
                           type="checkbox"
                           value="id1"
-                          [checked]="displayedColumns.includes(column.title.key)"
                           (change)="changeColumns($event?.checked, column.title.key, column.index)"
                         >
                           {{ column.title | serverTranslate: currentLang }}
