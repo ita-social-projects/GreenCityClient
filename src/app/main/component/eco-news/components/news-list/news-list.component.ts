@@ -77,10 +77,12 @@ export class NewsListComponent implements OnInit, OnDestroy {
   private getAllTags(): void {
     this.tags
       .pipe(take(1))
-      .subscribe((tagsArray: Array<NewsTagInterface>) =>
-        this.localStorageService.getCurrentLanguage() === 'ua' || this.localStorageService.getCurrentLanguage() === 'ru'
-          ? (this.tagList = tagsArray.map((tag) => tag.nameUa))
-          : (this.tagList = tagsArray.map((tag) => tag.name))
+      .subscribe(
+        (tagsArray: Array<NewsTagInterface>) =>
+          (this.tagList =
+            this.localStorageService.getCurrentLanguage() === 'ua' || this.localStorageService.getCurrentLanguage() === 'ru'
+              ? tagsArray.map((tag) => tag.nameUa)
+              : tagsArray.map((tag) => tag.name))
       );
   }
 
