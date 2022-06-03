@@ -15,6 +15,15 @@
   }
 }
 
+.content {
+  z-index: 2;
+  border: 2px solid rgb(161, 156, 156);
+}
+
+.content-error {
+  border: 2px solid rgb(243, 33, 33);
+}
+
 .event-container {
   padding: 0 100px;
 }

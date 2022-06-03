@@ -1,4 +1,3 @@
-import { TipsSearchModel } from '@global-models/search/tipsSearch.model';
 import { NewsSearchModel } from '@global-models/search/newsSearch.model';
 import { SearchModel } from '@global-models/search/search.model';
 import { LiveAnnouncer } from '@angular/cdk/a11y';
@@ -20,14 +19,12 @@ import { MatDialog } from '@angular/material/dialog';
 })
 export class SearchPopupComponent implements OnInit, OnDestroy {
   public newsElements: NewsSearchModel[] = [];
-  public tipsElements: TipsSearchModel[] = [];
   public isSearchClicked = false;
   public itemsFound: number = null;
   public searchModalSubscription: Subscription;
   public searchInput = new FormControl('');
   public isLoading = false;
   public isNewsSearchFound: boolean;
-  public isTipsSearchFound: boolean;
   public searchValueChanges;
   private currentLanguage: string;
   public searchIcons = searchIcons;
@@ -75,11 +72,10 @@ export class SearchPopupComponent implements OnInit, OnDestroy {
     this.snackBar.openSnackBar('error');
   }
 
-  private setData({ ecoNews, tipsAndTricks, countOfResults }: SearchModel): void {
+  private setData({ ecoNews, countOfResults }: SearchModel): void {
     this.isLoading = false;
 
     this.newsElements = ecoNews;
-    this.tipsElements = tipsAndTricks;
     this.itemsFound = countOfResults;
   }
 
@@ -98,7 +94,6 @@ export class SearchPopupComponent implements OnInit, OnDestroy {
 
   private resetData(): void {
     this.newsElements = [];
-    this.tipsElements = [];
     this.itemsFound = null;
   }
 

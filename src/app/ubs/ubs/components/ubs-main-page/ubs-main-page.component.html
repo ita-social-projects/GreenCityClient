@@ -78,7 +78,12 @@
         <p class="time-how">{{ 'ubs-homepage.ubs-courier.how-works.time.pre_1' | translate }}</p>
         <p class="time-how">{{ 'ubs-homepage.ubs-courier.how-works.time.pre_2' | translate }}</p>
         <div id="how-works-content">
-          <p>{{ 'ubs-homepage.ubs-courier.how-works.content.pre_1' | translate }}</p>
+          <p>
+            {{ 'ubs-homepage.ubs-courier.how-works.content.pre_1' | translate }}
+            <a target="_blank" href="https://nowaste.com.ua/" rel="noopener">{{
+              'ubs-homepage.ubs-courier.how-works.content.link' | translate
+            }}</a>
+          </p>
           <p>{{ 'ubs-homepage.ubs-courier.how-works.content.pre_2' | translate }}</p>
         </div>
         <button class="button primary-global-button" [disabled]="isFetching" (click)="redirectToOrder()">

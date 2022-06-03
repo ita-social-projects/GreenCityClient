@@ -19,11 +19,14 @@ import { Observable, of } from 'rxjs';
 import { MatDialogConfig } from '@angular/material/dialog';
 import { ServerTranslatePipe } from 'src/app/shared/translate-pipe/translate-pipe.pipe';
 import { MatTooltipModule } from '@angular/material/tooltip';
+import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
 
 describe('UsbAdminTableComponent', () => {
   let component: UbsAdminTableComponent;
   let fixture: ComponentFixture<UbsAdminTableComponent>;
   const storeMock = jasmine.createSpyObj('store', ['select', 'dispatch']);
+  const localStorageServiceMock = jasmine.createSpyObj('localStorageService', ['']);
+  localStorageServiceMock.languageBehaviourSubject = of('ua');
 
   const FakeMatDialogConfig = {};
 
@@ -48,7 +51,8 @@ describe('UsbAdminTableComponent', () => {
       declarations: [UbsAdminTableComponent, ServerTranslatePipe],
       providers: [
         { provide: Store, useValue: storeMock },
-        { provide: MatDialogConfig, useValue: FakeMatDialogConfig }
+        { provide: MatDialogConfig, useValue: FakeMatDialogConfig },
+        { provide: LocalStorageService, useValue: localStorageServiceMock }
       ],
       schemas: [CUSTOM_ELEMENTS_SCHEMA]
     }).compileComponents();
@@ -58,6 +62,10 @@ describe('UsbAdminTableComponent', () => {
     storeMock.select = () => of(false);
     fixture = TestBed.createComponent(UbsAdminTableComponent);
     component = fixture.componentInstance;
+    spyOn(component.modelChanged, 'pipe').and.returnValue(of({}));
+    component.ordersViewParameters$ = of(false) as any;
+    component.bigOrderTableParams$ = of(false) as any;
+    component.bigOrderTable$ = of(false) as any;
     fixture.detectChanges();
   });
 
@@ -66,7 +74,6 @@ describe('UsbAdminTableComponent', () => {
   });
 
   it('ngOnInit', () => {
-    spyOn(component.modelChanged, 'pipe').and.returnValue(of({}));
     component.ngOnInit();
     expect(component.modelChanged.pipe).toHaveBeenCalled();
   });
@@ -77,8 +84,7 @@ describe('UsbAdminTableComponent', () => {
   });
 
   it('ordersViewParameters$ expect displayedColumns should be [title]', () => {
-    storeMock.select = () => of({ titles: 'title' });
-    component.ordersViewParameters$ = (component as any).store.select();
+    component.ordersViewParameters$ = of({ titles: 'title' });
     component.ngOnInit();
     component.ordersViewParameters$.subscribe((item: any) => {
       expect(component.displayedColumns).toEqual(['title']);
@@ -87,8 +93,7 @@ describe('UsbAdminTableComponent', () => {
 
   it('bigOrderTable$ expect changeView has call', () => {
     spyOn(component, 'changeView');
-    storeMock.select = () => of({ number: 2, totalElements: 10, content: [{ content: 'content' }], totalPages: 1 });
-    component.bigOrderTable$ = (component as any).store.select();
+    component.bigOrderTable$ = of({ number: 2, totalElements: 10, content: [{ content: 'content' }], totalPages: 1 }) as any;
     component.ngOnInit();
     component.bigOrderTable$.subscribe((items: any) => {
       expect(component.currentPage).toBe(2);
@@ -98,8 +103,7 @@ describe('UsbAdminTableComponent', () => {
   });
 
   it('bigOrderTable$ expect totalElements to be 10 ', () => {
-    storeMock.select = () => of({ number: 2, totalElements: 10, content: [{ content: 'content' }], totalPages: 1 });
-    component.bigOrderTable$ = (component as any).store.select();
+    component.bigOrderTable$ = of({ number: 2, totalElements: 10, content: [{ content: 'content' }], totalPages: 1 }) as any;
     component.firstPageLoad = true;
     component.ngOnInit();
     component.bigOrderTable$.subscribe((items: any) => {
@@ -111,30 +115,29 @@ describe('UsbAdminTableComponent', () => {
     spyOn(component, 'setColumnsForFiltering');
     spyOn(component, 'sortColumnsToDisplay');
     spyOn(component as any, 'getTable');
-    storeMock.select = () =>
-      of({
-        columnBelongingList: ['columnBelongingList'],
-        columnDTOList: [
-          {
-            columnBelonging: 'string',
-            editType: 'string',
-            filtered: false,
-            index: 1,
-            title: { key: 'key', ua: 'ua', en: 'en', filtered: false }
-          }
-        ],
-        orderSearchCriteria: {},
-        page: {}
-      });
-    component.bigOrderTableParams$ = (component as any).store.select();
+    const bigOrderTableParamsMock = of({
+      columnBelongingList: ['columnBelongingList'],
+      columnDTOList: [
+        {
+          columnBelonging: 'string',
+          editType: 'string',
+          filtered: false,
+          index: 1,
+          title: { key: 'key', ua: 'ua', en: 'en', filtered: false }
+        }
+      ],
+      orderSearchCriteria: {},
+      page: {}
+    });
+    component.bigOrderTableParams$ = bigOrderTableParamsMock as any;
     component.isStoreEmpty = true;
     component.ngOnInit();
     component.bigOrderTableParams$.subscribe((columns: any) => {
       expect(component.tableViewHeaders).toEqual(['columnBelongingList']);
       expect(component.displayedColumnsViewTitles).toEqual(['key']);
       expect(component.setColumnsForFiltering).toHaveBeenCalledTimes(1);
-      expect((component as any).getTable).toHaveBeenCalledTimes(1);
-      expect(component.sortColumnsToDisplay).toHaveBeenCalledTimes(1);
+      expect((component as any).getTable).toHaveBeenCalled();
+      expect(component.sortColumnsToDisplay).toHaveBeenCalledTimes(2);
     });
   });
 
@@ -226,44 +229,50 @@ describe('UsbAdminTableComponent', () => {
     component.displayedColumnsView.length = 4;
     component.displayedColumns = ['title1', 'title2', 'title4'];
     component.changeColumns(true, 'title3', 2);
-
     expect(component.isAllColumnsDisplayed).toBe(true);
   });
 
   it('changeColumns expect component.isAllColumnsDisplayed to be false', () => {
+    component.columns = [{ title: { key: 'title1' } }, { title: { key: 'title2' } }, { title: { key: 'title3' } }];
     component.isAllColumnsDisplayed = true;
     component.displayedColumns.length = 4;
-    component.displayedColumns = ['title1', 'title2', 'title3', 'title4'];
-    component.changeColumns(false, 'title2', 1);
+    component.displayedColumns = ['title1', 'title2', 'title3'];
+    component.changeColumns(false, 'title2', 2);
     expect(component.isAllColumnsDisplayed).toBe(false);
   });
 
-  it('changeColumns expect to filter columns when box is unchecked', () => {
-    component.displayedColumns = ['title1', 'title2', 'title3', 'title4'];
-    component.changeColumns(false, 'title3', 2);
-
-    expect(component.displayedColumns).toEqual(['title1', 'title2', 'title4']);
+  it('sortColumnsToDisplay expect to filter columns when box is unchecked', () => {
+    component.columns = [{ title: { key: 'title1' } }, { title: { key: 'title2' } }, { title: { key: 'title3' } }];
+    component.displayedColumns = ['title1', 'title2', 'title3'];
+    component.changeColumns(false, 'title1', 1);
+    component.sortColumnsToDisplay();
+    expect(component.columns).toEqual([
+      { title: { key: 'title2' }, index: 0 },
+      { title: { key: 'title3' }, index: 1 },
+      { title: { key: 'title1' }, index: 2 }
+    ]);
   });
 
   it('changeColumns expect to add column when box is checked ', () => {
+    component.columns = [{ title: { key: 'title1' } }, { title: { key: 'title2' } }, { title: { key: 'title4' } }];
     component.displayedColumns = ['title1', 'title2', 'title4'];
     component.changeColumns(true, 'title3', 2);
-
+    component.sortColumnsToDisplay();
     expect(component.displayedColumns).toEqual(['title1', 'title2', 'title3', 'title4']);
   });
 
-  it('closeFilters expect set display to none ', () => {
-    component.display = 'block';
-    component.closeFilters();
+  it('toggleFilters expect set filtersOpened to !filtersOpened', () => {
+    component.isFiltersOpened = false;
+    component.toggleFilters();
 
-    expect(component.display).toEqual('none');
+    expect(component.isFiltersOpened).toEqual(true);
   });
 
   it('togglePopUp expect store.dispatch have been called', () => {
     storeMock.dispatch.calls.reset();
     component.displayedColumns = ['1', '2'];
     component.isPopupOpen = true;
-    component.togglePopUp();
+    component.toggleTableView();
     expect(component.previousSettings).toEqual(['1', '2']);
     expect((component as any).store.dispatch).toHaveBeenCalledTimes(1);
   });
@@ -555,11 +564,11 @@ describe('UsbAdminTableComponent', () => {
     expect(component.dialog.open).toHaveBeenCalledTimes(1);
   });
 
-  it('sortColumnsToDisplay expect columns.length to be 1', () => {
+  it('sortColumnsToDisplay expect columns.length to be 3', () => {
     component.columns = [{ title: { key: 'key' } }, { title: { key: 'gg' } }, { title: { key: 'dd' } }];
     component.displayedColumns = ['key', 'kol'];
     component.sortColumnsToDisplay();
-    expect(component.columns.length).toBe(1);
+    expect(component.columns.length).toBe(3);
   });
 
   it('onResizeColumn', () => {
@@ -607,5 +616,38 @@ describe('UsbAdminTableComponent', () => {
     component.tableData = [{ id: 1, orderStatus: 'DONE' }];
     const Res = component.checkStatusOfOrders(1);
     expect(Res).toBe(true);
+  });
+
+  it('checkForCheckedBoxes', () => {
+    const column = {
+      key: 'orderStatus',
+      en: 'orderStatus',
+      ua: 'Статус замовлення',
+      values: [
+        {
+          key: 'done',
+          en: 'done',
+          ua: 'виконано',
+          filtered: true
+        },
+        {
+          key: 'formed',
+          en: 'formed',
+          ua: 'сформовано',
+          filtered: false
+        }
+      ]
+    };
+
+    const result = component.checkForCheckedBoxes(column);
+
+    expect(result).toBe(true);
+  });
+
+  it('checkIfFilteredBy', () => {
+    (component as any).adminTableService.filters = [{ orderStatus: 'done' }];
+    const result = component.checkIfFilteredBy('orderStatus');
+
+    expect(result).toBe(true);
   });
 });

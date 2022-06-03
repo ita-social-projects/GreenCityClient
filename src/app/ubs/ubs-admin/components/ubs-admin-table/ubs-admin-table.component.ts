@@ -83,7 +83,10 @@ export class UbsAdminTableComponent implements OnInit, AfterViewChecked, OnDestr
   isPostData = false;
   dataForPopUp = [];
   uneditableStatuses = ['CANCELED', 'DONE'];
+  stickyColumnsAmount = 4;
+  nestedSortProperty = 'title.key';
   noFiltersApplied = true;
+  isFiltersOpened = false;
   public showPopUp: boolean;
   resizableMousemove: () => void;
   resizableMouseup: () => void;
@@ -176,9 +179,9 @@ export class UbsAdminTableComponent implements OnInit, AfterViewChecked, OnDestr
         if (this.isStoreEmpty) {
           this.getTable(this.filterValue, sortBy, sortDirection, true);
         }
-        this.sortColumnsToDisplay();
         this.editDetails();
       }
+      this.sortColumnsToDisplay();
       this.checkAllColumnsDisplayed();
     });
 
@@ -211,16 +214,24 @@ export class UbsAdminTableComponent implements OnInit, AfterViewChecked, OnDestr
 
   dropListDropped(event: CdkDragDrop<string[]>) {
     moveItemInArray(this.displayedColumns, event.previousIndex, event.currentIndex);
+    this.sortColumnsToDisplay();
     const displayedColumns = this.displayedColumns.join(',');
     this.store.dispatch(SetColumnToDisplay({ columns: encodeURIComponent(displayedColumns), titles: displayedColumns }));
+  }
+
+  stickColumns() {
     this.stickyColumn = [];
-    for (let i = 0; i < 4; i++) {
+    const displayedColumnsViewCopy = JSON.parse(JSON.stringify(this.displayedColumnsView));
+
+    for (let i = 0; i < this.stickyColumnsAmount; i++) {
       this.stickyColumn.push(this.displayedColumns[i]);
     }
-    this.columns.forEach((item) => {
+
+    displayedColumnsViewCopy.forEach((item) => {
       item.sticky = this.stickyColumn.includes(item.title.key);
     });
-    this.sortColumnsToDisplay();
+
+    this.displayedColumnsView = displayedColumnsViewCopy;
   }
 
   isAllSelected() {
@@ -283,13 +294,14 @@ export class UbsAdminTableComponent implements OnInit, AfterViewChecked, OnDestr
       ? [...this.displayedColumns.slice(0, positionIndex), key, ...this.displayedColumns.slice(positionIndex)]
       : this.displayedColumns.filter((item) => item !== key);
     this.checkAllColumnsDisplayed();
+    this.sortColumnsToDisplay();
   }
 
-  public closeFilters(): void {
-    this.display = 'none';
+  public toggleFilters(): void {
+    this.isFiltersOpened = !this.isFiltersOpened;
   }
 
-  public togglePopUp() {
+  public toggleTableView(): void {
     this.display = this.display === 'none' ? 'block' : 'none';
     this.isPopupOpen = !this.isPopupOpen;
     if (!this.isPopupOpen) {
@@ -390,8 +402,8 @@ export class UbsAdminTableComponent implements OnInit, AfterViewChecked, OnDestr
     let sortedOrders = this.tableData.filter((el) => this.idsToChange.includes(el.id));
     sortedOrders = sortedOrders
       .map((e) => keysForEditDetails.filter((elem) => e[elem] === null || e[elem] === ''))
-      .filter((array) => array.length !== 0);
-    this.showPopUp = sortedOrders.length !== 0 ? true : false;
+      .filter((arrayList) => arrayList?.length !== 0);
+    this.showPopUp = sortedOrders.length !== 0;
   }
   selectRowsToChange(event, id: number): void {
     if (event.checked) {
@@ -437,8 +449,8 @@ export class UbsAdminTableComponent implements OnInit, AfterViewChecked, OnDestr
     this.isAllColumnsDisplayed = true;
     this.displayedColumns = this.displayedColumnsViewTitles;
     this.count = this.displayedColumnsViewTitles.length;
+    this.sortColumnsToDisplay();
   }
-
   private setUnDisplayedColumns(): void {
     this.displayedColumnsViewTitles = [];
     this.displayedColumns = ['select'];
@@ -554,6 +566,7 @@ export class UbsAdminTableComponent implements OnInit, AfterViewChecked, OnDestr
     this.setColumnsForFiltering(columnsForFiltering);
     this.adminTableService.setFilters([]);
     this.applyFilters();
+    this.noFiltersApplied = true;
   }
 
   public applyFilters() {
@@ -594,11 +607,40 @@ export class UbsAdminTableComponent implements OnInit, AfterViewChecked, OnDestr
   }
 
   sortColumnsToDisplay() {
-    const arr = [];
-    this.columns.forEach((el) => {
-      arr[this.displayedColumns.findIndex((res) => res === el.title.key)] = el;
+    const displayedColumnsCopy = JSON.parse(JSON.stringify(this.displayedColumns));
+    const prop = this.nestedSortProperty.split('.');
+    const len = prop.length;
+
+    this.columns.sort((a, b) => {
+      let i = 0;
+      while (i < len) {
+        a = a[prop[i]];
+        b = b[prop[i]];
+        i++;
+      }
+      return displayedColumnsCopy.indexOf(a) - displayedColumnsCopy.indexOf(b);
     });
-    this.columns = arr;
+
+    this.checkAllColumnsDisplayed();
+    if (!this.isAllColumnsDisplayed) {
+      const undisplayedColumns = [];
+      for (const column of this.columns) {
+        if (!this.displayedColumns.includes(column.title.key)) {
+          undisplayedColumns.push(this.columns[column]);
+        }
+      }
+      undisplayedColumns.length =
+        undisplayedColumns.length % this.columns.length >= 0 ? undisplayedColumns.length % this.columns.length : 0;
+      for (let i = 0; i < undisplayedColumns.length; i++) {
+        this.columns.push(this.columns[i]);
+      }
+      this.columns.splice(0, undisplayedColumns.length);
+    }
+    this.columns.forEach((item) => {
+      item.index = this.columns.indexOf(item);
+    });
+    this.displayedColumnsView = this.columns;
+    this.stickColumns();
   }
 
   public onResizeColumn(event: any, index: number) {
@@ -651,8 +693,7 @@ export class UbsAdminTableComponent implements OnInit, AfterViewChecked, OnDestr
     if (dx !== 0) {
       const j = this.isResizingRight ? index + 1 : index - 1;
       const newWidth = this.columns[j].width - dx;
-
-      if (newWidth > 100 && index > 3) {
+      if (newWidth > 100 && index > this.stickyColumnsAmount - 1) {
         this.columns[index].width = width;
         this.setColumnWidth(this.columns[index]);
         this.columns[j].width = newWidth;
@@ -670,6 +711,21 @@ export class UbsAdminTableComponent implements OnInit, AfterViewChecked, OnDestr
 
   setColumnsForFiltering(columns): void {
     this.adminTableService.setColumnsForFiltering(columns);
+  }
+
+  checkForCheckedBoxes(column): boolean {
+    return column.values.some((item) => item.filtered);
+  }
+
+  checkIfFilteredBy(columnKey): boolean {
+    let key: string;
+    if (columnKey === 'paymentDate') {
+      key = 'paymentDateFrom';
+    } else {
+      key = columnKey === 'orderDate' ? 'orderDateFrom' : columnKey;
+    }
+
+    return this.adminTableService.filters ? this.adminTableService.filters.some((obj) => Object.keys(obj)[0] === key) : false;
   }
 
   checkStatusOfOrders(id: number): boolean {

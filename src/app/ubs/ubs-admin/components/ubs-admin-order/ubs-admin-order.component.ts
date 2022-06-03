@@ -100,8 +100,7 @@ export class UbsAdminOrderComponent implements OnInit, OnDestroy, AfterContentCh
         this.paymentInfo = data.paymentTableInfoDto;
         this.exportInfo = data.exportDetailsDto;
         this.responsiblePersonInfo = data.employeePositionDtoRequest;
-        this.totalPaid = this.orderInfo.orderCertificateTotalDiscount + this.orderInfo.orderBonusDiscount;
-        this.totalPaid += data.paymentTableInfoDto.paidAmount;
+        this.totalPaid = data.paymentTableInfoDto.paidAmount;
         this.overpayment = data.paymentTableInfoDto.overpayment;
         this.currentOrderPrice = data.orderFullPrice;
         this.setOrderDetails();

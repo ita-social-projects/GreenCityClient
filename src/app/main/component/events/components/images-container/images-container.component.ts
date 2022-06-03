@@ -17,6 +17,8 @@ export class ImagesContainerComponent implements OnInit {
 
   public imageCount = 0;
 
+  isImageSizeError: boolean;
+
   @ViewChild('takeInput') InputVar: ElementRef;
 
   @Output() imgArrayOutput = new EventEmitter<Array<File>>();
@@ -33,7 +35,6 @@ export class ImagesContainerComponent implements OnInit {
   }
 
   public filesDropped(files: FileHandle[]): void {
-    // this.checkFileExtension(files);
     const imageFile = files[0].file;
     this.transferFile(imageFile);
   }

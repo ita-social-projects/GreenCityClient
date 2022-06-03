@@ -8,7 +8,7 @@ import { async, ComponentFixture, inject, TestBed } from '@angular/core/testing'
 import { TranslateModule } from '@ngx-translate/core';
 
 import { HomepageComponent } from './homepage.component';
-import { EcoEventsComponent, StatRowsComponent, SubscribeComponent, TipsCardComponent, TipsListComponent } from '..';
+import { EcoEventsComponent, StatRowsComponent, SubscribeComponent } from '..';
 import { EcoEventsItemComponent } from '../eco-events/eco-events-item/eco-events-item.component';
 import { SwiperModule } from 'ngx-swiper-wrapper';
 import { FormsModule } from '@angular/forms';
@@ -82,11 +82,9 @@ describe('HomepageComponent', () => {
         StatRowsComponent,
         HomepageComponent,
         EcoEventsComponent,
-        TipsListComponent,
         SubscribeComponent,
         StatRowComponent,
-        EcoEventsItemComponent,
-        TipsCardComponent
+        EcoEventsItemComponent
       ],
       providers: [
         { provide: MatSnackBarComponent, useValue: snackBarMock },
