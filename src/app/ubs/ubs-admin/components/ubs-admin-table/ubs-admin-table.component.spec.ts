@@ -268,7 +268,7 @@ describe('UsbAdminTableComponent', () => {
     expect(component.isFiltersOpened).toEqual(true);
   });
 
-  it('togglePopUp expect store.dispatch have been called', () => {
+  it('toggleTableView expect store.dispatch have been called', () => {
     storeMock.dispatch.calls.reset();
     component.displayedColumns = ['1', '2'];
     component.isPopupOpen = true;
