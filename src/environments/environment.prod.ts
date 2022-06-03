@@ -6,7 +6,7 @@ export const environment = {
   backendChatLink: 'https://greencity-chat.azurewebsites.net/',
   backendUserLink: 'https://greencity-user.azurewebsites.net/',
   backendUbsLink: 'https://greencity-ubs.azurewebsites.net',
-  frontendLink: 'http://localhost:4200/GreenCityClient',
+  frontendLink: 'https://ita-social-projects.github.io/GreenCityClient/',
   socket: 'https://greencity.azurewebsites.net/socket',
   chatSocket: 'https://greencity-chat.azurewebsites.net/socket',
   firebaseConfig: {
@@ -20,8 +20,9 @@ export const environment = {
     measurementId: 'G-CCHRKQ4R0S'
   },
   ubsAdmin: {
+    backendEmployeesLink: 'https://greencity-ubs.azurewebsites.net/admin/ubs-employee/getAll-active-employees',
     backendUbsAdminLink: 'https://greencity-ubs.azurewebsites.net/ubs'
   },
   googleClientId: '129513550972-eu9ej46rviv1ac8q14at62t2k5qon1pu.apps.googleusercontent.com',
-  agmCoreModuleApiKey: 'AIzaSyC7q2v0VgRy60dAoItfv3IJhfJQEEoeqCI'
+  agmCoreModuleApiKey: 'AIzaSyCdBtR8O8eazfWUSdyb5O2cnL32uJtWUwA'
 };

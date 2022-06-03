@@ -136,8 +136,8 @@ describe('CreateEditNewsComponent', () => {
 
   createEditNewsFormBuilderMock.getEditForm = (data) => {
     return new FormGroup({
-      title: new FormControl(data.title),
-      content: new FormControl(data.content),
+      title: new FormControl(data.title, [Validators.required, Validators.maxLength(170)]),
+      content: new FormControl(data.content, [Validators.required, Validators.minLength(20)]),
       tags: new FormArray([new FormControl(data.tags)]),
       image: new FormControl(data.imagePath),
       source: new FormControl(data.source)
@@ -295,13 +295,6 @@ describe('CreateEditNewsComponent', () => {
     expect(localStorageServiceMock.removeTagsOfNews).toHaveBeenCalledWith('newsTags');
   });
 
-  it('should get econews by id', () => {
-    ecoNewsServiceMock.getEcoNewsById('4705').subscribe((data: EcoNewsModel) => {
-      expect(data).toBeTruthy();
-      expect(data).toEqual(item);
-    });
-  });
-
   it('should set empty form after init', () => {
     const testForm = {
       title: '',
@@ -424,6 +417,7 @@ describe('CreateEditNewsComponent', () => {
     localStorageServiceMock.getTagsOfNews = () => {
       return null;
     };
+    (component.form.controls.tags as FormArray).clear();
     component.addFilters(activeFilter);
     expect(component.isArrayEmpty).toBeFalsy();
     expect(component.tags().length).toBe(1);
@@ -480,9 +474,10 @@ describe('CreateEditNewsComponent', () => {
 
   it('should test input errors', () => {
     const contentInput = component.form.controls.content;
+    contentInput.setValue('test');
     const titleInput = component.form.controls.title;
-    expect(contentInput.errors.required).toBeTruthy();
-    expect(titleInput.errors.required).toBeTruthy();
+    expect(contentInput.errors).toBeTruthy();
+    expect(titleInput.errors).toBeTruthy();
     expect(component.form.valid).toBeFalsy();
   });
 
