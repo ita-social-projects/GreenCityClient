@@ -32,8 +32,16 @@ export class MatSnackBarComponent {
       this.className = 'success-snackbar';
       this.getSnackBarMessage('snack-bar.success.restore-password');
     },
+    successRestorePasswordUbs: () => {
+      this.className = 'success-snackbar-ubs';
+      this.getSnackBarMessage('snack-bar.success.restore-password');
+    },
     successConfirmPassword: () => {
       this.className = 'success-snackbar';
+      this.getSnackBarMessage('snack-bar.success.confirm-restore-password');
+    },
+    successConfirmPasswordUbs: () => {
+      this.className = 'success-snackbar-ubs';
       this.getSnackBarMessage('snack-bar.success.confirm-restore-password');
     },
     signUp: () => {

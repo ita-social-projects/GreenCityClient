@@ -81,7 +81,6 @@ export class UbsMainPageComponent implements OnInit, OnDestroy {
   constructor(
     private router: Router,
     private dialog: MatDialog,
-    private localeStorageService: LocalStorageService,
     private checkTokenservice: CheckTokenService,
     private localStorageService: LocalStorageService,
     private orderService: OrderService

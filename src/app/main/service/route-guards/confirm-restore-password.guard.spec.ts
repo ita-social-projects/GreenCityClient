@@ -1,6 +1,6 @@
 import { MatSnackBarComponent } from './../../component/errors/mat-snack-bar/mat-snack-bar.component';
 import { Router } from '@angular/router';
-import { TestBed, async, inject } from '@angular/core/testing';
+import { TestBed, inject } from '@angular/core/testing';
 import { ConfirmRestorePasswordGuard } from './confirm-restore-password.guard';
 import { BrowserDynamicTestingModule } from '@angular/platform-browser-dynamic/testing';
 import { MatDialog } from '@angular/material/dialog';
