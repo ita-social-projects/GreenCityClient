@@ -12,7 +12,7 @@
         {{ 'ubs-tables.filters' | translate }}
       </button>
       <div [ngClass]="{ show: isFiltersOpened }" class="dropdown-menu dropdown-menu-right">
-        <div class="sticky-top filter-close-btn">
+        <div class="sticky-top dropdown-top-panel">
           <p class="font-weight-bold">{{ 'ubs-tables.filters' | translate }}</p>
           <button type="button" class="reset-settings" (click)="toggleFilters()">
             <i class="fa fa-close" aria-hidden="true"></i>
@@ -87,41 +87,70 @@
       </div>
     </div>
     <div class="button-group">
-      <button type="button" class="btn btn-default view-table-btn" (click)="toggleTableView()">
-        <img src="assets/img/edit.svg" alt="edit" />
-        {{ 'ubs-tables.table-view' | translate }}
-      </button>
+      <div class="table-view-dropdown-wrapper">
+        <button type="button" class="btn btn-default view-table-btn" (click)="toggleTableView()">
+          <img src="assets/img/edit.svg" alt="edit" />
+          {{ 'ubs-tables.table-view' | translate }}
+        </button>
+        <ul class="dropdown-menu" [style.display]="display">
+          <div class="sticky-top dropdown-top-panel">
+            <div class="check-all">
+              <mat-checkbox
+                [checked]="isAllColumnsDisplayed"
+                class="check"
+                type="checkbox"
+                (change)="showAllColumns(isAllColumnsDisplayed)"
+              >
+                {{ 'ubs-tables.all-elements' | translate }}
+              </mat-checkbox>
+            </div>
+            <button type="button" class="reset-settings" (click)="toggleTableView()">
+              <i class="fa fa-close" aria-hidden="true"></i>
+            </button>
+          </div>
+          <div class="accordion">
+            <ng-container *ngFor="let header of tableViewHeaders; index as i">
+              <div class="accordion-item">
+                <div
+                  class="accordion-group-header"
+                  data-bs-toggle="collapse"
+                  attr.data-bs-target="#panelsStayOpen-collapse{{ i }}"
+                  aria-expanded="false"
+                  attr.aria-controls="panelsStayOpen-collapse{{ i }}"
+                  (click)="toggleTableViewAccordion($event)"
+                >
+                  <mat-icon>keyboard_arrow_down</mat-icon>
+                  <li class="head">{{ header | serverTranslate: currentLang }}</li>
+                </div>
+                <div
+                  id="panelsStayOpen-collapse{{ i }}"
+                  class="accordion-collapse collapse"
+                  attr.aria-labelledby="panelsStayOpen-heading{{ i }}"
+                >
+                  <div class="accordion-body">
+                    <ng-container *ngFor="let column of displayedColumnsView">
+                      <li class="item" *ngIf="column.columnBelonging === header.key">
+                        <mat-checkbox
+                          class="check"
+                          type="checkbox"
+                          value="id1"
+                          [checked]="displayedColumns.includes(column.title.key)"
+                          (change)="changeColumns($event?.checked, column.title.key, column.index)"
+                        >
+                          {{ column.title | serverTranslate: currentLang }}
+                        </mat-checkbox>
+                      </li>
+                    </ng-container>
+                  </div>
+                </div>
+              </div>
+            </ng-container>
+          </div>
+        </ul>
+      </div>
       <button type="button" class="btn btn-default export-excel-btn" (click)="openExportExcel()">
         {{ 'ubs-tables.export-to-excel' | translate }}
       </button>
-      <ul class="dropdown-menu" [style.display]="display">
-        <button type="button" class="reset-settings" (click)="toggleTableView()">
-          <i class="fa fa-close" aria-hidden="true"></i>
-        </button>
-        <li class="item">
-          <mat-checkbox class="check" type="checkbox" [checked]="isAllColumnsDisplayed" (change)="showAllColumns(isAllColumnsDisplayed)">
-            {{ 'ubs-tables.all-elements' | translate }}
-          </mat-checkbox>
-        </li>
-        <ng-container *ngFor="let header of tableViewHeaders">
-          <li class="head">{{ header | serverTranslate: currentLang }}</li>
-          <div class="items">
-            <ng-container *ngFor="let column of displayedColumnsView">
-              <li class="item" *ngIf="column.columnBelonging === header.key">
-                <mat-checkbox
-                  class="check"
-                  type="checkbox"
-                  value="id1"
-                  [checked]="displayedColumns.includes(column.title.key)"
-                  (change)="changeColumns($event?.checked, column.title.key, column.index)"
-                >
-                  {{ column.title | serverTranslate: currentLang }}
-                </mat-checkbox>
-              </li>
-            </ng-container>
-          </div>
-        </ng-container>
-      </ul>
     </div>
   </div>
 </div>

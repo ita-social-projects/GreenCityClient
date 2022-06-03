@@ -518,6 +518,12 @@ export class UbsAdminTableComponent implements OnInit, AfterViewChecked, OnDestr
     matIcon.textContent = matIcon.textContent === 'keyboard_arrow_down' ? 'keyboard_arrow_up' : 'keyboard_arrow_down';
   }
 
+  toggleTableViewAccordion(e: PointerEvent): void {
+    (e.target as HTMLElement).parentElement.parentElement.querySelector('.accordion-collapse').classList.toggle('show');
+    const matIcon = (e.target as HTMLElement).closest('div').querySelector('mat-icon');
+    matIcon.textContent = matIcon.textContent === 'keyboard_arrow_down' ? 'keyboard_arrow_up' : 'keyboard_arrow_down';
+  }
+
   openOrder(id: number): void {
     this.router.navigate(['ubs-admin', 'order', `${id}`]);
   }
@@ -545,6 +551,7 @@ export class UbsAdminTableComponent implements OnInit, AfterViewChecked, OnDestr
   }
 
   changeInputDateFilters(value: string, currentColumn: string, suffix: string): void {
+    this.noFiltersApplied = false;
     this.adminTableService.changeInputDateFilters(value, currentColumn, suffix);
   }
 
