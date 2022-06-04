@@ -44,7 +44,7 @@ export class CreateEditEventsComponent implements OnInit {
   public titleForm: FormControl;
 
   ngOnInit(): void {
-    this.tags = TagsArray.map((item) => (item = { ...item }));
+    this.tags = TagsArray.reduce((ac, cur) => [...ac, { ...cur }], []);
     this.titleForm = new FormControl('', [Validators.required, Validators.minLength(1), Validators.maxLength(70)]);
   }
 

@@ -12,12 +12,9 @@ export class EventsListItemComponent implements OnInit {
 
   public itemTags: Array<TagObj>;
 
-  constructor() {}
-
   ngOnInit(): void {
-    this.itemTags = TagsArray.map((item) => (item = { ...item }));
+    this.itemTags = TagsArray.reduce((ac, cur) => [...ac, { ...cur }], []);
     this.filterTags(this.event.tags);
-    // console.log(this.event);
   }
 
   private filterTags(tags: Array<TagDto>) {

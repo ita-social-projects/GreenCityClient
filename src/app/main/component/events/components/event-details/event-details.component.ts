@@ -23,7 +23,7 @@ export class EventDetailsComponent implements OnInit {
   constructor(private route: ActivatedRoute, private eventService: EventsService) {}
 
   ngOnInit(): void {
-    this.tags = TagsArray.map((item) => (item = { ...item }));
+    this.tags = TagsArray.reduce((ac, cur) => [...ac, { ...cur }], []);
     this.setNewsId();
     this.eventService.getEventById(this.eventId).subscribe((res: EventPageResponceDto) => {
       this.event = res;
