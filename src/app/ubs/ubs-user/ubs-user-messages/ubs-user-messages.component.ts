@@ -1,10 +1,12 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { UserMessagesService } from '../services/user-messages.service';
 import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
-import { NotificationBody } from '../../../ubs/ubs-admin/models/ubs-user.model';
+import { NotificationBody } from '../../ubs-admin/models/ubs-user.model';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ReplaySubject, Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
+import { ShowImgsPopUpComponent } from '../../ubs-admin/components/shared/components/show-imgs-pop-up/show-imgs-pop-up.component';
+import { MatDialog } from '@angular/material/dialog';
 
 @Component({
   selector: 'app-ubs-user-messages',
@@ -21,6 +23,7 @@ export class UbsUserMessagesComponent implements OnInit, OnDestroy {
   isLoadSpinner: boolean;
   isLoadSmallSpinner: boolean;
   isLoadBar: boolean;
+  images = [];
   public countOfMessages: number;
   private destroyed$: ReplaySubject<any> = new ReplaySubject<any>(1);
   destroy: Subject<boolean> = new Subject<boolean>();
@@ -35,7 +38,8 @@ export class UbsUserMessagesComponent implements OnInit, OnDestroy {
     private userMessagesService: UserMessagesService,
     private localStorageService: LocalStorageService,
     private router: Router,
-    private route: ActivatedRoute
+    private route: ActivatedRoute,
+    private dialog: MatDialog
   ) {}
 
   ngOnInit() {
@@ -90,14 +94,28 @@ export class UbsUserMessagesComponent implements OnInit, OnDestroy {
         .subscribe((response) => {
           const findNotification = this.notifications.find((item) => item.id === notificationId);
           findNotification.body = response.body;
+          findNotification.images = response.images;
           findNotification.isOpen = true;
           this.isLoadSmallSpinner = false;
+          const images = response.images.map((url) => ({ src: url, label: null, name: null }));
+          this.images.splice(0, response.images.length, ...images);
         });
     }
   }
 
   onTableDataChange(event) {
     this.router.navigate(['/ubs-user/messages/' + event]);
+  }
+
+  openImg(index: number): void {
+    this.dialog.open(ShowImgsPopUpComponent, {
+      hasBackdrop: true,
+      panelClass: 'custom-img-pop-up',
+      data: {
+        imgIndex: index,
+        images: this.images
+      }
+    });
   }
 
   ngOnDestroy() {

@@ -70,6 +70,11 @@
 .mat-expansion-panel {
   margin: 10px 0 10px 0;
   box-shadow: none;
+
+  .notification-images {
+    margin-top: 8px;
+    border-radius: 8px;
+  }
 }
 
 .mat-expansion-panel-header {
@@ -117,7 +122,7 @@
 }
 
 .img {
-  max-width: 284px;
+  max-width: 40%;
 
   img {
     width: 100%;
