@@ -1,5 +1,5 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import { EventPageResponceDto, EventResponseDto, PaginationInterface, TagObj } from '../../models/events.interface';
+import { EventPageResponceDto, EventResponseDto, PaginationInterface } from '../../models/events.interface';
 import { EventsService } from '../../services/events.service';
 import { UserOwnAuthService } from '@auth-service/user-own-auth.service';
 import { ReplaySubject } from 'rxjs';
@@ -47,7 +47,6 @@ export class EventsListComponent implements OnInit, OnDestroy {
     this.page = event;
     this.eventService.getEvents(event - 1, 9).subscribe((res: EventResponseDto) => {
       this.eventsList = [...res.page];
-      console.log(res);
     });
   }
 

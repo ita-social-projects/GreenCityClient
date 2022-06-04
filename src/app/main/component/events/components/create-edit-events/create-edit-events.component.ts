@@ -82,11 +82,9 @@ export class CreateEditEventsComponent implements OnInit {
   }
 
   public setDateCount(event: MatSelectChange): void {
-    // this.dates = Array(+event.value.split(' ')[0]).fill({ ...DateObj });
-
-    for (let i = 0; i < +event.value.split(' ')[0]; i++) {
-      this.dates.push({ ...DateObj });
-    }
+    this.dates = Array(+event.value.split(' ')[0])
+      .fill(null)
+      .map(() => ({ ...DateObj }));
   }
 
   public getImageTosend(imageArr: Array<File>): void {
