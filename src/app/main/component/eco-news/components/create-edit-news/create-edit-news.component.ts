@@ -163,7 +163,9 @@ export class CreateEditNewsComponent extends FormBaseComponent implements OnInit
         };
       });
     });
-    this.fetchNewsItemToEdit();
+    if (this.newsId) {
+      this.fetchNewsItemToEdit();
+    }
   }
 
   public initPageForCreateOrEdit(): void {

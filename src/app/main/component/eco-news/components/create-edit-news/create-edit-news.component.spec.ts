@@ -224,6 +224,7 @@ describe('CreateEditNewsComponent', () => {
     localStorageServiceMock.getTagsOfNews = () => {
       return null;
     };
+    component.newsId = '2';
     ecoNewsServiceMock.getAllPresentTags = () =>
       of([
         { id: 1, name: 'Events', nameUa: 'Події' },
