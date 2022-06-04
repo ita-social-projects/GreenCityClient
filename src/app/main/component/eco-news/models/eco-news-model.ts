@@ -12,9 +12,12 @@ export interface EcoNewsModel {
   shortInfo: string;
   source: string;
   tags: Array<string>;
+  tagsEn: Array<string>;
+  tagsUa: Array<string>;
   title: string;
 }
 export interface NewsTagInterface {
   id: number;
   name: string;
+  nameUa: string;
 }

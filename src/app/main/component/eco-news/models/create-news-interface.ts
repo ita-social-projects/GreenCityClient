@@ -8,6 +8,7 @@ export interface NewsModel {
 
 export interface FilterModel {
   name: string;
+  nameUa: string;
   isActive: boolean;
 }
 

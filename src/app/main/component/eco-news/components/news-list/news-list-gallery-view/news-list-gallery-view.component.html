@@ -2,8 +2,8 @@
   <img class="list-image-content" role="img" [src]="checkNewsImage()" alt="user added image" />
   <div class="list-gallery-content">
     <div class="filter-tag" role="list">
-      <div role="none" aria-hidden="false" class="ul-eco-buttons" *ngFor="let tag of ecoNewsModel.tags">
-        {{ 'homepage.eco-news.tags.' + tag | lowercase | translate }}
+      <div role="none" aria-hidden="false" class="ul-eco-buttons" *ngFor="let tag of tags">
+        {{ tag }}
       </div>
     </div>
     <div class="added-data">

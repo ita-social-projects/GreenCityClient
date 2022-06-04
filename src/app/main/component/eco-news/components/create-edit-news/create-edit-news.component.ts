@@ -5,7 +5,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { takeUntil, catchError, take } from 'rxjs/operators';
 import { QueryParams, TextAreasHeight } from '../../models/create-news-interface';
 import { EcoNewsService } from '../../services/eco-news.service';
-import { Subscription, ReplaySubject, throwError } from 'rxjs';
+import { Subscription, ReplaySubject, throwError, Observable } from 'rxjs';
 import { CreateEcoNewsService } from '@eco-news-service/create-eco-news.service';
 import { CreateEditNewsFormBuilder } from './create-edit-news-form-builder';
 import { FilterModel } from '@eco-news-models/create-news-interface';
@@ -96,15 +96,23 @@ export class CreateEditNewsComponent extends FormBaseComponent implements OnInit
   public editorHTML = '';
   public savingImages = false;
   public backRoute: string;
+  public updatedEcoNewsTags: Array<string>;
+  public currentLang: string;
+  public newsTags: Observable<Array<NewsTagInterface>>;
 
   // TODO: add types | DTO to service
 
   ngOnInit() {
     this.backRoute = this.localStorageService.getPreviousPage();
     this.getNewsIdFromQueryParams();
+    this.newsTags = this.ecoNewsService.getAllPresentTags();
     this.initPageForCreateOrEdit();
     this.onSourceChange();
     this.localStorageService.removeTagsOfNews('newsTags');
+    this.currentLang = this.localStorageService.getCurrentLanguage();
+    this.localStorageService.languageSubject.pipe(takeUntil(this.destroyed$)).subscribe((lang: string) => {
+      this.currentLang = lang;
+    });
     this.setLocalizedTags();
   }
 
@@ -135,7 +143,9 @@ export class CreateEditNewsComponent extends FormBaseComponent implements OnInit
   }
 
   private setLocalizedTags(): void {
-    this.localStorageService.languageBehaviourSubject.pipe(takeUntil(this.destroyed$)).subscribe(() => this.getAllTags());
+    this.localStorageService.languageBehaviourSubject.pipe(takeUntil(this.destroyed$)).subscribe(() => {
+      this.getAllTags();
+    });
   }
 
   private getAllTags() {
@@ -144,18 +154,18 @@ export class CreateEditNewsComponent extends FormBaseComponent implements OnInit
       this.filters = tags;
       return;
     }
-
-    this.ecoNewsService
-      .getAllPresentTags()
-      .pipe(take(1))
-      .subscribe((tagsArray: Array<NewsTagInterface>) => {
-        this.filters = tagsArray.map((tag) => {
-          return {
-            name: tag.name,
-            isActive: false
-          };
-        });
+    this.newsTags.pipe(take(1)).subscribe((tagsArray: Array<NewsTagInterface>) => {
+      this.filters = tagsArray.map((tag) => {
+        return {
+          name: tag.name,
+          nameUa: tag.nameUa,
+          isActive: false
+        };
       });
+    });
+    if (this.newsId) {
+      this.fetchNewsItemToEdit();
+    }
   }
 
   public initPageForCreateOrEdit(): void {
@@ -322,11 +332,14 @@ export class CreateEditNewsComponent extends FormBaseComponent implements OnInit
   }
 
   public setActiveFilters(itemToUpdate: EcoNewsModel): void {
-    if (itemToUpdate.tags.length) {
+    if (itemToUpdate.tags.length && itemToUpdate.tagsUa.length) {
       this.isArrayEmpty = false;
-      itemToUpdate.tags.forEach((tag: string) => {
-        const index = this.filters.findIndex((filterObj: FilterModel) => filterObj.name === `${tag}`);
-        this.filters = this.filterArr({ name: `${tag}`, isActive: true }, index);
+      this.filters.forEach((filter) => {
+        itemToUpdate.tagsUa.forEach((tag, index) => {
+          if (filter.nameUa === tag || filter.name === tag) {
+            this.filters[index] = { ...filter, isActive: true };
+          }
+        });
       });
     }
   }
@@ -366,8 +379,8 @@ export class CreateEditNewsComponent extends FormBaseComponent implements OnInit
   }
 
   public toggleIsActive(filterObj: FilterModel, newValue: boolean): void {
-    const index = this.filters.findIndex((item: FilterModel) => item.name === filterObj.name);
-    const changedTags = this.filterArr({ name: filterObj.name, isActive: newValue }, index);
+    const index = this.filters.findIndex((item: FilterModel) => item.name === filterObj.name || item.nameUa === filterObj.nameUa);
+    const changedTags = this.filterArr({ name: filterObj.name, nameUa: filterObj.nameUa, isActive: newValue }, index);
     this.filters = changedTags;
     this.localStorageService.setTagsOfNews('newsTags', changedTags);
   }
