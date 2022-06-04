@@ -16,6 +16,7 @@ import { FormControl, Validators } from '@angular/forms';
 import { catchError } from 'rxjs/operators';
 import { MatSnackBarComponent } from '@global-errors/mat-snack-bar/mat-snack-bar.component';
 import { throwError } from 'rxjs';
+import { DateObj, ItemTime, TagsArray, WeekArray } from '../../models/event-consts';
 
 @Component({
   selector: 'app-create-edit-events',
@@ -27,33 +28,23 @@ export class CreateEditEventsComponent implements OnInit {
   public dates: DateEvent[] = [];
   private imgArray: Array<File> = [];
   private snackBar: MatSnackBarComponent;
-
   public quillModules = {};
   public editorHTML = '';
-
   public isOpen = true;
-
   public places: Place[] = [];
-
   public checkdates: boolean;
-
   public isPosting = false;
   public contentValid: boolean;
   public checkAfterSend = true;
-
   private pipe = new DatePipe('en-US');
+  public dateArrCount = WeekArray;
 
-  public dateArrCount = ['1 day', '2 days', '3 days', '4 days', '5 days', '6 days', '7 days'];
+  public tags: Array<TagObj>;
 
-  filters: Array<TagObj> = [
-    { name: 'Environmental', isActive: false },
-    { name: 'Social', isActive: true },
-    { name: 'Economic', isActive: true }
-  ];
-
-  titleForm: FormControl;
+  public titleForm: FormControl;
 
   ngOnInit(): void {
+    this.tags = TagsArray.map((item) => (item = { ...item }));
     this.titleForm = new FormControl('', [Validators.required, Validators.minLength(1), Validators.maxLength(70)]);
   }
 
@@ -91,21 +82,10 @@ export class CreateEditEventsComponent implements OnInit {
   }
 
   public setDateCount(event: MatSelectChange): void {
-    this.dates.length = +event.value.split(' ')[0];
+    // this.dates = Array(+event.value.split(' ')[0]).fill({ ...DateObj });
 
-    for (let i = 0; i < this.dates.length; i++) {
-      this.dates[i] = {
-        date: null,
-        startDate: '',
-        finishDate: '',
-        coordinatesDto: {
-          latitude: null,
-          longitude: null
-        },
-        onlineLink: '',
-        valid: false,
-        check: false
-      };
+    for (let i = 0; i < +event.value.split(' ')[0]; i++) {
+      this.dates.push({ ...DateObj });
     }
   }
 
@@ -130,7 +110,7 @@ export class CreateEditEventsComponent implements OnInit {
       item.check = !item.valid;
     });
 
-    this.checkdates = this.dates.find((element) => !element.valid) ? false : true;
+    this.checkdates = !this.dates.some((element) => !element.valid);
   }
 
   private getFormattedDate(dateString: Date, hour: number, min: number) {
@@ -142,10 +122,10 @@ export class CreateEditEventsComponent implements OnInit {
   private createDates() {
     return this.dates.reduce((ac, cur) => {
       if (!cur.startDate) {
-        cur.startDate = '00 : 00';
+        cur.startDate = ItemTime.START;
       }
       if (!cur.finishDate) {
-        cur.finishDate = '23 : 59';
+        cur.finishDate = ItemTime.END;
       }
       const start = this.getFormattedDate(cur.date, +cur.startDate.split(':')[0], +cur.startDate.split(':')[1]);
       const end = this.getFormattedDate(cur.date, +cur.finishDate.split(':')[0], +cur.finishDate.split(':')[1]);
@@ -171,8 +151,7 @@ export class CreateEditEventsComponent implements OnInit {
     if (this.checkdates) {
       datesDto = this.createDates();
     }
-
-    const tagsArr: Array<string> = this.filters.filter((tag) => tag.isActive).reduce((ac, cur) => [...ac, cur.name], []);
+    const tagsArr: Array<string> = this.tags.filter((tag) => tag.isActive).reduce((ac, cur) => [...ac, cur.nameEn], []);
 
     const sendEventDto: EventDTO = {
       title: this.titleForm.value,

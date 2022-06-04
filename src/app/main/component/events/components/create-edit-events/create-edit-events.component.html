@@ -69,17 +69,17 @@
         <mat-label>Initiative type</mat-label>
         <div>
           <ul class="ul-eco-buttons" aria-label="filter by items">
-            <li *ngFor="let filter of filters">
+            <li *ngFor="let tag of tags">
               <a
                 role="button"
-                [attr.aria-pressed]="filter.isActive"
+                [attr.aria-pressed]="tag.isActive"
                 class="custom-chip global-tag"
-                [ngClass]="{ 'global-tag-clicked': filter.isActive }"
+                [ngClass]="{ 'global-tag-clicked': tag.isActive }"
                 tabindex="0"
-                (click)="checkTab(filter)"
+                (click)="checkTab(tag)"
               >
-                <span class="text">{{ filter.name | translate }}</span>
-                <div [ngClass]="{ 'global-tag-close-icon': filter.isActive }"></div>
+                <span class="text">{{ tag.nameEn }}</span>
+                <div [ngClass]="{ 'global-tag-close-icon': tag.isActive }"></div>
               </a>
             </li>
           </ul>

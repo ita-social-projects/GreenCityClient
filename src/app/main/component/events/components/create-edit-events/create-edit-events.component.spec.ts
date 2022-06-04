@@ -75,7 +75,7 @@ describe('CreateEditEventsComponent', () => {
   });
 
   it('checkTab', () => {
-    const tag = { name: 'name', isActive: true };
+    const tag = { nameEn: 'name', nameUa: 'імя', isActive: true };
     component.checkTab(tag);
     expect(tag.isActive).toBeFalsy();
   });

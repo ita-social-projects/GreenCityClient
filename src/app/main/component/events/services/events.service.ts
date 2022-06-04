@@ -27,6 +27,10 @@ export class EventsService implements OnDestroy {
     return this.http.get(`${this.backEnd}events?page=${page}&size=${quantity}`);
   }
 
+  public getEventById(id: number) {
+    return this.http.get(`${this.backEnd}events/event/${id}`);
+  }
+
   ngOnDestroy(): void {
     this.destroyed$.next(true);
     this.destroyed$.complete();
