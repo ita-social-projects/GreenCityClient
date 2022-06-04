@@ -21,7 +21,7 @@ describe('UbsUserMessagesComponent', () => {
     body: 'fakeBody',
     notificationTime: '04.06.2020',
     orderId: 1,
-    title: 'fakeTitle',
+    title: 'Недотримання правил УБС',
     read: false,
     isOpen: false
   };
@@ -42,7 +42,7 @@ describe('UbsUserMessagesComponent', () => {
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       declarations: [UbsUserMessagesComponent, PaginatePipe],
-      imports: [MatDialogModule, HttpClientTestingModule, TranslateModule.forRoot(), RouterTestingModule, NgxPaginationModule],
+      imports: [MatDialogModule, TranslateModule.forRoot(), RouterTestingModule, NgxPaginationModule],
       schemas: [CUSTOM_ELEMENTS_SCHEMA],
       providers: [{ provide: UserMessagesService, useValue: userMessageServiceMock }]
     }).compileComponents();

@@ -97,8 +97,10 @@ export class UbsUserMessagesComponent implements OnInit, OnDestroy {
           findNotification.images = response.images;
           findNotification.isOpen = true;
           this.isLoadSmallSpinner = false;
-          const images = response.images.map((url) => ({ src: url, label: null, name: null }));
-          this.images.splice(0, response.images.length, ...images);
+          if (response.title === 'Недотримання правил УБС' || response.title === 'UBS Rules Violation') {
+            const images = response.images.map((url) => ({ src: url, label: null, name: null }));
+            this.images.splice(0, response.images.length, ...images);
+          }
         });
     }
   }
