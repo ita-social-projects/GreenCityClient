@@ -13,7 +13,7 @@
     <div class="load-bar" *ngIf="isLoadBar">
       <mat-progress-bar class="custom-bar" mode="indeterminate"></mat-progress-bar>
     </div>
-    <div *ngIf="!isAnyMessages" class="if-empty">You do not have any messages yet.</div>
+    <div *ngIf="!isAnyMessages" class="if-empty">{{ 'ubs-messages.message' | translate }}</div>
     <div *ngIf="isAnyMessages">
       <mat-accordion multi="false">
         <mat-expansion-panel
