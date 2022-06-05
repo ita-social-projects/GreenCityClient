@@ -2,6 +2,7 @@
   "ubs-client-profile": {
     "data": "User Data",
     "message-if-edit": "Please fill in your profile to make the ordering process as fast and convenient as possible",
+    "error-message-if-edit-name-surname": "The field should contain 1-30 characters",
     "error-message": "Something went wrong... Please, reload the page",
     "personal": "Personal",
     "name": "Name",

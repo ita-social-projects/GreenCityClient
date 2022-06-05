@@ -22,11 +22,21 @@
               <label for="recipientName">{{ 'ubs-client-profile.name' | translate }}</label>
               <input *ngIf="isEditing" type="text" class="form-control" id="recipientName" formControlName="recipientName" />
               <p *ngIf="!isEditing">{{ userProfile?.recipientName }}</p>
+              <div *ngIf="getControl('recipientName').invalid && getControl('recipientName').touched">
+                <div class="error-message">
+                  {{ 'ubs-client-profile.error-message-if-edit-name-surname' | translate }}
+                </div>
+              </div>
             </div>
             <div [ngClass]="{ inputMargin: isEditing }" class="form-group col-sm-6">
               <label for="recipientSurname">{{ 'ubs-client-profile.surname' | translate }}</label>
               <input *ngIf="isEditing" type="text" class="form-control" id="recipientSurname" formControlName="recipientSurname" />
               <p *ngIf="!isEditing">{{ userProfile?.recipientSurname }}</p>
+              <div *ngIf="getControl('recipientSurname').invalid && getControl('recipientSurname').touched">
+                <div class="error-message">
+                  {{ 'ubs-client-profile.error-message-if-edit-name-surname' | translate }}
+                </div>
+              </div>
             </div>
           </div>
           <h5 [ngClass]="{ h5MarginTop: isEditing }" class="profile-contacts-h5-style">{{ 'ubs-client-profile.contacts' | translate }}</h5>
