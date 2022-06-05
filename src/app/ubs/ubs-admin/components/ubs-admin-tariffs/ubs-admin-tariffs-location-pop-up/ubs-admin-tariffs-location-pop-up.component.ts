@@ -19,7 +19,7 @@ import { TariffsService } from 'src/app/ubs/ubs-admin/services/tariffs.service';
 import { CreateLocation, Locations, EditLocationName } from '../../../models/tariffs.interface';
 import { Store } from '@ngrx/store';
 import { IAppState } from 'src/app/store/state/app.state';
-import { AddLocations, GetLocations } from 'src/app/store/actions/tariff.actions';
+import { AddLocations, EditLocation, GetLocations } from 'src/app/store/actions/tariff.actions';
 import { ModalTextComponent } from '../../shared/components/modal-text/modal-text.component';
 import { ubsNamePattern } from '../../shared/validators-pattern/ubs-name-patterns';
 import { MatAutocompleteTrigger } from '@angular/material/autocomplete';
@@ -63,7 +63,7 @@ export class UbsAdminTariffsLocationPopUpComponent implements OnInit, AfterViewC
   };
   newLocationName: EditLocationName[] = [];
   selectedCities: LocationItem[] = [];
-  editedCities: EditLocationName[] = [];
+  editedCities = [];
   locations = [];
   currentLatitude: number;
   currentLongitude: number;
@@ -277,8 +277,7 @@ export class UbsAdminTariffsLocationPopUpComponent implements OnInit, AfterViewC
 
     this.locations$.pipe(skip(1)).subscribe((item) => {
       if (item) {
-        const key = 'content';
-        this.locations = item[key];
+        this.locations = item;
         this.uaregions = [].concat(
           ...this.locations.map((element) =>
             element.regionTranslationDtos.filter((it) => it.languageCode === 'ua').map((it) => it.regionName)));
@@ -319,16 +318,17 @@ export class UbsAdminTariffsLocationPopUpComponent implements OnInit, AfterViewC
 
   public editLocation(): void {
     for (const item of this.editedCities) {
+      const enLocation = { languageCode: 'en', locationName: item.englishLocation };
+      const Location = { languageCode: 'ua', locationName: item.location };
       const cart = {
-        location: item.location,
-        englishLocation: item.englishLocation,
+        location: [Location, enLocation],
         locationId: item.locationId
       };
       this.newLocationName.push(cart);
     }
-    this.tariffsService.editLocationName(this.newLocationName);
+    this.store.dispatch(EditLocation({ editedLocations: this.newLocationName }));
     this.dialogRef.close({});
-  }
+}
 
   onNoClick(): void {
     if (this.selectedCities.length !== 0 || this.editedCities.length !== 0) {
@@ -351,11 +351,9 @@ export class UbsAdminTariffsLocationPopUpComponent implements OnInit, AfterViewC
     }
 
   }
-  public openAuto(event: Event, trigger: MatAutocompleteTrigger, flag: boolean): void {
-      if (!flag) {
-        event.stopPropagation();
-        trigger.openPanel();
-      }
+  public openAuto(event: Event, trigger: MatAutocompleteTrigger): void {
+      event.stopPropagation();
+      trigger.openPanel();
     }
 
   ngAfterViewChecked(): void {

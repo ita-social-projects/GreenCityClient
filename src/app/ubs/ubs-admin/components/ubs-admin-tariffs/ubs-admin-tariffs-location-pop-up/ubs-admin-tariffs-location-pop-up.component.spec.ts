@@ -73,14 +73,15 @@ describe('UbsAdminTariffsLocationPopUpComponent ', () => {
   };
 
   const fakeLocations: Locations = {
-    locationsDto: {
+    locationsDto: [{
       latitude: 0,
+      longitude: 0,
       locationId: 159,
-      locationTranslationDtoList: {
+      locationTranslationDtoList: [{
         languageCode: 'ua',
         locationName: 'fake'
-      }
-    },
+      }]
+    }],
     regionId: 1,
     regionTranslationDtos: {
       regionName: 'ua',

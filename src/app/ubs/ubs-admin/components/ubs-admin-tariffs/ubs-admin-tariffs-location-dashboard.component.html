@@ -65,7 +65,7 @@
           </mat-option>
         </mat-autocomplete>
         <mat-icon class="cross-img" (click)="region.setValue('')">close</mat-icon>
-        <img [src]="icons.arrowDown" class="arrowDown-img" alt="arrowDown" (click)="openAuto($event, autocompleteTriggerRegion, false)" />
+        <img [src]="icons.arrowDown" class="arrowDown-img" alt="arrowDown" (click)="openAuto($event, autocompleteTriggerRegion)" />
       </div>
       <div class="validation" *ngIf="region.invalid && region.touched">
         <div>Wrong input</div>
@@ -92,7 +92,7 @@
             <mat-checkbox [checked]="isChecked()" (change)="toggleSelectAll()" value="all"></mat-checkbox>
             Усі
           </mat-option>
-          <mat-option *ngFor="let item of filteredCities | async" [value]="item">
+          <mat-option *ngFor="let item of filteredCities" [value]="item">
             <mat-checkbox class="mr-1" [checked]="checkedCities.indexOf(item) >= 0"></mat-checkbox>
             <span class="checkbox-text">{{ item }}</span>
           </mat-option>
@@ -101,7 +101,7 @@
           [src]="icons.arrowDown"
           class="arrowDown-img"
           alt="arrowDown"
-          (click)="openAuto($event, autocompleteTriggerCity, city.disabled)"
+          (click)="openAuto($event, autocompleteTriggerCity)"
         />
       </div>
       <mat-chip-list #chipListCity aria-label="City selection">

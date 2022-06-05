@@ -38,6 +38,7 @@ export class UbsAdminTariffsLocationDashboardComponent implements OnInit, OnDest
   searchForm;
   regions = [];
   cities = [];
+  allCities = [];
 
   allSelected = false;
   filteredRegions;
@@ -81,7 +82,6 @@ export class UbsAdminTariffsLocationDashboardComponent implements OnInit, OnDest
 
   ngOnInit(): void {
     this.initForm();
-    setTimeout(() => this.city.disable());
     this.getLocations();
     this.getCouriers();
     this.getReceivingStation();
@@ -100,7 +100,7 @@ export class UbsAdminTariffsLocationDashboardComponent implements OnInit, OnDest
         [Validators.required, Validators.minLength(3), Validators.maxLength(40), Validators.pattern(ubsNamePattern.namePattern)]
       ],
       city: [
-        { value: '', disabled: true },
+         '',
         [Validators.required, Validators.maxLength(40), Validators.pattern(ubsNamePattern.namePattern)]
       ],
       courier: ['', [Validators.required]],
@@ -178,11 +178,9 @@ export class UbsAdminTariffsLocationDashboardComponent implements OnInit, OnDest
     });
   }
 
-  openAuto(event: Event, trigger: MatAutocompleteTrigger, flag: boolean): void {
-    if (!flag) {
+  openAuto(event: Event, trigger: MatAutocompleteTrigger): void {
       event.stopPropagation();
       trigger.openPanel();
-    }
   }
 
   toggleSelectAll(): void {
@@ -214,8 +212,7 @@ export class UbsAdminTariffsLocationDashboardComponent implements OnInit, OnDest
 
     this.locations$.pipe(skip(1)).subscribe((item) => {
       if (item) {
-        const key = 'content';
-        this.locations = item[key];
+        this.locations = item;
         this.filteredLocations = this.locations;
         this.regions = [].concat(
           ...this.locations.map((element) =>
@@ -226,6 +223,15 @@ export class UbsAdminTariffsLocationDashboardComponent implements OnInit, OnDest
           startWith(''),
           map((value: string) => this._filter(value, this.regions))
         );
+        this.allCities = [].concat(...this.locations.map((element) =>
+          element.locationsDto
+          .map((el) => el.locationTranslationDtoList.filter((it) => it.languageCode === 'ua').map((it) => it.locationName))));
+        this.allCities = this.allCities.reduce((acc, val) => acc.concat(val), []).reduce((acc, val) => acc.concat(val), []);
+        this.city.valueChanges.pipe(
+          startWith(''),
+          map((value: string) => (value ? this._filter(value, this.allCities) : this.allCities.slice()))).subscribe(data => {
+            this.filteredCities = data;
+          });
         this.reset = false;
       }
     });
@@ -273,10 +279,6 @@ export class UbsAdminTariffsLocationDashboardComponent implements OnInit, OnDest
       )
     );
     this.cities = this.cities.reduce((acc, val) => acc.concat(val), []).reduce((acc, val) => acc.concat(val), []);
-    this.filteredCities = this.city.valueChanges.pipe(
-      startWith(''),
-      map((value: string) => (value ? this._filter(value, this.cities) : this.cities.slice()))
-    );
     return this.cities.length !== 0 ? true : false;
   }
 
