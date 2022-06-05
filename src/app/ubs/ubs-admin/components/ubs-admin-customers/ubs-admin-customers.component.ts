@@ -150,12 +150,12 @@ export class UbsAdminCustomersComponent implements OnInit, AfterViewChecked, OnD
       numberOfOrders: [this.filters.ordersCountFrom, this.filters.ordersCountTo],
       numberOfViolations: [this.filters.violationsFrom, this.filters.violationsTo],
       orderDate: [
-        this.filters.lastOrderDateFrom ? this.filters.lastOrderDateFrom.toLocaleDateString() : '',
-        this.filters.lastOrderDateTo ? this.filters.lastOrderDateTo.toLocaleDateString() : ''
+        this.filters.lastOrderDateFrom ? this.filters.lastOrderDateFrom.toISOString().slice(0, 10) : '',
+        this.filters.lastOrderDateTo ? this.filters.lastOrderDateTo.toISOString().slice(0, 10) : ''
       ],
       userRegistrationDate: [
-        this.filters.registrationDateFrom ? this.filters.registrationDateFrom.toLocaleDateString() : '',
-        this.filters.registrationDateTo ? this.filters.registrationDateTo.toLocaleDateString() : ''
+        this.filters.registrationDateFrom ? this.filters.registrationDateFrom.toISOString().slice(0, 10) : '',
+        this.filters.registrationDateTo ? this.filters.registrationDateTo.toISOString().slice(0, 10) : ''
       ]
     };
     for (const filter in filtersObj) {

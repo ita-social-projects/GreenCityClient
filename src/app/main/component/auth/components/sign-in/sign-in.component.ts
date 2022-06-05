@@ -1,8 +1,8 @@
 import { UserSuccessSignIn } from './../../../../model/user-success-sign-in';
 import { SignInIcons } from './../../../../image-pathes/sign-in-icons';
 import { UserOwnSignIn } from './../../../../model/user-own-sign-in';
-import { FormGroup, FormControl, Validators, AbstractControl, ValidatorFn, ValidationErrors } from '@angular/forms';
-import { Component, EventEmitter, OnInit, OnDestroy, Output } from '@angular/core';
+import { FormGroup, FormControl, Validators, AbstractControl } from '@angular/forms';
+import { Component, EventEmitter, OnInit, OnDestroy, Output, OnChanges } from '@angular/core';
 import { Router } from '@angular/router';
 import { HttpErrorResponse } from '@angular/common/http';
 import { MatDialog, MatDialogRef } from '@angular/material/dialog';
@@ -20,7 +20,7 @@ import { ProfileService } from '../../../user/components/profile/profile-service
   templateUrl: './sign-in.component.html',
   styleUrls: ['./sign-in.component.scss']
 })
-export class SignInComponent implements OnInit, OnDestroy {
+export class SignInComponent implements OnInit, OnDestroy, OnChanges {
   public closeBtn = SignInIcons;
   public mainSignInImage = SignInIcons;
   public googleImage = SignInIcons;
@@ -34,7 +34,6 @@ export class SignInComponent implements OnInit, OnDestroy {
   public emailFieldValue: string;
   public passwordFieldValue: string;
   public isUbs: boolean;
-  public ubsStyle: string;
   private destroy: Subject<boolean> = new Subject<boolean>();
 
   // generalError can contain:
@@ -56,13 +55,14 @@ export class SignInComponent implements OnInit, OnDestroy {
     private userOwnAuthService: UserOwnAuthService,
     private profileService: ProfileService
   ) {}
+
   ngOnDestroy(): void {
     this.destroy.next(true);
     this.destroy.complete();
   }
 
   ngOnInit() {
-    this.localStorageService.ubsRegBehaviourSubject.pipe(takeUntil(this.destroy)).subscribe((value) => (this.isUbs = value));
+    this.isUbs = this.router.url.includes('ubs');
     this.userOwnSignIn = new UserOwnSignIn();
     this.configDefaultErrorMessage();
     this.checkIfUserId();
@@ -76,7 +76,11 @@ export class SignInComponent implements OnInit, OnDestroy {
     // Get form fields to use it in the template
     this.emailField = this.signInForm.get('email');
     this.passwordField = this.signInForm.get('password');
-    this.checkIfItUbs();
+  }
+
+  ngOnChanges(): void {
+    this.emailClassCheck();
+    this.passwordClassCheck();
   }
 
   public configDefaultErrorMessage(): void {
@@ -185,7 +189,15 @@ export class SignInComponent implements OnInit, OnDestroy {
     }
   }
 
-  checkIfItUbs() {
-    this.ubsStyle = this.isUbs ? 'ubsStyle' : 'greenStyle';
+  public emailClassCheck(): string {
+    return (this.emailField.invalid && this.emailField.touched) || this.generalError
+      ? 'alert-email-validation'
+      : 'successful-email-validation';
+  }
+
+  public passwordClassCheck(): string {
+    return (this.passwordField.invalid && this.passwordField.touched) || this.generalError
+      ? 'alert-password-validation'
+      : 'successful-password-validation';
   }
 }

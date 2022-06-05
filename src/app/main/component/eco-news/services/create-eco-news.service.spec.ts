@@ -3,10 +3,15 @@ import { TestBed } from '@angular/core/testing';
 import { FormArray, FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { CreateEcoNewsService } from './create-eco-news.service';
 import { environment } from '@environment/environment.js';
+import { of } from 'rxjs';
+import { Store } from '@ngrx/store';
 
 describe('CreateEcoNewsService', () => {
   let service: CreateEcoNewsService;
   let httpTestingController: HttpTestingController;
+  const storeMock = jasmine.createSpyObj('store', ['select', 'dispatch']);
+  storeMock.select = () => of(true, true);
+
   const defaultImagePath =
     'https://csb10032000a548f571.blob.core.windows.net/allfiles/90370622-3311-4ff1-9462-20cc98a64d1ddefault_image.jpg';
   const form = new FormGroup({
@@ -20,7 +25,7 @@ describe('CreateEcoNewsService', () => {
   beforeEach(() =>
     TestBed.configureTestingModule({
       imports: [HttpClientTestingModule, ReactiveFormsModule],
-      providers: [CreateEcoNewsService]
+      providers: [CreateEcoNewsService, { provide: Store, useValue: storeMock }]
     })
   );
 
@@ -60,9 +65,10 @@ describe('CreateEcoNewsService', () => {
   });
 
   it('should set image value to empty string', () => {
+    service.fileUrl = 'new URL';
     service.files[0] = null;
     service.setForm(form);
-    expect(service.currentForm.value.image).toEqual('');
+    expect(service.currentForm.value.image).toEqual('new URL');
   });
 
   it('should make POST request', () => {

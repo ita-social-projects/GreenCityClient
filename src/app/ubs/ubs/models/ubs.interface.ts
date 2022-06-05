@@ -53,9 +53,13 @@ export interface OrderDetailsNotification {
   recipientEmail?: string;
   recipientPhone?: string;
   addressCity?: string;
+  addressCityEn?: string;
   addressStreet?: string;
+  addressStreetEn?: string;
   addressDistrict?: string;
+  addressDistrictEn?: string;
   addressRegion?: string;
+  addressRegionEn?: string;
 }
 
 export interface FinalOrder {
@@ -69,9 +73,9 @@ export interface FinalOrder {
 }
 
 export interface ICertificate {
-  certificatePoints: number;
+  points: number;
   certificateStatus: string;
-  certificateDate?: string;
+  creationDate?: string;
 }
 
 export interface PersonalData {
@@ -87,9 +91,13 @@ export interface PersonalData {
   anotherClientPhoneNumber?: string;
   addressComment: string;
   city: string;
+  cityEn: string;
   district: string;
+  districtEn: string;
   street?: string;
+  streetEn?: string;
   region?: string;
+  regionEn?: string;
   houseCorpus?: string;
   entranceNumber?: string;
   houseNumber?: string;
@@ -98,24 +106,37 @@ export interface PersonalData {
 }
 
 export interface Address {
-  actual: boolean;
-  id: number;
-  region: string;
-  regionEn: string;
+  id?: number;
   city: string;
   cityEn: string;
   district: string;
   districtEn: string;
+  region: string;
+  regionEn: string;
+  entranceNumber: string;
   street: string;
   streetEn: string;
   houseCorpus: string;
-  entranceNumber: string;
   houseNumber: string;
   addressComment?: string;
+  actual: boolean;
+  searchAddress?: string;
   coordinates: {
     latitude?: number;
     longitude?: number;
   };
+}
+
+export interface AddressData {
+  addressComment: string;
+  districtEn: string;
+  district: string;
+  entranceNumber: string;
+  houseCorpus: string;
+  houseNumber: string;
+  regionEn: string;
+  region: string;
+  searchAddress: string;
 }
 
 export interface Locations {
@@ -150,17 +171,49 @@ export interface LocationsName {
   locationId: number;
   locationName: string;
 }
+
+export interface LocationsDtosList {
+  locationId: number;
+  nameEn: string;
+  nameUk: string;
+}
+
+export interface CourierTranslation {
+  languageCode: string;
+  name: string;
+}
 export interface CourierLocations {
-  courierDtos: CourierDtos[];
   courierLimit: string;
-  courierLocationId: number;
-  locationInfoDtos: [
-    {
-      locationsDto: LocationsDtos[];
-    }
-  ];
+  courierStatus: string;
+  tariffInfoId: number;
+  locationsDtosList: LocationsDtosList[];
+  courierTranslationDtos: CourierTranslation[];
+  regionDto: {
+    nameEn: string;
+    nameUk: string;
+    regionId: number;
+  };
   maxAmountOfBigBags: number;
   maxPriceOfOrder: number;
   minAmountOfBigBags: number;
   minPriceOfOrder: number;
+}
+
+export interface ActiveLocations {
+  locationId: number;
+  nameEn: string;
+  nameUk: string;
+}
+
+export interface ActiveLocationsDtos {
+  locations: ActiveLocations[];
+  nameEn: string;
+  nameUk: string;
+  regionId: number;
+}
+
+export interface AllLocationsDtos {
+  allActiveLocationsDtos: ActiveLocationsDtos[] | null;
+  tariffsForLocationDto: CourierLocations | null;
+  orderIsPresent: boolean;
 }

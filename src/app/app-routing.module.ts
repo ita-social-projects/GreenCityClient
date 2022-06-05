@@ -1,8 +1,7 @@
 import { ConfirmRestorePasswordGuard } from './main/service/route-guards/confirm-restore-password.guard';
-import { HomepageComponent } from 'src/app/main/component/home/components';
+import { EcoEventsComponent, HomepageComponent } from 'src/app/main/component/home/components';
 import { ConfirmRestorePasswordComponent } from '@global-auth/index';
 import { SearchAllResultsComponent } from 'src/app/main/component/layout/components';
-import { TipsListComponent } from './main/component/home/components/useful-tips/tips-list/tips-list.component';
 import { MainComponent } from './main/main.component';
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule, PreloadAllModules } from '@angular/router';
@@ -27,12 +26,16 @@ export const routes: Routes = [
         loadChildren: () => import('./main/component/eco-news/eco-news.module').then((mod) => mod.EcoNewsModule)
       },
       {
-        path: 'profile',
-        loadChildren: () => import('./main/component/user/user.module').then((mod) => mod.UserModule)
+        path: 'events',
+        loadChildren: () => import('./main/component/events/events.module').then((mod) => mod.EventsModule)
       },
       {
-        path: 'tips',
-        component: TipsListComponent
+        path: 'events',
+        component: EcoEventsComponent
+      },
+      {
+        path: 'profile',
+        loadChildren: () => import('./main/component/user/user.module').then((mod) => mod.UserModule)
       },
       {
         path: 'search',

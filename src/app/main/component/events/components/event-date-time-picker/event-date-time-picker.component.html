@@ -1,0 +1,50 @@
+<div [formGroup]="dateForm">
+  <div class="date-container">
+    <mat-form-field appearance="outline" class="date">
+      <mat-label>Choose a date </mat-label>
+      <input [min]="minDate" matInput [matDatepicker]="picker" formControlName="date" />
+      <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+      <mat-datepicker #picker></mat-datepicker>
+    </mat-form-field>
+
+    <mat-form-field appearance="outline" class="time-item">
+      <mat-label>Set Start Time</mat-label>
+      <mat-select formControlName="startTime">
+        <mat-option *ngFor="let time of timeArrStart" [value]="time">
+          {{ time }}
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
+    <h5 class="time-item">--</h5>
+    <mat-form-field appearance="outline" class="time-item">
+      <mat-label>Set End Time</mat-label>
+      <mat-select formControlName="endTime">
+        <mat-option *ngFor="let time of timeArrEnd" [value]="time">
+          {{ time }}
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
+
+    <mat-checkbox class="example-margin" (change)="checkIfAllDay($event)">all day</mat-checkbox>
+  </div>
+  <div class="checkbox">
+    <mat-checkbox class="example-margin" (change)="checkIfOffline($event)">Place</mat-checkbox>
+    <mat-checkbox class="example-margin" (change)="checkIfOnline($event)">Online</mat-checkbox>
+  </div>
+
+  <div *ngIf="dateForm.get('place')" class="active">
+    <mat-label>Location</mat-label>
+    <mat-form-field appearance="outline">
+      <mat-label>Event Ofline place.</mat-label>
+      <input matInput #placesRef matGoogleMapsAutocomplete formControlName="place" />
+    </mat-form-field>
+  </div>
+
+  <div *ngIf="dateForm.get('onlineLink')" class="active">
+    <mat-label>Online Link</mat-label>
+    <mat-form-field appearance="outline">
+      <mat-label>EventOnline link (should start with http:/).</mat-label>
+      <input matInput formControlName="onlineLink" />
+    </mat-form-field>
+  </div>
+</div>

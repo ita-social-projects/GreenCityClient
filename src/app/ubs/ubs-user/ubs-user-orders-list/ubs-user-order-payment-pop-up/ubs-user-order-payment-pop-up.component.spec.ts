@@ -1,3 +1,4 @@
+import { HttpErrorResponse } from '@angular/common/http';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { FormArray, FormBuilder, FormControl, FormGroup, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatDialogModule, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
@@ -35,8 +36,8 @@ describe('UbsUserOrderPaymentPopUpComponent', () => {
   };
   const fakeCertificates = {
     certificateStatus: 'ACTIVE',
-    certificatePoints: 222,
-    certificateDate: 'fakeDate'
+    points: 222,
+    creationDate: 'fakeDate'
   };
   const fakeFondyResponse = {
     orderId: 11,
@@ -154,7 +155,7 @@ describe('UbsUserOrderPaymentPopUpComponent', () => {
       const certificate = { value: { certificateCode: 3 } };
       component.calculateCertificate(certificate as any);
       expect(component.userCertificate.certificateSum).toBe(222);
-      expect(component.userCertificate.certificateDate).toBe('fakeDate');
+      expect(component.userCertificate.creationDate).toBe('fakeDate');
       expect(component.userOrder.sum).toBe(555);
       expect(component.userCertificate.certificateStatusActive).toBeTruthy();
     });
@@ -164,7 +165,7 @@ describe('UbsUserOrderPaymentPopUpComponent', () => {
       component.userOrder.sum = 111;
       component.calculateCertificate(certificate as any);
       expect(component.userCertificate.certificateSum).toBe(222);
-      expect(component.userCertificate.certificateDate).toBe('fakeDate');
+      expect(component.userCertificate.creationDate).toBe('fakeDate');
       expect(component.userOrder.sum).toBe(0);
       expect(component.userCertificate.certificateStatusActive).toBeTruthy();
     });
@@ -172,6 +173,16 @@ describe('UbsUserOrderPaymentPopUpComponent', () => {
     it('makes expected calls when certificateStatus !== "ACTIVE"', () => {
       const certificate = { value: { certificateCode: 3 } };
       orderServiceMock.processCertificate.and.returnValue(of({ certificateStatus: 'FAKE' }));
+      component.calculateCertificate(certificate as any);
+      expect(component.userCertificate.certificateError).toBeTruthy();
+    });
+
+    it('makes expected calls when throws error', () => {
+      const certificate = { value: { certificateCode: 3 } };
+      const errorResponse = new HttpErrorResponse({
+        status: 404
+      });
+      orderServiceMock.processCertificate.and.returnValue(throwError(errorResponse));
       component.calculateCertificate(certificate as any);
       expect(component.userCertificate.certificateError).toBeTruthy();
     });

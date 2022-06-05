@@ -4,7 +4,7 @@ export interface IUserOrderInfo {
   amountBeforePayment: number;
   bags: IBags[];
   bonuses: number;
-  certificate: string[];
+  certificate: ICertificate[];
   dateForm: string;
   datePaid: string;
   extend?: boolean;
@@ -46,6 +46,13 @@ export interface IBags {
   totalPrice: number;
 }
 
+export interface ICertificate {
+  certificateStatus: string;
+  code: string;
+  creationDate: string;
+  points: number;
+}
+
 export enum CheckPaymentStatus {
   PAID = 'Paid',
   UNPAID = 'Unpaid',
@@ -58,4 +65,11 @@ export enum CheckOrderStatus {
   CONFIRMED = 'Confirmed',
   FORMED = 'Formed',
   ADJUSTMENT = 'Adjustment'
+}
+
+export interface IUserOrdersInfo {
+  currentPage: number;
+  page: IUserOrderInfo[];
+  totalElements: number;
+  totalPages: number;
 }

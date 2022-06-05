@@ -1,7 +1,7 @@
 import { UserSuccessSignIn, SuccessSignUpDto } from './../../../../model/user-success-sign-in';
 import { UserOwnSignUp } from './../../../../model/user-own-sign-up';
 import { authImages } from './../../../../image-pathes/auth-images';
-import { Component, EventEmitter, OnInit, OnDestroy, Output } from '@angular/core';
+import { Component, EventEmitter, OnInit, OnDestroy, Output, OnChanges } from '@angular/core';
 import { AbstractControl, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { HttpErrorResponse } from '@angular/common/http';
@@ -21,7 +21,7 @@ import { MatSnackBarComponent } from '@global-errors/mat-snack-bar/mat-snack-bar
   templateUrl: './sign-up.component.html',
   styleUrls: ['./sign-up.component.scss']
 })
-export class SignUpComponent implements OnInit, OnDestroy {
+export class SignUpComponent implements OnInit, OnDestroy, OnChanges {
   public signUpForm: FormGroup;
   public emailControl: AbstractControl;
   public firstNameControl: AbstractControl;
@@ -41,7 +41,6 @@ export class SignUpComponent implements OnInit, OnDestroy {
   public passwordConfirmFieldValue: string;
   public currentLanguage: string;
   public isUbs: boolean;
-  public ubsStyle: string;
   private destroy: Subject<boolean> = new Subject<boolean>();
   private errorsType = {
     name: (error: string) => (this.firstNameErrorMessageBackEnd = error),
@@ -68,8 +67,14 @@ export class SignUpComponent implements OnInit, OnDestroy {
     this.getFormFields();
     this.setNullAllMessage();
     this.userOwnSignUp = new UserOwnSignUp();
-    this.localStorageService.ubsRegBehaviourSubject.pipe(takeUntil(this.destroy)).subscribe((value) => (this.isUbs = value));
-    this.checkIfItUbs();
+    this.isUbs = this.router.url.includes('ubs');
+  }
+
+  ngOnChanges(): void {
+    this.emailClassCheck();
+    this.firstNameClassCheck();
+    this.passwordClassCheck();
+    this.passwordConfirmClassCheck();
   }
 
   public onSubmit(userOwnRegister: UserOwnSignUp): void {
@@ -197,8 +202,30 @@ export class SignUpComponent implements OnInit, OnDestroy {
     });
   }
 
-  checkIfItUbs() {
-    this.ubsStyle = this.isUbs ? 'ubsStyle' : 'greenStyle';
+  public emailClassCheck(): string {
+    return (this.emailControl.invalid && this.emailControl.touched) || this.emailErrorMessageBackEnd || this.backEndError
+      ? 'main-data-input wrong-input'
+      : 'main-data-input';
+  }
+
+  public firstNameClassCheck(): string {
+    return (this.firstNameControl.invalid && this.firstNameControl.touched) || this.backEndError
+      ? 'main-data-input wrong-input'
+      : 'main-data-input';
+  }
+
+  public passwordClassCheck(): string {
+    return (this.passwordControl.invalid && this.passwordControl.touched) || this.backEndError
+      ? 'main-data-input-password wrong-input'
+      : 'main-data-input-password';
+  }
+
+  public passwordConfirmClassCheck(): string {
+    return (this.passwordControlConfirm.invalid && this.passwordControlConfirm.touched) ||
+      this.backEndError ||
+      (this.passwordControl.value !== this.passwordControlConfirm.value && this.passwordControlConfirm.value !== '')
+      ? 'main-data-input-password wrong-input'
+      : 'main-data-input-password';
   }
 
   ngOnDestroy(): void {

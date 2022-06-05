@@ -1,20 +1,23 @@
 export interface EcoNewsModel {
-  countComments: number;
-  id: number;
-  imagePath: string;
-  title: string;
-  text: string;
   author: {
     id: number;
     name: string;
   };
-  tags: Array<NewsTagInterface>;
+  content: string;
+  countComments: number;
   creationDate: string;
+  id: number;
+  imagePath: string;
   likes: number;
-  source?: string;
+  shortInfo: string;
+  source: string;
+  tags: Array<string>;
+  tagsEn: Array<string>;
+  tagsUa: Array<string>;
+  title: string;
 }
-
 export interface NewsTagInterface {
   id: number;
   name: string;
+  nameUa: string;
 }

@@ -109,10 +109,10 @@ export class UbsUserOrderPaymentPopUpComponent implements OnInit {
     this.orderService.processCertificate(certificate.value.certificateCode).subscribe(
       (response) => {
         if (response.certificateStatus === 'ACTIVE') {
-          this.userCertificate.certificateSum = response.certificatePoints;
-          this.userCertificate.certificateDate = response.certificateDate;
-          certificate.value.certificateSum = response.certificatePoints;
-          this.userOrder.sum -= response.certificatePoints;
+          this.userCertificate.certificateSum = response.points;
+          this.userCertificate.creationDate = response.creationDate;
+          certificate.value.certificateSum = response.points;
+          this.userOrder.sum -= response.points;
           if (this.userOrder.sum < 0) {
             this.userOrder.sum = 0;
           }

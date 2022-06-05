@@ -56,7 +56,7 @@
       <div>
         <button
           class="btn button-payment-operations btn-enroll-to-bonus-account"
-          [disabled]="!accessOnCanceledStatus()"
+          [disabled]="accessOnCanceledStatus()"
           (click)="enrollToBonusAccount()"
         >
           {{ 'order-payment.enroll-on-bonus-account' | translate }}

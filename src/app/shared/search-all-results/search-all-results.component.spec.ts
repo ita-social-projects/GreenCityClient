@@ -125,15 +125,6 @@ describe('SearchAllResultsComponent', () => {
       expect(component.sortType).toBe('creation_date,asc');
     });
 
-    it('should change filter on click', () => {
-      component.searchCategory = 'econews';
-      // @ts-ignore
-      const spy = spyOn(component, 'onSearchUpdateQuery').and.returnValue(true);
-      component.onFilterByClick({ category: 'tipsandtricks', name: 'tips' });
-      expect(component.searchCategory).toBe('tipsandtricks');
-      expect(spy).toHaveBeenCalled();
-    });
-
     it('should on update page url if current filter is same', () => {
       component.searchCategory = 'econews';
       // @ts-ignore

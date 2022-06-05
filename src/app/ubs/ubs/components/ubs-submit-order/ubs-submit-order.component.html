@@ -17,7 +17,8 @@
       <ul class="services-list w-100 p-0 m-0">
         <li class="services-list_item d-flex justify-content-between align-items-baseline" *ngFor="let bag of bags">
           <ng-container *ngIf="bag.quantity">
-            <span class="col-3 p-0 m-0 bag-name">{{ bag.name }}</span>
+            <span *ngIf="currentLanguage === 'ua'" class="col-3 p-0 m-0 bag-name">{{ bag.name }}</span>
+            <span *ngIf="currentLanguage === 'en'" class="col-3 p-0 m-0 bag-name">{{ bag.nameEng }}</span>
             <span class="col-2 p-0 m-0 bag-name">{{ bag.capacity }} {{ 'order-details.litr' | translate }}</span>
             <span class="col-2 p-0 m-0 bag-name">{{ bag.price | currency }} {{ 'order-details.currency' | translate }}</span>
             <span class="col-2 p-0 m-0 bag-name">{{ bag.quantity }} {{ 'order-details.pieces' | translate }}</span>
@@ -52,7 +53,7 @@
                 <strong class="money-saved">-{{ orderDetails.pointsToUse }} {{ 'order-details.currency' | translate }}</strong>
               </span>
             </p>
-            <p class="total-content">
+            <p class="total-content bold">
               <span>{{ 'order-details.amount-due' | translate }} </span>
               <span>
                 <strong>{{ orderDetails.finalSum | currency }} {{ 'order-details.currency' | translate }}</strong>
@@ -85,25 +86,37 @@
               </ul>
             </ng-template>
           </div>
-          <div class="order-info m-0">
+          <div class="order-info">
             <p class="order-header">{{ 'order-details.export-address' | translate }}</p>
             <ul class="order-list">
               <li class="order-list-item">
-                {{ 'personal-info.address-city' | translate }} {{ 'personal-info.pop-up-city-name' | translate }}
+                <span
+                  >{{ 'personal-info.address-city' | translate }} {{ currentLanguage === 'ua' ? personalData.city : personalData.cityEn }},
+                </span>
+                <span>{{ currentLanguage === 'ua' ? personalData.street : personalData.streetEn }}, {{ personalData.houseNumber }}, </span>
+                <span *ngIf="personalData.houseCorpus">
+                  {{ 'personal-info.address-corp' | translate }} {{ personalData.houseCorpus }}
+                </span>
+                <span *ngIf="personalData.entranceNumber">
+                  {{ 'personal-info.address-entrance' | translate }} {{ personalData.entranceNumber }}
+                </span>
               </li>
-              <li class="order-list-item">{{ 'personal-info.address-district' | translate }} {{ personalData.district }}</li>
               <li class="order-list-item">
-                <span>{{ personalData.street }}, {{ personalData.houseNumber }}</span>
-                <span *ngIf="personalData.houseCorpus"
-                  >, {{ 'personal-info.address-corp' | translate }} {{ personalData.houseCorpus }}</span
-                >
-                <span *ngIf="personalData.entranceNumber"
-                  >, {{ 'personal-info.address-entrance' | translate }} {{ personalData.entranceNumber }}</span
-                >
+                <span
+                  >{{ 'personal-info.address-district' | translate }}
+                  {{ currentLanguage === 'ua' ? personalData.district.split(' ')[0] : personalData.districtEn.split(' ')[0] }},
+                </span>
+                <span>{{ currentLanguage === 'ua' ? personalData.region : personalData.regionEn }}</span>
               </li>
-              <li class="order-list-item">{{ personalData.region }}</li>
+            </ul>
+          </div>
+          <div class="order-info m-0">
+            <p class="order-header" *ngIf="personalData.addressComment">
+              {{ 'order-details.address-comment' | translate }}
+            </p>
+            <ul class="order-list">
               <li class="order-list-item" *ngIf="personalData.addressComment">
-                {{ 'order-details.address-comment' | translate }} {{ personalData.addressComment }}
+                {{ personalData.addressComment }}
               </li>
               <li class="order-list-item" *ngIf="orderDetails.orderComment">
                 {{ 'order-details.order-comment' | translate }} {{ orderDetails.orderComment }}
@@ -135,7 +148,7 @@
   *ngIf="(bags.length && personalData) || (isNotification && isDownloadDataNotification)"
 >
   <button *ngIf="!isNotification" class="secondary-global-button btn btn-back" matStepperPrevious>
-    <i class="fas fa-chevron-left" aria-hidden="true"></i> &nbsp; {{ 'submit-order.back' | translate }}
+    <i class="fas fa-chevron-left" aria-hidden="true"></i> &nbsp;<span> {{ 'submit-order.back' | translate }}</span>
   </button>
   <div class="w-100 d-flex justify-content-end">
     <button class="secondary-global-button btn cansel-button btn-main" (click)="cancelUBS(true)">

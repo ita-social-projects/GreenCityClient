@@ -18,7 +18,7 @@ import { ChatModalComponent } from '../chat-modal/chat-modal.component';
 })
 export class ChatPopupComponent implements OnInit, OnDestroy {
   public chatIcons = CHAT_ICONS;
-  public isOpen = true;
+  public isOpen = false;
 
   private onDestroy$ = new Subject();
   private userId: number;

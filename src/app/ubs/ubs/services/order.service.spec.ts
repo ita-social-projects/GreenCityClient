@@ -40,8 +40,11 @@ describe('OrderService', () => {
     anotherClientPhoneNumber: '',
     addressComment: '',
     city: '',
+    cityEn: '',
     district: '',
+    districtEn: '',
     street: '',
+    streetEn: '',
     houseCorpus: '',
     entranceNumber: '',
     houseNumber: '',
@@ -53,8 +56,8 @@ describe('OrderService', () => {
     points: 100500
   };
   const certificateMock = {
-    certificateDate: 'string',
-    certificatePoints: 0,
+    creationDate: 'string',
+    points: 0,
     certificateStatus: 'string'
   };
 
@@ -160,24 +163,51 @@ describe('OrderService', () => {
   it('method getLocations should return user location', () => {
     const locationsMock = [{ id: 1, name: 'city', languageCode: 'ua' }];
 
-    service.getLocations(1).subscribe((data) => {
+    service.getLocations().subscribe((data) => {
       expect(data).toEqual(locationsMock as any);
     });
-    httpTest('courier/1', 'GET', locationsMock);
+    httpTest('allLocations', 'GET', locationsMock);
+  });
+
+  it('method getLocations should return all user location', () => {
+    const locationsMock = [{ id: 1, name: 'city', languageCode: 'ua' }];
+
+    service.getLocations(true).subscribe((data) => {
+      expect(data).toEqual(locationsMock as any);
+    });
+    httpTest('allLocations?changeLoc=changeLocation', 'GET', locationsMock);
+  });
+
+  it('method getInfoAboutTariff should return user location tariff', () => {
+    const tariffMock = { tariff: 'fake tariff' };
+
+    service.getInfoAboutTariff(1).subscribe((data) => {
+      expect(data).toEqual(tariffMock as any);
+    });
+    httpTest('tariffinfo-for-location/1', 'GET', tariffMock);
   });
 
   it('method addAdress should makes post request', () => {
-    service.addAdress(address).subscribe((data) => {
+    service.addAdress(address as any).subscribe((data) => {
       expect(data).toEqual(address);
     });
     httpTest('save-order-address', 'POST', address);
   });
+
+  it('method updateAdress should makes post request', () => {
+    service.updateAdress(address as any).subscribe((data) => {
+      expect(data).toEqual(address);
+    });
+    httpTest('update-order-address', 'PUT', address);
+  });
+
   it('method deleteAddress should delete address and make post request', () => {
     service.deleteAddress(address).subscribe((data) => {
       expect(data).toEqual(address);
     });
     httpTest('order-addresses/' + address.id, 'DELETE', address);
   });
+
   it('method addLocation should add location and make post request', () => {
     const location = { locationId: 0 };
     service.addLocation(location).subscribe((data) => {

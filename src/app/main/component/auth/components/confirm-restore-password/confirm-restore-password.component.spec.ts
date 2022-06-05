@@ -107,7 +107,8 @@ describe('ConfirmRestorePasswordComponent', () => {
       mockRestoreDto = {
         password: 'Password13.',
         confirmPassword: 'Password13.',
-        token: 'token'
+        token: 'token',
+        isUbs: false
       };
     });
 

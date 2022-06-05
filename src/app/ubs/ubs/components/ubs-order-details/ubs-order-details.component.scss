@@ -84,6 +84,11 @@ h3 {
 
 .form-group {
   padding: 0;
+
+  p.link {
+    color: var(--ubs-electric-violet);
+    cursor: pointer;
+  }
 }
 
 .form-control {
@@ -204,8 +209,8 @@ button {
   text-align: right;
 
   .total-content {
-    display: flex;
-    justify-content: flex-end;
+    display: grid;
+    grid-template-columns: 2fr 1fr;
     color: var(--ubs-secondary-grey);
     font-family: var(--ubs-quaternary-font);
     padding-right: 0.5rem;
@@ -507,6 +512,7 @@ li {
     max-width: 100%;
     padding: 15px;
   }
+
   // need this to fix issue on screens(max-width 375px) because someone used bootstrap
   .margin-right {
     margin-right: 5px !important;

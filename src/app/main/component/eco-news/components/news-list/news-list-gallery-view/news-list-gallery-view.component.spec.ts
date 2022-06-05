@@ -14,16 +14,20 @@ describe('NewsListGalleryViewComponent', () => {
     id: 1,
     imagePath: defaultImagePath,
     title: 'string',
-    text: 'string',
+    content: 'string',
     author: {
       id: 1,
       name: 'string'
     },
-    tags: [{ id: 1, name: 'test' }],
+    tags: ['test'],
+    tagsEn: ['test'],
+    tagsUa: ['test'],
 
     creationDate: '11',
     likes: 0,
-    countComments: 2
+    countComments: 2,
+    shortInfo: 'info',
+    source: null
   };
 
   beforeEach(async(() => {
@@ -48,7 +52,6 @@ describe('NewsListGalleryViewComponent', () => {
 
   it('should get default image', () => {
     ecoNewsMock.imagePath = ' ';
-    component.ecoNewsModel = ecoNewsMock;
     component.checkNewsImage();
     expect(component.newsImage).toBe(defaultImagePath);
   });

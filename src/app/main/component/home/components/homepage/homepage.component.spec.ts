@@ -8,7 +8,7 @@ import { async, ComponentFixture, inject, TestBed } from '@angular/core/testing'
 import { TranslateModule } from '@ngx-translate/core';
 
 import { HomepageComponent } from './homepage.component';
-import { EcoEventsComponent, StatRowsComponent, SubscribeComponent, TipsCardComponent, TipsListComponent } from '..';
+import { EcoEventsComponent, StatRowsComponent, SubscribeComponent } from '..';
 import { EcoEventsItemComponent } from '../eco-events/eco-events-item/eco-events-item.component';
 import { SwiperModule } from 'ngx-swiper-wrapper';
 import { FormsModule } from '@angular/forms';
@@ -24,6 +24,7 @@ import { AuthModule } from 'src/app/main/component/auth/auth.module';
 import { EcoNewsModule } from 'src/app/main/component/eco-news/eco-news.module';
 import { InfiniteScrollModule } from 'ngx-infinite-scroll';
 import { APP_BASE_HREF } from '@angular/common';
+import { CheckTokenService } from '@global-service/auth/check-token/check-token.service';
 
 class MatDialogMock {
   open() {
@@ -81,11 +82,9 @@ describe('HomepageComponent', () => {
         StatRowsComponent,
         HomepageComponent,
         EcoEventsComponent,
-        TipsListComponent,
         SubscribeComponent,
         StatRowComponent,
-        EcoEventsItemComponent,
-        TipsCardComponent
+        EcoEventsItemComponent
       ],
       providers: [
         { provide: MatSnackBarComponent, useValue: snackBarMock },

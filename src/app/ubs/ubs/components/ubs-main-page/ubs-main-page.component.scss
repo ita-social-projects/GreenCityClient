@@ -44,11 +44,15 @@ h2 {
 }
 
 .button:hover {
-  color: beige;
+  background-color: var(--ubs-button-dark-green);
 }
 
 p {
   margin: 0;
+}
+
+a {
+  color: var(--ubs-electric-violet);
 }
 
 .price-header {

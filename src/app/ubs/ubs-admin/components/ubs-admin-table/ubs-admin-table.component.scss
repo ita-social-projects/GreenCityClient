@@ -85,6 +85,10 @@ input {
   line-height: 2.9;
 }
 
+.mat-column-paymentDate {
+  cursor: default;
+}
+
 .primary-color {
   color: var(--primary-green);
 }
@@ -99,6 +103,7 @@ input {
   word-wrap: break-word !important;
   white-space: nowrap !important;
   align-items: unset !important;
+  cursor: url(../../../../../assets/img/ubs-admin-orders/Move-White.svg) 4 4, auto;
 }
 
 .mat-column-select {
@@ -199,7 +204,7 @@ input {
   align-items: center;
   border: 0;
   width: 100%;
-  margin: 20px 0 32px 0;
+  margin: 20px 0 17px 0;
 }
 
 .search {
@@ -237,6 +242,14 @@ input {
   margin: 8px 8px 8px 0;
 }
 
+.clear-apply-group {
+  padding-top: 10px;
+  display: flex;
+  justify-content: center;
+  height: 50px;
+  width: 100%;
+}
+
 .blocked_mess {
   background-color: rgb(255, 243, 205);
   color: rgb(133, 100, 4);
@@ -264,13 +277,15 @@ input {
 }
 
 .dropdown-menu {
-  height: 400px;
+  height: 500px;
   width: 356px;
   margin-right: 5px;
   overflow: scroll;
   padding: 16px 16px 0 16px;
+  padding: 0;
   color: var(--ubs-primary-grey);
   font-family: var(--primary-font);
+  background-color: var(--ubs-secondary-white);
 }
 
 .dropdown-menu input[type='date'] {
@@ -278,22 +293,41 @@ input {
 }
 
 .filter-btn {
-  display: flex;
-  width: 155px;
+  text-align: center;
+  height: 36px;
+  width: 141px;
   margin: 0 5px;
   border: 1px solid var(--ubs-quaternary-dark-grey);
   border-radius: 4px !important;
+  background-color: var(--ubs-secondary-white);
+}
+
+.filters-dropdown-wrapper {
+  position: relative;
 }
 
 .bg-lime {
   border: none;
-  background-color: var(--ubs-primary-lime-green);
+  background-color: var(--ubs-button-dark-green);
 }
 
 .dropdown-menu li {
   color: var(--ubs-primary-grey);
   display: flex;
   align-items: center;
+  padding: 6px;
+}
+
+.accordion-item {
+  padding-bottom: 30px;
+  padding-left: 36px;
+  padding-right: 36px;
+  font-size: 16px;
+}
+
+.dropdown-menu-right {
+  margin-right: 20px;
+  margin-top: 17px;
 }
 
 .mat-spinner {
@@ -307,7 +341,7 @@ input {
 
 .scrolling {
   min-height: 500px;
-  max-height: 1vh;
+  height: 100vh;
   overflow: scroll;
 }
 
@@ -328,6 +362,38 @@ input {
   margin-bottom: 0;
 }
 
+.sticky-bottom {
+  position: sticky;
+  bottom: 0;
+  z-index: 9999;
+  background-color: var(--ubs-secondary-white);
+}
+
+.sticky-top {
+  padding: 0;
+  margin: 0;
+  position: sticky;
+  top: 0;
+  z-index: 9999;
+  background-color: var(--ubs-secondary-white);
+}
+
+.filter-close-btn {
+  height: 80px;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 22px 5px 22px 5px;
+  margin-left: 16;
+  margin-right: 16;
+}
+
+.font-weight-bold {
+  margin-bottom: 0;
+  padding-left: 22px;
+}
+
 .column_header {
   display: flex;
   justify-content: space-between;
@@ -339,6 +405,7 @@ input {
   overflow: hidden;
   text-overflow: ellipsis;
   padding: 0;
+  cursor: default;
 }
 
 .pointer {
@@ -367,12 +434,13 @@ input {
 ::ng-deep .mat-checkbox-indeterminate .mat-checkbox-background,
 ::ng-deep .mat-checkbox-checked:not(.mat-checkbox-disabled).mat-accent .mat-ripple-element,
 ::ng-deep .mat-checkbox:active:not(.mat-checkbox-disabled).mat-accent .mat-ripple-element {
-  background-color: var(--ubs-button-light-green) !important;
+  background-color: var(--ubs-quaternary-dark-grey) !important;
 }
 
 .accordion-group-header {
   display: flex;
-  justify-content: space-between;
+  justify-content: left;
+  gap: 5px;
   font-weight: bold;
   cursor: pointer;
 }
@@ -419,10 +487,23 @@ ul::-webkit-scrollbar-thumb,
   display: flex;
   justify-content: space-between;
   position: relative;
+
+  .head {
+    color: var(--ubs-black);
+  }
 }
 
 .reset-settings {
   float: right;
   border: none;
   border-radius: 100px;
+  background-color: none;
+}
+
+#table-container {
+  margin-top: 17px;
+}
+
+.hignlighted {
+  background-color: var(--ubs-liberty-green);
 }

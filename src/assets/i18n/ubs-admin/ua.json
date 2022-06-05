@@ -28,6 +28,7 @@
     "password-error-new": "Введіть новий пароль!",
     "delete-title": "Видалення профілю",
     "delete-message": "Якщо Ви видалите свій профіль, ваші бонуси згорять, а інформацію про ваші замовлення буде видалено без можливості відновлення",
+    "get-notification-in": "Отримувати сповіщення у",
     "btn": {
       "edit": "Редагувати дані",
       "cancel": "Скасувати зміни",
@@ -36,7 +37,9 @@
       "change-password-cancel": "Скасувати",
       "delete-profile": "Видалити профіль",
       "delete-profile-cancel": "Назад",
-      "delete-profile-save": "Видалити"
+      "delete-profile-save": "Видалити",
+      "alternative-email": "Додати альтернативний email",
+      "add-address": "Додати адресу"
     },
     "payment": {
       "title": "Оплата",
@@ -307,7 +310,7 @@
     "date-range": "Проміжок часу",
     "date-from": "Від",
     "date-to": "До",
-    "filters": "Фільтри",
+    "filters": "Фільтрувати",
     "export-to-excel": "Експортувати в  Excel",
     "table-view": "Вид таблиці",
     "filter": "Фільтр",
@@ -621,7 +624,7 @@
     "auth": {
       "sign-in": {
         "title": "З поверненням!",
-        "fill-form": "Будь ласка, внеси свої дані для входу.",
+        "fill-form": "Будь ласка, внесiть свої дані для входу.",
         "email": "Електронна пошта",
         "email-is-required": "Введіть адресу електронної пошти",
         "field-is-required": "Це поле є обов'язковим",
@@ -675,5 +678,8 @@
   "top-bar": {
     "sign-up": "Зареєструватись ",
     "sign-in": "Увійти"
+  },
+  "ubs-messages": {
+    "message": "Ви ще не отримували повідомлень."
   }
 }

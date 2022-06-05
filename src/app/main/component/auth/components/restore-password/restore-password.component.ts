@@ -1,7 +1,7 @@
 import { UserOwnSignIn } from './../../../../model/user-own-sign-in';
 import { UserSuccessSignIn } from './../../../../model/user-success-sign-in';
 import { SignInIcons } from './../../../../image-pathes/sign-in-icons';
-import { Component, EventEmitter, OnInit, OnDestroy, Output } from '@angular/core';
+import { Component, EventEmitter, OnInit, OnDestroy, Output, OnChanges } from '@angular/core';
 import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { AbstractControl, FormGroup, FormControl, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
@@ -20,7 +20,7 @@ import { MatSnackBarComponent } from '@global-errors/mat-snack-bar/mat-snack-bar
   templateUrl: './restore-password.component.html',
   styleUrls: ['./restore-password.component.scss']
 })
-export class RestorePasswordComponent implements OnInit, OnDestroy {
+export class RestorePasswordComponent implements OnInit, OnDestroy, OnChanges {
   public restorePasswordForm: FormGroup;
   public emailField: AbstractControl;
   public closeBtn = SignInIcons;
@@ -34,6 +34,7 @@ export class RestorePasswordComponent implements OnInit, OnDestroy {
   public currentLanguage: string;
   public userIdSubscription: Subscription;
   public emailFieldValue: string;
+  public isUbs: boolean;
   @Output() public pageName = new EventEmitter();
 
   constructor(
@@ -49,11 +50,16 @@ export class RestorePasswordComponent implements OnInit, OnDestroy {
   ) {}
 
   ngOnInit() {
+    this.isUbs = this.router.url.includes('ubs');
     this.userOwnSignIn = new UserOwnSignIn();
     this.initFormReactive();
     this.configDefaultErrorMessage();
     this.checkIfUserId();
     this.emailField = this.restorePasswordForm.get('email');
+  }
+
+  ngOnChanges(): void {
+    this.classCheck();
   }
 
   public initFormReactive(): void {
@@ -92,12 +98,12 @@ export class RestorePasswordComponent implements OnInit, OnDestroy {
     this.loadingAnim = true;
     this.currentLanguage = this.localStorageService.getCurrentLanguage();
     this.restorePasswordService
-      .sendEmailForRestore(email, this.currentLanguage)
+      .sendEmailForRestore(email, this.currentLanguage, this.isUbs)
       .pipe(take(1))
       .subscribe({
         next: () => {
           this.onCloseRestoreWindow();
-          this.snackBar.openSnackBar('successRestorePassword');
+          this.snackBar.openSnackBar(this.isUbs ? 'successRestorePasswordUbs' : 'successRestorePassword');
         },
         error: (error: HttpErrorResponse) => {
           this.onSentEmailBadMessage(error);
@@ -138,6 +144,12 @@ export class RestorePasswordComponent implements OnInit, OnDestroy {
   private onSignInWithGoogleSuccess(data: UserSuccessSignIn): void {
     this.userOwnSignInService.saveUserToLocalStorage(data);
     this.router.navigate(['/']);
+  }
+
+  public classCheck(): string {
+    return (this.emailField.invalid && this.emailField.touched) || this.backEndError || this.emailErrorMessageBackEnd
+      ? 'alert-email-validation'
+      : 'successful-email-validation';
   }
 
   ngOnDestroy() {

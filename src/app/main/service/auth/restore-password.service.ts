@@ -6,7 +6,8 @@ import { restorePasswordLink } from '../../links';
 export class RestorePasswordService {
   constructor(private http: HttpClient) {}
 
-  sendEmailForRestore(email, lang = 'en'): any {
-    return this.http.get(`${restorePasswordLink}?email=${email}&lang=${lang}`);
+  sendEmailForRestore(email: string, lang = 'en', isUbs?: boolean): any {
+    const ubsEmailMessage = isUbs ? '&ubs=isUbs' : '';
+    return this.http.get(`${restorePasswordLink}?email=${email}&lang=${lang}${ubsEmailMessage}`);
   }
 }

@@ -7,7 +7,7 @@ import { Subject } from 'rxjs';
 import { UBSOrderFormService } from '../../services/ubs-order-form.service';
 import { OrderService } from '../../services/order.service';
 import { UBSAddAddressPopUpComponent } from './ubs-add-address-pop-up/ubs-add-address-pop-up.component';
-import { Address, Bag, OrderBag, OrderDetails, PersonalData } from '../../models/ubs.interface';
+import { Address, Bag, CourierLocations, OrderBag, OrderDetails, PersonalData } from '../../models/ubs.interface';
 import { Order } from '../../models/ubs.model';
 import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
 import { PhoneNumberValidator } from 'src/app/shared/phone-validator/phone.validator';
@@ -34,7 +34,7 @@ export class UBSPersonalInformationComponent extends FormBaseComponent implement
   anotherClient = false;
   currentLocation = {};
   currentLocationId: number;
-  locations = [];
+  locations: CourierLocations;
   currentLanguage: string;
   mainUrl = 'https://maps.googleapis.com/maps/api/js?key=AIzaSyB3xs7Kczo46LFcQRFKPMdrE0lU4qsR_S4&libraries=places&language=';
   private destroy: Subject<boolean> = new Subject<boolean>();
@@ -81,11 +81,8 @@ export class UBSPersonalInformationComponent extends FormBaseComponent implement
     if (localStorage.getItem('currentLocationId')) {
       this.currentLocationId = JSON.parse(localStorage.getItem('currentLocationId'));
       this.locations = JSON.parse(localStorage.getItem('locations'));
-      const loc = this.locations.find((el) => el.locationInfoDtos[0].locationsDto[0].locationId === this.currentLocationId);
-      const location = loc.locationInfoDtos[0].locationsDto[0].locationTranslationDtoList.find(
-        (el) => el.languageCode === this.currentLanguage
-      );
-      this.currentLocation = location.locationName;
+
+      this.currentLocation = this.locations.locationsDtosList[0].nameEn;
     }
     this.orderService.locationSub.subscribe((data) => {
       this.currentLocation = data;
@@ -186,9 +183,13 @@ export class UBSPersonalInformationComponent extends FormBaseComponent implement
   changeAddressInPersonalData() {
     const activeAddress = this.addresses.find((address) => address.actual);
     this.personalData.city = activeAddress.city;
+    this.personalData.cityEn = activeAddress.cityEn;
     this.personalData.district = activeAddress.district;
+    this.personalData.districtEn = activeAddress.districtEn;
     this.personalData.region = activeAddress.region;
+    this.personalData.regionEn = activeAddress.regionEn;
     this.personalData.street = activeAddress.street;
+    this.personalData.streetEn = activeAddress.streetEn;
     this.personalData.houseNumber = activeAddress.houseNumber;
     this.personalData.houseCorpus = activeAddress.houseCorpus;
     this.personalData.entranceNumber = activeAddress.entranceNumber;
@@ -352,7 +353,7 @@ export class UBSPersonalInformationComponent extends FormBaseComponent implement
     this.addresses.forEach((address) => {
       if (address.actual) {
         address.addressComment = this.personalDataForm.controls.addressComment.value;
-        this.orderService.addAdress(address).subscribe(() => {
+        this.orderService.updateAdress(address).subscribe(() => {
           this.orderService.setCurrentAddress(address);
           this.findAllAddresses(false);
         });

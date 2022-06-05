@@ -11,11 +11,17 @@ export enum BigOrderTableActions {
   GetTable = '[BigOrderTable] Get Table',
   GetTableSuccess = '[BigOrderTable] Get Table Success',
   ChangingOrderData = '[BigOrderTable] Changing Order Data',
+  ChangingOrderPaymentStatus = '[BigOrderTable] Changing Order Payment Status',
   ChangingOrderDataSuccess = '[BigOrderTable] Changing Order Data Success',
   ReceivedFailure = '[BigOrderTable] Received Failure'
 }
 
 export const GetColumnToDisplay = createAction(BigOrderTableActions.GetColumnToDisplay);
+
+export const ChangingOrderPaymentStatus = createAction(
+  BigOrderTableActions.ChangingOrderPaymentStatus,
+  props<{ orderId?: number; newValue?: string }>()
+);
 
 export const GetColumnToDisplaySuccess = createAction(
   BigOrderTableActions.GetColumnToDisplaySuccess,

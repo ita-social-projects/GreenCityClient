@@ -4,6 +4,9 @@ import { EcoNewsModel } from '@eco-news-models/eco-news-model';
 import { TranslateModule } from '@ngx-translate/core';
 
 import { NewsListListViewComponent } from './news-list-list-view.component';
+import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
+import { Language } from '../../../../../i18n/Language';
+import { BehaviorSubject, of } from 'rxjs';
 
 class MockRenderer {
   addClass(document: string, cssClass: string): boolean {
@@ -21,21 +24,32 @@ describe('NewsListListViewComponent', () => {
     id: 1,
     imagePath: defaultImagePath,
     title: 'string',
-    text: 'string',
+    content: 'string',
     author: {
       id: 1,
       name: 'string'
     },
-    tags: [{ name: 'test', id: 1 }],
+    tags: ['test'],
+    tagsEn: ['test'],
+    tagsUa: ['test'],
     creationDate: '11',
-    likes: 0
+    likes: 0,
+    shortInfo: 'info',
+    source: null
   };
+
+  const localStorageServiceMock = jasmine.createSpyObj('localStorageService', ['getCurrentLanguage']);
+  localStorageServiceMock.getCurrentLanguage = () => 'en' as Language;
+  localStorageServiceMock.languageSubject = of('en');
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       imports: [TranslateModule.forRoot()],
       declarations: [NewsListListViewComponent],
-      providers: [{ provide: Renderer2, useClass: MockRenderer }]
+      providers: [
+        { provide: Renderer2, useClass: MockRenderer },
+        { provide: LocalStorageService, useValue: localStorageServiceMock }
+      ]
     }).compileComponents();
   }));
 

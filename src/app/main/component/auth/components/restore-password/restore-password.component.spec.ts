@@ -24,7 +24,7 @@ describe('RestorePasswordComponent', () => {
   let localStorageServiceMock: LocalStorageService;
   let authServiceMock: AuthService;
   let googleServiceMock: GoogleSignInService;
-  const routerSpy = { navigate: jasmine.createSpy('navigate') };
+  let router: Router;
   let matDialogMock: MatDialogRef<RestorePasswordComponent>;
   let MatSnackBarMock: MatSnackBarComponent;
   let promiseSocialUser;
@@ -80,7 +80,6 @@ describe('RestorePasswordComponent', () => {
       providers: [
         { provide: MatDialogRef, useValue: matDialogMock },
         { provide: AuthService, useValue: authServiceMock },
-        { provide: Router, useValue: routerSpy },
         { provide: MatSnackBarComponent, useValue: MatSnackBarMock }
       ],
       schemas: [CUSTOM_ELEMENTS_SCHEMA, NO_ERRORS_SCHEMA]
@@ -91,6 +90,9 @@ describe('RestorePasswordComponent', () => {
     fixture = TestBed.createComponent(RestorePasswordComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
+    router = fixture.debugElement.injector.get(Router);
+    spyOn(router.url, 'includes').and.returnValue(false);
+    spyOn(router, 'navigate');
   });
 
   describe('Basic tests', () => {
@@ -118,7 +120,7 @@ describe('RestorePasswordComponent', () => {
       spyOn(component, 'onBackToSignIn');
 
       const nativeElement = fixture.nativeElement;
-      const button = nativeElement.querySelector('.sign-in-link');
+      const button = nativeElement.querySelector('a');
       button.dispatchEvent(new Event('click'));
 
       fixture.detectChanges();
@@ -159,7 +161,7 @@ describe('RestorePasswordComponent', () => {
     it('signUpWithGoogleSuccess should navigate to homePage', fakeAsync(() => {
       // @ts-ignore
       component.onSignInWithGoogleSuccess(userSuccessSignIn);
-      expect(routerSpy.navigate).toHaveBeenCalledWith(['/']);
+      expect(router.navigate).toHaveBeenCalledWith(['/']);
     }));
 
     it('Test sendEmailForRestore method', () => {

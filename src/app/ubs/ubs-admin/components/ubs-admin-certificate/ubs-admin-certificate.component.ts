@@ -174,7 +174,12 @@ export class UbsAdminCertificateComponent implements OnInit, AfterViewChecked, O
     dialogRef
       .afterClosed()
       .pipe(takeUntil(this.destroy))
-      .subscribe((result) => result && this.getTable());
+      .subscribe((result) => {
+        if (result) {
+          this.currentPage = 0;
+          this.getTable();
+        }
+      });
   }
 
   openExportExcel(): void {

@@ -6,25 +6,23 @@
     <div class="icon-style"><i class="fa fa-search" aria-hidden="true"></i></div>
   </div>
   <div class="btn-group">
-    <div>
-      <button type="button" class="btn btn-default" class="filter-table-btn" data-toggle="dropdown">
+    <div class="filters-dropdown-wrapper">
+      <button type="button" class="btn btn-default filter-table-btn" (click)="toggleFilters()">
         <mat-icon>filter_list</mat-icon>
         {{ 'ubs-tables.filters' | translate }}
       </button>
-      <div class="dropdown-menu scrollbar">
-        <div class="btn-group">
-          <button type="button" class="btn filter-btn" (click)="clearFilters()">
-            {{ 'ubs-tables.clear-filters' | translate }}
-          </button>
-          <button type="button" class="btn filter-btn bg-lime" (click)="applyFilters()">
-            {{ 'ubs-tables.apply-filters' | translate }}
+      <div [ngClass]="{ show: isFiltersOpened }" class="dropdown-menu dropdown-menu-right">
+        <div class="sticky-top filter-close-btn">
+          <p class="font-weight-bold">{{ 'ubs-tables.filters' | translate }}</p>
+          <button type="button" class="reset-settings" (click)="toggleFilters()">
+            <i class="fa fa-close" aria-hidden="true"></i>
           </button>
         </div>
-        <p class="font-weight-bold">{{ 'ubs-tables.filters' | translate }}</p>
-        <div class="accordion" (click)="$event.stopPropagation()">
+        <div class="accordion scrollbar" (click)="$event.stopPropagation()">
           <ng-container *ngFor="let column of getColumnsForFiltering(); index as i">
             <div class="accordion-item">
               <div
+                [ngClass]="checkForCheckedBoxes(column) ? 'accordion-group-header hignlighted' : 'accordion-group-header'"
                 class="accordion-group-header"
                 data-bs-toggle="collapse"
                 attr.data-bs-target="#panelsStayOpen-collapse{{ i }}"
@@ -32,8 +30,8 @@
                 attr.aria-controls="panelsStayOpen-collapse{{ i }}"
                 (click)="toggleAccordion($event)"
               >
-                <span>{{ column | serverTranslate: currentLang }}</span>
                 <mat-icon>keyboard_arrow_down</mat-icon>
+                <span>{{ column | serverTranslate: currentLang }}</span>
               </div>
               <div
                 id="panelsStayOpen-collapse{{ i }}"
@@ -78,10 +76,18 @@
             </div>
           </ng-container>
         </div>
+        <div class="sticky-bottom clear-apply-group">
+          <button [hidden]="noFiltersApplied" type="button" class="filter-btn bg-lime" (click)="applyFilters()">
+            {{ 'ubs-tables.apply-filters' | translate }}
+          </button>
+          <button [hidden]="noFiltersApplied" type="button" class="filter-btn" (click)="clearFilters()">
+            {{ 'ubs-tables.clear-filters' | translate }}
+          </button>
+        </div>
       </div>
     </div>
     <div class="button-group">
-      <button type="button" class="btn btn-default view-table-btn" (click)="togglePopUp()">
+      <button type="button" class="btn btn-default view-table-btn" (click)="toggleTableView()">
         <img src="assets/img/edit.svg" alt="edit" />
         {{ 'ubs-tables.table-view' | translate }}
       </button>
@@ -89,11 +95,11 @@
         {{ 'ubs-tables.export-to-excel' | translate }}
       </button>
       <ul class="dropdown-menu" [style.display]="display">
-        <button type="button" class="reset-settings" (click)="resetSetting()">
+        <button type="button" class="reset-settings" (click)="toggleTableView()">
           <i class="fa fa-close" aria-hidden="true"></i>
         </button>
         <li class="item">
-          <mat-checkbox class="check" type="checkbox" [checked]="isAll" (change)="showAllColumns(isAll)">
+          <mat-checkbox class="check" type="checkbox" [checked]="isAllColumnsDisplayed" (change)="showAllColumns(isAllColumnsDisplayed)">
             {{ 'ubs-tables.all-elements' | translate }}
           </mat-checkbox>
         </li>
@@ -183,7 +189,11 @@
           </mat-checkbox>
         </th>
       </mat-header-cell>
-      <mat-cell *matCellDef="let row" (mousedown)="onResizeColumn($event, i)">
+      <mat-cell
+        *matCellDef="let row"
+        [ngClass]="{ hignlighted: checkIfFilteredBy(column.title.key) }"
+        (mousedown)="onResizeColumn($event, i)"
+      >
         <app-table-cell-readonly
           *ngIf="column.editType === 'READ_ONLY'"
           [title]="row[column.title.key]"
