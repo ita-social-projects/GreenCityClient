@@ -681,5 +681,8 @@
   "top-bar": {
     "sign-up": "Sign up ",
     "sign-in": "Sign in"
+  },
+  "ubs-messages": {
+    "message": "You do not have any messages yet."
   }
 }
