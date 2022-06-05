@@ -98,12 +98,12 @@ export class RestorePasswordComponent implements OnInit, OnDestroy, OnChanges {
     this.loadingAnim = true;
     this.currentLanguage = this.localStorageService.getCurrentLanguage();
     this.restorePasswordService
-      .sendEmailForRestore(email, this.currentLanguage)
+      .sendEmailForRestore(email, this.currentLanguage, this.isUbs)
       .pipe(take(1))
       .subscribe({
         next: () => {
           this.onCloseRestoreWindow();
-          this.snackBar.openSnackBar('successRestorePassword');
+          this.snackBar.openSnackBar(this.isUbs ? 'successRestorePasswordUbs' : 'successRestorePassword');
         },
         error: (error: HttpErrorResponse) => {
           this.onSentEmailBadMessage(error);
