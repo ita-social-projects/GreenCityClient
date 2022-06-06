@@ -503,3 +503,13 @@ hr {
     }
   }
 }
+
+li a {
+  color: var(--ubs-primary-grey);
+  font-style: normal;
+  text-decoration: underline;
+}
+
+li a:hover {
+  color: var(--ubs-electric-violet);
+}

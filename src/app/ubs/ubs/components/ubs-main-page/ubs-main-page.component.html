@@ -24,7 +24,12 @@
       <div class="header-right">
         <h2>{{ 'ubs-homepage.ubs-courier.preparing.caption' | translate }}</h2>
         <ul>
-          <li *ngFor="let li of preparingContent">
+          <li>
+            {{ preparingContent[0] | translate }}
+            (<a href="https://nowaste.com.ua/sort-station/" target="_blank" rel="noopener">{{ preparingContent[1] | translate }}</a
+            >).
+          </li>
+          <li *ngFor="let li of preparingContent | slice: 2">
             {{ li | translate }}
           </li>
         </ul>

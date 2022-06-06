@@ -231,10 +231,11 @@
       "preparing": {
         "caption": "How to prepare?",
         "content": {
-          "li_1": "Check out our Rules of sorting wastes (link).",
-          "li_2": "Everything you give to the Courier needs to be clean and dry – it’s a must-have.",
+          "li_1": "Check out our Rules of sorting wastes",
+          "li_1.1": "link",
+          "li_2": "Everything you give to the Courier needs to be clean and dry – it’s MUST HAVE.",
           "li_3": "Recyclables and non-recyclable plastics can be put together in one package/sack of a 120 liters size - we will re-sort everything.",
-          "li_4": "We accept textile wastes (damaged clothes) for the utilization in separate packages of 120l or 20l.",
+          "li_4": "We accept textile wastes (damaged clothes) for the utilization in separate packages of 120l size or 20l size.",
           "li_5": "1 package/sack should be up to 30 kg.",
           "li_6": "If you don't have a package/sack of the necessary size, you can get it right from the Courier or order a whole roll in our store and pack the wastes beforehand to save a lot of time.",
           "li_7": "The Courier picks up at least 2 packages within Kyiv. Driving a long distance for only 1 package is not environmentally friendly, and it significantly increases the waiting time for each customer. If you live within a radius of 20 km from Kyiv, the Courier takes out 20 packages of 120l.",
