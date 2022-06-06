@@ -103,6 +103,10 @@ export interface PersonalData {
   houseNumber?: string;
   longitude?: number;
   latitude?: number;
+  senderEmail: string;
+  senderFirstName: string;
+  senderLastName: string;
+  senderPhoneNumber: string;
 }
 
 export interface Address {
