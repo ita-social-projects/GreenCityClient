@@ -250,18 +250,10 @@ $whitecol: white;
       border: none;
     }
 
-    .save:focus {
-      @include turnoffboxshadow;
-    }
-
     .cancel {
       background-color: $whitecol;
       color: $btnblackcol;
       border-color: $btnblackcol;
-    }
-
-    .cancel:focus {
-      @include turnoffboxshadow;
     }
   }
 

@@ -5,10 +5,10 @@
         <div class="header-text">
           <h3>{{ 'ubs-client-profile.data' | translate }}</h3>
           <ng-container *ngIf="!isEditing">
-            <button class="btn btn-outline-success open" (click)="openChangePasswordDialog()">
+            <button tabindex="0" class="btn btn-outline-success open" (click)="openChangePasswordDialog()">
               {{ 'ubs-client-profile.btn.change-password' | translate }}
             </button>
-            <button class="btn btn-outline-success delete" (click)="openDeleteProfileDialog()">
+            <button tabindex="0" class="btn btn-outline-success delete" (click)="openDeleteProfileDialog()">
               {{ 'ubs-client-profile.btn.delete-profile' | translate }}
             </button>
           </ng-container>
@@ -46,7 +46,7 @@
             </div>
             <div *ngIf="isEditing">
               <div class="wrapper-btn">
-                <button class="btn-alternative-email"></button>
+                <button aria-label="Add alternative email" class="btn-alternative-email"></button>
                 <p>{{ 'ubs-client-profile.btn.alternative-email' | translate }}</p>
               </div>
             </div>
@@ -70,7 +70,7 @@
               }}</label>
             </div>
           </div>
-          <div tabindex="0" role="checkbox" class="checkbox-wrapper">
+          <div role="checkbox" class="checkbox-wrapper">
             <mat-checkbox class="check" type="checkbox" value="id1">Telegram</mat-checkbox>
             <mat-checkbox class="check" type="checkbox" value="id1">Viber</mat-checkbox>
           </div>
@@ -119,13 +119,13 @@
             </div>
           </div>
           <ng-container *ngIf="!isEditing">
-            <button [ngClass]="{ margbtn: !isEditing }" class="btn btn-outline-success edit" (click)="onEdit()">
+            <button tabindex="0" id="btnfocus" [ngClass]="{ margbtn: !isEditing }" class="btn btn-outline-success edit" (click)="onEdit()">
               {{ 'ubs-client-profile.btn.edit' | translate }}
             </button>
           </ng-container>
           <div *ngIf="isEditing">
             <div class="wrapper-btn">
-              <button class="btn-alternative-email"></button>
+              <button aria-label="Add adrress" class="btn-alternative-email"></button>
               <p>{{ 'ubs-client-profile.btn.add-address' | translate }}</p>
             </div>
           </div>

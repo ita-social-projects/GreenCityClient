@@ -42,18 +42,18 @@ export class UbsUserProfilePageComponent implements OnInit {
 
   constructor(public dialog: MatDialog, private clientProfileService: ClientProfileService, private snackBar: MatSnackBarComponent) {}
 
-  ngOnInit() {
+  ngOnInit(): void {
     this.getUserData();
   }
 
-  composeFormData(data: UserProfile) {
+  composeFormData(data: UserProfile): UserProfile {
     return {
       ...data,
       recipientPhone: data.recipientPhone?.slice(-9)
     };
   }
 
-  getUserData() {
+  getUserData(): void {
     this.isFetching = true;
     this.clientProfileService.getDataClientProfile().subscribe(
       (res: UserProfile) => {
@@ -68,7 +68,7 @@ export class UbsUserProfilePageComponent implements OnInit {
     );
   }
 
-  userInit() {
+  userInit(): void {
     const addres = new FormArray([]);
     this.userProfile.addressDto.forEach((adres) => {
       const seperateAddress = new FormGroup({
@@ -92,17 +92,22 @@ export class UbsUserProfilePageComponent implements OnInit {
     this.isFetching = false;
   }
 
-  onEdit() {
+  onEdit(): void {
     this.isEditing = true;
     this.isFetching = false;
+    setTimeout(() => this.focusOnFirst());
   }
 
-  onCancel() {
+  focusOnFirst(): void {
+    document.getElementById('recipientName').focus();
+  }
+
+  onCancel(): void {
     this.userInit();
     this.isEditing = false;
   }
 
-  onSubmit() {
+  onSubmit(): void {
     if (this.userForm.valid) {
       this.isFetching = true;
       this.isEditing = false;
@@ -138,19 +143,19 @@ export class UbsUserProfilePageComponent implements OnInit {
     }
   }
 
-  openDeleteProfileDialog() {
+  openDeleteProfileDialog(): void {
     this.dialog.open(UbsProfileDeletePopUpComponent, {
       hasBackdrop: true
     });
   }
 
-  openChangePasswordDialog() {
+  openChangePasswordDialog(): void {
     this.dialog.open(UbsProfileChangePasswordPopUpComponent, {
       hasBackdrop: true
     });
   }
 
-  formatedPhoneNumber(num: string) {
+  formatedPhoneNumber(num: string): string | void {
     const match = num?.match(/^(\d{2})(\d{3})(\d{2})(\d{2})$/);
     if (match) {
       return ` +380 (${match[1]}) ${match[2]} ${match[3]} ${match[4]}`;
