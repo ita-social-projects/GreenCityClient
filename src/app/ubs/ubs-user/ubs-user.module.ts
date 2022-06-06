@@ -29,6 +29,7 @@ import { MatRadioModule } from '@angular/material/radio';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MAT_DIALOG_DEFAULT_OPTIONS } from '@angular/material/dialog';
 import { UbsUserOrderCancelPopUpComponent } from './ubs-user-orders-list/ubs-user-order-cancel-pop-up/ubs-user-order-cancel-pop-up.component';
+import { ShowImgsPopUpComponent } from '../../shared/show-imgs-pop-up/show-imgs-pop-up.component';
 
 @NgModule({
   declarations: [
@@ -44,7 +45,8 @@ import { UbsUserOrderCancelPopUpComponent } from './ubs-user-orders-list/ubs-use
     UbsProfileChangePasswordPopUpComponent,
     UbsProfileDeletePopUpComponent,
     UbsUserOrderPaymentPopUpComponent,
-    UbsUserOrderCancelPopUpComponent
+    UbsUserOrderCancelPopUpComponent,
+    ShowImgsPopUpComponent
   ],
   imports: [
     CommonModule,

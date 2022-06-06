@@ -7,7 +7,7 @@ import { Store } from '@ngrx/store';
 import { TranslateModule } from '@ngx-translate/core';
 import { IMaskModule } from 'angular-imask';
 import { of } from 'rxjs';
-import { ShowImgsPopUpComponent } from '../../shared/components/show-imgs-pop-up/show-imgs-pop-up.component';
+import { ShowImgsPopUpComponent } from '../../../../../shared/show-imgs-pop-up/show-imgs-pop-up.component';
 
 import { EmployeeFormComponent } from './employee-form.component';
 

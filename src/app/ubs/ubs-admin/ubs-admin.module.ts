@@ -65,7 +65,7 @@ import { DialogPopUpComponent } from './components/shared/components/dialog-pop-
 import { ResizeColumnDirective } from './derictives/resize-table-columns.directive';
 import { AddPaymentComponent } from './components/add-payment/add-payment.component';
 import { UbsAdminCustomerViolationsComponent } from './components/ubs-admin-customers/ubs-admin-customer-violations/ubs-admin-customer-violations/ubs-admin-customer-violations.component';
-import { ShowImgsPopUpComponent } from './components/shared/components/show-imgs-pop-up/show-imgs-pop-up.component';
+import { ShowImgsPopUpComponent } from '../../shared/show-imgs-pop-up/show-imgs-pop-up.component';
 import { ModalTextComponent } from './components/shared/components/modal-text/modal-text.component';
 import { DialogTariffComponent } from './components/shared/components/dialog-tariff/dialog-tariff.component';
 import { UbsAdminTariffsLocationPopUpComponent } from './components/ubs-admin-tariffs/ubs-admin-tariffs-location-pop-up/ubs-admin-tariffs-location-pop-up.component';
