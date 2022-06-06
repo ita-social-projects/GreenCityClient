@@ -65,13 +65,12 @@ import { DialogPopUpComponent } from './components/shared/components/dialog-pop-
 import { ResizeColumnDirective } from './derictives/resize-table-columns.directive';
 import { AddPaymentComponent } from './components/add-payment/add-payment.component';
 import { UbsAdminCustomerViolationsComponent } from './components/ubs-admin-customers/ubs-admin-customer-violations/ubs-admin-customer-violations/ubs-admin-customer-violations.component';
-import { ShowImgsPopUpComponent } from './components/shared/components/show-imgs-pop-up/show-imgs-pop-up.component';
 import { ModalTextComponent } from './components/shared/components/modal-text/modal-text.component';
 import { DialogTariffComponent } from './components/shared/components/dialog-tariff/dialog-tariff.component';
 import { UbsAdminTariffsLocationPopUpComponent } from './components/ubs-admin-tariffs/ubs-admin-tariffs-location-pop-up/ubs-admin-tariffs-location-pop-up.component';
 import { PdfViewerModule } from 'ng2-pdf-viewer';
 import { ShowPdfPopUpComponent } from './components/shared/components/show-pdf-pop-up/show-pdf-pop-up.component';
-import { UbsAdminSeveralOrdersPopUpComponent } from '../ubs-admin/components/ubs-admin-several-orders-pop-up/ubs-admin-several-orders-pop-up.component';
+import { UbsAdminSeveralOrdersPopUpComponent } from './components/ubs-admin-several-orders-pop-up/ubs-admin-several-orders-pop-up.component';
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
 import { MatChipsModule } from '@angular/material/chips';
 import { MatSelectModule } from '@angular/material/select';
@@ -122,7 +121,6 @@ import { TimePickerComponent } from './components/shared/components/time-picker/
     ResizeColumnDirective,
     AddPaymentComponent,
     UbsAdminCustomerViolationsComponent,
-    ShowImgsPopUpComponent,
     ShowPdfPopUpComponent,
     ColumnFiltersPopUpComponent,
     ModalTextComponent,
