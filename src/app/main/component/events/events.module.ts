@@ -7,6 +7,7 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatSelectModule } from '@angular/material/select';
 import { MatButtonModule } from '@angular/material/button';
+import { MatGridListModule } from '@angular/material/grid-list';
 import { AgmCoreModule } from '@agm/core';
 import { environment } from '@environment/environment.js';
 import { ReactiveFormsModule } from '@angular/forms';
@@ -25,6 +26,9 @@ import { EventDateTimePickerComponent } from './components/event-date-time-picke
 import { MapEventComponent } from './components/map-event/map-event.component';
 import { ImagesContainerComponent } from './components/images-container/images-container.component';
 import { GooglePlaceModule } from 'ngx-google-places-autocomplete';
+import { EventDetailsComponent } from './components/event-details/event-details.component';
+import { EventsListItemComponent } from './components/events-list-item/events-list-item.component';
+
 @NgModule({
   declarations: [
     EventsComponent,
@@ -32,7 +36,9 @@ import { GooglePlaceModule } from 'ngx-google-places-autocomplete';
     CreateEditEventsComponent,
     EventDateTimePickerComponent,
     MapEventComponent,
-    ImagesContainerComponent
+    ImagesContainerComponent,
+    EventDetailsComponent,
+    EventsListItemComponent
   ],
   imports: [
     ReactiveFormsModule,
@@ -42,6 +48,7 @@ import { GooglePlaceModule } from 'ngx-google-places-autocomplete';
     MatDatepickerModule,
     MatInputModule,
     MatButtonModule,
+    MatGridListModule,
     NgxPaginationModule,
     AgmCoreModule,
     AgmCoreModule.forRoot({

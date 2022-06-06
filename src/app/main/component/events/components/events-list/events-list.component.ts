@@ -1,5 +1,5 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import { EventPageResponceDto, EventResponseDto } from '../../models/events.interface';
+import { EventPageResponceDto, EventResponseDto, PaginationInterface } from '../../models/events.interface';
 import { EventsService } from '../../services/events.service';
 import { UserOwnAuthService } from '@auth-service/user-own-auth.service';
 import { ReplaySubject } from 'rxjs';
@@ -10,13 +10,22 @@ import { ReplaySubject } from 'rxjs';
   styleUrls: ['./events-list.component.scss']
 })
 export class EventsListComponent implements OnInit, OnDestroy {
-  eventsList: EventPageResponceDto[] = [];
+  public eventsList: EventPageResponceDto[] = [];
 
   public isLoggedIn: string;
   private destroyed$: ReplaySubject<any> = new ReplaySubject<any>(1);
 
+  public items = 9;
   public total = 0;
   public page = 0;
+
+  public pageConfig(items: number, page: number, total: number): PaginationInterface {
+    return {
+      itemsPerPage: items,
+      currentPage: page,
+      totalItems: total
+    };
+  }
 
   constructor(private eventService: EventsService, private userOwnAuthService: UserOwnAuthService) {}
 
