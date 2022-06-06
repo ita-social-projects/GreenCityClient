@@ -88,4 +88,5 @@ interface Location {
 export interface EditLocationName {
   location: Location[];
   locationId: number;
+  regionId: number;
 }
