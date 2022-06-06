@@ -104,10 +104,7 @@
               <li class="order-list-item">
                 <span
                   >{{ 'personal-info.address-district' | translate }}
-                  {{
-                    currentLanguage === 'ua' ? personalData.district.split(' ')[0] : personalData.districtEn.split('
-                  ')[0]
-                  }},
+                  {{ currentLanguage === 'ua' ? personalData.district.split(' ')[0] : personalData.districtEn.split(' ')[0] }},
                 </span>
                 <span>{{ currentLanguage === 'ua' ? personalData.region : personalData.regionEn }}</span>
               </li>
