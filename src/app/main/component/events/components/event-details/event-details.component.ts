@@ -27,7 +27,6 @@ export class EventDetailsComponent implements OnInit {
     this.setNewsId();
     this.eventService.getEventById(this.eventId).subscribe((res: EventPageResponceDto) => {
       this.event = res;
-      console.log(res);
       this.imagesSlider = [res.titleImage, ...res.additionalImages];
       this.filterTags(res.tags);
     });
