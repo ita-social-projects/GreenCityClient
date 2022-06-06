@@ -1,11 +1,13 @@
 import { createAction, props } from '@ngrx/store';
-import { Locations, CreateLocation } from 'src/app/ubs/ubs-admin/models/tariffs.interface';
+import { Locations, CreateLocation, EditLocationName } from 'src/app/ubs/ubs-admin/models/tariffs.interface';
 
 export enum TariffActions {
   GetLocations = '[Tariff] Get Locations',
   GetLocationsSuccess = '[Tariff] Get Locations Success',
   AddLocations = '[Tariff] Add Locations',
   AddLocationsSuccess = '[Tariff] Add Locations Success',
+  EditLocation = '[Tariff] Edit Location Name',
+  EditLocationSuccess = '[Tariff] Edit Location Name Success',
   ReceivedFailure = '[Tariff] Received Failure'
 }
 
@@ -16,5 +18,9 @@ export const GetLocationsSuccess = createAction(TariffActions.GetLocationsSucces
 export const AddLocations = createAction(TariffActions.AddLocations, props<{ locations: CreateLocation[] }>());
 
 export const AddLocationsSuccess = createAction(TariffActions.AddLocationsSuccess, props<{ locations: CreateLocation[] }>());
+
+export const EditLocation = createAction(TariffActions.EditLocation, props<{editedLocations: EditLocationName[]}>());
+
+export const EditLocationSuccess = createAction(TariffActions.EditLocationSuccess, props<{editedLocations: EditLocationName[]}>());
 
 export const ReceivedFailure = createAction(TariffActions.ReceivedFailure, props<{ error: string | null }>());

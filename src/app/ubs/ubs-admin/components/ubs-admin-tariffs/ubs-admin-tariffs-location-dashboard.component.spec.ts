@@ -128,14 +128,15 @@ describe('UbsAdminTariffsLocationDashboardComponent', () => {
   };
 
   const fakeLocations: Locations = {
-    locationsDto: {
+    locationsDto: [{
       latitude: 0,
+      longitude: 0,
       locationId: 159,
-      locationTranslationDtoList: {
+      locationTranslationDtoList: [{
         languageCode: 'ua',
         locationName: 'fake'
-      }
-    },
+      }]
+    }],
     regionId: 1,
     regionTranslationDtos: {
       regionName: 'ua',
@@ -458,7 +459,8 @@ describe('UbsAdminTariffsLocationDashboardComponent', () => {
       hasBackdrop: true,
       panelClass: 'address-matDialog-styles-w-100',
       data: {
-        headerText: 'addTemplate'
+        headerText: 'addLocation',
+        edit: false
       }
     });
   });
@@ -469,7 +471,8 @@ describe('UbsAdminTariffsLocationDashboardComponent', () => {
       hasBackdrop: true,
       panelClass: 'address-matDialog-styles-w-100',
       data: {
-        headerText: 'editTemplate'
+        headerText: 'editLocation',
+        edit: true
       }
     });
   });
