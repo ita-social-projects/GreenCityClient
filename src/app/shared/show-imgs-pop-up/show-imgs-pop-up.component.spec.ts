@@ -6,19 +6,14 @@ import { of } from 'rxjs';
 
 import { ShowImgsPopUpComponent } from './show-imgs-pop-up.component';
 
-describe('ShowImgsPopUpComponent', () => {
+fdescribe('ShowImgsPopUpComponent', () => {
   let component: ShowImgsPopUpComponent;
   let fixture: ComponentFixture<ShowImgsPopUpComponent>;
+  const dialogRefStub = jasmine.createSpyObj('MatDialogRef', ['keydownEvents', 'backdropClick', 'close']);
+  dialogRefStub.keydownEvents.and.returnValue(of());
+  dialogRefStub.backdropClick.and.returnValue(of());
+  dialogRefStub.close.and.returnValue(of());
 
-  const dialogRefStub = {
-    keydownEvents() {
-      return of();
-    },
-    backdropClick() {
-      return of();
-    },
-    close() {}
-  };
   const fakePhoto = 'https://csb10032000a548f571.blob.core.windows.net/allfiles/90370622-3311-4ff1-9462-20cc98a64d1ddefault_image.jpg';
   const popupDataStub = {
     imgIndex: 1,
@@ -57,9 +52,29 @@ describe('ShowImgsPopUpComponent', () => {
     expect(component.imgIndex).toBe(0);
   });
 
-  it('nextImg dencrement index', () => {
+  it('nextImg decrement index', () => {
     component.imgIndex = 0;
     component.nextImg(false);
     expect(component.imgIndex).toBe(1);
+  });
+
+  it('should initialize onInit method and close should be called if key is Escape', () => {
+    dialogRefStub.keydownEvents.and.returnValue(of({ key: 'Escape' }));
+    component.ngOnInit();
+    expect(dialogRefStub.close).toBeTruthy();
+  });
+
+  it('should initialize onInit method and close should be called if key is Escape', () => {
+    dialogRefStub.keydownEvents.and.returnValue(of({ key: 'ArrowLeft' }));
+    const spy = spyOn(component, 'nextImg');
+    component.ngOnInit();
+    expect(spy).toHaveBeenCalledWith(false);
+  });
+
+  it('should initialize onInit method and close should be called if key is Escape', () => {
+    dialogRefStub.keydownEvents.and.returnValue(of({ key: 'ArrowRight' }));
+    const spy = spyOn(component, 'nextImg');
+    component.ngOnInit();
+    expect(spy).toHaveBeenCalledWith(true);
   });
 });
