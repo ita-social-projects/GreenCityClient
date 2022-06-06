@@ -195,7 +195,7 @@ input {
 .view-table-btn .mat-icon,
 .filter-table-btn .mat-icon {
   padding-top: 5px;
-  font-size: 15px;
+  font-size: 14px;
 }
 
 .research {
@@ -281,8 +281,8 @@ input {
   width: 356px;
   margin-right: 5px;
   overflow: scroll;
-  padding: 16px 16px 0 16px;
   padding: 0;
+  margin-top: 17px;
   color: var(--ubs-primary-grey);
   font-family: var(--primary-font);
   background-color: var(--ubs-secondary-white);
@@ -290,6 +290,11 @@ input {
 
 .dropdown-menu input[type='date'] {
   width: 155px;
+}
+
+.accordion-body {
+  padding-left: 16px;
+  width: 320px;
 }
 
 .filter-btn {
@@ -315,14 +320,13 @@ input {
   color: var(--ubs-primary-grey);
   display: flex;
   align-items: center;
-  padding: 6px;
 }
 
 .accordion-item {
-  padding-bottom: 30px;
-  padding-left: 36px;
+  padding-bottom: 20px;
+  padding-left: 16px;
   padding-right: 36px;
-  font-size: 16px;
+  font-size: 14px;
 }
 
 .dropdown-menu-right {
@@ -378,7 +382,11 @@ input {
   background-color: var(--ubs-secondary-white);
 }
 
-.filter-close-btn {
+.check-all {
+  padding-left: 27px;
+}
+
+.dropdown-top-panel {
   height: 80px;
   width: 100%;
   display: flex;
@@ -440,6 +448,7 @@ input {
 .accordion-group-header {
   display: flex;
   justify-content: left;
+  align-items: center;
   gap: 5px;
   font-weight: bold;
   cursor: pointer;
@@ -449,9 +458,8 @@ input {
   font-family: sans-serif;
   font-style: normal;
   font-weight: 600;
-  font-size: 16px;
+  font-size: 14px;
   line-height: 24px;
-  padding: 8px 8px 0 8px;
 }
 
 .items {
@@ -462,7 +470,7 @@ input {
   font-family: sans-serif;
   font-style: normal;
   font-weight: normal;
-  font-size: 16px;
+  font-size: 14px;
   line-height: 24px;
 }
 

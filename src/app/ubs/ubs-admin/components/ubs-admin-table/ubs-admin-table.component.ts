@@ -545,6 +545,7 @@ export class UbsAdminTableComponent implements OnInit, AfterViewChecked, OnDestr
   }
 
   changeInputDateFilters(value: string, currentColumn: string, suffix: string): void {
+    this.noFiltersApplied = false;
     this.adminTableService.changeInputDateFilters(value, currentColumn, suffix);
   }
 
