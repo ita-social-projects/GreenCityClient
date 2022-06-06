@@ -6,7 +6,7 @@ import { of } from 'rxjs';
 
 import { ShowImgsPopUpComponent } from './show-imgs-pop-up.component';
 
-fdescribe('ShowImgsPopUpComponent', () => {
+describe('ShowImgsPopUpComponent', () => {
   let component: ShowImgsPopUpComponent;
   let fixture: ComponentFixture<ShowImgsPopUpComponent>;
   const dialogRefStub = jasmine.createSpyObj('MatDialogRef', ['keydownEvents', 'backdropClick', 'close']);
