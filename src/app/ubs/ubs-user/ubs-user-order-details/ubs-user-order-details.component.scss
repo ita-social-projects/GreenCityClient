@@ -1,8 +1,8 @@
 .full_card {
   display: grid;
   grid-template-rows: 28px auto;
-  grid-template-columns: 670px;
-  margin-left: 56px;
+  grid-template-columns: 850px auto;
+  margin-left: 30px;
   color: var(--ubs-secondary-grey);
 
   .header_details {
@@ -12,12 +12,17 @@
     letter-spacing: 0.002em;
     color: var(--ubs-primary-black);
     font-family: var(--primary-font);
+    grid-column-start: 1;
+    grid-column-end: -1;
   }
 }
 
 .table_of_details {
+  width: 780px;
   margin-top: 15px;
   font-family: var(--primary-font);
+  grid-column: 1;
+  grid-row: 2;
 
   .header_table {
     height: 34px;
@@ -75,7 +80,7 @@
 }
 
 .data_table td:nth-child(4) {
-  padding-left: 40px;
+  padding-left: 20px;
 }
 
 .data_table td:nth-child(5) {
@@ -100,13 +105,18 @@
 }
 
 .order_details {
-  width: 450px;
+  width: 200px;
+  padding: 0;
   margin-left: 16px;
   color: var(--ubs-primary-grey);
   font-family: var(--primary-font);
+  grid-column: 2;
+  grid-row: 2;
+  border-left: 1px solid var(--ubs-primary-light-grey);
 
   .recipient {
     margin: 32px 0;
+    padding: 0 0 0 15px;
   }
 
   .bold_text {
@@ -125,7 +135,7 @@
   grid-template-columns: 16px auto;
   grid-template-rows: 17px auto;
   justify-content: end;
-  margin: 0 18px 33px 0;
+  margin: 30px 18px 33px 0;
   color: var(--primary-green);
 }
 
