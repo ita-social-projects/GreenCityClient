@@ -33,7 +33,7 @@
             {{ order.orderFullPrice | currency | localizedCurrency }}
           </mat-panel-description>
           <mat-panel-description class="order_list-paymentAmountDue">
-            {{ calculateAmountDue(order) | currency | localizedCurrency }}
+            {{ order.amountBeforePayment | currency | localizedCurrency }}
           </mat-panel-description>
         </div>
         <div class="btn-space">
