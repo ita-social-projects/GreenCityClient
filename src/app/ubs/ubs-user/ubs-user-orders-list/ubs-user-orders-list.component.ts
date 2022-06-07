@@ -34,6 +34,10 @@ export class UbsUserOrdersListComponent implements OnInit, OnDestroy {
     this.destroy$.complete();
   }
 
+  public calculateAmountDue(order: IUserOrderInfo): number {
+    return order.paidAmount === 0 ? order.orderFullPrice : order.orderFullPrice - order.paidAmount;
+  }
+
   public isOrderUnpaid(order: IUserOrderInfo): boolean {
     return order.paymentStatusEng === CheckPaymentStatus.UNPAID;
   }
