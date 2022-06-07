@@ -22,6 +22,10 @@
   padding: 0 17px;
 }
 
+.table-data {
+  color: var(--ubs-primary-black);
+}
+
 .header_list {
   display: grid;
   grid-template-columns: repeat(7, 109px);

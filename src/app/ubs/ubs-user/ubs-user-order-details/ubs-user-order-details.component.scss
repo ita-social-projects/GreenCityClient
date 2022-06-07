@@ -3,7 +3,7 @@
   grid-template-rows: 28px auto;
   grid-template-columns: 850px auto;
   margin-left: 30px;
-  color: var(--ubs-secondary-grey);
+  color: var(--ubs-primary-black);
 
   .header_details {
     font-size: 20px;
@@ -48,7 +48,7 @@
 }
 
 .data_table {
-  color: var(--ubs-quaternary-dark-grey);
+  color: var(--ubs-primary-black);
 
   td {
     text-align: left;
@@ -85,17 +85,17 @@
 
 .data_table td:nth-child(5) {
   text-align: right;
-  color: var(--ubs-primary-grey);
+  color: var(--ubs-primary-black);
   font-weight: bold;
 }
 
 .sum_of_order td:nth-child(2) {
-  color: var(--ubs-primary-grey);
+  color: var(--ubs-primary-black);
   font-weight: bold;
 }
 
 .sum_to_pay td:nth-child(2) {
-  color: var(--ubs-primary-grey);
+  color: var(--ubs-primary-black);
   font-weight: bold;
 }
 
@@ -108,7 +108,7 @@
   width: 200px;
   padding: 0;
   margin-left: 16px;
-  color: var(--ubs-primary-grey);
+  color: var(--ubs-primary-black);
   font-family: var(--primary-font);
   grid-column: 2;
   grid-row: 2;
@@ -161,7 +161,7 @@
     flex-direction: column;
     max-width: 670px;
     margin: 0;
-    color: var(--ubs-secondary-grey);
+    color: var(--ubs-primary-black);
 
     .header_details {
       font-size: 20px;
@@ -188,7 +188,7 @@
   .order_details {
     margin: 0;
     width: auto;
-    color: var(--ubs-primary-grey);
+    color: var(--ubs-primary-black);
     font-family: var(--primary-font);
 
     .recipient {

@@ -13,7 +13,7 @@
         <td *ngIf="currentLanguage === 'ua'">{{ bag.service }}</td>
         <td *ngIf="currentLanguage === 'en'">{{ bag.serviceEng }}</td>
         <td>{{ bag.capacity }} {{ 'user-orders.details.litr' | translate }}</td>
-        <td>{{ bag.price }} {{ 'user-orders.details.currency' | translate }}</td>
+        <td>{{ bag.fullPrice }} {{ 'user-orders.details.currency' | translate }}</td>
         <td>{{ bag.count }} {{ 'user-orders.details.pieces' | translate }}</td>
         <td>{{ bag.totalPrice | currency | localizedCurrency }}</td>
       </tr>
