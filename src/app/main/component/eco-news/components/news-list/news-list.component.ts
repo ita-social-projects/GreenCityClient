@@ -29,7 +29,7 @@ export class NewsListComponent implements OnInit, OnDestroy {
   public scroll: boolean;
   public numberOfNews: number;
   public elementsArePresent = true;
-  public tagList: string[];
+  public tagList: NewsTagInterface[];
   private destroyed$: ReplaySubject<any> = new ReplaySubject<any>(1);
   public tags: Observable<Array<NewsTagInterface>>;
 
@@ -75,15 +75,7 @@ export class NewsListComponent implements OnInit, OnDestroy {
   }
 
   private getAllTags(): void {
-    this.tags
-      .pipe(take(1))
-      .subscribe(
-        (tagsArray: Array<NewsTagInterface>) =>
-          (this.tagList =
-            this.localStorageService.getCurrentLanguage() === 'ua' || this.localStorageService.getCurrentLanguage() === 'ru'
-              ? tagsArray.map((tag) => tag.nameUa)
-              : tagsArray.map((tag) => tag.name))
-      );
+    this.tags.pipe(take(1)).subscribe((tagsArray: Array<NewsTagInterface>) => (this.tagList = tagsArray));
   }
 
   public onResize(): void {

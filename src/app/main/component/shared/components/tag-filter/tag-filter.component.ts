@@ -1,5 +1,7 @@
-import { Component, OnInit, Output, EventEmitter, Input, OnChanges } from '@angular/core';
+import { Component, EventEmitter, Input, OnChanges, OnInit, Output } from '@angular/core';
 import { FilterModel } from '@eco-news-models/filter.model';
+import { NewsTagInterface } from '@eco-news-models/eco-news-model';
+import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
 
 @Component({
   selector: 'app-tag-filter',
@@ -12,9 +14,10 @@ export class TagFilterComponent implements OnInit, OnChanges {
   @Input() public tagsListData = [];
   @Input() public header: string;
   @Output() tagsList = new EventEmitter<Array<string>>();
-
+  constructor(public localStorageService: LocalStorageService) {}
   ngOnInit() {
     this.emitActiveFilters();
+    sessionStorage.removeItem(this.storageKey);
   }
 
   ngOnChanges(changes) {
@@ -24,7 +27,11 @@ export class TagFilterComponent implements OnInit, OnChanges {
   }
 
   public emitTrueFilterValues(): Array<string> {
-    return this.filters.filter((el) => el.isActive).map((el) => el.name);
+    return this.filters
+      .filter((active) => active.isActive)
+      .map((filter) => {
+        return this.localStorageService.getCurrentLanguage() === 'en' ? filter.name : filter.nameUa;
+      });
   }
 
   public emitActiveFilters(): void {
@@ -37,17 +44,20 @@ export class TagFilterComponent implements OnInit, OnChanges {
     this.setSessionStorageFilters();
   }
 
-  private setTags(tags: Array<string>): void {
+  private setTags(tags: Array<NewsTagInterface>): void {
     const savedFilters = this.getSessionStorageFilters();
-    this.filters = tags.map((filter: string) => ({
-      name: filter,
-      isActive: savedFilters.includes(filter)
-    }));
+    if (!sessionStorage.getItem(this.storageKey)) {
+      this.filters = tags.map((tag: NewsTagInterface) =>
+        tag.name === savedFilters || tag.nameUa === savedFilters
+          ? { name: tag.name, nameUa: tag.nameUa, isActive: true }
+          : { name: tag.name, nameUa: tag.nameUa, isActive: false }
+      );
+    }
     this.emitActiveFilters();
   }
 
   private setSessionStorageFilters() {
-    sessionStorage.setItem(this.storageKey, JSON.stringify(this.emitTrueFilterValues()));
+    sessionStorage.setItem(this.storageKey, JSON.stringify(this.filters));
   }
 
   private getSessionStorageFilters() {
