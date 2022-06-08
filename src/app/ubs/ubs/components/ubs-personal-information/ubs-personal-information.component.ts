@@ -199,10 +199,10 @@ export class UBSPersonalInformationComponent extends FormBaseComponent implement
   }
 
   changeAnotherClientInPersonalData() {
-    this.personalData.anotherClientFirstName = this.personalDataForm.get('anotherClientFirstName').value;
-    this.personalData.anotherClientLastName = this.personalDataForm.get('anotherClientLastName').value;
-    this.personalData.anotherClientEmail = this.personalDataForm.get('anotherClientEmail').value;
-    this.personalData.anotherClientPhoneNumber = this.personalDataForm.get('anotherClientPhoneNumber').value;
+    this.personalData.senderFirstName = this.personalDataForm.get('anotherClientFirstName').value;
+    this.personalData.senderLastName = this.personalDataForm.get('anotherClientLastName').value;
+    this.personalData.senderEmail = this.personalDataForm.get('anotherClientEmail').value;
+    this.personalData.senderPhoneNumber = this.personalDataForm.get('anotherClientPhoneNumber').value;
     this.shareFormService.saveDataOnLocalStorage();
   }
 
@@ -212,10 +212,10 @@ export class UBSPersonalInformationComponent extends FormBaseComponent implement
       lastName: this.personalData.lastName,
       email: this.personalData.email,
       phoneNumber: this.personalData.phoneNumber,
-      anotherClientFirstName: this.personalData.anotherClientFirstName,
-      anotherClientLastName: this.personalData.anotherClientLastName,
-      anotherClientEmail: this.personalData.anotherClientEmail,
-      anotherClientPhoneNumber: this.personalData.anotherClientPhoneNumber,
+      senderFirstName: this.personalData.senderFirstName,
+      senderLastName: this.personalData.senderLastName,
+      senderEmail: this.personalData.senderEmail,
+      senderPhoneNumber: this.personalData.senderPhoneNumber,
       addressComment: this.addresses.length > 0 ? this.personalData.addressComment : ''
     });
     this.personalDataForm.markAllAsTouched();
@@ -330,10 +330,6 @@ export class UBSPersonalInformationComponent extends FormBaseComponent implement
     this.personalData.lastName = this.personalDataForm.get('lastName').value;
     this.personalData.email = this.personalDataForm.get('email').value;
     this.personalData.phoneNumber = this.personalDataForm.get('phoneNumber').value;
-    this.personalData.anotherClientFirstName = this.personalDataForm.get('anotherClientFirstName').value;
-    this.personalData.anotherClientLastName = this.personalDataForm.get('anotherClientLastName').value;
-    this.personalData.anotherClientEmail = this.personalDataForm.get('anotherClientEmail').value;
-    this.personalData.anotherClientPhoneNumber = this.personalDataForm.get('anotherClientPhoneNumber').value;
     this.personalData.addressComment = this.personalDataForm.get('addressComment').value;
     this.personalData.senderFirstName = this.personalDataForm.get('anotherClientFirstName').value;
     this.personalData.senderLastName = this.personalDataForm.get('anotherClientLastName').value;

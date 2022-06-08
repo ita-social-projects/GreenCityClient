@@ -127,10 +127,10 @@ export class UBSSubmitOrderComponent extends FormBaseComponent implements OnInit
       streetEn: data.addressStreetEn,
       region: data.addressRegion,
       regionEn: data.addressRegionEn,
-      senderFirstName: this.personalData.anotherClientFirstName,
-      senderLastName: this.personalData.anotherClientLastName,
-      senderEmail: this.personalData.anotherClientEmail,
-      senderPhoneNumber: this.personalData.anotherClientPhoneNumber
+      senderFirstName: data.recipientName,
+      senderLastName: data.recipientSurname,
+      senderEmail: data.recipientEmail,
+      senderPhoneNumber: data.recipientPhone
     };
   }
 

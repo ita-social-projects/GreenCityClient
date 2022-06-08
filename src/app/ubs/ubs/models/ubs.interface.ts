@@ -85,10 +85,6 @@ export interface PersonalData {
   lastName: string;
   email: string;
   phoneNumber: string;
-  anotherClientFirstName?: string;
-  anotherClientLastName?: string;
-  anotherClientEmail?: string;
-  anotherClientPhoneNumber?: string;
   addressComment: string;
   city: string;
   cityEn: string;
