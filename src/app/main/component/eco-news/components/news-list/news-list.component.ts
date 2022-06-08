@@ -29,7 +29,7 @@ export class NewsListComponent implements OnInit, OnDestroy {
   public scroll: boolean;
   public numberOfNews: number;
   public elementsArePresent = true;
-  public tagList: Array<NewsTagInterface>;
+  public tagList: NewsTagInterface[];
   private destroyed$: ReplaySubject<any> = new ReplaySubject<any>(1);
   public tags: Observable<Array<NewsTagInterface>>;
 

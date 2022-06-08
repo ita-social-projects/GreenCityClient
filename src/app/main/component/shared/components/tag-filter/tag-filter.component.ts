@@ -47,15 +47,11 @@ export class TagFilterComponent implements OnInit, OnChanges {
   private setTags(tags: Array<NewsTagInterface>): void {
     const savedFilters = this.getSessionStorageFilters();
     if (!sessionStorage.getItem(this.storageKey)) {
-      tags.forEach((tag, index) => {
-        if (tag.name === savedFilters || tag.nameUa === savedFilters) {
-          this.filters[index] = { name: tag.name, nameUa: tag.nameUa, isActive: true };
-        } else {
-          this.filters[index] = { name: tag.name, nameUa: tag.nameUa, isActive: false };
-        }
-      });
-    } else {
-      this.filters = JSON.parse(sessionStorage.getItem(this.storageKey));
+      this.filters = tags.map((tag: NewsTagInterface) =>
+        tag.name === savedFilters || tag.nameUa === savedFilters
+          ? { name: tag.name, nameUa: tag.nameUa, isActive: true }
+          : { name: tag.name, nameUa: tag.nameUa, isActive: false }
+      );
     }
     this.emitActiveFilters();
   }
