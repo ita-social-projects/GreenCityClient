@@ -231,7 +231,6 @@ export class CreateEditNewsComponent extends FormBaseComponent implements OnInit
     this.form.value.content = text;
 
     this.isPosting = true;
-    console.log(this.form.value);
     this.store.dispatch(CreateEcoNewsAction({ value: this.form.value }));
 
     this.actionsSubj
@@ -282,8 +281,6 @@ export class CreateEditNewsComponent extends FormBaseComponent implements OnInit
     };
     dataToEdit.content = text;
     this.isPosting = true;
-
-    console.log(dataToEdit);
 
     this.store.dispatch(EditEcoNewsAction({ form: dataToEdit }));
 
