@@ -46,6 +46,7 @@ describe('TagFilterComponent', () => {
     });
 
     it('Should create new filters array', () => {
+      sessionStorage.removeItem('Test');
       // @ts-ignore
       component.setTags(tagsListDataMock);
       expect(component.filters.length).toBeGreaterThan(0);
