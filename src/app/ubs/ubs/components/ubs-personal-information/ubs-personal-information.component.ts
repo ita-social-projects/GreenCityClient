@@ -212,10 +212,10 @@ export class UBSPersonalInformationComponent extends FormBaseComponent implement
       lastName: this.personalData.lastName,
       email: this.personalData.email,
       phoneNumber: this.personalData.phoneNumber,
-      senderFirstName: this.personalData.senderFirstName,
-      senderLastName: this.personalData.senderLastName,
-      senderEmail: this.personalData.senderEmail,
-      senderPhoneNumber: this.personalData.senderPhoneNumber,
+      anotherClientFirstName: this.personalData.senderFirstName,
+      anotherClientLastName: this.personalData.senderLastName,
+      anotherClientEmail: this.personalData.senderEmail,
+      anotherClientPhoneNumber: this.personalData.senderPhoneNumber,
       addressComment: this.addresses.length > 0 ? this.personalData.addressComment : ''
     });
     this.personalDataForm.markAllAsTouched();
