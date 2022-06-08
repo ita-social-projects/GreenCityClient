@@ -1,0 +1,17 @@
+<div class="wrapper">
+  <div class="event-header">
+    <h1 class="main-header">{{ 'homepage.events.title' | translate }}</h1>
+    <a class="create" [routerLink]="['create-event']" *ngIf="isLoggedIn">
+      <div class="secondary-global-button create-button">
+        <span class="create-button-text">Create</span>
+      </div>
+    </a>
+  </div>
+
+  <div class="event-list">
+    <mat-card class="event-list-item" *ngFor="let eventItem of eventsList | paginate: pageConfig(items, page, total)">
+      <app-events-list-item [event]="eventItem"></app-events-list-item>
+    </mat-card>
+  </div>
+  <pagination-controls (pageChange)="setPage($event)"></pagination-controls>
+</div>

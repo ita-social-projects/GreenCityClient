@@ -55,6 +55,8 @@ import { UbsUserOrderCancelPopUpComponent } from './ubs-user-orders-list/ubs-use
     MatTabsModule,
     FormsModule,
     ReactiveFormsModule,
+    FormsModule,
+    NgxPaginationModule,
     TranslateModule.forChild({
       loader: {
         provide: TranslateLoader,

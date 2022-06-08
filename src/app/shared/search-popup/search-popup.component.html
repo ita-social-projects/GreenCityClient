@@ -36,15 +36,6 @@
           </app-search-item>
         </div>
       </div>
-      <div class="search_content-tips" *ngIf="tipsElements && tipsElements.length > 0">
-        <a [routerLink]="['/tips']" (click)="closeSearch()">
-          <h3 class="search-title">{{ 'search.search-popup.tips' | translate }}</h3>
-        </a>
-        <div class="list-search-items">
-          <app-search-item *ngFor="let element of tipsElements" [searchModel]="element" (closeSearch)="closeSearch()" class="search-item">
-          </app-search-item>
-        </div>
-      </div>
       <div class="search_see-all" *ngIf="itemsFound">
         <a [routerLink]="['/search']" [queryParams]="{ query: searchInput.value, category: 'econews' }" class="all-results-link">
           {{ 'search.search-popup.see-all-results' | translate }}

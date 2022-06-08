@@ -1,20 +1,26 @@
-import { Component, Input, OnInit, OnChanges, SimpleChanges } from '@angular/core';
+import { Component, Input, OnInit, OnChanges, SimpleChanges, OnDestroy, Output, EventEmitter } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
-import { take } from 'rxjs/operators';
+import { Subject } from 'rxjs';
+import { take, takeUntil } from 'rxjs/operators';
+import { ChangingOrderPaymentStatus } from 'src/app/store/actions/bigOrderTable.actions';
 import { IPaymentInfo, IPaymentInfoDto, IOrderInfo, PaymentDetails } from '../../models/ubs-admin.interface';
 import { OrderService } from '../../services/order.service';
 import { AddPaymentComponent } from '../add-payment/add-payment.component';
+import { IAppState } from 'src/app/store/state/app.state';
+import { Store } from '@ngrx/store';
 
 @Component({
   selector: 'app-ubs-admin-order-payment',
   templateUrl: './ubs-admin-order-payment.component.html',
   styleUrls: ['./ubs-admin-order-payment.component.scss']
 })
-export class UbsAdminOrderPaymentComponent implements OnInit, OnChanges {
+export class UbsAdminOrderPaymentComponent implements OnInit, OnChanges, OnDestroy {
   @Input() orderInfo: IOrderInfo;
   @Input() actualPrice: number;
   @Input() totalPaid: number;
   @Input() orderStatus: string;
+
+  @Output() newPaymentStatus = new EventEmitter<string>();
 
   public message: string;
   public pageOpen: boolean;
@@ -25,8 +31,9 @@ export class UbsAdminOrderPaymentComponent implements OnInit, OnChanges {
   public paymentInfo: IPaymentInfo;
   public paymentsArray: IPaymentInfoDto[];
   public currentOrderStatus: string;
+  private destroy$: Subject<boolean> = new Subject<boolean>();
 
-  constructor(private orderService: OrderService, private dialog: MatDialog) {}
+  constructor(private orderService: OrderService, private dialog: MatDialog, private store: Store<IAppState>) {}
 
   ngOnInit() {
     this.currentOrderStatus = this.orderStatus;
@@ -35,7 +42,9 @@ export class UbsAdminOrderPaymentComponent implements OnInit, OnChanges {
     this.overpayment = this.paymentInfo.overpayment;
     this.paymentsArray = this.paymentInfo.paymentInfoDtos;
     this.paidAmount = this.paymentInfo.paidAmount;
-    this.unPaidAmount = this.paymentInfo.unPaidAmount;
+    const sumDiscount = this.orderInfo.orderBonusDiscount + this.orderInfo.orderCertificateTotalDiscount;
+    const notPaid = this.orderInfo.orderFullPrice - this.orderInfo.paymentTableInfoDto.paidAmount - sumDiscount;
+    this.unPaidAmount = notPaid > 0 ? notPaid : 0;
     this.setDateInPaymentArray(this.paymentsArray);
     this.positivePaymentsArrayAmount();
   }
@@ -130,11 +139,16 @@ export class UbsAdminOrderPaymentComponent implements OnInit, OnChanges {
     }
   }
 
+  private postDataItem(orderId: number, newValue: string): void {
+    this.store.dispatch(ChangingOrderPaymentStatus({ orderId, newValue }));
+  }
+
   public openPopup(viewMode: boolean, paymentIndex?: number): void {
     this.dialog
       .open(AddPaymentComponent, {
         hasBackdrop: true,
         panelClass: 'custom-dialog-container',
+        height: '100%',
         data: {
           orderId: this.orderInfo.generalOrderInfo.id,
           viewMode,
@@ -156,7 +170,21 @@ export class UbsAdminOrderPaymentComponent implements OnInit, OnChanges {
         if (extraPayment !== null && typeof extraPayment === 'object') {
           this.preconditionChangePaymentData(extraPayment);
           this.setOverpayment(this.totalPaid - this.actualPrice);
+
+          this.orderService
+            .getOrderInfo(this.orderId)
+            .pipe(takeUntil(this.destroy$))
+            .subscribe((data: IOrderInfo) => {
+              const newValue = data.generalOrderInfo.orderPaymentStatus;
+              this.postDataItem(this.orderId, newValue);
+              this.newPaymentStatus.emit(newValue);
+            });
         }
       });
+  }
+
+  ngOnDestroy(): void {
+    this.destroy$.next();
+    this.destroy$.complete();
   }
 }

@@ -138,13 +138,23 @@ describe('UbsUserProfilePageComponent', () => {
 
   it('Form should be defined by clicking on the edit button', fakeAsync(() => {
     const editButton = fixture.debugElement.query(By.css('.edit')).nativeElement;
+    const spy = spyOn(component, 'focusOnFirst');
     editButton.click();
     tick();
     fixture.detectChanges();
     const formElement = fixture.debugElement.nativeElement.querySelector('form');
     const inputElements = formElement.querySelectorAll('input');
     expect(inputElements.length).toBe(11);
+    expect(spy).toHaveBeenCalled();
   }));
+
+  it('should call the focus event', () => {
+    const input = document.createElement('input');
+    spyOn(document, 'getElementById').and.returnValue(input);
+    spyOn(input, 'focus');
+    component.focusOnFirst();
+    expect(input.focus).toHaveBeenCalled();
+  });
 
   it('method onSubmit has to be called by clicking submit button', fakeAsync(() => {
     component.isEditing = true;

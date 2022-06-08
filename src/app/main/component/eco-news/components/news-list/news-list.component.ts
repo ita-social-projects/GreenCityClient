@@ -1,6 +1,6 @@
 import { Breakpoints } from '../../../../config/breakpoints.constants';
 import { Component, OnInit, OnDestroy } from '@angular/core';
-import { ReplaySubject } from 'rxjs';
+import { Observable, ReplaySubject } from 'rxjs';
 import { take, takeUntil } from 'rxjs/operators';
 import { EcoNewsService } from '@eco-news-service/eco-news.service';
 import { EcoNewsModel, NewsTagInterface } from '@eco-news-models/eco-news-model';
@@ -29,8 +29,9 @@ export class NewsListComponent implements OnInit, OnDestroy {
   public scroll: boolean;
   public numberOfNews: number;
   public elementsArePresent = true;
-  public tagList: string[];
+  public tagList: NewsTagInterface[];
   private destroyed$: ReplaySubject<any> = new ReplaySubject<any>(1);
+  public tags: Observable<Array<NewsTagInterface>>;
 
   public filterPermission = false;
   public hasNext = true;
@@ -51,6 +52,7 @@ export class NewsListComponent implements OnInit, OnDestroy {
     this.checkUserSingIn();
     this.userOwnAuthService.getDataFromLocalStorage();
     this.scroll = false;
+    this.tags = this.ecoNewsService.getAllPresentTags();
     this.setLocalizedTags();
 
     this.dispatchStore(false);
@@ -61,7 +63,8 @@ export class NewsListComponent implements OnInit, OnDestroy {
         this.elements = [...value.pages];
         const data = value.ecoNews;
         this.hasNext = data.hasNext;
-        this.remaining = data.totalElements;
+        this.remaining =
+          Math.abs(data.totalElements - value.countOfEcoNews) > 0 && value.countOfEcoNews !== 0 ? value.countOfEcoNews : data.totalElements;
         this.elementsArePresent = this.elements.length < data.totalElements;
       }
     });
@@ -73,10 +76,7 @@ export class NewsListComponent implements OnInit, OnDestroy {
   }
 
   private getAllTags(): void {
-    this.ecoNewsService
-      .getAllPresentTags()
-      .pipe(take(1))
-      .subscribe((tagsArray: Array<NewsTagInterface>) => (this.tagList = tagsArray.map((tag) => tag.name)));
+    this.tags.pipe(take(1)).subscribe((tagsArray: Array<NewsTagInterface>) => (this.tagList = tagsArray));
   }
 
   public onResize(): void {

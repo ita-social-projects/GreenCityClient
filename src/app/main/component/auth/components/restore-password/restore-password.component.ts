@@ -33,7 +33,6 @@ export class RestorePasswordComponent implements OnInit, OnDestroy, OnChanges {
   public loadingAnim: boolean;
   public currentLanguage: string;
   public userIdSubscription: Subscription;
-  public isUbsValue: Subscription;
   public emailFieldValue: string;
   public isUbs: boolean;
   @Output() public pageName = new EventEmitter();
@@ -51,7 +50,7 @@ export class RestorePasswordComponent implements OnInit, OnDestroy, OnChanges {
   ) {}
 
   ngOnInit() {
-    this.isUbsValue = this.localStorageService.ubsRegBehaviourSubject.subscribe((value) => (this.isUbs = value));
+    this.isUbs = this.router.url.includes('ubs');
     this.userOwnSignIn = new UserOwnSignIn();
     this.initFormReactive();
     this.configDefaultErrorMessage();
@@ -99,12 +98,12 @@ export class RestorePasswordComponent implements OnInit, OnDestroy, OnChanges {
     this.loadingAnim = true;
     this.currentLanguage = this.localStorageService.getCurrentLanguage();
     this.restorePasswordService
-      .sendEmailForRestore(email, this.currentLanguage)
+      .sendEmailForRestore(email, this.currentLanguage, this.isUbs)
       .pipe(take(1))
       .subscribe({
         next: () => {
           this.onCloseRestoreWindow();
-          this.snackBar.openSnackBar('successRestorePassword');
+          this.snackBar.openSnackBar(this.isUbs ? 'successRestorePasswordUbs' : 'successRestorePassword');
         },
         error: (error: HttpErrorResponse) => {
           this.onSentEmailBadMessage(error);
@@ -155,6 +154,5 @@ export class RestorePasswordComponent implements OnInit, OnDestroy, OnChanges {
 
   ngOnDestroy() {
     this.userIdSubscription.unsubscribe();
-    this.isUbsValue.unsubscribe();
   }
 }

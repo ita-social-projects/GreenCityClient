@@ -26,6 +26,12 @@ select {
   border: 1px solid var(--ubs-quintynary-light-grey);
 }
 
+.autocomplete-dropdown {
+  color: var(--ubs-primary-grey);
+  font-size: 0.9rem;
+  height: 22px;
+}
+
 .personal-info-pop-up-title {
   margin: 0 0 20px 15px;
   font-family: var(--ubs-tertiary-font);

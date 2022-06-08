@@ -18,6 +18,8 @@ export class UbsAdminOrderStatusComponent implements OnChanges, OnInit, OnDestro
   @Input() totalPaid: number;
   @Input() generalInfo: IGeneralOrderInfo;
   @Input() currentLanguage: string;
+  @Input() additionalPayment: string;
+
   @Output() changedOrderStatus = new EventEmitter<string>();
 
   constructor(public orderService: OrderService, private dialog: MatDialog) {}
@@ -26,6 +28,9 @@ export class UbsAdminOrderStatusComponent implements OnChanges, OnInit, OnDestro
   public availableOrderStatuses;
 
   ngOnChanges(changes: SimpleChanges): void {
+    if (changes.additionalPayment) {
+      this.generalInfo.orderPaymentStatus = changes.additionalPayment.currentValue;
+    }
     if (changes.currentOrderPrice || changes.totalPaid) {
       this.setOrderPaymentStatus();
     }

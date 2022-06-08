@@ -50,10 +50,6 @@ $whitecol: white;
         @include turnoffboxshadow;
       }
 
-      .open:focus {
-        @include turnoffboxshadow;
-      }
-
       .open:not(:disabled):not(.disabled):active {
         background-color: $whitecol;
 
@@ -75,10 +71,6 @@ $whitecol: white;
       .delete:active {
         box-shadow: none;
         background-color: $whitecol;
-      }
-
-      .delete:focus {
-        box-shadow: none;
       }
     }
   }
@@ -132,10 +124,6 @@ $whitecol: white;
 
   .edit:hover {
     background-color: $whitecol;
-  }
-
-  .edit:focus {
-    box-shadow: none;
   }
 
   .edit:not(:disabled):not(.disabled):active {
@@ -262,18 +250,10 @@ $whitecol: white;
       border: none;
     }
 
-    .save:focus {
-      @include turnoffboxshadow;
-    }
-
     .cancel {
       background-color: $whitecol;
       color: $btnblackcol;
       border-color: $btnblackcol;
-    }
-
-    .cancel:focus {
-      @include turnoffboxshadow;
     }
   }
 
@@ -388,4 +368,13 @@ $whitecol: white;
       margin-right: 150px;
     }
   }
+}
+
+.error-message {
+  font-size: 10px;
+  line-height: 12px;
+  color: var(--error-ligh-red);
+  display: inline-block;
+  width: max-content;
+  vertical-align: middle;
 }

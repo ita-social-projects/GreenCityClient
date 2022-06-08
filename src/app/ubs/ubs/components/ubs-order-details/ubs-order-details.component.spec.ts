@@ -25,10 +25,38 @@ describe('OrderDetailsFormComponent', () => {
   let orderService: OrderService;
   const fakeLanguageSubject: Subject<string> = new Subject<string>();
   const shareFormService = jasmine.createSpyObj('shareFormService', ['orderDetails', 'changeAddCertButtonVisibility']);
-  shareFormService.locationId = 1;
   const localStorageService = jasmine.createSpyObj('localStorageService', ['getCurrentLanguage', 'languageSubject', 'getUbsOrderData']);
   localStorageService.getUbsOrderData = () => null;
   localStorageService.languageSubject = fakeLanguageSubject;
+  const mockLocations = {
+    courierLimit: 'fake',
+    courierStatus: 'fake status',
+    tariffInfoId: 1,
+    regionDto: {
+      nameEn: 'fake name en',
+      nameUk: 'fake name ua',
+      regionId: 2
+    },
+    locationsDtosList: [
+      {
+        locationId: 3,
+        nameEn: 'fake location en',
+        nameUk: 'fake location ua'
+      }
+    ],
+    courierTranslationDtos: [
+      {
+        languageCode: 'ua',
+        name: 'fake name'
+      }
+    ],
+    maxAmountOfBigBags: 99,
+    maxPriceOfOrder: 500000,
+    minAmountOfBigBags: 2,
+    minPriceOfOrder: 500
+  };
+  shareFormService.locationId = 1;
+  shareFormService.locations = mockLocations;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
@@ -92,8 +120,7 @@ describe('OrderDetailsFormComponent', () => {
     const bagsMock: Bag[] = [];
     component.bags = bagsMock;
     fixture.detectChanges();
-    // @ts-ignore
-    component.calculateTotal();
+    (component as any).calculateTotal();
     expect(spy).toHaveBeenCalled();
     expect(spy1).toHaveBeenCalled();
   });
@@ -122,13 +149,22 @@ describe('OrderDetailsFormComponent', () => {
     expect(spy).toHaveBeenCalled();
   });
 
+  it('method setCurrentLocation should set values if language "en"', () => {
+    (component as any).setCurrentLocation('en');
+    expect(component.minAmountOfBigBags).toBe(2);
+    expect(component.currentLocation).toBe('fake name en');
+  });
+
+  it('method setCurrentLocation should set values if language "ua"', () => {
+    (component as any).setCurrentLocation('ua');
+    expect(component.minAmountOfBigBags).toBe(2);
+    expect(component.currentLocation).toBe('fake name ua');
+  });
+
   it('destroy Subject should be closed after ngOnDestroy()', () => {
-    // @ts-ignore
-    component.destroy = new Subject<boolean>();
-    // @ts-ignore
-    spyOn(component.destroy, 'unsubscribe');
+    (component as any).destroy = new Subject<boolean>();
+    spyOn((component as any).destroy, 'unsubscribe');
     component.ngOnDestroy();
-    // @ts-ignore
-    expect(component.destroy.unsubscribe).toHaveBeenCalledTimes(1);
+    expect((component as any).destroy.unsubscribe).toHaveBeenCalledTimes(1);
   });
 });

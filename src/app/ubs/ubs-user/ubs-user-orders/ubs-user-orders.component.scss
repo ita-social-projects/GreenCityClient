@@ -52,6 +52,17 @@
   border-radius: 4px;
 }
 
+.user-orders-pagination::ng-deep .ngx-pagination .current {
+  background: var(--ubs-button-light-green);
+}
+
+.user-orders-pagination {
+  clear: both;
+  position: relative;
+  font-size: 16px;
+  text-align: center;
+}
+
 @media (max-width: 960px) {
   .wrapper {
     height: 100vh;

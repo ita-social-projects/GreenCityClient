@@ -1,6 +1,6 @@
 <div class="dialog-container">
   <div class="close-container">
-    <button class="close-btn" mat-dialog-close (click)="redirectToMain()">
+    <button class="close-btn" mat-dialog-close>
       <img src="{{ closeButton }}" alt="close" />
     </button>
   </div>
@@ -11,7 +11,11 @@
     <mat-form-field>
       <input type="text" matInput [formControl]="myControl" [matAutocomplete]="auto" />
       <mat-autocomplete #auto="matAutocomplete" [displayWith]="displayFn">
-        <mat-option *ngFor="let city of filteredOptions | async" [value]="city" (click)="changeLocation(city.locationId)">
+        <mat-option
+          *ngFor="let city of filteredOptions | async"
+          [value]="city"
+          (click)="changeLocation(city.locationId, city.locationName)"
+        >
           {{ city.locationName }}
         </mat-option>
       </mat-autocomplete>
@@ -25,13 +29,12 @@
     <app-spinner class="mx-auto"></app-spinner>
   </ng-template>
   <mat-dialog-actions class="footer-btns" align="end">
-    <button class="btn secondaryButton secondary-global-button" mat-dialog-close (click)="redirectToMain()">
+    <button class="btn secondaryButton secondary-global-button" mat-dialog-close>
       {{ 'order-details.location.btn.back' | translate }}
     </button>
     <button
       class="btn primaryButton primary-global-button"
-      [disabled]="isFetching"
-      [mat-dialog-close]="true"
+      [disabled]="isFetching || !currentLocation || myControl.invalid"
       cdkFocusInitial
       (click)="saveLocation()"
     >

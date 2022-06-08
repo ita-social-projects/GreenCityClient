@@ -92,7 +92,6 @@ describe('ProfileService', () => {
       const stat = {
         amountHabitsInProgress: 2,
         amountHabitsAcquired: 1,
-        amountWrittenTipsAndTrick: 0,
         amountPublishedNews: 7
       };
 

@@ -8,6 +8,7 @@ export interface NewsModel {
 
 export interface FilterModel {
   name: string;
+  nameUa: string;
   isActive: boolean;
 }
 
@@ -37,6 +38,7 @@ export interface NewsDTO {
   source: string;
   image?: SafeUrl;
   content?: string;
+  countOfEcoNews: number;
 }
 
 export interface NewsResponseDTO {

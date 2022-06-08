@@ -42,7 +42,8 @@ export class CreateEcoNewsService {
       content: form.content,
       title: form.title,
       source: form.source,
-      text: form.content
+      text: form.content,
+      countOfEcoNews: form.countOfEcoNews
     };
 
     const formData = new FormData();
@@ -63,7 +64,7 @@ export class CreateEcoNewsService {
   public setForm(form: FormGroup): void {
     this.currentForm = form;
     if (this.currentForm) {
-      this.currentForm.value.image = this.files[0] ? this.files[0].url : '';
+      this.currentForm.value.image = this.files[0] ? this.files[0].url : this.fileUrl;
     }
   }
 
@@ -76,7 +77,8 @@ export class CreateEcoNewsService {
       tags: form.tags,
       text: form.content,
       title: form.title,
-      source: form.source
+      source: form.source,
+      countOfEcoNews: form.countOfEcoNews
     };
 
     const formData = new FormData();

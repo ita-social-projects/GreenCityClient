@@ -13,7 +13,7 @@
     <div class="load-bar" *ngIf="isLoadBar">
       <mat-progress-bar class="custom-bar" mode="indeterminate"></mat-progress-bar>
     </div>
-    <div *ngIf="!isAnyMessages" class="if-empty">У вас ще немає повідомлень</div>
+    <div *ngIf="!isAnyMessages" class="if-empty">{{ 'ubs-messages.message' | translate }}</div>
     <div *ngIf="isAnyMessages">
       <mat-accordion multi="false">
         <mat-expansion-panel
@@ -48,8 +48,18 @@
           <div class="description" *ngIf="!isLoadSmallSpinner">
             <app-notification-body [body]="notification.body" [orderId]="notification.orderId"> </app-notification-body>
           </div>
-          <div *ngIf="notification.img" class="description title-img">Фотографії порушення</div>
-          <div *ngIf="notification.img" class="description img"><img src="{{ notification.img }}" alt="" /></div>
+          <div *ngIf="notification.images?.length" class="description title-img">
+            {{ 'add-violation-modal.label-for-photo-container' | translate }}
+          </div>
+          <div *ngIf="notification.images?.length" class="description img">
+            <img
+              *ngFor="let image of notification.images; index as i"
+              class="notification-images"
+              src="{{ image }}"
+              alt=""
+              (click)="openImg(i)"
+            />
+          </div>
         </mat-expansion-panel>
       </mat-accordion>
       <div class="d-flex justify-content-center">

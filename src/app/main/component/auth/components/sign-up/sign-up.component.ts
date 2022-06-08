@@ -41,7 +41,6 @@ export class SignUpComponent implements OnInit, OnDestroy, OnChanges {
   public passwordConfirmFieldValue: string;
   public currentLanguage: string;
   public isUbs: boolean;
-  public ubsStyle: string;
   private destroy: Subject<boolean> = new Subject<boolean>();
   private errorsType = {
     name: (error: string) => (this.firstNameErrorMessageBackEnd = error),
@@ -68,8 +67,7 @@ export class SignUpComponent implements OnInit, OnDestroy, OnChanges {
     this.getFormFields();
     this.setNullAllMessage();
     this.userOwnSignUp = new UserOwnSignUp();
-    this.localStorageService.ubsRegBehaviourSubject.pipe(takeUntil(this.destroy)).subscribe((value) => (this.isUbs = value));
-    this.checkIfItUbs();
+    this.isUbs = this.router.url.includes('ubs');
   }
 
   ngOnChanges(): void {
@@ -202,10 +200,6 @@ export class SignUpComponent implements OnInit, OnDestroy, OnChanges {
       this.emailErrorMessageBackEnd = error.name === 'email' ? error.message : this.emailErrorMessageBackEnd;
       this.passwordConfirmErrorMessageBackEnd = error.name === 'password' ? error.message : this.passwordConfirmErrorMessageBackEnd;
     });
-  }
-
-  checkIfItUbs() {
-    this.ubsStyle = this.isUbs ? 'ubsStyle' : 'greenStyle';
   }
 
   public emailClassCheck(): string {

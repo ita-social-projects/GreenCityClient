@@ -70,6 +70,15 @@
 .mat-expansion-panel {
   margin: 10px 0 10px 0;
   box-shadow: none;
+
+  .notification-images {
+    margin-top: 8px;
+    border-radius: 8px;
+  }
+
+  .notification-images:hover {
+    cursor: pointer;
+  }
 }
 
 .mat-expansion-panel-header {
@@ -108,6 +117,7 @@
 
 .description {
   color: var(--ubs-secondary-grey);
+  text-align: justify;
   max-width: 40%;
   margin-left: 20.5%;
   font-size: 16px;
@@ -117,7 +127,7 @@
 }
 
 .img {
-  max-width: 284px;
+  max-width: 40%;
 
   img {
     width: 100%;

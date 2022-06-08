@@ -42,8 +42,8 @@ describe('SignUpComponent', () => {
   let authServiceMock: AuthService;
   let MatSnackBarMock: MatSnackBarComponent;
   let localStorageServiceMock: LocalStorageService;
+  let router: Router;
   localStorageServiceMock = jasmine.createSpyObj('LocalStorageService', ['getCurrentLanguage']);
-  localStorageServiceMock.ubsRegBehaviourSubject = of(false) as any;
   localStorageServiceMock.getCurrentLanguage = () => 'ua' as Language;
   localStorageServiceMock.setFirstName = () => true;
   localStorageServiceMock.setFirstSignIn = () => true;
@@ -52,7 +52,6 @@ describe('SignUpComponent', () => {
   localStorageServiceMock.setRefreshToken = () => true;
   localStorageServiceMock.setUserId = () => true;
 
-  const routerSpy = { navigate: jasmine.createSpy('navigate') };
   class MatDialogRefMock {
     close() {}
   }
@@ -98,7 +97,6 @@ describe('SignUpComponent', () => {
         { provide: AuthService, useValue: authServiceMock },
         { provide: MatDialogRef, useClass: MatDialogRefMock },
         { provide: AuthServiceConfig, useFactory: provideConfig },
-        { provide: Router, useValue: routerSpy },
         { provide: MatSnackBarComponent, useValue: MatSnackBarMock },
         { provide: UserOwnSignUpService, useClass: UserOwnSignUpServiceMock },
         { provide: LocalStorageService, useValue: localStorageServiceMock }
@@ -113,6 +111,9 @@ describe('SignUpComponent', () => {
     fixture = TestBed.createComponent(SignUpComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
+    router = fixture.debugElement.injector.get(Router);
+    spyOn(router.url, 'includes').and.returnValue(false);
+    spyOn(router, 'navigate');
   });
 
   describe('Basic tests', () => {
@@ -300,7 +301,7 @@ describe('SignUpComponent', () => {
         // @ts-ignore
         component.signUpWithGoogleSuccess(mockUserSuccessSignIn);
         fixture.ngZone.run(() => {
-          expect(routerSpy.navigate).toHaveBeenCalledWith(['profile', mockUserSuccessSignIn.userId]);
+          expect(router.navigate).toHaveBeenCalledWith(['profile', mockUserSuccessSignIn.userId]);
         });
         fixture.destroy();
         flush();
@@ -363,20 +364,6 @@ describe('SignUpComponent', () => {
       // @ts-ignore
       component.signUpWithGoogleError(errors);
       expect(component.backEndError).toBe('Ups');
-    });
-  });
-
-  describe('checkIfItUbs', () => {
-    it('expected result if isUbs is true', () => {
-      component.isUbs = true;
-      component.checkIfItUbs();
-      expect(component.ubsStyle).toBe('ubsStyle');
-    });
-
-    it('expected result if isUbs is false', () => {
-      component.isUbs = false;
-      component.checkIfItUbs();
-      expect(component.ubsStyle).toBe('greenStyle');
     });
   });
 });

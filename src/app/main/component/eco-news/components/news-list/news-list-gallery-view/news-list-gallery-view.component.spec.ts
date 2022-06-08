@@ -20,6 +20,8 @@ describe('NewsListGalleryViewComponent', () => {
       name: 'string'
     },
     tags: ['test'],
+    tagsEn: ['test'],
+    tagsUa: ['test'],
 
     creationDate: '11',
     likes: 0,
@@ -50,7 +52,6 @@ describe('NewsListGalleryViewComponent', () => {
 
   it('should get default image', () => {
     ecoNewsMock.imagePath = ' ';
-    component.ecoNewsModel = ecoNewsMock;
     component.checkNewsImage();
     expect(component.newsImage).toBe(defaultImagePath);
   });

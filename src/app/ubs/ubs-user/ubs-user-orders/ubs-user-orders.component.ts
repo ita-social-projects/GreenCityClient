@@ -22,6 +22,12 @@ export class UbsUserOrdersComponent implements OnInit, OnDestroy {
   bonuses: number;
   loadingOrders = false;
   loadingBonuses = false;
+  page = 0;
+  numberOfCurrentOrders: number;
+  numberOfHistoryOrders: number;
+  currentOrdersOnPage = 10;
+  historyOrdersOnPage = 10;
+  isMoreThenOnePage: boolean;
 
   constructor(
     private router: Router,
@@ -30,6 +36,16 @@ export class UbsUserOrdersComponent implements OnInit, OnDestroy {
     private userOrdersService: UserOrdersService,
     private translate: TranslateService
   ) {}
+
+  onPageChange(e) {
+    this.page = e;
+    const numberOfCurrenordersLeft = this.numberOfCurrentOrders - (e - 1) * 10;
+    const numberOfHistoryOrdersLeft = this.numberOfHistoryOrders - (e - 1) * 10;
+    this.currentOrdersOnPage = numberOfCurrenordersLeft < 10 ? this.currentOrdersOnPage : 10;
+    this.historyOrdersOnPage = numberOfHistoryOrdersLeft < 10 ? this.historyOrdersOnPage : 10;
+    this.getOrders(e - 1, this.currentOrdersOnPage, 'current');
+    this.getOrders(e - 1, this.historyOrdersOnPage, 'history');
+  }
 
   redirectToOrder() {
     this.router.navigate(['ubs', 'order']);
@@ -40,8 +56,17 @@ export class UbsUserOrdersComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit() {
+    this.getOrders(0, 10, 'current');
+    this.getOrders(0, 10, 'history');
+    this.bonusesService.getUserBonuses().subscribe((responce: IBonus) => {
+      this.bonuses = responce.points;
+      this.loadingBonuses = true;
+    });
+  }
+
+  getOrders(pageNumber: number, ordersOnPage: number, table: string) {
     this.userOrdersService
-      .getAllUserOrders()
+      .getAllUserOrders(pageNumber, ordersOnPage, table)
       .pipe(
         takeUntil(this.destroy),
         catchError((err) => {
@@ -51,19 +76,19 @@ export class UbsUserOrdersComponent implements OnInit, OnDestroy {
         })
       )
       .subscribe((item) => {
+        if (pageNumber === 0) {
+          this.numberOfCurrentOrders = table === 'current' ? item.totalElements : this.numberOfCurrentOrders;
+          this.numberOfHistoryOrders = table === 'history' ? item.totalElements : this.numberOfHistoryOrders;
+        }
         this.orders = item.page;
         this.loadingOrders = true;
-        this.currentOrders = this.orders.filter(
-          (order) => order.orderStatusEng !== CheckOrderStatus.DONE && order.orderStatusEng !== CheckOrderStatus.CANCELED
-        );
-        this.orderHistory = this.orders.filter(
-          (order) => order.orderStatusEng === CheckOrderStatus.DONE || order.orderStatusEng === CheckOrderStatus.CANCELED
-        );
+        this.currentOrders = table === 'current' ? this.orders : this.currentOrders;
+        this.orderHistory = table === 'history' ? this.orders : this.orderHistory;
+
+        if (this.numberOfCurrentOrders && this.numberOfHistoryOrders) {
+          this.isMoreThenOnePage = this.numberOfCurrentOrders > 10 || this.numberOfHistoryOrders > 10;
+        }
       });
-    this.bonusesService.getUserBonuses().subscribe((responce: IBonus) => {
-      this.bonuses = responce.points;
-      this.loadingBonuses = true;
-    });
   }
 
   ngOnDestroy() {
