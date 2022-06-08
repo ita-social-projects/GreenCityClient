@@ -14,6 +14,7 @@ import { Location } from '@angular-material-extensions/google-maps-autocomplete'
 import { FavoritePlaceService } from '@global-service/favorite-place/favorite-place.service';
 import { combineLatest } from 'rxjs';
 import { initialMoreOptionsFormValue } from './components/more-options-filter/more-options-filter.constant.js';
+import { NewsTagInterface } from '@user-models/news.model';
 
 @Component({
   selector: 'app-places',
@@ -23,7 +24,13 @@ import { initialMoreOptionsFormValue } from './components/more-options-filter/mo
 export class PlacesComponent implements OnInit {
   public position: any = {};
   public zoom = 13;
-  public tagList: Array<string> = ['Shops', 'Restaurants', 'Recycling points', 'Events', 'Saved places'];
+  public tagList: NewsTagInterface[] = [
+    { id: 1, name: 'Shops', nameUa: 'Магазини' },
+    { id: 2, name: 'Restaurants', nameUa: 'Ресторани' },
+    { id: 3, name: 'Recycling points', nameUa: 'Станції приймання' },
+    { id: 4, name: 'Events', nameUa: 'Події' },
+    { id: 5, name: 'Saved places', nameUa: 'Збережені місця' }
+  ];
   public searchName = '';
   public moreOptionsFilters: MoreOptionsFormValue;
   public searchIcon = searchIcon;
@@ -183,7 +190,7 @@ export class PlacesComponent implements OnInit {
     );
     const currentTagFilter: string[] = this.tagList.reduce((acc, tagName) => {
       const tagFilter: [string, boolean] = allFilters.find((filter: [string, boolean]) => {
-        return filter[0] === tagName;
+        return filter[0] === tagName.name;
       });
       if (tagFilter && tagFilter[1]) {
         acc.push(tagFilter[0]);
