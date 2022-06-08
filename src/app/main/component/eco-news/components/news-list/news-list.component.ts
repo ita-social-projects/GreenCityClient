@@ -63,7 +63,8 @@ export class NewsListComponent implements OnInit, OnDestroy {
         this.elements = [...value.pages];
         const data = value.ecoNews;
         this.hasNext = data.hasNext;
-        this.remaining = data.totalElements;
+        this.remaining =
+          Math.abs(data.totalElements - value.countOfEcoNews) > 0 && value.countOfEcoNews !== 0 ? value.countOfEcoNews : data.totalElements;
         this.elementsArePresent = this.elements.length < data.totalElements;
       }
     });
