@@ -176,11 +176,6 @@ export class UBSOrderDetailsComponent extends FormBaseComponent implements OnIni
         this.totalOfBigBags = +q1.value + +q2.value;
       }
     });
-    setTimeout(() => this.checkForBigBagsMessage());
-  }
-
-  checkForBigBagsMessage() {
-    this.displayMinBigBagsMes = this.minAmountOfBigBags > this.totalOfBigBags;
   }
 
   private subscribeToLangChange(): void {
