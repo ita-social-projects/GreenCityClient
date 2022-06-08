@@ -46,6 +46,7 @@ export class UBSAddAddressPopUpComponent implements OnInit, OnDestroy, AfterView
   isDistrict = false;
   isKyiv = false;
   currentLanguage: string;
+  public isDeleting: boolean;
 
   KyivRegion = [
     // Kyiv
@@ -542,6 +543,19 @@ export class UBSAddAddressPopUpComponent implements OnInit, OnDestroy, AfterView
 
   onNoClick(): void {
     this.dialogRef.close();
+  }
+
+  public deleteAddress(): void {
+    this.isDeleting = true;
+    this.orderService
+      .deleteAddress(this.addAddressForm.value)
+      .pipe(takeUntil(this.destroy))
+      .subscribe((list: { addressList: Address[] }) => {
+        localStorage.setItem('addresses', JSON.stringify(list));
+        this.dialogRef.close('Added');
+        this.isDisabled = false;
+        this.isDeleting = false;
+      });
   }
 
   addAdress(): void {
