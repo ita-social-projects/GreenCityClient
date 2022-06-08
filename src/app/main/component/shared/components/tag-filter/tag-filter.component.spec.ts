@@ -11,14 +11,14 @@ describe('TagFilterComponent', () => {
   const tagsListDataMock = ['test', 'test', 'test', 'test'];
   const changes = {
     tagListData: {
-      currentValue: tagsListDataMock,
-    },
+      currentValue: tagsListDataMock
+    }
   };
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       declarations: [TagFilterComponent],
-      imports: [TranslateModule.forRoot()],
+      imports: [TranslateModule.forRoot()]
     }).compileComponents();
   }));
 
@@ -52,7 +52,7 @@ describe('TagFilterComponent', () => {
     });
 
     it('Should change filter state to true', () => {
-      component.filters = [{ name: 'test', isActive: false }];
+      component.filters = [{ name: 'test', nameUa: 'test', isActive: false }];
       component.toggleFilter('test');
       expect(component.filters[0].isActive).toBe(true);
     });

@@ -16,6 +16,7 @@ import { HabitListInterface } from '../../../../../interface/habit/habit.interfa
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { EventEmitter, Injectable } from '@angular/core';
 import { ProfileService } from '@global-user/components/profile/profile-service/profile.service';
+import { Language } from '../../../../../i18n/Language';
 
 @Injectable()
 class TranslationServiceStub {
@@ -110,9 +111,14 @@ describe('AllHabitsComponent', () => {
   const mockData = new BehaviorSubject<any>(habitsMockData);
 
   let localStorageServiceMock: LocalStorageService;
-  localStorageServiceMock = jasmine.createSpyObj('LocalStorageService', ['userIdBehaviourSubject', 'languageBehaviourSubject']);
+  localStorageServiceMock = jasmine.createSpyObj('LocalStorageService', [
+    'userIdBehaviourSubject',
+    'languageBehaviourSubject',
+    'getCurrentLanguage'
+  ]);
   localStorageServiceMock.userIdBehaviourSubject = new BehaviorSubject(1111);
   localStorageServiceMock.languageBehaviourSubject = new BehaviorSubject('en');
+  localStorageServiceMock.getCurrentLanguage = () => 'en' as Language;
 
   let assignHabitServiceMock: HabitAssignService;
   assignHabitServiceMock = jasmine.createSpyObj('HabitAssignService', ['getAssignedHabits']);
