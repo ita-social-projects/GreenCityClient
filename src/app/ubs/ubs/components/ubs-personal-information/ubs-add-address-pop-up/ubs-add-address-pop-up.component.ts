@@ -547,12 +547,12 @@ export class UBSAddAddressPopUpComponent implements OnInit, OnDestroy, AfterView
 
   public deleteAddress(): void {
     this.isDeleting = true;
+    this.isDisabled = true;
     this.orderService
       .deleteAddress(this.addAddressForm.value)
       .pipe(takeUntil(this.destroy))
-      .subscribe((list: { addressList: Address[] }) => {
-        localStorage.setItem('addresses', JSON.stringify(list));
-        this.dialogRef.close('Added');
+      .subscribe(() => {
+        this.dialogRef.close('Deleted');
         this.isDisabled = false;
         this.isDeleting = false;
       });
