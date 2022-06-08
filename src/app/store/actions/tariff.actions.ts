@@ -6,8 +6,8 @@ export enum TariffActions {
   GetLocationsSuccess = '[Tariff] Get Locations Success',
   AddLocations = '[Tariff] Add Locations',
   AddLocationsSuccess = '[Tariff] Add Locations Success',
-  EditLocation = '[Tariff] Edit Location Name',
-  EditLocationSuccess = '[Tariff] Edit Location Name Success',
+  EditLocations = '[Tariff] Edit Location Name',
+  EditLocationsSuccess = '[Tariff] Edit Location Name Success',
   ReceivedFailure = '[Tariff] Received Failure'
 }
 
@@ -19,8 +19,8 @@ export const AddLocations = createAction(TariffActions.AddLocations, props<{ loc
 
 export const AddLocationsSuccess = createAction(TariffActions.AddLocationsSuccess, props<{ locations: CreateLocation[] }>());
 
-export const EditLocation = createAction(TariffActions.EditLocation, props<{editedLocations: EditLocationName[]}>());
+export const EditLocation = createAction(TariffActions.EditLocations, props<{editedLocations: EditLocationName[]}>());
 
-export const EditLocationSuccess = createAction(TariffActions.EditLocationSuccess, props<{editedLocations: EditLocationName[]}>());
+export const EditLocationSuccess = createAction(TariffActions.EditLocationsSuccess, props<{editedLocations: EditLocationName[]}>());
 
 export const ReceivedFailure = createAction(TariffActions.ReceivedFailure, props<{ error: string | null }>());

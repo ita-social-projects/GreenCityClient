@@ -37,21 +37,3 @@ stages:
         tags: |
           $(Build.BuildId)
           latest
-
-- stage: Deploy
-  jobs:
-    - deployment: Deploy
-      displayName: Deploy to app service
-      pool:
-        vmImage: $(agentOS)
-      environment: 'prod'
-      strategy:
-        runOnce:
-          deploy:
-            steps:
-            
-            - task: AzureWebAppContainer@1
-              inputs:
-                azureSubscription: 'Prod'
-                appName: 'greencity-front'
-                containers: 'skyere/greencity-front:latest'
