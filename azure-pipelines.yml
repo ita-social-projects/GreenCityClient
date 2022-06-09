@@ -2,56 +2,37 @@ trigger:
   batch: true
   branches:
     include:
-    - dev
+      - dev
   paths:
     exclude:
-    - README.md
+      - README.md
 
 variables:
   agentOS: ubuntu-latest
   docker_repo: skyere/greencity-front
 
 stages:
-- stage: Build
-  jobs: 
-  - job: Build
-    pool:
-      vmImage: $(agentOS)
-    steps:
+  - stage: Build
+    jobs:
+      - job: Build
+        pool:
+          vmImage: $(agentOS)
+        steps:
+          - task: Docker@2
+            inputs:
+              containerRegistry: 'Dockerhub_Skyere'
+              repository: '$(docker_repo)'
+              command: 'build'
+              Dockerfile: 'Dockerfile'
+              tags: |
+                $(Build.BuildId)
+                latest
 
-    - task: Docker@2
-      inputs:
-        containerRegistry: 'Dockerhub_Skyere'
-        repository: '$(docker_repo)'
-        command: 'build'
-        Dockerfile: 'Dockerfile'
-        tags: |
-          $(Build.BuildId)
-          latest
-    
-    - task: Docker@2
-      inputs:
-        containerRegistry: 'Dockerhub_Skyere'
-        repository: '$(docker_repo)'
-        command: 'push'
-        tags: |
-          $(Build.BuildId)
-          latest
-
-- stage: Deploy
-  jobs:
-    - deployment: Deploy
-      displayName: Deploy to app service
-      pool:
-        vmImage: $(agentOS)
-      environment: 'prod'
-      strategy:
-        runOnce:
-          deploy:
-            steps:
-            
-            - task: AzureWebAppContainer@1
-              inputs:
-                azureSubscription: 'Prod'
-                appName: 'greencity-front'
-                containers: 'skyere/greencity-front:latest'
+          - task: Docker@2
+            inputs:
+              containerRegistry: 'Dockerhub_Skyere'
+              repository: '$(docker_repo)'
+              command: 'push'
+              tags: |
+                $(Build.BuildId)
+                latest

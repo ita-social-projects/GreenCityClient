@@ -53,8 +53,8 @@
           </div>
           <div *ngIf="notification.images?.length" class="description img">
             <img
-              class="notification-images"
               *ngFor="let image of notification.images; index as i"
+              class="notification-images"
               src="{{ image }}"
               alt=""
               (click)="openImg(i)"

@@ -38,6 +38,7 @@ export interface NewsDTO {
   source: string;
   image?: SafeUrl;
   content?: string;
+  countOfEcoNews: number;
 }
 
 export interface NewsResponseDTO {
