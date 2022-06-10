@@ -33,6 +33,7 @@ export class UbsUserOrderPaymentPopUpComponent implements OnInit {
   public liqPayButton: NodeListOf<HTMLElement>;
   public dataLoadingLiqPay: boolean;
   public isLiqPayLink: boolean;
+  public isCertBeenUsed = false;
 
   public userOrder: IOrderDetailsUser = {
     id: this.data.orderId,
@@ -96,10 +97,17 @@ export class UbsUserOrderPaymentPopUpComponent implements OnInit {
   }
 
   public certificateSubmit(index: number, certificate: FormControl): void {
-    if (!this.userCertificate.certificates.includes(this.formArrayCertificates.value[index])) {
+    let usedCertificates = this.formArrayCertificates.value.map((i) => i.certificateCode);
+    if (
+      !usedCertificates.some((item, ind) => {
+        return item === certificate.value.certificateCode && ind !== index;
+      })
+    ) {
       this.userCertificate.certificates.push(this.formArrayCertificates.value[index]);
       this.calculateCertificate(certificate);
       this.certificateStatus[index] = false;
+    } else {
+      this.isCertBeenUsed = true;
     }
   }
 
