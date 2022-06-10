@@ -12,6 +12,7 @@ describe('ClientProfileService', () => {
     recipientName: 'YuraBoiko',
     recipientSurname: 'Boiko',
     recipientEmail: 'yur13boj9@gmail.com',
+    alternateEmail: 'blackStar@gmail.com',
     recipientPhone: '974498935',
     addressDto: [
       {
