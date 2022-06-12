@@ -12,6 +12,8 @@ export class EventsListItemComponent implements OnInit {
 
   public itemTags: Array<TagObj>;
 
+  public adress = 'Should be adress';
+
   ngOnInit(): void {
     this.itemTags = TagsArray.reduce((ac, cur) => [...ac, { ...cur }], []);
     this.filterTags(this.event.tags);

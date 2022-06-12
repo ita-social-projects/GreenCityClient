@@ -2,6 +2,7 @@ import { Language } from '../../i18n/Language';
 import { Injectable } from '@angular/core';
 import { BehaviorSubject, Subject } from 'rxjs';
 import { FilterModel } from '@eco-news-models/create-news-interface';
+import { EventPageResponceDto } from '../../component/events/models/events.interface';
 
 @Injectable({
   providedIn: 'root'
@@ -12,6 +13,8 @@ export class LocalStorageService {
   private readonly USER_ID = 'userId';
   private readonly NAME = 'name';
   private readonly PREVIOUSPAGE = 'previousPage';
+  private readonly CANUSEREDITEVENT = 'canUserEdit';
+  private readonly EDITEVENT = 'editEvent';
 
   languageSubject: Subject<string> = new Subject<string>();
   firstNameBehaviourSubject: BehaviorSubject<string> = new BehaviorSubject<string>(this.getName());
@@ -22,6 +25,22 @@ export class LocalStorageService {
 
   public getAccessToken(): string {
     return localStorage.getItem(this.ACCESS_TOKEN);
+  }
+
+  public setEditMode(key: string, permision: boolean) {
+    localStorage.setItem(key, `${permision}`);
+  }
+
+  public getEditMode(): boolean {
+    return localStorage.getItem(this.CANUSEREDITEVENT) === 'true';
+  }
+
+  public setEventForEdit(key: string, event: EventPageResponceDto) {
+    localStorage.setItem(key, JSON.stringify(event));
+  }
+
+  public getEventForEdit() {
+    return JSON.parse(localStorage.getItem(this.EDITEVENT));
   }
 
   public getRefreshToken(): string {

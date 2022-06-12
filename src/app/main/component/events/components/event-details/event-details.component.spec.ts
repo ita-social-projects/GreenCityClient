@@ -4,9 +4,11 @@ import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { EventDetailsComponent } from './event-details.component';
 import { TranslateModule } from '@ngx-translate/core';
 import { RouterTestingModule } from '@angular/router/testing';
-import { of } from 'rxjs';
+import { BehaviorSubject, of } from 'rxjs';
 import { EventsService } from '../../services/events.service';
 import { ActivatedRoute } from '@angular/router';
+import { MatDialog, MatDialogModule } from '@angular/material/dialog';
+import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
 
 describe('EventDetailsComponent', () => {
   let component: EventDetailsComponent;
@@ -24,7 +26,7 @@ describe('EventDetailsComponent', () => {
     onlineLink: 'link',
     open: true,
     organizer: {
-      id: 1,
+      id: 1111,
       name: 'John'
     },
     tags: [{ nameEn: 'Environmental', nameUa: 'Екологічний', id: 1 }],
@@ -32,8 +34,9 @@ describe('EventDetailsComponent', () => {
     titleImage: ''
   };
 
-  const EventsServiceMock = jasmine.createSpyObj('EventsService', ['getEventById ']);
+  const EventsServiceMock = jasmine.createSpyObj('EventsService', ['getEventById ', 'deleteEvent']);
   EventsServiceMock.getEventById = () => of(MockReqest);
+  EventsServiceMock.deleteEvent = () => of(true);
 
   const activatedRouteMock = {
     snapshot: {
@@ -43,13 +46,25 @@ describe('EventDetailsComponent', () => {
     }
   };
 
+  const LocalStorageServiceMock = jasmine.createSpyObj('LocalStorageService', ['userIdBehaviourSubject', 'setEditMode', 'setEventForEdit']);
+  LocalStorageServiceMock.userIdBehaviourSubject = new BehaviorSubject(1111);
+  class MatDialogMock {
+    open() {
+      return {
+        afterClosed: () => of(true)
+      };
+    }
+  }
+
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      imports: [TranslateModule.forRoot(), RouterTestingModule],
+      imports: [TranslateModule.forRoot(), RouterTestingModule, MatDialogModule],
       declarations: [EventDetailsComponent],
       providers: [
         { provide: EventsService, useValue: EventsServiceMock },
-        { provide: ActivatedRoute, useValue: activatedRouteMock }
+        { provide: ActivatedRoute, useValue: activatedRouteMock },
+        { provide: MatDialog, useClass: MatDialogMock },
+        { provide: LocalStorageService, useValue: LocalStorageServiceMock }
       ],
       schemas: [CUSTOM_ELEMENTS_SCHEMA]
     }).compileComponents();
@@ -69,6 +84,22 @@ describe('EventDetailsComponent', () => {
     component.tags = [];
     component.ngOnInit();
     expect(component.tags.length).toBe(3);
+  });
+
+  it('routeToEditEvent', () => {
+    const spy = spyOn(component.router, 'navigate');
+    component.routeToEditEvent();
+    expect(spy).toHaveBeenCalledTimes(1);
+  });
+
+  it('getUserId user ID should be 1111', () => {
+    component.getUserId();
+    expect(component.userId).toBe(1111);
+  });
+
+  it('checkUserId', () => {
+    const res = component.checkUserId();
+    expect(res).toBeTruthy();
   });
 
   it('filterTags tags[1] should be active', () => {
@@ -113,5 +144,11 @@ describe('EventDetailsComponent', () => {
     component.sliderIndex = 3;
     component.moveLeft();
     expect(component.sliderIndex).toBe(2);
+  });
+
+  it('deleteEvent', () => {
+    const spy = spyOn(component.router, 'navigate');
+    component.deleteEvent();
+    expect(spy).toHaveBeenCalledTimes(1);
   });
 });
