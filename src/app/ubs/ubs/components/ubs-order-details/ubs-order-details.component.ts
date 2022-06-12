@@ -30,6 +30,8 @@ export class UBSOrderDetailsComponent extends FormBaseComponent implements OnIni
   total = 0;
   finalSum = 0;
   minAmountOfBigBags: number;
+  minPriceOfOrder: number;
+  courierLimit: string;
   totalOfBigBags: number;
   cancelCertBtn = false;
   points: number;
@@ -309,21 +311,6 @@ export class UBSOrderDetailsComponent extends FormBaseComponent implements OnIni
     this.orderDetailsForm.controls.shop.setValue('yes');
   }
 
-  public selectPointsRadioBtn(event: KeyboardEvent, radioButtonValue: string) {
-    if (['Enter', 'Space', 'NumpadEnter'].includes(event.code)) {
-      this.orderDetailsForm.controls.bonus.setValue(radioButtonValue);
-    }
-  }
-
-  public selectShopRadioBtn(event: KeyboardEvent, radioButtonValue: string) {
-    if (['Enter', 'Space', 'NumpadEnter'].includes(event.code)) {
-      this.orderDetailsForm.controls.shop.setValue(radioButtonValue);
-      radioButtonValue === 'yes'
-        ? this.renderer.selectRootElement(`#index${this.additionalOrders.controls.length - 1}`).focus()
-        : this.clearOrderValues();
-    }
-  }
-
   isDisabled(): number {
     return this.orderDetailsForm.controls.shop.value === 'yes' ? 0 : -1;
   }
@@ -409,9 +396,6 @@ export class UBSOrderDetailsComponent extends FormBaseComponent implements OnIni
     const additionalOrder = new FormControl('', [Validators.minLength(10)]);
     this.additionalOrders.push(additionalOrder);
     this.ecoStoreValidation();
-    setTimeout(() => {
-      this.renderer.selectRootElement(`#index${this.additionalOrders.controls.length - 1}`).focus();
-    }, 0);
   }
 
   canAddEcoShopOrderNumber(): boolean {

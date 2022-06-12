@@ -79,9 +79,6 @@
                   <strong>{{ finalSum | currency | localizedCurrency }}</strong>
                 </span>
               </p>
-              <!-- <div *ngIf="displayMinOrderMes" class="validMes">
-                <small class="text-danger">{{ 'order-details.min-sum' | translate }}</small>
-              </div> -->
             </div>
           </div>
           <h5>{{ 'order-details.question-certificate' | translate }}</h5>
@@ -165,7 +162,7 @@
     {{ 'order-details.cancel' | translate }}
   </button>
   <button
-    [disabled]="showTotal < 500 || totalOfBigBags || orderComment.invalid"
+    [disabled]="showTotal < minPriceOfOrder || courierLimit || minAmountOfBigBags > totalOfBigBags || orderComment.invalid"
     type="submit"
     class="primary-global-button btn btn-main"
     matStepperNext
