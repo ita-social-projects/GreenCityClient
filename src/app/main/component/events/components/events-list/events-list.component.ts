@@ -3,7 +3,6 @@ import { EventPageResponceDto, EventResponseDto, PaginationInterface } from '../
 import { EventsService } from '../../services/events.service';
 import { UserOwnAuthService } from '@auth-service/user-own-auth.service';
 import { ReplaySubject } from 'rxjs';
-import { Router } from '@angular/router';
 import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
 
 @Component({

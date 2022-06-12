@@ -9,23 +9,16 @@
 
     <mat-form-field appearance="outline" class="time-item">
       <mat-label>Set Start Time</mat-label>
-      <mat-select formControlName="startTime">
+      <mat-select ngDefaultControl formControlName="startTime">
         <mat-option *ngFor="let time of timeArrStart" [value]="time">
           {{ time }}
         </mat-option>
       </mat-select>
-
-      <!-- <mat-select formControlName="country">
-        <mat-option *ngFor="let country of countries" [value]="country.name" >
-               {{country.name}}
-
-       </mat-option>
-     </mat-select> -->
     </mat-form-field>
     <h5 class="time-item">--</h5>
     <mat-form-field appearance="outline" class="time-item">
       <mat-label>Set End Time</mat-label>
-      <mat-select formControlName="endTime">
+      <mat-select ngDefaultControl formControlName="endTime">
         <mat-option *ngFor="let time of timeArrEnd" [value]="time">
           {{ time }}
         </mat-option>

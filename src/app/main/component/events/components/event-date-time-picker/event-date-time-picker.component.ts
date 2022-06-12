@@ -1,9 +1,8 @@
 import { MapsAPILoader } from '@agm/core';
 import { Component, ElementRef, EventEmitter, Input, OnChanges, OnInit, Output, ViewChild } from '@angular/core';
-import { DateEventResponceDto, DateFormObj, EventPageResponceDto, OfflineDto } from '../../models/events.interface';
+import { DateEventResponceDto, DateFormObj, OfflineDto } from '../../models/events.interface';
 
 import { FormControl, FormGroup, Validators } from '@angular/forms';
-import { MatCheckboxChange } from '@angular/material/checkbox';
 import { DatePipe } from '@angular/common';
 
 @Component({
