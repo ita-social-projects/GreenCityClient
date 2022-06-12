@@ -86,6 +86,7 @@ export class UbsAdminTariffsLocationPopUpComponent implements OnInit, AfterViewC
   filteredRegions;
   filteredCities = [];
   editLocationId;
+  regionId;
   enCities;
   locations$ = this.store.select((state: IAppState): Locations[] => state.locations.locations);
 
@@ -147,7 +148,7 @@ export class UbsAdminTariffsLocationPopUpComponent implements OnInit, AfterViewC
     }
     this.filteredCities = currentRegion[0].locationsDto;
     this.location.valueChanges.subscribe (data => {
-      if (data === '') {
+      if (!data) {
         this.filteredCities = currentRegion[0].locationsDto;
       }
       const res = [];
@@ -160,6 +161,7 @@ export class UbsAdminTariffsLocationPopUpComponent implements OnInit, AfterViewC
       });
       this.filteredCities = res;
     });
+    this.regionId = currentRegion[0].regionId;
     this.cities = currentRegion.map((element) =>
     element.locationsDto.map((item) =>
     item.locationTranslationDtoList.filter((it) => it.languageCode === 'ua').map((it) => it.locationName)));
@@ -192,13 +194,15 @@ export class UbsAdminTariffsLocationPopUpComponent implements OnInit, AfterViewC
   }
 
   public addEditedCity(): void {
-    if (this.location.value && this.englishLocation.value
-      && (!this.cities.includes(this.location.value) || !this.enCities.includes(this.englishLocation.value))) {
+    const locationValueExist = this.location.value && this.englishLocation.value;
+    const locationValueChanged: boolean = !this.cities.includes(this.location.value) || !this.enCities.includes(this.englishLocation.value);
+    if (locationValueExist && locationValueChanged) {
       this.editedCityExist = false;
       const tempItem = {
         location: this.location.value,
         englishLocation: this.englishLocation.value,
-        locationId: this.editLocationId
+        locationId: this.editLocationId,
+        regionId: this.regionId
       };
       this.editedCities.push(tempItem);
       this.location.setValue('');
@@ -322,7 +326,8 @@ export class UbsAdminTariffsLocationPopUpComponent implements OnInit, AfterViewC
       const Location = { languageCode: 'ua', locationName: item.location };
       const cart = {
         location: [Location, enLocation],
-        locationId: item.locationId
+        locationId: item.locationId,
+        regionId: item.regionId
       };
       this.newLocationName.push(cart);
     }
@@ -331,7 +336,7 @@ export class UbsAdminTariffsLocationPopUpComponent implements OnInit, AfterViewC
 }
 
   onNoClick(): void {
-    if (this.selectedCities.length !== 0 || this.editedCities.length !== 0) {
+    if (this.selectedCities.length || this.editedCities.length) {
       const matDialogRef = this.dialog.open(ModalTextComponent, {
         hasBackdrop: true,
         panelClass: 'address-matDialog-styles-w-100',

@@ -36,7 +36,7 @@ export class UbsUserProfilePageComponent implements OnInit {
   isEditing = false;
   isFetching = false;
   phoneMask = '+{38\\0} (00) 000 00 00';
-  private readonly regexp = /^([a-zа-яїєґі '-])+$/iu;
+  private readonly regexp = /^([a-zа-яїєґі '-]){1,30}/iu;
   private readonly regexpEmail = /^[a-zA-Z0-9.!#$%&’*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/;
   private readonly regexpWithDigits = /^([a-zа-яїєґі0-9 '-])+$/iu;
 
@@ -84,8 +84,16 @@ export class UbsUserProfilePageComponent implements OnInit {
     });
     this.userForm = new FormGroup({
       address: addres,
-      recipientName: new FormControl(this.userProfile?.recipientName, [Validators.required, Validators.pattern(this.regexp)]),
-      recipientSurname: new FormControl(this.userProfile?.recipientSurname, [Validators.required, Validators.pattern(this.regexp)]),
+      recipientName: new FormControl(this.userProfile?.recipientName, [
+        Validators.required,
+        Validators.pattern(this.regexp),
+        Validators.maxLength(30)
+      ]),
+      recipientSurname: new FormControl(this.userProfile?.recipientSurname, [
+        Validators.required,
+        Validators.pattern(this.regexp),
+        Validators.maxLength(30)
+      ]),
       recipientEmail: new FormControl(this.userProfile?.recipientEmail, [Validators.required, Validators.pattern(this.regexpEmail)]),
       recipientPhone: new FormControl(`+380${this.userProfile?.recipientPhone}`, [Validators.required, Validators.minLength(12)])
     });
@@ -160,5 +168,9 @@ export class UbsUserProfilePageComponent implements OnInit {
     if (match) {
       return ` +380 (${match[1]}) ${match[2]} ${match[3]} ${match[4]}`;
     }
+  }
+
+  getControl(control: string) {
+    return this.userForm.get(control);
   }
 }

@@ -53,7 +53,8 @@ export const EcoNewsReducer = createReducer(
           return action.editedNews;
         }
         return value;
-      })
+      }),
+      countOfEcoNews: action.editedNews.countOfEcoNews
     };
   }),
 
@@ -61,7 +62,8 @@ export const EcoNewsReducer = createReducer(
     return {
       ...state,
       pages: [action.newEcoNews, ...state.pages],
-      autorNews: [action.newEcoNews, ...state.autorNews]
+      autorNews: [action.newEcoNews, ...state.autorNews],
+      countOfEcoNews: action.newEcoNews.countOfEcoNews
     };
   })
 );

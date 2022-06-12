@@ -133,7 +133,7 @@ export class LocalStorageService {
   }
 
   public getUbsRegistration(): boolean {
-    return !!localStorage.getItem('callUbsRegWindow');
+    return localStorage.getItem('callUbsRegWindow') === 'true';
   }
 
   public removeUbsRegistration(): void {

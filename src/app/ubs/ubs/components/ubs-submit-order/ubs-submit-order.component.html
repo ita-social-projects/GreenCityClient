@@ -75,13 +75,13 @@
             <p class="order-header">{{ 'order-details.recipient' | translate }}</p>
             <ul class="order-list" *ngIf="personalData.anotherClientFirstName; else defaultCase">
               <li class="order-list-item">{{ personalData.anotherClientFirstName }} {{ personalData.anotherClientLastName }}</li>
-              <li class="order-list-item">{{ personalData.anotherClientPhoneNumber | phoneNumberTreat: '380' }}</li>
+              <li class="order-list-item">{{ personalData.anotherClientPhoneNumber | slice: -9 | phoneNumberTreat: '380' }}</li>
               <li class="order-list-item">{{ personalData.anotherClientEmail }}</li>
             </ul>
             <ng-template #defaultCase>
               <ul class="order-list">
                 <li class="order-list-item">{{ personalData.firstName }} {{ personalData.lastName }}</li>
-                <li class="order-list-item">{{ personalData.phoneNumber.slice(-9) | phoneNumberTreat: '380' }}</li>
+                <li class="order-list-item">{{ personalData.phoneNumber | slice: -9 | phoneNumberTreat: '380' }}</li>
                 <li class="order-list-item">{{ personalData.email }}</li>
               </ul>
             </ng-template>

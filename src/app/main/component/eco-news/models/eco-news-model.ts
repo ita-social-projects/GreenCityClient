@@ -15,6 +15,7 @@ export interface EcoNewsModel {
   tagsEn: Array<string>;
   tagsUa: Array<string>;
   title: string;
+  countOfEcoNews?: number;
 }
 export interface NewsTagInterface {
   id: number;
