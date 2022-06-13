@@ -12,9 +12,9 @@ export class LocalStorageService {
   private readonly REFRESH_TOKEN = 'refreshToken';
   private readonly USER_ID = 'userId';
   private readonly NAME = 'name';
-  private readonly PREVIOUSPAGE = 'previousPage';
-  private readonly CANUSEREDITEVENT = 'canUserEdit';
-  private readonly EDITEVENT = 'editEvent';
+  private readonly PREVIOUS_PAGE = 'previousPage';
+  private readonly CAN_USER_EDIT_EVENT = 'canUserEdit';
+  private readonly EDIT_EVENT = 'editEvent';
 
   languageSubject: Subject<string> = new Subject<string>();
   firstNameBehaviourSubject: BehaviorSubject<string> = new BehaviorSubject<string>(this.getName());
@@ -32,7 +32,7 @@ export class LocalStorageService {
   }
 
   public getEditMode(): boolean {
-    return localStorage.getItem(this.CANUSEREDITEVENT) === 'true';
+    return localStorage.getItem(this.CAN_USER_EDIT_EVENT) === 'true';
   }
 
   public setEventForEdit(key: string, event: EventPageResponceDto) {
@@ -40,7 +40,7 @@ export class LocalStorageService {
   }
 
   public getEventForEdit() {
-    return JSON.parse(localStorage.getItem(this.EDITEVENT));
+    return JSON.parse(localStorage.getItem(this.EDIT_EVENT));
   }
 
   public getRefreshToken(): string {
@@ -56,7 +56,7 @@ export class LocalStorageService {
   }
 
   public getPreviousPage(): string {
-    return localStorage.getItem(this.PREVIOUSPAGE);
+    return localStorage.getItem(this.PREVIOUS_PAGE);
   }
 
   public setCurentPage(key: string, pageName: string) {

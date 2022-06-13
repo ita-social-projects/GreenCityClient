@@ -31,7 +31,7 @@ export class EventDetailsComponent implements OnInit {
 
   public tags: Array<TagObj>;
 
-  public adress = 'Should be adress';
+  public address = 'Should be adress';
 
   constructor(
     private route: ActivatedRoute,
@@ -55,7 +55,7 @@ export class EventDetailsComponent implements OnInit {
   }
 
   public routeToEditEvent(): void {
-    this.router.navigate(['/events/create-event']);
+    this.router.navigate(['/events', 'create-event']);
   }
 
   public getUserId(): void {
@@ -93,7 +93,6 @@ export class EventDetailsComponent implements OnInit {
       closeOnNavigation: true,
       disableClose: true,
       panelClass: '',
-      // height: '400px',
       width: '300px'
     });
 

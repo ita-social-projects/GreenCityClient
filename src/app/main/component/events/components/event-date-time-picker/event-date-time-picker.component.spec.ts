@@ -40,16 +40,9 @@ describe('EventDateTimePickerComponent', () => {
     }).compileComponents();
   }));
 
-  // const formDataMock: FormGroup = new FormGroup({
-  //   date: new FormControl(''),
-  //   startTime: new FormControl(''),
-  //   endTime: new FormControl('')
-  // });
-
   beforeEach(() => {
     fixture = TestBed.createComponent(EventDateTimePickerComponent);
     component = fixture.componentInstance;
-    // component.dateForm = formDataMock;
     fixture.detectChanges();
   });
 

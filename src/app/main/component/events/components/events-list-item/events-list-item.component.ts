@@ -12,7 +12,7 @@ export class EventsListItemComponent implements OnInit {
 
   public itemTags: Array<TagObj>;
 
-  public adress = 'Should be adress';
+  public address = 'Should be adress';
 
   ngOnInit(): void {
     this.itemTags = TagsArray.reduce((ac, cur) => [...ac, { ...cur }], []);
