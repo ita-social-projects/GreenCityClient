@@ -53,10 +53,6 @@ describe('UBSPersonalInformationComponent', () => {
     lastName: 'fake',
     email: 'fake',
     phoneNumber: 'fake',
-    anotherClientFirstName: 'fake',
-    anotherClientLastName: 'fake',
-    anotherClientEmail: 'fake',
-    anotherClientPhoneNumber: 'fake',
     addressComment: 'fake',
     city: 'fake',
     district: 'fake',
@@ -64,7 +60,11 @@ describe('UBSPersonalInformationComponent', () => {
     street: 'fake',
     houseCorpus: 'fake',
     entranceNumber: 'fake',
-    houseNumber: 'fake'
+    houseNumber: 'fake',
+    senderFirstName: 'fake',
+    senderLastName: 'fake',
+    senderEmail: 'fake',
+    senderPhoneNumber: 'fake'
   };
 
   const mockLocations = {

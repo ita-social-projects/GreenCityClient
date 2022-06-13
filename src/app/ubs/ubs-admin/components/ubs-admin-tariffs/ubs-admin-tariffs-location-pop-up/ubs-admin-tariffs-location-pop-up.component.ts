@@ -147,13 +147,13 @@ export class UbsAdminTariffsLocationPopUpComponent implements OnInit, AfterViewC
       return;
     }
     this.filteredCities = currentRegion[0].locationsDto;
-    this.location.valueChanges.subscribe (data => {
+    this.location.valueChanges.subscribe((data) => {
       if (!data) {
         this.filteredCities = currentRegion[0].locationsDto;
       }
       const res = [];
-      this.filteredCities.forEach ((elem, index) => {
-        elem.locationTranslationDtoList.forEach (el => {
+      this.filteredCities.forEach((elem, index) => {
+        elem.locationTranslationDtoList.forEach((el) => {
           if (el.locationName.toLowerCase().includes(data) && el.languageCode === 'ua') {
             res.push(this.filteredCities[index]);
           }
@@ -163,16 +163,20 @@ export class UbsAdminTariffsLocationPopUpComponent implements OnInit, AfterViewC
     });
     this.regionId = currentRegion[0].regionId;
     this.cities = currentRegion.map((element) =>
-    element.locationsDto.map((item) =>
-    item.locationTranslationDtoList.filter((it) => it.languageCode === 'ua').map((it) => it.locationName)));
+      element.locationsDto.map((item) =>
+        item.locationTranslationDtoList.filter((it) => it.languageCode === 'ua').map((it) => it.locationName)
+      )
+    );
     this.enCities = currentRegion.map((element) =>
-    element.locationsDto.map((item) =>
-    item.locationTranslationDtoList.filter((it) => it.languageCode === 'en').map((it) => it.locationName)));
+      element.locationsDto.map((item) =>
+        item.locationTranslationDtoList.filter((it) => it.languageCode === 'en').map((it) => it.locationName)
+      )
+    );
     this.cities = this.cities.reduce((acc, val) => acc.concat(val), []).reduce((acc, val) => acc.concat(val), []);
     this.enCities = this.enCities.reduce((acc, val) => acc.concat(val), []).reduce((acc, val) => acc.concat(val), []);
   }
 
-   translate(sourceText: string, input: any): void {
+  translate(sourceText: string, input: any): void {
     this.tariffsService.getJSON(sourceText).subscribe((data) => {
       input.setValue(data[0][0][0]);
     });
@@ -260,8 +264,9 @@ export class UbsAdminTariffsLocationPopUpComponent implements OnInit, AfterViewC
 
   selectedEditRegion(event): void {
     const enValue = this.locations.filter((it) => it.regionTranslationDtos.find((ob) => ob.regionName === event.option.value.toString()));
-    this.englishRegion.setValue(enValue.map((it) => it.regionTranslationDtos
-    .filter((ob) => ob.languageCode === 'en').map((i) => i.regionName)));
+    this.englishRegion.setValue(
+      enValue.map((it) => it.regionTranslationDtos.filter((ob) => ob.languageCode === 'en').map((i) => i.regionName))
+    );
   }
 
   selectCitiesEdit(event): void {
@@ -284,9 +289,15 @@ export class UbsAdminTariffsLocationPopUpComponent implements OnInit, AfterViewC
         this.locations = item;
         this.uaregions = [].concat(
           ...this.locations.map((element) =>
-            element.regionTranslationDtos.filter((it) => it.languageCode === 'ua').map((it) => it.regionName)));
-        this.region.valueChanges.pipe(startWith(''), map((value: string) => this._filter(value, this.uaregions)))
-          .subscribe(data => {
+            element.regionTranslationDtos.filter((it) => it.languageCode === 'ua').map((it) => it.regionName)
+          )
+        );
+        this.region.valueChanges
+          .pipe(
+            startWith(''),
+            map((value: string) => this._filter(value, this.uaregions))
+          )
+          .subscribe((data) => {
             this.filteredRegions = data;
           });
         this.reset = false;
@@ -333,7 +344,7 @@ export class UbsAdminTariffsLocationPopUpComponent implements OnInit, AfterViewC
     }
     this.store.dispatch(EditLocation({ editedLocations: this.newLocationName }));
     this.dialogRef.close({});
-}
+  }
 
   onNoClick(): void {
     if (this.selectedCities.length || this.editedCities.length) {
@@ -354,12 +365,11 @@ export class UbsAdminTariffsLocationPopUpComponent implements OnInit, AfterViewC
     } else {
       this.dialogRef.close();
     }
-
   }
   public openAuto(event: Event, trigger: MatAutocompleteTrigger): void {
-      event.stopPropagation();
-      trigger.openPanel();
-    }
+    event.stopPropagation();
+    trigger.openPanel();
+  }
 
   ngAfterViewChecked(): void {
     this.cdr.detectChanges();
