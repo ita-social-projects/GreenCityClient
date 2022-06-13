@@ -35,6 +35,7 @@ export class UbsUserProfilePageComponent implements OnInit {
   googleIcon = SignInIcons.picGoogle;
   isEditing = false;
   isFetching = false;
+  alternativeEmailDisplay = false;
   phoneMask = '+{38\\0} (00) 000 00 00';
   private readonly regexp = /^([a-zа-яїєґі '-]){1,30}/iu;
   private readonly regexpEmail = /^[a-zA-Z0-9.!#$%&’*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/;
@@ -122,6 +123,7 @@ export class UbsUserProfilePageComponent implements OnInit {
       const submitData = {
         addressDto: [],
         recipientEmail: this.userForm.value.recipientEmail,
+        alternateEmail: this.userForm.value.alternateEmail,
         recipientName: this.userForm.value.recipientName,
         recipientPhone: this.userForm.value.recipientPhone,
         recipientSurname: this.userForm.value.recipientSurname
@@ -140,12 +142,14 @@ export class UbsUserProfilePageComponent implements OnInit {
           this.isFetching = false;
           this.userProfile = this.composeFormData(res);
           this.userProfile.recipientEmail = this.userForm.value.recipientEmail;
+          this.userProfile.alternateEmail = this.userForm.value.alternateEmail;
         },
         (err: Error) => {
           this.isFetching = false;
           this.snackBar.openSnackBar('ubs-client-profile.error-message');
         }
       );
+      this.alternativeEmailDisplay = false;
     } else {
       this.isEditing = true;
     }
@@ -172,5 +176,12 @@ export class UbsUserProfilePageComponent implements OnInit {
 
   getControl(control: string) {
     return this.userForm.get(control);
+  }
+
+  toggleAlternativeEmail() {
+    const control = new FormControl(this.userProfile?.alternateEmail, [Validators.pattern(this.regexpEmail)]);
+    this.alternativeEmailDisplay = !this.alternativeEmailDisplay;
+
+    this.alternativeEmailDisplay ? this.userForm.addControl('alternateEmail', control) : this.userForm.removeControl('alternateEmail');
   }
 }

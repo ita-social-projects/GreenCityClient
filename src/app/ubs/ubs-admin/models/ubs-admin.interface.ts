@@ -236,6 +236,7 @@ export interface UserViolations {
 export interface UserProfile {
   addressDto: Address[];
   recipientEmail: string;
+  alternateEmail: string;
   recipientName: string;
   recipientPhone: string;
   recipientSurname: string;
