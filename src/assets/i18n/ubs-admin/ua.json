@@ -384,6 +384,7 @@
     "order-date": "Дата замовлення",
     "order-payment-status": "Статус оплати",
     "payment-amount": "Сума замовлення",
+    "amount-due": "Сума до оплати",
     "btn": {
       "cancel": "Скасувати",
       "pay": "Оплатити",

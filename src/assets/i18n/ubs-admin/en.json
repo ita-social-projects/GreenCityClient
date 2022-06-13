@@ -385,6 +385,7 @@
     "payment-amount": "Payment amount",
     "order-date": "Order date",
     "order-payment-status": "Payment status",
+    "amount-due": "Amount-due",
     "btn": {
       "cancel": "Cancel",
       "pay": "Pay",
