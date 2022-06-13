@@ -1,4 +1,5 @@
-<div *ngIf="event" class="event">
+<app-spinner *ngIf="isPosting"></app-spinner>
+<div *ngIf="event && !isPosting" class="event">
   <div class="event-header">
     <div class="event-nav">
       <div class="back-button">
@@ -11,12 +12,12 @@
           </div>
         </a>
       </div>
-      <div class="edit-buttons">
+      <div *ngIf="checkUserId()" class="edit-buttons">
         <div class="secondary-global-button event-button delete-button">
-          <span>Delete</span>
+          <span (click)="deleteEvent()">Delete</span>
         </div>
         <div class="secondary-global-button event-button">
-          <span>Edit</span>
+          <span (click)="routeToEditEvent()">Edit</span>
         </div>
       </div>
     </div>
@@ -92,7 +93,7 @@
             <h4>Place</h4>
           </div>
           <div>
-            {{ 'Here should be adrress' }}
+            {{ address }}
           </div>
         </div>
       </mat-card>

@@ -9,7 +9,7 @@
 
     <mat-form-field appearance="outline" class="time-item">
       <mat-label>Set Start Time</mat-label>
-      <mat-select formControlName="startTime">
+      <mat-select ngDefaultControl formControlName="startTime">
         <mat-option *ngFor="let time of timeArrStart" [value]="time">
           {{ time }}
         </mat-option>
@@ -18,18 +18,18 @@
     <h5 class="time-item">--</h5>
     <mat-form-field appearance="outline" class="time-item">
       <mat-label>Set End Time</mat-label>
-      <mat-select formControlName="endTime">
+      <mat-select ngDefaultControl formControlName="endTime">
         <mat-option *ngFor="let time of timeArrEnd" [value]="time">
           {{ time }}
         </mat-option>
       </mat-select>
     </mat-form-field>
 
-    <mat-checkbox class="example-margin" (change)="checkIfAllDay($event)">all day</mat-checkbox>
+    <mat-checkbox class="example-margin" [checked]="checkTime" (change)="checkIfAllDay()">all day</mat-checkbox>
   </div>
   <div class="checkbox">
-    <mat-checkbox class="example-margin" (change)="checkIfOffline($event)">Place</mat-checkbox>
-    <mat-checkbox class="example-margin" (change)="checkIfOnline($event)">Online</mat-checkbox>
+    <mat-checkbox class="example-margin" [checked]="checkOfflinePlace" (change)="checkIfOffline()">Place</mat-checkbox>
+    <mat-checkbox class="example-margin" [checked]="checkOnlinePlace" (change)="checkIfOnline()">Online</mat-checkbox>
   </div>
 
   <div *ngIf="dateForm.get('place')" class="active">
