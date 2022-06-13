@@ -84,6 +84,6 @@ export class TariffsService {
   }
 
   editLocationName(newLocation): Observable<object> {
-    return this.http.put(`${mainUbsLink}/ubs/superAdmin/locations/update`, newLocation);
+    return this.http.post(`${mainUbsLink}/ubs/superAdmin/locations/edit`, newLocation);
   }
 }

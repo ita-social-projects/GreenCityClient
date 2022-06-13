@@ -333,10 +333,9 @@ export class UbsAdminTariffsLocationPopUpComponent implements OnInit, AfterViewC
 
   public editLocation(): void {
     for (const item of this.editedCities) {
-      const enLocation = { languageCode: 'en', locationName: item.englishLocation };
-      const Location = { languageCode: 'ua', locationName: item.location };
       const cart = {
-        location: [Location, enLocation],
+        nameEn: item.englishLocation,
+        nameUa: item.location,
         locationId: item.locationId,
         regionId: item.regionId
       };
