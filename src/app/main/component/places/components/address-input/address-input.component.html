@@ -1,0 +1,11 @@
+<input
+  matGoogleMapsAutocomplete
+  country="ua"
+  class="input"
+  type="text"
+  placeholder="Address"
+  (onLocationSelected)="selectAddressApi($event)"
+  (onAutocompleteSelected)="setAddressValue($event)"
+  [value]="value"
+  (blur)="onTouched()"
+/>

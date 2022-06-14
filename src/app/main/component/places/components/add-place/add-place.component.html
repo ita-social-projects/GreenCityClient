@@ -4,29 +4,53 @@
     <form [formGroup]="addPlaceForm" (click)="$event.stopPropagation()">
       <div class="form-field">
         <label for="type" class="label">Type <span class="hint">Hint</span></label>
-        <input [(ngModel)]="type" class="input" type="text" formControlName="type" placeholder="e.g. shop" />
-        <button class="btn-close" matSuffix mat-icon-button aria-label="Clear" (click)="type = ''">
+        <input
+          class="input"
+          type="text"
+          formControlName="type"
+          placeholder="e.g. shop"
+          [class.ng-invalid]="addPlaceForm.get('type').invalid && addPlaceForm.get('type').touched"
+        />
+        <button class="btn-close" matSuffix mat-icon-button aria-label="Clear" (click)="clear('type')">
           <mat-icon>close</mat-icon>
         </button>
       </div>
       <div class="form-field">
         <label for="name" class="label">Name <span class="hint">Hint</span></label>
-        <input [(ngModel)]="name" class="input" type="text" formControlName="name" placeholder="Name" />
-        <button class="btn-close" matSuffix mat-icon-button aria-label="Clear" (click)="name = ''">
+        <input
+          class="input"
+          type="text"
+          formControlName="name"
+          placeholder="Name"
+          [class.ng-invalid]="addPlaceForm.get('name').invalid && addPlaceForm.get('name').touched"
+        />
+        <button class="btn-close" matSuffix mat-icon-button aria-label="Clear" (click)="clear('name')">
           <mat-icon>close</mat-icon>
         </button>
       </div>
       <div class="form-field">
-        <label for="adress" class="label">Address <span class="hint">Hint</span></label>
-        <input [(ngModel)]="adress" class="input" type="text" formControlName="adress" placeholder="Adress" />
-        <button class="btn-close" matSuffix mat-icon-button aria-label="Clear" (click)="adress = ''">
+        <label for="address" class="label">Address <span class="hint">Hint</span></label>
+        <app-address-input
+          class="input"
+          formControlName="address"
+          [class.ng-invalid]="addPlaceForm.get('address').invalid && addPlaceForm.get('address').touched"
+          (getAddressData)="onLocationSelected($event)"
+        >
+        </app-address-input>
+        <button class="btn-close" matSuffix mat-icon-button aria-label="Clear" (click)="clear('address')">
           <mat-icon>close</mat-icon>
         </button>
       </div>
       <div class="form-field">
         <label for="workingHours" class="label">Working hours <span class="hint">Hint</span></label>
-        <input [(ngModel)]="workingHours" class="input" type="text" formControlName="workingHours" placeholder="e.g. 10.00-20.00" />
-        <button class="btn-close" matSuffix mat-icon-button aria-label="Clear" (click)="workingHours = ''">
+        <input
+          class="input"
+          type="text"
+          formControlName="workingHours"
+          placeholder="e.g. 10.00-20.00"
+          [class.ng-invalid]="addPlaceForm.get('workingHours').invalid && addPlaceForm.get('workingHours').touched"
+        />
+        <button class="btn-close" matSuffix mat-icon-button aria-label="Clear" (click)="clear('workingHours')">
           <mat-icon>close</mat-icon>
         </button>
       </div>

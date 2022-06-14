@@ -28,9 +28,10 @@ import { MatGoogleMapsAutocompleteModule } from '@angular-material-extensions/go
 import { AddPlaceComponent } from './components/add-place/add-place.component';
 import { MatButtonModule } from '@angular/material/button';
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
+import { AddressInputComponent } from './components/address-input/address-input.component';
 
 @NgModule({
-  declarations: [PlacesComponent, MoreOptionsFilterComponent, AddPlaceComponent],
+  declarations: [PlacesComponent, MoreOptionsFilterComponent, AddPlaceComponent, AddressInputComponent],
   imports: [
     MatSidenavModule,
     SharedModule,

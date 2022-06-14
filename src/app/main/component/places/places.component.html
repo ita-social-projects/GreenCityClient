@@ -23,7 +23,7 @@
             placeholder="Choose location"
           />
         </div>
-        <app-add-place></app-add-place>
+        <app-add-place (getAddressData)="onLocationSelected($event)"></app-add-place>
       </div>
       <div class="filter">
         <app-tag-filter
