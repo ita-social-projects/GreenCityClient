@@ -4,10 +4,11 @@
     <form [formGroup]="addPlaceForm" (click)="$event.stopPropagation()">
       <div class="form-field">
         <label for="type" class="label">Type <span class="hint">Hint</span></label>
-        <input [(ngModel)]="type" class="input" type="text" formControlName="type" placeholder="e.g. shop" />
-        <button class="btn-close" matSuffix mat-icon-button aria-label="Clear" (click)="type = ''">
-          <mat-icon>close</mat-icon>
-        </button>
+        <select formControlName="type" class="input">
+          <option *ngFor="let categories of filterCategories" value="{{ categories.name }}">
+            {{ localStorageService.getCurrentLanguage() === 'en' ? categories.name : categories.nameUa }}
+          </option>
+        </select>
       </div>
       <div class="form-field">
         <label for="name" class="label">Name <span class="hint">Hint</span></label>
@@ -18,17 +19,29 @@
       </div>
       <div class="form-field">
         <label for="adress" class="label">Address <span class="hint">Hint</span></label>
-        <input [(ngModel)]="adress" class="input" type="text" formControlName="adress" placeholder="Adress" />
+        <input matInput class="input" placeholder="Address" #addressInput formControlName="adress" />
         <button class="btn-close" matSuffix mat-icon-button aria-label="Clear" (click)="adress = ''">
           <mat-icon>close</mat-icon>
         </button>
       </div>
-      <div class="form-field">
+      <!--    <div class="form-field">
         <label for="workingHours" class="label">Working hours <span class="hint">Hint</span></label>
         <input [(ngModel)]="workingHours" class="input" type="text" formControlName="workingHours" placeholder="e.g. 10.00-20.00" />
         <button class="btn-close" matSuffix mat-icon-button aria-label="Clear" (click)="workingHours = ''">
           <mat-icon>close</mat-icon>
         </button>
+      </div>-->
+      <div class="form-field">
+        <label for="workingHours" class="label">Working hours <span class="hint">Hint</span></label>
+        <input
+          [(ngModel)]="workingHours"
+          class="input"
+          type="text"
+          formControlName="workingHours"
+          #workingHour
+          placeholder="e.g. 10.00-20.00"
+          (click)="openTimePickerPopUp()"
+        />
       </div>
     </form>
     <div class="btn-wrapper">

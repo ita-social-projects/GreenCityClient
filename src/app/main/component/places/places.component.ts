@@ -4,9 +4,9 @@ import { LocalStorageService } from '@global-service/localstorage/local-storage.
 import { MatDrawer } from '@angular/material/sidenav';
 import { PlaceService } from '@global-service/place/place.service';
 import { redIcon, greenIcon, searchIcon, notification, share, starUnfilled, starHalf, star } from '../../image-pathes/places-icons.js';
-import { Place } from './models/place';
+import { FilterPlaceCategories, Place } from './models/place';
 import { FilterPlaceService } from '@global-service/filtering/filter-place.service';
-import { debounceTime } from 'rxjs/operators';
+import { debounceTime, take } from 'rxjs/operators';
 import { LatLngBounds, LatLngLiteral } from '@agm/core/services/google-maps-types';
 import { MapBoundsDto } from './models/map-bounds-dto';
 import { MoreOptionsFormValue } from './models/more-options-filter.model';
@@ -24,13 +24,7 @@ import { NewsTagInterface } from '@user-models/news.model';
 export class PlacesComponent implements OnInit {
   public position: any = {};
   public zoom = 13;
-  public tagList: NewsTagInterface[] = [
-    { id: 1, name: 'Shops', nameUa: 'Магазини' },
-    { id: 2, name: 'Restaurants', nameUa: 'Ресторани' },
-    { id: 3, name: 'Recycling points', nameUa: 'Станції приймання' },
-    { id: 4, name: 'Events', nameUa: 'Події' },
-    { id: 5, name: 'Saved places', nameUa: 'Збережені місця' }
-  ];
+  public tagList: NewsTagInterface[];
   public searchName = '';
   public moreOptionsFilters: MoreOptionsFormValue;
   public searchIcon = searchIcon;
@@ -62,6 +56,10 @@ export class PlacesComponent implements OnInit {
   ) {}
 
   ngOnInit() {
+    this.placeService
+      .getAllPresentTags()
+      .pipe(take(1))
+      .subscribe((tagsArray: Array<NewsTagInterface>) => (this.tagList = tagsArray));
     this.filterPlaceService.filtersDto$.pipe(debounceTime(300)).subscribe((filtersDto: any) => {
       this.placeService.updatePlaces(filtersDto);
     });

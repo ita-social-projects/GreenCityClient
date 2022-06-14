@@ -36,12 +36,16 @@
 
 .btn-wrapper {
   background-color: var(--ubs-grey-white);
-  padding-top: 16px;
+  padding-top: 25px;
   display: flex;
   justify-content: flex-end;
 }
 
 ::ng-deep {
+  .pac-container {
+    z-index: 9999999 !important;
+  }
+
   .add-place-menu.mat-menu-panel {
     max-width: 368px !important;
 
