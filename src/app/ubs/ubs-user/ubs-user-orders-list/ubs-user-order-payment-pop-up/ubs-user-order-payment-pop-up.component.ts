@@ -97,6 +97,7 @@ export class UbsUserOrderPaymentPopUpComponent implements OnInit {
   }
 
   public certificateSubmit(index: number, certificate: FormControl): void {
+    this.isCertBeenUsed = false;
     let usedCertificates = this.formArrayCertificates.value.map((i) => i.certificateCode);
     if (
       !usedCertificates.some((item, ind) => {
@@ -109,6 +110,10 @@ export class UbsUserOrderPaymentPopUpComponent implements OnInit {
     } else {
       this.isCertBeenUsed = true;
     }
+  }
+
+  checkIfCertBeenUsed(): boolean {
+    return this.isCertBeenUsed;
   }
 
   public calculateCertificate(certificate: FormControl): void {
