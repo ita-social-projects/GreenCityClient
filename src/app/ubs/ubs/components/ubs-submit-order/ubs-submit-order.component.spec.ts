@@ -32,10 +32,6 @@ describe('UBSSubmitOrderComponent', () => {
     email: 'fake',
     phoneNumber: 'fake',
     addressComment: 'fake',
-    anotherClientFirstName: 'fake',
-    anotherClientLastName: 'fake',
-    anotherClientEmail: 'fake',
-    anotherClientPhoneNumber: 'fake',
     city: 'fake',
     cityEn: 'fakeEn',
     district: 'fake',
@@ -44,7 +40,11 @@ describe('UBSSubmitOrderComponent', () => {
     streetEn: 'fakeEn',
     houseCorpus: 'fake',
     entranceNumber: 'fake',
-    houseNumber: 'fake'
+    houseNumber: 'fake',
+    senderFirstName: 'fake',
+    senderLastName: 'fake',
+    senderEmail: 'fake',
+    senderPhoneNumber: 'fake'
   };
 
   class FakeShareFormService {

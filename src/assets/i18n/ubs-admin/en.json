@@ -9,6 +9,7 @@
     "surname": "Surname",
     "contacts": "Contacts",
     "email": "Email",
+    "alternative-email": "Alternative Email",
     "phone": "Phone",
     "address": "Address",
     "city": "City",
@@ -387,6 +388,7 @@
     "payment-amount": "Payment amount",
     "order-date": "Order date",
     "order-payment-status": "Payment status",
+    "amount-due": "Amount-due",
     "btn": {
       "cancel": "Cancel",
       "pay": "Pay",

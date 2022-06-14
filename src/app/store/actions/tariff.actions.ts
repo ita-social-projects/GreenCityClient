@@ -19,8 +19,8 @@ export const AddLocations = createAction(TariffActions.AddLocations, props<{ loc
 
 export const AddLocationsSuccess = createAction(TariffActions.AddLocationsSuccess, props<{ locations: CreateLocation[] }>());
 
-export const EditLocation = createAction(TariffActions.EditLocations, props<{editedLocations: EditLocationName[]}>());
+export const EditLocation = createAction(TariffActions.EditLocations, props<{ editedLocations: EditLocationName[] }>());
 
-export const EditLocationSuccess = createAction(TariffActions.EditLocationsSuccess, props<{editedLocations: EditLocationName[]}>());
+export const EditLocationSuccess = createAction(TariffActions.EditLocationsSuccess, props<{ editedLocations: EditLocationName[] }>());
 
 export const ReceivedFailure = createAction(TariffActions.ReceivedFailure, props<{ error: string | null }>());

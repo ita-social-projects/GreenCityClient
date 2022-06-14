@@ -56,10 +56,26 @@
             </div>
             <div *ngIf="isEditing">
               <div class="wrapper-btn">
-                <button aria-label="Add alternative email" class="btn-alternative-email"></button>
+                <button aria-label="Add alternative email" class="btn-alternative-email" (click)="toggleAlternativeEmail()"></button>
                 <p>{{ 'ubs-client-profile.btn.alternative-email' | translate }}</p>
               </div>
+              <div *ngIf="alternativeEmailDisplay" class="form-group col-sm-6">
+                <label for="recipientEmail" class="form-label">{{ 'ubs-client-profile.alternative-email' | translate }}</label>
+                <input
+                  *ngIf="isEditing"
+                  type="email"
+                  class="form-control"
+                  id="recipientEmail"
+                  [readonly]="false"
+                  formControlName="alternateEmail"
+                  aria-describedby="emailHelp"
+                />
+              </div>
             </div>
+            <label *ngIf="userProfile?.alternateEmail && !isEditing" class="form-label">{{
+              'ubs-client-profile.alternative-email' | translate
+            }}</label>
+            <p *ngIf="!isEditing">{{ userProfile?.alternateEmail }}</p>
             <div class="form-group col-sm-6">
               <label for="recipientPhone" class="form-label">{{ 'ubs-client-profile.phone' | translate }}</label>
               <input

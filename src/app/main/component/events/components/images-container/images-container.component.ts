@@ -1,4 +1,5 @@
-import { Component, ElementRef, EventEmitter, OnInit, Output, ViewChild } from '@angular/core';
+import { Component, ElementRef, EventEmitter, Input, OnInit, Output, ViewChild } from '@angular/core';
+import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
 import { FileHandle } from 'src/app/ubs/ubs-admin/models/file-handle.model';
 import { EventImage } from '../../models/events.interface';
 
@@ -14,6 +15,8 @@ export class ImagesContainerComponent implements OnInit {
   private imagesCount = 5;
 
   public images: EventImage[] = [];
+  public editMode: boolean;
+  private imagesTodelete: string[] = [];
 
   public imageCount = 0;
 
@@ -21,10 +24,29 @@ export class ImagesContainerComponent implements OnInit {
 
   @ViewChild('takeInput') InputVar: ElementRef;
 
-  @Output() imgArrayOutput = new EventEmitter<Array<File>>();
+  @Input() imagesEditArr: string[];
 
+  @Output() imgArrayOutput = new EventEmitter<Array<File>>();
+  @Output() deleteImagesOutput = new EventEmitter<Array<string>>();
+
+  constructor(private localStorageService: LocalStorageService) {}
   ngOnInit(): void {
+    this.editMode = this.localStorageService.getEditMode();
     this.initImages();
+    if (this.editMode) {
+      this.imageCount = this.imagesEditArr.length;
+      this.images.forEach((el, ind) => {
+        if (this.imagesEditArr[ind]) {
+          el.src = this.imagesEditArr[ind];
+        }
+        if (el.src) {
+          el.isLabel = false;
+        }
+        if (!el.src && this.images[ind - 1].src) {
+          el.isLabel = true;
+        }
+      });
+    }
   }
 
   private initImages(): void {
@@ -44,6 +66,9 @@ export class ImagesContainerComponent implements OnInit {
       const reader: FileReader = new FileReader();
       this.imgArray.push(imageFile);
       this.imgArrayOutput.emit(this.imgArray);
+      if (this.editMode) {
+        this.deleteImagesOutput.emit(this.imagesTodelete);
+      }
 
       reader.readAsDataURL(imageFile);
       reader.onload = () => {
@@ -70,8 +95,18 @@ export class ImagesContainerComponent implements OnInit {
     this.images.splice(i, 1);
     this.imgArray.splice(i, 1);
     this.imgArrayOutput.emit(this.imgArray);
-    this.images.push({ src: null, label: this.dragAndDropLabel, isLabel: false });
+    if (this.editMode) {
+      this.deleteImagesOutput.emit(this.imagesTodelete);
+    }
+    let allowLabel = false;
+    if (i === this.imagesCount - 1) {
+      allowLabel = true;
+    }
+    this.images.push({ src: null, label: this.dragAndDropLabel, isLabel: allowLabel });
     this.imageCount--;
+    if (this.editMode && !this.imagesTodelete.find((el) => el === this.imagesEditArr[i])) {
+      this.imagesTodelete.push(this.imagesEditArr[i]);
+    }
   }
 
   public loadFile(event: Event): void {
