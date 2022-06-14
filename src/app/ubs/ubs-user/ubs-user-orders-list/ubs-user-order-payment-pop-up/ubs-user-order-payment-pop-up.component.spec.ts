@@ -14,7 +14,7 @@ import { UBSOrderFormService } from 'src/app/ubs/ubs/services/ubs-order-form.ser
 
 import { UbsUserOrderPaymentPopUpComponent } from './ubs-user-order-payment-pop-up.component';
 
-fdescribe('UbsUserOrderPaymentPopUpComponent', () => {
+describe('UbsUserOrderPaymentPopUpComponent', () => {
   let component: UbsUserOrderPaymentPopUpComponent;
   let fixture: ComponentFixture<UbsUserOrderPaymentPopUpComponent>;
 
