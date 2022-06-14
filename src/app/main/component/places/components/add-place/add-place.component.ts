@@ -1,5 +1,5 @@
 import { Component, EventEmitter, OnInit, Output } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 
 @Component({
   selector: 'app-add-place',
@@ -8,10 +8,7 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 })
 export class AddPlaceComponent implements OnInit {
   public addPlaceForm: FormGroup;
-  public workingHours = '';
-  public address = '';
-  public type = '';
-  public name = '';
+
   @Output() private getAddressData: any = new EventEmitter<any>();
 
   constructor(private fb: FormBuilder) {
@@ -27,6 +24,22 @@ export class AddPlaceComponent implements OnInit {
       address: ['', [Validators.required, Validators.maxLength(60), Validators.pattern(/[0-9a-zа-я]/i)]],
       workingHours: ['', [Validators.required]]
     });
+  }
+
+  get type() {
+    return this.addPlaceForm.get('type') as FormControl;
+  }
+
+  get name() {
+    return this.addPlaceForm.get('name') as FormControl;
+  }
+
+  get address() {
+    return this.addPlaceForm.get('address') as FormControl;
+  }
+
+  get workingHours() {
+    return this.addPlaceForm.get('workingHours') as FormControl;
   }
 
   onLocationSelected(event: any) {

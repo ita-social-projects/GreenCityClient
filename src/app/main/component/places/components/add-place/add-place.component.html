@@ -4,26 +4,14 @@
     <form [formGroup]="addPlaceForm" (click)="$event.stopPropagation()">
       <div class="form-field">
         <label for="type" class="label">Type <span class="hint">Hint</span></label>
-        <input
-          class="input"
-          type="text"
-          formControlName="type"
-          placeholder="e.g. shop"
-          [class.ng-invalid]="addPlaceForm.get('type').invalid && addPlaceForm.get('type').touched"
-        />
+        <input class="input" type="text" formControlName="type" placeholder="e.g. shop" [class.ng-invalid]="type.invalid && type.touched" />
         <button class="btn-close" matSuffix mat-icon-button aria-label="Clear" (click)="clear('type')">
           <mat-icon>close</mat-icon>
         </button>
       </div>
       <div class="form-field">
         <label for="name" class="label">Name <span class="hint">Hint</span></label>
-        <input
-          class="input"
-          type="text"
-          formControlName="name"
-          placeholder="Name"
-          [class.ng-invalid]="addPlaceForm.get('name').invalid && addPlaceForm.get('name').touched"
-        />
+        <input class="input" type="text" formControlName="name" placeholder="Name" [class.ng-invalid]="name.invalid && name.touched" />
         <button class="btn-close" matSuffix mat-icon-button aria-label="Clear" (click)="clear('name')">
           <mat-icon>close</mat-icon>
         </button>
@@ -33,7 +21,7 @@
         <app-address-input
           class="input"
           formControlName="address"
-          [class.ng-invalid]="addPlaceForm.get('address').invalid && addPlaceForm.get('address').touched"
+          [class.ng-invalid]="address.invalid && address.touched"
           (getAddressData)="onLocationSelected($event)"
         >
         </app-address-input>
@@ -48,7 +36,7 @@
           type="text"
           formControlName="workingHours"
           placeholder="e.g. 10.00-20.00"
-          [class.ng-invalid]="addPlaceForm.get('workingHours').invalid && addPlaceForm.get('workingHours').touched"
+          [class.ng-invalid]="workingHours.invalid && workingHours.touched"
         />
         <button class="btn-close" matSuffix mat-icon-button aria-label="Clear" (click)="clear('workingHours')">
           <mat-icon>close</mat-icon>

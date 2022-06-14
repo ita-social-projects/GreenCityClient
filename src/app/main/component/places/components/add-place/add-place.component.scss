@@ -3,7 +3,7 @@
   border-radius: 4px;
   border: 1px solid var(--primary-green);
   color: var(--primary-green);
-  background-color: white;
+  background-color: var(--primary-white);
 }
 
 .label {
@@ -29,13 +29,13 @@
 }
 
 .form-container {
-  background-color: var(--ubs-grey-white);
+  background-color: var(--pre-secondary-light-grey);
   padding: 20px 20px 24px;
   width: 368px;
 }
 
 .btn-wrapper {
-  background-color: var(--ubs-grey-white);
+  background-color: var(--pre-secondary-light-grey);
   padding-top: 16px;
   display: flex;
   justify-content: flex-end;
@@ -62,7 +62,7 @@
   border-radius: 4px;
   line-height: 20px;
   font-size: 14px;
-  border: 1px solid var(--ubs-quintynary-light-grey);
+  border: 1px solid var(--quintynary-light-grey);
   background-color: var(--primary-white);
 
   &:focus,
@@ -72,7 +72,7 @@
   }
 
   &.ng-invalid {
-    border: 2px solid red;
+    border: 2px solid var(--error-red);
   }
 }
 
@@ -83,12 +83,12 @@
   border-radius: 4px;
 
   &-add {
-    color: var(--ubs-grey-white);
+    color: var(--pre-secondary-light-grey);
     background-color: var(--primary-green);
     margin-left: 15px;
 
     &:disabled {
-      background-color: var(--ubs-secondary-grey);
+      background-color: var(--quaternary-grey);
     }
   }
 
@@ -102,7 +102,7 @@
     position: absolute;
     top: 24px;
     right: 0;
-    color: var(--ubs-quintynary-light-grey);
+    color: var(--quintynary-light-grey);
 
     &:focus {
       border: none;
