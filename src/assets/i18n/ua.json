@@ -106,7 +106,9 @@
       }
     },
     "events": {
-      "title": "Події"
+      "title": "Події",
+      "delete-yes": "так",
+      "delete-no": "ні"
     },
     "eco-advices": {
       "caption": "Еко поради"
