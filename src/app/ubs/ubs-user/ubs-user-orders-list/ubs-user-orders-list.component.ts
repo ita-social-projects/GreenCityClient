@@ -6,6 +6,8 @@ import { IUserOrderInfo, CheckPaymentStatus, CheckOrderStatus } from './models/U
 import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
+import { Bag, OrderDetails, PersonalData } from '../../ubs/models/ubs.interface';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-ubs-user-orders-list',
@@ -18,8 +20,11 @@ export class UbsUserOrdersListComponent implements OnInit, OnDestroy {
 
   public currentLanguage: string;
   private destroy$: Subject<boolean> = new Subject<boolean>();
+  orderDetails: OrderDetails;
+  personalDetails: PersonalData;
+  bags: Bag[];
 
-  constructor(public dialog: MatDialog, private localStorageService: LocalStorageService) {}
+  constructor(public dialog: MatDialog, private localStorageService: LocalStorageService, private router: Router) {}
 
   ngOnInit(): void {
     this.currentLanguage = this.localStorageService.getCurrentLanguage();
@@ -59,13 +64,172 @@ export class UbsUserOrdersListComponent implements OnInit, OnDestroy {
   }
 
   public openOrderPaymentDialog(order: IUserOrderInfo): void {
-    this.dialog.open(UbsUserOrderPaymentPopUpComponent, {
-      data: {
-        orderId: order.id,
-        price: order.orderFullPrice,
-        bonuses: this.bonuses
-      }
+    console.log('ORDER ', order);
+    const userId = window.localStorage.getItem('userId');
+    if (order.paymentStatusEng === 'Unpaid') {
+      this.setDataForLocalStorage(order);
+      const personalData = JSON.stringify(this.orderDetails);
+      const orderData = JSON.stringify(this.personalDetails);
+      this.localStorageService.setUbsOrderData(personalData, orderData);
+      this.router.navigate(['ubs/order']);
+    } else {
+      this.dialog.open(UbsUserOrderPaymentPopUpComponent, {
+        data: {
+          orderId: order.id,
+          price: order.orderFullPrice,
+          bonuses: this.bonuses
+        }
+      });
+    }
+  }
+
+  public getBagsQuantity(bagTypeName: string, capacity: number, order: IUserOrderInfo): number | null {
+    const bags = order.bags;
+    const bag = bags.find((item) => {
+      return item.capacity === capacity && item.service === bagTypeName;
     });
+    return bag ? bag.count : null;
+  }
+
+  public setDataForLocalStorage(order: IUserOrderInfo): void {
+    const userId = window.localStorage.getItem('userId');
+    //   export interface IUserOrderInfo {
+    //     additionalOrders: any;
+    //     address: IAddressExportDetails;
+    //     amountBeforePayment: number;
+    //     bags: IBags[];
+    //     bonuses: number;
+    //     certificate: ICertificate[];
+    //     dateForm: string;
+    //     datePaid: string;
+    //     extend?: boolean;
+    //     id: number;
+    //     orderComment: string;
+    //     orderFullPrice: number;
+    //     orderStatus: string;
+    //     orderStatusEng: string;
+    //     paidAmount: number;
+    //     paymentStatus: string;
+    //     paymentStatusEng: string;
+    //     sender: IUserInfo;
+    //   }
+    //   export interface IBags {
+    //     capacity: number;
+    //     count: number;
+    //     price: number;
+    //     service: string;
+    //     totalPrice: number;
+    //   }
+    //
+    // export interface ICertificate {
+    //   certificateStatus: string;
+    //   code: string;
+    //   creationDate: string;
+    //   points: number;
+    // }
+
+    this.bags = [
+      {
+        id: 1,
+        capacity: 120,
+        name: 'Безпечні відходи',
+        price: 250,
+        quantity: this.getBagsQuantity('Безпечні відходи', 120, order)
+      },
+      {
+        id: 2,
+        capacity: 120,
+        name: 'Текстильні відходи',
+        price: 300,
+        quantity: this.getBagsQuantity('Текстильні відходи', 120, order)
+      },
+      {
+        id: 3,
+        capacity: 20,
+        name: 'Текстильні відходи',
+        price: 50,
+        quantity: this.getBagsQuantity('Текстильні відходи', 20, order)
+      }
+    ];
+
+    this.orderDetails = {
+      additionalOrders: order.additionalOrders,
+      bags: this.bags,
+      certificates: [],
+      certificatesSum: 0,
+      finalSum: 1100,
+      orderComment: order.orderComment,
+      points: this.bonuses, // bonuses avalible
+      pointsSum: 0,
+      pointsToUse: 0,
+      total: order.orderFullPrice
+    };
+
+    // address:
+    // addressCity: "Київ"
+    // addressCityEng: "Kyiv"
+    // addressComment: "коментар до адреси"
+    // addressDistinct: "Печерський район"
+    // addressDistinctEng: "Pechers'kyi district"
+    // addressRegion: "Київська область"
+    // addressRegionEng: "Kyivs'ka oblast'"
+    // addressStreet: "вулиця Хрещатик"
+    // addressStreetEng: "Khreschatyk Street"
+    // entranceNumber: "1"
+    // houseCorpus: "1"
+    // houseNumber: "1"
+
+    this.personalDetails = {
+      addressComment: order.address.addressComment,
+      city: order.address.addressCity,
+      cityEn: order.address.addressCityEng,
+      district: order.address.addressDistinct,
+      districtEn: order.address.addressDistinctEng,
+      email: order.sender.senderEmail,
+      entranceNumber: order.address.entranceNumber,
+      firstName: order.sender.senderName,
+      houseCorpus: order.address.houseCorpus,
+      houseNumber: order.address.houseNumber,
+      id: 14,
+      lastName: order.sender.senderSurname,
+      latitude: 0,
+      longitude: 0,
+      phoneNumber: order.sender.senderPhone,
+      region: order.address.addressRegion,
+      regionEn: order.address.addressRegionEng,
+      senderEmail: order.sender.senderEmail,
+      senderFirstName: order.sender.senderName,
+      senderLastName: order.sender.senderSurname,
+      senderPhoneNumber: order.sender.senderPhone,
+      street: order.address.addressStreet,
+      streetEn: order.address.addressStreetEng,
+      ubsUserId: parseInt(userId)
+    };
+    //       id?: number;
+    //       ubsUserId?: number;
+    //       firstName: string;
+    //       lastName: string;
+    //       email: string;
+    //       phoneNumber: string;
+    //       addressComment: string;
+    //       city: string;
+    //       cityEn: string;
+    //       district: string;
+    //       districtEn: string;
+    //       street?: string;
+    //       streetEn?: string;
+    //       region?: string;
+    //       regionEn?: string;
+    //       houseCorpus?: string;
+    //       entranceNumber?: string;
+    //       houseNumber?: string;
+    //       longitude?: number;
+    //       latitude?: number;
+    //       senderEmail: string;
+    //       senderFirstName: string;
+    //       senderLastName: string;
+    //       senderPhoneNumber: string;
+    //     }
   }
 
   public openOrderCancelDialog(order: IUserOrderInfo): void {

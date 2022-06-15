@@ -1,8 +1,8 @@
 import { Subject } from 'rxjs';
 import { Router } from '@angular/router';
 import { takeUntil } from 'rxjs/operators';
-import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
-import { Component, OnDestroy, OnInit, Renderer2 } from '@angular/core';
+import { MatDialog, MatDialogConfig, MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { Component, Inject, OnDestroy, OnInit, Renderer2 } from '@angular/core';
 import { FormBaseComponent } from '@shared/components/form-base/form-base.component';
 import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
 import { FormBuilder, FormGroup, FormArray, Validators, FormControl } from '@angular/forms';
@@ -11,6 +11,7 @@ import { UBSOrderFormService } from '../../services/ubs-order-form.service';
 import { Bag, CourierLocations, FinalOrder, OrderDetails } from '../../models/ubs.interface';
 import { UbsOrderLocationPopupComponent } from './ubs-order-location-popup/ubs-order-location-popup.component';
 import { ExtraPackagesPopUpComponent } from './extra-packages-pop-up/extra-packages-pop-up.component';
+import { IOrderData } from 'src/app/ubs/ubs-user/ubs-user-orders-list/models/IOrderData.interface';
 
 @Component({
   selector: 'app-ubs-order-details',
@@ -113,6 +114,8 @@ export class UBSOrderDetailsComponent extends FormBaseComponent implements OnIni
     if (this.localStorageService.getUbsOrderData()) {
       this.calculateTotal();
     }
+    console.log('getUbsOrderData ', this.localStorageService.getUbsOrderData());
+    console.log('getUbsPersonalData ', this.localStorageService.getUbsPersonalData());
   }
 
   saveLocation(isCheck: boolean) {
@@ -202,6 +205,7 @@ export class UBSOrderDetailsComponent extends FormBaseComponent implements OnIni
   }
 
   public takeOrderData() {
+    console.log('takeOrderData');
     this.isFetching = true;
     this.currentLanguage = this.localStorageService.getCurrentLanguage();
     this.orderService
@@ -268,7 +272,9 @@ export class UBSOrderDetailsComponent extends FormBaseComponent implements OnIni
   }
 
   private calculateTotal(): void {
+    console.log('calculateTotal');
     this.total = 0;
+    console.log('BAGS ', this.bags);
     this.bags.forEach((bag) => {
       this.total += bag.price * bag.quantity;
     });
