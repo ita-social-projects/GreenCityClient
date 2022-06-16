@@ -44,11 +44,14 @@ export class MapEventComponent implements OnInit, OnDestroy {
   }
 
   public onMapReady(map: any): void {
+    console.log(map, 'Map');
     this.map = map;
-    this.map.setCenter({
-      lat: this.data.lat,
-      lng: this.data.lng
-    });
+    if (this.data.lat) {
+      this.map.setCenter({
+        lat: this.data.lat,
+        lng: this.data.lng
+      });
+    }
   }
 
   public markerOver(marker: MapMarker): void {
