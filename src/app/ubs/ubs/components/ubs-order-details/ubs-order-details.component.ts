@@ -114,8 +114,6 @@ export class UBSOrderDetailsComponent extends FormBaseComponent implements OnIni
     if (this.localStorageService.getUbsOrderData()) {
       this.calculateTotal();
     }
-    console.log('getUbsOrderData ', this.localStorageService.getUbsOrderData());
-    console.log('getUbsPersonalData ', this.localStorageService.getUbsPersonalData());
   }
 
   saveLocation(isCheck: boolean) {

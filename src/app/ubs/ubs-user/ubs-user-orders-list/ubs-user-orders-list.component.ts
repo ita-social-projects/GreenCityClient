@@ -68,8 +68,8 @@ export class UbsUserOrdersListComponent implements OnInit, OnDestroy {
     const userId = window.localStorage.getItem('userId');
     if (order.paymentStatusEng === 'Unpaid') {
       this.setDataForLocalStorage(order);
-      const personalData = JSON.stringify(this.orderDetails);
-      const orderData = JSON.stringify(this.personalDetails);
+      const personalData = JSON.stringify(this.personalDetails);
+      const orderData = JSON.stringify(this.orderDetails);
       this.localStorageService.setUbsOrderData(personalData, orderData);
       this.router.navigate(['ubs/order']);
     } else {
@@ -157,7 +157,7 @@ export class UbsUserOrdersListComponent implements OnInit, OnDestroy {
       bags: this.bags,
       certificates: [],
       certificatesSum: 0,
-      finalSum: 1100,
+      finalSum: order.orderFullPrice,
       orderComment: order.orderComment,
       points: this.bonuses, // bonuses avalible
       pointsSum: 0,
@@ -231,6 +231,22 @@ export class UbsUserOrdersListComponent implements OnInit, OnDestroy {
     //       senderPhoneNumber: string;
     //     }
   }
+
+  // {bags: [,…], points: 550, pointsToUse: 0, certificates: [], additionalOrders: [""], orderComment: "",…}
+  // additionalOrders: [""]
+  // 0: ""
+  // bags: [,…]
+  // 0: {id: 2, name: "Текстильні відходи", capacity: 120, price: 300, nameEng: "Textile waste", locationId: 1,…}
+  // 1: {id: 1, name: "Безпечні відходи", capacity: 120, price: 250, nameEng: "Safe waste", locationId: 1,…}
+  // 2: {id: 3, name: "Текстильні відходи", capacity: 20, price: 50, nameEng: "Textile waste", locationId: 1,…}
+  // certificates: []
+  // certificatesSum: 0
+  // finalSum: 1800
+  // orderComment: ""
+  // points: 550
+  // pointsSum: 0
+  // pointsToUse: 0
+  // total: 1800
 
   public openOrderCancelDialog(order: IUserOrderInfo): void {
     this.dialog.open(UbsUserOrderCancelPopUpComponent, {
