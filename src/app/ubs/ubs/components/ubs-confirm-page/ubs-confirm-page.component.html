@@ -2,7 +2,7 @@
   <ng-container *ngIf="!isSpinner; else spinner">
     <div class="order">
       <div [ngSwitch]="true">
-        <div *ngSwitchCase="orderResponseError === false && orderStatusDone === false">
+        <div class="btn-wrapper" *ngSwitchCase="orderResponseError === false && orderStatusDone === false">
           <button class="btn primary-global-button" (click)="toPersonalAccount()">
             {{ 'confirm-page.to-personal-account' | translate }}
           </button>
@@ -22,8 +22,16 @@
           </div>
         </div>
         <div *ngSwitchDefault>
-          <h2 *ngIf="!isUserPageOrderPayment()" class="title">{{ 'confirm-page.title-text.accepted' | translate }} (№{{ orderId }})</h2>
-          <h2 *ngIf="isUserPageOrderPayment()" class="title">{{ 'confirm-page.title-text.paid' | translate }} (№{{ orderId }})</h2>
+          <h2 *ngIf="!isUserPageOrderPayment()" class="title">
+            {{ 'confirm-page.title-text.accepted' | translate }}
+            (<a class="link" routerLink="/ubs-user/orders">№{{ orderId }}</a
+            >)
+          </h2>
+          <h2 *ngIf="isUserPageOrderPayment()" class="title">
+            {{ 'confirm-page.title-text.paid' | translate }}
+            (<a class="link" routerLink="/ubs-user/orders">№{{ orderId }}</a
+            >)
+          </h2>
           <div class="description">
             <p>{{ 'confirm-page.description' | translate }}</p>
           </div>
