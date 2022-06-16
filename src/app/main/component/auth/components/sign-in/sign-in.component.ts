@@ -110,6 +110,7 @@ export class SignInComponent implements OnInit, OnDestroy, OnChanges {
       .pipe(takeUntil(this.destroy))
       .subscribe(
         (data: UserSuccessSignIn) => {
+          console.log('SIGN IN DATA ', data);
           this.onSignInSuccess(data);
         },
         (errors: HttpErrorResponse) => {
