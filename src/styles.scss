@@ -160,6 +160,10 @@ body {
   padding: 0;
 }
 
+.add-place-wrapper-class .mat-dialog-container {
+  padding: 0;
+}
+
 .custom-dialog-container .mat-dialog-container::-webkit-scrollbar {
   display: none;
 }
@@ -235,8 +239,4 @@ body {
   font-weight: bold;
   font-size: 14px;
   border: 1px solid var(--primary-green);
-}
-
-.add-place-wrapper-class .mat-dialog-container {
-  padding: 0;
 }
