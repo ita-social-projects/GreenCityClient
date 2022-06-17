@@ -25,7 +25,6 @@ export class UbsUserOrdersListComponent implements OnInit, OnDestroy {
   orderDetails: OrderDetails;
   personalDetails: PersonalData;
   bags: Bag[];
-  allPersonalData: PersonalData;
 
   constructor(
     public dialog: MatDialog,
@@ -100,7 +99,7 @@ export class UbsUserOrdersListComponent implements OnInit, OnDestroy {
 
   public getUserData(): void {
     this.localStorageService.removeUbsOrderData();
-    this.allPersonalData = this.ubsOrderService.getPersonalData();
+    this.personalDetails = this.ubsOrderService.getPersonalData();
   }
 
   public setDataForLocalStorage(order: IUserOrderInfo): void {
@@ -143,7 +142,6 @@ export class UbsUserOrdersListComponent implements OnInit, OnDestroy {
       pointsToUse: 0,
       total: order.orderFullPrice
     };
-    this.personalDetails = this.allPersonalData;
     this.personalDetails.senderEmail = order.sender.senderEmail;
     this.personalDetails.senderFirstName = order.sender.senderName;
     this.personalDetails.senderLastName = order.sender.senderSurname;
