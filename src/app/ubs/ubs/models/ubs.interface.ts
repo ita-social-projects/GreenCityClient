@@ -1,6 +1,7 @@
 export interface Bag {
   id: number;
   name?: string;
+  nameEng?: string;
   capacity?: number;
   price?: number;
   quantity?: number;

@@ -8,6 +8,8 @@ import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 import { Bag, OrderDetails, PersonalData } from '../../ubs/models/ubs.interface';
 import { Router } from '@angular/router';
+import { OrderService } from '../../ubs/services/order.service';
+import { UBSOrderFormService } from '../../ubs/services/ubs-order-form.service';
 
 @Component({
   selector: 'app-ubs-user-orders-list',
@@ -23,8 +25,14 @@ export class UbsUserOrdersListComponent implements OnInit, OnDestroy {
   orderDetails: OrderDetails;
   personalDetails: PersonalData;
   bags: Bag[];
+  allPersonalData: PersonalData;
 
-  constructor(public dialog: MatDialog, private localStorageService: LocalStorageService, private router: Router) {}
+  constructor(
+    public dialog: MatDialog,
+    private localStorageService: LocalStorageService,
+    private router: Router,
+    public ubsOrderService: UBSOrderFormService
+  ) {}
 
   ngOnInit(): void {
     this.currentLanguage = this.localStorageService.getCurrentLanguage();
@@ -65,13 +73,13 @@ export class UbsUserOrdersListComponent implements OnInit, OnDestroy {
 
   public openOrderPaymentDialog(order: IUserOrderInfo): void {
     console.log('ORDER ', order);
-    const userId = window.localStorage.getItem('userId');
     if (order.paymentStatusEng === 'Unpaid') {
+      this.getUserData();
       this.setDataForLocalStorage(order);
       const personalData = JSON.stringify(this.personalDetails);
       const orderData = JSON.stringify(this.orderDetails);
       this.localStorageService.setUbsOrderData(personalData, orderData);
-      this.router.navigate(['ubs/order']);
+      this.router.navigate(['ubs/order'], { queryParams: { isThisExistingOrder: true } });
     } else {
       this.dialog.open(UbsUserOrderPaymentPopUpComponent, {
         data: {
@@ -91,48 +99,18 @@ export class UbsUserOrdersListComponent implements OnInit, OnDestroy {
     return bag ? bag.count : null;
   }
 
-  public setDataForLocalStorage(order: IUserOrderInfo): void {
-    const userId = window.localStorage.getItem('userId');
-    //   export interface IUserOrderInfo {
-    //     additionalOrders: any;
-    //     address: IAddressExportDetails;
-    //     amountBeforePayment: number;
-    //     bags: IBags[];
-    //     bonuses: number;
-    //     certificate: ICertificate[];
-    //     dateForm: string;
-    //     datePaid: string;
-    //     extend?: boolean;
-    //     id: number;
-    //     orderComment: string;
-    //     orderFullPrice: number;
-    //     orderStatus: string;
-    //     orderStatusEng: string;
-    //     paidAmount: number;
-    //     paymentStatus: string;
-    //     paymentStatusEng: string;
-    //     sender: IUserInfo;
-    //   }
-    //   export interface IBags {
-    //     capacity: number;
-    //     count: number;
-    //     price: number;
-    //     service: string;
-    //     totalPrice: number;
-    //   }
-    //
-    // export interface ICertificate {
-    //   certificateStatus: string;
-    //   code: string;
-    //   creationDate: string;
-    //   points: number;
-    // }
+  public getUserData(): void {
+    this.localStorageService.removeUbsOrderData();
+    this.allPersonalData = this.ubsOrderService.getPersonalData();
+  }
 
+  public setDataForLocalStorage(order: IUserOrderInfo): void {
     this.bags = [
       {
         id: 1,
         capacity: 120,
         name: 'Безпечні відходи',
+        nameEng: 'Safe waste',
         price: 250,
         quantity: this.getBagsQuantity('Безпечні відходи', 120, order)
       },
@@ -140,6 +118,7 @@ export class UbsUserOrdersListComponent implements OnInit, OnDestroy {
         id: 2,
         capacity: 120,
         name: 'Текстильні відходи',
+        nameEng: 'Textile waste',
         price: 300,
         quantity: this.getBagsQuantity('Текстильні відходи', 120, order)
       },
@@ -147,6 +126,7 @@ export class UbsUserOrdersListComponent implements OnInit, OnDestroy {
         id: 3,
         capacity: 20,
         name: 'Текстильні відходи',
+        nameEng: 'Textile waste',
         price: 50,
         quantity: this.getBagsQuantity('Текстильні відходи', 20, order)
       }
@@ -159,94 +139,17 @@ export class UbsUserOrdersListComponent implements OnInit, OnDestroy {
       certificatesSum: 0,
       finalSum: order.orderFullPrice,
       orderComment: order.orderComment,
-      points: this.bonuses, // bonuses avalible
+      points: this.bonuses,
       pointsSum: 0,
       pointsToUse: 0,
       total: order.orderFullPrice
     };
-
-    // address:
-    // addressCity: "Київ"
-    // addressCityEng: "Kyiv"
-    // addressComment: "коментар до адреси"
-    // addressDistinct: "Печерський район"
-    // addressDistinctEng: "Pechers'kyi district"
-    // addressRegion: "Київська область"
-    // addressRegionEng: "Kyivs'ka oblast'"
-    // addressStreet: "вулиця Хрещатик"
-    // addressStreetEng: "Khreschatyk Street"
-    // entranceNumber: "1"
-    // houseCorpus: "1"
-    // houseNumber: "1"
-
-    this.personalDetails = {
-      addressComment: order.address.addressComment,
-      city: order.address.addressCity,
-      cityEn: order.address.addressCityEng,
-      district: order.address.addressDistinct,
-      districtEn: order.address.addressDistinctEng,
-      email: order.sender.senderEmail,
-      entranceNumber: order.address.entranceNumber,
-      firstName: order.sender.senderName,
-      houseCorpus: order.address.houseCorpus,
-      houseNumber: order.address.houseNumber,
-      id: 14,
-      lastName: order.sender.senderSurname,
-      latitude: 0,
-      longitude: 0,
-      phoneNumber: order.sender.senderPhone,
-      region: order.address.addressRegion,
-      regionEn: order.address.addressRegionEng,
-      senderEmail: order.sender.senderEmail,
-      senderFirstName: order.sender.senderName,
-      senderLastName: order.sender.senderSurname,
-      senderPhoneNumber: order.sender.senderPhone,
-      street: order.address.addressStreet,
-      streetEn: order.address.addressStreetEng,
-      ubsUserId: parseInt(userId)
-    };
-    //       id?: number;
-    //       ubsUserId?: number;
-    //       firstName: string;
-    //       lastName: string;
-    //       email: string;
-    //       phoneNumber: string;
-    //       addressComment: string;
-    //       city: string;
-    //       cityEn: string;
-    //       district: string;
-    //       districtEn: string;
-    //       street?: string;
-    //       streetEn?: string;
-    //       region?: string;
-    //       regionEn?: string;
-    //       houseCorpus?: string;
-    //       entranceNumber?: string;
-    //       houseNumber?: string;
-    //       longitude?: number;
-    //       latitude?: number;
-    //       senderEmail: string;
-    //       senderFirstName: string;
-    //       senderLastName: string;
-    //       senderPhoneNumber: string;
-    //     }
+    this.personalDetails = this.allPersonalData;
+    this.personalDetails.senderEmail = order.sender.senderEmail;
+    this.personalDetails.senderFirstName = order.sender.senderName;
+    this.personalDetails.senderLastName = order.sender.senderSurname;
+    this.personalDetails.senderPhoneNumber = order.sender.senderPhone;
   }
-
-  // {bags: [,…], points: 550, pointsToUse: 0, certificates: [], additionalOrders: [""], orderComment: "",…}
-  // additionalOrders: [""]
-  // 0: ""
-  // bags: [,…]
-  // 0: {id: 2, name: "Текстильні відходи", capacity: 120, price: 300, nameEng: "Textile waste", locationId: 1,…}
-  // 1: {id: 1, name: "Безпечні відходи", capacity: 120, price: 250, nameEng: "Safe waste", locationId: 1,…}
-  // 2: {id: 3, name: "Текстильні відходи", capacity: 20, price: 50, nameEng: "Textile waste", locationId: 1,…}
-  // certificates: []
-  // certificatesSum: 0
-  // finalSum: 1800
-  // orderComment: ""
-  // points: 550
-  // pointsSum: 0
-  // pointsToUse: 0
-  // total: 1800
 
   public openOrderCancelDialog(order: IUserOrderInfo): void {
     this.dialog.open(UbsUserOrderCancelPopUpComponent, {

@@ -1,5 +1,5 @@
 import { Subject } from 'rxjs';
-import { Router } from '@angular/router';
+import { Router, ActivatedRoute, ParamMap } from '@angular/router';
 import { takeUntil } from 'rxjs/operators';
 import { MatDialog, MatDialogConfig, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { Component, Inject, OnDestroy, OnInit, Renderer2 } from '@angular/core';
@@ -85,6 +85,7 @@ export class UBSOrderDetailsComponent extends FormBaseComponent implements OnIni
   public changeLocation = false;
   isBonus: string;
   public previousPath = 'ubs';
+  public isThisExistingOrder: boolean;
 
   constructor(
     private fb: FormBuilder,
@@ -92,6 +93,7 @@ export class UBSOrderDetailsComponent extends FormBaseComponent implements OnIni
     private localStorageService: LocalStorageService,
     public orderService: OrderService,
     public renderer: Renderer2,
+    private route: ActivatedRoute,
     router: Router,
     dialog: MatDialog
   ) {
@@ -100,6 +102,9 @@ export class UBSOrderDetailsComponent extends FormBaseComponent implements OnIni
   }
 
   ngOnInit(): void {
+    this.route.queryParams.subscribe((params) => {
+      this.isThisExistingOrder = params['isThisExistingOrder'] || false;
+    });
     const locationId = this.shareFormService.locationId;
     if (locationId) {
       this.currentLanguage = this.localStorageService.getCurrentLanguage();
@@ -203,9 +208,11 @@ export class UBSOrderDetailsComponent extends FormBaseComponent implements OnIni
   }
 
   public takeOrderData() {
-    console.log('takeOrderData');
     this.isFetching = true;
     this.currentLanguage = this.localStorageService.getCurrentLanguage();
+    if (!this.isThisExistingOrder) {
+      this.localStorageService.removeUbsOrderData();
+    }
     this.orderService
       .getOrders()
       .pipe(takeUntil(this.destroy))
@@ -272,7 +279,6 @@ export class UBSOrderDetailsComponent extends FormBaseComponent implements OnIni
   private calculateTotal(): void {
     console.log('calculateTotal');
     this.total = 0;
-    console.log('BAGS ', this.bags);
     this.bags.forEach((bag) => {
       this.total += bag.price * bag.quantity;
     });
