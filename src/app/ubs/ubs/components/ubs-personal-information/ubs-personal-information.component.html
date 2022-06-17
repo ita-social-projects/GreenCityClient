@@ -48,7 +48,7 @@
     </div>
     <div class="col-12 col-sm-6 form-group mt-2">
       <label>Email</label>
-      <input formControlName="email" type="text" class="shadow-none form-control" placeholder="example@email.com" />
+      <input formControlName="email" type="text" class="shadow-none form-control" placeholder="example@email.com" maxlength="40" />
       <div class="validation" *ngIf="getControl('email').invalid && getControl('email').touched">
         <app-ubs-input-error [formElement]="getControl('email')" [emailFieldValue]="getControl('email').value" [controlName]="'email'">
         </app-ubs-input-error>
