@@ -149,7 +149,7 @@ export class UBSPersonalInformationComponent extends FormBaseComponent implement
       phoneNumber: ['+38 0', [Validators.required, Validators.minLength(12), PhoneNumberValidator('UA')]],
       anotherClientFirstName: [''],
       anotherClientLastName: [''],
-      anotherClientEmail: ['', Validators.email],
+      anotherClientEmail: ['', [Validators.email, Validators.maxLength(40)]],
       anotherClientPhoneNumber: [''],
       address: ['', Validators.required],
       addressComment: ['', Validators.maxLength(255)]
