@@ -8,7 +8,6 @@ import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 import { Bag, OrderDetails, PersonalData } from '../../ubs/models/ubs.interface';
 import { Router } from '@angular/router';
-import { OrderService } from '../../ubs/services/order.service';
 import { UBSOrderFormService } from '../../ubs/services/ubs-order-form.service';
 
 @Component({
