@@ -81,9 +81,12 @@ export class UbsUserOrdersComponent implements OnInit, OnDestroy {
           this.numberOfHistoryOrders = table === 'history' ? item.totalElements : this.numberOfHistoryOrders;
         }
         this.orders = item.page;
-        this.loadingOrders = true;
         this.currentOrders = table === 'current' ? this.orders : this.currentOrders;
         this.orderHistory = table === 'history' ? this.orders : this.orderHistory;
+
+        if (this.currentOrders) {
+          this.loadingOrders = true;
+        }
 
         if (this.numberOfCurrentOrders && this.numberOfHistoryOrders) {
           this.isMoreThenOnePage = this.numberOfCurrentOrders > 10 || this.numberOfHistoryOrders > 10;

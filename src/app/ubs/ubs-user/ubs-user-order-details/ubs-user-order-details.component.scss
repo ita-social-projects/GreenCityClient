@@ -174,13 +174,18 @@
   }
 }
 
+@media (max-width: 992px) {
+  .download {
+    justify-content: flex-start;
+  }
+}
+
 @media (max-width: 460px) {
   .download {
     display: grid;
     grid-template-areas: 'arrow text' 'maximize text';
     grid-template-columns: 16px auto;
     grid-template-rows: 17px auto;
-    justify-content: center;
     margin: 20px 18px 33px 0;
     color: var(--primary-green);
   }
@@ -204,5 +209,8 @@
       padding: 0;
       list-style-type: none;
     }
+  }
+  .table_of_details {
+    width: 562px;
   }
 }

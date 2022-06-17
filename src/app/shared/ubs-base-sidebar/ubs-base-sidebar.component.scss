@@ -17,6 +17,7 @@
       top: 80px;
       background-color: var(--ubs-primary-grey);
       width: 228px;
+      z-index: 3;
     }
   }
 
@@ -55,6 +56,7 @@
     width: 59px;
     height: 100%;
     top: 80px;
+    z-index: 9;
     background-color: var(--ubs-primary-grey);
     -webkit-user-select: none;
     -moz-user-select: none;
@@ -128,6 +130,17 @@
 
     .sidebar-icons {
       display: none;
+    }
+  }
+}
+
+@media (max-width: 992px) {
+  .main-content {
+    margin-left: 0 !important;
+  }
+  .sidebar {
+    .sidebar-container {
+      margin-left: 85px !important;
     }
   }
 }
