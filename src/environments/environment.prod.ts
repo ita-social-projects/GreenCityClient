@@ -5,7 +5,7 @@ export const environment = {
   backendLink: 'https://greencity.testgreencity.ga/',
   backendChatLink: 'https://greencity-chat.testgreencity.ga/',
   backendUserLink: 'https://greencity-user.testgreencity.ga/',
-  backendUbsLink: 'https://greencity-ubs.testgreencity.ga/',
+  backendUbsLink: 'https://greencity-ubs.testgreencity.ga',
   frontendLink: 'https://ita-social-projects.github.io/GreenCityClient/',
   socket: 'https://greencity.testgreencity.ga/socket',
   chatSocket: 'https://greencity-chat.testgreencity.ga/socket',
