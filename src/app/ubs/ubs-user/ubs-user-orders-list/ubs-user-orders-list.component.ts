@@ -72,7 +72,6 @@ export class UbsUserOrdersListComponent implements OnInit, OnDestroy {
   }
 
   public openOrderPaymentDialog(order: IUserOrderInfo): void {
-    console.log('ORDER ', order);
     if (order.paymentStatusEng === 'Unpaid') {
       this.getUserData();
       this.setDataForLocalStorage(order);

@@ -103,7 +103,8 @@ export class UBSOrderDetailsComponent extends FormBaseComponent implements OnIni
 
   ngOnInit(): void {
     this.route.queryParams.subscribe((params) => {
-      this.isThisExistingOrder = params['isThisExistingOrder'] || false;
+      const key = 'isThisExistingOrder';
+      this.isThisExistingOrder = params[key] || false;
     });
     const locationId = this.shareFormService.locationId;
     if (locationId) {
@@ -277,7 +278,6 @@ export class UBSOrderDetailsComponent extends FormBaseComponent implements OnIni
   }
 
   private calculateTotal(): void {
-    console.log('calculateTotal');
     this.total = 0;
     this.bags.forEach((bag) => {
       this.total += bag.price * bag.quantity;
