@@ -145,7 +145,7 @@ export class UBSPersonalInformationComponent extends FormBaseComponent implement
     this.personalDataForm = this.fb.group({
       firstName: ['', this.personalDataFormValidators],
       lastName: ['', this.personalDataFormValidators],
-      email: ['', [Validators.required, Validators.email]],
+      email: ['', [Validators.required, Validators.email, Validators.maxLength(40)]],
       phoneNumber: ['+38 0', [Validators.required, Validators.minLength(12), PhoneNumberValidator('UA')]],
       anotherClientFirstName: [''],
       anotherClientLastName: [''],
