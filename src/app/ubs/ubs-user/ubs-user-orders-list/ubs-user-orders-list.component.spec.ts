@@ -6,7 +6,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { TranslateModule } from '@ngx-translate/core';
 import { LocalizedCurrencyPipe } from 'src/app/shared/localized-currency-pipe/localized-currency.pipe';
 import { UbsUserOrderPaymentPopUpComponent } from './ubs-user-order-payment-pop-up/ubs-user-order-payment-pop-up.component';
-
+import { RouterTestingModule } from '@angular/router/testing';
 import { UbsUserOrdersListComponent } from './ubs-user-orders-list.component';
 
 describe('UbsUserOrdersListComponent', () => {
@@ -24,7 +24,7 @@ describe('UbsUserOrdersListComponent', () => {
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       declarations: [UbsUserOrdersListComponent, LocalizedCurrencyPipe],
-      imports: [MatDialogModule, MatExpansionModule, BrowserAnimationsModule, TranslateModule.forRoot()],
+      imports: [MatDialogModule, MatExpansionModule, BrowserAnimationsModule, TranslateModule.forRoot(), RouterTestingModule],
       providers: [{ provide: MatDialog, useValue: matDialogMock }],
       schemas: [CUSTOM_ELEMENTS_SCHEMA]
     }).compileComponents();
@@ -117,11 +117,11 @@ describe('UbsUserOrdersListComponent', () => {
 
   describe('openOrderPaymentDialog', () => {
     it('makes expected calls', () => {
-      component.openOrderPaymentDialog(fakeIputOrderData[0] as any);
+      component.openOrderPaymentDialog(fakeIputOrderData[1] as any);
       expect(matDialogMock.open).toHaveBeenCalledWith(UbsUserOrderPaymentPopUpComponent, {
         data: {
-          orderId: 3,
-          price: 55,
+          orderId: 7,
+          price: 0,
           bonuses: 111
         }
       });

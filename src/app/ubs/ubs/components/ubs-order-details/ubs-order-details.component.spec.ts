@@ -25,7 +25,12 @@ describe('OrderDetailsFormComponent', () => {
   let orderService: OrderService;
   const fakeLanguageSubject: Subject<string> = new Subject<string>();
   const shareFormService = jasmine.createSpyObj('shareFormService', ['orderDetails', 'changeAddCertButtonVisibility']);
-  const localStorageService = jasmine.createSpyObj('localStorageService', ['getCurrentLanguage', 'languageSubject', 'getUbsOrderData']);
+  const localStorageService = jasmine.createSpyObj('localStorageService', [
+    'getCurrentLanguage',
+    'languageSubject',
+    'getUbsOrderData',
+    'removeUbsOrderData'
+  ]);
   localStorageService.getUbsOrderData = () => null;
   localStorageService.languageSubject = fakeLanguageSubject;
   const mockLocations = {
