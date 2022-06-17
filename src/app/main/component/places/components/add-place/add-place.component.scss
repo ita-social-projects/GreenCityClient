@@ -1,11 +1,3 @@
-.add-place-btn {
-  padding: 8px 24px;
-  border-radius: 4px;
-  border: 1px solid var(--primary-green);
-  color: var(--primary-green);
-  background-color: white;
-}
-
 .label {
   margin: 0;
   font-size: 16px;
@@ -31,29 +23,14 @@
 .form-container {
   background-color: var(--ubs-grey-white);
   padding: 20px 20px 24px;
-  width: 368px;
+  max-width: 100%;
 }
 
 .btn-wrapper {
   background-color: var(--ubs-grey-white);
-  padding-top: 25px;
+  padding-top: 15px;
   display: flex;
   justify-content: flex-end;
-}
-
-::ng-deep {
-  .pac-container {
-    z-index: 9999999 !important;
-  }
-
-  .add-place-menu.mat-menu-panel {
-    max-width: 368px !important;
-
-    .mat-menu-content {
-      padding-top: 0 !important;
-      padding-bottom: 0 !important;
-    }
-  }
 }
 
 .input {
@@ -63,8 +40,10 @@
   line-height: 20px;
   font-size: 14px;
   border: 1px solid var(--ubs-quintynary-light-grey);
+  background-color: white;
 
-  &:focus {
+  &:focus,
+  &:focus-within {
     border: 2px solid var(--primary-green);
     outline: none;
   }
@@ -101,9 +80,17 @@
     top: 24px;
     right: 0;
     color: var(--ubs-quintynary-light-grey);
+    visibility: hidden;
 
     &:focus {
       border: none;
     }
+  }
+}
+
+.form-field:hover,
+.form-field:focus-within {
+  .btn-close {
+    visibility: visible;
   }
 }

@@ -9,15 +9,21 @@ import { FilterPlaceService } from '@global-service/filtering/filter-place.servi
 import { PlaceStatus } from '@global-models/placeStatus.model';
 import { FavoritePlaceService } from '@global-service/favorite-place/favorite-place.service';
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
+import { MatDialogModule } from '@angular/material/dialog';
 
 describe('PlacesComponent', () => {
   let component: PlacesComponent;
   let fixture: ComponentFixture<PlacesComponent>;
+  const tagsArray = [
+    { id: 1, name: 'Events', nameUa: 'Події' },
+    { id: 2, name: 'Education', nameUa: 'Освіта' }
+  ];
 
   const localStorageServiceMock: LocalStorageService = jasmine.createSpyObj('LocalStorageService', ['getCurrentLanguage']);
 
   const placeServiceMock: PlaceService = jasmine.createSpyObj('PlaceService', ['getPlaceInfo', 'updatePlaces']);
   placeServiceMock.places$ = new Subject<Place[]>();
+  placeServiceMock.getAllPresentTags = () => of(tagsArray);
 
   const filterPlaceServiceMock: FilterPlaceService = jasmine.createSpyObj('FilterPlaceService', ['updateFiltersDto']);
   filterPlaceServiceMock.filtersDto$ = new BehaviorSubject<any>({ status: PlaceStatus.APPROVED });
@@ -33,7 +39,7 @@ describe('PlacesComponent', () => {
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       declarations: [PlacesComponent],
-      imports: [TranslateModule.forRoot()],
+      imports: [TranslateModule.forRoot(), MatDialogModule],
       providers: [
         {
           provide: LocalStorageService,

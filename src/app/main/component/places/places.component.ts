@@ -1,12 +1,12 @@
 import { TranslateService } from '@ngx-translate/core';
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
 import { MatDrawer } from '@angular/material/sidenav';
 import { PlaceService } from '@global-service/place/place.service';
 import { redIcon, greenIcon, searchIcon, notification, share, starUnfilled, starHalf, star } from '../../image-pathes/places-icons.js';
-import { FilterPlaceCategories, Place } from './models/place';
+import { Place } from './models/place';
 import { FilterPlaceService } from '@global-service/filtering/filter-place.service';
-import { debounceTime, take } from 'rxjs/operators';
+import { debounceTime, take, takeUntil } from 'rxjs/operators';
 import { LatLngBounds, LatLngLiteral } from '@agm/core/services/google-maps-types';
 import { MapBoundsDto } from './models/map-bounds-dto';
 import { MoreOptionsFormValue } from './models/more-options-filter.model';
@@ -15,6 +15,8 @@ import { FavoritePlaceService } from '@global-service/favorite-place/favorite-pl
 import { combineLatest } from 'rxjs';
 import { initialMoreOptionsFormValue } from './components/more-options-filter/more-options-filter.constant.js';
 import { NewsTagInterface } from '@user-models/news.model';
+import { MatDialog } from '@angular/material/dialog';
+import { AddPlaceComponent } from './components/add-place/add-place.component';
 
 @Component({
   selector: 'app-places',
@@ -52,7 +54,8 @@ export class PlacesComponent implements OnInit {
     private translate: TranslateService,
     private placeService: PlaceService,
     private filterPlaceService: FilterPlaceService,
-    private favoritePlaceService: FavoritePlaceService
+    private favoritePlaceService: FavoritePlaceService,
+    private dialog: MatDialog
   ) {}
 
   ngOnInit() {
@@ -280,9 +283,28 @@ export class PlacesComponent implements OnInit {
   }
 
   onLocationSelected(event: Location) {
+    console.log(123);
     this.map.setCenter({
       lat: event.latitude,
       lng: event.longitude
     });
+  }
+
+  openTimePickerPopUp() {
+    this.dialog
+      .open(AddPlaceComponent, { hasBackdrop: true, closeOnNavigation: true, disableClose: true, panelClass: 'add-place-wrapper-class' })
+      .afterClosed()
+      .pipe(take(1))
+      .subscribe((value) => {
+        if (value) {
+          this.placeService.createPlace(value).subscribe((resp: any) => {
+            const location: Location = {
+              latitude: resp.locationAddressAndGeoDto.lat,
+              longitude: resp.locationAddressAndGeoDto.lng
+            };
+            this.onLocationSelected(location);
+          });
+        }
+      });
   }
 }

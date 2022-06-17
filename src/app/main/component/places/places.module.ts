@@ -10,7 +10,7 @@ import { RatingModule } from 'ngx-bootstrap/rating';
 import { Ng5SliderModule } from 'ng5-slider';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { MatTabsModule } from '@angular/material/tabs';
-import { SharedMainModule } from '../shared/shared-main.module';
+import { SharedMainModule } from '@shared/shared-main.module';
 import { HttpClient } from '@angular/common/http';
 import { TranslateHttpLoader } from '@ngx-translate/http-loader';
 import { PlacesComponent } from './places.component';
@@ -32,9 +32,10 @@ import { GooglePlaceModule } from 'ngx-google-places-autocomplete';
 import { MaterialModule } from '../../../material.module';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { TimePickerPopupComponent } from './components/time-picker-pop-up/time-picker-popup.component';
+import { AddressInputComponent } from './components/address-input/address-input.component';
 
 @NgModule({
-  declarations: [PlacesComponent, MoreOptionsFilterComponent, AddPlaceComponent, TimePickerPopupComponent],
+  declarations: [PlacesComponent, MoreOptionsFilterComponent, AddPlaceComponent, TimePickerPopupComponent, AddressInputComponent],
   imports: [
     MatSidenavModule,
     SharedModule,

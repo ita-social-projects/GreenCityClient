@@ -1,39 +1,53 @@
-import { AfterViewInit, Component, ElementRef, Injector, NgZone, OnInit, ViewChild } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { Component, EventEmitter, OnDestroy, OnInit, Output } from '@angular/core';
+import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { PlaceService } from '@global-service/place/place.service';
 import { NewsTagInterface } from '@user-models/news.model';
-import { take } from 'rxjs/operators';
+import { take, takeUntil } from 'rxjs/operators';
 import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
 import { FilterPlaceCategories } from '../../models/place';
-import { MapsAPILoader } from '@agm/core';
-import { MatDialog } from '@angular/material/dialog';
-import { TimePickerPopupComponent } from '../time-picker-pop-up/time-picker-popup.component';
+import { MatDialogRef } from '@angular/material/dialog';
+import { WorkingTime } from '../../models/week-pick-model';
+import { CreatePlaceModel, OpeningHoursDto } from '../../models/create-place.model';
+import { TranslateService } from '@ngx-translate/core';
+import { ReplaySubject, Subject } from 'rxjs';
 
 @Component({
   selector: 'app-add-place',
   templateUrl: './add-place.component.html',
   styleUrls: ['./add-place.component.scss']
 })
-export class AddPlaceComponent implements OnInit, AfterViewInit {
+export class AddPlaceComponent implements OnInit {
   public addPlaceForm: FormGroup;
   public workingHours = '';
-  public adress = '';
-  public type = '';
-  public name = '';
   public tagList: NewsTagInterface[];
   public filterCategories: FilterPlaceCategories[];
-  @ViewChild('addressInput') input: ElementRef;
-  @ViewChild('workingHour') hourInput: ElementRef;
   public timeArrStart = [];
   public timeArrEnd = [];
   public timeArr: Array<string> = [];
+  public workingTime: WorkingTime[];
+  public workingTimeIsValid: boolean;
+  private destroy$: Subject<boolean> = new Subject<boolean>();
+  @Output() private getAddressData: any = new EventEmitter<any>();
 
   constructor(
     private fb: FormBuilder,
     private placeService: PlaceService,
     public localStorageService: LocalStorageService,
-    private dialog: MatDialog
+    private matDialogRef: MatDialogRef<AddPlaceComponent>,
+    private translate: TranslateService
   ) {}
+
+  get type() {
+    return this.addPlaceForm.get('type') as FormControl;
+  }
+
+  get name() {
+    return this.addPlaceForm.get('name') as FormControl;
+  }
+
+  get address() {
+    return this.addPlaceForm.get('address') as FormControl;
+  }
 
   ngOnInit(): void {
     this.placeService
@@ -44,6 +58,7 @@ export class AddPlaceComponent implements OnInit, AfterViewInit {
       .getAllPresentTags()
       .pipe(take(1))
       .subscribe((tagsArray: Array<NewsTagInterface>) => (this.tagList = tagsArray));
+    this.bindLang(this.localStorageService.getCurrentLanguage());
     this.initForm();
   }
 
@@ -51,49 +66,47 @@ export class AddPlaceComponent implements OnInit, AfterViewInit {
     this.addPlaceForm = this.fb.group({
       type: ['', Validators.required],
       name: ['', [Validators.required, Validators.maxLength(30), Validators.pattern(/[0-9a-zа-я]/i)]],
-      adress: ['', [Validators.required, Validators.maxLength(100), Validators.pattern(/[0-9a-zа-я]/i)]],
-      workingHours: ['', [Validators.required]]
+      address: ['', [Validators.required, Validators.maxLength(100), Validators.pattern(/[0-9a-zа-я]/i)]]
     });
+  }
+
+  onLocationSelected(event: any) {
+    this.getAddressData.emit(event);
   }
 
   cancel(): void {
-    this.initForm();
+    this.matDialogRef.close();
   }
 
-  initializeGoogleAutoComplete() {
-    const options = {
-      componentRestrictions: { country: 'ua' },
-      types: ['address']
-    };
-    const autocomplete = new google.maps.places.Autocomplete(this.input.nativeElement, options);
-    autocomplete.addListener('place_changed', () => {
-      const result = autocomplete.getPlace();
-      this.addPlaceForm.get('adress').setValue(result.formatted_address);
-
-      const latitude = result.geometry.location.lat();
-      const longitude = result.geometry.location.lng();
-    });
+  clear(property: string): void {
+    this.addPlaceForm.get(property).setValue('');
   }
 
   addPlace(): void {
-    console.log(this.addPlaceForm);
-    console.log(this.addPlaceForm.get('adress').value);
-    this.initForm();
+    const sendPlace: CreatePlaceModel = {
+      categoryName: this.type.value,
+      placeName: this.name.value,
+      locationName: this.address.value,
+      openingHoursList: this.workingTime.map((time): OpeningHoursDto => {
+        return { openTime: time.timeFrom, closeTime: time.timeTo, weekDay: time.dayOfWeek };
+      })
+    };
+    this.matDialogRef.close(sendPlace);
   }
 
-  ngAfterViewInit(): void {
-    this.initializeGoogleAutoComplete();
-  }
-
-  openTimePickerPopUp() {
-    this.dialog
-      .open(TimePickerPopupComponent)
-      .afterClosed()
-      .pipe(take(1))
-      .subscribe((value) => {
-        this.addPlaceForm.get('workingHours').setValue(value);
-        this.hourInput.nativeElement.value = `${value.from} - ${value.to} ` + value.dayOfWeek;
-        console.log(value);
+  getTimeOfWork(event) {
+    this.workingTimeIsValid = false;
+    this.workingTime = event
+      .filter((time) => time.isSelected)
+      .map((time): WorkingTime => {
+        this.workingTimeIsValid = false;
+        if (time.dayOfWeek.length && time.timeTo.length && time.timeFrom.length) {
+          this.workingTimeIsValid = time.timeTo.length > 0 && time.timeFrom.length > 0 && time.dayOfWeek.length > 0;
+          return { dayOfWeek: time.dayOfWeek, timeTo: time.timeTo, timeFrom: time.timeFrom, isSelected: time.isSelected };
+        }
       });
+  }
+  private bindLang(lang: string): void {
+    this.translate.setDefaultLang(lang);
   }
 }

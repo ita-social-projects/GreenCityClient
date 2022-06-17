@@ -1,6 +1,6 @@
-import { Component, OnInit } from '@angular/core';
-import { MatDialogRef } from '@angular/material/dialog';
-import { WeekPickModel } from '../../models/week-pick-model';
+import { Component, ElementRef, EventEmitter, OnInit, Output, ViewChild } from '@angular/core';
+import { WeekPickModel, WorkingTime } from '../../models/week-pick-model';
+import { WeekDays } from '@global-models/weekDays.model';
 
 @Component({
   selector: 'app-time-picker-pop-up',
@@ -8,16 +8,72 @@ import { WeekPickModel } from '../../models/week-pick-model';
   styleUrls: ['./time-picker-popup.component.scss']
 })
 export class TimePickerPopupComponent implements OnInit {
-  public fromInput: string;
-  public toInput: string;
+  @Output()
+  public timeOfWork = new EventEmitter<WorkingTime[]>();
   public selectTheWorkDay: WeekPickModel[] = [
-    { dayOfWeek: 'Понеділок', timeFrom: '', timeTo: '', fromSelected: [], toSelected: [], isSelected: false },
-    { dayOfWeek: 'Вівторок', timeFrom: '', timeTo: '', fromSelected: [], toSelected: [], isSelected: false },
-    { dayOfWeek: 'Середа', timeFrom: '', timeTo: '', fromSelected: [], toSelected: [], isSelected: false },
-    { dayOfWeek: 'Чертвер', timeFrom: '', timeTo: '', fromSelected: [], toSelected: [], isSelected: false },
-    { dayOfWeek: `П'ятниця`, timeFrom: '', timeTo: '', fromSelected: [], toSelected: [], isSelected: false },
-    { dayOfWeek: 'Субота', timeFrom: '', timeTo: '', fromSelected: [], toSelected: [], isSelected: false },
-    { dayOfWeek: 'Неділя', timeFrom: '', timeTo: '', fromSelected: [], toSelected: [], isSelected: false }
+    {
+      dayToDisplay: 'places.days.monday',
+      timeFrom: '',
+      timeTo: '',
+      fromSelected: [],
+      toSelected: [],
+      isSelected: false,
+      dayToSend: WeekDays.MONDAY
+    },
+    {
+      dayToDisplay: 'places.days.tuesday',
+      timeFrom: '',
+      timeTo: '',
+      fromSelected: [],
+      toSelected: [],
+      isSelected: false,
+      dayToSend: WeekDays.TUESDAY
+    },
+    {
+      dayToDisplay: 'places.days.wednesday',
+      timeFrom: '',
+      timeTo: '',
+      fromSelected: [],
+      toSelected: [],
+      isSelected: false,
+      dayToSend: WeekDays.WEDNESDAY
+    },
+    {
+      dayToDisplay: 'places.days.thursday',
+      timeFrom: '',
+      timeTo: '',
+      fromSelected: [],
+      toSelected: [],
+      isSelected: false,
+      dayToSend: WeekDays.THURSDAY
+    },
+    {
+      dayToDisplay: 'places.days.friday',
+      timeFrom: '',
+      timeTo: '',
+      fromSelected: [],
+      toSelected: [],
+      isSelected: false,
+      dayToSend: WeekDays.FRIDAY
+    },
+    {
+      dayToDisplay: 'places.days.saturday',
+      timeFrom: '',
+      timeTo: '',
+      fromSelected: [],
+      toSelected: [],
+      isSelected: false,
+      dayToSend: WeekDays.SATURDAY
+    },
+    {
+      dayToDisplay: 'places.days.sunday',
+      timeFrom: '',
+      timeTo: '',
+      fromSelected: [],
+      toSelected: [],
+      isSelected: false,
+      dayToSend: WeekDays.SUNDAY
+    }
   ];
   private readonly timePickHours = [
     '08:00',
@@ -51,7 +107,7 @@ export class TimePickerPopupComponent implements OnInit {
     '22:00'
   ];
 
-  constructor(private matDialogRef: MatDialogRef<TimePickerPopupComponent>) {}
+  constructor() {}
   ngOnInit(): void {
     const fromSelect: string[] = this.timePickHours.slice(0, -1);
     const toSelect: string[] = this.timePickHours.slice(1);
@@ -66,6 +122,7 @@ export class TimePickerPopupComponent implements OnInit {
     const toSelect: string[] = this.timePickHours.slice(1);
     const fromIdx = fromSelect.indexOf(this.selectTheWorkDay[i].timeFrom);
     this.selectTheWorkDay[i].toSelected = toSelect.slice(fromIdx);
+    this.save();
   }
 
   onTimeToChange(i: number): void {
@@ -73,19 +130,25 @@ export class TimePickerPopupComponent implements OnInit {
     const toSelect: string[] = this.timePickHours.slice(1);
     const toIdx = toSelect.indexOf(this.selectTheWorkDay[i].timeTo);
     this.selectTheWorkDay[i].fromSelected = fromSelect.slice(0, toIdx + 1);
+    this.save();
   }
 
   save(): void {
-    const workingDays = this.selectTheWorkDay.filter((day) => !!day.isSelected).map((day) => day.dayOfWeek);
-
-    this.matDialogRef.close({ from: this.fromInput, to: this.toInput, dayOfWeek: workingDays });
-  }
-
-  cancel(): void {
-    this.matDialogRef.close();
+    this.timeOfWork.emit(
+      this.selectTheWorkDay.map((day): WorkingTime => {
+        return { dayOfWeek: day.dayToSend, timeTo: day.timeTo, timeFrom: day.timeFrom, isSelected: day.isSelected };
+      })
+    );
   }
 
   setTime(index) {
     this.selectTheWorkDay[index].isSelected = !this.selectTheWorkDay[index].isSelected;
+    if (!this.selectTheWorkDay[index].isSelected) {
+      this.selectTheWorkDay[index].toSelected = this.timePickHours;
+      this.selectTheWorkDay[index].fromSelected = this.timePickHours;
+      this.selectTheWorkDay[index].timeFrom = '';
+      this.selectTheWorkDay[index].timeTo = '';
+    }
+    this.save();
   }
 }

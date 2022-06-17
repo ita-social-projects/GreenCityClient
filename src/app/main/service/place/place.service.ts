@@ -15,6 +15,7 @@ import { PlaceUpdatedDto } from '../../component/admin/models/placeUpdatedDto.mo
 import { NewsTagInterface } from '@eco-news-models/eco-news-model';
 import { environment } from '@environment/environment';
 import { FormGroup } from '@angular/forms';
+import { CreatePlaceModel } from '../../component/places/models/create-place.model';
 
 @Injectable({
   providedIn: 'root'
@@ -128,5 +129,9 @@ export class PlaceService {
 
   public getAllFilterPlaceCategories(): Observable<FilterPlaceCategories[]> {
     return this.http.get<FilterPlaceCategories[]>(`${this.backEnd}place/v2/filteredPlacesCategories`);
+  }
+
+  createPlace(createPlace: CreatePlaceModel) {
+    return this.http.post(`${this.backEnd}place/v2/save`, createPlace);
   }
 }
