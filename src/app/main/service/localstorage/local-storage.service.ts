@@ -204,6 +204,11 @@ export class LocalStorageService {
     localStorage.removeItem('anotherClient');
   }
 
+  public removeUbsOrderAndPersonalData(): void {
+    localStorage.removeItem('UBSpersonalData');
+    localStorage.removeItem('UBSorderData');
+  }
+
   public getUbsPersonalData(): any {
     return localStorage.getItem('UBSpersonalData') === 'undefined' ? false : JSON.parse(localStorage.getItem('UBSpersonalData'));
   }
