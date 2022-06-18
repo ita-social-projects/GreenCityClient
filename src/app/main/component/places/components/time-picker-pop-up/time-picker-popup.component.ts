@@ -140,7 +140,7 @@ export class TimePickerPopupComponent implements OnInit {
     );
   }
 
-  setTime(index) {
+  setTime(index: number): void {
     this.selectTheWorkDay[index].isSelected = !this.selectTheWorkDay[index].isSelected;
     if (!this.selectTheWorkDay[index].isSelected) {
       this.selectTheWorkDay[index].toSelected = this.timePickHours;
