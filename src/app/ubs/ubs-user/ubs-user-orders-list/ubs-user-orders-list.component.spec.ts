@@ -8,6 +8,7 @@ import { LocalizedCurrencyPipe } from 'src/app/shared/localized-currency-pipe/lo
 import { UbsUserOrderPaymentPopUpComponent } from './ubs-user-order-payment-pop-up/ubs-user-order-payment-pop-up.component';
 import { RouterTestingModule } from '@angular/router/testing';
 import { UbsUserOrdersListComponent } from './ubs-user-orders-list.component';
+import { HttpClientModule } from '@angular/common/http';
 
 describe('UbsUserOrdersListComponent', () => {
   let component: UbsUserOrdersListComponent;
@@ -24,7 +25,14 @@ describe('UbsUserOrdersListComponent', () => {
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       declarations: [UbsUserOrdersListComponent, LocalizedCurrencyPipe],
-      imports: [MatDialogModule, MatExpansionModule, BrowserAnimationsModule, TranslateModule.forRoot(), RouterTestingModule],
+      imports: [
+        MatDialogModule,
+        MatExpansionModule,
+        BrowserAnimationsModule,
+        TranslateModule.forRoot(),
+        HttpClientModule,
+        RouterTestingModule
+      ],
       providers: [{ provide: MatDialog, useValue: matDialogMock }],
       schemas: [CUSTOM_ELEMENTS_SCHEMA]
     }).compileComponents();
