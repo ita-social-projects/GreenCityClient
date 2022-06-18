@@ -9,7 +9,9 @@ import { FilterPlaceService } from '@global-service/filtering/filter-place.servi
 import { PlaceStatus } from '@global-models/placeStatus.model';
 import { FavoritePlaceService } from '@global-service/favorite-place/favorite-place.service';
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
-import { MatDialogModule } from '@angular/material/dialog';
+import { MatDialog, MatDialogModule } from '@angular/material/dialog';
+import { CreatePlaceModel, OpeningHoursDto } from './models/create-place.model';
+import { Location } from '@angular-material-extensions/google-maps-autocomplete/lib/interfaces/location.interface';
 
 describe('PlacesComponent', () => {
   let component: PlacesComponent;
@@ -21,9 +23,22 @@ describe('PlacesComponent', () => {
 
   const localStorageServiceMock: LocalStorageService = jasmine.createSpyObj('LocalStorageService', ['getCurrentLanguage']);
 
-  const placeServiceMock: PlaceService = jasmine.createSpyObj('PlaceService', ['getPlaceInfo', 'updatePlaces']);
+  const locationAddressAndGeoDtoMock: any = {
+    locationAddressAndGeoDto: {
+      lat: 33.2,
+      lng: 33.4
+    }
+  };
+
+  const fakeLocation: Location = {
+    latitude: 33.2,
+    longitude: 33.4
+  };
+
+  const placeServiceMock: PlaceService = jasmine.createSpyObj('PlaceService', ['getPlaceInfo', 'updatePlaces', 'createPlace']);
   placeServiceMock.places$ = new Subject<Place[]>();
   placeServiceMock.getAllPresentTags = () => of(tagsArray);
+  placeServiceMock.createPlace = () => of(locationAddressAndGeoDtoMock);
 
   const filterPlaceServiceMock: FilterPlaceService = jasmine.createSpyObj('FilterPlaceService', ['updateFiltersDto']);
   filterPlaceServiceMock.filtersDto$ = new BehaviorSubject<any>({ status: PlaceStatus.APPROVED });
@@ -34,7 +49,22 @@ describe('PlacesComponent', () => {
     'deleteFavoritePlace',
     'addFavoritePlace'
   ]);
+  const openingHour: OpeningHoursDto[] = [
+    {
+      weekDay: 'Test',
+      closeTime: '20:00',
+      openTime: '08:00'
+    }
+  ];
+  const parametersToSend: CreatePlaceModel = {
+    categoryName: 'Test',
+    locationName: 'Test',
+    placeName: 'Test',
+    openingHoursList: openingHour
+  };
   favoritePlaceServiceMock.favoritePlaces$ = new BehaviorSubject<Place[]>([]);
+  const matDialogFake = jasmine.createSpyObj('matDialog', ['open']);
+  matDialogFake.open.and.returnValue({ afterClosed: () => of(parametersToSend) });
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
@@ -56,6 +86,10 @@ describe('PlacesComponent', () => {
         {
           provide: FavoritePlaceService,
           useValue: favoritePlaceServiceMock
+        },
+        {
+          provide: MatDialog,
+          useValue: matDialogFake
         }
       ],
       schemas: [CUSTOM_ELEMENTS_SCHEMA]
@@ -70,5 +104,18 @@ describe('PlacesComponent', () => {
 
   it('should create', () => {
     expect(component).toBeTruthy();
+  });
+
+  it('should initialize with correct parameters', () => {
+    component.ngOnInit();
+
+    expect(component.tagList).toEqual(tagsArray);
+  });
+
+  it('Should open popup, and after closed receive data', () => {
+    const spy = spyOn(component, 'onLocationSelected');
+    component.openTimePickerPopUp();
+    expect(spy).toHaveBeenCalled();
+    expect(spy).toHaveBeenCalledWith(fakeLocation);
   });
 });

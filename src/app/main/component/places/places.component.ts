@@ -1,12 +1,12 @@
 import { TranslateService } from '@ngx-translate/core';
-import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
 import { MatDrawer } from '@angular/material/sidenav';
 import { PlaceService } from '@global-service/place/place.service';
-import { redIcon, greenIcon, searchIcon, notification, share, starUnfilled, starHalf, star } from '../../image-pathes/places-icons.js';
+import { greenIcon, notification, redIcon, searchIcon, share, star, starHalf, starUnfilled } from '../../image-pathes/places-icons.js';
 import { Place } from './models/place';
 import { FilterPlaceService } from '@global-service/filtering/filter-place.service';
-import { debounceTime, take, takeUntil } from 'rxjs/operators';
+import { debounceTime, take } from 'rxjs/operators';
 import { LatLngBounds, LatLngLiteral } from '@agm/core/services/google-maps-types';
 import { MapBoundsDto } from './models/map-bounds-dto';
 import { MoreOptionsFormValue } from './models/more-options-filter.model';
@@ -283,7 +283,6 @@ export class PlacesComponent implements OnInit {
   }
 
   onLocationSelected(event: Location) {
-    console.log(123);
     this.map.setCenter({
       lat: event.latitude,
       lng: event.longitude

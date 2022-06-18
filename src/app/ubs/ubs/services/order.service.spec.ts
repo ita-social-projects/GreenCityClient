@@ -34,10 +34,6 @@ describe('OrderService', () => {
     lastName: '',
     email: '',
     phoneNumber: '',
-    anotherClientFirstName: '',
-    anotherClientLastName: '',
-    anotherClientEmail: '',
-    anotherClientPhoneNumber: '',
     addressComment: '',
     city: '',
     cityEn: '',
@@ -49,7 +45,11 @@ describe('OrderService', () => {
     entranceNumber: '',
     houseNumber: '',
     longitude: 1,
-    latitude: 0
+    latitude: 0,
+    senderFirstName: '',
+    senderLastName: '',
+    senderEmail: '',
+    senderPhoneNumber: ''
   };
   const orderDetailsMock = {
     bags: [],

@@ -1,15 +1,14 @@
-import { Component, EventEmitter, OnDestroy, OnInit, Output } from '@angular/core';
+import { Component, EventEmitter, OnInit, Output } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { PlaceService } from '@global-service/place/place.service';
 import { NewsTagInterface } from '@user-models/news.model';
-import { take, takeUntil } from 'rxjs/operators';
+import { take } from 'rxjs/operators';
 import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
 import { FilterPlaceCategories } from '../../models/place';
 import { MatDialogRef } from '@angular/material/dialog';
 import { WorkingTime } from '../../models/week-pick-model';
 import { CreatePlaceModel, OpeningHoursDto } from '../../models/create-place.model';
 import { TranslateService } from '@ngx-translate/core';
-import { ReplaySubject, Subject } from 'rxjs';
 
 @Component({
   selector: 'app-add-place',
@@ -26,15 +25,14 @@ export class AddPlaceComponent implements OnInit {
   public timeArr: Array<string> = [];
   public workingTime: WorkingTime[];
   public workingTimeIsValid: boolean;
-  private destroy$: Subject<boolean> = new Subject<boolean>();
-  @Output() private getAddressData: any = new EventEmitter<any>();
+  @Output() getAddressData: any = new EventEmitter<any>();
 
   constructor(
     private fb: FormBuilder,
     private placeService: PlaceService,
     public localStorageService: LocalStorageService,
-    private matDialogRef: MatDialogRef<AddPlaceComponent>,
-    private translate: TranslateService
+    public matDialogRef: MatDialogRef<AddPlaceComponent>,
+    public translate: TranslateService
   ) {}
 
   get type() {
@@ -106,7 +104,8 @@ export class AddPlaceComponent implements OnInit {
         }
       });
   }
-  private bindLang(lang: string): void {
+
+  public bindLang(lang: string): void {
     this.translate.setDefaultLang(lang);
   }
 }

@@ -14,7 +14,6 @@ import { BulkUpdatePlaceStatus } from '../../model/place/bulk-update-place-statu
 import { PlaceUpdatedDto } from '../../component/admin/models/placeUpdatedDto.model';
 import { NewsTagInterface } from '@eco-news-models/eco-news-model';
 import { environment } from '@environment/environment';
-import { FormGroup } from '@angular/forms';
 import { CreatePlaceModel } from '../../component/places/models/create-place.model';
 
 @Injectable({

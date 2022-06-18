@@ -36,6 +36,9 @@ export interface IAddressExportDetails {
   addressRegionEng: string;
   addressStreet: string;
   addressStreetEng: string;
+  entranceNumber: string;
+  houseCorpus: string;
+  houseNumber: string;
 }
 
 export interface IBags {

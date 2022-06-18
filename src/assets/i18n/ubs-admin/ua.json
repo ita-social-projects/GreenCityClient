@@ -9,6 +9,7 @@
     "surname": "Прізвище",
     "contacts": "Контакти",
     "email": "Електронна скринька",
+    "alternative-email": "Альтернативна скринька",
     "phone": "№ телефону",
     "address": "Адреса",
     "city": "Місто",
@@ -384,6 +385,7 @@
     "order-date": "Дата замовлення",
     "order-payment-status": "Статус оплати",
     "payment-amount": "Сума замовлення",
+    "amount-due": "Сума до оплати",
     "btn": {
       "cancel": "Скасувати",
       "pay": "Оплатити",

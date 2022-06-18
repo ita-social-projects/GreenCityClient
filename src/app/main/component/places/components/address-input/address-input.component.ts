@@ -1,4 +1,4 @@
-import { Component, EventEmitter, forwardRef, OnDestroy, OnInit, Output } from '@angular/core';
+import { Component, EventEmitter, forwardRef, OnInit, Output } from '@angular/core';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 import { TranslateService } from '@ngx-translate/core';
 import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
@@ -50,7 +50,7 @@ export class AddressInputComponent implements ControlValueAccessor, OnInit {
     this.value = content;
   }
 
-  private bindLang(lang: string): void {
+  bindLang(lang: string): void {
     this.translate.setDefaultLang(lang);
   }
 }

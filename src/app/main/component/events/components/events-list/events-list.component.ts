@@ -3,6 +3,7 @@ import { EventPageResponceDto, EventResponseDto, PaginationInterface } from '../
 import { EventsService } from '../../services/events.service';
 import { UserOwnAuthService } from '@auth-service/user-own-auth.service';
 import { ReplaySubject } from 'rxjs';
+import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
 
 @Component({
   selector: 'app-events-list',
@@ -27,9 +28,14 @@ export class EventsListComponent implements OnInit, OnDestroy {
     };
   }
 
-  constructor(private eventService: EventsService, private userOwnAuthService: UserOwnAuthService) {}
+  constructor(
+    private eventService: EventsService,
+    private userOwnAuthService: UserOwnAuthService,
+    private localStorageService: LocalStorageService
+  ) {}
 
   ngOnInit(): void {
+    this.localStorageService.setEditMode('canUserEdit', false);
     this.checkUserSingIn();
     this.userOwnAuthService.getDataFromLocalStorage();
 
@@ -37,6 +43,10 @@ export class EventsListComponent implements OnInit, OnDestroy {
       this.eventsList = [...res.page];
       this.total = res.totalElements;
     });
+  }
+
+  public checkPagination(): boolean {
+    return this.total > this.items;
   }
 
   private checkUserSingIn(): void {

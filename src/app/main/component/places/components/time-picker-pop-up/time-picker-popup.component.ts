@@ -1,4 +1,4 @@
-import { Component, ElementRef, EventEmitter, OnInit, Output, ViewChild } from '@angular/core';
+import { Component, EventEmitter, OnInit, Output } from '@angular/core';
 import { WeekPickModel, WorkingTime } from '../../models/week-pick-model';
 import { WeekDays } from '@global-models/weekDays.model';
 
@@ -107,7 +107,6 @@ export class TimePickerPopupComponent implements OnInit {
     '22:00'
   ];
 
-  constructor() {}
   ngOnInit(): void {
     const fromSelect: string[] = this.timePickHours.slice(0, -1);
     const toSelect: string[] = this.timePickHours.slice(1);
