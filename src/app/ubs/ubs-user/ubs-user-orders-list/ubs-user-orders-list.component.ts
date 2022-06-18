@@ -9,6 +9,7 @@ import { takeUntil } from 'rxjs/operators';
 import { Bag, OrderDetails, PersonalData } from '../../ubs/models/ubs.interface';
 import { Router } from '@angular/router';
 import { UBSOrderFormService } from '../../ubs/services/ubs-order-form.service';
+import { OrderService } from '../../ubs/services/order.service';
 
 @Component({
   selector: 'app-ubs-user-orders-list',
@@ -29,7 +30,8 @@ export class UbsUserOrdersListComponent implements OnInit, OnDestroy {
     public dialog: MatDialog,
     private localStorageService: LocalStorageService,
     private router: Router,
-    public ubsOrderService: UBSOrderFormService
+    public ubsOrderService: UBSOrderFormService,
+    public orderService: OrderService
   ) {}
 
   ngOnInit(): void {
@@ -71,7 +73,7 @@ export class UbsUserOrdersListComponent implements OnInit, OnDestroy {
 
   public openOrderPaymentDialog(order: IUserOrderInfo): void {
     if (order.paymentStatusEng === 'Unpaid') {
-      this.getUserData();
+      this.getUserData(order);
       this.setDataForLocalStorage(order);
       const personalData = JSON.stringify(this.personalDetails);
       const orderData = JSON.stringify(this.orderDetails);
@@ -96,9 +98,17 @@ export class UbsUserOrdersListComponent implements OnInit, OnDestroy {
     return bag ? bag.count : null;
   }
 
-  public getUserData(): void {
-    this.localStorageService.removeUbsOrderData();
-    this.personalDetails = this.ubsOrderService.getPersonalData();
+  public getUserData(order: IUserOrderInfo): void {
+    this.orderService
+      .getPersonalData()
+      .pipe(takeUntil(this.destroy$))
+      .subscribe((personalData: PersonalData) => {
+        this.personalDetails = personalData;
+        this.personalDetails.senderEmail = order.sender.senderEmail;
+        this.personalDetails.senderFirstName = order.sender.senderName;
+        this.personalDetails.senderLastName = order.sender.senderSurname;
+        this.personalDetails.senderPhoneNumber = order.sender.senderPhone;
+      });
   }
 
   public setDataForLocalStorage(order: IUserOrderInfo): void {
@@ -141,10 +151,6 @@ export class UbsUserOrdersListComponent implements OnInit, OnDestroy {
       pointsToUse: 0,
       total: order.orderFullPrice
     };
-    this.personalDetails.senderEmail = order.sender.senderEmail;
-    this.personalDetails.senderFirstName = order.sender.senderName;
-    this.personalDetails.senderLastName = order.sender.senderSurname;
-    this.personalDetails.senderPhoneNumber = order.sender.senderPhone;
   }
 
   public openOrderCancelDialog(order: IUserOrderInfo): void {
