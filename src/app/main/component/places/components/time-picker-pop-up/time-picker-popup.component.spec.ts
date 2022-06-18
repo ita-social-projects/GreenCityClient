@@ -92,7 +92,6 @@ describe('TimePickerPopUpComponent', () => {
       { dayOfWeek: WeekDays.SUNDAY, timeFrom: '', timeTo: '', isSelected: false }
     ];
     component.save();
-    console.log(component.timeOfWork);
     expect(spy).toHaveBeenCalled();
     expect(spy).toHaveBeenCalledWith(params);
   });
