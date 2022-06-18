@@ -44,7 +44,6 @@ export class MapEventComponent implements OnInit, OnDestroy {
   }
 
   public onMapReady(map: any): void {
-    console.log(map, 'Map');
     this.map = map;
     if (this.data.lat) {
       this.map.setCenter({

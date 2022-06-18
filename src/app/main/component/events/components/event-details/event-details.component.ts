@@ -90,12 +90,12 @@ export class EventDetailsComponent implements OnInit {
     this.sliderIndex = this.sliderIndex === this.imagesSlider.length - 1 ? 0 : ++this.sliderIndex;
   }
 
-  public moveLeft() {
+  public moveLeft(): void {
     this.sliderIndex = this.sliderIndex === 0 ? this.imagesSlider.length - 1 : --this.sliderIndex;
   }
 
-  openMap() {
-    const matDialogRef = this.dialog.open(MapEventComponent, {
+  public openMap(): void {
+    this.dialog.open(MapEventComponent, {
       data: this.mapDialogData,
       hasBackdrop: true,
       closeOnNavigation: true,

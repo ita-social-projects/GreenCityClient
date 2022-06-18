@@ -20,6 +20,14 @@ describe('MapEventComponent', () => {
     lng: 10
   };
 
+  const MarkerMock = {
+    location: {
+      lat: 5,
+      lng: 5
+    },
+    animation: ''
+  };
+
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       imports: [TranslateModule.forRoot(), RouterTestingModule, MatDialogModule, AgmCoreModule.forRoot()],
@@ -42,10 +50,27 @@ describe('MapEventComponent', () => {
   });
 
   it('ngOnInit data.lat should change', () => {
+    spyOn((component as any).matDialogRef, 'backdropClick').and.returnValue(of());
     component.data.lat = 20;
+    component.data.lng = 20;
+    component.eventPlace.animation = '';
     component.ngOnInit();
     expect(component.eventPlace.location.lat).toBe(20);
+    expect(component.eventPlace.location.lng).toBe(20);
+    expect(component.eventPlace.animation).toBe('DROP');
+    expect((component as any).matDialogRef.backdropClick).toHaveBeenCalled();
     component.data.lat = 10;
+    component.data.lng = 10;
+  });
+
+  it('markerOver expect marker animation to be BOUNCE', () => {
+    component.markerOver(MarkerMock);
+    expect(MarkerMock.animation).toBe('BOUNCE');
+  });
+
+  it('markerOut expect marker animation to be empty', () => {
+    component.markerOut(MarkerMock);
+    expect(MarkerMock.animation).toBe('');
   });
 
   it('closeMap expect matDialogRef close have been called', () => {
