@@ -31,7 +31,8 @@ describe('UbsUserProfilePageComponent', () => {
     alternateEmail: 'blackStar@gmail.com',
     recipientName: 'Black',
     recipientPhone: '+380972333333',
-    recipientSurname: 'Star'
+    recipientSurname: 'Star',
+    hasPassword: true
   };
 
   let component: UbsUserProfilePageComponent;

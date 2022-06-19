@@ -126,7 +126,8 @@ export class UbsUserProfilePageComponent implements OnInit {
         alternateEmail: this.userForm.value.alternateEmail,
         recipientName: this.userForm.value.recipientName,
         recipientPhone: this.userForm.value.recipientPhone,
-        recipientSurname: this.userForm.value.recipientSurname
+        recipientSurname: this.userForm.value.recipientSurname,
+        hasPassword: this.userProfile.hasPassword
       };
       this.userProfile.addressDto.forEach((address, i) => {
         const updatedAddres = {
@@ -162,8 +163,12 @@ export class UbsUserProfilePageComponent implements OnInit {
   }
 
   openChangePasswordDialog(): void {
+    console.log(this.userProfile.hasPassword);
     this.dialog.open(UbsProfileChangePasswordPopUpComponent, {
-      hasBackdrop: true
+      hasBackdrop: true,
+      data: {
+        hasPassword: this.userProfile.hasPassword
+      }
     });
   }
 
