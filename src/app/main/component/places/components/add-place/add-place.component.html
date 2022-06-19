@@ -40,6 +40,15 @@
     <button class="btn-cancel btn" (click)="cancel()">{{ 'places.btn.cancel' | translate }}</button>
     <button class="btn-add btn" [disabled]="addPlaceForm.invalid || !workingTimeIsValid" (click)="addPlace()">
       {{ 'places.btn.add' | translate }}
+      <span class="message-details">
+        {{ 'places.validation.information-message' | translate }}
+        <ul>
+          <li *ngIf="type.invalid">{{ 'places.validation.category' | translate }}</li>
+          <li *ngIf="name.invalid">{{ 'places.validation.name' | translate }}</li>
+          <li *ngIf="address.invalid">{{ 'places.validation.address' | translate }}</li>
+          <li *ngIf="!workingTimeIsValid">{{ 'places.validation.time' | translate }}</li>
+        </ul>
+      </span>
     </button>
   </div>
 </div>

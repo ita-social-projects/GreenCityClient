@@ -210,6 +210,13 @@
     "btn": {
       "cancel": "Cancel",
       "add": "Add"
+    },
+    "validation": {
+      "information-message": "Fill required fields:",
+      "category": "Choose the category",
+      "name": "Enter the name of place",
+      "address": "Enter the address of place",
+      "time": "Choose the time"
     }
   },
   "update-cafe": {

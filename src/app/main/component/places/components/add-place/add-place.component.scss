@@ -24,6 +24,33 @@
   background-color: var(--ubs-grey-white);
   padding: 20px 20px 24px;
   max-width: 100%;
+
+  .message-details {
+    background-color: var(--primary-white);
+    color: var(--error-ligh-red);
+    font-size: 14px;
+    font-weight: 100;
+    text-align: center;
+    visibility: hidden;
+    box-shadow: 0 0 8px rgba(70, 70, 70, 0.25);
+    width: 220px;
+    opacity: 0;
+    border-radius: 6px;
+    position: absolute;
+    transition: opacity 0.3s;
+    right: 0;
+    bottom: 50px;
+
+    ul li {
+      width: fit-content;
+      text-align: justify;
+    }
+  }
+
+  .btn-add[disabled]:hover .message-details {
+    visibility: visible;
+    opacity: 1;
+  }
 }
 
 .btn-wrapper {
@@ -63,9 +90,11 @@
     color: var(--ubs-grey-white);
     background-color: var(--primary-green);
     margin-left: 15px;
+    position: relative;
 
     &:disabled {
-      background-color: var(--ubs-secondary-grey);
+      background-color: var(--success-light-green);
+      opacity: 1;
     }
   }
 
