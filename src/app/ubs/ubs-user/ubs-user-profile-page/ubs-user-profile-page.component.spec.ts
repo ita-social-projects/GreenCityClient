@@ -185,7 +185,8 @@ describe('UbsUserProfilePageComponent', () => {
       alternateEmail: component.userForm.value.alternateEmail,
       recipientName: component.userForm.value.recipientName,
       recipientPhone: component.userForm.value.recipientPhone,
-      recipientSurname: component.userForm.value.recipientSurname
+      recipientSurname: component.userForm.value.recipientSurname,
+      hasPassword: true
     };
     expect(submitData).toEqual(userProfileDataMock);
     expect(clientProfileServiceMock.postDataClientProfile).toHaveBeenCalledWith(submitData);

@@ -8,6 +8,7 @@ import { UbsProfileChangePasswordPopUpComponent } from './ubs-profile-change-pas
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { UpdatePasswordDto } from '@global-models/updatePasswordDto';
 import { of } from 'rxjs';
+import { MatSnackBarComponent } from '@global-errors/mat-snack-bar/mat-snack-bar.component';
 
 describe('UbsProfileChangePasswordPopUpComponent', () => {
   let component: UbsProfileChangePasswordPopUpComponent;
@@ -18,6 +19,7 @@ describe('UbsProfileChangePasswordPopUpComponent', () => {
 
   const changePasswordServiceFake = jasmine.createSpyObj('ChangePasswordService', ['changePassword']);
   changePasswordServiceFake.changePassword.and.returnValue(of({}));
+  const MatSnackBarMock = jasmine.createSpyObj('MatSnackBarComponent', ['openSnackBar']);
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
@@ -26,6 +28,7 @@ describe('UbsProfileChangePasswordPopUpComponent', () => {
       providers: [
         { provide: MAT_DIALOG_DATA, useValue: {} },
         { provide: ChangePasswordService, useValue: changePasswordServiceFake },
+        { provide: MatSnackBarComponent, useValue: MatSnackBarMock },
         FormBuilder
       ],
       schemas: [CUSTOM_ELEMENTS_SCHEMA]
@@ -35,6 +38,7 @@ describe('UbsProfileChangePasswordPopUpComponent', () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(UbsProfileChangePasswordPopUpComponent);
     component = fixture.componentInstance;
+    component.data.hasPassword = true;
     fixture.detectChanges();
   });
 
@@ -52,13 +56,24 @@ describe('UbsProfileChangePasswordPopUpComponent', () => {
   });
 
   it('initForm should create', () => {
+    component.data.hasPassword = true;
     const initFormFake = {
       password: '',
       currentPassword: '',
       confirmPassword: ''
     };
+
+    const initFormFakeForGoogleAuth = {
+      password: '',
+      confirmPassword: ''
+    };
+
     component.initForm();
-    expect(component.formConfig.value).toEqual(initFormFake);
+    if (component.data.hasPassword) {
+      expect(component.formConfig.value).toEqual(initFormFake);
+    } else {
+      expect(component.formConfig.value).toEqual(initFormFakeForGoogleAuth);
+    }
   });
 
   it('submitting a form', () => {

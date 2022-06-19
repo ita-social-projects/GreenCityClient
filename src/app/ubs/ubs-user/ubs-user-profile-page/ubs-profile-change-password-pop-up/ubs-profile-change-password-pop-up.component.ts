@@ -50,7 +50,7 @@ export class UbsProfileChangePasswordPopUpComponent implements OnInit {
 
   checkConfirmPassword(group: FormGroup) {
     const password = group.get('password').value;
-    const confirmPassword = group.get('currentPassword').value;
+    const confirmPassword = group.get('confirmPassword').value;
     return password === confirmPassword ? null : { notSame: true };
   }
 

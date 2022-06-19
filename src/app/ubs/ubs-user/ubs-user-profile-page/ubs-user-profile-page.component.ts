@@ -163,7 +163,6 @@ export class UbsUserProfilePageComponent implements OnInit {
   }
 
   openChangePasswordDialog(): void {
-    console.log(this.userProfile.hasPassword);
     this.dialog.open(UbsProfileChangePasswordPopUpComponent, {
       hasBackdrop: true,
       data: {
