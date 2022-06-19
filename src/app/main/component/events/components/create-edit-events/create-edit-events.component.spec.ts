@@ -1,6 +1,6 @@
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
-import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { FormControl, FormGroup, FormsModule, NG_VALUE_ACCESSOR, ReactiveFormsModule } from '@angular/forms';
 import { RouterTestingModule } from '@angular/router/testing';
 import { MatSnackBarComponent } from '@global-errors/mat-snack-bar/mat-snack-bar.component';
 import { TranslateModule } from '@ngx-translate/core';
@@ -19,8 +19,9 @@ describe('CreateEditEventsComponent', () => {
     totalElements: 4
   };
 
-  const EventsServiceMock = jasmine.createSpyObj('EventsService', ['createEvent']);
+  const EventsServiceMock = jasmine.createSpyObj('EventsService', ['createEvent', 'editEvent']);
   EventsServiceMock.createEvent = () => of(MockReqest);
+  EventsServiceMock.editEvent = () => of(true);
 
   const MatSnackBarMock = jasmine.createSpyObj('MatSnackBarComponent', ['openSnackBar']);
   MatSnackBarMock.openSnackBar = (type: string) => {};
@@ -46,6 +47,12 @@ describe('CreateEditEventsComponent', () => {
     check: false
   };
 
+  const formDataMock: FormGroup = new FormGroup({
+    titleForm: new FormControl('title'),
+    description: new FormControl('1 day'),
+    eventDuration: new FormControl('titletitletitletitle')
+  });
+
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       imports: [TranslateModule.forRoot(), NgxPaginationModule, RouterTestingModule, FormsModule, ReactiveFormsModule],
@@ -61,6 +68,7 @@ describe('CreateEditEventsComponent', () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(CreateEditEventsComponent);
     component = fixture.componentInstance;
+    component.eventFormGroup = formDataMock;
     fixture.detectChanges();
   });
 
@@ -68,14 +76,14 @@ describe('CreateEditEventsComponent', () => {
     expect(component).toBeTruthy();
   });
 
-  it('ngOnInit expect titleForm to be true', () => {
-    component.titleForm = null;
+  it('ngOnInit expect eventFormGroup to be true', () => {
+    component.eventFormGroup = null;
     component.ngOnInit();
-    expect(component.titleForm).toBeTruthy();
+    expect(component.eventFormGroup).toBeTruthy();
   });
 
   it('checkTab', () => {
-    const tag = { name: 'name', isActive: true };
+    const tag = { nameEn: 'name', nameUa: 'імя', isActive: true };
     component.checkTab(tag);
     expect(tag.isActive).toBeFalsy();
   });
@@ -104,25 +112,20 @@ describe('CreateEditEventsComponent', () => {
     expect(component.isOpen).toBeTruthy();
   });
 
-  it('changeToClose xpect isOpen to be false', () => {
+  it('changeToClose expect isOpen to be false', () => {
     component.isOpen = true;
     component.changeToClose();
     expect(component.isOpen).toBeFalsy();
   });
 
   it('setDateCount dates length should be 3', () => {
-    component.setDateCount({ value: '3 day' } as any);
+    component.setDateCount(3);
     expect(component.dates.length).toBe(3);
   });
 
   it('getImageTosend imgArray length should be 1', () => {
     component.getImageTosend([new File(['some content'], 'text-file.txt')]);
     expect((component as any).imgArray.length).toBe(1);
-  });
-
-  it('changedEditor expect editorHTML to be <event>', () => {
-    component.changedEditor({ event: 'text-change', html: 'event', text: 'text' } as any);
-    expect(component.editorHTML).toBe('event');
   });
 
   it('setCoordsOnlOff  expect latitude to be 2', () => {
@@ -170,11 +173,15 @@ describe('CreateEditEventsComponent', () => {
 
   it('onSubmit expect isposting to be false', () => {
     component.isPosting = true;
-    const spy = spyOn(component.router, 'navigate');
-    component.titleForm.setValue('title');
     component.checkdates = true;
-
     component.contentValid = true;
+    component.tags[0].isActive = true;
+    const spy = spyOn(component.router, 'navigate');
+    component.eventFormGroup.patchValue({
+      titleForm: 'title',
+      eventDuration: '1 day',
+      description: 'descriptiondescriptiondescriptiondescription'
+    });
     component.onSubmit();
     expect(component.isPosting).toBeFalsy();
     expect(spy).toHaveBeenCalledTimes(1);

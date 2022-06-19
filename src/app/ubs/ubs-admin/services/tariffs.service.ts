@@ -82,4 +82,8 @@ export class TariffsService {
   editCourier(newCourier) {
     return this.http.put(`${mainUbsLink}/ubs/superAdmin/update-courier`, newCourier);
   }
+
+  editLocationName(newLocation): Observable<object> {
+    return this.http.post(`${mainUbsLink}/ubs/superAdmin/locations/edit`, newLocation);
+  }
 }

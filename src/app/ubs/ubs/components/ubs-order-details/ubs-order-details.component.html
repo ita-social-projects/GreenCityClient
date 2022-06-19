@@ -36,8 +36,8 @@
             <div class="col-2 form-group count">
               <input
                 formControlName="quantity{{ bag.id }}"
-                type="number"
                 class="shadow-none form-control input"
+                type="number"
                 [id]="'quantity' + bag.id"
                 min="0"
                 max="999"
@@ -45,6 +45,7 @@
                 [unmask]="false"
                 [imask]="{ mask: servicesMask }"
                 (change)="onQuantityChange(bag.id)"
+                (keypress)="($event.charCode >= 48 && $event.charCode < 58)"
               />
             </div>
             <span class="col-3 bag-name text-right"> {{ bag.quantity * bag.price | currency | localizedCurrency }}</span>

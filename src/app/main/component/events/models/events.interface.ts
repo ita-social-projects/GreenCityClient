@@ -4,6 +4,7 @@ export interface EventDTO {
   open: boolean;
   datesLocations: Array<Dates>;
   tags: Array<string>;
+  imagesTodelete?: Array<string>;
 }
 
 export interface Dates {
@@ -49,6 +50,7 @@ export interface EventImage {
 }
 
 export interface EventResponseDto {
+  currentPage: number;
   first: boolean;
   hasNext: boolean;
   hasPrevious: boolean;
@@ -61,27 +63,33 @@ export interface EventResponseDto {
 
 export interface EventPageResponceDto {
   additionalImages: Array<string>;
-  coordinates: {
-    latitude: number;
-    longitude: number;
-  };
   dates: Array<DateEventResponceDto>;
   description: any;
   id: number;
-  onlineLink: string;
   open: boolean;
   organizer: {
     id: number;
     name: string;
   };
+  tags: Array<TagDto>;
   title: string;
   titleImage: string;
 }
 
+export interface TagDto {
+  id: number;
+  nameUa: string;
+  nameEn: string;
+}
 export interface DateEventResponceDto {
-  eventDto: string;
+  coordinates: {
+    latitude: number;
+    longitude: number;
+  };
+  event: string;
   finishDate: string;
   id: number;
+  onlineLink: string;
   startDate: string;
 }
 
@@ -91,7 +99,8 @@ export interface OfflineDto {
 }
 
 export interface TagObj {
-  name: string;
+  nameUa: string;
+  nameEn: string;
   isActive: boolean;
 }
 
@@ -101,4 +110,10 @@ export interface DateFormObj {
   onlineLink?: string;
   place: string;
   startTime?: string;
+}
+
+export interface PaginationInterface {
+  itemsPerPage: number;
+  currentPage: number;
+  totalItems: number;
 }

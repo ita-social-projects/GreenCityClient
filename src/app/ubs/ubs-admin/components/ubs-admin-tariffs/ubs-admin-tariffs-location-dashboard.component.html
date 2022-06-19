@@ -11,8 +11,11 @@
         <img [src]="icons.arrowRight" class="arrowRight-img" alt="settings" />
       </button>
       <button mat-menu-item [matMenuTriggerFor]="edit" class="add-button">
-        <span class="menu-item">{{ 'ubs-tariffs.btn.edit' | translate }}</span>
+        <span class="menu-item">{{ 'ubs-tariffs.btn.edit_name' | translate }}</span>
         <img [src]="icons.arrowRight" class="arrowRight-img" alt="settings" />
+      </button>
+      <button mat-menu-item>
+        <span class="menu-item">{{ 'ubs-tariffs.btn.create_card' | translate }}</span>
       </button>
       <button mat-menu-item (click)="openDeactivateLocation()">
         <span class="menu-item">{{ 'ubs-tariffs.btn.deactivation' | translate }}</span>
@@ -62,7 +65,7 @@
           </mat-option>
         </mat-autocomplete>
         <mat-icon class="cross-img" (click)="region.setValue('')">close</mat-icon>
-        <img [src]="icons.arrowDown" class="arrowDown-img" alt="arrowDown" (click)="openAuto($event, autocompleteTriggerRegion, false)" />
+        <img [src]="icons.arrowDown" class="arrowDown-img" alt="arrowDown" (click)="openAuto($event, autocompleteTriggerRegion)" />
       </div>
       <div class="validation" *ngIf="region.invalid && region.touched">
         <div>Wrong input</div>
@@ -89,7 +92,7 @@
             <mat-checkbox [checked]="isChecked()" (change)="toggleSelectAll()" value="all"></mat-checkbox>
             Усі
           </mat-option>
-          <mat-option *ngFor="let item of filteredCities | async" [value]="item">
+          <mat-option *ngFor="let item of filteredCities" [value]="item">
             <mat-checkbox class="mr-1" [checked]="checkedCities.indexOf(item) >= 0"></mat-checkbox>
             <span class="checkbox-text">{{ item }}</span>
           </mat-option>
@@ -98,7 +101,7 @@
           [src]="icons.arrowDown"
           class="arrowDown-img"
           alt="arrowDown"
-          (click)="openAuto($event, autocompleteTriggerCity, city.disabled)"
+          (click)="openAuto($event, autocompleteTriggerCity)"
         />
       </div>
       <mat-chip-list #chipListCity aria-label="City selection">
@@ -152,7 +155,7 @@
 </div>
 <table class="table-location">
   <thead *ngIf="filteredLocations?.length !== 0">
-    <tr>
+     <tr>
       <th id="region">{{ 'ubs-tariffs.region' | translate }}</th>
       <th id="city">{{ 'ubs-tariffs.city' | translate }}</th>
       <th id="courier">{{ 'ubs-tariffs.courier' | translate }}</th>
@@ -189,7 +192,7 @@
         <img class="tariff-img mr-3" [src]="icons.crumbs" alt="crumbs" />
       </td>
       <mat-menu #crumbs="matMenu">
-        <button mat-menu-item (click)="openEditLocation()">
+        <button mat-menu-item>
           <span class="menu-item">{{ 'ubs-tariffs.btn.edit' | translate }}</span>
         </button>
         <button mat-menu-item (click)="openDeactivateLocation()">
@@ -204,7 +207,7 @@
           <span class="menu-item">{{ 'ubs-tariffs.btn.restore' | translate }}</span>
         </button>
       </mat-menu>
-    </tr>
+    </tr> 
   </tbody>
   <tbody *ngIf="locationCard && filteredLocations">
     <tr *ngFor="let location of locationCard" [ngClass]="{ 'disabled-col': location.status === 'Неактивно' }">
@@ -227,7 +230,7 @@
         <img class="tariff-img mr-3" [src]="icons.crumbs" alt="crumbs" />
       </td>
       <mat-menu #crumbs="matMenu">
-        <button mat-menu-item (click)="openEditLocation()">
+        <button mat-menu-item>
           <span class="menu-item">{{ 'ubs-tariffs.btn.edit' | translate }}</span>
         </button>
         <button mat-menu-item (click)="openDeactivateLocation()">

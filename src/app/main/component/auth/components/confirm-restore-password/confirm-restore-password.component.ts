@@ -1,6 +1,6 @@
 import { SignInIcons } from './../../../../image-pathes/sign-in-icons';
 import { RestoreDto } from './../../../../model/restroreDto';
-import { authImages } from './../../../../image-pathes/auth-images';
+import { authImages, ubsAuthImages } from './../../../../image-pathes/auth-images';
 import { Component, OnInit } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 import { AbstractControl, FormGroup, FormControl, FormBuilder } from '@angular/forms';
@@ -30,6 +30,7 @@ export class ConfirmRestorePasswordComponent implements OnInit {
   public form: any;
   public token: string;
   public restoreDto: RestoreDto;
+  public isUbs: boolean;
 
   constructor(
     private router: Router,
@@ -45,6 +46,7 @@ export class ConfirmRestorePasswordComponent implements OnInit {
     this.getFormFields();
     this.setPasswordBackendErr();
     this.getToken();
+    this.authImages = this.isUbs ? ubsAuthImages : authImages;
   }
 
   public initFormReactive(): void {
@@ -65,6 +67,7 @@ export class ConfirmRestorePasswordComponent implements OnInit {
   }
 
   private getToken(): void {
+    this.isUbs = this.router.url.includes('/ubs/');
     this.activatedRoute.queryParams.pipe(take(1)).subscribe((params) => {
       this.token = params[`token`];
     });
@@ -74,18 +77,18 @@ export class ConfirmRestorePasswordComponent implements OnInit {
     this.restoreDto.confirmPassword = this.confirmRestorePasswordForm.value.confirmPassword;
     this.restoreDto.password = this.confirmRestorePasswordForm.value.password;
     this.restoreDto.token = this.token;
+    this.restoreDto.isUbs = this.isUbs;
     this.changePasswordService.restorePassword(this.restoreDto).subscribe(
       (data) => {
         this.form = data;
+        this.router.navigate(this.isUbs ? ['ubs'] : ['']);
+        this.snackBar.openSnackBar(this.isUbs ? 'successConfirmPasswordUbs' : 'successConfirmPassword');
       },
       (error) => {
         this.form = error;
+        this.snackBar.openSnackBar('errorMessage', error);
       }
     );
-    setTimeout(() => {
-      this.router.navigate(['']);
-      this.snackBar.openSnackBar('successConfirmPassword');
-    }, 2000);
   }
 
   public setPasswordBackendErr(): void {
@@ -102,7 +105,7 @@ export class ConfirmRestorePasswordComponent implements OnInit {
   }
 
   public closeModal(): void {
-    this.router.navigate(['']);
+    this.router.navigate(this.isUbs ? ['ubs'] : ['']);
     this.snackBar.openSnackBar('exitConfirmRestorePassword');
   }
 }

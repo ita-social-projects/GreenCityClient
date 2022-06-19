@@ -2,8 +2,8 @@
   <img class="eco-news_list-img" [src]="checkNewsImage()" alt="Eco news image" />
   <div class="eco-news_list-content">
     <div class="filter-tag">
-      <p class="eco-news_list-tag d-inline-block" *ngFor="let tag of ecoNewsModel.tags">
-        {{ 'homepage.eco-news.tags.' + tag | lowercase | translate }}
+      <p class="eco-news_list-tag d-inline-block" *ngFor="let tag of tags">
+        {{ tag }}
       </p>
     </div>
     <div class="eco-news_list-content-box">

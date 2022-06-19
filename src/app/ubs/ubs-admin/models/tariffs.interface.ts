@@ -53,19 +53,19 @@ export interface Service {
 }
 
 export interface Locations {
-  locationsDto: {
-    latitude: number;
-    locationId: number;
-    locationTranslationDtoList: {
-      languageCode: string;
-      locationName: string;
-    };
-  };
+  locationsDto: LocationDto[];
   regionId: number;
   regionTranslationDtos: {
     regionName: string;
     languageCode: string;
   };
+}
+
+export interface LocationDto {
+  latitude: number;
+  locationId: number;
+  locationTranslationDtoList: Location[];
+  longitude: number;
 }
 
 export interface CreateLocation {
@@ -83,4 +83,11 @@ interface Region {
 interface Location {
   languageCode: string;
   locationName: string;
+}
+
+export interface EditLocationName {
+  nameEn: string;
+  nameUa: string;
+  locationId: number;
+  regionId: number;
 }

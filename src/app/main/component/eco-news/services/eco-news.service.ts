@@ -21,7 +21,7 @@ export class EcoNewsService implements OnDestroy {
   }
 
   public getAllPresentTags(): Observable<Array<NewsTagInterface>> {
-    return this.http.get<Array<NewsTagInterface>>(`${this.backEnd}tags/search?lang=${this.language}&type=${this.tagsType}`);
+    return this.http.get<Array<NewsTagInterface>>(`${this.backEnd}tags/v2/search?type=${this.tagsType}`);
   }
 
   public getEcoNewsListByPage(page: number, quantity: number) {

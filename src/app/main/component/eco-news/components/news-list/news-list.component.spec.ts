@@ -17,6 +17,7 @@ import { SharedModule } from 'src/app/shared/shared.module';
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 
 import { Store } from '@ngrx/store';
+import { Language } from '../../../../i18n/Language';
 
 describe('NewsListComponent', () => {
   let component: NewsListComponent;
@@ -26,11 +27,11 @@ describe('NewsListComponent', () => {
   ecoNewsServiceMock = jasmine.createSpyObj('EcoNewsService', ['getAllPresentTags', 'getNewsListByTags', 'getEcoNewsListByPage']);
   ecoNewsServiceMock.getAllPresentTags = () =>
     of([
-      { id: 1, name: 'News' },
-      { id: 2, name: 'Ads' },
-      { id: 3, name: 'Events' },
-      { id: 4, name: 'Initiatives' },
-      { id: 5, name: 'Education' }
+      { id: 1, name: 'News', nameUa: 'Новини' },
+      { id: 2, name: 'Ads', nameUa: 'Реклама' },
+      { id: 3, name: 'Events', nameUa: 'Події' },
+      { id: 4, name: 'Initiatives', nameUa: 'Ініціативи' },
+      { id: 5, name: 'Education', nameUa: 'Освіта' }
     ]);
   ecoNewsServiceMock.getNewsListByTags = () => new Observable();
   ecoNewsServiceMock.getEcoNewsListByPage = () => new Observable();
@@ -39,10 +40,12 @@ describe('NewsListComponent', () => {
   localStorageServiceMock = jasmine.createSpyObj('LocalStorageService', [
     'userIdBehaviourSubject',
     'languageBehaviourSubject',
-    'setCurentPage'
+    'setCurentPage',
+    'getCurrentLanguage'
   ]);
   localStorageServiceMock.userIdBehaviourSubject = new BehaviorSubject(1111);
   localStorageServiceMock.languageBehaviourSubject = new BehaviorSubject('en');
+  localStorageServiceMock.getCurrentLanguage = () => 'en' as Language;
 
   let userOwnAuthServiceMock: UserOwnAuthService;
   userOwnAuthServiceMock = jasmine.createSpyObj('UserOwnAuthService', ['getDataFromLocalStorage']);

@@ -64,6 +64,7 @@ export class UbsMainPageComponent implements OnInit, OnDestroy {
 
   preparingContent = [
     'ubs-homepage.ubs-courier.preparing.content.li_1',
+    'ubs-homepage.ubs-courier.preparing.content.li_1.1',
     'ubs-homepage.ubs-courier.preparing.content.li_2',
     'ubs-homepage.ubs-courier.preparing.content.li_3',
     'ubs-homepage.ubs-courier.preparing.content.li_4',
@@ -81,7 +82,6 @@ export class UbsMainPageComponent implements OnInit, OnDestroy {
   constructor(
     private router: Router,
     private dialog: MatDialog,
-    private localeStorageService: LocalStorageService,
     private checkTokenservice: CheckTokenService,
     private localStorageService: LocalStorageService,
     private orderService: OrderService

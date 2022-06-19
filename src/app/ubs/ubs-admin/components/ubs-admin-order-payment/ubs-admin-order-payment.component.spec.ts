@@ -7,8 +7,6 @@ import { OrderService } from '../../services/order.service';
 import { Store, StoreModule } from '@ngrx/store';
 
 import { UbsAdminOrderPaymentComponent } from './ubs-admin-order-payment.component';
-import { ChangingOrderPaymentStatus } from 'src/app/store/actions/bigOrderTable.actions';
-import { Subject } from 'rxjs';
 
 describe('UbsAdminOrderPaymentComponent', () => {
   let component: UbsAdminOrderPaymentComponent;

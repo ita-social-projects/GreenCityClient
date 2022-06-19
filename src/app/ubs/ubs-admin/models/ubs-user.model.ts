@@ -13,4 +13,5 @@ export interface NotificationBody {
   title: string;
   body?: string;
   isOpen?: boolean;
+  images?: Array<string>;
 }

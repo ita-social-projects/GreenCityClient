@@ -30,6 +30,7 @@ import {
   GetTable,
   SetColumnToDisplay
 } from 'src/app/store/actions/bigOrderTable.actions';
+import { MouseEvents } from 'src/app/shared/mouse-events';
 
 @Component({
   selector: 'app-ubs-admin-table',
@@ -88,6 +89,7 @@ export class UbsAdminTableComponent implements OnInit, AfterViewChecked, OnDestr
   noFiltersApplied = true;
   isFiltersOpened = false;
   public showPopUp: boolean;
+  mouseEvents = MouseEvents;
   resizableMousemove: () => void;
   resizableMouseup: () => void;
   @ViewChild(MatTable, { read: ElementRef }) private matTableRef: ElementRef;
@@ -522,11 +524,27 @@ export class UbsAdminTableComponent implements OnInit, AfterViewChecked, OnDestr
     this.router.navigate(['ubs-admin', 'order', `${id}`]);
   }
 
-  showTooltip(title, tooltip) {
+  showTooltip(event, title, tooltip) {
+    event.stopImmediatePropagation();
+
     const lengthStrUa = title.ua.split('').length;
     const lengthStrEn = title.en.split('').length;
     if ((this.currentLang === 'ua' && lengthStrUa > 17) || (this.currentLang === 'en' && lengthStrEn > 18)) {
       tooltip.toggle();
+    }
+
+    event.type === MouseEvents.MouseEnter ? this.calculateTextWidth(event, tooltip) : tooltip.hide();
+  }
+
+  calculateTextWidth(event, tooltip): void {
+    const textContainerWidth = event.toElement.offsetWidth;
+    const canvas = document.createElement('canvas');
+    const context = canvas.getContext('2d');
+    context.font = '14.8px Lato, sans-serif';
+    const textWidth = Math.round(context.measureText(event.toElement.innerText).width);
+
+    if (textContainerWidth < textWidth) {
+      tooltip.show();
     }
   }
 
@@ -545,6 +563,7 @@ export class UbsAdminTableComponent implements OnInit, AfterViewChecked, OnDestr
   }
 
   changeInputDateFilters(value: string, currentColumn: string, suffix: string): void {
+    this.noFiltersApplied = false;
     this.adminTableService.changeInputDateFilters(value, currentColumn, suffix);
   }
 

@@ -30,7 +30,7 @@
                 [ngClass]="{ 'filters-color': filter.isActive }"
                 class="tag-news"
               >
-                {{ filter.name }}
+                {{ currentLang === 'en' ? filter.name : filter.nameUa }}
               </button>
               <p [ngClass]="{ warning: isFilterValidation }">
                 {{ 'create-news.tags-tooltip' | translate }}

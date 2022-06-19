@@ -1,10 +1,11 @@
 <app-spinner *ngIf="isPosting"></app-spinner>
-<div *ngIf="!isPosting" class="event-container">
+<div *ngIf="!isPosting" class="event-container" [formGroup]="eventFormGroup">
   <a [routerLink]="['/events']">
     <div class="edit-news">back</div>
   </a>
   <div class="event-header">
-    <h3>Create Event</h3>
+    <h3 *ngIf="!editMode">Create Event</h3>
+    <h3 *ngIf="editMode">Edit Event</h3>
     <p>
       Please provide as much details as you can - place and time of event, the goal of gathering etc. You can come back and update event
       anytime after publishing
@@ -16,17 +17,18 @@
         <div class="title-input">
           <div class="title-wrapper">
             <mat-label>Enter name for Event</mat-label>
-            <mat-label>{{ titleForm.value.length }}/70</mat-label>
+            <mat-label>{{ eventFormGroup.get('titleForm').value.length }}/70</mat-label>
           </div>
           <mat-form-field appearance="outline" class="event-input">
             <mat-label>Event name up to 70 symbols.</mat-label>
-            <input matInput placeholder="title" [formControl]="titleForm" />
+            <input matInput placeholder="title" formControlName="titleForm" />
           </mat-form-field>
         </div>
         <div class="duration-choice">
           <mat-label>Duration</mat-label>
           <mat-form-field appearance="outline" class="date-item">
-            <mat-select (selectionChange)="setDateCount($event)">
+            <mat-label>Min 1 day</mat-label>
+            <mat-select formControlName="eventDuration" ngDefaultControl (selectionChange)="setDateCount(+$event.value.split(' ')[0])">
               <mat-option *ngFor="let date of dateArrCount" [value]="date">
                 {{ date }}
               </mat-option>
@@ -44,6 +46,7 @@
               (coordOffline)="setCoordsOnlOff($event, i)"
               (status)="checkStatus($event, i)"
               [check]="date.check"
+              [editDate]="editEvent?.dates[i]"
             ></app-event-date-time-picker>
           </div>
         </div>
@@ -51,35 +54,41 @@
 
       <div class="textarea-wrapper">
         <h3 class="textarea-title">Events Description</h3>
-        <div [ngClass]="contentValid || checkAfterSend ? 'content' : 'content content-error'">
+        <div [ngClass]="eventFormGroup.get('description').valid || checkAfterSend ? 'content' : 'content content-error'">
           <quill-editor
             class="editor"
+            ngDefaultControl
+            formControlName="description"
             [modules]="quillModules"
             placeholder="{{ 'create-news.content-placeholder' | translate }}"
-            (onEditorChanged)="changedEditor($event)"
           ></quill-editor>
         </div>
         <p class="textarea-description">{{ 'create-news.content-tooltip' | translate }}</p>
       </div>
     </mat-card>
     <mat-card class="event-main-block right">
-      <app-images-container (imgArrayOutput)="getImageTosend($event)"></app-images-container>
+      <app-images-container
+        [imagesEditArr]="imagesForEdit"
+        (imgArrayOutput)="getImageTosend($event)"
+        (deleteImagesOutput)="getImagesToDelete($event)"
+      ></app-images-container>
 
       <div class="buttons-container">
         <mat-label>Initiative type</mat-label>
+        <p *ngIf="!checkAfterSend" [ngClass]="{ 'tag-error': !isTagValid }">you should choose at least one type</p>
         <div>
           <ul class="ul-eco-buttons" aria-label="filter by items">
-            <li *ngFor="let filter of filters">
+            <li *ngFor="let tag of tags">
               <a
                 role="button"
-                [attr.aria-pressed]="filter.isActive"
+                [attr.aria-pressed]="tag.isActive"
                 class="custom-chip global-tag"
-                [ngClass]="{ 'global-tag-clicked': filter.isActive }"
+                [ngClass]="{ 'global-tag-clicked': tag.isActive }"
                 tabindex="0"
-                (click)="checkTab(filter)"
+                (click)="checkTab(tag)"
               >
-                <span class="text">{{ filter.name | translate }}</span>
-                <div [ngClass]="{ 'global-tag-close-icon': filter.isActive }"></div>
+                <span class="text">{{ tag.nameEn }}</span>
+                <div [ngClass]="{ 'global-tag-close-icon': tag.isActive }"></div>
               </a>
             </li>
           </ul>

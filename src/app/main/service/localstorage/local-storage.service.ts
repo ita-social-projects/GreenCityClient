@@ -2,6 +2,7 @@ import { Language } from '../../i18n/Language';
 import { Injectable } from '@angular/core';
 import { BehaviorSubject, Subject } from 'rxjs';
 import { FilterModel } from '@eco-news-models/create-news-interface';
+import { EventPageResponceDto } from '../../component/events/models/events.interface';
 
 @Injectable({
   providedIn: 'root'
@@ -11,7 +12,9 @@ export class LocalStorageService {
   private readonly REFRESH_TOKEN = 'refreshToken';
   private readonly USER_ID = 'userId';
   private readonly NAME = 'name';
-  private readonly PREVIOUSPAGE = 'previousPage';
+  private readonly PREVIOUS_PAGE = 'previousPage';
+  private readonly CAN_USER_EDIT_EVENT = 'canUserEdit';
+  private readonly EDIT_EVENT = 'editEvent';
 
   languageSubject: Subject<string> = new Subject<string>();
   firstNameBehaviourSubject: BehaviorSubject<string> = new BehaviorSubject<string>(this.getName());
@@ -22,6 +25,22 @@ export class LocalStorageService {
 
   public getAccessToken(): string {
     return localStorage.getItem(this.ACCESS_TOKEN);
+  }
+
+  public setEditMode(key: string, permision: boolean) {
+    localStorage.setItem(key, `${permision}`);
+  }
+
+  public getEditMode(): boolean {
+    return localStorage.getItem(this.CAN_USER_EDIT_EVENT) === 'true';
+  }
+
+  public setEventForEdit(key: string, event: EventPageResponceDto) {
+    localStorage.setItem(key, JSON.stringify(event));
+  }
+
+  public getEventForEdit() {
+    return JSON.parse(localStorage.getItem(this.EDIT_EVENT));
   }
 
   public getRefreshToken(): string {
@@ -37,7 +56,7 @@ export class LocalStorageService {
   }
 
   public getPreviousPage(): string {
-    return localStorage.getItem(this.PREVIOUSPAGE);
+    return localStorage.getItem(this.PREVIOUS_PAGE);
   }
 
   public setCurentPage(key: string, pageName: string) {
@@ -114,7 +133,7 @@ export class LocalStorageService {
   }
 
   public getUbsRegistration(): boolean {
-    return !!localStorage.getItem('callUbsRegWindow');
+    return localStorage.getItem('callUbsRegWindow') === 'true';
   }
 
   public removeUbsRegistration(): void {

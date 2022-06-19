@@ -91,6 +91,19 @@ select {
   border-radius: 4px;
 }
 
+.delete-employee {
+  margin: 0 24px 0 16px;
+  color: var(--error-red);
+  font-size: 14px;
+  font-weight: 500;
+  border: none;
+  background: transparent;
+}
+
+.delete-icon {
+  margin: -2px 5px 0 0;
+}
+
 .btn:nth-child(1) {
   margin: 0 24px 0 16px;
 }

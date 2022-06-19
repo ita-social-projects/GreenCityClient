@@ -2,12 +2,14 @@
   "ubs-client-profile": {
     "data": "User Data",
     "message-if-edit": "Please fill in your profile to make the ordering process as fast and convenient as possible",
+    "error-message-if-edit-name-surname": "The field should contain 1-30 characters",
     "error-message": "Something went wrong... Please, reload the page",
     "personal": "Personal",
     "name": "Name",
     "surname": "Surname",
     "contacts": "Contacts",
     "email": "Email",
+    "alternative-email": "Alternative Email",
     "phone": "Phone",
     "address": "Address",
     "city": "City",
@@ -384,6 +386,7 @@
     "payment-amount": "Payment amount",
     "order-date": "Order date",
     "order-payment-status": "Payment status",
+    "amount-due": "Amount-due",
     "btn": {
       "cancel": "Cancel",
       "pay": "Pay",
@@ -522,6 +525,8 @@
       "add_carrier": "Add carrier",
       "add": "Add",
       "edit": "Edit",
+      "edit_name": "Edit name",
+      "create_card": "Create card",
       "deactivation": "Deactivation",
       "delete": "Delete",
       "location": "Location",
@@ -549,7 +554,7 @@
   },
   "ubs-tariffs-add-location-pop-up": {
     "title": "Add location",
-    "edit-title": "Edit card",
+    "edit-title": "Edit location",
     "deactivate": "Deactivate",
     "region": "Region",
     "locality": "City",
@@ -559,12 +564,15 @@
     "save_button": "Save",
     "error_message": "Area not found. Enter again",
     "city_error_message": "City not found. Enter again",
+    "city_exist": "The city already exists in the system. Change it",
     "courier_title": "Add courier",
     "station_title": "Add receiving station",
     "courier_edit_title": "Edit courier",
     "station_edit_title": "Edit receiving station",
     "courier_edit_text": "Choose courier and edit",
     "station_edit_text": "Choose receiving station",
+    "region_edit_text": "Choose region",
+    "city_edit_text": "Choose city and edit",
     "courier": "Courier",
     "station": "Receiving station",
     "date": "Date ",
@@ -681,5 +689,8 @@
   "top-bar": {
     "sign-up": "Sign up ",
     "sign-in": "Sign in"
+  },
+  "ubs-messages": {
+    "message": "You do not have any messages yet."
   }
 }

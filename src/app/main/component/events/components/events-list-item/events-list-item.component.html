@@ -1,0 +1,48 @@
+<div class="image-container">
+  <img class="event-image" src="{{ event.titleImage }}" alt="event" />
+  <div class="event-stars">
+    <span class="fill"></span>
+    <span class="empty"></span>
+    <span class="empty"></span>
+  </div>
+  <div class="event-flags">
+    <span class="flag"></span>
+  </div>
+  <div class="event-title">
+    <h3>{{ event.title }}</h3>
+  </div>
+</div>
+
+<div class="main-container">
+  <div *ngIf="event.dates[0]" class="date-container">
+    <span class="clock"></span>
+    <div class="date">
+      {{ event.dates[0].startDate | date }}
+    </div>
+    <h5>{{ ' | ' }}</h5>
+    <div class="time">{{ event.dates[0].startDate | date: 'shortTime' }}...</div>
+  </div>
+  <div *ngIf="event.dates[0]" class="date-container">
+    <div>
+      <span class="place"></span>
+    </div>
+    <div>
+      {{ address }}
+    </div>
+  </div>
+
+  <div>
+    <ul class="ul-eco-buttons" aria-label="filter by items">
+      <li *ngFor="let tag of itemTags">
+        <a role="button" class="tag" [ngClass]="{ 'global-tag-clicked': tag.isActive }" tabindex="0">
+          <span class="text" [ngClass]="{ 'tag-active': tag.isActive }">{{ tag.nameEn }}</span>
+        </a>
+      </li>
+    </ul>
+  </div>
+
+  <div class="description" [innerHTML]="event.description"></div>
+
+  <button class="secondary-global-button event-button" [routerLink]="['/events', event.id]">More</button>
+  <button class="primary-global-button event-button">Join Event</button>
+</div>

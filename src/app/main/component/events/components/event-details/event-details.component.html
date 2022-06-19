@@ -1,0 +1,140 @@
+<app-spinner *ngIf="isPosting"></app-spinner>
+<div *ngIf="event && !isPosting" class="event">
+  <div class="event-header">
+    <div class="event-nav">
+      <div class="back-button">
+        <a [routerLink]="['/events']" class="button-link">
+          <div class="button-content">
+            <div class="button-arrow">
+              <img [src]="images.arrowLeft" aria-hidden="true" alt="arrow" class="button-arrow-img arrow" />
+            </div>
+            <div class="button-text">{{ 'eco-news-single-view.back-button' | translate }}</div>
+          </div>
+        </a>
+      </div>
+      <div *ngIf="checkUserId()" class="edit-buttons">
+        <div class="secondary-global-button event-button delete-button">
+          <span (click)="deleteEvent()">Delete</span>
+        </div>
+        <div class="secondary-global-button event-button">
+          <span (click)="routeToEditEvent()">Edit</span>
+        </div>
+      </div>
+    </div>
+    <div class="event-title">
+      <h1>{{ event.title }}</h1>
+    </div>
+    <div class="event-autor">
+      <div class="left-side">
+        <div class="autor-name">
+          <div>Jan 30, 2020</div>
+          <div>|</div>
+          <div>by {{ event.organizer.name }}</div>
+        </div>
+        <div class="event-stars">
+          <span class="star fill"></span>
+          <span class="star empty"></span>
+          <span class="star empty"></span>
+        </div>
+      </div>
+      <div>right side</div>
+    </div>
+  </div>
+  <div class="event-main">
+    <div class="main-left">
+      <div *ngIf="imagesSlider.length" class="main-image">
+        <img
+          *ngFor="let image of imagesSlider; let i = index"
+          [src]="image"
+          [ngClass]="{ 'image-active': sliderIndex === i }"
+          class="img fade"
+          alt="event"
+        />
+
+        <div class="dot-container">
+          <span
+            *ngFor="let dot of imagesSlider; let i = index"
+            class="dot"
+            [ngClass]="{ 'dot-active': sliderIndex === i }"
+            (click)="selectImage(i)"
+          >
+          </span>
+        </div>
+
+        <div class="button-arrow right">
+          <span class="arrow-right" (click)="moveRight()">></span>
+        </div>
+        <div class="button-arrow left">
+          <span class="arrow-left" (click)="moveLeft()"><</span>
+        </div>
+      </div>
+
+      <mat-card class="event-place">
+        <div class="event-stars">
+          <span class="star fill"></span>
+          <span class="star empty"></span>
+          <span class="star empty"></span>
+        </div>
+
+        <div *ngIf="event.dates[0]" class="date-container">
+          <div>
+            <h4>Start</h4>
+          </div>
+          <div class="date">
+            {{ event.dates[0].startDate | date: 'mediumDate' }}
+          </div>
+          <div class="time-container">
+            <div class="time">{{ event.dates[0].startDate | date: 'HH:mm:ss' }}-</div>
+            <div class="time">{{ event.dates[0].finishDate | date: 'HH:mm:ss' }}</div>
+          </div>
+        </div>
+        <div *ngIf="event.dates[0]" class="date-container">
+          <div>
+            <h4>Place</h4>
+          </div>
+          <div>
+            {{ address }}
+          </div>
+        </div>
+      </mat-card>
+
+      <mat-card class="event-status">
+        <div class="initial">
+          <div class="initial-item">
+            <h5>Initiative type</h5>
+          </div>
+          <div class="initial-item">
+            <ul class="ul-eco-buttons" aria-label="filter by items">
+              <li *ngFor="let tag of tags">
+                <a role="button" [ngClass]="{ 'global-tag-clicked': tag.isActive }" class="tag" tabindex="0">
+                  <span [ngClass]="{ 'tag-active': tag.isActive }">{{ tag.nameEn }}</span>
+                </a>
+              </li>
+            </ul>
+          </div>
+        </div>
+
+        <div class="initial">
+          <div class="status-title">
+            <h5>Status</h5>
+          </div>
+          <div class="buttons-container">
+            <div class="flex-container">
+              <a role="button" class="custom-chip global-tag" [ngClass]="{ 'global-tag-clicked': event.open }" tabindex="0">
+                <span class="text">open</span>
+              </a>
+              <a role="button" class="custom-chip global-tag" [ngClass]="{ 'global-tag-clicked': !event.open }" tabindex="0">
+                <span class="text">close</span>
+              </a>
+            </div>
+          </div>
+        </div>
+      </mat-card>
+    </div>
+
+    <div class="main-right">
+      <h3>Description</h3>
+      <div [innerHTML]="event.description"></div>
+    </div>
+  </div>
+</div>

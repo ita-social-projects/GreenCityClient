@@ -35,25 +35,26 @@ export class UbsUserProfilePageComponent implements OnInit {
   googleIcon = SignInIcons.picGoogle;
   isEditing = false;
   isFetching = false;
+  alternativeEmailDisplay = false;
   phoneMask = '+{38\\0} (00) 000 00 00';
-  private readonly regexp = /^([a-zа-яїєґі '-])+$/iu;
+  private readonly regexp = /^([a-zа-яїєґі '-]){1,30}/iu;
   private readonly regexpEmail = /^[a-zA-Z0-9.!#$%&’*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/;
   private readonly regexpWithDigits = /^([a-zа-яїєґі0-9 '-])+$/iu;
 
   constructor(public dialog: MatDialog, private clientProfileService: ClientProfileService, private snackBar: MatSnackBarComponent) {}
 
-  ngOnInit() {
+  ngOnInit(): void {
     this.getUserData();
   }
 
-  composeFormData(data: UserProfile) {
+  composeFormData(data: UserProfile): UserProfile {
     return {
       ...data,
       recipientPhone: data.recipientPhone?.slice(-9)
     };
   }
 
-  getUserData() {
+  getUserData(): void {
     this.isFetching = true;
     this.clientProfileService.getDataClientProfile().subscribe(
       (res: UserProfile) => {
@@ -68,7 +69,7 @@ export class UbsUserProfilePageComponent implements OnInit {
     );
   }
 
-  userInit() {
+  userInit(): void {
     const addres = new FormArray([]);
     this.userProfile.addressDto.forEach((adres) => {
       const seperateAddress = new FormGroup({
@@ -84,31 +85,45 @@ export class UbsUserProfilePageComponent implements OnInit {
     });
     this.userForm = new FormGroup({
       address: addres,
-      recipientName: new FormControl(this.userProfile?.recipientName, [Validators.required, Validators.pattern(this.regexp)]),
-      recipientSurname: new FormControl(this.userProfile?.recipientSurname, [Validators.required, Validators.pattern(this.regexp)]),
+      recipientName: new FormControl(this.userProfile?.recipientName, [
+        Validators.required,
+        Validators.pattern(this.regexp),
+        Validators.maxLength(30)
+      ]),
+      recipientSurname: new FormControl(this.userProfile?.recipientSurname, [
+        Validators.required,
+        Validators.pattern(this.regexp),
+        Validators.maxLength(30)
+      ]),
       recipientEmail: new FormControl(this.userProfile?.recipientEmail, [Validators.required, Validators.pattern(this.regexpEmail)]),
       recipientPhone: new FormControl(`+380${this.userProfile?.recipientPhone}`, [Validators.required, Validators.minLength(12)])
     });
     this.isFetching = false;
   }
 
-  onEdit() {
+  onEdit(): void {
     this.isEditing = true;
     this.isFetching = false;
+    setTimeout(() => this.focusOnFirst());
   }
 
-  onCancel() {
+  focusOnFirst(): void {
+    document.getElementById('recipientName').focus();
+  }
+
+  onCancel(): void {
     this.userInit();
     this.isEditing = false;
   }
 
-  onSubmit() {
+  onSubmit(): void {
     if (this.userForm.valid) {
       this.isFetching = true;
       this.isEditing = false;
       const submitData = {
         addressDto: [],
         recipientEmail: this.userForm.value.recipientEmail,
+        alternateEmail: this.userForm.value.alternateEmail,
         recipientName: this.userForm.value.recipientName,
         recipientPhone: this.userForm.value.recipientPhone,
         recipientSurname: this.userForm.value.recipientSurname
@@ -127,33 +142,46 @@ export class UbsUserProfilePageComponent implements OnInit {
           this.isFetching = false;
           this.userProfile = this.composeFormData(res);
           this.userProfile.recipientEmail = this.userForm.value.recipientEmail;
+          this.userProfile.alternateEmail = this.userForm.value.alternateEmail;
         },
         (err: Error) => {
           this.isFetching = false;
           this.snackBar.openSnackBar('ubs-client-profile.error-message');
         }
       );
+      this.alternativeEmailDisplay = false;
     } else {
       this.isEditing = true;
     }
   }
 
-  openDeleteProfileDialog() {
+  openDeleteProfileDialog(): void {
     this.dialog.open(UbsProfileDeletePopUpComponent, {
       hasBackdrop: true
     });
   }
 
-  openChangePasswordDialog() {
+  openChangePasswordDialog(): void {
     this.dialog.open(UbsProfileChangePasswordPopUpComponent, {
       hasBackdrop: true
     });
   }
 
-  formatedPhoneNumber(num: string) {
+  formatedPhoneNumber(num: string): string | void {
     const match = num?.match(/^(\d{2})(\d{3})(\d{2})(\d{2})$/);
     if (match) {
       return ` +380 (${match[1]}) ${match[2]} ${match[3]} ${match[4]}`;
     }
+  }
+
+  getControl(control: string) {
+    return this.userForm.get(control);
+  }
+
+  toggleAlternativeEmail() {
+    const control = new FormControl(this.userProfile?.alternateEmail, [Validators.pattern(this.regexpEmail)]);
+    this.alternativeEmailDisplay = !this.alternativeEmailDisplay;
+
+    this.alternativeEmailDisplay ? this.userForm.addControl('alternateEmail', control) : this.userForm.removeControl('alternateEmail');
   }
 }

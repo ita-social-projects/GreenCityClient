@@ -2,11 +2,13 @@ import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { CUSTOM_ELEMENTS_SCHEMA, NO_ERRORS_SCHEMA } from '@angular/core';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { FormBuilder, ReactiveFormsModule } from '@angular/forms';
+import { MatAutocompleteModule } from '@angular/material/autocomplete';
 import { MatDialog, MatDialogModule, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
 import { Store } from '@ngrx/store';
 import { TranslateModule } from '@ngx-translate/core';
 import { of } from 'rxjs';
+import { Locations } from '../../../models/tariffs.interface';
 import { TariffsService } from '../../../services/tariffs.service';
 import { ModalTextComponent } from '../../shared/components/modal-text/modal-text.component';
 
@@ -64,6 +66,29 @@ describe('UbsAdminTariffsLocationPopUpComponent ', () => {
     longitude: 0
   };
 
+  const editedItem = {
+    location: 'фейк',
+    englishLocation: 'fake',
+    locationId: 0
+  };
+
+  const fakeLocations: Locations = {
+    locationsDto: [{
+      latitude: 0,
+      longitude: 0,
+      locationId: 159,
+      locationTranslationDtoList: [{
+        languageCode: 'ua',
+        locationName: 'fake'
+      }]
+    }],
+    regionId: 1,
+    regionTranslationDtos: {
+      regionName: 'ua',
+      languageCode: 'fake'
+    }
+  };
+
   const matDialogMock = jasmine.createSpyObj('matDialog', ['open']);
   const fakeMatDialogRef = jasmine.createSpyObj(['close', 'afterClosed']);
   fakeMatDialogRef.afterClosed.and.returnValue(of(true));
@@ -72,7 +97,7 @@ describe('UbsAdminTariffsLocationPopUpComponent ', () => {
     firstNameBehaviourSubject: { pipe: () => of('fakeName') }
   });
   const storeMock = jasmine.createSpyObj('store', ['select', 'dispatch']);
-  storeMock.select = () => of(true, true);
+  storeMock.select.and.returnValue(of({ locations: { locations: [fakeLocations] } }));
 
   const tariifsServiceMock = jasmine.createSpyObj('tariiffsService', ['getJSON']);
   tariifsServiceMock.getJSON.and.returnValue(of('fake'));
@@ -81,7 +106,7 @@ describe('UbsAdminTariffsLocationPopUpComponent ', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      imports: [TranslateModule.forRoot(), HttpClientTestingModule, MatDialogModule, ReactiveFormsModule],
+      imports: [TranslateModule.forRoot(), HttpClientTestingModule, MatDialogModule, ReactiveFormsModule, MatAutocompleteModule],
       declarations: [UbsAdminTariffsLocationPopUpComponent],
       providers: [
         FormBuilder,
@@ -249,6 +274,8 @@ describe('UbsAdminTariffsLocationPopUpComponent ', () => {
   });
 
   it('method onNoClick should invoke destroyRef.close()', () => {
+    component.selectedCities.push(localItem);
+    component.editedCities.push(editedItem);
     matDialogMock.open.and.returnValue(fakeMatDialogRef as any);
     component.onNoClick();
     expect(fakeMatDialogRef.close).toHaveBeenCalled();
@@ -261,5 +288,12 @@ describe('UbsAdminTariffsLocationPopUpComponent ', () => {
         action: 'modal-text.yes'
       }
     });
+  });
+
+  it ('method onNoClick should invoke destroyRef.close() if selectedCities or editedCities is empty', () => {
+    component.selectedCities = [];
+    component.editedCities = [];
+    component.onNoClick();
+    expect(fakeMatDialogRef.close).toHaveBeenCalled();
   });
 });

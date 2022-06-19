@@ -268,7 +268,7 @@ describe('UsbAdminTableComponent', () => {
     expect(component.isFiltersOpened).toEqual(true);
   });
 
-  it('togglePopUp expect store.dispatch have been called', () => {
+  it('toggleTableView expect store.dispatch have been called', () => {
     storeMock.dispatch.calls.reset();
     component.displayedColumns = ['1', '2'];
     component.isPopupOpen = true;
@@ -480,14 +480,11 @@ describe('UsbAdminTableComponent', () => {
   });
 
   it('showTooltip', () => {
-    const tooltip = {
-      toggle() {
-        return true;
-      }
-    };
-    spyOn(tooltip, 'toggle');
+    const event = jasmine.createSpyObj('event', ['stopImmediatePropagation']);
+    const tooltip = jasmine.createSpyObj('tooltip', ['toggle', 'show', 'hide']);
+
     component.currentLang = 'ua';
-    component.showTooltip({ ua: 'title on Ukrainian', en: '' }, tooltip);
+    component.showTooltip(event, { ua: 'title on Ukrainian', en: '' }, tooltip);
     expect(tooltip.toggle).toHaveBeenCalledTimes(1);
   });
 

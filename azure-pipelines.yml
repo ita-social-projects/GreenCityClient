@@ -1,0 +1,39 @@
+trigger:
+  batch: true
+  branches:
+    include:
+    - dev
+  paths:
+    exclude:
+    - README.md
+
+variables:
+  agentOS: ubuntu-latest
+  docker_repo: skyere/greencity-front
+
+stages:
+- stage: Build
+  jobs: 
+  - job: Build
+    pool:
+      vmImage: $(agentOS)
+    steps:
+
+    - task: Docker@2
+      inputs:
+        containerRegistry: 'Dockerhub_Skyere'
+        repository: '$(docker_repo)'
+        command: 'build'
+        Dockerfile: 'Dockerfile'
+        tags: |
+          $(Build.BuildId)
+          latest
+    
+    - task: Docker@2
+      inputs:
+        containerRegistry: 'Dockerhub_Skyere'
+        repository: '$(docker_repo)'
+        command: 'push'
+        tags: |
+          $(Build.BuildId)
+          latest

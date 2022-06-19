@@ -212,7 +212,7 @@ $whitecol: white;
 
     .col-sm-6 {
       padding: 0;
-      margin-bottom: 0;
+      margin-bottom: 0.5rem;
 
       .notificationEdit {
         margin-top: 20px;
@@ -250,18 +250,10 @@ $whitecol: white;
       border: none;
     }
 
-    .save:focus {
-      @include turnoffboxshadow;
-    }
-
     .cancel {
       background-color: $whitecol;
       color: $btnblackcol;
       border-color: $btnblackcol;
-    }
-
-    .cancel:focus {
-      @include turnoffboxshadow;
     }
   }
 
@@ -376,4 +368,13 @@ $whitecol: white;
       margin-right: 150px;
     }
   }
+}
+
+.error-message {
+  font-size: 10px;
+  line-height: 12px;
+  color: var(--error-ligh-red);
+  display: inline-block;
+  width: max-content;
+  vertical-align: middle;
 }

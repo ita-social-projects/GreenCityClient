@@ -28,6 +28,7 @@ import { FilterLocationListByLangPipe } from './filter-location-list-by-lang/fil
 import { MaxImageNamePipe } from '../ubs/ubs-admin/components/shared/max-image-name/max-image-name.pipe';
 import { OptionPipe } from './option-tariff/option-tariff.pipe';
 import { SearchPipe } from './search-tariff/search-tariff.pipe';
+import { ShowImgsPopUpComponent } from './show-imgs-pop-up/show-imgs-pop-up.component';
 
 @NgModule({
   declarations: [
@@ -51,7 +52,8 @@ import { SearchPipe } from './search-tariff/search-tariff.pipe';
     FilterLocationListByLangPipe,
     MaxImageNamePipe,
     OptionPipe,
-    SearchPipe
+    SearchPipe,
+    ShowImgsPopUpComponent
   ],
   imports: [
     CommonModule,
