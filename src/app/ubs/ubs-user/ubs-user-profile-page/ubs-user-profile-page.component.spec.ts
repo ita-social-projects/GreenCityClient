@@ -190,6 +190,18 @@ describe('UbsUserProfilePageComponent', () => {
     expect(clientProfileServiceMock.postDataClientProfile).toHaveBeenCalledWith(submitData);
   });
 
+  it('method toggleAlternativeEmail should add control to userForm when input is shown', () => {
+    component.alternativeEmailDisplay = true;
+    component.toggleAlternativeEmail();
+    expect(component.userProfile.alternateEmail).toBeDefined();
+  });
+
+  it('method toggleAlternativeEmail should toggle input for alternative email', () => {
+    component.alternativeEmailDisplay = true;
+    component.toggleAlternativeEmail();
+    expect(component.alternativeEmailDisplay).toBeFalsy();
+  });
+
   describe('Testing controls for the form:', () => {
     const personalInfoControls = ['recipientName', 'recipientSurname', 'recipientEmail', 'recipientPhone'];
     const controls = ['name', 'surename', 'email', 'phone'];
