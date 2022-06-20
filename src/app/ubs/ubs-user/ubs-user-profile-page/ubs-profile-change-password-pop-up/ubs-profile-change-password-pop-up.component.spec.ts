@@ -56,24 +56,15 @@ describe('UbsProfileChangePasswordPopUpComponent', () => {
   });
 
   it('initForm should create', () => {
-    component.data.hasPassword = true;
+    component.hasPassword = true;
     const initFormFake = {
       password: '',
       currentPassword: '',
       confirmPassword: ''
     };
 
-    const initFormFakeForGoogleAuth = {
-      password: '',
-      confirmPassword: ''
-    };
-
     component.initForm();
-    if (component.data.hasPassword) {
-      expect(component.formConfig.value).toEqual(initFormFake);
-    } else {
-      expect(component.formConfig.value).toEqual(initFormFakeForGoogleAuth);
-    }
+    expect(component.formConfig.value).toEqual(initFormFake);
   });
 
   it('submitting a form', () => {
@@ -89,5 +80,12 @@ describe('UbsProfileChangePasswordPopUpComponent', () => {
     expect(updatePasswordDto.password).toBe('Test!2334');
     expect(updatePasswordDto.currentPassword).toBe('Test!2334dfff');
     expect(updatePasswordDto.confirmPassword).toBe('Test!2334');
+  });
+
+  it('currentPassword should be empty if user authorized by a google account ', () => {
+    const updatePasswordDto: UpdatePasswordDto = component.formConfig.value;
+    component.hasPassword = false;
+    component.onSubmit();
+    expect(updatePasswordDto.currentPassword).toBeFalsy();
   });
 });

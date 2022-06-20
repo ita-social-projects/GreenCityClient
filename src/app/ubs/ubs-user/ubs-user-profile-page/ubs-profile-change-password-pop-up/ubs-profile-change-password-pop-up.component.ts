@@ -4,6 +4,8 @@ import { MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { MatSnackBarComponent } from '@global-errors/mat-snack-bar/mat-snack-bar.component';
 import { UpdatePasswordDto } from '@global-models/updatePasswordDto';
 import { ChangePasswordService } from '@global-service/auth/change-password.service';
+import { iif, of } from 'rxjs';
+import { mergeMap } from 'rxjs/operators';
 
 @Component({
   selector: 'app-ubs-profile-change-password-pop-up',
@@ -63,12 +65,20 @@ export class UbsProfileChangePasswordPopUpComponent implements OnInit {
   public onSubmit(): void {
     this.updatePasswordDto.confirmPassword = this.formConfig.value.confirmPassword;
     this.updatePasswordDto.password = this.formConfig.value.password;
-    if (this.hasPassword) {
-      this.updatePasswordDto.currentPassword = this.formConfig.value.currentPassword;
-      this.changePasswordService.changePassword(this.updatePasswordDto).subscribe();
-    } else {
-      this.changePasswordService.setPasswordForGoogleAuth(this.updatePasswordDto).subscribe();
-    }
-    this.snackBar.openSnackBar('successConfirmPasswordUbs');
+    this.updatePasswordDto.currentPassword = this.hasPassword ? this.formConfig.value.currentPassword : '';
+    of(true)
+      .pipe(
+        mergeMap(() =>
+          iif(
+            () => this.hasPassword,
+            this.changePasswordService.changePassword(this.updatePasswordDto),
+            this.changePasswordService.setPasswordForGoogleAuth(this.updatePasswordDto)
+          )
+        )
+      )
+      .subscribe(
+        (_) => this.snackBar.openSnackBar('successConfirmPasswordUbs'),
+        (error) => this.snackBar.openSnackBar('ubs-client-profile.error-message')
+      );
   }
 }
