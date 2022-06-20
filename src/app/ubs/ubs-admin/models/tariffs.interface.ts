@@ -62,10 +62,10 @@ export interface Locations {
 }
 
 export interface LocationDto {
-    latitude: number;
-    locationId: number;
-    locationTranslationDtoList: Location[];
-    longitude: number;
+  latitude: number;
+  locationId: number;
+  locationTranslationDtoList: Location[];
+  longitude: number;
 }
 
 export interface CreateLocation {
@@ -88,5 +88,12 @@ interface Location {
 export interface EditLocationName {
   location: Location[];
   locationId: number;
+  regionId: number;
+}
+
+export interface CreateCard {
+  courierId: number;
+  locationIdList: Array<number>;
+  receivingStationsIdList: Array<number>;
   regionId: number;
 }

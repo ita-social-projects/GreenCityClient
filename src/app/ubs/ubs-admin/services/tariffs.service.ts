@@ -83,7 +83,11 @@ export class TariffsService {
     return this.http.put(`${mainUbsLink}/ubs/superAdmin/update-courier`, newCourier);
   }
 
-  editLocationName(newLocation): Observable<object> {
+  public editLocationName(newLocation): Observable<object> {
     return this.http.put(`${mainUbsLink}/ubs/superAdmin/locations/update`, newLocation);
+  }
+
+  public getCardInfo(): Observable<any[]> {
+    return this.http.get<any[]>(`${mainUbsLink}/ubs/superAdmin/tariffs/all`);
   }
 }

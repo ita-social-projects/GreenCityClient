@@ -16,6 +16,7 @@ import { MatAutocompleteSelectedEvent, MatAutocompleteTrigger } from '@angular/m
 import { UbsAdminTariffsCourierPopUpComponent } from './ubs-admin-tariffs-courier-pop-up/ubs-admin-tariffs-courier-pop-up.component';
 import { UbsAdminTariffsStationPopUpComponent } from './ubs-admin-tariffs-station-pop-up/ubs-admin-tariffs-station-pop-up.component';
 import { ubsNamePattern } from '../shared/validators-pattern/ubs-name-patterns';
+import { UbsAdminTariffsCardPopUpComponent } from './ubs-admin-tariffs-card-pop-up/ubs-admin-tariffs-card-pop-up.component';
 
 @Component({
   selector: 'app-ubs-admin-tariffs-location-dashboard',
@@ -91,6 +92,7 @@ export class UbsAdminTariffsLocationDashboardComponent implements OnInit, OnDest
       this.checkedCities = [];
       this.positionsFilter();
     });
+    this.openCreateCard();
   }
 
   private initForm(): void {
@@ -99,10 +101,7 @@ export class UbsAdminTariffsLocationDashboardComponent implements OnInit, OnDest
         '',
         [Validators.required, Validators.minLength(3), Validators.maxLength(40), Validators.pattern(ubsNamePattern.namePattern)]
       ],
-      city: [
-         '',
-        [Validators.required, Validators.maxLength(40), Validators.pattern(ubsNamePattern.namePattern)]
-      ],
+      city: ['', [Validators.required, Validators.maxLength(40), Validators.pattern(ubsNamePattern.namePattern)]],
       courier: ['', [Validators.required]],
       station: ['', [Validators.required]],
       state: ['all']
@@ -179,8 +178,8 @@ export class UbsAdminTariffsLocationDashboardComponent implements OnInit, OnDest
   }
 
   openAuto(event: Event, trigger: MatAutocompleteTrigger): void {
-      event.stopPropagation();
-      trigger.openPanel();
+    event.stopPropagation();
+    trigger.openPanel();
   }
 
   toggleSelectAll(): void {
@@ -223,13 +222,20 @@ export class UbsAdminTariffsLocationDashboardComponent implements OnInit, OnDest
           startWith(''),
           map((value: string) => this._filter(value, this.regions))
         );
-        this.allCities = [].concat(...this.locations.map((element) =>
-          element.locationsDto
-          .map((el) => el.locationTranslationDtoList.filter((it) => it.languageCode === 'ua').map((it) => it.locationName))));
+        this.allCities = [].concat(
+          ...this.locations.map((element) =>
+            element.locationsDto.map((el) =>
+              el.locationTranslationDtoList.filter((it) => it.languageCode === 'ua').map((it) => it.locationName)
+            )
+          )
+        );
         this.allCities = this.allCities.reduce((acc, val) => acc.concat(val), []).reduce((acc, val) => acc.concat(val), []);
-        this.city.valueChanges.pipe(
-          startWith(''),
-          map((value: string) => (value ? this._filter(value, this.allCities) : this.allCities.slice()))).subscribe(data => {
+        this.city.valueChanges
+          .pipe(
+            startWith(''),
+            map((value: string) => (value ? this._filter(value, this.allCities) : this.allCities.slice()))
+          )
+          .subscribe((data) => {
             this.filteredCities = data;
           });
         this.reset = false;
@@ -354,6 +360,16 @@ export class UbsAdminTariffsLocationDashboardComponent implements OnInit, OnDest
       panelClass: 'address-matDialog-styles-w-100',
       data: {
         headerText: 'deactivateTemplate'
+      }
+    });
+  }
+
+  public openCreateCard(): void {
+    this.dialog.open(UbsAdminTariffsCardPopUpComponent, {
+      hasBackdrop: true,
+      panelClass: 'address-matDialog-styles-w-100',
+      data: {
+        headerText: 'createCard'
       }
     });
   }
