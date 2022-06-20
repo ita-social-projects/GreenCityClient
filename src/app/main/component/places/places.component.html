@@ -23,7 +23,7 @@
             placeholder="Choose location"
           />
         </div>
-        <app-add-place></app-add-place>
+        <button class="add-place-btn" (click)="openTimePickerPopUp()">Add place</button>
       </div>
       <div class="filter">
         <app-tag-filter
@@ -45,7 +45,7 @@
               <div class="title-wrapper">
                 <h6 class="content-title">{{ activePlaceDetails.name }}</h6>
               </div>
-              <div class="sidebar-photo">
+              <div class="sidebar-photo" *ngIf="activePlaceDetails.photos">
                 <img [src]="activePlaceDetails.photos[0]?.getUrl({})" class="content-photo" alt="" />
               </div>
               <div class="sidebar-address">

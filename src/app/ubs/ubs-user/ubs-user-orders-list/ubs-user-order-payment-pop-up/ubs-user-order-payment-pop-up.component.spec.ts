@@ -136,10 +136,12 @@ describe('UbsUserOrderPaymentPopUpComponent', () => {
 
   describe('certificateSubmit', () => {
     it('makes expected calls', () => {
+      const certificate = { value: { certificateCode: '', certificateSum: 0 } };
+      component.usedCertificates = ['1111-1111', '2222-2222'];
       component.userCertificate.certificates = [];
       const calculateCertificateSpy = spyOn(component, 'calculateCertificate');
-      component.certificateSubmit(0, {} as any);
-      expect(calculateCertificateSpy).toHaveBeenCalledWith({});
+      component.certificateSubmit(0, certificate as any);
+      expect(calculateCertificateSpy).toHaveBeenCalledWith(certificate as any);
       expect(component.userCertificate.certificates).toEqual([
         {
           certificateCode: '',

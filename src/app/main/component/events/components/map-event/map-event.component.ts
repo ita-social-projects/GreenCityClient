@@ -1,5 +1,7 @@
-import { MapsAPILoader } from '@agm/core';
-import { Component, EventEmitter, OnInit, Output } from '@angular/core';
+import { Component, EventEmitter, Inject, OnDestroy, OnInit, Output } from '@angular/core';
+import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { Subject } from 'rxjs';
+import { takeUntil } from 'rxjs/operators';
 import { Coords, MapMarker } from '../../models/events.interface';
 
 @Component({
@@ -7,17 +9,14 @@ import { Coords, MapMarker } from '../../models/events.interface';
   templateUrl: './map-event.component.html',
   styleUrls: ['./map-event.component.scss']
 })
-export class MapEventComponent implements OnInit {
+export class MapEventComponent implements OnInit, OnDestroy {
+  private destroy$: Subject<boolean> = new Subject<boolean>();
   private map: any;
-  private isPlaceChoosed: boolean;
-  private geoCoder: any;
 
   public eventPlace: MapMarker;
   public adress: string;
-  public markerContent: string;
+  public markerContent = 'Event Address';
   public mapDeactivate: boolean;
-
-  private googlePlacesService: any;
 
   @Output() location = new EventEmitter<Coords>();
 
@@ -26,82 +25,47 @@ export class MapEventComponent implements OnInit {
     componentRestrictions: { country: 'UA' }
   };
 
-  place: any;
-  autocomplete: any;
-
-  constructor(private mapsAPILoader: MapsAPILoader) {}
+  constructor(private matDialogRef: MatDialogRef<MapEventComponent>, @Inject(MAT_DIALOG_DATA) public data) {}
 
   ngOnInit(): void {
-    this.isPlaceChoosed = false;
-    this.mapDeactivate = false;
-    this.mapsAPILoader.load().then(() => {
-      this.geoCoder = new google.maps.Geocoder();
-    });
+    this.eventPlace = {
+      location: {
+        lat: this.data.lat,
+        lng: this.data.lng
+      },
+      animation: 'DROP'
+    };
+    this.matDialogRef
+      .backdropClick()
+      .pipe(takeUntil(this.destroy$))
+      .subscribe(() => {
+        this.matDialogRef.close();
+      });
   }
 
   public onMapReady(map: any): void {
     this.map = map;
-    this.setUserLocation();
-  }
-
-  public showCurLocation() {
-    this.setUserLocation();
-  }
-
-  private setUserLocation(): void {
-    navigator.geolocation.getCurrentPosition((position: any) => {
-      this.mapDeactivate
-        ? this.map.setCenter({
-            lat: position.coords.latitude,
-            lng: position.coords.longitude
-          })
-        : this.map.setCenter({
-            lat: 49.84579567734425,
-            lng: 24.025124653312258
-          });
-    });
-  }
-
-  public addMarker(value: Coords): void {
-    if (!this.isPlaceChoosed) {
-      this.location.emit(value);
-      const newMarker: MapMarker = {
-        location: {
-          lat: value.coords.lat,
-          lng: value.coords.lng
-        },
-        animation: 'DROP'
-      };
-
-      this.getAddress(value.coords.lat, value.coords.lng);
-
-      this.eventPlace = newMarker;
-      this.isPlaceChoosed = true;
+    if (this.data.lat) {
+      this.map.setCenter({
+        lat: this.data.lat,
+        lng: this.data.lng
+      });
     }
   }
 
   public markerOver(marker: MapMarker): void {
-    this.markerContent = this.adress;
     marker.animation = 'BOUNCE';
   }
   public markerOut(marker: MapMarker): void {
-    this.markerContent = '';
     marker.animation = '';
   }
 
-  public deletePlace(): void {
-    this.eventPlace = null;
-    this.isPlaceChoosed = false;
-    this.adress = '';
+  public closeMap(): void {
+    this.matDialogRef.close();
   }
 
-  getAddress(latitude: number, longitude: number): void {
-    this.geoCoder.geocode({ location: { lat: latitude, lng: longitude } }, (results, status) => {
-      status === 'OK'
-        ? results[0]
-          ? (this.adress = results[0].formatted_address)
-          : window.alert('No results found')
-        : window.alert('Geocoder failed due to: ' + status);
-    });
+  ngOnDestroy(): void {
+    this.destroy$.next();
+    this.destroy$.complete();
   }
 }

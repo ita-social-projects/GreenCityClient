@@ -16,14 +16,17 @@ describe('EventDetailsComponent', () => {
 
   const MockReqest = {
     additionalImages: [],
-    coordinates: {
-      latitude: 0,
-      longitude: 0
-    },
-    dates: [],
+    dates: [
+      {
+        coordinates: {
+          latitude: 0,
+          longitude: 0
+        },
+        onlineLink: 'link'
+      }
+    ],
     description: 'description',
     id: 1,
-    onlineLink: 'link',
     open: true,
     organizer: {
       id: 1111,
@@ -81,6 +84,7 @@ describe('EventDetailsComponent', () => {
   });
 
   it('ngOnInit tags.length shoud be 3', () => {
+    component.mapDialogData = { lat: 10, lng: 10 };
     component.tags = [];
     component.ngOnInit();
     expect(component.tags.length).toBe(3);

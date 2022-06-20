@@ -1,11 +1,3 @@
-.add-place-btn {
-  padding: 8px 24px;
-  border-radius: 4px;
-  border: 1px solid var(--primary-green);
-  color: var(--primary-green);
-  background-color: white;
-}
-
 .label {
   margin: 0;
   font-size: 16px;
@@ -31,25 +23,41 @@
 .form-container {
   background-color: var(--ubs-grey-white);
   padding: 20px 20px 24px;
-  width: 368px;
+  max-width: 100%;
+
+  .message-details {
+    background-color: var(--primary-white);
+    color: var(--error-ligh-red);
+    font-size: 14px;
+    font-weight: 100;
+    text-align: center;
+    visibility: hidden;
+    box-shadow: 0 0 8px rgba(70, 70, 70, 0.25);
+    width: 220px;
+    opacity: 0;
+    border-radius: 6px;
+    position: absolute;
+    transition: opacity 0.3s;
+    right: 0;
+    bottom: 50px;
+
+    ul li {
+      width: fit-content;
+      text-align: justify;
+    }
+  }
+
+  .btn-add[disabled]:hover .message-details {
+    visibility: visible;
+    opacity: 1;
+  }
 }
 
 .btn-wrapper {
   background-color: var(--ubs-grey-white);
-  padding-top: 16px;
+  padding-top: 15px;
   display: flex;
   justify-content: flex-end;
-}
-
-::ng-deep {
-  .add-place-menu.mat-menu-panel {
-    max-width: 368px !important;
-
-    .mat-menu-content {
-      padding-top: 0 !important;
-      padding-bottom: 0 !important;
-    }
-  }
 }
 
 .input {
@@ -59,8 +67,10 @@
   line-height: 20px;
   font-size: 14px;
   border: 1px solid var(--ubs-quintynary-light-grey);
+  background-color: var(--primary-white);
 
-  &:focus {
+  &:focus,
+  &:focus-within {
     border: 2px solid var(--primary-green);
     outline: none;
   }
@@ -80,9 +90,11 @@
     color: var(--ubs-grey-white);
     background-color: var(--primary-green);
     margin-left: 15px;
+    position: relative;
 
     &:disabled {
-      background-color: var(--ubs-secondary-grey);
+      background-color: var(--success-light-green);
+      opacity: 1;
     }
   }
 
@@ -97,9 +109,17 @@
     top: 24px;
     right: 0;
     color: var(--ubs-quintynary-light-grey);
+    visibility: hidden;
 
     &:focus {
       border: none;
     }
+  }
+}
+
+.form-field:hover,
+.form-field:focus-within {
+  .btn-close {
+    visibility: visible;
   }
 }
