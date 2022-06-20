@@ -7,30 +7,21 @@
     color: var(--ubs-primary-grey);
   }
 
-  .subtitles-box {
-    display: flex;
-    margin-bottom: 30px;
-  }
-
   .items-box {
     display: flex;
     margin-bottom: 0;
   }
 
   .subtitle {
-    width: 380px;
+    max-width: 380px;
     font-size: 16px;
     line-height: 20px;
-    margin-bottom: 0;
+    margin-bottom: 30px;
     color: var(--ubs-primary-grey);
   }
 
-  .second {
-    margin-left: 65px;
-  }
-
   .simpleList {
-    width: 391px;
+    max-width: 391px;
     padding-left: 20px;
     margin-bottom: 0;
   }
@@ -42,14 +33,15 @@
   }
 
   .boxes {
+    display: flex;
+    gap: 50px;
     margin-bottom: 56px;
   }
 
   .numList {
-    width: 391px;
+    max-width: 391px;
     padding-left: 20px;
     margin-bottom: 0;
-    margin-left: 50px;
   }
 
   .button {
@@ -61,5 +53,27 @@
     background-color: var(--ubs-button-light-green);
     border-radius: 4px;
     color: var(--ubs-quaternary-dark-grey);
+  }
+}
+
+@media screen and (max-width: 992px) {
+  .inner {
+    padding: 20px;
+  }
+}
+
+@media screen and (max-width: 575px) {
+  .inner {
+    padding: 10px;
+
+    .boxes {
+      flex-direction: column;
+      gap: 36px;
+      margin-bottom: 36px;
+
+      .subtitle {
+        margin-bottom: 16px;
+      }
+    }
   }
 }

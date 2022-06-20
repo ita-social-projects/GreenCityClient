@@ -461,6 +461,7 @@ export class UBSOrderDetailsComponent extends FormBaseComponent implements OnIni
 
   openExtraPackages(): void {
     const dialogConfig = new MatDialogConfig();
+    dialogConfig.panelClass = 'extra-packages';
     this.dialog.open(ExtraPackagesPopUpComponent, dialogConfig);
   }
 
