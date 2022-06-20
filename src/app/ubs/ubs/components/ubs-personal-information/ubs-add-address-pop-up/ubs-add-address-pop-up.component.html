@@ -1,6 +1,7 @@
 <form [formGroup]="addAddressForm" class="row adress">
   <div class="w-100">
-    <h2 class="personal-info-pop-up-title">{{ 'personal-info.pop-up-title' | translate }}</h2>
+    <h2 *ngIf="!data.edit" class="personal-info-pop-up-title">{{ 'personal-info.pop-up-title' | translate }}</h2>
+    <h2 *ngIf="data.edit" class="personal-info-pop-up-title">{{ 'personal-info.pop-up-title-edit' | translate }}</h2>
   </div>
   <div class="col-md-4 col-sm-4 form-group">
     <label>{{ 'personal-info.pop-up-region' | translate }}</label>
@@ -157,6 +158,11 @@
   </div>
 </form>
 <div class="d-flex justify-content-end buttons" mat-dialog-actions>
+  <button *ngIf="data.edit" class="delete-employee" (click)="deleteAddress()" [disabled]="isDisabled">
+    <img *ngIf="!isDeleting" src="assets/img/icon/bin.svg" alt="delete-icon" class="delete-icon" />
+    <span *ngIf="isDeleting" class="spinner-border spinner-border-sm" role="status" aria-hidden="true"> </span>
+    {{ 'personal-info.pop-up-delete' | translate }}
+  </button>
   <button class="secondary-global-button btn m-0 mr-2" mat-button (click)="onNoClick()">
     {{ 'personal-info.pop-up-cancel' | translate }}
   </button>

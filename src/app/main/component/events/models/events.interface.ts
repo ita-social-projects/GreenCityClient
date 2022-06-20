@@ -4,6 +4,7 @@ export interface EventDTO {
   open: boolean;
   datesLocations: Array<Dates>;
   tags: Array<string>;
+  imagesTodelete?: Array<string>;
 }
 
 export interface Dates {

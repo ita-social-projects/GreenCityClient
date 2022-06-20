@@ -85,6 +85,15 @@ describe('UBSAddAddressPopUpComponent', () => {
     expect(component).toBeTruthy();
   });
 
+  it('deleteAddress', () => {
+    component.isDisabled = true;
+    orderService = TestBed.inject(OrderService);
+    spyOn(orderService, 'deleteAddress').and.returnValue(of(true));
+    component.deleteAddress();
+    expect((component as any).orderService.deleteAddress).toHaveBeenCalledTimes(1);
+    expect(component.isDisabled).toBeFalsy();
+  });
+
   it('method ngOnInit should set addAddressForm', () => {
     const spy = spyOn(component, 'onCitySelected');
     component.ngOnInit();

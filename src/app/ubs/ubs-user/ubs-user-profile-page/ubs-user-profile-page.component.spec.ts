@@ -28,6 +28,7 @@ describe('UbsUserProfilePageComponent', () => {
       }
     ],
     recipientEmail: 'blackstar@gmail.com',
+    alternateEmail: 'blackStar@gmail.com',
     recipientName: 'Black',
     recipientPhone: '+380972333333',
     recipientSurname: 'Star'
@@ -168,6 +169,7 @@ describe('UbsUserProfilePageComponent', () => {
 
   it('method onSubmit should send post request with submitData', () => {
     let submitData;
+    component.toggleAlternativeEmail();
     component.onSubmit();
     submitData = {
       addressDto: [
@@ -179,12 +181,25 @@ describe('UbsUserProfilePageComponent', () => {
         }
       ],
       recipientEmail: component.userForm.value.recipientEmail,
+      alternateEmail: component.userForm.value.alternateEmail,
       recipientName: component.userForm.value.recipientName,
       recipientPhone: component.userForm.value.recipientPhone,
       recipientSurname: component.userForm.value.recipientSurname
     };
     expect(submitData).toEqual(userProfileDataMock);
     expect(clientProfileServiceMock.postDataClientProfile).toHaveBeenCalledWith(submitData);
+  });
+
+  it('method toggleAlternativeEmail should add control to userForm when input is shown', () => {
+    component.alternativeEmailDisplay = true;
+    component.toggleAlternativeEmail();
+    expect(component.userProfile.alternateEmail).toBeDefined();
+  });
+
+  it('method toggleAlternativeEmail should toggle input for alternative email', () => {
+    component.alternativeEmailDisplay = true;
+    component.toggleAlternativeEmail();
+    expect(component.alternativeEmailDisplay).toBeFalsy();
   });
 
   describe('Testing controls for the form:', () => {

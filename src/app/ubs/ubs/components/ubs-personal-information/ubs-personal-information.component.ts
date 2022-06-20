@@ -41,7 +41,7 @@ export class UBSPersonalInformationComponent extends FormBaseComponent implement
   private personalDataFormValidators: ValidatorFn[] = [
     Validators.required,
     Validators.minLength(2),
-    Validators.maxLength(20),
+    Validators.maxLength(30),
     Validators.pattern(this.namePattern)
   ];
   popupConfig = {
@@ -147,8 +147,8 @@ export class UBSPersonalInformationComponent extends FormBaseComponent implement
       lastName: ['', this.personalDataFormValidators],
       email: ['', [Validators.required, Validators.email]],
       phoneNumber: ['+38 0', [Validators.required, Validators.minLength(12), PhoneNumberValidator('UA')]],
-      anotherClientFirstName: [''],
-      anotherClientLastName: [''],
+      anotherClientFirstName: ['', this.personalDataFormValidators],
+      anotherClientLastName: ['', this.personalDataFormValidators],
       anotherClientEmail: ['', Validators.email],
       anotherClientPhoneNumber: [''],
       address: ['', Validators.required],
@@ -199,10 +199,10 @@ export class UBSPersonalInformationComponent extends FormBaseComponent implement
   }
 
   changeAnotherClientInPersonalData() {
-    this.personalData.anotherClientFirstName = this.personalDataForm.get('anotherClientFirstName').value;
-    this.personalData.anotherClientLastName = this.personalDataForm.get('anotherClientLastName').value;
-    this.personalData.anotherClientEmail = this.personalDataForm.get('anotherClientEmail').value;
-    this.personalData.anotherClientPhoneNumber = this.personalDataForm.get('anotherClientPhoneNumber').value;
+    this.personalData.senderFirstName = this.personalDataForm.get('anotherClientFirstName').value;
+    this.personalData.senderLastName = this.personalDataForm.get('anotherClientLastName').value;
+    this.personalData.senderEmail = this.personalDataForm.get('anotherClientEmail').value;
+    this.personalData.senderPhoneNumber = this.personalDataForm.get('anotherClientPhoneNumber').value;
     this.shareFormService.saveDataOnLocalStorage();
   }
 
@@ -212,10 +212,10 @@ export class UBSPersonalInformationComponent extends FormBaseComponent implement
       lastName: this.personalData.lastName,
       email: this.personalData.email,
       phoneNumber: this.personalData.phoneNumber,
-      anotherClientFirstName: this.personalData.anotherClientFirstName,
-      anotherClientLastName: this.personalData.anotherClientLastName,
-      anotherClientEmail: this.personalData.anotherClientEmail,
-      anotherClientPhoneNumber: this.personalData.anotherClientPhoneNumber,
+      anotherClientFirstName: this.personalData.senderFirstName,
+      anotherClientLastName: this.personalData.senderLastName,
+      anotherClientEmail: this.personalData.senderEmail,
+      anotherClientPhoneNumber: this.personalData.senderPhoneNumber,
       addressComment: this.addresses.length > 0 ? this.personalData.addressComment : ''
     });
     this.personalDataForm.markAllAsTouched();
@@ -330,11 +330,11 @@ export class UBSPersonalInformationComponent extends FormBaseComponent implement
     this.personalData.lastName = this.personalDataForm.get('lastName').value;
     this.personalData.email = this.personalDataForm.get('email').value;
     this.personalData.phoneNumber = this.personalDataForm.get('phoneNumber').value;
-    this.personalData.anotherClientFirstName = this.personalDataForm.get('anotherClientFirstName').value;
-    this.personalData.anotherClientLastName = this.personalDataForm.get('anotherClientLastName').value;
-    this.personalData.anotherClientEmail = this.personalDataForm.get('anotherClientEmail').value;
-    this.personalData.anotherClientPhoneNumber = this.personalDataForm.get('anotherClientPhoneNumber').value;
     this.personalData.addressComment = this.personalDataForm.get('addressComment').value;
+    this.personalData.senderFirstName = this.personalDataForm.get('anotherClientFirstName').value;
+    this.personalData.senderLastName = this.personalDataForm.get('anotherClientLastName').value;
+    this.personalData.senderEmail = this.personalDataForm.get('anotherClientEmail').value;
+    this.personalData.senderPhoneNumber = this.personalDataForm.get('anotherClientPhoneNumber').value;
     this.order = new Order(
       this.shareFormService.orderDetails.additionalOrders[0] !== '' ? this.shareFormService.orderDetails.additionalOrders : null,
       this.addressId,

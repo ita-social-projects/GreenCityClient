@@ -85,10 +85,6 @@ export interface PersonalData {
   lastName: string;
   email: string;
   phoneNumber: string;
-  anotherClientFirstName?: string;
-  anotherClientLastName?: string;
-  anotherClientEmail?: string;
-  anotherClientPhoneNumber?: string;
   addressComment: string;
   city: string;
   cityEn: string;
@@ -103,6 +99,10 @@ export interface PersonalData {
   houseNumber?: string;
   longitude?: number;
   latitude?: number;
+  senderEmail: string;
+  senderFirstName: string;
+  senderLastName: string;
+  senderPhoneNumber: string;
 }
 
 export interface Address {

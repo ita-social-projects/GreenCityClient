@@ -1,9 +1,9 @@
 import { MapsAPILoader } from '@agm/core';
 import { Component, ElementRef, EventEmitter, Input, OnChanges, OnInit, Output, ViewChild } from '@angular/core';
-import { DateFormObj, OfflineDto } from '../../models/events.interface';
+import { DateEventResponceDto, DateFormObj, OfflineDto } from '../../models/events.interface';
 
 import { FormControl, FormGroup, Validators } from '@angular/forms';
-import { MatCheckboxChange } from '@angular/material/checkbox';
+import { DatePipe } from '@angular/common';
 
 @Component({
   selector: 'app-event-date-time-picker',
@@ -24,13 +24,19 @@ export class EventDateTimePickerComponent implements OnInit, OnChanges {
 
   public isOfline: boolean;
   public autocomplete: google.maps.places.Autocomplete;
+  private pipe = new DatePipe('en-US');
+  public checkTime = false;
+  public checkOfflinePlace = false;
+  public checkOnlinePlace = false;
+  private geoCoder: any;
 
   private regionOptions = {
-    types: ['(regions)'],
+    types: ['address'],
     componentRestrictions: { country: 'UA' }
   };
 
   @Input() check: boolean;
+  @Input() editDate: DateEventResponceDto;
 
   @Output() status = new EventEmitter<boolean>();
   @Output() datesForm = new EventEmitter<DateFormObj>();
@@ -62,10 +68,63 @@ export class EventDateTimePickerComponent implements OnInit, OnChanges {
 
       this.datesForm.emit(value);
     });
+    if (this.editDate) {
+      this.mapsAPILoader.load().then(() => {
+        this.geoCoder = new google.maps.Geocoder();
+      });
+      this.setEditData();
+    }
   }
 
-  checkIfAllDay(event: MatCheckboxChange) {
-    if (event.checked) {
+  private setEditData(): void {
+    const startEditTime = this.pipe.transform(this.editDate.startDate, 'H:mm');
+    const endEditTime = this.pipe.transform(this.editDate.finishDate, 'H:mm');
+    if (endEditTime === '23:59') {
+      this.checkTime = true;
+      this.dateForm.get('startTime').disable();
+      this.dateForm.get('endTime').disable();
+    }
+    this.dateForm.patchValue({
+      date: this.editDate.startDate,
+      startTime: startEditTime,
+      endTime: endEditTime
+    });
+
+    if (this.editDate.coordinates.latitude) {
+      this.checkOfflinePlace = true;
+      this.dateForm.addControl('place', new FormControl('', [Validators.required]));
+      setTimeout(() => this.setPlaceAutocomplete(), 0);
+      setTimeout(() => this.setGeocode(), 2000);
+
+      this.coordinates.latitude = this.editDate.coordinates.latitude;
+      this.coordinates.longitude = this.editDate.coordinates.longitude;
+    }
+
+    if (this.editDate.onlineLink) {
+      this.checkOnlinePlace = true;
+      this.dateForm.addControl('onlineLink', new FormControl('', [Validators.required, Validators.pattern(/^$|^https?:\/\//)]));
+      this.dateForm.patchValue({
+        onlineLink: this.editDate.onlineLink
+      });
+    }
+  }
+
+  private setGeocode(): void {
+    this.geoCoder.geocode(
+      { location: { lat: this.editDate.coordinates.latitude, lng: this.editDate.coordinates.longitude } },
+      (results, status) => {
+        if (status === 'OK') {
+          this.dateForm.patchValue({
+            place: results[0].formatted_address
+          });
+        }
+      }
+    );
+  }
+
+  public checkIfAllDay(): void {
+    this.checkTime = !this.checkTime;
+    if (this.checkTime) {
       this.dateForm.get('startTime').disable();
       this.dateForm.get('endTime').disable();
     } else {
@@ -80,14 +139,16 @@ export class EventDateTimePickerComponent implements OnInit, OnChanges {
     }
   }
 
-  checkIfOnline(event: MatCheckboxChange): void {
-    event.checked
+  public checkIfOnline(): void {
+    this.checkOnlinePlace = !this.checkOnlinePlace;
+    this.checkOnlinePlace
       ? this.dateForm.addControl('onlineLink', new FormControl('', [Validators.required, Validators.pattern(/^$|^https?:\/\//)]))
       : this.dateForm.removeControl('onlineLink');
   }
 
-  checkIfOffline(event: MatCheckboxChange): void {
-    if (event.checked) {
+  public checkIfOffline(): void {
+    this.checkOfflinePlace = !this.checkOfflinePlace;
+    if (this.checkOfflinePlace) {
       this.isOfline = true;
       this.dateForm.addControl('place', new FormControl('', [Validators.required]));
       setTimeout(() => this.setPlaceAutocomplete(), 0);
@@ -101,9 +162,12 @@ export class EventDateTimePickerComponent implements OnInit, OnChanges {
     }
   }
 
-  setPlaceAutocomplete(): void {
+  private setPlaceAutocomplete(): void {
     this.mapsAPILoader.load().then(() => {
       this.autocomplete = new google.maps.places.Autocomplete(this.placesRef.nativeElement, this.regionOptions);
+      if (this.editDate) {
+        this.autocomplete.setValues(this.editDate.coordinates);
+      }
 
       this.autocomplete.addListener('place_changed', () => {
         const locationName = this.autocomplete.getPlace();
@@ -122,13 +186,13 @@ export class EventDateTimePickerComponent implements OnInit, OnChanges {
 
   private fillTimeArray(): void {
     for (let i = 0; i < 24; i++) {
-      this.timeArr.push(`${i} : 00`);
-      this.timeArrStart.push(`${i} : 00`);
-      this.timeArrEnd.push(`${i} : 00`);
+      this.timeArr.push(`${i}:00`);
+      this.timeArrStart.push(`${i}:00`);
+      this.timeArrEnd.push(`${i}:00`);
     }
   }
 
-  checkEndTime(time: string): void {
+  private checkEndTime(time: string): void {
     if (time) {
       const checkTime = time.split(':');
 
@@ -136,7 +200,7 @@ export class EventDateTimePickerComponent implements OnInit, OnChanges {
     }
   }
 
-  checkStartTime(time: string): void {
+  private checkStartTime(time: string): void {
     if (time) {
       const checkTime = time.split(':');
       this.timeArrEnd = +checkTime[0] === 23 ? ['23 : 59'] : [...this.timeArr.slice(+checkTime[0] + 1)];

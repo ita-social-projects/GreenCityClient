@@ -13,5 +13,5 @@
       <app-events-list-item [event]="eventItem"></app-events-list-item>
     </mat-card>
   </div>
-  <pagination-controls (pageChange)="setPage($event)"></pagination-controls>
+  <pagination-controls *ngIf="checkPagination()" (pageChange)="setPage($event)"></pagination-controls>
 </div>

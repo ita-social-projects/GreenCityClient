@@ -36,6 +36,9 @@ export interface IAddressExportDetails {
   addressRegionEng: string;
   addressStreet: string;
   addressStreetEng: string;
+  entranceNumber: string;
+  houseCorpus: string;
+  houseNumber: string;
 }
 
 export interface IBags {
@@ -64,7 +67,7 @@ export enum CheckOrderStatus {
   CANCELED = 'Canceled',
   CONFIRMED = 'Confirmed',
   FORMED = 'Formed',
-  ADJUSTMENT = 'Adjustment'
+  ADJUSTMENT = 'Adjusted'
 }
 
 export interface IUserOrdersInfo {

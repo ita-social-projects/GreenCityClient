@@ -86,7 +86,8 @@ interface Location {
 }
 
 export interface EditLocationName {
-  location: Location[];
+  nameEn: string;
+  nameUa: string;
   locationId: number;
   regionId: number;
 }

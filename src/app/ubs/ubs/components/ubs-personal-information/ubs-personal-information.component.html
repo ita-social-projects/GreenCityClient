@@ -70,7 +70,13 @@
         class="shadow-none form-control"
         placeholder="{{ 'personal-info.info-name' | translate }}"
       />
-      <div class="validation" *ngIf="getControl('anotherClientFirstName').invalid && getControl('anotherClientFirstName').touched">
+      <div
+        class="validation"
+        *ngIf="
+          getControl('anotherClientFirstName').invalid &&
+          (getControl('anotherClientFirstName').touched || getControl('anotherClientFirstName').dirty)
+        "
+      >
         <app-ubs-input-error
           [formElement]="getControl('anotherClientFirstName')"
           [anotherClientFirstNameFieldValue]="getControl('anotherClientFirstName').value"
@@ -106,7 +112,13 @@
         class="shadow-none form-control"
         placeholder="{{ 'personal-info.info-surname' | translate }}"
       />
-      <div class="validation" *ngIf="getControl('anotherClientLastName').invalid && getControl('anotherClientLastName').touched">
+      <div
+        class="validation"
+        *ngIf="
+          getControl('anotherClientLastName').invalid &&
+          (getControl('anotherClientLastName').touched || getControl('anotherClientFirstName').dirty)
+        "
+      >
         <app-ubs-input-error
           [formElement]="getControl('anotherClientLastName')"
           [anotherClientLastNameFieldValue]="getControl('anotherClientLastName').value"

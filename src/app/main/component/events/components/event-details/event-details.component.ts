@@ -1,9 +1,14 @@
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { MatDialog } from '@angular/material/dialog';
+import { ActivatedRoute, Router } from '@angular/router';
+import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
+import { take } from 'rxjs/operators';
+import { DialogPopUpComponent } from 'src/app/ubs/ubs-admin/components/shared/components/dialog-pop-up/dialog-pop-up.component';
 import { singleNewsImages } from '../../../../image-pathes/single-news-images';
 import { TagsArray } from '../../models/event-consts';
 import { EventPageResponceDto, TagDto, TagObj } from '../../models/events.interface';
 import { EventsService } from '../../services/events.service';
+import { MapEventComponent } from '../map-event/map-event.component';
 
 @Component({
   selector: 'app-event-details',
@@ -17,19 +22,56 @@ export class EventDetailsComponent implements OnInit {
 
   public imagesSlider: Array<string> = [];
   public sliderIndex = 0;
+  public isPosting: boolean;
+  public userId: number;
+  deleteDialogData = {
+    popupTitle: 'Delete event',
+    popupConfirm: 'homepage.events.delete-yes',
+    popupCancel: 'homepage.events.delete-no'
+  };
+
+  mapDialogData: any;
 
   public tags: Array<TagObj>;
 
-  constructor(private route: ActivatedRoute, private eventService: EventsService) {}
+  public address = 'Should be adress';
+
+  constructor(
+    private route: ActivatedRoute,
+    private eventService: EventsService,
+    public router: Router,
+    private localStorageService: LocalStorageService,
+    private dialog: MatDialog
+  ) {}
 
   ngOnInit(): void {
+    this.localStorageService.setEditMode('canUserEdit', true);
+    this.getUserId();
     this.tags = TagsArray.reduce((ac, cur) => [...ac, { ...cur }], []);
     this.setNewsId();
     this.eventService.getEventById(this.eventId).subscribe((res: EventPageResponceDto) => {
       this.event = res;
+      this.localStorageService.setEventForEdit('editEvent', this.event);
       this.imagesSlider = [res.titleImage, ...res.additionalImages];
       this.filterTags(res.tags);
+
+      this.mapDialogData = {
+        lat: this.event.dates[0].coordinates.latitude,
+        lng: this.event.dates[0].coordinates.longitude
+      };
     });
+  }
+
+  public routeToEditEvent(): void {
+    this.router.navigate(['/events', 'create-event']);
+  }
+
+  public getUserId(): void {
+    this.localStorageService.userIdBehaviourSubject.subscribe((id) => (this.userId = id));
+  }
+
+  public checkUserId(): boolean {
+    return this.userId === this.event.organizer.id;
   }
 
   private filterTags(tags: Array<TagDto>): void {
@@ -48,7 +90,43 @@ export class EventDetailsComponent implements OnInit {
     this.sliderIndex = this.sliderIndex === this.imagesSlider.length - 1 ? 0 : ++this.sliderIndex;
   }
 
-  public moveLeft() {
+  public moveLeft(): void {
     this.sliderIndex = this.sliderIndex === 0 ? this.imagesSlider.length - 1 : --this.sliderIndex;
+  }
+
+  public openMap(): void {
+    this.dialog.open(MapEventComponent, {
+      data: this.mapDialogData,
+      hasBackdrop: true,
+      closeOnNavigation: true,
+      disableClose: true,
+      panelClass: '',
+      width: '900px',
+      height: '400px'
+    });
+  }
+
+  public deleteEvent(): void {
+    const matDialogRef = this.dialog.open(DialogPopUpComponent, {
+      data: this.deleteDialogData,
+      hasBackdrop: true,
+      closeOnNavigation: true,
+      disableClose: true,
+      panelClass: '',
+      width: '300px'
+    });
+
+    matDialogRef
+      .afterClosed()
+      .pipe(take(1))
+      .subscribe((res) => {
+        if (res) {
+          this.isPosting = true;
+          this.eventService.deleteEvent(this.eventId).subscribe(() => {
+            this.isPosting = false;
+            this.router.navigate(['/events']);
+          });
+        }
+      });
   }
 }
