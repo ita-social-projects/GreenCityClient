@@ -57,6 +57,13 @@ body {
   opacity: 0;
 }
 
+.cdk-overlay-pane {
+  &.extra-packages {
+    overflow: auto;
+    max-width: 100%;
+  }
+}
+
 .cdk-drag-animating {
   transition: transform 250ms cubic-bezier(0, 0, 0.2, 1);
 }
@@ -160,6 +167,10 @@ body {
   padding: 0;
 }
 
+.add-place-wrapper-class .mat-dialog-container {
+  padding: 0;
+}
+
 .custom-dialog-container .mat-dialog-container::-webkit-scrollbar {
   display: none;
 }
@@ -235,4 +246,13 @@ body {
   font-weight: bold;
   font-size: 14px;
   border: 1px solid var(--primary-green);
+}
+
+@media screen and (max-width: 575px) {
+  .cdk-overlay-pane {
+    &.extra-packages {
+      max-width: 100% !important;
+      height: 100%;
+    }
+  }
 }

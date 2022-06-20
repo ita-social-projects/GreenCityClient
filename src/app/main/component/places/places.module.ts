@@ -10,7 +10,7 @@ import { RatingModule } from 'ngx-bootstrap/rating';
 import { Ng5SliderModule } from 'ng5-slider';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { MatTabsModule } from '@angular/material/tabs';
-import { SharedMainModule } from '../shared/shared-main.module';
+import { SharedMainModule } from '@shared/shared-main.module';
 import { HttpClient } from '@angular/common/http';
 import { TranslateHttpLoader } from '@ngx-translate/http-loader';
 import { PlacesComponent } from './places.component';
@@ -20,7 +20,7 @@ import { SharedModule } from 'src/app/shared/shared.module';
 import { MatTableModule } from '@angular/material/table';
 import { MatIconModule } from '@angular/material/icon';
 import { MatDialogModule } from '@angular/material/dialog';
-import { MatRippleModule } from '@angular/material/core';
+import { MatNativeDateModule, MatRippleModule } from '@angular/material/core';
 import { MoreOptionsFilterComponent } from './components/more-options-filter/more-options-filter.component';
 import { MatMenuModule } from '@angular/material/menu';
 import { MatSliderModule } from '@angular/material/slider';
@@ -28,9 +28,14 @@ import { MatGoogleMapsAutocompleteModule } from '@angular-material-extensions/go
 import { AddPlaceComponent } from './components/add-place/add-place.component';
 import { MatButtonModule } from '@angular/material/button';
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
+import { GooglePlaceModule } from 'ngx-google-places-autocomplete';
+import { MaterialModule } from '../../../material.module';
+import { MatDatepickerModule } from '@angular/material/datepicker';
+import { TimePickerPopupComponent } from './components/time-picker-pop-up/time-picker-popup.component';
+import { AddressInputComponent } from './components/address-input/address-input.component';
 
 @NgModule({
-  declarations: [PlacesComponent, MoreOptionsFilterComponent, AddPlaceComponent],
+  declarations: [PlacesComponent, MoreOptionsFilterComponent, AddPlaceComponent, TimePickerPopupComponent, AddressInputComponent],
   imports: [
     MatSidenavModule,
     SharedModule,
@@ -44,6 +49,7 @@ import { MatAutocompleteModule } from '@angular/material/autocomplete';
     ReactiveFormsModule,
     MatMenuModule,
     ReactiveFormsModule,
+    GooglePlaceModule,
     AgmCoreModule.forRoot({
       apiKey: environment.apiMapKey
     }),
@@ -65,7 +71,10 @@ import { MatAutocompleteModule } from '@angular/material/autocomplete';
       isolate: true
     }),
     MatSliderModule,
-    MatGoogleMapsAutocompleteModule
+    MatGoogleMapsAutocompleteModule,
+    MaterialModule,
+    MatDatepickerModule,
+    MatNativeDateModule
   ],
   providers: [TranslateService]
 })
