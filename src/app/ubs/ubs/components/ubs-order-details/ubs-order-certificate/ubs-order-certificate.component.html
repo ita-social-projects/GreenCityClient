@@ -73,6 +73,7 @@
     type="button"
     *ngIf="addCert && finalSum > 0 && !failedCert"
     class="addCertificateBtn"
+    [hidden]="certificates.length > 4"
     [disabled]="!disableAddCertificate() || cancelCertBtn || certificateError || failedCert"
     (click)="addNewCertificate()"
   >

@@ -106,6 +106,14 @@
       .time-container {
         display: flex;
       }
+
+      .map-icon {
+        display: inline-block;
+        width: 30px;
+        height: 30px;
+        background: url('src/assets/events-icons/place2.png') no-repeat center;
+        background-size: cover;
+      }
     }
   }
 

@@ -1,0 +1,30 @@
+<div class="dropdown_time">
+  <div class="set_time_container">
+    <h3>{{ 'places.time-of-work' | translate }}</h3>
+    <div class="checkbox-wrapper">
+      <mat-checkbox *ngFor="let day of selectTheWorkDay; let i = index" (change)="setTime(i)">
+        {{ day.dayToDisplay | translate }}
+        <div class="set_time_select">
+          <div class="select_from_wr">
+            <span> {{ 'places.time-of-work-from' | translate }} </span>
+            <select class="select" id="timeFrom" (change)="onTimeFromChange(i); $event.stopPropagation()" [(ngModel)]="day.timeFrom">
+              <option value="" selected hidden></option>
+              <option *ngFor="let timeFrom of day.fromSelected" [value]="timeFrom">
+                {{ timeFrom }}
+              </option>
+            </select>
+          </div>
+          <div class="select_to_wr">
+            <span> {{ 'places.time-of-work-to' | translate }} </span>
+            <select class="select" id="timeTo" (change)="onTimeToChange(i); $event.stopPropagation()" [(ngModel)]="day.timeTo">
+              <option value="" selected hidden></option>
+              <option *ngFor="let timeTo of day.toSelected; let i = index" [id]="timeTo" [value]="timeTo">
+                {{ timeTo }}
+              </option>
+            </select>
+          </div>
+        </div>
+      </mat-checkbox>
+    </div>
+  </div>
+</div>
