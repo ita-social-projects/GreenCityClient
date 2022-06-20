@@ -90,14 +90,6 @@ export class UbsUserOrdersListComponent implements OnInit, OnDestroy {
     }
   }
 
-  // public getBagsQuantity(bagTypeName: string, capacity: number, order: IUserOrderInfo): number | null {
-  //   const bags = order.bags;
-  //   const bag = bags.find((item) => {
-  //     return item.capacity === capacity && item.service === bagTypeName;
-  //   });
-  //   return bag ? bag.count : null;
-  // }
-
   public getBagsQuantity(bagTypeName: string, capacity: number, order: IUserOrderInfo): number | null {
     const bags = order.bags;
     const bag = bags.find((item) => {
