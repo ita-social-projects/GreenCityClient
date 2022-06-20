@@ -39,14 +39,10 @@ export class CreateEditEventsComponent implements OnInit, OnDestroy {
   public editEvent: EventPageResponceDto;
   public imagesToDelete: string[] = [];
   public imagesForEdit: string[];
-  private destroyed$: ReplaySubject<any> = new ReplaySubject<any>(1);
+  private destroyed$: ReplaySubject<boolean> = new ReplaySubject<boolean>(1);
 
   public tags: Array<TagObj>;
   public isTagValid: boolean;
-
-  public titleForm: FormControl;
-  public description: FormControl;
-  public eventDuration: FormControl;
 
   public eventFormGroup: FormGroup;
   unsubscribe: Subject<any> = new Subject();

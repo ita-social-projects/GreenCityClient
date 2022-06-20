@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable, Subject } from 'rxjs';
-import { Place } from '../../component/places/models/place';
+import { FilterPlaceCategories, Place } from '../../component/places/models/place';
 import { PlaceInfo } from '../../model/place/place-info';
 import { UpdatePlaceStatus } from '../../model/place/update-place-status.model';
 import { PlacePageableDto } from '../../model/place/place-pageable-dto.model';
@@ -12,6 +12,9 @@ import { FilterPlaceDtoModel } from '../../model/filtering/filter-place-dto.mode
 import { AdminPlace } from '../../component/admin/models/admin-place.model';
 import { BulkUpdatePlaceStatus } from '../../model/place/bulk-update-place-status.model';
 import { PlaceUpdatedDto } from '../../component/admin/models/placeUpdatedDto.model';
+import { NewsTagInterface } from '@eco-news-models/eco-news-model';
+import { environment } from '@environment/environment';
+import { CreatePlaceModel } from '../../component/places/models/create-place.model';
 
 @Injectable({
   providedIn: 'root'
@@ -24,6 +27,8 @@ export class PlaceService {
   private placeStatus: UpdatePlaceStatus;
   private bulkUpdateStatus: BulkUpdatePlaceStatus;
   private ids: any;
+  private backEnd = environment.backendLink;
+  private tagsType = 'PLACES_FILTER';
 
   constructor(private http: HttpClient, private filterService: FilterPlaceService) {}
 
@@ -115,5 +120,17 @@ export class PlaceService {
 
   updatePlace(updatedPlace: PlaceUpdatedDto) {
     return this.http.put<PlaceUpdatedDto>(`${placeLink}update`, updatedPlace);
+  }
+
+  public getAllPresentTags(): Observable<Array<NewsTagInterface>> {
+    return this.http.get<Array<NewsTagInterface>>(`${this.backEnd}tags/v2/search?type=${this.tagsType}`);
+  }
+
+  public getAllFilterPlaceCategories(): Observable<FilterPlaceCategories[]> {
+    return this.http.get<FilterPlaceCategories[]>(`${this.backEnd}place/v2/filteredPlacesCategories`);
+  }
+
+  createPlace(createPlace: CreatePlaceModel) {
+    return this.http.post(`${this.backEnd}place/v2/save`, createPlace);
   }
 }
