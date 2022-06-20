@@ -29,6 +29,7 @@ export class UBSPersonalInformationComponent extends FormBaseComponent implement
   addresses: Address[] = [];
   maxAddressLength = 4;
   namePattern = /^[A-Za-zА-Яа-яїЇіІєЄёЁ\'\- ]+$/;
+  emailPattern = /^[A-Za-z0-9.@\- ]+$/;
   phoneMask = '+{38\\0} (00) 000 00 00';
   firstOrder = true;
   anotherClient = false;
@@ -41,7 +42,7 @@ export class UBSPersonalInformationComponent extends FormBaseComponent implement
   private personalDataFormValidators: ValidatorFn[] = [
     Validators.required,
     Validators.minLength(2),
-    Validators.maxLength(20),
+    Validators.maxLength(30),
     Validators.pattern(this.namePattern)
   ];
   popupConfig = {
@@ -145,11 +146,11 @@ export class UBSPersonalInformationComponent extends FormBaseComponent implement
     this.personalDataForm = this.fb.group({
       firstName: ['', this.personalDataFormValidators],
       lastName: ['', this.personalDataFormValidators],
-      email: ['', [Validators.required, Validators.email]],
+      email: ['', [Validators.required, Validators.email, Validators.maxLength(40), Validators.pattern(this.emailPattern)]],
       phoneNumber: ['+38 0', [Validators.required, Validators.minLength(12), PhoneNumberValidator('UA')]],
       anotherClientFirstName: [''],
       anotherClientLastName: [''],
-      anotherClientEmail: ['', Validators.email],
+      anotherClientEmail: ['', [Validators.email, Validators.maxLength(40), Validators.pattern(this.emailPattern)]],
       anotherClientPhoneNumber: [''],
       address: ['', Validators.required],
       addressComment: ['', Validators.maxLength(255)]

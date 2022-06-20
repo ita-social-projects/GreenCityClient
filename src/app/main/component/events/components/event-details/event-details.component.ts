@@ -8,6 +8,7 @@ import { singleNewsImages } from '../../../../image-pathes/single-news-images';
 import { TagsArray } from '../../models/event-consts';
 import { EventPageResponceDto, TagDto, TagObj } from '../../models/events.interface';
 import { EventsService } from '../../services/events.service';
+import { MapEventComponent } from '../map-event/map-event.component';
 
 @Component({
   selector: 'app-event-details',
@@ -25,9 +26,11 @@ export class EventDetailsComponent implements OnInit {
   public userId: number;
   deleteDialogData = {
     popupTitle: 'Delete event',
-    popupConfirm: 'yes',
-    popupCancel: 'no'
+    popupConfirm: 'homepage.events.delete-yes',
+    popupCancel: 'homepage.events.delete-no'
   };
+
+  mapDialogData: any;
 
   public tags: Array<TagObj>;
 
@@ -51,6 +54,11 @@ export class EventDetailsComponent implements OnInit {
       this.localStorageService.setEventForEdit('editEvent', this.event);
       this.imagesSlider = [res.titleImage, ...res.additionalImages];
       this.filterTags(res.tags);
+
+      this.mapDialogData = {
+        lat: this.event.dates[0].coordinates.latitude,
+        lng: this.event.dates[0].coordinates.longitude
+      };
     });
   }
 
@@ -82,8 +90,20 @@ export class EventDetailsComponent implements OnInit {
     this.sliderIndex = this.sliderIndex === this.imagesSlider.length - 1 ? 0 : ++this.sliderIndex;
   }
 
-  public moveLeft() {
+  public moveLeft(): void {
     this.sliderIndex = this.sliderIndex === 0 ? this.imagesSlider.length - 1 : --this.sliderIndex;
+  }
+
+  public openMap(): void {
+    this.dialog.open(MapEventComponent, {
+      data: this.mapDialogData,
+      hasBackdrop: true,
+      closeOnNavigation: true,
+      disableClose: true,
+      panelClass: '',
+      width: '900px',
+      height: '400px'
+    });
   }
 
   public deleteEvent(): void {

@@ -31,7 +31,7 @@ export class EventDateTimePickerComponent implements OnInit, OnChanges {
   private geoCoder: any;
 
   private regionOptions = {
-    types: ['(regions)'],
+    types: ['address'],
     componentRestrictions: { country: 'UA' }
   };
 
