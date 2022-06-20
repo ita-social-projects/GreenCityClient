@@ -41,7 +41,7 @@ export class UBSPersonalInformationComponent extends FormBaseComponent implement
   private personalDataFormValidators: ValidatorFn[] = [
     Validators.required,
     Validators.minLength(2),
-    Validators.maxLength(20),
+    Validators.maxLength(30),
     Validators.pattern(this.namePattern)
   ];
   popupConfig = {
@@ -147,8 +147,8 @@ export class UBSPersonalInformationComponent extends FormBaseComponent implement
       lastName: ['', this.personalDataFormValidators],
       email: ['', [Validators.required, Validators.email]],
       phoneNumber: ['+38 0', [Validators.required, Validators.minLength(12), PhoneNumberValidator('UA')]],
-      anotherClientFirstName: [''],
-      anotherClientLastName: [''],
+      anotherClientFirstName: ['', this.personalDataFormValidators],
+      anotherClientLastName: ['', this.personalDataFormValidators],
       anotherClientEmail: ['', Validators.email],
       anotherClientPhoneNumber: [''],
       address: ['', Validators.required],

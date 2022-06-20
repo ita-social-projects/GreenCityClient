@@ -94,6 +94,7 @@
           </div>
           <div>
             {{ address }}
+            <span *ngIf="event.dates[0].coordinates.latitude" (click)="openMap()" class="map-icon"></span>
           </div>
         </div>
       </mat-card>

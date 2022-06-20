@@ -16,9 +16,25 @@ describe('UbsUserOrdersListComponent', () => {
 
   const matDialogMock = jasmine.createSpyObj('dialog', ['open']);
   const fakeIputOrderData = [
-    { id: 3, dateForm: 55, orderStatusEng: 'Done', paymentStatusEng: 'Unpaid', orderFullPrice: 55, extend: true },
-    { id: 7, dateForm: 66, orderStatusEng: 'Formed', paymentStatusEng: 'Half paid', orderFullPrice: 0, extend: false },
-    { id: 1, dateForm: 11, orderStatusEng: 'Canceled', paymentStatusEng: 'Paid', orderFullPrice: -55, extend: false }
+    { id: 3, dateForm: 55, orderStatusEng: 'Done', paymentStatusEng: 'Unpaid', orderFullPrice: 55, amountBeforePayment: 55, extend: true },
+    {
+      id: 7,
+      dateForm: 66,
+      orderStatusEng: 'Formed',
+      paymentStatusEng: 'Half paid',
+      orderFullPrice: 0,
+      amountBeforePayment: 55,
+      extend: false
+    },
+    {
+      id: 1,
+      dateForm: 11,
+      orderStatusEng: 'Canceled',
+      paymentStatusEng: 'Paid',
+      orderFullPrice: -55,
+      amountBeforePayment: 55,
+      extend: false
+    }
   ];
   const fakePoints = 111;
 
@@ -146,9 +162,33 @@ describe('UbsUserOrdersListComponent', () => {
   describe('sortingOrdersByData', () => {
     it('sort orsers data', () => {
       const resultOrderData = [
-        { id: 7, dateForm: 66, orderStatusEng: 'Formed', paymentStatusEng: 'Half paid', orderFullPrice: 0, extend: false },
-        { id: 3, dateForm: 55, orderStatusEng: 'Done', paymentStatusEng: 'Unpaid', orderFullPrice: 55, extend: true },
-        { id: 1, dateForm: 11, orderStatusEng: 'Canceled', paymentStatusEng: 'Paid', orderFullPrice: -55, extend: false }
+        {
+          id: 7,
+          dateForm: 66,
+          orderStatusEng: 'Formed',
+          paymentStatusEng: 'Half paid',
+          orderFullPrice: 0,
+          amountBeforePayment: 55,
+          extend: false
+        },
+        {
+          id: 3,
+          dateForm: 55,
+          orderStatusEng: 'Done',
+          paymentStatusEng: 'Unpaid',
+          orderFullPrice: 55,
+          amountBeforePayment: 55,
+          extend: true
+        },
+        {
+          id: 1,
+          dateForm: 11,
+          orderStatusEng: 'Canceled',
+          paymentStatusEng: 'Paid',
+          orderFullPrice: -55,
+          amountBeforePayment: 55,
+          extend: false
+        }
       ];
       component.sortingOrdersByData();
       expect(component.orders).toEqual(resultOrderData as any);
