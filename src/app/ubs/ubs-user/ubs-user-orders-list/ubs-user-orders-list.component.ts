@@ -90,6 +90,14 @@ export class UbsUserOrdersListComponent implements OnInit, OnDestroy {
     }
   }
 
+  // public getBagsQuantity(bagTypeName: string, capacity: number, order: IUserOrderInfo): number | null {
+  //   const bags = order.bags;
+  //   const bag = bags.find((item) => {
+  //     return item.capacity === capacity && item.service === bagTypeName;
+  //   });
+  //   return bag ? bag.count : null;
+  // }
+
   public getBagsQuantity(bagTypeName: string, capacity: number, order: IUserOrderInfo): number | null {
     const bags = order.bags;
     const bag = bags.find((item) => {
@@ -112,32 +120,16 @@ export class UbsUserOrdersListComponent implements OnInit, OnDestroy {
   }
 
   public setDataForLocalStorage(order: IUserOrderInfo): void {
-    this.bags = [
-      {
-        id: 1,
-        capacity: 120,
-        name: 'Безпечні відходи',
-        nameEng: 'Safe waste',
-        price: 250,
-        quantity: this.getBagsQuantity('Безпечні відходи', 120, order)
-      },
-      {
-        id: 2,
-        capacity: 120,
-        name: 'Текстильні відходи',
-        nameEng: 'Textile waste',
-        price: 300,
-        quantity: this.getBagsQuantity('Текстильні відходи', 120, order)
-      },
-      {
-        id: 3,
-        capacity: 20,
-        name: 'Текстильні відходи',
-        nameEng: 'Textile waste',
-        price: 50,
-        quantity: this.getBagsQuantity('Текстильні відходи', 20, order)
-      }
-    ];
+    this.orderService
+      .getOrders()
+      .pipe(takeUntil(this.destroy$))
+      .subscribe((orderData: OrderDetails) => {
+        this.bags = orderData.bags;
+        this.bags.forEach((item) => {
+          let bagsQuantity = this.getBagsQuantity(item.name, item.capacity, order);
+          item.quantity = bagsQuantity;
+        });
+      });
 
     this.orderDetails = {
       additionalOrders: order.additionalOrders,
