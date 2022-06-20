@@ -104,10 +104,12 @@ export class UbsUserOrdersListComponent implements OnInit, OnDestroy {
       .pipe(takeUntil(this.destroy$))
       .subscribe((personalData: PersonalData) => {
         this.personalDetails = personalData;
-        this.personalDetails.senderEmail = order.sender.senderEmail;
-        this.personalDetails.senderFirstName = order.sender.senderName;
-        this.personalDetails.senderLastName = order.sender.senderSurname;
-        this.personalDetails.senderPhoneNumber = order.sender.senderPhone;
+        this.personalDetails.senderEmail = order.sender.senderEmail !== this.personalDetails.email ? order.sender.senderEmail : null;
+        this.personalDetails.senderFirstName = order.sender.senderName !== this.personalDetails.firstName ? order.sender.senderName : null;
+        this.personalDetails.senderLastName =
+          order.sender.senderSurname !== this.personalDetails.lastName ? order.sender.senderSurname : null;
+        this.personalDetails.senderPhoneNumber =
+          order.sender.senderPhone !== this.personalDetails.phoneNumber ? order.sender.senderPhone : null;
       });
   }
 
