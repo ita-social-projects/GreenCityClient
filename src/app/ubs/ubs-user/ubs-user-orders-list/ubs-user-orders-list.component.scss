@@ -22,7 +22,7 @@
     overflow: auto;
   }
 
-  mat-tab-body {
+  .mat-tab-body {
     overflow: visible !important;
 
     &.mat-tab-body-active {
@@ -215,7 +215,7 @@
       flex-direction: column !important;
     }
 
-    mat-tab-body {
+    .mat-tab-body {
       &.mat-tab-body-active {
         width: 590px;
       }

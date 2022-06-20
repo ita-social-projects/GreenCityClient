@@ -59,10 +59,8 @@ export class UbsBaseSidebarComponent implements AfterViewInit, AfterViewChecked,
 
   @HostListener('window:resize', ['$event'])
   onResize(event) {
-    if (event.target.innerWidth < 992 || window.innerWidth < 992) {
-      if (this.drawer) {
-        this.drawer.opened = false;
-      }
+    if ((event.target.innerWidth < 992 || window.innerWidth < 992) && this.drawer) {
+      this.drawer.opened = false;
     }
   }
 
@@ -80,10 +78,8 @@ export class UbsBaseSidebarComponent implements AfterViewInit, AfterViewChecked,
   }
 
   ngAfterViewInit(): void {
-    if (window.innerWidth < 992) {
-      if (this.drawer) {
-        this.drawer.toggle();
-      }
+    if (window.innerWidth < 992 && this.drawer) {
+      this.drawer.toggle();
     }
     setTimeout(() => {
       this.breakpointObserver.observe([Breakpoints.Small, Breakpoints.XSmall]).subscribe((result) => {
