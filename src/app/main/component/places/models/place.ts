@@ -5,3 +5,9 @@ export class Place {
   location: PlaceLocation;
   favorite?: boolean;
 }
+
+export interface FilterPlaceCategories {
+  id: number;
+  name: string;
+  nameUa: string;
+}

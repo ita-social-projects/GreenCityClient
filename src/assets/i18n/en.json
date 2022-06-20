@@ -194,7 +194,30 @@
     "items-per-page": "Items per page:",
     "sort-ascending": "Sort Ascending",
     "sort-descending": "Sort Descending",
-    "cancel-sorting": "Cancel Sorting"
+    "cancel-sorting": "Cancel Sorting",
+    "days": {
+      "monday": "Monday",
+      "tuesday": "Tuesday",
+      "wednesday": "Wednesday",
+      "thursday": "Thursday",
+      "friday": "Friday",
+      "saturday": "Saturday",
+      "sunday": "Sunday"
+    },
+    "time-of-work": "Work schedule: ",
+    "time-of-work-from": "Time of work from: ",
+    "time-of-work-to": "Time of work to: ",
+    "btn": {
+      "cancel": "Cancel",
+      "add": "Add"
+    },
+    "validation": {
+      "information-message": "Fill required fields:",
+      "category": "Choose the category",
+      "name": "Enter the name of place",
+      "address": "Enter the address of place",
+      "time": "Choose the time"
+    }
   },
   "update-cafe": {
     "name": "Name",

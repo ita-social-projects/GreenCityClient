@@ -3,10 +3,10 @@ import { Component, OnInit, ViewChild } from '@angular/core';
 import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
 import { MatDrawer } from '@angular/material/sidenav';
 import { PlaceService } from '@global-service/place/place.service';
-import { redIcon, greenIcon, searchIcon, notification, share, starUnfilled, starHalf, star } from '../../image-pathes/places-icons.js';
+import { greenIcon, notification, redIcon, searchIcon, share, star, starHalf, starUnfilled } from '../../image-pathes/places-icons.js';
 import { Place } from './models/place';
 import { FilterPlaceService } from '@global-service/filtering/filter-place.service';
-import { debounceTime } from 'rxjs/operators';
+import { debounceTime, take } from 'rxjs/operators';
 import { LatLngBounds, LatLngLiteral } from '@agm/core/services/google-maps-types';
 import { MapBoundsDto } from './models/map-bounds-dto';
 import { MoreOptionsFormValue } from './models/more-options-filter.model';
@@ -15,6 +15,8 @@ import { FavoritePlaceService } from '@global-service/favorite-place/favorite-pl
 import { combineLatest } from 'rxjs';
 import { initialMoreOptionsFormValue } from './components/more-options-filter/more-options-filter.constant.js';
 import { NewsTagInterface } from '@user-models/news.model';
+import { MatDialog } from '@angular/material/dialog';
+import { AddPlaceComponent } from './components/add-place/add-place.component';
 
 @Component({
   selector: 'app-places',
@@ -24,13 +26,7 @@ import { NewsTagInterface } from '@user-models/news.model';
 export class PlacesComponent implements OnInit {
   public position: any = {};
   public zoom = 13;
-  public tagList: NewsTagInterface[] = [
-    { id: 1, name: 'Shops', nameUa: 'Магазини' },
-    { id: 2, name: 'Restaurants', nameUa: 'Ресторани' },
-    { id: 3, name: 'Recycling points', nameUa: 'Станції приймання' },
-    { id: 4, name: 'Events', nameUa: 'Події' },
-    { id: 5, name: 'Saved places', nameUa: 'Збережені місця' }
-  ];
+  public tagList: NewsTagInterface[];
   public searchName = '';
   public moreOptionsFilters: MoreOptionsFormValue;
   public searchIcon = searchIcon;
@@ -58,10 +54,15 @@ export class PlacesComponent implements OnInit {
     private translate: TranslateService,
     private placeService: PlaceService,
     private filterPlaceService: FilterPlaceService,
-    private favoritePlaceService: FavoritePlaceService
+    private favoritePlaceService: FavoritePlaceService,
+    private dialog: MatDialog
   ) {}
 
   ngOnInit() {
+    this.placeService
+      .getAllPresentTags()
+      .pipe(take(1))
+      .subscribe((tagsArray: Array<NewsTagInterface>) => (this.tagList = tagsArray));
     this.filterPlaceService.filtersDto$.pipe(debounceTime(300)).subscribe((filtersDto: any) => {
       this.placeService.updatePlaces(filtersDto);
     });
@@ -286,5 +287,23 @@ export class PlacesComponent implements OnInit {
       lat: event.latitude,
       lng: event.longitude
     });
+  }
+
+  openTimePickerPopUp() {
+    this.dialog
+      .open(AddPlaceComponent, { hasBackdrop: true, closeOnNavigation: true, disableClose: true, panelClass: 'add-place-wrapper-class' })
+      .afterClosed()
+      .pipe(take(1))
+      .subscribe((value) => {
+        if (value) {
+          this.placeService.createPlace(value).subscribe((resp: any) => {
+            const location: Location = {
+              latitude: resp.locationAddressAndGeoDto.lat,
+              longitude: resp.locationAddressAndGeoDto.lng
+            };
+            this.onLocationSelected(location);
+          });
+        }
+      });
   }
 }

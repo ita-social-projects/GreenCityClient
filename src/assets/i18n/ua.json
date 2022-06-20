@@ -198,7 +198,30 @@
     "items-per-page": "Записів на сторінку:",
     "sort-ascending": "Сортувати за зростанням",
     "sort-descending": "Сортувати за спаданням",
-    "cancel-sorting": "Скасувати сортування"
+    "cancel-sorting": "Скасувати сортування",
+    "days": {
+      "monday": "Понеділок",
+      "tuesday": "Вівторок",
+      "wednesday": "Середа",
+      "thursday": "Четвер",
+      "friday": "П'ятниця",
+      "saturday": "Субота",
+      "sunday": "Неділя"
+    },
+    "time-of-work": "Графік роботи: ",
+    "time-of-work-from": "Години роботи із: ",
+    "time-of-work-to": "Години роботи до: ",
+    "btn": {
+      "cancel": "Скасувати",
+      "add": "Додати"
+    },
+    "validation": {
+      "information-message": "Заповніть усі обов'язкові поля:",
+      "category": "Виберіть категорію",
+      "name": "Введіть назву місця",
+      "address": "Введіть адресу місця",
+      "time": "Виберіть час"
+    }
   },
   "update-cafe": {
     "name": "Назва",

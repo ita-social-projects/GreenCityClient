@@ -43,7 +43,6 @@ export const tariffReducer = createReducer(
     return {
       ...state,
       locations: editedLocations
-      };
-    }
-  )
+    };
+  })
 );
