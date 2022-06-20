@@ -106,7 +106,9 @@
       }
     },
     "events": {
-      "title": "Events"
+      "title": "Events",
+      "delete-yes": "yes",
+      "delete-no": "no"
     },
     "subscription": {
       "caption": "Receive interesting news",

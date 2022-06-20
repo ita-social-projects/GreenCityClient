@@ -115,6 +115,10 @@ export class UBSOrderDetailsComponent extends FormBaseComponent implements OnIni
     }
   }
 
+  public checkOnNumber(event: KeyboardEvent): boolean {
+    return !isNaN(Number(event.key));
+  }
+
   saveLocation(isCheck: boolean) {
     this.isFetching = true;
     this.setCurrentLocation(this.currentLanguage);
