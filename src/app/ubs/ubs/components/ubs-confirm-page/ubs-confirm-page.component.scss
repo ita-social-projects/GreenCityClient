@@ -1,7 +1,7 @@
 .wraper {
   display: flex;
   justify-content: center;
-  padding-top: 150px;
+  padding: 150px 24px;
 
   .mat-spinner {
     ::ng-deep circle {
@@ -10,7 +10,8 @@
   }
 
   .order {
-    width: 50%;
+    max-width: 960px;
+    width: 100%;
     height: 50%;
     box-shadow: 1px 4px 8px rgb(100 114 125 / 18%);
     padding: 10px 60px 20px 40px;
@@ -120,6 +121,58 @@
   .wraper {
     .order {
       width: 44%;
+    }
+  }
+}
+
+@media screen and (max-width: 992px) {
+  .wraper {
+    .order {
+      padding: 10px 26px;
+    }
+  }
+}
+
+@media screen and (max-width: 768px) {
+  .wraper {
+    .image {
+      width: 112%;
+    }
+
+    .order {
+      .title {
+        margin-top: 30px !important;
+      }
+    }
+
+    .infolinks {
+      .list {
+        margin-top: 30px;
+
+        ul {
+          text-align: center;
+          padding: 0;
+        }
+      }
+    }
+  }
+}
+
+@media screen and (max-width: 575px) {
+  .wraper {
+    padding: 150px 24px 20px;
+
+    .btn-wrapper {
+      display: flex;
+      justify-content: center;
+
+      button {
+        margin-left: 0;
+      }
+    }
+
+    .p-40 {
+      padding-left: 0;
     }
   }
 }
