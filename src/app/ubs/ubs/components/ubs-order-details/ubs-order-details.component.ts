@@ -109,7 +109,7 @@ export class UBSOrderDetailsComponent extends FormBaseComponent implements OnIni
     });
 
     if (this.isThisExistingOrder) {
-      this.existingOrderId = parseInt(this.localStorageService.getExistingOrderId());
+      this.existingOrderId = parseInt(this.localStorageService.getExistingOrderId(), 10);
       this.orderService
         .getTariffForExistingOrder(this.existingOrderId)
         .pipe(takeUntil(this.destroy))
