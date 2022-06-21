@@ -8,6 +8,7 @@ export const mainUbsLink = environment.backendUbsLink;
 // Own Security Controller
 export const userOwnSecurityLink = mainUserLink + 'ownSecurity/';
 export const changePasswordLink = userOwnSecurityLink + 'changePassword';
+export const setPasswordForGoogleLink = userOwnSecurityLink + 'set-password';
 export const userOwnSignUpLink = userOwnSecurityLink + 'signUp';
 export const userOwnSignInLink = userOwnSecurityLink + 'signIn';
 export const updateAccessTokenLink = userOwnSecurityLink + 'updateAccessToken';

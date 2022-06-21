@@ -64,6 +64,10 @@ describe('UbsBaseSidebarComponent', () => {
     fixture.detectChanges();
   });
 
+  it('should create', () => {
+    expect(component).toBeTruthy();
+  });
+
   it('should return icon link from list item', () => {
     listItem.link = component.bellsNotification;
     expect(component.getIcon(listItem)).toBe(listItem.link);
@@ -86,7 +90,15 @@ describe('UbsBaseSidebarComponent', () => {
     expect(spyOnResize).toHaveBeenCalled();
   });
 
-  xit('should create', () => {
-    expect(component).toBeTruthy();
+  it('should call getCountOfUnreadNotification', () => {
+    const getCountOfUnreadNotificationSpy = spyOn(component, 'getCountOfUnreadNotification');
+    component.ngAfterViewInit();
+    expect(getCountOfUnreadNotificationSpy).toHaveBeenCalled();
+  });
+
+  it('ngAfterViewInit should called getCountOfUnreadNotification method one time', () => {
+    const getCountOfUnreadNotificationSpy = spyOn(component, 'getCountOfUnreadNotification');
+    component.ngAfterViewInit();
+    expect(getCountOfUnreadNotificationSpy).toHaveBeenCalledTimes(1);
   });
 });
