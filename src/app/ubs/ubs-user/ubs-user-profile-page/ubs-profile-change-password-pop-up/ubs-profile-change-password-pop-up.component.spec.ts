@@ -8,6 +8,7 @@ import { UbsProfileChangePasswordPopUpComponent } from './ubs-profile-change-pas
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { UpdatePasswordDto } from '@global-models/updatePasswordDto';
 import { of } from 'rxjs';
+import { MatSnackBarComponent } from '@global-errors/mat-snack-bar/mat-snack-bar.component';
 
 describe('UbsProfileChangePasswordPopUpComponent', () => {
   let component: UbsProfileChangePasswordPopUpComponent;
@@ -18,6 +19,7 @@ describe('UbsProfileChangePasswordPopUpComponent', () => {
 
   const changePasswordServiceFake = jasmine.createSpyObj('ChangePasswordService', ['changePassword']);
   changePasswordServiceFake.changePassword.and.returnValue(of({}));
+  const MatSnackBarMock = jasmine.createSpyObj('MatSnackBarComponent', ['openSnackBar']);
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
@@ -26,6 +28,7 @@ describe('UbsProfileChangePasswordPopUpComponent', () => {
       providers: [
         { provide: MAT_DIALOG_DATA, useValue: {} },
         { provide: ChangePasswordService, useValue: changePasswordServiceFake },
+        { provide: MatSnackBarComponent, useValue: MatSnackBarMock },
         FormBuilder
       ],
       schemas: [CUSTOM_ELEMENTS_SCHEMA]
@@ -35,6 +38,7 @@ describe('UbsProfileChangePasswordPopUpComponent', () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(UbsProfileChangePasswordPopUpComponent);
     component = fixture.componentInstance;
+    component.data.hasPassword = true;
     fixture.detectChanges();
   });
 
@@ -52,11 +56,13 @@ describe('UbsProfileChangePasswordPopUpComponent', () => {
   });
 
   it('initForm should create', () => {
+    component.hasPassword = true;
     const initFormFake = {
       password: '',
       currentPassword: '',
       confirmPassword: ''
     };
+
     component.initForm();
     expect(component.formConfig.value).toEqual(initFormFake);
   });
@@ -74,5 +80,12 @@ describe('UbsProfileChangePasswordPopUpComponent', () => {
     expect(updatePasswordDto.password).toBe('Test!2334');
     expect(updatePasswordDto.currentPassword).toBe('Test!2334dfff');
     expect(updatePasswordDto.confirmPassword).toBe('Test!2334');
+  });
+
+  it('currentPassword should be empty if user authorized by a google account ', () => {
+    const updatePasswordDto: UpdatePasswordDto = component.formConfig.value;
+    component.hasPassword = false;
+    component.onSubmit();
+    expect(updatePasswordDto.currentPassword).toBeFalsy();
   });
 });
