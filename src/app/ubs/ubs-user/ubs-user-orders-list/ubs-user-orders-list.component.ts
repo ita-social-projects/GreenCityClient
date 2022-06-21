@@ -4,8 +4,8 @@ import { UbsUserOrderPaymentPopUpComponent } from './ubs-user-order-payment-pop-
 import { UbsUserOrderCancelPopUpComponent } from './ubs-user-order-cancel-pop-up/ubs-user-order-cancel-pop-up.component';
 import { IUserOrderInfo, CheckPaymentStatus, CheckOrderStatus } from './models/UserOrder.interface';
 import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
-import { Subject } from 'rxjs';
-import { takeUntil } from 'rxjs/operators';
+import { forkJoin, Observable, Subject } from 'rxjs';
+import { takeUntil, tap } from 'rxjs/operators';
 import { Bag, OrderDetails, PersonalData } from '../../ubs/models/ubs.interface';
 import { Router } from '@angular/router';
 import { UBSOrderFormService } from '../../ubs/services/ubs-order-form.service';
@@ -25,6 +25,7 @@ export class UbsUserOrdersListComponent implements OnInit, OnDestroy {
   orderDetails: OrderDetails;
   personalDetails: PersonalData;
   bags: Bag[];
+  anotherClient = 'false';
 
   constructor(
     public dialog: MatDialog,
@@ -73,12 +74,7 @@ export class UbsUserOrdersListComponent implements OnInit, OnDestroy {
 
   public openOrderPaymentDialog(order: IUserOrderInfo): void {
     if (order.paymentStatusEng === 'Unpaid') {
-      this.getUserData(order);
-      this.setDataForLocalStorage(order);
-      const personalData = JSON.stringify(this.personalDetails);
-      const orderData = JSON.stringify(this.orderDetails);
-      this.localStorageService.setUbsOrderData(personalData, orderData);
-      this.router.navigate(['ubs/order'], { queryParams: { isThisExistingOrder: true } });
+      this.prepareDataForLocalStorage(order);
     } else {
       this.dialog.open(UbsUserOrderPaymentPopUpComponent, {
         data: {
@@ -98,45 +94,71 @@ export class UbsUserOrdersListComponent implements OnInit, OnDestroy {
     return bag ? bag.count : null;
   }
 
-  public getUserData(order: IUserOrderInfo): void {
-    this.orderService
-      .getPersonalData()
-      .pipe(takeUntil(this.destroy$))
-      .subscribe((personalData: PersonalData) => {
-        this.personalDetails = personalData;
-        this.personalDetails.senderEmail = order.sender.senderEmail !== this.personalDetails.email ? order.sender.senderEmail : null;
-        this.personalDetails.senderFirstName = order.sender.senderName !== this.personalDetails.firstName ? order.sender.senderName : null;
-        this.personalDetails.senderLastName =
-          order.sender.senderSurname !== this.personalDetails.lastName ? order.sender.senderSurname : null;
-        this.personalDetails.senderPhoneNumber =
-          order.sender.senderPhone !== this.personalDetails.phoneNumber ? order.sender.senderPhone : null;
-      });
-  }
+  public prepareDataForLocalStorage(order: IUserOrderInfo): void {
+    this.localStorageService.removeUbsOrderAndPersonalData();
 
-  public setDataForLocalStorage(order: IUserOrderInfo): void {
-    this.orderService
+    let orderDataResponse: OrderDetails;
+    let personalDataResponse: PersonalData;
+
+    const orderDataRequest: Observable<OrderDetails> = this.orderService
       .getOrders()
       .pipe(takeUntil(this.destroy$))
-      .subscribe((orderData: OrderDetails) => {
-        this.bags = orderData.bags;
-        this.bags.forEach((item) => {
-          let bagsQuantity = this.getBagsQuantity(item.name, item.capacity, order);
-          item.quantity = bagsQuantity;
-        });
+      .pipe(
+        tap((orderData) => {
+          orderDataResponse = orderData;
+        })
+      );
+    const personalDataRequest: Observable<PersonalData> = this.orderService
+      .getPersonalData()
+      .pipe(takeUntil(this.destroy$))
+      .pipe(
+        tap((personalData) => {
+          personalDataResponse = personalData;
+        })
+      );
+
+    forkJoin([orderDataRequest, personalDataRequest]).subscribe((response) => {
+      this.bags = orderDataResponse.bags;
+      this.bags.forEach((item) => {
+        let bagsQuantity = this.getBagsQuantity(item.name, item.capacity, order);
+        item.quantity = bagsQuantity;
       });
 
-    this.orderDetails = {
-      additionalOrders: order.additionalOrders,
-      bags: this.bags,
-      certificates: [],
-      certificatesSum: 0,
-      finalSum: order.orderFullPrice,
-      orderComment: order.orderComment,
-      points: this.bonuses,
-      pointsSum: 0,
-      pointsToUse: 0,
-      total: order.orderFullPrice
-    };
+      this.orderDetails = {
+        additionalOrders: order.additionalOrders,
+        bags: this.bags,
+        certificates: [],
+        certificatesSum: 0,
+        finalSum: order.orderFullPrice,
+        orderComment: order.orderComment,
+        points: this.bonuses,
+        pointsSum: 0,
+        pointsToUse: 0,
+        total: order.orderFullPrice
+      };
+      this.personalDetails = personalDataResponse;
+      this.personalDetails.senderEmail = order.sender.senderEmail !== this.personalDetails.email ? order.sender.senderEmail : null;
+      this.personalDetails.senderFirstName = order.sender.senderName !== this.personalDetails.firstName ? order.sender.senderName : null;
+      this.personalDetails.senderLastName =
+        order.sender.senderSurname !== this.personalDetails.lastName ? order.sender.senderSurname : null;
+      this.personalDetails.senderPhoneNumber =
+        order.sender.senderPhone !== this.personalDetails.phoneNumber ? order.sender.senderPhone : null;
+      this.anotherClient = order.sender.senderName !== this.personalDetails.firstName ? 'true' : 'false';
+      console.log('this.anotherClient ', this.anotherClient);
+      this.setDataToLocalStorage();
+    });
+  }
+
+  public setDataToLocalStorage(): void {
+    const personalData = JSON.stringify(this.personalDetails);
+    const orderData = JSON.stringify(this.orderDetails);
+    //this.localStorageService.setUbsOrderData(personalData, orderData);
+    this.localStorageService.setUbsOrderDataBeforeRedirect(personalData, orderData, this.anotherClient);
+    this.redirectToStepOne();
+  }
+
+  public redirectToStepOne(): void {
+    this.router.navigate(['ubs/order'], { queryParams: { isThisExistingOrder: true } });
   }
 
   public openOrderCancelDialog(order: IUserOrderInfo): void {

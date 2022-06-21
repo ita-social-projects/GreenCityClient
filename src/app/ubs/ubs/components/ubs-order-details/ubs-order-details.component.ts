@@ -103,7 +103,6 @@ export class UBSOrderDetailsComponent extends FormBaseComponent implements OnIni
   ngOnInit(): void {
     this.route.queryParams.subscribe((params) => {
       const key = 'isThisExistingOrder';
-      //this.isThisExistingOrder = params[key] || false;
       this.isThisExistingOrder = !!params[key];
     });
     const locationId = this.shareFormService.locationId;

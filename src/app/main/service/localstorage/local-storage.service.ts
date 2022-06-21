@@ -145,6 +145,12 @@ export class LocalStorageService {
     localStorage.setItem('UBSorderData', orderData);
   }
 
+  public setUbsOrderDataBeforeRedirect(personalData: string, orderData: string, anotherClientData: string) {
+    localStorage.setItem('UBSpersonalData', personalData);
+    localStorage.setItem('UBSorderData', orderData);
+    localStorage.setItem('anotherClient', anotherClientData);
+  }
+
   public setLocationId(currentLocationId: number) {
     localStorage.setItem('currentLocationId', JSON.stringify(currentLocationId));
   }
