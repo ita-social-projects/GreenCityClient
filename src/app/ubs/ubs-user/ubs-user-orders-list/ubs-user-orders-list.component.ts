@@ -118,7 +118,7 @@ export class UbsUserOrdersListComponent implements OnInit, OnDestroy {
         })
       );
 
-    forkJoin([orderDataRequest, personalDataRequest]).subscribe((response) => {
+    forkJoin([orderDataRequest, personalDataRequest]).subscribe(() => {
       this.bags = orderDataResponse.bags;
       this.bags.forEach((item) => {
         const bagsQuantity = this.getBagsQuantity(item.name, item.capacity, order);
