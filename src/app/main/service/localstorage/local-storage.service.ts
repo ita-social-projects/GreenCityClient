@@ -145,10 +145,11 @@ export class LocalStorageService {
     localStorage.setItem('UBSorderData', orderData);
   }
 
-  public setUbsOrderDataBeforeRedirect(personalData: string, orderData: string, anotherClientData: string) {
+  public setUbsOrderDataBeforeRedirect(personalData: string, orderData: string, anotherClientData: string, UBSExistingOrderId: string) {
     localStorage.setItem('UBSpersonalData', personalData);
     localStorage.setItem('UBSorderData', orderData);
     localStorage.setItem('anotherClient', anotherClientData);
+    localStorage.setItem('UBSExistingOrderId', UBSExistingOrderId);
   }
 
   public setLocationId(currentLocationId: number) {
@@ -225,6 +226,10 @@ export class LocalStorageService {
 
   public getLocationId(): any {
     return localStorage.getItem('currentLocationId') === null ? false : JSON.parse(localStorage.getItem('currentLocationId'));
+  }
+
+  public getExistingOrderId(): string {
+    return localStorage.getItem('UBSExistingOrderId');
   }
 
   public getLocations(): any {

@@ -1,5 +1,5 @@
 import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
-import { Address, AddressData, AllLocationsDtos } from '../models/ubs.interface';
+import { Address, AddressData, AllLocationsDtos, CourierLocations } from '../models/ubs.interface';
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { BehaviorSubject, Observable, Subject, throwError } from 'rxjs';
@@ -52,6 +52,10 @@ export class OrderService {
     } else {
       return this.http.get(`${this.url}/personal-data`).pipe(tap((personalData) => (this.shareFormService.personalData = personalData)));
     }
+  }
+
+  getTariffForExistingOrder(orderId: number): Observable<CourierLocations> {
+    return this.http.get<CourierLocations>(`${this.url}/orders/${orderId}/tariff`);
   }
 
   processOrder(order: Order): Observable<Order> {

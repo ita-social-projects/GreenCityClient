@@ -26,6 +26,7 @@ export class UbsUserOrdersListComponent implements OnInit, OnDestroy {
   personalDetails: PersonalData;
   bags: Bag[];
   anotherClient = 'false';
+  orderId: string;
 
   constructor(
     public dialog: MatDialog,
@@ -74,7 +75,7 @@ export class UbsUserOrdersListComponent implements OnInit, OnDestroy {
 
   public openOrderPaymentDialog(order: IUserOrderInfo): void {
     if (order.paymentStatusEng === 'Unpaid') {
-      this.prepareDataForLocalStorage(order);
+      this.getDataForLocalStorage(order);
     } else {
       this.dialog.open(UbsUserOrderPaymentPopUpComponent, {
         data: {
@@ -94,7 +95,7 @@ export class UbsUserOrdersListComponent implements OnInit, OnDestroy {
     return bag ? bag.count : null;
   }
 
-  public prepareDataForLocalStorage(order: IUserOrderInfo): void {
+  public getDataForLocalStorage(order: IUserOrderInfo): void {
     this.localStorageService.removeUbsOrderAndPersonalData();
 
     let orderDataResponse: OrderDetails;
@@ -144,7 +145,7 @@ export class UbsUserOrdersListComponent implements OnInit, OnDestroy {
       this.personalDetails.senderPhoneNumber =
         order.sender.senderPhone !== this.personalDetails.phoneNumber ? order.sender.senderPhone : null;
       this.anotherClient = order.sender.senderName !== this.personalDetails.firstName ? 'true' : 'false';
-      console.log('this.anotherClient ', this.anotherClient);
+      this.orderId = order.id.toString();
       this.setDataToLocalStorage();
     });
   }
@@ -152,8 +153,7 @@ export class UbsUserOrdersListComponent implements OnInit, OnDestroy {
   public setDataToLocalStorage(): void {
     const personalData = JSON.stringify(this.personalDetails);
     const orderData = JSON.stringify(this.orderDetails);
-    //this.localStorageService.setUbsOrderData(personalData, orderData);
-    this.localStorageService.setUbsOrderDataBeforeRedirect(personalData, orderData, this.anotherClient);
+    this.localStorageService.setUbsOrderDataBeforeRedirect(personalData, orderData, this.anotherClient, this.orderId);
     this.redirectToStepOne();
   }
 

@@ -85,6 +85,8 @@ export class UBSOrderDetailsComponent extends FormBaseComponent implements OnIni
   isBonus: string;
   public previousPath = 'ubs';
   public isThisExistingOrder: boolean;
+  public existingOrderId: number;
+  public locationId: number;
 
   constructor(
     private fb: FormBuilder,
@@ -105,19 +107,37 @@ export class UBSOrderDetailsComponent extends FormBaseComponent implements OnIni
       const key = 'isThisExistingOrder';
       this.isThisExistingOrder = !!params[key];
     });
-    const locationId = this.shareFormService.locationId;
-    if (locationId) {
-      this.currentLanguage = this.localStorageService.getCurrentLanguage();
-      this.locations = this.shareFormService.locations;
-      this.selectedLocationId = locationId;
-      this.saveLocation(false);
+
+    if (this.isThisExistingOrder) {
+      this.existingOrderId = parseInt(this.localStorageService.getExistingOrderId());
+      this.orderService
+        .getTariffForExistingOrder(this.existingOrderId)
+        .pipe(takeUntil(this.destroy))
+        .subscribe((tariffData: CourierLocations) => {
+          this.locationId = tariffData.locationsDtosList[0].locationId;
+          this.locations = tariffData;
+          this.localStorageService.setLocations(this.locations);
+          this.setLocation(this.locationId);
+        });
     } else {
-      this.openLocationDialog();
+      this.locationId = this.shareFormService.locationId;
+      this.setLocation(this.locationId);
     }
     this.takeOrderData();
     this.subscribeToLangChange();
     if (this.localStorageService.getUbsOrderData()) {
       this.calculateTotal();
+    }
+  }
+
+  public setLocation(locationId: number | undefined): void {
+    if (locationId) {
+      this.currentLanguage = this.localStorageService.getCurrentLanguage();
+      this.locations = !this.locations ? this.shareFormService.locations : this.locations;
+      this.selectedLocationId = this.locationId;
+      this.saveLocation(false);
+    } else {
+      this.openLocationDialog();
     }
   }
 
