@@ -1,5 +1,5 @@
 export class UpdatePasswordDto {
   confirmPassword: string;
-  currentPassword: string;
+  currentPassword?: string;
   password: string;
 }
