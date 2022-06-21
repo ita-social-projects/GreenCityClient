@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { changePasswordLink, updatePasswordLink } from '../../links';
+import { changePasswordLink, setPasswordForGoogleLink, updatePasswordLink } from '../../links';
 import { HttpClient } from '@angular/common/http';
 import { RestoreDto } from '../../model/restroreDto';
 import { Observable } from 'rxjs';
@@ -15,5 +15,9 @@ export class ChangePasswordService {
 
   public changePassword(updatePasswordDto: UpdatePasswordDto): Observable<object> {
     return this.http.put<UpdatePasswordDto>(changePasswordLink, updatePasswordDto);
+  }
+
+  public setPasswordForGoogleAuth(updatePasswordDto: UpdatePasswordDto): Observable<object> {
+    return this.http.post<object>(setPasswordForGoogleLink, updatePasswordDto);
   }
 }

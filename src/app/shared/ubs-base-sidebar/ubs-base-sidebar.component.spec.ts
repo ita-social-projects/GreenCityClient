@@ -18,6 +18,7 @@ import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { UserMessagesService } from '../../ubs/ubs-user/services/user-messages.service';
 import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
 import { JwtService } from '@global-service/jwt/jwt.service';
+import { Subject } from 'rxjs';
 
 describe('UbsBaseSidebarComponent', () => {
   let component: UbsBaseSidebarComponent;
@@ -64,6 +65,10 @@ describe('UbsBaseSidebarComponent', () => {
     fixture.detectChanges();
   });
 
+  it('should create', () => {
+    expect(component).toBeTruthy();
+  });
+
   it('should return icon link from list item', () => {
     listItem.link = component.bellsNotification;
     expect(component.getIcon(listItem)).toBe(listItem.link);
@@ -86,7 +91,34 @@ describe('UbsBaseSidebarComponent', () => {
     expect(spyOnResize).toHaveBeenCalled();
   });
 
-  xit('should create', () => {
-    expect(component).toBeTruthy();
+  it('should call getCountOfUnreadNotification', () => {
+    const getCountOfUnreadNotificationSpy = spyOn(component, 'getCountOfUnreadNotification');
+    component.ngAfterViewInit();
+    expect(getCountOfUnreadNotificationSpy).toHaveBeenCalled();
+  });
+
+  it('ngAfterViewInit should called getCountOfUnreadNotification method one time', () => {
+    const getCountOfUnreadNotificationSpy = spyOn(component, 'getCountOfUnreadNotification');
+    component.ngAfterViewInit();
+    expect(getCountOfUnreadNotificationSpy).toHaveBeenCalledTimes(1);
+  });
+
+  it('calls detect changes', () => {
+    const spy = spyOn((component as any).cdr, 'detectChanges');
+    component.ngAfterViewChecked();
+    expect(spy).toHaveBeenCalled();
+  });
+
+  it('destroy should be closed after ngOnDestroy()', () => {
+    component.destroy = new Subject<boolean>();
+    spyOn(component.destroy, 'next');
+    component.ngOnDestroy();
+    expect(component.destroy.next).toHaveBeenCalledTimes(1);
+  });
+
+  it('should unsubscribe on destroy', () => {
+    component.destroy.subscribe();
+    component.ngOnDestroy();
+    expect(component.destroy.closed).toBeTruthy();
   });
 });
