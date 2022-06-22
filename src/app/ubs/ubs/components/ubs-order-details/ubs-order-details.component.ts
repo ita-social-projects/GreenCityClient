@@ -236,6 +236,7 @@ export class UBSOrderDetailsComponent extends FormBaseComponent implements OnIni
     this.currentLanguage = this.localStorageService.getCurrentLanguage();
     if (!this.isThisExistingOrder) {
       this.localStorageService.removeUbsOrderAndPersonalData();
+      this.localStorageService.removeanotherClientData();
     }
     this.orderService
       .getOrders()

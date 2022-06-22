@@ -152,6 +152,10 @@ export class LocalStorageService {
     localStorage.setItem('UBSExistingOrderId', UBSExistingOrderId);
   }
 
+  public removeanotherClientData(): void {
+    localStorage.removeItem('anotherClient');
+  }
+
   public setLocationId(currentLocationId: number) {
     localStorage.setItem('currentLocationId', JSON.stringify(currentLocationId));
   }
@@ -182,6 +186,10 @@ export class LocalStorageService {
 
   public removeUbsFondyOrderId() {
     localStorage.removeItem('UbsFondyOrderId');
+  }
+
+  public removeUBSExistingOrderId() {
+    localStorage.removeItem('UBSExistingOrderId');
   }
 
   public setUserPagePayment(state: boolean): unknown {

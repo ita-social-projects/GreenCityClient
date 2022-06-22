@@ -62,6 +62,10 @@ export class OrderService {
     return this.http.post<Order>(`${this.url}/processOrder`, order, { responseType: 'text' as 'json' });
   }
 
+  processExistingOrder(order: Order, orderId: number): Observable<Order> {
+    return this.http.post<Order>(`${this.url}/processOrder/${orderId}`, order, { responseType: 'text' as 'json' });
+  }
+
   processCertificate(certificate): Observable<ICertificate> {
     return this.http.get<ICertificate>(`${this.url}/certificate/${certificate}`);
   }
@@ -94,6 +98,10 @@ export class OrderService {
 
   getOrderUrl(): Observable<any> {
     return this.processOrder(this.orderSubject.getValue());
+  }
+
+  getExistingOrderUrl(orderId: number): Observable<any> {
+    return this.processExistingOrder(this.orderSubject.getValue(), orderId);
   }
 
   getUbsOrderStatus(): Observable<any> {

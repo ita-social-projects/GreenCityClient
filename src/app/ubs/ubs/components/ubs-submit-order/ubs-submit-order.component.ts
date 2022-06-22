@@ -179,36 +179,66 @@ export class UBSSubmitOrderComponent extends FormBaseComponent implements OnInit
     }
 
     if (!this.isLiqPay) {
-      this.orderService
-        .getOrderUrl()
-        .pipe(takeUntil(this.destroy))
-        .pipe(
-          finalize(() => {
-            this.shareFormService.isDataSaved = false;
-            if (!this.shareFormService.orderUrl) {
-              this.router.navigate(['ubs', 'confirm']);
-            }
-          })
-        )
-        .subscribe(
-          (response) => {
-            const { orderId, link } = JSON.parse(response);
-            this.shareFormService.orderUrl = '';
-            this.localStorageService.removeUbsOrderId();
-            if (this.isFinalSumZero && !this.isTotalAmountZero) {
-              this.ubsOrderFormService.transferOrderId(orderId);
-              this.ubsOrderFormService.setOrderResponseErrorStatus(false);
-              this.ubsOrderFormService.setOrderStatus(true);
-            } else {
+      if (localStorage.getItem('UBSExistingOrderId')) {
+        const existingOrderId = parseInt(localStorage.getItem('UBSExistingOrderId'));
+        this.orderService
+          .getExistingOrderUrl(existingOrderId)
+          .pipe(takeUntil(this.destroy))
+          .pipe(
+            finalize(() => {
+              this.shareFormService.isDataSaved = false;
+              if (!this.shareFormService.orderUrl) {
+                this.router.navigate(['ubs', 'confirm']);
+              }
+            })
+          )
+          .subscribe(
+            (response) => {
+              console.log('RESPONSE ', response);
+              const { orderId, link } = JSON.parse(response);
+              this.shareFormService.orderUrl = '';
+              this.localStorageService.removeUbsOrderId();
+              this.localStorageService.removeUBSExistingOrderId();
               this.shareFormService.orderUrl = link.toString();
               this.localStorageService.setUbsFondyOrderId(orderId);
               this.redirectToExternalUrl(this.shareFormService.orderUrl);
+            },
+            (error) => {
+              this.loadingAnim = false;
             }
-          },
-          (error) => {
-            this.loadingAnim = false;
-          }
-        );
+          );
+      } else {
+        this.orderService
+          .getOrderUrl()
+          .pipe(takeUntil(this.destroy))
+          .pipe(
+            finalize(() => {
+              this.shareFormService.isDataSaved = false;
+              if (!this.shareFormService.orderUrl) {
+                this.router.navigate(['ubs', 'confirm']);
+              }
+            })
+          )
+          .subscribe(
+            (response) => {
+              const { orderId, link } = JSON.parse(response);
+              this.shareFormService.orderUrl = '';
+              this.localStorageService.removeUbsOrderId();
+              if (this.isFinalSumZero && !this.isTotalAmountZero) {
+                this.ubsOrderFormService.transferOrderId(orderId);
+                this.ubsOrderFormService.setOrderResponseErrorStatus(false);
+                this.ubsOrderFormService.setOrderStatus(true);
+              } else {
+                this.shareFormService.orderUrl = link.toString();
+                this.localStorageService.setUbsFondyOrderId(orderId);
+                this.redirectToExternalUrl(this.shareFormService.orderUrl);
+              }
+            },
+            (error) => {
+              this.loadingAnim = false;
+            }
+          );
+      }
     } else {
       this.getLiqPayButton();
     }
@@ -252,6 +282,7 @@ export class UBSSubmitOrderComponent extends FormBaseComponent implements OnInit
   onNotSaveData() {
     this.shareFormService.isDataSaved = true;
     this.localStorageService.removeUbsFondyOrderId();
+    this.localStorageService.removeUBSExistingOrderId();
     this.liqPayButton[0].click();
   }
 }
