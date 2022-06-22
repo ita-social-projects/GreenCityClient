@@ -6,7 +6,7 @@ import { UserOrdersService } from '../services/user-orders.service';
 import { Router } from '@angular/router';
 import { BonusesService } from '../ubs-user-bonuses/services/bonuses.service';
 import { IBonus } from '../ubs-user-bonuses/models/IBonus.interface';
-import { IUserOrderInfo, CheckOrderStatus } from '../ubs-user-orders-list/models/UserOrder.interface';
+import { IUserOrderInfo } from '../ubs-user-orders-list/models/UserOrder.interface';
 import { TranslateService } from '@ngx-translate/core';
 
 @Component({
@@ -81,9 +81,10 @@ export class UbsUserOrdersComponent implements OnInit, OnDestroy {
           this.numberOfHistoryOrders = table === 'history' ? item.totalElements : this.numberOfHistoryOrders;
         }
         this.orders = item.page;
-        this.loadingOrders = true;
         this.currentOrders = table === 'current' ? this.orders : this.currentOrders;
         this.orderHistory = table === 'history' ? this.orders : this.orderHistory;
+
+        this.loadingOrders = !!this.currentOrders;
 
         if (this.numberOfCurrentOrders && this.numberOfHistoryOrders) {
           this.isMoreThenOnePage = this.numberOfCurrentOrders > 10 || this.numberOfHistoryOrders > 10;
