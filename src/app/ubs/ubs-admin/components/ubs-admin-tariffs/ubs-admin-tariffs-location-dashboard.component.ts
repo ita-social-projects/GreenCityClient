@@ -92,7 +92,6 @@ export class UbsAdminTariffsLocationDashboardComponent implements OnInit, OnDest
       this.checkedCities = [];
       this.positionsFilter();
     });
-    this.openCreateCard();
   }
 
   private initForm(): void {

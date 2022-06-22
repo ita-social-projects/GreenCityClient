@@ -1,0 +1,52 @@
+<div class="w-100">
+  <p class="title">{{ title | translate }}</p>
+</div>
+<app-dialog-tariff [row]="form" [newDate]="newDate" [name]="name" [edit]="true"></app-dialog-tariff>
+<ng-template #form>
+  <div class="form">
+    <div class="form-block">
+      <div class="ua-part">
+        <label class="label">{{ 'ubs-tariffs.courier' | translate }}</label>
+        <p class="text">{{ courierName }}</p>
+      </div>
+      <div class="en-part">
+        <label class="label">Courier</label>
+        <p class="text">{{ courierEnglishName }}</p>
+      </div>
+    </div>
+    <div class="form-block">
+      <div class="ua-part">
+        <label class="label">{{ 'ubs-tariffs.station' | translate }}</label>
+        <p *ngFor="let stationName of stationNames" class="text">{{ stationName }}</p>
+      </div>
+    </div>
+    <div class="form-block">
+      <div class="ua-part">
+        <label class="label">{{ 'ubs-tariffs.region' | translate }}</label>
+        <p class="text">{{ regionName }}</p>
+      </div>
+      <div class="en-part">
+        <label class="label">Region</label>
+        <p class="text">{{ regionEnglishName }}</p>
+      </div>
+    </div>
+    <div class="form-block">
+      <div class="ua-part">
+        <label class="label">{{ 'ubs-tariffs.city' | translate }}</label>
+        <p *ngFor="let locationName of locationNames" class="text">{{ locationName }}</p>
+      </div>
+      <div class="en-part">
+        <label class="label">City</label>
+        <p *ngFor="let locationEnglishName of locationEnglishNames" class="text">{{ locationEnglishName }}</p>
+      </div>
+    </div>
+  </div>
+  <div class="buttons-wrapper" mat-dialog-actions>
+    <button class="button secondary-global-button" mat-button (click)="onNoClick()">
+      {{ 'ubs-tariffs-add-location-pop-up.cancel_button' | translate }}
+    </button>
+    <button class="button primary-global-button" (click)="actionClick()">
+      {{ action | translate }}
+    </button>
+  </div>
+</ng-template>

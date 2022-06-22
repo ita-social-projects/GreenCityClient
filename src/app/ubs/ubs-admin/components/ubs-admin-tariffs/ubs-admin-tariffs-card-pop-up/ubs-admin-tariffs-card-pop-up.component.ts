@@ -10,10 +10,10 @@ import { Store } from '@ngrx/store';
 import { Locations, CreateCard } from '../../../models/tariffs.interface';
 import { GetLocations } from 'src/app/store/actions/tariff.actions';
 import { MatAutocompleteSelectedEvent, MatAutocompleteTrigger } from '@angular/material/autocomplete';
-import { MatChipInputEvent } from '@angular/material/chips';
 import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { ModalTextComponent } from '../../shared/components/modal-text/modal-text.component';
 import { TranslateService } from '@ngx-translate/core';
+import { TariffConfirmationPopUpComponent } from '../../shared/components/tariff-confirmation-pop-up/tariff-confirmation-pop-up.component';
 
 @Component({
   selector: 'app-ubs-admin-tariffs-card-pop-up',
@@ -23,9 +23,9 @@ import { TranslateService } from '@ngx-translate/core';
 export class UbsAdminTariffsCardPopUpComponent implements OnInit {
   CardForm = this.fb.group({
     courier: ['', Validators.required],
-    station: ['', [Validators.required]],
+    station: ['', Validators.required],
     region: ['', Validators.required],
-    city: [{ value: '', disabled: true }, [Validators.required, Validators.maxLength(40)]]
+    city: [{ value: '', disabled: true }, [Validators.maxLength(40), Validators.required]]
   });
   public icons = {
     arrowDown: '././assets/img/ubs-tariff/arrow-down.svg',
@@ -43,7 +43,6 @@ export class UbsAdminTariffsCardPopUpComponent implements OnInit {
   public regions;
   public regionEnglishName;
   public stations;
-  public stationsName;
   public filteredStations;
   public selectedStation = [];
   public stationPlaceholder: string;
@@ -51,18 +50,14 @@ export class UbsAdminTariffsCardPopUpComponent implements OnInit {
   public selectedCities = [];
   public cityPlaceholder: string;
   public selectedCityLength: number;
-  public citySelected: boolean = false;
-  public reset: boolean = true;
-  public invalidForm: boolean = true;
+  public citySelected = false;
+  public reset = true;
   public courierId: number;
-  public stationId;
   public regionId: number;
-  public locationId: Array<number>;
   public createCardObj: CreateCard;
-  regionCardId;
-  stationCardId;
-  locationCardId;
-  courierCardName;
+  public blurOnOption = false;
+  public existingCardObj = [];
+  public objectsAreEqual = false;
 
   locations$ = this.store.select((state: IAppState): Locations[] => state.locations.locations);
 
@@ -102,6 +97,12 @@ export class UbsAdminTariffsCardPopUpComponent implements OnInit {
     this.getExistingCard();
   }
 
+  public onBlur(event): void {
+    if (event.relatedTarget.localName === 'mat-option') {
+      this.blurOnOption = true;
+    }
+  }
+
   public cityValidator(): ValidatorFn {
     let error;
     if (!this.selectedCities.length) {
@@ -137,12 +138,11 @@ export class UbsAdminTariffsCardPopUpComponent implements OnInit {
       .pipe(takeUntil(this.unsubscribe))
       .subscribe((res) => {
         this.stations = res;
-        console.log(this.stations);
-        this.stationsName = this.stations.map((it) => it.name);
+        const stationsName = this.stations.map((it) => it.name);
         this.station.valueChanges
           .pipe(
             startWith(''),
-            map((value: string) => this._filterOptions(value, this.stationsName))
+            map((value: string) => this._filterOptions(value, stationsName))
           )
           .subscribe((data) => {
             this.filteredStations = data;
@@ -172,7 +172,7 @@ export class UbsAdminTariffsCardPopUpComponent implements OnInit {
       it.courierTranslationDtos.filter((ob) => ob.languageCode === 'en').map((i) => i.name)
     );
     this.courierEnglishName = this.courierEnglishName.flat();
-    this.courierId = selectedValue.map((it) => it.courierId);
+    this.courierId = selectedValue.find((it) => it.courierId).courierId;
   }
 
   public setStationPlaceholder(): void {
@@ -184,6 +184,9 @@ export class UbsAdminTariffsCardPopUpComponent implements OnInit {
   }
 
   public onSelectStation(event, trigger?: MatAutocompleteTrigger): void {
+    this.station.clearValidators();
+    this.station.updateValueAndValidity();
+    this.blurOnOption = false;
     const selectedValue = this.stations.find((ob) => ob.name === event.option.value);
     const tempItem = {
       name: selectedValue.name,
@@ -195,10 +198,9 @@ export class UbsAdminTariffsCardPopUpComponent implements OnInit {
     } else {
       this.selectedStation.push(tempItem);
     }
-    this.station.clearValidators();
-    this.station.updateValueAndValidity();
-    this.setStationPlaceholder();
+    this.station.setValidators(this.stationValidator());
     this.station.setValue('');
+    this.setStationPlaceholder();
     if (trigger) {
       requestAnimationFrame(() => {
         trigger.openPanel();
@@ -209,7 +211,7 @@ export class UbsAdminTariffsCardPopUpComponent implements OnInit {
   public deleteStation(index): void {
     this.selectedStation.splice(index, 1);
     this.setStationPlaceholder();
-    this.stationValidator();
+    this.station.setValidators(this.stationValidator());
   }
 
   public checkStation(item): boolean {
@@ -221,7 +223,7 @@ export class UbsAdminTariffsCardPopUpComponent implements OnInit {
     this.regionEnglishName = selectedValue.map((it) =>
       it.regionTranslationDtos.filter((ob) => ob.languageCode === 'en').map((i) => i.regionName)
     );
-    this.regionId = selectedValue.map((it) => it.regionId);
+    this.regionId = selectedValue.find((it) => it.regionId).regionId;
     const currentRegion = this.locations.filter((element) => element.regionTranslationDtos.find((it) => it.regionName === event.value));
     if (!currentRegion || !currentRegion.length || !currentRegion[0].locationsDto) {
       return;
@@ -250,11 +252,13 @@ export class UbsAdminTariffsCardPopUpComponent implements OnInit {
   }
 
   public selected(event: MatAutocompleteSelectedEvent, trigger?: MatAutocompleteTrigger): void {
+    this.blurOnOption = false;
     this.city.clearValidators();
     this.city.updateValueAndValidity();
     this.selectCity(event);
     this.setCountOfSelectedCity();
     this.city.setValue('');
+    this.cityValidator();
     if (trigger) {
       requestAnimationFrame(() => {
         trigger.openPanel();
@@ -263,7 +267,9 @@ export class UbsAdminTariffsCardPopUpComponent implements OnInit {
   }
 
   public selectCity(event: MatAutocompleteSelectedEvent): void {
-    let location, englishLocation, locationId;
+    let location;
+    let englishLocation;
+    let locationId;
     event.option.value.locationTranslationDtoList.forEach((el) => {
       if (el.languageCode === 'ua') {
         location = el.locationName;
@@ -273,11 +279,7 @@ export class UbsAdminTariffsCardPopUpComponent implements OnInit {
       }
       locationId = event.option.value.locationId;
     });
-    const tempItem = {
-      location: location,
-      englishLocation: englishLocation,
-      locationId: locationId
-    };
+    const tempItem = { location, englishLocation, locationId };
     const newValue = event.option.viewValue;
     if (this.selectedCities.find((it) => it.location.includes(newValue))) {
       this.selectedCities = [...this.selectedCities.filter((item) => item.location !== newValue)];
@@ -323,26 +325,77 @@ export class UbsAdminTariffsCardPopUpComponent implements OnInit {
     this.tariffsService
       .getCardInfo()
       .pipe(takeUntil(this.unsubscribe))
-      .subscribe((res) => {
-        const card = res;
-        this.regionCardId = card.map((elem) => elem.regionDto.find((it) => it.regionId));
-        console.log(card);
-        console.log(this.regionCardId);
+      .subscribe((card) => {
+        card.forEach((el) => {
+          const cardObj = {
+            courierId: el.courierId,
+            receivingStationsIdList: el.receivingStationDtos.map((it) => it.id).sort(),
+            regionId: el.regionDto.regionId,
+            locationIdList: el.locationInfoDtos.map((it) => it.locationId).sort()
+          };
+          this.existingCardObj.push(cardObj);
+        });
       });
+  }
+
+  public isObjectsEqual(object1, object2) {
+    const keys1 = Object.keys(object1);
+    const keys2 = Object.keys(object2);
+    if (keys1.length !== keys2.length) {
+      return false;
+    }
+    for (const key of keys1) {
+      if (JSON.stringify(object1[key]) !== JSON.stringify(object2[key])) {
+        return false;
+      }
+    }
+    return true;
   }
 
   public createCardDto() {
     this.createCardObj = {
       courierId: this.courierId,
-      locationIdList: this.selectedCities.map((it) => it.locationId),
-      receivingStationsIdList: this.selectedStation.map((it) => it.id),
-      regionId: this.regionId
+      receivingStationsIdList: this.selectedStation.map((it) => it.id).sort(),
+      regionId: this.regionId,
+      locationIdList: this.selectedCities.map((it) => it.locationId).sort()
     };
+  }
+
+  public createCardRequest(card) {
+    this.tariffsService.createCard(card).pipe(takeUntil(this.unsubscribe)).subscribe();
   }
 
   public createCard(): void {
     this.createCardDto();
-    console.log(this.createCardObj);
+    const isEquel = this.existingCardObj.some((elem) => {
+      return this.isObjectsEqual(elem, this.createCardObj);
+    });
+    if (isEquel) {
+      this.objectsAreEqual = true;
+    } else {
+      this.objectsAreEqual = false;
+      this.dialogRef.close();
+      const matDialogRef = this.dialog.open(TariffConfirmationPopUpComponent, {
+        hasBackdrop: true,
+        panelClass: 'address-matDialog-styles-w-100',
+        data: {
+          title: 'ubs-tariffs-add-location-pop-up.create_card_title',
+          courierName: this.courier.value,
+          courierEnglishName: this.courierEnglishName,
+          stationNames: this.selectedStation.map((it) => it.name),
+          regionName: this.region.value,
+          regionEnglishName: this.regionEnglishName,
+          locationNames: this.selectedCities.map((it) => it.location),
+          locationEnglishNames: this.selectedCities.map((it) => it.englishLocation),
+          action: 'ubs-tariffs-add-location-pop-up.create_button'
+        }
+      });
+      matDialogRef.afterClosed().subscribe((res) => {
+        if (res) {
+          this.createCardRequest(this.createCardObj);
+        }
+      });
+    }
   }
 
   public onNoClick(): void {
@@ -352,6 +405,7 @@ export class UbsAdminTariffsCardPopUpComponent implements OnInit {
         panelClass: 'address-matDialog-styles-w-100',
         data: {
           name: 'cancel',
+          title: 'modal-text.cancel',
           text: 'modal-text.cancel-message',
           action: 'modal-text.yes'
         }
