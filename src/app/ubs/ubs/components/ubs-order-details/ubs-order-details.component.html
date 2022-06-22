@@ -10,11 +10,10 @@
           </button>
         </div>
       </div>
-      <p class="order-content" *ngIf="checkMessageOfValidationEqualMinPrice()">
-        this.showTotal" class="text-danger">
+      <p class="order-content" *ngIf="checkMessageOfValidationEqualMinPrice()" class="text-danger">
         {{ 'order-details.order-content' | translate }}
       </p>
-      <p class="order-content">
+      <p class="order-content" *ngIf="checkMessageOfValidationEqualAmountOfBigBags()" class="text-danger">
         {{ 'order-details.min-big-bags' | translate: { minAmountOfBigBags: minAmountOfBigBags } }}
       </p>
     </div>
@@ -164,7 +163,7 @@
     {{ 'order-details.cancel' | translate }}
   </button>
   <button
-    [disabled]="this.showTotal < locations.minPriceOfOrder || orderComment.invalid"
+    [disabled]="showTotal < locations.minPriceOfOrder || checkMessageOfValidationEqualAmountOfBigBags() || orderComment.invalid"
     type="submit"
     class="primary-global-button btn btn-main"
     matStepperNext

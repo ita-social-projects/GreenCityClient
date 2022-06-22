@@ -452,6 +452,10 @@ export class UBSOrderDetailsComponent extends FormBaseComponent implements OnIni
     return this.locations.courierLimit === 'LIMIT_BY_SUM_OF_ORDER' && this.locations.minPriceOfOrder > this.showTotal;
   }
 
+  checkMessageOfValidationEqualAmountOfBigBags(): boolean {
+    return this.locations.courierLimit === 'LIMIT_BY_AMOUNT_OF_BAG' && this.locations.minAmountOfBigBags > this.totalOfBigBags;
+  }
+
   ngOnDestroy() {
     this.destroy.next();
     this.destroy.unsubscribe();
