@@ -42,6 +42,10 @@
       <td>{{ order.amountBeforePayment | currency | localizedCurrency }}</td>
     </tr>
   </table>
+  <div class="recipient" *ngIf="order.orderComment !== ''">
+    <h6 class="bold_text">{{ 'user-orders.details.comment-order' | translate }}</h6>
+    <p>{{ order.orderComment }}</p>
+  </div>
 
   <div class="order_details">
     <ol class="recipient">
@@ -70,10 +74,6 @@
     <ol class="recipient" *ngIf="order.address.addressComment !== ''">
       <h6 class="bold_text">{{ 'user-orders.details.comment-address' | translate }}</h6>
       <li>{{ order.address.addressComment }}</li>
-    </ol>
-    <ol class="recipient" *ngIf="order.orderComment !== ''">
-      <h6 class="bold_text">{{ 'user-orders.details.comment-order' | translate }}</h6>
-      <li>{{ order.orderComment }}</li>
     </ol>
   </div>
 </div>
