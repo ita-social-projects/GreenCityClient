@@ -180,7 +180,7 @@ export class UBSSubmitOrderComponent extends FormBaseComponent implements OnInit
 
     if (!this.isLiqPay) {
       if (localStorage.getItem('UBSExistingOrderId')) {
-        const existingOrderId = parseInt(localStorage.getItem('UBSExistingOrderId'));
+        const existingOrderId = parseInt(localStorage.getItem('UBSExistingOrderId'), 10);
         this.orderService
           .getExistingOrderUrl(existingOrderId)
           .pipe(takeUntil(this.destroy))

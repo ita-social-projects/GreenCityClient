@@ -29,7 +29,8 @@ describe('OrderDetailsFormComponent', () => {
     'getCurrentLanguage',
     'languageSubject',
     'getUbsOrderData',
-    'removeUbsOrderAndPersonalData'
+    'removeUbsOrderAndPersonalData',
+    'removeanotherClientData'
   ]);
   localStorageService.getUbsOrderData = () => null;
   localStorageService.languageSubject = fakeLanguageSubject;
