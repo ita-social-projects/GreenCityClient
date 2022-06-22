@@ -60,7 +60,7 @@ describe('UbsAdminOrderPaymentComponent', () => {
         {
           ableActualChange: false,
           key: 'CONFIRMED',
-          translation: 'Підтвердженно'
+          translation: 'Підтверджено'
         },
         {
           ableActualChange: false,

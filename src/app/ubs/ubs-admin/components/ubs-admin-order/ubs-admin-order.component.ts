@@ -158,7 +158,7 @@ export class UbsAdminOrderComponent implements OnInit, OnDestroy, AfterContentCh
         recipientName: [this.userInfo.recipientName, [Validators.required, Validators.minLength(1), Validators.maxLength(30)]],
         recipientSurName: [this.userInfo.recipientSurName, [Validators.required, Validators.minLength(1), Validators.maxLength(30)]],
         recipientPhoneNumber: [this.userInfo.recipientPhoneNumber, [Validators.required, Validators.pattern('^\\+?3?8?(0\\d{9})$')]],
-        recipientEmail: [this.userInfo.recipientEmail, [Validators.required, Validators.email]]
+        recipientEmail: [this.userInfo.recipientEmail, [Validators.email]]
       }),
       addressExportDetailsDto: this.fb.group({
         addressRegion: this.addressInfo.addressRegion,
