@@ -240,6 +240,7 @@ export interface UserProfile {
   recipientName: string;
   recipientPhone: string;
   recipientSurname: string;
+  hasPassword: boolean;
 }
 
 export interface Address {
