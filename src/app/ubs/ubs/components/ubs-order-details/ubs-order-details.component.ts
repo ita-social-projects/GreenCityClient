@@ -30,7 +30,6 @@ export class UBSOrderDetailsComponent extends FormBaseComponent implements OnIni
   total = 0;
   finalSum = 0;
   minAmountOfBigBags: number;
-  minPriceOfOrder: number;
   courierLimit: string;
   totalOfBigBags: number;
   cancelCertBtn = false;
@@ -165,6 +164,7 @@ export class UBSOrderDetailsComponent extends FormBaseComponent implements OnIni
       .afterClosed()
       .pipe(takeUntil(this.destroy))
       .subscribe((res) => {
+        console.log(res.data);
         if (res.data) {
           this.locations = res.data;
           this.selectedLocationId = res.locationId;
@@ -446,6 +446,10 @@ export class UBSOrderDetailsComponent extends FormBaseComponent implements OnIni
 
   redirectToZeroStep() {
     this.openLocationDialog();
+  }
+
+  checkMessageOfValidationEqualMinPrice(): boolean {
+    return this.locations.courierLimit === 'LIMIT_BY_SUM_OF_ORDER' && this.locations.minPriceOfOrder > this.showTotal;
   }
 
   ngOnDestroy() {
