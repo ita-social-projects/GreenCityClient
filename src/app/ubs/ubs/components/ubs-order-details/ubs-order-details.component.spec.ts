@@ -176,13 +176,6 @@ describe('OrderDetailsFormComponent', () => {
     expect(spy).toHaveBeenCalled();
   });
 
-  it('checkCourierLimit should check and set courierLimitBySum', () => {
-    mockLocations.courierLimit = 'LIMIT_BY_SUM_OF_ORDER';
-    component.checkCourierLimit();
-    fixture.detectChanges();
-    expect(component.courierLimitBySum).toBeTruthy();
-  });
-
   it('checkCourierLimit should check and set courierLimitByAmount', () => {
     mockLocations.courierLimit = 'LIMIT_BY_AMOUNT_OF_BAG';
     component.checkCourierLimit();

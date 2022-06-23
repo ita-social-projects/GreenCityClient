@@ -128,15 +128,19 @@ describe('UbsAdminTariffsLocationDashboardComponent', () => {
   };
 
   const fakeLocations: Locations = {
-    locationsDto: [{
-      latitude: 0,
-      longitude: 0,
-      locationId: 159,
-      locationTranslationDtoList: [{
-        languageCode: 'ua',
-        locationName: 'fake'
-      }]
-    }],
+    locationsDto: [
+      {
+        latitude: 0,
+        longitude: 0,
+        locationId: 159,
+        locationTranslationDtoList: [
+          {
+            languageCode: 'ua',
+            locationName: 'fake'
+          }
+        ]
+      }
+    ],
     regionId: 1,
     regionTranslationDtos: {
       regionName: 'ua',
@@ -332,7 +336,7 @@ describe('UbsAdminTariffsLocationDashboardComponent', () => {
     const spy = spyOn(component, 'isChecked').and.returnValue(true);
     component.toggleSelectAll();
     expect(spy).toHaveBeenCalled();
-    expect(component.checkedCities.length).toEqual(0);
+    expect(component.checkedCities.length).toBe(0);
   });
 
   it('should get locations', () => {
