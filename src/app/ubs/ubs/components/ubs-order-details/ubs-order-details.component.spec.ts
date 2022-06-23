@@ -23,6 +23,7 @@ describe('OrderDetailsFormComponent', () => {
   let component: UBSOrderDetailsComponent;
   let fixture: ComponentFixture<UBSOrderDetailsComponent>;
   let orderService: OrderService;
+
   const fakeLanguageSubject: Subject<string> = new Subject<string>();
   const shareFormService = jasmine.createSpyObj('shareFormService', ['orderDetails', 'changeAddCertButtonVisibility']);
   const localStorageService = jasmine.createSpyObj('localStorageService', [
@@ -34,7 +35,7 @@ describe('OrderDetailsFormComponent', () => {
   localStorageService.getUbsOrderData = () => null;
   localStorageService.languageSubject = fakeLanguageSubject;
   const mockLocations = {
-    courierLimit: 'fake',
+    courierLimit: 'LIMIT_BY_SUM_OF_ORDER',
     courierStatus: 'fake status',
     tariffInfoId: 1,
     regionDto: {
@@ -60,6 +61,7 @@ describe('OrderDetailsFormComponent', () => {
     minAmountOfBigBags: 2,
     minPriceOfOrder: 500
   };
+  const bagsMock: Bag[] = [];
   shareFormService.locationId = 1;
   shareFormService.locations = mockLocations;
 
@@ -89,14 +91,12 @@ describe('OrderDetailsFormComponent', () => {
         }
       })
       .compileComponents();
-  }));
 
-  beforeEach(() => {
     fixture = TestBed.createComponent(UBSOrderDetailsComponent);
     component = fixture.componentInstance;
     spyOn(component, 'saveLocation');
     fixture.detectChanges();
-  });
+  }));
 
   it('should create', () => {
     expect(component).toBeTruthy();
@@ -136,7 +136,6 @@ describe('OrderDetailsFormComponent', () => {
   });
 
   it('method onQuantityChange should invoke calculateTotal method', () => {
-    const bagsMock: Bag[] = [];
     const spy = spyOn<any>(component, 'calculateTotal');
     const fakeElement = document.createElement('div');
     spyOn(document, 'getElementById').and.returnValue(fakeElement);
@@ -150,6 +149,12 @@ describe('OrderDetailsFormComponent', () => {
     const spy = spyOn(component, 'ecoStoreValidation');
     spyOn(global, 'setTimeout');
     component.addOrder();
+    expect(spy).toHaveBeenCalled();
+  });
+
+  it('method setLimitsValues should invoke checkCourierLimit method', () => {
+    const spy = spyOn(component, 'checkCourierLimit');
+    component.setLimitsValues();
     expect(spy).toHaveBeenCalled();
   });
 
@@ -169,6 +174,41 @@ describe('OrderDetailsFormComponent', () => {
     const spy = spyOn<any>(component, 'setCurrentLocation');
     (component as any).setCurrentLocation('en');
     expect(spy).toHaveBeenCalled();
+  });
+
+  it('checkCourierLimit should check and set courierLimitBySum', () => {
+    mockLocations.courierLimit = 'LIMIT_BY_SUM_OF_ORDER';
+    component.checkCourierLimit();
+    fixture.detectChanges();
+    expect(component.courierLimitBySum).toBeTruthy();
+  });
+
+  it('checkCourierLimit should check and set courierLimitByAmount', () => {
+    mockLocations.courierLimit = 'LIMIT_BY_AMOUNT_OF_BAG';
+    component.checkCourierLimit();
+    fixture.detectChanges();
+    expect(component.courierLimitByAmount).toBeTruthy();
+  });
+
+  it('validateBags should set courierLimitValidation', () => {
+    component.courierLimitByAmount = true;
+    component.validateBags();
+    fixture.detectChanges();
+    expect(component.courierLimitValidation).toBeFalsy();
+  });
+
+  it('validateSum should set courierLimitValidation', () => {
+    component.courierLimitBySum = true;
+    component.validateSum();
+    fixture.detectChanges();
+    expect(component.courierLimitValidation).toBeFalsy();
+  });
+
+  it('destroy should be closed after ngOnDestroy()', () => {
+    (component as any).destroy = new Subject<boolean>();
+    spyOn((component as any).destroy, 'next');
+    component.ngOnDestroy();
+    expect((component as any).destroy.next).toHaveBeenCalledTimes(1);
   });
 
   it('destroy Subject should be closed after ngOnDestroy()', () => {

@@ -122,12 +122,20 @@ export class UBSOrderDetailsComponent extends FormBaseComponent implements OnIni
   }
 
   public setLimitsValues(): void {
+    this.checkCourierLimit();
     this.locations = this.localStorageService.getLocations();
-    this.locations?.courierLimit === 'LIMIT_BY_SUM_OF_ORDER' ? this.courierLimitBySum = true : this.courierLimitByAmount = true;
     this.minOrderValue = this.locations?.minPriceOfOrder;
     this.minAmountOfBigBags = this.locations?.minAmountOfBigBags;
     this.validateBags();
     this.validateSum();
+  }
+
+  public checkCourierLimit(): void {
+    if (this.locations?.courierLimit === 'LIMIT_BY_SUM_OF_ORDER') {
+      this.courierLimitBySum = true;
+    } else {
+      this.courierLimitByAmount = true;
+    }
   }
 
   public checkOnNumber(event: KeyboardEvent): boolean {
