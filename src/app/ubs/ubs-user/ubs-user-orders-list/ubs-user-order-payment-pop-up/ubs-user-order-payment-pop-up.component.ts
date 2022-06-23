@@ -34,6 +34,7 @@ export class UbsUserOrderPaymentPopUpComponent implements OnInit {
   public dataLoadingLiqPay: boolean;
   public isLiqPayLink: boolean;
   public isCertBeenUsed = false;
+  public isMessageValidationCertificate = false;
   public usedCertificates: string[] = [];
 
   public userOrder: IOrderDetailsUser = {
@@ -72,11 +73,17 @@ export class UbsUserOrderPaymentPopUpComponent implements OnInit {
     this.dataLoadingLiqPay = false;
     this.certificateStatus.push(true);
     this.orderClientDto = new OrderClientDto();
+    this.orderDetailsForm.valueChanges.subscribe((res) => {
+      this.userCertificate.certificateError = res.formArrayCertificates
+        .slice(1)
+        .some((item) => item.certificateCode === res.formArrayCertificates[0].certificateCode);
+      console.log(this.formArrayCertificates[0].certificateCode);
+    });
   }
 
   public createCertificateItem(): FormGroup {
     return this.fb.group({
-      certificateCode: ['', [Validators.minLength(8), Validators.pattern(this.certificatePattern)]],
+      certificateCode: ['', [Validators.required, Validators.minLength(8), Validators.pattern(this.certificatePattern)]],
       certificateSum: [0, [Validators.min(0)]]
     });
   }
@@ -99,6 +106,7 @@ export class UbsUserOrderPaymentPopUpComponent implements OnInit {
 
   public certificateSubmit(index: number, certificate: FormControl): void {
     this.isCertBeenUsed = false;
+    this.isMessageValidationCertificate = this.showMessageValidationCertificate();
     if (
       !this.usedCertificates ||
       !this.usedCertificates.some((item, ind) => {
@@ -106,13 +114,16 @@ export class UbsUserOrderPaymentPopUpComponent implements OnInit {
       })
     ) {
       this.userCertificate.certificates.push(certificate.value);
-
       this.calculateCertificate(certificate);
       this.certificateStatus[index] = false;
       this.usedCertificates.push(certificate.value.certificateCode);
     } else {
       this.isCertBeenUsed = true;
     }
+  }
+
+  showMessageValidationCertificate(): boolean {
+    return !this.userCertificate.certificateError && this.orderDetailsForm.get('formArrayCertificates').valid;
   }
 
   checkIfCertBeenUsed(): boolean {
@@ -157,14 +168,15 @@ export class UbsUserOrderPaymentPopUpComponent implements OnInit {
       this.certificateStatus[index] = true;
       this.formArrayCertificates.controls[index].reset();
     }
-
     this.userCertificate.certificates.splice(index, 1);
+    this.isMessageValidationCertificate = this.showMessageValidationCertificate();
   }
 
   public addNewCertificate(): void {
     this.formArrayCertificates.push(this.createCertificateItem());
     this.userCertificate.certificateStatusActive = false;
     this.certificateStatus.push(true);
+    this.isMessageValidationCertificate = this.showMessageValidationCertificate();
   }
 
   public fillOrderClientDto(): void {
