@@ -67,7 +67,9 @@ export enum CheckOrderStatus {
   CANCELED = 'Canceled',
   CONFIRMED = 'Confirmed',
   FORMED = 'Formed',
-  ADJUSTMENT = 'Adjusted'
+  ADJUSTMENT = 'Adjustment',
+  BROUGHT_IT_HIMSELF = 'Brought by himself',
+  NOT_TAKEN_OUT = 'Not taken out'
 }
 
 export interface IUserOrdersInfo {

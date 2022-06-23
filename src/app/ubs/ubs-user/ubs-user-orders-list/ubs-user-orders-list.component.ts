@@ -54,6 +54,16 @@ export class UbsUserOrdersListComponent implements OnInit, OnDestroy {
     return this.isOrderPriceGreaterThenZero(order) && (this.isOrderUnpaid(order) || this.isOrderHalfPaid(order));
   }
 
+  public canOrderBeCancel(order: IUserOrderInfo): boolean {
+    return (
+      order.paymentStatusEng !== CheckPaymentStatus.HALFPAID &&
+      order.orderStatusEng !== CheckOrderStatus.ADJUSTMENT &&
+      order.orderStatusEng !== CheckOrderStatus.BROUGHT_IT_HIMSELF &&
+      order.orderStatusEng !== CheckOrderStatus.NOT_TAKEN_OUT &&
+      order.orderStatusEng !== CheckOrderStatus.CANCELED
+    );
+  }
+
   public changeCard(id: number): void {
     this.orders.forEach((order) => (order.extend = order.id === id ? !order.extend : false));
   }
