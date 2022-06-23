@@ -1,4 +1,14 @@
-import { AfterViewInit, Component, ElementRef, Input, OnDestroy, ViewChild } from '@angular/core';
+import {
+  AfterViewInit,
+  Component,
+  ElementRef,
+  HostListener,
+  Input,
+  OnDestroy,
+  ViewChild,
+  ChangeDetectorRef,
+  AfterViewChecked
+} from '@angular/core';
 import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout';
 import { MatDrawer } from '@angular/material/sidenav';
 import { UserMessagesService } from '../../ubs/ubs-user/services/user-messages.service';
@@ -11,7 +21,7 @@ import { JwtService } from '@global-service/jwt/jwt.service';
   templateUrl: './ubs-base-sidebar.component.html',
   styleUrls: ['./ubs-base-sidebar.component.scss']
 })
-export class UbsBaseSidebarComponent implements AfterViewInit, OnDestroy {
+export class UbsBaseSidebarComponent implements AfterViewInit, AfterViewChecked, OnDestroy {
   private destroySub: Subject<boolean> = new Subject<boolean>();
   readonly bellsNoneNotification = 'assets/img/sidebarIcons/none_notification_Bell.svg';
   readonly bellsNotification = 'assets/img/sidebarIcons/notification_Bell.svg';
@@ -26,7 +36,8 @@ export class UbsBaseSidebarComponent implements AfterViewInit, OnDestroy {
   constructor(
     public serviceUserMessages: UserMessagesService,
     public breakpointObserver: BreakpointObserver,
-    public jwtService: JwtService
+    public jwtService: JwtService,
+    private cdr?: ChangeDetectorRef
   ) {}
 
   public getIcon(listItem): string {
@@ -46,6 +57,13 @@ export class UbsBaseSidebarComponent implements AfterViewInit, OnDestroy {
     }
   }
 
+  @HostListener('window:resize', ['$event'])
+  onResize(event) {
+    if ((event.target.innerWidth < 992 || window.innerWidth < 992) && this.drawer) {
+      this.drawer.opened = false;
+    }
+  }
+
   getCountOfUnreadNotification() {
     this.jwtService.userRole$.pipe(takeUntil(this.destroySub)).subscribe((userRole) => {
       if (userRole !== this.adminRoleValue) {
@@ -60,6 +78,9 @@ export class UbsBaseSidebarComponent implements AfterViewInit, OnDestroy {
   }
 
   ngAfterViewInit(): void {
+    if (window.innerWidth < 992 && this.drawer) {
+      this.drawer.toggle();
+    }
     setTimeout(() => {
       this.breakpointObserver.observe([Breakpoints.Small, Breakpoints.XSmall]).subscribe((result) => {
         if (this.drawer) {
@@ -68,6 +89,10 @@ export class UbsBaseSidebarComponent implements AfterViewInit, OnDestroy {
       });
     }, 0);
     this.getCountOfUnreadNotification();
+  }
+
+  ngAfterViewChecked(): void {
+    this.cdr?.detectChanges();
   }
 
   ngOnDestroy() {
