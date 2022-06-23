@@ -56,7 +56,7 @@
     width: 59px;
     height: 100%;
     top: 80px;
-    z-index: 9;
+    z-index: 9 !important;
     background-color: var(--ubs-primary-grey);
     -webkit-user-select: none;
     -moz-user-select: none;
@@ -71,6 +71,34 @@
 
   .mobile-sidebar {
     display: none;
+    position: fixed;
+    bottom: 0;
+    width: 100%;
+    color: var(--ubs-grey-white);
+    z-index: 4;
+    background-color: var(--ubs-primary-grey);
+
+    .sidebar-list {
+      display: flex;
+      justify-content: space-around;
+      flex-wrap: wrap;
+
+      .sidebar-list-item-mobile {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        cursor: pointer;
+        width: 25%;
+        padding: 9px;
+      }
+
+      .sidebar-list-item-text {
+        display: flex;
+        margin-top: 6px;
+        font-size: 10px;
+        line-height: 12px;
+      }
+    }
   }
 
   .count-unread-messages {
@@ -81,34 +109,6 @@
   @media (max-width: 480px) {
     .mobile-sidebar {
       display: block;
-      position: fixed;
-      bottom: 0;
-      width: 100%;
-      color: var(--ubs-grey-white);
-      z-index: 4;
-      background-color: var(--ubs-primary-grey);
-
-      .sidebar-list {
-        display: flex;
-        justify-content: space-around;
-        flex-wrap: wrap;
-
-        .sidebar-list-item-mobile {
-          display: flex;
-          flex-direction: column;
-          align-items: center;
-          cursor: pointer;
-          width: 25%;
-          padding: 9px;
-        }
-
-        .sidebar-list-item-text {
-          display: flex;
-          margin-top: 6px;
-          font-size: 10px;
-          line-height: 12px;
-        }
-      }
     }
 
     .main-content {
@@ -143,5 +143,14 @@
     .sidebar-container {
       margin-left: 85px !important;
     }
+  }
+}
+
+@media (max-height: 350px) {
+  .mobile-sidebar {
+    display: block !important;
+  }
+  .sidebar-icons {
+    display: none;
   }
 }
