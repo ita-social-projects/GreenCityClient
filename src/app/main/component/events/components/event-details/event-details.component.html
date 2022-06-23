@@ -69,32 +69,42 @@
         </div>
       </div>
 
-      <mat-card class="event-place">
+      <mat-card class="event-place" *ngFor="let date of event.dates; let i = index">
+        <h5>Event day {{ i + 1 }}</h5>
         <div class="event-stars">
           <span class="star fill"></span>
           <span class="star empty"></span>
           <span class="star empty"></span>
         </div>
 
-        <div *ngIf="event.dates[0]" class="date-container">
+        <div class="date-container">
           <div>
             <h4>Start</h4>
           </div>
           <div class="date">
-            {{ event.dates[0].startDate | date: 'mediumDate' }}
+            {{ date.startDate | date: 'mediumDate' }}
           </div>
           <div class="time-container">
-            <div class="time">{{ event.dates[0].startDate | date: 'HH:mm:ss' }}-</div>
-            <div class="time">{{ event.dates[0].finishDate | date: 'HH:mm:ss' }}</div>
+            <div class="time">{{ date.startDate | date: 'HH:mm:ss' }}-</div>
+            <div class="time">{{ date.finishDate | date: 'HH:mm:ss' }}</div>
           </div>
         </div>
-        <div *ngIf="event.dates[0]" class="date-container">
+        <div *ngIf="date.coordinates.latitude" class="date-container">
           <div>
             <h4>Place</h4>
           </div>
           <div>
             {{ address }}
-            <span *ngIf="event.dates[0].coordinates.latitude" (click)="openMap()" class="map-icon"></span>
+            <span (click)="openMap()" class="map-icon"></span>
+          </div>
+        </div>
+
+        <div *ngIf="date.onlineLink" class="date-container">
+          <div>
+            <h4>Online</h4>
+          </div>
+          <div>
+            {{ date.onlineLink }}
           </div>
         </div>
       </mat-card>

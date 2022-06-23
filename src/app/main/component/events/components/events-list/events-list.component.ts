@@ -4,6 +4,10 @@ import { EventsService } from '../../services/events.service';
 import { UserOwnAuthService } from '@auth-service/user-own-auth.service';
 import { ReplaySubject } from 'rxjs';
 import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
+import { Store } from '@ngrx/store';
+import { IAppState } from 'src/app/store/state/app.state';
+import { IEcoEventsState } from 'src/app/store/state/ecoEvents.state';
+import { GetEcoEventsByPageAction } from 'src/app/store/actions/ecoEvents.actions';
 
 @Component({
   selector: 'app-events-list',
@@ -16,7 +20,7 @@ export class EventsListComponent implements OnInit, OnDestroy {
   public isLoggedIn: string;
   private destroyed$: ReplaySubject<any> = new ReplaySubject<any>(1);
 
-  public items = 9;
+  public items = 1;
   public total = 0;
   public page = 0;
 
@@ -28,7 +32,11 @@ export class EventsListComponent implements OnInit, OnDestroy {
     };
   }
 
+  ecoEvents$ = this.store.select((state: IAppState): IEcoEventsState => state.ecoEventsState);
+  paginationArr = [];
+
   constructor(
+    private store: Store,
     private eventService: EventsService,
     private userOwnAuthService: UserOwnAuthService,
     private localStorageService: LocalStorageService
@@ -39,9 +47,14 @@ export class EventsListComponent implements OnInit, OnDestroy {
     this.checkUserSingIn();
     this.userOwnAuthService.getDataFromLocalStorage();
 
-    this.eventService.getEvents(this.page, 9).subscribe((res: EventResponseDto) => {
-      this.eventsList = [...res.page];
-      this.total = res.totalElements;
+    this.ecoEvents$.subscribe((res: IEcoEventsState) => {
+      this.paginationArr = res.visitedPages;
+      this.total = res.totalPages;
+      this.page = res.pageNumber;
+      this.eventsList = res.eventsList[this.page];
+      if (!this.paginationArr.some((it) => it === 0)) {
+        this.store.dispatch(GetEcoEventsByPageAction({ currentPage: this.page, numberOfEvents: 3, reset: true }));
+      }
     });
   }
 
@@ -54,10 +67,7 @@ export class EventsListComponent implements OnInit, OnDestroy {
   }
 
   public setPage(event: number): void {
-    this.page = event;
-    this.eventService.getEvents(event - 1, 9).subscribe((res: EventResponseDto) => {
-      this.eventsList = [...res.page];
-    });
+    this.store.dispatch(GetEcoEventsByPageAction({ currentPage: event - 1, numberOfEvents: 3, reset: false }));
   }
 
   ngOnDestroy(): void {

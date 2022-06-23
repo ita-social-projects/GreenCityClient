@@ -192,15 +192,26 @@ export class CreateEditEventsComponent implements OnInit, OnDestroy {
     if (this.editMode) {
       sendEventDto = {
         ...sendEventDto,
-        imagesTodelete: this.imagesToDelete
+        imagesToDelete: this.imagesToDelete,
+        //  additionalImages: [],
+        id: this.editEvent.id
+        //   titleImage: ''
       };
     }
+
+    console.log(sendEventDto, 'editDto');
+
     const test = true;
     if (this.checkdates && this.eventFormGroup.valid && tagsArr.length && test) {
       this.checkAfterSend = true;
       const formData: FormData = new FormData();
       const stringifiedDataToSend = JSON.stringify(sendEventDto);
-      formData.append('addEventDtoRequest', stringifiedDataToSend);
+      let dtoName = 'addEventDtoRequest';
+      if (this.editMode) {
+        dtoName = 'eventDto';
+      }
+      formData.append(dtoName, stringifiedDataToSend);
+
       this.imgArray.forEach((item) => {
         formData.append('images', item);
       });

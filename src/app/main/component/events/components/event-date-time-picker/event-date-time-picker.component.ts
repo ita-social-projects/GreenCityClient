@@ -77,6 +77,7 @@ export class EventDateTimePickerComponent implements OnInit, OnChanges {
   }
 
   private setEditData(): void {
+    console.log(this.editDate, 'DDDD');
     const startEditTime = this.pipe.transform(this.editDate.startDate, 'H:mm');
     const endEditTime = this.pipe.transform(this.editDate.finishDate, 'H:mm');
     if (endEditTime === '23:59') {
@@ -94,7 +95,9 @@ export class EventDateTimePickerComponent implements OnInit, OnChanges {
       this.checkOfflinePlace = true;
       this.dateForm.addControl('place', new FormControl('', [Validators.required]));
       setTimeout(() => this.setPlaceAutocomplete(), 0);
-      setTimeout(() => this.setGeocode(), 2000);
+      this.dateForm.patchValue({
+        place: this.editDate.coordinates.addressEn
+      });
 
       this.coordinates.latitude = this.editDate.coordinates.latitude;
       this.coordinates.longitude = this.editDate.coordinates.longitude;
@@ -107,19 +110,6 @@ export class EventDateTimePickerComponent implements OnInit, OnChanges {
         onlineLink: this.editDate.onlineLink
       });
     }
-  }
-
-  private setGeocode(): void {
-    this.geoCoder.geocode(
-      { location: { lat: this.editDate.coordinates.latitude, lng: this.editDate.coordinates.longitude } },
-      (results, status) => {
-        if (status === 'OK') {
-          this.dateForm.patchValue({
-            place: results[0].formatted_address
-          });
-        }
-      }
-    );
   }
 
   public checkIfAllDay(): void {

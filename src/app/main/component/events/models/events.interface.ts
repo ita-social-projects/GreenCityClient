@@ -3,18 +3,30 @@ export interface EventDTO {
   description: string;
   open: boolean;
   datesLocations: Array<Dates>;
-  tags: Array<string>;
-  imagesTodelete?: Array<string>;
+  // tags: Array<string>;
+  tags: any;
+  // imagesToDelete?: Array<string>;
+  imagesToDelete?: any;
+  additionalImages?: Array<string>;
+  id?: number;
+  organizer?: {
+    id: number;
+    name: string;
+  };
+  titleImage?: string;
 }
 
 export interface Dates {
   startDate: string;
   finishDate: string;
   coordinates: {
+    addressEn?: string;
+    addressUa?: string;
     latitude: number;
     longitude: number;
   };
   onlineLink: string;
+  id?: number;
 }
 
 export interface DateEvent {
@@ -83,6 +95,8 @@ export interface TagDto {
 }
 export interface DateEventResponceDto {
   coordinates: {
+    addressEn: string;
+    addressUa: string;
     latitude: number;
     longitude: number;
   };
