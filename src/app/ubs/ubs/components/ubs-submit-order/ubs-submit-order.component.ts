@@ -170,78 +170,81 @@ export class UBSSubmitOrderComponent extends FormBaseComponent implements OnInit
     });
   }
 
+  finalizeGetOrderUrl(): void {
+    this.shareFormService.isDataSaved = false;
+    if (!this.shareFormService.orderUrl) {
+      this.router.navigate(['ubs', 'confirm']);
+    }
+  }
+
   redirectToOrder() {
     this.loadingAnim = true;
     this.localStorageService.setUserPagePayment(false);
-
     if (this.isFinalSumZero) {
       this.isLiqPay = false;
     }
-
     if (!this.isLiqPay) {
-      if (localStorage.getItem('UBSExistingOrderId')) {
-        const existingOrderId = parseInt(localStorage.getItem('UBSExistingOrderId'), 10);
-        this.orderService
-          .getExistingOrderUrl(existingOrderId)
-          .pipe(takeUntil(this.destroy))
-          .pipe(
-            finalize(() => {
-              this.shareFormService.isDataSaved = false;
-              if (!this.shareFormService.orderUrl) {
-                this.router.navigate(['ubs', 'confirm']);
-              }
-            })
-          )
-          .subscribe(
-            (response) => {
-              console.log('RESPONSE ', response);
-              const { orderId, link } = JSON.parse(response);
-              this.shareFormService.orderUrl = '';
-              this.localStorageService.removeUbsOrderId();
-              this.localStorageService.removeUBSExistingOrderId();
-              this.shareFormService.orderUrl = link.toString();
-              this.localStorageService.setUbsFondyOrderId(orderId);
-              this.redirectToExternalUrl(this.shareFormService.orderUrl);
-            },
-            (error) => {
-              this.loadingAnim = false;
-            }
-          );
-      } else {
-        this.orderService
-          .getOrderUrl()
-          .pipe(takeUntil(this.destroy))
-          .pipe(
-            finalize(() => {
-              this.shareFormService.isDataSaved = false;
-              if (!this.shareFormService.orderUrl) {
-                this.router.navigate(['ubs', 'confirm']);
-              }
-            })
-          )
-          .subscribe(
-            (response) => {
-              const { orderId, link } = JSON.parse(response);
-              this.shareFormService.orderUrl = '';
-              this.localStorageService.removeUbsOrderId();
-              if (this.isFinalSumZero && !this.isTotalAmountZero) {
-                this.ubsOrderFormService.transferOrderId(orderId);
-                this.ubsOrderFormService.setOrderResponseErrorStatus(false);
-                this.ubsOrderFormService.setOrderStatus(true);
-              } else {
-                this.shareFormService.orderUrl = link.toString();
-                this.localStorageService.setUbsFondyOrderId(orderId);
-                this.redirectToExternalUrl(this.shareFormService.orderUrl);
-              }
-            },
-            (error) => {
-              this.loadingAnim = false;
-            }
-          );
-      }
+      localStorage.getItem('UBSExistingOrderId') ? this.getExistingOrderUrl() : this.getNewOrderUrl();
     } else {
       this.getLiqPayButton();
     }
+  }
+
+  public getExistingOrderUrl(): void {
+    const existingOrderId = parseInt(localStorage.getItem('UBSExistingOrderId'), 10);
+    this.orderService
+      .getExistingOrderUrl(existingOrderId)
+      .pipe(takeUntil(this.destroy))
+      .pipe(
+        finalize(() => {
+          this.finalizeGetOrderUrl();
+        })
+      )
+      .subscribe(
+        (response) => {
+          console.log('RESPONSE ', response);
+          const { orderId, link } = JSON.parse(response);
+          this.shareFormService.orderUrl = '';
+          this.localStorageService.removeUbsOrderId();
+          this.localStorageService.removeUBSExistingOrderId();
+          this.shareFormService.orderUrl = link.toString();
+          this.localStorageService.setUbsFondyOrderId(orderId);
+          this.redirectToExternalUrl(this.shareFormService.orderUrl);
+        },
+        (_error) => {
+          this.loadingAnim = false;
+        }
+      );
+  }
+
+  public getNewOrderUrl(): void {
+    this.orderService
+      .getOrderUrl()
+      .pipe(takeUntil(this.destroy))
+      .pipe(
+        finalize(() => {
+          this.finalizeGetOrderUrl();
+        })
+      )
+      .subscribe(
+        (response) => {
+          const { orderId, link } = JSON.parse(response);
+          this.shareFormService.orderUrl = '';
+          this.localStorageService.removeUbsOrderId();
+          if (this.isFinalSumZero && !this.isTotalAmountZero) {
+            this.ubsOrderFormService.transferOrderId(orderId);
+            this.ubsOrderFormService.setOrderResponseErrorStatus(false);
+            this.ubsOrderFormService.setOrderStatus(true);
+          } else {
+            this.shareFormService.orderUrl = link.toString();
+            this.localStorageService.setUbsFondyOrderId(orderId);
+            this.redirectToExternalUrl(this.shareFormService.orderUrl);
+          }
+        },
+        (_error) => {
+          this.loadingAnim = false;
+        }
+      );
   }
 
   private redirectToExternalUrl(url: string): void {
