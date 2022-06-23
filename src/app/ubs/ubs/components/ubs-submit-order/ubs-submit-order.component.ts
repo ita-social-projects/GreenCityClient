@@ -211,7 +211,7 @@ export class UBSSubmitOrderComponent extends FormBaseComponent implements OnInit
           this.localStorageService.setUbsFondyOrderId(orderId);
           this.redirectToExternalUrl(this.shareFormService.orderUrl);
         },
-        (_error) => {
+        () => {
           this.loadingAnim = false;
         }
       );
@@ -241,7 +241,7 @@ export class UBSSubmitOrderComponent extends FormBaseComponent implements OnInit
             this.redirectToExternalUrl(this.shareFormService.orderUrl);
           }
         },
-        (_error) => {
+        () => {
           this.loadingAnim = false;
         }
       );
