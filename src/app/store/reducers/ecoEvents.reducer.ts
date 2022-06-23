@@ -8,18 +8,18 @@ export const EcoEventsReducer = createReducer(
   on(GetEcoEventsByPageSuccessAction, (state, action) => {
     const newstate = [...state.eventsList];
     let pages = [...state.visitedPages];
-    let totalPages = state.totalPages;
+    let totPages = state.totalPages;
     if (action.ecoEvents) {
       newstate[action.ecoEvents.currentPage] = action.ecoEvents.page;
       pages = [...state.visitedPages, action.ecoEvents.currentPage];
-      totalPages = action.ecoEvents.totalPages;
+      totPages = action.ecoEvents.totalPages;
     }
     return {
       ...state,
       eventsList: newstate,
       eventState: action.ecoEvents,
       visitedPages: pages,
-      totalPages: totalPages,
+      totalPages: totPages,
       pageNumber: action.currentPage
     };
   })

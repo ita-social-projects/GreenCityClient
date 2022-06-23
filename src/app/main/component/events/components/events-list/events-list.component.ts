@@ -19,6 +19,9 @@ export class EventsListComponent implements OnInit, OnDestroy {
 
   public isLoggedIn: string;
   private destroyed$: ReplaySubject<any> = new ReplaySubject<any>(1);
+  ecoEvents$ = this.store.select((state: IAppState): IEcoEventsState => state.ecoEventsState);
+
+  paginationArr = [];
 
   public items = 1;
   public total = 0;
@@ -31,9 +34,6 @@ export class EventsListComponent implements OnInit, OnDestroy {
       totalItems: total
     };
   }
-
-  ecoEvents$ = this.store.select((state: IAppState): IEcoEventsState => state.ecoEventsState);
-  paginationArr = [];
 
   constructor(
     private store: Store,
