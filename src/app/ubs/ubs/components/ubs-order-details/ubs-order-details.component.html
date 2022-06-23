@@ -10,12 +10,12 @@
           </button>
         </div>
       </div>
-      <div *ngIf="displayMinBigBagsMes && orderDetailsForm.touched" class="validMes">
+      <div *ngIf="courierLimitBySum && displayMinOrderMes && (orderDetailsForm.touched || isOrderData)" class="validMes">
+        <small class="text-danger">{{ 'order-details.min-sum' | translate }}</small>
+      </div>
+      <div *ngIf="courierLimitByAmount && displayMinBigBagsMes && (orderDetailsForm.touched || isOrderData)" class="validMes">
         <small class="text-danger">{{ 'order-details.min-big-bags' | translate: { minAmountOfBigBags: minAmountOfBigBags } }}</small>
       </div>
-      <p class="order-content" *ngIf="selectedLocationId === 2">
-        {{ 'order-details.min-big-bags' | translate: { minAmountOfBigBags: minAmountOfBigBags } }}
-      </p>
     </div>
 
     <form class="form" [formGroup]="orderDetailsForm" (change)="changeOrderDetails()">
@@ -181,7 +181,7 @@
     {{ 'order-details.cancel' | translate }}
   </button>
   <button
-    [disabled]="showTotal < 500 || minAmountOfBigBags > totalOfBigBags || orderComment.invalid"
+    [disabled]="courierLimitValidation || orderComment.invalid"
     type="submit"
     class="primary-global-button btn btn-main"
     matStepperNext

@@ -22,7 +22,7 @@ export class UBSOrderDetailsComponent extends FormBaseComponent implements OnIni
   bags: Bag[];
   orderDetailsForm: FormGroup;
   certStatuses = [];
-  minOrderValue = 500;
+  minOrderValue: number;
   showTotal = 0;
   pointsUsed = 0;
   certificates = [];
@@ -84,6 +84,10 @@ export class UBSOrderDetailsComponent extends FormBaseComponent implements OnIni
   public changeLocation = false;
   isBonus: string;
   public previousPath = 'ubs';
+  public courierLimitByAmount: boolean;
+  public courierLimitBySum: boolean;
+  public courierLimitValidation: boolean;
+  public isOrderData: boolean;
 
   constructor(
     private fb: FormBuilder,
@@ -104,6 +108,7 @@ export class UBSOrderDetailsComponent extends FormBaseComponent implements OnIni
       this.currentLanguage = this.localStorageService.getCurrentLanguage();
       this.locations = this.shareFormService.locations;
       this.selectedLocationId = locationId;
+      this.setLimitsValues();
       this.saveLocation(false);
     } else {
       this.openLocationDialog();
@@ -112,7 +117,17 @@ export class UBSOrderDetailsComponent extends FormBaseComponent implements OnIni
     this.subscribeToLangChange();
     if (this.localStorageService.getUbsOrderData()) {
       this.calculateTotal();
+      this.isOrderData = true;
     }
+  }
+
+  public setLimitsValues(): void {
+    this.locations = this.localStorageService.getLocations();
+    this.locations?.courierLimit === 'LIMIT_BY_SUM_OF_ORDER' ? (this.courierLimitBySum = true) : (this.courierLimitByAmount = true);
+    this.minOrderValue = this.locations?.minPriceOfOrder;
+    this.minAmountOfBigBags = this.locations?.minAmountOfBigBags;
+    this.validateBags();
+    this.validateSum();
   }
 
   public checkOnNumber(event: KeyboardEvent): boolean {
@@ -133,8 +148,7 @@ export class UBSOrderDetailsComponent extends FormBaseComponent implements OnIni
   }
 
   private setCurrentLocation(currentLanguage: string): void {
-    this.minAmountOfBigBags = this.locations.minAmountOfBigBags;
-    this.currentLocation = currentLanguage === 'en' ? this.locations.regionDto.nameEn : this.locations.regionDto.nameUk;
+    this.currentLocation = currentLanguage === 'en' ? this.locations?.regionDto.nameEn : this.locations?.regionDto.nameUk;
   }
 
   getFormValues(): boolean {
@@ -167,6 +181,8 @@ export class UBSOrderDetailsComponent extends FormBaseComponent implements OnIni
           this.locations = res.data;
           this.selectedLocationId = res.locationId;
           this.setCurrentLocation(res.currentLanguage);
+          this.setLimitsValues();
+          this.orderDetailsForm.markAllAsTouched();
         }
         this.isDialogOpen = false;
       });
@@ -180,11 +196,14 @@ export class UBSOrderDetailsComponent extends FormBaseComponent implements OnIni
         this.totalOfBigBags = +q1.value + +q2.value;
       }
     });
-    this.checkForBigBagsMessage();
+    this.validateBags();
   }
 
-  checkForBigBagsMessage() {
-    this.displayMinBigBagsMes = this.minAmountOfBigBags > this.totalOfBigBags;
+  public validateBags(): void {
+    if (this.courierLimitByAmount) {
+      this.displayMinBigBagsMes = this.minAmountOfBigBags > this.totalOfBigBags;
+      this.courierLimitValidation = this.displayMinBigBagsMes;
+    }
   }
 
   private subscribeToLangChange(): void {
@@ -271,6 +290,13 @@ export class UBSOrderDetailsComponent extends FormBaseComponent implements OnIni
     return this.orderDetailsForm.get('shop') as FormArray;
   }
 
+  public validateSum(): void {
+    if (this.courierLimitBySum) {
+      this.displayMinOrderMes = this.total < this.minOrderValue;
+      this.courierLimitValidation = this.displayMinOrderMes;
+    }
+  }
+
   private calculateTotal(): void {
     this.total = 0;
     this.bags.forEach((bag) => {
@@ -278,7 +304,7 @@ export class UBSOrderDetailsComponent extends FormBaseComponent implements OnIni
     });
     this.showTotal = this.total;
     this.changeForm();
-    this.displayMinOrderMes = this.total < this.minOrderValue && this.orderDetailsForm.dirty;
+    this.validateSum();
     this.onSubmit = this.displayMinOrderMes;
     this.finalSum = this.total - this.pointsUsed;
     if (this.certificateSum > 0) {

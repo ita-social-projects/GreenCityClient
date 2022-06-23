@@ -1,11 +1,11 @@
 import { RouterTestingModule } from '@angular/router/testing';
 import { Language } from '../../../../main/i18n/Language';
-import { LocalStorageService } from '../../../../main/service/localstorage/local-storage.service';
+import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
 import { UBSOrderFormService } from '../../services/ubs-order-form.service';
 import { LocalizedCurrencyPipe } from '../../../../shared/localized-currency-pipe/localized-currency.pipe';
 import { Bag, OrderDetails } from '../../models/ubs.interface';
 import { OrderService } from '../../services/order.service';
-import { MatDialogRef, MatDialogModule } from '@angular/material/dialog';
+import { MatDialogModule, MatDialogRef } from '@angular/material/dialog';
 import { TranslateModule } from '@ngx-translate/core';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
@@ -25,7 +25,12 @@ describe('OrderDetailsFormComponent', () => {
   let orderService: OrderService;
   const fakeLanguageSubject: Subject<string> = new Subject<string>();
   const shareFormService = jasmine.createSpyObj('shareFormService', ['orderDetails', 'changeAddCertButtonVisibility']);
-  const localStorageService = jasmine.createSpyObj('localStorageService', ['getCurrentLanguage', 'languageSubject', 'getUbsOrderData']);
+  const localStorageService = jasmine.createSpyObj('localStorageService', [
+    'getCurrentLanguage',
+    'languageSubject',
+    'getUbsOrderData',
+    'getLocations'
+  ]);
   localStorageService.getUbsOrderData = () => null;
   localStorageService.languageSubject = fakeLanguageSubject;
   const mockLocations = {
@@ -117,8 +122,7 @@ describe('OrderDetailsFormComponent', () => {
   it('method calculateTotal should invoke methods', () => {
     const spy = spyOn(component, 'changeForm');
     const spy1 = spyOn(component, 'changeOrderDetails');
-    const bagsMock: Bag[] = [];
-    component.bags = bagsMock;
+    component.bags = [];
     fixture.detectChanges();
     (component as any).calculateTotal();
     expect(spy).toHaveBeenCalled();
@@ -149,16 +153,22 @@ describe('OrderDetailsFormComponent', () => {
     expect(spy).toHaveBeenCalled();
   });
 
-  it('method setCurrentLocation should set values if language "en"', () => {
-    (component as any).setCurrentLocation('en');
-    expect(component.minAmountOfBigBags).toBe(2);
-    expect(component.currentLocation).toBe('fake name en');
+  it('method setLimitsValues should invoke validateBags method', () => {
+    const spy = spyOn(component, 'validateBags');
+    component.setLimitsValues();
+    expect(spy).toHaveBeenCalled();
   });
 
-  it('method setCurrentLocation should set values if language "ua"', () => {
-    (component as any).setCurrentLocation('ua');
-    expect(component.minAmountOfBigBags).toBe(2);
-    expect(component.currentLocation).toBe('fake name ua');
+  it('method setLimitsValues should invoke validateSum method', () => {
+    const spy = spyOn(component, 'validateSum');
+    component.setLimitsValues();
+    expect(spy).toHaveBeenCalled();
+  });
+
+  it('method setCurrentLocation should be called', () => {
+    const spy = spyOn<any>(component, 'setCurrentLocation');
+    (component as any).setCurrentLocation('en');
+    expect(spy).toHaveBeenCalled();
   });
 
   it('destroy Subject should be closed after ngOnDestroy()', () => {

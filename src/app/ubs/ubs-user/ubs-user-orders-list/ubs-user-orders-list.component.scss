@@ -13,6 +13,22 @@
   .mat-tab-nav-bar.mat-primary .mat-ink-bar {
     background-color: var(--primary-green);
   }
+
+  .mat-tab-body-content {
+    transform: none !important;
+  }
+
+  .mat-tab-body-wrapper {
+    overflow: auto;
+  }
+
+  .mat-tab-body {
+    overflow: visible !important;
+
+    &.mat-tab-body-active {
+      overflow-x: visible !important;
+    }
+  }
 }
 
 .mat-expansion-panel-header {
@@ -35,6 +51,7 @@
   font-weight: 500;
   line-height: 20px;
   margin-left: 17px;
+  margin-top: 10px;
 
   .header {
     line-height: 20px;
@@ -54,7 +71,7 @@
   }
 
   div {
-    width: 120px;
+    width: 118px;
     flex: auto;
   }
 
@@ -91,7 +108,6 @@
       width: 100px;
       border: none;
       color: var(--ubs-primary-white);
-      padding: 8px 20px 8px 20px;
       background: var(--ubs-button-light-green);
       border-radius: 4px;
     }
@@ -147,6 +163,7 @@
   box-sizing: border-box;
   background-color: #fff;
   padding: 10px;
+  overflow: auto;
 }
 
 @media (max-width: 1060px) {
@@ -176,6 +193,10 @@
     }
   }
 
+  .mat-content-wrapper {
+    grid-template-columns: repeat(5, 109px);
+  }
+
   .mat-expansion-panel-header {
     height: 64px !important;
     font-size: 13px;
@@ -192,6 +213,12 @@
     .mat-content {
       display: flex;
       flex-direction: column !important;
+    }
+
+    .mat-tab-body {
+      &.mat-tab-body-active {
+        width: 590px;
+      }
     }
   }
 
