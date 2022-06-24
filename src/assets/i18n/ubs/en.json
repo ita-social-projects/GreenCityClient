@@ -55,7 +55,7 @@
     "bonuses": "Bonuses: ",
     "amount-due": "Amount due: ",
     "min-sum": "The minimum order amount must be 500.00 UAH",
-    "min-big-bags": "Please note that the minimum order must contain at least 3 packages of 120l",
+    "min-big-bags": "Please note that the minimum order must contain at least {{minAmountOfBigBags}} packages of 120l",
     "question-certificate": "Do you want to use the certificate?",
     "certificate-number": "Enter the certificate number",
     "activate": "Activate",
