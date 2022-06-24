@@ -1,5 +1,5 @@
 import { DatePipe } from '@angular/common';
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormBuilder, ValidatorFn, Validators } from '@angular/forms';
 import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
 import { map, skip, startWith, takeUntil } from 'rxjs/operators';
@@ -20,7 +20,7 @@ import { TariffConfirmationPopUpComponent } from '../../shared/components/tariff
   templateUrl: './ubs-admin-tariffs-card-pop-up.component.html',
   styleUrls: ['./ubs-admin-tariffs-card-pop-up.component.scss']
 })
-export class UbsAdminTariffsCardPopUpComponent implements OnInit {
+export class UbsAdminTariffsCardPopUpComponent implements OnInit, OnDestroy {
   CardForm = this.fb.group({
     courier: ['', Validators.required],
     station: ['', Validators.required],
@@ -95,6 +95,11 @@ export class UbsAdminTariffsCardPopUpComponent implements OnInit {
     this.getReceivingStation();
     this.getLocations();
     this.getExistingCard();
+  }
+
+  public ngOnDestroy(): void {
+    this.unsubscribe.next();
+    this.unsubscribe.complete();
   }
 
   public onBlur(event): void {
@@ -179,7 +184,10 @@ export class UbsAdminTariffsCardPopUpComponent implements OnInit {
     if (this.selectedStation.length) {
       this.stationPlaceholder = this.selectedStation.length + ' вибрано';
     } else {
-      this.translate.get('ubs-tariffs.placeholder-choose-station').subscribe((data) => (this.stationPlaceholder = data));
+      this.translate
+        .get('ubs-tariffs.placeholder-choose-station')
+        .pipe(takeUntil(this.unsubscribe))
+        .subscribe((data) => (this.stationPlaceholder = data));
     }
   }
 
@@ -299,7 +307,10 @@ export class UbsAdminTariffsCardPopUpComponent implements OnInit {
       this.cityPlaceholder = this.selectedCityLength + ' вибрано';
     } else {
       this.citySelected = false;
-      this.translate.get('ubs-tariffs.placeholder-choose-city').subscribe((data) => (this.cityPlaceholder = data));
+      this.translate
+        .get('ubs-tariffs.placeholder-choose-city')
+        .pipe(takeUntil(this.unsubscribe))
+        .subscribe((data) => (this.cityPlaceholder = data));
     }
   }
 
