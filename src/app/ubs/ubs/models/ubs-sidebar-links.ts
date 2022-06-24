@@ -38,11 +38,6 @@ export const listElementsAdmin: object[] = [
 
 export const listElementsUser: object[] = [
   {
-    link: 'assets/img/sidebarIcons/workers_icon.svg',
-    name: 'ubs-user.user_data',
-    routerLink: 'profile'
-  },
-  {
     link: 'assets/img/sidebarIcons/shopping-cart_icon.svg',
     name: 'ubs-user.orders',
     routerLink: 'orders'
@@ -51,6 +46,11 @@ export const listElementsUser: object[] = [
     link: './assets/img/sidebarIcons/achievement_icon.svg',
     name: 'ubs-user.invoice',
     routerLink: 'bonuses'
+  },
+  {
+    link: 'assets/img/sidebarIcons/workers_icon.svg',
+    name: 'ubs-user.user_data',
+    routerLink: 'profile'
   },
   {
     link: 'assets/img/sidebarIcons/none_notification_Bell.svg',
