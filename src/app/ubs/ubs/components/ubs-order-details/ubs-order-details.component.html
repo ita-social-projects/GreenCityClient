@@ -11,7 +11,10 @@
         </div>
       </div>
       <div *ngIf="courierLimitBySum && displayMinOrderMes && (orderDetailsForm.touched || isOrderData)" class="validMes">
-        <small class="text-danger">{{ 'order-details.min-sum' | translate }}</small>
+        <small class="text-danger">{{ 'order-details.min-sum' | translate: { minOrderValue: minOrderValue } }}</small>
+      </div>
+      <div *ngIf="courierLimitBySum && displayMaxOrderMes && (orderDetailsForm.touched || isOrderData)" class="validMes">
+        <small class="text-danger">{{ 'order-details.max-sum' | translate: { maxOrderValue: maxOrderValue } }}</small>
       </div>
       <div *ngIf="courierLimitByAmount && displayMinBigBagsMes && (orderDetailsForm.touched || isOrderData)" class="validMes">
         <small class="text-danger">{{ 'order-details.min-big-bags' | translate: { minAmountOfBigBags: minAmountOfBigBags } }}</small>

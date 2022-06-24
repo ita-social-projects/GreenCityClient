@@ -23,6 +23,7 @@ export class UBSOrderDetailsComponent extends FormBaseComponent implements OnIni
   orderDetailsForm: FormGroup;
   certStatuses = [];
   minOrderValue: number;
+  maxOrderValue: number;
   showTotal = 0;
   pointsUsed = 0;
   certificates = [];
@@ -35,6 +36,7 @@ export class UBSOrderDetailsComponent extends FormBaseComponent implements OnIni
   points: number;
   defaultPoints: number;
   displayMinOrderMes = false;
+  displayMaxOrderMes = false;
   displayMinBigBagsMes = false;
   displayMes = false;
   displayCert = false;
@@ -125,6 +127,7 @@ export class UBSOrderDetailsComponent extends FormBaseComponent implements OnIni
     this.checkCourierLimit();
     this.locations = this.localStorageService.getLocations();
     this.minOrderValue = this.locations?.minPriceOfOrder;
+    this.maxOrderValue = this.locations?.maxPriceOfOrder;
     this.minAmountOfBigBags = this.locations?.minAmountOfBigBags;
     this.validateBags();
     this.validateSum();
@@ -301,6 +304,7 @@ export class UBSOrderDetailsComponent extends FormBaseComponent implements OnIni
   public validateSum(): void {
     if (this.courierLimitBySum) {
       this.displayMinOrderMes = this.total < this.minOrderValue;
+      this.displayMaxOrderMes = this.total > this.maxOrderValue;
       this.courierLimitValidation = this.displayMinOrderMes;
     }
   }
@@ -314,6 +318,7 @@ export class UBSOrderDetailsComponent extends FormBaseComponent implements OnIni
     this.changeForm();
     this.validateSum();
     this.onSubmit = this.displayMinOrderMes;
+    this.onSubmit = this.displayMaxOrderMes;
     this.finalSum = this.total - this.pointsUsed;
     if (this.certificateSum > 0) {
       if (this.total > this.certificateSum) {
