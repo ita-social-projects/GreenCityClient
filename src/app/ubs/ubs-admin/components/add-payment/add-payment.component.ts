@@ -7,9 +7,9 @@ import { iif, of, Subject } from 'rxjs';
 import { switchMap, take, takeUntil } from 'rxjs/operators';
 import { IPaymentInfoDto, PaymentDetails } from '../../models/ubs-admin.interface';
 import { OrderService } from '../../services/order.service';
-import { DialogPopUpComponent } from '../shared/components/dialog-pop-up/dialog-pop-up.component';
 import { ShowImgsPopUpComponent } from '../../../../shared/show-imgs-pop-up/show-imgs-pop-up.component';
 import { ShowPdfPopUpComponent } from '../shared/components/show-pdf-pop-up/show-pdf-pop-up.component';
+import { DialogPopUpComponent } from 'src/app/shared/dialog-pop-up/dialog-pop-up.component';
 
 interface InputData {
   orderId: number;

@@ -4,7 +4,7 @@ import {
   DeleteEcoEventSuccessAction,
   EditEcoEventSuccessAction,
   GetEcoEventsByPageSuccessAction,
-  ReceivedFailure
+  ReceivedFailureAction
 } from '../actions/ecoEvents.actions';
 import { initialEventsState } from '../state/ecoEvents.state';
 
@@ -41,7 +41,7 @@ export const EcoEventsReducer = createReducer(
     };
   }),
 
-  on(DeleteEcoEventSuccessAction, CreateEcoEventSuccessAction, (state, action) => {
+  on(DeleteEcoEventSuccessAction, CreateEcoEventSuccessAction, (state) => {
     return {
       ...state,
       eventsList: [],
@@ -51,7 +51,7 @@ export const EcoEventsReducer = createReducer(
     };
   }),
 
-  on(ReceivedFailure, (state, action) => ({
+  on(ReceivedFailureAction, (state, action) => ({
     ...state,
     error: action.error
   }))

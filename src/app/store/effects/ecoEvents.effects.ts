@@ -1,8 +1,8 @@
 import { Injectable } from '@angular/core';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { Store } from '@ngrx/store';
-import { EMPTY, Observable, of } from 'rxjs';
-import { catchError, map, mergeMap, withLatestFrom } from 'rxjs/operators';
+import { of } from 'rxjs';
+import { catchError, map, mergeMap } from 'rxjs/operators';
 import { EventPageResponceDto, EventResponseDto } from 'src/app/main/component/events/models/events.interface';
 import { EventsService } from 'src/app/main/component/events/services/events.service';
 import {
@@ -14,7 +14,7 @@ import {
   EditEcoEventSuccessAction,
   GetEcoEventsByPageAction,
   GetEcoEventsByPageSuccessAction,
-  ReceivedFailure
+  ReceivedFailureAction
 } from '../actions/ecoEvents.actions';
 import { IAppState } from '../state/app.state';
 import { IEcoEventsState } from '../state/ecoEvents.state';
@@ -36,7 +36,7 @@ export class EventsEffects {
         if (!eventsListState) {
           return this.eventsService.getEvents(actions.currentPage, actions.numberOfEvents).pipe(
             map((ecoEvents: EventResponseDto) => GetEcoEventsByPageSuccessAction({ ecoEvents, currentPage: actions.currentPage })),
-            catchError((error) => of(ReceivedFailure(error)))
+            catchError((error) => of(ReceivedFailureAction(error)))
           );
         } else {
           return of(GetEcoEventsByPageSuccessAction({ ecoEvents: false, currentPage: actions.currentPage }));
@@ -51,7 +51,7 @@ export class EventsEffects {
       mergeMap((actions: { data: FormData }) => {
         return this.eventsService.createEvent(actions.data).pipe(
           map((event: EventPageResponceDto) => CreateEcoEventSuccessAction({ event })),
-          catchError((error) => of(ReceivedFailure(error)))
+          catchError((error) => of(ReceivedFailureAction(error)))
         );
       })
     );
@@ -63,7 +63,7 @@ export class EventsEffects {
       mergeMap((actions: { data: FormData }) => {
         return this.eventsService.editEvent(actions.data).pipe(
           map((event: EventPageResponceDto) => EditEcoEventSuccessAction({ event })),
-          catchError((error) => of(ReceivedFailure(error)))
+          catchError((error) => of(ReceivedFailureAction(error)))
         );
       })
     );
@@ -75,7 +75,7 @@ export class EventsEffects {
       mergeMap((actions: { id: number }) => {
         return this.eventsService.deleteEvent(actions.id).pipe(
           map(() => DeleteEcoEventSuccessAction({ id: actions.id })),
-          catchError((error) => of(ReceivedFailure(error)))
+          catchError((error) => of(ReceivedFailureAction(error)))
         );
       })
     );

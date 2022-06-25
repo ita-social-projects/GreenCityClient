@@ -36,4 +36,4 @@ export const GetEcoEventsByPageSuccessAction = createAction(
   props<{ ecoEvents: EventResponseDto | any; currentPage: number }>()
 );
 
-export const ReceivedFailure = createAction(EventsActions.ReceivedFailure, props<{ error: string | null }>());
+export const ReceivedFailureAction = createAction(EventsActions.ReceivedFailure, props<{ error: string | null }>());
