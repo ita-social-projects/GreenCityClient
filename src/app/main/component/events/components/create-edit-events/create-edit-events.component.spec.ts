@@ -1,8 +1,9 @@
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
-import { FormControl, FormGroup, FormsModule, NG_VALUE_ACCESSOR, ReactiveFormsModule } from '@angular/forms';
+import { FormControl, FormGroup, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { RouterTestingModule } from '@angular/router/testing';
 import { MatSnackBarComponent } from '@global-errors/mat-snack-bar/mat-snack-bar.component';
+import { ActionsSubject, Store } from '@ngrx/store';
 import { TranslateModule } from '@ngx-translate/core';
 import { NgxPaginationModule } from 'ngx-pagination';
 import { of } from 'rxjs';
@@ -10,7 +11,7 @@ import { EventsService } from '../../services/events.service';
 
 import { CreateEditEventsComponent } from './create-edit-events.component';
 
-xdescribe('CreateEditEventsComponent', () => {
+describe('CreateEditEventsComponent', () => {
   let component: CreateEditEventsComponent;
   let fixture: ComponentFixture<CreateEditEventsComponent>;
 
@@ -53,13 +54,19 @@ xdescribe('CreateEditEventsComponent', () => {
     eventDuration: new FormControl('titletitletitletitle')
   });
 
+  const actionSub: ActionsSubject = new ActionsSubject();
+
+  const storeMock = jasmine.createSpyObj('store', ['select', 'dispatch']);
+
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       imports: [TranslateModule.forRoot(), NgxPaginationModule, RouterTestingModule, FormsModule, ReactiveFormsModule],
       declarations: [CreateEditEventsComponent],
       providers: [
         { provide: EventsService, useValue: EventsServiceMock },
-        { provide: MatSnackBarComponent, useValue: MatSnackBarMock }
+        { provide: MatSnackBarComponent, useValue: MatSnackBarMock },
+        { provide: ActionsSubject, useValue: actionSub },
+        { provide: Store, useValue: storeMock }
       ],
       schemas: [CUSTOM_ELEMENTS_SCHEMA]
     }).compileComponents();
@@ -172,18 +179,16 @@ xdescribe('CreateEditEventsComponent', () => {
   });
 
   it('onSubmit expect isposting to be false', () => {
-    component.isPosting = true;
+    const spy = spyOn(component as any, 'checkDates');
     component.checkdates = true;
     component.contentValid = true;
     component.tags[0].isActive = true;
-    const spy = spyOn(component.router, 'navigate');
     component.eventFormGroup.patchValue({
       titleForm: 'title',
       eventDuration: '1 day',
       description: 'descriptiondescriptiondescriptiondescription'
     });
     component.onSubmit();
-    expect(component.isPosting).toBeFalsy();
     expect(spy).toHaveBeenCalledTimes(1);
   });
 });

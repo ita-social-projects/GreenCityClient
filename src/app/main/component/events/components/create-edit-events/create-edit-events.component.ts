@@ -226,7 +226,7 @@ export class CreateEditEventsComponent implements OnInit, OnDestroy {
 
       this.actionsSubj.pipe(ofType(EventsActions.CreateEcoEventSuccess, EventsActions.EditEcoEventSuccess)).subscribe(() => {
         this.isPosting = false;
-        this.router.navigate(['/events']);
+        this.escapeFromCreateEvent();
       });
     } else {
       this.eventFormGroup.markAllAsTouched();

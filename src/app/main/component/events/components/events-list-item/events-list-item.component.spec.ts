@@ -1,10 +1,11 @@
+import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { RouterTestingModule } from '@angular/router/testing';
 import { TagsArray } from '../../models/event-consts';
 
 import { EventsListItemComponent } from './events-list-item.component';
 
-xdescribe('EventsListItemComponent', () => {
+describe('EventsListItemComponent', () => {
   let component: EventsListItemComponent;
   let fixture: ComponentFixture<EventsListItemComponent>;
 
@@ -13,6 +14,12 @@ xdescribe('EventsListItemComponent', () => {
     tags: [{ nameEn: 'Environmental', nameUa: 'Екологічний', id: 1 }],
     dates: [
       {
+        coordinates: {
+          addressEn: 'address',
+          addressUa: 'address',
+          latitude: 0,
+          longitude: 0
+        },
         id: null,
         event: null,
         startDate: '2022-05-31T00:00:00+03:00',
@@ -28,7 +35,8 @@ xdescribe('EventsListItemComponent', () => {
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       declarations: [EventsListItemComponent],
-      imports: [RouterTestingModule]
+      imports: [RouterTestingModule],
+      schemas: [CUSTOM_ELEMENTS_SCHEMA]
     }).compileComponents();
   }));
 

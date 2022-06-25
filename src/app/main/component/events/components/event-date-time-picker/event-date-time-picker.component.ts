@@ -67,15 +67,11 @@ export class EventDateTimePickerComponent implements OnInit, OnChanges {
       this.datesForm.emit(value);
     });
     if (this.editDate) {
-      // this.mapsAPILoader.load().then(() => {
-      //   this.geoCoder = new google.maps.Geocoder();
-      // });
       this.setEditData();
     }
   }
 
   private setEditData(): void {
-    console.log(this.editDate, 'DDDD');
     const startEditTime = this.pipe.transform(this.editDate.startDate, 'H:mm');
     const endEditTime = this.pipe.transform(this.editDate.finishDate, 'H:mm');
     if (endEditTime === '23:59') {
