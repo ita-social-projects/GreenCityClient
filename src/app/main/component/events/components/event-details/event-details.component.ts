@@ -2,9 +2,11 @@ import { Component, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { ActivatedRoute, Router } from '@angular/router';
 import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
+import { ofType } from '@ngrx/effects';
+import { ActionsSubject, Store } from '@ngrx/store';
 import { take } from 'rxjs/operators';
 import { DialogPopUpComponent } from 'src/app/shared/dialog-pop-up/dialog-pop-up.component';
-// import { DialogPopUpComponent } from 'src/app/ubs/ubs-admin/components/shared/components/dialog-pop-up/dialog-pop-up.component';
+import { DeleteEcoEventAction, EventsActions } from 'src/app/store/actions/ecoEvents.actions';
 import { singleNewsImages } from '../../../../image-pathes/single-news-images';
 import { TagsArray } from '../../models/event-consts';
 import { EventPageResponceDto, TagDto, TagObj } from '../../models/events.interface';
@@ -42,7 +44,9 @@ export class EventDetailsComponent implements OnInit {
     private eventService: EventsService,
     public router: Router,
     private localStorageService: LocalStorageService,
-    private dialog: MatDialog
+    private dialog: MatDialog,
+    private store: Store,
+    private actionsSubj: ActionsSubject
   ) {}
 
   ngOnInit(): void {
@@ -61,6 +65,8 @@ export class EventDetailsComponent implements OnInit {
         lng: this.event.dates[0].coordinates.longitude
       };
     });
+
+    this.actionsSubj.pipe(ofType(EventsActions.DeleteEcoEventSuccess)).subscribe(() => this.router.navigate(['/events']));
   }
 
   public routeToEditEvent(): void {
@@ -122,11 +128,8 @@ export class EventDetailsComponent implements OnInit {
       .pipe(take(1))
       .subscribe((res) => {
         if (res) {
+          this.store.dispatch(DeleteEcoEventAction({ id: this.eventId }));
           this.isPosting = true;
-          this.eventService.deleteEvent(this.eventId).subscribe(() => {
-            this.isPosting = false;
-            this.router.navigate(['/events']);
-          });
         }
       });
   }

@@ -10,7 +10,7 @@ import { EventsService } from '../../services/events.service';
 
 import { CreateEditEventsComponent } from './create-edit-events.component';
 
-describe('CreateEditEventsComponent', () => {
+xdescribe('CreateEditEventsComponent', () => {
   let component: CreateEditEventsComponent;
   let fixture: ComponentFixture<CreateEditEventsComponent>;
 

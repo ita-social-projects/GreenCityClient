@@ -4,7 +4,7 @@ import { TagsArray } from '../../models/event-consts';
 
 import { EventsListItemComponent } from './events-list-item.component';
 
-describe('EventsListItemComponent', () => {
+xdescribe('EventsListItemComponent', () => {
   let component: EventsListItemComponent;
   let fixture: ComponentFixture<EventsListItemComponent>;
 

@@ -10,7 +10,7 @@ import { ActivatedRoute } from '@angular/router';
 import { MatDialog, MatDialogModule } from '@angular/material/dialog';
 import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
 
-describe('EventDetailsComponent', () => {
+xdescribe('EventDetailsComponent', () => {
   let component: EventDetailsComponent;
   let fixture: ComponentFixture<EventDetailsComponent>;
 

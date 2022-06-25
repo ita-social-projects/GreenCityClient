@@ -2,9 +2,8 @@ import { EventPageResponceDto, EventResponseDto } from 'src/app/main/component/e
 
 export interface IEcoEventsState {
   eventState: EventResponseDto;
-  // eventsList: [EventPageResponceDto[]];
   eventsList: any[];
-  visitedPages: any[];
+  visitedPages: number[];
   totalPages: number;
   pageNumber: number;
 

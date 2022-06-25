@@ -1,6 +1,11 @@
-import { act } from '@ngrx/effects';
 import { createReducer, on } from '@ngrx/store';
-import { GetEcoEventsByPageSuccessAction } from '../actions/ecoEvents.actions';
+import {
+  CreateEcoEventSuccessAction,
+  DeleteEcoEventSuccessAction,
+  EditEcoEventSuccessAction,
+  GetEcoEventsByPageSuccessAction,
+  ReceivedFailure
+} from '../actions/ecoEvents.actions';
 import { initialEventsState } from '../state/ecoEvents.state';
 
 export const EcoEventsReducer = createReducer(
@@ -22,5 +27,32 @@ export const EcoEventsReducer = createReducer(
       totalPages: totPages,
       pageNumber: action.currentPage
     };
-  })
+  }),
+
+  on(EditEcoEventSuccessAction, (state, action) => {
+    const newstate = state.eventsList.reduce((ac, cur, ind) => {
+      const newItem = cur.map((item) => (item.id === action.event.id ? action.event : item));
+      ac[ind] = newItem;
+      return ac;
+    }, []);
+    return {
+      ...state,
+      eventsList: newstate
+    };
+  }),
+
+  on(DeleteEcoEventSuccessAction, CreateEcoEventSuccessAction, (state, action) => {
+    return {
+      ...state,
+      eventsList: [],
+      pageNumber: 0,
+      visitedPages: [],
+      totalPages: 0
+    };
+  }),
+
+  on(ReceivedFailure, (state, action) => ({
+    ...state,
+    error: action.error
+  }))
 );

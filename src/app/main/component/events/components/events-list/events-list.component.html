@@ -11,7 +11,6 @@
   <div class="event-list">
     <mat-card class="event-list-item" *ngFor="let eventItem of eventsList | paginate: pageConfig(items, page + 1, total)">
       <app-events-list-item [event]="eventItem"></app-events-list-item>
-      <p>{{ eventItem.title }}</p>
     </mat-card>
   </div>
   <pagination-controls *ngIf="checkPagination()" (pageChange)="setPage($event)"></pagination-controls>
