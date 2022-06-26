@@ -3,10 +3,8 @@ export interface EventDTO {
   description: string;
   open: boolean;
   datesLocations: Array<Dates>;
-  // tags: Array<string>;
-  tags: any;
-  // imagesToDelete?: Array<string>;
-  imagesToDelete?: any;
+  tags: Array<string>;
+  imagesToDelete?: Array<string>;
   additionalImages?: Array<string>;
   id?: number;
   organizer?: {

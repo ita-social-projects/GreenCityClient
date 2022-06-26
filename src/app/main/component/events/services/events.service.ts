@@ -24,7 +24,6 @@ export class EventsService implements OnDestroy {
   }
 
   public editEvent(formData: FormData): Observable<any> {
-    console.log(formData.getAll('eventDto '), 'FORM');
     return this.http.put<any>(`${this.backEnd}events/update`, formData);
   }
 

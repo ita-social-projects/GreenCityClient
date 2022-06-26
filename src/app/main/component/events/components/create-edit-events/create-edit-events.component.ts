@@ -209,10 +209,9 @@ export class CreateEditEventsComponent implements OnInit, OnDestroy {
       this.checkAfterSend = true;
       const formData: FormData = new FormData();
       const stringifiedDataToSend = JSON.stringify(sendEventDto);
-      let dtoName = 'addEventDtoRequest';
-      if (this.editMode) {
-        dtoName = 'eventDto';
-      }
+
+      let dtoName = this.editMode ? 'eventDto' : 'addEventDtoRequest';
+
       formData.append(dtoName, stringifiedDataToSend);
 
       this.imgArray.forEach((item) => {
