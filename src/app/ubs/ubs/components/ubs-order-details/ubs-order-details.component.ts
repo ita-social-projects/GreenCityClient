@@ -8,7 +8,7 @@ import { LocalStorageService } from '@global-service/localstorage/local-storage.
 import { FormBuilder, FormGroup, FormArray, Validators, FormControl } from '@angular/forms';
 import { OrderService } from '../../services/order.service';
 import { UBSOrderFormService } from '../../services/ubs-order-form.service';
-import { Bag, CourierLocations, FinalOrder, OrderDetails } from '../../models/ubs.interface';
+import { Bag, CourierLocations, OrderDetails } from '../../models/ubs.interface';
 import { UbsOrderLocationPopupComponent } from './ubs-order-location-popup/ubs-order-location-popup.component';
 import { ExtraPackagesPopUpComponent } from './extra-packages-pop-up/extra-packages-pop-up.component';
 
@@ -21,27 +21,24 @@ export class UBSOrderDetailsComponent extends FormBaseComponent implements OnIni
   orders: OrderDetails;
   bags: Bag[];
   orderDetailsForm: FormGroup;
-  certStatuses = [];
   minOrderValue: number;
   maxOrderValue: number;
+  minAmountOfBigBags: number;
+  maxAmountOfBigBags: number;
+  totalOfBigBags: number;
+  displayMinOrderMes: boolean;
+  displayMaxOrderMes: boolean;
+  displayMinBigBagsMes: boolean;
+  displayMaxBigBagsMes: boolean;
   showTotal = 0;
   pointsUsed = 0;
   certificates = [];
   certificateSum = 0;
   total = 0;
   finalSum = 0;
-  minAmountOfBigBags: number;
-  totalOfBigBags: number;
-  cancelCertBtn = false;
   points: number;
   defaultPoints: number;
-  displayMinOrderMes = false;
-  displayMaxOrderMes = false;
-  displayMinBigBagsMes = false;
-  displayMes = false;
   displayCert = false;
-  displayShop = false;
-  addCert = false;
   onSubmit = true;
   order: {};
   certificateMask = '0000-0000';
@@ -51,13 +48,9 @@ export class UBSOrderDetailsComponent extends FormBaseComponent implements OnIni
   commentPattern = /^[i\s]{0,255}(.){0,255}[i\s]{0,255}$/;
   additionalOrdersPattern = /^\d{10}$/;
   displayOrderBtn = false;
-  certSize = false;
   showCertificateUsed = 0;
   certificateLeft = 0;
   certDate: string;
-  certStatus: string;
-  failedCert = false;
-  userOrder: FinalOrder;
   ecoShopOrdersNumbersCounter = 1;
   limitOfEcoShopOrdersNumbers = 5;
   object: {};
@@ -143,6 +136,7 @@ export class UBSOrderDetailsComponent extends FormBaseComponent implements OnIni
     this.minOrderValue = this.locations?.minPriceOfOrder;
     this.maxOrderValue = this.locations?.maxPriceOfOrder;
     this.minAmountOfBigBags = this.locations?.minAmountOfBigBags;
+    this.maxAmountOfBigBags = this.locations?.maxAmountOfBigBags;
     this.validateBags();
     this.validateSum();
   }
@@ -236,10 +230,19 @@ export class UBSOrderDetailsComponent extends FormBaseComponent implements OnIni
     this.validateBags();
   }
 
+  public validateSum(): void {
+    if (this.courierLimitBySum) {
+      this.displayMinOrderMes = this.minOrderValue > this.total;
+      this.displayMaxOrderMes = this.maxOrderValue < this.total;
+      this.courierLimitValidation = this.displayMinOrderMes || this.displayMaxOrderMes;
+    }
+  }
+
   public validateBags(): void {
     if (this.courierLimitByAmount) {
       this.displayMinBigBagsMes = this.minAmountOfBigBags > this.totalOfBigBags;
-      this.courierLimitValidation = this.displayMinBigBagsMes;
+      this.displayMaxBigBagsMes = this.maxAmountOfBigBags < this.totalOfBigBags;
+      this.courierLimitValidation = this.displayMinBigBagsMes || this.displayMaxBigBagsMes;
     }
   }
 
@@ -331,14 +334,6 @@ export class UBSOrderDetailsComponent extends FormBaseComponent implements OnIni
     return this.orderDetailsForm.get('shop') as FormArray;
   }
 
-  public validateSum(): void {
-    if (this.courierLimitBySum) {
-      this.displayMinOrderMes = this.total < this.minOrderValue;
-      this.displayMaxOrderMes = this.total > this.maxOrderValue;
-      this.courierLimitValidation = this.displayMinOrderMes;
-    }
-  }
-
   private calculateTotal(): void {
     this.total = 0;
     this.bags.forEach((bag) => {
@@ -347,8 +342,8 @@ export class UBSOrderDetailsComponent extends FormBaseComponent implements OnIni
     this.showTotal = this.total;
     this.changeForm();
     this.validateSum();
-    this.onSubmit = this.displayMinOrderMes;
-    this.onSubmit = this.displayMaxOrderMes;
+    this.onSubmit = this.displayMinOrderMes || this.displayMaxOrderMes;
+    this.onSubmit = this.displayMinBigBagsMes || this.displayMaxBigBagsMes;
     this.finalSum = this.total - this.pointsUsed;
     if (this.certificateSum > 0) {
       if (this.total > this.certificateSum) {
