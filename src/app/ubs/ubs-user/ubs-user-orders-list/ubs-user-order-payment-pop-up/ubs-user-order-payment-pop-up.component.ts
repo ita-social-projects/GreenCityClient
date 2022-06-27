@@ -35,6 +35,7 @@ export class UbsUserOrderPaymentPopUpComponent implements OnInit {
   public isLiqPayLink: boolean;
   public isCertBeenUsed = false;
   public isMessageValidationCertificate = false;
+  public isAddSumCertificateToBonusUsed = false;
   public usedCertificates: string[] = [];
 
   public userOrder: IOrderDetailsUser = {
@@ -94,6 +95,7 @@ export class UbsUserOrderPaymentPopUpComponent implements OnInit {
       paymentSystem: ['Fondy', [Validators.required]],
       formArrayCertificates: this.fb.array([this.createCertificateItem()])
     });
+    console.log(this.orderDetailsForm);
   }
 
   get formArrayCertificates(): FormArray {
@@ -102,6 +104,10 @@ export class UbsUserOrderPaymentPopUpComponent implements OnInit {
 
   get formPaymentSystem(): FormControl {
     return this.orderDetailsForm.get('paymentSystem') as FormControl;
+  }
+
+  get formBonusOption(): FormControl {
+    return this.orderDetailsForm.get('bonus') as FormControl;
   }
 
   public certificateSubmit(index: number, certificate: FormControl): void {
@@ -157,9 +163,19 @@ export class UbsUserOrderPaymentPopUpComponent implements OnInit {
   }
 
   public deleteCertificate(index: number, certificate: FormControl): void {
-    this.userOrder.sum += certificate.value.certificateSum;
-    this.userCertificate.certificateStatusActive = false;
-    this.userCertificate.certificateError = false;
+    if (this.orderDetailsForm.value.bonus === 'no') {
+      this.userOrder.sum += certificate.value.certificateSum;
+      this.userCertificate.certificateStatusActive = false;
+      this.userCertificate.certificateError = false;
+    }
+
+    if (this.orderDetailsForm.value.bonus === 'yes') {
+      this.bonusInfo.used += certificate.value.certificateSum;
+      this.bonusInfo.left = this.userOrder.bonusValue - this.bonusInfo.used;
+      this.userOrder.sum = 0;
+      this.userCertificate.certificateStatusActive = false;
+      this.userCertificate.certificateError = false;
+    }
 
     if (this.formArrayCertificates.controls.length > 1) {
       this.certificateStatus.splice(index, 1);
