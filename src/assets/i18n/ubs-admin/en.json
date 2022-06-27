@@ -223,7 +223,7 @@
       "tel-label": "Phone",
       "tel-placeholder": "+380 00 000 00 00",
       "email-label": "Email",
-      "email-placeholder": "mail@mail.com"
+      "email-placeholder": "example@mail.com"
     },
     "recipient": {
       "title": "Recipient",
@@ -234,7 +234,7 @@
       "tel-label": "Phone",
       "tel-placeholder": "+380 00 000 00 00",
       "email-label": "Email",
-      "email-placeholder": "mail@mail.com"
+      "email-placeholder": "example@mail.com"
     },
     "violation": {
       "title": "Customer violations",
