@@ -49,6 +49,10 @@ export class UbsBaseSidebarComponent implements AfterViewInit, AfterViewChecked,
 
   public toggleSideBar(): void {
     this.drawer.toggle();
+    this.setIndexToSidebarIcons();
+  }
+
+  public setIndexToSidebarIcons(): void {
     if (this.drawer.opened) {
       this.sideBarIcons.nativeElement.style.zIndex = '0';
       this.sidebarContainer.nativeElement.style.marginLeft = '25px';
@@ -61,9 +65,8 @@ export class UbsBaseSidebarComponent implements AfterViewInit, AfterViewChecked,
   @HostListener('window:resize', ['$event'])
   onResize(event) {
     if (this.drawer) {
-      this.drawer.opened =
-        (event.target.innerWidth > this.sidebarChangeBreakpoint || window.innerWidth > this.sidebarChangeBreakpoint) &&
-        event.target.innerHeight > 350;
+      this.drawer.opened = event.target.innerWidth > this.sidebarChangeBreakpoint || window.innerWidth > this.sidebarChangeBreakpoint;
+      this.setIndexToSidebarIcons();
     }
   }
 

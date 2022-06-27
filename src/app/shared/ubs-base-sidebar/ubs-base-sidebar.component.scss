@@ -57,7 +57,7 @@
     width: 59px;
     height: 100%;
     top: 80px;
-    z-index: 4 !important;
+    z-index: 2;
     background-color: var(--ubs-primary-grey);
     -webkit-user-select: none;
     -moz-user-select: none;
@@ -156,11 +156,11 @@
 }
 
 @media (max-height: 350px) {
-  .mobile-sidebar {
-    display: block !important;
-  }
-
-  .sidebar-icons {
-    display: none;
-  }
+  //.mobile-sidebar {
+  //  display: block !important;
+  //}
+  //
+  //.sidebar-icons {
+  //  display: none;
+  //}
 }
