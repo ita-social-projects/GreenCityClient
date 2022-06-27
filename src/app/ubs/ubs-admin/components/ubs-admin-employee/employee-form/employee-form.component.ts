@@ -7,9 +7,9 @@ import { Store } from '@ngrx/store';
 import { IAppState } from 'src/app/store/state/app.state';
 import { AddEmployee, DeleteEmployee, UpdateEmployee } from 'src/app/store/actions/employee.actions';
 import { skip, take, takeUntil } from 'rxjs/operators';
-import { DialogPopUpComponent } from '../../shared/components/dialog-pop-up/dialog-pop-up.component';
 import { ShowImgsPopUpComponent } from '../../../../../shared/show-imgs-pop-up/show-imgs-pop-up.component';
 import { Subject } from 'rxjs';
+import { DialogPopUpComponent } from 'src/app/shared/dialog-pop-up/dialog-pop-up.component';
 
 interface IEmployeePositions {
   id: number;

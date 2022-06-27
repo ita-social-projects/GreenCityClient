@@ -1,6 +1,6 @@
 import { Injectable, OnDestroy } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { Observable, of, ReplaySubject } from 'rxjs';
+import { Observable, ReplaySubject } from 'rxjs';
 import { environment } from '@environment/environment';
 
 @Injectable({
@@ -24,7 +24,7 @@ export class EventsService implements OnDestroy {
   }
 
   public editEvent(formData: FormData): Observable<any> {
-    return of(true);
+    return this.http.put<any>(`${this.backEnd}events/update`, formData);
   }
 
   public getEvents(page: number, quantity: number): Observable<any> {

@@ -1,7 +1,6 @@
-import { Component, Injector, OnDestroy, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 
 import { quillConfig } from './quillEditorFunc';
-import { EventsService } from '../../services/events.service';
 
 import Quill from 'quill';
 import 'quill-emoji/dist/quill-emoji.js';
@@ -11,10 +10,12 @@ import { DateEvent, DateFormObj, Dates, EventDTO, EventPageResponceDto, OfflineD
 import { Router } from '@angular/router';
 import { DatePipe } from '@angular/common';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
-import { switchMap, takeUntil } from 'rxjs/operators';
-import { iif, of, ReplaySubject, Subject } from 'rxjs';
+import { ReplaySubject, Subject } from 'rxjs';
 import { DateObj, ItemTime, TagsArray, WeekArray } from '../../models/event-consts';
 import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
+import { ActionsSubject, Store } from '@ngrx/store';
+import { ofType } from '@ngrx/effects';
+import { CreateEcoEventAction, EditEcoEventAction, EventsActions } from 'src/app/store/actions/ecoEvents.actions';
 
 @Component({
   selector: 'app-create-edit-events',
@@ -38,6 +39,7 @@ export class CreateEditEventsComponent implements OnInit, OnDestroy {
   public editMode: boolean;
   public editEvent: EventPageResponceDto;
   public imagesToDelete: string[] = [];
+  public oldImages: string[] = [];
   public imagesForEdit: string[];
   private destroyed$: ReplaySubject<boolean> = new ReplaySubject<boolean>(1);
 
@@ -48,10 +50,10 @@ export class CreateEditEventsComponent implements OnInit, OnDestroy {
   unsubscribe: Subject<any> = new Subject();
 
   constructor(
-    private eventService: EventsService,
     public router: Router,
-    private injector: Injector,
-    private localStorageService: LocalStorageService
+    private localStorageService: LocalStorageService,
+    private actionsSubj: ActionsSubject,
+    private store: Store
   ) {
     this.quillModules = quillConfig;
     Quill.register('modules/imageResize', ImageResize);
@@ -129,6 +131,10 @@ export class CreateEditEventsComponent implements OnInit, OnDestroy {
     this.imagesToDelete = imagesSrc;
   }
 
+  public getOldImages(imagesSrc: Array<string>): void {
+    this.oldImages = imagesSrc;
+  }
+
   public setCoordsOnlOff(event: OfflineDto, ind: number): void {
     this.dates[ind].coordinatesDto.latitude = event.latitude;
     this.dates[ind].coordinatesDto.longitude = event.longitude;
@@ -192,29 +198,35 @@ export class CreateEditEventsComponent implements OnInit, OnDestroy {
     if (this.editMode) {
       sendEventDto = {
         ...sendEventDto,
-        imagesTodelete: this.imagesToDelete
+        imagesToDelete: this.imagesToDelete,
+        additionalImages: this.oldImages.slice(1),
+        id: this.editEvent.id,
+        titleImage: this.oldImages[0]
       };
     }
-    const test = true;
-    if (this.checkdates && this.eventFormGroup.valid && tagsArr.length && test) {
+
+    if (this.checkdates && this.eventFormGroup.valid && tagsArr.length) {
       this.checkAfterSend = true;
       const formData: FormData = new FormData();
       const stringifiedDataToSend = JSON.stringify(sendEventDto);
-      formData.append('addEventDtoRequest', stringifiedDataToSend);
+
+      let dtoName = this.editMode ? 'eventDto' : 'addEventDtoRequest';
+
+      formData.append(dtoName, stringifiedDataToSend);
+
       this.imgArray.forEach((item) => {
         formData.append('images', item);
       });
 
       this.isPosting = true;
-      of(true)
-        .pipe(
-          switchMap(() => iif(() => this.editMode, this.eventService.editEvent(formData), this.eventService.createEvent(formData))),
-          takeUntil(this.unsubscribe)
-        )
-        .subscribe(() => {
-          this.isPosting = false;
-          this.escapeFromCreateEvent();
-        });
+      this.editMode
+        ? this.store.dispatch(EditEcoEventAction({ data: formData }))
+        : this.store.dispatch(CreateEcoEventAction({ data: formData }));
+
+      this.actionsSubj.pipe(ofType(EventsActions.CreateEcoEventSuccess, EventsActions.EditEcoEventSuccess)).subscribe(() => {
+        this.isPosting = false;
+        this.escapeFromCreateEvent();
+      });
     } else {
       this.eventFormGroup.markAllAsTouched();
       this.checkAfterSend = false;

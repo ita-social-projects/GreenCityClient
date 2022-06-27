@@ -61,7 +61,6 @@ import { environment } from '@environment/environment';
 import { MatDialogModule } from '@angular/material/dialog';
 import { UbsAdminCustomerOrdersComponent } from './components/ubs-admin-customers/ubs-admin-customer-orders/ubs-admin-customer-orders.component';
 import { AddOrderCancellationReasonComponent } from './components/add-order-cancellation-reason/add-order-cancellation-reason.component';
-import { DialogPopUpComponent } from './components/shared/components/dialog-pop-up/dialog-pop-up.component';
 import { ResizeColumnDirective } from './derictives/resize-table-columns.directive';
 import { AddPaymentComponent } from './components/add-payment/add-payment.component';
 import { UbsAdminCustomerViolationsComponent } from './components/ubs-admin-customers/ubs-admin-customer-violations/ubs-admin-customer-violations/ubs-admin-customer-violations.component';
@@ -117,7 +116,6 @@ import { TimePickerComponent } from './components/shared/components/time-picker/
     UbsAdminCustomerOrdersComponent,
     UbsAdminOrderHistoryComponent,
     AddOrderCancellationReasonComponent,
-    DialogPopUpComponent,
     ResizeColumnDirective,
     AddPaymentComponent,
     UbsAdminCustomerViolationsComponent,

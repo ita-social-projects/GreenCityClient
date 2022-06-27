@@ -4,17 +4,27 @@ export interface EventDTO {
   open: boolean;
   datesLocations: Array<Dates>;
   tags: Array<string>;
-  imagesTodelete?: Array<string>;
+  imagesToDelete?: Array<string>;
+  additionalImages?: Array<string>;
+  id?: number;
+  organizer?: {
+    id: number;
+    name: string;
+  };
+  titleImage?: string;
 }
 
 export interface Dates {
   startDate: string;
   finishDate: string;
   coordinates: {
+    addressEn?: string;
+    addressUa?: string;
     latitude: number;
     longitude: number;
   };
   onlineLink: string;
+  id?: number;
 }
 
 export interface DateEvent {
@@ -83,6 +93,8 @@ export interface TagDto {
 }
 export interface DateEventResponceDto {
   coordinates: {
+    addressEn: string;
+    addressUa: string;
     latitude: number;
     longitude: number;
   };
