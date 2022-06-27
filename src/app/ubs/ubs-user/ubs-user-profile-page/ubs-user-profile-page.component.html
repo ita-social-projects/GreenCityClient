@@ -70,6 +70,11 @@
                   formControlName="alternateEmail"
                   aria-describedby="emailHelp"
                 />
+                <div *ngIf="getControl('alternateEmail').invalid && getControl('alternateEmail').touched">
+                  <div class="error-message">
+                    {{ 'user.auth.sign-in.this-is-not-email' | translate }}
+                  </div>
+                </div>
               </div>
             </div>
             <label *ngIf="userProfile?.alternateEmail && !isEditing" class="form-label">{{
