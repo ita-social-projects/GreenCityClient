@@ -10,10 +10,18 @@
           </button>
         </div>
       </div>
-      <p class="order-content" *ngIf="selectedLocationId === 1">{{ 'order-details.order-content' | translate }}</p>
-      <p class="order-content" *ngIf="selectedLocationId === 2">
-        {{ 'order-details.min-big-bags' | translate: { minAmountOfBigBags: minAmountOfBigBags } }}
-      </p>
+      <div *ngIf="courierLimitBySum && displayMinOrderMes && (orderDetailsForm.touched || isOrderData)" class="validMes">
+        <small class="text-danger">{{ 'order-details.min-sum' | translate: { minOrderValue: minOrderValue } }}</small>
+      </div>
+      <div *ngIf="courierLimitBySum && displayMaxOrderMes && (orderDetailsForm.touched || isOrderData)" class="validMes">
+        <small class="text-danger">{{ 'order-details.max-sum' | translate: { maxOrderValue: maxOrderValue } }}</small>
+      </div>
+      <div *ngIf="courierLimitByAmount && displayMinBigBagsMes && (orderDetailsForm.touched || isOrderData)" class="validMes">
+        <small class="text-danger">{{ 'order-details.min-big-bags' | translate: { minAmountOfBigBags: minAmountOfBigBags } }}</small>
+      </div>
+      <div *ngIf="courierLimitByAmount && displayMaxBigBagsMes && (orderDetailsForm.touched || isOrderData)" class="validMes">
+        <small class="text-danger">{{ 'order-details.max-big-bags' | translate: { maxAmountOfBigBags: maxAmountOfBigBags } }}</small>
+      </div>
     </div>
 
     <form class="form" [formGroup]="orderDetailsForm" (change)="changeOrderDetails()">
@@ -78,14 +86,6 @@
                   <strong>{{ finalSum | currency | localizedCurrency }}</strong>
                 </span>
               </p>
-              <div *ngIf="displayMinOrderMes" class="validMes">
-                <small class="text-danger">{{ 'order-details.min-sum' | translate }}</small>
-              </div>
-              <div *ngIf="displayMinBigBagsMes && orderDetailsForm.dirty" class="validMes">
-                <small class="text-danger">{{
-                  'order-details.min-big-bags' | translate: { minAmountOfBigBags: minAmountOfBigBags }
-                }}</small>
-              </div>
             </div>
           </div>
           <h5>{{ 'order-details.question-certificate' | translate }}</h5>
@@ -187,7 +187,7 @@
     {{ 'order-details.cancel' | translate }}
   </button>
   <button
-    [disabled]="showTotal < 500 || minAmountOfBigBags > totalOfBigBags || orderComment.invalid"
+    [disabled]="courierLimitValidation || orderComment.invalid"
     type="submit"
     class="primary-global-button btn btn-main"
     matStepperNext
