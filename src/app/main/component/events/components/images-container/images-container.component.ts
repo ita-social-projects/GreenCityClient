@@ -28,6 +28,7 @@ export class ImagesContainerComponent implements OnInit {
 
   @Output() imgArrayOutput = new EventEmitter<Array<File>>();
   @Output() deleteImagesOutput = new EventEmitter<Array<string>>();
+  @Output() oldImagesOutput = new EventEmitter<Array<string>>();
 
   constructor(private localStorageService: LocalStorageService) {}
   ngOnInit(): void {
@@ -68,6 +69,7 @@ export class ImagesContainerComponent implements OnInit {
       this.imgArrayOutput.emit(this.imgArray);
       if (this.editMode) {
         this.deleteImagesOutput.emit(this.imagesTodelete);
+        this.oldImagesOutput.emit(this.imagesEditArr);
       }
 
       reader.readAsDataURL(imageFile);
@@ -95,9 +97,7 @@ export class ImagesContainerComponent implements OnInit {
     this.images.splice(i, 1);
     this.imgArray.splice(i, 1);
     this.imgArrayOutput.emit(this.imgArray);
-    if (this.editMode) {
-      this.deleteImagesOutput.emit(this.imagesTodelete);
-    }
+
     let allowLabel = false;
     if (i === this.imagesCount - 1) {
       allowLabel = true;
@@ -106,6 +106,11 @@ export class ImagesContainerComponent implements OnInit {
     this.imageCount--;
     if (this.editMode && !this.imagesTodelete.find((el) => el === this.imagesEditArr[i])) {
       this.imagesTodelete.push(this.imagesEditArr[i]);
+      this.imagesEditArr.splice(i, 1);
+    }
+    if (this.editMode) {
+      this.deleteImagesOutput.emit(this.imagesTodelete);
+      this.oldImagesOutput.emit(this.imagesEditArr);
     }
   }
 

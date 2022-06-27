@@ -29,6 +29,7 @@ import { MaxImageNamePipe } from '../ubs/ubs-admin/components/shared/max-image-n
 import { OptionPipe } from './option-tariff/option-tariff.pipe';
 import { SearchPipe } from './search-tariff/search-tariff.pipe';
 import { ShowImgsPopUpComponent } from './show-imgs-pop-up/show-imgs-pop-up.component';
+import { DialogPopUpComponent } from './dialog-pop-up/dialog-pop-up.component';
 
 @NgModule({
   declarations: [
@@ -53,7 +54,8 @@ import { ShowImgsPopUpComponent } from './show-imgs-pop-up/show-imgs-pop-up.comp
     MaxImageNamePipe,
     OptionPipe,
     SearchPipe,
-    ShowImgsPopUpComponent
+    ShowImgsPopUpComponent,
+    DialogPopUpComponent
   ],
   imports: [
     CommonModule,

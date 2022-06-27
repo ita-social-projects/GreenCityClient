@@ -30,12 +30,14 @@ describe('OrderDetailsFormComponent', () => {
     'getCurrentLanguage',
     'languageSubject',
     'getUbsOrderData',
-    'getLocations'
+    'getLocations',
+    'removeUbsOrderAndPersonalData',
+    'removeanotherClientData'
   ]);
   localStorageService.getUbsOrderData = () => null;
   localStorageService.languageSubject = fakeLanguageSubject;
   const mockLocations = {
-    courierLimit: 'LIMIT_BY_SUM_OF_ORDER',
+    courierLimit: 'fake',
     courierStatus: 'fake status',
     tariffInfoId: 1,
     regionDto: {
@@ -102,6 +104,16 @@ describe('OrderDetailsFormComponent', () => {
     expect(component).toBeTruthy();
   });
 
+  it('ngOnInit should call takeOrderData and subscribeToLangChange', () => {
+    const spy1 = spyOn(component as any, 'takeOrderData');
+    const spy2 = spyOn(component as any, 'subscribeToLangChange');
+    fixture.detectChanges();
+    component.ngOnInit();
+
+    expect(spy1).toHaveBeenCalled();
+    expect(spy2).toHaveBeenCalled();
+  });
+
   it('method takeOrderData should invoke localStorageService.getCurrentLanguage method', () => {
     const mock: OrderDetails = {
       bags: [{ id: 0, code: 'ua' }],
@@ -119,6 +131,23 @@ describe('OrderDetailsFormComponent', () => {
     expect(component.bags).toEqual(component.orders.bags);
   });
 
+  it('method checkOnNumber should return true if key is number', () => {
+    const event: any = { key: '1' };
+    fixture.detectChanges();
+    const result = component.checkOnNumber(event);
+
+    expect(result).toBe(true);
+  });
+
+  it('method takeOrderData should invoke expected methods', () => {
+    component.isThisExistingOrder = true;
+    fixture.detectChanges();
+    component.takeOrderData();
+
+    expect(localStorageService.removeUbsOrderAndPersonalData).toHaveBeenCalled();
+    expect(localStorageService.removeanotherClientData).toHaveBeenCalled();
+  });
+
   it('method calculateTotal should invoke methods', () => {
     const spy = spyOn(component, 'changeForm');
     const spy1 = spyOn(component, 'changeOrderDetails');
@@ -127,6 +156,24 @@ describe('OrderDetailsFormComponent', () => {
     (component as any).calculateTotal();
     expect(spy).toHaveBeenCalled();
     expect(spy1).toHaveBeenCalled();
+  });
+
+  it('method filterBags should sord bags', () => {
+    (component as any).orders = {
+      bags: [
+        { id: 1, price: 250 },
+        { id: 2, price: 300 },
+        { id: 3, price: 50 }
+      ]
+    };
+    fixture.detectChanges();
+    (component as any).filterBags();
+
+    expect((component as any).bags).toEqual([
+      { id: 2, price: 300 },
+      { id: 1, price: 250 },
+      { id: 3, price: 50 }
+    ]);
   });
 
   it('method clearOrderValues should invoke ecoStoreValidation method', () => {

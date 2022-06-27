@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { mainUbsLink } from 'src/app/main/links';
 import { HttpClient } from '@angular/common/http';
-import { Bag, Service } from '../models/tariffs.interface';
+import { Bag, CreateCard, Service } from '../models/tariffs.interface';
 import { Observable } from 'rxjs';
 import { ajax } from 'rxjs/ajax';
 
@@ -85,5 +85,13 @@ export class TariffsService {
 
   editLocationName(newLocation): Observable<object> {
     return this.http.post(`${mainUbsLink}/ubs/superAdmin/locations/edit`, newLocation);
+  }
+
+  public getCardInfo(): Observable<any[]> {
+    return this.http.get<any[]>(`${mainUbsLink}/ubs/superAdmin/tariffs/all`);
+  }
+
+  public createCard(card: CreateCard): Observable<object> {
+    return this.http.post(`${mainUbsLink}/ubs/superAdmin/add-new-tariff`, card);
   }
 }

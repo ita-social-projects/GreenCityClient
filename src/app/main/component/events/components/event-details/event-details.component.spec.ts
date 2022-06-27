@@ -9,6 +9,7 @@ import { EventsService } from '../../services/events.service';
 import { ActivatedRoute } from '@angular/router';
 import { MatDialog, MatDialogModule } from '@angular/material/dialog';
 import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
+import { ActionsSubject, Store } from '@ngrx/store';
 
 describe('EventDetailsComponent', () => {
   let component: EventDetailsComponent;
@@ -59,6 +60,10 @@ describe('EventDetailsComponent', () => {
     }
   }
 
+  const storeMock = jasmine.createSpyObj('store', ['select', 'dispatch']);
+
+  const actionSub: ActionsSubject = new ActionsSubject();
+
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       imports: [TranslateModule.forRoot(), RouterTestingModule, MatDialogModule],
@@ -67,7 +72,9 @@ describe('EventDetailsComponent', () => {
         { provide: EventsService, useValue: EventsServiceMock },
         { provide: ActivatedRoute, useValue: activatedRouteMock },
         { provide: MatDialog, useClass: MatDialogMock },
-        { provide: LocalStorageService, useValue: LocalStorageServiceMock }
+        { provide: LocalStorageService, useValue: LocalStorageServiceMock },
+        { provide: Store, useValue: storeMock },
+        { provide: ActionsSubject, useValue: actionSub }
       ],
       schemas: [CUSTOM_ELEMENTS_SCHEMA]
     }).compileComponents();
@@ -148,11 +155,5 @@ describe('EventDetailsComponent', () => {
     component.sliderIndex = 3;
     component.moveLeft();
     expect(component.sliderIndex).toBe(2);
-  });
-
-  it('deleteEvent', () => {
-    const spy = spyOn(component.router, 'navigate');
-    component.deleteEvent();
-    expect(spy).toHaveBeenCalledTimes(1);
   });
 });

@@ -223,7 +223,7 @@
       "tel-label": "Phone",
       "tel-placeholder": "+380 00 000 00 00",
       "email-label": "Email",
-      "email-placeholder": "mail@mail.com"
+      "email-placeholder": "example@mail.com"
     },
     "recipient": {
       "title": "Recipient",
@@ -234,7 +234,7 @@
       "tel-label": "Phone",
       "tel-placeholder": "+380 00 000 00 00",
       "email-label": "Email",
-      "email-placeholder": "mail@mail.com"
+      "email-placeholder": "example@mail.com"
     },
     "violation": {
       "title": "Customer violations",
@@ -520,6 +520,7 @@
     "textile_waste_20": "Textile waste",
     "info_about_order_limits": "Information about order limits",
     "placeholder_order_limits_info": "Information about order limits, which will be displayed in the order form",
+    "card-already-exist": "According to these criteria, a tariff card already exists. Make changes to save.",
     "btn": {
       "add_service": "Add service",
       "add_service2": "Add service",
@@ -564,11 +565,13 @@
     "add_button": "Add",
     "cancel_button": "Cancel",
     "save_button": "Save",
+    "create_button": "Create",
     "error_message": "Area not found. Enter again",
     "city_error_message": "City not found. Enter again",
     "city_exist": "The city already exists in the system. Change it",
     "courier_title": "Add courier",
     "station_title": "Add receiving station",
+    "create_card_title": "Create card",
     "courier_edit_title": "Edit courier",
     "station_edit_title": "Edit receiving station",
     "courier_edit_text": "Choose courier and edit",
@@ -613,7 +616,7 @@
     "user": "Added by ",
     "no": "No",
     "yes": "Yes",
-    "cancel-message": "Cancel. Are you sure you want to undo the changes?"
+    "cancel-message": "Are you sure you want to undo the changes?"
   },
   "ubs-user-notification": {
     "title": "Your messages",

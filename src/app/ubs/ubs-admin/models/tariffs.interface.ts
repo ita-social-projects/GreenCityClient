@@ -91,3 +91,10 @@ export interface EditLocationName {
   locationId: number;
   regionId: number;
 }
+
+export interface CreateCard {
+  courierId: number;
+  locationIdList: Array<number>;
+  receivingStationsIdList: Array<number>;
+  regionId: number;
+}
