@@ -28,8 +28,6 @@ export class EventDateTimePickerComponent implements OnInit, OnChanges {
   public checkTime = false;
   public checkOfflinePlace = false;
   public checkOnlinePlace = false;
-  private geoCoder: any;
-
   private regionOptions = {
     types: ['address'],
     componentRestrictions: { country: 'UA' }
@@ -69,9 +67,6 @@ export class EventDateTimePickerComponent implements OnInit, OnChanges {
       this.datesForm.emit(value);
     });
     if (this.editDate) {
-      this.mapsAPILoader.load().then(() => {
-        this.geoCoder = new google.maps.Geocoder();
-      });
       this.setEditData();
     }
   }
@@ -94,7 +89,13 @@ export class EventDateTimePickerComponent implements OnInit, OnChanges {
       this.checkOfflinePlace = true;
       this.dateForm.addControl('place', new FormControl('', [Validators.required]));
       setTimeout(() => this.setPlaceAutocomplete(), 0);
-      setTimeout(() => this.setGeocode(), 2000);
+      this.coordinates.latitude = this.editDate.coordinates.latitude;
+      this.coordinates.longitude = this.editDate.coordinates.longitude;
+      this.coordOffline.emit(this.coordinates);
+
+      this.dateForm.patchValue({
+        place: this.editDate.coordinates.addressEn
+      });
 
       this.coordinates.latitude = this.editDate.coordinates.latitude;
       this.coordinates.longitude = this.editDate.coordinates.longitude;
@@ -107,19 +108,6 @@ export class EventDateTimePickerComponent implements OnInit, OnChanges {
         onlineLink: this.editDate.onlineLink
       });
     }
-  }
-
-  private setGeocode(): void {
-    this.geoCoder.geocode(
-      { location: { lat: this.editDate.coordinates.latitude, lng: this.editDate.coordinates.longitude } },
-      (results, status) => {
-        if (status === 'OK') {
-          this.dateForm.patchValue({
-            place: results[0].formatted_address
-          });
-        }
-      }
-    );
   }
 
   public checkIfAllDay(): void {
@@ -165,9 +153,6 @@ export class EventDateTimePickerComponent implements OnInit, OnChanges {
   private setPlaceAutocomplete(): void {
     this.mapsAPILoader.load().then(() => {
       this.autocomplete = new google.maps.places.Autocomplete(this.placesRef.nativeElement, this.regionOptions);
-      if (this.editDate) {
-        this.autocomplete.setValues(this.editDate.coordinates);
-      }
 
       this.autocomplete.addListener('place_changed', () => {
         const locationName = this.autocomplete.getPlace();

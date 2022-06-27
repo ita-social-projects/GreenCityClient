@@ -120,7 +120,7 @@
                   (click)="toggleAccordion($event)"
                 >
                   <mat-icon>keyboard_arrow_down</mat-icon>
-                  <li class="head">{{ header | serverTranslate: currentLang }}</li>
+                  <li class="head">{{ header | serverTranslate: currentLang | titlecase }}</li>
                 </div>
                 <div
                   id="panelsStayOpen-collapse{{ i }}"

@@ -1,5 +1,5 @@
 import { Subject } from 'rxjs';
-import { Router } from '@angular/router';
+import { Router, ActivatedRoute } from '@angular/router';
 import { takeUntil } from 'rxjs/operators';
 import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
 import { Component, OnDestroy, OnInit, Renderer2 } from '@angular/core';
@@ -84,6 +84,9 @@ export class UBSOrderDetailsComponent extends FormBaseComponent implements OnIni
   public changeLocation = false;
   isBonus: string;
   public previousPath = 'ubs';
+  public isThisExistingOrder: boolean;
+  public existingOrderId: number;
+  public locationId: number;
 
   constructor(
     private fb: FormBuilder,
@@ -91,6 +94,7 @@ export class UBSOrderDetailsComponent extends FormBaseComponent implements OnIni
     private localStorageService: LocalStorageService,
     public orderService: OrderService,
     public renderer: Renderer2,
+    private route: ActivatedRoute,
     router: Router,
     dialog: MatDialog
   ) {
@@ -99,19 +103,41 @@ export class UBSOrderDetailsComponent extends FormBaseComponent implements OnIni
   }
 
   ngOnInit(): void {
-    const locationId = this.shareFormService.locationId;
-    if (locationId) {
-      this.currentLanguage = this.localStorageService.getCurrentLanguage();
-      this.locations = this.shareFormService.locations;
-      this.selectedLocationId = locationId;
-      this.saveLocation(false);
+    this.route.queryParams.subscribe((params) => {
+      const key = 'isThisExistingOrder';
+      this.isThisExistingOrder = !!params[key];
+    });
+
+    if (this.isThisExistingOrder) {
+      this.existingOrderId = parseInt(this.localStorageService.getExistingOrderId(), 10);
+      this.orderService
+        .getTariffForExistingOrder(this.existingOrderId)
+        .pipe(takeUntil(this.destroy))
+        .subscribe((tariffData: CourierLocations) => {
+          this.locationId = tariffData.locationsDtosList[0].locationId;
+          this.locations = tariffData;
+          this.localStorageService.setLocations(this.locations);
+          this.setLocation(this.locationId);
+        });
     } else {
-      this.openLocationDialog();
+      this.locationId = this.shareFormService.locationId;
+      this.setLocation(this.locationId);
     }
     this.takeOrderData();
     this.subscribeToLangChange();
     if (this.localStorageService.getUbsOrderData()) {
       this.calculateTotal();
+    }
+  }
+
+  public setLocation(locationId: number | undefined): void {
+    if (locationId) {
+      this.currentLanguage = this.localStorageService.getCurrentLanguage();
+      this.locations = !this.locations ? this.shareFormService.locations : this.locations;
+      this.selectedLocationId = this.locationId;
+      this.saveLocation(false);
+    } else {
+      this.openLocationDialog();
     }
   }
 
@@ -208,6 +234,10 @@ export class UBSOrderDetailsComponent extends FormBaseComponent implements OnIni
   public takeOrderData() {
     this.isFetching = true;
     this.currentLanguage = this.localStorageService.getCurrentLanguage();
+    if (!this.isThisExistingOrder) {
+      this.localStorageService.removeUbsOrderAndPersonalData();
+      this.localStorageService.removeanotherClientData();
+    }
     this.orderService
       .getOrders()
       .pipe(takeUntil(this.destroy))
