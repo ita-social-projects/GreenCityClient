@@ -9,7 +9,7 @@ import { MatDialogModule, MatDialogRef } from '@angular/material/dialog';
 import { TranslateModule } from '@ngx-translate/core';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
-import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { FormArray, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { UBSOrderDetailsComponent } from './ubs-order-details.component';
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { of, Subject } from 'rxjs';
@@ -151,11 +151,13 @@ describe('OrderDetailsFormComponent', () => {
   it('method calculateTotal should invoke methods', () => {
     const spy = spyOn(component, 'changeForm');
     const spy1 = spyOn(component, 'changeOrderDetails');
+    const spy2 = spyOn(component, 'validateSum');
     component.bags = [];
     fixture.detectChanges();
     (component as any).calculateTotal();
     expect(spy).toHaveBeenCalled();
     expect(spy1).toHaveBeenCalled();
+    expect(spy2).toHaveBeenCalled();
   });
 
   it('method filterBags should sord bags', () => {
@@ -199,19 +201,31 @@ describe('OrderDetailsFormComponent', () => {
     expect(spy).toHaveBeenCalled();
   });
 
-  it('method setLimitsValues should invoke checkCourierLimit method', () => {
+  it('method setLocation should invoke setLimitsValues if locationId exists', () => {
+    const spy = spyOn(component, 'setLimitsValues');
+    component.setLocation(2);
+    expect(spy).toHaveBeenCalled();
+  });
+
+  it('should open location dialog if locationId does not exists', () => {
+    const spy = spyOn(component, 'openLocationDialog');
+    component.setLocation(null);
+    expect(spy).toHaveBeenCalled();
+  });
+
+  it('method setLimitsValues should invoke checkCourierLimit', () => {
     const spy = spyOn(component, 'checkCourierLimit');
     component.setLimitsValues();
     expect(spy).toHaveBeenCalled();
   });
 
-  it('method setLimitsValues should invoke validateBags method', () => {
+  it('method setLimitsValues should invoke validateBags', () => {
     const spy = spyOn(component, 'validateBags');
     component.setLimitsValues();
     expect(spy).toHaveBeenCalled();
   });
 
-  it('method setLimitsValues should invoke validateSum method', () => {
+  it('method setLimitsValues should invoke validateSum', () => {
     const spy = spyOn(component, 'validateSum');
     component.setLimitsValues();
     expect(spy).toHaveBeenCalled();
@@ -242,6 +256,13 @@ describe('OrderDetailsFormComponent', () => {
     component.validateSum();
     fixture.detectChanges();
     expect(component.courierLimitValidation).toBeFalsy();
+  });
+
+  it('getter formArrayCertificates should return formArray of certificates', () => {
+    const formArray = component.orderDetailsForm.controls.formArrayCertificates as FormArray;
+    const spy = spyOnProperty(component, 'formArrayCertificates').and.returnValue(formArray);
+    expect(component.formArrayCertificates).toBe(formArray);
+    expect(spy).toHaveBeenCalled();
   });
 
   it('destroy should be closed after ngOnDestroy()', () => {
