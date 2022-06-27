@@ -1,8 +1,8 @@
 import { Injectable } from '@angular/core';
 import { mainUbsLink } from 'src/app/main/links';
 import { HttpClient } from '@angular/common/http';
-
 import { Bag, CreateCard, EditLocationName, Service } from '../models/tariffs.interface';
+
 import { Observable } from 'rxjs';
 import { ajax } from 'rxjs/ajax';
 
