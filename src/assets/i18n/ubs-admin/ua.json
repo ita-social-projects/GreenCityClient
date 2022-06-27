@@ -222,7 +222,7 @@
       "tel-label": "Телефон",
       "tel-placeholder": "+380 00 000 00 00",
       "email-label": "Email",
-      "email-placeholder": "mail@mail.com"
+      "email-placeholder": "example@mail.com"
     },
     "recipient": {
       "title": "Відправник",
@@ -233,7 +233,7 @@
       "tel-label": "Телефон",
       "tel-placeholder": "+380 00 000 00 00",
       "email-label": "Email",
-      "email-placeholder": "mail@mail.com"
+      "email-placeholder": "example@mail.com"
     },
     "violation": {
       "title": "Порушення клієнта",
@@ -489,6 +489,10 @@
     "placeholder-courier": "Оберіть кур'єра",
     "placeholder-station": "Оберіть станцію",
     "placeholder-state": "Оберіть стан",
+    "placeholder-choose-region": "Обрати область",
+    "placeholder-choose-city": "Обрати місто",
+    "placeholder-choose-courier": "Обрати кур'єра",
+    "placeholder-choose-station": "Обрати станцію приймання",
     "tariffs": "Тарифи",
     "region": "Область",
     "courier": "Кур'єр",
@@ -517,6 +521,7 @@
     "textile_waste_20": "Текстильні відходи 20 л",
     "info_about_order_limits": "Інформація про ліміти замовлення",
     "placeholder_order_limits_info": "Інформація про ліміти замовлення, яка буде відображатись у формі замовлення клієнта",
+    "card-already-exist": "За цими критеріями вже існує тарифна картка. Для збереження внесіть зміни.",
     "btn": {
       "add_service": "Додати сервіс",
       "add_service2": "Додати послугу",
@@ -563,11 +568,13 @@
     "add_button": "Додати",
     "cancel_button": "Скасувати",
     "save_button": "Зберегти",
+    "create_button": "Створити",
     "error_message": "На жаль, область не знайдена. Введіть ще раз",
     "city_error_message": "На жаль, місто не знайдено. Введіть ще раз",
     "city_exist": "Місто вже існує в системі. Змініть його",
     "courier_title": "Додати кур'єра",
     "station_title": "Додати станцію приймання",
+    "create_card_title": "Створити картку",
     "courier_edit_title": "Редагувати кур'єра",
     "station_edit_title": "Редагувати станцію приймання",
     "courier_edit_text": "Оберіть кур'єра та редагуйте",
@@ -610,7 +617,7 @@
     "user": "Додано ",
     "no": "Ні",
     "yes": "Так",
-    "cancel-message": "Скасувати. Ви дійсно хочете скасувати внесені зміни?"
+    "cancel-message": "Ви дійсно хочете скасувати внесені зміни?"
   },
   "ubs-user-notification": {
     "title": "Ваші повідомлення",

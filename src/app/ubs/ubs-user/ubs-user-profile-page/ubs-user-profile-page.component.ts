@@ -183,7 +183,12 @@ export class UbsUserProfilePageComponent implements OnInit {
   }
 
   toggleAlternativeEmail() {
-    const control = new FormControl(this.userProfile?.alternateEmail, [Validators.pattern(this.regexpEmail)]);
+    const control = new FormControl(this.userProfile?.alternateEmail, [
+      Validators.pattern(this.regexpEmail),
+      Validators.minLength(3),
+      Validators.maxLength(66),
+      Validators.email
+    ]);
     this.alternativeEmailDisplay = !this.alternativeEmailDisplay;
 
     this.alternativeEmailDisplay ? this.userForm.addControl('alternateEmail', control) : this.userForm.removeControl('alternateEmail');

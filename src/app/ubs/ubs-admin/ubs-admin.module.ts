@@ -61,7 +61,6 @@ import { environment } from '@environment/environment';
 import { MatDialogModule } from '@angular/material/dialog';
 import { UbsAdminCustomerOrdersComponent } from './components/ubs-admin-customers/ubs-admin-customer-orders/ubs-admin-customer-orders.component';
 import { AddOrderCancellationReasonComponent } from './components/add-order-cancellation-reason/add-order-cancellation-reason.component';
-import { DialogPopUpComponent } from './components/shared/components/dialog-pop-up/dialog-pop-up.component';
 import { ResizeColumnDirective } from './derictives/resize-table-columns.directive';
 import { AddPaymentComponent } from './components/add-payment/add-payment.component';
 import { UbsAdminCustomerViolationsComponent } from './components/ubs-admin-customers/ubs-admin-customer-violations/ubs-admin-customer-violations/ubs-admin-customer-violations.component';
@@ -79,6 +78,8 @@ import { UbsAdminTariffsCourierPopUpComponent } from './components/ubs-admin-tar
 import { UbsAdminTariffsStationPopUpComponent } from './components/ubs-admin-tariffs/ubs-admin-tariffs-station-pop-up/ubs-admin-tariffs-station-pop-up.component';
 import { MatExpansionModule } from '@angular/material/expansion';
 import { TimePickerComponent } from './components/shared/components/time-picker/time-picker.component';
+import { UbsAdminTariffsCardPopUpComponent } from './components/ubs-admin-tariffs/ubs-admin-tariffs-card-pop-up/ubs-admin-tariffs-card-pop-up.component';
+import { TariffConfirmationPopUpComponent } from './components/shared/components/tariff-confirmation-pop-up/tariff-confirmation-pop-up.component';
 
 @NgModule({
   declarations: [
@@ -117,7 +118,6 @@ import { TimePickerComponent } from './components/shared/components/time-picker/
     UbsAdminCustomerOrdersComponent,
     UbsAdminOrderHistoryComponent,
     AddOrderCancellationReasonComponent,
-    DialogPopUpComponent,
     ResizeColumnDirective,
     AddPaymentComponent,
     UbsAdminCustomerViolationsComponent,
@@ -130,7 +130,9 @@ import { TimePickerComponent } from './components/shared/components/time-picker/
     UbsAdminSeveralOrdersPopUpComponent,
     UbsAdminTariffsCourierPopUpComponent,
     UbsAdminTariffsStationPopUpComponent,
-    TimePickerComponent
+    TimePickerComponent,
+    UbsAdminTariffsCardPopUpComponent,
+    TariffConfirmationPopUpComponent
   ],
   imports: [
     CommonModule,

@@ -1,7 +1,7 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { ImagesContainerComponent } from './images-container.component';
-import { CUSTOM_ELEMENTS_SCHEMA, ElementRef } from '@angular/core';
+import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { FileHandle } from 'src/app/ubs/ubs-admin/models/file-handle.model';
 
 describe('ImagesContainerComponent', () => {
