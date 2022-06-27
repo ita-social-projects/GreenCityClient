@@ -210,7 +210,7 @@ export class CreateEditEventsComponent implements OnInit, OnDestroy {
       const formData: FormData = new FormData();
       const stringifiedDataToSend = JSON.stringify(sendEventDto);
 
-      let dtoName = this.editMode ? 'eventDto' : 'addEventDtoRequest';
+      const dtoName = this.editMode ? 'eventDto' : 'addEventDtoRequest';
 
       formData.append(dtoName, stringifiedDataToSend);
 
