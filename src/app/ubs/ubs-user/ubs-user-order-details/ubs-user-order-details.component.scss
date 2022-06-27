@@ -155,11 +155,21 @@
   margin: 0 22px;
 }
 
+@media (max-width: 1420px) {
+  .full_card {
+    margin-left: 0;
+    grid-template-columns: 716px auto;
+  }
+
+  .table_of_details {
+    width: 700px;
+  }
+}
+
 @media (max-width: 1100px) {
   .full_card {
     display: flex;
     flex-direction: column;
-    max-width: 670px;
     margin: 0;
     color: var(--ubs-primary-black);
 
@@ -172,11 +182,38 @@
       font-family: var(--primary-font);
     }
   }
+
+  .table_of_details {
+    width: 100%;
+  }
 }
 
 @media (max-width: 992px) {
   .download {
     justify-content: flex-start;
+  }
+}
+
+@media (max-width: 640px) {
+  .table_of_details {
+    td {
+      font-size: 11px;
+      padding-top: 14px;
+    }
+
+    .header_table {
+      th {
+        font-size: 11px;
+      }
+    }
+  }
+
+  .order_details {
+    font-size: 11px;
+
+    .bold_text {
+      font-size: 0.8rem;
+    }
   }
 }
 
@@ -192,7 +229,6 @@
 
   .order_details {
     margin: 0;
-    width: auto;
     color: var(--ubs-primary-black);
     font-family: var(--primary-font);
 
@@ -209,9 +245,5 @@
       padding: 0;
       list-style-type: none;
     }
-  }
-
-  .table_of_details {
-    width: 562px;
   }
 }

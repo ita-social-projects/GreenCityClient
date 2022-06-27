@@ -57,7 +57,7 @@
     width: 59px;
     height: 100%;
     top: 80px;
-    z-index: 9 !important;
+    z-index: 4 !important;
     background-color: var(--ubs-primary-grey);
     -webkit-user-select: none;
     -moz-user-select: none;
@@ -135,7 +135,15 @@
   }
 }
 
-@media (max-width: 992px) {
+@media (max-width: 1530px) {
+  .sidebar {
+    .sidebar-container {
+      width: unset !important;
+    }
+  }
+}
+
+@media (max-width: 1266px) {
   .main-content {
     margin-left: 0 !important;
   }

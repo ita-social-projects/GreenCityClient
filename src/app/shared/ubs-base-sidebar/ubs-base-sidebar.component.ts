@@ -26,6 +26,7 @@ export class UbsBaseSidebarComponent implements AfterViewInit, AfterViewChecked,
   readonly bellsNoneNotification = 'assets/img/sidebarIcons/none_notification_Bell.svg';
   readonly bellsNotification = 'assets/img/sidebarIcons/notification_Bell.svg';
   private adminRoleValue = 'ROLE_ADMIN';
+  private sidebarChangeBreakpoint: number;
   destroy: Subject<boolean> = new Subject<boolean>();
   @Input() public listElements: object[] = [];
   @Input() public listElementsMobile: object[] = [];
@@ -59,8 +60,10 @@ export class UbsBaseSidebarComponent implements AfterViewInit, AfterViewChecked,
 
   @HostListener('window:resize', ['$event'])
   onResize(event) {
-    if ((event.target.innerWidth < 992 || window.innerWidth < 992) && this.drawer) {
-      this.drawer.opened = false;
+    if (this.drawer) {
+      this.drawer.opened =
+        (event.target.innerWidth > this.sidebarChangeBreakpoint || window.innerWidth > this.sidebarChangeBreakpoint) &&
+        event.target.innerHeight > 350;
     }
   }
 
@@ -78,7 +81,8 @@ export class UbsBaseSidebarComponent implements AfterViewInit, AfterViewChecked,
   }
 
   ngAfterViewInit(): void {
-    if (window.innerWidth < 992 && this.drawer) {
+    this.sidebarChangeBreakpoint = 1266;
+    if (window.innerWidth < this.sidebarChangeBreakpoint && this.drawer) {
       this.drawer.toggle();
     }
     setTimeout(() => {
