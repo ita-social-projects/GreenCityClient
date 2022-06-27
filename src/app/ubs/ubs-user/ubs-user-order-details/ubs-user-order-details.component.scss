@@ -130,13 +130,17 @@
 }
 
 .download {
-  display: grid;
-  grid-template-areas: 'arrow text' 'maximize text';
-  grid-template-columns: 16px auto;
-  grid-template-rows: 17px auto;
+  display: flex;
   justify-content: end;
-  margin: 30px 18px 33px 0;
-  color: var(--primary-green);
+
+  .download-link {
+    display: grid;
+    grid-template-areas: 'arrow text' 'maximize text';
+    grid-template-columns: 16px max-content;
+    grid-template-rows: 17px auto;
+    margin: 30px 18px 33px 0;
+    color: var(--primary-green);
+  }
 }
 
 .arrow {
@@ -183,6 +187,10 @@
     }
   }
 
+  .order_details {
+    border-left: none;
+  }
+
   .table_of_details {
     width: 100%;
   }
@@ -209,24 +217,21 @@
   }
 
   .order_details {
+    display: flex;
+    flex-direction: column;
     font-size: 11px;
 
     .bold_text {
       font-size: 0.8rem;
     }
   }
+
+  .text {
+    font-size: 14px;
+  }
 }
 
 @media (max-width: 460px) {
-  .download {
-    display: grid;
-    grid-template-areas: 'arrow text' 'maximize text';
-    grid-template-columns: 16px auto;
-    grid-template-rows: 17px auto;
-    margin: 20px 18px 33px 0;
-    color: var(--primary-green);
-  }
-
   .order_details {
     margin: 0;
     color: var(--ubs-primary-black);

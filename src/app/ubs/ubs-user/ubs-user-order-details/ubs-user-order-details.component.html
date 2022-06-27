@@ -51,24 +51,29 @@
     <ol class="recipient">
       <h6 class="bold_text">{{ 'user-orders.details.recipient' | translate }}</h6>
       <li>
-        <span>{{ order.sender.senderName }}</span
-        ><span>{{ order.sender.senderSurname }}</span>
+        <span>{{ order.sender.senderName }} {{ order.sender.senderSurname }}</span>
       </li>
       <li>{{ order.sender.senderPhone }}</li>
       <li>{{ order.sender.senderEmail }}</li>
     </ol>
     <ol class="recipient">
       <h6 class="bold_text">{{ 'user-orders.details.export-address' | translate }}</h6>
-      <li *ngIf="currentLanguage === 'ua'">{{ order.address.addressCity }}</li>
+      <li *ngIf="currentLanguage === 'ua'">м. {{ order.address.addressCity }}</li>
       <li *ngIf="currentLanguage === 'en'">{{ order.address.addressCityEng }}</li>
       <li>
-        <span *ngIf="currentLanguage === 'ua'">{{ order.address.addressStreet }} </span>
-        <span *ngIf="currentLanguage === 'en'">{{ order.address.addressStreetEng }} </span>
-        <span>, {{ order.address.houseNumber }}</span>
-        <span>, {{ 'user-orders.details.block-number' | translate }} {{ order.address.houseCorpus || '-' }}</span>
-        <span>
-          <span> , {{ 'user-orders.details.entrance' | translate }} {{ order.address.entranceNumber || '-' }}</span>
-        </span>
+        <span *ngIf="currentLanguage === 'ua'">{{ order.address.addressStreet }}, </span>
+        <span *ngIf="currentLanguage === 'en'">{{ order.address.addressStreetEng }}, </span>
+        <span>{{ order.address.houseNumber }},</span><br />
+        <span>{{ 'user-orders.details.block-number' | translate }} {{ order.address.houseCorpus || '-' }}</span
+        ><br />
+        <span>{{ 'user-orders.details.entrance' | translate }} {{ order.address.entranceNumber || '-' }}</span
+        ><br />
+        <span *ngIf="currentLanguage === 'ua'">
+          {{ 'user-orders.details.district' | translate }} {{ order.address.addressDistinct || '-' }}</span
+        >
+        <span *ngIf="currentLanguage === 'en'">
+          {{ 'user-orders.details.district' | translate }} {{ order.address.addressDistinctEng || '-' }}</span
+        >
       </li>
     </ol>
     <ol class="recipient" *ngIf="order.address.addressComment !== ''">
@@ -76,16 +81,6 @@
       <li>{{ order.address.addressComment }}</li>
     </ol>
   </div>
-</div>
-
-<div class="download">
-  <div class="arrow">
-    <mat-icon [ngStyle]="{ fontSize: '16px' }">arrow_downward</mat-icon>
-  </div>
-  <div class="maximize">
-    <mat-icon [ngStyle]="{ fontSize: '16px' }">maximize</mat-icon>
-  </div>
-  <div class="text">{{ 'user-orders.details.receipt' | translate }}</div>
 </div>
 <ng-template #spinner>
   <app-spinner></app-spinner>
