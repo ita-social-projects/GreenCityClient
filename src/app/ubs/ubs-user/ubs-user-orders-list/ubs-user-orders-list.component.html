@@ -11,9 +11,9 @@
 </div>
 <mat-accordion multi="false">
   <div *ngFor="let order of orders">
-    <mat-expansion-panel (click)="changeCard(order.id)">
+    <mat-expansion-panel>
       <mat-expansion-panel-header>
-        <div class="mat-content-wrapper">
+        <div class="mat-content-wrapper" (click)="changeCard(order.id)">
           <mat-panel-title class="order_list-num table-data">
             {{ order.id }}
           </mat-panel-title>
@@ -38,7 +38,7 @@
         </div>
 
         <div *ngIf="isOrderPaymentAccess(order)" class="btns_group">
-          <div *ngIf="!isOrderHalfPaid(order)" class="btn_grid_cancel">
+          <div *ngIf="canOrderBeCancel(order)" class="btn_grid_cancel">
             <button class="btn_cancel" (click)="openOrderCancelDialog(order)">
               {{ 'user-orders.btn.cancel' | translate }}
             </button>
