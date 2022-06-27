@@ -1,7 +1,8 @@
 import { Injectable } from '@angular/core';
 import { mainUbsLink } from 'src/app/main/links';
 import { HttpClient } from '@angular/common/http';
-import { Bag, CreateCard, Service } from '../models/tariffs.interface';
+import { Bag, CreateCard, EditLocationName, Service } from '../models/tariffs.interface';
+
 import { Observable } from 'rxjs';
 import { ajax } from 'rxjs/ajax';
 
@@ -83,8 +84,8 @@ export class TariffsService {
     return this.http.put(`${mainUbsLink}/ubs/superAdmin/update-courier`, newCourier);
   }
 
-  editLocationName(newLocation): Observable<object> {
-    return this.http.post(`${mainUbsLink}/ubs/superAdmin/locations/edit`, newLocation);
+  public editLocationName(id: number, newLocation: EditLocationName[]): Observable<object> {
+    return this.http.post(`${mainUbsLink}/ubs/superAdmin/locations/edit/${id}`, newLocation);
   }
 
   public getCardInfo(): Observable<any[]> {
