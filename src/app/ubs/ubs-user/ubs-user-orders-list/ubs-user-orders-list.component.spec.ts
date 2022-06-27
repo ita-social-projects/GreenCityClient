@@ -34,6 +34,15 @@ describe('UbsUserOrdersListComponent', () => {
       orderFullPrice: -55,
       amountBeforePayment: 55,
       extend: false
+    },
+    {
+      id: 12,
+      dateForm: 15,
+      orderStatusEng: 'Adjustment',
+      paymentStatusEng: 'Unpaid',
+      orderFullPrice: 55,
+      amountBeforePayment: 55,
+      extend: false
     }
   ];
   const fakePoints = 111;
@@ -128,6 +137,18 @@ describe('UbsUserOrdersListComponent', () => {
       const isOrderPaymentAccessRes = component.isOrderPaymentAccess(fakeIputOrderData[2] as any);
       expect(isOrderPaymentAccessRes).toBeFalsy();
     });
+
+    it('canOrderBeCancel return false', () => {
+      spyOn(component, 'canOrderBeCancel').and.returnValue(false);
+      const canOrderBeCancel = component.canOrderBeCancel(fakeIputOrderData[3] as any);
+      expect(canOrderBeCancel).toBeFalsy();
+    });
+
+    it('canOrderBeCancel return true', () => {
+      spyOn(component, 'canOrderBeCancel').and.returnValue(true);
+      const canOrderBeCancel = component.canOrderBeCancel(fakeIputOrderData[1] as any);
+      expect(canOrderBeCancel).toBeTruthy();
+    });
   });
 
   describe('changeCard', () => {
@@ -179,6 +200,15 @@ describe('UbsUserOrdersListComponent', () => {
           orderFullPrice: 55,
           amountBeforePayment: 55,
           extend: true
+        },
+        {
+          id: 12,
+          dateForm: 15,
+          orderStatusEng: 'Adjustment',
+          paymentStatusEng: 'Unpaid',
+          orderFullPrice: 55,
+          amountBeforePayment: 55,
+          extend: false
         },
         {
           id: 1,
