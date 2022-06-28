@@ -277,8 +277,7 @@ export class UbsAdminTariffsPricingPageComponent implements OnInit, OnDestroy {
     this.store.dispatch(GetLocations({ reset: this.reset }));
     this.locations$.pipe(skip(1)).subscribe((item) => {
       if (item) {
-        const key = 'content';
-        this.locations = item[key];
+        this.locations = item;
         this.reset = false;
         this.thisLocation = this.locations.filter((it) => it.regionId === this.selectedLocationId);
       }

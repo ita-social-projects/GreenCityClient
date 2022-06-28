@@ -205,8 +205,7 @@ export class UbsAdminTariffsLocationPopUpComponent implements OnInit, AfterViewC
       const tempItem = {
         location: this.location.value,
         englishLocation: this.englishLocation.value,
-        locationId: this.editLocationId,
-        regionId: this.regionId
+        locationId: this.editLocationId
       };
       this.editedCities.push(tempItem);
       this.location.setValue('');
@@ -336,12 +335,11 @@ export class UbsAdminTariffsLocationPopUpComponent implements OnInit, AfterViewC
       const cart = {
         nameEn: item.englishLocation,
         nameUa: item.location,
-        locationId: item.locationId,
-        regionId: item.regionId
+        locationId: item.locationId
       };
       this.newLocationName.push(cart);
     }
-    this.store.dispatch(EditLocation({ editedLocations: this.newLocationName }));
+    this.store.dispatch(EditLocation({ editedLocations: this.newLocationName, regionId: this.regionId }));
     this.dialogRef.close({});
   }
 

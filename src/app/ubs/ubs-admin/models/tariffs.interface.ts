@@ -89,5 +89,11 @@ export interface EditLocationName {
   nameEn: string;
   nameUa: string;
   locationId: number;
+}
+
+export interface CreateCard {
+  courierId: number;
+  locationIdList: Array<number>;
+  receivingStationsIdList: Array<number>;
   regionId: number;
 }

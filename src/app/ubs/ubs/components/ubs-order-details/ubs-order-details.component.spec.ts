@@ -1,15 +1,15 @@
 import { RouterTestingModule } from '@angular/router/testing';
 import { Language } from '../../../../main/i18n/Language';
-import { LocalStorageService } from '../../../../main/service/localstorage/local-storage.service';
+import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
 import { UBSOrderFormService } from '../../services/ubs-order-form.service';
 import { LocalizedCurrencyPipe } from '../../../../shared/localized-currency-pipe/localized-currency.pipe';
 import { Bag, OrderDetails } from '../../models/ubs.interface';
 import { OrderService } from '../../services/order.service';
-import { MatDialogRef, MatDialogModule } from '@angular/material/dialog';
+import { MatDialogModule, MatDialogRef } from '@angular/material/dialog';
 import { TranslateModule } from '@ngx-translate/core';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
-import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { FormArray, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { UBSOrderDetailsComponent } from './ubs-order-details.component';
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { of, Subject } from 'rxjs';
@@ -23,9 +23,17 @@ describe('OrderDetailsFormComponent', () => {
   let component: UBSOrderDetailsComponent;
   let fixture: ComponentFixture<UBSOrderDetailsComponent>;
   let orderService: OrderService;
+
   const fakeLanguageSubject: Subject<string> = new Subject<string>();
   const shareFormService = jasmine.createSpyObj('shareFormService', ['orderDetails', 'changeAddCertButtonVisibility']);
-  const localStorageService = jasmine.createSpyObj('localStorageService', ['getCurrentLanguage', 'languageSubject', 'getUbsOrderData']);
+  const localStorageService = jasmine.createSpyObj('localStorageService', [
+    'getCurrentLanguage',
+    'languageSubject',
+    'getUbsOrderData',
+    'getLocations',
+    'removeUbsOrderAndPersonalData',
+    'removeanotherClientData'
+  ]);
   localStorageService.getUbsOrderData = () => null;
   localStorageService.languageSubject = fakeLanguageSubject;
   const mockLocations = {
@@ -55,6 +63,7 @@ describe('OrderDetailsFormComponent', () => {
     minAmountOfBigBags: 2,
     minPriceOfOrder: 500
   };
+  const bagsMock: Bag[] = [];
   shareFormService.locationId = 1;
   shareFormService.locations = mockLocations;
 
@@ -84,17 +93,25 @@ describe('OrderDetailsFormComponent', () => {
         }
       })
       .compileComponents();
-  }));
 
-  beforeEach(() => {
     fixture = TestBed.createComponent(UBSOrderDetailsComponent);
     component = fixture.componentInstance;
     spyOn(component, 'saveLocation');
     fixture.detectChanges();
-  });
+  }));
 
   it('should create', () => {
     expect(component).toBeTruthy();
+  });
+
+  it('ngOnInit should call takeOrderData and subscribeToLangChange', () => {
+    const spy1 = spyOn(component as any, 'takeOrderData');
+    const spy2 = spyOn(component as any, 'subscribeToLangChange');
+    fixture.detectChanges();
+    component.ngOnInit();
+
+    expect(spy1).toHaveBeenCalled();
+    expect(spy2).toHaveBeenCalled();
   });
 
   it('method takeOrderData should invoke localStorageService.getCurrentLanguage method', () => {
@@ -114,15 +131,51 @@ describe('OrderDetailsFormComponent', () => {
     expect(component.bags).toEqual(component.orders.bags);
   });
 
+  it('method checkOnNumber should return true if key is number', () => {
+    const event: any = { key: '1' };
+    fixture.detectChanges();
+    const result = component.checkOnNumber(event);
+
+    expect(result).toBe(true);
+  });
+
+  it('method takeOrderData should invoke expected methods', () => {
+    component.isThisExistingOrder = true;
+    fixture.detectChanges();
+    component.takeOrderData();
+
+    expect(localStorageService.removeUbsOrderAndPersonalData).toHaveBeenCalled();
+    expect(localStorageService.removeanotherClientData).toHaveBeenCalled();
+  });
+
   it('method calculateTotal should invoke methods', () => {
     const spy = spyOn(component, 'changeForm');
     const spy1 = spyOn(component, 'changeOrderDetails');
-    const bagsMock: Bag[] = [];
-    component.bags = bagsMock;
+    const spy2 = spyOn(component, 'validateSum');
+    component.bags = [];
     fixture.detectChanges();
     (component as any).calculateTotal();
     expect(spy).toHaveBeenCalled();
     expect(spy1).toHaveBeenCalled();
+    expect(spy2).toHaveBeenCalled();
+  });
+
+  it('method filterBags should sord bags', () => {
+    (component as any).orders = {
+      bags: [
+        { id: 1, price: 250 },
+        { id: 2, price: 300 },
+        { id: 3, price: 50 }
+      ]
+    };
+    fixture.detectChanges();
+    (component as any).filterBags();
+
+    expect((component as any).bags).toEqual([
+      { id: 2, price: 300 },
+      { id: 1, price: 250 },
+      { id: 3, price: 50 }
+    ]);
   });
 
   it('method clearOrderValues should invoke ecoStoreValidation method', () => {
@@ -132,7 +185,6 @@ describe('OrderDetailsFormComponent', () => {
   });
 
   it('method onQuantityChange should invoke calculateTotal method', () => {
-    const bagsMock: Bag[] = [];
     const spy = spyOn<any>(component, 'calculateTotal');
     const fakeElement = document.createElement('div');
     spyOn(document, 'getElementById').and.returnValue(fakeElement);
@@ -149,16 +201,75 @@ describe('OrderDetailsFormComponent', () => {
     expect(spy).toHaveBeenCalled();
   });
 
-  it('method setCurrentLocation should set values if language "en"', () => {
-    (component as any).setCurrentLocation('en');
-    expect(component.minAmountOfBigBags).toBe(2);
-    expect(component.currentLocation).toBe('fake name en');
+  it('method setLocation should invoke setLimitsValues if locationId exists', () => {
+    const spy = spyOn(component, 'setLimitsValues');
+    component.setLocation(2);
+    expect(spy).toHaveBeenCalled();
   });
 
-  it('method setCurrentLocation should set values if language "ua"', () => {
-    (component as any).setCurrentLocation('ua');
-    expect(component.minAmountOfBigBags).toBe(2);
-    expect(component.currentLocation).toBe('fake name ua');
+  it('should open location dialog if locationId does not exists', () => {
+    const spy = spyOn(component, 'openLocationDialog');
+    component.setLocation(null);
+    expect(spy).toHaveBeenCalled();
+  });
+
+  it('method setLimitsValues should invoke checkCourierLimit', () => {
+    const spy = spyOn(component, 'checkCourierLimit');
+    component.setLimitsValues();
+    expect(spy).toHaveBeenCalled();
+  });
+
+  it('method setLimitsValues should invoke validateBags', () => {
+    const spy = spyOn(component, 'validateBags');
+    component.setLimitsValues();
+    expect(spy).toHaveBeenCalled();
+  });
+
+  it('method setLimitsValues should invoke validateSum', () => {
+    const spy = spyOn(component, 'validateSum');
+    component.setLimitsValues();
+    expect(spy).toHaveBeenCalled();
+  });
+
+  it('method setCurrentLocation should be called', () => {
+    const spy = spyOn<any>(component, 'setCurrentLocation');
+    (component as any).setCurrentLocation('en');
+    expect(spy).toHaveBeenCalled();
+  });
+
+  it('checkCourierLimit should check and set courierLimitByAmount', () => {
+    mockLocations.courierLimit = 'LIMIT_BY_AMOUNT_OF_BAG';
+    component.checkCourierLimit();
+    fixture.detectChanges();
+    expect(component.courierLimitByAmount).toBeTruthy();
+  });
+
+  it('validateBags should set courierLimitValidation', () => {
+    component.courierLimitByAmount = true;
+    component.validateBags();
+    fixture.detectChanges();
+    expect(component.courierLimitValidation).toBeFalsy();
+  });
+
+  it('validateSum should set courierLimitValidation', () => {
+    component.courierLimitBySum = true;
+    component.validateSum();
+    fixture.detectChanges();
+    expect(component.courierLimitValidation).toBeFalsy();
+  });
+
+  it('getter formArrayCertificates should return formArray of certificates', () => {
+    const formArray = component.orderDetailsForm.controls.formArrayCertificates as FormArray;
+    const spy = spyOnProperty(component, 'formArrayCertificates').and.returnValue(formArray);
+    expect(component.formArrayCertificates).toBe(formArray);
+    expect(spy).toHaveBeenCalled();
+  });
+
+  it('destroy should be closed after ngOnDestroy()', () => {
+    (component as any).destroy = new Subject<boolean>();
+    spyOn((component as any).destroy, 'next');
+    component.ngOnDestroy();
+    expect((component as any).destroy.next).toHaveBeenCalledTimes(1);
   });
 
   it('destroy Subject should be closed after ngOnDestroy()', () => {
