@@ -187,12 +187,17 @@
     }
   }
 
-  .order_details {
-    border-left: none;
-  }
-
   .table_of_details {
     width: 100%;
+  }
+
+  .order_details {
+    border-left: none;
+    margin-left: 0;
+
+    .recipient {
+      padding: 0;
+    }
   }
 }
 
@@ -220,10 +225,11 @@
     display: flex;
     flex-direction: column;
     font-size: 11px;
+  }
 
-    .bold_text {
-      font-size: 0.8rem;
-    }
+  .bold_text,
+  .recipient {
+    font-size: 0.8rem;
   }
 
   .text {
