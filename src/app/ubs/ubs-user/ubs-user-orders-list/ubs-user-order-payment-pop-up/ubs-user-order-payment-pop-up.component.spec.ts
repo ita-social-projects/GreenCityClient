@@ -14,7 +14,7 @@ import { UBSOrderFormService } from 'src/app/ubs/ubs/services/ubs-order-form.ser
 
 import { UbsUserOrderPaymentPopUpComponent } from './ubs-user-order-payment-pop-up.component';
 
-describe('UbsUserOrderPaymentPopUpComponent', () => {
+fdescribe('UbsUserOrderPaymentPopUpComponent', () => {
   let component: UbsUserOrderPaymentPopUpComponent;
   let fixture: ComponentFixture<UbsUserOrderPaymentPopUpComponent>;
 
@@ -114,6 +114,7 @@ describe('UbsUserOrderPaymentPopUpComponent', () => {
       expect(component.isUseBonuses).toBeFalsy();
       expect(component.dataLoadingLiqPay).toBeFalsy();
       expect(component.certificateStatus).toEqual([true]);
+      expect(component.orderDetailsForm.valueChanges).toBeTruthy();
     });
   });
 

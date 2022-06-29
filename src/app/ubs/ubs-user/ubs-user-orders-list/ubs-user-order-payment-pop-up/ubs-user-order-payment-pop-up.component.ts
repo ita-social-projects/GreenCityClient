@@ -78,7 +78,6 @@ export class UbsUserOrderPaymentPopUpComponent implements OnInit {
       this.userCertificate.certificateError = res.formArrayCertificates
         .slice(1)
         .some((item) => item.certificateCode === res.formArrayCertificates[0].certificateCode);
-      console.log(this.formArrayCertificates[0].certificateCode);
     });
   }
 
@@ -95,7 +94,6 @@ export class UbsUserOrderPaymentPopUpComponent implements OnInit {
       paymentSystem: ['Fondy', [Validators.required]],
       formArrayCertificates: this.fb.array([this.createCertificateItem()])
     });
-    console.log(this.orderDetailsForm);
   }
 
   get formArrayCertificates(): FormArray {

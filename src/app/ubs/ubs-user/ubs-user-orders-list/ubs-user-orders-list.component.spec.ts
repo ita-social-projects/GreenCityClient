@@ -166,7 +166,7 @@ describe('UbsUserOrdersListComponent', () => {
       expect(matDialogMock.open).toHaveBeenCalledWith(UbsUserOrderPaymentPopUpComponent, {
         data: {
           orderId: 7,
-          price: 0,
+          price: 55,
           bonuses: 111
         }
       });
