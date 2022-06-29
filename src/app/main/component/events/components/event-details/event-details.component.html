@@ -89,7 +89,7 @@
             <div class="time">{{ date.finishDate | date: 'HH:mm:ss' }}</div>
           </div>
         </div>
-        <div *ngIf="date.coordinates.latitude" class="date-container">
+        <div *ngIf="date.coordinates?.latitude" class="date-container">
           <div>
             <h4>Place</h4>
           </div>

@@ -60,10 +60,12 @@ export class EventDetailsComponent implements OnInit {
       this.imagesSlider = [res.titleImage, ...res.additionalImages];
       this.filterTags(res.tags);
 
-      this.mapDialogData = {
-        lat: this.event.dates[0].coordinates.latitude,
-        lng: this.event.dates[0].coordinates.longitude
-      };
+      if (this.event.dates[0].coordinates?.latitude) {
+        this.mapDialogData = {
+          lat: this.event.dates[0].coordinates.latitude,
+          lng: this.event.dates[0].coordinates.longitude
+        };
+      }
     });
 
     this.actionsSubj.pipe(ofType(EventsActions.DeleteEcoEventSuccess)).subscribe(() => this.router.navigate(['/events']));

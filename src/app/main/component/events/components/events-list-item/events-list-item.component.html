@@ -26,9 +26,10 @@
     <div>
       <span class="place"></span>
     </div>
-    <div>
+    <div *ngIf="event.dates[0].coordinates?.addressEn; else elseBlock">
       {{ event.dates[0].coordinates.addressEn }}
     </div>
+    <ng-template #elseBlock>{{ event.dates[0].onlineLink }}</ng-template>
   </div>
 
   <div>
