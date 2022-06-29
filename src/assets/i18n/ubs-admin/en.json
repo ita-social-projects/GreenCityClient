@@ -417,6 +417,7 @@
       "export-address": "The address of export of the ordered services",
       "block-number": "b.  ",
       "entrance": "e.  ",
+      "district": "d. ",
       "comment-address": "Comment to the address:",
       "comment-order": "Comment to the order:",
       "receipt": "Download the receipt"
