@@ -1,12 +1,24 @@
 <div class="main-employee-container">
   <div class="employee-header">
-    <div class="eployee-name">
-      <p class="h5 page-name">{{ 'employees.title' | translate }}</p>
+    <div class="employee-name">
+      <p class="page-name">{{ 'employees.title' | translate }}</p>
     </div>
-    <div class="employee-add">
-      <button class="primary-global-button button-name">
-        <div class="subtitle-2" (click)="openDialog()">{{ 'employees.btn.add-employee' | translate }}</div>
-      </button>
+    <div class="research">
+      <div class="search">
+        <div class="search-input">
+          <input type="text" placeholder="{{ 'ubs-tables.placeholder' | translate }}" />
+        </div>
+        <div class="icon-style"><i class="fa fa-search" aria-hidden="true"></i></div>
+      </div>
+      <div class="btn-group">
+        <button type="button" class="research-btn btn-default filter-table-btn">
+          <img [src]="icons.filter" alt="filter" />
+          {{ 'ubs-tables.filter' | translate }}
+        </button>
+        <button class="research-btn btn primary-global-button button-name" (click)="openDialog()">
+          {{ 'employees.btn.add-employee' | translate }}
+        </button>
+      </div>
     </div>
   </div>
   <div class="employees">

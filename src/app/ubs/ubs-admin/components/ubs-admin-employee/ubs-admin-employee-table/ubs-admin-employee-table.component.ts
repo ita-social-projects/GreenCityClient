@@ -1,8 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { MatTableDataSource } from '@angular/material/table';
-import { BehaviorSubject } from 'rxjs';
-import { debounceTime, distinctUntilChanged, take } from 'rxjs/operators';
+import { BehaviorSubject, Subject } from 'rxjs';
+import { debounceTime, distinctUntilChanged, takeUntil } from 'rxjs/operators';
 import { Store } from '@ngrx/store';
 
 import { IAppState } from 'src/app/store/state/app.state';
@@ -10,6 +10,7 @@ import { Employees, Page } from 'src/app/ubs/ubs-admin/models/ubs-admin.interfac
 import { UbsAdminEmployeeService } from 'src/app/ubs/ubs-admin/services/ubs-admin-employee.service';
 import { EmployeeFormComponent } from '../employee-form/employee-form.component';
 import { GetEmployees } from 'src/app/store/actions/employee.actions';
+import { UbsAdminEmployeeDeletePopUpComponent } from '../ubs-admin-employee-delete-pop-up/ubs-admin-employee-delete-pop-up.component';
 
 @Component({
   selector: 'app-ubs-admin-employee-table',
@@ -25,9 +26,9 @@ export class UbsAdminEmployeeTableComponent implements OnInit {
   searchValue: BehaviorSubject<string> = new BehaviorSubject<string>('');
   displayedColumns: string[] = [];
   dataSource: MatTableDataSource<any>;
-  arrayOfHeaders = [];
   totalPagesForTable: number;
   tableData: Page[];
+  employees: Page[];
   isStationsOpen = false;
   isPositionsOpen = false;
   allPositions: any[] = [];
@@ -38,6 +39,19 @@ export class UbsAdminEmployeeTableComponent implements OnInit {
   firstPageLoad = true;
   reset = true;
   employees$ = this.store.select((state: IAppState): Employees => state.employees.employees);
+  private destroy: Subject<boolean> = new Subject<boolean>();
+  public tooltipOpened: boolean;
+  public icons = {
+    edit: './assets/img/ubs-admin-employees/edit.svg',
+    settings: './assets/img/ubs-admin-employees/gear.svg',
+    delete: './assets/img/ubs-admin-employees/bin.svg',
+    crumbs: './assets/img/ubs-admin-employees/crumbs.svg',
+    email: './assets/img/ubs-admin-employees/mail.svg',
+    phone: './assets/img/ubs-admin-employees/phone.svg',
+    location: './assets/img/ubs-admin-employees/location.svg',
+    filter: './assets/img/ubs-admin-employees/filter.svg',
+    info: './assets/img/ubs-admin-employees/info.svg'
+  };
 
   constructor(private ubsAdminEmployeeService: UbsAdminEmployeeService, private dialog: MatDialog, private store: Store<IAppState>) {}
 
@@ -55,20 +69,25 @@ export class UbsAdminEmployeeTableComponent implements OnInit {
     this.isLoading = true;
 
     this.store.dispatch(
-      GetEmployees({ pageNumber: this.currentPageForTable, pageSize: this.sizeForTable, search: this.search, reset: this.reset })
+      GetEmployees({
+        pageNumber: this.currentPageForTable,
+        pageSize: this.sizeForTable,
+        search: this.search,
+        reset: this.reset
+      })
     );
 
     this.employees$.subscribe((item: Employees) => {
       if (item) {
         this.tableData = item[`content`];
+        this.employees = this.tableData.map((employee: Page) => ({
+          ...employee,
+          expanded: false
+        }));
         this.totalPagesForTable = item[`totalPages`];
         if (this.firstPageLoad) {
-          this.dataSource = new MatTableDataSource(this.tableData);
-          this.setDisplayedColumns();
           this.isLoading = false;
           this.firstPageLoad = false;
-        } else {
-          this.dataSource.data = this.tableData;
         }
         this.isUpdateTable = false;
         this.reset = false;
@@ -76,14 +95,27 @@ export class UbsAdminEmployeeTableComponent implements OnInit {
     });
   }
 
-  setDisplayedColumns() {
-    this.displayedColumns = ['fullName', 'position', 'location', 'email', 'phoneNumber'];
+  openDeleteDialog(data: Page, event: Event): void {
+    event.stopPropagation();
+    const dialogRef = this.dialog.open(UbsAdminEmployeeDeletePopUpComponent, {
+      hasBackdrop: true,
+      panelClass: 'employee-delete-dialog-container',
+      data: {
+        serviceData: data
+      }
+    });
+    dialogRef.afterClosed().pipe(takeUntil(this.destroy));
   }
 
   updateTable() {
     this.isUpdateTable = true;
     this.store.dispatch(
-      GetEmployees({ pageNumber: this.currentPageForTable, pageSize: this.sizeForTable, search: this.search, reset: this.reset })
+      GetEmployees({
+        pageNumber: this.currentPageForTable,
+        pageSize: this.sizeForTable,
+        search: this.search,
+        reset: this.reset
+      })
     );
   }
 

@@ -8,6 +8,10 @@ import { EmployeeFormComponent } from './employee-form/employee-form.component';
   styleUrls: ['./ubs-admin-employee.component.scss']
 })
 export class UbsAdminEmployeeComponent {
+  public icons = {
+    filter: './assets/img/ubs-admin-employees/filter.svg'
+  };
+
   constructor(public dialog: MatDialog) {}
 
   openDialog() {

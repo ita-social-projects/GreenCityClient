@@ -62,6 +62,15 @@ body {
     overflow: auto;
     max-width: 100%;
   }
+
+  &.employee-delete-dialog-container {
+    max-width: 422px;
+    width: 100%;
+
+    .mat-dialog-container {
+      padding: 16px;
+    }
+  }
 }
 
 .cdk-drag-animating {

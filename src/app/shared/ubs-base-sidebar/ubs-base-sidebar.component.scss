@@ -24,7 +24,7 @@
   .main-content {
     margin-top: 120px;
     overflow-x: hidden;
-    min-height: 345px;
+    height: calc(100vh - 120px);
   }
 
   .sidebar-list {

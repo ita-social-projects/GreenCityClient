@@ -86,3 +86,290 @@
 ::ng-deep.mat-form-field-ripple {
   background-color: var(--primary-grey) !important;
 }
+
+::ng-deep {
+  .mat-menu-content {
+    &:not(:empty) {
+      padding: 0 !important;
+    }
+  }
+}
+
+::ng-deep {
+  .mat-menu-panel {
+    max-width: unset !important;
+
+    .mat-menu-content {
+      &:not(:empty) {
+        padding: 0 !important;
+
+        .menu-item {
+          height: 56px !important;
+
+          .menu-item-content {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            height: 100%;
+
+            span {
+              font-family: var(--primary-font);
+              font-weight: 400;
+              font-size: 16px;
+              line-height: 24px;
+              color: var(--ubs-primary-grey);
+            }
+
+            img {
+              width: 20px;
+              height: 20px;
+            }
+          }
+        }
+      }
+    }
+  }
+}
+
+.employees-cards {
+  .employees-head {
+    display: grid;
+    grid-template-columns: 412px 292px 292px;
+    margin-bottom: 8px;
+    height: 24px;
+    border-bottom: 1px solid var(--ubs-primary-light-grey);
+
+    .head-item {
+      display: flex;
+      align-items: center;
+      position: relative;
+
+      .tooltip-wrapper {
+        .tooltip-toggle {
+          cursor: pointer;
+        }
+
+        &.opened {
+          .info-tooltip {
+            opacity: 1;
+            z-index: 2;
+          }
+        }
+
+        .info-tooltip {
+          opacity: 0;
+          max-width: 228px;
+          position: absolute;
+          top: 12px;
+          left: 10px;
+          background-color: #fff;
+          font-family: var(--primary-font);
+          padding: 6px;
+          transition: 0.2s;
+          box-shadow: 1px 4px 8px rgba(100, 114, 125, 0.18);
+          z-index: -1;
+
+          span {
+            font-weight: 400;
+            font-size: 15px;
+            line-height: 12px;
+          }
+
+          p {
+            font-style: normal;
+            font-weight: 300;
+            font-size: 10px;
+            line-height: 140%;
+            color: #1d2830;
+            margin-bottom: 0;
+          }
+        }
+      }
+
+      img {
+        width: 16px;
+        height: 16px;
+        margin-right: 84px;
+      }
+
+      span {
+        font-weight: 700;
+        font-size: 14px;
+        line-height: 20px;
+        letter-spacing: 0.1px;
+        color: var(--ubs-primary-grey);
+      }
+    }
+
+    .filter-btn {
+      text-align: center;
+      height: 36px;
+      width: 141px;
+      margin: 0 5px;
+      border: 1px solid var(--ubs-quaternary-dark-grey);
+      border-radius: 4px !important;
+      background-color: var(--ubs-secondary-white);
+    }
+  }
+
+  .employees-body {
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+
+    .mat-expansion-panel {
+      box-shadow: 1px 4px 8px rgba(100, 114, 125, 0.18);
+
+      ::ng-deep {
+        .mat-expansion-panel-body {
+          padding: 18px 38px !important;
+        }
+      }
+
+      &.mat-expansion-panel-spacing {
+        margin: 0;
+      }
+
+      span {
+        font-family: var(--primary-font);
+        color: var(--ubs-primary-grey);
+        font-size: 14px;
+        line-height: 20px;
+
+        &.link {
+          color: var(--ubs-dark-purple);
+        }
+
+        &.location {
+          color: var(--ubs-accent-purple);
+          font-weight: 700;
+          line-height: 20px;
+          letter-spacing: 0.1px;
+        }
+      }
+
+      .mat-expansion-panel-header {
+        height: 100px !important;
+        padding: 18px;
+
+        &:hover {
+          background-color: unset !important;
+        }
+
+        .mat-expansion-panel-header-title {
+          max-width: 392px;
+          width: 100%;
+          font-family: var(--primary-font);
+          flex-grow: unset;
+          gap: 18px;
+          margin-right: unset;
+
+          .photo {
+            flex: none;
+            width: 64px;
+            height: 64px;
+            border-radius: 50%;
+            background-color: #9ca7b0;
+            overflow: hidden;
+
+            img {
+              object-fit: cover;
+              width: 100%;
+            }
+          }
+
+          .text {
+            .positions {
+              display: flex;
+              flex-direction: column;
+
+              .position {
+                font-weight: 400;
+                font-size: 14px;
+                line-height: 20px;
+              }
+            }
+
+            .name {
+              font-weight: 700;
+              font-size: 20px;
+              line-height: 28px;
+              letter-spacing: 0.002em;
+              color: var(--ubs-freinacht-black);
+            }
+          }
+        }
+
+        .mat-expansion-panel-header-description {
+          .description-item {
+            display: flex;
+            flex-direction: column;
+            max-width: 292px;
+            width: 100%;
+            padding-top: 5px;
+
+            .description-sub-item {
+              display: flex;
+              align-items: center;
+              gap: 10px;
+
+              &.phone {
+                span {
+                  font-weight: 700;
+                  letter-spacing: 0.1px;
+                }
+              }
+            }
+          }
+        }
+
+        .toggle-icon {
+          height: 46px;
+        }
+
+        .toggle-icon,
+        .delete-icon {
+          cursor: pointer;
+          padding: 14px;
+        }
+      }
+
+      &.expanded {
+        .mat-expansion-panel-header {
+          height: unset !important;
+        }
+      }
+
+      .actions-row {
+        display: flex;
+        justify-content: flex-end;
+        gap: 36px;
+        margin-top: 32px;
+
+        .actions-btn {
+          height: 36px;
+          border-radius: 4px;
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          gap: 8px;
+          font-family: var(--primary-font);
+          font-weight: 700;
+          font-size: 14px;
+          line-height: 20px;
+          letter-spacing: 0.1px;
+          border: 1px solid var(--ubs-primary-grey);
+          color: var(--quaternary-dark-grey);
+
+          &.options {
+            width: 203px;
+          }
+
+          &.edit {
+            width: 179px;
+          }
+        }
+      }
+    }
+  }
+}

@@ -1,105 +1,133 @@
-<div>
-  <mat-form-field appearance="standard">
-    <mat-label>Введіть тут</mat-label>
-    <input matInput (keyup)="applyFilter($event)" placeholder="" #input />
-  </mat-form-field>
-  <div
-    id="table-container"
-    class="scrolling"
-    infiniteScroll
-    [infiniteScrollDistance]="2"
-    [infiniteScrollThrottle]="50"
-    (scrolled)="onScroll()"
-    [scrollWindow]="true"
-  >
-    <table id="table" class="table" mat-table [dataSource]="dataSource" *ngIf="!isLoading; else spinner">
-      <caption>
-        Employees table
-      </caption>
-
-      <ng-container class="column.field" matColumnDef="fullName">
-        <mat-header-cell *matHeaderCellDef>
-          <th id="name">
-            <span class="column-title">Ім'я працівника</span>
-          </th>
-        </mat-header-cell>
-        <mat-cell *matCellDef="let row" class="column.field">
-          <div class="name" (click)="openModal(row)">
-            <span>{{ row.firstName }} {{ row.lastName }}</span>
+<div
+  id="table-container"
+  class="scrolling"
+  infiniteScroll
+  [infiniteScrollDistance]="2"
+  [infiniteScrollThrottle]="50"
+  (scrolled)="onScroll()"
+  [scrollWindow]="true"
+>
+  <mat-accordion class="employees-cards" *ngIf="!isLoading; else spinner">
+    <div class="employees-head">
+      <div class="head-item info">
+        <div class="tooltip-wrapper" appToggleOutside>
+          <img class="tooltip-toggle" [src]="icons.info" alt="info" />
+          <div class="info-tooltip">
+            <span class="tooltip-heading">{{ 'employees.tooltip.title' | translate }}</span>
+            <p class="tooltip-text">{{ 'employees.tooltip.text' | translate }}</p>
           </div>
-        </mat-cell>
-      </ng-container>
+        </div>
+        <span>{{ 'employees.position' | translate }}</span>
+      </div>
+      <div class="head-item position">
+        <span>{{ 'employees.contacts' | translate }}</span>
+      </div>
+      <div class="head-item position">
+        <span>{{ 'employees.receiving-station' | translate }}</span>
+      </div>
+    </div>
+    <div class="employees-body">
+      <div *ngFor="let employee of employees; let i = index">
+        <mat-expansion-panel
+          (opened)="employee.expanded = true"
+          (closed)="employee.expanded = false"
+          [class.expanded]="employee.expanded"
+          ngDefaultControl
+          hideToggle
+        >
+          <mat-expansion-panel-header>
+            <mat-panel-title>
+              <div class="photo">
+                <img src="{{ employee.image }}" alt="employee photo" />
+              </div>
+              <div class="text">
+                <span class="name">{{ employee.firstName }} {{ employee.lastName }}</span>
+                <div class="positions">
+                  <ng-container *ngFor="let position of employee.employeePositions; let i = index">
+                    <ng-container *ngIf="!employee.expanded; else allPositions">
+                      <span class="link" *ngIf="employee.employeePositions.length > 2 && i <= 1">
+                        {{ i < 1 ? position.name : position.name + '...' }}
+                      </span>
+                      <span class="link" *ngIf="employee.employeePositions.length <= 2">
+                        {{ position.name }}
+                      </span>
+                    </ng-container>
+                    <ng-template #allPositions>
+                      <span class="link">{{ position.name }}</span>
+                    </ng-template>
+                  </ng-container>
+                </div>
+              </div>
+            </mat-panel-title>
+            <mat-panel-description>
+              <div class="description-item contacts" [class.expanded]="employee.expanded">
+                <div class="description-sub-item phone">
+                  <img [src]="icons.phone" alt="phone" />
+                  <span>{{ employee.phoneNumber }}</span>
+                </div>
+                <div class="description-sub-item email">
+                  <img [src]="icons.email" alt="email" />
+                  <span class="link">{{ employee.email }}</span>
+                </div>
+              </div>
+              <div class="description-item receiving-station" [class.expanded]="employee.expanded">
+                <div class="description-sub-item station" *ngFor="let station of employee.receivingStations">
+                  <img [src]="icons.location" alt="location" />
+                  <span class="location">{{ station.name }}</span>
+                </div>
+              </div>
+            </mat-panel-description>
+            <span
+              class="toggle-icon"
+              *ngIf="!employee.expanded; else deleteIcon"
+              [matMenuTriggerFor]="crumbs"
+              (click)="$event.stopPropagation()"
+            >
+              <img [src]="icons.crumbs" alt="options" />
+            </span>
+            <mat-menu class="menu" #crumbs="matMenu">
+              <button class="menu-item" mat-menu-item>
+                <span class="menu-item-content">
+                  <img [src]="icons.edit" alt="edit" />
+                  <span>{{ 'employees.actions.edit' | translate }}</span>
+                </span>
+              </button>
+              <button class="menu-item" mat-menu-item>
+                <span class="menu-item-content">
+                  <img [src]="icons.settings" alt="edit" />
+                  <span>{{ 'employees.actions.settings' | translate }}</span>
+                </span>
+              </button>
+              <button class="menu-item" mat-menu-item>
+                <span class="menu-item-content">
+                  <img [src]="icons.delete" alt="edit" />
+                  <span>{{ 'employees.actions.delete' | translate }}</span>
+                </span>
+              </button>
+            </mat-menu>
+            <ng-template #deleteIcon>
+              <span class="delete-icon" (click)="openDeleteDialog(employee, $event)">
+                <img [src]="icons.delete" alt="delete" />
+              </span>
+            </ng-template>
+          </mat-expansion-panel-header>
 
-      <ng-container class="column.field" matColumnDef="position">
-        <mat-header-cell *matHeaderCellDef>
-          <th id="position" class="drop" (click)="openPositions()">
-            <span class="column-title">Посада</span>
-          </th>
-          <div class="check" *ngIf="isPositionsOpen">
-            <div *ngFor="let position of allPositions">
-              <input type="checkbox" name="{{ position.id }}" [value]="position.id" (change)="getPositionId($event, position.id)" />
-              {{ position.name }}
+          <div class="actions-row">
+            <div class="btn actions-btn options">
+              <img [src]="icons.settings" alt="settings" />
+              <span>{{ 'employees.settings' | translate }}</span>
+            </div>
+            <div class="btn actions-btn edit">
+              <img [src]="icons.edit" alt="edit" />
+              <span>{{ 'employees.edit' | translate }}</span>
             </div>
           </div>
-        </mat-header-cell>
-        <mat-cell *matCellDef="let row" class="column.field">
-          <div>
-            <span *ngFor="let col of row.employeePositions">{{ col.name }} <br /></span>
-          </div>
-        </mat-cell>
-      </ng-container>
-
-      <ng-container class="column.field" matColumnDef="location">
-        <mat-header-cell *matHeaderCellDef>
-          <th id="station" class="drop" (click)="openStations()">
-            <span class="column-title">Станція приймання</span>
-          </th>
-          <div class="check" *ngIf="isStationsOpen">
-            <div *ngFor="let station of allStations">
-              <input type="checkbox" name="{{ station.name }}" [value]="station.id" (change)="getStationId($event, station.id)" />
-              {{ station.name }}
-            </div>
-          </div>
-        </mat-header-cell>
-        <mat-cell *matCellDef="let row" class="column.field">
-          <div>
-            <span *ngFor="let col of row.receivingStations">{{ col.name }} <br /></span>
-          </div>
-        </mat-cell>
-      </ng-container>
-
-      <ng-container class="column.field" matColumnDef="email">
-        <mat-header-cell *matHeaderCellDef>
-          <th id="email">
-            <span class="column-title">email</span>
-          </th>
-        </mat-header-cell>
-        <mat-cell *matCellDef="let row" class="column.field">
-          <div>
-            <span>{{ row.email }} </span>
-          </div>
-        </mat-cell>
-      </ng-container>
-
-      <ng-container class="column.field" matColumnDef="phoneNumber">
-        <mat-header-cell *matHeaderCellDef>
-          <th id="phone">
-            <span class="column-title">Телефон</span>
-          </th>
-        </mat-header-cell>
-        <mat-cell *matCellDef="let row" class="column.field">
-          <div>
-            <span>{{ row.phoneNumber }}</span>
-          </div>
-        </mat-cell>
-      </ng-container>
-
-      <mat-header-row *matHeaderRowDef="displayedColumns" #tableHeaderRow class="tableHeaderRow"></mat-header-row>
-      <mat-row *matRowDef="let row; columns: displayedColumns"></mat-row>
-    </table>
-    <app-spinner *ngIf="isUpdateTable"></app-spinner>
-    <ng-template #spinner>
-      <app-spinner></app-spinner>
-    </ng-template>
-  </div>
+        </mat-expansion-panel>
+      </div>
+    </div>
+  </mat-accordion>
+  <app-spinner *ngIf="isUpdateTable"></app-spinner>
+  <ng-template #spinner>
+    <app-spinner></app-spinner>
+  </ng-template>
 </div>

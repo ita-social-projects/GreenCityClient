@@ -80,6 +80,8 @@ import { MatExpansionModule } from '@angular/material/expansion';
 import { TimePickerComponent } from './components/shared/components/time-picker/time-picker.component';
 import { UbsAdminTariffsCardPopUpComponent } from './components/ubs-admin-tariffs/ubs-admin-tariffs-card-pop-up/ubs-admin-tariffs-card-pop-up.component';
 import { TariffConfirmationPopUpComponent } from './components/shared/components/tariff-confirmation-pop-up/tariff-confirmation-pop-up.component';
+import { UbsAdminEmployeeDeletePopUpComponent } from './components/ubs-admin-employee/ubs-admin-employee-delete-pop-up/ubs-admin-employee-delete-pop-up.component';
+import { ToggleOutsideElementDirective } from './components/shared/directives/toggle-outside-element.directive';
 
 @NgModule({
   declarations: [
@@ -106,6 +108,8 @@ import { TariffConfirmationPopUpComponent } from './components/shared/components
     TableCellDateComponent,
     TableCellTimeComponent,
     UbsAdminCertificateComponent,
+    UbsAdminEmployeeDeletePopUpComponent,
+    ToggleOutsideElementDirective,
     UbsAdminTariffsDeletePopUpComponent,
     UbsAdminTariffsAddServicePopUpComponent,
     UbsAdminCertificateAddCertificatePopUpComponent,
