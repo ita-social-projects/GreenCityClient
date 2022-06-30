@@ -161,6 +161,7 @@
     </tr>
   </thead>
   <tbody>
+    <!-- Try to use optionTariff, searchTariff pipes for filtering regions, cities in cards -->
     <tr *ngFor="let card of cards">
       <td>
         {{ card.region }}
@@ -204,49 +205,4 @@
       </mat-menu>
     </tr>
   </tbody>
-  <!-- <tbody *ngIf="!locationCard && filteredLocations">
-    <tr
-      *ngFor="
-        let location of filteredLocations
-          | optionTariff: [state.value, courier.value, station.value]:['status', 'courierTranslationDtos', 'stationTranslationDtos']
-          | searchTariff: [region.value]:['regionTranslationDtos']
-      "
-      [ngClass]="{ 'disabled-col': location.status === 'Неактивно' }"
-    >
-      <td>
-        <div *ngFor="let regionItem of location.regionTranslationDtos | filterByLang">
-          {{ regionItem.regionName }}
-        </div>
-      </td>
-      <td>
-        <div class="cursor-pointer" *ngFor="let item of location.locationsDto" (click)="page(.regionId)">
-          <div *ngFor="let name of item.locationTranslationDtoList | filterByLang">
-            {{ name.locationName }}
-          </div>
-        </div>
-      </td>
-      <td>УБС-кур'єр</td>
-      <td>Слобідська</td>
-      <td>Активно</td>
-      <td class="last-col" *ngIf="location.status != 'Неактивно'" [matMenuTriggerFor]="crumbs">
-        <img class="tariff-img mr-3" [src]="icons.crumbs" alt="crumbs" />
-      </td>
-      <mat-menu #crumbs="matMenu">
-        <button mat-menu-item>
-          <span class="menu-item">{{ 'ubs-tariffs.btn.edit' | translate }}</span>
-        </button>
-        <button mat-menu-item (click)="openDeactivateLocation()">
-          <span class="menu-item">{{ 'ubs-tariffs.btn.deactivation' | translate }}</span>
-        </button>
-      </mat-menu>
-      <td class="last-col" *ngIf="location.status === 'Неактивно'" [matMenuTriggerFor]="restore">
-        <img class="tariff-img mr-3" [src]="icons.restore" alt="restore" />
-      </td>
-      <mat-menu #restore="matMenu">
-        <button mat-menu-item>
-          <span class="menu-item">{{ 'ubs-tariffs.btn.restore' | translate }}</span>
-        </button>
-      </mat-menu>
-    </tr>
-  </tbody> -->
 </table>
