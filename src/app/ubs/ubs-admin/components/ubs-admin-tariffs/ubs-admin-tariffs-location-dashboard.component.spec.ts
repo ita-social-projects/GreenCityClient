@@ -84,6 +84,49 @@ describe('UbsAdminTariffsLocationDashboardComponent', () => {
     }
   ];
 
+  const fakeTariffCard = {
+    cardId: 0,
+    courierId: 0,
+    courierLimit: 'fake',
+    courierTranslationDtos: [
+      {
+        languageCode: 'en',
+        name: 'fake'
+      },
+      {
+        languageCode: 'ua',
+        name: 'фейк'
+      }
+    ],
+    createdAt: 'date',
+    creator: 'fakeAuthor',
+    locationInfoDtos: [
+      {
+        locationId: 0,
+        nameEn: 'fake',
+        nameUk: 'фейк'
+      }
+    ],
+    maxAmountOfBags: 0,
+    maxPriceOfOrder: 0,
+    minAmountOfBags: 0,
+    minPriceOfOrder: 0,
+    receivingStationDtos: [
+      {
+        createDate: 'date',
+        createdBy: 'fakeAuthor',
+        id: 0,
+        name: 'фейк'
+      }
+    ],
+    regionDto: {
+      nameEn: 'fake',
+      nameUk: 'фейк',
+      regionId: 0
+    },
+    tariffStatus: 'fake'
+  };
+
   const mockFilteredLocation = [
     {
       regionTranslationDtos: [
@@ -161,7 +204,7 @@ describe('UbsAdminTariffsLocationDashboardComponent', () => {
   const tariffsServiceMock = jasmine.createSpyObj('tariffsServiceMock', ['getCouriers', 'getAllStations', 'getCardInfo']);
   tariffsServiceMock.getCouriers.and.returnValue(of([fakeCouriers]));
   tariffsServiceMock.getAllStations.and.returnValue(of([fakeStation]));
-  tariffsServiceMock.getCardInfo.and.returnValue(of());
+  tariffsServiceMock.getCardInfo.and.returnValue(of([fakeTariffCard]));
 
   const matDialogMock = jasmine.createSpyObj('matDialogMock', ['open']);
   matDialogMock.open.and.returnValue(dialogStub);
@@ -299,12 +342,23 @@ describe('UbsAdminTariffsLocationDashboardComponent', () => {
     expect(result).toEqual(true);
   });
 
+  it('should map cities in ukranian from region', () => {
+    const result = component.mapCitiesInUkr(mockRegion);
+    expect(result).toEqual(['Фейк1', 'Фейк2']);
+  });
+
+  it('should filter options', () => {
+    const Mockcities = ['Фейк1', 'Фейк2'];
+    const result = component._filter('Фейк1', Mockcities);
+    expect(result).toEqual(['Фейк1']);
+  });
+
   it('should add cards to cards array', () => {
     const mockCard = {
-      courier: 'fake',
-      station: 'fake',
-      region: 'fake',
-      city: ['fake'],
+      courier: 'фейк',
+      station: ['фейк'],
+      region: 'фейк',
+      city: ['фейк'],
       tariff: 'fake',
       regionId: 0
     };
@@ -364,7 +418,6 @@ describe('UbsAdminTariffsLocationDashboardComponent', () => {
   });
 
   it('should get locations', () => {
-    component.filteredRegions = [];
     component.getLocations();
     expect(storeMock.dispatch).toHaveBeenCalled();
   });

@@ -109,7 +109,7 @@ export class UbsAdminTariffsLocationDashboardComponent implements OnInit, OnDest
     });
   }
 
-  private _filter(name: string, items: any[]): any[] {
+  public _filter(name: string, items: any[]): any[] {
     const filterValue = name.toLowerCase();
     return items.filter((option) => option.toLowerCase().includes(filterValue));
   }
