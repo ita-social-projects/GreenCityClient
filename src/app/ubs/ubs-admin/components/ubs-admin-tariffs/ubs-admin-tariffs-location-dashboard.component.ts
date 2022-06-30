@@ -1,11 +1,11 @@
 import { Component, Input, OnDestroy, OnInit, TemplateRef } from '@angular/core';
 import { TariffsService } from '../../services/tariffs.service';
 import { map, skip, startWith, takeUntil } from 'rxjs/operators';
-import { Locations } from '../../models/tariffs.interface';
+import { Locations, Stations } from '../../models/tariffs.interface';
 import { Subject } from 'rxjs';
 import { Router } from '@angular/router';
 import { MatDialog } from '@angular/material/dialog';
-import { FormBuilder, Validators } from '@angular/forms';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { UbsAdminTariffsLocationPopUpComponent } from './ubs-admin-tariffs-location-pop-up/ubs-admin-tariffs-location-pop-up.component';
 import { Store } from '@ngrx/store';
 import { MatChipInputEvent } from '@angular/material/chips';
@@ -17,6 +17,7 @@ import { UbsAdminTariffsCourierPopUpComponent } from './ubs-admin-tariffs-courie
 import { UbsAdminTariffsStationPopUpComponent } from './ubs-admin-tariffs-station-pop-up/ubs-admin-tariffs-station-pop-up.component';
 import { ubsNamePattern } from '../shared/validators-pattern/ubs-name-patterns';
 import { UbsAdminTariffsCardPopUpComponent } from './ubs-admin-tariffs-card-pop-up/ubs-admin-tariffs-card-pop-up.component';
+import { TranslateService } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-ubs-admin-tariffs-location-dashboard',
@@ -28,23 +29,20 @@ export class UbsAdminTariffsLocationDashboardComponent implements OnInit, OnDest
   @Input() locationCard: Locations;
   @Input() textBack: TemplateRef<any>;
 
-  locations = [];
-  selectedLocationId;
-  couriers;
-  stations;
+  locations: Locations[];
+  stations: Stations[];
+  couriersName: Array<string>;
+  searchForm: FormGroup;
   reset = true;
-  checkedCities = [];
-  currentRegion;
-
-  searchForm;
-  regions = [];
-  cities = [];
-  allCities = [];
+  checkedCities: Array<string> = [];
+  cities: Array<string> = [];
 
   allSelected = false;
   filteredRegions;
   filteredCities;
-  filteredLocations = [];
+  filteredLocations;
+  cityPlaceholder: string;
+  cards = [];
   private destroy: Subject<boolean> = new Subject<boolean>();
 
   mainUrl = 'https://maps.googleapis.com/maps/api/js?key=AIzaSyB3xs7Kczo46LFcQRFKPMdrE0lU4qsR_S4&libraries=places&language=uk';
@@ -56,13 +54,15 @@ export class UbsAdminTariffsLocationDashboardComponent implements OnInit, OnDest
     arrowRight: './assets/img/ubs-tariff/arrow-right.svg'
   };
   locations$ = this.store.select((state: IAppState): Locations[] => state.locations.locations);
+  stationName: any;
 
   constructor(
     private tariffsService: TariffsService,
     private router: Router,
     public dialog: MatDialog,
     private store: Store<IAppState>,
-    private fb: FormBuilder
+    private fb: FormBuilder,
+    private translate: TranslateService
   ) {}
 
   get region() {
@@ -87,11 +87,13 @@ export class UbsAdminTariffsLocationDashboardComponent implements OnInit, OnDest
     this.getCouriers();
     this.getReceivingStation();
     this.loadScript();
+    this.getExistingCard();
     this.region.valueChanges.subscribe((value) => {
       this.checkRegionValue(value);
       this.checkedCities = [];
       this.positionsFilter();
     });
+    this.setCountOfCheckedCity();
   }
 
   private initForm(): void {
@@ -103,7 +105,7 @@ export class UbsAdminTariffsLocationDashboardComponent implements OnInit, OnDest
       city: ['', [Validators.required, Validators.maxLength(40), Validators.pattern(ubsNamePattern.namePattern)]],
       courier: ['', [Validators.required]],
       station: ['', [Validators.required]],
-      state: ['all']
+      state: ['Активно']
     });
   }
 
@@ -124,12 +126,21 @@ export class UbsAdminTariffsLocationDashboardComponent implements OnInit, OnDest
     }
   }
 
+  public setCountOfCheckedCity(): void {
+    if (this.checkedCities.length) {
+      this.cityPlaceholder = this.checkedCities.length + ' вибрано';
+    } else {
+      this.translate.get('ubs-tariffs.placeholder-locality').subscribe((data) => (this.cityPlaceholder = data));
+    }
+  }
+
   selected(event: MatAutocompleteSelectedEvent, trigger?: MatAutocompleteTrigger): void {
     if (event.option.value === 'all') {
       this.toggleSelectAll();
     } else {
       this.selectCity(event);
     }
+    this.setCountOfCheckedCity();
     this.positionsFilter();
     this.city.setValue('');
     if (trigger) {
@@ -212,34 +223,25 @@ export class UbsAdminTariffsLocationDashboardComponent implements OnInit, OnDest
       if (item) {
         this.locations = item;
         this.filteredLocations = this.locations;
-        this.regions = [].concat(
-          ...this.locations.map((element) =>
-            element.regionTranslationDtos.filter((it) => it.languageCode === 'ua').map((it) => it.regionName)
-          )
-        );
-        this.filteredRegions = this.region.valueChanges.pipe(
-          startWith(''),
-          map((value: string) => this._filter(value, this.regions))
-        );
-        this.allCities = [].concat(
-          ...this.locations.map((element) =>
-            element.locationsDto.map((el) =>
-              el.locationTranslationDtoList.filter((it) => it.languageCode === 'ua').map((it) => it.locationName)
-            )
-          )
-        );
-        this.allCities = this.allCities.reduce((acc, val) => acc.concat(val), []).reduce((acc, val) => acc.concat(val), []);
-        this.city.valueChanges
-          .pipe(
-            startWith(''),
-            map((value: string) => (value ? this._filter(value, this.allCities) : this.allCities.slice()))
-          )
-          .subscribe((data) => {
-            this.filteredCities = data;
-          });
+        const regions = this.locations
+          .map((element) => element.regionTranslationDtos.filter((it) => it.languageCode === 'ua').map((it) => it.regionName))
+          .flat(2);
+        this.filteredRegions = this.filterOptions(this.region, regions);
+        this.cities = this.mapCitiesInUkr(this.locations);
+        this.filteredCities = this.filterOptions(this.city, this.cities);
         this.reset = false;
       }
     });
+  }
+
+  public mapCitiesInUkr(region): Array<string> {
+    return region
+      .map((element) =>
+        element.locationsDto.map((el) =>
+          el.locationTranslationDtoList.filter((it) => it.languageCode === 'ua').map((it) => it.locationName)
+        )
+      )
+      .flat(2);
   }
 
   page(locationID): void {
@@ -251,7 +253,9 @@ export class UbsAdminTariffsLocationDashboardComponent implements OnInit, OnDest
       .getCouriers()
       .pipe(takeUntil(this.destroy))
       .subscribe((res) => {
-        this.couriers = res.map((it) => it.courierTranslationDtos.filter((ob) => ob.languageCode === 'ua').map((el) => el.name));
+        this.couriersName = res
+          .map((it) => it.courierTranslationDtos.filter((ob) => ob.languageCode === 'ua').map((el) => el.name))
+          .flat(2);
       });
   }
 
@@ -261,30 +265,48 @@ export class UbsAdminTariffsLocationDashboardComponent implements OnInit, OnDest
       .pipe(takeUntil(this.destroy))
       .subscribe((res) => {
         this.stations = res;
+        this.stationName = this.stations.map((el) => el.name);
+      });
+  }
+
+  public getExistingCard() {
+    this.tariffsService
+      .getCardInfo()
+      .pipe(takeUntil(this.destroy))
+      .subscribe((card) => {
+        card.forEach((el) => {
+          const cardObj = {
+            courier: el.courierTranslationDtos
+              .filter((ob) => ob.languageCode === 'ua')
+              .map((it) => it.name)
+              .join(),
+            station: el.receivingStationDtos.map((it) => it.name),
+            region: el.regionDto.nameUk,
+            city: el.locationInfoDtos.map((it) => it.nameUk),
+            tariff: el.tariffStatus,
+            regionId: el.regionDto.regionId
+          };
+          this.cards.push(cardObj);
+        });
       });
   }
 
   checkRegionValue(value): void {
+    let currentRegion;
     if (value === 'Усі') {
-      this.currentRegion = this.locations;
+      currentRegion = this.locations;
     } else {
-      this.currentRegion = this.locations.filter((element) => element.regionTranslationDtos.find((it) => it.regionName === value));
+      currentRegion = this.locations.filter((element) => element.regionTranslationDtos.find((it) => it.regionName === value));
     }
-    if (value && this.selectCities(this.currentRegion)) {
-      this.city.enable();
-    } else {
-      this.city.disable();
-    }
+    this.cities = this.mapCitiesInUkr(currentRegion);
+    this.filteredCities = this.filterOptions(this.city, this.cities);
   }
 
-  selectCities(currentRegion): boolean {
-    this.cities = currentRegion.map((element) =>
-      element.locationsDto.map((item) =>
-        item.locationTranslationDtoList.filter((it) => it.languageCode === 'ua').map((it) => it.locationName)
-      )
+  filterOptions(control, array): Array<string> {
+    return control.valueChanges.pipe(
+      startWith(''),
+      map((value: string) => (value ? this._filter(value, array) : array.slice()))
     );
-    this.cities = this.cities.reduce((acc, val) => acc.concat(val), []).reduce((acc, val) => acc.concat(val), []);
-    return this.cities.length !== 0 ? true : false;
   }
 
   openAddCourierDialog(): void {
