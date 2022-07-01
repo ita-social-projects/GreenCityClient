@@ -148,7 +148,6 @@ export class CreateEditEventsComponent implements OnInit, OnDestroy {
     });
 
     this.checkdates = !this.dates.some((element) => !element.valid);
-    console.log(this.dates);
   }
 
   private getFormattedDate(dateString: Date, hour: number, min: number): string {
@@ -169,9 +168,6 @@ export class CreateEditEventsComponent implements OnInit, OnDestroy {
       }
       const start = this.getFormattedDate(cur.date, +cur.startDate.split(':')[0], +cur.startDate.split(':')[1]);
       const end = this.getFormattedDate(cur.date, +cur.finishDate.split(':')[0], +cur.finishDate.split(':')[1]);
-
-      if (cur.coordinatesDto.latitude) {
-      }
 
       const coords = cur.coordinatesDto.latitude
         ? {

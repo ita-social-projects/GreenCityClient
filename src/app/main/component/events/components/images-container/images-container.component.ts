@@ -60,7 +60,6 @@ export class ImagesContainerComponent implements OnInit {
 
   public filesDropped(files: FileHandle[]): void {
     const imageFile = files[0].file;
-    console.log(imageFile);
     this.checkFileExtension(imageFile);
     this.transferFile(imageFile);
   }
