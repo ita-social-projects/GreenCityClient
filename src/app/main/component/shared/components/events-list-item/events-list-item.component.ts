@@ -1,6 +1,6 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { TagsArray } from '../../models/event-consts';
-import { EventPageResponceDto, TagDto, TagObj } from '../../models/events.interface';
+import { TagsArray } from '../../../events/models/event-consts';
+import { EventPageResponceDto, TagDto, TagObj } from '../../../events/models/events.interface';
 
 @Component({
   selector: 'app-events-list-item',

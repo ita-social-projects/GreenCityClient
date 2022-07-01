@@ -1,4 +1,5 @@
 import { Component, ElementRef, EventEmitter, Input, OnInit, Output, ViewChild } from '@angular/core';
+import { MatSnackBarComponent } from '@global-errors/mat-snack-bar/mat-snack-bar.component';
 import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
 import { FileHandle } from 'src/app/ubs/ubs-admin/models/file-handle.model';
 import { EventImage } from '../../models/events.interface';
@@ -12,7 +13,7 @@ export class ImagesContainerComponent implements OnInit {
   private isImageTypeError = false;
   private dragAndDropLabel = '+';
   private imgArray: File[] = [];
-  private imagesCount = 5;
+  private maxImages = 5;
 
   public images: EventImage[] = [];
   public editMode: boolean;
@@ -30,7 +31,7 @@ export class ImagesContainerComponent implements OnInit {
   @Output() deleteImagesOutput = new EventEmitter<Array<string>>();
   @Output() oldImagesOutput = new EventEmitter<Array<string>>();
 
-  constructor(private localStorageService: LocalStorageService) {}
+  constructor(private localStorageService: LocalStorageService, private snackBar: MatSnackBarComponent) {}
   ngOnInit(): void {
     this.editMode = this.localStorageService.getEditMode();
     this.initImages();
@@ -51,7 +52,7 @@ export class ImagesContainerComponent implements OnInit {
   }
 
   private initImages(): void {
-    for (let i = 0; i < this.imagesCount; i++) {
+    for (let i = 0; i < this.maxImages; i++) {
       this.images.push({ src: null, label: this.dragAndDropLabel, isLabel: false });
     }
     this.images[0].isLabel = true;
@@ -59,11 +60,26 @@ export class ImagesContainerComponent implements OnInit {
 
   public filesDropped(files: FileHandle[]): void {
     const imageFile = files[0].file;
+    console.log(imageFile);
+    this.checkFileExtension(imageFile);
     this.transferFile(imageFile);
   }
 
+  public loadFile(event: Event): void {
+    const imageFile: File = (event.target as HTMLInputElement).files[0];
+    this.InputVar.nativeElement.value = '';
+    this.checkFileExtension(imageFile);
+    this.transferFile(imageFile);
+  }
+
+  private checkFileExtension(file: any): void {
+    this.isImageSizeError = file.size >= 10000000;
+
+    this.isImageTypeError = !(file.type === 'image/jpeg' || file.type === 'image/png');
+  }
+
   private transferFile(imageFile: File): void {
-    if (!this.isImageTypeError) {
+    if (!this.isImageTypeError && !this.isImageSizeError) {
       const reader: FileReader = new FileReader();
       this.imgArray.push(imageFile);
       this.imgArrayOutput.emit(this.imgArray);
@@ -76,6 +92,12 @@ export class ImagesContainerComponent implements OnInit {
       reader.onload = () => {
         this.assignImage(reader.result);
       };
+    } else if (this.isImageTypeError && this.isImageSizeError) {
+      this.snackBar.openSnackBar('incorrect image type and size');
+    } else if (this.isImageTypeError) {
+      this.snackBar.openSnackBar('incorrect image type');
+    } else if (this.isImageSizeError) {
+      this.snackBar.openSnackBar('incorrect image size');
     }
   }
 
@@ -98,13 +120,11 @@ export class ImagesContainerComponent implements OnInit {
     this.imgArray.splice(i, 1);
     this.imgArrayOutput.emit(this.imgArray);
 
-    let allowLabel = false;
-    if (i === this.imagesCount - 1) {
-      allowLabel = true;
-    }
+    const allowLabel = this.imageCount === 5;
+
     this.images.push({ src: null, label: this.dragAndDropLabel, isLabel: allowLabel });
     this.imageCount--;
-    if (this.editMode && !this.imagesTodelete.find((el) => el === this.imagesEditArr[i])) {
+    if (this.editMode && this.imagesEditArr[i]) {
       this.imagesTodelete.push(this.imagesEditArr[i]);
       this.imagesEditArr.splice(i, 1);
     }
@@ -112,11 +132,5 @@ export class ImagesContainerComponent implements OnInit {
       this.deleteImagesOutput.emit(this.imagesTodelete);
       this.oldImagesOutput.emit(this.imagesEditArr);
     }
-  }
-
-  public loadFile(event: Event): void {
-    const imageFile: File = (event.target as HTMLInputElement).files[0];
-    this.InputVar.nativeElement.value = '';
-    this.transferFile(imageFile);
   }
 }
