@@ -27,7 +27,7 @@
         [orderDetailsForm]="getFormGroup('orderDetailsForm')"
         [orderDetailsOriginal]="orderDetails"
         [orderStatusInfo]="orderStatusInfo"
-        (changeOverpayment)="changeOverpayment($event)"
+        (changeOverpayment)="updateOverpaymentBags($event)"
         (checkMinOrder)="setMinOrder($event)"
         (changeCurrentPrice)="onChangeCurrentPrice($event)"
       ></app-ubs-admin-order-details-form>
