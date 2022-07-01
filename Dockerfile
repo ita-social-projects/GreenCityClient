@@ -6,7 +6,6 @@ COPY . /app/
 RUN npm install
 RUN npm run lint
 RUN npm run stylelint
-RUN npx ng build --prod --delete-output-path --base-href=/GreenCityClient/ --outputPath=dist_aot && rm -rf dist_aot
 RUN npx ng build --prod --base-href=/GreenCityClient/ --aot=false --build-optimizer=false
 
 # prod
