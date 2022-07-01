@@ -63,6 +63,12 @@
   text-align: center;
 }
 
+@media (max-width: 1540px) {
+  .wrapper {
+    width: unset;
+  }
+}
+
 @media (max-width: 960px) {
   .wrapper {
     font-size: 16px;
@@ -106,11 +112,5 @@
 
   .main_header-title {
     margin: 0;
-  }
-}
-
-@media (min-width: 1000px) {
-  .wrapper {
-    min-width: 75vw;
   }
 }

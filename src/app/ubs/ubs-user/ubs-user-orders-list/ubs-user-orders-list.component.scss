@@ -18,15 +18,12 @@
     transform: none !important;
   }
 
-  .mat-tab-body-wrapper {
-    overflow: auto;
-  }
-
   .mat-tab-body {
     overflow: visible !important;
 
     &.mat-tab-body-active {
       overflow-x: visible !important;
+      width: 100%;
     }
   }
 }
@@ -71,7 +68,7 @@
   }
 
   div {
-    width: 118px;
+    width: 90px;
     flex: auto;
   }
 
@@ -166,6 +163,58 @@
   overflow: auto;
 }
 
+@media (max-width: 1540px) {
+  .mat-expansion-panel-header-title {
+    padding: 0 12px;
+  }
+
+  .btns_group {
+    margin-left: 0;
+  }
+}
+
+@media (max-width: 1420px) {
+  .mat-expansion-panel-header-description {
+    flex: unset;
+    margin-right: 0;
+  }
+
+  .mat-content-wrapper {
+    grid-template-columns: repeat(7, 90px);
+  }
+
+  .header_list {
+    grid-template-columns: repeat(7, 90px);
+  }
+
+  ::ng-deep {
+    .mat-content {
+      justify-content: space-between;
+    }
+  }
+}
+
+@media (max-width: 1100px) {
+  ::ng-deep {
+    .mat-content {
+      display: flex;
+      flex-direction: column !important;
+    }
+  }
+
+  .mat-expansion-panel-header {
+    height: 100px !important;
+  }
+
+  .btns_group {
+    margin: 10px 0 0 12px;
+
+    button {
+      max-width: 114px;
+    }
+  }
+}
+
 @media (max-width: 1060px) {
   .header_list {
     font-size: 12px;
@@ -174,11 +223,6 @@
     .btns_group {
       flex-direction: column;
     }
-  }
-
-  .mat-expansion-panel-header {
-    height: 64px !important;
-    font-size: 13px;
   }
 }
 
@@ -194,51 +238,11 @@
   }
 
   .mat-content-wrapper {
-    grid-template-columns: repeat(5, 109px);
-  }
-
-  .mat-expansion-panel-header {
-    height: 64px !important;
-    font-size: 13px;
+    grid-template-columns: repeat(5, 90px);
   }
 
   .order_list-date,
   .order_list-status {
-    display: none;
-  }
-}
-
-@media (max-width: 600px) {
-  ::ng-deep {
-    .mat-content {
-      display: flex;
-      flex-direction: column !important;
-    }
-
-    .mat-tab-body {
-      &.mat-tab-body-active {
-        width: 590px;
-      }
-    }
-  }
-
-  .mat-expansion-panel-header {
-    height: 100px !important;
-  }
-
-  .btns_group {
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    justify-content: space-around;
-    margin: 10px 0 0 45px;
-
-    button {
-      max-width: 114px;
-    }
-  }
-
-  .empty-div {
     display: none;
   }
 }
@@ -255,6 +259,40 @@
   }
 }
 
+@media (max-width: 640px) {
+  .header_list {
+    .header_list-paymentAmount,
+    .header_list-paymentStatus {
+      display: none;
+    }
+  }
+
+  .order_list-paymentAmountDue,
+  .order_list-paymentStatus {
+    display: none;
+  }
+}
+
+@media (max-width: 600px) {
+  ::ng-deep {
+    .mat-content {
+      display: flex;
+      flex-direction: column !important;
+    }
+
+    .mat-tab-body {
+      &.mat-tab-body-active {
+        max-width: 700px;
+        width: 100%;
+      }
+    }
+  }
+
+  .empty-div {
+    display: none;
+  }
+}
+
 @media (max-width: 375px) {
   .description {
     overflow-x: auto;
@@ -262,5 +300,20 @@
 
   .btns_group {
     margin: 10px 0 0 30px;
+  }
+
+  .mat-expansion-panel-header {
+    padding-left: 10px;
+  }
+
+  .mat-content-wrapper {
+    grid-template-columns: repeat(3, 82px);
+    column-gap: unset;
+  }
+
+  .header_list {
+    div {
+      width: 72px;
+    }
   }
 }
