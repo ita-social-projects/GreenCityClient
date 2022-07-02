@@ -1,0 +1,27 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ .Release.Name }}greencity-client
+spec:
+  replicas: {{ .Values.deployment.replicas }}
+  revisionHistoryLimit: 1
+  selector:
+    matchLabels:
+      app: {{ .Release.Name }}-greencity-client
+  template:
+    metadata:
+      labels:
+        app: {{ .Release.Name }}-greencity-client
+    spec:
+      nodeSelector:
+        "kubernetes.io/os": linux
+      containers:
+      - name: {{ .Release.Name }}-greencity-client
+        image: {{ .Values.deployment.image }}
+        resources:
+          requests:
+            cpu: {{ .Values.deployment.requests.cpu }}
+            memory: {{ .Values.deployment.requests.memory }}
+          limits:
+            cpu: {{ .Values.deployment.limits.cpu }}
+            memory: {{ .Values.deployment.limits.memory }}
