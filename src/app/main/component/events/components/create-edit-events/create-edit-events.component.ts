@@ -45,9 +45,8 @@ export class CreateEditEventsComponent implements OnInit, OnDestroy {
 
   public tags: Array<TagObj>;
   public isTagValid: boolean;
-
   public eventFormGroup: FormGroup;
-  unsubscribe: Subject<any> = new Subject();
+  public isAddressFill = true;
 
   constructor(
     public router: Router,
@@ -87,6 +86,7 @@ export class CreateEditEventsComponent implements OnInit, OnDestroy {
     this.tags.forEach((item) => (item.isActive = this.editEvent.tags.some((name) => name.nameEn === item.nameEn)));
     this.isTagValid = this.tags.some((el) => el.isActive);
     this.isOpen = this.editEvent.open;
+    this.oldImages = this.imagesForEdit;
   }
 
   public checkTab(tag: TagObj): void {
@@ -99,6 +99,7 @@ export class CreateEditEventsComponent implements OnInit, OnDestroy {
     this.dates[ind].startDate = form.startTime;
     this.dates[ind].finishDate = form.endTime;
     this.dates[ind].onlineLink = form.onlineLink;
+    this.isAddressFill = this.dates.some((el) => el.coordinatesDto.latitude || el.onlineLink);
   }
 
   public checkStatus(event: boolean, ind: number): void {
@@ -136,8 +137,8 @@ export class CreateEditEventsComponent implements OnInit, OnDestroy {
   }
 
   public setCoordsOnlOff(event: OfflineDto, ind: number): void {
-    this.dates[ind].coordinatesDto.latitude = event.latitude;
-    this.dates[ind].coordinatesDto.longitude = event.longitude;
+    this.dates[ind].coordinatesDto = event;
+    this.isAddressFill = this.dates.some((el) => el.coordinatesDto.latitude || el.onlineLink);
   }
 
   private checkDates(): void {
@@ -155,6 +156,8 @@ export class CreateEditEventsComponent implements OnInit, OnDestroy {
   }
 
   private createDates(): Array<Dates> {
+    const defaultAddress = this.dates.find((it) => it.coordinatesDto.latitude)?.coordinatesDto;
+    const defaultLink = this.dates.find((it) => it.onlineLink)?.onlineLink;
     return this.dates.reduce((ac, cur) => {
       if (!cur.startDate) {
         cur.startDate = ItemTime.START;
@@ -165,14 +168,18 @@ export class CreateEditEventsComponent implements OnInit, OnDestroy {
       const start = this.getFormattedDate(cur.date, +cur.startDate.split(':')[0], +cur.startDate.split(':')[1]);
       const end = this.getFormattedDate(cur.date, +cur.finishDate.split(':')[0], +cur.finishDate.split(':')[1]);
 
+      const coords = cur.coordinatesDto.latitude
+        ? {
+            latitude: cur.coordinatesDto.latitude,
+            longitude: cur.coordinatesDto.longitude
+          }
+        : defaultAddress;
+
       const date: Dates = {
         startDate: this.pipe.transform(start, 'yyyy-MM-ddTHH:mm:ssZZZZZ'),
         finishDate: this.pipe.transform(end, 'yyyy-MM-ddTHH:mm:ssZZZZZ'),
-        coordinates: {
-          latitude: cur.coordinatesDto.latitude,
-          longitude: cur.coordinatesDto.longitude
-        },
-        onlineLink: cur.onlineLink
+        coordinates: coords,
+        onlineLink: cur.onlineLink ? cur.onlineLink : defaultLink
       };
       ac.push(date);
       return ac;
@@ -186,6 +193,7 @@ export class CreateEditEventsComponent implements OnInit, OnDestroy {
     if (this.checkdates) {
       datesDto = this.createDates();
     }
+
     const tagsArr: Array<string> = this.tags.filter((tag) => tag.isActive).reduce((ac, cur) => [...ac, cur.nameEn], []);
 
     let sendEventDto: EventDTO = {
@@ -199,13 +207,13 @@ export class CreateEditEventsComponent implements OnInit, OnDestroy {
       sendEventDto = {
         ...sendEventDto,
         imagesToDelete: this.imagesToDelete,
-        additionalImages: this.oldImages.slice(1),
+        additionalImages: this.oldImages.length > 1 ? this.oldImages.slice(1) : null,
         id: this.editEvent.id,
         titleImage: this.oldImages[0]
       };
     }
 
-    if (this.checkdates && this.eventFormGroup.valid && tagsArr.length) {
+    if (this.checkdates && this.eventFormGroup.valid && this.isTagValid && this.isAddressFill) {
       this.checkAfterSend = true;
       const formData: FormData = new FormData();
       const stringifiedDataToSend = JSON.stringify(sendEventDto);
@@ -218,19 +226,23 @@ export class CreateEditEventsComponent implements OnInit, OnDestroy {
         formData.append('images', item);
       });
 
-      this.isPosting = true;
-      this.editMode
-        ? this.store.dispatch(EditEcoEventAction({ data: formData }))
-        : this.store.dispatch(CreateEcoEventAction({ data: formData }));
-
-      this.actionsSubj.pipe(ofType(EventsActions.CreateEcoEventSuccess, EventsActions.EditEcoEventSuccess)).subscribe(() => {
-        this.isPosting = false;
-        this.escapeFromCreateEvent();
-      });
+      this.createEvent(formData);
     } else {
       this.eventFormGroup.markAllAsTouched();
       this.checkAfterSend = false;
     }
+  }
+
+  private createEvent(sendData: FormData) {
+    this.isPosting = true;
+    this.editMode
+      ? this.store.dispatch(EditEcoEventAction({ data: sendData }))
+      : this.store.dispatch(CreateEcoEventAction({ data: sendData }));
+
+    this.actionsSubj.pipe(ofType(EventsActions.CreateEcoEventSuccess, EventsActions.EditEcoEventSuccess)).subscribe(() => {
+      this.isPosting = false;
+      this.escapeFromCreateEvent();
+    });
   }
 
   ngOnDestroy(): void {

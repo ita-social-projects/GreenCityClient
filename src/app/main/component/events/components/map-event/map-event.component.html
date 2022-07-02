@@ -1,5 +1,8 @@
 <div class="google-map">
-  <p>Event address: {{ adress }}</p>
+  <p class="title">
+    Event address:
+    <span>{{ adress }}</span>
+  </p>
   <agm-map [style.width.%]="100" [style.height.%]="100" [zoom]="12" (mapReady)="onMapReady($event)">
     <agm-marker
       *ngIf="eventPlace"

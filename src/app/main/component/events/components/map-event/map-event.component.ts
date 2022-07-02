@@ -28,6 +28,7 @@ export class MapEventComponent implements OnInit, OnDestroy {
   constructor(private matDialogRef: MatDialogRef<MapEventComponent>, @Inject(MAT_DIALOG_DATA) public data) {}
 
   ngOnInit(): void {
+    this.adress = this.data.address;
     this.eventPlace = {
       location: {
         lat: this.data.lat,

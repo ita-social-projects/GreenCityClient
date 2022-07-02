@@ -28,12 +28,10 @@ export class EventDetailsComponent implements OnInit {
   public isPosting: boolean;
   public userId: number;
   deleteDialogData = {
-    popupTitle: 'Delete event',
+    popupTitle: 'homepage.events.delete-title',
     popupConfirm: 'homepage.events.delete-yes',
     popupCancel: 'homepage.events.delete-no'
   };
-
-  mapDialogData: any;
 
   public tags: Array<TagObj>;
 
@@ -59,11 +57,6 @@ export class EventDetailsComponent implements OnInit {
       this.localStorageService.setEventForEdit('editEvent', this.event);
       this.imagesSlider = [res.titleImage, ...res.additionalImages];
       this.filterTags(res.tags);
-
-      this.mapDialogData = {
-        lat: this.event.dates[0].coordinates.latitude,
-        lng: this.event.dates[0].coordinates.longitude
-      };
     });
 
     this.actionsSubj.pipe(ofType(EventsActions.DeleteEcoEventSuccess)).subscribe(() => this.router.navigate(['/events']));
@@ -101,9 +94,14 @@ export class EventDetailsComponent implements OnInit {
     this.sliderIndex = this.sliderIndex === 0 ? this.imagesSlider.length - 1 : --this.sliderIndex;
   }
 
-  public openMap(): void {
+  public openMap(event): void {
+    const dataToMap = {
+      address: event.coordinates.addressEn,
+      lat: event.coordinates.latitude,
+      lng: event.coordinates.longitude
+    };
     this.dialog.open(MapEventComponent, {
-      data: this.mapDialogData,
+      data: dataToMap,
       hasBackdrop: true,
       closeOnNavigation: true,
       disableClose: true,

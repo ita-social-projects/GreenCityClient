@@ -90,13 +90,6 @@ describe('EventDetailsComponent', () => {
     expect(component).toBeTruthy();
   });
 
-  it('ngOnInit tags.length shoud be 3', () => {
-    component.mapDialogData = { lat: 10, lng: 10 };
-    component.tags = [];
-    component.ngOnInit();
-    expect(component.tags.length).toBe(3);
-  });
-
   it('routeToEditEvent', () => {
     const spy = spyOn(component.router, 'navigate');
     component.routeToEditEvent();

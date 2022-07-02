@@ -89,13 +89,13 @@
             <div class="time">{{ date.finishDate | date: 'HH:mm:ss' }}</div>
           </div>
         </div>
-        <div *ngIf="date.coordinates.latitude" class="date-container">
+        <div *ngIf="date.coordinates" class="date-container">
           <div>
             <h4>Place</h4>
           </div>
           <div>
             {{ date.coordinates.addressEn }}
-            <span (click)="openMap()" class="map-icon"></span>
+            <span (click)="openMap(date)" class="map-icon"></span>
           </div>
         </div>
 
