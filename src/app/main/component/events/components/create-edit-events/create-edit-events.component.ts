@@ -47,7 +47,6 @@ export class CreateEditEventsComponent implements OnInit, OnDestroy {
   private imgArray: Array<File> = [];
   private pipe = new DatePipe('en-US');
   private destroyed$: ReplaySubject<boolean> = new ReplaySubject<boolean>(1);
-  unsubscribe: Subject<any> = new Subject();
 
   constructor(
     public router: Router,

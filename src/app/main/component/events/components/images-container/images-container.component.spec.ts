@@ -50,6 +50,11 @@ describe('ImagesContainerComponent', () => {
     expect(component.images.length).toBe(2);
   });
 
+  it('checkFileExtension', () => {
+    (component as any).checkFileExtension(new File([''], 'test-file.jpg'));
+    expect((component as any).isImageTypeError).toBe(true);
+  });
+
   it('filesDropped expect transferFile should be called once', () => {
     const spy1 = spyOn(component as any, 'transferFile');
 
@@ -61,8 +66,10 @@ describe('ImagesContainerComponent', () => {
   it('transferFile expect imgArray.length to be 1', () => {
     (component as any).imgArray = [];
     (component as any).transferFile(files[0].file);
+    component.editMode = true;
 
     expect((component as any).imgArray.length).toBe(1);
+    console.log(component.editMode);
   });
 
   it('assignImage expect images.src to be imageSrc', () => {
