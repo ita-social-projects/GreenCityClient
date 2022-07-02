@@ -10,4 +10,11 @@ export interface ICertificate {
 export interface ICertificatePayment {
   certificateCode: string;
   certificateSum: number;
+  certificateStatus?: string;
+}
+
+export interface ICertificateResponse {
+  points: number;
+  certificateStatus: string;
+  creationDate?: string;
 }
