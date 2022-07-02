@@ -28,7 +28,7 @@ stages:
         command: 'build'
         Dockerfile: 'Dockerfile'
         tags: |
-          $(Build.BuildId)
+          dev-$(Build.BuildId)
           latest
     
     - task: Docker@2
