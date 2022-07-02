@@ -12,6 +12,7 @@ pr: none
 variables:
   agentOS: ubuntu-latest
   docker_repo: skyere/greencity-front
+  artifactName: drop
 
 stages:
 - stage: Build
@@ -55,8 +56,8 @@ stages:
 
 - stage: Deploy
   jobs:
-    - deployment: DeployUser
-      displayName: Deploy User app service
+    - deployment: Deploy Client
+      displayName: Deploy Client to AKS
       pool:
         vmImage: $(agentOS)
       environment: 'prod'
