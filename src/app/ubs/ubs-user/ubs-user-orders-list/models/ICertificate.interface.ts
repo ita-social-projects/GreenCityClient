@@ -1,7 +1,9 @@
 export interface ICertificate {
   certificateCode?: string;
   certificateSum: number;
-  creationDate?: string;
+  creationDate?: string[];
+  dateOfUse?: string[];
+  expirationDate?: string[];
   certificates: ICertificatePayment[];
   certificateStatusActive: boolean;
   certificateError: boolean;
@@ -17,4 +19,7 @@ export interface ICertificateResponse {
   points: number;
   certificateStatus: string;
   creationDate?: string;
+  dateOfUse?: string;
+  expirationDate?: string;
+  code?: string;
 }

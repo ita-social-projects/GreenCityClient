@@ -31,13 +31,18 @@ describe('UbsUserOrderPaymentPopUpComponent', () => {
   const userCertificateFake = {
     certificateStatusActive: false,
     certificateError: false,
+    creationDate: [],
+    dateOfUse: [],
+    expirationDate: [],
     certificateSum: 0,
     certificates: []
   };
   const fakeCertificates = {
     certificateStatus: 'ACTIVE',
     points: 222,
-    creationDate: 'fakeDate'
+    creationDate: 'fakeCreationDate',
+    dateOfUse: 'fakeUseDate',
+    expirationDate: 'fakeExpirationDate'
   };
   const fakeFondyResponse = {
     orderId: 11,
@@ -89,7 +94,7 @@ describe('UbsUserOrderPaymentPopUpComponent', () => {
     fixture = TestBed.createComponent(UbsUserOrderPaymentPopUpComponent);
     component = fixture.componentInstance;
     component.bonusInfo = { ...bonusInfoFake };
-    component.userCertificate = { ...userCertificateFake };
+    component.userCertificate = JSON.parse(JSON.stringify(userCertificateFake));
     fakeFondyResponse.link = 'fakeLink';
     fakeLiqPayResponse.liqPayButton = 'fakeLiqPayButton';
     orderServiceMock.processCertificate.and.returnValue(of(fakeCertificates));
@@ -166,7 +171,9 @@ describe('UbsUserOrderPaymentPopUpComponent', () => {
       component.calculateCertificate(certificate as any);
 
       expect(component.userCertificate.certificateSum).toBe(222);
-      expect(component.userCertificate.creationDate).toBe('fakeDate');
+      expect(component.userCertificate.creationDate).toEqual(['fakeCreationDate']);
+      expect(component.userCertificate.expirationDate).toEqual(['fakeExpirationDate']);
+      expect(component.userCertificate.dateOfUse).toEqual(['fakeUseDate']);
       expect(component.userOrder.sum).toBe(555);
       expect(component.userCertificate.certificateStatusActive).toBeTruthy();
     });
@@ -178,18 +185,30 @@ describe('UbsUserOrderPaymentPopUpComponent', () => {
       component.calculateCertificate(certificate as any);
 
       expect(component.userCertificate.certificateSum).toBe(222);
-      expect(component.userCertificate.creationDate).toBe('fakeDate');
+      expect(component.userCertificate.creationDate).toEqual(['fakeCreationDate']);
+      expect(component.userCertificate.expirationDate).toEqual(['fakeExpirationDate']);
+      expect(component.userCertificate.dateOfUse).toEqual(['fakeUseDate']);
       expect(component.userOrder.sum).toBe(0);
       expect(component.userCertificate.certificateStatusActive).toBeTruthy();
     });
 
     it('makes expected calls when certificateStatus !== "ACTIVE"', () => {
       const certificate = { value: { certificateCode: 3 } };
-      orderServiceMock.processCertificate.and.returnValue(of({ certificateStatus: 'FAKE' }));
+      orderServiceMock.processCertificate.and.returnValue(
+        of({
+          certificateStatus: 'FAKE',
+          creationDate: 'fakeCreationDate',
+          expirationDate: 'fakeExpirationDate',
+          dateOfUse: 'fakeUseDate'
+        })
+      );
 
       component.calculateCertificate(certificate as any);
 
       expect(component.userCertificate.certificateError).toBeTruthy();
+      expect(component.userCertificate.creationDate).toEqual(['fakeCreationDate']);
+      expect(component.userCertificate.expirationDate).toEqual(['fakeExpirationDate']);
+      expect(component.userCertificate.dateOfUse).toEqual(['fakeUseDate']);
     });
 
     it('makes expected calls when throws error', () => {
@@ -202,6 +221,9 @@ describe('UbsUserOrderPaymentPopUpComponent', () => {
       component.calculateCertificate(certificate as any);
 
       expect(component.userCertificate.certificateError).toBeTruthy();
+      expect(component.userCertificate.creationDate).toEqual([null]);
+      expect(component.userCertificate.expirationDate).toEqual([null]);
+      expect(component.userCertificate.dateOfUse).toEqual([null]);
     });
   });
 

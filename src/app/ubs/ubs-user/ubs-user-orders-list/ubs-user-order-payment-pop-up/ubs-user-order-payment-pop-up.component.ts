@@ -1,4 +1,4 @@
-import { Component, Inject, OnInit } from '@angular/core';
+import { Component, Inject, Injector, OnInit } from '@angular/core';
 import { FormArray, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { OrderService } from 'src/app/ubs/ubs/services/order.service';
@@ -21,6 +21,9 @@ import { IBonusInfo } from '../models/IBonusInfo.interface';
   styleUrls: ['./ubs-user-order-payment-pop-up.component.scss']
 })
 export class UbsUserOrderPaymentPopUpComponent implements OnInit {
+  private localStorageService: LocalStorageService;
+  private ubsOrderFormService: UBSOrderFormService;
+  private orderService: OrderService;
   public selectedRadio: string;
   public certificatePattern = /(?!0000)\d{4}-(?!0000)\d{4}/;
   public certificateMask = '0000-0000';
@@ -45,6 +48,9 @@ export class UbsUserOrderPaymentPopUpComponent implements OnInit {
   public userCertificate: ICertificate = {
     certificateStatusActive: false,
     certificateError: false,
+    creationDate: [],
+    dateOfUse: [],
+    expirationDate: [],
     certificateSum: 0,
     certificates: []
   };
@@ -55,15 +61,17 @@ export class UbsUserOrderPaymentPopUpComponent implements OnInit {
   };
 
   constructor(
-    private fb: FormBuilder,
-    private orderService: OrderService,
-    private sanitizer: DomSanitizer,
     @Inject(MAT_DIALOG_DATA) public data: IOrderData,
     public dialogRef: MatDialogRef<UbsUserOrderPaymentPopUpComponent>,
-    private localStorageService: LocalStorageService,
-    private ubsOrderFormService: UBSOrderFormService,
-    public router: Router
-  ) {}
+    private fb: FormBuilder,
+    private sanitizer: DomSanitizer,
+    public router: Router,
+    private injector: Injector
+  ) {
+    this.localStorageService = injector.get(LocalStorageService);
+    this.ubsOrderFormService = injector.get(UBSOrderFormService);
+    this.orderService = injector.get(OrderService);
+  }
 
   ngOnInit(): void {
     this.initForm();
@@ -131,7 +139,6 @@ export class UbsUserOrderPaymentPopUpComponent implements OnInit {
       (response: ICertificateResponse) => {
         if (response.certificateStatus === 'ACTIVE') {
           this.userCertificate.certificateSum = response.points;
-          this.userCertificate.creationDate = response.creationDate;
           certificate.value.certificateSum = response.points;
 
           if (this.formBonus.value === 'yes') {
@@ -146,12 +153,18 @@ export class UbsUserOrderPaymentPopUpComponent implements OnInit {
         } else {
           this.userCertificate.certificateError = true;
         }
+        this.userCertificate.creationDate.push(response.creationDate);
+        this.userCertificate.expirationDate.push(response.expirationDate);
+        this.userCertificate.dateOfUse.push(response.dateOfUse);
         certificate.value.certificateStatus = response.certificateStatus;
       },
       (error) => {
         if (error.status === 404) {
           this.userCertificate.certificateError = true;
         }
+        this.userCertificate.creationDate.push(null);
+        this.userCertificate.expirationDate.push(null);
+        this.userCertificate.dateOfUse.push(null);
       }
     );
   }
@@ -194,6 +207,9 @@ export class UbsUserOrderPaymentPopUpComponent implements OnInit {
     }
 
     this.userCertificate.certificates.splice(index, 1);
+    this.userCertificate.creationDate.splice(index, 1);
+    this.userCertificate.expirationDate.splice(index, 1);
+    this.userCertificate.dateOfUse.splice(index, 1);
     this.userCertificate.certificateStatusActive = !!this.userCertificate.certificates.length;
     this.userCertificate.certificateError = this.formArrayCertificates.value.some(
       (certificateItem: ICertificatePayment) => certificateItem.certificateStatus !== 'ACTIVE' && certificateItem.certificateStatus !== null

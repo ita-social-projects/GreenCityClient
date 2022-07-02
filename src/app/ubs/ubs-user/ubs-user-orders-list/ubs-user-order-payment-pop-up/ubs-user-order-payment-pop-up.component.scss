@@ -55,6 +55,15 @@
     margin-bottom: 45px;
   }
 
+  div.text-message {
+    font-size: 12px;
+    color: var(--ubs-electric-violet);
+  }
+
+  div.text-danger {
+    font-size: 12px;
+  }
+
   .radio-group {
     display: block;
   }
