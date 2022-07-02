@@ -7,6 +7,8 @@ trigger:
     exclude:
     - README.md
 
+pr: none
+
 variables:
   agentOS: ubuntu-latest
   docker_repo: skyere/greencity-front
