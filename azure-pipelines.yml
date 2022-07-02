@@ -56,7 +56,7 @@ stages:
 
 - stage: Deploy
   jobs:
-    - deployment: Deploy Client
+    - deployment: DeployClient
       displayName: Deploy Client to AKS
       pool:
         vmImage: $(agentOS)
