@@ -29,7 +29,6 @@ import { FormBaseComponent } from './components/form-base/form-base.component';
 import { HabitsPopupComponent } from '@global-user/components/profile/calendar/habits-popup/habits-popup.component';
 import { SharedModule } from 'src/app/shared/shared.module';
 import { EventsListItemComponent } from './components/events-list-item/events-list-item.component';
-import { EventsRoutingModule } from '../events/events-routing.module';
 
 registerLocaleData(usLocale, 'en');
 registerLocaleData(ruLocale, 'ru');
@@ -51,7 +50,6 @@ registerLocaleData(ukLocale, 'ua');
     EventsListItemComponent
   ],
   imports: [
-    EventsRoutingModule,
     ImageCropperModule,
     SharedModule,
     FormsModule,

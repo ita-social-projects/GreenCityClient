@@ -45,6 +45,6 @@
 
   <div class="description" [innerHTML]="event.description"></div>
 
-  <button class="secondary-global-button event-button" [routerLink]="['/events', event.id]">More</button>
+  <button class="secondary-global-button event-button" (click)="routeToEvent()">More</button>
   <button class="primary-global-button event-button">Join Event</button>
 </div>
