@@ -108,7 +108,9 @@ describe('UbsUserOrderPaymentPopUpComponent', () => {
       spyInitForm.and.callFake(() => {
         component.certificateStatus = [];
       });
+
       component.ngOnInit();
+
       expect(spyInitForm).toHaveBeenCalled();
       expect(component.isLiqPayLink).toBeFalsy();
       expect(component.isUseBonuses).toBeFalsy();
@@ -124,12 +126,15 @@ describe('UbsUserOrderPaymentPopUpComponent', () => {
         formArrayCertificates: [
           {
             certificateCode: '',
+            certificateStatus: '',
             certificateSum: 0
           }
         ],
         paymentSystem: 'Fondy'
       };
+
       component.initForm();
+
       expect(component.orderDetailsForm.value).toEqual(initFormFake);
     });
   });
@@ -140,7 +145,9 @@ describe('UbsUserOrderPaymentPopUpComponent', () => {
       component.usedCertificates = ['1111-1111', '2222-2222'];
       component.userCertificate.certificates = [];
       const calculateCertificateSpy = spyOn(component, 'calculateCertificate');
+
       component.certificateSubmit(0, certificate as any);
+
       expect(calculateCertificateSpy).toHaveBeenCalledWith(certificate as any);
       expect(component.userCertificate.certificates).toEqual([
         {
@@ -155,7 +162,9 @@ describe('UbsUserOrderPaymentPopUpComponent', () => {
   describe('calculateCertificate', () => {
     it('makes expected calls when userOrder.sum - certificateSum >= 0 ', () => {
       const certificate = { value: { certificateCode: 3 } };
+
       component.calculateCertificate(certificate as any);
+
       expect(component.userCertificate.certificateSum).toBe(222);
       expect(component.userCertificate.creationDate).toBe('fakeDate');
       expect(component.userOrder.sum).toBe(555);
@@ -165,7 +174,9 @@ describe('UbsUserOrderPaymentPopUpComponent', () => {
     it('makes expected calls when userOrder.sum - certificateSum < 0', () => {
       const certificate = { value: { certificateCode: 3 } };
       component.userOrder.sum = 111;
+
       component.calculateCertificate(certificate as any);
+
       expect(component.userCertificate.certificateSum).toBe(222);
       expect(component.userCertificate.creationDate).toBe('fakeDate');
       expect(component.userOrder.sum).toBe(0);
@@ -175,7 +186,9 @@ describe('UbsUserOrderPaymentPopUpComponent', () => {
     it('makes expected calls when certificateStatus !== "ACTIVE"', () => {
       const certificate = { value: { certificateCode: 3 } };
       orderServiceMock.processCertificate.and.returnValue(of({ certificateStatus: 'FAKE' }));
+
       component.calculateCertificate(certificate as any);
+
       expect(component.userCertificate.certificateError).toBeTruthy();
     });
 
@@ -185,7 +198,9 @@ describe('UbsUserOrderPaymentPopUpComponent', () => {
         status: 404
       });
       orderServiceMock.processCertificate.and.returnValue(throwError(errorResponse));
+
       component.calculateCertificate(certificate as any);
+
       expect(component.userCertificate.certificateError).toBeTruthy();
     });
   });
@@ -193,6 +208,7 @@ describe('UbsUserOrderPaymentPopUpComponent', () => {
   describe('formOrderWithoutPaymentSystems', () => {
     it('makes expected calls', () => {
       component.formOrderWithoutPaymentSystems(0);
+
       expect(ubsOrderFormServiceMock.transferOrderId).toHaveBeenCalledWith(0);
       expect(ubsOrderFormServiceMock.setOrderResponseErrorStatus).toHaveBeenCalledWith(false);
       expect(ubsOrderFormServiceMock.setOrderStatus).toHaveBeenCalledWith(true);
@@ -202,7 +218,9 @@ describe('UbsUserOrderPaymentPopUpComponent', () => {
   describe('redirectionToConfirmPage', () => {
     it('makes expected calls', () => {
       const formOrderWithoutPaymentSystemsSpy = spyOn(component, 'formOrderWithoutPaymentSystems');
+
       component.redirectionToConfirmPage();
+
       expect(formOrderWithoutPaymentSystemsSpy).toHaveBeenCalled();
       expect(routerMock.navigate).toHaveBeenCalledWith(['ubs', 'confirm']);
     });
@@ -212,7 +230,9 @@ describe('UbsUserOrderPaymentPopUpComponent', () => {
     it('makes expected calls', () => {
       const event = { target: { value: 'fakeValue' } } as any;
       const fillOrderClientDtoSpy = spyOn(component, 'fillOrderClientDto');
+
       component.orderOptionPayment(event);
+
       expect(fillOrderClientDtoSpy).toHaveBeenCalled();
       expect(component.selectedPayment).toBe('fakeValue');
     });
@@ -223,7 +243,9 @@ describe('UbsUserOrderPaymentPopUpComponent', () => {
       const fillOrderClientDtoSpy = spyOn(component, 'fillOrderClientDto');
       const redirectToExternalUrlSpy = spyOn(component as any, 'redirectToExternalUrl');
       component.orderDetailsForm.controls.paymentSystem.setValue('Fondy');
+
       component.processOrder();
+
       expect(fillOrderClientDtoSpy).toHaveBeenCalled();
       expect(localStorageServiceMock.clearPaymentInfo).toHaveBeenCalled();
       expect(localStorageServiceMock.setUserPagePayment).toHaveBeenCalledWith(true);
@@ -236,7 +258,9 @@ describe('UbsUserOrderPaymentPopUpComponent', () => {
       const fillOrderClientDtoSpy = spyOn(component, 'fillOrderClientDto');
       const redirectionToConfirmPageSpy = spyOn(component, 'redirectionToConfirmPage');
       component.orderDetailsForm.controls.paymentSystem.setValue('Fondy');
+
       component.processOrder();
+
       expect(fillOrderClientDtoSpy).toHaveBeenCalled();
       expect(localStorageServiceMock.clearPaymentInfo).toHaveBeenCalled();
       expect(localStorageServiceMock.setUserPagePayment).toHaveBeenCalledWith(true);
@@ -249,7 +273,9 @@ describe('UbsUserOrderPaymentPopUpComponent', () => {
       component.dataLoadingLiqPay = true;
       const fillOrderClientDtoSpy = spyOn(component, 'fillOrderClientDto');
       component.orderDetailsForm.controls.paymentSystem.setValue('Fondy');
+
       component.processOrder();
+
       expect(fillOrderClientDtoSpy).toHaveBeenCalled();
       expect(localStorageServiceMock.clearPaymentInfo).toHaveBeenCalled();
       expect(localStorageServiceMock.setUserPagePayment).toHaveBeenCalledWith(true);
@@ -260,7 +286,9 @@ describe('UbsUserOrderPaymentPopUpComponent', () => {
       const fillOrderClientDtoSpy = spyOn(component, 'fillOrderClientDto');
       const setTimeoutSpy = spyOn(global, 'setTimeout');
       component.orderDetailsForm.controls.paymentSystem.setValue('LiqPay');
+
       component.processOrder();
+
       expect(fillOrderClientDtoSpy).toHaveBeenCalled();
       expect(localStorageServiceMock.clearPaymentInfo).toHaveBeenCalled();
       expect(localStorageServiceMock.setUserPagePayment).toHaveBeenCalledWith(true);
@@ -273,7 +301,9 @@ describe('UbsUserOrderPaymentPopUpComponent', () => {
       const fillOrderClientDtoSpy = spyOn(component, 'fillOrderClientDto');
       const redirectionToConfirmPageSpy = spyOn(component, 'redirectionToConfirmPage');
       component.orderDetailsForm.controls.paymentSystem.setValue('LiqPay');
+
       component.processOrder();
+
       expect(fillOrderClientDtoSpy).toHaveBeenCalled();
       expect(localStorageServiceMock.clearPaymentInfo).toHaveBeenCalled();
       expect(localStorageServiceMock.setUserPagePayment).toHaveBeenCalledWith(true);
@@ -286,7 +316,9 @@ describe('UbsUserOrderPaymentPopUpComponent', () => {
       component.dataLoadingLiqPay = true;
       const fillOrderClientDtoSpy = spyOn(component, 'fillOrderClientDto');
       component.orderDetailsForm.controls.paymentSystem.setValue('LiqPay');
+
       component.processOrder();
+
       expect(fillOrderClientDtoSpy).toHaveBeenCalled();
       expect(localStorageServiceMock.clearPaymentInfo).toHaveBeenCalled();
       expect(localStorageServiceMock.setUserPagePayment).toHaveBeenCalledWith(true);
@@ -297,7 +329,9 @@ describe('UbsUserOrderPaymentPopUpComponent', () => {
   describe('bonusOption', () => {
     it('makes expected calls if value is "yes" and sum is more than bonusValue', () => {
       const event = { value: 'yes' } as any;
+
       component.bonusOption(event);
+
       expect(component.userOrder.sum).toBe(444);
       expect(component.bonusInfo.used).toBe(333);
       expect(component.orderClientDto.pointsToUse).toBe(333);
@@ -306,7 +340,9 @@ describe('UbsUserOrderPaymentPopUpComponent', () => {
     it('makes expected calls if value is "yes" and sum is not more than bonusValue', () => {
       const event = { value: 'yes' } as any;
       component.userOrder.bonusValue = 1000;
+
       component.bonusOption(event);
+
       expect(component.userOrder.sum).toBe(0);
       expect(component.bonusInfo.used).toBe(777);
       expect(component.orderClientDto.pointsToUse).toBe(777);
@@ -315,7 +351,9 @@ describe('UbsUserOrderPaymentPopUpComponent', () => {
 
     it('makes expected calls if value is not "yes"', () => {
       const event = { value: 'no' } as any;
+
       component.bonusOption(event);
+
       expect(component.userOrder.sum).toBe(777);
       expect(component.bonusInfo.used).toBe(0);
       expect(component.bonusInfo.left).toBe(0);
@@ -329,30 +367,41 @@ describe('UbsUserOrderPaymentPopUpComponent', () => {
       const formArrayCertificatesFake = new FormArray([
         new FormGroup({
           certificateCode: new FormControl('fakeCode 1'),
+          certificateStatus: new FormControl('ACTIVE'),
           certificateSum: new FormControl(0)
         }),
         new FormGroup({
           certificateCode: new FormControl('fakeCode 2'),
+          certificateStatus: new FormControl('ACTIVE'),
           certificateSum: new FormControl(100)
         })
       ]);
+      component.bonusInfo.used = 0;
+      component.userOrder.sum = 666;
+      component.formBonus.setValue('no');
       component.userCertificate.certificates = formArrayCertificatesFake.value;
       component.orderDetailsForm.controls.formArrayCertificates = formArrayCertificatesFake;
       component.certificateStatus = [true, true];
+
       component.deleteCertificate(0, certificate as any);
-      expect(component.userOrder.sum).toBe(888);
-      expect(component.userCertificate.certificateStatusActive).toBeFalsy();
+
+      expect(component.userOrder.sum).toBe(777);
+      expect(component.bonusInfo.used).toBe(0);
+      expect(component.bonusInfo.left).toBe(0);
+      expect(component.userCertificate.certificateStatusActive).toBeTruthy();
       expect(component.userCertificate.certificateError).toBeFalsy();
       expect(component.certificateStatus).toEqual([true]);
       expect(component.formArrayCertificates.value).toEqual([
         {
           certificateCode: 'fakeCode 2',
+          certificateStatus: 'ACTIVE',
           certificateSum: 100
         }
       ]);
       expect(component.userCertificate.certificates).toEqual([
         {
           certificateCode: 'fakeCode 2',
+          certificateStatus: 'ACTIVE',
           certificateSum: 100
         }
       ]);
@@ -363,19 +412,27 @@ describe('UbsUserOrderPaymentPopUpComponent', () => {
       const formArrayCertificatesFake = new FormArray([
         new FormGroup({
           certificateCode: new FormControl('fakeCode 1'),
-          certificateSum: new FormControl(0)
+          certificateStatus: new FormControl('ACTIVE'),
+          certificateSum: new FormControl(111)
         })
       ]);
+      component.formBonus.setValue('yes');
+      component.bonusInfo.left = 111;
       component.userCertificate.certificates = formArrayCertificatesFake.value;
       component.orderDetailsForm.controls.formArrayCertificates = formArrayCertificatesFake;
+
       component.deleteCertificate(0, certificate as any);
-      expect(component.userOrder.sum).toBe(888);
+
+      expect(component.userOrder.sum).toBe(777);
+      expect(component.bonusInfo.used).toBe(111);
+      expect(component.bonusInfo.left).toBe(0);
       expect(component.userCertificate.certificateStatusActive).toBeFalsy();
       expect(component.userCertificate.certificateError).toBeFalsy();
       expect(component.certificateStatus).toEqual([true]);
       expect(component.formArrayCertificates.value).toEqual([
         {
           certificateCode: null,
+          certificateStatus: null,
           certificateSum: null
         }
       ]);
@@ -388,19 +445,24 @@ describe('UbsUserOrderPaymentPopUpComponent', () => {
       const formArrayCertificatesFake = new FormArray([
         new FormGroup({
           certificateCode: new FormControl(''),
+          certificateStatus: new FormControl(''),
           certificateSum: new FormControl(0)
         })
       ]);
       component.orderDetailsForm.controls.formArrayCertificates = formArrayCertificatesFake;
       component.certificateStatus = [true];
+
       component.addNewCertificate();
+
       expect(component.formArrayCertificates.value).toEqual([
         {
           certificateCode: '',
+          certificateStatus: '',
           certificateSum: 0
         },
         {
           certificateCode: '',
+          certificateStatus: '',
           certificateSum: 0
         }
       ]);
@@ -413,14 +475,18 @@ describe('UbsUserOrderPaymentPopUpComponent', () => {
     it('makes expected calls if there is no certificate', () => {
       component.userCertificate.certificates = [];
       component.orderClientDto.certificates = ['fakeCertificate 1', 'fakeCertificate 2', 'fakeCertificate 3'];
+
       component.fillOrderClientDto();
+
       expect(component.orderClientDto.orderId).toBe(123);
       expect(component.orderClientDto.certificates.length).toBe(3);
     });
 
     it('makes expected calls if there are certificates', () => {
       component.userCertificate.certificates = [{ certificateCode: '1' }, { certificateCode: '2' }] as any;
+
       component.fillOrderClientDto();
+
       expect(component.orderClientDto.orderId).toBe(123);
       expect(component.orderClientDto.certificates.length).toBe(2);
       expect(component.orderClientDto.certificates).toEqual(['1', '2']);

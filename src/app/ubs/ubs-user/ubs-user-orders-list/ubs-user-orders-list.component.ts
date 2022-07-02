@@ -90,7 +90,7 @@ export class UbsUserOrdersListComponent implements OnInit, OnDestroy {
       this.dialog.open(UbsUserOrderPaymentPopUpComponent, {
         data: {
           orderId: order.id,
-          price: order.orderFullPrice,
+          price: order.amountBeforePayment,
           bonuses: this.bonuses
         }
       });
