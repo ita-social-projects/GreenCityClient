@@ -10,7 +10,7 @@ import { DateEvent, DateFormObj, Dates, EventDTO, EventPageResponceDto, OfflineD
 import { Router } from '@angular/router';
 import { DatePipe } from '@angular/common';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
-import { ReplaySubject, Subject } from 'rxjs';
+import { ReplaySubject } from 'rxjs';
 import { DateObj, ItemTime, TagsArray, WeekArray } from '../../models/event-consts';
 import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
 import { ActionsSubject, Store } from '@ngrx/store';
