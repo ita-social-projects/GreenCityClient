@@ -382,21 +382,6 @@ export class UBSOrderDetailsComponent extends FormBaseComponent implements OnIni
     this.orderDetailsForm.controls.shop.setValue('yes');
   }
 
-  public selectPointsRadioBtn(event: KeyboardEvent, radioButtonValue: string) {
-    if (['Enter', 'Space', 'NumpadEnter'].includes(event.code)) {
-      this.orderDetailsForm.controls.bonus.setValue(radioButtonValue);
-    }
-  }
-
-  public selectShopRadioBtn(event: KeyboardEvent, radioButtonValue: string) {
-    if (['Enter', 'Space', 'NumpadEnter'].includes(event.code)) {
-      this.orderDetailsForm.controls.shop.setValue(radioButtonValue);
-      radioButtonValue === 'yes'
-        ? this.renderer.selectRootElement(`#index${this.additionalOrders.controls.length - 1}`).focus()
-        : this.clearOrderValues();
-    }
-  }
-
   isDisabled(): number {
     return this.orderDetailsForm.controls.shop.value === 'yes' ? 0 : -1;
   }
