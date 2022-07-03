@@ -57,7 +57,8 @@
       "question-certificate": "Do you want to use the certificate?",
       "failed-certificate": "Certificate not accepted, please try again",
       "certificate-duplication": "You alredy entered this certificate ",
-      "used-certificate": "Certificate has been used ",
+      "already-used": "Certificate has already been used {{certDate}}",
+      "expired": "Certificate is invalid. Certificate validity is up to {{certDate}}",
       "bonus": {
         "need": "Do you want to take advantage of bonuses?",
         "present": "On your bonus account:",
