@@ -29,7 +29,7 @@ export class UBSPersonalInformationComponent extends FormBaseComponent implement
   addresses: Address[] = [];
   maxAddressLength = 4;
   namePattern = /^[A-Za-zА-Яа-яїЇіІєЄёЁ\'\- ]+$/;
-  emailPattern = /^[A-Za-z0-9.@\- ]+$/;
+  emailPattern = /^[a-zA-Z0-9.!#$%&’*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/;
   phoneMask = '+{38\\0} (00) 000 00 00';
   firstOrder = true;
   anotherClient = false;

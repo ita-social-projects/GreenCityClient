@@ -265,17 +265,12 @@ describe('OrderDetailsFormComponent', () => {
     expect(spy).toHaveBeenCalled();
   });
 
-  it('destroy should be closed after ngOnDestroy()', () => {
-    (component as any).destroy = new Subject<boolean>();
-    spyOn((component as any).destroy, 'next');
-    component.ngOnDestroy();
-    expect((component as any).destroy.next).toHaveBeenCalledTimes(1);
-  });
-
   it('destroy Subject should be closed after ngOnDestroy()', () => {
     (component as any).destroy = new Subject<boolean>();
-    spyOn((component as any).destroy, 'unsubscribe');
+    const nextSpy = spyOn((component as any).destroy, 'next');
+    const unsubscribeSpy = spyOn((component as any).destroy, 'unsubscribe');
     component.ngOnDestroy();
-    expect((component as any).destroy.unsubscribe).toHaveBeenCalledTimes(1);
+    expect(nextSpy).toHaveBeenCalledTimes(1);
+    expect(unsubscribeSpy).toHaveBeenCalledTimes(1);
   });
 });
