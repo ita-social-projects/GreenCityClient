@@ -373,7 +373,7 @@
     "get-bonuses": "Find out what bonuses are accrued for",
     "title": "Bonuses",
     "about-bonuses-system": "About the bonus system",
-    "enrollment-date": "Date of enrollment",
+    "enrollment-date": "Date",
     "amount": "Amount",
     "reason": "Reason",
     "order": "Order"
@@ -482,7 +482,7 @@
   },
   "ubs-user": {
     "orders": "Orders",
-    "invoice": "Invoice",
+    "invoice": "Bonuses",
     "user_data": "User data",
     "messages": "Messages",
     "user": "User"
