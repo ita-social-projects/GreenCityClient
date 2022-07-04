@@ -1,5 +1,5 @@
 import { ConfirmRestorePasswordGuard } from './main/service/route-guards/confirm-restore-password.guard';
-import { EcoEventsComponent, HomepageComponent } from 'src/app/main/component/home/components';
+import { HomepageComponent } from 'src/app/main/component/home/components';
 import { ConfirmRestorePasswordComponent } from '@global-auth/index';
 import { SearchAllResultsComponent } from 'src/app/main/component/layout/components';
 import { MainComponent } from './main/main.component';
@@ -28,10 +28,6 @@ export const routes: Routes = [
       {
         path: 'events',
         loadChildren: () => import('./main/component/events/events.module').then((mod) => mod.EventsModule)
-      },
-      {
-        path: 'events',
-        component: EcoEventsComponent
       },
       {
         path: 'profile',

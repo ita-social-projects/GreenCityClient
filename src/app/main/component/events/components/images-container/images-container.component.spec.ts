@@ -3,6 +3,7 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { ImagesContainerComponent } from './images-container.component';
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { FileHandle } from 'src/app/ubs/ubs-admin/models/file-handle.model';
+import { MatSnackBarComponent } from '@global-errors/mat-snack-bar/mat-snack-bar.component';
 
 describe('ImagesContainerComponent', () => {
   let component: ImagesContainerComponent;
@@ -16,9 +17,12 @@ describe('ImagesContainerComponent', () => {
   const dataFileMock = new File([''], 'test-file.jpeg');
   const event = { target: { files: [dataFileMock] } };
 
+  const MatSnackBarMock = jasmine.createSpyObj('MatSnackBarComponent', ['openSnackBar']);
+
   beforeEach(() => {
     TestBed.configureTestingModule({
       declarations: [ImagesContainerComponent],
+      providers: [{ provide: MatSnackBarComponent, useValue: MatSnackBarMock }],
       schemas: [CUSTOM_ELEMENTS_SCHEMA]
     }).compileComponents();
   });
@@ -41,9 +45,14 @@ describe('ImagesContainerComponent', () => {
 
   it('initImages images length to be 2', () => {
     component.images = [];
-    (component as any).imagesCount = 2;
+    (component as any).maxImages = 2;
     (component as any).initImages();
     expect(component.images.length).toBe(2);
+  });
+
+  it('checkFileExtension', () => {
+    (component as any).checkFileExtension(new File([''], 'test-file.jpg'));
+    expect((component as any).isImageTypeError).toBe(true);
   });
 
   it('filesDropped expect transferFile should be called once', () => {
@@ -57,8 +66,10 @@ describe('ImagesContainerComponent', () => {
   it('transferFile expect imgArray.length to be 1', () => {
     (component as any).imgArray = [];
     (component as any).transferFile(files[0].file);
+    component.editMode = true;
 
     expect((component as any).imgArray.length).toBe(1);
+    console.log(component.editMode);
   });
 
   it('assignImage expect images.src to be imageSrc', () => {

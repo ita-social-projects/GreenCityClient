@@ -107,8 +107,12 @@
     },
     "events": {
       "title": "Events",
+      "delete-title": "Delete event",
       "delete-yes": "yes",
-      "delete-no": "no"
+      "delete-no": "no",
+      "my-space": {
+        "tag-title": "My Events"
+      }
     },
     "subscription": {
       "caption": "Receive interesting news",

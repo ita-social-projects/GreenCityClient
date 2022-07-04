@@ -52,13 +52,22 @@ export interface Service {
   ];
 }
 
+export interface Stations {
+  createDate: string;
+  createdBy: string;
+  id: number;
+  name: string;
+}
+
 export interface Locations {
   locationsDto: LocationDto[];
   regionId: number;
-  regionTranslationDtos: {
-    regionName: string;
-    languageCode: string;
-  };
+  regionTranslationDtos: RegionTranslationDto[];
+}
+
+export interface RegionTranslationDto {
+  regionName: string;
+  languageCode: string;
 }
 
 export interface LocationDto {

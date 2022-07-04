@@ -67,7 +67,7 @@ export class UserFriendsService {
       userId: idUser
     };
 
-    return this.http.post<object>(`${this.url}/user/${idUser}/userFriend/${idFriend}`, body);
+    return this.http.post<object>(`${this.url}user/${idUser}/userFriend/${idFriend}`, body);
   }
 
   public acceptRequest(idUser: number, idFriend: number): Observable<object> {
@@ -76,7 +76,7 @@ export class UserFriendsService {
       userId: idUser
     };
 
-    return this.http.post<object>(`${this.url}/user/${idUser}/acceptFriend/${idFriend}`, body);
+    return this.http.post<object>(`${this.url}user/${idUser}/acceptFriend/${idFriend}`, body);
   }
 
   public declineRequest(idUser: number, idFriend: number): Observable<object> {
@@ -85,7 +85,7 @@ export class UserFriendsService {
       userId: idUser
     };
 
-    return this.http.post<object>(`${this.url}/user/${idUser}/declineFriend/${idFriend}`, body);
+    return this.http.post<object>(`${this.url}user/${idUser}/declineFriend/${idFriend}`, body);
   }
 
   public deleteFriend(idUser: number, idFriend: number): Observable<object> {

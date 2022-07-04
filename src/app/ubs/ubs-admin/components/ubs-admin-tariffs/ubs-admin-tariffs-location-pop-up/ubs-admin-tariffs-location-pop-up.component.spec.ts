@@ -73,20 +73,26 @@ describe('UbsAdminTariffsLocationPopUpComponent ', () => {
   };
 
   const fakeLocations: Locations = {
-    locationsDto: [{
-      latitude: 0,
-      longitude: 0,
-      locationId: 159,
-      locationTranslationDtoList: [{
-        languageCode: 'ua',
-        locationName: 'fake'
-      }]
-    }],
+    locationsDto: [
+      {
+        latitude: 0,
+        longitude: 0,
+        locationId: 159,
+        locationTranslationDtoList: [
+          {
+            languageCode: 'ua',
+            locationName: 'fake'
+          }
+        ]
+      }
+    ],
     regionId: 1,
-    regionTranslationDtos: {
-      regionName: 'ua',
-      languageCode: 'fake'
-    }
+    regionTranslationDtos: [
+      {
+        regionName: 'fake',
+        languageCode: 'ua'
+      }
+    ]
   };
 
   const matDialogMock = jasmine.createSpyObj('matDialog', ['open']);
@@ -290,7 +296,7 @@ describe('UbsAdminTariffsLocationPopUpComponent ', () => {
     });
   });
 
-  it ('method onNoClick should invoke destroyRef.close() if selectedCities or editedCities is empty', () => {
+  it('method onNoClick should invoke destroyRef.close() if selectedCities or editedCities is empty', () => {
     component.selectedCities = [];
     component.editedCities = [];
     component.onNoClick();

@@ -373,7 +373,7 @@
     "get-bonuses": "Find out what bonuses are accrued for",
     "title": "Bonuses",
     "about-bonuses-system": "About the bonus system",
-    "enrollment-date": "Date of enrollment",
+    "enrollment-date": "Date",
     "amount": "Amount",
     "reason": "Reason",
     "order": "Order"
@@ -412,7 +412,7 @@
       "amount-due": "Amount due:",
       "services-amount": "Amount of services provided:",
       "paid-amount": "Paid:",
-      "delivery": "Delivery from the Eco store",
+      "delivery": "Delivery of orders from the Eco-store",
       "order-number": "Numbers of your orders:",
       "recipient": "Sender",
       "export-address": "The address of export of the ordered services",
@@ -482,7 +482,7 @@
   },
   "ubs-user": {
     "orders": "Orders",
-    "invoice": "Invoice",
+    "invoice": "Bonuses",
     "user_data": "User data",
     "messages": "Messages",
     "user": "User"
