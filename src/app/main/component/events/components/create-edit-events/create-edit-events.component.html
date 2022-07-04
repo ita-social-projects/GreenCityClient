@@ -38,6 +38,7 @@
       </div>
 
       <div class="dateContainer">
+        <p *ngIf="dates.length && !isAddressFill" class="tag-error">you shoud fiil at least one addres or link</p>
         <div *ngFor="let date of dates; index as i" class="dateEvent">
           <span class="date-day">{{ i + 1 }} day</span>
           <div class="date-event-block">

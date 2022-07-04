@@ -172,7 +172,7 @@ describe('UserFriendsService', () => {
         response = data;
       });
 
-      const req = httpMock.expectOne(`${userFriendsService.url}/user/1/userFriend/2`);
+      const req = httpMock.expectOne(`${userFriendsService.url}user/1/userFriend/2`);
       expect(req.request.method).toBe('POST');
     });
   });
@@ -184,7 +184,7 @@ describe('UserFriendsService', () => {
         response = data;
       });
 
-      const req = httpMock.expectOne(`${userFriendsService.url}/user/1/acceptFriend/2`);
+      const req = httpMock.expectOne(`${userFriendsService.url}user/1/acceptFriend/2`);
       expect(req.request.method).toBe('POST');
     });
   });
@@ -196,7 +196,7 @@ describe('UserFriendsService', () => {
         response = data;
       });
 
-      const req = httpMock.expectOne(`${userFriendsService.url}/user/1/declineFriend/2`);
+      const req = httpMock.expectOne(`${userFriendsService.url}user/1/declineFriend/2`);
       expect(req.request.method).toBe('POST');
     });
   });

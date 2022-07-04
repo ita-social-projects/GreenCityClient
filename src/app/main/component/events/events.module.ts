@@ -27,7 +27,6 @@ import { MapEventComponent } from './components/map-event/map-event.component';
 import { ImagesContainerComponent } from './components/images-container/images-container.component';
 import { GooglePlaceModule } from 'ngx-google-places-autocomplete';
 import { EventDetailsComponent } from './components/event-details/event-details.component';
-import { EventsListItemComponent } from './components/events-list-item/events-list-item.component';
 
 @NgModule({
   declarations: [
@@ -37,8 +36,7 @@ import { EventsListItemComponent } from './components/events-list-item/events-li
     EventDateTimePickerComponent,
     MapEventComponent,
     ImagesContainerComponent,
-    EventDetailsComponent,
-    EventsListItemComponent
+    EventDetailsComponent
   ],
   imports: [
     ReactiveFormsModule,

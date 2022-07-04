@@ -28,6 +28,7 @@ import ukLocale from '@angular/common/locales/uk';
 import { FormBaseComponent } from './components/form-base/form-base.component';
 import { HabitsPopupComponent } from '@global-user/components/profile/calendar/habits-popup/habits-popup.component';
 import { SharedModule } from 'src/app/shared/shared.module';
+import { EventsListItemComponent } from './components/events-list-item/events-list-item.component';
 
 registerLocaleData(usLocale, 'en');
 registerLocaleData(ruLocale, 'ru');
@@ -45,7 +46,8 @@ registerLocaleData(ukLocale, 'ua');
     CalendarBaseComponent,
     WarningPopUpComponent,
     FormBaseComponent,
-    HabitsPopupComponent
+    HabitsPopupComponent,
+    EventsListItemComponent
   ],
   imports: [
     ImageCropperModule,
@@ -89,7 +91,8 @@ registerLocaleData(ukLocale, 'ua');
     TagFilterComponent,
     UserSharedModule,
     WarningPopUpComponent,
-    FormBaseComponent
+    FormBaseComponent,
+    EventsListItemComponent
   ],
   providers: [MatSnackBarComponent, TranslateService],
   entryComponents: [WarningPopUpComponent, HabitsPopupComponent]

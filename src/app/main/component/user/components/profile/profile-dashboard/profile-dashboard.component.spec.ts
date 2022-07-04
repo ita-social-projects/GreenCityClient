@@ -9,6 +9,7 @@ import { BehaviorSubject, of } from 'rxjs';
 import { RouterTestingModule } from '@angular/router/testing';
 import { InfiniteScrollModule } from 'ngx-infinite-scroll';
 import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
+import { EventsService } from 'src/app/main/component/events/services/events.service';
 
 describe('ProfileDashboardComponent', () => {
   let component: ProfileDashboardComponent;
@@ -32,6 +33,14 @@ describe('ProfileDashboardComponent', () => {
     habitStreak: 10
   };
 
+  const MockReqest = {
+    page: [],
+    totalElements: 4
+  };
+
+  const EventsServiceMock = jasmine.createSpyObj('EventsService', ['getEvents']);
+  EventsServiceMock.getEvents = () => of(MockReqest);
+
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       declarations: [ProfileDashboardComponent],
@@ -39,8 +48,8 @@ describe('ProfileDashboardComponent', () => {
       providers: [
         { provide: HabitAssignService, useValue: HabitAssignServiceMock },
         { provide: Store, useValue: storeMock },
-        { provide: LocalStorageService, useValue: LocalStorageServiceMock }
-        // { provide: TranslateService, useValue: translateServiceMock }
+        { provide: LocalStorageService, useValue: LocalStorageServiceMock },
+        { provide: EventsService, useValue: EventsServiceMock }
       ],
       schemas: [CUSTOM_ELEMENTS_SCHEMA]
     }).compileComponents();

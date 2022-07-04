@@ -17,12 +17,12 @@ export interface EventDTO {
 export interface Dates {
   startDate: string;
   finishDate: string;
-  coordinates: {
+  coordinates?: {
     addressEn?: string;
     addressUa?: string;
     latitude: number;
     longitude: number;
-  };
+  } | null;
   onlineLink: string;
   id?: number;
 }

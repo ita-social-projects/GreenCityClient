@@ -80,7 +80,7 @@
 }
 
 .data_table td:nth-child(4) {
-  padding-left: 20px;
+  padding-left: 45px;
 }
 
 .data_table td:nth-child(5) {
@@ -99,6 +99,12 @@
   font-weight: bold;
 }
 
+.additional_orders_bold_text {
+  span {
+    font-weight: 500;
+  }
+}
+
 .optional_row td:nth-child(2) {
   color: var(--ubs-primary-light-green);
   line-height: 12px;
@@ -115,7 +121,7 @@
   border-left: 1px solid var(--ubs-primary-light-grey);
 
   .recipient {
-    margin: 32px 0;
+    margin: 22px 0;
     padding: 0 0 0 15px;
   }
 
@@ -130,13 +136,17 @@
 }
 
 .download {
-  display: grid;
-  grid-template-areas: 'arrow text' 'maximize text';
-  grid-template-columns: 16px auto;
-  grid-template-rows: 17px auto;
+  display: flex;
   justify-content: end;
-  margin: 30px 18px 33px 0;
-  color: var(--primary-green);
+
+  .download-link {
+    display: grid;
+    grid-template-areas: 'arrow text' 'maximize text';
+    grid-template-columns: 16px max-content;
+    grid-template-rows: 17px auto;
+    margin: 30px 18px 33px 0;
+    color: var(--primary-green);
+  }
 }
 
 .arrow {
@@ -155,11 +165,21 @@
   margin: 0 22px;
 }
 
+@media (max-width: 1420px) {
+  .full_card {
+    margin-left: 0;
+    grid-template-columns: 716px auto;
+  }
+
+  .table_of_details {
+    width: 700px;
+  }
+}
+
 @media (max-width: 1100px) {
   .full_card {
     display: flex;
     flex-direction: column;
-    max-width: 670px;
     margin: 0;
     color: var(--ubs-primary-black);
 
@@ -172,6 +192,19 @@
       font-family: var(--primary-font);
     }
   }
+
+  .table_of_details {
+    width: 100%;
+  }
+
+  .order_details {
+    border-left: none;
+    margin-left: 0;
+
+    .recipient {
+      padding: 0;
+    }
+  }
 }
 
 @media (max-width: 992px) {
@@ -180,19 +213,39 @@
   }
 }
 
-@media (max-width: 460px) {
-  .download {
-    display: grid;
-    grid-template-areas: 'arrow text' 'maximize text';
-    grid-template-columns: 16px auto;
-    grid-template-rows: 17px auto;
-    margin: 20px 18px 33px 0;
-    color: var(--primary-green);
+@media (max-width: 640px) {
+  .table_of_details {
+    td {
+      font-size: 11px;
+      padding-top: 14px;
+    }
+
+    .header_table {
+      th {
+        font-size: 11px;
+      }
+    }
   }
 
   .order_details {
+    display: flex;
+    flex-direction: column;
+    font-size: 11px;
+  }
+
+  .bold_text,
+  .recipient {
+    font-size: 0.8rem;
+  }
+
+  .text {
+    font-size: 14px;
+  }
+}
+
+@media (max-width: 460px) {
+  .order_details {
     margin: 0;
-    width: auto;
     color: var(--ubs-primary-black);
     font-family: var(--primary-font);
 
@@ -209,9 +262,5 @@
       padding: 0;
       list-style-type: none;
     }
-  }
-
-  .table_of_details {
-    width: 562px;
   }
 }

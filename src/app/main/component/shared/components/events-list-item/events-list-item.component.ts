@@ -1,6 +1,7 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { TagsArray } from '../../models/event-consts';
-import { EventPageResponceDto, TagDto, TagObj } from '../../models/events.interface';
+import { Router } from '@angular/router';
+import { TagsArray } from '../../../events/models/event-consts';
+import { EventPageResponceDto, TagDto, TagObj } from '../../../events/models/events.interface';
 
 @Component({
   selector: 'app-events-list-item',
@@ -12,11 +13,15 @@ export class EventsListItemComponent implements OnInit {
 
   public itemTags: Array<TagObj>;
 
-  public address = 'Should be adress';
+  constructor(private router: Router) {}
 
   ngOnInit(): void {
     this.itemTags = TagsArray.reduce((ac, cur) => [...ac, { ...cur }], []);
     this.filterTags(this.event.tags);
+  }
+
+  public routeToEvent(): void {
+    this.router.navigate(['/events', this.event.id]);
   }
 
   private filterTags(tags: Array<TagDto>) {
