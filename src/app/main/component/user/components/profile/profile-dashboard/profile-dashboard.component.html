@@ -93,6 +93,16 @@
           </div>
         </div>
       </mat-tab>
+
+      <mat-tab label="{{ 'homepage.events.my-space.tag-title' | translate }}">
+        <div *ngIf="!loading; else spinner">
+          <ul class="news-list">
+            <li *ngFor="let eventItem of eventsList" [routerLink]="['/news', eventItem.id]">
+              <app-events-list-item [event]="eventItem"></app-events-list-item>
+            </li>
+          </ul>
+        </div>
+      </mat-tab>
     </mat-tab-group>
   </div>
 

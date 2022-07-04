@@ -11,6 +11,8 @@ import { IAppState } from 'src/app/store/state/app.state';
 import { IEcoNewsState } from 'src/app/store/state/ecoNews.state';
 import { GetEcoNewsByAuthorAction } from 'src/app/store/actions/ecoNews.actions';
 import { EcoNewsModel } from '@eco-news-models/eco-news-model';
+import { EventPageResponceDto } from 'src/app/main/component/events/models/events.interface';
+import { EventsService } from 'src/app/main/component/events/services/events.service';
 
 @Component({
   selector: 'app-profile-dashboard',
@@ -31,6 +33,9 @@ export class ProfileDashboardComponent implements OnInit, OnDestroy {
   isActiveInfinityScroll = false;
   userId: number;
   news: EcoNewsModel[];
+
+  public eventsList: EventPageResponceDto[] = [];
+
   private hasNext = true;
   private currentPage: number;
   private newsCount = 3;
@@ -39,7 +44,12 @@ export class ProfileDashboardComponent implements OnInit, OnDestroy {
 
   authorNews$ = this.store.select((state: IAppState): IEcoNewsState => state.ecoNewsState);
 
-  constructor(private localStorageService: LocalStorageService, public habitAssignService: HabitAssignService, private store: Store) {}
+  constructor(
+    private localStorageService: LocalStorageService,
+    public habitAssignService: HabitAssignService,
+    private store: Store,
+    private eventService: EventsService
+  ) {}
 
   ngOnInit() {
     this.subscribeToLangChange();
@@ -53,6 +63,10 @@ export class ProfileDashboardComponent implements OnInit, OnDestroy {
         this.hasNext = val.ecoNewsByAuthor.hasNext;
         this.news = val.autorNews;
       }
+    });
+
+    this.eventService.getEvents(0, 6).subscribe((res) => {
+      this.eventsList = res.page;
     });
 
     this.localStorageService.setCurentPage('previousPage', '/profile');
