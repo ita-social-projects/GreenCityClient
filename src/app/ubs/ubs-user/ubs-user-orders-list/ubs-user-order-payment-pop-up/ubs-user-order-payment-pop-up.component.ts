@@ -153,9 +153,9 @@ export class UbsUserOrderPaymentPopUpComponent implements OnInit {
         } else {
           this.userCertificate.certificateError = true;
         }
-        this.userCertificate.creationDate.push(response.creationDate);
-        this.userCertificate.expirationDate.push(response.expirationDate);
-        this.userCertificate.dateOfUse.push(response.dateOfUse);
+        this.userCertificate.creationDate.push(this.certificateDateTreat(response.creationDate));
+        this.userCertificate.expirationDate.push(this.certificateDateTreat(response.expirationDate));
+        this.userCertificate.dateOfUse.push(this.certificateDateTreat(response.dateOfUse));
         certificate.value.certificateStatus = response.certificateStatus;
       },
       (error) => {
@@ -171,6 +171,10 @@ export class UbsUserOrderPaymentPopUpComponent implements OnInit {
 
   private calculateUserOrderSumWithCertificate(certificateSum: number): void {
     this.userOrder.sum = this.userOrder.sum > certificateSum ? this.userOrder.sum - certificateSum : 0;
+  }
+
+  private certificateDateTreat(date: string): string {
+    return date?.split('-').reverse().join('-');
   }
 
   public deleteCertificate(index: number, certificate: FormControl): void {

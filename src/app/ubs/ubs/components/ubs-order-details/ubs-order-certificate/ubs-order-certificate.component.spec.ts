@@ -2,7 +2,7 @@ import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { UbsOrderCertificateComponent } from './ubs-order-certificate.component';
 import { FormControl, FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { ICertificate } from '../../../models/ubs.interface';
+import { ICertificateResponse } from '../../../models/ubs.interface';
 import { of, throwError } from 'rxjs';
 import { OrderService } from '../../../services/order.service';
 import { HttpErrorResponse } from '@angular/common/http';
@@ -93,7 +93,7 @@ describe('UbsOrderCertificateComponent', () => {
   });
 
   it('method calculateCertificates with arr.length>0 should asyncly invoke certificateMatch method', async(() => {
-    const response: ICertificate = {
+    const response: ICertificateResponse = {
       points: 0,
       certificateStatus: 'string'
     };
