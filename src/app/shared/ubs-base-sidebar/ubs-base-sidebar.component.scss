@@ -9,7 +9,7 @@
   .sidebar {
     .sidebar-container {
       margin-left: 25px;
-      width: calc(100% - 100px);
+      width: calc(100% - 50px);
     }
 
     .sidebar-slider {
@@ -24,7 +24,7 @@
   .main-content {
     margin-top: 120px;
     overflow-x: hidden;
-    height: calc(100vh - 120px);
+    min-height: 345px;
   }
 
   .sidebar-list {

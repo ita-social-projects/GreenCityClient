@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { EmployeeFormComponent } from './employee-form/employee-form.component';
+import { UbsAdminEmployeeService } from '../../services/ubs-admin-employee.service';
 
 @Component({
   selector: 'app-ubs-admin-employee',
@@ -12,7 +13,12 @@ export class UbsAdminEmployeeComponent {
     filter: './assets/img/ubs-admin-employees/filter.svg'
   };
 
-  constructor(public dialog: MatDialog) {}
+  constructor(public dialog: MatDialog, private ubsAdminEmployeeService: UbsAdminEmployeeService) {}
+
+  applyFilter(event: Event) {
+    const filterValue = (event.target as HTMLInputElement).value;
+    this.ubsAdminEmployeeService.searchValue.next(filterValue.trim().toLowerCase());
+  }
 
   openDialog() {
     this.dialog.open(EmployeeFormComponent, {

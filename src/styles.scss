@@ -62,14 +62,14 @@ body {
     overflow: auto;
     max-width: 100%;
   }
+}
 
-  &.employee-delete-dialog-container {
-    max-width: 422px;
-    width: 100%;
+.employee-delete-dialog-container {
+  max-width: 422px;
+  width: 100%;
 
-    .mat-dialog-container {
-      padding: 16px;
-    }
+  .mat-dialog-container {
+    padding: 16px;
   }
 }
 
@@ -180,8 +180,21 @@ body {
   padding: 0;
 }
 
-.custom-dialog-container .mat-dialog-container::-webkit-scrollbar {
-  display: none;
+.custom-dialog-container .mat-dialog-container {
+  &::-webkit-scrollbar {
+    width: 8px;
+  }
+
+  &::-webkit-scrollbar-track {
+    background: var(--ubs-secondary-white);
+  }
+
+  &::-webkit-scrollbar-thumb {
+    background: var(--ubs-secondary-grey);
+    box-shadow: 2px 2px 4px rgba(73, 74, 73, 0.2);
+    border-radius: 4px;
+    cursor: pointer;
+  }
 }
 
 .error-snackbar {

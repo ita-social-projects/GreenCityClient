@@ -1,3 +1,5 @@
+@import './././src/app/ubs/ubs-admin/ubs-admin.component';
+
 .container {
   height: 100%;
   overflow-y: auto;
@@ -156,16 +158,7 @@
       }
 
       .image-edit-head {
-        position: absolute;
-        top: 0;
-        left: 0;
-        width: 100%;
-        background: var(--ubs-quaternary-light-grey);
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        padding: 5px;
-        font-size: 12px;
+        @include image-edit;
         visibility: hidden;
         z-index: 2;
       }

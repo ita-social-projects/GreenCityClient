@@ -1,16 +1,18 @@
 import { Component, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { MatTableDataSource } from '@angular/material/table';
-import { BehaviorSubject, Subject } from 'rxjs';
-import { debounceTime, distinctUntilChanged, takeUntil } from 'rxjs/operators';
+import { BehaviorSubject } from 'rxjs';
+import { debounceTime, distinctUntilChanged, take } from 'rxjs/operators';
 import { Store } from '@ngrx/store';
+import { FormBuilder } from '@angular/forms';
 
 import { IAppState } from 'src/app/store/state/app.state';
 import { Employees, Page } from 'src/app/ubs/ubs-admin/models/ubs-admin.interface';
 import { UbsAdminEmployeeService } from 'src/app/ubs/ubs-admin/services/ubs-admin-employee.service';
 import { EmployeeFormComponent } from '../employee-form/employee-form.component';
-import { GetEmployees } from 'src/app/store/actions/employee.actions';
-import { UbsAdminEmployeeDeletePopUpComponent } from '../ubs-admin-employee-delete-pop-up/ubs-admin-employee-delete-pop-up.component';
+import { DeleteEmployee, GetEmployees } from 'src/app/store/actions/employee.actions';
+import { DialogPopUpComponent } from '../../../../../shared/dialog-pop-up/dialog-pop-up.component';
+import { UbsAdminEmployeeRightsFormComponent } from '../ubs-admin-employee-rights-form/ubs-admin-employee-rights-form.component';
 
 @Component({
   selector: 'app-ubs-admin-employee-table',
@@ -39,8 +41,16 @@ export class UbsAdminEmployeeTableComponent implements OnInit {
   firstPageLoad = true;
   reset = true;
   employees$ = this.store.select((state: IAppState): Employees => state.employees.employees);
-  private destroy: Subject<boolean> = new Subject<boolean>();
-  public tooltipOpened: boolean;
+  public isTooltipOpened: boolean;
+  public viewMode: boolean;
+  public editMode: boolean;
+  public isUploading: boolean;
+  public isDeleting: boolean;
+  public deleteDialogData = {
+    popupTitle: 'employees.warning-title',
+    popupConfirm: 'employees.btn.delete',
+    popupCancel: 'employees.btn.cancel'
+  };
   public icons = {
     edit: './assets/img/ubs-admin-employees/edit.svg',
     settings: './assets/img/ubs-admin-employees/gear.svg',
@@ -53,10 +63,19 @@ export class UbsAdminEmployeeTableComponent implements OnInit {
     info: './assets/img/ubs-admin-employees/info.svg'
   };
 
-  constructor(private ubsAdminEmployeeService: UbsAdminEmployeeService, private dialog: MatDialog, private store: Store<IAppState>) {}
+  constructor(
+    private ubsAdminEmployeeService: UbsAdminEmployeeService,
+    private dialog: MatDialog,
+    private store: Store<IAppState>,
+    public fb: FormBuilder
+  ) {}
 
   ngOnInit(): void {
-    this.searchValue.pipe(debounceTime(500), distinctUntilChanged()).subscribe((item) => {
+    this.initSearch();
+  }
+
+  initSearch(): void {
+    this.ubsAdminEmployeeService.searchValue.pipe(debounceTime(500), distinctUntilChanged()).subscribe((item) => {
       this.search = item;
       this.currentPageForTable = 0;
       this.reset = true;
@@ -67,15 +86,7 @@ export class UbsAdminEmployeeTableComponent implements OnInit {
 
   getTable() {
     this.isLoading = true;
-
-    this.store.dispatch(
-      GetEmployees({
-        pageNumber: this.currentPageForTable,
-        pageSize: this.sizeForTable,
-        search: this.search,
-        reset: this.reset
-      })
-    );
+    this.getEmployeesPages();
 
     this.employees$.subscribe((item: Employees) => {
       if (item) {
@@ -95,20 +106,49 @@ export class UbsAdminEmployeeTableComponent implements OnInit {
     });
   }
 
-  openDeleteDialog(data: Page, event: Event): void {
+  openRightsDialog(employeeData: Page, event: Event): void {
     event.stopPropagation();
-    const dialogRef = this.dialog.open(UbsAdminEmployeeDeletePopUpComponent, {
+    const matDialogRef = this.dialog.open(UbsAdminEmployeeRightsFormComponent, {
+      data: this.deleteDialogData,
       hasBackdrop: true,
-      panelClass: 'employee-delete-dialog-container',
-      data: {
-        serviceData: data
-      }
+      closeOnNavigation: true,
+      disableClose: true,
+      panelClass: 'custom-dialog-container'
     });
-    dialogRef.afterClosed().pipe(takeUntil(this.destroy));
+
+    matDialogRef
+      .afterClosed()
+      .pipe(take(1))
+      .subscribe(() => {});
+  }
+
+  openDeleteDialog(employeeData: Page, event: Event): void {
+    event.stopPropagation();
+    const matDialogRef = this.dialog.open(DialogPopUpComponent, {
+      data: this.deleteDialogData,
+      hasBackdrop: true,
+      closeOnNavigation: true,
+      disableClose: true,
+      panelClass: ''
+    });
+
+    matDialogRef
+      .afterClosed()
+      .pipe(take(1))
+      .subscribe((res) => {
+        if (res) {
+          this.isDeleting = true;
+          this.store.dispatch(DeleteEmployee({ id: employeeData.id }));
+        }
+      });
   }
 
   updateTable() {
     this.isUpdateTable = true;
+    this.getEmployeesPages();
+  }
+
+  getEmployeesPages(): void {
     this.store.dispatch(
       GetEmployees({
         pageNumber: this.currentPageForTable,
@@ -124,11 +164,6 @@ export class UbsAdminEmployeeTableComponent implements OnInit {
       this.currentPageForTable++;
       this.updateTable();
     }
-  }
-
-  applyFilter(event: Event) {
-    const filterValue = (event.target as HTMLInputElement).value;
-    this.searchValue.next(filterValue.trim().toLowerCase());
   }
 
   openPositions() {
@@ -211,7 +246,8 @@ export class UbsAdminEmployeeTableComponent implements OnInit {
     }
   }
 
-  openModal(employeeData: Page) {
+  openEditDialog(employeeData: Page, event: Event) {
+    event.stopPropagation();
     this.dialog.open(EmployeeFormComponent, {
       data: employeeData,
       hasBackdrop: true,

@@ -6,7 +6,7 @@
     <div class="research">
       <div class="search">
         <div class="search-input">
-          <input type="text" placeholder="{{ 'ubs-tables.placeholder' | translate }}" />
+          <input type="text" placeholder="{{ 'ubs-tables.placeholder' | translate }}" (keyup)="applyFilter($event)" />
         </div>
         <div class="icon-style"><i class="fa fa-search" aria-hidden="true"></i></div>
       </div>

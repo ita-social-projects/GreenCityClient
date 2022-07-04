@@ -5,11 +5,10 @@ import { UbsAdminEmployeeService } from '../../../services/ubs-admin-employee.se
 import { Employees, Page } from '../../../models/ubs-admin.interface';
 import { Store } from '@ngrx/store';
 import { IAppState } from 'src/app/store/state/app.state';
-import { AddEmployee, DeleteEmployee, UpdateEmployee } from 'src/app/store/actions/employee.actions';
-import { skip, take, takeUntil } from 'rxjs/operators';
+import { AddEmployee, UpdateEmployee } from 'src/app/store/actions/employee.actions';
+import { skip, takeUntil } from 'rxjs/operators';
 import { ShowImgsPopUpComponent } from '../../../../../shared/show-imgs-pop-up/show-imgs-pop-up.component';
 import { Subject } from 'rxjs';
-import { DialogPopUpComponent } from 'src/app/shared/dialog-pop-up/dialog-pop-up.component';
 
 interface IEmployeePositions {
   id: number;
@@ -61,11 +60,6 @@ export class EmployeeFormComponent implements OnInit, OnDestroy {
   selectedFile;
   imageFile;
   defaultPhotoURL = 'https://csb10032000a548f571.blob.core.windows.net/allfiles/90370622-3311-4ff1-9462-20cc98a64d1ddefault_image.jpg';
-  deleteDialogData = {
-    popupTitle: 'employees.warning-title',
-    popupConfirm: 'employees.btn.yes',
-    popupCancel: 'employees.btn.no'
-  };
 
   ngOnInit() {
     this.employeeService.getAllPositions().subscribe(
@@ -244,26 +238,6 @@ export class EmployeeFormComponent implements OnInit, OnDestroy {
   createEmployee(): void {
     const dataToSend = this.prepareEmployeeDataToSend('addEmployeeDto');
     this.store.dispatch(AddEmployee({ data: dataToSend, employee: this.employeeDataToSend }));
-  }
-
-  deleteEmployee() {
-    const matDialogRef = this.dialog.open(DialogPopUpComponent, {
-      data: this.deleteDialogData,
-      hasBackdrop: true,
-      closeOnNavigation: true,
-      disableClose: true,
-      panelClass: ''
-    });
-
-    matDialogRef
-      .afterClosed()
-      .pipe(take(1))
-      .subscribe((res) => {
-        if (res) {
-          this.isDeleting = true;
-          this.store.dispatch(DeleteEmployee({ id: this.data.id }));
-        }
-      });
   }
 
   treatFileInput(event: Event): void {

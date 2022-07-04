@@ -80,8 +80,8 @@ import { MatExpansionModule } from '@angular/material/expansion';
 import { TimePickerComponent } from './components/shared/components/time-picker/time-picker.component';
 import { UbsAdminTariffsCardPopUpComponent } from './components/ubs-admin-tariffs/ubs-admin-tariffs-card-pop-up/ubs-admin-tariffs-card-pop-up.component';
 import { TariffConfirmationPopUpComponent } from './components/shared/components/tariff-confirmation-pop-up/tariff-confirmation-pop-up.component';
-import { UbsAdminEmployeeDeletePopUpComponent } from './components/ubs-admin-employee/ubs-admin-employee-delete-pop-up/ubs-admin-employee-delete-pop-up.component';
-import { ToggleOutsideElementDirective } from './components/shared/directives/toggle-outside-element.directive';
+import { UbsAdminEmployeeRightsFormComponent } from './components/ubs-admin-employee/ubs-admin-employee-rights-form/ubs-admin-employee-rights-form.component';
+import { CdkAccordionModule } from '@angular/cdk/accordion';
 
 @NgModule({
   declarations: [
@@ -108,8 +108,6 @@ import { ToggleOutsideElementDirective } from './components/shared/directives/to
     TableCellDateComponent,
     TableCellTimeComponent,
     UbsAdminCertificateComponent,
-    UbsAdminEmployeeDeletePopUpComponent,
-    ToggleOutsideElementDirective,
     UbsAdminTariffsDeletePopUpComponent,
     UbsAdminTariffsAddServicePopUpComponent,
     UbsAdminCertificateAddCertificatePopUpComponent,
@@ -136,7 +134,8 @@ import { ToggleOutsideElementDirective } from './components/shared/directives/to
     UbsAdminTariffsStationPopUpComponent,
     TimePickerComponent,
     UbsAdminTariffsCardPopUpComponent,
-    TariffConfirmationPopUpComponent
+    TariffConfirmationPopUpComponent,
+    UbsAdminEmployeeRightsFormComponent
   ],
   imports: [
     CommonModule,
@@ -176,7 +175,8 @@ import { ToggleOutsideElementDirective } from './components/shared/directives/to
     MatAutocompleteModule,
     MatChipsModule,
     MatSelectModule,
-    MatExpansionModule
+    MatExpansionModule,
+    CdkAccordionModule
   ],
   providers: [
     AdminCertificateService,

@@ -235,12 +235,6 @@ describe('EmployeeFormComponent', () => {
     expect(component.imageName).toBe('fake');
   });
 
-  it('should call deleteEmployee method inside deleteEmployee', () => {
-    matDialogMock.open.and.returnValue(dialogRefStub as any);
-    component.deleteEmployee();
-    expect(storeMock.dispatch).toHaveBeenCalled();
-  });
-
   describe('checkIsInitialPositionsChanged', () => {
     it('isInitialPositionsChangedMock should be falsy', () => {
       const isInitialPositionsChangedMock = component.checkIsInitialPositionsChanged();
