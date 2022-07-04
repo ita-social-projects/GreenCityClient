@@ -1,14 +1,14 @@
 import { MatSnackBarComponent } from 'src/app/main/component/errors/mat-snack-bar/mat-snack-bar.component';
-import { OrderService } from '../../../services/order.service';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Component, Inject, OnInit, OnDestroy, AfterViewInit } from '@angular/core';
-import { Address } from '../../../models/ubs.interface';
 import { takeUntil, switchMap } from 'rxjs/operators';
 import { iif, Observable, of, Subject, throwError } from 'rxjs';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
 import { ajax } from 'rxjs/internal-compatibility';
 import { LatLngBoundsLiteral } from '@agm/core';
+import { OrderService } from 'src/app/ubs/ubs/services/order.service';
+import { Address } from 'src/app/ubs/ubs/models/ubs.interface';
 
 interface Options {
   bounds: LatLngBoundsLiteral;
@@ -317,9 +317,9 @@ export class UBSAddAddressPopUpComponent implements OnInit, OnDestroy, AfterView
       ],
       houseNumber: [
         this.data.edit ? this.data.address.houseNumber : '',
-        [Validators.required, Validators.maxLength(4), Validators.pattern(this.housePattern)]
+        [Validators.required, Validators.maxLength(8), Validators.pattern(this.housePattern)]
       ],
-      houseCorpus: [this.data.edit ? this.data.address.houseCorpus : '', [Validators.maxLength(4), Validators.pattern(this.corpusPattern)]],
+      houseCorpus: [this.data.edit ? this.data.address.houseCorpus : '', [Validators.maxLength(8), Validators.pattern(this.corpusPattern)]],
       entranceNumber: [
         this.data.edit ? this.data.address.entranceNumber : '',
         [Validators.maxLength(2), Validators.pattern(this.entranceNumberPattern)]

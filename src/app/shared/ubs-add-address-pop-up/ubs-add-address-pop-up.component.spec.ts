@@ -1,6 +1,4 @@
 import { MatSnackBarComponent } from 'src/app/main/component/errors/mat-snack-bar/mat-snack-bar.component';
-import { OrderService } from '../../../services/order.service';
-import { Address } from '../../../models/ubs.interface';
 import { TranslateModule } from '@ngx-translate/core';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
@@ -13,6 +11,8 @@ import { DropdownModule } from 'angular-bootstrap-md';
 import { Language } from 'src/app/main/i18n/Language';
 import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
+import { OrderService } from 'src/app/ubs/ubs/services/order.service';
+import { Address } from 'src/app/ubs/ubs/models/ubs.interface';
 
 describe('UBSAddAddressPopUpComponent', () => {
   let component: UBSAddAddressPopUpComponent;

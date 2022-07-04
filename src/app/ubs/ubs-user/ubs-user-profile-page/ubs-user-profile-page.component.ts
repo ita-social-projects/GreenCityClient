@@ -1,12 +1,13 @@
 import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators, FormArray } from '@angular/forms';
-import { MatDialog } from '@angular/material/dialog';
+import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
 import { SignInIcons } from 'src/app/main/image-pathes/sign-in-icons';
 import { MatSnackBarComponent } from '@global-errors/mat-snack-bar/mat-snack-bar.component';
 import { Address, UserProfile } from 'src/app/ubs/ubs-admin/models/ubs-admin.interface';
 import { ClientProfileService } from 'src/app/ubs/ubs-user/services/client-profile.service';
 import { UbsProfileDeletePopUpComponent } from './ubs-profile-delete-pop-up/ubs-profile-delete-pop-up.component';
 import { UbsProfileChangePasswordPopUpComponent } from './ubs-profile-change-password-pop-up/ubs-profile-change-password-pop-up.component';
+import { UBSAddAddressPopUpComponent } from 'src/app/shared/ubs-add-address-pop-up/ubs-add-address-pop-up.component';
 
 @Component({
   selector: 'app-ubs-user-profile-page',
@@ -37,6 +38,8 @@ export class UbsUserProfilePageComponent implements OnInit {
   isFetching = false;
   alternativeEmailDisplay = false;
   phoneMask = '+{38\\0} (00) 000 00 00';
+  currentLocation = {};
+  maxAddressLength = 4;
   private readonly regexp = /^([a-zа-яїєґі '-]){1,30}/iu;
   private readonly regexpEmail = /^[a-zA-Z0-9.!#$%&’*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/;
   private readonly regexpWithDigits = /^([a-zа-яїєґі0-9 '-])+$/iu;
@@ -169,6 +172,18 @@ export class UbsUserProfilePageComponent implements OnInit {
         hasPassword: this.userProfile.hasPassword
       }
     });
+  }
+
+  openAddAdressDialog(): void {
+    this.currentLocation = this.userProfile.addressDto[0].city;
+    const dialogConfig = new MatDialogConfig();
+    dialogConfig.panelClass = 'address-matDialog-styles';
+    dialogConfig.data = {
+      edit: false,
+      currentLocation: this.currentLocation,
+      address: {}
+    };
+    this.dialog.open(UBSAddAddressPopUpComponent, dialogConfig);
   }
 
   formatedPhoneNumber(num: string): string | void {
