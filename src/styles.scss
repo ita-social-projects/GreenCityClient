@@ -64,15 +64,6 @@ body {
   }
 }
 
-.employee-delete-dialog-container {
-  max-width: 422px;
-  width: 100%;
-}
-
-.employee-delete-dialog-container .mat-dialog-container {
-  padding: 16px;
-}
-
 .cdk-drag-animating {
   transition: transform 250ms cubic-bezier(0, 0, 0.2, 1);
 }
