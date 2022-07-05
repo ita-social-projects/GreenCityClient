@@ -130,8 +130,8 @@ describe('UbsUserOrderPaymentPopUpComponent', () => {
         bonus: 'no',
         formArrayCertificates: [
           {
-            certificateCode: '',
-            certificateStatus: '',
+            certificateCode: null,
+            certificateStatus: null,
             certificateSum: 0
           }
         ],
@@ -483,8 +483,8 @@ describe('UbsUserOrderPaymentPopUpComponent', () => {
           certificateSum: 0
         },
         {
-          certificateCode: '',
-          certificateStatus: '',
+          certificateCode: null,
+          certificateStatus: null,
           certificateSum: 0
         }
       ]);
