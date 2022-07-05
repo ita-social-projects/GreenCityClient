@@ -18,7 +18,7 @@ import { LocalStorageService } from '@global-service/localstorage/local-storage.
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { IMaskModule } from 'angular-imask';
 
-describe('UbsOrderCertificateComponent', () => {
+fdescribe('UbsOrderCertificateComponent', () => {
   let component: UbsOrderCertificateComponent;
   let fixture: ComponentFixture<UbsOrderCertificateComponent>;
   let orderService: OrderService;
@@ -63,10 +63,17 @@ describe('UbsOrderCertificateComponent', () => {
     component.formArrayCertificates.push(new FormControl('1'));
     const spy1 = spyOn(component.formArrayCertificates, 'removeAt');
     const fakeIndex = 0;
-    // @ts-ignore
-    component.clearAdditionalCertificate(fakeIndex);
+    component.creationDate = ['fake'];
+    component.dateOfUse = ['fake'];
+    component.expirationDate = ['fake'];
+    component.certStatuses = ['fake'];
+    (component as any).clearAdditionalCertificate(fakeIndex);
     expect(spy).toHaveBeenCalled();
     expect(spy1).toHaveBeenCalledWith(fakeIndex);
+    expect(component.creationDate).toEqual([]);
+    expect(component.dateOfUse).toEqual([]);
+    expect(component.expirationDate).toEqual([]);
+    expect(component.certStatuses).toEqual([]);
   });
 
   it('method deleteCertificate should invoke clearAdditionalCertificate method with correct index', () => {
@@ -85,11 +92,15 @@ describe('UbsOrderCertificateComponent', () => {
     expect(spy).toHaveBeenCalled();
   });
 
+  it('method certificateDateTreat should reverse date', () => {
+    const res = (component as any).certificateDateTreat('fake-date');
+    expect(res).toBe('date-fake');
+  });
+
   it('method calculateCertificates should invoke calculateTotal method if arr.length=0', () => {
     const spy = spyOn<any>(component, 'calculateTotal');
     component.calculateCertificates([]);
-    // @ts-ignore
-    expect(component.calculateTotal).toHaveBeenCalled();
+    expect(spy).toHaveBeenCalled();
   });
 
   it('method calculateCertificates with arr.length>0 should asyncly invoke certificateMatch method', async(() => {
