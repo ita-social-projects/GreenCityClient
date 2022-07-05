@@ -80,18 +80,21 @@ body {
 .transparent {
   .mat-dialog-container {
     background: transparent;
+    box-shadow: none;
   }
 }
 
 .popup-dialog-container {
   .mat-dialog-container {
     padding: 0;
+    box-shadow: none;
   }
 }
 
 .add-place-wrapper-class {
   .mat-dialog-container {
     padding: 0;
+    box-shadow: none;
   }
 }
 
@@ -114,6 +117,7 @@ body {
   .mat-dialog-container {
     padding: 0;
     display: block;
+    box-shadow: none;
     border-radius: 4px;
     box-sizing: border-box;
     overflow: auto;
@@ -125,10 +129,6 @@ body {
     max-height: 100vh;
     background: var(--primary-white);
   }
-}
-
-.mat-dialog-container {
-  box-shadow: none;
 }
 
 // [START] Tag guidelines
