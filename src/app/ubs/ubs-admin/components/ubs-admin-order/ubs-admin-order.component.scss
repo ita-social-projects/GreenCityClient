@@ -1,6 +1,10 @@
 .container {
   margin-top: 100px;
   margin-bottom: 100px;
+
+  &.spin-padding {
+    padding: 40px;
+  }
 }
 
 @media (min-width: 1200px) {

@@ -1,3 +1,9 @@
+.mat-cell,
+.mat-header-cell,
+.mat-footer-cell {
+  flex: 100%;
+}
+
 .mat-header-cell {
   background-color: var(--ubs-primary-grey);
   color: var(--ubs-primary-white);
@@ -8,7 +14,7 @@
   flex-wrap: wrap;
   font-size: 14px;
   min-height: 39px;
-  min-width: 48px;
+  min-width: 200px;
   overflow: hidden;
   word-wrap: break-word;
   white-space: nowrap;
@@ -57,7 +63,7 @@
 }
 
 .mat-row {
-  min-height: 39px !important;
+  min-height: 110px;
 }
 
 .check {
@@ -83,8 +89,7 @@
   color: var(--ubs-primary-grey);
   font-size: 14px;
   font-family: var(--primary-font);
-  min-width: 48px;
-  min-height: 100px;
+  min-width: 200px;
   overflow: hidden;
   text-align: center;
   word-wrap: break-word;

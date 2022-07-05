@@ -1,7 +1,7 @@
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { RouterTestingModule } from '@angular/router/testing';
-import { TagsArray } from '../../models/event-consts';
+import { TagsArray } from '../../../events/models/event-consts';
 
 import { EventsListItemComponent } from './events-list-item.component';
 

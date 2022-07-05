@@ -46,7 +46,7 @@
         </tbody>
       </table>
     </div>
-    <div *ngIf="overpayment" class="order-overpayment-container">
+    <div *ngIf="isOverpaymentReturnAvailable()" class="order-overpayment-container">
       <div>
         <span class="form__subtitle">{{ 'order-payment.overpayment' | translate }}</span>
       </div>
@@ -54,14 +54,10 @@
         <span class="price bg-price-none">{{ overpayment | currency | localizedCurrency }}</span>
       </div>
       <div>
-        <button
-          class="btn button-payment-operations btn-enroll-to-bonus-account"
-          [disabled]="accessOnCanceledStatus()"
-          (click)="enrollToBonusAccount()"
-        >
+        <button class="btn button-payment-operations btn-enroll-to-bonus-account" (click)="enrollToBonusAccount(this.overpayment)">
           {{ 'order-payment.enroll-on-bonus-account' | translate }}
         </button>
-        <button class="btn button-payment-operations btn-return-money" [disabled]="!accessOnCanceledStatus()">
+        <button class="btn button-payment-operations btn-return-money">
           {{ 'order-payment.return-money' | translate }}
         </button>
       </div>

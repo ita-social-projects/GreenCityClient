@@ -3,3 +3,5 @@
 *.jpg
 *.svg
 .prettierignore
+greencity-client-chart
+Dockerfile

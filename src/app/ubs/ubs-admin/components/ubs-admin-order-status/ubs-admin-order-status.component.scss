@@ -42,6 +42,10 @@ p {
   }
 }
 
+#order {
+  cursor: pointer;
+}
+
 @media (min-width: 992px) {
   #comment {
     width: 340px;
