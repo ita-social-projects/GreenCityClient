@@ -159,6 +159,7 @@
 
       .image-edit-head {
         @include image-edit;
+
         visibility: hidden;
         z-index: 2;
       }

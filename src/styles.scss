@@ -67,10 +67,10 @@ body {
 .employee-delete-dialog-container {
   max-width: 422px;
   width: 100%;
+}
 
-  .mat-dialog-container {
-    padding: 16px;
-  }
+.employee-delete-dialog-container .mat-dialog-container {
+  padding: 16px;
 }
 
 .cdk-drag-animating {
@@ -102,6 +102,21 @@ body {
   min-height: inherit;
   max-height: 100vh;
   background: var(--primary-white);
+
+  &::-webkit-scrollbar {
+    width: 8px;
+  }
+
+  &::-webkit-scrollbar-track {
+    background: var(--ubs-secondary-white);
+  }
+
+  &::-webkit-scrollbar-thumb {
+    background: var(--ubs-secondary-grey);
+    box-shadow: 2px 2px 4px rgba(73, 74, 73, 0.2);
+    border-radius: 4px;
+    cursor: pointer;
+  }
 }
 
 // [START] Tag guidelines
@@ -178,23 +193,6 @@ body {
 
 .add-place-wrapper-class .mat-dialog-container {
   padding: 0;
-}
-
-.custom-dialog-container .mat-dialog-container {
-  &::-webkit-scrollbar {
-    width: 8px;
-  }
-
-  &::-webkit-scrollbar-track {
-    background: var(--ubs-secondary-white);
-  }
-
-  &::-webkit-scrollbar-thumb {
-    background: var(--ubs-secondary-grey);
-    box-shadow: 2px 2px 4px rgba(73, 74, 73, 0.2);
-    border-radius: 4px;
-    cursor: pointer;
-  }
 }
 
 .error-snackbar {
