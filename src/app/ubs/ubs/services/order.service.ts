@@ -4,7 +4,7 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { BehaviorSubject, Observable, Subject, throwError } from 'rxjs';
 import { tap } from 'rxjs/operators';
-import { ICertificate, OrderDetails } from '../models/ubs.interface';
+import { ICertificateResponse, OrderDetails } from '../models/ubs.interface';
 import { environment } from '@environment/environment.js';
 import { Order } from '../models/ubs.model';
 import { UBSOrderFormService } from './ubs-order-form.service';
@@ -66,8 +66,8 @@ export class OrderService {
     return this.http.post<Order>(`${this.url}/processOrder/${orderId}`, order, { responseType: 'text' as 'json' });
   }
 
-  processCertificate(certificate): Observable<ICertificate> {
-    return this.http.get<ICertificate>(`${this.url}/certificate/${certificate}`);
+  processCertificate(certificate): Observable<ICertificateResponse> {
+    return this.http.get<ICertificateResponse>(`${this.url}/certificate/${certificate}`);
   }
 
   addAdress(adress: AddressData): Observable<any> {

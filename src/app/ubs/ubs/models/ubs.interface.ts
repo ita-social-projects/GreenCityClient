@@ -73,10 +73,13 @@ export interface FinalOrder {
   points?: number;
 }
 
-export interface ICertificate {
+export interface ICertificateResponse {
   points: number;
   certificateStatus: string;
   creationDate?: string;
+  dateOfUse?: string;
+  expirationDate?: string;
+  code?: string;
 }
 
 export interface PersonalData {

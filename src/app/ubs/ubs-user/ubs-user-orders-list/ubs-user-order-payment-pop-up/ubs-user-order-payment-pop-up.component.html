@@ -46,7 +46,7 @@
       <div *ngIf="checkIfCertBeenUsed()" class="text-danger">
         {{ 'ubs-client-profile.payment.certificate-duplication' | translate }}
       </div>
-      <div *ngIf="!userCertificate.certificateError && userCertificate.certificateStatusActive">
+      <div *ngIf="!userCertificate.certificateError && userCertificate.certificateStatusActive && !checkIfCertBeenUsed()">
         <div class="text-message">
           {{
             'ubs-client-profile.payment.certificate-activated.sum'
