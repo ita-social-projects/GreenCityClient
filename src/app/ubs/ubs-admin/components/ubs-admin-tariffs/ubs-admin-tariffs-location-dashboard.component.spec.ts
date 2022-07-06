@@ -348,8 +348,8 @@ describe('UbsAdminTariffsLocationDashboardComponent', () => {
   });
 
   it('should filter options', () => {
-    const Mockcities = ['Фейк1', 'Фейк2'];
-    const result = component._filter('Фейк1', Mockcities);
+    const mockCities = ['Фейк1', 'Фейк2'];
+    const result = component._filter('Фейк1', mockCities);
     expect(result).toEqual(['Фейк1']);
   });
 
@@ -542,6 +542,18 @@ describe('UbsAdminTariffsLocationDashboardComponent', () => {
         headerText: 'deactivateTemplate'
       }
     });
+  });
+
+  it('should set city placeholder', () => {
+    component.checkedCities = ['Фейк'];
+    component.setCountOfCheckedCity();
+    expect(component.cityPlaceholder).toEqual('1 вибрано');
+  });
+
+  it('should set city placeholder', () => {
+    component.checkedCities = [];
+    component.setCountOfCheckedCity();
+    expect(component.cityPlaceholder).toEqual('ubs-tariffs.placeholder-locality');
   });
 
   it('destroy Subject should be closed after ngOnDestroy()', () => {

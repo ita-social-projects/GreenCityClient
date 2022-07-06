@@ -18,7 +18,7 @@ import { LocalStorageService } from '@global-service/localstorage/local-storage.
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { IMaskModule } from 'angular-imask';
 
-fdescribe('UbsOrderCertificateComponent', () => {
+describe('UbsOrderCertificateComponent', () => {
   let component: UbsOrderCertificateComponent;
   let fixture: ComponentFixture<UbsOrderCertificateComponent>;
   let orderService: OrderService;

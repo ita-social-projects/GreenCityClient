@@ -20,6 +20,7 @@ describe('UbsAdminTariffsLocationPopUpComponent ', () => {
 
   const mockRegion = [
     {
+      regionId: 0,
       regionTranslationDtos: [
         {
           regionName: 'Фейк область',
@@ -59,6 +60,33 @@ describe('UbsAdminTariffsLocationPopUpComponent ', () => {
     }
   ];
 
+  const mockCities = [
+    {
+      locationTranslationDtoList: [
+        {
+          locationName: 'Фейк1',
+          languageCode: 'ua'
+        },
+        {
+          locationName: 'Fake1',
+          languageCode: 'en'
+        }
+      ]
+    },
+    {
+      locationTranslationDtoList: [
+        {
+          locationName: 'Фейк2',
+          languageCode: 'ua'
+        },
+        {
+          locationName: 'Fake2',
+          languageCode: 'en'
+        }
+      ]
+    }
+  ];
+
   const localItem = {
     location: 'фейк',
     englishLocation: 'fake',
@@ -93,6 +121,21 @@ describe('UbsAdminTariffsLocationPopUpComponent ', () => {
         languageCode: 'ua'
       }
     ]
+  };
+
+  const eventMockCity = {
+    option: {
+      value: {
+        latitude: 0,
+        locationId: 1,
+        locationStatus: 'ACTIVE',
+        locationTranslationDtoList: [
+          { locationName: 'фейк', languageCode: 'ua' },
+          { locationName: 'fake', languageCode: 'en' }
+        ],
+        longitude: 0
+      }
+    }
   };
 
   const matDialogMock = jasmine.createSpyObj('matDialog', ['open']);
@@ -144,6 +187,21 @@ describe('UbsAdminTariffsLocationPopUpComponent ', () => {
     expect(component.cities).toEqual(['Фейк1', 'Фейк2']);
   });
 
+  it('should return a list of cities in english', () => {
+    component.selectCities(mockRegion);
+    expect(component.enCities).toEqual(['Fake1', 'Fake2']);
+  });
+
+  it('should get a list of cities when region is selected', () => {
+    component.selectCities(mockRegion);
+    expect(component.filteredCities).toEqual(mockCities);
+  });
+
+  it('should return a id of selected region', () => {
+    component.selectCities(mockRegion);
+    expect(component.regionId).toEqual(0);
+  });
+
   it('should not return a list of cities if region is empty', () => {
     component.selectCities([]);
     expect(component.cities).toEqual([]);
@@ -157,6 +215,14 @@ describe('UbsAdminTariffsLocationPopUpComponent ', () => {
     expect(component.selectedCities.length).toBe(0);
   });
 
+  it('should not add edited city if input is empty', () => {
+    component.location.setValue('');
+    component.englishLocation.setValue('');
+    component.editedCities = [];
+    component.addEditedCity();
+    expect(component.editedCities.length).toBe(0);
+  });
+
   it('should not add city if city exists', () => {
     component.cities = ['fake'];
     component.location.setValue('fake');
@@ -168,10 +234,31 @@ describe('UbsAdminTariffsLocationPopUpComponent ', () => {
     expect(component.englishLocation.value).toBeTruthy();
   });
 
+  it('should not add city if city not edited', () => {
+    component.cities = ['фейк'];
+    component.enCities = ['fake'];
+    component.location.setValue('фейк');
+    component.englishLocation.setValue('fake');
+    component.editedCities = [];
+    component.addEditedCity();
+    expect(component.editedCities.length).toBe(0);
+    expect(component.location.value).toBeTruthy();
+    expect(component.englishLocation.value).toBeTruthy();
+    expect(component.editedCityExist).toBe(true);
+  });
+
   it('should not add city if city is not selected', () => {
     component.citySelected = false;
     component.addCity();
     expect(component.selectedCities.length).toBe(0);
+    expect(component.location.value).toBe('');
+    expect(component.englishLocation.value).toBe('');
+  });
+
+  it('should not add city if edited city  is not selected', () => {
+    component.editedCityExist = true;
+    component.addEditedCity();
+    expect(component.editedCities.length).toBe(0);
     expect(component.location.value).toBe('');
     expect(component.englishLocation.value).toBe('');
   });
@@ -197,6 +284,17 @@ describe('UbsAdminTariffsLocationPopUpComponent ', () => {
     expect(component.englishLocation.value).toBe('');
   });
 
+  it('should add new edited city', () => {
+    component.location.setValue('фейк');
+    component.englishLocation.setValue('fake');
+    component.editedCities = [];
+    component.editLocationId = 0;
+    component.addEditedCity();
+    expect(component.editedCities.length).toBe(1);
+    expect(component.location.value).toBe('');
+    expect(component.englishLocation.value).toBe('');
+  });
+
   it('should set value of region', () => {
     const spy = spyOn(component, 'translate');
     const eventMock = {
@@ -207,6 +305,12 @@ describe('UbsAdminTariffsLocationPopUpComponent ', () => {
     expect(spy).toHaveBeenCalled();
   });
 
+  it('should filter options', () => {
+    const mockRegions = ['Фейк1', 'Фейк2'];
+    const result = component._filter('Фейк1', mockRegions);
+    expect(result).toEqual(['Фейк1']);
+  });
+
   it('should translate and set text to input', () => {
     component.translate('фейк', component.englishLocation);
     expect(tariifsServiceMock.getJSON).toHaveBeenCalled();
@@ -215,7 +319,6 @@ describe('UbsAdminTariffsLocationPopUpComponent ', () => {
 
   it('should find new region', () => {
     const spy = spyOn(component, 'selectCities');
-    component.locations = mockRegion;
     component.regionSelected = false;
     component.region.setValue('Fake region');
     expect(component.regionExist).toEqual(true);
@@ -230,14 +333,12 @@ describe('UbsAdminTariffsLocationPopUpComponent ', () => {
   });
 
   it('should not find new region if regionSelected is true', () => {
-    component.locations = mockRegion;
     component.regionSelected = true;
     component.region.setValue('Fake region');
     expect(component.regionExist).toEqual(false);
   });
 
   it('should not find new region if inputs length is less than 3', () => {
-    component.locations = mockRegion;
     component.regionSelected = false;
     component.region.setValue('F');
     expect(component.regionExist).toEqual(false);
@@ -267,10 +368,40 @@ describe('UbsAdminTariffsLocationPopUpComponent ', () => {
     expect(component.selectedCities.length).toEqual(0);
   });
 
+  it('should delete edited city from the list', () => {
+    component.editedCities.push(localItem);
+    component.deleteEditedCity(0);
+    expect(component.editedCities.length).toEqual(0);
+  });
+
+  it('should set english region name', () => {
+    const mockEvent = {
+      option: {
+        value: 'Фейк область'
+      }
+    };
+    component.selectedEditRegion(mockEvent);
+    expect(component.englishRegion.value).toEqual(['Fake region']);
+  });
+
+  it('should set english city name', () => {
+    component.selectCitiesEdit(eventMockCity);
+    expect(component.location.value).toEqual('фейк');
+    expect(component.englishLocation.value).toEqual('fake');
+    expect(component.editLocationId).toEqual(1);
+  });
+
   it('component function addAdress should add locations', () => {
     component.selectedCities.push(localItem);
     component.addLocation();
     expect(component.createdCards.length).toBe(1);
+    expect(storeMock.dispatch).toHaveBeenCalled();
+  });
+
+  it('should edit location in the store', () => {
+    component.editedCities.push(editedItem);
+    component.editLocation();
+    expect(component.newLocationName.length).toBe(1);
     expect(storeMock.dispatch).toHaveBeenCalled();
   });
 
