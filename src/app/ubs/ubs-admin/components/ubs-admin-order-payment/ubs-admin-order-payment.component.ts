@@ -95,6 +95,10 @@ export class UbsAdminOrderPaymentComponent implements OnInit, OnChanges, OnDestr
     return date.toLocaleDateString('en-GB', { year: 'numeric', month: '2-digit', day: '2-digit' }).split('/').reverse().join('-');
   }
 
+  public displayUnpaidAmount(): boolean {
+    return this.unPaidAmount && this.currentOrderStatus !== 'CANCELED';
+  }
+
   public setCancelOrderOverpayment(sum: number): void {
     //TO DO
     // this.overpayment = this.overpaymentCancelEnroller ? this.overpayment : sum;
@@ -114,6 +118,7 @@ export class UbsAdminOrderPaymentComponent implements OnInit, OnChanges, OnDestr
       this.paymentsArray.push(responce);
       this.totalPaid -= this.overpayment;
       this.overpayment = 0;
+      this.paymentUpdate.emit(this.overpayment);
     });
   }
 
@@ -187,8 +192,6 @@ export class UbsAdminOrderPaymentComponent implements OnInit, OnChanges, OnDestr
             .pipe(takeUntil(this.destroy$))
             .subscribe((data: IOrderInfo) => {
               this.paymentUpdate.emit(data.paymentTableInfoDto.paidAmount);
-              console.log('data.paymentTableInfoDto.paidAmount ', data.paymentTableInfoDto.paidAmount);
-              //this.paymentUpdate.emit(this.totalPaid);
               const newValue = data.generalOrderInfo.orderPaymentStatus;
               this.postDataItem(this.orderId, newValue);
               this.newPaymentStatus.emit(newValue);

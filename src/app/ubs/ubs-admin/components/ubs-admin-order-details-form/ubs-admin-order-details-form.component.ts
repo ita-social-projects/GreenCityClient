@@ -183,6 +183,7 @@ export class UbsAdminOrderDetailsFormComponent implements OnInit, OnChanges {
 
   private updateOverpayment(sum: number): void {
     this.overpayment += sum;
+    this.overpaymentMessage = this.orderService.getOverpaymentMsg(this.overpayment);
   }
 
   private setFinalFullPrice() {
