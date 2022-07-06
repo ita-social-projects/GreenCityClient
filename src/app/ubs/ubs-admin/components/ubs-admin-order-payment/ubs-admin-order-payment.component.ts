@@ -21,6 +21,7 @@ export class UbsAdminOrderPaymentComponent implements OnInit, OnChanges, OnDestr
   @Input() orderStatus: string;
 
   @Output() newPaymentStatus = new EventEmitter<string>();
+  @Output() paymentUpdate = new EventEmitter<number>();
 
   public message: string;
   public pageOpen: boolean;
@@ -31,6 +32,7 @@ export class UbsAdminOrderPaymentComponent implements OnInit, OnChanges, OnDestr
   public paymentInfo: IPaymentInfo;
   public paymentsArray: IPaymentInfoDto[];
   public currentOrderStatus: string;
+  public overpaymentCancelEnroller: boolean;
   private destroy$: Subject<boolean> = new Subject<boolean>();
 
   constructor(private orderService: OrderService, private dialog: MatDialog, private store: Store<IAppState>) {}
@@ -39,7 +41,7 @@ export class UbsAdminOrderPaymentComponent implements OnInit, OnChanges, OnDestr
     this.currentOrderStatus = this.orderStatus;
     this.orderId = this.orderInfo.generalOrderInfo.id;
     this.paymentInfo = this.orderInfo.paymentTableInfoDto;
-    this.overpayment = this.paymentInfo.overpayment;
+    this.overpayment = this.currentOrderStatus === 'CANCELED' ? this.paymentInfo.paidAmount : this.paymentInfo.overpayment;
     this.paymentsArray = this.paymentInfo.paymentInfoDtos;
     this.paidAmount = this.paymentInfo.paidAmount;
     const sumDiscount = this.orderInfo.orderBonusDiscount + this.orderInfo.orderCertificateTotalDiscount;
@@ -93,6 +95,12 @@ export class UbsAdminOrderPaymentComponent implements OnInit, OnChanges, OnDestr
     return date.toLocaleDateString('en-GB', { year: 'numeric', month: '2-digit', day: '2-digit' }).split('/').reverse().join('-');
   }
 
+  public setCancelOrderOverpayment(sum: number): void {
+    //TO DO
+    // this.overpayment = this.overpaymentCancelEnroller ? this.overpayment : sum;
+    // this.overpaymentCancelEnroller = true;
+  }
+
   public enrollToBonusAccount(sum: number): void {
     const currentDate: string = this.getStringDate(new Date());
     const paymentDetails: PaymentDetails = {
@@ -107,6 +115,10 @@ export class UbsAdminOrderPaymentComponent implements OnInit, OnChanges, OnDestr
       this.totalPaid -= this.overpayment;
       this.overpayment = 0;
     });
+  }
+
+  public returnMoney(sum: number): void {
+    //TO DO
   }
 
   public recountUnpaidAmount(value: number): void {
@@ -174,6 +186,9 @@ export class UbsAdminOrderPaymentComponent implements OnInit, OnChanges, OnDestr
             .getOrderInfo(this.orderId)
             .pipe(takeUntil(this.destroy$))
             .subscribe((data: IOrderInfo) => {
+              this.paymentUpdate.emit(data.paymentTableInfoDto.paidAmount);
+              console.log('data.paymentTableInfoDto.paidAmount ', data.paymentTableInfoDto.paidAmount);
+              //this.paymentUpdate.emit(this.totalPaid);
               const newValue = data.generalOrderInfo.orderPaymentStatus;
               this.postDataItem(this.orderId, newValue);
               this.newPaymentStatus.emit(newValue);

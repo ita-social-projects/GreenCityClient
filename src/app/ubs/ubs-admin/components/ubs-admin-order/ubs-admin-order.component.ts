@@ -57,6 +57,7 @@ export class UbsAdminOrderComponent implements OnInit, OnDestroy, AfterContentCh
   isMinOrder = true;
   isSubmitted = false;
   additionalPayment: string;
+  orderBonusDiscount: number;
   private matSnackBar: MatSnackBarComponent;
   private orderService: OrderService;
   constructor(
@@ -96,6 +97,7 @@ export class UbsAdminOrderComponent implements OnInit, OnDestroy, AfterContentCh
       .getOrderInfo(orderId)
       .pipe(takeUntil(this.destroy$))
       .subscribe((data: IOrderInfo) => {
+        console.log('DATA ', data);
         this.orderInfo = data;
         this.generalInfo = data.generalOrderInfo;
         this.currentOrderStatus = this.generalInfo.orderStatus;
@@ -107,10 +109,15 @@ export class UbsAdminOrderComponent implements OnInit, OnDestroy, AfterContentCh
         this.totalPaid = data.paymentTableInfoDto.paidAmount;
         this.overpayment = data.paymentTableInfoDto.overpayment;
         this.currentOrderPrice = data.orderFullPrice;
+        this.orderBonusDiscount = data.orderBonusDiscount;
         this.setOrderDetails();
         this.initForm();
-        if (submitMode && this.overpayment && (this.generalInfo.orderStatus === 'DONE' || this.generalInfo.orderStatus === 'CANCEL')) {
+        if (submitMode && this.overpayment && this.generalInfo.orderStatus === 'DONE') {
           this.orderPaymentComponent.enrollToBonusAccount(this.overpayment);
+        }
+        if (submitMode && this.currentOrderStatus === 'CANCELED') {
+          console.log('setCancelOrderOverpayment CALLED with ', this.totalPaid);
+          this.orderPaymentComponent.setCancelOrderOverpayment(this.totalPaid);
         }
       });
   }
@@ -258,6 +265,12 @@ export class UbsAdminOrderComponent implements OnInit, OnDestroy, AfterContentCh
     this.additionalPayment = newPaymentStatus;
     this.orderForm.markAsDirty();
   }
+
+  public onPaymentUpdate(sum: number): void {
+    console.log('PAYMENT UPDATE ', sum);
+    this.totalPaid = sum;
+  }
+
   public changeOverpayment(sum: number): void {
     this.overpayment = sum;
   }
