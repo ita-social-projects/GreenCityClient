@@ -59,6 +59,9 @@ export class UbsAdminOrderPaymentComponent implements OnInit, OnChanges, OnDestr
 
     if (changes.orderStatus) {
       this.currentOrderStatus = changes.orderStatus.currentValue;
+      if (this.currentOrderStatus === 'CANCELED') {
+        this.overpayment = this.totalPaid;
+      }
     }
   }
 
@@ -101,8 +104,6 @@ export class UbsAdminOrderPaymentComponent implements OnInit, OnChanges, OnDestr
 
   public setCancelOrderOverpayment(sum: number): void {
     //TO DO
-    // this.overpayment = this.overpaymentCancelEnroller ? this.overpayment : sum;
-    // this.overpaymentCancelEnroller = true;
   }
 
   public enrollToBonusAccount(sum: number): void {
