@@ -31,19 +31,17 @@ interface InitialData {
 }
 
 @Component({
-  selector: 'app-employee-form',
-  templateUrl: './employee-form.component.html',
-  styleUrls: ['./employee-form.component.scss']
+  selector: 'app-ubs-admin-employee-edit-form',
+  templateUrl: './ubs-admin-employee-edit-form.component.html',
+  styleUrls: ['./ubs-admin-employee-edit-form.component.scss']
 })
-export class EmployeeFormComponent implements OnInit, OnDestroy {
+export class UbsAdminEmployeeEditFormComponent implements OnInit, OnDestroy {
   locations: IReceivingStations[];
   roles: IEmployeePositions[];
   employeeForm: FormGroup;
   employeePositions: IEmployeePositions[];
   receivingStations: IReceivingStations[];
   employeeDataToSend: Page;
-  viewMode: boolean;
-  editMode = false;
   isDeleting = false;
   phoneMask = '+{38\\0} (00) 000 00 00';
   private maxImageSize = 10485760;
@@ -54,11 +52,11 @@ export class EmployeeFormComponent implements OnInit, OnDestroy {
   public isInitialImageChanged = false;
   public isInitialPositionsChanged = false;
   public isInitialStationsChanged = false;
+  public editMode: boolean;
   initialData: InitialData;
   imageURL: string;
   imageName = 'Your Avatar';
   selectedFile;
-  imageFile;
   defaultPhotoURL = 'https://csb10032000a548f571.blob.core.windows.net/allfiles/90370622-3311-4ff1-9462-20cc98a64d1ddefault_image.jpg';
 
   ngOnInit() {
@@ -97,7 +95,7 @@ export class EmployeeFormComponent implements OnInit, OnDestroy {
   constructor(
     private employeeService: UbsAdminEmployeeService,
     private store: Store<IAppState>,
-    public dialogRef: MatDialogRef<EmployeeFormComponent>,
+    public dialogRef: MatDialogRef<UbsAdminEmployeeEditFormComponent>,
     public fb: FormBuilder,
     private dialog: MatDialog,
     @Inject(MAT_DIALOG_DATA) public data: Page
@@ -111,9 +109,9 @@ export class EmployeeFormComponent implements OnInit, OnDestroy {
     this.employeePositions = this.data?.employeePositions ?? [];
     this.receivingStations = this.data?.receivingStations ?? [];
     this.imageURL = this.data?.image;
-    this.viewMode = !!this.data;
-    if (this.viewMode) {
-      this.employeeForm.disable();
+    this.editMode = !!this.data;
+    if (this.editMode) {
+      this.editEmployee();
       this.initialData = {
         firstName: this.data.firstName,
         lastName: this.data.lastName,
@@ -128,10 +126,6 @@ export class EmployeeFormComponent implements OnInit, OnDestroy {
 
   get isUpdatingEmployee() {
     return this.data && Object.keys(this.data).length !== 0;
-  }
-
-  get isCreatingEmployee() {
-    return !this.isUpdatingEmployee;
   }
 
   get userHasDefaultPhoto() {
@@ -152,12 +146,6 @@ export class EmployeeFormComponent implements OnInit, OnDestroy {
     return this.receivingStations.filter((station) => !this.initialData.receivingStationsIds.includes(station.id)).length > 0;
   }
 
-  findRole(id: number): number {
-    return this.employeePositions.findIndex((role) => {
-      return role.id === id;
-    });
-  }
-
   onCheckChangeRole(role) {
     if (this.doesIncludeRole(role)) {
       this.employeePositions = this.employeePositions.filter((position) => position.id !== role.id);
@@ -171,12 +159,6 @@ export class EmployeeFormComponent implements OnInit, OnDestroy {
 
   doesIncludeRole(role) {
     return this.employeePositions.some((existingRole) => existingRole.id === role.id);
-  }
-
-  findLocation(id: number): number {
-    return this.receivingStations.findIndex((location) => {
-      return location.id === id;
-    });
   }
 
   onCheckChangeLocation(location) {
@@ -272,10 +254,6 @@ export class EmployeeFormComponent implements OnInit, OnDestroy {
 
   private showWarning(file: File): boolean {
     return file.size > this.maxImageSize || (file.type !== 'image/jpeg' && file.type !== 'image/png');
-  }
-
-  cancelDefault(e: DragEvent) {
-    e.preventDefault();
   }
 
   removeImage() {

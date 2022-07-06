@@ -519,6 +519,7 @@
   },
   "ubs-employee": {
     "add-employee": "Add employee",
+    "edit-employee": "Edit employee data",
     "employee": "Employee",
     "edit": "Edit",
     "required-fields": "*Required fields",

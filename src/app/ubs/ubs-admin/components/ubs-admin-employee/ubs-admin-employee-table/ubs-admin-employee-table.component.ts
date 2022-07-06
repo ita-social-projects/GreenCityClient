@@ -9,7 +9,7 @@ import { FormBuilder } from '@angular/forms';
 import { IAppState } from 'src/app/store/state/app.state';
 import { Employees, Page } from 'src/app/ubs/ubs-admin/models/ubs-admin.interface';
 import { UbsAdminEmployeeService } from 'src/app/ubs/ubs-admin/services/ubs-admin-employee.service';
-import { EmployeeFormComponent } from '../employee-form/employee-form.component';
+import { UbsAdminEmployeeEditFormComponent } from '../ubs-admin-employee-edit-form/ubs-admin-employee-edit-form.component';
 import { DeleteEmployee, GetEmployees } from 'src/app/store/actions/employee.actions';
 import { DialogPopUpComponent } from '../../../../../shared/dialog-pop-up/dialog-pop-up.component';
 import { UbsAdminEmployeeRightsFormComponent } from '../ubs-admin-employee-rights-form/ubs-admin-employee-rights-form.component';
@@ -106,20 +106,15 @@ export class UbsAdminEmployeeTableComponent implements OnInit {
     });
   }
 
-  openRightsDialog(employeeData: Page, event: Event): void {
+  openRightsDialog(event: Event): void {
     event.stopPropagation();
-    const matDialogRef = this.dialog.open(UbsAdminEmployeeRightsFormComponent, {
+    this.dialog.open(UbsAdminEmployeeRightsFormComponent, {
       data: this.deleteDialogData,
       hasBackdrop: true,
       closeOnNavigation: true,
       disableClose: true,
       panelClass: 'custom-dialog-container'
     });
-
-    matDialogRef
-      .afterClosed()
-      .pipe(take(1))
-      .subscribe(() => {});
   }
 
   openDeleteDialog(employeeData: Page, event: Event): void {
@@ -129,7 +124,7 @@ export class UbsAdminEmployeeTableComponent implements OnInit {
       hasBackdrop: true,
       closeOnNavigation: true,
       disableClose: true,
-      panelClass: ''
+      panelClass: 'delete-dialog-container'
     });
 
     matDialogRef
@@ -248,7 +243,7 @@ export class UbsAdminEmployeeTableComponent implements OnInit {
 
   openEditDialog(employeeData: Page, event: Event) {
     event.stopPropagation();
-    this.dialog.open(EmployeeFormComponent, {
+    this.dialog.open(UbsAdminEmployeeEditFormComponent, {
       data: employeeData,
       hasBackdrop: true,
       closeOnNavigation: true,

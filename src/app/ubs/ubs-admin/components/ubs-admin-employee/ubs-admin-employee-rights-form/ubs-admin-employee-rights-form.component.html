@@ -1,6 +1,6 @@
 <div class="modal-wrapper">
-  <h1 class="popup-title">{{ 'employees.actions.settings' | translate }}</h1>
-  <cdk-accordion class="rights-accordion" multi>
+  <h3 class="popup-title">{{ 'employees.actions.settings' | translate }}</h3>
+  <cdk-accordion class="rights-accordion accordion" multi>
     <cdk-accordion-item
       *ngFor="let right of rights; let i = index"
       #accordionItem="cdkAccordionItem"
@@ -14,7 +14,7 @@
     >
       <div class="accordion-item-header" (click)="accordionItem.toggle()">
         <span class="accordion-item-description">
-          <img [src]="icons.arrow" alt="arrow" />
+          <img src="./assets/img/icon/arrows/arrow-accordion-down.svg" alt="arrow" />
         </span>
         {{ 'employees.rights.' + right.key + '.title' | translate }}
       </div>

@@ -60,6 +60,20 @@ form {
   font-weight: 400;
   font-size: 16px;
   color: var(--quaternary-grey);
+
+  &.position-title,
+  &.station-title {
+    font-weight: 700;
+    font-size: 14px;
+    line-height: 20px;
+    letter-spacing: 0.1px;
+    color: var(--ubs-secondary-grey);
+  }
+
+  &.image-title {
+    display: block;
+    margin: 10px 0;
+  }
 }
 
 .checkbox-section-role,
@@ -113,12 +127,6 @@ label {
   display: none;
 }
 
-.station-title,
-.image-title {
-  display: inline-block;
-  margin-top: 17px;
-}
-
 .checkbox-close-button {
   display: none;
 }
@@ -137,7 +145,7 @@ label {
   height: 108px;
   transition: filter 0.2s linear;
   position: relative;
-  background: var(--ubs-primary-white);
+  background: var(--ubs-primary-white) !important;
   overflow: hidden;
 
   &::after {

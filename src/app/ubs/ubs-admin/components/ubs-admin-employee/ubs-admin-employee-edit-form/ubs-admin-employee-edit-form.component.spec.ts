@@ -8,12 +8,12 @@ import { TranslateModule } from '@ngx-translate/core';
 import { IMaskModule } from 'angular-imask';
 import { of } from 'rxjs';
 import { ShowImgsPopUpComponent } from '../../../../../shared/show-imgs-pop-up/show-imgs-pop-up.component';
+import { UbsAdminEmployeeEditFormComponent } from './ubs-admin-employee-edit-form.component';
+import { CdkAccordionModule } from '@angular/cdk/accordion';
 
-import { EmployeeFormComponent } from './employee-form.component';
-
-describe('EmployeeFormComponent', () => {
-  let component: EmployeeFormComponent;
-  let fixture: ComponentFixture<EmployeeFormComponent>;
+describe('UbsAdminEmployeeEditFormComponent', () => {
+  let component: UbsAdminEmployeeEditFormComponent;
+  let fixture: ComponentFixture<UbsAdminEmployeeEditFormComponent>;
 
   const defaultImagePath =
     'https://csb10032000a548f571.blob.core.windows.net/allfiles/90370622-3311-4ff1-9462-20cc98a64d1ddefault_image.jpg';
@@ -76,8 +76,8 @@ describe('EmployeeFormComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [EmployeeFormComponent],
-      imports: [HttpClientTestingModule, MatDialogModule, TranslateModule.forRoot(), ReactiveFormsModule, IMaskModule],
+      declarations: [UbsAdminEmployeeEditFormComponent],
+      imports: [HttpClientTestingModule, MatDialogModule, TranslateModule.forRoot(), ReactiveFormsModule, IMaskModule, CdkAccordionModule],
       providers: [
         { provide: MatDialogRef, useValue: matDialogRefMock },
         { provide: MatDialog, useValue: matDialogMock },
@@ -90,7 +90,7 @@ describe('EmployeeFormComponent', () => {
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(EmployeeFormComponent);
+    fixture = TestBed.createComponent(UbsAdminEmployeeEditFormComponent);
     component = fixture.componentInstance;
     component.receivingStations = JSON.parse(JSON.stringify(mockedReceivingStations));
     component.employeePositions = JSON.parse(JSON.stringify(mockedEmployeePositions));
@@ -99,11 +99,6 @@ describe('EmployeeFormComponent', () => {
 
   it('should create', () => {
     expect(component).toBeTruthy();
-  });
-
-  it('initialData', () => {
-    component.viewMode = true;
-    expect(component.initialData).toEqual(mockedInitialData);
   });
 
   it('employeeForm should receive data from MAT_DIALOG_DATA', () => {
@@ -223,14 +218,14 @@ describe('EmployeeFormComponent', () => {
 
   it('File should be transfered', () => {
     component.imageName = 'fake';
-    spyOn(EmployeeFormComponent.prototype as any, 'showWarning').and.returnValue(false);
+    spyOn(UbsAdminEmployeeEditFormComponent.prototype as any, 'showWarning').and.returnValue(false);
     component[transferFile](dataFileMock);
     expect(component.imageName).toBe('test-file.jpeg');
   });
 
   it('File should not be transfered', () => {
     component.imageName = 'fake';
-    spyOn(EmployeeFormComponent.prototype as any, 'showWarning').and.returnValue(true);
+    spyOn(UbsAdminEmployeeEditFormComponent.prototype as any, 'showWarning').and.returnValue(true);
     component[transferFile](dataFileMock);
     expect(component.imageName).toBe('fake');
   });
