@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
 
 @Component({
@@ -6,7 +6,7 @@ import { TranslateService } from '@ngx-translate/core';
   templateUrl: './ubs-admin-employee-rights-form.component.html',
   styleUrls: ['./ubs-admin-employee-rights-form.component.scss']
 })
-export class UbsAdminEmployeeRightsFormComponent implements OnInit {
+export class UbsAdminEmployeeRightsFormComponent {
   public rights = [
     {
       key: 'clients',
@@ -40,17 +40,11 @@ export class UbsAdminEmployeeRightsFormComponent implements OnInit {
         'create-location-card',
         'delete-location-card',
         'see-price-card',
-        'see-price-card',
         'edit-service',
         'edit-price-card'
       ]
     }
   ];
-  public icons = {
-    arrow: './assets/img/icon/arrows/arrow-accordion-down.svg'
-  };
 
   constructor(public translate: TranslateService) {}
-
-  ngOnInit(): void {}
 }

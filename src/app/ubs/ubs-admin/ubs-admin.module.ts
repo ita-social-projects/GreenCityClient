@@ -15,7 +15,7 @@ import { SharedModule } from '../../shared/shared.module';
 import { UbsAdminComponent } from './ubs-admin.component';
 import { UbsAdminEmployeeComponent } from './components/ubs-admin-employee/ubs-admin-employee.component';
 import { PaginationComponent } from './components/shared/components/pagination/pagination.component';
-import { EmployeeFormComponent } from './components/ubs-admin-employee/employee-form/employee-form.component';
+import { UbsAdminEmployeeEditFormComponent } from './components/ubs-admin-employee/ubs-admin-employee-edit-form/ubs-admin-employee-edit-form.component';
 import { UBSAdminRoutingModule } from './ubs-admin-routing.module';
 import { UbsAdminResponsiblePersonsComponent } from './components/ubs-admin-responsible-persons/ubs-admin-responsible-persons.component';
 import { UbsAdminExportDetailsComponent } from './components/ubs-admin-export-details/ubs-admin-export-details.component';
@@ -92,7 +92,7 @@ import { TariffStatusPipe } from '@pipe/tariff-status-pipe/tariff-status.pipe';
     UbsAdminSidebarComponent,
     UbsAdminComponent,
     UbsAdminEmployeeComponent,
-    EmployeeFormComponent,
+    UbsAdminEmployeeEditFormComponent,
     UbsAdminOrderComponent,
     UbsAdminAddressDetailsComponent,
     UbsAdminOrderStatusComponent,
@@ -192,7 +192,7 @@ import { TariffStatusPipe } from '@pipe/tariff-status-pipe/tariff-status.pipe';
   entryComponents: [
     UbsAdminTableComponent,
     AddViolationsComponent,
-    EmployeeFormComponent,
+    UbsAdminEmployeeEditFormComponent,
     UbsAdminCancelModalComponent,
     UbsAdminGoBackModalComponent
   ]

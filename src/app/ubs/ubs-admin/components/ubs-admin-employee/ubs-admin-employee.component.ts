@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
-import { EmployeeFormComponent } from './employee-form/employee-form.component';
+import { UbsAdminEmployeeEditFormComponent } from './ubs-admin-employee-edit-form/ubs-admin-employee-edit-form.component';
 import { UbsAdminEmployeeService } from '../../services/ubs-admin-employee.service';
 
 @Component({
@@ -21,7 +21,7 @@ export class UbsAdminEmployeeComponent {
   }
 
   openDialog() {
-    this.dialog.open(EmployeeFormComponent, {
+    this.dialog.open(UbsAdminEmployeeEditFormComponent, {
       hasBackdrop: true,
       closeOnNavigation: true,
       disableClose: true,

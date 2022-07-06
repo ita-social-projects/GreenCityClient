@@ -517,6 +517,7 @@
   },
   "ubs-employee": {
     "add-employee": "Додати працівника",
+    "edit-employee": "Редагувати дані працівника",
     "employee": "Працівник",
     "edit": "Редагувати",
     "required-fields": "*Обов’язкові поля",

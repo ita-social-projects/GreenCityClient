@@ -16,12 +16,13 @@
   letter-spacing: 0.2px;
 }
 
-.rights-accordion {
+.accordion {
   display: block;
   max-width: 500px;
 
   .accordion-item {
     display: block;
+    border-top: none;
 
     .accordion-item-header {
       display: flex;
@@ -43,10 +44,6 @@
     .accordion-item-description {
       font-size: 0.85em;
       color: #999;
-    }
-
-    .accordion-item + .accordion-item {
-      border-top: none;
     }
 
     .accordion-item-body {
@@ -89,6 +86,16 @@
       .accordion-item-description {
         img {
           transform: rotate(180deg);
+        }
+      }
+    }
+  }
+
+  &.role-accordion {
+    .accordion-item {
+      &.expanded {
+        .accordion-item-header {
+          background-color: unset;
         }
       }
     }
@@ -136,5 +143,11 @@
       border-color: var(--ubs-quaternary-light-grey);
       color: var(--ubs-primary-light-grey);
     }
+  }
+}
+
+@media screen and (max-width: 575px) {
+  .modal-wrapper {
+    width: unset;
   }
 }
