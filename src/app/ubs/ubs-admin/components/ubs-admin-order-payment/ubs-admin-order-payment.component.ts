@@ -80,8 +80,8 @@ export class UbsAdminOrderPaymentComponent implements OnInit, OnChanges, OnDestr
     this.pageOpen = !this.pageOpen;
   }
 
-  public accessOnCanceledStatus(): boolean {
-    return this.currentOrderStatus === 'CANCELED';
+  public isOverpaymentReturnAvailable(): boolean {
+    return this.overpayment && this.currentOrderStatus === 'CANCELED';
   }
 
   public setOverpayment(overpayment: number): void {
@@ -93,11 +93,10 @@ export class UbsAdminOrderPaymentComponent implements OnInit, OnChanges, OnDestr
     return date.toLocaleDateString('en-GB', { year: 'numeric', month: '2-digit', day: '2-digit' }).split('/').reverse().join('-');
   }
 
-  public enrollToBonusAccount(): void {
+  public enrollToBonusAccount(sum: number): void {
     const currentDate: string = this.getStringDate(new Date());
-
     const paymentDetails: PaymentDetails = {
-      amount: this.overpayment,
+      amount: sum,
       receiptLink: 'Зарахування на бонусний рахунок',
       settlementdate: currentDate
     };
