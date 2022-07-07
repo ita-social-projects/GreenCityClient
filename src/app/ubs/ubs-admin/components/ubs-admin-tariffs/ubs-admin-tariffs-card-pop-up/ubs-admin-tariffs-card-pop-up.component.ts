@@ -162,11 +162,9 @@ export class UbsAdminTariffsCardPopUpComponent implements OnInit, OnDestroy {
     this.locations$.pipe(skip(1)).subscribe((item) => {
       if (item) {
         this.locations = item;
-        this.regions = [].concat(
-          ...this.locations.map((element) =>
-            element.regionTranslationDtos.filter((it) => it.languageCode === 'ua').map((it) => it.regionName)
-          )
-        );
+        this.regions = this.locations
+          .map((element) => element.regionTranslationDtos.filter((it) => it.languageCode === 'ua').map((it) => it.regionName))
+          .flat(2);
       }
     });
   }
@@ -197,7 +195,7 @@ export class UbsAdminTariffsCardPopUpComponent implements OnInit, OnDestroy {
       name: selectedValue.name,
       id: selectedValue.id
     };
-    const newValue = event.option.viewValue;
+    const newValue = event.option.value;
     if (this.selectedStation.map((it) => it.name).includes(newValue)) {
       this.selectedStation = [...this.selectedStation.filter((item) => item.name !== newValue)];
     } else {
@@ -225,9 +223,9 @@ export class UbsAdminTariffsCardPopUpComponent implements OnInit, OnDestroy {
 
   public onRegionSelected(event): void {
     const selectedValue = this.locations.filter((it) => it.regionTranslationDtos.find((ob) => ob.regionName === event.value));
-    this.regionEnglishName = selectedValue.map((it) =>
-      it.regionTranslationDtos.filter((ob) => ob.languageCode === 'en').map((i) => i.regionName)
-    );
+    this.regionEnglishName = selectedValue
+      .map((it) => it.regionTranslationDtos.filter((ob) => ob.languageCode === 'en').map((i) => i.regionName))
+      .flat(2);
     this.regionId = selectedValue.find((it) => it.regionId).regionId;
     const currentRegion = this.locations.filter((element) => element.regionTranslationDtos.find((it) => it.regionName === event.value));
     if (!currentRegion || !currentRegion.length || !currentRegion[0].locationsDto) {
@@ -263,7 +261,7 @@ export class UbsAdminTariffsCardPopUpComponent implements OnInit, OnDestroy {
     this.selectCity(event);
     this.setCountOfSelectedCity();
     this.city.setValue('');
-    this.cityValidator();
+    this.city.setValidators(this.cityValidator());
     if (trigger) {
       requestAnimationFrame(() => {
         trigger.openPanel();
@@ -311,7 +309,7 @@ export class UbsAdminTariffsCardPopUpComponent implements OnInit, OnDestroy {
   public deleteCity(index): void {
     this.selectedCities.splice(index, 1);
     this.setCountOfSelectedCity();
-    this.cityValidator();
+    this.city.setValidators(this.cityValidator());
   }
 
   openAuto(event: Event, trigger: MatAutocompleteTrigger, flag: boolean): void {
@@ -321,7 +319,7 @@ export class UbsAdminTariffsCardPopUpComponent implements OnInit, OnDestroy {
     }
   }
 
-  private _filterOptions(name: string, items: any[]): any[] {
+  public _filterOptions(name: string, items: any[]): any[] {
     const filterValue = name.toLowerCase();
     return items.filter((option) => option.toLowerCase().includes(filterValue));
   }

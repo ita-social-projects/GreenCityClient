@@ -50,22 +50,27 @@
       {{ 'order-details.failed-certificate' | translate }}
     </small>
     <small class="text-danger" *ngIf="certStatus === 'USED' && failedCert">
-      {{ 'order-details.already-used' | translate: { certDate: certDate } }}
+      {{ 'order-details.already-used' | translate: { certDate: dateOfUse[dateOfUse.length - 1] } }}
     </small>
     <small class="text-danger" *ngIf="certStatus === 'EXPIRED' && failedCert">
-      {{ 'order-details.expired' | translate: { certDate: certDate } }}
+      {{ 'order-details.expired' | translate: { certDate: expirationDate[expirationDate.length - 1] } }}
     </small>
     <small class="text-message" *ngIf="certSize && certificateSum <= showTotal">
-      {{ 'order-details.activated' | translate: { certificateSum: certificateSum, certDate: certDate } }}
+      {{ 'order-details.activated' | translate: { certificateSum: certificateSum, certDate: expirationDate[expirationDate.length - 1] } }}
     </small>
     <small class="text-message" *ngIf="certSize && certificateSum >= showTotal">
       {{
         'order-details.activated-oversum'
-          | translate: { certificateSum: certificateSum, certDate: certDate, certificateLeft: certificateSum - showTotal }
+          | translate
+            : {
+                certificateSum: certificateSum,
+                certDate: expirationDate[expirationDate.length - 1],
+                certificateLeft: certificateSum - showTotal
+              }
       }}
     </small>
     <small class="text-message" *ngIf="(certStatus === 'NEW' || certStatus === 'ACTIVE') && !certSize">
-      {{ 'order-details.activated' | translate: { certificateSum: certificateSum, certDate: certDate } }}
+      {{ 'order-details.activated' | translate: { certificateSum: certificateSum, certDate: expirationDate[expirationDate.length - 1] } }}
     </small>
   </div>
 

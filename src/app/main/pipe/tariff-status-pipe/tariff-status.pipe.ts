@@ -7,10 +7,10 @@ export class TariffStatusPipe implements PipeTransform {
   transform(value: string) {
     if (value === 'NEW') {
       return 'Незаповнена';
-    } else if (value === 'ACTIVE') {
-      return 'Активно';
-    } else {
-      return 'Неактивно';
     }
+    if (value === 'ACTIVE') {
+      return 'Активно';
+    }
+    return 'Неактивно';
   }
 }
