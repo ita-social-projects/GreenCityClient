@@ -116,7 +116,6 @@ export class UbsAdminOrderComponent implements OnInit, OnDestroy, AfterContentCh
           this.orderPaymentComponent.enrollToBonusAccount(this.overpayment);
         }
         if (submitMode && this.currentOrderStatus === 'CANCELED') {
-          console.log('setCancelOrderOverpayment CALLED with ', this.totalPaid);
           this.orderPaymentComponent.setCancelOrderOverpayment(this.totalPaid);
         }
       });

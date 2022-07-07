@@ -103,7 +103,7 @@ export class UbsAdminOrderPaymentComponent implements OnInit, OnChanges, OnDestr
   }
 
   public setCancelOrderOverpayment(sum: number): void {
-    //TO DO
+    this.overpayment = sum;
   }
 
   public enrollToBonusAccount(sum: number): void {
@@ -124,7 +124,7 @@ export class UbsAdminOrderPaymentComponent implements OnInit, OnChanges, OnDestr
   }
 
   public returnMoney(sum: number): void {
-    //TO DO
+    // TO DO
   }
 
   public recountUnpaidAmount(value: number): void {
