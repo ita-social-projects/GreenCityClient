@@ -266,7 +266,8 @@ export interface DialogData {
 export interface CreateCertificate {
   code: string;
   monthCount: number;
-  points: number;
+  initialPointsValue: number;
+  points?: number;
 }
 
 export interface IFilteredColumn {

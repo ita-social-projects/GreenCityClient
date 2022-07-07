@@ -2,13 +2,13 @@ export const environment = {
   production: false,
   apiKeys: 'AIzaSyDanBliCzAuCZrsq67FeKEs3vqAilUD_is',
   apiMapKey: 'AIzaSyB3xs7Kczo46LFcQRFKPMdrE0lU4qsR_S4',
-  backendLink: 'http://localhost:8080/',
-  backendChatLink: 'http://localhost:8030/',
-  backendUserLink: 'http://localhost:8060/',
-  backendUbsLink: 'http://localhost:8050',
+  backendLink: 'https://greencity.testgreencity.ga/',
+  backendChatLink: 'https://greencity-chat.testgreencity.ga/',
+  backendUserLink: 'https://greencity-user.testgreencity.ga/',
+  backendUbsLink: 'https://greencity-ubs.testgreencity.ga',
   frontendLink: 'http://localhost:4200/GreenCityClient',
-  socket: 'http://localhost:8030/socket',
-  chatSocket: 'http://localhost:8030/socket',
+  socket: 'https://greencity.testgreencity.ga/socket',
+  chatSocket: 'https://greencity-chat.testgreencity.ga/socket',
   firebaseConfig: {
     apiKey: 'AIzaSyDSVxahTHqdffRX2upKIMXCCjEBUYoHX8E',
     authDomain: 'greencity-9bdb7.firebaseapp.com',
@@ -20,8 +20,7 @@ export const environment = {
     measurementId: 'G-CCHRKQ4R0S'
   },
   ubsAdmin: {
-    backendEmployeesLink: 'http://localhost:8050/admin/ubs-employee/getAll-active-employees',
-    backendUbsAdminLink: 'http://localhost:8050/ubs'
+    backendUbsAdminLink: 'https://greencity-ubs.testgreencity.ga/ubs'
   },
   googleClientId: '129513550972-eu9ej46rviv1ac8q14at62t2k5qon1pu.apps.googleusercontent.com',
   agmCoreModuleApiKey: 'AIzaSyC7q2v0VgRy60dAoItfv3IJhfJQEEoeqCI'
