@@ -32,7 +32,6 @@ export class UbsAdminOrderPaymentComponent implements OnInit, OnChanges, OnDestr
   public paymentInfo: IPaymentInfo;
   public paymentsArray: IPaymentInfoDto[];
   public currentOrderStatus: string;
-  public overpaymentCancelEnroller: boolean;
   private destroy$: Subject<boolean> = new Subject<boolean>();
 
   constructor(private orderService: OrderService, private dialog: MatDialog, private store: Store<IAppState>) {}

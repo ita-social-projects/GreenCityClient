@@ -57,7 +57,6 @@ export class UbsAdminOrderComponent implements OnInit, OnDestroy, AfterContentCh
   isMinOrder = true;
   isSubmitted = false;
   additionalPayment: string;
-  orderBonusDiscount: number;
   private matSnackBar: MatSnackBarComponent;
   private orderService: OrderService;
   constructor(
@@ -97,7 +96,6 @@ export class UbsAdminOrderComponent implements OnInit, OnDestroy, AfterContentCh
       .getOrderInfo(orderId)
       .pipe(takeUntil(this.destroy$))
       .subscribe((data: IOrderInfo) => {
-        console.log('DATA ', data);
         this.orderInfo = data;
         this.generalInfo = data.generalOrderInfo;
         this.currentOrderStatus = this.generalInfo.orderStatus;
@@ -109,7 +107,6 @@ export class UbsAdminOrderComponent implements OnInit, OnDestroy, AfterContentCh
         this.totalPaid = data.paymentTableInfoDto.paidAmount;
         this.overpayment = data.paymentTableInfoDto.overpayment;
         this.currentOrderPrice = data.orderFullPrice;
-        this.orderBonusDiscount = data.orderBonusDiscount;
         this.setOrderDetails();
         this.initForm();
         if (submitMode && this.overpayment && this.generalInfo.orderStatus === 'DONE') {
@@ -266,7 +263,6 @@ export class UbsAdminOrderComponent implements OnInit, OnDestroy, AfterContentCh
   }
 
   public onPaymentUpdate(sum: number): void {
-    console.log('PAYMENT UPDATE ', sum);
     this.totalPaid = sum;
   }
 
