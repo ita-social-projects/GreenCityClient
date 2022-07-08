@@ -197,6 +197,10 @@ label,
   text-align: center;
   font-size: 14px;
   color: var(--ubs-electric-violet);
+
+  p {
+    text-decoration: underline;
+  }
 }
 
 .btn:nth-child(1) {
@@ -289,5 +293,61 @@ label,
   small,
   input {
     font-size: 0.8rem;
+  }
+}
+
+.checkmark {
+  position: absolute;
+  top: 5px;
+  left: 4px;
+  height: 16px;
+  width: 16px;
+  background-color: var(--ubs-primary-white);
+  border-radius: 50%;
+  border: 1px solid var(--ubs-quaternary-dark-grey);
+
+  &::after {
+    content: '';
+    position: absolute;
+    display: none;
+  }
+}
+
+.custom-radio {
+  display: block;
+  position: relative;
+  padding-left: 28px;
+  margin-bottom: 0;
+  cursor: pointer;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+
+  & input {
+    position: absolute;
+    opacity: 0;
+    cursor: pointer;
+  }
+
+  &:hover input ~ .checkmark {
+    background-color: var(--ubs-primary-white);
+  }
+
+  & .checkmark::after {
+    top: 14%;
+    left: 15%;
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    background: var(--ubs-quaternary-dark-grey);
+  }
+
+  & input:checked ~ .checkmark {
+    background-color: var(--ubs-primary-white);
+
+    &::after {
+      display: block;
+    }
   }
 }
