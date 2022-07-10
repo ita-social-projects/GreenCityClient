@@ -37,7 +37,6 @@ export class UBSAddAddressPopUpComponent implements OnInit, OnDestroy, AfterView
   currentDistrict = '';
   isDisabled = false;
   streetTranslations: string[];
-  streetPattern = /^[A-Za-zА-Яа-яїЇіІєЄёЁ.\'\-\ \\]+[A-Za-zА-Яа-яїЇіІєЄёЁ0-9.\'\-\ \\]*$/;
   corpusPattern = /^[A-Za-zА-Яа-яїЇіІєЄёЁ0-9]{1,4}$/;
   housePattern = /^[A-Za-zА-Яа-яїЇіІєЄёЁ0-9\.\-\/\,\\]+$/;
   entranceNumberPattern = /^([1-9]\d*)?$/;
@@ -307,13 +306,10 @@ export class UBSAddAddressPopUpComponent implements OnInit, OnDestroy, AfterView
       cityEn: [this.data.edit ? this.data.address.cityEn : null, Validators.required],
       district: [this.data.edit ? this.data.address.district.split(' ')[0] : '', Validators.required],
       districtEn: [this.data.edit ? this.data.address.districtEn.split(' ')[0] : '', Validators.required],
-      street: [
-        this.data.edit ? this.data.address.street : '',
-        [Validators.required, Validators.minLength(3), Validators.maxLength(40), Validators.pattern(this.streetPattern)]
-      ],
+      street: [this.data.edit ? this.data.address.street : '', [Validators.required, Validators.minLength(3), Validators.maxLength(40)]],
       streetEn: [
         this.data.edit ? this.data.address.streetEn : '',
-        [Validators.required, Validators.minLength(3), Validators.maxLength(40), Validators.pattern(this.streetPattern)]
+        [Validators.required, Validators.minLength(3), Validators.maxLength(40)]
       ],
       houseNumber: [
         this.data.edit ? this.data.address.houseNumber : '',
