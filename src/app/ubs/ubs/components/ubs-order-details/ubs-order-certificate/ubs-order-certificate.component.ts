@@ -39,7 +39,7 @@ export class UbsOrderCertificateComponent implements OnInit, OnDestroy {
   ecoStoreMask = '0000000000';
   servicesMask = '000';
   certificatePattern = /(?!0000)\d{4}-(?!0000)\d{4}/;
-  commentPattern = /^[i\s]{0,255}(.){0,255}[i\s\S]{0,255}$/;
+  commentPattern = /^[i\S\n]{0,255}(.){0,255}[i\S\n]{0,255}$/;
   additionalOrdersPattern = /^\d{10}$/;
   certSize = false;
   showCertificateUsed = 0;
