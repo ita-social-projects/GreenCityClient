@@ -176,7 +176,7 @@ export class SignInComponent implements OnInit, OnDestroy, OnChanges {
     this.localStorageService.setFirstSignIn();
     this.userOwnAuthService.getDataFromLocalStorage();
     const getUbsRoleSignIn = this.jwtService.getUserRole();
-    const isUbsRoleAdmin = getUbsRoleSignIn === 'ROLE_ADMIN' ? ['ubs-admin', 'orders'] : null;
+    const isUbsRoleAdmin = getUbsRoleSignIn === 'ROLE_ADMIN' ? ['ubs-admin', 'orders'] : ['ubs'];
     this.jwtService.userRole$.next(getUbsRoleSignIn);
     this.router.navigate(this.isUbs ? isUbsRoleAdmin : ['profile', data.userId]);
   }
