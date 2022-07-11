@@ -433,12 +433,70 @@
     "surname": "Last name*",
     "surname-placeholder": "Last name",
     "phone-number": "Phone number*",
-    "position": "Position*",
-    "receiving-station": "Receiving station*",
+    "position": "Position",
+    "contacts": "Contacts",
+    "receiving-station": "Receiving station",
     "photo": "Photo",
     "drag-photo": "Drag the image or",
     "download-photo": "download from the device",
     "warning-title": "Are you sure you want to remove this employee from the system?",
+    "settings": "Set rights",
+    "edit": "Edit",
+    "rights": {
+      "clients": {
+        "title": "Clients",
+        "see-main-page": "See the main page of the Client"
+      },
+      "employees": {
+        "title": "Employees",
+        "see-main-page": "See the main page of the Employee",
+        "create-card": "Create a new employee card",
+        "edit-card": "Edit employee card",
+        "delete-card": "Delete an employee",
+        "edit-authority": "Edit an employee's authority"
+      },
+      "certificates": {
+        "title": "Certificates",
+        "see-main-page": "See the main page of Certificates",
+        "create-card": "Create a new certificate",
+        "edit-card": "Edit a certificate"
+      },
+      "orders": {
+        "title": "Orders",
+        "see-main-page": "See order card",
+        "edit-card": "Edit order card"
+      },
+      "messages": {
+        "title": "Messages",
+        "see-main-page": "See the main page of Messages",
+        "create-card": "Create a new message card",
+        "edit-card": "Edit message card",
+        "delete-card": "Delete message card"
+      },
+      "tariffs": {
+        "title": "Tariffs",
+        "see-main-page": "See the main page of Tariffs",
+        "create-location": "Create location",
+        "create-courier": "Create a courier",
+        "edit-location-name": "Edit location name",
+        "edit-courier-name": "Edit courier name",
+        "edit-destination-name": "Edit destination name",
+        "create-location-card": "Create a location map",
+        "delete-location-card": "Delete location card",
+        "see-price-card": "See the price card",
+        "edit-service": "Add/Edit/Delete service",
+        "edit-price-card": "Edit/Delete price card"
+      }
+    },
+    "tooltip": {
+      "title": "Employee card",
+      "text": "By clicking on the employee's card, you get all additional information about the employee: all positions, detailed information, etc., as well as the ability to edit the employee's data, adjust the employee's rights and delete the employee."
+    },
+    "actions": {
+      "edit": "Edit employee data",
+      "settings": "Set employee rights",
+      "delete": "Delete employee"
+    },
     "btn": {
       "cancel": "Cancel",
       "add": "Add",
@@ -461,6 +519,7 @@
   },
   "ubs-employee": {
     "add-employee": "Add employee",
+    "edit-employee": "Edit employee data",
     "employee": "Employee",
     "edit": "Edit",
     "required-fields": "*Required fields",
@@ -477,6 +536,7 @@
     "browse-2": "your device",
     "delete": "Remove",
     "add": "Add",
+    "apply": "Apply",
     "cancel": "Cancel",
     "update": "Update"
   },

@@ -35,6 +35,7 @@ export interface Page {
   lastName: string;
   phoneNumber: string;
   receivingStations: ReceivingStations[];
+  expanded?: boolean;
 }
 
 export interface EmployeePositions {
