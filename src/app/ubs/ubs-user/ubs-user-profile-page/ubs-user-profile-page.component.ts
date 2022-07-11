@@ -8,6 +8,7 @@ import { ClientProfileService } from 'src/app/ubs/ubs-user/services/client-profi
 import { UbsProfileDeletePopUpComponent } from './ubs-profile-delete-pop-up/ubs-profile-delete-pop-up.component';
 import { UbsProfileChangePasswordPopUpComponent } from './ubs-profile-change-password-pop-up/ubs-profile-change-password-pop-up.component';
 import { UBSAddAddressPopUpComponent } from 'src/app/shared/ubs-add-address-pop-up/ubs-add-address-pop-up.component';
+import { CourierLocations } from '../../ubs/models/ubs.interface';
 
 @Component({
   selector: 'app-ubs-user-profile-page',
@@ -40,6 +41,7 @@ export class UbsUserProfilePageComponent implements OnInit {
   phoneMask = '+{38\\0} (00) 000 00 00';
   currentLocation = {};
   maxAddressLength = 4;
+  locations: CourierLocations;
   private readonly regexp = /^([a-zа-яїєґі '-]){1,30}/iu;
   private readonly regexpEmail = /^[a-zA-Z0-9.!#$%&’*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/;
   private readonly regexpWithDigits = /^([a-zа-яїєґі0-9 '-])+$/iu;
@@ -175,7 +177,8 @@ export class UbsUserProfilePageComponent implements OnInit {
   }
 
   openAddAdressDialog(): void {
-    this.currentLocation = this.userProfile.addressDto[0].city;
+    this.locations = JSON.parse(localStorage.getItem('locations'));
+    this.currentLocation = this.locations.locationsDtosList[0].nameEn;
     const dialogConfig = new MatDialogConfig();
     dialogConfig.panelClass = 'address-matDialog-styles';
     dialogConfig.data = {
