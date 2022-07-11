@@ -7,13 +7,13 @@ import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { RouterModule } from '@angular/router';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { UBSInputErrorComponent } from '../ubs-input-error/ubs-input-error.component';
 import { UBSPersonalInformationComponent } from './ubs-personal-information.component';
 import { CUSTOM_ELEMENTS_SCHEMA, SimpleChange } from '@angular/core';
 import { IMaskModule } from 'angular-imask';
 import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
 import { Language } from 'src/app/main/i18n/Language';
 import { APP_BASE_HREF } from '@angular/common';
+import { UBSInputErrorComponent } from 'src/app/shared/ubs-input-error/ubs-input-error.component';
 
 describe('UBSPersonalInformationComponent', () => {
   let component: UBSPersonalInformationComponent;
