@@ -152,8 +152,8 @@
               (currentLocation === 'Київ' && address.city !== currentLocation) ||
               (currentLocation === 'Kyiv' && address.cityEn !== currentLocation)
             "
+            (click)="checkAddress(address.id)"
           />
-          <span class="checkmark" tabindex="0" (click)="checkAddress(address.id)"></span>
         </div>
         <app-address [address]="address" class="col-md-6"></app-address>
         <div class="edit-address" (click)="editAddress(address.id)">
