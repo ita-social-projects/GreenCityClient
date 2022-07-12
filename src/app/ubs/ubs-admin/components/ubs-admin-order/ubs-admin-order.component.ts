@@ -1,4 +1,4 @@
-import { Component, OnInit, OnDestroy, AfterContentChecked, ChangeDetectorRef, Injector } from '@angular/core';
+import { Component, OnInit, OnDestroy, AfterContentChecked, ChangeDetectorRef, Injector, ViewChild } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { ActivatedRoute, Params, Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
@@ -28,6 +28,7 @@ import { MatSnackBarComponent } from '@global-errors/mat-snack-bar/mat-snack-bar
 import { IAppState } from 'src/app/store/state/app.state';
 import { Store } from '@ngrx/store';
 import { ChangingOrderData } from 'src/app/store/actions/bigOrderTable.actions';
+import { UbsAdminOrderPaymentComponent } from '../ubs-admin-order-payment/ubs-admin-order-payment.component';
 
 @Component({
   selector: 'app-ubs-admin-order',
@@ -72,6 +73,9 @@ export class UbsAdminOrderComponent implements OnInit, OnDestroy, AfterContentCh
     this.matSnackBar = injector.get<MatSnackBarComponent>(MatSnackBarComponent);
     this.orderService = injector.get<OrderService>(OrderService);
   }
+
+  @ViewChild(UbsAdminOrderPaymentComponent) orderPaymentComponent: UbsAdminOrderPaymentComponent;
+
   ngAfterContentChecked(): void {
     this.changeDetector.detectChanges();
   }
@@ -84,10 +88,10 @@ export class UbsAdminOrderComponent implements OnInit, OnDestroy, AfterContentCh
     this.route.params.subscribe((params: Params) => {
       this.orderId = +params.id;
     });
-    this.getOrderInfo(this.orderId);
+    this.getOrderInfo(this.orderId, false);
   }
 
-  public getOrderInfo(orderId): void {
+  public getOrderInfo(orderId: number, submitMode: boolean): void {
     this.orderService
       .getOrderInfo(orderId)
       .pipe(takeUntil(this.destroy$))
@@ -105,6 +109,12 @@ export class UbsAdminOrderComponent implements OnInit, OnDestroy, AfterContentCh
         this.currentOrderPrice = data.orderFullPrice;
         this.setOrderDetails();
         this.initForm();
+        if (submitMode && this.overpayment && this.generalInfo.orderStatus === 'DONE') {
+          this.orderPaymentComponent.enrollToBonusAccount(this.overpayment);
+        }
+        if (submitMode && this.currentOrderStatus === 'CANCELED') {
+          this.orderPaymentComponent.setCancelOrderOverpayment(this.totalPaid);
+        }
       });
   }
 
@@ -252,10 +262,13 @@ export class UbsAdminOrderComponent implements OnInit, OnDestroy, AfterContentCh
     this.orderForm.markAsDirty();
   }
 
+  public onPaymentUpdate(sum: number): void {
+    this.totalPaid = sum;
+  }
+
   public changeOverpayment(sum: number): void {
     this.overpayment = sum;
   }
-
   public onChangeCurrentPrice(sum: number) {
     this.currentOrderPrice = sum;
   }
@@ -345,8 +358,8 @@ export class UbsAdminOrderComponent implements OnInit, OnDestroy, AfterContentCh
       .subscribe((response) => {
         response.ok ? this.matSnackBar.snackType.changesSaved() : this.matSnackBar.snackType.error();
         if (response.ok) {
-          this.getOrderInfo(this.orderId);
-          Object.keys(changedValues.generalOrderInfo).forEach((key: string) => {
+          this.getOrderInfo(this.orderId, true);
+          Object.keys(changedValues?.generalOrderInfo).forEach((key: string) => {
             if (changedValues.generalOrderInfo[key]) {
               this.postDataItem([this.orderId], key, changedValues.generalOrderInfo[key]);
             }

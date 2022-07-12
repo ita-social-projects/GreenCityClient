@@ -7,8 +7,7 @@ import {
   OnDestroy,
   OnInit,
   Renderer2,
-  ViewChild,
-  ViewEncapsulation
+  ViewChild
 } from '@angular/core';
 import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
 import { MatTable, MatTableDataSource } from '@angular/material/table';
@@ -28,8 +27,7 @@ import { Filters } from './filters.interface';
 @Component({
   selector: 'app-ubs-admin-customers',
   templateUrl: './ubs-admin-customers.component.html',
-  styleUrls: ['./ubs-admin-customers.component.scss'],
-  encapsulation: ViewEncapsulation.None
+  styleUrls: ['./ubs-admin-customers.component.scss']
 })
 export class UbsAdminCustomersComponent implements OnInit, AfterViewChecked, OnDestroy {
   public isLoading = false;

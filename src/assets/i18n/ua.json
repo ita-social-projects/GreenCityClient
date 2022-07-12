@@ -107,8 +107,12 @@
     },
     "events": {
       "title": "Події",
+      "delete-title": "Видалити подію",
       "delete-yes": "так",
-      "delete-no": "ні"
+      "delete-no": "ні",
+      "my-space": {
+        "tag-title": "Мої події"
+      }
     },
     "eco-advices": {
       "caption": "Еко поради"

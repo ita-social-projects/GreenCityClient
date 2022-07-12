@@ -37,10 +37,14 @@ export class UbsAdminOrderDetailsFormComponent implements OnInit, OnChanges {
   @Input() orderDetailsOriginal: IOrderDetails;
   @Input() orderDetailsForm: FormGroup;
   @Input() orderStatusInfo;
+  @Input() totalPaid: number;
 
   constructor(private fb: FormBuilder, private orderService: OrderService) {}
 
   ngOnChanges(changes: SimpleChanges) {
+    if (changes.totalPaid) {
+      this.updateOverpayment(changes.totalPaid.currentValue - changes.totalPaid.previousValue);
+    }
     if (changes.orderDetailsForm) {
       this.resetOrderDetails();
       this.recalculateSum();
@@ -175,6 +179,11 @@ export class UbsAdminOrderDetailsFormComponent implements OnInit, OnChanges {
       this.overpaymentMessage = this.orderService.getOverpaymentMsg(this.overpayment);
       this.overpayment = Math.abs(this.overpayment);
     }
+  }
+
+  private updateOverpayment(sum: number): void {
+    this.overpayment += sum;
+    this.overpaymentMessage = this.orderService.getOverpaymentMsg(this.overpayment);
   }
 
   private setFinalFullPrice() {

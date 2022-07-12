@@ -43,6 +43,11 @@
     </tr>
   </table>
   <div class="recipient" *ngIf="order.orderComment !== ''">
+    <h6 class="bold_text">{{ 'user-orders.details.delivery' | translate }}</h6>
+    <p class="additional_orders_bold_text">
+      {{ 'user-orders.details.order-number' | translate }}
+      <span>{{ order.additionalOrders.join(', ') }}</span>
+    </p>
     <h6 class="bold_text">{{ 'user-orders.details.comment-order' | translate }}</h6>
     <p>{{ order.orderComment }}</p>
   </div>

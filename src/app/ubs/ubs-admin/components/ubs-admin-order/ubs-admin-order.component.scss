@@ -1,6 +1,10 @@
 .container {
   margin-top: 100px;
   margin-bottom: 100px;
+
+  &.spin-padding {
+    padding: 40px;
+  }
 }
 
 @media (min-width: 1200px) {
@@ -58,9 +62,29 @@ button:disabled {
   background-color: transparent;
 }
 
+.cancel-button[disabled]:hover {
+  background-color: var(--ubs-quintynary-light-grey);
+}
+
+.cancel-button:hover {
+  background-color: #eff0f1;
+}
+
+.cancel-button:focus {
+  background-color: var(--ubs-quaternary-light-grey);
+}
+
 .save-button {
   border: none;
   background-color: var(--ubs-button-light-green);
+}
+
+.save-button:hover {
+  background-color: var(--ubs-button-dark-green);
+}
+
+.save-button:focus {
+  background-color: var(--ubs-primary-light-green);
 }
 
 .controls {
@@ -105,4 +129,8 @@ button:disabled {
 .save-button[disabled]:hover .inform-window {
   visibility: visible;
   opacity: 1;
+}
+
+.save-button[disabled]:hover {
+  background-color: var(--ubs-quintynary-light-grey);
 }

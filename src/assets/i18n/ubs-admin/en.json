@@ -373,7 +373,7 @@
     "get-bonuses": "Find out what bonuses are accrued for",
     "title": "Bonuses",
     "about-bonuses-system": "About the bonus system",
-    "enrollment-date": "Date of enrollment",
+    "enrollment-date": "Date",
     "amount": "Amount",
     "reason": "Reason",
     "order": "Order"
@@ -412,7 +412,7 @@
       "amount-due": "Amount due:",
       "services-amount": "Amount of services provided:",
       "paid-amount": "Paid:",
-      "delivery": "Delivery from the Eco store",
+      "delivery": "Delivery of orders from the Eco-store",
       "order-number": "Numbers of your orders:",
       "recipient": "Sender",
       "export-address": "The address of export of the ordered services",
@@ -433,12 +433,70 @@
     "surname": "Last name*",
     "surname-placeholder": "Last name",
     "phone-number": "Phone number*",
-    "position": "Position*",
-    "receiving-station": "Receiving station*",
+    "position": "Position",
+    "contacts": "Contacts",
+    "receiving-station": "Receiving station",
     "photo": "Photo",
     "drag-photo": "Drag the image or",
     "download-photo": "download from the device",
     "warning-title": "Are you sure you want to remove this employee from the system?",
+    "settings": "Set rights",
+    "edit": "Edit",
+    "rights": {
+      "clients": {
+        "title": "Clients",
+        "see-main-page": "See the main page of the Client"
+      },
+      "employees": {
+        "title": "Employees",
+        "see-main-page": "See the main page of the Employee",
+        "create-card": "Create a new employee card",
+        "edit-card": "Edit employee card",
+        "delete-card": "Delete an employee",
+        "edit-authority": "Edit an employee's authority"
+      },
+      "certificates": {
+        "title": "Certificates",
+        "see-main-page": "See the main page of Certificates",
+        "create-card": "Create a new certificate",
+        "edit-card": "Edit a certificate"
+      },
+      "orders": {
+        "title": "Orders",
+        "see-main-page": "See order card",
+        "edit-card": "Edit order card"
+      },
+      "messages": {
+        "title": "Messages",
+        "see-main-page": "See the main page of Messages",
+        "create-card": "Create a new message card",
+        "edit-card": "Edit message card",
+        "delete-card": "Delete message card"
+      },
+      "tariffs": {
+        "title": "Tariffs",
+        "see-main-page": "See the main page of Tariffs",
+        "create-location": "Create location",
+        "create-courier": "Create a courier",
+        "edit-location-name": "Edit location name",
+        "edit-courier-name": "Edit courier name",
+        "edit-destination-name": "Edit destination name",
+        "create-location-card": "Create a location map",
+        "delete-location-card": "Delete location card",
+        "see-price-card": "See the price card",
+        "edit-service": "Add/Edit/Delete service",
+        "edit-price-card": "Edit/Delete price card"
+      }
+    },
+    "tooltip": {
+      "title": "Employee card",
+      "text": "By clicking on the employee's card, you get all additional information about the employee: all positions, detailed information, etc., as well as the ability to edit the employee's data, adjust the employee's rights and delete the employee."
+    },
+    "actions": {
+      "edit": "Edit employee data",
+      "settings": "Set employee rights",
+      "delete": "Delete employee"
+    },
     "btn": {
       "cancel": "Cancel",
       "add": "Add",
@@ -455,12 +513,12 @@
     "orders": "Orders",
     "employees": "Employees",
     "documents": "Documents",
-    "schedule": "Schedule",
     "bonuses": "Bonuses",
     "tariffs": "Tariffs"
   },
   "ubs-employee": {
     "add-employee": "Add employee",
+    "edit-employee": "Edit employee data",
     "employee": "Employee",
     "edit": "Edit",
     "required-fields": "*Required fields",
@@ -477,12 +535,13 @@
     "browse-2": "your device",
     "delete": "Remove",
     "add": "Add",
+    "apply": "Apply",
     "cancel": "Cancel",
     "update": "Update"
   },
   "ubs-user": {
     "orders": "Orders",
-    "invoice": "Invoice",
+    "invoice": "Bonuses",
     "user_data": "User data",
     "messages": "Messages",
     "user": "User"
@@ -699,5 +758,51 @@
   },
   "ubs-messages": {
     "message": "You do not have any messages yet."
+  },
+  "personal-info": {
+    "address-city": "city",
+    "address-corp": "corp",
+    "address-entrance": "entrance",
+    "address-district": "district",
+    "pop-up-region": "Region",
+    "pop-up-region-name": "Kyiv region",
+    "pop-up-title": "New address",
+    "pop-up-title-edit": "Edit address",
+    "pop-up-city": "City",
+    "pop-up-city-name": "Kyiv",
+    "pop-up-district": "District",
+    "pop-up-street": "Street",
+    "pop-up-house": "House",
+    "pop-up-corps": "Corp",
+    "pop-up-entrance": "Entrance",
+    "pop-up-cancel": "Cancel",
+    "pop-up-delete": "Delete",
+    "pop-up-add-address": "Add address",
+    "pop-up-save-changes": "Save changes",
+    "pop-up-enter-you-location": "Enter a location",
+    "pop-up-comment-placeholder": "The road is under repair. Access to the house is available from the house number 15.",
+    "info-personal-data": "Personal data",
+    "info-other-client": "The recipient is another person",
+    "info-name": "Name",
+    "info-phone": "Phone number",
+    "info-surname": "Surname",
+    "info-optionally": "optionally",
+    "info-address": "Garbage collection address",
+    "info-no-address": "You have no addresses added. Please add an address.",
+    "info-add-address": "Add address",
+    "info-address-coment": "Comment to the address",
+    "info-coment-placeholder": "Any details you would like to tell us further",
+    "info-back": "Back",
+    "info-cancel": "Cancel",
+    "info-next": "Next",
+    "first-order": "Please note, the Courier picks up the packages at the entrance and does not go upstairs"
+  },
+  "input-error": {
+    "required": "This field is required.",
+    "email-wrong": "Please enter the correct email.",
+    "number-wrong": "Enter the correct phone number",
+    "minlength-short": "The field contains insufficient characters.",
+    "max-length": "Maximum number of characters exceeded.",
+    "pattern": "The field contains forbidden characters."
   }
 }

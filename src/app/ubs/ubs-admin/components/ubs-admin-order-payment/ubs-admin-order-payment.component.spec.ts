@@ -303,10 +303,10 @@ describe('UbsAdminOrderPaymentComponent', () => {
     expect(component.overpayment).toBe(fakeModuleOverPayment);
   });
 
-  it('method accessOnCanceledStatus', () => {
-    expect(component.accessOnCanceledStatus()).toBeFalsy();
+  it('method isOverpaymentReturnAvailable', () => {
+    expect(component.isOverpaymentReturnAvailable()).toBeFalsy();
     component.currentOrderStatus = 'CANCELED';
-    expect(component.accessOnCanceledStatus()).toBeTruthy();
+    expect(component.isOverpaymentReturnAvailable()).toBeTruthy();
   });
 
   it('method positivePaymentsArrayAmount', () => {

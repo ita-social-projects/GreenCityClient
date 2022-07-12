@@ -103,24 +103,6 @@
       <div class="bottom">
         <h3>{{ 'order-details.eco-shop' | translate }}</h3>
         <h5>{{ 'order-details.shop-order-question' | translate }}</h5>
-        <div class="radio-btn">
-          <label class="custom-radio-btn"
-            >{{ 'order-details.no' | translate }}
-            <input formControlName="shop" type="radio" value="no" (click)="clearOrderValues()" tabindex="-1" />
-            <span class="checkmark" tabindex="0" (keyup)="selectShopRadioBtn($event, 'no')"></span>
-          </label>
-          <label class="custom-radio-btn"
-            >{{ 'order-details.yes' | translate }}
-            <input
-              formControlName="shop"
-              type="radio"
-              value="yes"
-              tabindex="-1"
-              (click)="renderer.selectRootElement('#index' + (additionalOrders.controls.length - 1)).focus()"
-            />
-            <span class="checkmark" tabindex="0" (keyup)="selectShopRadioBtn($event, 'yes')"></span>
-          </label>
-        </div>
         <div class="form-group shop_submit">
           <div class="bottom-text">
             <p>{{ 'order-details.cant-found-order' | translate }}</p>
@@ -138,7 +120,7 @@
               [formControlName]="i"
               class="shadow-none form-control border-input p-2 eco-store-input"
               type="text"
-              placeholder="xxxxxxxxxx"
+              placeholder="xxxxx-xxxxx"
               [unmask]="false"
               [imask]="{ mask: ecoStoreMask }"
               [pattern]="additionalOrdersPattern"
