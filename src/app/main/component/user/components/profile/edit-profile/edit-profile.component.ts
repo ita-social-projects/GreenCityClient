@@ -11,6 +11,7 @@ import { LocalStorageService } from '@global-service/localstorage/local-storage.
 import { TranslateService } from '@ngx-translate/core';
 import { Subscription } from 'rxjs';
 import { FormBaseComponent } from '@shared/components/form-base/form-base.component';
+import { Patterns } from 'src/assets/patterns/patterns';
 
 @Component({
   selector: 'app-edit-profile',
@@ -52,8 +53,8 @@ export class EditProfileComponent extends FormBaseComponent implements OnInit, O
   public checkLocation = false;
   public checkEcoPlaces = false;
   public checkShoppingList = false;
-  public namePattern = /^(?!\.)(?!.*\.$)(?!.*?\.\.)[іІєЄїЇёЁa-zA-Zа-яА-Я0-9.\ '’-]{6,30}$/;
-  public cityPattern = /^[іІєЄїЇёЁa-zA-Zа-яА-Я][іІєЄїЇёЁa-zA-Zа-яА-Я\-,’)( ]*$/;
+  public namePattern = Patterns.NamePattern;
+  public cityPattern = Patterns.profileCityPattern;
   public builder: EditProfileFormBuilder;
   private editProfileService: EditProfileService;
   private profileService: ProfileService;

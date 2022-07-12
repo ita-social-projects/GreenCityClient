@@ -8,6 +8,7 @@ import { Subject } from 'rxjs';
 import { CreateEditTariffsServicesFormBuilder } from '../../../../services/create-edit-tariffs-service-form-builder';
 import { DatePipe } from '@angular/common';
 import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
+import { Patterns } from 'src/assets/patterns/patterns';
 
 @Component({
   selector: 'app-ubs-admin-tariffs-add-service-pop-up',
@@ -21,7 +22,6 @@ export class UbsAdminTariffsAddServicePopUpComponent implements OnInit, OnDestro
   langCode: string;
   receivedData;
   loadingAnim: boolean;
-  namePattern = /^[А-Яа-яїЇіІєЄёЁ ]+$/;
   addServiceForm: FormGroup;
   private destroy: Subject<boolean> = new Subject<boolean>();
   name: string;
@@ -62,8 +62,8 @@ export class UbsAdminTariffsAddServicePopUpComponent implements OnInit, OnDestro
       name: new FormControl({ value: this.receivedData.serviceData.name, disabled: true }),
       englishName: new FormControl(''),
       capacity: new FormControl({ value: this.receivedData.serviceData.capacity, disabled: true }),
-      price: new FormControl('', [Validators.required, Validators.pattern('[0-9]{1,3}')]),
-      commission: new FormControl('', [Validators.required, Validators.pattern('[0-9]{1,3}')]),
+      price: new FormControl('', [Validators.required, Validators.pattern(Patterns.ubsPrice)]),
+      commission: new FormControl('', [Validators.required, Validators.pattern(Patterns.ubsPrice)]),
       description: new FormControl({ value: this.receivedData.serviceData.description, disabled: true }),
       englishDescription: new FormControl({ value: this.receivedData.serviceData.description, disabled: true })
     });

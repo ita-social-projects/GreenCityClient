@@ -23,6 +23,7 @@ import { checkImages, dataURLtoFile, quillConfig } from './quillEditorFunc';
 import { ActionsSubject, Store } from '@ngrx/store';
 import { CreateEcoNewsAction, EditEcoNewsAction, NewsActions } from 'src/app/store/actions/ecoNews.actions';
 import { ofType } from '@ngrx/effects';
+import { Patterns } from 'src/assets/patterns/patterns';
 
 @Component({
   selector: 'app-create-edit-news',
@@ -222,7 +223,7 @@ export class CreateEditNewsComponent extends FormBaseComponent implements OnInit
   public onSourceChange(): void {
     if (this.form) {
       this.form.get('source').valueChanges.subscribe((source: string) => {
-        this.isLinkOrEmpty = /^$|^https?:\/\//.test(source);
+        this.isLinkOrEmpty = Patterns.linkPattern.test(source);
       });
     }
   }
