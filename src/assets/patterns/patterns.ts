@@ -3,6 +3,11 @@ export const Patterns = {
 
   NamePattern: /^(?!\.)(?!.*\.$)(?!.*?\.\.)[іІєЄїЇёЁa-zA-Zа-яА-Я0-9.\ '’-]{6,30}$/,
 
+  regexpName: /^(?!\.)(?!.*\.$)(?!.*?\.\.)[a-zA-Z0-9_.]{6,29}$/gi,
+  regexpPass: /^(?=.*[a-z]+)(?=.*[A-Z]+)(?=.*\d+)(?=.*[~`!@#$%^&*()+=_\-{}|:;”’?/<>,.\]\[]+).{8,}$/,
+
+  Base64Regex: /data:image\/([a-zA-Z]*);base64,([^"]*)/g,
+
   profileCityPattern: /^[іІєЄїЇёЁa-zA-Zа-яА-Я][іІєЄїЇёЁa-zA-Zа-яА-Я\-,’)( ]*$/,
 
   ubsCorpusPattern: /^[A-Za-zА-Яа-яїЇіІєЄёЁ0-9]{1,4}$/,
@@ -23,6 +28,8 @@ export const Patterns = {
 
   ubsCityPattern: /^([a-zа-яїєґі '-]){1,30}/iu,
   ubsWithDigitPattern: /^([a-zа-яїєґі0-9 '-])+$/iu,
+
+  urlPattern: /^(https?):\/\/(-\.)?([^\s\/?\.#]+\.?)+(\/[^\s]*)?$/i,
 
   adminPhone: '^\\+?3?8?(0\\d{9})$'
 };

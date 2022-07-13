@@ -3,6 +3,7 @@ import { ControlValueAccessor, NgModel, NG_VALUE_ACCESSOR } from '@angular/forms
 import { MatDialog } from '@angular/material/dialog';
 import { WarningPopUpComponent } from '@shared/components';
 import { take } from 'rxjs/operators';
+import { Patterns } from 'src/assets/patterns/patterns';
 
 @Component({
   selector: 'app-social-networks',
@@ -24,7 +25,7 @@ export class SocialNetworksComponent implements ControlValueAccessor {
     defaultIcon: './assets/img/profile/icons/default_social.svg'
   };
 
-  public urlValidationRegex = /^(https?):\/\/(-\.)?([^\s\/?\.#]+\.?)+(\/[^\s]*)?$/i;
+  public urlValidationRegex = Patterns.urlPattern;
   public showInput = false;
   public inputTextValue;
   public editedSocialLink: any = false;

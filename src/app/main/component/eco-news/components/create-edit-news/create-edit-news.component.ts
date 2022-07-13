@@ -256,7 +256,7 @@ export class CreateEditNewsComponent extends FormBaseComponent implements OnInit
 
       this.createEcoNewsService.sendImagesData(imgFiles).subscribe(
         (response) => {
-          const findBase64Regex = /data:image\/([a-zA-Z]*);base64,([^"]*)/g;
+          const findBase64Regex = Patterns.Base64Regex;
           response.forEach((link) => {
             this.editorHTML = this.editorHTML.replace(findBase64Regex, link);
           });
@@ -307,7 +307,7 @@ export class CreateEditNewsComponent extends FormBaseComponent implements OnInit
 
       this.createEcoNewsService.sendImagesData(imgFiles).subscribe(
         (response) => {
-          const findBase64Regex = /data:image\/([a-zA-Z]*);base64,([^"]*)/g;
+          const findBase64Regex = Patterns.Base64Regex;
           response.forEach((link) => {
             this.editorHTML = this.editorHTML.replace(findBase64Regex, link);
           });
