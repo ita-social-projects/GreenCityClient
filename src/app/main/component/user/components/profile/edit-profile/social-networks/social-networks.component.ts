@@ -25,7 +25,7 @@ export class SocialNetworksComponent implements ControlValueAccessor {
     defaultIcon: './assets/img/profile/icons/default_social.svg'
   };
 
-  public urlValidationRegex = Patterns.urlPattern;
+  public urlValidationRegex = Patterns.linkPattern;
   public showInput = false;
   public inputTextValue;
   public editedSocialLink: any = false;
