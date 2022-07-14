@@ -41,10 +41,6 @@ export class UbsUserProfilePageComponent implements OnInit {
   phoneMask = Masks.phoneMask;
   currentLocation = {};
   maxAddressLength = 4;
-  private readonly regexp = Patterns.ubsCityPattern;
-  private readonly regexpEmail = Patterns.ubsMailPattern;
-  private readonly regexpWithDigits = Patterns.ubsWithDigitPattern;
-
   constructor(public dialog: MatDialog, private clientProfileService: ClientProfileService, private snackBar: MatSnackBarComponent) {}
 
   ngOnInit(): void {
@@ -77,13 +73,29 @@ export class UbsUserProfilePageComponent implements OnInit {
     const addres = new FormArray([]);
     this.userProfile.addressDto.forEach((adres) => {
       const seperateAddress = new FormGroup({
-        city: new FormControl(adres?.city, [Validators.pattern(this.regexp), Validators.maxLength(20)]),
-        street: new FormControl(adres?.street, [Validators.pattern(this.regexpWithDigits), Validators.maxLength(30)]),
-        houseNumber: new FormControl(adres?.houseNumber, [Validators.pattern(this.regexpWithDigits), Validators.maxLength(4)]),
-        houseCorpus: new FormControl(adres?.houseCorpus, [Validators.pattern(this.regexpWithDigits), Validators.maxLength(4)]),
-        entranceNumber: new FormControl(adres?.entranceNumber, [Validators.pattern(this.regexpWithDigits), Validators.maxLength(4)]),
-        region: new FormControl(adres?.region, [Validators.pattern(this.regexpWithDigits), Validators.maxLength(20)]),
-        district: new FormControl(adres?.district, [Validators.pattern(this.regexpWithDigits), Validators.maxLength(20)])
+        city: new FormControl(adres?.city, [Validators.required, Validators.pattern(Patterns.ubsCityPattern), Validators.maxLength(20)]),
+        street: new FormControl(adres?.street, [
+          Validators.required,
+          Validators.pattern(Patterns.ubsWithDigitPattern),
+          Validators.maxLength(30)
+        ]),
+        houseNumber: new FormControl(adres?.houseNumber, [
+          Validators.required,
+          Validators.pattern(Patterns.ubsHouseNumberPattern),
+          Validators.maxLength(8)
+        ]),
+        houseCorpus: new FormControl(adres?.houseCorpus, [Validators.pattern(Patterns.ubsWithDigitPattern), Validators.maxLength(8)]),
+        entranceNumber: new FormControl(adres?.entranceNumber, [Validators.pattern(Patterns.ubsEntrNumPattern), Validators.maxLength(2)]),
+        region: new FormControl(adres?.region, [
+          Validators.required,
+          Validators.pattern(Patterns.ubsWithDigitPattern),
+          Validators.maxLength(20)
+        ]),
+        district: new FormControl(adres?.district, [
+          Validators.required,
+          Validators.pattern(Patterns.ubsWithDigitPattern),
+          Validators.maxLength(20)
+        ])
       });
       addres.push(seperateAddress);
     });
@@ -91,15 +103,15 @@ export class UbsUserProfilePageComponent implements OnInit {
       address: addres,
       recipientName: new FormControl(this.userProfile?.recipientName, [
         Validators.required,
-        Validators.pattern(this.regexp),
+        Validators.pattern(Patterns.ubsCityPattern),
         Validators.maxLength(30)
       ]),
       recipientSurname: new FormControl(this.userProfile?.recipientSurname, [
         Validators.required,
-        Validators.pattern(this.regexp),
+        Validators.pattern(Patterns.ubsCityPattern),
         Validators.maxLength(30)
       ]),
-      recipientEmail: new FormControl(this.userProfile?.recipientEmail, [Validators.required, Validators.pattern(this.regexpEmail)]),
+      recipientEmail: new FormControl(this.userProfile?.recipientEmail, [Validators.required, Validators.pattern(Patterns.ubsMailPattern)]),
       recipientPhone: new FormControl(`+380${this.userProfile?.recipientPhone}`, [Validators.required, Validators.minLength(12)])
     });
     this.isFetching = false;
@@ -200,7 +212,7 @@ export class UbsUserProfilePageComponent implements OnInit {
 
   toggleAlternativeEmail() {
     const control = new FormControl(this.userProfile?.alternateEmail, [
-      Validators.pattern(this.regexpEmail),
+      Validators.pattern(Patterns.ubsMailPattern),
       Validators.minLength(3),
       Validators.maxLength(66),
       Validators.email
