@@ -1,5 +1,10 @@
 export const listElementsAdmin: object[] = [
   {
+    link: 'assets/img/sidebarIcons/shopping-cart_icon.svg',
+    name: 'ubs-sidebar.orders',
+    routerLink: 'orders'
+  },
+  {
     link: 'assets/img/sidebarIcons/user_icon.svg',
     name: 'ubs-sidebar.customers',
     routerLink: 'customers'
@@ -10,11 +15,6 @@ export const listElementsAdmin: object[] = [
     routerLink: 'certificates'
   },
   {
-    link: 'assets/img/sidebarIcons/shopping-cart_icon.svg',
-    name: 'ubs-sidebar.orders',
-    routerLink: 'orders'
-  },
-  {
     link: 'assets/img/sidebarIcons/workers_icon.svg',
     name: 'ubs-sidebar.employees',
     routerLink: 'employee/1'
@@ -22,11 +22,6 @@ export const listElementsAdmin: object[] = [
   {
     link: 'assets/img/sidebarIcons/documents_icon.svg',
     name: 'ubs-sidebar.documents',
-    routerLink: '#'
-  },
-  {
-    link: 'assets/img/sidebarIcons/calendar_icon.svg',
-    name: 'ubs-sidebar.schedule',
     routerLink: '#'
   },
   {

@@ -1,4 +1,4 @@
-import { Observable } from 'rxjs';
+import { BehaviorSubject, Observable } from 'rxjs';
 import { Employees } from '../models/ubs-admin.interface';
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
@@ -8,7 +8,8 @@ import { ubsAdminEmployeeLink, ubsAdminStationLink } from 'src/app/main/links';
   providedIn: 'root'
 })
 export class UbsAdminEmployeeService {
-  getAllEmployees = `${ubsAdminEmployeeLink}/getAll-active-employees`;
+  public getAllEmployees = `${ubsAdminEmployeeLink}/getAll-active-employees`;
+  public searchValue: BehaviorSubject<string> = new BehaviorSubject<string>('');
 
   constructor(private http: HttpClient) {}
 

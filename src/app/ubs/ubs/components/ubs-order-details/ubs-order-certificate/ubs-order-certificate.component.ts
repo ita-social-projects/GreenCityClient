@@ -297,6 +297,11 @@ export class UbsOrderCertificateComponent implements OnInit, OnDestroy {
   public selectPointsRadioBtn(event: KeyboardEvent, radioButtonValue: string) {
     if (['Enter', 'Space', 'NumpadEnter'].includes(event.code)) {
       this.orderDetailsForm.controls.bonus.setValue(radioButtonValue);
+      if (radioButtonValue === 'yes') {
+        this.calculatePoints();
+      } else {
+        this.resetPoints();
+      }
     }
   }
 

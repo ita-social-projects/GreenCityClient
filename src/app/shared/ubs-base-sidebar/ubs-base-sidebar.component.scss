@@ -9,7 +9,7 @@
   .sidebar {
     .sidebar-container {
       margin-left: 25px;
-      width: calc(100% - 100px);
+      width: calc(100% - 50px);
     }
 
     .sidebar-slider {
@@ -120,7 +120,7 @@
 
     .sidebar {
       .sidebar-container {
-        width: 100%;
+        width: 100% !important;
         margin-bottom: 125px;
       }
 
@@ -153,14 +153,4 @@
       margin-left: 85px !important;
     }
   }
-}
-
-@media (max-height: 350px) {
-  //.mobile-sidebar {
-  //  display: block !important;
-  //}
-  //
-  //.sidebar-icons {
-  //  display: none;
-  //}
 }

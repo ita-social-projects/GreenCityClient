@@ -170,7 +170,7 @@ export const columnsParamsCertificates = [
   },
   {
     title: {
-      key: 'points',
+      key: 'initialPointsValue',
       ua: 'Значення',
       en: 'Points'
     },

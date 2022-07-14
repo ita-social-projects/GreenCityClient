@@ -68,14 +68,15 @@ jobs:
 
       - name: Build
         run: |
-          npx ng build --prod --delete-output-path --base-href=/GreenCityClient/ --outputPath=dist_aot && rm -rf dist_aot
-          npx ng build --prod --base-href=/GreenCityClient/ --aot=false --build-optimizer=false
+          npx ng build --prod --delete-output-path --base-href=/GreenCityClient/ --outputPath=dist_aot
+#          npx ng build --prod --delete-output-path --base-href=/GreenCityClient/ --outputPath=dist_aot && rm -rf dist_aot
+#          npx ng build --prod --base-href=/GreenCityClient/ --aot=false --build-optimizer=false
 
-      - name: Deploy 🚀
-        if: ${{ github.event_name == 'push' }}
-        uses: JamesIves/github-pages-deploy-action@3.7.1
-        with:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          BRANCH: gh-pages
-          FOLDER: dist/GreenCityClient
-          CLEAN: true
+#       - name: Deploy 🚀
+#         if: ${{ github.event_name == 'push' }}
+#         uses: JamesIves/github-pages-deploy-action@3.7.1
+#         with:
+#           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+#           BRANCH: gh-pages
+#           FOLDER: dist/GreenCityClient
+#           CLEAN: true

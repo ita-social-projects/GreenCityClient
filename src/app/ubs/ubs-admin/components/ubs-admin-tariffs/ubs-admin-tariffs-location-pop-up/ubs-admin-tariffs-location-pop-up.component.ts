@@ -81,7 +81,6 @@ export class UbsAdminTariffsLocationPopUpComponent implements OnInit, AfterViewC
   citySelected = false;
   cityExist = false;
   editedCityExist = false;
-  uaregions = [];
   cities = [];
   filteredRegions;
   filteredCities = [];
@@ -162,18 +161,20 @@ export class UbsAdminTariffsLocationPopUpComponent implements OnInit, AfterViewC
       this.filteredCities = res;
     });
     this.regionId = currentRegion[0].regionId;
-    this.cities = currentRegion.map((element) =>
-      element.locationsDto.map((item) =>
-        item.locationTranslationDtoList.filter((it) => it.languageCode === 'ua').map((it) => it.locationName)
+    this.cities = currentRegion
+      .map((element) =>
+        element.locationsDto.map((item) =>
+          item.locationTranslationDtoList.filter((it) => it.languageCode === 'ua').map((it) => it.locationName)
+        )
       )
-    );
-    this.enCities = currentRegion.map((element) =>
-      element.locationsDto.map((item) =>
-        item.locationTranslationDtoList.filter((it) => it.languageCode === 'en').map((it) => it.locationName)
+      .flat(2);
+    this.enCities = currentRegion
+      .map((element) =>
+        element.locationsDto.map((item) =>
+          item.locationTranslationDtoList.filter((it) => it.languageCode === 'en').map((it) => it.locationName)
+        )
       )
-    );
-    this.cities = this.cities.reduce((acc, val) => acc.concat(val), []).reduce((acc, val) => acc.concat(val), []);
-    this.enCities = this.enCities.reduce((acc, val) => acc.concat(val), []).reduce((acc, val) => acc.concat(val), []);
+      .flat(2);
   }
 
   translate(sourceText: string, input: any): void {
@@ -262,10 +263,13 @@ export class UbsAdminTariffsLocationPopUpComponent implements OnInit, AfterViewC
   }
 
   selectedEditRegion(event): void {
-    const enValue = this.locations.filter((it) => it.regionTranslationDtos.find((ob) => ob.regionName === event.option.value.toString()));
-    this.englishRegion.setValue(
-      enValue.map((it) => it.regionTranslationDtos.filter((ob) => ob.languageCode === 'en').map((i) => i.regionName))
+    const selectedValue = this.locations.filter((it) =>
+      it.regionTranslationDtos.find((ob) => ob.regionName === event.option.value.toString())
     );
+    const enValue = selectedValue
+      .map((it) => it.regionTranslationDtos.filter((ob) => ob.languageCode === 'en').map((i) => i.regionName))
+      .flat(2);
+    this.englishRegion.setValue(enValue);
   }
 
   selectCitiesEdit(event): void {
@@ -286,15 +290,13 @@ export class UbsAdminTariffsLocationPopUpComponent implements OnInit, AfterViewC
     this.locations$.pipe(skip(1)).subscribe((item) => {
       if (item) {
         this.locations = item;
-        this.uaregions = [].concat(
-          ...this.locations.map((element) =>
-            element.regionTranslationDtos.filter((it) => it.languageCode === 'ua').map((it) => it.regionName)
-          )
-        );
+        const uaregions = this.locations
+          .map((element) => element.regionTranslationDtos.filter((it) => it.languageCode === 'ua').map((it) => it.regionName))
+          .flat(2);
         this.region.valueChanges
           .pipe(
             startWith(''),
-            map((value: string) => this._filter(value, this.uaregions))
+            map((value: string) => this._filter(value, uaregions))
           )
           .subscribe((data) => {
             this.filteredRegions = data;
@@ -304,7 +306,7 @@ export class UbsAdminTariffsLocationPopUpComponent implements OnInit, AfterViewC
     });
   }
 
-  private _filter(name: string, items: any[]): any[] {
+  public _filter(name: string, items: any[]): any[] {
     const filterValue = name.toLowerCase();
     return items.filter((option) => option.toLowerCase().includes(filterValue));
   }
