@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { SubscriptionService } from '@global-service/subscription/subscription.service';
 import { catchError } from 'rxjs/operators';
 import { of } from 'rxjs';
+import { Patterns } from 'src/assets/patterns/patterns';
 
 @Component({
   selector: 'app-subscribe',
@@ -10,7 +11,7 @@ import { of } from 'rxjs';
 })
 export class SubscribeComponent implements OnInit {
   readonly qrCode = 'assets/img/qr-code.png';
-  private readonly emailRegex = /^[a-zA-Z0-9.!#$%&’*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/;
+  private readonly emailRegex = Patterns.ubsMailPattern;
 
   subscriptionError: string;
   emailTouched: boolean;

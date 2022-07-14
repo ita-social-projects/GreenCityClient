@@ -9,6 +9,7 @@ import { AddEmployee, UpdateEmployee } from 'src/app/store/actions/employee.acti
 import { skip, takeUntil } from 'rxjs/operators';
 import { ShowImgsPopUpComponent } from '../../../../../shared/show-imgs-pop-up/show-imgs-pop-up.component';
 import { Subject } from 'rxjs';
+import { Masks } from 'src/assets/patterns/patterns';
 
 interface IEmployeePositions {
   id: number;
@@ -43,7 +44,7 @@ export class UbsAdminEmployeeEditFormComponent implements OnInit, OnDestroy {
   receivingStations: IReceivingStations[];
   employeeDataToSend: Page;
   isDeleting = false;
-  phoneMask = '+{38\\0} (00) 000 00 00';
+  phoneMask = Masks.phoneMask;
   private maxImageSize = 10485760;
   private destroyed$: Subject<void> = new Subject<void>();
   public isWarning = false;

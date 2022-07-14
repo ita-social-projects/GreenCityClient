@@ -14,6 +14,7 @@ import { IOrderData } from '../models/IOrderData.interface';
 import { UBSOrderFormService } from 'src/app/ubs/ubs/services/ubs-order-form.service';
 import { MatRadioChange } from '@angular/material/radio';
 import { IBonusInfo } from '../models/IBonusInfo.interface';
+import { Masks, Patterns } from 'src/assets/patterns/patterns';
 
 @Component({
   selector: 'app-ubs-user-order-payment-pop-up',
@@ -25,8 +26,8 @@ export class UbsUserOrderPaymentPopUpComponent implements OnInit {
   private ubsOrderFormService: UBSOrderFormService;
   private orderService: OrderService;
   public selectedRadio: string;
-  public certificatePattern = /(?!0000)\d{4}-(?!0000)\d{4}/;
-  public certificateMask = '0000-0000';
+  public certificatePattern = Patterns.serteficatePattern;
+  public certificateMask = Masks.certificateMask;
   public orderDetailsForm: FormGroup;
   public certificateStatus: boolean[] = [];
   public orderClientDto: OrderClientDto;
