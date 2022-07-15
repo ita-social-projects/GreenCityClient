@@ -1,3 +1,4 @@
+import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { ServerTranslatePipe } from 'src/app/shared/translate-pipe/translate-pipe.pipe';
@@ -17,7 +18,8 @@ describe('TableCellReadonlyComponent', () => {
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       imports: [MatTooltipModule],
-      declarations: [TableCellReadonlyComponent, ServerTranslatePipe]
+      declarations: [TableCellReadonlyComponent, ServerTranslatePipe],
+      schemas: [CUSTOM_ELEMENTS_SCHEMA]
     }).compileComponents();
   }));
 
