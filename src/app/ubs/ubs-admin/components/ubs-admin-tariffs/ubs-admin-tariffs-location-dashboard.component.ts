@@ -15,9 +15,9 @@ import { GetLocations } from 'src/app/store/actions/tariff.actions';
 import { MatAutocompleteSelectedEvent, MatAutocompleteTrigger } from '@angular/material/autocomplete';
 import { UbsAdminTariffsCourierPopUpComponent } from './ubs-admin-tariffs-courier-pop-up/ubs-admin-tariffs-courier-pop-up.component';
 import { UbsAdminTariffsStationPopUpComponent } from './ubs-admin-tariffs-station-pop-up/ubs-admin-tariffs-station-pop-up.component';
-import { ubsNamePattern } from '../shared/validators-pattern/ubs-name-patterns';
 import { UbsAdminTariffsCardPopUpComponent } from './ubs-admin-tariffs-card-pop-up/ubs-admin-tariffs-card-pop-up.component';
 import { TranslateService } from '@ngx-translate/core';
+import { Patterns } from 'src/assets/patterns/patterns';
 
 @Component({
   selector: 'app-ubs-admin-tariffs-location-dashboard',
@@ -98,11 +98,8 @@ export class UbsAdminTariffsLocationDashboardComponent implements OnInit, OnDest
 
   private initForm(): void {
     this.searchForm = this.fb.group({
-      region: [
-        '',
-        [Validators.required, Validators.minLength(3), Validators.maxLength(40), Validators.pattern(ubsNamePattern.namePattern)]
-      ],
-      city: ['', [Validators.required, Validators.maxLength(40), Validators.pattern(ubsNamePattern.namePattern)]],
+      region: ['', [Validators.required, Validators.minLength(3), Validators.maxLength(40), Validators.pattern(Patterns.NamePattern)]],
+      city: ['', [Validators.required, Validators.maxLength(40), Validators.pattern(Patterns.NamePattern)]],
       courier: ['', [Validators.required]],
       station: ['', [Validators.required]],
       state: ['Активно']
