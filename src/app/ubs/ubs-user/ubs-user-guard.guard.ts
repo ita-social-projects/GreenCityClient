@@ -10,7 +10,7 @@ import { Observable } from 'rxjs';
 export class UbsUserGuardGuard implements CanActivate, CanLoad {
   isLoggedIn: boolean;
   isAdmin: boolean;
-  private adminRoleValue = 'ROLE_ADMIN';
+  private adminRoleValue = 'ROLE_UBS_EMPLOYEE';
 
   constructor(private jwtService: JwtService, private userOwnAuthService: UserOwnAuthService) {}
 

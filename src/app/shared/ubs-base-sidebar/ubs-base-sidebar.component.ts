@@ -25,7 +25,7 @@ export class UbsBaseSidebarComponent implements AfterViewInit, AfterViewChecked,
   private destroySub: Subject<boolean> = new Subject<boolean>();
   readonly bellsNoneNotification = 'assets/img/sidebarIcons/none_notification_Bell.svg';
   readonly bellsNotification = 'assets/img/sidebarIcons/notification_Bell.svg';
-  private adminRoleValue = 'ROLE_ADMIN';
+  private adminRoleValue = 'ROLE_UBS_EMPLOYEE';
   private sidebarChangeBreakpoint: number;
   destroy: Subject<boolean> = new Subject<boolean>();
   @Input() public listElements: object[] = [];
