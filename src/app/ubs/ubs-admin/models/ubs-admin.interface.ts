@@ -35,6 +35,7 @@ export interface Page {
   lastName: string;
   phoneNumber: string;
   receivingStations: ReceivingStations[];
+  expanded?: boolean;
 }
 
 export interface EmployeePositions {
@@ -266,7 +267,8 @@ export interface DialogData {
 export interface CreateCertificate {
   code: string;
   monthCount: number;
-  points: number;
+  initialPointsValue: number;
+  points?: number;
 }
 
 export interface IFilteredColumn {

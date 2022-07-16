@@ -30,6 +30,10 @@ import { OptionPipe } from './option-tariff/option-tariff.pipe';
 import { SearchPipe } from './search-tariff/search-tariff.pipe';
 import { ShowImgsPopUpComponent } from './show-imgs-pop-up/show-imgs-pop-up.component';
 import { DialogPopUpComponent } from './dialog-pop-up/dialog-pop-up.component';
+import { MatAutocompleteModule } from '@angular/material/autocomplete';
+import { UBSAddAddressPopUpComponent } from './ubs-add-address-pop-up/ubs-add-address-pop-up.component';
+import { UBSInputErrorComponent } from './ubs-input-error/ubs-input-error.component';
+import { SpacePreventDirective } from './directives/space-prevent.directive';
 
 @NgModule({
   declarations: [
@@ -55,7 +59,10 @@ import { DialogPopUpComponent } from './dialog-pop-up/dialog-pop-up.component';
     OptionPipe,
     SearchPipe,
     ShowImgsPopUpComponent,
-    DialogPopUpComponent
+    DialogPopUpComponent,
+    UBSAddAddressPopUpComponent,
+    UBSInputErrorComponent,
+    SpacePreventDirective
   ],
   imports: [
     CommonModule,
@@ -66,7 +73,8 @@ import { DialogPopUpComponent } from './dialog-pop-up/dialog-pop-up.component';
     MatSnackBarModule,
     NgxPageScrollModule,
     ReactiveFormsModule,
-    FormsModule
+    FormsModule,
+    MatAutocompleteModule
   ],
   exports: [
     SpinnerComponent,
@@ -88,7 +96,10 @@ import { DialogPopUpComponent } from './dialog-pop-up/dialog-pop-up.component';
     UbsFooterComponent,
     MaxImageNamePipe,
     OptionPipe,
-    SearchPipe
+    SearchPipe,
+    UBSAddAddressPopUpComponent,
+    UBSInputErrorComponent,
+    SpacePreventDirective
   ]
 })
 export class SharedModule {}

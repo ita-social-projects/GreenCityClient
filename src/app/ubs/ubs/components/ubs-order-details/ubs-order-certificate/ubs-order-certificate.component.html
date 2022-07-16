@@ -88,16 +88,16 @@
   <div class="points">
     <h5>{{ 'order-details.bonus-need' | translate }}</h5>
     <p>{{ 'order-details.bonus-left' | translate }} {{ defaultPoints | currency | localizedCurrency }}</p>
-    <div class="radio-btn" *ngIf="defaultPoints !== 0 && showTotal !== 0">
+    <div class="radio-btn" *ngIf="defaultPoints !== 0 && showTotal !== 0" appSpacePrevent>
       <label class="custom-radio-btn"
         >{{ 'order-details.no' | translate }}
         <input formControlName="bonus" type="radio" value="no" tabindex="-1" (click)="resetPoints()" />
-        <span class="checkmark" tabindex="0" (keyup)="selectPointsRadioBtn($event, 'no'); resetPoints()"></span>
+        <span class="checkmark" tabindex="0" (keyup)="selectPointsRadioBtn($event, 'no')"></span>
       </label>
       <label class="custom-radio-btn"
         >{{ 'order-details.yes' | translate }}
         <input formControlName="bonus" type="radio" value="yes" tabindex="-1" (click)="calculatePoints()" />
-        <span class="checkmark" tabindex="0" (keyup)="selectPointsRadioBtn($event, 'yes'); calculatePoints()"></span>
+        <span class="checkmark" tabindex="0" (keyup)="selectPointsRadioBtn($event, 'yes')"></span>
       </label>
     </div>
     <div class="points-balance">

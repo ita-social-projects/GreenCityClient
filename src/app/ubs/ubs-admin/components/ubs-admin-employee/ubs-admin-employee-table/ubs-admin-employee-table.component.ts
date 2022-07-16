@@ -4,12 +4,15 @@ import { MatTableDataSource } from '@angular/material/table';
 import { BehaviorSubject } from 'rxjs';
 import { debounceTime, distinctUntilChanged, take } from 'rxjs/operators';
 import { Store } from '@ngrx/store';
+import { FormBuilder } from '@angular/forms';
 
 import { IAppState } from 'src/app/store/state/app.state';
 import { Employees, Page } from 'src/app/ubs/ubs-admin/models/ubs-admin.interface';
 import { UbsAdminEmployeeService } from 'src/app/ubs/ubs-admin/services/ubs-admin-employee.service';
-import { EmployeeFormComponent } from '../employee-form/employee-form.component';
-import { GetEmployees } from 'src/app/store/actions/employee.actions';
+import { UbsAdminEmployeeEditFormComponent } from '../ubs-admin-employee-edit-form/ubs-admin-employee-edit-form.component';
+import { DeleteEmployee, GetEmployees } from 'src/app/store/actions/employee.actions';
+import { DialogPopUpComponent } from '../../../../../shared/dialog-pop-up/dialog-pop-up.component';
+import { UbsAdminEmployeeRightsFormComponent } from '../ubs-admin-employee-rights-form/ubs-admin-employee-rights-form.component';
 
 @Component({
   selector: 'app-ubs-admin-employee-table',
@@ -25,9 +28,9 @@ export class UbsAdminEmployeeTableComponent implements OnInit {
   searchValue: BehaviorSubject<string> = new BehaviorSubject<string>('');
   displayedColumns: string[] = [];
   dataSource: MatTableDataSource<any>;
-  arrayOfHeaders = [];
   totalPagesForTable: number;
   tableData: Page[];
+  employees: Page[];
   isStationsOpen = false;
   isPositionsOpen = false;
   allPositions: any[] = [];
@@ -38,11 +41,41 @@ export class UbsAdminEmployeeTableComponent implements OnInit {
   firstPageLoad = true;
   reset = true;
   employees$ = this.store.select((state: IAppState): Employees => state.employees.employees);
+  public isTooltipOpened: boolean;
+  public viewMode: boolean;
+  public editMode: boolean;
+  public isUploading: boolean;
+  public isDeleting: boolean;
+  public deleteDialogData = {
+    popupTitle: 'employees.warning-title',
+    popupConfirm: 'employees.btn.delete',
+    popupCancel: 'employees.btn.cancel'
+  };
+  public icons = {
+    edit: './assets/img/ubs-admin-employees/edit.svg',
+    settings: './assets/img/ubs-admin-employees/gear.svg',
+    delete: './assets/img/ubs-admin-employees/bin.svg',
+    crumbs: './assets/img/ubs-admin-employees/crumbs.svg',
+    email: './assets/img/ubs-admin-employees/mail.svg',
+    phone: './assets/img/ubs-admin-employees/phone.svg',
+    location: './assets/img/ubs-admin-employees/location.svg',
+    filter: './assets/img/ubs-admin-employees/filter.svg',
+    info: './assets/img/ubs-admin-employees/info.svg'
+  };
 
-  constructor(private ubsAdminEmployeeService: UbsAdminEmployeeService, private dialog: MatDialog, private store: Store<IAppState>) {}
+  constructor(
+    private ubsAdminEmployeeService: UbsAdminEmployeeService,
+    private dialog: MatDialog,
+    private store: Store<IAppState>,
+    public fb: FormBuilder
+  ) {}
 
   ngOnInit(): void {
-    this.searchValue.pipe(debounceTime(500), distinctUntilChanged()).subscribe((item) => {
+    this.initSearch();
+  }
+
+  initSearch(): void {
+    this.ubsAdminEmployeeService.searchValue.pipe(debounceTime(500), distinctUntilChanged()).subscribe((item) => {
       this.search = item;
       this.currentPageForTable = 0;
       this.reset = true;
@@ -53,22 +86,19 @@ export class UbsAdminEmployeeTableComponent implements OnInit {
 
   getTable() {
     this.isLoading = true;
-
-    this.store.dispatch(
-      GetEmployees({ pageNumber: this.currentPageForTable, pageSize: this.sizeForTable, search: this.search, reset: this.reset })
-    );
+    this.getEmployeesPages();
 
     this.employees$.subscribe((item: Employees) => {
       if (item) {
         this.tableData = item[`content`];
+        this.employees = this.tableData.map((employee: Page) => ({
+          ...employee,
+          expanded: false
+        }));
         this.totalPagesForTable = item[`totalPages`];
         if (this.firstPageLoad) {
-          this.dataSource = new MatTableDataSource(this.tableData);
-          this.setDisplayedColumns();
           this.isLoading = false;
           this.firstPageLoad = false;
-        } else {
-          this.dataSource.data = this.tableData;
         }
         this.isUpdateTable = false;
         this.reset = false;
@@ -76,14 +106,51 @@ export class UbsAdminEmployeeTableComponent implements OnInit {
     });
   }
 
-  setDisplayedColumns() {
-    this.displayedColumns = ['fullName', 'position', 'location', 'email', 'phoneNumber'];
+  openRightsDialog(event: Event): void {
+    event.stopPropagation();
+    this.dialog.open(UbsAdminEmployeeRightsFormComponent, {
+      data: this.deleteDialogData,
+      hasBackdrop: true,
+      closeOnNavigation: true,
+      disableClose: true,
+      panelClass: 'custom-dialog-container'
+    });
+  }
+
+  openDeleteDialog(employeeData: Page, event: Event): void {
+    event.stopPropagation();
+    const matDialogRef = this.dialog.open(DialogPopUpComponent, {
+      data: this.deleteDialogData,
+      hasBackdrop: true,
+      closeOnNavigation: true,
+      disableClose: true,
+      panelClass: 'delete-dialog-container'
+    });
+
+    matDialogRef
+      .afterClosed()
+      .pipe(take(1))
+      .subscribe((res) => {
+        if (res) {
+          this.isDeleting = true;
+          this.store.dispatch(DeleteEmployee({ id: employeeData.id }));
+        }
+      });
   }
 
   updateTable() {
     this.isUpdateTable = true;
+    this.getEmployeesPages();
+  }
+
+  getEmployeesPages(): void {
     this.store.dispatch(
-      GetEmployees({ pageNumber: this.currentPageForTable, pageSize: this.sizeForTable, search: this.search, reset: this.reset })
+      GetEmployees({
+        pageNumber: this.currentPageForTable,
+        pageSize: this.sizeForTable,
+        search: this.search,
+        reset: this.reset
+      })
     );
   }
 
@@ -92,11 +159,6 @@ export class UbsAdminEmployeeTableComponent implements OnInit {
       this.currentPageForTable++;
       this.updateTable();
     }
-  }
-
-  applyFilter(event: Event) {
-    const filterValue = (event.target as HTMLInputElement).value;
-    this.searchValue.next(filterValue.trim().toLowerCase());
   }
 
   openPositions() {
@@ -179,8 +241,9 @@ export class UbsAdminEmployeeTableComponent implements OnInit {
     }
   }
 
-  openModal(employeeData: Page) {
-    this.dialog.open(EmployeeFormComponent, {
+  openEditDialog(employeeData: Page, event: Event) {
+    event.stopPropagation();
+    this.dialog.open(UbsAdminEmployeeEditFormComponent, {
       data: employeeData,
       hasBackdrop: true,
       closeOnNavigation: true,

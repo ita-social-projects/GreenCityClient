@@ -1,0 +1,153 @@
+.modal-wrapper {
+  width: 492px;
+  background: var(--pre-secondary-light-grey);
+  padding: 24px 56px;
+  position: relative;
+}
+
+.popup-title {
+  font-family: var(--primary-font);
+  color: var(--ubs-quaternary-dark-grey);
+  font-weight: 700;
+  font-size: 18px;
+  line-height: 28px;
+  text-align: center;
+  margin: 0;
+  letter-spacing: 0.2px;
+}
+
+.accordion {
+  display: block;
+  max-width: 500px;
+
+  .accordion-item {
+    display: block;
+    border-top: none;
+
+    .accordion-item-header {
+      display: flex;
+      align-content: center;
+      gap: 10px;
+      font-weight: 700;
+      font-size: 16px;
+      line-height: 20px;
+      letter-spacing: 0.1px;
+      color: var(--ubs-quaternary-dark-grey);
+      padding: 8px 0;
+      cursor: pointer;
+
+      &:hover {
+        background-color: unset;
+      }
+    }
+
+    .accordion-item-description {
+      font-size: 0.85em;
+      color: #999;
+    }
+
+    .accordion-item-body {
+      display: flex;
+      flex-direction: column;
+      padding: 10px 8px;
+
+      ::ng-deep {
+        .mat-checkbox {
+          font-family: var(--primary-font);
+          color: var(--ubs-primary-grey);
+          font-weight: 400;
+          font-size: 16px;
+          line-height: 24px;
+
+          label {
+            margin-bottom: 0;
+          }
+        }
+
+        .mat-checkbox-checked.mat-accent .mat-checkbox-background {
+          background-color: var(--ubs-quaternary-dark-grey) !important;
+        }
+
+        .mat-checkbox:not(.mat-checkbox-disabled).mat-accent .mat-checkbox-ripple .mat-ripple-element {
+          background-color: transparent !important;
+        }
+
+        .mat-checkbox .mat-checkbox-frame {
+          border-width: 1px;
+        }
+      }
+    }
+
+    &.expanded {
+      .accordion-item-header {
+        background-color: var(--ubs-liberty-green);
+      }
+
+      .accordion-item-description {
+        img {
+          transform: rotate(180deg);
+        }
+      }
+    }
+  }
+
+  &.role-accordion {
+    .accordion-item {
+      &.expanded {
+        .accordion-item-header {
+          background-color: unset;
+        }
+      }
+    }
+  }
+}
+
+.button-row {
+  width: 100%;
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  column-gap: 10px;
+  margin-top: 40px;
+
+  .cancelButton,
+  .addButton {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 36px;
+    border-radius: 5px;
+    color: var(--ubs-quaternary-dark-grey);
+    font-size: 14px;
+    font-weight: 700;
+    line-height: 20px;
+    letter-spacing: 0.1px;
+  }
+
+  .cancelButton {
+    width: 100px;
+    border: 1px solid var(--ubs-quaternary-dark-grey);
+    background: none;
+  }
+
+  .addButton {
+    padding: 8px 24px;
+    border: 1px solid var(--ubs-button-light-green);
+    background: var(--ubs-button-light-green);
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+
+    &:disabled {
+      background: var(--ubs-quaternary-light-grey);
+      border-color: var(--ubs-quaternary-light-grey);
+      color: var(--ubs-primary-light-grey);
+    }
+  }
+}
+
+@media screen and (max-width: 575px) {
+  .modal-wrapper {
+    width: unset;
+  }
+}

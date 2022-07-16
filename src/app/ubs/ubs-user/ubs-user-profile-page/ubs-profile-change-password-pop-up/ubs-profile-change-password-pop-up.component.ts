@@ -6,6 +6,8 @@ import { UpdatePasswordDto } from '@global-models/updatePasswordDto';
 import { ChangePasswordService } from '@global-service/auth/change-password.service';
 import { iif, of } from 'rxjs';
 import { mergeMap } from 'rxjs/operators';
+import { SignInIcons } from 'src/app/main/image-pathes/sign-in-icons';
+import { Patterns } from 'src/assets/patterns/patterns';
 
 @Component({
   selector: 'app-ubs-profile-change-password-pop-up',
@@ -14,9 +16,10 @@ import { mergeMap } from 'rxjs/operators';
 })
 export class UbsProfileChangePasswordPopUpComponent implements OnInit {
   public formConfig: FormGroup;
-  private readonly passRegexp = /^(?=.*[A-Za-z]+)(?=.*\d+)(?=.*[~`!@#$%^&*()+=_\-{}|:;”’?\/<>,.\]\[]+).{8,}$/;
+  private readonly passRegexp = Patterns.regexpPass;
   public updatePasswordDto: UpdatePasswordDto;
   public hasPassword: boolean;
+  public hideShowPasswordImage = SignInIcons;
 
   constructor(
     private changePasswordService: ChangePasswordService,

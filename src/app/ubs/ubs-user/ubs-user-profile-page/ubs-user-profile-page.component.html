@@ -156,7 +156,12 @@
           </ng-container>
           <div *ngIf="isEditing">
             <div class="wrapper-btn">
-              <button aria-label="Add adrress" class="btn-alternative-email"></button>
+              <button
+                aria-label="Add adrress"
+                class="btn-alternative-email"
+                (click)="openAddAdressDialog()"
+                [disabled]="userProfile.addressDto.length >= maxAddressLength"
+              ></button>
               <p>{{ 'ubs-client-profile.btn.add-address' | translate }}</p>
             </div>
           </div>

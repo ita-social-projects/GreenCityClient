@@ -11,6 +11,7 @@ import { UBSOrderFormService } from '../../services/ubs-order-form.service';
 import { Bag, CourierLocations, OrderDetails } from '../../models/ubs.interface';
 import { UbsOrderLocationPopupComponent } from './ubs-order-location-popup/ubs-order-location-popup.component';
 import { ExtraPackagesPopUpComponent } from './extra-packages-pop-up/extra-packages-pop-up.component';
+import { Masks, Patterns } from 'src/assets/patterns/patterns';
 
 @Component({
   selector: 'app-ubs-order-details',
@@ -41,12 +42,13 @@ export class UBSOrderDetailsComponent extends FormBaseComponent implements OnIni
   displayCert = false;
   onSubmit = true;
   order: {};
-  certificateMask = '0000-0000';
-  ecoStoreMask = '0000000000';
-  servicesMask = '000';
-  certificatePattern = /(?!0000)\d{4}-(?!0000)\d{4}/;
-  commentPattern = /^[i\s]{0,255}(.){0,255}[i\S\n]{0,255}$/;
-  additionalOrdersPattern = /^\d{10}$/;
+
+  certificateMask = Masks.certificateMask;
+  ecoStoreMask = Masks.ecoStoreMask;
+  servicesMask = Masks.servicesMask;
+  certificatePattern = Patterns.serteficatePattern;
+  commentPattern = Patterns.ubsCommentPattern;
+  additionalOrdersPattern = Patterns.ordersPattern;
   displayOrderBtn = false;
   showCertificateUsed = 0;
   certificateLeft = 0;

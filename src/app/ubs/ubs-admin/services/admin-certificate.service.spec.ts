@@ -11,7 +11,8 @@ describe('AdminCertificateService', () => {
   const certificateMock = {
     code: '1111-2222',
     monthCount: 6,
-    points: 500
+    points: 500,
+    initialPointsValue: 500
   };
 
   beforeEach(() => {

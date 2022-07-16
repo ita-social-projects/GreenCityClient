@@ -15,7 +15,7 @@ import { SharedModule } from '../../shared/shared.module';
 import { UbsAdminComponent } from './ubs-admin.component';
 import { UbsAdminEmployeeComponent } from './components/ubs-admin-employee/ubs-admin-employee.component';
 import { PaginationComponent } from './components/shared/components/pagination/pagination.component';
-import { EmployeeFormComponent } from './components/ubs-admin-employee/employee-form/employee-form.component';
+import { UbsAdminEmployeeEditFormComponent } from './components/ubs-admin-employee/ubs-admin-employee-edit-form/ubs-admin-employee-edit-form.component';
 import { UBSAdminRoutingModule } from './ubs-admin-routing.module';
 import { UbsAdminResponsiblePersonsComponent } from './components/ubs-admin-responsible-persons/ubs-admin-responsible-persons.component';
 import { UbsAdminExportDetailsComponent } from './components/ubs-admin-export-details/ubs-admin-export-details.component';
@@ -80,6 +80,8 @@ import { MatExpansionModule } from '@angular/material/expansion';
 import { TimePickerComponent } from './components/shared/components/time-picker/time-picker.component';
 import { UbsAdminTariffsCardPopUpComponent } from './components/ubs-admin-tariffs/ubs-admin-tariffs-card-pop-up/ubs-admin-tariffs-card-pop-up.component';
 import { TariffConfirmationPopUpComponent } from './components/shared/components/tariff-confirmation-pop-up/tariff-confirmation-pop-up.component';
+import { UbsAdminEmployeeRightsFormComponent } from './components/ubs-admin-employee/ubs-admin-employee-rights-form/ubs-admin-employee-rights-form.component';
+import { CdkAccordionModule } from '@angular/cdk/accordion';
 import { TariffStatusPipe } from '@pipe/tariff-status-pipe/tariff-status.pipe';
 
 @NgModule({
@@ -90,7 +92,7 @@ import { TariffStatusPipe } from '@pipe/tariff-status-pipe/tariff-status.pipe';
     UbsAdminSidebarComponent,
     UbsAdminComponent,
     UbsAdminEmployeeComponent,
-    EmployeeFormComponent,
+    UbsAdminEmployeeEditFormComponent,
     UbsAdminOrderComponent,
     UbsAdminAddressDetailsComponent,
     UbsAdminOrderStatusComponent,
@@ -134,6 +136,7 @@ import { TariffStatusPipe } from '@pipe/tariff-status-pipe/tariff-status.pipe';
     TimePickerComponent,
     UbsAdminTariffsCardPopUpComponent,
     TariffConfirmationPopUpComponent,
+    UbsAdminEmployeeRightsFormComponent,
     TariffStatusPipe
   ],
   imports: [
@@ -174,7 +177,8 @@ import { TariffStatusPipe } from '@pipe/tariff-status-pipe/tariff-status.pipe';
     MatAutocompleteModule,
     MatChipsModule,
     MatSelectModule,
-    MatExpansionModule
+    MatExpansionModule,
+    CdkAccordionModule
   ],
   providers: [
     AdminCertificateService,
@@ -188,7 +192,7 @@ import { TariffStatusPipe } from '@pipe/tariff-status-pipe/tariff-status.pipe';
   entryComponents: [
     UbsAdminTableComponent,
     AddViolationsComponent,
-    EmployeeFormComponent,
+    UbsAdminEmployeeEditFormComponent,
     UbsAdminCancelModalComponent,
     UbsAdminGoBackModalComponent
   ]

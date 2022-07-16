@@ -56,9 +56,11 @@ export class UbsBaseSidebarComponent implements AfterViewInit, AfterViewChecked,
     if (this.drawer.opened) {
       this.sideBarIcons.nativeElement.style.zIndex = '0';
       this.sidebarContainer.nativeElement.style.marginLeft = '25px';
+      this.sidebarContainer.nativeElement.style.width = 'calc(100% - 50px)';
     } else {
       this.sideBarIcons.nativeElement.style.zIndex = '2';
       this.sidebarContainer.nativeElement.style.marginLeft = '85px';
+      this.sidebarContainer.nativeElement.style.width = 'calc(100% - 120px)';
     }
   }
 

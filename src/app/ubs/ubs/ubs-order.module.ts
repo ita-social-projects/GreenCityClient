@@ -15,8 +15,6 @@ import { UBSOrderFormComponent } from './components/ubs-order-form/ubs-order-for
 import { UBSOrderDetailsComponent } from './components/ubs-order-details/ubs-order-details.component';
 import { UBSPersonalInformationComponent } from './components/ubs-personal-information/ubs-personal-information.component';
 import { UBSSubmitOrderComponent } from './components/ubs-submit-order/ubs-submit-order.component';
-import { UBSInputErrorComponent } from './components/ubs-input-error/ubs-input-error.component';
-import { UBSAddAddressPopUpComponent } from './components/ubs-personal-information/ubs-add-address-pop-up/ubs-add-address-pop-up.component';
 import { AddressComponent } from './components/ubs-personal-information/address/address.component';
 import { UbsConfirmPageComponent } from './components/ubs-confirm-page/ubs-confirm-page.component';
 import { SharedMainModule } from '@shared/shared-main.module';
@@ -45,8 +43,6 @@ import { ConfirmRestorePasswordGuard } from '@global-service/route-guards/confir
     UBSOrderDetailsComponent,
     UBSPersonalInformationComponent,
     UBSSubmitOrderComponent,
-    UBSInputErrorComponent,
-    UBSAddAddressPopUpComponent,
     AddressComponent,
     UbsConfirmPageComponent,
     UbsMainPageComponent,
@@ -85,7 +81,7 @@ import { ConfirmRestorePasswordGuard } from '@global-service/route-guards/confir
     SharedMainModule,
     SharedModule
   ],
-  entryComponents: [UBSAddAddressPopUpComponent, UbsOrderLocationPopupComponent],
+  entryComponents: [UbsOrderLocationPopupComponent],
   exports: [],
   providers: [
     {

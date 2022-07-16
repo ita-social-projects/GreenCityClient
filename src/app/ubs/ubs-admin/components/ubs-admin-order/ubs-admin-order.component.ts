@@ -29,6 +29,7 @@ import { IAppState } from 'src/app/store/state/app.state';
 import { Store } from '@ngrx/store';
 import { ChangingOrderData } from 'src/app/store/actions/bigOrderTable.actions';
 import { UbsAdminOrderPaymentComponent } from '../ubs-admin-order-payment/ubs-admin-order-payment.component';
+import { Patterns } from 'src/assets/patterns/patterns';
 
 @Component({
   selector: 'app-ubs-admin-order',
@@ -109,8 +110,11 @@ export class UbsAdminOrderComponent implements OnInit, OnDestroy, AfterContentCh
         this.currentOrderPrice = data.orderFullPrice;
         this.setOrderDetails();
         this.initForm();
-        if (submitMode && this.overpayment && (this.generalInfo.orderStatus === 'DONE' || this.generalInfo.orderStatus === 'CANCEL')) {
+        if (submitMode && this.overpayment && this.generalInfo.orderStatus === 'DONE') {
           this.orderPaymentComponent.enrollToBonusAccount(this.overpayment);
+        }
+        if (submitMode && this.currentOrderStatus === 'CANCELED') {
+          this.orderPaymentComponent.setCancelOrderOverpayment(this.totalPaid);
         }
       });
   }
@@ -164,7 +168,7 @@ export class UbsAdminOrderComponent implements OnInit, OnDestroy, AfterContentCh
       userInfoDto: this.fb.group({
         recipientName: [this.userInfo.recipientName, [Validators.required, Validators.minLength(1), Validators.maxLength(30)]],
         recipientSurName: [this.userInfo.recipientSurName, [Validators.required, Validators.minLength(1), Validators.maxLength(30)]],
-        recipientPhoneNumber: [this.userInfo.recipientPhoneNumber, [Validators.required, Validators.pattern('^\\+?3?8?(0\\d{9})$')]],
+        recipientPhoneNumber: [this.userInfo.recipientPhoneNumber, [Validators.required, Validators.pattern(Patterns.adminPhone)]],
         recipientEmail: [this.userInfo.recipientEmail, [Validators.email]]
       }),
       addressExportDetailsDto: this.fb.group({
@@ -197,7 +201,7 @@ export class UbsAdminOrderComponent implements OnInit, OnDestroy, AfterContentCh
     });
     const storeOrderNumbersArr = this.getFormGroup('orderDetailsForm').controls.storeOrderNumbers as FormArray;
     this.orderInfo.numbersFromShop.forEach((elem) => {
-      storeOrderNumbersArr.push(new FormControl(elem, [Validators.required, Validators.pattern('^\\d{10}$')]));
+      storeOrderNumbersArr.push(new FormControl(elem, [Validators.required, Validators.pattern(Patterns.ordersPattern)]));
     });
     this.orderDetails.bags.forEach((bag) => {
       this.getFormGroup('orderDetailsForm').addControl(
@@ -258,6 +262,11 @@ export class UbsAdminOrderComponent implements OnInit, OnDestroy, AfterContentCh
     this.additionalPayment = newPaymentStatus;
     this.orderForm.markAsDirty();
   }
+
+  public onPaymentUpdate(sum: number): void {
+    this.totalPaid = sum;
+  }
+
   public changeOverpayment(sum: number): void {
     this.overpayment = sum;
   }

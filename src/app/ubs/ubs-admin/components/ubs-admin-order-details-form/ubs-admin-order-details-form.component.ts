@@ -2,6 +2,7 @@ import { OrderService } from 'src/app/ubs/ubs-admin/services/order.service';
 import { Component, Input, OnInit, OnChanges, SimpleChanges, Output, EventEmitter } from '@angular/core';
 import { FormGroup, FormBuilder, FormArray, FormControl, Validators } from '@angular/forms';
 import { IOrderDetails } from '../../models/ubs-admin.interface';
+import { Masks, Patterns } from 'src/assets/patterns/patterns';
 
 @Component({
   selector: 'app-ubs-admin-order-details-form',
@@ -11,8 +12,8 @@ import { IOrderDetails } from '../../models/ubs-admin.interface';
 export class UbsAdminOrderDetailsFormComponent implements OnInit, OnChanges {
   private CAPACITY_OF_BIG_BAG = 120;
   public LIMIT_OF_ECO_SHOP_NUMBERS = 5;
-  public SHOP_NUMBER_MASK = '0000000000';
-  public SHOP_NUMBER_PATTERN = /^\d{10}$/;
+  public SHOP_NUMBER_MASK = Masks.ecoStoreMask;
+  public SHOP_NUMBER_PATTERN = Patterns.ordersPattern;
   public amountOfBigBags: number;
   public payMore = true;
   public isInputDisabled = false;
@@ -37,10 +38,14 @@ export class UbsAdminOrderDetailsFormComponent implements OnInit, OnChanges {
   @Input() orderDetailsOriginal: IOrderDetails;
   @Input() orderDetailsForm: FormGroup;
   @Input() orderStatusInfo;
+  @Input() totalPaid: number;
 
   constructor(private fb: FormBuilder, private orderService: OrderService) {}
 
   ngOnChanges(changes: SimpleChanges) {
+    if (changes.totalPaid) {
+      this.updateOverpayment(changes.totalPaid.currentValue - changes.totalPaid.previousValue);
+    }
     if (changes.orderDetailsForm) {
       this.resetOrderDetails();
       this.recalculateSum();
@@ -177,6 +182,11 @@ export class UbsAdminOrderDetailsFormComponent implements OnInit, OnChanges {
     }
   }
 
+  private updateOverpayment(sum: number): void {
+    this.overpayment += sum;
+    this.overpaymentMessage = this.orderService.getOverpaymentMsg(this.overpayment);
+  }
+
   private setFinalFullPrice() {
     const bagType = this.orderStatusInfo.ableActualChange ? 'actual' : 'confirmed';
     this.orderDetailsForm.controls.orderFullPrice.setValue(this.bagsInfo.finalSum[bagType]);
@@ -269,7 +279,7 @@ export class UbsAdminOrderDetailsFormComponent implements OnInit, OnChanges {
 
   addOrderNumberFromShop() {
     const arr = this.orderDetailsForm.controls.storeOrderNumbers as FormArray;
-    arr.push(new FormControl('', [Validators.required, Validators.pattern('^\\d{10}$')]));
+    arr.push(new FormControl('', [Validators.required, Validators.pattern(Patterns.ordersPattern)]));
   }
 
   deleteOrder(index: number): void {
