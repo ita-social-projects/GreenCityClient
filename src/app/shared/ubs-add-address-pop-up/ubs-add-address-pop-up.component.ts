@@ -9,6 +9,7 @@ import { ajax } from 'rxjs/internal-compatibility';
 import { LatLngBoundsLiteral } from '@agm/core';
 import { OrderService } from 'src/app/ubs/ubs/services/order.service';
 import { Address } from 'src/app/ubs/ubs/models/ubs.interface';
+import { Patterns } from 'src/assets/patterns/patterns';
 
 interface Options {
   bounds: LatLngBoundsLiteral;
@@ -37,9 +38,9 @@ export class UBSAddAddressPopUpComponent implements OnInit, OnDestroy, AfterView
   currentDistrict = '';
   isDisabled = false;
   streetTranslations: string[];
-  corpusPattern = /^[A-Za-zА-Яа-яїЇіІєЄёЁ0-9]{1,4}$/;
-  housePattern = /^[A-Za-zА-Яа-яїЇіІєЄёЁ0-9\.\-\/\,\\]+$/;
-  entranceNumberPattern = /^([1-9]\d*)?$/;
+  corpusPattern = Patterns.ubsCorpusPattern;
+  housePattern = Patterns.ubsHousePattern;
+  entranceNumberPattern = Patterns.ubsEntrNumPattern;
   private destroy: Subject<boolean> = new Subject<boolean>();
   currentLocation = {};
   isDistrict = false;

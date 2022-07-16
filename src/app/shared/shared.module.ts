@@ -33,6 +33,7 @@ import { DialogPopUpComponent } from './dialog-pop-up/dialog-pop-up.component';
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
 import { UBSAddAddressPopUpComponent } from './ubs-add-address-pop-up/ubs-add-address-pop-up.component';
 import { UBSInputErrorComponent } from './ubs-input-error/ubs-input-error.component';
+import { SpacePreventDirective } from './directives/space-prevent.directive';
 
 @NgModule({
   declarations: [
@@ -60,7 +61,8 @@ import { UBSInputErrorComponent } from './ubs-input-error/ubs-input-error.compon
     ShowImgsPopUpComponent,
     DialogPopUpComponent,
     UBSAddAddressPopUpComponent,
-    UBSInputErrorComponent
+    UBSInputErrorComponent,
+    SpacePreventDirective
   ],
   imports: [
     CommonModule,
@@ -96,7 +98,8 @@ import { UBSInputErrorComponent } from './ubs-input-error/ubs-input-error.compon
     OptionPipe,
     SearchPipe,
     UBSAddAddressPopUpComponent,
-    UBSInputErrorComponent
+    UBSInputErrorComponent,
+    SpacePreventDirective
   ]
 })
 export class SharedModule {}

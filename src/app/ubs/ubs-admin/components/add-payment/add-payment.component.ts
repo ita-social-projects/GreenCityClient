@@ -10,6 +10,7 @@ import { OrderService } from '../../services/order.service';
 import { ShowImgsPopUpComponent } from '../../../../shared/show-imgs-pop-up/show-imgs-pop-up.component';
 import { ShowPdfPopUpComponent } from '../shared/components/show-pdf-pop-up/show-pdf-pop-up.component';
 import { DialogPopUpComponent } from 'src/app/shared/dialog-pop-up/dialog-pop-up.component';
+import { Patterns } from 'src/assets/patterns/patterns';
 
 interface InputData {
   orderId: number;
@@ -84,7 +85,7 @@ export class AddPaymentComponent implements OnInit, OnDestroy {
   initForm() {
     this.addPaymentForm = this.fb.group({
       settlementdate: [this.payment?.settlementdate ?? '', [Validators.required]],
-      amount: [this.payment?.amount ?? '', [Validators.required, Validators.pattern('^[0-9]+$')]],
+      amount: [this.payment?.amount ?? '', [Validators.required, Validators.pattern(Patterns.paymantAmountPattern)]],
       paymentId: [this.payment?.paymentId ?? '', [Validators.required]],
       receiptLink: [this.payment?.receiptLink ?? '']
     });

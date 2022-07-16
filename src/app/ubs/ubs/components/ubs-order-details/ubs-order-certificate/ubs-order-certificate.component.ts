@@ -7,6 +7,7 @@ import { CertificateStatus } from '../../../certificate-status.enum';
 import { Bag, ICertificateResponse, Locations, OrderDetails } from '../../../models/ubs.interface';
 import { UBSOrderFormService } from '../../../services/ubs-order-form.service';
 import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
+import { Masks, Patterns } from 'src/assets/patterns/patterns';
 
 @Component({
   selector: 'app-ubs-order-certificate',
@@ -35,12 +36,12 @@ export class UbsOrderCertificateComponent implements OnInit, OnDestroy {
   addCert: boolean;
   onSubmit = true;
   order: {};
-  certificateMask = '0000-0000';
-  ecoStoreMask = '0000000000';
-  servicesMask = '000';
-  certificatePattern = /(?!0000)\d{4}-(?!0000)\d{4}/;
-  commentPattern = /^[i\s]{0,255}(.){0,255}[i\s]{0,255}$/;
-  additionalOrdersPattern = /^\d{10}$/;
+  certificateMask = Masks.certificateMask;
+  ecoStoreMask = Masks.ecoStoreMask;
+  servicesMask = Masks.servicesMask;
+  certificatePattern = Patterns.serteficatePattern;
+  commentPattern = Patterns.ubsCommentPattern;
+  additionalOrdersPattern = Patterns.ordersPattern;
   certSize = false;
   showCertificateUsed = 0;
   certificateLeft = 0;
@@ -297,6 +298,11 @@ export class UbsOrderCertificateComponent implements OnInit, OnDestroy {
   public selectPointsRadioBtn(event: KeyboardEvent, radioButtonValue: string) {
     if (['Enter', 'Space', 'NumpadEnter'].includes(event.code)) {
       this.orderDetailsForm.controls.bonus.setValue(radioButtonValue);
+      if (radioButtonValue === 'yes') {
+        this.calculatePoints();
+      } else {
+        this.resetPoints();
+      }
     }
   }
 

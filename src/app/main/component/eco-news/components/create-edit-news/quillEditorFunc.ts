@@ -1,5 +1,7 @@
+import { Patterns } from 'src/assets/patterns/patterns';
+
 export const checkImages = (editorContent: string) => {
-  const findBase64Regex = /data:image\/([a-zA-Z]*);base64,([^"]*)/g;
+  const findBase64Regex = Patterns.Base64Regex;
   const imagesSrc = editorContent.match(findBase64Regex);
   if (imagesSrc) {
     return imagesSrc;
