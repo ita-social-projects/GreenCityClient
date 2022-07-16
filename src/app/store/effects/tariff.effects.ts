@@ -48,11 +48,11 @@ export class LocationsEffects {
   editLocationName = createEffect(() => {
     return this.actions.pipe(
       ofType(EditLocation),
-      mergeMap((action: { editedLocations: EditLocationName[]; regionId: number }) => {
-        return this.tariffsService.editLocationName(action.regionId, action.editedLocations).pipe(
+      mergeMap((action: { editedLocations: EditLocationName[] }) => {
+        return this.tariffsService.editLocationName(action.editedLocations).pipe(
           map(() => {
             const editedLocations = JSON.parse(JSON.stringify(action.editedLocations));
-            return EditLocationSuccess({ editedLocations, regionId: action.regionId });
+            return EditLocationSuccess({ editedLocations });
           }),
           catchError((error) => of(ReceivedFailure(error)))
         );

@@ -285,10 +285,8 @@ describe('UbsAdminTariffsLocationDashboardComponent', () => {
       }
     };
     const spy = spyOn(component, 'selectCity');
-    const spy1 = spyOn(component, 'positionsFilter');
     component.selected(eventMock as any);
     expect(spy).toHaveBeenCalledWith(eventMock);
-    expect(spy1).toHaveBeenCalled();
     expect(component.city.value).toEqual('');
   });
 
@@ -299,10 +297,8 @@ describe('UbsAdminTariffsLocationDashboardComponent', () => {
       }
     };
     const spy = spyOn(component, 'toggleSelectAll');
-    const spy1 = spyOn(component, 'positionsFilter');
     component.selected(eventMock as any);
     expect(spy).toHaveBeenCalled();
-    expect(spy1).toHaveBeenCalled();
     expect(component.city.value).toEqual('');
   });
 
@@ -331,14 +327,14 @@ describe('UbsAdminTariffsLocationDashboardComponent', () => {
   it('should check if all is not choosen', () => {
     component.checkedCities = ['First'];
     component.cities = ['First', 'Second'];
-    const result = component.isChecked();
+    const result = component.isCityChecked();
     expect(result).toEqual(false);
   });
 
   it('should check if all is choosen', () => {
     component.checkedCities = ['First', 'Second'];
     component.cities = ['First', 'Second'];
-    const result = component.isChecked();
+    const result = component.isCityChecked();
     expect(result).toEqual(true);
   });
 
@@ -367,42 +363,8 @@ describe('UbsAdminTariffsLocationDashboardComponent', () => {
     expect(component.cards).toEqual([mockCard]);
   });
 
-  it('should check if the list is not empty', () => {
-    component.filteredLocations = mockRegion;
-    const result = component.isEmpty();
-    expect(result).toEqual(false);
-  });
-
-  it('should check if the list is empty', () => {
-    component.filteredLocations = [];
-    const result = component.isEmpty();
-    expect(result).toEqual(true);
-  });
-
-  it('should not filter locations', () => {
-    component.locations = mockRegion;
-    component.checkedCities = [];
-    component.positionsFilter();
-    expect(component.filteredLocations).toEqual(mockRegion);
-  });
-
-  it('should filter locations', () => {
-    const spy = spyOn(component, 'onPositionSelected').and.returnValue(mockFilteredLocation);
-    component.checkedCities = ['Фейк1'];
-    component.positionsFilter();
-    expect(component.filteredLocations).toEqual(mockFilteredLocation);
-    expect(spy).toHaveBeenCalled();
-  });
-
-  it('should return new list of locations', () => {
-    component.locations = mockRegion;
-    component.checkedCities = ['Фейк1'];
-    const result = component.onPositionSelected();
-    expect(result).toEqual(mockRegion);
-  });
-
   it('should select all items of cities', () => {
-    const spy = spyOn(component, 'isChecked').and.returnValue(false);
+    const spy = spyOn(component, 'isCityChecked').and.returnValue(false);
     component.cities = ['First', 'Second'];
     component.toggleSelectAll();
     expect(spy).toHaveBeenCalled();
@@ -411,7 +373,7 @@ describe('UbsAdminTariffsLocationDashboardComponent', () => {
   });
 
   it('should not select all items of cities', () => {
-    const spy = spyOn(component, 'isChecked').and.returnValue(true);
+    const spy = spyOn(component, 'isCityChecked').and.returnValue(true);
     component.toggleSelectAll();
     expect(spy).toHaveBeenCalled();
     expect(component.checkedCities.length).toBe(0);
@@ -424,10 +386,8 @@ describe('UbsAdminTariffsLocationDashboardComponent', () => {
 
   it('should call methods on changes of region', () => {
     const spy = spyOn(component, 'checkRegionValue');
-    const spy1 = spyOn(component, 'positionsFilter');
     component.region.setValue('Fake region');
     expect(spy).toHaveBeenCalledWith('Fake region');
-    expect(spy1).toHaveBeenCalled();
     expect(component.checkedCities).toEqual([]);
   });
 
@@ -559,8 +519,10 @@ describe('UbsAdminTariffsLocationDashboardComponent', () => {
   it('destroy Subject should be closed after ngOnDestroy()', () => {
     const destroy = 'destroy';
     component[destroy] = new Subject<boolean>();
-    spyOn(component[destroy], 'unsubscribe');
+    spyOn(component[destroy], 'next');
+    spyOn(component[destroy], 'complete');
     component.ngOnDestroy();
-    expect(component[destroy].unsubscribe).toHaveBeenCalledTimes(1);
+    expect(component[destroy].next).toHaveBeenCalledTimes(1);
+    expect(component[destroy].complete).toHaveBeenCalledTimes(1);
   });
 });
