@@ -15,7 +15,7 @@ describe('ServerTranslatePipe', () => {
     it('if value is undefined', () => {
       const pipe = new ServerTranslatePipe();
       const res = pipe.transform(undefined, 'ua');
-      expect(res).toBe('Empty value');
+      expect(res).toBeUndefined();
     });
 
     it('if currentLang is "ua"', () => {
@@ -28,6 +28,12 @@ describe('ServerTranslatePipe', () => {
       const pipe = new ServerTranslatePipe();
       const res = pipe.transform(fakeValue, 'en');
       expect(res).toBe('fake en value');
+    });
+
+    it('if value is not object', () => {
+      const pipe = new ServerTranslatePipe();
+      const res = pipe.transform(7, 'en');
+      expect(res).toBe(7);
     });
   });
 });

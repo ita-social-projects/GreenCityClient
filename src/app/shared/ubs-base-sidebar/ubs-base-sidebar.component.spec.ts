@@ -26,7 +26,7 @@ describe('UbsBaseSidebarComponent', () => {
   const userMessagesService = jasmine.createSpyObj('userMessagesService', ['getCountUnreadNotification']);
   userMessagesService.getCountUnreadNotification.and.returnValue(of(0));
   const jwtServiceMock = jasmine.createSpyObj('jwtService', ['']);
-  jwtServiceMock.userRole$ = of('ROLE_ADMIN');
+  jwtServiceMock.userRole$ = of('ROLE_UBS_EMPLOYEE');
 
   const listItem = {
     link: '',

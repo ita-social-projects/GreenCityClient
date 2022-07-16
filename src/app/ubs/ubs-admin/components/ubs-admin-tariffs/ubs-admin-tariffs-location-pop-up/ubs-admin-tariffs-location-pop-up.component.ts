@@ -21,8 +21,8 @@ import { Store } from '@ngrx/store';
 import { IAppState } from 'src/app/store/state/app.state';
 import { AddLocations, EditLocation, GetLocations } from 'src/app/store/actions/tariff.actions';
 import { ModalTextComponent } from '../../shared/components/modal-text/modal-text.component';
-import { ubsNamePattern } from '../../shared/validators-pattern/ubs-name-patterns';
 import { MatAutocompleteTrigger } from '@angular/material/autocomplete';
+import { Patterns } from 'src/assets/patterns/patterns';
 
 interface LocationItem {
   location: string;
@@ -40,13 +40,10 @@ export class UbsAdminTariffsLocationPopUpComponent implements OnInit, AfterViewC
   @ViewChild('locationInput') input: ElementRef;
 
   locationForm = this.fb.group({
-    region: ['', [Validators.required, Validators.minLength(3), Validators.maxLength(40), Validators.pattern(ubsNamePattern.namePattern)]],
-    englishRegion: [
-      '',
-      [Validators.required, Validators.minLength(3), Validators.maxLength(40), Validators.pattern(ubsNamePattern.englishPattern)]
-    ],
-    location: ['', [Validators.minLength(3), Validators.maxLength(40), Validators.pattern(ubsNamePattern.namePattern)]],
-    englishLocation: ['', [Validators.minLength(3), Validators.maxLength(40), Validators.pattern(ubsNamePattern.englishPattern)]]
+    region: ['', [Validators.required, Validators.minLength(3), Validators.maxLength(40), Validators.pattern(Patterns.NamePattern)]],
+    englishRegion: ['', [Validators.required, Validators.minLength(3), Validators.maxLength(40), Validators.pattern(Patterns.NamePattern)]],
+    location: ['', [Validators.minLength(3), Validators.maxLength(40), Validators.pattern(Patterns.NamePattern)]],
+    englishLocation: ['', [Validators.minLength(3), Validators.maxLength(40), Validators.pattern(Patterns.NamePattern)]]
   });
 
   regionOptions = {

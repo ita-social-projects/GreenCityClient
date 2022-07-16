@@ -8,6 +8,7 @@ import { Subject } from 'rxjs';
 import { CreateEditTariffsServicesFormBuilder } from '../../../../services/create-edit-tariffs-service-form-builder';
 import { DatePipe } from '@angular/common';
 import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
+import { Patterns } from 'src/assets/patterns/patterns';
 
 @Component({
   selector: 'app-ubs-admin-tariffs-add-tariff-service-pop-up',
@@ -59,10 +60,10 @@ export class UbsAdminTariffsAddTariffServicePopUpComponent implements OnInit {
       name: new FormControl({ value: this.receivedData.bagData.name, disabled: true }),
       englishName: new FormControl(''),
       capacity: new FormControl({ value: this.receivedData.bagData.capacity, disabled: true }),
-      price: new FormControl('', [Validators.required, Validators.pattern('[0-9]{1,3}')]),
+      price: new FormControl('', [Validators.required, Validators.pattern(Patterns.ubsPrice)]),
       description: new FormControl({ value: this.receivedData.bagData.description, disabled: true }),
       englishDescription: new FormControl({ value: this.receivedData.bagData.description, disabled: true }),
-      commission: new FormControl('', [Validators.required, Validators.pattern('[0-9]{1,3}')])
+      commission: new FormControl('', [Validators.required, Validators.pattern(Patterns.ubsPrice)])
     });
   }
 

@@ -8,6 +8,7 @@ import { ClientProfileService } from 'src/app/ubs/ubs-user/services/client-profi
 import { UbsProfileDeletePopUpComponent } from './ubs-profile-delete-pop-up/ubs-profile-delete-pop-up.component';
 import { UbsProfileChangePasswordPopUpComponent } from './ubs-profile-change-password-pop-up/ubs-profile-change-password-pop-up.component';
 import { UBSAddAddressPopUpComponent } from 'src/app/shared/ubs-add-address-pop-up/ubs-add-address-pop-up.component';
+import { Masks, Patterns } from 'src/assets/patterns/patterns';
 
 @Component({
   selector: 'app-ubs-user-profile-page',
@@ -37,12 +38,12 @@ export class UbsUserProfilePageComponent implements OnInit {
   isEditing = false;
   isFetching = false;
   alternativeEmailDisplay = false;
-  phoneMask = '+{38\\0} (00) 000 00 00';
+  phoneMask = Masks.phoneMask;
   currentLocation = {};
   maxAddressLength = 4;
-  private readonly regexp = /^([a-zа-яїєґі '-]){1,30}/iu;
-  private readonly regexpEmail = /^[a-zA-Z0-9.!#$%&’*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/;
-  private readonly regexpWithDigits = /^([a-zа-яїєґі0-9 '-])+$/iu;
+  private readonly regexp = Patterns.ubsCityPattern;
+  private readonly regexpEmail = Patterns.ubsMailPattern;
+  private readonly regexpWithDigits = Patterns.ubsWithDigitPattern;
 
   constructor(public dialog: MatDialog, private clientProfileService: ClientProfileService, private snackBar: MatSnackBarComponent) {}
 
