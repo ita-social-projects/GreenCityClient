@@ -39,6 +39,7 @@ export class UbsUserOrderPaymentPopUpComponent implements OnInit {
   public isLiqPayLink: boolean;
   public isCertBeenUsed = false;
   public usedCertificates: string[] = [];
+  public overpayment: number;
 
   public userOrder: IOrderDetailsUser = {
     id: this.data.orderId,
@@ -171,11 +172,17 @@ export class UbsUserOrderPaymentPopUpComponent implements OnInit {
   }
 
   private calculateUserOrderSumWithCertificate(certificateSum: number): void {
-    this.userOrder.sum = this.userOrder.sum > certificateSum ? this.userOrder.sum - certificateSum : 0;
+    if (this.userOrder.sum > certificateSum) {
+      this.overpayment = 0;
+      this.userOrder.sum = this.userOrder.sum - certificateSum;
+    } else {
+      this.overpayment = certificateSum - this.userOrder.sum;
+      this.userOrder.sum = 0;
+    }
   }
 
   private certificateDateTreat(date: string): string {
-    return date?.split('-').reverse().join('-');
+    return date?.split('-').reverse().join('.');
   }
 
   public deleteCertificate(index: number, certificate: FormControl): void {
@@ -184,10 +191,14 @@ export class UbsUserOrderPaymentPopUpComponent implements OnInit {
       0
     );
     const priceOverrun = this.data.price < certSum ? certSum - this.data.price : 0;
-    this.userOrder.sum =
-      certificate.value.certificateSum > priceOverrun
-        ? this.userOrder.sum + certificate.value.certificateSum - priceOverrun
-        : this.userOrder.sum;
+
+    if (certificate.value.certificateSum > priceOverrun) {
+      this.userOrder.sum = this.userOrder.sum + certificate.value.certificateSum - priceOverrun;
+      this.overpayment = 0;
+    } else {
+      this.overpayment = priceOverrun - certificate.value.certificateSum;
+    }
+
     this.usedCertificates = this.usedCertificates.filter(
       (usedCertificateCode) => usedCertificateCode !== certificate.value.certificateCode
     );
