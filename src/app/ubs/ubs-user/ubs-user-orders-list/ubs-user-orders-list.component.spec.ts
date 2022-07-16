@@ -164,6 +164,7 @@ describe('UbsUserOrdersListComponent', () => {
     it('makes expected calls', () => {
       component.openOrderPaymentDialog(fakeIputOrderData[1] as any);
       expect(matDialogMock.open).toHaveBeenCalledWith(UbsUserOrderPaymentPopUpComponent, {
+        maxWidth: '500px',
         data: {
           orderId: 7,
           price: 55,

@@ -50,7 +50,8 @@
       "yes": "Yes",
       "no": "No",
       "certificate-activated": {
-        "sum": "Certificate for {{certificateSum}} UAH activated.",
+        "activated-oversum": "A certificate for {{certificateSum}}.00 UAH is activated in excess of the amount of your order. The balance of {{certificateLeft}}.00 UAH does not return. The certificate is valid until {{ certDate}} ",
+        "sum": "Certificate for {{certificateSum}}.00 UAH activated.",
         "data": "Period is up to - до {{certDate}}"
       },
       "choose-payment": "You can make a payment in one of the selected methods below.",

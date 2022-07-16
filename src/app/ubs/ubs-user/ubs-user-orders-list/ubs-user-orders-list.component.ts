@@ -88,6 +88,7 @@ export class UbsUserOrdersListComponent implements OnInit, OnDestroy {
       this.getDataForLocalStorage(order);
     } else {
       this.dialog.open(UbsUserOrderPaymentPopUpComponent, {
+        maxWidth: '500px',
         data: {
           orderId: order.id,
           price: order.amountBeforePayment,
