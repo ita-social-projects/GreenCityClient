@@ -201,6 +201,12 @@ describe('UbsAdminTariffsLocationDashboardComponent', () => {
     ]
   };
 
+  const eventMockStation = {
+    option: {
+      value: 'fake'
+    }
+  };
+
   const tariffsServiceMock = jasmine.createSpyObj('tariffsServiceMock', ['getCouriers', 'getAllStations', 'getCardInfo']);
   tariffsServiceMock.getCouriers.and.returnValue(of([fakeCouriers]));
   tariffsServiceMock.getAllStations.and.returnValue(of([fakeStation]));
@@ -296,7 +302,7 @@ describe('UbsAdminTariffsLocationDashboardComponent', () => {
         value: 'all'
       }
     };
-    const spy = spyOn(component, 'toggleSelectAll');
+    const spy = spyOn(component, 'toggleSelectAllCity');
     component.selected(eventMock as any);
     expect(spy).toHaveBeenCalled();
     expect(component.city.value).toEqual('');
@@ -338,6 +344,32 @@ describe('UbsAdminTariffsLocationDashboardComponent', () => {
     expect(result).toEqual(true);
   });
 
+  it('should check if all is not choosen', () => {
+    component.selectedStation = ['First'];
+    component.stationName = ['First', 'Second'];
+    const result = component.isStationChecked();
+    expect(result).toEqual(false);
+  });
+
+  it('should add new selected station if it does not exist in list', () => {
+    component.selectedStation = ['station'];
+    component.onSelectStation(eventMockStation as any);
+    expect(component.selectedStation).toEqual(['station', 'fake']);
+  });
+
+  it('should remove selected station if it exists in list', () => {
+    component.selectedStation = ['station', 'fake'];
+    component.onSelectStation(eventMockStation as any);
+    expect(component.selectedStation).toEqual(['station']);
+  });
+
+  it('should check if all is choosen', () => {
+    component.selectedStation = ['First', 'Second'];
+    component.stationName = ['First', 'Second'];
+    const result = component.isStationChecked();
+    expect(result).toEqual(true);
+  });
+
   it('should map cities in ukranian from region', () => {
     const result = component.mapCitiesInUkr(mockRegion);
     expect(result).toEqual(['Фейк1', 'Фейк2']);
@@ -366,7 +398,7 @@ describe('UbsAdminTariffsLocationDashboardComponent', () => {
   it('should select all items of cities', () => {
     const spy = spyOn(component, 'isCityChecked').and.returnValue(false);
     component.cities = ['First', 'Second'];
-    component.toggleSelectAll();
+    component.toggleSelectAllCity();
     expect(spy).toHaveBeenCalled();
     expect(component.checkedCities.length).toEqual(2);
     expect(component.checkedCities).toEqual(['First', 'Second']);
@@ -374,9 +406,53 @@ describe('UbsAdminTariffsLocationDashboardComponent', () => {
 
   it('should not select all items of cities', () => {
     const spy = spyOn(component, 'isCityChecked').and.returnValue(true);
-    component.toggleSelectAll();
+    component.toggleSelectAllCity();
     expect(spy).toHaveBeenCalled();
     expect(component.checkedCities.length).toBe(0);
+  });
+
+  it('should select all items of stations', () => {
+    const spy = spyOn(component, 'isStationChecked').and.returnValue(false);
+    component.stationName = ['First', 'Second'];
+    component.toggleSelectAllStation();
+    expect(spy).toHaveBeenCalled();
+    expect(component.selectedStation.length).toEqual(2);
+    expect(component.selectedStation).toEqual(['First', 'Second']);
+  });
+
+  it('should not select all items of stations', () => {
+    const spy = spyOn(component, 'isStationChecked').and.returnValue(true);
+    component.toggleSelectAllStation();
+    expect(spy).toHaveBeenCalled();
+    expect(component.selectedStation.length).toBe(0);
+  });
+
+  it('should empty station value onSelectStation method', () => {
+    component.stationSelected(eventMockStation as any);
+    expect(component.station.value).toEqual('');
+  });
+
+  it('should call setStationPlaceholder when station selected', () => {
+    const spy = spyOn(component, 'setStationPlaceholder');
+    component.stationSelected(eventMockStation as any);
+    expect(spy).toHaveBeenCalled();
+  });
+
+  it('should call onSelectStation when station option was selected not all option', () => {
+    const spy = spyOn(component, 'onSelectStation');
+    component.stationSelected(eventMockStation as any);
+    expect(spy).toHaveBeenCalled();
+  });
+
+  it('should call toggleSelectAllStation when station all option was selected', () => {
+    const eventMockStationAll = {
+      option: {
+        value: 'all'
+      }
+    };
+    const spy = spyOn(component, 'toggleSelectAllStation');
+    component.stationSelected(eventMockStationAll as any);
+    expect(spy).toHaveBeenCalled();
   });
 
   it('should get locations', () => {
@@ -403,12 +479,16 @@ describe('UbsAdminTariffsLocationDashboardComponent', () => {
     const spy3 = spyOn(component, 'getReceivingStation');
     const spy4 = spyOn(component, 'loadScript');
     const spy5 = spyOn(component, 'getExistingCard');
+    const spy6 = spyOn(component, 'setCountOfCheckedCity');
+    const spy7 = spyOn(component, 'setStationPlaceholder');
     component.ngOnInit();
     expect(spy1).toHaveBeenCalled();
     expect(spy2).toHaveBeenCalled();
     expect(spy3).toHaveBeenCalled();
     expect(spy4).toHaveBeenCalled();
     expect(spy5).toHaveBeenCalled();
+    expect(spy6).toHaveBeenCalled();
+    expect(spy7).toHaveBeenCalled();
   });
 
   it('should get all couriers', () => {
@@ -514,6 +594,28 @@ describe('UbsAdminTariffsLocationDashboardComponent', () => {
     component.checkedCities = [];
     component.setCountOfCheckedCity();
     expect(component.cityPlaceholder).toEqual('ubs-tariffs.placeholder-locality');
+  });
+
+  it('should set station placeholder', () => {
+    component.selectedStation = ['stationItem'];
+    component.setStationPlaceholder();
+    expect(component.stationPlaceholder).toEqual('1 вибрано');
+  });
+
+  it('should set station placeholder', () => {
+    component.selectedStation = [];
+    component.setStationPlaceholder();
+    expect(component.stationPlaceholder).toEqual('ubs-tariffs.placeholder-station');
+  });
+
+  it('checkStation should return true if item is in selectedStation', () => {
+    component.selectedStation = ['stationItem'];
+    expect(component.checkStation('stationItem')).toEqual(true);
+  });
+
+  it('checkStation should return false if item is not in selectedStation', () => {
+    component.selectedStation = ['stationItem'];
+    expect(component.checkStation('Фейк')).toEqual(false);
   });
 
   it('destroy Subject should be closed after ngOnDestroy()', () => {

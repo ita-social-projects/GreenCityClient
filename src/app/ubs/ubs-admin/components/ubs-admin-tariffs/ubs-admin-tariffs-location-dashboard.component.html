@@ -86,7 +86,7 @@
           autoActiveFirstOption
         >
           <mat-option value="all">
-            <mat-checkbox [checked]="isCityChecked()" (change)="toggleSelectAll()" value="all"></mat-checkbox>
+            <mat-checkbox [checked]="isCityChecked()" (change)="toggleSelectAllCity()" value="all"></mat-checkbox>
             Усі
           </mat-option>
           <mat-option *ngFor="let city of filteredCities | async">
@@ -127,7 +127,7 @@
         />
         <mat-autocomplete #select #autoStation="matAutocomplete" (optionSelected)="stationSelected($event, autocompleteTriggerStation)">
           <mat-option value="all">
-            <mat-checkbox [checked]="isStationChecked()" (change)="toggleAllSelection()" value="all"></mat-checkbox>
+            <mat-checkbox [checked]="isStationChecked()" (change)="toggleSelectAllStation()" value="all"></mat-checkbox>
             Усі
           </mat-option>
           <mat-option *ngFor="let option of filteredStations | async" class="option-state" [value]="option">

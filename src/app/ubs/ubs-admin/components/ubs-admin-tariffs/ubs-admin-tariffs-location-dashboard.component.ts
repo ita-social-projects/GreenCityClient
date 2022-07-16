@@ -138,7 +138,7 @@ export class UbsAdminTariffsLocationDashboardComponent implements OnInit, OnDest
 
   selected(event: MatAutocompleteSelectedEvent, trigger?: MatAutocompleteTrigger): void {
     if (event.option.value === 'all') {
-      this.toggleSelectAll();
+      this.toggleSelectAllCity();
     } else {
       this.selectCity(event);
     }
@@ -171,7 +171,7 @@ export class UbsAdminTariffsLocationDashboardComponent implements OnInit, OnDest
 
   public stationSelected(event: MatAutocompleteSelectedEvent, trigger?: MatAutocompleteTrigger) {
     if (event.option.value === 'all') {
-      this.toggleAllSelection();
+      this.toggleSelectAllStation();
     } else {
       this.onSelectStation(event);
     }
@@ -209,7 +209,7 @@ export class UbsAdminTariffsLocationDashboardComponent implements OnInit, OnDest
     trigger.openPanel();
   }
 
-  toggleSelectAll(): void {
+  toggleSelectAllCity(): void {
     if (!this.isCityChecked()) {
       this.checkedCities.length = 0;
       this.cities.forEach((row) => {
@@ -220,8 +220,7 @@ export class UbsAdminTariffsLocationDashboardComponent implements OnInit, OnDest
     }
   }
 
-  toggleAllSelection() {
-    console.log('sfaf');
+  toggleSelectAllStation() {
     if (!this.isStationChecked()) {
       this.selectedStation.length = 0;
       this.stationName.forEach((row) => {
