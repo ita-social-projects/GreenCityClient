@@ -197,6 +197,10 @@ label,
   text-align: center;
   font-size: 14px;
   color: var(--ubs-electric-violet);
+
+  p {
+    text-decoration: underline;
+  }
 }
 
 .btn:nth-child(1) {
@@ -290,4 +294,25 @@ label,
   input {
     font-size: 0.8rem;
   }
+}
+
+.checkmark {
+  position: absolute;
+  top: 5px;
+  left: 4px;
+  height: 16px;
+  width: 16px;
+  background-color: var(--ubs-primary-white);
+  border-radius: 50%;
+  border: 1px solid var(--ubs-quaternary-dark-grey);
+
+  &::after {
+    content: '';
+    position: absolute;
+    display: none;
+  }
+}
+
+.custom-radio input[name='address'] {
+  accent-color: var(--ubs-freinacht-black);
 }

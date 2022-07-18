@@ -41,7 +41,7 @@ describe('UbsConfirmPageComponent', () => {
     component = fixture.componentInstance;
     router = TestBed.inject(Router);
     fakeUBSOrderFormService.orderId = of('123');
-    fakeJwtService.userRole$ = of('ROLE_ADMIN');
+    fakeJwtService.userRole$ = of('ROLE_UBS_EMPLOYEE');
     fixture.detectChanges();
   });
 

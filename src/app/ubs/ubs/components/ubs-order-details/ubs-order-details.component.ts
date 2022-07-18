@@ -42,6 +42,7 @@ export class UBSOrderDetailsComponent extends FormBaseComponent implements OnIni
   displayCert = false;
   onSubmit = true;
   order: {};
+
   certificateMask = Masks.certificateMask;
   ecoStoreMask = Masks.ecoStoreMask;
   servicesMask = Masks.servicesMask;

@@ -154,14 +154,9 @@
               {{ 'ubs-client-profile.btn.edit' | translate }}
             </button>
           </ng-container>
-          <div *ngIf="isEditing">
+          <div *ngIf="isEditing && userProfile.addressDto.length < maxAddressLength">
             <div class="wrapper-btn">
-              <button
-                aria-label="Add adrress"
-                class="btn-alternative-email"
-                (click)="openAddAdressDialog()"
-                [disabled]="userProfile.addressDto.length >= maxAddressLength"
-              ></button>
+              <button aria-label="Add adrress" class="btn-alternative-email" (click)="openAddAdressDialog()"></button>
               <p>{{ 'ubs-client-profile.btn.add-address' | translate }}</p>
             </div>
           </div>

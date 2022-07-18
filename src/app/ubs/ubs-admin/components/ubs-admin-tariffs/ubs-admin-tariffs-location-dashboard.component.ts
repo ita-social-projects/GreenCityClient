@@ -42,7 +42,11 @@ export class UbsAdminTariffsLocationDashboardComponent implements OnInit, OnDest
   filteredCities;
   filteredLocations;
   cityPlaceholder: string;
+  stationPlaceholder: string;
+  selectedStation = [];
   cards = [];
+  allSelectedStation = false;
+
   private destroy: Subject<boolean> = new Subject<boolean>();
 
   mainUrl = 'https://maps.googleapis.com/maps/api/js?key=AIzaSyB3xs7Kczo46LFcQRFKPMdrE0lU4qsR_S4&libraries=places&language=uk';
@@ -54,7 +58,8 @@ export class UbsAdminTariffsLocationDashboardComponent implements OnInit, OnDest
     arrowRight: './assets/img/ubs-tariff/arrow-right.svg'
   };
   locations$ = this.store.select((state: IAppState): Locations[] => state.locations.locations);
-  stationName: any;
+  stationName: Array<string> = [];
+  filteredStations;
 
   constructor(
     private tariffsService: TariffsService,
@@ -91,9 +96,9 @@ export class UbsAdminTariffsLocationDashboardComponent implements OnInit, OnDest
     this.region.valueChanges.subscribe((value) => {
       this.checkRegionValue(value);
       this.checkedCities = [];
-      this.positionsFilter();
     });
     this.setCountOfCheckedCity();
+    this.setStationPlaceholder();
   }
 
   private initForm(): void {
@@ -133,12 +138,11 @@ export class UbsAdminTariffsLocationDashboardComponent implements OnInit, OnDest
 
   selected(event: MatAutocompleteSelectedEvent, trigger?: MatAutocompleteTrigger): void {
     if (event.option.value === 'all') {
-      this.toggleSelectAll();
+      this.toggleSelectAllCity();
     } else {
       this.selectCity(event);
     }
     this.setCountOfCheckedCity();
-    this.positionsFilter();
     this.city.setValue('');
     if (trigger) {
       requestAnimationFrame(() => {
@@ -156,32 +160,48 @@ export class UbsAdminTariffsLocationDashboardComponent implements OnInit, OnDest
     }
   }
 
-  isChecked(): boolean {
-    return this.checkedCities.length === this.cities.length;
-  }
-
-  isEmpty(): boolean {
-    return this.filteredLocations.length === 0;
-  }
-
-  positionsFilter(): void {
-    if (this.checkedCities.length !== 0) {
-      this.filteredLocations = this.onPositionSelected();
+  public onSelectStation(event: MatAutocompleteSelectedEvent): void {
+    const newValue = event.option.value;
+    if (this.selectedStation.includes(newValue)) {
+      this.selectedStation = [...this.selectedStation.filter((item) => item !== newValue)];
     } else {
-      this.filteredLocations = this.locations;
+      this.selectedStation.push(newValue);
     }
   }
 
-  onPositionSelected(): any[] {
-    const isEmpty = (a) => Array.isArray(a) && a.every(isEmpty);
-    return this.locations.filter((user) => {
-      const res = user.locationsDto.map((it) =>
-        it.locationTranslationDtoList.filter((item) => this.checkedCities.includes(item.locationName))
-      );
-      if (!isEmpty(res)) {
-        return true;
-      }
-    });
+  public stationSelected(event: MatAutocompleteSelectedEvent, trigger?: MatAutocompleteTrigger) {
+    if (event.option.value === 'all') {
+      this.toggleSelectAllStation();
+    } else {
+      this.onSelectStation(event);
+    }
+    this.station.setValue('');
+    this.setStationPlaceholder();
+    if (trigger) {
+      requestAnimationFrame(() => {
+        trigger.openPanel();
+      });
+    }
+  }
+
+  public checkStation(item): boolean {
+    return this.selectedStation.indexOf(item) >= 0;
+  }
+
+  public setStationPlaceholder(): void {
+    if (this.selectedStation.length) {
+      this.stationPlaceholder = this.selectedStation.length + ' вибрано';
+    } else {
+      this.translate.get('ubs-tariffs.placeholder-station').subscribe((data) => (this.stationPlaceholder = data));
+    }
+  }
+
+  isCityChecked(): boolean {
+    return this.checkedCities.length === this.cities.length;
+  }
+
+  isStationChecked(): boolean {
+    return this.selectedStation.length === this.stationName.length;
   }
 
   openAuto(event: Event, trigger: MatAutocompleteTrigger): void {
@@ -189,14 +209,25 @@ export class UbsAdminTariffsLocationDashboardComponent implements OnInit, OnDest
     trigger.openPanel();
   }
 
-  toggleSelectAll(): void {
-    if (!this.isChecked()) {
+  toggleSelectAllCity(): void {
+    if (!this.isCityChecked()) {
       this.checkedCities.length = 0;
       this.cities.forEach((row) => {
         this.checkedCities.push(row);
       });
     } else {
       this.checkedCities.length = 0;
+    }
+  }
+
+  toggleSelectAllStation() {
+    if (!this.isStationChecked()) {
+      this.selectedStation.length = 0;
+      this.stationName.forEach((row) => {
+        this.selectedStation.push(row);
+      });
+    } else {
+      this.selectedStation.length = 0;
     }
   }
 
@@ -263,6 +294,7 @@ export class UbsAdminTariffsLocationDashboardComponent implements OnInit, OnDest
       .subscribe((res) => {
         this.stations = res;
         this.stationName = this.stations.map((el) => el.name);
+        this.filteredStations = this.filterOptions(this.station, this.stationName);
       });
   }
 
@@ -394,6 +426,6 @@ export class UbsAdminTariffsLocationDashboardComponent implements OnInit, OnDest
 
   ngOnDestroy(): void {
     this.destroy.next();
-    this.destroy.unsubscribe();
+    this.destroy.complete();
   }
 }

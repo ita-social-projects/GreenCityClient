@@ -47,16 +47,27 @@
         {{ 'ubs-client-profile.payment.certificate-duplication' | translate }}
       </div>
       <div *ngIf="!userCertificate.certificateError && userCertificate.certificateStatusActive && !checkIfCertBeenUsed()">
-        <div class="text-message">
+        <div *ngIf="!overpayment" class="text-message">
           {{
             'ubs-client-profile.payment.certificate-activated.sum'
               | translate: { certificateSum: formArrayCertificates.value[formArrayCertificates.value.length - 1].certificateSum }
           }}
         </div>
-        <div class="text-message">
+        <div *ngIf="!overpayment" class="text-message">
           {{
             'ubs-client-profile.payment.certificate-activated.data'
               | translate: { certDate: userCertificate.expirationDate[userCertificate.expirationDate.length - 1] }
+          }}
+        </div>
+        <div *ngIf="!!overpayment" class="text-message">
+          {{
+            'ubs-client-profile.payment.certificate-activated.activated-oversum'
+              | translate
+                : {
+                    certificateSum: formArrayCertificates.value[formArrayCertificates.value.length - 1].certificateSum,
+                    certificateLeft: overpayment,
+                    certDate: userCertificate.expirationDate[userCertificate.expirationDate.length - 1]
+                  }
           }}
         </div>
         <button *ngIf="userOrder.sum > 0" class="btn btn-add-certificate" (click)="addNewCertificate()">
