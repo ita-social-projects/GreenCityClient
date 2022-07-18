@@ -28,6 +28,7 @@ export const Patterns = {
 
   ubsCityPattern: /^([a-zа-яїєґі '-]){1,30}/iu,
   ubsWithDigitPattern: /^([a-zа-яїєґі0-9 '-])+$/iu,
+  ubsHouseNumberPattern: /^([a-zа-яїєґі0-9]([-,/]?))+$/iu,
 
   adminPhone: '^\\+?3?8?(0\\d{9})$'
 };
