@@ -83,6 +83,7 @@ describe('EventDetailsComponent', () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(EventDetailsComponent);
     component = fixture.componentInstance;
+    (component as any).dialog = TestBed.inject(MatDialog);
     fixture.detectChanges();
   });
 
@@ -155,5 +156,11 @@ describe('EventDetailsComponent', () => {
     component.sliderIndex = 3;
     component.moveLeft();
     expect(component.sliderIndex).toBe(2);
+  });
+
+  it('openMap', () => {
+    const spy = spyOn((component as any).dialog, 'open');
+    component.openMap({ coordinates: { addressEn: 'address', latitude: 10, longitude: 10 } });
+    expect(spy).toHaveBeenCalledTimes(1);
   });
 });
