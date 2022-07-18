@@ -65,6 +65,14 @@ export class UbsProfileChangePasswordPopUpComponent implements OnInit {
     return password !== currentPassword ? null : { same: true };
   }
 
+  togglePassword(event): void {
+    const toggleButton = event.target;
+    const input = toggleButton.previousElementSibling;
+    input.type = input.type === 'password' ? 'text' : 'password';
+    toggleButton.src = input.type === 'password' ? this.hideShowPasswordImage.hidePassword : this.hideShowPasswordImage.showPassword;
+    toggleButton.alt = input.type === 'password' ? 'show password' : 'hide password';
+  }
+
   public onSubmit(): void {
     this.updatePasswordDto.confirmPassword = this.formConfig.value.confirmPassword;
     this.updatePasswordDto.password = this.formConfig.value.password;
