@@ -67,9 +67,6 @@
         <mat-icon class="cross-img" (click)="region.setValue('')">close</mat-icon>
         <img [src]="icons.arrowDown" class="arrowDown-img" alt="arrowDown" (click)="openAuto($event, autocompleteTriggerRegion)" />
       </div>
-      <div class="validation" *ngIf="region.invalid && region.touched">
-        <div>Wrong input</div>
-      </div>
     </div>
     <div class="col-item">
       <p class="col-text">{{ 'ubs-tariffs.city' | translate }}</p>
@@ -89,7 +86,7 @@
           autoActiveFirstOption
         >
           <mat-option value="all">
-            <mat-checkbox [checked]="isChecked()" (change)="toggleSelectAll()" value="all"></mat-checkbox>
+            <mat-checkbox [checked]="isCityChecked()" (change)="toggleSelectAllCity()" value="all"></mat-checkbox>
             Усі
           </mat-option>
           <mat-option *ngFor="let city of filteredCities | async">
@@ -122,15 +119,26 @@
     <div class="col-item">
       <p class="col-text">{{ 'ubs-tariffs.station' | translate }}</p>
       <div class="input-wrapper">
-        <mat-form-field floatLabel="never">
-          <mat-select placeholder="{{ 'ubs-tariffs.placeholder-station' | translate }}" #stationSelect formControlName="station">
-            <mat-option class="option-state" value="all">Усі</mat-option>
-            <mat-option class="option-state" *ngFor="let station of stationName" [value]="station">
-              {{ station }}
-            </mat-option>
-          </mat-select>
-        </mat-form-field>
-        <img [src]="icons.arrowDown" class="arrowDown-img" alt="arrowDown" (click)="stationSelect.open()" />
+        <input
+          [placeholder]="stationPlaceholder"
+          #autocompleteTriggerStation="matAutocompleteTrigger"
+          formControlName="station"
+          [matAutocomplete]="autoStation"
+        />
+        <mat-autocomplete #select #autoStation="matAutocomplete" (optionSelected)="stationSelected($event, autocompleteTriggerStation)">
+          <mat-option value="all">
+            <mat-checkbox [checked]="isStationChecked()" (change)="toggleSelectAllStation()" value="all"></mat-checkbox>
+            Усі
+          </mat-option>
+          <mat-option *ngFor="let option of filteredStations | async" class="option-state" [value]="option">
+            <mat-checkbox class="mr-1" [checked]="checkStation(option)"></mat-checkbox>
+            <span class="checkbox-text">{{ option }}</span>
+          </mat-option>
+        </mat-autocomplete>
+        <img [src]="icons.arrowDown" class="arrowDown-img" alt="arrowDown" (click)="openAuto($event, autocompleteTriggerStation)" />
+      </div>
+      <div class="city-list">
+        <span *ngFor="let station of selectedStation" class="city-item">{{ station }}</span>
       </div>
     </div>
     <div class="col-item">
