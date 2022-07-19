@@ -8,6 +8,10 @@ on:
   pull_request:
     branches: [master, dev]
 
+env:
+  repository: client
+  dockerRepoName: skyere/greencity-front
+
 # A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
   # This workflow contains a single job called "build"
@@ -27,6 +31,11 @@ jobs:
         uses: actions/setup-node@v2
         with:
           node-version: ${{ matrix.node-version }}
+
+      - name: Set up Go
+        uses: actions/setup-go@v3
+        with:
+          go-version: 1.18
 
       # Runs a set of commands using the runners shell
       - name: Install
@@ -69,8 +78,35 @@ jobs:
       - name: Build
         run: |
           npx ng build --prod --delete-output-path --base-href=/GreenCityClient/ --outputPath=dist_aot
-#          npx ng build --prod --delete-output-path --base-href=/GreenCityClient/ --outputPath=dist_aot && rm -rf dist_aot
-#          npx ng build --prod --base-href=/GreenCityClient/ --aot=false --build-optimizer=false
+      #          npx ng build --prod --delete-output-path --base-href=/GreenCityClient/ --outputPath=dist_aot && rm -rf dist_aot
+      #          npx ng build --prod --base-href=/GreenCityClient/ --aot=false --build-optimizer=false
+
+      - name: Set outputs
+        run: echo "GITHUB_SHA_SHORT=$(git rev-parse --short HEAD)" >> $GITHUB_ENV
+
+      - name: Docker Login
+        uses: docker/login-action@v2.0.0
+        with:
+          username: ${{ secrets.DOCKERHUB_USERNAME }}
+          password: ${{ secrets.DOCKERHUB_TOKEN }}
+
+      - name: Build and push Docker images
+        uses: docker/build-push-action@v3.0.0
+        with:
+          context: .
+          file: Dockerfile
+          push: true
+          tags: ${{ env.dockerRepoName }}:test-${{ env.GITHUB_SHA_SHORT }}
+
+      - name: Kubernetes Set Context
+        uses: Azure/k8s-set-context@v3.0
+        with:
+          kubeconfig: ${{ secrets.KUBE_CONFIG }}
+
+      - name: Kubernetes tests
+        run: |
+          cd chart-test
+          go test -v ./...
 
 #       - name: Deploy 🚀
 #         if: ${{ github.event_name == 'push' }}

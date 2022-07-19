@@ -5,3 +5,4 @@
 .prettierignore
 greencity-client-chart
 Dockerfile
+chart-test
