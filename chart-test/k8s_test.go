@@ -9,6 +9,7 @@ import (
 	"github.com/Skyere/helm-testing/helper"
 	"github.com/Skyere/helm-testing/ingress"
 	"github.com/Skyere/helm-testing/service"
+	"github.com/Skyere/helm-testing/yaml"
 	"github.com/gruntwork-io/terratest/modules/helm"
 	"github.com/gruntwork-io/terratest/modules/k8s"
 	"github.com/gruntwork-io/terratest/modules/random"
@@ -40,7 +41,7 @@ func TestGreencity(t *testing.T) {
 	chartPath := fmt.Sprintf("../greencity-%s-chart", os.Getenv("repository"))
 	serviceName := fmt.Sprintf("greencity-%s-service", os.Getenv("repository"))
 	ingressName := fmt.Sprintf("greencity-%s-ingress", os.Getenv("repository"))
-	// siteUrl := "https://greencity-chat-test.test-greencity.ga/swagger-ui.html"
+	// siteUrl := yaml.GetValue[Values]("valuesTest.yaml").Ingress.Hostname
 
 	// Destroy release after testing
 	defer helper.Destroy(t, releaseName, options)
