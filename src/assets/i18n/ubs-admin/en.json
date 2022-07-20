@@ -803,7 +803,7 @@
     "email-wrong": "Please enter the correct email.",
     "number-wrong": "Enter the correct phone number",
     "minlength-short": "The field contains insufficient characters.",
-    "max-length": "Maximum number of characters exceeded.",
-    "pattern": "The field contains forbidden characters."
+    "max-length": "The field should contain 1-30 characters.",
+    "pattern": "Only alphabetic characters and special characters “-” (hyphen), “ ” (space) and “'” (apostrophe) are allowed."
   }
 }

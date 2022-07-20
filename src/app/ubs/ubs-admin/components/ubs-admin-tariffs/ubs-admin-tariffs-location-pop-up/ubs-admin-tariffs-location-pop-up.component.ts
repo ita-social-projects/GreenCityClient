@@ -338,7 +338,7 @@ export class UbsAdminTariffsLocationPopUpComponent implements OnInit, AfterViewC
       };
       this.newLocationName.push(cart);
     }
-    this.store.dispatch(EditLocation({ editedLocations: this.newLocationName, regionId: this.regionId }));
+    this.store.dispatch(EditLocation({ editedLocations: this.newLocationName }));
     this.dialogRef.close({});
   }
 

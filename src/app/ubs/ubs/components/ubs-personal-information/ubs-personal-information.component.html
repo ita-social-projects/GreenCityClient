@@ -143,6 +143,7 @@
       <div class="w-50 d-flex mt-2 mb-2 col-lg-6 col-md-6 col-sm-12 col-12" *ngFor="let address of addresses">
         <div class="custom-radio d-flex">
           <input
+            class="checkmark"
             name="address"
             type="radio"
             [value]="address.id"
@@ -171,7 +172,7 @@
         (click)="addNewAddress()"
         [disabled]="addresses.length >= maxAddressLength"
       >
-        {{ 'personal-info.info-add-address' | translate }}
+        <p>{{ 'personal-info.info-add-address' | translate }}</p>
       </button>
     </div>
   </div>

@@ -15,7 +15,7 @@ export const Patterns = {
   ubsEntrNumPattern: /^([1-9]\d*)?$/,
 
   serteficatePattern: /(?!0000)\d{4}-(?!0000)\d{4}/,
-  ubsCommentPattern: /^[i\s]{0,255}(.){0,255}[i\s]{0,255}$/,
+  ubsCommentPattern: /^[i\s]{0,255}(.){0,255}[S\n]{0,255}$/,
   ordersPattern: /^\d{10}$/,
 
   ubsMailPattern: /^[a-zA-Z0-9.!#$%&’*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/,
@@ -28,6 +28,7 @@ export const Patterns = {
 
   ubsCityPattern: /^([a-zа-яїєґі '-]){1,30}/iu,
   ubsWithDigitPattern: /^([a-zа-яїєґі0-9 '-])+$/iu,
+  ubsHouseNumberPattern: /^([a-zа-яїєґі0-9]([-,/]?))+$/iu,
 
   adminPhone: '^\\+?3?8?(0\\d{9})$'
 };

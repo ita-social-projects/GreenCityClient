@@ -4,8 +4,8 @@
     "email-wrong": "Please enter the correct email.",
     "number-wrong": "Enter the correct phone number",
     "minlength-short": "The field contains insufficient characters.",
-    "max-length": "Maximum number of characters exceeded.",
-    "pattern": "The field contains forbidden characters."
+    "max-length": "The field should contain 1-30 characters.",
+    "pattern": "Only alphabetic characters and special characters “-” (hyphen), “ ” (space) and “'” (apostrophe) are allowed."
   },
   "snack-bar": {
     "exist-address": "This address has already been added",
@@ -151,7 +151,7 @@
     "info-optionally": "optionally",
     "info-address": "Garbage collection address",
     "info-no-address": "You have no addresses added. Please add an address.",
-    "info-add-address": "Add address",
+    "info-add-address": "Add another address",
     "info-address-coment": "Comment to the address",
     "info-coment-placeholder": "Any details you would like to tell us further",
     "info-back": "Back",
