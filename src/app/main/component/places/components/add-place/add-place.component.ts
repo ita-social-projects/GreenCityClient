@@ -65,7 +65,7 @@ export class AddPlaceComponent implements OnInit {
     this.addPlaceForm = this.fb.group({
       type: ['', Validators.required],
       name: ['', [Validators.required, Validators.maxLength(30), Validators.pattern(Patterns.NamePattern)]],
-      address: ['', [Validators.required, Validators.maxLength(100), Validators.pattern(Patterns.NamePattern)]]
+      address: ['', [Validators.required, Validators.maxLength(100)]]
     });
   }
 
