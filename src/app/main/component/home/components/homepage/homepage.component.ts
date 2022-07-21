@@ -19,6 +19,7 @@ export class HomepageComponent implements OnInit, OnDestroy {
   readonly path5 = 'assets/img/path-5.png';
   private subs = new Subscription();
   userId: number;
+  onSignInWithGoogleSuccess: any;
 
   constructor(
     private router: Router,
@@ -35,6 +36,7 @@ export class HomepageComponent implements OnInit, OnDestroy {
   }
 
   startHabit() {
+    this.checkTokenservice.openAuthModalWindow();
     this.router.navigate(['/profile', this.userId]);
   }
 
