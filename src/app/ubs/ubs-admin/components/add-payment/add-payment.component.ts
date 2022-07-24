@@ -118,7 +118,12 @@ export class AddPaymentComponent implements OnInit, OnDestroy {
     paymentDetails.amount *= 100;
 
     const parseDate = Date.parse(paymentDetails.settlementdate);
-    const diff = paymentDetails.settlementdate.getTimezoneOffset();
+    let diff: number;
+    try {
+      diff = paymentDetails.settlementdate.getTimezoneOffset();
+    } catch {
+      diff = 0;
+    }
     paymentDetails.settlementdate = new Date(parseDate - diff * 60 * 1000).toISOString().slice(0, 10);
 
     result.form = paymentDetails;
