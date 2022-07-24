@@ -66,11 +66,11 @@ export class AddPaymentComponent implements OnInit, OnDestroy {
     private dialogRef: MatDialogRef<AddPaymentComponent>,
     private dialog: MatDialog,
     private fb: FormBuilder,
-    private _adapter: DateAdapter<any>,
+    private adapter: DateAdapter<any>,
     @Inject(MAT_DIALOG_DATA) public data: InputData
   ) {
     const locale = this.localeStorageService.getCurrentLanguage() !== 'ua' ? 'en-GB' : 'uk-UA';
-    this._adapter.setLocale(locale);
+    this.adapter.setLocale(locale);
   }
 
   ngOnInit(): void {
@@ -119,7 +119,7 @@ export class AddPaymentComponent implements OnInit, OnDestroy {
 
     const parseDate = Date.parse(paymentDetails.settlementdate);
     const diff = paymentDetails.settlementdate.getTimezoneOffset();
-    paymentDetails.settlementdate = new Date(parseDate + -diff * 60 * 1000).toISOString().slice(0, 10);
+    paymentDetails.settlementdate = new Date(parseDate - diff * 60 * 1000).toISOString().slice(0, 10);
 
     result.form = paymentDetails;
     result.file = this.file;

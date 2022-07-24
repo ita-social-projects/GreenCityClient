@@ -48,7 +48,7 @@ describe('AddPaymentComponent', () => {
   orderServiceMock.deleteManualPayment.and.returnValue(of(3));
   const localeStorageServiceMock = jasmine.createSpyObj('localeStorageService', ['getCurrentLanguage']);
   localeStorageServiceMock.firstNameBehaviourSubject = of('fakeName');
-  const dateAdapterMock = jasmine.createSpyObj('_adapter', ['setLocale']);
+  const dateAdapterMock = jasmine.createSpyObj('adapter', ['setLocale']);
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
