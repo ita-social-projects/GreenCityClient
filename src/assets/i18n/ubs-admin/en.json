@@ -120,7 +120,7 @@
     "payment-date": " Payment date",
     "payment-amount": "Payment amount",
     "amount-placeholder": "0 UAH",
-    "date-placeholder": "DD/MM/YY",
+    "date-placeholder": "DD/MM/YYYY",
     "payment-id": "Payment ID",
     "id-placeholder": "№1234567890",
     "link-to-bill": "Link to electronic bill",

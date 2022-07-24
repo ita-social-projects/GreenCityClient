@@ -121,7 +121,7 @@
     "payment-date": "Дата оплати",
     "payment-amount": "Сума оплати",
     "amount-placeholder": "0 грн",
-    "date-placeholder": "ДД/ММ/РР",
+    "date-placeholder": "ДД.ММ.РРРР",
     "payment-id": "ID платежу",
     "id-placeholder": "№1234567890",
     "link-to-bill": "Посилання на електронний чек",

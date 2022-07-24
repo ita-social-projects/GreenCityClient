@@ -11,6 +11,8 @@ import { ShowImgsPopUpComponent } from '../../../../shared/show-imgs-pop-up/show
 import { ShowPdfPopUpComponent } from '../shared/components/show-pdf-pop-up/show-pdf-pop-up.component';
 import { DialogPopUpComponent } from 'src/app/shared/dialog-pop-up/dialog-pop-up.component';
 import { Patterns } from 'src/assets/patterns/patterns';
+import { formatDate } from '@angular/common';
+import { DateAdapter } from '@angular/material/core';
 
 interface InputData {
   orderId: number;
@@ -64,8 +66,12 @@ export class AddPaymentComponent implements OnInit, OnDestroy {
     private dialogRef: MatDialogRef<AddPaymentComponent>,
     private dialog: MatDialog,
     private fb: FormBuilder,
+    private _adapter: DateAdapter<any>,
     @Inject(MAT_DIALOG_DATA) public data: InputData
-  ) {}
+  ) {
+    const locale = this.localeStorageService.getCurrentLanguage() !== 'ua' ? 'en-GB' : 'uk-UA';
+    this._adapter.setLocale(locale);
+  }
 
   ngOnInit(): void {
     this.orderId = this.data.orderId;
@@ -84,7 +90,10 @@ export class AddPaymentComponent implements OnInit, OnDestroy {
 
   initForm() {
     this.addPaymentForm = this.fb.group({
-      settlementdate: [this.payment?.settlementdate ?? '', [Validators.required]],
+      settlementdate: [
+        this.payment?.settlementdate ? formatDate(this.convertDate(this.payment.settlementdate), 'yyyy-MM-dd', 'ua') : null,
+        [Validators.required]
+      ],
       amount: [this.payment?.amount ?? '', [Validators.required, Validators.pattern(Patterns.paymantAmountPattern)]],
       paymentId: [this.payment?.paymentId ?? '', [Validators.required]],
       receiptLink: [this.payment?.receiptLink ?? '']
@@ -95,6 +104,10 @@ export class AddPaymentComponent implements OnInit, OnDestroy {
     }
   }
 
+  convertDate(inputDate: string): string {
+    return inputDate?.split('.').reverse().join('-');
+  }
+
   close() {
     this.dialogRef.close(null);
   }
@@ -103,8 +116,14 @@ export class AddPaymentComponent implements OnInit, OnDestroy {
     const result: PostData = { form: null, file: null };
     const paymentDetails = this.addPaymentForm.value;
     paymentDetails.amount *= 100;
+
+    const parseDate = Date.parse(paymentDetails.settlementdate);
+    const diff = paymentDetails.settlementdate.getTimezoneOffset();
+    paymentDetails.settlementdate = new Date(parseDate + -diff * 60 * 1000).toISOString().slice(0, 10);
+
     result.form = paymentDetails;
     result.file = this.file;
+
     if (this.editMode) {
       result.form.imagePath = this.file ? '' : this.imagePreview.src ?? '';
     }
