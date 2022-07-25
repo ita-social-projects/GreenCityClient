@@ -14,18 +14,26 @@
       <label class="certificate-title">{{ 'ubs-client-profile.payment.certificate-number' | translate }}</label>
       <div formArrayName="formArrayCertificates" *ngFor="let certificate of formArrayCertificates.controls; let i = index">
         <div [formGroupName]="i" class="dialog-container-certificate">
-          <input
-            type="text"
-            class="form-control shadow-none input-border"
-            [imask]="{ mask: certificateMask }"
-            [unmask]="false"
-            placeholder="xxxx-xxxx"
-            formControlName="certificateCode"
-          />
+          <fieldset [disabled]="!certificateStatus[i]">
+            <legend style="display: none">Certificate Code Input</legend>
+            <input
+              type="text"
+              class="form-control shadow-none input-border"
+              [imask]="{ mask: certificateMask }"
+              [unmask]="false"
+              placeholder="xxxx-xxxx"
+              formControlName="certificateCode"
+            />
+          </fieldset>
           <button
             *ngIf="certificateStatus[i]"
             class="btn btn-activate"
-            [disabled]="formArrayCertificates['controls'][i].invalid || formArrayCertificates['controls'][i].pristine || 0 >= userOrder.sum"
+            [disabled]="
+              formArrayCertificates['controls'][i].invalid ||
+              formArrayCertificates['controls'][i].pristine ||
+              !certificate.controls.certificateCode.value.length ||
+              0 >= userOrder.sum
+            "
             (click)="certificateSubmit(i, certificate)"
           >
             {{ 'ubs-client-profile.payment.btn.active' | translate }}
@@ -38,19 +46,63 @@
       <div *ngIf="checkIfCertBeenUsed()" class="text-danger">
         {{ 'ubs-client-profile.payment.certificate-duplication' | translate }}
       </div>
-      <div *ngIf="!userCertificate.certificateError && userCertificate.certificateStatusActive">
-        <div class="text-danger">
-          {{ 'ubs-client-profile.payment.certificate-activated.sum' | translate: { certificateSum: userCertificate.certificateSum } }}
+      <div *ngIf="!userCertificate.certificateError && userCertificate.certificateStatusActive && !checkIfCertBeenUsed()">
+        <div *ngIf="!overpayment" class="text-message">
+          {{
+            'ubs-client-profile.payment.certificate-activated.sum'
+              | translate: { certificateSum: formArrayCertificates.value[formArrayCertificates.value.length - 1].certificateSum }
+          }}
         </div>
-        <div class="text-danger">
-          {{ 'ubs-client-profile.payment.certificate-activated.data' | translate: { certDate: userCertificate.creationDate } }}
+        <div *ngIf="!overpayment" class="text-message">
+          {{
+            'ubs-client-profile.payment.certificate-activated.data'
+              | translate: { certDate: userCertificate.expirationDate[userCertificate.expirationDate.length - 1] }
+          }}
+        </div>
+        <div *ngIf="!!overpayment" class="text-message">
+          {{
+            'ubs-client-profile.payment.certificate-activated.activated-oversum'
+              | translate
+                : {
+                    certificateSum: formArrayCertificates.value[formArrayCertificates.value.length - 1].certificateSum,
+                    certificateLeft: overpayment,
+                    certDate: userCertificate.expirationDate[userCertificate.expirationDate.length - 1]
+                  }
+          }}
         </div>
         <button *ngIf="userOrder.sum > 0" class="btn btn-add-certificate" (click)="addNewCertificate()">
           {{ 'ubs-client-profile.payment.add-certificate' | translate }}
         </button>
       </div>
-      <div *ngIf="userCertificate.certificateError" class="text-danger">
+      <div
+        *ngIf="userCertificate.certificateError && !userCertificate.creationDate[userCertificate.creationDate.length - 1]"
+        class="text-danger"
+      >
         {{ 'ubs-client-profile.payment.failed-certificate' | translate }}
+      </div>
+      <div
+        *ngIf="
+          userCertificate.certificateError &&
+          formArrayCertificates.value[formArrayCertificates.value.length - 1].certificateStatus === 'USED'
+        "
+        class="text-danger"
+      >
+        {{
+          'ubs-client-profile.payment.already-used'
+            | translate: { certDate: userCertificate.dateOfUse[userCertificate.dateOfUse.length - 1] }
+        }}
+      </div>
+      <div
+        *ngIf="
+          userCertificate.certificateError &&
+          formArrayCertificates.value[formArrayCertificates.value.length - 1].certificateStatus === 'EXPIRED'
+        "
+        class="text-danger"
+      >
+        {{
+          'ubs-client-profile.payment.expired'
+            | translate: { certDate: userCertificate.expirationDate[userCertificate.expirationDate.length - 1] }
+        }}
       </div>
     </div>
 
@@ -100,7 +152,11 @@
       <button class="btn btn-cancel" mat-dialog-close>
         {{ 'ubs-client-profile.payment.btn.cancel' | translate }}
       </button>
-      <button class="btn btn-pay" [disabled]="0 > userOrder.sum || dataLoadingLiqPay" (click)="processOrder()">
+      <button
+        class="btn btn-pay"
+        [disabled]="0 > userOrder.sum || dataLoadingLiqPay || userCertificate.certificateError"
+        (click)="processOrder()"
+      >
         <span *ngIf="dataLoadingLiqPay" class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
         {{ 'ubs-client-profile.payment.btn.pay' | translate }}
       </button>

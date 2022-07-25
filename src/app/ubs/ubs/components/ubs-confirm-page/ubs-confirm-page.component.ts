@@ -32,7 +32,7 @@ export class UbsConfirmPageComponent implements OnInit, OnDestroy {
 
   toPersonalAccount(): void {
     this.jwtService.userRole$.pipe(takeUntil(this.destroy$)).subscribe((userRole) => {
-      const isAdmin = userRole === 'ROLE_ADMIN';
+      const isAdmin = userRole === 'ROLE_UBS_EMPLOYEE';
       this.saveDataOnLocalStorage();
       this.localStorageService.clearPaymentInfo();
       this.router.navigate([isAdmin ? 'ubs-admin' : 'ubs-user', 'orders']);

@@ -1,12 +1,14 @@
 import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators, FormArray } from '@angular/forms';
-import { MatDialog } from '@angular/material/dialog';
+import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
 import { SignInIcons } from 'src/app/main/image-pathes/sign-in-icons';
 import { MatSnackBarComponent } from '@global-errors/mat-snack-bar/mat-snack-bar.component';
 import { Address, UserProfile } from 'src/app/ubs/ubs-admin/models/ubs-admin.interface';
 import { ClientProfileService } from 'src/app/ubs/ubs-user/services/client-profile.service';
 import { UbsProfileDeletePopUpComponent } from './ubs-profile-delete-pop-up/ubs-profile-delete-pop-up.component';
 import { UbsProfileChangePasswordPopUpComponent } from './ubs-profile-change-password-pop-up/ubs-profile-change-password-pop-up.component';
+import { UBSAddAddressPopUpComponent } from 'src/app/shared/ubs-add-address-pop-up/ubs-add-address-pop-up.component';
+import { Masks, Patterns } from 'src/assets/patterns/patterns';
 
 @Component({
   selector: 'app-ubs-user-profile-page',
@@ -36,11 +38,9 @@ export class UbsUserProfilePageComponent implements OnInit {
   isEditing = false;
   isFetching = false;
   alternativeEmailDisplay = false;
-  phoneMask = '+{38\\0} (00) 000 00 00';
-  private readonly regexp = /^([a-zа-яїєґі '-]){1,30}/iu;
-  private readonly regexpEmail = /^[a-zA-Z0-9.!#$%&’*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/;
-  private readonly regexpWithDigits = /^([a-zа-яїєґі0-9 '-])+$/iu;
-
+  phoneMask = Masks.phoneMask;
+  currentLocation = {};
+  maxAddressLength = 4;
   constructor(public dialog: MatDialog, private clientProfileService: ClientProfileService, private snackBar: MatSnackBarComponent) {}
 
   ngOnInit(): void {
@@ -73,13 +73,29 @@ export class UbsUserProfilePageComponent implements OnInit {
     const addres = new FormArray([]);
     this.userProfile.addressDto.forEach((adres) => {
       const seperateAddress = new FormGroup({
-        city: new FormControl(adres?.city, [Validators.pattern(this.regexp), Validators.maxLength(20)]),
-        street: new FormControl(adres?.street, [Validators.pattern(this.regexpWithDigits), Validators.maxLength(30)]),
-        houseNumber: new FormControl(adres?.houseNumber, [Validators.pattern(this.regexpWithDigits), Validators.maxLength(4)]),
-        houseCorpus: new FormControl(adres?.houseCorpus, [Validators.pattern(this.regexpWithDigits), Validators.maxLength(4)]),
-        entranceNumber: new FormControl(adres?.entranceNumber, [Validators.pattern(this.regexpWithDigits), Validators.maxLength(4)]),
-        region: new FormControl(adres?.region, [Validators.pattern(this.regexpWithDigits), Validators.maxLength(20)]),
-        district: new FormControl(adres?.district, [Validators.pattern(this.regexpWithDigits), Validators.maxLength(20)])
+        city: new FormControl(adres?.city, [Validators.required, Validators.pattern(Patterns.ubsCityPattern), Validators.maxLength(20)]),
+        street: new FormControl(adres?.street, [
+          Validators.required,
+          Validators.pattern(Patterns.ubsWithDigitPattern),
+          Validators.maxLength(30)
+        ]),
+        houseNumber: new FormControl(adres?.houseNumber, [
+          Validators.required,
+          Validators.pattern(Patterns.ubsHouseNumberPattern),
+          Validators.maxLength(8)
+        ]),
+        houseCorpus: new FormControl(adres?.houseCorpus, [Validators.pattern(Patterns.ubsWithDigitPattern), Validators.maxLength(8)]),
+        entranceNumber: new FormControl(adres?.entranceNumber, [Validators.pattern(Patterns.ubsEntrNumPattern), Validators.maxLength(2)]),
+        region: new FormControl(adres?.region, [
+          Validators.required,
+          Validators.pattern(Patterns.ubsWithDigitPattern),
+          Validators.maxLength(20)
+        ]),
+        district: new FormControl(adres?.district, [
+          Validators.required,
+          Validators.pattern(Patterns.ubsWithDigitPattern),
+          Validators.maxLength(20)
+        ])
       });
       addres.push(seperateAddress);
     });
@@ -87,15 +103,15 @@ export class UbsUserProfilePageComponent implements OnInit {
       address: addres,
       recipientName: new FormControl(this.userProfile?.recipientName, [
         Validators.required,
-        Validators.pattern(this.regexp),
+        Validators.pattern(Patterns.ubsCityPattern),
         Validators.maxLength(30)
       ]),
       recipientSurname: new FormControl(this.userProfile?.recipientSurname, [
         Validators.required,
-        Validators.pattern(this.regexp),
+        Validators.pattern(Patterns.ubsCityPattern),
         Validators.maxLength(30)
       ]),
-      recipientEmail: new FormControl(this.userProfile?.recipientEmail, [Validators.required, Validators.pattern(this.regexpEmail)]),
+      recipientEmail: new FormControl(this.userProfile?.recipientEmail, [Validators.required, Validators.pattern(Patterns.ubsMailPattern)]),
       recipientPhone: new FormControl(`+380${this.userProfile?.recipientPhone}`, [Validators.required, Validators.minLength(12)])
     });
     this.isFetching = false;
@@ -171,6 +187,18 @@ export class UbsUserProfilePageComponent implements OnInit {
     });
   }
 
+  openAddAdressDialog(): void {
+    this.currentLocation = this.userProfile.addressDto[0].city;
+    const dialogConfig = new MatDialogConfig();
+    dialogConfig.panelClass = 'address-matDialog-styles';
+    dialogConfig.data = {
+      edit: false,
+      currentLocation: this.currentLocation,
+      address: {}
+    };
+    this.dialog.open(UBSAddAddressPopUpComponent, dialogConfig);
+  }
+
   formatedPhoneNumber(num: string): string | void {
     const match = num?.match(/^(\d{2})(\d{3})(\d{2})(\d{2})$/);
     if (match) {
@@ -183,7 +211,12 @@ export class UbsUserProfilePageComponent implements OnInit {
   }
 
   toggleAlternativeEmail() {
-    const control = new FormControl(this.userProfile?.alternateEmail, [Validators.pattern(this.regexpEmail)]);
+    const control = new FormControl(this.userProfile?.alternateEmail, [
+      Validators.pattern(Patterns.ubsMailPattern),
+      Validators.minLength(3),
+      Validators.maxLength(66),
+      Validators.email
+    ]);
     this.alternativeEmailDisplay = !this.alternativeEmailDisplay;
 
     this.alternativeEmailDisplay ? this.userForm.addControl('alternateEmail', control) : this.userForm.removeControl('alternateEmail');

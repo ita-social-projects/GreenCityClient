@@ -9,6 +9,7 @@ import { MatDialogRef } from '@angular/material/dialog';
 import { WorkingTime } from '../../models/week-pick-model';
 import { CreatePlaceModel, OpeningHoursDto } from '../../models/create-place.model';
 import { TranslateService } from '@ngx-translate/core';
+import { Patterns } from 'src/assets/patterns/patterns';
 
 @Component({
   selector: 'app-add-place',
@@ -63,8 +64,8 @@ export class AddPlaceComponent implements OnInit {
   initForm(): void {
     this.addPlaceForm = this.fb.group({
       type: ['', Validators.required],
-      name: ['', [Validators.required, Validators.maxLength(30), Validators.pattern(/[0-9a-zа-я]/i)]],
-      address: ['', [Validators.required, Validators.maxLength(100), Validators.pattern(/[0-9a-zа-я]/i)]]
+      name: ['', [Validators.required, Validators.maxLength(30), Validators.pattern(Patterns.NamePattern)]],
+      address: ['', [Validators.required, Validators.maxLength(100)]]
     });
   }
 

@@ -1,3 +1,5 @@
+@import './././src/app/ubs/ubs-admin/ubs-admin.component';
+
 .container {
   height: 100%;
   overflow-y: auto;
@@ -107,6 +109,16 @@
       margin-bottom: 0;
     }
 
+    .form-container.block {
+      position: relative;
+
+      & .mat-datepicker-toggle {
+        position: absolute;
+        top: 20px;
+        left: 130px;
+      }
+    }
+
     .photo-container {
       position: relative;
       height: 231px;
@@ -156,16 +168,8 @@
       }
 
       .image-edit-head {
-        position: absolute;
-        top: 0;
-        left: 0;
-        width: 100%;
-        background: var(--ubs-quaternary-light-grey);
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        padding: 5px;
-        font-size: 12px;
+        @include image-edit;
+
         visibility: hidden;
         z-index: 2;
       }

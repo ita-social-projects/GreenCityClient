@@ -6,8 +6,8 @@ import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
+import { Patterns } from 'src/assets/patterns/patterns';
 import { TariffsService } from '../../../services/tariffs.service';
-import { ubsNamePattern } from '../../shared/validators-pattern/ubs-name-patterns';
 
 @Component({
   selector: 'app-ubs-admin-tariffs-station-pop-up',
@@ -16,7 +16,7 @@ import { ubsNamePattern } from '../../shared/validators-pattern/ubs-name-pattern
 })
 export class UbsAdminTariffsStationPopUpComponent implements OnInit, OnDestroy {
   stationForm = this.fb.group({
-    name: ['', [Validators.required, Validators.minLength(3), Validators.maxLength(40), Validators.pattern(ubsNamePattern.namePattern)]]
+    name: ['', [Validators.required, Validators.minLength(3), Validators.maxLength(40), Validators.pattern(Patterns.NamePattern)]]
   });
 
   get name() {

@@ -50,22 +50,27 @@
       {{ 'order-details.failed-certificate' | translate }}
     </small>
     <small class="text-danger" *ngIf="certStatus === 'USED' && failedCert">
-      {{ 'order-details.already-used' | translate: { certDate: certDate } }}
+      {{ 'order-details.already-used' | translate: { certDate: dateOfUse[dateOfUse.length - 1] } }}
     </small>
     <small class="text-danger" *ngIf="certStatus === 'EXPIRED' && failedCert">
-      {{ 'order-details.expired' | translate: { certDate: certDate } }}
+      {{ 'order-details.expired' | translate: { certDate: expirationDate[expirationDate.length - 1] } }}
     </small>
     <small class="text-message" *ngIf="certSize && certificateSum <= showTotal">
-      {{ 'order-details.activated' | translate: { certificateSum: certificateSum, certDate: certDate } }}
+      {{ 'order-details.activated' | translate: { certificateSum: certificateSum, certDate: expirationDate[expirationDate.length - 1] } }}
     </small>
     <small class="text-message" *ngIf="certSize && certificateSum >= showTotal">
       {{
         'order-details.activated-oversum'
-          | translate: { certificateSum: certificateSum, certDate: certDate, certificateLeft: certificateSum - showTotal }
+          | translate
+            : {
+                certificateSum: certificateSum,
+                certDate: expirationDate[expirationDate.length - 1],
+                certificateLeft: certificateSum - showTotal
+              }
       }}
     </small>
     <small class="text-message" *ngIf="(certStatus === 'NEW' || certStatus === 'ACTIVE') && !certSize">
-      {{ 'order-details.activated' | translate: { certificateSum: certificateSum, certDate: certDate } }}
+      {{ 'order-details.activated' | translate: { certificateSum: certificateSum, certDate: expirationDate[expirationDate.length - 1] } }}
     </small>
   </div>
 
@@ -83,16 +88,16 @@
   <div class="points">
     <h5>{{ 'order-details.bonus-need' | translate }}</h5>
     <p>{{ 'order-details.bonus-left' | translate }} {{ defaultPoints | currency | localizedCurrency }}</p>
-    <div class="radio-btn" *ngIf="defaultPoints !== 0 && showTotal !== 0">
+    <div class="radio-btn" *ngIf="defaultPoints !== 0 && showTotal !== 0" appSpacePrevent>
       <label class="custom-radio-btn"
         >{{ 'order-details.no' | translate }}
         <input formControlName="bonus" type="radio" value="no" tabindex="-1" (click)="resetPoints()" />
-        <span class="checkmark" tabindex="0" (keyup)="selectPointsRadioBtn($event, 'no'); resetPoints()"></span>
+        <span class="checkmark" tabindex="0" (keyup)="selectPointsRadioBtn($event, 'no')"></span>
       </label>
       <label class="custom-radio-btn"
         >{{ 'order-details.yes' | translate }}
         <input formControlName="bonus" type="radio" value="yes" tabindex="-1" (click)="calculatePoints()" />
-        <span class="checkmark" tabindex="0" (keyup)="selectPointsRadioBtn($event, 'yes'); calculatePoints()"></span>
+        <span class="checkmark" tabindex="0" (keyup)="selectPointsRadioBtn($event, 'yes')"></span>
       </label>
     </div>
     <div class="points-balance">

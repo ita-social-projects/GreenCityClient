@@ -70,6 +70,11 @@
                   formControlName="alternateEmail"
                   aria-describedby="emailHelp"
                 />
+                <div *ngIf="getControl('alternateEmail').invalid && getControl('alternateEmail').touched">
+                  <div class="error-message">
+                    {{ 'user.auth.sign-in.this-is-not-email' | translate }}
+                  </div>
+                </div>
               </div>
             </div>
             <label *ngIf="userProfile?.alternateEmail && !isEditing" class="form-label">{{
@@ -149,9 +154,9 @@
               {{ 'ubs-client-profile.btn.edit' | translate }}
             </button>
           </ng-container>
-          <div *ngIf="isEditing">
+          <div *ngIf="isEditing && userProfile.addressDto.length < maxAddressLength">
             <div class="wrapper-btn">
-              <button aria-label="Add adrress" class="btn-alternative-email"></button>
+              <button aria-label="Add adrress" class="btn-alternative-email" (click)="openAddAdressDialog()"></button>
               <p>{{ 'ubs-client-profile.btn.add-address' | translate }}</p>
             </div>
           </div>

@@ -50,14 +50,16 @@
       "yes": "Так",
       "no": "Ні",
       "certificate-activated": {
-        "sum": "Сертифікат на суму {{certificateSum}} грн активовано.",
+        "activated-oversum": "Сертифікат на суму {{certificateSum}}.00 грн активовано, що перевищує суму вашого замовлення. Залишок у розмірі {{certificateLeft}}.00 грн не повертається. Строк дії сертифікату - до {{certDate}}",
+        "sum": "Сертифікат на суму {{certificateSum}}.00 грн активовано.",
         "data": "Строк дії сертифікату - до {{certDate}}"
       },
       "choose-payment": "Ви можете здійснити оплату одним з вибраних способів нижче.",
       "question-certificate": "Чи бажаєте Ви скористатись сертифікатом?",
       "failed-certificate": "Сертифікат не прийнято, споробуйте ще раз",
       "certificate-duplication": "Ви вже ввели номер цього сертифікату ",
-      "used-certificate": "Сертифiкат вже було використано ",
+      "already-used": "Сертифiкат вже було використано {{certDate}}",
+      "expired": "Сертифікат не є дійсним. Строк дії сертифікату - до {{certDate}}",
       "bonus": {
         "need": "Чи бажаєте Ви скористатися бонусами?",
         "present": "На Вашому бонусному рахунку:",
@@ -119,7 +121,7 @@
     "payment-date": "Дата оплати",
     "payment-amount": "Сума оплати",
     "amount-placeholder": "0 грн",
-    "date-placeholder": "ДД/ММ/РР",
+    "date-placeholder": "ДД.ММ.РРРР",
     "payment-id": "ID платежу",
     "id-placeholder": "№1234567890",
     "link-to-bill": "Посилання на електронний чек",
@@ -222,7 +224,7 @@
       "tel-label": "Телефон",
       "tel-placeholder": "+380 00 000 00 00",
       "email-label": "Email",
-      "email-placeholder": "mail@mail.com"
+      "email-placeholder": "example@mail.com"
     },
     "recipient": {
       "title": "Відправник",
@@ -233,7 +235,7 @@
       "tel-label": "Телефон",
       "tel-placeholder": "+380 00 000 00 00",
       "email-label": "Email",
-      "email-placeholder": "mail@mail.com"
+      "email-placeholder": "example@mail.com"
     },
     "violation": {
       "title": "Порушення клієнта",
@@ -371,7 +373,7 @@
     "get-bonuses": "Дізнатись, за що нараховуються бонуси",
     "title": "Бонуси",
     "about-bonuses-system": "Про систему бонусів",
-    "enrollment-date": "Дата зарахування",
+    "enrollment-date": "Дата",
     "amount": "Кількість",
     "reason": "Причина",
     "order": "Замовлення"
@@ -410,12 +412,13 @@
       "amount-due": "Сума до оплати:",
       "services-amount": "Сума наданих послуг:",
       "paid-amount": "Оплачено:",
-      "delivery": "Доставка з Еко магазину",
+      "delivery": "Доставка замовлень з Еко-магазину",
       "order-number": "Номери ваших замовлень:",
       "recipient": "Відправник",
-      "export-address": "Адреса вивезення замовленних послуг",
-      "block-number": "корп. ",
-      "entrance": "п. ",
+      "export-address": "Адреса вивезення замовлених послуг",
+      "block-number": "корпус",
+      "entrance": "під’їзд",
+      "district": "район",
       "comment-address": "Коментар до адреси:",
       "comment-order": "Коментар до замовлення:",
       "receipt": "Завантажити квитанцію"
@@ -429,12 +432,70 @@
     "surname": "Прізвище*",
     "surname-placeholder": "Прізвище",
     "phone-number": "Номер телефону*",
-    "position": "Посада*",
-    "receiving-station": "Станція приймання*",
+    "position": "Посада",
+    "contacts": "Контакти",
+    "receiving-station": "Станція приймання",
     "photo": "Фото",
     "drag-photo": "Перетягніть зображення, або",
     "download-photo": "завантажте з пристрою",
     "warning-title": "Ви впевнені, що хочете видалити цього працівника із системи?",
+    "settings": "Налаштувати права",
+    "edit": "Редагувати дані",
+    "rights": {
+      "clients": {
+        "title": "Клієнти",
+        "see-main-page": "Бачити основну сторінку Клієнта"
+      },
+      "employees": {
+        "title": "Працівники",
+        "see-main-page": "Бачити основну сторінку Працівника",
+        "create-card": "Створювати нову картку працівника",
+        "edit-card": "Редагувати картку працівника",
+        "delete-card": "Видалити працівника",
+        "edit-authority": "Редагувати повноваження працівника"
+      },
+      "certificates": {
+        "title": "Сертифікати",
+        "see-main-page": "Бачити основну сторінку Сертифікатів",
+        "create-card": "Створювати новий сертифікат",
+        "edit-card": "Редагувати сертифікат"
+      },
+      "orders": {
+        "title": "Замовлення",
+        "see-main-page": "Бачити картку Замовлення",
+        "edit-card": "Редагувати картку замовлення"
+      },
+      "messages": {
+        "title": "Повідомлення",
+        "see-main-page": "Бачити основну сторінку Повідомлень",
+        "create-card": "Створювати нову картку повідомлення",
+        "edit-card": "Редагувати картку повідомлення",
+        "delete-card": "Видалити картку повідомлення"
+      },
+      "tariffs": {
+        "title": "Тарифи",
+        "see-main-page": "Бачити основну сторінку Тарифи",
+        "create-location": "Створювати локацію",
+        "create-courier": "Створювати кур’єра",
+        "edit-location-name": "Редагувати назву локації",
+        "edit-courier-name": "Редагувати ім’я кур’єра",
+        "edit-destination-name": "Редагувати назву пункту призначення",
+        "create-location-card": "Створити картку локації",
+        "delete-location-card": "Видалити картку локації",
+        "see-price-card": "Бачити картку ціни",
+        "edit-service": "Додати/Редагувати/Видалити послугу",
+        "edit-price-card": "Редагувати/Видалити картку ціни"
+      }
+    },
+    "tooltip": {
+      "title": "Картка працівника",
+      "text": "Натискаючи на картку працівника, ви отримуєте всю додаткову інформацію по працівнику: всі посади, детальна інофрмація і тд., а також можливість редагувати дані працівника, налаштувати права працівника та видалити працівника."
+    },
+    "actions": {
+      "edit": "Редагувати дані працівника",
+      "settings": "Налаштувати права працівника",
+      "delete": "Видалити працівника"
+    },
     "btn": {
       "cancel": "Скасувати",
       "add": "Додати",
@@ -451,12 +512,12 @@
     "orders": "Замовлення",
     "employees": "Працівники",
     "documents": "Документи",
-    "schedule": "Графік",
     "bonuses": "Бонуси",
     "tariffs": "Тарифи"
   },
   "ubs-employee": {
     "add-employee": "Додати працівника",
+    "edit-employee": "Редагувати дані працівника",
     "employee": "Працівник",
     "edit": "Редагувати",
     "required-fields": "*Обов’язкові поля",
@@ -473,12 +534,13 @@
     "browse-2": "пристрою",
     "delete": "Видалити",
     "add": "Додати",
+    "apply": "Застосувати",
     "cancel": "Скасувати",
     "update": "Оновити"
   },
   "ubs-user": {
     "orders": "Замовлення",
-    "invoice": "Рахунок",
+    "invoice": "Бонуси",
     "user_data": "Дані користувача",
     "messages": "Повідомлення",
     "user": "Користувач"
@@ -489,6 +551,10 @@
     "placeholder-courier": "Оберіть кур'єра",
     "placeholder-station": "Оберіть станцію",
     "placeholder-state": "Оберіть стан",
+    "placeholder-choose-region": "Обрати область",
+    "placeholder-choose-city": "Обрати місто",
+    "placeholder-choose-courier": "Обрати кур'єра",
+    "placeholder-choose-station": "Обрати станцію приймання",
     "tariffs": "Тарифи",
     "region": "Область",
     "courier": "Кур'єр",
@@ -517,6 +583,7 @@
     "textile_waste_20": "Текстильні відходи 20 л",
     "info_about_order_limits": "Інформація про ліміти замовлення",
     "placeholder_order_limits_info": "Інформація про ліміти замовлення, яка буде відображатись у формі замовлення клієнта",
+    "card-already-exist": "За цими критеріями вже існує тарифна картка. Для збереження внесіть зміни.",
     "btn": {
       "add_service": "Додати сервіс",
       "add_service2": "Додати послугу",
@@ -563,11 +630,13 @@
     "add_button": "Додати",
     "cancel_button": "Скасувати",
     "save_button": "Зберегти",
+    "create_button": "Створити",
     "error_message": "На жаль, область не знайдена. Введіть ще раз",
     "city_error_message": "На жаль, місто не знайдено. Введіть ще раз",
     "city_exist": "Місто вже існує в системі. Змініть його",
     "courier_title": "Додати кур'єра",
     "station_title": "Додати станцію приймання",
+    "create_card_title": "Створити картку",
     "courier_edit_title": "Редагувати кур'єра",
     "station_edit_title": "Редагувати станцію приймання",
     "courier_edit_text": "Оберіть кур'єра та редагуйте",
@@ -610,7 +679,7 @@
     "user": "Додано ",
     "no": "Ні",
     "yes": "Так",
-    "cancel-message": "Скасувати. Ви дійсно хочете скасувати внесені зміни?"
+    "cancel-message": "Ви дійсно хочете скасувати внесені зміни?"
   },
   "ubs-user-notification": {
     "title": "Ваші повідомлення",
@@ -691,5 +760,51 @@
   },
   "ubs-messages": {
     "message": "Ви ще не отримували повідомлень."
+  },
+  "personal-info": {
+    "address-city": "м.",
+    "address-corp": "корпус",
+    "address-entrance": "під'їзд",
+    "address-district": "район",
+    "pop-up-region": "Область",
+    "pop-up-region-name": "Київська область",
+    "pop-up-title": "Нова адреса",
+    "pop-up-title-edit": "Редагувати адресу",
+    "pop-up-city": "Місто",
+    "pop-up-city-name": "Київ",
+    "pop-up-district": "Район",
+    "pop-up-street": "Вулиця",
+    "pop-up-house": "Будинок",
+    "pop-up-corps": "Корпус",
+    "pop-up-entrance": "Під'їзд",
+    "pop-up-cancel": "Відмінити",
+    "pop-up-delete": "Видалити",
+    "pop-up-add-address": "Додати адресу",
+    "pop-up-save-changes": "Зберегти зміни",
+    "pop-up-enter-you-location": "Введіть місцезнаходження",
+    "pop-up-comment-placeholder": "Ремонтується дорога. Під’їзд до будинку доступний зі сторони будинку номер 15.",
+    "info-personal-data": "Особисті дані",
+    "info-other-client": "Отримувач інша людина",
+    "info-name": "Ім'я",
+    "info-phone": "Номер телефону",
+    "info-surname": "Прізвище",
+    "info-optionally": "не обов'язково",
+    "info-address": "Адреса вивозу сміття",
+    "info-no-address": "У Вас немає доданих адрес. Додайте, будь ласка, адресу.",
+    "info-add-address": "Додати адресу",
+    "info-address-coment": "Коментар до адреси",
+    "info-coment-placeholder": "Будь-які деталі, які ви б хотіли нам повідомити додатково",
+    "info-back": "Назад",
+    "info-cancel": "Відмінити",
+    "info-next": "Далі",
+    "first-order": "Важливо: кур’єр забирає пакети біля під’їзду, на поверх не піднімається"
+  },
+  "input-error": {
+    "required": "Це поле є обов'язковим для заповнення.",
+    "email-wrong": "Введіть коректний email.",
+    "number-wrong": "Введіть коректний номер телефону",
+    "minlength-short": "Поле містить недостатню кількість символів.",
+    "max-length": "Поле повинно містити 1-30 символів.",
+    "pattern": "Дозволені тільки букви та спеціальні символи “-” (дефіс), “ ” (пропуск) та “'” (апостроф)."
   }
 }

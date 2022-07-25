@@ -5,6 +5,7 @@ import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms'
 import { AdminCertificateService } from '../../../services/admin-certificate.service';
 import { takeUntil } from 'rxjs/operators';
 import { MatDialog, MatDialogRef } from '@angular/material/dialog';
+import { Masks, Patterns } from 'src/assets/patterns/patterns';
 
 @Component({
   selector: 'app-ubs-admin-certificate-add-certificate-pop-up',
@@ -13,10 +14,10 @@ import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 })
 export class UbsAdminCertificateAddCertificatePopUpComponent implements OnInit, OnDestroy {
   certificate: CreateCertificate;
-  private destroy: Subject<boolean> = new Subject<boolean>();
   addCertificateForm: FormGroup;
-  certificatePattern = /(?!0000)\d{4}-(?!0000)\d{4}/;
-  certificateMask = '0000-0000';
+  certificatePattern = Patterns.serteficatePattern;
+  certificateMask = Masks.certificateMask;
+  private destroy: Subject<boolean> = new Subject<boolean>();
 
   constructor(
     private fb: FormBuilder,
@@ -32,17 +33,17 @@ export class UbsAdminCertificateAddCertificatePopUpComponent implements OnInit, 
   private initForm(): void {
     this.addCertificateForm = this.fb.group({
       code: new FormControl('', [Validators.required, Validators.pattern(this.certificatePattern)]),
-      monthCount: new FormControl('', [Validators.required, Validators.pattern('^[0-9]{1,2}$')]),
-      points: new FormControl('', [Validators.required, Validators.pattern('^[0-9]{2,4}$')])
+      monthCount: new FormControl('', [Validators.required, Validators.pattern(Patterns.sertificateMonthCount)]),
+      initialPointsValue: new FormControl('', [Validators.required, Validators.pattern(Patterns.sertificateInitialValue)])
     });
   }
 
   createCertificate() {
-    const { code, monthCount, points } = this.addCertificateForm.value;
+    const { code, monthCount, initialPointsValue } = this.addCertificateForm.value;
     this.certificate = {
       code,
       monthCount,
-      points
+      initialPointsValue
     };
     this.adminCertificateService
       .createCertificate(this.certificate)

@@ -25,7 +25,8 @@ export class UbsBaseSidebarComponent implements AfterViewInit, AfterViewChecked,
   private destroySub: Subject<boolean> = new Subject<boolean>();
   readonly bellsNoneNotification = 'assets/img/sidebarIcons/none_notification_Bell.svg';
   readonly bellsNotification = 'assets/img/sidebarIcons/notification_Bell.svg';
-  private adminRoleValue = 'ROLE_ADMIN';
+  private adminRoleValue = 'ROLE_UBS_EMPLOYEE';
+  private sidebarChangeBreakpoint: number;
   destroy: Subject<boolean> = new Subject<boolean>();
   @Input() public listElements: object[] = [];
   @Input() public listElementsMobile: object[] = [];
@@ -48,19 +49,26 @@ export class UbsBaseSidebarComponent implements AfterViewInit, AfterViewChecked,
 
   public toggleSideBar(): void {
     this.drawer.toggle();
+    this.setIndexToSidebarIcons();
+  }
+
+  public setIndexToSidebarIcons(): void {
     if (this.drawer.opened) {
       this.sideBarIcons.nativeElement.style.zIndex = '0';
       this.sidebarContainer.nativeElement.style.marginLeft = '25px';
+      this.sidebarContainer.nativeElement.style.width = 'calc(100% - 50px)';
     } else {
       this.sideBarIcons.nativeElement.style.zIndex = '2';
       this.sidebarContainer.nativeElement.style.marginLeft = '85px';
+      this.sidebarContainer.nativeElement.style.width = 'calc(100% - 120px)';
     }
   }
 
   @HostListener('window:resize', ['$event'])
   onResize(event) {
-    if ((event.target.innerWidth < 992 || window.innerWidth < 992) && this.drawer) {
-      this.drawer.opened = false;
+    if (this.drawer) {
+      this.drawer.opened = event.target.innerWidth > this.sidebarChangeBreakpoint || window.innerWidth > this.sidebarChangeBreakpoint;
+      this.setIndexToSidebarIcons();
     }
   }
 
@@ -78,7 +86,8 @@ export class UbsBaseSidebarComponent implements AfterViewInit, AfterViewChecked,
   }
 
   ngAfterViewInit(): void {
-    if (window.innerWidth < 992 && this.drawer) {
+    this.sidebarChangeBreakpoint = 1266;
+    if (window.innerWidth < this.sidebarChangeBreakpoint && this.drawer) {
       this.drawer.toggle();
     }
     setTimeout(() => {

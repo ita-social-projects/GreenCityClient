@@ -1,27 +1,23 @@
+#modal-wrapper {
+  width: 480px;
+}
+
+.button {
+  font-weight: 700;
+  font-size: 16px;
+  line-height: 24px;
+  padding: 8px 24px;
+  color: var(--ubs-freinacht-black);
+}
+
 .secondary-global-button {
-  height: 36px;
   border: 1px solid var(--ubs-quaternary-dark-grey);
-  color: var(--ubs-quaternary-dark-grey);
   margin-right: 1rem !important;
-  font-weight: bold;
-  font-size: 14px;
-  line-height: 20px;
 }
 
 .primary-global-button {
-  font-weight: bold;
-  font-size: 14px;
-  line-height: 20px;
-  height: 36px;
-  padding: 8px 14px;
-  color: var(--ubs-quaternary-dark-grey);
   border-color: var(--ubs-button-light-green);
   background: var(--ubs-button-light-green);
-
-  &:disabled {
-    background: var(--ubs-quaternary-light-grey);
-    border-color: var(--ubs-quaternary-light-grey);
-  }
 }
 
 .title {

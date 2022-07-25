@@ -1,4 +1,5 @@
 import { FormGroup } from '@angular/forms';
+import { Patterns } from 'src/assets/patterns/patterns';
 
 export function ConfirmPasswordValidator(controlName: string, matchingControlName: string) {
   return (formGroup: FormGroup) => {
@@ -18,8 +19,8 @@ export function ConfirmPasswordValidator(controlName: string, matchingControlNam
 
 export function ValidatorRegExp(controlName: string) {
   return (formGroup: FormGroup) => {
-    const regexpName = /^(?!\.)(?!.*\.$)(?!.*?\.\.)[a-zA-Z0-9_.]{6,29}$/gi;
-    const regexpPass = /^(?=.*[a-z]+)(?=.*[A-Z]+)(?=.*\d+)(?=.*[~`!@#$%^&*()+=_\-{}|:;”’?/<>,.\]\[]+).{8,}$/;
+    const regexpName = Patterns.regexpName;
+    const regexpPass = Patterns.regexpPass;
     const regexp = controlName === 'firstName' ? regexpName : regexpPass;
     const control = formGroup.controls[controlName];
     if (control.value === '') {

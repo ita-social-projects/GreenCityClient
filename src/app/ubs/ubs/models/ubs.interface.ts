@@ -1,6 +1,7 @@
 export interface Bag {
   id: number;
   name?: string;
+  nameEng?: string;
   capacity?: number;
   price?: number;
   quantity?: number;
@@ -72,10 +73,13 @@ export interface FinalOrder {
   points?: number;
 }
 
-export interface ICertificate {
+export interface ICertificateResponse {
   points: number;
   certificateStatus: string;
   creationDate?: string;
+  dateOfUse?: string;
+  expirationDate?: string;
+  code?: string;
 }
 
 export interface PersonalData {

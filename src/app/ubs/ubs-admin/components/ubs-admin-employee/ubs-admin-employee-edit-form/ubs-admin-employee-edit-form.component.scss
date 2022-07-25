@@ -1,0 +1,205 @@
+@import './././src/app/ubs/ubs-admin/components/ubs-admin-employee/dialogs';
+@import './././src/app/ubs/ubs-admin/ubs-admin.component';
+
+.popup-title {
+  margin-bottom: 24px;
+}
+
+.edit-employee {
+  position: absolute;
+  top: 80px;
+  right: 70px;
+
+  .mat-icon,
+  .edit-employee-btn {
+    font-size: 14px;
+    color: var(--ubs-electric-violet);
+    border: none;
+    background: transparent;
+  }
+
+  .edit-employee-btn:disabled,
+  .edit-employee-btn:disabled .mat-icon {
+    color: var(--ubs-primary-light-grey);
+  }
+}
+
+form {
+  margin: 24px 0 0;
+
+  .fields {
+    max-width: 328px;
+  }
+}
+
+.fields-note h6 {
+  font-size: 12px;
+  line-height: 16px;
+  color: var(--quaternary-dark-grey);
+  font-weight: 400;
+}
+
+.form-group {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: center;
+
+  input {
+    border: solid 1px var(--quintynary-light-grey);
+    outline: none;
+    padding: 8px;
+    border-radius: 3px;
+    width: 100%;
+  }
+}
+
+.group-title {
+  font-family: var(--primary-font);
+  margin: 0;
+  font-weight: 400;
+  font-size: 16px;
+  color: var(--quaternary-grey);
+
+  &.position-title,
+  &.station-title {
+    font-weight: 700;
+    font-size: 14px;
+    line-height: 20px;
+    letter-spacing: 0.1px;
+    color: var(--ubs-secondary-grey);
+  }
+
+  &.image-title {
+    display: block;
+    margin: 10px 0;
+  }
+}
+
+.checkbox-section-role,
+.checkbox-section-station {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: 5px;
+}
+
+.checkbox-location,
+.checkbox-role {
+  font-size: 14px;
+  padding: 6px;
+  border-radius: 3px;
+  cursor: pointer;
+  box-shadow: 0.5px 0.5px 0.5px 0.5px rgba(0, 0, 0, 0.25);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  column-gap: 6.5px;
+}
+
+label {
+  all: unset;
+}
+
+.checkbox-role {
+  color: var(--ubs-dark-green);
+  border: solid 1px var(--ubs-dark-green);
+
+  &.active-location {
+    color: var(--quaternary-dark-grey);
+    border: solid 1px var(--ubs-grey-light-green);
+    background: var(--ubs-grey-light-green);
+  }
+}
+
+.checkbox-location {
+  color: var(--ubs-dark-purple);
+  border: solid 1px var(--ubs-dark-purple);
+
+  &.active-location {
+    color: var(--quaternary-dark-grey);
+    border: solid 1px var(--ubs-grey-light-blue);
+    background: var(--ubs-grey-light-blue);
+  }
+}
+
+.checkbox-input {
+  display: none;
+}
+
+.checkbox-close-button {
+  display: none;
+}
+
+.active-location {
+  .checkbox-close-button {
+    display: initial;
+  }
+}
+
+.image-input {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 132px;
+  height: 108px;
+  transition: filter 0.2s linear;
+  position: relative;
+  background: var(--ubs-primary-white) !important;
+  overflow: hidden;
+
+  &::after {
+    display: block;
+    content: '';
+    background: url('src/assets/img/ubs/drag-and-drop-img.svg') no-repeat center;
+    background-size: cover;
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+  }
+}
+
+.current-image {
+  background: var(--ubs-primary-white);
+
+  img {
+    height: 108px;
+    cursor: pointer;
+  }
+}
+
+.file-input {
+  display: none;
+}
+
+.file-input-label {
+  display: block;
+  color: var(--ubs-secondary-grey);
+  font-size: 12px;
+  text-align: center;
+}
+
+.download-from-device-button {
+  color: var(--ubs-electric-violet);
+  cursor: pointer;
+
+  &:hover {
+    text-decoration: underline;
+  }
+}
+
+.avatar-edit-head {
+  @include image-edit;
+}
+
+.image-name {
+  color: var(--ubs-primary-grey);
+}
+
+.user-image {
+  height: 15px !important;
+  cursor: pointer;
+}

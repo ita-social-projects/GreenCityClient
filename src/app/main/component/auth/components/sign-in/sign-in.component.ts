@@ -175,8 +175,10 @@ export class SignInComponent implements OnInit, OnDestroy, OnChanges {
     this.localStorageService.setFirstName(data.name);
     this.localStorageService.setFirstSignIn();
     this.userOwnAuthService.getDataFromLocalStorage();
-    this.jwtService.userRole$.next(this.jwtService.getUserRole());
-    this.router.navigate(this.isUbs ? ['ubs'] : ['profile', data.userId]);
+    const getUbsRoleSignIn = this.jwtService.getUserRole();
+    const isUbsRoleAdmin = getUbsRoleSignIn === 'ROLE_UBS_EMPLOYEE' ? ['ubs-admin', 'orders'] : ['ubs'];
+    this.jwtService.userRole$.next(getUbsRoleSignIn);
+    this.router.navigate(this.isUbs ? isUbsRoleAdmin : ['profile', data.userId]);
   }
 
   private onSignInFailure(errors: HttpErrorResponse): void {

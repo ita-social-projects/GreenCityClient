@@ -1,7 +1,7 @@
 import { MapsAPILoader } from '@agm/core';
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
-import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { FormControl, FormGroup, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatNativeDateModule } from '@angular/material/core';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { TranslateModule } from '@ngx-translate/core';
@@ -14,6 +14,8 @@ describe('EventDateTimePickerComponent', () => {
 
   const editDateMock = {
     coordinates: {
+      addressEn: 'address',
+      addressUa: 'address',
       latitude: null,
       longitude: null
     },
@@ -23,6 +25,12 @@ describe('EventDateTimePickerComponent', () => {
     onlineLink: 'http://event',
     startDate: '2023-05-27T15:10:00+03:00'
   };
+
+  const formDataMock: FormGroup = new FormGroup({
+    date: new FormControl('day'),
+    startTime: new FormControl('10-00'),
+    endTime: new FormControl('18-00')
+  });
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
@@ -43,6 +51,7 @@ describe('EventDateTimePickerComponent', () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(EventDateTimePickerComponent);
     component = fixture.componentInstance;
+    component.dateForm = formDataMock;
     fixture.detectChanges();
   });
 
@@ -51,17 +60,22 @@ describe('EventDateTimePickerComponent', () => {
   });
 
   it('ngOnInit expect dateForm toBeTruthy ', () => {
+    const spy = spyOn(component as any, 'setEditData');
+    component.editDate = editDateMock;
     component.dateForm = null;
     component.ngOnInit();
     expect(component.dateForm).toBeTruthy();
+    expect(spy).toHaveBeenCalledTimes(1);
   });
 
   it('setEditData expect onlinelink to be http:/event ', () => {
+    const spy = spyOn(component.dateForm, 'patchValue').and.callThrough();
     component.editDate = editDateMock;
     (component as any).setEditData();
 
     expect(component.checkOnlinePlace).toBeTruthy();
     expect(component.dateForm.get('onlineLink').value).toBe('http://event');
+    expect(spy).toHaveBeenCalledTimes(2);
 
     component.editDate = null;
   });

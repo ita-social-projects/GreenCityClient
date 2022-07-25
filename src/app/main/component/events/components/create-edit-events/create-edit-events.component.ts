@@ -1,7 +1,6 @@
-import { Component, Injector, OnDestroy, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 
 import { quillConfig } from './quillEditorFunc';
-import { EventsService } from '../../services/events.service';
 
 import Quill from 'quill';
 import 'quill-emoji/dist/quill-emoji.js';
@@ -11,10 +10,12 @@ import { DateEvent, DateFormObj, Dates, EventDTO, EventPageResponceDto, OfflineD
 import { Router } from '@angular/router';
 import { DatePipe } from '@angular/common';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
-import { switchMap, takeUntil } from 'rxjs/operators';
-import { iif, of, ReplaySubject, Subject } from 'rxjs';
+import { ReplaySubject } from 'rxjs';
 import { DateObj, ItemTime, TagsArray, WeekArray } from '../../models/event-consts';
 import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
+import { ActionsSubject, Store } from '@ngrx/store';
+import { ofType } from '@ngrx/effects';
+import { CreateEcoEventAction, EditEcoEventAction, EventsActions } from 'src/app/store/actions/ecoEvents.actions';
 
 @Component({
   selector: 'app-create-edit-events',
@@ -24,7 +25,6 @@ import { LocalStorageService } from '@global-service/localstorage/local-storage.
 export class CreateEditEventsComponent implements OnInit, OnDestroy {
   public title = '';
   public dates: DateEvent[] = [];
-  private imgArray: Array<File> = [];
   public quillModules = {};
   public editorHTML = '';
   public isOpen = true;
@@ -33,25 +33,26 @@ export class CreateEditEventsComponent implements OnInit, OnDestroy {
   public isPosting = false;
   public contentValid: boolean;
   public checkAfterSend = true;
-  private pipe = new DatePipe('en-US');
   public dateArrCount = WeekArray;
   public editMode: boolean;
   public editEvent: EventPageResponceDto;
   public imagesToDelete: string[] = [];
+  public oldImages: string[] = [];
   public imagesForEdit: string[];
-  private destroyed$: ReplaySubject<boolean> = new ReplaySubject<boolean>(1);
-
   public tags: Array<TagObj>;
   public isTagValid: boolean;
-
+  public isAddressFill = true;
   public eventFormGroup: FormGroup;
-  unsubscribe: Subject<any> = new Subject();
+
+  private imgArray: Array<File> = [];
+  private pipe = new DatePipe('en-US');
+  private destroyed$: ReplaySubject<boolean> = new ReplaySubject<boolean>(1);
 
   constructor(
-    private eventService: EventsService,
     public router: Router,
-    private injector: Injector,
-    private localStorageService: LocalStorageService
+    private localStorageService: LocalStorageService,
+    private actionsSubj: ActionsSubject,
+    private store: Store
   ) {
     this.quillModules = quillConfig;
     Quill.register('modules/imageResize', ImageResize);
@@ -85,6 +86,7 @@ export class CreateEditEventsComponent implements OnInit, OnDestroy {
     this.tags.forEach((item) => (item.isActive = this.editEvent.tags.some((name) => name.nameEn === item.nameEn)));
     this.isTagValid = this.tags.some((el) => el.isActive);
     this.isOpen = this.editEvent.open;
+    this.oldImages = this.imagesForEdit;
   }
 
   public checkTab(tag: TagObj): void {
@@ -97,6 +99,7 @@ export class CreateEditEventsComponent implements OnInit, OnDestroy {
     this.dates[ind].startDate = form.startTime;
     this.dates[ind].finishDate = form.endTime;
     this.dates[ind].onlineLink = form.onlineLink;
+    this.isAddressFill = this.dates.some((el) => el.coordinatesDto.latitude || el.onlineLink);
   }
 
   public checkStatus(event: boolean, ind: number): void {
@@ -129,9 +132,13 @@ export class CreateEditEventsComponent implements OnInit, OnDestroy {
     this.imagesToDelete = imagesSrc;
   }
 
+  public getOldImages(imagesSrc: Array<string>): void {
+    this.oldImages = imagesSrc;
+  }
+
   public setCoordsOnlOff(event: OfflineDto, ind: number): void {
-    this.dates[ind].coordinatesDto.latitude = event.latitude;
-    this.dates[ind].coordinatesDto.longitude = event.longitude;
+    this.dates[ind].coordinatesDto = event;
+    this.isAddressFill = this.dates.some((el) => el.coordinatesDto.latitude || el.onlineLink);
   }
 
   private checkDates(): void {
@@ -149,6 +156,8 @@ export class CreateEditEventsComponent implements OnInit, OnDestroy {
   }
 
   private createDates(): Array<Dates> {
+    const defaultAddress = this.dates.find((it) => it.coordinatesDto.latitude)?.coordinatesDto;
+    const defaultLink = this.dates.find((it) => it.onlineLink)?.onlineLink;
     return this.dates.reduce((ac, cur) => {
       if (!cur.startDate) {
         cur.startDate = ItemTime.START;
@@ -159,15 +168,20 @@ export class CreateEditEventsComponent implements OnInit, OnDestroy {
       const start = this.getFormattedDate(cur.date, +cur.startDate.split(':')[0], +cur.startDate.split(':')[1]);
       const end = this.getFormattedDate(cur.date, +cur.finishDate.split(':')[0], +cur.finishDate.split(':')[1]);
 
+      const coords = cur.coordinatesDto.latitude
+        ? {
+            latitude: cur.coordinatesDto.latitude,
+            longitude: cur.coordinatesDto.longitude
+          }
+        : defaultAddress;
+
       const date: Dates = {
         startDate: this.pipe.transform(start, 'yyyy-MM-ddTHH:mm:ssZZZZZ'),
         finishDate: this.pipe.transform(end, 'yyyy-MM-ddTHH:mm:ssZZZZZ'),
-        coordinates: {
-          latitude: cur.coordinatesDto.latitude,
-          longitude: cur.coordinatesDto.longitude
-        },
-        onlineLink: cur.onlineLink
+        coordinates: coords,
+        onlineLink: cur.onlineLink ? cur.onlineLink : defaultLink
       };
+
       ac.push(date);
       return ac;
     }, []);
@@ -192,33 +206,43 @@ export class CreateEditEventsComponent implements OnInit, OnDestroy {
     if (this.editMode) {
       sendEventDto = {
         ...sendEventDto,
-        imagesTodelete: this.imagesToDelete
+        imagesToDelete: this.imagesToDelete,
+        additionalImages: this.oldImages.length > 1 ? this.oldImages.slice(1) : null,
+        id: this.editEvent.id,
+        titleImage: this.oldImages[0]
       };
     }
-    const test = true;
-    if (this.checkdates && this.eventFormGroup.valid && tagsArr.length && test) {
+
+    if (this.checkdates && this.eventFormGroup.valid && this.isTagValid && this.isAddressFill) {
       this.checkAfterSend = true;
       const formData: FormData = new FormData();
       const stringifiedDataToSend = JSON.stringify(sendEventDto);
-      formData.append('addEventDtoRequest', stringifiedDataToSend);
+
+      const dtoName = this.editMode ? 'eventDto' : 'addEventDtoRequest';
+
+      formData.append(dtoName, stringifiedDataToSend);
+
       this.imgArray.forEach((item) => {
         formData.append('images', item);
       });
 
-      this.isPosting = true;
-      of(true)
-        .pipe(
-          switchMap(() => iif(() => this.editMode, this.eventService.editEvent(formData), this.eventService.createEvent(formData))),
-          takeUntil(this.unsubscribe)
-        )
-        .subscribe(() => {
-          this.isPosting = false;
-          this.escapeFromCreateEvent();
-        });
+      this.createEvent(formData);
     } else {
       this.eventFormGroup.markAllAsTouched();
       this.checkAfterSend = false;
     }
+  }
+
+  private createEvent(sendData: FormData) {
+    this.isPosting = true;
+    this.editMode
+      ? this.store.dispatch(EditEcoEventAction({ data: sendData }))
+      : this.store.dispatch(CreateEcoEventAction({ data: sendData }));
+
+    this.actionsSubj.pipe(ofType(EventsActions.CreateEcoEventSuccess, EventsActions.EditEcoEventSuccess)).subscribe(() => {
+      this.isPosting = false;
+      this.escapeFromCreateEvent();
+    });
   }
 
   ngOnDestroy(): void {

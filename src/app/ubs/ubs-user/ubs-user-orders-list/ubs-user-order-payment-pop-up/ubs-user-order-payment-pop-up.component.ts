@@ -1,11 +1,11 @@
-import { Component, Inject, OnInit } from '@angular/core';
+import { Component, Inject, Injector, OnInit } from '@angular/core';
 import { FormArray, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { OrderService } from 'src/app/ubs/ubs/services/order.service';
 import { ResponceOrderFondyModel } from '../models/ResponceOrderFondyModel';
 import { OrderClientDto } from '../models/OrderClientDto';
 import { IOrderDetailsUser } from '../models/IOrderDetailsUser.interface';
-import { ICertificate } from '../models/ICertificate.interface';
+import { ICertificate, ICertificatePayment, ICertificateResponse } from '../models/ICertificate.interface';
 import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
 import { ResponceOrderLiqPayModel } from '../models/ResponceOrderLiqPayModel';
 import { Router } from '@angular/router';
@@ -14,6 +14,7 @@ import { IOrderData } from '../models/IOrderData.interface';
 import { UBSOrderFormService } from 'src/app/ubs/ubs/services/ubs-order-form.service';
 import { MatRadioChange } from '@angular/material/radio';
 import { IBonusInfo } from '../models/IBonusInfo.interface';
+import { Masks, Patterns } from 'src/assets/patterns/patterns';
 
 @Component({
   selector: 'app-ubs-user-order-payment-pop-up',
@@ -21,9 +22,12 @@ import { IBonusInfo } from '../models/IBonusInfo.interface';
   styleUrls: ['./ubs-user-order-payment-pop-up.component.scss']
 })
 export class UbsUserOrderPaymentPopUpComponent implements OnInit {
+  private localStorageService: LocalStorageService;
+  private ubsOrderFormService: UBSOrderFormService;
+  private orderService: OrderService;
   public selectedRadio: string;
-  public certificatePattern = /(?!0000)\d{4}-(?!0000)\d{4}/;
-  public certificateMask = '0000-0000';
+  public certificatePattern = Patterns.serteficatePattern;
+  public certificateMask = Masks.certificateMask;
   public orderDetailsForm: FormGroup;
   public certificateStatus: boolean[] = [];
   public orderClientDto: OrderClientDto;
@@ -35,6 +39,7 @@ export class UbsUserOrderPaymentPopUpComponent implements OnInit {
   public isLiqPayLink: boolean;
   public isCertBeenUsed = false;
   public usedCertificates: string[] = [];
+  public overpayment: number;
 
   public userOrder: IOrderDetailsUser = {
     id: this.data.orderId,
@@ -45,6 +50,9 @@ export class UbsUserOrderPaymentPopUpComponent implements OnInit {
   public userCertificate: ICertificate = {
     certificateStatusActive: false,
     certificateError: false,
+    creationDate: [],
+    dateOfUse: [],
+    expirationDate: [],
     certificateSum: 0,
     certificates: []
   };
@@ -55,15 +63,17 @@ export class UbsUserOrderPaymentPopUpComponent implements OnInit {
   };
 
   constructor(
-    private fb: FormBuilder,
-    private orderService: OrderService,
-    private sanitizer: DomSanitizer,
     @Inject(MAT_DIALOG_DATA) public data: IOrderData,
     public dialogRef: MatDialogRef<UbsUserOrderPaymentPopUpComponent>,
-    private localStorageService: LocalStorageService,
-    private ubsOrderFormService: UBSOrderFormService,
-    public router: Router
-  ) {}
+    private fb: FormBuilder,
+    private sanitizer: DomSanitizer,
+    public router: Router,
+    private injector: Injector
+  ) {
+    this.localStorageService = injector.get(LocalStorageService);
+    this.ubsOrderFormService = injector.get(UBSOrderFormService);
+    this.orderService = injector.get(OrderService);
+  }
 
   ngOnInit(): void {
     this.initForm();
@@ -76,8 +86,9 @@ export class UbsUserOrderPaymentPopUpComponent implements OnInit {
 
   public createCertificateItem(): FormGroup {
     return this.fb.group({
-      certificateCode: ['', [Validators.minLength(8), Validators.pattern(this.certificatePattern)]],
-      certificateSum: [0, [Validators.min(0)]]
+      certificateCode: [null, [Validators.minLength(8), Validators.pattern(this.certificatePattern)]],
+      certificateSum: [0, [Validators.min(0)]],
+      certificateStatus: [null]
     });
   }
 
@@ -87,6 +98,10 @@ export class UbsUserOrderPaymentPopUpComponent implements OnInit {
       paymentSystem: ['Fondy', [Validators.required]],
       formArrayCertificates: this.fb.array([this.createCertificateItem()])
     });
+  }
+
+  get formBonus(): FormControl {
+    return this.orderDetailsForm.get('bonus') as FormControl;
   }
 
   get formArrayCertificates(): FormArray {
@@ -123,32 +138,81 @@ export class UbsUserOrderPaymentPopUpComponent implements OnInit {
     this.userCertificate.certificateSum = 0;
     this.userCertificate.certificateStatusActive = false;
     this.orderService.processCertificate(certificate.value.certificateCode).subscribe(
-      (response) => {
+      (response: ICertificateResponse) => {
         if (response.certificateStatus === 'ACTIVE') {
           this.userCertificate.certificateSum = response.points;
-          this.userCertificate.creationDate = response.creationDate;
           certificate.value.certificateSum = response.points;
-          this.userOrder.sum -= response.points;
-          if (this.userOrder.sum < 0) {
-            this.userOrder.sum = 0;
+
+          if (this.formBonus.value === 'yes') {
+            this.resetBonuses();
+            this.calculateUserOrderSumWithCertificate(response.points);
+            this.calculateBonuses();
+          } else {
+            this.calculateUserOrderSumWithCertificate(response.points);
           }
+
           this.userCertificate.certificateStatusActive = true;
         } else {
           this.userCertificate.certificateError = true;
         }
+        this.userCertificate.creationDate.push(this.certificateDateTreat(response.creationDate));
+        this.userCertificate.expirationDate.push(this.certificateDateTreat(response.expirationDate));
+        this.userCertificate.dateOfUse.push(this.certificateDateTreat(response.dateOfUse));
+        certificate.value.certificateStatus = response.certificateStatus;
       },
       (error) => {
         if (error.status === 404) {
           this.userCertificate.certificateError = true;
         }
+        this.userCertificate.creationDate.push(null);
+        this.userCertificate.expirationDate.push(null);
+        this.userCertificate.dateOfUse.push(null);
       }
     );
   }
 
+  private calculateUserOrderSumWithCertificate(certificateSum: number): void {
+    if (this.userOrder.sum > certificateSum) {
+      this.overpayment = 0;
+      this.userOrder.sum = this.userOrder.sum - certificateSum;
+    } else {
+      this.overpayment = certificateSum - this.userOrder.sum;
+      this.userOrder.sum = 0;
+    }
+  }
+
+  private certificateDateTreat(date: string): string {
+    return date?.split('-').reverse().join('.');
+  }
+
   public deleteCertificate(index: number, certificate: FormControl): void {
-    this.userOrder.sum += certificate.value.certificateSum;
-    this.userCertificate.certificateStatusActive = false;
-    this.userCertificate.certificateError = false;
+    const certSum = this.formArrayCertificates.value.reduce(
+      (certificatesSum: number, certificateItem: ICertificatePayment) => certificatesSum + certificateItem.certificateSum,
+      0
+    );
+    const priceOverrun = this.data.price < certSum ? certSum - this.data.price : 0;
+
+    if (certificate.value.certificateSum > priceOverrun) {
+      this.userOrder.sum = this.userOrder.sum + certificate.value.certificateSum - priceOverrun;
+      this.overpayment = 0;
+    } else {
+      this.overpayment = priceOverrun - certificate.value.certificateSum;
+    }
+
+    this.usedCertificates = this.usedCertificates.filter(
+      (usedCertificateCode) => usedCertificateCode !== certificate.value.certificateCode
+    );
+
+    if (this.formBonus.value === 'yes' && this.userOrder.sum >= this.bonusInfo.left) {
+      this.userOrder.sum -= this.bonusInfo.left;
+      this.bonusInfo.used += this.bonusInfo.left;
+      this.bonusInfo.left = 0;
+    } else if (this.formBonus.value === 'yes') {
+      this.bonusInfo.used += this.userOrder.sum;
+      this.bonusInfo.left = this.bonusInfo.left - this.userOrder.sum;
+      this.userOrder.sum = 0;
+    }
+    this.orderClientDto.pointsToUse = this.bonusInfo.used;
 
     if (this.formArrayCertificates.controls.length > 1) {
       this.certificateStatus.splice(index, 1);
@@ -159,6 +223,13 @@ export class UbsUserOrderPaymentPopUpComponent implements OnInit {
     }
 
     this.userCertificate.certificates.splice(index, 1);
+    this.userCertificate.creationDate.splice(index, 1);
+    this.userCertificate.expirationDate.splice(index, 1);
+    this.userCertificate.dateOfUse.splice(index, 1);
+    this.userCertificate.certificateStatusActive = !!this.userCertificate.certificates.length;
+    this.userCertificate.certificateError = this.formArrayCertificates.value.some(
+      (certificateItem: ICertificatePayment) => certificateItem.certificateStatus !== 'ACTIVE' && certificateItem.certificateStatus !== null
+    );
   }
 
   public addNewCertificate(): void {
@@ -246,20 +317,29 @@ export class UbsUserOrderPaymentPopUpComponent implements OnInit {
   public bonusOption(event: MatRadioChange): void {
     if (event.value === 'yes') {
       this.isUseBonuses = true;
-      if (this.userOrder.sum > this.userOrder.bonusValue) {
-        this.userOrder.sum -= this.userOrder.bonusValue;
-        this.bonusInfo.used = this.userOrder.bonusValue;
-      } else {
-        this.bonusInfo.used = this.userOrder.sum;
-        this.bonusInfo.left = this.userOrder.bonusValue - this.userOrder.sum;
-        this.userOrder.sum = 0;
-      }
-      this.orderClientDto.pointsToUse = this.bonusInfo.used;
+      this.calculateBonuses();
     } else {
-      this.userOrder.sum += this.bonusInfo.used;
-      this.bonusInfo.left = 0;
-      this.bonusInfo.used = 0;
+      this.resetBonuses();
       this.isUseBonuses = false;
     }
+  }
+
+  private calculateBonuses(): void {
+    if (this.userOrder.sum > this.userOrder.bonusValue) {
+      this.userOrder.sum -= this.userOrder.bonusValue;
+      this.bonusInfo.used = this.userOrder.bonusValue;
+      this.bonusInfo.left = 0;
+    } else {
+      this.bonusInfo.used = this.userOrder.sum;
+      this.bonusInfo.left = this.userOrder.bonusValue - this.userOrder.sum;
+      this.userOrder.sum = 0;
+    }
+    this.orderClientDto.pointsToUse = this.bonusInfo.used;
+  }
+
+  private resetBonuses(): void {
+    this.userOrder.sum += this.bonusInfo.used;
+    this.bonusInfo.left = 0;
+    this.bonusInfo.used = 0;
   }
 }

@@ -6,12 +6,13 @@ import { takeUntil } from 'rxjs/operators';
 import { Subject } from 'rxjs';
 import { UBSOrderFormService } from '../../services/ubs-order-form.service';
 import { OrderService } from '../../services/order.service';
-import { UBSAddAddressPopUpComponent } from './ubs-add-address-pop-up/ubs-add-address-pop-up.component';
 import { Address, Bag, CourierLocations, OrderBag, OrderDetails, PersonalData } from '../../models/ubs.interface';
 import { Order } from '../../models/ubs.model';
 import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
 import { PhoneNumberValidator } from 'src/app/shared/phone-validator/phone.validator';
 import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
+import { UBSAddAddressPopUpComponent } from 'src/app/shared/ubs-add-address-pop-up/ubs-add-address-pop-up.component';
+import { Masks, Patterns } from 'src/assets/patterns/patterns';
 
 @Component({
   selector: 'app-ubs-personal-information',
@@ -28,9 +29,9 @@ export class UBSPersonalInformationComponent extends FormBaseComponent implement
   order: Order;
   addresses: Address[] = [];
   maxAddressLength = 4;
-  namePattern = /^[A-Za-zА-Яа-яїЇіІєЄёЁ\'\- ]+$/;
-  emailPattern = /^[A-Za-z0-9.@\- ]+$/;
-  phoneMask = '+{38\\0} (00) 000 00 00';
+  namePattern = Patterns.NamePattern;
+  emailPattern = Patterns.ubsMailPattern;
+  phoneMask = Masks.phoneMask;
   firstOrder = true;
   anotherClient = false;
   currentLocation = {};

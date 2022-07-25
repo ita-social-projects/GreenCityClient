@@ -7,9 +7,12 @@ import { iif, of, Subject } from 'rxjs';
 import { switchMap, take, takeUntil } from 'rxjs/operators';
 import { IPaymentInfoDto, PaymentDetails } from '../../models/ubs-admin.interface';
 import { OrderService } from '../../services/order.service';
-import { DialogPopUpComponent } from '../shared/components/dialog-pop-up/dialog-pop-up.component';
 import { ShowImgsPopUpComponent } from '../../../../shared/show-imgs-pop-up/show-imgs-pop-up.component';
 import { ShowPdfPopUpComponent } from '../shared/components/show-pdf-pop-up/show-pdf-pop-up.component';
+import { DialogPopUpComponent } from 'src/app/shared/dialog-pop-up/dialog-pop-up.component';
+import { Patterns } from 'src/assets/patterns/patterns';
+import { formatDate } from '@angular/common';
+import { DateAdapter } from '@angular/material/core';
 
 interface InputData {
   orderId: number;
@@ -63,8 +66,12 @@ export class AddPaymentComponent implements OnInit, OnDestroy {
     private dialogRef: MatDialogRef<AddPaymentComponent>,
     private dialog: MatDialog,
     private fb: FormBuilder,
+    private adapter: DateAdapter<any>,
     @Inject(MAT_DIALOG_DATA) public data: InputData
-  ) {}
+  ) {
+    const locale = this.localeStorageService.getCurrentLanguage() !== 'ua' ? 'en-GB' : 'uk-UA';
+    this.adapter.setLocale(locale);
+  }
 
   ngOnInit(): void {
     this.orderId = this.data.orderId;
@@ -83,8 +90,11 @@ export class AddPaymentComponent implements OnInit, OnDestroy {
 
   initForm() {
     this.addPaymentForm = this.fb.group({
-      settlementdate: [this.payment?.settlementdate ?? '', [Validators.required]],
-      amount: [this.payment?.amount ?? '', [Validators.required, Validators.pattern('^[0-9]+$')]],
+      settlementdate: [
+        this.payment?.settlementdate ? formatDate(this.convertDate(this.payment.settlementdate), 'yyyy-MM-dd', 'ua') : null,
+        [Validators.required]
+      ],
+      amount: [this.payment?.amount ?? '', [Validators.required, Validators.pattern(Patterns.paymantAmountPattern)]],
       paymentId: [this.payment?.paymentId ?? '', [Validators.required]],
       receiptLink: [this.payment?.receiptLink ?? '']
     });
@@ -92,6 +102,10 @@ export class AddPaymentComponent implements OnInit, OnDestroy {
     if (this.viewMode) {
       this.addPaymentForm.disable();
     }
+  }
+
+  convertDate(inputDate: string): string {
+    return inputDate?.split('.').reverse().join('-');
   }
 
   close() {
@@ -102,8 +116,19 @@ export class AddPaymentComponent implements OnInit, OnDestroy {
     const result: PostData = { form: null, file: null };
     const paymentDetails = this.addPaymentForm.value;
     paymentDetails.amount *= 100;
+
+    const parseDate = Date.parse(paymentDetails.settlementdate);
+    let diff: number;
+    try {
+      diff = paymentDetails.settlementdate.getTimezoneOffset();
+    } catch {
+      diff = 0;
+    }
+    paymentDetails.settlementdate = new Date(parseDate - diff * 60 * 1000).toISOString().slice(0, 10);
+
     result.form = paymentDetails;
     result.file = this.file;
+
     if (this.editMode) {
       result.form.imagePath = this.file ? '' : this.imagePreview.src ?? '';
     }

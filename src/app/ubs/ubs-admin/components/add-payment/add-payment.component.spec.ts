@@ -2,6 +2,7 @@ import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { FormBuilder, ReactiveFormsModule } from '@angular/forms';
+import { DateAdapter } from '@angular/material/core';
 import { MatDialog, MatDialogModule, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
 import { TranslateModule } from '@ngx-translate/core';
@@ -45,8 +46,9 @@ describe('AddPaymentComponent', () => {
   orderServiceMock.addPaymentManually.and.returnValue(of(fakePaymentData));
   orderServiceMock.updatePaymentManually.and.returnValue(of(fakePaymentData));
   orderServiceMock.deleteManualPayment.and.returnValue(of(3));
-  const localeStorageServiceMock = jasmine.createSpyObj('localeStorageService', ['']);
+  const localeStorageServiceMock = jasmine.createSpyObj('localeStorageService', ['getCurrentLanguage']);
   localeStorageServiceMock.firstNameBehaviourSubject = of('fakeName');
+  const dateAdapterMock = jasmine.createSpyObj('adapter', ['setLocale']);
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
@@ -58,6 +60,7 @@ describe('AddPaymentComponent', () => {
         { provide: MAT_DIALOG_DATA, useValue: mockedData },
         { provide: OrderService, useValue: orderServiceMock },
         { provide: LocalStorageService, useValue: localeStorageServiceMock },
+        { provide: DateAdapter, useValue: dateAdapterMock },
         FormBuilder
       ],
       schemas: [CUSTOM_ELEMENTS_SCHEMA]
@@ -117,6 +120,7 @@ describe('AddPaymentComponent', () => {
   describe('save', () => {
     it('makes expected calls', () => {
       const spy = spyOn(component, 'processPayment');
+      component.addPaymentForm.controls.settlementdate.setValue(new Date());
       component.save();
       expect(spy).toHaveBeenCalled();
     });

@@ -21,6 +21,7 @@ export class UbsAdminOrderPaymentComponent implements OnInit, OnChanges, OnDestr
   @Input() orderStatus: string;
 
   @Output() newPaymentStatus = new EventEmitter<string>();
+  @Output() paymentUpdate = new EventEmitter<number>();
 
   public message: string;
   public pageOpen: boolean;
@@ -39,7 +40,7 @@ export class UbsAdminOrderPaymentComponent implements OnInit, OnChanges, OnDestr
     this.currentOrderStatus = this.orderStatus;
     this.orderId = this.orderInfo.generalOrderInfo.id;
     this.paymentInfo = this.orderInfo.paymentTableInfoDto;
-    this.overpayment = this.paymentInfo.overpayment;
+    this.overpayment = this.currentOrderStatus === 'CANCELED' ? this.paymentInfo.paidAmount : this.paymentInfo.overpayment;
     this.paymentsArray = this.paymentInfo.paymentInfoDtos;
     this.paidAmount = this.paymentInfo.paidAmount;
     const sumDiscount = this.orderInfo.orderBonusDiscount + this.orderInfo.orderCertificateTotalDiscount;
@@ -57,6 +58,9 @@ export class UbsAdminOrderPaymentComponent implements OnInit, OnChanges, OnDestr
 
     if (changes.orderStatus) {
       this.currentOrderStatus = changes.orderStatus.currentValue;
+      if (this.currentOrderStatus === 'CANCELED') {
+        this.overpayment = this.totalPaid;
+      }
     }
   }
 
@@ -80,8 +84,8 @@ export class UbsAdminOrderPaymentComponent implements OnInit, OnChanges, OnDestr
     this.pageOpen = !this.pageOpen;
   }
 
-  public accessOnCanceledStatus(): boolean {
-    return this.currentOrderStatus === 'CANCELED';
+  public isOverpaymentReturnAvailable(): boolean {
+    return this.overpayment && this.currentOrderStatus === 'CANCELED';
   }
 
   public setOverpayment(overpayment: number): void {
@@ -93,11 +97,18 @@ export class UbsAdminOrderPaymentComponent implements OnInit, OnChanges, OnDestr
     return date.toLocaleDateString('en-GB', { year: 'numeric', month: '2-digit', day: '2-digit' }).split('/').reverse().join('-');
   }
 
-  public enrollToBonusAccount(): void {
-    const currentDate: string = this.getStringDate(new Date());
+  public displayUnpaidAmount(): boolean {
+    return this.unPaidAmount && this.currentOrderStatus !== 'CANCELED';
+  }
 
+  public setCancelOrderOverpayment(sum: number): void {
+    this.overpayment = sum;
+  }
+
+  public enrollToBonusAccount(sum: number): void {
+    const currentDate: string = this.getStringDate(new Date());
     const paymentDetails: PaymentDetails = {
-      amount: this.overpayment,
+      amount: sum,
       receiptLink: 'Зарахування на бонусний рахунок',
       settlementdate: currentDate
     };
@@ -107,7 +118,12 @@ export class UbsAdminOrderPaymentComponent implements OnInit, OnChanges, OnDestr
       this.paymentsArray.push(responce);
       this.totalPaid -= this.overpayment;
       this.overpayment = 0;
+      this.paymentUpdate.emit(this.overpayment);
     });
+  }
+
+  public returnMoney(sum: number): void {
+    // TO DO
   }
 
   public recountUnpaidAmount(value: number): void {
@@ -147,6 +163,8 @@ export class UbsAdminOrderPaymentComponent implements OnInit, OnChanges, OnDestr
     this.dialog
       .open(AddPaymentComponent, {
         hasBackdrop: true,
+        closeOnNavigation: true,
+        disableClose: true,
         panelClass: 'custom-dialog-container',
         height: '100%',
         data: {
@@ -175,6 +193,7 @@ export class UbsAdminOrderPaymentComponent implements OnInit, OnChanges, OnDestr
             .getOrderInfo(this.orderId)
             .pipe(takeUntil(this.destroy$))
             .subscribe((data: IOrderInfo) => {
+              this.paymentUpdate.emit(data.paymentTableInfoDto.paidAmount);
               const newValue = data.generalOrderInfo.orderPaymentStatus;
               this.postDataItem(this.orderId, newValue);
               this.newPaymentStatus.emit(newValue);

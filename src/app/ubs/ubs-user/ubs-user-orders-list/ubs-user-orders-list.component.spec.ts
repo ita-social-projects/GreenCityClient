@@ -6,8 +6,9 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { TranslateModule } from '@ngx-translate/core';
 import { LocalizedCurrencyPipe } from 'src/app/shared/localized-currency-pipe/localized-currency.pipe';
 import { UbsUserOrderPaymentPopUpComponent } from './ubs-user-order-payment-pop-up/ubs-user-order-payment-pop-up.component';
-
+import { RouterTestingModule } from '@angular/router/testing';
 import { UbsUserOrdersListComponent } from './ubs-user-orders-list.component';
+import { HttpClientModule } from '@angular/common/http';
 
 describe('UbsUserOrdersListComponent', () => {
   let component: UbsUserOrdersListComponent;
@@ -33,6 +34,15 @@ describe('UbsUserOrdersListComponent', () => {
       orderFullPrice: -55,
       amountBeforePayment: 55,
       extend: false
+    },
+    {
+      id: 12,
+      dateForm: 15,
+      orderStatusEng: 'Adjustment',
+      paymentStatusEng: 'Unpaid',
+      orderFullPrice: 55,
+      amountBeforePayment: 55,
+      extend: false
     }
   ];
   const fakePoints = 111;
@@ -40,7 +50,14 @@ describe('UbsUserOrdersListComponent', () => {
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       declarations: [UbsUserOrdersListComponent, LocalizedCurrencyPipe],
-      imports: [MatDialogModule, MatExpansionModule, BrowserAnimationsModule, TranslateModule.forRoot()],
+      imports: [
+        MatDialogModule,
+        MatExpansionModule,
+        BrowserAnimationsModule,
+        TranslateModule.forRoot(),
+        HttpClientModule,
+        RouterTestingModule
+      ],
       providers: [{ provide: MatDialog, useValue: matDialogMock }],
       schemas: [CUSTOM_ELEMENTS_SCHEMA]
     }).compileComponents();
@@ -120,6 +137,18 @@ describe('UbsUserOrdersListComponent', () => {
       const isOrderPaymentAccessRes = component.isOrderPaymentAccess(fakeIputOrderData[2] as any);
       expect(isOrderPaymentAccessRes).toBeFalsy();
     });
+
+    it('canOrderBeCancel return false', () => {
+      spyOn(component, 'canOrderBeCancel').and.returnValue(false);
+      const canOrderBeCancel = component.canOrderBeCancel(fakeIputOrderData[3] as any);
+      expect(canOrderBeCancel).toBeFalsy();
+    });
+
+    it('canOrderBeCancel return true', () => {
+      spyOn(component, 'canOrderBeCancel').and.returnValue(true);
+      const canOrderBeCancel = component.canOrderBeCancel(fakeIputOrderData[1] as any);
+      expect(canOrderBeCancel).toBeTruthy();
+    });
   });
 
   describe('changeCard', () => {
@@ -133,10 +162,11 @@ describe('UbsUserOrdersListComponent', () => {
 
   describe('openOrderPaymentDialog', () => {
     it('makes expected calls', () => {
-      component.openOrderPaymentDialog(fakeIputOrderData[0] as any);
+      component.openOrderPaymentDialog(fakeIputOrderData[1] as any);
       expect(matDialogMock.open).toHaveBeenCalledWith(UbsUserOrderPaymentPopUpComponent, {
+        maxWidth: '500px',
         data: {
-          orderId: 3,
+          orderId: 7,
           price: 55,
           bonuses: 111
         }
@@ -171,6 +201,15 @@ describe('UbsUserOrdersListComponent', () => {
           orderFullPrice: 55,
           amountBeforePayment: 55,
           extend: true
+        },
+        {
+          id: 12,
+          dateForm: 15,
+          orderStatusEng: 'Adjustment',
+          paymentStatusEng: 'Unpaid',
+          orderFullPrice: 55,
+          amountBeforePayment: 55,
+          extend: false
         },
         {
           id: 1,

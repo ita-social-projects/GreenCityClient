@@ -145,6 +145,17 @@ export class LocalStorageService {
     localStorage.setItem('UBSorderData', orderData);
   }
 
+  public setUbsOrderDataBeforeRedirect(personalData: string, orderData: string, anotherClientData: string, UBSExistingOrderId: string) {
+    localStorage.setItem('UBSpersonalData', personalData);
+    localStorage.setItem('UBSorderData', orderData);
+    localStorage.setItem('anotherClient', anotherClientData);
+    localStorage.setItem('UBSExistingOrderId', UBSExistingOrderId);
+  }
+
+  public removeanotherClientData(): void {
+    localStorage.removeItem('anotherClient');
+  }
+
   public setLocationId(currentLocationId: number) {
     localStorage.setItem('currentLocationId', JSON.stringify(currentLocationId));
   }
@@ -177,6 +188,10 @@ export class LocalStorageService {
     localStorage.removeItem('UbsFondyOrderId');
   }
 
+  public removeUBSExistingOrderId() {
+    localStorage.removeItem('UBSExistingOrderId');
+  }
+
   public setUserPagePayment(state: boolean): unknown {
     return localStorage.setItem('IsUserPagePayment', JSON.stringify(state));
   }
@@ -204,6 +219,11 @@ export class LocalStorageService {
     localStorage.removeItem('anotherClient');
   }
 
+  public removeUbsOrderAndPersonalData(): void {
+    localStorage.removeItem('UBSpersonalData');
+    localStorage.removeItem('UBSorderData');
+  }
+
   public getUbsPersonalData(): any {
     return localStorage.getItem('UBSpersonalData') === 'undefined' ? false : JSON.parse(localStorage.getItem('UBSpersonalData'));
   }
@@ -214,6 +234,10 @@ export class LocalStorageService {
 
   public getLocationId(): any {
     return localStorage.getItem('currentLocationId') === null ? false : JSON.parse(localStorage.getItem('currentLocationId'));
+  }
+
+  public getExistingOrderId(): string {
+    return localStorage.getItem('UBSExistingOrderId');
   }
 
   public getLocations(): any {

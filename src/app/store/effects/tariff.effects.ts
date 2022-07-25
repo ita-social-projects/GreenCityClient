@@ -1,7 +1,15 @@
 import { Injectable } from '@angular/core';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { catchError, map, mergeMap } from 'rxjs/operators';
-import { GetLocations, GetLocationsSuccess, AddLocations, AddLocationsSuccess, ReceivedFailure, EditLocation, EditLocationSuccess } from '../actions/tariff.actions';
+import {
+  GetLocations,
+  GetLocationsSuccess,
+  AddLocations,
+  AddLocationsSuccess,
+  ReceivedFailure,
+  EditLocation,
+  EditLocationSuccess
+} from '../actions/tariff.actions';
 import { TariffsService } from 'src/app/ubs/ubs-admin/services/tariffs.service';
 import { CreateLocation, Locations, EditLocationName } from 'src/app/ubs/ubs-admin/models/tariffs.interface';
 import { EMPTY, of } from 'rxjs';
@@ -39,7 +47,8 @@ export class LocationsEffects {
 
   editLocationName = createEffect(() => {
     return this.actions.pipe(
-      ofType(EditLocation), mergeMap((action: {editedLocations: EditLocationName[]}) => {
+      ofType(EditLocation),
+      mergeMap((action: { editedLocations: EditLocationName[] }) => {
         return this.tariffsService.editLocationName(action.editedLocations).pipe(
           map(() => {
             const editedLocations = JSON.parse(JSON.stringify(action.editedLocations));

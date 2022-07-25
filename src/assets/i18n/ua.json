@@ -107,8 +107,12 @@
     },
     "events": {
       "title": "Події",
+      "delete-title": "Видалити подію",
       "delete-yes": "так",
-      "delete-no": "ні"
+      "delete-no": "ні",
+      "my-space": {
+        "tag-title": "Мої події"
+      }
     },
     "eco-advices": {
       "caption": "Еко поради"
@@ -845,7 +849,7 @@
       },
       "add-news": "Додати новини"
     },
-    "habits-in-progress": "У процесі",
+    "habits-in-progress": "у процесі",
     "my-Achievements": "Мої досягнення",
     "see-all": "Побачити все",
     "elements": "Елементів",

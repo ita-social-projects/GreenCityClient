@@ -1,10 +1,10 @@
 import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
-import { Address, AddressData, AllLocationsDtos } from '../models/ubs.interface';
+import { Address, AddressData, AllLocationsDtos, CourierLocations } from '../models/ubs.interface';
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { BehaviorSubject, Observable, Subject, throwError } from 'rxjs';
 import { tap } from 'rxjs/operators';
-import { ICertificate, OrderDetails } from '../models/ubs.interface';
+import { ICertificateResponse, OrderDetails } from '../models/ubs.interface';
 import { environment } from '@environment/environment.js';
 import { Order } from '../models/ubs.model';
 import { UBSOrderFormService } from './ubs-order-form.service';
@@ -54,12 +54,20 @@ export class OrderService {
     }
   }
 
+  getTariffForExistingOrder(orderId: number): Observable<CourierLocations> {
+    return this.http.get<CourierLocations>(`${this.url}/orders/${orderId}/tariff`);
+  }
+
   processOrder(order: Order): Observable<Order> {
     return this.http.post<Order>(`${this.url}/processOrder`, order, { responseType: 'text' as 'json' });
   }
 
-  processCertificate(certificate): Observable<ICertificate> {
-    return this.http.get<ICertificate>(`${this.url}/certificate/${certificate}`);
+  processExistingOrder(order: Order, orderId: number): Observable<Order> {
+    return this.http.post<Order>(`${this.url}/processOrder/${orderId}`, order, { responseType: 'text' as 'json' });
+  }
+
+  processCertificate(certificate): Observable<ICertificateResponse> {
+    return this.http.get<ICertificateResponse>(`${this.url}/certificate/${certificate}`);
   }
 
   addAdress(adress: AddressData): Observable<any> {
@@ -90,6 +98,10 @@ export class OrderService {
 
   getOrderUrl(): Observable<any> {
     return this.processOrder(this.orderSubject.getValue());
+  }
+
+  getExistingOrderUrl(orderId: number): Observable<any> {
+    return this.processExistingOrder(this.orderSubject.getValue(), orderId);
   }
 
   getUbsOrderStatus(): Observable<any> {

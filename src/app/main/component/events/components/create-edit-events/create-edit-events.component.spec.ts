@@ -1,30 +1,19 @@
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
-import { FormControl, FormGroup, FormsModule, NG_VALUE_ACCESSOR, ReactiveFormsModule } from '@angular/forms';
+import { FormControl, FormGroup, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { RouterTestingModule } from '@angular/router/testing';
 import { MatSnackBarComponent } from '@global-errors/mat-snack-bar/mat-snack-bar.component';
+import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
+import { ActionsSubject, Store } from '@ngrx/store';
 import { TranslateModule } from '@ngx-translate/core';
 import { NgxPaginationModule } from 'ngx-pagination';
 import { of } from 'rxjs';
 import { EventsService } from '../../services/events.service';
-
 import { CreateEditEventsComponent } from './create-edit-events.component';
 
 describe('CreateEditEventsComponent', () => {
   let component: CreateEditEventsComponent;
   let fixture: ComponentFixture<CreateEditEventsComponent>;
-
-  const MockReqest = {
-    page: [],
-    totalElements: 4
-  };
-
-  const EventsServiceMock = jasmine.createSpyObj('EventsService', ['createEvent', 'editEvent']);
-  EventsServiceMock.createEvent = () => of(MockReqest);
-  EventsServiceMock.editEvent = () => of(true);
-
-  const MatSnackBarMock = jasmine.createSpyObj('MatSnackBarComponent', ['openSnackBar']);
-  MatSnackBarMock.openSnackBar = (type: string) => {};
 
   const FormMock = {
     date: new Date(),
@@ -47,11 +36,51 @@ describe('CreateEditEventsComponent', () => {
     check: false
   };
 
+  const EditDateEventMock = {
+    coordinates: null,
+    event: 'string',
+    finishDate: '',
+    id: 1,
+    onlineLink: 'link',
+    startDate: ''
+  };
+  const EditEventMock = {
+    additionalImages: [],
+    dates: [EditDateEventMock],
+    description: 'any',
+    id: 1,
+    open: true,
+    organizer: {
+      id: 1,
+      name: 'John'
+    },
+    tags: [],
+    title: 'Title',
+    titleImage: 'string'
+  };
+
   const formDataMock: FormGroup = new FormGroup({
     titleForm: new FormControl('title'),
     description: new FormControl('1 day'),
     eventDuration: new FormControl('titletitletitletitle')
   });
+
+  const actionSub: ActionsSubject = new ActionsSubject();
+
+  const storeMock = jasmine.createSpyObj('store', ['select', 'dispatch']);
+
+  const localStorageServiceMock = jasmine.createSpyObj('localStorageService', ['getEventForEdit', 'getEditMode']);
+  localStorageServiceMock.getEditMode = () => true;
+  localStorageServiceMock.getEventForEdit = () => EditEventMock;
+
+  const EventsServiceMock = jasmine.createSpyObj('EventsService', ['createEvent', 'editEvent']);
+  EventsServiceMock.createEvent = () => of(EditEventMock);
+  EventsServiceMock.editEvent = () => of(true);
+
+  const MatSnackBarMock = jasmine.createSpyObj('MatSnackBarComponent', ['openSnackBar']);
+  MatSnackBarMock.openSnackBar = () => {
+    return true;
+  };
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
@@ -59,7 +88,10 @@ describe('CreateEditEventsComponent', () => {
       declarations: [CreateEditEventsComponent],
       providers: [
         { provide: EventsService, useValue: EventsServiceMock },
-        { provide: MatSnackBarComponent, useValue: MatSnackBarMock }
+        { provide: MatSnackBarComponent, useValue: MatSnackBarMock },
+        { provide: ActionsSubject, useValue: actionSub },
+        { provide: Store, useValue: storeMock },
+        { provide: LocalStorageService, useValue: localStorageServiceMock }
       ],
       schemas: [CUSTOM_ELEMENTS_SCHEMA]
     }).compileComponents();
@@ -77,9 +109,14 @@ describe('CreateEditEventsComponent', () => {
   });
 
   it('ngOnInit expect eventFormGroup to be true', () => {
+    const spy = spyOn(component as any, 'setEditValue');
+    component.tags = [];
+    component.editMode = true;
     component.eventFormGroup = null;
     component.ngOnInit();
     expect(component.eventFormGroup).toBeTruthy();
+    expect(component.tags.length).toBe(3);
+    expect(spy).toHaveBeenCalledTimes(1);
   });
 
   it('checkTab', () => {
@@ -172,18 +209,16 @@ describe('CreateEditEventsComponent', () => {
   });
 
   it('onSubmit expect isposting to be false', () => {
-    component.isPosting = true;
+    const spy = spyOn(component as any, 'checkDates');
     component.checkdates = true;
     component.contentValid = true;
     component.tags[0].isActive = true;
-    const spy = spyOn(component.router, 'navigate');
     component.eventFormGroup.patchValue({
       titleForm: 'title',
       eventDuration: '1 day',
       description: 'descriptiondescriptiondescriptiondescription'
     });
     component.onSubmit();
-    expect(component.isPosting).toBeFalsy();
     expect(spy).toHaveBeenCalledTimes(1);
   });
 });

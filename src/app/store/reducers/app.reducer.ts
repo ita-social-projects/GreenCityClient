@@ -5,11 +5,13 @@ import { employeesReducer } from './employee.reducer';
 import { tariffReducer } from './tariff.reducer';
 import { bigOrderTableReducer } from './bigOrderTable.reducer';
 import { EcoNewsReducer } from './ecoNews.reducer';
+import { EcoEventsReducer } from './ecoEvents.reducer';
 
 export const appReducers: ActionReducerMap<IAppState> = {
   router: routerReducer,
   employees: employeesReducer,
   locations: tariffReducer,
   bigOrderTable: bigOrderTableReducer,
-  ecoNewsState: EcoNewsReducer
+  ecoNewsState: EcoNewsReducer,
+  ecoEventsState: EcoEventsReducer
 };

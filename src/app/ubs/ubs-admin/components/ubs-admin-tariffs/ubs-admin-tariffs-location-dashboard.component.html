@@ -14,7 +14,7 @@
         <span class="menu-item">{{ 'ubs-tariffs.btn.edit_name' | translate }}</span>
         <img [src]="icons.arrowRight" class="arrowRight-img" alt="settings" />
       </button>
-      <button mat-menu-item>
+      <button mat-menu-item (click)="openCreateCard()">
         <span class="menu-item">{{ 'ubs-tariffs.btn.create_card' | translate }}</span>
       </button>
       <button mat-menu-item (click)="openDeactivateLocation()">
@@ -45,7 +45,7 @@
     </mat-menu>
   </div>
 </div>
-<div class="showing-block" [formGroup]="searchForm">
+<form class="showing-block" [formGroup]="searchForm" #form="ngForm">
   <div class="d-flex">
     <div class="col-item">
       <p class="col-text">{{ 'ubs-tariffs.region' | translate }}</p>
@@ -60,22 +60,19 @@
         />
         <mat-autocomplete #autoRegion="matAutocomplete">
           <mat-option value="Усі">Усі</mat-option>
-          <mat-option *ngFor="let option of filteredRegions | async" [value]="option">
-            {{ option }}
+          <mat-option *ngFor="let region of filteredRegions | async" [value]="region">
+            {{ region }}
           </mat-option>
         </mat-autocomplete>
         <mat-icon class="cross-img" (click)="region.setValue('')">close</mat-icon>
         <img [src]="icons.arrowDown" class="arrowDown-img" alt="arrowDown" (click)="openAuto($event, autocompleteTriggerRegion)" />
-      </div>
-      <div class="validation" *ngIf="region.invalid && region.touched">
-        <div>Wrong input</div>
       </div>
     </div>
     <div class="col-item">
       <p class="col-text">{{ 'ubs-tariffs.city' | translate }}</p>
       <div class="input-wrapper">
         <input
-          placeholder="{{ 'ubs-tariffs.placeholder-locality' | translate }}"
+          [placeholder]="cityPlaceholder"
           #autocompleteTriggerCity="matAutocompleteTrigger"
           formControlName="city"
           [matAutocomplete]="autoCity"
@@ -89,24 +86,19 @@
           autoActiveFirstOption
         >
           <mat-option value="all">
-            <mat-checkbox [checked]="isChecked()" (change)="toggleSelectAll()" value="all"></mat-checkbox>
+            <mat-checkbox [checked]="isCityChecked()" (change)="toggleSelectAllCity()" value="all"></mat-checkbox>
             Усі
           </mat-option>
-          <mat-option *ngFor="let item of filteredCities" [value]="item">
-            <mat-checkbox class="mr-1" [checked]="checkedCities.indexOf(item) >= 0"></mat-checkbox>
-            <span class="checkbox-text">{{ item }}</span>
+          <mat-option *ngFor="let city of filteredCities | async">
+            <mat-checkbox class="mr-1" [checked]="checkedCities.indexOf(city) >= 0"></mat-checkbox>
+            <span class="checkbox-text">{{ city }}</span>
           </mat-option>
         </mat-autocomplete>
-        <img
-          [src]="icons.arrowDown"
-          class="arrowDown-img"
-          alt="arrowDown"
-          (click)="openAuto($event, autocompleteTriggerCity)"
-        />
+        <img [src]="icons.arrowDown" class="arrowDown-img" alt="arrowDown" (click)="openAuto($event, autocompleteTriggerCity)" />
       </div>
       <mat-chip-list #chipListCity aria-label="City selection">
         <div class="city-list">
-          <span *ngFor="let item of checkedCities" class="city-item">{{ item }}</span>
+          <span *ngFor="let city of checkedCities" class="city-item">{{ city }}</span>
         </div>
       </mat-chip-list>
     </div>
@@ -116,8 +108,8 @@
         <mat-form-field floatLabel="never">
           <mat-select #courierSelect formControlName="courier" placeholder="{{ 'ubs-tariffs.placeholder-courier' | translate }}">
             <mat-option class="option-state" value="all">Усі</mat-option>
-            <mat-option class="option-state" *ngFor="let option of couriers" [value]="option">
-              {{ option }}
+            <mat-option class="option-state" *ngFor="let courier of couriersName" [value]="courier">
+              {{ courier }}
             </mat-option>
           </mat-select>
         </mat-form-field>
@@ -127,15 +119,26 @@
     <div class="col-item">
       <p class="col-text">{{ 'ubs-tariffs.station' | translate }}</p>
       <div class="input-wrapper">
-        <mat-form-field floatLabel="never">
-          <mat-select placeholder="{{ 'ubs-tariffs.placeholder-station' | translate }}" #stationSelect formControlName="station">
-            <mat-option class="option-state" value="all">Усі</mat-option>
-            <mat-option class="option-state" *ngFor="let option of stations" [value]="option">
-              {{ option.name }}
-            </mat-option>
-          </mat-select>
-        </mat-form-field>
-        <img [src]="icons.arrowDown" class="arrowDown-img" alt="arrowDown" (click)="stationSelect.open()" />
+        <input
+          [placeholder]="stationPlaceholder"
+          #autocompleteTriggerStation="matAutocompleteTrigger"
+          formControlName="station"
+          [matAutocomplete]="autoStation"
+        />
+        <mat-autocomplete #select #autoStation="matAutocomplete" (optionSelected)="stationSelected($event, autocompleteTriggerStation)">
+          <mat-option value="all">
+            <mat-checkbox [checked]="isStationChecked()" (change)="toggleSelectAllStation()" value="all"></mat-checkbox>
+            Усі
+          </mat-option>
+          <mat-option *ngFor="let option of filteredStations | async" class="option-state" [value]="option">
+            <mat-checkbox class="mr-1" [checked]="checkStation(option)"></mat-checkbox>
+            <span class="checkbox-text">{{ option }}</span>
+          </mat-option>
+        </mat-autocomplete>
+        <img [src]="icons.arrowDown" class="arrowDown-img" alt="arrowDown" (click)="openAuto($event, autocompleteTriggerStation)" />
+      </div>
+      <div class="city-list">
+        <span *ngFor="let station of selectedStation" class="city-item">{{ station }}</span>
       </div>
     </div>
     <div class="col-item">
@@ -146,16 +149,17 @@
             <mat-option class="option-state" value="all">Усі</mat-option>
             <mat-option class="option-state" value="Активно">Активно</mat-option>
             <mat-option class="option-state" value="Неактивно">Неактивно</mat-option>
+            <mat-option class="option-state" value="Незаповнена">Незаповнена</mat-option>
           </mat-select>
         </mat-form-field>
         <img [src]="icons.arrowDown" class="arrowDown-img" alt="arrowDown" (click)="stateSelect.open()" />
       </div>
     </div>
   </div>
-</div>
+</form>
 <table class="table-location">
   <thead *ngIf="filteredLocations?.length !== 0">
-     <tr>
+    <tr>
       <th id="region">{{ 'ubs-tariffs.region' | translate }}</th>
       <th id="city">{{ 'ubs-tariffs.city' | translate }}</th>
       <th id="courier">{{ 'ubs-tariffs.courier' | translate }}</th>
@@ -164,31 +168,31 @@
       <th id="action"></th>
     </tr>
   </thead>
-  <tbody *ngIf="!locationCard && filteredLocations">
-    <tr
-      *ngFor="
-        let location of filteredLocations
-          | optionTariff: [state.value, courier.value, station.value]:['status', 'courierTranslationDtos', 'stationTranslationDtos']
-          | searchTariff: [region.value]:['regionTranslationDtos']
-      "
-      [ngClass]="{ 'disabled-col': location.status === 'Неактивно' }"
-    >
+  <tbody>
+    <!-- Try to use optionTariff, searchTariff pipes for filtering regions, cities in cards -->
+    <tr *ngFor="let card of cards">
       <td>
-        <div *ngFor="let regionItem of location.regionTranslationDtos | filterByLang">
-          {{ regionItem.regionName }}
+        {{ card.region }}
+      </td>
+      <td>
+        <div *ngFor="let item of card.city" class="cursor-pointer" (click)="page(card.regionId)">
+          {{ item }}
         </div>
       </td>
       <td>
-        <div class="cursor-pointer" *ngFor="let item of location.locationsDto" (click)="page(location.regionId)">
-          <div *ngFor="let name of item.locationTranslationDtoList | filterByLang">
-            {{ name.locationName }}
-          </div>
+        <div>
+          {{ card.courier }}
         </div>
       </td>
-      <td>УБС-кур'єр</td>
-      <td>Слобідська</td>
-      <td>Активно</td>
-      <td class="last-col" *ngIf="location.status != 'Неактивно'" [matMenuTriggerFor]="crumbs">
+      <td>
+        <div *ngFor="let item of card.station">
+          {{ item }}
+        </div>
+      </td>
+      <td>
+        {{ card.tariff | tariffStatus }}
+      </td>
+      <td class="last-col" *ngIf="card.tariff != 'Неактивно'" [matMenuTriggerFor]="crumbs">
         <img class="tariff-img mr-3" [src]="icons.crumbs" alt="crumbs" />
       </td>
       <mat-menu #crumbs="matMenu">
@@ -199,45 +203,7 @@
           <span class="menu-item">{{ 'ubs-tariffs.btn.deactivation' | translate }}</span>
         </button>
       </mat-menu>
-      <td class="last-col" *ngIf="location.status === 'Неактивно'" [matMenuTriggerFor]="restore">
-        <img class="tariff-img mr-3" [src]="icons.restore" alt="restore" />
-      </td>
-      <mat-menu #restore="matMenu">
-        <button mat-menu-item>
-          <span class="menu-item">{{ 'ubs-tariffs.btn.restore' | translate }}</span>
-        </button>
-      </mat-menu>
-    </tr> 
-  </tbody>
-  <tbody *ngIf="locationCard && filteredLocations">
-    <tr *ngFor="let location of locationCard" [ngClass]="{ 'disabled-col': location.status === 'Неактивно' }">
-      <td>
-        <div *ngFor="let regionItem of location.regionTranslationDtos | filterByLang">
-          {{ regionItem.regionName }}
-        </div>
-      </td>
-      <td>
-        <div class="cursor-pointer" *ngFor="let item of location.locationsDto" (click)="page(location.regionId)">
-          <div *ngFor="let name of item.locationTranslationDtoList | filterByLang">
-            {{ name.locationName }}
-          </div>
-        </div>
-      </td>
-      <td>УБС-кур'єр</td>
-      <td>Слобідська</td>
-      <td>Активно</td>
-      <td class="last-col" *ngIf="location.status != 'Неактивно'" [matMenuTriggerFor]="crumbs">
-        <img class="tariff-img mr-3" [src]="icons.crumbs" alt="crumbs" />
-      </td>
-      <mat-menu #crumbs="matMenu">
-        <button mat-menu-item>
-          <span class="menu-item">{{ 'ubs-tariffs.btn.edit' | translate }}</span>
-        </button>
-        <button mat-menu-item (click)="openDeactivateLocation()">
-          <span class="menu-item">{{ 'ubs-tariffs.btn.deactivation' | translate }}</span>
-        </button>
-      </mat-menu>
-      <td class="last-col" *ngIf="location.status === 'Неактивно'" [matMenuTriggerFor]="restore">
+      <td class="last-col" *ngIf="card.tariff === 'Неактивно'" [matMenuTriggerFor]="restore">
         <img class="tariff-img mr-3" [src]="icons.restore" alt="restore" />
       </td>
       <mat-menu #restore="matMenu">
@@ -247,5 +213,4 @@
       </mat-menu>
     </tr>
   </tbody>
-  <div *ngIf="!filteredLocations?.length">No Data</div>
 </table>

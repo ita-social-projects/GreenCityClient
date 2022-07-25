@@ -21,8 +21,8 @@ import { Store } from '@ngrx/store';
 import { IAppState } from 'src/app/store/state/app.state';
 import { AddLocations, EditLocation, GetLocations } from 'src/app/store/actions/tariff.actions';
 import { ModalTextComponent } from '../../shared/components/modal-text/modal-text.component';
-import { ubsNamePattern } from '../../shared/validators-pattern/ubs-name-patterns';
 import { MatAutocompleteTrigger } from '@angular/material/autocomplete';
+import { Patterns } from 'src/assets/patterns/patterns';
 
 interface LocationItem {
   location: string;
@@ -40,13 +40,10 @@ export class UbsAdminTariffsLocationPopUpComponent implements OnInit, AfterViewC
   @ViewChild('locationInput') input: ElementRef;
 
   locationForm = this.fb.group({
-    region: ['', [Validators.required, Validators.minLength(3), Validators.maxLength(40), Validators.pattern(ubsNamePattern.namePattern)]],
-    englishRegion: [
-      '',
-      [Validators.required, Validators.minLength(3), Validators.maxLength(40), Validators.pattern(ubsNamePattern.englishPattern)]
-    ],
-    location: ['', [Validators.minLength(3), Validators.maxLength(40), Validators.pattern(ubsNamePattern.namePattern)]],
-    englishLocation: ['', [Validators.minLength(3), Validators.maxLength(40), Validators.pattern(ubsNamePattern.englishPattern)]]
+    region: ['', [Validators.required, Validators.minLength(3), Validators.maxLength(40), Validators.pattern(Patterns.NamePattern)]],
+    englishRegion: ['', [Validators.required, Validators.minLength(3), Validators.maxLength(40), Validators.pattern(Patterns.NamePattern)]],
+    location: ['', [Validators.minLength(3), Validators.maxLength(40), Validators.pattern(Patterns.NamePattern)]],
+    englishLocation: ['', [Validators.minLength(3), Validators.maxLength(40), Validators.pattern(Patterns.NamePattern)]]
   });
 
   regionOptions = {
@@ -81,7 +78,6 @@ export class UbsAdminTariffsLocationPopUpComponent implements OnInit, AfterViewC
   citySelected = false;
   cityExist = false;
   editedCityExist = false;
-  uaregions = [];
   cities = [];
   filteredRegions;
   filteredCities = [];
@@ -162,18 +158,20 @@ export class UbsAdminTariffsLocationPopUpComponent implements OnInit, AfterViewC
       this.filteredCities = res;
     });
     this.regionId = currentRegion[0].regionId;
-    this.cities = currentRegion.map((element) =>
-      element.locationsDto.map((item) =>
-        item.locationTranslationDtoList.filter((it) => it.languageCode === 'ua').map((it) => it.locationName)
+    this.cities = currentRegion
+      .map((element) =>
+        element.locationsDto.map((item) =>
+          item.locationTranslationDtoList.filter((it) => it.languageCode === 'ua').map((it) => it.locationName)
+        )
       )
-    );
-    this.enCities = currentRegion.map((element) =>
-      element.locationsDto.map((item) =>
-        item.locationTranslationDtoList.filter((it) => it.languageCode === 'en').map((it) => it.locationName)
+      .flat(2);
+    this.enCities = currentRegion
+      .map((element) =>
+        element.locationsDto.map((item) =>
+          item.locationTranslationDtoList.filter((it) => it.languageCode === 'en').map((it) => it.locationName)
+        )
       )
-    );
-    this.cities = this.cities.reduce((acc, val) => acc.concat(val), []).reduce((acc, val) => acc.concat(val), []);
-    this.enCities = this.enCities.reduce((acc, val) => acc.concat(val), []).reduce((acc, val) => acc.concat(val), []);
+      .flat(2);
   }
 
   translate(sourceText: string, input: any): void {
@@ -205,8 +203,7 @@ export class UbsAdminTariffsLocationPopUpComponent implements OnInit, AfterViewC
       const tempItem = {
         location: this.location.value,
         englishLocation: this.englishLocation.value,
-        locationId: this.editLocationId,
-        regionId: this.regionId
+        locationId: this.editLocationId
       };
       this.editedCities.push(tempItem);
       this.location.setValue('');
@@ -263,10 +260,13 @@ export class UbsAdminTariffsLocationPopUpComponent implements OnInit, AfterViewC
   }
 
   selectedEditRegion(event): void {
-    const enValue = this.locations.filter((it) => it.regionTranslationDtos.find((ob) => ob.regionName === event.option.value.toString()));
-    this.englishRegion.setValue(
-      enValue.map((it) => it.regionTranslationDtos.filter((ob) => ob.languageCode === 'en').map((i) => i.regionName))
+    const selectedValue = this.locations.filter((it) =>
+      it.regionTranslationDtos.find((ob) => ob.regionName === event.option.value.toString())
     );
+    const enValue = selectedValue
+      .map((it) => it.regionTranslationDtos.filter((ob) => ob.languageCode === 'en').map((i) => i.regionName))
+      .flat(2);
+    this.englishRegion.setValue(enValue);
   }
 
   selectCitiesEdit(event): void {
@@ -287,15 +287,13 @@ export class UbsAdminTariffsLocationPopUpComponent implements OnInit, AfterViewC
     this.locations$.pipe(skip(1)).subscribe((item) => {
       if (item) {
         this.locations = item;
-        this.uaregions = [].concat(
-          ...this.locations.map((element) =>
-            element.regionTranslationDtos.filter((it) => it.languageCode === 'ua').map((it) => it.regionName)
-          )
-        );
+        const uaregions = this.locations
+          .map((element) => element.regionTranslationDtos.filter((it) => it.languageCode === 'ua').map((it) => it.regionName))
+          .flat(2);
         this.region.valueChanges
           .pipe(
             startWith(''),
-            map((value: string) => this._filter(value, this.uaregions))
+            map((value: string) => this._filter(value, uaregions))
           )
           .subscribe((data) => {
             this.filteredRegions = data;
@@ -305,7 +303,7 @@ export class UbsAdminTariffsLocationPopUpComponent implements OnInit, AfterViewC
     });
   }
 
-  private _filter(name: string, items: any[]): any[] {
+  public _filter(name: string, items: any[]): any[] {
     const filterValue = name.toLowerCase();
     return items.filter((option) => option.toLowerCase().includes(filterValue));
   }
@@ -336,8 +334,7 @@ export class UbsAdminTariffsLocationPopUpComponent implements OnInit, AfterViewC
       const cart = {
         nameEn: item.englishLocation,
         nameUa: item.location,
-        locationId: item.locationId,
-        regionId: item.regionId
+        locationId: item.locationId
       };
       this.newLocationName.push(cart);
     }

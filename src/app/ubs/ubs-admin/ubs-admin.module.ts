@@ -15,7 +15,7 @@ import { SharedModule } from '../../shared/shared.module';
 import { UbsAdminComponent } from './ubs-admin.component';
 import { UbsAdminEmployeeComponent } from './components/ubs-admin-employee/ubs-admin-employee.component';
 import { PaginationComponent } from './components/shared/components/pagination/pagination.component';
-import { EmployeeFormComponent } from './components/ubs-admin-employee/employee-form/employee-form.component';
+import { UbsAdminEmployeeEditFormComponent } from './components/ubs-admin-employee/ubs-admin-employee-edit-form/ubs-admin-employee-edit-form.component';
 import { UBSAdminRoutingModule } from './ubs-admin-routing.module';
 import { UbsAdminResponsiblePersonsComponent } from './components/ubs-admin-responsible-persons/ubs-admin-responsible-persons.component';
 import { UbsAdminExportDetailsComponent } from './components/ubs-admin-export-details/ubs-admin-export-details.component';
@@ -61,7 +61,6 @@ import { environment } from '@environment/environment';
 import { MatDialogModule } from '@angular/material/dialog';
 import { UbsAdminCustomerOrdersComponent } from './components/ubs-admin-customers/ubs-admin-customer-orders/ubs-admin-customer-orders.component';
 import { AddOrderCancellationReasonComponent } from './components/add-order-cancellation-reason/add-order-cancellation-reason.component';
-import { DialogPopUpComponent } from './components/shared/components/dialog-pop-up/dialog-pop-up.component';
 import { ResizeColumnDirective } from './derictives/resize-table-columns.directive';
 import { AddPaymentComponent } from './components/add-payment/add-payment.component';
 import { UbsAdminCustomerViolationsComponent } from './components/ubs-admin-customers/ubs-admin-customer-violations/ubs-admin-customer-violations/ubs-admin-customer-violations.component';
@@ -79,6 +78,11 @@ import { UbsAdminTariffsCourierPopUpComponent } from './components/ubs-admin-tar
 import { UbsAdminTariffsStationPopUpComponent } from './components/ubs-admin-tariffs/ubs-admin-tariffs-station-pop-up/ubs-admin-tariffs-station-pop-up.component';
 import { MatExpansionModule } from '@angular/material/expansion';
 import { TimePickerComponent } from './components/shared/components/time-picker/time-picker.component';
+import { UbsAdminTariffsCardPopUpComponent } from './components/ubs-admin-tariffs/ubs-admin-tariffs-card-pop-up/ubs-admin-tariffs-card-pop-up.component';
+import { TariffConfirmationPopUpComponent } from './components/shared/components/tariff-confirmation-pop-up/tariff-confirmation-pop-up.component';
+import { UbsAdminEmployeeRightsFormComponent } from './components/ubs-admin-employee/ubs-admin-employee-rights-form/ubs-admin-employee-rights-form.component';
+import { CdkAccordionModule } from '@angular/cdk/accordion';
+import { TariffStatusPipe } from '@pipe/tariff-status-pipe/tariff-status.pipe';
 
 @NgModule({
   declarations: [
@@ -88,7 +92,7 @@ import { TimePickerComponent } from './components/shared/components/time-picker/
     UbsAdminSidebarComponent,
     UbsAdminComponent,
     UbsAdminEmployeeComponent,
-    EmployeeFormComponent,
+    UbsAdminEmployeeEditFormComponent,
     UbsAdminOrderComponent,
     UbsAdminAddressDetailsComponent,
     UbsAdminOrderStatusComponent,
@@ -117,7 +121,6 @@ import { TimePickerComponent } from './components/shared/components/time-picker/
     UbsAdminCustomerOrdersComponent,
     UbsAdminOrderHistoryComponent,
     AddOrderCancellationReasonComponent,
-    DialogPopUpComponent,
     ResizeColumnDirective,
     AddPaymentComponent,
     UbsAdminCustomerViolationsComponent,
@@ -130,7 +133,11 @@ import { TimePickerComponent } from './components/shared/components/time-picker/
     UbsAdminSeveralOrdersPopUpComponent,
     UbsAdminTariffsCourierPopUpComponent,
     UbsAdminTariffsStationPopUpComponent,
-    TimePickerComponent
+    TimePickerComponent,
+    UbsAdminTariffsCardPopUpComponent,
+    TariffConfirmationPopUpComponent,
+    UbsAdminEmployeeRightsFormComponent,
+    TariffStatusPipe
   ],
   imports: [
     CommonModule,
@@ -170,7 +177,8 @@ import { TimePickerComponent } from './components/shared/components/time-picker/
     MatAutocompleteModule,
     MatChipsModule,
     MatSelectModule,
-    MatExpansionModule
+    MatExpansionModule,
+    CdkAccordionModule
   ],
   providers: [
     AdminCertificateService,
@@ -184,7 +192,7 @@ import { TimePickerComponent } from './components/shared/components/time-picker/
   entryComponents: [
     UbsAdminTableComponent,
     AddViolationsComponent,
-    EmployeeFormComponent,
+    UbsAdminEmployeeEditFormComponent,
     UbsAdminCancelModalComponent,
     UbsAdminGoBackModalComponent
   ]

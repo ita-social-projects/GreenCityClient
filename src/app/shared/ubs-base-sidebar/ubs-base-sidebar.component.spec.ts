@@ -16,17 +16,17 @@ import { UbsBaseSidebarComponent } from './ubs-base-sidebar.component';
 
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { UserMessagesService } from '../../ubs/ubs-user/services/user-messages.service';
-import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
 import { JwtService } from '@global-service/jwt/jwt.service';
-import { Subject } from 'rxjs';
+import { of } from 'rxjs';
 
 describe('UbsBaseSidebarComponent', () => {
   let component: UbsBaseSidebarComponent;
   let fixture: ComponentFixture<UbsBaseSidebarComponent>;
 
-  let localStorageServiceMock: LocalStorageService;
-  let userMessagesService: UserMessagesService;
-  let jwtService: JwtService;
+  const userMessagesService = jasmine.createSpyObj('userMessagesService', ['getCountUnreadNotification']);
+  userMessagesService.getCountUnreadNotification.and.returnValue(of(0));
+  const jwtServiceMock = jasmine.createSpyObj('jwtService', ['']);
+  jwtServiceMock.userRole$ = of('ROLE_UBS_EMPLOYEE');
 
   const listItem = {
     link: '',
@@ -34,12 +34,7 @@ describe('UbsBaseSidebarComponent', () => {
     routerLink: 'orders'
   };
 
-  localStorageServiceMock = new LocalStorageService();
-
   beforeEach(async(() => {
-    userMessagesService = new UserMessagesService(null, localStorageServiceMock);
-    jwtService = new JwtService(localStorageServiceMock);
-
     TestBed.configureTestingModule({
       imports: [
         MatSidenavModule,
@@ -55,6 +50,10 @@ describe('UbsBaseSidebarComponent', () => {
         InfiniteScrollModule
       ],
       declarations: [UbsBaseSidebarComponent, UbsAdminTableComponent, HeaderComponent],
+      providers: [
+        { provide: JwtService, useValue: jwtServiceMock },
+        { provide: UserMessagesService, useValue: userMessagesService }
+      ],
       schemas: [CUSTOM_ELEMENTS_SCHEMA]
     }).compileComponents();
   }));
@@ -62,6 +61,8 @@ describe('UbsBaseSidebarComponent', () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(UbsBaseSidebarComponent);
     component = fixture.componentInstance;
+    spyOn(global, 'setTimeout');
+    userMessagesService.countOfNoReadeMessages = 0;
     fixture.detectChanges();
   });
 
@@ -77,7 +78,7 @@ describe('UbsBaseSidebarComponent', () => {
   it('should return default icon link', () => {
     userMessagesService.countOfNoReadeMessages = 1;
     listItem.link = component.bellsNoneNotification;
-    expect(component.getIcon(listItem)).toBe(listItem.link);
+    expect(component.getIcon(listItem)).toBe(component.bellsNotification);
   });
 
   it('should toggle sidebar menu state', () => {
@@ -107,18 +108,5 @@ describe('UbsBaseSidebarComponent', () => {
     const spy = spyOn((component as any).cdr, 'detectChanges');
     component.ngAfterViewChecked();
     expect(spy).toHaveBeenCalled();
-  });
-
-  it('destroy should be closed after ngOnDestroy()', () => {
-    component.destroy = new Subject<boolean>();
-    spyOn(component.destroy, 'next');
-    component.ngOnDestroy();
-    expect(component.destroy.next).toHaveBeenCalledTimes(1);
-  });
-
-  it('should unsubscribe on destroy', () => {
-    component.destroy.subscribe();
-    component.ngOnDestroy();
-    expect(component.destroy.closed).toBeTruthy();
   });
 });
