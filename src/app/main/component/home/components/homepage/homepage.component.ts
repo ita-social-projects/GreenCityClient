@@ -35,7 +35,7 @@ export class HomepageComponent implements OnInit, OnDestroy {
   }
 
   startHabit() {
-    this.router.navigate(['/profile', this.userId]);
+    this.userId ? this.router.navigate(['/profile', this.userId]) : this.checkTokenservice.openAuthModalWindow();
   }
 
   private onCheckToken(): void {
