@@ -30,6 +30,7 @@ export class HeaderComponent implements OnInit, OnDestroy {
   public name: string;
   public isLoggedIn: boolean;
   public isAdmin: boolean;
+  public isGreenCityAdmin: boolean;
   public managementLink: string;
   public isAllSearchOpen = false;
   public toggleBurgerMenu = false;
@@ -37,6 +38,7 @@ export class HeaderComponent implements OnInit, OnDestroy {
   public ariaStatus = 'profile options collapsed';
   public isSearchClicked = false;
   private adminRoleValue = 'ROLE_UBS_EMPLOYEE';
+  private adminRoleGreenCityValue = 'ROLE_ADMIN';
   private userRole: string;
   private userId: number;
   private backEndLink = environment.backendLink;
@@ -105,6 +107,7 @@ export class HeaderComponent implements OnInit, OnDestroy {
     this.jwtService.userRole$.pipe(takeUntil(this.destroySub)).subscribe((userRole) => {
       this.userRole = userRole;
       this.isAdmin = this.userRole === this.adminRoleValue;
+      this.isGreenCityAdmin = this.userRole === this.adminRoleGreenCityValue;
     });
     this.autoOffBurgerBtn();
     this.userOwnAuthService.getDataFromLocalStorage();
