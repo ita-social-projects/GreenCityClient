@@ -8,7 +8,7 @@ export class ConvertFromDateToStringService {
     const parseDate = Date.parse(date.toString());
     let diff: number;
     try {
-      diff = (date as Date).getTimezoneOffset();
+      diff = date.getTimezoneOffset();
     } catch {
       diff = 0;
     }
