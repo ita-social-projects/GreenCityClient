@@ -13,6 +13,7 @@ import { DialogPopUpComponent } from 'src/app/shared/dialog-pop-up/dialog-pop-up
 import { Patterns } from 'src/assets/patterns/patterns';
 import { formatDate } from '@angular/common';
 import { DateAdapter } from '@angular/material/core';
+import { ConvertFromDateToStringService } from 'src/app/shared/convert-from-date-to-string/convert-from-date-to-string.service';
 
 interface InputData {
   orderId: number;
@@ -61,6 +62,7 @@ export class AddPaymentComponent implements OnInit, OnDestroy {
   };
 
   constructor(
+    private convertFromDateToStringService: ConvertFromDateToStringService,
     private localeStorageService: LocalStorageService,
     private orderService: OrderService,
     private dialogRef: MatDialogRef<AddPaymentComponent>,
@@ -117,14 +119,7 @@ export class AddPaymentComponent implements OnInit, OnDestroy {
     const paymentDetails = this.addPaymentForm.value;
     paymentDetails.amount *= 100;
 
-    const parseDate = Date.parse(paymentDetails.settlementdate);
-    let diff: number;
-    try {
-      diff = paymentDetails.settlementdate.getTimezoneOffset();
-    } catch {
-      diff = 0;
-    }
-    paymentDetails.settlementdate = new Date(parseDate - diff * 60 * 1000).toISOString().slice(0, 10);
+    paymentDetails.settlementdate = this.convertFromDateToStringService.toISOStringWithTimezoneOffset(paymentDetails.settlementdate);
 
     result.form = paymentDetails;
     result.file = this.file;

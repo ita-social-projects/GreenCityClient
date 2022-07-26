@@ -23,6 +23,7 @@ import { TableHeightService } from '../../services/table-height.service';
 import { UbsAdminTableExcelPopupComponent } from '../ubs-admin-table/ubs-admin-table-excel-popup/ubs-admin-table-excel-popup.component';
 import { columnsParams } from './columnsParams';
 import { Filters } from './filters.interface';
+import { ConvertFromDateToStringService } from 'src/app/shared/convert-from-date-to-string/convert-from-date-to-string.service';
 
 @Component({
   selector: 'app-ubs-admin-customers',
@@ -68,6 +69,7 @@ export class UbsAdminCustomersComponent implements OnInit, AfterViewChecked, OnD
   @ViewChild(MatTable, { read: ElementRef }) private matTableRef: ElementRef;
 
   constructor(
+    private convertFromDateToStringService: ConvertFromDateToStringService,
     private renderer: Renderer2,
     private localStorageService: LocalStorageService,
     private tableHeightService: TableHeightService,
@@ -148,12 +150,18 @@ export class UbsAdminCustomersComponent implements OnInit, AfterViewChecked, OnD
       numberOfOrders: [this.filters.ordersCountFrom, this.filters.ordersCountTo],
       numberOfViolations: [this.filters.violationsFrom, this.filters.violationsTo],
       orderDate: [
-        this.filters.lastOrderDateFrom ? this.filters.lastOrderDateFrom.toISOString().slice(0, 10) : '',
-        this.filters.lastOrderDateTo ? this.filters.lastOrderDateTo.toISOString().slice(0, 10) : ''
+        this.filters.lastOrderDateFrom
+          ? this.convertFromDateToStringService.toISOStringWithTimezoneOffset(this.filters.lastOrderDateFrom)
+          : '',
+        this.filters.lastOrderDateTo ? this.convertFromDateToStringService.toISOStringWithTimezoneOffset(this.filters.lastOrderDateTo) : ''
       ],
       userRegistrationDate: [
-        this.filters.registrationDateFrom ? this.filters.registrationDateFrom.toISOString().slice(0, 10) : '',
-        this.filters.registrationDateTo ? this.filters.registrationDateTo.toISOString().slice(0, 10) : ''
+        this.filters.registrationDateFrom
+          ? this.convertFromDateToStringService.toISOStringWithTimezoneOffset(this.filters.registrationDateFrom)
+          : '',
+        this.filters.registrationDateTo
+          ? this.convertFromDateToStringService.toISOStringWithTimezoneOffset(this.filters.registrationDateTo)
+          : ''
       ]
     };
     for (const filter in filtersObj) {
