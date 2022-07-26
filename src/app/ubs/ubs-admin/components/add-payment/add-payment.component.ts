@@ -1,4 +1,4 @@
-import { Component, Inject, OnDestroy, OnInit } from '@angular/core';
+import { Component, Inject, Injector, OnDestroy, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { MatTableDataSource } from '@angular/material/table';
@@ -32,6 +32,10 @@ interface PostData {
   styleUrls: ['./add-payment.component.scss']
 })
 export class AddPaymentComponent implements OnInit, OnDestroy {
+  private convertFromDateToStringService: ConvertFromDateToStringService;
+  private localeStorageService: LocalStorageService;
+  private orderService: OrderService;
+
   closeButton = './assets/img/profile/icons/cancel.svg';
   orderId: number;
   viewMode: boolean;
@@ -62,15 +66,17 @@ export class AddPaymentComponent implements OnInit, OnDestroy {
   };
 
   constructor(
-    private convertFromDateToStringService: ConvertFromDateToStringService,
-    private localeStorageService: LocalStorageService,
-    private orderService: OrderService,
+    private injector: Injector,
     private dialogRef: MatDialogRef<AddPaymentComponent>,
     private dialog: MatDialog,
     private fb: FormBuilder,
     private adapter: DateAdapter<any>,
     @Inject(MAT_DIALOG_DATA) public data: InputData
   ) {
+    this.convertFromDateToStringService = injector.get(ConvertFromDateToStringService);
+    this.localeStorageService = injector.get(LocalStorageService);
+    this.orderService = injector.get(OrderService);
+
     const locale = this.localeStorageService.getCurrentLanguage() !== 'ua' ? 'en-GB' : 'uk-UA';
     this.adapter.setLocale(locale);
   }

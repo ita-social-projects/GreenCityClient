@@ -112,6 +112,10 @@
     .form-container.block {
       position: relative;
 
+      & #date {
+        width: 170px;
+      }
+
       & .mat-datepicker-toggle {
         position: absolute;
         top: 20px;

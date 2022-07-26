@@ -4,6 +4,7 @@ import {
   Component,
   ElementRef,
   HostListener,
+  Injector,
   OnDestroy,
   OnInit,
   Renderer2,
@@ -24,6 +25,7 @@ import { UbsAdminTableExcelPopupComponent } from '../ubs-admin-table/ubs-admin-t
 import { columnsParams } from './columnsParams';
 import { Filters } from './filters.interface';
 import { ConvertFromDateToStringService } from 'src/app/shared/convert-from-date-to-string/convert-from-date-to-string.service';
+import { DateAdapter } from '@angular/material/core';
 
 @Component({
   selector: 'app-ubs-admin-customers',
@@ -31,6 +33,11 @@ import { ConvertFromDateToStringService } from 'src/app/shared/convert-from-date
   styleUrls: ['./ubs-admin-customers.component.scss']
 })
 export class UbsAdminCustomersComponent implements OnInit, AfterViewChecked, OnDestroy {
+  private convertFromDateToStringService: ConvertFromDateToStringService;
+  private localStorageService: LocalStorageService;
+  private tableHeightService: TableHeightService;
+  private adminCustomerService: AdminCustomersService;
+
   public isLoading = false;
   public isUpdate = false;
   public nonSortableColumns = nonSortableColumns;
@@ -69,30 +76,35 @@ export class UbsAdminCustomersComponent implements OnInit, AfterViewChecked, OnD
   @ViewChild(MatTable, { read: ElementRef }) private matTableRef: ElementRef;
 
   constructor(
-    private convertFromDateToStringService: ConvertFromDateToStringService,
-    private renderer: Renderer2,
-    private localStorageService: LocalStorageService,
-    private tableHeightService: TableHeightService,
-    private adminCustomerService: AdminCustomersService,
+    private injector: Injector,
+    private adapter: DateAdapter<any>,
     public dialog: MatDialog,
     private fb: FormBuilder,
     private cdr: ChangeDetectorRef,
+    private renderer: Renderer2,
     private router: Router
-  ) {}
+  ) {
+    this.convertFromDateToStringService = injector.get(ConvertFromDateToStringService);
+    this.localStorageService = injector.get(LocalStorageService);
+    this.tableHeightService = injector.get(TableHeightService);
+    this.adminCustomerService = injector.get(AdminCustomersService);
+  }
 
   ngOnInit() {
-    this.localStorageService.languageBehaviourSubject.pipe(takeUntil(this.destroy$)).subscribe((lang) => {
-      this.currentLang = lang;
-    });
+    // this.localStorageService.languageBehaviourSubject.pipe(takeUntil(this.destroy$)).subscribe((lang) => {
+    //   this.currentLang = lang;
+    //   const locale = lang !== 'ua' ? 'en-GB' : 'uk-UA';
+    //   this.adapter.setLocale(locale);
+    // });
     this.columns = columnsParams;
     this.setDisplayedColumns();
     this.getTable();
     this.initFilterForm();
     this.onCreateGroupFormValueChange();
-    this.modelChanged.pipe(debounceTime(500)).subscribe((model) => {
-      this.currentPage = 0;
-      this.getTable(model, this.sortingColumn, this.sortType);
-    });
+    // this.modelChanged.pipe(debounceTime(500)).subscribe((model) => {
+    //   this.currentPage = 0;
+    //   this.getTable(model, this.sortingColumn, this.sortType);
+    // });
   }
 
   ngAfterViewChecked() {
