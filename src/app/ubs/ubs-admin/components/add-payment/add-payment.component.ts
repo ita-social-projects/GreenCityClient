@@ -1,4 +1,4 @@
-import { Component, Inject, OnDestroy, OnInit } from '@angular/core';
+import { Component, Inject, Injector, OnDestroy, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { MatTableDataSource } from '@angular/material/table';
@@ -13,6 +13,7 @@ import { DialogPopUpComponent } from 'src/app/shared/dialog-pop-up/dialog-pop-up
 import { Patterns } from 'src/assets/patterns/patterns';
 import { formatDate } from '@angular/common';
 import { DateAdapter } from '@angular/material/core';
+import { ConvertFromDateToStringService } from 'src/app/shared/convert-from-date-to-string/convert-from-date-to-string.service';
 
 interface InputData {
   orderId: number;
@@ -31,6 +32,10 @@ interface PostData {
   styleUrls: ['./add-payment.component.scss']
 })
 export class AddPaymentComponent implements OnInit, OnDestroy {
+  private convertFromDateToStringService: ConvertFromDateToStringService;
+  private localeStorageService: LocalStorageService;
+  private orderService: OrderService;
+
   closeButton = './assets/img/profile/icons/cancel.svg';
   orderId: number;
   viewMode: boolean;
@@ -61,14 +66,17 @@ export class AddPaymentComponent implements OnInit, OnDestroy {
   };
 
   constructor(
-    private localeStorageService: LocalStorageService,
-    private orderService: OrderService,
+    private injector: Injector,
     private dialogRef: MatDialogRef<AddPaymentComponent>,
     private dialog: MatDialog,
     private fb: FormBuilder,
     private adapter: DateAdapter<any>,
     @Inject(MAT_DIALOG_DATA) public data: InputData
   ) {
+    this.convertFromDateToStringService = injector.get(ConvertFromDateToStringService);
+    this.localeStorageService = injector.get(LocalStorageService);
+    this.orderService = injector.get(OrderService);
+
     const locale = this.localeStorageService.getCurrentLanguage() !== 'ua' ? 'en-GB' : 'uk-UA';
     this.adapter.setLocale(locale);
   }
@@ -117,14 +125,7 @@ export class AddPaymentComponent implements OnInit, OnDestroy {
     const paymentDetails = this.addPaymentForm.value;
     paymentDetails.amount *= 100;
 
-    const parseDate = Date.parse(paymentDetails.settlementdate);
-    let diff: number;
-    try {
-      diff = paymentDetails.settlementdate.getTimezoneOffset();
-    } catch {
-      diff = 0;
-    }
-    paymentDetails.settlementdate = new Date(parseDate - diff * 60 * 1000).toISOString().slice(0, 10);
+    paymentDetails.settlementdate = this.convertFromDateToStringService.toISOStringWithTimezoneOffset(paymentDetails.settlementdate);
 
     result.form = paymentDetails;
     result.file = this.file;
