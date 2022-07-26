@@ -31,6 +31,7 @@ export class UbsAdminTariffsLocationDashboardComponent implements OnInit, OnDest
 
   locations: Locations[];
   stations: Stations[];
+  couriers;
   couriersName: Array<string>;
   searchForm: FormGroup;
   reset = true;
@@ -46,6 +47,8 @@ export class UbsAdminTariffsLocationDashboardComponent implements OnInit, OnDest
   selectedStation = [];
   cards = [];
   allSelectedStation = false;
+  filterData = {};
+  filteredCards = [];
 
   private destroy: Subject<boolean> = new Subject<boolean>();
 
@@ -92,7 +95,7 @@ export class UbsAdminTariffsLocationDashboardComponent implements OnInit, OnDest
     this.getCouriers();
     this.getReceivingStation();
     this.loadScript();
-    this.getExistingCard();
+    // this.getExistingCard();
     this.region.valueChanges.subscribe((value) => {
       this.checkRegionValue(value);
       this.checkedCities = [];
@@ -152,21 +155,37 @@ export class UbsAdminTariffsLocationDashboardComponent implements OnInit, OnDest
   }
 
   selectCity(event: MatAutocompleteSelectedEvent): void {
+    const selectedValue = this.stations.find((ob) => ob.name === event.option.value);
+    const tempItem = {
+      name: selectedValue.name,
+      id: selectedValue.id
+    };
     const newValue = event.option.viewValue;
     if (this.checkedCities.includes(newValue)) {
-      this.checkedCities = [...this.checkedCities.filter((item) => item !== newValue)];
+      this.checkedCities = this.checkedCities.filter((item) => item !== newValue);
     } else {
       this.checkedCities.push(event.option.viewValue);
     }
   }
 
   public onSelectStation(event: MatAutocompleteSelectedEvent): void {
+    const selectedValue = this.stations.find((ob) => ob.name === event.option.value);
+    const tempItem = {
+      name: selectedValue.name,
+      id: selectedValue.id
+    };
     const newValue = event.option.value;
-    if (this.selectedStation.includes(newValue)) {
-      this.selectedStation = [...this.selectedStation.filter((item) => item !== newValue)];
+    if (this.selectedStation.map((it) => it.name).includes(newValue)) {
+      this.selectedStation = this.selectedStation.filter((item) => item.name !== newValue);
     } else {
-      this.selectedStation.push(newValue);
+      this.selectedStation.push(tempItem);
     }
+    // const newValue = event.option.value;
+    // if (this.selectedStation.includes(newValue)) {
+    //   this.selectedStation = this.selectedStation.filter((item) => item !== newValue);
+    // } else {
+    //   this.selectedStation.push(newValue);
+    // }
   }
 
   public stationSelected(event: MatAutocompleteSelectedEvent, trigger?: MatAutocompleteTrigger) {
@@ -174,6 +193,8 @@ export class UbsAdminTariffsLocationDashboardComponent implements OnInit, OnDest
       this.toggleSelectAllStation();
     } else {
       this.onSelectStation(event);
+      const receivingStationId = this.selectedStation.map((it) => it.id);
+      Object.assign(this.filterData, { receivingStation: receivingStationId });
     }
     this.station.setValue('');
     this.setStationPlaceholder();
@@ -185,7 +206,7 @@ export class UbsAdminTariffsLocationDashboardComponent implements OnInit, OnDest
   }
 
   public checkStation(item): boolean {
-    return this.selectedStation.indexOf(item) >= 0;
+    return this.selectedStation.map((it) => it.name).includes(item);
   }
 
   public setStationPlaceholder(): void {
@@ -220,7 +241,7 @@ export class UbsAdminTariffsLocationDashboardComponent implements OnInit, OnDest
     }
   }
 
-  toggleSelectAllStation() {
+  toggleSelectAllStation(): void {
     if (!this.isStationChecked()) {
       this.selectedStation.length = 0;
       this.stationName.forEach((row) => {
@@ -229,6 +250,20 @@ export class UbsAdminTariffsLocationDashboardComponent implements OnInit, OnDest
     } else {
       this.selectedStation.length = 0;
     }
+  }
+
+  public onSelectCourier(event): void {
+    if (event.value === 'all') {
+      const couriersId = this.couriers.map((courier) => courier.courierId);
+      Object.assign(this.filterData, { courier: couriersId });
+    } else {
+      const selectedValue = this.couriers.filter((it) => it.courierTranslationDtos.find((ob) => ob.name === event.value));
+      const courierId = selectedValue.find((it) => it.courierId).courierId.toString();
+      Object.assign(this.filterData, { courier: courierId });
+    }
+    console.log(this.filterData);
+    this.getExistingCard(this.filterData);
+    console.log(this.cards);
   }
 
   loadScript(): void {
@@ -281,7 +316,8 @@ export class UbsAdminTariffsLocationDashboardComponent implements OnInit, OnDest
       .getCouriers()
       .pipe(takeUntil(this.destroy))
       .subscribe((res) => {
-        this.couriersName = res
+        this.couriers = res;
+        this.couriersName = this.couriers
           .map((it) => it.courierTranslationDtos.filter((ob) => ob.languageCode === 'ua').map((el) => el.name))
           .flat(2);
       });
@@ -298,9 +334,10 @@ export class UbsAdminTariffsLocationDashboardComponent implements OnInit, OnDest
       });
   }
 
-  public getExistingCard() {
+  public getExistingCard(filterData) {
+    this.cards = [];
     this.tariffsService
-      .getCardInfo()
+      .getCardInfo(filterData)
       .pipe(takeUntil(this.destroy))
       .subscribe((card) => {
         card.forEach((el) => {
@@ -329,6 +366,16 @@ export class UbsAdminTariffsLocationDashboardComponent implements OnInit, OnDest
     }
     this.cities = this.mapCitiesInUkr(currentRegion);
     this.filteredCities = this.filterOptions(this.city, this.cities);
+  }
+
+  public regionSelected(event) {
+    const selectedValue = this.locations.filter((it) =>
+      it.regionTranslationDtos.find((ob) => ob.regionName === event.option.value.toString())
+    );
+    const regionId = selectedValue.find((it) => it.regionId).regionId.toString();
+    Object.assign(this.filterData, { region: regionId });
+    console.log(this.filterData);
+    this.getExistingCard(this.filterData);
   }
 
   filterOptions(control, array): Array<string> {

@@ -381,19 +381,19 @@ describe('UbsAdminTariffsLocationDashboardComponent', () => {
     expect(result).toEqual(['Фейк1']);
   });
 
-  it('should add cards to cards array', () => {
-    const mockCard = {
-      courier: 'фейк',
-      station: ['фейк'],
-      region: 'фейк',
-      city: ['фейк'],
-      tariff: 'fake',
-      regionId: 0
-    };
-    component.cards = [];
-    component.getExistingCard();
-    expect(component.cards).toEqual([mockCard]);
-  });
+  // it('should add cards to cards array', () => {
+  //   const mockCard = {
+  //     courier: 'фейк',
+  //     station: ['фейк'],
+  //     region: 'фейк',
+  //     city: ['фейк'],
+  //     tariff: 'fake',
+  //     regionId: 0
+  //   };
+  //   component.cards = [];
+  //   component.getExistingCard();
+  //   expect(component.cards).toEqual([mockCard]);
+  // });
 
   it('should select all items of cities', () => {
     const spy = spyOn(component, 'isCityChecked').and.returnValue(false);

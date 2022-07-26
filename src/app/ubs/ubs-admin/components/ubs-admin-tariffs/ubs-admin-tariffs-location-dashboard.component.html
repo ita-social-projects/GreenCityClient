@@ -58,7 +58,7 @@
           formControlName="region"
           [matAutocomplete]="autoRegion"
         />
-        <mat-autocomplete #autoRegion="matAutocomplete">
+        <mat-autocomplete #autoRegion="matAutocomplete" (optionSelected)="regionSelected($event)">
           <mat-option value="Усі">Усі</mat-option>
           <mat-option *ngFor="let region of filteredRegions | async" [value]="region">
             {{ region }}
@@ -106,7 +106,12 @@
       <p class="col-text">{{ 'ubs-tariffs.courier' | translate }}</p>
       <div class="input-wrapper">
         <mat-form-field floatLabel="never">
-          <mat-select #courierSelect formControlName="courier" placeholder="{{ 'ubs-tariffs.placeholder-courier' | translate }}">
+          <mat-select
+            #courierSelect
+            formControlName="courier"
+            placeholder="{{ 'ubs-tariffs.placeholder-courier' | translate }}"
+            (selectionChange)="onSelectCourier($event)"
+          >
             <mat-option class="option-state" value="all">Усі</mat-option>
             <mat-option class="option-state" *ngFor="let courier of couriersName" [value]="courier">
               {{ courier }}
