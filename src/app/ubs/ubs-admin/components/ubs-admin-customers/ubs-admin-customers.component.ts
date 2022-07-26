@@ -91,20 +91,20 @@ export class UbsAdminCustomersComponent implements OnInit, AfterViewChecked, OnD
   }
 
   ngOnInit() {
-    // this.localStorageService.languageBehaviourSubject.pipe(takeUntil(this.destroy$)).subscribe((lang) => {
-    //   this.currentLang = lang;
-    //   const locale = lang !== 'ua' ? 'en-GB' : 'uk-UA';
-    //   this.adapter.setLocale(locale);
-    // });
+    this.localStorageService.languageBehaviourSubject.pipe(takeUntil(this.destroy$)).subscribe((lang) => {
+      this.currentLang = lang;
+      const locale = lang !== 'ua' ? 'en-GB' : 'uk-UA';
+      this.adapter.setLocale(locale);
+    });
     this.columns = columnsParams;
     this.setDisplayedColumns();
     this.getTable();
     this.initFilterForm();
     this.onCreateGroupFormValueChange();
-    // this.modelChanged.pipe(debounceTime(500)).subscribe((model) => {
-    //   this.currentPage = 0;
-    //   this.getTable(model, this.sortingColumn, this.sortType);
-    // });
+    this.modelChanged.pipe(debounceTime(500)).subscribe((model) => {
+      this.currentPage = 0;
+      this.getTable(model, this.sortingColumn, this.sortType);
+    });
   }
 
   ngAfterViewChecked() {
