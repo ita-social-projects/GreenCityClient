@@ -109,6 +109,16 @@
       margin-bottom: 0;
     }
 
+    .form-container.block {
+      position: relative;
+
+      & .mat-datepicker-toggle {
+        position: absolute;
+        top: 20px;
+        left: 130px;
+      }
+    }
+
     .photo-container {
       position: relative;
       height: 231px;

@@ -37,7 +37,7 @@
                   {{ 'nav-bar.user-settings' | translate }}
                 </a>
               </li>
-              <li *ngIf="isLoggedIn && isAdmin" class="header_mobile-menu-item">
+              <li *ngIf="isLoggedIn && isGreenCityAdmin" class="header_mobile-menu-item">
                 <a [href]="managementLink" target="_blank" role="link">
                   {{ 'nav-bar.management' | translate }}
                 </a>
@@ -139,7 +139,7 @@
                   </a>
                 </li>
                 <li
-                  *ngIf="isLoggedIn && isAdmin"
+                  *ngIf="isLoggedIn && isGreenCityAdmin"
                   aria-label="management"
                   role="listitem"
                   tabindex="0"

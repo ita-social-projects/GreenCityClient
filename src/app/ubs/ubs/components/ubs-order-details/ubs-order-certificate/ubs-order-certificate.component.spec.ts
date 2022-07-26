@@ -94,7 +94,7 @@ describe('UbsOrderCertificateComponent', () => {
 
   it('method certificateDateTreat should reverse date', () => {
     const res = (component as any).certificateDateTreat('fake-date');
-    expect(res).toBe('date-fake');
+    expect(res).toBe('date.fake');
   });
 
   it('method calculateCertificates should invoke calculateTotal method if arr.length=0', () => {

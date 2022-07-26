@@ -95,7 +95,7 @@ export class UbsOrderCertificateComponent implements OnInit, OnDestroy {
   }
 
   private certificateDateTreat(date: string): string {
-    return date?.split('-').reverse().join('-');
+    return date?.split('-').reverse().join('.');
   }
 
   setNewValue(value: object) {
