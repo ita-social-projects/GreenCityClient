@@ -88,8 +88,12 @@ export class TariffsService {
     return this.http.post(`${mainUbsLink}/ubs/superAdmin/locations/edit`, newLocation);
   }
 
-  public getCardInfo(filterData): Observable<any[]> {
+  public getFilteredCard(filterData): Observable<any[]> {
     return this.http.get<any[]>(`${mainUbsLink}/ubs/superAdmin/tariffs`, { params: filterData });
+  }
+
+  public getCardInfo(): Observable<any[]> {
+    return this.http.get<any[]>(`${mainUbsLink}/ubs/superAdmin/tariffs`);
   }
 
   public createCard(card: CreateCard): Observable<object> {

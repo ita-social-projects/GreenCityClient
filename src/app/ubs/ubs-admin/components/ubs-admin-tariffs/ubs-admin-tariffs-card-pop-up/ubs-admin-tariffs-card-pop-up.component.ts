@@ -326,7 +326,7 @@ export class UbsAdminTariffsCardPopUpComponent implements OnInit, OnDestroy {
 
   public getExistingCard() {
     this.tariffsService
-      .getCardInfo({})
+      .getCardInfo()
       .pipe(takeUntil(this.unsubscribe))
       .subscribe((card) => {
         card.forEach((el) => {

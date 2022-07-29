@@ -1,7 +1,7 @@
 import { Component, Input, OnDestroy, OnInit, TemplateRef } from '@angular/core';
 import { TariffsService } from '../../services/tariffs.service';
 import { map, skip, startWith, takeUntil } from 'rxjs/operators';
-import { Locations, Stations } from '../../models/tariffs.interface';
+import { Couriers, Locations, Stations } from '../../models/tariffs.interface';
 import { Subject } from 'rxjs';
 import { Router } from '@angular/router';
 import { MatDialog } from '@angular/material/dialog';
@@ -31,24 +31,23 @@ export class UbsAdminTariffsLocationDashboardComponent implements OnInit, OnDest
 
   locations: Locations[];
   stations: Stations[];
-  couriers;
+  stationName: Array<string> = [];
+  couriers: Couriers[];
   couriersName: Array<string>;
   searchForm: FormGroup;
   reset = true;
-  checkedCities: Array<string> = [];
-  cities: Array<string> = [];
+  checkedCities = [];
+  cities = [];
 
   allSelected = false;
   filteredRegions;
   filteredCities;
-  filteredLocations;
+  filteredStations;
   cityPlaceholder: string;
   stationPlaceholder: string;
   selectedStation = [];
   cards = [];
-  allSelectedStation = false;
-  filterData = {};
-  filteredCards = [];
+  filterData = { status: 'ACTIVE' };
 
   private destroy: Subject<boolean> = new Subject<boolean>();
 
@@ -61,8 +60,6 @@ export class UbsAdminTariffsLocationDashboardComponent implements OnInit, OnDest
     arrowRight: './assets/img/ubs-tariff/arrow-right.svg'
   };
   locations$ = this.store.select((state: IAppState): Locations[] => state.locations.locations);
-  stationName: Array<string> = [];
-  filteredStations;
 
   constructor(
     private tariffsService: TariffsService,
@@ -95,7 +92,6 @@ export class UbsAdminTariffsLocationDashboardComponent implements OnInit, OnDest
     this.getCouriers();
     this.getReceivingStation();
     this.loadScript();
-    // this.getExistingCard();
     this.region.valueChanges.subscribe((value) => {
       this.checkRegionValue(value);
       this.checkedCities = [];
@@ -133,7 +129,7 @@ export class UbsAdminTariffsLocationDashboardComponent implements OnInit, OnDest
 
   public setCountOfCheckedCity(): void {
     if (this.checkedCities.length) {
-      this.cityPlaceholder = this.checkedCities.length + ' вибрано';
+      this.cityPlaceholder = `${this.checkedCities.length} вибрано`;
     } else {
       this.translate.get('ubs-tariffs.placeholder-locality').subscribe((data) => (this.cityPlaceholder = data));
     }
@@ -142,9 +138,14 @@ export class UbsAdminTariffsLocationDashboardComponent implements OnInit, OnDest
   selected(event: MatAutocompleteSelectedEvent, trigger?: MatAutocompleteTrigger): void {
     if (event.option.value === 'all') {
       this.toggleSelectAllCity();
+      const locationsId = this.locations.map((location) => location.locationsDto.map((elem) => elem.locationId)).flat(2);
+      Object.assign(this.filterData, { location: locationsId });
     } else {
       this.selectCity(event);
+      const locationId = this.checkedCities.map((it) => it.id);
+      Object.assign(this.filterData, { location: locationId });
     }
+    this.getExistingCard(this.filterData);
     this.setCountOfCheckedCity();
     this.city.setValue('');
     if (trigger) {
@@ -155,16 +156,28 @@ export class UbsAdminTariffsLocationDashboardComponent implements OnInit, OnDest
   }
 
   selectCity(event: MatAutocompleteSelectedEvent): void {
-    const selectedValue = this.stations.find((ob) => ob.name === event.option.value);
+    const selectedLocation = this.locations.find((location) =>
+      location.locationsDto.find((locationName) =>
+        locationName.locationTranslationDtoList.find((name) => name.locationName === event.option.viewValue)
+      )
+    );
+    const selectedCity = selectedLocation.locationsDto.find((name) =>
+      name.locationTranslationDtoList.find((elem) => elem.locationName === event.option.viewValue)
+    );
+    const selectedCityId = selectedCity.locationId;
+    const selectedCityName = selectedCity.locationTranslationDtoList
+      .filter((it) => it.languageCode === 'ua')
+      .map((it) => it.locationName)
+      .join();
     const tempItem = {
-      name: selectedValue.name,
-      id: selectedValue.id
+      name: selectedCityName,
+      id: selectedCityId
     };
     const newValue = event.option.viewValue;
-    if (this.checkedCities.includes(newValue)) {
-      this.checkedCities = this.checkedCities.filter((item) => item !== newValue);
+    if (this.checkedCities.map((it) => it.name).includes(newValue)) {
+      this.checkedCities = this.checkedCities.filter((item) => item.name !== newValue);
     } else {
-      this.checkedCities.push(event.option.viewValue);
+      this.checkedCities.push(tempItem);
     }
   }
 
@@ -180,22 +193,19 @@ export class UbsAdminTariffsLocationDashboardComponent implements OnInit, OnDest
     } else {
       this.selectedStation.push(tempItem);
     }
-    // const newValue = event.option.value;
-    // if (this.selectedStation.includes(newValue)) {
-    //   this.selectedStation = this.selectedStation.filter((item) => item !== newValue);
-    // } else {
-    //   this.selectedStation.push(newValue);
-    // }
   }
 
   public stationSelected(event: MatAutocompleteSelectedEvent, trigger?: MatAutocompleteTrigger) {
     if (event.option.value === 'all') {
       this.toggleSelectAllStation();
+      const stationsId = this.stations.map((station) => station.id);
+      Object.assign(this.filterData, { receivingStation: stationsId });
     } else {
       this.onSelectStation(event);
       const receivingStationId = this.selectedStation.map((it) => it.id);
       Object.assign(this.filterData, { receivingStation: receivingStationId });
     }
+    this.getExistingCard(this.filterData);
     this.station.setValue('');
     this.setStationPlaceholder();
     if (trigger) {
@@ -205,13 +215,13 @@ export class UbsAdminTariffsLocationDashboardComponent implements OnInit, OnDest
     }
   }
 
-  public checkStation(item): boolean {
-    return this.selectedStation.map((it) => it.name).includes(item);
+  public checkSelectedItem(item, array): boolean {
+    return array.map((it) => it.name).includes(item);
   }
 
   public setStationPlaceholder(): void {
     if (this.selectedStation.length) {
-      this.stationPlaceholder = this.selectedStation.length + ' вибрано';
+      this.stationPlaceholder = `${this.selectedStation.length} вибрано`;
     } else {
       this.translate.get('ubs-tariffs.placeholder-station').subscribe((data) => (this.stationPlaceholder = data));
     }
@@ -233,8 +243,11 @@ export class UbsAdminTariffsLocationDashboardComponent implements OnInit, OnDest
   toggleSelectAllCity(): void {
     if (!this.isCityChecked()) {
       this.checkedCities.length = 0;
-      this.cities.forEach((row) => {
-        this.checkedCities.push(row);
+      this.cities.forEach((city) => {
+        this.checkedCities.push({
+          name: city.name,
+          id: city.id
+        });
       });
     } else {
       this.checkedCities.length = 0;
@@ -244,8 +257,11 @@ export class UbsAdminTariffsLocationDashboardComponent implements OnInit, OnDest
   toggleSelectAllStation(): void {
     if (!this.isStationChecked()) {
       this.selectedStation.length = 0;
-      this.stationName.forEach((row) => {
-        this.selectedStation.push(row);
+      this.stations.forEach((station) => {
+        this.selectedStation.push({
+          name: station.name,
+          id: station.id
+        });
       });
     } else {
       this.selectedStation.length = 0;
@@ -254,16 +270,31 @@ export class UbsAdminTariffsLocationDashboardComponent implements OnInit, OnDest
 
   public onSelectCourier(event): void {
     if (event.value === 'all') {
-      const couriersId = this.couriers.map((courier) => courier.courierId);
-      Object.assign(this.filterData, { courier: couriersId });
+      Object.assign(this.filterData, { courier: '' });
     } else {
       const selectedValue = this.couriers.filter((it) => it.courierTranslationDtos.find((ob) => ob.name === event.value));
-      const courierId = selectedValue.find((it) => it.courierId).courierId.toString();
+      const courierId = selectedValue.find((it) => it.courierId).courierId;
       Object.assign(this.filterData, { courier: courierId });
     }
-    console.log(this.filterData);
     this.getExistingCard(this.filterData);
-    console.log(this.cards);
+  }
+
+  public onSelectState(event): void {
+    switch (event.value) {
+      case 'all':
+        Object.assign(this.filterData, { status: '' });
+        break;
+      case 'Активно':
+        Object.assign(this.filterData, { status: 'ACTIVE' });
+        break;
+      case 'Неактивно':
+        Object.assign(this.filterData, { status: 'DEACTIVATED' });
+        break;
+      case 'Незаповнена':
+        Object.assign(this.filterData, { status: 'NEW' });
+        break;
+    }
+    this.getExistingCard(this.filterData);
   }
 
   loadScript(): void {
@@ -285,26 +316,35 @@ export class UbsAdminTariffsLocationDashboardComponent implements OnInit, OnDest
     this.locations$.pipe(skip(1)).subscribe((item) => {
       if (item) {
         this.locations = item;
-        this.filteredLocations = this.locations;
         const regions = this.locations
           .map((element) => element.regionTranslationDtos.filter((it) => it.languageCode === 'ua').map((it) => it.regionName))
           .flat(2);
         this.filteredRegions = this.filterOptions(this.region, regions);
         this.cities = this.mapCitiesInUkr(this.locations);
-        this.filteredCities = this.filterOptions(this.city, this.cities);
+        this.filteredCities = this.filterOptions(
+          this.city,
+          this.cities.map((elem) => elem.name)
+        );
         this.reset = false;
       }
     });
   }
 
-  public mapCitiesInUkr(region): Array<string> {
-    return region
-      .map((element) =>
-        element.locationsDto.map((el) =>
-          el.locationTranslationDtoList.filter((it) => it.languageCode === 'ua').map((it) => it.locationName)
-        )
-      )
-      .flat(2);
+  public mapCitiesInUkr(region): Array<object> {
+    const cityArray = [];
+    region.map((element) =>
+      element.locationsDto.forEach((el) => {
+        const tempItem = {
+          name: el.locationTranslationDtoList
+            .filter((it) => it.languageCode === 'ua')
+            .map((it) => it.locationName)
+            .join(),
+          id: el.locationId
+        };
+        cityArray.push(tempItem);
+      })
+    );
+    return cityArray;
   }
 
   page(locationID): void {
@@ -337,7 +377,7 @@ export class UbsAdminTariffsLocationDashboardComponent implements OnInit, OnDest
   public getExistingCard(filterData) {
     this.cards = [];
     this.tariffsService
-      .getCardInfo(filterData)
+      .getFilteredCard(filterData)
       .pipe(takeUntil(this.destroy))
       .subscribe((card) => {
         card.forEach((el) => {
@@ -359,22 +399,28 @@ export class UbsAdminTariffsLocationDashboardComponent implements OnInit, OnDest
 
   checkRegionValue(value): void {
     let currentRegion;
-    if (value === 'Усі') {
+    if (value === 'Усі' || value === '') {
       currentRegion = this.locations;
     } else {
       currentRegion = this.locations.filter((element) => element.regionTranslationDtos.find((it) => it.regionName === value));
     }
     this.cities = this.mapCitiesInUkr(currentRegion);
-    this.filteredCities = this.filterOptions(this.city, this.cities);
+    this.filteredCities = this.filterOptions(
+      this.city,
+      this.cities.map((elem) => elem.name)
+    );
   }
 
   public regionSelected(event) {
-    const selectedValue = this.locations.filter((it) =>
-      it.regionTranslationDtos.find((ob) => ob.regionName === event.option.value.toString())
-    );
-    const regionId = selectedValue.find((it) => it.regionId).regionId.toString();
-    Object.assign(this.filterData, { region: regionId });
-    console.log(this.filterData);
+    if (event.option.value === 'Усі') {
+      Object.assign(this.filterData, { region: '' });
+    } else {
+      const selectedValue = this.locations.filter((it) =>
+        it.regionTranslationDtos.find((ob) => ob.regionName === event.option.value.toString())
+      );
+      const regionId = selectedValue.find((it) => it.regionId).regionId;
+      Object.assign(this.filterData, { region: regionId });
+    }
     this.getExistingCard(this.filterData);
   }
 
