@@ -16,8 +16,6 @@ import { Locations } from '../../models/tariffs.interface';
 import { MatMenuModule } from '@angular/material/menu';
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
 import { MatSelectModule } from '@angular/material/select';
-import { SearchPipe } from 'src/app/shared/search-tariff/search-tariff.pipe';
-import { OptionPipe } from 'src/app/shared/option-tariff/option-tariff.pipe';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatIconModule } from '@angular/material/icon';
@@ -207,7 +205,7 @@ describe('UbsAdminTariffsLocationDashboardComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [UbsAdminTariffsLocationDashboardComponent, FilterListByLangPipe, SearchPipe, OptionPipe, TariffStatusPipe],
+      declarations: [UbsAdminTariffsLocationDashboardComponent, FilterListByLangPipe, TariffStatusPipe],
       imports: [
         HttpClientTestingModule,
         RouterTestingModule,
