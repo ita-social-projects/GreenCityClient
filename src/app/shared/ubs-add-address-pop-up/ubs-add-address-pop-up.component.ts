@@ -8,7 +8,7 @@ import { LocalStorageService } from '@global-service/localstorage/local-storage.
 import { ajax } from 'rxjs/internal-compatibility';
 import { LatLngBoundsLiteral } from '@agm/core';
 import { OrderService } from 'src/app/ubs/ubs/services/order.service';
-import { Address } from 'src/app/ubs/ubs/models/ubs.interface';
+import { Address, CourierLocations } from 'src/app/ubs/ubs/models/ubs.interface';
 import { Patterns } from 'src/assets/patterns/patterns';
 
 interface Options {
@@ -42,11 +42,13 @@ export class UBSAddAddressPopUpComponent implements OnInit, OnDestroy, AfterView
   housePattern = Patterns.ubsHousePattern;
   entranceNumberPattern = Patterns.ubsEntrNumPattern;
   private destroy: Subject<boolean> = new Subject<boolean>();
-  currentLocation = {};
   isDistrict = false;
   isKyiv = false;
   currentLanguage: string;
   public isDeleting: boolean;
+  locations: CourierLocations;
+  currentRegion = {};
+  currentCity = {};
 
   KyivRegion = [
     // Kyiv
@@ -242,7 +244,6 @@ export class UBSAddAddressPopUpComponent implements OnInit, OnDestroy, AfterView
     public data: {
       edit: boolean;
       address: Address;
-      currentLocation: string;
     },
     private snackBar: MatSnackBarComponent,
     private localStorageService: LocalStorageService
@@ -299,7 +300,10 @@ export class UBSAddAddressPopUpComponent implements OnInit, OnDestroy, AfterView
   ngOnInit() {
     this.currentLanguage = this.localStorageService.getCurrentLanguage();
     this.bigRegions = this.bigRegions.filter((el) => el.lang === this.currentLanguage);
-    this.currentLocation = this.data?.currentLocation;
+    this.locations = JSON.parse(localStorage.getItem('locations'));
+    this.currentRegion = this.currentLanguage === 'ua' ? this.locations.regionDto.nameUk : this.locations.regionDto.nameEn;
+    this.currentCity =
+      this.currentLanguage === 'ua' ? this.locations.locationsDtosList[0].nameUk : this.locations.locationsDtosList[0].nameEn;
     this.addAddressForm = this.fb.group({
       region: [this.data.edit ? this.data.address.region : null, Validators.required],
       regionEn: [this.data.edit ? this.data.address.regionEn : null, Validators.required],
@@ -331,19 +335,16 @@ export class UBSAddAddressPopUpComponent implements OnInit, OnDestroy, AfterView
       actual: true
     });
 
-    // TODO: Must be removed if multi-region feature need to be implemented
-    this.region.setValue('Київська область');
+    this.region.setValue(this.currentRegion);
     this.region.disable();
-    this.regionEn.setValue(`Kyivs'ka oblast'`);
+    this.regionEn.setValue(this.currentRegion);
     this.regionEn.disable();
 
-    if (this.currentLocation === 'Kyiv' || this.currentLocation === 'Київ') {
-      this.isKyiv = true;
+    this.city.setValue(this.currentCity);
+    this.cityEn.setValue(this.currentCity);
+
+    if (this.currentCity === 'Kyiv' || this.currentCity === 'Київ') {
       this.isDistrict = true;
-      if (!this.data.edit) {
-        this.city.setValue('Київ');
-        this.cityEn.setValue('Kyiv');
-      }
     }
 
     this.addAddressForm
@@ -360,8 +361,6 @@ export class UBSAddAddressPopUpComponent implements OnInit, OnDestroy, AfterView
         this.streetEn.reset('');
         this.streetPredictionList = null;
       });
-
-    this.isDistrict = this.cityEn.value === 'Kyiv' || this.city.value === 'Київ';
 
     // TODO: Must be removed if multi-region feature need to be implemented
     this.onCitySelected(this.KyivRegion[0]);

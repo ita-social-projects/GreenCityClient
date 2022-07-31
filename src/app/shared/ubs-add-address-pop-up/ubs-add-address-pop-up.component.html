@@ -14,20 +14,10 @@
   </div>
   <div class="col-md-4 col-sm-4 form-group">
     <label>{{ 'personal-info.pop-up-city' | translate }}</label>
-    <select
-      *ngIf="isKyiv && currentLanguage === 'ua'"
-      formControlName="city"
-      class="shadow-none form-control"
-      (change)="selectCity($event)"
-    >
+    <select *ngIf="currentLanguage === 'ua'" formControlName="city" class="shadow-none form-control" (change)="selectCity($event)">
       <option *ngFor="let city of cities" [ngValue]="city.cityName">{{ city.cityName }}</option>
     </select>
-    <select
-      *ngIf="isKyiv && currentLanguage === 'en'"
-      formControlName="cityEn"
-      class="shadow-none form-control"
-      (change)="selectCity($event)"
-    >
+    <select *ngIf="currentLanguage === 'en'" formControlName="cityEn" class="shadow-none form-control" (change)="selectCity($event)">
       <option *ngFor="let city of citiesEn" [ngValue]="city.cityName">{{ city.cityName }}</option>
     </select>
   </div>
