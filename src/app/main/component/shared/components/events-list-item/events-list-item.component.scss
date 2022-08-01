@@ -10,7 +10,7 @@
   }
 
   .event-stars {
-    width: 88px;
+    width: auto;
     height: 40px;
     background-color: rgba(224, 233, 233, 0.781);
     position: absolute;
@@ -22,10 +22,11 @@
     align-items: center;
     padding: 0 5px;
 
-    span {
+    .star {
       display: inline-block;
       width: 25px;
       height: 25px;
+      transition: all 0.3s;
     }
 
     .fill {
