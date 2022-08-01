@@ -300,7 +300,7 @@ export class UBSAddAddressPopUpComponent implements OnInit, OnDestroy, AfterView
   ngOnInit() {
     this.currentLanguage = this.localStorageService.getCurrentLanguage();
     this.bigRegions = this.bigRegions.filter((el) => el.lang === this.currentLanguage);
-    this.locations = JSON.parse(localStorage.getItem('locations'));
+    this.locations = JSON.parse(this.localStorageService.getLocations());
     this.currentRegion = this.currentLanguage === 'ua' ? this.locations.regionDto.nameUk : this.locations.regionDto.nameEn;
     this.currentCity =
       this.currentLanguage === 'ua' ? this.locations.locationsDtosList[0].nameUk : this.locations.locationsDtosList[0].nameEn;
@@ -361,6 +361,8 @@ export class UBSAddAddressPopUpComponent implements OnInit, OnDestroy, AfterView
         this.streetEn.reset('');
         this.streetPredictionList = null;
       });
+
+    this.isDistrict = this.cityEn.value === 'Kyiv' || this.city.value === 'Київ';
 
     // TODO: Must be removed if multi-region feature need to be implemented
     this.onCitySelected(this.KyivRegion[0]);
