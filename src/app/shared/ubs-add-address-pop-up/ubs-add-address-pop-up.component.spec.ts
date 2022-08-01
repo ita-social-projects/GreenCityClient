@@ -84,7 +84,7 @@ describe('UBSAddAddressPopUpComponent', () => {
     'getCurrentCity',
     'getLocations'
   ]);
-  fakeLocalStorageService.getLocations = () => JSON.stringify(fakeLocation);
+  fakeLocalStorageService.getLocations = () => fakeLocation;
   fakeLocalStorageService.getCurrentLanguage = () => 'ua' as Language;
   fakeLocalStorageService.getCurrentCity = () => 'Kyiv';
   fakeLocalStorageService.getCurrentRegion = () => 'Kyiv region';
