@@ -13,6 +13,11 @@ export class EventsListItemComponent implements OnInit {
 
   public itemTags: Array<TagObj>;
 
+  public selected = 0;
+  public hovered = 0;
+  public readonly = false;
+  public maxRating = 5;
+
   constructor(private router: Router) {}
 
   ngOnInit(): void {

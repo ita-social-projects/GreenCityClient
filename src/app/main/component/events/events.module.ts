@@ -27,6 +27,7 @@ import { MapEventComponent } from './components/map-event/map-event.component';
 import { ImagesContainerComponent } from './components/images-container/images-container.component';
 import { GooglePlaceModule } from 'ngx-google-places-autocomplete';
 import { EventDetailsComponent } from './components/event-details/event-details.component';
+import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 
 @NgModule({
   declarations: [
@@ -39,6 +40,7 @@ import { EventDetailsComponent } from './components/event-details/event-details.
     EventDetailsComponent
   ],
   imports: [
+    NgbModule,
     ReactiveFormsModule,
     GooglePlaceModule,
     CommonModule,

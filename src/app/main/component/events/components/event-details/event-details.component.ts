@@ -39,6 +39,10 @@ export class EventDetailsComponent implements OnInit {
 
   public address = 'Should be adress';
 
+  public selected = 0;
+  public hovered = 0;
+  public readonly = false;
+  public maxRating = 5;
   constructor(
     private route: ActivatedRoute,
     private eventService: EventsService,
