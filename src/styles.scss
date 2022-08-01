@@ -59,9 +59,7 @@ body {
 
 .cdk-overlay-pane {
   overflow-y: auto;
-}
 
-.cdk-overlay-pane {
   &.extra-packages {
     overflow: auto;
     max-width: 100%;
