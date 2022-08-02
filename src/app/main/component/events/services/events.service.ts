@@ -46,14 +46,6 @@ export class EventsService implements OnDestroy {
 
   public addAttender(id: number): Observable<any> {
     return this.http.post<any>(`${this.backEnd}events/addAttender/${id}`, id);
-    // .
-    //   pipe(
-    //     catchError((err) => {
-    //       console.log(err)
-    //       console.error(err);
-    //       return throwError(err);
-    //     })
-    //   );
   }
 
   public removeAttender(id: number): Observable<any> {
