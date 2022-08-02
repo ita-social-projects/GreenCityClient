@@ -90,7 +90,7 @@ describe('UbsUserOrdersComponent', () => {
 
   it('loading should return false', () => {
     component.loadingOrders = false;
-    component.loadingBonuses = true;
+    component.loadingBonuses = false;
     const isLoadingTrue = component.loading();
     expect(isLoadingTrue).toBeFalsy();
   });
