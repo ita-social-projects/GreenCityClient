@@ -14,11 +14,11 @@ export class EventsService implements OnDestroy {
   private destroyed$: ReplaySubject<any> = new ReplaySubject<any>(1);
   private httpOptions = {
     headers: new HttpHeaders({
-      Authorization: 'my-auth-token',
+      Authorization: 'my-auth-token'
     })
   };
 
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient) {}
 
   public createEvent(formData: FormData): Observable<any> {
     return this.http.post<any>(`${this.backEnd}events/create`, formData);
@@ -45,7 +45,7 @@ export class EventsService implements OnDestroy {
   }
 
   public addAttender(id: number): Observable<any> {
-    return this.http.post<any>(`${this.backEnd}events/addAttender/${id}`, id)
+    return this.http.post<any>(`${this.backEnd}events/addAttender/${id}`, id);
     // .
     //   pipe(
     //     catchError((err) => {
