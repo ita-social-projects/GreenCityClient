@@ -165,6 +165,7 @@ describe('UbsUserOrdersListComponent', () => {
       component.openOrderPaymentDialog(fakeIputOrderData[1] as any);
       expect(matDialogMock.open).toHaveBeenCalledWith(UbsUserOrderPaymentPopUpComponent, {
         maxWidth: '500px',
+        panelClass: 'ubs-user-order-payment-pop-up-vertical-scroll',
         data: {
           orderId: 7,
           price: 55,
