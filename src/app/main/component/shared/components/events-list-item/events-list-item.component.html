@@ -1,9 +1,12 @@
 <div class="image-container">
   <img class="event-image" src="{{ event.titleImage }}" alt="event" />
   <div class="event-stars">
-    <span class="fill"></span>
-    <span class="empty"></span>
-    <span class="empty"></span>
+    <ngb-rating [max]="maxRating" [(rate)]="selected" (hover)="hovered = $event" (leave)="hovered = 0"
+      [readonly]="readonly">
+      <ng-template let-fill="fill">
+        <span class="star" [class.fill]="fill === 100" [class.empty]="fill === 0"></span>
+      </ng-template>
+    </ngb-rating>
   </div>
   <div class="event-flags">
     <span class="flag"></span>
@@ -45,5 +48,5 @@
   <div class="description" [innerHTML]="event.description"></div>
 
   <button class="secondary-global-button event-button" (click)="routeToEvent()">More</button>
-  <button class="primary-global-button event-button">Join Event</button>
+  <button class="primary-global-button event-button" (click)="subscribe()">Join Event</button>
 </div>
