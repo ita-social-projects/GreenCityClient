@@ -70,7 +70,12 @@
                   }
           }}
         </div>
-        <button *ngIf="userOrder.sum > 0" class="btn btn-add-certificate" (click)="addNewCertificate()">
+        <button
+          *ngIf="userOrder.sum > 0"
+          class="btn btn-add-certificate"
+          [hidden]="formArrayCertificates.controls.length > 4"
+          (click)="addNewCertificate()"
+        >
           {{ 'ubs-client-profile.payment.add-certificate' | translate }}
         </button>
       </div>
