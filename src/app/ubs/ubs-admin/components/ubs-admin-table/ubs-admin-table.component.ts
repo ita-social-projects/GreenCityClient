@@ -84,7 +84,7 @@ export class UbsAdminTableComponent implements OnInit, AfterViewChecked, OnDestr
   isPostData = false;
   dataForPopUp = [];
   uneditableStatuses = ['CANCELED', 'DONE'];
-  stickyColumnsAmount = 1;
+  stickyColumnsAmount = 4;
   nestedSortProperty = 'title.key';
   noFiltersApplied = true;
   isFiltersOpened = false;
