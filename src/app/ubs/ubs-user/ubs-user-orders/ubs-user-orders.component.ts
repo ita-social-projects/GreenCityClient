@@ -52,7 +52,7 @@ export class UbsUserOrdersComponent implements OnInit, OnDestroy {
   }
 
   public loading(): boolean {
-    return this.loadingOrders && this.loadingBonuses;
+    return this.loadingOrders || this.loadingBonuses;
   }
 
   ngOnInit() {
