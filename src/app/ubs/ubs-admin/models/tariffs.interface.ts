@@ -59,6 +59,19 @@ export interface Stations {
   name: string;
 }
 
+export interface Couriers {
+  courierId: number;
+  courierStatus: string;
+  courierTranslationDtos: CourierTranslationDto[];
+  createDate: string;
+  createdBy: string;
+}
+
+export interface CourierTranslationDto {
+  languageCode: string;
+  name: string;
+}
+
 export interface Locations {
   locationsDto: LocationDto[];
   regionId: number;

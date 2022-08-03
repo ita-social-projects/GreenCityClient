@@ -197,7 +197,7 @@ export class UbsAdminTariffsCardPopUpComponent implements OnInit, OnDestroy {
     };
     const newValue = event.option.value;
     if (this.selectedStation.map((it) => it.name).includes(newValue)) {
-      this.selectedStation = [...this.selectedStation.filter((item) => item.name !== newValue)];
+      this.selectedStation = this.selectedStation.filter((item) => item.name !== newValue);
     } else {
       this.selectedStation.push(tempItem);
     }
@@ -218,7 +218,7 @@ export class UbsAdminTariffsCardPopUpComponent implements OnInit, OnDestroy {
   }
 
   public checkStation(item): boolean {
-    return this.selectedStation.map((it) => it.name).indexOf(item) >= 0;
+    return this.selectedStation.map((it) => it.name).includes(item);
   }
 
   public onRegionSelected(event): void {
@@ -285,14 +285,14 @@ export class UbsAdminTariffsCardPopUpComponent implements OnInit, OnDestroy {
     const tempItem = { location, englishLocation, locationId };
     const newValue = event.option.viewValue;
     if (this.selectedCities.find((it) => it.location.includes(newValue))) {
-      this.selectedCities = [...this.selectedCities.filter((item) => item.location !== newValue)];
+      this.selectedCities = this.selectedCities.filter((item) => item.location !== newValue);
     } else {
       this.selectedCities.push(tempItem);
     }
   }
 
   public checkCity(item): boolean {
-    return this.selectedCities.map((it) => it.location).indexOf(item) >= 0;
+    return this.selectedCities.map((it) => it.location).includes(item);
   }
 
   public setCountOfSelectedCity(): void {
