@@ -39,7 +39,6 @@ export class UbsUserProfilePageComponent implements OnInit {
   isFetching = false;
   alternativeEmailDisplay = false;
   phoneMask = Masks.phoneMask;
-  currentLocation = {};
   maxAddressLength = 4;
   constructor(public dialog: MatDialog, private clientProfileService: ClientProfileService, private snackBar: MatSnackBarComponent) {}
 
@@ -188,12 +187,10 @@ export class UbsUserProfilePageComponent implements OnInit {
   }
 
   openAddAdressDialog(): void {
-    this.currentLocation = this.userProfile.addressDto[0].city;
     const dialogConfig = new MatDialogConfig();
     dialogConfig.panelClass = 'address-matDialog-styles';
     dialogConfig.data = {
       edit: false,
-      currentLocation: this.currentLocation,
       address: {}
     };
     this.dialog.open(UBSAddAddressPopUpComponent, dialogConfig);
