@@ -89,6 +89,7 @@ export class UbsUserOrdersListComponent implements OnInit, OnDestroy {
     } else {
       this.dialog.open(UbsUserOrderPaymentPopUpComponent, {
         maxWidth: '500px',
+        panelClass: 'ubs-user-order-payment-pop-up-vertical-scroll',
         data: {
           orderId: order.id,
           price: order.amountBeforePayment,
