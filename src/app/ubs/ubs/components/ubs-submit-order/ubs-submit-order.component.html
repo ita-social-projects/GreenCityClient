@@ -114,14 +114,11 @@
             <p class="order-header" *ngIf="personalData.addressComment">
               {{ 'order-details.address-comment' | translate }}
             </p>
-            <ul class="order-list">
-              <li class="order-list-item" *ngIf="personalData.addressComment">
-                {{ personalData.addressComment }}
-              </li>
-              <li class="order-list-item" *ngIf="orderDetails.orderComment">
-                {{ 'order-details.order-comment' | translate }} {{ orderDetails.orderComment }}
-              </li>
-            </ul>
+            <p>{{ personalData.addressComment }}</p>
+            <p class="order-header" *ngIf="orderDetails.orderComment">
+              {{ 'order-details.order-comment' | translate }}
+            </p>
+            <p>{{ orderDetails.orderComment }}</p>
           </div>
         </div>
       </div>
