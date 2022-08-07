@@ -94,6 +94,18 @@ export class InterceptorService implements HttpInterceptor {
           })
         );
       }
+      if (req.url.includes('/events/addAttender')) {
+        return next.handle(req).pipe(
+          catchError((error: HttpErrorResponse) => {
+            if (error.status === BAD_REQUEST) {
+              const message = error.error.message;
+              this.openErrorWindow(message);
+              return throwError(error);
+            }
+            return EMPTY;
+          })
+        );
+      }
     }
     return next.handle(req).pipe(
       catchError((error: HttpErrorResponse) => {

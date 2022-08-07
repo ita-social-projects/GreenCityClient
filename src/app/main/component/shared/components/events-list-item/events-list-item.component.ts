@@ -18,12 +18,14 @@ export class EventsListItemComponent implements OnInit {
   public hovered = 0;
   public readonly = false;
   public maxRating = 5;
+  public nameBtn = 'Join Event';
 
-  constructor(private router: Router, private eventService: EventsService) { }
+  constructor(private router: Router, private eventService: EventsService) {}
 
   ngOnInit(): void {
     this.itemTags = TagsArray.reduce((ac, cur) => [...ac, { ...cur }], []);
     this.filterTags(this.event.tags);
+    // this.checkSubscription();
   }
 
   public routeToEvent(): void {
@@ -34,11 +36,35 @@ export class EventsListItemComponent implements OnInit {
     this.itemTags.forEach((item) => (item.isActive = tags.some((name) => name.nameEn === item.nameEn)));
   }
 
-  subscribe(): void {
-    this.eventService.addAttender(this.event.id).subscribe();
+  checkSubscription(): void {
+    this.eventService.removeAttender(this.event.id).subscribe(
+      (res: any) => {
+        // if (res.status === 200) {
+        //   this.nameBtn = 'OK'
+        // }
+      },
+      (error) => {
+        // this.eventService.removeAttender(this.event.id).subscribe();
+        this.nameBtn = 'Ok';
+      }
+    );
   }
 
-  setRate() {
-    this.eventService.rateEvent(this.event.id, this.selected).subscribe();
+  subscribeEvent(): void {
+    this.eventService.addAttender(this.event.id).subscribe(
+      (res: any) => {
+        if (res.status === 200) {
+          this.nameBtn = 'OK';
+        }
+      },
+      (error) => {
+        // this.eventService.removeAttender(this.event.id).subscribe();
+        // this.nameBtn = 'Ok'
+      }
+    );
   }
+
+  // setRate() {
+  //   this.eventService.rateEvent(this.event.id, this.selected).subscribe();
+  // }
 }

@@ -1,6 +1,6 @@
 import { catchError } from 'rxjs/operators';
 import { Injectable, OnDestroy } from '@angular/core';
-import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { HttpClient, HttpHeaders, HttpErrorResponse } from '@angular/common/http';
 import { Observable, ReplaySubject, throwError } from 'rxjs';
 import { environment } from '@environment/environment';
 
@@ -45,7 +45,7 @@ export class EventsService implements OnDestroy {
   }
 
   public addAttender(id: number): Observable<any> {
-    return this.http.post<any>(`${this.backEnd}events/addAttender/${id}`, id);
+    return this.http.post<any>(`${this.backEnd}events/addAttender/${id}`, null, { observe: 'response' });
   }
 
   public removeAttender(id: number): Observable<any> {
