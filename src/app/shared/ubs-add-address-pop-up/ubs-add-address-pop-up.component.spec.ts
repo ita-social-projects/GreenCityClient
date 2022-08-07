@@ -236,7 +236,7 @@ describe('UBSAddAddressPopUpComponent', () => {
       component.currentLanguage = 'ua';
       const spy = spyOn(component, 'onCitySelected');
       component.selectCity(event as any);
-      expect(component.cityEn.value).toBe('Kyiv');
+      expect(component.cityEn.value).toBe('Київ');
       expect(component.isDistrict).toBeTruthy();
       expect(spy).toHaveBeenCalledWith({
         northLat: 50.57230832685655,
