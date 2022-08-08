@@ -14,46 +14,17 @@
   </div>
   <div class="col-md-4 col-sm-4 form-group">
     <label>{{ 'personal-info.pop-up-city' | translate }}</label>
-    <select *ngIf="currentLanguage === 'ua'" formControlName="city" class="shadow-none form-control" (change)="selectCity($event)">
+    <select formControlName="city" class="shadow-none form-control" (change)="selectCity($event)">
       <option *ngFor="let city of cities" [ngValue]="city.cityName">{{ city.cityName }}</option>
-    </select>
-    <select *ngIf="currentLanguage === 'en'" formControlName="cityEn" class="shadow-none form-control" (change)="selectCity($event)">
-      <option *ngFor="let city of citiesEn" [ngValue]="city.cityName">{{ city.cityName }}</option>
     </select>
   </div>
   <div class="col-md-4 col-sm-4 form-group">
     <label>{{ 'personal-info.pop-up-district' | translate }}</label>
-    <select
-      *ngIf="!isDistrict && currentLanguage === 'ua'"
-      formControlName="district"
-      class="shadow-none form-control"
-      (change)="setDistrict($event)"
-    >
+    <select *ngIf="!isDistrict" formControlName="district" class="shadow-none form-control" (change)="setDistrict($event)">
       <option *ngFor="let region of regions" [ngValue]="region.name">{{ region.name }}</option>
     </select>
-    <select
-      *ngIf="!isDistrict && currentLanguage === 'en'"
-      formControlName="districtEn"
-      class="shadow-none form-control"
-      (change)="setDistrict($event)"
-    >
-      <option *ngFor="let region of regionsEn" [ngValue]="region.name">{{ region.name }}</option>
-    </select>
-    <select
-      *ngIf="isDistrict && currentLanguage === 'ua'"
-      formControlName="district"
-      class="shadow-none form-control"
-      (change)="setDistrict($event)"
-    >
+    <select *ngIf="isDistrict" formControlName="district" class="shadow-none form-control" (change)="setDistrict($event)">
       <option *ngFor="let region of regionsKyiv" [ngValue]="region.name">{{ region.name }}</option>
-    </select>
-    <select
-      *ngIf="isDistrict && currentLanguage === 'en'"
-      formControlName="districtEn"
-      class="shadow-none form-control"
-      (change)="setDistrict($event)"
-    >
-      <option *ngFor="let region of regionsKyivEn" [ngValue]="region.name">{{ region.name }}</option>
     </select>
     <div class="validation" *ngIf="district.invalid && addAddressForm.get('district').touched">
       <app-ubs-input-error [formElement]="district" [controlName]="'district'"></app-ubs-input-error>

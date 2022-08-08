@@ -9,6 +9,8 @@ import { UbsProfileDeletePopUpComponent } from './ubs-profile-delete-pop-up/ubs-
 import { UbsProfileChangePasswordPopUpComponent } from './ubs-profile-change-password-pop-up/ubs-profile-change-password-pop-up.component';
 import { UBSAddAddressPopUpComponent } from 'src/app/shared/ubs-add-address-pop-up/ubs-add-address-pop-up.component';
 import { Masks, Patterns } from 'src/assets/patterns/patterns';
+import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
+import { Locations } from 'src/assets/locations/locations';
 
 @Component({
   selector: 'app-ubs-user-profile-page',
@@ -40,9 +42,19 @@ export class UbsUserProfilePageComponent implements OnInit {
   alternativeEmailDisplay = false;
   phoneMask = Masks.phoneMask;
   maxAddressLength = 4;
-  constructor(public dialog: MatDialog, private clientProfileService: ClientProfileService, private snackBar: MatSnackBarComponent) {}
+  currentLanguage: string;
+  cities = [];
+  regions = [];
+  constructor(
+    public dialog: MatDialog,
+    private clientProfileService: ClientProfileService,
+    private snackBar: MatSnackBarComponent,
+    private localStorageService: LocalStorageService,
+    private locations: Locations
+  ) {}
 
   ngOnInit(): void {
+    this.currentLanguage = this.localStorageService.getCurrentLanguage();
     this.getUserData();
   }
 
@@ -119,6 +131,8 @@ export class UbsUserProfilePageComponent implements OnInit {
   onEdit(): void {
     this.isEditing = true;
     this.isFetching = false;
+    this.cities = this.locations.getCity(this.currentLanguage);
+    this.regions = this.locations.getRegionsKyiv(this.currentLanguage);
     setTimeout(() => this.focusOnFirst());
   }
 
