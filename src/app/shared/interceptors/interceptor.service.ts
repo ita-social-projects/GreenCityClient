@@ -98,11 +98,8 @@ export class InterceptorService implements HttpInterceptor {
         return next.handle(req).pipe(
           catchError((error: HttpErrorResponse) => {
             if (error.status === BAD_REQUEST) {
-              const message = error.error.message;
-              this.openErrorWindow(message);
-              return throwError(error);
+              return EMPTY;
             }
-            return EMPTY;
           })
         );
       }

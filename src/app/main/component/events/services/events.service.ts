@@ -45,11 +45,11 @@ export class EventsService implements OnDestroy {
   }
 
   public addAttender(id: number): Observable<any> {
-    return this.http.post<any>(`${this.backEnd}events/addAttender/${id}`, null, { observe: 'response' });
+    return this.http.post<any>(`${this.backEnd}events/addAttender/${id}`, { observe: 'response' });
   }
 
   public removeAttender(id: number): Observable<any> {
-    return this.http.delete<any>(`${this.backEnd}events/removeAttender/${id}`, null);
+    return this.http.delete<any>(`${this.backEnd}events/removeAttender/${id}`);
   }
 
   ngOnDestroy(): void {

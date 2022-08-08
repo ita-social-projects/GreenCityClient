@@ -47,5 +47,5 @@
   <div class="description" [innerHTML]="event.description"></div>
 
   <button class="secondary-global-button event-button" (click)="routeToEvent()">More</button>
-  <button class="primary-global-button event-button" (click)="subscribeEvent()">{{ nameBtn }}</button>
+  <button class="primary-global-button event-button" [disabled]="joinMode" (click)="subscribeEvent()">{{ subscribeBtn }}</button>
 </div>

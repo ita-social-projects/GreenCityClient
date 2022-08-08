@@ -1,3 +1,4 @@
+import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
 import { Component, Input, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { TagsArray } from '../../../events/models/event-consts';
@@ -16,16 +17,18 @@ export class EventsListItemComponent implements OnInit {
 
   public selected = 0;
   public hovered = 0;
-  public readonly = false;
+  public readonly: boolean;
   public maxRating = 5;
-  public nameBtn = 'Join Event';
+  public subscribeBtn = '';
+  public joinMode = false;
 
-  constructor(private router: Router, private eventService: EventsService) {}
+  constructor(private router: Router, private eventService: EventsService, private localStorageService: LocalStorageService) {}
 
   ngOnInit(): void {
     this.itemTags = TagsArray.reduce((ac, cur) => [...ac, { ...cur }], []);
     this.filterTags(this.event.tags);
-    // this.checkSubscription();
+    this.selected = Math.round(this.event.organizer.organizerRating);
+    this.checkSubscription();
   }
 
   public routeToEvent(): void {
@@ -37,34 +40,31 @@ export class EventsListItemComponent implements OnInit {
   }
 
   checkSubscription(): void {
-    this.eventService.removeAttender(this.event.id).subscribe(
-      (res: any) => {
-        // if (res.status === 200) {
-        //   this.nameBtn = 'OK'
-        // }
-      },
-      (error) => {
-        // this.eventService.removeAttender(this.event.id).subscribe();
-        this.nameBtn = 'Ok';
+    if (this.localStorageService.getUserId() == this.event.organizer.id) {
+      this.joinMode = true;
+      this.subscribeBtn = 'Your own event';
+    } else {
+      if (!this.event.isSubscribed) {
+        this.subscribeBtn = 'Join event';
+        this.readonly = true;
+      } else {
+        this.subscribeBtn = 'You are joined';
+        this.readonly = false;
       }
-    );
+    }
   }
 
   subscribeEvent(): void {
-    this.eventService.addAttender(this.event.id).subscribe(
-      (res: any) => {
-        if (res.status === 200) {
-          this.nameBtn = 'OK';
-        }
-      },
-      (error) => {
-        // this.eventService.removeAttender(this.event.id).subscribe();
-        // this.nameBtn = 'Ok'
+    this.eventService.getEventById(this.event.id).subscribe((result) => {
+      if (result.isSubscribed) {
+        this.eventService.removeAttender(this.event.id).subscribe();
+        this.subscribeBtn = 'Join event';
+        this.readonly = true;
+      } else {
+        this.eventService.addAttender(this.event.id).subscribe();
+        this.subscribeBtn = 'You are joined';
+        this.readonly = false;
       }
-    );
+    });
   }
-
-  // setRate() {
-  //   this.eventService.rateEvent(this.event.id, this.selected).subscribe();
-  // }
 }
