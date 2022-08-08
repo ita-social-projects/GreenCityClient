@@ -96,6 +96,8 @@ body {
 }
 
 .add-place-wrapper-class {
+  overflow-y: auto;
+
   .mat-dialog-container {
     padding: 0;
     box-shadow: none;
