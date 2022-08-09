@@ -16,13 +16,14 @@ export class EventsListItemComponent implements OnInit {
   public itemTags: Array<TagObj>;
 
   public selected = 0;
+  public currentRate: number;
   public hovered = 0;
   public readonly: boolean;
   public maxRating = 5;
   public subscribeBtn = '';
-  public joinMode = false;
+  public disabledMode = false;
 
-  constructor(private router: Router, private eventService: EventsService, private localStorageService: LocalStorageService) {}
+  constructor(private router: Router, private eventService: EventsService, private localStorageService: LocalStorageService) { }
 
   ngOnInit(): void {
     this.itemTags = TagsArray.reduce((ac, cur) => [...ac, { ...cur }], []);
@@ -41,7 +42,7 @@ export class EventsListItemComponent implements OnInit {
 
   checkSubscription(): void {
     if (this.localStorageService.getUserId() == this.event.organizer.id) {
-      this.joinMode = true;
+      this.disabledMode = true;
       this.subscribeBtn = 'Your own event';
     } else {
       if (!this.event.isSubscribed) {
@@ -66,5 +67,10 @@ export class EventsListItemComponent implements OnInit {
         this.readonly = false;
       }
     });
+  }
+
+  onRateChange(grade: number): void {
+    // this.eventService.rateEvent(this.event.id, grade).subscribe();
+    console.log('EVENT_ID:', this.event.id, 'EVENT_RATING:', grade);
   }
 }
