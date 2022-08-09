@@ -23,12 +23,16 @@ export class EventsListItemComponent implements OnInit {
   public subscribeBtn = '';
   public disabledMode = false;
 
-  constructor(private router: Router, private eventService: EventsService, private localStorageService: LocalStorageService) { }
+  max: number = 5;
+  rate: number;
+  isReadonly: boolean = false;
+
+  constructor(private router: Router, private eventService: EventsService, private localStorageService: LocalStorageService) {}
 
   ngOnInit(): void {
     this.itemTags = TagsArray.reduce((ac, cur) => [...ac, { ...cur }], []);
     this.filterTags(this.event.tags);
-    this.selected = Math.round(this.event.organizer.organizerRating);
+    this.rate = Math.round(this.event.organizer.organizerRating);
     this.checkSubscription();
   }
 
@@ -69,8 +73,8 @@ export class EventsListItemComponent implements OnInit {
     });
   }
 
-  onRateChange(grade: number): void {
+  onRateChange(): void {
     // this.eventService.rateEvent(this.event.id, grade).subscribe();
-    console.log('EVENT_ID:', this.event.id, 'EVENT_RATING:', grade);
+    console.log('EVENT_ID:', this.event.id, 'EVENT_RATING:', this.rate);
   }
 }

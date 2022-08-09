@@ -1,11 +1,12 @@
 <div class="image-container">
   <img class="event-image" src="{{ event.titleImage }}" alt="event" />
   <div class="event-stars">
-    <ngb-rating (rateChange)="onRateChange($event)" [max]="maxRating" [(rate)]="selected" [readonly]="readonly">
+    <!-- <ngb-rating (rateChange)="onRateChange($event)" [max]="maxRating" [(rate)]="selected" [readonly]="readonly">
       <ng-template let-fill="fill">
         <span class="star" [class.fill]="fill === 100" [class.empty]="fill === 0"></span>
       </ng-template>
-    </ngb-rating>
+    </ngb-rating> -->
+    <rating [(ngModel)]="rate" (click)="onRateChange()" [max]="max" [readonly]="isReadonly"></rating>
   </div>
   <div class="event-flags">
     <span class="flag"></span>
@@ -47,6 +48,5 @@
   <div class="description" [innerHTML]="event.description"></div>
 
   <button class="secondary-global-button event-button" (click)="routeToEvent()">More</button>
-  <button class="primary-global-button event-button" [disabled]="disabledMode" (click)="subscribeEvent()">{{
-    subscribeBtn }}</button>
+  <button class="primary-global-button event-button" [disabled]="disabledMode" (click)="subscribeEvent()">{{ subscribeBtn }}</button>
 </div>
