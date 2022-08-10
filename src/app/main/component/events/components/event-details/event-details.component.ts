@@ -27,6 +27,11 @@ export class EventDetailsComponent implements OnInit {
   public sliderIndex = 0;
   public isPosting: boolean;
   public userId: number;
+
+  public max: number = 5;
+  public rate: number;
+  public isReadonly: boolean = true;
+
   deleteDialogData = {
     popupTitle: 'homepage.events.delete-title',
     popupConfirm: 'homepage.events.delete-yes',
@@ -51,7 +56,7 @@ export class EventDetailsComponent implements OnInit {
     private dialog: MatDialog,
     private store: Store,
     private actionsSubj: ActionsSubject
-  ) {}
+  ) { }
 
   ngOnInit(): void {
     this.localStorageService.setEditMode('canUserEdit', true);
@@ -63,7 +68,7 @@ export class EventDetailsComponent implements OnInit {
       this.localStorageService.setEventForEdit('editEvent', this.event);
       this.imagesSlider = [res.titleImage, ...res.additionalImages];
       this.filterTags(res.tags);
-
+      this.rate = Math.round(this.event.organizer.organizerRating);
       this.mapDialogData = {
         lat: this.event.dates[0].coordinates.latitude,
         lng: this.event.dates[0].coordinates.longitude
@@ -71,6 +76,7 @@ export class EventDetailsComponent implements OnInit {
     });
 
     this.actionsSubj.pipe(ofType(EventsActions.DeleteEcoEventSuccess)).subscribe(() => this.router.navigate(['/events']));
+
   }
 
   public routeToEditEvent(): void {

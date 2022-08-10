@@ -15,25 +15,22 @@ export class EventsListItemComponent implements OnInit {
 
   public itemTags: Array<TagObj>;
 
-  public selected = 0;
-  public currentRate: number;
-  public hovered = 0;
-  public readonly: boolean;
-  public maxRating = 5;
   public subscribeBtn = '';
   public disabledMode = false;
+  public toggle: boolean;
 
-  max: number = 5;
-  rate: number;
-  isReadonly: boolean = false;
+  public max: number = 5;
+  public rate: number;
+  public isReadonly: boolean = false;
 
-  constructor(private router: Router, private eventService: EventsService, private localStorageService: LocalStorageService) {}
+  constructor(private router: Router, private eventService: EventsService, private localStorageService: LocalStorageService) { }
 
   ngOnInit(): void {
     this.itemTags = TagsArray.reduce((ac, cur) => [...ac, { ...cur }], []);
     this.filterTags(this.event.tags);
     this.rate = Math.round(this.event.organizer.organizerRating);
-    this.checkSubscription();
+    this.toggle = this.event.isSubscribed ? true : false;
+    this.checkIsRateAndSubscribe();
   }
 
   public routeToEvent(): void {
@@ -44,37 +41,47 @@ export class EventsListItemComponent implements OnInit {
     this.itemTags.forEach((item) => (item.isActive = tags.some((name) => name.nameEn === item.nameEn)));
   }
 
-  checkSubscription(): void {
-    if (this.localStorageService.getUserId() == this.event.organizer.id) {
-      this.disabledMode = true;
-      this.subscribeBtn = 'Your own event';
-    } else {
-      if (!this.event.isSubscribed) {
-        this.subscribeBtn = 'Join event';
-        this.readonly = true;
+  public checkIsRateAndSubscribe(): void {
+    if (this.localStorageService.getUserId()) {
+      if (this.localStorageService.getUserId() == this.event.organizer.id) {
+        this.disabledMode = true;
+        this.subscribeBtn = 'Your own event';
+        this.isReadonly = true;
       } else {
-        this.subscribeBtn = 'You are joined';
-        this.readonly = false;
+        if (!this.event.isSubscribed) {
+          this.subscribeBtn = 'Join event';
+          this.isReadonly = true;
+        } else {
+          this.subscribeBtn = 'You are joined';
+          this.isReadonly = !this.event.organizer.organizerRating ? false : true;
+        }
       }
+    } else {
+      this.disabledMode = true;
+      this.isReadonly = true;
+      this.subscribeBtn = 'You are not registered';
     }
   }
 
-  subscribeEvent(): void {
-    this.eventService.getEventById(this.event.id).subscribe((result) => {
-      if (result.isSubscribed) {
-        this.eventService.removeAttender(this.event.id).subscribe();
-        this.subscribeBtn = 'Join event';
-        this.readonly = true;
-      } else {
-        this.eventService.addAttender(this.event.id).subscribe();
-        this.subscribeBtn = 'You are joined';
-        this.readonly = false;
-      }
-    });
+  public subscribeEvent(): void {
+    if (this.toggle) {
+      this.eventService.removeAttender(this.event.id).subscribe();
+      this.subscribeBtn = 'Join event';
+      this.isReadonly = true;
+      this.toggle = false;
+    } else {
+      this.eventService.addAttender(this.event.id).subscribe();
+      this.subscribeBtn = 'You are joined';
+      this.isReadonly = !this.event.organizer.organizerRating ? false : true;
+      this.toggle = true;
+    }
   }
 
-  onRateChange(): void {
-    // this.eventService.rateEvent(this.event.id, grade).subscribe();
-    console.log('EVENT_ID:', this.event.id, 'EVENT_RATING:', this.rate);
+  public onRateChange(): void {
+    if (!this.event.organizer.organizerRating) {
+      this.eventService.rateEvent(this.event.id, this.rate).subscribe();
+      this.isReadonly = true;
+    }
+    console.log("Event ID:", this.event.id, "Rating:", this.rate)
   }
 }
