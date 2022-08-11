@@ -15,8 +15,6 @@ export class LocalStorageService {
   private readonly PREVIOUS_PAGE = 'previousPage';
   private readonly CAN_USER_EDIT_EVENT = 'canUserEdit';
   private readonly EDIT_EVENT = 'editEvent';
-  private readonly RATE_EVENT = 'rateEvent';
-  private readonly SUBSCRIBE_EVENT = 'subscribeEvent';
 
   languageSubject: Subject<string> = new Subject<string>();
   firstNameBehaviourSubject: BehaviorSubject<string> = new BehaviorSubject<string>(this.getName());
@@ -24,7 +22,6 @@ export class LocalStorageService {
   languageBehaviourSubject: BehaviorSubject<string> = new BehaviorSubject<string>(this.getCurrentLanguage());
   accessTokenBehaviourSubject: BehaviorSubject<string> = new BehaviorSubject<string>(this.getAccessToken());
   ubsRegBehaviourSubject: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(this.getUbsRegistration());
-  getRatingBehaviourSubject: BehaviorSubject<number> = new BehaviorSubject<number>(this.getRating());
 
   public getAccessToken(): string {
     return localStorage.getItem(this.ACCESS_TOKEN);
@@ -257,21 +254,5 @@ export class LocalStorageService {
 
   public removeCurrentCustomer(): void {
     localStorage.removeItem('currentCustomer');
-  }
-
-  public setRating(rate: number) {
-    return localStorage.setItem(this.RATE_EVENT, String(rate));
-    this.getRatingBehaviourSubject.next(this.getRating());
-  }
-  public getRating() {
-    return Number.parseInt(localStorage.getItem(this.RATE_EVENT), 10);
-  }
-
-  public setSubscription(key: string, permision: boolean) {
-    localStorage.setItem(key, `${permision}`);
-  }
-
-  public getSubscription(): boolean {
-    return localStorage.getItem(this.SUBSCRIBE_EVENT) === 'true';
   }
 }
