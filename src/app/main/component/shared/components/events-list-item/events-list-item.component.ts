@@ -16,12 +16,12 @@ export class EventsListItemComponent implements OnInit {
   public itemTags: Array<TagObj>;
 
   public subscribeBtn: string;
-  public disabledMode: boolean = false;
+  public disabledMode = false;
   public toggle: boolean;
 
-  public max: number = 5;
+  public max = 5;
   public rate: number;
-  public isReadonly: boolean = false;
+  public isReadonly = false;
 
   constructor(private router: Router, private eventService: EventsService, private localStorageService: LocalStorageService) {}
 
@@ -43,7 +43,7 @@ export class EventsListItemComponent implements OnInit {
 
   public checkIsRateAndSubscribe(): void {
     if (this.localStorageService.getUserId()) {
-      if (this.localStorageService.getUserId() == this.event.organizer.id) {
+      if (this.localStorageService.getUserId() === this.event.organizer.id) {
         this.disabledMode = true;
         // this.subscribeBtn = 'Your own event';
         this.isReadonly = true;

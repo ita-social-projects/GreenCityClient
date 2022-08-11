@@ -28,9 +28,9 @@ export class EventDetailsComponent implements OnInit {
   public isPosting: boolean;
   public userId: number;
 
-  public max: number = 5;
+  public max = 5;
   public rate: number;
-  public isReadonly: boolean = true;
+  public isReadonly = true;
 
   deleteDialogData = {
     popupTitle: 'homepage.events.delete-title',
@@ -56,7 +56,7 @@ export class EventDetailsComponent implements OnInit {
     private dialog: MatDialog,
     private store: Store,
     private actionsSubj: ActionsSubject
-  ) { }
+  ) {}
 
   ngOnInit(): void {
     this.localStorageService.setEditMode('canUserEdit', true);
@@ -76,7 +76,6 @@ export class EventDetailsComponent implements OnInit {
     });
 
     this.actionsSubj.pipe(ofType(EventsActions.DeleteEcoEventSuccess)).subscribe(() => this.router.navigate(['/events']));
-
   }
 
   public routeToEditEvent(): void {
