@@ -4,6 +4,7 @@
   max-width: 486px;
   height: 100%;
 }
+
 .image-container {
   width: 100%;
   height: 204px;
@@ -88,6 +89,7 @@
   .date-container {
     display: flex;
     align-items: center;
+
     .main-container .date-container span {
       display: inline-block;
       width: 25px;
@@ -139,6 +141,7 @@
 .description {
   max-height: 100px;
   overflow: hidden;
+
   ::ng-deep {
     p {
       margin: 0;
@@ -152,6 +155,7 @@
   flex-direction: column;
   gap: 20px;
 }
+
 .event-button {
   display: block;
   width: 100%;

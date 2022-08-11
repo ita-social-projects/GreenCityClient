@@ -1,7 +1,8 @@
 .wrapper {
   padding: 20px 100px;
+
   @media screen and (max-width: 800px) {
-    padding: 20px 0px;
+    padding: 20px 0;
   }
 }
 
