@@ -15,15 +15,15 @@ export class EventsListItemComponent implements OnInit {
 
   public itemTags: Array<TagObj>;
 
-  public subscribeBtn = '';
-  public disabledMode = false;
+  public subscribeBtn: string;
+  public disabledMode: boolean = false;
   public toggle: boolean;
 
   public max: number = 5;
   public rate: number;
   public isReadonly: boolean = false;
 
-  constructor(private router: Router, private eventService: EventsService, private localStorageService: LocalStorageService) { }
+  constructor(private router: Router, private eventService: EventsService, private localStorageService: LocalStorageService) {}
 
   ngOnInit(): void {
     this.itemTags = TagsArray.reduce((ac, cur) => [...ac, { ...cur }], []);
@@ -45,7 +45,7 @@ export class EventsListItemComponent implements OnInit {
     if (this.localStorageService.getUserId()) {
       if (this.localStorageService.getUserId() == this.event.organizer.id) {
         this.disabledMode = true;
-        this.subscribeBtn = 'Your own event';
+        // this.subscribeBtn = 'Your own event';
         this.isReadonly = true;
       } else {
         if (!this.event.isSubscribed) {
@@ -59,7 +59,7 @@ export class EventsListItemComponent implements OnInit {
     } else {
       this.disabledMode = true;
       this.isReadonly = true;
-      this.subscribeBtn = 'You are not registered';
+      // this.subscribeBtn = 'You are not registered';
     }
   }
 
@@ -82,6 +82,6 @@ export class EventsListItemComponent implements OnInit {
       this.eventService.rateEvent(this.event.id, this.rate).subscribe();
       this.isReadonly = true;
     }
-    console.log("Event ID:", this.event.id, "Rating:", this.rate)
+    console.log('Event ID:', this.event.id, 'Rating:', this.rate);
   }
 }

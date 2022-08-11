@@ -2,10 +2,9 @@
   <div class="image-container">
     <img class="event-image" src="{{ event.titleImage }}" alt="event" />
     <div class="event-stars">
-      <rating [(ngModel)]="rate" [customTemplate]="star" (click)="onRateChange()" [max]="max" [readonly]="isReadonly">
-      </rating>
+      <rating [(ngModel)]="rate" [customTemplate]="star" (click)="onRateChange()" [max]="max" [readonly]="isReadonly"> </rating>
       <ng-template #star let-index="index" let-value="value">
-        <span class="star {{index < value ? 'fill' : 'empty'}}"></span>
+        <span class="star {{ index < value ? 'fill' : 'empty' }}"></span>
       </ng-template>
     </div>
     <div class="event-flags">
@@ -48,9 +47,7 @@
     <div class="description" [innerHTML]="event.description"></div>
     <div class="btn-group">
       <button class="secondary-global-button event-button" (click)="routeToEvent()">More</button>
-      <button class="primary-global-button event-button" [disabled]="disabledMode" (click)="subscribeEvent()">{{
-        subscribeBtn }}</button>
+      <button class="primary-global-button event-button" [hidden]="disabledMode" (click)="subscribeEvent()">{{ subscribeBtn }}</button>
     </div>
-
   </div>
 </div>
