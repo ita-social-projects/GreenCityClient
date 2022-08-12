@@ -312,14 +312,14 @@
     "add-certificate": "Додати сертифікат",
     "all-elements": "Відображати всі колонки",
     "apply-filters": "Застосувати",
-    "clear-filters": "Скасувати все",
+    "clear-filters": "Скасувати",
     "date-range": "Проміжок часу",
     "date-from": "Від",
     "date-to": "До",
-    "filters": "Фільтрувати",
+    "filter": "Фільтрувати",
     "export-to-excel": "Експортувати в  Excel",
     "table-view": "Вид таблиці",
-    "filter": "Фільтр",
+    "filters": "Фільтри",
     "placeholder": "Пошук"
   },
   "ubs-customer-filters": {
