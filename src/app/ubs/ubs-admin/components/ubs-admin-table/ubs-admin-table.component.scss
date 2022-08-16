@@ -341,8 +341,10 @@ input {
 }
 
 .dropdown-menu {
+  position: absolute;
+  left: -40%;
   height: 500px;
-  width: 356px;
+  max-width: 356px;
   margin-right: 5px;
   overflow: scroll;
   padding: 0;
