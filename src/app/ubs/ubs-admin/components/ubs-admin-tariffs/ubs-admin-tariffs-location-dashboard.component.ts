@@ -365,7 +365,7 @@ export class UbsAdminTariffsLocationDashboardComponent implements OnInit, OnDest
 
   public mapCitiesInUkr(region: Locations[]): Array<object> {
     const cityArray = [];
-    region.map((element) =>
+    region.forEach((element) =>
       element.locationsDto.forEach((el) => {
         const tempItem = {
           name: el.locationTranslationDtoList
