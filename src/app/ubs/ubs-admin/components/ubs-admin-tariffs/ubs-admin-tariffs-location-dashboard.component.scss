@@ -108,6 +108,21 @@ form {
   margin-right: 16px;
 }
 
+.ubs-button {
+  height: 36px;
+  font-family: var(--primary-font);
+  letter-spacing: 0.1px;
+  font-weight: 700;
+  font-size: 14px;
+  line-height: 20px;
+  margin-left: 56px;
+  padding: 8px 24px;
+  color: var(--ubs-quaternary-dark-grey);
+  border-radius: 4px;
+  background: var(--ubs-button-light-green);
+  border: 0;
+}
+
 .table-location thead tr th {
   font-weight: bold;
   font-size: 14px;
@@ -286,4 +301,10 @@ button {
 
 .select-all {
   padding: 0 16px;
+}
+
+.create-card-field {
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }

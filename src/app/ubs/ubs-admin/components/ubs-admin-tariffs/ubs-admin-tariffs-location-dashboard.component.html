@@ -163,7 +163,7 @@
   </div>
 </form>
 <table class="table-location">
-  <thead *ngIf="cards.length !== 0">
+  <thead *ngIf="cards.length">
     <tr>
       <th id="region">{{ 'ubs-tariffs.region' | translate }}</th>
       <th id="city">{{ 'ubs-tariffs.city' | translate }}</th>
@@ -218,3 +218,10 @@
     </tr>
   </tbody>
 </table>
+<div *ngIf="isFieldFilled && !isCardExist" class="create-card-field">
+  <span>{{ 'ubs-tariffs.card-not-found' | translate }}</span>
+  <button class="ubs-button" (click)="createTariffCard()">{{ 'ubs-tariffs-add-location-pop-up.create_button' | translate }}</button>
+</div>
+<div *ngIf="isFieldFilled && isCardExist && !cards.length" class="create-card-field">
+  <span>{{ 'ubs-tariffs.card-exist' | translate }}</span>
+</div>
