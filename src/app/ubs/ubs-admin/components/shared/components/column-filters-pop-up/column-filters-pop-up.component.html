@@ -7,7 +7,7 @@
       {{ 'ubs-tables.apply-filters' | translate }}
     </button>
   </div>
-  <ng-container *ngIf="!data.isDateFilter; else date">
+  <ng-container *ngIf="!data.isDateFilter; else date" [mat-dialog-close]="['clear', data.columnName]">
     <li *ngFor="let option of getOptionsForFiltering()">
       <mat-checkbox [checked]="option.filtered" (change)="changeColumnFilters($event?.checked, data.columnName, option)">
         {{ option | serverTranslate: data.currentLang }}
@@ -20,7 +20,22 @@
     </mat-checkbox>
     <br />
     <div class="input-group">
-      <label for="dateFrom"
+      <div>
+        <mat-form-field class="filter-input">
+          <mat-label>{{ 'ubs-customer-filters.from' | translate }}</mat-label>
+          <input matInput [matDatepicker]="picker1" formControlName="dateFrom" />
+          <mat-datepicker-toggle matSuffix [for]="picker1"></mat-datepicker-toggle>
+          <mat-datepicker #picker1></mat-datepicker>
+        </mat-form-field>
+
+        <mat-form-field class="filter-input">
+          <mat-label>{{ 'ubs-customer-filters.to' | translate }}</mat-label>
+          <input matInput [matDatepicker]="picker2" formControlName="dateTo" />
+          <mat-datepicker-toggle matSuffix [for]="picker2"></mat-datepicker-toggle>
+          <mat-datepicker #picker2></mat-datepicker>
+        </mat-form-field>
+      </div>
+      <!-- <label for="dateFrom"
         >{{ 'ubs-tables.date-from' | translate }}
         <input
           id="dateFrom{{ data.columnName }}"
@@ -39,7 +54,7 @@
           [value]="getDateValue('To')"
           (change)="changeInputDateFilters($event.target.value, 'To')"
         />
-      </label>
+      </label> -->
     </div>
   </ng-template>
 </ng-container>

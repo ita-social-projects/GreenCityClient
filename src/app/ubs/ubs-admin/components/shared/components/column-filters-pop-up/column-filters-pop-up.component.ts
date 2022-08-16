@@ -1,8 +1,12 @@
 import { MatCheckboxChange } from '@angular/material/checkbox';
 import { AdminTableService } from 'src/app/ubs/ubs-admin/services/admin-table.service';
-import { Component, ElementRef, HostListener, Inject, OnInit } from '@angular/core';
+import { Component, ElementRef, HostListener, Inject, Injector, OnInit } from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { IFilteredColumn, IFilteredColumnValue } from 'src/app/ubs/ubs-admin/models/ubs-admin.interface';
+import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
+import { DateAdapter } from '@angular/material/core';
+import { takeUntil } from 'rxjs/operators';
+import { Subject } from 'rxjs';
 
 @Component({
   selector: 'app-column-filters-pop-up',
@@ -11,31 +15,42 @@ import { IFilteredColumn, IFilteredColumnValue } from 'src/app/ubs/ubs-admin/mod
 })
 export class ColumnFiltersPopUpComponent implements OnInit {
   isPopupOpened = false;
+  private localStorageService: LocalStorageService;
+  public currentLang: string;
+  private destroy$: Subject<boolean> = new Subject<boolean>();
 
   constructor(
     @Inject(MAT_DIALOG_DATA) public data: any,
     private matDialogRef: MatDialogRef<ColumnFiltersPopUpComponent>,
     private elementRef: ElementRef,
+    private adapter: DateAdapter<any>,
+    private injector: Injector,
     private adminTableService: AdminTableService
-  ) {}
+  ) {
+    this.localStorageService = injector.get(LocalStorageService);
+  }
 
   ngOnInit(): void {
+    this.localStorageService.languageBehaviourSubject.pipe(takeUntil(this.destroy$)).subscribe((lang) => {
+      this.currentLang = lang;
+      const locale = lang !== 'ua' ? 'en-GB' : 'uk-UA';
+      this.adapter.setLocale(locale);
+    });
     this.setPopupPosUnderButton();
   }
 
   @HostListener('document:click', ['$event'])
-  public onClick(event: any) {
-    const clickedInside = this.matDialogRef.componentInstance.elementRef.nativeElement.contains(event.target);
+  // public onClick(event: any) {
+  //   const clickedInside = this.matDialogRef.componentInstance.elementRef.nativeElement.contains(event.target);
 
-    if (!clickedInside && this.isPopupOpened) {
-      this.matDialogRef.close();
-    }
+  //   if (!clickedInside && this.isPopupOpened) {
+  //     this.matDialogRef.close();
+  //   }
 
-    if (!this.isPopupOpened) {
-      this.isPopupOpened = true;
-    }
-  }
-
+  //   if (!this.isPopupOpened) {
+  //     this.isPopupOpened = true;
+  //   }
+  // }
   private setPopupPosUnderButton(): void {
     const rect = this.data.trigger.nativeElement.getBoundingClientRect();
     const position = { left: `${rect.left}px`, top: `${rect.top + rect.height}px` };
