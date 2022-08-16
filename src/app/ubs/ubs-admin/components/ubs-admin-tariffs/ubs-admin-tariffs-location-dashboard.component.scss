@@ -51,8 +51,7 @@ form {
   position: relative;
 }
 
-.input-wrapper input,
-.input-wrapper select {
+.input-wrapper input {
   padding-left: 15px;
   margin: 0;
   width: 100%;
@@ -60,6 +59,10 @@ form {
   background: transparent;
   border: none;
   outline: none;
+}
+
+.courier-select {
+  padding: 5px 0 0 15px;
 }
 
 .col-item {
