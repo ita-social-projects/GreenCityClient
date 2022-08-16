@@ -64,7 +64,7 @@ input {
   min-height: 39px !important;
   max-height: 39px !important;
   align-items: unset;
-  cursor: default;
+  cursor: col-resize;
 }
 
 .mat-cell {
@@ -83,6 +83,10 @@ input {
   flex: none;
   display: inline;
   line-height: 2.9;
+
+  &:hover {
+    cursor: auto;
+  }
 }
 
 .mat-column-paymentDate {
