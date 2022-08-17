@@ -113,7 +113,6 @@ export class TableCellSelectComponent implements OnInit {
   }
 
   public saveClick(): void {
-    debugger;
     if (this.nameOfColumn === 'orderStatus' && this.checkStatus && this.showPopUp) {
       this.openPopUp();
     } else if (this.nameOfColumn === 'orderStatus' && (this.newOption === 'Canceled' || this.newOption === 'Скасовано')) {
