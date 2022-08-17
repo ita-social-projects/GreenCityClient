@@ -370,7 +370,7 @@ export class UbsAdminOrderComponent implements OnInit, OnDestroy, AfterContentCh
   }
 
   private postDataItem(orderId: number[], columnName: string, newValue: string): void {
-    this.store.dispatch(ChangingOrderData({ orderId, columnName, newValue }));
+    this.store.dispatch(ChangingOrderData({ orderData: [{ orderId, columnName, newValue }] }));
   }
 
   private getUpdates(formItem: FormGroup | FormArray | FormControl, changedValues: IOrderInfo, name?: string) {

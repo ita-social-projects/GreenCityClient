@@ -470,7 +470,51 @@ describe('UsbAdminTableComponent', () => {
     storeMock.dispatch.calls.reset();
     (component as any).postData([1, 2], 'columnName', 'value');
     expect((component as any).store.dispatch).toHaveBeenCalledTimes(1);
+    expect((component as any).store.dispatch).toHaveBeenCalledWith({
+      orderData: [{ orderId: [1, 2], columnName: 'columnName', newValue: 'value' }],
+      type: '[BigOrderTable] Changing Order Data'
+    });
     expect(component.isPostData).toBe(true);
+  });
+
+  it('postData expect store.dispatch should be call if cancellationReason not null', () => {
+    component.isPostData = false;
+    component.cancellationReason = 'fakeReason';
+    storeMock.dispatch.calls.reset();
+    (component as any).postData([1, 2], 'columnName', 'value');
+    expect((component as any).store.dispatch).toHaveBeenCalledTimes(1);
+    expect((component as any).store.dispatch).toHaveBeenCalledWith({
+      orderData: [
+        { orderId: [1, 2], columnName: 'columnName', newValue: 'value' },
+        { orderId: [1, 2], columnName: 'cancellationReason', newValue: 'fakeReason' }
+      ],
+      type: '[BigOrderTable] Changing Order Data'
+    });
+    expect(component.isPostData).toBe(true);
+  });
+
+  it('postData expect store.dispatch should be call if cancellationComment not null', () => {
+    component.isPostData = false;
+    component.cancellationComment = 'fake comment';
+    storeMock.dispatch.calls.reset();
+    (component as any).postData([1, 2], 'columnName', 'value');
+    expect((component as any).store.dispatch).toHaveBeenCalledTimes(1);
+    expect((component as any).store.dispatch).toHaveBeenCalledWith({
+      orderData: [
+        { orderId: [1, 2], columnName: 'columnName', newValue: 'value' },
+        { orderId: [1, 2], columnName: 'cancellationComment', newValue: 'fake comment' }
+      ],
+      type: '[BigOrderTable] Changing Order Data'
+    });
+    expect(component.isPostData).toBe(true);
+  });
+
+  it('addOrderCancellationData expect cancellationReason and cancellationComment should be changed', () => {
+    component.cancellationReason = '';
+    component.cancellationComment = '';
+    component.addOrderCancellationData({ cancellationReason: 'cancellation reason', cancellationComment: 'cancellation comment' });
+    expect(component.cancellationReason).toBe('cancellation reason');
+    expect(component.cancellationComment).toBe('cancellation comment');
   });
 
   it('openOrder expect router.navigate should be call with arguments', () => {
