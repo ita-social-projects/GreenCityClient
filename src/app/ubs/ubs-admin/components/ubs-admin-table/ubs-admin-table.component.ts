@@ -90,6 +90,8 @@ export class UbsAdminTableComponent implements OnInit, AfterViewChecked, OnDestr
   isFiltersOpened = false;
   public showPopUp: boolean;
   mouseEvents = MouseEvents;
+  cancellationReason: string;
+  cancellationComment: string;
   resizableMousemove: () => void;
   resizableMouseup: () => void;
   @ViewChild(MatTable, { read: ElementRef }) private matTableRef: ElementRef;
@@ -492,6 +494,11 @@ export class UbsAdminTableComponent implements OnInit, AfterViewChecked, OnDestr
     this.postData(this.idsToChange, e.nameOfColumn, e.newValue);
   }
 
+  public addOrderCancellationData(orderCancellationData: { cancellationReason: string; cancellationComment: string | null }) {
+    this.cancellationReason = orderCancellationData.cancellationReason;
+    this.cancellationComment = orderCancellationData.cancellationComment;
+  }
+
   private editAll(e: IEditCell): void {
     this.editCellProgressBar = true;
     const newTableData = this.tableData.map((item) => {
@@ -510,8 +517,17 @@ export class UbsAdminTableComponent implements OnInit, AfterViewChecked, OnDestr
   }
 
   private postData(orderId: number[], columnName: string, newValue: string): void {
-    this.store.dispatch(ChangingOrderData({ orderId, columnName, newValue }));
+    const orderData = [{ orderId, columnName, newValue }];
+    if (this.cancellationReason) {
+      orderData.push({ orderId, columnName: 'cancellationReason', newValue: this.cancellationReason });
+    }
+    if (this.cancellationComment) {
+      orderData.push({ orderId, columnName: 'cancellationComment', newValue: this.cancellationComment });
+    }
+    this.store.dispatch(ChangingOrderData({ orderData }));
     this.isPostData = true;
+    this.cancellationReason = null;
+    this.cancellationComment = null;
   }
 
   toggleAccordion(e: PointerEvent): void {

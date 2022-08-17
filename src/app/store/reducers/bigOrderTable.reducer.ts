@@ -41,7 +41,7 @@ export const bigOrderTableReducer = createReducer(
       bigOrderTable: {
         ...state.bigOrderTable,
         content: state.bigOrderTable.content.map((orderData) => {
-          if (orderData.id === action.orderId[0]) {
+          if (action.orderId.includes(orderData.id)) {
             const newOrderData = { ...orderData };
             newOrderData[action.columnName] = action.newValue;
             return newOrderData;
