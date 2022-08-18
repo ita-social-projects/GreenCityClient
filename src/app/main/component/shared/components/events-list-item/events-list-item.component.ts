@@ -45,7 +45,6 @@ export class EventsListItemComponent implements OnInit {
     if (this.localStorageService.getUserId()) {
       if (this.localStorageService.getUserId() === this.event.organizer.id) {
         this.disabledMode = true;
-        // this.subscribeBtn = 'Your own event';
         this.isReadonly = true;
       } else {
         if (!this.event.isSubscribed) {
@@ -59,7 +58,6 @@ export class EventsListItemComponent implements OnInit {
     } else {
       this.disabledMode = true;
       this.isReadonly = true;
-      // this.subscribeBtn = 'You are not registered';
     }
   }
 
