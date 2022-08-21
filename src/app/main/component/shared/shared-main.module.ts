@@ -29,7 +29,7 @@ import { FormBaseComponent } from './components/form-base/form-base.component';
 import { HabitsPopupComponent } from '@global-user/components/profile/calendar/habits-popup/habits-popup.component';
 import { SharedModule } from 'src/app/shared/shared.module';
 import { EventsListItemComponent } from './components/events-list-item/events-list-item.component';
-// import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
+import { ModalModule } from 'ngx-bootstrap/modal';
 import { RatingModule } from 'ngx-bootstrap/rating';
 
 registerLocaleData(usLocale, 'en');
@@ -52,7 +52,7 @@ registerLocaleData(ukLocale, 'ua');
     EventsListItemComponent
   ],
   imports: [
-    // NgbModule,
+    ModalModule.forRoot(),
     RatingModule.forRoot(),
     ImageCropperModule,
     SharedModule,

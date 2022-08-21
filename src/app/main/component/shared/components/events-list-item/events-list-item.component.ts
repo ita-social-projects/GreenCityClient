@@ -1,9 +1,10 @@
 import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input, OnInit, TemplateRef } from '@angular/core';
 import { Router } from '@angular/router';
 import { TagsArray } from '../../../events/models/event-consts';
 import { EventPageResponceDto, TagDto, TagObj } from '../../../events/models/events.interface';
 import { EventsService } from '../../../events/services/events.service';
+import { BsModalRef, BsModalService } from 'ngx-bootstrap/modal';
 
 @Component({
   selector: 'app-events-list-item',
@@ -23,7 +24,14 @@ export class EventsListItemComponent implements OnInit {
   public rate: number;
   public isReadonly = false;
 
-  constructor(private router: Router, private eventService: EventsService, private localStorageService: LocalStorageService) {}
+  public modalRef: BsModalRef;
+
+  constructor(
+    private router: Router,
+    private eventService: EventsService,
+    private localStorageService: LocalStorageService,
+    private modalService: BsModalService
+  ) {}
 
   ngOnInit(): void {
     this.itemTags = TagsArray.reduce((ac, cur) => [...ac, { ...cur }], []);
@@ -80,6 +88,11 @@ export class EventsListItemComponent implements OnInit {
       this.eventService.rateEvent(this.event.id, this.rate).subscribe();
       this.isReadonly = true;
     }
-    console.log('Event ID:', this.event.id, 'Rating:', this.rate);
+  }
+
+  public openModal(template: TemplateRef<any>) {
+    this.modalRef = this.modalService.show(template, {
+      class: 'modal-dialog-centered'
+    });
   }
 }
