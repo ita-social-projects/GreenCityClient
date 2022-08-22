@@ -31,6 +31,7 @@ import { SharedModule } from 'src/app/shared/shared.module';
 import { EventsListItemComponent } from './components/events-list-item/events-list-item.component';
 import { ModalModule } from 'ngx-bootstrap/modal';
 import { RatingModule } from 'ngx-bootstrap/rating';
+import { EventsListItemModalComponent } from './components/events-list-item/events-list-item-modal/events-list-item-modal.component';
 
 registerLocaleData(usLocale, 'en');
 registerLocaleData(ruLocale, 'ru');
@@ -49,7 +50,8 @@ registerLocaleData(ukLocale, 'ua');
     WarningPopUpComponent,
     FormBaseComponent,
     HabitsPopupComponent,
-    EventsListItemComponent
+    EventsListItemComponent,
+    EventsListItemModalComponent
   ],
   imports: [
     ModalModule.forRoot(),
@@ -96,7 +98,8 @@ registerLocaleData(ukLocale, 'ua');
     UserSharedModule,
     WarningPopUpComponent,
     FormBaseComponent,
-    EventsListItemComponent
+    EventsListItemComponent,
+    EventsListItemModalComponent
   ],
   providers: [MatSnackBarComponent, TranslateService],
   entryComponents: [WarningPopUpComponent, HabitsPopupComponent]

@@ -5,6 +5,7 @@ import { TagsArray } from '../../../events/models/event-consts';
 import { EventPageResponceDto, TagDto, TagObj } from '../../../events/models/events.interface';
 import { EventsService } from '../../../events/services/events.service';
 import { BsModalRef, BsModalService } from 'ngx-bootstrap/modal';
+import { EventsListItemModalComponent } from './events-list-item-modal/events-list-item-modal.component';
 
 @Component({
   selector: 'app-events-list-item',
@@ -24,7 +25,7 @@ export class EventsListItemComponent implements OnInit {
   public rate: number;
   public isReadonly = false;
 
-  public modalRef: BsModalRef;
+  public bsModalRef: BsModalRef;
 
   constructor(
     private router: Router,
@@ -90,9 +91,17 @@ export class EventsListItemComponent implements OnInit {
     }
   }
 
-  public openModal(template: TemplateRef<any>) {
-    this.modalRef = this.modalService.show(template, {
-      class: 'modal-dialog-centered'
-    });
+  openModalWithComponent() {
+    const initialState = {
+      list: [
+        'Open a modal with component',
+        'Pass your data',
+        'Do something else',
+        '...'
+      ],
+      title: 'Modal with component'
+    };
+    this.bsModalRef = this.modalService.show(EventsListItemModalComponent, { class: 'modal-dialog-centered', initialState });
+    this.bsModalRef.content.closeBtnName = 'Close';
   }
 }
