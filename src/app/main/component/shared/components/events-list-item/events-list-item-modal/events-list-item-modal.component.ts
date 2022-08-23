@@ -7,13 +7,14 @@ import { BsModalRef } from 'ngx-bootstrap/modal';
   styleUrls: ['events-list-item-modal.component.scss']
 })
 export class EventsListItemModalComponent {
-  title: string;
-  closeBtnName: string;
-  list: any[] = [];
+
+  public max: number;
+  public rate: number;
+  public isReadonly: boolean;
 
   constructor(public bsModalRef: BsModalRef) {}
 
   ngOnInit() {
-    this.list.push('PROFIT!!!');
+
   }
 }

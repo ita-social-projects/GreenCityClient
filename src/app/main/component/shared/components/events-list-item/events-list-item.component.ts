@@ -21,7 +21,7 @@ export class EventsListItemComponent implements OnInit {
   public disabledMode = false;
   public toggle: boolean;
 
-  public max = 5;
+  public max = 3;
   public rate: number;
   public isReadonly = false;
 
@@ -91,16 +91,13 @@ export class EventsListItemComponent implements OnInit {
     }
   }
 
-  openModalWithComponent() {
+  openModal() {
     const initialState = {
-      list: [
-        'Open a modal with component',
-        'Pass your data',
-        'Do something else',
-        '...'
-      ],
-      title: 'Modal with component'
+      max: this.max,
+      rate: this.rate,
+      isReadonly: this.isReadonly
     };
+
     this.bsModalRef = this.modalService.show(EventsListItemModalComponent, { class: 'modal-dialog-centered', initialState });
     this.bsModalRef.content.closeBtnName = 'Close';
   }

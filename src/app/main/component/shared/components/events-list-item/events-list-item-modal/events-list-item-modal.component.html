@@ -1,14 +1,14 @@
-<div class="modal-header">
-  <h4 class="modal-title pull-left">{{title}}</h4>
-  <button type="button" class="close pull-right" aria-label="Close" (click)="bsModalRef.hide()">
-    <span aria-hidden="true">&times;</span>
-  </button>
-</div>
-<div class="modal-body">
-  <ul *ngIf="list.length">
-    <li *ngFor="let item of list">{{item}}</li>
-  </ul>
-</div>
-<div class="modal-footer">
-  <button type="button" class="btn btn-default" (click)="bsModalRef.hide()">{{closeBtnName}}</button>
+<div class="modal-inner">
+  <h3 class="modal-title">Evaluate the event and the organizer</h3>
+  <div class="modal-rating">
+    <rating [(ngModel)]="rate" [customTemplate]="star" [max]="max" [readonly]="isReadonly">
+    </rating>
+    <ng-template #star let-index="index" let-value="value">
+      <span class="star {{ index < value ? 'fill' : 'empty' }}"></span>
+    </ng-template>
+  </div>
+  <div class="modal-bnt-group">
+    <button class="secondary-global-button modal-btn modal-btn-cancel" (click)="bsModalRef.hide()">cancel</button>
+    <button class="primary-global-button modal-btn">save</button>
+  </div>
 </div>

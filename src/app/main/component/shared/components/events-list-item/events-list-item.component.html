@@ -1,8 +1,8 @@
 <div class="card-wrapper">
   <div class="image-container">
     <img class="event-image" src="{{ event.titleImage }}" alt="event" />
-    <div class="event-stars" (click)="openModalWithComponent()">
-      <rating [(ngModel)]="rate" [customTemplate]="star" (click)="onRateChange()" [max]="max" [readonly]="isReadonly">
+    <div class="event-stars" (click)="openModal()">
+      <rating [(ngModel)]="rate" [customTemplate]="star" [max]="max" [readonly]="true">
       </rating>
       <ng-template #star let-index="index" let-value="value">
         <span class="star {{ index < value ? 'fill' : 'empty' }}"></span>
