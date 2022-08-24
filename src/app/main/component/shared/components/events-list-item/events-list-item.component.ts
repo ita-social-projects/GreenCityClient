@@ -17,9 +17,11 @@ export class EventsListItemComponent implements OnInit {
 
   public itemTags: Array<TagObj>;
 
-  public subscribeBtn: string;
+  public nameBtn: string;
+  public styleBtn: string;
   public disabledMode = false;
   public toggle: boolean;
+  public isEventOpen: boolean
 
   public max = 3;
   public rate: number;
@@ -39,7 +41,9 @@ export class EventsListItemComponent implements OnInit {
     this.filterTags(this.event.tags);
     this.rate = Math.round(this.event.organizer.organizerRating);
     this.toggle = this.event.isSubscribed ? true : false;
-    this.checkIsRateAndSubscribe();
+    this.isEventOpen = this.event.open;
+    this.checkAllStatusOfEvent();
+    console.log(this.isEventOpen, this.event.organizer.id);
   }
 
   public routeToEvent(): void {
@@ -50,37 +54,66 @@ export class EventsListItemComponent implements OnInit {
     this.itemTags.forEach((item) => (item.isActive = tags.some((name) => name.nameEn === item.nameEn)));
   }
 
-  public checkIsRateAndSubscribe(): void {
-    if (this.localStorageService.getUserId()) {
+  public checkAllStatusOfEvent(): void {
+    // if (this.localStorageService.getUserId()) {
+    //   if (this.localStorageService.getUserId() === this.event.organizer.id) {
+    //     this.disabledMode = true;
+    //     this.isReadonly = true;
+    //   } else {
+    //     if (!this.event.isSubscribed) {
+    //       this.subscribeBtn = 'Join event';
+    //       this.isReadonly = true;
+    //     } else {
+    //       this.subscribeBtn = 'Cancel join event';
+    //       this.isReadonly = !this.event.organizer.organizerRating ? false : true;
+    //     }
+    //   }
+    // } else {
+    //   this.disabledMode = true;
+    //   this.isReadonly = true;
+    // }
+    if (this.isEventOpen) {
       if (this.localStorageService.getUserId() === this.event.organizer.id) {
-        this.disabledMode = true;
-        this.isReadonly = true;
+        this.nameBtn = 'Edit event'
+        this.styleBtn = 'secondary-global-button';
       } else {
-        if (!this.event.isSubscribed) {
-          this.subscribeBtn = 'Join event';
-          this.isReadonly = true;
-        } else {
-          this.subscribeBtn = 'You are joined';
-          this.isReadonly = !this.event.organizer.organizerRating ? false : true;
-        }
+        this.nameBtn = 'Join event'
+        this.styleBtn = 'primary-global-button';
       }
+
     } else {
-      this.disabledMode = true;
-      this.isReadonly = true;
+      if (this.localStorageService.getUserId() === this.event.organizer.id) {
+        this.nameBtn = 'Delete'
+        this.styleBtn = 'secondary-global-button';
+      } else {
+        this.nameBtn = 'Join event'
+        this.styleBtn = 'primary-global-button';
+      }
     }
   }
 
-  public subscribeEvent(): void {
-    if (this.toggle) {
-      this.eventService.removeAttender(this.event.id).subscribe();
-      this.subscribeBtn = 'Join event';
-      this.isReadonly = true;
-      this.toggle = false;
+  public buttonAction(): void {
+    if (this.localStorageService.getUserId() === this.event.organizer.id) {
+      if (this.isEventOpen) {
+        this.localStorageService.setEditMode('canUserEdit', true);
+        this.router.navigate(['/events', 'create-event']);
+      }
+
     } else {
-      this.eventService.addAttender(this.event.id).subscribe();
-      this.subscribeBtn = 'You are joined';
-      this.isReadonly = !this.event.organizer.organizerRating ? false : true;
-      this.toggle = true;
+      this.localStorageService.setEditMode('canUserEdit', false);
+      if (this.toggle) {
+        this.eventService.removeAttender(this.event.id).subscribe();
+        this.nameBtn = 'Join event';
+        this.styleBtn = 'primary-global-button';
+        this.isReadonly = true;
+        this.toggle = false;
+      } else {
+        this.eventService.addAttender(this.event.id).subscribe();
+        this.nameBtn = 'Cancel join event';
+        this.styleBtn = 'secondary-global-button';
+        this.isReadonly = !this.event.organizer.organizerRating ? false : true;
+        this.toggle = true;
+      }
     }
   }
 
