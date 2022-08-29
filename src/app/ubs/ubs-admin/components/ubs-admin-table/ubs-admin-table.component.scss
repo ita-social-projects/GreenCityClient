@@ -83,6 +83,10 @@ input {
   flex: none;
   display: inline;
   line-height: 2.9;
+
+  &:hover {
+    cursor: auto;
+  }
 }
 
 .mat-column-paymentDate {
