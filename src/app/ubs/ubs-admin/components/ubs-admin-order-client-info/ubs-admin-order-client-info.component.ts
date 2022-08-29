@@ -5,6 +5,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { AddViolationsComponent } from '../add-violations/add-violations.component';
 import { IUserInfo } from '../../models/ubs-admin.interface';
 import { take } from 'rxjs/operators';
+import { Masks, Patterns } from 'src/assets/patterns/patterns';
 
 @Component({
   selector: 'app-ubs-admin-order-client-info',
@@ -15,6 +16,8 @@ export class UbsAdminOrderClientInfoComponent implements OnInit, OnDestroy {
   @Input() userInfo: IUserInfo;
   @Input() userInfoDto: FormGroup;
   @Input() orderId: number;
+
+  phoneMask = Masks.phoneMask;
 
   private destroy$: Subject<boolean> = new Subject<boolean>();
   pageOpen: boolean;
