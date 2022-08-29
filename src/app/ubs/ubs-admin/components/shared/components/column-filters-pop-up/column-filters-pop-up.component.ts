@@ -7,6 +7,8 @@ import { LocalStorageService } from '@global-service/localstorage/local-storage.
 import { DateAdapter } from '@angular/material/core';
 import { takeUntil } from 'rxjs/operators';
 import { Subject } from 'rxjs';
+import { FilterModel } from '@eco-news-models/filter.model';
+import { LanguageModel } from '@eco-news-models/create-news-interface';
 
 @Component({
   selector: 'app-column-filters-pop-up',
@@ -24,7 +26,7 @@ export class ColumnFiltersPopUpComponent implements OnInit {
     @Inject(MAT_DIALOG_DATA) public data: any,
     private matDialogRef: MatDialogRef<ColumnFiltersPopUpComponent>,
     private elementRef: ElementRef,
-    private adapter: DateAdapter<any>,
+    private adapter: DateAdapter<LanguageModel>,
     private injector: Injector,
     private adminTableService: AdminTableService
   ) {
@@ -43,7 +45,7 @@ export class ColumnFiltersPopUpComponent implements OnInit {
   @HostListener('document:click', ['$event'])
   public onClick(event: any) {
     const clickedInside = this.matDialogRef.componentInstance.elementRef.nativeElement.contains(event.target);
-    const isCalendarOpened = event.target?.className == 'mat-calendar-body-cell-content mat-calendar-body-selected';
+    const isCalendarOpened = event.target?.className === 'mat-calendar-body-cell-content mat-calendar-body-selected';
 
     if (!clickedInside && this.isPopupOpened && !isCalendarOpened) {
       this.matDialogRef.close();
