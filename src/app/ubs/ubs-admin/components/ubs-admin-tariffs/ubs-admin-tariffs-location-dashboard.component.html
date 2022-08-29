@@ -64,7 +64,7 @@
             {{ region }}
           </mat-option>
         </mat-autocomplete>
-        <mat-icon class="cross-img" (click)="region.setValue('')">close</mat-icon>
+        <mat-icon class="cross-img" (click)="resetRegionValue()">close</mat-icon>
         <img [src]="icons.arrowDown" class="arrowDown-img" alt="arrowDown" (click)="openAuto($event, autocompleteTriggerRegion)" />
       </div>
     </div>
@@ -82,7 +82,7 @@
         <mat-autocomplete
           #select
           #autoCity="matAutocomplete"
-          (optionSelected)="selected($event, autocompleteTriggerCity)"
+          (optionSelected)="onSelectCity($event, autocompleteTriggerCity)"
           autoActiveFirstOption
         >
           <mat-option value="all">
@@ -90,7 +90,7 @@
             Усі
           </mat-option>
           <mat-option *ngFor="let city of filteredCities | async">
-            <mat-checkbox class="mr-1" [checked]="checkSelectedItem(city, checkedCities)"></mat-checkbox>
+            <mat-checkbox class="mr-1" [checked]="checkSelectedItem(city, selectedCities)"></mat-checkbox>
             <span class="checkbox-text">{{ city }}</span>
           </mat-option>
         </mat-autocomplete>
@@ -98,26 +98,25 @@
       </div>
       <mat-chip-list #chipListCity aria-label="City selection">
         <div class="city-list">
-          <span *ngFor="let city of checkedCities" class="city-item">{{ city.name }}</span>
+          <span *ngFor="let city of selectedCities" class="city-item">{{ city.name }}</span>
         </div>
       </mat-chip-list>
     </div>
     <div class="col-item">
       <p class="col-text">{{ 'ubs-tariffs.courier' | translate }}</p>
       <div class="input-wrapper">
-        <mat-form-field floatLabel="never">
-          <mat-select
-            #courierSelect
-            formControlName="courier"
-            placeholder="{{ 'ubs-tariffs.placeholder-courier' | translate }}"
-            (selectionChange)="onSelectCourier($event)"
-          >
-            <mat-option class="option-state" value="all">Усі</mat-option>
-            <mat-option class="option-state" *ngFor="let courier of couriersName" [value]="courier">
-              {{ courier }}
-            </mat-option>
-          </mat-select>
-        </mat-form-field>
+        <mat-select
+          #courierSelect
+          formControlName="courier"
+          class="courier-select"
+          placeholder="{{ 'ubs-tariffs.placeholder-courier' | translate }}"
+          (selectionChange)="onSelectCourier($event)"
+        >
+          <mat-option class="option-state" value="all">Усі</mat-option>
+          <mat-option class="option-state" *ngFor="let courier of couriersName" [value]="courier">
+            {{ courier }}
+          </mat-option>
+        </mat-select>
         <img [src]="icons.arrowDown" class="arrowDown-img" alt="arrowDown" (click)="courierSelect.open()" />
       </div>
     </div>
@@ -163,7 +162,7 @@
   </div>
 </form>
 <table class="table-location">
-  <thead *ngIf="cards.length !== 0">
+  <thead *ngIf="cards.length">
     <tr>
       <th id="region">{{ 'ubs-tariffs.region' | translate }}</th>
       <th id="city">{{ 'ubs-tariffs.city' | translate }}</th>
@@ -218,3 +217,10 @@
     </tr>
   </tbody>
 </table>
+<div *ngIf="isFieldFilled && !isCardExist" class="create-card-field">
+  <span>{{ 'ubs-tariffs.card-not-found' | translate }}</span>
+  <button class="ubs-button" (click)="createTariffCard()">{{ 'ubs-tariffs-add-location-pop-up.create_button' | translate }}</button>
+</div>
+<div *ngIf="isFieldFilled && isCardExist && !cards.length" class="create-card-field">
+  <span>{{ 'ubs-tariffs.card-exist' | translate }}</span>
+</div>

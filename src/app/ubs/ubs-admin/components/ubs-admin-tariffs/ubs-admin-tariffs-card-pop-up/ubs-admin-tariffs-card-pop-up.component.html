@@ -120,6 +120,6 @@
         {{ 'ubs-tariffs-add-location-pop-up.create_button' | translate }}
       </button>
     </div>
-    <span *ngIf="objectsAreEqual" class="validation-message">{{ 'ubs-tariffs.card-already-exist' | translate }}</span>
+    <span *ngIf="isCardExist" class="validation-message">{{ 'ubs-tariffs.card-already-exist' | translate }}</span>
   </div>
 </ng-template>

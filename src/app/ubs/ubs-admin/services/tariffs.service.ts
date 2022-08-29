@@ -99,4 +99,8 @@ export class TariffsService {
   public createCard(card: CreateCard): Observable<object> {
     return this.http.post(`${mainUbsLink}/ubs/superAdmin/add-new-tariff`, card);
   }
+
+  public checkIfCardExist(card: CreateCard): Observable<object> {
+    return this.http.post(`${mainUbsLink}/ubs/superAdmin/check-if-tariff-exists`, card);
+  }
 }
