@@ -1,7 +1,7 @@
 import { CUSTOM_ELEMENTS_SCHEMA, ElementRef } from '@angular/core';
 import { async, ComponentFixture, fakeAsync, TestBed } from '@angular/core/testing';
 import { MatCheckboxChange } from '@angular/material/checkbox';
-import { MatDialogRef, MAT_DIALOG_DATA, MatDialogModule } from '@angular/material/dialog';
+import { MatDialogRef, MAT_DIALOG_DATA, MatDialogModule, MatDialog } from '@angular/material/dialog';
 import { TranslateModule } from '@ngx-translate/core';
 import { SharedModule } from 'src/app/shared/shared.module';
 import { AdminTableService } from 'src/app/ubs/ubs-admin/services/admin-table.service';
@@ -10,6 +10,7 @@ import { ColumnFiltersPopUpComponent } from './column-filters-pop-up.component';
 describe('ColumnFiltersPopUpComponent', () => {
   let component: ColumnFiltersPopUpComponent;
   let fixture: ComponentFixture<ColumnFiltersPopUpComponent>;
+  let dialogMock: MatDialog;
   const fakeAdminTableService = jasmine.createSpyObj('fakeAdminTableService', [
     'changeFilters',
     'getDateChecked',
@@ -48,6 +49,8 @@ describe('ColumnFiltersPopUpComponent', () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(ColumnFiltersPopUpComponent);
     component = fixture.componentInstance;
+    dialogMock = TestBed.inject(MatDialog);
+    fixture.detectChanges();
     fakeAdminTableService.columnsForFiltering = columnsForFilteringMock;
     fakeDialog.componentInstance = {
       elementRef: {
