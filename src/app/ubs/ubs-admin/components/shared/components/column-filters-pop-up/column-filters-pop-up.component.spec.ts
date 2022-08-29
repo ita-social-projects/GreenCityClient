@@ -1,6 +1,8 @@
 import { CUSTOM_ELEMENTS_SCHEMA, ElementRef } from '@angular/core';
 import { async, ComponentFixture, fakeAsync, TestBed } from '@angular/core/testing';
 import { MatCheckboxChange } from '@angular/material/checkbox';
+import { MatNativeDateModule } from '@angular/material/core';
+import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatDialogRef, MAT_DIALOG_DATA, MatDialogModule, MatDialog } from '@angular/material/dialog';
 import { TranslateModule } from '@ngx-translate/core';
 import { SharedModule } from 'src/app/shared/shared.module';
@@ -35,12 +37,13 @@ describe('ColumnFiltersPopUpComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      imports: [TranslateModule.forRoot(), MatDialogModule, SharedModule],
+      imports: [TranslateModule.forRoot(), MatDialogModule, SharedModule, MatDatepickerModule, MatNativeDateModule],
       declarations: [ColumnFiltersPopUpComponent],
       providers: [
         { provide: AdminTableService, useValue: fakeAdminTableService },
         { provide: MAT_DIALOG_DATA, useValue: matDialogDataMock },
-        { provide: MatDialogRef, useValue: fakeDialog }
+        { provide: MatDialogRef, useValue: fakeDialog },
+        MatDatepickerModule
       ],
       schemas: [CUSTOM_ELEMENTS_SCHEMA]
     }).compileComponents();
