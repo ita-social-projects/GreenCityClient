@@ -40,10 +40,9 @@ export class EventsListItemComponent implements OnInit {
     this.itemTags = TagsArray.reduce((ac, cur) => [...ac, { ...cur }], []);
     this.filterTags(this.event.tags);
     this.rate = Math.round(this.event.organizer.organizerRating);
-    this.toggle = this.event.isSubscribed ? true : false;
-    this.isEventOpen = this.event.open;
+
     this.checkAllStatusOfEvent();
-    console.log(this.isEventOpen, this.event.organizer.id);
+
   }
 
   public routeToEvent(): void {
@@ -55,6 +54,8 @@ export class EventsListItemComponent implements OnInit {
   }
 
   public checkAllStatusOfEvent(): void {
+    this.toggle = this.event.isSubscribed ? true : false;
+    this.isEventOpen = this.event.open;
     // if (this.localStorageService.getUserId()) {
     //   if (this.localStorageService.getUserId() === this.event.organizer.id) {
     //     this.disabledMode = true;
@@ -88,6 +89,7 @@ export class EventsListItemComponent implements OnInit {
       } else {
         this.nameBtn = 'Join event'
         this.styleBtn = 'primary-global-button';
+        this.disabledMode = true;
       }
     }
   }
@@ -96,7 +98,9 @@ export class EventsListItemComponent implements OnInit {
     if (this.localStorageService.getUserId() === this.event.organizer.id) {
       if (this.isEventOpen) {
         this.localStorageService.setEditMode('canUserEdit', true);
-        this.router.navigate(['/events', 'create-event']);
+        this.router.navigate(['edit-event', this.event.id]);
+        // this.router.navigate(['/events', 'create-event']);
+
       }
 
     } else {
