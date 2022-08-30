@@ -22,6 +22,7 @@ export class EventsListItemComponent implements OnInit {
   public disabledMode = false;
   public isJoined: boolean;
   public isEventOpen: boolean
+  public isOwner: boolean;
 
   public max = 3;
   public rate: number;
@@ -39,10 +40,7 @@ export class EventsListItemComponent implements OnInit {
   ngOnInit(): void {
     this.itemTags = TagsArray.reduce((ac, cur) => [...ac, { ...cur }], []);
     this.filterTags(this.event.tags);
-
-
     this.checkAllStatusOfEvent();
-
   }
 
   public routeToEvent(): void {
@@ -57,9 +55,10 @@ export class EventsListItemComponent implements OnInit {
     this.rate = Math.round(this.event.organizer.organizerRating);
     this.isJoined = this.event.isSubscribed ? true : false;
     this.isEventOpen = this.event.open;
+    this.isOwner = this.localStorageService.getUserId() === this.event.organizer.id;
 
     if (this.isEventOpen) {
-      if (this.localStorageService.getUserId() === this.event.organizer.id) {
+      if (this.isOwner) {
         this.nameBtn = 'Edit event';
         this.styleBtn = 'secondary-global-button';
       } else {
@@ -69,7 +68,7 @@ export class EventsListItemComponent implements OnInit {
           : 'primary-global-button';
       }
     } else {
-      if (this.localStorageService.getUserId() === this.event.organizer.id) {
+      if (this.isOwner) {
         this.nameBtn = 'Delete';
         this.styleBtn = 'secondary-global-button';
       } else {
@@ -83,13 +82,12 @@ export class EventsListItemComponent implements OnInit {
   }
 
   public buttonAction(): void {
-    if (this.localStorageService.getUserId() === this.event.organizer.id) {
+    if (this.isOwner) {
       if (this.isEventOpen) {
         this.localStorageService.setEditMode('canUserEdit', true);
         this.localStorageService.setEventForEdit('editEvent', this.event);
         this.router.navigate(['events/', 'create-event']);
       }
-
     } else {
       this.localStorageService.setEditMode('canUserEdit', false);
       if (this.isJoined) {
