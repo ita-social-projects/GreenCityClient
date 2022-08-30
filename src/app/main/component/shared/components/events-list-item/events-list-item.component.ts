@@ -98,9 +98,8 @@ export class EventsListItemComponent implements OnInit {
     if (this.localStorageService.getUserId() === this.event.organizer.id) {
       if (this.isEventOpen) {
         this.localStorageService.setEditMode('canUserEdit', true);
-        this.router.navigate(['edit-event', this.event.id]);
-        // this.router.navigate(['/events', 'create-event']);
-
+        this.localStorageService.setEventForEdit('editEvent', this.event);
+        this.router.navigate(['events/', 'create-event']);
       }
 
     } else {
