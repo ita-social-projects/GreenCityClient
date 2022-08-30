@@ -20,7 +20,7 @@ export class EventsListItemComponent implements OnInit {
   public nameBtn: string;
   public styleBtn: string;
   public disabledMode = false;
-  public toggle: boolean;
+  public isJoined: boolean;
   public isEventOpen: boolean
 
   public max = 3;
@@ -39,7 +39,7 @@ export class EventsListItemComponent implements OnInit {
   ngOnInit(): void {
     this.itemTags = TagsArray.reduce((ac, cur) => [...ac, { ...cur }], []);
     this.filterTags(this.event.tags);
-    this.rate = Math.round(this.event.organizer.organizerRating);
+
 
     this.checkAllStatusOfEvent();
 
@@ -54,42 +54,30 @@ export class EventsListItemComponent implements OnInit {
   }
 
   public checkAllStatusOfEvent(): void {
-    this.toggle = this.event.isSubscribed ? true : false;
+    this.rate = Math.round(this.event.organizer.organizerRating);
+    this.isJoined = this.event.isSubscribed ? true : false;
     this.isEventOpen = this.event.open;
-    // if (this.localStorageService.getUserId()) {
-    //   if (this.localStorageService.getUserId() === this.event.organizer.id) {
-    //     this.disabledMode = true;
-    //     this.isReadonly = true;
-    //   } else {
-    //     if (!this.event.isSubscribed) {
-    //       this.subscribeBtn = 'Join event';
-    //       this.isReadonly = true;
-    //     } else {
-    //       this.subscribeBtn = 'Cancel join event';
-    //       this.isReadonly = !this.event.organizer.organizerRating ? false : true;
-    //     }
-    //   }
-    // } else {
-    //   this.disabledMode = true;
-    //   this.isReadonly = true;
-    // }
+
     if (this.isEventOpen) {
       if (this.localStorageService.getUserId() === this.event.organizer.id) {
-        this.nameBtn = 'Edit event'
+        this.nameBtn = 'Edit event';
         this.styleBtn = 'secondary-global-button';
       } else {
-        this.nameBtn = 'Join event'
-        this.styleBtn = 'primary-global-button';
+        this.nameBtn = this.isJoined ? 'Cancel join event'
+          : 'Join event';
+        this.styleBtn = this.isJoined ? 'secondary-global-button'
+          : 'primary-global-button';
       }
-
     } else {
       if (this.localStorageService.getUserId() === this.event.organizer.id) {
-        this.nameBtn = 'Delete'
+        this.nameBtn = 'Delete';
         this.styleBtn = 'secondary-global-button';
       } else {
-        this.nameBtn = 'Join event'
-        this.styleBtn = 'primary-global-button';
-        this.disabledMode = true;
+        this.disabledMode = this.isJoined ? false : true;
+        this.nameBtn = this.rate ? 'See rating'
+          : 'Rate Organizer';
+        this.styleBtn = this.rate ? 'primary-global-button'
+          : 'secondary-global-button';
       }
     }
   }
@@ -104,18 +92,18 @@ export class EventsListItemComponent implements OnInit {
 
     } else {
       this.localStorageService.setEditMode('canUserEdit', false);
-      if (this.toggle) {
+      if (this.isJoined) {
         this.eventService.removeAttender(this.event.id).subscribe();
         this.nameBtn = 'Join event';
         this.styleBtn = 'primary-global-button';
         this.isReadonly = true;
-        this.toggle = false;
+        this.isJoined = false;
       } else {
         this.eventService.addAttender(this.event.id).subscribe();
         this.nameBtn = 'Cancel join event';
         this.styleBtn = 'secondary-global-button';
         this.isReadonly = !this.event.organizer.organizerRating ? false : true;
-        this.toggle = true;
+        this.isJoined = true;
       }
     }
   }
