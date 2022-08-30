@@ -82,14 +82,39 @@ export class EventsListItemComponent implements OnInit {
   }
 
   public buttonAction(): void {
-    if (this.isOwner) {
-      if (this.isEventOpen) {
+    // if (this.isOwner) {
+    //   if (this.isEventOpen) {
+    //     this.localStorageService.setEditMode('canUserEdit', true);
+    //     this.localStorageService.setEventForEdit('editEvent', this.event);
+    //     this.router.navigate(['events/', 'create-event']);
+    //   } else {
+    //     // this.eventService.deleteEvent(this.event.id).subscribe();
+    //   }
+    // } else {
+    //   this.localStorageService.setEditMode('canUserEdit', false);
+    //   if (this.isJoined) {
+    //     this.eventService.removeAttender(this.event.id).subscribe();
+    //     this.nameBtn = 'Join event';
+    //     this.styleBtn = 'primary-global-button';
+    //     this.isReadonly = true;
+    //     this.isJoined = false;
+    //   } else {
+    //     this.eventService.addAttender(this.event.id).subscribe();
+    //     this.nameBtn = 'Cancel join event';
+    //     this.styleBtn = 'secondary-global-button';
+    //     this.isReadonly = !this.event.organizer.organizerRating ? false : true;
+    //     this.isJoined = true;
+    //   }
+    // }
+    if (this.isEventOpen) {
+      if (this.isOwner) {
         this.localStorageService.setEditMode('canUserEdit', true);
         this.localStorageService.setEventForEdit('editEvent', this.event);
         this.router.navigate(['events/', 'create-event']);
+      } else {
+        // this.eventService.deleteEvent(this.event.id).subscribe();
       }
-    } else {
-      this.localStorageService.setEditMode('canUserEdit', false);
+
       if (this.isJoined) {
         this.eventService.removeAttender(this.event.id).subscribe();
         this.nameBtn = 'Join event';
@@ -102,6 +127,10 @@ export class EventsListItemComponent implements OnInit {
         this.styleBtn = 'secondary-global-button';
         this.isReadonly = !this.event.organizer.organizerRating ? false : true;
         this.isJoined = true;
+      }
+    } else {
+      if (this.isJoined) {
+        this.openModal();
       }
     }
   }
