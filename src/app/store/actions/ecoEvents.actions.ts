@@ -14,6 +14,15 @@ export enum EventsActions {
   DeleteEcoEvent = '[Events] Delete event',
   DeleteEcoEventSuccess = '[Events] Delete event Success',
 
+  RateEcoEventsById = '[Events] Rate events by id',
+  RateEcoEventsByIdSuccess = '[Events] Rate event Success',
+
+  AddAttenderEcoEventsById = '[Events] Add attender to event by id',
+  AddAttenderEcoEventsByIdSuccess = '[Events] Add attender to event Success',
+
+  RemoveAttenderEcoEventsById = '[Events] Remove attender to event by id',
+  RemoveAttenderEcoEventsByIdSuccess = '[Events] Remove attender to event Success',
+
   ReceivedFailure = '[Events] Received Failure'
 }
 
@@ -34,6 +43,18 @@ export const GetEcoEventsByPageAction = createAction(
 export const GetEcoEventsByPageSuccessAction = createAction(
   EventsActions.GetEcoEventsByPageSuccess,
   props<{ ecoEvents: EventResponseDto | any; currentPage: number }>()
+);
+
+export const RateEcoEventsByIdAction = createAction(EventsActions.RateEcoEventsById, props<{ id: number; grade: number }>());
+export const RateEcoEventsByIdSuccessAction = createAction(EventsActions.RateEcoEventsByIdSuccess, props<{ id: number; grade: number }>());
+
+export const AddAttenderEcoEventsByIdAction = createAction(EventsActions.RateEcoEventsById, props<{ id: number }>());
+export const AddAttenderEventsByIdSuccessAction = createAction(EventsActions.AddAttenderEcoEventsByIdSuccess, props<{ id: number }>());
+
+export const RemoveAttenderEcoEventsByIdAction = createAction(EventsActions.RemoveAttenderEcoEventsById, props<{ id: number }>());
+export const RemoveAttenderEventsByIdSuccessAction = createAction(
+  EventsActions.RemoveAttenderEcoEventsByIdSuccess,
+  props<{ id: number }>()
 );
 
 export const ReceivedFailureAction = createAction(EventsActions.ReceivedFailure, props<{ error: string | null }>());

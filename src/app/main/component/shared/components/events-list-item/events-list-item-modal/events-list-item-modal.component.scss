@@ -15,8 +15,7 @@
 
   .modal-title {
     width: max-content;
-    padding-top: 40px;
-    padding-bottom: 32px;
+    padding-top: 48px;
     font-family: 'Lato';
     font-style: normal;
     font-weight: 700;
@@ -28,6 +27,8 @@
 }
 .modal-rating {
   width: max-content;
+  margin-top: 30px;
+
   .star {
     display: inline-block;
     margin: 0 10px;
@@ -59,4 +60,14 @@
     border: none;
     border-radius: 0;
   }
+}
+
+.modal-text {
+  padding-top: 15px;
+  text-align: center;
+  font-family: 'Lato';
+  font-weight: 400;
+  font-size: 16px;
+  line-height: 24px;
+  color: #313131;
 }
