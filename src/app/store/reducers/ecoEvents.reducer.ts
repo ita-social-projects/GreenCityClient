@@ -47,9 +47,9 @@ export const EcoEventsReducer = createReducer(
   on(
     DeleteEcoEventSuccessAction,
     CreateEcoEventSuccessAction,
-    RateEcoEventsByIdSuccessAction,
     AddAttenderEventsByIdSuccessAction,
     RemoveAttenderEventsByIdSuccessAction,
+    RateEcoEventsByIdSuccessAction,
     (state) => {
       return {
         ...state,

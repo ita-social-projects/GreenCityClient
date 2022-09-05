@@ -75,5 +75,6 @@ export class EventsListItemModalComponent {
     this.text = `Thank you !!!`;
     this.bsModalRef.hide();
     this.store.dispatch(RateEcoEventsByIdAction({ id: this.id, grade: this.rate }));
+
   }
 }

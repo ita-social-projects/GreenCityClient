@@ -48,7 +48,7 @@ export const GetEcoEventsByPageSuccessAction = createAction(
 export const RateEcoEventsByIdAction = createAction(EventsActions.RateEcoEventsById, props<{ id: number; grade: number }>());
 export const RateEcoEventsByIdSuccessAction = createAction(EventsActions.RateEcoEventsByIdSuccess, props<{ id: number; grade: number }>());
 
-export const AddAttenderEcoEventsByIdAction = createAction(EventsActions.RateEcoEventsById, props<{ id: number }>());
+export const AddAttenderEcoEventsByIdAction = createAction(EventsActions.AddAttenderEcoEventsById, props<{ id: number }>());
 export const AddAttenderEventsByIdSuccessAction = createAction(EventsActions.AddAttenderEcoEventsByIdSuccess, props<{ id: number }>());
 
 export const RemoveAttenderEcoEventsByIdAction = createAction(EventsActions.RemoveAttenderEcoEventsById, props<{ id: number }>());

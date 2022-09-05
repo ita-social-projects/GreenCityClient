@@ -114,17 +114,14 @@ export class EventsListItemComponent implements OnInit {
           this.router.navigate(['events/', 'create-event']);
         } else {
           if (this.isJoined) {
-            // need to do
-            this.eventService.removeAttender(this.event.id).subscribe();
-            // this.store.dispatch(AddAttenderEcoEventsByIdAction({ id: this.event.id }));
+
+            this.store.dispatch(RemoveAttenderEcoEventsByIdAction({ id: this.event.id }));
             this.nameBtn = 'Join event';
             this.styleBtn = 'primary-global-button';
             this.isReadonly = true;
             this.isJoined = false;
           } else {
-            // need to do
-            this.eventService.addAttender(this.event.id).subscribe();
-            // this.store.dispatch(RemoveAttenderEcoEventsByIdAction({ id: this.event.id }));
+            this.store.dispatch(AddAttenderEcoEventsByIdAction({ id: this.event.id }));
             this.nameBtn = 'Cancel join event';
             this.styleBtn = 'secondary-global-button';
             this.isReadonly = !this.event.organizer.organizerRating ? false : true;
