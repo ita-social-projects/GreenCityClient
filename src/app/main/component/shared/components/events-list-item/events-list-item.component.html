@@ -47,7 +47,9 @@
 
     <div class="description" [innerHTML]="event.description"></div>
     <div class="btn-group">
-      <button class="secondary-global-button event-button" (click)="routeToEvent()">More</button>
+      <button class="secondary-global-button event-button" (click)="routeToEvent()">
+        {{'event.btn-top' | translate}}
+      </button>
       <button class="{{styleBtn}} event-button" [hidden]="disabledMode" (click)="buttonAction()">{{
         nameBtn }}</button>
     </div>

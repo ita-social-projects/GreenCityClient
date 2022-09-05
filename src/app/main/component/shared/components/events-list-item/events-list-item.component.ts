@@ -15,6 +15,8 @@ import { BsModalRef, BsModalService } from 'ngx-bootstrap/modal';
 import { EventsListItemModalComponent } from './events-list-item-modal/events-list-item-modal.component';
 import { MatDialog } from '@angular/material/dialog';
 import { DialogPopUpComponent } from 'src/app/shared/dialog-pop-up/dialog-pop-up.component';
+import { TranslateService } from '@ngx-translate/core';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-events-list-item',
@@ -43,6 +45,8 @@ export class EventsListItemComponent implements OnInit {
 
   public bsModalRef: BsModalRef;
 
+  public langChangeSub: Subscription;
+
   deleteDialogData = {
     popupTitle: 'homepage.events.delete-title',
     popupConfirm: 'homepage.events.delete-yes',
@@ -55,13 +59,16 @@ export class EventsListItemComponent implements OnInit {
     private localStorageService: LocalStorageService,
     private modalService: BsModalService,
     private dialog: MatDialog,
-    private store: Store
+    private store: Store,
+    private translate: TranslateService
   ) {}
 
   ngOnInit(): void {
     this.itemTags = TagsArray.reduce((ac, cur) => [...ac, { ...cur }], []);
     this.filterTags(this.event.tags);
     this.checkAllStatusesOfEvent();
+    this.subscribeToLangChange();
+    this.bindLang(this.localStorageService.getCurrentLanguage());
   }
 
   public routeToEvent(): void {
@@ -173,5 +180,13 @@ export class EventsListItemComponent implements OnInit {
           this.isPosting = true;
         }
       });
+  }
+
+  private bindLang(lang: string): void {
+    this.translate.setDefaultLang(lang);
+  }
+
+  private subscribeToLangChange(): void {
+    this.langChangeSub = this.localStorageService.languageSubject.subscribe(this.bindLang.bind(this));
   }
 }
