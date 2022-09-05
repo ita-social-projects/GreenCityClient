@@ -5,7 +5,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { AddViolationsComponent } from '../add-violations/add-violations.component';
 import { IUserInfo } from '../../models/ubs-admin.interface';
 import { take } from 'rxjs/operators';
-import { Masks, Patterns } from 'src/assets/patterns/patterns';
+import { Masks } from 'src/assets/patterns/patterns';
 
 @Component({
   selector: 'app-ubs-admin-order-client-info',
