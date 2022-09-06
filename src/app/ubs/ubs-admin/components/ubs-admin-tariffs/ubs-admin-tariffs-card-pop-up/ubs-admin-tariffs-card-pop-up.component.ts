@@ -56,8 +56,7 @@ export class UbsAdminTariffsCardPopUpComponent implements OnInit, OnDestroy {
   public regionId: number;
   public createCardObj: CreateCard;
   public blurOnOption = false;
-  public existingCardObj = [];
-  public objectsAreEqual = false;
+  public isCardExist;
 
   locations$ = this.store.select((state: IAppState): Locations[] => state.locations.locations);
 
@@ -94,7 +93,6 @@ export class UbsAdminTariffsCardPopUpComponent implements OnInit, OnDestroy {
     this.getCouriers();
     this.getReceivingStation();
     this.getLocations();
-    this.getExistingCard();
   }
 
   public ngOnDestroy(): void {
@@ -197,7 +195,7 @@ export class UbsAdminTariffsCardPopUpComponent implements OnInit, OnDestroy {
     };
     const newValue = event.option.value;
     if (this.selectedStation.map((it) => it.name).includes(newValue)) {
-      this.selectedStation = [...this.selectedStation.filter((item) => item.name !== newValue)];
+      this.selectedStation = this.selectedStation.filter((item) => item.name !== newValue);
     } else {
       this.selectedStation.push(tempItem);
     }
@@ -218,7 +216,7 @@ export class UbsAdminTariffsCardPopUpComponent implements OnInit, OnDestroy {
   }
 
   public checkStation(item): boolean {
-    return this.selectedStation.map((it) => it.name).indexOf(item) >= 0;
+    return this.selectedStation.map((it) => it.name).includes(item);
   }
 
   public onRegionSelected(event): void {
@@ -285,14 +283,14 @@ export class UbsAdminTariffsCardPopUpComponent implements OnInit, OnDestroy {
     const tempItem = { location, englishLocation, locationId };
     const newValue = event.option.viewValue;
     if (this.selectedCities.find((it) => it.location.includes(newValue))) {
-      this.selectedCities = [...this.selectedCities.filter((item) => item.location !== newValue)];
+      this.selectedCities = this.selectedCities.filter((item) => item.location !== newValue);
     } else {
       this.selectedCities.push(tempItem);
     }
   }
 
   public checkCity(item): boolean {
-    return this.selectedCities.map((it) => it.location).indexOf(item) >= 0;
+    return this.selectedCities.map((it) => it.location).includes(item);
   }
 
   public setCountOfSelectedCity(): void {
@@ -324,37 +322,6 @@ export class UbsAdminTariffsCardPopUpComponent implements OnInit, OnDestroy {
     return items.filter((option) => option.toLowerCase().includes(filterValue));
   }
 
-  public getExistingCard() {
-    this.tariffsService
-      .getCardInfo()
-      .pipe(takeUntil(this.unsubscribe))
-      .subscribe((card) => {
-        card.forEach((el) => {
-          const cardObj = {
-            courierId: el.courierId,
-            receivingStationsIdList: el.receivingStationDtos.map((it) => it.id).sort(),
-            regionId: el.regionDto.regionId,
-            locationIdList: el.locationInfoDtos.map((it) => it.locationId).sort()
-          };
-          this.existingCardObj.push(cardObj);
-        });
-      });
-  }
-
-  public isObjectsEqual(object1, object2) {
-    const keys1 = Object.keys(object1);
-    const keys2 = Object.keys(object2);
-    if (keys1.length !== keys2.length) {
-      return false;
-    }
-    for (const key of keys1) {
-      if (JSON.stringify(object1[key]) !== JSON.stringify(object2[key])) {
-        return false;
-      }
-    }
-    return true;
-  }
-
   public createCardDto() {
     this.createCardObj = {
       courierId: this.courierId,
@@ -370,35 +337,35 @@ export class UbsAdminTariffsCardPopUpComponent implements OnInit, OnDestroy {
 
   public createCard(): void {
     this.createCardDto();
-    const isEquel = this.existingCardObj.some((elem) => {
-      return this.isObjectsEqual(elem, this.createCardObj);
-    });
-    if (isEquel) {
-      this.objectsAreEqual = true;
-    } else {
-      this.objectsAreEqual = false;
-      this.dialogRef.close();
-      const matDialogRef = this.dialog.open(TariffConfirmationPopUpComponent, {
-        hasBackdrop: true,
-        panelClass: 'address-matDialog-styles-w-100',
-        data: {
-          title: 'ubs-tariffs-add-location-pop-up.create_card_title',
-          courierName: this.courier.value,
-          courierEnglishName: this.courierEnglishName,
-          stationNames: this.selectedStation.map((it) => it.name),
-          regionName: this.region.value,
-          regionEnglishName: this.regionEnglishName,
-          locationNames: this.selectedCities.map((it) => it.location),
-          locationEnglishNames: this.selectedCities.map((it) => it.englishLocation),
-          action: 'ubs-tariffs-add-location-pop-up.create_button'
+    this.tariffsService
+      .checkIfCardExist(this.createCardObj)
+      .pipe(takeUntil(this.unsubscribe))
+      .subscribe((response) => {
+        this.isCardExist = response;
+        if (!this.isCardExist) {
+          this.dialogRef.close();
+          const matDialogRef = this.dialog.open(TariffConfirmationPopUpComponent, {
+            hasBackdrop: true,
+            panelClass: 'address-matDialog-styles-w-100',
+            data: {
+              title: 'ubs-tariffs-add-location-pop-up.create_card_title',
+              courierName: this.courier.value,
+              courierEnglishName: this.courierEnglishName,
+              stationNames: this.selectedStation.map((it) => it.name),
+              regionName: this.region.value,
+              regionEnglishName: this.regionEnglishName,
+              locationNames: this.selectedCities.map((it) => it.location),
+              locationEnglishNames: this.selectedCities.map((it) => it.englishLocation),
+              action: 'ubs-tariffs-add-location-pop-up.create_button'
+            }
+          });
+          matDialogRef.afterClosed().subscribe((res) => {
+            if (res) {
+              this.createCardRequest(this.createCardObj);
+            }
+          });
         }
       });
-      matDialogRef.afterClosed().subscribe((res) => {
-        if (res) {
-          this.createCardRequest(this.createCardObj);
-        }
-      });
-    }
   }
 
   public onNoClick(): void {

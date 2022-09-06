@@ -8,8 +8,9 @@ import { LocalStorageService } from '@global-service/localstorage/local-storage.
 import { ajax } from 'rxjs/internal-compatibility';
 import { LatLngBoundsLiteral } from '@agm/core';
 import { OrderService } from 'src/app/ubs/ubs/services/order.service';
-import { Address } from 'src/app/ubs/ubs/models/ubs.interface';
+import { Address, CourierLocations } from 'src/app/ubs/ubs/models/ubs.interface';
 import { Patterns } from 'src/assets/patterns/patterns';
+import { Locations } from 'src/assets/locations/locations';
 
 interface Options {
   bounds: LatLngBoundsLiteral;
@@ -42,11 +43,13 @@ export class UBSAddAddressPopUpComponent implements OnInit, OnDestroy, AfterView
   housePattern = Patterns.ubsHousePattern;
   entranceNumberPattern = Patterns.ubsEntrNumPattern;
   private destroy: Subject<boolean> = new Subject<boolean>();
-  currentLocation = {};
   isDistrict = false;
   isKyiv = false;
   currentLanguage: string;
   public isDeleting: boolean;
+  locations: CourierLocations;
+  currentRegion = {};
+  currentCity = {};
 
   KyivRegion = [
     // Kyiv
@@ -151,88 +154,16 @@ export class UBSAddAddressPopUpComponent implements OnInit, OnDestroy, AfterView
 
   translation = '';
 
-  cities = [
-    { cityName: 'Київ', key: 1 },
-    { cityName: 'Гатне', key: 2 },
-    { cityName: 'Горенка', key: 3 },
-    { cityName: `Зазим'є`, key: 4 },
-    { cityName: 'Ірпінь', key: 5 },
-    { cityName: 'Княжичі', key: 6 },
-    { cityName: 'Коцюбинське', key: 7 },
-    { cityName: 'Новосілки', key: 8 },
-    { cityName: 'Петропавлівська Борщагівка', key: 9 },
-    { cityName: 'Погреби', key: 10 },
-    { cityName: 'Проліски', key: 11 },
-    { cityName: 'Софіївська Борщагівка', key: 12 },
-    { cityName: 'Чайки', key: 13 },
-    { cityName: 'Щасливе', key: 14 }
-  ];
-
-  citiesEn = [
-    { cityName: 'Kyiv', key: 1 },
-    { cityName: 'Hatne', key: 2 },
-    { cityName: 'Horenka', key: 3 },
-    { cityName: `Zazymie`, key: 4 },
-    { cityName: `Irpin'`, key: 5 },
-    { cityName: 'Kniazhychi', key: 6 },
-    { cityName: `Kotsyubyns'ke`, key: 7 },
-    { cityName: 'Novosilky', key: 8 },
-    { cityName: 'Petropavlivska Borshchahivka', key: 9 },
-    { cityName: 'Pohreby', key: 10 },
-    { cityName: 'Prolisky', key: 11 },
-    { cityName: 'Sofiivska Borschahivka', key: 12 },
-    { cityName: 'Chaiky', key: 13 },
-    { cityName: 'Shchaslyve', key: 14 }
-  ];
+  cities = [];
 
   bigRegions = [
     { regionName: 'Київська область', lang: 'ua' },
     { regionName: 'Kyiv region', lang: 'en' }
   ];
 
-  regionsKyiv = [
-    { name: 'Голосіївський', key: 1 },
-    { name: 'Дарницький', key: 2 },
-    { name: 'Деснянський', key: 3 },
-    { name: 'Дніпровський', key: 4 },
-    { name: 'Оболонський', key: 5 },
-    { name: 'Печерський', key: 6 },
-    { name: 'Подільський', key: 7 },
-    { name: 'Святошинський', key: 8 },
-    { name: `Солом'янський`, key: 9 },
-    { name: 'Шевченківський', key: 10 }
-  ];
+  regionsKyiv = [];
 
-  regionsKyivEn = [
-    { name: `Holosiivs'kyi`, key: 1 },
-    { name: `Darnyts'kyi`, key: 2 },
-    { name: `Desnyans'kyi`, key: 3 },
-    { name: `Dniprovs'kyi`, key: 4 },
-    { name: 'Obolonskyi', key: 5 },
-    { name: `Pechers'kyi`, key: 6 },
-    { name: `Podil's'kyi`, key: 7 },
-    { name: `Svyatoshyns'kyi`, key: 8 },
-    { name: `Solom'yans'kyi`, key: 9 },
-    { name: `Shevchenkivs'kyi`, key: 10 }
-  ];
-
-  regions = [
-    { name: 'Бориспільський', key: 1 },
-    { name: 'Броварський', key: 2 },
-    { name: 'Бучанський', key: 3 },
-    { name: 'Вишгородський', key: 4 },
-    { name: 'Обухівський', key: 5 },
-    { name: 'Фастівський', key: 6 }
-  ];
-
-  regionsEn = [
-    { name: `Boryspil's'kyi`, key: 1 },
-    { name: `Brovars'kyi`, key: 2 },
-    { name: `Buchans'kyi`, key: 3 },
-    { name: `Vyshhorods'kyi`, key: 4 },
-    { name: `Obukhivs'kyi`, key: 5 },
-    { name: `Fastivs'kyi`, key: 6 }
-  ];
+  regions = [];
 
   constructor(
     private fb: FormBuilder,
@@ -242,10 +173,10 @@ export class UBSAddAddressPopUpComponent implements OnInit, OnDestroy, AfterView
     public data: {
       edit: boolean;
       address: Address;
-      currentLocation: string;
     },
     private snackBar: MatSnackBarComponent,
-    private localStorageService: LocalStorageService
+    private localStorageService: LocalStorageService,
+    private listOflocations: Locations
   ) {}
 
   get region() {
@@ -299,7 +230,10 @@ export class UBSAddAddressPopUpComponent implements OnInit, OnDestroy, AfterView
   ngOnInit() {
     this.currentLanguage = this.localStorageService.getCurrentLanguage();
     this.bigRegions = this.bigRegions.filter((el) => el.lang === this.currentLanguage);
-    this.currentLocation = this.data?.currentLocation;
+    this.locations = this.localStorageService.getLocations();
+    this.currentRegion = this.currentLanguage === 'ua' ? this.locations.regionDto.nameUk : this.locations.regionDto.nameEn;
+    this.currentCity =
+      this.currentLanguage === 'ua' ? this.locations.locationsDtosList[0].nameUk : this.locations.locationsDtosList[0].nameEn;
     this.addAddressForm = this.fb.group({
       region: [this.data.edit ? this.data.address.region : null, Validators.required],
       regionEn: [this.data.edit ? this.data.address.regionEn : null, Validators.required],
@@ -331,19 +265,16 @@ export class UBSAddAddressPopUpComponent implements OnInit, OnDestroy, AfterView
       actual: true
     });
 
-    // TODO: Must be removed if multi-region feature need to be implemented
-    this.region.setValue('Київська область');
+    this.region.setValue(this.locations.regionDto.nameUk);
     this.region.disable();
-    this.regionEn.setValue(`Kyivs'ka oblast'`);
+    this.regionEn.setValue(this.locations.regionDto.nameEn);
     this.regionEn.disable();
 
-    if (this.currentLocation === 'Kyiv' || this.currentLocation === 'Київ') {
-      this.isKyiv = true;
+    this.city.setValue(this.currentCity);
+    this.cityEn.setValue(this.currentCity);
+
+    if (this.currentCity === 'Kyiv' || this.currentCity === 'Київ') {
       this.isDistrict = true;
-      if (!this.data.edit) {
-        this.city.setValue('Київ');
-        this.cityEn.setValue('Kyiv');
-      }
     }
 
     this.addAddressForm
@@ -361,10 +292,12 @@ export class UBSAddAddressPopUpComponent implements OnInit, OnDestroy, AfterView
         this.streetPredictionList = null;
       });
 
-    this.isDistrict = this.cityEn.value === 'Kyiv' || this.city.value === 'Київ';
-
     // TODO: Must be removed if multi-region feature need to be implemented
     this.onCitySelected(this.KyivRegion[0]);
+
+    this.cities = this.listOflocations.getCity(this.currentLanguage);
+    this.regionsKyiv = this.listOflocations.getRegionsKyiv(this.currentLanguage);
+    this.regions = this.listOflocations.getRegions(this.currentLanguage);
   }
 
   ngAfterViewInit(): void {
@@ -437,22 +370,22 @@ export class UBSAddAddressPopUpComponent implements OnInit, OnDestroy, AfterView
   setDistrictTranslation(name: string): void {
     if (this.isDistrict) {
       if (this.currentLanguage === 'ua') {
-        const elem = this.regionsKyiv.find((el) => el.name === name);
-        const dist = this.regionsKyivEn.find((el) => el?.key === elem?.key) || null;
+        const elem = this.listOflocations.getRegionsKyiv('ua').find((el) => el.name === name);
+        const dist = this.listOflocations.getRegionsKyiv('en').find((el) => el?.key === elem?.key) || null;
         this.districtEn.setValue(dist?.name);
       } else {
-        const elem = this.regionsKyivEn.find((el) => el.name === name);
-        const dist = this.regionsKyiv.find((el) => el?.key === elem?.key) || null;
+        const elem = this.listOflocations.getRegionsKyiv('en').find((el) => el.name === name);
+        const dist = this.listOflocations.getRegionsKyiv('ua').find((el) => el?.key === elem?.key) || null;
         this.district.setValue(dist?.name);
       }
     } else {
       if (this.currentLanguage === 'ua') {
-        const elem = this.regions.find((el) => el.name === name);
-        const dist = this.regionsEn.find((el) => el?.key === elem?.key) || null;
+        const elem = this.listOflocations.getRegions('ua').find((el) => el.name === name);
+        const dist = this.listOflocations.getRegions('en').find((el) => el?.key === elem?.key) || null;
         this.districtEn.setValue(dist?.name);
       } else {
-        const elem = this.regionsEn.find((el) => el.name === name);
-        const dist = this.regions.find((el) => el?.key === elem?.key) || null;
+        const elem = this.listOflocations.getRegions('en').find((el) => el.name === name);
+        const dist = this.listOflocations.getRegions('ua').find((el) => el?.key === elem?.key) || null;
         this.district.setValue(dist?.name);
       }
     }
@@ -521,10 +454,10 @@ export class UBSAddAddressPopUpComponent implements OnInit, OnDestroy, AfterView
           return el.cityName === (event.target as HTMLSelectElement).value.slice(4) ? el : undefined;
         }
       });
-      const city = this.citiesEn.find((el) => el.key === elem.key);
+      const city = this.cities.find((el) => el.key === elem.key);
       this.cityEn.setValue(city.cityName);
     } else {
-      const elem = this.citiesEn.find((el) => {
+      const elem = this.listOflocations.getCity('en').find((el) => {
         if (el.key <= 10) {
           return el.cityName === (event.target as HTMLSelectElement).value.slice(3) ? el : undefined;
         } else {

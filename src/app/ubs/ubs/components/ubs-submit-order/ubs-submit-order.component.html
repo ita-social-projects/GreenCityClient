@@ -86,6 +86,12 @@
               </ul>
             </ng-template>
           </div>
+          <div *ngIf="orderDetails.orderComment">
+            <p class="order-header">
+              {{ 'order-details.order-comment' | translate }}
+            </p>
+            <p>{{ orderDetails.orderComment }}</p>
+          </div>
           <div class="order-info">
             <p class="order-header">{{ 'order-details.export-address' | translate }}</p>
             <ul class="order-list">
@@ -110,18 +116,11 @@
               </li>
             </ul>
           </div>
-          <div class="order-info m-0">
-            <p class="order-header" *ngIf="personalData.addressComment">
+          <div class="order-info m-0" *ngIf="personalData.addressComment">
+            <p class="order-header">
               {{ 'order-details.address-comment' | translate }}
             </p>
-            <ul class="order-list">
-              <li class="order-list-item" *ngIf="personalData.addressComment">
-                {{ personalData.addressComment }}
-              </li>
-              <li class="order-list-item" *ngIf="orderDetails.orderComment">
-                {{ 'order-details.order-comment' | translate }} {{ orderDetails.orderComment }}
-              </li>
-            </ul>
+            <p>{{ personalData.addressComment }}</p>
           </div>
         </div>
       </div>

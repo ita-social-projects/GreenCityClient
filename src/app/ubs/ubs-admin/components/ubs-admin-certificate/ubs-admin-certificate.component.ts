@@ -169,7 +169,8 @@ export class UbsAdminCertificateComponent implements OnInit, AfterViewChecked, O
   openAddCertificate() {
     const dialogRef = this.dialog.open(UbsAdminCertificateAddCertificatePopUpComponent, {
       hasBackdrop: true,
-      disableClose: true
+      disableClose: true,
+      panelClass: 'cdk-table'
     });
     dialogRef
       .afterClosed()

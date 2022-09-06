@@ -1,7 +1,7 @@
 import { Component, Input, OnDestroy, OnInit, TemplateRef } from '@angular/core';
 import { TariffsService } from '../../services/tariffs.service';
 import { map, skip, startWith, takeUntil } from 'rxjs/operators';
-import { Locations, Stations } from '../../models/tariffs.interface';
+import { Couriers, CreateCard, Locations, Stations } from '../../models/tariffs.interface';
 import { Subject } from 'rxjs';
 import { Router } from '@angular/router';
 import { MatDialog } from '@angular/material/dialog';
@@ -16,6 +16,7 @@ import { MatAutocompleteSelectedEvent, MatAutocompleteTrigger } from '@angular/m
 import { UbsAdminTariffsCourierPopUpComponent } from './ubs-admin-tariffs-courier-pop-up/ubs-admin-tariffs-courier-pop-up.component';
 import { UbsAdminTariffsStationPopUpComponent } from './ubs-admin-tariffs-station-pop-up/ubs-admin-tariffs-station-pop-up.component';
 import { UbsAdminTariffsCardPopUpComponent } from './ubs-admin-tariffs-card-pop-up/ubs-admin-tariffs-card-pop-up.component';
+import { TariffConfirmationPopUpComponent } from './../shared/components/tariff-confirmation-pop-up/tariff-confirmation-pop-up.component';
 import { TranslateService } from '@ngx-translate/core';
 import { Patterns } from 'src/assets/patterns/patterns';
 
@@ -30,22 +31,31 @@ export class UbsAdminTariffsLocationDashboardComponent implements OnInit, OnDest
   @Input() textBack: TemplateRef<any>;
 
   locations: Locations[];
+  regionEnglishName;
+  regionId;
   stations: Stations[];
+  stationName: Array<string> = [];
+  couriers: Couriers[];
   couriersName: Array<string>;
+  courierEnglishName;
+  courierId;
   searchForm: FormGroup;
   reset = true;
-  checkedCities: Array<string> = [];
-  cities: Array<string> = [];
+  selectedCities = [];
+  cities = [];
 
   allSelected = false;
   filteredRegions;
   filteredCities;
-  filteredLocations;
+  filteredStations;
   cityPlaceholder: string;
   stationPlaceholder: string;
   selectedStation = [];
   cards = [];
-  allSelectedStation = false;
+  filterData = { status: '' };
+  createCardObj: CreateCard;
+  isFieldFilled = false;
+  isCardExist = false;
 
   private destroy: Subject<boolean> = new Subject<boolean>();
 
@@ -58,8 +68,6 @@ export class UbsAdminTariffsLocationDashboardComponent implements OnInit, OnDest
     arrowRight: './assets/img/ubs-tariff/arrow-right.svg'
   };
   locations$ = this.store.select((state: IAppState): Locations[] => state.locations.locations);
-  stationName: Array<string> = [];
-  filteredStations;
 
   constructor(
     private tariffsService: TariffsService,
@@ -92,13 +100,13 @@ export class UbsAdminTariffsLocationDashboardComponent implements OnInit, OnDest
     this.getCouriers();
     this.getReceivingStation();
     this.loadScript();
-    this.getExistingCard();
     this.region.valueChanges.subscribe((value) => {
       this.checkRegionValue(value);
-      this.checkedCities = [];
+      this.selectedCities = [];
     });
     this.setCountOfCheckedCity();
     this.setStationPlaceholder();
+    this.getExistingCard(this.filterData);
   }
 
   private initForm(): void {
@@ -107,8 +115,30 @@ export class UbsAdminTariffsLocationDashboardComponent implements OnInit, OnDest
       city: ['', [Validators.required, Validators.maxLength(40), Validators.pattern(Patterns.NamePattern)]],
       courier: ['', [Validators.required]],
       station: ['', [Validators.required]],
-      state: ['Активно']
+      state: ['all']
     });
+  }
+
+  public checkisCardExist(): void {
+    if (this.region.value && this.courier.value && this.selectedCities.length && this.selectedStation.length) {
+      this.isFieldFilled = true;
+      this.createCardDto();
+      this.tariffsService
+        .checkIfCardExist(this.createCardObj)
+        .pipe(takeUntil(this.destroy))
+        .subscribe((response) => {
+          this.isCardExist = JSON.parse(JSON.stringify(response));
+        });
+    }
+  }
+
+  public resetRegionValue(): void {
+    this.region.setValue('');
+    this.selectedCities = [];
+    this.setCountOfCheckedCity();
+    const locationsId = this.locations.map((location) => location.locationsDto.map((elem) => elem.locationId)).flat(2);
+    Object.assign(this.filterData, { region: '', location: locationsId });
+    this.getExistingCard(this.filterData);
   }
 
   public _filter(name: string, items: any[]): any[] {
@@ -120,7 +150,7 @@ export class UbsAdminTariffsLocationDashboardComponent implements OnInit, OnDest
     const value = event.value;
 
     if ((value || '').trim()) {
-      this.checkedCities.push(value.trim());
+      this.selectedCities.push(value.trim());
     }
 
     if (this.city.value) {
@@ -129,21 +159,27 @@ export class UbsAdminTariffsLocationDashboardComponent implements OnInit, OnDest
   }
 
   public setCountOfCheckedCity(): void {
-    if (this.checkedCities.length) {
-      this.cityPlaceholder = this.checkedCities.length + ' вибрано';
+    if (this.selectedCities.length) {
+      this.cityPlaceholder = `${this.selectedCities.length} вибрано`;
     } else {
       this.translate.get('ubs-tariffs.placeholder-locality').subscribe((data) => (this.cityPlaceholder = data));
     }
   }
 
-  selected(event: MatAutocompleteSelectedEvent, trigger?: MatAutocompleteTrigger): void {
+  public onSelectCity(event: MatAutocompleteSelectedEvent, trigger?: MatAutocompleteTrigger): void {
     if (event.option.value === 'all') {
       this.toggleSelectAllCity();
+      const locationsId = this.locations.map((location) => location.locationsDto.map((elem) => elem.locationId)).flat(2);
+      Object.assign(this.filterData, { location: locationsId });
     } else {
       this.selectCity(event);
+      const locationId = this.selectedCities.map((it) => it.id);
+      Object.assign(this.filterData, { location: locationId });
     }
+    this.getExistingCard(this.filterData);
     this.setCountOfCheckedCity();
     this.city.setValue('');
+    this.checkisCardExist();
     if (trigger) {
       requestAnimationFrame(() => {
         trigger.openPanel();
@@ -152,29 +188,61 @@ export class UbsAdminTariffsLocationDashboardComponent implements OnInit, OnDest
   }
 
   selectCity(event: MatAutocompleteSelectedEvent): void {
+    const selectedLocation = this.locations.find((location) =>
+      location.locationsDto.find((locationName) =>
+        locationName.locationTranslationDtoList.find((name) => name.locationName === event.option.viewValue)
+      )
+    );
+    const selectedCity = selectedLocation.locationsDto.find((name) =>
+      name.locationTranslationDtoList.find((elem) => elem.locationName === event.option.viewValue)
+    );
+    const selectedCityId = selectedCity.locationId;
+    const selectedCityName = selectedCity.locationTranslationDtoList
+      .filter((it) => it.languageCode === 'ua')
+      .map((it) => it.locationName)
+      .join();
+    const selectedCityEnglishName = selectedCity.locationTranslationDtoList
+      .filter((it) => it.languageCode === 'en')
+      .map((it) => it.locationName)
+      .join();
+    const tempItem = {
+      name: selectedCityName,
+      id: selectedCityId,
+      englishName: selectedCityEnglishName
+    };
     const newValue = event.option.viewValue;
-    if (this.checkedCities.includes(newValue)) {
-      this.checkedCities = [...this.checkedCities.filter((item) => item !== newValue)];
+    if (this.selectedCities.map((it) => it.name).includes(newValue)) {
+      this.selectedCities = this.selectedCities.filter((item) => item.name !== newValue);
     } else {
-      this.checkedCities.push(event.option.viewValue);
+      this.selectedCities.push(tempItem);
     }
   }
 
   public onSelectStation(event: MatAutocompleteSelectedEvent): void {
+    const selectedValue = this.stations.find((ob) => ob.name === event.option.value);
+    const tempItem = {
+      name: selectedValue.name,
+      id: selectedValue.id
+    };
     const newValue = event.option.value;
-    if (this.selectedStation.includes(newValue)) {
-      this.selectedStation = [...this.selectedStation.filter((item) => item !== newValue)];
+    if (this.selectedStation.map((it) => it.name).includes(newValue)) {
+      this.selectedStation = this.selectedStation.filter((item) => item.name !== newValue);
     } else {
-      this.selectedStation.push(newValue);
+      this.selectedStation.push(tempItem);
     }
   }
 
   public stationSelected(event: MatAutocompleteSelectedEvent, trigger?: MatAutocompleteTrigger) {
     if (event.option.value === 'all') {
       this.toggleSelectAllStation();
+      const stationsId = this.stations.map((station) => station.id);
+      Object.assign(this.filterData, { receivingStation: stationsId });
     } else {
       this.onSelectStation(event);
+      const receivingStationId = this.selectedStation.map((it) => it.id);
+      Object.assign(this.filterData, { receivingStation: receivingStationId });
     }
+    this.getExistingCard(this.filterData);
     this.station.setValue('');
     this.setStationPlaceholder();
     if (trigger) {
@@ -182,22 +250,23 @@ export class UbsAdminTariffsLocationDashboardComponent implements OnInit, OnDest
         trigger.openPanel();
       });
     }
+    this.checkisCardExist();
   }
 
-  public checkStation(item): boolean {
-    return this.selectedStation.indexOf(item) >= 0;
+  public checkSelectedItem(item: string, array: Array<{ name: string; id: number }>): boolean {
+    return array.map((it) => it.name).includes(item);
   }
 
   public setStationPlaceholder(): void {
     if (this.selectedStation.length) {
-      this.stationPlaceholder = this.selectedStation.length + ' вибрано';
+      this.stationPlaceholder = `${this.selectedStation.length} вибрано`;
     } else {
       this.translate.get('ubs-tariffs.placeholder-station').subscribe((data) => (this.stationPlaceholder = data));
     }
   }
 
   isCityChecked(): boolean {
-    return this.checkedCities.length === this.cities.length;
+    return this.selectedCities.length === this.cities.length;
   }
 
   isStationChecked(): boolean {
@@ -211,24 +280,63 @@ export class UbsAdminTariffsLocationDashboardComponent implements OnInit, OnDest
 
   toggleSelectAllCity(): void {
     if (!this.isCityChecked()) {
-      this.checkedCities.length = 0;
-      this.cities.forEach((row) => {
-        this.checkedCities.push(row);
+      this.selectedCities.length = 0;
+      this.cities.forEach((city) => {
+        this.selectedCities.push({
+          name: city.name,
+          id: city.id
+        });
       });
     } else {
-      this.checkedCities.length = 0;
+      this.selectedCities.length = 0;
     }
   }
 
-  toggleSelectAllStation() {
+  toggleSelectAllStation(): void {
     if (!this.isStationChecked()) {
       this.selectedStation.length = 0;
-      this.stationName.forEach((row) => {
-        this.selectedStation.push(row);
+      this.stations.forEach((station) => {
+        this.selectedStation.push({
+          name: station.name,
+          id: station.id
+        });
       });
     } else {
       this.selectedStation.length = 0;
     }
+  }
+
+  public onSelectCourier(event): void {
+    if (event.value === 'all') {
+      Object.assign(this.filterData, { courier: '' });
+    } else {
+      const selectedValue = this.couriers.filter((it) => it.courierTranslationDtos.find((ob) => ob.name === event.value));
+      this.courierEnglishName = selectedValue
+        .map((it) => it.courierTranslationDtos.filter((ob) => ob.languageCode === 'en').map((i) => i.name))
+        .flat(2);
+      this.courierId = selectedValue.find((it) => it.courierId).courierId;
+      Object.assign(this.filterData, { courier: this.courierId });
+    }
+    this.getExistingCard(this.filterData);
+    this.checkisCardExist();
+  }
+
+  public onSelectState(event): void {
+    switch (event.value) {
+      case 'all':
+        Object.assign(this.filterData, { status: '' });
+        break;
+      case 'Активно':
+        Object.assign(this.filterData, { status: 'ACTIVE' });
+        break;
+      case 'Неактивно':
+        Object.assign(this.filterData, { status: 'DEACTIVATED' });
+        break;
+      case 'Незаповнена':
+        Object.assign(this.filterData, { status: 'NEW' });
+        break;
+    }
+    this.getExistingCard(this.filterData);
   }
 
   loadScript(): void {
@@ -250,26 +358,35 @@ export class UbsAdminTariffsLocationDashboardComponent implements OnInit, OnDest
     this.locations$.pipe(skip(1)).subscribe((item) => {
       if (item) {
         this.locations = item;
-        this.filteredLocations = this.locations;
         const regions = this.locations
           .map((element) => element.regionTranslationDtos.filter((it) => it.languageCode === 'ua').map((it) => it.regionName))
           .flat(2);
         this.filteredRegions = this.filterOptions(this.region, regions);
         this.cities = this.mapCitiesInUkr(this.locations);
-        this.filteredCities = this.filterOptions(this.city, this.cities);
+        this.filteredCities = this.filterOptions(
+          this.city,
+          this.cities.map((elem) => elem.name)
+        );
         this.reset = false;
       }
     });
   }
 
-  public mapCitiesInUkr(region): Array<string> {
-    return region
-      .map((element) =>
-        element.locationsDto.map((el) =>
-          el.locationTranslationDtoList.filter((it) => it.languageCode === 'ua').map((it) => it.locationName)
-        )
-      )
-      .flat(2);
+  public mapCitiesInUkr(region: Locations[]): Array<object> {
+    const cityArray = [];
+    region.forEach((element) =>
+      element.locationsDto.forEach((el) => {
+        const tempItem = {
+          name: el.locationTranslationDtoList
+            .filter((it) => it.languageCode === 'ua')
+            .map((it) => it.locationName)
+            .join(),
+          id: el.locationId
+        };
+        cityArray.push(tempItem);
+      })
+    );
+    return cityArray;
   }
 
   page(locationID): void {
@@ -281,7 +398,8 @@ export class UbsAdminTariffsLocationDashboardComponent implements OnInit, OnDest
       .getCouriers()
       .pipe(takeUntil(this.destroy))
       .subscribe((res) => {
-        this.couriersName = res
+        this.couriers = res;
+        this.couriersName = this.couriers
           .map((it) => it.courierTranslationDtos.filter((ob) => ob.languageCode === 'ua').map((el) => el.name))
           .flat(2);
       });
@@ -298,9 +416,10 @@ export class UbsAdminTariffsLocationDashboardComponent implements OnInit, OnDest
       });
   }
 
-  public getExistingCard() {
+  public getExistingCard(filterData) {
+    this.cards = [];
     this.tariffsService
-      .getCardInfo()
+      .getFilteredCard(filterData)
       .pipe(takeUntil(this.destroy))
       .subscribe((card) => {
         card.forEach((el) => {
@@ -322,13 +441,33 @@ export class UbsAdminTariffsLocationDashboardComponent implements OnInit, OnDest
 
   checkRegionValue(value): void {
     let currentRegion;
-    if (value === 'Усі') {
+    if (value === 'Усі' || !value) {
       currentRegion = this.locations;
     } else {
       currentRegion = this.locations.filter((element) => element.regionTranslationDtos.find((it) => it.regionName === value));
     }
     this.cities = this.mapCitiesInUkr(currentRegion);
-    this.filteredCities = this.filterOptions(this.city, this.cities);
+    this.filteredCities = this.filterOptions(
+      this.city,
+      this.cities.map((elem) => elem.name)
+    );
+  }
+
+  public regionSelected(event) {
+    if (event.option.value === 'Усі') {
+      Object.assign(this.filterData, { region: '' });
+    } else {
+      const selectedValue = this.locations.filter((it) =>
+        it.regionTranslationDtos.find((ob) => ob.regionName === event.option.value.toString())
+      );
+      this.regionEnglishName = selectedValue
+        .map((it) => it.regionTranslationDtos.filter((ob) => ob.languageCode === 'en').map((i) => i.regionName))
+        .flat(2);
+      this.regionId = selectedValue.find((it) => it.regionId).regionId;
+      Object.assign(this.filterData, { region: this.regionId });
+    }
+    this.getExistingCard(this.filterData);
+    this.checkisCardExist();
   }
 
   filterOptions(control, array): Array<string> {
@@ -336,6 +475,56 @@ export class UbsAdminTariffsLocationDashboardComponent implements OnInit, OnDest
       startWith(''),
       map((value: string) => (value ? this._filter(value, array) : array.slice()))
     );
+  }
+
+  public createCardDto(): void {
+    this.createCardObj = {
+      courierId: this.courierId,
+      receivingStationsIdList: this.selectedStation.map((it) => it.id).sort(),
+      regionId: this.regionId,
+      locationIdList: this.selectedCities.map((it) => it.id).sort()
+    };
+  }
+
+  public createTariffCard(): void {
+    this.createCardDto();
+    const matDialogRef = this.dialog.open(TariffConfirmationPopUpComponent, {
+      hasBackdrop: true,
+      panelClass: 'address-matDialog-styles-w-100',
+      data: {
+        title: 'ubs-tariffs-add-location-pop-up.create_card_title',
+        courierName: this.courier.value,
+        selectedStation: this.selectedStation,
+        courierEnglishName: this.courierEnglishName,
+        stationNames: this.selectedStation.map((it) => it.name),
+        regionName: this.region.value,
+        regionEnglishName: this.regionEnglishName,
+        locationNames: this.selectedCities.map((it) => it.name),
+        locationEnglishNames: this.selectedCities.map((it) => it.englishName),
+        courierId: this.courierId,
+        regionId: this.regionId,
+        receivingStationsIdList: this.selectedStation.map((it) => it.id).sort(),
+        locationIdList: this.selectedCities.map((it) => it.id).sort(),
+        action: 'ubs-tariffs-add-location-pop-up.create_button'
+      }
+    });
+    matDialogRef.afterClosed().subscribe((res) => {
+      if (res) {
+        this.createCardRequest(this.createCardObj);
+        this.region.setValue('');
+        this.courier.setValue('');
+        this.selectedStation = [];
+        this.selectedCities = [];
+        this.getExistingCard({});
+        this.setCountOfCheckedCity();
+        this.setStationPlaceholder();
+        this.isCardExist = false;
+      }
+    });
+  }
+
+  public createCardRequest(card): void {
+    this.tariffsService.createCard(card).pipe(takeUntil(this.destroy)).subscribe();
   }
 
   openAddCourierDialog(): void {

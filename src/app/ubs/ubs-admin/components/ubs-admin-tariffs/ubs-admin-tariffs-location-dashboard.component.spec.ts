@@ -1,4 +1,4 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { async, ComponentFixture, fakeAsync, TestBed, tick } from '@angular/core/testing';
 import { UbsAdminTariffsLocationDashboardComponent } from './ubs-admin-tariffs-location-dashboard.component';
 import { HttpClientTestingModule, HttpTestingController } from '@angular/common/http/testing';
 import { RouterTestingModule } from '@angular/router/testing';
@@ -16,8 +16,6 @@ import { Locations } from '../../models/tariffs.interface';
 import { MatMenuModule } from '@angular/material/menu';
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
 import { MatSelectModule } from '@angular/material/select';
-import { SearchPipe } from 'src/app/shared/search-tariff/search-tariff.pipe';
-import { OptionPipe } from 'src/app/shared/option-tariff/option-tariff.pipe';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatIconModule } from '@angular/material/icon';
@@ -127,35 +125,6 @@ describe('UbsAdminTariffsLocationDashboardComponent', () => {
     tariffStatus: 'fake'
   };
 
-  const mockFilteredLocation = [
-    {
-      regionTranslationDtos: [
-        {
-          regionName: 'Фейк область',
-          languageCode: 'ua'
-        },
-        {
-          regionName: 'Fake region',
-          languageCode: 'en'
-        }
-      ],
-      locationsDto: [
-        {
-          locationTranslationDtoList: [
-            {
-              locationName: 'Фейк1',
-              languageCode: 'ua'
-            },
-            {
-              locationName: 'Fake1',
-              languageCode: 'en'
-            }
-          ]
-        }
-      ]
-    }
-  ];
-
   const fakeCouriers = {
     courierId: 1,
     courierStatus: 'fake',
@@ -169,7 +138,9 @@ describe('UbsAdminTariffsLocationDashboardComponent', () => {
 
   const fakeStation = {
     id: 1,
-    name: 'fake'
+    name: 'fake',
+    createdBy: 'Fake',
+    createdAt: 'fake'
   };
 
   const dialogStub = {
@@ -188,6 +159,25 @@ describe('UbsAdminTariffsLocationDashboardComponent', () => {
           {
             languageCode: 'ua',
             locationName: 'fake'
+          },
+          {
+            languageCode: 'en',
+            locationName: 'fake'
+          }
+        ]
+      },
+      {
+        latitude: 0,
+        longitude: 0,
+        locationId: 0,
+        locationTranslationDtoList: [
+          {
+            languageCode: 'ua',
+            locationName: 'fake2'
+          },
+          {
+            languageCode: 'en',
+            locationName: 'fake2'
           }
         ]
       }
@@ -207,13 +197,24 @@ describe('UbsAdminTariffsLocationDashboardComponent', () => {
     }
   };
 
-  const tariffsServiceMock = jasmine.createSpyObj('tariffsServiceMock', ['getCouriers', 'getAllStations', 'getCardInfo']);
+  const tariffsServiceMock = jasmine.createSpyObj('tariffsServiceMock', [
+    'getCouriers',
+    'getAllStations',
+    'getFilteredCard',
+    'checkIfCardExist',
+    'createCard'
+  ]);
   tariffsServiceMock.getCouriers.and.returnValue(of([fakeCouriers]));
   tariffsServiceMock.getAllStations.and.returnValue(of([fakeStation]));
-  tariffsServiceMock.getCardInfo.and.returnValue(of([fakeTariffCard]));
+  tariffsServiceMock.getFilteredCard.and.returnValue(of([fakeTariffCard]));
+  tariffsServiceMock.createCard.and.returnValue(of());
+  tariffsServiceMock.checkIfCardExist.and.returnValue(of());
 
   const matDialogMock = jasmine.createSpyObj('matDialogMock', ['open']);
   matDialogMock.open.and.returnValue(dialogStub);
+
+  const fakeMatDialogRef = jasmine.createSpyObj(['close', 'afterClosed']);
+  fakeMatDialogRef.afterClosed.and.returnValue(of(true));
 
   const storeMock = jasmine.createSpyObj('Store', ['select', 'dispatch']);
   storeMock.select.and.returnValue(of({ locations: { locations: [fakeLocations] } }));
@@ -223,7 +224,7 @@ describe('UbsAdminTariffsLocationDashboardComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [UbsAdminTariffsLocationDashboardComponent, FilterListByLangPipe, SearchPipe, OptionPipe, TariffStatusPipe],
+      declarations: [UbsAdminTariffsLocationDashboardComponent, FilterListByLangPipe, TariffStatusPipe],
       imports: [
         HttpClientTestingModule,
         RouterTestingModule,
@@ -258,6 +259,7 @@ describe('UbsAdminTariffsLocationDashboardComponent', () => {
     router = TestBed.inject(Router);
     httpMock = TestBed.inject(HttpTestingController);
     store = TestBed.inject(Store) as MockStore;
+    component.locations = [fakeLocations];
   });
 
   it('should create', () => {
@@ -268,9 +270,9 @@ describe('UbsAdminTariffsLocationDashboardComponent', () => {
     const eventMock = {
       value: ''
     };
-    component.checkedCities = [];
+    component.selectedCities = [];
     component.addItem(eventMock as any);
-    expect(component.checkedCities.length).toEqual(0);
+    expect(component.selectedCities.length).toEqual(0);
     expect(component.city.value).toEqual('');
   });
 
@@ -278,9 +280,9 @@ describe('UbsAdminTariffsLocationDashboardComponent', () => {
     const eventMock = {
       value: 'First'
     };
-    component.checkedCities = [];
+    component.selectedCities = [];
     component.addItem(eventMock as any);
-    expect(component.checkedCities.length).toEqual(1);
+    expect(component.selectedCities.length).toEqual(1);
     expect(component.city.value).toEqual('');
   });
 
@@ -291,7 +293,7 @@ describe('UbsAdminTariffsLocationDashboardComponent', () => {
       }
     };
     const spy = spyOn(component, 'selectCity');
-    component.selected(eventMock as any);
+    component.onSelectCity(eventMock as any);
     expect(spy).toHaveBeenCalledWith(eventMock);
     expect(component.city.value).toEqual('');
   });
@@ -303,7 +305,7 @@ describe('UbsAdminTariffsLocationDashboardComponent', () => {
       }
     };
     const spy = spyOn(component, 'toggleSelectAllCity');
-    component.selected(eventMock as any);
+    component.onSelectCity(eventMock as any);
     expect(spy).toHaveBeenCalled();
     expect(component.city.value).toEqual('');
   });
@@ -311,60 +313,84 @@ describe('UbsAdminTariffsLocationDashboardComponent', () => {
   it('should remove selected city if it exists in list', () => {
     const eventMock = {
       option: {
-        viewValue: 'First'
+        viewValue: 'fake'
       }
     };
-    component.checkedCities = ['First', 'Second'];
+    component.selectedCities = [
+      { name: 'fake', id: 159, englishName: 'fake' },
+      { name: 'fake2', id: 0, englishName: 'fake2' }
+    ];
     component.selectCity(eventMock as any);
-    expect(component.checkedCities).toEqual(['Second']);
+    expect(component.selectedCities).toEqual([{ name: 'fake2', id: 0, englishName: 'fake2' }]);
   });
 
   it('should add new selected city if it doesnot exist in list', () => {
     const eventMock = {
       option: {
-        viewValue: 'First'
+        viewValue: 'fake'
       }
     };
-    component.checkedCities = ['Second'];
+    component.selectedCities = [{ name: 'fake2', id: 0, englishName: 'fake2' }];
     component.selectCity(eventMock as any);
-    expect(component.checkedCities).toEqual(['Second', 'First']);
+    expect(component.selectedCities).toEqual([
+      { name: 'fake2', id: 0, englishName: 'fake2' },
+      { name: 'fake', id: 159, englishName: 'fake' }
+    ]);
   });
 
   it('should check if all is not choosen', () => {
-    component.checkedCities = ['First'];
-    component.cities = ['First', 'Second'];
+    component.selectedCities = [{ name: 'fake', id: 159, englishName: 'fake' }];
+    component.cities = [
+      { name: 'fake', id: 159 },
+      { name: 'fake2', id: 0 }
+    ];
     const result = component.isCityChecked();
     expect(result).toEqual(false);
   });
 
   it('should check if all is choosen', () => {
-    component.checkedCities = ['First', 'Second'];
-    component.cities = ['First', 'Second'];
+    component.selectedCities = [
+      { name: 'fake', id: 159, englishName: 'fake' },
+      { name: 'fake2', id: 0, englishName: 'fake2' }
+    ];
+    component.cities = [
+      { name: 'fake', id: 159 },
+      { name: 'fake2', id: 0 }
+    ];
     const result = component.isCityChecked();
     expect(result).toEqual(true);
   });
 
   it('should check if all is not choosen', () => {
-    component.selectedStation = ['First'];
+    component.selectedStation = [{ name: 'First', id: 0 }];
     component.stationName = ['First', 'Second'];
     const result = component.isStationChecked();
     expect(result).toEqual(false);
   });
 
   it('should add new selected station if it does not exist in list', () => {
-    component.selectedStation = ['station'];
+    component.selectedStation = [{ name: 'station', id: 0 }];
     component.onSelectStation(eventMockStation as any);
-    expect(component.selectedStation).toEqual(['station', 'fake']);
+    expect(component.selectedStation).toEqual([
+      { name: 'station', id: 0 },
+      { name: 'fake', id: 1 }
+    ]);
   });
 
   it('should remove selected station if it exists in list', () => {
-    component.selectedStation = ['station', 'fake'];
+    component.selectedStation = [
+      { name: 'station', id: 0 },
+      { name: 'fake', id: 1 }
+    ];
     component.onSelectStation(eventMockStation as any);
-    expect(component.selectedStation).toEqual(['station']);
+    expect(component.selectedStation).toEqual([{ name: 'station', id: 0 }]);
   });
 
   it('should check if all is choosen', () => {
-    component.selectedStation = ['First', 'Second'];
+    component.selectedStation = [
+      { name: 'First', id: 1 },
+      { name: 'Second', id: 2 }
+    ];
     component.stationName = ['First', 'Second'];
     const result = component.isStationChecked();
     expect(result).toEqual(true);
@@ -372,7 +398,10 @@ describe('UbsAdminTariffsLocationDashboardComponent', () => {
 
   it('should map cities in ukranian from region', () => {
     const result = component.mapCitiesInUkr(mockRegion);
-    expect(result).toEqual(['Фейк1', 'Фейк2']);
+    expect(result).toEqual([
+      { name: 'Фейк1', id: 0 },
+      { name: 'Фейк2', id: 1 }
+    ]);
   });
 
   it('should filter options', () => {
@@ -391,33 +420,174 @@ describe('UbsAdminTariffsLocationDashboardComponent', () => {
       regionId: 0
     };
     component.cards = [];
-    component.getExistingCard();
+    component.getExistingCard({});
     expect(component.cards).toEqual([mockCard]);
+  });
+
+  it('should call method for filtering card with chosen courier', () => {
+    const eventMock = {
+      value: 'fakeCourier'
+    };
+    const fakeFilterData = {
+      status: '',
+      courier: 1
+    };
+    const spy = spyOn(component, 'getExistingCard');
+    component.onSelectCourier(eventMock);
+    expect(spy).toHaveBeenCalledWith(fakeFilterData);
+  });
+
+  it('should call method for filtering card with chosen all couriers', () => {
+    const eventMock = {
+      value: 'all'
+    };
+    const fakeFilterData = {
+      status: '',
+      courier: ''
+    };
+    const spy = spyOn(component, 'getExistingCard');
+    component.onSelectCourier(eventMock);
+    expect(spy).toHaveBeenCalledWith(fakeFilterData);
+  });
+
+  it('should call method for filtering card with chosen region', () => {
+    const eventMock = {
+      option: {
+        value: 'fake'
+      }
+    };
+    const fakeFilterData = {
+      status: '',
+      region: 1
+    };
+    const spy = spyOn(component, 'getExistingCard');
+    component.regionSelected(eventMock);
+    expect(spy).toHaveBeenCalledWith(fakeFilterData);
+  });
+
+  it('should call method for filtering card with chosen all regions', () => {
+    const eventMock = {
+      option: {
+        value: 'Усі'
+      }
+    };
+    const fakeFilterData = {
+      status: '',
+      region: ''
+    };
+    const spy = spyOn(component, 'getExistingCard');
+    component.regionSelected(eventMock);
+    expect(spy).toHaveBeenCalledWith(fakeFilterData);
+  });
+
+  it('should call method for filtering card when state is changing', () => {
+    const eventMock = {
+      value: 'Незаповнена'
+    };
+    const fakeFilterData = {
+      status: 'NEW'
+    };
+    const spy = spyOn(component, 'getExistingCard');
+    component.onSelectState(eventMock);
+    expect(spy).toHaveBeenCalledWith(fakeFilterData);
+  });
+
+  it('should call method for filtering card with chosen all stations', () => {
+    const eventMockStationAll = {
+      option: {
+        value: 'all'
+      }
+    };
+    const fakeFilterData = {
+      status: '',
+      receivingStation: [1]
+    };
+    const spy = spyOn(component, 'getExistingCard');
+    component.stationSelected(eventMockStationAll as any);
+    expect(spy).toHaveBeenCalledWith(fakeFilterData);
+  });
+
+  it('should call method for filtering card with chosen stations', () => {
+    const eventMock = {
+      option: {
+        value: 'fake'
+      }
+    };
+    const fakeFilterData = {
+      status: '',
+      receivingStation: [1]
+    };
+    const spy = spyOn(component, 'getExistingCard');
+    component.stationSelected(eventMock as any);
+    expect(spy).toHaveBeenCalledWith(fakeFilterData);
+  });
+
+  it('should call method for filtering card with chosen all cities', () => {
+    const eventMock = {
+      option: {
+        value: 'all'
+      }
+    };
+    const fakeFilterData = {
+      status: '',
+      location: [159, 0]
+    };
+    const spy = spyOn(component, 'getExistingCard');
+    component.onSelectCity(eventMock as any);
+    expect(spy).toHaveBeenCalledWith(fakeFilterData);
+  });
+
+  it('should call method for filtering card with chosen cities', () => {
+    component.locations = [fakeLocations];
+    const eventMock = {
+      option: {
+        viewValue: 'fake'
+      }
+    };
+    const fakeFilterData = {
+      status: '',
+      location: [159]
+    };
+    const spy = spyOn(component, 'getExistingCard');
+    component.onSelectCity(eventMock as any);
+    expect(spy).toHaveBeenCalledWith(fakeFilterData);
   });
 
   it('should select all items of cities', () => {
     const spy = spyOn(component, 'isCityChecked').and.returnValue(false);
-    component.cities = ['First', 'Second'];
+    component.cities = [
+      { name: 'First', id: 1 },
+      { name: 'Second', id: 2 }
+    ];
     component.toggleSelectAllCity();
     expect(spy).toHaveBeenCalled();
-    expect(component.checkedCities.length).toEqual(2);
-    expect(component.checkedCities).toEqual(['First', 'Second']);
+    expect(component.selectedCities.length).toEqual(2);
+    expect(component.selectedCities).toEqual([
+      { name: 'First', id: 1 },
+      { name: 'Second', id: 2 }
+    ]);
   });
 
   it('should not select all items of cities', () => {
     const spy = spyOn(component, 'isCityChecked').and.returnValue(true);
     component.toggleSelectAllCity();
     expect(spy).toHaveBeenCalled();
-    expect(component.checkedCities.length).toBe(0);
+    expect(component.selectedCities.length).toBe(0);
   });
 
   it('should select all items of stations', () => {
     const spy = spyOn(component, 'isStationChecked').and.returnValue(false);
-    component.stationName = ['First', 'Second'];
+    component.stations = [
+      { name: 'First', createDate: '0', createdBy: 'Fake', id: 1 },
+      { name: 'Second', createDate: '0', createdBy: 'Fake', id: 2 }
+    ];
     component.toggleSelectAllStation();
     expect(spy).toHaveBeenCalled();
     expect(component.selectedStation.length).toEqual(2);
-    expect(component.selectedStation).toEqual(['First', 'Second']);
+    expect(component.selectedStation).toEqual([
+      { name: 'First', id: 1 },
+      { name: 'Second', id: 2 }
+    ]);
   });
 
   it('should not select all items of stations', () => {
@@ -464,7 +634,7 @@ describe('UbsAdminTariffsLocationDashboardComponent', () => {
     const spy = spyOn(component, 'checkRegionValue');
     component.region.setValue('Fake region');
     expect(spy).toHaveBeenCalledWith('Fake region');
-    expect(component.checkedCities).toEqual([]);
+    expect(component.selectedCities).toEqual([]);
   });
 
   it('navigate to pricing page', () => {
@@ -478,7 +648,6 @@ describe('UbsAdminTariffsLocationDashboardComponent', () => {
     const spy2 = spyOn(component, 'getCouriers');
     const spy3 = spyOn(component, 'getReceivingStation');
     const spy4 = spyOn(component, 'loadScript');
-    const spy5 = spyOn(component, 'getExistingCard');
     const spy6 = spyOn(component, 'setCountOfCheckedCity');
     const spy7 = spyOn(component, 'setStationPlaceholder');
     component.ngOnInit();
@@ -486,7 +655,6 @@ describe('UbsAdminTariffsLocationDashboardComponent', () => {
     expect(spy2).toHaveBeenCalled();
     expect(spy3).toHaveBeenCalled();
     expect(spy4).toHaveBeenCalled();
-    expect(spy5).toHaveBeenCalled();
     expect(spy6).toHaveBeenCalled();
     expect(spy7).toHaveBeenCalled();
   });
@@ -496,9 +664,113 @@ describe('UbsAdminTariffsLocationDashboardComponent', () => {
     expect(component.couriersName).toEqual(['fakeCourier']);
   });
 
-  it('should get all stations', () => {
-    component.getReceivingStation();
-    expect(component.stationName).toEqual(['fake']);
+  it('should create new card on create card method', fakeAsync(() => {
+    const spy1 = spyOn(component, 'createCardRequest');
+    const spy2 = spyOn(component, 'getExistingCard');
+    const spy3 = spyOn(component, 'setCountOfCheckedCity');
+    const spy4 = spyOn(component, 'setStationPlaceholder');
+    matDialogMock.open.and.returnValue(fakeMatDialogRef as any);
+    component.createTariffCard();
+    expect(fakeMatDialogRef.afterClosed).toHaveBeenCalled();
+    tick();
+    expect(spy1).toHaveBeenCalled();
+    expect(spy2).toHaveBeenCalled();
+    expect(spy2).toHaveBeenCalledWith({});
+    expect(spy3).toHaveBeenCalled();
+    expect(spy4).toHaveBeenCalled();
+    expect(component.region.value).toEqual('');
+    expect(component.courier.value).toEqual('');
+    expect(component.selectedCities).toEqual([]);
+    expect(component.selectedStation).toEqual([]);
+    expect(component.isCardExist).toEqual(false);
+  }));
+
+  it('should call create Card Object', () => {
+    component.createCardDto();
+    const fakeNewCard = {
+      courierId: component.courierId,
+      receivingStationsIdList: component.selectedStation.map((it) => it.id).sort(),
+      regionId: component.regionId,
+      locationIdList: component.selectedCities.map((it) => it.id).sort()
+    };
+    expect(component.createCardObj).toEqual(fakeNewCard);
+  });
+
+  it('should call createCard', () => {
+    const fakeCard = {
+      courierId: 0,
+      receivingStationsIdList: [0],
+      regionId: 0,
+      locationIdList: [0]
+    };
+    component.createCardRequest(fakeCard);
+    expect(tariffsServiceMock.createCard).toHaveBeenCalled();
+  });
+
+  it('should change isFieldFilled to true if all fields are filled', () => {
+    component.region.setValue('fake');
+    component.courier.setValue('fake');
+    component.selectedStation = [{ name: 'stationItem', id: 1 }];
+    component.selectedCities = [{ name: 'fake', id: 159, englishName: 'fake' }];
+    component.checkisCardExist();
+    expect(component.isFieldFilled).toBe(true);
+  });
+
+  it('should call functions on checkisCardExist', () => {
+    component.region.setValue('fake');
+    component.courier.setValue('fake');
+    component.selectedStation = [{ name: 'stationItem', id: 1 }];
+    component.selectedCities = [{ name: 'fake', id: 159, englishName: 'fake' }];
+    const spy = spyOn(component, 'createCardDto');
+    component.checkisCardExist();
+    expect(spy).toHaveBeenCalled();
+    expect(tariffsServiceMock.checkIfCardExist).toHaveBeenCalled();
+  });
+
+  it('should call function on create card method', () => {
+    const spy1 = spyOn(component, 'createCardDto');
+    component.createTariffCard();
+    expect(spy1).toHaveBeenCalled();
+  });
+
+  it('should call createCard', () => {
+    const fakeNewCard = {
+      courierId: 0,
+      receivingStationsIdList: 0,
+      regionId: 0,
+      locationIdList: 0
+    };
+    component.createCardRequest(fakeNewCard);
+    expect(tariffsServiceMock.createCard).toHaveBeenCalled();
+  });
+
+  it('should call createCardRequest after matDialogRef closed', () => {
+    const spy = spyOn(component, 'createCardRequest');
+    component.createTariffCard();
+    expect(spy).toHaveBeenCalled();
+  });
+
+  it('should return false if card do not exist', () => {
+    component.region.setValue('Fake1');
+    component.courier.setValue('Fake1');
+    component.selectedCities = [{ name: 'fake1', id: 12 }];
+    component.selectedStation = [{ name: 'stationItem1', id: 12 }];
+    component.cards = [];
+    component.checkisCardExist();
+    tariffsServiceMock.checkIfCardExist.and.returnValue(of(false));
+    expect(component.isCardExist).toBe(false);
+  });
+
+  it('should reset region and sity value', () => {
+    const spy1 = spyOn(component, 'setCountOfCheckedCity');
+    const spy2 = spyOn(component, 'getExistingCard');
+    component.region.setValue('Fake1');
+    component.selectedCities = [{ name: 'fake', id: 12, englishName: 'fake' }];
+    component.resetRegionValue();
+    expect(component.region.value).toEqual('');
+    expect(component.selectedCities).toEqual([]);
+    expect(spy1).toHaveBeenCalled();
+    expect(spy2).toHaveBeenCalled();
   });
 
   it('should call openAddCourierDialog', () => {
@@ -585,13 +857,13 @@ describe('UbsAdminTariffsLocationDashboardComponent', () => {
   });
 
   it('should set city placeholder', () => {
-    component.checkedCities = ['Фейк'];
+    component.selectedCities = ['Фейк'];
     component.setCountOfCheckedCity();
     expect(component.cityPlaceholder).toEqual('1 вибрано');
   });
 
   it('should set city placeholder', () => {
-    component.checkedCities = [];
+    component.selectedCities = [];
     component.setCountOfCheckedCity();
     expect(component.cityPlaceholder).toEqual('ubs-tariffs.placeholder-locality');
   });
@@ -608,14 +880,14 @@ describe('UbsAdminTariffsLocationDashboardComponent', () => {
     expect(component.stationPlaceholder).toEqual('ubs-tariffs.placeholder-station');
   });
 
-  it('checkStation should return true if item is in selectedStation', () => {
-    component.selectedStation = ['stationItem'];
-    expect(component.checkStation('stationItem')).toEqual(true);
+  it('checkSelectedItem should return true if item is in selectedStation', () => {
+    const selectedStation = [{ name: 'stationItem', id: 1 }];
+    expect(component.checkSelectedItem('stationItem', selectedStation)).toEqual(true);
   });
 
-  it('checkStation should return false if item is not in selectedStation', () => {
-    component.selectedStation = ['stationItem'];
-    expect(component.checkStation('Фейк')).toEqual(false);
+  it('checkSelectedItem should return false if item is not in selectedStation', () => {
+    const selectedStation = [{ name: 'stationItem', id: 1 }];
+    expect(component.checkSelectedItem('Фейк', selectedStation)).toEqual(false);
   });
 
   it('destroy Subject should be closed after ngOnDestroy()', () => {

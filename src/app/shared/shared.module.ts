@@ -26,8 +26,6 @@ import { SearchNotFoundComponent } from './search-not-found/search-not-found.com
 import { UbsFooterComponent } from './ubs-footer/ubs-footer.component';
 import { FilterLocationListByLangPipe } from './filter-location-list-by-lang/filter-location-list-by-lang.pipe';
 import { MaxImageNamePipe } from '../ubs/ubs-admin/components/shared/max-image-name/max-image-name.pipe';
-import { OptionPipe } from './option-tariff/option-tariff.pipe';
-import { SearchPipe } from './search-tariff/search-tariff.pipe';
 import { ShowImgsPopUpComponent } from './show-imgs-pop-up/show-imgs-pop-up.component';
 import { DialogPopUpComponent } from './dialog-pop-up/dialog-pop-up.component';
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
@@ -56,8 +54,6 @@ import { SpacePreventDirective } from './directives/space-prevent.directive';
     UbsFooterComponent,
     FilterLocationListByLangPipe,
     MaxImageNamePipe,
-    OptionPipe,
-    SearchPipe,
     ShowImgsPopUpComponent,
     DialogPopUpComponent,
     UBSAddAddressPopUpComponent,
@@ -95,8 +91,6 @@ import { SpacePreventDirective } from './directives/space-prevent.directive';
     SearchNotFoundComponent,
     UbsFooterComponent,
     MaxImageNamePipe,
-    OptionPipe,
-    SearchPipe,
     UBSAddAddressPopUpComponent,
     UBSInputErrorComponent,
     SpacePreventDirective

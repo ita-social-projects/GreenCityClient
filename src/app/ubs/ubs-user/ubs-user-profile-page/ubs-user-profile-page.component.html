@@ -116,7 +116,9 @@
                 </div>
                 <div class="form-group col-sm-4">
                   <label for="city" class="form-label">{{ 'ubs-client-profile.city' | translate }}</label>
-                  <input *ngIf="isEditing" type="text" class="form-control" id="city" formControlName="city" />
+                  <select *ngIf="isEditing" formControlName="city" class="shadow-none form-control">
+                    <option *ngFor="let city of cities" [ngValue]="city.cityName">{{ city.cityName }}</option>
+                  </select>
                   <p *ngIf="!isEditing">{{ address.value?.city }}</p>
                 </div>
               </div>
@@ -144,7 +146,9 @@
               </div>
               <div class="form-group col-sm-3 mrgbtn">
                 <label for="district" class="form-label">{{ 'ubs-client-profile.district' | translate }}</label>
-                <input *ngIf="isEditing" type="text" class="form-control" id="district" formControlName="district" />
+                <select *ngIf="isEditing" formControlName="district" class="shadow-none form-control">
+                  <option *ngFor="let region of regions" [ngValue]="region.name">{{ region.name }}</option>
+                </select>
                 <p *ngIf="!isEditing">{{ address.value?.district }}</p>
               </div>
             </div>

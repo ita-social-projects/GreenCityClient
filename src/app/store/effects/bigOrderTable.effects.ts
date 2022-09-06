@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { of } from 'rxjs';
-import { catchError, map, mergeMap, switchMap } from 'rxjs/operators';
+import { catchError, concatMap, map, mergeMap, switchMap } from 'rxjs/operators';
 import { Actions, createEffect } from '@ngrx/effects';
 import { ofType } from '@ngrx/effects';
 import {
@@ -75,9 +75,16 @@ export class BigOrderTableEffects {
   changingOrderData = createEffect(() => {
     return this.actions.pipe(
       ofType(ChangingOrderData),
-      mergeMap((action: { orderId: number[]; columnName: string; newValue: string }) => {
-        return this.adminTableService.postData(action.orderId, action.columnName, action.newValue).pipe(
-          map(() => ChangingOrderDataSuccess({ orderId: action.orderId, columnName: action.columnName, newValue: action.newValue })),
+      mergeMap((action: { orderData: { orderId: number[]; columnName: string; newValue: string }[] }) => {
+        return of(...action.orderData).pipe(
+          concatMap((orderData) => this.adminTableService.postData(orderData.orderId, orderData.columnName, orderData.newValue)),
+          map((_, index) =>
+            ChangingOrderDataSuccess({
+              orderId: action.orderData[index].orderId,
+              columnName: action.orderData[index].columnName,
+              newValue: action.orderData[index].newValue
+            })
+          ),
           catchError((error) => of(ReceivedFailure(error)))
         );
       })

@@ -19,6 +19,38 @@ describe('UBSAddAddressPopUpComponent', () => {
   let fixture: ComponentFixture<UBSAddAddressPopUpComponent>;
   let orderService: OrderService;
 
+  const fakeLocation = {
+    tariffInfoId: 1,
+    minAmountOfBigBags: 2,
+    maxAmountOfBigBags: 999,
+    minPriceOfOrder: 500,
+    maxPriceOfOrder: 50000,
+    courierLimit: 'LIMIT_BY_SUM_OF_ORDER',
+    courierStatus: null,
+    regionDto: {
+      regionId: 1,
+      nameEn: 'Kyiv region',
+      nameUk: 'Київська область'
+    },
+    locationsDtosList: [
+      {
+        locationId: 1,
+        nameEn: 'Kyiv',
+        nameUk: 'Київ'
+      }
+    ],
+    courierTranslationDtos: [
+      {
+        name: 'UBS',
+        languageCode: 'en'
+      },
+      {
+        name: 'УБС',
+        languageCode: 'ua'
+      }
+    ]
+  };
+
   const fakeAddress = {
     id: 1,
     city: 'Київ',
@@ -42,13 +74,20 @@ describe('UBSAddAddressPopUpComponent', () => {
   };
   const fakeInitData = {
     edit: true,
-    address: fakeAddress,
-    currentLocation: 'fakeLocation'
+    address: fakeAddress
   };
   const fakeData = [[['fakeUA', 'fakeEN']]];
   const fakeMatDialogRef = jasmine.createSpyObj(['close']);
-  const fakeLocalStorageService = jasmine.createSpyObj('LocalStorageService', ['getCurrentLanguage']);
+  const fakeLocalStorageService = jasmine.createSpyObj('LocalStorageService', [
+    'getCurrentLanguage',
+    'getCurrentRegion',
+    'getCurrentCity',
+    'getLocations'
+  ]);
+  fakeLocalStorageService.getLocations = () => fakeLocation;
   fakeLocalStorageService.getCurrentLanguage = () => 'ua' as Language;
+  fakeLocalStorageService.getCurrentCity = () => 'Kyiv';
+  fakeLocalStorageService.getCurrentRegion = () => 'Kyiv region';
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
@@ -98,7 +137,6 @@ describe('UBSAddAddressPopUpComponent', () => {
     const spy = spyOn(component, 'onCitySelected');
     component.ngOnInit();
     expect(component.addAddressForm).toBeTruthy();
-    expect(component.isDistrict).toBeTruthy();
     expect(component.currentLanguage).toBe('ua');
     expect(component.bigRegions).toEqual([{ regionName: 'Київська область', lang: 'ua' }]);
     expect(spy).toHaveBeenCalledTimes(1);
@@ -198,7 +236,7 @@ describe('UBSAddAddressPopUpComponent', () => {
       component.currentLanguage = 'ua';
       const spy = spyOn(component, 'onCitySelected');
       component.selectCity(event as any);
-      expect(component.cityEn.value).toBe('Kyiv');
+      expect(component.cityEn.value).toBe('Київ');
       expect(component.isDistrict).toBeTruthy();
       expect(spy).toHaveBeenCalledWith({
         northLat: 50.57230832685655,

@@ -83,6 +83,10 @@ input {
   flex: none;
   display: inline;
   line-height: 2.9;
+
+  &:hover {
+    cursor: auto;
+  }
 }
 
 .mat-column-paymentDate {
@@ -196,6 +200,25 @@ input {
   .filter-table-btn {
     margin-left: 7px;
     margin-right: 7px;
+    width: 100px;
+  }
+
+  .research {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+  }
+
+  .search {
+    margin-left: 20px;
+  }
+
+  .view-table-btn {
+    width: 100px;
+  }
+
+  .export-excel-btn {
+    width: 110px;
   }
 }
 
@@ -203,6 +226,25 @@ input {
   .filter-table-btn {
     margin-left: 10px;
     margin-right: 10px;
+    width: 110px;
+  }
+
+  .research {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+  }
+
+  .search {
+    margin-left: 10px;
+  }
+
+  .view-table-btn {
+    width: 110px;
+  }
+
+  .export-excel-btn {
+    width: 115px;
   }
 }
 
@@ -303,8 +345,10 @@ input {
 }
 
 .dropdown-menu {
+  position: absolute;
+  left: -40%;
   height: 500px;
-  width: 356px;
+  max-width: 356px;
   margin-right: 5px;
   overflow: scroll;
   padding: 0;

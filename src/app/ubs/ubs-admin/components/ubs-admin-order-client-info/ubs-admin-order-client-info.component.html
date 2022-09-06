@@ -60,6 +60,8 @@
               id="recipient-tel"
               placeholder="{{ 'customer-info.recipient.tel-placeholder' | translate }}"
               formControlName="recipientPhoneNumber"
+              [unmask]="true"
+              [imask]="{ mask: phoneMask }"
             />
           </div>
           <div class="form-group">

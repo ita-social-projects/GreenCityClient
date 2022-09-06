@@ -54,7 +54,7 @@ export const GetTableSuccess = createAction(
 
 export const ChangingOrderData = createAction(
   BigOrderTableActions.ChangingOrderData,
-  props<{ orderId: number[]; columnName: string; newValue: string }>()
+  props<{ orderData: { orderId: number[]; columnName: string; newValue: string }[] }>()
 );
 
 export const ChangingOrderDataSuccess = createAction(

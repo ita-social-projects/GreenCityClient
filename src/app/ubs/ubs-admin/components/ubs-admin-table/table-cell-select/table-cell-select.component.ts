@@ -5,6 +5,7 @@ import { IAlertInfo, IEditCell } from 'src/app/ubs/ubs-admin/models/edit-cell.mo
 import { AdminTableService } from 'src/app/ubs/ubs-admin/services/admin-table.service';
 import { IDataForPopUp } from '../../../models/ubs-admin.interface';
 import { OrderService } from '../../../services/order.service';
+import { AddOrderCancellationReasonComponent } from '../../add-order-cancellation-reason/add-order-cancellation-reason.component';
 
 import { UbsAdminSeveralOrdersPopUpComponent } from '../../ubs-admin-several-orders-pop-up/ubs-admin-several-orders-pop-up.component';
 @Component({
@@ -36,6 +37,7 @@ export class TableCellSelectComponent implements OnInit {
   @Output() editCellSelect = new EventEmitter();
   @Output() showBlockedInfo = new EventEmitter();
   @Output() editButtonClick = new EventEmitter();
+  @Output() orderCancellation = new EventEmitter();
 
   constructor(private adminTableService: AdminTableService, private orderSevice: OrderService, public dialog: MatDialog) {}
 
@@ -113,6 +115,8 @@ export class TableCellSelectComponent implements OnInit {
   public saveClick(): void {
     if (this.nameOfColumn === 'orderStatus' && this.checkStatus && this.showPopUp) {
       this.openPopUp();
+    } else if (this.nameOfColumn === 'orderStatus' && (this.newOption === 'Canceled' || this.newOption === 'Скасовано')) {
+      this.openCancelPopUp();
     } else if (this.nameOfColumn === 'orderStatus') {
       this.save();
     } else {
@@ -129,5 +133,26 @@ export class TableCellSelectComponent implements OnInit {
   public chosenOption(e: any): void {
     this.newOption = e.target.value;
     this.checkStatus = this.filterStatusesForPopUp();
+  }
+
+  public openCancelPopUp(): void {
+    this.dialog
+      .open(AddOrderCancellationReasonComponent, {
+        hasBackdrop: true
+      })
+      .afterClosed()
+      .pipe(take(1))
+      .subscribe((res) => {
+        if (res.action === 'cancel') {
+          this.cancel();
+          return;
+        }
+        const orderCancellationData = {
+          cancellationReason: res.reason,
+          cancellationComment: res.reason === 'OTHER' ? res.comment : null
+        };
+        this.orderCancellation.emit(orderCancellationData);
+        this.save();
+      });
   }
 }
