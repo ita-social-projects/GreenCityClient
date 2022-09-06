@@ -10,7 +10,6 @@ import { Component, Input, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { TagsArray } from '../../../events/models/event-consts';
 import { EventPageResponceDto, TagDto, TagObj } from '../../../events/models/events.interface';
-import { EventsService } from '../../../events/services/events.service';
 import { BsModalRef, BsModalService } from 'ngx-bootstrap/modal';
 import { EventsListItemModalComponent } from './events-list-item-modal/events-list-item-modal.component';
 import { MatDialog } from '@angular/material/dialog';
@@ -55,7 +54,6 @@ export class EventsListItemComponent implements OnInit {
 
   constructor(
     private router: Router,
-    private eventService: EventsService,
     private localStorageService: LocalStorageService,
     private modalService: BsModalService,
     private dialog: MatDialog,
@@ -89,23 +87,23 @@ export class EventsListItemComponent implements OnInit {
 
     if (this.isEventOpen && !this.isFinished) {
       if (this.isOwner) {
-        this.nameBtn = 'Edit event';
+        this.nameBtn = 'event.btn-edit';
         this.styleBtn = 'secondary-global-button';
       } else {
-        this.nameBtn = this.isJoined ? 'Cancel join event' : 'Join event';
+        this.nameBtn = this.isJoined ? 'event.btn-cancel' : 'event.btn-join';
         this.styleBtn = this.isJoined ? 'secondary-global-button' : 'primary-global-button';
       }
     } else {
       if (this.isOwner) {
-        this.nameBtn = 'Delete';
+        this.nameBtn = 'event.btn-delete';
         this.styleBtn = 'secondary-global-button';
       } else {
         if (this.rate) {
-          this.nameBtn = 'See rating';
+          this.nameBtn = 'event.btn-see';
           this.styleBtn = 'secondary-global-button';
         } else {
           this.disabledMode = this.isJoined ? false : true;
-          this.nameBtn = !this.isEventOpen ? 'See rating' : 'Rate Organizer';
+          this.nameBtn = !this.isEventOpen ? 'event.btn-see' : 'event.btn-rate';
           this.styleBtn = !this.rate ? 'primary-global-button' : 'secondary-global-button';
         }
       }
@@ -123,13 +121,13 @@ export class EventsListItemComponent implements OnInit {
           if (this.isJoined) {
 
             this.store.dispatch(RemoveAttenderEcoEventsByIdAction({ id: this.event.id }));
-            this.nameBtn = 'Join event';
+            this.nameBtn = 'event.btn-join';
             this.styleBtn = 'primary-global-button';
             this.isReadonly = true;
             this.isJoined = false;
           } else {
             this.store.dispatch(AddAttenderEcoEventsByIdAction({ id: this.event.id }));
-            this.nameBtn = 'Cancel join event';
+            this.nameBtn = 'event.btn-cancel';
             this.styleBtn = 'secondary-global-button';
             this.isReadonly = !this.event.organizer.organizerRating ? false : true;
             this.isJoined = true;
@@ -158,7 +156,7 @@ export class EventsListItemComponent implements OnInit {
     };
 
     this.bsModalRef = this.modalService.show(EventsListItemModalComponent, { class: 'modal-dialog-centered', initialState });
-    this.bsModalRef.content.closeBtnName = 'Close';
+    this.bsModalRef.content.closeBtnName = 'event.btn-close';
   }
 
   public deleteEvent(): void {

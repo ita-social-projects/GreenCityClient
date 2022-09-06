@@ -1,11 +1,12 @@
-import { take } from 'rxjs/operators';
 import { Component, Injector } from '@angular/core';
 import { BsModalRef } from 'ngx-bootstrap/modal';
 import { MatDialog } from '@angular/material/dialog';
 import { AuthModalComponent } from '@global-auth/auth-modal/auth-modal.component';
-import { EventsService } from 'src/app/main/component/events/services/events.service';
 import { RateEcoEventsByIdAction } from 'src/app/store/actions/ecoEvents.actions';
 import { Store } from '@ngrx/store';
+import { Subscription } from 'rxjs';
+import { TranslateService } from '@ngx-translate/core';
+import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
 
 @Component({
   selector: 'events-list-item-modal',
@@ -25,11 +26,17 @@ export class EventsListItemModalComponent {
 
   public elementName: string;
   public dialog: MatDialog;
-  constructor(public bsModalRef: BsModalRef, private injector: Injector, private eventService: EventsService, private store: Store) {
+
+  public langChangeSub: Subscription;
+
+  constructor(public bsModalRef: BsModalRef, private injector: Injector, private localStorageService: LocalStorageService, private store: Store, private translate: TranslateService) {
     this.dialog = injector.get(MatDialog);
   }
 
-  ngOnInit() {}
+  ngOnInit() {
+    this.subscribeToLangChange();
+    this.bindLang(this.localStorageService.getCurrentLanguage());
+  }
 
   modalBtn() {
     if (!this.switcher) {
@@ -58,13 +65,13 @@ export class EventsListItemModalComponent {
   public hoveringOver(event: any): void {
     switch (event) {
       case 1:
-        this.text = `Could be better`;
+        this.text = `event.text-1`;
         break;
       case 2:
-        this.text = `Nice and sound`;
+        this.text = `event.text-2`;
         break;
       case 3:
-        this.text = `Good job!`;
+        this.text = `event.text-3`;
         break;
       default:
         this.text;
@@ -72,9 +79,17 @@ export class EventsListItemModalComponent {
   }
 
   public onRateChange(): void {
-    this.text = `Thank you !!!`;
+    this.text = `event.text-finish`;
     this.bsModalRef.hide();
     this.store.dispatch(RateEcoEventsByIdAction({ id: this.id, grade: this.rate }));
 
+  }
+
+  private bindLang(lang: string): void {
+    this.translate.setDefaultLang(lang);
+  }
+
+  private subscribeToLangChange(): void {
+    this.langChangeSub = this.localStorageService.languageSubject.subscribe(this.bindLang.bind(this));
   }
 }

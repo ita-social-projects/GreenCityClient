@@ -993,6 +993,19 @@
     "events": "Events"
   },
   "event": {
-    "btn-top": "More"
+    "btn-top": "More",
+    "btn-edit": "Edit event",
+    "btn-cancel": "Cancel join event",
+    "btn-join": "Join event",
+    "btn-delete": "Delete",
+    "btn-see": "See rating",
+    "btn-rate": "Rate Organizer",
+    "btn-close": "Close",
+    "btn-save": "Save",
+    "btn-register": "Register",
+    "text-1": "Could be better",
+    "text-2": "Nice and sound",
+    "text-3": "Good job!",
+    "text-finish": "Thank you !!!"
   }
 }

@@ -3,15 +3,19 @@
     {{ switcher ? 'Evaluate the event and the organizer' : 'You cannot add this event. First register on the site' }}
   </h3>
   <div class="modal-rating" [hidden]="!switcher">
-    <rating (onHover)="hoveringOver($event)" [(ngModel)]="rate" [customTemplate]="star" [max]="max" [readonly]="isReadonly"> </rating>
+    <rating (onHover)="hoveringOver($event)" [(ngModel)]="rate" [customTemplate]="star" [max]="max"
+      [readonly]="isReadonly"> </rating>
     <ng-template #star let-index="index" let-value="value">
       <span class="star {{ index < value ? 'fill' : 'empty' }}"></span>
     </ng-template>
-    <p class="modal-text">{{ text }}</p>
+    <p class="modal-text">{{ text | translate }}</p>
   </div>
 
   <div class="modal-bnt-group">
-    <button class="secondary-global-button modal-btn modal-btn-cancel" (click)="bsModalRef.hide()">Cancel</button>
-    <button (click)="modalBtn()" class="primary-global-button modal-btn">{{ switcher ? 'Save' : 'Register' }}</button>
+    <button class="secondary-global-button modal-btn modal-btn-cancel" (click)="bsModalRef.hide()">{{'event.btn-cancel'
+      | translate}}</button>
+    <button (click)="modalBtn()" class="primary-global-button modal-btn">{{ switcher ? ('event.btn-register' | translate
+      ):
+      ('event.btn-save' | translate)}}</button>
   </div>
 </div>
