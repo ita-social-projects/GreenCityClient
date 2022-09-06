@@ -6,18 +6,15 @@
 }
 
 .modal-inner {
-  display: block;
-  width: 500px;
-  background: url('src/assets/events-icons/background.png') no-repeat center;
   display: flex;
+  width: 500px;
   flex-direction: column;
   align-items: center;
+  background: url('src/assets/events-icons/background.png') no-repeat center;
 
   .modal-title {
     width: max-content;
     padding-top: 48px;
-    font-family: 'Lato';
-    font-style: normal;
     font-weight: 700;
     font-size: 20px;
     line-height: 28px;
@@ -25,6 +22,7 @@
     color: #313131;
   }
 }
+
 .modal-rating {
   width: max-content;
   margin-top: 30px;
@@ -36,9 +34,11 @@
     height: 44px;
     transition: all 0.3s;
   }
+
   .fill {
     background: url('src/assets/events-icons/star-filled-big.png') no-repeat center;
   }
+
   .empty {
     background: url('src/assets/events-icons/Vector-big.png') no-repeat center;
   }
@@ -55,6 +55,7 @@
     width: 82px;
     height: 40px;
   }
+
   .modal-btn-cancel {
     background-color: rgba(255, 255, 255, 0);
     border: none;
@@ -65,7 +66,6 @@
 .modal-text {
   padding-top: 15px;
   text-align: center;
-  font-family: 'Lato';
   font-weight: 400;
   font-size: 16px;
   line-height: 24px;

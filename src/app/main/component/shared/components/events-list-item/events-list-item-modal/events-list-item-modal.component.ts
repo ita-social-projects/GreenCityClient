@@ -1,4 +1,4 @@
-import { Component, Injector } from '@angular/core';
+import { Component, Injector, OnInit } from '@angular/core';
 import { BsModalRef } from 'ngx-bootstrap/modal';
 import { MatDialog } from '@angular/material/dialog';
 import { AuthModalComponent } from '@global-auth/auth-modal/auth-modal.component';
@@ -9,27 +9,30 @@ import { TranslateService } from '@ngx-translate/core';
 import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
 
 @Component({
-  selector: 'events-list-item-modal',
+  selector: 'app-events-list-item-modal',
   templateUrl: 'events-list-item-modal.component.html',
   styleUrls: ['events-list-item-modal.component.scss']
 })
-export class EventsListItemModalComponent {
+export class EventsListItemModalComponent implements OnInit {
   public id: any;
   public service: any;
   public max: number;
   public rate: number;
   public isReadonly: boolean;
   public switcher: boolean;
-
   public isPosting: boolean;
   public text: string;
-
   public elementName: string;
-  public dialog: MatDialog;
 
+  private dialog: MatDialog;
+  private bsModalRef: BsModalRef;
   public langChangeSub: Subscription;
 
-  constructor(public bsModalRef: BsModalRef, private injector: Injector, private localStorageService: LocalStorageService, private store: Store, private translate: TranslateService) {
+  constructor(
+    private store: Store,
+    private localStorageService: LocalStorageService,
+    public injector: Injector,
+    private translate: TranslateService) {
     this.dialog = injector.get(MatDialog);
   }
 
@@ -74,7 +77,7 @@ export class EventsListItemModalComponent {
         this.text = `event.text-3`;
         break;
       default:
-        this.text;
+        this.text = '';
     }
   }
 
@@ -82,7 +85,6 @@ export class EventsListItemModalComponent {
     this.text = `event.text-finish`;
     this.bsModalRef.hide();
     this.store.dispatch(RateEcoEventsByIdAction({ id: this.id, grade: this.rate }));
-
   }
 
   private bindLang(lang: string): void {
