@@ -7,7 +7,6 @@ import { LocalStorageService } from '@global-service/localstorage/local-storage.
 import { DateAdapter } from '@angular/material/core';
 import { takeUntil } from 'rxjs/operators';
 import { Subject } from 'rxjs';
-import { FilterModel } from '@eco-news-models/filter.model';
 import { LanguageModel } from '@eco-news-models/create-news-interface';
 
 @Component({

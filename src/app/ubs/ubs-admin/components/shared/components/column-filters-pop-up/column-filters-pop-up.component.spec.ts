@@ -1,5 +1,6 @@
-import { CUSTOM_ELEMENTS_SCHEMA, ElementRef } from '@angular/core';
+import { ChangeDetectorRef, CUSTOM_ELEMENTS_SCHEMA, ElementRef } from '@angular/core';
 import { async, ComponentFixture, fakeAsync, TestBed } from '@angular/core/testing';
+import { ReactiveFormsModule } from '@angular/forms';
 import { MatCheckboxChange } from '@angular/material/checkbox';
 import { MatNativeDateModule } from '@angular/material/core';
 import { MatDatepickerModule } from '@angular/material/datepicker';
@@ -37,7 +38,7 @@ describe('ColumnFiltersPopUpComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      imports: [TranslateModule.forRoot(), MatDialogModule, SharedModule, MatDatepickerModule, MatNativeDateModule],
+      imports: [TranslateModule.forRoot(), MatDialogModule, SharedModule, MatDatepickerModule, MatNativeDateModule, ReactiveFormsModule],
       declarations: [ColumnFiltersPopUpComponent],
       providers: [
         { provide: AdminTableService, useValue: fakeAdminTableService },
@@ -53,7 +54,6 @@ describe('ColumnFiltersPopUpComponent', () => {
     fixture = TestBed.createComponent(ColumnFiltersPopUpComponent);
     component = fixture.componentInstance;
     dialogMock = TestBed.inject(MatDialog);
-    fixture.detectChanges();
     fakeAdminTableService.columnsForFiltering = columnsForFilteringMock;
     fakeDialog.componentInstance = {
       elementRef: {
@@ -89,6 +89,7 @@ describe('ColumnFiltersPopUpComponent', () => {
   });
 
   it('method changeColumnFilters should invoke changeColumnFilters from service', () => {
+    // @ts-ignore
     component.changeColumnFilters(true, 'test', { filtered: true });
     expect(fakeAdminTableService.changeFilters).toHaveBeenCalled();
   });
@@ -117,6 +118,7 @@ describe('ColumnFiltersPopUpComponent', () => {
   });
 
   it('method getOptionsForFiltering should return options', () => {
+    // @ts-ignore
     const options = component.getOptionsForFiltering();
     expect(options).toEqual(fakeAdminTableService.columnsForFiltering[0].values);
   });
