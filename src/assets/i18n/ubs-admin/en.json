@@ -807,6 +807,6 @@
     "minlength-short": "The field contains insufficient characters.",
     "max-length": "The field should contain 1-30 characters.",
     "pattern": "Only alphabetic characters and special characters “-” (hyphen), “ ” (space) and “'” (apostrophe) are allowed.",
-    "number-length": "The field should contain 12 characters"
+    "number-length": "The field should contain 12 characters."
   }
 }
