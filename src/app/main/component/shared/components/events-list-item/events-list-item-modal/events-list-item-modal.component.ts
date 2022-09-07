@@ -25,7 +25,7 @@ export class EventsListItemModalComponent implements OnInit {
   public elementName: string;
 
   private dialog: MatDialog;
-  private bsModalRef: BsModalRef;
+  public bsModalRef: BsModalRef;
   public langChangeSub: Subscription;
 
   constructor(
