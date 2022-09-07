@@ -5,7 +5,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { AddViolationsComponent } from '../add-violations/add-violations.component';
 import { IUserInfo } from '../../models/ubs-admin.interface';
 import { take } from 'rxjs/operators';
-import { Masks, Patterns } from 'src/assets/patterns/patterns';
+import { Masks } from 'src/assets/patterns/patterns';
 
 @Component({
   selector: 'app-ubs-admin-order-client-info',
@@ -64,8 +64,14 @@ export class UbsAdminOrderClientInfoComponent implements OnInit, OnDestroy {
   }
 
   getErrorMessage(abstractControl: AbstractControl) {
-    if (abstractControl.errors.pattern) {
+    console.log(abstractControl);
+
+    if (abstractControl.errors.required) {
       return 'input-error.required';
+    }
+
+    if (abstractControl.errors.pattern) {
+      return 'input-error.number-length';
     }
   }
 
