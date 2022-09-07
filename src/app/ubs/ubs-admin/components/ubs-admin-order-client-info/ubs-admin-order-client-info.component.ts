@@ -1,5 +1,5 @@
 import { Component, Input, OnDestroy, OnInit } from '@angular/core';
-import { FormGroup } from '@angular/forms';
+import { FormGroup, AbstractControl } from '@angular/forms';
 import { Subject } from 'rxjs';
 import { MatDialog } from '@angular/material/dialog';
 import { AddViolationsComponent } from '../add-violations/add-violations.component';
@@ -61,6 +61,12 @@ export class UbsAdminOrderClientInfoComponent implements OnInit, OnDestroy {
           this.totalUserViolations += res;
         }
       });
+  }
+
+  getErrorMessage(abstractControl: AbstractControl) {
+    if (abstractControl.errors.pattern) {
+      return 'input-error.required';
+    }
   }
 
   ngOnDestroy(): void {
