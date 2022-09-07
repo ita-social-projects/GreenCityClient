@@ -15,6 +15,7 @@ import { Masks } from 'src/assets/patterns/patterns';
 export class UbsAdminOrderClientInfoComponent implements OnInit, OnDestroy {
   @Input() userInfo: IUserInfo;
   @Input() userInfoDto: FormGroup;
+
   @Input() orderId: number;
 
   phoneMask = Masks.phoneMask;
@@ -64,8 +65,6 @@ export class UbsAdminOrderClientInfoComponent implements OnInit, OnDestroy {
   }
 
   getErrorMessage(abstractControl: AbstractControl) {
-    console.log(abstractControl);
-
     if (abstractControl.errors.required) {
       return 'input-error.required';
     }
