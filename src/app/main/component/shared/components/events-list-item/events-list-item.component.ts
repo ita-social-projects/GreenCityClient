@@ -64,9 +64,12 @@ export class EventsListItemComponent implements OnInit {
   ngOnInit(): void {
     this.itemTags = TagsArray.reduce((ac, cur) => [...ac, { ...cur }], []);
     this.filterTags(this.event.tags);
+    this.initAllStatusesOfEvent();
     this.checkAllStatusesOfEvent();
     this.subscribeToLangChange();
     this.bindLang(this.localStorageService.getCurrentLanguage());
+
+
   }
 
   public routeToEvent(): void {
@@ -77,13 +80,16 @@ export class EventsListItemComponent implements OnInit {
     this.itemTags.forEach((item) => (item.isActive = tags.some((name) => name.nameEn === item.nameEn)));
   }
 
-  public checkAllStatusesOfEvent(): void {
+  public initAllStatusesOfEvent(): void {
     this.rate = Math.round(this.event.organizer.organizerRating);
     this.isJoined = this.event.isSubscribed ? true : false;
     this.isEventOpen = this.event.open;
     this.isOwner = this.localStorageService.getUserId() === this.event.organizer.id;
     this.isRegistered = this.localStorageService.getUserId() ? true : false;
     this.isFinished = Date.parse(this.event.dates[0].finishDate) < Date.parse(new Date().toString());
+  }
+
+  public checkAllStatusesOfEvent(): void {
 
     if (this.isEventOpen && !this.isFinished) {
       if (this.isOwner) {
