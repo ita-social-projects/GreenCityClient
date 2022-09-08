@@ -39,6 +39,7 @@ export class EventsListItemComponent implements OnInit {
   public isFinished: boolean;
   public isReadonly = false;
   public isPosting: boolean;
+  public isRated: boolean;
 
   public max = 3;
 
@@ -64,6 +65,7 @@ export class EventsListItemComponent implements OnInit {
   ngOnInit(): void {
     this.itemTags = TagsArray.reduce((ac, cur) => [...ac, { ...cur }], []);
     this.filterTags(this.event.tags);
+    this.rate = Math.round(this.event.organizer.organizerRating);
     this.initAllStatusesOfEvent();
     this.checkAllStatusesOfEvent();
     this.subscribeToLangChange();
@@ -81,79 +83,92 @@ export class EventsListItemComponent implements OnInit {
   }
 
   public initAllStatusesOfEvent(): void {
-    this.rate = Math.round(this.event.organizer.organizerRating);
     this.isJoined = this.event.isSubscribed ? true : false;
     this.isEventOpen = this.event.open;
     this.isOwner = this.localStorageService.getUserId() === this.event.organizer.id;
     this.isRegistered = this.localStorageService.getUserId() ? true : false;
     this.isFinished = Date.parse(this.event.dates[0].finishDate) < Date.parse(new Date().toString());
+    this.isRated = this.rate ? true : false;
   }
 
   public checkAllStatusesOfEvent(): void {
-
     if (this.isEventOpen && !this.isFinished) {
-      if (this.isOwner) {
-        this.nameBtn = 'event.btn-edit';
-        this.styleBtn = 'secondary-global-button';
-      } else {
-        this.nameBtn = this.isJoined ? 'event.btn-cancel' : 'event.btn-join';
-        this.styleBtn = this.isJoined ? 'secondary-global-button' : 'primary-global-button';
-      }
+      this.checkIsOwner(this.isOwner);
     } else {
       if (this.isOwner) {
         this.nameBtn = 'event.btn-delete';
         this.styleBtn = 'secondary-global-button';
       } else {
-        if (this.rate) {
-          this.nameBtn = 'event.btn-see';
-          this.styleBtn = 'secondary-global-button';
-        } else {
-          this.disabledMode = this.isJoined ? false : true;
-          this.nameBtn = !this.isEventOpen ? 'event.btn-see' : 'event.btn-rate';
-          this.styleBtn = !this.rate ? 'primary-global-button' : 'secondary-global-button';
-        }
+        this.checkIsRate(this.isRated)
       }
     }
   }
 
+  public checkIsOwner(isOwner: boolean): void {
+    if (isOwner) {
+      this.nameBtn = 'event.btn-edit';
+      this.styleBtn = 'secondary-global-button';
+    } else {
+      this.nameBtn = this.isJoined ? 'event.btn-cancel' : 'event.btn-join';
+      this.styleBtn = this.isJoined ? 'secondary-global-button' : 'primary-global-button';
+    }
+  }
+
+  public checkIsRate(isRated: boolean): void {
+    if (isRated) {
+      this.nameBtn = 'event.btn-see';
+      this.styleBtn = 'secondary-global-button';
+    } else {
+      this.disabledMode = this.isJoined ? false : true;
+      this.nameBtn = !this.isEventOpen ? 'event.btn-see' : 'event.btn-rate';
+      this.styleBtn = !this.isRated ? 'primary-global-button' : 'secondary-global-button';
+    }
+  }
+
   public buttonAction(): void {
-    if (this.isRegistered) {
-      if (this.isEventOpen && !this.isFinished) {
+    switch (this.isRegistered) {
+
+      case this.isEventOpen && !this.isFinished:
         if (this.isOwner) {
           this.localStorageService.setEditMode('canUserEdit', true);
           this.localStorageService.setEventForEdit('editEvent', this.event);
           this.router.navigate(['events/', 'create-event']);
         } else {
-          if (this.isJoined) {
-
-            this.store.dispatch(RemoveAttenderEcoEventsByIdAction({ id: this.event.id }));
-            this.nameBtn = 'event.btn-join';
-            this.styleBtn = 'primary-global-button';
-            this.isReadonly = true;
-            this.isJoined = false;
-          } else {
-            this.store.dispatch(AddAttenderEcoEventsByIdAction({ id: this.event.id }));
-            this.nameBtn = 'event.btn-cancel';
-            this.styleBtn = 'secondary-global-button';
-            this.isReadonly = !this.event.organizer.organizerRating ? false : true;
-            this.isJoined = true;
-          }
+          this.actionIsJoined(this.isJoined);
         }
-      } else {
+        break;
+
+      case false:
         if (this.isOwner) {
           this.deleteEvent();
         } else {
-          if (!this.rate && this.isEventOpen) {
+          if (!this.isRated && this.isEventOpen) {
             this.openModal();
           }
         }
-      }
-    } else {
-      this.openModal();
+        break;
+      default:
+        this.openModal();
     }
   }
 
-  openModal() {
+  public actionIsJoined(isJoined: boolean) {
+    if (isJoined) {
+      this.store.dispatch(RemoveAttenderEcoEventsByIdAction({ id: this.event.id }));
+      this.nameBtn = 'event.btn-join';
+      this.styleBtn = 'primary-global-button';
+      this.isReadonly = true;
+      this.isJoined = false;
+    } else {
+      this.store.dispatch(AddAttenderEcoEventsByIdAction({ id: this.event.id }));
+      this.nameBtn = 'event.btn-cancel';
+      this.styleBtn = 'secondary-global-button';
+      this.isReadonly = !this.event.organizer.organizerRating ? false : true;
+      this.isJoined = true;
+    }
+  }
+
+  public openModal(): void {
     const initialState = {
       id: this.event.id,
       switcher: this.isRegistered,

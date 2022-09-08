@@ -25,13 +25,14 @@ export class EventsListItemModalComponent implements OnInit {
   public elementName: string;
 
   private dialog: MatDialog;
-  public bsModalRef: BsModalRef;
+
   public langChangeSub: Subscription;
 
   constructor(
     private store: Store,
     private localStorageService: LocalStorageService,
     public injector: Injector,
+    public bsModalRef: BsModalRef,
     private translate: TranslateService) {
     this.dialog = injector.get(MatDialog);
   }
@@ -48,7 +49,6 @@ export class EventsListItemModalComponent implements OnInit {
         this.openAuthModalWindow('sign-up');
       }, 500);
     } else {
-      console.log('rate it');
       this.onRateChange();
     }
   }
