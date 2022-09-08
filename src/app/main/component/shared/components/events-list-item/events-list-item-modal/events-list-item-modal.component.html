@@ -1,8 +1,9 @@
 <div class="modal-inner">
   <h3 class="modal-title">
-    {{ switcher ? 'Evaluate the event and the organizer' : 'You cannot add this event. First register on the site' }}
+    {{ isRegistered ? 'Evaluate the event and the organizer' : 'You cannot add this event. First register on the site'
+    }}
   </h3>
-  <div class="modal-rating" [hidden]="!switcher">
+  <div class="modal-rating" [hidden]="!isRegistered">
     <rating (onHover)="hoveringOver($event)" [(ngModel)]="rate" [customTemplate]="star" [max]="max"
       [readonly]="isReadonly"> </rating>
     <ng-template #star let-index="index" let-value="value">
@@ -12,10 +13,11 @@
   </div>
 
   <div class="modal-bnt-group">
-    <button class="secondary-global-button modal-btn modal-btn-cancel" (click)="bsModalRef.hide()">{{'event.btn-cancel'
+    <button class="secondary-global-button modal-btn modal-btn-cancel" (click)="bsModalRef.hide()">{{'event.btn-close'
       | translate}}</button>
-    <button (click)="modalBtn()" class="primary-global-button modal-btn">{{ switcher ? ('event.btn-register' | translate
+    <button (click)="modalBtn()" class="primary-global-button modal-btn">{{ isRegistered ? ('event.btn-save' |
+      translate
       ):
-      ('event.btn-save' | translate)}}</button>
+      ('event.btn-register' | translate)}}</button>
   </div>
 </div>

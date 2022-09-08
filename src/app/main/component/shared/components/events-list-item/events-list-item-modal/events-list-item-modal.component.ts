@@ -19,7 +19,7 @@ export class EventsListItemModalComponent implements OnInit {
   public max: number;
   public rate: number;
   public isReadonly: boolean;
-  public switcher: boolean;
+  public isRegistered: boolean;
   public isPosting: boolean;
   public text: string;
   public elementName: string;
@@ -43,7 +43,7 @@ export class EventsListItemModalComponent implements OnInit {
   }
 
   modalBtn() {
-    if (!this.switcher) {
+    if (!this.isRegistered) {
       this.bsModalRef.hide();
       setTimeout(() => {
         this.openAuthModalWindow('sign-up');

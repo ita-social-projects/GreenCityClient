@@ -171,7 +171,7 @@ export class EventsListItemComponent implements OnInit {
   public openModal(): void {
     const initialState = {
       id: this.event.id,
-      switcher: this.isRegistered,
+      isRegistered: this.isRegistered,
       max: this.max,
       isReadonly: this.isReadonly
     };
