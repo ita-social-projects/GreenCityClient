@@ -99,7 +99,7 @@ export class EventsListItemComponent implements OnInit {
         this.nameBtn = 'event.btn-delete';
         this.styleBtn = 'secondary-global-button';
       } else {
-        this.checkIsRate(this.isRated)
+        this.checkIsRate(this.isRated);
       }
     }
   }
