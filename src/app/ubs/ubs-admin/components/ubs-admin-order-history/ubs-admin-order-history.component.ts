@@ -4,6 +4,13 @@ import { OrderService } from '../../services/order.service';
 import { IOrderHistory } from '../../models/ubs-admin.interface';
 import { takeUntil } from 'rxjs/operators';
 
+const localizeDate = (date: string) => {
+  const timezoneOffset = new Date().getTimezoneOffset();
+  const timestamp = Date.parse(date);
+  const local = timestamp - timezoneOffset * 60000;
+  return new Date(local).toString();
+};
+
 @Component({
   selector: 'app-ubs-admin-order-history',
   templateUrl: './ubs-admin-order-history.component.html',
@@ -38,7 +45,10 @@ export class UbsAdminOrderHistoryComponent implements OnInit, OnDestroy {
       .getOrderHistory(orderId)
       .pipe(takeUntil(this.destroy$))
       .subscribe((data: IOrderHistory[]) => {
-        this.orderHistory = data;
+        this.orderHistory = data.map((action) => ({
+          ...action,
+          eventDate: localizeDate(action.eventDate)
+        }));
       });
   }
 
