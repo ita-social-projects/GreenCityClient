@@ -4,14 +4,26 @@ import { Pipe, PipeTransform } from '@angular/core';
   name: 'localizedDate'
 })
 export class LocalizedDatePipe implements PipeTransform {
-  // Output: date string in ISO format
+  locale = 'en-US';
+  timeZone = Intl.DateTimeFormat().resolvedOptions().timeZone;
+
+  setLocale(locale: string) {
+    this.locale = locale;
+  }
+
+  setTimeZone(timeZone: string) {
+    this.timeZone = timeZone;
+  }
+
+  // Input: date, string, js timestamp (UTC)
+  // Output: Formatted string adjusted to locale and timezone
   transform(value: string | Date | number | null | undefined): string {
     if (!value) {
       return null;
     }
-    const timezoneOffset = new Date().getTimezoneOffset();
-    const timestamp = new Date(value).getTime();
-    const local = timestamp - timezoneOffset * 60000;
-    return new Date(local).toISOString();
+    const utcISOstring = typeof value === 'string' && (value.endsWith('Z') || value.endsWith('z'));
+    const date = new Date(value).toString();
+    const normalized = new Date(utcISOstring ? date : date + ' Z');
+    return normalized.toLocaleString(this.locale, { timeZone: this.timeZone });
   }
 }
