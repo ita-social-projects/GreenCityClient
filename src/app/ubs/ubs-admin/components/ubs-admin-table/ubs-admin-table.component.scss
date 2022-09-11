@@ -354,6 +354,8 @@ input {
 
 .dropdown-menu input[type='date'] {
   width: 155px;
+  padding: 0;
+  margin: 0 0 10px 0;
 }
 
 .accordion-body {
@@ -578,4 +580,9 @@ ul::-webkit-scrollbar-thumb,
 
 .hignlighted {
   background-color: var(--ubs-liberty-green);
+}
+
+label {
+  display: block;
+  margin: 0;
 }

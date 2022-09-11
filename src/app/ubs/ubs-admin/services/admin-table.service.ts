@@ -172,7 +172,7 @@ export class AdminTableService {
     return currentColumnDateFilter.values[0]?.filtered;
   }
 
-  getDateValue(suffix: 'From' | 'To', dateColumn): boolean {
+  getDateValue(suffix: 'From' | 'To' | 'Date', dateColumn): boolean {
     let date;
     const currentColumnDateFilter = this.columnsForFiltering.find((column) => {
       return column.key === dateColumn;

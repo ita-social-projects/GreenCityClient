@@ -41,27 +41,60 @@
                 <div class="accordion-body">
                   <div *ngIf="column.key.toLowerCase().includes('date'); else nonDate">
                     <div>
-                      <mat-checkbox [checked]="getDateChecked(column.key)" (change)="changeDateFilters($event, $event.checked, column.key)">
-                        {{ 'ubs-tables.date-range' | translate }}
-                      </mat-checkbox>
-                      <br />
-                      <label for="dateFrom">{{ 'ubs-tables.date-from' | translate }}</label>
+                      <mat-radio-button
+                        class="checkmark"
+                        [checked]="getDateChecked(column.key)"
+                        (change)="changeDateFilters($event, $event.checked, column.key)"
+                      >
+                        {{ 'ubs-tables.date' | translate }}
+                      </mat-radio-button>
+                    </div>
+                    <div>
                       <input
-                        id="dateFrom{{ column.key }}"
+                        class="filter-input"
+                        id="date{{ column.key }}"
                         type="date"
-                        name="dateFrom"
-                        [value]="getDateValue('From', column.key)"
-                        (change)="changeInputDateFilters($event.target.value, column.key, 'From')"
+                        name="date"
+                        [value]="getDateValue('Date', column.key)"
+                        (change)="changeInputDateFilters($event.target.value, column.key, 'Date')"
                       />
-                      <br />
-                      <label for="dateTo">{{ 'ubs-tables.date-to' | translate }}</label>
-                      <input
-                        id="dateTo{{ column.key }}"
-                        type="date"
-                        name="dateTo"
-                        [value]="getDateValue('To', column.key)"
-                        (change)="changeInputDateFilters($event.target.value, column.key, 'To')"
-                      />
+                    </div>
+                    <div>
+                      <div>
+                        <mat-radio-button
+                          class="checkmark"
+                          [checked]="getDateChecked(column.key)"
+                          (change)="changeDateFilters($event, $event.checked, column.key)"
+                        >
+                          {{ 'ubs-tables.date-range' | translate }}
+                        </mat-radio-button>
+                      </div>
+                      <div>
+                        <label for="dateFrom">{{ 'ubs-tables.date-from' | translate }}</label>
+                      </div>
+                      <div>
+                        <input
+                          class="filter-input"
+                          id="dateFrom{{ column.key }}"
+                          type="date"
+                          name="dateFrom"
+                          [value]="getDateValue('From', column.key)"
+                          (change)="changeInputDateFilters($event.target.value, column.key, 'From')"
+                        />
+                      </div>
+                      <div>
+                        <label for="dateTo">{{ 'ubs-tables.date-to' | translate }}</label>
+                      </div>
+                      <div>
+                        <input
+                          class="filter-input"
+                          id="dateTo{{ column.key }}"
+                          type="date"
+                          name="dateTo"
+                          [value]="getDateValue('To', column.key)"
+                          (change)="changeInputDateFilters($event.target.value, column.key, 'To')"
+                        />
+                      </div>
                     </div>
                   </div>
                   <ng-template #nonDate>
