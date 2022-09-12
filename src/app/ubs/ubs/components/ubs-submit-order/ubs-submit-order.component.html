@@ -64,7 +64,7 @@
         <div class="order-info-container d-flex flex-column">
           <div class="order-info" *ngIf="additionalOrders[0]">
             <p class="order-header">{{ 'order-details.store-delivery' | translate }}</p>
-            <ul class="order-list d-flex">
+            <ul class="order-list d-flex flex-wrap">
               <li class="order-list-item">{{ 'order-details.order-numbers' | translate }} &nbsp;</li>
               <li class="order-list-item" *ngFor="let order of additionalOrders; let last = last">
                 <strong>{{ order }}{{ !last ? ',&nbsp;' : '' }}</strong>
