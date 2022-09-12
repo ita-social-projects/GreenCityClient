@@ -3,6 +3,7 @@ import { MatDialogModule } from '@angular/material/dialog';
 import { TranslateModule } from '@ngx-translate/core';
 
 import { UbsAdminOrderClientInfoComponent } from './ubs-admin-order-client-info.component';
+import { AbstractControl, FormGroup } from '@angular/forms';
 
 describe('UbsAdminOrderClientInfoComponent', () => {
   let component: UbsAdminOrderClientInfoComponent;
@@ -21,6 +22,10 @@ describe('UbsAdminOrderClientInfoComponent', () => {
     userViolationForCurrentOrder: 2
   };
 
+  const fakeFormGroup = {
+    controls: { recipientPhoneNumber: {} }
+  } as unknown as FormGroup;
+
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       imports: [MatDialogModule, TranslateModule.forRoot()],
@@ -32,6 +37,7 @@ describe('UbsAdminOrderClientInfoComponent', () => {
     fixture = TestBed.createComponent(UbsAdminOrderClientInfoComponent);
     component = fixture.componentInstance;
     component.userInfo = fakeUserInfo;
+    component.userInfoDto = fakeFormGroup;
     component.orderId = 259;
     component.pageOpen = true;
     fixture.detectChanges();
@@ -57,5 +63,29 @@ describe('UbsAdminOrderClientInfoComponent', () => {
     component.setViolationData();
     expect(component.totalUserViolations).toBe(5);
     expect(component.userViolationForCurrentOrder).toBe(2);
+  });
+
+  it('method getErrorMessageKey should return correct error message key - required', () => {
+    const formControlMock = { errors: { required: true } } as unknown as AbstractControl;
+
+    const result = component.getErrorMessage(formControlMock);
+
+    expect(result).toBe('input-error.required');
+  });
+
+  it('method getErrorMessageKey should return correct error message key - required', () => {
+    const formControlMock = { errors: { pattern: true } } as unknown as AbstractControl;
+
+    const result = component.getErrorMessage(formControlMock);
+
+    expect(result).toBe('input-error.number-length');
+  });
+
+  it('method getErrorMessageKey should return correct error message key - empty message key', () => {
+    const formControlMock = { errors: {} } as unknown as AbstractControl;
+
+    const result = component.getErrorMessage(formControlMock);
+
+    expect(result).toBe(undefined);
   });
 });
