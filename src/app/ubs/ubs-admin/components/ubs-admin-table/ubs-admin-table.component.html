@@ -209,13 +209,7 @@
           </div>
         </th>
         <th scope="row" *ngIf="column.title.key === 'select'" [ngStyle]="{ backgroundColor: '#fff', height: '16px', padding: '0px' }">
-          <mat-checkbox
-            (change)="$event && masterToggle()"
-            (change)="selectAll($event.checked)"
-            [checked]="allChecked"
-            [indeterminate]="!!idsToChange.length"
-          >
-          </mat-checkbox>
+          <mat-checkbox [checked]="allChecked" [indeterminate]="isIndeterminate" (change)="masterToggle($event)"> </mat-checkbox>
         </th>
       </mat-header-cell>
       <mat-cell
@@ -283,11 +277,10 @@
         <mat-checkbox
           *ngIf="column.editType === 'CHECKBOX'"
           [disabled]="checkStatusOfOrders(row.id)"
-          (change)="selectRowsToChange($event, row.id)"
-          class="select-cell"
-          (change)="$event ? selection.toggle(row) : null"
           [checked]="selection.isSelected(row)"
           [aria-label]="checkboxLabel(row)"
+          class="select-cell"
+          (change)="selectRowsToChange($event, row)"
         >
         </mat-checkbox>
       </mat-cell>

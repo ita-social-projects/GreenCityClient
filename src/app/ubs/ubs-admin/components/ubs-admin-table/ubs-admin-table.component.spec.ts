@@ -10,7 +10,7 @@ import { InfiniteScrollModule } from 'ngx-infinite-scroll';
 import { MatIconModule } from '@angular/material/icon';
 import { MatPaginatorModule } from '@angular/material/paginator';
 import { MatTableModule } from '@angular/material/table';
-import { MatCheckboxModule } from '@angular/material/checkbox';
+import { MatCheckboxChange, MatCheckboxModule } from '@angular/material/checkbox';
 import { TranslateModule } from '@ngx-translate/core';
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { RouterTestingModule } from '@angular/router/testing';
@@ -20,6 +20,7 @@ import { MatDialogConfig } from '@angular/material/dialog';
 import { ServerTranslatePipe } from 'src/app/shared/translate-pipe/translate-pipe.pipe';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
+import { SelectionModel } from '@angular/cdk/collections';
 
 describe('UsbAdminTableComponent', () => {
   let component: UbsAdminTableComponent;
@@ -180,36 +181,41 @@ describe('UsbAdminTableComponent', () => {
     expect(component.modelChanged.next).toHaveBeenCalledWith('filter');
   });
 
-  it('isAllSelected expect return true', () => {
-    component.selection = { selected: [1, 2] } as any;
-    component.dataSource = { data: [1, 2] } as any;
-    const Res = component.isAllSelected();
-    expect(Res).toBe(true);
-  });
+  it('should select all checkboxes without disabled', () => {
+    const data = { data: [{ id: 1 }, { id: 2 }, { id: 3 }] };
+    const event: MatCheckboxChange = { source: {} as any, checked: true };
 
-  it('masterToggle expect selection.clear have been called ', () => {
-    spyOn(component, 'isAllSelected').and.returnValue(true);
-    const Spy = spyOn(component.selection, 'clear');
-    component.masterToggle();
-    expect(Spy).toHaveBeenCalledTimes(1);
-  });
+    component.tableData = [
+      { id: 1, orderStatus: 'DONE' },
+      { id: 2, orderStatus: 'NEW' },
+      { id: 3, orderStatus: 'NEW' }
+    ];
 
-  it('masterToggle  expect selection.selected changed', () => {
-    component.dataSource = { data: [1, 2] } as any;
-    spyOn(component, 'isAllSelected').and.returnValue(false);
-    component.masterToggle();
-    expect(component.selection.selected).toEqual([1, 2]);
+    component.idsToChange = [];
+    component.selection = new SelectionModel([] as any);
+    component.dataSource = data as any;
+    component.masterToggle(event);
+
+    expect(component.allChecked).toBe(true);
+    expect(component.idsToChange).toEqual([2, 3]);
+    expect(component.selection.selected).toEqual([{ id: 2 }, { id: 3 }]);
   });
 
   it('checkboxLabel should return select all', () => {
-    spyOn(component, 'isAllSelected').and.returnValue(true);
+    component.dataSource = { data: [{ id: 1 }] } as any;
+    component.tableData = [{ id: 1, orderStatus: 'NEW' }];
+    component.selection = new SelectionModel(false, [{ id: 1 }] as any);
+
     const Res = component.checkboxLabel();
+
     expect(Res).toBe('select all');
   });
 
   it('checkboxLabel should return deselect all', () => {
-    spyOn(component, 'isAllSelected').and.returnValue(false);
+    component.dataSource = { data: [{ id: 2 }] } as any;
+    component.tableData = [{ id: 2, orderStatus: 'DONE' }];
     const Res = component.checkboxLabel();
+
     expect(Res).toBe('deselect all');
   });
 
@@ -356,28 +362,14 @@ describe('UsbAdminTableComponent', () => {
 
   it('selectRowsToChange true', () => {
     component.idsToChange = [];
-    component.selectRowsToChange({ checked: true }, 1);
+    component.selectRowsToChange({ checked: true } as any, { id: 1 });
     expect(component.idsToChange).toEqual([1]);
   });
 
   it('selectRowsToChange false expect idsToChange change', () => {
     component.idsToChange = [2, 1];
-    component.selectRowsToChange({ checked: false }, 1);
+    component.selectRowsToChange({ checked: false } as any, { id: 1 });
     expect(component.idsToChange).toEqual([2]);
-  });
-
-  it('selectAll with true expect allChecked to be true ', () => {
-    component.allChecked = false;
-    component.idsToChange = [1];
-    component.selectAll(true);
-    expect(component.allChecked).toBe(true);
-    expect(component.idsToChange).toEqual([]);
-  });
-
-  it('selectAll with false expect allChecked to be false ', () => {
-    component.allChecked = true;
-    component.selectAll(false);
-    expect(component.allChecked).toBe(false);
   });
 
   it('editCell expect editAll has called', () => {
