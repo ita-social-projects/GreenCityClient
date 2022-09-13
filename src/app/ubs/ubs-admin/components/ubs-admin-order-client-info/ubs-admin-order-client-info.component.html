@@ -1,53 +1,72 @@
-<div class="container">
-  <div class="form" [formGroup]="userInfoDto">
-    <div class="empty_card" (click)="openDetails()">
-      <img *ngIf="!pageOpen" src="assets/img/ubs-admin-orders/arrow_up.svg" alt="arrow up" />
-      <img *ngIf="pageOpen" src="assets/img/ubs-admin-orders/arrow_down.svg" alt="arrow down" />
-      <h3 class="form__headline">{{ 'customer-info.title' | translate }}</h3>
+<div class='container'>
+  <div [formGroup]='userInfoDto' class='form'>
+    <div (click)='openDetails()' class='empty_card'>
+      <img *ngIf='!pageOpen' alt='arrow up' src='assets/img/ubs-admin-orders/arrow_up.svg' />
+      <img *ngIf='pageOpen' alt='arrow down' src='assets/img/ubs-admin-orders/arrow_down.svg' />
+      <h3 class='form__headline'>{{ 'customer-info.title' | translate }}</h3>
     </div>
-    <div *ngIf="pageOpen">
-      <div class="form__wrapper row d-flex">
-        <div class="form__block col-md-4 col-sm-6">
-          <div class="form-group">
-            <p class="form__subtitle">
+    <div *ngIf='pageOpen'>
+      <div class='form__wrapper row d-flex'>
+        <div class='form__block col-md-4 col-sm-6'>
+          <div class='form-group'>
+            <p class='form__subtitle'>
               {{ 'customer-info.customer.title' | translate }}
             </p>
-            <div class="person-name">
-              <label class="form__label" for="customer-name">
+            <div class='person-name'>
+              <label class='form__label' for='customer-name'>
                 {{ 'customer-info.customer.name-label' | translate }}
               </label>
-              <label class="form__label" for="customer-surname">
+              <label class='form__label' for='customer-surname'>
                 {{ 'customer-info.customer.surname-label' | translate }}
               </label>
-              <input class="name-input form-control" type="text" id="customer-surname" placeholder="{{ userInfo.customerName }}" disabled />
-              <input class="name-input form-control" type="text" id="customer-name" placeholder="{{ userInfo.customerSurName }}" disabled />
+              <input class='name-input form-control' disabled id='customer-surname'
+                     placeholder='{{ userInfo.customerName }}' type='text' />
+              <input class='name-input form-control' disabled id='customer-name'
+                     placeholder='{{ userInfo.customerSurName }}' type='text' />
             </div>
           </div>
-          <div class="form-group">
-            <label class="form__label" for="customer-tel">
+          <div class='form-group'>
+            <label class='form__label' for='customer-tel'>
               {{ 'customer-info.customer.tel-label' | translate }}
             </label>
-            <input class="form-control" type="tel" id="customer-tel" placeholder="{{ userInfo.customerPhoneNumber }}" disabled />
+            <input class='form-control' disabled id='customer-tel' placeholder='{{ userInfo.customerPhoneNumber }}'
+                   type='tel' />
           </div>
-          <div class="form-group">
-            <label class="form__label" for="customer-email">
+          <div class='form-group'>
+            <label class='form__label' for='customer-email'>
               {{ 'customer-info.customer.email-label' | translate }}
             </label>
-            <input class="form-control" type="email" id="customer-email" placeholder="{{ userInfo.customerEmail }}" disabled />
+            <input class='form-control' disabled id='customer-email' placeholder='{{ userInfo.customerEmail }}'
+                   type='email' />
           </div>
         </div>
-        <div class="form__block col-md-4 col-sm-6">
-          <div class="form-group">
-            <p class="form__subtitle">{{ 'customer-info.recipient.title' | translate }}</p>
-            <div class="person-name">
-              <label class="form__label" for="recipient-name">
+        <div class='form__block col-md-4 col-sm-6'>
+          <div class='form-group'>
+            <p class='form__subtitle'>{{ 'customer-info.recipient.title' | translate }}</p>
+            <div class='person-name'>
+              <label class='form__label' for='recipient-name'>
+                <div
+                  *ngIf="userInfoDto.controls['recipientName'].invalid && userInfoDto.controls['recipientName'].touched">
+                  <div class='validation-message'>
+                    {{ getErrorMessage(userInfoDto.controls['recipientName']) | translate }}
+                  </div>
+                </div>
                 {{ 'customer-info.recipient.name-label' | translate }}
               </label>
-              <label class="form__label" for="recipient-surname">
+              <label class='form__label' for='recipient-surname'>
+
+                <div
+                  *ngIf="userInfoDto.controls['recipientSurName'].invalid && userInfoDto.controls['recipientSurName'].touched">
+                  <div class='validation-message'>
+                    {{ getErrorMessage(userInfoDto.controls['recipientSurName']) | translate }}
+                  </div>
+                </div>
                 {{ 'customer-info.recipient.surname-label' | translate }}
               </label>
-              <input class="name-input form-control" type="text" id="recipient-name" formControlName="recipientName" />
-              <input class="name-input form-control" type="text" id="recipient-surname" formControlName="recipientSurName" />
+              <input class='name-input form-control' formControlName='recipientName' id='recipient-name'
+                     type='text' />
+              <input class='name-input form-control' formControlName='recipientSurName' id='recipient-surname'
+                     type='text' />
             </div>
           </div>
           <div class="form-group">
@@ -55,17 +74,17 @@
               {{ 'customer-info.recipient.tel-label' | translate }}
             </label>
             <input
-              class="form-control"
-              type="tel"
-              id="recipient-tel"
+              [imask]='{ mask: phoneMask }'
+              [unmask]='true'
+              class='form-control'
+              formControlName='recipientPhoneNumber'
+              id='recipient-tel'
               placeholder="{{ 'customer-info.recipient.tel-placeholder' | translate }}"
-              formControlName="recipientPhoneNumber"
-              [unmask]="true"
-              [imask]="{ mask: phoneMask }"
+              type='tel'
             />
           </div>
           <div *ngIf="userInfoDto.controls['recipientPhoneNumber'].invalid && userInfoDto.controls['recipientPhoneNumber'].touched">
-            <div class="error-message">
+            <div class='error-message'>
               {{ getErrorMessage(userInfoDto.controls['recipientPhoneNumber']) | translate }}
             </div>
           </div>
@@ -74,11 +93,11 @@
               {{ 'customer-info.recipient.email-label' | translate }}
             </label>
             <input
-              class="form-control"
-              type="email"
-              id="recipient-email"
+              class='form-control'
+              formControlName='recipientEmail'
+              id='recipient-email'
               placeholder="{{ 'customer-info.recipient.email-placeholder' | translate }}"
-              formControlName="recipientEmail"
+              type='email'
             />
           </div>
         </div>
@@ -98,12 +117,12 @@
             <small class="form__label">
               {{ 'customer-info.violation.current-order' | translate }}
             </small>
-            <p [class.active]="userViolationForCurrentOrder" (click)="userViolationForCurrentOrder && openModal(true)">
+            <p (click)='userViolationForCurrentOrder && openModal(true)' [class.active]='userViolationForCurrentOrder'>
               {{ userViolationForCurrentOrder }}
             </p>
           </div>
         </div>
-        <button class="btn" [disabled]="userViolationForCurrentOrder >= 1" type="button" (click)="openModal(false)">
+        <button (click)='openModal(false)' [disabled]='userViolationForCurrentOrder >= 1' class='btn' type='button'>
           {{ 'customer-info.violation.button' | translate }}
         </button>
       </div>

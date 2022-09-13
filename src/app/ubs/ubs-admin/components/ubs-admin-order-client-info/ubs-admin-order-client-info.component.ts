@@ -1,5 +1,5 @@
 import { Component, Input, OnDestroy, OnInit } from '@angular/core';
-import { FormGroup, AbstractControl } from '@angular/forms';
+import { AbstractControl, FormGroup } from '@angular/forms';
 import { Subject } from 'rxjs';
 import { MatDialog } from '@angular/material/dialog';
 import { AddViolationsComponent } from '../add-violations/add-violations.component';
@@ -19,11 +19,10 @@ export class UbsAdminOrderClientInfoComponent implements OnInit, OnDestroy {
   @Input() orderId: number;
 
   phoneMask = Masks.phoneMask;
-
-  private destroy$: Subject<boolean> = new Subject<boolean>();
   pageOpen: boolean;
   public userViolationForCurrentOrder: number;
   public totalUserViolations: number;
+  private destroy$: Subject<boolean> = new Subject<boolean>();
 
   constructor(private dialog: MatDialog) {}
 
@@ -71,6 +70,14 @@ export class UbsAdminOrderClientInfoComponent implements OnInit, OnDestroy {
 
     if (abstractControl.errors.pattern) {
       return 'input-error.number-length';
+    }
+
+    if (abstractControl.errors.maxlength) {
+      return 'input-error.max-length';
+    }
+
+    if (abstractControl.errors.pattern) {
+      return 'input-error.pattern';
     }
   }
 

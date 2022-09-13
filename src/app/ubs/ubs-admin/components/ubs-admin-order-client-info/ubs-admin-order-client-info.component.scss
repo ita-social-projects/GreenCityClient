@@ -111,3 +111,13 @@ input {
   width: max-content;
   vertical-align: middle;
 }
+
+.validation-message {
+  font-size: 10px;
+  color: var(--error-ligh-red);
+  position: absolute;
+  top: 105px;
+  width: max-content;
+  display: inline-block;
+
+}
