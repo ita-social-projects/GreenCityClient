@@ -207,6 +207,16 @@ export class UbsAdminTableComponent implements OnInit, AfterViewChecked, OnDestr
     this.cdr.detectChanges();
   }
 
+  get isAllSelected(): boolean {
+    const numRows = this.dataSource?.data.filter((row) => !this.checkStatusOfOrders(row.id)).length;
+
+    return numRows && this.selection.selected.length === numRows;
+  }
+
+  get isIndeterminate(): boolean {
+    return !!this.idsToChange.length && !this.isAllSelected;
+  }
+
   checkAllColumnsDisplayed(): void {
     this.isAllColumnsDisplayed = this.displayedColumns.length === this.displayedColumnsView.length;
   }
@@ -238,19 +248,27 @@ export class UbsAdminTableComponent implements OnInit, AfterViewChecked, OnDestr
     this.displayedColumnsView = displayedColumnsViewCopy;
   }
 
-  isAllSelected() {
-    const numSelected = this.selection.selected.length;
-    const numRows = this.dataSource.data.length;
-    return numSelected === numRows;
-  }
+  masterToggle(event: MatCheckboxChange): void {
+    this.allChecked = event.checked;
 
-  masterToggle() {
-    this.isAllSelected() ? this.selection.clear() : this.dataSource.data.forEach((row) => this.selection.select(row));
+    if (this.isAllSelected) {
+      this.selection.clear();
+      this.idsToChange.length = 0;
+
+      return;
+    }
+
+    this.dataSource.data.forEach((row) => {
+      if (!this.checkStatusOfOrders(row.id) && !this.idsToChange.includes(row.id)) {
+        this.selection.select(row);
+        this.idsToChange.push(row.id);
+      }
+    });
   }
 
   checkboxLabel(row?: any): string {
     if (!row) {
-      return `${this.isAllSelected() ? 'select' : 'deselect'} all`;
+      return `${this.isAllSelected ? 'select' : 'deselect'} all`;
     }
     return `${this.selection.isSelected(row) ? 'deselect' : 'select'} row ${row.id + 1}`;
   }
@@ -409,21 +427,17 @@ export class UbsAdminTableComponent implements OnInit, AfterViewChecked, OnDestr
       .filter((arrayList) => arrayList?.length !== 0);
     this.showPopUp = sortedOrders.length !== 0;
   }
-  selectRowsToChange(event, id: number): void {
-    if (event.checked) {
-      this.idsToChange.push(id);
-    } else {
-      this.idsToChange = this.idsToChange.filter((item) => item !== id);
-    }
-  }
 
-  selectAll(checked: boolean) {
-    if (checked) {
-      this.allChecked = checked;
-      this.idsToChange = [];
+  selectRowsToChange(event: MatCheckboxChange, row: any): void {
+    this.selection.toggle(row);
+
+    if (event.checked && !this.idsToChange.includes(row.id)) {
+      this.idsToChange.push(row.id);
     } else {
-      this.allChecked = checked;
+      this.idsToChange = this.idsToChange.filter((item: number) => item !== row.id);
     }
+
+    this.allChecked = this.isAllSelected;
   }
 
   public editCell(e: IEditCell): void {

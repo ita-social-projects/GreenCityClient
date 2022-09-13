@@ -1,6 +1,6 @@
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { async, ComponentFixture, fakeAsync, TestBed, tick } from '@angular/core/testing';
-import { ReactiveFormsModule } from '@angular/forms';
+import { AbstractControl, ReactiveFormsModule } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { By } from '@angular/platform-browser';
 import { MatSnackBarComponent } from '@global-errors/mat-snack-bar/mat-snack-bar.component';
@@ -202,6 +202,34 @@ describe('UbsUserProfilePageComponent', () => {
     component.alternativeEmailDisplay = true;
     component.toggleAlternativeEmail();
     expect(component.alternativeEmailDisplay).toBeFalsy();
+  });
+
+  it('method getErrorMessageKey should return correct error message key - required', () => {
+    const formControlMock = { errors: { required: true } } as unknown as AbstractControl;
+    const result = component.getErrorMessageKey(formControlMock);
+
+    expect(result).toBe('input-error.required');
+  });
+
+  it('method getErrorMessageKey should return correct error message key - maxlength', () => {
+    const formControlMock = { errors: { maxlength: true } } as unknown as AbstractControl;
+    const result = component.getErrorMessageKey(formControlMock);
+
+    expect(result).toBe('ubs-client-profile.error-message-if-edit-name-surname');
+  });
+
+  it('method getErrorMessageKey should return correct error message key - pattern', () => {
+    const formControlMock = { errors: { pattern: true } } as unknown as AbstractControl;
+    const result = component.getErrorMessageKey(formControlMock);
+
+    expect(result).toBe('input-error.pattern');
+  });
+
+  it('method getErrorMessageKey should return correct error message key - empty message key', () => {
+    const formControlMock = { errors: {} } as unknown as AbstractControl;
+    const result = component.getErrorMessageKey(formControlMock);
+
+    expect(result).toBe(undefined);
   });
 
   describe('Testing controls for the form:', () => {

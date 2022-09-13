@@ -27,7 +27,8 @@ export class UBSInputErrorComponent implements OnChanges {
     maxlength: 'input-error.max-length',
     pattern: 'input-error.pattern',
     required: 'input-error.required',
-    wrongNumber: 'input-error.number-wrong'
+    wrongNumber: 'input-error.number-wrong',
+    numberLength: 'input-error.number-length'
   };
 
   ngOnChanges() {

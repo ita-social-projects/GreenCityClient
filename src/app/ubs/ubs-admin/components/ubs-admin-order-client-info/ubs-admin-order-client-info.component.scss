@@ -102,3 +102,12 @@ input {
 .ng-invalid:not(div) {
   border: 1px solid var(--error-ligh-red);
 }
+
+.error-message {
+  font-size: 10px;
+  line-height: 12px;
+  color: var(--error-ligh-red);
+  display: inline-block;
+  width: max-content;
+  vertical-align: middle;
+}

@@ -1,5 +1,5 @@
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { async, ComponentFixture, fakeAsync, TestBed, tick } from '@angular/core/testing';
 import { FormBuilder, ReactiveFormsModule } from '@angular/forms';
 import { TranslateModule } from '@ngx-translate/core';
 import { of, Subject } from 'rxjs';
@@ -10,7 +10,7 @@ import { Store } from '@ngrx/store';
 import { UbsAdminTariffsCardPopUpComponent } from './ubs-admin-tariffs-card-pop-up.component';
 import { TariffsService } from '../../../services/tariffs.service';
 import { ModalTextComponent } from '../../shared/components/modal-text/modal-text.component';
-import { Locations } from '../../../models/tariffs.interface';
+import { TariffConfirmationPopUpComponent } from '../../shared/components/tariff-confirmation-pop-up/tariff-confirmation-pop-up.component';
 
 describe('UbsAdminTariffsCardPopUpComponent', () => {
   let component: UbsAdminTariffsCardPopUpComponent;
@@ -179,12 +179,17 @@ describe('UbsAdminTariffsCardPopUpComponent', () => {
   const matDialogMock = jasmine.createSpyObj('matDialog', ['open']);
   matDialogMock.open.and.returnValue({ afterClosed: () => of(true) });
   const fakeMatDialogRef = jasmine.createSpyObj(['close', 'afterClosed']);
-  const afterClosedFake = fakeMatDialogRef.afterClosed.and.returnValue(of(true));
+  fakeMatDialogRef.afterClosed.and.returnValue(of(true));
 
-  const tariffsServiceMock = jasmine.createSpyObj('tariffsServiceMock', ['getCouriers', 'getAllStations', 'getCardInfo', 'createCard']);
+  const tariffsServiceMock = jasmine.createSpyObj('tariffsServiceMock', [
+    'getCouriers',
+    'getAllStations',
+    'checkIfCardExist',
+    'createCard'
+  ]);
   tariffsServiceMock.getCouriers.and.returnValue(of([fakeCouriers]));
   tariffsServiceMock.getAllStations.and.returnValue(of([fakeStation]));
-  tariffsServiceMock.getCardInfo.and.returnValue(of([fakeTariffCard]));
+  tariffsServiceMock.checkIfCardExist.and.returnValue(of());
   tariffsServiceMock.createCard.and.returnValue(of());
 
   const storeMock = jasmine.createSpyObj('store', ['select', 'dispatch']);
@@ -225,16 +230,14 @@ describe('UbsAdminTariffsCardPopUpComponent', () => {
     const spy1 = spyOn(component, 'getLocations');
     const spy2 = spyOn(component, 'getCouriers');
     const spy3 = spyOn(component, 'getReceivingStation');
-    const spy4 = spyOn(component, 'getExistingCard');
-    const spy5 = spyOn(component, 'setStationPlaceholder');
-    const spy6 = spyOn(component, 'setCountOfSelectedCity');
+    const spy4 = spyOn(component, 'setStationPlaceholder');
+    const spy5 = spyOn(component, 'setCountOfSelectedCity');
     component.ngOnInit();
     expect(spy1).toHaveBeenCalled();
     expect(spy2).toHaveBeenCalled();
     expect(spy3).toHaveBeenCalled();
     expect(spy4).toHaveBeenCalled();
     expect(spy5).toHaveBeenCalled();
-    expect(spy6).toHaveBeenCalled();
   });
 
   it('should get all couriers', () => {
@@ -292,18 +295,6 @@ describe('UbsAdminTariffsCardPopUpComponent', () => {
     };
     component.onRegionSelected(mockEvent);
     expect(component.city.disabled).toEqual(false);
-  });
-
-  it('should get tariff cards', () => {
-    const fakeExistingCard = {
-      courierId: 0,
-      receivingStationsIdList: [0],
-      regionId: 0,
-      locationIdList: [0]
-    };
-    component.existingCardObj = [];
-    component.getExistingCard();
-    expect(component.existingCardObj).toEqual([fakeExistingCard]);
   });
 
   it('should call method for selecting one city', () => {
@@ -449,43 +440,65 @@ describe('UbsAdminTariffsCardPopUpComponent', () => {
     expect(component.station.errors).toEqual({ emptySelectedStation: true });
   });
 
-  it('should return true if objects are equal', () => {
-    expect(component.isObjectsEqual(locationItem, locationItem)).toEqual(true);
-  });
-
-  it('should return false if objects are not equal', () => {
-    expect(component.isObjectsEqual(locationItem, stationItem)).toEqual(false);
-  });
-
   it('should call functions on create card method', () => {
-    const spy1 = spyOn(component, 'createCardDto');
-    const spy2 = spyOn(component, 'isObjectsEqual');
-    component.createCard();
-    expect(spy1).toHaveBeenCalled();
-    expect(spy2).toHaveBeenCalled();
-  });
-
-  it('should check objects are equal on create card method', () => {
-    const spy = spyOn(component, 'isObjectsEqual');
-    spy.and.returnValue(true);
-    component.createCard();
-    expect(component.objectsAreEqual).toEqual(true);
-  });
-
-  it('should check objects are not equal on create card method', () => {
-    const spy = spyOn(component, 'isObjectsEqual');
-    spy.and.returnValue(false);
-    component.createCard();
-    expect(component.objectsAreEqual).toEqual(false);
-    expect(fakeMatDialogRef.close).toHaveBeenCalled();
-    expect(matDialogMock.open).toHaveBeenCalled();
-  });
-
-  it('should call createCardRequest after matDialogRef closed', () => {
-    const spy = spyOn(component, 'createCardRequest');
+    const spy = spyOn(component, 'createCardDto');
     component.createCard();
     expect(spy).toHaveBeenCalled();
+    expect(tariffsServiceMock.checkIfCardExist).toHaveBeenCalled();
   });
+
+  it('should check if card exist on create card method', fakeAsync(() => {
+    tariffsServiceMock.checkIfCardExist.and.returnValue(of(true));
+    component.createCard();
+    tick();
+    expect(component.isCardExist).toEqual(true);
+  }));
+
+  it('should open pop up if card do not exist on create card method', fakeAsync(() => {
+    tariffsServiceMock.checkIfCardExist.and.returnValue(of(false));
+    matDialogMock.open.and.returnValue(fakeMatDialogRef as any);
+    component.createCard();
+    tick();
+    expect(component.isCardExist).toEqual(false);
+    expect(fakeMatDialogRef.close).toHaveBeenCalled();
+    expect(matDialogMock.open).toHaveBeenCalledWith(TariffConfirmationPopUpComponent, {
+      hasBackdrop: true,
+      panelClass: 'address-matDialog-styles-w-100',
+      data: {
+        title: 'ubs-tariffs-add-location-pop-up.create_card_title',
+        courierName: component.courier.value,
+        courierEnglishName: component.courierEnglishName,
+        stationNames: component.selectedStation.map((it) => it.name),
+        regionName: component.region.value,
+        regionEnglishName: component.regionEnglishName,
+        locationNames: component.selectedCities.map((it) => it.location),
+        locationEnglishNames: component.selectedCities.map((it) => it.englishLocation),
+        action: 'ubs-tariffs-add-location-pop-up.create_button'
+      }
+    });
+  }));
+
+  it('should call create Card Object', () => {
+    component.createCardDto();
+    const fakeNewCard = {
+      courierId: component.courierId,
+      receivingStationsIdList: component.selectedStation.map((it) => it.id).sort(),
+      regionId: component.regionId,
+      locationIdList: component.selectedCities.map((it) => it.id).sort()
+    };
+    expect(component.createCardObj).toEqual(fakeNewCard);
+  });
+
+  it('shouldcreate new card on create card method', fakeAsync(() => {
+    const spy = spyOn(component, 'createCardRequest');
+    tariffsServiceMock.checkIfCardExist.and.returnValue(of(false));
+    matDialogMock.open.and.returnValue(fakeMatDialogRef as any);
+    component.createCard();
+    tick();
+    expect(fakeMatDialogRef.afterClosed).toHaveBeenCalled();
+    tick();
+    expect(spy).toHaveBeenCalled();
+  }));
 
   it('should filter options', () => {
     const mockStationsName = ['Фейк1', 'Фейк2'];
@@ -496,9 +509,9 @@ describe('UbsAdminTariffsCardPopUpComponent', () => {
   it('should call createCard', () => {
     const fakeNewCard = {
       courierId: 0,
-      receivingStationsIdList: 0,
+      receivingStationsIdList: [0],
       regionId: 0,
-      locationIdList: 0
+      locationIdList: [0]
     };
     component.createCardRequest(fakeNewCard);
     expect(tariffsServiceMock.createCard).toHaveBeenCalled();

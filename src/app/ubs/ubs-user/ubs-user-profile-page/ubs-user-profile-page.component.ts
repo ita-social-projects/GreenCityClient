@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { FormControl, FormGroup, Validators, FormArray } from '@angular/forms';
+import { FormControl, FormGroup, Validators, FormArray, AbstractControl } from '@angular/forms';
 import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
 import { SignInIcons } from 'src/app/main/image-pathes/sign-in-icons';
 import { MatSnackBarComponent } from '@global-errors/mat-snack-bar/mat-snack-bar.component';
@@ -219,6 +219,20 @@ export class UbsUserProfilePageComponent implements OnInit {
 
   getControl(control: string) {
     return this.userForm.get(control);
+  }
+
+  public getErrorMessageKey(abstractControl: AbstractControl): string {
+    if (abstractControl.errors.required) {
+      return 'input-error.required';
+    }
+
+    if (abstractControl.errors.maxlength) {
+      return 'ubs-client-profile.error-message-if-edit-name-surname';
+    }
+
+    if (abstractControl.errors.pattern) {
+      return 'input-error.pattern';
+    }
   }
 
   toggleAlternativeEmail() {

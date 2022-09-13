@@ -265,9 +265,9 @@ export class UBSAddAddressPopUpComponent implements OnInit, OnDestroy, AfterView
       actual: true
     });
 
-    this.region.setValue(this.currentRegion);
+    this.region.setValue(this.locations.regionDto.nameUk);
     this.region.disable();
-    this.regionEn.setValue(this.currentRegion);
+    this.regionEn.setValue(this.locations.regionDto.nameEn);
     this.regionEn.disable();
 
     this.city.setValue(this.currentCity);
@@ -370,22 +370,22 @@ export class UBSAddAddressPopUpComponent implements OnInit, OnDestroy, AfterView
   setDistrictTranslation(name: string): void {
     if (this.isDistrict) {
       if (this.currentLanguage === 'ua') {
-        const elem = this.regionsKyiv.find((el) => el.name === name);
+        const elem = this.listOflocations.getRegionsKyiv('ua').find((el) => el.name === name);
         const dist = this.listOflocations.getRegionsKyiv('en').find((el) => el?.key === elem?.key) || null;
         this.districtEn.setValue(dist?.name);
       } else {
         const elem = this.listOflocations.getRegionsKyiv('en').find((el) => el.name === name);
-        const dist = this.regionsKyiv.find((el) => el?.key === elem?.key) || null;
+        const dist = this.listOflocations.getRegionsKyiv('ua').find((el) => el?.key === elem?.key) || null;
         this.district.setValue(dist?.name);
       }
     } else {
       if (this.currentLanguage === 'ua') {
-        const elem = this.regions.find((el) => el.name === name);
+        const elem = this.listOflocations.getRegions('ua').find((el) => el.name === name);
         const dist = this.listOflocations.getRegions('en').find((el) => el?.key === elem?.key) || null;
         this.districtEn.setValue(dist?.name);
       } else {
         const elem = this.listOflocations.getRegions('en').find((el) => el.name === name);
-        const dist = this.regions.find((el) => el?.key === elem?.key) || null;
+        const dist = this.listOflocations.getRegions('ua').find((el) => el?.key === elem?.key) || null;
         this.district.setValue(dist?.name);
       }
     }

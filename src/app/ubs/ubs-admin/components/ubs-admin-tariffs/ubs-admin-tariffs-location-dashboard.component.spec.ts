@@ -1,4 +1,4 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { async, ComponentFixture, fakeAsync, TestBed, tick } from '@angular/core/testing';
 import { UbsAdminTariffsLocationDashboardComponent } from './ubs-admin-tariffs-location-dashboard.component';
 import { HttpClientTestingModule, HttpTestingController } from '@angular/common/http/testing';
 import { RouterTestingModule } from '@angular/router/testing';
@@ -159,6 +159,10 @@ describe('UbsAdminTariffsLocationDashboardComponent', () => {
           {
             languageCode: 'ua',
             locationName: 'fake'
+          },
+          {
+            languageCode: 'en',
+            locationName: 'fake'
           }
         ]
       },
@@ -169,6 +173,10 @@ describe('UbsAdminTariffsLocationDashboardComponent', () => {
         locationTranslationDtoList: [
           {
             languageCode: 'ua',
+            locationName: 'fake2'
+          },
+          {
+            languageCode: 'en',
             locationName: 'fake2'
           }
         ]
@@ -189,13 +197,24 @@ describe('UbsAdminTariffsLocationDashboardComponent', () => {
     }
   };
 
-  const tariffsServiceMock = jasmine.createSpyObj('tariffsServiceMock', ['getCouriers', 'getAllStations', 'getFilteredCard']);
+  const tariffsServiceMock = jasmine.createSpyObj('tariffsServiceMock', [
+    'getCouriers',
+    'getAllStations',
+    'getFilteredCard',
+    'checkIfCardExist',
+    'createCard'
+  ]);
   tariffsServiceMock.getCouriers.and.returnValue(of([fakeCouriers]));
   tariffsServiceMock.getAllStations.and.returnValue(of([fakeStation]));
   tariffsServiceMock.getFilteredCard.and.returnValue(of([fakeTariffCard]));
+  tariffsServiceMock.createCard.and.returnValue(of());
+  tariffsServiceMock.checkIfCardExist.and.returnValue(of());
 
   const matDialogMock = jasmine.createSpyObj('matDialogMock', ['open']);
   matDialogMock.open.and.returnValue(dialogStub);
+
+  const fakeMatDialogRef = jasmine.createSpyObj(['close', 'afterClosed']);
+  fakeMatDialogRef.afterClosed.and.returnValue(of(true));
 
   const storeMock = jasmine.createSpyObj('Store', ['select', 'dispatch']);
   storeMock.select.and.returnValue(of({ locations: { locations: [fakeLocations] } }));
@@ -251,9 +270,9 @@ describe('UbsAdminTariffsLocationDashboardComponent', () => {
     const eventMock = {
       value: ''
     };
-    component.checkedCities = [];
+    component.selectedCities = [];
     component.addItem(eventMock as any);
-    expect(component.checkedCities.length).toEqual(0);
+    expect(component.selectedCities.length).toEqual(0);
     expect(component.city.value).toEqual('');
   });
 
@@ -261,9 +280,9 @@ describe('UbsAdminTariffsLocationDashboardComponent', () => {
     const eventMock = {
       value: 'First'
     };
-    component.checkedCities = [];
+    component.selectedCities = [];
     component.addItem(eventMock as any);
-    expect(component.checkedCities.length).toEqual(1);
+    expect(component.selectedCities.length).toEqual(1);
     expect(component.city.value).toEqual('');
   });
 
@@ -274,7 +293,7 @@ describe('UbsAdminTariffsLocationDashboardComponent', () => {
       }
     };
     const spy = spyOn(component, 'selectCity');
-    component.selected(eventMock as any);
+    component.onSelectCity(eventMock as any);
     expect(spy).toHaveBeenCalledWith(eventMock);
     expect(component.city.value).toEqual('');
   });
@@ -286,7 +305,7 @@ describe('UbsAdminTariffsLocationDashboardComponent', () => {
       }
     };
     const spy = spyOn(component, 'toggleSelectAllCity');
-    component.selected(eventMock as any);
+    component.onSelectCity(eventMock as any);
     expect(spy).toHaveBeenCalled();
     expect(component.city.value).toEqual('');
   });
@@ -297,12 +316,12 @@ describe('UbsAdminTariffsLocationDashboardComponent', () => {
         viewValue: 'fake'
       }
     };
-    component.checkedCities = [
-      { name: 'fake', id: 159 },
-      { name: 'fake2', id: 0 }
+    component.selectedCities = [
+      { name: 'fake', id: 159, englishName: 'fake' },
+      { name: 'fake2', id: 0, englishName: 'fake2' }
     ];
     component.selectCity(eventMock as any);
-    expect(component.checkedCities).toEqual([{ name: 'fake2', id: 0 }]);
+    expect(component.selectedCities).toEqual([{ name: 'fake2', id: 0, englishName: 'fake2' }]);
   });
 
   it('should add new selected city if it doesnot exist in list', () => {
@@ -311,16 +330,16 @@ describe('UbsAdminTariffsLocationDashboardComponent', () => {
         viewValue: 'fake'
       }
     };
-    component.checkedCities = [{ name: 'fake2', id: 0 }];
+    component.selectedCities = [{ name: 'fake2', id: 0, englishName: 'fake2' }];
     component.selectCity(eventMock as any);
-    expect(component.checkedCities).toEqual([
-      { name: 'fake2', id: 0 },
-      { name: 'fake', id: 159 }
+    expect(component.selectedCities).toEqual([
+      { name: 'fake2', id: 0, englishName: 'fake2' },
+      { name: 'fake', id: 159, englishName: 'fake' }
     ]);
   });
 
   it('should check if all is not choosen', () => {
-    component.checkedCities = [{ name: 'fake', id: 159 }];
+    component.selectedCities = [{ name: 'fake', id: 159, englishName: 'fake' }];
     component.cities = [
       { name: 'fake', id: 159 },
       { name: 'fake2', id: 0 }
@@ -330,9 +349,9 @@ describe('UbsAdminTariffsLocationDashboardComponent', () => {
   });
 
   it('should check if all is choosen', () => {
-    component.checkedCities = [
-      { name: 'fake', id: 159 },
-      { name: 'fake2', id: 0 }
+    component.selectedCities = [
+      { name: 'fake', id: 159, englishName: 'fake' },
+      { name: 'fake2', id: 0, englishName: 'fake2' }
     ];
     component.cities = [
       { name: 'fake', id: 159 },
@@ -410,7 +429,7 @@ describe('UbsAdminTariffsLocationDashboardComponent', () => {
       value: 'fakeCourier'
     };
     const fakeFilterData = {
-      status: 'ACTIVE',
+      status: '',
       courier: 1
     };
     const spy = spyOn(component, 'getExistingCard');
@@ -423,7 +442,7 @@ describe('UbsAdminTariffsLocationDashboardComponent', () => {
       value: 'all'
     };
     const fakeFilterData = {
-      status: 'ACTIVE',
+      status: '',
       courier: ''
     };
     const spy = spyOn(component, 'getExistingCard');
@@ -438,7 +457,7 @@ describe('UbsAdminTariffsLocationDashboardComponent', () => {
       }
     };
     const fakeFilterData = {
-      status: 'ACTIVE',
+      status: '',
       region: 1
     };
     const spy = spyOn(component, 'getExistingCard');
@@ -453,7 +472,7 @@ describe('UbsAdminTariffsLocationDashboardComponent', () => {
       }
     };
     const fakeFilterData = {
-      status: 'ACTIVE',
+      status: '',
       region: ''
     };
     const spy = spyOn(component, 'getExistingCard');
@@ -480,7 +499,7 @@ describe('UbsAdminTariffsLocationDashboardComponent', () => {
       }
     };
     const fakeFilterData = {
-      status: 'ACTIVE',
+      status: '',
       receivingStation: [1]
     };
     const spy = spyOn(component, 'getExistingCard');
@@ -495,7 +514,7 @@ describe('UbsAdminTariffsLocationDashboardComponent', () => {
       }
     };
     const fakeFilterData = {
-      status: 'ACTIVE',
+      status: '',
       receivingStation: [1]
     };
     const spy = spyOn(component, 'getExistingCard');
@@ -510,11 +529,11 @@ describe('UbsAdminTariffsLocationDashboardComponent', () => {
       }
     };
     const fakeFilterData = {
-      status: 'ACTIVE',
+      status: '',
       location: [159, 0]
     };
     const spy = spyOn(component, 'getExistingCard');
-    component.selected(eventMock as any);
+    component.onSelectCity(eventMock as any);
     expect(spy).toHaveBeenCalledWith(fakeFilterData);
   });
 
@@ -526,11 +545,11 @@ describe('UbsAdminTariffsLocationDashboardComponent', () => {
       }
     };
     const fakeFilterData = {
-      status: 'ACTIVE',
+      status: '',
       location: [159]
     };
     const spy = spyOn(component, 'getExistingCard');
-    component.selected(eventMock as any);
+    component.onSelectCity(eventMock as any);
     expect(spy).toHaveBeenCalledWith(fakeFilterData);
   });
 
@@ -542,8 +561,8 @@ describe('UbsAdminTariffsLocationDashboardComponent', () => {
     ];
     component.toggleSelectAllCity();
     expect(spy).toHaveBeenCalled();
-    expect(component.checkedCities.length).toEqual(2);
-    expect(component.checkedCities).toEqual([
+    expect(component.selectedCities.length).toEqual(2);
+    expect(component.selectedCities).toEqual([
       { name: 'First', id: 1 },
       { name: 'Second', id: 2 }
     ]);
@@ -553,7 +572,7 @@ describe('UbsAdminTariffsLocationDashboardComponent', () => {
     const spy = spyOn(component, 'isCityChecked').and.returnValue(true);
     component.toggleSelectAllCity();
     expect(spy).toHaveBeenCalled();
-    expect(component.checkedCities.length).toBe(0);
+    expect(component.selectedCities.length).toBe(0);
   });
 
   it('should select all items of stations', () => {
@@ -615,7 +634,7 @@ describe('UbsAdminTariffsLocationDashboardComponent', () => {
     const spy = spyOn(component, 'checkRegionValue');
     component.region.setValue('Fake region');
     expect(spy).toHaveBeenCalledWith('Fake region');
-    expect(component.checkedCities).toEqual([]);
+    expect(component.selectedCities).toEqual([]);
   });
 
   it('navigate to pricing page', () => {
@@ -643,6 +662,115 @@ describe('UbsAdminTariffsLocationDashboardComponent', () => {
   it('should get all couriers', () => {
     component.getCouriers();
     expect(component.couriersName).toEqual(['fakeCourier']);
+  });
+
+  it('should create new card on create card method', fakeAsync(() => {
+    const spy1 = spyOn(component, 'createCardRequest');
+    const spy2 = spyOn(component, 'getExistingCard');
+    const spy3 = spyOn(component, 'setCountOfCheckedCity');
+    const spy4 = spyOn(component, 'setStationPlaceholder');
+    matDialogMock.open.and.returnValue(fakeMatDialogRef as any);
+    component.createTariffCard();
+    expect(fakeMatDialogRef.afterClosed).toHaveBeenCalled();
+    tick();
+    expect(spy1).toHaveBeenCalled();
+    expect(spy2).toHaveBeenCalled();
+    expect(spy2).toHaveBeenCalledWith({});
+    expect(spy3).toHaveBeenCalled();
+    expect(spy4).toHaveBeenCalled();
+    expect(component.region.value).toEqual('');
+    expect(component.courier.value).toEqual('');
+    expect(component.selectedCities).toEqual([]);
+    expect(component.selectedStation).toEqual([]);
+    expect(component.isCardExist).toEqual(false);
+  }));
+
+  it('should call create Card Object', () => {
+    component.createCardDto();
+    const fakeNewCard = {
+      courierId: component.courierId,
+      receivingStationsIdList: component.selectedStation.map((it) => it.id).sort(),
+      regionId: component.regionId,
+      locationIdList: component.selectedCities.map((it) => it.id).sort()
+    };
+    expect(component.createCardObj).toEqual(fakeNewCard);
+  });
+
+  it('should call createCard', () => {
+    const fakeCard = {
+      courierId: 0,
+      receivingStationsIdList: [0],
+      regionId: 0,
+      locationIdList: [0]
+    };
+    component.createCardRequest(fakeCard);
+    expect(tariffsServiceMock.createCard).toHaveBeenCalled();
+  });
+
+  it('should change isFieldFilled to true if all fields are filled', () => {
+    component.region.setValue('fake');
+    component.courier.setValue('fake');
+    component.selectedStation = [{ name: 'stationItem', id: 1 }];
+    component.selectedCities = [{ name: 'fake', id: 159, englishName: 'fake' }];
+    component.checkisCardExist();
+    expect(component.isFieldFilled).toBe(true);
+  });
+
+  it('should call functions on checkisCardExist', () => {
+    component.region.setValue('fake');
+    component.courier.setValue('fake');
+    component.selectedStation = [{ name: 'stationItem', id: 1 }];
+    component.selectedCities = [{ name: 'fake', id: 159, englishName: 'fake' }];
+    const spy = spyOn(component, 'createCardDto');
+    component.checkisCardExist();
+    expect(spy).toHaveBeenCalled();
+    expect(tariffsServiceMock.checkIfCardExist).toHaveBeenCalled();
+  });
+
+  it('should call function on create card method', () => {
+    const spy1 = spyOn(component, 'createCardDto');
+    component.createTariffCard();
+    expect(spy1).toHaveBeenCalled();
+  });
+
+  it('should call createCard', () => {
+    const fakeNewCard = {
+      courierId: 0,
+      receivingStationsIdList: 0,
+      regionId: 0,
+      locationIdList: 0
+    };
+    component.createCardRequest(fakeNewCard);
+    expect(tariffsServiceMock.createCard).toHaveBeenCalled();
+  });
+
+  it('should call createCardRequest after matDialogRef closed', () => {
+    const spy = spyOn(component, 'createCardRequest');
+    component.createTariffCard();
+    expect(spy).toHaveBeenCalled();
+  });
+
+  it('should return false if card do not exist', () => {
+    component.region.setValue('Fake1');
+    component.courier.setValue('Fake1');
+    component.selectedCities = [{ name: 'fake1', id: 12 }];
+    component.selectedStation = [{ name: 'stationItem1', id: 12 }];
+    component.cards = [];
+    component.checkisCardExist();
+    tariffsServiceMock.checkIfCardExist.and.returnValue(of(false));
+    expect(component.isCardExist).toBe(false);
+  });
+
+  it('should reset region and sity value', () => {
+    const spy1 = spyOn(component, 'setCountOfCheckedCity');
+    const spy2 = spyOn(component, 'getExistingCard');
+    component.region.setValue('Fake1');
+    component.selectedCities = [{ name: 'fake', id: 12, englishName: 'fake' }];
+    component.resetRegionValue();
+    expect(component.region.value).toEqual('');
+    expect(component.selectedCities).toEqual([]);
+    expect(spy1).toHaveBeenCalled();
+    expect(spy2).toHaveBeenCalled();
   });
 
   it('should call openAddCourierDialog', () => {
@@ -729,13 +857,13 @@ describe('UbsAdminTariffsLocationDashboardComponent', () => {
   });
 
   it('should set city placeholder', () => {
-    component.checkedCities = ['Фейк'];
+    component.selectedCities = ['Фейк'];
     component.setCountOfCheckedCity();
     expect(component.cityPlaceholder).toEqual('1 вибрано');
   });
 
   it('should set city placeholder', () => {
-    component.checkedCities = [];
+    component.selectedCities = [];
     component.setCountOfCheckedCity();
     expect(component.cityPlaceholder).toEqual('ubs-tariffs.placeholder-locality');
   });
