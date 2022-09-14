@@ -5,7 +5,7 @@ import { TranslateModule } from '@ngx-translate/core';
 import { UbsAdminOrderClientInfoComponent } from './ubs-admin-order-client-info.component';
 import { AbstractControl, FormGroup } from '@angular/forms';
 
-fdescribe('UbsAdminOrderClientInfoComponent', () => {
+describe('UbsAdminOrderClientInfoComponent', () => {
   let component: UbsAdminOrderClientInfoComponent;
   let fixture: ComponentFixture<UbsAdminOrderClientInfoComponent>;
   const fakeUserInfo = {
