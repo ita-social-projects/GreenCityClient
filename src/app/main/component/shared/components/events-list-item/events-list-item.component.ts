@@ -78,7 +78,7 @@ export class EventsListItemComponent implements OnInit {
     this.router.navigate(['/events', this.event.id]);
   }
 
-  private filterTags(tags: Array<TagDto>) {
+  public filterTags(tags: Array<TagDto>) {
     this.itemTags.forEach((item) => (item.isActive = tags.some((name) => name.nameEn === item.nameEn)));
   }
 

@@ -16,7 +16,11 @@ fdescribe('EventsListItemComponent', () => {
   let routerSpy = { navigate: jasmine.createSpy('navigate') };
   const eventMock = {
     additionalImages: [],
-    tags: [{ nameEn: 'Environmental', nameUa: 'Екологічний', id: 1 }],
+    tags: [
+      { nameEn: 'Environmental-1', nameUa: 'Екологічний-1', id: 1 },
+      { nameEn: 'Environmental-2', nameUa: 'Екологічний-2', id: 2 },
+      { nameEn: 'Environmental-3', nameUa: 'Екологічний-3', id: 3 },
+      { nameEn: 'Environmental-4', nameUa: 'Екологічний-4', id: 4 }],
     dates: [
       {
         coordinates: {
@@ -81,5 +85,15 @@ fdescribe('EventsListItemComponent', () => {
   it(`should navigate to events`, () => {
     component.routeToEvent();
     expect(routerSpy.navigate).toHaveBeenCalledWith(['/events', component.event.id]);
+  });
+
+  it(`should filtered tags`, () => {
+    const tagMock = {
+      nameUa: 'Environmental',
+      nameEn: 'Екологічний',
+      id: 1,
+    };
+    component.filterTags(component.event.tags);
+    expect(component.filterTags).toEqual(tagMock);
   });
 });
