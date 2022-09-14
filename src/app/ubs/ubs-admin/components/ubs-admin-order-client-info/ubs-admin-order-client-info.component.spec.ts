@@ -5,7 +5,7 @@ import { TranslateModule } from '@ngx-translate/core';
 import { UbsAdminOrderClientInfoComponent } from './ubs-admin-order-client-info.component';
 import { AbstractControl, FormGroup } from '@angular/forms';
 
-describe('UbsAdminOrderClientInfoComponent', () => {
+fdescribe('UbsAdminOrderClientInfoComponent', () => {
   let component: UbsAdminOrderClientInfoComponent;
   let fixture: ComponentFixture<UbsAdminOrderClientInfoComponent>;
   const fakeUserInfo = {
@@ -79,6 +79,22 @@ describe('UbsAdminOrderClientInfoComponent', () => {
     const result = component.getErrorMessage(formControlMock);
 
     expect(result).toBe('input-error.number-length');
+  });
+
+  it('method getErrorMessageKey should return correct error message key - required', () => {
+    const formControlMock = { errors: { maxlength: true } } as unknown as AbstractControl;
+
+    const result = component.getErrorMessage(formControlMock);
+
+    expect(result).toBe('input-error.max-length');
+  });
+
+  it('method getErrorMessageKey should return correct error message key - required', () => {
+    const formControlMock = { errors: { pattern: true } } as unknown as AbstractControl;
+
+    const result = component.getErrorMessage(formControlMock);
+
+    expect(result).toBe('input-error.pattern');
   });
 
   it('method getErrorMessageKey should return correct error message key - empty message key', () => {
