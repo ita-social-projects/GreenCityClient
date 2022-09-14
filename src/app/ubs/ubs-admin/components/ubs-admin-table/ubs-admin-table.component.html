@@ -40,7 +40,7 @@
               >
                 <div class="accordion-body">
                   <div *ngIf="column.key.toLowerCase().includes('date'); else nonDate">
-                    <div>
+                    <div class="row-mat-radio-button">
                       <mat-radio-button
                         class="checkmark"
                         [checked]="getDateChecked(column.key)"
@@ -49,18 +49,17 @@
                         {{ 'ubs-tables.date' | translate }}
                       </mat-radio-button>
                     </div>
-                    <div>
+                    <div class="input-margin">
                       <input
-                        class="filter-input"
-                        id="date{{ column.key }}"
+                        id="dateFrom{{ column.key }}"
                         type="date"
-                        name="date"
-                        [value]="getDateValue('Date', column.key)"
-                        (change)="changeInputDateFilters($event.target.value, column.key, 'Date')"
+                        name="dateFrom"
+                        [value]="getDateValue('From', column.key)"
+                        (change)="changeInputDateFilters($event.target.value, column.key, 'From')"
                       />
                     </div>
                     <div>
-                      <div>
+                      <div class="row-mat-radio-button">
                         <mat-radio-button
                           class="checkmark"
                           [checked]="getDateChecked(column.key)"
@@ -74,7 +73,6 @@
                       </div>
                       <div>
                         <input
-                          class="filter-input"
                           id="dateFrom{{ column.key }}"
                           type="date"
                           name="dateFrom"
@@ -87,7 +85,6 @@
                       </div>
                       <div>
                         <input
-                          class="filter-input"
                           id="dateTo{{ column.key }}"
                           type="date"
                           name="dateTo"

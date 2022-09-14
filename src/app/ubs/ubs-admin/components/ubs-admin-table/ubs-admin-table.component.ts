@@ -601,7 +601,7 @@ export class UbsAdminTableComponent implements OnInit, AfterViewChecked, OnDestr
     return this.adminTableService.getDateChecked(dateColumn);
   }
 
-  getDateValue(suffix: 'From' | 'To' | 'Date', dateColumn): boolean {
+  getDateValue(suffix: 'From' | 'To', dateColumn): boolean {
     return this.adminTableService.getDateValue(suffix, dateColumn);
   }
 
