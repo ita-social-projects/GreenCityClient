@@ -15,9 +15,14 @@
         <nav [ngClass]="toggleBurgerMenu ? 'header_navigation-menu-left-col' : 'header_navigation-menu-left'" role="navigation">
           <ul role="tablist" [ngClass]="{ ubs: isUBS }">
             <li *ngFor="let link of navLinks; let i = index" tabindex="0" role="listitem">
-              <a (click)="navigateToLink(link, i)" [class.active-link]="selectedIndex === i && !isUBS">
+              <a *ngIf="link.url === true; else routerLink" [href]="link.route" target="_blank" rel="noopener noreferrer">
                 {{ link.name | translate }}
               </a>
+              <ng-template #routerLink>
+                <a [routerLink]="link.route" [routerLinkActive]="!isUBS ? 'active-link' : ''" [routerLinkActiveOptions]="{ exact: true }">
+                  {{ link.name | translate }}
+                </a>
+              </ng-template>
             </li>
             <hr class="header_line container" [ngClass]="{ 'd-none': !toggleBurgerMenu }" />
             <div *ngIf="!isLoggedIn; then userLoggedInSmall; else userNotLoggerInSmall"></div>
