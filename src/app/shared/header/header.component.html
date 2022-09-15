@@ -14,7 +14,7 @@
       <div [ngClass]="isUBS ? 'header_navigation-menu-ubs' : 'header_navigation-menu'">
         <nav [ngClass]="toggleBurgerMenu ? 'header_navigation-menu-left-col' : 'header_navigation-menu-left'" role="navigation">
           <ul role="tablist" [ngClass]="{ ubs: isUBS }">
-            <li *ngFor="let link of navLinks; let i = index" tabindex="0" role="listitem">
+            <li *ngFor="let link of navLinks" tabindex="0" role="listitem">
               <a *ngIf="link.url === true; else routerLink" [href]="link.route" target="_blank" rel="noopener noreferrer">
                 {{ link.name | translate }}
               </a>
