@@ -1,4 +1,5 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 
 import { Router, RouterModule } from '@angular/router';
@@ -38,36 +39,38 @@ describe('UbsUserOrdersComponent', () => {
     paymentStatus: 'Paid'
   };
 
-  const fakeCurrentOrdersData = [fakeOrder1, fakeOrder2];
-  const fakeClosedOrdersData = [fakeOrder1];
+  const fakeCurrentOrdersData = new Array(10).fill(fakeOrder1);
+  const fakeClosedOrdersData = [fakeOrder2];
+
+  const RouterMock = jasmine.createSpyObj('Router', ['navigate']);
 
   const MatSnackBarMock = jasmine.createSpyObj('MatSnackBarComponent', ['openSnackBar']);
 
-  const userOrderServiceMock = jasmine.createSpyObj('userOrderService', ['getCurrentUserOrders', 'getClosedUserOrders']);
+  const userOrderServiceMock = {
+    getCurrentUserOrders: () => of({ page: fakeCurrentOrdersData }),
+    getClosedUserOrders: () => of({ page: fakeClosedOrdersData })
+  };
 
-  userOrderServiceMock.getCurrentUserOrders.and.returnValue(of({ page: fakeCurrentOrdersData }));
-  userOrderServiceMock.getClosedUserOrders.and.returnValue(of({ page: fakeClosedOrdersData }));
+  const userOrderServiceFailureMock = {
+    getCurrentUserOrders: () => of({ page: fakeCurrentOrdersData }),
+    getClosedUserOrders: () => throwError('error!')
+  };
 
-  const userOrderServiceFailureMock = jasmine.createSpyObj('userOrderService', ['getCurrentUserOrders', 'getClosedUserOrders']);
-  userOrderServiceFailureMock.getCurrentUserOrders.and.returnValue(of({ page: fakeCurrentOrdersData }));
-  userOrderServiceFailureMock.getClosedUserOrders.and.returnValue(throwError('error!'));
+  const userOrderServiceNoOrdersMock = {
+    getCurrentUserOrders: () => of({ page: [] }),
+    getClosedUserOrders: () => of({ page: [] })
+  };
 
-  const userOrderServiceNoOrdersMock = jasmine.createSpyObj('userOrderService', ['getCurrentUserOrders', 'getClosedUserOrders']);
-  userOrderServiceNoOrdersMock.getCurrentUserOrders.and.returnValue(of({ page: [] }));
-  userOrderServiceNoOrdersMock.getClosedUserOrders.and.returnValue(of({ page: [] }));
-
-  const bonusesServiceMock = jasmine.createSpyObj('bonusesService', ['getUserBonuses']);
-
-  bonusesServiceMock.getUserBonuses.and.returnValue(of({ points: 5 }));
-
-  const routerSpy = { navigate: jasmine.createSpy('navigate') };
+  const bonusesServiceMock = {
+    getUserBonuses: () => of({ points: 5 })
+  };
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       declarations: [UbsUserOrdersComponent, LocalizedCurrencyPipe],
       imports: [TranslateModule.forRoot(), HttpClientTestingModule, InfiniteScrollModule, RouterModule.forRoot([])],
       providers: [
-        { provide: Router, useValue: routerSpy },
+        { provide: Router, useValue: RouterMock },
         { provide: MatSnackBarComponent, useValue: MatSnackBarMock },
         { provide: UserOrdersService, useValue: userOrderServiceMock },
         { provide: BonusesService, useValue: bonusesServiceMock },
@@ -89,11 +92,19 @@ describe('UbsUserOrdersComponent', () => {
     expect(component).toBeDefined();
   });
 
-  it('click on new order button should navigate user to /ubs/order', () => {
+  it('should navigate user to /ubs/order when clicking on new order button ', () => {
     buildComponent();
     const newOrderButton = fixture.debugElement.query(By.css('.btn_new_order')).nativeElement;
     newOrderButton.click();
-    expect(routerSpy.navigate).toHaveBeenCalledWith(['ubs', 'order']);
+    expect(RouterMock.navigate).toHaveBeenCalledWith(['ubs', 'order']);
+  });
+
+  it('should render ubs-user-orders-list component with correct inputs if there are current orders on init', () => {
+    buildComponent();
+    component.ngOnInit();
+    const list = fixture.debugElement.query(By.css('app-ubs-user-orders-list'));
+    expect(list).toBeTruthy();
+    expect(JSON.stringify(list.properties.orders)).toBe(JSON.stringify(fakeCurrentOrdersData));
   });
 
   it('should display a message if there are no orders', () => {
@@ -109,6 +120,6 @@ describe('UbsUserOrdersComponent', () => {
     TestBed.overrideProvider(UserOrdersService, { useValue: userOrderServiceFailureMock });
     buildComponent();
     component.ngOnInit();
-    expect((component as any).snackBar.openSnackBar).toHaveBeenCalledWith('snack-bar.error.default');
+    expect(MatSnackBarMock.openSnackBar).toHaveBeenCalledWith('snack-bar.error.default');
   });
 });
