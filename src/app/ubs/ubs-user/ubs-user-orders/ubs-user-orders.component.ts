@@ -1,5 +1,6 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Subject, forkJoin } from 'rxjs';
+import { take } from 'rxjs/operators';
 import { MatSnackBarComponent } from '@global-errors/mat-snack-bar/mat-snack-bar.component';
 import { UserOrdersService } from '../services/user-orders.service';
 import { Router } from '@angular/router';
@@ -38,39 +39,41 @@ export class UbsUserOrdersComponent implements OnInit, OnDestroy {
   }
 
   onScroll() {
-    if (this.currentTabIdx === 0) {
-      if (this.currentOrdersLoadedPage + 1 > this.totalCurrentOrdersPages) {
-        return;
-      }
+    const status = this.currentTabIdx === 0 ? 'current' : 'closed';
+    const loadedAllCurrentOrders = this.currentOrdersLoadedPage === this.totalCurrentOrdersPages;
+    const loadedAllClosedOrders = this.closedOrdersLoadedPage === this.totalClosedOrdersPages;
+    if ((status === 'current' && loadedAllCurrentOrders) || (status === 'closed' && loadedAllClosedOrders)) {
+      return;
+    }
+    let page;
+    if (status === 'current') {
       this.currentOrdersLoadedPage += 1;
-      this.loadCurrentOrders(this.currentOrdersLoadedPage, this.ordersPerPage);
-      return;
+      page = this.currentOrdersLoadedPage;
+    } else {
+      this.closedOrdersLoadedPage += 1;
+      page = this.closedOrdersLoadedPage;
     }
-    if (this.closedOrdersLoadedPage + 1 > this.totalClosedOrdersPages) {
-      return;
-    }
-    this.closedOrdersLoadedPage += 1;
-    this.loadClosedOrders(this.closedOrdersLoadedPage, this.ordersPerPage);
+    this.loadOrders(status, page, this.ordersPerPage);
   }
 
-  loadCurrentOrders(page, ordersPerPage) {
-    this.userOrdersService.getCurrentUserOrders(page - 1, ordersPerPage).subscribe({
-      next: (data) => {
-        this.currentOrders = [...this.currentOrders, ...data.page];
-        this.totalCurrentOrdersPages = data.totalPages;
-      },
-      error: (err) => this.displayError(err)
-    });
-  }
-
-  loadClosedOrders(page, ordersPerPage) {
-    this.userOrdersService.getClosedUserOrders(page - 1, ordersPerPage).subscribe({
-      next: (data) => {
-        this.closedOrders = [...this.closedOrders, ...data.page];
-        this.totalClosedOrdersPages = data.totalPages;
-      },
-      error: (err) => this.displayError(err)
-    });
+  loadOrders(status, page, ordersPerPage) {
+    const onCurrentOrdersData = (data) => {
+      this.currentOrders = [...this.currentOrders, ...data.page];
+      this.totalCurrentOrdersPages = data.totalPages;
+    };
+    const onCLosedOrdersData = (data) => {
+      this.closedOrders = [...this.closedOrders, ...data.page];
+      this.totalClosedOrdersPages = data.totalPages;
+    };
+    const loadData = (pg, limit) =>
+      status === 'current' ? this.userOrdersService.getCurrentUserOrders(pg, limit) : this.userOrdersService.getClosedUserOrders(pg, limit);
+    const onData = status === 'current' ? onCurrentOrdersData : onCLosedOrdersData;
+    loadData(page - 1, ordersPerPage)
+      .pipe(take(1))
+      .subscribe({
+        next: (data) => onData(data),
+        error: (err) => this.displayError(err)
+      });
   }
 
   redirectToOrder() {
@@ -82,18 +85,20 @@ export class UbsUserOrdersComponent implements OnInit, OnDestroy {
       this.userOrdersService.getCurrentUserOrders(0, this.ordersPerPage),
       this.userOrdersService.getClosedUserOrders(0, this.ordersPerPage),
       this.bonusesService.getUserBonuses()
-    ]).subscribe({
-      next: (results) => {
-        const [current, closed, bonuses] = results;
-        this.currentOrders = current.page ?? [];
-        this.closedOrders = closed.page ?? [];
-        this.bonuses = bonuses.points ?? 0;
-        this.totalCurrentOrdersPages = current.totalPages;
-        this.totalClosedOrdersPages = closed.totalPages;
-        this.loading = false;
-      },
-      error: (err) => this.displayError(err)
-    });
+    ])
+      .pipe(take(1))
+      .subscribe({
+        next: (results) => {
+          const [current, closed, bonuses] = results;
+          this.currentOrders = current.page ?? [];
+          this.closedOrders = closed.page ?? [];
+          this.bonuses = bonuses.points ?? 0;
+          this.totalCurrentOrdersPages = current.totalPages;
+          this.totalClosedOrdersPages = closed.totalPages;
+          this.loading = false;
+        },
+        error: (err) => this.displayError(err)
+      });
   }
 
   displayError(error) {

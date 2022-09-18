@@ -48,7 +48,7 @@ describe('UbsUserOrdersComponent', () => {
 
   const fakeCurrentOrdersData = new Array(10).fill(fakeOrder1);
   const fakeCurrentOrdersDataPage2 = new Array(5).fill(fakeOrder2);
-  const fakeClosedOrdersData = new Array(10).fill([fakeOrder2]);
+  const fakeClosedOrdersData = new Array(10).fill(fakeOrder2);
   const fakeClosedOrdersDataPage2 = new Array(3).fill(fakeOrder1);
 
   const RouterMock = jasmine.createSpyObj('Router', ['navigate']);
