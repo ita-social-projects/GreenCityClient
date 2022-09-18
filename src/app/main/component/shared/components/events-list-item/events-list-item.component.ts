@@ -70,8 +70,6 @@ export class EventsListItemComponent implements OnInit {
     this.checkAllStatusesOfEvent();
     this.subscribeToLangChange();
     this.bindLang(this.localStorageService.getCurrentLanguage());
-
-
   }
 
   public routeToEvent(): void {
@@ -127,7 +125,6 @@ export class EventsListItemComponent implements OnInit {
 
   public buttonAction(): void {
     switch (this.isRegistered) {
-
       case this.isEventOpen && !this.isFinished:
         if (this.isOwner) {
           this.localStorageService.setEditMode('canUserEdit', true);

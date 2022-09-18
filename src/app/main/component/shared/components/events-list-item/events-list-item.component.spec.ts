@@ -17,10 +17,10 @@ fdescribe('EventsListItemComponent', () => {
   const eventMock = {
     additionalImages: [],
     tags: [
-      { nameEn: 'Environmental-1', nameUa: 'Екологічний-1', id: 1 },
-      { nameEn: 'Environmental-2', nameUa: 'Екологічний-2', id: 2 },
-      { nameEn: 'Environmental-3', nameUa: 'Екологічний-3', id: 3 },
-      { nameEn: 'Environmental-4', nameUa: 'Екологічний-4', id: 4 }],
+      { id: 12, nameUa: 'Соціальний', nameEn: 'Social' },
+      { id: 13, nameUa: 'Екологічний', nameEn: 'Environmental' },
+      { id: 14, nameUa: 'Економічний', nameEn: 'Economic' }
+    ],
     dates: [
       {
         coordinates: {
@@ -48,11 +48,9 @@ fdescribe('EventsListItemComponent', () => {
       providers: [
         { provide: BsModalService, useValue: {} },
         { provide: Store, useValue: {} },
-        { provide: Router, useValue: routerSpy },
+        { provide: Router, useValue: routerSpy }
       ],
-      imports: [
-        RouterTestingModule, MatDialogModule, TranslateModule.forRoot()
-      ],
+      imports: [RouterTestingModule, MatDialogModule, TranslateModule.forRoot()],
       schemas: [CUSTOM_ELEMENTS_SCHEMA]
     }).compileComponents();
   }));
@@ -87,13 +85,21 @@ fdescribe('EventsListItemComponent', () => {
     expect(routerSpy.navigate).toHaveBeenCalledWith(['/events', component.event.id]);
   });
 
-  it(`should filtered tags`, () => {
-    const tagMock = {
-      nameUa: 'Environmental',
-      nameEn: 'Екологічний',
-      id: 1,
-    };
-    component.filterTags(component.event.tags);
-    expect(component.filterTags).toEqual(tagMock);
+  it(`filterTags should be called in ngOnInit`, () => {
+    const filterTagsSpy = spyOn(component, 'filterTags');
+    component.ngOnInit();
+    expect(filterTagsSpy).toHaveBeenCalled();
+  });
+
+  it(`initAllStatusesOfEvent should be called in ngOnInit`, () => {
+    const initAllStatusesOfEventSpy = spyOn(component, 'initAllStatusesOfEvent');
+    component.ngOnInit();
+    expect(initAllStatusesOfEventSpy).toHaveBeenCalled();
+  });
+
+  it(`checkAllStatusesOfEvent should be called in ngOnInit`, () => {
+    const checkAllStatusesOfEventSpy = spyOn(component, 'checkAllStatusesOfEvent');
+    component.ngOnInit();
+    expect(checkAllStatusesOfEventSpy).toHaveBeenCalled();
   });
 });
