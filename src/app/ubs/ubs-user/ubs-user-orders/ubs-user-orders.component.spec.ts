@@ -1,10 +1,15 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { HarnessLoader } from '@angular/cdk/testing';
 import { TestbedHarnessEnvironment } from '@angular/cdk/testing/testbed';
 
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 
 import { Router, RouterModule } from '@angular/router';
 
+import { MatTabGroupHarness } from '@angular/material/tabs/testing';
+
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { MatTabsModule } from '@angular/material/tabs';
 import { LocalizedCurrencyPipe } from 'src/app/shared/localized-currency-pipe/localized-currency.pipe';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { InfiniteScrollDirective, InfiniteScrollModule } from 'ngx-infinite-scroll';
@@ -22,6 +27,7 @@ import { By } from '@angular/platform-browser';
 describe('UbsUserOrdersComponent', () => {
   let component: UbsUserOrdersComponent;
   let fixture: ComponentFixture<UbsUserOrdersComponent>;
+  let loader: HarnessLoader;
 
   const fakeOrder1 = {
     extend: true,
@@ -70,7 +76,14 @@ describe('UbsUserOrdersComponent', () => {
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       declarations: [UbsUserOrdersComponent, LocalizedCurrencyPipe, InfiniteScrollDirective],
-      imports: [TranslateModule.forRoot(), HttpClientTestingModule, InfiniteScrollModule, RouterModule.forRoot([])],
+      imports: [
+        TranslateModule.forRoot(),
+        HttpClientTestingModule,
+        InfiniteScrollModule,
+        MatTabsModule,
+        BrowserAnimationsModule,
+        RouterModule.forRoot([])
+      ],
       providers: [
         { provide: Router, useValue: RouterMock },
         { provide: MatSnackBarComponent, useValue: MatSnackBarMock },
@@ -86,6 +99,7 @@ describe('UbsUserOrdersComponent', () => {
     await TestBed.compileComponents();
     fixture = TestBed.createComponent(UbsUserOrdersComponent);
     component = fixture.componentInstance;
+    loader = TestbedHarnessEnvironment.loader(fixture);
     fixture.detectChanges();
   };
 
@@ -94,7 +108,7 @@ describe('UbsUserOrdersComponent', () => {
     expect(component).toBeDefined();
   });
 
-  it('should navigate user to /ubs/order when clicking on new order button ', async () => {
+  it('should navigate user to /ubs/order after clicking new order button ', async () => {
     await buildComponent();
     const newOrderButton = fixture.debugElement.query(By.css('.btn_new_order')).nativeElement;
     newOrderButton.click();
@@ -118,6 +132,18 @@ describe('UbsUserOrdersComponent', () => {
     const list = fixture.debugElement.query(By.css('app-ubs-user-orders-list'));
     expect(list).toBeTruthy();
     expect(list.properties.orders).toEqual([...fakeCurrentOrdersData, ...fakeCurrentOrdersDataPage2]);
+  });
+
+  it('should render closed orders list after selecting second tab if there are any', async () => {
+    await buildComponent();
+    component.ngOnInit();
+    fixture.detectChanges();
+    const tabGroup = await loader.getHarness(MatTabGroupHarness);
+    await tabGroup.selectTab({ label: 'user-orders.order-history' });
+    fixture.detectChanges();
+    const list = fixture.debugElement.queryAll(By.css('app-ubs-user-orders-list'))[1];
+    expect(list).toBeTruthy();
+    expect(list.properties.orders).toEqual(fakeClosedOrdersData);
   });
 
   it('should display a message if there are no orders', async () => {
