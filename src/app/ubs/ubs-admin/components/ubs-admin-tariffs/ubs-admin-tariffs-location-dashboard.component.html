@@ -61,7 +61,7 @@
         <mat-autocomplete #autoRegion="matAutocomplete" (optionSelected)="regionSelected($event)">
           <mat-option value="Усі">Усі</mat-option>
           <mat-option *ngFor="let region of filteredRegions | async" [value]="region">
-            {{ region }}
+            {{ region | translate }}
           </mat-option>
         </mat-autocomplete>
         <mat-icon class="cross-img" (click)="resetRegionValue()">close</mat-icon>
@@ -72,7 +72,7 @@
       <p class="col-text">{{ 'ubs-tariffs.city' | translate }}</p>
       <div class="input-wrapper">
         <input
-          [placeholder]="cityPlaceholder"
+          placeholder="{{ 'ubs-tariffs.placeholder-locality' | translate }}"
           #autocompleteTriggerCity="matAutocompleteTrigger"
           formControlName="city"
           [matAutocomplete]="autoCity"
@@ -87,11 +87,11 @@
         >
           <mat-option value="all">
             <mat-checkbox [checked]="isCityChecked()" (change)="toggleSelectAllCity()" value="all"></mat-checkbox>
-            Усі
+            {{ 'All' }}
           </mat-option>
           <mat-option *ngFor="let city of filteredCities | async">
             <mat-checkbox class="mr-1" [checked]="checkSelectedItem(city, selectedCities)"></mat-checkbox>
-            <span class="checkbox-text">{{ city }}</span>
+            <span class="checkbox-text">{{ city | translate }}</span>
           </mat-option>
         </mat-autocomplete>
         <img [src]="icons.arrowDown" class="arrowDown-img" alt="arrowDown" (click)="openAuto($event, autocompleteTriggerCity)" />
@@ -124,7 +124,7 @@
       <p class="col-text">{{ 'ubs-tariffs.station' | translate }}</p>
       <div class="input-wrapper">
         <input
-          [placeholder]="stationPlaceholder"
+          placeholder="{{ 'ubs-tariffs.placeholder-station' | translate }}"
           #autocompleteTriggerStation="matAutocompleteTrigger"
           formControlName="station"
           [matAutocomplete]="autoStation"
@@ -149,11 +149,16 @@
       <p class="col-text">{{ 'ubs-tariffs.state' | translate }}</p>
       <div class="select-item">
         <mat-form-field>
-          <mat-select #stateSelect formControlName="state" (selectionChange)="onSelectState($event)">
-            <mat-option class="option-state" value="all">Усі</mat-option>
-            <mat-option class="option-state" value="Активно">Активно</mat-option>
-            <mat-option class="option-state" value="Неактивно">Неактивно</mat-option>
-            <mat-option class="option-state" value="Незаповнена">Незаповнена</mat-option>
+          <mat-select
+            #stateSelect
+            formControlName="state"
+            placeholder="{{ 'ubs-tariffs-add-location-pop-up.placeholder_state' | translate }}"
+            (selectionChange)="onSelectState($event)"
+          >
+            <mat-option class="option-state" value="Все">{{ 'ubs-tariffs.states.all' | translate }}</mat-option>
+            <mat-option class="option-state" value="Активно">{{ 'ubs-tariffs.states.active' | translate }}</mat-option>
+            <mat-option class="option-state" value="Неактивно">{{ 'ubs-tariffs.states.inactive' | translate }}</mat-option>
+            <mat-option class="option-state" value="Незаповнена">{{ 'ubs-tariffs.states.blank' | translate }}</mat-option>
           </mat-select>
         </mat-form-field>
         <img [src]="icons.arrowDown" class="arrowDown-img" alt="arrowDown" (click)="stateSelect.open()" />
