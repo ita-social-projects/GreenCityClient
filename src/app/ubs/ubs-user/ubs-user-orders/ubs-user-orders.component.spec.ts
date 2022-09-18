@@ -48,7 +48,8 @@ describe('UbsUserOrdersComponent', () => {
 
   const fakeCurrentOrdersData = new Array(10).fill(fakeOrder1);
   const fakeCurrentOrdersDataPage2 = new Array(5).fill(fakeOrder2);
-  const fakeClosedOrdersData = [fakeOrder2];
+  const fakeClosedOrdersData = new Array(10).fill([fakeOrder2]);
+  const fakeClosedOrdersDataPage2 = new Array(3).fill(fakeOrder1);
 
   const RouterMock = jasmine.createSpyObj('Router', ['navigate']);
 
@@ -56,7 +57,7 @@ describe('UbsUserOrdersComponent', () => {
 
   const userOrderServiceMock = {
     getCurrentUserOrders: (page) => of({ page: page === 0 ? fakeCurrentOrdersData : fakeCurrentOrdersDataPage2 }),
-    getClosedUserOrders: () => of({ page: fakeClosedOrdersData })
+    getClosedUserOrders: (page) => of({ page: page === 0 ? fakeClosedOrdersData : fakeClosedOrdersDataPage2 })
   };
 
   const userOrderServiceFailureMock = {
@@ -123,7 +124,7 @@ describe('UbsUserOrdersComponent', () => {
     expect(list.properties.orders).toEqual(fakeCurrentOrdersData);
   });
 
-  it('should render list with more orders on scroll', async () => {
+  it('should render list with more current orders on scroll', async () => {
     await buildComponent();
     component.ngOnInit();
     const container = fixture.debugElement.query(By.directive(InfiniteScrollDirective));
@@ -144,6 +145,20 @@ describe('UbsUserOrdersComponent', () => {
     const list = fixture.debugElement.queryAll(By.css('app-ubs-user-orders-list'))[1];
     expect(list).toBeTruthy();
     expect(list.properties.orders).toEqual(fakeClosedOrdersData);
+  });
+
+  it('should render list with more closed orders on scroll if second tab is selected', async () => {
+    await buildComponent();
+    component.ngOnInit();
+    fixture.detectChanges();
+    const tabGroup = await loader.getHarness(MatTabGroupHarness);
+    await tabGroup.selectTab({ label: 'user-orders.order-history' });
+    const container = fixture.debugElement.query(By.directive(InfiniteScrollDirective));
+    container.triggerEventHandler('scrolled', null);
+    fixture.detectChanges();
+    const list = fixture.debugElement.queryAll(By.css('app-ubs-user-orders-list'))[1];
+    expect(list).toBeTruthy();
+    expect(list.properties.orders).toEqual([...fakeClosedOrdersData, ...fakeClosedOrdersDataPage2]);
   });
 
   it('should display a message if there are no orders', async () => {
