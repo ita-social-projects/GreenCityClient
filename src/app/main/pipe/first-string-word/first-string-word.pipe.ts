@@ -1,8 +1,6 @@
 import { Pipe, PipeTransform } from '@angular/core';
 
-@Pipe({
-  name: 'firststringword'
-})
+@Pipe({ name: 'firststringword' })
 export class FirstStringWordPipe implements PipeTransform {
   transform(value: string): string {
     if (!value) {

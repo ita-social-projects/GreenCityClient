@@ -7,7 +7,9 @@ describe('FirstStringWordPipe', () => {
     expect(pipe).toBeTruthy();
   });
 
-  it('transforms "Firstname Lastname" to "Firstname"', () => {
-    expect(pipe.transform('Firstname Lastname')).toBe('Firstname');
+  it('should display only first name in user name', () => {
+    const name = 'Firstname Lastname';
+    const result = pipe.transform(name);
+    expect(result).toBe('Firstname');
   });
 });
