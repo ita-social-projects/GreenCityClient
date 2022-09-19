@@ -122,7 +122,6 @@ describe('EventsService', () => {
     service.deleteEvent(156).subscribe((event: any) => {
       expect(event).toEqual(data);
     });
-
     const req = httpTestingController.expectOne(`${url}events/delete/156`);
     expect(req.request.method).toEqual('DELETE');
     req.flush(data);
