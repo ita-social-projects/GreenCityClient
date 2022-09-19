@@ -376,7 +376,8 @@
     "enrollment-date": "Дата",
     "amount": "Кількість",
     "reason": "Причина",
-    "order": "Замовлення"
+    "order-return": "Повернення за замовлення",
+    "order-enrollment": "Зарахування за замовлення"
   },
   "user-orders": {
     "no-orders": "Ви ще не зробили замовлень у нас.",
