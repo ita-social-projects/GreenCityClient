@@ -102,9 +102,13 @@
 
     .btn_pay {
       height: 36px;
-      width: 100px;
+      width: 114px;
       border: none;
-      color: var(--ubs-primary-white);
+      padding: 8px 24px;
+      font-size: 14px;
+      line-height: 20px;
+      text-align: center;
+      color: var(--ubs-quaternary-dark-grey);
       background: var(--ubs-button-light-green);
       border-radius: 4px;
     }
@@ -112,6 +116,7 @@
     .btn_cancel {
       height: 36px;
       width: 100px;
+      font-size: 14px;
       color: var(--ubs-quaternary-dark-grey);
       background: var(--ubs-primary-white);
       border: 1px solid var(--ubs-primary-green);
