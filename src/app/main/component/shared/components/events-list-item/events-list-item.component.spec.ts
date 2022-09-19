@@ -9,7 +9,7 @@ import { EventsListItemComponent } from './events-list-item.component';
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
 import { Router } from '@angular/router';
 
-describe('EventsListItemComponent', () => {
+fdescribe('EventsListItemComponent', () => {
   let component: EventsListItemComponent;
   let fixture: ComponentFixture<EventsListItemComponent>;
   let translate: TranslateService;
@@ -108,20 +108,43 @@ describe('EventsListItemComponent', () => {
     expect(checkAllStatusesOfEventSpy).toHaveBeenCalled();
   });
 
-  it(`should be checked if user subscribed to the event`, () => {
+  it(`should be initialized if user subscribed to the event`, () => {
     component.isJoined = component.event.isSubscribed ? true : false;
     expect(component.isJoined).toBe(true);
   });
 
-  it(`should be checked is an event finished`, () => {
+  it(`should be initialized is an event finished`, () => {
     component.isFinished = Date.parse(component.event.dates[0].finishDate) < Date.parse(new Date().toString());
     expect(component.isFinished).toBe(true);
   });
 
-  it(`should be checked is an event rated`, () => {
+  it(`should be initialized is an event rated`, () => {
     component.isRated = component.rate ? true : false;
     expect(component.isRated).toBe(false);
   });
 
+  it(`should be initialized is owner of event`, () => {
+    component.checkIsOwner(true);
+    expect(component.nameBtn).toBe('event.btn-edit');
+    expect(component.styleBtn).toBe('secondary-global-button');
+  });
 
+  it(`should be checked is not owner of event`, () => {
+    component.checkIsOwner(false);
+    expect(component.nameBtn).toBe('event.btn-cancel');
+    expect(component.styleBtn).toBe('secondary-global-button');
+  });
+
+  it(`should be checked is rated of event`, () => {
+    component.checkIsRate(true);
+    expect(component.nameBtn).toBe('event.btn-see');
+    expect(component.styleBtn).toBe('secondary-global-button');
+  });
+
+  it(`should be checked is not rated of event`, () => {
+    component.checkIsRate(false);
+    expect(component.disabledMode).toBe(false);
+    expect(component.nameBtn).toBe('event.btn-rate');
+    expect(component.styleBtn).toBe('primary-global-button');
+  });
 });
