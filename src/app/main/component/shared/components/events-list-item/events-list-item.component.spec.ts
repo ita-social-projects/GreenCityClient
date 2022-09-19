@@ -13,7 +13,8 @@ fdescribe('EventsListItemComponent', () => {
   let component: EventsListItemComponent;
   let fixture: ComponentFixture<EventsListItemComponent>;
   let translate: TranslateService;
-  let routerSpy = { navigate: jasmine.createSpy('navigate') };
+  const routerSpy = { navigate: jasmine.createSpy('navigate') };
+
   const eventMock = {
     additionalImages: [],
     tags: [
@@ -39,7 +40,9 @@ fdescribe('EventsListItemComponent', () => {
     id: 307,
     organizer: { id: 5, name: 'Mykola Kovalushun' },
     title: 'dddddddd',
-    titleImage: 'https://-fc27f19b10e0apl'
+    titleImage: 'https://-fc27f19b10e0apl',
+    isSubscribed: true,
+    open: true
   };
 
   beforeEach(async(() => {
@@ -48,9 +51,11 @@ fdescribe('EventsListItemComponent', () => {
       providers: [
         { provide: BsModalService, useValue: {} },
         { provide: Store, useValue: {} },
-        { provide: Router, useValue: routerSpy }
+        { provide: Router, useValue: routerSpy },
       ],
-      imports: [RouterTestingModule, MatDialogModule, TranslateModule.forRoot()],
+      imports: [RouterTestingModule, MatDialogModule,
+        TranslateModule.forRoot(),
+      ],
       schemas: [CUSTOM_ELEMENTS_SCHEMA]
     }).compileComponents();
   }));
@@ -102,4 +107,21 @@ fdescribe('EventsListItemComponent', () => {
     component.ngOnInit();
     expect(checkAllStatusesOfEventSpy).toHaveBeenCalled();
   });
+
+  it(`should be checked if user subscribed to the event`, () => {
+    component.isJoined = component.event.isSubscribed ? true : false;
+    expect(component.isJoined).toBe(true);
+  });
+
+  it(`should be checked is an event finished`, () => {
+    component.isFinished = Date.parse(component.event.dates[0].finishDate) < Date.parse(new Date().toString());
+    expect(component.isFinished).toBe(true);
+  });
+
+  it(`should be checked is an event rated`, () => {
+    component.isRated = component.rate ? true : false;
+    expect(component.isRated).toBe(false);
+  });
+
+
 });
