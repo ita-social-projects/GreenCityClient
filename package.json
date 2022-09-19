@@ -117,7 +117,7 @@
   "husky": {
     "hooks": {
       "pre-commit": "npm run precommit",
-      "pre-push": "ng test --watch=false --progress=false --codeCoverage=true --browsers=ChromeHeadless"
+      "pre-push": "npm run lint && npm run stylelint && ng test --watch=false --progress=false --codeCoverage=true --browsers=ChromeHeadless"
     }
   }
 }
