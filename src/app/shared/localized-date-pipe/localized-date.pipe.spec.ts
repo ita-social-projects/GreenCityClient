@@ -7,14 +7,13 @@ describe('LocalizedDatePipe', () => {
   });
 
   it('converts UTC date to date string with adjusted locale and timezone', () => {
-    const pipe = new LocalizedDatePipe();
-    pipe.setTimeZone('America/Puerto_Rico');
-    expect(pipe.transform('2022-09-09T13:59:17.320416')).toBe('9/9/2022, 9:59:17 AM');
+    const pipe = new LocalizedDatePipe(); // +13
+    const options = { fromTimeZone: 'America/Puerto_Rico', toTimeZone: 'Asia/Tokyo' };
+    expect(pipe.transform('2022-09-09T13:59:17.320416', options)).toBe('9/10/2022, 2:59:17 AM');
 
-    pipe.setLocale('en-GB');
-    pipe.setTimeZone('Asia/Tokyo');
-    expect(pipe.transform('2022-09-09T13:59:17.320Z')).toBe('09/09/2022, 22:59:17');
-    expect(pipe.transform(new Date('2022-09-09T13:59:17.320'))).toBe('09/09/2022, 22:59:17');
+    const options2 = { toTimeZone: 'IST', locale: 'en-GB' }; // +5:30
+    expect(pipe.transform('2022-09-09T13:59:17.320Z', options2)).toBe('09/09/2022, 19:29:17');
+    expect(pipe.transform(new Date('2022-09-09T13:59:17.320'), options2)).toBe('09/09/2022, 19:29:17');
   });
 
   it('returns null on empty input', () => {
