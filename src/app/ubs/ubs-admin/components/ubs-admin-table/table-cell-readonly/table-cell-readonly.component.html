@@ -1,5 +1,5 @@
 <div
-  *ngIf="date !== 'orderDate'"
+  *ngIf="date !== 'orderDate' && date !== 'id'"
   #tooltip="matTooltip"
   matTooltip="{{ title }}"
   matTooltipClass="my-custom-tooltip"
@@ -7,6 +7,9 @@
   (mouseleave)="$event.stopImmediatePropagation()"
   (click)="showTooltip(title, tooltip)"
 >
+  {{ (dataObj ? dataObj : data) | serverTranslate: lang }}
+</div>
+<div *ngIf="date === 'id'" class="order-number">
   {{ (dataObj ? dataObj : data) | serverTranslate: lang }}
 </div>
 <div class="readonly_date" *ngIf="date === 'orderDate'">

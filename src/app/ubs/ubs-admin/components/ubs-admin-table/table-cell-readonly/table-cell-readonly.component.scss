@@ -1,3 +1,5 @@
+@import '../../../../../../typography/_colorsUbs.scss';
+
 div {
   white-space: nowrap;
   overflow: hidden;
@@ -15,4 +17,8 @@ div {
   font-size: 12px;
   text-align: justify;
   max-width: 350px !important;
+}
+
+.order-number {
+  color: var(--ubs-dark-purple);
 }
