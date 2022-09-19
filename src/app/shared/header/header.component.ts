@@ -119,18 +119,6 @@ export class HeaderComponent implements OnInit, OnDestroy {
     });
   }
 
-  public navigateToLink(link, index) {
-    this.headerService.setSelectedIndex(index);
-    if (link.url) {
-      window.open(link.route);
-    } else {
-      this.router.navigate([link.route]);
-    }
-    if (link.route === '/') {
-      this.headerService.setSelectedIndex(null);
-    }
-  }
-
   toggleHeader(): void {
     this.selectedIndex = this.headerService.getSelectedIndex();
     this.navLinks = this.headerService.getNavLinks(this.isUBS);
