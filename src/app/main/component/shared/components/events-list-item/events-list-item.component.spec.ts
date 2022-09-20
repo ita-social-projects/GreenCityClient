@@ -179,6 +179,4 @@ describe('EventsListItemComponent', () => {
     expect(component.isReadonly).toBe(false);
     expect(component.isJoined).toBe(true);
   });
-
-
 });
