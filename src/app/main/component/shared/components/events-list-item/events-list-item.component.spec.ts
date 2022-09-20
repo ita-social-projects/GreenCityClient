@@ -1,5 +1,5 @@
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { async, ComponentFixture, fakeAsync, TestBed, tick } from '@angular/core/testing';
 import { MatDialogModule } from '@angular/material/dialog';
 import { RouterTestingModule } from '@angular/router/testing';
 import { BsModalService } from 'ngx-bootstrap/modal';
@@ -9,12 +9,12 @@ import { EventsListItemComponent } from './events-list-item.component';
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
 import { Router } from '@angular/router';
 
-describe('EventsListItemComponent', () => {
+fdescribe('EventsListItemComponent', () => {
   let component: EventsListItemComponent;
   let fixture: ComponentFixture<EventsListItemComponent>;
   let translate: TranslateService;
   const routerSpy = { navigate: jasmine.createSpy('navigate') };
-
+  const storeMock = jasmine.createSpyObj('store', ['dispatch']);
   const eventMock = {
     additionalImages: [],
     tags: [
@@ -50,7 +50,7 @@ describe('EventsListItemComponent', () => {
       declarations: [EventsListItemComponent],
       providers: [
         { provide: BsModalService, useValue: {} },
-        { provide: Store, useValue: {} },
+        { provide: Store, useValue: storeMock },
         { provide: Router, useValue: routerSpy },
       ],
       imports: [RouterTestingModule, MatDialogModule,
@@ -84,6 +84,14 @@ describe('EventsListItemComponent', () => {
   it('should create', () => {
     expect(component).toBeTruthy();
   });
+
+  it(`should be clicked and called routeToEvent method`, fakeAsync(() => {
+    spyOn(component, 'routeToEvent');
+    let button = fixture.debugElement.nativeElement.querySelector('button:nth-child(1)');
+    button.click();
+    tick();
+    expect(component.routeToEvent).toHaveBeenCalled();
+  }));
 
   it(`should navigate to events`, () => {
     component.routeToEvent();
@@ -147,4 +155,30 @@ describe('EventsListItemComponent', () => {
     expect(component.nameBtn).toBe('event.btn-rate');
     expect(component.styleBtn).toBe('primary-global-button');
   });
+
+  it(`should be clicked and called buttonAction method`, fakeAsync(() => {
+    spyOn(component, 'buttonAction');
+    let button = fixture.debugElement.nativeElement.querySelector('button:nth-child(2)');
+    button.click();
+    tick();
+    expect(component.buttonAction).toHaveBeenCalled();
+  }));
+
+  it(`should be checked if user joined to the event`, () => {
+    component.actionIsJoined(true);
+    expect(component.nameBtn).toBe('event.btn-join');
+    expect(component.styleBtn).toBe('primary-global-button');
+    expect(component.isReadonly).toBe(true);
+    expect(component.isJoined).toBe(false);
+  });
+
+  it(`should be checked if user joined to the event`, () => {
+    component.actionIsJoined(false);
+    expect(component.nameBtn).toBe('event.btn-cancel');
+    expect(component.styleBtn).toBe('secondary-global-button');
+    expect(component.isReadonly).toBe(false);
+    expect(component.isJoined).toBe(true);
+  });
+
+
 });
