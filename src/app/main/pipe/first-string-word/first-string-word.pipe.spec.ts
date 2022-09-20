@@ -1,18 +1,23 @@
 import { FirstStringWordPipe } from './first-string-word.pipe';
 
 describe('FirstStringWordPipe', () => {
-  let pipe: FirstStringWordPipe;
-
-  beforeEach(() => {
-    pipe = new FirstStringWordPipe();
-  });
+  const FirstLettersPipe = new FirstStringWordPipe();
 
   it('create an instance', () => {
-    expect(pipe).toBeTruthy();
+    const pipe = new FirstStringWordPipe();
+    expect(FirstLettersPipe).toBeTruthy();
+  });
+
+  it('should transform', () => {
+    expect(FirstLettersPipe.transform('FirstName Lastname')).toBe('FirstName');
+  });
+  it('should transform', () => {
+    expect(FirstLettersPipe.transform('Username Userlastname')).toBe('Username');
   });
 
   it('transforms "Firstname Lastname" to "Firstname"', () => {
     const name = 'Firstname Lastname';
+    const pipe = new FirstStringWordPipe();
     const result = pipe.transform(name);
     expect(result).toBe('Firstname');
   });
