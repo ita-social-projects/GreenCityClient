@@ -65,20 +65,8 @@ export class EventsListItemModalComponent implements OnInit {
     });
   }
 
-  public hoveringOver(event: any): void {
-    switch (event) {
-      case 1:
-        this.text = `event.text-1`;
-        break;
-      case 2:
-        this.text = `event.text-2`;
-        break;
-      case 3:
-        this.text = `event.text-3`;
-        break;
-      default:
-        this.text = '';
-    }
+  public hoveringOver(event: number): void {
+    this.text = [1, 2, 3].includes(event) ? `event.text-${event}` : ' ';
   }
 
   public onRateChange(): void {
