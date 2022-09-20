@@ -8,7 +8,7 @@ import {
 } from 'src/app/main/component/events/services/events.service';
 import { environment } from '@environment/environment';
 
-describe('EventsService', () => {
+fdescribe('EventsService', () => {
   let service: EventsService;
   let httpTestingController: HttpTestingController;
   const url = environment.backendLink;

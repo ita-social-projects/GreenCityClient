@@ -9,7 +9,7 @@ import { EventsListItemComponent } from './events-list-item.component';
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
 import { Router } from '@angular/router';
 
-fdescribe('EventsListItemComponent', () => {
+describe('EventsListItemComponent', () => {
   let component: EventsListItemComponent;
   let fixture: ComponentFixture<EventsListItemComponent>;
   let translate: TranslateService;
@@ -87,7 +87,7 @@ fdescribe('EventsListItemComponent', () => {
 
   it(`should be clicked and called routeToEvent method`, fakeAsync(() => {
     spyOn(component, 'routeToEvent');
-    let button = fixture.debugElement.nativeElement.querySelector('button:nth-child(1)');
+    const button = fixture.debugElement.nativeElement.querySelector('button:nth-child(1)');
     button.click();
     tick();
     expect(component.routeToEvent).toHaveBeenCalled();
@@ -158,7 +158,7 @@ fdescribe('EventsListItemComponent', () => {
 
   it(`should be clicked and called buttonAction method`, fakeAsync(() => {
     spyOn(component, 'buttonAction');
-    let button = fixture.debugElement.nativeElement.querySelector('button:nth-child(2)');
+    const button = fixture.debugElement.nativeElement.querySelector('button:nth-child(2)');
     button.click();
     tick();
     expect(component.buttonAction).toHaveBeenCalled();
