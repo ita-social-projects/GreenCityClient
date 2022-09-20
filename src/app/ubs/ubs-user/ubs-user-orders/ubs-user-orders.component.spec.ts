@@ -1,14 +1,10 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
-import { HarnessLoader } from '@angular/cdk/testing';
-import { TestbedHarnessEnvironment } from '@angular/cdk/testing/testbed';
 
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 
 import { Router, RouterModule } from '@angular/router';
 
-import { MatTabGroupHarness } from '@angular/material/tabs/testing';
-
-import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 import { MatTabsModule } from '@angular/material/tabs';
 import { LocalizedCurrencyPipe } from 'src/app/shared/localized-currency-pipe/localized-currency.pipe';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
@@ -27,7 +23,6 @@ import { By } from '@angular/platform-browser';
 describe('UbsUserOrdersComponent', () => {
   let component: UbsUserOrdersComponent;
   let fixture: ComponentFixture<UbsUserOrdersComponent>;
-  let loader: HarnessLoader;
 
   const fakeOrder1 = {
     extend: true,
@@ -74,6 +69,14 @@ describe('UbsUserOrdersComponent', () => {
     getUserBonuses: () => of({ points: 5 })
   };
 
+  const selectMatTabByIdx = async (idx) => {
+    const label = fixture.debugElement.queryAll(By.css('.mat-tab-label'))[idx];
+    label.triggerEventHandler('click', null);
+    fixture.detectChanges();
+    await fixture.whenRenderingDone();
+    fixture.detectChanges();
+  };
+
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       declarations: [UbsUserOrdersComponent, LocalizedCurrencyPipe, InfiniteScrollDirective],
@@ -82,7 +85,7 @@ describe('UbsUserOrdersComponent', () => {
         HttpClientTestingModule,
         InfiniteScrollModule,
         MatTabsModule,
-        BrowserAnimationsModule,
+        NoopAnimationsModule,
         RouterModule.forRoot([])
       ],
       providers: [
@@ -100,7 +103,6 @@ describe('UbsUserOrdersComponent', () => {
     await TestBed.compileComponents();
     fixture = TestBed.createComponent(UbsUserOrdersComponent);
     component = fixture.componentInstance;
-    loader = TestbedHarnessEnvironment.loader(fixture);
     fixture.detectChanges();
   };
 
@@ -135,31 +137,28 @@ describe('UbsUserOrdersComponent', () => {
     expect(list.properties.orders).toEqual([...fakeCurrentOrdersData, ...fakeCurrentOrdersDataPage2]);
   });
 
-  // it('should render closed orders list after selecting second tab if there are any', async () => {
-  //   await buildComponent();
-  //   component.ngOnInit();
-  //   fixture.detectChanges();
-  //   const tabGroup = await loader.getHarness(MatTabGroupHarness);
-  //   await tabGroup.selectTab({ label: 'user-orders.order-history' });
-  //   fixture.detectChanges();
-  //   const list = fixture.debugElement.queryAll(By.css('app-ubs-user-orders-list'))[1];
-  //   expect(list).toBeTruthy();
-  //   expect(list.properties.orders).toEqual(fakeClosedOrdersData);
-  // });
+  it('should render closed orders list after selecting second tab if there are any', async () => {
+    await buildComponent();
+    component.ngOnInit();
+    fixture.detectChanges();
+    await selectMatTabByIdx(1);
+    const list = fixture.debugElement.query(By.css('app-ubs-user-orders-list'));
+    expect(list).toBeTruthy();
+    expect(list.properties.orders).toEqual(fakeClosedOrdersData);
+  });
 
-  // it('should render list with more closed orders on scroll if second tab is selected', async () => {
-  //   await buildComponent();
-  //   component.ngOnInit();
-  //   fixture.detectChanges();
-  //   const tabGroup = await loader.getHarness(MatTabGroupHarness);
-  //   await tabGroup.selectTab({ label: 'user-orders.order-history' });
-  //   const container = fixture.debugElement.query(By.directive(InfiniteScrollDirective));
-  //   container.nativeElement.dispatchEvent(new Event('scrolled'));
-  //   fixture.detectChanges();
-  //   const list = fixture.debugElement.queryAll(By.css('app-ubs-user-orders-list'))[1];
-  //   expect(list).toBeTruthy();
-  //   expect(list.properties.orders).toEqual([...fakeClosedOrdersData, ...fakeClosedOrdersDataPage2]);
-  // });
+  it('should render list with more closed orders on scroll if second tab is selected', async () => {
+    await buildComponent();
+    component.ngOnInit();
+    fixture.detectChanges();
+    await selectMatTabByIdx(1);
+    const container = fixture.debugElement.query(By.directive(InfiniteScrollDirective));
+    container.triggerEventHandler('scrolled', null);
+    fixture.detectChanges();
+    const list = fixture.debugElement.query(By.css('app-ubs-user-orders-list'));
+    expect(list).toBeTruthy();
+    expect(list.properties.orders).toEqual([...fakeClosedOrdersData, ...fakeClosedOrdersDataPage2]);
+  });
 
   it('should display a message if there are no orders', async () => {
     TestBed.overrideProvider(UserOrdersService, { useValue: userOrderServiceNoOrdersMock });
