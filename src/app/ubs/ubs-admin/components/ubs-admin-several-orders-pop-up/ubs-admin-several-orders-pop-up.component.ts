@@ -95,7 +95,9 @@ export class UbsAdminSeveralOrdersPopUpComponent implements OnInit, OnDestroy {
 
     this.dateExportInputSubs = dateExportInput.valueChanges.subscribe((date) => {
       this.isCurrentDaySelected = date === this.currentDate;
-      if (!this.isCurrentDaySelected) return;
+      if (!this.isCurrentDaySelected) {
+        return;
+      }
 
       const selectedTimeFrom: string | null = timeFromInput?.value;
       if (selectedTimeFrom && !this.isSelectedTimeValid(selectedTimeFrom)) {
@@ -112,7 +114,7 @@ export class UbsAdminSeveralOrdersPopUpComponent implements OnInit, OnDestroy {
     const selectedHour: number = Number(selectedTime[0]);
     const selectedMinute: number = Number(selectedTime[1]);
 
-    return currHour < selectedHour || (currHour === selectedHour && selectedMinute < currMinute) || false;
+    return currHour < selectedHour || (currHour === selectedHour && currMinute < selectedMinute) || false;
   }
 
   showTimePickerClick(): void {

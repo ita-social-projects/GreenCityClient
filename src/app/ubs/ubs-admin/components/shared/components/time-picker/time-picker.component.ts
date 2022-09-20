@@ -19,7 +19,7 @@ export class TimePickerComponent implements OnInit {
   public from: string;
   public to: string;
 
-  @Input() isCurrentDaySelected: boolean = false;
+  @Input() isCurrentDaySelected = false;
   @Input() setTimeFrom: string;
   @Input() setTimeTo: string;
   @Output() timeOfExport = new EventEmitter<TimeOfExport>();
@@ -36,11 +36,17 @@ export class TimePickerComponent implements OnInit {
     let minute: string | number = new Date().getMinutes();
 
     const firstWorkingHour: number = Number(timeOptions[0].split(':')[0]);
-    if (hour < firstWorkingHour) return timeOptions;
+    if (hour < firstWorkingHour) {
+      return timeOptions;
+    }
 
-    if (minute > 30) hour += 1;
-    if (hour < 10) hour = '0' + hour;
-    minute = minute > 30 || minute === 0 ? '00' : '30';
+    if (minute >= 30) {
+      hour += 1;
+      minute = '00';
+    } else {
+      minute = '30';
+    }
+    hour = hour < 10 ? `0${hour}` : String(hour);
 
     const firstTimeOptionIndex = timeOptions.indexOf(`${hour}:${minute}`);
 
