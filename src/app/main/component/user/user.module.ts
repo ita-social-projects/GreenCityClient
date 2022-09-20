@@ -51,6 +51,7 @@ import { AlphabeticalPipePipe } from '../../pipe/alphabetical-pipe/alphabetical-
 import { SharedMainModule } from '../shared/shared-main.module';
 import { UserRoutingModule } from './user-routing.module';
 import { UserComponent } from './user.component';
+import { FirstStringWordPipe } from '@pipe/first-string-word/first-string-word.pipe';
 import { CalendarWeekComponent } from './components/profile/calendar/calendar-week/calendar-week.component';
 import { AllHabitsComponent } from './components/habit/all-habits/all-habits.component';
 import { HabitsListViewComponent } from './components/habit/all-habits/components/habits-list-view/habits-list-view.component';
@@ -110,6 +111,7 @@ import { SetCountComponent } from './components/profile/profile-dashboard/set-co
     ShowFirstNLettersPipe,
     ShowFirstNPipe,
     UncheckedFirstPipe,
+    FirstStringWordPipe,
     AlphabeticalPipePipe,
     ProfileWidgetComponent,
     ProfileHeaderComponent,
