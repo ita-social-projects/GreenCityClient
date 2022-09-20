@@ -15,6 +15,10 @@ describe('FirstStringWordPipe', () => {
     expect(FirstLettersPipe.transform('Username Userlastname')).toBe('Username');
   });
 
+  it('should transform empty line', () => {
+    expect(FirstLettersPipe.transform('')).toBe('');
+  });
+
   it('transforms "Firstname Lastname" to "Firstname"', () => {
     const name = 'Firstname Lastname';
     const pipe = new FirstStringWordPipe();
