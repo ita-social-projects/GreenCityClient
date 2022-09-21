@@ -184,29 +184,49 @@ describe('EventsListItemComponent', () => {
     expect(component.isRated).toBe(false);
   });
 
-  it(`should be initialized the owner of event`, () => {
+  it(`should be checked name of button if is the owner`, () => {
     component.checkIsOwner(true);
     expect(component.nameBtn).toBe('event.btn-edit');
+  });
+
+  it(`should be checked style of button if is the owner`, () => {
+    component.checkIsOwner(true);
     expect(component.styleBtn).toBe('secondary-global-button');
   });
 
-  it(`should be checked is not owner of event`, () => {
+  it(`should be checked name of button if is not the owner`, () => {
     component.checkIsOwner(false);
     expect(component.nameBtn).toBe('event.btn-cancel');
+  });
+
+  it(`should be checked style of button if is not the owner`, () => {
+    component.checkIsOwner(false);
     expect(component.styleBtn).toBe('secondary-global-button');
   });
 
-  it(`should be checked is rated of event`, () => {
+  it(`should be checked name of button if is rated`, () => {
     component.checkIsRate(true);
     expect(component.nameBtn).toBe('event.btn-see');
+  });
+
+  it(`should be checked style of button if is rated`, () => {
+    component.checkIsRate(true);
     expect(component.styleBtn).toBe('secondary-global-button');
   });
 
-  it(`should be checked is not rated of event`, () => {
+  it(`should be checked name of button if is not rated`, () => {
+    component.checkIsRate(false);
+    expect(component.nameBtn).toBe('event.btn-rate');
+  });
+
+  it(`should be checked style of button if is not rated`, () => {
+    component.checkIsRate(false);
+    expect(component.styleBtn).toBe('primary-global-button');
+  });
+
+  it(`should be checked disabledMode of button if is not rated`, () => {
     component.checkIsRate(false);
     expect(component.disabledMode).toBe(false);
-    expect(component.nameBtn).toBe('event.btn-rate');
-    expect(component.styleBtn).toBe('primary-global-button');
   });
 
   it(`should be clicked and called buttonAction method`, fakeAsync(() => {
@@ -217,20 +237,43 @@ describe('EventsListItemComponent', () => {
     expect(component.buttonAction).toHaveBeenCalled();
   }));
 
-  it(`should be checked if user joined to the event`, () => {
+  it(`should be changed name of button if user is joined`, () => {
     component.actionIsJoined(true);
     expect(component.nameBtn).toBe('event.btn-join');
+  });
+
+  it(`should be changed style of button if user is joined`, () => {
+    component.actionIsJoined(true);
     expect(component.styleBtn).toBe('primary-global-button');
+  });
+
+  it(`should be changed isReadonly if user is  joined`, () => {
+    component.actionIsJoined(true);
     expect(component.isReadonly).toBe(true);
+  });
+
+  it(`should be changed isJoined if user is joined`, () => {
+    component.actionIsJoined(true);
     expect(component.isJoined).toBe(false);
   });
 
-  it(`should be checked if user joined not to the event`, () => {
+  it(`should be changed name of button if user is not joined`, () => {
     component.actionIsJoined(false);
     expect(component.nameBtn).toBe('event.btn-cancel');
-    expect(component.styleBtn).toBe('secondary-global-button');
-    expect(component.isReadonly).toBe(false);
-    expect(component.isJoined).toBe(true);
   });
 
+  it(`should be changed style of button if user is not joined`, () => {
+    component.actionIsJoined(false);
+    expect(component.styleBtn).toBe('secondary-global-button');
+  });
+
+  it(`should be changed isReadonly if user is not joined`, () => {
+    component.actionIsJoined(false);
+    expect(component.isReadonly).toBe(false);
+  });
+
+  it(`should be changed isJoined if user is not joined`, () => {
+    component.actionIsJoined(false);
+    expect(component.isJoined).toBe(true);
+  });
 });
