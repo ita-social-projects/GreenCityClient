@@ -9,7 +9,7 @@ import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dial
 import { UbsAdminSeveralOrdersPopUpComponent } from './ubs-admin-several-orders-pop-up.component';
 import { OrderService } from '../../services/order.service';
 
-describe('UbsAdminSeveralOrdersPopUpComponent', () => {
+fdescribe('UbsAdminSeveralOrdersPopUpComponent', () => {
   let fixture: ComponentFixture<UbsAdminSeveralOrdersPopUpComponent>;
   let component: UbsAdminSeveralOrdersPopUpComponent;
   let dialog: MatDialog;
@@ -76,6 +76,13 @@ describe('UbsAdminSeveralOrdersPopUpComponent', () => {
 
   it('should be created', () => {
     expect(component).toBeTruthy();
+    expect(component.toInput).toEqual(undefined);
+    expect(component.fromInput).toEqual(undefined);
+    expect(component.to).toEqual(undefined);
+    expect(component.from).toEqual(undefined);
+    expect(component.toSelect).toEqual(undefined);
+    expect(component.allDrivers).toEqual(undefined);
+    expect(component.allCallManagers).toEqual(undefined);
   });
 
   it('should set correct current date', () => {
@@ -90,5 +97,33 @@ describe('UbsAdminSeveralOrdersPopUpComponent', () => {
 
   it('should create a form', () => {
     expect(component.ordersForm.value).toEqual(initialFormValue);
+  });
+
+  it('isSelectedTimeValid()', () => {
+    const currHour = new Date().getHours();
+    const currMinute = new Date().getMinutes();
+    const selectedTime = '23:00';
+    const selectedHour = Number(selectedTime.split(':')[0]);
+    const selectedMinute = Number(selectedTime.split(':')[1]);
+
+    const isSelectedTimeValid = component.isSelectedTimeValid(selectedTime);
+
+    if (currHour < selectedHour || (currHour === selectedHour && currMinute < selectedMinute)) {
+      expect(isSelectedTimeValid).toBe(true);
+    } else {
+      expect(isSelectedTimeValid).toBe(false);
+    }
+  });
+
+  it('should show timepicker when timeFrom input has been clicked', () => {
+    const inputTimeFrom = fixture.debugElement.nativeElement.querySelector('#export-time-from');
+    inputTimeFrom.click();
+    expect(component.showTimePicker).toEqual(true);
+  });
+
+  it('should show timepicker when timeTo input has been clicked', () => {
+    const inputTimeFrom = fixture.debugElement.nativeElement.querySelector('#export-time-to');
+    inputTimeFrom.click();
+    expect(component.showTimePicker).toEqual(true);
   });
 });
