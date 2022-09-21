@@ -2,7 +2,7 @@ import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { async, ComponentFixture, fakeAsync, TestBed, tick } from '@angular/core/testing';
 import { MatDialogModule } from '@angular/material/dialog';
 import { RouterTestingModule } from '@angular/router/testing';
-import { BsModalRef, BsModalService } from 'ngx-bootstrap/modal';
+import { BsModalService } from 'ngx-bootstrap/modal';
 import { TagsArray } from '../../../events/models/event-consts';
 import { Store } from '@ngrx/store';
 import { EventsListItemComponent } from './events-list-item.component';
@@ -56,12 +56,13 @@ describe('EventsListItemComponent', () => {
   EventsServiceMock.getEventById = () => of(eventMock);
   EventsServiceMock.deleteEvent = () => of(true);
 
-  const LocalStorageServiceMock = jasmine.createSpyObj(
-    'LocalStorageService',
-    [
-      'getCurrentLanguage', 'setEditMode', 'setEventForEdit', 'getUserId', 'languageSubject'
-    ]
-  );
+  const LocalStorageServiceMock = jasmine.createSpyObj('LocalStorageService', [
+    'getCurrentLanguage',
+    'setEditMode',
+    'setEventForEdit',
+    'getUserId',
+    'languageSubject'
+  ]);
   LocalStorageServiceMock.getCurrentLanguage = () => of('en');
   LocalStorageServiceMock.languageSubject = new Subject();
 
@@ -73,11 +74,9 @@ describe('EventsListItemComponent', () => {
         { provide: Store, useValue: storeMock },
         { provide: Router, useValue: routerSpy },
         { provide: EventsService, useValue: EventsServiceMock },
-        { provide: LocalStorageService, useValue: LocalStorageServiceMock },
+        { provide: LocalStorageService, useValue: LocalStorageServiceMock }
       ],
-      imports: [RouterTestingModule, MatDialogModule,
-        TranslateModule.forRoot(), RatingModule.forRoot()
-      ],
+      imports: [RouterTestingModule, MatDialogModule, TranslateModule.forRoot(), RatingModule.forRoot()],
       schemas: [CUSTOM_ELEMENTS_SCHEMA]
     }).compileComponents();
   }));
