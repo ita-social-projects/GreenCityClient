@@ -2,7 +2,7 @@ import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { async, ComponentFixture, fakeAsync, TestBed, tick } from '@angular/core/testing';
 import { MatDialogModule } from '@angular/material/dialog';
 import { RouterTestingModule } from '@angular/router/testing';
-import { BsModalService } from 'ngx-bootstrap/modal';
+import { BsModalRef, BsModalService } from 'ngx-bootstrap/modal';
 import { TagsArray } from '../../../events/models/event-consts';
 import { Store } from '@ngrx/store';
 import { EventsListItemComponent } from './events-list-item.component';
@@ -11,8 +11,10 @@ import { Router } from '@angular/router';
 import { of } from 'rxjs/internal/observable/of';
 import { EventsService } from '../../../events/services/events.service';
 import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
+import { RatingModule } from 'ngx-bootstrap/rating';
+import { Subject } from 'rxjs';
 
-describe('EventsListItemComponent', () => {
+fdescribe('EventsListItemComponent', () => {
   let component: EventsListItemComponent;
   let fixture: ComponentFixture<EventsListItemComponent>;
   let translate: TranslateService;
@@ -54,8 +56,14 @@ describe('EventsListItemComponent', () => {
   EventsServiceMock.getEventById = () => of(eventMock);
   EventsServiceMock.deleteEvent = () => of(true);
 
-  const LocalStorageServiceMock = jasmine.createSpyObj('LocalStorageService', ['getCurrentLanguage', 'setEditMode', 'setEventForEdit']);
+  const LocalStorageServiceMock = jasmine.createSpyObj(
+    'LocalStorageService',
+    [
+      'getCurrentLanguage', 'setEditMode', 'setEventForEdit', 'getUserId', 'languageSubject'
+    ]
+  );
   LocalStorageServiceMock.getCurrentLanguage = () => of('en');
+  LocalStorageServiceMock.languageSubject = new Subject();
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
@@ -68,7 +76,7 @@ describe('EventsListItemComponent', () => {
         { provide: LocalStorageService, useValue: LocalStorageServiceMock },
       ],
       imports: [RouterTestingModule, MatDialogModule,
-        TranslateModule.forRoot(),
+        TranslateModule.forRoot(), RatingModule.forRoot()
       ],
       schemas: [CUSTOM_ELEMENTS_SCHEMA]
     }).compileComponents();
@@ -92,6 +100,9 @@ describe('EventsListItemComponent', () => {
     component.isReadonly = false;
     component.isPosting = false;
     component.isRated = false;
+    component.max = 3;
+
+
     fixture.detectChanges();
   });
 
