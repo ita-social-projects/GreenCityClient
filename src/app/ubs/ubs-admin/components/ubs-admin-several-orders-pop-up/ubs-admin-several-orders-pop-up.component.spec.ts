@@ -66,7 +66,6 @@ describe('UbsAdminSeveralOrdersPopUpComponent', () => {
 
     initListenersSpy = spyOn(component, 'initializeListeners');
     setEmployeesSpy = spyOn(component, 'setEmployeesByPosition').and.callFake(() => {});
-    closestAvailableDateSpy = spyOn(component, 'setClosestAvailableDate');
 
     component.dataFromTable = dataFromTable;
     component.ordersId = [1, 2, 3];
@@ -79,7 +78,6 @@ describe('UbsAdminSeveralOrdersPopUpComponent', () => {
   it('should be created', () => {
     expect(component).toBeTruthy();
     expect(initListenersSpy).toHaveBeenCalled();
-    expect(closestAvailableDateSpy).toHaveBeenCalled();
     expect(setEmployeesSpy).toHaveBeenCalled();
     expect(component.toSelect).toEqual(undefined);
     expect(component.fromInput).toEqual(undefined);
@@ -123,5 +121,14 @@ describe('UbsAdminSeveralOrdersPopUpComponent', () => {
     const inputTimeFrom = fixture.debugElement.nativeElement.querySelector('#export-time-to');
     inputTimeFrom.click();
     expect(component.showTimePicker).toEqual(true);
+  });
+
+  it('should set the next day as min value for date input if current working day is over', () => {
+    const date = new Date();
+    date.setDate(date.getDate() + 1);
+    const minDateValue = date.toISOString().split('T')[0];
+    spyOn(component, 'isSelectedTimeValid').and.returnValue(false);
+    component.setClosestAvailableDate();
+    expect(component.closestAvailableDate).toEqual(minDateValue);
   });
 });
