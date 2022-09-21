@@ -118,24 +118,6 @@ describe('EventsService', () => {
     req.flush(data);
   });
 
-  it('should make POST request to add an attender to the event', () => {
-    service.addAttender(156).subscribe((event: any) => {
-      expect(event).toEqual(data);
-    });
-    const req = httpTestingController.expectOne(`${url}events/addAttender/156`);
-    expect(req.request.method).toEqual('POST');
-    req.flush(data);
-  });
-
-  it('should make DELETE request to remove an attender to the event', () => {
-    service.removeAttender(156).subscribe((event: any) => {
-      expect(event).toEqual(data);
-    });
-    const req = httpTestingController.expectOne(`${url}events/removeAttender/156`);
-    expect(req.request.method).toEqual('DELETE');
-    req.flush(data);
-  });
-
   it('should make DELETE request to delete the event', () => {
     service.deleteEvent(156).subscribe((event: any) => {
       expect(event).toEqual(data);
@@ -151,6 +133,24 @@ describe('EventsService', () => {
     });
     const req = httpTestingController.expectOne(`${url}events/rateEvent/156/5`);
     expect(req.request.method).toEqual('POST');
+    req.flush(data);
+  });
+
+  it('should make POST request to add an attender to the event', () => {
+    service.addAttender(156).subscribe((event: any) => {
+      expect(event).toEqual(data);
+    });
+    const req = httpTestingController.expectOne(`${url}events/addAttender/156`);
+    expect(req.request.method).toEqual('POST');
+    req.flush(data);
+  });
+
+  it('should make DELETE request to remove an attender to the event', () => {
+    service.removeAttender(156).subscribe((event: any) => {
+      expect(event).toEqual(data);
+    });
+    const req = httpTestingController.expectOne(`${url}events/removeAttender/156`);
+    expect(req.request.method).toEqual('DELETE');
     req.flush(data);
   });
 
