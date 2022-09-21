@@ -1,4 +1,4 @@
-import { Component, Injector, OnInit } from '@angular/core';
+import { Component, Injector, OnDestroy, OnInit } from '@angular/core';
 import { BsModalRef } from 'ngx-bootstrap/modal';
 import { MatDialog } from '@angular/material/dialog';
 import { AuthModalComponent } from '@global-auth/auth-modal/auth-modal.component';
@@ -13,7 +13,7 @@ import { LocalStorageService } from '@global-service/localstorage/local-storage.
   templateUrl: 'events-list-item-modal.component.html',
   styleUrls: ['events-list-item-modal.component.scss']
 })
-export class EventsListItemModalComponent implements OnInit {
+export class EventsListItemModalComponent implements OnInit, OnDestroy {
   public id: any;
   public service: any;
   public max: number;

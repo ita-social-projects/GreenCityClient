@@ -6,7 +6,7 @@ import {
 import { Store } from '@ngrx/store';
 import { take } from 'rxjs/operators';
 import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input, OnDestroy, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { TagsArray } from '../../../events/models/event-consts';
 import { EventPageResponceDto, TagDto, TagObj } from '../../../events/models/events.interface';
@@ -22,7 +22,7 @@ import { ReplaySubject, Subscription } from 'rxjs';
   templateUrl: './events-list-item.component.html',
   styleUrls: ['./events-list-item.component.scss']
 })
-export class EventsListItemComponent implements OnInit {
+export class EventsListItemComponent implements OnInit, OnDestroy {
   @Input() event: EventPageResponceDto;
   private destroyed$: ReplaySubject<any> = new ReplaySubject<any>(1);
   public itemTags: Array<TagObj>;
