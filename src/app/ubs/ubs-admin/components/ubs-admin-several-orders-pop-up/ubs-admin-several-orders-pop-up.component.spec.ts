@@ -15,7 +15,6 @@ describe('UbsAdminSeveralOrdersPopUpComponent', () => {
   let dialog: MatDialog;
 
   let setEmployeesSpy: jasmine.Spy;
-  let closestAvailableDateSpy: jasmine.Spy;
   let initListenersSpy: jasmine.Spy;
 
   const dataFromTable = [
