@@ -4,7 +4,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { AuthModalComponent } from '@global-auth/auth-modal/auth-modal.component';
 import { RateEcoEventsByIdAction } from 'src/app/store/actions/ecoEvents.actions';
 import { Store } from '@ngrx/store';
-import { Subscription } from 'rxjs';
+import { ReplaySubject, Subscription } from 'rxjs';
 import { TranslateService } from '@ngx-translate/core';
 import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
 
@@ -25,7 +25,7 @@ export class EventsListItemModalComponent implements OnInit {
   public elementName: string;
 
   private dialog: MatDialog;
-
+  private destroyed$: ReplaySubject<any> = new ReplaySubject<any>(1);
   public langChangeSub: Subscription;
 
   constructor(
@@ -42,7 +42,7 @@ export class EventsListItemModalComponent implements OnInit {
     this.bindLang(this.localStorageService.getCurrentLanguage());
   }
 
-  modalBtn() {
+  public modalBtn(): void {
     if (!this.isRegistered) {
       this.bsModalRef.hide();
       setTimeout(() => {
@@ -75,11 +75,16 @@ export class EventsListItemModalComponent implements OnInit {
     this.store.dispatch(RateEcoEventsByIdAction({ id: this.id, grade: this.rate }));
   }
 
-  private bindLang(lang: string): void {
+  public bindLang(lang: string): void {
     this.translate.setDefaultLang(lang);
   }
 
-  private subscribeToLangChange(): void {
+  public subscribeToLangChange(): void {
     this.langChangeSub = this.localStorageService.languageSubject.subscribe(this.bindLang.bind(this));
+  }
+
+  ngOnDestroy(): void {
+    this.destroyed$.next(true);
+    this.destroyed$.complete();
   }
 }

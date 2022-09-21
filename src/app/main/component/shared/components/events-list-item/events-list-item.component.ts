@@ -15,7 +15,7 @@ import { EventsListItemModalComponent } from './events-list-item-modal/events-li
 import { MatDialog } from '@angular/material/dialog';
 import { DialogPopUpComponent } from 'src/app/shared/dialog-pop-up/dialog-pop-up.component';
 import { TranslateService } from '@ngx-translate/core';
-import { Subscription } from 'rxjs';
+import { ReplaySubject, Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-events-list-item',
@@ -24,7 +24,7 @@ import { Subscription } from 'rxjs';
 })
 export class EventsListItemComponent implements OnInit {
   @Input() event: EventPageResponceDto;
-
+  private destroyed$: ReplaySubject<any> = new ReplaySubject<any>(1);
   public itemTags: Array<TagObj>;
 
   public nameBtn: string;
@@ -198,11 +198,16 @@ export class EventsListItemComponent implements OnInit {
       });
   }
 
-  private bindLang(lang: string): void {
+  public bindLang(lang: string): void {
     this.translate.setDefaultLang(lang);
   }
 
-  private subscribeToLangChange(): void {
+  public subscribeToLangChange(): void {
     this.langChangeSub = this.localStorageService.languageSubject.subscribe(this.bindLang.bind(this));
+  }
+
+  ngOnDestroy(): void {
+    this.destroyed$.next(true);
+    this.destroyed$.complete();
   }
 }
