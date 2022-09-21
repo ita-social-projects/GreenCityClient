@@ -8,17 +8,22 @@ import { Store } from '@ngrx/store';
 import { EventsListItemComponent } from './events-list-item.component';
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
 import { Router } from '@angular/router';
+import { of } from 'rxjs/internal/observable/of';
+import { EventsService } from '../../../events/services/events.service';
 
-describe('EventsListItemComponent', () => {
+fdescribe('EventsListItemComponent', () => {
   let component: EventsListItemComponent;
   let fixture: ComponentFixture<EventsListItemComponent>;
   let translate: TranslateService;
   const routerSpy = { navigate: jasmine.createSpy('navigate') };
   const storeMock = jasmine.createSpyObj('store', ['dispatch']);
+  const EventsServiceMock = jasmine.createSpyObj('EventsService', ['getEventById ', 'deleteEvent']);
+  EventsServiceMock.getEventById = () => of(eventMock);
+  EventsServiceMock.deleteEvent = () => of(true);
   const eventMock = {
     additionalImages: [],
     tags: [
-      { id: 12, nameUa: 'Соціальний', nameEn: 'Social' },
+      { id: 1, nameUa: 'Соціальний', nameEn: 'Social' },
       { id: 13, nameUa: 'Екологічний', nameEn: 'Environmental' },
       { id: 14, nameUa: 'Економічний', nameEn: 'Economic' }
     ],
@@ -52,6 +57,7 @@ describe('EventsListItemComponent', () => {
         { provide: BsModalService, useValue: {} },
         { provide: Store, useValue: storeMock },
         { provide: Router, useValue: routerSpy },
+        { provide: EventsService, useValue: EventsServiceMock },
       ],
       imports: [RouterTestingModule, MatDialogModule,
         TranslateModule.forRoot(),
@@ -104,6 +110,17 @@ describe('EventsListItemComponent', () => {
     expect(filterTagsSpy).toHaveBeenCalled();
   });
 
+  it('filterTags tags[1] should be active', () => {
+    (component as any).filterTags([{ nameEn: 'Social', nameUa: 'Соціальний', id: 1 }]);
+    expect(component.itemTags[1].isActive).toBeTruthy();
+  });
+
+  it('ngOnInit tags.length shoud be 3', () => {
+    component.itemTags = [];
+    component.ngOnInit();
+    expect(component.itemTags.length).toBe(3);
+  });
+
   it(`initAllStatusesOfEvent should be called in ngOnInit`, () => {
     const initAllStatusesOfEventSpy = spyOn(component, 'initAllStatusesOfEvent');
     component.ngOnInit();
@@ -121,17 +138,17 @@ describe('EventsListItemComponent', () => {
     expect(component.isJoined).toBe(true);
   });
 
-  it(`should be initialized is an event finished`, () => {
+  it(`should be initialized the event finished`, () => {
     component.isFinished = Date.parse(component.event.dates[0].finishDate) < Date.parse(new Date().toString());
     expect(component.isFinished).toBe(true);
   });
 
-  it(`should be initialized is an event rated`, () => {
+  it(`should be initialized the event rated`, () => {
     component.isRated = component.rate ? true : false;
     expect(component.isRated).toBe(false);
   });
 
-  it(`should be initialized is owner of event`, () => {
+  it(`should be initialized the owner of event`, () => {
     component.checkIsOwner(true);
     expect(component.nameBtn).toBe('event.btn-edit');
     expect(component.styleBtn).toBe('secondary-global-button');
