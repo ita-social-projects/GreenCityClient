@@ -81,6 +81,13 @@ describe('UbsAdminSeveralOrdersPopUpComponent', () => {
     expect(initListenersSpy).toHaveBeenCalled();
     expect(closestAvailableDateSpy).toHaveBeenCalled();
     expect(setEmployeesSpy).toHaveBeenCalled();
+    expect(component.toSelect).toEqual(undefined);
+    expect(component.fromInput).toEqual(undefined);
+    expect(component.toInput).toEqual(undefined);
+    expect(component.from).toEqual(undefined);
+    expect(component.to).toEqual(undefined);
+    expect(component.allCallManagers).toEqual(undefined);
+    expect(component.allDrivers).toEqual(undefined);
   });
 
   it('should set correct current date', () => {
