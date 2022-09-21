@@ -33,7 +33,7 @@ export class UbsAdminSeveralOrdersPopUpComponent implements OnInit, OnDestroy {
   public isCurrentDaySelected: boolean;
   public closestAvailableDate: string;
   public responsiblePersonsData: IResponsiblePersonsData[];
-  private dateExportInputSubs: Subscription;
+  public dateExportInputSubs: Subscription;
 
   values = {};
   ordersForm: FormGroup;

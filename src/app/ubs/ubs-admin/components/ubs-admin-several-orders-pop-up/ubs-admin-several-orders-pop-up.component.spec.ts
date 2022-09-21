@@ -9,13 +9,14 @@ import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dial
 import { UbsAdminSeveralOrdersPopUpComponent } from './ubs-admin-several-orders-pop-up.component';
 import { OrderService } from '../../services/order.service';
 
-fdescribe('UbsAdminSeveralOrdersPopUpComponent', () => {
+describe('UbsAdminSeveralOrdersPopUpComponent', () => {
   let fixture: ComponentFixture<UbsAdminSeveralOrdersPopUpComponent>;
   let component: UbsAdminSeveralOrdersPopUpComponent;
   let dialog: MatDialog;
 
   let setEmployeesSpy: jasmine.Spy;
   let closestAvailableDateSpy: jasmine.Spy;
+  let initListenersSpy: jasmine.Spy;
 
   const dataFromTable = [
     {
@@ -63,6 +64,7 @@ fdescribe('UbsAdminSeveralOrdersPopUpComponent', () => {
     fixture = TestBed.createComponent(UbsAdminSeveralOrdersPopUpComponent);
     component = fixture.componentInstance;
 
+    initListenersSpy = spyOn(component, 'initializeListeners');
     setEmployeesSpy = spyOn(component, 'setEmployeesByPosition').and.callFake(() => {});
     closestAvailableDateSpy = spyOn(component, 'setClosestAvailableDate');
 
@@ -76,23 +78,14 @@ fdescribe('UbsAdminSeveralOrdersPopUpComponent', () => {
 
   it('should be created', () => {
     expect(component).toBeTruthy();
-    expect(component.toInput).toEqual(undefined);
-    expect(component.fromInput).toEqual(undefined);
-    expect(component.to).toEqual(undefined);
-    expect(component.from).toEqual(undefined);
-    expect(component.toSelect).toEqual(undefined);
-    expect(component.allDrivers).toEqual(undefined);
-    expect(component.allCallManagers).toEqual(undefined);
+    expect(initListenersSpy).toHaveBeenCalled();
+    expect(closestAvailableDateSpy).toHaveBeenCalled();
+    expect(setEmployeesSpy).toHaveBeenCalled();
   });
 
   it('should set correct current date', () => {
     const currentDate = new Date().toISOString().split('T')[0];
     expect(component.currentDate).toEqual(currentDate);
-  });
-
-  it('should init listeners', () => {
-    expect(closestAvailableDateSpy).toHaveBeenCalled();
-    expect(setEmployeesSpy).toHaveBeenCalled();
   });
 
   it('should create a form', () => {
@@ -106,12 +99,10 @@ fdescribe('UbsAdminSeveralOrdersPopUpComponent', () => {
     const selectedHour = Number(selectedTime.split(':')[0]);
     const selectedMinute = Number(selectedTime.split(':')[1]);
 
-    const isSelectedTimeValid = component.isSelectedTimeValid(selectedTime);
-
     if (currHour < selectedHour || (currHour === selectedHour && currMinute < selectedMinute)) {
-      expect(isSelectedTimeValid).toBe(true);
+      expect(component.isSelectedTimeValid(selectedTime)).toBe(true);
     } else {
-      expect(isSelectedTimeValid).toBe(false);
+      expect(component.isSelectedTimeValid(selectedTime)).toBe(false);
     }
   });
 
