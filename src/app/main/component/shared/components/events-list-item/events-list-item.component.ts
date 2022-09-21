@@ -54,7 +54,7 @@ export class EventsListItemComponent implements OnInit, OnDestroy {
   };
 
   constructor(
-    private router: Router,
+    public router: Router,
     private localStorageService: LocalStorageService,
     private modalService: BsModalService,
     private dialog: MatDialog,

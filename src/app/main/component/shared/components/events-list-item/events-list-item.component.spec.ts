@@ -102,6 +102,11 @@ describe('EventsListItemComponent', () => {
     component.isRated = false;
     component.max = 3;
 
+    component.deleteDialogData = {
+      popupTitle: 'homepage.events.delete-title',
+      popupConfirm: 'homepage.events.delete-yes',
+      popupCancel: 'homepage.events.delete-no'
+    };
 
     fixture.detectChanges();
   });
@@ -156,6 +161,12 @@ describe('EventsListItemComponent', () => {
     const subscribeToLangChangeSpy = spyOn(component, 'subscribeToLangChange');
     component.ngOnInit();
     expect(subscribeToLangChangeSpy).toHaveBeenCalled();
+  });
+
+  it(`bindLang should be called in ngOnInit`, () => {
+    const bindLangSpy = spyOn(component, 'subscribeToLangChange');
+    component.ngOnInit();
+    expect(bindLangSpy).toHaveBeenCalled();
   });
 
   it(`should be initialized if user subscribed to the event`, () => {
@@ -214,11 +225,12 @@ describe('EventsListItemComponent', () => {
     expect(component.isJoined).toBe(false);
   });
 
-  it(`should be checked if user joined to the event`, () => {
+  it(`should be checked if user joined not to the event`, () => {
     component.actionIsJoined(false);
     expect(component.nameBtn).toBe('event.btn-cancel');
     expect(component.styleBtn).toBe('secondary-global-button');
     expect(component.isReadonly).toBe(false);
     expect(component.isJoined).toBe(true);
   });
+
 });
