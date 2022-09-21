@@ -22,11 +22,11 @@
             <th mat-header-cell *matHeaderCellDef class="table-header" mat-sort-header scope="col">
               {{ 'bonuses.enrollment-date' | translate }}
             </th>
-            <td mat-cell *matCellDef="let element">{{ element.dateOfEnrollment | date: 'd.MM.yyyy' }}</td>
+            <td mat-cell *matCellDef="let element">{{ element.dateOfEnrollment | date: 'dd.MM.yyyy' }}</td>
           </ng-container>
           <ng-container matColumnDef="amount">
-            <th mat-header-cell *matHeaderCellDef scope="col">{{ 'bonuses.amount' | translate }}</th>
-            <td mat-cell *matCellDef="let element">{{ element.amount }}</td>
+            <th mat-header-cell *matHeaderCellDef class="table-header" mat-sort-header scope="col">{{ 'bonuses.amount' | translate }}</th>
+            <td mat-cell *matCellDef="let element">{{ element.amount | number: '1.2' }}</td>
           </ng-container>
           <ng-container matColumnDef="reason">
             <th mat-header-cell *matHeaderCellDef scope="col">{{ 'bonuses.reason' | translate }}</th>

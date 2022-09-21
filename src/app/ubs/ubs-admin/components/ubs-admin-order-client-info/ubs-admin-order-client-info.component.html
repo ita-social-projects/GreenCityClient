@@ -64,6 +64,11 @@
               [imask]="{ mask: phoneMask }"
             />
           </div>
+          <div *ngIf="userInfoDto.controls['recipientPhoneNumber'].invalid && userInfoDto.controls['recipientPhoneNumber'].touched">
+            <div class="error-message">
+              {{ getErrorMessage(userInfoDto.controls['recipientPhoneNumber']) | translate }}
+            </div>
+          </div>
           <div class="form-group">
             <label class="form__label" for="recipient-email">
               {{ 'customer-info.recipient.email-label' | translate }}

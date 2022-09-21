@@ -1,11 +1,11 @@
 import { Component, Input, OnDestroy, OnInit } from '@angular/core';
-import { FormGroup } from '@angular/forms';
+import { FormGroup, AbstractControl } from '@angular/forms';
 import { Subject } from 'rxjs';
 import { MatDialog } from '@angular/material/dialog';
 import { AddViolationsComponent } from '../add-violations/add-violations.component';
 import { IUserInfo } from '../../models/ubs-admin.interface';
 import { take } from 'rxjs/operators';
-import { Masks, Patterns } from 'src/assets/patterns/patterns';
+import { Masks } from 'src/assets/patterns/patterns';
 
 @Component({
   selector: 'app-ubs-admin-order-client-info',
@@ -15,6 +15,7 @@ import { Masks, Patterns } from 'src/assets/patterns/patterns';
 export class UbsAdminOrderClientInfoComponent implements OnInit, OnDestroy {
   @Input() userInfo: IUserInfo;
   @Input() userInfoDto: FormGroup;
+
   @Input() orderId: number;
 
   phoneMask = Masks.phoneMask;
@@ -61,6 +62,16 @@ export class UbsAdminOrderClientInfoComponent implements OnInit, OnDestroy {
           this.totalUserViolations += res;
         }
       });
+  }
+
+  getErrorMessage(abstractControl: AbstractControl) {
+    if (abstractControl.errors.required) {
+      return 'input-error.required';
+    }
+
+    if (abstractControl.errors.pattern) {
+      return 'input-error.number-length';
+    }
   }
 
   ngOnDestroy(): void {

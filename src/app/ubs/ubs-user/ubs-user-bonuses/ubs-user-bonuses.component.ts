@@ -60,6 +60,11 @@ export class UbsUserBonusesComponent implements OnInit, OnDestroy {
       const isAsc = sort.direction === 'asc';
       return this.compare(new Date(a.dateOfEnrollment).getDate(), new Date(b.dateOfEnrollment).getDate(), isAsc);
     });
+
+    this.dataSource.data = data.sort((a, b) => {
+      const isAsc = sort.direction === 'asc';
+      return this.compare(a.amount, b.amount, isAsc);
+    });
   }
 
   compare(a: number | string, b: number | string, isAsc: boolean) {

@@ -32,6 +32,7 @@ import { MatAutocompleteModule } from '@angular/material/autocomplete';
 import { UBSAddAddressPopUpComponent } from './ubs-add-address-pop-up/ubs-add-address-pop-up.component';
 import { UBSInputErrorComponent } from './ubs-input-error/ubs-input-error.component';
 import { SpacePreventDirective } from './directives/space-prevent.directive';
+import { LocalizedDatePipe } from './localized-date-pipe/localized-date.pipe';
 
 @NgModule({
   declarations: [
@@ -58,7 +59,8 @@ import { SpacePreventDirective } from './directives/space-prevent.directive';
     DialogPopUpComponent,
     UBSAddAddressPopUpComponent,
     UBSInputErrorComponent,
-    SpacePreventDirective
+    SpacePreventDirective,
+    LocalizedDatePipe
   ],
   imports: [
     CommonModule,
@@ -93,7 +95,8 @@ import { SpacePreventDirective } from './directives/space-prevent.directive';
     MaxImageNamePipe,
     UBSAddAddressPopUpComponent,
     UBSInputErrorComponent,
-    SpacePreventDirective
+    SpacePreventDirective,
+    LocalizedDatePipe
   ]
 })
 export class SharedModule {}

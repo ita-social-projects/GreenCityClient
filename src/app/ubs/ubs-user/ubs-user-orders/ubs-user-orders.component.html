@@ -1,52 +1,33 @@
 <div class="wrapper">
   <div class="main_header">
     <h1 class="main_header-title">{{ 'user-orders.order-title' | translate }}</h1>
-    <button class="btn_pay" (click)="redirectToOrder()">{{ 'user-orders.btn.new-order' | translate }}</button>
+    <button class="btn_new_order" (click)="redirectToOrder()">{{ 'user-orders.btn.new-order' | translate }}</button>
   </div>
-  <div *ngIf="loading(); else spinner">
-    <div *ngIf="!orders || orders.length === 0" class="if_empty">
-      <span>{{ 'user-orders.no-orders' | translate }}</span>
+  <div *ngIf="!loading; else spinner">
+    <div
+      *ngIf="currentOrders.length || closedOrders.length; else noOrders"
+      class="cards"
+      infiniteScroll
+      [infiniteScrollDistance]="0"
+      [infiniteScrollThrottle]="100"
+      (scrolled)="onScroll()"
+    >
+      <mat-tab-group animationDuration="0ms" (selectedIndexChange)="onTabChange($event)">
+        <mat-tab label="{{ 'user-orders.current-orders' | translate }}">
+          <app-ubs-user-orders-list [orders]="currentOrders" [bonuses]="bonuses"></app-ubs-user-orders-list>
+        </mat-tab>
+        <mat-tab label="{{ 'user-orders.order-history' | translate }}">
+          <app-ubs-user-orders-list [orders]="closedOrders" [bonuses]="bonuses"></app-ubs-user-orders-list>
+        </mat-tab>
+      </mat-tab-group>
     </div>
-    <mat-tab-group animationDuration="0ms">
-      <mat-tab label="{{ 'user-orders.current-orders' | translate }}">
-        <div *ngIf="currentOrders && currentOrders.length !== 0" class="cards">
-          <app-ubs-user-orders-list
-            [orders]="
-              currentOrders
-                | paginate
-                  : {
-                      itemsPerPage: currentOrdersOnPage,
-                      currentPage: page,
-                      totalItems: numberOfCurrentOrders
-                    }
-            "
-            [bonuses]="bonuses"
-          ></app-ubs-user-orders-list>
-        </div>
-      </mat-tab>
-      <mat-tab label="{{ 'user-orders.order-history' | translate }}">
-        <div *ngIf="orderHistory && orderHistory.length !== 0" class="cards">
-          <app-ubs-user-orders-list
-            [orders]="
-              orderHistory
-                | paginate
-                  : {
-                      itemsPerPage: historyOrdersOnPage,
-                      currentPage: page,
-                      totalItems: numberOfHistoryOrders
-                    }
-            "
-            [bonuses]="bonuses"
-          ></app-ubs-user-orders-list>
-        </div>
-      </mat-tab>
-    </mat-tab-group>
-    <div *ngIf="isMoreThenOnePage">
-      <pagination-controls (pageChange)="onPageChange($event)" class="user-orders-pagination"></pagination-controls>
-    </div>
+    <ng-template #noOrders>
+      <div class="if_empty">
+        <span>{{ 'user-orders.no-orders' | translate }}</span>
+      </div>
+    </ng-template>
     <div class="empty"></div>
   </div>
-
   <ng-template #spinner>
     <app-spinner></app-spinner>
   </ng-template>

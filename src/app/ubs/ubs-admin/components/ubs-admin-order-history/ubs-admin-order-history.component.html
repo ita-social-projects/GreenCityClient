@@ -21,8 +21,8 @@
         </th>
       </tr>
       <tr *ngFor="let historyAction of orderHistory">
-        <td>{{ historyAction.eventDate | date: 'dd.MM.yyyy' }}</td>
-        <td>{{ historyAction.eventDate | date: 'HH:mm' }}</td>
+        <td>{{ historyAction.eventDate | localizedDate | date: 'dd.MM.yyyy' }}</td>
+        <td>{{ historyAction.eventDate | localizedDate | date: 'HH:mm' }}</td>
         <td
           class="hiddenText"
           #popup="matTooltip"

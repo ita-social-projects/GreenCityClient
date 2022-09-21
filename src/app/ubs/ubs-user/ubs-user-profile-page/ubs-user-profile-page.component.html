@@ -24,7 +24,7 @@
               <p *ngIf="!isEditing">{{ userProfile?.recipientName }}</p>
               <div *ngIf="getControl('recipientName').invalid && getControl('recipientName').touched">
                 <div class="error-message">
-                  {{ 'ubs-client-profile.error-message-if-edit-name-surname' | translate }}
+                  {{ getErrorMessageKey(getControl('recipientName')) | translate }}
                 </div>
               </div>
             </div>
@@ -34,7 +34,7 @@
               <p *ngIf="!isEditing">{{ userProfile?.recipientSurname }}</p>
               <div *ngIf="getControl('recipientSurname').invalid && getControl('recipientSurname').touched">
                 <div class="error-message">
-                  {{ 'ubs-client-profile.error-message-if-edit-name-surname' | translate }}
+                  {{ getErrorMessageKey(getControl('recipientSurname')) | translate }}
                 </div>
               </div>
             </div>
