@@ -10,16 +10,13 @@ import { TranslateModule, TranslateService } from '@ngx-translate/core';
 import { Router } from '@angular/router';
 import { of } from 'rxjs/internal/observable/of';
 import { EventsService } from '../../../events/services/events.service';
+import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
 
-fdescribe('EventsListItemComponent', () => {
+describe('EventsListItemComponent', () => {
   let component: EventsListItemComponent;
   let fixture: ComponentFixture<EventsListItemComponent>;
   let translate: TranslateService;
-  const routerSpy = { navigate: jasmine.createSpy('navigate') };
-  const storeMock = jasmine.createSpyObj('store', ['dispatch']);
-  const EventsServiceMock = jasmine.createSpyObj('EventsService', ['getEventById ', 'deleteEvent']);
-  EventsServiceMock.getEventById = () => of(eventMock);
-  EventsServiceMock.deleteEvent = () => of(true);
+
   const eventMock = {
     additionalImages: [],
     tags: [
@@ -50,6 +47,16 @@ fdescribe('EventsListItemComponent', () => {
     open: true
   };
 
+  const routerSpy = { navigate: jasmine.createSpy('navigate') };
+  const storeMock = jasmine.createSpyObj('store', ['dispatch']);
+
+  const EventsServiceMock = jasmine.createSpyObj('EventsService', ['getEventById ', 'deleteEvent']);
+  EventsServiceMock.getEventById = () => of(eventMock);
+  EventsServiceMock.deleteEvent = () => of(true);
+
+  const LocalStorageServiceMock = jasmine.createSpyObj('LocalStorageService', ['getCurrentLanguage', 'setEditMode', 'setEventForEdit']);
+  LocalStorageServiceMock.getCurrentLanguage = () => of('en');
+
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       declarations: [EventsListItemComponent],
@@ -58,6 +65,7 @@ fdescribe('EventsListItemComponent', () => {
         { provide: Store, useValue: storeMock },
         { provide: Router, useValue: routerSpy },
         { provide: EventsService, useValue: EventsServiceMock },
+        { provide: LocalStorageService, useValue: LocalStorageServiceMock },
       ],
       imports: [RouterTestingModule, MatDialogModule,
         TranslateModule.forRoot(),
@@ -131,6 +139,12 @@ fdescribe('EventsListItemComponent', () => {
     const checkAllStatusesOfEventSpy = spyOn(component, 'checkAllStatusesOfEvent');
     component.ngOnInit();
     expect(checkAllStatusesOfEventSpy).toHaveBeenCalled();
+  });
+
+  it(`subscribeToLangChange should be called in ngOnInit`, () => {
+    const subscribeToLangChangeSpy = spyOn(component, 'subscribeToLangChange');
+    component.ngOnInit();
+    expect(subscribeToLangChangeSpy).toHaveBeenCalled();
   });
 
   it(`should be initialized if user subscribed to the event`, () => {
