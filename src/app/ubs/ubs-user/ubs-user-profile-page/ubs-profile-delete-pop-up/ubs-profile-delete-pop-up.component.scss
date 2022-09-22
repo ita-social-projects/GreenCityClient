@@ -38,19 +38,19 @@
 
   .delete {
     background-color: var(--ubs-button-light-green);
-  }
 
-  .delete:hover {
-    background-color: var(--ubs-button-dark-green);
+    &:hover {
+      background-color: var(--ubs-button-dark-green);
+    }
   }
 
   .cancel {
     background-color: none;
     border: 1px solid var(--ubs-quaternary-dark-grey);
     margin-left: 30px;
-  }
 
-  .cancel:hover {
-    background: var(--ubs-quaternary-light-grey);
+    &:hover {
+      background: var(--ubs-quaternary-light-grey);
+    }
   }
 }
