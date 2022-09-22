@@ -97,10 +97,22 @@
       <mat-tab label="{{ 'homepage.events.my-space.tag-title' | translate }}">
         <div *ngIf="!loading; else spinner">
           <ul class="news-list">
-            <li *ngFor="let eventItem of eventsList" [routerLink]="['/news', eventItem.id]">
+            <li
+              *ngFor="
+                let eventItem of eventsList | paginate: { itemsPerPage: eventsPerPage, currentPage: eventsPage, totalItems: eventsTotal }
+              "
+            >
               <app-events-list-item [event]="eventItem"></app-events-list-item>
             </li>
           </ul>
+          <pagination-controls
+            class="events-pagination"
+            (pageChange)="onEventsPageChange($event)"
+            (pageBoundsCorrection)="onEventsPageChange($event)"
+            maxSize="7"
+            autoHide="true"
+            responsive="true"
+          ></pagination-controls>
         </div>
       </mat-tab>
     </mat-tab-group>

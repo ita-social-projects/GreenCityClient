@@ -35,6 +35,9 @@ export class ProfileDashboardComponent implements OnInit, OnDestroy {
   news: EcoNewsModel[];
 
   public eventsList: EventPageResponceDto[] = [];
+  public eventsPerPage = 6;
+  public eventsPage = 1;
+  public eventsTotal = 1;
 
   private hasNext = true;
   private currentPage: number;
@@ -65,11 +68,25 @@ export class ProfileDashboardComponent implements OnInit, OnDestroy {
       }
     });
 
-    this.eventService.getEvents(0, 6).subscribe((res) => {
-      this.eventsList = res.page;
-    });
+    this.eventService
+      .getEvents(0, this.eventsPerPage)
+      .pipe(take(1))
+      .subscribe((res) => {
+        this.eventsList = res.page;
+        this.eventsTotal = res.totalElements;
+      });
 
     this.localStorageService.setCurentPage('previousPage', '/profile');
+  }
+
+  onEventsPageChange(page) {
+    this.eventsPage = page;
+    this.eventService
+      .getEvents(this.eventsPage - 1, 6)
+      .pipe(take(1))
+      .subscribe((res) => {
+        this.eventsList = res.page;
+      });
   }
 
   public dispatchNews(res: boolean) {

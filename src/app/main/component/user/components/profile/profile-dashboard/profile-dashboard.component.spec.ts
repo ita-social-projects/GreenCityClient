@@ -10,6 +10,7 @@ import { RouterTestingModule } from '@angular/router/testing';
 import { InfiniteScrollModule } from 'ngx-infinite-scroll';
 import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
 import { EventsService } from 'src/app/main/component/events/services/events.service';
+import { NgxPaginationModule } from 'ngx-pagination';
 
 describe('ProfileDashboardComponent', () => {
   let component: ProfileDashboardComponent;
@@ -44,7 +45,7 @@ describe('ProfileDashboardComponent', () => {
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       declarations: [ProfileDashboardComponent],
-      imports: [TranslateModule.forRoot(), RouterTestingModule, InfiniteScrollModule],
+      imports: [TranslateModule.forRoot(), RouterTestingModule, InfiniteScrollModule, NgxPaginationModule],
       providers: [
         { provide: HabitAssignService, useValue: HabitAssignServiceMock },
         { provide: Store, useValue: storeMock },
