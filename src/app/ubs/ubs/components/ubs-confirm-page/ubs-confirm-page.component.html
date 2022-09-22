@@ -18,7 +18,10 @@
           </button>
           <h2 class="title">{{ 'confirm-page.oops' | translate }}</h2>
           <div class="description">
-            <p>{{ 'confirm-page.order-not-paid' | translate }}</p>
+            <p>
+              {{ 'confirm-page.order-not-paid-before' | translate }} &#8470;{{ orderId }}
+              {{ 'confirm-page.order-not-paid-after' | translate }}
+            </p>
           </div>
         </div>
         <div *ngSwitchDefault>
