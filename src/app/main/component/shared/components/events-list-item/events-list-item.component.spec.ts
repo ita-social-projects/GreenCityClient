@@ -123,15 +123,15 @@ describe('EventsListItemComponent', () => {
     });
 
     it(`filterTags should be called in ngOnInit`, () => {
-      const filterTagsSpy = spyOn(component, 'filterTags');
+      spyOn(component, 'filterTags');
       component.ngOnInit();
-      expect(filterTagsSpy).toHaveBeenCalled();
+      expect(component.filterTags).toHaveBeenCalled();
     });
 
     it(`initAllStatusesOfEvent should be called in ngOnInit`, () => {
-      const initAllStatusesOfEventSpy = spyOn(component, 'initAllStatusesOfEvent');
+      spyOn(component, 'initAllStatusesOfEvent');
       component.ngOnInit();
-      expect(initAllStatusesOfEventSpy).toHaveBeenCalled();
+      expect(component.initAllStatusesOfEvent).toHaveBeenCalled();
     });
 
     it(`rate should be called in ngOnInit`, () => {
@@ -141,21 +141,21 @@ describe('EventsListItemComponent', () => {
     });
 
     it(`checkAllStatusesOfEvent should be called in ngOnInit`, () => {
-      const checkAllStatusesOfEventSpy = spyOn(component, 'checkAllStatusesOfEvent');
+      spyOn(component, 'checkAllStatusesOfEvent');
       component.ngOnInit();
-      expect(checkAllStatusesOfEventSpy).toHaveBeenCalled();
+      expect(component.checkAllStatusesOfEvent).toHaveBeenCalled();
     });
 
     it(`subscribeToLangChange should be called in ngOnInit`, () => {
-      const subscribeToLangChangeSpy = spyOn(component, 'subscribeToLangChange');
+      spyOn(component, 'subscribeToLangChange');
       component.ngOnInit();
-      expect(subscribeToLangChangeSpy).toHaveBeenCalled();
+      expect(component.subscribeToLangChange).toHaveBeenCalled();
     });
 
     it(`bindLang should be called in ngOnInit`, () => {
-      const bindLangSpy = spyOn(component, 'subscribeToLangChange');
+      spyOn(component, 'bindLang');
       component.ngOnInit();
-      expect(bindLangSpy).toHaveBeenCalled();
+      expect(component.bindLang).toHaveBeenCalled();
     });
   });
 
