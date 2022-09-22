@@ -1,4 +1,4 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { async, ComponentFixture, TestBed, fakeAsync, tick } from '@angular/core/testing';
 import { Store } from '@ngrx/store';
 import { EventsListItemModalComponent } from './events-list-item-modal.component';
 import { RatingModule } from 'ngx-bootstrap/rating';
@@ -45,12 +45,14 @@ describe('EventsListItemModalComponent', () => {
   translateServiceMock.setDefaultLang = (lang: string) => of();
   translateServiceMock.get = () => of(true);
 
+  const bsModalRefMock = jasmine.createSpyObj('bsModalRef', ['hide']);
+
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       declarations: [EventsListItemModalComponent],
       providers: [
         { provide: Store, useValue: storeMock },
-        { provide: BsModalRef, useValue: {} },
+        { provide: BsModalRef, useValue: bsModalRefMock },
         { provide: TranslateService, useClass: TranslationServiceStub }
       ],
       imports: [RatingModule.forRoot(), ModalModule.forRoot(), MatDialogModule, TranslateModule.forRoot()]
@@ -61,9 +63,77 @@ describe('EventsListItemModalComponent', () => {
     fixture = TestBed.createComponent(EventsListItemModalComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
+    component.isRegistered = false;
   });
 
   it('should create', () => {
     expect(component).toBeTruthy();
   });
+
+  it(`subscribeToLangChange should be called in ngOnInit`, () => {
+    const subscribeToLangChangeSpy = spyOn(component, 'subscribeToLangChange');
+    component.ngOnInit();
+    expect(subscribeToLangChangeSpy).toHaveBeenCalled();
+  });
+
+  it(`bindLang should be called in ngOnInit`, () => {
+    const bindLangSpy = spyOn(component, 'subscribeToLangChange');
+    component.ngOnInit();
+    expect(bindLangSpy).toHaveBeenCalled();
+  });
+
+  it(`should be called on click`, fakeAsync(() => {
+    spyOn(component, 'modalBtn');
+    const button = fixture.debugElement.nativeElement.querySelector('button:nth-child(2)');
+    button.click();
+    tick();
+    expect(component.modalBtn).toHaveBeenCalled();
+  }));
+
+  it(`should be clicked and closed modal`, fakeAsync(() => {
+    const button = fixture.debugElement.nativeElement.querySelector('button:nth-child(1)');
+    button.click();
+    tick();
+    expect(bsModalRefMock.hide).toHaveBeenCalled();
+  }));
+
+  it(`should be called on click and hide the previous modal`, fakeAsync(() => {
+    spyOn(component, 'modalBtn');
+    const button = fixture.debugElement.nativeElement.querySelector('button:nth-child(2)');
+    button.click();
+    tick();
+    component.modalBtn();
+    bsModalRefMock.hide();
+    expect(bsModalRefMock.hide).toHaveBeenCalled();
+  }));
+
+  it(`should be called on click and open the auth modal`, fakeAsync(() => {
+    spyOn(component, 'modalBtn');
+    const button = fixture.debugElement.nativeElement.querySelector('button:nth-child(2)');
+    button.click();
+    tick();
+    component.modalBtn();
+    spyOn(component, 'openAuthModalWindow');
+    component.openAuthModalWindow('sign-up');
+    expect(component.openAuthModalWindow).toHaveBeenCalledTimes(1);
+  }));
+
+  it(`should be called on click and change the rating`, fakeAsync(() => {
+    spyOn(component, 'modalBtn');
+    const button = fixture.debugElement.nativeElement.querySelector('button:nth-child(2)');
+    button.click();
+    tick();
+    component.isRegistered = true;
+    component.modalBtn();
+    spyOn(component, 'onRateChange');
+    component.onRateChange();
+    expect(component.onRateChange).toHaveBeenCalledTimes(1);
+  }));
+
+  it(`should be called on hover`, fakeAsync(() => {
+    spyOn(component, 'hoveringOver');
+    component.hoveringOver(1);
+    expect(component.hoveringOver).toHaveBeenCalled();
+  }));
+
 });
