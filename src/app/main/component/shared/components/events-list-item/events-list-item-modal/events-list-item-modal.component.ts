@@ -14,8 +14,7 @@ import { LocalStorageService } from '@global-service/localstorage/local-storage.
   styleUrls: ['events-list-item-modal.component.scss']
 })
 export class EventsListItemModalComponent implements OnInit, OnDestroy {
-  public id: any;
-  public service: any;
+  public id: number;
   public max: number;
   public rate: number;
   public isReadonly: boolean;
@@ -33,7 +32,8 @@ export class EventsListItemModalComponent implements OnInit, OnDestroy {
     private localStorageService: LocalStorageService,
     public injector: Injector,
     public bsModalRef: BsModalRef,
-    private translate: TranslateService) {
+    private translate: TranslateService
+  ) {
     this.dialog = injector.get(MatDialog);
   }
 
