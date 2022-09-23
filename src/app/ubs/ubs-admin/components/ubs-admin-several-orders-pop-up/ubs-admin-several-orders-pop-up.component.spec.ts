@@ -83,17 +83,17 @@ describe('UbsAdminSeveralOrdersPopUpComponent', () => {
     expect(component.getClosestAvailableDate()).toEqual(minDateValue);
   });
 
-  // it('isSelectedTimeValid()', () => {
-  //   const currHour = new Date().getHours();
-  //   const currMinute = new Date().getMinutes();
-  //   const selectedTime = '23:00';
-  //   const selectedHour = Number(selectedTime.split(':')[0]);
-  //   const selectedMinute = Number(selectedTime.split(':')[1]);
+  it('isSelectedTimeValid()', () => {
+    const currHour = new Date().getHours();
+    const currMinute = new Date().getMinutes();
+    const selectedTime = '23:00';
+    const selectedHour = Number(selectedTime.split(':')[0]);
+    const selectedMinute = Number(selectedTime.split(':')[1]);
 
-  //   if (currHour < selectedHour || (currHour === selectedHour && currMinute < selectedMinute)) {
-  //     expect(component.isSelectedTimeValid(selectedTime)).toBe(true);
-  //   } else {
-  //     expect(component.isSelectedTimeValid(selectedTime)).toBe(false);
-  //   }
-  // });
+    if (currHour < selectedHour || (currHour === selectedHour && currMinute < selectedMinute)) {
+      expect(component.isSelectedTimeValid(selectedTime)).toBe(true);
+    } else {
+      expect(component.isSelectedTimeValid(selectedTime)).toBe(false);
+    }
+  });
 });
