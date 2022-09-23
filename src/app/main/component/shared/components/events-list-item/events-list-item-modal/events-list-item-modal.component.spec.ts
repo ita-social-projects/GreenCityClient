@@ -70,70 +70,62 @@ describe('EventsListItemModalComponent', () => {
     expect(component).toBeTruthy();
   });
 
-  it(`subscribeToLangChange should be called in ngOnInit`, () => {
-    const subscribeToLangChangeSpy = spyOn(component, 'subscribeToLangChange');
-    component.ngOnInit();
-    expect(subscribeToLangChangeSpy).toHaveBeenCalled();
+  describe('ngOnInit', () => {
+    it(`subscribeToLangChange should be called in ngOnInit`, () => {
+      const subscribeToLangChangeSpy = spyOn(component, 'subscribeToLangChange');
+      component.ngOnInit();
+      expect(subscribeToLangChangeSpy).toHaveBeenCalled();
+    });
+
+    it(`bindLang should be called in ngOnInit`, () => {
+      const bindLangSpy = spyOn(component, 'subscribeToLangChange');
+      component.ngOnInit();
+      expect(bindLangSpy).toHaveBeenCalled();
+    });
   });
 
-  it(`bindLang should be called in ngOnInit`, () => {
-    const bindLangSpy = spyOn(component, 'subscribeToLangChange');
-    component.ngOnInit();
-    expect(bindLangSpy).toHaveBeenCalled();
+  describe('modalBtn', () => {
+    beforeEach(fakeAsync(() => {
+      spyOn(component, 'modalBtn');
+      const button = fixture.debugElement.nativeElement.querySelector('button:nth-child(2)');
+      tick();
+      button.click();
+    }));
+
+    it(`should be called on click`, fakeAsync(() => {
+      expect(component.modalBtn).toHaveBeenCalled();
+    }));
+
+    it(`should be clicked and closed modal`, fakeAsync(() => {
+      const closeBtn = fixture.debugElement.nativeElement.querySelector('button:nth-child(1)');
+      closeBtn.click();
+      tick();
+      expect(bsModalRefMock.hide).toHaveBeenCalled();
+    }));
+
+    it(`should be called on click and hide the previous modal`, fakeAsync(() => {
+      bsModalRefMock.hide();
+      expect(bsModalRefMock.hide).toHaveBeenCalled();
+    }));
+
+    it(`should be called on click and open the auth modal`, fakeAsync(() => {
+      spyOn(component, 'openAuthModalWindow');
+      component.openAuthModalWindow('sign-up');
+      expect(component.openAuthModalWindow).toHaveBeenCalledTimes(1);
+    }));
+
+    it(`should be called on click and change the rating`, fakeAsync(() => {
+      component.isRegistered = true;
+      component.modalBtn();
+      spyOn(component, 'onRateChange');
+      component.onRateChange();
+      expect(component.onRateChange).toHaveBeenCalledTimes(1);
+    }));
   });
-
-  it(`should be called on click`, fakeAsync(() => {
-    spyOn(component, 'modalBtn');
-    const button = fixture.debugElement.nativeElement.querySelector('button:nth-child(2)');
-    button.click();
-    tick();
-    expect(component.modalBtn).toHaveBeenCalled();
-  }));
-
-  it(`should be clicked and closed modal`, fakeAsync(() => {
-    const button = fixture.debugElement.nativeElement.querySelector('button:nth-child(1)');
-    button.click();
-    tick();
-    expect(bsModalRefMock.hide).toHaveBeenCalled();
-  }));
-
-  it(`should be called on click and hide the previous modal`, fakeAsync(() => {
-    spyOn(component, 'modalBtn');
-    const button = fixture.debugElement.nativeElement.querySelector('button:nth-child(2)');
-    button.click();
-    tick();
-    component.modalBtn();
-    bsModalRefMock.hide();
-    expect(bsModalRefMock.hide).toHaveBeenCalled();
-  }));
-
-  it(`should be called on click and open the auth modal`, fakeAsync(() => {
-    spyOn(component, 'modalBtn');
-    const button = fixture.debugElement.nativeElement.querySelector('button:nth-child(2)');
-    button.click();
-    tick();
-    component.modalBtn();
-    spyOn(component, 'openAuthModalWindow');
-    component.openAuthModalWindow('sign-up');
-    expect(component.openAuthModalWindow).toHaveBeenCalledTimes(1);
-  }));
-
-  it(`should be called on click and change the rating`, fakeAsync(() => {
-    spyOn(component, 'modalBtn');
-    const button = fixture.debugElement.nativeElement.querySelector('button:nth-child(2)');
-    button.click();
-    tick();
-    component.isRegistered = true;
-    component.modalBtn();
-    spyOn(component, 'onRateChange');
-    component.onRateChange();
-    expect(component.onRateChange).toHaveBeenCalledTimes(1);
-  }));
 
   it(`should be called on hover`, fakeAsync(() => {
     spyOn(component, 'hoveringOver');
     component.hoveringOver(1);
     expect(component.hoveringOver).toHaveBeenCalled();
   }));
-
 });
