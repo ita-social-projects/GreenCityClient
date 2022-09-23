@@ -1,9 +1,10 @@
 import { DatePipe } from '@angular/common';
 import { Component, Inject, OnInit } from '@angular/core';
-import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { MatDialogRef, MAT_DIALOG_DATA, MatDialog, MatDialogConfig } from '@angular/material/dialog';
 import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
+import { UbsAdminTariffsAddServicePopUpComponent } from '../../../ubs-admin-tariffs/ubs-admin-tariffs-pricing-page/ubs-admin-tariffs-add-service-pop-up/ubs-admin-tariffs-add-service-pop-up.component';
 
 @Component({
   selector: 'app-modal-text',
@@ -20,6 +21,7 @@ export class ModalTextComponent implements OnInit {
   text2: string;
   bagName: string;
   action: string;
+  dialog: MatDialog;
   constructor(
     public dialogRef: MatDialogRef<ModalTextComponent>,
     @Inject(MAT_DIALOG_DATA) public modalData: any,
@@ -41,8 +43,8 @@ export class ModalTextComponent implements OnInit {
     this.dialogRef.close(reply);
   }
 
-  onNoClick(arg: boolean) {
-    console.log('IAVANNN');
+  onNoClick() {
+    this.dialogRef.close();
   }
 
   check(val: string): boolean {
