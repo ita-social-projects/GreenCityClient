@@ -9,7 +9,7 @@
         <div class="form-row-container">
           <div class="form-group export-date">
             <label class="form__label" for="export-date">{{ 'export-details.export-date' | translate }}</label>
-            <input type="date" class="form-control" id="export-date" formControlName="dateExport" min="{{ this.currentDate }}" />
+            <input type="date" class="form-control" id="export-date" formControlName="dateExport" min="{{ closestAvailableDate }}" />
           </div>
 
           <div class="time_export">
@@ -73,5 +73,9 @@
       </div>
     </div>
   </form>
-  <app-time-picker *ngIf="showTimePicker" (timeOfExport)="setExportTime($event)"> </app-time-picker>
+  <app-time-picker
+    *ngIf="showTimePicker"
+    (timeOfExport)="setExportTime($event)"
+    [isCurrentDaySelected]="isCurrentDaySelected"
+  ></app-time-picker>
 </div>

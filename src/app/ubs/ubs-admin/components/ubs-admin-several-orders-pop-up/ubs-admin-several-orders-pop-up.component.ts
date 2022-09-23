@@ -1,5 +1,6 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input, OnInit, OnDestroy } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { Subscription } from 'rxjs';
 import { MatDialogRef } from '@angular/material/dialog';
 import {
   IResponsiblePersonsData,
@@ -15,7 +16,7 @@ import { OrderService } from '../../services/order.service';
   templateUrl: './ubs-admin-several-orders-pop-up.component.html',
   styleUrls: ['./ubs-admin-several-orders-pop-up.component.scss']
 })
-export class UbsAdminSeveralOrdersPopUpComponent implements OnInit {
+export class UbsAdminSeveralOrdersPopUpComponent implements OnInit, OnDestroy {
   public showTimePicker = false;
   public fromSelect: string[];
   public toSelect: string[];
@@ -30,6 +31,9 @@ export class UbsAdminSeveralOrdersPopUpComponent implements OnInit {
   public receivingStations: string[];
   public currentDate: string;
   public responsiblePersonsData: IResponsiblePersonsData[];
+  public closestAvailableDate: string;
+  public isCurrentDaySelected: boolean;
+  public dateExportInputSubs: Subscription;
 
   values = {};
   ordersForm: FormGroup;
@@ -47,6 +51,8 @@ export class UbsAdminSeveralOrdersPopUpComponent implements OnInit {
   ngOnInit(): void {
     this.initForm();
     this.currentDate = new Date().toISOString().split('T')[0];
+    this.closestAvailableDate = this.getClosestAvailableDate();
+    this.initListeners();
   }
 
   initForm(): void {
@@ -66,6 +72,49 @@ export class UbsAdminSeveralOrdersPopUpComponent implements OnInit {
       })
     });
     this.setEmployeesByPosition();
+  }
+
+  initListeners(): void {
+    const exportDetailsDtoGroup = this.ordersForm.get('exportDetailsDto');
+    const dateExportInput = exportDetailsDtoGroup.get('dateExport');
+    const timeFromInput = exportDetailsDtoGroup.get(FormFieldsName.TimeDeliveryFrom);
+    const timeToInput = exportDetailsDtoGroup.get(FormFieldsName.TimeDeliveryTo);
+
+    this.dateExportInputSubs = dateExportInput.valueChanges.subscribe((date) => {
+      this.isCurrentDaySelected = date === this.currentDate;
+      if (!this.isCurrentDaySelected) {
+        return;
+      }
+
+      const selectedTimeFrom: string | null = timeFromInput?.value;
+      if (selectedTimeFrom && !this.isSelectedTimeValid(selectedTimeFrom)) {
+        timeFromInput.reset();
+        timeToInput.reset();
+      }
+    });
+  }
+
+  getClosestAvailableDate(): string {
+    const lastTimeFromOption = '21:30';
+    const isCurrentWorkingDayOver = !this.isSelectedTimeValid(lastTimeFromOption);
+
+    if (isCurrentWorkingDayOver) {
+      const date = new Date();
+      date.setDate(date.getDate() + 1);
+      return date.toISOString().split('T')[0];
+    } else {
+      return this.currentDate;
+    }
+  }
+
+  isSelectedTimeValid(timeString: string): boolean {
+    const currHour: number = new Date().getHours();
+    const currMinute: number = new Date().getMinutes();
+    const selectedTime: string[] = timeString.split(':');
+    const selectedHour: number = Number(selectedTime[0]);
+    const selectedMinute: number = Number(selectedTime[1]);
+
+    return currHour < selectedHour || (currHour === selectedHour && currMinute < selectedMinute) || false;
   }
 
   showTimePickerClick(): void {
@@ -174,5 +223,9 @@ export class UbsAdminSeveralOrdersPopUpComponent implements OnInit {
         responsiblePersonsArray: this.allDrivers
       }
     ];
+  }
+
+  ngOnDestroy(): void {
+    this.dateExportInputSubs.unsubscribe();
   }
 }

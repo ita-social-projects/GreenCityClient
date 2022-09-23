@@ -14,15 +14,40 @@ export class TimePickerComponent implements OnInit {
   public from: string;
   public to: string;
 
+  @Input() isCurrentDaySelected = false;
   @Input() setTimeFrom: string;
   @Input() setTimeTo: string;
   @Output() timeOfExport = new EventEmitter<object>();
+
   ngOnInit(): void {
     this.fromInput = this.setTimeFrom;
     this.toInput = this.setTimeTo;
-    this.fromSelect = fromSelect;
+    this.fromSelect = this.isCurrentDaySelected ? this.calcTimeFromOptions(fromSelect) : fromSelect;
     this.toSelect = toSelect;
   }
+
+  calcTimeFromOptions(timeOptions: string[]): string[] {
+    let hour: string | number = new Date().getHours();
+    let minute: string | number = new Date().getMinutes();
+
+    const firstWorkingHour: number = Number(timeOptions[0].split(':')[0]);
+    if (hour < firstWorkingHour) {
+      return timeOptions;
+    }
+
+    if (minute >= 30) {
+      hour += 1;
+      minute = '00';
+    } else {
+      minute = '30';
+    }
+    hour = hour < 10 ? `0${hour}` : String(hour);
+
+    const firstTimeOptionIndex = timeOptions.indexOf(`${hour}:${minute}`);
+
+    return timeOptions.slice(firstTimeOptionIndex);
+  }
+
   onTimeFromChange(): void {
     const fromIdx = fromSelect.indexOf(this.fromInput);
     this.toSelect = toSelect.slice(fromIdx);

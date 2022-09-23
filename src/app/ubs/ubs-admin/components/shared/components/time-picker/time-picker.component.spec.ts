@@ -184,4 +184,11 @@ describe('TimePickerComponent', () => {
     expect(component.from).toBe(fakeTimeFrom);
     expect(component.to).toBe(fakeTimeTo);
   });
+
+  it('should call calcTimeFromOptions() if current day is selected', () => {
+    component.isCurrentDaySelected = true;
+    const spy = spyOn(component, 'calcTimeFromOptions');
+    component.ngOnInit();
+    expect(spy).toHaveBeenCalled();
+  });
 });
