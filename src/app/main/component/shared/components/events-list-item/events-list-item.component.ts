@@ -31,6 +31,7 @@ export class EventsListItemComponent implements OnInit, OnDestroy {
   public styleBtn: string;
   public disabledMode = false;
   public rate: number;
+  public userId: number;
 
   public isJoined: boolean;
   public isEventOpen: boolean;
@@ -66,6 +67,7 @@ export class EventsListItemComponent implements OnInit, OnDestroy {
     this.itemTags = TagsArray.reduce((ac, cur) => [...ac, { ...cur }], []);
     this.filterTags(this.event.tags);
     this.rate = Math.round(this.event.organizer.organizerRating);
+    this.getUserId();
     this.initAllStatusesOfEvent();
     this.checkAllStatusesOfEvent();
     this.subscribeToLangChange();
@@ -83,10 +85,14 @@ export class EventsListItemComponent implements OnInit, OnDestroy {
   public initAllStatusesOfEvent(): void {
     this.isJoined = this.event.isSubscribed ? true : false;
     this.isEventOpen = this.event.open;
-    this.isOwner = this.localStorageService.getUserId() === this.event.organizer.id;
-    this.isRegistered = this.localStorageService.getUserId() ? true : false;
+    this.isOwner = this.userId === this.event.organizer.id;
+    this.isRegistered = this.userId ? true : false;
     this.isFinished = Date.parse(this.event.dates[0].finishDate) < Date.parse(new Date().toString());
     this.isRated = this.rate ? true : false;
+  }
+
+  public getUserId(): void {
+    this.localStorageService.userIdBehaviourSubject.subscribe((id) => (this.userId = id));
   }
 
   public checkAllStatusesOfEvent(): void {

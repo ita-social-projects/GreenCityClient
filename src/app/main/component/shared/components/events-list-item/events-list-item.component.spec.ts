@@ -12,9 +12,9 @@ import { of } from 'rxjs/internal/observable/of';
 import { EventsService } from '../../../events/services/events.service';
 import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
 import { RatingModule } from 'ngx-bootstrap/rating';
-import { Subject } from 'rxjs';
+import { BehaviorSubject, Subject } from 'rxjs';
 
-describe('EventsListItemComponent', () => {
+fdescribe('EventsListItemComponent', () => {
   let component: EventsListItemComponent;
   let fixture: ComponentFixture<EventsListItemComponent>;
   let translate: TranslateService;
@@ -60,12 +60,12 @@ describe('EventsListItemComponent', () => {
     'getCurrentLanguage',
     'setEditMode',
     'setEventForEdit',
-    'getUserId',
+    'userIdBehaviourSubject',
     'languageSubject'
   ]);
   LocalStorageServiceMock.getCurrentLanguage = () => of('en');
   LocalStorageServiceMock.languageSubject = new Subject();
-  LocalStorageServiceMock.getUserId = () => of(5);
+  LocalStorageServiceMock.userIdBehaviourSubject = new BehaviorSubject(5);
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
@@ -140,6 +140,17 @@ describe('EventsListItemComponent', () => {
       expect(component.rate).toBe(3);
     });
 
+    it('getUserId user ID should be 5', () => {
+      component.getUserId();
+      expect(component.userId).toBe(5);
+    });
+
+    it('getUserId should be called in ngOnInit', () => {
+      spyOn(component, 'getUserId');
+      component.ngOnInit();
+      expect(component.getUserId).toHaveBeenCalled();
+    });
+
     it(`checkAllStatusesOfEvent should be called in ngOnInit`, () => {
       spyOn(component, 'checkAllStatusesOfEvent');
       component.ngOnInit();
@@ -193,13 +204,13 @@ describe('EventsListItemComponent', () => {
     });
 
     it(`should be initialized if user is owner of the event`, () => {
-      component.isOwner = LocalStorageServiceMock.getUserId === component.event.organizer.id;
+      component.isOwner = LocalStorageServiceMock.userIdBehaviourSubject === component.event.organizer.id;
       expect(component.isOwner).toBe(false);
     });
 
     it(`should be initialized if user is registered of the event`, () => {
-      component.isRegistered = LocalStorageServiceMock.getUserId ? true : false;
-      expect(component.isOwner).toBe(false);
+      component.isRegistered = LocalStorageServiceMock.userIdBehaviourSubject ? true : false;
+      expect(component.isOwner).toBe(true);
     });
 
     it(`should be initialized the event finished`, () => {
