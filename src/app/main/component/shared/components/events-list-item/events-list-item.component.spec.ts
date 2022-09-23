@@ -14,7 +14,7 @@ import { LocalStorageService } from '@global-service/localstorage/local-storage.
 import { RatingModule } from 'ngx-bootstrap/rating';
 import { BehaviorSubject, Subject } from 'rxjs';
 
-fdescribe('EventsListItemComponent', () => {
+describe('EventsListItemComponent', () => {
   let component: EventsListItemComponent;
   let fixture: ComponentFixture<EventsListItemComponent>;
   let translate: TranslateService;
