@@ -98,6 +98,11 @@ $whitecol: white;
 
   input {
     font-size: 1em;
+
+    &:focus {
+      border: 1px solid var(--ubs-button-dark-green);
+      box-shadow: none;
+    }
   }
 
   input.ng-invalid.ng-touched {
@@ -140,7 +145,7 @@ $whitecol: white;
   }
 
   .h5MarginTop {
-    margin: 28px 0 10px 0;
+    margin: 28px 0 14px 0;
   }
 
   h5 {
@@ -167,34 +172,48 @@ $whitecol: white;
     width: 300px;
 
     .btn-alternative-email {
-      width: 16px;
-      height: 16px;
       margin: 14px 0 22px 0;
-      border-radius: 50%;
-      border: none;
-      background-color: #fff;
-      background-image: url(../../../../assets/img/ubs/Allternative-email-btn.svg);
-
-      .alternative-email-subtite {
-        margin: 14px 0 22px 0;
-        font-family: var(--ubs-quaternary-font);
-        font-weight: 700;
-        font-size: 14px;
-        line-height: 20px;
-        letter-spacing: 0.1px;
-        color: #9ec848;
-      }
-    }
-
-    p {
-      margin: 14px 0 22px 10px;
-      font-family: var(--ubs-quaternary-font);
-      font-weight: 700;
+      padding: 0;
+      font-family: var(--primary-font);
+      font-style: normal;
+      font-weight: 400;
       font-size: 14px;
       line-height: 20px;
       letter-spacing: 0.1px;
-      color: #9ec848;
+      color: var(--ubs-dark-purple);
+      border: none;
+      background-color: #fff;
     }
+
+    // .btn-alternative-email {
+    //   width: 16px;
+    //   height: 16px;
+    //   margin: 14px 0 22px 0;
+    //   border-radius: 50%;
+    //   border: none;
+    //   background-color: #fff;
+    //   background-image: url(../../../../assets/img/ubs/Allternative-email-btn.svg);
+
+    //   .alternative-email-subtite {
+    //     margin: 14px 0 22px 0;
+    //     font-family: var(--ubs-quaternary-font);
+    //     font-weight: 700;
+    //     font-size: 14px;
+    //     line-height: 20px;
+    //     letter-spacing: 0.1px;
+    //     color: #9ec848;
+    //   }
+    // }
+
+    // p {
+    //   margin: 14px 0 22px 10px;
+    //   font-family: var(--ubs-quaternary-font);
+    //   font-weight: 700;
+    //   font-size: 14px;
+    //   line-height: 20px;
+    //   letter-spacing: 0.1px;
+    //   color: #9ec848;
+    // }
   }
 
   .form-group {
@@ -222,8 +241,35 @@ $whitecol: white;
         background-color: $whitecol;
       }
 
+      .recipientName {
+        width: 240px;
+      }
+
+      .recipientSurname {
+        width: 240px;
+      }
+
+      .recipientEmail {
+        width: 300px;
+      }
+
+      .recipientPhone {
+        width: 160px;
+      }
+
+      // .surname {
+      //   margin-left: 32px;
+      // }
+
       label {
+        margin-bottom: 0;
+        padding: 0;
         color: var(--ubs-secondary-grey);
+        font-family: var(--primary-font);
+        font-style: normal;
+        font-weight: 400;
+        font-size: 16px;
+        line-height: 24px;
       }
     }
   }
@@ -248,12 +294,20 @@ $whitecol: white;
       background-color: var(--ubs-button-light-green);
       color: $btnblackcol;
       border: none;
+
+      &:hover {
+        background-color: var(--ubs-button-dark-green);
+      }
     }
 
     .cancel {
       background-color: $whitecol;
       color: $btnblackcol;
       border-color: $btnblackcol;
+
+      &:hover {
+        background: var(--ubs-quaternary-light-grey);
+      }
     }
   }
 
@@ -349,9 +403,9 @@ $whitecol: white;
 .inputMargin {
   margin-right: 140px;
 
-  input {
-    width: 260px;
-  }
+  // input {
+  //   width: 240px;
+  // }
 }
 
 .address {

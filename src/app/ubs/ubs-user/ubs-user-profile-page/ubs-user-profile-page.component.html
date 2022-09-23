@@ -16,11 +16,11 @@
       </div>
       <div role="form" tabindex="0" id="form" class="input-group input-group-sm">
         <form *ngIf="!isFetching; else spinner" [formGroup]="userForm">
-          <h5 [ngClass]="{ h5MarginBottom: isEditing }">{{ 'ubs-client-profile.personal' | translate }}</h5>
+          <h5 [ngClass]="{ h5MarginTop: isEditing }">{{ 'ubs-client-profile.personal' | translate }}</h5>
           <div class="personal inline">
             <div [ngClass]="{ inputMargin: isEditing }" class="form-group col-sm-6">
               <label for="recipientName">{{ 'ubs-client-profile.name' | translate }}</label>
-              <input *ngIf="isEditing" type="text" class="form-control" id="recipientName" formControlName="recipientName" />
+              <input *ngIf="isEditing" type="text" class="form-control recipientName" id="recipientName" formControlName="recipientName" />
               <p *ngIf="!isEditing">{{ userProfile?.recipientName }}</p>
               <div *ngIf="getControl('recipientName').invalid && getControl('recipientName').touched">
                 <div class="error-message">
@@ -30,7 +30,13 @@
             </div>
             <div [ngClass]="{ inputMargin: isEditing }" class="form-group col-sm-6">
               <label for="recipientSurname">{{ 'ubs-client-profile.surname' | translate }}</label>
-              <input *ngIf="isEditing" type="text" class="form-control" id="recipientSurname" formControlName="recipientSurname" />
+              <input
+                *ngIf="isEditing"
+                type="text"
+                class="form-control recipientSurname"
+                id="recipientSurname"
+                formControlName="recipientSurname"
+              />
               <p *ngIf="!isEditing">{{ userProfile?.recipientSurname }}</p>
               <div *ngIf="getControl('recipientSurname').invalid && getControl('recipientSurname').touched">
                 <div class="error-message">
@@ -46,7 +52,7 @@
               <input
                 *ngIf="isEditing"
                 type="email"
-                class="form-control"
+                class="form-control recipientEmail"
                 id="recipientEmail"
                 [readonly]="true"
                 formControlName="recipientEmail"
@@ -56,15 +62,16 @@
             </div>
             <div *ngIf="isEditing">
               <div class="wrapper-btn">
-                <button aria-label="Add alternative email" class="btn-alternative-email" (click)="toggleAlternativeEmail()"></button>
-                <p>{{ 'ubs-client-profile.btn.alternative-email' | translate }}</p>
+                <button aria-label="Add alternative email" class="btn-alternative-email" (click)="toggleAlternativeEmail()">
+                  {{ 'ubs-client-profile.btn.alternative-email' | translate }}
+                </button>
               </div>
               <div *ngIf="alternativeEmailDisplay" class="form-group col-sm-6">
                 <label for="recipientEmail" class="form-label">{{ 'ubs-client-profile.alternative-email' | translate }}</label>
                 <input
                   *ngIf="isEditing"
                   type="email"
-                  class="form-control"
+                  class="form-control recipientEmail"
                   id="recipientEmail"
                   [readonly]="false"
                   formControlName="alternateEmail"
@@ -86,7 +93,7 @@
               <input
                 *ngIf="isEditing"
                 type="tel"
-                class="form-control"
+                class="form-control recipientPhone"
                 id="recipientPhone"
                 [formControl]="userForm.controls['recipientPhone']"
                 placeholder="+380__ ___ __ __"
@@ -160,8 +167,9 @@
           </ng-container>
           <div *ngIf="isEditing && userProfile.addressDto.length < maxAddressLength">
             <div class="wrapper-btn">
-              <button aria-label="Add adrress" class="btn-alternative-email" (click)="openAddAdressDialog()"></button>
-              <p>{{ 'ubs-client-profile.btn.add-address' | translate }}</p>
+              <button aria-label="Add adrress" class="btn-alternative-email" (click)="openAddAdressDialog()">
+                {{ 'ubs-client-profile.btn.add-address' | translate }}
+              </button>
             </div>
           </div>
           <div class="submit-btns" *ngIf="isEditing">
