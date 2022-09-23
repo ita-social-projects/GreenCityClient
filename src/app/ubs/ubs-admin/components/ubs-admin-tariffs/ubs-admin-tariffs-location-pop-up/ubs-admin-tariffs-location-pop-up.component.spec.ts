@@ -410,11 +410,11 @@ describe('UbsAdminTariffsLocationPopUpComponent ', () => {
     expect(storeMock.dispatch).toHaveBeenCalled();
   });
 
-  it('method onNoClick should invoke destroyRef.close()', () => {
+  it('method onCancel should invoke destroyRef.close()', () => {
     component.selectedCities.push(localItem);
     component.editedCities.push(editedItem);
     matDialogMock.open.and.returnValue(fakeMatDialogRef as any);
-    component.onNoClick();
+    component.onCancel();
     expect(fakeMatDialogRef.close).toHaveBeenCalled();
     expect(matDialogMock.open).toHaveBeenCalledWith(ModalTextComponent, {
       hasBackdrop: true,
@@ -427,10 +427,10 @@ describe('UbsAdminTariffsLocationPopUpComponent ', () => {
     });
   });
 
-  it('method onNoClick should invoke destroyRef.close() if selectedCities or editedCities is empty', () => {
+  it('method onCancel should invoke destroyRef.close() if selectedCities or editedCities is empty', () => {
     component.selectedCities = [];
     component.editedCities = [];
-    component.onNoClick();
+    component.onCancel();
     expect(fakeMatDialogRef.close).toHaveBeenCalled();
   });
 });

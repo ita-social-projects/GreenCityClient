@@ -43,8 +43,13 @@ describe('ModalTextComponent', () => {
     expect(component).toBeTruthy();
   });
 
-  it('should call close on matDialogRef', () => {
-    component.onNoClick(true);
+  it('should call close on cancel matDialogRef', () => {
+    component.onNoClick();
+    expect(matDialogRefMock.close).toHaveBeenCalled();
+  });
+
+  it('should close all matDialogRef', () => {
+    component.onYesClick(true);
     expect(matDialogRefMock.close).toHaveBeenCalledWith(true);
   });
 
