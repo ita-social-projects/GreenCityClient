@@ -131,6 +131,7 @@ describe('TimePickerComponent', () => {
 
   it('should create TimePickerComponent', () => {
     expect(component).toBeTruthy();
+    expect(component.isCurrentDaySelected).toEqual(false);
   });
 
   it('shoud set time in selectors', () => {
