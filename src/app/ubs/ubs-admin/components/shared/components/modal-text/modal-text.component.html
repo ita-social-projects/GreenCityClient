@@ -6,13 +6,13 @@
     <p class="modal-text">{{ text | translate }}{{ text2 | translate: { bagName: bagName } }}</p>
   </div>
   <div class="d-flex justify-content-end buttons" mat-dialog-actions>
-    <button *ngIf="!check(modalData.name)" class="button secondary-global-button" mat-button (click)="onNoClick(false)">
+    <button *ngIf="!check(modalData.name)" class="button secondary-global-button" mat-button (click)="onYesClick(false)">
       {{ 'modal-text.cancel' | translate }}
     </button>
     <button *ngIf="check(modalData.name)" class="button secondary-global-button" mat-button (click)="onNoClick(false)">
       {{ 'modal-text.no' | translate }}
     </button>
-    <button class="button primary-global-button btn m-0" (click)="onNoClick(true)">
+    <button class="button primary-global-button btn m-0" (click)="onYesClick(true)">
       {{ action | translate }}
     </button>
   </div>

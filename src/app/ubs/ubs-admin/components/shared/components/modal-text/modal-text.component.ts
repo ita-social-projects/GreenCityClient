@@ -37,8 +37,12 @@ export class ModalTextComponent implements OnInit {
     });
   }
 
-  onNoClick(reply: boolean): void {
+  onYesClick(reply: boolean): void {
     this.dialogRef.close(reply);
+  }
+
+  onNoClick(arg: boolean) {
+    console.log('IAVANNN');
   }
 
   check(val: string): boolean {
