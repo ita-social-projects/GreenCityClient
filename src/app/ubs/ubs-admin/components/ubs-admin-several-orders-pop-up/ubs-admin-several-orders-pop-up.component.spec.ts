@@ -15,7 +15,6 @@ describe('UbsAdminSeveralOrdersPopUpComponent', () => {
   let dialog: MatDialog;
 
   let setEmployeesSpy: jasmine.Spy;
-  let initListenersSpy: jasmine.Spy;
 
   const dataFromTable = [
     {
@@ -63,7 +62,6 @@ describe('UbsAdminSeveralOrdersPopUpComponent', () => {
     fixture = TestBed.createComponent(UbsAdminSeveralOrdersPopUpComponent);
     component = fixture.componentInstance;
 
-    initListenersSpy = spyOn(component, 'initListeners');
     setEmployeesSpy = spyOn(component, 'setEmployeesByPosition').and.callFake(() => {});
 
     component.dataFromTable = dataFromTable;
@@ -73,6 +71,18 @@ describe('UbsAdminSeveralOrdersPopUpComponent', () => {
     fixture.detectChanges();
     dialog = TestBed.inject(MatDialog);
   }));
+
+  it('should call initListeners() in ngOnInit hook', () => {
+    const spy = spyOn(component, 'initListeners');
+    component.ngOnInit();
+    expect(spy).toHaveBeenCalled();
+  });
+
+  it('should call getClosestAvailableDate() in ngOnInit hook', () => {
+    const spy = spyOn(component, 'getClosestAvailableDate');
+    component.ngOnInit();
+    expect(spy).toHaveBeenCalled();
+  });
 
   it('should set the next day as min value for date input if current working day is over', () => {
     const date = new Date();
@@ -95,5 +105,9 @@ describe('UbsAdminSeveralOrdersPopUpComponent', () => {
     } else {
       expect(component.isSelectedTimeValid(selectedTime)).toBe(false);
     }
+  });
+
+  it('should create ordersForm', () => {
+    expect(component.ordersForm.value).toEqual(initialFormValue);
   });
 });
