@@ -1,8 +1,9 @@
-import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
+import { Language } from './../../../../i18n/Language';
+import { CUSTOM_ELEMENTS_SCHEMA, Injectable, EventEmitter } from '@angular/core';
 import { async, ComponentFixture, fakeAsync, TestBed, tick } from '@angular/core/testing';
 import { MatDialogModule } from '@angular/material/dialog';
 import { RouterTestingModule } from '@angular/router/testing';
-import { BsModalService } from 'ngx-bootstrap/modal';
+import { BsModalRef, ModalModule } from 'ngx-bootstrap/modal';
 import { TagsArray } from '../../../events/models/event-consts';
 import { Store } from '@ngrx/store';
 import { EventsListItemComponent } from './events-list-item.component';
@@ -13,6 +14,32 @@ import { EventsService } from '../../../events/services/events.service';
 import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
 import { RatingModule } from 'ngx-bootstrap/rating';
 import { BehaviorSubject, Subject } from 'rxjs';
+
+@Injectable()
+class TranslationServiceStub {
+  public onLangChange = new EventEmitter<any>();
+  public onTranslationChange = new EventEmitter<any>();
+  public onDefaultLangChange = new EventEmitter<any>();
+  public addLangs(langs: string[]) {}
+  public getLangs() {
+    return 'en-us';
+  }
+  public getBrowserLang() {
+    return '';
+  }
+  public getBrowserCultureLang() {
+    return '';
+  }
+  public use(lang: string) {
+    return '';
+  }
+  public get(key: any): any {
+    return of(key);
+  }
+  public setDefaultLang() {
+    return true;
+  }
+}
 
 describe('EventsListItemComponent', () => {
   let component: EventsListItemComponent;
@@ -51,33 +78,41 @@ describe('EventsListItemComponent', () => {
 
   const routerSpy = { navigate: jasmine.createSpy('navigate') };
   const storeMock = jasmine.createSpyObj('store', ['dispatch']);
-
+  const mockLang = 'ua';
+  const bsModalRefMock = jasmine.createSpyObj('bsModalRef', ['hide']);
   const EventsServiceMock = jasmine.createSpyObj('EventsService', ['getEventById ', 'deleteEvent']);
   EventsServiceMock.getEventById = () => of(eventMock);
   EventsServiceMock.deleteEvent = () => of(true);
 
-  const LocalStorageServiceMock = jasmine.createSpyObj('LocalStorageService', [
+  let localStorageServiceMock: LocalStorageService;
+  localStorageServiceMock = jasmine.createSpyObj('LocalStorageService', [
     'getCurrentLanguage',
     'setEditMode',
     'setEventForEdit',
     'userIdBehaviourSubject',
     'languageSubject'
   ]);
-  LocalStorageServiceMock.getCurrentLanguage = () => of('en');
-  LocalStorageServiceMock.languageSubject = new Subject();
-  LocalStorageServiceMock.userIdBehaviourSubject = new BehaviorSubject(5);
+  localStorageServiceMock.languageSubject = new Subject();
+  localStorageServiceMock.userIdBehaviourSubject = new BehaviorSubject(5);
+
+  let translateServiceMock: TranslateService;
+  translateServiceMock = jasmine.createSpyObj('TranslateService', ['setDefaultLang']);
+  translateServiceMock.setDefaultLang = (lang: string) => of();
+  translateServiceMock.get = () => of(true);
+  localStorageServiceMock.getCurrentLanguage = () => mockLang as Language;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       declarations: [EventsListItemComponent],
       providers: [
-        { provide: BsModalService, useValue: {} },
+        { provide: BsModalRef, useValue: bsModalRefMock },
         { provide: Store, useValue: storeMock },
         { provide: Router, useValue: routerSpy },
         { provide: EventsService, useValue: EventsServiceMock },
-        { provide: LocalStorageService, useValue: LocalStorageServiceMock }
+        { provide: LocalStorageService, useValue: localStorageServiceMock },
+        { provide: TranslateService, useClass: TranslationServiceStub }
       ],
-      imports: [RouterTestingModule, MatDialogModule, TranslateModule.forRoot(), RatingModule.forRoot()],
+      imports: [RouterTestingModule, MatDialogModule, TranslateModule.forRoot(), RatingModule.forRoot(), ModalModule.forRoot()],
       schemas: [CUSTOM_ELEMENTS_SCHEMA]
     }).compileComponents();
   }));
@@ -204,12 +239,12 @@ describe('EventsListItemComponent', () => {
     });
 
     it(`should be initialized if user is owner of the event`, () => {
-      component.isOwner = LocalStorageServiceMock.userIdBehaviourSubject === component.event.organizer.id;
+      component.isOwner = Number(localStorageServiceMock.userIdBehaviourSubject) === Number(component.event.organizer.id);
       expect(component.isOwner).toBe(false);
     });
 
     it(`should be initialized if user is registered of the event`, () => {
-      component.isRegistered = LocalStorageServiceMock.userIdBehaviourSubject ? true : false;
+      component.isRegistered = localStorageServiceMock.userIdBehaviourSubject ? true : false;
       expect(component.isOwner).toBe(true);
     });
 
@@ -345,6 +380,33 @@ describe('EventsListItemComponent', () => {
       tick();
       expect(component.buttonAction).toHaveBeenCalled();
     }));
+
+    it(`should be set mode for editing`, () => {
+      component.isRegistered = true;
+      component.isEventOpen = true;
+      component.isFinished = false;
+      component.isOwner = true;
+      component.buttonAction();
+      expect(localStorageServiceMock.setEditMode).toHaveBeenCalled();
+    });
+
+    it(`should be set event for editing`, () => {
+      component.isRegistered = true;
+      component.isEventOpen = true;
+      component.isFinished = false;
+      component.isOwner = true;
+      component.buttonAction();
+      expect(localStorageServiceMock.setEventForEdit).toHaveBeenCalled();
+    });
+
+    it(`should navigate to create-event`, () => {
+      component.isRegistered = true;
+      component.isEventOpen = true;
+      component.isFinished = false;
+      component.isOwner = true;
+      component.buttonAction();
+      expect(routerSpy.navigate).toHaveBeenCalledWith(['events/', 'create-event']);
+    });
   });
 
   describe('actionIsJoined', () => {
@@ -386,6 +448,14 @@ describe('EventsListItemComponent', () => {
     it(`should be changed isJoined if user is not joined`, () => {
       component.actionIsJoined(false);
       expect(component.isJoined).toBe(true);
+    });
+  });
+
+  describe('ngOnDestroy', () => {
+    it('should unsubscribe of language change', () => {
+      component.langChangeSub = of(true).subscribe();
+      component.ngOnDestroy();
+      expect(component.langChangeSub.closed).toBeTruthy();
     });
   });
 });
