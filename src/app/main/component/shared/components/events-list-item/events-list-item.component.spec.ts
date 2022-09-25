@@ -25,7 +25,7 @@ class TranslationServiceStub {
     return 'en-us';
   }
   public getBrowserLang() {
-    return '';
+    return ' ';
   }
   public getBrowserCultureLang() {
     return '';
