@@ -1,3 +1,4 @@
+import { Language } from './../../../../../i18n/Language';
 import { async, ComponentFixture, TestBed, fakeAsync, tick } from '@angular/core/testing';
 import { Store } from '@ngrx/store';
 import { EventsListItemModalComponent } from './events-list-item-modal.component';
@@ -5,8 +6,9 @@ import { RatingModule } from 'ngx-bootstrap/rating';
 import { BsModalRef, ModalModule } from 'ngx-bootstrap/modal';
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
 import { MatDialogModule } from '@angular/material/dialog';
-import { of } from 'rxjs';
+import { of, Subject } from 'rxjs';
 import { EventEmitter, Injectable } from '@angular/core';
+import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
 
 @Injectable()
 class TranslationServiceStub {
@@ -39,11 +41,17 @@ describe('EventsListItemModalComponent', () => {
   let fixture: ComponentFixture<EventsListItemModalComponent>;
 
   const storeMock = jasmine.createSpyObj('store', ['dispatch']);
+  const mockLang = 'ua';
 
   let translateServiceMock: TranslateService;
   translateServiceMock = jasmine.createSpyObj('TranslateService', ['setDefaultLang']);
   translateServiceMock.setDefaultLang = (lang: string) => of();
   translateServiceMock.get = () => of(true);
+
+  let localStorageServiceMock: LocalStorageService;
+  localStorageServiceMock = jasmine.createSpyObj('LocalStorageService', ['languageSubject', 'getCurrentLanguage']);
+  localStorageServiceMock.languageSubject = new Subject();
+  localStorageServiceMock.getCurrentLanguage = () => mockLang as Language;
 
   const bsModalRefMock = jasmine.createSpyObj('bsModalRef', ['hide']);
 
@@ -53,7 +61,8 @@ describe('EventsListItemModalComponent', () => {
       providers: [
         { provide: Store, useValue: storeMock },
         { provide: BsModalRef, useValue: bsModalRefMock },
-        { provide: TranslateService, useClass: TranslationServiceStub }
+        { provide: TranslateService, useClass: TranslationServiceStub },
+        { provide: LocalStorageService, useValue: localStorageServiceMock }
       ],
       imports: [RatingModule.forRoot(), ModalModule.forRoot(), MatDialogModule, TranslateModule.forRoot()]
     }).compileComponents();
@@ -62,8 +71,8 @@ describe('EventsListItemModalComponent', () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(EventsListItemModalComponent);
     component = fixture.componentInstance;
+    component.text = '';
     fixture.detectChanges();
-    component.isRegistered = false;
   });
 
   it('should create', () => {
@@ -85,14 +94,11 @@ describe('EventsListItemModalComponent', () => {
   });
 
   describe('modalBtn', () => {
-    beforeEach(fakeAsync(() => {
+    it(`should be called on click`, fakeAsync(() => {
       spyOn(component, 'modalBtn');
       const button = fixture.debugElement.nativeElement.querySelector('button:nth-child(2)');
-      tick();
       button.click();
-    }));
-
-    it(`should be called on click`, fakeAsync(() => {
+      tick();
       expect(component.modalBtn).toHaveBeenCalled();
     }));
 
@@ -103,29 +109,55 @@ describe('EventsListItemModalComponent', () => {
       expect(bsModalRefMock.hide).toHaveBeenCalled();
     }));
 
-    it(`should be called on click and hide the previous modal`, fakeAsync(() => {
-      bsModalRefMock.hide();
+    it(`should be called on click and hide the previous modal`, () => {
+      component.modalBtn();
       expect(bsModalRefMock.hide).toHaveBeenCalled();
-    }));
+    });
 
-    it(`should be called on click and open the auth modal`, fakeAsync(() => {
-      spyOn(component, 'openAuthModalWindow');
-      component.openAuthModalWindow('sign-up');
-      expect(component.openAuthModalWindow).toHaveBeenCalledTimes(1);
-    }));
+    it(`should be called on click and open the auth modal`, () => {
+      component.isRegistered = false;
+      spyOn(component, 'openAuthModalWindow').withArgs('sign-up');
+      jasmine.clock().install();
+      component.modalBtn();
+      jasmine.clock().tick(500);
+      expect(component.openAuthModalWindow).toHaveBeenCalled();
+      jasmine.clock().uninstall();
+    });
 
     it(`should be called on click and change the rating`, fakeAsync(() => {
       component.isRegistered = true;
-      component.modalBtn();
       spyOn(component, 'onRateChange');
-      component.onRateChange();
-      expect(component.onRateChange).toHaveBeenCalledTimes(1);
+      component.modalBtn();
+      expect(component.onRateChange).toHaveBeenCalled();
     }));
   });
 
-  it(`should be called on hover`, fakeAsync(() => {
-    spyOn(component, 'hoveringOver');
-    component.hoveringOver(1);
-    expect(component.hoveringOver).toHaveBeenCalled();
-  }));
+  describe('hoveringOver', () => {
+    it(`should be called with parameter 1`, () => {
+      spyOn(component, 'hoveringOver');
+      component.hoveringOver(1);
+      expect(component.hoveringOver).toHaveBeenCalledWith(1);
+    });
+
+    it(`should be checked text by rating`, () => {
+      component.hoveringOver(1);
+      expect(component.text).toBe('event.text-1');
+    });
+  });
+
+  describe('onRateChange', () => {
+    it(`should be set rating`, () => {
+      storeMock.dispatch.calls.reset();
+      component.onRateChange();
+      expect(storeMock.dispatch).toHaveBeenCalledTimes(1);
+    });
+  });
+
+  describe('ngOnDestroy', () => {
+    it('should unsubscribe of language change', () => {
+      component.langChangeSub = of(true).subscribe();
+      component.ngOnDestroy();
+      expect(component.langChangeSub.closed).toBeTruthy();
+    });
+  });
 });
