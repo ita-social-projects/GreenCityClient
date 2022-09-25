@@ -36,7 +36,7 @@ class TranslationServiceStub {
   }
 }
 
-fdescribe('EventsListItemModalComponent', () => {
+describe('EventsListItemModalComponent', () => {
   let component: EventsListItemModalComponent;
   let fixture: ComponentFixture<EventsListItemModalComponent>;
 
