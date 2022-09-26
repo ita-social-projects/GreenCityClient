@@ -27,6 +27,7 @@ import { MapEventComponent } from './components/map-event/map-event.component';
 import { ImagesContainerComponent } from './components/images-container/images-container.component';
 import { GooglePlaceModule } from 'ngx-google-places-autocomplete';
 import { EventDetailsComponent } from './components/event-details/event-details.component';
+import { RatingModule } from 'ngx-bootstrap/rating';
 
 @NgModule({
   declarations: [
@@ -39,6 +40,7 @@ import { EventDetailsComponent } from './components/event-details/event-details.
     EventDetailsComponent
   ],
   imports: [
+    RatingModule.forRoot(),
     ReactiveFormsModule,
     GooglePlaceModule,
     CommonModule,
@@ -71,7 +73,7 @@ import { EventDetailsComponent } from './components/event-details/event-details.
   ],
   exports: [TranslateModule]
 })
-export class EventsModule {}
+export class EventsModule { }
 export function createTranslateLoader(http: HttpClient) {
   return new TranslateHttpLoader(http, './assets/i18n/', '.json');
 }

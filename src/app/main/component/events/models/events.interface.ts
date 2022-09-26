@@ -80,10 +80,12 @@ export interface EventPageResponceDto {
   organizer: {
     id: number;
     name: string;
+    organizerRating: number;
   };
   tags: Array<TagDto>;
   title: string;
   titleImage: string;
+  isSubscribed: boolean;
 }
 
 export interface TagDto {

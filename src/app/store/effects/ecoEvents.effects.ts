@@ -14,6 +14,12 @@ import {
   EditEcoEventSuccessAction,
   GetEcoEventsByPageAction,
   GetEcoEventsByPageSuccessAction,
+  RateEcoEventsByIdAction,
+  RateEcoEventsByIdSuccessAction,
+  AddAttenderEcoEventsByIdAction,
+  AddAttenderEventsByIdSuccessAction,
+  RemoveAttenderEcoEventsByIdAction,
+  RemoveAttenderEventsByIdSuccessAction,
   ReceivedFailureAction
 } from '../actions/ecoEvents.actions';
 import { IAppState } from '../state/app.state';
@@ -75,6 +81,41 @@ export class EventsEffects {
       mergeMap((actions: { id: number }) => {
         return this.eventsService.deleteEvent(actions.id).pipe(
           map(() => DeleteEcoEventSuccessAction({ id: actions.id })),
+          catchError((error) => of(ReceivedFailureAction(error)))
+        );
+      })
+    );
+  });
+
+  rateEvent = createEffect(() => {
+    return this.actions.pipe(
+      ofType(RateEcoEventsByIdAction),
+      mergeMap((actions: { id: number; grade: number }) => {
+        return this.eventsService.rateEvent(actions.id, actions.grade).pipe(
+          map(() => RateEcoEventsByIdSuccessAction({ id: actions.id, grade: actions.grade })),
+          catchError((error) => of(ReceivedFailureAction(error)))
+        );
+      })
+    );
+  });
+  AddAttender = createEffect(() => {
+    return this.actions.pipe(
+      ofType(AddAttenderEcoEventsByIdAction),
+      mergeMap((actions: { id: number }) => {
+        return this.eventsService.addAttender(actions.id).pipe(
+          map(() => AddAttenderEventsByIdSuccessAction({ id: actions.id })),
+          catchError((error) => of(ReceivedFailureAction(error)))
+        );
+      })
+    );
+  });
+
+  RemoveAttender = createEffect(() => {
+    return this.actions.pipe(
+      ofType(RemoveAttenderEcoEventsByIdAction),
+      mergeMap((actions: { id: number }) => {
+        return this.eventsService.removeAttender(actions.id).pipe(
+          map(() => RemoveAttenderEventsByIdSuccessAction({ id: actions.id })),
           catchError((error) => of(ReceivedFailureAction(error)))
         );
       })

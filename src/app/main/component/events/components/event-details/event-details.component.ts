@@ -27,6 +27,11 @@ export class EventDetailsComponent implements OnInit {
   public sliderIndex = 0;
   public isPosting: boolean;
   public userId: number;
+
+  public max = 5;
+  public rate: number;
+  public isReadonly = true;
+
   deleteDialogData = {
     popupTitle: 'homepage.events.delete-title',
     popupConfirm: 'homepage.events.delete-yes',
@@ -39,6 +44,10 @@ export class EventDetailsComponent implements OnInit {
 
   public address = 'Should be adress';
 
+  public selected = 0;
+  public hovered = 0;
+  public readonly = false;
+  public maxRating = 5;
   constructor(
     private route: ActivatedRoute,
     private eventService: EventsService,
@@ -59,7 +68,7 @@ export class EventDetailsComponent implements OnInit {
       this.localStorageService.setEventForEdit('editEvent', this.event);
       this.imagesSlider = [res.titleImage, ...res.additionalImages];
       this.filterTags(res.tags);
-
+      this.rate = Math.round(this.event.organizer.organizerRating);
       this.mapDialogData = {
         lat: this.event.dates[0].coordinates.latitude,
         lng: this.event.dates[0].coordinates.longitude

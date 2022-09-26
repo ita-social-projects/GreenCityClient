@@ -18,10 +18,11 @@ const routes: Routes = [
         path: 'create-event',
         component: CreateEditEventsComponent
       },
+
       {
         path: ':id',
         component: EventDetailsComponent
-      }
+      },
     ]
   }
 ];

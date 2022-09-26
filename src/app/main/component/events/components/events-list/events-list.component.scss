@@ -1,5 +1,9 @@
 .wrapper {
   padding: 20px 100px;
+
+  @media screen and (max-width: 800px) {
+    padding: 20px 0;
+  }
 }
 
 .event-header {
@@ -32,16 +36,16 @@
 .event-list {
   display: flex;
   flex-wrap: wrap;
-  justify-content: space-between;
+  justify-content: center;
+  gap: 30px 80px;
+  margin-bottom: 30px;
 
   .mat-card {
     padding: 0;
   }
 
   .event-list-item {
-    flex: 0 1 30%;
     overflow: hidden;
-    margin: 0 0 30px 0;
     background-color: var(--primary-light-grey);
   }
 }

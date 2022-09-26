@@ -608,7 +608,6 @@
         "title": "Are you sure that you want to remove this social network link from your profile?"
       }
     },
-
     "user-goals": {
       "add-goal": {
         "update": "Update",
@@ -798,9 +797,43 @@
   },
   "profile": {
     "calendar": {
-      "days": ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"],
-      "months": ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"],
-      "monthsShort": ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"]
+      "days": [
+        "Mon",
+        "Tue",
+        "Wed",
+        "Thu",
+        "Fri",
+        "Sat",
+        "Sun"
+      ],
+      "months": [
+        "January",
+        "February",
+        "March",
+        "April",
+        "May",
+        "June",
+        "July",
+        "August",
+        "September",
+        "October",
+        "November",
+        "December"
+      ],
+      "monthsShort": [
+        "Jan",
+        "Feb",
+        "Mar",
+        "Apr",
+        "May",
+        "Jun",
+        "Jul",
+        "Aug",
+        "Sep",
+        "Oct",
+        "Nov",
+        "Dec"
+      ]
     },
     "dashboard": {
       "my-habits": "My habits",
@@ -902,7 +935,20 @@
     "not-uploaded-warning": "Image isn't uploaded"
   },
   "date": {
-    "months": ["Jan,", "Feb,", "Mar,", "Apr,", "May,", "Jun,", "Jul,", "Aug,", "Sep,", "Oct,", "Nov,", "Dec,"],
+    "months": [
+      "Jan,",
+      "Feb,",
+      "Mar,",
+      "Apr,",
+      "May,",
+      "Jun,",
+      "Jul,",
+      "Aug,",
+      "Sep,",
+      "Oct,",
+      "Nov,",
+      "Dec,"
+    ],
     "year": ""
   },
   "eco-news-preview": {
@@ -945,5 +991,21 @@
     "my-habits": "My habits",
     "follow-us": "Follow us",
     "events": "Events"
+  },
+  "event": {
+    "btn-top": "More",
+    "btn-edit": "Edit event",
+    "btn-cancel": "Cancel join event",
+    "btn-join": "Join event",
+    "btn-delete": "Delete",
+    "btn-see": "See rating",
+    "btn-rate": "Rate Organizer",
+    "btn-close": "Close",
+    "btn-save": "Save",
+    "btn-register": "Register",
+    "text-1": "Could be better",
+    "text-2": "Nice and sound",
+    "text-3": "Good job!",
+    "text-finish": "Thank you !!!"
   }
 }
