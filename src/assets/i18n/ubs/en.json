@@ -255,15 +255,15 @@
         }
       },
       "price": {
-        "caption": "The cost of “UBS Courier” service",
+        "caption": "The cost of PICK UP service",
         "price-title": {
-          "li_1": "250 UAH / 1 package",
-          "li_2": "300 UAH / 1 package",
-          "li_3": "50 UAH / 1 package"
+          "li_1": "280 UAH / 1 package",
+          "li_2": "220 UAH / 1 package",
+          "li_3": "110 UAH / 1 package"
         },
         "price-description": {
           "li_1": "with recyclable materials and illiquid plastics with a volume of 120l.",
-          "li_2": "with textile waste of 120l size.",
+          "li_2": "with textile waste of 60l size.",
           "li_3": "with textile waste of 20l size."
         },
         "steps-title": {
