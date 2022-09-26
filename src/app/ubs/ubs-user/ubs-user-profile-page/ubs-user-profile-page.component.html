@@ -3,15 +3,19 @@
     <div class="row">
       <div class="ubs_profile-header">
         <div class="header-text">
-          <h3>{{ 'ubs-client-profile.data' | translate }}</h3>
-          <ng-container *ngIf="!isEditing">
-            <button tabindex="0" class="btn btn-outline-success open" (click)="openChangePasswordDialog()">
-              {{ 'ubs-client-profile.btn.change-password' | translate }}
-            </button>
-            <button tabindex="0" class="btn btn-outline-success delete" (click)="openDeleteProfileDialog()">
-              {{ 'ubs-client-profile.btn.delete-profile' | translate }}
-            </button>
-          </ng-container>
+          <div class="header-title">
+            <h3>{{ 'ubs-client-profile.data' | translate }}</h3>
+          </div>
+          <div class="header-buttons">
+            <ng-container *ngIf="!isEditing">
+              <button tabindex="0" class="btn btn-outline-success open" (click)="openChangePasswordDialog()">
+                {{ 'ubs-client-profile.btn.change-password' | translate }}
+              </button>
+              <button tabindex="0" class="btn btn-outline-success delete" (click)="openDeleteProfileDialog()">
+                {{ 'ubs-client-profile.btn.delete-profile' | translate }}
+              </button>
+            </ng-container>
+          </div>
         </div>
       </div>
 
