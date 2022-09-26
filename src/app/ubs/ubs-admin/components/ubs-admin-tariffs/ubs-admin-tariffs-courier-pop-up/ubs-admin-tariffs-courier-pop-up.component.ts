@@ -72,7 +72,7 @@ export class UbsAdminTariffsCourierPopUpComponent implements OnInit, OnDestroy {
       const temp = this.couriers.filter((it) => it.courierTranslationDtos.find((ob) => (ob.name === value ? value.trim() : '')));
       this.enCourierExist = temp.length !== 0;
     });
-    this.courierPlaceholder = this.data.edit ? 'Обрати кур’єра ' : 'Введіть кур’єра';
+    this.courierPlaceholder = this.data.edit ? 'ubs-tariffs.placeholder-choose-courier' : 'ubs-tariffs.placeholder-enter-courier';
   }
 
   getCouriers(): void {

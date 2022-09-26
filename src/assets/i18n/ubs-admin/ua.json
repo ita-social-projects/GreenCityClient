@@ -555,6 +555,7 @@
     "placeholder-choose-region": "Обрати область",
     "placeholder-choose-city": "Обрати місто",
     "placeholder-choose-courier": "Обрати кур'єра",
+    "placeholder-enter-courier": "Введіть кур'єра",
     "placeholder-choose-station": "Обрати станцію приймання",
     "tariffs": "Тарифи",
     "region": "Область",
@@ -604,6 +605,12 @@
       "restore": "Відновити",
       "delete_page": "Видалити сторінку",
       "duplicate_page": "Дублювати сторінку"
+    },
+    "states": {
+      "all": "Все",
+      "active": "Активно",
+      "inactive": "Неактивно",
+      "blank": "Незаповнена"
     }
   },
   "confirmation": {
@@ -652,6 +659,7 @@
     "placeholder_location": "Виберіть місто",
     "placeholder_courier": "Оберіть кур'єра",
     "placeholder_station": "Оберіть станцію",
+    "placeholder_state": "Оберіть стан",
     "add-city": "Додати місто",
     "error": "Допускаються лише букви та спеціальні символи «-» (дефіс), « » (пробіл) і « ' » (апостроф), цифри. Дозволено від мінімум 3 до максимум 40 символів.",
     "stationExist": "Станція приймання вже існує в системі",

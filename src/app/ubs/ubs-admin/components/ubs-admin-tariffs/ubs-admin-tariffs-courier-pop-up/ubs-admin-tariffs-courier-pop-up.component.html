@@ -15,7 +15,7 @@
             class="shadow-none form-control"
             formControlName="name"
             #autocompleteTrigger="matAutocompleteTrigger"
-            [placeholder]="courierPlaceholder"
+            [placeholder]="courierPlaceholder | translate"
             [matAutocomplete]="auto"
           />
           <mat-autocomplete #auto="matAutocomplete" (optionSelected)="selectedCourier($event)">
@@ -43,7 +43,7 @@
       </div>
       <div class="form-group">
         <label>{{ 'ubs-tariffs-add-location-pop-up.courier' | translate }}</label>
-        <input type="text" class="shadow-none form-control" formControlName="englishName" placeholder="Enter the courier" />
+        <input type="text" class="shadow-none form-control" formControlName="englishName" [placeholder]="courierPlaceholder | translate" />
         <img
           *ngIf="englishName.value.length && !data.edit"
           [src]="icons.cross"
