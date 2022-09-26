@@ -117,17 +117,9 @@ $whitecol: white;
   .edit {
     @include btnstyle;
 
-    color: var(--ubs-electric-violet);
-    border-color: var(--ubs-electric-violet);
-    margin-left: 0;
-  }
-
-  .edit:hover {
-    background-color: $whitecol;
-  }
-
-  .edit:not(:disabled):not(.disabled):active {
-    background-color: $whitecol;
+    background-color: var(--ubs-button-light-green);
+    color: #1d2830;
+    border: none;
   }
 
   .margbtn {
