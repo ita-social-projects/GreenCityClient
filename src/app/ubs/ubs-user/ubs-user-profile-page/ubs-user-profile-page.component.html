@@ -14,6 +14,9 @@
           </ng-container>
         </div>
       </div>
+      <p *ngIf="isEditing && !isUserProfileInfoFull" class="empty-profile-msg">
+        {{ 'ubs-client-profile.message-if-edit' | translate }}
+      </p>
       <div role="form" tabindex="0" id="form" class="input-group input-group-sm">
         <form *ngIf="!isFetching; else spinner" [formGroup]="userForm">
           <h5 [ngClass]="{ h5MarginBottom: isEditing }">{{ 'ubs-client-profile.personal' | translate }}</h5>

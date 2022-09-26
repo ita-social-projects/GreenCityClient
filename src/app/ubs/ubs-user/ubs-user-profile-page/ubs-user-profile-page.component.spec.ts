@@ -232,6 +232,21 @@ describe('UbsUserProfilePageComponent', () => {
     expect(result).toBe(undefined);
   });
 
+  it('isUserProfileFilledIn()', () => {
+    expect(component.isUserProfileFilledIn(userProfileDataMock)).toEqual(true);
+
+    const emptyUserProfile = {
+      addressDto: [],
+      recipientName: '',
+      recipientSurname: '',
+      recipientPhone: '',
+      recipientEmail: '',
+      alternateEmail: '',
+      hasPassword: false
+    };
+    expect(component.isUserProfileFilledIn(emptyUserProfile)).toEqual(false);
+  });
+
   describe('Testing controls for the form:', () => {
     const personalInfoControls = ['recipientName', 'recipientSurname', 'recipientEmail', 'recipientPhone'];
     const controls = ['name', 'surename', 'email', 'phone'];

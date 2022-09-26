@@ -20,6 +20,7 @@ import { Locations } from 'src/assets/locations/locations';
 export class UbsUserProfilePageComponent implements OnInit {
   userForm: FormGroup;
   userProfile: UserProfile;
+  isUserProfileInfoFull: boolean;
   defaultAddress: Address = {
     actual: true,
     city: '',
@@ -70,6 +71,7 @@ export class UbsUserProfilePageComponent implements OnInit {
     this.clientProfileService.getDataClientProfile().subscribe(
       (res: UserProfile) => {
         this.userProfile = this.composeFormData(res);
+        this.isUserProfileInfoFull = this.isUserProfileFilledIn(this.userProfile);
         this.userInit();
         this.isFetching = false;
       },
@@ -245,5 +247,10 @@ export class UbsUserProfilePageComponent implements OnInit {
     this.alternativeEmailDisplay = !this.alternativeEmailDisplay;
 
     this.alternativeEmailDisplay ? this.userForm.addControl('alternateEmail', control) : this.userForm.removeControl('alternateEmail');
+  }
+
+  isUserProfileFilledIn(userData: UserProfile): boolean {
+    const { addressDto, recipientName, recipientEmail, recipientPhone } = userData;
+    return !!addressDto.length && !!recipientName && !!recipientEmail && !!recipientPhone;
   }
 }
