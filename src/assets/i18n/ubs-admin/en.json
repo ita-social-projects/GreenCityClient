@@ -377,7 +377,8 @@
     "enrollment-date": "Date",
     "amount": "Amount",
     "reason": "Reason",
-    "order": "Order"
+    "order-return": "Return for order",
+    "order-enrollment": "Enrollment for order"
   },
   "user-orders": {
     "no-orders": "You haven't made any orders with us yet.",
