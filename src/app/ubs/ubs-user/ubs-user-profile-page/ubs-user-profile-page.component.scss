@@ -118,7 +118,7 @@ $whitecol: white;
     @include btnstyle;
 
     background-color: var(--ubs-button-light-green);
-    color: #1d2830;
+    color: var(--ubs-quaternary-dark-grey);
     border: none;
   }
 
