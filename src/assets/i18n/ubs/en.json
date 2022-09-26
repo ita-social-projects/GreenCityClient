@@ -225,14 +225,14 @@
     "contact": "contact us"
   },
   "ubs-homepage": {
-    "general": "UBS Courier",
+    "general": "PICK UP from UBS",
     "header": {
-      "caption": "It's even easier than before!",
-      "content": "Do you want to take care of our environment and get rid of your waste, but you’re too busy to get to the sorting station? UBS Courier will come to pick up your recyclable materials! We provide emergency garbage assistance.",
-      "btn-order-courier": "Call the Courier"
+      "caption": "NO WASTE — NO STRESS!",
+      "content": "You sort - we recycle!",
+      "btn-order-courier": "Order"
     },
     "ubs-courier": {
-      "info-header": "The UBS Courier service will save you time and money on the trip to the station. As a bonus, you will get free delivery on our eco-goods in Kyiv.",
+      "info-header": "Convenient pick up service from UBS provides fast garbage collection. Bonus — free removal of an unlimited number of extrapositions and free delivery of goods from our eco-shop.",
       "preparing": {
         "caption": "How to prepare?",
         "content": {
