@@ -82,6 +82,7 @@ import { MatRadioModule } from '@angular/material/radio';
 import { FriendProfilePageComponent } from './components/profile/users-friends/friend-dashboard/friend-profile-page/friend-profile-page.component';
 import { FriendProfileDashboardComponent } from './components/profile/users-friends/friend-dashboard/friend-profile-page/friend-profile-dashboard/friend-profile-dashboard.component';
 import { SetCountComponent } from './components/profile/profile-dashboard/set-count/set-count.component';
+import { NgxPaginationModule } from 'ngx-pagination';
 
 @NgModule({
   declarations: [
@@ -174,7 +175,8 @@ import { SetCountComponent } from './components/profile/profile-dashboard/set-co
     }),
     InfiniteScrollModule,
     UserSharedModule,
-    MatTabsModule
+    MatTabsModule,
+    NgxPaginationModule
   ],
   providers: [EditProfileFormBuilder]
 })

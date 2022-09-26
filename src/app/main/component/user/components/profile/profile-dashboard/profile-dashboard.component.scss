@@ -186,3 +186,21 @@ a {
     }
   }
 }
+
+.events-pagination ::ng-deep .ngx-pagination {
+  font-weight: 500;
+
+  .current {
+    background-color: var(--primary-green);
+    color: #fff;
+  }
+
+  li:not(.current):not(.disabled) .ng-star-inserted {
+    color: var(--primary-green);
+  }
+
+  li:not(:first-child):not(:last-child) {
+    border: 2px var(--primary-green) solid;
+    border-radius: 10%;
+  }
+}
