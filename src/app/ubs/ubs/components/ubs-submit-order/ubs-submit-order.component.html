@@ -53,10 +53,10 @@
                 <strong class="money-saved">-{{ orderDetails.pointsToUse }} {{ 'order-details.currency' | translate }}</strong>
               </span>
             </p>
-            <p class="total-content bold">
-              <span>{{ 'order-details.amount-due' | translate }} </span>
+            <p class="total-content">
+              <span class="bold">{{ 'order-details.amount-due' | translate }} </span>
               <span>
-                <strong>{{ orderDetails.finalSum | currency }} {{ 'order-details.currency' | translate }}</strong>
+                <strong class="total-sum">{{ orderDetails.finalSum | currency }} {{ 'order-details.currency' | translate }}</strong>
               </span>
             </p>
           </div>
@@ -86,11 +86,15 @@
               </ul>
             </ng-template>
           </div>
-          <div *ngIf="orderDetails.orderComment">
-            <p class="order-header">
-              {{ 'order-details.order-comment' | translate }}
-            </p>
-            <p>{{ orderDetails.orderComment }}</p>
+          <div class="order-info">
+            <div *ngIf="orderDetails.orderComment">
+              <p class="order-header">
+                {{ 'order-details.order-comment' | translate }}
+              </p>
+              <ul class="order-list">
+                <li class="order-list-item">{{ orderDetails.orderComment }}</li>
+              </ul>
+            </div>
           </div>
           <div class="order-info">
             <p class="order-header">{{ 'order-details.export-address' | translate }}</p>
