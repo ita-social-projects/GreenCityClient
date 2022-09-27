@@ -229,7 +229,7 @@
     "header": {
       "caption": "It's even easier than before!",
       "content": "Do you want to take care of our environment and get rid of your waste, but you’re too busy to get to the sorting station? UBS Courier will come to pick up your recyclable materials! We provide emergency garbage assistance.",
-      "btn-order-courier": "Call the Courier"
+      "btn-order-courier": "Order"
     },
     "ubs-courier": {
       "info-header": "The UBS Courier service will save you time and money on the trip to the station. As a bonus, you will get free delivery on our eco-goods in Kyiv.",
@@ -278,17 +278,16 @@
         }
       },
       "how-works": {
-        "header": "How UBS Courier works",
+        "header": "Working hours PICK UP",
         "time": {
-          "pre_1": "On weekdays - from 10:00 to 17:30.",
-          "pre_2": "Courier waiting time is 2-9 business days."
+          "pre_1": "On weekdays - from 10:00 to 17:00.",
+          "pre_2": "Route forming time is 2-5 business days."
         },
         "content": {
-          "pre_1": "Along with the export of recyclable materials, you can also order eco-goods from our ",
-          "pre_2": "Delivery of goods is free of charge for UBS Courier customers.",
+          "pre_1": "Get free products shipping",
           "link": "NOWASTE Shop."
         },
-        "button": "Order Courier"
+        "button": "Order"
       }
     }
   },
