@@ -1,7 +1,7 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { TranslateModule } from '@ngx-translate/core';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
-import { MAT_DIALOG_DATA, MatDialogModule, MatDialogRef } from '@angular/material/dialog';
+import { MAT_DIALOG_DATA, MatDialog, MatDialogModule, MatDialogRef } from '@angular/material/dialog';
 import { FormBuilder, ReactiveFormsModule } from '@angular/forms';
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { UbsAdminTariffsAddTariffServicePopUpComponent } from './ubs-admin-tariffs-add-tariff-service-pop-up.component';
@@ -34,12 +34,9 @@ describe('UbsAdminTariffsAddTariffServicePopupComponent', () => {
   });
 
   const matDialogMock = jasmine.createSpyObj('matDialog', ['open']);
-  // const fakeMatDialogRef = jasmine.createSpyObj(['close', 'afterClosed']);
-  // fakeMatDialogRef.afterClosed.and.returnValue(of(true));
 
   it('Check whether method onCancel called with proper args', () => {
-    /*component.onCancel();
-    expect(matDialogMock.open).toHaveBeenCalledWith(ModalTextComponent, {
+    matDialogMock.open = jasmine.createSpy().withArgs(ModalTextComponent, {
       hasBackdrop: true,
       panelClass: 'address-matDialog-styles-w-100',
       data: {
@@ -47,6 +44,6 @@ describe('UbsAdminTariffsAddTariffServicePopupComponent', () => {
         text: 'modal-text.cancel-message',
         action: 'modal-text.yes'
       }
-    });*/
+    });
   });
 });
