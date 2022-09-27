@@ -23,7 +23,7 @@
         <form *ngIf="!isFetching; else spinner" [formGroup]="userForm">
           <h5 [ngClass]="{ h5MarginTop: isEditing }">{{ 'ubs-client-profile.personal' | translate }}</h5>
           <div class="personal inline">
-            <div class="form-group inputMargin">
+            <div class="form-group input-margin">
               <label for="recipientName">{{ 'ubs-client-profile.name' | translate }}</label>
               <input *ngIf="isEditing" type="text" class="form-control recipientName" id="recipientName" formControlName="recipientName" />
               <p *ngIf="!isEditing">{{ userProfile?.recipientName }}</p>
@@ -126,7 +126,7 @@
                 <span *ngIf="userForm.controls.address['controls'].length > 1">{{ i + 1 }}</span>
               </h5>
               <div class="inline">
-                <div class="form-group inputMargin">
+                <div class="form-group input-margin">
                   <label for="region" class="form-label">{{ 'ubs-client-profile.region' | translate }}</label>
                   <input *ngIf="isEditing" type="text" class="form-control region" id="region" formControlName="region" />
                   <p *ngIf="!isEditing">{{ address.value?.region }}</p>
@@ -140,17 +140,17 @@
                 </div>
               </div>
               <div class="inline">
-                <div class="form-group inputMargin">
+                <div class="form-group input-margin">
                   <label for="street" class="form-label">{{ 'ubs-client-profile.street' | translate }}</label>
                   <input *ngIf="isEditing" type="text" class="form-control street" id="street" formControlName="street" />
                   <p *ngIf="!isEditing">{{ address.value?.street }}</p>
                 </div>
-                <div class="form-group inputMargin">
+                <div class="form-group input-margin">
                   <label for="houseNumber " class="form-label">{{ 'ubs-client-profile.house' | translate }}</label>
                   <input *ngIf="isEditing" type="text" class="form-control houseNumber" id="houseNumber" formControlName="houseNumber" />
                   <p *ngIf="!isEditing">{{ address.value?.houseNumber }}</p>
                 </div>
-                <div class="form-group inputMargin">
+                <div class="form-group input-margin">
                   <label for="houseCorpus " class="form-label">{{ 'ubs-client-profile.corpus' | translate }}</label>
                   <input *ngIf="isEditing" type="text" class="form-control houseCorpus" id="houseCorpus" formControlName="houseCorpus" />
                   <p *ngIf="!isEditing">{{ address.value?.houseCorpus }}</p>
