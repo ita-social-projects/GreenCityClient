@@ -1,5 +1,5 @@
 import { Component, Inject, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { MatSnackBarComponent } from '@global-errors/mat-snack-bar/mat-snack-bar.component';
 import { UpdatePasswordDto } from '@global-models/updatePasswordDto';
@@ -16,6 +16,11 @@ import { Patterns } from 'src/assets/patterns/patterns';
 })
 export class UbsProfileChangePasswordPopUpComponent implements OnInit {
   public formConfig: FormGroup;
+  public formInputsVisibility = {
+    currPassword: false,
+    newPassword: false,
+    confirmNewPassword: false
+  };
   private readonly passRegexp = Patterns.regexpPass;
   public updatePasswordDto: UpdatePasswordDto;
   public hasPassword: boolean;
@@ -35,42 +40,29 @@ export class UbsProfileChangePasswordPopUpComponent implements OnInit {
   }
 
   public initForm(): void {
-    this.formConfig = this.hasPassword
-      ? this.fb.group(
-          {
-            password: ['', [Validators.required, Validators.pattern(this.passRegexp)]],
-            currentPassword: ['', [Validators.required]],
-            confirmPassword: ['', [Validators.required]]
-          },
-          { validators: [this.checkConfirmPassword, this.checkNewPassword] }
-        )
-      : this.fb.group(
-          {
-            password: ['', [Validators.required, Validators.pattern(this.passRegexp)]],
-            confirmPassword: ['', [Validators.required]]
-          },
-          { validators: [this.checkConfirmPassword] }
-        );
+    this.formConfig = this.fb.group({
+      password: ['', [Validators.required]],
+      confirmPassword: ['', [Validators.required]]
+    });
+
+    if (this.hasPassword) {
+      this.formConfig.addControl('currentPassword', new FormControl('', [Validators.required, Validators.pattern(this.passRegexp)]));
+      this.formConfig.setValidators([this.checkNewPassword, this.checkConfirmPassword]);
+    } else {
+      this.formConfig.setValidators([this.checkConfirmPassword]);
+    }
   }
 
-  checkConfirmPassword(group: FormGroup) {
-    const password = group.get('password').value;
-    const confirmPassword = group.get('confirmPassword').value;
+  checkConfirmPassword(group: FormGroup): null | { [error: string]: boolean } {
+    const password = group.get('password').value?.trim();
+    const confirmPassword = group.get('confirmPassword').value?.trim();
     return password === confirmPassword ? null : { notSame: true };
   }
 
-  checkNewPassword(group: FormGroup) {
-    const password = group.get('password').value;
-    const currentPassword = group.get('currentPassword').value;
+  checkNewPassword(group: FormGroup): null | { [error: string]: boolean } {
+    const password = group.get('password').value?.trim();
+    const currentPassword = group.get('currentPassword').value?.trim();
     return password !== currentPassword ? null : { same: true };
-  }
-
-  togglePassword(event): void {
-    const toggleButton = event.target;
-    const input = toggleButton.previousElementSibling;
-    input.type = input.type === 'password' ? 'text' : 'password';
-    toggleButton.src = input.type === 'password' ? this.hideShowPasswordImage.hidePassword : this.hideShowPasswordImage.showPassword;
-    toggleButton.alt = input.type === 'password' ? 'show password' : 'hide password';
   }
 
   public onSubmit(): void {
