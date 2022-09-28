@@ -95,6 +95,8 @@ export class UbsAdminTableComponent implements OnInit, AfterViewChecked, OnDestr
   resizableMousemove: () => void;
   resizableMouseup: () => void;
   @ViewChild(MatTable, { read: ElementRef }) private matTableRef: ElementRef;
+  defaultColumnWidth = 200; // In px
+  columnsWidthPreference: Map<string, number>;
 
   bigOrderTable$ = this.store.select((state: IAppState): IBigOrderTable => state.bigOrderTable.bigOrderTable);
   bigOrderTableParams$ = this.store.select((state: IAppState): IBigOrderTableParams => state.bigOrderTable.bigOrderTableParams);
@@ -113,6 +115,7 @@ export class UbsAdminTableComponent implements OnInit, AfterViewChecked, OnDestr
 
   ngOnInit() {
     this.firstPageLoad = true;
+    this.columnsWidthPreference = this.localStorageService.getUbsAdminOrdersTableColumnsWidthPreference();
     this.localStorageService.languageBehaviourSubject.pipe(takeUntil(this.destroy)).subscribe((lang) => {
       this.currentLang = lang;
     });
@@ -140,7 +143,6 @@ export class UbsAdminTableComponent implements OnInit, AfterViewChecked, OnDestr
         this.isStoreEmpty = false;
         this.currentPage = item.number;
         if (this.firstPageLoad) {
-          this.firstPageLoad = false;
           this.totalElements = item[`totalElements`];
           this.tableData = JSON.parse(JSON.stringify(item[`content`]));
           this.allElements = !this.allElements ? this.totalElements : this.allElements;
@@ -153,7 +155,13 @@ export class UbsAdminTableComponent implements OnInit, AfterViewChecked, OnDestr
           this.isUpdate = false;
         }
         this.totalPages = item[`totalPages`];
-        this.changeView();
+        this.formatTableData();
+        this.isLoading = false;
+        if (this.firstPageLoad) {
+          this.cdr.detectChanges();
+          this.applyColumnsWidthPreference();
+          this.firstPageLoad = false;
+        }
       }
     });
     this.bigOrderTableParams$.subscribe((columns: IBigOrderTableParams) => {
@@ -173,7 +181,7 @@ export class UbsAdminTableComponent implements OnInit, AfterViewChecked, OnDestr
             };
             columnsForFiltering.push(filteredColumn);
           }
-          column.width = 200;
+          column.width = this.defaultColumnWidth;
         });
         this.setColumnsForFiltering(columnsForFiltering);
         if (this.displayedColumns.length === 0) {
@@ -346,20 +354,22 @@ export class UbsAdminTableComponent implements OnInit, AfterViewChecked, OnDestr
     this.store.dispatch(GetTable({ columnName, page: this.currentPage, filter: filterValue, size: this.pageSize, sortingType, reset }));
   }
 
-  changeView() {
-    this.tableData.forEach((el) => {
-      el.amountDue = parseFloat(el.amountDue).toFixed(2);
-      el.totalOrderSum = parseFloat(el.totalOrderSum).toFixed(2);
-      const arr = el.orderCertificateCode?.split(', ');
+  formatTableData() {
+    const formatPrice = (price) => parseFloat(price).toFixed(2);
+    this.tableData.forEach((row) => {
+      const priceKeys = ['amountDue', 'totalOrderSum', 'generalDiscount'];
+      for (const key of priceKeys) {
+        row[key] = formatPrice(row[key]);
+      }
+      const arr = row.orderCertificateCode?.split(', ');
       if (arr && arr.length > 0) {
-        el.orderCertificatePoints = arr.reduce((res, elem) => {
+        row.orderCertificatePoints = arr.reduce((res, elem) => {
           res = parseInt(res, 10);
           res += parseInt(elem, 10);
           return res ? res + '' : '';
         });
       }
     });
-    this.isLoading = false;
   }
 
   updateTableData() {
@@ -719,6 +729,23 @@ export class UbsAdminTableComponent implements OnInit, AfterViewChecked, OnDestr
     return cell.getBoundingClientRect();
   }
 
+  applyColumnsWidthPreference() {
+    for (const col of this.columns) {
+      const key = col.title.key;
+      const columnCells = document.querySelectorAll('.mat-column-' + key);
+      const width = this.columnsWidthPreference.get(key) ?? this.defaultColumnWidth;
+      columnCells.forEach((cell) => {
+        (cell as HTMLElement).style.width = width + 'px';
+      });
+    }
+  }
+
+  updateColumnsWidthPreference(resizedColumnIdx) {
+    const col = this.columns[resizedColumnIdx];
+    this.columnsWidthPreference.set(col.title.key, col.width);
+    this.localStorageService.setUbsAdminOrdersTableColumnsWidthPreference(this.columnsWidthPreference);
+  }
+
   private mouseMove(index: number) {
     this.resizableMousemove = this.renderer.listen('document', 'mousemove', (event) => {
       if (this.pressed && event.buttons) {
@@ -732,6 +759,8 @@ export class UbsAdminTableComponent implements OnInit, AfterViewChecked, OnDestr
     this.resizableMouseup = this.renderer.listen('document', 'mouseup', (event) => {
       if (this.pressed) {
         this.pressed = false;
+        this.updateColumnsWidthPreference(this.currentResizeIndex);
+        this.updateColumnsWidthPreference(this.isResizingRight ? this.currentResizeIndex + 1 : this.currentResizeIndex - 1);
         this.currentResizeIndex = -1;
         this.resizableMousemove();
         this.resizableMouseup();

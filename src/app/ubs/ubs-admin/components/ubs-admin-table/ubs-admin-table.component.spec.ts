@@ -26,7 +26,10 @@ describe('UsbAdminTableComponent', () => {
   let component: UbsAdminTableComponent;
   let fixture: ComponentFixture<UbsAdminTableComponent>;
   const storeMock = jasmine.createSpyObj('store', ['select', 'dispatch']);
-  const localStorageServiceMock = jasmine.createSpyObj('localStorageService', ['']);
+  const localStorageServiceMock = jasmine.createSpyObj('localStorageService', [
+    'getUbsAdminOrdersTableColumnsWidthPreference',
+    'setUbsAdminOrdersTableColumnsWidthPreference'
+  ]);
   localStorageServiceMock.languageBehaviourSubject = of('ua');
 
   const FakeMatDialogConfig = {};
@@ -92,14 +95,14 @@ describe('UsbAdminTableComponent', () => {
     });
   });
 
-  it('bigOrderTable$ expect changeView has call', () => {
-    spyOn(component, 'changeView');
+  it('bigOrderTable$ expect formatTableData has call', () => {
+    spyOn(component, 'formatTableData');
     component.bigOrderTable$ = of({ number: 2, totalElements: 10, content: [{ content: 'content' }], totalPages: 1 }) as any;
     component.ngOnInit();
     component.bigOrderTable$.subscribe((items: any) => {
       expect(component.currentPage).toBe(2);
       expect(component.tableData[0].content).toBe('content');
-      expect(component.changeView).toHaveBeenCalledTimes(1);
+      expect(component.formatTableData).toHaveBeenCalledTimes(1);
     });
   });
 
@@ -309,14 +312,15 @@ describe('UsbAdminTableComponent', () => {
     expect(component.isLoading).toBe(true);
   });
 
-  it('changeView expect tableData should change view', () => {
-    component.tableData = [{ amountDue: '5.4hrn', totalOrderSum: '300hrn', orderCertificateCode: '1, 2' }];
-    component.changeView();
+  it('formatTableData expect tableData should change view', () => {
+    component.tableData = [{ amountDue: '5.4hrn', totalOrderSum: '300hrn', orderCertificateCode: '1, 2', generalDiscount: 6 }];
+    component.formatTableData();
     expect(component.tableData[0]).toEqual({
       amountDue: '5.40',
       orderCertificateCode: '1, 2',
       orderCertificatePoints: '3',
-      totalOrderSum: '300.00'
+      totalOrderSum: '300.00',
+      generalDiscount: '6.00'
     });
   });
 
