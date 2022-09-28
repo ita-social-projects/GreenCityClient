@@ -218,7 +218,8 @@ hr {
   font-size: 17px;
   line-height: 28px;
   align-self: start;
-  margin: 25% 10px 10px;
+  top: 40px;
+  left: 0;
 }
 
 .content-step {
@@ -226,9 +227,18 @@ hr {
   font-size: 14px;
   line-height: 28px;
   align-self: start;
-  margin: 100px 10px 120px 10px;
-  padding-top: 20px;
+  top: 60px;
+  left: 0;
+  margin: 70px 10px 120px 0px;
   width: 160px;
+}
+
+.show-on-hover {
+  visibility: hidden;
+}
+
+#step-order:hover .show-on-hover {
+  visibility: visible;
 }
 
 #how-works {
@@ -321,7 +331,7 @@ hr {
   }
 
   .content-step {
-    margin-top: 110px;
+    margin-top: 60px;
   }
 }
 
