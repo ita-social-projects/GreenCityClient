@@ -249,8 +249,7 @@ export class UbsUserProfilePageComponent implements OnInit {
     this.alternativeEmailDisplay ? this.userForm.addControl('alternateEmail', control) : this.userForm.removeControl('alternateEmail');
   }
 
-  isUserProfileFilledIn(userData: UserProfile): boolean {
-    const { addressDto, recipientName, recipientEmail, recipientPhone } = userData;
-    return !!addressDto.length && !!recipientName && !!recipientEmail && !!recipientPhone;
+  isUserProfileFilledIn({ addressDto, recipientName, recipientEmail, recipientPhone }: UserProfile): boolean {
+    return Boolean(addressDto.length && recipientName && recipientEmail && recipientPhone);
   }
 }
