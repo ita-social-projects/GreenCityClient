@@ -16,11 +16,6 @@ import { Patterns } from 'src/assets/patterns/patterns';
 })
 export class UbsProfileChangePasswordPopUpComponent implements OnInit {
   public formConfig: FormGroup;
-  public formInputsVisibility = {
-    currPassword: false,
-    newPassword: false,
-    confirmNewPassword: false
-  };
   private readonly passRegexp = Patterns.regexpPass;
   public updatePasswordDto: UpdatePasswordDto;
   public hasPassword: boolean;
@@ -41,13 +36,13 @@ export class UbsProfileChangePasswordPopUpComponent implements OnInit {
 
   public initForm(): void {
     this.formConfig = this.fb.group({
-      password: ['', [Validators.required]],
+      password: ['', [Validators.required, this.checkPasswordPattern.bind(this)]],
       confirmPassword: ['', [Validators.required]]
     });
 
     if (this.hasPassword) {
-      this.formConfig.addControl('currentPassword', new FormControl('', [Validators.required, Validators.pattern(this.passRegexp)]));
-      this.formConfig.setValidators([this.checkNewPassword, this.checkConfirmPassword]);
+      this.formConfig.addControl('currentPassword', new FormControl('', [Validators.required, this.checkPasswordPattern.bind(this)]));
+      this.formConfig.setValidators([this.compareOldNewPasswords, this.checkConfirmPassword]);
     } else {
       this.formConfig.setValidators([this.checkConfirmPassword]);
     }
@@ -56,13 +51,18 @@ export class UbsProfileChangePasswordPopUpComponent implements OnInit {
   checkConfirmPassword(group: FormGroup): null | { [error: string]: boolean } {
     const password = group.get('password').value?.trim();
     const confirmPassword = group.get('confirmPassword').value?.trim();
-    return password === confirmPassword ? null : { notSame: true };
+    return password === confirmPassword ? null : { confirmPasswordMistmatch: true };
   }
 
-  checkNewPassword(group: FormGroup): null | { [error: string]: boolean } {
+  compareOldNewPasswords(group: FormGroup): null | { [error: string]: boolean } {
     const password = group.get('password').value?.trim();
     const currentPassword = group.get('currentPassword').value?.trim();
-    return password !== currentPassword ? null : { same: true };
+    return password !== currentPassword ? null : { newPasswordMatchesOld: true };
+  }
+
+  checkPasswordPattern(input: FormControl): null | { [error: string]: boolean } {
+    const inputValue = input.value?.trim();
+    return this.passRegexp.test(inputValue) ? null : { pattern: true };
   }
 
   public onSubmit(): void {

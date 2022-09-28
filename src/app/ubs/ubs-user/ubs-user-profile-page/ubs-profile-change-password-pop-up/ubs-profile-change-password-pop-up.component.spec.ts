@@ -1,7 +1,7 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { ChangePasswordService } from '@global-service/auth/change-password.service';
-import { FormBuilder, FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { FormBuilder, FormControl, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { TranslateModule } from '@ngx-translate/core';
 
 import { UbsProfileChangePasswordPopUpComponent } from './ubs-profile-change-password-pop-up.component';
@@ -65,6 +65,11 @@ describe('UbsProfileChangePasswordPopUpComponent', () => {
 
     component.initForm();
     expect(component.formConfig.value).toEqual(initFormFake);
+  });
+
+  it('checkPasswordPattern()', () => {
+    const formControlMock = { value: 'Welcome@123' } as unknown as FormControl;
+    expect(component.checkPasswordPattern(formControlMock)).toEqual(null);
   });
 
   it('submitting a form', () => {
