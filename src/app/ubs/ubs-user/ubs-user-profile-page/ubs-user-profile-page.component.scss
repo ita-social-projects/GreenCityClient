@@ -250,9 +250,11 @@ $inputwidth: 260px;
   }
 
   .submit-btns {
-    width: 905px;
     display: flex;
     justify-content: flex-start;
+    flex-direction: row;
+    flex-wrap: wrap;
+    padding-top: 53px;
 
     button {
       width: 163px;
@@ -263,7 +265,8 @@ $inputwidth: 260px;
       font-weight: 700;
       font-size: 14px;
       line-height: 20px;
-      margin: 53px 30px 30px 0;
+      letter-spacing: 0.1px;
+      margin: 0 30px 30px 0;
     }
 
     .save {
