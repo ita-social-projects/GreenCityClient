@@ -257,11 +257,12 @@ export class LocalStorageService {
   }
 
   public setUbsAdminOrdersTableColumnsWidthPreference(preference: Map<string, number>): void {
-    const serialized = JSON.stringify(Array.from(preference.entries()));
+    const serialized = JSON.stringify(Object.fromEntries(preference));
     window.localStorage.setItem('UBSAdminOrdersTableColumnsWidthPreference', serialized);
   }
 
   public getUbsAdminOrdersTableColumnsWidthPreference(): Map<string, number> {
-    return new Map(JSON.parse(window.localStorage.getItem('UBSAdminOrdersTableColumnsWidthPreference')));
+    const parsed = JSON.parse(window.localStorage.getItem('UBSAdminOrdersTableColumnsWidthPreference')) || {};
+    return new Map(Object.entries(parsed));
   }
 }

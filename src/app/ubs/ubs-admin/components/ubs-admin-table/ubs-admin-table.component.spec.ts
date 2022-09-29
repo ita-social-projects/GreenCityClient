@@ -608,41 +608,6 @@ describe('UsbAdminTableComponent', () => {
     expect(component.columns.length).toBe(3);
   });
 
-  it('onResizeColumn', () => {
-    spyOn(component as any, 'checkResizing');
-    spyOn(component as any, 'mouseMove');
-    component.onResizeColumn({ target: { clientWidth: 20 } }, 1);
-    expect((component as any).checkResizing).toHaveBeenCalledTimes(1);
-    expect((component as any).mouseMove).toHaveBeenCalledWith(1);
-  });
-
-  it('checkResizing expect isResizingRight should be true ', () => {
-    spyOn(component as any, 'getCellData');
-    component.isResizingRight = false;
-    (component as any).checkResizing({ target: { clientWidth: 20 }, pageX: 1 }, 0);
-    expect(component.isResizingRight).toBe(true);
-  });
-
-  it('checkResizing expect isResizingRight should be false', () => {
-    spyOn(component as any, 'getCellData').and.returnValue({ right: 1, width: 2 });
-    component.isResizingRight = true;
-    (component as any).checkResizing({ target: { clientWidth: 20 }, pageX: 2 }, 1);
-    expect(component.isResizingRight).toBe(false);
-  });
-
-  it('mouseMove', () => {
-    spyOn((component as any).renderer, 'listen').and.returnValue(true);
-    (component as any).mouseMove(1);
-    expect(component.resizableMousemove).toBe(true);
-  });
-
-  it('setColumnWidthChanges', () => {
-    spyOn(component as any, 'setColumnWidth');
-    component.columns = [{ width: 300 }, { width: 60 }, { width: 320 }, { width: 300 }, { width: 60 }];
-    (component as any).setColumnWidthChanges(4, 200);
-    expect((component as any).setColumnWidth).toHaveBeenCalledTimes(2);
-  });
-
   it('setColumnsForFiltering', () => {
     spyOn((component as any).adminTableService, 'setColumnsForFiltering');
     component.setColumnsForFiltering('columns');
