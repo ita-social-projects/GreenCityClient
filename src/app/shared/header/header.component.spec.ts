@@ -5,6 +5,7 @@ import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { TranslateModule } from '@ngx-translate/core';
 import { RouterTestingModule } from '@angular/router/testing';
 import { async, ComponentFixture, fakeAsync, TestBed, tick } from '@angular/core/testing';
+import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 
 import { HeaderComponent } from './header.component';
 import { BehaviorSubject, of, Subject } from 'rxjs';
@@ -84,7 +85,14 @@ describe('HeaderComponent', () => {
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       declarations: [HeaderComponent],
-      imports: [RouterTestingModule.withRoutes([]), TranslateModule.forRoot(), MatDialogModule, HttpClientTestingModule, DropdownModule],
+      imports: [
+        RouterTestingModule.withRoutes([]),
+        TranslateModule.forRoot(),
+        MatDialogModule,
+        HttpClientTestingModule,
+        DropdownModule,
+        NoopAnimationsModule
+      ],
       providers: [
         { provide: MatDialog, useClass: MatDialogMock },
         { provide: LocalStorageService, useValue: localStorageServiceMock },

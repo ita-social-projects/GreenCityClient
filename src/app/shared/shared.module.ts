@@ -33,6 +33,7 @@ import { UBSAddAddressPopUpComponent } from './ubs-add-address-pop-up/ubs-add-ad
 import { UBSInputErrorComponent } from './ubs-input-error/ubs-input-error.component';
 import { SpacePreventDirective } from './directives/space-prevent.directive';
 import { LocalizedDatePipe } from './localized-date-pipe/localized-date.pipe';
+import { TranslateDatePipe } from './translate-date-pipe/translate-date.pipe';
 
 @NgModule({
   declarations: [
@@ -60,7 +61,8 @@ import { LocalizedDatePipe } from './localized-date-pipe/localized-date.pipe';
     UBSAddAddressPopUpComponent,
     UBSInputErrorComponent,
     SpacePreventDirective,
-    LocalizedDatePipe
+    LocalizedDatePipe,
+    TranslateDatePipe
   ],
   imports: [
     CommonModule,
@@ -96,7 +98,8 @@ import { LocalizedDatePipe } from './localized-date-pipe/localized-date.pipe';
     UBSAddAddressPopUpComponent,
     UBSInputErrorComponent,
     SpacePreventDirective,
-    LocalizedDatePipe
+    LocalizedDatePipe,
+    TranslateDatePipe
   ]
 })
 export class SharedModule {}
