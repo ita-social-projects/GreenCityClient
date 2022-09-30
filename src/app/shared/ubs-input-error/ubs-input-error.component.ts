@@ -41,7 +41,6 @@ export class UBSInputErrorComponent implements OnChanges {
   private getType() {
     for (const error in this.validationErrors) {
       if (this.formElement.errors[error]) {
-        console.log(this.formElement.errors.maxlength.requiredLength);
         if (this.formElement.errors.maxlength.requiredLength === 2) {
           this.errorMessage = this.validationErrors.maxlengthEntrance;
           break;
