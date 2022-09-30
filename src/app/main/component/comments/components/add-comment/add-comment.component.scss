@@ -35,17 +35,17 @@
     }
 
     .comment-width {
-      width: 505px;
+      max-width: 525px;
     }
 
     .reply-width {
-      width: 467px;
+      max-width: 487px;
     }
 
     button {
-      width: 157px;
+      width: 129px;
       height: 48px;
-      margin-left: 16px;
+      margin-left: 24px;
       border-radius: 5px;
     }
   }
@@ -72,18 +72,6 @@
 }
 
 @media screen and (max-width: 576px) {
-  .wrapper-reply,
-  .wrapper-comment {
-    .input-submit {
-      justify-content: flex-end;
-      flex-wrap: wrap;
-
-      button {
-        margin: 0;
-      }
-    }
-  }
-
   .wrapper-reply {
     .input-submit {
       textarea {
@@ -94,6 +82,14 @@
 }
 
 @media screen and (max-width: 320px) {
+  .wrapper-reply,
+  .wrapper-comment {
+    .input-submit {
+      justify-content: flex-end;
+      flex-wrap: wrap;
+    }
+  }
+
   .wrapper-comment {
     img {
       display: none;
@@ -106,6 +102,7 @@
 
       button {
         width: 100%;
+        margin: 0;
       }
     }
   }
