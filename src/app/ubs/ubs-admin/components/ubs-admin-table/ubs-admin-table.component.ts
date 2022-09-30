@@ -696,49 +696,60 @@ export class UbsAdminTableComponent implements OnInit, AfterViewChecked, OnDestr
     this.stickColumns();
   }
 
-  public onResizeColumn(event: any, index: number) {
-    if (index < this.stickyColumnsAmount) {
-      return;
-    }
-
+  public onResizeColumn(event: MouseEvent, columnIndex: number) {
     const resizeHandleWidth = 15; // Px
-
     const resizeStartX = event.pageX;
-    const { left: leftColumnBoundary, right: rightColumnBoundary } = this.getColumnHeaderBoundaries(index);
+    const tableOffsetX = this.matTableRef.nativeElement.getBoundingClientRect().left;
+
+    const {
+      left: leftColumnBoundary,
+      right: rightColumnBoundary,
+      width: originalColumnWidth
+    } = this.getColumnHeaderBoundaries(columnIndex);
 
     const isResizingLeft = resizeStartX <= leftColumnBoundary + resizeHandleWidth;
     const isResizingRight = resizeStartX >= rightColumnBoundary - resizeHandleWidth;
-
     if (!isResizingLeft && !isResizingRight) {
       return;
     }
+
     event.preventDefault();
 
-    const adjColIndex = isResizingRight ? index + 1 : index - 1;
-    const { width: originalColumnWidth } = this.getColumnHeaderBoundaries(index);
-    const { width: adjacentColumnOriginalWidth } = this.getColumnHeaderBoundaries(adjColIndex);
+    const adjColumnIndex = isResizingRight ? columnIndex + 1 : columnIndex - 1;
+    const isAdjColumnSticky = adjColumnIndex < this.stickyColumnsAmount;
+    const { width: adjColumnOriginalWidth, left: adjColumnLeftBoundary } = this.getColumnHeaderBoundaries(adjColumnIndex);
 
-    let newWidth = originalColumnWidth;
-    let newAdjColWidth = adjacentColumnOriginalWidth;
-
-    let resizableMousemove = () => {};
-    let resizableMouseup = () => {};
-    resizableMousemove = this.renderer.listen('document', 'mousemove', (moveEvent) => {
-      const dx = isResizingRight ? moveEvent.pageX - resizeStartX : -moveEvent.pageX + resizeStartX;
-      if (originalColumnWidth + dx < this.minColumnWidth || adjacentColumnOriginalWidth - dx < this.minColumnWidth) {
+    let newColumnWidth = originalColumnWidth;
+    let newAdjColumnWidth = adjColumnOriginalWidth;
+    let cleanupMouseMove = () => {};
+    let cleanupMouseUp = () => {};
+    const onMouseMove = (moveEvent) => {
+      const movedToX = moveEvent.pageX;
+      const dx = isResizingRight ? movedToX - resizeStartX : -movedToX + resizeStartX;
+      if (originalColumnWidth + dx < this.minColumnWidth || adjColumnOriginalWidth - dx < this.minColumnWidth) {
         return;
       }
-      newWidth = originalColumnWidth + dx;
-      newAdjColWidth = adjacentColumnOriginalWidth - dx;
-      this.setColumnWidth(this.columns[index].title.key, newWidth);
-      this.setColumnWidth(this.columns[adjColIndex].title.key, newAdjColWidth);
-    });
-    resizableMouseup = this.renderer.listen('document', 'mouseup', () => {
-      this.updateColumnsWidthPreference(index, newWidth);
-      this.updateColumnsWidthPreference(adjColIndex, adjacentColumnOriginalWidth);
-      resizableMousemove();
-      resizableMouseup();
-    });
+      newColumnWidth = originalColumnWidth + dx;
+      newAdjColumnWidth = adjColumnOriginalWidth - dx;
+      this.setColumnWidth(columnIndex, newColumnWidth);
+      this.setColumnWidth(adjColumnIndex, newAdjColumnWidth);
+      // Move column if it is sticky
+      if (isAdjColumnSticky) {
+        const leftColumnLeftBoundary = isResizingRight ? leftColumnBoundary : adjColumnLeftBoundary;
+        const newLeftColumnWidth = isResizingRight ? newColumnWidth : newAdjColumnWidth;
+        const rightColumnIndex = isResizingRight ? adjColumnIndex : columnIndex;
+        const rightColumnOffsetX = leftColumnLeftBoundary + newLeftColumnWidth - tableOffsetX;
+        this.setStickyColumnOffsetX(rightColumnIndex, rightColumnOffsetX);
+      }
+    };
+    const onMouseUp = () => {
+      this.updateColumnsWidthPreference(columnIndex, newColumnWidth);
+      this.updateColumnsWidthPreference(adjColumnIndex, newAdjColumnWidth);
+      cleanupMouseMove();
+      cleanupMouseUp();
+    };
+    cleanupMouseMove = this.renderer.listen('document', 'mousemove', onMouseMove);
+    cleanupMouseUp = this.renderer.listen('document', 'mouseup', onMouseUp);
   }
 
   private getColumnHeaderBoundaries(index: number) {
@@ -747,7 +758,17 @@ export class UbsAdminTableComponent implements OnInit, AfterViewChecked, OnDestr
     return cell.getBoundingClientRect();
   }
 
-  private setColumnWidth(columnKey, width) {
+  private setStickyColumnOffsetX(index: number, offset: number) {
+    // Relative to table start
+    const columnKey = this.columns[index].title.key;
+    const columnCells = Array.from(document.getElementsByClassName('mat-column-' + columnKey));
+    columnCells.forEach((cell) => {
+      this.renderer.setStyle(cell, 'left', `${offset}px`);
+    });
+  }
+
+  private setColumnWidth(index: number, width: number) {
+    const columnKey = this.columns[index].title.key;
     const columnCells = Array.from(document.getElementsByClassName('mat-column-' + columnKey));
     columnCells.forEach((cell) => {
       this.renderer.setStyle(cell, 'width', `${width}px`);
@@ -755,10 +776,17 @@ export class UbsAdminTableComponent implements OnInit, AfterViewChecked, OnDestr
   }
 
   applyColumnsWidthPreference() {
-    for (const col of this.columns) {
+    for (const [idx, col] of this.columns.entries()) {
       const key = col.title.key;
       const width = this.columnsWidthPreference.get(key) ?? this.defaultColumnWidth;
-      this.setColumnWidth(key, width);
+      this.setColumnWidth(idx, width);
+    }
+    const tableOffsetX = this.matTableRef?.nativeElement?.getBoundingClientRect?.().left;
+    if (!tableOffsetX) {
+      return;
+    }
+    for (let idx = 1; idx < this.stickyColumnsAmount; idx++) {
+      this.setStickyColumnOffsetX(idx, this.getColumnHeaderBoundaries(idx - 1).right - tableOffsetX);
     }
   }
 
