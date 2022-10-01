@@ -94,6 +94,11 @@
                 [imask]="{ mask: phoneMask }"
               />
               <p *ngIf="!isEditing">{{ formatedPhoneNumber(userProfile?.recipientPhone) }}</p>
+              <div *ngIf="getControl('recipientPhone').invalid && getControl('recipientPhone').touched">
+                <div class="error-message">
+                  {{ getErrorMessageKey(getControl('recipientPhone')) | translate }}
+                </div>
+              </div>
             </div>
             <div class="form-group col-sm-6">
               <label for="recipientNotification" [ngClass]="{ notificationEdit: isEditing }" class="form-label">{{
