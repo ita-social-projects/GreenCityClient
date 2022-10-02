@@ -31,19 +31,14 @@ interface DataToSend {
 export class AddViolationsComponent implements OnInit, OnDestroy {
   maxNumberOfImgs = 6;
   images = [];
-  files = [];
   isImageSizeError = false;
   isImageTypeError = false;
   isUploading = false;
   isDeleting = false;
-  isLabel: boolean;
-  dragAndDropLabel: string;
   addViolationForm: FormGroup;
   orderId;
   name: string;
-  imgArray = [];
-  imagesFromDBLength: number;
-  imagesFromDB = [];
+  imagePlaceholders = new Array(this.maxNumberOfImgs);
   deletedImages: string[] | null = [];
   initialData: InitialData;
   isInitialDataChanged = false;
@@ -63,11 +58,12 @@ export class AddViolationsComponent implements OnInit, OnDestroy {
     popupConfirm: 'employees.btn.yes',
     popupCancel: 'employees.btn.no'
   };
+  imageSizeLimit = 10485760;
 
   constructor(
     private translate: TranslateService,
     @Inject(MAT_DIALOG_DATA) public data,
-    private localeStorageService: LocalStorageService,
+    private localStorageService: LocalStorageService,
     private fb: FormBuilder,
     private orderService: OrderService,
     private dialog: MatDialog,
@@ -80,16 +76,11 @@ export class AddViolationsComponent implements OnInit, OnDestroy {
   @ViewChild('takeInput') InputVar: ElementRef;
 
   ngOnInit() {
-    this.translate
-      .get('add-violation-modal.drag-photo')
-      .pipe(takeUntil(this.unsubscribe))
-      .subscribe((value) => {
-        this.dragAndDropLabel = value;
-      });
     this.initForm();
-    this.initImages();
-    this.checkMode();
-    this.localeStorageService.firstNameBehaviourSubject.pipe(takeUntil(this.unsubscribe)).subscribe((firstName) => {
+    if (this.viewMode) {
+      this.loadInitialData();
+    }
+    this.localStorageService.firstNameBehaviourSubject.pipe(takeUntil(this.unsubscribe)).subscribe((firstName) => {
       this.name = firstName;
     });
   }
@@ -101,35 +92,28 @@ export class AddViolationsComponent implements OnInit, OnDestroy {
     });
   }
 
-  private checkMode() {
-    if (this.viewMode) {
-      this.isLoading = true;
-      this.orderService
-        .getViolationOfCurrentOrder(this.orderId)
-        .pipe(takeUntil(this.unsubscribe))
-        .subscribe((violation) => {
-          this.addViolationForm.setValue({
-            violationLevel: violation.violationLevel,
-            violationDescription: violation.description
-          });
-          this.addViolationForm.controls.violationLevel.disable();
-          this.addViolationForm.controls.violationDescription.disable();
-          const images = violation.images.map((url) => ({ src: url, label: null, name: null }));
-          this.images.splice(0, violation.images.length, ...images);
-          if (violation.images.length < this.images.length) {
-            this.images[violation.images.length].label = this.dragAndDropLabel;
-          }
-          this.imagesFromDBLength = violation.images.length;
-          this.imagesFromDB = violation.images;
-          this.date = violation.violationDate;
-          this.isLoading = false;
-          this.initialData = {
-            violationLevel: violation.violationLevel,
-            violationDescription: violation.description,
-            initialImagesLength: violation.images.length
-          };
+  private loadInitialData() {
+    this.isLoading = true;
+    this.orderService
+      .getViolationOfCurrentOrder(this.orderId)
+      .pipe(takeUntil(this.unsubscribe))
+      .subscribe((violation) => {
+        this.addViolationForm.setValue({
+          violationLevel: violation.violationLevel,
+          violationDescription: violation.description
         });
-    }
+        this.addViolationForm.controls.violationLevel.disable();
+        this.addViolationForm.controls.violationDescription.disable();
+        this.images = violation.images.map((url) => ({ src: url, name: null, file: null }));
+        this.date = violation.violationDate;
+        this.isLoading = false;
+        this.initialData = {
+          violationLevel: violation.violationLevel,
+          violationDescription: violation.description,
+          initialImagesLength: violation.images.length
+        };
+        this.updateImagePlaceholders();
+      });
   }
 
   prepareDataToSend(dto: string): FormData {
@@ -145,13 +129,15 @@ export class AddViolationsComponent implements OnInit, OnDestroy {
     const formData: FormData = new FormData();
     const stringifiedDataToSend = JSON.stringify(data);
     formData.append(dto, stringifiedDataToSend);
-    for (const images of this.imgArray) {
-      formData.append(this.editMode ? 'multipartFiles' : 'files', images);
+    for (const image of this.images) {
+      if (image.file) {
+        formData.append(this.editMode ? 'multipartFiles' : 'files', image.file);
+      }
     }
     return formData;
   }
 
-  send() {
+  send(): void {
     this.isUploading = true;
     const dataToSend = this.prepareDataToSend('add');
     of(true)
@@ -170,79 +156,71 @@ export class AddViolationsComponent implements OnInit, OnDestroy {
       });
   }
 
-  filesDropped(files: FileHandle[]): void {
+  loadFiles(files: File[]): void {
+    if (this.images.length + files.length > this.maxNumberOfImgs) {
+      return;
+    }
+
     this.isImageSizeError = false;
     this.isImageTypeError = false;
-    this.checkFileExtension(files);
-    const imageFile = files[0].file;
-    this.transferFile(imageFile);
+
+    for (const file of files) {
+      const validExt = this.validateFileExtension(file);
+      const validSize = this.validateFileSize(file);
+      if (!validExt) {
+        this.isImageTypeError = true;
+        continue;
+      }
+      if (!validSize) {
+        this.isImageSizeError = true;
+        continue;
+      }
+      this.transferFile(file);
+    }
   }
 
-  loadFile(event): void {
-    const imageFile = (event.target as HTMLInputElement).files[0];
+  onFilesDropped(fileHandles: FileHandle[]): void {
+    const files = fileHandles.map((handle) => handle.file);
+    this.loadFiles(files);
+  }
+
+  onFilesSelected(event: any): void {
+    this.loadFiles([...event.target.files]);
     this.InputVar.nativeElement.value = '';
-    this.transferFile(imageFile);
   }
 
   private transferFile(imageFile: File): void {
-    if (!this.isImageTypeError) {
-      const reader: FileReader = new FileReader();
-      this.imgArray.push(imageFile);
-      reader.readAsDataURL(imageFile);
-      reader.onload = () => {
-        this.assignImage(reader.result, imageFile.name);
-      };
-      if (this.editMode) {
-        this.isInitialImageDataChanged = true;
-      }
+    const reader: FileReader = new FileReader();
+    // this.imgArray.push(imageFile);
+    reader.readAsDataURL(imageFile);
+    reader.onload = () => {
+      this.images.push({ src: reader.result, name: imageFile.name, file: imageFile });
+      this.updateImagePlaceholders();
+      // this.assignImage(reader.result, imageFile.name);
+    };
+    if (this.editMode) {
+      this.isInitialImageDataChanged = true;
     }
   }
 
-  checkFileExtension(files: FileHandle[]): void {
-    let i = 0;
-    for (const img of this.images) {
-      if (!img.src && files[i]) {
-        if (files[i].file.size >= 10485760) {
-          this.isImageSizeError = true;
-          i++;
-          continue;
-        }
-
-        if (!(files[i].file.type === 'image/jpeg' || files[i].file.type === 'image/png')) {
-          this.isImageTypeError = true;
-          i++;
-          continue;
-        }
-        i++;
-      }
-    }
-    this.assignLabel();
+  validateFileExtension(file: File) {
+    return file.type === 'image/jpeg' || file.type === 'image/png';
   }
 
-  assignImage(result: any, name: string): void {
-    this.isImageSizeError = false;
-    this.isImageTypeError = false;
-    for (let i = 0; i < this.images.length; i++) {
-      this.images[i].label = null;
-      if (!this.images[i].src) {
-        this.images[i].src = result;
-        if (this.images[i + 1]) {
-          this.images[i + 1].label = this.dragAndDropLabel;
-        } else {
-          this.isLabel = false;
-        }
-        this.images[i].name = name;
-        break;
-      }
-    }
+  validateFileSize(file: File) {
+    return file.size <= this.imageSizeLimit;
   }
 
-  openImg(index: number): void {
+  updateImagePlaceholders() {
+    this.imagePlaceholders = new Array(this.maxNumberOfImgs - this.images.length);
+  }
+
+  openImg(image): void {
     this.dialog.open(ShowImgsPopUpComponent, {
       hasBackdrop: true,
       panelClass: 'custom-img-pop-up',
       data: {
-        imgIndex: index,
+        imgIndex: this.images.indexOf(image),
         images: this.images
       }
     });
@@ -299,48 +277,17 @@ export class AddViolationsComponent implements OnInit, OnDestroy {
       });
   }
 
-  deleteImage(i: number): void {
-    if (this.editMode && i >= this.imagesFromDBLength) {
-      this.imgArray.splice(i - this.imagesFromDBLength, 1);
-      this.isInitialImageDataChanged = this.initialData.initialImagesLength !== this.imagesFromDBLength || this.imgArray.length > 0;
+  deleteImage(imageToDelete: { src: string; name: string | null; file: File }): void {
+    const initLen = this.images.length;
+    const isUploaded = imageToDelete.file === null;
+    if (isUploaded) {
+      this.deletedImages.push(imageToDelete.src);
     }
-    if (this.editMode && i < this.imagesFromDBLength) {
-      this.imagesFromDBLength--;
-      this.deletedImages.push(this.imagesFromDB[i]);
-      this.imagesFromDB.splice(i, 1);
+    this.images = this.images.filter((image) => image !== imageToDelete);
+    this.updateImagePlaceholders();
+    if (initLen !== this.images.length) {
       this.isInitialImageDataChanged = true;
     }
-    if (!this.editMode) {
-      this.imgArray.splice(i, 1);
-    }
-    this.images.splice(i, 1);
-    this.images.push({ src: null, label: this.isLabel ? null : this.dragAndDropLabel, name: null });
-    this.isLabel = true;
-  }
-
-  assignLabel(): void {
-    let attachLabel = true;
-    for (let i = 0; i < this.images.length; i++) {
-      if (i === 0 && !this.images[i].src) {
-        this.images[i].label = this.dragAndDropLabel;
-      }
-      if (!attachLabel) {
-        this.images[i].label = null;
-        continue;
-      }
-      if (i > 0 && !this.images[i].src && this.images[i - 1].src) {
-        this.images[i].label = this.dragAndDropLabel;
-        attachLabel = false;
-      }
-    }
-  }
-
-  initImages(): void {
-    for (let i = 0; i < this.maxNumberOfImgs; i++) {
-      this.images.push({ src: null, label: null, name: null });
-    }
-    this.images[0].label = this.dragAndDropLabel;
-    this.isLabel = true;
   }
 
   closeDialog() {
