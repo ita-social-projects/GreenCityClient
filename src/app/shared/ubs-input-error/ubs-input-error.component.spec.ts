@@ -40,6 +40,7 @@ describe('ErrorComponent ', () => {
     fixture.detectChanges();
     // @ts-ignore
     component.getType();
-    expect(component.errorMessage).toBe('input-error.max-length-entrance');
+    // @ts-ignore
+    expect(component.errorMessage).toBe(component.validationErrors.maxlengthEntrance);
   });
 });
