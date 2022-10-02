@@ -35,12 +35,19 @@ describe('ErrorComponent ', () => {
     expect(component.ngOnChanges).toHaveBeenCalled();
   });
 
-  it('errorMessage should have correct value if we have errors', () => {
+  it('errorMessage should have correct value if we have maxlength errors', () => {
     Object.assign(component, { formElement: { errors: { maxlength: { requiredLength: 2 } } } });
     fixture.detectChanges();
     // @ts-ignore
     component.getType();
+    expect(component.errorMessage).toBe('input-error.max-length-entrance');
+  });
+
+  it('errorMessage should have correct value if we have required error', () => {
+    Object.assign(component, { formElement: { errors: { required: true } } });
+    fixture.detectChanges();
     // @ts-ignore
-    expect(component.errorMessage).toBe(component.validationErrors.maxlengthEntrance);
+    component.getType();
+    expect(component.errorMessage).toBe('input-error.required');
   });
 });
