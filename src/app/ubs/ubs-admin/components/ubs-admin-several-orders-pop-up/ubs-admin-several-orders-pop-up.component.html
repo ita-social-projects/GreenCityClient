@@ -1,77 +1,82 @@
 <div class="main">
-  <div class="title-block">
-    <h4>{{ 'several-orders-pop-up.title' | translate }}</h4>
-  </div>
+  <app-spinner *ngIf="isLoading; else content"></app-spinner>
 
-  <form class="form_styles" *ngIf="ordersForm" [formGroup]="ordersForm">
-    <div class="form_container">
-      <div class="form" formGroupName="exportDetailsDto">
-        <div class="form-row-container">
-          <div class="form-group export-date">
-            <label class="form__label" for="export-date">{{ 'export-details.export-date' | translate }}</label>
-            <input type="date" class="form-control" id="export-date" formControlName="dateExport" min="{{ this.currentDate }}" />
-          </div>
+  <ng-template #content>
+    <div class="title-block">
+      <h4>{{ 'several-orders-pop-up.title' | translate }}</h4>
+    </div>
 
-          <div class="time_export">
-            <div class="label_time">
-              <label class="form__label">{{ 'export-details.export-time' | translate }}</label>
+    <form class="form_styles" *ngIf="ordersForm" [formGroup]="ordersForm">
+      <div class="form_container">
+        <div class="form" formGroupName="exportDetailsDto">
+          <div class="form-row-container">
+            <div class="form-group export-date">
+              <label class="form__label" for="export-date">{{ 'export-details.export-date' | translate }}</label>
+              <input type="date" class="form-control" id="export-date" formControlName="dateExport" min="{{ this.currentDate }}" />
             </div>
-            <div class="time_container">
-              <div class="form-group">
-                <input
-                  autocomplete="off"
-                  class="form-control time-from"
-                  id="export-time-from"
-                  formControlName="timeDeliveryFrom"
-                  (click)="showTimePickerClick()"
-                />
-              </div>
 
-              <div class="form-group">
-                <label class="form__label" for="export-time-to"></label>
-                <input
-                  autocomplete="off"
-                  class="form-control time-to"
-                  id="export-time-to"
-                  formControlName="timeDeliveryTo"
-                  (click)="showTimePickerClick()"
-                />
+            <div class="time_export">
+              <div class="label_time">
+                <label class="form__label">{{ 'export-details.export-time' | translate }}</label>
+              </div>
+              <div class="time_container">
+                <div class="form-group">
+                  <input
+                    autocomplete="off"
+                    class="form-control time-from"
+                    id="export-time-from"
+                    formControlName="timeDeliveryFrom"
+                    (click)="showTimePickerClick()"
+                  />
+                </div>
+
+                <div class="form-group">
+                  <label class="form__label" for="export-time-to"></label>
+                  <input
+                    autocomplete="off"
+                    class="form-control time-to"
+                    id="export-time-to"
+                    formControlName="timeDeliveryTo"
+                    (click)="showTimePickerClick()"
+                  />
+                </div>
               </div>
             </div>
+            <div class="form-group">
+              <label class="form__label" for="station">{{ 'export-details.station' | translate }}</label>
+              <select formControlName="receivingStationId" class="form-control form__select" id="station">
+                <option *ngFor="let station of receivingStations" [value]="station">
+                  {{ station }}
+                </option>
+              </select>
+            </div>
           </div>
-          <div class="form-group">
-            <label class="form__label" for="station">{{ 'export-details.station' | translate }}</label>
-            <select formControlName="receivingStationId" class="form-control form__select" id="station">
-              <option *ngFor="let station of receivingStations" [value]="station">
-                {{ station }}
-              </option>
-            </select>
+        </div>
+        <div class="form" formGroupName="responsiblePersonsForm">
+          <div class="form-row" *ngFor="let person of responsiblePersonsData">
+            <div class="form-group">
+              <label class="form__label">{{ person.translate | translate }}</label>
+              <select formControlName="{{ person.formControlName }}" class="form-control form__select">
+                <option *ngFor="let employee of person.responsiblePersonsArray" [value]="employee">
+                  {{ employee }}
+                </option>
+              </select>
+            </div>
           </div>
         </div>
       </div>
-      <div class="form" formGroupName="responsiblePersonsForm">
-        <div class="form-row" *ngFor="let person of responsiblePersonsData">
-          <div class="form-group">
-            <label class="form__label">{{ person.translate | translate }}</label>
-            <select formControlName="{{ person.formControlName }}" class="form-control form__select">
-              <option *ngFor="let employee of person.responsiblePersonsArray" [value]="employee">
-                {{ employee }}
-              </option>
-            </select>
-          </div>
+      <div class="controls-row">
+        <div class="controls">
+          <button type="reset" class="cancel-button" [mat-dialog-close]="false">
+            {{ 'order-edit.btn.cancel' | translate }}
+          </button>
+          <button type="submit" class="save-button" [disabled]="!ordersForm.valid" (click)="onSubmit()">
+            {{ 'order-edit.btn.save' | translate }}
+          </button>
         </div>
       </div>
-    </div>
-    <div class="controls-row">
-      <div class="controls">
-        <button type="reset" class="cancel-button" [mat-dialog-close]="false">
-          {{ 'order-edit.btn.cancel' | translate }}
-        </button>
-        <button type="submit" class="save-button" [disabled]="!ordersForm.valid" (click)="onSubmit()">
-          {{ 'order-edit.btn.save' | translate }}
-        </button>
-      </div>
-    </div>
-  </form>
-  <app-time-picker *ngIf="showTimePicker" (timeOfExport)="setExportTime($event)"> </app-time-picker>
+    </form>
+
+    <app-time-picker *ngIf="showTimePicker" (timeOfExport)="setExportTime($event)"> </app-time-picker>
+  </ng-template>
 </div>

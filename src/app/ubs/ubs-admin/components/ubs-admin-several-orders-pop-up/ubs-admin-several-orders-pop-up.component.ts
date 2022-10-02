@@ -1,14 +1,35 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MatDialogRef } from '@angular/material/dialog';
+import { tap, map, finalize } from 'rxjs/operators';
+
 import {
   IResponsiblePersonsData,
   IUpdateExportDetails,
   IUpdateResponsibleEmployee,
   FormFieldsName,
-  IDataForPopUp
+  IDataForPopUp,
+  IOrderInfo,
+  ResponsibleEmployee
 } from '../../models/ubs-admin.interface';
 import { OrderService } from '../../services/order.service';
+
+export type InputValue = string | null;
+
+export interface IInitialFormValues {
+  exportDetailsDto: {
+    receivingStationId: InputValue;
+    dateExport: InputValue;
+    timeDeliveryFrom: InputValue;
+    timeDeliveryTo: InputValue;
+  };
+  responsiblePersonsForm: {
+    responsibleCaller: InputValue;
+    responsibleLogicMan: InputValue;
+    responsibleNavigator: InputValue;
+    responsibleDriver: InputValue;
+  };
+}
 
 @Component({
   selector: 'app-ubs-admin-several-orders-pop-up',
@@ -16,6 +37,7 @@ import { OrderService } from '../../services/order.service';
   styleUrls: ['./ubs-admin-several-orders-pop-up.component.scss']
 })
 export class UbsAdminSeveralOrdersPopUpComponent implements OnInit {
+  public isLoading = true;
   public showTimePicker = false;
   public fromSelect: string[];
   public toSelect: string[];
@@ -30,7 +52,6 @@ export class UbsAdminSeveralOrdersPopUpComponent implements OnInit {
   public receivingStations: string[];
   public currentDate: string;
   public responsiblePersonsData: IResponsiblePersonsData[];
-
   values = {};
   ordersForm: FormGroup;
 
@@ -45,24 +66,59 @@ export class UbsAdminSeveralOrdersPopUpComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    this.initForm();
     this.currentDate = new Date().toISOString().split('T')[0];
+    this.orderService
+      .getOrderInfo(this.ordersId[0])
+      .pipe(
+        map((data: IOrderInfo) => this.getInitialFormValues(data)),
+        tap((initialFormValues) => this.initForm(initialFormValues)),
+        finalize(() => (this.isLoading = false))
+      )
+      .subscribe();
   }
 
-  initForm(): void {
+  getEmployeeById(allCurrentEmployees: Map<string, string>, id: number): InputValue {
+    if (!allCurrentEmployees) {
+      return null;
+    }
+    const key = Object.keys(allCurrentEmployees).find((el) => el.includes(`id=${id},`));
+    return key ? allCurrentEmployees[key] : null;
+  }
+
+  getInitialFormValues({
+    exportDetailsDto,
+    employeePositionDtoRequest: { currentPositionEmployees }
+  }: Partial<IOrderInfo>): IInitialFormValues {
+    const { timeDeliveryFrom, timeDeliveryTo, dateExport, receivingStationId, allReceivingStations } = exportDetailsDto;
+    return {
+      exportDetailsDto: {
+        receivingStationId: allReceivingStations.find(({ id }) => id === receivingStationId)?.name || null,
+        dateExport: dateExport?.split('T')[0] || null,
+        timeDeliveryFrom: timeDeliveryFrom?.split('T')[1] || null,
+        timeDeliveryTo: timeDeliveryTo?.split('T')[1] || null
+      },
+      responsiblePersonsForm: {
+        responsibleCaller: this.getEmployeeById(currentPositionEmployees, ResponsibleEmployee.CallManager),
+        responsibleLogicMan: this.getEmployeeById(currentPositionEmployees, ResponsibleEmployee.Logistician),
+        responsibleNavigator: this.getEmployeeById(currentPositionEmployees, ResponsibleEmployee.Navigator),
+        responsibleDriver: this.getEmployeeById(currentPositionEmployees, ResponsibleEmployee.Driver)
+      }
+    };
+  }
+
+  initForm({ exportDetailsDto, responsiblePersonsForm }: IInitialFormValues): void {
     this.ordersForm = this.fb.group({
       exportDetailsDto: this.fb.group({
-        dateExport: [null, [Validators.required]],
-        timeDeliveryFrom: [null, [Validators.required]],
-        timeDeliveryTo: [null, [Validators.required]],
-        receivingStationId: [null, [Validators.required]]
+        dateExport: [exportDetailsDto.dateExport, [Validators.required]],
+        timeDeliveryFrom: [exportDetailsDto.timeDeliveryFrom, [Validators.required]],
+        timeDeliveryTo: [exportDetailsDto.timeDeliveryTo, [Validators.required]],
+        receivingStationId: [exportDetailsDto.receivingStationId, [Validators.required]]
       }),
-
       responsiblePersonsForm: this.fb.group({
-        responsibleCaller: [null, [Validators.required]],
-        responsibleLogicMan: [null, [Validators.required]],
-        responsibleNavigator: [null, [Validators.required]],
-        responsibleDriver: [null, [Validators.required]]
+        responsibleCaller: [responsiblePersonsForm.responsibleCaller, [Validators.required]],
+        responsibleLogicMan: [responsiblePersonsForm.responsibleLogicMan, [Validators.required]],
+        responsibleNavigator: [responsiblePersonsForm.responsibleNavigator, [Validators.required]],
+        responsibleDriver: [responsiblePersonsForm.responsibleDriver, [Validators.required]]
       })
     });
     this.setEmployeesByPosition();
