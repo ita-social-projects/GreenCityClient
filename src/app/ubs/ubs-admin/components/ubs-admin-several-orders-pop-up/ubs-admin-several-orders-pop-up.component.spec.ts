@@ -2,6 +2,7 @@ import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { TranslateModule } from '@ngx-translate/core';
 import { FormBuilder } from '@angular/forms';
 import { MatDialogRef } from '@angular/material/dialog';
+import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 
 import { IInitialFormValues } from './ubs-admin-several-orders-pop-up.component';
 import { OrderService } from '../../services/order.service';
@@ -67,7 +68,7 @@ describe('UbsAdminSeveralOrdersPopUpComponent', () => {
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       declarations: [UbsAdminSeveralOrdersPopUpComponent],
-      imports: [TranslateModule.forRoot()],
+      imports: [TranslateModule.forRoot(), NoopAnimationsModule],
       providers: [{ provide: OrderService, useValue: OrderServiceMock }, { provide: MatDialogRef, useValue: matDialogMock }, FormBuilder]
     }).compileComponents();
 
