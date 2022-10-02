@@ -3,6 +3,7 @@ import { TranslateModule } from '@ngx-translate/core';
 import { FormBuilder } from '@angular/forms';
 import { MatDialogRef } from '@angular/material/dialog';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
+import { of } from 'rxjs';
 
 import { IInitialFormValues } from './ubs-admin-several-orders-pop-up.component';
 import { OrderService } from '../../services/order.service';
@@ -12,11 +13,7 @@ describe('UbsAdminSeveralOrdersPopUpComponent', () => {
   let fixture: ComponentFixture<UbsAdminSeveralOrdersPopUpComponent>;
   let component: UbsAdminSeveralOrdersPopUpComponent;
 
-  const OrderServiceMock = {
-    updateOrdersInfo: jasmine.createSpy('updateOrdersInfo'),
-    getOrderInfo: jasmine.createSpy('getOrderInfo'),
-    matchProps: jasmine.createSpy('matchProps')
-  };
+  const orderServiceMock = jasmine.createSpyObj('orderService', ['getOrderInfo']);
 
   const emptyFormValue = {
     exportDetailsDto: {
@@ -69,11 +66,13 @@ describe('UbsAdminSeveralOrdersPopUpComponent', () => {
     TestBed.configureTestingModule({
       declarations: [UbsAdminSeveralOrdersPopUpComponent],
       imports: [TranslateModule.forRoot(), NoopAnimationsModule],
-      providers: [{ provide: OrderService, useValue: OrderServiceMock }, { provide: MatDialogRef, useValue: matDialogMock }, FormBuilder]
+      providers: [{ provide: OrderService, useValue: orderServiceMock }, { provide: MatDialogRef, useValue: matDialogMock }, FormBuilder]
     }).compileComponents();
 
     fixture = TestBed.createComponent(UbsAdminSeveralOrdersPopUpComponent);
     component = fixture.debugElement.componentInstance;
+    component.ordersId = [0];
+    spyOn(component, 'setEmployeesByPosition').and.callFake(() => {});
   }));
 
   it('should create', () => {
@@ -81,10 +80,22 @@ describe('UbsAdminSeveralOrdersPopUpComponent', () => {
   });
 
   it('getInitialFormValues()', () => {
+    spyOn(component, 'getInitialFormValues').and.callFake(() => emptyFormValue);
     expect(component.getInitialFormValues(orderInfo)).toEqual(emptyFormValue);
   });
 
   it('getEmployeeById()', () => {
     expect(component.getEmployeeById(undefined, 0)).toEqual(null);
+  });
+
+  it('should create order form', () => {
+    component.initForm(emptyFormValue);
+    expect(component.ordersForm.value).toEqual(emptyFormValue);
+  });
+
+  it('ordersService', () => {
+    orderServiceMock.getOrderInfo.and.returnValue(of(orderInfo));
+    component.ngOnInit();
+    expect(orderServiceMock.getOrderInfo).toHaveBeenCalled();
   });
 });
