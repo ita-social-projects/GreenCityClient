@@ -115,17 +115,9 @@ $inputwidth: 260px;
   .edit {
     @include btnstyle;
 
-    color: var(--ubs-electric-violet);
-    border-color: var(--ubs-electric-violet);
-    margin-left: 0;
-  }
-
-  .edit:hover {
-    background-color: $whitecol;
-  }
-
-  .edit:not(:disabled):not(.disabled):active {
-    background-color: $whitecol;
+    background-color: var(--ubs-button-light-green);
+    color: var(--ubs-quaternary-dark-grey);
+    border: none;
   }
 
   .margbtn {
