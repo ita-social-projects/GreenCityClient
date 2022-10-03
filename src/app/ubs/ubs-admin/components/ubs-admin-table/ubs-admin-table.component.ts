@@ -71,11 +71,6 @@ export class UbsAdminTableComponent implements OnInit, AfterViewChecked, OnDestr
   stickyColumn = [];
   model: string;
   modelChanged: Subject<string> = new Subject<string>();
-  currentResizeIndex: number;
-  pressed = false;
-  startX: number;
-  startWidth: number;
-  isResizingRight: boolean;
   previousSettings: string[];
   displayedColumnsView: any[] = [];
   displayedColumnsViewTitles: string[] = [];
@@ -92,9 +87,10 @@ export class UbsAdminTableComponent implements OnInit, AfterViewChecked, OnDestr
   mouseEvents = MouseEvents;
   cancellationReason: string;
   cancellationComment: string;
-  resizableMousemove: () => void;
-  resizableMouseup: () => void;
   @ViewChild(MatTable, { read: ElementRef }) private matTableRef: ElementRef;
+  defaultColumnWidth = 200; // In px
+  minColumnWidth = 100;
+  columnsWidthPreference: Map<string, number>;
 
   bigOrderTable$ = this.store.select((state: IAppState): IBigOrderTable => state.bigOrderTable.bigOrderTable);
   bigOrderTableParams$ = this.store.select((state: IAppState): IBigOrderTableParams => state.bigOrderTable.bigOrderTableParams);
@@ -113,6 +109,7 @@ export class UbsAdminTableComponent implements OnInit, AfterViewChecked, OnDestr
 
   ngOnInit() {
     this.firstPageLoad = true;
+    this.columnsWidthPreference = this.localStorageService.getUbsAdminOrdersTableColumnsWidthPreference();
     this.localStorageService.languageBehaviourSubject.pipe(takeUntil(this.destroy)).subscribe((lang) => {
       this.currentLang = lang;
     });
@@ -153,7 +150,10 @@ export class UbsAdminTableComponent implements OnInit, AfterViewChecked, OnDestr
           this.isUpdate = false;
         }
         this.totalPages = item[`totalPages`];
-        this.changeView();
+        this.formatTableData();
+        this.isLoading = false;
+        this.cdr.detectChanges();
+        this.applyColumnsWidthPreference();
       }
     });
     this.bigOrderTableParams$.subscribe((columns: IBigOrderTableParams) => {
@@ -173,7 +173,6 @@ export class UbsAdminTableComponent implements OnInit, AfterViewChecked, OnDestr
             };
             columnsForFiltering.push(filteredColumn);
           }
-          column.width = 200;
         });
         this.setColumnsForFiltering(columnsForFiltering);
         if (this.displayedColumns.length === 0) {
@@ -346,20 +345,22 @@ export class UbsAdminTableComponent implements OnInit, AfterViewChecked, OnDestr
     this.store.dispatch(GetTable({ columnName, page: this.currentPage, filter: filterValue, size: this.pageSize, sortingType, reset }));
   }
 
-  changeView() {
-    this.tableData.forEach((el) => {
-      el.amountDue = parseFloat(el.amountDue).toFixed(2);
-      el.totalOrderSum = parseFloat(el.totalOrderSum).toFixed(2);
-      const arr = el.orderCertificateCode?.split(', ');
+  formatTableData() {
+    const formatPrice = (price) => parseFloat(price).toFixed(2);
+    this.tableData.forEach((row) => {
+      const priceKeys = ['amountDue', 'totalOrderSum', 'generalDiscount'];
+      for (const key of priceKeys) {
+        row[key] = formatPrice(row[key]);
+      }
+      const arr = row.orderCertificateCode?.split(', ');
       if (arr && arr.length > 0) {
-        el.orderCertificatePoints = arr.reduce((res, elem) => {
+        row.orderCertificatePoints = arr.reduce((res, elem) => {
           res = parseInt(res, 10);
           res += parseInt(elem, 10);
           return res ? res + '' : '';
         });
       }
     });
-    this.isLoading = false;
   }
 
   updateTableData() {
@@ -695,70 +696,104 @@ export class UbsAdminTableComponent implements OnInit, AfterViewChecked, OnDestr
     this.stickColumns();
   }
 
-  public onResizeColumn(event: any, index: number) {
-    this.checkResizing(event, index);
-    this.currentResizeIndex = index;
-    this.pressed = true;
-    this.startX = event.pageX;
-    this.startWidth = event.target.clientWidth;
-    this.mouseMove(index);
-  }
+  public onResizeColumn(event: MouseEvent, columnIndex: number) {
+    const resizeHandleWidth = 15; // Px
+    const resizeStartX = event.pageX;
+    const tableOffsetX = this.matTableRef.nativeElement.getBoundingClientRect().left;
 
-  private checkResizing(event: any, index: any) {
-    const cellData = this.getCellData(index);
-    if (index === 0 || (Math.abs(event.pageX - cellData.right) < cellData.width / 2 && index !== this.columns.length - 1)) {
-      this.isResizingRight = true;
-    } else {
-      this.isResizingRight = false;
+    const {
+      left: leftColumnBoundary,
+      right: rightColumnBoundary,
+      width: originalColumnWidth
+    } = this.getColumnHeaderBoundaries(columnIndex);
+
+    const isResizingLeft = resizeStartX <= leftColumnBoundary + resizeHandleWidth;
+    const isResizingRight = resizeStartX >= rightColumnBoundary - resizeHandleWidth;
+    if (!isResizingLeft && !isResizingRight) {
+      return;
     }
+
+    event.preventDefault();
+
+    const adjColumnIndex = isResizingRight ? columnIndex + 1 : columnIndex - 1;
+    const isAdjColumnSticky = adjColumnIndex < this.stickyColumnsAmount;
+    const { width: adjColumnOriginalWidth, left: adjColumnLeftBoundary } = this.getColumnHeaderBoundaries(adjColumnIndex);
+
+    let newColumnWidth = originalColumnWidth;
+    let newAdjColumnWidth = adjColumnOriginalWidth;
+    let cleanupMouseMove = () => {};
+    let cleanupMouseUp = () => {};
+    const onMouseMove = (moveEvent) => {
+      const movedToX = moveEvent.pageX;
+      const dx = isResizingRight ? movedToX - resizeStartX : -movedToX + resizeStartX;
+      if (originalColumnWidth + dx < this.minColumnWidth || adjColumnOriginalWidth - dx < this.minColumnWidth) {
+        return;
+      }
+      newColumnWidth = originalColumnWidth + dx;
+      newAdjColumnWidth = adjColumnOriginalWidth - dx;
+      this.setColumnWidth(columnIndex, newColumnWidth);
+      this.setColumnWidth(adjColumnIndex, newAdjColumnWidth);
+      // Move column if it is sticky
+      if (isAdjColumnSticky) {
+        const leftColumnLeftBoundary = isResizingRight ? leftColumnBoundary : adjColumnLeftBoundary;
+        const newLeftColumnWidth = isResizingRight ? newColumnWidth : newAdjColumnWidth;
+        const rightColumnIndex = isResizingRight ? adjColumnIndex : columnIndex;
+        const rightColumnOffsetX = leftColumnLeftBoundary + newLeftColumnWidth - tableOffsetX;
+        this.setStickyColumnOffsetX(rightColumnIndex, rightColumnOffsetX);
+      }
+    };
+    const onMouseUp = () => {
+      this.updateColumnsWidthPreference(columnIndex, newColumnWidth);
+      this.updateColumnsWidthPreference(adjColumnIndex, newAdjColumnWidth);
+      cleanupMouseMove();
+      cleanupMouseUp();
+    };
+    cleanupMouseMove = this.renderer.listen('document', 'mousemove', onMouseMove);
+    cleanupMouseUp = this.renderer.listen('document', 'mouseup', onMouseUp);
   }
 
-  private getCellData(index: number) {
+  private getColumnHeaderBoundaries(index: number) {
     const headerRow = this.matTableRef.nativeElement.children[0];
     const cell = headerRow.children[0].children[index];
     return cell.getBoundingClientRect();
   }
 
-  private mouseMove(index: number) {
-    this.resizableMousemove = this.renderer.listen('document', 'mousemove', (event) => {
-      if (this.pressed && event.buttons) {
-        const dx = this.isResizingRight ? event.pageX - this.startX : -event.pageX + this.startX;
-        const width = this.startWidth + dx;
-        if (this.currentResizeIndex === index && width > 100) {
-          this.setColumnWidthChanges(index, width);
-        }
-      }
-    });
-    this.resizableMouseup = this.renderer.listen('document', 'mouseup', (event) => {
-      if (this.pressed) {
-        this.pressed = false;
-        this.currentResizeIndex = -1;
-        this.resizableMousemove();
-        this.resizableMouseup();
-      }
+  private setStickyColumnOffsetX(index: number, offset: number) {
+    // Relative to table start
+    const columnKey = this.columns[index].title.key;
+    const columnCells = Array.from(document.getElementsByClassName('mat-column-' + columnKey));
+    columnCells.forEach((cell) => {
+      this.renderer.setStyle(cell, 'left', `${offset}px`);
     });
   }
 
-  private setColumnWidthChanges(index: number, width: number) {
-    const orgWidth = this.columns[index].width;
-    const dx = width - orgWidth;
-    if (dx !== 0) {
-      const j = this.isResizingRight ? index + 1 : index - 1;
-      const newWidth = this.columns[j].width - dx;
-      if (newWidth > 100 && index > this.stickyColumnsAmount - 1) {
-        this.columns[index].width = width;
-        this.setColumnWidth(this.columns[index]);
-        this.columns[j].width = newWidth;
-        this.setColumnWidth(this.columns[j]);
-      }
+  private setColumnWidth(index: number, width: number) {
+    const columnKey = this.columns[index].title.key;
+    const columnCells = Array.from(document.getElementsByClassName('mat-column-' + columnKey));
+    columnCells.forEach((cell) => {
+      this.renderer.setStyle(cell, 'width', `${width}px`);
+    });
+  }
+
+  applyColumnsWidthPreference() {
+    for (const [idx, col] of this.columns.entries()) {
+      const key = col.title.key;
+      const width = this.columnsWidthPreference.get(key) ?? this.defaultColumnWidth;
+      this.setColumnWidth(idx, width);
+    }
+    const tableOffsetX = this.matTableRef?.nativeElement?.getBoundingClientRect?.().left;
+    if (!tableOffsetX) {
+      return;
+    }
+    for (let idx = 1; idx < this.stickyColumnsAmount; idx++) {
+      this.setStickyColumnOffsetX(idx, this.getColumnHeaderBoundaries(idx - 1).right - tableOffsetX);
     }
   }
 
-  private setColumnWidth(column: any) {
-    const columnEls = Array.from(document.getElementsByClassName('mat-column-' + column.title.key));
-    columnEls.forEach((el: any) => {
-      el.style.width = column.width + 'px';
-    });
+  updateColumnsWidthPreference(columnIndex, newWidth) {
+    const col = this.columns[columnIndex];
+    this.columnsWidthPreference.set(col.title.key, newWidth);
+    this.localStorageService.setUbsAdminOrdersTableColumnsWidthPreference(this.columnsWidthPreference);
   }
 
   setColumnsForFiltering(columns): void {

@@ -26,7 +26,10 @@ describe('UsbAdminTableComponent', () => {
   let component: UbsAdminTableComponent;
   let fixture: ComponentFixture<UbsAdminTableComponent>;
   const storeMock = jasmine.createSpyObj('store', ['select', 'dispatch']);
-  const localStorageServiceMock = jasmine.createSpyObj('localStorageService', ['']);
+  const localStorageServiceMock = jasmine.createSpyObj('localStorageService', [
+    'getUbsAdminOrdersTableColumnsWidthPreference',
+    'setUbsAdminOrdersTableColumnsWidthPreference'
+  ]);
   localStorageServiceMock.languageBehaviourSubject = of('ua');
 
   const FakeMatDialogConfig = {};
@@ -92,14 +95,14 @@ describe('UsbAdminTableComponent', () => {
     });
   });
 
-  it('bigOrderTable$ expect changeView has call', () => {
-    spyOn(component, 'changeView');
+  it('bigOrderTable$ expect formatTableData has call', () => {
+    spyOn(component, 'formatTableData');
     component.bigOrderTable$ = of({ number: 2, totalElements: 10, content: [{ content: 'content' }], totalPages: 1 }) as any;
     component.ngOnInit();
     component.bigOrderTable$.subscribe((items: any) => {
       expect(component.currentPage).toBe(2);
       expect(component.tableData[0].content).toBe('content');
-      expect(component.changeView).toHaveBeenCalledTimes(1);
+      expect(component.formatTableData).toHaveBeenCalledTimes(1);
     });
   });
 
@@ -309,14 +312,15 @@ describe('UsbAdminTableComponent', () => {
     expect(component.isLoading).toBe(true);
   });
 
-  it('changeView expect tableData should change view', () => {
-    component.tableData = [{ amountDue: '5.4hrn', totalOrderSum: '300hrn', orderCertificateCode: '1, 2' }];
-    component.changeView();
+  it('formatTableData expect tableData should change view', () => {
+    component.tableData = [{ amountDue: '5.4hrn', totalOrderSum: '300hrn', orderCertificateCode: '1, 2', generalDiscount: 6 }];
+    component.formatTableData();
     expect(component.tableData[0]).toEqual({
       amountDue: '5.40',
       orderCertificateCode: '1, 2',
       orderCertificatePoints: '3',
-      totalOrderSum: '300.00'
+      totalOrderSum: '300.00',
+      generalDiscount: '6.00'
     });
   });
 
@@ -602,41 +606,6 @@ describe('UsbAdminTableComponent', () => {
     component.displayedColumns = ['key', 'kol'];
     component.sortColumnsToDisplay();
     expect(component.columns.length).toBe(3);
-  });
-
-  it('onResizeColumn', () => {
-    spyOn(component as any, 'checkResizing');
-    spyOn(component as any, 'mouseMove');
-    component.onResizeColumn({ target: { clientWidth: 20 } }, 1);
-    expect((component as any).checkResizing).toHaveBeenCalledTimes(1);
-    expect((component as any).mouseMove).toHaveBeenCalledWith(1);
-  });
-
-  it('checkResizing expect isResizingRight should be true ', () => {
-    spyOn(component as any, 'getCellData');
-    component.isResizingRight = false;
-    (component as any).checkResizing({ target: { clientWidth: 20 }, pageX: 1 }, 0);
-    expect(component.isResizingRight).toBe(true);
-  });
-
-  it('checkResizing expect isResizingRight should be false', () => {
-    spyOn(component as any, 'getCellData').and.returnValue({ right: 1, width: 2 });
-    component.isResizingRight = true;
-    (component as any).checkResizing({ target: { clientWidth: 20 }, pageX: 2 }, 1);
-    expect(component.isResizingRight).toBe(false);
-  });
-
-  it('mouseMove', () => {
-    spyOn((component as any).renderer, 'listen').and.returnValue(true);
-    (component as any).mouseMove(1);
-    expect(component.resizableMousemove).toBe(true);
-  });
-
-  it('setColumnWidthChanges', () => {
-    spyOn(component as any, 'setColumnWidth');
-    component.columns = [{ width: 300 }, { width: 60 }, { width: 320 }, { width: 300 }, { width: 60 }];
-    (component as any).setColumnWidthChanges(4, 200);
-    expect((component as any).setColumnWidth).toHaveBeenCalledTimes(2);
   });
 
   it('setColumnsForFiltering', () => {
