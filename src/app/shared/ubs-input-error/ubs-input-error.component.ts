@@ -42,21 +42,26 @@ export class UBSInputErrorComponent implements OnChanges {
     for (const error in this.validationErrors) {
       if (this.formElement.errors[error]) {
         if (this.formElement.errors.maxlength) {
-          if (this.formElement.errors.maxlength.requiredLength === 2) {
-            this.errorMessage = this.validationErrors.maxlengthEntrance;
-            break;
-          } else if (this.formElement.errors.maxlength.requiredLength === 8) {
-            this.errorMessage = this.validationErrors.maxlengthHouse;
-            break;
-          } else if (this.formElement.errors.maxlength.requiredLength === 255) {
-            this.errorMessage = this.validationErrors.maxlengthComment;
-            break;
-          }
+          this.errorMessage = this.getMaxlengthErrorMessage(this.formElement.errors.maxlength.requiredLength);
+          break;
         }
 
         this.errorMessage = this.validationErrors[error];
         break;
       }
     }
+  }
+
+  private getMaxlengthErrorMessage(maxlength: number): string {
+    if (maxlength === 2) {
+      return this.validationErrors.maxlengthEntrance;
+    }
+    if (maxlength === 8) {
+      return this.validationErrors.maxlengthHouse;
+    }
+    if (maxlength === 255) {
+      return this.validationErrors.maxlengthComment;
+    }
+    return this.validationErrors.maxlength;
   }
 }
