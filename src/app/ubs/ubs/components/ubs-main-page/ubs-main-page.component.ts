@@ -68,9 +68,7 @@ export class UbsMainPageComponent implements OnInit, OnDestroy {
     'ubs-homepage.ubs-courier.preparing.content.li_2',
     'ubs-homepage.ubs-courier.preparing.content.li_3',
     'ubs-homepage.ubs-courier.preparing.content.li_4',
-    'ubs-homepage.ubs-courier.preparing.content.li_5',
-    'ubs-homepage.ubs-courier.preparing.content.li_6',
-    'ubs-homepage.ubs-courier.preparing.content.li_7'
+    'ubs-homepage.ubs-courier.preparing.content.li_5'
   ];
 
   rules = [
