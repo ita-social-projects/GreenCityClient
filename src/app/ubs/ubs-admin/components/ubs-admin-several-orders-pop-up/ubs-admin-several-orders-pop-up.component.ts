@@ -1,6 +1,7 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MatDialogRef } from '@angular/material/dialog';
+import { Observable } from 'rxjs';
 import { tap, map, finalize } from 'rxjs/operators';
 
 import {
@@ -67,6 +68,10 @@ export class UbsAdminSeveralOrdersPopUpComponent implements OnInit {
 
   ngOnInit(): void {
     this.currentDate = new Date().toISOString().split('T')[0];
+    this.loadOrderInfo();
+  }
+
+  loadOrderInfo(): void {
     this.orderService
       .getOrderInfo(this.ordersId[0])
       .pipe(

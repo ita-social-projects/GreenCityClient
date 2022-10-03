@@ -5,7 +5,6 @@ import { MatDialogRef } from '@angular/material/dialog';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 import { of } from 'rxjs';
 
-import { IInitialFormValues } from './ubs-admin-several-orders-pop-up.component';
 import { OrderService } from '../../services/order.service';
 import { UbsAdminSeveralOrdersPopUpComponent } from './ubs-admin-several-orders-pop-up.component';
 
@@ -45,21 +44,6 @@ describe('UbsAdminSeveralOrdersPopUpComponent', () => {
     }
   };
 
-  // const initialValues: IInitialFormValues = {
-  //   exportDetailsDto: {
-  //     receivingStationId: InputValue;
-  //     dateExport: InputValue;
-  //     timeDeliveryFrom: InputValue;
-  //     timeDeliveryTo: InputValue;
-  //   },
-  //   responsiblePersonsForm: {
-  //     responsibleCaller: InputValue;
-  //     responsibleLogicMan: InputValue;
-  //     responsibleNavigator: InputValue;
-  //     responsibleDriver: InputValue;
-  //   }
-  // }
-
   const matDialogMock = jasmine.createSpyObj('matDialogRef', ['open', 'close']);
 
   beforeEach(async(() => {
@@ -77,6 +61,11 @@ describe('UbsAdminSeveralOrdersPopUpComponent', () => {
 
   it('should create', () => {
     expect(component).toBeTruthy();
+  });
+
+  it('initForm()', () => {
+    component.initForm(emptyFormValue);
+    expect(component.ordersForm.value).toEqual(emptyFormValue);
   });
 
   it('getInitialFormValues()', () => {
@@ -97,5 +86,11 @@ describe('UbsAdminSeveralOrdersPopUpComponent', () => {
     orderServiceMock.getOrderInfo.and.returnValue(of(orderInfo));
     component.ngOnInit();
     expect(orderServiceMock.getOrderInfo).toHaveBeenCalled();
+  });
+
+  it('loadOrderInfo()', () => {
+    const spy = spyOn(component, 'loadOrderInfo');
+    component.ngOnInit();
+    expect(spy).toHaveBeenCalledTimes(1);
   });
 });
