@@ -112,6 +112,9 @@ export class UbsAdminTableComponent implements OnInit, AfterViewChecked, OnDestr
     this.columnsWidthPreference = this.localStorageService.getUbsAdminOrdersTableColumnsWidthPreference();
     this.localStorageService.languageBehaviourSubject.pipe(takeUntil(this.destroy)).subscribe((lang) => {
       this.currentLang = lang;
+      if (this.tableData) {
+        this.formatTableData();
+      }
     });
 
     this.modelChanged.pipe(debounceTime(500)).subscribe((model) => {
@@ -346,11 +349,15 @@ export class UbsAdminTableComponent implements OnInit, AfterViewChecked, OnDestr
   }
 
   formatTableData() {
-    const formatPrice = (price) => parseFloat(price).toFixed(2);
+    const currency = {
+      ua: 'грн',
+      en: 'UAH'
+    };
+
     this.tableData.forEach((row) => {
-      const priceKeys = ['amountDue', 'totalOrderSum', 'generalDiscount'];
+      const priceKeys = ['amountDue', 'totalOrderSum', 'generalDiscount', 'totalPayment'];
       for (const key of priceKeys) {
-        row[key] = formatPrice(row[key]);
+        row[key] = parseFloat(row[key]).toFixed(2) + ' ' + currency[this.currentLang];
       }
       const arr = row.orderCertificateCode?.split(', ');
       if (arr && arr.length > 0) {
