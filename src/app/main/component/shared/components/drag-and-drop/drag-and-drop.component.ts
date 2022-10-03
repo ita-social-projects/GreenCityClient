@@ -81,7 +81,7 @@ export class DragAndDropComponent implements OnInit {
 
   public showWarning(): FileHandle[] {
     this.files.forEach((item) => {
-      const imageValCondition = item.file.type === 'image/jpeg' || item.file.type === 'image/png';
+      const imageValCondition = item.file.type === 'image/jpeg' || (item.file.type === 'image/png' && item.file.size < 10000000);
       this.isWarning = !(item && imageValCondition);
     });
     return this.files;
