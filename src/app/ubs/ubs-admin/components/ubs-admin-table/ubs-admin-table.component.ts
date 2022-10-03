@@ -703,10 +703,10 @@ export class UbsAdminTableComponent implements OnInit, AfterViewChecked, OnDestr
     this.stickColumns();
   }
 
-  public onResizeColumn(event: MouseEvent, columnIndex: number) {
+  public onResizeColumn(event: MouseEvent, columnIndex: number): void {
     const resizeHandleWidth = 15; // Px
     const resizeStartX = event.pageX;
-    const tableOffsetX = this.matTableRef.nativeElement.getBoundingClientRect().left;
+    const tableOffsetX = this.getTableOffsetX();
 
     const {
       left: leftColumnBoundary,
@@ -759,13 +759,17 @@ export class UbsAdminTableComponent implements OnInit, AfterViewChecked, OnDestr
     cleanupMouseUp = this.renderer.listen('document', 'mouseup', onMouseUp);
   }
 
+  private getTableOffsetX(): number | undefined {
+    return this.getColumnHeaderBoundaries(0)?.left;
+  }
+
   private getColumnHeaderBoundaries(index: number) {
     const headerRow = this.matTableRef.nativeElement.children[0];
     const cell = headerRow.children[0].children[index];
-    return cell.getBoundingClientRect();
+    return cell?.getBoundingClientRect();
   }
 
-  private setStickyColumnOffsetX(index: number, offset: number) {
+  private setStickyColumnOffsetX(index: number, offset: number): void {
     // Relative to table start
     const columnKey = this.columns[index].title.key;
     const columnCells = Array.from(document.getElementsByClassName('mat-column-' + columnKey));
@@ -774,7 +778,7 @@ export class UbsAdminTableComponent implements OnInit, AfterViewChecked, OnDestr
     });
   }
 
-  private setColumnWidth(index: number, width: number) {
+  private setColumnWidth(index: number, width: number): void {
     const columnKey = this.columns[index].title.key;
     const columnCells = Array.from(document.getElementsByClassName('mat-column-' + columnKey));
     columnCells.forEach((cell) => {
@@ -782,14 +786,14 @@ export class UbsAdminTableComponent implements OnInit, AfterViewChecked, OnDestr
     });
   }
 
-  applyColumnsWidthPreference() {
+  applyColumnsWidthPreference(): void {
     for (const [idx, col] of this.columns.entries()) {
       const key = col.title.key;
       const width = this.columnsWidthPreference.get(key) ?? this.defaultColumnWidth;
       this.setColumnWidth(idx, width);
     }
-    const tableOffsetX = this.matTableRef?.nativeElement?.getBoundingClientRect?.().left;
-    if (!tableOffsetX) {
+    const tableOffsetX = this.getTableOffsetX();
+    if (tableOffsetX === undefined) {
       return;
     }
     for (let idx = 1; idx < this.stickyColumnsAmount; idx++) {
@@ -797,7 +801,7 @@ export class UbsAdminTableComponent implements OnInit, AfterViewChecked, OnDestr
     }
   }
 
-  updateColumnsWidthPreference(columnIndex, newWidth) {
+  updateColumnsWidthPreference(columnIndex: number, newWidth: number) {
     const col = this.columns[columnIndex];
     this.columnsWidthPreference.set(col.title.key, newWidth);
     this.localStorageService.setUbsAdminOrdersTableColumnsWidthPreference(this.columnsWidthPreference);
