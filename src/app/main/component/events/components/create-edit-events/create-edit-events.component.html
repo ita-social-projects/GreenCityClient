@@ -7,7 +7,8 @@
     <h3 *ngIf="!editMode">Create Event</h3>
     <h3 *ngIf="editMode">Edit Event</h3>
     <p>
-      Please provide as much details as you can - place and time of event, the goal of gathering etc. You can come back and update event
+      Please provide as much details as you can - place and time of event, the goal of gathering etc. You can come back
+      and update event
       anytime after publishing
     </p>
   </div>
@@ -28,7 +29,8 @@
           <mat-label>Duration</mat-label>
           <mat-form-field appearance="outline" class="date-item">
             <mat-label>Min 1 day</mat-label>
-            <mat-select formControlName="eventDuration" ngDefaultControl (selectionChange)="setDateCount(+$event.value.split(' ')[0])">
+            <mat-select formControlName="eventDuration" ngDefaultControl
+              (selectionChange)="setDateCount(+$event.value.split(' ')[0])">
               <mat-option *ngFor="let date of dateArrCount" [value]="date">
                 {{ date }}
               </mat-option>
@@ -38,42 +40,32 @@
       </div>
 
       <div class="dateContainer">
-        <p *ngIf="dates.length && !isAddressFill" class="tag-error">you shoud fiil at least one addres or link</p>
         <div *ngFor="let date of dates; index as i" class="dateEvent">
           <span class="date-day">{{ i + 1 }} day</span>
           <div class="date-event-block">
-            <app-event-date-time-picker
-              (datesForm)="checkForm($event, i)"
-              (coordOffline)="setCoordsOnlOff($event, i)"
-              (status)="checkStatus($event, i)"
-              [check]="date.check"
-              [editDate]="editEvent?.dates[i]"
-            ></app-event-date-time-picker>
+            <app-event-date-time-picker (datesForm)="checkForm($event, i)" (coordOffline)="setCoordsOnlOff($event, i)"
+              (status)="checkStatus($event, i)" [check]="date.check" [editDate]="editEvent?.dates[i]">
+            </app-event-date-time-picker>
           </div>
+          <p *ngIf="dates.length && !isAddressFill" class="tag-error">you shoud fill at least one address or link</p>
         </div>
+
       </div>
 
       <div class="textarea-wrapper">
         <h3 class="textarea-title">Events Description</h3>
-        <div [ngClass]="eventFormGroup.get('description').valid || checkAfterSend ? 'content' : 'content content-error'">
-          <quill-editor
-            class="editor"
-            ngDefaultControl
-            formControlName="description"
-            [modules]="quillModules"
-            placeholder="{{ 'create-news.content-placeholder' | translate }}"
-          ></quill-editor>
+        <div
+          [ngClass]="eventFormGroup.get('description').valid || checkAfterSend ? 'content' : 'content content-error'">
+          <quill-editor class="editor" ngDefaultControl formControlName="description" [modules]="quillModules"
+            placeholder="{{ 'create-news.content-placeholder' | translate }}"></quill-editor>
         </div>
         <p class="textarea-description">{{ 'create-news.content-tooltip' | translate }}</p>
       </div>
     </mat-card>
     <mat-card class="event-main-block right">
-      <app-images-container
-        [imagesEditArr]="imagesForEdit"
-        (imgArrayOutput)="getImageTosend($event)"
-        (deleteImagesOutput)="getImagesToDelete($event)"
-        (oldImagesOutput)="getOldImages($event)"
-      ></app-images-container>
+      <app-images-container [imagesEditArr]="imagesForEdit" (imgArrayOutput)="getImageTosend($event)"
+        (deleteImagesOutput)="getImagesToDelete($event)" (oldImagesOutput)="getOldImages($event)">
+      </app-images-container>
 
       <div class="buttons-container">
         <mat-label>Initiative type</mat-label>
@@ -81,14 +73,8 @@
         <div>
           <ul class="ul-eco-buttons" aria-label="filter by items">
             <li *ngFor="let tag of tags">
-              <a
-                role="button"
-                [attr.aria-pressed]="tag.isActive"
-                class="custom-chip global-tag"
-                [ngClass]="{ 'global-tag-clicked': tag.isActive }"
-                tabindex="0"
-                (click)="checkTab(tag)"
-              >
+              <a role="button" [attr.aria-pressed]="tag.isActive" class="custom-chip global-tag"
+                [ngClass]="{ 'global-tag-clicked': tag.isActive }" tabindex="0" (click)="checkTab(tag)">
                 <span class="text">{{ tag.nameEn }}</span>
                 <div [ngClass]="{ 'global-tag-close-icon': tag.isActive }"></div>
               </a>
@@ -100,23 +86,13 @@
       <div class="buttons-container">
         <mat-label>Event type</mat-label>
         <div class="flex-container">
-          <a
-            role="button"
-            class="custom-chip global-tag"
-            [ngClass]="{ 'global-tag-clicked': isOpen }"
-            tabindex="0"
-            (click)="changeToOpen()"
-          >
+          <a role="button" class="custom-chip global-tag" [ngClass]="{ 'global-tag-clicked': isOpen }" tabindex="0"
+            (click)="changeToOpen()">
             <span class="text">open</span>
             <div [ngClass]="{ 'global-tag-close-icon': isOpen }"></div>
           </a>
-          <a
-            role="button"
-            class="custom-chip global-tag"
-            [ngClass]="{ 'global-tag-clicked': !isOpen }"
-            tabindex="0"
-            (click)="changeToClose()"
-          >
+          <a role="button" class="custom-chip global-tag" [ngClass]="{ 'global-tag-clicked': !isOpen }" tabindex="0"
+            (click)="changeToClose()">
             <span class="text">close</span>
             <div [ngClass]="{ 'global-tag-close-icon': !isOpen }"></div>
           </a>
