@@ -11,6 +11,7 @@ import { UBSAddAddressPopUpComponent } from 'src/app/shared/ubs-add-address-pop-
 import { Masks, Patterns } from 'src/assets/patterns/patterns';
 import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
 import { Locations } from 'src/assets/locations/locations';
+import { PhoneNumberValidator } from 'src/app/shared/phone-validator/phone.validator';
 
 @Component({
   selector: 'app-ubs-user-profile-page',
@@ -123,7 +124,11 @@ export class UbsUserProfilePageComponent implements OnInit {
         Validators.maxLength(30)
       ]),
       recipientEmail: new FormControl(this.userProfile?.recipientEmail, [Validators.required, Validators.pattern(Patterns.ubsMailPattern)]),
-      recipientPhone: new FormControl(`+380${this.userProfile?.recipientPhone}`, [Validators.required, Validators.minLength(12)])
+      recipientPhone: new FormControl(`+380${this.userProfile?.recipientPhone}`, [
+        Validators.required,
+        Validators.minLength(12),
+        PhoneNumberValidator('UA')
+      ])
     });
     this.isFetching = false;
   }
@@ -232,6 +237,14 @@ export class UbsUserProfilePageComponent implements OnInit {
 
     if (abstractControl.errors.pattern) {
       return 'input-error.pattern';
+    }
+
+    if (abstractControl.errors.minlength) {
+      return 'input-error.number-length';
+    }
+
+    if (abstractControl.errors.wrongNumber) {
+      return 'input-error.number-wrong';
     }
   }
 
