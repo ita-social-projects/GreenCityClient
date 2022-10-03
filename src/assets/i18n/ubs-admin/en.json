@@ -23,6 +23,7 @@
     "account-message": "Connect to Google account",
     "additional": "Additional actions",
     "change-password": "Change password",
+    "password-requirements": "Password must contain: minimum 8 symbols, 1 special symbol, 1 digit, 1 upper and lower cased characters. No spaces.",
     "old-password": "Enter the old password",
     "new-password": "Enter the new password",
     "repeat-password": "Repeat the new password",
