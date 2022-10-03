@@ -70,7 +70,14 @@ a {
 .header-left {
   display: inline-block;
   max-width: 51%;
+  position: relative;
   vertical-align: top;
+
+  #ubs-image-black {
+    position: absolute;
+    bottom: -20px;
+    right: 65px;
+  }
 }
 
 .header-right {
