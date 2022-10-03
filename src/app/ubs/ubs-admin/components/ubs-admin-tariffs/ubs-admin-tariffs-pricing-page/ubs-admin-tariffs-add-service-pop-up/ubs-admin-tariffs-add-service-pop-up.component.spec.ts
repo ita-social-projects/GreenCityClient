@@ -5,6 +5,7 @@ import { FormBuilder, ReactiveFormsModule } from '@angular/forms';
 import { TranslateModule } from '@ngx-translate/core';
 import { HttpClientTestingModule, HttpTestingController } from '@angular/common/http/testing';
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
+import { ModalTextComponent } from '../../../shared/components/modal-text/modal-text.component';
 
 describe('UbsAdminTariffsAddServicePopupComponent', () => {
   let component: UbsAdminTariffsAddServicePopUpComponent;
@@ -34,5 +35,18 @@ describe('UbsAdminTariffsAddServicePopupComponent', () => {
 
   it('should create', () => {
     expect(component).toBeTruthy();
+  });
+
+  const matDialogMock = jasmine.createSpyObj('matDialog', ['open']);
+  it('Check whether method onCancel called with proper args', () => {
+    matDialogMock.open = jasmine.createSpy().withArgs(ModalTextComponent, {
+      hasBackdrop: true,
+      panelClass: 'address-matDialog-styles-w-100',
+      data: {
+        name: 'cancel',
+        text: 'modal-text.cancel-message',
+        action: 'modal-text.yes'
+      }
+    });
   });
 });

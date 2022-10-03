@@ -1,18 +1,17 @@
-
-  <div class="w-100">
-    <p *ngIf="!data.edit" class="add-location-title">{{ 'ubs-tariffs-add-location-pop-up.title' | translate }}</p>
-    <p *ngIf="data.edit" class="add-location-title">{{ 'ubs-tariffs-add-location-pop-up.edit-title' | translate }}</p>
-  </div>
-  <app-dialog-tariff [row]="form" [newDate]="newDate" [name]="name" [edit]="data.edit"></app-dialog-tariff>
-  <ng-template #form>
-    <form [formGroup]="locationForm">
+<div class="w-100">
+  <p *ngIf="!data.edit" class="add-location-title">{{ 'ubs-tariffs-add-location-pop-up.title' | translate }}</p>
+  <p *ngIf="data.edit" class="add-location-title">{{ 'ubs-tariffs-add-location-pop-up.edit-title' | translate }}</p>
+</div>
+<app-dialog-tariff [row]="form" [newDate]="newDate" [name]="name" [edit]="data.edit"></app-dialog-tariff>
+<ng-template #form>
+  <form [formGroup]="locationForm">
     <p *ngIf="data.edit" class="edit-text">{{ 'ubs-tariffs-add-location-pop-up.region_edit_text' | translate }}</p>
     <div class="d-flex first-row">
       <div>
         <div class="form-group">
           <label>{{ 'ubs-tariffs-add-location-pop-up.region' | translate }}</label>
           <input
-           *ngIf="!data.edit"
+            *ngIf="!data.edit"
             ngx-google-places-autocomplete
             type="text"
             [ngClass]="{ 'error-input': regionExist }"
@@ -25,28 +24,23 @@
           />
           <div *ngIf="data.edit">
             <input
-            type="text"
-            class="shadow-none form-control"
-            required
-            matInput
-            formControlName="region"
-            placeholder="Обрати область"
-            [matAutocomplete] = "autoRegion"
-            #autocompleteTriggerRegion="matAutocompleteTrigger" 
+              type="text"
+              class="shadow-none form-control"
+              required
+              matInput
+              formControlName="region"
+              placeholder="Обрати область"
+              [matAutocomplete]="autoRegion"
+              #autocompleteTriggerRegion="matAutocompleteTrigger"
             />
-            <mat-autocomplete #autoRegion="matAutocomplete" (optionSelected) = "selectedEditRegion($event)">
-              <ng-container >
+            <mat-autocomplete #autoRegion="matAutocomplete" (optionSelected)="selectedEditRegion($event)">
+              <ng-container>
                 <mat-option *ngFor="let option of filteredRegions" [value]="option">
                   {{ option }}
                 </mat-option>
               </ng-container>
             </mat-autocomplete>
-            <img
-            [src]="icons.arrowDown"
-            class="arrowDown-img"
-            alt="arrowDown"
-            (click)="openAuto($event, autocompleteTriggerRegion)"
-            />
+            <img [src]="icons.arrowDown" class="arrowDown-img" alt="arrowDown" (click)="openAuto($event, autocompleteTriggerRegion)" />
           </div>
           <img
             *ngIf="region.value.length && !data.edit"
@@ -107,26 +101,21 @@
           />
           <div *ngIf="data.edit">
             <input
-            class="shadow-none form-control mb-1"
-            formControlName = "location"
-            placeholder="Введіть місто"
-            [matAutocomplete] = "autoCity"
-            #autocompleteTriggerCity = "matAutocompleteTrigger"
-            (keyup.enter)="addEditedCity()"
+              class="shadow-none form-control mb-1"
+              formControlName="location"
+              placeholder="Введіть місто"
+              [matAutocomplete]="autoCity"
+              #autocompleteTriggerCity="matAutocompleteTrigger"
+              (keyup.enter)="addEditedCity()"
             />
-            <mat-autocomplete #autoCity="matAutocomplete" (optionSelected) = "selectCitiesEdit($event)">
+            <mat-autocomplete #autoCity="matAutocomplete" (optionSelected)="selectCitiesEdit($event)">
               <ng-container>
                 <mat-option *ngFor="let option of filteredCities" [value]="option">
                   {{ option.locationTranslationDtoList[0].locationName }}
                 </mat-option>
               </ng-container>
             </mat-autocomplete>
-            <img
-            [src]="icons.arrowDown"
-            class="arrowDown-img"
-            alt="arrowDown"
-            (click)="openAuto($event, autocompleteTriggerCity)"
-            />
+            <img [src]="icons.arrowDown" class="arrowDown-img" alt="arrowDown" (click)="openAuto($event, autocompleteTriggerCity)" />
           </div>
           <img
             *ngIf="location.value.length && !data.edit"
@@ -186,7 +175,7 @@
     </div>
   </form>
   <div class="d-flex justify-content-end buttons" mat-dialog-actions>
-    <button class="secondary-global-button btn m-0 mr-2" mat-button (click)="onNoClick()">
+    <button class="secondary-global-button btn m-0 mr-2" mat-button (click)="onCancel()">
       {{ 'ubs-tariffs-add-location-pop-up.cancel_button' | translate }}
     </button>
     <button
@@ -197,12 +186,7 @@
     >
       {{ 'ubs-tariffs-add-location-pop-up.add_button' | translate }}
     </button>
-    <button
-      *ngIf="data.edit"
-      class="primary-global-button btn m-0"
-      [disabled]="editedCities.length === 0"
-      (click)="editLocation()"
-    >
+    <button *ngIf="data.edit" class="primary-global-button btn m-0" [disabled]="editedCities.length === 0" (click)="editLocation()">
       {{ 'ubs-tariffs-add-location-pop-up.save_button' | translate }}
     </button>
   </div>
