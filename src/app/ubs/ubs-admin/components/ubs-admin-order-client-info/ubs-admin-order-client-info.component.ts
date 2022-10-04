@@ -66,8 +66,6 @@ export class UbsAdminOrderClientInfoComponent implements OnInit, OnDestroy {
   }
 
   getErrorMessage(abstractControl: AbstractControl): string {
-    console.log(this.userInfoDto.controls);
-
     if (abstractControl.errors.required) {
       return 'input-error.required';
     }
