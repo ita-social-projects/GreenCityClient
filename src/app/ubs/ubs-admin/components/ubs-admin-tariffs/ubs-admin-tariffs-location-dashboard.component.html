@@ -91,7 +91,7 @@
           </mat-option>
           <mat-option *ngFor="let city of filteredCities | async">
             <mat-checkbox class="mr-1" [checked]="checkSelectedItem(city, selectedCities)"></mat-checkbox>
-            <span class="checkbox-text">{{ city | translate }}</span>
+            <span class="checkbox-text">{{ city }}</span>
           </mat-option>
         </mat-autocomplete>
         <img [src]="icons.arrowDown" class="arrowDown-img" alt="arrowDown" (click)="openAuto($event, autocompleteTriggerCity)" />

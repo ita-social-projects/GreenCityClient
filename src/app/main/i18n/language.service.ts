@@ -3,6 +3,7 @@ import { Injectable } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
 import { Language } from './Language';
 import { LanguageId } from '../interface/language-id';
+import { BehaviorSubject } from 'rxjs/internal/BehaviorSubject';
 
 @Injectable({
   providedIn: 'root'
@@ -10,6 +11,7 @@ import { LanguageId } from '../interface/language-id';
 export class LanguageService {
   private defaultLanguage = Language.EN;
   private monthMap = new Map<Language, string[]>();
+  private languageSubj = new BehaviorSubject(Language.EN);
   private langMap = new Map();
   public synqLanguageArr: LanguageId[] = [
     { id: 1, code: 'ua' },
@@ -98,6 +100,11 @@ export class LanguageService {
     this.localStorageService.setCurrentLanguage(language);
     this.translate.setDefaultLang(language);
     this.translate.use(language);
+    this.languageSubj.next(language);
+  }
+
+  public getCurrentLangObs() {
+    return this.languageSubj.asObservable();
   }
 
   public getLanguageId(language: Language) {

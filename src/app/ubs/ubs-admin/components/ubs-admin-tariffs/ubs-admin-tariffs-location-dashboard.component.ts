@@ -19,6 +19,7 @@ import { UbsAdminTariffsCardPopUpComponent } from './ubs-admin-tariffs-card-pop-
 import { TariffConfirmationPopUpComponent } from './../shared/components/tariff-confirmation-pop-up/tariff-confirmation-pop-up.component';
 import { TranslateService } from '@ngx-translate/core';
 import { Patterns } from 'src/assets/patterns/patterns';
+import { LanguageService } from 'src/app/main/i18n/language.service';
 
 @Component({
   selector: 'app-ubs-admin-tariffs-location-dashboard',
@@ -75,7 +76,8 @@ export class UbsAdminTariffsLocationDashboardComponent implements OnInit, OnDest
     public dialog: MatDialog,
     private store: Store<IAppState>,
     private fb: FormBuilder,
-    private translate: TranslateService
+    private translate: TranslateService,
+    private languageService: LanguageService
   ) {}
 
   get region() {
@@ -107,6 +109,12 @@ export class UbsAdminTariffsLocationDashboardComponent implements OnInit, OnDest
     this.setCountOfCheckedCity();
     this.setStationPlaceholder();
     this.getExistingCard(this.filterData);
+    this.languageService.getCurrentLangObs().subscribe((i) => {
+      this.getLocations();
+      this.translateCouriers();
+      this.translateSelectedCity();
+      console.log(i);
+    });
   }
 
   private initForm(): void {
@@ -205,10 +213,12 @@ export class UbsAdminTariffsLocationDashboardComponent implements OnInit, OnDest
       .filter((it) => it.languageCode === 'en')
       .map((it) => it.locationName)
       .join();
+    const lang = this.languageService.getCurrentLanguage();
     const tempItem = {
-      name: selectedCityName,
+      name: lang === 'ua' ? selectedCityName : selectedCityEnglishName,
       id: selectedCityId,
-      englishName: selectedCityEnglishName
+      englishName: selectedCityEnglishName,
+      ukrainianName: selectedCityName
     };
     const newValue = event.option.viewValue;
     if (this.selectedCities.map((it) => it.name).includes(newValue)) {
@@ -216,6 +226,13 @@ export class UbsAdminTariffsLocationDashboardComponent implements OnInit, OnDest
     } else {
       this.selectedCities.push(tempItem);
     }
+  }
+
+  translateSelectedCity() {
+    const lang = this.languageService.getCurrentLanguage();
+    this.selectedCities.forEach((city) => {
+      city.name = lang === 'ua' ? city.ukrainianName : city.englishName;
+    });
   }
 
   public onSelectStation(event: MatAutocompleteSelectedEvent): void {
@@ -281,11 +298,24 @@ export class UbsAdminTariffsLocationDashboardComponent implements OnInit, OnDest
   toggleSelectAllCity(): void {
     if (!this.isCityChecked()) {
       this.selectedCities.length = 0;
+      const lang = this.languageService.getCurrentLanguage();
       this.cities.forEach((city) => {
-        this.selectedCities.push({
-          name: city.name,
-          id: city.id
-        });
+        console.log(city);
+        const selectedCityName = city.locationTranslationDtoList
+          .filter((it) => it.languageCode === 'ua')
+          .map((it) => it.locationName)
+          .join();
+        const selectedCityEnglishName = city.locationTranslationDtoList
+          .filter((it) => it.languageCode === 'en')
+          .map((it) => it.locationName)
+          .join();
+        const tempItem = {
+          name: lang === 'ua' ? selectedCityName : selectedCityEnglishName,
+          id: city.id,
+          englishName: selectedCityEnglishName,
+          ukrainianName: selectedCityName
+        };
+        this.selectedCities.push(tempItem);
       });
     } else {
       this.selectedCities.length = 0;
@@ -359,10 +389,13 @@ export class UbsAdminTariffsLocationDashboardComponent implements OnInit, OnDest
       if (item) {
         this.locations = item;
         const regions = this.locations
-          .map((element) => element.regionTranslationDtos.filter((it) => it.languageCode === 'ua').map((it) => it.regionName))
+          .map((element) => {
+            const lang = this.languageService.getCurrentLanguage();
+            return element.regionTranslationDtos.filter((it) => it.languageCode === lang).map((it) => it.regionName);
+          })
           .flat(2);
         this.filteredRegions = this.filterOptions(this.region, regions);
-        this.cities = this.mapCitiesInUkr(this.locations);
+        this.cities = this.mapCities(this.locations);
         this.filteredCities = this.filterOptions(
           this.city,
           this.cities.map((elem) => elem.name)
@@ -372,16 +405,18 @@ export class UbsAdminTariffsLocationDashboardComponent implements OnInit, OnDest
     });
   }
 
-  public mapCitiesInUkr(region: Locations[]): Array<object> {
+  public mapCities(region: Locations[]): Array<object> {
     const cityArray = [];
+    const lang = this.languageService.getCurrentLanguage();
     region.forEach((element) =>
       element.locationsDto.forEach((el) => {
         const tempItem = {
           name: el.locationTranslationDtoList
-            .filter((it) => it.languageCode === 'ua')
+            .filter((it) => it.languageCode === lang)
             .map((it) => it.locationName)
             .join(),
-          id: el.locationId
+          id: el.locationId,
+          locationTranslationDtoList: el.locationTranslationDtoList
         };
         cityArray.push(tempItem);
       })
@@ -399,10 +434,17 @@ export class UbsAdminTariffsLocationDashboardComponent implements OnInit, OnDest
       .pipe(takeUntil(this.destroy))
       .subscribe((res) => {
         this.couriers = res;
-        this.couriersName = this.couriers
-          .map((it) => it.courierTranslationDtos.filter((ob) => ob.languageCode === 'ua').map((el) => el.name))
-          .flat(2);
+        this.translateCouriers();
       });
+  }
+
+  translateCouriers() {
+    if (this.couriers) {
+      const lang = this.languageService.getCurrentLanguage();
+      this.couriersName = this.couriers
+        .map((it) => it.courierTranslationDtos.filter((ob) => ob.languageCode === lang).map((el) => el.name))
+        .flat(2);
+    }
   }
 
   getReceivingStation(): void {
@@ -415,6 +457,11 @@ export class UbsAdminTariffsLocationDashboardComponent implements OnInit, OnDest
         this.filteredStations = this.filterOptions(this.station, this.stationName);
       });
   }
+
+  // translateStations() {
+  //   const lang = this.languageService.getCurrentLanguage();
+
+  // }
 
   public getExistingCard(filterData) {
     this.cards = [];
@@ -446,7 +493,7 @@ export class UbsAdminTariffsLocationDashboardComponent implements OnInit, OnDest
     } else {
       currentRegion = this.locations.filter((element) => element.regionTranslationDtos.find((it) => it.regionName === value));
     }
-    this.cities = this.mapCitiesInUkr(currentRegion);
+    this.cities = this.mapCities(currentRegion);
     this.filteredCities = this.filterOptions(
       this.city,
       this.cities.map((elem) => elem.name)
