@@ -23,7 +23,7 @@ describe('UbsAdminOrderClientInfoComponent', () => {
   };
 
   const fakeFormGroup = {
-    controls: { recipientPhoneNumber: {} }
+    controls: { recipientPhoneNumber: {}, recipientName: {}, recipientSurName: {} }
   } as unknown as FormGroup;
 
   beforeEach(async(() => {
@@ -67,18 +67,23 @@ describe('UbsAdminOrderClientInfoComponent', () => {
 
   it('method getErrorMessageKey should return correct error message key - required', () => {
     const formControlMock = { errors: { required: true } } as unknown as AbstractControl;
-
     const result = component.getErrorMessage(formControlMock);
 
     expect(result).toBe('input-error.required');
   });
 
-  it('method getErrorMessageKey should return correct error message key - required', () => {
+  it('method getErrorMessageKey should return correct error message key - pattern', () => {
     const formControlMock = { errors: { pattern: true } } as unknown as AbstractControl;
-
     const result = component.getErrorMessage(formControlMock);
 
-    expect(result).toBe('input-error.number-length');
+    expect(result).toBe('input-error.pattern');
+  });
+
+  it('method getErrorMessageKey should return correct error message key - maxlength', () => {
+    const formControlMock = { errors: { maxlength: true } } as unknown as AbstractControl;
+    const result = component.getErrorMessage(formControlMock);
+
+    expect(result).toBe('input-error.max-length');
   });
 
   it('method getErrorMessageKey should return correct error message key - empty message key', () => {

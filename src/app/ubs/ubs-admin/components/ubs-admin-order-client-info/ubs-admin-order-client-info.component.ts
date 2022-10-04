@@ -65,13 +65,19 @@ export class UbsAdminOrderClientInfoComponent implements OnInit, OnDestroy {
       });
   }
 
-  getErrorMessage(abstractControl: AbstractControl) {
+  getErrorMessage(abstractControl: AbstractControl): string {
+    console.log(this.userInfoDto.controls);
+
     if (abstractControl.errors.required) {
       return 'input-error.required';
     }
 
+    if (abstractControl.errors.maxlength) {
+      return 'input-error.max-length';
+    }
+
     if (abstractControl.errors.pattern) {
-      return 'input-error.number-length';
+      return 'input-error.pattern';
     }
   }
 
