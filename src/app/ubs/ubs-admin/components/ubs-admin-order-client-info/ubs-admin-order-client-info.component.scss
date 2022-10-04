@@ -36,8 +36,8 @@
 
 .person-name {
   display: grid;
-  grid-template-rows: 1fr 1fr;
-  grid-template-columns: 1fr 1fr;
+  grid-template-rows: min-content min-content;
+  grid-template-columns: minmax(min-content, 1fr) minmax(min-content, 1fr);
 }
 
 .btn {
@@ -108,6 +108,7 @@ input {
   line-height: 12px;
   color: var(--error-ligh-red);
   display: inline-block;
-  width: max-content;
+  // width: max-content;
+  width: fit-content;
   vertical-align: middle;
 }
