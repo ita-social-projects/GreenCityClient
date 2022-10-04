@@ -5,9 +5,11 @@ import { MatDialogRef } from '@angular/material/dialog';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 import { of } from 'rxjs';
 
+import { ResponsibleEmployee } from '../../models/ubs-admin.interface';
 import { IInitialFormValues } from './ubs-admin-several-orders-pop-up.component';
 import { OrderService } from '../../services/order.service';
 import { UbsAdminSeveralOrdersPopUpComponent } from './ubs-admin-several-orders-pop-up.component';
+import { IEmployee } from '../../models/ubs-admin.interface';
 
 describe('UbsAdminSeveralOrdersPopUpComponent', () => {
   let fixture: ComponentFixture<UbsAdminSeveralOrdersPopUpComponent>;
@@ -54,7 +56,12 @@ describe('UbsAdminSeveralOrdersPopUpComponent', () => {
       allReceivingStations: [{ id: 0, name: 'Default' }]
     },
     employeePositionDtoRequest: {
-      currentPositionEmployees: null,
+      currentPositionEmployees: {
+        'PositionDto(id=2, name=Менеджер обдзвону)': 'Call Manager',
+        'PositionDto(id=3, name=Логіст)': 'Logistician',
+        'PositionDto(id=4, name=Штурман)': 'Navigator',
+        'PositionDto(id=5, name=Водій)': 'Driver'
+      },
       allPositionsEmployees: null,
       orderId: 0
     }
@@ -66,7 +73,12 @@ describe('UbsAdminSeveralOrdersPopUpComponent', () => {
     TestBed.configureTestingModule({
       declarations: [UbsAdminSeveralOrdersPopUpComponent],
       imports: [TranslateModule.forRoot(), NoopAnimationsModule],
-      providers: [{ provide: OrderService, useValue: orderServiceMock }, { provide: MatDialogRef, useValue: matDialogMock }, FormBuilder]
+      providers: [
+        { provide: OrderService, useValue: orderServiceMock },
+        { provide: MatDialogRef, useValue: matDialogMock },
+        FormBuilder,
+        { provide: ResponsibleEmployee, useValue: ResponsibleEmployee }
+      ]
     }).compileComponents();
 
     fixture = TestBed.createComponent(UbsAdminSeveralOrdersPopUpComponent);
@@ -107,6 +119,11 @@ describe('UbsAdminSeveralOrdersPopUpComponent', () => {
 
   it('getEmployeeById()', () => {
     expect(component.getEmployeeById(undefined, 0)).toEqual(null);
+    expect(component.getEmployeeById(new Map(), 0)).toEqual(null);
+
+    const fakeAllPositionsEmployees = { 'PositionDto(id=1, name=Менеджер послуги)': 'Admin' };
+
+    expect(component.getEmployeeById(fakeAllPositionsEmployees, 1)).toEqual('Admin');
   });
 
   it('should create order form', () => {
@@ -123,18 +140,29 @@ describe('UbsAdminSeveralOrdersPopUpComponent', () => {
   it('should fill in ordersForm with correct values', fakeAsync(() => {
     orderServiceMock.getOrderInfo.and.returnValue(of(orderInfoFilledIn));
     component.ngOnInit();
+    tick();
 
-    const { exportDetailsDto: formExportDetails } = component.ordersForm.value;
-    const { exportDetailsDto } = orderInfoFilledIn;
+    let {
+      exportDetailsDto: { timeDeliveryFrom, timeDeliveryTo, receivingStationId, allReceivingStations, dateExport },
+      employeePositionDtoRequest: { currentPositionEmployees, orderId }
+    } = orderInfoFilledIn;
 
-    const timeDeliveryFrom = exportDetailsDto.timeDeliveryFrom.split('T')[1];
-    const timeDeliveryTo = exportDetailsDto.timeDeliveryTo.split('T')[1];
-    const receivingStationId = exportDetailsDto.allReceivingStations[exportDetailsDto.receivingStationId]?.name;
+    timeDeliveryFrom = timeDeliveryFrom.split('T')[1];
+    timeDeliveryTo = timeDeliveryTo.split('T')[1];
+    const receivingStation = allReceivingStations[receivingStationId]?.name;
 
-    expect(formExportDetails.dateExport).toEqual(orderInfoFilledIn.exportDetailsDto.dateExport);
-    expect(formExportDetails.timeDeliveryFrom).toEqual(timeDeliveryFrom);
-    expect(formExportDetails.timeDeliveryTo).toEqual(timeDeliveryTo);
-    expect(formExportDetails.receivingStationId).toEqual(receivingStationId);
+    const formExportDetailsDto = component.ordersForm.get('exportDetailsDto');
+    const formResponsiblePersonsForm = component.ordersForm.get('responsiblePersonsForm');
+
+    expect(formExportDetailsDto.get('dateExport').value).toEqual(dateExport);
+    expect(formExportDetailsDto.get('timeDeliveryFrom').value).toEqual(timeDeliveryFrom);
+    expect(formExportDetailsDto.get('timeDeliveryTo').value).toEqual(timeDeliveryTo);
+    expect(formExportDetailsDto.get('receivingStationId').value).toEqual(receivingStation);
+
+    expect(formResponsiblePersonsForm.get('responsibleCaller').value).toEqual('Call Manager');
+    expect(formResponsiblePersonsForm.get('responsibleLogicMan').value).toEqual('Logistician');
+    expect(formResponsiblePersonsForm.get('responsibleNavigator').value).toEqual('Navigator');
+    expect(formResponsiblePersonsForm.get('responsibleDriver').value).toEqual('Driver');
   }));
 
   it('loadOrderInfo()', fakeAsync(() => {

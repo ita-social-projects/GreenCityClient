@@ -81,7 +81,7 @@ export class UbsAdminSeveralOrdersPopUpComponent implements OnInit {
       .subscribe();
   }
 
-  getEmployeeById(allCurrentEmployees: Map<string, string>, id: number): InputValue {
+  getEmployeeById(allCurrentEmployees: Map<string, string> | { [key: string]: string }, id: number): InputValue {
     if (!allCurrentEmployees) {
       return null;
     }
