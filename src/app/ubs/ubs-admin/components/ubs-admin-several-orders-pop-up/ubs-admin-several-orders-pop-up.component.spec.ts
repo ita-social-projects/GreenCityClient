@@ -5,6 +5,7 @@ import { MatDialogRef } from '@angular/material/dialog';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 import { of } from 'rxjs';
 
+import { IInitialFormValues } from './ubs-admin-several-orders-pop-up.component';
 import { OrderService } from '../../services/order.service';
 import { UbsAdminSeveralOrdersPopUpComponent } from './ubs-admin-several-orders-pop-up.component';
 
@@ -14,7 +15,7 @@ describe('UbsAdminSeveralOrdersPopUpComponent', () => {
 
   const orderServiceMock = jasmine.createSpyObj('orderService', ['getOrderInfo']);
 
-  const emptyFormValue = {
+  const emptyFormValue: IInitialFormValues = {
     exportDetailsDto: {
       receivingStationId: null,
       dateExport: null,
@@ -74,8 +75,14 @@ describe('UbsAdminSeveralOrdersPopUpComponent', () => {
     spyOn(component, 'setEmployeesByPosition').and.callFake(() => {});
   }));
 
-  it('should create', () => {
-    expect(component).toBeTruthy();
+  it('ngOnInit()', () => {
+    const spyLoadOrderInfo = spyOn(component, 'loadOrderInfo');
+    const currentDate = new Date().toISOString().split('T')[0];
+
+    component.ngOnInit();
+
+    expect(component.currentDate).toEqual(currentDate);
+    expect(spyLoadOrderInfo).toHaveBeenCalledTimes(1);
   });
 
   it('initForm with null values if no info provided', () => {
@@ -130,13 +137,20 @@ describe('UbsAdminSeveralOrdersPopUpComponent', () => {
     expect(formExportDetails.receivingStationId).toEqual(receivingStationId);
   }));
 
-  it('loadOrderInfo()', () => {
-    const spy = spyOn(component, 'loadOrderInfo');
-    component.ngOnInit();
-    expect(spy).toHaveBeenCalledTimes(1);
-  });
+  it('loadOrderInfo()', fakeAsync(() => {
+    const spyGetInitialFormValues = spyOn(component, 'getInitialFormValues');
+    const spyInitForm = spyOn(component, 'initForm');
+    orderServiceMock.getOrderInfo.and.returnValue(of(orderInfoEmpty));
+
+    component.loadOrderInfo();
+    tick();
+
+    expect(spyGetInitialFormValues).toHaveBeenCalledTimes(1);
+    expect(spyInitForm).toHaveBeenCalledTimes(1);
+  }));
 
   it('should set isLoading to false after loading order info', fakeAsync(() => {
+    orderServiceMock.getOrderInfo.and.returnValue(of(orderInfoEmpty));
     component.ngOnInit();
     expect(component.isLoading).toEqual(false);
   }));
