@@ -9,7 +9,6 @@ import { ResponsibleEmployee } from '../../models/ubs-admin.interface';
 import { IInitialFormValues } from './ubs-admin-several-orders-pop-up.component';
 import { OrderService } from '../../services/order.service';
 import { UbsAdminSeveralOrdersPopUpComponent } from './ubs-admin-several-orders-pop-up.component';
-import { IEmployee } from '../../models/ubs-admin.interface';
 
 describe('UbsAdminSeveralOrdersPopUpComponent', () => {
   let fixture: ComponentFixture<UbsAdminSeveralOrdersPopUpComponent>;
