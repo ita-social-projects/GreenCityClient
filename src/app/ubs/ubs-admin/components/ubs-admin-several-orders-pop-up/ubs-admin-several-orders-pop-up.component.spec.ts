@@ -142,21 +142,20 @@ describe('UbsAdminSeveralOrdersPopUpComponent', () => {
     component.ngOnInit();
     tick();
 
-    let {
-      exportDetailsDto: { timeDeliveryFrom, timeDeliveryTo, receivingStationId, allReceivingStations, dateExport },
-      employeePositionDtoRequest: { currentPositionEmployees, orderId }
+    const {
+      exportDetailsDto: { timeDeliveryFrom, timeDeliveryTo, receivingStationId, allReceivingStations, dateExport }
     } = orderInfoFilledIn;
 
-    timeDeliveryFrom = timeDeliveryFrom.split('T')[1];
-    timeDeliveryTo = timeDeliveryTo.split('T')[1];
+    const timeDeliveryFromValue = timeDeliveryFrom.split('T')[1];
+    const timeDeliveryToValue = timeDeliveryTo.split('T')[1];
     const receivingStation = allReceivingStations[receivingStationId]?.name;
 
     const formExportDetailsDto = component.ordersForm.get('exportDetailsDto');
     const formResponsiblePersonsForm = component.ordersForm.get('responsiblePersonsForm');
 
     expect(formExportDetailsDto.get('dateExport').value).toEqual(dateExport);
-    expect(formExportDetailsDto.get('timeDeliveryFrom').value).toEqual(timeDeliveryFrom);
-    expect(formExportDetailsDto.get('timeDeliveryTo').value).toEqual(timeDeliveryTo);
+    expect(formExportDetailsDto.get('timeDeliveryFrom').value).toEqual(timeDeliveryFromValue);
+    expect(formExportDetailsDto.get('timeDeliveryTo').value).toEqual(timeDeliveryToValue);
     expect(formExportDetailsDto.get('receivingStationId').value).toEqual(receivingStation);
 
     expect(formResponsiblePersonsForm.get('responsibleCaller').value).toEqual('Call Manager');
