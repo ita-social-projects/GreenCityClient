@@ -1,6 +1,7 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { MatDialogModule } from '@angular/material/dialog';
 import { TranslateModule } from '@ngx-translate/core';
+import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 
 import { UbsAdminOrderClientInfoComponent } from './ubs-admin-order-client-info.component';
 import { AbstractControl, FormGroup } from '@angular/forms';
@@ -28,7 +29,7 @@ describe('UbsAdminOrderClientInfoComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      imports: [MatDialogModule, TranslateModule.forRoot()],
+      imports: [MatDialogModule, NoopAnimationsModule, TranslateModule.forRoot()],
       declarations: [UbsAdminOrderClientInfoComponent]
     }).compileComponents();
   }));

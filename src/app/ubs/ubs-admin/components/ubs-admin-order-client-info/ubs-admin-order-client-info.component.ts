@@ -1,11 +1,11 @@
 import { Component, Input, OnDestroy, OnInit } from '@angular/core';
 import { FormGroup, AbstractControl } from '@angular/forms';
-import { Subject } from 'rxjs';
 import { MatDialog } from '@angular/material/dialog';
+import { Subject } from 'rxjs';
+import { take } from 'rxjs/operators';
 
 import { AddViolationsComponent } from '../add-violations/add-violations.component';
 import { IUserInfo } from '../../models/ubs-admin.interface';
-import { take } from 'rxjs/operators';
 import { Masks } from 'src/assets/patterns/patterns';
 
 @Component({
