@@ -1,4 +1,4 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit, Injector } from '@angular/core';
 
 import { quillConfig } from './quillEditorFunc';
 
@@ -16,6 +16,7 @@ import { LocalStorageService } from '@global-service/localstorage/local-storage.
 import { ActionsSubject, Store } from '@ngrx/store';
 import { ofType } from '@ngrx/effects';
 import { CreateEcoEventAction, EditEcoEventAction, EventsActions } from 'src/app/store/actions/ecoEvents.actions';
+import { MatSnackBarComponent } from '@global-errors/mat-snack-bar/mat-snack-bar.component';
 
 @Component({
   selector: 'app-create-edit-events',
@@ -47,15 +48,20 @@ export class CreateEditEventsComponent implements OnInit, OnDestroy {
   private imgArray: Array<File> = [];
   private pipe = new DatePipe('en-US');
   private destroyed$: ReplaySubject<boolean> = new ReplaySubject<boolean>(1);
+  private matSnackBar: MatSnackBarComponent;
 
   constructor(
     public router: Router,
     private localStorageService: LocalStorageService,
     private actionsSubj: ActionsSubject,
-    private store: Store
+    private store: Store,
+    private snackBar: MatSnackBarComponent,
+    private injector: Injector
   ) {
     this.quillModules = quillConfig;
     Quill.register('modules/imageResize', ImageResize);
+
+    this.matSnackBar = injector.get(MatSnackBarComponent);
   }
 
   ngOnInit(): void {
@@ -72,6 +78,10 @@ export class CreateEditEventsComponent implements OnInit, OnDestroy {
     if (this.editMode) {
       this.editEvent = this.editMode ? this.localStorageService.getEventForEdit() : null;
       this.setEditValue();
+    }
+
+    if (!this.checkUserSigned()) {
+      this.snackBar.openSnackBar('userUnauthorised');
     }
   }
 
@@ -243,6 +253,11 @@ export class CreateEditEventsComponent implements OnInit, OnDestroy {
       this.isPosting = false;
       this.escapeFromCreateEvent();
     });
+  }
+
+  checkUserSigned(): boolean {
+    const userId = this.localStorageService.getUserId();
+    return userId ? true : false;
   }
 
   ngOnDestroy(): void {
