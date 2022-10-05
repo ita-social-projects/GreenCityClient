@@ -16,7 +16,7 @@ import { LocalStorageService } from '@global-service/localstorage/local-storage.
 import { ActionsSubject, Store } from '@ngrx/store';
 import { ofType } from '@ngrx/effects';
 import { CreateEcoEventAction, EditEcoEventAction, EventsActions } from 'src/app/store/actions/ecoEvents.actions';
-
+import { AbstractControl } from '@angular/forms';
 @Component({
   selector: 'app-create-edit-events',
   templateUrl: './create-edit-events.component.html',
@@ -64,7 +64,7 @@ export class CreateEditEventsComponent implements OnInit, OnDestroy {
     this.tags = TagsArray.reduce((ac, cur) => [...ac, { ...cur }], []);
 
     this.eventFormGroup = new FormGroup({
-      titleForm: new FormControl('', [Validators.required, Validators.minLength(1), Validators.maxLength(70)]),
+      titleForm: new FormControl('', [Validators.required, Validators.minLength(1), Validators.maxLength(70), this.removeSpaces]),
       description: new FormControl('', [Validators.required, Validators.minLength(28), Validators.maxLength(63206)]),
       eventDuration: new FormControl('', [Validators.required, Validators.minLength(2)])
     });
@@ -73,6 +73,10 @@ export class CreateEditEventsComponent implements OnInit, OnDestroy {
       this.editEvent = this.editMode ? this.localStorageService.getEventForEdit() : null;
       this.setEditValue();
     }
+  }
+
+  get titleForm() {
+    return this.eventFormGroup.get('titleForm');
   }
 
   private setEditValue(): void {
@@ -243,6 +247,13 @@ export class CreateEditEventsComponent implements OnInit, OnDestroy {
       this.isPosting = false;
       this.escapeFromCreateEvent();
     });
+  }
+
+  removeSpaces(control: AbstractControl) {
+    if (control && control.value && !control.value.replace(/\s/g, '').length) {
+      control.setValue('');
+    }
+    return null;
   }
 
   ngOnDestroy(): void {
