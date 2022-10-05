@@ -104,15 +104,41 @@ h3 {
   font-size: 14px;
 }
 
-.count {
-  .input {
-    border: 1px solid var(--ubs-quintynary-light-grey);
-    padding-left: 6px;
-    font-size: 14px;
+.quantity-input-wrapper {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border: 1px solid var(--ubs-quintynary-light-grey);
+  font-size: 14px;
+
+  button {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: inherit;
+    width: 30px;
+    height: 100%;
+    text-align: center;
+
+    .mat-icon {
+      height: 100%;
+      width: 100%;
+      line-height: 30px;
+      vertical-align: middle;
+      font-size: 1.2rem;
+      color: var(--ubs-quintynary-light-grey);
+    }
   }
 
-  .input:focus::placeholder {
-    color: transparent;
+  .input {
+    text-align: center;
+    width: 2.5rem;
+    padding: 0 4px;
+
+    &::-webkit-outer-spin-button,
+    &::-webkit-inner-spin-button {
+      display: none;
+    }
   }
 }
 
@@ -299,6 +325,11 @@ button {
   margin-bottom: 3rem;
   border-bottom: 1px solid var(--ubs-primary-light-grey);
 
+  .shop-order-question {
+    margin-top: 1rem;
+    max-width: 455px;
+  }
+
   .custom-control {
     padding-left: 1.4rem;
   }
@@ -318,7 +349,7 @@ button {
 
   p {
     font-size: 12px;
-    min-width: 42vw;
+    max-width: 335px;
   }
 
   .inactive {

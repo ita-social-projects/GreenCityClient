@@ -132,6 +132,30 @@ export class UBSOrderDetailsComponent extends FormBaseComponent implements OnIni
     }
   }
 
+  increaseQuantity(id: number): void {
+    const formControl = this.orderDetailsForm.get('quantity' + id);
+    const value = Number(formControl.value);
+
+    if (value >= 999) {
+      return;
+    }
+
+    formControl.setValue(String(value + 1));
+    this.onQuantityChange(id);
+  }
+
+  decreaseQuantity(id: number): void {
+    const formControl = this.orderDetailsForm.get('quantity' + id);
+    const value = Number(formControl.value);
+
+    if (value <= 0) {
+      return;
+    }
+
+    formControl.setValue(String(value - 1));
+    this.onQuantityChange(id);
+  }
+
   public setLimitsValues(): void {
     this.checkCourierLimit();
     this.locations = this.localStorageService.getLocations();

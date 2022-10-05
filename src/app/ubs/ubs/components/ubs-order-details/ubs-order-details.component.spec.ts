@@ -8,7 +8,7 @@ import { OrderService } from '../../services/order.service';
 import { MatDialogModule, MatDialogRef } from '@angular/material/dialog';
 import { TranslateModule } from '@ngx-translate/core';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { async, ComponentFixture, TestBed, fakeAsync, tick } from '@angular/core/testing';
 import { FormArray, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { UBSOrderDetailsComponent } from './ubs-order-details.component';
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
@@ -64,6 +64,14 @@ describe('OrderDetailsFormComponent', () => {
     minPriceOfOrder: 500
   };
   const bagsMock: Bag[] = [];
+  const ordersMock = {
+    points: 0,
+    bags: [
+      { code: 'ua', capacity: 100, id: 0, locationId: 1, price: 300, quantity: 10, nameEng: 'def', name: 'def' },
+      { code: 'ua', capacity: 100, id: 1, locationId: 1, price: 300, quantity: 10, nameEng: 'def', name: 'def' }
+    ]
+  };
+
   shareFormService.locationId = 1;
   shareFormService.locations = mockLocations;
 
@@ -272,5 +280,49 @@ describe('OrderDetailsFormComponent', () => {
     component.ngOnDestroy();
     expect(nextSpy).toHaveBeenCalledTimes(1);
     expect(unsubscribeSpy).toHaveBeenCalledTimes(1);
+  });
+
+  it('increaseQuantity()', () => {
+    const spyOnQuantityChange = spyOn(component, 'onQuantityChange');
+
+    orderService = TestBed.inject(OrderService);
+    spyOn(global, 'setTimeout');
+
+    spyOn(orderService, 'getOrders').and.returnValue(of(ordersMock));
+    shareFormService.orderDetails = ordersMock;
+    localStorageService.getCurrentLanguage.and.callFake(() => Language.UA);
+
+    component.takeOrderData();
+
+    const formControl = component.orderDetailsForm.get('quantity1');
+    const oldValue = formControl.value;
+    const newValue = String(+oldValue + 1);
+
+    component.increaseQuantity(1);
+
+    expect(spyOnQuantityChange).toHaveBeenCalled();
+    expect(formControl.value).toEqual(newValue);
+  });
+
+  it('decreaseQuantity()', () => {
+    const spyOnQuantityChange = spyOn(component, 'onQuantityChange');
+
+    orderService = TestBed.inject(OrderService);
+    spyOn(global, 'setTimeout');
+
+    spyOn(orderService, 'getOrders').and.returnValue(of(ordersMock));
+    shareFormService.orderDetails = ordersMock;
+    localStorageService.getCurrentLanguage.and.callFake(() => Language.UA);
+
+    component.takeOrderData();
+
+    const formControl = component.orderDetailsForm.get('quantity1');
+    const oldValue = formControl.value;
+    const newValue = String(+oldValue - 1);
+
+    component.decreaseQuantity(1);
+
+    expect(spyOnQuantityChange).toHaveBeenCalled();
+    expect(formControl.value).toEqual(newValue);
   });
 });

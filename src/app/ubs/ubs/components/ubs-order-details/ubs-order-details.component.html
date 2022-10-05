@@ -40,19 +40,27 @@
             <span class="col-2 p-0 m-0 bag-name">{{ bag.capacity | volume }}</span>
             <span class="col-2 p-0 m-0 bag-name">{{ bag.price | currency | localizedCurrency }}</span>
             <div class="col-2 form-group count">
-              <input
-                formControlName="quantity{{ bag.id }}"
-                class="shadow-none form-control input"
-                type="number"
-                [id]="'quantity' + bag.id"
-                min="0"
-                max="999"
-                placeholder="0"
-                [unmask]="false"
-                [imask]="{ mask: servicesMask }"
-                (change)="onQuantityChange(bag.id)"
-                (keypress)="checkOnNumber($event)"
-              />
+              <div class="quantity-input-wrapper">
+                <button (click)="decreaseQuantity(bag.id)" type="button">
+                  <mat-icon>remove</mat-icon>
+                </button>
+                <input
+                  formControlName="quantity{{ bag.id }}"
+                  class="shadow-none form-control input"
+                  type="number"
+                  [id]="'quantity' + bag.id"
+                  min="0"
+                  max="999"
+                  placeholder="0"
+                  [unmask]="false"
+                  [imask]="{ mask: servicesMask }"
+                  (change)="onQuantityChange(bag.id)"
+                  (keypress)="checkOnNumber($event)"
+                />
+                <button (click)="increaseQuantity(bag.id)" type="button">
+                  <mat-icon>add</mat-icon>
+                </button>
+              </div>
             </div>
             <span class="col-3 bag-name text-right"> {{ bag.quantity * bag.price | currency | localizedCurrency }}</span>
           </li>
@@ -102,7 +110,7 @@
       </div>
       <div class="bottom">
         <h3>{{ 'order-details.eco-shop' | translate }}</h3>
-        <h5>{{ 'order-details.shop-order-question' | translate }}</h5>
+        <h5 class="shop-order-question">{{ 'order-details.shop-order-question' | translate }}</h5>
         <div class="form-group shop_submit">
           <div class="bottom-text">
             <p>{{ 'order-details.cant-found-order' | translate }}</p>
