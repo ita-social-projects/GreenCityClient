@@ -180,7 +180,7 @@ export class UbsAdminTariffsCardPopUpComponent implements OnInit, OnDestroy {
     if (this.selectedStation.length) {
       this.stationPlaceholder = this.selectedStation.length + ' вибрано';
     } else {
-      this.translate.get('ubs-tariffs.placeholder-choose-station').subscribe((data) => (this.stationPlaceholder = data));
+      this.translate.get('ubs-tariffs.placeholder-station').subscribe((data) => (this.stationPlaceholder = data));
     }
   }
 
@@ -300,7 +300,7 @@ export class UbsAdminTariffsCardPopUpComponent implements OnInit, OnDestroy {
       this.cityPlaceholder = this.selectedCityLength + ' вибрано';
     } else {
       this.citySelected = false;
-      this.translate.get('ubs-tariffs.placeholder-choose-city').subscribe((data) => (this.cityPlaceholder = data));
+      this.translate.get('ubs-tariffs.placeholder-locality').subscribe((data) => (this.cityPlaceholder = data));
     }
   }
 

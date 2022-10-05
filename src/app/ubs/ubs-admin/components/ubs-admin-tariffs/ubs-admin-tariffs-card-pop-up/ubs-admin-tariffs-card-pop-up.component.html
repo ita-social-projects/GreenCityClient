@@ -59,7 +59,7 @@
           #regionSelect
           formControlName="region"
           class="form-control"
-          placeholder="{{ 'ubs-tariffs.placeholder-choose-region' | translate }}"
+          placeholder="{{ 'ubs-tariffs.placeholder-region' | translate }}"
           (selectionChange)="onRegionSelected($event)"
         >
           <mat-option *ngFor="let option of regions" class="option-state" [value]="option">
