@@ -231,9 +231,6 @@ export class UBSAddAddressPopUpComponent implements OnInit, OnDestroy, AfterView
     this.currentLanguage = this.localStorageService.getCurrentLanguage();
     this.bigRegions = this.bigRegions.filter((el) => el.lang === this.currentLanguage);
     this.locations = this.localStorageService.getLocations();
-    this.currentRegion = this.currentLanguage === 'ua' ? this.locations.regionDto.nameUk : this.locations.regionDto.nameEn;
-    this.currentCity =
-      this.currentLanguage === 'ua' ? this.locations.locationsDtosList[0].nameUk : this.locations.locationsDtosList[0].nameEn;
     this.addAddressForm = this.fb.group({
       region: [this.data.edit ? this.data.address.region : null, Validators.required],
       regionEn: [this.data.edit ? this.data.address.regionEn : null, Validators.required],
@@ -265,13 +262,20 @@ export class UBSAddAddressPopUpComponent implements OnInit, OnDestroy, AfterView
       actual: true
     });
 
-    this.region.setValue(this.locations.regionDto.nameUk);
-    this.region.disable();
-    this.regionEn.setValue(this.locations.regionDto.nameEn);
-    this.regionEn.disable();
+    if (this.locations !== null) {
+      this.currentRegion = this.currentLanguage === 'ua' ? this.locations.regionDto.nameUk : this.locations.regionDto.nameEn;
+      this.currentCity =
+        this.currentLanguage === 'ua' ? this.locations.locationsDtosList[0].nameUk : this.locations.locationsDtosList[0].nameEn;
 
-    this.city.setValue(this.currentCity);
-    this.cityEn.setValue(this.currentCity);
+      this.region.setValue(this.locations.regionDto.nameUk);
+      this.regionEn.setValue(this.locations.regionDto.nameEn);
+
+      this.city.setValue(this.currentCity);
+      this.cityEn.setValue(this.currentCity);
+    }
+
+    this.region.setValue(this.bigRegions[0].regionName);
+    this.regionEn.setValue(this.bigRegions[0].regionName);
 
     if (this.currentCity === 'Kyiv' || this.currentCity === 'Київ') {
       this.isDistrict = true;
@@ -446,27 +450,18 @@ export class UBSAddAddressPopUpComponent implements OnInit, OnDestroy, AfterView
   selectCity(event: Event): void {
     const cityIndex = (event.target as HTMLSelectElement)?.selectedIndex;
     this.onCitySelected(this.KyivRegion[cityIndex ?? 0]);
-    if (this.currentLanguage === 'ua') {
-      const elem = this.cities.find((el) => {
-        if (el.key <= 10) {
-          return el.cityName === (event.target as HTMLSelectElement).value.slice(3) ? el : undefined;
-        } else {
-          return el.cityName === (event.target as HTMLSelectElement).value.slice(4) ? el : undefined;
-        }
-      });
-      const city = this.cities.find((el) => el.key === elem.key);
-      this.cityEn.setValue(city.cityName);
-    } else {
-      const elem = this.listOflocations.getCity('en').find((el) => {
-        if (el.key <= 10) {
-          return el.cityName === (event.target as HTMLSelectElement).value.slice(3) ? el : undefined;
-        } else {
-          return el.cityName === (event.target as HTMLSelectElement).value.slice(4) ? el : undefined;
-        }
-      });
-      const city = this.cities.find((el) => el.key === elem.key);
-      this.city.setValue(city.cityName);
-    }
+    const elem = this.cities.find((el) => {
+      if (el.key <= 10) {
+        return el.cityName === (event.target as HTMLSelectElement).value.slice(3) ? el : undefined;
+      } else {
+        return el.cityName === (event.target as HTMLSelectElement).value.slice(4) ? el : undefined;
+      }
+    });
+    const cityUa = this.listOflocations.getCity('ua').find((el) => el.key === elem.key);
+    this.city.setValue(cityUa.cityName);
+    const cityEn = this.listOflocations.getCity('en').find((el) => el.key === elem.key);
+    this.cityEn.setValue(cityEn.cityName);
+
     const element = (event.target as HTMLSelectElement).value.slice(3);
     this.isDistrict = element === 'Київ' || element === 'Kyiv';
   }

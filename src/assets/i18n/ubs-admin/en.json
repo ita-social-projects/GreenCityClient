@@ -23,6 +23,7 @@
     "account-message": "Connect to Google account",
     "additional": "Additional actions",
     "change-password": "Change password",
+    "password-requirements": "Password must contain: minimum 8 symbols, 1 special symbol, 1 digit, 1 upper and lower cased characters. No spaces.",
     "old-password": "Enter the old password",
     "new-password": "Enter the new password",
     "repeat-password": "Repeat the new password",
@@ -377,7 +378,8 @@
     "enrollment-date": "Date",
     "amount": "Amount",
     "reason": "Reason",
-    "order": "Order"
+    "order-return": "Return for order",
+    "order-enrollment": "Enrollment for order"
   },
   "user-orders": {
     "no-orders": "You haven't made any orders with us yet.",
@@ -815,6 +817,9 @@
     "number-wrong": "Enter the correct phone number",
     "minlength-short": "The field contains insufficient characters.",
     "max-length": "The field should contain 1-30 characters.",
+    "max-length-house": "The field should contain 1-8 characters.",
+    "max-length-entrance": "The field should contain 1-2 characters.",
+    "max-length-comment": "The field should contain 1-255 characters.",
     "pattern": "Only alphabetic characters and special characters “-” (hyphen), “ ” (space) and “'” (apostrophe) are allowed.",
     "number-length": "The field should contain 12 characters."
   }

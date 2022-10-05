@@ -231,33 +231,19 @@ describe('UBSAddAddressPopUpComponent', () => {
   });
 
   describe('selectCity', () => {
-    it('makes expected calls if currentLanguage is "ua"', () => {
-      const event = { target: { selectedIndex: 2, value: '012Київ' } };
+    it('makes expected call', () => {
+      const event = { target: { selectedIndex: 0, value: '01 Київ' } };
       component.currentLanguage = 'ua';
       const spy = spyOn(component, 'onCitySelected');
       component.selectCity(event as any);
-      expect(component.cityEn.value).toBe('Київ');
+      expect(component.city.value).toBe('Київ');
+      expect(component.cityEn.value).toBe('Kyiv');
       expect(component.isDistrict).toBeTruthy();
       expect(spy).toHaveBeenCalledWith({
-        northLat: 50.57230832685655,
-        southLat: 50.54623397558239,
-        eastLng: 30.34209295119151,
-        westLng: 30.29022923521974
-      });
-    });
-
-    it('makes expected calls if currentLanguage is "en"', () => {
-      const event = { target: { selectedIndex: 2, value: '012Hatne' } };
-      component.currentLanguage = 'en';
-      const spy = spyOn(component, 'onCitySelected');
-      component.selectCity(event as any);
-      expect(component.city.value).toBe('Гатне');
-      expect(component.isDistrict).toBeFalsy();
-      expect(spy).toHaveBeenCalledWith({
-        northLat: 50.57230832685655,
-        southLat: 50.54623397558239,
-        eastLng: 30.34209295119151,
-        westLng: 30.29022923521974
+        northLat: 50.59079800991073,
+        southLat: 50.36107811970851,
+        eastLng: 30.82594104187906,
+        westLng: 30.23944009690609
       });
     });
   });

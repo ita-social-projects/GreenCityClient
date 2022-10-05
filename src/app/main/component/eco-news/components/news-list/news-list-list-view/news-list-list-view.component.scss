@@ -3,7 +3,7 @@
   -webkit-box-orient: vertical;
   overflow: hidden;
   word-break: break-all;
-  max-height: 67px;
+  max-height: 84px;
 }
 
 p,
@@ -40,7 +40,7 @@ div {
 .eco-news_list-content {
   padding: 24px;
   display: grid;
-  grid-template-rows: 20px auto 20px;
+  grid-template-rows: 12px auto 12px;
   row-gap: 8px;
   height: 100%;
   overflow: hidden;
@@ -145,12 +145,12 @@ div {
 
   .eco-news_list-content-title p {
     height: auto;
-    line-height: 56px;
+    line-height: 28px;
   }
 
   .eco-news_list-content-text {
     font-size: 16px;
-    line-height: 40px;
+    line-height: 24px;
   }
 }
 
@@ -170,7 +170,7 @@ div {
 
   .eco-news_list-content {
     height: 204px;
-    grid-template-rows: 20px 96px 20px;
+    grid-template-rows: 12px 100px 12px;
     word-break: break-all;
   }
 

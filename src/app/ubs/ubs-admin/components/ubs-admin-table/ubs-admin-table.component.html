@@ -22,7 +22,7 @@
           <ng-container *ngFor="let column of getColumnsForFiltering(); index as i">
             <div class="accordion-item">
               <div
-                [ngClass]="checkForCheckedBoxes(column) ? 'accordion-group-header hignlighted' : 'accordion-group-header'"
+                [ngClass]="checkForCheckedBoxes(column) ? 'accordion-group-header highlighted' : 'accordion-group-header'"
                 class="accordion-group-header"
                 data-bs-toggle="collapse"
                 attr.data-bs-target="#panelsStayOpen-collapse{{ i }}"
@@ -214,7 +214,7 @@
       </mat-header-cell>
       <mat-cell
         *matCellDef="let row"
-        [ngClass]="{ hignlighted: checkIfFilteredBy(column.title.key) }"
+        [ngClass]="{ highlighted: checkIfFilteredBy(column.title.key) }"
         (mousedown)="onResizeColumn($event, i)"
       >
         <app-table-cell-readonly
@@ -286,7 +286,7 @@
       </mat-cell>
     </ng-container>
     <mat-header-row *matHeaderRowDef="displayedColumns" #tableHeaderRow class="tableHeaderRow"></mat-header-row>
-    <mat-row *matRowDef="let row; columns: displayedColumns"></mat-row>
+    <mat-row *matRowDef="let row; columns: displayedColumns" [ngClass]="{ highlighted: selection.isSelected(row) }"></mat-row>
   </table>
   <app-spinner *ngIf="isUpdate"></app-spinner>
 </div>

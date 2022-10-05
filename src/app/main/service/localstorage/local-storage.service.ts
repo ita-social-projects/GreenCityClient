@@ -255,4 +255,14 @@ export class LocalStorageService {
   public removeCurrentCustomer(): void {
     localStorage.removeItem('currentCustomer');
   }
+
+  public setUbsAdminOrdersTableColumnsWidthPreference(preference: Map<string, number>): void {
+    const serialized = JSON.stringify(Object.fromEntries(preference));
+    window.localStorage.setItem('UBSAdminOrdersTableColumnsWidthPreference', serialized);
+  }
+
+  public getUbsAdminOrdersTableColumnsWidthPreference(): Map<string, number> {
+    const parsed = JSON.parse(window.localStorage.getItem('UBSAdminOrdersTableColumnsWidthPreference')) || {};
+    return new Map(Object.entries(parsed));
+  }
 }
