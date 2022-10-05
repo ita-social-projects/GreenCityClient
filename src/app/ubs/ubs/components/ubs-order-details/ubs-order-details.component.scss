@@ -104,6 +104,13 @@ h3 {
   font-size: 14px;
 }
 
+button {
+  width: 8rem;
+  height: 2.75rem;
+  border-radius: 0;
+  border: none;
+}
+
 .quantity-input-wrapper {
   display: flex;
   justify-content: center;
@@ -226,13 +233,6 @@ h3 {
       display: block;
     }
   }
-}
-
-button {
-  width: 8rem;
-  height: 2.75rem;
-  border-radius: 0;
-  border: none;
 }
 
 .totalInfo {
