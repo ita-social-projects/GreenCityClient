@@ -89,7 +89,6 @@ describe('ColumnFiltersPopUpComponent', () => {
   });
 
   it('method changeColumnFilters should invoke changeColumnFilters from service', () => {
-    // @ts-ignore
     component.changeColumnFilters(true, 'test', { filtered: true });
     expect(fakeAdminTableService.changeFilters).toHaveBeenCalled();
   });
@@ -118,7 +117,6 @@ describe('ColumnFiltersPopUpComponent', () => {
   });
 
   it('method getOptionsForFiltering should return options', () => {
-    // @ts-ignore
     const options = component.getOptionsForFiltering();
     expect(options).toEqual(fakeAdminTableService.columnsForFiltering[0].values);
   });
