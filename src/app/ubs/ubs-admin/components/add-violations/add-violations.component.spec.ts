@@ -1,27 +1,27 @@
-import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { MatDialogModule, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { MatDialog } from '@angular/material/dialog';
-import { TranslateModule, TranslateService } from '@ngx-translate/core';
-import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
+import { TranslateModule } from '@ngx-translate/core';
+import { FormBuilder, FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { OrderService } from '../../services/order.service';
 import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
 import { AddViolationsComponent } from './add-violations.component';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { of } from 'rxjs';
+import { By } from '@angular/platform-browser';
+import { DragDirective } from 'src/app/shared/drag-and-drop/dragDrop.directive';
+import { SharedModule } from 'src/app/shared/shared.module';
 
 describe('AddViolationsComponent', () => {
   let component: AddViolationsComponent;
   let fixture: ComponentFixture<AddViolationsComponent>;
 
   const fakeData = {
-    viewMode: false
+    id: 1303,
+    viewMode: true
   };
-  const fakeViolationForm: FormGroup = new FormGroup({
-    violationLevel: new FormControl('LOW'),
-    violationDescription: new FormControl('FakeDescription')
-  });
-  const dataFileMock = new File([''], 'test-file.jpeg');
+  const dataFileMock = new File([''], 'test-file.jpeg', { type: 'image/jpeg' });
   const fakeFileHandle = {
     file: dataFileMock,
     url: 'fakeUrl'
@@ -29,55 +29,139 @@ describe('AddViolationsComponent', () => {
   const event = { target: { files: [dataFileMock] } };
   const InputVarMock = { nativeElement: { value: 'fake' } };
   const initialDataMock = {
+    orderId: 1303,
     violationLevel: 'LOW',
-    violationDescription: 'fakeInitialDescription',
-    initialImagesLength: 2
+    description: 'violation description',
+    images: [
+      'https://csb10032000a548f571.blob.core.windows.net/allfiles/4e684870-8b9e-4cce-b5bd-5c8460d7e5fbnature-image-for-website.jpg',
+      'https://csb10032000a548f571.blob.core.windows.net/allfiles/25c4d706-2534-46d8-bac1-877dc6cdedcdimage.jpg'
+    ],
+    violationDate: '2022-09-09T14:03:58.198624',
+    addedByUser: 'AAAAB AAAA'
   };
 
-  beforeEach(() => {
-    const matDialogRefStub = () => ({ close: () => ({}) });
-    const matDialogStub = () => ({
-      open: () => ({
-        afterClosed: () => ({ pipe: () => ({ subscribe: (f) => f({}) }) })
-      })
-    });
-    const translateServiceStub = () => ({
-      get: () => ({ pipe: () => of('fakeLabel') })
-    });
-    const formBuilderStub = () => ({ group: () => ({}) });
-    const orderServiceStub = () => ({
-      getViolationOfCurrentOrder: () => ({
-        pipe: () => ({ subscribe: (f) => f({}) })
-      }),
-      updateViolationOfCurrentOrder: () => ({}),
-      addViolationToCurrentOrder: () => ({}),
-      deleteViolationOfCurrentOrder: () => ({ subscribe: (f) => f({}) })
-    });
-    const localStorageServiceStub = () => ({
-      firstNameBehaviourSubject: { pipe: () => of('fakeName') }
-    });
+  const matDialogRefStub = jasmine.createSpyObj('matDialogRefStub', ['close']);
+  const matDialogStub = () => ({
+    open: () => ({
+      afterClosed: () => ({ pipe: () => ({ subscribe: (f) => f({}) }) })
+    })
+  });
+  const formBuilderStub = () => ({ group: () => ({}) });
+  const orderServiceStub = () => ({
+    getViolationOfCurrentOrder: (id) => of(initialDataMock),
+    updateViolationOfCurrentOrder: () => ({}),
+    addViolationToCurrentOrder: () => ({}),
+    deleteViolationOfCurrentOrder: () => ({ subscribe: (f) => f({}) })
+  });
+  const localStorageServiceStub = () => ({
+    firstNameBehaviourSubject: { pipe: () => of('fakeName') }
+  });
+
+  beforeEach(async(() => {
     TestBed.configureTestingModule({
       schemas: [CUSTOM_ELEMENTS_SCHEMA],
       declarations: [AddViolationsComponent],
-      imports: [MatDialogModule, HttpClientTestingModule, TranslateModule.forRoot()],
+      imports: [MatDialogModule, HttpClientTestingModule, ReactiveFormsModule, SharedModule, TranslateModule.forRoot()],
       providers: [
-        { provide: MatDialogRef, useFactory: matDialogRefStub },
+        { provide: MatDialogRef, useValue: matDialogRefStub },
         { provide: MatDialog, useFactory: matDialogStub },
         { provide: MAT_DIALOG_DATA, useValue: fakeData },
-        { provide: TranslateService, useFactory: translateServiceStub },
-        { provide: FormBuilder, useFactory: formBuilderStub },
         { provide: OrderService, useFactory: orderServiceStub },
         { provide: LocalStorageService, useFactory: localStorageServiceStub }
       ]
-    });
+    }).compileComponents();
+  }));
+
+  beforeEach(() => {
     fixture = TestBed.createComponent(AddViolationsComponent);
     component = fixture.componentInstance;
-    component.InputVar = InputVarMock;
-    component.initialData = initialDataMock;
+  });
+
+  beforeEach(async () => {
+    component.ngOnInit();
+    await fixture.whenStable();
+    fixture.detectChanges();
   });
 
   it('can load instance', () => {
     expect(component).toBeTruthy();
+  });
+
+  it('displays correct data on init when order id and viewMode=true passed to modal', async () => {
+    const description = fixture.debugElement.query(By.css('.description'));
+    expect(description.nativeElement.value).toBe(initialDataMock.description);
+    const images = fixture.debugElement.queryAll(By.css('.image-preview'));
+    const sources = images.map((img) => img.nativeElement.src);
+    expect(sources).toEqual(initialDataMock.images);
+    const username = fixture.debugElement.query(By.css('.user'));
+    expect(username.nativeElement.textContent).toBe('fakeName');
+    const date = fixture.debugElement.query(By.css('.date'));
+    expect(date.nativeElement.textContent).toBe('09.09.2022');
+  });
+
+  it('add/save button should be disabled in view mode', async () => {
+    const button = fixture.debugElement.query(By.css('.addButton'));
+    expect(button.nativeElement.disabled).toBeTruthy();
+  });
+
+  it('clicking on edit button should make form editable', async () => {
+    const editButton = fixture.debugElement.query(By.css('.edit-violation-btn'));
+    editButton.nativeElement.click();
+    await fixture.whenStable();
+    fixture.detectChanges();
+    const description = fixture.debugElement.query(By.css('.description'));
+    expect(description.nativeElement.disabled).toBeFalsy();
+  });
+
+  it('save button should be disabled if no changes have been made', async () => {
+    const editButton = fixture.debugElement.query(By.css('.edit-violation-btn'));
+    editButton.nativeElement.click();
+    await fixture.whenStable();
+    fixture.detectChanges();
+    const button = fixture.debugElement.query(By.css('.addButton'));
+    expect(button.nativeElement.disabled).toBeTruthy();
+  });
+
+  it('save button should be enabled if user edited description', async () => {
+    const editButton = fixture.debugElement.query(By.css('.edit-violation-btn'));
+    editButton.nativeElement.click();
+    await fixture.whenStable();
+    fixture.detectChanges();
+    const description = fixture.debugElement.query(By.css('.description'));
+    description.nativeElement.value = 'new description';
+    description.nativeElement.dispatchEvent(new Event('input'));
+    await fixture.whenStable();
+    fixture.detectChanges();
+    const button = fixture.debugElement.query(By.css('.addButton'));
+    expect(button.nativeElement.disabled).toBeFalsy();
+  });
+
+  it('save button should be enabled if user dropped an image', async () => {
+    const editButton = fixture.debugElement.query(By.css('.edit-violation-btn'));
+    editButton.nativeElement.click();
+    await fixture.whenStable();
+    fixture.detectChanges();
+    const dropArea = fixture.debugElement.query(By.directive(DragDirective));
+    const dataTransfer = new DataTransfer();
+    dataTransfer.items.add(dataFileMock);
+    const dropEvent = new DragEvent('drop', { dataTransfer });
+    dropArea.nativeElement.dispatchEvent(dropEvent);
+    await fixture.whenStable();
+    fixture.detectChanges();
+    const button = fixture.debugElement.query(By.css('.addButton'));
+    expect(button.nativeElement.disabled).toBeFalsy();
+  });
+
+  it('clicking cancel button should close the modal', async () => {
+    const editButton = fixture.debugElement.query(By.css('.edit-violation-btn'));
+    editButton.nativeElement.click();
+    await fixture.whenStable();
+    fixture.detectChanges();
+    const cancelButton = fixture.debugElement.query(By.css('.cancelButton'));
+    cancelButton.nativeElement.click();
+    await fixture.whenStable();
+    fixture.detectChanges();
+    expect(matDialogRefStub.close).toHaveBeenCalled();
   });
 
   // it(`maxNumberOfImgs has default value`, () => {

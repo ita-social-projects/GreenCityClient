@@ -61,7 +61,6 @@ export class AddViolationsComponent implements OnInit, OnDestroy {
   imageSizeLimit = 10485760;
 
   constructor(
-    private translate: TranslateService,
     @Inject(MAT_DIALOG_DATA) public data,
     private localStorageService: LocalStorageService,
     private fb: FormBuilder,
@@ -116,7 +115,7 @@ export class AddViolationsComponent implements OnInit, OnDestroy {
       });
   }
 
-  prepareDataToSend(dto: string): FormData {
+  prepareDataToSend(): FormData {
     const { violationLevel, violationDescription } = this.addViolationForm.value;
     const data: DataToSend = {
       orderID: this.orderId,
@@ -128,7 +127,7 @@ export class AddViolationsComponent implements OnInit, OnDestroy {
     }
     const formData: FormData = new FormData();
     const stringifiedDataToSend = JSON.stringify(data);
-    formData.append(dto, stringifiedDataToSend);
+    formData.append('add', stringifiedDataToSend);
     for (const image of this.images) {
       if (image.file) {
         formData.append(this.editMode ? 'multipartFiles' : 'files', image.file);
@@ -139,7 +138,7 @@ export class AddViolationsComponent implements OnInit, OnDestroy {
 
   send(): void {
     this.isUploading = true;
-    const dataToSend = this.prepareDataToSend('add');
+    const dataToSend = this.prepareDataToSend();
     of(true)
       .pipe(
         switchMap(() =>
@@ -191,12 +190,10 @@ export class AddViolationsComponent implements OnInit, OnDestroy {
 
   private transferFile(imageFile: File): void {
     const reader: FileReader = new FileReader();
-    // this.imgArray.push(imageFile);
     reader.readAsDataURL(imageFile);
     reader.onload = () => {
       this.images.push({ src: reader.result, name: imageFile.name, file: imageFile });
       this.updateImagePlaceholders();
-      // this.assignImage(reader.result, imageFile.name);
     };
     if (this.editMode) {
       this.isInitialImageDataChanged = true;
