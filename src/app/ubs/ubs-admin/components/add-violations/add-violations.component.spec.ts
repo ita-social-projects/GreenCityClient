@@ -105,9 +105,16 @@ describe('AddViolationsComponent', () => {
   const getUsernameLabelDebug = () => fixture.debugElement.query(By.css('.user'));
   const getDateLabelDebug = () => fixture.debugElement.query(By.css('.date'));
   const getDropAreaDebug = () => fixture.debugElement.query(By.directive(DragDirective));
+  const getRadioButtonDebug = (value) => fixture.debugElement.query(By.css(`input[type=radio][value=${value}]`));
 
   const enterEditMode = async () => {
     getEditButtonDebug().nativeElement.click();
+    await fixture.whenStable();
+    fixture.detectChanges();
+  };
+
+  const clickElement = async (buttonDebug) => {
+    buttonDebug.nativeElement.click();
     await fixture.whenStable();
     fixture.detectChanges();
   };
@@ -134,8 +141,9 @@ describe('AddViolationsComponent', () => {
     expect(component).toBeTruthy();
   });
 
-  it('loads and displays correct data on init when order id and viewMode=true passed to modal', async () => {
+  it('[View Mode] loads and displays correct data', async () => {
     await buildComponent();
+    expect(fixture.debugElement.query(By.css('input[type=radio][value=LOW]')).nativeElement.checked).toBeTruthy();
     expect(getDescriptionDebug().nativeElement.value).toBe(initialDataMock.description);
     const imageSources = getImagesDebug().map((img) => img.nativeElement.src);
     expect(imageSources).toEqual(initialDataMock.images);
@@ -143,111 +151,30 @@ describe('AddViolationsComponent', () => {
     expect(getDateLabelDebug().nativeElement.textContent).toBe('09.09.2022');
   });
 
-  it('add/save button should be disabled in view mode', async () => {
+  it('[View Mode] form should not be editable', async () => {
     await buildComponent();
+    const radioButtonsDebug = fixture.debugElement.queryAll(By.css('input[type=radio]'));
+    expect(radioButtonsDebug.map((de) => de.nativeElement.disabled)).toEqual([true, true]);
+    expect(getDescriptionDebug().nativeElement.disabled).toBeTruthy();
     expect(getAddSaveButtonDebug().nativeElement.disabled).toBeTruthy();
   });
 
-  it('clicking on edit button should make form editable', async () => {
+  it('[View Mode] clicking an image opens modal with ShowImgsPopUpComponent with correct params', async () => {
     await buildComponent();
-    await enterEditMode();
-    expect(getDescriptionDebug().nativeElement.disabled).toBeFalsy();
-  });
-
-  it('save button should be disabled if no changes have been made', async () => {
-    await buildComponent();
-    await enterEditMode();
-    expect(getAddSaveButtonDebug().nativeElement.disabled).toBeTruthy();
-  });
-
-  it('save button should be enabled if user edited description', async () => {
-    await buildComponent();
-    await enterEditMode();
-    const descriptionDebug = getDescriptionDebug();
-    await inputText(descriptionDebug, 'some text');
-    expect(getAddSaveButtonDebug().nativeElement.disabled).toBeFalsy();
-  });
-
-  it('save button should be enabled if user dropped an image', async () => {
-    await buildComponent();
-    await enterEditMode();
-    const dropArea = getDropAreaDebug();
-    await dropFileIntoArea(dropArea, dataFileMock);
-    expect(getAddSaveButtonDebug().nativeElement.disabled).toBeFalsy();
-  });
-
-  it('should make a OrderService.updateViolationOfCurrentOrder call with correct params if save button is clicked', async () => {
-    await buildComponent();
-    await enterEditMode();
-    const highSevRadio = fixture.debugElement.query(By.css('input[type=radio][value=MAJOR]'));
-    highSevRadio.nativeElement.click();
-    await fixture.whenStable();
-    fixture.detectChanges();
-    await inputText(getDescriptionDebug(), 'new desc');
-    const idx = 1;
-    const deletedImageSrc = getImagesDebug()[idx].nativeElement.src;
-    const deleteImageButton = getDeleteImageButtonsDebug()[idx];
-    deleteImageButton.nativeElement.click();
-
-    const expectedDataToBePassed = new FormData();
-    expectedDataToBePassed.append(
-      'add',
-      JSON.stringify({
-        orderID: initialDataMock.orderId,
-        violationDescription: 'new desc',
-        violationLevel: 'MAJOR',
-        imagesToDelete: [deletedImageSrc]
-      })
-    );
-    getAddSaveButtonDebug().nativeElement.click();
-    expect(orderServiceStub.updateViolationOfCurrentOrder).toHaveBeenCalled();
-    const args = orderServiceStub.updateViolationOfCurrentOrder.calls.mostRecent().args;
-    expect([...args[0].entries()]).toEqual([...(expectedDataToBePassed as any).entries()]);
-  });
-
-  it('should remove image from view if corresponding X button is clicked', async () => {
-    await buildComponent();
-    await enterEditMode();
-    const idx = 1;
-    const deletedImageSrc = getImagesDebug()[idx].nativeElement.src;
-    const deleteImageButton = getDeleteImageButtonsDebug()[idx];
-    deleteImageButton.nativeElement.click();
-    await fixture.whenStable();
-    fixture.detectChanges();
-    const deletedImage = fixture.debugElement.query(By.css(`.image-preview[src="${deletedImageSrc}"]`));
-    expect(deletedImage).toBeFalsy();
-  });
-
-  it('clicking cancel button should close the modal', async () => {
-    await buildComponent();
-    await enterEditMode();
-    getCancelButtonDebug().nativeElement.click();
-    await fixture.whenStable();
-    fixture.detectChanges();
-    expect(matDialogRefStub.close).toHaveBeenCalled();
-  });
-
-  it('clicking an image opens modal with ShowImgsPopUpComponent with correct params', async () => {
-    await buildComponent();
-    const imagesDebug = getImagesDebug();
-    imagesDebug[0].nativeElement.click();
-    await fixture.whenStable();
-    fixture.detectChanges();
+    await clickElement(getImagesDebug()[1]);
     expect(matDialogStub.open).toHaveBeenCalledWith(ShowImgsPopUpComponent, {
       hasBackdrop: true,
       panelClass: 'custom-img-pop-up',
       data: {
-        imgIndex: 0,
+        imgIndex: 1,
         images: initialDataMock.images.map((src) => ({ src }))
       }
     });
   });
 
-  it('clicking delete button should open confirmation modal (DialogPopUpComponent)', async () => {
+  it('[View Mode] clicking delete button should open confirmation modal (DialogPopUpComponent)', async () => {
     await buildComponent();
-    getDeleteButtonDebug().nativeElement.click();
-    await fixture.whenStable();
-    fixture.detectChanges();
+    await clickElement(getDeleteButtonDebug());
     expect(matDialogStub.open).toHaveBeenCalledWith(DialogPopUpComponent, {
       data: {
         popupTitle: 'add-violation-modal.delete-message',
@@ -261,42 +188,116 @@ describe('AddViolationsComponent', () => {
     });
   });
 
-  it('renders editable form correctly in add-violation mode', async () => {
-    TestBed.overrideProvider(MAT_DIALOG_DATA, { useValue: addModeInputs });
+  it('[Edit Mode] clicking on edit button should make form editable', async () => {
     await buildComponent();
+    await enterEditMode();
+    const radioButtonsDebug = fixture.debugElement.queryAll(By.css('input[type=radio]'));
+    expect(radioButtonsDebug.map((de) => de.nativeElement.disabled)).toEqual([false, false]);
     expect(getDescriptionDebug().nativeElement.disabled).toBeFalsy();
-    const lowSevRadio = fixture.debugElement.query(By.css('input[type=radio][value=LOW]'));
-    const highSevRadio = fixture.debugElement.query(By.css('input[type=radio][value=MAJOR]'));
-    expect(lowSevRadio).toBeDefined();
-    expect(highSevRadio).toBeDefined();
-    expect(lowSevRadio.nativeElement.checked).toBeTruthy();
   });
 
-  it('makes OrderService.addViolationToCurrentOrder call with correct params after clicking add button if form is filled', async () => {
+  it('[Edit Mode] save button should be disabled if no changes have been made', async () => {
+    await buildComponent();
+    await enterEditMode();
+    await inputText(getDescriptionDebug(), 'some text');
+    await inputText(getDescriptionDebug(), '');
+    expect(getAddSaveButtonDebug().nativeElement.disabled).toBeTruthy();
+  });
+
+  it('[Edit Mode] save button should be enabled if user edited description', async () => {
+    await buildComponent();
+    await enterEditMode();
+    const descriptionDebug = getDescriptionDebug();
+    await inputText(descriptionDebug, 'some text');
+    expect(getAddSaveButtonDebug().nativeElement.disabled).toBeFalsy();
+  });
+
+  it('[Edit Mode] save button should be enabled if user dropped an image', async () => {
+    await buildComponent();
+    await enterEditMode();
+    await dropFileIntoArea(getDropAreaDebug(), dataFileMock);
+    expect(getAddSaveButtonDebug().nativeElement.disabled).toBeFalsy();
+  });
+
+  it('[Edit Mode] makes a OrderService.updateViolationOfCurrentOrder call with correct params when save is clicked', async () => {
+    await buildComponent();
+    await enterEditMode();
+    await clickElement(getRadioButtonDebug('MAJOR'));
+    await inputText(getDescriptionDebug(), 'new desc');
+    const idx = 1;
+    const deletedImageSrc = getImagesDebug()[idx].nativeElement.src;
+    clickElement(getDeleteImageButtonsDebug()[idx]);
+
+    const expectedData = new FormData();
+    expectedData.append(
+      'add',
+      JSON.stringify({
+        orderID: initialDataMock.orderId,
+        violationDescription: 'new desc',
+        violationLevel: 'MAJOR',
+        imagesToDelete: [deletedImageSrc]
+      })
+    );
+    getAddSaveButtonDebug().nativeElement.click();
+    expect(orderServiceStub.updateViolationOfCurrentOrder).toHaveBeenCalled();
+    const args = orderServiceStub.updateViolationOfCurrentOrder.calls.mostRecent().args;
+    expect([...args[0].entries()]).toEqual([...(expectedData as any).entries()]);
+  });
+
+  it('[Edit Mode] should remove image from view if corresponding X button is clicked', async () => {
+    await buildComponent();
+    await enterEditMode();
+    const idx = 1;
+    const deletedImageSrc = getImagesDebug()[idx].nativeElement.src;
+    const deleteImageButton = getDeleteImageButtonsDebug()[idx];
+    await clickElement(deleteImageButton);
+    const deletedImage = fixture.debugElement.query(By.css(`.image-preview[src="${deletedImageSrc}"]`));
+    expect(deletedImage).toBeFalsy();
+  });
+
+  it('[Edit Mode] clicking cancel button should close the modal', async () => {
+    await buildComponent();
+    await enterEditMode();
+    await clickElement(getCancelButtonDebug());
+    expect(matDialogRefStub.close).toHaveBeenCalled();
+  });
+
+  it('[Edit Mode] clicking an image opens modal with ShowImgsPopUpComponent with correct params', async () => {
+    await buildComponent();
+    await enterEditMode();
+    await clickElement(getImagesDebug()[0]);
+    expect(matDialogStub.open).toHaveBeenCalledWith(ShowImgsPopUpComponent, {
+      hasBackdrop: true,
+      panelClass: 'custom-img-pop-up',
+      data: {
+        imgIndex: 0,
+        images: initialDataMock.images.map((src) => ({ src }))
+      }
+    });
+  });
+
+  it('[Add Mode] makes OrderService.addViolationToCurrentOrder call with correct params when Add is clicked', async () => {
     TestBed.overrideProvider(MAT_DIALOG_DATA, { useValue: addModeInputs });
     await buildComponent();
-    const descriptionDebug = getDescriptionDebug();
-    descriptionDebug.nativeElement.value = 'new description';
-    descriptionDebug.nativeElement.dispatchEvent(new Event('input'));
-    await fixture.whenStable();
-    fixture.detectChanges();
+    await clickElement(getRadioButtonDebug('MAJOR'));
+    await inputText(getDescriptionDebug(), 'new description');
     getAddSaveButtonDebug().nativeElement.click();
 
-    const expectedDataToBePassed = new FormData();
-    expectedDataToBePassed.append(
+    const expectedData = new FormData();
+    expectedData.append(
       'add',
       JSON.stringify({
         violationDescription: 'new description',
-        violationLevel: 'LOW'
+        violationLevel: 'MAJOR'
       })
     );
     getAddSaveButtonDebug().nativeElement.click();
     expect(orderServiceStub.addViolationToCurrentOrder).toHaveBeenCalled();
     const args = orderServiceStub.addViolationToCurrentOrder.calls.mostRecent().args;
-    expect([...args[0].entries()]).toEqual([...(expectedDataToBePassed as any).entries()]);
+    expect([...args[0].entries()]).toEqual([...(expectedData as any).entries()]);
   });
 
-  it('should display error message if file type is not jpeg/png', async () => {
+  it('[Add Mode] should display error message if file type is not jpeg/png', async () => {
     TestBed.overrideProvider(MAT_DIALOG_DATA, { useValue: addModeInputs });
     await buildComponent();
     const dropArea = getDropAreaDebug();
@@ -305,11 +306,10 @@ describe('AddViolationsComponent', () => {
     expect(errorMessage.nativeElement.textContent).toBe('add-violation-modal.error-message-for-type');
   });
 
-  it('should display error message if file size is over 10MB', async () => {
+  it('[Add Mode] should display error message if file size is over 10MB', async () => {
     TestBed.overrideProvider(MAT_DIALOG_DATA, { useValue: addModeInputs });
     await buildComponent();
-    const dropArea = getDropAreaDebug();
-    await dropFileIntoArea(dropArea, largeFileMock);
+    await dropFileIntoArea(getDropAreaDebug(), largeFileMock);
     const errorMessage = fixture.debugElement.query(By.css('.error-message-file-size'));
     expect(errorMessage.nativeElement.textContent).toBe('add-violation-modal.error-message-for-size');
   });

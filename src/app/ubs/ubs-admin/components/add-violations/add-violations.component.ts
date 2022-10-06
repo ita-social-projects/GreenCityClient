@@ -12,7 +12,7 @@ import { DialogPopUpComponent } from 'src/app/shared/dialog-pop-up/dialog-pop-up
 interface InitialData {
   violationLevel: string;
   violationDescription: string;
-  initialImagesLength: number;
+  initialImages: string[];
 }
 
 interface DataToSend {
@@ -38,7 +38,7 @@ export class AddViolationsComponent implements OnInit, OnDestroy {
   orderId;
   name: string;
   imagePlaceholders = new Array(this.maxNumberOfImgs);
-  deletedImages: string[] | null = [];
+  imagesToDelete: string[] | null = [];
   initialData: InitialData;
   isInitialDataChanged = false;
   isInitialImageDataChanged = false;
@@ -108,7 +108,7 @@ export class AddViolationsComponent implements OnInit, OnDestroy {
         this.initialData = {
           violationLevel: violation.violationLevel,
           violationDescription: violation.description,
-          initialImagesLength: violation.images.length
+          initialImages: violation.images
         };
         this.updateImagePlaceholders();
       });
@@ -122,7 +122,7 @@ export class AddViolationsComponent implements OnInit, OnDestroy {
       violationLevel
     };
     if (this.editMode) {
-      data.imagesToDelete = this.deletedImages.length ? this.deletedImages : null;
+      data.imagesToDelete = this.imagesToDelete.length ? this.imagesToDelete : null;
     }
     const formData: FormData = new FormData();
     const stringifiedDataToSend = JSON.stringify(data);
@@ -174,6 +174,9 @@ export class AddViolationsComponent implements OnInit, OnDestroy {
         continue;
       }
       this.transferFile(file);
+      if (this.editMode) {
+        this.isInitialImageDataChanged = true;
+      }
     }
   }
 
@@ -194,9 +197,6 @@ export class AddViolationsComponent implements OnInit, OnDestroy {
       this.images.push({ src: reader.result, name: imageFile.name, file: imageFile });
       this.updateImagePlaceholders();
     };
-    if (this.editMode) {
-      this.isInitialImageDataChanged = true;
-    }
   }
 
   validateFileExtension(file: File) {
@@ -205,6 +205,12 @@ export class AddViolationsComponent implements OnInit, OnDestroy {
 
   validateFileSize(file: File) {
     return file.size <= this.imageSizeLimit;
+  }
+
+  checkImageDataChanges(): void {
+    const initialImageSources = this.initialData.initialImages;
+    const imageSources = this.images.map((img) => img.src);
+    this.isInitialImageDataChanged = JSON.stringify(imageSources) !== JSON.stringify(initialImageSources);
   }
 
   updateImagePlaceholders() {
@@ -274,16 +280,13 @@ export class AddViolationsComponent implements OnInit, OnDestroy {
   }
 
   deleteImage(imageToDelete: { src: string; name: string | null; file: File }): void {
-    const initLen = this.images.length;
     const isUploaded = imageToDelete.file === null;
     if (isUploaded) {
-      this.deletedImages.push(imageToDelete.src);
+      this.imagesToDelete.push(imageToDelete.src);
     }
     this.images = this.images.filter((image) => image !== imageToDelete);
     this.updateImagePlaceholders();
-    if (initLen !== this.images.length) {
-      this.isInitialImageDataChanged = true;
-    }
+    this.checkImageDataChanges();
   }
 
   closeDialog() {
