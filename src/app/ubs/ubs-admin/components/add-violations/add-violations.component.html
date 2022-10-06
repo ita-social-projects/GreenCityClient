@@ -68,11 +68,11 @@
     </div>
   </ng-template>
   <div class="row error-message" *ngIf="isImageSizeError">
-    <p>{{ 'add-violation-modal.error-message-for-size' | translate }}</p>
+    <p class="error-message-file-size">{{ 'add-violation-modal.error-message-for-size' | translate }}</p>
   </div>
 
   <div class="row error-message" *ngIf="isImageTypeError">
-    <p>{{ 'add-violation-modal.error-message-for-type' | translate }}</p>
+    <p class="error-message-file-type">{{ 'add-violation-modal.error-message-for-type' | translate }}</p>
   </div>
   <div class="row mb-5 label-g" [class.invisible]="viewMode && !editMode">
     <label
