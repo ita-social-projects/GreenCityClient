@@ -41,7 +41,7 @@
             <span class="col-2 p-0 m-0 bag-name">{{ bag.price | currency | localizedCurrency }}</span>
             <div class="col-2 form-group count">
               <div class="quantity-input-wrapper">
-                <button (click)="decreaseQuantity(bag.id)" type="button">
+                <button (click)="changeQuantity(bag.id, -1)" type="button">
                   <mat-icon>remove</mat-icon>
                 </button>
                 <input
@@ -57,7 +57,7 @@
                   (change)="onQuantityChange(bag.id)"
                   (keypress)="checkOnNumber($event)"
                 />
-                <button (click)="increaseQuantity(bag.id)" type="button">
+                <button (click)="changeQuantity(bag.id, 1)" type="button">
                   <mat-icon>add</mat-icon>
                 </button>
               </div>

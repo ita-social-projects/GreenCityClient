@@ -282,33 +282,11 @@ describe('OrderDetailsFormComponent', () => {
     expect(unsubscribeSpy).toHaveBeenCalledTimes(1);
   });
 
-  // it('increaseQuantity()', () => {
-  //   const spyOnQuantityChange = spyOn(component, 'onQuantityChange');
-
-  //   orderService = TestBed.inject(OrderService);
-  //   spyOn(global, 'setTimeout');
-
-  //   spyOn(orderService, 'getOrders').and.returnValue(of(ordersMock));
-  //   shareFormService.orderDetails = ordersMock;
-  //   localStorageService.getCurrentLanguage.and.callFake(() => Language.UA);
-
-  //   component.takeOrderData();
-
-  //   const formControl = component.orderDetailsForm.get('quantity1');
-  //   const oldValue = formControl.value;
-  //   const newValue = String(+oldValue + 1);
-
-  //   component.increaseQuantity(1);
-
-  //   expect(spyOnQuantityChange).toHaveBeenCalled();
-  //   expect(formControl.value).toEqual(newValue);
-  // });
-
-  it('decreaseQuantity()', () => {
+  it('changeQuantity()', () => {
     const spyOnQuantityChange = spyOn(component, 'onQuantityChange');
 
-    orderService = TestBed.inject(OrderService);
     spyOn(global, 'setTimeout');
+    orderService = TestBed.inject(OrderService);
 
     spyOn(orderService, 'getOrders').and.returnValue(of(ordersMock));
     shareFormService.orderDetails = ordersMock;
@@ -318,9 +296,9 @@ describe('OrderDetailsFormComponent', () => {
 
     const formControl = component.orderDetailsForm.get('quantity1');
     const oldValue = formControl.value;
-    const newValue = String(+oldValue - 1);
+    const newValue = String(+oldValue + 1);
 
-    component.decreaseQuantity(1);
+    component.changeQuantity(1, 1);
 
     expect(spyOnQuantityChange).toHaveBeenCalled();
     expect(formControl.value).toEqual(newValue);
