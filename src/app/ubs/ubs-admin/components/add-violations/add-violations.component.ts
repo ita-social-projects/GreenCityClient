@@ -218,7 +218,7 @@ export class AddViolationsComponent implements OnInit, OnDestroy {
       panelClass: 'custom-img-pop-up',
       data: {
         imgIndex: this.images.indexOf(image),
-        images: this.images
+        images: this.images.map((img) => ({ src: img.src }))
       }
     });
   }

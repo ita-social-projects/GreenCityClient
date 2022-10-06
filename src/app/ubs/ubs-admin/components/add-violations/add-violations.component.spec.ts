@@ -3,7 +3,7 @@ import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { MatDialogModule, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { MatDialog } from '@angular/material/dialog';
 import { TranslateModule } from '@ngx-translate/core';
-import { FormBuilder, FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
+import { ReactiveFormsModule } from '@angular/forms';
 import { OrderService } from '../../services/order.service';
 import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
 import { AddViolationsComponent } from './add-violations.component';
@@ -12,22 +12,33 @@ import { of } from 'rxjs';
 import { By } from '@angular/platform-browser';
 import { DragDirective } from 'src/app/shared/drag-and-drop/dragDrop.directive';
 import { SharedModule } from 'src/app/shared/shared.module';
+import { ShowImgsPopUpComponent } from 'src/app/shared/show-imgs-pop-up/show-imgs-pop-up.component';
+import { DialogPopUpComponent } from 'src/app/shared/dialog-pop-up/dialog-pop-up.component';
+
+const dataURLtoBlob = (dataURL: string) => {
+  const [, encoded] = dataURL.split(',');
+  const binaryString = atob(encoded);
+  let n = binaryString.length;
+  const view = new Uint8Array(n);
+  while (n--) {
+    view[n] = binaryString.charCodeAt(n);
+  }
+  return new Blob([view], { type: 'image/jpeg' });
+};
 
 describe('AddViolationsComponent', () => {
   let component: AddViolationsComponent;
   let fixture: ComponentFixture<AddViolationsComponent>;
 
-  const fakeData = {
+  const addModeInputs = { viewMode: false };
+  const viewModeInputs = {
     id: 1303,
     viewMode: true
   };
-  const dataFileMock = new File([''], 'test-file.jpeg', { type: 'image/jpeg' });
-  const fakeFileHandle = {
-    file: dataFileMock,
-    url: 'fakeUrl'
-  };
-  const event = { target: { files: [dataFileMock] } };
-  const InputVarMock = { nativeElement: { value: 'fake' } };
+  const fileDataURL =
+    'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mN8tzn2PwAHlAL/DTRTsgAAAABJRU5ErkJggg==';
+  const dataFileMock = new File([dataURLtoBlob(fileDataURL)], 'test-file.jpeg', { type: 'image/jpeg' });
+
   const initialDataMock = {
     orderId: 1303,
     violationLevel: 'LOW',
@@ -41,18 +52,14 @@ describe('AddViolationsComponent', () => {
   };
 
   const matDialogRefStub = jasmine.createSpyObj('matDialogRefStub', ['close']);
-  const matDialogStub = () => ({
-    open: () => ({
-      afterClosed: () => ({ pipe: () => ({ subscribe: (f) => f({}) }) })
-    })
-  });
-  const formBuilderStub = () => ({ group: () => ({}) });
-  const orderServiceStub = () => ({
+  const matDialogStub = jasmine.createSpyObj('matDialogRefStub', ['open']);
+
+  const orderServiceStub = {
     getViolationOfCurrentOrder: (id) => of(initialDataMock),
-    updateViolationOfCurrentOrder: () => ({}),
-    addViolationToCurrentOrder: () => ({}),
-    deleteViolationOfCurrentOrder: () => ({ subscribe: (f) => f({}) })
-  });
+    updateViolationOfCurrentOrder: jasmine.createSpy('updateViolationOfCurrentOrder'),
+    addViolationToCurrentOrder: jasmine.createSpy('addViolationToCurrentOrder'),
+    deleteViolationOfCurrentOrder: jasmine.createSpy('deleteViolationOfCurrentOrder')
+  };
   const localStorageServiceStub = () => ({
     firstNameBehaviourSubject: { pipe: () => of('fakeName') }
   });
@@ -64,30 +71,30 @@ describe('AddViolationsComponent', () => {
       imports: [MatDialogModule, HttpClientTestingModule, ReactiveFormsModule, SharedModule, TranslateModule.forRoot()],
       providers: [
         { provide: MatDialogRef, useValue: matDialogRefStub },
-        { provide: MatDialog, useFactory: matDialogStub },
-        { provide: MAT_DIALOG_DATA, useValue: fakeData },
-        { provide: OrderService, useFactory: orderServiceStub },
+        { provide: MatDialog, useValue: matDialogStub },
+        { provide: MAT_DIALOG_DATA, useValue: viewModeInputs },
+        { provide: OrderService, useValue: orderServiceStub },
         { provide: LocalStorageService, useFactory: localStorageServiceStub }
       ]
-    }).compileComponents();
+    });
   }));
 
-  beforeEach(() => {
+  const buildComponent = async () => {
+    await TestBed.compileComponents();
     fixture = TestBed.createComponent(AddViolationsComponent);
     component = fixture.componentInstance;
-  });
-
-  beforeEach(async () => {
+    fixture.detectChanges();
     component.ngOnInit();
     await fixture.whenStable();
     fixture.detectChanges();
-  });
+  };
 
   it('can load instance', () => {
     expect(component).toBeTruthy();
   });
 
-  it('displays correct data on init when order id and viewMode=true passed to modal', async () => {
+  it('loads and displays correct data on init when order id and viewMode=true passed to modal', async () => {
+    await buildComponent();
     const description = fixture.debugElement.query(By.css('.description'));
     expect(description.nativeElement.value).toBe(initialDataMock.description);
     const images = fixture.debugElement.queryAll(By.css('.image-preview'));
@@ -100,11 +107,13 @@ describe('AddViolationsComponent', () => {
   });
 
   it('add/save button should be disabled in view mode', async () => {
+    await buildComponent();
     const button = fixture.debugElement.query(By.css('.addButton'));
     expect(button.nativeElement.disabled).toBeTruthy();
   });
 
   it('clicking on edit button should make form editable', async () => {
+    await buildComponent();
     const editButton = fixture.debugElement.query(By.css('.edit-violation-btn'));
     editButton.nativeElement.click();
     await fixture.whenStable();
@@ -114,6 +123,7 @@ describe('AddViolationsComponent', () => {
   });
 
   it('save button should be disabled if no changes have been made', async () => {
+    await buildComponent();
     const editButton = fixture.debugElement.query(By.css('.edit-violation-btn'));
     editButton.nativeElement.click();
     await fixture.whenStable();
@@ -123,6 +133,7 @@ describe('AddViolationsComponent', () => {
   });
 
   it('save button should be enabled if user edited description', async () => {
+    await buildComponent();
     const editButton = fixture.debugElement.query(By.css('.edit-violation-btn'));
     editButton.nativeElement.click();
     await fixture.whenStable();
@@ -137,6 +148,7 @@ describe('AddViolationsComponent', () => {
   });
 
   it('save button should be enabled if user dropped an image', async () => {
+    await buildComponent();
     const editButton = fixture.debugElement.query(By.css('.edit-violation-btn'));
     editButton.nativeElement.click();
     await fixture.whenStable();
@@ -152,7 +164,40 @@ describe('AddViolationsComponent', () => {
     expect(button.nativeElement.disabled).toBeFalsy();
   });
 
+  it('should make a OrderService.updateViolationOfCurrentOrder call if save button is clicked', async () => {
+    await buildComponent();
+    const editButton = fixture.debugElement.query(By.css('.edit-violation-btn'));
+    editButton.nativeElement.click();
+    await fixture.whenStable();
+    fixture.detectChanges();
+    const highSevRadio = fixture.debugElement.query(By.css('input[type=radio][value=MAJOR]'));
+    highSevRadio.nativeElement.click();
+    await fixture.whenStable();
+    fixture.detectChanges();
+    const button = fixture.debugElement.query(By.css('.addButton'));
+    button.nativeElement.click();
+    expect(orderServiceStub.updateViolationOfCurrentOrder).toHaveBeenCalled();
+  });
+
+  it('should remove image from view if corresponding X button is clicked', async () => {
+    await buildComponent();
+    const idx = 1;
+    const editButton = fixture.debugElement.query(By.css('.edit-violation-btn'));
+    editButton.nativeElement.click();
+    await fixture.whenStable();
+    fixture.detectChanges();
+    const image = fixture.debugElement.queryAll(By.css('.image-preview'))[idx];
+    const removeImageButton = fixture.debugElement.queryAll(By.css('.delete-image-button'))[idx];
+    const imageSrc = image.nativeElement.src;
+    removeImageButton.nativeElement.click();
+    await fixture.whenStable();
+    fixture.detectChanges();
+    const deletedImage = fixture.debugElement.query(By.css(`.image-preview[src="${imageSrc}"]`));
+    expect(deletedImage).toBeFalsy();
+  });
+
   it('clicking cancel button should close the modal', async () => {
+    await buildComponent();
     const editButton = fixture.debugElement.query(By.css('.edit-violation-btn'));
     editButton.nativeElement.click();
     await fixture.whenStable();
@@ -162,6 +207,66 @@ describe('AddViolationsComponent', () => {
     await fixture.whenStable();
     fixture.detectChanges();
     expect(matDialogRefStub.close).toHaveBeenCalled();
+  });
+
+  it('clicking an image opens modal with ShowImgsPopUpComponent with correct params', async () => {
+    await buildComponent();
+    const firstImage = fixture.debugElement.query(By.css('.image-preview'));
+    firstImage.nativeElement.click();
+    await fixture.whenStable();
+    fixture.detectChanges();
+    expect(matDialogStub.open).toHaveBeenCalledWith(ShowImgsPopUpComponent, {
+      hasBackdrop: true,
+      panelClass: 'custom-img-pop-up',
+      data: {
+        imgIndex: 0,
+        images: initialDataMock.images.map((src) => ({ src }))
+      }
+    });
+  });
+
+  it('clicking delete button should open confirmation modal (DialogPopUpComponent)', async () => {
+    await buildComponent();
+    const deleteButton = fixture.debugElement.query(By.css('.delete-violation'));
+    deleteButton.nativeElement.click();
+    await fixture.whenStable();
+    fixture.detectChanges();
+    expect(matDialogStub.open).toHaveBeenCalledWith(DialogPopUpComponent, {
+      data: {
+        popupTitle: 'add-violation-modal.delete-message',
+        popupConfirm: 'employees.btn.yes',
+        popupCancel: 'employees.btn.no'
+      },
+      hasBackdrop: true,
+      closeOnNavigation: true,
+      disableClose: true,
+      panelClass: ''
+    });
+  });
+
+  it('renders editable form correctly and in add-violation mode', async () => {
+    TestBed.overrideProvider(MAT_DIALOG_DATA, { useValue: addModeInputs });
+    await buildComponent();
+    const description = fixture.debugElement.query(By.css('.description'));
+    expect(description.nativeElement.disabled).toBeFalsy();
+    const lowSevRadio = fixture.debugElement.query(By.css('input[type=radio][value=LOW]'));
+    const highSevRadio = fixture.debugElement.query(By.css('input[type=radio][value=MAJOR]'));
+    expect(lowSevRadio).toBeDefined();
+    expect(highSevRadio).toBeDefined();
+    expect(lowSevRadio.nativeElement.checked).toBeTruthy();
+  });
+
+  it('makes OrderService.addViolationToCurrentOrder call after clicking add button if form is filled', async () => {
+    TestBed.overrideProvider(MAT_DIALOG_DATA, { useValue: addModeInputs });
+    await buildComponent();
+    const description = fixture.debugElement.query(By.css('.description'));
+    description.nativeElement.value = 'new description';
+    description.nativeElement.dispatchEvent(new Event('input'));
+    await fixture.whenStable();
+    fixture.detectChanges();
+    const button = fixture.debugElement.query(By.css('.addButton'));
+    button.nativeElement.click();
+    expect(orderServiceStub.addViolationToCurrentOrder).toHaveBeenCalled();
   });
 
   // it(`maxNumberOfImgs has default value`, () => {
