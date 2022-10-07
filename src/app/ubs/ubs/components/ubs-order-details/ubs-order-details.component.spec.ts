@@ -8,7 +8,7 @@ import { OrderService } from '../../services/order.service';
 import { MatDialogModule, MatDialogRef } from '@angular/material/dialog';
 import { TranslateModule } from '@ngx-translate/core';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
-import { async, ComponentFixture, TestBed, fakeAsync, tick } from '@angular/core/testing';
+import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { FormArray, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { UBSOrderDetailsComponent } from './ubs-order-details.component';
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
@@ -106,6 +106,7 @@ describe('OrderDetailsFormComponent', () => {
     component = fixture.componentInstance;
     spyOn(component, 'saveLocation');
     fixture.detectChanges();
+    orderService = TestBed.inject(OrderService);
   }));
 
   it('should create', () => {
@@ -127,7 +128,7 @@ describe('OrderDetailsFormComponent', () => {
       bags: [{ id: 0, code: 'ua' }],
       points: 0
     };
-    orderService = TestBed.inject(OrderService);
+    // orderService = TestBed.inject(OrderService);
     spyOn(global, 'setTimeout');
     const spy = spyOn(orderService, 'getOrders').and.returnValue(of(mock));
     shareFormService.orderDetails = mock;
@@ -282,25 +283,55 @@ describe('OrderDetailsFormComponent', () => {
     expect(unsubscribeSpy).toHaveBeenCalledTimes(1);
   });
 
-  it('changeQuantity()', () => {
+  it('incrementQuantity()', () => {
     const spyOnQuantityChange = spyOn(component, 'onQuantityChange');
-
     spyOn(global, 'setTimeout');
-    orderService = TestBed.inject(OrderService);
-
     spyOn(orderService, 'getOrders').and.returnValue(of(ordersMock));
     shareFormService.orderDetails = ordersMock;
-    localStorageService.getCurrentLanguage.and.callFake(() => Language.UA);
 
     component.takeOrderData();
 
-    const formControl = component.orderDetailsForm.get('quantity1');
-    const oldValue = formControl.value;
-    const newValue = String(+oldValue + 1);
+    const id = 1;
+    const formControl = component.orderDetailsForm.get('quantity' + id);
+    const oldValue = Number(formControl.value);
+    const newValue = oldValue + 1;
 
-    component.changeQuantity(1, 1);
+    component.incrementQuantity(id);
+    expect(spyOnQuantityChange).toHaveBeenCalledTimes(1);
+    expect(component.orderDetailsForm.value['quantity' + id]).toEqual(String(newValue));
+    expect(component.orderDetailsForm.get('quantity' + id).value).toEqual(String(newValue));
 
-    expect(spyOnQuantityChange).toHaveBeenCalled();
-    expect(formControl.value).toEqual(newValue);
+    const maxValue = '999';
+    formControl.setValue(maxValue);
+    component.incrementQuantity(id);
+    expect(spyOnQuantityChange).toHaveBeenCalledTimes(1);
+    expect(component.orderDetailsForm.value['quantity' + id]).toEqual(String(maxValue));
+    expect(component.orderDetailsForm.get('quantity' + id).value).toEqual(String(maxValue));
+  });
+
+  it('decrementQuantity()', () => {
+    const spyOnQuantityChange = spyOn(component, 'onQuantityChange');
+    spyOn(global, 'setTimeout');
+    spyOn(orderService, 'getOrders').and.returnValue(of(ordersMock));
+    shareFormService.orderDetails = ordersMock;
+
+    component.takeOrderData();
+
+    const id = 1;
+    const formControl = component.orderDetailsForm.get('quantity' + id);
+    const oldValue = Number(formControl.value);
+    const newValue = oldValue - 1;
+
+    component.decrementQuantity(id);
+    expect(spyOnQuantityChange).toHaveBeenCalledTimes(1);
+    expect(component.orderDetailsForm.value['quantity' + id]).toEqual(String(newValue));
+    expect(component.orderDetailsForm.get('quantity' + id).value).toEqual(String(newValue));
+
+    const minValue = '0';
+    formControl.setValue(minValue);
+    component.decrementQuantity(id);
+    expect(spyOnQuantityChange).toHaveBeenCalledTimes(1);
+    expect(component.orderDetailsForm.value['quantity' + id]).toEqual(String(minValue));
+    expect(component.orderDetailsForm.get('quantity' + id).value).toEqual(String(minValue));
   });
 });
