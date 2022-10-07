@@ -9,14 +9,14 @@ import { Place } from '../../../places/models/place';
 import { DateEvent, DateFormObj, Dates, EventDTO, EventPageResponceDto, OfflineDto, TagObj } from '../../models/events.interface';
 import { Router } from '@angular/router';
 import { DatePipe } from '@angular/common';
-import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { FormControl, FormGroup, Validators, AbstractControl, ValidationErrors } from '@angular/forms';
 import { ReplaySubject } from 'rxjs';
 import { DateObj, ItemTime, TagsArray, WeekArray } from '../../models/event-consts';
 import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
 import { ActionsSubject, Store } from '@ngrx/store';
 import { ofType } from '@ngrx/effects';
 import { CreateEcoEventAction, EditEcoEventAction, EventsActions } from 'src/app/store/actions/ecoEvents.actions';
-import { AbstractControl } from '@angular/forms';
+
 @Component({
   selector: 'app-create-edit-events',
   templateUrl: './create-edit-events.component.html',
@@ -64,7 +64,7 @@ export class CreateEditEventsComponent implements OnInit, OnDestroy {
     this.tags = TagsArray.reduce((ac, cur) => [...ac, { ...cur }], []);
 
     this.eventFormGroup = new FormGroup({
-      titleForm: new FormControl('', [Validators.required, Validators.minLength(1), Validators.maxLength(70), this.removeSpaces]),
+      titleForm: new FormControl('', [Validators.required, Validators.minLength(1), Validators.maxLength(70), this.validateSpaces]),
       description: new FormControl('', [Validators.required, Validators.minLength(28), Validators.maxLength(63206)]),
       eventDuration: new FormControl('', [Validators.required, Validators.minLength(2)])
     });
@@ -249,9 +249,9 @@ export class CreateEditEventsComponent implements OnInit, OnDestroy {
     });
   }
 
-  removeSpaces(control: AbstractControl) {
-    if (control && control.value && !control.value.replace(/\s/g, '').length) {
-      control.setValue('');
+  private validateSpaces(control: AbstractControl): ValidationErrors {
+    if (control && control.value && control.value !== control.value.trim()) {
+      return { hasNoWhiteSpaces: 'false' };
     }
     return null;
   }
