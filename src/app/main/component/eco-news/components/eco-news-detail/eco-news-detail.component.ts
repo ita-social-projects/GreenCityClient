@@ -6,9 +6,6 @@ import { EcoNewsService } from '@eco-news-service/eco-news.service';
 import { EcoNewsModel } from '@eco-news-models/eco-news-model';
 import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
 import { take, takeUntil } from 'rxjs/operators';
-import { Store } from '@ngrx/store';
-import { IAppState } from 'src/app/store/state/app.state';
-import { IEcoNewsState } from 'src/app/store/state/ecoNews.state';
 
 @Component({
   selector: 'app-eco-news-detail',
@@ -32,8 +29,6 @@ export class EcoNewsDetailComponent implements OnInit, OnDestroy {
   private destroy: Subject<boolean> = new Subject<boolean>();
 
   public backRoute: string;
-
-  // ecoNewById$ = this.store.select((state: IAppState): IEcoNewsState => state.ecoNewsState);
 
   constructor(private route: ActivatedRoute, private ecoNewsService: EcoNewsService, private localStorageService: LocalStorageService) {}
 
