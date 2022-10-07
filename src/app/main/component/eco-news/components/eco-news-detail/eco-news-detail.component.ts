@@ -33,14 +33,9 @@ export class EcoNewsDetailComponent implements OnInit, OnDestroy {
 
   public backRoute: string;
 
-  ecoNewById$ = this.store.select((state: IAppState): IEcoNewsState => state.ecoNewsState);
+  // ecoNewById$ = this.store.select((state: IAppState): IEcoNewsState => state.ecoNewsState);
 
-  constructor(
-    private route: ActivatedRoute,
-    private ecoNewsService: EcoNewsService,
-    private localStorageService: LocalStorageService,
-    private store: Store
-  ) {}
+  constructor(private route: ActivatedRoute, private ecoNewsService: EcoNewsService, private localStorageService: LocalStorageService) {}
 
   ngOnInit() {
     this.canUserEditNews();
@@ -48,21 +43,21 @@ export class EcoNewsDetailComponent implements OnInit, OnDestroy {
     if (this.userId) {
       this.getIsLiked();
     }
+    if (this.newsId) {
+      this.getEcoNewsById(this.newsId);
+    }
     this.backRoute = this.localStorageService.getPreviousPage();
-
-    this.ecoNewById$.subscribe((value) => {
-      if (this.backRoute === '/news') {
-        this.newsItem = value.pages.find((item) => item.id === +this.newsId);
-      }
-      if (this.backRoute === '/profile') {
-        this.newsItem = value.autorNews.find((item) => item.id === +this.newsId);
-      }
-    });
     this.currentLang = this.localStorageService.getCurrentLanguage();
     this.tags = this.getAllTags();
     this.localStorageService.languageSubject.pipe(takeUntil(this.destroy)).subscribe((lang: string) => {
       this.currentLang = lang;
       this.tags = this.getAllTags();
+    });
+  }
+
+  public getEcoNewsById(id: number): void {
+    this.ecoNewsService.getEcoNewsById(id).subscribe((res: EcoNewsModel) => {
+      this.newsItem = res;
     });
   }
 

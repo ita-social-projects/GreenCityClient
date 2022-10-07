@@ -113,7 +113,7 @@ describe('CreateEditNewsComponent', () => {
   createEcoNewsServiceMock.getFormData = () => emptyForm();
   createEcoNewsServiceMock.editNews = (form) => of(newsResponseMock);
   createEcoNewsServiceMock.setForm = (form) => of();
-  createEcoNewsServiceMock.getNewsId = () => '15';
+  createEcoNewsServiceMock.getNewsId = () => 15;
   createEcoNewsServiceMock.isBackToEditing = false;
   createEcoNewsServiceMock.sendImagesData = () => of(['image']);
 
@@ -223,7 +223,7 @@ describe('CreateEditNewsComponent', () => {
     localStorageServiceMock.getTagsOfNews = () => {
       return null;
     };
-    component.newsId = '2';
+    component.newsId = 2;
     ecoNewsServiceMock.getAllPresentTags = () =>
       of([
         { id: 1, name: 'Events', nameUa: 'Події' },
@@ -242,18 +242,18 @@ describe('CreateEditNewsComponent', () => {
     };
     const spy = spyOn(component, 'setDataForCreate');
     createEcoNewsServiceMock.isBackToEditing = true;
-    createEcoNewsServiceMock.getNewsId = () => '';
+    createEcoNewsServiceMock.getNewsId = () => null;
 
     component.initPageForCreateOrEdit();
     expect(spy).toHaveBeenCalledTimes(1);
 
     createEcoNewsServiceMock.isBackToEditing = false;
-    createEcoNewsServiceMock.getNewsId = () => '15';
+    createEcoNewsServiceMock.getNewsId = () => 15;
   });
 
   it('initPageForCreateOrEdit expect fetchNewsItemToEdit should be call', () => {
     const spy = spyOn(component, 'fetchNewsItemToEdit');
-    component.newsId = '20';
+    component.newsId = 20;
     createEcoNewsServiceMock.getNewsId();
 
     component.initPageForCreateOrEdit();

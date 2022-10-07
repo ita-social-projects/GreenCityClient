@@ -49,7 +49,7 @@ export class EcoNewsService implements OnDestroy {
     });
   }
 
-  public getEcoNewsById(id: string): Observable<EcoNewsModel> {
+  public getEcoNewsById(id: number): Observable<EcoNewsModel> {
     return this.http.get<EcoNewsModel>(`${this.backEnd}econews/${id}?lang=${this.language}`);
   }
 

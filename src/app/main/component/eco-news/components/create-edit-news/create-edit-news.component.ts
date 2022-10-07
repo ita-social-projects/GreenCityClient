@@ -65,7 +65,7 @@ export class CreateEditNewsComponent extends FormBaseComponent implements OnInit
   public author: string = localStorage.getItem('name');
   public attributes: ActionInterface;
   public filters: FilterModel[] = [];
-  public newsId: string;
+  public newsId: number;
   public formData: FormGroup;
   private destroyed$: ReplaySubject<any> = new ReplaySubject<any>(1);
   public isFormInvalid: boolean;
