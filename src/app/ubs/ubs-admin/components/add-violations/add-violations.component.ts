@@ -22,6 +22,12 @@ interface DataToSend {
   imagesToDelete?: string[] | null;
 }
 
+interface ViolationImage {
+  src: string;
+  name: string | null;
+  file: File;
+}
+
 @Component({
   selector: 'app-add-violations',
   templateUrl: './add-violations.component.html',
@@ -29,7 +35,7 @@ interface DataToSend {
 })
 export class AddViolationsComponent implements OnInit, OnDestroy {
   maxNumberOfImgs = 6;
-  images = [];
+  images: ViolationImage[] = [];
   isImageSizeError = false;
   isImageTypeError = false;
   isUploading = false;
@@ -37,7 +43,6 @@ export class AddViolationsComponent implements OnInit, OnDestroy {
   addViolationForm: FormGroup;
   orderId;
   name: string;
-  imagePlaceholders = new Array(this.maxNumberOfImgs);
   imagesToDelete: string[] | null = [];
   initialData: InitialData;
   isInitialDataChanged = false;
@@ -110,7 +115,6 @@ export class AddViolationsComponent implements OnInit, OnDestroy {
           violationDescription: violation.description,
           initialImages: violation.images
         };
-        this.updateImagePlaceholders();
       });
   }
 
@@ -194,8 +198,7 @@ export class AddViolationsComponent implements OnInit, OnDestroy {
     const reader: FileReader = new FileReader();
     reader.readAsDataURL(imageFile);
     reader.onload = () => {
-      this.images.push({ src: reader.result, name: imageFile.name, file: imageFile });
-      this.updateImagePlaceholders();
+      this.images.push({ src: reader.result as string, name: imageFile.name, file: imageFile });
     };
   }
 
@@ -213,11 +216,7 @@ export class AddViolationsComponent implements OnInit, OnDestroy {
     this.isInitialImageDataChanged = JSON.stringify(imageSources) !== JSON.stringify(initialImageSources);
   }
 
-  updateImagePlaceholders() {
-    this.imagePlaceholders = new Array(this.maxNumberOfImgs - this.images.length);
-  }
-
-  openImg(image): void {
+  openImg(image: ViolationImage): void {
     this.dialog.open(ShowImgsPopUpComponent, {
       hasBackdrop: true,
       panelClass: 'custom-img-pop-up',
@@ -279,13 +278,12 @@ export class AddViolationsComponent implements OnInit, OnDestroy {
       });
   }
 
-  deleteImage(imageToDelete: { src: string; name: string | null; file: File }): void {
+  deleteImage(imageToDelete: ViolationImage): void {
     const isUploaded = imageToDelete.file === null;
     if (isUploaded) {
       this.imagesToDelete.push(imageToDelete.src);
     }
     this.images = this.images.filter((image) => image !== imageToDelete);
-    this.updateImagePlaceholders();
     this.checkImageDataChanges();
   }
 
