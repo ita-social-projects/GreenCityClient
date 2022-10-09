@@ -106,6 +106,7 @@ describe('AddViolationsComponent', () => {
   const getDateLabelDebug = () => fixture.debugElement.query(By.css('.date'));
   const getDropAreaDebug = () => fixture.debugElement.query(By.directive(DragDirective));
   const getRadioButtonDebug = (value) => fixture.debugElement.query(By.css(`input[type=radio][value=${value}]`));
+  const getFileInputDebug = () => fixture.debugElement.query(By.css('input[type=file]'));
 
   const enterEditMode = async () => {
     getEditButtonDebug().nativeElement.click();
@@ -132,6 +133,15 @@ describe('AddViolationsComponent', () => {
     dataTransfer.items.add(file);
     const dropEvent = new DragEvent('drop', { dataTransfer });
     dropAreaDebug.nativeElement.dispatchEvent(dropEvent);
+    await fixture.whenStable();
+    fixture.detectChanges();
+  };
+
+  const selectFile = async (inputDebug, file) => {
+    const dataTransfer = new DataTransfer();
+    dataTransfer.items.add(file);
+    inputDebug.nativeElement.files = dataTransfer.files;
+    inputDebug.nativeElement.dispatchEvent(new InputEvent('change'));
     await fixture.whenStable();
     fixture.detectChanges();
   };
@@ -238,7 +248,7 @@ describe('AddViolationsComponent', () => {
         imagesToDelete: [deletedImageSrc]
       })
     );
-    getAddSaveButtonDebug().nativeElement.click();
+    await clickElement(getAddSaveButtonDebug());
     expect(orderServiceStub.updateViolationOfCurrentOrder).toHaveBeenCalled();
     const args = orderServiceStub.updateViolationOfCurrentOrder.calls.mostRecent().args;
     expect([...args[0].entries()]).toEqual([...(expectedData as any).entries()]);
@@ -262,6 +272,13 @@ describe('AddViolationsComponent', () => {
     expect(matDialogRefStub.close).toHaveBeenCalled();
   });
 
+  it('[Edit Mode] save button should be active if file is selected', async () => {
+    await buildComponent();
+    await enterEditMode();
+    await selectFile(getFileInputDebug(), dataFileMock);
+    expect(getAddSaveButtonDebug().nativeElement.disabled).toBe(false);
+  });
+
   it('[Edit Mode] clicking an image opens modal with ShowImgsPopUpComponent with correct params', async () => {
     await buildComponent();
     await enterEditMode();
@@ -281,8 +298,7 @@ describe('AddViolationsComponent', () => {
     await buildComponent();
     await clickElement(getRadioButtonDebug('MAJOR'));
     await inputText(getDescriptionDebug(), 'new description');
-    getAddSaveButtonDebug().nativeElement.click();
-
+    await clickElement(getAddSaveButtonDebug());
     const expectedData = new FormData();
     expectedData.append(
       'add',
@@ -291,7 +307,6 @@ describe('AddViolationsComponent', () => {
         violationLevel: 'MAJOR'
       })
     );
-    getAddSaveButtonDebug().nativeElement.click();
     expect(orderServiceStub.addViolationToCurrentOrder).toHaveBeenCalled();
     const args = orderServiceStub.addViolationToCurrentOrder.calls.mostRecent().args;
     expect([...args[0].entries()]).toEqual([...(expectedData as any).entries()]);
@@ -312,5 +327,15 @@ describe('AddViolationsComponent', () => {
     await dropFileIntoArea(getDropAreaDebug(), largeFileMock);
     const errorMessage = fixture.debugElement.query(By.css('.error-message-file-size'));
     expect(errorMessage.nativeElement.textContent).toBe('add-violation-modal.error-message-for-size');
+  });
+
+  it('[Add Mode] save button should be inactive if description length < 5 or > 255', async () => {
+    TestBed.overrideProvider(MAT_DIALOG_DATA, { useValue: addModeInputs });
+    await buildComponent();
+    await clickElement(getRadioButtonDebug('LOW'));
+    await inputText(getDescriptionDebug(), 'sh');
+    expect(getAddSaveButtonDebug().nativeElement.disabled).toBe(true);
+    await inputText(getDescriptionDebug(), 'a'.repeat(256));
+    expect(getAddSaveButtonDebug().nativeElement.disabled).toBe(true);
   });
 });
