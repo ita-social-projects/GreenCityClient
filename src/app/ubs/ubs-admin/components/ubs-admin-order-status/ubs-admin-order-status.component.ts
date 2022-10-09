@@ -84,9 +84,9 @@ export class UbsAdminOrderStatusComponent implements OnChanges, OnInit, OnDestro
 
     if (orderState === 'confirmed') {
       const confirmedPaidCondition1 =
-        this.currentOrderPrice > 0 && this.totalPaid > 0 && this.currentOrderPrice <= this.totalPaid && this.unPaidAmount === 0;
+        this.currentOrderPrice > 0 && this.totalPaid > 0 && this.currentOrderPrice <= this.totalPaid && !this.unPaidAmount;
       const confirmedPaidCondition2 =
-        this.currentOrderPrice === 0 && this.totalPaid >= 0 && this.currentOrderPrice <= this.totalPaid && this.unPaidAmount === 0;
+        this.currentOrderPrice === 0 && this.totalPaid >= 0 && this.currentOrderPrice <= this.totalPaid && !this.unPaidAmount;
       const confirmedPaidCondition = confirmedPaidCondition1 || confirmedPaidCondition2;
 
       const confirmedUnpaidCondition = this.currentOrderPrice > 0 && this.totalPaid === 0 && this.unPaidAmount > 0;
@@ -106,9 +106,9 @@ export class UbsAdminOrderStatusComponent implements OnChanges, OnInit, OnDestro
       }
     } else if (orderState === 'actual') {
       const actualPaidCondition1 =
-        this.currentOrderPrice > 0 && this.totalPaid > 0 && this.currentOrderPrice <= this.totalPaid && this.unPaidAmount === 0;
+        this.currentOrderPrice > 0 && this.totalPaid > 0 && this.currentOrderPrice <= this.totalPaid && !this.unPaidAmount;
       const actualPaidCondition2 =
-        this.currentOrderPrice === 0 && this.totalPaid >= 0 && this.currentOrderPrice <= this.totalPaid && this.unPaidAmount === 0;
+        this.currentOrderPrice === 0 && this.totalPaid >= 0 && this.currentOrderPrice <= this.totalPaid && !this.unPaidAmount;
       const actualPaidCondition = actualPaidCondition1 || actualPaidCondition2;
 
       const actualUnpaidCondition = this.currentOrderPrice === 0 && this.totalPaid === 0 && this.unPaidAmount > 0;
