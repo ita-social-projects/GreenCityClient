@@ -16,7 +16,7 @@ describe('MatSnackBarComponent', () => {
     TestBed.configureTestingModule({
       declarations: [MatSnackBarComponent],
       imports: [MatSnackBarModule, TranslateModule.forRoot(), BrowserAnimationsModule],
-      providers: [{ provide: MatSnackBar, useValue: matSnackBarMock }],
+      providers: [{ provide: MatSnackBar, useValue: matSnackBarMock }]
     }).compileComponents();
   }));
 
@@ -72,6 +72,18 @@ describe('MatSnackBarComponent', () => {
     it('should call the function to get type of snackBar', () => {
       const spy = spyOn(component.snackType, 'successRestorePassword').and.callThrough();
       component.snackType[`successRestorePassword`]();
+      expect(spy).toHaveBeenCalled();
+    });
+
+    it('should call the function to get type of snackBar', () => {
+      const spy = spyOn(component.snackType, 'CartValidation').and.callThrough();
+      component.snackType[`CartValidation`]();
+      expect(spy).toHaveBeenCalled();
+    });
+
+    it('should call the function to get type of snackBar', () => {
+      const spy = spyOn(component.snackType, 'lessPoints').and.callThrough();
+      component.snackType[`lessPoints`]();
       expect(spy).toHaveBeenCalled();
     });
 

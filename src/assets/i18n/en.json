@@ -312,6 +312,8 @@
 
   "snack-bar": {
     "error": {
+      "not-enough-points": "There aren't enough points on your bonus account to pay for the order",
+      "cartificate-not-valid": "The certificate you have entered, has already been used",
       "default": "Oops, something went wrong. Please reload page or try again later.",
       "restore-password-again": "The password reset link is no longer valid, please try to reset your password again",
       "no-internet": "No internet connection"
