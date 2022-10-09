@@ -95,7 +95,7 @@ export class AddViolationsComponent implements OnInit, OnDestroy {
     });
   }
 
-  private loadInitialData() {
+  private loadInitialData(): void {
     this.isLoading = true;
     this.orderService
       .getViolationOfCurrentOrder(this.orderId)
@@ -131,11 +131,11 @@ export class AddViolationsComponent implements OnInit, OnDestroy {
     const formData: FormData = new FormData();
     const stringifiedDataToSend = JSON.stringify(data);
     formData.append('add', stringifiedDataToSend);
-    for (const image of this.images) {
+    this.images.forEach((image) => {
       if (image.file) {
         formData.append(this.editMode ? 'multipartFiles' : 'files', image.file);
       }
-    }
+    });
     return formData;
   }
 
@@ -165,23 +165,17 @@ export class AddViolationsComponent implements OnInit, OnDestroy {
 
     this.isImageSizeError = false;
     this.isImageTypeError = false;
-
-    for (const file of files) {
-      const validExt = this.validateFileExtension(file);
-      const validSize = this.validateFileSize(file);
-      if (!validExt) {
-        this.isImageTypeError = true;
-        continue;
-      }
-      if (!validSize) {
-        this.isImageSizeError = true;
-        continue;
+    files.forEach((file) => {
+      this.isImageTypeError = !this.validateFileExtension(file);
+      this.isImageSizeError = !this.validateFileSize(file);
+      if (this.isImageTypeError || this.isImageSizeError) {
+        return;
       }
       this.transferFile(file);
       if (this.editMode) {
         this.isInitialImageDataChanged = true;
       }
-    }
+    });
   }
 
   onFilesDropped(fileHandles: FileHandle[]): void {

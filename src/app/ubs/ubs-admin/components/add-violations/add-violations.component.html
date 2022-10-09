@@ -66,9 +66,9 @@
         class="image-container"
         appDrag
         (files)="onFilesDropped($event)"
-        *ngFor="let placeholder of maxNumberOfImgs - images.length | repeat; index as i"
+        *ngFor="let placeholder of maxNumberOfImgs - images.length | repeat; index as idx"
       >
-        <p class="drag-inscription" *ngIf="i === 0">{{ 'add-violation-modal.drag-photo' | translate }}</p>
+        <p class="drag-inscription" *ngIf="!idx">{{ 'add-violation-modal.drag-photo' | translate }}</p>
       </div>
     </div>
   </ng-template>
