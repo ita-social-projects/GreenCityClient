@@ -136,6 +136,24 @@ describe('UbsAdminOrderStatusComponent', () => {
     expect(GeneralInfoFake.orderPaymentStatus).toBe('PAID');
   });
 
+  it('setOrderPaymentStatus orderState shold be "confirmed" and should return orderPayment status PAID', () => {
+    GeneralInfoFake.orderStatusesDtos[0].ableActualChange = false;
+    component.currentOrderPrice = 1;
+    component.totalPaid = 1;
+    component.unPaidAmount = 0;
+    component.setOrderPaymentStatus();
+    expect(GeneralInfoFake.orderPaymentStatus).toBe('PAID');
+  });
+
+  it('setOrderPaymentStatus orderState shold be "confirmed" and should return orderPayment status PAID', () => {
+    GeneralInfoFake.orderStatusesDtos[0].ableActualChange = false;
+    component.currentOrderPrice = 0;
+    component.totalPaid = 0;
+    component.unPaidAmount = 0;
+    component.setOrderPaymentStatus();
+    expect(GeneralInfoFake.orderPaymentStatus).toBe('PAID');
+  });
+
   it('setOrderPaymentStatus orderState shold be "actual" and should return orderPayment status UNPAID', () => {
     GeneralInfoFake.orderStatusesDtos[0].ableActualChange = true;
     component.currentOrderPrice = 0;
