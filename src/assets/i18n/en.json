@@ -309,6 +309,7 @@
     "oops": "Oops!",
     "go-to-homepage": "Go To Homepage"
   },
+
   "snack-bar": {
     "error": {
       "default": "Oops, something went wrong. Please reload page or try again later.",
@@ -797,43 +798,9 @@
   },
   "profile": {
     "calendar": {
-      "days": [
-        "Mon",
-        "Tue",
-        "Wed",
-        "Thu",
-        "Fri",
-        "Sat",
-        "Sun"
-      ],
-      "months": [
-        "January",
-        "February",
-        "March",
-        "April",
-        "May",
-        "June",
-        "July",
-        "August",
-        "September",
-        "October",
-        "November",
-        "December"
-      ],
-      "monthsShort": [
-        "Jan",
-        "Feb",
-        "Mar",
-        "Apr",
-        "May",
-        "Jun",
-        "Jul",
-        "Aug",
-        "Sep",
-        "Oct",
-        "Nov",
-        "Dec"
-      ]
+      "days": ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"],
+      "months": ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"],
+      "monthsShort": ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"]
     },
     "dashboard": {
       "my-habits": "My habits",
@@ -924,7 +891,8 @@
     "cancel-button": "Cancel",
     "preview-button": "Preview",
     "publish-button": "Publish",
-    "edit-button": "Edit"
+    "edit-button": "Edit",
+    "has-white-spaces": "you should have no whitespaces"
   },
   "drag-and-drop": {
     "picture-description": "Drop your image here or",
@@ -935,20 +903,7 @@
     "not-uploaded-warning": "Image isn't uploaded"
   },
   "date": {
-    "months": [
-      "Jan,",
-      "Feb,",
-      "Mar,",
-      "Apr,",
-      "May,",
-      "Jun,",
-      "Jul,",
-      "Aug,",
-      "Sep,",
-      "Oct,",
-      "Nov,",
-      "Dec,"
-    ],
+    "months": ["Jan,", "Feb,", "Mar,", "Apr,", "May,", "Jun,", "Jul,", "Aug,", "Sep,", "Oct,", "Nov,", "Dec,"],
     "year": ""
   },
   "eco-news-preview": {
