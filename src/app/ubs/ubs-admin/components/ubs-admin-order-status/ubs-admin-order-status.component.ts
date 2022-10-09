@@ -2,6 +2,7 @@ import { Component, EventEmitter, Input, OnDestroy, OnInit, Output, OnChanges, S
 import { FormGroup } from '@angular/forms';
 import { Subject } from 'rxjs';
 import { take } from 'rxjs/operators';
+
 import { IGeneralOrderInfo } from '../../models/ubs-admin.interface';
 import { OrderService } from '../../services/order.service';
 import { MatDialog } from '@angular/material/dialog';
@@ -16,6 +17,7 @@ export class UbsAdminOrderStatusComponent implements OnChanges, OnInit, OnDestro
   @Input() currentOrderPrice: number;
   @Input() generalOrderInfo: FormGroup;
   @Input() totalPaid: number;
+  @Input() unPaidAmount: number;
   @Input() generalInfo: IGeneralOrderInfo;
   @Input() currentLanguage: string;
   @Input() additionalPayment: string;
@@ -81,12 +83,15 @@ export class UbsAdminOrderStatusComponent implements OnChanges, OnInit, OnDestro
     });
 
     if (orderState === 'confirmed') {
-      const confirmedPaidCondition1 = this.currentOrderPrice > 0 && this.totalPaid > 0 && this.currentOrderPrice <= this.totalPaid;
-      const confirmedPaidCondition2 = this.currentOrderPrice === 0 && this.totalPaid >= 0 && this.currentOrderPrice <= this.totalPaid;
+      const confirmedPaidCondition1 =
+        this.currentOrderPrice > 0 && this.totalPaid > 0 && this.currentOrderPrice <= this.totalPaid && this.unPaidAmount === 0;
+      const confirmedPaidCondition2 =
+        this.currentOrderPrice === 0 && this.totalPaid >= 0 && this.currentOrderPrice <= this.totalPaid && this.unPaidAmount === 0;
       const confirmedPaidCondition = confirmedPaidCondition1 || confirmedPaidCondition2;
 
-      const confirmedUnpaidCondition = this.currentOrderPrice > 0 && this.totalPaid === 0;
-      const confirmedHalfPaidCondition = this.currentOrderPrice > 0 && this.totalPaid > 0 && this.currentOrderPrice > this.totalPaid;
+      const confirmedUnpaidCondition = this.currentOrderPrice > 0 && this.totalPaid === 0 && this.unPaidAmount > 0;
+      const confirmedHalfPaidCondition =
+        this.unPaidAmount > 0 && this.unPaidAmount < this.currentOrderPrice && this.currentOrderPrice > this.totalPaid;
 
       if (confirmedPaidCondition) {
         this.generalInfo.orderPaymentStatus = 'PAID';
@@ -100,12 +105,15 @@ export class UbsAdminOrderStatusComponent implements OnChanges, OnInit, OnDestro
         this.generalInfo.orderPaymentStatus = 'HALF_PAID';
       }
     } else if (orderState === 'actual') {
-      const actualPaidCondition1 = this.currentOrderPrice > 0 && this.totalPaid > 0 && this.currentOrderPrice <= this.totalPaid;
-      const actualPaidCondition2 = this.currentOrderPrice === 0 && this.totalPaid >= 0 && this.currentOrderPrice <= this.totalPaid;
+      const actualPaidCondition1 =
+        this.currentOrderPrice > 0 && this.totalPaid > 0 && this.currentOrderPrice <= this.totalPaid && this.unPaidAmount === 0;
+      const actualPaidCondition2 =
+        this.currentOrderPrice === 0 && this.totalPaid >= 0 && this.currentOrderPrice <= this.totalPaid && this.unPaidAmount === 0;
       const actualPaidCondition = actualPaidCondition1 || actualPaidCondition2;
 
-      const actualUnpaidCondition = this.currentOrderPrice === 0 && this.totalPaid === 0;
-      const actualHalfPaidCondition = this.currentOrderPrice > 0 && this.totalPaid >= 0 && this.currentOrderPrice > this.totalPaid;
+      const actualUnpaidCondition = this.currentOrderPrice === 0 && this.totalPaid === 0 && this.unPaidAmount > 0;
+      const actualHalfPaidCondition =
+        this.unPaidAmount > 0 && this.unPaidAmount < this.currentOrderPrice && this.currentOrderPrice > this.totalPaid;
 
       if (actualPaidCondition) {
         this.generalInfo.orderPaymentStatus = 'PAID';

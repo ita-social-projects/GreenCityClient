@@ -1,14 +1,18 @@
 import { Component, OnInit, OnDestroy, AfterContentChecked, ChangeDetectorRef, Injector, ViewChild } from '@angular/core';
-import { MatDialog } from '@angular/material/dialog';
+import { FormArray, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Params, Router } from '@angular/router';
+import { formatDate } from '@angular/common';
+import { MatDialog } from '@angular/material/dialog';
+import { Subject } from 'rxjs';
+import { take, takeUntil } from 'rxjs/operators';
+import { Store } from '@ngrx/store';
 import { TranslateService } from '@ngx-translate/core';
+import { MatSnackBarComponent } from '@global-errors/mat-snack-bar/mat-snack-bar.component';
+
 import { UbsAdminCancelModalComponent } from '../ubs-admin-cancel-modal/ubs-admin-cancel-modal.component';
 import { UbsAdminGoBackModalComponent } from '../ubs-admin-go-back-modal/ubs-admin-go-back-modal.component';
-import { FormArray, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
-import { take, takeUntil } from 'rxjs/operators';
 import { OrderService } from '../../services/order.service';
 import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
-import { Subject } from 'rxjs';
 import {
   IAddressExportDetails,
   IEmployee,
@@ -23,10 +27,7 @@ import {
   IUserInfo,
   ResponsibleEmployee
 } from '../../models/ubs-admin.interface';
-import { formatDate } from '@angular/common';
-import { MatSnackBarComponent } from '@global-errors/mat-snack-bar/mat-snack-bar.component';
 import { IAppState } from 'src/app/store/state/app.state';
-import { Store } from '@ngrx/store';
 import { ChangingOrderData } from 'src/app/store/actions/bigOrderTable.actions';
 import { UbsAdminOrderPaymentComponent } from '../ubs-admin-order-payment/ubs-admin-order-payment.component';
 import { Patterns } from 'src/assets/patterns/patterns';
@@ -48,6 +49,7 @@ export class UbsAdminOrderComponent implements OnInit, OnDestroy, AfterContentCh
   addressInfo: IAddressExportDetails;
   paymentInfo: IPaymentInfo;
   totalPaid: number;
+  unPaidAmount: number;
   exportInfo: IExportDetails;
   responsiblePersonInfo: IResponsiblePersons;
   orderDetails: IOrderDetails;
@@ -106,6 +108,7 @@ export class UbsAdminOrderComponent implements OnInit, OnDestroy, AfterContentCh
         this.exportInfo = data.exportDetailsDto;
         this.responsiblePersonInfo = data.employeePositionDtoRequest;
         this.totalPaid = data.paymentTableInfoDto.paidAmount;
+        this.unPaidAmount = data.paymentTableInfoDto.unPaidAmount;
         this.overpayment = data.paymentTableInfoDto.overpayment;
         this.currentOrderPrice = data.orderFullPrice;
         this.setOrderDetails();

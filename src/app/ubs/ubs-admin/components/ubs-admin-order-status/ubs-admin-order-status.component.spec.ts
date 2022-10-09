@@ -112,6 +112,7 @@ describe('UbsAdminOrderStatusComponent', () => {
     GeneralInfoFake.orderStatusesDtos[0].ableActualChange = false;
     component.currentOrderPrice = 1;
     component.totalPaid = 0;
+    component.unPaidAmount = 1;
     component.setOrderPaymentStatus();
     expect(GeneralInfoFake.orderPaymentStatus).toBe('UNPAID');
   });
@@ -120,6 +121,7 @@ describe('UbsAdminOrderStatusComponent', () => {
     GeneralInfoFake.orderStatusesDtos[0].ableActualChange = false;
     component.currentOrderPrice = 2;
     component.totalPaid = 1;
+    component.unPaidAmount = 1;
     component.setOrderPaymentStatus();
     expect(GeneralInfoFake.orderPaymentStatus).toBe('HALF_PAID');
   });
@@ -128,6 +130,7 @@ describe('UbsAdminOrderStatusComponent', () => {
     GeneralInfoFake.orderStatusesDtos[0].ableActualChange = false;
     component.currentOrderPrice = 0;
     component.totalPaid = 1;
+    component.unPaidAmount = 0;
     component.setOrderPaymentStatus();
     expect(GeneralInfoFake.orderPaymentStatus).toBe('PAID');
   });
@@ -136,6 +139,7 @@ describe('UbsAdminOrderStatusComponent', () => {
     GeneralInfoFake.orderStatusesDtos[0].ableActualChange = true;
     component.currentOrderPrice = 0;
     component.totalPaid = 0;
+    component.unPaidAmount = 1;
     component.setOrderPaymentStatus();
     expect(GeneralInfoFake.orderPaymentStatus).toBe('UNPAID');
   });
