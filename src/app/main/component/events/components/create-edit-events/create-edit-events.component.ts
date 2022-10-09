@@ -250,10 +250,8 @@ export class CreateEditEventsComponent implements OnInit, OnDestroy {
   }
 
   private validateSpaces(control: AbstractControl): ValidationErrors {
-    if (control && control.value && control.value !== control.value.trim()) {
-      return { hasNoWhiteSpaces: 'false' };
-    }
-    return null;
+    const value = control && control.value && control.value !== control.value.trim();
+    return value ? { hasNoWhiteSpaces: 'false' } : null;
   }
 
   ngOnDestroy(): void {
