@@ -49,6 +49,7 @@ export class CreateEditEventsComponent implements OnInit, OnDestroy {
   private pipe = new DatePipe('en-US');
   private destroyed$: ReplaySubject<boolean> = new ReplaySubject<boolean>(1);
   private matSnackBar: MatSnackBarComponent;
+  private userId: number;
 
   constructor(
     public router: Router,
@@ -256,8 +257,10 @@ export class CreateEditEventsComponent implements OnInit, OnDestroy {
   }
 
   checkUserSigned(): boolean {
-    const userId = this.localStorageService.getUserId();
-    return userId ? true : false;
+    return this.userId ? true : false;
+  }
+  private getUserId() {
+    this.userId = this.localStorageService.getUserId();
   }
 
   ngOnDestroy(): void {
