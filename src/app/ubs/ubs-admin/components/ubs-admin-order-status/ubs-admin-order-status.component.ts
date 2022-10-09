@@ -89,7 +89,7 @@ export class UbsAdminOrderStatusComponent implements OnChanges, OnInit, OnDestro
         this.currentOrderPrice === 0 && this.totalPaid >= 0 && this.currentOrderPrice <= this.totalPaid && !this.unPaidAmount;
       const confirmedPaidCondition = confirmedPaidCondition1 || confirmedPaidCondition2;
 
-      const confirmedUnpaidCondition = this.currentOrderPrice > 0 && this.totalPaid === 0 && this.unPaidAmount > 0;
+      const confirmedUnpaidCondition = this.currentOrderPrice >= 0 && this.totalPaid === 0 && this.unPaidAmount > 0;
       const confirmedHalfPaidCondition =
         this.unPaidAmount > 0 && this.unPaidAmount < this.currentOrderPrice && this.currentOrderPrice > this.totalPaid;
 
