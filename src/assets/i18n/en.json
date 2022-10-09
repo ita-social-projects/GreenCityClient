@@ -471,7 +471,10 @@
       "upload": "Upload",
       "you-can-upload-max": "You  can  upload max",
       "photos": "photos",
-      "your-photos-successfully-upload": "Your photos successfully upload"
+      "your-photos-successfully-upload": "Your photos successfully upload",
+      "error-img-type-and-size": "incorrect image type and size",
+      "error-img-type": "incorrect image type",
+      "error-img-size": "incorrect image size"
     },
     "propose-cafe": {
       "new-cafe": "New cafe",
