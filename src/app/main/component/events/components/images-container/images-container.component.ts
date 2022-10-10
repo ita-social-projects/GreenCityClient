@@ -92,11 +92,11 @@ export class ImagesContainerComponent implements OnInit {
         this.assignImage(reader.result);
       };
     } else if (this.isImageTypeError && this.isImageSizeError) {
-      this.snackBar.openSnackBar('incorrect image type and size');
+      this.snackBar.openSnackBar('user.photo-upload.error-img-type-and-size');
     } else if (this.isImageTypeError) {
-      this.snackBar.openSnackBar('incorrect image type');
+      this.snackBar.openSnackBar('user.photo-upload.error-img-type');
     } else if (this.isImageSizeError) {
-      this.snackBar.openSnackBar('incorrect image size');
+      this.snackBar.openSnackBar('user.photo-upload.error-img-size');
     }
   }
 
