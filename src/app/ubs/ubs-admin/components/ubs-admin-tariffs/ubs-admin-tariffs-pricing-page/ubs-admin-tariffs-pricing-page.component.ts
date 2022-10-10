@@ -30,7 +30,11 @@ export class UbsAdminTariffsPricingPageComponent implements OnInit, OnDestroy {
   selectedCardId;
   amount;
   info;
+  bagInfo;
+  sumInfo;
+  toggle: boolean = null;
   description;
+  descriptionInfo;
   couriers;
   limitsForm: FormGroup;
   currentLocation;
@@ -105,45 +109,114 @@ export class UbsAdminTariffsPricingPageComponent implements OnInit, OnDestroy {
     });
   }
 
-  async saveChanges() {
-    const { minAmountOfOrder, maxAmountOfOrder, minAmountOfBigBag, maxAmountOfBigBag, locationId, limitDescription } =
-      this.limitsForm.value;
+  sumToggler() {
+    this.toggle = true;
+  }
 
-    this.info = {
-      minAmountOfOrder,
-      maxAmountOfOrder,
+  bagToggler() {
+    this.toggle = false;
+  }
+
+  // async saveChanges() {
+  //   const { minAmountOfOrder, maxAmountOfOrder, minAmountOfBigBag, maxAmountOfBigBag, locationId, limitDescription } =
+  //     this.limitsForm.value;
+  //
+  //   this.info = {
+  //     minAmountOfOrder,
+  //     maxAmountOfOrder,
+  //     minAmountOfBigBag,
+  //     maxAmountOfBigBag,
+  //     locationId,
+  //     limitDescription
+  //   };
+  //
+  //   const tariffId = this.selectedCardId;
+  //   const courierId = await this.getCourierId();
+  //
+  //   if (minAmountOfOrder !== null && maxAmountOfOrder !== null) {
+  //     this.tariffsService
+  //       .setLimitsBySumOrder(this.info, tariffId)
+  //       .pipe(takeUntil(this.destroy))
+  //       .subscribe(() => {
+  //         this.getCouriers();
+  //       });
+  //
+  //     this.tariffsService
+  //       .setLimitDescription(this.info.limitDescription, courierId)
+  //       .pipe(takeUntil(this.destroy))
+  //       .subscribe((res) => {
+  //         this.getCouriers();
+  //       });
+  //   } else {
+  //     this.tariffsService
+  //       .setLimitsByAmountOfBags(this.info, tariffId)
+  //       .pipe(takeUntil(this.destroy))
+  //       .subscribe(() => {
+  //         this.getCouriers();
+  //       });
+  //     this.tariffsService
+  //       .setLimitDescription(this.info.limitDescription, courierId)
+  //       .pipe(takeUntil(this.destroy))
+  //       .subscribe((res) => {
+  //         this.getCouriers();
+  //       });
+  //   }
+  // }
+
+  async saveChanges() {
+    const { minAmountOfOrder, maxAmountOfOrder, minAmountOfBigBag, maxAmountOfBigBag, limitDescription } = this.limitsForm.value;
+
+    this.bagInfo = {
       minAmountOfBigBag,
-      maxAmountOfBigBag,
-      locationId,
+      maxAmountOfBigBag
+    };
+
+    this.sumInfo = {
+      minAmountOfOrder,
+      maxAmountOfOrder
+    };
+
+    this.descriptionInfo = {
       limitDescription
     };
 
     const tariffId = this.selectedCardId;
     const courierId = await this.getCourierId();
 
-    if (minAmountOfOrder !== null && maxAmountOfOrder !== null) {
+    if (this.toggle === null) {
       this.tariffsService
-        .setLimitsBySumOrder(this.info, tariffId)
+        .setLimitDescription(this.descriptionInfo, courierId)
+        .pipe(takeUntil(this.destroy))
+        .subscribe((res) => {
+          this.getCouriers();
+        });
+    }
+
+    if (this.toggle === true) {
+      this.tariffsService
+        .setLimitsBySumOrder(this.sumInfo, tariffId)
         .pipe(takeUntil(this.destroy))
         .subscribe(() => {
           this.getCouriers();
         });
 
       this.tariffsService
-        .setLimitDescription(this.info.limitDescription, courierId)
+        .setLimitDescription(this.descriptionInfo, courierId)
         .pipe(takeUntil(this.destroy))
         .subscribe((res) => {
           this.getCouriers();
         });
-    } else {
+    }
+
+    if (this.toggle === false) {
       this.tariffsService
-        .setLimitsByAmountOfBags(this.info, tariffId)
+        .setLimitsByAmountOfBags(this.bagInfo, tariffId)
         .pipe(takeUntil(this.destroy))
         .subscribe(() => {
           this.getCouriers();
         });
       this.tariffsService
-        .setLimitDescription(this.info.limitDescription, courierId)
+        .setLimitDescription(this.descriptionInfo, courierId)
         .pipe(takeUntil(this.destroy))
         .subscribe((res) => {
           this.getCouriers();
