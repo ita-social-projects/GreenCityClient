@@ -201,7 +201,7 @@ describe('UbsAdminPricingPageComponent', () => {
   });
 
   it('should take id from route', () => {
-    expect(component.selectedLocationId).toEqual(159);
+    expect(component.selectedCardId.locationId);
     expect(component.currentLocation).toEqual(159);
   });
 
