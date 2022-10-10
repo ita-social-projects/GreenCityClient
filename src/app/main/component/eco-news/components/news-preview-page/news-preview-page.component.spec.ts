@@ -119,7 +119,7 @@ describe('NewsPreviewPageComponent', () => {
   });
 
   it('should create component', () => {
-    createEcoNewsServiceMock.getNewsId.and.returnValue('15');
+    createEcoNewsServiceMock.getNewsId.and.returnValue(15);
     expect(component).toBeTruthy();
   });
 

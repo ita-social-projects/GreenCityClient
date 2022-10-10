@@ -53,16 +53,19 @@ describe('EcoNewsDetailComponent', () => {
 
   const storeMock = jasmine.createSpyObj('store', ['select', 'dispatch']);
   storeMock.select = () => of({ pages: [mockEcoNewsModel], autorNews: [{ id: 4 }] });
-  const NewsServiceMock = jasmine.createSpyObj('ecoNewsService', ['getEcoNewsById']);
-  NewsServiceMock.getEcoNewsById = () => of(mockEcoNewsModel);
   const sanitaizerMock = jasmine.createSpyObj('sanitaizer', ['bypassSecurityTrustHtml']);
   const fakeElement = document.createElement('div') as SafeHtml;
   sanitaizerMock.bypassSecurityTrustHtml.and.returnValue(fakeElement);
+
+  const NewsServiceMock = jasmine.createSpyObj('ecoNewsService', ['getEcoNewsById']);
+  NewsServiceMock.getEcoNewsById = () => of(mockEcoNewsModel);
+
   const backLink = jasmine.createSpyObj('localStorageService', ['getCurrentLanguage', 'getPreviousPage']);
   backLink.getCurrentLanguage = () => 'en' as Language;
   backLink.getPreviousPage = () => '/news';
-  backLink.userIdBehaviourSubject = of(3);
+  backLink.userIdBehaviourSubject = of(4);
   backLink.languageSubject = of('en');
+
   const ecoNewsServ = jasmine.createSpyObj('ecoNewsService', ['postToggleLike', 'getIsLikedByUser']);
   ecoNewsServ.postToggleLike.and.returnValue(of({}));
   ecoNewsServ.getIsLikedByUser.and.returnValue(of(true));
@@ -99,6 +102,8 @@ describe('EcoNewsDetailComponent', () => {
     fixture.detectChanges();
     component.backRoute = '/news';
     component.newsItem = mockEcoNewsModel;
+    (component as any).newsId = 3;
+    component.userId = 3;
   });
 
   it('should create', () => {
@@ -106,13 +111,11 @@ describe('EcoNewsDetailComponent', () => {
   });
 
   it('ngOnInit should init four method and call isLiked', () => {
-    (component as any).newsId = 3;
-
     spyOn(component as any, 'setNewsId');
     spyOn(component as any, 'getIsLiked');
     spyOn(component as any, 'canUserEditNews');
     spyOn(component as any, 'getEcoNewsById');
-    component.userId = 3;
+
     component.ngOnInit();
     expect((component as any).getIsLiked).toHaveBeenCalledTimes(1);
     expect((component as any).setNewsId).toHaveBeenCalledTimes(1);
@@ -121,8 +124,6 @@ describe('EcoNewsDetailComponent', () => {
   });
 
   it('ngOnInit should init three method', () => {
-    (component as any).newsId = 3;
-
     spyOn(component as any, 'setNewsId');
     spyOn(component as any, 'getIsLiked');
     spyOn(component as any, 'canUserEditNews');
@@ -136,6 +137,12 @@ describe('EcoNewsDetailComponent', () => {
     expect((component as any).getEcoNewsById).toHaveBeenCalledTimes(1);
   });
 
+  it('getAllTags should return array of en tags', () => {
+    component.newsItem.tagsEn = ['Events', 'Education'];
+    const tags = component.getAllTags();
+    expect(tags).toEqual(['Events', 'Education']);
+  });
+
   it('checkNewsImage should return existing image src', () => {
     component.newsItem.imagePath = defaultImagePath;
     const imagePath = component.checkNewsImage();
@@ -147,6 +154,11 @@ describe('EcoNewsDetailComponent', () => {
     component.newsItem.imagePath = ' ';
     const imagePath = component.checkNewsImage();
     expect(imagePath).toEqual('assets/img/icon/econews/news-default-large.png');
+  });
+
+  it('canUserEditNews UserId should be 4', () => {
+    component.canUserEditNews();
+    expect(component.userId).toBe(4);
   });
 
   it('should return FB social share link and call open method', () => {
@@ -170,4 +182,14 @@ describe('EcoNewsDetailComponent', () => {
       '_blank'
     );
   });
+
+  // it('setNewsId UserId should be 4', () => {
+  //   component.setNewsId();
+  //   expect(component.userId).toBe(4);
+  // });
+
+  // it('canUserEditNews UserId should be 4', () => {
+  //   component.canUserEditNews();
+  //   expect(component.userId).toBe(4);
+  // });
 });
