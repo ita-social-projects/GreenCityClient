@@ -1,6 +1,6 @@
 import { Component, Inject, OnInit } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
-import { MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { MatSnackBarComponent } from '@global-errors/mat-snack-bar/mat-snack-bar.component';
 import { UpdatePasswordDto } from '@global-models/updatePasswordDto';
 import { ChangePasswordService } from '@global-service/auth/change-password.service';
@@ -20,12 +20,14 @@ export class UbsProfileChangePasswordPopUpComponent implements OnInit {
   public updatePasswordDto: UpdatePasswordDto;
   public hasPassword: boolean;
   public hideShowPasswordImage = SignInIcons;
+  public hasWrongCurrentPassword: boolean = false;
 
   constructor(
     private changePasswordService: ChangePasswordService,
     @Inject(MAT_DIALOG_DATA) public data: any,
     private fb: FormBuilder,
-    private snackBar: MatSnackBarComponent
+    private snackBar: MatSnackBarComponent,
+    public dialogRef: MatDialogRef<UbsProfileChangePasswordPopUpComponent>
   ) {}
 
   ngOnInit() {
@@ -80,8 +82,14 @@ export class UbsProfileChangePasswordPopUpComponent implements OnInit {
         )
       )
       .subscribe(
-        (_) => this.snackBar.openSnackBar('successConfirmPasswordUbs'),
-        (error) => this.snackBar.openSnackBar('ubs-client-profile.error-message')
+        (_) => {
+          this.snackBar.openSnackBar('successConfirmPasswordUbs');
+          this.dialogRef.close();
+        },
+        (error) => {
+          this.initForm();
+          this.hasWrongCurrentPassword = true;
+        }
       );
   }
 }
