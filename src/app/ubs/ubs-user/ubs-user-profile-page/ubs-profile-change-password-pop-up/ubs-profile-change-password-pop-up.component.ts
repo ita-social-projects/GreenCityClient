@@ -20,7 +20,7 @@ export class UbsProfileChangePasswordPopUpComponent implements OnInit {
   public updatePasswordDto: UpdatePasswordDto;
   public hasPassword: boolean;
   public hideShowPasswordImage = SignInIcons;
-  public hasWrongCurrentPassword: boolean = false;
+  public hasWrongCurrentPassword = false;
 
   constructor(
     private changePasswordService: ChangePasswordService,
