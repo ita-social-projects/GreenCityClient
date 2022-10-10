@@ -185,7 +185,7 @@ export class UbsAdminTariffsPricingPageComponent implements OnInit, OnDestroy {
 
     if (this.toggle === null) {
       this.tariffsService
-        .setLimitDescription(this.descriptionInfo, courierId)
+        .setLimitDescription(this.descriptionInfo.limitDescription, courierId)
         .pipe(takeUntil(this.destroy))
         .subscribe((res) => {
           this.getCouriers();
@@ -201,7 +201,7 @@ export class UbsAdminTariffsPricingPageComponent implements OnInit, OnDestroy {
         });
 
       this.tariffsService
-        .setLimitDescription(this.descriptionInfo, courierId)
+        .setLimitDescription(this.descriptionInfo.limitDescription, courierId)
         .pipe(takeUntil(this.destroy))
         .subscribe((res) => {
           this.getCouriers();
@@ -216,7 +216,7 @@ export class UbsAdminTariffsPricingPageComponent implements OnInit, OnDestroy {
           this.getCouriers();
         });
       this.tariffsService
-        .setLimitDescription(this.descriptionInfo, courierId)
+        .setLimitDescription(this.descriptionInfo.limitDescription, courierId)
         .pipe(takeUntil(this.destroy))
         .subscribe((res) => {
           this.getCouriers();
