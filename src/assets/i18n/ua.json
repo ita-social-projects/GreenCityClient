@@ -478,7 +478,10 @@
       "upload": "Завантажити",
       "you-can-upload-max": "Ви можете завантажити максимально",
       "photos": "фото",
-      "your-photos-successfully-upload": "Ваше фото успішно завантажено"
+      "your-photos-successfully-upload": "Ваше фото успішно завантажено",
+      "error-img-type-and-size": "неправильний формат і розмір зображення",
+      "error-img-type": "неправильний формат зображення",
+      "error-img-size": "неправильний розмір зображення"
     },
     "propose-cafe": {
       "new-cafe": "Нове кафе",
