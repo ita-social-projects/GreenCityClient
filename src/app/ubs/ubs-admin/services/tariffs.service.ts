@@ -52,8 +52,8 @@ export class TariffsService {
     return this.http.get<any[]>(`${mainUbsLink}/ubs/superAdmin/getCouriers`);
   }
 
-  editInfo(info, courierId) {
-    return this.http.patch(`${mainUbsLink}/ubs/superAdmin/setLimitDescription/${courierId}`, info);
+  editInfo(info) {
+    return this.http.patch(`${mainUbsLink}/ubs/superAdmin/editInfoAboutTariff`, info);
   }
 
   setLimitDescription(description, courierId) {
