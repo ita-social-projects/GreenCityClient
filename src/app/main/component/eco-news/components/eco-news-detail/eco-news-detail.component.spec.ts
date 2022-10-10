@@ -103,7 +103,6 @@ describe('EcoNewsDetailComponent', () => {
     component.backRoute = '/news';
     component.newsItem = mockEcoNewsModel;
     (component as any).newsId = 3;
-    component.userId = 3;
   });
 
   it('should create', () => {
@@ -116,6 +115,7 @@ describe('EcoNewsDetailComponent', () => {
     spyOn(component as any, 'canUserEditNews');
     spyOn(component as any, 'getEcoNewsById');
 
+    component.userId = 3;
     component.ngOnInit();
     expect((component as any).getIsLiked).toHaveBeenCalledTimes(1);
     expect((component as any).setNewsId).toHaveBeenCalledTimes(1);
@@ -138,7 +138,7 @@ describe('EcoNewsDetailComponent', () => {
   });
 
   it('getAllTags should return array of en tags', () => {
-    component.newsItem.tagsEn = ['Events', 'Education'];
+    component.newsItem.tags = ['Events', 'Education'];
     const tags = component.getAllTags();
     expect(tags).toEqual(['Events', 'Education']);
   });
@@ -182,14 +182,4 @@ describe('EcoNewsDetailComponent', () => {
       '_blank'
     );
   });
-
-  // it('setNewsId UserId should be 4', () => {
-  //   component.setNewsId();
-  //   expect(component.userId).toBe(4);
-  // });
-
-  // it('canUserEditNews UserId should be 4', () => {
-  //   component.canUserEditNews();
-  //   expect(component.userId).toBe(4);
-  // });
 });

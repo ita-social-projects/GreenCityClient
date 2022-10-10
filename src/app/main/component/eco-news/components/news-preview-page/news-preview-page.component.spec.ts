@@ -123,6 +123,15 @@ describe('NewsPreviewPageComponent', () => {
     expect(component).toBeTruthy();
   });
 
+  it('ngOnInit should init two method', () => {
+    spyOn(component as any, 'getPreviewData');
+    spyOn(component as any, 'bindUserName');
+
+    component.ngOnInit();
+    expect((component as any).getPreviewData).toHaveBeenCalledTimes(1);
+    expect((component as any).bindUserName).toHaveBeenCalledTimes(1);
+  });
+
   it('method isBackToEdit should change isBackToEditing to true', () => {
     jasmine.clock().install();
     component.isBackToEdit();

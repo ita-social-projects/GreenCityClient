@@ -43,7 +43,6 @@ export class EcoNewsDetailComponent implements OnInit, OnDestroy {
     }
     this.backRoute = this.localStorageService.getPreviousPage();
     this.currentLang = this.localStorageService.getCurrentLanguage();
-    this.tags = this.getAllTags();
     this.localStorageService.languageSubject.pipe(takeUntil(this.destroy)).subscribe((lang: string) => {
       this.currentLang = lang;
       this.tags = this.getAllTags();
@@ -53,11 +52,12 @@ export class EcoNewsDetailComponent implements OnInit, OnDestroy {
   public getEcoNewsById(id: number): void {
     this.ecoNewsService.getEcoNewsById(id).subscribe((res: EcoNewsModel) => {
       this.newsItem = res;
+      this.tags = this.getAllTags();
     });
   }
 
   public getAllTags(): Array<string> {
-    return this.currentLang === 'ua' ? this.newsItem.tagsUa : this.newsItem.tagsEn;
+    return this.currentLang === 'ua' ? this.newsItem.tagsUa : this.newsItem.tags;
   }
   public checkNewsImage(): string {
     this.newsImage = this.newsItem.imagePath && this.newsItem.imagePath !== ' ' ? this.newsItem.imagePath : this.images.largeImage;
