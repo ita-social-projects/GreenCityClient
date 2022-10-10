@@ -1,6 +1,6 @@
-import { Component, OnInit, OnDestroy, Injector, Inject } from '@angular/core';
+import { Component, OnInit, OnDestroy, Injector } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
-import { MatDialog, MatDialogConfig, MatDialogRef } from '@angular/material/dialog';
+import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
 import { Location } from '@angular/common';
 import { ActivatedRoute, Router } from '@angular/router';
 import { TariffsService } from '../../../services/tariffs.service';
@@ -57,13 +57,7 @@ export class UbsAdminTariffsPricingPageComponent implements OnInit, OnDestroy {
   private fb: FormBuilder;
   locations$ = this.store.select((state: IAppState): Locations[] => state.locations.locations);
 
-  constructor(
-    private injector: Injector,
-    public dialogRefService: MatDialogRef<UbsAdminTariffsAddServicePopUpComponent>,
-    public dialogRefTariff: MatDialogRef<UbsAdminTariffsAddTariffServicePopUpComponent>,
-    private router: Router,
-    private store: Store<IAppState>
-  ) {
+  constructor(private injector: Injector, private router: Router, private store: Store<IAppState>) {
     this.location = injector.get(Location);
     this.dialog = injector.get(MatDialog);
     this.tariffsService = injector.get(TariffsService);
@@ -117,52 +111,6 @@ export class UbsAdminTariffsPricingPageComponent implements OnInit, OnDestroy {
     this.toggle = false;
   }
 
-  // async saveChanges() {
-  //   const { minAmountOfOrder, maxAmountOfOrder, minAmountOfBigBag, maxAmountOfBigBag, locationId, limitDescription } =
-  //     this.limitsForm.value;
-  //
-  //   this.info = {
-  //     minAmountOfOrder,
-  //     maxAmountOfOrder,
-  //     minAmountOfBigBag,
-  //     maxAmountOfBigBag,
-  //     locationId,
-  //     limitDescription
-  //   };
-  //
-  //   const tariffId = this.selectedCardId;
-  //   const courierId = await this.getCourierId();
-  //
-  //   if (minAmountOfOrder !== null && maxAmountOfOrder !== null) {
-  //     this.tariffsService
-  //       .setLimitsBySumOrder(this.info, tariffId)
-  //       .pipe(takeUntil(this.destroy))
-  //       .subscribe(() => {
-  //         this.getCouriers();
-  //       });
-  //
-  //     this.tariffsService
-  //       .setLimitDescription(this.info.limitDescription, courierId)
-  //       .pipe(takeUntil(this.destroy))
-  //       .subscribe((res) => {
-  //         this.getCouriers();
-  //       });
-  //   } else {
-  //     this.tariffsService
-  //       .setLimitsByAmountOfBags(this.info, tariffId)
-  //       .pipe(takeUntil(this.destroy))
-  //       .subscribe(() => {
-  //         this.getCouriers();
-  //       });
-  //     this.tariffsService
-  //       .setLimitDescription(this.info.limitDescription, courierId)
-  //       .pipe(takeUntil(this.destroy))
-  //       .subscribe((res) => {
-  //         this.getCouriers();
-  //       });
-  //   }
-  // }
-
   async saveChanges() {
     const { minAmountOfOrder, maxAmountOfOrder, minAmountOfBigBag, maxAmountOfBigBag, limitDescription } = this.limitsForm.value;
 
@@ -187,7 +135,7 @@ export class UbsAdminTariffsPricingPageComponent implements OnInit, OnDestroy {
       this.tariffsService
         .setLimitDescription(this.descriptionInfo.limitDescription, courierId)
         .pipe(takeUntil(this.destroy))
-        .subscribe((res) => {
+        .subscribe(() => {
           this.getCouriers();
         });
     }
@@ -203,7 +151,7 @@ export class UbsAdminTariffsPricingPageComponent implements OnInit, OnDestroy {
       this.tariffsService
         .setLimitDescription(this.descriptionInfo.limitDescription, courierId)
         .pipe(takeUntil(this.destroy))
-        .subscribe((res) => {
+        .subscribe(() => {
           this.getCouriers();
         });
     }
@@ -218,7 +166,7 @@ export class UbsAdminTariffsPricingPageComponent implements OnInit, OnDestroy {
       this.tariffsService
         .setLimitDescription(this.descriptionInfo.limitDescription, courierId)
         .pipe(takeUntil(this.destroy))
-        .subscribe((res) => {
+        .subscribe(() => {
           this.getCouriers();
         });
     }
