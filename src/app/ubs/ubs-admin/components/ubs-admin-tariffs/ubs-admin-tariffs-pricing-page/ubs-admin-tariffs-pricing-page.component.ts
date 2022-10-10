@@ -1,10 +1,10 @@
-import { Component, OnInit, OnDestroy, Injector } from '@angular/core';
-import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
+import { Component, OnInit, OnDestroy, Injector, Inject } from '@angular/core';
+import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { MatDialog, MatDialogConfig, MatDialogRef } from '@angular/material/dialog';
 import { Location } from '@angular/common';
 import { ActivatedRoute, Router } from '@angular/router';
 import { TariffsService } from '../../../services/tariffs.service';
-import { takeUntil, take, skip } from 'rxjs/operators';
+import { takeUntil, skip } from 'rxjs/operators';
 import { Bag, Service, Locations } from '../../../models/tariffs.interface';
 import { OrderService } from '../../../../ubs/services/order.service';
 import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
@@ -27,8 +27,10 @@ export class UbsAdminTariffsPricingPageComponent implements OnInit, OnDestroy {
   locations: Locations[] = [];
   isLoadBar1: boolean;
   isLoadBar: boolean;
-  selectedLocationId;
+  selectedCardId;
   amount;
+  info;
+  description;
   couriers;
   limitsForm: FormGroup;
   currentLocation;
@@ -81,54 +83,88 @@ export class UbsAdminTariffsPricingPageComponent implements OnInit, OnDestroy {
 
   private initForm(): void {
     this.limitsForm = this.fb.group({
+      limitDescription: new FormControl(),
       courierLimitsBy: new FormControl(''),
       minAmountOfOrder: new FormControl(),
       maxAmountOfOrder: new FormControl(),
       minAmountOfBigBag: new FormControl(),
-      maxAmountOfBigBag: new FormControl(),
-      limitDescription: new FormControl()
+      maxAmountOfBigBag: new FormControl()
     });
   }
 
   fillFields(): void {
-    const { courierLimit, minPriceOfOrder, maxPriceOfOrder, minAmountOfBigBags, maxAmountOfBigBags, limitDescription } = this.couriers[0];
+    const { courierLimit, minPriceOfOrder, maxPriceOfOrder, minAmountOfBigBags, maxAmountOfBigBags, description } = this.couriers[0];
+
     this.limitsForm.patchValue({
       courierLimitsBy: courierLimit,
       minAmountOfOrder: minPriceOfOrder,
       maxAmountOfOrder: maxPriceOfOrder,
       minAmountOfBigBag: minAmountOfBigBags,
       maxAmountOfBigBag: maxAmountOfBigBags,
-      limitDescription
+      limitDescription: description
     });
   }
 
-  saveChanges(): void {
-    const { courierLimitsBy, minAmountOfOrder, maxAmountOfOrder, minAmountOfBigBag, maxAmountOfBigBag, limitDescription } =
+  async saveChanges() {
+    const { minAmountOfOrder, maxAmountOfOrder, minAmountOfBigBag, maxAmountOfBigBag, locationId, limitDescription } =
       this.limitsForm.value;
-    this.amount = {
-      bagId: 1,
-      courierId: 1,
-      languageId: 1,
-      courierLimitsBy,
-      limitDescription,
-      maxAmountOfBigBag,
+
+    this.info = {
+      minAmountOfOrder,
       maxAmountOfOrder,
       minAmountOfBigBag,
-      minAmountOfOrder,
-      minimalAmountOfBagStatus: 'INCLUDE'
+      maxAmountOfBigBag,
+      locationId,
+      limitDescription
     };
-    this.tariffsService
-      .editInfo(this.amount)
-      .pipe(takeUntil(this.destroy))
-      .subscribe(() => {
-        this.getCouriers();
-      });
+
+    const tariffId = this.selectedCardId;
+    const courierId = await this.getCourierId();
+
+    if (minAmountOfOrder !== null && maxAmountOfOrder !== null) {
+      this.tariffsService
+        .setLimitsBySumOrder(this.info, tariffId)
+        .pipe(takeUntil(this.destroy))
+        .subscribe(() => {
+          this.getCouriers();
+        });
+
+      this.tariffsService
+        .setLimitDescription(this.info.limitDescription, courierId)
+        .pipe(takeUntil(this.destroy))
+        .subscribe((res) => {
+          this.getCouriers();
+        });
+    } else {
+      this.tariffsService
+        .setLimitsByAmountOfBags(this.info, tariffId)
+        .pipe(takeUntil(this.destroy))
+        .subscribe(() => {
+          this.getCouriers();
+        });
+      this.tariffsService
+        .setLimitDescription(this.info.limitDescription, courierId)
+        .pipe(takeUntil(this.destroy))
+        .subscribe((res) => {
+          this.getCouriers();
+        });
+    }
+  }
+
+  async getCourierId(): Promise<any> {
+    const res: any = await this.tariffsService.getCardInfo().toPromise();
+    const card = res.find((value) => {
+      if (this.selectedCardId === value.cardId) {
+        return true;
+      }
+    });
+    return card.courierId;
   }
 
   routeParams(): void {
     this.route.params.pipe(takeUntil(this.destroy)).subscribe((res) => {
       this.getAllTariffsForService();
-      this.selectedLocationId = +res.id;
+      this.selectedCardId = +res.id;
       this.currentLocation = +res.id;
       this.getServices();
     });
@@ -279,7 +315,7 @@ export class UbsAdminTariffsPricingPageComponent implements OnInit, OnDestroy {
       if (item) {
         this.locations = item;
         this.reset = false;
-        this.thisLocation = this.locations.filter((it) => it.regionId === this.selectedLocationId);
+        this.thisLocation = this.locations.filter((it) => it.regionId === this.selectedCardId.locationId);
       }
     });
   }

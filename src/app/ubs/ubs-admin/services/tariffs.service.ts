@@ -52,8 +52,20 @@ export class TariffsService {
     return this.http.get<any[]>(`${mainUbsLink}/ubs/superAdmin/getCouriers`);
   }
 
-  editInfo(info) {
-    return this.http.patch(`${mainUbsLink}/ubs/superAdmin/editInfoAboutTariff`, info);
+  editInfo(info, courierId) {
+    return this.http.patch(`${mainUbsLink}/ubs/superAdmin/setLimitDescription/${courierId}`, info);
+  }
+
+  setLimitDescription(description, courierId) {
+    return this.http.patch(`${mainUbsLink}/ubs/superAdmin/setLimitDescription/${courierId}`, description);
+  }
+
+  setLimitsBySumOrder(info, tariffId) {
+    return this.http.patch(`${mainUbsLink}/ubs/superAdmin/setLimitsBySumOfOrder/${tariffId}`, info);
+  }
+
+  setLimitsByAmountOfBags(info, tariffId) {
+    return this.http.patch(`${mainUbsLink}/ubs/superAdmin/setLimitsByAmountOfBags/${tariffId}`, info);
   }
 
   public getJSON(sourceText): Observable<any> {
