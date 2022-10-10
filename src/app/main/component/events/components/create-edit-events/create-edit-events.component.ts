@@ -66,7 +66,7 @@ export class CreateEditEventsComponent implements OnInit, OnDestroy {
     this.tags = TagsArray.reduce((ac, cur) => [...ac, { ...cur }], []);
 
     this.eventFormGroup = new FormGroup({
-      titleForm: new FormControl('', [Validators.required, Validators.minLength(1), Validators.maxLength(70), this.validateSpaces]),
+      titleForm: new FormControl('', [Validators.required, Validators.minLength(1), Validators.maxLength(70)]),
       description: new FormControl('', [Validators.required, Validators.minLength(28), Validators.maxLength(63206)]),
       eventDuration: new FormControl('', [Validators.required, Validators.minLength(2)])
     });
@@ -254,7 +254,6 @@ export class CreateEditEventsComponent implements OnInit, OnDestroy {
 
   private checkFileExtension(file: any): void {
     this.isImageSizeError = file.size >= 10000000;
-
     this.isImageTypeError = !(file.type === 'image/jpeg' || file.type === 'image/png');
   }
 
