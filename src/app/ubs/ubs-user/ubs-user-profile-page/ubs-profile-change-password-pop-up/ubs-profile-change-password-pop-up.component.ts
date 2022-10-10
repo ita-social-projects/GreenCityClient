@@ -1,4 +1,4 @@
-import { Component, Inject, OnInit } from '@angular/core';
+import { Component, Inject, OnInit, Optional } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { MatSnackBarComponent } from '@global-errors/mat-snack-bar/mat-snack-bar.component';
@@ -24,10 +24,10 @@ export class UbsProfileChangePasswordPopUpComponent implements OnInit {
 
   constructor(
     private changePasswordService: ChangePasswordService,
+    @Optional() public dialogRef: MatDialogRef<UbsProfileChangePasswordPopUpComponent>,
     @Inject(MAT_DIALOG_DATA) public data: any,
     private fb: FormBuilder,
-    private snackBar: MatSnackBarComponent,
-    public dialogRef: MatDialogRef<UbsProfileChangePasswordPopUpComponent>
+    private snackBar: MatSnackBarComponent
   ) {}
 
   ngOnInit() {
