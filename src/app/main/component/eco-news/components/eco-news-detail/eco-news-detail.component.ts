@@ -33,11 +33,11 @@ export class EcoNewsDetailComponent implements OnInit, OnDestroy {
   constructor(private route: ActivatedRoute, private ecoNewsService: EcoNewsService, private localStorageService: LocalStorageService) {}
 
   ngOnInit() {
-    this.canUserEditNews();
-    this.setNewsId();
+    this.getUserId();
     if (this.userId) {
       this.getIsLiked();
     }
+    this.setNewsId();
     if (this.newsId) {
       this.getEcoNewsById(this.newsId);
     }
@@ -64,7 +64,7 @@ export class EcoNewsDetailComponent implements OnInit, OnDestroy {
     return this.newsImage;
   }
 
-  public canUserEditNews(): void {
+  public getUserId(): void {
     this.localStorageService.userIdBehaviourSubject.subscribe((id) => (this.userId = id));
   }
 

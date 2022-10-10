@@ -13,7 +13,7 @@ import { CUSTOM_ELEMENTS_SCHEMA, Pipe, PipeTransform, Sanitizer } from '@angular
 import { DateLocalisationPipe } from '@pipe/date-localisation-pipe/date-localisation.pipe';
 
 import { Store } from '@ngrx/store';
-import { of } from 'rxjs';
+import { BehaviorSubject, of } from 'rxjs';
 import { SafeHtmlPipe } from '@pipe/safe-html-pipe/safe-html.pipe';
 import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
 import { Language } from '../../../../i18n/Language';
@@ -58,12 +58,12 @@ describe('EcoNewsDetailComponent', () => {
   sanitaizerMock.bypassSecurityTrustHtml.and.returnValue(fakeElement);
 
   const NewsServiceMock = jasmine.createSpyObj('ecoNewsService', ['getEcoNewsById']);
-  NewsServiceMock.getEcoNewsById = () => of(mockEcoNewsModel);
+  NewsServiceMock.getEcoNewsById = (id: number) => of(mockEcoNewsModel);
 
   const backLink = jasmine.createSpyObj('localStorageService', ['getCurrentLanguage', 'getPreviousPage']);
   backLink.getCurrentLanguage = () => 'en' as Language;
   backLink.getPreviousPage = () => '/news';
-  backLink.userIdBehaviourSubject = of(4);
+  backLink.userIdBehaviourSubject = new BehaviorSubject(4);
   backLink.languageSubject = of('en');
 
   const ecoNewsServ = jasmine.createSpyObj('ecoNewsService', ['postToggleLike', 'getIsLikedByUser']);
@@ -109,36 +109,44 @@ describe('EcoNewsDetailComponent', () => {
     expect(component).toBeTruthy();
   });
 
-  it('ngOnInit should init four method and call isLiked', () => {
-    spyOn(component as any, 'setNewsId');
+  it('ngOnInit should init four method', () => {
+    spyOn(component as any, 'getUserId');
     spyOn(component as any, 'getIsLiked');
-    spyOn(component as any, 'canUserEditNews');
+    spyOn(component as any, 'setNewsId');
     spyOn(component as any, 'getEcoNewsById');
 
     component.userId = 3;
     component.ngOnInit();
+    expect((component as any).getUserId).toHaveBeenCalledTimes(1);
     expect((component as any).getIsLiked).toHaveBeenCalledTimes(1);
     expect((component as any).setNewsId).toHaveBeenCalledTimes(1);
-    expect((component as any).canUserEditNews).toHaveBeenCalledTimes(1);
     expect((component as any).getEcoNewsById).toHaveBeenCalledTimes(1);
   });
 
-  it('ngOnInit should init three method', () => {
-    spyOn(component as any, 'setNewsId');
+  it('ngOnInit userId null should not call getIsLiked method', () => {
+    spyOn(component as any, 'getUserId');
     spyOn(component as any, 'getIsLiked');
-    spyOn(component as any, 'canUserEditNews');
-    spyOn(component as any, 'getEcoNewsById');
 
     component.userId = null;
     component.ngOnInit();
+    expect((component as any).getUserId).toHaveBeenCalledTimes(1);
     expect((component as any).getIsLiked).toHaveBeenCalledTimes(0);
-    expect((component as any).setNewsId).toHaveBeenCalledTimes(1);
-    expect((component as any).canUserEditNews).toHaveBeenCalledTimes(1);
-    expect((component as any).getEcoNewsById).toHaveBeenCalledTimes(1);
+  });
+
+  it('ngOnInit newsId null should not call getEcoNewsById method', () => {
+    spyOn(component as any, 'getEcoNewsById');
+
+    (component as any).newsId = null;
+    component.ngOnInit();
+    expect((component as any).getEcoNewsById).toHaveBeenCalledTimes(0);
+  });
+
+  it('should get userId', () => {
+    expect(backLink.userIdBehaviourSubject.value).toBe(4);
   });
 
   it('getAllTags should return array of en tags', () => {
-    component.newsItem.tags = ['Events', 'Education'];
+    component.currentLang = 'en';
     const tags = component.getAllTags();
     expect(tags).toEqual(['Events', 'Education']);
   });
@@ -150,15 +158,9 @@ describe('EcoNewsDetailComponent', () => {
   });
 
   it('checkNewsImage should return default image src', () => {
-    component.newsItem = mockEcoNewsModel;
     component.newsItem.imagePath = ' ';
     const imagePath = component.checkNewsImage();
     expect(imagePath).toEqual('assets/img/icon/econews/news-default-large.png');
-  });
-
-  it('canUserEditNews UserId should be 4', () => {
-    component.canUserEditNews();
-    expect(component.userId).toBe(4);
   });
 
   it('should return FB social share link and call open method', () => {

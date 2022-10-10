@@ -69,9 +69,7 @@ export class CreateEcoNewsService {
   }
 
   public setNewsId(id: number): void {
-    if (id) {
-      this.newsId = id;
-    }
+    this.newsId = id;
   }
 
   public sendFormData(form): Observable<EcoNewsModel> {
