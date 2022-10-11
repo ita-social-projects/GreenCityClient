@@ -57,9 +57,6 @@ describe('EcoNewsDetailComponent', () => {
   const fakeElement = document.createElement('div') as SafeHtml;
   sanitaizerMock.bypassSecurityTrustHtml.and.returnValue(fakeElement);
 
-  const NewsServiceMock = jasmine.createSpyObj('ecoNewsService', ['getEcoNewsById']);
-  NewsServiceMock.getEcoNewsById = (id: number) => of(mockEcoNewsModel);
-
   const backLink = jasmine.createSpyObj('localStorageService', ['getCurrentLanguage', 'getPreviousPage']);
   backLink.getCurrentLanguage = () => 'en' as Language;
   backLink.getPreviousPage = () => '/news';
@@ -142,11 +139,19 @@ describe('EcoNewsDetailComponent', () => {
   });
 
   it('should get userId', () => {
-    expect(backLink.userIdBehaviourSubject.value).toBe(4);
+    component.userId = null;
+    component.getUserId();
+    expect(component.userId).toBe(4);
   });
 
-  it('getAllTags should return array of en tags', () => {
-    component.currentLang = 'en';
+  it('should set newsId', () => {
+    route.snapshot.params.id = 1;
+    (component as any).newsId = null;
+    (component as any).setNewsId();
+    expect((component as any).newsId).toBe(1);
+  });
+
+  it('getAllTags should return array of ua tags', () => {
     const tags = component.getAllTags();
     expect(tags).toEqual(['Events', 'Education']);
   });
@@ -183,5 +188,10 @@ describe('EcoNewsDetailComponent', () => {
       `https://twitter.com/share?url=${window.location.href}&text=${mockEcoNewsModel.title}&hashtags=${mockEcoNewsModel.tags.join(',')}`,
       '_blank'
     );
+  });
+
+  it('should get IsLiked', () => {
+    (component as any).getIsLiked();
+    expect(component.isLiked).toBe(true);
   });
 });
