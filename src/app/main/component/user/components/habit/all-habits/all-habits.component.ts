@@ -44,6 +44,7 @@ export class AllHabitsComponent implements OnInit, OnDestroy {
 
   ngOnInit() {
     this.onResize();
+    this.checkHabitsView();
 
     const langChangeSub = this.localStorageService.languageBehaviourSubject.subscribe((lang) => {
       this.translate.setDefaultLang(lang);
@@ -78,6 +79,18 @@ export class AllHabitsComponent implements OnInit, OnDestroy {
     this.masterSubscription.add(habitServiceSub);
   }
 
+  public checkHabitsView(): void {
+    const galleryView = this.localStorageService.getHabitsGalleryView();
+    switch (galleryView) {
+      case null:
+        this.localStorageService.setHabitsGalleryView(true);
+        break;
+      case 'false':
+        this.galleryView = false;
+        break;
+    }
+  }
+
   private fetchAllHabits(page, size): void {
     this.habitService
       .getAllHabits(page, size)
@@ -110,6 +123,7 @@ export class AllHabitsComponent implements OnInit, OnDestroy {
 
   public onDisplayModeChange(mode: boolean): void {
     this.galleryView = mode;
+    this.localStorageService.setHabitsGalleryView(mode);
   }
 
   public getFilterData(event: Array<string>) {
