@@ -44,8 +44,8 @@ describe('CreateEcoNewsService', () => {
   });
 
   it('should set newsId', () => {
-    const id = 11;
-    service.setNewsId(id);
+    service.newsId = 1;
+    service.setNewsId(11);
     expect(service.newsId).toBe(11);
   });
 
