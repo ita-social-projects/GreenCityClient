@@ -160,8 +160,13 @@ describe('CreateEditEventsComponent', () => {
     expect(component.dates.length).toBe(3);
   });
 
+  it('getImageTosend imgArray length should be 0', () => {
+    component.getImageTosend([new File(['some content'], 'text-file.txt', { type: 'text/txt' })]);
+    expect((component as any).imgArray.length).toBe(0);
+  });
+
   it('getImageTosend imgArray length should be 1', () => {
-    component.getImageTosend([new File(['some content'], 'text-file.txt')]);
+    component.getImageTosend([new File(['some content'], 'img-file.jpeg', { type: 'image/jpeg' })]);
     expect((component as any).imgArray.length).toBe(1);
   });
 

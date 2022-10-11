@@ -131,8 +131,8 @@ export class CreateEditEventsComponent implements OnInit, OnDestroy {
   }
 
   public getImageTosend(imageArr: Array<File>): void {
-    this.imgArray = [...imageArr];
     this.checkFileExtension(imageArr[-1]);
+    this.imgArray = [...imageArr];
   }
 
   public getImagesToDelete(imagesSrc: Array<string>): void {
@@ -239,7 +239,7 @@ export class CreateEditEventsComponent implements OnInit, OnDestroy {
       this.checkAfterSend = false;
     }
   }
-
+  File;
   private createEvent(sendData: FormData) {
     this.isPosting = true;
     this.editMode
@@ -253,7 +253,6 @@ export class CreateEditEventsComponent implements OnInit, OnDestroy {
   }
 
   private checkFileExtension(file: File): void {
-    this.isImageSizeError = file.size >= 10000000;
     this.isImageTypeError = !['image/jpeg', 'image/png'].includes(file.type);
   }
 
