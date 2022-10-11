@@ -239,7 +239,7 @@ export class CreateEditEventsComponent implements OnInit, OnDestroy {
       this.checkAfterSend = false;
     }
   }
-  File;
+
   private createEvent(sendData: FormData) {
     this.isPosting = true;
     this.editMode
