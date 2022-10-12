@@ -21,6 +21,7 @@ describe('CreateEcoNewsService', () => {
     image: new FormControl(''),
     source: new FormControl('http://mocknews.com')
   });
+  const id = 3;
 
   beforeEach(() =>
     TestBed.configureTestingModule({
@@ -44,8 +45,6 @@ describe('CreateEcoNewsService', () => {
   });
 
   it('should set newsId', () => {
-    service.newsId = 1;
-    const id = 11;
     service.setNewsId(id);
     expect(service.newsId).toBe(id);
   });
