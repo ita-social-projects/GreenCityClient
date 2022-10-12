@@ -131,8 +131,8 @@ export class CreateEditEventsComponent implements OnInit, OnDestroy {
   }
 
   public getImageTosend(imageArr: Array<File>): void {
-    this.checkFileExtension(imageArr[-1]);
     this.imgArray = [...imageArr];
+    this.checkFileExtension(imageArr);
   }
 
   public getImagesToDelete(imagesSrc: Array<string>): void {
