@@ -361,6 +361,6 @@ $inputwidth: 260px;
   line-height: 12px;
   color: var(--error-ligh-red);
   display: inline-block;
-  width: max-content;
+  max-width: 260px;
   vertical-align: middle;
 }
