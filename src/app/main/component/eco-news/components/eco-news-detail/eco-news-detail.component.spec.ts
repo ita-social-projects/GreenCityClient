@@ -30,11 +30,11 @@ describe('EcoNewsDetailComponent', () => {
   let fixture: ComponentFixture<EcoNewsDetailComponent>;
   let httpMock: HttpTestingController;
   let route: ActivatedRoute;
-  const existingImagePath =
+  const defaultImagePath =
     'https://csb10032000a548f571.blob.core.windows.net/allfiles/90370622-3311-4ff1-9462-20cc98a64d1ddefault_image.jpg';
   const mockEcoNewsModel: EcoNewsModel = {
     id: 3,
-    imagePath: existingImagePath,
+    imagePath: defaultImagePath,
     title: 'test title',
     content: 'some description',
     author: {
@@ -100,6 +100,7 @@ describe('EcoNewsDetailComponent', () => {
     component.backRoute = '/news';
     component.newsItem = mockEcoNewsModel;
     (component as any).newsId = 3;
+    (component as any).newsImage = ' ';
     component.tags = component.getAllTags();
   });
 
@@ -159,29 +160,30 @@ describe('EcoNewsDetailComponent', () => {
 
   it('getAllTags should return array of ua tags', () => {
     component.newsItem.tagsUa = ['Події', 'Освіта'];
-    expect(component.getAllTags()).toEqual(component.newsItem.tagsUa);
+    expect(component.getAllTags()).toEqual(['Події', 'Освіта']);
   });
 
   it('getAllTags should return array of tags', () => {
     component.currentLang = 'en';
-    component.newsItem.tags = ['Events', 'Education'];
-    expect(component.getAllTags()).toEqual(component.newsItem.tags);
+    component.newsItem.tagsEn = ['Events', 'Education'];
+    expect(component.getAllTags()).toEqual(['Events', 'Education']);
   });
 
-  it('checkNewsImage should set newsImage to be equal to existing image src', () => {
-    component.newsItem.imagePath = existingImagePath;
+  it('should set newsImage if we have imagePath to default image', () => {
+    component.newsItem.imagePath = defaultImagePath;
     component.checkNewsImage();
-    expect((component as any).newsImage).toBe(component.newsItem.imagePath);
+    expect((component as any).newsImage).toBe(defaultImagePath);
   });
 
-  it('checkNewsImage should set newsImage to be equal to large image src', () => {
+  it('should set newsImage if imagePath not exist to default image', () => {
     component.newsItem.imagePath = ' ';
+    (component as any).images.largeImage = 'url';
     component.checkNewsImage();
-    expect((component as any).newsImage).toBe((component as any).images.largeImage);
+    expect((component as any).newsImage).toBe('url');
   });
 
   it('checkNewsImage should return news image src', () => {
-    component.newsItem.imagePath = existingImagePath;
+    component.newsItem.imagePath = defaultImagePath;
     expect(component.checkNewsImage()).toBe((component as any).newsImage);
   });
 
