@@ -113,16 +113,16 @@ export class LocalStorageService {
     this.userIdBehaviourSubject.next(null);
   }
 
-  public setTagsOfNews(key: string, tags: FilterModel[]) {
-    localStorage.setItem(key, JSON.stringify(tags));
+  public setTagsOfNews(tags: FilterModel[]) {
+    localStorage.setItem('newsTags', JSON.stringify(tags));
   }
 
-  public getTagsOfNews(key: string) {
-    return JSON.parse(localStorage.getItem(key));
+  public getTagsOfNews() {
+    return JSON.parse(localStorage.getItem('newsTags'));
   }
 
-  public removeTagsOfNews(key: string) {
-    localStorage.removeItem(key);
+  public removeTagsOfNews() {
+    localStorage.removeItem('newsTags');
   }
 
   public setUbsRegistration(value: boolean): void {

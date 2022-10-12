@@ -4,13 +4,14 @@ import { CreateEcoNewsService } from '@eco-news-service/create-eco-news.service'
 import { Router } from '@angular/router';
 import { FormGroup } from '@angular/forms';
 import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
-import { Subscription, throwError } from 'rxjs';
+import { ReplaySubject, Subscription, throwError } from 'rxjs';
 import { ACTION_TOKEN } from '../create-edit-news/action.constants';
 import { ActionInterface } from '../../models/action.interface';
 import { Store, ActionsSubject } from '@ngrx/store';
 import { CreateEcoNewsAction, EditEcoNewsAction, NewsActions } from 'src/app/store/actions/ecoNews.actions';
 import { ofType } from '@ngrx/effects';
-import { catchError } from 'rxjs/operators';
+import { catchError, takeUntil } from 'rxjs/operators';
+import { FilterModel } from '@eco-news-models/create-news-interface';
 
 @Component({
   selector: 'app-news-preview-page',
@@ -27,6 +28,9 @@ export class NewsPreviewPageComponent implements OnInit, OnDestroy {
   public attributes: ActionInterface;
   public newsId: string;
   public onSubmit;
+  currentLang: string;
+  destroy: ReplaySubject<any> = new ReplaySubject<any>(1);
+  tags: FilterModel[] = [];
 
   constructor(
     private store: Store,
@@ -38,6 +42,11 @@ export class NewsPreviewPageComponent implements OnInit, OnDestroy {
   ) {}
 
   ngOnInit() {
+    this.currentLang = this.localStorageService.getCurrentLanguage();
+    this.localStorageService.languageSubject.pipe(takeUntil(this.destroy)).subscribe((lang: string) => {
+      this.currentLang = lang;
+    });
+
     this.getPreviewData();
     this.bindUserName();
     if (this.createEcoNewsService.getNewsId()) {
@@ -74,6 +83,7 @@ export class NewsPreviewPageComponent implements OnInit, OnDestroy {
 
   private getPreviewData(): void {
     this.previewItem = this.createEcoNewsService.getFormData();
+    this.tags = this.localStorageService.getTagsOfNews();
   }
 
   public postNewsItem(): void {
@@ -103,6 +113,8 @@ export class NewsPreviewPageComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy() {
+    this.destroy.next(true);
+    this.destroy.complete();
     this.userNameSub.unsubscribe();
   }
 }
