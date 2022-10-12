@@ -30,11 +30,11 @@ describe('EcoNewsDetailComponent', () => {
   let fixture: ComponentFixture<EcoNewsDetailComponent>;
   let httpMock: HttpTestingController;
   let route: ActivatedRoute;
-  const defaultImagePath =
+  const existingImagePath =
     'https://csb10032000a548f571.blob.core.windows.net/allfiles/90370622-3311-4ff1-9462-20cc98a64d1ddefault_image.jpg';
   const mockEcoNewsModel: EcoNewsModel = {
     id: 3,
-    imagePath: defaultImagePath,
+    imagePath: existingImagePath,
     title: 'test title',
     content: 'some description',
     author: {
@@ -146,7 +146,7 @@ describe('EcoNewsDetailComponent', () => {
     expect((component as any).newsId).toBe(1);
   });
 
-  it('getEcoNewsById', () => {
+  it('getEcoNewsById should get newsItem by id', () => {
     component.newsItem = null;
     component.getEcoNewsById((component as any).newsId);
     expect(component.newsItem).toEqual(mockEcoNewsModel);
@@ -158,24 +158,34 @@ describe('EcoNewsDetailComponent', () => {
   });
 
   it('getAllTags should return array of ua tags', () => {
-    expect(component.getAllTags()).toEqual(['Події', 'Освіта']);
+    expect(component.getAllTags()).toEqual(component.newsItem.tagsUa);
   });
 
-  it('getAllTags should return array of en tags', () => {
+  it('getAllTags should return array of tags', () => {
     component.currentLang = 'en';
-    expect(component.getAllTags()).toEqual(['Events', 'Education']);
+    expect(component.getAllTags()).toEqual(component.newsItem.tags);
+  });
+
+  it('checkNewsImage should set newsImage to be equal to existing image src', () => {
+    component.newsItem.imagePath = existingImagePath;
+    component.checkNewsImage();
+    expect((component as any).newsImage).toEqual(component.newsItem.imagePath);
   });
 
   it('checkNewsImage should return existing image src', () => {
-    component.newsItem.imagePath = defaultImagePath;
-    const imagePath = component.checkNewsImage();
-    expect(imagePath).toEqual(defaultImagePath);
+    component.newsItem.imagePath = existingImagePath;
+    expect(component.checkNewsImage()).toEqual(component.newsItem.imagePath);
   });
 
-  it('checkNewsImage should return default image src', () => {
+  it('checkNewsImage should set newsImage to be equal to large image src', () => {
     component.newsItem.imagePath = ' ';
-    const imagePath = component.checkNewsImage();
-    expect(imagePath).toEqual('assets/img/icon/econews/news-default-large.png');
+    component.checkNewsImage();
+    expect((component as any).newsImage).toEqual((component as any).images.largeImage);
+  });
+
+  it('checkNewsImage should return large image src', () => {
+    component.newsItem.imagePath = ' ';
+    expect(component.checkNewsImage()).toEqual((component as any).images.largeImage);
   });
 
   it('should return FB social share link and call open method', () => {

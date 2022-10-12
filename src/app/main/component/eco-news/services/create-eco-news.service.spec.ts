@@ -45,8 +45,9 @@ describe('CreateEcoNewsService', () => {
 
   it('should set newsId', () => {
     service.newsId = 1;
-    service.setNewsId(11);
-    expect(service.newsId).toBe(11);
+    const id = 11;
+    service.setNewsId(id);
+    expect(service.newsId).toBe(id);
   });
 
   it('should return formData', () => {
