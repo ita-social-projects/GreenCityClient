@@ -111,7 +111,6 @@ export class CreateEditNewsComponent extends FormBaseComponent implements OnInit
       this.currentLang = lang;
     });
     this.getAllTags();
-    // this.setLocalizedTags();
   }
 
   private filterArr(item: FilterModel, index: number) {
@@ -141,8 +140,8 @@ export class CreateEditNewsComponent extends FormBaseComponent implements OnInit
   }
 
   private getAllTags() {
-    const tags = this.localStorageService.getTagsOfNews();
-    if (tags) {
+    const tags = this.createEcoNewsService.getTags();
+    if (tags.length) {
       this.filters = tags;
       return;
     }
@@ -234,8 +233,6 @@ export class CreateEditNewsComponent extends FormBaseComponent implements OnInit
         })
       )
       .subscribe(() => this.escapeFromCreatePage());
-
-    this.localStorageService.removeTagsOfNews();
   }
 
   public createNews(): void {
@@ -368,7 +365,7 @@ export class CreateEditNewsComponent extends FormBaseComponent implements OnInit
     const index = this.filters.findIndex((item: FilterModel) => item.name === filterObj.name || item.nameUa === filterObj.nameUa);
     const changedTags = this.filterArr({ name: filterObj.name, nameUa: filterObj.nameUa, isActive: newValue }, index);
     this.filters = changedTags;
-    this.localStorageService.setTagsOfNews(changedTags);
+    this.createEcoNewsService.setTags(changedTags);
   }
 
   public goToPreview(): void {

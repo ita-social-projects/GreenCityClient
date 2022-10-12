@@ -1,7 +1,6 @@
 import { Language } from '../../i18n/Language';
 import { Injectable } from '@angular/core';
 import { BehaviorSubject, Subject } from 'rxjs';
-import { FilterModel } from '@eco-news-models/create-news-interface';
 import { EventPageResponceDto } from '../../component/events/models/events.interface';
 
 @Injectable({
@@ -111,18 +110,6 @@ export class LocalStorageService {
     this.setCurrentLanguage(currentLanguage);
     this.firstNameBehaviourSubject.next(null);
     this.userIdBehaviourSubject.next(null);
-  }
-
-  public setTagsOfNews(tags: FilterModel[]) {
-    localStorage.setItem('newsTags', JSON.stringify(tags));
-  }
-
-  public getTagsOfNews() {
-    return JSON.parse(localStorage.getItem('newsTags'));
-  }
-
-  public removeTagsOfNews() {
-    localStorage.removeItem('newsTags');
   }
 
   public setUbsRegistration(value: boolean): void {

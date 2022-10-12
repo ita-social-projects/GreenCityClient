@@ -83,7 +83,7 @@ export class NewsPreviewPageComponent implements OnInit, OnDestroy {
 
   private getPreviewData(): void {
     this.previewItem = this.createEcoNewsService.getFormData();
-    this.tags = this.localStorageService.getTagsOfNews();
+    this.tags = this.createEcoNewsService.getTags();
   }
 
   public postNewsItem(): void {

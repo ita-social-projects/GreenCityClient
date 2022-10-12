@@ -33,7 +33,9 @@ describe('NewsPreviewPageComponent', () => {
     'getNewsId',
     'isBackToEditing',
     'sendFormData',
-    'editNews'
+    'editNews',
+    'getTags',
+    'setTags'
   ]);
   createEcoNewsServiceMock.getFormData = () => currentFormWithImageMock;
   createEcoNewsServiceMock.isBackToEditing = true;
