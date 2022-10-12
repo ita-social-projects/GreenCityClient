@@ -158,34 +158,31 @@ describe('EcoNewsDetailComponent', () => {
   });
 
   it('getAllTags should return array of ua tags', () => {
+    component.newsItem.tagsUa = ['Події', 'Освіта'];
     expect(component.getAllTags()).toEqual(component.newsItem.tagsUa);
   });
 
   it('getAllTags should return array of tags', () => {
     component.currentLang = 'en';
+    component.newsItem.tags = ['Events', 'Education'];
     expect(component.getAllTags()).toEqual(component.newsItem.tags);
   });
 
   it('checkNewsImage should set newsImage to be equal to existing image src', () => {
     component.newsItem.imagePath = existingImagePath;
     component.checkNewsImage();
-    expect((component as any).newsImage).toEqual(component.newsItem.imagePath);
-  });
-
-  it('checkNewsImage should return existing image src', () => {
-    component.newsItem.imagePath = existingImagePath;
-    expect(component.checkNewsImage()).toEqual(component.newsItem.imagePath);
+    expect((component as any).newsImage).toBe(component.newsItem.imagePath);
   });
 
   it('checkNewsImage should set newsImage to be equal to large image src', () => {
     component.newsItem.imagePath = ' ';
     component.checkNewsImage();
-    expect((component as any).newsImage).toEqual((component as any).images.largeImage);
+    expect((component as any).newsImage).toBe((component as any).images.largeImage);
   });
 
-  it('checkNewsImage should return large image src', () => {
-    component.newsItem.imagePath = ' ';
-    expect(component.checkNewsImage()).toEqual((component as any).images.largeImage);
+  it('checkNewsImage should return news image src', () => {
+    component.newsItem.imagePath = existingImagePath;
+    expect(component.checkNewsImage()).toBe((component as any).newsImage);
   });
 
   it('should return FB social share link and call open method', () => {
