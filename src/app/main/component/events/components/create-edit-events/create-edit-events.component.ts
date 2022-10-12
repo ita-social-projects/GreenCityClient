@@ -43,8 +43,8 @@ export class CreateEditEventsComponent implements OnInit, OnDestroy {
   public isTagValid: boolean;
   public isAddressFill = true;
   public eventFormGroup: FormGroup;
-  public isImageSizeError: boolean;
-  public isImageTypeError = false;
+  isImageSizeError: boolean;
+  isImageTypeError = false;
 
   private imgArray: Array<File> = [];
   private pipe = new DatePipe('en-US');
@@ -131,8 +131,8 @@ export class CreateEditEventsComponent implements OnInit, OnDestroy {
   }
 
   public getImageTosend(imageArr: Array<File>): void {
-    this.checkFileExtension(imageArr[-1]);
     this.imgArray = [...imageArr];
+    this.checkFileExtension(imageArr);
   }
 
   public getImagesToDelete(imagesSrc: Array<string>): void {
@@ -254,7 +254,6 @@ export class CreateEditEventsComponent implements OnInit, OnDestroy {
 
   private checkFileExtension(file: any): void {
     this.isImageSizeError = file.size >= 10000000;
-
     this.isImageTypeError = !(file.type === 'image/jpeg' || file.type === 'image/png');
   }
 
