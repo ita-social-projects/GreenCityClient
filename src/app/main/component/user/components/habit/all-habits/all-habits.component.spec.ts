@@ -183,13 +183,13 @@ describe('AllHabitsComponent', () => {
 
   it('onDisplayModeChange() setting false value', () => {
     component.onDisplayModeChange(false);
-    expect(localStorageServiceMock.setHabitsGalleryView).toHaveBeenCalled();
+    expect(localStorageServiceMock.setHabitsGalleryView).toHaveBeenCalledWith(false);
     expect(component.galleryView).toEqual(false);
   });
 
   it('onDisplayModeChange() setting true value', () => {
     component.onDisplayModeChange(true);
-    expect(localStorageServiceMock.setHabitsGalleryView).toHaveBeenCalled();
+    expect(localStorageServiceMock.setHabitsGalleryView).toHaveBeenCalledWith(true);
     expect(component.galleryView).toEqual(true);
   });
 
@@ -208,6 +208,12 @@ describe('AllHabitsComponent', () => {
   it('checkHabitsView() getting null value', () => {
     localStorageServiceMock.getHabitsGalleryView = () => null;
     component.checkHabitsView();
-    expect(localStorageServiceMock.setHabitsGalleryView).toHaveBeenCalledWith(true);
+    expect(component.galleryView).toEqual(true);
+  });
+
+  it('checkHabitsView() getting true value', () => {
+    localStorageServiceMock.getHabitsGalleryView = () => true;
+    component.checkHabitsView();
+    expect(component.galleryView).toEqual(true);
   });
 });
