@@ -1,6 +1,6 @@
 import { CUSTOM_ELEMENTS_SCHEMA, NO_ERRORS_SCHEMA } from '@angular/core';
 import { FormControl, FormGroup, FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { of } from 'rxjs';
+import { BehaviorSubject, of } from 'rxjs';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { TranslateModule } from '@ngx-translate/core';
@@ -13,6 +13,7 @@ import { RouterTestingModule } from '@angular/router/testing';
 import { EcoNewsComponent } from '../../eco-news.component';
 import { Router } from '@angular/router';
 import { Store, ActionsSubject } from '@ngrx/store';
+import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
 
 describe('NewsPreviewPageComponent', () => {
   let component: NewsPreviewPageComponent;
@@ -42,6 +43,10 @@ describe('NewsPreviewPageComponent', () => {
   createEcoNewsServiceMock.sendFormData = (previewItem) => of(newsResponseMock);
   createEcoNewsServiceMock.editNews = (form) => of(newsResponseMock);
 
+  const localStorageServiceMock = jasmine.createSpyObj('localStorageService', ['languageBehaviourSubject', 'firstNameBehaviourSubject']);
+  localStorageServiceMock.languageBehaviourSubject = new BehaviorSubject('en');
+  localStorageServiceMock.firstNameBehaviourSubject = new BehaviorSubject('user');
+
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       declarations: [NewsPreviewPageComponent],
@@ -57,7 +62,8 @@ describe('NewsPreviewPageComponent', () => {
         { provide: CreateEcoNewsService, useValue: createEcoNewsServiceMock },
         { provide: ACTION_TOKEN, useValue: ACTION_CONFIG },
         { provide: Store, useValue: storeMock },
-        { provide: ActionsSubject, useValue: actionSub }
+        { provide: ActionsSubject, useValue: actionSub },
+        { provide: LocalStorageService, useValue: localStorageServiceMock }
       ]
     }).compileComponents();
   });

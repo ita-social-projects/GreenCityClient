@@ -4,7 +4,7 @@ import { CreateEcoNewsService } from '@eco-news-service/create-eco-news.service'
 import { Router } from '@angular/router';
 import { FormGroup } from '@angular/forms';
 import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
-import { ReplaySubject, Subscription, throwError } from 'rxjs';
+import { Subject, Subscription, throwError } from 'rxjs';
 import { ACTION_TOKEN } from '../create-edit-news/action.constants';
 import { ActionInterface } from '../../models/action.interface';
 import { Store, ActionsSubject } from '@ngrx/store';
@@ -29,7 +29,7 @@ export class NewsPreviewPageComponent implements OnInit, OnDestroy {
   public newsId: string;
   public onSubmit;
   currentLang: string;
-  destroy: ReplaySubject<any> = new ReplaySubject<any>(1);
+  destroy: Subject<boolean> = new Subject<boolean>();
   tags: FilterModel[] = [];
 
   constructor(
@@ -42,8 +42,7 @@ export class NewsPreviewPageComponent implements OnInit, OnDestroy {
   ) {}
 
   ngOnInit() {
-    this.currentLang = this.localStorageService.getCurrentLanguage();
-    this.localStorageService.languageSubject.pipe(takeUntil(this.destroy)).subscribe((lang: string) => {
+    this.localStorageService.languageBehaviourSubject.pipe(takeUntil(this.destroy)).subscribe((lang: string) => {
       this.currentLang = lang;
     });
 
