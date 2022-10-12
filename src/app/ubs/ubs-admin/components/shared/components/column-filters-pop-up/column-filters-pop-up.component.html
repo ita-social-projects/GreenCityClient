@@ -20,26 +20,30 @@
     </mat-checkbox>
     <br />
     <div class="input-group">
-      <label for="dateFrom"
-        >{{ 'ubs-tables.date-from' | translate }}
+      <mat-form-field class="filter-input">
+        <mat-label>{{ 'ubs-tables.date-from' | translate }}</mat-label>
         <input
+          matInput
+          [matDatepicker]="picker1"
           id="dateFrom{{ data.columnName }}"
-          type="date"
-          name="dateFrom"
           [value]="getDateValue('From')"
           (change)="changeInputDateFilters($event.target.value, 'From')"
         />
-      </label>
-      <label for="dateTo"
-        >{{ 'ubs-tables.date-to' | translate }}
+        <mat-datepicker-toggle matSuffix [for]="picker1"></mat-datepicker-toggle>
+        <mat-datepicker #picker1></mat-datepicker>
+      </mat-form-field>
+      <mat-form-field class="filter-input">
+        <mat-label>{{ 'ubs-tables.date-to' | translate }}</mat-label>
         <input
+          matInput
+          [matDatepicker]="picker2"
           id="dateTo{{ data.columnName }}"
-          type="date"
-          name="dateTo"
           [value]="getDateValue('To')"
           (change)="changeInputDateFilters($event.target.value, 'To')"
         />
-      </label>
+        <mat-datepicker-toggle matSuffix [for]="picker2"></mat-datepicker-toggle>
+        <mat-datepicker #picker2></mat-datepicker>
+      </mat-form-field>
     </div>
   </ng-template>
 </ng-container>

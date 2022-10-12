@@ -12,6 +12,8 @@
     "saved-order": "Now you can find your order №{{orderId}} in your personal account and continue processing it at any time",
     "no-internet": "No internet connection",
     "error": {
+      "not-enough-points": "There aren't enough points on your bonus account to pay for the order",
+      "cartificate-not-valid": "The certificate you have entered, has already been used",
       "default": "Oops, something went wrong. Please reload page or try again later.",
       "restore-password-again": "The password reset link is no longer valid, please try to reset your password again",
       "no-internet": "No internet connection"
@@ -30,7 +32,7 @@
   },
   "order-details": {
     "location": {
-      "title": "Welcome to UBS! First choose location of waste disposal. Currently we work only in Kyiv and selected cities.",
+      "title": "Welcome to UBS! First choose location of waste disposal. Currently we work in Kyiv and suburbs.",
       "info-city": "The location of Kyiv also includes Hatne, Horenka, Zazymie, Irpin, Kniazhychi, Kotsiubynske, Novosilky, Petropavlivska Borshchahivka, Pohreby, Prolisky, Sofiivska Borshchahivka, Chaiky, and Shchaslyve.",
       "info-region": "Currently, the Kyiv region includes cities within 20 km of Kyiv",
       "btn": {
@@ -82,7 +84,7 @@
     "additional-orders": "Add another order number",
     "comment": "Comment",
     "comment-subtitle": "Do you want to add extra items to your order? Write about them in the comments.",
-    "link": "Learn more about extra packages",
+    "link": "The list of extrapositions and terms of delivery",
     "any-details": "Any details you would like to report further about this order",
     "next": "Next",
     "your-order": "Your order",
@@ -105,20 +107,20 @@
     "payment": "Payment"
   },
   "extra-packages-pop-up": {
-    "title": "Extra packages",
-    "subtitle-start": "In addition to packages, UBS Courier can",
+    "title": "Extrapositions",
+    "subtitle-start": "In addition to paid packages, UBS Courier can",
     "free": "free of charge:",
-    "subtitle-end": "pick up some extra items of recyclables for recycling",
+    "subtitle-end": "pick up some items of recyclable material for processing (provided that they are clean and do not require further sorting)",
     "subtitle-first": "You can submit an",
     "unlimited": "unlimited",
-    "subtitle-second": "number of extras to the UBS Courier, provided that you meet the following simple conditions:",
-    "aluminum": "aluminum cans (put in a separate sack/bag and tie);",
-    "metal": "household metal (it always tears plastic bags, so it is better to give it in a sack/box);",
-    "bottles": "transparent PET bottles used for drinks (put in a separate sack/bag and tie);",
-    "cardboard": "corrugated cardboard (separate the tape, stickers and all metal staples, and to make it easy to transport, fold it so that it is flat);",
-    "polyfoam": "polyfoam (only if the volume of the package does not exceed 120l per export).",
-    "condition1": "When ordering the service, indicate that you plan to give the Courier free items, as well as their volume.",
-    "condition2": "Fold each type of packaging separately. And if, for example, you only have one frying pan, just give it to the Courier separately.",
+    "subtitle-second": "the number of extrapositions of UBS Courier, necessarily fulfilling simple conditions:",
+    "aluminum": "aluminum cans (package type - package);",
+    "metal": "tin cans (type of packaging - tight bag/box);",
+    "bottles": "transparent PET bottles used for drinks (type of packaging - sack/bag);",
+    "cardboard": "corrugated cardboard (separate the tape, stickers and all metal staples, for easy transport - fold it flat);",
+    "polyfoam": "polyfoam (type of packaging - 120 l bag (we take no more than 1 bag for 1 shipment)).",
+    "condition1": "Indicate in the comment that you plan to give free positions to the Courier, as well as indicate their volume and number.",
+    "condition2": "Pack each type of package separately. A mix of these wastes in one bag/box will not be collected by UBS Courier. Tie up packages before handing them over.",
     "button": "Of course"
   },
   "personal-info": {
@@ -278,17 +280,16 @@
         }
       },
       "how-works": {
-        "header": "How UBS Courier works",
+        "header": "Working hours PICK UP",
         "time": {
-          "pre_1": "On weekdays - from 10:00 to 17:30.",
-          "pre_2": "Courier waiting time is 2-9 business days."
+          "pre_1": "On weekdays - from 10:00 to 17:00.",
+          "pre_2": "Route forming time is 2-5 business days."
         },
         "content": {
-          "pre_1": "Along with the export of recyclable materials, you can also order eco-goods from our ",
-          "pre_2": "Delivery of goods is free of charge for UBS Courier customers.",
+          "pre_1": "Get free products shipping",
           "link": "NOWASTE Shop."
         },
-        "button": "Order Courier"
+        "button": "Order"
       }
     }
   },

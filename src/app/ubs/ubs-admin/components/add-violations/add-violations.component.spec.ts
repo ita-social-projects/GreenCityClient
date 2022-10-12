@@ -1,266 +1,341 @@
-import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { MatDialogModule, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { MatDialog } from '@angular/material/dialog';
-import { TranslateModule, TranslateService } from '@ngx-translate/core';
-import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
+import { TranslateModule } from '@ngx-translate/core';
+import { ReactiveFormsModule } from '@angular/forms';
 import { OrderService } from '../../services/order.service';
 import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
 import { AddViolationsComponent } from './add-violations.component';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { of } from 'rxjs';
+import { By } from '@angular/platform-browser';
+import { DragDirective } from 'src/app/shared/drag-and-drop/dragDrop.directive';
+import { SharedModule } from 'src/app/shared/shared.module';
+import { ShowImgsPopUpComponent } from 'src/app/shared/show-imgs-pop-up/show-imgs-pop-up.component';
+import { DialogPopUpComponent } from 'src/app/shared/dialog-pop-up/dialog-pop-up.component';
+
+const dataURLtoBlob = (dataURL: string) => {
+  const [, encoded] = dataURL.split(',');
+  const binaryString = atob(encoded);
+  let n = binaryString.length;
+  const view = new Uint8Array(n);
+  while (n--) {
+    view[n] = binaryString.charCodeAt(n);
+  }
+  return new Blob([view], { type: 'image/jpeg' });
+};
 
 describe('AddViolationsComponent', () => {
   let component: AddViolationsComponent;
   let fixture: ComponentFixture<AddViolationsComponent>;
 
-  const fakeData = {
-    viewMode: false
+  const addModeInputs = { viewMode: false };
+  const viewModeInputs = {
+    id: 1303,
+    viewMode: true
   };
-  const fakeViolationForm: FormGroup = new FormGroup({
-    violationLevel: new FormControl('LOW'),
-    violationDescription: new FormControl('FakeDescription')
-  });
-  const dataFileMock = new File([''], 'test-file.jpeg');
-  const fakeFileHandle = {
-    file: dataFileMock,
-    url: 'fakeUrl'
+  const fileDataURL =
+    'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mN8tzn2PwAHlAL/DTRTsgAAAABJRU5ErkJggg==';
+  const dataFileMock = new File([dataURLtoBlob(fileDataURL)], 'test-file.jpeg', { type: 'image/jpeg' });
+  const wrongExtFileMock = new File([''], 'test-file.jpeg', { type: 'image/tiff' });
+  const getLargeFileMock = () => {
+    const file = new File([''], 'test-file.jpeg', { type: 'image/jpeg' });
+    Object.defineProperty(file, 'size', { value: 10485761 });
+    return file;
   };
-  const event = { target: { files: [dataFileMock] } };
-  const InputVarMock = { nativeElement: { value: 'fake' } };
+  const largeFileMock = getLargeFileMock();
   const initialDataMock = {
+    orderId: 1303,
     violationLevel: 'LOW',
-    violationDescription: 'fakeInitialDescription',
-    initialImagesLength: 2
+    description: 'violation description',
+    images: [
+      'https://csb10032000a548f571.blob.core.windows.net/allfiles/4e684870-8b9e-4cce-b5bd-5c8460d7e5fbnature-image-for-website.jpg',
+      'https://csb10032000a548f571.blob.core.windows.net/allfiles/25c4d706-2534-46d8-bac1-877dc6cdedcdimage.jpg'
+    ],
+    violationDate: '2022-09-09T14:03:58.198624',
+    addedByUser: 'AAAAB AAAA'
   };
 
-  beforeEach(() => {
-    const matDialogRefStub = () => ({ close: () => ({}) });
-    const matDialogStub = () => ({
-      open: () => ({
-        afterClosed: () => ({ pipe: () => ({ subscribe: (f) => f({}) }) })
-      })
-    });
-    const translateServiceStub = () => ({
-      get: () => ({ pipe: () => of('fakeLabel') })
-    });
-    const formBuilderStub = () => ({ group: () => ({}) });
-    const orderServiceStub = () => ({
-      getViolationOfCurrentOrder: () => ({
-        pipe: () => ({ subscribe: (f) => f({}) })
-      }),
-      updateViolationOfCurrentOrder: () => ({}),
-      addViolationToCurrentOrder: () => ({}),
-      deleteViolationOfCurrentOrder: () => ({ subscribe: (f) => f({}) })
-    });
-    const localStorageServiceStub = () => ({
-      firstNameBehaviourSubject: { pipe: () => of('fakeName') }
-    });
+  const matDialogRefStub = jasmine.createSpyObj('matDialogRefStub', ['close']);
+  const matDialogStub = jasmine.createSpyObj('matDialogRefStub', ['open']);
+
+  const orderServiceStub = {
+    getViolationOfCurrentOrder: (id) => of(initialDataMock),
+    updateViolationOfCurrentOrder: jasmine.createSpy('updateViolationOfCurrentOrder'),
+    addViolationToCurrentOrder: jasmine.createSpy('addViolationToCurrentOrder'),
+    deleteViolationOfCurrentOrder: jasmine.createSpy('deleteViolationOfCurrentOrder')
+  };
+  const localStorageServiceStub = () => ({
+    firstNameBehaviourSubject: { pipe: () => of('fakeName') }
+  });
+
+  beforeEach(async(() => {
     TestBed.configureTestingModule({
       schemas: [CUSTOM_ELEMENTS_SCHEMA],
       declarations: [AddViolationsComponent],
-      imports: [MatDialogModule, HttpClientTestingModule, TranslateModule.forRoot()],
+      imports: [MatDialogModule, HttpClientTestingModule, ReactiveFormsModule, SharedModule, TranslateModule.forRoot()],
       providers: [
-        { provide: MatDialogRef, useFactory: matDialogRefStub },
-        { provide: MatDialog, useFactory: matDialogStub },
-        { provide: MAT_DIALOG_DATA, useValue: fakeData },
-        { provide: TranslateService, useFactory: translateServiceStub },
-        { provide: FormBuilder, useFactory: formBuilderStub },
-        { provide: OrderService, useFactory: orderServiceStub },
+        { provide: MatDialogRef, useValue: matDialogRefStub },
+        { provide: MatDialog, useValue: matDialogStub },
+        { provide: MAT_DIALOG_DATA, useValue: viewModeInputs },
+        { provide: OrderService, useValue: orderServiceStub },
         { provide: LocalStorageService, useFactory: localStorageServiceStub }
       ]
     });
+  }));
+
+  const buildComponent = async () => {
+    await TestBed.compileComponents();
     fixture = TestBed.createComponent(AddViolationsComponent);
     component = fixture.componentInstance;
-    component.InputVar = InputVarMock;
-    component.initialData = initialDataMock;
-  });
+    fixture.detectChanges();
+    component.ngOnInit();
+    await fixture.whenStable();
+    fixture.detectChanges();
+  };
 
-  it('can load instance', () => {
+  const getDescriptionDebug = () => fixture.debugElement.query(By.css('.description'));
+  const getImagesDebug = () => fixture.debugElement.queryAll(By.css('.image-preview'));
+  const getDeleteImageButtonsDebug = () => fixture.debugElement.queryAll(By.css('.delete-image-button'));
+  const getEditButtonDebug = () => fixture.debugElement.query(By.css('.edit-violation-btn'));
+  const getAddSaveButtonDebug = () => fixture.debugElement.query(By.css('.addButton'));
+  const getDeleteButtonDebug = () => fixture.debugElement.query(By.css('.delete-violation'));
+  const getCancelButtonDebug = () => fixture.debugElement.query(By.css('.cancelButton'));
+  const getUsernameLabelDebug = () => fixture.debugElement.query(By.css('.user'));
+  const getDateLabelDebug = () => fixture.debugElement.query(By.css('.date'));
+  const getDropAreaDebug = () => fixture.debugElement.query(By.directive(DragDirective));
+  const getRadioButtonDebug = (value) => fixture.debugElement.query(By.css(`input[type=radio][value=${value}]`));
+  const getFileInputDebug = () => fixture.debugElement.query(By.css('input[type=file]'));
+
+  const enterEditMode = async () => {
+    getEditButtonDebug().nativeElement.click();
+    await fixture.whenStable();
+    fixture.detectChanges();
+  };
+
+  const clickElement = async (buttonDebug) => {
+    buttonDebug.nativeElement.click();
+    await fixture.whenStable();
+    fixture.detectChanges();
+  };
+
+  const inputText = async (debugElement, text) => {
+    const descriptionElement = debugElement.nativeElement;
+    descriptionElement.value = text;
+    descriptionElement.dispatchEvent(new Event('input'));
+    await fixture.whenStable();
+    fixture.detectChanges();
+  };
+
+  const dropFileIntoArea = async (dropAreaDebug, file) => {
+    const dataTransfer = new DataTransfer();
+    dataTransfer.items.add(file);
+    const dropEvent = new DragEvent('drop', { dataTransfer });
+    dropAreaDebug.nativeElement.dispatchEvent(dropEvent);
+    await fixture.whenStable();
+    fixture.detectChanges();
+  };
+
+  const selectFile = async (inputDebug, file) => {
+    const dataTransfer = new DataTransfer();
+    dataTransfer.items.add(file);
+    inputDebug.nativeElement.files = dataTransfer.files;
+    inputDebug.nativeElement.dispatchEvent(new InputEvent('change'));
+    await fixture.whenStable();
+    fixture.detectChanges();
+  };
+
+  it('can load instance', async () => {
+    await buildComponent();
     expect(component).toBeTruthy();
   });
 
-  it(`maxNumberOfImgs has default value`, () => {
-    expect(component.maxNumberOfImgs).toEqual(6);
+  it('[View Mode] loads and displays correct data', async () => {
+    await buildComponent();
+    expect(fixture.debugElement.query(By.css('input[type=radio][value=LOW]')).nativeElement.checked).toBeTruthy();
+    expect(getDescriptionDebug().nativeElement.value).toBe(initialDataMock.description);
+    const imageSources = getImagesDebug().map((img) => img.nativeElement.src);
+    expect(imageSources).toEqual(initialDataMock.images);
+    expect(getUsernameLabelDebug().nativeElement.textContent).toBe('fakeName');
+    expect(getDateLabelDebug().nativeElement.textContent).toBe('09.09.2022');
   });
 
-  it(`images has default value`, () => {
-    expect(component.images).toEqual([]);
+  it('[View Mode] form should not be editable', async () => {
+    await buildComponent();
+    const radioButtonsDebug = fixture.debugElement.queryAll(By.css('input[type=radio]'));
+    expect(radioButtonsDebug.map((de) => de.nativeElement.disabled)).toEqual([true, true]);
+    expect(getDescriptionDebug().nativeElement.disabled).toBeTruthy();
+    expect(getAddSaveButtonDebug().nativeElement.disabled).toBeTruthy();
   });
 
-  it(`files has default value`, () => {
-    expect(component.files).toEqual([]);
-  });
-
-  it(`isImageSizeError has default value`, () => {
-    expect(component.isImageSizeError).toEqual(false);
-  });
-
-  it(`isImageTypeError has default value`, () => {
-    expect(component.isImageTypeError).toEqual(false);
-  });
-
-  it(`isUploading has default value`, () => {
-    expect(component.isUploading).toEqual(false);
-  });
-
-  it(`isDeleting has default value`, () => {
-    expect(component.isDeleting).toEqual(false);
-  });
-
-  it(`imgArray has default value`, () => {
-    expect(component.imgArray).toEqual([]);
-  });
-
-  it(`imagesFromDB has default value`, () => {
-    expect(component.imagesFromDB).toEqual([]);
-  });
-
-  it(`isInitialDataChanged has default value`, () => {
-    expect(component.isInitialDataChanged).toEqual(false);
-  });
-
-  it(`isInitialImageDataChanged has default value`, () => {
-    expect(component.isInitialImageDataChanged).toEqual(false);
-  });
-
-  it(`viewMode has default value`, () => {
-    expect(component.viewMode).toEqual(false);
-  });
-
-  it(`editMode has default value`, () => {
-    expect(component.editMode).toEqual(false);
-  });
-
-  it(`isLoading has default value`, () => {
-    expect(component.isLoading).toEqual(false);
-  });
-
-  describe('files', () => {
-    it('makes expected calls in filesDropped', () => {
-      const checkFileExtensionSpy = spyOn(component, 'checkFileExtension');
-      const transferFileSpy = spyOn(component as any, 'transferFile');
-      component.filesDropped([fakeFileHandle]);
-      expect(checkFileExtensionSpy).toHaveBeenCalledWith([fakeFileHandle]);
-      expect(transferFileSpy).toHaveBeenCalledWith(dataFileMock);
-    });
-
-    it('makes expected calls in loadFile', () => {
-      const transferFileSpy = spyOn(component as any, 'transferFile');
-      component.loadFile(event);
-      expect(transferFileSpy).toHaveBeenCalledWith(dataFileMock);
-    });
-
-    it('File should be transfered', () => {
-      component.isImageTypeError = false;
-      (component as any).transferFile(dataFileMock);
-      expect(component.imgArray[0]).toEqual(dataFileMock);
+  it('[View Mode] clicking an image opens modal with ShowImgsPopUpComponent with correct params', async () => {
+    await buildComponent();
+    await clickElement(getImagesDebug()[1]);
+    expect(matDialogStub.open).toHaveBeenCalledWith(ShowImgsPopUpComponent, {
+      hasBackdrop: true,
+      panelClass: 'custom-img-pop-up',
+      data: {
+        imgIndex: 1,
+        images: initialDataMock.images.map((src) => ({ src }))
+      }
     });
   });
 
-  describe('ngOnInit', () => {
-    it('makes expected calls', () => {
-      const translateServiceStub: TranslateService = fixture.debugElement.injector.get(TranslateService);
-      const spyInitForm = spyOn(component as any, 'initForm');
-      const spyCheckMode = spyOn(component as any, 'checkMode');
-      spyOn(component, 'initImages').and.callThrough();
-      spyOn(translateServiceStub, 'get').and.callThrough();
-      component.ngOnInit();
-      expect(spyInitForm).toHaveBeenCalled();
-      expect(spyCheckMode).toHaveBeenCalled();
-      expect(component.initImages).toHaveBeenCalled();
-      expect(translateServiceStub.get).toHaveBeenCalled();
-      expect(component.dragAndDropLabel).toBe('fakeLabel');
-      expect(component.name).toBe('fakeName');
+  it('[View Mode] clicking delete button should open confirmation modal (DialogPopUpComponent)', async () => {
+    await buildComponent();
+    await clickElement(getDeleteButtonDebug());
+    expect(matDialogStub.open).toHaveBeenCalledWith(DialogPopUpComponent, {
+      data: {
+        popupTitle: 'add-violation-modal.delete-message',
+        popupConfirm: 'employees.btn.yes',
+        popupCancel: 'employees.btn.no'
+      },
+      hasBackdrop: true,
+      closeOnNavigation: true,
+      disableClose: true,
+      panelClass: ''
     });
   });
 
-  describe('send', () => {
-    it('makes expected calls', () => {
-      component.addViolationForm = fakeViolationForm;
-      const matDialogRefStub: MatDialogRef<AddViolationsComponent> = fixture.debugElement.injector.get(MatDialogRef);
-      const orderServiceStub: OrderService = fixture.debugElement.injector.get(OrderService);
-      spyOn(component, 'prepareDataToSend').and.callThrough();
-      spyOn(matDialogRefStub, 'close').and.callThrough();
-      spyOn(orderServiceStub, 'updateViolationOfCurrentOrder').and.returnValue(of(true));
-      spyOn(orderServiceStub, 'addViolationToCurrentOrder').and.returnValue(of(true));
-      component.send();
-      expect(component.prepareDataToSend).toHaveBeenCalled();
-      expect(matDialogRefStub.close).toHaveBeenCalled();
-      expect(orderServiceStub.updateViolationOfCurrentOrder).toHaveBeenCalled();
-      expect(orderServiceStub.addViolationToCurrentOrder).toHaveBeenCalled();
+  it('[Edit Mode] clicking on edit button should make form editable', async () => {
+    await buildComponent();
+    await enterEditMode();
+    const radioButtonsDebug = fixture.debugElement.queryAll(By.css('input[type=radio]'));
+    expect(radioButtonsDebug.map((de) => de.nativeElement.disabled)).toEqual([false, false]);
+    expect(getDescriptionDebug().nativeElement.disabled).toBeFalsy();
+  });
+
+  it('[Edit Mode] save button should be disabled if no changes have been made', async () => {
+    await buildComponent();
+    await enterEditMode();
+    await inputText(getDescriptionDebug(), 'some text');
+    await inputText(getDescriptionDebug(), '');
+    expect(getAddSaveButtonDebug().nativeElement.disabled).toBeTruthy();
+  });
+
+  it('[Edit Mode] save button should be enabled if user edited description', async () => {
+    await buildComponent();
+    await enterEditMode();
+    const descriptionDebug = getDescriptionDebug();
+    await inputText(descriptionDebug, 'some text');
+    expect(getAddSaveButtonDebug().nativeElement.disabled).toBeFalsy();
+  });
+
+  it('[Edit Mode] save button should be enabled if user dropped an image', async () => {
+    await buildComponent();
+    await enterEditMode();
+    await dropFileIntoArea(getDropAreaDebug(), dataFileMock);
+    expect(getAddSaveButtonDebug().nativeElement.disabled).toBeFalsy();
+  });
+
+  it('[Edit Mode] makes a OrderService.updateViolationOfCurrentOrder call with correct params when save is clicked', async () => {
+    await buildComponent();
+    await enterEditMode();
+    await clickElement(getRadioButtonDebug('MAJOR'));
+    await inputText(getDescriptionDebug(), 'new desc');
+    const idx = 1;
+    const deletedImageSrc = getImagesDebug()[idx].nativeElement.src;
+    clickElement(getDeleteImageButtonsDebug()[idx]);
+
+    const expectedData = new FormData();
+    expectedData.append(
+      'add',
+      JSON.stringify({
+        orderID: initialDataMock.orderId,
+        violationDescription: 'new desc',
+        violationLevel: 'MAJOR',
+        imagesToDelete: [deletedImageSrc]
+      })
+    );
+    await clickElement(getAddSaveButtonDebug());
+    expect(orderServiceStub.updateViolationOfCurrentOrder).toHaveBeenCalled();
+    const args = orderServiceStub.updateViolationOfCurrentOrder.calls.mostRecent().args;
+    expect([...args[0].entries()]).toEqual([...(expectedData as any).entries()]);
+  });
+
+  it('[Edit Mode] should remove image from view if corresponding X button is clicked', async () => {
+    await buildComponent();
+    await enterEditMode();
+    const idx = 1;
+    const deletedImageSrc = getImagesDebug()[idx].nativeElement.src;
+    const deleteImageButton = getDeleteImageButtonsDebug()[idx];
+    await clickElement(deleteImageButton);
+    const deletedImage = fixture.debugElement.query(By.css(`.image-preview[src="${deletedImageSrc}"]`));
+    expect(deletedImage).toBeFalsy();
+  });
+
+  it('[Edit Mode] clicking cancel button should close the modal', async () => {
+    await buildComponent();
+    await enterEditMode();
+    await clickElement(getCancelButtonDebug());
+    expect(matDialogRefStub.close).toHaveBeenCalled();
+  });
+
+  it('[Edit Mode] save button should be active if file is selected', async () => {
+    await buildComponent();
+    await enterEditMode();
+    await selectFile(getFileInputDebug(), dataFileMock);
+    expect(getAddSaveButtonDebug().nativeElement.disabled).toBe(false);
+  });
+
+  it('[Edit Mode] clicking an image opens modal with ShowImgsPopUpComponent with correct params', async () => {
+    await buildComponent();
+    await enterEditMode();
+    await clickElement(getImagesDebug()[0]);
+    expect(matDialogStub.open).toHaveBeenCalledWith(ShowImgsPopUpComponent, {
+      hasBackdrop: true,
+      panelClass: 'custom-img-pop-up',
+      data: {
+        imgIndex: 0,
+        images: initialDataMock.images.map((src) => ({ src }))
+      }
     });
   });
 
-  describe('deleteImage', () => {
-    it(`is edit mode and delete multipart files`, () => {
-      component.editMode = true;
-      component.imagesFromDBLength = 2;
-      component.imgArray = ['0', '1', '2'];
-      component.deleteImage(2);
-      expect(component.imgArray).toEqual(['1', '2']);
-      expect(component.isInitialImageDataChanged).toBe(true);
-    });
-
-    it(`is edit mode and delete images received from data base`, () => {
-      component.editMode = true;
-      component.isInitialImageDataChanged = false;
-      component.imagesFromDBLength = 2;
-      component.imagesFromDB = ['0', '1'];
-      component.deleteImage(1);
-      expect(component.imagesFromDB).toEqual(['0']);
-      expect(component.imagesFromDBLength).toBe(1);
-      expect(component.isInitialImageDataChanged).toBe(true);
-    });
-
-    it(`is not editMode`, () => {
-      component.editMode = false;
-      component.imgArray = ['0', '1', '2'];
-      component.deleteImage(1);
-      expect(component.imgArray).toEqual(['0', '2']);
-    });
+  it('[Add Mode] makes OrderService.addViolationToCurrentOrder call with correct params when Add is clicked', async () => {
+    TestBed.overrideProvider(MAT_DIALOG_DATA, { useValue: addModeInputs });
+    await buildComponent();
+    await clickElement(getRadioButtonDebug('MAJOR'));
+    await inputText(getDescriptionDebug(), 'new description');
+    await clickElement(getAddSaveButtonDebug());
+    const expectedData = new FormData();
+    expectedData.append(
+      'add',
+      JSON.stringify({
+        violationDescription: 'new description',
+        violationLevel: 'MAJOR'
+      })
+    );
+    expect(orderServiceStub.addViolationToCurrentOrder).toHaveBeenCalled();
+    const args = orderServiceStub.addViolationToCurrentOrder.calls.mostRecent().args;
+    expect([...args[0].entries()]).toEqual([...(expectedData as any).entries()]);
   });
 
-  describe('deleteViolation', () => {
-    it('makes expected calls', () => {
-      const matDialogRefStub: MatDialogRef<AddViolationsComponent> = fixture.debugElement.injector.get(MatDialogRef);
-      const matDialogStub: MatDialog = fixture.debugElement.injector.get(MatDialog);
-      const orderServiceStub: OrderService = fixture.debugElement.injector.get(OrderService);
-      spyOn(matDialogRefStub, 'close').and.callThrough();
-      spyOn(matDialogStub, 'open').and.callThrough();
-      spyOn(orderServiceStub, 'deleteViolationOfCurrentOrder').and.callThrough();
-      component.deleteViolation();
-      expect(matDialogRefStub.close).toHaveBeenCalled();
-      expect(matDialogStub.open).toHaveBeenCalled();
-      expect(orderServiceStub.deleteViolationOfCurrentOrder).toHaveBeenCalled();
-    });
+  it('[Add Mode] should display error message if file type is not jpeg/png', async () => {
+    TestBed.overrideProvider(MAT_DIALOG_DATA, { useValue: addModeInputs });
+    await buildComponent();
+    const dropArea = getDropAreaDebug();
+    await dropFileIntoArea(dropArea, wrongExtFileMock);
+    const errorMessage = fixture.debugElement.query(By.css('.error-message-file-type'));
+    expect(errorMessage.nativeElement.textContent).toBe('add-violation-modal.error-message-for-type');
   });
 
-  describe('deleteChanges', () => {
-    it('makes expected calls', () => {
-      const matDialogRefStub: MatDialogRef<AddViolationsComponent> = fixture.debugElement.injector.get(MatDialogRef);
-      const matDialogStub: MatDialog = fixture.debugElement.injector.get(MatDialog);
-      spyOn(matDialogRefStub, 'close').and.callThrough();
-      spyOn(matDialogStub, 'open').and.callThrough();
-      component.deleteChanges();
-      expect(matDialogRefStub.close).toHaveBeenCalled();
-      expect(matDialogStub.open).toHaveBeenCalled();
-    });
+  it('[Add Mode] should display error message if file size is over 10MB', async () => {
+    TestBed.overrideProvider(MAT_DIALOG_DATA, { useValue: addModeInputs });
+    await buildComponent();
+    await dropFileIntoArea(getDropAreaDebug(), largeFileMock);
+    const errorMessage = fixture.debugElement.query(By.css('.error-message-file-size'));
+    expect(errorMessage.nativeElement.textContent).toBe('add-violation-modal.error-message-for-size');
   });
 
-  describe('closeDialog', () => {
-    it('makes expected calls when initial data is not changed', () => {
-      const matDialogRefStub: MatDialogRef<AddViolationsComponent> = fixture.debugElement.injector.get(MatDialogRef);
-      spyOn(matDialogRefStub, 'close').and.callThrough();
-      component.closeDialog();
-      expect(matDialogRefStub.close).toHaveBeenCalled();
-    });
-
-    it('makes expected calls when initial data is changed', () => {
-      component.isInitialDataChanged = true;
-      spyOn(component, 'deleteChanges').and.callThrough();
-      component.closeDialog();
-      expect(component.deleteChanges).toHaveBeenCalled();
-    });
+  it('[Add Mode] save button should be inactive if description length < 5 or > 255', async () => {
+    TestBed.overrideProvider(MAT_DIALOG_DATA, { useValue: addModeInputs });
+    await buildComponent();
+    await clickElement(getRadioButtonDebug('LOW'));
+    await inputText(getDescriptionDebug(), 'sh');
+    expect(getAddSaveButtonDebug().nativeElement.disabled).toBe(true);
+    await inputText(getDescriptionDebug(), 'a'.repeat(256));
+    expect(getAddSaveButtonDebug().nativeElement.disabled).toBe(true);
   });
 });
