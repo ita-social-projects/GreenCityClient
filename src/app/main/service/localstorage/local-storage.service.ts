@@ -25,11 +25,11 @@ export class LocalStorageService {
   ubsRegBehaviourSubject: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(this.getUbsRegistration());
 
   public setHabitsGalleryView(value: boolean): void {
-    localStorage.setItem(this.HABITS_GALLERY_VIEW, `${value}`);
+    localStorage.setItem(this.HABITS_GALLERY_VIEW, JSON.stringify(value));
   }
 
-  public getHabitsGalleryView(): string | null {
-    return localStorage.getItem(this.HABITS_GALLERY_VIEW);
+  public getHabitsGalleryView(): boolean | null {
+    return JSON.parse(localStorage.getItem(this.HABITS_GALLERY_VIEW));
   }
 
   public getAccessToken(): string {

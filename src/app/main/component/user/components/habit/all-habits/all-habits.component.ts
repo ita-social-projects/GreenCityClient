@@ -81,14 +81,7 @@ export class AllHabitsComponent implements OnInit, OnDestroy {
 
   public checkHabitsView(): void {
     const galleryView = this.localStorageService.getHabitsGalleryView();
-    switch (galleryView) {
-      case null:
-        this.localStorageService.setHabitsGalleryView(true);
-        break;
-      case 'false':
-        this.galleryView = false;
-        break;
-    }
+    this.galleryView = galleryView ?? this.galleryView;
   }
 
   private fetchAllHabits(page, size): void {

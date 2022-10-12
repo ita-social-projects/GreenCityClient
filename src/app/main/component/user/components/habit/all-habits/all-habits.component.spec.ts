@@ -200,7 +200,7 @@ describe('AllHabitsComponent', () => {
   });
 
   it('checkHabitsView() getting false value', () => {
-    localStorageServiceMock.getHabitsGalleryView = () => 'false';
+    localStorageServiceMock.getHabitsGalleryView = () => false;
     component.checkHabitsView();
     expect(component.galleryView).toEqual(false);
   });
