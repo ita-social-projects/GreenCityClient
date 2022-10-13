@@ -16,6 +16,8 @@ import { ModalTextComponent } from '../../shared/components/modal-text/modal-tex
 import { Store } from '@ngrx/store';
 import { IAppState } from 'src/app/store/state/app.state';
 import { GetLocations } from 'src/app/store/actions/tariff.actions';
+import { error } from 'protractor';
+import { rejects } from 'assert';
 
 @Component({
   selector: 'app-ubs-admin-tariffs-pricing-page',
@@ -36,6 +38,7 @@ export class UbsAdminTariffsPricingPageComponent implements OnInit, OnDestroy {
   description;
   descriptionInfo;
   couriers;
+  fakeCouriers = [];
   limitsForm: FormGroup;
   currentLocation;
   bags: Bag[] = [];
@@ -173,13 +176,17 @@ export class UbsAdminTariffsPricingPageComponent implements OnInit, OnDestroy {
   }
 
   async getCourierId(): Promise<any> {
-    const res: any = await this.tariffsService.getCardInfo().toPromise();
-    const card = res.find((value) => {
-      if (this.selectedCardId === value.cardId) {
-        return true;
-      }
-    });
-    return card.courierId;
+    try {
+      const res: any = await this.tariffsService.getCardInfo().toPromise();
+      const card = res.find((value) => {
+        if (this.selectedCardId === value.cardId) {
+          return true;
+        }
+      });
+      return card.courierId;
+    } catch (e) {
+      return Error('getCourierId Error');
+    }
   }
 
   routeParams(): void {
@@ -351,8 +358,16 @@ export class UbsAdminTariffsPricingPageComponent implements OnInit, OnDestroy {
       });
   }
 
+  fn() {
+    this.tariffsService.getCardInfo().subscribe((res) => {
+      console.log(res[0]);
+    });
+  }
+
   ngOnDestroy(): void {
     this.destroy.next();
-    this.destroy.unsubscribe();
+    if (this.destroy) {
+      this.destroy.unsubscribe();
+    }
   }
 }
