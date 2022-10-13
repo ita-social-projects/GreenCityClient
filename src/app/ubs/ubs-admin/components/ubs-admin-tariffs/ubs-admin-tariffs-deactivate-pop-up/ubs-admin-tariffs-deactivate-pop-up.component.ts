@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
 import { TariffsService } from '../../../services/tariffs.service';
 import { FormBuilder, ValidatorFn, Validators } from '@angular/forms';
@@ -13,8 +13,8 @@ import { DatePipe } from '@angular/common';
   styleUrls: ['./ubs-admin-tariffs-deactivate-pop-up.component.scss']
 })
 
-//@ts-ignore
-export class UbsAdminTariffsDeactivatePopUpComponent implements OnInit {
+// @ts-ignore
+export class UbsAdminTariffsDeactivatePopUpComponent implements OnInit, OnDestroy {
   DeactivateCardForm = this.fb.group({
     courier: ['', Validators.required],
     station: ['', Validators.required],
