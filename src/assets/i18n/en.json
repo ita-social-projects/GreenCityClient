@@ -309,8 +309,11 @@
     "oops": "Oops!",
     "go-to-homepage": "Go To Homepage"
   },
+
   "snack-bar": {
     "error": {
+      "not-enough-points": "There aren't enough points on your bonus account to pay for the order",
+      "cartificate-not-valid": "The certificate you have entered, has already been used",
       "default": "Oops, something went wrong. Please reload page or try again later.",
       "restore-password-again": "The password reset link is no longer valid, please try to reset your password again",
       "no-internet": "No internet connection",
@@ -471,7 +474,10 @@
       "upload": "Upload",
       "you-can-upload-max": "You  can  upload max",
       "photos": "photos",
-      "your-photos-successfully-upload": "Your photos successfully upload"
+      "your-photos-successfully-upload": "Your photos successfully upload",
+      "error-img-type-and-size": "incorrect image type and size",
+      "error-img-type": "incorrect image type",
+      "error-img-size": "incorrect image size"
     },
     "propose-cafe": {
       "new-cafe": "New cafe",
@@ -853,6 +859,8 @@
       "all-mutual-friends": "Mutual friends",
       "friends": "Friends",
       "add-new-friend": "Add friend",
+      "open-chat": "Open chat",
+      "create-chat": "Create chat",
       "delete-friend": "Unfriend",
       "requests": "Requests",
       "request-decline": "Decline",
@@ -891,7 +899,8 @@
     "cancel-button": "Cancel",
     "preview-button": "Preview",
     "publish-button": "Publish",
-    "edit-button": "Edit"
+    "edit-button": "Edit",
+    "has-white-spaces": "you should have no whitespaces"
   },
   "drag-and-drop": {
     "picture-description": "Drop your image here or",
@@ -920,7 +929,7 @@
     "news-source": "Source:"
   },
   "eco-news-single-view": {
-    "back-button": "Back",
+    "back-button": "Back to News",
     "edit-news-button": "Edit news",
     "author": "by",
     "tags": {

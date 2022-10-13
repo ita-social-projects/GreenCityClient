@@ -1,7 +1,10 @@
-import { CUSTOM_ELEMENTS_SCHEMA, ElementRef } from '@angular/core';
+import { ChangeDetectorRef, CUSTOM_ELEMENTS_SCHEMA, ElementRef } from '@angular/core';
 import { async, ComponentFixture, fakeAsync, TestBed } from '@angular/core/testing';
+import { ReactiveFormsModule } from '@angular/forms';
 import { MatCheckboxChange } from '@angular/material/checkbox';
-import { MatDialogRef, MAT_DIALOG_DATA, MatDialogModule } from '@angular/material/dialog';
+import { MatNativeDateModule } from '@angular/material/core';
+import { MatDatepickerModule } from '@angular/material/datepicker';
+import { MatDialogRef, MAT_DIALOG_DATA, MatDialogModule, MatDialog } from '@angular/material/dialog';
 import { TranslateModule } from '@ngx-translate/core';
 import { SharedModule } from 'src/app/shared/shared.module';
 import { AdminTableService } from 'src/app/ubs/ubs-admin/services/admin-table.service';
@@ -10,6 +13,7 @@ import { ColumnFiltersPopUpComponent } from './column-filters-pop-up.component';
 describe('ColumnFiltersPopUpComponent', () => {
   let component: ColumnFiltersPopUpComponent;
   let fixture: ComponentFixture<ColumnFiltersPopUpComponent>;
+  let dialogMock: MatDialog;
   const fakeAdminTableService = jasmine.createSpyObj('fakeAdminTableService', [
     'changeFilters',
     'getDateChecked',
@@ -34,12 +38,13 @@ describe('ColumnFiltersPopUpComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      imports: [TranslateModule.forRoot(), MatDialogModule, SharedModule],
+      imports: [TranslateModule.forRoot(), MatDialogModule, SharedModule, MatDatepickerModule, MatNativeDateModule, ReactiveFormsModule],
       declarations: [ColumnFiltersPopUpComponent],
       providers: [
         { provide: AdminTableService, useValue: fakeAdminTableService },
         { provide: MAT_DIALOG_DATA, useValue: matDialogDataMock },
-        { provide: MatDialogRef, useValue: fakeDialog }
+        { provide: MatDialogRef, useValue: fakeDialog },
+        MatDatepickerModule
       ],
       schemas: [CUSTOM_ELEMENTS_SCHEMA]
     }).compileComponents();
@@ -48,6 +53,7 @@ describe('ColumnFiltersPopUpComponent', () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(ColumnFiltersPopUpComponent);
     component = fixture.componentInstance;
+    dialogMock = TestBed.inject(MatDialog);
     fakeAdminTableService.columnsForFiltering = columnsForFilteringMock;
     fakeDialog.componentInstance = {
       elementRef: {

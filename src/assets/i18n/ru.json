@@ -470,7 +470,10 @@
       "upload": "Загрузить",
       "you-can-upload-max": "Вы можете загрузить максимально",
       "photos": "фото",
-      "your-photos-successfully-upload": "Ваше фото успешно загружено"
+      "your-photos-successfully-upload": "Ваше фото успешно загружено",
+      "error-img-type-and-size": "неправильный формат и размер изображения",
+      "error-img-type": "неправильный формат изображения",
+      "error-img-size": "неправильный размер изображения"
     },
     "propose-cafe": {
       "new-cafe": "Новое кафе",
@@ -848,6 +851,8 @@
       "friends": "Друзья",
       "mutual-friends": "общих друзей",
       "add-new-friend": "Добавить",
+      "open-chat": "Открыть чат",
+      "create-chat": "Создать чат",
       "delete-friend": "Удалить",
       "requests": "Запросы",
       "request-decline": "Отклонить",
@@ -890,7 +895,8 @@
     "cancel-button": "Выйти",
     "preview-button": "Просмотреть",
     "publish-button": "Опубликовать",
-    "edit-button": "Редактировать"
+    "edit-button": "Редактировать",
+    "has-white-spaces": "не должно быть пробелов"
   },
   "drag-and-drop": {
     "picture-description": "Перетяните изображение сюда или",

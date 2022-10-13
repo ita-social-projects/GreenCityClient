@@ -9,7 +9,7 @@ import { Place } from '../../../places/models/place';
 import { DateEvent, DateFormObj, Dates, EventDTO, EventPageResponceDto, OfflineDto, TagObj } from '../../models/events.interface';
 import { Router } from '@angular/router';
 import { DatePipe } from '@angular/common';
-import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { FormControl, FormGroup, Validators, AbstractControl, ValidationErrors } from '@angular/forms';
 import { ReplaySubject } from 'rxjs';
 import { DateObj, ItemTime, TagsArray, WeekArray } from '../../models/event-consts';
 import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
@@ -44,6 +44,8 @@ export class CreateEditEventsComponent implements OnInit, OnDestroy {
   public isTagValid: boolean;
   public isAddressFill = true;
   public eventFormGroup: FormGroup;
+  public isImageSizeError: boolean;
+  public isImageTypeError = false;
 
   private imgArray: Array<File> = [];
   private pipe = new DatePipe('en-US');
@@ -71,7 +73,7 @@ export class CreateEditEventsComponent implements OnInit, OnDestroy {
     this.tags = TagsArray.reduce((ac, cur) => [...ac, { ...cur }], []);
 
     this.eventFormGroup = new FormGroup({
-      titleForm: new FormControl('', [Validators.required, Validators.minLength(1), Validators.maxLength(70)]),
+      titleForm: new FormControl('', [Validators.required, Validators.minLength(1), Validators.maxLength(70), this.validateSpaces]),
       description: new FormControl('', [Validators.required, Validators.minLength(28), Validators.maxLength(63206)]),
       eventDuration: new FormControl('', [Validators.required, Validators.minLength(2)])
     });
@@ -84,6 +86,10 @@ export class CreateEditEventsComponent implements OnInit, OnDestroy {
     if (!this.checkUserSigned()) {
       this.snackBar.openSnackBar('userUnauthorised');
     }
+  }
+
+  get titleForm() {
+    return this.eventFormGroup.get('titleForm');
   }
 
   private setEditValue(): void {
@@ -137,6 +143,7 @@ export class CreateEditEventsComponent implements OnInit, OnDestroy {
 
   public getImageTosend(imageArr: Array<File>): void {
     this.imgArray = [...imageArr];
+    this.checkFileExtensionAndSize(imageArr);
   }
 
   public getImagesToDelete(imagesSrc: Array<string>): void {
@@ -261,6 +268,15 @@ export class CreateEditEventsComponent implements OnInit, OnDestroy {
   }
   private getUserId() {
     this.userId = this.localStorageService.getUserId();
+  }
+  private validateSpaces(control: AbstractControl): ValidationErrors {
+    const value = control && control.value && control.value !== control.value.trim();
+    return value ? { hasNoWhiteSpaces: 'false' } : null;
+  }
+
+  private checkFileExtensionAndSize(file: any): void {
+    this.isImageSizeError = file.size >= 10485760;
+    this.isImageTypeError = !(file.type === 'image/jpeg' || file.type === 'image/png');
   }
 
   ngOnDestroy(): void {

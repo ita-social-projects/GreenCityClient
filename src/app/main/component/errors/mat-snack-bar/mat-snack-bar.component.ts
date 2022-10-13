@@ -107,6 +107,14 @@ export class MatSnackBarComponent {
     userUnauthorised: () => {
       this.className = 'error-snackbar';
       this.getSnackBarMessage('snack-bar.error.unauthorised-user');
+    },
+    lessPoints: () => {
+      this.className = 'error-snackbar';
+      this.getSnackBarMessage('snack-bar.error.not-enough-points');
+    },
+    CartValidation: () => {
+      this.className = 'error-snackbar';
+      this.getSnackBarMessage('snack-bar.error.cartificate-not-valid');
     }
   };
 
