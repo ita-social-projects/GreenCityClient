@@ -858,6 +858,8 @@
       "all-mutual-friends": "Mutual friends",
       "friends": "Friends",
       "add-new-friend": "Add friend",
+      "open-chat": "Open chat",
+      "create-chat": "Create chat",
       "delete-friend": "Unfriend",
       "requests": "Requests",
       "request-decline": "Decline",
