@@ -222,6 +222,16 @@ describe('UbsAdminPricingPageComponent', () => {
     tick(60000);
   }));
 
+  it('should call sumToggler', () => {
+    component.sumToggler();
+    expect(component.toggle).toBe(true);
+  });
+
+  it('should call bagToggler', () => {
+    component.bagToggler();
+    expect(component.toggle).toBe(false);
+  });
+
   it('should call saveChanges with needed args', () => {
     component.limitsForm.patchValue(fakeCourierForm.value);
     component.saveChanges();

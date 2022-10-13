@@ -1,5 +1,5 @@
 import { Component, OnInit, OnDestroy, Injector } from '@angular/core';
-import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
+import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
 import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
 import { Location } from '@angular/common';
 import { ActivatedRoute, Router } from '@angular/router';
@@ -16,8 +16,6 @@ import { ModalTextComponent } from '../../shared/components/modal-text/modal-tex
 import { Store } from '@ngrx/store';
 import { IAppState } from 'src/app/store/state/app.state';
 import { GetLocations } from 'src/app/store/actions/tariff.actions';
-import { error } from 'protractor';
-import { rejects } from 'assert';
 
 @Component({
   selector: 'app-ubs-admin-tariffs-pricing-page',
@@ -38,7 +36,6 @@ export class UbsAdminTariffsPricingPageComponent implements OnInit, OnDestroy {
   description;
   descriptionInfo;
   couriers;
-  fakeCouriers = [];
   limitsForm: FormGroup;
   currentLocation;
   bags: Bag[] = [];
@@ -356,12 +353,6 @@ export class UbsAdminTariffsPricingPageComponent implements OnInit, OnDestroy {
         this.couriers = res;
         this.fillFields();
       });
-  }
-
-  fn() {
-    this.tariffsService.getCardInfo().subscribe((res) => {
-      console.log(res[0]);
-    });
   }
 
   ngOnDestroy(): void {
