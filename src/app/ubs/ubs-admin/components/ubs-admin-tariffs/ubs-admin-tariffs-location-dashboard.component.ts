@@ -19,6 +19,7 @@ import { UbsAdminTariffsCardPopUpComponent } from './ubs-admin-tariffs-card-pop-
 import { TariffConfirmationPopUpComponent } from './../shared/components/tariff-confirmation-pop-up/tariff-confirmation-pop-up.component';
 import { TranslateService } from '@ngx-translate/core';
 import { Patterns } from 'src/assets/patterns/patterns';
+import { UbsAdminTariffsDeactivatePopUpComponent } from './ubs-admin-tariffs-deactivate-pop-up/ubs-admin-tariffs-deactivate-pop-up.component';
 
 @Component({
   selector: 'app-ubs-admin-tariffs-location-dashboard',
@@ -594,7 +595,7 @@ export class UbsAdminTariffsLocationDashboardComponent implements OnInit, OnDest
   }
 
   openDeactivateLocation(): void {
-    this.dialog.open(UbsAdminTariffsLocationPopUpComponent, {
+    this.dialog.open(UbsAdminTariffsDeactivatePopUpComponent, {
       hasBackdrop: true,
       panelClass: 'address-matDialog-styles-w-100',
       data: {

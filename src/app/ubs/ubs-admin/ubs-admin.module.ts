@@ -83,6 +83,7 @@ import { TariffConfirmationPopUpComponent } from './components/shared/components
 import { UbsAdminEmployeeRightsFormComponent } from './components/ubs-admin-employee/ubs-admin-employee-rights-form/ubs-admin-employee-rights-form.component';
 import { CdkAccordionModule } from '@angular/cdk/accordion';
 import { TariffStatusPipe } from '@pipe/tariff-status-pipe/tariff-status.pipe';
+import { UbsAdminTariffsDeactivatePopUpComponent } from './components/ubs-admin-tariffs/ubs-admin-tariffs-deactivate-pop-up/ubs-admin-tariffs-deactivate-pop-up.component';
 
 @NgModule({
   declarations: [
@@ -137,7 +138,8 @@ import { TariffStatusPipe } from '@pipe/tariff-status-pipe/tariff-status.pipe';
     UbsAdminTariffsCardPopUpComponent,
     TariffConfirmationPopUpComponent,
     UbsAdminEmployeeRightsFormComponent,
-    TariffStatusPipe
+    TariffStatusPipe,
+    UbsAdminTariffsDeactivatePopUpComponent
   ],
   imports: [
     CommonModule,
