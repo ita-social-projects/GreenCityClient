@@ -166,8 +166,14 @@ export class UbsAdminOrderComponent implements OnInit, OnDestroy, AfterContentCh
         cancellationReason: '' // TODO
       }),
       userInfoDto: this.fb.group({
-        recipientName: [this.userInfo.recipientName, [Validators.required, Validators.minLength(1), Validators.maxLength(30)]],
-        recipientSurName: [this.userInfo.recipientSurName, [Validators.required, Validators.minLength(1), Validators.maxLength(30)]],
+        recipientName: [
+          this.userInfo.recipientName,
+          [Validators.required, Validators.minLength(1), Validators.maxLength(30), Validators.pattern(Patterns.NamePattern)]
+        ],
+        recipientSurName: [
+          this.userInfo.recipientSurName,
+          [Validators.required, Validators.minLength(1), Validators.maxLength(30), Validators.pattern(Patterns.NamePattern)]
+        ],
         recipientPhoneNumber: [this.userInfo.recipientPhoneNumber, [Validators.required, Validators.pattern(Patterns.adminPhone)]],
         recipientEmail: [this.userInfo.recipientEmail, [Validators.email]]
       }),
