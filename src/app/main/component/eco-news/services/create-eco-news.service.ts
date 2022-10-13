@@ -25,7 +25,7 @@ export class CreateEcoNewsService {
       Authorization: 'my-auth-token'
     })
   };
-  tags: FilterModel[] = [];
+  private tags: FilterModel[] = [];
 
   constructor(private http: HttpClient, private store: Store) {}
 

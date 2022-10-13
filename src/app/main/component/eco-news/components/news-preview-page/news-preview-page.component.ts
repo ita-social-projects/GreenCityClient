@@ -28,9 +28,9 @@ export class NewsPreviewPageComponent implements OnInit, OnDestroy {
   public attributes: ActionInterface;
   public newsId: string;
   public onSubmit;
-  currentLang: string;
-  destroy: Subject<boolean> = new Subject<boolean>();
-  tags: FilterModel[] = [];
+  public currentLang: string;
+  public tags: FilterModel[] = [];
+  private destroy: Subject<boolean> = new Subject<boolean>();
 
   constructor(
     private store: Store,
