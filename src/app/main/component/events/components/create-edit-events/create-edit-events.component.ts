@@ -66,7 +66,7 @@ export class CreateEditEventsComponent implements OnInit, OnDestroy {
     this.tags = TagsArray.reduce((ac, cur) => [...ac, { ...cur }], []);
 
     this.eventFormGroup = new FormGroup({
-      titleForm: new FormControl('', [Validators.required, Validators.minLength(1), Validators.maxLength(70)]),
+      titleForm: new FormControl('', [Validators.required, Validators.minLength(1), Validators.maxLength(70), this.validateSpaces]),
       description: new FormControl('', [Validators.required, Validators.minLength(28), Validators.maxLength(63206)]),
       eventDuration: new FormControl('', [Validators.required, Validators.minLength(2)])
     });
@@ -132,7 +132,7 @@ export class CreateEditEventsComponent implements OnInit, OnDestroy {
 
   public getImageTosend(imageArr: Array<File>): void {
     this.imgArray = [...imageArr];
-    this.checkFileExtension(imageArr);
+    this.checkFileExtensionAndSize(imageArr);
   }
 
   public getImagesToDelete(imagesSrc: Array<string>): void {
@@ -252,7 +252,12 @@ export class CreateEditEventsComponent implements OnInit, OnDestroy {
     });
   }
 
-  private checkFileExtension(file: any): void {
+  private validateSpaces(control: AbstractControl): ValidationErrors {
+    const value = control && control.value && control.value !== control.value.trim();
+    return value ? { hasNoWhiteSpaces: 'false' } : null;
+  }
+
+  private checkFileExtensionAndSize(file: any): void {
     this.isImageSizeError = file.size >= 10485760;
     this.isImageTypeError = !(file.type === 'image/jpeg' || file.type === 'image/png');
   }
