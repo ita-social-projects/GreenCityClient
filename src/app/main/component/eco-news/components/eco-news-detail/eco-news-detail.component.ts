@@ -34,11 +34,12 @@ export class EcoNewsDetailComponent implements OnInit, OnDestroy {
 
   ngOnInit() {
     this.getUserId();
+    this.setNewsId();
     if (this.userId) {
       this.getIsLiked();
     }
-    this.setNewsId();
     if (this.newsId) {
+      this.getIsLiked();
       this.getEcoNewsById(this.newsId);
     }
     this.backRoute = this.localStorageService.getPreviousPage();
