@@ -1,3 +1,29 @@
 <div class="w-100">
   <p class="deactivate-title">{{ 'ubs-tariffs-add-location-pop-up.deactivate' | translate }}</p>
 </div>
+<app-dialog-tariff [row]="form" [newDate]="newDate" [name]="name" [edit]="true"></app-dialog-tariff>
+<ng-template #form>
+  <form [formGroup]="DeactivateCardForm">
+    <div [ngClass]="selectedStation.length ? 'd-flex' : 'd-flex first-row'">
+      <div class="form-group">
+        <label>{{ 'ubs-tariffs.station' | translate }}</label>
+        <input
+          formControlName="station"
+          [ngClass]="{ 'form-control': true, onBlurSelectionPanel: blurOnOption }"
+          [placeholder]="stationPlaceholder"
+          [matAutocomplete]="autoStation"
+          #autocompleteTriggerStation="matAutocompleteTrigger"
+          (blur)="onBlur($event)"
+        />
+        <mat-autocomplete #autoStation="matAutocomplete" (optionSelected)="onSelectStation($event, autocompleteTriggerStation)">
+          <mat-option *ngFor="let option of filteredStations" class="option-state" [value]="option">
+            <mat-checkbox class="mr-1" [checked]="checkStation(option)"></mat-checkbox>
+            <span class="checkbox-text">{{ option }}</span>
+          </mat-option>
+        </mat-autocomplete>
+
+        <img [src]="icons.arrowDown" class="arrowDown-img" alt="arrowDown" (click)="openAuto($event, autocompleteTriggerStation, false)" />
+      </div>
+    </div>
+  </form>
+</ng-template>
