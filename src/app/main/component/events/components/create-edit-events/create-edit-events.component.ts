@@ -253,7 +253,7 @@ export class CreateEditEventsComponent implements OnInit, OnDestroy {
   }
 
   private checkFileExtension(file: any): void {
-    this.isImageSizeError = file.size >= 10000000;
+    this.isImageSizeError = file.size >= 10485760;
     this.isImageTypeError = !(file.type === 'image/jpeg' || file.type === 'image/png');
   }
 
