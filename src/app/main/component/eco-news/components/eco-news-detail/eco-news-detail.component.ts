@@ -39,7 +39,6 @@ export class EcoNewsDetailComponent implements OnInit, OnDestroy {
       this.getIsLiked();
     }
     if (this.newsId) {
-      this.getIsLiked();
       this.getEcoNewsById(this.newsId);
     }
     this.backRoute = this.localStorageService.getPreviousPage();
