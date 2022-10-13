@@ -43,6 +43,8 @@ export class CreateEditEventsComponent implements OnInit, OnDestroy {
   public isTagValid: boolean;
   public isAddressFill = true;
   public eventFormGroup: FormGroup;
+  public isImageSizeError: boolean;
+  public isImageTypeError = false;
 
   private imgArray: Array<File> = [];
   private pipe = new DatePipe('en-US');
@@ -130,6 +132,7 @@ export class CreateEditEventsComponent implements OnInit, OnDestroy {
 
   public getImageTosend(imageArr: Array<File>): void {
     this.imgArray = [...imageArr];
+    this.checkFileExtensionAndSize(imageArr);
   }
 
   public getImagesToDelete(imagesSrc: Array<string>): void {
@@ -252,6 +255,11 @@ export class CreateEditEventsComponent implements OnInit, OnDestroy {
   private validateSpaces(control: AbstractControl): ValidationErrors {
     const value = control && control.value && control.value !== control.value.trim();
     return value ? { hasNoWhiteSpaces: 'false' } : null;
+  }
+
+  private checkFileExtensionAndSize(file: any): void {
+    this.isImageSizeError = file.size >= 10485760;
+    this.isImageTypeError = !(file.type === 'image/jpeg' || file.type === 'image/png');
   }
 
   ngOnDestroy(): void {
