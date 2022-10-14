@@ -29,18 +29,26 @@ h6 {
 }
 
 .edit-violation {
-  margin: -30px 10px 0 0;
+  margin: 0 10px 40px 0;
 
   .mat-icon,
+  .edit-violation-btn {
+    font-size: 14px;
+    color: var(--ubs-electric-violet);
+    border: none;
+    background: transparent;
+  }
+
+  .mat-icon {
+    padding: 4px 0 0 6px;
+  }
+
   .edit-violation-btn {
     font-family: var(--ubs-quaternary-font);
     font-weight: 700;
     font-size: 14px;
     line-height: 20px;
     letter-spacing: 0.1px;
-    color: var(--ubs-electric-violet);
-    border: none;
-    background: transparent;
   }
 
   .edit-violation-btn:disabled,
