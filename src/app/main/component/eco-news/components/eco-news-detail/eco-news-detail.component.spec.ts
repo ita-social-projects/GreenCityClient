@@ -120,6 +120,7 @@ describe('EcoNewsDetailComponent', () => {
     expect(spy1).toHaveBeenCalledTimes(1);
     expect(spy2).toHaveBeenCalledTimes(1);
     expect(spy3).toHaveBeenCalledTimes(1);
+    expect(spy3).toHaveBeenCalledWith((component as any).newsId);
   });
 
   it('userId null should not call getIsLiked method', () => {
