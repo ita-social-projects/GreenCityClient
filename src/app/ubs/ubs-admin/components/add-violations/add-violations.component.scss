@@ -33,7 +33,11 @@ h6 {
 
   .mat-icon,
   .edit-violation-btn {
+    font-family: var(--ubs-quaternary-font);
+    font-weight: 700;
     font-size: 14px;
+    line-height: 20px;
+    letter-spacing: 0.1px;
     color: var(--ubs-electric-violet);
     border: none;
     background: transparent;
