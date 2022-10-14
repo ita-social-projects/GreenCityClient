@@ -111,7 +111,7 @@ export class UbsAdminTariffsPricingPageComponent implements OnInit, OnDestroy {
     this.toggle = false;
   }
 
-  async saveChanges() {
+  saveChanges() {
     const { minAmountOfOrder, maxAmountOfOrder, minAmountOfBigBag, maxAmountOfBigBag, limitDescription } = this.limitsForm.value;
 
     this.bagInfo = {
@@ -129,18 +129,12 @@ export class UbsAdminTariffsPricingPageComponent implements OnInit, OnDestroy {
     };
 
     const tariffId = this.selectedCardId;
-    const courierId = await this.getCourierId();
 
     if (this.toggle === null) {
-      this.tariffsService
-        .setLimitDescription(this.descriptionInfo.limitDescription, courierId)
-        .pipe(takeUntil(this.destroy))
-        .subscribe(() => {
-          this.getCouriers();
-        });
+      this.changeDescription();
     }
 
-    if (this.toggle === true) {
+    if (this.toggle) {
       this.tariffsService
         .setLimitsBySumOrder(this.sumInfo, tariffId)
         .pipe(takeUntil(this.destroy))
@@ -148,12 +142,7 @@ export class UbsAdminTariffsPricingPageComponent implements OnInit, OnDestroy {
           this.getCouriers();
         });
 
-      this.tariffsService
-        .setLimitDescription(this.descriptionInfo.limitDescription, courierId)
-        .pipe(takeUntil(this.destroy))
-        .subscribe(() => {
-          this.getCouriers();
-        });
+      this.changeDescription();
     }
 
     if (this.toggle === false) {
@@ -163,12 +152,8 @@ export class UbsAdminTariffsPricingPageComponent implements OnInit, OnDestroy {
         .subscribe(() => {
           this.getCouriers();
         });
-      this.tariffsService
-        .setLimitDescription(this.descriptionInfo.limitDescription, courierId)
-        .pipe(takeUntil(this.destroy))
-        .subscribe(() => {
-          this.getCouriers();
-        });
+
+      this.changeDescription();
     }
   }
 
@@ -186,11 +171,28 @@ export class UbsAdminTariffsPricingPageComponent implements OnInit, OnDestroy {
     }
   }
 
+  async changeDescription(): Promise<any> {
+    const { limitDescription } = this.limitsForm.value;
+
+    const courierId = await this.getCourierId();
+
+    this.descriptionInfo = {
+      limitDescription
+    };
+
+    this.tariffsService
+      .setLimitDescription(this.descriptionInfo.limitDescription, courierId)
+      .pipe(takeUntil(this.destroy))
+      .subscribe(() => {
+        this.getCouriers();
+      });
+  }
+
   routeParams(): void {
     this.route.params.pipe(takeUntil(this.destroy)).subscribe((res) => {
       this.getAllTariffsForService();
-      this.selectedCardId = +res.id;
-      this.currentLocation = +res.id;
+      this.selectedCardId = Number(res.id);
+      this.currentLocation = Number(res.id);
       this.getServices();
     });
   }
