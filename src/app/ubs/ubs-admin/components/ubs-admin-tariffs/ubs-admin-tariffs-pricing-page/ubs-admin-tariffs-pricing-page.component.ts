@@ -1,10 +1,10 @@
 import { Component, OnInit, OnDestroy, Injector } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
-import { MatDialog, MatDialogConfig, MatDialogRef } from '@angular/material/dialog';
+import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
 import { Location } from '@angular/common';
 import { ActivatedRoute, Router } from '@angular/router';
 import { TariffsService } from '../../../services/tariffs.service';
-import { takeUntil, take, skip } from 'rxjs/operators';
+import { takeUntil, skip } from 'rxjs/operators';
 import { Bag, Service, Locations } from '../../../models/tariffs.interface';
 import { OrderService } from '../../../../ubs/services/order.service';
 import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
@@ -27,8 +27,14 @@ export class UbsAdminTariffsPricingPageComponent implements OnInit, OnDestroy {
   locations: Locations[] = [];
   isLoadBar1: boolean;
   isLoadBar: boolean;
-  selectedLocationId;
+  selectedCardId;
   amount;
+  info;
+  bagInfo;
+  sumInfo;
+  toggle: boolean = null;
+  description;
+  descriptionInfo;
   couriers;
   limitsForm: FormGroup;
   currentLocation;
@@ -51,13 +57,7 @@ export class UbsAdminTariffsPricingPageComponent implements OnInit, OnDestroy {
   private fb: FormBuilder;
   locations$ = this.store.select((state: IAppState): Locations[] => state.locations.locations);
 
-  constructor(
-    private injector: Injector,
-    public dialogRefService: MatDialogRef<UbsAdminTariffsAddServicePopUpComponent>,
-    public dialogRefTariff: MatDialogRef<UbsAdminTariffsAddTariffServicePopUpComponent>,
-    private router: Router,
-    private store: Store<IAppState>
-  ) {
+  constructor(private injector: Injector, private router: Router, private store: Store<IAppState>) {
     this.location = injector.get(Location);
     this.dialog = injector.get(MatDialog);
     this.tariffsService = injector.get(TariffsService);
@@ -81,44 +81,107 @@ export class UbsAdminTariffsPricingPageComponent implements OnInit, OnDestroy {
 
   private initForm(): void {
     this.limitsForm = this.fb.group({
+      limitDescription: new FormControl(),
       courierLimitsBy: new FormControl(''),
       minAmountOfOrder: new FormControl(),
       maxAmountOfOrder: new FormControl(),
       minAmountOfBigBag: new FormControl(),
-      maxAmountOfBigBag: new FormControl(),
-      limitDescription: new FormControl()
+      maxAmountOfBigBag: new FormControl()
     });
   }
 
   fillFields(): void {
-    const { courierLimit, minPriceOfOrder, maxPriceOfOrder, minAmountOfBigBags, maxAmountOfBigBags, limitDescription } = this.couriers[0];
+    const { courierLimit, minPriceOfOrder, maxPriceOfOrder, minAmountOfBigBags, maxAmountOfBigBags, description } = this.couriers[0];
+
     this.limitsForm.patchValue({
       courierLimitsBy: courierLimit,
       minAmountOfOrder: minPriceOfOrder,
       maxAmountOfOrder: maxPriceOfOrder,
       minAmountOfBigBag: minAmountOfBigBags,
       maxAmountOfBigBag: maxAmountOfBigBags,
-      limitDescription
+      limitDescription: description
     });
   }
 
-  saveChanges(): void {
-    const { courierLimitsBy, minAmountOfOrder, maxAmountOfOrder, minAmountOfBigBag, maxAmountOfBigBag, limitDescription } =
-      this.limitsForm.value;
-    this.amount = {
-      bagId: 1,
-      courierId: 1,
-      languageId: 1,
-      courierLimitsBy,
-      limitDescription,
-      maxAmountOfBigBag,
-      maxAmountOfOrder,
+  sumToggler() {
+    this.toggle = true;
+  }
+
+  bagToggler() {
+    this.toggle = false;
+  }
+
+  saveChanges() {
+    const { minAmountOfOrder, maxAmountOfOrder, minAmountOfBigBag, maxAmountOfBigBag, limitDescription } = this.limitsForm.value;
+
+    this.bagInfo = {
       minAmountOfBigBag,
-      minAmountOfOrder,
-      minimalAmountOfBagStatus: 'INCLUDE'
+      maxAmountOfBigBag
     };
+
+    this.sumInfo = {
+      minAmountOfOrder,
+      maxAmountOfOrder
+    };
+
+    this.descriptionInfo = {
+      limitDescription
+    };
+
+    const tariffId = this.selectedCardId;
+
+    if (this.toggle === null) {
+      this.changeDescription();
+    }
+
+    if (this.toggle) {
+      this.tariffsService
+        .setLimitsBySumOrder(this.sumInfo, tariffId)
+        .pipe(takeUntil(this.destroy))
+        .subscribe(() => {
+          this.getCouriers();
+        });
+
+      this.changeDescription();
+    }
+
+    if (this.toggle === false) {
+      this.tariffsService
+        .setLimitsByAmountOfBags(this.bagInfo, tariffId)
+        .pipe(takeUntil(this.destroy))
+        .subscribe(() => {
+          this.getCouriers();
+        });
+
+      this.changeDescription();
+    }
+  }
+
+  async getCourierId(): Promise<any> {
+    try {
+      const res: any = await this.tariffsService.getCardInfo().toPromise();
+      const card = res.find((value) => {
+        if (this.selectedCardId === value.cardId) {
+          return true;
+        }
+      });
+      return card.courierId;
+    } catch (e) {
+      return Error('getCourierId Error');
+    }
+  }
+
+  async changeDescription(): Promise<any> {
+    const { limitDescription } = this.limitsForm.value;
+
+    const courierId = await this.getCourierId();
+
+    this.descriptionInfo = {
+      limitDescription
+    };
+
     this.tariffsService
-      .editInfo(this.amount)
+      .setLimitDescription(this.descriptionInfo.limitDescription, courierId)
       .pipe(takeUntil(this.destroy))
       .subscribe(() => {
         this.getCouriers();
@@ -128,8 +191,8 @@ export class UbsAdminTariffsPricingPageComponent implements OnInit, OnDestroy {
   routeParams(): void {
     this.route.params.pipe(takeUntil(this.destroy)).subscribe((res) => {
       this.getAllTariffsForService();
-      this.selectedLocationId = +res.id;
-      this.currentLocation = +res.id;
+      this.selectedCardId = Number(res.id);
+      this.currentLocation = Number(res.id);
       this.getServices();
     });
   }
@@ -279,7 +342,7 @@ export class UbsAdminTariffsPricingPageComponent implements OnInit, OnDestroy {
       if (item) {
         this.locations = item;
         this.reset = false;
-        this.thisLocation = this.locations.filter((it) => it.regionId === this.selectedLocationId);
+        this.thisLocation = this.locations.filter((it) => it.regionId === this.selectedCardId.locationId);
       }
     });
   }
@@ -296,6 +359,8 @@ export class UbsAdminTariffsPricingPageComponent implements OnInit, OnDestroy {
 
   ngOnDestroy(): void {
     this.destroy.next();
-    this.destroy.unsubscribe();
+    if (this.destroy) {
+      this.destroy.unsubscribe();
+    }
   }
 }

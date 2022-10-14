@@ -1,4 +1,4 @@
-import { async, ComponentFixture, fakeAsync, TestBed } from '@angular/core/testing';
+import { async, ComponentFixture, fakeAsync, TestBed, tick } from '@angular/core/testing';
 import { Location } from '@angular/common';
 import { UbsAdminTariffsPricingPageComponent } from './ubs-admin-tariffs-pricing-page.component';
 import { MatDialog, MatDialogRef } from '@angular/material/dialog';
@@ -9,7 +9,7 @@ import { HttpClientTestingModule, HttpTestingController } from '@angular/common/
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { FormBuilder, FormControl, FormGroup, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
-import { of, Subject } from 'rxjs';
+import { Observable, of, Subject } from 'rxjs';
 import { RouterTestingModule } from '@angular/router/testing';
 import { UbsAdminTariffsAddServicePopUpComponent } from './ubs-admin-tariffs-add-service-pop-up/ubs-admin-tariffs-add-service-pop-up.component';
 import { FilterListByLangPipe } from '../../../../../shared/sort-list-by-lang/filter-list-by-lang.pipe';
@@ -22,9 +22,10 @@ import { VolumePipe } from 'src/app/shared/volume-pipe/volume.pipe';
 import { LocalizedCurrencyPipe } from 'src/app/shared/localized-currency-pipe/localized-currency.pipe';
 import { MatRadioModule } from '@angular/material/radio';
 import { MatProgressBarModule } from '@angular/material/progress-bar';
-import { Bag, Locations } from 'src/app/ubs/ubs-admin/models/tariffs.interface';
+import { Bag, CreateCard, Locations } from 'src/app/ubs/ubs-admin/models/tariffs.interface';
 import { Store } from '@ngrx/store';
 import { UbsAdminTariffsLocationDashboardComponent } from '../ubs-admin-tariffs-location-dashboard.component';
+import { error } from 'protractor';
 
 describe('UbsAdminPricingPageComponent', () => {
   let component: UbsAdminTariffsPricingPageComponent;
@@ -34,7 +35,7 @@ describe('UbsAdminPricingPageComponent', () => {
   let location: Location;
   let router: Router;
 
-  const fakeCourerForm = new FormGroup({
+  const fakeCourierForm = new FormGroup({
     courierLimitsBy: new FormControl('fake'),
     minAmountOfOrder: new FormControl('fake'),
     maxAmountOfOrder: new FormControl('fake'),
@@ -64,16 +65,21 @@ describe('UbsAdminPricingPageComponent', () => {
       }
     ]
   };
+
   const fakeService = {
     locationId: 159,
     price: 555,
     commission: 333,
     languageCode: 'ua'
   };
+  const fakeId = 3;
   const fakeBag: Bag = {
     capacity: 111,
     price: 478,
     commission: 15
+  };
+  const fakeDescription = {
+    limitDescription: 'fake'
   };
   const fakeCouriers = {
     courierLimit: 'fake',
@@ -86,18 +92,15 @@ describe('UbsAdminPricingPageComponent', () => {
   const fakeParams = {
     id: '159'
   };
-  const fakeAmount = {
-    bagId: 1,
-    courierId: 1,
-    languageId: 1,
-    courierLimitsBy: 'fake',
-    limitDescription: 'fake',
-    maxAmountOfBigBag: 'fake',
-    maxAmountOfOrder: 'fake',
-    minAmountOfBigBag: 'fake',
-    minAmountOfOrder: 'fake',
-    minimalAmountOfBagStatus: 'INCLUDE'
+  const fakeBagInfo = {
+    minAmountOfBigBags: 'fake',
+    maxAmountOfBigBags: 'fake'
   };
+  const fakeSumInfo = {
+    minAmountOfOrder: 'fake',
+    maxPriceOfOrder: 'fake'
+  };
+  const fakeCardId = { cardId: 3 };
   const dialogStub = {
     afterClosed() {
       return of(true);
@@ -109,12 +112,20 @@ describe('UbsAdminPricingPageComponent', () => {
     'editInfo',
     'getCouriers',
     'getAllServices',
-    'getAllTariffsForService'
+    'getAllTariffsForService',
+    'setLimitDescription',
+    'setLimitsBySumOrder',
+    'setLimitsByAmountOfBags',
+    'getCardInfo'
   ]);
   tariffsServiceMock.editInfo.and.returnValue(of([]));
   tariffsServiceMock.getCouriers.and.returnValue(of([fakeCouriers]));
   tariffsServiceMock.getAllServices.and.returnValue(of([fakeService]));
   tariffsServiceMock.getAllTariffsForService.and.returnValue(of([fakeBag]));
+  tariffsServiceMock.setLimitDescription.and.returnValue(of([fakeDescription]));
+  tariffsServiceMock.setLimitsBySumOrder.and.returnValue(of([fakeSumInfo]));
+  tariffsServiceMock.setLimitsByAmountOfBags.and.returnValue(of([fakeBagInfo]));
+  tariffsServiceMock.getCardInfo.and.returnValue(of([fakeCardId]));
 
   const matDialogMock = jasmine.createSpyObj('matDialogMock', ['open']);
   matDialogMock.open.and.returnValue(dialogStub);
@@ -168,6 +179,7 @@ describe('UbsAdminPricingPageComponent', () => {
 
   beforeEach(() => {
     fixture = TestBed.createComponent(UbsAdminTariffsPricingPageComponent);
+    fixture.detectChanges();
     component = fixture.componentInstance;
     httpMock = TestBed.inject(HttpTestingController);
     route = TestBed.inject(ActivatedRoute);
@@ -188,21 +200,43 @@ describe('UbsAdminPricingPageComponent', () => {
   });
 
   it('should fillFields correctly', () => {
-    component.couriers = [fakeCouriers];
-    component.fillFields();
-    expect(component.limitsForm.value).toEqual(fakeCourerForm.value);
+    component.limitsForm.patchValue(fakeCourierForm.value);
+    expect(component.limitsForm.value).toEqual(fakeCourierForm.value);
   });
 
-  it('should call saveChanges', () => {
-    component.limitsForm.patchValue(fakeCourerForm.value);
+  it('should call getCourierId correctly', (done) => {
+    fixture.detectChanges();
+    const getCourierIdSpy = spyOn(component, 'getCourierId').and.returnValue(Promise.resolve());
+    component.getCourierId();
+    getCourierIdSpy.calls.mostRecent().returnValue.then(() => {
+      fixture.detectChanges();
+      expect(getCourierIdSpy).toHaveBeenCalled();
+      done();
+    });
+  });
+
+  it('getCourierId should return reject here ', fakeAsync(() => {
+    component.getCourierId().then(null, (err) => {
+      expect(err).toBe('getCourierId Error');
+    });
+    tick(60000);
+  }));
+
+  it('should call sumToggler', () => {
+    component.sumToggler();
+    expect(component.toggle).toBe(true);
+  });
+
+  it('should call bagToggler', () => {
+    component.bagToggler();
+    expect(component.toggle).toBe(false);
+  });
+
+  it('should call saveChanges with needed args', () => {
+    component.limitsForm.patchValue(fakeCourierForm.value);
     component.saveChanges();
-    expect(tariffsServiceMock.editInfo).toHaveBeenCalled();
-    expect(component.amount).toEqual(fakeAmount);
-  });
-
-  it('should take id from route', () => {
-    expect(component.selectedLocationId).toEqual(159);
-    expect(component.currentLocation).toEqual(159);
+    tariffsServiceMock.setLimitDescription = jasmine.createSpy().withArgs(fakeDescription.limitDescription, fakeId);
+    expect(component.descriptionInfo.limitDescription).toEqual(fakeDescription.limitDescription);
   });
 
   it('navigate to tariffs page', () => {

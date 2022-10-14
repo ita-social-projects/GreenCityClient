@@ -46,8 +46,22 @@
               <label class="form__label" for="recipient-surname">
                 {{ 'customer-info.recipient.surname-label' | translate }}
               </label>
-              <input class="name-input form-control" type="text" id="recipient-name" formControlName="recipientName" />
-              <input class="name-input form-control" type="text" id="recipient-surname" formControlName="recipientSurName" />
+              <div>
+                <input class="name-input form-control" type="text" id="recipient-name" formControlName="recipientName" />
+                <div *ngIf="userInfoDto.controls['recipientName'].invalid && userInfoDto.controls['recipientName'].touched">
+                  <div class="error-message">
+                    {{ getErrorMessage(userInfoDto.controls['recipientName']) | translate }}
+                  </div>
+                </div>
+              </div>
+              <div>
+                <input class="name-input form-control" type="text" id="recipient-surname" formControlName="recipientSurName" />
+                <div *ngIf="userInfoDto.controls['recipientSurName'].invalid && userInfoDto.controls['recipientSurName'].touched">
+                  <div class="error-message">
+                    {{ getErrorMessage(userInfoDto.controls['recipientSurName']) | translate }}
+                  </div>
+                </div>
+              </div>
             </div>
           </div>
           <div class="form-group">

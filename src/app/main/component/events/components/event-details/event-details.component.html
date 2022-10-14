@@ -12,7 +12,7 @@
           </div>
         </a>
       </div>
-      <div *ngIf="checkUserId()" class="edit-buttons">
+      <div *ngIf="checkUserId() || isAdmin" class="edit-buttons">
         <div class="secondary-global-button event-button delete-button">
           <span (click)="deleteEvent()">Delete</span>
         </div>
@@ -32,10 +32,9 @@
           <div>by {{ event.organizer.name }}</div>
         </div>
         <div class="event-stars">
-          <rating [(ngModel)]="rate" [customTemplate]="star" [max]="max" [readonly]="isReadonly">
-          </rating>
+          <rating [(ngModel)]="rate" [customTemplate]="star" [max]="max" [readonly]="isReadonly"> </rating>
           <ng-template #star let-index="index" let-value="value">
-            <span class="star {{index < value ? 'fill' : 'empty'}}"></span>
+            <span class="star {{ index < value ? 'fill' : 'empty' }}"></span>
           </ng-template>
         </div>
       </div>
@@ -45,12 +44,21 @@
   <div class="event-main">
     <div class="main-left">
       <div *ngIf="imagesSlider.length" class="main-image">
-        <img *ngFor="let image of imagesSlider; let i = index" [src]="image"
-          [ngClass]="{ 'image-active': sliderIndex === i }" class="img fade" alt="event" />
+        <img
+          *ngFor="let image of imagesSlider; let i = index"
+          [src]="image"
+          [ngClass]="{ 'image-active': sliderIndex === i }"
+          class="img fade"
+          alt="event"
+        />
 
         <div class="dot-container">
-          <span *ngFor="let dot of imagesSlider; let i = index" class="dot"
-            [ngClass]="{ 'dot-active': sliderIndex === i }" (click)="selectImage(i)">
+          <span
+            *ngFor="let dot of imagesSlider; let i = index"
+            class="dot"
+            [ngClass]="{ 'dot-active': sliderIndex === i }"
+            (click)="selectImage(i)"
+          >
           </span>
         </div>
 
@@ -58,16 +66,13 @@
           <span class="arrow-right" (click)="moveRight()">></span>
         </div>
         <div class="button-arrow left">
-          <span class="arrow-left" (click)="moveLeft()">
-            < </span>
+          <span class="arrow-left" (click)="moveLeft()"> < </span>
         </div>
       </div>
 
       <mat-card class="event-place" *ngFor="let date of event.dates; let i = index">
         <h5>Event day {{ i + 1 }}</h5>
-        <div class="event-stars">
-
-        </div>
+        <div class="event-stars"></div>
 
         <div class="date-container">
           <div>
@@ -123,12 +128,10 @@
           </div>
           <div class="buttons-container">
             <div class="flex-container">
-              <a role="button" class="custom-chip global-tag" [ngClass]="{ 'global-tag-clicked': event.open }"
-                tabindex="0">
+              <a role="button" class="custom-chip global-tag" [ngClass]="{ 'global-tag-clicked': event.open }" tabindex="0">
                 <span class="text">open</span>
               </a>
-              <a role="button" class="custom-chip global-tag" [ngClass]="{ 'global-tag-clicked': !event.open }"
-                tabindex="0">
+              <a role="button" class="custom-chip global-tag" [ngClass]="{ 'global-tag-clicked': !event.open }" tabindex="0">
                 <span class="text">close</span>
               </a>
             </div>

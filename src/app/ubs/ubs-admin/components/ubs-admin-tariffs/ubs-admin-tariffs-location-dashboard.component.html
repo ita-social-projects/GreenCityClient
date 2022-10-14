@@ -182,7 +182,7 @@
         {{ card.region }}
       </td>
       <td>
-        <div *ngFor="let item of card.city" class="cursor-pointer" (click)="page(card.regionId)">
+        <div *ngFor="let item of card.city" class="cursor-pointer" (click)="page(card.cardId)">
           {{ item }}
         </div>
       </td>

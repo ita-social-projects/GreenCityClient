@@ -34,6 +34,7 @@ import { UBSInputErrorComponent } from './ubs-input-error/ubs-input-error.compon
 import { SpacePreventDirective } from './directives/space-prevent.directive';
 import { LocalizedDatePipe } from './localized-date-pipe/localized-date.pipe';
 import { TranslateDatePipe } from './translate-date-pipe/translate-date.pipe';
+import { RepeatPipe } from './repeat-pipe/repeat.pipe';
 
 @NgModule({
   declarations: [
@@ -62,7 +63,8 @@ import { TranslateDatePipe } from './translate-date-pipe/translate-date.pipe';
     UBSInputErrorComponent,
     SpacePreventDirective,
     LocalizedDatePipe,
-    TranslateDatePipe
+    TranslateDatePipe,
+    RepeatPipe
   ],
   imports: [
     CommonModule,
@@ -99,7 +101,8 @@ import { TranslateDatePipe } from './translate-date-pipe/translate-date.pipe';
     UBSInputErrorComponent,
     SpacePreventDirective,
     LocalizedDatePipe,
-    TranslateDatePipe
+    TranslateDatePipe,
+    RepeatPipe
   ]
 })
 export class SharedModule {}

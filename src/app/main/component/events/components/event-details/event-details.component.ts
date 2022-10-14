@@ -12,6 +12,7 @@ import { TagsArray } from '../../models/event-consts';
 import { EventPageResponceDto, TagDto, TagObj } from '../../models/events.interface';
 import { EventsService } from '../../services/events.service';
 import { MapEventComponent } from '../map-event/map-event.component';
+import { JwtService } from '@global-service/jwt/jwt.service';
 
 @Component({
   selector: 'app-event-details',
@@ -20,6 +21,8 @@ import { MapEventComponent } from '../map-event/map-event.component';
 })
 export class EventDetailsComponent implements OnInit {
   private eventId: number;
+  private ADMIN_ROLE = 'ROLE_ADMIN';
+  public isAdmin = false;
   public images = singleNewsImages;
   public event: EventPageResponceDto;
 
@@ -55,7 +58,8 @@ export class EventDetailsComponent implements OnInit {
     private localStorageService: LocalStorageService,
     private dialog: MatDialog,
     private store: Store,
-    private actionsSubj: ActionsSubject
+    private actionsSubj: ActionsSubject,
+    private jwtService: JwtService
   ) {}
 
   ngOnInit(): void {
@@ -74,6 +78,7 @@ export class EventDetailsComponent implements OnInit {
         lng: this.event.dates[0].coordinates.longitude
       };
     });
+    this.isAdmin = this.checkIsAdmin();
 
     this.actionsSubj.pipe(ofType(EventsActions.DeleteEcoEventSuccess)).subscribe(() => this.router.navigate(['/events']));
   }
@@ -88,6 +93,11 @@ export class EventDetailsComponent implements OnInit {
 
   public checkUserId(): boolean {
     return this.userId === this.event.organizer.id;
+  }
+
+  public checkIsAdmin(): boolean {
+    const userRole = this.jwtService.getUserRole();
+    return userRole === this.ADMIN_ROLE;
   }
 
   private filterTags(tags: Array<TagDto>): void {

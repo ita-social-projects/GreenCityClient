@@ -1,6 +1,6 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
-
+import { JwtService } from '@global-service/jwt/jwt.service';
 import { EventDetailsComponent } from './event-details.component';
 import { TranslateModule } from '@ngx-translate/core';
 import { RouterTestingModule } from '@angular/router/testing';
@@ -42,6 +42,9 @@ describe('EventDetailsComponent', () => {
   EventsServiceMock.getEventById = () => of(MockReqest);
   EventsServiceMock.deleteEvent = () => of(true);
 
+  const jwtServiceFake = jasmine.createSpyObj('jwtService', ['getUserRole']);
+  jwtServiceFake.getUserRole = () => '123';
+
   const activatedRouteMock = {
     snapshot: {
       params: {
@@ -69,6 +72,7 @@ describe('EventDetailsComponent', () => {
       imports: [TranslateModule.forRoot(), RouterTestingModule, MatDialogModule],
       declarations: [EventDetailsComponent],
       providers: [
+        { provide: JwtService, useValue: jwtServiceFake },
         { provide: EventsService, useValue: EventsServiceMock },
         { provide: ActivatedRoute, useValue: activatedRouteMock },
         { provide: MatDialog, useClass: MatDialogMock },

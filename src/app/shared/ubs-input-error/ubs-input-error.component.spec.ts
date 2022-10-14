@@ -35,7 +35,31 @@ describe('ErrorComponent ', () => {
     expect(component.ngOnChanges).toHaveBeenCalled();
   });
 
-  it('errorMessage should have correct value if we have errors', () => {
+  it('errorMessage should have correct value if we have maxlength error in "Entrance" field', () => {
+    Object.assign(component, { formElement: { errors: { maxlength: { requiredLength: 2 } } } });
+    fixture.detectChanges();
+    // @ts-ignore
+    component.getType();
+    expect(component.errorMessage).toBe('input-error.max-length-entrance');
+  });
+
+  it('errorMessage should have correct value if we have maxlength error in "House number" field', () => {
+    Object.assign(component, { formElement: { errors: { maxlength: { requiredLength: 8 } } } });
+    fixture.detectChanges();
+    // @ts-ignore
+    component.getType();
+    expect(component.errorMessage).toBe('input-error.max-length-house');
+  });
+
+  it('errorMessage should have correct value if we have maxlength error in "Comment address" field', () => {
+    Object.assign(component, { formElement: { errors: { maxlength: { requiredLength: 255 } } } });
+    fixture.detectChanges();
+    // @ts-ignore
+    component.getType();
+    expect(component.errorMessage).toBe('input-error.max-length-comment');
+  });
+
+  it('errorMessage should have correct value if we have required error', () => {
     Object.assign(component, { formElement: { errors: { required: true } } });
     fixture.detectChanges();
     // @ts-ignore

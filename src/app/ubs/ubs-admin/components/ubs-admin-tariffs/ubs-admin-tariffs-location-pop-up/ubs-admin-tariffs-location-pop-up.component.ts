@@ -342,7 +342,7 @@ export class UbsAdminTariffsLocationPopUpComponent implements OnInit, AfterViewC
     this.dialogRef.close({});
   }
 
-  onNoClick(): void {
+  onCancel(): void {
     if (this.selectedCities.length || this.editedCities.length) {
       const matDialogRef = this.dialog.open(ModalTextComponent, {
         hasBackdrop: true,
