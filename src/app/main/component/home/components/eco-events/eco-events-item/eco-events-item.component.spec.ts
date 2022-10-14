@@ -1,5 +1,5 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
-
+import { Pipe, PipeTransform } from '@angular/core';
 import { EcoEventsItemComponent } from './eco-events-item.component';
 import { EcoEventsComponent } from '../eco-events.component';
 import { TranslateModule } from '@ngx-translate/core';
@@ -9,10 +9,17 @@ describe('EcoEventsItemComponent', () => {
   let component: EcoEventsItemComponent;
   let fixture: ComponentFixture<EcoEventsItemComponent>;
 
+  @Pipe({ name: 'translateDate' })
+  class MockPipe implements PipeTransform {
+    transform(value: string): string {
+      return value;
+    }
+  }
+
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [EcoEventsItemComponent, EcoEventsComponent],
-      imports: [RouterTestingModule, TranslateModule.forRoot()],
+      declarations: [EcoEventsItemComponent, EcoEventsComponent, MockPipe],
+      imports: [RouterTestingModule, TranslateModule.forRoot()]
     }).compileComponents();
   }));
 
@@ -23,8 +30,8 @@ describe('EcoEventsItemComponent', () => {
       id: 0,
       title: '',
       text: '',
-      creationDate: '',
-      imagePath: '',
+      creationDate: '2022-09-29T13:42:27.399Z',
+      imagePath: ''
     };
     fixture.detectChanges();
   });

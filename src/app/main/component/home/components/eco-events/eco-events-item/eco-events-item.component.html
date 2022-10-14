@@ -1,5 +1,5 @@
 <div [ngClass]="mainEvent ? 'main-event' : 'other-event'">
-  <p class="event-date">{{ ecoEvent?.creationDate }}</p>
+  <p class="event-date">{{ ecoEvent?.creationDate | date: 'd M yyyy' | translateDate }}</p>
   <h3>{{ ecoEvent?.title }}</h3>
   <a class="read-more" aria-label="read more link" [routerLink]="['/news', ecoEvent?.id]">
     {{ 'homepage.eco-news.read-more' | translate }}

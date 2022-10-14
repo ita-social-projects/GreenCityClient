@@ -4,6 +4,7 @@ import { TableCellDateComponent } from './table-cell-date.component';
 import { AdminTableService } from 'src/app/ubs/ubs-admin/services/admin-table.service';
 import { IAlertInfo, IEditCell } from 'src/app/ubs/ubs-admin/models/edit-cell.model';
 import { of } from 'rxjs';
+import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 
 describe('TableCellDateComponent', () => {
   let component: TableCellDateComponent;
@@ -21,7 +22,7 @@ describe('TableCellDateComponent', () => {
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       declarations: [TableCellDateComponent],
-      imports: [HttpClientModule],
+      imports: [HttpClientModule, NoopAnimationsModule],
       providers: [AdminTableService]
     }).compileComponents();
   });

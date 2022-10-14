@@ -33,6 +33,7 @@ import { UBSAddAddressPopUpComponent } from './ubs-add-address-pop-up/ubs-add-ad
 import { UBSInputErrorComponent } from './ubs-input-error/ubs-input-error.component';
 import { SpacePreventDirective } from './directives/space-prevent.directive';
 import { LocalizedDatePipe } from './localized-date-pipe/localized-date.pipe';
+import { TranslateDatePipe } from './translate-date-pipe/translate-date.pipe';
 import { RepeatPipe } from './repeat-pipe/repeat.pipe';
 
 @NgModule({
@@ -62,6 +63,7 @@ import { RepeatPipe } from './repeat-pipe/repeat.pipe';
     UBSInputErrorComponent,
     SpacePreventDirective,
     LocalizedDatePipe,
+    TranslateDatePipe,
     RepeatPipe
   ],
   imports: [
@@ -99,6 +101,7 @@ import { RepeatPipe } from './repeat-pipe/repeat.pipe';
     UBSInputErrorComponent,
     SpacePreventDirective,
     LocalizedDatePipe,
+    TranslateDatePipe,
     RepeatPipe
   ]
 })
