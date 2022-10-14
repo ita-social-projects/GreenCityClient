@@ -100,7 +100,7 @@ export class EcoNewsDetailComponent implements OnInit, OnDestroy {
   }
 
   private shareLinks() {
-    const currentPage: string = window.location.href;
+    const currentPage: string = window.location.href.replace('#', '%23');
     return {
       fb: () => `https://www.facebook.com/sharer/sharer.php?u=${currentPage}`,
       linkedin: () => `https://www.linkedin.com/sharing/share-offsite/?url=${currentPage}`,

@@ -9,6 +9,7 @@ import { CreateEditTariffsServicesFormBuilder } from '../../../../services/creat
 import { DatePipe } from '@angular/common';
 import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
 import { Patterns } from 'src/assets/patterns/patterns';
+import { ModalTextComponent } from '../../../shared/components/modal-text/modal-text.component';
 
 @Component({
   selector: 'app-ubs-admin-tariffs-add-tariff-service-pop-up',
@@ -128,5 +129,22 @@ export class UbsAdminTariffsAddTariffServicePopUpComponent implements OnInit {
         description
       });
     }
+  }
+
+  onCancel(): void {
+    const matDialogRef = this.dialog.open(ModalTextComponent, {
+      hasBackdrop: true,
+      panelClass: 'address-matDialog-styles-w-100',
+      data: {
+        name: 'cancel',
+        text: 'modal-text.cancel-message',
+        action: 'modal-text.yes'
+      }
+    });
+    matDialogRef.afterClosed().subscribe((res) => {
+      if (res) {
+        this.dialogRef.close();
+      }
+    });
   }
 }

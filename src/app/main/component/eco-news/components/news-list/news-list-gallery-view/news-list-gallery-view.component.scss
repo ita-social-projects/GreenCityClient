@@ -10,7 +10,8 @@ div {
 }
 
 .list-gallery {
-  width: 359px;
+  min-width: 260px;
+  max-width: 359px;
   min-height: 528px;
   box-shadow: 1px 1px 12px rgba(27, 51, 38, 0.15);
   background: #fff;
@@ -150,7 +151,7 @@ div {
 
 @media screen and (max-width: $bp-tablet) {
   .list-gallery {
-    width: 300px;
+    min-width: 260px;
   }
 }
 
@@ -162,6 +163,6 @@ div {
 
 @media (min-width: 1179px) and (max-width: 1199px) {
   .list-gallery {
-    width: 300px;
+    min-width: 260px;
   }
 }

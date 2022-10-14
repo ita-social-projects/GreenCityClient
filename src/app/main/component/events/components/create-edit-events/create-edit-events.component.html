@@ -24,6 +24,7 @@
             <input matInput placeholder="title" formControlName="titleForm" />
           </mat-form-field>
         </div>
+
         <div class="duration-choice">
           <mat-label>Duration</mat-label>
           <mat-form-field appearance="outline" class="date-item">
@@ -36,9 +37,11 @@
           </mat-form-field>
         </div>
       </div>
+      <p *ngIf="eventFormGroup.get('titleForm').getError('hasNoWhiteSpaces')" class="tag-error">
+        {{ 'create-news.has-white-spaces' | translate }}
+      </p>
 
       <div class="dateContainer">
-        <p *ngIf="dates.length && !isAddressFill" class="tag-error">you shoud fiil at least one addres or link</p>
         <div *ngFor="let date of dates; index as i" class="dateEvent">
           <span class="date-day">{{ i + 1 }} day</span>
           <div class="date-event-block">
@@ -48,8 +51,10 @@
               (status)="checkStatus($event, i)"
               [check]="date.check"
               [editDate]="editEvent?.dates[i]"
-            ></app-event-date-time-picker>
+            >
+            </app-event-date-time-picker>
           </div>
+          <p *ngIf="dates.length && !isAddressFill" class="tag-error">you shoud fill at least one address or link</p>
         </div>
       </div>
 
@@ -73,7 +78,8 @@
         (imgArrayOutput)="getImageTosend($event)"
         (deleteImagesOutput)="getImagesToDelete($event)"
         (oldImagesOutput)="getOldImages($event)"
-      ></app-images-container>
+      >
+      </app-images-container>
 
       <div class="buttons-container">
         <mat-label>Initiative type</mat-label>

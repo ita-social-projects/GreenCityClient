@@ -19,8 +19,10 @@
   </div>
   <div class="create-news-text">{{ attributes.title | translate }}</div>
   <div class="tags">
-    <div class="tags-item" *ngFor="let tag of previewItem.value.tags">
-      {{ 'eco-news-preview.tags.' + tag.toLowerCase() | translate }}
+    <div *ngFor="let tag of tags">
+      <div class="tags-item" *ngIf="tag.isActive">
+        {{ currentLang === 'ua' ? tag.nameUa : tag.name }}
+      </div>
     </div>
   </div>
   <div class="news-content">

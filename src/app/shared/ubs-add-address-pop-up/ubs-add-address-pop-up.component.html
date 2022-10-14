@@ -14,7 +14,11 @@
   </div>
   <div class="col-md-4 col-sm-4 form-group">
     <label>{{ 'personal-info.pop-up-city' | translate }}</label>
-    <select formControlName="city" class="shadow-none form-control" (change)="selectCity($event)">
+    <select
+      formControlName="{{ currentLanguage === 'ua' ? 'city' : 'cityEn' }}"
+      class="shadow-none form-control"
+      (change)="selectCity($event)"
+    >
       <option *ngFor="let city of cities" [ngValue]="city.cityName">{{ city.cityName }}</option>
     </select>
   </div>
@@ -76,7 +80,7 @@
       <app-ubs-input-error [formElement]="street" [streetFieldValue]="street.value" [controlName]="'street'"> </app-ubs-input-error>
     </div>
   </div>
-  <div class="row col-lg-6 col-md-12 col-sm-12 d-flex justify-content-between flex-wrap form-group">
+  <div class="col-lg-6 col-md-12 col-sm-12 d-flex justify-content-between flex-wrap form-group house-details-wrapper">
     <div class="item col-sm-4">
       <label>{{ 'personal-info.pop-up-house' | translate }}</label>
       <input

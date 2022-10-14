@@ -6,6 +6,7 @@
 .dateEvent {
   align-items: flex-start;
   display: flex;
+  flex-direction: column;
   margin: 20px 0;
 }
 
@@ -100,6 +101,7 @@
 }
 
 .tag-error {
+  margin-left: 20px;
   color: red;
 }
 

@@ -6,6 +6,7 @@ import { environment } from '@environment/environment';
 import { FormGroup } from '@angular/forms';
 import { Store } from '@ngrx/store';
 import { EcoNewsModel } from '@eco-news-models/eco-news-model';
+import { FilterModel } from '@eco-news-models/filter.model';
 
 @Injectable({
   providedIn: 'root'
@@ -24,11 +25,20 @@ export class CreateEcoNewsService {
       Authorization: 'my-auth-token'
     })
   };
+  private tags: FilterModel[] = [];
 
   constructor(private http: HttpClient, private store: Store) {}
 
   public getFormData(): FormGroup {
     return this.currentForm;
+  }
+
+  public getTags(): FilterModel[] {
+    return this.tags;
+  }
+
+  public setTags(tags: FilterModel[]): void {
+    this.tags = tags;
   }
 
   public getNewsId(): string {

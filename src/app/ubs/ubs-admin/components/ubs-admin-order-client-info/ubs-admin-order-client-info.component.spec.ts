@@ -1,6 +1,7 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { MatDialogModule } from '@angular/material/dialog';
 import { TranslateModule } from '@ngx-translate/core';
+import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 
 import { UbsAdminOrderClientInfoComponent } from './ubs-admin-order-client-info.component';
 import { AbstractControl, FormGroup } from '@angular/forms';
@@ -23,12 +24,12 @@ describe('UbsAdminOrderClientInfoComponent', () => {
   };
 
   const fakeFormGroup = {
-    controls: { recipientPhoneNumber: {} }
+    controls: { recipientPhoneNumber: {}, recipientName: {}, recipientSurName: {} }
   } as unknown as FormGroup;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      imports: [MatDialogModule, TranslateModule.forRoot()],
+      imports: [MatDialogModule, NoopAnimationsModule, TranslateModule.forRoot()],
       declarations: [UbsAdminOrderClientInfoComponent]
     }).compileComponents();
   }));
@@ -67,18 +68,23 @@ describe('UbsAdminOrderClientInfoComponent', () => {
 
   it('method getErrorMessageKey should return correct error message key - required', () => {
     const formControlMock = { errors: { required: true } } as unknown as AbstractControl;
-
     const result = component.getErrorMessage(formControlMock);
 
     expect(result).toBe('input-error.required');
   });
 
-  it('method getErrorMessageKey should return correct error message key - required', () => {
+  it('method getErrorMessageKey should return correct error message key - pattern', () => {
     const formControlMock = { errors: { pattern: true } } as unknown as AbstractControl;
-
     const result = component.getErrorMessage(formControlMock);
 
-    expect(result).toBe('input-error.number-length');
+    expect(result).toBe('input-error.pattern');
+  });
+
+  it('method getErrorMessageKey should return correct error message key - maxlength', () => {
+    const formControlMock = { errors: { maxlength: true } } as unknown as AbstractControl;
+    const result = component.getErrorMessage(formControlMock);
+
+    expect(result).toBe('input-error.max-length');
   });
 
   it('method getErrorMessageKey should return correct error message key - empty message key', () => {

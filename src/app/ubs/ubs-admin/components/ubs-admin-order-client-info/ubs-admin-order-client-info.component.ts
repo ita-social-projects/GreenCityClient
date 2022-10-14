@@ -1,10 +1,11 @@
 import { Component, Input, OnDestroy, OnInit } from '@angular/core';
 import { FormGroup, AbstractControl } from '@angular/forms';
-import { Subject } from 'rxjs';
 import { MatDialog } from '@angular/material/dialog';
+import { Subject } from 'rxjs';
+import { take } from 'rxjs/operators';
+
 import { AddViolationsComponent } from '../add-violations/add-violations.component';
 import { IUserInfo } from '../../models/ubs-admin.interface';
-import { take } from 'rxjs/operators';
 import { Masks } from 'src/assets/patterns/patterns';
 
 @Component({
@@ -64,13 +65,17 @@ export class UbsAdminOrderClientInfoComponent implements OnInit, OnDestroy {
       });
   }
 
-  getErrorMessage(abstractControl: AbstractControl) {
+  getErrorMessage(abstractControl: AbstractControl): string {
     if (abstractControl.errors.required) {
       return 'input-error.required';
     }
 
+    if (abstractControl.errors.maxlength) {
+      return 'input-error.max-length';
+    }
+
     if (abstractControl.errors.pattern) {
-      return 'input-error.number-length';
+      return 'input-error.pattern';
     }
   }
 

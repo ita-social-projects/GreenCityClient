@@ -103,6 +103,18 @@ export class MatSnackBarComponent {
     existAddress: () => {
       this.className = 'error-snackbar';
       this.getSnackBarMessage('snack-bar.exist-address');
+    },
+    userUnauthorised: () => {
+      this.className = 'error-snackbar';
+      this.getSnackBarMessage('snack-bar.error.unauthorised-user');
+    },
+    lessPoints: () => {
+      this.className = 'error-snackbar';
+      this.getSnackBarMessage('snack-bar.error.not-enough-points');
+    },
+    CartValidation: () => {
+      this.className = 'error-snackbar';
+      this.getSnackBarMessage('snack-bar.error.cartificate-not-valid');
     }
   };
 

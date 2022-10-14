@@ -20,6 +20,13 @@
     <div class="how-preparing">
       <div class="header-left">
         <img [src]="ubsMainPageImages.ubsGreenGarbage" class="ubs-image" alt="ubs-green-garbage" aria-hidden="true" />
+        <img
+          [src]="ubsMainPageImages.ubsBlackGarbageTranspBackgr"
+          class="ubs-image"
+          id="ubs-image-black"
+          alt="ubs-black-garbage"
+          aria-hidden="true"
+        />
       </div>
       <div class="header-right">
         <h2>{{ 'ubs-homepage.ubs-courier.preparing.caption' | translate }}</h2>
@@ -33,13 +40,6 @@
             {{ li | translate }}
           </li>
         </ul>
-      </div>
-    </div>
-    <div class="how-preparing">
-      <div class="header-left">
-        <img [src]="ubsMainPageImages.ubsBlackGarbage" class="ubs-image" alt="ubs-black-garbage" aria-hidden="true" />
-      </div>
-      <div class="header-right">
         <div class="main-content">
           <h2>{{ 'ubs-homepage.ubs-courier.rules.caption' | translate }}</h2>
           <ul>
@@ -69,7 +69,9 @@
         </div>
         <hr />
         <h2 class="header-step">{{ step.header | translate }}</h2>
-        <p class="content-step">{{ step.content | translate }}</p>
+        <div class="show-on-hover">
+          <p class="content-step">{{ step.content | translate }}</p>
+        </div>
       </div>
     </div>
   </section>
@@ -89,7 +91,6 @@
               'ubs-homepage.ubs-courier.how-works.content.link' | translate
             }}</a>
           </p>
-          <p>{{ 'ubs-homepage.ubs-courier.how-works.content.pre_2' | translate }}</p>
         </div>
         <button class="button primary-global-button" [disabled]="isFetching" (click)="redirectToOrder()">
           {{ 'ubs-homepage.header.btn-order-courier' | translate }}
