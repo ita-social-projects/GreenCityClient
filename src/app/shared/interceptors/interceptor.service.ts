@@ -75,6 +75,12 @@ export class InterceptorService implements HttpInterceptor {
             if (error.status >= 400) {
               this.ubsOrderFormService.setOrderResponseErrorStatus(true);
             }
+            if (error.status === 400 && error.error.includes(`User doesn't have enough bonus points.`)) {
+              this.openErrorWindow('snack-bar.error.not-enough-points');
+            }
+            if (error.status === 400 && error.error.includes(`The certificate has been used before or is not activated.`)) {
+              this.openErrorWindow('snack-bar.error.cartificate-not-valid');
+            }
             return throwError(error);
           })
         );

@@ -1,12 +1,13 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { TranslateModule } from '@ngx-translate/core';
 import { MatDialog } from '@angular/material/dialog';
-import { OrderService } from '../../services/order.service';
 import { FormGroup, FormControl, FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { AddOrderCancellationReasonComponent } from '../add-order-cancellation-reason/add-order-cancellation-reason.component';
-
-import { UbsAdminOrderStatusComponent } from './ubs-admin-order-status.component';
 import { of, Subject } from 'rxjs';
+import { NoopAnimationsModule } from '@angular/platform-browser/animations';
+
+import { OrderService } from '../../services/order.service';
+import { AddOrderCancellationReasonComponent } from '../add-order-cancellation-reason/add-order-cancellation-reason.component';
+import { UbsAdminOrderStatusComponent } from './ubs-admin-order-status.component';
 
 describe('UbsAdminOrderStatusComponent', () => {
   let component: UbsAdminOrderStatusComponent;
@@ -50,7 +51,7 @@ describe('UbsAdminOrderStatusComponent', () => {
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       declarations: [UbsAdminOrderStatusComponent],
-      imports: [TranslateModule.forRoot(), FormsModule, ReactiveFormsModule],
+      imports: [TranslateModule.forRoot(), FormsModule, ReactiveFormsModule, NoopAnimationsModule],
       providers: [
         { provide: OrderService, useValue: OrderServiceFake },
         { provide: MatDialog, useValue: matDialogMock }
@@ -112,6 +113,16 @@ describe('UbsAdminOrderStatusComponent', () => {
     GeneralInfoFake.orderStatusesDtos[0].ableActualChange = false;
     component.currentOrderPrice = 1;
     component.totalPaid = 0;
+    component.unPaidAmount = 1;
+    component.setOrderPaymentStatus();
+    expect(GeneralInfoFake.orderPaymentStatus).toBe('UNPAID');
+  });
+
+  it('setOrderPaymentStatus orderState shold be "confirmed" and should return orderPayment status UNPAID ', () => {
+    GeneralInfoFake.orderStatusesDtos[0].ableActualChange = false;
+    component.currentOrderPrice = 0;
+    component.totalPaid = 0;
+    component.unPaidAmount = 1;
     component.setOrderPaymentStatus();
     expect(GeneralInfoFake.orderPaymentStatus).toBe('UNPAID');
   });
@@ -120,6 +131,7 @@ describe('UbsAdminOrderStatusComponent', () => {
     GeneralInfoFake.orderStatusesDtos[0].ableActualChange = false;
     component.currentOrderPrice = 2;
     component.totalPaid = 1;
+    component.unPaidAmount = 1;
     component.setOrderPaymentStatus();
     expect(GeneralInfoFake.orderPaymentStatus).toBe('HALF_PAID');
   });
@@ -128,6 +140,25 @@ describe('UbsAdminOrderStatusComponent', () => {
     GeneralInfoFake.orderStatusesDtos[0].ableActualChange = false;
     component.currentOrderPrice = 0;
     component.totalPaid = 1;
+    component.unPaidAmount = 0;
+    component.setOrderPaymentStatus();
+    expect(GeneralInfoFake.orderPaymentStatus).toBe('PAID');
+  });
+
+  it('setOrderPaymentStatus orderState shold be "confirmed" and should return orderPayment status PAID', () => {
+    GeneralInfoFake.orderStatusesDtos[0].ableActualChange = false;
+    component.currentOrderPrice = 1;
+    component.totalPaid = 1;
+    component.unPaidAmount = 0;
+    component.setOrderPaymentStatus();
+    expect(GeneralInfoFake.orderPaymentStatus).toBe('PAID');
+  });
+
+  it('setOrderPaymentStatus orderState shold be "confirmed" and should return orderPayment status PAID', () => {
+    GeneralInfoFake.orderStatusesDtos[0].ableActualChange = false;
+    component.currentOrderPrice = 0;
+    component.totalPaid = 0;
+    component.unPaidAmount = 0;
     component.setOrderPaymentStatus();
     expect(GeneralInfoFake.orderPaymentStatus).toBe('PAID');
   });
@@ -136,8 +167,18 @@ describe('UbsAdminOrderStatusComponent', () => {
     GeneralInfoFake.orderStatusesDtos[0].ableActualChange = true;
     component.currentOrderPrice = 0;
     component.totalPaid = 0;
+    component.unPaidAmount = 1;
     component.setOrderPaymentStatus();
     expect(GeneralInfoFake.orderPaymentStatus).toBe('UNPAID');
+  });
+
+  it('setOrderPaymentStatus orderState shold be "actual" and should return orderPayment status PAID', () => {
+    GeneralInfoFake.orderStatusesDtos[0].ableActualChange = true;
+    component.currentOrderPrice = 0;
+    component.totalPaid = 1;
+    component.unPaidAmount = 0;
+    component.setOrderPaymentStatus();
+    expect(GeneralInfoFake.orderPaymentStatus).toBe('PAID');
   });
 
   it('destroy Subject should be closed after ngOnDestroy()', () => {

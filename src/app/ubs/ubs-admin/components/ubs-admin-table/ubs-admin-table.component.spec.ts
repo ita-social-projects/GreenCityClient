@@ -102,7 +102,7 @@ describe('UsbAdminTableComponent', () => {
     component.bigOrderTable$.subscribe((items: any) => {
       expect(component.currentPage).toBe(2);
       expect(component.tableData[0].content).toBe('content');
-      expect(component.formatTableData).toHaveBeenCalledTimes(1);
+      expect(component.formatTableData).toHaveBeenCalled();
     });
   });
 
@@ -313,14 +313,17 @@ describe('UsbAdminTableComponent', () => {
   });
 
   it('formatTableData expect tableData should change view', () => {
-    component.tableData = [{ amountDue: '5.4hrn', totalOrderSum: '300hrn', orderCertificateCode: '1, 2', generalDiscount: 6 }];
+    component.tableData = [
+      { amountDue: '5.4hrn', totalOrderSum: '300hrn', orderCertificateCode: '1, 2', generalDiscount: 6, totalPayment: '250' }
+    ];
     component.formatTableData();
     expect(component.tableData[0]).toEqual({
-      amountDue: '5.40',
+      amountDue: '5.40 грн',
       orderCertificateCode: '1, 2',
       orderCertificatePoints: '3',
-      totalOrderSum: '300.00',
-      generalDiscount: '6.00'
+      totalOrderSum: '300.00 грн',
+      generalDiscount: '6.00 грн',
+      totalPayment: '250.00 грн'
     });
   });
 

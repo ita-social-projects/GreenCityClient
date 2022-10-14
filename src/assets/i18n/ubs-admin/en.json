@@ -32,6 +32,7 @@
     "delete-title": "Delete profile",
     "delete-message": "If you delete your profile, your bonuses will burn out and your order information will be deleted without the possibility of recovery",
     "get-notification-in": "Get notification in",
+    "error-change-pass": "Password is wrong",
     "btn": {
       "edit": "Edit data",
       "cancel": "Discard changes",
@@ -79,8 +80,8 @@
       }
     },
     "cancel-modal": {
-      "warning": "If you will cancel this order it will be deleted.",
-      "question": "Do you really want to cancel this order?",
+      "warning": "If canceled, this order will be deleted.",
+      "question": "Do you really want to cancel the order?",
       "disagree": "No",
       "agree": "Yes"
     }
@@ -551,11 +552,12 @@
   },
   "ubs-tariffs": {
     "placeholder-region": "Select region",
-    "placeholder-locality": "Select city",
+    "placeholder-choose-city": "Select city",
+    "placeholder-choose-region": "Select region",
     "placeholder-courier": "Select courier",
     "placeholder-choose-courier": "Choose courier",
     "placeholder-enter-courier": "Enter courier",
-    "placeholder-station": "Select station",
+    "placeholder-choose-station": "Select station",
     "placeholder-state": "Select state",
     "tariffs": "Tariffs",
     "region": "Region",

@@ -52,7 +52,6 @@ export class CreateEditNewsComponent extends FormBaseComponent implements OnInit
 
   public isPosting = false;
   public form: FormGroup;
-  public isArrayEmpty = true;
   public textAreasHeight: TextAreasHeight;
   public isLinkOrEmpty = true;
   public newsItemSubscription: Subscription;
@@ -99,22 +98,19 @@ export class CreateEditNewsComponent extends FormBaseComponent implements OnInit
   public backRoute: string;
   public updatedEcoNewsTags: Array<string>;
   public currentLang: string;
-  public newsTags: Observable<Array<NewsTagInterface>>;
 
   // TODO: add types | DTO to service
 
   ngOnInit() {
     this.backRoute = this.localStorageService.getPreviousPage();
     this.getNewsIdFromQueryParams();
-    this.newsTags = this.ecoNewsService.getAllPresentTags();
     this.initPageForCreateOrEdit();
     this.onSourceChange();
-    this.localStorageService.removeTagsOfNews('newsTags');
     this.currentLang = this.localStorageService.getCurrentLanguage();
     this.localStorageService.languageSubject.pipe(takeUntil(this.destroyed$)).subscribe((lang: string) => {
       this.currentLang = lang;
     });
-    this.setLocalizedTags();
+    this.getAllTags();
   }
 
   private filterArr(item: FilterModel, index: number) {
@@ -139,34 +135,28 @@ export class CreateEditNewsComponent extends FormBaseComponent implements OnInit
 
   public onValueChanges(): void {
     this.formChangeSub = this.form.valueChanges.subscribe(() => {
-      this.isFormInvalid = !this.form.valid || this.isArrayEmpty || !this.isLinkOrEmpty || this.isImageValid();
-    });
-  }
-
-  private setLocalizedTags(): void {
-    this.localStorageService.languageBehaviourSubject.pipe(takeUntil(this.destroyed$)).subscribe(() => {
-      this.getAllTags();
+      this.isFormInvalid = !this.form.valid || !this.tags().length || !this.isLinkOrEmpty || this.isImageValid();
     });
   }
 
   private getAllTags() {
-    const tags = this.localStorageService.getTagsOfNews('newsTags');
-    if (tags) {
+    const tags = this.createEcoNewsService.getTags();
+    if (tags.length) {
       this.filters = tags;
       return;
     }
-    this.newsTags.pipe(take(1)).subscribe((tagsArray: Array<NewsTagInterface>) => {
-      this.filters = tagsArray.map((tag) => {
-        return {
-          name: tag.name,
-          nameUa: tag.nameUa,
-          isActive: false
-        };
+    this.ecoNewsService
+      .getAllPresentTags()
+      .pipe(take(1))
+      .subscribe((tagsArray: Array<NewsTagInterface>) => {
+        this.filters = tagsArray.map((tag) => {
+          return {
+            name: tag.name,
+            nameUa: tag.nameUa,
+            isActive: false
+          };
+        });
       });
-    });
-    if (this.newsId) {
-      this.fetchNewsItemToEdit();
-    }
   }
 
   public initPageForCreateOrEdit(): void {
@@ -182,7 +172,6 @@ export class CreateEditNewsComponent extends FormBaseComponent implements OnInit
       this.newsId = this.createEcoNewsService.getNewsId();
       if (this.formData) {
         this.form = this.createEditNewsFormBuilder.getEditForm(this.formData.value);
-        this.setActiveFilters(this.formData.value);
       }
       this.setInitialValues();
     } else {
@@ -244,8 +233,6 @@ export class CreateEditNewsComponent extends FormBaseComponent implements OnInit
         })
       )
       .subscribe(() => this.escapeFromCreatePage());
-
-    this.localStorageService.removeTagsOfNews('newsTags');
   }
 
   public createNews(): void {
@@ -334,7 +321,6 @@ export class CreateEditNewsComponent extends FormBaseComponent implements OnInit
 
   public setActiveFilters(itemToUpdate: EcoNewsModel): void {
     if (itemToUpdate.tags.length && itemToUpdate.tagsUa.length) {
-      this.isArrayEmpty = false;
       this.filters.forEach((filter) => {
         itemToUpdate.tagsUa.forEach((tag, index) => {
           if (filter.nameUa === tag || filter.name === tag) {
@@ -352,7 +338,6 @@ export class CreateEditNewsComponent extends FormBaseComponent implements OnInit
   public addFilters(filterObj: FilterModel): void {
     if (!filterObj.isActive) {
       this.toggleIsActive(filterObj, true);
-      this.isArrayEmpty = false;
       this.tags().push(new FormControl(filterObj.name));
       this.filtersValidation(filterObj);
     } else {
@@ -362,9 +347,6 @@ export class CreateEditNewsComponent extends FormBaseComponent implements OnInit
 
   public removeFilters(filterObj: FilterModel): void {
     const tagsArray = this.form.value.tags;
-    if (filterObj.isActive && tagsArray.length === 1) {
-      this.isArrayEmpty = true;
-    }
     const index = tagsArray.findIndex((tag) => tag === filterObj.name);
     this.tags().removeAt(index);
     this.toggleIsActive(filterObj, false);
@@ -383,7 +365,7 @@ export class CreateEditNewsComponent extends FormBaseComponent implements OnInit
     const index = this.filters.findIndex((item: FilterModel) => item.name === filterObj.name || item.nameUa === filterObj.nameUa);
     const changedTags = this.filterArr({ name: filterObj.name, nameUa: filterObj.nameUa, isActive: newValue }, index);
     this.filters = changedTags;
-    this.localStorageService.setTagsOfNews('newsTags', changedTags);
+    this.createEcoNewsService.setTags(changedTags);
   }
 
   public goToPreview(): void {
