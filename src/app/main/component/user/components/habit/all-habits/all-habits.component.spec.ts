@@ -205,12 +205,6 @@ describe('AllHabitsComponent', () => {
     expect(component.galleryView).toEqual(false);
   });
 
-  it('checkHabitsView() getting null value', () => {
-    localStorageServiceMock.getHabitsGalleryView = () => null;
-    component.checkHabitsView();
-    expect(component.galleryView).toEqual(true);
-  });
-
   it('checkHabitsView() getting true value', () => {
     localStorageServiceMock.getHabitsGalleryView = () => true;
     component.checkHabitsView();
