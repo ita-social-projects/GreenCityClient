@@ -142,7 +142,6 @@ describe('EcoNewsDetailComponent', () => {
 
   it('should set newsId', () => {
     route.snapshot.params.id = 1;
-    (component as any).newsId = null;
     (component as any).setNewsId();
     expect((component as any).newsId).toBe(1);
   });
@@ -165,7 +164,7 @@ describe('EcoNewsDetailComponent', () => {
 
   it('getAllTags should return array of tags', () => {
     component.currentLang = 'en';
-    component.newsItem.tagsEn = ['Events', 'Education'];
+    component.newsItem.tags = ['Events', 'Education'];
     expect(component.getAllTags()).toEqual(['Events', 'Education']);
   });
 
