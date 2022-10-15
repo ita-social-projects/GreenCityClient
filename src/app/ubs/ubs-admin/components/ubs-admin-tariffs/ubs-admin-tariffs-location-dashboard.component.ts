@@ -113,7 +113,6 @@ export class UbsAdminTariffsLocationDashboardComponent implements OnInit, OnDest
       this.getLocations();
       this.translateCouriers();
       this.translateSelectedCity();
-      console.log(i);
     });
   }
 
@@ -300,7 +299,6 @@ export class UbsAdminTariffsLocationDashboardComponent implements OnInit, OnDest
       this.selectedCities.length = 0;
       const lang = this.languageService.getCurrentLanguage();
       this.cities.forEach((city) => {
-        console.log(city);
         const selectedCityName = city.locationTranslationDtoList
           .filter((it) => it.languageCode === 'ua')
           .map((it) => it.locationName)
@@ -457,11 +455,6 @@ export class UbsAdminTariffsLocationDashboardComponent implements OnInit, OnDest
         this.filteredStations = this.filterOptions(this.station, this.stationName);
       });
   }
-
-  // translateStations() {
-  //   const lang = this.languageService.getCurrentLanguage();
-
-  // }
 
   public getExistingCard(filterData) {
     this.cards = [];
