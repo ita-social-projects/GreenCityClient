@@ -10,9 +10,9 @@
     <span>{{ 'add-violation-modal.order' | translate }} №{{ orderId }}</span>
   </div>
   <div class="row justify-content-end edit-violation">
-    <mat-icon class="mat-icon">edit</mat-icon>
     <button *ngIf="viewMode" class="edit-violation-btn" [disabled]="editMode" (click)="editViolation()">
-      {{ 'add-violation-modal.edit' | translate }}
+      <mat-icon class="mat-icon">edit</mat-icon>
+      <div class="edit-violation-btn-text">{{ 'add-violation-modal.edit' | translate }}</div>
     </button>
   </div>
   <div class="row mb-3">
