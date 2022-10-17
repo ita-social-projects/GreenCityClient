@@ -886,7 +886,7 @@
       "education": "Education"
     },
     "source-title": "Source (optional)",
-    "source-placeholder": "link to external source",
+    "source-placeholder": "Link to external source",
     "source-tooltip-1": "Please add the link of original article/news/post.",
     "source-tooltip-2": "Link must start with http(s)://",
     "picture-title": "Picture (optional)",
