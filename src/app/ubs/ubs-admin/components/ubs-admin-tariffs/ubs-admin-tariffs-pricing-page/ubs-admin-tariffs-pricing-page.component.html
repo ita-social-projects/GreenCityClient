@@ -107,10 +107,12 @@
             </mat-radio-button>
             <label for="min-order-amount">{{ 'ubs-tariffs.min_order_amount' | translate }}</label
             ><br />
-            <input class="input" id="from" formControlName="minAmountOfOrder" />
-            <span class="line"></span>
-            <input class="input" id="to" formControlName="maxAmountOfOrder" />
-            <label for="to"></label>
+            <fieldset [disabled]="!toggle">
+              <input class="input" id="from" formControlName="minAmountOfOrder" />
+              <span class="line"></span>
+              <input class="input" id="to" formControlName="maxAmountOfOrder" />
+              <label for="to"></label>
+            </fieldset>
           </div>
           <div class="bags-input">
             <mat-radio-button
@@ -121,10 +123,12 @@
             ></mat-radio-button>
             <label for="min-packages">{{ 'ubs-tariffs.min_number_of_packages' | translate }}</label
             ><br />
-            <input class="input" id="from-packages" formControlName="minAmountOfBigBag" />
-            <span class="line"></span>
-            <input class="input" id="to-packages" formControlName="maxAmountOfBigBag" />
-            <label for="to-packages"></label>
+            <fieldset [disabled]="toggle">
+              <input class="input" id="from-packages" formControlName="minAmountOfBigBag" />
+              <span class="line"></span>
+              <input class="input" id="to-packages" formControlName="maxAmountOfBigBag" />
+              <label for="to-packages"></label>
+            </fieldset>
           </div>
         </mat-radio-group>
         <div class="min-bags-number">
