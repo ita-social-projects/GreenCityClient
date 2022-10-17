@@ -111,7 +111,6 @@ export class UbsAdminTariffsLocationDashboardComponent implements OnInit, OnDest
     this.getExistingCard(this.filterData);
     this.languageService.getCurrentLangObs().subscribe((i) => {
       this.getLocations();
-      this.translateCouriers();
       this.translateSelectedCity();
     });
   }
@@ -432,17 +431,10 @@ export class UbsAdminTariffsLocationDashboardComponent implements OnInit, OnDest
       .pipe(takeUntil(this.destroy))
       .subscribe((res) => {
         this.couriers = res;
-        this.translateCouriers();
+        this.couriersName = this.couriers
+          .map((it) => it.courierTranslationDtos.filter((ob) => ob.languageCode === 'ua').map((el) => el.name))
+          .flat(2);
       });
-  }
-
-  translateCouriers() {
-    if (this.couriers) {
-      const lang = this.languageService.getCurrentLanguage();
-      this.couriersName = this.couriers
-        .map((it) => it.courierTranslationDtos.filter((ob) => ob.languageCode === lang).map((el) => el.name))
-        .flat(2);
-    }
   }
 
   getReceivingStation(): void {

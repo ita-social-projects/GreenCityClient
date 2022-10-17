@@ -728,13 +728,13 @@ describe('UbsAdminTariffsLocationDashboardComponent', () => {
     expect(spy7).toHaveBeenCalled();
   });
 
-  // it('should get all couriers', () => {
-  //   component.getCouriers();
-  //   console.log('getCourirs');
-  //   console.log(component.couriers);
-  //   console.log(component.couriersName);
-  //   expect(component.couriersName).toEqual(['fakeCourier']);
-  // });
+  it('should get all couriers', () => {
+    component.getCouriers();
+    console.log('getCourirs');
+    console.log(component.couriers);
+    console.log(component.couriersName);
+    expect(component.couriersName).toEqual(['fakeCourier']);
+  });
 
   it('should create new card on create card method', fakeAsync(() => {
     const spy1 = spyOn(component, 'createCardRequest');
