@@ -153,9 +153,16 @@
         ></textarea>
       </div>
       <div class="submit-btn">
-        <button class="primary-global-button submit" type="submit" [disabled]="limitsForm.pristine" (click)="saveChanges()">
-          {{ 'ubs-client-profile.btn.save' | translate }}
-        </button>
+        <div>
+          <button
+            class="primary-global-button submit"
+            type="submit"
+            [disabled]="limitsForm.pristine || limitsForm.controls.limitDescription.value == ''"
+            (click)="saveChanges()"
+          >
+            {{ 'ubs-client-profile.btn.save' | translate }}
+          </button>
+        </div>
       </div>
     </form>
   </div>
