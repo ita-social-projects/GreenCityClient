@@ -637,6 +637,85 @@ describe('UbsAdminTariffsLocationDashboardComponent', () => {
     ]);
   });
 
+  it('should cities in correct language', () => {
+    const city = {
+      name: 'First',
+      id: 1,
+      locationTranslationDtoList: [
+        {
+          locationName: 'Фейк1',
+          languageCode: 'ua'
+        },
+        {
+          locationName: 'Fake1',
+          languageCode: 'en'
+        }
+      ]
+    };
+    expect(component.transformCityToSelectedCity(city, 'ua')).toEqual({
+      name: 'Фейк1',
+      id: 1,
+      englishName: 'Fake1',
+      ukrainianName: 'Фейк1'
+    });
+    expect(component.transformCityToSelectedCity(city, 'en')).toEqual({
+      name: 'Fake1',
+      id: 1,
+      englishName: 'Fake1',
+      ukrainianName: 'Фейк1'
+    });
+  });
+
+  it('should return name of the city in correct language', () => {
+    const city = {
+      name: 'First',
+      id: 1,
+      locationTranslationDtoList: [
+        {
+          locationName: 'Фейк1',
+          languageCode: 'ua'
+        },
+        {
+          locationName: 'Fake1',
+          languageCode: 'en'
+        }
+      ]
+    };
+    expect(component.getSelectedCityName(city, 'ua')).toEqual('Фейк1');
+    expect(component.getSelectedCityName(city, 'en')).toEqual('Fake1');
+  });
+
+  it('should select all items of cities', () => {
+    const city = {
+      name: 'Фейк1',
+      id: 1,
+      englishName: 'Fake1',
+      ukrainianName: 'Фейк1'
+    };
+    const spy = spyOn(component, 'isCityChecked').and.returnValue(false);
+    // const spy2 = spyOn(component, 'transformCityToSelectedCity').and.returnValue(city);
+    component.cities = [
+      {
+        name: 'First',
+        id: 1,
+        locationTranslationDtoList: [
+          {
+            locationName: 'Фейк1',
+            languageCode: 'ua'
+          },
+          {
+            locationName: 'Fake1',
+            languageCode: 'en'
+          }
+        ]
+      }
+    ];
+    component.toggleSelectAllCity();
+    expect(spy).toHaveBeenCalled();
+    // expect(spy2).toHaveBeenCalled();
+    expect(component.selectedCities).toContain(city);
+  });
+
   it('should not select all items of cities', () => {
     const spy = spyOn(component, 'isCityChecked').and.returnValue(true);
     component.toggleSelectAllCity();

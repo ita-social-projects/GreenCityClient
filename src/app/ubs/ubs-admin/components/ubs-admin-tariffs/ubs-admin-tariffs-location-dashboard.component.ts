@@ -298,25 +298,30 @@ export class UbsAdminTariffsLocationDashboardComponent implements OnInit, OnDest
       this.selectedCities.length = 0;
       const lang = this.languageService.getCurrentLanguage();
       this.cities.forEach((city) => {
-        const selectedCityName = city.locationTranslationDtoList
-          .filter((it) => it.languageCode === 'ua')
-          .map((it) => it.locationName)
-          .join();
-        const selectedCityEnglishName = city.locationTranslationDtoList
-          .filter((it) => it.languageCode === 'en')
-          .map((it) => it.locationName)
-          .join();
-        const tempItem = {
-          name: lang === 'ua' ? selectedCityName : selectedCityEnglishName,
-          id: city.id,
-          englishName: selectedCityEnglishName,
-          ukrainianName: selectedCityName
-        };
+        const tempItem = this.transformCityToSelectedCity(city, lang);
         this.selectedCities.push(tempItem);
       });
     } else {
       this.selectedCities.length = 0;
     }
+  }
+
+  transformCityToSelectedCity(city: any, lang: string) {
+    const selectedCityName = this.getSelectedCityName(city, 'ua');
+    const selectedCityEnglishName = this.getSelectedCityName(city, 'en');
+    return {
+      name: lang === 'ua' ? selectedCityName : selectedCityEnglishName,
+      id: city.id,
+      englishName: selectedCityEnglishName,
+      ukrainianName: selectedCityName
+    };
+  }
+
+  getSelectedCityName(city: any, languageCode: string) {
+    return city.locationTranslationDtoList
+      .filter((it) => it.languageCode === languageCode)
+      .map((it) => it.locationName)
+      .join();
   }
 
   toggleSelectAllStation(): void {
