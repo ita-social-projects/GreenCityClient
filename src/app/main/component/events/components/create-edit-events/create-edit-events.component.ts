@@ -1,4 +1,4 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit, Injector } from '@angular/core';
 
 import { quillConfig } from './quillEditorFunc';
 
@@ -16,6 +16,7 @@ import { LocalStorageService } from '@global-service/localstorage/local-storage.
 import { ActionsSubject, Store } from '@ngrx/store';
 import { ofType } from '@ngrx/effects';
 import { CreateEcoEventAction, EditEcoEventAction, EventsActions } from 'src/app/store/actions/ecoEvents.actions';
+import { MatSnackBarComponent } from '@global-errors/mat-snack-bar/mat-snack-bar.component';
 
 @Component({
   selector: 'app-create-edit-events',
@@ -43,19 +44,27 @@ export class CreateEditEventsComponent implements OnInit, OnDestroy {
   public isTagValid: boolean;
   public isAddressFill = true;
   public eventFormGroup: FormGroup;
+  public isImageSizeError: boolean;
+  public isImageTypeError = false;
 
   private imgArray: Array<File> = [];
   private pipe = new DatePipe('en-US');
   private destroyed$: ReplaySubject<boolean> = new ReplaySubject<boolean>(1);
+  private matSnackBar: MatSnackBarComponent;
+  private userId: number;
 
   constructor(
     public router: Router,
     private localStorageService: LocalStorageService,
     private actionsSubj: ActionsSubject,
-    private store: Store
+    private store: Store,
+    private snackBar: MatSnackBarComponent,
+    private injector: Injector
   ) {
     this.quillModules = quillConfig;
     Quill.register('modules/imageResize', ImageResize);
+
+    this.matSnackBar = injector.get(MatSnackBarComponent);
   }
 
   ngOnInit(): void {
@@ -72,6 +81,10 @@ export class CreateEditEventsComponent implements OnInit, OnDestroy {
     if (this.editMode) {
       this.editEvent = this.editMode ? this.localStorageService.getEventForEdit() : null;
       this.setEditValue();
+    }
+
+    if (!this.checkUserSigned()) {
+      this.snackBar.openSnackBar('userUnauthorised');
     }
   }
 
@@ -130,6 +143,7 @@ export class CreateEditEventsComponent implements OnInit, OnDestroy {
 
   public getImageTosend(imageArr: Array<File>): void {
     this.imgArray = [...imageArr];
+    this.checkFileExtensionAndSize(imageArr);
   }
 
   public getImagesToDelete(imagesSrc: Array<string>): void {
@@ -249,9 +263,20 @@ export class CreateEditEventsComponent implements OnInit, OnDestroy {
     });
   }
 
+  checkUserSigned(): boolean {
+    return this.userId ? true : false;
+  }
+  private getUserId() {
+    this.userId = this.localStorageService.getUserId();
+  }
   private validateSpaces(control: AbstractControl): ValidationErrors {
     const value = control && control.value && control.value !== control.value.trim();
     return value ? { hasNoWhiteSpaces: 'false' } : null;
+  }
+
+  private checkFileExtensionAndSize(file: any): void {
+    this.isImageSizeError = file.size >= 10485760;
+    this.isImageTypeError = !(file.type === 'image/jpeg' || file.type === 'image/png');
   }
 
   ngOnDestroy(): void {

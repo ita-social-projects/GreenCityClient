@@ -389,8 +389,8 @@ export class UbsAdminTariffsLocationDashboardComponent implements OnInit, OnDest
     return cityArray;
   }
 
-  page(locationID): void {
-    this.router.navigate([`ubs-admin/tariffs/location/${locationID}`]);
+  page(cardID): void {
+    this.router.navigate([`ubs-admin/tariffs/location/${cardID}`]); //
   }
 
   getCouriers(): void {
@@ -432,7 +432,8 @@ export class UbsAdminTariffsLocationDashboardComponent implements OnInit, OnDest
             region: el.regionDto.nameUk,
             city: el.locationInfoDtos.map((it) => it.nameUk),
             tariff: el.tariffStatus,
-            regionId: el.regionDto.regionId
+            regionId: el.regionDto.regionId,
+            cardId: el.cardId
           };
           this.cards.push(cardObj);
         });

@@ -316,7 +316,8 @@
       "cartificate-not-valid": "The certificate you have entered, has already been used",
       "default": "Oops, something went wrong. Please reload page or try again later.",
       "restore-password-again": "The password reset link is no longer valid, please try to reset your password again",
-      "no-internet": "No internet connection"
+      "no-internet": "No internet connection",
+      "unauthorised-user": "You need to be authorized to edit an event"
     },
     "attention": {
       "default": "Attention message. The action cannot be performed, because conditions weren’t met.",
@@ -858,6 +859,8 @@
       "all-mutual-friends": "Mutual friends",
       "friends": "Friends",
       "add-new-friend": "Add friend",
+      "open-chat": "Open chat",
+      "create-chat": "Create chat",
       "delete-friend": "Unfriend",
       "requests": "Requests",
       "request-decline": "Decline",
@@ -883,7 +886,7 @@
       "education": "Education"
     },
     "source-title": "Source (optional)",
-    "source-placeholder": "link to external source",
+    "source-placeholder": "Link to external source",
     "source-tooltip-1": "Please add the link of original article/news/post.",
     "source-tooltip-2": "Link must start with http(s)://",
     "picture-title": "Picture (optional)",
@@ -926,7 +929,7 @@
     "news-source": "Source:"
   },
   "eco-news-single-view": {
-    "back-button": "Back",
+    "back-button": "Back to News",
     "edit-news-button": "Edit news",
     "author": "by",
     "tags": {

@@ -412,6 +412,7 @@ describe('UbsAdminTariffsLocationDashboardComponent', () => {
 
   it('should add cards to cards array', () => {
     const mockCard = {
+      cardId: 0,
       courier: 'фейк',
       station: ['фейк'],
       region: 'фейк',
