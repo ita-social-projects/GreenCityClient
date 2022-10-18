@@ -1,6 +1,6 @@
 import { Language } from '../../i18n/Language';
 import { Injectable } from '@angular/core';
-import { BehaviorSubject, Subject } from 'rxjs';
+import { BehaviorSubject, Observable, Subject } from 'rxjs';
 import { FilterModel } from '@eco-news-models/create-news-interface';
 import { EventPageResponceDto } from '../../component/events/models/events.interface';
 
@@ -22,6 +22,8 @@ export class LocalStorageService {
   languageBehaviourSubject: BehaviorSubject<string> = new BehaviorSubject<string>(this.getCurrentLanguage());
   accessTokenBehaviourSubject: BehaviorSubject<string> = new BehaviorSubject<string>(this.getAccessToken());
   ubsRegBehaviourSubject: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(this.getUbsRegistration());
+  ubsRedirectionBehaviourSubject: BehaviorSubject<number> = new BehaviorSubject<number>(0);
+  orderIdToScroll: Observable<number> = this.ubsRedirectionBehaviourSubject.asObservable();
 
   public getAccessToken(): string {
     return localStorage.getItem(this.ACCESS_TOKEN);
@@ -264,5 +266,9 @@ export class LocalStorageService {
   public getUbsAdminOrdersTableColumnsWidthPreference(): Map<string, number> {
     const parsed = JSON.parse(window.localStorage.getItem('UBSAdminOrdersTableColumnsWidthPreference')) || {};
     return new Map(Object.entries(parsed));
+  }
+
+  public setOrderIdToScroll(orderId: number): void {
+    this.ubsRedirectionBehaviourSubject.next(orderId);
   }
 }

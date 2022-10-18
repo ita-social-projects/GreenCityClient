@@ -5,8 +5,10 @@ import { MatSnackBarComponent } from '@global-errors/mat-snack-bar/mat-snack-bar
 import { UserOrdersService } from '../services/user-orders.service';
 import { Router } from '@angular/router';
 import { BonusesService } from '../ubs-user-bonuses/services/bonuses.service';
-import { IUserOrderInfo } from '../ubs-user-orders-list/models/UserOrder.interface';
+import { IUserOrderInfo, IUserOrdersInfo } from '../ubs-user-orders-list/models/UserOrder.interface';
 import { TranslateService } from '@ngx-translate/core';
+import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
+import { FormControl } from '@angular/forms';
 
 @Component({
   selector: 'app-ubs-user-orders',
@@ -18,28 +20,27 @@ export class UbsUserOrdersComponent implements OnInit, OnDestroy {
   currentOrders: IUserOrderInfo[] = [];
   closedOrders: IUserOrderInfo[] = [];
   bonuses: number;
-  loading = true;
+  loading: boolean = true;
   currentOrdersLoadedPage = 1;
   closedOrdersLoadedPage = 1;
   ordersPerPage = 10;
   totalCurrentOrdersPages: number;
   totalClosedOrdersPages: number;
-  currentTabIdx = 0;
+  orderIdToScroll: number;
+  orderToScroll;
+  selected = new FormControl(0);
 
   constructor(
     private router: Router,
     private snackBar: MatSnackBarComponent,
     private bonusesService: BonusesService,
     private userOrdersService: UserOrdersService,
-    private translate: TranslateService
+    private translate: TranslateService,
+    private localStorage: LocalStorageService
   ) {}
 
-  onTabChange(newTabIdx) {
-    this.currentTabIdx = newTabIdx;
-  }
-
   onScroll() {
-    const status = this.currentTabIdx === 0 ? 'current' : 'closed';
+    const status = this.selected.value === 0 ? 'current' : 'closed';
     const loadedAllCurrentOrders = this.currentOrdersLoadedPage === this.totalCurrentOrdersPages;
     const loadedAllClosedOrders = this.closedOrdersLoadedPage === this.totalClosedOrdersPages;
     if ((status === 'current' && loadedAllCurrentOrders) || (status === 'closed' && loadedAllClosedOrders)) {
@@ -56,7 +57,7 @@ export class UbsUserOrdersComponent implements OnInit, OnDestroy {
     this.loadOrders(status, page, this.ordersPerPage);
   }
 
-  loadOrders(status, page, ordersPerPage) {
+  async loadOrders(status, page, ordersPerPage): Promise<any> {
     const onCurrentOrdersData = (data) => {
       this.currentOrders = [...this.currentOrders, ...data.page];
       this.totalCurrentOrdersPages = data.totalPages;
@@ -66,14 +67,12 @@ export class UbsUserOrdersComponent implements OnInit, OnDestroy {
       this.totalClosedOrdersPages = data.totalPages;
     };
     const loadData = (pg, limit) =>
-      status === 'current' ? this.userOrdersService.getCurrentUserOrders(pg, limit) : this.userOrdersService.getClosedUserOrders(pg, limit);
+      status === 'current'
+        ? this.userOrdersService.getCurrentUserOrders(pg, limit).toPromise()
+        : this.userOrdersService.getClosedUserOrders(pg, limit).toPromise();
     const onData = status === 'current' ? onCurrentOrdersData : onCLosedOrdersData;
-    loadData(page - 1, ordersPerPage)
-      .pipe(take(1))
-      .subscribe({
-        next: (data) => onData(data),
-        error: (err) => this.displayError(err)
-      });
+    const data = await loadData(page - 1, ordersPerPage);
+    onData(data);
   }
 
   redirectToOrder() {
@@ -99,6 +98,69 @@ export class UbsUserOrdersComponent implements OnInit, OnDestroy {
         },
         error: (err) => this.displayError(err)
       });
+
+    this.localStorage.orderIdToScroll.subscribe((orderId) => (this.orderIdToScroll = orderId));
+    if (this.orderIdToScroll) {
+      this.openExtendedOrder(this.orderIdToScroll);
+      this.localStorage.setOrderIdToScroll(0);
+    }
+  }
+
+  openExtendedOrder(orderId: number): void {
+    this.userOrdersService.getOrderToSkroll(orderId).subscribe((res) => {
+      this.orderToScroll = res;
+      this.checkOrderStatus(this.orderToScroll);
+      this.skrollToOrder(orderId);
+    });
+  }
+
+  checkOrderStatus(order): void {
+    const orderStatus: boolean = order.orderStatusEng === 'Done' || order.orderStatusEng === 'Canceled' ? true : false;
+    this.chooseTab(orderStatus);
+  }
+
+  chooseTab(isOrderClosed: boolean): void {
+    if (isOrderClosed) {
+      this.selected.setValue(1);
+    }
+  }
+
+  async skrollToOrder(orderId: number): Promise<any> {
+    const status = this.selected.value === 0 ? 'current' : 'closed';
+    let page;
+    if (status === 'current') {
+      let isPresent = this.currentOrders.find((item) => item.id === orderId);
+      if (!isPresent) {
+        do {
+          this.currentOrdersLoadedPage += 1;
+          page = this.currentOrdersLoadedPage;
+          await this.loadOrders(status, page, this.ordersPerPage);
+          isPresent = this.currentOrders.find((item) => item.id === orderId);
+        } while (!isPresent);
+      }
+      this.currentOrders.forEach((order) => (order.extend = order.id === orderId ? !order.extend : false));
+    } else {
+      let isPresent = this.closedOrders.find((item) => item.id === orderId);
+      if (!isPresent) {
+        do {
+          this.closedOrdersLoadedPage += 1;
+          page = this.closedOrdersLoadedPage;
+          await this.loadOrders(status, page, this.ordersPerPage);
+          isPresent = this.closedOrders.find((item) => item.id === orderId);
+        } while (!isPresent);
+      }
+      this.closedOrders.forEach((order) => (order.extend = order.id === orderId ? !order.extend : false));
+    }
+    setTimeout(() => this.scroll(orderId), 0);
+  }
+
+  scroll(orderId: number): void {
+    const ord: string = orderId.toString();
+    document.getElementById(ord).scrollIntoView({
+      behavior: 'smooth',
+      block: 'start',
+      inline: 'nearest'
+    });
   }
 
   displayError(error) {

@@ -7,6 +7,8 @@ import { BonusesService } from './services/bonuses.service';
 import { Subject, throwError } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 import { MatSnackBarComponent } from '@global-errors/mat-snack-bar/mat-snack-bar.component';
+import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
+// import { Router,  ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-ubs-user-bonuses',
@@ -21,7 +23,13 @@ export class UbsUserBonusesComponent implements OnInit, OnDestroy {
   bonusesList: BonusModel[];
   destroy: Subject<boolean> = new Subject<boolean>();
 
-  constructor(private snackBar: MatSnackBarComponent, private bonusesService: BonusesService) {}
+  constructor(
+    private snackBar: MatSnackBarComponent,
+    private bonusesService: BonusesService,
+    private localStorage: LocalStorageService
+  ) //  public router: Router,
+  //  public route: ActivatedRoute
+  {}
 
   @ViewChild(MatSort) sort: MatSort;
 
@@ -69,6 +77,11 @@ export class UbsUserBonusesComponent implements OnInit, OnDestroy {
 
   compare(a: number | string, b: number | string, isAsc: boolean) {
     return (a < b ? -1 : 1) * (isAsc ? 1 : -1);
+  }
+
+  redirectToOrder(orderId?: number): void {
+    this.localStorage.setOrderIdToScroll(orderId);
+    // this.router.navigate(['../orders'], { relativeTo: this.route });
   }
 
   ngOnDestroy() {
