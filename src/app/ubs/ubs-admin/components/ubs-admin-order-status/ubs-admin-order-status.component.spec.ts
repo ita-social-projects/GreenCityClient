@@ -109,7 +109,7 @@ describe('UbsAdminOrderStatusComponent', () => {
     });
   });
 
-  it('setOrderPaymentStatus orderState shold be "confirmed" and should return orderPayment status UNPAID ', () => {
+  it('setOrderPaymentStatus orderState shold be "confirmed" and should return orderPayment status UNPAID when order was not payed', () => {
     GeneralInfoFake.orderStatusesDtos[0].ableActualChange = false;
     component.currentOrderPrice = 1;
     component.totalPaid = 0;
@@ -118,7 +118,7 @@ describe('UbsAdminOrderStatusComponent', () => {
     expect(GeneralInfoFake.orderPaymentStatus).toBe('UNPAID');
   });
 
-  it('setOrderPaymentStatus orderState shold be "confirmed" and should return orderPayment status UNPAID ', () => {
+  it('setOrderPaymentStatus orderState shold be "confirmed" and should return orderPayment status UNPAID when unpaid amount is', () => {
     GeneralInfoFake.orderStatusesDtos[0].ableActualChange = false;
     component.currentOrderPrice = 0;
     component.totalPaid = 0;
@@ -136,7 +136,7 @@ describe('UbsAdminOrderStatusComponent', () => {
     expect(GeneralInfoFake.orderPaymentStatus).toBe('HALF_PAID');
   });
 
-  it('setOrderPaymentStatus orderState shold be "confirmed" and should return orderPayment status PAID', () => {
+  it('setOrderPaymentStatus orderState shold be "confirmed" and should return orderPayment status PAID when paid sum is', () => {
     GeneralInfoFake.orderStatusesDtos[0].ableActualChange = false;
     component.currentOrderPrice = 0;
     component.totalPaid = 1;
@@ -145,7 +145,7 @@ describe('UbsAdminOrderStatusComponent', () => {
     expect(GeneralInfoFake.orderPaymentStatus).toBe('PAID');
   });
 
-  it('setOrderPaymentStatus orderState shold be "confirmed" and should return orderPayment status PAID', () => {
+  it('setOrderPaymentStatus orderState "confirmed" and should return orderPayment status PAID when paid sum equal order price', () => {
     GeneralInfoFake.orderStatusesDtos[0].ableActualChange = false;
     component.currentOrderPrice = 1;
     component.totalPaid = 1;
@@ -154,7 +154,7 @@ describe('UbsAdminOrderStatusComponent', () => {
     expect(GeneralInfoFake.orderPaymentStatus).toBe('PAID');
   });
 
-  it('setOrderPaymentStatus orderState shold be "confirmed" and should return orderPayment status PAID', () => {
+  it('setOrderPaymentStatus orderState should be "confirmed" and should return orderPayment status PAID when all sum are 0', () => {
     GeneralInfoFake.orderStatusesDtos[0].ableActualChange = false;
     component.currentOrderPrice = 0;
     component.totalPaid = 0;
