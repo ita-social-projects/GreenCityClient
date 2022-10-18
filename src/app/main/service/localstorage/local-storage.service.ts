@@ -1,6 +1,6 @@
 import { Language } from '../../i18n/Language';
 import { Injectable } from '@angular/core';
-import { BehaviorSubject, Subject } from 'rxjs';
+import { BehaviorSubject, Observable, Subject } from 'rxjs';
 import { EventPageResponceDto } from '../../component/events/models/events.interface';
 
 @Injectable({
