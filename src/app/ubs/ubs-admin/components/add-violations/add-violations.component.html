@@ -5,14 +5,14 @@
   <div *ngIf="!viewMode" class="row mb-4">
     <h3>{{ 'add-violation-modal.add-violation' | translate }}</h3>
   </div>
-  <div *ngIf="viewMode" class="row mb-4 view-header">
+  <div *ngIf="viewMode" class="row mb-3 view-header">
     <h3>{{ 'add-violation-modal.violation' | translate }}</h3>
     <span>{{ 'add-violation-modal.order' | translate }} №{{ orderId }}</span>
   </div>
   <div class="row justify-content-end edit-violation">
     <button *ngIf="viewMode" class="edit-violation-btn" [disabled]="editMode" (click)="editViolation()">
       <mat-icon class="mat-icon">edit</mat-icon>
-      {{ 'add-violation-modal.edit' | translate }}
+      <div class="edit-violation-btn-text">{{ 'add-violation-modal.edit' | translate }}</div>
     </button>
   </div>
   <div class="row mb-3">

@@ -29,7 +29,7 @@ h6 {
 }
 
 .edit-violation {
-  margin: -30px 10px 0 0;
+  margin: 0 10px 40px 0;
 
   .mat-icon,
   .edit-violation-btn {
@@ -37,6 +37,26 @@ h6 {
     color: var(--ubs-electric-violet);
     border: none;
     background: transparent;
+  }
+
+  .mat-icon {
+    vertical-align: baseline;
+    padding-top: 2px;
+  }
+
+  .edit-violation-btn-text {
+    display: inline;
+    vertical-align: top;
+    margin-left: 3px;
+  }
+
+  .edit-violation-btn {
+    font-family: var(--ubs-quaternary-font);
+    font-weight: 700;
+    font-size: 14px;
+    line-height: 20px;
+    letter-spacing: 0.1px;
+    vertical-align: top;
   }
 
   .edit-violation-btn:disabled,
