@@ -29,6 +29,7 @@ export class UbsAdminTariffsPricingPageComponent implements OnInit, OnDestroy {
   isLoadBar: boolean;
   selectedCardId;
   amount;
+  inputDisable: boolean;
   info;
   bagInfo;
   sumInfo;
@@ -155,6 +156,7 @@ export class UbsAdminTariffsPricingPageComponent implements OnInit, OnDestroy {
 
       this.changeDescription();
     }
+    this.limitsForm.controls.limitDescription.value = '';
   }
 
   async getCourierId(): Promise<any> {
@@ -355,6 +357,13 @@ export class UbsAdminTariffsPricingPageComponent implements OnInit, OnDestroy {
         this.couriers = res;
         this.fillFields();
       });
+  }
+
+  DisableSaveButton() {
+    if (this.limitsForm.pristine || this.limitsForm.controls.limitDescription.value === '') {
+      this.inputDisable = true;
+      return this.inputDisable;
+    }
   }
 
   ngOnDestroy(): void {

@@ -154,12 +154,7 @@
       </div>
       <div class="submit-btn">
         <div>
-          <button
-            class="primary-global-button submit"
-            type="submit"
-            [disabled]="limitsForm.pristine || limitsForm.controls.limitDescription.value == ''"
-            (click)="saveChanges()"
-          >
+          <button class="primary-global-button submit" id="saveBTN" type="submit" [disabled]="DisableSaveButton()" (click)="saveChanges()">
             {{ 'ubs-client-profile.btn.save' | translate }}
           </button>
         </div>
@@ -170,7 +165,7 @@
     <button class="secondary-global-button btn m-0 mr-2">
       {{ 'ubs-tariffs.btn.delete_page' | translate }}
     </button>
-    <button class="primary-global-button btn m-0">
+    <button class="primary-global-button btn m-0" [disabled]="!DisableSaveButton()">
       {{ 'ubs-tariffs.btn.duplicate_page' | translate }}
     </button>
   </div>
