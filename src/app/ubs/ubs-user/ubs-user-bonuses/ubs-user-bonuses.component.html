@@ -33,9 +33,7 @@
             <td mat-cell *matCellDef="let element">
               <span *ngIf="element.amount > 0">{{ 'bonuses.order-return' | translate }}</span>
               <span *ngIf="element.amount < 0">{{ 'bonuses.order-enrollment' | translate }}</span>
-              <a class="info-about-current-order" [routerLink]="['/ubs-user/orders']" (click)="redirectToOrder(element.numberOfOrder)">
-                №{{ element.numberOfOrder }}
-              </a>
+              <a [routerLink]="['/ubs-user/orders']" (click)="redirectToOrder(element.numberOfOrder)"> №{{ element.numberOfOrder }} </a>
             </td>
           </ng-container>
           <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>

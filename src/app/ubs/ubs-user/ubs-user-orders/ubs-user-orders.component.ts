@@ -5,7 +5,7 @@ import { MatSnackBarComponent } from '@global-errors/mat-snack-bar/mat-snack-bar
 import { UserOrdersService } from '../services/user-orders.service';
 import { Router } from '@angular/router';
 import { BonusesService } from '../ubs-user-bonuses/services/bonuses.service';
-import { IUserOrderInfo, IUserOrdersInfo } from '../ubs-user-orders-list/models/UserOrder.interface';
+import { IUserOrderInfo } from '../ubs-user-orders-list/models/UserOrder.interface';
 import { TranslateService } from '@ngx-translate/core';
 import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
 import { FormControl } from '@angular/forms';
@@ -20,14 +20,14 @@ export class UbsUserOrdersComponent implements OnInit, OnDestroy {
   currentOrders: IUserOrderInfo[] = [];
   closedOrders: IUserOrderInfo[] = [];
   bonuses: number;
-  loading = true;
+  loading: boolean = true;
   currentOrdersLoadedPage = 1;
   closedOrdersLoadedPage = 1;
   ordersPerPage = 10;
   totalCurrentOrdersPages: number;
   totalClosedOrdersPages: number;
   orderIdToScroll: number;
-  orderToScroll;
+  orderToScroll: any;
   selected = new FormControl(0);
 
   constructor(
@@ -128,8 +128,9 @@ export class UbsUserOrdersComponent implements OnInit, OnDestroy {
   async skrollToOrder(orderId: number): Promise<any> {
     const status = this.selected.value === 0 ? 'current' : 'closed';
     let page;
+    let isPresent;
     if (status === 'current') {
-      let isPresent = this.currentOrders.find((item) => item.id === orderId);
+      isPresent = this.currentOrders.find((item) => item.id === orderId);
       if (!isPresent) {
         do {
           this.currentOrdersLoadedPage += 1;
@@ -138,9 +139,8 @@ export class UbsUserOrdersComponent implements OnInit, OnDestroy {
           isPresent = this.currentOrders.find((item) => item.id === orderId);
         } while (!isPresent);
       }
-      this.currentOrders.forEach((order) => (order.extend = order.id === orderId ? !order.extend : false));
     } else {
-      let isPresent = this.closedOrders.find((item) => item.id === orderId);
+      isPresent = this.closedOrders.find((item) => item.id === orderId);
       if (!isPresent) {
         do {
           this.closedOrdersLoadedPage += 1;
@@ -149,8 +149,8 @@ export class UbsUserOrdersComponent implements OnInit, OnDestroy {
           isPresent = this.closedOrders.find((item) => item.id === orderId);
         } while (!isPresent);
       }
-      this.closedOrders.forEach((order) => (order.extend = order.id === orderId ? !order.extend : false));
     }
+    isPresent.extend = true;
     setTimeout(() => this.scroll(orderId), 0);
   }
 
