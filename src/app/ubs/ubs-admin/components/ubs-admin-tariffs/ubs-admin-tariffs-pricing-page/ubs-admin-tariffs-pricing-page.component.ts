@@ -29,6 +29,7 @@ export class UbsAdminTariffsPricingPageComponent implements OnInit, OnDestroy {
   isLoadBar: boolean;
   selectedCardId;
   amount;
+  saveBTNclicked: boolean;
   inputDisable: boolean;
   info;
   bagInfo;
@@ -82,7 +83,7 @@ export class UbsAdminTariffsPricingPageComponent implements OnInit, OnDestroy {
 
   private initForm(): void {
     this.limitsForm = this.fb.group({
-      limitDescription: new FormControl(),
+      limitDescription: new FormControl(''),
       courierLimitsBy: new FormControl(''),
       minAmountOfOrder: new FormControl(),
       maxAmountOfOrder: new FormControl(),
@@ -156,7 +157,7 @@ export class UbsAdminTariffsPricingPageComponent implements OnInit, OnDestroy {
 
       this.changeDescription();
     }
-    this.limitsForm.controls.limitDescription.value = '';
+    this.saveBTNclicked = true;
   }
 
   async getCourierId(): Promise<any> {
@@ -359,10 +360,20 @@ export class UbsAdminTariffsPricingPageComponent implements OnInit, OnDestroy {
       });
   }
 
-  DisableSaveButton() {
+  disableSaveButton(): boolean {
     if (this.limitsForm.pristine || this.limitsForm.controls.limitDescription.value === '') {
       this.inputDisable = true;
       return this.inputDisable;
+    }
+    if (this.saveBTNclicked) {
+      this.inputDisable = true;
+      return this.inputDisable;
+    }
+  }
+
+  unClickSaveBTN(value): void {
+    if (value) {
+      this.saveBTNclicked = false;
     }
   }
 
