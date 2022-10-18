@@ -20,7 +20,7 @@ export class UbsUserOrdersComponent implements OnInit, OnDestroy {
   currentOrders: IUserOrderInfo[] = [];
   closedOrders: IUserOrderInfo[] = [];
   bonuses: number;
-  loading: boolean = true;
+  loading = true;
   currentOrdersLoadedPage = 1;
   closedOrdersLoadedPage = 1;
   ordersPerPage = 10;
