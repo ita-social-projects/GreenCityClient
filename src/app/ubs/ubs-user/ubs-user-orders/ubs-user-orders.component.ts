@@ -20,7 +20,7 @@ export class UbsUserOrdersComponent implements OnInit, OnDestroy {
   currentOrders: IUserOrderInfo[] = [];
   closedOrders: IUserOrderInfo[] = [];
   bonuses: number;
-  loading: boolean = true;
+  loading = true;
   currentOrdersLoadedPage = 1;
   closedOrdersLoadedPage = 1;
   ordersPerPage = 10;
@@ -58,13 +58,13 @@ export class UbsUserOrdersComponent implements OnInit, OnDestroy {
   }
 
   async loadOrders(status, page, ordersPerPage): Promise<any> {
-    const onCurrentOrdersData = (data) => {
-      this.currentOrders = [...this.currentOrders, ...data.page];
-      this.totalCurrentOrdersPages = data.totalPages;
+    const onCurrentOrdersData = (res) => {
+      this.currentOrders = [...this.currentOrders, ...res.page];
+      this.totalCurrentOrdersPages = res.totalPages;
     };
-    const onCLosedOrdersData = (data) => {
-      this.closedOrders = [...this.closedOrders, ...data.page];
-      this.totalClosedOrdersPages = data.totalPages;
+    const onCLosedOrdersData = (res) => {
+      this.closedOrders = [...this.closedOrders, ...res.page];
+      this.totalClosedOrdersPages = res.totalPages;
     };
     const loadData = (pg, limit) =>
       status === 'current'

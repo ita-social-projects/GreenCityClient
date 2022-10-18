@@ -23,13 +23,7 @@ export class UbsUserBonusesComponent implements OnInit, OnDestroy {
   bonusesList: BonusModel[];
   destroy: Subject<boolean> = new Subject<boolean>();
 
-  constructor(
-    private snackBar: MatSnackBarComponent,
-    private bonusesService: BonusesService,
-    private localStorage: LocalStorageService
-  ) //  public router: Router,
-  //  public route: ActivatedRoute
-  {}
+  constructor(private snackBar: MatSnackBarComponent, private bonusesService: BonusesService, private localStorage: LocalStorageService) {}
 
   @ViewChild(MatSort) sort: MatSort;
 
