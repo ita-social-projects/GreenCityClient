@@ -4,6 +4,7 @@ import { IAlertInfo } from '../models/edit-cell.model';
 import { environment } from '@environment/environment.js';
 import { IBigOrderTable, IFilteredColumn, IFilteredColumnValue } from '../models/ubs-admin.interface';
 import { MatCheckboxChange } from '@angular/material/checkbox';
+import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
 
 @Injectable({
   providedIn: 'root'
@@ -13,7 +14,9 @@ export class AdminTableService {
   filters: any[] = [];
   url = environment.ubsAdmin.backendUbsAdminLink + '/management/';
 
-  constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient, private localStorageService: LocalStorageService) {
+    this.filters = this.localStorageService.getUbsAdminOrdersTableTitleColumnFilter();
+  }
 
   getTable(columnName?: string, page?: number, filter?: string, size?: number, sortingType?: string) {
     const searchValue = filter ? filter.split(' ').reduce((values, value) => (value ? values + `search=${value}&` : values), '') : '';
@@ -118,6 +121,7 @@ export class AdminTableService {
     } else {
       this.filters = this.filters.filter((filteredElem) => filteredElem[columnName] !== option.key);
     }
+    this.localStorageService.setUbsAdminOrdersTableTitleColumnFilter(this.filters);
   }
 
   changeDateFilters(e: MatCheckboxChange, checked: boolean, currentColumn: string): void {
