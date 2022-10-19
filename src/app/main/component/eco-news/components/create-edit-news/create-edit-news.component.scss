@@ -130,16 +130,6 @@ button:hover {
   color: var(--primary-green);
 }
 
-.tags button {
-  margin: 0 8px 8px 0;
-  font-size: 14px;
-  color: var(--tertiary-grey);
-
-  &:hover {
-    color: var(--primary-green);
-  }
-}
-
 form .textarea-wrapper textarea {
   height: 131px;
   border-radius: 5px;
@@ -202,6 +192,16 @@ textarea.ng-invalid.ng-dirty + p {
   height: 48px;
   color: var(--primary-green);
   font-weight: bold;
+}
+
+.tags button {
+  margin: 0 8px 8px 0;
+  font-size: 14px;
+  color: var(--tertiary-grey);
+
+  &:hover {
+    color: var(--primary-green);
+  }
 }
 
 .submit-buttons button:last-child {
