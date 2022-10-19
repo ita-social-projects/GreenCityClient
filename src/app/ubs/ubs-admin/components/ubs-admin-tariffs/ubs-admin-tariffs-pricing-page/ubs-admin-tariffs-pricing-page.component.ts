@@ -113,24 +113,27 @@ export class UbsAdminTariffsPricingPageComponent implements OnInit, OnDestroy {
     this.toggle = false;
   }
 
-  saveChanges() {
+  async saveChanges(): Promise<void> {
     const { minAmountOfOrder, maxAmountOfOrder, minAmountOfBigBag, maxAmountOfBigBag, limitDescription } = this.limitsForm.value;
+
+    const tariffId = this.selectedCardId;
+    const locationId = await this.getLocationId();
 
     this.bagInfo = {
       minAmountOfBigBag,
-      maxAmountOfBigBag
+      maxAmountOfBigBag,
+      locationId
     };
 
     this.sumInfo = {
       minAmountOfOrder,
-      maxAmountOfOrder
+      maxAmountOfOrder,
+      locationId
     };
 
     this.descriptionInfo = {
       limitDescription
     };
-
-    const tariffId = this.selectedCardId;
 
     if (this.toggle === null) {
       this.changeDescription();
@@ -171,6 +174,20 @@ export class UbsAdminTariffsPricingPageComponent implements OnInit, OnDestroy {
       return card.courierId;
     } catch (e) {
       return Error('getCourierId Error');
+    }
+  }
+
+  async getLocationId(): Promise<any> {
+    try {
+      const res = await this.tariffsService.getCardInfo().toPromise();
+      const card = res.find((value) => {
+        if (this.selectedCardId === value.cardId) {
+          return true;
+        }
+      });
+      return card.locationInfoDtos[0].locationId;
+    } catch (e) {
+      return Error('getLocationId Error');
     }
   }
 
