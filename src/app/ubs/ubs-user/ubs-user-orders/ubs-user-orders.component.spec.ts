@@ -124,6 +124,13 @@ describe('UbsUserOrdersComponent', () => {
     const list = fixture.debugElement.query(By.css('app-ubs-user-orders-list'));
     expect(list).toBeTruthy();
     expect(list.properties.orders).toEqual(fakeCurrentOrdersData);
+    expect(component.loading).toBe(false);
+  });
+
+  it('should assign a value to a variable "orderIdToScroll" using localStorage', async () => {
+    await buildComponent();
+    component.ngOnInit();
+    expect(component.orderIdToScroll).toBe(0);
   });
 
   it('should render list with more current orders on scroll', async () => {
