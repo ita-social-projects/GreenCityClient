@@ -122,6 +122,15 @@
   }
 }
 
+.button-arrow {
+  display: flex;
+  align-items: center;
+}
+
+.edit-news {
+  margin: 6px;
+}
+
 .flex-container {
   display: flex;
   justify-content: flex-start;
