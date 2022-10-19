@@ -73,7 +73,7 @@ export class UbsUserBonusesComponent implements OnInit, OnDestroy {
   }
 
   redirectToOrder(orderId?: number): void {
-    this.localStorage.setOrderIdToScroll(orderId);
+    this.localStorage.setOrderIdToRedirect(orderId);
   }
 
   ngOnDestroy() {

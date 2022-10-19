@@ -14,6 +14,7 @@ export class LocalStorageService {
   private readonly PREVIOUS_PAGE = 'previousPage';
   private readonly CAN_USER_EDIT_EVENT = 'canUserEdit';
   private readonly EDIT_EVENT = 'editEvent';
+  private readonly ORDER_TO_REDIRECT = 'orderIdToRedirect';
 
   languageSubject: Subject<string> = new Subject<string>();
   firstNameBehaviourSubject: BehaviorSubject<string> = new BehaviorSubject<string>(this.getName());
@@ -21,8 +22,7 @@ export class LocalStorageService {
   languageBehaviourSubject: BehaviorSubject<string> = new BehaviorSubject<string>(this.getCurrentLanguage());
   accessTokenBehaviourSubject: BehaviorSubject<string> = new BehaviorSubject<string>(this.getAccessToken());
   ubsRegBehaviourSubject: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(this.getUbsRegistration());
-  ubsRedirectionBehaviourSubject: BehaviorSubject<number> = new BehaviorSubject<number>(0);
-  orderIdToScroll: Observable<number> = this.ubsRedirectionBehaviourSubject.asObservable();
+  ubsRedirectionBehaviourSubject: BehaviorSubject<number> = new BehaviorSubject<number>(this.getOrderIdToRedirect());
 
   public getAccessToken(): string {
     return localStorage.getItem(this.ACCESS_TOKEN);
@@ -255,7 +255,12 @@ export class LocalStorageService {
     return new Map(Object.entries(parsed));
   }
 
-  public setOrderIdToScroll(orderId: number): void {
+  public setOrderIdToRedirect(orderId: number): void {
+    localStorage.setItem(this.ORDER_TO_REDIRECT, String(orderId));
     this.ubsRedirectionBehaviourSubject.next(orderId);
+  }
+
+  public getOrderIdToRedirect(): number {
+    return Number.parseInt(localStorage.getItem(this.ORDER_TO_REDIRECT), 10);
   }
 }

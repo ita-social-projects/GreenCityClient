@@ -99,10 +99,10 @@ export class UbsUserOrdersComponent implements OnInit, OnDestroy {
         error: (err) => this.displayError(err)
       });
 
-    this.localStorage.orderIdToScroll.subscribe((orderId) => (this.orderIdToScroll = orderId));
+    this.orderIdToScroll = this.localStorage.getOrderIdToRedirect();
     if (this.orderIdToScroll) {
       this.openExtendedOrder(this.orderIdToScroll);
-      this.localStorage.setOrderIdToScroll(0);
+      this.localStorage.setOrderIdToRedirect(0);
     }
   }
 

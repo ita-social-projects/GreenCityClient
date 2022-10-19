@@ -19,6 +19,7 @@ import { UserOrdersService } from '../services/user-orders.service';
 import { BonusesService } from '../ubs-user-bonuses/services/bonuses.service';
 import { APP_BASE_HREF } from '@angular/common';
 import { By } from '@angular/platform-browser';
+import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
 
 describe('UbsUserOrdersComponent', () => {
   let component: UbsUserOrdersComponent;
@@ -69,6 +70,9 @@ describe('UbsUserOrdersComponent', () => {
     getUserBonuses: () => of({ points: 5 })
   };
 
+  const fakeLocalStorageService = jasmine.createSpyObj('LocalStorageService', ['getOrderIdToRedirect']);
+  fakeLocalStorageService.getOrderIdToRedirect = () => '1315';
+
   const selectMatTabByIdx = async (idx) => {
     const label = fixture.debugElement.queryAll(By.css('.mat-tab-label'))[idx];
     label.triggerEventHandler('click', null);
@@ -93,6 +97,7 @@ describe('UbsUserOrdersComponent', () => {
         { provide: MatSnackBarComponent, useValue: MatSnackBarMock },
         { provide: UserOrdersService, useValue: userOrderServiceMock },
         { provide: BonusesService, useValue: bonusesServiceMock },
+        { provide: LocalStorageService, useValue: fakeLocalStorageService },
         { provide: APP_BASE_HREF, useValue: '/' }
       ],
       schemas: [CUSTOM_ELEMENTS_SCHEMA]
@@ -125,12 +130,6 @@ describe('UbsUserOrdersComponent', () => {
     expect(list).toBeTruthy();
     expect(list.properties.orders).toEqual(fakeCurrentOrdersData);
     expect(component.loading).toBe(false);
-  });
-
-  it('should assign a value to a variable "orderIdToScroll" using localStorage', async () => {
-    await buildComponent();
-    component.ngOnInit();
-    expect(component.orderIdToScroll).toBe(0);
   });
 
   it('should render list with more current orders on scroll', async () => {
