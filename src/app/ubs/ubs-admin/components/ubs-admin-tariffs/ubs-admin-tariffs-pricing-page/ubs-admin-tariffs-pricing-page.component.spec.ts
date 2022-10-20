@@ -222,6 +222,24 @@ describe('UbsAdminPricingPageComponent', () => {
     tick(60000);
   }));
 
+  it('should call getLocationId correctly', (done) => {
+    fixture.detectChanges();
+    const getLocationIdSpy = spyOn(component, 'getLocationId').and.returnValue(Promise.resolve());
+    component.getLocationId();
+    getLocationIdSpy.calls.mostRecent().returnValue.then(() => {
+      fixture.detectChanges();
+      expect(getLocationIdSpy).toHaveBeenCalled();
+      done();
+    });
+  });
+
+  it('getLocationId should return reject here ', fakeAsync(() => {
+    component.getLocationId().then(null, (err) => {
+      expect(err).toBe('getLocationId Error');
+    });
+    tick(60000);
+  }));
+
   it('should call sumToggler', () => {
     component.sumToggler();
     expect(component.toggle).toBe(true);
@@ -230,13 +248,6 @@ describe('UbsAdminPricingPageComponent', () => {
   it('should call bagToggler', () => {
     component.bagToggler();
     expect(component.toggle).toBe(false);
-  });
-
-  it('should call saveChanges with needed args', () => {
-    component.limitsForm.patchValue(fakeCourierForm.value);
-    component.saveChanges();
-    tariffsServiceMock.setLimitDescription = jasmine.createSpy().withArgs(fakeDescription.limitDescription, fakeId);
-    expect(component.descriptionInfo.limitDescription).toEqual(fakeDescription.limitDescription);
   });
 
   it('navigate to tariffs page', () => {
