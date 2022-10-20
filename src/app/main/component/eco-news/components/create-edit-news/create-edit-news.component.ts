@@ -68,6 +68,8 @@ export class CreateEditNewsComponent extends FormBaseComponent implements OnInit
   public formData: FormGroup;
   private destroyed$: ReplaySubject<any> = new ReplaySubject<any>(1);
   public isFormInvalid: boolean;
+  public isTitleInvalid: boolean;
+  public isContentInvalid: boolean;
   public formChangeSub: Subscription;
   public previousPath = '/news';
   public popupConfig = {
@@ -136,6 +138,8 @@ export class CreateEditNewsComponent extends FormBaseComponent implements OnInit
   public onValueChanges(): void {
     this.formChangeSub = this.form.valueChanges.subscribe(() => {
       this.isFormInvalid = !this.form.valid || !this.tags().length || !this.isLinkOrEmpty || this.isImageValid();
+      this.isTitleInvalid = this.form.controls.title.value.length >= 170;
+      this.isContentInvalid = this.form.controls.content.errors?.['minlength'];
     });
   }
 

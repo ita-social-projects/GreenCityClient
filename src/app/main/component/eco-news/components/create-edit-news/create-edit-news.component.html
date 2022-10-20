@@ -12,7 +12,7 @@
             <div class="item-block">
               <div class="title-wrapper">
                 <h3>{{ 'create-news.news-title' | translate }}</h3>
-                <span>{{ form.get('title').value.length }}/170</span>
+                <span [ngClass]="{ warning: isTitleInvalid }">{{ form.get('title').value.length }}/170</span>
               </div>
               <label>
                 <textarea
@@ -64,7 +64,7 @@
         <div class="textarea-wrapper">
           <div class="title-wrapper">
             <h3>{{ 'create-news.content-title' | translate }}</h3>
-            <p class="textarea-description">{{ 'create-news.content-tooltip' | translate }}</p>
+            <p class="textarea-description" [ngClass]="{ warning: isContentInvalid }">{{ 'create-news.content-tooltip' | translate }}</p>
           </div>
           <quill-editor
             [modules]="quillModules"
