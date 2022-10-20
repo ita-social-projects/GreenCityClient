@@ -19,7 +19,6 @@ import { UserOrdersService } from '../services/user-orders.service';
 import { BonusesService } from '../ubs-user-bonuses/services/bonuses.service';
 import { APP_BASE_HREF } from '@angular/common';
 import { By } from '@angular/platform-browser';
-import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
 
 describe('UbsUserOrdersComponent', () => {
   let component: UbsUserOrdersComponent;
@@ -44,7 +43,7 @@ describe('UbsUserOrdersComponent', () => {
 
   const fakeCurrentOrdersData = new Array(10).fill(fakeOrder1);
   const fakeCurrentOrdersDataPage2 = new Array().fill(fakeOrder2);
-  const fakeClosedOrdersData = new Array(5).fill(fakeOrder2);
+  const fakeClosedOrdersData = new Array(10).fill(fakeOrder2);
   const fakeClosedOrdersDataPage2 = new Array().fill(fakeOrder1);
 
   const RouterMock = jasmine.createSpyObj('Router', ['navigate']);
@@ -70,9 +69,6 @@ describe('UbsUserOrdersComponent', () => {
     getUserBonuses: () => of({ points: 5 })
   };
 
-  const fakeLocalStorageService = jasmine.createSpyObj('LocalStorageService', ['getOrderIdToRedirect']);
-  fakeLocalStorageService.getOrderIdToRedirect = () => '1315';
-
   const selectMatTabByIdx = async (idx) => {
     const label = fixture.debugElement.queryAll(By.css('.mat-tab-label'))[idx];
     label.triggerEventHandler('click', null);
@@ -97,7 +93,6 @@ describe('UbsUserOrdersComponent', () => {
         { provide: MatSnackBarComponent, useValue: MatSnackBarMock },
         { provide: UserOrdersService, useValue: userOrderServiceMock },
         { provide: BonusesService, useValue: bonusesServiceMock },
-        { provide: LocalStorageService, useValue: fakeLocalStorageService },
         { provide: APP_BASE_HREF, useValue: '/' }
       ],
       schemas: [CUSTOM_ELEMENTS_SCHEMA]
@@ -129,7 +124,6 @@ describe('UbsUserOrdersComponent', () => {
     const list = fixture.debugElement.query(By.css('app-ubs-user-orders-list'));
     expect(list).toBeTruthy();
     expect(list.properties.orders).toEqual(fakeCurrentOrdersData);
-    expect(component.loading).toBe(false);
   });
 
   it('should render list with more current orders on scroll', async () => {

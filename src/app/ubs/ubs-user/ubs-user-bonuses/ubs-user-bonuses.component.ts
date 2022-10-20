@@ -72,7 +72,7 @@ export class UbsUserBonusesComponent implements OnInit, OnDestroy {
     return (a < b ? -1 : 1) * (isAsc ? 1 : -1);
   }
 
-  redirectToOrder(orderId?: number): void {
+  passOrderIdToRedirect(orderId: number): void {
     this.localStorage.setOrderIdToRedirect(orderId);
   }
 

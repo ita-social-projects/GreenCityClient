@@ -107,10 +107,10 @@ export class UbsUserOrdersComponent implements OnInit, OnDestroy {
   }
 
   openExtendedOrder(orderId: number): void {
-    this.userOrdersService.getOrderToSkroll(orderId).subscribe((res) => {
+    this.userOrdersService.getOrderToScroll(orderId).subscribe((res) => {
       this.orderToScroll = res;
       this.checkOrderStatus(this.orderToScroll);
-      this.skrollToOrder(orderId);
+      this.scrollToOrder(orderId);
     });
   }
 
@@ -125,7 +125,7 @@ export class UbsUserOrdersComponent implements OnInit, OnDestroy {
     }
   }
 
-  async skrollToOrder(orderId: number): Promise<any> {
+  async scrollToOrder(orderId: number): Promise<any> {
     const status = this.selected.value === 0 ? 'current' : 'closed';
     let page;
     let isPresent;

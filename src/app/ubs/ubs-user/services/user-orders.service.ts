@@ -29,7 +29,7 @@ export class UserOrdersService {
     return this.http.get<IUserOrdersInfo>(url);
   }
 
-  getOrderToSkroll(orderId: number): Observable<IUserOrdersInfo> {
+  getOrderToScroll(orderId: number): Observable<IUserOrdersInfo> {
     return this.http.get<IUserOrdersInfo>(`${this.url}/user-order/${orderId}`);
   }
 
