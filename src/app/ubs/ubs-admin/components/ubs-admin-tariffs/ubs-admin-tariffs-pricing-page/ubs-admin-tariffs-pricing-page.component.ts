@@ -29,6 +29,8 @@ export class UbsAdminTariffsPricingPageComponent implements OnInit, OnDestroy {
   isLoadBar: boolean;
   selectedCardId;
   amount;
+  saveBTNclicked: boolean;
+  inputDisable: boolean;
   info;
   bagInfo;
   sumInfo;
@@ -81,7 +83,7 @@ export class UbsAdminTariffsPricingPageComponent implements OnInit, OnDestroy {
 
   private initForm(): void {
     this.limitsForm = this.fb.group({
-      limitDescription: new FormControl(),
+      limitDescription: new FormControl(''),
       courierLimitsBy: new FormControl(''),
       minAmountOfOrder: new FormControl(),
       maxAmountOfOrder: new FormControl(),
@@ -111,24 +113,27 @@ export class UbsAdminTariffsPricingPageComponent implements OnInit, OnDestroy {
     this.toggle = false;
   }
 
-  saveChanges() {
+  async saveChanges(): Promise<void> {
     const { minAmountOfOrder, maxAmountOfOrder, minAmountOfBigBag, maxAmountOfBigBag, limitDescription } = this.limitsForm.value;
+
+    const tariffId = this.selectedCardId;
+    const locationId = await this.getLocationId();
 
     this.bagInfo = {
       minAmountOfBigBag,
-      maxAmountOfBigBag
+      maxAmountOfBigBag,
+      locationId
     };
 
     this.sumInfo = {
       minAmountOfOrder,
-      maxAmountOfOrder
+      maxAmountOfOrder,
+      locationId
     };
 
     this.descriptionInfo = {
       limitDescription
     };
-
-    const tariffId = this.selectedCardId;
 
     if (this.toggle === null) {
       this.changeDescription();
@@ -155,6 +160,7 @@ export class UbsAdminTariffsPricingPageComponent implements OnInit, OnDestroy {
 
       this.changeDescription();
     }
+    this.saveBTNclicked = true;
   }
 
   async getCourierId(): Promise<any> {
@@ -168,6 +174,20 @@ export class UbsAdminTariffsPricingPageComponent implements OnInit, OnDestroy {
       return card.courierId;
     } catch (e) {
       return Error('getCourierId Error');
+    }
+  }
+
+  async getLocationId(): Promise<any> {
+    try {
+      const res = await this.tariffsService.getCardInfo().toPromise();
+      const card = res.find((value) => {
+        if (this.selectedCardId === value.cardId) {
+          return true;
+        }
+      });
+      return card.locationInfoDtos[0].locationId;
+    } catch (e) {
+      return Error('getLocationId Error');
     }
   }
 
@@ -355,6 +375,23 @@ export class UbsAdminTariffsPricingPageComponent implements OnInit, OnDestroy {
         this.couriers = res;
         this.fillFields();
       });
+  }
+
+  disableSaveButton(): boolean {
+    if (this.limitsForm.pristine || this.limitsForm.controls.limitDescription.value === '') {
+      this.inputDisable = true;
+      return this.inputDisable;
+    }
+    if (this.saveBTNclicked) {
+      this.inputDisable = true;
+      return this.inputDisable;
+    }
+  }
+
+  unClickSaveBTN(value): void {
+    if (value) {
+      this.saveBTNclicked = false;
+    }
   }
 
   ngOnDestroy(): void {

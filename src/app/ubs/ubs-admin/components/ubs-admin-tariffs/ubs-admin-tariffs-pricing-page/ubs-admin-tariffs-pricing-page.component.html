@@ -107,10 +107,13 @@
             </mat-radio-button>
             <label for="min-order-amount">{{ 'ubs-tariffs.min_order_amount' | translate }}</label
             ><br />
-            <input class="input" id="from" formControlName="minAmountOfOrder" />
-            <span class="line"></span>
-            <input class="input" id="to" formControlName="maxAmountOfOrder" />
-            <label for="to"></label>
+            <fieldset [disabled]="!toggle">
+              <legend></legend>
+              <input class="input" id="from" formControlName="minAmountOfOrder" />
+              <span class="line"></span>
+              <input class="input" id="to" formControlName="maxAmountOfOrder" />
+              <label for="to"></label>
+            </fieldset>
           </div>
           <div class="bags-input">
             <mat-radio-button
@@ -121,10 +124,13 @@
             ></mat-radio-button>
             <label for="min-packages">{{ 'ubs-tariffs.min_number_of_packages' | translate }}</label
             ><br />
-            <input class="input" id="from-packages" formControlName="minAmountOfBigBag" />
-            <span class="line"></span>
-            <input class="input" id="to-packages" formControlName="maxAmountOfBigBag" />
-            <label for="to-packages"></label>
+            <fieldset [disabled]="toggle">
+              <legend></legend>
+              <input class="input" id="from-packages" formControlName="minAmountOfBigBag" />
+              <span class="line"></span>
+              <input class="input" id="to-packages" formControlName="maxAmountOfBigBag" />
+              <label for="to-packages"></label>
+            </fieldset>
           </div>
         </mat-radio-group>
         <div class="min-bags-number">
@@ -143,15 +149,18 @@
       <div class="order-limit-textarea">
         <h6>{{ 'ubs-tariffs.info_about_order_limits' | translate }}</h6>
         <textarea
+          (ngModelChange)="unClickSaveBTN($event)"
           maxlength="170"
           formControlName="limitDescription"
           placeholder="{{ 'ubs-tariffs.placeholder_order_limits_info' | translate }}"
         ></textarea>
       </div>
       <div class="submit-btn">
-        <button class="primary-global-button submit" type="submit" [disabled]="limitsForm.pristine" (click)="saveChanges()">
-          {{ 'ubs-client-profile.btn.save' | translate }}
-        </button>
+        <div>
+          <button class="primary-global-button submit" id="saveBTN" type="submit" [disabled]="disableSaveButton()" (click)="saveChanges()">
+            {{ 'ubs-client-profile.btn.save' | translate }}
+          </button>
+        </div>
       </div>
     </form>
   </div>
@@ -159,7 +168,7 @@
     <button class="secondary-global-button btn m-0 mr-2">
       {{ 'ubs-tariffs.btn.delete_page' | translate }}
     </button>
-    <button class="primary-global-button btn m-0">
+    <button class="primary-global-button btn m-0" [disabled]="!disableSaveButton()">
       {{ 'ubs-tariffs.btn.duplicate_page' | translate }}
     </button>
   </div>

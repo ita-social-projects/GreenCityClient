@@ -12,7 +12,7 @@ import { FilterModel } from '@eco-news-models/filter.model';
   providedIn: 'root'
 })
 export class CreateEcoNewsService {
-  public newsId: string;
+  public newsId: number;
   public currentForm: FormGroup;
   private url: string = environment.backendLink;
   private accessToken: string = localStorage.getItem('accessToken');
@@ -41,7 +41,7 @@ export class CreateEcoNewsService {
     this.tags = tags;
   }
 
-  public getNewsId(): string {
+  public getNewsId(): number {
     return this.newsId;
   }
 
@@ -78,7 +78,7 @@ export class CreateEcoNewsService {
     }
   }
 
-  public setNewsId(id: string): void {
+  public setNewsId(id: number): void {
     this.newsId = id;
   }
 

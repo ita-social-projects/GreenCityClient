@@ -19,6 +19,7 @@
   justify-content: center;
   align-items: center;
   max-width: 100%;
+  padding-bottom: 64px;
 }
 
 .people-img {
@@ -32,8 +33,7 @@
 }
 
 .header {
-  width: 435px;
-  height: 48px;
+  max-width: 480px;
   font-family: var(--secondary-font);
   font-style: normal;
   font-weight: 600;
@@ -61,10 +61,9 @@
   }
 
   .header {
-    width: 288px;
-    height: 56px;
-    margin-bottom: 16px;
-    font-size: 24px;
+    max-width: 288px;
+    margin-bottom: 8px;
+    font-size: 20px;
     line-height: 28px;
   }
 

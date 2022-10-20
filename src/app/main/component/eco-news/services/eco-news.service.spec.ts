@@ -91,7 +91,7 @@ describe('EcoNewsService', () => {
   });
 
   it('should return news list by id', () => {
-    service.getEcoNewsById('13578').subscribe((data) => {
+    service.getEcoNewsById(13578).subscribe((data) => {
       expect(data).toBeDefined();
     });
 

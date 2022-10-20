@@ -44,7 +44,7 @@ describe('CreateEcoNewsService', () => {
   });
 
   it('should set newsId', () => {
-    const id = '11';
+    const id = 11;
     service.setNewsId(id);
     expect(service.newsId).toEqual(id);
   });
@@ -55,7 +55,7 @@ describe('CreateEcoNewsService', () => {
   });
 
   it('should return newsId', () => {
-    service.newsId = '1555';
+    service.newsId = 1555;
     expect(service.getNewsId()).toEqual(service.newsId);
   });
 

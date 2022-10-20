@@ -10,7 +10,10 @@
         <div class="wrapper">
           <div class="left-form-column">
             <div class="item-block">
-              <h3>{{ 'create-news.news-title' | translate }}</h3>
+              <div class="title-wrapper">
+                <h3>{{ 'create-news.news-title' | translate }}</h3>
+                <span>{{ form.get('title').value.length }}/170</span>
+              </div>
               <label>
                 <textarea
                   maxlength="170"
@@ -18,11 +21,13 @@
                   formControlName="title"
                   (keyup)="autoResize(false, $event)"
                 ></textarea>
-                <span>{{ 'create-news.title-tooltip' | translate }}</span>
               </label>
             </div>
             <div class="tags item-block" formArrayName="tags">
               <h3>{{ 'create-news.tags-title' | translate }}</h3>
+              <p [ngClass]="{ warning: isFilterValidation }">
+                {{ 'create-news.tags-tooltip' | translate }}
+              </p>
               <button
                 *ngFor="let filter of filters"
                 (click)="addFilters(filter)"
@@ -32,12 +37,15 @@
               >
                 {{ currentLang === 'en' ? filter.name : filter.nameUa }}
               </button>
-              <p [ngClass]="{ warning: isFilterValidation }">
-                {{ 'create-news.tags-tooltip' | translate }}
-              </p>
             </div>
             <div>
-              <h3>{{ 'create-news.source-title' | translate }}</h3>
+              <div class="title-wrapper">
+                <h3>{{ 'create-news.source-title' | translate }}</h3>
+                <span [ngClass]="{ warning: !isLinkOrEmpty }">
+                  {{ 'create-news.source-tooltip-1' | translate }}
+                  {{ 'create-news.source-tooltip-2' | translate }}
+                </span>
+              </div>
               <label>
                 <input
                   type="text"
@@ -45,10 +53,6 @@
                   formControlName="source"
                   [ngClass]="{ 'field-warning': !isLinkOrEmpty }"
                 />
-                <span [ngClass]="{ warning: !isLinkOrEmpty }">
-                  {{ 'create-news.source-tooltip-1' | translate }}
-                  {{ 'create-news.source-tooltip-2' | translate }}
-                </span>
               </label>
             </div>
           </div>
@@ -58,19 +62,21 @@
           </div>
         </div>
         <div class="textarea-wrapper">
-          <h3 class="textarea-title">{{ 'create-news.content-title' | translate }}</h3>
+          <div class="title-wrapper">
+            <h3>{{ 'create-news.content-title' | translate }}</h3>
+            <p class="textarea-description">{{ 'create-news.content-tooltip' | translate }}</p>
+          </div>
           <quill-editor
             [modules]="quillModules"
             formControlName="content"
             placeholder="{{ 'create-news.content-placeholder' | translate }}"
             (onEditorChanged)="changedEditor($event)"
           ></quill-editor>
-          <p class="textarea-description">{{ 'create-news.content-tooltip' | translate }}</p>
         </div>
         <div class="date">
           <p>
             <span>{{ 'create-news.date' | translate }}</span>
-            <span>{{ date.day }} {{ 'date.months.' + [date.month] | translate }} {{ date.year }} {{ 'date.year' | translate }}</span>
+            <span>{{ 'date.months.' + [date.month] | translate }} {{ date.day }}, {{ date.year }} {{ 'date.year' | translate }}</span>
           </p>
           <p>
             <span>{{ 'create-news.author' | translate }}</span
@@ -79,7 +85,7 @@
         </div>
         <div class="submit-buttons">
           <button class="cancel" type="button" (click)="cancel()">{{ 'create-news.cancel-button' | translate }}</button>
-          <button type="button" class="preview" (click)="goToPreview()">
+          <button class="preview" type="button" (click)="goToPreview()">
             {{ 'create-news.preview-button' | translate }}
           </button>
           <button type="submit" class="submit" [disabled]="isFormInvalid">{{ attributes.btnCaption | translate }}</button>

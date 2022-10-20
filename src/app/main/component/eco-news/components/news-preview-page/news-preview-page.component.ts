@@ -26,7 +26,7 @@ export class NewsPreviewPageComponent implements OnInit, OnDestroy {
   public isPosting = false;
   private userNameSub: Subscription;
   public attributes: ActionInterface;
-  public newsId: string;
+  public newsId: number;
   public onSubmit;
   public currentLang: string;
   public tags: FilterModel[] = [];

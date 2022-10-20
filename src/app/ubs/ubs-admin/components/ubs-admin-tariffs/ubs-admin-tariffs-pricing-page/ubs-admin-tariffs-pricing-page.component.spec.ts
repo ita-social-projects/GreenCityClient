@@ -9,7 +9,7 @@ import { HttpClientTestingModule, HttpTestingController } from '@angular/common/
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { FormBuilder, FormControl, FormGroup, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
-import { Observable, of, Subject } from 'rxjs';
+import { of, Subject } from 'rxjs';
 import { RouterTestingModule } from '@angular/router/testing';
 import { UbsAdminTariffsAddServicePopUpComponent } from './ubs-admin-tariffs-add-service-pop-up/ubs-admin-tariffs-add-service-pop-up.component';
 import { FilterListByLangPipe } from '../../../../../shared/sort-list-by-lang/filter-list-by-lang.pipe';
@@ -22,10 +22,9 @@ import { VolumePipe } from 'src/app/shared/volume-pipe/volume.pipe';
 import { LocalizedCurrencyPipe } from 'src/app/shared/localized-currency-pipe/localized-currency.pipe';
 import { MatRadioModule } from '@angular/material/radio';
 import { MatProgressBarModule } from '@angular/material/progress-bar';
-import { Bag, CreateCard, Locations } from 'src/app/ubs/ubs-admin/models/tariffs.interface';
+import { Bag, Locations } from 'src/app/ubs/ubs-admin/models/tariffs.interface';
 import { Store } from '@ngrx/store';
 import { UbsAdminTariffsLocationDashboardComponent } from '../ubs-admin-tariffs-location-dashboard.component';
-import { error } from 'protractor';
 
 describe('UbsAdminPricingPageComponent', () => {
   let component: UbsAdminTariffsPricingPageComponent;
@@ -35,6 +34,7 @@ describe('UbsAdminPricingPageComponent', () => {
   let location: Location;
   let router: Router;
 
+  const fakeValue = 'fake';
   const fakeCourierForm = new FormGroup({
     courierLimitsBy: new FormControl('fake'),
     minAmountOfOrder: new FormControl('fake'),
@@ -222,6 +222,24 @@ describe('UbsAdminPricingPageComponent', () => {
     tick(60000);
   }));
 
+  it('should call getLocationId correctly', (done) => {
+    fixture.detectChanges();
+    const getLocationIdSpy = spyOn(component, 'getLocationId').and.returnValue(Promise.resolve());
+    component.getLocationId();
+    getLocationIdSpy.calls.mostRecent().returnValue.then(() => {
+      fixture.detectChanges();
+      expect(getLocationIdSpy).toHaveBeenCalled();
+      done();
+    });
+  });
+
+  it('getLocationId should return reject here ', fakeAsync(() => {
+    component.getLocationId().then(null, (err) => {
+      expect(err).toBe('getLocationId Error');
+    });
+    tick(60000);
+  }));
+
   it('should call sumToggler', () => {
     component.sumToggler();
     expect(component.toggle).toBe(true);
@@ -230,13 +248,6 @@ describe('UbsAdminPricingPageComponent', () => {
   it('should call bagToggler', () => {
     component.bagToggler();
     expect(component.toggle).toBe(false);
-  });
-
-  it('should call saveChanges with needed args', () => {
-    component.limitsForm.patchValue(fakeCourierForm.value);
-    component.saveChanges();
-    tariffsServiceMock.setLimitDescription = jasmine.createSpy().withArgs(fakeDescription.limitDescription, fakeId);
-    expect(component.descriptionInfo.limitDescription).toEqual(fakeDescription.limitDescription);
   });
 
   it('navigate to tariffs page', () => {
@@ -333,5 +344,14 @@ describe('UbsAdminPricingPageComponent', () => {
     spyOn(component[destroy], 'unsubscribe');
     component.ngOnDestroy();
     expect(component[destroy].unsubscribe).toHaveBeenCalledTimes(1);
+  });
+
+  it('should disable save button correctly', () => {
+    component.disableSaveButton();
+    expect(component.inputDisable).toBe(true);
+  });
+  it('should disable save button falsy', () => {
+    component.disableSaveButton();
+    expect(!component.inputDisable).toBe(false);
   });
 });

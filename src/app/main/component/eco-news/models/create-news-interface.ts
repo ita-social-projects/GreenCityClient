@@ -57,7 +57,7 @@ export interface FileHandle {
 }
 
 export interface QueryParams {
-  id: string;
+  id: number;
 }
 
 export interface TextAreasHeight {

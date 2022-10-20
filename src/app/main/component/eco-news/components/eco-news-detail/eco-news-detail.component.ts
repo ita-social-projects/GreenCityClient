@@ -6,9 +6,6 @@ import { EcoNewsService } from '@eco-news-service/eco-news.service';
 import { EcoNewsModel } from '@eco-news-models/eco-news-model';
 import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
 import { take, takeUntil } from 'rxjs/operators';
-import { Store } from '@ngrx/store';
-import { IAppState } from 'src/app/store/state/app.state';
-import { IEcoNewsState } from 'src/app/store/state/ecoNews.state';
 
 @Component({
   selector: 'app-eco-news-detail',
@@ -33,48 +30,41 @@ export class EcoNewsDetailComponent implements OnInit, OnDestroy {
 
   public backRoute: string;
 
-  ecoNewById$ = this.store.select((state: IAppState): IEcoNewsState => state.ecoNewsState);
-
-  constructor(
-    private route: ActivatedRoute,
-    private ecoNewsService: EcoNewsService,
-    private localStorageService: LocalStorageService,
-    private store: Store
-  ) {}
+  constructor(private route: ActivatedRoute, private ecoNewsService: EcoNewsService, private localStorageService: LocalStorageService) {}
 
   ngOnInit() {
-    this.canUserEditNews();
+    this.getUserId();
     this.setNewsId();
     if (this.userId) {
       this.getIsLiked();
     }
+    if (this.newsId) {
+      this.getEcoNewsById(this.newsId);
+    }
     this.backRoute = this.localStorageService.getPreviousPage();
-
-    this.ecoNewById$.subscribe((value) => {
-      if (this.backRoute === '/news') {
-        this.newsItem = value.pages.find((item) => item.id === +this.newsId);
-      }
-      if (this.backRoute === '/profile') {
-        this.newsItem = value.autorNews.find((item) => item.id === +this.newsId);
-      }
-    });
     this.currentLang = this.localStorageService.getCurrentLanguage();
-    this.tags = this.getAllTags();
     this.localStorageService.languageSubject.pipe(takeUntil(this.destroy)).subscribe((lang: string) => {
       this.currentLang = lang;
       this.tags = this.getAllTags();
     });
   }
 
-  public getAllTags(): Array<string> {
-    return this.currentLang === 'ua' || this.currentLang === 'ru' ? this.newsItem.tagsUa : this.newsItem.tagsEn;
+  public getEcoNewsById(id: number): void {
+    this.ecoNewsService.getEcoNewsById(id).subscribe((res: EcoNewsModel) => {
+      this.newsItem = res;
+      this.tags = this.getAllTags();
+    });
   }
+  public getAllTags(): Array<string> {
+    return this.currentLang === 'ua' ? this.newsItem.tagsUa : this.newsItem.tags;
+  }
+
   public checkNewsImage(): string {
     this.newsImage = this.newsItem.imagePath && this.newsItem.imagePath !== ' ' ? this.newsItem.imagePath : this.images.largeImage;
     return this.newsImage;
   }
 
-  public canUserEditNews(): void {
+  public getUserId(): void {
     this.localStorageService.userIdBehaviourSubject.subscribe((id) => (this.userId = id));
   }
 
