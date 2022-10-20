@@ -1,7 +1,10 @@
 <app-spinner *ngIf="isPosting"></app-spinner>
 <div *ngIf="!isPosting" class="event-container" [formGroup]="eventFormGroup">
   <a [routerLink]="['/events']">
-    <div class="edit-news">back</div>
+    <div class="button-arrow">
+      <img [src]="images.arrowLeft" aria-hidden="true" alt="arrow" class="button-arrow-img" />
+      <div class="edit-news">Back</div>
+    </div>
   </a>
   <div class="event-header">
     <h3 *ngIf="!editMode">Create Event</h3>

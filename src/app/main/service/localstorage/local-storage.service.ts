@@ -14,6 +14,7 @@ export class LocalStorageService {
   private readonly PREVIOUS_PAGE = 'previousPage';
   private readonly CAN_USER_EDIT_EVENT = 'canUserEdit';
   private readonly EDIT_EVENT = 'editEvent';
+  private readonly HABITS_GALLERY_VIEW = 'habitsGalleryView';
 
   languageSubject: Subject<string> = new Subject<string>();
   firstNameBehaviourSubject: BehaviorSubject<string> = new BehaviorSubject<string>(this.getName());
@@ -21,6 +22,14 @@ export class LocalStorageService {
   languageBehaviourSubject: BehaviorSubject<string> = new BehaviorSubject<string>(this.getCurrentLanguage());
   accessTokenBehaviourSubject: BehaviorSubject<string> = new BehaviorSubject<string>(this.getAccessToken());
   ubsRegBehaviourSubject: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(this.getUbsRegistration());
+
+  public setHabitsGalleryView(value: boolean): void {
+    localStorage.setItem(this.HABITS_GALLERY_VIEW, JSON.stringify(value));
+  }
+
+  public getHabitsGalleryView(): boolean | null {
+    return JSON.parse(localStorage.getItem(this.HABITS_GALLERY_VIEW));
+  }
 
   public getAccessToken(): string {
     return localStorage.getItem(this.ACCESS_TOKEN);

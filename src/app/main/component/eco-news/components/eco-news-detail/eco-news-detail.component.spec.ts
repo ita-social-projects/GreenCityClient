@@ -13,7 +13,7 @@ import { CUSTOM_ELEMENTS_SCHEMA, Pipe, PipeTransform, Sanitizer } from '@angular
 import { DateLocalisationPipe } from '@pipe/date-localisation-pipe/date-localisation.pipe';
 
 import { Store } from '@ngrx/store';
-import { of } from 'rxjs';
+import { BehaviorSubject, of } from 'rxjs';
 import { SafeHtmlPipe } from '@pipe/safe-html-pipe/safe-html.pipe';
 import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
 import { Language } from '../../../../i18n/Language';
@@ -56,12 +56,15 @@ describe('EcoNewsDetailComponent', () => {
   const sanitaizerMock = jasmine.createSpyObj('sanitaizer', ['bypassSecurityTrustHtml']);
   const fakeElement = document.createElement('div') as SafeHtml;
   sanitaizerMock.bypassSecurityTrustHtml.and.returnValue(fakeElement);
+
   const backLink = jasmine.createSpyObj('localStorageService', ['getCurrentLanguage', 'getPreviousPage']);
   backLink.getCurrentLanguage = () => 'en' as Language;
-  backLink.getPreviousPage = () => '/news';
-  backLink.userIdBehaviourSubject = of(3);
-  backLink.languageSubject = of('en');
-  const ecoNewsServ = jasmine.createSpyObj('ecoNewsService', ['postToggleLike', 'getIsLikedByUser']);
+  backLink.getPreviousPage = () => '/profile';
+  backLink.userIdBehaviourSubject = new BehaviorSubject(4);
+  backLink.languageSubject = of('ua');
+
+  const ecoNewsServ = jasmine.createSpyObj('ecoNewsService', ['getEcoNewsById', 'postToggleLike', 'getIsLikedByUser']);
+  ecoNewsServ.getEcoNewsById.and.returnValue(of(mockEcoNewsModel));
   ecoNewsServ.postToggleLike.and.returnValue(of({}));
   ecoNewsServ.getIsLikedByUser.and.returnValue(of(true));
 
@@ -93,60 +96,95 @@ describe('EcoNewsDetailComponent', () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(EcoNewsDetailComponent);
     component = fixture.componentInstance;
-    spyOn(component, 'getAllTags').and.returnValue(['Events', 'Education']);
     fixture.detectChanges();
     component.backRoute = '/news';
     component.newsItem = mockEcoNewsModel;
+    (component as any).newsId = 3;
+    (component as any).newsImage = ' ';
+    component.tags = component.getAllTags();
   });
 
   it('should create', () => {
     expect(component).toBeTruthy();
   });
 
-  it('ngOnInit should init three method and call isLiked', () => {
-    (component as any).newsId = 3;
+  it('ngOnInit should init four method', () => {
+    const spy = spyOn(component as any, 'getUserId');
+    const spy1 = spyOn(component as any, 'getIsLiked');
+    const spy2 = spyOn(component as any, 'setNewsId');
+    const spy3 = spyOn(component as any, 'getEcoNewsById');
 
-    spyOn(component as any, 'setNewsId');
-    spyOn(component as any, 'getIsLiked');
-    spyOn(component as any, 'canUserEditNews');
     component.userId = 3;
     component.ngOnInit();
-    component.ecoNewById$.subscribe((item: any) => {
-      expect(component.newsItem).toEqual(mockEcoNewsModel as any);
-    });
-    expect((component as any).getIsLiked).toHaveBeenCalledTimes(1);
-    expect((component as any).setNewsId).toHaveBeenCalledTimes(1);
-    expect((component as any).canUserEditNews).toHaveBeenCalledTimes(1);
+    expect(spy).toHaveBeenCalledTimes(1);
+    expect(spy1).toHaveBeenCalledTimes(1);
+    expect(spy2).toHaveBeenCalledTimes(1);
+    expect(spy3).toHaveBeenCalledTimes(1);
+    expect(spy3).toHaveBeenCalledWith((component as any).newsId);
   });
 
-  it('ngOnInit should init two method', () => {
-    (component as any).newsId = 3;
-    spyOn((component as any).localStorageService, 'getPreviousPage').and.returnValue('/news');
+  it('userId null should not call getIsLiked method', () => {
+    const spy = spyOn(component as any, 'getUserId');
+    const spy1 = spyOn(component as any, 'getIsLiked');
 
-    spyOn(component as any, 'setNewsId');
-    spyOn(component as any, 'getIsLiked');
-    spyOn(component as any, 'canUserEditNews');
     component.userId = null;
     component.ngOnInit();
-    component.ecoNewById$.subscribe((item: any) => {
-      expect(component.newsItem).toEqual(mockEcoNewsModel);
-    });
-    expect((component as any).getIsLiked).toHaveBeenCalledTimes(0);
-    expect((component as any).setNewsId).toHaveBeenCalledTimes(1);
-    expect((component as any).canUserEditNews).toHaveBeenCalledTimes(1);
+    expect(spy).toHaveBeenCalledTimes(1);
+    expect(spy1).toHaveBeenCalledTimes(0);
   });
 
-  it('checkNewsImage should return existing image src', () => {
+  it('ngOnInit newsId null should not call getEcoNewsById method', () => {
+    const spy = spyOn(component as any, 'getEcoNewsById');
+
+    (component as any).newsId = null;
+    component.ngOnInit();
+    expect(spy).toHaveBeenCalledTimes(0);
+  });
+
+  it('should set newsId', () => {
+    route.snapshot.params.id = 1;
+    (component as any).setNewsId();
+    expect((component as any).newsId).toBe(1);
+  });
+
+  it('getEcoNewsById should get newsItem by id', () => {
+    component.newsItem = null;
+    component.getEcoNewsById((component as any).newsId);
+    expect(component.newsItem).toEqual(mockEcoNewsModel);
+  });
+
+  it('should set backRoute', () => {
+    component.backRoute = backLink.getPreviousPage();
+    expect(component.backRoute).toEqual('/profile');
+  });
+
+  it('getAllTags should return array of ua tags', () => {
+    component.newsItem.tagsUa = ['Події', 'Освіта'];
+    expect(component.getAllTags()).toEqual(['Події', 'Освіта']);
+  });
+
+  it('getAllTags should return array of tags', () => {
+    component.currentLang = 'en';
+    component.newsItem.tags = ['Events', 'Education'];
+    expect(component.getAllTags()).toEqual(['Events', 'Education']);
+  });
+
+  it('should set newsImage if we have imagePath to default image', () => {
     component.newsItem.imagePath = defaultImagePath;
-    const imagePath = component.checkNewsImage();
-    expect(imagePath).toEqual(defaultImagePath);
+    component.checkNewsImage();
+    expect((component as any).newsImage).toBe(defaultImagePath);
   });
 
-  it('checkNewsImage should return default image src', () => {
-    component.newsItem = mockEcoNewsModel;
+  it('should set newsImage if imagePath not exist to default image', () => {
     component.newsItem.imagePath = ' ';
-    const imagePath = component.checkNewsImage();
-    expect(imagePath).toEqual('assets/img/icon/econews/news-default-large.png');
+    (component as any).images.largeImage = 'url';
+    component.checkNewsImage();
+    expect((component as any).newsImage).toBe('url');
+  });
+
+  it('checkNewsImage should return news image src', () => {
+    component.newsItem.imagePath = defaultImagePath;
+    expect(component.checkNewsImage()).toBe((component as any).newsImage);
   });
 
   it('should return FB social share link and call open method', () => {
@@ -162,12 +200,17 @@ describe('EcoNewsDetailComponent', () => {
   });
 
   it('should return twitter social share link and call open method', () => {
-    component.newsItem = mockEcoNewsModel;
     const spy = spyOn(window, 'open');
+    const tags = component.tags;
     component.onSocialShareLinkClick('twitter');
     expect(spy).toHaveBeenCalledWith(
-      `https://twitter.com/share?url=${window.location.href}&text=${mockEcoNewsModel.title}&hashtags=${mockEcoNewsModel.tags.join(',')}`,
+      `https://twitter.com/share?url=${window.location.href}&text=${mockEcoNewsModel.title}&hashtags=${tags.join(',')}`,
       '_blank'
     );
+  });
+
+  it('should get IsLiked', () => {
+    (component as any).getIsLiked();
+    expect(component.isLiked).toBe(true);
   });
 });
