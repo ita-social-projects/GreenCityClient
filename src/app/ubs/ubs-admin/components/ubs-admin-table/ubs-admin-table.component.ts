@@ -199,7 +199,7 @@ export class UbsAdminTableComponent implements OnInit, AfterViewChecked, OnDestr
     this.restoredFilters = this.localStorageService.getUbsAdminOrdersTableTitleColumnFilter();
     this.restoredFilters.length &&
       this.restoredFilters.forEach((filter) => {
-        //this.changeFilters(true, Object.keys(filter)[0], Object.values(filter)[0]);
+        // this.changeFilters(true, Object.keys(filter)[0], Object.values(filter)[0]);
         console.log('====================================');
         console.log(true, Object.keys(filter)[0], Object.values(filter)[0]);
         console.log('====================================');
