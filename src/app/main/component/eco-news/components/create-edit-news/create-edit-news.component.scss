@@ -201,21 +201,7 @@ textarea.ng-invalid.ng-dirty + p {
   cursor: pointer;
 }
 
-.submit-buttons button:last-child {
-  background-color: var(--primary-green);
-  color: #fff;
-
-  &:disabled {
-    background-color: var(--primary-light-green);
-    cursor: default;
-  }
-
-  &:hover:enabled {
-    background-color: var(--secondary-dark-green);
-  }
-}
-
-.submit-buttons button:first-child {
+.submit-buttons .cancel {
   border: 0;
 
   &:hover {
@@ -229,6 +215,20 @@ textarea.ng-invalid.ng-dirty + p {
   &:hover {
     border: 1px solid var(--secondary-dark-green);
     color: var(--secondary-dark-green);
+  }
+}
+
+.submit-buttons .submit {
+  background-color: var(--primary-green);
+  color: #fff;
+
+  &:disabled {
+    background-color: var(--primary-light-green);
+    cursor: default;
+  }
+
+  &:hover:enabled {
+    background-color: var(--secondary-dark-green);
   }
 }
 
