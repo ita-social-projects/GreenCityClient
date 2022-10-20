@@ -219,6 +219,11 @@ textarea.ng-invalid.ng-dirty + p {
   background-color: var(--primary-green);
   color: #fff;
   border: none;
+
+  &:hover {
+    color: var(--primary-white);
+    border: none;
+  }
 }
 
 .filters-color::after {
