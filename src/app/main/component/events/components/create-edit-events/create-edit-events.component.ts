@@ -17,6 +17,7 @@ import { ActionsSubject, Store } from '@ngrx/store';
 import { ofType } from '@ngrx/effects';
 import { CreateEcoEventAction, EditEcoEventAction, EventsActions } from 'src/app/store/actions/ecoEvents.actions';
 import { MatSnackBarComponent } from '@global-errors/mat-snack-bar/mat-snack-bar.component';
+import { singleNewsImages } from '../../../../image-pathes/single-news-images';
 
 @Component({
   selector: 'app-create-edit-events',
@@ -46,6 +47,7 @@ export class CreateEditEventsComponent implements OnInit, OnDestroy {
   public eventFormGroup: FormGroup;
   public isImageSizeError: boolean;
   public isImageTypeError = false;
+  public images = singleNewsImages;
 
   private imgArray: Array<File> = [];
   private pipe = new DatePipe('en-US');
