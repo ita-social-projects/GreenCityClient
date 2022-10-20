@@ -876,7 +876,7 @@
     "news-title": "Title",
     "title-placeholder": "e.g. Coffee takeaway with 20% discount",
     "title-tooltip": "Should contain maximum 170 symbols",
-    "tags-title": "Please select one or more tags",
+    "tags-title": "Pick tags for news",
     "tags-tooltip": "Only 3 tags can be added",
     "tags": {
       "news": "News",
@@ -911,7 +911,7 @@
     "not-uploaded-warning": "Image isn't uploaded"
   },
   "date": {
-    "months": ["Jan,", "Feb,", "Mar,", "Apr,", "May,", "Jun,", "Jul,", "Aug,", "Sep,", "Oct,", "Nov,", "Dec,"],
+    "months": ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"],
     "year": ""
   },
   "eco-news-preview": {
