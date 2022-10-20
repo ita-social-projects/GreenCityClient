@@ -29,6 +29,9 @@
 
   .mat-step-icon-state-number {
     @include text_style(var(--ubs-quaternary-font), var(--ubs-quintynary-light-grey), 20px, 700);
+
+    width: 30px;
+    height: 30px;
   }
 
   .mat-step-icon-state-number.mat-step-icon-selected {

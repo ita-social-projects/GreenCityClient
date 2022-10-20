@@ -31,6 +31,10 @@ p {
   .input-border {
     background: var(--ubs-primary-white);
     border: 1px solid var(--ubs-quintynary-light-grey);
+
+    &:focus {
+      border: 2px solid var(--ubs-button-light-green);
+    }
   }
 
   .validMessages {
