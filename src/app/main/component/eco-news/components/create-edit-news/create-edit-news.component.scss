@@ -202,6 +202,8 @@ textarea.ng-invalid.ng-dirty + p {
 }
 
 .submit-buttons button:first-child {
+  border: 0;
+
   &:hover {
     color: var(--secondary-dark-green);
   }
