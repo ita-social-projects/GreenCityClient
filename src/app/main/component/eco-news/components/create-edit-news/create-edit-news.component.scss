@@ -130,6 +130,18 @@ button {
   }
 }
 
+.submit-buttons button {
+  border: 0;
+  margin-left: 20px;
+  border-radius: 3px;
+  background-color: #fff;
+  width: 154px;
+  height: 48px;
+  color: var(--primary-green);
+  font-weight: bold;
+  cursor: pointer;
+}
+
 .tags button {
   margin: 0 8px 8px 0;
   font-size: 14px;
@@ -191,18 +203,6 @@ textarea.ng-invalid.ng-dirty + p {
   display: flex;
   justify-content: flex-end;
   margin-top: 26px;
-}
-
-.submit-buttons button {
-  border: 0;
-  margin-left: 20px;
-  border-radius: 3px;
-  background-color: #fff;
-  width: 154px;
-  height: 48px;
-  color: var(--primary-green);
-  font-weight: bold;
-  cursor: pointer;
 }
 
 .submit-buttons .cancel {
