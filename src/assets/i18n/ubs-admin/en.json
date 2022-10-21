@@ -552,7 +552,7 @@
   },
   "ubs-tariffs": {
     "placeholder-region": "Select region",
-    "placeholder-choose-city": "Select city",
+    "placeholder-locality": "Select city",
     "placeholder-choose-region": "Select region",
     "placeholder-courier": "Select courier",
     "placeholder-choose-courier": "Choose courier",
