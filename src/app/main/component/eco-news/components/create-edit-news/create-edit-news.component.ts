@@ -320,7 +320,6 @@ export class CreateEditNewsComponent extends FormBaseComponent implements OnInit
         this.setActiveFilters(item);
         this.onSourceChange();
         this.setInitialValues();
-        console.log(this.form);
       });
   }
 
