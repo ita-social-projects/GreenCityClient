@@ -151,13 +151,13 @@
   *ngIf="(bags.length && personalData) || (isNotification && isDownloadDataNotification)"
 >
   <button *ngIf="!isNotification" class="secondary-global-button btn btn-back" matStepperPrevious>
-    <i class="fas fa-chevron-left" aria-hidden="true"></i> &nbsp;<span> {{ 'submit-order.back' | translate }}</span>
+    <i class="fas fa-chevron-left" aria-hidden="true"></i> &nbsp; <span class="underline">{{ 'submit-order.back' | translate }}</span>
   </button>
-  <div class="w-100 d-flex justify-content-end">
+  <div class="d-flex justify-content-end">
     <button class="secondary-global-button btn cansel-button btn-main" (click)="cancelUBS(true)">
       {{ 'order-details.cancel' | translate }}
     </button>
-    <button [disabled]="isTotalAmountZero || loadingAnim" (click)="redirectToOrder()" type="submit" class="primary-global-button btn">
+    <button [disabled]="isTotalAmountZero || loadingAnim" (click)="redirectToOrder()" type="submit" class="primary-global-button btn m-0">
       <span *ngIf="loadingAnim" class="spinner-border spinner-border-sm" role="status" aria-hidden="true"> </span>
       {{ 'submit-order.to-order' | translate }}
     </button>
