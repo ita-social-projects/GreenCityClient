@@ -20,6 +20,8 @@ export class UbsAdminTariffsAddTariffServicePopUpComponent implements OnInit {
   addTariffServiceForm: FormGroup;
   slide = false;
   receivedData;
+  tariffs;
+  allTariffServices: any[];
   tariffService: Bag;
   loadingAnim: boolean;
   private destroy: Subject<boolean> = new Subject<boolean>();
@@ -66,6 +68,11 @@ export class UbsAdminTariffsAddTariffServicePopUpComponent implements OnInit {
       englishDescription: new FormControl({ value: this.receivedData.bagData.description, disabled: true }),
       commission: new FormControl('', [Validators.required, Validators.pattern(Patterns.ubsPrice)])
     });
+  }
+
+  fn() {
+    this.addNewTariffForService();
+    this.tariffsService.setAllTariffsForService();
   }
 
   addNewTariffForService() {

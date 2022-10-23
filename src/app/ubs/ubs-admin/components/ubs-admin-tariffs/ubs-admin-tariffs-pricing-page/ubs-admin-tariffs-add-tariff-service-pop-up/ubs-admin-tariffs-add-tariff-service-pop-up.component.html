@@ -72,11 +72,12 @@
         {{ 'ubs-tariffs-add-service.btn.cancel' | translate }}
       </button>
       <button
+        id="tariffForServiceBTN"
         class="primary-global-button btn"
         type="submit"
         *ngIf="data.button === 'add'"
         [disabled]="addTariffServiceForm.invalid || loadingAnim"
-        (click)="addNewTariffForService()"
+        (click)="fn()"
       >
         <span *ngIf="loadingAnim" class="spinner-border spinner-border-sm" role="status" aria-hidden="true"> </span>
         {{ 'ubs-tariffs-add-service.btn.add' | translate }}

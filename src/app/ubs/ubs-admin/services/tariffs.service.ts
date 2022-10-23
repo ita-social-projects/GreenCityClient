@@ -12,6 +12,16 @@ import { ajax } from 'rxjs/ajax';
 export class TariffsService {
   constructor(private http: HttpClient) {}
 
+  allTariffServices: any;
+
+  async setAllTariffsForService() {
+    this.allTariffServices = await this.getAllTariffsForService().toPromise();
+  }
+
+  getTariffs() {
+    return this.allTariffServices;
+  }
+
   getAllTariffsForService() {
     return this.http.get(`${mainUbsLink}/ubs/superAdmin/getTariffService`);
   }

@@ -16,6 +16,7 @@ import { ModalTextComponent } from '../../shared/components/modal-text/modal-tex
 import { Store } from '@ngrx/store';
 import { IAppState } from 'src/app/store/state/app.state';
 import { GetLocations } from 'src/app/store/actions/tariff.actions';
+import { TranslateService } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-ubs-admin-tariffs-pricing-page',
@@ -28,6 +29,8 @@ export class UbsAdminTariffsPricingPageComponent implements OnInit, OnDestroy {
   isLoadBar1: boolean;
   isLoadBar: boolean;
   selectedCardId;
+  ourTariffs;
+  currentLang;
   amount;
   saveBTNclicked: boolean;
   inputDisable: boolean;
@@ -59,7 +62,7 @@ export class UbsAdminTariffsPricingPageComponent implements OnInit, OnDestroy {
   private fb: FormBuilder;
   locations$ = this.store.select((state: IAppState): Locations[] => state.locations.locations);
 
-  constructor(private injector: Injector, private router: Router, private store: Store<IAppState>) {
+  constructor(private injector: Injector, private router: Router, private store: Store<IAppState>, private translate: TranslateService) {
     this.location = injector.get(Location);
     this.dialog = injector.get(MatDialog);
     this.tariffsService = injector.get(TariffsService);
@@ -78,6 +81,11 @@ export class UbsAdminTariffsPricingPageComponent implements OnInit, OnDestroy {
       this.getServices();
       this.getCouriers();
       this.getAllTariffsForService();
+    });
+    this.getOurTariffs();
+
+    this.localStorageService.languageBehaviourSubject.pipe(takeUntil(this.destroy)).subscribe((lang) => {
+      this.currentLang = this.translate.defaultLang;
     });
   }
 
@@ -212,6 +220,14 @@ export class UbsAdminTariffsPricingPageComponent implements OnInit, OnDestroy {
       .subscribe(() => {
         this.getCouriers();
       });
+  }
+
+  async getOurTariffs() {
+    await this.tariffsService.setAllTariffsForService();
+    const result = await this.tariffsService.allTariffServices;
+    this.ourTariffs = result;
+    console.log(this.ourTariffs);
+    return this.ourTariffs;
   }
 
   routeParams(): void {
