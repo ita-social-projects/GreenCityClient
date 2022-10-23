@@ -116,18 +116,24 @@ export class UbsAdminTariffsPricingPageComponent implements OnInit, OnDestroy {
   async saveChanges(): Promise<void> {
     const { minAmountOfOrder, maxAmountOfOrder, minAmountOfBigBag, maxAmountOfBigBag, limitDescription } = this.limitsForm.value;
 
+    const minAmountOfBigBags = Number(minAmountOfBigBag);
+    const maxAmountOfBigBags = Number(maxAmountOfBigBag);
+
+    const minPriceOfOrder = Number(minAmountOfOrder);
+    const maxPriceOfOrder = Number(maxAmountOfOrder);
+
     const tariffId = this.selectedCardId;
     const locationId = await this.getLocationId();
 
     this.bagInfo = {
-      minAmountOfBigBag,
-      maxAmountOfBigBag,
+      minAmountOfBigBags,
+      maxAmountOfBigBags,
       locationId
     };
 
     this.sumInfo = {
-      minAmountOfOrder,
-      maxAmountOfOrder,
+      minPriceOfOrder,
+      maxPriceOfOrder,
       locationId
     };
 

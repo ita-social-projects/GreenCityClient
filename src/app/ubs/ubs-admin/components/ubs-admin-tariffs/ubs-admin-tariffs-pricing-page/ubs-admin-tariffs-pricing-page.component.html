@@ -109,9 +109,9 @@
             ><br />
             <fieldset [disabled]="!toggle">
               <legend></legend>
-              <input class="input" id="from" formControlName="minAmountOfOrder" />
+              <input class="input" type="number" id="from" formControlName="minAmountOfOrder" />
               <span class="line"></span>
-              <input class="input" id="to" formControlName="maxAmountOfOrder" />
+              <input class="input" type="number" id="to" formControlName="maxAmountOfOrder" />
               <label for="to"></label>
             </fieldset>
           </div>
@@ -126,9 +126,9 @@
             ><br />
             <fieldset [disabled]="toggle">
               <legend></legend>
-              <input class="input" id="from-packages" formControlName="minAmountOfBigBag" />
+              <input class="input" type="number" id="from-packages" formControlName="minAmountOfBigBag" />
               <span class="line"></span>
-              <input class="input" id="to-packages" formControlName="maxAmountOfBigBag" />
+              <input class="input" type="number" id="to-packages" formControlName="maxAmountOfBigBag" />
               <label for="to-packages"></label>
             </fieldset>
           </div>
