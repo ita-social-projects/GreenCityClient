@@ -49,7 +49,8 @@ export class UbsAdminEmployeeService {
     return this.http.get(`${ubsAdminEmployeeLink}/get-all-authorities/?email=${email}`);
   }
 
-  updatePermissions() {
+  updatePermissions(permissions) {
+    console.log(permissions);
     return;
   }
 }

@@ -15,54 +15,40 @@ export class UbsAdminEmployeeRightsFormComponent implements OnInit {
   form: FormGroup;
   employee: Page;
 
-  public rights = {
-    clients: ['see-main-page'],
-    employees: ['see-main-page', 'create-card', 'edit-card', 'delete-card', 'edit-authority'],
-    certificates: ['see-main-page', 'create-card', 'edit-card'],
-    orders: ['see-main-page', 'edit-card'],
-    messages: ['see-main-page', 'create-card', 'edit-card', 'delete-card'],
-    tariffs: [
-      'see-main-page',
-      'create-location',
-      'create-courier',
-      'edit-location-name',
-      'edit-courier-name',
-      'edit-destination-name',
-      'create-location-card',
-      'delete-location-card',
-      'see-price-card',
-      'edit-service',
-      'edit-price-card'
-    ]
-  };
-
-  mapper = [
-    ['clients-see-main-page', 'SEE_CLIENTS_PAGE'],
-    ['employees-see-main-page', 'SEE_EMPLOYEES_PAGE'],
-    ['employees-create-card', 'REGISTER_A_NEW_EMPLOYEE'],
-    ['employees-edit-card', 'EDIT_EMPLOYEE'],
-    ['employees-delete-card', 'DEACTIVATE_EMPLOYEE'],
-    ['employees-edit-authority', 'EDIT_EMPLOYEES_AUTHORITIES'],
-    ['certificates-see-main-page', 'SEE_CERTIFICATES'],
-    ['certificates-create-card', 'CREATE_NEW_CERTIFICATE'],
-    ['certificates-edit-card', 'EDIT_CERTIFICATE'],
-    ['orders-see-main-page', 'SEE_BIG_ORDER_TABLE'],
-    ['orders-edit-card', 'EDIT_ORDER'],
-    ['messages-see-main-page', 'SEE_MESSAGES_PAGE'],
-    ['messages-create-card', 'CREATE_NEW_MESSAGE'],
-    ['messages-edit-card', 'EDIT_MESSAGE'],
-    ['messages-delete-card', 'DELETE_MESSAGE'],
-    ['tariffs-see-main-page', 'SEE_TARIFFS'],
-    ['tariffs-create-location', 'CREATE_NEW_LOCATION'],
-    ['tariffs-create-courier', 'CREATE_NEW_COURIER'],
-    ['tariffs-edit-location-name', 'EDIT_LOCATION'],
-    ['tariffs-edit-courier-name', 'EDIT_COURIER'],
-    ['tariffs-edit-destination-name', 'EDIT_DESTINATION_NAME'],
-    ['tariffs-create-location-card', 'EDIT_LOCATION_CARD'],
-    ['tariffs-delete-location-card', 'DELETE_LOCATION_CARD'],
-    ['tariffs-see-price-card', 'SEE_PRICING_CARD'],
-    ['tariffs-edit-service', 'CONTROL_SERVICE'],
-    ['tariffs-edit-price-card', 'EDIT_PRICING_CARD']
+  public groups = [
+    { name: 'clients', permissions: ['SEE_CLIENTS_PAGE'] },
+    {
+      name: 'employees',
+      permissions: ['SEE_EMPLOYEES_PAGE', 'REGISTER_A_NEW_EMPLOYEE', 'EDIT_EMPLOYEE', 'DEACTIVATE_EMPLOYEE', 'EDIT_EMPLOYEES_AUTHORITIES']
+    },
+    {
+      name: 'certificates',
+      permissions: ['SEE_CERTIFICATES', 'CREATE_NEW_CERTIFICATE', 'EDIT_CERTIFICATE']
+    },
+    {
+      name: 'orders',
+      permissions: ['SEE_BIG_ORDER_TABLE', 'EDIT_ORDER']
+    },
+    {
+      name: 'messages',
+      permissions: ['SEE_MESSAGES_PAGE', 'CREATE_NEW_MESSAGE', 'EDIT_MESSAGE', 'DELETE_MESSAGE']
+    },
+    {
+      name: 'tariffs',
+      permissions: [
+        'SEE_TARIFFS',
+        'CREATE_NEW_LOCATION',
+        'CREATE_NEW_COURIER',
+        'EDIT_LOCATION',
+        'EDIT_COURIER',
+        'EDIT_DESTINATION_NAME', // ????????????
+        'EDIT_LOCATION_CARD',
+        'DELETE_LOCATION_CARD', // ????????????
+        'SEE_PRICING_CARD',
+        'CONTROL_SERVICE',
+        'EDIT_PRICING_CARD'
+      ]
+    }
   ];
 
   constructor(
@@ -73,38 +59,44 @@ export class UbsAdminEmployeeRightsFormComponent implements OnInit {
   ) {
     this.employee = data;
 
-    this.form = this.fb.group(Object.fromEntries(this.mapper.map(([localKey]) => [localKey, false])));
+    this.form = this.fb.group(
+      Object.fromEntries(
+        this.groups.map((group) => [group.name, this.fb.group(Object.fromEntries(group.permissions.map((field) => [field, false])))])
+      )
+    );
+  }
 
-    this.form.valueChanges.subscribe((value) => {
-      // console.log(value);
-    });
+  initForm(): void {
+    Object.fromEntries(
+      this.groups.map((group) => {
+        const { name, permissions } = group;
+        const formGroup = this.fb.group(Object.fromEntries(permissions.map((field) => [field, false])));
+        return [name, formGroup];
+      })
+    );
   }
 
   ngOnInit(): void {
     this.employeeService
       .getAllEmployeePermissions(this.employee.email)
       .pipe(take(1))
-      .subscribe((permissions: string[]) => {
-        permissions.forEach((perm) => {
-          const [localKey] = this.mapper.find(([_, key]) => key === perm) ?? [];
-          if (!localKey) {
-            return;
-          }
-          this.form.get(localKey).setValue(true);
+      .subscribe((employeePermissions: string[]) => {
+        this.groups.forEach((group) => {
+          group.permissions.forEach((perm) => {
+            if (employeePermissions.includes(perm)) {
+              this.form.get(group.name).get(perm).setValue(true);
+            }
+          });
         });
       });
   }
 
   savePermissions() {
-    const permissions = Object.entries(this.form.value)
+    const selectedPermissions = Object.entries(this.form.value)
+      .flatMap(([, perm]) => Object.entries(perm))
       .filter(([, selected]) => selected)
-      .map(([perm]) => {
-        const [, remoteKey] = this.mapper.find(([localKey]) => localKey === perm) ?? [];
-        return remoteKey;
-      });
+      .map(([perm]) => perm);
 
-    // console.log(this.form.value);
-    console.log(permissions);
-    // this.employeeService.updatePermissions();
+    this.employeeService.updatePermissions(selectedPermissions);
   }
 }
