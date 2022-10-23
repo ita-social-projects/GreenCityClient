@@ -1,42 +1,45 @@
 <div class="modal-wrapper">
   <h3 class="popup-title">{{ 'employees.actions.settings' | translate }}</h3>
-  <cdk-accordion class="rights-accordion accordion" multi>
-    <cdk-accordion-item
-      *ngFor="let right of rights; let i = index"
-      #accordionItem="cdkAccordionItem"
-      class="accordion-item"
-      [class.expanded]="accordionItem.expanded"
-      role="button"
-      tabindex="0"
-      [attr.id]="'accordion-header-' + i"
-      [attr.aria-expanded]="accordionItem.expanded"
-      [attr.aria-controls]="'accordion-body-' + i"
-    >
-      <div class="accordion-item-header" (click)="accordionItem.toggle()">
-        <span class="accordion-item-description">
-          <img src="./assets/img/icon/arrows/arrow-accordion-down.svg" alt="arrow" />
-        </span>
-        {{ 'employees.rights.' + right.key + '.title' | translate }}
-      </div>
-      <div
-        class="accordion-item-body"
-        role="region"
-        [style.display]="accordionItem.expanded ? '' : 'none'"
-        [attr.id]="'accordion-body-' + i"
-        [attr.aria-labelledby]="'accordion-header-' + i"
+
+  <form [formGroup]="form" (ngSubmit)="savePermissions()">
+    <cdk-accordion class="rights-accordion accordion" multi>
+      <cdk-accordion-item
+        *ngFor="let group of rights | keyvalue; let i = index"
+        #accordionItem="cdkAccordionItem"
+        class="accordion-item"
+        [class.expanded]="accordionItem.expanded"
+        role="button"
+        tabindex="0"
+        [attr.id]="'accordion-header-' + i"
+        [attr.aria-expanded]="accordionItem.expanded"
+        [attr.aria-controls]="'accordion-body-' + i"
       >
-        <mat-checkbox *ngFor="let field of right.fields">
-          {{ 'employees.rights.' + right.key + '.' + field | translate }}
-        </mat-checkbox>
-      </div>
-    </cdk-accordion-item>
-  </cdk-accordion>
-  <div class="button-row">
-    <button mat-dialog-close="true" class="cancelButton">
-      {{ 'ubs-employee.cancel' | translate }}
-    </button>
-    <button type="submit" class="addButton">
-      {{ 'ubs-employee.apply' | translate }}
-    </button>
-  </div>
+        <div class="accordion-item-header" (click)="accordionItem.toggle()">
+          <span class="accordion-item-description">
+            <img src="./assets/img/icon/arrows/arrow-accordion-down.svg" alt="arrow" />
+          </span>
+          {{ 'employees.rights.' + group.key + '.title' | translate }}
+        </div>
+        <div
+          class="accordion-item-body"
+          role="region"
+          [style.display]="accordionItem.expanded ? '' : 'none'"
+          [attr.id]="'accordion-body-' + i"
+          [attr.aria-labelledby]="'accordion-header-' + i"
+        >
+          <mat-checkbox *ngFor="let right of group.value" [formControlName]="group.key + '-' + right">
+            {{ 'employees.rights.' + group.key + '.' + right | translate }}
+          </mat-checkbox>
+        </div>
+      </cdk-accordion-item>
+    </cdk-accordion>
+    <div class="button-row">
+      <button mat-dialog-close="true" class="cancelButton">
+        {{ 'ubs-employee.cancel' | translate }}
+      </button>
+      <button type="submit" class="addButton">
+        {{ 'ubs-employee.apply' | translate }}
+      </button>
+    </div>
+  </form>
 </div>

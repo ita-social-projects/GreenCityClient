@@ -44,4 +44,12 @@ export class UbsAdminEmployeeService {
   deleteEmployee(id: number) {
     return this.http.delete(`${ubsAdminEmployeeLink}/delete-employee/${id}`);
   }
+
+  getAllEmployeePermissions(email: string) {
+    return this.http.get(`${ubsAdminEmployeeLink}/get-all-authorities/?email=${email}`);
+  }
+
+  updatePermissions() {
+    return;
+  }
 }

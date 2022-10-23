@@ -106,10 +106,10 @@ export class UbsAdminEmployeeTableComponent implements OnInit {
     });
   }
 
-  openRightsDialog(event: Event): void {
+  openRightsDialog(employeeData: Page, event: Event): void {
     event.stopPropagation();
     this.dialog.open(UbsAdminEmployeeRightsFormComponent, {
-      data: this.deleteDialogData,
+      data: employeeData,
       hasBackdrop: true,
       closeOnNavigation: true,
       disableClose: true,
