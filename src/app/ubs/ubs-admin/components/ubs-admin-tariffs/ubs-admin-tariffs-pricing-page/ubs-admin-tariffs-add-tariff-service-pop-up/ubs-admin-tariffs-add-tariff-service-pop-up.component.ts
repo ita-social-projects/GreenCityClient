@@ -21,7 +21,6 @@ export class UbsAdminTariffsAddTariffServicePopUpComponent implements OnInit {
   slide = false;
   receivedData;
   tariffs;
-  allTariffServices: any[];
   tariffService: Bag;
   loadingAnim: boolean;
   private destroy: Subject<boolean> = new Subject<boolean>();
@@ -78,6 +77,7 @@ export class UbsAdminTariffsAddTariffServicePopUpComponent implements OnInit {
   addNewTariffForService() {
     const locationId = this.receivedData.locationId;
     const { name, nameEn, capacity, price, commission, description, descriptionEn } = this.addTariffServiceForm.value;
+
     this.tariffService = {
       capacity,
       price,
