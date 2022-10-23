@@ -178,6 +178,7 @@ export class UbsAdminTableComponent implements OnInit, AfterViewChecked, OnDestr
             columnsForFiltering.push(filteredColumn);
           }
         });
+        this.setCheckBoxesFromLocalStorage();
         this.setColumnsForFiltering(columnsForFiltering);
         if (this.displayedColumns.length === 0) {
           this.setDisplayedColumns();
@@ -606,6 +607,11 @@ export class UbsAdminTableComponent implements OnInit, AfterViewChecked, OnDestr
   changeFilters(checked: boolean, currentColumn: string, option: IFilteredColumnValue): void {
     this.adminTableService.changeFilters(checked, currentColumn, option);
     this.noFiltersApplied = this.adminTableService.filters.length === 0;
+    /*for (const column of this.columns) {
+      console.log(column);
+    }/** */
+
+    //console.log(this.columns);
   }
 
   changeDateFilters(e: MatCheckboxChange, checked: boolean, currentColumn: string): void {
@@ -815,6 +821,15 @@ export class UbsAdminTableComponent implements OnInit, AfterViewChecked, OnDestr
     const col = this.columns[columnIndex];
     this.columnsWidthPreference.set(col.title.key, newWidth);
     this.localStorageService.setUbsAdminOrdersTableColumnsWidthPreference(this.columnsWidthPreference);
+  }
+
+  setCheckBoxesFromLocalStorage() {
+    const storage = this.localStorageService.getUbsAdminOrdersTableTitleColumnFilter();
+    storage.forEach((item) => {
+      const colTitle = Object.keys(item)[0],
+        colKey = Object.values(item)[0];
+      this.columns.find((c) => c.titleForSorting === colTitle).checked.find((a) => a.key === colKey).filtered = true;
+    });
   }
 
   setColumnsForFiltering(columns): void {
