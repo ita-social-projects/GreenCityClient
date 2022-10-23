@@ -77,7 +77,7 @@
         type="submit"
         *ngIf="data.button === 'add'"
         [disabled]="addTariffServiceForm.invalid || loadingAnim"
-        (click)="fn()"
+        (click)="createAndStoreNewTariff()"
       >
         <span *ngIf="loadingAnim" class="spinner-border spinner-border-sm" role="status" aria-hidden="true"> </span>
         {{ 'ubs-tariffs-add-service.btn.add' | translate }}

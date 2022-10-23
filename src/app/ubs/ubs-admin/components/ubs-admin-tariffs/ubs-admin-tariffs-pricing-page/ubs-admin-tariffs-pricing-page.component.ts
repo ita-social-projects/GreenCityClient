@@ -84,7 +84,7 @@ export class UbsAdminTariffsPricingPageComponent implements OnInit, OnDestroy {
     });
     this.getOurTariffs();
 
-    this.localStorageService.languageBehaviourSubject.pipe(takeUntil(this.destroy)).subscribe((lang) => {
+    this.localStorageService.languageBehaviourSubject.pipe(takeUntil(this.destroy)).subscribe(() => {
       this.currentLang = this.translate.defaultLang;
     });
   }
@@ -226,7 +226,6 @@ export class UbsAdminTariffsPricingPageComponent implements OnInit, OnDestroy {
     await this.tariffsService.setAllTariffsForService();
     const result = await this.tariffsService.allTariffServices;
     this.ourTariffs = result;
-    console.log(this.ourTariffs);
     return this.ourTariffs;
   }
 

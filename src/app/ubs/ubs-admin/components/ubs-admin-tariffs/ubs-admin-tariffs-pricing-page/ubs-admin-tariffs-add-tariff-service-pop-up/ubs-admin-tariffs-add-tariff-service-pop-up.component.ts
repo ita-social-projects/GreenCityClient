@@ -69,7 +69,7 @@ export class UbsAdminTariffsAddTariffServicePopUpComponent implements OnInit {
     });
   }
 
-  fn() {
+  createAndStoreNewTariff() {
     this.addNewTariffForService();
     this.tariffsService.setAllTariffsForService();
   }
