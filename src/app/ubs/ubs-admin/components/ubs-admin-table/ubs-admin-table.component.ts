@@ -198,13 +198,6 @@ export class UbsAdminTableComponent implements OnInit, AfterViewChecked, OnDestr
       this.store.dispatch(GetColumnToDisplay());
     }
     this.restoredFilters = this.localStorageService.getUbsAdminOrdersTableTitleColumnFilter();
-    this.restoredFilters.length &&
-      this.restoredFilters.forEach((filter) => {
-        // this.changeFilters(true, Object.keys(filter)[0], Object.values(filter)[0]);
-        console.log('====================================');
-        console.log(true, Object.keys(filter)[0], Object.values(filter)[0]);
-        console.log('====================================');
-      }); /** */
   }
 
   ngAfterViewChecked() {
@@ -607,15 +600,12 @@ export class UbsAdminTableComponent implements OnInit, AfterViewChecked, OnDestr
   changeFilters(checked: boolean, currentColumn: string, option: IFilteredColumnValue): void {
     this.adminTableService.changeFilters(checked, currentColumn, option);
     this.noFiltersApplied = this.adminTableService.filters.length === 0;
-    /*for (const column of this.columns) {
-      console.log(column);
-    }/** */
-
-    //console.log(this.columns);
   }
 
   changeDateFilters(e: MatCheckboxChange, checked: boolean, currentColumn: string): void {
     this.adminTableService.changeDateFilters(e, checked, currentColumn);
+    console.log(this.columns, e, currentColumn);
+
     this.noFiltersApplied = this.adminTableService.filters.length === 0;
   }
 
@@ -826,9 +816,19 @@ export class UbsAdminTableComponent implements OnInit, AfterViewChecked, OnDestr
   setCheckBoxesFromLocalStorage() {
     const storage = this.localStorageService.getUbsAdminOrdersTableTitleColumnFilter();
     storage.forEach((item) => {
-      const colTitle = Object.keys(item)[0],
-        colKey = Object.values(item)[0];
-      this.columns.find((c) => c.titleForSorting === colTitle).checked.find((a) => a.key === colKey).filtered = true;
+      if (Object.keys(item).length < 2) {
+        const colTitle = Object.keys(item)[0],
+          colKey = Object.values(item)[0];
+        this.columns.find((c) => c.titleForSorting === colTitle).checked.find((a) => a.key === colKey).filtered = true;
+      } else {
+        const colTitle = Object.keys(item)[0].split('From')[0];
+        console.log(colTitle);
+        //this.getDateChecked(colTitle);
+
+        //const a = this.columns.find((c) => c.titleForSorting === colTitle);
+        //a.filtered = true;
+        //console.log(a);
+      }
     });
   }
 

@@ -147,6 +147,8 @@ export class AdminTableService {
       elem[keyNameFrom] = dateFrom;
       elem[keyNameTo] = dateTo;
       this.filters.push(elem);
+      this.localStorageService.setUbsAdminOrdersTableTitleColumnFilter(this.filters);
+
       this.saveDateFilters(checked, currentColumn, elem);
     } else {
       this.filters = this.filters.filter((filteredElem) => !Object.keys(filteredElem).includes(`${keyNameFrom}`));
@@ -170,9 +172,12 @@ export class AdminTableService {
   }
 
   getDateChecked(dateColumn): boolean {
+    console.log('admin', dateColumn, this.columnsForFiltering);
+
     const currentColumnDateFilter = this.columnsForFiltering.find((column) => {
       return column.key === dateColumn;
     });
+    console.log('admin', currentColumnDateFilter);
     return currentColumnDateFilter.values[0]?.filtered;
   }
 
