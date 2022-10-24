@@ -105,8 +105,6 @@ export class EventsListItemComponent implements OnInit, OnDestroy {
     this.userOwnAuthService.credentialDataSubject.subscribe((data) => {
       this.isLoggedIn = data && data.userId;
       this.userId = data.userId;
-      console.log(data);
-      console.log(this.isLoggedIn);
       this.handleUserAuthorization();
     });
   }
@@ -117,7 +115,6 @@ export class EventsListItemComponent implements OnInit, OnDestroy {
       this.styleBtn = this.isJoined ? 'secondary-global-button' : 'primary-global-button';
       return;
     }
-    console.log(this.isLoggedIn);
     this.isJoinBtnHidden = true;
   }
 
