@@ -176,8 +176,12 @@ export class UbsUserProfilePageComponent implements OnInit {
           actual: this.userProfile.addressDto[i].actual,
           coordinates: this.userProfile.addressDto[i].coordinates
         };
-        !updatedAddres.houseCorpus && delete updatedAddres.houseCorpus;
-        !updatedAddres.entranceNumber && delete updatedAddres.entranceNumber;
+        if (!updatedAddres.houseCorpus) {
+          delete updatedAddres.houseCorpus;
+        }
+        if (!updatedAddres.entranceNumber) {
+          delete updatedAddres.entranceNumber;
+        }
         submitData.addressDto.push(updatedAddres);
       });
 
