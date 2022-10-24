@@ -19,6 +19,7 @@ import { UserOrdersService } from '../services/user-orders.service';
 import { BonusesService } from '../ubs-user-bonuses/services/bonuses.service';
 import { APP_BASE_HREF } from '@angular/common';
 import { By } from '@angular/platform-browser';
+import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
 
 describe('UbsUserOrdersComponent', () => {
   let component: UbsUserOrdersComponent;
@@ -52,7 +53,8 @@ describe('UbsUserOrdersComponent', () => {
 
   const userOrderServiceMock = {
     getCurrentUserOrders: (page) => of({ page: page === 0 ? fakeCurrentOrdersData : fakeCurrentOrdersDataPage2 }),
-    getClosedUserOrders: (page) => of({ page: page === 0 ? fakeClosedOrdersData : fakeClosedOrdersDataPage2 })
+    getClosedUserOrders: (page) => of({ page: page === 0 ? fakeClosedOrdersData : fakeClosedOrdersDataPage2 }),
+    getOrderToScroll: () => of({ fakeOrder1 })
   };
 
   const userOrderServiceFailureMock = {
@@ -68,6 +70,9 @@ describe('UbsUserOrdersComponent', () => {
   const bonusesServiceMock = {
     getUserBonuses: () => of({ points: 5 })
   };
+
+  const localStorageServiceMock = new LocalStorageService();
+  let localStorageSpy;
 
   const selectMatTabByIdx = async (idx) => {
     const label = fixture.debugElement.queryAll(By.css('.mat-tab-label'))[idx];
@@ -93,10 +98,12 @@ describe('UbsUserOrdersComponent', () => {
         { provide: MatSnackBarComponent, useValue: MatSnackBarMock },
         { provide: UserOrdersService, useValue: userOrderServiceMock },
         { provide: BonusesService, useValue: bonusesServiceMock },
+        { provide: LocalStorageService, useValue: localStorageServiceMock },
         { provide: APP_BASE_HREF, useValue: '/' }
       ],
       schemas: [CUSTOM_ELEMENTS_SCHEMA]
     });
+    localStorageSpy = spyOn(localStorageServiceMock, 'getOrderIdToRedirect');
   }));
 
   const buildComponent = async () => {
@@ -124,6 +131,23 @@ describe('UbsUserOrdersComponent', () => {
     const list = fixture.debugElement.query(By.css('app-ubs-user-orders-list'));
     expect(list).toBeTruthy();
     expect(list.properties.orders).toEqual(fakeCurrentOrdersData);
+  });
+
+  it('should ....', async () => {
+    await buildComponent();
+    component.ngOnInit();
+    localStorageSpy.and.callThrough();
+    fixture.detectChanges();
+    expect(localStorageSpy).toHaveBeenCalled();
+  });
+
+  it('should asign ... ', async () => {
+    await buildComponent();
+    component.ngOnInit();
+    localStorageSpy.and.returnValue(1315);
+    component.orderIdToScroll = 1315;
+    fixture.detectChanges();
+    expect(component.orderIdToScroll).toEqual(1315);
   });
 
   it('should render list with more current orders on scroll', async () => {
