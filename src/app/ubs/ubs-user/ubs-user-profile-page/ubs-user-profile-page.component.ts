@@ -94,10 +94,10 @@ export class UbsUserProfilePageComponent implements OnInit {
         houseNumber: new FormControl(adres?.houseNumber, [
           Validators.required,
           Validators.pattern(Patterns.ubsHouseNumberPattern),
-          Validators.maxLength(4)
+          Validators.maxLength(5)
         ]),
-        houseCorpus: new FormControl(adres?.houseCorpus, [Validators.pattern(Patterns.ubsWithDigitPattern), Validators.maxLength(2)]),
-        entranceNumber: new FormControl(adres?.entranceNumber, [Validators.pattern(Patterns.ubsEntrNumPattern), Validators.maxLength(2)]),
+        houseCorpus: new FormControl(adres?.houseCorpus, [Validators.pattern(Patterns.ubsWithDigitPattern), Validators.maxLength(5)]),
+        entranceNumber: new FormControl(adres?.entranceNumber, [Validators.pattern(Patterns.ubsEntrNumPattern), Validators.maxLength(4)]),
         region: new FormControl(adres?.region, [
           Validators.required,
           Validators.pattern(Patterns.ubsWithDigitPattern),
@@ -165,7 +165,7 @@ export class UbsUserProfilePageComponent implements OnInit {
         hasPassword: this.userProfile.hasPassword
       };
 
-      if (!submitData.alternateEmail?.length || 1) {
+      if (!submitData.alternateEmail?.length) {
         delete submitData.alternateEmail;
       }
 
