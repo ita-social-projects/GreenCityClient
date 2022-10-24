@@ -51,6 +51,35 @@ export class UbsAdminEmployeeRightsFormComponent implements OnInit {
     }
   ];
 
+  labels = {
+    SEE_CLIENTS_PAGE: 'see-main-page',
+    SEE_EMPLOYEES_PAGE: 'see-main-page',
+    REGISTER_A_NEW_EMPLOYEE: 'create-card',
+    EDIT_EMPLOYEE: 'edit-card',
+    DEACTIVATE_EMPLOYEE: 'delete-card',
+    EDIT_EMPLOYEES_AUTHORITIES: 'edit-authority',
+    SEE_CERTIFICATES: 'see-main-page',
+    CREATE_NEW_CERTIFICATE: 'create-card',
+    EDIT_CERTIFICATE: 'edit-card',
+    SEE_BIG_ORDER_TABLE: 'see-main-page',
+    EDIT_ORDER: 'edit-card',
+    SEE_MESSAGES_PAGE: 'see-main-page',
+    CREATE_NEW_MESSAGE: 'create-card',
+    EDIT_MESSAGE: 'edit-card',
+    DELETE_MESSAGE: 'delete-card',
+    SEE_TARIFFS: 'see-main-page',
+    CREATE_NEW_LOCATION: 'create-location',
+    CREATE_NEW_COURIER: 'create-courier',
+    EDIT_LOCATION: 'edit-location-name',
+    EDIT_COURIER: 'edit-courier-name',
+    EDIT_DESTINATION_NAME: 'edit-destination-name', // ????????????
+    EDIT_LOCATION_CARD: 'create-location-card',
+    DELETE_LOCATION_CARD: 'delete-location-card', // ????????????
+    SEE_PRICING_CARD: 'see-price-card',
+    CONTROL_SERVICE: 'edit-service',
+    EDIT_PRICING_CARD: 'edit-price-card'
+  };
+
   constructor(
     private fb: FormBuilder,
     public translate: TranslateService,
