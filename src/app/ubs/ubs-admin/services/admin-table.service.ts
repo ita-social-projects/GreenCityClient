@@ -14,9 +14,7 @@ export class AdminTableService {
   filters: any[] = [];
   url = environment.ubsAdmin.backendUbsAdminLink + '/management/';
 
-  constructor(private http: HttpClient, private localStorageService: LocalStorageService) {
-    this.filters = this.localStorageService.getUbsAdminOrdersTableTitleColumnFilter();
-  }
+  constructor(private http: HttpClient, private localStorageService: LocalStorageService) {}
 
   getTable(columnName?: string, page?: number, filter?: string, size?: number, sortingType?: string) {
     const searchValue = filter ? filter.split(' ').reduce((values, value) => (value ? values + `search=${value}&` : values), '') : '';

@@ -92,6 +92,7 @@ export class UbsAdminTableComponent implements OnInit, AfterViewChecked, OnDestr
   minColumnWidth = 100;
   columnsWidthPreference: Map<string, number>;
   restoredFilters = [];
+  isRestoredFilters = false;
 
   bigOrderTable$ = this.store.select((state: IAppState): IBigOrderTable => state.bigOrderTable.bigOrderTable);
   bigOrderTableParams$ = this.store.select((state: IAppState): IBigOrderTableParams => state.bigOrderTable.bigOrderTableParams);
@@ -178,7 +179,6 @@ export class UbsAdminTableComponent implements OnInit, AfterViewChecked, OnDestr
             columnsForFiltering.push(filteredColumn);
           }
         });
-        this.setCheckBoxesFromLocalStorage();
         this.setColumnsForFiltering(columnsForFiltering);
         if (this.displayedColumns.length === 0) {
           this.setDisplayedColumns();
@@ -191,13 +191,31 @@ export class UbsAdminTableComponent implements OnInit, AfterViewChecked, OnDestr
       }
       this.sortColumnsToDisplay();
       this.checkAllColumnsDisplayed();
+
+      this.restoredFilters = this.localStorageService.getUbsAdminOrdersTableTitleColumnFilter();
+
+      if (!this.restoredFilters.length) {
+        this.isRestoredFilters = true;
+      }
+
+      if (this.restoredFilters && !this.isRestoredFilters && this.getColumnsForFiltering().length) {
+        this.restoredFilters.forEach((filter) => {
+          const column = Object.keys(filter)[0];
+          const value = String(Object.values(filter)[0]);
+          const options: IFilteredColumnValue = { key: value, filtered: false };
+
+          this.changeFilters(true, column, options);
+          this.applyFilters();
+        });
+
+        this.isRestoredFilters = true;
+      }
     });
 
     if (this.isStoreEmpty) {
       this.getColumns();
       this.store.dispatch(GetColumnToDisplay());
     }
-    this.restoredFilters = this.localStorageService.getUbsAdminOrdersTableTitleColumnFilter();
   }
 
   ngAfterViewChecked() {
@@ -604,8 +622,6 @@ export class UbsAdminTableComponent implements OnInit, AfterViewChecked, OnDestr
 
   changeDateFilters(e: MatCheckboxChange, checked: boolean, currentColumn: string): void {
     this.adminTableService.changeDateFilters(e, checked, currentColumn);
-    console.log(this.columns, e, currentColumn);
-
     this.noFiltersApplied = this.adminTableService.filters.length === 0;
   }
 
@@ -811,25 +827,6 @@ export class UbsAdminTableComponent implements OnInit, AfterViewChecked, OnDestr
     const col = this.columns[columnIndex];
     this.columnsWidthPreference.set(col.title.key, newWidth);
     this.localStorageService.setUbsAdminOrdersTableColumnsWidthPreference(this.columnsWidthPreference);
-  }
-
-  setCheckBoxesFromLocalStorage() {
-    const storage = this.localStorageService.getUbsAdminOrdersTableTitleColumnFilter();
-    storage.forEach((item) => {
-      if (Object.keys(item).length < 2) {
-        const colTitle = Object.keys(item)[0],
-          colKey = Object.values(item)[0];
-        this.columns.find((c) => c.titleForSorting === colTitle).checked.find((a) => a.key === colKey).filtered = true;
-      } else {
-        const colTitle = Object.keys(item)[0].split('From')[0];
-        console.log(colTitle);
-        //this.getDateChecked(colTitle);
-
-        //const a = this.columns.find((c) => c.titleForSorting === colTitle);
-        //a.filtered = true;
-        //console.log(a);
-      }
-    });
   }
 
   setColumnsForFiltering(columns): void {
