@@ -28,8 +28,12 @@
           [attr.id]="'accordion-body-' + i"
           [attr.aria-labelledby]="'accordion-header-' + i"
         >
-          <mat-checkbox *ngFor="let perm of group.permissions" [formControlName]="perm.key" [class]="group.name + '-' + perm.label">
-            {{ 'employees.permissions.' + group.name + '.' + perm.label | translate }}
+          <mat-checkbox
+            *ngFor="let permission of group.permissions"
+            [formControlName]="permission"
+            [class]="group.name + '-' + labels[permission]"
+          >
+            {{ 'employees.permissions.' + group.name + '.' + labels[permission] | translate }}
           </mat-checkbox>
         </div>
       </cdk-accordion-item>

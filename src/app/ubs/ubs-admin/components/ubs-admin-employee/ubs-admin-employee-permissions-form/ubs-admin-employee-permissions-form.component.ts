@@ -16,58 +16,66 @@ export class UbsAdminEmployeePermissionsFormComponent implements OnInit {
   employee: Page;
 
   public groups = [
-    { name: 'clients', permissions: [{ key: 'SEE_CLIENTS_PAGE', label: 'see-main-page' }] },
+    { name: 'clients', permissions: ['SEE_CLIENTS_PAGE'] },
     {
       name: 'employees',
-      permissions: [
-        { key: 'SEE_EMPLOYEES_PAGE', label: 'see-main-page' },
-        { key: 'REGISTER_A_NEW_EMPLOYEE', label: 'create-card' },
-        { key: 'EDIT_EMPLOYEE', label: 'edit-card' },
-        { key: 'DEACTIVATE_EMPLOYEE', label: 'delete-card' },
-        { key: 'EDIT_EMPLOYEES_AUTHORITIES', label: 'edit-authority' }
-      ]
+      permissions: ['SEE_EMPLOYEES_PAGE', 'REGISTER_A_NEW_EMPLOYEE', 'EDIT_EMPLOYEE', 'DEACTIVATE_EMPLOYEE', 'EDIT_EMPLOYEES_AUTHORITIES']
     },
     {
       name: 'certificates',
-      permissions: [
-        { key: 'SEE_CERTIFICATES', label: 'see-main-page' },
-        { key: 'CREATE_NEW_CERTIFICATE', label: 'create-card' },
-        { key: 'EDIT_CERTIFICATE', label: 'edit-card' }
-      ]
+      permissions: ['SEE_CERTIFICATES', 'CREATE_NEW_CERTIFICATE', 'EDIT_CERTIFICATE']
     },
     {
       name: 'orders',
-      permissions: [
-        { key: 'SEE_BIG_ORDER_TABLE', label: 'see-main-page' },
-        { key: 'EDIT_ORDER', label: 'edit-card' }
-      ]
+      permissions: ['SEE_BIG_ORDER_TABLE', 'EDIT_ORDER']
     },
     {
       name: 'messages',
-      permissions: [
-        { key: 'SEE_MESSAGES_PAGE', label: 'see-main-page' },
-        { key: 'CREATE_NEW_MESSAGE', label: 'create-card' },
-        { key: 'EDIT_MESSAGE', label: 'edit-card' },
-        { key: 'DELETE_MESSAGE', label: 'delete-card' }
-      ]
+      permissions: ['SEE_MESSAGES_PAGE', 'CREATE_NEW_MESSAGE', 'EDIT_MESSAGE', 'DELETE_MESSAGE']
     },
     {
       name: 'tariffs',
       permissions: [
-        { key: 'SEE_TARIFFS', label: 'see-main-page' },
-        { key: 'CREATE_NEW_LOCATION', label: 'create-location' },
-        { key: 'CREATE_NEW_COURIER', label: 'create-courier' },
-        { key: 'EDIT_LOCATION', label: 'edit-location-name' },
-        { key: 'EDIT_COURIER', label: 'edit-courier-name' },
-        { key: 'EDIT_DESTINATION_NAME', label: 'edit-destination-name' }, // ????????????
-        { key: 'EDIT_LOCATION_CARD', label: 'create-location-card' },
-        { key: 'DELETE_LOCATION_CARD', label: 'delete-location-card' }, // ????????????
-        { key: 'SEE_PRICING_CARD', label: 'see-price-card' },
-        { key: 'CONTROL_SERVICE', label: 'edit-service' },
-        { key: 'EDIT_PRICING_CARD', label: 'edit-price-card' }
+        'SEE_TARIFFS',
+        'CREATE_NEW_LOCATION',
+        'EDIT_COURIER',
+        'EDIT_DESTINATION_NAME', // ????????????
+        'EDIT_LOCATION_CARD',
+        'DELETE_LOCATION_CARD', // ????????????
+        'SEE_PRICING_CARD',
+        'CONTROL_SERVICE'
       ]
     }
   ];
+
+  labels = {
+    SEE_CLIENTS_PAGE: 'see-main-page',
+    SEE_EMPLOYEES_PAGE: 'see-main-page',
+    REGISTER_A_NEW_EMPLOYEE: 'create-card',
+    EDIT_EMPLOYEE: 'edit-card',
+    DEACTIVATE_EMPLOYEE: 'delete-card',
+    EDIT_EMPLOYEES_AUTHORITIES: 'edit-authority',
+    SEE_CERTIFICATES: 'see-main-page',
+    CREATE_NEW_CERTIFICATE: 'create-card',
+    EDIT_CERTIFICATE: 'edit-card',
+    SEE_BIG_ORDER_TABLE: 'see-main-page',
+    EDIT_ORDER: 'edit-card',
+    SEE_MESSAGES_PAGE: 'see-main-page',
+    CREATE_NEW_MESSAGE: 'create-card',
+    EDIT_MESSAGE: 'edit-card',
+    DELETE_MESSAGE: 'delete-card',
+    SEE_TARIFFS: 'see-main-page',
+    CREATE_NEW_LOCATION: 'create-location',
+    CREATE_NEW_COURIER: 'create-courier',
+    EDIT_LOCATION: 'edit-location-name',
+    EDIT_COURIER: 'edit-courier-name',
+    EDIT_DESTINATION_NAME: 'edit-destination-name',
+    EDIT_LOCATION_CARD: 'create-location-card',
+    DELETE_LOCATION_CARD: 'delete-location-card',
+    SEE_PRICING_CARD: 'see-price-card',
+    CONTROL_SERVICE: 'edit-service',
+    EDIT_PRICING_CARD: 'edit-price-card'
+  };
 
   isUpdating = false;
 
@@ -80,7 +88,7 @@ export class UbsAdminEmployeePermissionsFormComponent implements OnInit {
     this.employee = data;
     this.form = this.fb.group(
       Object.fromEntries(
-        this.groups.map((group) => [group.name, this.fb.group(Object.fromEntries(group.permissions.map((field) => [field.key, false])))])
+        this.groups.map((group) => [group.name, this.fb.group(Object.fromEntries(group.permissions.map((field) => [field, false])))])
       )
     );
   }
@@ -92,8 +100,8 @@ export class UbsAdminEmployeePermissionsFormComponent implements OnInit {
       .subscribe((employeePermissions: string[]) => {
         this.groups.forEach((group) => {
           group.permissions.forEach((perm) => {
-            if (employeePermissions.includes(perm.key)) {
-              this.form.get(group.name).get(perm.key).setValue(true);
+            if (employeePermissions.includes(perm)) {
+              this.form.get(group.name).get(perm).setValue(true);
             }
           });
         });
