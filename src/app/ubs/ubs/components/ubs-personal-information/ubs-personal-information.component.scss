@@ -151,12 +151,6 @@ label,
   }
 }
 
-.btn {
-  width: 136px;
-  height: 44px;
-  border-radius: 4px;
-}
-
 .primary-global-button {
   width: 88px;
   padding: 8px 14px;
@@ -168,6 +162,10 @@ label,
   &:disabled {
     background: var(--ubs-quaternary-light-grey);
     border-color: var(--ubs-quaternary-light-grey);
+  }
+
+  &:hover {
+    background-color: var(--ubs-button-dark-green);
   }
 }
 
@@ -203,14 +201,6 @@ label,
   }
 }
 
-.btn:nth-child(1) {
-  margin: 0 24px 0 16px;
-}
-
-.btn:nth-child(2) {
-  margin: 0 15px 0 0;
-}
-
 .edit-address {
   height: 100%;
   margin: 3px;
@@ -230,23 +220,47 @@ label,
   font-size: 0.8rem;
 }
 
+.btn {
+  width: 8rem;
+  height: 2.75rem;
+  border-radius: 4px;
+}
+
+.btn:nth-child(2) {
+  margin: 0 15px 0 0;
+}
+
 .buttons {
   margin-top: 46px;
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
 
   button {
     font-size: 18px;
+    font-weight: 700;
+    line-height: 28px;
+    letter-spacing: 0.2px;
   }
 }
 
 .cansel-button {
   border: 1px solid var(--ubs-quaternary-dark-grey);
   color: var(--ubs-quaternary-dark-grey);
-  margin-right: 1rem !important;
+  margin-right: 1.5rem;
+
+  &:hover {
+    background: var(--ubs-quaternary-light-grey);
+  }
 }
 
-.back-btn {
+.btn-back {
   border: 0;
   color: var(--ubs-quaternary-dark-grey);
+
+  .underline {
+    border-bottom: 1px solid var(--ubs-quaternary-dark-grey);
+  }
 }
 
 @media (min-width: 481px) and (max-width: 767px) {
@@ -256,12 +270,6 @@ label,
 
   h5 {
     font-size: 1.1rem;
-  }
-
-  button,
-  .btn {
-    width: 120px;
-    font-size: 1rem;
   }
 
   p,
@@ -287,12 +295,22 @@ label,
     font-size: 0.8rem;
   }
 
+  .btn:nth-child(1) {
+    margin-bottom: 16px;
+  }
+
   p,
   a,
   textarea,
   small,
   input {
     font-size: 0.8rem;
+  }
+}
+
+@media (max-width: 320px) {
+  .btn:nth-child(1) {
+    margin-bottom: 16px;
   }
 }
 
