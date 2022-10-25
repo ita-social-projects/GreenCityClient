@@ -38,7 +38,8 @@
       <button mat-dialog-close="true" class="cancelButton">
         {{ 'ubs-employee.cancel' | translate }}
       </button>
-      <button type="submit" class="addButton">
+      <button type="submit" class="addButton" [disabled]="isUpdating">
+        <span *ngIf="isUpdating" class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>&nbsp;
         {{ 'ubs-employee.apply' | translate }}
       </button>
     </div>

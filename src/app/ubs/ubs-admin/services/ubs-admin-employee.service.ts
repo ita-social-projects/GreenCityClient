@@ -1,4 +1,4 @@
-import { BehaviorSubject, Observable } from 'rxjs';
+import { BehaviorSubject, Observable, of } from 'rxjs';
 import { Employees } from '../models/ubs-admin.interface';
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
@@ -51,6 +51,6 @@ export class UbsAdminEmployeeService {
 
   updatePermissions(permissions) {
     console.log(permissions);
-    return;
+    return of(true);
   }
 }

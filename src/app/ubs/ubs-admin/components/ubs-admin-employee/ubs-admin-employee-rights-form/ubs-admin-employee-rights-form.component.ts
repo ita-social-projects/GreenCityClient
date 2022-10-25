@@ -80,6 +80,8 @@ export class UbsAdminEmployeeRightsFormComponent implements OnInit {
     EDIT_PRICING_CARD: 'edit-price-card'
   };
 
+  isUpdating = false;
+
   constructor(
     private fb: FormBuilder,
     public translate: TranslateService,
@@ -87,21 +89,10 @@ export class UbsAdminEmployeeRightsFormComponent implements OnInit {
     private employeeService: UbsAdminEmployeeService
   ) {
     this.employee = data;
-
     this.form = this.fb.group(
       Object.fromEntries(
         this.groups.map((group) => [group.name, this.fb.group(Object.fromEntries(group.permissions.map((field) => [field, false])))])
       )
-    );
-  }
-
-  initForm(): void {
-    Object.fromEntries(
-      this.groups.map((group) => {
-        const { name, permissions } = group;
-        const formGroup = this.fb.group(Object.fromEntries(permissions.map((field) => [field, false])));
-        return [name, formGroup];
-      })
     );
   }
 
@@ -120,12 +111,15 @@ export class UbsAdminEmployeeRightsFormComponent implements OnInit {
       });
   }
 
-  savePermissions() {
+  async savePermissions() {
+    this.isUpdating = true;
     const selectedPermissions = Object.entries(this.form.value)
       .flatMap(([, perm]) => Object.entries(perm))
       .filter(([, selected]) => selected)
       .map(([perm]) => perm);
 
-    this.employeeService.updatePermissions(selectedPermissions);
+    this.employeeService.updatePermissions(selectedPermissions).subscribe(() => {
+      this.isUpdating = false;
+    });
   }
 }
