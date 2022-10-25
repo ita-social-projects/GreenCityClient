@@ -84,14 +84,12 @@
 
 .mat-expansion-panel-header {
   width: 100%;
-  // color: var(--ubs-primary-light-grey);
   font-family: var(--ubs-quaternary-dark-grey);
   font-size: 14px;
   line-height: 20px;
 }
 
 .mat-expansion-panel-header-title {
-  // width: 37px;
   text-align: left;
 }
 
@@ -101,7 +99,6 @@
 
 .panel-description {
   text-align: left;
-  // margin-left: 38px;
   padding-left: 10px;
 }
 
@@ -109,20 +106,6 @@
   max-width: 38%;
   padding-right: 45px;
 }
-
-// .item {
-//   display: flex;
-// }
-
-// .col-5 {
-//   flex: 0 0 38.666667%;
-//   max-width: 41.666667%;
-// }
-
-// .id {
-//   flex: 0 0 18.666667%;
-//   max-width: 18.666667%;
-// }
 
 .description {
   color: var(--ubs-secondary-grey);
