@@ -1,6 +1,6 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { UbsAdminEmployeeRightsFormComponent } from './ubs-admin-employee-rights-form.component';
+import { UbsAdminEmployeePermissionsFormComponent } from './ubs-admin-employee-permissions-form.component';
 import { TranslateModule } from '@ngx-translate/core';
 import { CdkAccordionModule } from '@angular/cdk/accordion';
 import { MAT_DIALOG_DATA } from '@angular/material/dialog';
@@ -11,9 +11,9 @@ import { of } from 'rxjs';
 import { By } from '@angular/platform-browser';
 import { UbsAdminEmployeeService } from '../../../services/ubs-admin-employee.service';
 
-describe('UbsAdminEmployeeRightsFormComponent', () => {
-  let component: UbsAdminEmployeeRightsFormComponent;
-  let fixture: ComponentFixture<UbsAdminEmployeeRightsFormComponent>;
+describe('UbsAdminEmployeePermissionsFormComponent', () => {
+  let component: UbsAdminEmployeePermissionsFormComponent;
+  let fixture: ComponentFixture<UbsAdminEmployeePermissionsFormComponent>;
 
   const mockedEmployee = { email: 'aaaa@gmail.com' };
   const employeeServiceMock = {
@@ -24,7 +24,7 @@ describe('UbsAdminEmployeeRightsFormComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [UbsAdminEmployeeRightsFormComponent],
+      declarations: [UbsAdminEmployeePermissionsFormComponent],
       imports: [CdkAccordionModule, TranslateModule.forRoot(), ReactiveFormsModule, HttpClientModule, MatCheckboxModule],
       providers: [
         { provide: MAT_DIALOG_DATA, useValue: mockedEmployee },
@@ -35,7 +35,7 @@ describe('UbsAdminEmployeeRightsFormComponent', () => {
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(UbsAdminEmployeeRightsFormComponent);
+    fixture = TestBed.createComponent(UbsAdminEmployeePermissionsFormComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

@@ -2,7 +2,7 @@
   <h3 class="popup-title">{{ 'employees.actions.settings' | translate }}</h3>
 
   <form [formGroup]="form" (ngSubmit)="savePermissions()">
-    <cdk-accordion class="rights-accordion accordion" multi>
+    <cdk-accordion class="permissions-accordion accordion" multi>
       <cdk-accordion-item
         *ngFor="let group of groups; let i = index"
         #accordionItem="cdkAccordionItem"
@@ -19,7 +19,7 @@
           <span class="accordion-item-description">
             <img src="./assets/img/icon/arrows/arrow-accordion-down.svg" alt="arrow" />
           </span>
-          {{ 'employees.rights.' + group.name + '.title' | translate }}
+          {{ 'employees.permissions.' + group.name + '.title' | translate }}
         </div>
         <div
           class="accordion-item-body"
@@ -28,8 +28,8 @@
           [attr.id]="'accordion-body-' + i"
           [attr.aria-labelledby]="'accordion-header-' + i"
         >
-          <mat-checkbox *ngFor="let perm of group.permissions" [formControlName]="perm" [class]="group.name + '-' + labels[perm]">
-            {{ 'employees.rights.' + group.name + '.' + labels[perm] | translate }}
+          <mat-checkbox *ngFor="let perm of group.permissions" [formControlName]="perm.key" [class]="group.name + '-' + perm.label">
+            {{ 'employees.permissions.' + group.name + '.' + perm.label | translate }}
           </mat-checkbox>
         </div>
       </cdk-accordion-item>

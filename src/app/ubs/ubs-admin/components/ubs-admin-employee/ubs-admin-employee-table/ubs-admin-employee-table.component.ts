@@ -12,7 +12,7 @@ import { UbsAdminEmployeeService } from 'src/app/ubs/ubs-admin/services/ubs-admi
 import { UbsAdminEmployeeEditFormComponent } from '../ubs-admin-employee-edit-form/ubs-admin-employee-edit-form.component';
 import { DeleteEmployee, GetEmployees } from 'src/app/store/actions/employee.actions';
 import { DialogPopUpComponent } from '../../../../../shared/dialog-pop-up/dialog-pop-up.component';
-import { UbsAdminEmployeeRightsFormComponent } from '../ubs-admin-employee-rights-form/ubs-admin-employee-rights-form.component';
+import { UbsAdminEmployeePermissionsFormComponent } from '../ubs-admin-employee-permissions-form/ubs-admin-employee-permissions-form.component';
 
 @Component({
   selector: 'app-ubs-admin-employee-table',
@@ -106,9 +106,9 @@ export class UbsAdminEmployeeTableComponent implements OnInit {
     });
   }
 
-  openRightsDialog(employeeData: Page, event: Event): void {
+  openPermissionsDialog(employeeData: Page, event: Event): void {
     event.stopPropagation();
-    this.dialog.open(UbsAdminEmployeeRightsFormComponent, {
+    this.dialog.open(UbsAdminEmployeePermissionsFormComponent, {
       data: employeeData,
       hasBackdrop: true,
       closeOnNavigation: true,
