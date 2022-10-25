@@ -168,7 +168,7 @@ describe('UbsUserProfilePageComponent', () => {
     expect(component.onSubmit).toHaveBeenCalled();
   }));
 
-  it('method onSubmit should send post request with submitData', () => {
+  it('method onSubmit should return submitData', () => {
     let submitData;
     component.toggleAlternativeEmail();
     component.onSubmit();
@@ -189,7 +189,28 @@ describe('UbsUserProfilePageComponent', () => {
       hasPassword: true
     };
     expect(submitData).toEqual(userProfileDataMock);
-    expect(clientProfileServiceMock.postDataClientProfile).toHaveBeenCalledWith(submitData);
+  });
+
+  it('method onSubmit should return submitData  without alternative email ', () => {
+    let submitData = {
+      addressDto: [
+        {
+          ...component.userForm.value.address[0],
+          id: userProfileDataMock.addressDto[0].id,
+          actual: userProfileDataMock.addressDto[0].actual,
+          coordinates: userProfileDataMock.addressDto[0].coordinates
+        }
+      ],
+      recipientEmail: component.userForm.value.recipientEmail,
+      recipientName: component.userForm.value.recipientName,
+      recipientPhone: component.userForm.value.recipientPhone,
+      recipientSurname: component.userForm.value.recipientSurname,
+      hasPassword: true
+    };
+
+    component.toggleAlternativeEmail();
+    component.onSubmit();
+    expect(submitData).not.toEqual(userProfileDataMock);
   });
 
   it('method toggleAlternativeEmail should add control to userForm when input is shown', () => {
