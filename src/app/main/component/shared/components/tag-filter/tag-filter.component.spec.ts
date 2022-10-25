@@ -37,6 +37,22 @@ describe('TagFilterComponent', () => {
   });
 
   describe('Test the basic functionality', () => {
+    it('should call methods OnInit', () => {
+      const spy = spyOn(component as any, 'getSessionStorageFilters');
+      const spy1 = spyOn(component, 'emitActiveFilters');
+
+      component.ngOnInit();
+      expect(spy).toHaveBeenCalled();
+      expect(spy1).toHaveBeenCalled();
+    });
+
+    it('should get filters OnInit', () => {
+      spyOn(component as any, 'getSessionStorageFilters').and.returnValue([]);
+
+      component.ngOnInit();
+      expect(component.filters).toEqual([]);
+    });
+
     it('Should call setTags method inside ngOnChanges', () => {
       // @ts-ignore
       const spy = spyOn(component, 'setTags');
@@ -66,10 +82,9 @@ describe('TagFilterComponent', () => {
     });
 
     it('Should return parsed data', () => {
-      spyOn(sessionStorage, 'getItem').and.returnValue('true');
-      // @ts-ignore
-      const val = component.getSessionStorageFilters();
-      expect(val).toEqual(true);
+      spyOn(sessionStorage, 'getItem').and.returnValue(null);
+      const val = (component as any).getSessionStorageFilters();
+      expect(val).toEqual([]);
     });
   });
 });

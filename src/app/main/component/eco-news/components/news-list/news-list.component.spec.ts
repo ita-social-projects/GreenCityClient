@@ -124,10 +124,9 @@ describe('NewsListComponent', () => {
   });
 
   it('should filter data', () => {
-    component.filterPermission = true;
-    spyOn(component, 'dispatchStore');
-    component.getFilterData([]);
-    expect(component.dispatchStore).toHaveBeenCalledTimes(1);
+    spyOn(component, 'getFilterData');
+    component.getFilterData(['News']);
+    expect(component.getFilterData).toHaveBeenCalledWith(['News']);
   });
 
   it('should resize window and set view', () => {

@@ -33,7 +33,6 @@ export class NewsListComponent implements OnInit, OnDestroy {
   private destroyed$: ReplaySubject<any> = new ReplaySubject<any>(1);
   public tags: Observable<Array<NewsTagInterface>>;
 
-  public filterPermission = false;
   public hasNext = true;
 
   econews$ = this.store.select((state: IAppState): IEcoNewsState => state.ecoNewsState);
@@ -96,7 +95,6 @@ export class NewsListComponent implements OnInit, OnDestroy {
   public onScroll(): void {
     this.scroll = true;
     this.dispatchStore(false);
-    this.filterPermission = true;
   }
 
   public changeView(event: boolean): void {
@@ -104,14 +102,12 @@ export class NewsListComponent implements OnInit, OnDestroy {
   }
 
   public getFilterData(value: Array<string>): void {
-    if (this.filterPermission) {
-      if (this.tagsList !== value) {
-        this.tagsList = value;
-      }
-      this.hasNext = true;
-      this.currentPage = 0;
-      this.dispatchStore(true);
+    if (this.tagsList !== value) {
+      this.tagsList = value;
     }
+    this.hasNext = true;
+    this.currentPage = 0;
+    this.dispatchStore(true);
   }
 
   public dispatchStore(res: boolean): void {
