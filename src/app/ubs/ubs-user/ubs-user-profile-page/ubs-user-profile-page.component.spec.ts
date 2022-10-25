@@ -192,7 +192,8 @@ describe('UbsUserProfilePageComponent', () => {
   });
 
   it('method onSubmit should return submitData  without alternative email ', () => {
-    let submitData = {
+    let submitData;
+    submitData = {
       addressDto: [
         {
           ...component.userForm.value.address[0],
