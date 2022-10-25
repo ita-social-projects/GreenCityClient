@@ -30,7 +30,6 @@ export class UbsAdminTariffsPricingPageComponent implements OnInit, OnDestroy {
   isLoadBar: boolean;
   selectedCardId;
   ourTariffs;
-  currentLang;
   amount;
   saveBTNclicked: boolean;
   inputDisable: boolean;
@@ -83,10 +82,6 @@ export class UbsAdminTariffsPricingPageComponent implements OnInit, OnDestroy {
       this.getAllTariffsForService();
     });
     this.getOurTariffs();
-
-    this.localStorageService.languageBehaviourSubject.pipe(takeUntil(this.destroy)).subscribe(() => {
-      this.currentLang = this.translate.defaultLang;
-    });
   }
 
   private initForm(): void {
