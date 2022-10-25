@@ -18,10 +18,6 @@ export class TariffsService {
     this.allTariffServices = await this.getAllTariffsForService().toPromise();
   }
 
-  getTariffs() {
-    return this.allTariffServices;
-  }
-
   getAllTariffsForService() {
     return this.http.get(`${mainUbsLink}/ubs/superAdmin/getTariffService`);
   }

@@ -126,6 +126,7 @@ describe('UbsAdminPricingPageComponent', () => {
   tariffsServiceMock.setLimitsBySumOrder.and.returnValue(of([fakeSumInfo]));
   tariffsServiceMock.setLimitsByAmountOfBags.and.returnValue(of([fakeBagInfo]));
   tariffsServiceMock.getCardInfo.and.returnValue(of([fakeCardId]));
+  // tariffsServiceMock.setAllTariffsForService.and.returnValue(of([fakeService]));
 
   const matDialogMock = jasmine.createSpyObj('matDialogMock', ['open']);
   matDialogMock.open.and.returnValue(dialogStub);
@@ -215,12 +216,16 @@ describe('UbsAdminPricingPageComponent', () => {
     });
   });
 
-  it('getCourierId should return reject here ', fakeAsync(() => {
-    component.getCourierId().then(null, (err) => {
-      expect(err).toBe('getCourierId Error');
+  it('should call getOurTariffs correctly', (done) => {
+    fixture.detectChanges();
+    const getOurTariffsSpy = spyOn(component, 'getOurTariffs').and.returnValue(Promise.resolve());
+    component.getOurTariffs();
+    getOurTariffsSpy.calls.mostRecent().returnValue.then(() => {
+      fixture.detectChanges();
+      expect(getOurTariffsSpy).toHaveBeenCalled();
+      done();
     });
-    tick(60000);
-  }));
+  });
 
   it('should call getLocationId correctly', (done) => {
     fixture.detectChanges();
@@ -232,13 +237,6 @@ describe('UbsAdminPricingPageComponent', () => {
       done();
     });
   });
-
-  it('getLocationId should return reject here ', fakeAsync(() => {
-    component.getLocationId().then(null, (err) => {
-      expect(err).toBe('getLocationId Error');
-    });
-    tick(60000);
-  }));
 
   it('should call sumToggler', () => {
     component.sumToggler();
