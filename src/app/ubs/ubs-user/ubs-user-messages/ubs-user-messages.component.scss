@@ -95,11 +95,11 @@
   text-align: left;
 }
 
-mat-panel-title {
+.panel-title {
   color: var(--ubs-secondary-grey);
 }
 
-.title {
+.panel-description {
   text-align: left;
   // margin-left: 38px;
   padding-left: 10px;
@@ -156,7 +156,7 @@ mat-panel-title {
 }
 
 .time {
-  margin-left: -44px;
+  margin-left: -32px;
 }
 
 .my-pagination::ng-deep .ngx-pagination {
@@ -255,6 +255,10 @@ mat-panel-title {
     font-family: var(--primary-font);
     background-color: var(--after-primary-light-grey);
   }
+
+  .time {
+    margin-left: -8px;
+  }
 }
 
 @media (max-width: 480px) {
@@ -280,6 +284,10 @@ mat-panel-title {
       line-height: 20px;
       letter-spacing: 0.1px;
       text-align: left;
+    }
+
+    .time {
+      margin-left: 0;
     }
   }
 
