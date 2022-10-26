@@ -14,6 +14,7 @@ import { EventsService } from '../../../events/services/events.service';
 import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
 import { RatingModule } from 'ngx-bootstrap/rating';
 import { BehaviorSubject, Subject } from 'rxjs';
+import { UserOwnAuthService } from '@auth-service/user-own-auth.service';
 
 @Injectable()
 class TranslationServiceStub {
@@ -101,6 +102,12 @@ describe('EventsListItemComponent', () => {
   translateServiceMock.get = () => of(true);
   localStorageServiceMock.getCurrentLanguage = () => mockLang as Language;
 
+  let userOwnAuthServiceMock: UserOwnAuthService;
+  userOwnAuthServiceMock = jasmine.createSpyObj('UserOwnAuthService', ['getDataFromLocalStorage']);
+  userOwnAuthServiceMock.getDataFromLocalStorage = () => true;
+  userOwnAuthServiceMock.credentialDataSubject = new Subject();
+  userOwnAuthServiceMock.isLoginUserSubject = new BehaviorSubject(true);
+
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       declarations: [EventsListItemComponent],
@@ -110,7 +117,8 @@ describe('EventsListItemComponent', () => {
         { provide: Router, useValue: routerSpy },
         { provide: EventsService, useValue: EventsServiceMock },
         { provide: LocalStorageService, useValue: localStorageServiceMock },
-        { provide: TranslateService, useClass: TranslationServiceStub }
+        { provide: TranslateService, useClass: TranslationServiceStub },
+        { provide: UserOwnAuthService, useValue: userOwnAuthServiceMock }
       ],
       imports: [RouterTestingModule, MatDialogModule, TranslateModule.forRoot(), RatingModule.forRoot(), ModalModule.forRoot()],
       schemas: [CUSTOM_ELEMENTS_SCHEMA]
@@ -125,7 +133,7 @@ describe('EventsListItemComponent', () => {
     component.itemTags = TagsArray;
     component.styleBtn = 'string';
     component.nameBtn = 'string';
-    component.disabledMode = false;
+    component.isJoinBtnHidden = false;
     component.rate = 3;
     component.isJoined = false;
     component.isEventOpen = false;
@@ -366,9 +374,9 @@ describe('EventsListItemComponent', () => {
       expect(component.styleBtn).toBe('secondary-global-button');
     });
 
-    it(`should be checked disabledMode of button if is not rated`, () => {
+    it(`should be checked of button if is not rated`, () => {
       component.checkIsRate(false);
-      expect(component.disabledMode).toBe(false);
+      expect(component.isJoinBtnHidden).toBe(true);
     });
   });
 

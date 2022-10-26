@@ -6,7 +6,7 @@ import {
 import { Store } from '@ngrx/store';
 import { take } from 'rxjs/operators';
 import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
-import { Component, Input, OnDestroy, OnInit } from '@angular/core';
+import { Component, Input, OnDestroy, OnInit, Output } from '@angular/core';
 import { Router } from '@angular/router';
 import { TagsArray } from '../../../events/models/event-consts';
 import { EventPageResponceDto, TagDto, TagObj } from '../../../events/models/events.interface';
@@ -16,6 +16,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { DialogPopUpComponent } from 'src/app/shared/dialog-pop-up/dialog-pop-up.component';
 import { TranslateService } from '@ngx-translate/core';
 import { ReplaySubject, Subscription } from 'rxjs';
+import { UserOwnAuthService } from '@auth-service/user-own-auth.service';
 
 @Component({
   selector: 'app-events-list-item',
@@ -29,7 +30,7 @@ export class EventsListItemComponent implements OnInit, OnDestroy {
 
   public nameBtn: string;
   public styleBtn: string;
-  public disabledMode = false;
+  public isJoinBtnHidden = false;
   public rate: number;
   public userId: number;
 
@@ -54,9 +55,12 @@ export class EventsListItemComponent implements OnInit, OnDestroy {
     popupCancel: 'homepage.events.delete-no'
   };
 
+  @Output() public isLoggedIn: boolean;
+
   constructor(
     public router: Router,
     private localStorageService: LocalStorageService,
+    private userOwnAuthService: UserOwnAuthService,
     private modalService: BsModalService,
     private dialog: MatDialog,
     private store: Store,
@@ -68,6 +72,8 @@ export class EventsListItemComponent implements OnInit, OnDestroy {
     this.filterTags(this.event.tags);
     this.rate = Math.round(this.event.organizer.organizerRating);
     this.getUserId();
+    this.userOwnAuthService.getDataFromLocalStorage();
+    this.checkUserSingIn();
     this.initAllStatusesOfEvent();
     this.checkAllStatusesOfEvent();
     this.subscribeToLangChange();
@@ -93,6 +99,23 @@ export class EventsListItemComponent implements OnInit, OnDestroy {
 
   public getUserId(): void {
     this.localStorageService.userIdBehaviourSubject.subscribe((id) => (this.userId = id));
+  }
+
+  private checkUserSingIn(): void {
+    this.userOwnAuthService.credentialDataSubject.subscribe((data) => {
+      this.isLoggedIn = data && data.userId;
+      this.userId = data.userId;
+      this.handleUserAuthorization();
+    });
+  }
+
+  public handleUserAuthorization(): void {
+    if (this.isLoggedIn) {
+      this.nameBtn = this.isJoined ? 'event.btn-cancel' : 'event.btn-join';
+      this.styleBtn = this.isJoined ? 'secondary-global-button' : 'primary-global-button';
+      return;
+    }
+    this.isJoinBtnHidden = true;
   }
 
   public checkAllStatusesOfEvent(): void {
@@ -123,7 +146,7 @@ export class EventsListItemComponent implements OnInit, OnDestroy {
       this.nameBtn = 'event.btn-see';
       this.styleBtn = 'secondary-global-button';
     } else {
-      this.disabledMode = this.isJoined ? false : true;
+      this.isJoinBtnHidden = this.isJoined && !this.isLoggedIn;
       this.nameBtn = !this.isEventOpen ? 'event.btn-see' : 'event.btn-rate';
       this.styleBtn = !this.isRated ? 'primary-global-button' : 'secondary-global-button';
     }

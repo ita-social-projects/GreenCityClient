@@ -102,17 +102,20 @@ export class UbsAdminTariffsLocationDashboardComponent implements OnInit, OnDest
     this.getCouriers();
     this.getReceivingStation();
     this.loadScript();
-    this.region.valueChanges.subscribe((value) => {
+    this.region.valueChanges.pipe(takeUntil(this.destroy)).subscribe((value) => {
       this.checkRegionValue(value);
       this.selectedCities = [];
     });
     this.setCountOfCheckedCity();
     this.setStationPlaceholder();
     this.getExistingCard(this.filterData);
-    this.languageService.getCurrentLangObs().subscribe((i) => {
-      this.getLocations();
-      this.translateSelectedCity();
-    });
+    this.languageService
+      .getCurrentLangObs()
+      .pipe(takeUntil(this.destroy))
+      .subscribe((i) => {
+        this.getLocations();
+        this.translateSelectedCity();
+      });
   }
 
   private initForm(): void {
