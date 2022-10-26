@@ -78,6 +78,14 @@ describe('UbsUserProfilePageComponent', () => {
     expect(component.getUserData).toHaveBeenCalled();
   });
 
+  it('function composeData has to return data', () => {
+    let mock = userProfileDataMock;
+    mock.recipientPhone = '972333333';
+    const data = component.composeFormData(userProfileDataMock);
+
+    expect(data).toEqual(mock);
+  });
+
   it('function composeData has to cut phone number to 9 digits', () => {
     const data = component.composeFormData(userProfileDataMock);
     expect(data.recipientPhone.length).toBe(9);
@@ -208,10 +216,59 @@ describe('UbsUserProfilePageComponent', () => {
       recipientSurname: component.userForm.value.recipientSurname,
       hasPassword: true
     };
-
     component.toggleAlternativeEmail();
     component.onSubmit();
     expect(submitData).not.toEqual(userProfileDataMock);
+  });
+
+  it('method onSubmit should return submitData  without housecorpus ', () => {
+    let submitData;
+    component.toggleAlternativeEmail();
+    component.onSubmit();
+    submitData = {
+      addressDto: [
+        {
+          ...component.userForm.value.address[0],
+          houseCorpus: null,
+          id: userProfileDataMock.addressDto[0].id,
+          actual: userProfileDataMock.addressDto[0].actual,
+          coordinates: userProfileDataMock.addressDto[0].coordinates
+        }
+      ],
+      recipientEmail: component.userForm.value.recipientEmail,
+      alternateEmail: component.userForm.value.alternateEmail,
+      recipientName: component.userForm.value.recipientName,
+      recipientPhone: component.userForm.value.recipientPhone,
+      recipientSurname: component.userForm.value.recipientSurname,
+      hasPassword: true
+    };
+    userProfileDataMock.addressDto[0].houseCorpus = null;
+    expect(submitData).toEqual(userProfileDataMock);
+  });
+
+  it('method onSubmit should return submitData  without entrance number ', () => {
+    let submitData;
+    component.toggleAlternativeEmail();
+    component.onSubmit();
+    submitData = {
+      addressDto: [
+        {
+          ...component.userForm.value.address[0],
+          entranceNumber: null,
+          id: userProfileDataMock.addressDto[0].id,
+          actual: userProfileDataMock.addressDto[0].actual,
+          coordinates: userProfileDataMock.addressDto[0].coordinates
+        }
+      ],
+      recipientEmail: component.userForm.value.recipientEmail,
+      alternateEmail: component.userForm.value.alternateEmail,
+      recipientName: component.userForm.value.recipientName,
+      recipientPhone: component.userForm.value.recipientPhone,
+      recipientSurname: component.userForm.value.recipientSurname,
+      hasPassword: true
+    };
+    userProfileDataMock.addressDto[0].entranceNumber = null;
+    expect(submitData).toEqual(userProfileDataMock);
   });
 
   it('method toggleAlternativeEmail should add control to userForm when input is shown', () => {

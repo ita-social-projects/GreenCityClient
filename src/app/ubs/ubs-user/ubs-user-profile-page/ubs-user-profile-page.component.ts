@@ -168,7 +168,6 @@ export class UbsUserProfilePageComponent implements OnInit {
       if (!submitData.alternateEmail?.length) {
         delete submitData.alternateEmail;
       }
-
       this.userProfile.addressDto.forEach((address, i) => {
         const updatedAddres = {
           ...this.userForm.value.address[i],
