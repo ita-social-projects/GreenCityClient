@@ -133,7 +133,7 @@ describe('UbsUserOrdersComponent', () => {
     expect(list.properties.orders).toEqual(fakeCurrentOrdersData);
   });
 
-  it('should ....', async () => {
+  it('should call localStorage.getOrderIdToRedirect', async () => {
     await buildComponent();
     component.ngOnInit();
     localStorageSpy.and.callThrough();
@@ -141,13 +141,23 @@ describe('UbsUserOrdersComponent', () => {
     expect(localStorageSpy).toHaveBeenCalled();
   });
 
-  it('should asign ... ', async () => {
+  it('should asign the result of calling localStorage.getOrderIdToRedirect to variable ', async () => {
     await buildComponent();
     component.ngOnInit();
     localStorageSpy.and.returnValue(1315);
     component.orderIdToScroll = 1315;
     fixture.detectChanges();
     expect(component.orderIdToScroll).toEqual(1315);
+  });
+
+  it('should call functions in case orderIdToScroll not equal to 0', async () => {
+    await buildComponent();
+    spyOn(component, 'openExtendedOrder');
+    component.orderIdToScroll = 1315;
+    component.ngOnInit();
+    component.openExtendedOrder(component.orderIdToScroll);
+    fixture.detectChanges();
+    expect(component.openExtendedOrder).toHaveBeenCalledWith(component.orderIdToScroll);
   });
 
   it('should render list with more current orders on scroll', async () => {
