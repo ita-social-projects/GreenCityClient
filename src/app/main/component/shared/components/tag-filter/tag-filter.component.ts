@@ -16,8 +16,8 @@ export class TagFilterComponent implements OnInit, OnChanges {
   @Output() tagsList = new EventEmitter<Array<string>>();
   constructor(public localStorageService: LocalStorageService) {}
   ngOnInit() {
+    this.filters = this.getSessionStorageFilters();
     this.emitActiveFilters();
-    sessionStorage.removeItem(this.storageKey);
   }
 
   ngOnChanges(changes) {
