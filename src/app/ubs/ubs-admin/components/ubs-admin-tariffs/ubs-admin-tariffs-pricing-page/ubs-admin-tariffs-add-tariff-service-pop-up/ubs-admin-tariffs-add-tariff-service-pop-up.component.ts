@@ -96,6 +96,8 @@ export class UbsAdminTariffsAddTariffServicePopUpComponent implements OnInit {
       .subscribe(() => {
         this.dialogRef.close({});
       });
+
+    this.loadingAnim = false;
   }
 
   editTariffForService(receivedData) {
@@ -116,6 +118,7 @@ export class UbsAdminTariffsAddTariffServicePopUpComponent implements OnInit {
       .subscribe(() => {
         this.dialogRef.close({});
       });
+    this.loadingAnim = false;
   }
 
   fillFields(receivedData) {
