@@ -79,7 +79,8 @@ describe('UbsUserProfilePageComponent', () => {
   });
 
   it('function composeData has to return data', () => {
-    let mock = userProfileDataMock;
+    let mock;
+    mock = userProfileDataMock;
     mock.recipientPhone = '972333333';
     const data = component.composeFormData(userProfileDataMock);
 
