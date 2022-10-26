@@ -1,0 +1,118 @@
+<div class="d-flex justify-content-between">
+  <p class="h5 page-title">Повідомлення</p>
+  <button class="add-notification-button">
+    <svg width="13" height="13" viewBox="0 0 13 13" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <path
+        fill-rule="evenodd"
+        clip-rule="evenodd"
+        d="M6.27734 11.8492C6.27734 12.1254 6.5012 12.3492 6.77734 12.3492C7.05349 12.3492 7.27734 12.1254 7.27734 11.8492L7.27734 7.27818L11.8484 7.27818C12.1246 7.27818 12.3484 7.05432 12.3484 6.77818C12.3484 6.50203 12.1246 6.27818 11.8484 6.27818L7.27734 6.27818L7.27734 1.70711C7.27734 1.43096 7.05349 1.20711 6.77734 1.20711C6.5012 1.20711 6.27734 1.43096 6.27734 1.70711L6.27734 6.27818L1.70628 6.27817C1.43013 6.27818 1.20628 6.50203 1.20628 6.77818C1.20628 7.05432 1.43013 7.27818 1.70628 7.27818L6.27734 7.27818L6.27734 11.8492Z"
+        fill="#64727D"
+        stroke="#64727D"
+        stroke-linecap="round"
+      />
+    </svg>
+    &nbsp; Додати
+  </button>
+</div>
+
+<form [formGroup]="filtersForm" class="filters-block">
+  <div class="d-flex justify-content-between">
+    <div class="filter-topic-block">
+      <p class="filter-label">Тема повідомлення</p>
+      <div class="filter-wrapper">
+        <input type="text" formControlName="topic" placeholder="Оберіть тему" matInput [matAutocomplete]="autoTopic" />
+        <mat-autocomplete #autoTopic="matAutocomplete" (optionSelected)="(null)">
+          <mat-option *ngFor="let topic of []" [value]="topic">
+            {{ topic | translate }}
+          </mat-option>
+        </mat-autocomplete>
+        <!-- <mat-icon class="cross-img" (click)="null">close</mat-icon> -->
+        <img [src]="icons.arrowDown" class="arrow-down-icon" alt="arrowDown" (click)="(null)" />
+      </div>
+    </div>
+    <div class="filter-event-block">
+      <p class="filter-label">Подія для активації</p>
+      <div class="filter-wrapper">
+        <mat-select
+          formControlName="activationEvent"
+          class="trigger-select"
+          placeholder="Оберіть подію"
+          (selectionChange)="(null)"
+          multiple
+        >
+          <!-- <input type="text" class="events-input" placeholder="Оберіть подію" matInput (input)="filterTriggers($event)"/>
+            <mat-divider></mat-divider> -->
+          <mat-option class="option-event" *ngFor="let event of activationEvents | keyvalue" [value]="event.key">{{
+            event.value
+          }}</mat-option>
+        </mat-select>
+        <!-- <mat-autocomplete #autoEvent="matAutocomplete" (optionSelected)="(null)">
+            <mat-option *ngFor="let event of activationEvents" [value]="event">
+              {{ event | translate }}
+              <mat-checkbox></mat-checkbox>
+            </mat-option>
+          </mat-autocomplete> -->
+        <img [src]="icons.arrowDown" class="arrow-down-icon" alt="arrowDown" (click)="(null)" />
+      </div>
+    </div>
+    <div class="filter-status-block">
+      <p class="filter-label">Стан</p>
+      <div class="filter-wrapper">
+        <mat-select formControlName="status" class="status-select" placeholder="Оберіть стан" (selectionChange)="(null)">
+          <mat-option class="option-status" *ngFor="let status of statuses | keyvalue" [value]="status.key">{{ status.value }}</mat-option>
+          <!-- <mat-option class="option-status" value="">{{ 'ubs-tariffs.states.all' | translate }}</mat-option> -->
+          <!-- <mat-option class="option-status" value="active">{{ 'ubs-tariffs.states.active' | translate }}</mat-option>
+            <mat-option class="option-status" value="inactive">{{ 'ubs-tariffs.states.inactive' | translate }}</mat-option> -->
+        </mat-select>
+        <img [src]="icons.arrowDown" class="arrow-down-icon" alt="arrowDown" (click)="(null)" />
+      </div>
+    </div>
+  </div>
+</form>
+
+<table class="table-notifications">
+  <thead>
+    <tr>
+      <th class="col-topic">Тема повідомлення</th>
+      <th class="col-event">Подія для активації</th>
+      <th class="col-time">Час</th>
+      <th class="col-period">Повторення</th>
+      <th class="col-status">Стан</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr
+      *ngFor="
+        let notification of notifications | paginate: { itemsPerPage: itemsPerPage, currentPage: currentPage, totalItems: totalItems }
+      "
+      (click)="navigateToNotification(notification.id)"
+    >
+      <td>
+        {{ notification.topic }}
+      </td>
+      <td>
+        {{ notification.activationEvent }}
+      </td>
+      <td>
+        {{ notification.time }}
+      </td>
+      <td>
+        {{ notification.period }}
+      </td>
+      <td>
+        {{ notification.status }}
+      </td>
+    </tr>
+  </tbody>
+</table>
+
+<pagination-controls
+  (pageChange)="onPageChanged($event)"
+  maxSize="9"
+  directionLinks="true"
+  autoHide="true"
+  responsive="true"
+  previousLabel="Previous"
+  nextLabel="Next"
+>
+</pagination-controls>
