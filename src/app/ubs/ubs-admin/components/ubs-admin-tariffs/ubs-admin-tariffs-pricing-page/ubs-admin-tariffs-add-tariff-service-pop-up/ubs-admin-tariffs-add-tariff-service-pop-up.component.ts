@@ -47,6 +47,7 @@ export class UbsAdminTariffsAddTariffServicePopUpComponent implements OnInit {
     });
     this.initForm();
     this.fillFields(this.receivedData);
+    this.tariffsService.setAllTariffsForService();
   }
 
   private initForm(): void {
@@ -76,7 +77,7 @@ export class UbsAdminTariffsAddTariffServicePopUpComponent implements OnInit {
 
   addNewTariffForService() {
     const locationId = this.receivedData.locationId;
-    const { name, nameEn, capacity, price, commission, description, descriptionEn } = this.addTariffServiceForm.value;
+    const { name, nameEng, capacity, price, commission, description } = this.addTariffServiceForm.value;
 
     this.tariffService = {
       capacity,
@@ -86,13 +87,8 @@ export class UbsAdminTariffsAddTariffServicePopUpComponent implements OnInit {
       tariffTranslationDtoList: [
         {
           description,
-          languageId: 1,
-          name
-        },
-        {
-          description: descriptionEn,
-          languageId: 2,
-          name: nameEn
+          name,
+          nameEng
         }
       ]
     };
