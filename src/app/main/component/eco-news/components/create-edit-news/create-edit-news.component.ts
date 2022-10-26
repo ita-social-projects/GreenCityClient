@@ -133,6 +133,10 @@ export class CreateEditNewsComponent extends FormBaseComponent implements OnInit
     return this.form.value;
   }
 
+  public getControl(control: string) {
+    return this.form.get(control);
+  }
+
   public onValueChanges(): void {
     this.formChangeSub = this.form.valueChanges.subscribe(() => {
       this.isFormInvalid = !this.form.valid || !this.tags().length || !this.isLinkOrEmpty || this.isImageValid();
