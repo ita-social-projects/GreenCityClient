@@ -69,11 +69,12 @@ export class ProfileDashboardComponent implements OnInit, OnDestroy {
     });
 
     this.eventService
-      .getEvents(0, this.eventsPerPage)
+      .getUsersEvents(0, this.eventsPerPage)
       .pipe(take(1))
       .subscribe((res) => {
         this.eventsList = res.page;
         this.eventsTotal = res.totalElements;
+        console.log(this.eventsList);
       });
 
     this.localStorageService.setCurentPage('previousPage', '/profile');
@@ -82,7 +83,7 @@ export class ProfileDashboardComponent implements OnInit, OnDestroy {
   onEventsPageChange(page) {
     this.eventsPage = page;
     this.eventService
-      .getEvents(this.eventsPage - 1, 6)
+      .getUsersEvents(this.eventsPage - 1, 6)
       .pipe(take(1))
       .subscribe((res) => {
         this.eventsList = res.page;
