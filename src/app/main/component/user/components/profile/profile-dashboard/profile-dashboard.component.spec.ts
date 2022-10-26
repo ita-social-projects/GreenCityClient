@@ -39,8 +39,8 @@ describe('ProfileDashboardComponent', () => {
     totalElements: 4
   };
 
-  const EventsServiceMock = jasmine.createSpyObj('EventsService', ['getEvents']);
-  EventsServiceMock.getEvents = () => of(MockReqest);
+  const EventsServiceMock = jasmine.createSpyObj('EventsService', ['getUsersEvents']);
+  EventsServiceMock.getUsersEvents = () => of(MockReqest);
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
