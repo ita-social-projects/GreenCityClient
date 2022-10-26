@@ -10,6 +10,7 @@ import { of } from 'rxjs';
 import { UserProfile } from 'src/app/ubs/ubs-admin/models/ubs-admin.interface';
 import { ClientProfileService } from '../services/client-profile.service';
 import { UbsUserProfilePageComponent } from './ubs-user-profile-page.component';
+import { HttpClientTestingModule, HttpTestingController } from '@angular/common/http/testing';
 
 describe('UbsUserProfilePageComponent', () => {
   const userProfileDataMock: UserProfile = {
@@ -24,7 +25,7 @@ describe('UbsUserProfilePageComponent', () => {
         actual: false,
         region: 'Kyiv',
         coordinates: { latitude: 0, longitude: 0 },
-        street: 'Jhohn Lenon '
+        street: 'Jhohn Lenon'
       }
     ],
     recipientEmail: 'blackstar@gmail.com',
@@ -34,10 +35,10 @@ describe('UbsUserProfilePageComponent', () => {
     recipientSurname: 'Star',
     hasPassword: true
   };
-
   let component: UbsUserProfilePageComponent;
   let fixture: ComponentFixture<UbsUserProfilePageComponent>;
   let clientProfileServiceMock: ClientProfileService;
+  let httpMock: HttpTestingController;
   clientProfileServiceMock = jasmine.createSpyObj('ClientProfileService', {
     getDataClientProfile: of(userProfileDataMock),
     postDataClientProfile: of({})
@@ -80,10 +81,9 @@ describe('UbsUserProfilePageComponent', () => {
 
   it('function composeData has to return data', () => {
     let mock;
-    mock = userProfileDataMock;
-    mock.recipientPhone = '972333333';
+    mock = JSON.parse(JSON.stringify(userProfileDataMock));
     const data = component.composeFormData(userProfileDataMock);
-
+    mock.recipientPhone = '972333333';
     expect(data).toEqual(mock);
   });
 
@@ -200,7 +200,7 @@ describe('UbsUserProfilePageComponent', () => {
     expect(submitData).toEqual(userProfileDataMock);
   });
 
-  it('method onSubmit should return submitData  without alternative email ', () => {
+  it('method onSubmit should return submitData without alternative email ', () => {
     let submitData;
     submitData = {
       addressDto: [
