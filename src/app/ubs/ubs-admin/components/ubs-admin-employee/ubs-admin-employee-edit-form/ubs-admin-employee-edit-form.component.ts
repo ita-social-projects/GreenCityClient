@@ -119,8 +119,8 @@ export class UbsAdminEmployeeEditFormComponent implements OnInit, OnDestroy {
         phoneNumber: this.data.phoneNumber.replace('+', ''),
         email: this.data?.email,
         imageURL: this.data?.image,
-        employeePositionsIds: this.data.employeePositions.map((position) => position.id),
-        receivingStationsIds: this.data.receivingStations.map((station) => station.id)
+        employeePositionsIds: this.employeePositions.map((position) => position.id),
+        receivingStationsIds: this.receivingStations.map((station) => station.id)
       };
     }
   }

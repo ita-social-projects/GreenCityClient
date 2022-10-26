@@ -1,4 +1,4 @@
-import { BehaviorSubject, Observable } from 'rxjs';
+import { BehaviorSubject, Observable, of } from 'rxjs';
 import { Employees } from '../models/ubs-admin.interface';
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
@@ -43,5 +43,14 @@ export class UbsAdminEmployeeService {
 
   deleteEmployee(id: number) {
     return this.http.delete(`${ubsAdminEmployeeLink}/delete-employee/${id}`);
+  }
+
+  getAllEmployeePermissions(email: string) {
+    return this.http.get(`${ubsAdminEmployeeLink}/get-all-authorities/?email=${email}`);
+  }
+
+  updatePermissions(permissions) {
+    console.log(permissions);
+    return of(true);
   }
 }

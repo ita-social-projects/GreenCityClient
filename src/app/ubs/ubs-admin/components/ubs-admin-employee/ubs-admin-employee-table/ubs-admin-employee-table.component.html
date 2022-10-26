@@ -108,7 +108,7 @@
                 <span class="menu-item-action">{{ 'employees.actions.edit' | translate }}</span>
               </span>
             </button>
-            <button class="menu-item" (click)="openRightsDialog($event)" mat-menu-item>
+            <button class="menu-item" (click)="openPermissionsDialog(employee, $event)" mat-menu-item>
               <span class="menu-item-content">
                 <img class="menu-item-img" [src]="icons.settings" alt="edit" />
                 <span class="menu-item-action">{{ 'employees.actions.settings' | translate }}</span>
@@ -129,7 +129,7 @@
         </mat-expansion-panel-header>
 
         <div class="actions-row">
-          <div class="btn actions-btn options" (click)="openRightsDialog($event)">
+          <div class="btn actions-btn options" (click)="openPermissionsDialog(employee, $event)">
             <img [src]="icons.settings" alt="settings" />
             <span>{{ 'employees.settings' | translate }}</span>
           </div>

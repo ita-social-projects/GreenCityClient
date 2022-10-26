@@ -444,9 +444,9 @@
     "drag-photo": "Drag the image or",
     "download-photo": "download from the device",
     "warning-title": "Are you sure you want to remove this employee from the system?",
-    "settings": "Set rights",
+    "settings": "Set permissions",
     "edit": "Edit",
-    "rights": {
+    "permissions": {
       "clients": {
         "title": "Clients",
         "see-main-page": "See the main page of the Client"
@@ -494,11 +494,11 @@
     },
     "tooltip": {
       "title": "Employee card",
-      "text": "By clicking on the employee's card, you get all additional information about the employee: all positions, detailed information, etc., as well as the ability to edit the employee's data, adjust the employee's rights and delete the employee."
+      "text": "By clicking on the employee's card, you get all additional information about the employee: all positions, detailed information, etc., as well as the ability to edit the employee's data, adjust the employee's permissions and delete the employee."
     },
     "actions": {
       "edit": "Edit employee data",
-      "settings": "Set employee rights",
+      "settings": "Set employee permissions",
       "delete": "Delete employee"
     },
     "btn": {
