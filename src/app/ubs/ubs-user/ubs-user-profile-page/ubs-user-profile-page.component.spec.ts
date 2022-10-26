@@ -10,7 +10,6 @@ import { of } from 'rxjs';
 import { UserProfile } from 'src/app/ubs/ubs-admin/models/ubs-admin.interface';
 import { ClientProfileService } from '../services/client-profile.service';
 import { UbsUserProfilePageComponent } from './ubs-user-profile-page.component';
-import { HttpClientTestingModule, HttpTestingController } from '@angular/common/http/testing';
 
 describe('UbsUserProfilePageComponent', () => {
   const userProfileDataMock: UserProfile = {
@@ -38,7 +37,6 @@ describe('UbsUserProfilePageComponent', () => {
   let component: UbsUserProfilePageComponent;
   let fixture: ComponentFixture<UbsUserProfilePageComponent>;
   let clientProfileServiceMock: ClientProfileService;
-  let httpMock: HttpTestingController;
   clientProfileServiceMock = jasmine.createSpyObj('ClientProfileService', {
     getDataClientProfile: of(userProfileDataMock),
     postDataClientProfile: of({})
