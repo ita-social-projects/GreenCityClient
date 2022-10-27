@@ -74,7 +74,6 @@ export class ProfileDashboardComponent implements OnInit, OnDestroy {
       .subscribe((res) => {
         this.eventsList = res.page;
         this.eventsTotal = res.totalElements;
-        console.log(this.eventsList);
       });
 
     this.localStorageService.setCurentPage('previousPage', '/profile');
