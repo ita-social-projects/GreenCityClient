@@ -101,16 +101,16 @@ export class UbsUserOrdersComponent implements OnInit, OnDestroy {
 
     this.orderIdToScroll = this.localStorage.getOrderIdToRedirect();
     if (this.orderIdToScroll) {
-      this.openExtendedOrder(this.orderIdToScroll);
+      this.openExtendedOrder();
       this.localStorage.setOrderIdToRedirect(0);
     }
   }
 
-  openExtendedOrder(orderId: number): void {
-    this.userOrdersService.getOrderToScroll(orderId).subscribe((res) => {
+  openExtendedOrder(): void {
+    this.userOrdersService.getOrderToScroll(this.orderIdToScroll).subscribe((res) => {
       this.orderToScroll = res;
       this.checkOrderStatus(this.orderToScroll);
-      this.scrollToOrder(orderId);
+      this.scrollToOrder();
     });
   }
 
@@ -125,33 +125,33 @@ export class UbsUserOrdersComponent implements OnInit, OnDestroy {
     }
   }
 
-  async scrollToOrder(orderId: number): Promise<any> {
+  async scrollToOrder(): Promise<any> {
     const status = this.selected.value === 0 ? 'current' : 'closed';
     let page;
     let isPresent;
     if (status === 'current') {
-      isPresent = this.currentOrders.find((item) => item.id === orderId);
+      isPresent = this.currentOrders.find((item) => item.id === this.orderIdToScroll);
       if (!isPresent) {
         do {
           this.currentOrdersLoadedPage += 1;
           page = this.currentOrdersLoadedPage;
           await this.loadOrders(status, page, this.ordersPerPage);
-          isPresent = this.currentOrders.find((item) => item.id === orderId);
+          isPresent = this.currentOrders.find((item) => item.id === this.orderIdToScroll);
         } while (!isPresent);
       }
     } else {
-      isPresent = this.closedOrders.find((item) => item.id === orderId);
+      isPresent = this.closedOrders.find((item) => item.id === this.orderIdToScroll);
       if (!isPresent) {
         do {
           this.closedOrdersLoadedPage += 1;
           page = this.closedOrdersLoadedPage;
           await this.loadOrders(status, page, this.ordersPerPage);
-          isPresent = this.closedOrders.find((item) => item.id === orderId);
+          isPresent = this.closedOrders.find((item) => item.id === this.orderIdToScroll);
         } while (!isPresent);
       }
     }
     isPresent.extend = true;
-    setTimeout(() => this.scroll(orderId), 0);
+    setTimeout(() => this.scroll(this.orderIdToScroll), 0);
   }
 
   scroll(orderId: number): void {

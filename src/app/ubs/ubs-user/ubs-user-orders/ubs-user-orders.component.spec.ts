@@ -151,40 +151,32 @@ describe('UbsUserOrdersComponent', () => {
     expect(localStorageServiceMock.getOrderIdToRedirect).toHaveBeenCalled();
   });
 
-  it('should scroll to extended order in case redirection from bonuses page', async () => {
+  it('should call openExtendedOrder and setOrderIdToRedirect methods', async () => {
     await buildComponent();
-    component.ngOnInit();
-    component.openExtendedOrder(component.orderIdToScroll);
+    component.openExtendedOrder();
     localStorageServiceMock.setOrderIdToRedirect(0);
-    fixture.detectChanges();
-    expect(component.openExtendedOrder).toHaveBeenCalledWith(component.orderIdToScroll);
+    expect(component.openExtendedOrder).toHaveBeenCalled();
     expect(localStorageServiceMock.setOrderIdToRedirect).toHaveBeenCalledWith(0);
   });
 
-  it('should check order status and scroll to this order', async () => {
+  it('should call checkOrderStatus and scrollToOrder methods', async () => {
     await buildComponent();
-    component.ngOnInit();
     component.checkOrderStatus(component.orderToScroll);
-    component.scrollToOrder(component.orderIdToScroll);
-    fixture.detectChanges();
-    expect(component.orderToScroll).toEqual(fakeOrder1);
+    component.scrollToOrder();
     expect(component.checkOrderStatus).toHaveBeenCalledWith(component.orderToScroll);
-    expect(component.scrollToOrder).toHaveBeenCalledWith(component.orderIdToScroll);
+    expect(component.scrollToOrder).toHaveBeenCalled();
   });
 
-  it('should call function to choose tab', async () => {
+  it('should call chooseTab method', async () => {
     await buildComponent();
     const orderStatus = true;
-    component.ngOnInit();
     component.chooseTab(orderStatus);
-    fixture.detectChanges();
     expect(component.chooseTab).toHaveBeenCalledWith(orderStatus);
   });
 
   it('should open tab with current or closed orders list', async () => {
     await buildComponent();
     const isOrderClosed = true;
-    component.ngOnInit();
     component.chooseTab(isOrderClosed);
     component.selected.setValue(1);
     fixture.detectChanges();
@@ -197,7 +189,7 @@ describe('UbsUserOrdersComponent', () => {
     const isPresent = fakeOrder1;
     jasmine.clock().install();
     component.ngOnInit();
-    component.scrollToOrder(component.orderIdToScroll);
+    component.scrollToOrder();
     jasmine.clock().tick(0);
     component.scroll(component.orderIdToScroll);
     fixture.detectChanges();
