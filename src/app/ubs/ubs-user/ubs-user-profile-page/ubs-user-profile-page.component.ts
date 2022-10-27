@@ -178,6 +178,7 @@ export class UbsUserProfilePageComponent implements OnInit {
         if (!updatedAddres.houseCorpus) {
           delete updatedAddres.houseCorpus;
         }
+
         if (!updatedAddres.entranceNumber) {
           delete updatedAddres.entranceNumber;
         }
