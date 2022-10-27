@@ -85,7 +85,7 @@
                 />
                 <div *ngIf="getControl('alternateEmail').invalid && getControl('alternateEmail').touched">
                   <div class="error-message">
-                    {{ 'user.auth.sign-in.this-is-not-email' | translate }}
+                    {{ getErrorMessageKey(getControl('alternateEmail'), true) | translate }}
                   </div>
                 </div>
               </div>

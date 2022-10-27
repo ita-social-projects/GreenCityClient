@@ -239,13 +239,17 @@ export class UbsUserProfilePageComponent implements OnInit {
     return this.userForm.get(control);
   }
 
-  public getErrorMessageKey(abstractControl: AbstractControl): string {
+  public getErrorMessageKey(abstractControl: AbstractControl, emailTypeOfControl: boolean = false): string {
     if (abstractControl.errors.required) {
       return 'input-error.required';
     }
 
-    if (abstractControl.errors.maxlength) {
+    if (abstractControl.errors.maxlength && !emailTypeOfControl) {
       return 'ubs-client-profile.error-message-if-edit-name-surname';
+    }
+
+    if (abstractControl.errors.maxlength && emailTypeOfControl) {
+      return 'ubs-client-profile.error-message-if-edit-alternativeEmail';
     }
 
     if (abstractControl.errors.pattern) {

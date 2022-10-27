@@ -270,10 +270,17 @@ describe('UbsUserProfilePageComponent', () => {
     expect(submitData).toEqual(userProfileDataMock);
   });
 
-  it('method toggleAlternativeEmail should add control to userForm when input is shown', () => {
-    component.alternativeEmailDisplay = true;
+  it('should toggle alternativeEmail state', () => {
     component.toggleAlternativeEmail();
-    expect(component.userProfile.alternateEmail).toBeDefined();
+    expect(component.toggleAlternativeEmail).toBeTruthy();
+    expect(component.alternativeEmailDisplay).toBe(true);
+  });
+
+  it('method getErrorMessageKey should return error message for alternativeEmail maxLenght', () => {
+    const formControlMock = { errors: { maxlength: true } } as unknown as AbstractControl;
+    const result = component.getErrorMessageKey(formControlMock, true);
+
+    expect(result).toBe('ubs-client-profile.error-message-if-edit-alternativeEmail');
   });
 
   it('method toggleAlternativeEmail should toggle input for alternative email', () => {
