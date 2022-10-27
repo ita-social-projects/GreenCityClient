@@ -20,6 +20,7 @@ import { BonusesService } from '../ubs-user-bonuses/services/bonuses.service';
 import { APP_BASE_HREF } from '@angular/common';
 import { By } from '@angular/platform-browser';
 import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
+import { FormControl, ReactiveFormsModule } from '@angular/forms';
 
 describe('UbsUserOrdersComponent', () => {
   let component: UbsUserOrdersComponent;
@@ -72,7 +73,6 @@ describe('UbsUserOrdersComponent', () => {
   };
 
   const localStorageServiceMock = new LocalStorageService();
-  let localStorageSpy;
 
   const selectMatTabByIdx = async (idx) => {
     const label = fixture.debugElement.queryAll(By.css('.mat-tab-label'))[idx];
@@ -91,7 +91,8 @@ describe('UbsUserOrdersComponent', () => {
         InfiniteScrollModule,
         MatTabsModule,
         NoopAnimationsModule,
-        RouterModule.forRoot([])
+        RouterModule.forRoot([]),
+        ReactiveFormsModule
       ],
       providers: [
         { provide: Router, useValue: RouterMock },
@@ -103,13 +104,22 @@ describe('UbsUserOrdersComponent', () => {
       ],
       schemas: [CUSTOM_ELEMENTS_SCHEMA]
     });
-    localStorageSpy = spyOn(localStorageServiceMock, 'getOrderIdToRedirect');
   }));
 
   const buildComponent = async () => {
     await TestBed.compileComponents();
     fixture = TestBed.createComponent(UbsUserOrdersComponent);
     component = fixture.componentInstance;
+    spyOn(localStorageServiceMock, 'getOrderIdToRedirect');
+    spyOn(localStorageServiceMock, 'setOrderIdToRedirect');
+    spyOn(component, 'openExtendedOrder');
+    spyOn(component, 'checkOrderStatus');
+    spyOn(component, 'chooseTab');
+    spyOn(component, 'scrollToOrder');
+    spyOn(component, 'scroll');
+    component.orderIdToScroll = 1315;
+    component.orderToScroll = fakeOrder1;
+    component.selected = new FormControl({ value: 0 });
     fixture.detectChanges();
   };
 
@@ -133,31 +143,66 @@ describe('UbsUserOrdersComponent', () => {
     expect(list.properties.orders).toEqual(fakeCurrentOrdersData);
   });
 
-  it('should call localStorage.getOrderIdToRedirect', async () => {
+  it('should get orderId to redirect from localStorage', async () => {
     await buildComponent();
     component.ngOnInit();
-    localStorageSpy.and.callThrough();
+    localStorageServiceMock.getOrderIdToRedirect();
     fixture.detectChanges();
-    expect(localStorageSpy).toHaveBeenCalled();
+    expect(localStorageServiceMock.getOrderIdToRedirect).toHaveBeenCalled();
   });
 
-  it('should asign the result of calling localStorage.getOrderIdToRedirect to variable ', async () => {
+  it('should scroll to extended order in case redirection from bonuses page', async () => {
     await buildComponent();
-    component.ngOnInit();
-    localStorageSpy.and.returnValue(1315);
-    component.orderIdToScroll = 1315;
-    fixture.detectChanges();
-    expect(component.orderIdToScroll).toEqual(1315);
-  });
-
-  it('should call functions in case orderIdToScroll not equal to 0', async () => {
-    await buildComponent();
-    spyOn(component, 'openExtendedOrder');
-    component.orderIdToScroll = 1315;
     component.ngOnInit();
     component.openExtendedOrder(component.orderIdToScroll);
+    localStorageServiceMock.setOrderIdToRedirect(0);
     fixture.detectChanges();
     expect(component.openExtendedOrder).toHaveBeenCalledWith(component.orderIdToScroll);
+    expect(localStorageServiceMock.setOrderIdToRedirect).toHaveBeenCalledWith(0);
+  });
+
+  it('should check order status and scroll to this order', async () => {
+    await buildComponent();
+    component.ngOnInit();
+    component.checkOrderStatus(component.orderToScroll);
+    component.scrollToOrder(component.orderIdToScroll);
+    fixture.detectChanges();
+    expect(component.orderToScroll).toEqual(fakeOrder1);
+    expect(component.checkOrderStatus).toHaveBeenCalledWith(component.orderToScroll);
+    expect(component.scrollToOrder).toHaveBeenCalledWith(component.orderIdToScroll);
+  });
+
+  it('should call function to choose tab', async () => {
+    await buildComponent();
+    const orderStatus = true;
+    component.ngOnInit();
+    component.chooseTab(orderStatus);
+    fixture.detectChanges();
+    expect(component.chooseTab).toHaveBeenCalledWith(orderStatus);
+  });
+
+  it('should open tab with current or closed orders list', async () => {
+    await buildComponent();
+    const isOrderClosed = true;
+    component.ngOnInit();
+    component.chooseTab(isOrderClosed);
+    component.selected.setValue(1);
+    fixture.detectChanges();
+    expect(component.selected.value).toEqual(1);
+  });
+
+  it('scroll to particular order in current tab', async () => {
+    await buildComponent();
+    const status = 'current';
+    const isPresent = fakeOrder1;
+    jasmine.clock().install();
+    component.ngOnInit();
+    component.scrollToOrder(component.orderIdToScroll);
+    jasmine.clock().tick(0);
+    component.scroll(component.orderIdToScroll);
+    fixture.detectChanges();
+    expect(component.scroll).toHaveBeenCalledWith(component.orderIdToScroll);
+    jasmine.clock().uninstall();
   });
 
   it('should render list with more current orders on scroll', async () => {
