@@ -48,6 +48,7 @@ export class EventsListItemComponent implements OnInit, OnDestroy {
   public bsModalRef: BsModalRef;
 
   public langChangeSub: Subscription;
+  public currentLang: string;
 
   deleteDialogData = {
     popupTitle: 'homepage.events.delete-title',
@@ -229,6 +230,7 @@ export class EventsListItemComponent implements OnInit, OnDestroy {
 
   public bindLang(lang: string): void {
     this.translate.setDefaultLang(lang);
+    this.currentLang = this.localStorageService.getCurrentLanguage();
   }
 
   public subscribeToLangChange(): void {
