@@ -824,5 +824,21 @@
     "max-length-comment": "The field should contain 1-255 characters.",
     "pattern": "Only alphabetic characters and special characters “-” (hyphen), “ ” (space) and “'” (apostrophe) are allowed.",
     "number-length": "The field should contain 12 characters."
+  },
+  "ubs-notifications": {
+    "page-title": "Notifications",
+    "add": "Add",
+    "filters": {
+      "topic": "Notification topic",
+      "trigger": "Triggering event",
+      "status": "Status"
+    },
+    "columns": {
+      "topic": "Notification topic",
+      "trigger": "Triggering event",
+      "time": "Time",
+      "period": "Repeat",
+      "status": "Status"
+    }
   }
 }
