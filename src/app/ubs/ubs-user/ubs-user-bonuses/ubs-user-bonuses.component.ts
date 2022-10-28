@@ -18,7 +18,7 @@ export class UbsUserBonusesComponent implements OnInit, OnDestroy {
   dataSource = new MatTableDataSource<BonusModel>();
   totalBonuses: number;
   isLoading = true;
-  bonusesList: BonusModel[];
+  bonusesList: BonusModel[] = [];
   destroy: Subject<boolean> = new Subject<boolean>();
 
   constructor(private snackBar: MatSnackBarComponent, private bonusesService: BonusesService) {}
