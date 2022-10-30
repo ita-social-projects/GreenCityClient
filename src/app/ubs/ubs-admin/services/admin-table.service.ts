@@ -100,6 +100,31 @@ export class AdminTableService {
     return endPointColumnName;
   }
 
+  public changeColumnNameEqualToTable(column: string): string {
+    let tableColumnName: string;
+    switch (column) {
+      case 'deliveryDate':
+        tableColumnName = 'dateOfExport';
+        break;
+      case 'responsibleDriverId':
+        tableColumnName = 'responsibleDriver';
+        break;
+      case 'responsibleNavigatorId':
+        tableColumnName = 'responsibleNavigator';
+        break;
+      case 'responsibleCallerId':
+        tableColumnName = 'responsibleCaller';
+        break;
+      case 'responsibleLogicManId':
+        tableColumnName = 'responsibleLogicMan';
+        break;
+      default:
+        tableColumnName = column;
+        break;
+    }
+    return tableColumnName;
+  }
+
   changeFilters(checked: boolean, currentColumn: string, option: IFilteredColumnValue): void {
     const elem = {};
     const columnName = this.changeColumnNameEqualToEndPoint(currentColumn);
@@ -170,12 +195,9 @@ export class AdminTableService {
   }
 
   getDateChecked(dateColumn): boolean {
-    console.log('admin', dateColumn, this.columnsForFiltering);
-
     const currentColumnDateFilter = this.columnsForFiltering.find((column) => {
       return column.key === dateColumn;
     });
-    console.log('admin', currentColumnDateFilter);
     return currentColumnDateFilter.values[0]?.filtered;
   }
 
@@ -192,7 +214,7 @@ export class AdminTableService {
     return date;
   }
 
-  private saveDateFilters(checked, currentColumn, elem) {
+  public saveDateFilters(checked, currentColumn, elem) {
     this.columnsForFiltering.forEach((column) => {
       if (column.key === currentColumn) {
         column.values = [{ ...elem, filtered: checked }];

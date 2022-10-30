@@ -15,12 +15,13 @@ import { TranslateModule } from '@ngx-translate/core';
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { RouterTestingModule } from '@angular/router/testing';
 import { Store } from '@ngrx/store';
-import { Observable, of } from 'rxjs';
+import { BehaviorSubject, Observable, of } from 'rxjs';
 import { MatDialogConfig } from '@angular/material/dialog';
 import { ServerTranslatePipe } from 'src/app/shared/translate-pipe/translate-pipe.pipe';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
 import { SelectionModel } from '@angular/cdk/collections';
+import { Language } from 'src/app/main/i18n/Language';
 
 describe('UsbAdminTableComponent', () => {
   let component: UbsAdminTableComponent;
@@ -28,9 +29,16 @@ describe('UsbAdminTableComponent', () => {
   const storeMock = jasmine.createSpyObj('store', ['select', 'dispatch']);
   const localStorageServiceMock = jasmine.createSpyObj('localStorageService', [
     'getUbsAdminOrdersTableColumnsWidthPreference',
-    'setUbsAdminOrdersTableColumnsWidthPreference'
+    'setUbsAdminOrdersTableColumnsWidthPreference',
+    'setUbsAdminOrdersTableTitleColumnFilter',
+    'getUbsAdminOrdersTableTitleColumnFilter',
+    'languageBehaviourSubject',
+    'getCurrentLanguage'
   ]);
-  localStorageServiceMock.languageBehaviourSubject = of('ua');
+
+  localStorageServiceMock.languageBehaviourSubject = new BehaviorSubject('ua');
+  localStorageServiceMock.getCurrentLanguage = () => 'ua' as Language;
+  localStorageServiceMock.languageSubject = of('ua');
 
   const FakeMatDialogConfig = {};
 
@@ -63,6 +71,10 @@ describe('UsbAdminTableComponent', () => {
   }));
 
   beforeEach(() => {
+    localStorageServiceMock.getUbsAdminOrdersTableTitleColumnFilter = () => {
+      return [{ orderStatus: 'FORMED' }];
+    };
+
     storeMock.select = () => of(false);
     fixture = TestBed.createComponent(UbsAdminTableComponent);
     component = fixture.componentInstance;
