@@ -507,6 +507,12 @@ $ubs-header-height: 80px;
   background-color: $hr-color;
 }
 
+@media (min-width: 320px) and (max-width: 480px) {
+  .header_navigation-menu-right-list li {
+    padding: 10px 0;
+  }
+}
+
 @media (min-width: 576px) {
   .container {
     padding: 0;
