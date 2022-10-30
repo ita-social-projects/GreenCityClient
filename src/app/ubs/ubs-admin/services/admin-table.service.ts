@@ -201,6 +201,13 @@ export class AdminTableService {
     return currentColumnDateFilter.values[0]?.filtered;
   }
 
+  setDateCheckedFromStorage(dateColumn): void {
+    const currentColumnDateFilter = this.columnsForFiltering.find((column) => {
+      return column.key === dateColumn;
+    });
+    currentColumnDateFilter.values[0].filtered = true;
+  }
+
   getDateValue(suffix: 'From' | 'To', dateColumn): boolean {
     let date;
     const currentColumnDateFilter = this.columnsForFiltering.find((column) => {

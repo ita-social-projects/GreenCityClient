@@ -206,15 +206,17 @@ export class UbsAdminTableComponent implements OnInit, AfterViewChecked, OnDestr
             const column = this.adminTableService.changeColumnNameEqualToTable(Object.keys(filter)[0]);
             const value = String(Object.values(filter)[0]);
             const options: IFilteredColumnValue = { key: value, filtered: false };
-
             this.changeFilters(true, column, options);
             this.applyFilters();
           } else {
             const column = this.adminTableService.changeColumnNameEqualToTable(Object.keys(filter)[0].split('From')[0]);
+            const value = Object.values(filter);
             this.adminTableService.saveDateFilters(true, column, filter);
+            this.adminTableService.setDateCheckedFromStorage(column);
+            this.adminTableService.filters = [...this.adminTableService.filters, filter];
+            this.localStorageService.setUbsAdminOrdersTableTitleColumnFilter(this.adminTableService.filters);
           }
         });
-
         this.isRestoredFilters = true;
       }
     });
