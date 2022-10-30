@@ -31,7 +31,7 @@ export const listElementsAdmin: object[] = [
   },
   {
     link: 'assets/img/sidebarIcons/none_notification_Bell.svg',
-    name: 'ubs-user.messages',
+    name: 'ubs-sidebar.notifications',
     routerLink: 'notifications'
   }
 ];

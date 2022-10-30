@@ -518,7 +518,8 @@
     "employees": "Employees",
     "documents": "Documents",
     "bonuses": "Bonuses",
-    "tariffs": "Tariffs"
+    "tariffs": "Tariffs",
+    "notifications": "Notifications"
   },
   "ubs-employee": {
     "add-employee": "Add employee",
@@ -830,12 +831,15 @@
     "add": "Add",
     "filters": {
       "topic": "Notification topic",
-      "trigger": "Triggering event",
-      "status": "Status"
+      "trigger": "Trigger",
+      "status": "Status",
+      "topic-placeholder": "Select topic",
+      "trigger-placeholder": "Select trigger",
+      "status-placeholder": "Select status"
     },
     "columns": {
       "topic": "Notification topic",
-      "trigger": "Triggering event",
+      "trigger": "Trigger",
       "time": "Time",
       "period": "Repeat",
       "status": "Status"

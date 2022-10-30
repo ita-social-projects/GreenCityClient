@@ -516,7 +516,8 @@
     "employees": "Працівники",
     "documents": "Документи",
     "bonuses": "Бонуси",
-    "tariffs": "Тарифи"
+    "tariffs": "Тарифи",
+    "notifications": "Повідомлення"
   },
   "ubs-employee": {
     "add-employee": "Додати працівника",
@@ -830,7 +831,10 @@
     "filters": {
       "topic": "Тема повідомлення",
       "trigger": "Подія для активації",
-      "status": "Стан"
+      "status": "Стан",
+      "topic-placeholder": "Оберіть тему",
+      "trigger-placeholder": "Оберіть подію",
+      "status-placeholder": "Оберіть стан"
     },
     "columns": {
       "topic": "Тема повідомлення",

@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
+import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
 
 import { NotificationsService } from '../../services/notifications.service';
 
@@ -10,12 +11,9 @@ import { NotificationsService } from '../../services/notifications.service';
   styleUrls: ['./ubs-admin-notification-list.component.scss']
 })
 export class UbsAdminNotificationListComponent implements OnInit {
-  public icons = {
-    setting: './assets/img/ubs-tariff/setting.svg',
-    crumbs: './assets/img/ubs-tariff/crumbs.svg',
-    restore: './assets/img/ubs-tariff/restore.svg',
-    arrowDown: './assets/img/ubs-tariff/arrow-down.svg',
-    arrowRight: './assets/img/ubs-tariff/arrow-right.svg'
+  icons = {
+    plus: 'assets/img/ubs-admin-notifications/plus.svg',
+    arrowDown: './assets/img/arrow-down.svg'
   };
 
   activationEvents = {
@@ -34,6 +32,18 @@ export class UbsAdminNotificationListComponent implements OnInit {
     inactive: 'Inactive'
   };
 
+  // triggers = [
+  //   'ORDER_NOT_PAID_FOR_3_DAYS_AFTER_BEING_FORMED',
+  //   'PAYMENT_SYSTEM_RESPONSE',
+  //   'ORDER_CONFIRMED_AND_INCLUDED_TO_ITINERARY',
+  //   'PAYMENT_STATUS_PARTIALLY_PAID',
+  //   'OVERPAYMENT_AFTER_ORDER_IS_DONE',
+  //   'ORDER_VIOLATION_ADDED',
+  //   'ORDER_VIOLATION_CANCELED',
+  //   'ORDER_VIOLATION_CHANGED',
+  //   '2_MONTH_AFTER_LAST_ORDER'
+  // ]
+
   notifications: any[] = [];
 
   filtersForm: FormGroup;
@@ -42,14 +52,22 @@ export class UbsAdminNotificationListComponent implements OnInit {
   currentPage = 1;
   totalItems = 0;
 
+  lang = 'en';
+
   constructor(
     private fb: FormBuilder,
     private router: Router,
     private route: ActivatedRoute,
-    private notificationsService: NotificationsService
+    private notificationsService: NotificationsService,
+    private localStorageService: LocalStorageService
   ) {}
 
   ngOnInit(): void {
+    this.localStorageService.languageBehaviourSubject.subscribe((lang) => {
+      this.lang = lang;
+      console.log(this.lang);
+    });
+
     this.loadPage(1);
     this.filtersForm = this.fb.group({
       topic: [''],
@@ -87,7 +105,7 @@ export class UbsAdminNotificationListComponent implements OnInit {
 
   // }
 
-  onPageChanged(page) {
+  onPageChanged(page): void {
     this.loadPage(page, this.filtersForm.value);
     this.currentPage = page;
   }
@@ -96,7 +114,7 @@ export class UbsAdminNotificationListComponent implements OnInit {
     const data = await this.notificationsService.getAllNotificationTemplates(page - 1, this.itemsPerPage, filters);
     this.notifications = data.page.map((notification) => ({
       id: notification.id,
-      topic: notification.title,
+      topic: { en: notification.title.enTitle, ua: notification.title.uaTitle },
       activationEvent: notification.notificationType,
       period: notification.schedule?.cron ?? '',
       time: '',
