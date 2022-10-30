@@ -2,6 +2,7 @@ import { HttpClientTestingModule, HttpTestingController } from '@angular/common/
 import { TestBed } from '@angular/core/testing';
 import { AdminTableService } from './admin-table.service';
 import { environment } from '@environment/environment.js';
+import { IFilteredColumn } from '../models/ubs-admin.interface';
 
 describe('AdminTableService', () => {
   let httpMock: HttpTestingController;
@@ -76,5 +77,75 @@ describe('AdminTableService', () => {
   it('should return singhle number when howChangeCell is called', () => {
     const change = service.howChangeCell(false, [], 3);
     expect(change).toEqual([3]);
+  });
+
+  it('should return column equal to table names', () => {
+    const columns = [
+      'deliveryDate',
+      'responsibleDriverId',
+      'responsibleNavigatorId',
+      'responsibleCallerId',
+      'responsibleLogicManId',
+      'orderStatus'
+    ];
+    const mockedColumns = [
+      'dateOfExport',
+      'responsibleDriver',
+      'responsibleNavigator',
+      'responsibleCaller',
+      'responsibleLogicMan',
+      'orderStatus'
+    ];
+
+    columns.forEach((column) => {
+      const change = service.changeColumnNameEqualToTable(column);
+      expect(change).toEqual(mockedColumns[columns.indexOf(column)]);
+    });
+  });
+
+  it('should return column equal to endpont names', () => {
+    const columns = [
+      'dateOfExport',
+      'responsibleDriver',
+      'responsibleNavigator',
+      'responsibleCaller',
+      'responsibleLogicMan',
+      'orderStatus'
+    ];
+    const mockedColumns = [
+      'deliveryDate',
+      'responsibleDriverId',
+      'responsibleNavigatorId',
+      'responsibleCallerId',
+      'responsibleLogicManId',
+      'orderStatus'
+    ];
+
+    columns.forEach((column) => {
+      const change = service.changeColumnNameEqualToEndPoint(column);
+      expect(change).toEqual(mockedColumns[columns.indexOf(column)]);
+    });
+  });
+
+  it('should set as checked column', () => {
+    const column = 'orderStatus';
+    service.columnsForFiltering = [
+      {
+        en: 'Order status',
+        key: 'orderStatus',
+        ua: 'Статус замовлення',
+        values: [
+          { en: 'Formed', filtered: false, key: 'FORMED', ua: 'Сформовано' },
+          { en: 'Canceled', filtered: false, key: 'CANCELED', ua: 'Скасовано' },
+          { en: 'Completed', filtered: false, key: 'COMPLETED', ua: 'Завершено' }
+        ]
+      }
+    ];
+
+    const currentColumnDateFilter = service.columnsForFiltering.find((col) => {
+      return col.key === column;
+    });
+    service.setDateCheckedFromStorage(column);
+    expect(currentColumnDateFilter.values[0].filtered).toBeTruthy();
   });
 });
