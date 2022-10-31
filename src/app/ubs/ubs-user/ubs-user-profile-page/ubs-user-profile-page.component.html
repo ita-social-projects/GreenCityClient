@@ -5,6 +5,9 @@
         <div class="header-text">
           <div class="header-title">
             <h3>{{ 'ubs-client-profile.data' | translate }}</h3>
+            <div *ngIf="isEditing && !userProfile?.recipientName">
+              <div class="alert-data-message">{{ 'ubs-client-profile.alert-data-message' | translate }}</div>
+            </div>
           </div>
           <div class="header-buttons">
             <ng-container *ngIf="!isEditing">
