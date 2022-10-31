@@ -86,9 +86,9 @@ export class UbsAdminTariffsAddTariffServicePopUpComponent implements OnInit {
       commission,
       tariffTranslationDtoList: [
         {
-          description,
           name,
-          nameEng
+          nameEng,
+          description
         }
       ]
     };
