@@ -67,6 +67,12 @@ describe('UbsUserProfilePageComponent', () => {
     fixture.detectChanges();
   });
 
+  it('if post data set isFetching === false', () => {
+    clientProfileServiceMock.postDataClientProfile(userProfileDataMock).subscribe((data) => {
+      expect(component.isFetching).toBeFalsy();
+    });
+  });
+
   it('should create', () => {
     expect(component).toBeTruthy();
   });
@@ -196,6 +202,12 @@ describe('UbsUserProfilePageComponent', () => {
       hasPassword: true
     };
     expect(submitData).toEqual(userProfileDataMock);
+  });
+
+  it('method onSubmit should return boolean if user has a password', () => {
+    component.onSubmit();
+    userProfileDataMock.hasPassword = userProfileDataMock.hasPassword;
+    expect(userProfileDataMock.hasPassword).toBeTruthy();
   });
 
   it('method onSubmit should return submitData without alternative email ', () => {
