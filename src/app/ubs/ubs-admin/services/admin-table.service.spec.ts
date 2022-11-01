@@ -3,10 +3,12 @@ import { TestBed } from '@angular/core/testing';
 import { AdminTableService } from './admin-table.service';
 import { environment } from '@environment/environment.js';
 import { IFilteredColumn } from '../models/ubs-admin.interface';
+import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
 
 describe('AdminTableService', () => {
   let httpMock: HttpTestingController;
   let service: AdminTableService;
+  let localStorageService: LocalStorageService;
   const urlMock = environment.ubsAdmin.backendUbsAdminLink + '/management';
   const isdMock = [1, 2, 3];
 
@@ -15,6 +17,7 @@ describe('AdminTableService', () => {
       imports: [HttpClientTestingModule]
     });
     service = TestBed.inject(AdminTableService);
+    localStorageService = TestBed.inject(LocalStorageService);
     httpMock = TestBed.inject(HttpTestingController);
   });
 
@@ -147,5 +150,27 @@ describe('AdminTableService', () => {
     });
     service.setDateCheckedFromStorage(column);
     expect(currentColumnDateFilter.values[0].filtered).toBeTruthy();
+  });
+
+  it('should set data to local storage', () => {
+    const mockedData = [{ orderStatus: 'FORMED' }, { deliveryDateTo: '2022-05-01', deliveryDateFrom: '2021-05-01' }];
+
+    localStorageService.setUbsAdminOrdersTableTitleColumnFilter(mockedData);
+    expect(localStorageService.getUbsAdminOrdersTableTitleColumnFilter()).toEqual(mockedData);
+  });
+
+  it('should return howChangeCell to be empty array', () => {
+    const change = service.howChangeCell(true, [], 3);
+    expect(change).toEqual([]);
+  });
+
+  it('should return howChangeCell to be  group', () => {
+    const change = service.howChangeCell(false, [1, 2], 3);
+    expect(change).toEqual([1, 2]);
+  });
+
+  it('should return howChangeCell to be single', () => {
+    const change = service.howChangeCell(false, [], 3);
+    expect(change).toEqual([3]);
   });
 });
