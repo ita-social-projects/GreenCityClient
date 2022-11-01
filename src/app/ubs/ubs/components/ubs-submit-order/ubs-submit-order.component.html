@@ -6,23 +6,23 @@
     <h3 class="font-bolt order-title">{{ 'order-details.your-order' | translate }}</h3>
   </div>
   <form class="form">
-    <div class="w-100 d-flex justify-content-between mb-2">
-      <label class="col-3 label m-0">{{ 'order-details.service' | translate }}</label>
-      <label class="col-2 label m-0">{{ 'order-details.volume' | translate }}</label>
-      <label class="col-2 label m-0">{{ 'order-details.cost' | translate }}</label>
-      <label class="col-2 label m-0">{{ 'order-details.number-of-packages' | translate }}</label>
-      <label class="col-3 label m-0 text-center">{{ 'order-details.sum' | translate }}</label>
+    <div class="labels-box">
+      <label class="label">{{ 'order-details.service' | translate }}</label>
+      <label class="label">{{ 'order-details.volume' | translate }}</label>
+      <label class="label">{{ 'order-details.cost' | translate }}</label>
+      <label class="label">{{ 'order-details.number-of-packages' | translate }}</label>
+      <label class="label label-total">{{ 'order-details.sum' | translate }}</label>
     </div>
     <div class="services">
       <ul class="services-list w-100 p-0 m-0">
         <li class="services-list_item d-flex justify-content-between align-items-baseline" *ngFor="let bag of bags">
           <ng-container *ngIf="bag.quantity">
-            <span *ngIf="currentLanguage === 'ua'" class="col-3 p-0 m-0 bag-name">{{ bag.name }}</span>
-            <span *ngIf="currentLanguage === 'en'" class="col-3 p-0 m-0 bag-name">{{ bag.nameEng }}</span>
-            <span class="col-2 p-0 m-0 bag-name">{{ bag.capacity }} {{ 'order-details.litr' | translate }}</span>
-            <span class="col-2 p-0 m-0 bag-name">{{ bag.price | currency }} {{ 'order-details.currency' | translate }}</span>
-            <span class="col-2 p-0 m-0 bag-name">{{ bag.quantity }} {{ 'order-details.pieces' | translate }}</span>
-            <span class="col-3 p-0 m-0 bag-name text-right orderSum">
+            <span *ngIf="currentLanguage === 'ua'" class="bag-name">{{ bag.name }}</span>
+            <span *ngIf="currentLanguage === 'en'" class="bag-name">{{ bag.nameEng }}</span>
+            <span class="bag-name">{{ bag.capacity }} {{ 'order-details.litr' | translate }}</span>
+            <span class="bag-name">{{ bag.price | currency }} {{ 'order-details.currency' | translate }}</span>
+            <span class="bag-name">{{ bag.quantity }} {{ 'order-details.pieces' | translate }}</span>
+            <span class="bag-name text-right orderSum">
               {{ bag.quantity * bag.price | currency }} {{ 'order-details.currency' | translate }}
             </span>
           </ng-container>

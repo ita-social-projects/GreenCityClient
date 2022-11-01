@@ -74,6 +74,12 @@ h3 {
   padding: 1rem 0 1.2rem 0;
   border-top: 1px solid var(--ubs-primary-light-grey);
   border-bottom: 1px solid var(--ubs-primary-light-grey);
+
+  .main-box {
+    width: 100%;
+    padding: 0;
+    margin: 0;
+  }
 }
 
 .label {
@@ -84,6 +90,35 @@ h3 {
 
 .form {
   margin-top: 20px;
+
+  .labels-box {
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+    margin-bottom: 8px;
+
+    label {
+      color: var(--ubs-secondary-grey);
+    }
+  }
+}
+
+.label,
+.bag-name {
+  flex: 0 0 16.6%;
+  max-width: 16.6%;
+  padding: 0;
+  margin: 0;
+}
+
+.label-total {
+  text-align: center;
+}
+
+.main-list-item {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 16px;
 }
 
 .form-group {
@@ -391,6 +426,10 @@ button {
   }
 }
 
+.eco-label {
+  width: 100%;
+}
+
 .sum {
   width: 6rem;
   margin-left: 3rem;
@@ -585,12 +624,12 @@ li {
 
   .label,
   .bag-name {
-    font-size: 0.8rem;
+    font-size: 16px;
   }
 
   .totalInfo {
     span {
-      font-size: 0.9rem;
+      font-size: 12px;
     }
   }
 
@@ -694,5 +733,19 @@ li {
     position: static;
     width: 100%;
     padding: 0;
+  }
+}
+
+@media screen and (max-width: 420px) {
+  .label {
+    font-size: 12px;
+  }
+
+  .bag-name {
+    font-size: 10px;
+  }
+
+  .label-total {
+    text-align: end;
   }
 }
