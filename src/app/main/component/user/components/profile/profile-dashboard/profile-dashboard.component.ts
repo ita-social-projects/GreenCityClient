@@ -71,7 +71,7 @@ export class ProfileDashboardComponent implements OnInit, OnDestroy {
 
     this.eventService
       .getEvents(0, this.eventsPerPage)
-      .pipe(take(1))
+      .pipe(takeUntil(this.destroyed$))
       .subscribe((res) => {
         if (this.userId) {
           this.eventsByAuthorList = res.page.filter((ev) => ev.organizer.id === this.userId);
@@ -80,11 +80,10 @@ export class ProfileDashboardComponent implements OnInit, OnDestroy {
 
         this.eventService
           .getUsersEvents(0, this.eventsPerPage)
-          .pipe(take(1))
+          .pipe(takeUntil(this.destroyed$))
           .subscribe((res) => {
             this.eventsList = this.eventsByAuthorList.concat(res.page);
             this.eventsTotal = totalEl + res.totalElements;
-            console.log(this.eventsList);
           });
       });
 
@@ -95,13 +94,13 @@ export class ProfileDashboardComponent implements OnInit, OnDestroy {
     this.eventsPage = page;
     this.eventService
       .getEvents(this.eventsPage - 1, 6)
-      .pipe(take(1))
+      .pipe(takeUntil(this.destroyed$))
       .subscribe((res) => {
         this.eventsByAuthorList = res.page;
 
         this.eventService
           .getUsersEvents(this.eventsPage - 1, 6)
-          .pipe(take(1))
+          .pipe(takeUntil(this.destroyed$))
           .subscribe((res) => {
             this.eventsList = this.eventsByAuthorList.concat(res.page);
           });
