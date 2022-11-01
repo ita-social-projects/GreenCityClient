@@ -25,6 +25,7 @@ import { MatProgressBarModule } from '@angular/material/progress-bar';
 import { Bag, Locations } from 'src/app/ubs/ubs-admin/models/tariffs.interface';
 import { Store } from '@ngrx/store';
 import { UbsAdminTariffsLocationDashboardComponent } from '../ubs-admin-tariffs-location-dashboard.component';
+import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 
 describe('UbsAdminPricingPageComponent', () => {
   let component: UbsAdminTariffsPricingPageComponent;
@@ -34,7 +35,7 @@ describe('UbsAdminPricingPageComponent', () => {
   let location: Location;
   let router: Router;
 
-  const fakeValue = 'fake';
+  const fakeValue = '1';
   const fakeCourierForm = new FormGroup({
     courierLimitsBy: new FormControl('fake'),
     minAmountOfOrder: new FormControl('fake'),
@@ -156,6 +157,7 @@ describe('UbsAdminPricingPageComponent', () => {
         MatProgressBarModule,
         TranslateModule.forRoot(),
         HttpClientTestingModule,
+        NoopAnimationsModule,
         BrowserAnimationsModule,
         RouterTestingModule.withRoutes([{ path: 'ubs-admin/tariffs', component: UbsAdminTariffsLocationDashboardComponent }]),
         ReactiveFormsModule,
@@ -236,6 +238,22 @@ describe('UbsAdminPricingPageComponent', () => {
       expect(getLocationIdSpy).toHaveBeenCalled();
       done();
     });
+  });
+
+  it('should call getOurTariffs correctly', (done) => {
+    fixture.detectChanges();
+    const getOurTariffsSpy = spyOn(component, 'getOurTariffs').and.returnValue(Promise.resolve());
+    component.getOurTariffs();
+    getOurTariffsSpy.calls.mostRecent().returnValue.then(() => {
+      fixture.detectChanges();
+      expect(getOurTariffsSpy).toHaveBeenCalled();
+      done();
+    });
+  });
+
+  it('should convert to number', () => {
+    const numbers = Number(fakeValue);
+    expect(typeof numbers).toBe('number');
   });
 
   it('should call sumToggler', () => {

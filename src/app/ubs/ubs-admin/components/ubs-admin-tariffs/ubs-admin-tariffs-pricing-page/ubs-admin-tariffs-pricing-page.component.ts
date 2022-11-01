@@ -218,7 +218,11 @@ export class UbsAdminTariffsPricingPageComponent implements OnInit, OnDestroy {
   }
 
   async getOurTariffs() {
-    await this.tariffsService.setAllTariffsForService();
+    try {
+      await this.tariffsService.setAllTariffsForService();
+    } catch (e) {
+      return Error('getOurTariffs Error');
+    }
     const result = await this.tariffsService.allTariffServices;
     this.ourTariffs = result;
     return this.ourTariffs;
