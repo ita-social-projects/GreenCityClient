@@ -19,8 +19,8 @@
   margin-top: 46px;
   display: flex;
   justify-content: flex-end;
-  flex-wrap: wrap;
   gap: 1rem;
+  width: 100%;
 }
 
 h3 {
@@ -553,6 +553,11 @@ li {
   .buttons {
     margin: 2em 0 1em;
     justify-content: center;
+    flex-direction: row;
+
+    .btn {
+      width: 100%;
+    }
   }
 
   .count {

@@ -412,6 +412,10 @@ h3 {
     flex-direction: row;
     justify-content: center;
     gap: 16px;
+
+    .btn {
+      width: 100%;
+    }
   }
 }
 

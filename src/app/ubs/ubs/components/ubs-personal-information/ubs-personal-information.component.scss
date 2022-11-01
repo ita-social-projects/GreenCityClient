@@ -309,6 +309,7 @@ label,
 @media (max-width: 440px) {
   .buttons {
     justify-content: center;
+    width: 100%;
   }
 
   .btn-canc-sub {
@@ -316,6 +317,10 @@ label,
     flex-direction: row;
     justify-content: center;
     gap: 16px;
+
+    .btn {
+      width: 100%;
+    }
   }
 }
 
