@@ -235,7 +235,13 @@ describe('OrderService', () => {
 
   it('should return available statuses for order status CONFIRMED', () => {
     const res = service.getAvailableOrderStatuses('CONFIRMED', arr);
-    expect(res).toEqual([{ key: 'FORMED' }, { key: 'CONFIRMED' }, { key: 'ON_THE_ROUTE' }, { key: 'CANCELED' }]);
+    expect(res).toEqual([
+      { key: 'FORMED' },
+      { key: 'CONFIRMED' },
+      { key: 'ON_THE_ROUTE' },
+      { key: 'BROUGHT_IT_HIMSELF' },
+      { key: 'CANCELED' }
+    ]);
   });
 
   it('should return available statuses for order status BROUGHT_IT_HIMSELF', () => {
