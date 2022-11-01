@@ -17,8 +17,8 @@ export interface Bag {
   tariffTranslationDtoList?: [
     {
       name: string;
-      nameEng: string;
       description: string;
+      nameEng: string;
     }
   ];
 }

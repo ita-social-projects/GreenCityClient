@@ -87,8 +87,8 @@ export class UbsAdminTariffsAddTariffServicePopUpComponent implements OnInit {
       tariffTranslationDtoList: [
         {
           name,
-          nameEng,
-          description
+          description,
+          nameEng
         }
       ]
     };
@@ -123,9 +123,10 @@ export class UbsAdminTariffsAddTariffServicePopUpComponent implements OnInit {
 
   fillFields(receivedData) {
     if (this.receivedData.bagData) {
-      const { name, price, capacity, commission, description } = this.receivedData.bagData;
+      const { name, nameEng, price, capacity, commission, description } = this.receivedData.bagData;
       this.addTariffServiceForm.patchValue({
         name,
+        nameEng,
         price,
         capacity,
         commission,
