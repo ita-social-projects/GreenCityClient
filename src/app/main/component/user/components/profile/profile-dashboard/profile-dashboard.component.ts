@@ -76,14 +76,14 @@ export class ProfileDashboardComponent implements OnInit, OnDestroy {
         if (this.userId) {
           this.eventsByAuthorList = res.page.filter((ev) => ev.organizer.id === this.userId);
         }
-        let totalEl = this.eventsByAuthorList.length;
+        this.eventsTotal = this.eventsByAuthorList.length;
 
         this.eventService
           .getUsersEvents(0, this.eventsPerPage)
           .pipe(take(1))
-          .subscribe((res) => {
-            this.eventsList = this.eventsByAuthorList.concat(res.page);
-            this.eventsTotal = totalEl + res.totalElements;
+          .subscribe((events) => {
+            this.eventsList = this.eventsByAuthorList.concat(events.page);
+            this.eventsTotal = this.eventsTotal + events.totalElements;
           });
       });
 
@@ -101,8 +101,8 @@ export class ProfileDashboardComponent implements OnInit, OnDestroy {
         this.eventService
           .getUsersEvents(this.eventsPage - 1, 6)
           .pipe(take(1))
-          .subscribe((res) => {
-            this.eventsList = this.eventsByAuthorList.concat(res.page);
+          .subscribe((events) => {
+            this.eventsList = this.eventsByAuthorList.concat(events.page);
           });
       });
   }
