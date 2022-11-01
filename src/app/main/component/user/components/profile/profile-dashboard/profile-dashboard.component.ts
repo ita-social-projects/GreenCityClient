@@ -35,6 +35,7 @@ export class ProfileDashboardComponent implements OnInit, OnDestroy {
   news: EcoNewsModel[];
 
   public eventsList: EventPageResponceDto[] = [];
+  public eventsByAuthorList: EventPageResponceDto[] = [];
   public eventsPerPage = 6;
   public eventsPage = 1;
   public eventsTotal = 1;
@@ -69,11 +70,22 @@ export class ProfileDashboardComponent implements OnInit, OnDestroy {
     });
 
     this.eventService
-      .getUsersEvents(0, this.eventsPerPage)
+      .getEvents(0, this.eventsPerPage)
       .pipe(take(1))
       .subscribe((res) => {
-        this.eventsList = res.page;
-        this.eventsTotal = res.totalElements;
+        if (this.userId) {
+          this.eventsByAuthorList = res.page.filter((ev) => ev.organizer.id === this.userId);
+        }
+        let totalEl = this.eventsByAuthorList.length;
+
+        this.eventService
+          .getUsersEvents(0, this.eventsPerPage)
+          .pipe(take(1))
+          .subscribe((res) => {
+            this.eventsList = this.eventsByAuthorList.concat(res.page);
+            this.eventsTotal = totalEl + res.totalElements;
+            console.log(this.eventsList);
+          });
       });
 
     this.localStorageService.setCurentPage('previousPage', '/profile');
@@ -82,10 +94,17 @@ export class ProfileDashboardComponent implements OnInit, OnDestroy {
   onEventsPageChange(page) {
     this.eventsPage = page;
     this.eventService
-      .getUsersEvents(this.eventsPage - 1, 6)
+      .getEvents(this.eventsPage - 1, 6)
       .pipe(take(1))
       .subscribe((res) => {
-        this.eventsList = res.page;
+        this.eventsByAuthorList = res.page;
+
+        this.eventService
+          .getUsersEvents(this.eventsPage - 1, 6)
+          .pipe(take(1))
+          .subscribe((res) => {
+            this.eventsList = this.eventsByAuthorList.concat(res.page);
+          });
       });
   }
 
