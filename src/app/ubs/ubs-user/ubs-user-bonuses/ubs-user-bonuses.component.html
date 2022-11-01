@@ -1,9 +1,9 @@
 <div class="bonuses-container">
   <ng-container *ngIf="!isLoading">
-    <div class="no-bonuses-wrapper" *ngIf="!totalBonuses">
+    <div class="no-bonuses-wrapper" *ngIf="!bonusesList.length">
       <span class="no-bonuses-text">{{ 'bonuses.no-bonuses' | translate }}</span>
     </div>
-    <div class="bonuses-exist-wrapper" *ngIf="totalBonuses">
+    <div class="bonuses-exist-wrapper" *ngIf="bonusesList.length">
       <div class="total-bonuses-number">
         <p class="total-bonuses-number__header">{{ 'bonuses.title' | translate }}</p>
         <p class="total-bonuses-number__amount">{{ totalBonuses }}</p>
