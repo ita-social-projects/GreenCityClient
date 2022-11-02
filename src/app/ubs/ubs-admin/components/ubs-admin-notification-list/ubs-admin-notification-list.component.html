@@ -26,19 +26,19 @@
         <img [src]="icons.arrowDown" class="arrow-down-icon" alt="" (click)="(null)" />
       </div>
     </div>
-    <div class="filter-event-block">
+    <div class="filter-trigger-block">
       <p class="filter-label">{{ 'ubs-notifications.filters.trigger' | translate }}</p>
       <div class="filter-wrapper">
         <mat-select
-          formControlName="activationEvent"
+          formControlName="triggers"
           class="trigger-select"
           [placeholder]="'ubs-notifications.filters.trigger-placeholder' | translate"
           (selectionChange)="(null)"
           multiple
         >
-          <mat-option class="option-event" *ngFor="let event of activationEvents | keyvalue" [value]="event.key">{{
-            event.value
-          }}</mat-option>
+          <mat-option class="option-trigger" *ngFor="let trigger of triggers" [value]="trigger">
+            {{ 'ubs-notifications.triggers.' + trigger | translate }}
+          </mat-option>
         </mat-select>
         <img [src]="icons.arrowDown" class="arrow-down-icon" alt="" (click)="(null)" />
       </div>
@@ -52,7 +52,9 @@
           [placeholder]="'ubs-notifications.filters.status-placeholder' | translate"
           (selectionChange)="(null)"
         >
-          <mat-option class="option-status" *ngFor="let status of statuses | keyvalue" [value]="status.key">{{ status.value }}</mat-option>
+          <mat-option class="option-status" *ngFor="let status of statuses" [value]="status">
+            {{ 'ubs-notifications.statuses.' + status | translate }}
+          </mat-option>
         </mat-select>
         <img [src]="icons.arrowDown" class="arrow-down-icon" alt="" (click)="(null)" />
       </div>
@@ -64,7 +66,7 @@
   <thead>
     <tr>
       <th class="col-topic">{{ 'ubs-notifications.columns.topic' | translate }}</th>
-      <th class="col-event">{{ 'ubs-notifications.columns.trigger' | translate }}</th>
+      <th class="col-trigger">{{ 'ubs-notifications.columns.trigger' | translate }}</th>
       <th class="col-time">{{ 'ubs-notifications.columns.time' | translate }}</th>
       <th class="col-period">{{ 'ubs-notifications.columns.period' | translate }}</th>
       <th class="col-status">{{ 'ubs-notifications.columns.status' | translate }}</th>
@@ -81,16 +83,16 @@
         {{ lang === 'ua' ? notification.topic.ua : notification.topic.en }}
       </td>
       <td>
-        {{ notification.activationEvent }}
+        {{ 'ubs-notifications.triggers.' + notification.trigger | translate }}
       </td>
       <td>
-        {{ notification.time }}
+        {{ 'ubs-notifications.time.' + notification.time | translate }}
       </td>
       <td>
         {{ notification.period }}
       </td>
       <td>
-        {{ notification.status }}
+        {{ 'ubs-notifications.statuses.' + notification.status | translate }}
       </td>
     </tr>
   </tbody>

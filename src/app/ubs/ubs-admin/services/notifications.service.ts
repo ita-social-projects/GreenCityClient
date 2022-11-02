@@ -2,83 +2,119 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { of } from 'rxjs';
 
-const dummyTitles = ['Неоплачене замовлення', 'Нараховано бонуси', `Сформований маршрут кур'єра`];
-const dummyTypes = ['UNPAID_ORDER', 'ACCRUED_BONUSES_TO_ACCOUNT', 'COURIER_ITINERARY_FORMED'];
-const dummySchedules = [{ cron: '0 0 18 * *' }, null];
-const dummyBodies = [''];
-const dummyStatuses = ['active', 'inactive'];
+export const notificationTriggers = [
+  'ORDER_NOT_PAID_FOR_3_DAYS',
+  'PAYMENT_SYSTEM_RESPONSE',
+  'ORDER_ADDED_TO_ITINERARY_STATUS_CONFIRMED',
+  'STATUS_PARTIALLY_PAID',
+  'OVERPAYMENT_WHEN_STATUS_DONE',
+  'ORDER_VIOLATION_ADDED',
+  'ORDER_VIOLATION_CANCELED',
+  'ORDER_VIOLATION_CHANGED',
+  '2_MONTHS_AFTER_LAST_ORDER'
+];
 
-const triggers = {
-  UNPAID_ORDER: { en: 'The order is not paid 3 days after order was formed' },
-  ORDER_IS_PAID: { en: '' }
-};
+export const notificationTriggerTime = ['6PM_3DAYS_AFTER_ORDER_FORMED_NOT_PAID', 'IMMEDIATELY', '2_MONTHS_AFTER_LAST_ORDER'];
+
+export const notificationStatuses = ['ALL', 'ACTIVE', 'INACTIVE'];
 
 const notificationTemplates = [
   {
     id: 1,
-    trigger: { en: 'The order is not paid 3 days after order was formed' },
-    time: {
-      en: 'System checks BD at 18.00 daily and sends messages in case the order was formed 3 days ago and wasn’t paid by the client.'
-    },
+    trigger: 'ORDER_NOT_PAID_FOR_3_DAYS',
+    time: '6PM_3DAYS_AFTER_ORDER_FORMED_NOT_PAID',
     schedule: { cron: '0 0 * * 1' },
-    title: { en: 'Unpaid order', ua: 'Неоплачене замовлення' }
+    title: { en: 'Unpaid order', ua: 'Неоплачене замовлення' },
+    status: 'ACTIVE'
   },
   {
     id: 2,
-    trigger: { en: 'The system gets an answer from the payment system' },
-    time: {
-      en: 'The UBS system sends a message immediately after confirmation.'
-    },
+    trigger: 'PAYMENT_SYSTEM_RESPONSE',
+    time: 'IMMEDIATELY',
     schedule: null,
-    title: { en: 'The payment was successful', ua: 'Оплата пройшла успішно' }
+    title: { en: 'The payment was successful', ua: 'Оплата пройшла успішно' },
+    status: 'ACTIVE'
   },
   {
     id: 3,
-    trigger: { en: 'The system gets an answer from the payment system' },
-    time: {
-      en: 'The UBS system sends a message immediately after confirmation.'
-    },
+    trigger: 'ORDER_ADDED_TO_ITINERARY_STATUS_CONFIRMED',
+    time: 'IMMEDIATELY',
     schedule: null,
-    title: { en: 'The payment was successful', ua: 'Оплата пройшла успішно' }
+    title: { en: 'The courier route formed', ua: 'Маршрут сформовано' },
+    status: 'ACTIVE'
+  },
+  {
+    id: 4,
+    trigger: 'STATUS_PARTIALLY_PAID',
+    time: 'IMMEDIATELY',
+    schedule: null,
+    title: { en: 'Pay the change in the order', ua: 'Оплатіть різницю у замовлені' },
+    status: 'ACTIVE'
+  },
+  {
+    id: 5,
+    trigger: 'OVERPAYMENT_WHEN_STATUS_DONE',
+    time: 'IMMEDIATELY',
+    schedule: null,
+    title: { en: 'Accrued bonuses to the account', ua: 'Нараховано бонуси' },
+    status: 'ACTIVE'
+  },
+  {
+    id: 6,
+    trigger: 'ORDER_VIOLATION_ADDED',
+    time: 'IMMEDIATELY',
+    schedule: null,
+    title: { en: 'Violation of the rules', ua: 'Недотримання правил' },
+    status: 'INACTIVE'
+  },
+  {
+    id: 7,
+    trigger: 'ORDER_VIOLATION_CANCELED',
+    time: 'IMMEDIATELY',
+    schedule: null,
+    title: { en: 'Cancellation of violation of sorting rules', ua: 'Відміна порушення правил' },
+    status: 'ACTIVE'
+  },
+  {
+    id: 8,
+    trigger: 'ORDER_VIOLATION_CHANGED',
+    time: 'IMMEDIATELY',
+    schedule: null,
+    title: { en: 'Changes in violations of sorting rules', ua: 'Зміни в порушеннях правил сортування' },
+    status: 'ACTIVE'
+  },
+  {
+    id: 9,
+    trigger: '2_MONTHS_AFTER_LAST_ORDER',
+    time: '2_MONTHS_AFTER_LAST_ORDER',
+    schedule: null,
+    title: { en: `Let's stay connected`, ua: `Давайте залишатися на зв'язку` },
+    status: 'INACTIVE'
   }
 ];
-
-const choice = (arr) => arr[Math.floor(Math.random() * arr.length)];
-
-const getDummyNotification = (id): NotificationTemplate => ({
-  id,
-  title: choice(dummyTitles),
-  notificationType: choice(dummyTypes),
-  schedule: choice(dummySchedules),
-  body: choice(dummyBodies),
-  status: choice(dummyStatuses)
-});
-
-const totalNotifications = 100;
-const notifications = Array(totalNotifications)
-  .fill(0)
-  .map((_, idx) => getDummyNotification(idx));
 
 export interface NotificationTemplate {
   id: number;
   title: {
-    enTitle: string;
-    uaTitle: string;
+    en: string;
+    ua: string;
   };
   notificationType: string;
   schedule: {
     cron: string;
   };
+  trigger: string;
+  time: string;
   status: string;
   body: {
-    bodyEn: string;
-    bodyUa: string;
+    en: string;
+    ua: string;
   };
 }
 
 export interface NotificationFilterParams {
   topic?: string;
-  activationEvent?: string[];
+  triggers?: string[];
   status?: string;
 }
 
@@ -89,31 +125,29 @@ export class NotificationsService {
   constructor(private http: HttpClient) {}
 
   getAllNotificationTemplates(page: number = 0, size: number = 10, filter: NotificationFilterParams = {}) {
-    // const match = (str, substr) => str.toLowerCase().includes(substr.trim().toLowerCase());
+    const filtered = notificationTemplates.filter((notification) => {
+      const match = (str, substr) => str.toLowerCase().includes(substr.trim().toLowerCase());
+      const byTitle = filter.topic && (match(notification.title.en, filter.topic) || match(notification.title.ua, filter.topic));
+      const byTrigger = filter.triggers?.length && filter.triggers.some((trigger) => notification.trigger === trigger);
+      const byStatus = filter.status && notification.status === filter.status;
+      return ![byTitle, byTrigger, byStatus].some((cond) => cond === false);
+    });
 
-    // const filtered = notifications.filter((notification) => {
-    //   const byTitle = filter.topic && match(notification.title, filter.topic);
-    //   const byType =
-    //     filter.activationEvent?.length &&
-    //     filter.activationEvent.reduce((acc, option) => acc || match(notification.notificationType, option), false);
-    //   // debugger;
-    //   const byStatus = filter.status && notification.status === filter.status;
-    //   return ![byTitle, byType, byStatus].some((cond) => cond === false);
-    // });
-    // const totalItems = filtered.length;
-    // const totalPages = totalItems < size ? 1 : Math.ceil(totalItems / size);
-    // return of({
-    //   currentPage: page,
-    //   page: filtered.slice(page * size, page * size + size),
-    //   totalElements: totalItems,
-    //   totalPages
-    // }).toPromise();
+    const totalElements = filtered.length;
+    const totalPages = totalElements < size ? 1 : Math.ceil(totalElements / size);
 
-    return this.http
-      .get<{ currentPage: number; page: NotificationTemplate[]; totalElements: number; totalPages: number }>(
-        `https://greencity-ubs.testgreencity.ga/admin/notification/get-all-templates?page=${page}&size=${size}`
-      )
-      .toPromise();
+    return of({
+      currentPage: page,
+      page: filtered.slice(page * size, page * size + size),
+      totalElements,
+      totalPages
+    }).toPromise();
+
+    // return this.http
+    //   .get<{ currentPage: number; page: NotificationTemplate[]; totalElements: number; totalPages: number }>(
+    //     `https://greencity-ubs.testgreencity.ga/admin/notification/get-all-templates?page=${page}&size=${size}`
+    //   )
+    //   .toPromise();
   }
 
   getNotificationTemplate(id: number) {
@@ -126,6 +160,6 @@ export class NotificationsService {
       },
       text: `Вітання, <Ім'я користувача>!`,
       status: 'active'
-    }).toPromise();
+    });
   }
 }
