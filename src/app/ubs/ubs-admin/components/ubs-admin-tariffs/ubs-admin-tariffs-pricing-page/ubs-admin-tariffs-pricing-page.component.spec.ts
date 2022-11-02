@@ -38,10 +38,10 @@ describe('UbsAdminPricingPageComponent', () => {
   const fakeValue = '1';
   const fakeCourierForm = new FormGroup({
     courierLimitsBy: new FormControl('fake'),
-    minAmountOfOrder: new FormControl('fake'),
-    maxAmountOfOrder: new FormControl('fake'),
-    minAmountOfBigBag: new FormControl('fake'),
-    maxAmountOfBigBag: new FormControl('fake'),
+    minPriceOfOrder: new FormControl('fake'),
+    maxPriceOfOrder: new FormControl('fake'),
+    minAmountOfBigBags: new FormControl('fake'),
+    maxAmountOfBigBags: new FormControl('fake'),
     limitDescription: new FormControl('fake')
   });
   const fakeLocations: Locations = {
