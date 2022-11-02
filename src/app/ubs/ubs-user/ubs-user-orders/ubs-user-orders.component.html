@@ -12,11 +12,11 @@
       [infiniteScrollThrottle]="100"
       (scrolled)="onScroll()"
     >
-      <mat-tab-group animationDuration="0ms" (selectedIndexChange)="onTabChange($event)">
-        <mat-tab label="{{ 'user-orders.current-orders' | translate }}">
+      <mat-tab-group animationDuration="0ms" [selectedIndex]="selected.value" (selectedIndexChange)="selected.setValue($event)">
+        <mat-tab label="{{ 'user-orders.current-orders' | translate }}" class="target-to-scroll">
           <app-ubs-user-orders-list [orders]="currentOrders" [bonuses]="bonuses"></app-ubs-user-orders-list>
         </mat-tab>
-        <mat-tab label="{{ 'user-orders.order-history' | translate }}">
+        <mat-tab label="{{ 'user-orders.order-history' | translate }}" class="target-to-scroll">
           <app-ubs-user-orders-list [orders]="closedOrders" [bonuses]="bonuses"></app-ubs-user-orders-list>
         </mat-tab>
       </mat-tab-group>

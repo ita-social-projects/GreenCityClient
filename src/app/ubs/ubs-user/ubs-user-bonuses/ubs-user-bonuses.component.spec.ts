@@ -1,4 +1,4 @@
-import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { UbsUserBonusesComponent } from './ubs-user-bonuses.component';
 import { TranslateModule } from '@ngx-translate/core';
 import { BonusesService } from './services/bonuses.service';
@@ -9,6 +9,8 @@ import { of, Subject } from 'rxjs';
 import { EMPTY } from 'rxjs';
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { MatTableModule } from '@angular/material/table';
+import { Router } from '@angular/router';
+import { RouterTestingModule } from '@angular/router/testing';
 
 const testBonuses: BonusesModel = {
   ubsUserBonuses: [
@@ -26,6 +28,8 @@ describe('UbsUserBonusesComponent', () => {
   let fixture: ComponentFixture<UbsUserBonusesComponent>;
   let bonusesServiceMock: BonusesService;
   let matSnackBarMock: MatSnackBarComponent;
+  let router: Router;
+
   bonusesServiceMock = jasmine.createSpyObj('BonusesService', ['getUserBonusesWithPaymentHistory']);
   bonusesServiceMock.getUserBonusesWithPaymentHistory = () => of(testBonuses);
   matSnackBarMock = jasmine.createSpyObj('MatSnackBarComponent', ['openSnackBar']);
@@ -34,7 +38,7 @@ describe('UbsUserBonusesComponent', () => {
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       declarations: [UbsUserBonusesComponent, MatSnackBarComponent],
-      imports: [MatTableModule, TranslateModule.forRoot()],
+      imports: [MatTableModule, TranslateModule.forRoot(), RouterTestingModule.withRoutes([])],
       providers: [
         { provide: BonusesService, useValue: bonusesServiceMock },
         { provide: MatSnackBarComponent, useValue: matSnackBarMock }
@@ -43,36 +47,44 @@ describe('UbsUserBonusesComponent', () => {
     }).compileComponents();
   });
 
-  beforeEach(() => {
+  const buildComponent = async () => {
+    await TestBed.compileComponents();
     fixture = TestBed.createComponent(UbsUserBonusesComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
-  });
+    router = TestBed.inject(Router);
+    spyOn(router, 'navigate');
+  };
 
-  it('should create', () => {
+  it('should create', async () => {
+    await buildComponent();
     expect(component).toBeTruthy();
   });
 
-  it('method ngOnInit should call getBonusesData', () => {
+  it('method ngOnInit should call getBonusesData', async () => {
+    await buildComponent();
     const spy = spyOn(component, 'getBonusesData');
     component.ngOnInit();
     expect(spy).toHaveBeenCalled();
   });
 
-  it('should call getBonusesData and return expected data', () => {
+  it('should call getBonusesData and return expected data', async () => {
+    await buildComponent();
     bonusesServiceMock.getUserBonusesWithPaymentHistory = () => of(testBonuses);
     component.getBonusesData();
     expect(component.dataSource.data).toEqual(testBonuses.ubsUserBonuses);
     expect(component.totalBonuses).toEqual(testBonuses.userBonuses);
   });
 
-  it('should call getBonusesData and return error', () => {
+  it('should call getBonusesData and return error', async () => {
+    await buildComponent();
     bonusesServiceMock.getUserBonusesWithPaymentHistory = () => ErrorObservable.create('error');
     component.getBonusesData();
     expect(component.isLoading).toEqual(false);
   });
 
-  it('should call openSnackBar in case error', () => {
+  it('should call openSnackBar in case error', async () => {
+    await buildComponent();
     bonusesServiceMock.getUserBonusesWithPaymentHistory = () => ErrorObservable.create('error');
     const spy = spyOn(matSnackBarMock, 'openSnackBar').and.callFake(() => {
       return EMPTY;
@@ -81,7 +93,8 @@ describe('UbsUserBonusesComponent', () => {
     expect(spy).toHaveBeenCalled();
   });
 
-  it('destroy Subject should be closed after ngOnDestroy()', () => {
+  it('destroy Subject should be closed after ngOnDestroy()', async () => {
+    await buildComponent();
     component.destroy = new Subject<boolean>();
     spyOn(component.destroy, 'unsubscribe');
     component.ngOnDestroy();

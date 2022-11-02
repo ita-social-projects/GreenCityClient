@@ -19,6 +19,8 @@ import { UserOrdersService } from '../services/user-orders.service';
 import { BonusesService } from '../ubs-user-bonuses/services/bonuses.service';
 import { APP_BASE_HREF } from '@angular/common';
 import { By } from '@angular/platform-browser';
+import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
+import { FormControl, ReactiveFormsModule } from '@angular/forms';
 
 describe('UbsUserOrdersComponent', () => {
   let component: UbsUserOrdersComponent;
@@ -42,9 +44,9 @@ describe('UbsUserOrdersComponent', () => {
   };
 
   const fakeCurrentOrdersData = new Array(10).fill(fakeOrder1);
-  const fakeCurrentOrdersDataPage2 = new Array(5).fill(fakeOrder2);
+  const fakeCurrentOrdersDataPage2 = new Array().fill(fakeOrder2);
   const fakeClosedOrdersData = new Array(10).fill(fakeOrder2);
-  const fakeClosedOrdersDataPage2 = new Array(3).fill(fakeOrder1);
+  const fakeClosedOrdersDataPage2 = new Array().fill(fakeOrder1);
 
   const RouterMock = jasmine.createSpyObj('Router', ['navigate']);
 
@@ -52,7 +54,8 @@ describe('UbsUserOrdersComponent', () => {
 
   const userOrderServiceMock = {
     getCurrentUserOrders: (page) => of({ page: page === 0 ? fakeCurrentOrdersData : fakeCurrentOrdersDataPage2 }),
-    getClosedUserOrders: (page) => of({ page: page === 0 ? fakeClosedOrdersData : fakeClosedOrdersDataPage2 })
+    getClosedUserOrders: (page) => of({ page: page === 0 ? fakeClosedOrdersData : fakeClosedOrdersDataPage2 }),
+    getOrderToScroll: () => of({ fakeOrder1 })
   };
 
   const userOrderServiceFailureMock = {
@@ -68,6 +71,8 @@ describe('UbsUserOrdersComponent', () => {
   const bonusesServiceMock = {
     getUserBonuses: () => of({ points: 5 })
   };
+
+  const localStorageServiceMock = new LocalStorageService();
 
   const selectMatTabByIdx = async (idx) => {
     const label = fixture.debugElement.queryAll(By.css('.mat-tab-label'))[idx];
@@ -86,13 +91,15 @@ describe('UbsUserOrdersComponent', () => {
         InfiniteScrollModule,
         MatTabsModule,
         NoopAnimationsModule,
-        RouterModule.forRoot([])
+        RouterModule.forRoot([]),
+        ReactiveFormsModule
       ],
       providers: [
         { provide: Router, useValue: RouterMock },
         { provide: MatSnackBarComponent, useValue: MatSnackBarMock },
         { provide: UserOrdersService, useValue: userOrderServiceMock },
         { provide: BonusesService, useValue: bonusesServiceMock },
+        { provide: LocalStorageService, useValue: localStorageServiceMock },
         { provide: APP_BASE_HREF, useValue: '/' }
       ],
       schemas: [CUSTOM_ELEMENTS_SCHEMA]
@@ -103,6 +110,16 @@ describe('UbsUserOrdersComponent', () => {
     await TestBed.compileComponents();
     fixture = TestBed.createComponent(UbsUserOrdersComponent);
     component = fixture.componentInstance;
+    spyOn(localStorageServiceMock, 'getOrderIdToRedirect');
+    spyOn(localStorageServiceMock, 'setOrderIdToRedirect');
+    spyOn(component, 'openExtendedOrder');
+    spyOn(component, 'checkOrderStatus');
+    spyOn(component, 'chooseTab');
+    spyOn(component, 'scrollToOrder');
+    spyOn(component, 'scroll');
+    component.orderIdToScroll = 1315;
+    component.orderToScroll = fakeOrder1;
+    component.selected = new FormControl({ value: 0 });
     fixture.detectChanges();
   };
 
@@ -124,6 +141,60 @@ describe('UbsUserOrdersComponent', () => {
     const list = fixture.debugElement.query(By.css('app-ubs-user-orders-list'));
     expect(list).toBeTruthy();
     expect(list.properties.orders).toEqual(fakeCurrentOrdersData);
+  });
+
+  it('should get orderId to redirect from localStorage', async () => {
+    await buildComponent();
+    component.ngOnInit();
+    localStorageServiceMock.getOrderIdToRedirect();
+    fixture.detectChanges();
+    expect(localStorageServiceMock.getOrderIdToRedirect).toHaveBeenCalled();
+  });
+
+  it('should call openExtendedOrder and setOrderIdToRedirect methods', async () => {
+    await buildComponent();
+    component.openExtendedOrder();
+    localStorageServiceMock.setOrderIdToRedirect(0);
+    expect(component.openExtendedOrder).toHaveBeenCalled();
+    expect(localStorageServiceMock.setOrderIdToRedirect).toHaveBeenCalledWith(0);
+  });
+
+  it('should call checkOrderStatus and scrollToOrder methods', async () => {
+    await buildComponent();
+    component.checkOrderStatus(component.orderToScroll);
+    component.scrollToOrder();
+    expect(component.checkOrderStatus).toHaveBeenCalledWith(component.orderToScroll);
+    expect(component.scrollToOrder).toHaveBeenCalled();
+  });
+
+  it('should call chooseTab method', async () => {
+    await buildComponent();
+    const orderStatus = true;
+    component.chooseTab(orderStatus);
+    expect(component.chooseTab).toHaveBeenCalledWith(orderStatus);
+  });
+
+  it('should open tab with current or closed orders list', async () => {
+    await buildComponent();
+    const isOrderClosed = true;
+    component.chooseTab(isOrderClosed);
+    component.selected.setValue(1);
+    fixture.detectChanges();
+    expect(component.selected.value).toEqual(1);
+  });
+
+  it('scroll to particular order in current tab', async () => {
+    await buildComponent();
+    const status = 'current';
+    const isPresent = fakeOrder1;
+    jasmine.clock().install();
+    component.ngOnInit();
+    component.scrollToOrder();
+    jasmine.clock().tick(0);
+    component.scroll(component.orderIdToScroll);
+    fixture.detectChanges();
+    expect(component.scroll).toHaveBeenCalledWith(component.orderIdToScroll);
+    jasmine.clock().uninstall();
   });
 
   it('should render list with more current orders on scroll', async () => {
