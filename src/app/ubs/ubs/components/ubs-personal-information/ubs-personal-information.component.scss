@@ -152,8 +152,6 @@ label,
 }
 
 .primary-global-button {
-  width: 88px;
-  padding: 8px 14px;
   border-radius: 4px;
   color: var(--ubs-quaternary-dark-grey);
   border-color: var(--ubs-button-light-green);
@@ -221,13 +219,9 @@ label,
 }
 
 .btn {
-  width: 8rem;
-  height: 2.75rem;
+  padding: 12px 32px;
+  line-height: 20px;
   border-radius: 4px;
-}
-
-.btn:nth-child(2) {
-  margin: 0 15px 0 0;
 }
 
 .buttons {
@@ -235,19 +229,27 @@ label,
   display: flex;
   flex-direction: row;
   flex-wrap: wrap;
+  justify-content: space-between;
+  gap: 1rem;
 
   button {
     font-size: 18px;
     font-weight: 700;
-    line-height: 28px;
     letter-spacing: 0.2px;
   }
 }
 
-.cansel-button {
+.btn-canc-sub {
+  display: flex;
+  justify-content: flex-end;
+  flex-direction: row;
+  width: auto;
+  gap: 1rem;
+}
+
+.cancel-button {
   border: 1px solid var(--ubs-quaternary-dark-grey);
   color: var(--ubs-quaternary-dark-grey);
-  margin-right: 1.5rem;
 
   &:hover {
     background: var(--ubs-quaternary-light-grey);
@@ -295,10 +297,6 @@ label,
     font-size: 0.8rem;
   }
 
-  .btn:nth-child(1) {
-    margin-bottom: 16px;
-  }
-
   p,
   a,
   textarea,
@@ -308,9 +306,21 @@ label,
   }
 }
 
-@media (max-width: 320px) {
-  .btn:nth-child(1) {
-    margin-bottom: 16px;
+@media (max-width: 440px) {
+  .buttons {
+    justify-content: center;
+    width: 100%;
+  }
+
+  .btn-canc-sub {
+    width: 100%;
+    flex-direction: row;
+    justify-content: center;
+    gap: 16px;
+
+    .btn {
+      width: 100%;
+    }
   }
 }
 

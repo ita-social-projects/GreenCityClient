@@ -146,18 +146,20 @@
   </form>
 </div>
 
-<div
-  class="w-100 d-flex justify-content-between buttons"
-  *ngIf="(bags.length && personalData) || (isNotification && isDownloadDataNotification)"
->
+<div class="w-100 buttons" *ngIf="(bags.length && personalData) || (isNotification && isDownloadDataNotification)">
   <button *ngIf="!isNotification" class="secondary-global-button btn btn-back" matStepperPrevious>
     <i class="fas fa-chevron-left" aria-hidden="true"></i> &nbsp; <span class="underline">{{ 'submit-order.back' | translate }}</span>
   </button>
-  <div class="d-flex justify-content-end">
-    <button class="secondary-global-button btn cansel-button btn-main" (click)="cancelUBS(true)">
+  <div class="btn-canc-sub">
+    <button class="secondary-global-button btn cancel-button btn-main" (click)="cancelUBS(true)">
       {{ 'order-details.cancel' | translate }}
     </button>
-    <button [disabled]="isTotalAmountZero || loadingAnim" (click)="redirectToOrder()" type="submit" class="primary-global-button btn m-0">
+    <button
+      [disabled]="isTotalAmountZero || loadingAnim"
+      (click)="redirectToOrder()"
+      type="submit"
+      class="primary-global-button btn submit-button"
+    >
       <span *ngIf="loadingAnim" class="spinner-border spinner-border-sm" role="status" aria-hidden="true"> </span>
       {{ 'submit-order.to-order' | translate }}
     </button>

@@ -17,15 +17,10 @@
 
 .buttons {
   margin-top: 46px;
-
-  & .btn:nth-child(1) {
-    margin-right: 1rem;
-    width: 136px;
-  }
-
-  & .btn:nth-child(2) {
-    width: 88px;
-  }
+  display: flex;
+  justify-content: flex-end;
+  gap: 1rem;
+  width: 100%;
 }
 
 h3 {
@@ -140,8 +135,8 @@ h3 {
 }
 
 button {
-  width: 8rem;
-  height: 2.75rem;
+  padding: 12px 32px;
+  line-height: 20px;
   border-radius: 0;
   border: none;
 }
@@ -335,8 +330,8 @@ button {
   }
 
   button {
-    width: 8rem;
-    height: 2.25rem;
+    padding: 12px 32px;
+    line-height: 20px;
     font-size: 14px;
   }
 
@@ -552,7 +547,8 @@ h5 {
 }
 
 .btn-main {
-  height: 2.75rem;
+  padding: 12px 32px;
+  line-height: 20px;
 
   &:disabled {
     background: var(--ubs-quaternary-light-grey);
@@ -594,9 +590,13 @@ li {
   }
 
   .buttons {
-    display: flex !important;
-    justify-content: center !important;
     margin: 2em 0 1em;
+    justify-content: center;
+    flex-direction: row;
+
+    .btn {
+      width: 100%;
+    }
   }
 
   .count {
