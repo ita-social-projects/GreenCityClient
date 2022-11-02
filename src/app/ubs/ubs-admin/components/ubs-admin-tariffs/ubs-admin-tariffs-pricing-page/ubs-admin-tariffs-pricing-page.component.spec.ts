@@ -1,4 +1,4 @@
-import { async, ComponentFixture, fakeAsync, TestBed, tick } from '@angular/core/testing';
+import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { Location } from '@angular/common';
 import { UbsAdminTariffsPricingPageComponent } from './ubs-admin-tariffs-pricing-page.component';
 import { MatDialog, MatDialogRef } from '@angular/material/dialog';
@@ -73,7 +73,7 @@ describe('UbsAdminPricingPageComponent', () => {
     commission: 333,
     languageCode: 'ua'
   };
-  const fakeId = 3;
+
   const fakeBag: Bag = {
     capacity: 111,
     price: 478,
@@ -127,7 +127,6 @@ describe('UbsAdminPricingPageComponent', () => {
   tariffsServiceMock.setLimitsBySumOrder.and.returnValue(of([fakeSumInfo]));
   tariffsServiceMock.setLimitsByAmountOfBags.and.returnValue(of([fakeBagInfo]));
   tariffsServiceMock.getCardInfo.and.returnValue(of([fakeCardId]));
-  // tariffsServiceMock.setAllTariffsForService.and.returnValue(of([fakeService]));
 
   const matDialogMock = jasmine.createSpyObj('matDialogMock', ['open']);
   matDialogMock.open.and.returnValue(dialogStub);

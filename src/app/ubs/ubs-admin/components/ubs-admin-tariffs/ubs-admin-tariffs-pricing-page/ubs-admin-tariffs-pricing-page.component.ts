@@ -88,22 +88,22 @@ export class UbsAdminTariffsPricingPageComponent implements OnInit, OnDestroy {
     this.limitsForm = this.fb.group({
       limitDescription: new FormControl(''),
       courierLimitsBy: new FormControl(''),
-      minAmountOfOrder: new FormControl(),
-      maxAmountOfOrder: new FormControl(),
-      minAmountOfBigBag: new FormControl(),
-      maxAmountOfBigBag: new FormControl()
+      minPriceOfOrder: new FormControl(),
+      maxPriceOfOrder: new FormControl(),
+      minAmountOfBigBags: new FormControl(),
+      maxAmountOfBigBags: new FormControl()
     });
   }
 
   fillFields(): void {
-    const { courierLimit, minPriceOfOrder, maxPriceOfOrder, minAmountOfBigBags, maxAmountOfBigBags, description } = this.couriers[0];
+    const { courierLimit, minAmountOfOrder, maxAmountOfOrder, minAmountOfBags, maxAmountOfBags, description } = this.couriers[0];
 
     this.limitsForm.patchValue({
       courierLimitsBy: courierLimit,
-      minAmountOfOrder: minPriceOfOrder,
-      maxAmountOfOrder: maxPriceOfOrder,
-      minAmountOfBigBag: minAmountOfBigBags,
-      maxAmountOfBigBag: maxAmountOfBigBags,
+      minPriceOfOrder: minAmountOfOrder,
+      maxPriceOfOrder: maxAmountOfOrder,
+      minAmountOfBigBags: minAmountOfBags,
+      maxAmountOfBigBags: maxAmountOfBags,
       limitDescription: description
     });
   }
@@ -117,13 +117,7 @@ export class UbsAdminTariffsPricingPageComponent implements OnInit, OnDestroy {
   }
 
   async saveChanges(): Promise<void> {
-    const { minAmountOfOrder, maxAmountOfOrder, minAmountOfBigBag, maxAmountOfBigBag, limitDescription } = this.limitsForm.value;
-
-    const minAmountOfBigBags = Number(minAmountOfBigBag);
-    const maxAmountOfBigBags = Number(maxAmountOfBigBag);
-
-    const minPriceOfOrder = Number(minAmountOfOrder);
-    const maxPriceOfOrder = Number(maxAmountOfOrder);
+    const { minPriceOfOrder, maxPriceOfOrder, minAmountOfBigBags, maxAmountOfBigBags, limitDescription } = this.limitsForm.value;
 
     const tariffId = this.selectedCardId;
     const locationId = await this.getLocationId();
@@ -220,12 +214,12 @@ export class UbsAdminTariffsPricingPageComponent implements OnInit, OnDestroy {
   async getOurTariffs() {
     try {
       await this.tariffsService.setAllTariffsForService();
+      const result = await this.tariffsService.allTariffServices;
+      this.ourTariffs = result;
+      return this.ourTariffs;
     } catch (e) {
       return Error('getOurTariffs Error');
     }
-    const result = await this.tariffsService.allTariffServices;
-    this.ourTariffs = result;
-    return this.ourTariffs;
   }
 
   routeParams(): void {
