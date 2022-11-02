@@ -24,8 +24,8 @@ export class TariffsService {
     return this.http.delete(`${mainUbsLink}/ubs/superAdmin/deleteTariffService/${id}`);
   }
 
-  editTariffForService(id: number, tariffService: Bag) {
-    return this.http.put(`${mainUbsLink}/ubs/superAdmin/editTariffService/${id}`, tariffService);
+  editTariffForService(id: number, body: Bag) {
+    return this.http.put(`${mainUbsLink}/ubs/superAdmin/editTariffService/${id}`, body);
   }
 
   createService(service: Service) {

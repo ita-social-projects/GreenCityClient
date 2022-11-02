@@ -5,7 +5,7 @@
   <div *ngIf="data.button === 'update'">
     <p class="add-location-title">{{ 'ubs-tariffs-add-service.edit_service' | translate }}</p>
   </div>
-  <app-dialog-tariff [row]="form" [newDate]="newDate" [name]="name" [edit]="false"></app-dialog-tariff>
+  <app-dialog-tariff [row]="form" [newDate]="newDate" [name]="name" [edit]="true"></app-dialog-tariff>
   <ng-template #form>
     <div class="d-flex">
       <div class="form-group">
