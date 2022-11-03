@@ -829,7 +829,10 @@
         "news-at-2-3-4": "news",
         "news-at-all": "news"
       },
-      "add-news": "Add News"
+      "add-news": "Add News",
+      "no-events": "Hi Eco Friend ;-)",
+      "no-events-advice": "Welcome to My Events. It seems you don’t have any events. Let’s start to join event!",
+      "join-event": "Join Event"
     },
     "habits-in-progress": "in progress",
     "my-Achievements": "My Achievements",
