@@ -69,7 +69,6 @@ export class UbsAdminNotificationListComponent implements OnInit {
       status: ['ALL']
     });
     this.filtersForm.valueChanges.subscribe((filters) => {
-      // console.log(filters);
       this.currentPage = 1;
       this.loadPage(this.currentPage, {
         ...filters,
