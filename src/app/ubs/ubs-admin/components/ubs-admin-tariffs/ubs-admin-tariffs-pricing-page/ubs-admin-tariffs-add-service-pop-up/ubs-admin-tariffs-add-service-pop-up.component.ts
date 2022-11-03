@@ -10,6 +10,7 @@ import { DatePipe } from '@angular/common';
 import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
 import { Patterns } from 'src/assets/patterns/patterns';
 import { ModalTextComponent } from '../../../shared/components/modal-text/modal-text.component';
+import { toNumbers } from '@angular/compiler-cli/src/diagnostics/typescript_version';
 
 @Component({
   selector: 'app-ubs-admin-tariffs-add-service-pop-up',
@@ -60,34 +61,32 @@ export class UbsAdminTariffsAddServicePopUpComponent implements OnInit, OnDestro
 
   editForm(): void {
     this.addServiceForm = this.fb.group({
-      name: new FormControl({ value: this.receivedData.serviceData.name, disabled: true }),
-      englishName: new FormControl(''),
-      capacity: new FormControl({ value: this.receivedData.serviceData.capacity, disabled: true }),
+      name: new FormControl({ value: this.receivedData.serviceData.name }),
+      nameEng: new FormControl(''),
+      capacity: new FormControl({ value: this.receivedData.serviceData.capacity }),
       price: new FormControl('', [Validators.required, Validators.pattern(Patterns.ubsPrice)]),
       commission: new FormControl('', [Validators.required, Validators.pattern(Patterns.ubsPrice)]),
-      description: new FormControl({ value: this.receivedData.serviceData.description, disabled: true }),
-      englishDescription: new FormControl({ value: this.receivedData.serviceData.description, disabled: true })
+      description: new FormControl({ value: this.receivedData.serviceData.description }),
+      englishDescription: new FormControl({ value: this.receivedData.serviceData.description })
     });
   }
 
-  addNewService() {
-    const locationId = this.receivedData.locationId;
-    const { name, nameEn, capacity, price, commission, description, descriptionEn } = this.addServiceForm.value;
+  async addNewService() {
+    const courierId = await this.tariffsService.getCourierId().then((res) => {
+      return res;
+    });
+
+    const { name, nameEng, capacity, price, commission, description } = this.addServiceForm.value;
     this.service = {
       capacity,
       price,
-      locationId,
+      courierId,
       commission,
       serviceTranslationDtoList: [
         {
           description,
-          languageId: 1,
-          name
-        },
-        {
-          description: descriptionEn,
-          languageId: 2,
-          name: nameEn
+          name,
+          nameEng
         }
       ]
     };

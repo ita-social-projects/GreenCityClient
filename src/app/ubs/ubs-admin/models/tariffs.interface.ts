@@ -38,15 +38,11 @@ export interface Service {
   id?: number;
   fullPrice?: number;
   locationId?: number;
+  courierId?: number;
   serviceTranslationDtoList?: [
     {
       description: string;
-      languageId: number;
-      name: string;
-    },
-    {
-      description: string;
-      languageId: number;
+      nameEng: string;
       name: string;
     }
   ];

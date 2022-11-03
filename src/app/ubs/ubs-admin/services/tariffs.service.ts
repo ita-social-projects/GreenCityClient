@@ -12,6 +12,16 @@ import { ajax } from 'rxjs/ajax';
 export class TariffsService {
   constructor(private http: HttpClient) {}
 
+  courierId: number;
+
+  setCourierId(id: number) {
+    this.courierId = id;
+  }
+
+  async getCourierId() {
+    return this.courierId;
+  }
+
   getAllTariffsForService() {
     return this.http.get(`${mainUbsLink}/ubs/superAdmin/getTariffService`);
   }

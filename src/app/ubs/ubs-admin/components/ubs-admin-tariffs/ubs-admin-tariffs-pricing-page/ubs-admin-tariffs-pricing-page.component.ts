@@ -79,6 +79,9 @@ export class UbsAdminTariffsPricingPageComponent implements OnInit, OnDestroy {
       this.getCouriers();
       this.getAllTariffsForService();
     });
+    this.getCourierId().then((res) => {
+      console.log(res);
+    });
   }
 
   private initForm(): void {
@@ -171,6 +174,7 @@ export class UbsAdminTariffsPricingPageComponent implements OnInit, OnDestroy {
           return true;
         }
       });
+      this.tariffsService.setCourierId(card.courierId);
       return card.courierId;
     } catch (e) {
       return Error('getCourierId Error');
@@ -212,6 +216,7 @@ export class UbsAdminTariffsPricingPageComponent implements OnInit, OnDestroy {
     this.route.params.pipe(takeUntil(this.destroy)).subscribe((res) => {
       this.getAllTariffsForService();
       this.selectedCardId = Number(res.id);
+      // this.tariffsService.setCourierId(res.id);
       this.currentLocation = Number(res.id);
       this.getServices();
     });
