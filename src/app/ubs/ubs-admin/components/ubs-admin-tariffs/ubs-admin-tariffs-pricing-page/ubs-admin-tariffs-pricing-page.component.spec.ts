@@ -33,6 +33,7 @@ describe('UbsAdminPricingPageComponent', () => {
   let route: ActivatedRoute;
   let location: Location;
   let router: Router;
+  let fakeTariffService: TariffsService;
 
   const fakeValue = 'fake';
   const fakeCourierForm = new FormGroup({
@@ -72,7 +73,18 @@ describe('UbsAdminPricingPageComponent', () => {
     commission: 333,
     languageCode: 'ua'
   };
-  const fakeId = 3;
+
+  const fakeNotSortedServices = [
+    { capacity: 150, commission: 1, courierId: 19, price: 10 },
+    { capacity: 1, commission: 1, courierId: 1, price: 120 },
+    { capacity: 150, commission: 1, courierId: 1, price: 150 }
+  ];
+
+  const fakeSortedServices = [
+    { capacity: 150, commission: 1, courierId: 1, price: 150 },
+    { capacity: 1, commission: 1, courierId: 1, price: 120 }
+  ];
+
   const fakeBag: Bag = {
     capacity: 111,
     price: 478,
@@ -175,6 +187,7 @@ describe('UbsAdminPricingPageComponent', () => {
 
   beforeEach(() => {
     orderServiceMock.locationSubject = new Subject<any>();
+    fakeTariffService = TestBed.inject(TariffsService);
   });
 
   beforeEach(() => {
@@ -246,6 +259,7 @@ describe('UbsAdminPricingPageComponent', () => {
     component.setCourierId();
     setCourierIdSpy.calls.mostRecent().returnValue.then(() => {
       fixture.detectChanges();
+      expect(setCourierIdSpy.and.returnValues);
       expect(setCourierIdSpy).toHaveBeenCalled();
       done();
     });

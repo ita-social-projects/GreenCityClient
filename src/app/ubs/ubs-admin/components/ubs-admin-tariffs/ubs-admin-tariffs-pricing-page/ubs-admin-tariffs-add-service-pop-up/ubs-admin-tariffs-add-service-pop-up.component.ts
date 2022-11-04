@@ -10,7 +10,6 @@ import { DatePipe } from '@angular/common';
 import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
 import { Patterns } from 'src/assets/patterns/patterns';
 import { ModalTextComponent } from '../../../shared/components/modal-text/modal-text.component';
-import { toNumbers } from '@angular/compiler-cli/src/diagnostics/typescript_version';
 
 @Component({
   selector: 'app-ubs-admin-tariffs-add-service-pop-up',
@@ -72,7 +71,7 @@ export class UbsAdminTariffsAddServicePopUpComponent implements OnInit, OnDestro
   }
 
   async addNewService() {
-    const courierId = await this.tariffsService.getCourierId().then((res) => {
+    const courierId: number = await this.tariffsService.getCourierId().then((res: number) => {
       return res;
     });
 

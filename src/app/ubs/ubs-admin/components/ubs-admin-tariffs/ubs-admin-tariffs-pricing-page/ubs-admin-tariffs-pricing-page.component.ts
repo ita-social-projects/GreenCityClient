@@ -291,7 +291,7 @@ export class UbsAdminTariffsPricingPageComponent implements OnInit, OnDestroy {
     this.bags = this.bags.filter((value) => value.locationId === this.currentLocation).sort((a, b) => b.price - a.price);
   }
 
-  private async filterServices() {
+  async filterServices(): Promise<any> {
     const id = await this.setCourierId();
 
     this.services = this.services
@@ -305,7 +305,8 @@ export class UbsAdminTariffsPricingPageComponent implements OnInit, OnDestroy {
     const id = await this.getCourierId().then((value) => {
       return value;
     });
-    return (this.currentCourierId = id);
+    this.currentCourierId = id;
+    return this.currentCourierId;
   }
 
   openUpdateTariffForServicePopup(bag: Bag): void {

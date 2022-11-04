@@ -6,15 +6,32 @@ import { TranslateModule } from '@ngx-translate/core';
 import { HttpClientTestingModule, HttpTestingController } from '@angular/common/http/testing';
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { ModalTextComponent } from '../../../shared/components/modal-text/modal-text.component';
+import { Service } from '../../../../models/tariffs.interface';
+import { TariffsService } from '../../../../services/tariffs.service';
 
 describe('UbsAdminTariffsAddServicePopupComponent', () => {
   let component: UbsAdminTariffsAddServicePopUpComponent;
   let fixture: ComponentFixture<UbsAdminTariffsAddServicePopUpComponent>;
   let httpMock: HttpTestingController;
+  let fakeTariffService: TariffsService;
 
   const button = {
     add: 'add',
     update: 'update'
+  };
+
+  const fakeService: Service = {
+    capacity: 1,
+    price: 1,
+    courierId: 1,
+    commission: 1,
+    serviceTranslationDtoList: [
+      {
+        description: 'fake',
+        name: 'fake',
+        nameEng: 'fake'
+      }
+    ]
   };
 
   beforeEach(async(() => {
@@ -30,11 +47,23 @@ describe('UbsAdminTariffsAddServicePopupComponent', () => {
     fixture = TestBed.createComponent(UbsAdminTariffsAddServicePopUpComponent);
     component = fixture.componentInstance;
     httpMock = TestBed.inject(HttpTestingController);
+    fakeTariffService = TestBed.inject(TariffsService);
     fixture.detectChanges();
   });
 
   it('should create', () => {
     expect(component).toBeTruthy();
+  });
+
+  it('should create service', () => {
+    expect(fakeTariffService).toBeTruthy();
+  });
+
+  it('should call addNewService correctly', () => {
+    const addNewServiceSpy = spyOn(component, 'addNewService');
+    component.addNewService();
+    fakeTariffService.createService(fakeService);
+    expect(addNewServiceSpy).toHaveBeenCalled();
   });
 
   const matDialogMock = jasmine.createSpyObj('matDialog', ['open']);
