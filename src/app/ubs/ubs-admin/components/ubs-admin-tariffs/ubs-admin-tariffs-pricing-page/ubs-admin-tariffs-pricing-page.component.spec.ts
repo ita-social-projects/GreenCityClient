@@ -259,7 +259,6 @@ describe('UbsAdminPricingPageComponent', () => {
     component.setCourierId();
     setCourierIdSpy.calls.mostRecent().returnValue.then(() => {
       fixture.detectChanges();
-      expect(setCourierIdSpy.and.returnValues);
       expect(setCourierIdSpy).toHaveBeenCalled();
       done();
     });
