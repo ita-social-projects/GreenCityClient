@@ -34,6 +34,7 @@ export interface Service {
   commission: number;
   description?: string;
   name?: string;
+  nameEng?: string;
   languageCode?: string;
   id?: number;
   fullPrice?: number;

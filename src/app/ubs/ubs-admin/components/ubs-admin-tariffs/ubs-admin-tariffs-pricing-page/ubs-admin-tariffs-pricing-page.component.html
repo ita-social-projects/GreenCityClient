@@ -31,11 +31,12 @@
       <tr *ngFor="let service of services">
         <td style="padding-left: 0">
           <div class="image-buttons">
-            <img *ngIf="!isLoadBar1" [src]="icons.edit" class="edit-button-img" alt="edit-icon" (click)="openUpdateServicePopup(service)" />
-            <img *ngIf="!isLoadBar1" [src]="icons.delete" class="delete-button-img" alt="edit-icon" (click)="openDeleteService(service)" />
+            <img *ngIf="!isLoadBar" [src]="icons.edit" class="edit-button-img" alt="edit-icon" (click)="openUpdateServicePopup(service)" />
+            <img *ngIf="!isLoadBar" [src]="icons.delete" class="delete-button-img" alt="edit-icon" (click)="openDeleteService(service)" />
           </div>
         </td>
-        <td>{{ service.name }}</td>
+        <td *ngIf="currentLanguage === 'ua'">{{ service.name }}</td>
+        <td *ngIf="currentLanguage === 'en'">{{ service.nameEng }}</td>
         <td>{{ service.capacity | volume }}</td>
         <td>{{ service.description }}</td>
         <td>{{ service.price | currency | localizedCurrency }}</td>
