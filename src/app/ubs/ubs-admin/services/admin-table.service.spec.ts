@@ -1,9 +1,12 @@
 import { HttpClientTestingModule, HttpTestingController } from '@angular/common/http/testing';
-import { TestBed } from '@angular/core/testing';
+import { TestBed, ComponentFixture } from '@angular/core/testing';
 import { AdminTableService } from './admin-table.service';
 import { environment } from '@environment/environment.js';
 import { IFilteredColumn } from '../models/ubs-admin.interface';
 import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
+import { IFilteredColumnValue } from '../models/ubs-admin.interface';
+
+import { UbsAdminTableComponent } from '../components/ubs-admin-table/ubs-admin-table.component';
 
 describe('AdminTableService', () => {
   let httpMock: HttpTestingController;
@@ -152,25 +155,45 @@ describe('AdminTableService', () => {
     expect(currentColumnDateFilter.values[0].filtered).toBeTruthy();
   });
 
-  it('should set data to local storage', () => {
-    const mockedData = [{ orderStatus: 'FORMED' }, { deliveryDateTo: '2022-05-01', deliveryDateFrom: '2021-05-01' }];
-
-    localStorageService.setUbsAdminOrdersTableTitleColumnFilter(mockedData);
-    expect(localStorageService.getUbsAdminOrdersTableTitleColumnFilter()).toEqual(mockedData);
+  it('method changeFilters should set value to localStorageService', () => {
+    let option: IFilteredColumnValue;
+    option = { key: 'FORMED', ua: 'Сформовано', en: 'Formed', filtered: false };
+    service.changeFilters(true, 'orderStatus', option);
+    expect(localStorageService.getUbsAdminOrdersTableTitleColumnFilter()).toContain({ orderStatus: option.key });
   });
 
-  it('should return howChangeCell to be empty array', () => {
-    const change = service.howChangeCell(true, [], 3);
-    expect(change).toEqual([]);
-  });
+  /*it('Should open sign in modal window', () => {
+      spyOn(component, 'changeDateFilters');
 
-  it('should return howChangeCell to be  group', () => {
-    const change = service.howChangeCell(false, [1, 2], 3);
-    expect(change).toEqual([1, 2]);
-  });
+      const column = 'deliveryDate';
 
-  it('should return howChangeCell to be single', () => {
-    const change = service.howChangeCell(false, [], 3);
-    expect(change).toEqual([3]);
-  });
+      const nativeElement = fixture.nativeElement;
+      const checkbox = nativeElement.querySelector(`#${column}`);
+      checkbox.dispatchEvent(new Event('checked'));
+
+      fixture.detectChanges();
+
+      expect(component.changeDateFilters).toHaveBeenCalledWith('sign-in');
+    });/** */
+
+  /*it('method changeInputDateFilters should set value to columnsForFiltering', () => {
+    let mocked = {
+      en: 'Order date',
+      key: 'orderDate',
+      ua: 'Дата замовлення',
+      values: [
+        {
+          orderDateFrom: '2022-09-02',
+          orderDateTo: '2022-11-03',
+          filtered: true
+        }
+      ]
+    };
+    service.filters = [{ orderDateFrom: '2022-09-02', orderDateTo: '2022-11-03' }];
+
+    service.changeInputDateFilters('2022-09-02', 'orderDate', 'From');
+    expect(service.changeInputDateFilters).not.toHaveBeenCalled();
+    //expect(service.columnsForFiltering).toContain(mocked);
+    //expect(localStorageService.getUbsAdminOrdersTableTitleColumnFilter()).toContain({orderStatus: option.key});
+  });/** */
 });

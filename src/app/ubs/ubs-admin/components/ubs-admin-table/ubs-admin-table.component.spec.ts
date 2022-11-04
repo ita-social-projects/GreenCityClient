@@ -667,4 +667,12 @@ describe('UsbAdminTableComponent', () => {
 
     expect(result).toBe(true);
   });
+
+  /*it('should add filters from localStorage', () => {
+    const mockedData = [{'orderStatus': 'FORMED'}, {'deliveryDateTo': '2022-05-01', 'deliveryDateFrom': '2021-05-01'}];
+
+    localStorageServiceMock.setUbsAdminOrdersTableTitleColumnFilter(mockedData);
+
+    //expect((component as any).adminTableService.setFilters).toHaveBeenCalledWith([{ orderStatus: 'done' }]);
+  });/** */
 });
