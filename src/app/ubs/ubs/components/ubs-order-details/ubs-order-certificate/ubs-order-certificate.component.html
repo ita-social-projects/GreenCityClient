@@ -58,7 +58,7 @@
     <small class="text-message" *ngIf="certSize && certificateSum <= showTotal">
       {{ 'order-details.activated' | translate: { certificateSum: certificateSum, certDate: expirationDate[expirationDate.length - 1] } }}
     </small>
-    <small class="text-message" *ngIf="certSize && certificateSum >= showTotal">
+    <small class="text-message" *ngIf="certSize && certificateSum > showTotal">
       {{
         'order-details.activated-oversum'
           | translate
