@@ -240,6 +240,17 @@ describe('UbsAdminPricingPageComponent', () => {
     tick(60000);
   }));
 
+  it('should call setCourierId correctly', (done) => {
+    fixture.detectChanges();
+    const setCourierIdSpy = spyOn(component, 'setCourierId').and.returnValue(Promise.resolve());
+    component.setCourierId();
+    setCourierIdSpy.calls.mostRecent().returnValue.then(() => {
+      fixture.detectChanges();
+      expect(setCourierIdSpy).toHaveBeenCalled();
+      done();
+    });
+  });
+
   it('should call sumToggler', () => {
     component.sumToggler();
     expect(component.toggle).toBe(true);

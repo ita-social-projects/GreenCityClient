@@ -301,7 +301,7 @@ export class UbsAdminTariffsPricingPageComponent implements OnInit, OnDestroy {
       .sort((a, b) => b.price - a.price);
   }
 
-  async setCourierId() {
+  async setCourierId(): Promise<any> {
     const id = await this.getCourierId().then((value) => {
       return value;
     });
