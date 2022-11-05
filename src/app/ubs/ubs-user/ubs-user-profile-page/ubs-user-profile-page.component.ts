@@ -94,10 +94,10 @@ export class UbsUserProfilePageComponent implements OnInit {
         houseNumber: new FormControl(adres?.houseNumber, [
           Validators.required,
           Validators.pattern(Patterns.ubsHouseNumberPattern),
-          Validators.maxLength(5)
+          Validators.maxLength(8)
         ]),
-        houseCorpus: new FormControl(adres?.houseCorpus, [Validators.pattern(Patterns.ubsWithDigitPattern), Validators.maxLength(5)]),
-        entranceNumber: new FormControl(adres?.entranceNumber, [Validators.pattern(Patterns.ubsEntrNumPattern), Validators.maxLength(4)]),
+        houseCorpus: new FormControl(adres?.houseCorpus, [Validators.pattern(Patterns.ubsWithDigitPattern), Validators.maxLength(8)]),
+        entranceNumber: new FormControl(adres?.entranceNumber, [Validators.pattern(Patterns.ubsEntrNumPattern), Validators.maxLength(2)]),
         region: new FormControl(adres?.region, [
           Validators.required,
           Validators.pattern(Patterns.ubsWithDigitPattern),
