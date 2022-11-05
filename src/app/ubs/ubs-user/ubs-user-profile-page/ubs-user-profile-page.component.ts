@@ -46,6 +46,7 @@ export class UbsUserProfilePageComponent implements OnInit {
   currentLanguage: string;
   cities = [];
   regions = [];
+  districts = [];
   constructor(
     public dialog: MatDialog,
     private clientProfileService: ClientProfileService,
@@ -137,8 +138,9 @@ export class UbsUserProfilePageComponent implements OnInit {
   onEdit(): void {
     this.isEditing = true;
     this.isFetching = false;
+    this.regions = this.locations.getBigRegions(this.currentLanguage);
     this.cities = this.locations.getCity(this.currentLanguage);
-    this.regions = this.locations.getRegionsKyiv(this.currentLanguage);
+    this.districts = this.locations.getRegionsKyiv(this.currentLanguage);
     setTimeout(() => this.focusOnFirst());
   }
 

@@ -36,10 +36,9 @@ export class Locations {
     { cityName: 'Shchaslyve', key: 14 }
   ];
 
-  bigRegions = [
-    { regionName: 'Київська область', lang: 'ua' },
-    { regionName: 'Kyiv region', lang: 'en' }
-  ];
+  bigRegions = [{ regionName: 'Київська область' }];
+
+  bigRegionsEn = [{ regionName: 'Kyiv region' }];
 
   regionsKyiv = [
     { name: 'Голосіївський', key: 1 },
@@ -96,7 +95,7 @@ export class Locations {
     return language === 'ua' ? this.regions : this.regionsEn;
   }
 
-  getBigRegions() {
-    return this.bigRegions;
+  getBigRegions(language: string) {
+    return language === 'ua' ? this.bigRegions : this.bigRegionsEn;
   }
 }
