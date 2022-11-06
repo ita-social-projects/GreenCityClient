@@ -12,6 +12,7 @@ import { Masks, Patterns } from 'src/assets/patterns/patterns';
 import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
 import { Locations } from 'src/assets/locations/locations';
 import { PhoneNumberValidator } from 'src/app/shared/phone-validator/phone.validator';
+import { LatLngBoundsLiteral } from '@agm/core';
 
 @Component({
   selector: 'app-ubs-user-profile-page',
@@ -19,22 +20,31 @@ import { PhoneNumberValidator } from 'src/app/shared/phone-validator/phone.valid
   styleUrls: ['./ubs-user-profile-page.component.scss']
 })
 export class UbsUserProfilePageComponent implements OnInit {
+  autocompleteService: google.maps.places.AutocompleteService;
+  placeService: google.maps.places.PlacesService;
+  inputStreetElement: any;
+  streetPredictionList: any;
   userForm: FormGroup;
-  userProfile: UserProfile;
-  defaultAddress: Address = {
+  addres = new FormArray([]);
+  userProfile: any;
+  defaultAddress: any = {
     actual: true,
     city: '',
+    cityEn: '',
     coordinates: {
       latitude: 1,
       longitude: 1
     },
     region: '',
+    regionEn: '',
     district: '',
+    districtEn: '',
     entranceNumber: '',
     houseCorpus: '',
     houseNumber: '',
     id: null,
-    street: ''
+    street: '',
+    streetEn: ''
   };
 
   googleIcon = SignInIcons.picGoogle;
@@ -46,6 +56,8 @@ export class UbsUserProfilePageComponent implements OnInit {
   currentLanguage: string;
   cities = [];
   regions = [];
+  districts = [];
+  cityBounds: LatLngBoundsLiteral;
   constructor(
     public dialog: MatDialog,
     private clientProfileService: ClientProfileService,
@@ -71,6 +83,7 @@ export class UbsUserProfilePageComponent implements OnInit {
     this.clientProfileService.getDataClientProfile().subscribe(
       (res: UserProfile) => {
         this.userProfile = this.composeFormData(res);
+        console.log(this.userProfile);
         this.userInit();
         this.isFetching = false;
       },
@@ -82,11 +95,20 @@ export class UbsUserProfilePageComponent implements OnInit {
   }
 
   userInit(): void {
-    const addres = new FormArray([]);
     this.userProfile.addressDto.forEach((adres) => {
       const seperateAddress = new FormGroup({
         city: new FormControl(adres?.city, [Validators.required, Validators.pattern(Patterns.ubsCityPattern), Validators.maxLength(20)]),
+        cityEn: new FormControl(adres?.cityEn, [
+          Validators.required,
+          Validators.pattern(Patterns.ubsCityPattern),
+          Validators.maxLength(20)
+        ]),
         street: new FormControl(adres?.street, [
+          Validators.required,
+          Validators.pattern(Patterns.ubsWithDigitPattern),
+          Validators.maxLength(50)
+        ]),
+        streetEn: new FormControl(adres?.streetEn, [
           Validators.required,
           Validators.pattern(Patterns.ubsWithDigitPattern),
           Validators.maxLength(50)
@@ -103,16 +125,26 @@ export class UbsUserProfilePageComponent implements OnInit {
           Validators.pattern(Patterns.ubsWithDigitPattern),
           Validators.maxLength(30)
         ]),
+        regionEn: new FormControl(adres?.regionEn, [
+          Validators.required,
+          Validators.pattern(Patterns.ubsWithDigitPattern),
+          Validators.maxLength(30)
+        ]),
         district: new FormControl(adres?.district, [
+          Validators.required,
+          Validators.pattern(Patterns.ubsWithDigitPattern),
+          Validators.maxLength(30)
+        ]),
+        districtEn: new FormControl(adres?.districtEn, [
           Validators.required,
           Validators.pattern(Patterns.ubsWithDigitPattern),
           Validators.maxLength(30)
         ])
       });
-      addres.push(seperateAddress);
+      this.addres.push(seperateAddress);
     });
     this.userForm = new FormGroup({
-      address: addres,
+      address: this.addres,
       recipientName: new FormControl(this.userProfile?.recipientName, [
         Validators.required,
         Validators.pattern(Patterns.ubsCityPattern),
@@ -137,13 +169,53 @@ export class UbsUserProfilePageComponent implements OnInit {
   onEdit(): void {
     this.isEditing = true;
     this.isFetching = false;
+    this.regions = this.locations.getBigRegions(this.currentLanguage);
     this.cities = this.locations.getCity(this.currentLanguage);
-    this.regions = this.locations.getRegionsKyiv(this.currentLanguage);
+    this.districts = this.locations.getRegionsKyiv(this.currentLanguage);
+    // console.log(this.addres.value)
+    // console.log(this.userForm.get('address.0.street').setValue('Гатне'));
+    // console.log(this.getControl('address'));
+
     setTimeout(() => this.focusOnFirst());
   }
 
   focusOnFirst(): void {
     document.getElementById('recipientName').focus();
+    this.initGoogleAutocompleteServices();
+  }
+
+  private initGoogleAutocompleteServices(): void {
+    this.autocompleteService = new google.maps.places.AutocompleteService();
+    this.placeService = new google.maps.places.PlacesService(document.createElement('div'));
+  }
+
+  setPredictStreets(region: string, city: string, street: string): void {
+    const regionIndex = parseInt(region, 10);
+    const regionParam = regionIndex < 10 ? region.slice(3) : region.slice(4);
+    const cityIndex = parseInt(city, 10);
+    const cityParam = cityIndex < 10 ? city.slice(3) : city.slice(4);
+    const searchAddress = `${regionParam}, ${cityParam}, ${street}`;
+    console.log(cityParam);
+    this.cityBounds = this.locations.getCityCoordinates(cityIndex);
+    console.log(this.cityBounds);
+
+    this.inputAddress(searchAddress);
+  }
+
+  inputAddress(searchAddress: string): void {
+    const request = {
+      input: searchAddress,
+      bounds: this.cityBounds,
+      strictBounds: true,
+      types: ['address'],
+      componentRestrictions: { country: 'ua' }
+    };
+    this.autocompleteService.getPlacePredictions(request, (streetPredictions) => {
+      this.streetPredictionList = streetPredictions;
+      console.log(this.streetPredictionList[0].structured_formatting.main_text);
+    });
+
+    // this.street.setValue()
   }
 
   onCancel(): void {

@@ -10,21 +10,26 @@ import { of } from 'rxjs';
 import { UserProfile } from 'src/app/ubs/ubs-admin/models/ubs-admin.interface';
 import { ClientProfileService } from '../services/client-profile.service';
 import { UbsUserProfilePageComponent } from './ubs-user-profile-page.component';
+import { MatAutocompleteModule } from '@angular/material/autocomplete';
 
 describe('UbsUserProfilePageComponent', () => {
-  const userProfileDataMock: UserProfile = {
+  const userProfileDataMock: any = {
     addressDto: [
       {
         id: 2276,
-        city: 'Kiev',
-        district: 'Troeshchina',
+        city: 'Київ',
+        cityEn: 'Kiev',
+        district: 'Голосіївський',
+        districtEn: 'Holosiivskyi',
         entranceNumber: '65',
         houseCorpus: '3',
         houseNumber: '8',
         actual: false,
-        region: 'Kyiv',
+        region: 'Київська область',
+        regionEn: 'Kyiv oblast',
         coordinates: { latitude: 0, longitude: 0 },
-        street: 'Jhohn Lenon'
+        street: 'Ломоносова',
+        streetEn: 'Lomonosova'
       }
     ],
     recipientEmail: 'blackstar@gmail.com',
@@ -56,7 +61,7 @@ describe('UbsUserProfilePageComponent', () => {
         { provide: ClientProfileService, useValue: clientProfileServiceMock },
         { provide: MatSnackBarComponent, useValue: snackBarMock }
       ],
-      imports: [TranslateModule.forRoot(), ReactiveFormsModule, IMaskModule],
+      imports: [TranslateModule.forRoot(), ReactiveFormsModule, IMaskModule, MatAutocompleteModule],
       schemas: [CUSTOM_ELEMENTS_SCHEMA]
     }).compileComponents();
   }));
@@ -159,7 +164,7 @@ describe('UbsUserProfilePageComponent', () => {
     fixture.detectChanges();
     const formElement = fixture.debugElement.nativeElement.querySelector('form');
     const inputElements = formElement.querySelectorAll('input');
-    expect(inputElements.length).toBe(9);
+    expect(inputElements.length).toBe(8);
     expect(spy).toHaveBeenCalled();
   }));
 

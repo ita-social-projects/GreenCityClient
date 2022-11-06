@@ -444,6 +444,7 @@ export class UBSAddAddressPopUpComponent implements OnInit, OnDestroy, AfterView
   onStreetSelected(streetData) {
     this.placeService.getDetails({ placeId: streetData.place_id }, (streetDto) => {
       this.onDistrictSelected(streetDto);
+      console.log(streetDto);
     });
   }
 
