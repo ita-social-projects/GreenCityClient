@@ -5,6 +5,7 @@ import { environment } from '@environment/environment.js';
 import { IFilteredColumn } from '../models/ubs-admin.interface';
 import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
 import { IFilteredColumnValue } from '../models/ubs-admin.interface';
+import { MatCheckboxChange } from '@angular/material/checkbox';
 
 import { UbsAdminTableComponent } from '../components/ubs-admin-table/ubs-admin-table.component';
 
@@ -162,38 +163,38 @@ describe('AdminTableService', () => {
     expect(localStorageService.getUbsAdminOrdersTableTitleColumnFilter()).toContain({ orderStatus: option.key });
   });
 
-  /*it('Should open sign in modal window', () => {
-      spyOn(component, 'changeDateFilters');
+  it('should url mock be equal url', () => {
+    expect(service.url).toEqual(urlMock + '/');
+  });
 
-      const column = 'deliveryDate';
+  it('getDateValue expect getDateValue shoud be call', () => {
+    spyOn(service, 'getDateValue');
+    service.getDateValue('From', 'dateColumn');
+    expect(service.getDateValue).toHaveBeenCalledWith('From', 'dateColumn');
+  });
 
-      const nativeElement = fixture.nativeElement;
-      const checkbox = nativeElement.querySelector(`#${column}`);
-      checkbox.dispatchEvent(new Event('checked'));
+  it('saveDateFilters should be call', () => {
+    spyOn(service, 'saveDateFilters');
+    service.saveDateFilters(true, 'dateColumn', 'From');
+    expect(service.saveDateFilters).toHaveBeenCalledWith(true, 'dateColumn', 'From');
+  });
 
-      fixture.detectChanges();
+  it('getDateChecked should be call', () => {
+    spyOn(service, 'getDateChecked');
+    service.getDateChecked('dateColumn');
+    expect(service.getDateChecked).toHaveBeenCalledWith('dateColumn');
+  });
 
-      expect(component.changeDateFilters).toHaveBeenCalledWith('sign-in');
-    });/** */
+  it('changeInputDateFilters should be call', () => {
+    spyOn(service, 'changeInputDateFilters');
+    service.changeInputDateFilters('true', 'dateColumn', 'From');
+    expect(service.changeInputDateFilters).toHaveBeenCalledWith('true', 'dateColumn', 'From');
+  });
 
-  /*it('method changeInputDateFilters should set value to columnsForFiltering', () => {
-    let mocked = {
-      en: 'Order date',
-      key: 'orderDate',
-      ua: 'Дата замовлення',
-      values: [
-        {
-          orderDateFrom: '2022-09-02',
-          orderDateTo: '2022-11-03',
-          filtered: true
-        }
-      ]
-    };
-    service.filters = [{ orderDateFrom: '2022-09-02', orderDateTo: '2022-11-03' }];
-
-    service.changeInputDateFilters('2022-09-02', 'orderDate', 'From');
-    expect(service.changeInputDateFilters).not.toHaveBeenCalled();
-    //expect(service.columnsForFiltering).toContain(mocked);
-    //expect(localStorageService.getUbsAdminOrdersTableTitleColumnFilter()).toContain({orderStatus: option.key});
-  });/** */
+  it('changeDateFilters should be call', () => {
+    spyOn(service, 'changeDateFilters');
+    const event = new MatCheckboxChange();
+    service.changeDateFilters(event, true, 'dateColumn');
+    expect(service.changeDateFilters).toHaveBeenCalledWith(event, true, 'dateColumn');
+  });
 });
