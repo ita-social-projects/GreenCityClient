@@ -1,0 +1,243 @@
+::ng-deep .address-matDialog-styles-w-100 {
+  .mat-dialog-container {
+    margin: auto !important;
+    width: 100% !important;
+    padding: 40px 45px 20px 45px;
+    position: relative;
+    max-height: 100vh;
+  }
+}
+
+.page-header {
+  display: flex;
+  flex-direction: row;
+  gap: 20px;
+}
+
+.back-button {
+  background-color: transparent;
+  padding: 0;
+  border: 0;
+  height: 22px;
+}
+
+.page-title {
+  font-style: normal;
+  font-weight: 700;
+  font-family: var(--primary-font);
+  font-size: 24px;
+  line-height: 32px;
+}
+
+.section-title {
+  font-style: normal;
+  font-weight: 700;
+  font-family: var(--primary-font);
+  margin-top: 24px;
+  font-size: 16px;
+}
+
+.table-notification-info th {
+  font-weight: bold;
+  font-size: 14px;
+  line-height: 20px;
+  letter-spacing: 0.1px;
+  color: var(--ubs-primary-grey);
+  padding: 4px 16px;
+  border-bottom: 1px solid var(--ubs-primary-light-grey);
+}
+
+.table-notification-info td {
+  font-style: normal;
+  font-weight: normal;
+  font-size: 14px;
+  line-height: 20px;
+  color: var(--ubs-quaternary-dark-grey);
+  padding: 16px;
+  vertical-align: top;
+}
+
+.table-notification-info tbody tr {
+  background: var(--ubs-primary-white);
+  box-shadow: 0 2px 6px rgba(100, 114, 125, 0.15);
+}
+
+.table-notification-info {
+  border-collapse: separate;
+  border-spacing: 0 8px;
+  table-layout: fixed;
+  width: 100%;
+}
+
+// .last-col {
+//   padding-right: 40px;
+//   justify-content: flex-end;
+//   display: flex;
+// }
+
+button {
+  outline: none;
+}
+
+.table-notification-edit {
+  width: 100%;
+  // table-layout: fixed;
+}
+
+.table-notification-edit th,
+.table-notification-edit td {
+  border: 1px var(--ubs-primary-light-grey) solid;
+}
+
+.table-notification-edit th {
+  padding: 9px 16px;
+  background-color: var(--ubs-primary-grey);
+  color: var(--ubs-primary-white);
+  font-weight: normal;
+  font-style: var(--primary-font);
+}
+
+.table-notification-edit td {
+  padding: 9px 16px;
+  height: 100px;
+}
+
+.table-notification-edit .col-topic {
+  width: 40%;
+}
+
+.table-notification-edit .col-text {
+  width: 55%;
+}
+
+// .table-notification-edit .col-action {
+//   width: 56px;
+// }
+
+.table-notification-edit td.col-action div {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
+}
+
+.edit-button {
+  padding: 0;
+  border: 0;
+  background-color: transparent;
+}
+
+.delete-button {
+  padding: 0;
+  border: 0;
+  background-color: transparent;
+}
+
+.table-notification-settings {
+  width: 100%;
+  table-layout: fixed;
+
+  .col-action {
+    width: 60px;
+  }
+}
+
+.table-notification-settings th,
+.table-notification-settings td {
+  border: 1px var(--ubs-primary-light-grey) solid;
+}
+
+.table-notification-settings th {
+  padding: 9px 16px;
+  background-color: var(--ubs-primary-grey);
+  color: var(--ubs-primary-white);
+  font-weight: normal;
+  font-style: var(--primary-font);
+}
+
+.table-notification-settings td {
+  padding: 9px 16px;
+}
+
+.table-notification-settings td.col-action div {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
+}
+
+.edit-topic {
+  width: 100%;
+  background-color: transparent;
+  outline: 0;
+  // border: 1px solid;
+  // height: 100%;
+}
+
+.edit-text {
+  width: 100%;
+  background-color: transparent;
+  min-height: 100px;
+}
+
+.edit-trigger,
+.edit-status {
+  width: 100%;
+  background-color: transparent;
+  border: 0;
+  outline: 0;
+}
+
+.edit-period {
+  width: 100%;
+  background-color: transparent;
+  outline: 0;
+  // border: 0;
+}
+
+::ng-deep.mat-menu-panel {
+  max-width: none !important;
+}
+
+.controls {
+  margin-top: 20px;
+  margin-bottom: 50px;
+  display: flex;
+  flex-direction: row;
+  gap: 20px;
+  justify-content: flex-end;
+}
+
+.cancel-button {
+  height: 36px;
+  font-family: var(--primary-font);
+  letter-spacing: 0.1px;
+  font-weight: 700;
+  font-size: 14px;
+  line-height: 20px;
+  padding: 8px 24px;
+  color: var(--ubs-quaternary-dark-grey);
+  border-radius: 4px;
+  background-color: transparent;
+  border: 1px solid var(--ubs-quaternary-dark-grey);
+}
+
+.submit-button {
+  height: 36px;
+  font-family: var(--primary-font);
+  letter-spacing: 0.1px;
+  font-weight: 700;
+  font-size: 14px;
+  line-height: 20px;
+  padding: 8px 24px;
+  color: var(--ubs-quaternary-dark-grey);
+  border-radius: 4px;
+  background: var(--ubs-button-light-green);
+  border: 0;
+
+  &:disabled {
+    background-color: var(--ubs-primary-light-grey);
+  }
+}
+
+.edit-notification-popup {
+  background-color: cadetblue;
+}

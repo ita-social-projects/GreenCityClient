@@ -16,7 +16,7 @@ export const notificationTriggers = [
 
 export const notificationTriggerTime = ['6PM_3DAYS_AFTER_ORDER_FORMED_NOT_PAID', 'IMMEDIATELY', '2_MONTHS_AFTER_LAST_ORDER'];
 
-export const notificationStatuses = ['ALL', 'ACTIVE', 'INACTIVE'];
+export const notificationStatuses = ['ACTIVE', 'INACTIVE'];
 
 const notificationTemplates = [
   {
@@ -25,7 +25,17 @@ const notificationTemplates = [
     time: '6PM_3DAYS_AFTER_ORDER_FORMED_NOT_PAID',
     schedule: { cron: '0 0 * * 1' },
     title: { en: 'Unpaid order', ua: 'Неоплачене замовлення' },
-    status: 'ACTIVE'
+    status: 'ACTIVE',
+    body: {
+      en:
+        'Hello <User name>! You recently submitted a request to order <Order number> our "UBS Courier" service,' +
+        ' but we have not received confirmation of payment. Maybe you have some difficulties? If you have any questions,' +
+        ' I will be happy to answer them! Chat with the manager <Chat> or e-mail <e-mail>',
+      ua:
+        'Вітання, <User name>! Ви нещодавно залишили заявку <Order number> для замовлення нашої послуги «УБС Кур’єр»,' +
+        ' але ми не отримали підтвердження оплати. Можливо, у вас виникли якісь труднощі? ' +
+        'Якщо у вас залишилися будь-які питання — з радістю відповім! Чат з менеджеркою  <Chat> чи e-mail <e-mail>'
+    }
   },
   {
     id: 2,
@@ -33,7 +43,19 @@ const notificationTemplates = [
     time: 'IMMEDIATELY',
     schedule: null,
     title: { en: 'The payment was successful', ua: 'Оплата пройшла успішно' },
-    status: 'ACTIVE'
+    status: 'ACTIVE',
+    body: {
+      en:
+        'Hello, <User name>! You have successfully ordered and paid for the "UBS Courier" service!' +
+        ' UBS Courier will pick up your packages within 2-9 days from the date of payment for the service.' +
+        ' When the route is formed, we will definitely contact you to agree on the details. If you have any questions,' +
+        ' I will be happy to answer them! Chat with the manager  <Chat> or e-mail <e-mail>',
+      ua:
+        `Вітаємо, <User name>!  Ви успішно замовили й оплатили послугу «УБС Кур'єр»!` +
+        ` УБС Кур'єр приїде по ваші пакети впродовж 2–9 днів від дати оплати послуги.` +
+        ` Коли маршрут буде сформовано, ми обов'язково зв'яжемося з вами для узгодження деталей.` +
+        ` Якщо у вас залишилися будь-які питання — з радістю відповім! Чат з менеджеркою  <Chat> чи e-mail <e-mail>`
+    }
   },
   {
     id: 3,
@@ -41,7 +63,20 @@ const notificationTemplates = [
     time: 'IMMEDIATELY',
     schedule: null,
     title: { en: 'The courier route formed', ua: 'Маршрут сформовано' },
-    status: 'ACTIVE'
+    status: 'ACTIVE',
+    body: {
+      en:
+        `Hello,  <User name>! We created the UBS Courier route.` +
+        ` Our Courier <Courier name> will be with you tomorrow, <Date>.` +
+        ` Working hours of the Courier: from <Time from> to <Time to>. ` +
+        `Please stay connected and put your phone on loud during this time.` +
+        ` The courier will call you in advance and when he arrives.`,
+      ua:
+        `Вітання, <User name>! Ми сформували маршрут УБС Кур’єра. Наш Кур’єр <Courier name>  буде у вас завтра, <Date>.` +
+        ` Робочий час Кур'єра: з <Time from>  до <Time to>.` +
+        ` Будь ласка, залишайтеся в цей час на зв’язку й увімкніть телефон на гучний режим.` +
+        ` Кур'єр зателефонує вам заздалегідь та коли приїде.`
+    }
   },
   {
     id: 4,
@@ -49,7 +84,16 @@ const notificationTemplates = [
     time: 'IMMEDIATELY',
     schedule: null,
     title: { en: 'Pay the change in the order', ua: 'Оплатіть різницю у замовлені' },
-    status: 'ACTIVE'
+    status: 'ACTIVE',
+    body: {
+      en:
+        'Congratulations, <User name>! You have made changes to order No. <Order number>. We ask you to pay <Sum> UAH. ' +
+        'Pay: <Button>. If you have any questions, I will be happy to answer them! Chat with the manager <Chat> чи e-mail <e-mail>',
+      ua:
+        'Вітання, <User name>! Ви внесли зміни у замовлення №<Order number> ' +
+        ' Просимо вас, будь ласка, доплатити <Sum>  грн. Оплатити: <Button>. ' +
+        ' Якщо у вас залишилися будь-які питання — з радістю відповім! Чат з менеджеркою  <Chat> чи e-mail <e-mail>'
+    }
   },
   {
     id: 5,
@@ -57,7 +101,17 @@ const notificationTemplates = [
     time: 'IMMEDIATELY',
     schedule: null,
     title: { en: 'Accrued bonuses to the account', ua: 'Нараховано бонуси' },
-    status: 'ACTIVE'
+    status: 'ACTIVE',
+    body: {
+      en:
+        'Hello! Today UBS Courier picked up packages from you:  <Numbers of packages from the order>. ' +
+        'And you paid: <Numbers of packages from the payment>. ' +
+        'Therefore, we fix a deposit for you for the next export in the amount of UAH <Difference>. Have a good day!',
+      ua:
+        'Вітання, <User name>!  Сьогодні УБС Кур’єр забрав у вас пакетів: <Numbers of packages from the order>. ' +
+        'А оплачували ви: <Numbers of packages from the payment>. ' +
+        'Тож фіксуємо для вас депозит для наступного вивозу на суму <Difference> грн. Гарного дня!'
+    }
   },
   {
     id: 6,
@@ -65,7 +119,15 @@ const notificationTemplates = [
     time: 'IMMEDIATELY',
     schedule: null,
     title: { en: 'Violation of the rules', ua: 'Недотримання правил' },
-    status: 'INACTIVE'
+    status: 'INACTIVE',
+    body: {
+      en:
+        'Hello, <User name>! Sorry, but in your packages were found: <Unsafe waste>. ' +
+        'This is waste that we do not accept. Please review our sorting rules again: https://bit.ly/2Q2esLB ',
+      ua:
+        'Вітання, <User name>! На жаль, у ваших пакетах було виявлено: <Unsafe waste>. Це відходи, які ми не приймаємо.' +
+        ' Будь ласка, ознайомтеся ще раз із нашими правилами сортування: https://bit.ly/2Q2esLB'
+    }
   },
   {
     id: 7,
@@ -73,7 +135,16 @@ const notificationTemplates = [
     time: 'IMMEDIATELY',
     schedule: null,
     title: { en: 'Cancellation of violation of sorting rules', ua: 'Відміна порушення правил' },
-    status: 'ACTIVE'
+    status: 'ACTIVE',
+    body: {
+      en:
+        'Hello <User name>! Your order <Order number> has been canceled with information' +
+        ' about violation of sorting rules after communication with the manager.' +
+        ' Thank you for sorting with us. Have a good day.',
+      ua:
+        'Вітаю <User name>! У вашому замовленні <Order number> було скасовано інформацію про порушення' +
+        ' правил сортування після спілкування з менеджером. Дякуємо, що сортуєте разом з нами. Гарного дня!'
+    }
   },
   {
     id: 8,
@@ -81,7 +152,17 @@ const notificationTemplates = [
     time: 'IMMEDIATELY',
     schedule: null,
     title: { en: 'Changes in violations of sorting rules', ua: 'Зміни в порушеннях правил сортування' },
-    status: 'ACTIVE'
+    status: 'ACTIVE',
+    body: {
+      en:
+        'Hello <User name>. Your order <Order number> has had its sorting violation information changed' +
+        ' after speaking with the manager. Please see the changes in the order <link order>.' +
+        'Thank you for sorting with us. Have a good day.',
+      ua:
+        'Вітаю <ім’я>! У вашому замовленні <Order number> було внесено зміни в інформацію про' +
+        ' порушення правил сортування після спілкування з менеджером. Передивіться, будь ласка, зміни в замовленні' +
+        '   <link order>.Дякуємо, що сортуєте разом з нами. Гарного дня.'
+    }
   },
   {
     id: 9,
@@ -89,7 +170,17 @@ const notificationTemplates = [
     time: '2_MONTHS_AFTER_LAST_ORDER',
     schedule: null,
     title: { en: `Let's stay connected`, ua: `Давайте залишатися на зв'язку` },
-    status: 'INACTIVE'
+    status: 'INACTIVE',
+    body: {
+      en:
+        'Hello <User name>! We noticed that you have not used the "UBS Courier" service for <Last month> months.' +
+        ' Maybe you went on a long trip, or maybe something went wrong with the collection of plastics.' +
+        ' Please share this with us so we can understand if and how we can help.',
+      ua:
+        'Привіт, <User name>! Ми помітили, що ви не користувалися послугою «УБС Кур‘єр» уже <Last month> місяці.' +
+        ' Можливо, ви вирушили в тривалу подорож, а можливо, щось пішло не так зі збиранням пластиків.' +
+        ' Поділіться, будь ласка, цим із нами, щоб ми зрозуміли, чи можемо допомогти і як саме.'
+    }
   }
 ];
 
@@ -151,15 +242,6 @@ export class NotificationsService {
   }
 
   getNotificationTemplate(id: number) {
-    return of({
-      id: 1,
-      title: 'Неоплачене замовлення',
-      notificationType: 'UNPAID_ORDER',
-      schedule: {
-        cron: '0 0 18 * *'
-      },
-      text: `Вітання, <Ім'я користувача>!`,
-      status: 'active'
-    });
+    return of(notificationTemplates.find((temp) => temp.id === id));
   }
 }

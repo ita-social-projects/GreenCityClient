@@ -970,5 +970,53 @@
     "text-2": "Nice and sound",
     "text-3": "Good job!",
     "text-finish": "Thank you !!!"
+  },
+  "recurring-events-picker": {
+    "title": "Repeat",
+    "begin": "Repeat from",
+    "end": "Repeat till",
+    "every": "Every",
+    "modes": {
+      "daily": "Daily",
+      "weekly": "Weekly",
+      "monthly": "Monthly",
+      "yearly": "Yearly"
+    },
+    "day": "day",
+    "week": "week",
+    "month": "month",
+    "year": "year",
+    "on": "on",
+    "in": "in",
+    "months": {
+      "jan": "January",
+      "feb": "February",
+      "mar": "March",
+      "apr": "April",
+      "may": "May",
+      "jun": "June",
+      "jul": "July",
+      "aug": "August",
+      "sep": "September",
+      "oct": "October",
+      "nov": "November",
+      "dec": "December"
+    },
+    "weekdays": {
+      "mon": "Monday",
+      "tue": "Tuesday",
+      "wed": "Wednesday",
+      "thu": "Thursday",
+      "fri": "Friday",
+      "sat": "Saturday",
+      "sun": "Sunday"
+    },
+    "weeks": {
+      "first": "First",
+      "second": "Second",
+      "third": "Third",
+      "forth": "Fourth",
+      "last": "Last"
+    }
   }
 }

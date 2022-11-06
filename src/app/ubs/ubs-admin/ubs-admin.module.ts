@@ -84,6 +84,8 @@ import { UbsAdminEmployeePermissionsFormComponent } from './components/ubs-admin
 import { CdkAccordionModule } from '@angular/cdk/accordion';
 import { TariffStatusPipe } from '@pipe/tariff-status-pipe/tariff-status.pipe';
 import { UbsAdminNotificationListComponent } from './components/ubs-admin-notification-list/ubs-admin-notification-list.component';
+import { UbsAdminNotificationComponent } from './components/ubs-admin-notification/ubs-admin-notification.component';
+import { UbsAdminNotificationEditFormComponent } from './components/ubs-admin-notification/ubs-admin-notification-edit-form/ubs-admin-notification-edit-form.component';
 
 @NgModule({
   declarations: [
@@ -139,7 +141,9 @@ import { UbsAdminNotificationListComponent } from './components/ubs-admin-notifi
     TariffConfirmationPopUpComponent,
     UbsAdminEmployeePermissionsFormComponent,
     TariffStatusPipe,
-    UbsAdminNotificationListComponent
+    UbsAdminNotificationListComponent,
+    UbsAdminNotificationComponent,
+    UbsAdminNotificationEditFormComponent
   ],
   imports: [
     CommonModule,

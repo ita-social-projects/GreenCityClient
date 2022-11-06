@@ -1,0 +1,70 @@
+.edit-notification-container {
+  width: 500px;
+  display: flex;
+  flex-direction: column;
+  // gap: 15px;
+}
+
+.edit-notification-content {
+  display: flex;
+  flex-direction: column;
+
+  &::-webkit-scrollbar {
+    width: 4px;
+  }
+
+  &::-webkit-scrollbar-track {
+    background: transparent;
+  }
+
+  &::-webkit-scrollbar-thumb {
+    background: var(--ubs-secondary-grey);
+    box-shadow: 2px 2px 4px rgba(73, 74, 73, 0.2);
+    border-radius: 4px;
+    cursor: pointer;
+  }
+}
+
+.edit-text {
+  min-height: 150px;
+}
+
+.controls {
+  padding: 20px 0;
+  display: flex;
+  flex-direction: row;
+  gap: 20px;
+  justify-content: flex-end;
+
+  .cancel-button {
+    height: 36px;
+    font-family: var(--primary-font);
+    letter-spacing: 0.1px;
+    font-weight: 700;
+    font-size: 14px;
+    line-height: 20px;
+    padding: 8px 24px;
+    color: var(--ubs-quaternary-dark-grey);
+    border-radius: 4px;
+    background-color: transparent;
+    border: 1px solid var(--ubs-quaternary-dark-grey);
+  }
+
+  .submit-button {
+    height: 36px;
+    font-family: var(--primary-font);
+    letter-spacing: 0.1px;
+    font-weight: 700;
+    font-size: 14px;
+    line-height: 20px;
+    padding: 8px 24px;
+    color: var(--ubs-quaternary-dark-grey);
+    border-radius: 4px;
+    background: var(--ubs-button-light-green);
+    border: 0;
+
+    &:disabled {
+      background-color: var(--ubs-primary-light-grey);
+    }
+  }
+}

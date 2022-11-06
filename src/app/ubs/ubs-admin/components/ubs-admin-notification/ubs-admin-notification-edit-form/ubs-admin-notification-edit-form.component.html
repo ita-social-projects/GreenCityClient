@@ -1,0 +1,30 @@
+<form [formGroup]="form" (ngSubmit)="onSubmit()" class="edit-notification-container">
+  <h2 mat-dialog-title>Редагувати повідомлення</h2>
+
+  <div mat-dialog-content class="edit-notification-content">
+    <mat-form-field class="example-full-width" appearance="outline">
+      <mat-label>Тема повідомлення</mat-label>
+      <input matInput formControlName="topicUa" />
+    </mat-form-field>
+
+    <mat-form-field class="example-full-width" appearance="outline">
+      <mat-label>Текст повідомлення</mat-label>
+      <textarea matInput formControlName="textUa" class="edit-text"></textarea>
+    </mat-form-field>
+
+    <mat-form-field class="example-full-width" appearance="outline">
+      <mat-label>Notification topic</mat-label>
+      <input matInput formControlName="topicEn" />
+    </mat-form-field>
+
+    <mat-form-field class="example-full-width" appearance="outline">
+      <mat-label>Notification text</mat-label>
+      <textarea matInput formControlName="textEn" class="edit-text"></textarea>
+    </mat-form-field>
+  </div>
+
+  <div mat-dialog-actions class="controls">
+    <button class="cancel-button" type="button" (click)="onCancel()">Cancel</button>
+    <button class="submit-button" type="submit" [disabled]="!form.valid">Change</button>
+  </div>
+</form>

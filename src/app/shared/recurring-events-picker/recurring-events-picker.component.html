@@ -1,0 +1,167 @@
+<div class="container">
+  <form [formGroup]="form" (ngSubmit)="onSubmit()">
+    <div class="title-block">
+      <span class="title">{{ 'recurring-events-picker.title' | translate }}</span>
+    </div>
+    <div class="repeat-from-block" *ngIf="!noBegin">
+      <mat-form-field appearance="legacy" floatLabel="always">
+        <mat-label>{{ 'recurring-events-picker.begin' | translate }}</mat-label>
+        <input matInput [matDatepicker]="pickerBegin" formControlName="begin" />
+        <mat-datepicker-toggle matSuffix [for]="pickerBegin"></mat-datepicker-toggle>
+        <mat-datepicker #pickerBegin></mat-datepicker>
+      </mat-form-field>
+    </div>
+
+    <div class="select-period-type-block">
+      <mat-form-field appearance="legacy" floatLabel="always">
+        <mat-select formControlName="period">
+          <mat-option *ngFor="let mode of modes" [value]="mode">
+            {{ 'recurring-events-picker.modes.' + mode | translate }}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+    </div>
+
+    <mat-divider></mat-divider>
+
+    <div class="repeat-daily-block" formGroupName="daily" *ngIf="mode === 'daily'">
+      <div class="every-nth-period">
+        <mat-form-field appearance="legacy" floatLabel="always">
+          <mat-label>{{ 'recurring-events-picker.every' | translate }}</mat-label>
+          <input matInput type="number" min="1" max="99" formControlName="interval" />
+          <mat-hint>{{ 'recurring-events-picker.day' | translate }}</mat-hint>
+        </mat-form-field>
+      </div>
+      <!-- <mat-radio-group class="select-period-type" aria-label="Select an option" formControlName="periodType">
+        <mat-radio-button value="every" >
+          <div class="every-nth-period">
+            <mat-form-field appearance="legacy" floatLabel="always">
+              <mat-label>Every</mat-label>
+              <input matInput type="number" min="1" max="99" formControlName="nth" />
+            </mat-form-field>
+          </div>
+        </mat-radio-button>
+        <mat-radio-button value="every-weekday">Every weekday</mat-radio-button>
+      </mat-radio-group> -->
+    </div>
+
+    <div class="repeat-weekly-block" formGroupName="weekly" *ngIf="mode === 'weekly'">
+      <mat-form-field class="period-num" appearance="legacy" floatLabel="always">
+        <mat-label>{{ 'recurring-events-picker.every' | translate }}</mat-label>
+        <input matInput type="number" min="1" max="99" formControlName="interval" />
+        <mat-hint>{{ 'recurring-events-picker.week' | translate }}</mat-hint>
+      </mat-form-field>
+      <mat-form-field appearance="legacy" floatLabel="always" floatLabel="always">
+        <mat-label>{{ 'recurring-events-picker.on' | translate }}</mat-label>
+        <mat-select multiple formControlName="weekdays">
+          <mat-option *ngFor="let day of weekdays" [value]="day">
+            {{ 'recurring-events-picker.weekdays.' + day | translate }}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+    </div>
+
+    <div class="repeat-monthly-block" formGroupName="monthly" *ngIf="mode === 'monthly'">
+      <div class="repeat-every">
+        <mat-form-field class="period-num" appearance="legacy" floatLabel="always">
+          <mat-label>{{ 'recurring-events-picker.every' | translate }}</mat-label>
+          <input matInput type="number" min="1" max="99" formControlName="interval" />
+          <mat-hint>{{ 'recurring-events-picker.month' | translate }}</mat-hint>
+        </mat-form-field>
+      </div>
+
+      <mat-radio-group class="select-period-type" aria-label="Select an option" formControlName="subperiod">
+        <mat-radio-button value="on-day">
+          <div class="every-nth-period">
+            <mat-form-field appearance="legacy" floatLabel="always">
+              <mat-label>{{ 'recurring-events-picker.on' | translate }}</mat-label>
+              <input matInput type="number" min="1" max="31" formControlName="day" />
+              <mat-hint>{{ 'recurring-events-picker.day' | translate }}</mat-hint>
+            </mat-form-field>
+          </div>
+        </mat-radio-button>
+        <mat-radio-button value="on-week-on-day">
+          <div class="custom-period">
+            <mat-form-field appearance="legacy">
+              <mat-label>{{ 'recurring-events-picker.on' | translate }}</mat-label>
+              <mat-select formControlName="week">
+                <mat-option *ngFor="let week of weeks" [value]="week">
+                  {{ 'recurring-events-picker.weeks.' + week | translate }}
+                </mat-option>
+              </mat-select>
+            </mat-form-field>
+            <mat-form-field appearance="legacy">
+              <mat-select formControlName="weekdays">
+                <mat-option *ngFor="let day of weekdays" [value]="day">
+                  {{ 'recurring-events-picker.weekdays.' + day | translate }}
+                </mat-option>
+              </mat-select>
+            </mat-form-field>
+          </div>
+        </mat-radio-button>
+      </mat-radio-group>
+    </div>
+
+    <div class="repeat-yearly-block" formGroupName="yearly" *ngIf="mode === 'yearly'">
+      <div class="repeat-every">
+        <mat-form-field class="period-num" appearance="legacy" floatLabel="always">
+          <mat-label>{{ 'recurring-events-picker.every' | translate }}</mat-label>
+          <input matInput type="number" min="1" max="99" formControlName="interval" />
+          <mat-hint>{{ 'recurring-events-picker.year' | translate }}</mat-hint>
+        </mat-form-field>
+        <mat-form-field appearance="legacy" floatLabel="always">
+          <mat-label>{{ 'recurring-events-picker.in' | translate }}</mat-label>
+          <mat-select multiple formControlName="months">
+            <mat-option *ngFor="let month of months" [value]="month">
+              {{ 'recurring-events-picker.months.' + month | translate }}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+      </div>
+
+      <mat-radio-group class="select-period-type" aria-label="Select an option" formControlName="subperiod">
+        <mat-radio-button value="on-day">
+          <div class="every-nth-period">
+            <mat-form-field appearance="legacy" floatLabel="always">
+              <mat-label>{{ 'recurring-events-picker.on' | translate }}</mat-label>
+              <input matInput type="number" min="1" max="31" formControlName="day" />
+              <mat-hint>{{ 'recurring-events-picker.day' | translate }}</mat-hint>
+            </mat-form-field>
+          </div>
+        </mat-radio-button>
+        <mat-radio-button value="on-week-on-day">
+          <div class="custom-period">
+            <mat-form-field appearance="legacy" floatLabel="always">
+              <mat-label>{{ 'recurring-events-picker.on' | translate }}</mat-label>
+              <mat-select formControlName="week">
+                <mat-option *ngFor="let week of weeks" [value]="week">
+                  {{ 'recurring-events-picker.weeks.' + week | translate }}
+                </mat-option>
+              </mat-select>
+            </mat-form-field>
+            <mat-form-field appearance="legacy" floatLabel="always">
+              <mat-select formControlName="weekdays">
+                <mat-option *ngFor="let day of weekdays" [value]="day">
+                  {{ 'recurring-events-picker.weekdays.' + day | translate }}
+                </mat-option>
+              </mat-select>
+            </mat-form-field>
+          </div>
+        </mat-radio-button>
+      </mat-radio-group>
+    </div>
+
+    <div class="repeat-until-block" *ngIf="!noEnd">
+      <mat-form-field appearance="legacy" floatLabel="always">
+        <mat-label>{{ 'recurring-events-picker.end' | translate }}</mat-label>
+        <input matInput [matDatepicker]="pickerEnd" formControlName="end" />
+        <mat-datepicker-toggle matSuffix [for]="pickerEnd"></mat-datepicker-toggle>
+        <mat-datepicker #pickerEnd></mat-datepicker>
+      </mat-form-field>
+    </div>
+
+    <div class="buttons">
+      <button mat-stroked-button color="primary" type="submit">Select</button>
+    </div>
+  </form>
+</div>

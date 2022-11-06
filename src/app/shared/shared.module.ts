@@ -35,6 +35,9 @@ import { SpacePreventDirective } from './directives/space-prevent.directive';
 import { LocalizedDatePipe } from './localized-date-pipe/localized-date.pipe';
 import { TranslateDatePipe } from './translate-date-pipe/translate-date.pipe';
 import { RepeatPipe } from './repeat-pipe/repeat.pipe';
+import { RecurringEventsPickerComponent } from './recurring-events-picker/recurring-events-picker.component';
+import { MatDatepickerModule } from '@angular/material/datepicker';
+import { MatButtonModule } from '@angular/material/button';
 
 @NgModule({
   declarations: [
@@ -64,7 +67,8 @@ import { RepeatPipe } from './repeat-pipe/repeat.pipe';
     SpacePreventDirective,
     LocalizedDatePipe,
     TranslateDatePipe,
-    RepeatPipe
+    RepeatPipe,
+    RecurringEventsPickerComponent
   ],
   imports: [
     CommonModule,
@@ -76,7 +80,9 @@ import { RepeatPipe } from './repeat-pipe/repeat.pipe';
     NgxPageScrollModule,
     ReactiveFormsModule,
     FormsModule,
-    MatAutocompleteModule
+    MatAutocompleteModule,
+    MatDatepickerModule,
+    MatButtonModule
   ],
   exports: [
     SpinnerComponent,
@@ -102,7 +108,8 @@ import { RepeatPipe } from './repeat-pipe/repeat.pipe';
     SpacePreventDirective,
     LocalizedDatePipe,
     TranslateDatePipe,
-    RepeatPipe
+    RepeatPipe,
+    RecurringEventsPickerComponent
   ]
 })
 export class SharedModule {}

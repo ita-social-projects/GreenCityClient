@@ -34,7 +34,7 @@ export class UbsAdminNotificationListComponent implements OnInit {
     arrowDown: './assets/img/arrow-down.svg'
   };
 
-  statuses = notificationStatuses;
+  statuses = ['ALL', ...notificationStatuses];
   triggers = notificationTriggers;
   time = notificationTriggerTime;
 
