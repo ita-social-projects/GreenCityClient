@@ -31,19 +31,27 @@ describe('UbsAdminCertificateAddCertificatePopUpComponent', () => {
     expect(component).toBeTruthy();
   });
 
-  it('should check if inputs contain only null', () => {
+  it('should check if monthCount contains only null', () => {
     const newValue = '0';
     component.valueChangeMonthCount(newValue);
-    component.valueChangePointsValue(newValue);
     expect(component.monthCountDisabled).toBeTruthy();
+  });
+
+  it('should check if pointValue contains only null', () => {
+    const newValue = '0';
+    component.valueChangePointsValue(newValue);
     expect(component.pointsValueDisabled).toBeTruthy();
   });
 
-  it('should check if inputs contain not null', () => {
+  it('should check if monthCount contains not null', () => {
     const newValue = '10';
-    component.valueChangeMonthCount(newValue);
     component.valueChangePointsValue(newValue);
     expect(component.monthCountDisabled).toBeFalsy();
+  });
+
+  it('should check if pointValue contains not null', () => {
+    const newValue = '10';
+    component.valueChangePointsValue(newValue);
     expect(component.pointsValueDisabled).toBeFalsy();
   });
 });
