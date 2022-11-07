@@ -4,6 +4,7 @@ import { IAlertInfo } from '../models/edit-cell.model';
 import { environment } from '@environment/environment.js';
 import { IBigOrderTable, IFilteredColumn, IFilteredColumnValue } from '../models/ubs-admin.interface';
 import { MatCheckboxChange } from '@angular/material/checkbox';
+import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
 
 @Injectable({
   providedIn: 'root'
@@ -13,7 +14,7 @@ export class AdminTableService {
   filters: any[] = [];
   url = environment.ubsAdmin.backendUbsAdminLink + '/management/';
 
-  constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient, private localStorageService: LocalStorageService) {}
 
   getTable(columnName?: string, page?: number, filter?: string, size?: number, sortingType?: string) {
     const searchValue = filter ? filter.split(' ').reduce((values, value) => (value ? values + `search=${value}&` : values), '') : '';
@@ -99,6 +100,31 @@ export class AdminTableService {
     return endPointColumnName;
   }
 
+  public changeColumnNameEqualToTable(column: string): string {
+    let tableColumnName: string;
+    switch (column) {
+      case 'deliveryDate':
+        tableColumnName = 'dateOfExport';
+        break;
+      case 'responsibleDriverId':
+        tableColumnName = 'responsibleDriver';
+        break;
+      case 'responsibleNavigatorId':
+        tableColumnName = 'responsibleNavigator';
+        break;
+      case 'responsibleCallerId':
+        tableColumnName = 'responsibleCaller';
+        break;
+      case 'responsibleLogicManId':
+        tableColumnName = 'responsibleLogicMan';
+        break;
+      default:
+        tableColumnName = column;
+        break;
+    }
+    return tableColumnName;
+  }
+
   changeFilters(checked: boolean, currentColumn: string, option: IFilteredColumnValue): void {
     const elem = {};
     const columnName = this.changeColumnNameEqualToEndPoint(currentColumn);
@@ -118,6 +144,7 @@ export class AdminTableService {
     } else {
       this.filters = this.filters.filter((filteredElem) => filteredElem[columnName] !== option.key);
     }
+    this.localStorageService.setUbsAdminOrdersTableTitleColumnFilter(this.filters);
   }
 
   changeDateFilters(e: MatCheckboxChange, checked: boolean, currentColumn: string): void {
@@ -143,6 +170,8 @@ export class AdminTableService {
       elem[keyNameFrom] = dateFrom;
       elem[keyNameTo] = dateTo;
       this.filters.push(elem);
+      this.localStorageService.setUbsAdminOrdersTableTitleColumnFilter(this.filters);
+
       this.saveDateFilters(checked, currentColumn, elem);
     } else {
       this.filters = this.filters.filter((filteredElem) => !Object.keys(filteredElem).includes(`${keyNameFrom}`));
@@ -172,6 +201,13 @@ export class AdminTableService {
     return currentColumnDateFilter.values[0]?.filtered;
   }
 
+  setDateCheckedFromStorage(dateColumn): void {
+    const currentColumnDateFilter = this.columnsForFiltering.find((column) => {
+      return column.key === dateColumn;
+    });
+    currentColumnDateFilter.values[0].filtered = true;
+  }
+
   getDateValue(suffix: 'From' | 'To', dateColumn): boolean {
     let date;
     const currentColumnDateFilter = this.columnsForFiltering.find((column) => {
@@ -185,7 +221,7 @@ export class AdminTableService {
     return date;
   }
 
-  private saveDateFilters(checked, currentColumn, elem) {
+  public saveDateFilters(checked, currentColumn, elem) {
     this.columnsForFiltering.forEach((column) => {
       if (column.key === currentColumn) {
         column.values = [{ ...elem, filtered: checked }];

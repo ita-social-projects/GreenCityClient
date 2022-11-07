@@ -110,9 +110,9 @@
             ><br />
             <fieldset [disabled]="!toggle">
               <legend></legend>
-              <input class="input" id="from" formControlName="minAmountOfOrder" />
+              <input class="input" type="number" id="from" formControlName="minPriceOfOrder" />
               <span class="line"></span>
-              <input class="input" id="to" formControlName="maxAmountOfOrder" />
+              <input class="input" type="number" id="to" formControlName="maxPriceOfOrder" />
               <label for="to"></label>
             </fieldset>
           </div>
@@ -127,23 +127,22 @@
             ><br />
             <fieldset [disabled]="toggle">
               <legend></legend>
-              <input class="input" id="from-packages" formControlName="minAmountOfBigBag" />
+              <input class="input" type="number" id="from-packages" formControlName="minAmountOfBigBags" />
               <span class="line"></span>
-              <input class="input" id="to-packages" formControlName="maxAmountOfBigBag" />
+              <input class="input" type="number" id="to-packages" formControlName="maxAmountOfBigBags" />
               <label for="to-packages"></label>
             </fieldset>
           </div>
         </mat-radio-group>
         <div class="min-bags-number">
           <h6>{{ 'ubs-tariffs.min_set_of_packages' | translate }}</h6>
-          <div>
-            <mat-checkbox class="example-margin">{{ 'ubs-tariffs.textile_waste' | translate }}</mat-checkbox>
-          </div>
-          <div>
-            <mat-checkbox class="example-margin">{{ 'ubs-tariffs.safe_waste' | translate }}</mat-checkbox>
-          </div>
-          <div>
-            <mat-checkbox class="example-margin">{{ 'ubs-tariffs.textile_waste_20' | translate }}</mat-checkbox>
+          <div *ngIf="bags[0]">
+            <div *ngFor="let tariff of ourTariffs; let i = index">
+              <div *ngIf="bags[i]">
+                <mat-checkbox *ngIf="currentLanguage === 'ua'" class="example-margin">{{ tariff.name }}</mat-checkbox>
+                <mat-checkbox *ngIf="currentLanguage === 'en'" class="example-margin">{{ tariff.nameEng }}</mat-checkbox>
+              </div>
+            </div>
           </div>
         </div>
       </div>

@@ -16,14 +16,9 @@ export interface Bag {
   createdBy?: string;
   tariffTranslationDtoList?: [
     {
-      description: string;
-      languageId: number;
       name: string;
-    },
-    {
       description: string;
-      languageId: number;
-      name: string;
+      nameEng: string;
     }
   ];
 }

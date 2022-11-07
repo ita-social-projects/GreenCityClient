@@ -110,6 +110,7 @@
   @media (max-width: 480px) {
     .mobile-sidebar {
       display: block;
+      position: fixed;
     }
 
     .main-content {

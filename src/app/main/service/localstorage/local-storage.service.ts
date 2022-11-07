@@ -272,4 +272,18 @@ export class LocalStorageService {
   public getOrderIdToRedirect(): number {
     return Number.parseInt(localStorage.getItem(this.ORDER_TO_REDIRECT), 10);
   }
+
+  public setUbsAdminOrdersTableTitleColumnFilter(filters): void {
+    if (filters.length) {
+      const serialized = JSON.stringify(filters);
+      window.localStorage.setItem('UbsAdminOrdersTableTitleColumnFilters', serialized);
+    } else {
+      window.localStorage.removeItem('UbsAdminOrdersTableTitleColumnFilters');
+    }
+  }
+
+  public getUbsAdminOrdersTableTitleColumnFilter() {
+    const parsed = JSON.parse(window.localStorage.getItem('UbsAdminOrdersTableTitleColumnFilters')) || [];
+    return parsed;
+  }
 }

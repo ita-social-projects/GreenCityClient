@@ -1,11 +1,18 @@
 import { HttpClientTestingModule, HttpTestingController } from '@angular/common/http/testing';
-import { TestBed } from '@angular/core/testing';
+import { TestBed, ComponentFixture } from '@angular/core/testing';
 import { AdminTableService } from './admin-table.service';
 import { environment } from '@environment/environment.js';
+import { IFilteredColumn } from '../models/ubs-admin.interface';
+import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
+import { IFilteredColumnValue } from '../models/ubs-admin.interface';
+import { MatCheckboxChange } from '@angular/material/checkbox';
+
+import { UbsAdminTableComponent } from '../components/ubs-admin-table/ubs-admin-table.component';
 
 describe('AdminTableService', () => {
   let httpMock: HttpTestingController;
   let service: AdminTableService;
+  let localStorageService: LocalStorageService;
   const urlMock = environment.ubsAdmin.backendUbsAdminLink + '/management';
   const isdMock = [1, 2, 3];
 
@@ -14,6 +21,7 @@ describe('AdminTableService', () => {
       imports: [HttpClientTestingModule]
     });
     service = TestBed.inject(AdminTableService);
+    localStorageService = TestBed.inject(LocalStorageService);
     httpMock = TestBed.inject(HttpTestingController);
   });
 
@@ -76,5 +84,117 @@ describe('AdminTableService', () => {
   it('should return singhle number when howChangeCell is called', () => {
     const change = service.howChangeCell(false, [], 3);
     expect(change).toEqual([3]);
+  });
+
+  it('should return column equal to table names', () => {
+    const columns = [
+      'deliveryDate',
+      'responsibleDriverId',
+      'responsibleNavigatorId',
+      'responsibleCallerId',
+      'responsibleLogicManId',
+      'orderStatus'
+    ];
+    const mockedColumns = [
+      'dateOfExport',
+      'responsibleDriver',
+      'responsibleNavigator',
+      'responsibleCaller',
+      'responsibleLogicMan',
+      'orderStatus'
+    ];
+
+    columns.forEach((column) => {
+      const change = service.changeColumnNameEqualToTable(column);
+      expect(change).toEqual(mockedColumns[columns.indexOf(column)]);
+    });
+  });
+
+  it('should return column equal to endpont names', () => {
+    const columns = [
+      'dateOfExport',
+      'responsibleDriver',
+      'responsibleNavigator',
+      'responsibleCaller',
+      'responsibleLogicMan',
+      'orderStatus'
+    ];
+    const mockedColumns = [
+      'deliveryDate',
+      'responsibleDriverId',
+      'responsibleNavigatorId',
+      'responsibleCallerId',
+      'responsibleLogicManId',
+      'orderStatus'
+    ];
+
+    columns.forEach((column) => {
+      const change = service.changeColumnNameEqualToEndPoint(column);
+      expect(change).toEqual(mockedColumns[columns.indexOf(column)]);
+    });
+  });
+
+  it('should set as checked column', () => {
+    const column = 'orderStatus';
+    service.columnsForFiltering = [
+      {
+        en: 'Order status',
+        key: 'orderStatus',
+        ua: 'Статус замовлення',
+        values: [
+          { en: 'Formed', filtered: false, key: 'FORMED', ua: 'Сформовано' },
+          { en: 'Canceled', filtered: false, key: 'CANCELED', ua: 'Скасовано' },
+          { en: 'Completed', filtered: false, key: 'COMPLETED', ua: 'Завершено' }
+        ]
+      }
+    ];
+
+    const currentColumnDateFilter = service.columnsForFiltering.find((col) => {
+      return col.key === column;
+    });
+    service.setDateCheckedFromStorage(column);
+    expect(currentColumnDateFilter.values[0].filtered).toBeTruthy();
+  });
+
+  it('method changeFilters should set value to localStorageService', () => {
+    let option: IFilteredColumnValue;
+    option = { key: 'FORMED', ua: 'Сформовано', en: 'Formed', filtered: false };
+    service.changeFilters(true, 'orderStatus', option);
+    expect(localStorageService.getUbsAdminOrdersTableTitleColumnFilter()).toContain({ orderStatus: option.key });
+  });
+
+  it('should url mock be equal url', () => {
+    expect(service.url).toEqual(urlMock + '/');
+  });
+
+  it('getDateValue expect getDateValue shoud be call', () => {
+    spyOn(service, 'getDateValue');
+    service.getDateValue('From', 'dateColumn');
+    expect(service.getDateValue).toHaveBeenCalledWith('From', 'dateColumn');
+  });
+
+  it('saveDateFilters should be call', () => {
+    spyOn(service, 'saveDateFilters');
+    service.saveDateFilters(true, 'dateColumn', 'From');
+    expect(service.saveDateFilters).toHaveBeenCalledWith(true, 'dateColumn', 'From');
+  });
+
+  it('getDateChecked should be call', () => {
+    spyOn(service, 'getDateChecked');
+    service.getDateChecked('dateColumn');
+    expect(service.getDateChecked).toHaveBeenCalledWith('dateColumn');
+  });
+
+  it('changeInputDateFilters should be call', () => {
+    spyOn(service, 'changeInputDateFilters');
+    service.changeInputDateFilters('true', 'dateColumn', 'From');
+    expect(service.changeInputDateFilters).toHaveBeenCalledWith('true', 'dateColumn', 'From');
+  });
+
+  it('changeDateFilters should be call', () => {
+    spyOn(service, 'changeDateFilters');
+    const event = new MatCheckboxChange();
+    service.changeDateFilters(event, true, 'dateColumn');
+    expect(service.changeDateFilters).toHaveBeenCalledWith(event, true, 'dateColumn');
   });
 });
