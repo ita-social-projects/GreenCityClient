@@ -42,19 +42,11 @@ export class UbsAdminCertificateAddCertificatePopUpComponent implements OnInit, 
   }
 
   valueChangeMonthCount(newValue: string) {
-    if (/^0+$/.test(newValue)) {
-      this.monthCountDisabled = true;
-    } else {
-      this.monthCountDisabled = false;
-    }
+    this.monthCountDisabled = /^0+$/.test(newValue);
   }
 
   valueChangePointsValue(newValue: string) {
-    if (/^0+$/.test(newValue)) {
-      this.pointsValueDisabled = true;
-    } else {
-      this.pointsValueDisabled = false;
-    }
+    this.pointsValueDisabled = /^0+$/.test(newValue);
   }
 
   createCertificate() {
