@@ -65,7 +65,7 @@ export class UbsAdminTariffsAddServicePopUpComponent implements OnInit, OnDestro
       price: new FormControl('', [Validators.required, Validators.pattern(Patterns.ubsPrice)]),
       commission: new FormControl('', [Validators.required, Validators.pattern(Patterns.ubsPrice)]),
       description: new FormControl({ value: this.receivedData.serviceData.description }),
-      englishDescription: new FormControl({ value: this.receivedData.serviceData.description })
+      englishDescription: new FormControl('')
     });
   }
 
@@ -96,7 +96,7 @@ export class UbsAdminTariffsAddServicePopUpComponent implements OnInit, OnDestro
   }
 
   fillFields(receivedData) {
-    if (this.receivedData.serviceData) {
+    if (receivedData.serviceData) {
       const { name, price, capacity, commission, description } = this.receivedData.serviceData;
       this.addServiceForm.patchValue({
         name,
@@ -109,8 +109,7 @@ export class UbsAdminTariffsAddServicePopUpComponent implements OnInit, OnDestro
   }
 
   editService() {
-    const locationId = this.receivedData.locationId;
-    console.log(this.receivedData.locationId);
+    const locationId = this.tariffsService.getLocationId();
     const { name, nameEng, price, capacity, commission, description } = this.addServiceForm.getRawValue();
     this.service = {
       name,

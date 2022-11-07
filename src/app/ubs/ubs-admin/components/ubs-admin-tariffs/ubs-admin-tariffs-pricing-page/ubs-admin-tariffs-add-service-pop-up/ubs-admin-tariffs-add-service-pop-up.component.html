@@ -86,7 +86,7 @@
         *ngIf="data.button === 'update'"
         class="primary-global-button btn"
         [disabled]="addServiceForm.invalid || addServiceForm.pristine || loadingAnim"
-        (click)="editService(receivedData)"
+        (click)="editService()"
       >
         <span *ngIf="loadingAnim" class="spinner-border spinner-border-sm" role="status" aria-hidden="true"> </span>
         {{ 'ubs-tariffs-add-service.btn.save' | translate }}
