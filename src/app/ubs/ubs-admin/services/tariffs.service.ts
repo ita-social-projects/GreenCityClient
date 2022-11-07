@@ -18,7 +18,7 @@ export class TariffsService {
     this.courierId = id;
   }
 
-  async getCourierId() {
+  getCourierId() {
     return this.courierId;
   }
 

@@ -71,9 +71,7 @@ export class UbsAdminTariffsAddServicePopUpComponent implements OnInit, OnDestro
   }
 
   async addNewService() {
-    const courierId: number = await this.tariffsService.getCourierId().then((res: number) => {
-      return res;
-    });
+    const courierId: number = this.tariffsService.getCourierId();
 
     const { name, nameEng, capacity, price, commission, description } = this.addServiceForm.value;
     this.service = {
