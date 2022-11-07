@@ -20,7 +20,11 @@
   </form>
   <mat-dialog-actions>
     <button class="btn btn-outline-success" mat-dialog-close>Назад</button>
-    <button class="btn btn-success" [disabled]="addCertificateForm.invalid || pointsValid || monthCountValid" (click)="createCertificate()">
+    <button
+      class="btn btn-success"
+      [disabled]="addCertificateForm.invalid || monthCountDisabled || pointsValueDisabled"
+      (click)="createCertificate()"
+    >
       Додати
     </button>
   </mat-dialog-actions>
