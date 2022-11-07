@@ -16,7 +16,7 @@ export const notificationTriggers = [
 
 export const notificationTriggerTime = ['6PM_3DAYS_AFTER_ORDER_FORMED_NOT_PAID', 'IMMEDIATELY', '2_MONTHS_AFTER_LAST_ORDER'];
 
-export const notificationStatuses = ['ALL', 'ACTIVE', 'INACTIVE'];
+export const notificationStatuses = ['ACTIVE', 'INACTIVE'];
 
 const notificationTemplates = [
   {
@@ -142,24 +142,9 @@ export class NotificationsService {
       totalElements,
       totalPages
     }).toPromise();
-
-    // return this.http
-    //   .get<{ currentPage: number; page: NotificationTemplate[]; totalElements: number; totalPages: number }>(
-    //     `https://greencity-ubs.testgreencity.ga/admin/notification/get-all-templates?page=${page}&size=${size}`
-    //   )
-    //   .toPromise();
   }
 
   getNotificationTemplate(id: number) {
-    return of({
-      id: 1,
-      title: 'Неоплачене замовлення',
-      notificationType: 'UNPAID_ORDER',
-      schedule: {
-        cron: '0 0 18 * *'
-      },
-      text: `Вітання, <Ім'я користувача>!`,
-      status: 'active'
-    });
+    return of(notificationTemplates[id]);
   }
 }

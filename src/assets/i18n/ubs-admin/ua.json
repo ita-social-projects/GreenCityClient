@@ -859,10 +859,14 @@
       "IMMEDIATELY": "Одразу",
       "2_MONTHS_AFTER_LAST_ORDER": "Система щодня перевіряє BD і надсилає повідомлення, якщо замовлення було зроблено 2 місяці тому"
     },
-    "statuses": {
+    "filters-statuses": {
       "ALL": "Усі",
       "ACTIVE": "Активні",
       "INACTIVE": "Неактивні"
+    },
+    "statuses": {
+      "ACTIVE": "Активне",
+      "INACTIVE": "Неактивне"
     }
   }
 }

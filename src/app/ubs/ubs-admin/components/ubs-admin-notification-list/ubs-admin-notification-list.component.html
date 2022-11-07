@@ -53,7 +53,7 @@
           (selectionChange)="(null)"
         >
           <mat-option class="option-status" *ngFor="let status of statuses" [value]="status">
-            {{ 'ubs-notifications.statuses.' + status | translate }}
+            {{ 'ubs-notifications.filters-statuses.' + status | translate }}
           </mat-option>
         </mat-select>
         <img [src]="icons.arrowDown" class="arrow-down-icon" alt="" (click)="(null)" />

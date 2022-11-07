@@ -860,8 +860,12 @@
       "IMMEDIATELY": "Immediately",
       "2_MONTHS_AFTER_LAST_ORDER": "System checks BD daily and sends messages in case the order was made 2 months ago"
     },
-    "statuses": {
+    "filters-statuses": {
       "ALL": "All",
+      "ACTIVE": "Active",
+      "INACTIVE": "Inactive"
+    },
+    "statuses": {
       "ACTIVE": "Active",
       "INACTIVE": "Inactive"
     }

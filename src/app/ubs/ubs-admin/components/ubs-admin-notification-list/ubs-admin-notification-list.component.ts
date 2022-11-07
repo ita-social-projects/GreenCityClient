@@ -18,9 +18,9 @@ const parseTime = (min, hour) => {
 
 const parseCron = (cron: string) => {
   const [min, hour, dayOfMonth, month, weekday] = cron.split(' ');
-  return `${parseTime(min, hour)}, ${dayOfMonth !== '*' ? dayOfMonth : 'будь-який'} день місяця, ${
-    month !== '*' ? month : 'будь-який'
-  } місяць, ${weekday !== '*' ? weekday : 'будь-який'} день тижня`;
+  return `${parseTime(min, hour)}, ${dayOfMonth !== '*' ? dayOfMonth : 'any'} day of mon, ${month !== '*' ? month : 'any'} month, ${
+    weekday !== '*' ? weekday : 'any'
+  } weekday`;
 };
 
 @Component({
@@ -34,7 +34,7 @@ export class UbsAdminNotificationListComponent implements OnInit {
     arrowDown: './assets/img/arrow-down.svg'
   };
 
-  statuses = notificationStatuses;
+  statuses = ['ALL', ...notificationStatuses];
   triggers = notificationTriggers;
   time = notificationTriggerTime;
 
@@ -59,7 +59,6 @@ export class UbsAdminNotificationListComponent implements OnInit {
   ngOnInit(): void {
     this.localStorageService.languageBehaviourSubject.subscribe((lang) => {
       this.lang = lang;
-      console.log(this.lang);
     });
 
     this.loadPage(1);
