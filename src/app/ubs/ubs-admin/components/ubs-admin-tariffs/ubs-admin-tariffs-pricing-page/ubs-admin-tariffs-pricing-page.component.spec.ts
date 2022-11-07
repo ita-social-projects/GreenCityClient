@@ -1,4 +1,4 @@
-import { async, ComponentFixture, fakeAsync, TestBed, tick } from '@angular/core/testing';
+import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { Location } from '@angular/common';
 import { UbsAdminTariffsPricingPageComponent } from './ubs-admin-tariffs-pricing-page.component';
 import { MatDialog, MatDialogRef } from '@angular/material/dialog';
@@ -25,6 +25,7 @@ import { MatProgressBarModule } from '@angular/material/progress-bar';
 import { Bag, Locations } from 'src/app/ubs/ubs-admin/models/tariffs.interface';
 import { Store } from '@ngrx/store';
 import { UbsAdminTariffsLocationDashboardComponent } from '../ubs-admin-tariffs-location-dashboard.component';
+import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 
 describe('UbsAdminPricingPageComponent', () => {
   let component: UbsAdminTariffsPricingPageComponent;
@@ -34,13 +35,13 @@ describe('UbsAdminPricingPageComponent', () => {
   let location: Location;
   let router: Router;
 
-  const fakeValue = 'fake';
+  const fakeValue = '1';
   const fakeCourierForm = new FormGroup({
     courierLimitsBy: new FormControl('fake'),
-    minAmountOfOrder: new FormControl('fake'),
-    maxAmountOfOrder: new FormControl('fake'),
-    minAmountOfBigBag: new FormControl('fake'),
-    maxAmountOfBigBag: new FormControl('fake'),
+    minPriceOfOrder: new FormControl('fake'),
+    maxPriceOfOrder: new FormControl('fake'),
+    minAmountOfBigBags: new FormControl('fake'),
+    maxAmountOfBigBags: new FormControl('fake'),
     limitDescription: new FormControl('fake')
   });
   const fakeLocations: Locations = {
@@ -72,7 +73,7 @@ describe('UbsAdminPricingPageComponent', () => {
     commission: 333,
     languageCode: 'ua'
   };
-  const fakeId = 3;
+
   const fakeBag: Bag = {
     capacity: 111,
     price: 478,
@@ -155,6 +156,7 @@ describe('UbsAdminPricingPageComponent', () => {
         MatProgressBarModule,
         TranslateModule.forRoot(),
         HttpClientTestingModule,
+        NoopAnimationsModule,
         BrowserAnimationsModule,
         RouterTestingModule.withRoutes([{ path: 'ubs-admin/tariffs', component: UbsAdminTariffsLocationDashboardComponent }]),
         ReactiveFormsModule,
@@ -215,12 +217,16 @@ describe('UbsAdminPricingPageComponent', () => {
     });
   });
 
-  it('getCourierId should return reject here ', fakeAsync(() => {
-    component.getCourierId().then(null, (err) => {
-      expect(err).toBe('getCourierId Error');
+  it('should call getOurTariffs correctly', (done) => {
+    fixture.detectChanges();
+    const getOurTariffsSpy = spyOn(component, 'getOurTariffs').and.returnValue(Promise.resolve());
+    component.getOurTariffs();
+    getOurTariffsSpy.calls.mostRecent().returnValue.then(() => {
+      fixture.detectChanges();
+      expect(getOurTariffsSpy).toHaveBeenCalled();
+      done();
     });
-    tick(60000);
-  }));
+  });
 
   it('should call getLocationId correctly', (done) => {
     fixture.detectChanges();
@@ -233,12 +239,21 @@ describe('UbsAdminPricingPageComponent', () => {
     });
   });
 
-  it('getLocationId should return reject here ', fakeAsync(() => {
-    component.getLocationId().then(null, (err) => {
-      expect(err).toBe('getLocationId Error');
+  it('should call getOurTariffs correctly', (done) => {
+    fixture.detectChanges();
+    const getOurTariffsSpy = spyOn(component, 'getOurTariffs').and.returnValue(Promise.resolve());
+    component.getOurTariffs();
+    getOurTariffsSpy.calls.mostRecent().returnValue.then(() => {
+      fixture.detectChanges();
+      expect(getOurTariffsSpy).toHaveBeenCalled();
+      done();
     });
-    tick(60000);
-  }));
+  });
+
+  it('should convert to number', () => {
+    const numbers = Number(fakeValue);
+    expect(typeof numbers).toBe('number');
+  });
 
   it('should call sumToggler', () => {
     component.sumToggler();

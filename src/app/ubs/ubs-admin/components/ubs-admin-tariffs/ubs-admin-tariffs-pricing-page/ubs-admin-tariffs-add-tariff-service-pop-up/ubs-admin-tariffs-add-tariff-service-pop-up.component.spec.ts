@@ -2,7 +2,7 @@ import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { TranslateModule } from '@ngx-translate/core';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { MAT_DIALOG_DATA, MatDialog, MatDialogModule, MatDialogRef } from '@angular/material/dialog';
-import { FormBuilder, ReactiveFormsModule } from '@angular/forms';
+import { FormBuilder, FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { UbsAdminTariffsAddTariffServicePopUpComponent } from './ubs-admin-tariffs-add-tariff-service-pop-up.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
@@ -13,6 +13,16 @@ import { ServerTranslatePipe } from 'src/app/shared/translate-pipe/translate-pip
 describe('UbsAdminTariffsAddTariffServicePopupComponent', () => {
   let component: UbsAdminTariffsAddTariffServicePopUpComponent;
   let fixture: ComponentFixture<UbsAdminTariffsAddTariffServicePopUpComponent>;
+
+  const fakeBagForm = new FormGroup({
+    name: new FormControl('fake'),
+    nameEng: new FormControl('fake'),
+    price: new FormControl('fake'),
+    capacity: new FormControl('fake'),
+    commission: new FormControl('fake'),
+    description: new FormControl('fake'),
+    englishDescription: new FormControl('fake')
+  });
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
@@ -45,5 +55,16 @@ describe('UbsAdminTariffsAddTariffServicePopupComponent', () => {
         action: 'modal-text.yes'
       }
     });
+  });
+
+  it('should fillFields correctly', () => {
+    component.addTariffServiceForm.patchValue(fakeBagForm.value);
+    expect(component.addTariffServiceForm.value).toEqual(fakeBagForm.value);
+  });
+
+  it('should call createAndStoreNewTariff correctly', () => {
+    const spy = spyOn(component, 'createAndStoreNewTariff');
+    component.createAndStoreNewTariff();
+    expect(spy).toHaveBeenCalled();
   });
 });

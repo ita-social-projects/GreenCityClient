@@ -20,6 +20,7 @@ export class UbsAdminTariffsAddTariffServicePopUpComponent implements OnInit {
   addTariffServiceForm: FormGroup;
   slide = false;
   receivedData;
+  tariffs;
   tariffService: Bag;
   loadingAnim: boolean;
   private destroy: Subject<boolean> = new Subject<boolean>();
@@ -46,6 +47,7 @@ export class UbsAdminTariffsAddTariffServicePopUpComponent implements OnInit {
     });
     this.initForm();
     this.fillFields(this.receivedData);
+    this.tariffsService.setAllTariffsForService();
   }
 
   private initForm(): void {
@@ -68,9 +70,15 @@ export class UbsAdminTariffsAddTariffServicePopUpComponent implements OnInit {
     });
   }
 
+  createAndStoreNewTariff() {
+    this.addNewTariffForService();
+    this.tariffsService.setAllTariffsForService();
+  }
+
   addNewTariffForService() {
     const locationId = this.receivedData.locationId;
-    const { name, nameEn, capacity, price, commission, description, descriptionEn } = this.addTariffServiceForm.value;
+    const { name, nameEng, capacity, price, commission, description } = this.addTariffServiceForm.value;
+
     this.tariffService = {
       capacity,
       price,
@@ -78,14 +86,9 @@ export class UbsAdminTariffsAddTariffServicePopUpComponent implements OnInit {
       commission,
       tariffTranslationDtoList: [
         {
+          name,
           description,
-          languageId: 1,
-          name
-        },
-        {
-          description: descriptionEn,
-          languageId: 2,
-          name: nameEn
+          nameEng
         }
       ]
     };
@@ -123,9 +126,10 @@ export class UbsAdminTariffsAddTariffServicePopUpComponent implements OnInit {
 
   fillFields(receivedData) {
     if (this.receivedData.bagData) {
-      const { name, price, capacity, commission, description } = this.receivedData.bagData;
+      const { name, nameEng, price, capacity, commission, description } = this.receivedData.bagData;
       this.addTariffServiceForm.patchValue({
         name,
+        nameEng,
         price,
         capacity,
         commission,
