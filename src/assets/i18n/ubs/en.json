@@ -67,7 +67,7 @@
     "failed-certificate": "Certificate not accepted, please try again",
     "not-found-certificate": "Certificate not found; check that the data is correct.",
     "activated-oversum": "A certificate for {{certificateSum}}.00 UAH is activated in excess of the amount of your order. The balance of {{certificateLeft}}.00 UAH does not return. The certificate is valid until {{ certDate}} ",
-    "activated": "Certificate for {{certificateSum}} UAH activated. Certificate validity period is up to {{certDate}}",
+    "activated": "The certificate for the amount of {{certificateSum}} UAH has been activated. The certificate is valid until {{certDate}}",
     "already-used": "Certificate has already been used {{certDate}}",
     "expired": "Certificate is invalid. Certificate validity is up to {{certDate}}",
     "add-certificate": "Add certificate",
