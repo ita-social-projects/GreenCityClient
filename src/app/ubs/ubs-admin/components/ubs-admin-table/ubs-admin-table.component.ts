@@ -91,6 +91,8 @@ export class UbsAdminTableComponent implements OnInit, AfterViewChecked, OnDestr
   defaultColumnWidth = 200; // In px
   minColumnWidth = 100;
   columnsWidthPreference: Map<string, number>;
+  restoredFilters = [];
+  isRestoredFilters = false;
 
   bigOrderTable$ = this.store.select((state: IAppState): IBigOrderTable => state.bigOrderTable.bigOrderTable);
   bigOrderTableParams$ = this.store.select((state: IAppState): IBigOrderTableParams => state.bigOrderTable.bigOrderTableParams);
@@ -189,6 +191,33 @@ export class UbsAdminTableComponent implements OnInit, AfterViewChecked, OnDestr
       }
       this.sortColumnsToDisplay();
       this.checkAllColumnsDisplayed();
+
+      this.restoredFilters = this.localStorageService.getUbsAdminOrdersTableTitleColumnFilter();
+
+      if (!this.restoredFilters.length) {
+        this.isRestoredFilters = true;
+      }
+
+      if (this.restoredFilters && !this.isRestoredFilters && this.getColumnsForFiltering().length) {
+        this.noFiltersApplied = false;
+
+        this.restoredFilters.forEach((filter) => {
+          if (Object.keys(filter).length < 2) {
+            const column = this.adminTableService.changeColumnNameEqualToTable(Object.keys(filter)[0]);
+            const value = String(Object.values(filter)[0]);
+            const options: IFilteredColumnValue = { key: value, filtered: false };
+            this.changeFilters(true, column, options);
+            this.applyFilters();
+          } else {
+            const column = this.adminTableService.changeColumnNameEqualToTable(Object.keys(filter)[0].split('From')[0]);
+            this.adminTableService.saveDateFilters(true, column, filter);
+            this.adminTableService.setDateCheckedFromStorage(column);
+            this.adminTableService.filters = [...this.adminTableService.filters, filter];
+            this.localStorageService.setUbsAdminOrdersTableTitleColumnFilter(this.adminTableService.filters);
+          }
+        });
+        this.isRestoredFilters = true;
+      }
     });
 
     if (this.isStoreEmpty) {
