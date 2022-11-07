@@ -136,7 +136,9 @@
               <div class="inline">
                 <div class="form-group input-margin">
                   <label for="region" class="form-label">{{ 'ubs-client-profile.region' | translate }}</label>
-                  <input *ngIf="isEditing" type="text" class="form-control region" id="region" formControlName="region" />
+                  <select *ngIf="isEditing" formControlName="region" class="shadow-none form-control region" id="region">
+                    <option *ngFor="let region of regions" [ngValue]="region.regionName">{{ region.regionName }}</option>
+                  </select>
                   <p *ngIf="!isEditing">{{ address.value?.region }}</p>
                 </div>
                 <div class="form-group">
@@ -179,7 +181,7 @@
                 <div class="form-group mrgbtn">
                   <label for="district" class="form-label">{{ 'ubs-client-profile.district' | translate }}</label>
                   <select *ngIf="isEditing" formControlName="district" class="shadow-none form-control district">
-                    <option *ngFor="let region of regions" [ngValue]="region.name">{{ region.name }}</option>
+                    <option *ngFor="let district of districts" [ngValue]="district.name">{{ district.name }}</option>
                   </select>
                   <p *ngIf="!isEditing">{{ address.value?.district }}</p>
                 </div>

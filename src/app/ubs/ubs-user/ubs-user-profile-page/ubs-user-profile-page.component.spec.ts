@@ -159,7 +159,7 @@ describe('UbsUserProfilePageComponent', () => {
     fixture.detectChanges();
     const formElement = fixture.debugElement.nativeElement.querySelector('form');
     const inputElements = formElement.querySelectorAll('input');
-    expect(inputElements.length).toBe(9);
+    expect(inputElements.length).toBe(8);
     expect(spy).toHaveBeenCalled();
   }));
 
