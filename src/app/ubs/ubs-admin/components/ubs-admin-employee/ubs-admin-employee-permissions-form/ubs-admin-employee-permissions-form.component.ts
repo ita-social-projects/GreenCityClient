@@ -1,6 +1,7 @@
 import { Component, Inject, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
-import { MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { MatSnackBarComponent } from '@global-errors/mat-snack-bar/mat-snack-bar.component';
 import { TranslateService } from '@ngx-translate/core';
 import { take } from 'rxjs/operators';
 import { Page } from '../../../models/ubs-admin.interface';
@@ -83,7 +84,9 @@ export class UbsAdminEmployeePermissionsFormComponent implements OnInit {
     private fb: FormBuilder,
     public translate: TranslateService,
     @Inject(MAT_DIALOG_DATA) public data: Page,
-    private employeeService: UbsAdminEmployeeService
+    private employeeService: UbsAdminEmployeeService,
+    private dialogRef: MatDialogRef<UbsAdminEmployeePermissionsFormComponent>,
+    private snackBar: MatSnackBarComponent
   ) {
     this.employee = data;
     this.form = this.fb.group(
@@ -115,8 +118,15 @@ export class UbsAdminEmployeePermissionsFormComponent implements OnInit {
       .filter(([, selected]) => selected)
       .map(([perm]) => perm);
 
-    this.employeeService.updatePermissions(selectedPermissions).subscribe(() => {
-      this.isUpdating = false;
-    });
+    this.employeeService.updatePermissions(this.employee.id, selectedPermissions).subscribe(
+      () => {
+        this.isUpdating = false;
+        this.dialogRef.close(true);
+      },
+      (error) => {
+        this.snackBar.openSnackBar('error', error);
+        this.dialogRef.close(false);
+      }
+    );
   }
 }

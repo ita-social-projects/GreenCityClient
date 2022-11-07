@@ -3,19 +3,20 @@ import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { UbsAdminEmployeePermissionsFormComponent } from './ubs-admin-employee-permissions-form.component';
 import { TranslateModule } from '@ngx-translate/core';
 import { CdkAccordionModule } from '@angular/cdk/accordion';
-import { MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { FormBuilder, ReactiveFormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { of } from 'rxjs';
 import { By } from '@angular/platform-browser';
 import { UbsAdminEmployeeService } from '../../../services/ubs-admin-employee.service';
+import { MatSnackBarComponent } from '@global-errors/mat-snack-bar/mat-snack-bar.component';
 
 describe('UbsAdminEmployeePermissionsFormComponent', () => {
   let component: UbsAdminEmployeePermissionsFormComponent;
   let fixture: ComponentFixture<UbsAdminEmployeePermissionsFormComponent>;
 
-  const mockedEmployee = { email: 'aaaa@gmail.com' };
+  const mockedEmployee = { id: 1, email: 'aaaa@gmail.com' };
   const employeeServiceMock = {
     getAllEmployeePermissions: (email: string) =>
       of(['SEE_CLIENTS_PAGE', 'EDIT_EMPLOYEES_AUTHORITIES', 'REGISTER_A_NEW_EMPLOYEE', 'CREATE_NEW_MESSAGE']),
@@ -29,6 +30,8 @@ describe('UbsAdminEmployeePermissionsFormComponent', () => {
       providers: [
         { provide: MAT_DIALOG_DATA, useValue: mockedEmployee },
         { provide: UbsAdminEmployeeService, useValue: employeeServiceMock },
+        { provide: MatDialogRef, useValue: { close: () => {} } },
+        { provide: MatSnackBarComponent, useValue: { openSnackBar: () => {} } },
         FormBuilder
       ]
     }).compileComponents();
@@ -65,7 +68,7 @@ describe('UbsAdminEmployeePermissionsFormComponent', () => {
 
     const submitBtn = fixture.debugElement.query(By.css('.addButton'));
     submitBtn.nativeElement.click();
-    expect(employeeServiceMock.updatePermissions).toHaveBeenCalledWith([
+    expect(employeeServiceMock.updatePermissions).toHaveBeenCalledWith(1, [
       'SEE_CLIENTS_PAGE',
       'REGISTER_A_NEW_EMPLOYEE',
       'SEE_BIG_ORDER_TABLE',
