@@ -11,7 +11,6 @@ import { InfiniteScrollModule } from 'ngx-infinite-scroll';
 import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
 import { EventsService } from 'src/app/main/component/events/services/events.service';
 import { NgxPaginationModule } from 'ngx-pagination';
-import { By } from '@angular/platform-browser';
 
 describe('ProfileDashboardComponent', () => {
   let component: ProfileDashboardComponent;
