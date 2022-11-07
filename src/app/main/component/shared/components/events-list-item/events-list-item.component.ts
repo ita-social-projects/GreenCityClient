@@ -112,6 +112,9 @@ export class EventsListItemComponent implements OnInit, OnDestroy {
 
   public handleUserAuthorization(): void {
     if (this.isLoggedIn) {
+      if (this.isOwner) {
+        return;
+      }
       this.nameBtn = this.isJoined ? 'event.btn-cancel' : 'event.btn-join';
       this.styleBtn = this.isJoined ? 'secondary-global-button' : 'primary-global-button';
       return;
