@@ -17,6 +17,9 @@ export class UbsAdminCertificateAddCertificatePopUpComponent implements OnInit, 
   addCertificateForm: FormGroup;
   certificatePattern = Patterns.serteficatePattern;
   certificateMask = Masks.certificateMask;
+  monthCountValid: boolean;
+  pointsValid: boolean;
+
   private destroy: Subject<boolean> = new Subject<boolean>();
 
   constructor(
@@ -36,6 +39,22 @@ export class UbsAdminCertificateAddCertificatePopUpComponent implements OnInit, 
       monthCount: new FormControl('', [Validators.required, Validators.pattern(Patterns.sertificateMonthCount)]),
       initialPointsValue: new FormControl('', [Validators.required, Validators.pattern(Patterns.sertificateInitialValue)])
     });
+  }
+
+  valueChangeMonthCount(newValue: string) {
+    if (/^[0]+$/.test(newValue)) {
+      this.monthCountValid = true;
+    } else {
+      this.monthCountValid = false;
+    }
+  }
+
+  valueChangePointsValue(newValue: string) {
+    if (/^[0]+$/.test(newValue)) {
+      this.pointsValid = true;
+    } else {
+      this.pointsValid = false;
+    }
   }
 
   createCertificate() {

@@ -10,16 +10,18 @@
       </div>
       <div class="monthCount-input">
         <label for="monthCount" class="form-label">Час дії</label>
-        <input type="text" formControlName="monthCount" id="monthCount" />
+        <input type="text" formControlName="monthCount" id="monthCount" (ngModelChange)="valueChangeMonthCount($event)" />
       </div>
       <div class="points-input">
         <label for="initialPointsValue" class="form-label">Знижка</label>
-        <input type="text" formControlName="initialPointsValue" id="initialPointsValue" />
+        <input type="text" formControlName="initialPointsValue" id="initialPointsValue" (ngModelChange)="valueChangePointsValue($event)" />
       </div>
     </div>
   </form>
   <mat-dialog-actions>
     <button class="btn btn-outline-success" mat-dialog-close>Назад</button>
-    <button class="btn btn-success" [disabled]="addCertificateForm.invalid" (click)="createCertificate()">Додати</button>
+    <button class="btn btn-success" [disabled]="addCertificateForm.invalid || pointsValid || monthCountValid" (click)="createCertificate()">
+      Додати
+    </button>
   </mat-dialog-actions>
 </div>
