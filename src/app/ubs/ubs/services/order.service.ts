@@ -30,8 +30,9 @@ export class OrderService {
       const observable = new Observable((observer) => observer.next(ubsOrderData));
       return observable.pipe(tap((orderDetails) => (this.shareFormService.orderDetails = orderDetails)));
     }
+    const param = locationId ? `/${locationId}` : '';
     return this.http
-      .get<OrderDetails>(`${this.url}/order-details${locationId ? `/${locationId}` : ''}`)
+      .get<OrderDetails>(`${this.url}/order-details${param}`)
       .pipe(tap((orderDetails) => (this.shareFormService.orderDetails = orderDetails)));
   }
 
