@@ -626,11 +626,17 @@
     "title": "Ви впевнені що хочете вийти?",
     "subTitle": "Ваше замовлення не буде збережене"
   },
-  "ubs-tariffs-pricing-page": {
-    "delete-tariff-title": "Деактивувати послугу",
+  "ubs-tariffs-pricing-page-delete-tariffs": {
+    "delete-tariff-title": "Деактивувати тариф",
     "delete-tariff-action": "Деактивувати",
-    "delete-tariff-text1": "Ви дійсно хочете деактивувати сервіс \"",
-    "delete-tariff-text2": "{{bagName}}\"? Інформація про цей сервіс буде прихована від клієнтів."
+    "delete-tariff-text1": "Ви дійсно хочете деактивувати тариф \"",
+    "delete-tariff-text2": "{{bagName}}\"?  Інформація про цей тариф буде прихована від клієнтів."
+  },
+  "ubs-tariffs-pricing-page-delete-service": {
+    "delete-service-title": "Деактивувати сервіс",
+    "delete-service-action": "Деактивувати",
+    "delete-service-text1": "Ви дійсно хочете деактивувати сервіс \"",
+    "delete-service-text2": "{{serviceName}}\"?  Інформація про цей сервіс буде прихована від клієнтів."
   },
   "ubs-tariffs-add-location-pop-up": {
     "title": "Додати локацію",

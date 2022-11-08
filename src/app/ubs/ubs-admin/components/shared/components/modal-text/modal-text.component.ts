@@ -19,6 +19,7 @@ export class ModalTextComponent implements OnInit {
   text: string;
   text2: string;
   bagName: string;
+  serviceName: string;
   action: string;
   constructor(
     public dialogRef: MatDialogRef<ModalTextComponent>,
@@ -31,6 +32,7 @@ export class ModalTextComponent implements OnInit {
     this.text = this.modalData.text;
     this.text2 = this.modalData.text2 ?? '';
     this.bagName = this.modalData.bagName ?? '';
+    this.serviceName = this.modalData.serviceName ?? '';
     this.action = this.modalData.action;
     this.localeStorageService.firstNameBehaviourSubject.pipe(takeUntil(this.unsubscribe)).subscribe((firstName) => {
       this.name = firstName;

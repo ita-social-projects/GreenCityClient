@@ -627,12 +627,19 @@
     "title": "Are you sure you want to exit?",
     "subTitle": "Your order will not be saved"
   },
-  "ubs-tariffs-pricing-page": {
+  "ubs-tariffs-pricing-page-delete-tariffs": {
     "delete-tariff-title": "Deactivate tariff for service",
     "delete-tariff-action": "Deactivate",
-    "delete-tariff-text1": "Are you sure you want to deactivate the \"",
-    "delete-tariff-text2": "{{bagName}}\" service? Information about this service will be hidden from customers."
+    "delete-tariff-text1": "Are you sure you want to deactivate the tariff for service \"",
+    "delete-tariff-text2": "{{bagName}}\"?  Information about this service will be hidden from customers."
   },
+  "ubs-tariffs-pricing-page-delete-service": {
+    "delete-service-title": "Deactivate service",
+    "delete-service-action": "Deactivate",
+    "delete-service-text1": "Are you sure you want to deactivate service \"",
+    "delete-service-text2": "{{serviceName}}\"?  Information about this service will be hidden from customers."
+  },
+
   "ubs-tariffs-add-location-pop-up": {
     "title": "Add location",
     "edit-title": "Edit location",

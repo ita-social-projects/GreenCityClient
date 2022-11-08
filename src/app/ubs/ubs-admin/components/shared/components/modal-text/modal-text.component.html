@@ -3,7 +3,7 @@
     <p class="title">{{ title | translate }}</p>
   </div>
   <div>
-    <p class="modal-text">{{ text | translate }}{{ text2 | translate: { bagName: bagName } }}</p>
+    <p class="modal-text">{{ text | translate }}{{ text2 | translate: { bagName: bagName, serviceName: serviceName } }}</p>
   </div>
   <div class="d-flex justify-content-end buttons" mat-dialog-actions>
     <button *ngIf="!check(modalData.name)" class="button secondary-global-button" mat-button (click)="onNoClick()">

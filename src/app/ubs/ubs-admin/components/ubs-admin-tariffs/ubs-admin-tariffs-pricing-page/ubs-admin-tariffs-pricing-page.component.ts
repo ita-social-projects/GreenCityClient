@@ -11,7 +11,6 @@ import { LocalStorageService } from '@global-service/localstorage/local-storage.
 import { Subject } from 'rxjs';
 import { UbsAdminTariffsAddServicePopUpComponent } from './ubs-admin-tariffs-add-service-pop-up/ubs-admin-tariffs-add-service-pop-up.component';
 import { UbsAdminTariffsAddTariffServicePopUpComponent } from './ubs-admin-tariffs-add-tariff-service-pop-up/ubs-admin-tariffs-add-tariff-service-pop-up.component';
-import { UbsAdminTariffsDeletePopUpComponent } from './ubs-admin-tariffs-delete-pop-up/ubs-admin-tariffs-delete-pop-up.component';
 import { ModalTextComponent } from '../../shared/components/modal-text/modal-text.component';
 import { Store } from '@ngrx/store';
 import { IAppState } from 'src/app/store/state/app.state';
@@ -360,11 +359,11 @@ export class UbsAdminTariffsPricingPageComponent implements OnInit, OnDestroy {
     dialogConfig.panelClass = 'address-matDialog-styles-pricing-page';
     dialogConfig.data = {
       name: 'delete-tariff',
-      title: 'confirmation.title',
-      text: 'ubs-tariffs-pricing-page.delete-tariff-text1',
-      text2: 'ubs-tariffs-pricing-page.delete-tariff-text2',
+      title: 'ubs-tariffs-pricing-page-delete-tariffs.delete-tariff-title',
+      text: 'ubs-tariffs-pricing-page-delete-tariffs.delete-tariff-text1',
+      text2: 'ubs-tariffs-pricing-page-delete-tariffs.delete-tariff-text2',
       bagName: this.currentLanguage === 'ua' ? bag.name : bag.nameEng,
-      action: 'ubs-tariffs-pricing-page.delete-tariff-action'
+      action: 'ubs-tariffs-pricing-page-delete-tariffs.delete-tariff-action'
     };
     const dialogRefService = this.dialog.open(ModalTextComponent, dialogConfig);
     dialogRefService
@@ -374,16 +373,22 @@ export class UbsAdminTariffsPricingPageComponent implements OnInit, OnDestroy {
   }
 
   openDeleteService(service: Service): void {
-    const dialogRefService = this.dialog.open(UbsAdminTariffsDeletePopUpComponent, {
-      hasBackdrop: true,
-      data: {
-        serviceData: service
-      }
-    });
+    const dialogConfig = new MatDialogConfig();
+    dialogConfig.panelClass = 'address-matDialog-styles-pricing-page';
+    dialogConfig.data = {
+      name: 'delete-service',
+      title: 'ubs-tariffs-pricing-page-delete-service.delete-service-title',
+      text: 'ubs-tariffs-pricing-page-delete-service.delete-service-text1',
+      text2: 'ubs-tariffs-pricing-page-delete-service.delete-service-text2',
+      serviceName: this.currentLanguage === 'ua' ? service.name : service.nameEng,
+      action: 'ubs-tariffs-pricing-page-delete-service.delete-service-action'
+    };
+
+    const dialogRefService = this.dialog.open(ModalTextComponent, dialogConfig);
     dialogRefService
       .afterClosed()
       .pipe(takeUntil(this.destroy))
-      .subscribe((result) => result && this.getServices());
+      .subscribe((result) => result && this.getAllTariffsForService());
   }
 
   getLocations(): void {
