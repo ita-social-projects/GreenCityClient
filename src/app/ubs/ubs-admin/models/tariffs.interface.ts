@@ -29,19 +29,16 @@ export interface Service {
   commission: number;
   description?: string;
   name?: string;
+  nameEng?: string;
   languageCode?: string;
   id?: number;
   fullPrice?: number;
   locationId?: number;
+  courierId?: number;
   serviceTranslationDtoList?: [
     {
       description: string;
-      languageId: number;
-      name: string;
-    },
-    {
-      description: string;
-      languageId: number;
+      nameEng: string;
       name: string;
     }
   ];

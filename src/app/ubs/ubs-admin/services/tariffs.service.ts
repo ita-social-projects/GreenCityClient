@@ -12,7 +12,16 @@ import { ajax } from 'rxjs/ajax';
 export class TariffsService {
   constructor(private http: HttpClient) {}
 
+  courierId: number;
   allTariffServices: any;
+
+  setCourierId(id: number) {
+    this.courierId = id;
+  }
+
+  getCourierId() {
+    return this.courierId;
+  }
 
   async setAllTariffsForService() {
     this.allTariffServices = await this.getAllTariffsForService().toPromise();

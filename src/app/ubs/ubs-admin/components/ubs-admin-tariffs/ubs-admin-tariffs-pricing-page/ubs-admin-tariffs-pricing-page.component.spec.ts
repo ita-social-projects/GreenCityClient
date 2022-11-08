@@ -34,6 +34,7 @@ describe('UbsAdminPricingPageComponent', () => {
   let route: ActivatedRoute;
   let location: Location;
   let router: Router;
+  let fakeTariffService: TariffsService;
 
   const fakeValue = '1';
   const fakeCourierForm = new FormGroup({
@@ -177,6 +178,7 @@ describe('UbsAdminPricingPageComponent', () => {
 
   beforeEach(() => {
     orderServiceMock.locationSubject = new Subject<any>();
+    fakeTariffService = TestBed.inject(TariffsService);
   });
 
   beforeEach(() => {
@@ -253,6 +255,17 @@ describe('UbsAdminPricingPageComponent', () => {
   it('should convert to number', () => {
     const numbers = Number(fakeValue);
     expect(typeof numbers).toBe('number');
+  });
+
+  it('should call setCourierId correctly', (done) => {
+    fixture.detectChanges();
+    const setCourierIdSpy = spyOn(component, 'setCourierId').and.returnValue(Promise.resolve());
+    component.setCourierId();
+    setCourierIdSpy.calls.mostRecent().returnValue.then(() => {
+      fixture.detectChanges();
+      expect(setCourierIdSpy).toHaveBeenCalled();
+      done();
+    });
   });
 
   it('should call sumToggler', () => {

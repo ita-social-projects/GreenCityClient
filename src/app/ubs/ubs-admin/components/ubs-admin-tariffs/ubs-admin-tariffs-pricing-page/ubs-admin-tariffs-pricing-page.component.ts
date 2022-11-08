@@ -31,6 +31,7 @@ export class UbsAdminTariffsPricingPageComponent implements OnInit, OnDestroy {
   selectedCardId;
   ourTariffs;
   amount;
+  currentCourierId: number;
   saveBTNclicked: boolean;
   inputDisable: boolean;
   info;
@@ -82,6 +83,8 @@ export class UbsAdminTariffsPricingPageComponent implements OnInit, OnDestroy {
       this.getAllTariffsForService();
     });
     this.getOurTariffs();
+    this.getCourierId();
+    this.setCourierId();
   }
 
   private initForm(): void {
@@ -174,6 +177,7 @@ export class UbsAdminTariffsPricingPageComponent implements OnInit, OnDestroy {
           return true;
         }
       });
+      this.tariffsService.setCourierId(card.courierId);
       return card.courierId;
     } catch (e) {
       return Error('getCourierId Error');
@@ -301,10 +305,22 @@ export class UbsAdminTariffsPricingPageComponent implements OnInit, OnDestroy {
     this.bags = this.bags.filter((value) => value.locationId === this.currentLocation).sort((a, b) => b.price - a.price);
   }
 
-  private filterServices(): void {
-    this.services = this.services.filter(
-      (service) => service.locationId === this.currentLocation && service.languageCode === this.currentLanguage
-    );
+  async filterServices(): Promise<any> {
+    const id = await this.setCourierId();
+
+    this.services = this.services
+      .filter((value) => {
+        return value.courierId === id;
+      })
+      .sort((a, b) => b.price - a.price);
+  }
+
+  async setCourierId(): Promise<any> {
+    const id = await this.getCourierId().then((value) => {
+      return value;
+    });
+    this.currentCourierId = id;
+    return this.currentCourierId;
   }
 
   openUpdateTariffForServicePopup(bag: Bag): void {
