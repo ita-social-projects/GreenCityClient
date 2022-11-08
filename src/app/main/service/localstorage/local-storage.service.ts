@@ -14,6 +14,7 @@ export class LocalStorageService {
   private readonly PREVIOUS_PAGE = 'previousPage';
   private readonly CAN_USER_EDIT_EVENT = 'canUserEdit';
   private readonly EDIT_EVENT = 'editEvent';
+  private readonly ORDER_TO_REDIRECT = 'orderIdToRedirect';
   private readonly HABITS_GALLERY_VIEW = 'habitsGalleryView';
 
   languageSubject: Subject<string> = new Subject<string>();
@@ -22,6 +23,7 @@ export class LocalStorageService {
   languageBehaviourSubject: BehaviorSubject<string> = new BehaviorSubject<string>(this.getCurrentLanguage());
   accessTokenBehaviourSubject: BehaviorSubject<string> = new BehaviorSubject<string>(this.getAccessToken());
   ubsRegBehaviourSubject: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(this.getUbsRegistration());
+  ubsRedirectionBehaviourSubject: BehaviorSubject<number> = new BehaviorSubject<number>(this.getOrderIdToRedirect());
 
   public setHabitsGalleryView(value: boolean): void {
     localStorage.setItem(this.HABITS_GALLERY_VIEW, JSON.stringify(value));
@@ -260,5 +262,28 @@ export class LocalStorageService {
   public getUbsAdminOrdersTableColumnsWidthPreference(): Map<string, number> {
     const parsed = JSON.parse(window.localStorage.getItem('UBSAdminOrdersTableColumnsWidthPreference')) || {};
     return new Map(Object.entries(parsed));
+  }
+
+  public setOrderIdToRedirect(orderId: number): void {
+    localStorage.setItem(this.ORDER_TO_REDIRECT, String(orderId));
+    this.ubsRedirectionBehaviourSubject.next(orderId);
+  }
+
+  public getOrderIdToRedirect(): number {
+    return Number.parseInt(localStorage.getItem(this.ORDER_TO_REDIRECT), 10);
+  }
+
+  public setUbsAdminOrdersTableTitleColumnFilter(filters): void {
+    if (filters.length) {
+      const serialized = JSON.stringify(filters);
+      window.localStorage.setItem('UbsAdminOrdersTableTitleColumnFilters', serialized);
+    } else {
+      window.localStorage.removeItem('UbsAdminOrdersTableTitleColumnFilters');
+    }
+  }
+
+  public getUbsAdminOrdersTableTitleColumnFilter() {
+    const parsed = JSON.parse(window.localStorage.getItem('UbsAdminOrdersTableTitleColumnFilters')) || [];
+    return parsed;
   }
 }

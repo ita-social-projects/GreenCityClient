@@ -191,15 +191,15 @@
   </div>
 </form>
 
-<div class="w-100 justify-content-between buttons">
+<div class="w-100 buttons">
   <button class="secondary-global-button btn btn-back" matStepperPrevious>
     <i class="fas fa-chevron-left" aria-hidden="true"></i> &nbsp; <span class="underline">{{ 'personal-info.info-back' | translate }}</span>
   </button>
-  <div class="d-flex justify-content-end">
-    <button class="secondary-global-button btn cansel-button" type="button" (click)="cancelUBS()">
+  <div class="btn-canc-sub">
+    <button class="secondary-global-button btn cancel-button" type="button" (click)="cancelUBS()">
       {{ 'personal-info.info-cancel' | translate }}
     </button>
-    <button type="submit" class="primary-global-button btn m-0" matStepperNext [disabled]="personalDataForm.invalid">
+    <button type="submit" class="primary-global-button btn submit-button" matStepperNext [disabled]="personalDataForm.invalid">
       {{ 'personal-info.info-next' | translate }}
     </button>
   </div>

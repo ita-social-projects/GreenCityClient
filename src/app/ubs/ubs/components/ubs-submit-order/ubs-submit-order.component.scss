@@ -12,13 +12,9 @@ h3 {
 }
 
 .btn {
-  width: 8rem;
-  height: 2.75rem;
+  padding: 12px 32px;
+  line-height: 20px;
   border-radius: 4px;
-}
-
-.btn:nth-child(2) {
-  margin: 0 15px 0 0;
 }
 
 .buttons {
@@ -26,21 +22,29 @@ h3 {
   display: flex;
   flex-direction: row;
   flex-wrap: wrap;
+  justify-content: space-between;
+  gap: 1rem;
 
   button {
     width: 8rem;
     height: 2.75rem;
     font-size: 18px;
     font-weight: 700;
-    line-height: 28px;
     letter-spacing: 0.2px;
   }
 }
 
-.cansel-button {
+.btn-canc-sub {
+  display: flex;
+  justify-content: flex-end;
+  flex-direction: row;
+  width: auto;
+  gap: 1rem;
+}
+
+.cancel-button {
   border: 1px solid var(--ubs-quaternary-dark-grey);
   color: var(--ubs-quaternary-dark-grey);
-  margin-right: 1.5rem;
 
   &:hover {
     background: var(--ubs-quaternary-light-grey);
@@ -64,19 +68,25 @@ h3 {
   padding: 10px 37px 5px;
   color: var(--ubs-primary-grey);
   font-family: var(--ubs-quaternary-font);
+
+  .header {
+    width: 100%;
+    margin-top: 40px;
+
+    .order-title {
+      margin-bottom: 1rem;
+    }
+  }
 }
 
 .font-bolt {
   font-weight: bold;
 }
 
-.header {
-  width: 100%;
-  margin: 3rem 0 0;
-
-  .order-title {
-    margin-bottom: 1rem;
-  }
+.labels-box {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 8px;
 }
 
 .services {
@@ -101,9 +111,20 @@ h3 {
   }
 }
 
-.label {
+label {
   color: var(--ubs-secondary-grey);
+}
+
+.label,
+.bag-name {
+  flex: 0 0 16.6%;
+  max-width: 16.6%;
   padding: 0;
+  margin: 0;
+
+  .label-total {
+    text-align: center;
+  }
 }
 
 .primary-global-button {
@@ -285,18 +306,19 @@ h3 {
 }
 
 @media (min-width: 481px) and (max-width: 767px) {
+  .container {
+    padding: 16px;
+  }
+
   .label,
   .bag-name {
-    font-size: 0.8rem;
+    font-size: 16px;
   }
 
   .totalInfo {
-    span {
-      font-size: 0.8rem;
-    }
-
+    span,
     .money-saved {
-      font-size: 0.65rem;
+      font-size: 12px;
     }
   }
 
@@ -339,19 +361,28 @@ h3 {
   }
 }
 
-@media (min-width: 320px) and (max-width: 480px) {
+@media (max-width: 480px) {
+  .container {
+    padding: 8px;
+
+    .header {
+      margin-top: 24px;
+    }
+  }
+
   .label,
   .bag-name {
-    font-size: 0.6rem;
+    font-size: 12px;
+  }
+
+  .label-total {
+    text-align: end;
   }
 
   .totalInfo {
-    span {
-      font-size: 0.6rem;
-    }
-
+    span,
     .money-saved {
-      font-size: 0.58rem;
+      font-size: 10px;
     }
   }
 
@@ -398,9 +429,24 @@ h3 {
   }
 }
 
-@media (max-width: 320px) {
-  .btn:nth-child(1) {
-    margin-bottom: 16px;
+@media (max-width: 440px) {
+  .buttons {
+    justify-content: center;
+  }
+
+  .btn-canc-sub {
+    width: 100%;
+    flex-direction: row;
+    justify-content: center;
+    gap: 16px;
+
+    .btn {
+      width: 100%;
+    }
+  }
+
+  .bag-name {
+    font-size: 10px;
   }
 }
 

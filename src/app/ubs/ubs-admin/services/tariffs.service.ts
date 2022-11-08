@@ -12,6 +12,12 @@ import { ajax } from 'rxjs/ajax';
 export class TariffsService {
   constructor(private http: HttpClient) {}
 
+  allTariffServices: any;
+
+  async setAllTariffsForService() {
+    this.allTariffServices = await this.getAllTariffsForService().toPromise();
+  }
+
   getAllTariffsForService() {
     return this.http.get(`${mainUbsLink}/ubs/superAdmin/getTariffService`);
   }
@@ -24,8 +30,8 @@ export class TariffsService {
     return this.http.delete(`${mainUbsLink}/ubs/superAdmin/deleteTariffService/${id}`);
   }
 
-  editTariffForService(id: number, tariffService: Bag) {
-    return this.http.put(`${mainUbsLink}/ubs/superAdmin/editTariffService/${id}`, tariffService);
+  editTariffForService(id: number, body: Bag) {
+    return this.http.put(`${mainUbsLink}/ubs/superAdmin/editTariffService/${id}`, body);
   }
 
   createService(service: Service) {

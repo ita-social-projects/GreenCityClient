@@ -1,9 +1,9 @@
 <div class="bonuses-container">
   <ng-container *ngIf="!isLoading">
-    <div class="no-bonuses-wrapper" *ngIf="!totalBonuses">
+    <div class="no-bonuses-wrapper" *ngIf="!bonusesList.length">
       <span class="no-bonuses-text">{{ 'bonuses.no-bonuses' | translate }}</span>
     </div>
-    <div class="bonuses-exist-wrapper" *ngIf="totalBonuses">
+    <div class="bonuses-exist-wrapper" *ngIf="bonusesList.length">
       <div class="total-bonuses-number">
         <p class="total-bonuses-number__header">{{ 'bonuses.title' | translate }}</p>
         <p class="total-bonuses-number__amount">{{ totalBonuses }}</p>
@@ -33,7 +33,9 @@
             <td mat-cell *matCellDef="let element">
               <span *ngIf="element.amount > 0">{{ 'bonuses.order-return' | translate }}</span>
               <span *ngIf="element.amount < 0">{{ 'bonuses.order-enrollment' | translate }}</span>
-              <a [routerLink]="['../orders']"> №{{ element.numberOfOrder }} </a>
+              <a [routerLink]="['/ubs-user/orders']" (click)="passOrderIdToRedirect(element.numberOfOrder)">
+                №{{ element.numberOfOrder }}
+              </a>
             </td>
           </ng-container>
           <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>

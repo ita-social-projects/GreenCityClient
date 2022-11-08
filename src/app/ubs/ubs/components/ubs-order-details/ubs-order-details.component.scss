@@ -17,15 +17,10 @@
 
 .buttons {
   margin-top: 46px;
-
-  & .btn:nth-child(1) {
-    margin-right: 1rem;
-    width: 136px;
-  }
-
-  & .btn:nth-child(2) {
-    width: 88px;
-  }
+  display: flex;
+  justify-content: flex-end;
+  gap: 1rem;
+  width: 100%;
 }
 
 h3 {
@@ -74,6 +69,12 @@ h3 {
   padding: 1rem 0 1.2rem 0;
   border-top: 1px solid var(--ubs-primary-light-grey);
   border-bottom: 1px solid var(--ubs-primary-light-grey);
+
+  .main-box {
+    width: 100%;
+    padding: 0;
+    margin: 0;
+  }
 }
 
 .label {
@@ -84,6 +85,35 @@ h3 {
 
 .form {
   margin-top: 20px;
+
+  .labels-box {
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+    margin-bottom: 8px;
+
+    label {
+      color: var(--ubs-secondary-grey);
+    }
+  }
+}
+
+.label,
+.bag-name {
+  flex: 0 0 16.6%;
+  max-width: 16.6%;
+  padding: 0;
+  margin: 0;
+}
+
+.label-total {
+  text-align: center;
+}
+
+.main-list-item {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 16px;
 }
 
 .form-group {
@@ -105,8 +135,8 @@ h3 {
 }
 
 button {
-  width: 8rem;
-  height: 2.75rem;
+  padding: 12px 32px;
+  line-height: 20px;
   border-radius: 0;
   border: none;
 }
@@ -300,8 +330,8 @@ button {
   }
 
   button {
-    width: 8rem;
-    height: 2.25rem;
+    padding: 12px 32px;
+    line-height: 20px;
     font-size: 14px;
   }
 
@@ -389,6 +419,10 @@ button {
       opacity: 1;
     }
   }
+}
+
+.eco-label {
+  width: 100%;
 }
 
 .sum {
@@ -513,7 +547,8 @@ h5 {
 }
 
 .btn-main {
-  height: 2.75rem;
+  padding: 12px 32px;
+  line-height: 20px;
 
   &:disabled {
     background: var(--ubs-quaternary-light-grey);
@@ -555,9 +590,13 @@ li {
   }
 
   .buttons {
-    display: flex !important;
-    justify-content: center !important;
     margin: 2em 0 1em;
+    justify-content: center;
+    flex-direction: row;
+
+    .btn {
+      width: 100%;
+    }
   }
 
   .count {
@@ -585,12 +624,12 @@ li {
 
   .label,
   .bag-name {
-    font-size: 0.8rem;
+    font-size: 16px;
   }
 
   .totalInfo {
     span {
-      font-size: 0.9rem;
+      font-size: 12px;
     }
   }
 
@@ -694,5 +733,19 @@ li {
     position: static;
     width: 100%;
     padding: 0;
+  }
+}
+
+@media screen and (max-width: 420px) {
+  .label {
+    font-size: 12px;
+  }
+
+  .bag-name {
+    font-size: 10px;
+  }
+
+  .label-total {
+    text-align: end;
   }
 }

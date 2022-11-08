@@ -1,0 +1,76 @@
+<form [formGroup]="form" class="cron-picker-container" (ngSubmit)="onSelect()">
+  <mat-tab-group dynamicHeight animationDuration="0ms">
+    <mat-tab label="{{ 'cron-picker.tab-labels.time' | translate }}">
+      <div formGroupName="time" class="tab">
+        <mat-form-field>
+          <mat-label>{{ 'cron-picker.labels.hour' | translate }}</mat-label>
+          <mat-select formControlName="hour">
+            <mat-option *ngFor="let hour of hours" [value]="hour">
+              {{ hour }}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+        &nbsp;:&nbsp;
+        <mat-form-field>
+          <mat-label>{{ 'cron-picker.labels.min' | translate }}</mat-label>
+          <mat-select formControlName="min">
+            <mat-option *ngFor="let min of minutes" [value]="min">
+              {{ min }}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+      </div>
+    </mat-tab>
+    <mat-tab label="{{ 'cron-picker.tab-labels.day' | translate }}">
+      <div formGroupName="day" class="tab">
+        <mat-radio-group formControlName="type" class="select-type">
+          <mat-radio-button value="every-day">{{ 'cron-picker.labels.every-day' | translate }}</mat-radio-button>
+          <mat-radio-button value="days-of-week">
+            <mat-form-field>
+              <mat-label>{{ 'cron-picker.labels.days-of-week' | translate }}</mat-label>
+              <mat-select multiple formControlName="daysOfWeek">
+                <mat-option *ngFor="let day of daysOfWeek" [value]="day">
+                  {{ 'cron-picker.days-of-week.' + day | translate }}
+                </mat-option>
+              </mat-select>
+            </mat-form-field>
+          </mat-radio-button>
+          <mat-radio-button value="days-of-month">
+            <mat-form-field>
+              <mat-label>{{ 'cron-picker.labels.days-of-month' | translate }}</mat-label>
+              <mat-select multiple formControlName="daysOfMonth">
+                <mat-option *ngFor="let day of days" [value]="day">
+                  {{ day }}
+                </mat-option>
+              </mat-select>
+            </mat-form-field>
+          </mat-radio-button>
+        </mat-radio-group>
+      </div>
+    </mat-tab>
+    <mat-tab label="{{ 'cron-picker.tab-labels.month' | translate }}">
+      <div formGroupName="month" class="tab">
+        <mat-radio-group formControlName="type" class="select-type">
+          <mat-radio-button value="every-month">{{ 'cron-picker.labels.every-month' | translate }}</mat-radio-button>
+          <mat-radio-button value="months">
+            <mat-form-field>
+              <mat-label>{{ 'cron-picker.labels.months' | translate }}</mat-label>
+              <mat-select multiple formControlName="months">
+                <mat-option *ngFor="let month of months" [value]="month">
+                  {{ 'cron-picker.months.' + month | translate }}
+                </mat-option>
+              </mat-select>
+            </mat-form-field>
+          </mat-radio-button>
+        </mat-radio-group>
+      </div>
+    </mat-tab>
+  </mat-tab-group>
+
+  <div class="controls">
+    <div class="hint">
+      {{ hint }}
+    </div>
+    <button mat-flat-button color="primary" type="submit">{{ 'cron-picker.labels.select' | translate }}</button>
+  </div>
+</form>

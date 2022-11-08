@@ -202,11 +202,14 @@ $ubs-header-height: 80px;
 
 .header_navigation-menu-left .ubs li a {
   color: var(--ubs-primary-black);
-  text-decoration: underline;
+}
+
+.header_navigation-menu-left .ubs li:first-child a {
+  color: var(--ubs-electric-violet);
 }
 
 .header_navigation-menu-left .ubs li a:hover {
-  color: var(--ubs-electric-violet);
+  text-decoration: underline;
 }
 
 .header_container {
@@ -505,6 +508,12 @@ $ubs-header-height: 80px;
   padding: 0;
   max-height: 1px;
   background-color: $hr-color;
+}
+
+@media (min-width: 320px) and (max-width: 480px) {
+  .header_navigation-menu-right-list li {
+    padding: 10px 0;
+  }
 }
 
 @media (min-width: 576px) {

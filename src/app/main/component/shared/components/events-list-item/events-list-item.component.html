@@ -38,7 +38,7 @@
       <ul class="ul-eco-buttons" aria-label="filter by items">
         <li *ngFor="let tag of itemTags">
           <a role="button" class="tag" [ngClass]="{ 'global-tag-clicked': tag.isActive }" tabindex="0">
-            <span class="text" [ngClass]="{ 'tag-active': tag.isActive }">{{ tag.nameEn }}</span>
+            <span class="text" [ngClass]="{ 'tag-active': tag.isActive }">{{ currentLang === 'ua' ? tag.nameUa : tag.nameEn }}</span>
           </a>
         </li>
       </ul>

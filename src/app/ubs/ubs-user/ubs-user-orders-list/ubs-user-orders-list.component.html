@@ -13,7 +13,7 @@
   <div *ngFor="let order of orders">
     <mat-expansion-panel>
       <mat-expansion-panel-header>
-        <div class="mat-content-wrapper" (click)="changeCard(order.id)">
+        <div class="mat-content-wrapper" (click)="changeCard(order.id)" [id]="order.id">
           <mat-panel-title class="order_list-num table-data">
             {{ order.id }}
           </mat-panel-title>

@@ -24,7 +24,7 @@ describe('UbsUserProfilePageComponent', () => {
         actual: false,
         region: 'Kyiv',
         coordinates: { latitude: 0, longitude: 0 },
-        street: 'Jhohn Lenon '
+        street: 'Jhohn Lenon'
       }
     ],
     recipientEmail: 'blackstar@gmail.com',
@@ -34,7 +34,6 @@ describe('UbsUserProfilePageComponent', () => {
     recipientSurname: 'Star',
     hasPassword: true
   };
-
   let component: UbsUserProfilePageComponent;
   let fixture: ComponentFixture<UbsUserProfilePageComponent>;
   let clientProfileServiceMock: ClientProfileService;
@@ -68,6 +67,12 @@ describe('UbsUserProfilePageComponent', () => {
     fixture.detectChanges();
   });
 
+  it('if post data set isFetching === false', () => {
+    clientProfileServiceMock.postDataClientProfile(userProfileDataMock).subscribe((data) => {
+      expect(component.isFetching).toBeFalsy();
+    });
+  });
+
   it('should create', () => {
     expect(component).toBeTruthy();
   });
@@ -76,6 +81,14 @@ describe('UbsUserProfilePageComponent', () => {
     spyOn(component, 'getUserData');
     component.ngOnInit();
     expect(component.getUserData).toHaveBeenCalled();
+  });
+
+  it('function composeData has to return data', () => {
+    let mock;
+    mock = JSON.parse(JSON.stringify(userProfileDataMock));
+    const data = component.composeFormData(userProfileDataMock);
+    mock.recipientPhone = '972333333';
+    expect(data).toEqual(mock);
   });
 
   it('function composeData has to cut phone number to 9 digits', () => {
@@ -146,7 +159,7 @@ describe('UbsUserProfilePageComponent', () => {
     fixture.detectChanges();
     const formElement = fixture.debugElement.nativeElement.querySelector('form');
     const inputElements = formElement.querySelectorAll('input');
-    expect(inputElements.length).toBe(9);
+    expect(inputElements.length).toBe(8);
     expect(spy).toHaveBeenCalled();
   }));
 
@@ -168,7 +181,7 @@ describe('UbsUserProfilePageComponent', () => {
     expect(component.onSubmit).toHaveBeenCalled();
   }));
 
-  it('method onSubmit should send post request with submitData', () => {
+  it('method onSubmit should return submitData', () => {
     let submitData;
     component.toggleAlternativeEmail();
     component.onSubmit();
@@ -189,13 +202,97 @@ describe('UbsUserProfilePageComponent', () => {
       hasPassword: true
     };
     expect(submitData).toEqual(userProfileDataMock);
-    expect(clientProfileServiceMock.postDataClientProfile).toHaveBeenCalledWith(submitData);
   });
 
-  it('method toggleAlternativeEmail should add control to userForm when input is shown', () => {
-    component.alternativeEmailDisplay = true;
+  it('method onSubmit should return boolean if user has a password', () => {
+    component.onSubmit();
+    userProfileDataMock.hasPassword = userProfileDataMock.hasPassword;
+    expect(userProfileDataMock.hasPassword).toBeTruthy();
+  });
+
+  it('method onSubmit should return submitData without alternative email ', () => {
+    let submitData;
+    submitData = {
+      addressDto: [
+        {
+          ...component.userForm.value.address[0],
+          id: userProfileDataMock.addressDto[0].id,
+          actual: userProfileDataMock.addressDto[0].actual,
+          coordinates: userProfileDataMock.addressDto[0].coordinates
+        }
+      ],
+      recipientEmail: component.userForm.value.recipientEmail,
+      recipientName: component.userForm.value.recipientName,
+      recipientPhone: component.userForm.value.recipientPhone,
+      recipientSurname: component.userForm.value.recipientSurname,
+      hasPassword: true
+    };
     component.toggleAlternativeEmail();
-    expect(component.userProfile.alternateEmail).toBeDefined();
+    component.onSubmit();
+    expect(submitData).not.toEqual(userProfileDataMock);
+  });
+
+  it('method onSubmit should return submitData  without housecorpus ', () => {
+    let submitData;
+    component.toggleAlternativeEmail();
+    component.onSubmit();
+    submitData = {
+      addressDto: [
+        {
+          ...component.userForm.value.address[0],
+          houseCorpus: null,
+          id: userProfileDataMock.addressDto[0].id,
+          actual: userProfileDataMock.addressDto[0].actual,
+          coordinates: userProfileDataMock.addressDto[0].coordinates
+        }
+      ],
+      recipientEmail: component.userForm.value.recipientEmail,
+      alternateEmail: component.userForm.value.alternateEmail,
+      recipientName: component.userForm.value.recipientName,
+      recipientPhone: component.userForm.value.recipientPhone,
+      recipientSurname: component.userForm.value.recipientSurname,
+      hasPassword: true
+    };
+    userProfileDataMock.addressDto[0].houseCorpus = null;
+    expect(submitData).toEqual(userProfileDataMock);
+  });
+
+  it('method onSubmit should return submitData  without entrance number ', () => {
+    let submitData;
+    component.toggleAlternativeEmail();
+    component.onSubmit();
+    submitData = {
+      addressDto: [
+        {
+          ...component.userForm.value.address[0],
+          entranceNumber: null,
+          id: userProfileDataMock.addressDto[0].id,
+          actual: userProfileDataMock.addressDto[0].actual,
+          coordinates: userProfileDataMock.addressDto[0].coordinates
+        }
+      ],
+      recipientEmail: component.userForm.value.recipientEmail,
+      alternateEmail: component.userForm.value.alternateEmail,
+      recipientName: component.userForm.value.recipientName,
+      recipientPhone: component.userForm.value.recipientPhone,
+      recipientSurname: component.userForm.value.recipientSurname,
+      hasPassword: true
+    };
+    userProfileDataMock.addressDto[0].entranceNumber = null;
+    expect(submitData).toEqual(userProfileDataMock);
+  });
+
+  it('should toggle alternativeEmail state', () => {
+    component.toggleAlternativeEmail();
+    expect(component.toggleAlternativeEmail).toBeTruthy();
+    expect(component.alternativeEmailDisplay).toBe(true);
+  });
+
+  it('method getErrorMessageKey should return error message for alternativeEmail maxLenght', () => {
+    const formControlMock = { errors: { maxlength: true } } as unknown as AbstractControl;
+    const result = component.getErrorMessageKey(formControlMock, true);
+
+    expect(result).toBe('ubs-client-profile.error-message-if-edit-alternativeEmail');
   });
 
   it('method toggleAlternativeEmail should toggle input for alternative email', () => {

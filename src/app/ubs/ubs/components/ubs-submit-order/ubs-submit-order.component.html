@@ -6,23 +6,23 @@
     <h3 class="font-bolt order-title">{{ 'order-details.your-order' | translate }}</h3>
   </div>
   <form class="form">
-    <div class="w-100 d-flex justify-content-between mb-2">
-      <label class="col-3 label m-0">{{ 'order-details.service' | translate }}</label>
-      <label class="col-2 label m-0">{{ 'order-details.volume' | translate }}</label>
-      <label class="col-2 label m-0">{{ 'order-details.cost' | translate }}</label>
-      <label class="col-2 label m-0">{{ 'order-details.number-of-packages' | translate }}</label>
-      <label class="col-3 label m-0 text-center">{{ 'order-details.sum' | translate }}</label>
+    <div class="labels-box">
+      <label class="label">{{ 'order-details.service' | translate }}</label>
+      <label class="label">{{ 'order-details.volume' | translate }}</label>
+      <label class="label">{{ 'order-details.cost' | translate }}</label>
+      <label class="label">{{ 'order-details.number-of-packages' | translate }}</label>
+      <label class="label label-total">{{ 'order-details.sum' | translate }}</label>
     </div>
     <div class="services">
       <ul class="services-list w-100 p-0 m-0">
         <li class="services-list_item d-flex justify-content-between align-items-baseline" *ngFor="let bag of bags">
           <ng-container *ngIf="bag.quantity">
-            <span *ngIf="currentLanguage === 'ua'" class="col-3 p-0 m-0 bag-name">{{ bag.name }}</span>
-            <span *ngIf="currentLanguage === 'en'" class="col-3 p-0 m-0 bag-name">{{ bag.nameEng }}</span>
-            <span class="col-2 p-0 m-0 bag-name">{{ bag.capacity }} {{ 'order-details.litr' | translate }}</span>
-            <span class="col-2 p-0 m-0 bag-name">{{ bag.price | currency }} {{ 'order-details.currency' | translate }}</span>
-            <span class="col-2 p-0 m-0 bag-name">{{ bag.quantity }} {{ 'order-details.pieces' | translate }}</span>
-            <span class="col-3 p-0 m-0 bag-name text-right orderSum">
+            <span *ngIf="currentLanguage === 'ua'" class="bag-name">{{ bag.name }}</span>
+            <span *ngIf="currentLanguage === 'en'" class="bag-name">{{ bag.nameEng }}</span>
+            <span class="bag-name">{{ bag.capacity }} {{ 'order-details.litr' | translate }}</span>
+            <span class="bag-name">{{ bag.price | currency }} {{ 'order-details.currency' | translate }}</span>
+            <span class="bag-name">{{ bag.quantity }} {{ 'order-details.pieces' | translate }}</span>
+            <span class="bag-name text-right orderSum">
               {{ bag.quantity * bag.price | currency }} {{ 'order-details.currency' | translate }}
             </span>
           </ng-container>
@@ -146,18 +146,20 @@
   </form>
 </div>
 
-<div
-  class="w-100 d-flex justify-content-between buttons"
-  *ngIf="(bags.length && personalData) || (isNotification && isDownloadDataNotification)"
->
+<div class="w-100 buttons" *ngIf="(bags.length && personalData) || (isNotification && isDownloadDataNotification)">
   <button *ngIf="!isNotification" class="secondary-global-button btn btn-back" matStepperPrevious>
     <i class="fas fa-chevron-left" aria-hidden="true"></i> &nbsp; <span class="underline">{{ 'submit-order.back' | translate }}</span>
   </button>
-  <div class="d-flex justify-content-end">
-    <button class="secondary-global-button btn cansel-button btn-main" (click)="cancelUBS(true)">
+  <div class="btn-canc-sub">
+    <button class="secondary-global-button btn cancel-button btn-main" (click)="cancelUBS(true)">
       {{ 'order-details.cancel' | translate }}
     </button>
-    <button [disabled]="isTotalAmountZero || loadingAnim" (click)="redirectToOrder()" type="submit" class="primary-global-button btn m-0">
+    <button
+      [disabled]="isTotalAmountZero || loadingAnim"
+      (click)="redirectToOrder()"
+      type="submit"
+      class="primary-global-button btn submit-button"
+    >
       <span *ngIf="loadingAnim" class="spinner-border spinner-border-sm" role="status" aria-hidden="true"> </span>
       {{ 'submit-order.to-order' | translate }}
     </button>

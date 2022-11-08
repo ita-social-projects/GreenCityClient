@@ -3,7 +3,9 @@
     "data": "User Data",
     "message-if-edit": "Please fill in your profile to make the ordering process as fast and convenient as possible",
     "error-message-if-edit-name-surname": "The field should contain 1-30 characters",
+    "error-message-if-edit-alternativeEmail": "The field should contain 3-66 characters",
     "error-message": "Something went wrong... Please, reload the page",
+    "alert-data-message": "Please, fill in your profile to make the ordering process as fast and convenient as possible",
     "personal": "Personal",
     "name": "Name",
     "surname": "Surname",
@@ -912,6 +914,46 @@
       "third": "Third",
       "forth": "Fourth",
       "last": "Last"
+    }
+  },
+  "cron-picker": {
+    "tab-labels": {
+      "time": "Time",
+      "day": "Day",
+      "month": "Month"
+    },
+    "labels": {
+      "min": "Minute",
+      "hour": "Hour",
+      "every-day": "Every day",
+      "days-of-week": "Specific days of week",
+      "days-of-month": "Specific days of month",
+      "every-month": "Every month",
+      "months": "Specific months",
+      "select": "Select"
+    },
+    "days-of-week": {
+      "MON": "Monday",
+      "TUE": "Tuesday",
+      "WED": "Wednesday",
+      "THU": "Thursday",
+      "FRI": "Friday",
+      "SAT": "Saturday",
+      "SUN": "Sunday"
+    },
+    "months": {
+      "JAN": "January",
+      "FEB": "February",
+      "MAR": "March",
+      "APR": "April",
+      "MAY": "May",
+      "JUN": "June",
+      "JUL": "July",
+      "AUG": "August",
+      "SEP": "September",
+      "OCT": "October",
+      "NOV": "November",
+      "DEC": "December"
     }
   }
 }

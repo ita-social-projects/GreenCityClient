@@ -50,7 +50,7 @@ export class OrderService {
         return this.filterStatuses(statuses, ['FORMED', 'ADJUSTMENT', 'CONFIRMED', 'BROUGHT_IT_HIMSELF', 'CANCELED']);
 
       case 'CONFIRMED':
-        return this.filterStatuses(statuses, ['FORMED', 'CONFIRMED', 'ON_THE_ROUTE', 'CANCELED']);
+        return this.filterStatuses(statuses, ['FORMED', 'CONFIRMED', 'ON_THE_ROUTE', 'BROUGHT_IT_HIMSELF', 'CANCELED']);
 
       case 'BROUGHT_IT_HIMSELF':
         return this.filterStatuses(statuses, ['BROUGHT_IT_HIMSELF', 'DONE', 'CANCELED']);
@@ -59,7 +59,7 @@ export class OrderService {
         return this.filterStatuses(statuses, ['ON_THE_ROUTE', 'DONE', 'NOT_TAKEN_OUT', 'CANCELED']);
 
       case 'NOT_TAKEN_OUT':
-        return this.filterStatuses(statuses, ['NOT_TAKEN_OUT', 'ADJUSTMENT', 'CANCELED']);
+        return this.filterStatuses(statuses, ['NOT_TAKEN_OUT', 'ADJUSTMENT', 'BROUGHT_IT_HIMSELF', 'CANCELED']);
 
       case 'DONE':
         return this.filterStatuses(statuses, ['DONE']);

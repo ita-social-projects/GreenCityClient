@@ -46,6 +46,7 @@ export class UbsUserProfilePageComponent implements OnInit {
   currentLanguage: string;
   cities = [];
   regions = [];
+  districts = [];
   constructor(
     public dialog: MatDialog,
     private clientProfileService: ClientProfileService,
@@ -89,24 +90,24 @@ export class UbsUserProfilePageComponent implements OnInit {
         street: new FormControl(adres?.street, [
           Validators.required,
           Validators.pattern(Patterns.ubsWithDigitPattern),
-          Validators.maxLength(30)
+          Validators.maxLength(50)
         ]),
         houseNumber: new FormControl(adres?.houseNumber, [
           Validators.required,
           Validators.pattern(Patterns.ubsHouseNumberPattern),
-          Validators.maxLength(8)
+          Validators.maxLength(5)
         ]),
-        houseCorpus: new FormControl(adres?.houseCorpus, [Validators.pattern(Patterns.ubsWithDigitPattern), Validators.maxLength(8)]),
-        entranceNumber: new FormControl(adres?.entranceNumber, [Validators.pattern(Patterns.ubsEntrNumPattern), Validators.maxLength(2)]),
+        houseCorpus: new FormControl(adres?.houseCorpus, [Validators.pattern(Patterns.ubsWithDigitPattern), Validators.maxLength(5)]),
+        entranceNumber: new FormControl(adres?.entranceNumber, [Validators.pattern(Patterns.ubsEntrNumPattern), Validators.maxLength(4)]),
         region: new FormControl(adres?.region, [
           Validators.required,
           Validators.pattern(Patterns.ubsWithDigitPattern),
-          Validators.maxLength(20)
+          Validators.maxLength(30)
         ]),
         district: new FormControl(adres?.district, [
           Validators.required,
           Validators.pattern(Patterns.ubsWithDigitPattern),
-          Validators.maxLength(20)
+          Validators.maxLength(30)
         ])
       });
       addres.push(seperateAddress);
@@ -124,6 +125,7 @@ export class UbsUserProfilePageComponent implements OnInit {
         Validators.maxLength(30)
       ]),
       recipientEmail: new FormControl(this.userProfile?.recipientEmail, [Validators.required, Validators.pattern(Patterns.ubsMailPattern)]),
+      alternativeEmail: new FormControl(this.userProfile?.alternateEmail, [Validators.pattern(Patterns.ubsMailPattern)]),
       recipientPhone: new FormControl(`+380${this.userProfile?.recipientPhone}`, [
         Validators.required,
         Validators.minLength(12),
@@ -136,8 +138,9 @@ export class UbsUserProfilePageComponent implements OnInit {
   onEdit(): void {
     this.isEditing = true;
     this.isFetching = false;
+    this.regions = this.locations.getBigRegions(this.currentLanguage);
     this.cities = this.locations.getCity(this.currentLanguage);
-    this.regions = this.locations.getRegionsKyiv(this.currentLanguage);
+    this.districts = this.locations.getRegionsKyiv(this.currentLanguage);
     setTimeout(() => this.focusOnFirst());
   }
 
@@ -163,6 +166,10 @@ export class UbsUserProfilePageComponent implements OnInit {
         recipientSurname: this.userForm.value.recipientSurname,
         hasPassword: this.userProfile.hasPassword
       };
+
+      if (!submitData.alternateEmail?.length) {
+        delete submitData.alternateEmail;
+      }
       this.userProfile.addressDto.forEach((address, i) => {
         const updatedAddres = {
           ...this.userForm.value.address[i],
@@ -170,8 +177,16 @@ export class UbsUserProfilePageComponent implements OnInit {
           actual: this.userProfile.addressDto[i].actual,
           coordinates: this.userProfile.addressDto[i].coordinates
         };
+        if (!updatedAddres.houseCorpus) {
+          delete updatedAddres.houseCorpus;
+        }
+
+        if (!updatedAddres.entranceNumber) {
+          delete updatedAddres.entranceNumber;
+        }
         submitData.addressDto.push(updatedAddres);
       });
+
       this.clientProfileService.postDataClientProfile(submitData).subscribe(
         (res: UserProfile) => {
           this.isFetching = false;
@@ -226,13 +241,17 @@ export class UbsUserProfilePageComponent implements OnInit {
     return this.userForm.get(control);
   }
 
-  public getErrorMessageKey(abstractControl: AbstractControl): string {
+  public getErrorMessageKey(abstractControl: AbstractControl, emailTypeOfControl: boolean = false): string {
     if (abstractControl.errors.required) {
       return 'input-error.required';
     }
 
-    if (abstractControl.errors.maxlength) {
+    if (abstractControl.errors.maxlength && !emailTypeOfControl) {
       return 'ubs-client-profile.error-message-if-edit-name-surname';
+    }
+
+    if (abstractControl.errors.maxlength && emailTypeOfControl) {
+      return 'ubs-client-profile.error-message-if-edit-alternativeEmail';
     }
 
     if (abstractControl.errors.pattern) {

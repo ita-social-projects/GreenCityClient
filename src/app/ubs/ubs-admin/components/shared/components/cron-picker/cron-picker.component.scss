@@ -1,0 +1,27 @@
+.cron-picker-container {
+  max-width: 500px;
+  padding: 10px;
+
+  .tab {
+    padding-top: 20px;
+    padding-left: 5px;
+    padding-right: 5px;
+
+    .select-type {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+  }
+
+  .controls {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    gap: 20px;
+
+    .hint {
+      max-width: 60%;
+    }
+  }
+}

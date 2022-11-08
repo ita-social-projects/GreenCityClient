@@ -25,21 +25,21 @@
     </div>
 
     <form class="form" [formGroup]="orderDetailsForm" (change)="changeOrderDetails()">
-      <div class="w-100 d-flex justify-content-between mb-2">
-        <label class="col-3 label m-0 p-0">{{ 'order-details.service' | translate }}</label>
-        <label class="col-2 label m-0 p-0">{{ 'order-details.volume' | translate }}</label>
-        <label class="col-2 label m-0 p-0">{{ 'order-details.cost' | translate }}</label>
-        <label class="col-2 label m-0 p-0">{{ 'order-details.number-of-packages' | translate }}</label>
-        <label class="col-3 label m-0 text-center p-0">{{ 'order-details.sum' | translate }}</label>
+      <div class="labels-box">
+        <label class="label">{{ 'order-details.service' | translate }}</label>
+        <label class="label">{{ 'order-details.volume' | translate }}</label>
+        <label class="label">{{ 'order-details.cost' | translate }}</label>
+        <label class="label">{{ 'order-details.number-of-packages' | translate }}</label>
+        <label class="label label-total">{{ 'order-details.sum' | translate }}</label>
       </div>
       <div class="main">
-        <ul class="w-100 p-0 m-0">
-          <li *ngFor="let bag of bags" class="main-list_item d-flex justify-content-between align-items-baseline">
-            <span *ngIf="currentLanguage === 'ua'" class="col-3 p-0 m-0 bag-name">{{ bag.name }}</span>
-            <span *ngIf="currentLanguage === 'en'" class="col-3 p-0 m-0 bag-name">{{ bag.nameEng }}</span>
-            <span class="col-2 p-0 m-0 bag-name">{{ bag.capacity | volume }}</span>
-            <span class="col-2 p-0 m-0 bag-name">{{ bag.price | currency | localizedCurrency }}</span>
-            <div class="col-2 form-group count">
+        <ul class="main-box">
+          <li *ngFor="let bag of bags" class="main-list-item">
+            <span *ngIf="currentLanguage === 'ua'" class="bag-name">{{ bag.name }}</span>
+            <span *ngIf="currentLanguage === 'en'" class="bag-name">{{ bag.nameEng }}</span>
+            <span class="bag-name">{{ bag.capacity | volume }}</span>
+            <span class="bag-name">{{ bag.price | currency | localizedCurrency }}</span>
+            <div class="bag-name form-group count">
               <div class="quantity-input-wrapper">
                 <button (click)="changeQuantity(bag.id, -1)" type="button">
                   <mat-icon>remove</mat-icon>
@@ -62,7 +62,7 @@
                 </button>
               </div>
             </div>
-            <span class="col-3 bag-name text-right"> {{ bag.quantity * bag.price | currency | localizedCurrency }}</span>
+            <span class="bag-name label-total"> {{ bag.quantity * bag.price | currency | localizedCurrency }}</span>
           </li>
         </ul>
       </div>
@@ -121,7 +121,7 @@
             class="form-group eco-store"
             [class.inactive]="orderDetailsForm.controls.shop.value === 'no'"
           >
-            <label class="label m-0">{{ 'order-details.enter-order-num' | translate }}</label>
+            <label class="eco-label">{{ 'order-details.enter-order-num' | translate }}</label>
             <input
               id="index{{ i }}"
               tabindex="{{ isDisabled() }}"
@@ -172,7 +172,7 @@
   </ng-template>
 </div>
 
-<div class="w-100 d-flex justify-content-end buttons">
+<div class="buttons">
   <button type="button" class="secondary-global-button btn cancel-button btn-main" (click)="cancelUBS()">
     {{ 'order-details.cancel' | translate }}
   </button>

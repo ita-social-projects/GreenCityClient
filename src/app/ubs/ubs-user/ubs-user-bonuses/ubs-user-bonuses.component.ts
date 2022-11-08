@@ -7,6 +7,7 @@ import { BonusesService } from './services/bonuses.service';
 import { Subject, throwError } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 import { MatSnackBarComponent } from '@global-errors/mat-snack-bar/mat-snack-bar.component';
+import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
 
 @Component({
   selector: 'app-ubs-user-bonuses',
@@ -18,10 +19,10 @@ export class UbsUserBonusesComponent implements OnInit, OnDestroy {
   dataSource = new MatTableDataSource<BonusModel>();
   totalBonuses: number;
   isLoading = true;
-  bonusesList: BonusModel[];
+  bonusesList: BonusModel[] = [];
   destroy: Subject<boolean> = new Subject<boolean>();
 
-  constructor(private snackBar: MatSnackBarComponent, private bonusesService: BonusesService) {}
+  constructor(private snackBar: MatSnackBarComponent, private bonusesService: BonusesService, private localStorage: LocalStorageService) {}
 
   @ViewChild(MatSort) sort: MatSort;
 
@@ -69,6 +70,10 @@ export class UbsUserBonusesComponent implements OnInit, OnDestroy {
 
   compare(a: number | string, b: number | string, isAsc: boolean) {
     return (a < b ? -1 : 1) * (isAsc ? 1 : -1);
+  }
+
+  passOrderIdToRedirect(orderId: number): void {
+    this.localStorage.setOrderIdToRedirect(orderId);
   }
 
   ngOnDestroy() {

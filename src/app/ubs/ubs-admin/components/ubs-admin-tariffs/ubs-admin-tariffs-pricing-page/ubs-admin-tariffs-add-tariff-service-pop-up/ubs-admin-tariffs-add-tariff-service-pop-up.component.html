@@ -5,7 +5,7 @@
   <div *ngIf="data.button === 'update'">
     <p class="add-location-title">{{ 'ubs-tariffs-add-service.edit_service' | translate }}</p>
   </div>
-  <app-dialog-tariff [row]="form" [newDate]="newDate" [name]="name" [edit]="false"></app-dialog-tariff>
+  <app-dialog-tariff [row]="form" [newDate]="newDate" [name]="name" [edit]="true"></app-dialog-tariff>
   <ng-template #form>
     <div class="d-flex">
       <div class="form-group">
@@ -22,7 +22,7 @@
         <label for="name">{{ 'ubs-tariffs-add-service.name_of_the_service' | translate }}</label>
         <input
           type="text"
-          formControlName="englishName"
+          formControlName="nameEng"
           class="shadow-none form-control"
           id="name"
           placeholder="{{ 'ubs-tariffs-add-service.placeholder-service' | translate }}"
@@ -32,16 +32,16 @@
     <div class="d-flex">
       <div class="form-group">
         <label class="form-label" for="capacity">{{ 'ubs-tariffs-add-service.capacity' | translate }}</label>
-        <input type="text" formControlName="capacity" maxlength="3" id="capacity" class="capacity-input" placeholder="0" />
+        <input type="number" formControlName="capacity" maxlength="3" id="capacity" class="capacity-input" placeholder="0" />
       </div>
       <div class="form-group">
         <label for="commission" class="form-label">{{ 'ubs-tariffs-add-service.commission' | translate }}</label>
-        <input type="text" formControlName="commission" maxlength="3" id="commission" class="courier-input" placeholder="0,00" />
+        <input type="number" formControlName="commission" maxlength="3" id="commission" class="courier-input" placeholder="0,00" />
       </div>
     </div>
     <div class="basic-cost-input form-group">
       <label for="price" class="form-label">{{ 'ubs-tariffs-add-service.basic_cost' | translate }}</label>
-      <input type="text" formControlName="price" maxlength="3" id="price" class="shadow-none form-control" placeholder="0,00" />
+      <input type="number" formControlName="price" maxlength="3" id="price" class="shadow-none form-control" placeholder="0,00" />
     </div>
     <div class="d-flex">
       <div class="form-group">
@@ -72,11 +72,12 @@
         {{ 'ubs-tariffs-add-service.btn.cancel' | translate }}
       </button>
       <button
+        id="tariffForServiceBTN"
         class="primary-global-button btn"
         type="submit"
         *ngIf="data.button === 'add'"
         [disabled]="addTariffServiceForm.invalid || loadingAnim"
-        (click)="addNewTariffForService()"
+        (click)="createAndStoreNewTariff()"
       >
         <span *ngIf="loadingAnim" class="spinner-border spinner-border-sm" role="status" aria-hidden="true"> </span>
         {{ 'ubs-tariffs-add-service.btn.add' | translate }}
