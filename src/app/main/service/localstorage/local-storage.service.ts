@@ -286,4 +286,8 @@ export class LocalStorageService {
     const parsed = JSON.parse(window.localStorage.getItem('UbsAdminOrdersTableTitleColumnFilters')) || [];
     return parsed;
   }
+
+  public removeAdminOrderFilters(): void {
+    window.localStorage.removeItem('UbsAdminOrdersTableTitleColumnFilters');
+  }
 }

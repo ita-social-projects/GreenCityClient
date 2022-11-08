@@ -657,6 +657,7 @@ export class UbsAdminTableComponent implements OnInit, AfterViewChecked, OnDestr
     this.adminTableService.setFilters([]);
     this.applyFilters();
     this.noFiltersApplied = true;
+    this.localStorageService.removeAdminOrderFilters();
   }
 
   public applyFilters() {

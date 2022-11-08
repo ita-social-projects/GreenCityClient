@@ -30,9 +30,11 @@ export class AdminTableService {
           filtersQuery += `&${key}=${elem[key]}`;
         }
         if (objKeys.length === 2) {
-          const keyFrom = objKeys[0];
-          const keyTo = objKeys[1];
-          filtersQuery += `&${keyFrom}=${elem[keyFrom]}&${keyTo}=${elem[keyTo]}`;
+          const keyFrom = objKeys[0].replace('From', '.from');
+          const keyTo = objKeys[1].replace('To', '.to');
+          const key1 = objKeys[0];
+          const key2 = objKeys[1];
+          filtersQuery += `&${keyFrom}=${elem[key1]}&${keyTo}=${elem[key2]}`;
         }
       });
     }
