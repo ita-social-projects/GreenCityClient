@@ -60,7 +60,7 @@ export class UbsAdminTariffsAddServicePopUpComponent implements OnInit, OnDestro
   editForm(): void {
     this.addServiceForm = this.fb.group({
       name: new FormControl({ value: this.receivedData.serviceData.name }),
-      nameEng: new FormControl(''),
+      nameEng: new FormControl({ value: this.receivedData.serviceData.nameEng }),
       capacity: new FormControl({ value: this.receivedData.serviceData.capacity }),
       price: new FormControl('', [Validators.required, Validators.pattern(Patterns.ubsPrice)]),
       commission: new FormControl('', [Validators.required, Validators.pattern(Patterns.ubsPrice)]),
@@ -97,13 +97,15 @@ export class UbsAdminTariffsAddServicePopUpComponent implements OnInit, OnDestro
 
   fillFields(receivedData) {
     if (receivedData.serviceData) {
-      const { name, price, capacity, commission, description } = this.receivedData.serviceData;
+      const { name, nameEng, price, capacity, commission, description, englishDescription } = this.receivedData.serviceData;
       this.addServiceForm.patchValue({
         name,
+        nameEng,
         price,
         capacity,
         commission,
-        description
+        description,
+        englishDescription
       });
     }
   }
