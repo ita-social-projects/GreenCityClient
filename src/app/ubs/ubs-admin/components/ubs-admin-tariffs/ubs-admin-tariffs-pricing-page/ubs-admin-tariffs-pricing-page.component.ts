@@ -363,7 +363,8 @@ export class UbsAdminTariffsPricingPageComponent implements OnInit, OnDestroy {
       text: 'ubs-tariffs-pricing-page-delete-tariffs.delete-tariff-text1',
       text2: 'ubs-tariffs-pricing-page-delete-tariffs.delete-tariff-text2',
       bagName: this.currentLanguage === 'ua' ? bag.name : bag.nameEng,
-      action: 'ubs-tariffs-pricing-page-delete-tariffs.delete-tariff-action'
+      action: 'ubs-tariffs-pricing-page-delete-tariffs.delete-tariff-action',
+      isTariffForService: true
     };
     const dialogRefService = this.dialog.open(ModalTextComponent, dialogConfig);
     dialogRefService
@@ -381,7 +382,8 @@ export class UbsAdminTariffsPricingPageComponent implements OnInit, OnDestroy {
       text: 'ubs-tariffs-pricing-page-delete-service.delete-service-text1',
       text2: 'ubs-tariffs-pricing-page-delete-service.delete-service-text2',
       serviceName: this.currentLanguage === 'ua' ? service.name : service.nameEng,
-      action: 'ubs-tariffs-pricing-page-delete-service.delete-service-action'
+      action: 'ubs-tariffs-pricing-page-delete-service.delete-service-action',
+      isService: true
     };
 
     const dialogRefService = this.dialog.open(ModalTextComponent, dialogConfig);

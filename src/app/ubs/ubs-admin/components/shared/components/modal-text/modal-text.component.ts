@@ -21,6 +21,8 @@ export class ModalTextComponent implements OnInit {
   bagName: string;
   serviceName: string;
   action: string;
+  isService: boolean;
+  isTariffForService: boolean;
   constructor(
     public dialogRef: MatDialogRef<ModalTextComponent>,
     @Inject(MAT_DIALOG_DATA) public modalData: any,
@@ -28,6 +30,8 @@ export class ModalTextComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
+    this.isService = this.modalData.isService;
+    this.isTariffForService = this.modalData.isTariffForService;
     this.title = this.modalData.title;
     this.text = this.modalData.text;
     this.text2 = this.modalData.text2 ?? '';
@@ -39,7 +43,16 @@ export class ModalTextComponent implements OnInit {
     });
   }
 
+  deleteService() {
+    console.log('deleted serv');
+  }
+
+  deleteTariffForService() {
+    console.log('deleted tariff');
+  }
+
   onYesClick(reply: boolean): void {
+    console.log('Franko');
     this.dialogRef.close(reply);
   }
 

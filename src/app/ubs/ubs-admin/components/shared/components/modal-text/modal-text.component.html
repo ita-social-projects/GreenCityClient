@@ -12,7 +12,13 @@
     <button *ngIf="check(modalData.name)" class="button secondary-global-button" mat-button (click)="onNoClick()">
       {{ 'modal-text.no' | translate }}
     </button>
-    <button class="button primary-global-button btn m-0" (click)="onYesClick(true)">
+    <button class="button primary-global-button btn m-0" *ngIf="isService" (click)="deleteService()">
+      {{ action | translate }}
+    </button>
+    <button class="button primary-global-button btn m-0" *ngIf="isTariffForService" (click)="deleteTariffForService()">
+      {{ action | translate }}
+    </button>
+    <button class="button primary-global-button btn m-0" *ngIf="!isService && !isTariffForService" (click)="onYesClick(true)">
       {{ action | translate }}
     </button>
   </div>
