@@ -374,6 +374,7 @@ export class UbsAdminTariffsPricingPageComponent implements OnInit, OnDestroy {
   }
 
   openDeleteService(service: Service): void {
+    this.tariffsService.setServiceId(service.id);
     const dialogConfig = new MatDialogConfig();
     dialogConfig.panelClass = 'address-matDialog-styles-pricing-page';
     dialogConfig.data = {

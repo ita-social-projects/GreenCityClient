@@ -1,6 +1,7 @@
 import { DatePipe } from '@angular/common';
-import { Component, Inject, OnInit } from '@angular/core';
+import { Component, Inject, Injector, OnInit } from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { TariffsService } from '../../../../services/tariffs.service';
 import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
@@ -23,11 +24,17 @@ export class ModalTextComponent implements OnInit {
   action: string;
   isService: boolean;
   isTariffForService: boolean;
+  receivedData;
   constructor(
     public dialogRef: MatDialogRef<ModalTextComponent>,
     @Inject(MAT_DIALOG_DATA) public modalData: any,
-    private localeStorageService: LocalStorageService
-  ) {}
+    private tariffsService: TariffsService,
+    private localeStorageService: LocalStorageService,
+    private injector: Injector
+  ) {
+    this.receivedData = modalData;
+    this.tariffsService = injector.get(TariffsService);
+  }
 
   ngOnInit(): void {
     this.isService = this.modalData.isService;
@@ -44,10 +51,16 @@ export class ModalTextComponent implements OnInit {
   }
 
   deleteService() {
+    const serviceId = this.tariffsService.getServiceId();
+    this.tariffsService.deleteService(serviceId).subscribe((received) => {
+      console.log(received);
+    });
     console.log('deleted serv');
+    this.dialogRef.close();
   }
 
   deleteTariffForService() {
+    console.log('receivedData1', this.receivedData);
     console.log('deleted tariff');
   }
 
