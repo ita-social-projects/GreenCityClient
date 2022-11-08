@@ -1,0 +1,24 @@
+<div class="container">
+  <div class="close-container">
+    <button class="close-btn" mat-dialog-close (click)="close()">
+      <img src="{{ closeButton }}" alt="close" />
+    </button>
+  </div>
+  <label class="title" id="addReason">Додати причину невивезеного замовлення</label>
+  <div class="title2">Опишіть, що сталося</div>
+  <input
+    placeholder="Опишіть деталі, які Ви хотіли б повідомити щодо цього замовлення"
+    cols="50"
+    rows="6"
+    maxlength="255"
+    [(ngModel)]="notTakenOutReason"
+  />
+  <div class="buttons-container">
+    <div class="btn-container">
+      <button type="reset" class="disagree btn" (click)="close()">{{ 'order-cancel.btn.cancel' | translate }}</button>
+      <button type="submit" class="agree btn" (click)="save()">{{ 'order-cancel.btn.add' | translate }}</button>
+    </div>
+    <span class="date">{{ 'order-cancel.date' | translate }}: {{ date | date: 'dd.MM.y' }} </span>
+    <span>{{ 'order-cancel.added' | translate }}: {{ adminName }}</span>
+  </div>
+</div>

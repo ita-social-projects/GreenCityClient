@@ -1,0 +1,77 @@
+.container {
+  padding: 40px;
+  position: relative;
+
+  .close-container {
+    position: absolute;
+    top: -5px;
+    right: 5px;
+  }
+
+  .close-btn {
+    border: none;
+    background-color: transparent;
+    outline: none;
+
+    img {
+      width: 20px;
+    }
+  }
+
+  .title {
+    font-size: 30px;
+    max-width: 500px;
+    margin-bottom: 20px;
+    font-weight: 600;
+    line-height: 1.5;
+  }
+
+  .checkmark {
+    margin-right: 10px;
+  }
+
+  .btn-container {
+    text-align-last: right;
+    margin-bottom: 40px;
+    margin-top: 40px;
+
+    .btn {
+      border-radius: 5px;
+      font-size: 20px;
+    }
+  }
+
+  .mat-radio-button {
+    display: block;
+    width: 30px;
+    margin-top: 10px;
+    line-height: 1.5;
+    font-size: 20px;
+    color: var(--ubs-tertiary-grey);
+  }
+
+  ::ng-deep .mat-radio-button.mat-accent .mat-radio-ripple .mat-ripple-element {
+    color: var(--ubs-tertiary-light-green);
+    background: none;
+  }
+
+  ::ng-deep .mat-radio-button.mat-accent .mat-radio-inner-circle {
+    background-color: var(--ubs-tertiary-light-green);
+  }
+
+  ::ng-deep.mat-radio-button.mat-accent.mat-radio-checked .mat-radio-outer-circle {
+    border-color: var(--ubs-tertiary-light-green);
+  }
+
+  textarea {
+    margin-top: 20px;
+    padding: 10px;
+    font-size: 18px;
+    border: 1px solid var(--ubs-tertiary-grey);
+    border-radius: 5px;
+  }
+
+  .date {
+    margin-right: 40px;
+  }
+}
