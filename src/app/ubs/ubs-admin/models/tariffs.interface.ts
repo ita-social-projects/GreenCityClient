@@ -30,7 +30,6 @@ export interface Service {
   description?: string;
   name?: string;
   nameEng?: string;
-  englishDescription?: string;
   languageCode?: string;
   id?: number;
   fullPrice?: number;
@@ -41,7 +40,6 @@ export interface Service {
       description: string;
       nameEng: string;
       name: string;
-      englishDescription: string;
     }
   ];
 }
