@@ -77,7 +77,7 @@ export class UbsAdminTariffsPricingPageComponent implements OnInit, OnDestroy {
     this.initForm();
     this.getLocations();
     this.orderService.locationSubject.pipe(takeUntil(this.destroy)).subscribe(() => {
-      this.getServices();
+      this.getAllServices();
       this.getCouriers();
       this.getAllTariffsForService();
     });
@@ -230,7 +230,7 @@ export class UbsAdminTariffsPricingPageComponent implements OnInit, OnDestroy {
       this.getAllTariffsForService();
       this.selectedCardId = Number(res.id);
       this.currentLocation = Number(res.id);
-      this.getServices();
+      this.getAllServices();
     });
   }
 
@@ -267,7 +267,7 @@ export class UbsAdminTariffsPricingPageComponent implements OnInit, OnDestroy {
     dialogRefService
       .afterClosed()
       .pipe(takeUntil(this.destroy))
-      .subscribe((result) => result && this.getServices());
+      .subscribe((result) => result && this.getAllServices());
   }
 
   private subscribeToLangChange(): void {
@@ -288,7 +288,7 @@ export class UbsAdminTariffsPricingPageComponent implements OnInit, OnDestroy {
       });
   }
 
-  getServices(): void {
+  getAllServices(): void {
     this.isLoadBar1 = true;
     this.tariffsService
       .getAllServices()
@@ -351,7 +351,7 @@ export class UbsAdminTariffsPricingPageComponent implements OnInit, OnDestroy {
     dialogRefService
       .afterClosed()
       .pipe(takeUntil(this.destroy))
-      .subscribe((result) => result && this.getServices());
+      .subscribe((result) => result && this.getAllServices());
   }
 
   openDeleteTariffForService(bag: Bag): void {
@@ -392,7 +392,7 @@ export class UbsAdminTariffsPricingPageComponent implements OnInit, OnDestroy {
     dialogRefService
       .afterClosed()
       .pipe(takeUntil(this.destroy))
-      .subscribe((result) => result && this.getAllTariffsForService());
+      .subscribe((result) => result && this.getAllServices());
   }
 
   getLocations(): void {
