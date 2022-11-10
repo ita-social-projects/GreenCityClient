@@ -286,7 +286,7 @@ export class UBSOrderDetailsComponent extends FormBaseComponent implements OnIni
       this.localStorageService.removeanotherClientData();
     }
     this.orderService
-      .getOrders()
+      .getOrders(this.localStorageService.getLocationId())
       .pipe(takeUntil(this.destroy))
       .subscribe((orderData: OrderDetails) => {
         this.orders = this.shareFormService.orderDetails;
