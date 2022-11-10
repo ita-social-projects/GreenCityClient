@@ -1,5 +1,5 @@
 import { DatePipe } from '@angular/common';
-import { Component, Inject, Injector, OnInit } from '@angular/core';
+import { Component, Inject, Injector, OnInit, OnDestroy } from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { TariffsService } from '../../../../services/tariffs.service';
 import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
@@ -11,7 +11,8 @@ import { takeUntil } from 'rxjs/operators';
   templateUrl: './modal-text.component.html',
   styleUrls: ['./modal-text.component.scss']
 })
-export class ModalTextComponent implements OnInit {
+export class ModalTextComponent implements OnInit, OnDestroy {
+  private destroy: Subject<boolean> = new Subject<boolean>();
   datePipe = new DatePipe('ua');
   newDate = this.datePipe.transform(new Date(), 'MMM dd, yyyy');
   name: string;
@@ -50,17 +51,24 @@ export class ModalTextComponent implements OnInit {
       this.name = firstName;
     });
     this.serviceId = this.tariffsService.getServiceId();
-    console.log(this.serviceId);
-  }
-
-  deleteService() {
-    this.tariffsService.deleteService(this.serviceId);
-    this.dialogRef.close();
   }
 
   deleteTariffForService() {
-    this.tariffsService.deleteTariffForService(this.serviceId);
-    this.dialogRef.close();
+    this.tariffsService
+      .deleteTariffForService(this.serviceId)
+      .pipe(takeUntil(this.destroy))
+      .subscribe(() => {
+        this.dialogRef.close({});
+      });
+  }
+
+  deleteService() {
+    this.tariffsService
+      .deleteService(this.serviceId)
+      .pipe(takeUntil(this.destroy))
+      .subscribe(() => {
+        this.dialogRef.close({});
+      });
   }
 
   onYesClick(reply: boolean): void {
@@ -73,5 +81,10 @@ export class ModalTextComponent implements OnInit {
 
   check(val: string): boolean {
     return val === 'cancel';
+  }
+
+  ngOnDestroy() {
+    this.destroy.next();
+    this.destroy.unsubscribe();
   }
 }
