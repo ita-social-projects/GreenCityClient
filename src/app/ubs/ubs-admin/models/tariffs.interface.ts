@@ -60,8 +60,8 @@ export interface Couriers {
 }
 
 export interface CourierTranslationDto {
-  languageCode: string;
   name: string;
+  nameEng: string;
 }
 
 export interface Locations {
