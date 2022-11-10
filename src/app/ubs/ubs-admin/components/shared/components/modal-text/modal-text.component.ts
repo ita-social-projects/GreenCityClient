@@ -22,6 +22,7 @@ export class ModalTextComponent implements OnInit {
   bagName: string;
   serviceName: string;
   action: string;
+  serviceId: number;
   isService: boolean;
   isTariffForService: boolean;
   receivedData;
@@ -48,24 +49,21 @@ export class ModalTextComponent implements OnInit {
     this.localeStorageService.firstNameBehaviourSubject.pipe(takeUntil(this.unsubscribe)).subscribe((firstName) => {
       this.name = firstName;
     });
+    this.serviceId = this.tariffsService.getServiceId();
+    console.log(this.serviceId);
   }
 
   deleteService() {
-    const serviceId = this.tariffsService.getServiceId();
-    this.tariffsService.deleteService(serviceId).subscribe((received) => {
-      console.log(received);
-    });
-    console.log('deleted serv');
+    this.tariffsService.deleteService(this.serviceId);
     this.dialogRef.close();
   }
 
   deleteTariffForService() {
-    console.log('receivedData1', this.receivedData);
-    console.log('deleted tariff');
+    this.tariffsService.deleteTariffForService(this.serviceId);
+    this.dialogRef.close();
   }
 
   onYesClick(reply: boolean): void {
-    console.log('Franko');
     this.dialogRef.close(reply);
   }
 
