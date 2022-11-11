@@ -52,7 +52,7 @@ export class UbsAdminOrderStatusComponent implements OnChanges, OnInit, OnDestro
       this.openPopup();
     }
     if (statusName === 'NOT_TAKEN_OUT') {
-      this.notTakenOutOpenPop();
+      this.notTakenOutOpenPop(this.generalInfo.id);
     }
   }
 
@@ -78,10 +78,13 @@ export class UbsAdminOrderStatusComponent implements OnChanges, OnInit, OnDestro
       });
   }
 
-  notTakenOutOpenPop() {
+  notTakenOutOpenPop(user) {
     this.dialog
       .open(AddOrderNotTakenOutReasonComponent, {
-        hasBackdrop: true
+        hasBackdrop: true,
+        data: {
+          id: this.generalInfo.id
+        }
       })
       .afterClosed()
       .pipe(take(1))

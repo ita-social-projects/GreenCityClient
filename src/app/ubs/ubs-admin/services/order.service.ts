@@ -167,6 +167,12 @@ export class OrderService {
     return this.http.post(`${this.backend}/management/addViolationToUser`, violation);
   }
 
+  public addReasonForNotTakenOutOrder(reason, id) {
+    console.log(`${this.backend}/management/save-reason/${id}`, reason);
+
+    return this.http.put(`${this.backend}/management/save-reason/${id}`, reason);
+  }
+
   public updateViolationOfCurrentOrder(violation) {
     return this.http.put(`${this.backend}/management/updateViolationToUser`, violation);
   }
