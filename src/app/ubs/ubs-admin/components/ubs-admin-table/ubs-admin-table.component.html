@@ -84,10 +84,10 @@
           </ng-container>
         </div>
         <div class="sticky-bottom clear-apply-group">
-          <button [hidden]="noFiltersApplied" type="button" class="filter-btn bg-lime" (click)="applyFilters()">
+          <button [disabled]="noFiltersApplied" type="button" class="filter-btn bg-lime" (click)="applyFilters()">
             {{ 'ubs-tables.apply-filters' | translate }}
           </button>
-          <button [hidden]="noFiltersApplied" type="button" class="filter-btn" (click)="clearFilters()">
+          <button type="button" class="filter-btn" (click)="clearFilters()">
             {{ 'ubs-tables.clear-filters' | translate }}
           </button>
         </div>

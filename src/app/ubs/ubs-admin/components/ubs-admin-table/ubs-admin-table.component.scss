@@ -67,14 +67,14 @@ input {
   width: 356px;
   overflow: scroll;
   padding: 0;
-  margin-top: 17px;
+  margin-top: 16px;
   color: var(--ubs-primary-grey);
   font-family: var(--primary-font);
   background-color: var(--ubs-secondary-white);
 }
 
 .dropdown-menu-right {
-  margin-right: 6px;
+  margin-right: 18px;
 }
 
 .data-range-box {
@@ -94,7 +94,7 @@ input {
   .data-input {
     display: flex;
     height: 36px;
-    width: 118px;
+    width: 128px;
     padding: 8px;
     margin: 0;
     border: 1px solid var(--ubs-quintynary-light-grey);
@@ -358,6 +358,7 @@ input {
   padding-top: 10px;
   display: flex;
   justify-content: center;
+  box-shadow: 0 0 8px rgba(73, 74, 73, 0.2);
   height: 50px;
   width: 100%;
 }
@@ -390,6 +391,7 @@ input {
 
 .accordion-body {
   padding-left: 16px;
+  padding-top: 8px;
   width: 320px;
 }
 
@@ -410,6 +412,11 @@ input {
 .bg-lime {
   border: none;
   background-color: var(--ubs-button-dark-green);
+
+  &:disabled {
+    color: var(--ubs-secondary-grey);
+    background-color: var(--ubs-quaternary-light-grey);
+  }
 }
 
 .dropdown-menu li {
@@ -419,7 +426,7 @@ input {
 }
 
 .accordion-item {
-  padding-bottom: 20px;
+  padding-bottom: 12px;
   padding-left: 16px;
   padding-right: 36px;
   font-size: 14px;
@@ -541,6 +548,7 @@ input {
   justify-content: left;
   align-items: center;
   gap: 5px;
+  height: 36px;
   font-weight: bold;
   cursor: pointer;
 }
