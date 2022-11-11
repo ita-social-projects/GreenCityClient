@@ -160,15 +160,12 @@ export class AdminTableService {
     const dateFrom = inputDateFrom.value;
     let dateTo = inputDateTo.value;
 
-    if (!dateTo) {
-      dateTo = this.getTodayDate();
-    }
-
     if (Date.parse(dateFrom) > Date.parse(dateTo)) {
       dateTo = dateFrom;
     }
 
     if (checked) {
+      dateTo = this.getTodayDate();
       elem[keyNameFrom] = dateFrom;
       elem[keyNameTo] = dateTo;
       this.filters.push(elem);

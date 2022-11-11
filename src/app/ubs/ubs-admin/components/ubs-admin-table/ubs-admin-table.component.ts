@@ -625,12 +625,12 @@ export class UbsAdminTableComponent implements OnInit, AfterViewChecked, OnDestr
 
   changeFilters(checked: boolean, currentColumn: string, option: IFilteredColumnValue): void {
     this.adminTableService.changeFilters(checked, currentColumn, option);
-    this.noFiltersApplied = this.adminTableService.filters.length === 0;
+    this.noFiltersApplied = !this.adminTableService.filters.length;
   }
 
   changeDateFilters(e: MatCheckboxChange, checked: boolean, currentColumn: string): void {
     this.adminTableService.changeDateFilters(e, checked, currentColumn);
-    this.noFiltersApplied = this.adminTableService.filters.length === 0;
+    this.noFiltersApplied = false;
   }
 
   changeInputDateFilters(value: string, currentColumn: string, suffix: string): void {

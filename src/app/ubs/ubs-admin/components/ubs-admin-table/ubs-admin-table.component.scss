@@ -102,8 +102,8 @@ input {
     background-color: var(--ubs-primary-white);
 
     &:focus {
-      outline: none;
-      border: 1px solid var(--ubs-primary-grey);
+      outline: 0;
+      border: 1px solid var(--ubs-primary-green);
     }
   }
 }

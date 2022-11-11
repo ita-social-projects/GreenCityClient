@@ -65,6 +65,7 @@
                             name="dateTo"
                             [value]="getDateValue('To', column.key)"
                             (change)="changeInputDateFilters($event.target.value, column.key, 'To')"
+                            [disabled]="!checkForCheckedBoxes(column)"
                           />
                         </div>
                       </div>
