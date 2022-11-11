@@ -191,8 +191,8 @@ export class AdminTableService {
       } else if (!filterToChange[`${columnName}To`]) {
         filterToChange[`${columnName}To`] = filterToChange[`${columnName}From`];
       }
-      const elem = { ...filterToChange };
-      this.saveDateFilters(true, currentColumn, elem);
+      const element = { ...filterToChange };
+      this.saveDateFilters(true, currentColumn, element);
       this.localStorageService.setUbsAdminOrdersTableTitleColumnFilter(this.filters);
     }
   }
