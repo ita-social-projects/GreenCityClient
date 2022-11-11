@@ -60,6 +60,54 @@ input {
   border-collapse: collapse;
 }
 
+.dropdown-menu {
+  position: absolute;
+  right: 0;
+  height: 500px;
+  width: 356px;
+  overflow: scroll;
+  padding: 0;
+  margin-top: 17px;
+  color: var(--ubs-primary-grey);
+  font-family: var(--primary-font);
+  background-color: var(--ubs-secondary-white);
+}
+
+.dropdown-menu-right {
+  margin-right: 6px;
+}
+
+.data-range-box {
+  display: flex;
+  flex-direction: row;
+  gap: 16px;
+}
+
+.input-box {
+  display: flex;
+  flex-direction: column;
+
+  .data-label {
+    margin-bottom: 2px;
+  }
+
+  .data-input {
+    display: flex;
+    height: 36px;
+    width: 118px;
+    padding: 8px;
+    margin: 0;
+    border: 1px solid var(--ubs-quintynary-light-grey);
+    border-radius: 4px;
+    background-color: var(--ubs-primary-white);
+
+    &:focus {
+      outline: none;
+      border: 1px solid var(--ubs-primary-grey);
+    }
+  }
+}
+
 .mat-row {
   min-height: 39px !important;
   max-height: 39px !important;
@@ -340,24 +388,6 @@ input {
   }
 }
 
-.dropdown-menu {
-  position: absolute;
-  left: -40%;
-  height: 500px;
-  max-width: 356px;
-  margin-right: 5px;
-  overflow: scroll;
-  padding: 0;
-  margin-top: 17px;
-  color: var(--ubs-primary-grey);
-  font-family: var(--primary-font);
-  background-color: var(--ubs-secondary-white);
-}
-
-.dropdown-menu input[type='date'] {
-  width: 155px;
-}
-
 .accordion-body {
   padding-left: 16px;
   width: 320px;
@@ -393,11 +423,6 @@ input {
   padding-left: 16px;
   padding-right: 36px;
   font-size: 14px;
-}
-
-.dropdown-menu-right {
-  margin-right: 20px;
-  margin-top: 17px;
 }
 
 .mat-spinner {

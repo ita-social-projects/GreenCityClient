@@ -44,24 +44,30 @@
                       <mat-checkbox [checked]="getDateChecked(column.key)" (change)="changeDateFilters($event, $event.checked, column.key)">
                         {{ 'ubs-tables.date-range' | translate }}
                       </mat-checkbox>
-                      <br />
-                      <label for="dateFrom">{{ 'ubs-tables.date-from' | translate }}</label>
-                      <input
-                        id="dateFrom{{ column.key }}"
-                        type="date"
-                        name="dateFrom"
-                        [value]="getDateValue('From', column.key)"
-                        (change)="changeInputDateFilters($event.target.value, column.key, 'From')"
-                      />
-                      <br />
-                      <label for="dateTo">{{ 'ubs-tables.date-to' | translate }}</label>
-                      <input
-                        id="dateTo{{ column.key }}"
-                        type="date"
-                        name="dateTo"
-                        [value]="getDateValue('To', column.key)"
-                        (change)="changeInputDateFilters($event.target.value, column.key, 'To')"
-                      />
+                      <div class="data-range-box">
+                        <div class="input-box">
+                          <label class="data-label" for="dateFrom">{{ 'ubs-tables.date-from' | translate }}</label>
+                          <input
+                            id="dateFrom{{ column.key }}"
+                            class="data-input"
+                            type="date"
+                            name="dateFrom"
+                            [value]="getDateValue('From', column.key)"
+                            (change)="changeInputDateFilters($event.target.value, column.key, 'From')"
+                          />
+                        </div>
+                        <div class="input-box">
+                          <label class="data-label" for="dateTo">{{ 'ubs-tables.date-to' | translate }}</label>
+                          <input
+                            id="dateTo{{ column.key }}"
+                            class="data-input"
+                            type="date"
+                            name="dateTo"
+                            [value]="getDateValue('To', column.key)"
+                            (change)="changeInputDateFilters($event.target.value, column.key, 'To')"
+                          />
+                        </div>
+                      </div>
                     </div>
                   </div>
                   <ng-template #nonDate>

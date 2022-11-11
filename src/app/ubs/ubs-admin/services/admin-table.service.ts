@@ -193,6 +193,7 @@ export class AdminTableService {
       }
       const elem = { ...filterToChange };
       this.saveDateFilters(true, currentColumn, elem);
+      this.localStorageService.setUbsAdminOrdersTableTitleColumnFilter(this.filters);
     }
   }
 
