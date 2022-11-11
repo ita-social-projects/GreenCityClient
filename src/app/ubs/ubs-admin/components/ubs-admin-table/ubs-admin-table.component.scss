@@ -105,12 +105,6 @@ input {
       outline: 0;
       border: 1px solid var(--ubs-primary-green);
     }
-
-    &:disabled {
-      color: var(--ubs-tertiary-light-grey);
-      border: 1px solid var(--ubs-tertiary-light-grey);
-      background-color: var(--ubs-secondary-white);
-    }
   }
 }
 
