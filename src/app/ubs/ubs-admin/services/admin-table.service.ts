@@ -160,10 +160,6 @@ export class AdminTableService {
     const dateFrom = inputDateFrom.value;
     let dateTo = inputDateTo.value;
 
-    if (Date.parse(dateFrom) > Date.parse(dateTo)) {
-      dateTo = dateFrom;
-    }
-
     if (checked) {
       dateTo = this.getTodayDate();
       elem[keyNameFrom] = dateFrom;
@@ -179,13 +175,20 @@ export class AdminTableService {
   }
 
   changeInputDateFilters(value: string, currentColumn: string, suffix: string): void {
+    const elem = {};
+    const keyNameFrom = `${currentColumn}From`;
+    const dateFrom = value;
     const columnName = this.changeColumnNameEqualToEndPoint(currentColumn);
     const keyToChange = `${columnName}${suffix}`;
+    elem[keyNameFrom] = dateFrom;
+    this.filters.push(elem);
     const filterToChange = this.filters.find((filter) => Object.keys(filter).includes(`${keyToChange}`));
 
     if (filterToChange) {
       filterToChange[keyToChange] = value;
       if (Date.parse(filterToChange[`${columnName}From`]) > Date.parse(filterToChange[`${columnName}To`])) {
+        filterToChange[`${columnName}To`] = filterToChange[`${columnName}From`];
+      } else if (!filterToChange[`${columnName}To`]) {
         filterToChange[`${columnName}To`] = filterToChange[`${columnName}From`];
       }
       const elem = { ...filterToChange };

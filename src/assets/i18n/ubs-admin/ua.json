@@ -320,6 +320,7 @@
     "date-range": "Відрізок часу",
     "date-from": "Від",
     "date-to": "До",
+    "date-placeholder": "ДД/ММ/РРРР",
     "filter": "Фільтрувати",
     "export-to-excel": "Експортувати в  Excel",
     "table-view": "Вид таблиці",
