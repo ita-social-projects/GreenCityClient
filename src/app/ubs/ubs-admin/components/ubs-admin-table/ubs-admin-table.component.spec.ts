@@ -33,7 +33,8 @@ describe('UsbAdminTableComponent', () => {
     'setUbsAdminOrdersTableTitleColumnFilter',
     'getUbsAdminOrdersTableTitleColumnFilter',
     'languageBehaviourSubject',
-    'getCurrentLanguage'
+    'getCurrentLanguage',
+    'removeAdminOrderFilters'
   ]);
 
   localStorageServiceMock.languageBehaviourSubject = new BehaviorSubject('ua');
