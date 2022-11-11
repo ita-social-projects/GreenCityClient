@@ -148,13 +148,7 @@
     <div class="col-item">
       <p class="col-text">{{ 'ubs-tariffs.state' | translate }}</p>
       <div class="input-wrapper">
-        <mat-select
-          #stateSelect
-          class="state-select"
-          formControlName="state"
-          placeholder="{{ 'ubs-tariffs.placeholder-courier' | translate }}"
-          (selectionChange)="onSelectState($event)"
-        >
+        <mat-select #stateSelect class="state-select" formControlName="state" (selectionChange)="onSelectState($event)">
           <mat-option class="option-state" value="Все">{{ 'ubs-tariffs.states.all' | translate }}</mat-option>
           <mat-option class="option-state" value="Активно">{{ 'ubs-tariffs.states.active' | translate }}</mat-option>
           <mat-option class="option-state" value="Неактивно">{{ 'ubs-tariffs.states.inactive' | translate }}</mat-option>

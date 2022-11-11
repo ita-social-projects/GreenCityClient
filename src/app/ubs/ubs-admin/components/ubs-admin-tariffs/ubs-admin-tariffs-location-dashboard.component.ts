@@ -1,4 +1,4 @@
-import { Component, Input, OnDestroy, OnInit, TemplateRef } from '@angular/core';
+import { Component, Input, OnDestroy, OnInit, TemplateRef, AfterViewInit, ChangeDetectorRef } from '@angular/core';
 import { TariffsService } from '../../services/tariffs.service';
 import { map, skip, startWith, takeUntil } from 'rxjs/operators';
 import { Couriers, CreateCard, Locations, Stations } from '../../models/tariffs.interface';
@@ -57,6 +57,7 @@ export class UbsAdminTariffsLocationDashboardComponent implements OnInit, OnDest
   createCardObj: CreateCard;
   isFieldFilled = false;
   isCardExist = false;
+  statestatus: any;
 
   private destroy: Subject<boolean> = new Subject<boolean>();
 
@@ -77,7 +78,8 @@ export class UbsAdminTariffsLocationDashboardComponent implements OnInit, OnDest
     private store: Store<IAppState>,
     private fb: FormBuilder,
     private translate: TranslateService,
-    private languageService: LanguageService
+    private languageService: LanguageService,
+    private changeDetectorRef: ChangeDetectorRef
   ) {}
 
   get region() {
@@ -116,15 +118,30 @@ export class UbsAdminTariffsLocationDashboardComponent implements OnInit, OnDest
         this.getLocations();
         this.translateSelectedCity();
       });
+    // const lang = this.languageService.getCurrentLanguage();
+    // this.state.setValue(lang === 'en' ? 'Active' : 'Активно');
+    // this.changeDetectorRef.detectChanges();
+
+    // console.log(lang === 'ua' ? 'Активно' : 'Active')
+    // console.log(this.state)
+  }
+
+  ngAfterViewInit(): void {
+    //     setTimeout(()=>{
+    // const lang = this.languageService.getCurrentLanguage();
+    //     this.state.patchValue(lang === 'en' ? 'Active' : 'Активно');
+    //     this.changeDetectorRef.detectChanges();
+    //     console.log(lang === 'ua' ? 'Активно' : 'Active')
+    // }, 0);
   }
 
   private initForm(): void {
     this.searchForm = this.fb.group({
-      region: ['', [Validators.required, Validators.minLength(3), Validators.maxLength(40), Validators.pattern(Patterns.NamePattern)]],
-      city: ['', [Validators.required, Validators.maxLength(40), Validators.pattern(Patterns.NamePattern)]],
-      courier: ['', [Validators.required]],
-      station: ['', [Validators.required]],
-      state: ['all']
+      region: [null, [Validators.required, Validators.minLength(3), Validators.maxLength(40), Validators.pattern(Patterns.NamePattern)]],
+      city: [null, [Validators.required, Validators.maxLength(40), Validators.pattern(Patterns.NamePattern)]],
+      courier: [null, [Validators.required]],
+      station: [null, [Validators.required]],
+      state: [null]
     });
   }
 
@@ -358,7 +375,7 @@ export class UbsAdminTariffsLocationDashboardComponent implements OnInit, OnDest
 
   public onSelectState(event): void {
     switch (event.value) {
-      case 'all':
+      case 'Все':
         Object.assign(this.filterData, { status: '' });
         break;
       case 'Активно':
