@@ -150,7 +150,7 @@
       <div class="input-wrapper">
         <mat-select #stateSelect class="state-select" formControlName="state" (selectionChange)="onSelectState($event)">
           <mat-option class="option-state" value="Все">{{ 'ubs-tariffs.states.all' | translate }}</mat-option>
-          <mat-option class="option-state" [value]="statestatus">{{ 'ubs-tariffs.states.active' | translate }}</mat-option>
+          <mat-option class="option-state" [value]="stateStatus">{{ 'ubs-tariffs.states.active' | translate }}</mat-option>
           <mat-option class="option-state" value="Неактивно">{{ 'ubs-tariffs.states.inactive' | translate }}</mat-option>
           <mat-option class="option-state" value="Незаповнена">{{ 'ubs-tariffs.states.blank' | translate }}</mat-option>
         </mat-select>

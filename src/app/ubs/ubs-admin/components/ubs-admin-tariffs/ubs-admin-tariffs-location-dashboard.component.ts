@@ -57,7 +57,7 @@ export class UbsAdminTariffsLocationDashboardComponent implements OnInit, AfterV
   createCardObj: CreateCard;
   isFieldFilled = false;
   isCardExist = false;
-  statestatus: string;
+  stateStatus: string;
 
   private destroy: Subject<boolean> = new Subject<boolean>();
 
@@ -117,9 +117,9 @@ export class UbsAdminTariffsLocationDashboardComponent implements OnInit, AfterV
       .subscribe((i) => {
         this.getLocations();
         this.translateSelectedCity();
-        this.statestatus = i === 'en' ? 'Active' : 'Активно';
+        this.stateStatus = i === 'en' ? 'Active' : 'Активно';
         setTimeout(() => {
-          this.state.setValue(i === 'en' ? 'Active' : 'Активно');
+          this.state.setValue(this.stateStatus);
         });
       });
   }
