@@ -26,7 +26,7 @@ import { LanguageService } from 'src/app/main/i18n/language.service';
   templateUrl: './ubs-admin-tariffs-location-dashboard.component.html',
   styleUrls: ['./ubs-admin-tariffs-location-dashboard.component.scss']
 })
-export class UbsAdminTariffsLocationDashboardComponent implements OnInit, OnDestroy {
+export class UbsAdminTariffsLocationDashboardComponent implements OnInit, AfterViewChecked, OnDestroy {
   @Input() showTitle = true;
   @Input() locationCard: Locations;
   @Input() textBack: TemplateRef<any>;
