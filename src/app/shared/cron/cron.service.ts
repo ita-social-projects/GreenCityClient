@@ -1,7 +1,9 @@
 import { Injectable } from '@angular/core';
 
-import enLocale from './locales/en';
-import ukLocale from './locales/uk';
+import enLocale from './locales/en.json';
+import ukLocale from './locales/uk.json';
+
+type Locales = 'en' | 'uk';
 
 const isNumber = (val: string) => !isNaN(Number(val));
 const inRange = (num: number, a: number, b: number) => a <= num && num <= b;
@@ -31,7 +33,7 @@ const monthsAliases = ['JAN', 'FEB', 'MAR', 'APR', 'MAY', 'JUN', 'JUL', 'AUG', '
   providedIn: 'root'
 })
 export class CronService {
-  currentLocale = 'en';
+  currentLocale: Locales = 'en';
   locales = {
     en: enLocale,
     uk: ukLocale
@@ -66,14 +68,12 @@ export class CronService {
     }
   };
 
-  constructor() {}
-
   public setLocale(locale: string) {
     const available = Object.keys(this.locales);
     if (!available.includes(locale)) {
       throw new Error(`Locale ${locale} is not available. List of available locales: ${available.join(', ')}.`);
     }
-    this.currentLocale = locale;
+    this.currentLocale = locale as Locales;
   }
 
   private formatList(values: any[]) {

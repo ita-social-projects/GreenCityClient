@@ -20,6 +20,7 @@ describe('CronService', () => {
     expect(() => service.descript('* * 33 * *')).toThrow(new Error('Value out of range!'));
     expect(() => service.descript('* * * 14 *')).toThrow(new Error('Value out of range!'));
     expect(() => service.descript('* * * * 9')).toThrow(new Error('Value out of range!'));
+    expect(() => service.descript('* * * * 1-15')).toThrow(new Error('Value out of range!'));
 
     expect(() => service.descript('* * * 5-2 *')).toThrow(new Error('Unsupported or invalid cron expression!'));
     expect(() => service.descript('* * * * SUND')).toThrow(new Error('Unsupported or invalid cron expression!'));
