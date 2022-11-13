@@ -17,6 +17,7 @@ import { DialogPopUpComponent } from 'src/app/shared/dialog-pop-up/dialog-pop-up
 import { TranslateService } from '@ngx-translate/core';
 import { ReplaySubject, Subscription } from 'rxjs';
 import { UserOwnAuthService } from '@auth-service/user-own-auth.service';
+import { EventIcons } from '../../../../image-pathes/event-icons';
 
 @Component({
   selector: 'app-events-list-item',
@@ -30,6 +31,7 @@ export class EventsListItemComponent implements OnInit, OnDestroy {
 
   public nameBtn: string;
   public styleBtn: string;
+  public images = EventIcons;
   public isJoinBtnHidden = false;
   public rate: number;
   public userId: number;

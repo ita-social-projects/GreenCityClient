@@ -51,5 +51,9 @@
       </button>
       <button class="{{ styleBtn }} event-button" [hidden]="isJoinBtnHidden" (click)="buttonAction()">{{ nameBtn | translate }}</button>
     </div>
+    <div class="event_organizer">
+      <img [src]="images.eventOwner" alt="profile" />
+      <span>{{ event.organizer.name }}</span>
+    </div>
   </div>
 </div>
