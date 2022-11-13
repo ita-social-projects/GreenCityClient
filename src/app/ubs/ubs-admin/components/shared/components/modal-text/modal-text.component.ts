@@ -58,7 +58,7 @@ export class ModalTextComponent implements OnInit, OnDestroy {
       .deleteTariffForService(this.serviceId)
       .pipe(takeUntil(this.destroy))
       .subscribe(() => {
-        this.dialogRef.close({});
+        this.dialogRef.close();
       });
   }
 
@@ -67,7 +67,7 @@ export class ModalTextComponent implements OnInit, OnDestroy {
       .deleteService(this.serviceId)
       .pipe(takeUntil(this.destroy))
       .subscribe(() => {
-        this.dialogRef.close({});
+        this.dialogRef.close();
       });
   }
 

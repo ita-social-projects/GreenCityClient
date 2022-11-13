@@ -22,10 +22,28 @@ describe('ModalTextComponent', () => {
   const localStorageServiceStub = () => ({
     firstNameBehaviourSubject: { pipe: () => of('fakeName') }
   });
+  const FAKE_SERVICE_ID = 12345;
+  // const tariffsForServiceStub = () => ({
+  //   deleteTariffForService: () => {
+  //     return {
+  //       pipe: () => of('fakeResult')
+  //     };
+  //   },
+  //   getServiceId: () => FAKE_SERVICE_ID
+  // });
+  const tariffsForServiceStub = {
+    deleteTariffForService: () => {
+      return {
+        pipe: () => of('fakeResult')
+      };
+    },
+    getServiceId: () => FAKE_SERVICE_ID
+  };
 
-  const tariffsForServiceStub = () => ({
-    deleteServiceFake: { pipe: () => of('fakeObs') }
-  });
+  // const tarServSpy = jasmine.createSpyObj('TariffService', {
+  //   deleteService: of(matDialogRefMock),
+  //   deleteTariffsService: of(matDialogRefMock)
+  // });
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
@@ -35,7 +53,7 @@ describe('ModalTextComponent', () => {
         { provide: MatDialogRef, useValue: matDialogRefMock },
         { provide: MAT_DIALOG_DATA, useValue: fakeTitles },
         { provide: LocalStorageService, useFactory: localStorageServiceStub },
-        { provide: TariffsService, useFactory: tariffsForServiceStub }
+        { provide: TariffsService, useValue: tariffsForServiceStub }
       ]
     }).compileComponents();
   }));
@@ -77,4 +95,15 @@ describe('ModalTextComponent', () => {
     const result = component.check('nocancel');
     expect(result).toEqual(false);
   });
+
+  it('should close matDialogRef after result', () => {
+    component.deleteTariffForService();
+    expect(matDialogRefMock.close).toHaveBeenCalledTimes(1);
+  });
+
+  // it('should call tarife service with correct argument', () => {
+  //   const deleteTariffForServiceSpy = jasmine.createSpyObj('tariffsForServiceStub', ['deleteTariffForService']);
+  //   component.deleteTariffForService();
+  //   expect(deleteTariffForServiceSpy.deleteTariffForService).toHaveBeenCalledWith(FAKE_SERVICE_ID);
+  // });
 });
