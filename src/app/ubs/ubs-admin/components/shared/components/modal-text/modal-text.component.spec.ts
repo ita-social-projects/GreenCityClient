@@ -23,14 +23,6 @@ describe('ModalTextComponent', () => {
     firstNameBehaviourSubject: { pipe: () => of('fakeName') }
   });
   const FAKE_SERVICE_ID = 12345;
-  // const tariffsForServiceStub = () => ({
-  //   deleteTariffForService: () => {
-  //     return {
-  //       pipe: () => of('fakeResult')
-  //     };
-  //   },
-  //   getServiceId: () => FAKE_SERVICE_ID
-  // });
   const tariffsForServiceStub = {
     deleteTariffForService: () => {
       return {
@@ -44,11 +36,6 @@ describe('ModalTextComponent', () => {
       };
     }
   };
-
-  // const tarServSpy = jasmine.createSpyObj('TariffService', {
-  //   deleteService: of(matDialogRefMock),
-  //   deleteTariffsService: of(matDialogRefMock)
-  // });
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
@@ -110,10 +97,4 @@ describe('ModalTextComponent', () => {
     component.deleteService();
     expect(matDialogRefMock.close).toHaveBeenCalled();
   });
-
-  // it('should call tarife service with correct argument', () => {
-  //   const deleteTariffForServiceSpy = jasmine.createSpyObj('tariffsForServiceStub', ['deleteTariffForService']);
-  //   component.deleteTariffForService();
-  //   expect(deleteTariffForServiceSpy.deleteTariffForService).toHaveBeenCalledWith(FAKE_SERVICE_ID);
-  // });
 });
