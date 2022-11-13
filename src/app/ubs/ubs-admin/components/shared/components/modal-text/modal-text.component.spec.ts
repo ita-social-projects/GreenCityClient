@@ -37,7 +37,12 @@ describe('ModalTextComponent', () => {
         pipe: () => of('fakeResult')
       };
     },
-    getServiceId: () => FAKE_SERVICE_ID
+    getServiceId: () => FAKE_SERVICE_ID,
+    deleteService: () => {
+      return {
+        pipe: () => of('fakeRes')
+      };
+    }
   };
 
   // const tarServSpy = jasmine.createSpyObj('TariffService', {
@@ -98,7 +103,12 @@ describe('ModalTextComponent', () => {
 
   it('should close matDialogRef after result', () => {
     component.deleteTariffForService();
-    expect(matDialogRefMock.close).toHaveBeenCalledTimes(1);
+    expect(matDialogRefMock.close).toHaveBeenCalled();
+  });
+
+  it('should close matDialogRef after result', () => {
+    component.deleteService();
+    expect(matDialogRefMock.close).toHaveBeenCalled();
   });
 
   // it('should call tarife service with correct argument', () => {
