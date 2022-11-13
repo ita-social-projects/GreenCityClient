@@ -5,6 +5,7 @@ import { TranslateModule } from '@ngx-translate/core';
 import { of } from 'rxjs';
 
 import { ModalTextComponent } from './modal-text.component';
+import { HttpClientTestingModule } from '@angular/common/http/testing';
 
 describe('ModalTextComponent', () => {
   let component: ModalTextComponent;
@@ -24,7 +25,7 @@ describe('ModalTextComponent', () => {
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       declarations: [ModalTextComponent],
-      imports: [TranslateModule.forRoot(), MatDialogModule],
+      imports: [TranslateModule.forRoot(), MatDialogModule, HttpClientTestingModule],
       providers: [
         { provide: MatDialogRef, useValue: matDialogRefMock },
         { provide: MAT_DIALOG_DATA, useValue: fakeTitles },
