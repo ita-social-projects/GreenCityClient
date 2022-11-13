@@ -6,6 +6,7 @@ import { of } from 'rxjs';
 
 import { ModalTextComponent } from './modal-text.component';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
+import { TariffsService } from '../../../../services/tariffs.service';
 
 describe('ModalTextComponent', () => {
   let component: ModalTextComponent;
@@ -22,6 +23,10 @@ describe('ModalTextComponent', () => {
     firstNameBehaviourSubject: { pipe: () => of('fakeName') }
   });
 
+  const tariffsForServiceStub = () => ({
+    deleteServiceFake: { pipe: () => of('fakeObs') }
+  });
+
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       declarations: [ModalTextComponent],
@@ -29,7 +34,8 @@ describe('ModalTextComponent', () => {
       providers: [
         { provide: MatDialogRef, useValue: matDialogRefMock },
         { provide: MAT_DIALOG_DATA, useValue: fakeTitles },
-        { provide: LocalStorageService, useFactory: localStorageServiceStub }
+        { provide: LocalStorageService, useFactory: localStorageServiceStub },
+        { provide: TariffsService, useFactory: tariffsForServiceStub }
       ]
     }).compileComponents();
   }));
