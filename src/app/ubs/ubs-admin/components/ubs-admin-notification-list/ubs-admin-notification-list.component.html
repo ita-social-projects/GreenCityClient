@@ -1,0 +1,110 @@
+<div class="d-flex justify-content-between">
+  <p class="h5 page-title">{{ 'ubs-notifications.page-title' | translate }}</p>
+  <button class="add-notification-button">
+    <img [src]="icons.plus" class="plus-icon" alt="" />
+    &nbsp; {{ 'ubs-notifications.add' | translate }}
+  </button>
+</div>
+
+<form [formGroup]="filtersForm" class="filters-block">
+  <div class="d-flex justify-content-between">
+    <div class="filter-topic-block">
+      <p class="filter-label">{{ 'ubs-notifications.filters.topic' | translate }}</p>
+      <div class="filter-wrapper">
+        <input
+          type="text"
+          formControlName="topic"
+          [placeholder]="'ubs-notifications.filters.topic-placeholder' | translate"
+          matInput
+          [matAutocomplete]="autoTopic"
+        />
+        <mat-autocomplete #autoTopic="matAutocomplete" (optionSelected)="(null)">
+          <mat-option *ngFor="let topic of []" [value]="topic">
+            {{ topic | translate }}
+          </mat-option>
+        </mat-autocomplete>
+        <img [src]="icons.arrowDown" class="arrow-down-icon" alt="" (click)="(null)" />
+      </div>
+    </div>
+    <div class="filter-trigger-block">
+      <p class="filter-label">{{ 'ubs-notifications.filters.trigger' | translate }}</p>
+      <div class="filter-wrapper">
+        <mat-select
+          formControlName="triggers"
+          class="trigger-select"
+          [placeholder]="'ubs-notifications.filters.trigger-placeholder' | translate"
+          (selectionChange)="(null)"
+          multiple
+        >
+          <mat-option class="option-trigger" *ngFor="let trigger of triggers" [value]="trigger">
+            {{ 'ubs-notifications.triggers.' + trigger | translate }}
+          </mat-option>
+        </mat-select>
+        <img [src]="icons.arrowDown" class="arrow-down-icon" alt="" (click)="(null)" />
+      </div>
+    </div>
+    <div class="filter-status-block">
+      <p class="filter-label">{{ 'ubs-notifications.filters.status' | translate }}</p>
+      <div class="filter-wrapper">
+        <mat-select
+          formControlName="status"
+          class="status-select"
+          [placeholder]="'ubs-notifications.filters.status-placeholder' | translate"
+          (selectionChange)="(null)"
+        >
+          <mat-option class="option-status" *ngFor="let status of statuses" [value]="status">
+            {{ 'ubs-notifications.filters-statuses.' + status | translate }}
+          </mat-option>
+        </mat-select>
+        <img [src]="icons.arrowDown" class="arrow-down-icon" alt="" (click)="(null)" />
+      </div>
+    </div>
+  </div>
+</form>
+
+<table class="table-notifications" aria-label="Notifications list">
+  <thead>
+    <tr>
+      <th class="col-topic">{{ 'ubs-notifications.columns.topic' | translate }}</th>
+      <th class="col-trigger">{{ 'ubs-notifications.columns.trigger' | translate }}</th>
+      <th class="col-time">{{ 'ubs-notifications.columns.time' | translate }}</th>
+      <th class="col-period">{{ 'ubs-notifications.columns.period' | translate }}</th>
+      <th class="col-status">{{ 'ubs-notifications.columns.status' | translate }}</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr
+      *ngFor="
+        let notification of notifications | paginate: { itemsPerPage: itemsPerPage, currentPage: currentPage, totalItems: totalItems }
+      "
+      (click)="navigateToNotification(notification.id)"
+    >
+      <td>
+        {{ lang === 'ua' ? notification.topic.ua : notification.topic.en }}
+      </td>
+      <td>
+        {{ 'ubs-notifications.triggers.' + notification.trigger | translate }}
+      </td>
+      <td>
+        {{ 'ubs-notifications.time.' + notification.time | translate }}
+      </td>
+      <td>
+        {{ notification.period }}
+      </td>
+      <td>
+        {{ 'ubs-notifications.statuses.' + notification.status | translate }}
+      </td>
+    </tr>
+  </tbody>
+</table>
+
+<pagination-controls
+  (pageChange)="onPageChanged($event)"
+  maxSize="9"
+  directionLinks="true"
+  autoHide="true"
+  responsive="true"
+  previousLabel="Previous"
+  nextLabel="Next"
+>
+</pagination-controls>
