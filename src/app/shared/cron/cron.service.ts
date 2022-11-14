@@ -186,6 +186,6 @@ export class CronService {
     const timePart = this.getTimePart(min, hour);
     const dayPart = this.getDayPart(dayOfMonth, dayOfWeek);
     const monthPart = this.getMonthPart(month);
-    return removeMultipleSpaces(`${timePart} ${dayPart} ${monthPart}`.trim());
+    return removeMultipleSpaces(`${timePart} ${dayPart} ${monthPart}`).trim();
   }
 }
