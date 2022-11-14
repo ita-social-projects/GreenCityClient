@@ -20,6 +20,7 @@ import { TariffConfirmationPopUpComponent } from './../shared/components/tariff-
 import { TranslateService } from '@ngx-translate/core';
 import { Patterns } from 'src/assets/patterns/patterns';
 import { LanguageService } from 'src/app/main/i18n/language.service';
+import { UbsAdminTariffsDeactivatePopUpComponent } from './ubs-admin-tariffs-deactivate-pop-up/ubs-admin-tariffs-deactivate-pop-up.component';
 
 @Component({
   selector: 'app-ubs-admin-tariffs-location-dashboard',
