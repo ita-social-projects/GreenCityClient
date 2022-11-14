@@ -11,7 +11,6 @@ import { LocalStorageService } from '@global-service/localstorage/local-storage.
 import { Subject } from 'rxjs';
 import { UbsAdminTariffsAddServicePopUpComponent } from './ubs-admin-tariffs-add-service-pop-up/ubs-admin-tariffs-add-service-pop-up.component';
 import { UbsAdminTariffsAddTariffServicePopUpComponent } from './ubs-admin-tariffs-add-tariff-service-pop-up/ubs-admin-tariffs-add-tariff-service-pop-up.component';
-import { UbsAdminTariffsDeletePopUpComponent } from './ubs-admin-tariffs-delete-pop-up/ubs-admin-tariffs-delete-pop-up.component';
 import { ModalTextComponent } from '../../shared/components/modal-text/modal-text.component';
 import { Store } from '@ngrx/store';
 import { IAppState } from 'src/app/store/state/app.state';
@@ -78,7 +77,7 @@ export class UbsAdminTariffsPricingPageComponent implements OnInit, OnDestroy {
     this.initForm();
     this.getLocations();
     this.orderService.locationSubject.pipe(takeUntil(this.destroy)).subscribe(() => {
-      this.getServices();
+      this.getAllServices();
       this.getCouriers();
       this.getAllTariffsForService();
     });
@@ -231,7 +230,7 @@ export class UbsAdminTariffsPricingPageComponent implements OnInit, OnDestroy {
       this.getAllTariffsForService();
       this.selectedCardId = Number(res.id);
       this.currentLocation = Number(res.id);
-      this.getServices();
+      this.getAllServices();
     });
   }
 
@@ -268,7 +267,7 @@ export class UbsAdminTariffsPricingPageComponent implements OnInit, OnDestroy {
     dialogRefService
       .afterClosed()
       .pipe(takeUntil(this.destroy))
-      .subscribe((result) => result && this.getServices());
+      .subscribe((result) => result && this.getAllServices());
   }
 
   private subscribeToLangChange(): void {
@@ -289,7 +288,7 @@ export class UbsAdminTariffsPricingPageComponent implements OnInit, OnDestroy {
       });
   }
 
-  getServices(): void {
+  getAllServices(): void {
     this.isLoadBar1 = true;
     this.tariffsService
       .getAllServices()
@@ -352,19 +351,21 @@ export class UbsAdminTariffsPricingPageComponent implements OnInit, OnDestroy {
     dialogRefService
       .afterClosed()
       .pipe(takeUntil(this.destroy))
-      .subscribe((result) => result && this.getServices());
+      .subscribe((result) => result && this.getAllServices());
   }
 
   openDeleteTariffForService(bag: Bag): void {
+    this.tariffsService.setServiceId(bag.id);
     const dialogConfig = new MatDialogConfig();
     dialogConfig.panelClass = 'address-matDialog-styles-pricing-page';
     dialogConfig.data = {
       name: 'delete-tariff',
-      title: 'confirmation.title',
-      text: 'ubs-tariffs-pricing-page.delete-tariff-text1',
-      text2: 'ubs-tariffs-pricing-page.delete-tariff-text2',
+      title: 'ubs-tariffs-pricing-page-delete-tariffs.delete-tariff-title',
+      text: 'ubs-tariffs-pricing-page-delete-tariffs.delete-tariff-text1',
+      text2: 'ubs-tariffs-pricing-page-delete-tariffs.delete-tariff-text2',
       bagName: this.currentLanguage === 'ua' ? bag.name : bag.nameEng,
-      action: 'ubs-tariffs-pricing-page.delete-tariff-action'
+      action: 'ubs-tariffs-pricing-page-delete-tariffs.delete-tariff-action',
+      isTariffForService: true
     };
     const dialogRefService = this.dialog.open(ModalTextComponent, dialogConfig);
     dialogRefService
@@ -374,16 +375,24 @@ export class UbsAdminTariffsPricingPageComponent implements OnInit, OnDestroy {
   }
 
   openDeleteService(service: Service): void {
-    const dialogRefService = this.dialog.open(UbsAdminTariffsDeletePopUpComponent, {
-      hasBackdrop: true,
-      data: {
-        serviceData: service
-      }
-    });
+    this.tariffsService.setServiceId(service.id);
+    const dialogConfig = new MatDialogConfig();
+    dialogConfig.panelClass = 'address-matDialog-styles-pricing-page';
+    dialogConfig.data = {
+      name: 'delete-service',
+      title: 'ubs-tariffs-pricing-page-delete-service.delete-service-title',
+      text: 'ubs-tariffs-pricing-page-delete-service.delete-service-text1',
+      text2: 'ubs-tariffs-pricing-page-delete-service.delete-service-text2',
+      serviceName: this.currentLanguage === 'ua' ? service.name : service.nameEng,
+      action: 'ubs-tariffs-pricing-page-delete-service.delete-service-action',
+      isService: true
+    };
+
+    const dialogRefService = this.dialog.open(ModalTextComponent, dialogConfig);
     dialogRefService
       .afterClosed()
       .pipe(takeUntil(this.destroy))
-      .subscribe((result) => result && this.getServices());
+      .subscribe((result) => result && this.getAllServices());
   }
 
   getLocations(): void {
