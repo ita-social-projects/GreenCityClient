@@ -61,7 +61,7 @@ export class UbsAdminTariffsAddTariffServicePopUpComponent implements OnInit {
   editForm(): void {
     this.addTariffServiceForm = this.fb.group({
       name: new FormControl({ value: this.receivedData.bagData.name }),
-      nameEng: new FormControl(''),
+      nameEng: new FormControl({ value: this.receivedData.bagData.nameEng }),
       capacity: new FormControl({ value: this.receivedData.bagData.capacity }),
       price: new FormControl('', [Validators.required, Validators.pattern(Patterns.ubsPrice)]),
       description: new FormControl({ value: this.receivedData.bagData.description }),

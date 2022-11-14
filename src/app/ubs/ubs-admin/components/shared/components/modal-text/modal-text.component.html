@@ -3,7 +3,7 @@
     <p class="title">{{ title | translate }}</p>
   </div>
   <div>
-    <p class="modal-text">{{ text | translate }}{{ text2 | translate: { bagName: bagName } }}</p>
+    <p class="modal-text">{{ text | translate }}{{ text2 | translate: { bagName: bagName, serviceName: serviceName } }}</p>
   </div>
   <div class="d-flex justify-content-end buttons" mat-dialog-actions>
     <button *ngIf="!check(modalData.name)" class="button secondary-global-button" mat-button (click)="onNoClick()">
@@ -12,7 +12,13 @@
     <button *ngIf="check(modalData.name)" class="button secondary-global-button" mat-button (click)="onNoClick()">
       {{ 'modal-text.no' | translate }}
     </button>
-    <button class="button primary-global-button btn m-0" (click)="onYesClick(true)">
+    <button class="button primary-global-button btn m-0" *ngIf="isService" (click)="deleteService()">
+      {{ action | translate }}
+    </button>
+    <button class="button primary-global-button btn m-0" *ngIf="isTariffForService" (click)="deleteTariffForService()">
+      {{ action | translate }}
+    </button>
+    <button class="button primary-global-button btn m-0" *ngIf="!isService && !isTariffForService" (click)="onYesClick(true)">
       {{ action | translate }}
     </button>
   </div>

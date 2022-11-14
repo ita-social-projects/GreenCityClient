@@ -13,7 +13,17 @@ export class TariffsService {
   constructor(private http: HttpClient) {}
 
   courierId: number;
+  locationId: number;
   allTariffServices: any;
+  serviceId: number;
+
+  setServiceId(id: number) {
+    this.serviceId = id;
+  }
+
+  getServiceId() {
+    return this.serviceId;
+  }
 
   setCourierId(id: number) {
     this.courierId = id;
@@ -21,6 +31,14 @@ export class TariffsService {
 
   getCourierId() {
     return this.courierId;
+  }
+
+  setLocationId(id: number) {
+    this.locationId = id;
+  }
+
+  getLocationId() {
+    return this.locationId;
   }
 
   async setAllTariffsForService() {
@@ -39,6 +57,10 @@ export class TariffsService {
     return this.http.delete(`${mainUbsLink}/ubs/superAdmin/deleteTariffService/${id}`);
   }
 
+  deleteService(id: number) {
+    return this.http.delete(`${mainUbsLink}/ubs/superAdmin/deleteService/${id}`);
+  }
+
   editTariffForService(id: number, body: Bag) {
     return this.http.put(`${mainUbsLink}/ubs/superAdmin/editTariffService/${id}`, body);
   }
@@ -49,10 +71,6 @@ export class TariffsService {
 
   getAllServices() {
     return this.http.get(`${mainUbsLink}/ubs/superAdmin/getService`);
-  }
-
-  deleteService(id: number) {
-    return this.http.delete(`${mainUbsLink}/ubs/superAdmin/deleteService/${id}`);
   }
 
   editService(id: number, service: Service) {

@@ -5,6 +5,8 @@ import { TranslateModule } from '@ngx-translate/core';
 import { of } from 'rxjs';
 
 import { ModalTextComponent } from './modal-text.component';
+import { HttpClientTestingModule } from '@angular/common/http/testing';
+import { TariffsService } from '../../../../services/tariffs.service';
 
 describe('ModalTextComponent', () => {
   let component: ModalTextComponent;
@@ -20,15 +22,30 @@ describe('ModalTextComponent', () => {
   const localStorageServiceStub = () => ({
     firstNameBehaviourSubject: { pipe: () => of('fakeName') }
   });
+  const FAKE_SERVICE_ID = 12345;
+  const tariffsForServiceStub = {
+    deleteTariffForService: () => {
+      return {
+        pipe: () => of('fakeResult')
+      };
+    },
+    getServiceId: () => FAKE_SERVICE_ID,
+    deleteService: () => {
+      return {
+        pipe: () => of('fakeRes')
+      };
+    }
+  };
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       declarations: [ModalTextComponent],
-      imports: [TranslateModule.forRoot(), MatDialogModule],
+      imports: [TranslateModule.forRoot(), MatDialogModule, HttpClientTestingModule],
       providers: [
         { provide: MatDialogRef, useValue: matDialogRefMock },
         { provide: MAT_DIALOG_DATA, useValue: fakeTitles },
-        { provide: LocalStorageService, useFactory: localStorageServiceStub }
+        { provide: LocalStorageService, useFactory: localStorageServiceStub },
+        { provide: TariffsService, useValue: tariffsForServiceStub }
       ]
     }).compileComponents();
   }));
@@ -69,5 +86,15 @@ describe('ModalTextComponent', () => {
   it('should return false if value is not cancel', () => {
     const result = component.check('nocancel');
     expect(result).toEqual(false);
+  });
+
+  it('should close matDialogRef after result', () => {
+    component.deleteTariffForService();
+    expect(matDialogRefMock.close).toHaveBeenCalled();
+  });
+
+  it('should close matDialogRef after result', () => {
+    component.deleteService();
+    expect(matDialogRefMock.close).toHaveBeenCalled();
   });
 });

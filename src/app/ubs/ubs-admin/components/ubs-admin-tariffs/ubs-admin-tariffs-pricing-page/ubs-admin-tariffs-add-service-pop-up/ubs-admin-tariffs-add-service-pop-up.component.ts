@@ -20,7 +20,6 @@ export class UbsAdminTariffsAddServicePopUpComponent implements OnInit, OnDestro
   service: Service;
   date: string;
   user: string;
-  langCode: string;
   receivedData;
   loadingAnim: boolean;
   addServiceForm: FormGroup;
@@ -61,12 +60,12 @@ export class UbsAdminTariffsAddServicePopUpComponent implements OnInit, OnDestro
   editForm(): void {
     this.addServiceForm = this.fb.group({
       name: new FormControl({ value: this.receivedData.serviceData.name }),
-      nameEng: new FormControl(''),
+      nameEng: new FormControl({ value: this.receivedData.serviceData.nameEng }),
       capacity: new FormControl({ value: this.receivedData.serviceData.capacity }),
       price: new FormControl('', [Validators.required, Validators.pattern(Patterns.ubsPrice)]),
       commission: new FormControl('', [Validators.required, Validators.pattern(Patterns.ubsPrice)]),
       description: new FormControl({ value: this.receivedData.serviceData.description }),
-      englishDescription: new FormControl({ value: this.receivedData.serviceData.description })
+      englishDescription: new FormControl('')
     });
   }
 
@@ -97,37 +96,40 @@ export class UbsAdminTariffsAddServicePopUpComponent implements OnInit, OnDestro
   }
 
   fillFields(receivedData) {
-    if (this.receivedData.serviceData) {
-      const { name, price, capacity, commission, description } = this.receivedData.serviceData;
+    if (receivedData.serviceData) {
+      const { name, nameEng, price, capacity, commission, description, englishDescription } = this.receivedData.serviceData;
       this.addServiceForm.patchValue({
         name,
+        nameEng,
         price,
         capacity,
         commission,
-        description
+        description,
+        englishDescription
       });
     }
   }
 
-  editService(receivedData) {
-    const locationId = receivedData.serviceData.locationId;
-    const { name, price, capacity, commission, description } = this.addServiceForm.getRawValue();
+  editService() {
+    const locationId = this.tariffsService.getLocationId();
+    const { name, nameEng, price, capacity, commission, description } = this.addServiceForm.getRawValue();
     this.service = {
       name,
+      nameEng,
       capacity,
       price,
       commission,
       description,
-      languageCode: 'ua',
       locationId
     };
     this.loadingAnim = true;
     this.tariffsService
-      .editService(receivedData.serviceData.id, this.service)
+      .editService(this.receivedData.serviceData.id, this.service)
       .pipe(takeUntil(this.destroy))
       .subscribe(() => {
         this.dialogRef.close({});
       });
+    this.loadingAnim = false;
   }
 
   onCancel(): void {

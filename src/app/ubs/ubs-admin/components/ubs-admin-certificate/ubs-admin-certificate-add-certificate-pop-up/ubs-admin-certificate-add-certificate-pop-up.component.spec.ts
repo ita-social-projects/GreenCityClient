@@ -30,4 +30,44 @@ describe('UbsAdminCertificateAddCertificatePopUpComponent', () => {
   it('should create', () => {
     expect(component).toBeTruthy();
   });
+
+  it('valueChangeMonthCount should be call', () => {
+    spyOn(component, 'valueChangeMonthCount');
+    const newValue = '0';
+    component.valueChangeMonthCount(newValue);
+    expect(component.valueChangeMonthCount).toHaveBeenCalled();
+    expect(component.valueChangeMonthCount).toHaveBeenCalledWith(newValue);
+  });
+
+  it('valueChangePointsValue should be call', () => {
+    spyOn(component, 'valueChangePointsValue');
+    const newValue = '0';
+    component.valueChangePointsValue(newValue);
+    expect(component.valueChangePointsValue).toHaveBeenCalled();
+    expect(component.valueChangePointsValue).toHaveBeenCalledWith(newValue);
+  });
+
+  it('should check if monthCount contains only null', () => {
+    const newValue = '0';
+    component.valueChangeMonthCount(newValue);
+    expect(component.monthCountDisabled).toBeTruthy();
+  });
+
+  it('should check if pointValue contains only null', () => {
+    const newValue = '0';
+    component.valueChangePointsValue(newValue);
+    expect(component.pointsValueDisabled).toBeTruthy();
+  });
+
+  it('should check if monthCount contains not null', () => {
+    const newValue = '10';
+    component.valueChangeMonthCount(newValue);
+    expect(component.monthCountDisabled).toBeFalsy();
+  });
+
+  it('should check if pointValue contains not null', () => {
+    const newValue = '10';
+    component.valueChangePointsValue(newValue);
+    expect(component.pointsValueDisabled).toBeFalsy();
+  });
 });
