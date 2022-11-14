@@ -39,7 +39,7 @@ export class CronService {
     uk: ukLocale
   };
 
-  rangeValidators = {
+  private rangeValidators = {
     minute: (min: number) => inRange(min, 0, 59),
     hour: (hour: number) => inRange(hour, 0, 23),
     dayOfMonth: (day: number) => inRange(day, 1, 31),
