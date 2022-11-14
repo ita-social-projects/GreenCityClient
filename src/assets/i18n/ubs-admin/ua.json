@@ -518,7 +518,8 @@
     "employees": "Працівники",
     "documents": "Документи",
     "bonuses": "Бонуси",
-    "tariffs": "Тарифи"
+    "tariffs": "Тарифи",
+    "notifications": "Повідомлення"
   },
   "ubs-employee": {
     "add-employee": "Додати працівника",
@@ -626,11 +627,17 @@
     "title": "Ви впевнені що хочете вийти?",
     "subTitle": "Ваше замовлення не буде збережене"
   },
-  "ubs-tariffs-pricing-page": {
-    "delete-tariff-title": "Деактивувати послугу",
+  "ubs-tariffs-pricing-page-delete-tariffs": {
+    "delete-tariff-title": "Деактивувати тариф",
     "delete-tariff-action": "Деактивувати",
-    "delete-tariff-text1": "Ви дійсно хочете деактивувати сервіс \"",
-    "delete-tariff-text2": "{{bagName}}\"? Інформація про цей сервіс буде прихована від клієнтів."
+    "delete-tariff-text1": "Ви дійсно хочете деактивувати тариф \"",
+    "delete-tariff-text2": "{{bagName}}\"?  Інформація про цей тариф буде прихована від клієнтів."
+  },
+  "ubs-tariffs-pricing-page-delete-service": {
+    "delete-service-title": "Деактивувати сервіс",
+    "delete-service-action": "Деактивувати",
+    "delete-service-text1": "Ви дійсно хочете деактивувати сервіс \"",
+    "delete-service-text2": "{{serviceName}}\"?  Інформація про цей сервіс буде прихована від клієнтів."
   },
   "ubs-tariffs-add-location-pop-up": {
     "title": "Додати локацію",
@@ -825,5 +832,49 @@
     "max-length-comment": "Поле повинно містити 1-255 символів.",
     "pattern": "Дозволені тільки букви та спеціальні символи “-” (дефіс), “ ” (пропуск) та “'” (апостроф).",
     "number-length": "Поле повинно містити 12 символів."
+  },
+  "ubs-notifications": {
+    "page-title": "Повідомлення",
+    "add": "Додати",
+    "filters": {
+      "topic": "Тема повідомлення",
+      "trigger": "Подія для активації",
+      "status": "Стан",
+      "topic-placeholder": "Оберіть тему",
+      "trigger-placeholder": "Оберіть подію",
+      "status-placeholder": "Оберіть стан"
+    },
+    "columns": {
+      "topic": "Тема повідомлення",
+      "trigger": "Подія для активації",
+      "time": "Час",
+      "period": "Повторення",
+      "status": "Стан"
+    },
+    "triggers": {
+      "ORDER_NOT_PAID_FOR_3_DAYS": "Замовлення не оплачується протягом 3 днів після формування замовлення",
+      "PAYMENT_SYSTEM_RESPONSE": "Система отримує відповідь від платіжної системи",
+      "ORDER_ADDED_TO_ITINERARY_STATUS_CONFIRMED": "Менеджер включає замовлення в маршрут і змінює статус замовлення на «Підтвердженно»",
+      "STATUS_PARTIALLY_PAID": "Зміна статусу платежу на «Частково оплачено»",
+      "OVERPAYMENT_WHEN_STATUS_DONE": "Якщо в замовленні є переплата після зміни статусу замовлення на \"Виконано\"",
+      "ORDER_VIOLATION_ADDED": "Менеджер додає порушення до замовлення",
+      "ORDER_VIOLATION_CANCELED": "Керівник скасував статус припису про порушення",
+      "ORDER_VIOLATION_CHANGED": "Керівник змінив порушення в наказі",
+      "2_MONTHS_AFTER_LAST_ORDER": "2 місяці після останнього замовлення"
+    },
+    "time": {
+      "6PM_3DAYS_AFTER_ORDER_FORMED_NOT_PAID": "Система перевіряє BD щодня о 18.00 і відправляє повідомлення, якщо замовлення було сформовано 3 дні тому і не було оплачено клієнтом.",
+      "IMMEDIATELY": "Одразу",
+      "2_MONTHS_AFTER_LAST_ORDER": "Система щодня перевіряє BD і надсилає повідомлення, якщо замовлення було зроблено 2 місяці тому"
+    },
+    "filters-statuses": {
+      "ALL": "Усі",
+      "ACTIVE": "Активні",
+      "INACTIVE": "Неактивні"
+    },
+    "statuses": {
+      "ACTIVE": "Активне",
+      "INACTIVE": "Неактивне"
+    }
   }
 }

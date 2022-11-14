@@ -28,6 +28,11 @@ export const listElementsAdmin: object[] = [
     link: 'assets/img/sidebarIcons/statistic_icon.svg',
     name: 'ubs-sidebar.tariffs',
     routerLink: 'tariffs'
+  },
+  {
+    link: 'assets/img/sidebarIcons/none_notification_Bell.svg',
+    name: 'ubs-sidebar.notifications',
+    routerLink: 'notifications'
   }
 ];
 

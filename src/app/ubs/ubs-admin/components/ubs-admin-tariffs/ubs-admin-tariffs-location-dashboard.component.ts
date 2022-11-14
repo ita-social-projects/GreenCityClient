@@ -121,6 +121,7 @@ export class UbsAdminTariffsLocationDashboardComponent implements OnInit, AfterV
         setTimeout(() => {
           this.state.setValue(this.stateStatus);
         });
+        this.getCouriers();
       });
   }
 
@@ -355,10 +356,14 @@ export class UbsAdminTariffsLocationDashboardComponent implements OnInit, AfterV
     if (event.value === 'all') {
       Object.assign(this.filterData, { courier: '' });
     } else {
-      const selectedValue = this.couriers.filter((it) => it.courierTranslationDtos.find((ob) => ob.name === event.value));
-      this.courierEnglishName = selectedValue
-        .map((it) => it.courierTranslationDtos.filter((ob) => ob.languageCode === 'en').map((i) => i.name))
-        .flat(2);
+      const lang = this.languageService.getCurrentLanguage();
+      const selectedValue = this.couriers.filter((it) =>
+        it.courierTranslationDtos.find((ob) => {
+          const searchingFilter = lang === 'ua' ? ob.name : ob.nameEng;
+          return searchingFilter === event.value;
+        })
+      );
+      this.courierEnglishName = selectedValue.map((it) => it.courierTranslationDtos.map((i) => i.nameEng)).flat(2);
       this.courierId = selectedValue.find((it) => it.courierId).courierId;
       Object.assign(this.filterData, { courier: this.courierId });
     }
@@ -450,8 +455,9 @@ export class UbsAdminTariffsLocationDashboardComponent implements OnInit, AfterV
       .pipe(takeUntil(this.destroy))
       .subscribe((res) => {
         this.couriers = res;
+        const lang = this.languageService.getCurrentLanguage();
         this.couriersName = this.couriers
-          .map((it) => it.courierTranslationDtos.filter((ob) => ob.languageCode === 'ua').map((el) => el.name))
+          .map((it) => it.courierTranslationDtos.map((el) => (lang === 'ua' ? el.name : el.nameEng)))
           .flat(2);
       });
   }
