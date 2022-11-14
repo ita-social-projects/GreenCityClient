@@ -13,6 +13,7 @@ export class TariffsService {
   constructor(private http: HttpClient) {}
 
   courierId: number;
+  locationId: number;
   allTariffServices: any;
   serviceId: number;
 
@@ -30,6 +31,14 @@ export class TariffsService {
 
   getCourierId() {
     return this.courierId;
+  }
+
+  setLocationId(id: number) {
+    this.locationId = id;
+  }
+
+  getLocationId() {
+    return this.locationId;
   }
 
   async setAllTariffsForService() {

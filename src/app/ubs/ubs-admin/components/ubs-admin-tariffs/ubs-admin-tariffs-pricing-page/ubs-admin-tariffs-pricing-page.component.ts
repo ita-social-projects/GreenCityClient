@@ -82,6 +82,7 @@ export class UbsAdminTariffsPricingPageComponent implements OnInit, OnDestroy {
       this.getAllTariffsForService();
     });
     this.getOurTariffs();
+    this.getLocationId();
     this.getCourierId();
     this.setCourierId();
   }
@@ -191,6 +192,7 @@ export class UbsAdminTariffsPricingPageComponent implements OnInit, OnDestroy {
           return true;
         }
       });
+      this.tariffsService.setLocationId(card.locationInfoDtos[0].locationId);
       return card.locationInfoDtos[0].locationId;
     } catch (e) {
       return Error('getLocationId Error');
