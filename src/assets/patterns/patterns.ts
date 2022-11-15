@@ -29,7 +29,7 @@ export const Patterns = {
   ubsCityPattern: /^([a-zа-яїєґі '-]){1,30}/iu,
   ubsWithDigitPattern: /^([a-zа-яїєґі0-9 '-])+$/iu,
   ubsHouseNumberPattern: /^([a-zа-яїєґі0-9]([-,/]?))+$/iu,
-  ubsNameAndSernamePattern: /^([[a-zа-яїєґі]+(['-]+[a-zа-яїєґі])?){1,30}$/iu,
+  ubsNameAndSernamePattern: /^[a-zа-яїєґі](?!.*-.*-)(?!.*'.*')[-' a-zа-яїєґі]{0,28}[a-zа-яїєґі]$/iu,
   adminPhone: '^\\+?3?8?(0\\d{9})$'
 };
 
