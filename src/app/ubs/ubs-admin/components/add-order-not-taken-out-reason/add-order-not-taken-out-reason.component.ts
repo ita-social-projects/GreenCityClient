@@ -59,7 +59,7 @@ export class AddOrderNotTakenOutReasonComponent implements OnInit {
       this.adminName = firstName;
     });
   }
-  private initForm(): void {
+  public initForm(): void {
     this.addNotTakenOutForm = this.fb.group({
       notTakenOutReason: ['', [Validators.required, Validators.maxLength(255)]]
     });
@@ -106,6 +106,7 @@ export class AddOrderNotTakenOutReasonComponent implements OnInit {
   onFilesSelected(event: any): void {
     this.loadFiles([...event.target.files]);
   }
+
   openImg(image: NotTakenOutReasonImage): void {
     this.dialog.open(ShowImgsPopUpComponent, {
       hasBackdrop: true,
