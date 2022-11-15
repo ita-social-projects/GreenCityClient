@@ -44,18 +44,16 @@ export class UbsAdminTariffsDeactivatePopUpComponent implements OnInit, OnDestro
   public regionsName;
   public selectedRegions = [];
   public selectedRegionsLength: number;
-  public selectedRegionsName = [];
   public regionPlaceholder: string;
   public regionEnglishName;
   public stations;
   public filteredStations;
   public selectedStation = [];
   public stationPlaceholder: string;
-  public filteredCities;
+  public filteredCities = [];
   public selectedCities = [];
   public cityPlaceholder: string;
   public selectedCityLength: number;
-  public citySelected = false;
   public reset = true;
   public courierId: number;
   public regionId: number;
@@ -96,7 +94,8 @@ export class UbsAdminTariffsDeactivatePopUpComponent implements OnInit, OnDestro
     });
     this.currentLanguage = this.languageService.getCurrentLanguage();
     this.setStationPlaceholder();
-    this.setCountOfSelectedCity();
+    this.setRegionsPlaceholder();
+    this.setCityPlaceholder();
     setTimeout(() => this.city.disable());
     this.getCouriers();
     this.getReceivingStation();
@@ -174,8 +173,6 @@ export class UbsAdminTariffsDeactivatePopUpComponent implements OnInit, OnDestro
           )
           .flat(2);
       }
-      console.log(this.regionsName);
-      console.log(this.locations);
     });
   }
 
@@ -222,6 +219,7 @@ export class UbsAdminTariffsDeactivatePopUpComponent implements OnInit, OnDestro
         trigger.openPanel();
       });
     }
+    console.log(this.selectedStation);
   }
 
   public deleteStation(index): void {
@@ -232,53 +230,58 @@ export class UbsAdminTariffsDeactivatePopUpComponent implements OnInit, OnDestro
 
   public checkStation(item): boolean {
     return this.selectedStation.map((it) => it.name).includes(item);
+    console.log(this.selectedStation);
   }
 
   public selectRegion(event: MatAutocompleteSelectedEvent, trigger?: MatAutocompleteTrigger): void {
     this.blurOnOption = false;
-    console.log(event);
     this.region.clearValidators();
     this.region.updateValueAndValidity();
     this.addSelectedRegion(event);
-    this.setCountOfSelectedRegions();
+    this.setRegionsPlaceholder();
     this.region.setValue('');
-    if (trigger) {
-      requestAnimationFrame(() => {
-        trigger.openPanel();
-      });
+    requestAnimationFrame(() => {
+      trigger.openPanel();
+    });
+    if (this.selectedRegions.length === 1) {
+      this.onRegionSelected(this.selectedRegions[0].id);
+    }
+    if (this.selectedRegions.length > 1) {
+      this.disableCity();
     }
   }
 
+  public disableCity(): void {
+    this.city.setValue('');
+    this.selectedCities = [];
+    this.setCityPlaceholder();
+    this.city.disable();
+  }
+
   public addSelectedRegion(event: MatAutocompleteSelectedEvent): void {
-    let regionId;
-    let regionNameUa;
-    let regionNameEn;
+    let id;
+    let name;
     const selectedItemName = event.option.value;
     const selectedItem = this.locations.filter((element) => element.regionTranslationDtos.find((it) => it.regionName === selectedItemName));
 
     selectedItem.forEach((item) => {
-      regionId = item.regionId;
-      regionNameUa = item.regionTranslationDtos
-        .filter((it) => it.languageCode === 'ua')
-        .map((it) => it.regionName)
-        .toString();
-      regionNameEn = item.regionTranslationDtos
-        .filter((it) => it.languageCode === 'en')
+      id = item.regionId;
+      name = item.regionTranslationDtos
+        .filter((it) => it.languageCode === this.currentLanguage)
         .map((it) => it.regionName)
         .toString();
     });
-    const tempItem = { id: regionId, nameUa: regionNameUa, nameEn: regionNameEn };
+    const tempItem = { id, name };
     const itemIncluded = this.selectedRegions.find((it) => it.id === tempItem.id);
-    console.log(itemIncluded);
+    if (itemIncluded) {
+      this.selectedRegions = this.selectedRegions.filter((item) => item.id !== tempItem.id);
+    }
     if (!itemIncluded) {
       this.selectedRegions.push(tempItem);
-      console.log(this.selectedRegions);
-      const regionName = this.currentLanguage === 'ua' ? tempItem.nameUa : tempItem.nameEn;
-      this.selectedRegionsName.push(regionName);
     }
   }
 
-  public setCountOfSelectedRegions(): void {
+  public setRegionsPlaceholder(): void {
     this.selectedRegionsLength = this.selectedRegions.length;
     if (this.selectedRegionsLength) {
       this.regionPlaceholder = this.selectedRegionsLength + ' вибрано';
@@ -287,37 +290,35 @@ export class UbsAdminTariffsDeactivatePopUpComponent implements OnInit, OnDestro
     }
   }
 
-  public onRegionSelected(event): void {
-    const selectedValue = this.locations.filter((it) => it.regionTranslationDtos.find((ob) => ob.regionName === event.value));
-    this.regionEnglishName = selectedValue
-      .map((it) => it.regionTranslationDtos.filter((ob) => ob.languageCode === 'en').map((i) => i.regionName))
-      .flat(2);
-    this.regionId = selectedValue.find((it) => it.regionId).regionId;
-    const currentRegion = this.locations.filter((element) => element.regionTranslationDtos.find((it) => it.regionName === event.value));
-    if (!currentRegion || !currentRegion.length || !currentRegion[0].locationsDto) {
-      return;
+  public checkRegion(item): boolean {
+    return this.selectedRegions.map((it) => it.name).includes(item);
+  }
+
+  public deleteRegion(index): void {
+    this.selectedRegions.splice(index, 1);
+    this.setRegionsPlaceholder();
+    if (this.selectedRegions.length === 1) {
+      this.onRegionSelected(this.selectedRegions[0].id);
     }
-    this.filteredCities = currentRegion[0].locationsDto;
-    this.city.valueChanges.subscribe((data) => {
-      if (!data) {
-        this.filteredCities = currentRegion[0].locationsDto;
-      }
-      this.city.setValidators(this.cityValidator());
-      const res = [];
-      this.filteredCities.forEach((elem, index) => {
-        elem.locationTranslationDtoList.forEach((el) => {
-          if (el.locationName.toLowerCase().includes(data) && el.languageCode === 'ua') {
-            res.push(this.filteredCities[index]);
-          }
-        });
-      });
-      this.filteredCities = res;
+    if (this.selectedRegions.length > 1 || this.selectedRegions.length < 1) {
+      this.disableCity();
+    }
+  }
+
+  public onRegionSelected(regionId: number): void {
+    let id;
+    let name;
+    const currentRegion = this.locations.filter((element) => element.regionId === regionId);
+    const regionLocations = currentRegion[0].locationsDto;
+    regionLocations.forEach((item) => {
+      id = item.locationId;
+      name = item.locationTranslationDtoList
+        .filter((it) => it.languageCode === this.currentLanguage)
+        .map((it) => it.locationName)
+        .toString();
+      this.filteredCities.push({ id, name });
     });
-    if (event.value) {
-      this.city.enable();
-    } else {
-      this.city.disable();
-    }
+    this.city.enable();
   }
 
   public selectCity(event: MatAutocompleteSelectedEvent, trigger?: MatAutocompleteTrigger): void {
@@ -326,7 +327,7 @@ export class UbsAdminTariffsDeactivatePopUpComponent implements OnInit, OnDestro
     this.city.clearValidators();
     this.city.updateValueAndValidity();
     this.addSelectedCity(event);
-    this.setCountOfSelectedCity();
+    this.setCityPlaceholder();
     this.city.setValue('');
     this.city.setValidators(this.cityValidator());
     if (trigger) {
@@ -337,45 +338,34 @@ export class UbsAdminTariffsDeactivatePopUpComponent implements OnInit, OnDestro
   }
 
   public addSelectedCity(event: MatAutocompleteSelectedEvent): void {
-    let location;
-    let englishLocation;
-    let locationId;
-    event.option.value.locationTranslationDtoList.forEach((el) => {
-      if (el.languageCode === 'ua') {
-        location = el.locationName;
-      }
-      if (el.languageCode === 'en') {
-        englishLocation = el.locationName;
-      }
-      locationId = event.option.value.locationId;
-    });
-    const tempItem = { location, englishLocation, locationId };
-    const newValue = event.option.viewValue;
-    if (this.selectedCities.find((it) => it.location.includes(newValue))) {
-      this.selectedCities = this.selectedCities.filter((item) => item.location !== newValue);
-    } else {
+    const id = event.option.value.id;
+    const name = event.option.value.name;
+    const tempItem = { id, name };
+    const itemIncluded = this.selectedCities.find((it) => it.id === tempItem.id);
+    if (itemIncluded) {
+      this.selectedCities = this.selectedCities.filter((item) => item.id !== tempItem.id);
+    }
+    if (!itemIncluded) {
       this.selectedCities.push(tempItem);
     }
   }
 
   public checkCity(item): boolean {
-    return this.selectedCities.map((it) => it.location).includes(item);
+    return this.selectedCities.map((it) => it.name).includes(item);
   }
 
-  public setCountOfSelectedCity(): void {
+  public setCityPlaceholder(): void {
     this.selectedCityLength = this.selectedCities.length;
     if (this.selectedCityLength) {
-      this.citySelected = true;
       this.cityPlaceholder = this.selectedCityLength + ' вибрано';
     } else {
-      this.citySelected = false;
       this.translate.get('ubs-tariffs.placeholder-choose-city').subscribe((data) => (this.cityPlaceholder = data));
     }
   }
 
   public deleteCity(index): void {
     this.selectedCities.splice(index, 1);
-    this.setCountOfSelectedCity();
+    this.setCityPlaceholder();
     this.city.setValidators(this.cityValidator());
   }
 

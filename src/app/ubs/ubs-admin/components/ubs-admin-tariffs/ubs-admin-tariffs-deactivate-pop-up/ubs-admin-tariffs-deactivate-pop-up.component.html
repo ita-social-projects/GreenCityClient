@@ -65,7 +65,7 @@
     <div class="d-flex">
       <!-- Область -->
       <div class="form-wrapper">
-        <div [ngClass]="selectedRegionsName.length ? 'd-flex' : 'd-flex first-row'">
+        <div [ngClass]="selectedRegions.length ? 'd-flex' : 'd-flex first-row'">
           <div class="form-group">
             <label>{{ 'ubs-tariffs.region' | translate }}</label>
             <input
@@ -78,7 +78,7 @@
             />
             <mat-autocomplete #autoRegion="matAutocomplete" (optionSelected)="selectRegion($event, autocompleteTriggerRegion)">
               <mat-option *ngFor="let item of regionsName" [value]="item">
-                <mat-checkbox class="mr-1"> </mat-checkbox>
+                <mat-checkbox class="mr-1" [checked]="checkRegion(item)"> </mat-checkbox>
                 <span class="checkbox-text">{{ item }}</span>
               </mat-option>
             </mat-autocomplete>
@@ -86,7 +86,7 @@
               [src]="icons.arrowDown"
               class="arrowDown-img"
               alt="arrowDown"
-              (click)="openAuto($event, autocompleteTriggerCity, city.disabled)"
+              (click)="openAuto($event, autocompleteTriggerRegion, false)"
             />
             <!-- <mat-select #regionSelect formControlName="region" class="form-control"
                                         placeholder="{{ 'ubs-tariffs.placeholder-choose-region' | translate }}"
@@ -103,9 +103,9 @@
                                 </div> -->
         </div>
         <div class="list">
-          <div *ngFor="let item of selectedRegionsName; let index = index" class="d-flex selected-element">
-            <div class="itemList">{{ item }}</div>
-            <img [src]="icons.cross" class="delete-button-img" alt="delete-icon" (click)="deleteCity(index)" />
+          <div *ngFor="let item of selectedRegions; let index = index" class="d-flex selected-element">
+            <div class="itemList">{{ item.name }}</div>
+            <img [src]="icons.cross" class="delete-button-img" alt="delete-icon" (click)="deleteRegion(index)" />
           </div>
         </div>
       </div>
@@ -125,8 +125,8 @@
             />
             <mat-autocomplete #autoCity="matAutocomplete" (optionSelected)="selectCity($event, autocompleteTriggerCity)">
               <mat-option *ngFor="let item of filteredCities" [value]="item">
-                <mat-checkbox class="mr-1" [checked]="checkCity(item.locationTranslationDtoList[0].locationName)"> </mat-checkbox>
-                <span class="checkbox-text">{{ item.locationTranslationDtoList[0].locationName }}</span>
+                <mat-checkbox class="mr-1" [checked]="checkCity(item.name)"> </mat-checkbox>
+                <span class="checkbox-text">{{ item.name }}</span>
               </mat-option>
             </mat-autocomplete>
             <img
@@ -139,7 +139,7 @@
         </div>
         <div class="list">
           <div *ngFor="let item of selectedCities; let index = index" class="d-flex selected-element">
-            <div class="itemList">{{ item.location }}</div>
+            <div class="itemList">{{ item.name }}</div>
             <img [src]="icons.cross" class="delete-button-img" alt="delete-icon" (click)="deleteCity(index)" />
           </div>
         </div>
