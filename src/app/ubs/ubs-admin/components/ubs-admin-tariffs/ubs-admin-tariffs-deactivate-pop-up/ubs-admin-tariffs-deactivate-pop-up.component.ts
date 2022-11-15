@@ -308,6 +308,7 @@ export class UbsAdminTariffsDeactivatePopUpComponent implements OnInit, OnDestro
   public onRegionSelected(regionId: number): void {
     let id;
     let name;
+    this.filteredCities = [];
     const currentRegion = this.locations.filter((element) => element.regionId === regionId);
     const regionLocations = currentRegion[0].locationsDto;
     regionLocations.forEach((item) => {
