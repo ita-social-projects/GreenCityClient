@@ -653,7 +653,7 @@ export class UbsAdminTariffsLocationDashboardComponent implements OnInit, AfterV
   }
 
   openDeactivateLocation(): void {
-    this.dialog.open(UbsAdminTariffsLocationPopUpComponent, {
+    this.dialog.open(UbsAdminTariffsDeactivatePopUpComponent, {
       hasBackdrop: true,
       panelClass: 'address-matDialog-styles-w-100',
       data: {

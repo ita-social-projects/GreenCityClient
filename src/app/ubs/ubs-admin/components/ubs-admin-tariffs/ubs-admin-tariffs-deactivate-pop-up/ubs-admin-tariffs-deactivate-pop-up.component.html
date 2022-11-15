@@ -1,1 +1,160 @@
-<p>ubs-admin-tariffs-deactivate-pop-up works!</p>
+<div class="w-100">
+  <p class="add-location-title">{{ 'ubs-tariffs-add-location-pop-up.deactivate' | translate }}</p>
+</div>
+<app-dialog-tariff [row]="form" [newDate]="newDate" [name]="name" [edit]="true"></app-dialog-tariff>
+<ng-template #form>
+  <form [formGroup]="CardForm">
+    <div class="d-flex">
+      <!-- Курʼєр -->
+      <div class="form-wrapper">
+        <div class="d-flex first-row">
+          <div class="form-group">
+            <label>{{ 'ubs-tariffs.courier' | translate }}</label>
+            <mat-select
+              #courierSelect
+              formControlName="courier"
+              class="form-control"
+              placeholder="{{ 'ubs-tariffs.placeholder-choose-courier' | translate }}"
+              (selectionChange)="onSelectCourier($event)"
+            >
+              <mat-option *ngFor="let option of couriersName" class="option-state" [value]="option">
+                {{ option }}
+              </mat-option>
+            </mat-select>
+            <img [src]="icons.arrowDown" class="arrowDown-img" alt="arrowDown" (click)="courierSelect.open()" />
+          </div>
+        </div>
+      </div>
+      <!-- Станція -->
+      <div>
+        <div [ngClass]="selectedStation.length ? 'd-flex' : 'd-flex first-row'">
+          <div class="form-group">
+            <label>{{ 'ubs-tariffs.station' | translate }}</label>
+            <input
+              formControlName="station"
+              [ngClass]="{ 'form-control': true, onBlurSelectionPanel: blurOnOption }"
+              [placeholder]="stationPlaceholder"
+              [matAutocomplete]="autoStation"
+              #autocompleteTriggerStation="matAutocompleteTrigger"
+              (blur)="onBlur($event)"
+            />
+            <mat-autocomplete #autoStation="matAutocomplete" (optionSelected)="onSelectStation($event, autocompleteTriggerStation)">
+              <mat-option *ngFor="let option of filteredStations" class="option-state" [value]="option">
+                <mat-checkbox class="mr-1" [checked]="checkStation(option)"></mat-checkbox>
+                <span class="checkbox-text">{{ option }}</span>
+              </mat-option>
+            </mat-autocomplete>
+
+            <img
+              [src]="icons.arrowDown"
+              class="arrowDown-img"
+              alt="arrowDown"
+              (click)="openAuto($event, autocompleteTriggerStation, false)"
+            />
+          </div>
+        </div>
+        <div [ngClass]="selectedStation.length ? 'list' : 'dis-none'" class="list">
+          <div *ngFor="let item of selectedStation; let index = index" class="d-flex selected-element">
+            <div class="itemList">{{ item.name }}</div>
+            <img [src]="icons.cross" class="delete-button-img" alt="delete-icon" (click)="deleteStation(index)" />
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="d-flex">
+      <!-- Область -->
+      <div class="form-wrapper">
+        <div [ngClass]="selectedRegionsName.length ? 'd-flex' : 'd-flex first-row'">
+          <div class="form-group">
+            <label>{{ 'ubs-tariffs.region' | translate }}</label>
+            <input
+              #autocompleteTriggerRegion="matAutocompleteTrigger"
+              formControlName="region"
+              [placeholder]="regionPlaceholder"
+              [matAutocomplete]="autoRegion"
+              [ngClass]="{ 'form-control': true, onBlurSelectionPanel: blurOnOption }"
+              (blur)="onBlur($event)"
+            />
+            <mat-autocomplete #autoRegion="matAutocomplete" (optionSelected)="selectRegion($event, autocompleteTriggerRegion)">
+              <mat-option *ngFor="let item of regionsName" [value]="item">
+                <mat-checkbox class="mr-1"> </mat-checkbox>
+                <span class="checkbox-text">{{ item }}</span>
+              </mat-option>
+            </mat-autocomplete>
+            <img
+              [src]="icons.arrowDown"
+              class="arrowDown-img"
+              alt="arrowDown"
+              (click)="openAuto($event, autocompleteTriggerCity, city.disabled)"
+            />
+            <!-- <mat-select #regionSelect formControlName="region" class="form-control"
+                                        placeholder="{{ 'ubs-tariffs.placeholder-choose-region' | translate }}"
+                                        (selectionChange)="onRegionSelected($event)">
+                                        <mat-option *ngFor="let option of regions" class="option-state" [value]="option">
+                                            {{ option }}
+                                        </mat-option>
+                                    </mat-select>
+                                    <img [src]="icons.arrowDown" class="arrowDown-img" alt="arrowDown" (click)="regionSelect.open()" /> -->
+          </div>
+          <!-- <div class="english-part">
+                                    <label>Region</label>
+                                    <p class="english-name">{{ regionEnglishName }}</p>
+                                </div> -->
+        </div>
+        <div class="list">
+          <div *ngFor="let item of selectedRegionsName; let index = index" class="d-flex selected-element">
+            <div class="itemList">{{ item }}</div>
+            <img [src]="icons.cross" class="delete-button-img" alt="delete-icon" (click)="deleteCity(index)" />
+          </div>
+        </div>
+      </div>
+      <!-- Місто -->
+      <div>
+        <div [ngClass]="selectedCities.length ? 'd-flex' : 'd-flex first-row'">
+          <div class="form-group">
+            <label>{{ 'ubs-tariffs.city' | translate }}</label>
+            <input
+              #autocompleteTriggerCity="matAutocompleteTrigger"
+              formControlName="city"
+              [placeholder]="cityPlaceholder"
+              [matAutocomplete]="autoCity"
+              [attr.disabled]="CardForm.controls['region'].dirty ? null : true"
+              [ngClass]="{ 'form-control': true, onBlurSelectionPanel: blurOnOption }"
+              (blur)="onBlur($event)"
+            />
+            <mat-autocomplete #autoCity="matAutocomplete" (optionSelected)="selectCity($event, autocompleteTriggerCity)">
+              <mat-option *ngFor="let item of filteredCities" [value]="item">
+                <mat-checkbox class="mr-1" [checked]="checkCity(item.locationTranslationDtoList[0].locationName)"> </mat-checkbox>
+                <span class="checkbox-text">{{ item.locationTranslationDtoList[0].locationName }}</span>
+              </mat-option>
+            </mat-autocomplete>
+            <img
+              [src]="icons.arrowDown"
+              class="arrowDown-img"
+              alt="arrowDown"
+              (click)="openAuto($event, autocompleteTriggerCity, city.disabled)"
+            />
+          </div>
+        </div>
+        <div class="list">
+          <div *ngFor="let item of selectedCities; let index = index" class="d-flex selected-element">
+            <div class="itemList">{{ item.location }}</div>
+            <img [src]="icons.cross" class="delete-button-img" alt="delete-icon" (click)="deleteCity(index)" />
+          </div>
+        </div>
+      </div>
+    </div>
+  </form>
+  <div class="buttons-wrapper">
+    <div class="d-flex buttons" mat-dialog-actions>
+      <button class="secondary-global-button btn m-0 mr-2" mat-button (click)="onNoClick()">
+        {{ 'ubs-tariffs-add-location-pop-up.cancel_button' | translate }}
+      </button>
+      <button class="primary-global-button btn m-0" [disabled]="CardForm.invalid" (click)="createCard()">
+        {{ 'ubs-tariffs-add-location-pop-up.deactivate' | translate }}
+      </button>
+    </div>
+    <span *ngIf="isCardExist" class="validation-message">{{ 'ubs-tariffs.card-already-exist' | translate }}</span>
+  </div>
+</ng-template>
