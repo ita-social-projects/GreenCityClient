@@ -16,13 +16,6 @@ const parseTime = (min, hour) => {
   return `${m.length >= 2 ? m : m + '0'}:${h.length >= 2 ? h : h + '0'}`;
 };
 
-const parseCron = (cron: string) => {
-  const [min, hour, dayOfMonth, month, weekday] = cron.split(' ');
-  return `${parseTime(min, hour)}, ${dayOfMonth !== '*' ? dayOfMonth : 'будь-який'} день місяця, ${
-    month !== '*' ? month : 'будь-який'
-  } місяць, ${weekday !== '*' ? weekday : 'будь-який'} день тижня`;
-};
-
 @Component({
   selector: 'app-ubs-admin-notification-list',
   templateUrl: './ubs-admin-notification-list.component.html',
@@ -59,7 +52,6 @@ export class UbsAdminNotificationListComponent implements OnInit {
   ngOnInit(): void {
     this.localStorageService.languageBehaviourSubject.subscribe((lang) => {
       this.lang = lang;
-      console.log(this.lang);
     });
 
     this.loadPage(1);
@@ -88,7 +80,7 @@ export class UbsAdminNotificationListComponent implements OnInit {
       id: notification.id,
       topic: { en: notification.title.en, ua: notification.title.ua },
       trigger: notification.trigger,
-      period: notification.schedule?.cron ? parseCron(notification.schedule.cron) : '',
+      period: notification.schedule?.cron ?? '',
       time: notification.time,
       status: notification.status
     }));

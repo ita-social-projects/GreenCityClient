@@ -6,6 +6,7 @@ import { LocalStorageService } from '@global-service/localstorage/local-storage.
 import { take } from 'rxjs/operators';
 import { NotificationsService, notificationTriggers, notificationStatuses } from '../../services/notifications.service';
 import { UbsAdminNotificationEditFormComponent } from './ubs-admin-notification-edit-form/ubs-admin-notification-edit-form.component';
+import { UbsAdminNotificationSettingsComponent } from './ubs-admin-notification-settings/ubs-admin-notification-settings.component';
 
 @Component({
   selector: 'app-ubs-admin-notification',
@@ -26,6 +27,7 @@ export class UbsAdminNotificationComponent implements OnInit {
   statuses = notificationStatuses;
   lang = 'en';
   notification = null;
+  schedule = null;
 
   recevProps = {
     begin: new Date('05/11/2022'),
@@ -68,7 +70,7 @@ export class UbsAdminNotificationComponent implements OnInit {
     });
   }
 
-  async loadNotification(id) {
+  loadNotification(id) {
     this.notificationsService
       .getNotificationTemplate(id)
       .pipe(take(1))
@@ -88,15 +90,15 @@ export class UbsAdminNotificationComponent implements OnInit {
           },
           status: notification.status
         };
+        this.schedule = notification.schedule?.cron ?? '';
+        this.form.setValue({
+          topic: this.notification.topic.en,
+          text: this.notification.text.en,
+          trigger: this.notification.trigger,
+          period: this.notification.period,
+          status: this.notification.status
+        });
       });
-
-    this.form.setValue({
-      topic: this.notification.topic.en,
-      text: this.notification.text.en,
-      trigger: this.notification.trigger,
-      period: this.notification.period,
-      status: this.notification.status
-    });
   }
 
   // isInfoEditable = false;
@@ -119,7 +121,17 @@ export class UbsAdminNotificationComponent implements OnInit {
   }
 
   onEditNotificationSettings() {
-    this.isSettingsEditable = !this.isSettingsEditable;
+    // this.isSettingsEditable = !this.isSettingsEditable;
+    this.dialog.open(UbsAdminNotificationSettingsComponent, {
+      panelClass: 'edit-notification-popup',
+      hasBackdrop: true,
+      data: { trigger: this.notification.trigger, schedule: this.notification.period, status: this.notification.status }
+    });
+  }
+
+  onScheduleSelected(cron) {
+    this.schedule = cron;
+    console.log(cron);
   }
 
   // onStatusChange(event: any) {

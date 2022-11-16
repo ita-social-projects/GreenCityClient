@@ -87,6 +87,7 @@ import { UbsAdminNotificationListComponent } from './components/ubs-admin-notifi
 import { UbsAdminNotificationComponent } from './components/ubs-admin-notification/ubs-admin-notification.component';
 import { UbsAdminNotificationEditFormComponent } from './components/ubs-admin-notification/ubs-admin-notification-edit-form/ubs-admin-notification-edit-form.component';
 import { CronPickerComponent } from './components/shared/components/cron-picker/cron-picker.component';
+import { UbsAdminNotificationSettingsComponent } from './components/ubs-admin-notification/ubs-admin-notification-settings/ubs-admin-notification-settings.component';
 
 @NgModule({
   declarations: [
@@ -145,7 +146,8 @@ import { CronPickerComponent } from './components/shared/components/cron-picker/
     UbsAdminNotificationListComponent,
     UbsAdminNotificationComponent,
     UbsAdminNotificationEditFormComponent,
-    CronPickerComponent
+    CronPickerComponent,
+    UbsAdminNotificationSettingsComponent
   ],
   imports: [
     CommonModule,

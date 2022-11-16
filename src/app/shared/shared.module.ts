@@ -38,6 +38,7 @@ import { RepeatPipe } from './repeat-pipe/repeat.pipe';
 import { RecurringEventsPickerComponent } from './recurring-events-picker/recurring-events-picker.component';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatButtonModule } from '@angular/material/button';
+import { CronPipe } from './cron-pipe/cron.pipe';
 
 @NgModule({
   declarations: [
@@ -68,7 +69,8 @@ import { MatButtonModule } from '@angular/material/button';
     LocalizedDatePipe,
     TranslateDatePipe,
     RepeatPipe,
-    RecurringEventsPickerComponent
+    RecurringEventsPickerComponent,
+    CronPipe
   ],
   imports: [
     CommonModule,
@@ -109,7 +111,8 @@ import { MatButtonModule } from '@angular/material/button';
     LocalizedDatePipe,
     TranslateDatePipe,
     RepeatPipe,
-    RecurringEventsPickerComponent
+    RecurringEventsPickerComponent,
+    CronPipe
   ]
 })
 export class SharedModule {}

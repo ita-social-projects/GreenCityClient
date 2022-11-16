@@ -67,6 +67,16 @@
   border-spacing: 0 8px;
   table-layout: fixed;
   width: 100%;
+
+  .col-actions {
+    width: 60px;
+
+    div {
+      display: flex;
+      flex-direction: row;
+      justify-content: space-around;
+    }
+  }
 }
 
 // .last-col {
@@ -102,17 +112,17 @@ button {
   height: 100px;
 }
 
-.table-notification-edit .col-topic {
-  width: 40%;
+.table-notification-edit .col-platform {
+  width: 20%;
 }
 
-.table-notification-edit .col-text {
-  width: 55%;
-}
-
-// .table-notification-edit .col-action {
-//   width: 56px;
+// .table-notification-edit .col-text {
+//   width: 55%;
 // }
+
+.table-notification-edit .col-action {
+  width: 60px;
+}
 
 .table-notification-edit td.col-action div {
   display: flex;
