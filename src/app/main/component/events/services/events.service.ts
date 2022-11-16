@@ -28,6 +28,10 @@ export class EventsService implements OnDestroy {
     return this.http.get(`${this.backEnd}events/myEvents?page=${page}&size=${quantity}`);
   }
 
+  public getCreatedEvents(page: number, quantity: number): Observable<any> {
+    return this.http.get(`${this.backEnd}events/myEvents/createdEvents?page=${page}&size=${quantity}`);
+  }
+
   public getEventById(id: number): Observable<any> {
     return this.http.get(`${this.backEnd}events/event/${id}`);
   }

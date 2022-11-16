@@ -39,8 +39,8 @@ describe('ProfileDashboardComponent', () => {
     totalElements: 4
   };
 
-  const EventsServiceMock = jasmine.createSpyObj('EventsService', ['getEvents', 'getUsersEvents']);
-  EventsServiceMock.getEvents = () => of(MockReqest);
+  const EventsServiceMock = jasmine.createSpyObj('EventsService', ['getCreatedEvents', 'getUsersEvents']);
+  EventsServiceMock.getCreatedEvents = () => of(MockReqest);
   EventsServiceMock.getUsersEvents = () => of(MockReqest);
 
   beforeEach(async(() => {
