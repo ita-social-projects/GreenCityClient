@@ -3,7 +3,7 @@ import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormBuilder, ValidatorFn, Validators } from '@angular/forms';
 import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
 import { map, skip, startWith, takeUntil } from 'rxjs/operators';
-import { Subject } from 'rxjs';
+import { Subject, Observable } from 'rxjs';
 import { TariffsService } from '../../../services/tariffs.service';
 import { IAppState } from 'src/app/store/state/app.state';
 import { Store } from '@ngrx/store';
@@ -15,6 +15,7 @@ import { ModalTextComponent } from '../../shared/components/modal-text/modal-tex
 import { TranslateService } from '@ngx-translate/core';
 import { TariffConfirmationPopUpComponent } from '../../shared/components/tariff-confirmation-pop-up/tariff-confirmation-pop-up.component';
 import { LanguageService } from 'src/app/main/i18n/language.service';
+import { ajax } from 'rxjs/internal-compatibility';
 
 @Component({
   selector: 'app-ubs-admin-tariffs-deactivate-pop-up',
@@ -23,10 +24,10 @@ import { LanguageService } from 'src/app/main/i18n/language.service';
 })
 export class UbsAdminTariffsDeactivatePopUpComponent implements OnInit, OnDestroy {
   CardForm = this.fb.group({
-    courier: ['', Validators.required],
-    station: ['', Validators.required],
-    region: ['', Validators.required],
-    city: [{ value: '', disabled: true }, [Validators.maxLength(40), Validators.required]]
+    courier: [''],
+    station: [''],
+    region: [''],
+    city: [{ value: '', disabled: true }, [Validators.maxLength(40)]]
   });
   public icons = {
     arrowDown: '././assets/img/ubs-tariff/arrow-down.svg',
@@ -113,21 +114,21 @@ export class UbsAdminTariffsDeactivatePopUpComponent implements OnInit, OnDestro
     }
   }
 
-  public cityValidator(): ValidatorFn {
-    let error;
-    if (!this.selectedCities.length) {
-      error = this.city.setErrors({ emptySelectedCity: true });
-    }
-    return error;
-  }
+  // public cityValidator(): ValidatorFn {
+  //   let error;
+  //   if (!this.selectedCities.length) {
+  //     error = this.city.setErrors({ emptySelectedCity: true });
+  //   }
+  //   return error;
+  // }
 
-  public stationValidator(): ValidatorFn {
-    let error;
-    if (!this.selectedStation.length) {
-      error = this.station.setErrors({ emptySelectedStation: true });
-    }
-    return error;
-  }
+  // public stationValidator(): ValidatorFn {
+  //   let error;
+  //   if (!this.selectedStation.length) {
+  //     error = this.station.setErrors({ emptySelectedStation: true });
+  //   }
+  //   return error;
+  // }
 
   public getCouriers(): void {
     this.tariffsService
@@ -148,16 +149,9 @@ export class UbsAdminTariffsDeactivatePopUpComponent implements OnInit, OnDestro
       .pipe(takeUntil(this.unsubscribe))
       .subscribe((res) => {
         this.stations = res;
-        const stationsName = this.stations.map((it) => it.name);
-        this.station.valueChanges
-          .pipe(
-            startWith(''),
-            map((value: string) => this._filterOptions(value, stationsName))
-          )
-          .subscribe((data) => {
-            this.filteredStations = data;
-            this.station.setValidators(this.stationValidator());
-          });
+        this.filteredStations = this.stations.map((it) => {
+          return { id: it.id, name: it.name };
+        });
       });
   }
 
@@ -188,6 +182,34 @@ export class UbsAdminTariffsDeactivatePopUpComponent implements OnInit, OnDestro
     this.courierId = selectedValue.find((it) => it.courierId).courierId;
   }
 
+  public selectStation(event: MatAutocompleteSelectedEvent, trigger?: MatAutocompleteTrigger): void {
+    this.station.clearValidators();
+    this.station.updateValueAndValidity();
+    this.blurOnOption = false;
+    this.addSelectedStation(event);
+    // this.station.setValidators(this.stationValidator());
+    this.station.setValue('');
+    this.setStationPlaceholder();
+    if (trigger) {
+      requestAnimationFrame(() => {
+        trigger.openPanel();
+      });
+    }
+  }
+
+  public addSelectedStation(event: MatAutocompleteSelectedEvent): void {
+    const id = event.option.value.id;
+    const name = event.option.value.name;
+    const tempItem = { id, name };
+    const itemIncluded = this.selectedStation.find((it) => it.id === tempItem.id);
+    if (itemIncluded) {
+      this.selectedStation = this.selectedStation.filter((item) => item.id !== tempItem.id);
+    }
+    if (!itemIncluded) {
+      this.selectedStation.push(tempItem);
+    }
+  }
+
   public setStationPlaceholder(): void {
     if (this.selectedStation.length) {
       this.stationPlaceholder = this.selectedStation.length + ' вибрано';
@@ -196,41 +218,14 @@ export class UbsAdminTariffsDeactivatePopUpComponent implements OnInit, OnDestro
     }
   }
 
-  public onSelectStation(event, trigger?: MatAutocompleteTrigger): void {
-    this.station.clearValidators();
-    this.station.updateValueAndValidity();
-    this.blurOnOption = false;
-    const selectedValue = this.stations.find((ob) => ob.name === event.option.value);
-    const tempItem = {
-      name: selectedValue.name,
-      id: selectedValue.id
-    };
-    const newValue = event.option.value;
-    if (this.selectedStation.map((it) => it.name).includes(newValue)) {
-      this.selectedStation = this.selectedStation.filter((item) => item.name !== newValue);
-    } else {
-      this.selectedStation.push(tempItem);
-    }
-    this.station.setValidators(this.stationValidator());
-    this.station.setValue('');
-    this.setStationPlaceholder();
-    if (trigger) {
-      requestAnimationFrame(() => {
-        trigger.openPanel();
-      });
-    }
-    console.log(this.selectedStation);
-  }
-
   public deleteStation(index): void {
     this.selectedStation.splice(index, 1);
     this.setStationPlaceholder();
-    this.station.setValidators(this.stationValidator());
+    // this.station.setValidators(this.stationValidator());
   }
 
   public checkStation(item): boolean {
     return this.selectedStation.map((it) => it.name).includes(item);
-    console.log(this.selectedStation);
   }
 
   public selectRegion(event: MatAutocompleteSelectedEvent, trigger?: MatAutocompleteTrigger): void {
@@ -246,7 +241,7 @@ export class UbsAdminTariffsDeactivatePopUpComponent implements OnInit, OnDestro
     if (this.selectedRegions.length === 1) {
       this.onRegionSelected(this.selectedRegions[0].id);
     }
-    if (this.selectedRegions.length > 1) {
+    if (this.selectedRegions.length > 1 || this.selectedRegions.length < 1) {
       this.disableCity();
     }
   }
@@ -330,7 +325,7 @@ export class UbsAdminTariffsDeactivatePopUpComponent implements OnInit, OnDestro
     this.addSelectedCity(event);
     this.setCityPlaceholder();
     this.city.setValue('');
-    this.city.setValidators(this.cityValidator());
+    // this.city.setValidators(this.cityValidator());
     if (trigger) {
       requestAnimationFrame(() => {
         trigger.openPanel();
@@ -367,7 +362,7 @@ export class UbsAdminTariffsDeactivatePopUpComponent implements OnInit, OnDestro
   public deleteCity(index): void {
     this.selectedCities.splice(index, 1);
     this.setCityPlaceholder();
-    this.city.setValidators(this.cityValidator());
+    // this.city.setValidators(this.cityValidator());
   }
 
   openAuto(event: Event, trigger: MatAutocompleteTrigger, flag: boolean): void {

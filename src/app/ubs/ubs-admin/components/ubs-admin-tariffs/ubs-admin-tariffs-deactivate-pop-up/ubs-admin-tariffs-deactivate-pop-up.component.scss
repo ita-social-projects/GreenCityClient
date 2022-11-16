@@ -19,6 +19,10 @@
   }
 }
 
+.form-group label::after {
+  content: '';
+}
+
 .form-wrapper {
   margin-right: 56px;
 }

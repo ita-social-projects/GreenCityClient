@@ -38,10 +38,10 @@
               #autocompleteTriggerStation="matAutocompleteTrigger"
               (blur)="onBlur($event)"
             />
-            <mat-autocomplete #autoStation="matAutocomplete" (optionSelected)="onSelectStation($event, autocompleteTriggerStation)">
+            <mat-autocomplete #autoStation="matAutocomplete" (optionSelected)="selectStation($event, autocompleteTriggerStation)">
               <mat-option *ngFor="let option of filteredStations" class="option-state" [value]="option">
-                <mat-checkbox class="mr-1" [checked]="checkStation(option)"></mat-checkbox>
-                <span class="checkbox-text">{{ option }}</span>
+                <mat-checkbox class="mr-1" [checked]="checkStation(option.name)"></mat-checkbox>
+                <span class="checkbox-text">{{ option.name }}</span>
               </mat-option>
             </mat-autocomplete>
 
@@ -155,6 +155,5 @@
         {{ 'ubs-tariffs-add-location-pop-up.deactivate' | translate }}
       </button>
     </div>
-    <span *ngIf="isCardExist" class="validation-message">{{ 'ubs-tariffs.card-already-exist' | translate }}</span>
   </div>
 </ng-template>
