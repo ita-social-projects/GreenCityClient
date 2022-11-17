@@ -192,7 +192,7 @@ export class AdminTableService {
     const keyToChange = `${columnName}${suffix}`;
     elem[keyNameFrom] = dateFrom;
     elem[keyNameTo] = dateFrom;
-    let filterToChange = this.filters.find((filter) => Object.keys(filter).includes(`${keyToChange}`));
+    const filterToChange = this.filters.find((filter) => Object.keys(filter).includes(`${keyToChange}`));
 
     if (!filterToChange) {
       elem[keyNameFrom] = dateFrom;
@@ -219,7 +219,7 @@ export class AdminTableService {
     const keyToChange = `${columnName}${suffix}`;
     elem[keyNameFrom] = dateFrom;
     elem[keyNameTo] = dateFrom;
-    let filterToChange = this.filters.find((filter) => Object.keys(filter).includes(`${keyToChange}`));
+    const filterToChange = this.filters.find((filter) => Object.keys(filter).includes(`${keyToChange}`));
 
     if (!filterToChange) {
       elem[keyNameFrom] = dateFrom;

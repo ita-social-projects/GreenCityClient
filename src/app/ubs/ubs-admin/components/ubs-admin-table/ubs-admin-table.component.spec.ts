@@ -567,17 +567,17 @@ describe('UsbAdminTableComponent', () => {
   });
 
   it('changeInputDateFilters expect changeOrderDateFilters shoud be call', () => {
-    let check = false;
+    const check = false;
     spyOn((component as any).adminTableService, 'changeOrderDateFilters');
     component.changeInputDateFilters('value', 'currentColumn', 'suffix');
     expect((component as any).adminTableService.changeOrderDateFilters).toHaveBeenCalledWith('value', 'currentColumn', 'suffix', check);
   });
 
   it('getDateChecked expect getDateChecked shoud be call', () => {
-    let column = 'orderDate';
+    const column = 'orderDate';
     spyOn(component, 'getDateChecked');
     component.getDateChecked(column);
-    expect(component.getDateChecked).toHaveBeenCalledWith(column);
+    expect(component.getDateChecked).toHaveBeenCalledWith('orderDate');
   });
 
   it('getDateValue expect getDateValue shoud be call', () => {

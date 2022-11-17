@@ -93,9 +93,9 @@ export class UbsAdminTableComponent implements OnInit, AfterViewChecked, OnDestr
   columnsWidthPreference: Map<string, number>;
   restoredFilters = [];
   isRestoredFilters = false;
-  checkOrderDate: boolean = false;
-  checkDateOfExport: boolean = false;
-  checkPaymentDate: boolean = false;
+  checkOrderDate = false;
+  checkDateOfExport = false;
+  checkPaymentDate = false;
 
   bigOrderTable$ = this.store.select((state: IAppState): IBigOrderTable => state.bigOrderTable.bigOrderTable);
   bigOrderTableParams$ = this.store.select((state: IAppState): IBigOrderTableParams => state.bigOrderTable.bigOrderTableParams);
@@ -649,12 +649,12 @@ export class UbsAdminTableComponent implements OnInit, AfterViewChecked, OnDestr
 
   changeInputDateFilters(value: string, currentColumn: string, suffix: string): void {
     this.noFiltersApplied = false;
-    let check = this.getDateChecked(currentColumn);
+    const check = this.getDateChecked(currentColumn);
     this.adminTableService.changeOrderDateFilters(value, currentColumn, suffix, check);
   }
 
   getDateChecked(dateColumn): boolean {
-    let check: boolean = false;
+    let check = false;
     switch (dateColumn) {
       case 'orderDate':
         check = this.checkOrderDate;
