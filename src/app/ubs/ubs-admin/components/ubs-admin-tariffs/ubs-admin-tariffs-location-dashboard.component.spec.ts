@@ -90,12 +90,8 @@ describe('UbsAdminTariffsLocationDashboardComponent', () => {
     courierLimit: 'fake',
     courierTranslationDtos: [
       {
-        languageCode: 'en',
-        name: 'fake'
-      },
-      {
-        languageCode: 'ua',
-        name: 'фейк'
+        name: 'фейк',
+        nameEng: 'fake'
       }
     ],
     createdAt: 'date',
