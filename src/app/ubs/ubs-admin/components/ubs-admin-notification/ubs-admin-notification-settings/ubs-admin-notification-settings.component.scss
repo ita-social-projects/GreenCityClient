@@ -5,6 +5,10 @@
   // gap: 15px;
 }
 
+::ng-deep.mat-menu-panel {
+  max-width: none !important;
+}
+
 .notification-settings-content {
   display: flex;
   flex-direction: column;

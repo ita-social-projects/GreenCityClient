@@ -11,7 +11,6 @@ describe('UbsAdminNotificationEditFormComponent', () => {
   const matDialogRefMock = jasmine.createSpyObj('matDialogRefMock', ['close']);
 
   const mockedData = {
-    topic: { en: '', ua: '' },
     text: { en: '', ua: '' }
   };
 

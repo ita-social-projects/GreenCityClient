@@ -23,7 +23,7 @@ const notificationTemplates = [
     id: 1,
     trigger: 'ORDER_NOT_PAID_FOR_3_DAYS',
     time: '6PM_3DAYS_AFTER_ORDER_FORMED_NOT_PAID',
-    schedule: { cron: '0 0 * * 1' },
+    schedule: { cron: '27 14 4,7,16 * *' },
     title: { en: 'Unpaid order', ua: 'Неоплачене замовлення' },
     status: 'ACTIVE',
     body: {

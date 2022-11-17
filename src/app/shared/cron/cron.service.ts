@@ -125,6 +125,17 @@ export class CronService {
     throw new Error('Unsupported or invalid cron expression!');
   }
 
+  public parse(cron: string) {
+    const [min, hour, dayOfMonth, month, dayOfWeek] = cron.split(' ');
+    return {
+      min: this.parsePart(min, this.rangeValidators.minute),
+      hour: this.parsePart(hour, this.rangeValidators.hour),
+      dayOfMonth: this.parsePart(dayOfMonth, this.rangeValidators.dayOfMonth),
+      month: this.parsePart(month, this.rangeValidators.month),
+      dayOfWeek: this.parsePart(dayOfWeek, this.rangeValidators.dayOfWeek)
+    };
+  }
+
   private getTimePart(min: string, hour: string) {
     const parsedMin = this.parsePart(min, this.rangeValidators.minute);
     const parsedHour = this.parsePart(hour, this.rangeValidators.hour);

@@ -1,7 +1,7 @@
 <form [formGroup]="form" class="cron-picker-container" (ngSubmit)="onSelect()">
-  <mat-tab-group dynamicHeight animationDuration="0ms">
-    <mat-tab label="{{ 'cron-picker.tab-labels.time' | translate }}">
-      <div formGroupName="time" class="tab">
+  <!-- <mat-panel-group dynamicHeight animationDuration="0ms">
+    <mat-panel label="{{ 'cron-picker.panel-labels.time' | translate }}">
+      <div formGroupName="time" class="panel">
         <mat-form-field>
           <mat-label>{{ 'cron-picker.labels.hour' | translate }}</mat-label>
           <mat-select formControlName="hour">
@@ -20,20 +20,17 @@
           </mat-select>
         </mat-form-field>
       </div>
-    </mat-tab>
-    <mat-tab label="{{ 'cron-picker.tab-labels.day' | translate }}">
-      <div formGroupName="day" class="tab">
+    </mat-panel>
+    <mat-panel label="{{ 'cron-picker.panel-labels.day' | translate }}">
+      <div formGroupName="day" class="panel">
         <mat-radio-group formControlName="type" class="select-type">
           <mat-radio-button value="every-day">{{ 'cron-picker.labels.every-day' | translate }}</mat-radio-button>
           <mat-radio-button value="days-of-week">
-            <mat-form-field>
-              <mat-label>{{ 'cron-picker.labels.days-of-week' | translate }}</mat-label>
-              <mat-select multiple formControlName="daysOfWeek">
-                <mat-option *ngFor="let day of daysOfWeek" [value]="day">
-                  {{ 'cron-picker.days-of-week.' + day | translate }}
-                </mat-option>
-              </mat-select>
-            </mat-form-field>
+            <mat-button-toggle-group appearance="legacy" formControlName="daysOfWeek" aria-label="Days-of-week" multiple>
+              <mat-button-toggle disableRipple *ngFor="let day of daysOfWeek" [value]="day">
+                {{ 'cron-picker.days-of-week.' + day | translate }}
+              </mat-button-toggle>
+            </mat-button-toggle-group>
           </mat-radio-button>
           <mat-radio-button value="days-of-month">
             <mat-form-field>
@@ -47,30 +44,130 @@
           </mat-radio-button>
         </mat-radio-group>
       </div>
-    </mat-tab>
-    <mat-tab label="{{ 'cron-picker.tab-labels.month' | translate }}">
-      <div formGroupName="month" class="tab">
+    </mat-panel>
+    <mat-panel label="{{ 'cron-picker.panel-labels.month' | translate }}">
+      <div formGroupName="month" class="panel">
         <mat-radio-group formControlName="type" class="select-type">
           <mat-radio-button value="every-month">{{ 'cron-picker.labels.every-month' | translate }}</mat-radio-button>
           <mat-radio-button value="months">
-            <mat-form-field>
-              <mat-label>{{ 'cron-picker.labels.months' | translate }}</mat-label>
-              <mat-select multiple formControlName="months">
-                <mat-option *ngFor="let month of months" [value]="month">
+            <div class="select-months">
+              <mat-button-toggle-group appearance="outline" formControlName="months" aria-label="Days-of-week" multiple>
+                <mat-button-toggle disableRipple *ngFor="let month of months" [value]="month">
                   {{ 'cron-picker.months.' + month | translate }}
-                </mat-option>
-              </mat-select>
-            </mat-form-field>
+                </mat-button-toggle>
+              </mat-button-toggle-group>
+            </div>
           </mat-radio-button>
         </mat-radio-group>
       </div>
-    </mat-tab>
-  </mat-tab-group>
+    </mat-panel>
+  </mat-panel-group> -->
+
+  <mat-accordion>
+    <mat-expansion-panel [expanded]="true">
+      <mat-expansion-panel-header>
+        <mat-panel-title>
+          {{ 'cron-picker.panel-labels.time' | translate }}
+        </mat-panel-title>
+        <mat-panel-description>
+          {{ description.time }}
+        </mat-panel-description>
+      </mat-expansion-panel-header>
+      <div formGroupName="time" class="panel">
+        <mat-form-field>
+          <mat-label>{{ 'cron-picker.labels.hour' | translate }}</mat-label>
+          <mat-select formControlName="hour">
+            <mat-option *ngFor="let hour of hours" [value]="hour">
+              {{ hour }}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+        &nbsp;:&nbsp;
+        <mat-form-field>
+          <mat-label>{{ 'cron-picker.labels.min' | translate }}</mat-label>
+          <mat-select formControlName="min">
+            <mat-option *ngFor="let min of minutes" [value]="min">
+              {{ min }}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+      </div>
+    </mat-expansion-panel>
+    <mat-expansion-panel>
+      <mat-expansion-panel-header>
+        <mat-panel-title>
+          {{ 'cron-picker.panel-labels.day' | translate }}
+        </mat-panel-title>
+        <mat-panel-description>
+          {{ 'cron-picker.labels.' + description.day | translate }}
+        </mat-panel-description>
+      </mat-expansion-panel-header>
+      <div formGroupName="day" class="panel">
+        <mat-radio-group formControlName="type" class="select-type">
+          <mat-radio-button value="every-day">{{ 'cron-picker.labels.every-day' | translate }}</mat-radio-button>
+          <mat-radio-button value="days-of-week">
+            <div class="select-days-of-week">
+              <mat-button-toggle-group appearance="legacy" formControlName="daysOfWeek" aria-label="Days-of-week" multiple>
+                <mat-button-toggle disableRipple *ngFor="let day of daysOfWeek" [value]="day">
+                  {{ 'cron-picker.days-of-week.' + daysOfWeekAliases[day - 1] | translate }}
+                </mat-button-toggle>
+              </mat-button-toggle-group>
+            </div>
+          </mat-radio-button>
+          <mat-radio-button value="days-of-month">
+            <div class="select-days-of-month">
+              <mat-button-toggle-group appearance="legacy" formControlName="daysOfMonth" aria-label="Days-of-month" multiple>
+                <mat-button-toggle disableRipple *ngFor="let day of days" [value]="day">
+                  {{ day }}
+                </mat-button-toggle>
+              </mat-button-toggle-group>
+            </div>
+          </mat-radio-button>
+        </mat-radio-group>
+      </div>
+    </mat-expansion-panel>
+    <mat-expansion-panel>
+      <mat-expansion-panel-header>
+        <mat-panel-title>
+          {{ 'cron-picker.panel-labels.month' | translate }}
+        </mat-panel-title>
+        <mat-panel-description>
+          {{ 'cron-picker.labels.' + description.month | translate }}
+        </mat-panel-description>
+      </mat-expansion-panel-header>
+      <div formGroupName="month" class="panel">
+        <mat-radio-group formControlName="type" class="select-type">
+          <mat-radio-button value="every-month">{{ 'cron-picker.labels.every-month' | translate }}</mat-radio-button>
+          <mat-radio-button value="months">
+            <div class="select-months">
+              <mat-button-toggle-group appearance="outline" formControlName="months" aria-label="Months" multiple>
+                <mat-button-toggle disableRipple *ngFor="let month of months" [value]="month">
+                  {{ 'cron-picker.months.' + monthsAliases[month - 1] | translate }}
+                </mat-button-toggle>
+              </mat-button-toggle-group>
+            </div>
+          </mat-radio-button>
+        </mat-radio-group>
+      </div>
+    </mat-expansion-panel>
+  </mat-accordion>
+
+  <mat-divider></mat-divider>
 
   <div class="controls">
-    <div class="hint">
-      {{ hint }}
-    </div>
-    <button mat-flat-button color="primary" type="submit">{{ 'cron-picker.labels.select' | translate }}</button>
+    <ng-template *ngIf="form.invalid">
+      <span class="error" *ngIf="form.get('day').errors?.atLeastOneDayOfWeekSelected">
+        {{ 'cron-picker.errors.at-least-one-day-of-week' | translate }}
+      </span>
+      <span class="error" *ngIf="form.get('day').errors?.atLeastOneDayOfMonthSelected">
+        {{ 'cron-picker.errors.at-least-one-day-of-month' | translate }}
+      </span>
+      <span class="error" *ngIf="form.get('month').errors?.atLeastOneMonthSelected">
+        {{ 'cron-picker.errors.at-least-one-month' | translate }}
+      </span>
+    </ng-template>
+    <button mat-flat-button class="select-schedule-button" type="submit" [disabled]="form.invalid">
+      {{ 'cron-picker.labels.select' | translate }}
+    </button>
   </div>
 </form>

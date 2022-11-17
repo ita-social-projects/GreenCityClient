@@ -9,18 +9,21 @@ import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 })
 export class UbsAdminNotificationEditFormComponent implements OnInit {
   form: FormGroup;
+  platform = '';
+  notificationTextLang = 'ua';
 
   constructor(
     private fb: FormBuilder,
-    @Inject(MAT_DIALOG_DATA) public data: { topic: { en: string; ua: string }; text: { en: string; ua: string } },
+    @Inject(MAT_DIALOG_DATA) public data: { platform: string; text: { en: string; ua: string } },
     public dialogRef: MatDialogRef<UbsAdminNotificationEditFormComponent>
   ) {
+    this.platform = data.platform;
     this.form = this.fb.group({
-      topicEn: [data.topic.en],
-      topicUa: [data.topic.ua],
       textEn: [data.text.en],
       textUa: [data.text.ua]
     });
+    console.log(this.form.value);
+    console.log(data);
   }
 
   ngOnInit(): void {}
@@ -30,12 +33,8 @@ export class UbsAdminNotificationEditFormComponent implements OnInit {
   }
 
   onSubmit(): void {
-    const { topicEn, topicUa, textEn, textUa } = this.form.value;
+    const { textEn, textUa } = this.form.value;
     this.dialogRef.close({
-      topic: {
-        en: topicEn,
-        ua: topicUa
-      },
       text: {
         en: textEn,
         ua: textUa

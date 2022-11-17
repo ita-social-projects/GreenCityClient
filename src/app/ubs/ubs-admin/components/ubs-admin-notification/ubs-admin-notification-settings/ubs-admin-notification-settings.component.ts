@@ -19,16 +19,19 @@ export class UbsAdminNotificationSettingsComponent implements OnInit {
 
   triggers = notificationTriggers;
   // statuses = notificationStatuses;
+  notificationTitleLang = 'ua';
 
   schedule = null;
 
   constructor(
     private fb: FormBuilder,
-    @Inject(MAT_DIALOG_DATA) public data: { trigger: string; schedule: string; status: string },
+    @Inject(MAT_DIALOG_DATA) public data: { title: { en: string; ua: string }; trigger: string; schedule: string; status: string },
     public dialogRef: MatDialogRef<UbsAdminNotificationSettingsComponent>
   ) {
     console.log(this.data);
     this.form = this.fb.group({
+      titleUa: [this.data.title.en],
+      titleEn: [this.data.title.ua],
       trigger: [this.data.trigger]
       // status: [this.data.status]
     });

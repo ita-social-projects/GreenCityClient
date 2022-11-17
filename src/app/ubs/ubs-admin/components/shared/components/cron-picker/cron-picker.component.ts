@@ -1,51 +1,99 @@
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
-import { FormBuilder, FormGroup } from '@angular/forms';
+import { Component, EventEmitter, Input, OnChanges, OnDestroy, OnInit, Output, SimpleChanges } from '@angular/core';
+import { AbstractControl, FormBuilder, FormGroup } from '@angular/forms';
+import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
+import { Subject } from 'rxjs';
+import { takeUntil } from 'rxjs/operators';
+import { CronService } from 'src/app/shared/cron/cron.service';
 
 @Component({
   selector: 'app-cron-picker',
   templateUrl: './cron-picker.component.html',
   styleUrls: ['./cron-picker.component.scss']
 })
-export class CronPickerComponent implements OnInit {
+export class CronPickerComponent implements OnInit, OnDestroy, OnChanges {
   form: FormGroup;
-  @Input() cronString = '';
+  @Input() schedule = '';
   @Output() scheduleSelected = new EventEmitter<string>();
 
-  daysOfWeek = ['MON', 'TUE', 'WED', 'THU', 'FRI', 'SAT', 'SUN'];
-  months = ['JAN', 'FEB', 'MAR', 'APR', 'MAY', 'JUN', 'JUL', 'AUG', 'SEP', 'OCT', 'NOV', 'DEC'];
-  days = new Array(31).fill(0).map((val, idx) => idx + 1);
-  minutes = new Array(60).fill(0).map((val, idx) => idx);
-  hours = new Array(24).fill(0).map((val, idx) => idx);
-  hint = '';
+  private destroy = new Subject<void>();
+  lang = 'en';
 
-  constructor(private fb: FormBuilder) {
+  daysOfWeekAliases = ['MON', 'TUE', 'WED', 'THU', 'FRI', 'SAT', 'SUN'];
+  monthsAliases = ['JAN', 'FEB', 'MAR', 'APR', 'MAY', 'JUN', 'JUL', 'AUG', 'SEP', 'OCT', 'NOV', 'DEC'];
+  daysOfWeek = new Array(7).fill(0).map((_, idx) => idx + 1);
+  months = new Array(12).fill(0).map((_, idx) => idx + 1);
+  days = new Array(31).fill(0).map((_, idx) => idx + 1);
+  minutes = new Array(60).fill(0).map((_, idx) => idx);
+  hours = new Array(24).fill(0).map((_, idx) => idx);
+  description = {
+    time: '',
+    day: '',
+    month: ''
+  };
+
+  constructor(private fb: FormBuilder, private localStorageService: LocalStorageService, private cronService: CronService) {
     this.form = this.fb.group({
       time: this.fb.group({
         min: [0],
         hour: [0]
       }),
-      day: this.fb.group({
-        type: ['every-day'],
-        daysOfWeek: [this.daysOfWeek],
-        daysOfMonth: [[1]]
-      }),
-      month: this.fb.group({
-        type: ['every-month'],
-        months: [this.months]
-      })
+      day: this.fb.group(
+        {
+          type: ['every-day'],
+          daysOfWeek: [this.daysOfWeek],
+          daysOfMonth: [[1]]
+        },
+        { validators: [this.dayValidator] }
+      ),
+      month: this.fb.group(
+        {
+          type: ['every-month'],
+          months: [this.months]
+        },
+        { validators: [this.monthValidator] }
+      )
+    });
+
+    this.localStorageService.languageBehaviourSubject.pipe(takeUntil(this.destroy)).subscribe((lang) => {
+      this.lang = lang;
     });
   }
 
-  ngOnInit(): void {
-    if (this.cronString) {
-      this.fillForm(this.cronString);
-    }
+  dayValidator(control: AbstractControl) {
+    const output = {
+      'every-day': null,
+      'days-of-week': control.value.daysOfWeek.length ? null : { atLeastOneDayOfWeekSelected: true },
+      'days-of-month': control.value.daysOfMonth.length ? null : { atLeastOneDayOfMonthSelected: true }
+    };
+    return output[control.value.type];
+  }
 
-    this.form.valueChanges.subscribe((value) => {
-      this.getHint();
+  monthValidator(control: AbstractControl) {
+    const output = {
+      'every-month': null,
+      months: control.value.months.length ? null : { atLeastOneMonthSelected: true }
+    };
+    return output[control.value.type];
+  }
+
+  ngOnInit(): void {
+    this.form.valueChanges.pipe(takeUntil(this.destroy)).subscribe((value) => {
+      this.setDescription();
     });
 
-    this.getHint();
+    this.setDescription();
+  }
+
+  ngOnChanges(changes: SimpleChanges): void {
+    const schedule = changes.schedule.currentValue;
+    if (schedule) {
+      this.fillForm(schedule);
+    }
+  }
+
+  ngOnDestroy(): void {
+    this.destroy.next();
+    this.destroy.unsubscribe();
   }
 
   onSelect() {
@@ -55,31 +103,72 @@ export class CronPickerComponent implements OnInit {
   }
 
   fillForm(cronString) {
-    const [min, hour, daysOfMonth, months, daysOfWeek] = cronString.split(' ');
+    const { min, hour, dayOfMonth, month, dayOfWeek } = this.cronService.parse(cronString);
+
+    // console.log({ min, hour, dayOfMonth, month, dayOfWeek });
+    // const [min, hour, daysOfMonth, months, daysOfWeek] = cronString.split(' ');
+    const compareObjects = (obj1, obj2) => JSON.stringify(obj1) === JSON.stringify(obj2);
+
+    const supported = {
+      time: [{ min: 'value', hour: 'value' }],
+      day: [
+        { dayOfMonth: 'every', dayOfWeek: 'every' },
+        { dayOfMonth: 'value', dayOfWeek: 'every' },
+        { dayOfMonth: 'list', dayOfWeek: 'every' },
+        { dayOfMonth: 'every', dayOfWeek: 'value' },
+        { dayOfMonth: 'every', dayOfWeek: 'list' }
+      ],
+      month: [{ month: 'every' }, { month: 'value' }, { month: 'list' }]
+    };
+
+    if (!supported.time.some((schema) => compareObjects({ min: min.type, hour: hour.type }, schema))) {
+      throw new Error('Unsupported expression!');
+    }
+    if (!supported.day.some((schema) => compareObjects({ dayOfMonth: dayOfMonth.type, dayOfWeek: dayOfWeek.type }, schema))) {
+      throw new Error('Unsupported expression!');
+    }
+    if (!supported.month.some((schema) => compareObjects({ month: month.type }, schema))) {
+      throw new Error('Unsupported expression!');
+    }
 
     let dayType = 'every-day';
     let monthType = 'every-month';
 
-    if (daysOfMonth !== '*') {
+    if ((dayOfMonth.type === 'value' || dayOfMonth.type === 'list') && dayOfWeek.type === 'every') {
       dayType = 'days-of-month';
     }
-    if (daysOfWeek !== '*') {
+
+    if ((dayOfWeek.type === 'value' || dayOfWeek.type === 'list') && dayOfMonth.type === 'every') {
       dayType = 'days-of-week';
     }
-    if (months !== '*') {
+
+    if (month.type === 'months') {
       monthType = 'months';
     }
 
-    this.form.setValue({
-      time: { min: parseInt(min, 10), hour: parseInt(hour, 10) },
+    console.log({
+      time: { min: min.value, hour: hour.value },
       day: {
         type: dayType,
-        daysOfMonth: daysOfMonth.split(','),
-        daysOfWeek: daysOfWeek.split(',')
+        daysOfMonth: dayOfMonth.value,
+        daysOfWeek: dayOfWeek.value
       },
       month: {
         type: monthType,
-        months: months.split(',')
+        months: month.value
+      }
+    });
+
+    this.form.patchValue({
+      time: { min: min.value, hour: hour.value },
+      day: {
+        type: dayType,
+        ...(dayOfMonth.value && { daysOfMonth: [dayOfMonth.value].flat() }),
+        ...(dayOfWeek.value && { daysOfWeek: [dayOfWeek.value].flat().map((idx) => this.daysOfWeek[idx - 1]) })
+      },
+      month: {
+        type: monthType,
+        ...(month.value && { months: [month.value].flat() })
       }
     });
   }
@@ -108,21 +197,13 @@ export class CronPickerComponent implements OnInit {
     return { params, dayType, monthType };
   }
 
-  getHint() {
+  setDescription() {
     const { params, dayType, monthType } = this.getCronParams();
     const parseTimePart = (num) => (String(num).length >= 2 ? String(num) : `0${num}`);
-
-    const hintTime = `О ${parseTimePart(params.hour)}:${parseTimePart(params.min)}`;
-    const hintDay = {
-      'every-day': 'щодня',
-      'days-of-week': `у ${params.daysOfWeek}`,
-      'days-of-month': `у ${params.daysOfMonth}-й день місяця`
+    this.description = {
+      time: `${parseTimePart(params.hour)}:${parseTimePart(params.min)}`,
+      day: dayType,
+      month: monthType
     };
-    const hintMonth = {
-      'every-month': 'щомісяця',
-      months: `у такі місяці: ${params.months}`
-    };
-    const hint = `${hintTime} ${hintDay[dayType]} ${hintMonth[monthType]}`;
-    this.hint = hint;
   }
 }

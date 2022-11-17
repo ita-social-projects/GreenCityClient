@@ -1,26 +1,41 @@
 <form [formGroup]="form" (ngSubmit)="onSubmit()" class="edit-notification-container">
-  <h2 mat-dialog-title>Редагувати повідомлення</h2>
+  <h2 mat-dialog-title>Редагувати повідомлення для платформи {{ platform }}</h2>
 
   <div mat-dialog-content class="edit-notification-content">
-    <mat-form-field class="example-full-width" appearance="outline">
-      <mat-label>Тема повідомлення</mat-label>
-      <input matInput formControlName="topicUa" />
-    </mat-form-field>
+    <mat-accordion>
+      <mat-expansion-panel [expanded]="notificationTextLang === 'ua'">
+        <mat-expansion-panel-header>
+          <mat-panel-title> Українська мова </mat-panel-title>
+        </mat-expansion-panel-header>
+        <div class="edit-notification">
+          <!-- <mat-form-field appearance="outline">
+            <mat-label>Тема повідомлення</mat-label>
+            <input matInput formControlName="titleUa" />
+          </mat-form-field> -->
 
-    <mat-form-field class="example-full-width" appearance="outline">
-      <mat-label>Текст повідомлення</mat-label>
-      <textarea matInput formControlName="textUa" class="edit-text"></textarea>
-    </mat-form-field>
+          <mat-form-field appearance="outline">
+            <mat-label>Текст повідомлення</mat-label>
+            <textarea matInput formControlName="textUa" class="edit-text"></textarea>
+          </mat-form-field>
+        </div>
+      </mat-expansion-panel>
+      <mat-expansion-panel [expanded]="notificationTextLang === 'en'">
+        <mat-expansion-panel-header>
+          <mat-panel-title> Англійська мова </mat-panel-title>
+        </mat-expansion-panel-header>
+        <div class="edit-notification">
+          <!-- <mat-form-field appearance="outline">
+            <mat-label>Тема повідомлення</mat-label>
+            <input matInput formControlName="titleEn" />
+          </mat-form-field> -->
 
-    <mat-form-field class="example-full-width" appearance="outline">
-      <mat-label>Notification topic</mat-label>
-      <input matInput formControlName="topicEn" />
-    </mat-form-field>
-
-    <mat-form-field class="example-full-width" appearance="outline">
-      <mat-label>Notification text</mat-label>
-      <textarea matInput formControlName="textEn" class="edit-text"></textarea>
-    </mat-form-field>
+          <mat-form-field appearance="outline">
+            <mat-label>Текст повідомлення</mat-label>
+            <textarea matInput formControlName="textEn" class="edit-text"></textarea>
+          </mat-form-field>
+        </div>
+      </mat-expansion-panel>
+    </mat-accordion>
   </div>
 
   <div mat-dialog-actions class="controls">

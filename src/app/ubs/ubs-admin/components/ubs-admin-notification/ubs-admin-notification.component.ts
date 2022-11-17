@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
 import { take } from 'rxjs/operators';
 import { NotificationsService, notificationTriggers, notificationStatuses } from '../../services/notifications.service';
@@ -14,12 +14,10 @@ import { UbsAdminNotificationSettingsComponent } from './ubs-admin-notification-
   styleUrls: ['./ubs-admin-notification.component.scss']
 })
 export class UbsAdminNotificationComponent implements OnInit {
-  public icons = {
-    setting: './assets/img/ubs-tariff/setting.svg',
-    crumbs: './assets/img/ubs-tariff/crumbs.svg',
-    restore: './assets/img/ubs-tariff/restore.svg',
-    arrowDown: './assets/img/ubs-tariff/arrow-down.svg',
-    arrowRight: './assets/img/ubs-tariff/arrow-right.svg'
+  icons = {
+    edit: 'assets/img/ubs-admin-notifications/pencil.svg',
+    delete: './assets/img/ubs-admin-notifications/trashcan.svg',
+    activate: './assets/img/ubs-admin-notifications/counterclockwise.svg'
   };
 
   form: FormGroup;
@@ -27,48 +25,51 @@ export class UbsAdminNotificationComponent implements OnInit {
   statuses = notificationStatuses;
   lang = 'en';
   notification = null;
-  schedule = null;
 
-  recevProps = {
-    begin: new Date('05/11/2022'),
-    end: new Date('09/11/2022'),
-    period: 'monthly',
-    subperiod: 'on-week-on-day',
-    interval: 3,
-    week: 'second',
-    weekday: 'wed'
-  };
-  isSettingsEditable = false;
+  platforms = ['email', 'telegram', 'viber'];
 
   constructor(
     private fb: FormBuilder,
     private notificationsService: NotificationsService,
     private localStorageService: LocalStorageService,
     private dialog: MatDialog,
-    private route: ActivatedRoute
+    private route: ActivatedRoute,
+    private router: Router
   ) {}
 
   ngOnInit(): void {
     this.localStorageService.languageBehaviourSubject.subscribe((lang) => {
       this.lang = lang;
     });
-
-    this.form = this.fb.group({
-      topic: ['', Validators.required],
-      text: ['', Validators.required],
-      trigger: [''],
-      period: [''],
-      status: ['']
-    });
-    this.form.valueChanges.subscribe((changes) => {
-      console.log(changes);
-    });
-
     this.route.params.subscribe((params) => {
       const id = Number(params.id);
       this.loadNotification(id);
     });
   }
+
+  // schema = {
+  //   id: 1,
+  //   title: {
+  //     en: '',
+  //     ua: ''
+  //   },
+  //   trigger: '',
+  //   time: '',
+  //   schedule: { cron: '' },
+  //   status: '',
+
+  //   platforms: {
+  //     email: {
+  //       status: 'ACTIVE',
+  //       body: {
+  //         en: '',
+  //         ua: ''
+  //       }
+  //     },
+  //     telegram: { status: 'ACTIVE', body: { en: '', ua: '' } },
+  //     viber: { status: 'ACTIVE', body: { en: '', ua: '' } }
+  //   }
+  // };
 
   loadNotification(id) {
     this.notificationsService
@@ -77,64 +78,77 @@ export class UbsAdminNotificationComponent implements OnInit {
       .subscribe((notification) => {
         this.notification = {
           id: notification.id,
-          topic: {
+          title: {
             en: notification.title.en,
             ua: notification.title.ua
           },
           trigger: notification.trigger,
           time: notification.time,
-          period: notification.schedule?.cron ?? '',
+          schedule: notification.schedule?.cron ?? '',
           text: {
-            en: notification.body.en,
-            ua: notification.body.ua
+            email: {
+              en: notification.body.en,
+              ua: notification.body.ua
+            },
+            telegram: {
+              en: notification.body.en,
+              ua: notification.body.ua
+            },
+            viber: {
+              en: notification.body.en,
+              ua: notification.body.ua
+            }
+          },
+          platformStatus: {
+            email: 'ACTIVE',
+            telegram: 'ACTIVE',
+            viber: 'INACTIVE'
           },
           status: notification.status
         };
-        this.schedule = notification.schedule?.cron ?? '';
-        this.form.setValue({
-          topic: this.notification.topic.en,
-          text: this.notification.text.en,
-          trigger: this.notification.trigger,
-          period: this.notification.period,
-          status: this.notification.status
-        });
       });
   }
 
-  // isInfoEditable = false;
-
-  onEditNotificationInfo() {
-    // this.isInfoEditable = !this.isInfoEditable;
+  onEditNotificationInfo(platform: string): void {
     const dialogRef = this.dialog.open(UbsAdminNotificationEditFormComponent, {
       panelClass: 'edit-notification-popup',
       hasBackdrop: true,
-      data: { topic: this.notification.topic, text: this.notification.text }
+      data: { platform, text: this.notification.text[platform] }
     });
 
     dialogRef.afterClosed().subscribe((updated) => {
       if (!updated) {
         return;
       }
-      this.notification.topic = updated.topic;
-      this.notification.text = updated.text;
+      this.notification.title[platform] = updated.title;
+      this.notification.text[platform] = updated.text;
     });
   }
 
   onEditNotificationSettings() {
-    // this.isSettingsEditable = !this.isSettingsEditable;
     this.dialog.open(UbsAdminNotificationSettingsComponent, {
       panelClass: 'edit-notification-popup',
       hasBackdrop: true,
-      data: { trigger: this.notification.trigger, schedule: this.notification.period, status: this.notification.status }
+      data: {
+        title: { en: this.notification.title.en, ua: this.notification.title.ua },
+        trigger: this.notification.trigger,
+        schedule: this.notification.schedule,
+        status: this.notification.status
+      }
     });
   }
 
-  onScheduleSelected(cron) {
-    this.schedule = cron;
-    console.log(cron);
+  onActivatePlatform(platform: string) {
+    this.notification.platformStatus[platform] = 'ACTIVE';
   }
 
-  // onStatusChange(event: any) {
-  //   this.form.get('status').setValue(event.target.value);
-  // }
+  onDeactivatePlatform(platform: string) {
+    this.notification.platformStatus[platform] = 'INACTIVE';
+  }
+
+  onCancel() {
+    this.router.navigate(['../../notifications'], { relativeTo: this.route });
+  }
+
+  onSaveChanges() {}
 }

@@ -3,6 +3,15 @@
 
   <div class="notification-settings-content">
     <mat-form-field appearance="outline">
+      <mat-label>Тема повідомлення українською</mat-label>
+      <input matInput formControlName="titleUa" />
+    </mat-form-field>
+    <mat-form-field appearance="outline">
+      <mat-label>Тема повідомлення англійською</mat-label>
+      <input matInput formControlName="titleEn" />
+    </mat-form-field>
+
+    <mat-form-field appearance="outline">
       <mat-label>Подія для активації</mat-label>
       <mat-select formControlName="trigger">
         <mat-option class="option-trigger" *ngFor="let trigger of triggers" [value]="trigger">
@@ -16,7 +25,11 @@
         <span class="select-schedule-button-text">Повторювати:&nbsp;&nbsp;{{ schedule | cron: 'ua' | titlecase }}</span>
       </button>
       <mat-menu #selectSchedule="matMenu">
-        <app-cron-picker (click)="$event.stopPropagation()" (scheduleSelected)="onScheduleSelected($event)"></app-cron-picker>
+        <app-cron-picker
+          [schedule]="schedule"
+          (click)="$event.stopPropagation()"
+          (scheduleSelected)="onScheduleSelected($event)"
+        ></app-cron-picker>
       </mat-menu>
     </div>
 

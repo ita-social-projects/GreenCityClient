@@ -868,56 +868,8 @@
       "INACTIVE": "Inactive"
     }
   },
-  "recurring-events-picker": {
-    "title": "Repeat",
-    "begin": "Repeat from",
-    "end": "Repeat till",
-    "every": "Every",
-    "modes": {
-      "daily": "Daily",
-      "weekly": "Weekly",
-      "monthly": "Monthly",
-      "yearly": "Yearly"
-    },
-    "day": "day",
-    "week": "week",
-    "month": "month",
-    "year": "year",
-    "on": "on",
-    "in": "in",
-    "months": {
-      "jan": "January",
-      "feb": "February",
-      "mar": "March",
-      "apr": "April",
-      "may": "May",
-      "jun": "June",
-      "jul": "July",
-      "aug": "August",
-      "sep": "September",
-      "oct": "October",
-      "nov": "November",
-      "dec": "December"
-    },
-    "weekdays": {
-      "mon": "Monday",
-      "tue": "Tuesday",
-      "wed": "Wednesday",
-      "thu": "Thursday",
-      "fri": "Friday",
-      "sat": "Saturday",
-      "sun": "Sunday"
-    },
-    "weeks": {
-      "first": "First",
-      "second": "Second",
-      "third": "Third",
-      "forth": "Fourth",
-      "last": "Last"
-    }
-  },
   "cron-picker": {
-    "tab-labels": {
+    "panel-labels": {
       "time": "Time",
       "day": "Day",
       "month": "Month"
@@ -932,28 +884,33 @@
       "months": "Specific months",
       "select": "Select"
     },
+    "errors": {
+      "at-least-one-day-of-week": "At least one day of week should be selected",
+      "at-least-one-day-of-month": "At least one day of month should be selected",
+      "at-least-one-month": "At least one month should be selected"
+    },
     "days-of-week": {
-      "MON": "Monday",
-      "TUE": "Tuesday",
-      "WED": "Wednesday",
-      "THU": "Thursday",
-      "FRI": "Friday",
-      "SAT": "Saturday",
-      "SUN": "Sunday"
+      "MON": "Mon",
+      "TUE": "Tue",
+      "WED": "Wed",
+      "THU": "Thu",
+      "FRI": "Fri",
+      "SAT": "Sat",
+      "SUN": "Sun"
     },
     "months": {
-      "JAN": "January",
-      "FEB": "February",
-      "MAR": "March",
-      "APR": "April",
+      "JAN": "Jan",
+      "FEB": "Feb",
+      "MAR": "Mar",
+      "APR": "Apr",
       "MAY": "May",
-      "JUN": "June",
-      "JUL": "July",
-      "AUG": "August",
-      "SEP": "September",
-      "OCT": "October",
-      "NOV": "November",
-      "DEC": "December"
+      "JUN": "Jun",
+      "JUL": "Jul",
+      "AUG": "Aug",
+      "SEP": "Sep",
+      "OCT": "Oct",
+      "NOV": "Nov",
+      "DEC": "Dec"
     }
   }
 }

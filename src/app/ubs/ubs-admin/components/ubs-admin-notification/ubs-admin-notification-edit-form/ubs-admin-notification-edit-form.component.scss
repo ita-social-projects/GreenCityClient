@@ -1,13 +1,22 @@
 .edit-notification-container {
-  width: 500px;
+  width: 700px;
+  max-height: 100vh;
   display: flex;
   flex-direction: column;
   // gap: 15px;
 }
 
 .edit-notification-content {
-  display: flex;
-  flex-direction: column;
+  // display: flex;
+  // flex-direction: column;
+
+  padding-top: 5px;
+  padding-bottom: 5px;
+
+  .edit-notification {
+    display: flex;
+    flex-direction: column;
+  }
 
   &::-webkit-scrollbar {
     width: 4px;
