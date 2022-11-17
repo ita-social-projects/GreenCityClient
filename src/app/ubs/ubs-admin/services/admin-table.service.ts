@@ -155,18 +155,28 @@ export class AdminTableService {
     const keyNameFrom = `${columnName}From`;
     const keyNameTo = `${columnName}To`;
     const checkboxParent = (e.source._elementRef.nativeElement as HTMLElement).parentElement;
+    const inputDateFrom = checkboxParent.querySelector(`#dateFrom${currentColumn}`) as HTMLInputElement;
     const inputDateTo = checkboxParent.querySelector(`#dateTo${currentColumn}`) as HTMLInputElement;
+    const dateFrom = inputDateFrom.value;
     let dateTo = inputDateTo.value;
 
-    if (checked) {
+    if (!dateTo) {
       dateTo = this.getTodayDate();
+    }
+
+    if (Date.parse(dateFrom) > Date.parse(dateTo)) {
+      dateTo = dateFrom;
+    }
+
+    if (checked) {
+      elem[keyNameFrom] = dateFrom;
       elem[keyNameTo] = dateTo;
-      this.setLocalStoreFilter(this.filters);
+      this.filters.push(elem);
+      this.localStorageService.setUbsAdminOrdersTableTitleColumnFilter(this.filters);
+
       this.saveDateFilters(checked, currentColumn, elem);
     } else {
       this.filters = this.filters.filter((filteredElem) => !Object.keys(filteredElem).includes(`${keyNameFrom}`));
-      this.filters = this.filters.filter((filteredElem) => !Object.keys(filteredElem).includes(`${keyNameTo}`));
-      this.setLocalStoreFilter(this.filters);
       this.saveDateFilters(checked, currentColumn, {});
     }
   }
