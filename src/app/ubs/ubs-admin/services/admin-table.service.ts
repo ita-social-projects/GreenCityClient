@@ -172,11 +172,13 @@ export class AdminTableService {
       elem[keyNameFrom] = dateFrom;
       elem[keyNameTo] = dateTo;
       this.filters.push(elem);
-      this.localStorageService.setUbsAdminOrdersTableTitleColumnFilter(this.filters);
+      this.setLocalStoreFilter(this.filters);
 
       this.saveDateFilters(checked, currentColumn, elem);
     } else {
       this.filters = this.filters.filter((filteredElem) => !Object.keys(filteredElem).includes(`${keyNameFrom}`));
+      this.filters = this.filters.filter((filteredElem) => !Object.keys(filteredElem).includes(`${keyNameTo}`));
+      this.setLocalStoreFilter(this.filters);
       this.saveDateFilters(checked, currentColumn, {});
     }
   }
