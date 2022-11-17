@@ -183,34 +183,7 @@ export class AdminTableService {
     }
   }
 
-  changeInputDateFilters(value: string, currentColumn: string, suffix: string): void {
-    const elem = {};
-    const dateFrom = value;
-    const columnName = this.changeColumnNameEqualToEndPoint(currentColumn);
-    const keyNameFrom = `${columnName}From`;
-    const keyNameTo = `${columnName}To`;
-    const keyToChange = `${columnName}${suffix}`;
-    elem[keyNameFrom] = dateFrom;
-    elem[keyNameTo] = dateFrom;
-    const filterToChange = this.filters.find((filter) => Object.keys(filter).includes(`${keyToChange}`));
-
-    if (!filterToChange) {
-      elem[keyNameFrom] = dateFrom;
-      this.filters.push(elem);
-      this.saveDateFilters(false, columnName, this.filters);
-      this.setLocalStoreFilter(this.filters);
-    } else {
-      filterToChange[keyToChange] = value;
-      if (Date.parse(filterToChange[`${columnName}From`]) > Date.parse(filterToChange[`${columnName}To`])) {
-        filterToChange[`${columnName}To`] = filterToChange[`${columnName}From`];
-      }
-      const element = { ...filterToChange };
-      this.saveDateFilters(true, columnName, element);
-      this.setLocalStoreFilter(this.filters);
-    }
-  }
-
-  changeOrderDateFilters(value: string, currentColumn: string, suffix: string, check: boolean): void {
+  changeInputDateFilters(value: string, currentColumn: string, suffix: string, check?: boolean): void {
     const elem = {};
     const dateFrom = value;
     const columnName = this.changeColumnNameEqualToEndPoint(currentColumn);

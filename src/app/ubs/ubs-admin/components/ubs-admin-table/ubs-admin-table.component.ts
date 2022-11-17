@@ -650,7 +650,7 @@ export class UbsAdminTableComponent implements OnInit, AfterViewChecked, OnDestr
   changeInputDateFilters(value: string, currentColumn: string, suffix: string): void {
     this.noFiltersApplied = false;
     const check = this.getDateChecked(currentColumn);
-    this.adminTableService.changeOrderDateFilters(value, currentColumn, suffix, check);
+    this.adminTableService.changeInputDateFilters(value, currentColumn, suffix, check);
   }
 
   getDateChecked(dateColumn): boolean {
