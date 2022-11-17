@@ -40,13 +40,13 @@ export class UbsAdminTariffsDeactivatePopUpComponent implements OnInit, OnDestro
 
   public couriers;
   public couriersName;
-  public courierEnglishName;
+  // public courierEnglishName;
   public locations;
   public regionsName;
   public selectedRegions = [];
   public selectedRegionsLength: number;
   public regionPlaceholder: string;
-  public regionEnglishName;
+  // public regionEnglishName;
   public stations;
   public filteredStations;
   public selectedStation = [];
@@ -136,9 +136,8 @@ export class UbsAdminTariffsDeactivatePopUpComponent implements OnInit, OnDestro
       .pipe(takeUntil(this.unsubscribe))
       .subscribe((res) => {
         this.couriers = res;
-        const lang = this.languageService.getCurrentLanguage();
         this.couriersName = this.couriers
-          .map((it) => it.courierTranslationDtos.map((el) => (lang === 'ua' ? el.name : el.nameEng)))
+          .map((it) => it.courierTranslationDtos.map((el) => (this.currentLanguage === 'ua' ? el.name : el.nameEng)))
           .flat(2);
       });
   }
@@ -171,18 +170,17 @@ export class UbsAdminTariffsDeactivatePopUpComponent implements OnInit, OnDestro
   }
 
   public onSelectCourier(event): void {
-    const lang = this.languageService.getCurrentLanguage();
     const selectedValue = this.couriers.filter((it) =>
       it.courierTranslationDtos.find((ob) => {
-        const searchingFilter = lang === 'ua' ? ob.name : ob.nameEng;
+        const searchingFilter = this.currentLanguage === 'ua' ? ob.name : ob.nameEng;
         return searchingFilter === event.value;
       })
     );
-    this.courierEnglishName = selectedValue.map((it) => it.courierTranslationDtos.map((i) => i.nameEng)).flat(2);
+    // this.courierEnglishName = selectedValue.map((it) => it.courierTranslationDtos.map((i) => i.nameEng)).flat(2);
     this.courierId = selectedValue.find((it) => it.courierId).courierId;
   }
 
-  public selectStation(event: MatAutocompleteSelectedEvent, trigger?: MatAutocompleteTrigger): void {
+  public selectStation(event: MatAutocompleteSelectedEvent, trigger: MatAutocompleteTrigger): void {
     this.station.clearValidators();
     this.station.updateValueAndValidity();
     this.blurOnOption = false;
@@ -190,11 +188,9 @@ export class UbsAdminTariffsDeactivatePopUpComponent implements OnInit, OnDestro
     // this.station.setValidators(this.stationValidator());
     this.station.setValue('');
     this.setStationPlaceholder();
-    if (trigger) {
-      requestAnimationFrame(() => {
-        trigger.openPanel();
-      });
-    }
+    requestAnimationFrame(() => {
+      trigger.openPanel();
+    });
   }
 
   public addSelectedStation(event: MatAutocompleteSelectedEvent): void {
@@ -228,7 +224,7 @@ export class UbsAdminTariffsDeactivatePopUpComponent implements OnInit, OnDestro
     return this.selectedStation.map((it) => it.name).includes(item);
   }
 
-  public selectRegion(event: MatAutocompleteSelectedEvent, trigger?: MatAutocompleteTrigger): void {
+  public selectRegion(event: MatAutocompleteSelectedEvent, trigger: MatAutocompleteTrigger): void {
     this.blurOnOption = false;
     this.region.clearValidators();
     this.region.updateValueAndValidity();
@@ -244,13 +240,6 @@ export class UbsAdminTariffsDeactivatePopUpComponent implements OnInit, OnDestro
     if (this.selectedRegions.length > 1 || this.selectedRegions.length < 1) {
       this.disableCity();
     }
-  }
-
-  public disableCity(): void {
-    this.city.setValue('');
-    this.selectedCities = [];
-    this.setCityPlaceholder();
-    this.city.disable();
   }
 
   public addSelectedRegion(event: MatAutocompleteSelectedEvent): void {
@@ -317,8 +306,7 @@ export class UbsAdminTariffsDeactivatePopUpComponent implements OnInit, OnDestro
     this.city.enable();
   }
 
-  public selectCity(event: MatAutocompleteSelectedEvent, trigger?: MatAutocompleteTrigger): void {
-    console.log(event);
+  public selectCity(event: MatAutocompleteSelectedEvent, trigger: MatAutocompleteTrigger): void {
     this.blurOnOption = false;
     this.city.clearValidators();
     this.city.updateValueAndValidity();
@@ -326,11 +314,9 @@ export class UbsAdminTariffsDeactivatePopUpComponent implements OnInit, OnDestro
     this.setCityPlaceholder();
     this.city.setValue('');
     // this.city.setValidators(this.cityValidator());
-    if (trigger) {
-      requestAnimationFrame(() => {
-        trigger.openPanel();
-      });
-    }
+    requestAnimationFrame(() => {
+      trigger.openPanel();
+    });
   }
 
   public addSelectedCity(event: MatAutocompleteSelectedEvent): void {
@@ -344,6 +330,13 @@ export class UbsAdminTariffsDeactivatePopUpComponent implements OnInit, OnDestro
     if (!itemIncluded) {
       this.selectedCities.push(tempItem);
     }
+  }
+
+  public disableCity(): void {
+    this.city.setValue('');
+    this.selectedCities = [];
+    this.setCityPlaceholder();
+    this.city.disable();
   }
 
   public checkCity(item): boolean {
@@ -372,10 +365,10 @@ export class UbsAdminTariffsDeactivatePopUpComponent implements OnInit, OnDestro
     }
   }
 
-  public _filterOptions(name: string, items: any[]): any[] {
-    const filterValue = name.toLowerCase();
-    return items.filter((option) => option.toLowerCase().includes(filterValue));
-  }
+  // public _filterOptions(name: string, items: any[]): any[] {
+  //   const filterValue = name.toLowerCase();
+  //   return items.filter((option) => option.toLowerCase().includes(filterValue));
+  // }
 
   public createCardDto() {
     this.createCardObj = {
@@ -405,10 +398,10 @@ export class UbsAdminTariffsDeactivatePopUpComponent implements OnInit, OnDestro
             data: {
               title: 'ubs-tariffs-add-location-pop-up.create_card_title',
               courierName: this.courier.value,
-              courierEnglishName: this.courierEnglishName,
+              // courierEnglishName: this.courierEnglishName,
               stationNames: this.selectedStation.map((it) => it.name),
               regionName: this.region.value,
-              regionEnglishName: this.regionEnglishName,
+              // regionEnglishName: this.regionEnglishName,
               locationNames: this.selectedCities.map((it) => it.location),
               locationEnglishNames: this.selectedCities.map((it) => it.englishLocation),
               action: 'ubs-tariffs-add-location-pop-up.create_button'
