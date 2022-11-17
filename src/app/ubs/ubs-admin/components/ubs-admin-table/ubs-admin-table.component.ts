@@ -93,6 +93,9 @@ export class UbsAdminTableComponent implements OnInit, AfterViewChecked, OnDestr
   columnsWidthPreference: Map<string, number>;
   restoredFilters = [];
   isRestoredFilters = false;
+  checkOrderDate: boolean = false;
+  checkDateOfExport: boolean = false;
+  checkPaymentDate: boolean = false;
 
   bigOrderTable$ = this.store.select((state: IAppState): IBigOrderTable => state.bigOrderTable.bigOrderTable);
   bigOrderTableParams$ = this.store.select((state: IAppState): IBigOrderTableParams => state.bigOrderTable.bigOrderTableParams);
@@ -631,15 +634,39 @@ export class UbsAdminTableComponent implements OnInit, AfterViewChecked, OnDestr
   changeDateFilters(e: MatCheckboxChange, checked: boolean, currentColumn: string): void {
     this.adminTableService.changeDateFilters(e, checked, currentColumn);
     this.noFiltersApplied = false;
+    switch (currentColumn) {
+      case 'orderDate':
+        this.checkOrderDate = !this.checkOrderDate;
+        break;
+      case 'dateOfExport':
+        this.checkDateOfExport = !this.checkDateOfExport;
+        break;
+      case 'paymentDate':
+        this.checkPaymentDate = !this.checkPaymentDate;
+        break;
+    }
   }
 
   changeInputDateFilters(value: string, currentColumn: string, suffix: string): void {
     this.noFiltersApplied = false;
-    this.adminTableService.changeInputDateFilters(value, currentColumn, suffix);
+    let check = this.getDateChecked(currentColumn);
+    this.adminTableService.changeOrderDateFilters(value, currentColumn, suffix, check);
   }
 
   getDateChecked(dateColumn): boolean {
-    return this.adminTableService.getDateChecked(dateColumn);
+    let check: boolean = false;
+    switch (dateColumn) {
+      case 'orderDate':
+        check = this.checkOrderDate;
+        break;
+      case 'dateOfExport':
+        check = this.checkDateOfExport;
+        break;
+      case 'paymentDate':
+        check = this.checkPaymentDate;
+        break;
+    }
+    return check;
   }
 
   getDateValue(suffix: 'From' | 'To', dateColumn): boolean {

@@ -146,7 +146,7 @@ export class AdminTableService {
     } else {
       this.filters = this.filters.filter((filteredElem) => filteredElem[columnName] !== option.key);
     }
-    this.localStorageService.setUbsAdminOrdersTableTitleColumnFilter(this.filters);
+    this.setLocalStoreFilter(this.filters);
   }
 
   changeDateFilters(e: MatCheckboxChange, checked: boolean, currentColumn: string): void {
@@ -155,45 +155,76 @@ export class AdminTableService {
     const keyNameFrom = `${columnName}From`;
     const keyNameTo = `${columnName}To`;
     const checkboxParent = (e.source._elementRef.nativeElement as HTMLElement).parentElement;
-    const inputDateFrom = checkboxParent.querySelector(`#dateFrom${currentColumn}`) as HTMLInputElement;
     const inputDateTo = checkboxParent.querySelector(`#dateTo${currentColumn}`) as HTMLInputElement;
-    const dateFrom = inputDateFrom.value;
     let dateTo = inputDateTo.value;
 
     if (checked) {
       dateTo = this.getTodayDate();
-      elem[keyNameFrom] = dateFrom;
       elem[keyNameTo] = dateTo;
-      this.filters.push(elem);
-      this.localStorageService.setUbsAdminOrdersTableTitleColumnFilter(this.filters);
-
+      this.setLocalStoreFilter(this.filters);
       this.saveDateFilters(checked, currentColumn, elem);
     } else {
       this.filters = this.filters.filter((filteredElem) => !Object.keys(filteredElem).includes(`${keyNameFrom}`));
+      this.filters = this.filters.filter((filteredElem) => !Object.keys(filteredElem).includes(`${keyNameTo}`));
+      this.setLocalStoreFilter(this.filters);
       this.saveDateFilters(checked, currentColumn, {});
     }
   }
 
   changeInputDateFilters(value: string, currentColumn: string, suffix: string): void {
     const elem = {};
-    const keyNameFrom = `${currentColumn}From`;
     const dateFrom = value;
     const columnName = this.changeColumnNameEqualToEndPoint(currentColumn);
+    const keyNameFrom = `${columnName}From`;
+    const keyNameTo = `${columnName}To`;
     const keyToChange = `${columnName}${suffix}`;
     elem[keyNameFrom] = dateFrom;
-    this.filters.push(elem);
-    const filterToChange = this.filters.find((filter) => Object.keys(filter).includes(`${keyToChange}`));
+    elem[keyNameTo] = dateFrom;
+    let filterToChange = this.filters.find((filter) => Object.keys(filter).includes(`${keyToChange}`));
 
-    if (filterToChange) {
+    if (!filterToChange) {
+      elem[keyNameFrom] = dateFrom;
+      this.filters.push(elem);
+      this.saveDateFilters(false, columnName, this.filters);
+      this.setLocalStoreFilter(this.filters);
+    } else {
       filterToChange[keyToChange] = value;
       if (Date.parse(filterToChange[`${columnName}From`]) > Date.parse(filterToChange[`${columnName}To`])) {
         filterToChange[`${columnName}To`] = filterToChange[`${columnName}From`];
-      } else if (!filterToChange[`${columnName}To`]) {
+      }
+      const element = { ...filterToChange };
+      this.saveDateFilters(true, columnName, element);
+      this.setLocalStoreFilter(this.filters);
+    }
+  }
+
+  changeOrderDateFilters(value: string, currentColumn: string, suffix: string, check: boolean): void {
+    const elem = {};
+    const dateFrom = value;
+    const columnName = this.changeColumnNameEqualToEndPoint(currentColumn);
+    const keyNameFrom = `${columnName}From`;
+    const keyNameTo = `${columnName}To`;
+    const keyToChange = `${columnName}${suffix}`;
+    elem[keyNameFrom] = dateFrom;
+    elem[keyNameTo] = dateFrom;
+    let filterToChange = this.filters.find((filter) => Object.keys(filter).includes(`${keyToChange}`));
+
+    if (!filterToChange) {
+      elem[keyNameFrom] = dateFrom;
+      this.filters.push(elem);
+      this.saveDateFilters(false, columnName, this.filters);
+      this.setLocalStoreFilter(this.filters);
+    } else {
+      filterToChange[keyToChange] = value;
+      if (!check) {
+        filterToChange[`${columnName}To`] = filterToChange[`${columnName}From`];
+      }
+      if (Date.parse(filterToChange[`${columnName}From`]) > Date.parse(filterToChange[`${columnName}To`])) {
         filterToChange[`${columnName}To`] = filterToChange[`${columnName}From`];
       }
       const element = { ...filterToChange };
-      this.saveDateFilters(true, currentColumn, element);
-      this.localStorageService.setUbsAdminOrdersTableTitleColumnFilter(this.filters);
+      this.saveDateFilters(true, columnName, element);
+      this.setLocalStoreFilter(this.filters);
     }
   }
 
@@ -222,6 +253,10 @@ export class AdminTableService {
       }
     }
     return date;
+  }
+
+  setLocalStoreFilter(filters: any[]): void {
+    this.localStorageService.setUbsAdminOrdersTableTitleColumnFilter(filters);
   }
 
   public saveDateFilters(checked, currentColumn, elem) {

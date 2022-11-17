@@ -46,7 +46,7 @@
                       </mat-checkbox>
                       <div class="date-range-box">
                         <div class="input-box">
-                          <label class="date-label" for="dateFrom" [hidden]="!checkForCheckedBoxes(column)">{{
+                          <label class="date-label" for="dateFrom" [hidden]="!getDateChecked(column.key)">{{
                             'ubs-tables.date-from' | translate
                           }}</label>
                           <input
@@ -58,7 +58,7 @@
                             (change)="changeInputDateFilters($event.target.value, column.key, 'From')"
                           />
                         </div>
-                        <div class="input-box" [hidden]="!checkForCheckedBoxes(column)">
+                        <div class="input-box" [hidden]="!getDateChecked(column.key)">
                           <label class="date-label" for="dateTo">{{ 'ubs-tables.date-to' | translate }}</label>
                           <input
                             id="dateTo{{ column.key }}"
