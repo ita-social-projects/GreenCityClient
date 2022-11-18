@@ -186,14 +186,12 @@ export class CronPickerComponent implements OnInit, OnDestroy, OnChanges {
   }
 
   private setDescription(): void {
-    const parseTimePart = (num) => (String(num).length >= 2 ? String(num) : `0${num}`);
-
     const time = { min: this.form.value.time.min, hour: this.form.value.time.hour };
     const dayType = this.form.value.day.type;
     const monthType = this.form.value.month.type;
 
     this.description = {
-      time: `${parseTimePart(time.hour)}:${parseTimePart(time.min)}`,
+      time: `${String(time.hour).padStart(2, '0')}:${String(time.min).padStart(2, '0')}`,
       day: dayType,
       month: monthType
     };

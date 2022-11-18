@@ -26,6 +26,8 @@ const format = (str: string, ...replacements: any[]) => {
   return res;
 };
 
+const formatDoubleDigits = (val: number | string): string => String(val).padStart(2, '0');
+
 const daysOfWeekAliases = ['MON', 'TUE', 'WED', 'THU', 'FRI', 'SAT', 'SUN'];
 const monthsAliases = ['JAN', 'FEB', 'MAR', 'APR', 'MAY', 'JUN', 'JUL', 'AUG', 'SEP', 'OCT', 'NOV', 'DEC'];
 
@@ -140,7 +142,11 @@ export class CronService {
     const parsedMin = this.parsePart(min, this.rangeValidators.minute);
     const parsedHour = this.parsePart(hour, this.rangeValidators.hour);
     if (parsedMin.type === 'value' && parsedHour.type === 'value') {
-      return format(this.locales[this.currentLocale].parts.specificTime, parsedHour.value, parsedMin.value);
+      return format(
+        this.locales[this.currentLocale].parts.specificTime,
+        formatDoubleDigits(parsedHour.value as number),
+        formatDoubleDigits(parsedMin.value as number)
+      );
     }
     const minPart = format(
       this.locales[this.currentLocale].parts.minute[parsedMin.type],
