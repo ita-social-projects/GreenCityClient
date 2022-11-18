@@ -32,12 +32,8 @@ describe('UbsAdminTariffsCardPopUpComponent', () => {
     courierStatus: 'fake',
     courierTranslationDtos: [
       {
-        languageCode: 'ua',
-        name: 'фейкКурєр'
-      },
-      {
-        languageCode: 'en',
-        name: 'fakeCourier'
+        name: 'фейкКурєр',
+        nameEng: 'fakeCourier'
       }
     ]
   };
@@ -243,15 +239,15 @@ describe('UbsAdminTariffsCardPopUpComponent', () => {
   it('should get all couriers', () => {
     component.getCouriers();
     expect(component.couriers).toEqual([fakeCouriers]);
-    expect(component.couriersName).toEqual(['фейкКурєр']);
+    expect(component.couriersName).toEqual([['фейкКурєр']]);
   });
 
   it('should set english courier name', () => {
     const mockEvent = {
-      value: 'фейкКурєр'
+      value: ['фейкКурєр']
     };
     component.onSelectCourier(mockEvent);
-    expect(component.courierEnglishName).toEqual(['fakeCourier']);
+    expect(component.courierEnglishName).toEqual([['fakeCourier']]);
   });
 
   it('should get all stations', () => {
