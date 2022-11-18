@@ -557,7 +557,7 @@ describe('UsbAdminTableComponent', () => {
   });
 
   it('changeDateFilters expect changeDateFilters and changeCheckDateRange shoud be call', () => {
-    let currentCollumn = 'orderDate';
+    const currentCollumn = 'orderDate';
     component.noFiltersApplied = true;
     spyOn((component as any).adminTableService, 'changeDateFilters');
     spyOn(component, 'changeCheckDateRange');
