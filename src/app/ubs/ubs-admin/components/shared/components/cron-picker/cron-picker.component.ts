@@ -5,26 +5,29 @@ import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 import { CronService } from 'src/app/shared/cron/cron.service';
 
+const range = (from: number, to: number) => new Array(to - from).fill(0).map((_, idx) => from + idx);
+const compareObjects = (obj1: any, obj2: any) => JSON.stringify(obj1) === JSON.stringify(obj2);
+
 @Component({
   selector: 'app-cron-picker',
   templateUrl: './cron-picker.component.html',
   styleUrls: ['./cron-picker.component.scss']
 })
 export class CronPickerComponent implements OnInit, OnDestroy, OnChanges {
-  form: FormGroup;
   @Input() schedule = '';
   @Output() scheduleSelected = new EventEmitter<string>();
 
+  form: FormGroup;
   private destroy = new Subject<void>();
   lang = 'en';
 
+  minutes = range(0, 60);
+  hours = range(0, 24);
+  daysOfWeek = range(1, 8);
+  days = range(1, 32);
+  months = range(1, 13);
   daysOfWeekAliases = ['MON', 'TUE', 'WED', 'THU', 'FRI', 'SAT', 'SUN'];
   monthsAliases = ['JAN', 'FEB', 'MAR', 'APR', 'MAY', 'JUN', 'JUL', 'AUG', 'SEP', 'OCT', 'NOV', 'DEC'];
-  daysOfWeek = new Array(7).fill(0).map((_, idx) => idx + 1);
-  months = new Array(12).fill(0).map((_, idx) => idx + 1);
-  days = new Array(31).fill(0).map((_, idx) => idx + 1);
-  minutes = new Array(60).fill(0).map((_, idx) => idx);
-  hours = new Array(24).fill(0).map((_, idx) => idx);
   description = {
     time: '',
     day: '',
@@ -59,7 +62,7 @@ export class CronPickerComponent implements OnInit, OnDestroy, OnChanges {
     });
   }
 
-  dayValidator(control: AbstractControl) {
+  private dayValidator(control: AbstractControl): null | { [error: string]: boolean } {
     const output = {
       'every-day': null,
       'days-of-week': control.value.daysOfWeek.length ? null : { atLeastOneDayOfWeekSelected: true },
@@ -68,7 +71,7 @@ export class CronPickerComponent implements OnInit, OnDestroy, OnChanges {
     return output[control.value.type];
   }
 
-  monthValidator(control: AbstractControl) {
+  private monthValidator(control: AbstractControl): null | { [error: string]: boolean } {
     const output = {
       'every-month': null,
       months: control.value.months.length ? null : { atLeastOneMonthSelected: true }
@@ -80,14 +83,19 @@ export class CronPickerComponent implements OnInit, OnDestroy, OnChanges {
     this.form.valueChanges.pipe(takeUntil(this.destroy)).subscribe((value) => {
       this.setDescription();
     });
-
     this.setDescription();
   }
 
   ngOnChanges(changes: SimpleChanges): void {
     const schedule = changes.schedule.currentValue;
-    if (schedule) {
-      this.fillForm(schedule);
+    if (!schedule) {
+      return;
+    }
+    try {
+      const updates = this.mapInputToFormValue(schedule);
+      this.form.patchValue(updates);
+    } catch (error) {
+      console.error(`Error while parsing cron-picker input. ${error}`);
     }
   }
 
@@ -96,18 +104,14 @@ export class CronPickerComponent implements OnInit, OnDestroy, OnChanges {
     this.destroy.unsubscribe();
   }
 
-  onSelect() {
-    const { params } = this.getCronParams();
-    const cronString = `${params.min} ${params.hour} ${params.daysOfMonth} ${params.months} ${params.daysOfWeek}`;
-    this.scheduleSelected.emit(cronString);
+  onSelect(): void {
+    const params = this.getCronParams();
+    const cron = `${params.min} ${params.hour} ${params.dayOfMonth} ${params.month} ${params.dayOfWeek}`;
+    this.scheduleSelected.emit(cron);
   }
 
-  fillForm(cronString) {
-    const { min, hour, dayOfMonth, month, dayOfWeek } = this.cronService.parse(cronString);
-
-    // console.log({ min, hour, dayOfMonth, month, dayOfWeek });
-    // const [min, hour, daysOfMonth, months, daysOfWeek] = cronString.split(' ');
-    const compareObjects = (obj1, obj2) => JSON.stringify(obj1) === JSON.stringify(obj2);
+  private mapInputToFormValue(cron: string): any {
+    const { min, hour, dayOfMonth, month, dayOfWeek } = this.cronService.parse(cron);
 
     const supported = {
       time: [{ min: 'value', hour: 'value' }],
@@ -121,24 +125,22 @@ export class CronPickerComponent implements OnInit, OnDestroy, OnChanges {
       month: [{ month: 'every' }, { month: 'value' }, { month: 'list' }]
     };
 
-    if (!supported.time.some((schema) => compareObjects({ min: min.type, hour: hour.type }, schema))) {
-      throw new Error('Unsupported expression!');
-    }
-    if (!supported.day.some((schema) => compareObjects({ dayOfMonth: dayOfMonth.type, dayOfWeek: dayOfWeek.type }, schema))) {
-      throw new Error('Unsupported expression!');
-    }
-    if (!supported.month.some((schema) => compareObjects({ month: month.type }, schema))) {
-      throw new Error('Unsupported expression!');
+    if (
+      !supported.time.some((schema) => compareObjects({ min: min.type, hour: hour.type }, schema)) ||
+      !supported.day.some((schema) => compareObjects({ dayOfMonth: dayOfMonth.type, dayOfWeek: dayOfWeek.type }, schema)) ||
+      !supported.month.some((schema) => compareObjects({ month: month.type }, schema))
+    ) {
+      throw new Error('Invalid or unsupported expression!');
     }
 
     let dayType = 'every-day';
     let monthType = 'every-month';
 
-    if ((dayOfMonth.type === 'value' || dayOfMonth.type === 'list') && dayOfWeek.type === 'every') {
+    if (['value', 'list'].includes(dayOfMonth.type) && dayOfWeek.type === 'every') {
       dayType = 'days-of-month';
     }
 
-    if ((dayOfWeek.type === 'value' || dayOfWeek.type === 'list') && dayOfMonth.type === 'every') {
+    if (['value', 'list'].includes(dayOfWeek.type) && dayOfMonth.type === 'every') {
       dayType = 'days-of-week';
     }
 
@@ -146,62 +148,52 @@ export class CronPickerComponent implements OnInit, OnDestroy, OnChanges {
       monthType = 'months';
     }
 
-    console.log({
-      time: { min: min.value, hour: hour.value },
-      day: {
-        type: dayType,
-        daysOfMonth: dayOfMonth.value,
-        daysOfWeek: dayOfWeek.value
-      },
-      month: {
-        type: monthType,
-        months: month.value
-      }
-    });
-
-    this.form.patchValue({
+    return {
       time: { min: min.value, hour: hour.value },
       day: {
         type: dayType,
         ...(dayOfMonth.value && { daysOfMonth: [dayOfMonth.value].flat() }),
-        ...(dayOfWeek.value && { daysOfWeek: [dayOfWeek.value].flat().map((idx) => this.daysOfWeek[idx - 1]) })
+        ...(dayOfWeek.value && { daysOfWeek: [dayOfWeek.value].flat() })
       },
       month: {
         type: monthType,
         ...(month.value && { months: [month.value].flat() })
       }
-    });
+    };
   }
 
-  getCronParams() {
+  private getCronParams(): { min: string; hour: string; dayOfMonth: string; month: string; dayOfWeek: string } {
     const paramsByType = {
       day: {
-        'every-day': { daysOfMonth: '*', daysOfWeek: '*' },
-        'days-of-week': { daysOfMonth: '*', daysOfWeek: this.form.value.day.daysOfWeek.join(',') },
-        'days-of-month': { daysOfMonth: this.form.value.day.daysOfMonth.join(','), daysOfWeek: '*' }
+        'every-day': { dayOfMonth: '*', dayOfWeek: '*' },
+        'days-of-week': { dayOfMonth: '*', dayOfWeek: this.form.value.day.daysOfWeek.join(',') },
+        'days-of-month': { dayOfMonth: this.form.value.day.daysOfMonth.join(','), dayOfWeek: '*' }
       },
       month: {
-        'every-month': { months: '*' },
-        months: { months: this.form.value.month.months.join(',') }
+        'every-month': { month: '*' },
+        months: { month: this.form.value.month.months.join(',') }
       }
     };
 
     const dayType = this.form.value.day.type;
     const monthType = this.form.value.month.type;
-    const params = {
+
+    return {
       ...this.form.value.time,
       ...paramsByType.day[dayType],
       ...paramsByType.month[monthType]
     };
-
-    return { params, dayType, monthType };
   }
 
-  setDescription() {
-    const { params, dayType, monthType } = this.getCronParams();
+  private setDescription(): void {
     const parseTimePart = (num) => (String(num).length >= 2 ? String(num) : `0${num}`);
+
+    const time = { min: this.form.value.time.min, hour: this.form.value.time.hour };
+    const dayType = this.form.value.day.type;
+    const monthType = this.form.value.month.type;
+
     this.description = {
-      time: `${parseTimePart(params.hour)}:${parseTimePart(params.min)}`,
+      time: `${parseTimePart(time.hour)}:${parseTimePart(time.min)}`,
       day: dayType,
       month: monthType
     };

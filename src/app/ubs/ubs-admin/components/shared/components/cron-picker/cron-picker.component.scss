@@ -55,12 +55,9 @@
     justify-content: space-between;
     gap: 20px;
 
-    .hint {
+    .errors {
       max-width: 70%;
-
-      .error {
-        color: var(--error-ligh-red);
-      }
+      color: var(--error-ligh-red);
     }
 
     .select-schedule-button {
