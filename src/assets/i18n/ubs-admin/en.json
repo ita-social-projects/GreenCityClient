@@ -520,7 +520,8 @@
     "employees": "Employees",
     "documents": "Documents",
     "bonuses": "Bonuses",
-    "tariffs": "Tariffs"
+    "tariffs": "Tariffs",
+    "notifications": "Notifications"
   },
   "ubs-employee": {
     "add-employee": "Add employee",
@@ -627,12 +628,19 @@
     "title": "Are you sure you want to exit?",
     "subTitle": "Your order will not be saved"
   },
-  "ubs-tariffs-pricing-page": {
+  "ubs-tariffs-pricing-page-delete-tariffs": {
     "delete-tariff-title": "Deactivate tariff for service",
     "delete-tariff-action": "Deactivate",
-    "delete-tariff-text1": "Are you sure you want to deactivate the \"",
-    "delete-tariff-text2": "{{bagName}}\" service? Information about this service will be hidden from customers."
+    "delete-tariff-text1": "Are you sure you want to deactivate the tariff for service \"",
+    "delete-tariff-text2": "{{bagName}}\"?  Information about this service will be hidden from customers."
   },
+  "ubs-tariffs-pricing-page-delete-service": {
+    "delete-service-title": "Deactivate service",
+    "delete-service-action": "Deactivate",
+    "delete-service-text1": "Are you sure you want to deactivate service \"",
+    "delete-service-text2": "{{serviceName}}\"?  Information about this service will be hidden from customers."
+  },
+
   "ubs-tariffs-add-location-pop-up": {
     "title": "Add location",
     "edit-title": "Edit location",
@@ -826,6 +834,50 @@
     "max-length-comment": "The field should contain 1-255 characters.",
     "pattern": "Only alphabetic characters and special characters “-” (hyphen), “ ” (space) and “'” (apostrophe) are allowed.",
     "number-length": "The field should contain 12 characters."
+  },
+  "ubs-notifications": {
+    "page-title": "Notifications",
+    "add": "Add",
+    "filters": {
+      "topic": "Notification topic",
+      "trigger": "Trigger",
+      "status": "Status",
+      "topic-placeholder": "Select topic",
+      "trigger-placeholder": "Select trigger",
+      "status-placeholder": "Select status"
+    },
+    "columns": {
+      "topic": "Notification topic",
+      "trigger": "Trigger",
+      "time": "Time",
+      "period": "Repeat",
+      "status": "Status"
+    },
+    "triggers": {
+      "ORDER_NOT_PAID_FOR_3_DAYS": "The order is not paid 3 days after order was formed",
+      "PAYMENT_SYSTEM_RESPONSE": "The system gets an answer from the payment system",
+      "ORDER_ADDED_TO_ITINERARY_STATUS_CONFIRMED": "The manager includes the order in the itinerary and changes order status to \"Confirmed\"",
+      "STATUS_PARTIALLY_PAID": "Payment status changes to \"Partially paid\"",
+      "OVERPAYMENT_WHEN_STATUS_DONE": "If the order has overpayment after changing order status to \"Done\"",
+      "ORDER_VIOLATION_ADDED": "Manager adds violation to order.",
+      "ORDER_VIOLATION_CANCELED": "Manager canceled the violation order status",
+      "ORDER_VIOLATION_CHANGED": "Manager changed the violation in the order",
+      "2_MONTHS_AFTER_LAST_ORDER": "2 months after last order"
+    },
+    "time": {
+      "6PM_3DAYS_AFTER_ORDER_FORMED_NOT_PAID": "System checks BD at 18.00 daily and sends messages in case the order was formed 3 days ago and wasn’t paid by the client.",
+      "IMMEDIATELY": "Immediately",
+      "2_MONTHS_AFTER_LAST_ORDER": "System checks BD daily and sends messages in case the order was made 2 months ago"
+    },
+    "filters-statuses": {
+      "ALL": "All",
+      "ACTIVE": "Active",
+      "INACTIVE": "Inactive"
+    },
+    "statuses": {
+      "ACTIVE": "Active",
+      "INACTIVE": "Inactive"
+    }
   },
   "cron-picker": {
     "tab-labels": {

@@ -1,6 +1,7 @@
 import { DatePipe } from '@angular/common';
-import { Component, Inject, OnInit } from '@angular/core';
+import { Component, Inject, Injector, OnInit, OnDestroy } from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { TariffsService } from '../../../../services/tariffs.service';
 import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
@@ -10,7 +11,8 @@ import { takeUntil } from 'rxjs/operators';
   templateUrl: './modal-text.component.html',
   styleUrls: ['./modal-text.component.scss']
 })
-export class ModalTextComponent implements OnInit {
+export class ModalTextComponent implements OnInit, OnDestroy {
+  private destroy: Subject<boolean> = new Subject<boolean>();
   datePipe = new DatePipe('ua');
   newDate = this.datePipe.transform(new Date(), 'MMM dd, yyyy');
   name: string;
@@ -19,22 +21,54 @@ export class ModalTextComponent implements OnInit {
   text: string;
   text2: string;
   bagName: string;
+  serviceName: string;
   action: string;
+  serviceId: number;
+  isService: boolean;
+  isTariffForService: boolean;
+  receivedData;
   constructor(
     public dialogRef: MatDialogRef<ModalTextComponent>,
     @Inject(MAT_DIALOG_DATA) public modalData: any,
-    private localeStorageService: LocalStorageService
-  ) {}
+    private tariffsService: TariffsService,
+    private localeStorageService: LocalStorageService,
+    private injector: Injector
+  ) {
+    this.receivedData = modalData;
+    this.tariffsService = injector.get(TariffsService);
+  }
 
   ngOnInit(): void {
+    this.isService = this.modalData.isService;
+    this.isTariffForService = this.modalData.isTariffForService;
     this.title = this.modalData.title;
     this.text = this.modalData.text;
     this.text2 = this.modalData.text2 ?? '';
     this.bagName = this.modalData.bagName ?? '';
+    this.serviceName = this.modalData.serviceName ?? '';
     this.action = this.modalData.action;
     this.localeStorageService.firstNameBehaviourSubject.pipe(takeUntil(this.unsubscribe)).subscribe((firstName) => {
       this.name = firstName;
     });
+    this.serviceId = this.tariffsService.getServiceId();
+  }
+
+  deleteTariffForService() {
+    this.tariffsService
+      .deleteTariffForService(this.serviceId)
+      .pipe(takeUntil(this.destroy))
+      .subscribe(() => {
+        this.dialogRef.close();
+      });
+  }
+
+  deleteService() {
+    this.tariffsService
+      .deleteService(this.serviceId)
+      .pipe(takeUntil(this.destroy))
+      .subscribe(() => {
+        this.dialogRef.close();
+      });
   }
 
   onYesClick(reply: boolean): void {
@@ -47,5 +81,10 @@ export class ModalTextComponent implements OnInit {
 
   check(val: string): boolean {
     return val === 'cancel';
+  }
+
+  ngOnDestroy() {
+    this.destroy.next();
+    this.destroy.unsubscribe();
   }
 }

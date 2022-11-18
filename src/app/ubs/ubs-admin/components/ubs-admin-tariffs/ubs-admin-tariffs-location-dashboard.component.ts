@@ -1,4 +1,4 @@
-import { Component, Input, OnDestroy, OnInit, TemplateRef } from '@angular/core';
+import { Component, Input, OnDestroy, OnInit, TemplateRef, AfterViewChecked, ChangeDetectorRef } from '@angular/core';
 import { TariffsService } from '../../services/tariffs.service';
 import { map, skip, startWith, takeUntil } from 'rxjs/operators';
 import { Couriers, CreateCard, Locations, Stations } from '../../models/tariffs.interface';
@@ -26,7 +26,7 @@ import { LanguageService } from 'src/app/main/i18n/language.service';
   templateUrl: './ubs-admin-tariffs-location-dashboard.component.html',
   styleUrls: ['./ubs-admin-tariffs-location-dashboard.component.scss']
 })
-export class UbsAdminTariffsLocationDashboardComponent implements OnInit, OnDestroy {
+export class UbsAdminTariffsLocationDashboardComponent implements OnInit, AfterViewChecked, OnDestroy {
   @Input() showTitle = true;
   @Input() locationCard: Locations;
   @Input() textBack: TemplateRef<any>;
@@ -57,6 +57,7 @@ export class UbsAdminTariffsLocationDashboardComponent implements OnInit, OnDest
   createCardObj: CreateCard;
   isFieldFilled = false;
   isCardExist = false;
+  stateStatus: string;
 
   private destroy: Subject<boolean> = new Subject<boolean>();
 
@@ -77,7 +78,8 @@ export class UbsAdminTariffsLocationDashboardComponent implements OnInit, OnDest
     private store: Store<IAppState>,
     private fb: FormBuilder,
     private translate: TranslateService,
-    private languageService: LanguageService
+    private languageService: LanguageService,
+    private changeDetectorRef: ChangeDetectorRef
   ) {}
 
   get region() {
@@ -115,7 +117,16 @@ export class UbsAdminTariffsLocationDashboardComponent implements OnInit, OnDest
       .subscribe((i) => {
         this.getLocations();
         this.translateSelectedCity();
+        this.stateStatus = i === 'en' ? 'Active' : 'Активно';
+        setTimeout(() => {
+          this.state.setValue(this.stateStatus);
+        });
+        this.getCouriers();
       });
+  }
+
+  ngAfterViewChecked(): void {
+    this.changeDetectorRef.detectChanges();
   }
 
   private initForm(): void {
@@ -124,7 +135,7 @@ export class UbsAdminTariffsLocationDashboardComponent implements OnInit, OnDest
       city: ['', [Validators.required, Validators.maxLength(40), Validators.pattern(Patterns.NamePattern)]],
       courier: ['', [Validators.required]],
       station: ['', [Validators.required]],
-      state: ['all']
+      state: ['']
     });
   }
 
@@ -345,10 +356,14 @@ export class UbsAdminTariffsLocationDashboardComponent implements OnInit, OnDest
     if (event.value === 'all') {
       Object.assign(this.filterData, { courier: '' });
     } else {
-      const selectedValue = this.couriers.filter((it) => it.courierTranslationDtos.find((ob) => ob.name === event.value));
-      this.courierEnglishName = selectedValue
-        .map((it) => it.courierTranslationDtos.filter((ob) => ob.languageCode === 'en').map((i) => i.name))
-        .flat(2);
+      const lang = this.languageService.getCurrentLanguage();
+      const selectedValue = this.couriers.filter((it) =>
+        it.courierTranslationDtos.find((ob) => {
+          const searchingFilter = lang === 'ua' ? ob.name : ob.nameEng;
+          return searchingFilter === event.value;
+        })
+      );
+      this.courierEnglishName = selectedValue.map((it) => it.courierTranslationDtos.map((i) => i.nameEng)).flat(2);
       this.courierId = selectedValue.find((it) => it.courierId).courierId;
       Object.assign(this.filterData, { courier: this.courierId });
     }
@@ -358,10 +373,11 @@ export class UbsAdminTariffsLocationDashboardComponent implements OnInit, OnDest
 
   public onSelectState(event): void {
     switch (event.value) {
-      case 'all':
+      case 'Все':
         Object.assign(this.filterData, { status: '' });
         break;
       case 'Активно':
+      case 'Active':
         Object.assign(this.filterData, { status: 'ACTIVE' });
         break;
       case 'Неактивно':
@@ -439,8 +455,9 @@ export class UbsAdminTariffsLocationDashboardComponent implements OnInit, OnDest
       .pipe(takeUntil(this.destroy))
       .subscribe((res) => {
         this.couriers = res;
+        const lang = this.languageService.getCurrentLanguage();
         this.couriersName = this.couriers
-          .map((it) => it.courierTranslationDtos.filter((ob) => ob.languageCode === 'ua').map((el) => el.name))
+          .map((it) => it.courierTranslationDtos.map((el) => (lang === 'ua' ? el.name : el.nameEng)))
           .flat(2);
       });
   }
