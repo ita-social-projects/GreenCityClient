@@ -556,28 +556,49 @@ describe('UsbAdminTableComponent', () => {
     expect((component as any).adminTableService.changeFilters).toHaveBeenCalledWith(true, 'currentColumn', { filtered: true });
   });
 
-  it('changeDateFilters expect changeDateFilters shoud be call', () => {
+  it('changeDateFilters expect changeDateFilters and changeCheckDateRange shoud be call', () => {
+    let currentCollumn = 'orderDate';
+    component.noFiltersApplied = true;
     spyOn((component as any).adminTableService, 'changeDateFilters');
-    component.changeDateFilters({ source: {} as any, checked: true }, true, 'currentColumn');
+    spyOn(component, 'changeCheckDateRange');
+    component.changeDateFilters({ source: {} as any, checked: true }, true, currentCollumn);
     expect((component as any).adminTableService.changeDateFilters).toHaveBeenCalledWith(
       { source: {} as any, checked: true },
       true,
-      'currentColumn'
+      currentCollumn
     );
+    expect(component.noFiltersApplied).toBe(false);
+    expect(component.changeCheckDateRange).toHaveBeenCalledWith(currentCollumn);
   });
 
   it('changeInputDateFilters expect changeInputDateFilters shoud be call', () => {
-    const check = false;
+    const currentCollumn = 'orderDate';
+    const check = component.getCheckDateRange(currentCollumn);
     spyOn((component as any).adminTableService, 'changeInputDateFilters');
-    component.changeInputDateFilters('value', 'currentColumn', 'suffix');
-    expect((component as any).adminTableService.changeInputDateFilters).toHaveBeenCalledWith('value', 'currentColumn', 'suffix', check);
+    component.changeInputDateFilters('value', currentCollumn, 'suffix');
+    expect((component as any).adminTableService.changeInputDateFilters).toHaveBeenCalledWith('value', currentCollumn, 'suffix', check);
   });
 
-  it('getDateChecked expect getDateChecked shoud be call', () => {
-    const column = 'orderDate';
-    spyOn(component, 'getDateChecked');
-    component.getDateChecked(column);
-    expect(component.getDateChecked).toHaveBeenCalledWith('orderDate');
+  it('should return column check when we call getCheckDateRange method with currentColumn value', () => {
+    let currentCollumn = 'orderDate';
+    let check = component.getCheckDateRange(currentCollumn);
+    expect(check).toBe(false);
+    currentCollumn = 'dateOfExport';
+    check = component.getCheckDateRange(currentCollumn);
+    expect(check).toBe(false);
+    currentCollumn = 'paymentDate';
+    check = component.getCheckDateRange(currentCollumn);
+    expect(check).toBe(false);
+  });
+
+  it('getCheckDateRange should return boolean equal to column state', () => {
+    const columns = ['orderDate', 'dateOfExport', 'paymentDate'];
+    const mockedColumns = [false, false, false];
+
+    columns.forEach((column) => {
+      const check = component.getCheckDateRange(column);
+      expect(check).toEqual(mockedColumns[columns.indexOf(column)]);
+    });
   });
 
   it('getDateValue expect getDateValue shoud be call', () => {

@@ -41,12 +41,15 @@
                 <div class="accordion-body">
                   <div *ngIf="column.key.toLowerCase().includes('date'); else nonDate">
                     <div>
-                      <mat-checkbox [checked]="getDateChecked(column.key)" (change)="changeDateFilters($event, $event.checked, column.key)">
+                      <mat-checkbox
+                        [checked]="getCheckDateRange(column.key)"
+                        (change)="changeDateFilters($event, $event.checked, column.key)"
+                      >
                         {{ 'ubs-tables.date-range' | translate }}
                       </mat-checkbox>
                       <div class="date-range-box">
                         <div class="input-box">
-                          <label class="date-label" for="dateFrom" [hidden]="!getDateChecked(column.key)">{{
+                          <label class="date-label" for="dateFrom" [hidden]="!getCheckDateRange(column.key)">{{
                             'ubs-tables.date-from' | translate
                           }}</label>
                           <input
@@ -58,7 +61,7 @@
                             (change)="changeInputDateFilters($event.target.value, column.key, 'From')"
                           />
                         </div>
-                        <div class="input-box" [hidden]="!getDateChecked(column.key)">
+                        <div class="input-box" [hidden]="!getCheckDateRange(column.key)">
                           <label class="date-label" for="dateTo">{{ 'ubs-tables.date-to' | translate }}</label>
                           <input
                             id="dateTo{{ column.key }}"
