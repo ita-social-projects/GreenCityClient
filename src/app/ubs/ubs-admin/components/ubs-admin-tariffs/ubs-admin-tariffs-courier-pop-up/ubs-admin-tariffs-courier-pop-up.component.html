@@ -25,6 +25,7 @@
               </mat-option>
             </ng-container>
           </mat-autocomplete>
+
           <img
             *ngIf="data.edit"
             [src]="icons.arrowDown"
@@ -53,9 +54,17 @@
           type="text"
           class="shadow-none form-control"
           formControlName="englishName"
-          [matAutocomplete]="auto"
+          [matAutocomplete]="auto2"
+          #autocompleteTrigger="matAutocompleteTrigger"
           [placeholder]="courierPlaceholder | translate"
         />
+        <mat-autocomplete #auto2="matAutocomplete">
+          <ng-container *ngIf="data.edit">
+            <mat-option *ngFor="let nameEng of couriersNameEng" [value]="nameEng">
+              {{ nameEng }}
+            </mat-option>
+          </ng-container>
+        </mat-autocomplete>
         <img
           *ngIf="englishName.value.length && !data.edit"
           [src]="icons.cross"

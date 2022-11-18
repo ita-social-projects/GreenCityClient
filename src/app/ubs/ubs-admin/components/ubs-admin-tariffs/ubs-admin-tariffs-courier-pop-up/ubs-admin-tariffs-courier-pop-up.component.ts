@@ -30,6 +30,7 @@ export class UbsAdminTariffsCourierPopUpComponent implements OnInit, OnDestroy {
   couriers = [];
   selectedCourier;
   couriersName;
+  currentLanguage;
   couriersNameEng;
   array;
   courierPlaceholder: string;
@@ -42,7 +43,7 @@ export class UbsAdminTariffsCourierPopUpComponent implements OnInit, OnDestroy {
 
   constructor(
     private fb: FormBuilder,
-    private localeStorageService: LocalStorageService,
+    private localStorageService: LocalStorageService,
     public dialogRef: MatDialogRef<UbsAdminTariffsCourierPopUpComponent>,
     private tariffsService: TariffsService,
     private languageService: LanguageService,
@@ -63,8 +64,9 @@ export class UbsAdminTariffsCourierPopUpComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit(): void {
+    this.subscribeToLangChange();
     this.getCouriers();
-    this.localeStorageService.firstNameBehaviourSubject.pipe(takeUntil(this.unsubscribe)).subscribe((firstName) => {
+    this.localStorageService.firstNameBehaviourSubject.pipe(takeUntil(this.unsubscribe)).subscribe((firstName) => {
       this.authorName = firstName;
     });
     this.name.valueChanges.subscribe((value) => {
@@ -84,9 +86,8 @@ export class UbsAdminTariffsCourierPopUpComponent implements OnInit, OnDestroy {
       .pipe(takeUntil(this.destroy))
       .subscribe((res) => {
         this.couriers = res;
-        const lang = this.languageService.getCurrentLanguage();
-        this.couriersName = res.map((it) => it.courierTranslationDtos.map((el) => (lang === 'ua' ? el.name : el.nameEng))).flat(2);
-        this.couriersNameEng = res.map((it) => it.courierTranslationDtos.map((el) => (lang === 'en' ? el.nameEng : el.name))).flat(2);
+        this.couriersName = res.map((it) => it.courierTranslationDtos.map((el) => el.name)).flat(2);
+        this.couriersNameEng = res.map((it) => it.courierTranslationDtos.map((el) => el.nameEng)).flat(2);
       });
   }
 
@@ -145,6 +146,12 @@ export class UbsAdminTariffsCourierPopUpComponent implements OnInit, OnDestroy {
       .subscribe(() => {
         this.dialogRef.close();
       });
+  }
+
+  private subscribeToLangChange(): void {
+    this.localStorageService.languageBehaviourSubject.pipe(takeUntil(this.destroy)).subscribe(() => {
+      this.currentLanguage = this.localStorageService.getCurrentLanguage();
+    });
   }
 
   onNoClick(): void {
