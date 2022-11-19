@@ -1,4 +1,4 @@
-<form [formGroup]="form" class="cron-picker-container" (ngSubmit)="onSelect()">
+<div [formGroup]="form" class="cron-picker-container">
   <mat-accordion>
     <mat-expansion-panel [expanded]="true">
       <mat-expansion-panel-header>
@@ -9,7 +9,7 @@
           {{ description.time }}
         </mat-panel-description>
       </mat-expansion-panel-header>
-      <div formGroupName="time" class="panel">
+      <div formGroupName="time" class="panel select-time">
         <mat-form-field>
           <mat-label>{{ 'cron-picker.labels.hour' | translate }}</mat-label>
           <mat-select formControlName="hour">
@@ -38,7 +38,7 @@
           {{ 'cron-picker.labels.' + description.day | translate }}
         </mat-panel-description>
       </mat-expansion-panel-header>
-      <div formGroupName="day" class="panel">
+      <div formGroupName="day" class="panel select-day">
         <mat-radio-group formControlName="type" class="select-type">
           <mat-radio-button value="every-day">{{ 'cron-picker.labels.every-day' | translate }}</mat-radio-button>
           <mat-radio-button value="days-of-week">
@@ -71,7 +71,7 @@
           {{ 'cron-picker.labels.' + description.month | translate }}
         </mat-panel-description>
       </mat-expansion-panel-header>
-      <div formGroupName="month" class="panel">
+      <div formGroupName="month" class="panel select-month">
         <mat-radio-group formControlName="type" class="select-type">
           <mat-radio-button value="every-month">{{ 'cron-picker.labels.every-month' | translate }}</mat-radio-button>
           <mat-radio-button value="months">
@@ -92,18 +92,18 @@
 
   <div class="controls">
     <div class="errors">
-      <span class="error" *ngIf="form.get('day').errors?.atLeastOneDayOfWeekSelected">
+      <span class="error-days-of-week" *ngIf="form.get('day').errors?.atLeastOneDayOfWeekSelected">
         {{ 'cron-picker.errors.at-least-one-day-of-week' | translate }}
       </span>
-      <span class="error" *ngIf="form.get('day').errors?.atLeastOneDayOfMonthSelected">
+      <span class="error-days-of-month" *ngIf="form.get('day').errors?.atLeastOneDayOfMonthSelected">
         {{ 'cron-picker.errors.at-least-one-day-of-month' | translate }}
       </span>
-      <span class="error" *ngIf="form.get('month').errors?.atLeastOneMonthSelected">
+      <span class="error-months" *ngIf="form.get('month').errors?.atLeastOneMonthSelected">
         {{ 'cron-picker.errors.at-least-one-month' | translate }}
       </span>
     </div>
-    <button mat-flat-button class="select-schedule-button" type="submit" [disabled]="form.invalid">
+    <button mat-flat-button class="select-schedule-button" type="button" (click)="onSelect()" [disabled]="form.invalid">
       {{ 'cron-picker.labels.select' | translate }}
     </button>
   </div>
-</form>
+</div>

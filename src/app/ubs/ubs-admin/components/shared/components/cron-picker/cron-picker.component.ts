@@ -92,7 +92,7 @@ export class CronPickerComponent implements OnInit, OnDestroy, OnChanges {
       return;
     }
     try {
-      const updates = this.mapInputToFormValue(schedule);
+      const updates = this.mapScheduleToFormValue(schedule);
       this.form.patchValue(updates);
     } catch (error) {
       console.error(`Error while parsing cron-picker input. ${error}`);
@@ -110,7 +110,7 @@ export class CronPickerComponent implements OnInit, OnDestroy, OnChanges {
     this.scheduleSelected.emit(cron);
   }
 
-  private mapInputToFormValue(cron: string): any {
+  private mapScheduleToFormValue(cron: string): any {
     const { min, hour, dayOfMonth, month, dayOfWeek } = this.cronService.parse(cron);
 
     const supported = {
@@ -144,7 +144,7 @@ export class CronPickerComponent implements OnInit, OnDestroy, OnChanges {
       dayType = 'days-of-week';
     }
 
-    if (month.type === 'months') {
+    if (['value', 'list'].includes(month.type)) {
       monthType = 'months';
     }
 
