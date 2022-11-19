@@ -16,6 +16,7 @@ import { TranslateService } from '@ngx-translate/core';
 import { TariffConfirmationPopUpComponent } from '../../shared/components/tariff-confirmation-pop-up/tariff-confirmation-pop-up.component';
 import { LanguageService } from 'src/app/main/i18n/language.service';
 import { ajax } from 'rxjs/internal-compatibility';
+import { element } from 'protractor';
 
 @Component({
   selector: 'app-ubs-admin-tariffs-deactivate-pop-up',
@@ -40,17 +41,16 @@ export class UbsAdminTariffsDeactivatePopUpComponent implements OnInit, OnDestro
 
   public couriers;
   public couriersName;
-  // public courierEnglishName;
   public locations;
-  public regionsName;
+  public filteredRegions;
   public selectedRegions = [];
   public selectedRegionsLength: number;
   public regionPlaceholder: string;
-  // public regionEnglishName;
   public stations;
   public filteredStations;
   public selectedStation = [];
   public stationPlaceholder: string;
+  public currentCities = [];
   public filteredCities = [];
   public selectedCities = [];
   public cityPlaceholder: string;
@@ -114,22 +114,6 @@ export class UbsAdminTariffsDeactivatePopUpComponent implements OnInit, OnDestro
     }
   }
 
-  // public cityValidator(): ValidatorFn {
-  //   let error;
-  //   if (!this.selectedCities.length) {
-  //     error = this.city.setErrors({ emptySelectedCity: true });
-  //   }
-  //   return error;
-  // }
-
-  // public stationValidator(): ValidatorFn {
-  //   let error;
-  //   if (!this.selectedStation.length) {
-  //     error = this.station.setErrors({ emptySelectedStation: true });
-  //   }
-  //   return error;
-  // }
-
   public getCouriers(): void {
     this.tariffsService
       .getCouriers()
@@ -148,9 +132,15 @@ export class UbsAdminTariffsDeactivatePopUpComponent implements OnInit, OnDestro
       .pipe(takeUntil(this.unsubscribe))
       .subscribe((res) => {
         this.stations = res;
-        this.filteredStations = this.stations.map((it) => {
-          return { id: it.id, name: it.name };
-        });
+        const stationsName = this.stations.map((it) => it.name);
+        this.station.valueChanges
+          .pipe(
+            startWith(''),
+            map((value: string) => this.filterOptions(value, stationsName))
+          )
+          .subscribe((data) => {
+            this.filteredStations = data;
+          });
       });
   }
 
@@ -158,14 +148,18 @@ export class UbsAdminTariffsDeactivatePopUpComponent implements OnInit, OnDestro
     this.store.dispatch(GetLocations({ reset: this.reset }));
 
     this.locations$.pipe(skip(1)).subscribe((item) => {
-      if (item) {
-        this.locations = item;
-        this.regionsName = this.locations
-          .map((element) =>
-            element.regionTranslationDtos.filter((it) => it.languageCode === this.currentLanguage).map((it) => it.regionName)
-          )
-          .flat(2);
-      }
+      this.locations = item;
+      const regionsName = this.locations
+        .map((element) => element.regionTranslationDtos.filter((it) => it.languageCode === 'ua').map((it) => it.regionName))
+        .flat(2);
+      this.region.valueChanges
+        .pipe(
+          startWith(''),
+          map((value: string) => this.filterOptions(value, regionsName))
+        )
+        .subscribe((data) => {
+          this.filteredRegions = data;
+        });
     });
   }
 
@@ -176,7 +170,6 @@ export class UbsAdminTariffsDeactivatePopUpComponent implements OnInit, OnDestro
         return searchingFilter === event.value;
       })
     );
-    // this.courierEnglishName = selectedValue.map((it) => it.courierTranslationDtos.map((i) => i.nameEng)).flat(2);
     this.courierId = selectedValue.find((it) => it.courierId).courierId;
   }
 
@@ -185,7 +178,6 @@ export class UbsAdminTariffsDeactivatePopUpComponent implements OnInit, OnDestro
     this.station.updateValueAndValidity();
     this.blurOnOption = false;
     this.addSelectedStation(event);
-    // this.station.setValidators(this.stationValidator());
     this.station.setValue('');
     this.setStationPlaceholder();
     requestAnimationFrame(() => {
@@ -194,9 +186,11 @@ export class UbsAdminTariffsDeactivatePopUpComponent implements OnInit, OnDestro
   }
 
   public addSelectedStation(event: MatAutocompleteSelectedEvent): void {
-    const id = event.option.value.id;
-    const name = event.option.value.name;
-    const tempItem = { id, name };
+    const selectedItem = this.stations.find((it) => it.name === event.option.value);
+    const tempItem = {
+      id: selectedItem.id,
+      name: selectedItem.name
+    };
     const itemIncluded = this.selectedStation.find((it) => it.id === tempItem.id);
     if (itemIncluded) {
       this.selectedStation = this.selectedStation.filter((item) => item.id !== tempItem.id);
@@ -217,7 +211,6 @@ export class UbsAdminTariffsDeactivatePopUpComponent implements OnInit, OnDestro
   public deleteStation(index): void {
     this.selectedStation.splice(index, 1);
     this.setStationPlaceholder();
-    // this.station.setValidators(this.stationValidator());
   }
 
   public checkStation(item): boolean {
@@ -290,19 +283,19 @@ export class UbsAdminTariffsDeactivatePopUpComponent implements OnInit, OnDestro
   }
 
   public onRegionSelected(regionId: number): void {
-    let id;
-    let name;
-    this.filteredCities = [];
     const currentRegion = this.locations.filter((element) => element.regionId === regionId);
-    const regionLocations = currentRegion[0].locationsDto;
-    regionLocations.forEach((item) => {
-      id = item.locationId;
-      name = item.locationTranslationDtoList
-        .filter((it) => it.languageCode === this.currentLanguage)
-        .map((it) => it.locationName)
-        .toString();
-      this.filteredCities.push({ id, name });
-    });
+    this.currentCities = currentRegion[0].locationsDto;
+    const currentCitiesName = this.currentCities
+      .map((element) => element.locationTranslationDtoList.filter((it) => it.languageCode === 'ua').map((it) => it.locationName))
+      .flat(2);
+    this.city.valueChanges
+      .pipe(
+        startWith(''),
+        map((value: string) => this.filterOptions(value, currentCitiesName))
+      )
+      .subscribe((data) => {
+        this.filteredCities = data;
+      });
     this.city.enable();
   }
 
@@ -313,16 +306,22 @@ export class UbsAdminTariffsDeactivatePopUpComponent implements OnInit, OnDestro
     this.addSelectedCity(event);
     this.setCityPlaceholder();
     this.city.setValue('');
-    // this.city.setValidators(this.cityValidator());
     requestAnimationFrame(() => {
       trigger.openPanel();
     });
   }
 
   public addSelectedCity(event: MatAutocompleteSelectedEvent): void {
-    const id = event.option.value.id;
-    const name = event.option.value.name;
-    const tempItem = { id, name };
+    const selectedItem = this.currentCities.filter((element) =>
+      element.locationTranslationDtoList.find((it) => it.locationName === event.option.value)
+    )[0];
+    const tempItem = {
+      id: selectedItem.locationId,
+      name: selectedItem.locationTranslationDtoList
+        .filter((it) => it.languageCode === 'ua')
+        .map((it) => it.locationName)
+        .join()
+    };
     const itemIncluded = this.selectedCities.find((it) => it.id === tempItem.id);
     if (itemIncluded) {
       this.selectedCities = this.selectedCities.filter((item) => item.id !== tempItem.id);
@@ -355,7 +354,6 @@ export class UbsAdminTariffsDeactivatePopUpComponent implements OnInit, OnDestro
   public deleteCity(index): void {
     this.selectedCities.splice(index, 1);
     this.setCityPlaceholder();
-    // this.city.setValidators(this.cityValidator());
   }
 
   openAuto(event: Event, trigger: MatAutocompleteTrigger, flag: boolean): void {
@@ -365,10 +363,10 @@ export class UbsAdminTariffsDeactivatePopUpComponent implements OnInit, OnDestro
     }
   }
 
-  // public _filterOptions(name: string, items: any[]): any[] {
-  //   const filterValue = name.toLowerCase();
-  //   return items.filter((option) => option.toLowerCase().includes(filterValue));
-  // }
+  public filterOptions(name: string, items: any[]): any[] {
+    const filterValue = name.toLowerCase();
+    return items.filter((option) => option.toLowerCase().includes(filterValue));
+  }
 
   public createCardDto() {
     this.createCardObj = {
