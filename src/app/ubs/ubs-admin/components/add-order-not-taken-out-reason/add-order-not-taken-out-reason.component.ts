@@ -135,14 +135,14 @@ export class AddOrderNotTakenOutReasonComponent implements OnInit {
 
     this.images.forEach((image) => {
       if (image.file) {
-        formData.append('images', image);
+        formData.append('images', image.file);
       }
     });
 
     const str = JSON.stringify(formData);
     const data: DataToSend = {
-      description: notTakenOutReason
-      //images: [formData]
+      description: notTakenOutReason,
+      images: [formData.toString()]
     };
     const stringifiedDataToSend = JSON.stringify(data);
 
