@@ -43,6 +43,7 @@ export class EventsListComponent implements OnInit, OnDestroy {
     this.userOwnAuthService.getDataFromLocalStorage();
 
     this.ecoEvents$.subscribe((res: IEcoEventsState) => {
+      console.log(res);
       this.visitedPagesArr = res.visitedPages;
       this.total = res.totalPages;
       this.page = res.pageNumber;
@@ -62,6 +63,7 @@ export class EventsListComponent implements OnInit, OnDestroy {
   }
 
   public setPage(event: number): void {
+    console.log('setpage');
     this.store.dispatch(GetEcoEventsByPageAction({ currentPage: event - 1, numberOfEvents: this.eventsPerPage }));
   }
 

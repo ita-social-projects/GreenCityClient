@@ -7,7 +7,8 @@ import {
   GetEcoEventsByPageSuccessAction,
   RateEcoEventsByIdSuccessAction,
   ReceivedFailureAction,
-  RemoveAttenderEventsByIdSuccessAction
+  RemoveAttenderEventsByIdSuccessAction,
+  ShowAllSubscribersByIdActionSuccess
 } from '../actions/ecoEvents.actions';
 import { initialEventsState } from '../state/ecoEvents.state';
 
@@ -22,6 +23,14 @@ export const EcoEventsReducer = createReducer(
       pages = [...state.visitedPages, action.ecoEvents.currentPage];
       totPages = action.ecoEvents.totalPages;
     }
+    console.log({
+      ...state,
+      eventsList: newstate,
+      eventState: action.ecoEvents,
+      visitedPages: pages,
+      totalPages: totPages,
+      pageNumber: action.currentPage
+    });
     return {
       ...state,
       eventsList: newstate,
@@ -29,6 +38,14 @@ export const EcoEventsReducer = createReducer(
       visitedPages: pages,
       totalPages: totPages,
       pageNumber: action.currentPage
+    };
+  }),
+
+  on(ShowAllSubscribersByIdActionSuccess, (state, action) => {
+    state[action.id] = action.eventSubscribers;
+    console.log({ ...state });
+    return {
+      ...state
     };
   }),
 

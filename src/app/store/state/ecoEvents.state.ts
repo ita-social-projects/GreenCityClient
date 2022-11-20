@@ -1,3 +1,4 @@
+import { EventSubscriberDto } from './../../main/component/events/models/events.interface';
 import { EventResponseDto } from 'src/app/main/component/events/models/events.interface';
 
 export interface IEcoEventsState {
@@ -6,7 +7,7 @@ export interface IEcoEventsState {
   visitedPages: number[];
   totalPages: number;
   pageNumber: number;
-
+  eventSubscribers: { [id: number]: EventSubscriberDto[] };
   error: string | null;
 }
 
@@ -16,5 +17,6 @@ export const initialEventsState: IEcoEventsState = {
   visitedPages: [],
   totalPages: 0,
   pageNumber: 0,
+  eventSubscribers: {},
   error: null
 };

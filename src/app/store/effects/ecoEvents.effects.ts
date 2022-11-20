@@ -1,3 +1,5 @@
+import { IEcoEventsState } from 'src/app/store/state/ecoEvents.state';
+import { EventSubscriberDto } from './../../main/component/events/models/events.interface';
 import { Injectable } from '@angular/core';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { Store } from '@ngrx/store';
@@ -20,16 +22,18 @@ import {
   AddAttenderEventsByIdSuccessAction,
   RemoveAttenderEcoEventsByIdAction,
   RemoveAttenderEventsByIdSuccessAction,
-  ReceivedFailureAction
+  ReceivedFailureAction,
+  ShowAllSubscribersByIdAction,
+  ShowAllSubscribersByIdActionSuccess
 } from '../actions/ecoEvents.actions';
 import { IAppState } from '../state/app.state';
-import { IEcoEventsState } from '../state/ecoEvents.state';
 
 @Injectable()
 export class EventsEffects {
   constructor(private actions: Actions, private eventsService: EventsService, private store: Store) {}
 
   getEcoEventsByPage = createEffect(() => {
+    console.log('created GetEcoEventsByPageEffect');
     return this.actions.pipe(
       ofType(GetEcoEventsByPageAction),
       mergeMap((actions: { currentPage: number; numberOfEvents: number }) => {
@@ -46,6 +50,34 @@ export class EventsEffects {
           );
         } else {
           return of(GetEcoEventsByPageSuccessAction({ ecoEvents: false, currentPage: actions.currentPage }));
+        }
+      })
+    );
+  });
+
+  ShowAllSubscribersById = createEffect(() => {
+    console.log('created ShowAllSubscribersByIdEffect');
+    return this.actions.pipe(
+      ofType(ShowAllSubscribersByIdAction),
+      mergeMap((actions: { id: number }) => {
+        let eventSubscribers: EventSubscriberDto[];
+        this.store
+          .select((state: IAppState): IEcoEventsState => state.ecoEventsState)
+          .subscribe((res) => {
+            eventSubscribers = res.eventSubscribers[actions.id];
+          });
+        console.log(eventSubscribers);
+        if (!eventSubscribers) {
+          console.log(eventSubscribers);
+          return this.eventsService.getAllSubscribers(actions.id).pipe(
+            map((eventSubscribers: EventSubscriberDto[]) => {
+              console.log(eventSubscribers);
+              return ShowAllSubscribersByIdActionSuccess({ id: actions.id, eventSubscribers });
+            }),
+            catchError((error) => of(ReceivedFailureAction(error)))
+          );
+        } else {
+          return of(ShowAllSubscribersByIdActionSuccess({ id: actions.id, eventSubscribers: false }));
         }
       })
     );

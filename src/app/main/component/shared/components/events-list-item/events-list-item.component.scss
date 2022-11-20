@@ -166,4 +166,13 @@
   font-size: 14px;
   color: #64727d;
   padding-top: 16px;
+  display: flex;
+  flex-direction: row;
+  gap: 10px;
+}
+
+.event-attendees {
+  display: flex;
+  flex-direction: row;
+  gap: 10px;
 }

@@ -1,3 +1,4 @@
+import { EventSubscriberDto } from './../../main/component/events/models/events.interface';
 import { createAction, props } from '@ngrx/store';
 import { EventPageResponceDto, EventResponseDto } from 'src/app/main/component/events/models/events.interface';
 
@@ -22,6 +23,9 @@ export enum EventsActions {
 
   RemoveAttenderEcoEventsById = '[Events] Remove attender to event by id',
   RemoveAttenderEcoEventsByIdSuccess = '[Events] Remove attender to event Success',
+
+  ShowAllSubscribersById = '[Events] Show Attendees to event by id',
+  ShowAllSubscribersByIdSuccess = '[Events] Show Attendees to event by id Success',
 
   ReceivedFailure = '[Events] Received Failure'
 }
@@ -50,6 +54,12 @@ export const RateEcoEventsByIdSuccessAction = createAction(EventsActions.RateEco
 
 export const AddAttenderEcoEventsByIdAction = createAction(EventsActions.AddAttenderEcoEventsById, props<{ id: number }>());
 export const AddAttenderEventsByIdSuccessAction = createAction(EventsActions.AddAttenderEcoEventsByIdSuccess, props<{ id: number }>());
+
+export const ShowAllSubscribersByIdAction = createAction(EventsActions.ShowAllSubscribersById, props<{ id: number }>());
+export const ShowAllSubscribersByIdActionSuccess = createAction(
+  EventsActions.ShowAllSubscribersByIdSuccess,
+  props<{ id: number; eventSubscribers: EventSubscriberDto[] | any }>()
+);
 
 export const RemoveAttenderEcoEventsByIdAction = createAction(EventsActions.RemoveAttenderEcoEventsById, props<{ id: number }>());
 export const RemoveAttenderEventsByIdSuccessAction = createAction(

@@ -71,6 +71,12 @@ export interface EventResponseDto {
   totalPages: number;
 }
 
+export interface EventSubscriberDto {
+  id: number;
+  name: string;
+  imagePath: string;
+}
+
 export interface EventPageResponceDto {
   additionalImages: Array<string>;
   dates: Array<DateEventResponceDto>;

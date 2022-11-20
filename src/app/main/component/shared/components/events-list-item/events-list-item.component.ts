@@ -1,10 +1,12 @@
+import { EventSubscriberDto } from './../../../events/models/events.interface';
 import {
   AddAttenderEcoEventsByIdAction,
   DeleteEcoEventAction,
-  RemoveAttenderEcoEventsByIdAction
+  RemoveAttenderEcoEventsByIdAction,
+  ShowAllSubscribersByIdAction
 } from 'src/app/store/actions/ecoEvents.actions';
 import { Store } from '@ngrx/store';
-import { take } from 'rxjs/operators';
+import { take, takeUntil } from 'rxjs/operators';
 import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
 import { Component, Input, OnDestroy, OnInit, Output } from '@angular/core';
 import { Router } from '@angular/router';
@@ -18,6 +20,8 @@ import { TranslateService } from '@ngx-translate/core';
 import { ReplaySubject, Subscription } from 'rxjs';
 import { UserOwnAuthService } from '@auth-service/user-own-auth.service';
 import { EventIcons } from '../../../../image-pathes/event-icons';
+import { IAppState } from 'src/app/store/state/app.state';
+import { IEcoEventsState } from 'src/app/store/state/ecoEvents.state';
 
 @Component({
   selector: 'app-events-list-item',
@@ -26,8 +30,10 @@ import { EventIcons } from '../../../../image-pathes/event-icons';
 })
 export class EventsListItemComponent implements OnInit, OnDestroy {
   @Input() event: EventPageResponceDto;
+  ecoEvents$ = this.store.select((state: IAppState): IEcoEventsState => state.ecoEventsState);
   private destroyed$: ReplaySubject<any> = new ReplaySubject<any>(1);
   public itemTags: Array<TagObj>;
+  public eventParticipants: EventSubscriberDto[];
 
   public nameBtn: string;
   public styleBtn: string;
@@ -71,6 +77,7 @@ export class EventsListItemComponent implements OnInit, OnDestroy {
   ) {}
 
   ngOnInit(): void {
+    // this.store.dispatch(ShowAllSubscribersByIdAction({ id: this.event.id }));
     this.itemTags = TagsArray.reduce((ac, cur) => [...ac, { ...cur }], []);
     this.filterTags(this.event.tags);
     this.rate = Math.round(this.event.organizer.organizerRating);
@@ -81,6 +88,15 @@ export class EventsListItemComponent implements OnInit, OnDestroy {
     this.checkAllStatusesOfEvent();
     this.subscribeToLangChange();
     this.bindLang(this.localStorageService.getCurrentLanguage());
+    this.ecoEvents$.pipe(takeUntil(this.destroyed$)).subscribe((res: IEcoEventsState) => {
+      this.eventParticipants = res.eventSubscribers[this.event.id];
+      console.log(this.eventParticipants);
+      console.log(this.event.id);
+      console.log(res);
+      if (!res.eventSubscribers[this.event.id]) {
+        this.store.dispatch(ShowAllSubscribersByIdAction({ id: this.event.id }));
+      }
+    });
   }
 
   public routeToEvent(): void {
