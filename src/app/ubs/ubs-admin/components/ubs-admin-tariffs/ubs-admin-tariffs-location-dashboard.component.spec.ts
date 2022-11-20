@@ -26,6 +26,7 @@ import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { UbsAdminTariffsCourierPopUpComponent } from './ubs-admin-tariffs-courier-pop-up/ubs-admin-tariffs-courier-pop-up.component';
 import { UbsAdminTariffsStationPopUpComponent } from './ubs-admin-tariffs-station-pop-up/ubs-admin-tariffs-station-pop-up.component';
 import { UbsAdminTariffsLocationPopUpComponent } from './ubs-admin-tariffs-location-pop-up/ubs-admin-tariffs-location-pop-up.component';
+import { UbsAdminTariffsDeactivatePopUpComponent } from './ubs-admin-tariffs-deactivate-pop-up/ubs-admin-tariffs-deactivate-pop-up.component';
 import { TariffStatusPipe } from '@pipe/tariff-status-pipe/tariff-status.pipe';
 import { LanguageService } from 'src/app/main/i18n/language.service';
 
@@ -999,7 +1000,7 @@ describe('UbsAdminTariffsLocationDashboardComponent', () => {
 
   it('should call openDeactivateLocation', () => {
     component.openDeactivateLocation();
-    expect(matDialogMock.open).toHaveBeenCalledWith(UbsAdminTariffsLocationPopUpComponent, {
+    expect(matDialogMock.open).toHaveBeenCalledWith(UbsAdminTariffsDeactivatePopUpComponent, {
       hasBackdrop: true,
       panelClass: 'address-matDialog-styles-w-100',
       data: {

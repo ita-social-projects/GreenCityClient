@@ -14,9 +14,6 @@ import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { ModalTextComponent } from '../../shared/components/modal-text/modal-text.component';
 import { TranslateService } from '@ngx-translate/core';
 import { TariffConfirmationPopUpComponent } from '../../shared/components/tariff-confirmation-pop-up/tariff-confirmation-pop-up.component';
-import { LanguageService } from 'src/app/main/i18n/language.service';
-import { ajax } from 'rxjs/internal-compatibility';
-import { element } from 'protractor';
 
 @Component({
   selector: 'app-ubs-admin-tariffs-deactivate-pop-up',
@@ -72,8 +69,7 @@ export class UbsAdminTariffsDeactivatePopUpComponent implements OnInit, OnDestro
     private store: Store<IAppState>,
     private translate: TranslateService,
     public dialog: MatDialog,
-    public dialogRef: MatDialogRef<UbsAdminTariffsDeactivatePopUpComponent>,
-    private languageService: LanguageService
+    public dialogRef: MatDialogRef<UbsAdminTariffsDeactivatePopUpComponent>
   ) {}
 
   get courier() {
@@ -93,7 +89,6 @@ export class UbsAdminTariffsDeactivatePopUpComponent implements OnInit, OnDestro
     this.localeStorageService.firstNameBehaviourSubject.pipe(takeUntil(this.unsubscribe)).subscribe((firstName) => {
       this.name = firstName;
     });
-    this.currentLanguage = this.languageService.getCurrentLanguage();
     this.setStationPlaceholder();
     this.setRegionsPlaceholder();
     this.setCityPlaceholder();
@@ -120,9 +115,7 @@ export class UbsAdminTariffsDeactivatePopUpComponent implements OnInit, OnDestro
       .pipe(takeUntil(this.unsubscribe))
       .subscribe((res) => {
         this.couriers = res;
-        this.couriersName = this.couriers
-          .map((it) => it.courierTranslationDtos.map((el) => (this.currentLanguage === 'ua' ? el.name : el.nameEng)))
-          .flat(2);
+        this.couriersName = this.couriers.map((it) => it.courierTranslationDtos.map((el) => el.name)).flat(2);
       });
   }
 
@@ -164,12 +157,7 @@ export class UbsAdminTariffsDeactivatePopUpComponent implements OnInit, OnDestro
   }
 
   public onSelectCourier(event): void {
-    const selectedValue = this.couriers.filter((it) =>
-      it.courierTranslationDtos.find((ob) => {
-        const searchingFilter = this.currentLanguage === 'ua' ? ob.name : ob.nameEng;
-        return searchingFilter === event.value;
-      })
-    );
+    const selectedValue = this.couriers.filter((it) => it.courierTranslationDtos.find((ob) => ob.name === event.value));
     this.courierId = selectedValue.find((it) => it.courierId).courierId;
   }
 
@@ -244,7 +232,7 @@ export class UbsAdminTariffsDeactivatePopUpComponent implements OnInit, OnDestro
     selectedItem.forEach((item) => {
       id = item.regionId;
       name = item.regionTranslationDtos
-        .filter((it) => it.languageCode === this.currentLanguage)
+        .filter((it) => it.languageCode === 'ua')
         .map((it) => it.regionName)
         .toString();
     });
@@ -366,73 +354,5 @@ export class UbsAdminTariffsDeactivatePopUpComponent implements OnInit, OnDestro
   public filterOptions(name: string, items: any[]): any[] {
     const filterValue = name.toLowerCase();
     return items.filter((option) => option.toLowerCase().includes(filterValue));
-  }
-
-  public createCardDto() {
-    this.createCardObj = {
-      courierId: this.courierId,
-      receivingStationsIdList: this.selectedStation.map((it) => it.id).sort(),
-      regionId: this.regionId,
-      locationIdList: this.selectedCities.map((it) => it.locationId).sort()
-    };
-  }
-
-  public createCardRequest(card) {
-    this.tariffsService.createCard(card).pipe(takeUntil(this.unsubscribe)).subscribe();
-  }
-
-  public createCard(): void {
-    this.createCardDto();
-    this.tariffsService
-      .checkIfCardExist(this.createCardObj)
-      .pipe(takeUntil(this.unsubscribe))
-      .subscribe((response) => {
-        this.isCardExist = response;
-        if (!this.isCardExist) {
-          this.dialogRef.close();
-          const matDialogRef = this.dialog.open(TariffConfirmationPopUpComponent, {
-            hasBackdrop: true,
-            panelClass: 'address-matDialog-styles-w-100',
-            data: {
-              title: 'ubs-tariffs-add-location-pop-up.create_card_title',
-              courierName: this.courier.value,
-              // courierEnglishName: this.courierEnglishName,
-              stationNames: this.selectedStation.map((it) => it.name),
-              regionName: this.region.value,
-              // regionEnglishName: this.regionEnglishName,
-              locationNames: this.selectedCities.map((it) => it.location),
-              locationEnglishNames: this.selectedCities.map((it) => it.englishLocation),
-              action: 'ubs-tariffs-add-location-pop-up.create_button'
-            }
-          });
-          matDialogRef.afterClosed().subscribe((res) => {
-            if (res) {
-              this.createCardRequest(this.createCardObj);
-            }
-          });
-        }
-      });
-  }
-
-  public onNoClick(): void {
-    if (this.selectedCities.length || this.selectedStation.length) {
-      const matDialogRef = this.dialog.open(ModalTextComponent, {
-        hasBackdrop: true,
-        panelClass: 'address-matDialog-styles-w-100',
-        data: {
-          name: 'cancel',
-          title: 'modal-text.cancel',
-          text: 'modal-text.cancel-message',
-          action: 'modal-text.yes'
-        }
-      });
-      matDialogRef.afterClosed().subscribe((res) => {
-        if (res) {
-          this.dialogRef.close();
-        }
-      });
-    } else {
-      this.dialogRef.close();
-    }
   }
 }
