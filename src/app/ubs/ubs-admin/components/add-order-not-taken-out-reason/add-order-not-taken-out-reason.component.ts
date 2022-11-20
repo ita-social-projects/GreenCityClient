@@ -129,21 +129,26 @@ export class AddOrderNotTakenOutReasonComponent implements OnInit {
   prepareDataToSend() {
     const notTakenOutReason = this.addNotTakenOutForm.value.notTakenOutReason;
 
-    //let stringifiedDataToSend = JSON.stringify(data);
-    const formData: FormData = new FormData();
+    let formData = new FormData();
+    //console.log(this.images);
+    //console.log(this.images[0], this.images[0].file);
+
     this.images.forEach((image) => {
       if (image.file) {
-        formData.append('images', image.file);
+        formData.append('images', image);
       }
     });
+
     const str = JSON.stringify(formData);
     const data: DataToSend = {
-      description: notTakenOutReason,
-      images: [str]
+      description: notTakenOutReason
+      //images: [formData]
     };
     const stringifiedDataToSend = JSON.stringify(data);
-    console.log(stringifiedDataToSend, this.id);
-    return stringifiedDataToSend;
+
+    console.log(data);
+
+    return data;
   }
 
   public send(): void {

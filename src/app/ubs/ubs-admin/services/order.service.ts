@@ -1,4 +1,4 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import {
@@ -18,6 +18,11 @@ import { IViolation } from '../models/violation.model';
 export class OrderService {
   private backend: string = environment.ubsAdmin.backendUbsAdminLink;
   private backendLink: string = environment.backendUbsLink;
+  private httpOptions = {
+    headers: new HttpHeaders({
+      'Content-Type': 'application/json'
+    })
+  };
 
   readonly districts = [
     'Голосіївський',
@@ -168,9 +173,7 @@ export class OrderService {
   }
 
   public addReasonForNotTakenOutOrder(reason, id) {
-    console.log(`${this.backend}/management/save-reason/${id}`, reason);
-
-    return this.http.put(`${this.backend}/management/save-reason/${id}`, reason);
+    return this.http.put(`${this.backend}/management/save-reason/${id}`, reason, { ...this.httpOptions, responseType: 'text' as 'json' });
   }
 
   public updateViolationOfCurrentOrder(violation) {
