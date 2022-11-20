@@ -100,14 +100,11 @@ export class UbsAdminTariffsCourierPopUpComponent implements OnInit, OnDestroy {
     this.selectedCourier = this.couriers.filter((it) =>
       it.courierTranslationDtos.find((ob) => ob.nameEng === event.option.value.toString() || ob.name === event.option.value.toString())
     );
+  }
 
-    console.log('val', this.selectedCourier);
-
-    this.selectedCourier = this.selectedCourier.map((val) => {
-      return val.courierTranslationDtos;
-    });
-
-    console.log('is', this.selectedCourier[0][0]);
+  editor() {
+    this.setNewCourierName();
+    this.editCourier();
   }
 
   addCourier(): void {
@@ -121,9 +118,10 @@ export class UbsAdminTariffsCourierPopUpComponent implements OnInit, OnDestroy {
   }
 
   setNewCourierName() {
-    console.log('newName');
-    this.courierForm.controls.name.setValue('');
-    this.courierForm.controls.nameEng.setValue('');
+    this.courierForm.setValue({
+      name: this.courierForm.controls.name.value,
+      englishName: this.courierForm.controls.englishName.value
+    });
   }
 
   editCourier(): void {
@@ -131,12 +129,8 @@ export class UbsAdminTariffsCourierPopUpComponent implements OnInit, OnDestroy {
       courierId: this.selectedCourier[0].courierId,
       courierTranslationDtos: [
         {
-          languageCode: 'ua',
-          name: this.name.value
-        },
-        {
-          languageCode: 'en',
-          name: this.englishName.value
+          name: this.name.value,
+          nameEng: this.englishName.value
         }
       ]
     };
