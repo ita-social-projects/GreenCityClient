@@ -8,7 +8,7 @@ import { takeUntil } from 'rxjs/operators';
   templateUrl: './edit-payment-confirmation-pop-up.component.html',
   styleUrls: ['./edit-payment-confirmation-pop-up.component.scss']
 })
-export class EditPaymentConfirmationPopUpComponent implements OnInit {
+export class EditPaymentConfirmationPopUpComponent implements OnInit, OnDestroy {
   public destroy$: Subject<boolean> = new Subject<boolean>();
   popupTitle: string;
   popupConfirm: string;
