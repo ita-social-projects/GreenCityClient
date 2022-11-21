@@ -1,10 +1,12 @@
 import { Location } from '@angular/common';
 import { Component, OnDestroy, OnInit } from '@angular/core';
+import { MatDialog } from '@angular/material/dialog';
 import { ActivatedRoute, Router } from '@angular/router';
 import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
 import { Subject } from 'rxjs';
 import { take, takeUntil } from 'rxjs/operators';
 import { NotificationsService } from '../../services/notifications.service';
+import { UbsAdminNotificationSettingsComponent } from './ubs-admin-notification-settings/ubs-admin-notification-settings.component';
 
 @Component({
   selector: 'app-ubs-admin-notification',
@@ -28,7 +30,8 @@ export class UbsAdminNotificationComponent implements OnInit, OnDestroy {
     private localStorageService: LocalStorageService,
     private route: ActivatedRoute,
     private router: Router,
-    private location: Location
+    private location: Location,
+    private dialog: MatDialog
   ) {}
 
   ngOnInit(): void {
@@ -76,7 +79,23 @@ export class UbsAdminNotificationComponent implements OnInit, OnDestroy {
 
   onEditNotificationInfo(platform: string): void {}
 
-  onEditNotificationSettings(): void {}
+  onEditNotificationSettings(): void {
+    this.dialog
+      .open(UbsAdminNotificationSettingsComponent, {
+        // panelClass: 'edit-notification-popup',
+        hasBackdrop: true,
+        data: {
+          title: { en: this.notification.title.en, ua: this.notification.title.ua },
+          trigger: this.notification.trigger,
+          schedule: this.notification.schedule,
+          status: this.notification.status
+        }
+      })
+      .afterClosed()
+      .subscribe((settings) => {
+        console.log(settings);
+      });
+  }
 
   onActivatePlatform(platform: string): void {
     this.notification.platforms.find((pf) => pf.name === platform).status = 'ACTIVE';

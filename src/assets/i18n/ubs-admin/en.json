@@ -881,6 +881,24 @@
       "add": "Add",
       "cancel": "Cancel",
       "save": "Save changes"
+    },
+    "settings-popup": {
+      "title": "Notification settings",
+      "labels": {
+        "titleEn": "Notification topic in english",
+        "titleUa": "Notification topic in ukrainian",
+        "trigger": "Trigger",
+        "schedule": "Repeat"
+      },
+      "placeholders": {
+        "title": "Enter topic",
+        "trigger": "Select trigger",
+        "schedule": "Select schedule"
+      },
+      "buttons": {
+        "cancel": "Cancel",
+        "change": "Change"
+      }
     }
   },
   "cron-picker": {
