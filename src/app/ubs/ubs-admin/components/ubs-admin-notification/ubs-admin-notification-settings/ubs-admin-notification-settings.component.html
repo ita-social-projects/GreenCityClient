@@ -1,0 +1,50 @@
+<div [formGroup]="form" class="notification-settings-container">
+  <h2 mat-dialog-title>Налаштування повідомлення</h2>
+
+  <div class="notification-settings-content">
+    <mat-form-field appearance="outline">
+      <mat-label>Тема повідомлення українською</mat-label>
+      <input matInput formControlName="titleUa" />
+    </mat-form-field>
+    <mat-form-field appearance="outline">
+      <mat-label>Тема повідомлення англійською</mat-label>
+      <input matInput formControlName="titleEn" />
+    </mat-form-field>
+
+    <mat-form-field appearance="outline">
+      <mat-label>Подія для активації</mat-label>
+      <mat-select formControlName="trigger">
+        <mat-option class="option-trigger" *ngFor="let trigger of triggers" [value]="trigger">
+          {{ 'ubs-notifications.triggers.' + trigger | translate }}
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
+
+    <div>
+      <button mat-stroked-button class="select-schedule-button" type="button" [matMenuTriggerFor]="selectSchedule">
+        <span class="select-schedule-button-text">Повторювати:&nbsp;&nbsp;{{ schedule }}</span>
+      </button>
+      <mat-menu #selectSchedule="matMenu">
+        <app-cron-picker
+          [schedule]="schedule"
+          (click)="$event.stopPropagation()"
+          (scheduleSelected)="onScheduleSelected($event)"
+        ></app-cron-picker>
+      </mat-menu>
+    </div>
+
+    <!-- <mat-form-field appearance="outline">
+      <mat-label>Стан повідомлення</mat-label>
+      <mat-select formControlName="status">
+        <mat-option class="option-trigger" *ngFor="let status of statuses" [value]="status">
+          {{ 'ubs-notifications.statuses.' + status | translate }}
+        </mat-option>
+      </mat-select>
+    </mat-form-field> -->
+  </div>
+
+  <div mat-dialog-actions class="controls">
+    <button class="cancel-button" type="button" (click)="onCancel()">Cancel</button>
+    <button class="submit-button" type="submit" [disabled]="!form.valid" (click)="onSubmit()">Change</button>
+  </div>
+</div>
