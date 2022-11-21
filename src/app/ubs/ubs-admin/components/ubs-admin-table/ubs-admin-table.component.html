@@ -40,7 +40,7 @@
               >
                 <div class="accordion-body">
                   <div *ngIf="column.key.toLowerCase().includes('date'); else nonDate">
-                    <div>
+                    <div [formGroup]="dateForm">
                       <mat-checkbox
                         [checked]="getCheckDateRange(column.key)"
                         (change)="changeDateFilters($event, $event.checked, column.key)"
@@ -53,24 +53,46 @@
                             'ubs-tables.date-from' | translate
                           }}</label>
                           <input
-                            id="dateFrom{{ column.key }}"
+                            matInput
                             class="date-input"
-                            type="date"
-                            name="dateFrom"
-                            [value]="getDateValue('From', column.key)"
-                            (change)="changeInputDateFilters($event.target.value, column.key, 'From')"
+                            type="text"
+                            [matDatepicker]="picker1"
+                            [placeholder]="'ubs-tables.date-placeholder' | translate"
+                            formControlName="{{ column.key }}From"
+                            (dateChange)="changeInputDate($event, column.key, 'From')"
+                            [value]="getControl(getControlName(column.key, 'From')).value"
                           />
+                          <button matSuffix class="calendar-btn">
+                            <img src="assets/img/icon/econews/calendar-icon.svg" (click)="picker1.open()" />
+                          </button>
+                          <mat-datepicker #picker1></mat-datepicker>
+                          <p>{{ getControl(getControlName(column.key, 'From')).value }}</p>
                         </div>
                         <div class="input-box" [hidden]="!getCheckDateRange(column.key)">
                           <label class="date-label" for="dateTo">{{ 'ubs-tables.date-to' | translate }}</label>
                           <input
+                            matInput
+                            class="date-input"
+                            type="text"
+                            [matDatepicker]="picker2"
+                            [placeholder]="'ubs-tables.date-placeholder' | translate"
+                            formControlName="{{ column.key }}To"
+                            (dateChange)="changeInputDate($event, column.key, 'To')"
+                            [value]="getControl(getControlName(column.key, 'To')).value"
+                          />
+                          <button matSuffix class="calendar-btn">
+                            <img src="assets/img/icon/econews/calendar-icon.svg" (click)="picker2.open()" />
+                          </button>
+                          <mat-datepicker #picker2></mat-datepicker>
+                          <!-- <input
                             id="dateTo{{ column.key }}"
                             class="date-input"
                             type="date"
+                            formControlName="{{ column.key }}To"
                             name="dateTo"
                             [value]="getDateValue('To', column.key)"
                             (change)="changeInputDateFilters($event.target.value, column.key, 'To')"
-                          />
+                          /> -->
                         </div>
                       </div>
                     </div>

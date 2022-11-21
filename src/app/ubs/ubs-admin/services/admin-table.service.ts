@@ -5,6 +5,7 @@ import { environment } from '@environment/environment.js';
 import { IBigOrderTable, IFilteredColumn, IFilteredColumnValue } from '../models/ubs-admin.interface';
 import { MatCheckboxChange } from '@angular/material/checkbox';
 import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
+import * as moment from 'moment';
 
 @Injectable({
   providedIn: 'root'
@@ -213,12 +214,25 @@ export class AdminTableService {
     }
   }
 
+  setDateFilters(value: string, currentColumn: string, suffix: string, check?: boolean): void {
+    const elem = {};
+    const columnName = this.changeColumnNameEqualToEndPoint(currentColumn);
+    const keyToChange = `${columnName}${suffix}`;
+    const filterToChange = this.filters.find((filter) => Object.keys(filter).includes(`${keyToChange}`));
+  }
+
   getDateChecked(dateColumn): boolean {
     const currentColumnDateFilter = this.columnsForFiltering.find((column) => {
       return column.key === dateColumn;
     });
     return currentColumnDateFilter.values[0]?.filtered;
   }
+
+  setDateFormat(date): any {
+    return this.convertDate(date);
+  }
+
+  convertDate = (date) => moment(date).format('YYYY-MM-D');
 
   setDateCheckedFromStorage(dateColumn): void {
     const currentColumnDateFilter = this.columnsForFiltering.find((column) => {

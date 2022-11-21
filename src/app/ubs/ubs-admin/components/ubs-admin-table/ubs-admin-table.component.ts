@@ -2,6 +2,7 @@ import { ColumnFiltersPopUpComponent } from './../shared/components/column-filte
 import {
   IBigOrderTable,
   IBigOrderTableParams,
+  IDateFilters,
   IFilteredColumn,
   IFilteredColumnValue,
   IOrdersViewParameters
@@ -31,6 +32,10 @@ import {
   SetColumnToDisplay
 } from 'src/app/store/actions/bigOrderTable.actions';
 import { MouseEvents } from 'src/app/shared/mouse-events';
+import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
+import { MatDatepickerInputEvent } from '@angular/material/datepicker';
+import { ConvertFromDateToStringService } from 'src/app/shared/convert-from-date-to-string/convert-from-date-to-string.service';
+import * as moment from 'moment';
 
 @Component({
   selector: 'app-ubs-admin-table',
@@ -93,9 +98,11 @@ export class UbsAdminTableComponent implements OnInit, AfterViewChecked, OnDestr
   columnsWidthPreference: Map<string, number>;
   restoredFilters = [];
   isRestoredFilters = false;
-  checkOrderDate = false;
-  checkDateOfExport = false;
-  checkPaymentDate = false;
+  public dateForm: FormGroup;
+  public filters: IDateFilters[] = [];
+  private checkOrderDate = false;
+  private checkDateOfExport = false;
+  private checkPaymentDate = false;
 
   bigOrderTable$ = this.store.select((state: IAppState): IBigOrderTable => state.bigOrderTable.bigOrderTable);
   bigOrderTableParams$ = this.store.select((state: IAppState): IBigOrderTableParams => state.bigOrderTable.bigOrderTableParams);
@@ -109,11 +116,14 @@ export class UbsAdminTableComponent implements OnInit, AfterViewChecked, OnDestr
     private tableHeightService: TableHeightService,
     public dialog: MatDialog,
     private cdr: ChangeDetectorRef,
-    private renderer: Renderer2
+    private renderer: Renderer2,
+    private fb: FormBuilder,
+    private dateToStrService: ConvertFromDateToStringService
   ) {}
 
   ngOnInit() {
     this.firstPageLoad = true;
+    this.initDateForm();
     this.columnsWidthPreference = this.localStorageService.getUbsAdminOrdersTableColumnsWidthPreference();
     this.localStorageService.languageBehaviourSubject.pipe(takeUntil(this.destroy)).subscribe((lang) => {
       this.currentLang = lang;
@@ -249,6 +259,47 @@ export class UbsAdminTableComponent implements OnInit, AfterViewChecked, OnDestr
 
   get isIndeterminate(): boolean {
     return !!this.idsToChange.length && !this.isAllSelected;
+  }
+
+  initDateForm(): void {
+    this.dateForm = this.fb.group({
+      orderDateFrom: new FormControl(''),
+      orderDateTo: new FormControl(''),
+      dateOfExportFrom: new FormControl(''),
+      dateOfExportTo: new FormControl(''),
+      paymentDateFrom: new FormControl(''),
+      paymentDateTo: new FormControl('')
+    });
+    this.filters = this.dateForm.value;
+  }
+
+  public getControl(control: string) {
+    return this.dateForm.get(control);
+  }
+
+  getControlValue(column: string, suffix: string): any {
+    const control = this.getControlName(column, suffix);
+
+    // const value = this.filters.filter((filteredElem) => filteredElem.includes(`${control}`));
+    // // let value = this.filters.filter(el => el.includes(control));
+    // console.log(value);
+    // return this.filters.
+    // return control.value;
+  }
+
+  getControlName(column: string, suffix: string) {
+    return `${column}${suffix}`;
+  }
+
+  getValue(dateColumn: string): any {
+    switch (dateColumn) {
+      case 'orderDateFrom':
+        return this.filters;
+      case 'dateOfExport':
+        return this.checkDateOfExport;
+      case 'paymentDate':
+        return this.checkPaymentDate;
+    }
   }
 
   checkAllColumnsDisplayed(): void {
@@ -632,15 +683,18 @@ export class UbsAdminTableComponent implements OnInit, AfterViewChecked, OnDestr
   }
 
   changeDateFilters(e: MatCheckboxChange, checked: boolean, currentColumn: string): void {
-    this.adminTableService.changeDateFilters(e, checked, currentColumn);
+    // this.adminTableService.changeDateFilters(e, checked, currentColumn);
     this.noFiltersApplied = false;
     this.changeCheckDateRange(currentColumn);
   }
 
-  changeInputDateFilters(value: string, currentColumn: string, suffix: string): void {
+  changeInputDate(event: MatDatepickerInputEvent<Date>, currentColumn: string, suffix: string): void {
     this.noFiltersApplied = false;
     const check = this.getCheckDateRange(currentColumn);
-    this.adminTableService.changeInputDateFilters(value, currentColumn, suffix, check);
+    const controlName = this.getControlName(currentColumn, suffix);
+    const date = this.getControl(controlName).value;
+    const value = this.adminTableService.setDateFormat(date);
+    this.adminTableService.setDateFilters(value, currentColumn, suffix, check);
   }
 
   getCheckDateRange(dateColumn): boolean {
@@ -689,6 +743,7 @@ export class UbsAdminTableComponent implements OnInit, AfterViewChecked, OnDestr
   public applyFilters() {
     this.currentPage = 0;
     this.firstPageLoad = true;
+    this.filters = this.dateForm.value;
     this.getTable(this.filterValue, this.sortingColumn || 'id', this.sortType || 'DESC', true);
   }
 

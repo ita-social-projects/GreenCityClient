@@ -285,6 +285,14 @@ export interface IFilteredColumnValue {
   filtered: boolean;
 }
 
+export interface IDateFilters {
+  orderDateTo: string;
+  dateOfExportFrom: string;
+  dateOfExportTo: string;
+  paymentDateFrom: string;
+  paymentDateTo: string;
+}
+
 export interface IBigOrderTableOrderInfo {
   id: number;
   orderStatus: string;
