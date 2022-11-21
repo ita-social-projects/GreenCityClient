@@ -22,6 +22,7 @@ import { MatTooltipModule } from '@angular/material/tooltip';
 import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
 import { SelectionModel } from '@angular/cdk/collections';
 import { Language } from 'src/app/main/i18n/Language';
+import { DateAdapter } from '@angular/material/core';
 
 describe('UsbAdminTableComponent', () => {
   let component: UbsAdminTableComponent;
@@ -42,6 +43,7 @@ describe('UsbAdminTableComponent', () => {
   localStorageServiceMock.languageSubject = of('ua');
 
   const FakeMatDialogConfig = {};
+  const dateAdapterMock = jasmine.createSpyObj('adapter', ['setLocale']);
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
@@ -65,7 +67,8 @@ describe('UsbAdminTableComponent', () => {
       providers: [
         { provide: Store, useValue: storeMock },
         { provide: MatDialogConfig, useValue: FakeMatDialogConfig },
-        { provide: LocalStorageService, useValue: localStorageServiceMock }
+        { provide: LocalStorageService, useValue: localStorageServiceMock },
+        { provide: DateAdapter, useValue: dateAdapterMock }
       ],
       schemas: [CUSTOM_ELEMENTS_SCHEMA]
     }).compileComponents();
