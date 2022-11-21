@@ -8,7 +8,6 @@ import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 import { Patterns } from 'src/assets/patterns/patterns';
 import { TariffsService } from '../../../services/tariffs.service';
-import { LanguageService } from '../../../../../main/i18n/language.service';
 
 @Component({
   selector: 'app-ubs-admin-tariffs-courier-pop-up',
@@ -30,7 +29,6 @@ export class UbsAdminTariffsCourierPopUpComponent implements OnInit, OnDestroy {
   couriers = [];
   selectedCourier;
   couriersName;
-  currentLanguage;
   couriersNameEng;
   array;
   courierPlaceholder: string;
@@ -46,7 +44,6 @@ export class UbsAdminTariffsCourierPopUpComponent implements OnInit, OnDestroy {
     private localStorageService: LocalStorageService,
     public dialogRef: MatDialogRef<UbsAdminTariffsCourierPopUpComponent>,
     private tariffsService: TariffsService,
-    private languageService: LanguageService,
     @Inject(MAT_DIALOG_DATA)
     public data: {
       headerText: string;
@@ -64,7 +61,6 @@ export class UbsAdminTariffsCourierPopUpComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit(): void {
-    this.subscribeToLangChange();
     this.getCouriers();
     this.localStorageService.firstNameBehaviourSubject.pipe(takeUntil(this.unsubscribe)).subscribe((firstName) => {
       this.authorName = firstName;
@@ -102,7 +98,7 @@ export class UbsAdminTariffsCourierPopUpComponent implements OnInit, OnDestroy {
     );
   }
 
-  editor() {
+  editCourierName() {
     this.setNewCourierName();
     this.editCourier();
   }
@@ -140,12 +136,6 @@ export class UbsAdminTariffsCourierPopUpComponent implements OnInit, OnDestroy {
       .subscribe(() => {
         this.dialogRef.close();
       });
-  }
-
-  private subscribeToLangChange(): void {
-    this.localStorageService.languageBehaviourSubject.pipe(takeUntil(this.destroy)).subscribe(() => {
-      this.currentLanguage = this.localStorageService.getCurrentLanguage();
-    });
   }
 
   onNoClick(): void {

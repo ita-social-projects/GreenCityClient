@@ -61,6 +61,9 @@
         <div class="error" *ngIf="englishName.invalid && englishName.touched">
           <p class="validation">{{ 'ubs-tariffs-add-location-pop-up.error' | translate }}</p>
         </div>
+        <div class="error" *ngIf="courierExist || enCourierExist">
+          <p class="validation">{{ 'ubs-tariffs-add-location-pop-up.courierExist' | translate }}</p>
+        </div>
       </div>
     </div>
     <div class="d-flex justify-content-end buttons" mat-dialog-actions>
@@ -78,11 +81,10 @@
       <button
         *ngIf="data.edit"
         class="primary-global-button btn m-0"
-        [disabled]="courierForm.invalid || courierExist || enCourierExist"
-        (click)="editor()"
+        [disabled]="courierForm.invalid || enCourierExist"
+        (click)="editCourierName()"
       >
-        ed?
-        {{ 'ubs-tariffs-add-location-pop-up.save_button' | translate }}
+        {{ 'ubs-tariffs-add-location-pop-up.courier_edit_title' | translate }}
       </button>
     </div>
   </ng-template>
