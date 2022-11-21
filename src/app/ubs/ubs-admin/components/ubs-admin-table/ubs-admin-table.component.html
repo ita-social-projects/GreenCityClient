@@ -42,14 +42,15 @@
                   <div *ngIf="column.key.toLowerCase().includes('date'); else nonDate">
                     <div [formGroup]="dateForm">
                       <mat-checkbox
-                        [checked]="getCheckDateRange(column.key)"
-                        (change)="changeDateFilters($event, $event.checked, column.key)"
+                        [checked]="getControlValue(column.key, 'Check')"
+                        formControlName="{{ column.key }}Check"
+                        (change)="changeInputDate($event, column.key, 'Check')"
                       >
                         {{ 'ubs-tables.date-range' | translate }}
                       </mat-checkbox>
                       <div class="date-range-box">
                         <div class="input-box">
-                          <label class="date-label" for="dateFrom" [hidden]="!getCheckDateRange(column.key)">{{
+                          <label class="date-label" for="dateFrom" [hidden]="!getControlValue(column.key, 'Check')">{{
                             'ubs-tables.date-from' | translate
                           }}</label>
                           <div class="data-field">
@@ -61,16 +62,15 @@
                               [placeholder]="'ubs-tables.date-placeholder' | translate"
                               formControlName="{{ column.key }}From"
                               (dateChange)="changeInputDate($event, column.key, 'From')"
-                              [value]="getControl(getControlName(column.key, 'From')).value"
+                              [value]="getControlValue(column.key, 'From')"
                             />
                             <button matSuffix class="calendar-btn">
                               <img src="assets/img/icon/econews/calendar-icon.svg" (click)="picker1.open()" />
                             </button>
                             <mat-datepicker #picker1></mat-datepicker>
-                            <p>{{ getControl(getControlName(column.key, 'From')).value }}</p>
                           </div>
                         </div>
-                        <div class="input-box" [hidden]="!getCheckDateRange(column.key)">
+                        <div class="input-box" [hidden]="!getControlValue(column.key, 'Check')">
                           <label class="date-label" for="dateTo">{{ 'ubs-tables.date-to' | translate }}</label>
                           <div class="data-field">
                             <input
@@ -81,7 +81,7 @@
                               [placeholder]="'ubs-tables.date-placeholder' | translate"
                               formControlName="{{ column.key }}To"
                               (dateChange)="changeInputDate($event, column.key, 'To')"
-                              [value]="getControl(getControlName(column.key, 'To')).value"
+                              [value]="getControlValue(column.key, 'To')"
                             />
                             <button matSuffix class="calendar-btn">
                               <img src="assets/img/icon/econews/calendar-icon.svg" (click)="picker2.open()" />
@@ -90,27 +90,6 @@
                           </div>
                         </div>
                       </div>
-                      <!-- <div class="data-range-box">
-                        <div class="input-box">
-                          <div class="data-field">
-                            <input
-                              matInput
-                              id="date{{ column.key }}"
-                              class="input-wrapper"
-                              [matDatepicker]="picker"
-                              formControlName="date{{ column.key }}"
-                              [placeholder]="'ubs-tables.date-placeholder' | translate"
-                              [value]="getDateValue('From', column.key)"
-                              (change)="changeInputDateFilters($event.target.value, column.key, 'From')"
-                              [disabled]="noFilterDate"
-                            />
-                            <button matSuffix class="calendar-btn">
-                              <img src="assets/img/icon/econews/calendar-icon.svg" (click)="picker.open()" />
-                            </button>
-                            <mat-datepicker #picker></mat-datepicker>
-                          </div>
-                        </div>
-                      </div> -->
                     </div>
                   </div>
                   <ng-template #nonDate>

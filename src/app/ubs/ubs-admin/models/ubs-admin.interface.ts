@@ -286,11 +286,15 @@ export interface IFilteredColumnValue {
 }
 
 export interface IDateFilters {
+  orderDateFrom: string;
   orderDateTo: string;
+  orderDateCheck: boolean;
   dateOfExportFrom: string;
   dateOfExportTo: string;
+  dateOfExportCheck: boolean;
   paymentDateFrom: string;
   paymentDateTo: string;
+  paymentDateCheck: boolean;
 }
 
 export interface IBigOrderTableOrderInfo {

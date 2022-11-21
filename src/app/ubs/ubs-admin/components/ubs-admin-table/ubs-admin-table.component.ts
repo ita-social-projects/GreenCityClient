@@ -33,7 +33,6 @@ import {
 } from 'src/app/store/actions/bigOrderTable.actions';
 import { MouseEvents } from 'src/app/shared/mouse-events';
 import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
-import { MatDatepickerInputEvent } from '@angular/material/datepicker';
 import { DateAdapter } from '@angular/material/core';
 
 @Component({
@@ -99,9 +98,6 @@ export class UbsAdminTableComponent implements OnInit, AfterViewChecked, OnDestr
   isRestoredFilters = false;
   public dateForm: FormGroup;
   public filters: IDateFilters[] = [];
-  private checkOrderDate = false;
-  private checkDateOfExport = false;
-  private checkPaymentDate = false;
 
   bigOrderTable$ = this.store.select((state: IAppState): IBigOrderTable => state.bigOrderTable.bigOrderTable);
   bigOrderTableParams$ = this.store.select((state: IAppState): IBigOrderTableParams => state.bigOrderTable.bigOrderTableParams);
@@ -264,43 +260,26 @@ export class UbsAdminTableComponent implements OnInit, AfterViewChecked, OnDestr
 
   initDateForm(): void {
     this.dateForm = this.fb.group({
-      orderDateFrom: new FormControl(''),
-      orderDateTo: new FormControl(''),
-      dateOfExportFrom: new FormControl(''),
-      dateOfExportTo: new FormControl(''),
-      paymentDateFrom: new FormControl(''),
-      paymentDateTo: new FormControl('')
+      orderDateFrom: new FormControl(),
+      orderDateTo: new FormControl(),
+      orderDateCheck: false,
+      dateOfExportFrom: new FormControl(),
+      dateOfExportTo: new FormControl(),
+      dateOfExportCheck: false,
+      paymentDateFrom: new FormControl(),
+      paymentDateTo: new FormControl(),
+      paymentDateCheck: false
     });
     this.filters = this.dateForm.value;
   }
 
-  public getControl(control: string) {
-    return this.dateForm.get(control);
+  public getControlValue(column: string, suffix: string): string {
+    const controlName = this.getControlName(column, suffix);
+    return this.dateForm.get(controlName).value;
   }
 
-  getControlValue(column: string, suffix: string): any {
-    const control = this.getControlName(column, suffix);
-
-    // const value = this.filters.filter((filteredElem) => filteredElem.includes(`${control}`));
-    // // let value = this.filters.filter(el => el.includes(control));
-    // console.log(value);
-    // return this.filters.
-    // return control.value;
-  }
-
-  getControlName(column: string, suffix: string) {
+  public getControlName(column: string, suffix: string): string {
     return `${column}${suffix}`;
-  }
-
-  getValue(dateColumn: string): any {
-    switch (dateColumn) {
-      case 'orderDateFrom':
-        return this.filters;
-      case 'dateOfExport':
-        return this.checkDateOfExport;
-      case 'paymentDate':
-        return this.checkPaymentDate;
-    }
   }
 
   checkAllColumnsDisplayed(): void {
@@ -683,44 +662,28 @@ export class UbsAdminTableComponent implements OnInit, AfterViewChecked, OnDestr
     this.noFiltersApplied = !this.adminTableService.filters.length;
   }
 
-  changeDateFilters(e: MatCheckboxChange, checked: boolean, currentColumn: string): void {
-    // this.adminTableService.changeDateFilters(e, checked, currentColumn);
+  changeInputDate(event: MatCheckboxChange, currentColumn: string, suffix: string): void {
     this.noFiltersApplied = false;
-    this.changeCheckDateRange(currentColumn);
-  }
-
-  changeInputDate(event: MatDatepickerInputEvent<Date>, currentColumn: string, suffix: string): void {
-    this.noFiltersApplied = false;
-    const check = this.getCheckDateRange(currentColumn);
     const controlName = this.getControlName(currentColumn, suffix);
-    const date = this.getControl(controlName).value;
-    const value = this.adminTableService.setDateFormat(date);
-    this.adminTableService.setDateFilters(value, currentColumn, suffix, check);
-  }
+    const checkControl = this.dateForm.get(`${currentColumn}Check`).value;
 
-  getCheckDateRange(dateColumn): boolean {
-    switch (dateColumn) {
-      case 'orderDate':
-        return this.checkOrderDate;
-      case 'dateOfExport':
-        return this.checkDateOfExport;
-      case 'paymentDate':
-        return this.checkPaymentDate;
+    if (suffix === 'From' || suffix === 'To') {
+      const date = this.getControlValue(currentColumn, suffix);
+      const value = this.adminTableService.setDateFormat(date);
+      this.dateForm.get(controlName).setValue(value);
+      if (!checkControl) {
+        this.dateForm.get(`${currentColumn}To`).setValue(value);
+      }
+      this.setDateFormValue();
+      this.adminTableService.changeInputDateFilters(value, currentColumn, suffix, checkControl);
+    } else if (suffix === 'Check') {
+      this.dateForm.get(controlName).setValue(event.checked);
+      this.setDateFormValue();
     }
   }
 
-  changeCheckDateRange(currentColumn: string): void {
-    switch (currentColumn) {
-      case 'orderDate':
-        this.checkOrderDate = !this.checkOrderDate;
-        break;
-      case 'dateOfExport':
-        this.checkDateOfExport = !this.checkDateOfExport;
-        break;
-      case 'paymentDate':
-        this.checkPaymentDate = !this.checkPaymentDate;
-        break;
-    }
+  setDateFormValue(): void {
+    this.filters = this.dateForm.value;
   }
 
   getDateValue(suffix: 'From' | 'To', dateColumn): boolean {
@@ -739,12 +702,12 @@ export class UbsAdminTableComponent implements OnInit, AfterViewChecked, OnDestr
     this.applyFilters();
     this.noFiltersApplied = true;
     this.localStorageService.removeAdminOrderFilters();
+    this.dateForm.reset();
   }
 
   public applyFilters() {
     this.currentPage = 0;
     this.firstPageLoad = true;
-    this.filters = this.dateForm.value;
     this.getTable(this.filterValue, this.sortingColumn || 'id', this.sortType || 'DESC', true);
   }
 
