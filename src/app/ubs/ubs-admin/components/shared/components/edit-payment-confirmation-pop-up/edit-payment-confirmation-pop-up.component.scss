@@ -1,0 +1,105 @@
+.main-container {
+  position: relative;
+  max-width: 422px;
+  height: 167px;
+  border-radius: 4px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  padding: 16px;
+  margin: -24px;
+}
+
+.warning-text {
+  font-family: var(--ubs-quaternary-font);
+  font-weight: 400;
+  font-size: 16px;
+  line-height: 24px;
+  color: var(--ubs-primary-grey);
+}
+
+.buttons-container {
+  display: flex;
+  justify-content: flex-end;
+}
+
+.primary-global-button,
+.secondary-global-button {
+  height: 36px;
+  font-family: var(--ubs-quaternary-font);
+  font-size: 14px;
+  border-radius: 4px;
+  font-weight: 700;
+  padding: 8px 24px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.primary-global-button {
+  min-width: 70px;
+  background-color: var(--ubs-primary-green);
+}
+
+.secondary-global-button {
+  background-color: #fff;
+  color: var(--ubs-primary-green);
+  border-color: var(--ubs-primary-green);
+  margin-right: 16px;
+}
+
+@media screen and (max-width: 767px) {
+  .main-container {
+    max-width: 509px;
+  }
+
+  .warning-text {
+    font-size: 18px;
+    line-height: 24px;
+  }
+}
+
+@media screen and (max-width: 575px) {
+  .main-container {
+    min-width: 100vw;
+    min-height: 100vh;
+    justify-content: center;
+    align-items: center;
+    padding: 0;
+  }
+
+  .warning-title {
+    text-align: center;
+  }
+
+  .warning-text {
+    max-width: 288px;
+    margin-bottom: 89px;
+  }
+
+  .buttons-container {
+    width: 288px;
+    height: 128px;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  .cancellation-button,
+  .confirm-button {
+    height: 44px;
+    width: 200px;
+    margin: 0;
+    padding: 0;
+  }
+
+  .cancellation-button {
+    margin-bottom: 32px;
+  }
+}
+
+@media screen and (max-width: 319px) {
+  .warning-text {
+    text-align: center;
+  }
+}
