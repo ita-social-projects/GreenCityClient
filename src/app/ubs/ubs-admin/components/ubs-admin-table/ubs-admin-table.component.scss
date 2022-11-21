@@ -83,28 +83,34 @@ input {
   gap: 16px;
 }
 
-.input-box {
+.data-field {
   display: flex;
-  flex-direction: column;
-
-  .date-label {
-    margin-bottom: 2px;
-  }
+  height: 36px;
+  width: 138px;
+  padding: 8px;
+  border: 1px solid var(--ubs-quintynary-light-grey);
+  border-radius: 4px;
+  background-color: var(--ubs-primary-white);
 
   .date-input {
-    display: flex;
-    height: 36px;
-    width: 128px;
-    padding: 8px;
+    font-size: 14px;
+    height: 18px;
+    width: 104px;
+    background-color: transparent;
     margin: 0;
-    border: 1px solid var(--ubs-quintynary-light-grey);
-    border-radius: 4px;
-    background-color: var(--ubs-primary-white);
+    padding: 0;
+    border: 0;
 
     &:focus {
-      outline: 0;
-      border: 1px solid var(--ubs-primary-green);
+      outline: none;
     }
+  }
+
+  .calendar-btn {
+    display: flex;
+    align-items: center;
+    background-color: transparent;
+    border: 0;
   }
 }
 

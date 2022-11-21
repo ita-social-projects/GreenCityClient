@@ -34,8 +34,7 @@ import {
 import { MouseEvents } from 'src/app/shared/mouse-events';
 import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
 import { MatDatepickerInputEvent } from '@angular/material/datepicker';
-import { ConvertFromDateToStringService } from 'src/app/shared/convert-from-date-to-string/convert-from-date-to-string.service';
-import * as moment from 'moment';
+import { DateAdapter } from '@angular/material/core';
 
 @Component({
   selector: 'app-ubs-admin-table',
@@ -118,8 +117,10 @@ export class UbsAdminTableComponent implements OnInit, AfterViewChecked, OnDestr
     private cdr: ChangeDetectorRef,
     private renderer: Renderer2,
     private fb: FormBuilder,
-    private dateToStrService: ConvertFromDateToStringService
-  ) {}
+    private dateAdapter: DateAdapter<Date>
+  ) {
+    this.dateAdapter.setLocale('en-GB');
+  }
 
   ngOnInit() {
     this.firstPageLoad = true;
