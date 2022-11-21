@@ -1,6 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { of } from 'rxjs';
+import { of, throwError } from 'rxjs';
 
 export const notificationTriggers = [
   'ORDER_NOT_PAID_FOR_3_DAYS',
@@ -23,22 +23,13 @@ const notificationTemplates = [
     id: 1,
     trigger: 'ORDER_NOT_PAID_FOR_3_DAYS',
     time: '6PM_3DAYS_AFTER_ORDER_FORMED_NOT_PAID',
-    schedule: { cron: '27 14 4,7,16 * 5' },
+    schedule: { cron: '27 14 4,7,16 * *' },
     title: { en: 'Unpaid order', ua: 'Неоплачене замовлення' },
     status: 'ACTIVE',
     platforms: {
-      email: {
-        status: 'ACTIVE',
-        body: { en: 'Unpaid order, text for Email', ua: 'Неоплачене замовлення, текст для Email' }
-      },
-      telegram: {
-        status: 'ACTIVE',
-        body: { en: 'Unpaid order, text for Telegram', ua: 'Неоплачене замовлення, текст для Telegram' }
-      },
-      viber: {
-        status: 'INACTIVE',
-        body: { en: 'Unpaid order, text for Viber', ua: 'Неоплачене замовлення, текст для Viber' }
-      }
+      email: { status: 'ACTIVE', body: { en: 'Unpaid order, text for Email', ua: 'Неоплачене замовлення, текст для Email' } },
+      telegram: { status: 'ACTIVE', body: { en: 'Unpaid order, text for Telegram', ua: 'Неоплачене замовлення, текст для Telegram' } },
+      viber: { status: 'INACTIVE', body: { en: 'Unpaid order, text for Viber', ua: 'Неоплачене замовлення, текст для Viber' } }
     }
   },
   {
@@ -49,18 +40,9 @@ const notificationTemplates = [
     title: { en: 'The payment was successful', ua: 'Оплата пройшла успішно' },
     status: 'ACTIVE',
     platforms: {
-      email: {
-        status: 'ACTIVE',
-        body: { en: 'Successful payment, text for Email', ua: 'Успішна оплата, текст для Email' }
-      },
-      telegram: {
-        status: 'INACTIVE',
-        body: { en: 'Successful payment, text for Telegram', ua: 'Успішна оплата, текст для Telegram' }
-      },
-      viber: {
-        status: 'INACTIVE',
-        body: { en: 'Successful payment, text for Viber', ua: 'Успішна оплата, текст для Viber' }
-      }
+      email: { status: 'ACTIVE', body: { en: 'Successful payment, text for Email', ua: 'Успішна оплата, текст для Email' } },
+      telegram: { status: 'INACTIVE', body: { en: 'Successful payment, text for Telegram', ua: 'Успішна оплата, текст для Telegram' } },
+      viber: { status: 'INACTIVE', body: { en: 'Successful payment, text for Viber', ua: 'Успішна оплата, текст для Viber' } }
     }
   },
   {
@@ -169,9 +151,8 @@ export interface NotificationTemplate {
   trigger: string;
   time: string;
   status: string;
-  body: {
-    en: string;
-    ua: string;
+  platforms: {
+    [name: string]: { status: string; body: { en: string; ua: string } };
   };
 }
 
@@ -214,6 +195,10 @@ export class NotificationsService {
   }
 
   getNotificationTemplate(id: number) {
-    return of(notificationTemplates.find((temp) => temp.id === id));
+    const template = notificationTemplates.find((temp) => temp.id === id);
+    if (!template) {
+      return throwError(`No notification template with id ${id}!`);
+    }
+    return of(template);
   }
 }

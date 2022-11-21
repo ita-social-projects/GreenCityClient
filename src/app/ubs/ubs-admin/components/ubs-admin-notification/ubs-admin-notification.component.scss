@@ -1,4 +1,8 @@
 .page-container {
+  button {
+    outline: none;
+  }
+
   .page-header {
     display: flex;
     flex-direction: row;
@@ -112,13 +116,7 @@
     }
   }
 
-  .edit-button {
-    padding: 0;
-    border: 0;
-    background-color: transparent;
-  }
-
-  .delete-button {
+  .action-button {
     padding: 0;
     border: 0;
     background-color: transparent;

@@ -1,82 +1,94 @@
-import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup } from '@angular/forms';
-import { MatDialog } from '@angular/material/dialog';
+import { Location } from '@angular/common';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
-import { take } from 'rxjs/operators';
-import { NotificationsService, notificationTriggers, notificationStatuses } from '../../services/notifications.service';
+import { Subject } from 'rxjs';
+import { take, takeUntil } from 'rxjs/operators';
+import { NotificationsService } from '../../services/notifications.service';
 
 @Component({
   selector: 'app-ubs-admin-notification',
   templateUrl: './ubs-admin-notification.component.html',
   styleUrls: ['./ubs-admin-notification.component.scss']
 })
-export class UbsAdminNotificationComponent implements OnInit {
+export class UbsAdminNotificationComponent implements OnInit, OnDestroy {
+  private destroy = new Subject<void>();
+
   icons = {
+    back: 'assets/img/ubs-admin-notifications/back.svg',
     edit: 'assets/img/ubs-admin-notifications/pencil.svg',
     delete: './assets/img/ubs-admin-notifications/trashcan.svg',
     activate: './assets/img/ubs-admin-notifications/counterclockwise.svg'
   };
-
-  form: FormGroup;
-  triggers = notificationTriggers;
-  statuses = notificationStatuses;
   lang = 'en';
   notification = null;
 
-  platforms = ['email', 'telegram', 'viber'];
-
   constructor(
-    private fb: FormBuilder,
     private notificationsService: NotificationsService,
     private localStorageService: LocalStorageService,
-    private dialog: MatDialog,
     private route: ActivatedRoute,
-    private router: Router
+    private router: Router,
+    private location: Location
   ) {}
 
   ngOnInit(): void {
-    this.localStorageService.languageBehaviourSubject.subscribe((lang) => {
+    this.localStorageService.languageBehaviourSubject.pipe(takeUntil(this.destroy)).subscribe((lang) => {
       this.lang = lang;
     });
-    this.route.params.subscribe((params) => {
+    this.route.params.pipe(takeUntil(this.destroy)).subscribe((params) => {
       const id = Number(params.id);
       this.loadNotification(id);
     });
   }
 
-  loadNotification(id) {
+  ngOnDestroy(): void {
+    this.destroy.next();
+    this.destroy.complete();
+  }
+
+  loadNotification(id: number): void {
     this.notificationsService
       .getNotificationTemplate(id)
       .pipe(take(1))
-      .subscribe((notification) => {
-        this.notification = {
-          id: notification.id,
-          title: notification.title,
-          trigger: notification.trigger,
-          time: notification.time,
-          schedule: notification.schedule?.cron ?? '',
-          platforms: Object.entries(notification.platforms).map(([name, details]) => ({ name, ...details })),
-          status: notification.status
-        };
-      });
+      .subscribe(
+        (notification) => {
+          this.notification = {
+            id: notification.id,
+            title: notification.title,
+            trigger: notification.trigger,
+            time: notification.time,
+            schedule: notification.schedule?.cron ?? '',
+            platforms: Object.entries(notification.platforms).map(([name, details]) => ({ name, ...details })),
+            status: notification.status
+          };
+        },
+        () => this.navigateToNotificationList()
+      );
+  }
+
+  navigateToNotificationList(): void {
+    this.router.navigate(['../../notifications'], { relativeTo: this.route });
+  }
+
+  onGoBack(): void {
+    this.location.back();
   }
 
   onEditNotificationInfo(platform: string): void {}
 
-  onEditNotificationSettings() {}
+  onEditNotificationSettings(): void {}
 
-  onActivatePlatform(platform: string) {
+  onActivatePlatform(platform: string): void {
     this.notification.platforms.find((pf) => pf.name === platform).status = 'ACTIVE';
   }
 
-  onDeactivatePlatform(platform: string) {
+  onDeactivatePlatform(platform: string): void {
     this.notification.platforms.find((pf) => pf.name === platform).status = 'INACTIVE';
   }
 
-  onCancel() {
-    this.router.navigate(['../../notifications'], { relativeTo: this.route });
+  onCancel(): void {
+    this.navigateToNotificationList();
   }
 
-  onSaveChanges() {}
+  onSaveChanges(): void {}
 }
