@@ -23,9 +23,23 @@ const notificationTemplates = [
     id: 1,
     trigger: 'ORDER_NOT_PAID_FOR_3_DAYS',
     time: '6PM_3DAYS_AFTER_ORDER_FORMED_NOT_PAID',
-    schedule: { cron: '0 0 * * 1' },
+    schedule: { cron: '27 14 4,7,16 * 5' },
     title: { en: 'Unpaid order', ua: 'Неоплачене замовлення' },
-    status: 'ACTIVE'
+    status: 'ACTIVE',
+    platforms: {
+      email: {
+        status: 'ACTIVE',
+        body: { en: 'Unpaid order, text for Email', ua: 'Неоплачене замовлення, текст для Email' }
+      },
+      telegram: {
+        status: 'ACTIVE',
+        body: { en: 'Unpaid order, text for Telegram', ua: 'Неоплачене замовлення, текст для Telegram' }
+      },
+      viber: {
+        status: 'INACTIVE',
+        body: { en: 'Unpaid order, text for Viber', ua: 'Неоплачене замовлення, текст для Viber' }
+      }
+    }
   },
   {
     id: 2,
@@ -33,7 +47,21 @@ const notificationTemplates = [
     time: 'IMMEDIATELY',
     schedule: null,
     title: { en: 'The payment was successful', ua: 'Оплата пройшла успішно' },
-    status: 'ACTIVE'
+    status: 'ACTIVE',
+    platforms: {
+      email: {
+        status: 'ACTIVE',
+        body: { en: 'Successful payment, text for Email', ua: 'Успішна оплата, текст для Email' }
+      },
+      telegram: {
+        status: 'INACTIVE',
+        body: { en: 'Successful payment, text for Telegram', ua: 'Успішна оплата, текст для Telegram' }
+      },
+      viber: {
+        status: 'INACTIVE',
+        body: { en: 'Successful payment, text for Viber', ua: 'Успішна оплата, текст для Viber' }
+      }
+    }
   },
   {
     id: 3,
@@ -41,7 +69,12 @@ const notificationTemplates = [
     time: 'IMMEDIATELY',
     schedule: null,
     title: { en: 'The courier route formed', ua: 'Маршрут сформовано' },
-    status: 'ACTIVE'
+    status: 'ACTIVE',
+    platforms: {
+      email: { status: 'ACTIVE', body: { en: '', ua: '' } },
+      telegram: { status: 'ACTIVE', body: { en: '', ua: '' } },
+      viber: { status: 'ACTIVE', body: { en: '', ua: '' } }
+    }
   },
   {
     id: 4,
@@ -49,7 +82,12 @@ const notificationTemplates = [
     time: 'IMMEDIATELY',
     schedule: null,
     title: { en: 'Pay the change in the order', ua: 'Оплатіть різницю у замовлені' },
-    status: 'ACTIVE'
+    status: 'ACTIVE',
+    platforms: {
+      email: { status: 'ACTIVE', body: { en: '', ua: '' } },
+      telegram: { status: 'ACTIVE', body: { en: '', ua: '' } },
+      viber: { status: 'ACTIVE', body: { en: '', ua: '' } }
+    }
   },
   {
     id: 5,
@@ -57,7 +95,12 @@ const notificationTemplates = [
     time: 'IMMEDIATELY',
     schedule: null,
     title: { en: 'Accrued bonuses to the account', ua: 'Нараховано бонуси' },
-    status: 'ACTIVE'
+    status: 'ACTIVE',
+    platforms: {
+      email: { status: 'ACTIVE', body: { en: '', ua: '' } },
+      telegram: { status: 'ACTIVE', body: { en: '', ua: '' } },
+      viber: { status: 'ACTIVE', body: { en: '', ua: '' } }
+    }
   },
   {
     id: 6,
@@ -65,7 +108,12 @@ const notificationTemplates = [
     time: 'IMMEDIATELY',
     schedule: null,
     title: { en: 'Violation of the rules', ua: 'Недотримання правил' },
-    status: 'INACTIVE'
+    status: 'INACTIVE',
+    platforms: {
+      email: { status: 'ACTIVE', body: { en: '', ua: '' } },
+      telegram: { status: 'ACTIVE', body: { en: '', ua: '' } },
+      viber: { status: 'ACTIVE', body: { en: '', ua: '' } }
+    }
   },
   {
     id: 7,
@@ -73,7 +121,12 @@ const notificationTemplates = [
     time: 'IMMEDIATELY',
     schedule: null,
     title: { en: 'Cancellation of violation of sorting rules', ua: 'Відміна порушення правил' },
-    status: 'ACTIVE'
+    status: 'ACTIVE',
+    platforms: {
+      email: { status: 'ACTIVE', body: { en: '', ua: '' } },
+      telegram: { status: 'ACTIVE', body: { en: '', ua: '' } },
+      viber: { status: 'ACTIVE', body: { en: '', ua: '' } }
+    }
   },
   {
     id: 8,
@@ -81,7 +134,12 @@ const notificationTemplates = [
     time: 'IMMEDIATELY',
     schedule: null,
     title: { en: 'Changes in violations of sorting rules', ua: 'Зміни в порушеннях правил сортування' },
-    status: 'ACTIVE'
+    status: 'ACTIVE',
+    platforms: {
+      email: { status: 'ACTIVE', body: { en: '', ua: '' } },
+      telegram: { status: 'ACTIVE', body: { en: '', ua: '' } },
+      viber: { status: 'ACTIVE', body: { en: '', ua: '' } }
+    }
   },
   {
     id: 9,
@@ -89,7 +147,12 @@ const notificationTemplates = [
     time: '2_MONTHS_AFTER_LAST_ORDER',
     schedule: null,
     title: { en: `Let's stay connected`, ua: `Давайте залишатися на зв'язку` },
-    status: 'INACTIVE'
+    status: 'INACTIVE',
+    platforms: {
+      email: { status: 'ACTIVE', body: { en: '', ua: '' } },
+      telegram: { status: 'ACTIVE', body: { en: '', ua: '' } },
+      viber: { status: 'ACTIVE', body: { en: '', ua: '' } }
+    }
   }
 ];
 
@@ -142,9 +205,15 @@ export class NotificationsService {
       totalElements,
       totalPages
     }).toPromise();
+
+    // return this.http
+    //   .get<{ currentPage: number; page: NotificationTemplate[]; totalElements: number; totalPages: number }>(
+    //     `https://greencity-ubs.testgreencity.ga/admin/notification/get-all-templates?page=${page}&size=${size}`
+    //   )
+    //   .toPromise();
   }
 
   getNotificationTemplate(id: number) {
-    return of(notificationTemplates[id]);
+    return of(notificationTemplates.find((temp) => temp.id === id));
   }
 }

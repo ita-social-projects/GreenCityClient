@@ -13,6 +13,7 @@ import { UbsAdminTariffsPricingPageComponent } from './components/ubs-admin-tari
 import { UbsAdminCustomerDetailsComponent } from './components/ubs-admin-customers/ubs-admin-customer-details/ubs-admin-customer-details.component';
 import { UbsAdminCustomerOrdersComponent } from './components/ubs-admin-customers/ubs-admin-customer-orders/ubs-admin-customer-orders.component';
 import { UbsAdminNotificationListComponent } from './components/ubs-admin-notification-list/ubs-admin-notification-list.component';
+import { UbsAdminNotificationComponent } from './components/ubs-admin-notification/ubs-admin-notification.component';
 
 const ubsAdminRoutes: Routes = [
   {
@@ -29,7 +30,8 @@ const ubsAdminRoutes: Routes = [
       { path: `tariffs/location/:id`, component: UbsAdminTariffsPricingPageComponent },
       { path: `customerOrders/:id`, component: UbsAdminCustomerOrdersComponent },
       { path: `customerViolations/:id`, component: UbsAdminCustomerViolationsComponent },
-      { path: 'notifications', component: UbsAdminNotificationListComponent }
+      { path: 'notifications', component: UbsAdminNotificationListComponent },
+      { path: 'notification/:id', component: UbsAdminNotificationComponent }
     ]
   },
   { path: 'order/:id', component: UbsAdminOrderComponent }

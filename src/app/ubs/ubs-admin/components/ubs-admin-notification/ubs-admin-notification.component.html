@@ -1,0 +1,96 @@
+<p>ubs-admin-notification works!</p>
+<div class="page-container" *ngIf="notification">
+  <div class="page-header">
+    <button class="back-button">
+      <svg width="12" height="18" viewBox="0 0 12 18" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path
+          fill-rule="evenodd"
+          clip-rule="evenodd"
+          d="M11.2676 0.859841C11.6211 1.28412 11.5638 1.91468 11.1395 2.26825L3.0614 9.00002L11.1395 15.7318C11.5638 16.0854 11.6211 16.7159 11.2676 17.1402C10.914 17.5645 10.2834 17.6218 9.85917 17.2682L1.13573 9.99871C0.512049 9.47898 0.512049 8.52107 1.13573 8.00134L9.85917 0.731804C10.2834 0.37824 10.914 0.435564 11.2676 0.859841Z"
+          fill="#64727D"
+        />
+      </svg>
+    </button>
+    <p class="page-title">Повідомлення</p>
+  </div>
+
+  <table class="table-notification-info">
+    <thead>
+      <tr>
+        <th class="col-title">Тема повідомлення</th>
+        <th class="col-event">Подія для активації</th>
+        <th class="col-time">Час</th>
+        <th class="col-schedule">Повторення</th>
+        <th class="col-status">Стан</th>
+        <th class="col-actions"></th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>
+          {{ lang === 'ua' ? notification.title.ua : notification.title.en }}
+        </td>
+        <td>
+          {{ 'ubs-notifications.triggers.' + notification.trigger | translate }}
+        </td>
+        <td>
+          {{ 'ubs-notifications.time.' + notification.time | translate }}
+        </td>
+        <td>
+          {{ notification.schedule }}
+        </td>
+        <td>
+          {{ 'ubs-notifications.statuses.' + notification.status | translate }}
+        </td>
+        <td class="col-actions">
+          <div>
+            <button class="edit-button" (click)="onEditNotificationSettings()">
+              <img [src]="icons.edit" alt="" />
+            </button>
+            <button class="delete-button">
+              <img [src]="icons.delete" alt="" />
+            </button>
+          </div>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+
+  <table class="table-notification-platforms">
+    <thead>
+      <th class="col-platform">Платформа</th>
+      <th class="col-text">Текст</th>
+      <th class="col-action"></th>
+    </thead>
+    <tbody>
+      <tr *ngFor="let platform of notification.platforms" [ngClass]="{ 'platform-inactive': platform.status === 'INACTIVE' }">
+        <td>{{ platform.name | titlecase }}</td>
+        <td>
+          {{ lang === 'ua' ? platform.body.ua : platform.body.en }}
+        </td>
+        <td class="col-action">
+          <div *ngIf="platform.status === 'ACTIVE'; else inactivePlatformActions">
+            <button class="edit-button" (click)="onEditNotificationInfo(platform.name)">
+              <img [src]="icons.edit" alt="" />
+            </button>
+            <button class="delete-button" (click)="onDeactivatePlatform(platform.name)">
+              <img [src]="icons.delete" alt="" />
+            </button>
+          </div>
+          <ng-template #inactivePlatformActions>
+            <div>
+              <button class="delete-button" (click)="onActivatePlatform(platform.name)">
+                <img [src]="icons.activate" alt="" />
+              </button>
+            </div>
+          </ng-template>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+
+  <div class="controls">
+    <button class="cancel-button" (click)="onCancel()">Cancel</button>
+    <button class="submit-button" (click)="onSaveChanges()">Save changes</button>
+  </div>
+</div>
