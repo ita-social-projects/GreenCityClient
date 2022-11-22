@@ -94,7 +94,10 @@ export class ProfileDashboardComponent implements OnInit, OnDestroy {
     this.eventsPage = page;
     let startIndex = this.eventsPage - 1 + this.eventsPerPage;
     let endIndex = startIndex + this.eventsPerPage;
-
+    if (page === 1) {
+      startIndex = 0;
+      endIndex = this.eventsPerPage;
+    }
     if (endIndex > this.eventsTotal) {
       endIndex = this.eventsTotal;
     }
