@@ -11,18 +11,14 @@ describe('EditPaymentConfirmationPopUpComponent', () => {
   let fixture: ComponentFixture<EditPaymentConfirmationPopUpComponent>;
   const fakeTitles = {
     popupTitle: 'popupTitle',
-    popupConfirm: 'popupSubtitle',
-    popupCancel: 'popupSubtitle'
+    popupConfirm: 'popupConfirm',
+    popupCancel: 'popupCancel'
   };
-  const dialogRefStub = {
-    keydownEvents() {
-      return of();
-    },
-    backdropClick() {
-      return of();
-    },
-    close() {}
-  };
+  const dialogRefStub = jasmine.createSpyObj('MatDialogRef', ['keydownEvents', 'backdropClick', 'close']);
+  dialogRefStub.keydownEvents.and.returnValue(of());
+  dialogRefStub.backdropClick.and.returnValue(of());
+  dialogRefStub.close.and.returnValue(of());
+
   const matDialogRef = 'matDialogRef';
 
   beforeEach(async(() => {
@@ -52,35 +48,32 @@ describe('EditPaymentConfirmationPopUpComponent', () => {
   });
 
   it('should keydownEvents be called in ngOnInit', () => {
-    const spy = spyOn(component[matDialogRef], 'keydownEvents').and.returnValue(of());
+    dialogRefStub.close.and.returnValue(of({ key: 'Escape' }));
     component.ngOnInit();
-    expect(spy).toHaveBeenCalled();
+    expect(dialogRefStub.close).toBeTruthy();
   });
 
-  it('should setTitles be called in ngOnInit', () => {
-    const spy = spyOn(EditPaymentConfirmationPopUpComponent.prototype as any, 'setTitles');
+  it('should keydownEvents be called in ngOnInit', () => {
+    dialogRefStub.keydownEvents.and.returnValue(of({ key: 'Enter' }));
     component.ngOnInit();
-    expect(spy).toHaveBeenCalled();
+    expect(dialogRefStub.keydownEvents).toBeTruthy();
   });
 
-  it('should backdropClick be called in ngOnInit', () => {
-    const spy = spyOn(component[matDialogRef], 'backdropClick').and.returnValue(of());
+  it('should keydownEvents be called in ngOnInit', () => {
+    dialogRefStub.backdropClick.and.returnValue(of());
     component.ngOnInit();
-    expect(spy).toHaveBeenCalled();
+    expect(dialogRefStub.backdropClick).toHaveBeenCalled();
   });
 
-  it('should set titles after setTitles method', () => {
-    component.ngOnInit();
-
+  it('should set titles', () => {
     expect(component.popupTitle).toBe(fakeTitles.popupTitle);
     expect(component.popupCancel).toBe(fakeTitles.popupCancel);
     expect(component.popupConfirm).toBe(fakeTitles.popupConfirm);
   });
 
   it('should call close on matDialogRef', () => {
-    const spy = spyOn(component[matDialogRef], 'close');
     component.userReply(true);
-    expect(spy).toHaveBeenCalled();
+    expect(dialogRefStub.close).toBeTruthy();
   });
 
   it('should cancel streams after ngOnDestroy', () => {
