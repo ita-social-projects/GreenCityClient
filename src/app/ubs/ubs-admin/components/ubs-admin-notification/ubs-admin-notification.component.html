@@ -29,7 +29,7 @@
           {{ 'ubs-notifications.time.' + notification.time | translate }}
         </td>
         <td>
-          {{ notification.schedule }}
+          {{ notification.schedule | cron: lang }}
         </td>
         <td>
           {{ 'ubs-notifications.statuses.' + notification.status | translate }}

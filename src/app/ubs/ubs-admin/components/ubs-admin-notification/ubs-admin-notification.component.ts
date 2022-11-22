@@ -5,7 +5,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
 import { Subject } from 'rxjs';
 import { take, takeUntil } from 'rxjs/operators';
-import { NotificationsService } from '../../services/notifications.service';
+import { NotificationsService, NotificationTemplate } from '../../services/notifications.service';
 import { UbsAdminNotificationSettingsComponent } from './ubs-admin-notification-settings/ubs-admin-notification-settings.component';
 import { UbsAdminNotificationEditFormComponent } from './ubs-admin-notification-edit-form/ubs-admin-notification-edit-form.component';
 
@@ -24,6 +24,7 @@ export class UbsAdminNotificationComponent implements OnInit, OnDestroy {
     activate: './assets/img/ubs-admin-notifications/counterclockwise.svg'
   };
   lang = 'en';
+  initialNotification = null;
   notification = null;
 
   constructor(
@@ -55,16 +56,12 @@ export class UbsAdminNotificationComponent implements OnInit, OnDestroy {
       .getNotificationTemplate(id)
       .pipe(take(1))
       .subscribe(
-        (notification) => {
-          this.notification = {
-            id: notification.id,
-            title: notification.title,
-            trigger: notification.trigger,
-            time: notification.time,
-            schedule: notification.schedule?.cron ?? '',
-            platforms: Object.entries(notification.platforms).map(([name, details]) => ({ name, ...details })),
-            status: notification.status
+        (notification: NotificationTemplate) => {
+          this.initialNotification = {
+            ...notification,
+            schedule: notification.schedule?.cron ?? ''
           };
+          this.notification = JSON.parse(JSON.stringify(this.initialNotification));
         },
         () => this.navigateToNotificationList()
       );
@@ -96,7 +93,6 @@ export class UbsAdminNotificationComponent implements OnInit, OnDestroy {
   onEditNotificationSettings(): void {
     this.dialog
       .open(UbsAdminNotificationSettingsComponent, {
-        // panelClass: 'edit-notification-popup',
         hasBackdrop: true,
         data: {
           title: { en: this.notification.title.en, ua: this.notification.title.ua },
@@ -106,8 +102,10 @@ export class UbsAdminNotificationComponent implements OnInit, OnDestroy {
         }
       })
       .afterClosed()
-      .subscribe((settings) => {
-        console.log(settings);
+      .subscribe((settings: { title: { en: string; ua: string }; trigger: string; schedule: string }) => {
+        this.notification.title = settings.title;
+        this.notification.trigger = settings.trigger;
+        this.notification.schedule = settings.schedule;
       });
   }
 

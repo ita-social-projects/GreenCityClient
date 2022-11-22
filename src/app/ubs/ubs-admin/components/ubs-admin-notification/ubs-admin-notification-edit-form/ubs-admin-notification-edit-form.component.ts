@@ -22,8 +22,6 @@ export class UbsAdminNotificationEditFormComponent implements OnInit {
       textEn: [data.text.en],
       textUa: [data.text.ua]
     });
-    console.log(this.form.value);
-    console.log(data);
   }
 
   ngOnInit(): void {}

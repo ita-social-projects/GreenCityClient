@@ -57,7 +57,7 @@
           <img class="gear-icon" [src]="icons.gear" alt="" />
         </div>
       </div>
-      <mat-menu #selectSchedule="matMenu">
+      <mat-menu class="cron-picker-overlay" #selectSchedule="matMenu">
         <app-cron-picker
           [schedule]="schedule"
           (click)="$event.stopPropagation()"
