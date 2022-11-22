@@ -1,5 +1,6 @@
 import { Location } from '@angular/common';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
+import { Pipe, PipeTransform } from '@angular/core';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { MatDialogModule } from '@angular/material/dialog';
 import { By } from '@angular/platform-browser';
@@ -11,6 +12,13 @@ import { BehaviorSubject, of, throwError } from 'rxjs';
 import { NotificationsService } from '../../services/notifications.service';
 
 import { UbsAdminNotificationComponent } from './ubs-admin-notification.component';
+
+@Pipe({ name: 'cron' })
+class CronPipe implements PipeTransform {
+  transform() {
+    return 'at 14:27 on day-of-month 4, 7 and 16';
+  }
+}
 
 describe('UbsAdminNotificationComponent', () => {
   let component: UbsAdminNotificationComponent;
@@ -29,11 +37,15 @@ describe('UbsAdminNotificationComponent', () => {
         schedule: { cron: '27 14 4,7,16 * *' },
         title: { en: 'Unpaid order', ua: 'Неоплачене замовлення' },
         status: 'ACTIVE',
-        platforms: {
-          email: { status: 'ACTIVE', body: { en: 'Unpaid order, text for Email', ua: 'Неоплачене замовлення, текст для Email' } },
-          telegram: { status: 'ACTIVE', body: { en: 'Unpaid order, text for Telegram', ua: 'Неоплачене замовлення, текст для Telegram' } },
-          viber: { status: 'INACTIVE', body: { en: 'Unpaid order, text for Viber', ua: 'Неоплачене замовлення, текст для Viber' } }
-        }
+        platforms: [
+          { name: 'email', status: 'ACTIVE', body: { en: 'Unpaid order, text for Email', ua: 'Неоплачене замовлення, текст для Email' } },
+          {
+            name: 'telegram',
+            status: 'ACTIVE',
+            body: { en: 'Unpaid order, text for Telegram', ua: 'Неоплачене замовлення, текст для Telegram' }
+          },
+          { name: 'viber', status: 'INACTIVE', body: { en: 'Unpaid order, text for Viber', ua: 'Неоплачене замовлення, текст для Viber' } }
+        ]
       });
     }
   };
@@ -43,7 +55,7 @@ describe('UbsAdminNotificationComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [UbsAdminNotificationComponent],
+      declarations: [UbsAdminNotificationComponent, CronPipe],
       imports: [HttpClientTestingModule, RouterTestingModule, MatDialogModule, TranslateModule.forRoot()],
       providers: [
         { provide: Location, useValue: locationMock },
@@ -80,7 +92,7 @@ describe('UbsAdminNotificationComponent', () => {
     expect(title).toContain('Unpaid order');
     expect(trigger).toContain('ubs-notifications.triggers.ORDER_NOT_PAID_FOR_3_DAYS');
     expect(time).toContain('ubs-notifications.time.6PM_3DAYS_AFTER_ORDER_FORMED_NOT_PAID');
-    expect(schedule).toContain('27 14 4,7,16 * *');
+    expect(schedule).toContain('at 14:27 on day-of-month 4, 7 and 16');
     expect(status).toContain('ubs-notifications.statuses.ACTIVE');
     expect(platformName).toContain('Email');
     expect(platformText).toContain('Unpaid order, text for Email');

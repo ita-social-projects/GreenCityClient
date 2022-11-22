@@ -18,6 +18,12 @@ export const notificationTriggerTime = ['6PM_3DAYS_AFTER_ORDER_FORMED_NOT_PAID',
 
 export const notificationStatuses = ['ACTIVE', 'INACTIVE'];
 
+const getDummyPlatforms = () => [
+  { name: 'email', status: 'ACTIVE', body: { en: '', ua: '' } },
+  { name: 'telegram', status: 'ACTIVE', body: { en: '', ua: '' } },
+  { name: 'viber', status: 'ACTIVE', body: { en: '', ua: '' } }
+];
+
 const notificationTemplates = [
   {
     id: 1,
@@ -52,11 +58,7 @@ const notificationTemplates = [
     schedule: null,
     title: { en: 'The courier route formed', ua: 'Маршрут сформовано' },
     status: 'ACTIVE',
-    platforms: [
-      { name: 'email', status: 'ACTIVE', body: { en: '', ua: '' } },
-      { name: 'telegram', status: 'ACTIVE', body: { en: '', ua: '' } },
-      { name: 'viber', status: 'ACTIVE', body: { en: '', ua: '' } }
-    ]
+    platforms: getDummyPlatforms()
   },
   {
     id: 4,
@@ -65,11 +67,7 @@ const notificationTemplates = [
     schedule: null,
     title: { en: 'Pay the change in the order', ua: 'Оплатіть різницю у замовлені' },
     status: 'ACTIVE',
-    platforms: [
-      { name: 'email', status: 'ACTIVE', body: { en: '', ua: '' } },
-      { name: 'telegram', status: 'ACTIVE', body: { en: '', ua: '' } },
-      { name: 'viber', status: 'ACTIVE', body: { en: '', ua: '' } }
-    ]
+    platforms: getDummyPlatforms()
   },
   {
     id: 5,
@@ -78,11 +76,7 @@ const notificationTemplates = [
     schedule: null,
     title: { en: 'Accrued bonuses to the account', ua: 'Нараховано бонуси' },
     status: 'ACTIVE',
-    platforms: [
-      { name: 'email', status: 'ACTIVE', body: { en: '', ua: '' } },
-      { name: 'telegram', status: 'ACTIVE', body: { en: '', ua: '' } },
-      { name: 'viber', status: 'ACTIVE', body: { en: '', ua: '' } }
-    ]
+    platforms: getDummyPlatforms()
   },
   {
     id: 6,
@@ -91,11 +85,7 @@ const notificationTemplates = [
     schedule: null,
     title: { en: 'Violation of the rules', ua: 'Недотримання правил' },
     status: 'INACTIVE',
-    platforms: [
-      { name: 'email', status: 'ACTIVE', body: { en: '', ua: '' } },
-      { name: 'telegram', status: 'ACTIVE', body: { en: '', ua: '' } },
-      { name: 'viber', status: 'ACTIVE', body: { en: '', ua: '' } }
-    ]
+    platforms: getDummyPlatforms()
   },
   {
     id: 7,
@@ -104,11 +94,7 @@ const notificationTemplates = [
     schedule: null,
     title: { en: 'Cancellation of violation of sorting rules', ua: 'Відміна порушення правил' },
     status: 'ACTIVE',
-    platforms: [
-      { name: 'email', status: 'ACTIVE', body: { en: '', ua: '' } },
-      { name: 'telegram', status: 'ACTIVE', body: { en: '', ua: '' } },
-      { name: 'viber', status: 'ACTIVE', body: { en: '', ua: '' } }
-    ]
+    platforms: getDummyPlatforms()
   },
   {
     id: 8,
@@ -117,11 +103,7 @@ const notificationTemplates = [
     schedule: null,
     title: { en: 'Changes in violations of sorting rules', ua: 'Зміни в порушеннях правил сортування' },
     status: 'ACTIVE',
-    platforms: [
-      { name: 'email', status: 'ACTIVE', body: { en: '', ua: '' } },
-      { name: 'telegram', status: 'ACTIVE', body: { en: '', ua: '' } },
-      { name: 'viber', status: 'ACTIVE', body: { en: '', ua: '' } }
-    ]
+    platforms: getDummyPlatforms()
   },
   {
     id: 9,
@@ -130,11 +112,7 @@ const notificationTemplates = [
     schedule: null,
     title: { en: `Let's stay connected`, ua: `Давайте залишатися на зв'язку` },
     status: 'INACTIVE',
-    platforms: [
-      { name: 'email', status: 'ACTIVE', body: { en: '', ua: '' } },
-      { name: 'telegram', status: 'ACTIVE', body: { en: '', ua: '' } },
-      { name: 'viber', status: 'ACTIVE', body: { en: '', ua: '' } }
-    ]
+    platforms: getDummyPlatforms()
   }
 ];
 

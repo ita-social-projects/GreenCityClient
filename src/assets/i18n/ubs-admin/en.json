@@ -899,6 +899,18 @@
         "cancel": "Cancel",
         "change": "Change"
       }
+    },
+    "text-editing-popup": {
+      "title": "Edit notification for",
+      "labels": {
+        "ua": "Ukrainian",
+        "en": "English",
+        "text": "Notification text"
+      },
+      "buttons": {
+        "cancel": "Cancel",
+        "change": "Change"
+      }
     }
   },
   "cron-picker": {
