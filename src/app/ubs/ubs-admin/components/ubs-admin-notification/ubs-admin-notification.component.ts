@@ -7,6 +7,7 @@ import { Subject } from 'rxjs';
 import { take, takeUntil } from 'rxjs/operators';
 import { NotificationsService } from '../../services/notifications.service';
 import { UbsAdminNotificationSettingsComponent } from './ubs-admin-notification-settings/ubs-admin-notification-settings.component';
+import { UbsAdminNotificationEditFormComponent } from './ubs-admin-notification-edit-form/ubs-admin-notification-edit-form.component';
 
 @Component({
   selector: 'app-ubs-admin-notification',
@@ -77,7 +78,20 @@ export class UbsAdminNotificationComponent implements OnInit, OnDestroy {
     this.location.back();
   }
 
-  onEditNotificationInfo(platform: string): void {}
+  onEditNotificationText(platform: string): void {
+    this.dialog
+      .open(UbsAdminNotificationEditFormComponent, {
+        hasBackdrop: true,
+        data: { platform, text: this.notification.platforms.find((pf) => pf.name === platform).body }
+      })
+      .afterClosed()
+      .subscribe((updated) => {
+        if (!updated) {
+          return;
+        }
+        this.notification.platforms.find((pf) => pf.name === platform).body = updated.text;
+      });
+  }
 
   onEditNotificationSettings(): void {
     this.dialog

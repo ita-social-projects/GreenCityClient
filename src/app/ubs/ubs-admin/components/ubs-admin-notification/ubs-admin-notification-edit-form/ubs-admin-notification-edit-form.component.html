@@ -1,0 +1,45 @@
+<div [formGroup]="form" class="edit-notification-container">
+  <h2 mat-dialog-title>Редагувати повідомлення для платформи {{ platform }}</h2>
+
+  <div mat-dialog-content class="edit-notification-content">
+    <mat-accordion>
+      <mat-expansion-panel [expanded]="true">
+        <mat-expansion-panel-header>
+          <mat-panel-title> Українська мова </mat-panel-title>
+        </mat-expansion-panel-header>
+        <div class="edit-notification">
+          <!-- <mat-form-field appearance="outline">
+            <mat-label>Тема повідомлення</mat-label>
+            <input matInput formControlName="titleUa" />
+          </mat-form-field> -->
+
+          <mat-form-field appearance="outline">
+            <mat-label>Текст повідомлення</mat-label>
+            <textarea matInput formControlName="textUa" class="edit-text"></textarea>
+          </mat-form-field>
+        </div>
+      </mat-expansion-panel>
+      <mat-expansion-panel>
+        <mat-expansion-panel-header>
+          <mat-panel-title> Англійська мова </mat-panel-title>
+        </mat-expansion-panel-header>
+        <div class="edit-notification">
+          <!-- <mat-form-field appearance="outline">
+            <mat-label>Тема повідомлення</mat-label>
+            <input matInput formControlName="titleEn" />
+          </mat-form-field> -->
+
+          <mat-form-field appearance="outline">
+            <mat-label>Текст повідомлення</mat-label>
+            <textarea matInput formControlName="textEn" class="edit-text"></textarea>
+          </mat-form-field>
+        </div>
+      </mat-expansion-panel>
+    </mat-accordion>
+  </div>
+
+  <div mat-dialog-actions class="controls">
+    <button class="cancel-button" type="button" (click)="onCancel()">Cancel</button>
+    <button class="submit-button" type="submit" [disabled]="!form.valid" (click)="onSubmit()">Change</button>
+  </div>
+</div>
