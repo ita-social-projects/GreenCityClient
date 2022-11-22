@@ -11,7 +11,6 @@ import { InfiniteScrollModule } from 'ngx-infinite-scroll';
 import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
 import { EventsService } from 'src/app/main/component/events/services/events.service';
 import { NgxPaginationModule } from 'ngx-pagination';
-import { take } from 'rxjs/operators';
 import { EventResponseDto } from 'src/app/main/component/events/models/events.interface';
 
 describe('ProfileDashboardComponent', () => {
@@ -23,6 +22,7 @@ describe('ProfileDashboardComponent', () => {
 
   const LocalStorageServiceMock = jasmine.createSpyObj('localStorageService', ['getUserId', 'languageBehaviourSubject', 'setCurentPage']);
   LocalStorageServiceMock.languageBehaviourSubject = new BehaviorSubject('ua');
+  LocalStorageServiceMock.setCurentPage = () => of('previousPage', '/profile');
 
   const storeMock = jasmine.createSpyObj('store', ['select', 'dispatch']);
   storeMock.select = () => of({ ecoNews: {}, autorNews: [{ newsId: 1 }], pageNumber: 1, error: 'error', ecoNewsByAuthor: true });
@@ -36,14 +36,9 @@ describe('ProfileDashboardComponent', () => {
     habitStreak: 10
   };
 
-  const MockRequest = {
-    page: [],
-    totalElements: 4
-  };
-
   const EventsServiceMock = jasmine.createSpyObj('EventsService', ['getCreatedEvents', 'getUsersEvents']);
-  EventsServiceMock.getCreatedEvents = () => of(MockRequest);
-  EventsServiceMock.getUsersEvents = () => of(MockRequest);
+  EventsServiceMock.getCreatedEvents = () => of(MockResult);
+  EventsServiceMock.getUsersEvents = () => of(MockResult);
 
   const MockResult: EventResponseDto = {
     currentPage: 0,
@@ -118,7 +113,7 @@ describe('ProfileDashboardComponent', () => {
     expect(component).toBeTruthy();
   });
 
-  it('onInit should call five method', () => {
+  it('onInit should call four method', () => {
     const spy1 = spyOn(component as any, 'subscribeToLangChange');
     const spy2 = spyOn(component as any, 'getUserId');
     const spy3 = spyOn(component, 'dispatchNews');
@@ -130,7 +125,6 @@ describe('ProfileDashboardComponent', () => {
     expect(spy2).toHaveBeenCalledTimes(1);
     expect(spy3).toHaveBeenCalledTimes(1);
     expect(spy4).toHaveBeenCalledTimes(1);
-    expect(LocalStorageServiceMock.setCurentPage).toHaveBeenCalledWith('previousPage', '/profile');
   });
 
   it('onInit news should have expected result', () => {
@@ -140,12 +134,25 @@ describe('ProfileDashboardComponent', () => {
     });
   });
 
-  it('Should call getCreatedEvents method and return MockResult', async(() => {
-    spyOn(EventsServiceMock, 'getCreatedEvents').and.returnValue(of(MockResult));
+  it('Should call getCreatedEvents method before subscribe', async(() => {
+    component.userId = 12;
+    let spy1 = spyOn(EventsServiceMock, 'getCreatedEvents').and.returnValue(of(MockResult));
+    let spy2 = spyOn(EventsServiceMock.getCreatedEvents(), 'subscribe');
     component.initGetUserEvents();
-    EventsServiceMock.getCreatedEvents(0, 100).subscribe((event: any) => {
-      expect(event).toEqual(MockResult);
-    });
+    expect(spy1).toHaveBeenCalledBefore(spy2);
+    expect(spy2).toHaveBeenCalled();
+    expect(component.eventsByAuthorList).toEqual(MockResult.page);
+  }));
+
+  it('getUsersEvents expect eventsTotal equal ', async(() => {
+    component.userId = 12;
+    let spy1 = spyOn(EventsServiceMock, 'getUsersEvents').and.returnValue(of(MockResult));
+    let spy2 = spyOn(EventsServiceMock.getUsersEvents(), 'subscribe');
+    component.initGetUserEvents();
+    expect(spy1).toHaveBeenCalledBefore(spy2);
+    expect(spy2).toHaveBeenCalled();
+    expect(component.UserEventList).toEqual(component.eventsByAuthorList.concat(MockResult.page));
+    expect(component.eventsTotal).toBe(12);
   }));
 
   it('dispatchNews expect store.dispatch have been called', () => {
