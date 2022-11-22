@@ -62,7 +62,7 @@
         </td>
         <td class="col-action">
           <div *ngIf="platform.status === 'ACTIVE'; else inactivePlatformActions">
-            <button class="action-button edit-button" (click)="onEditNotificationInfo(platform.name)">
+            <button class="action-button edit-button" (click)="onEditNotificationText(platform.name)">
               <img [src]="icons.edit" alt="" />
             </button>
             <button class="action-button deactivate-button" (click)="onDeactivatePlatform(platform.name)">

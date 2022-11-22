@@ -1,10 +1,12 @@
 import { Location } from '@angular/common';
 import { Component, OnDestroy, OnInit } from '@angular/core';
+import { MatDialog } from '@angular/material/dialog';
 import { ActivatedRoute, Router } from '@angular/router';
 import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
 import { Subject } from 'rxjs';
 import { take, takeUntil } from 'rxjs/operators';
 import { NotificationsService } from '../../services/notifications.service';
+import { UbsAdminNotificationEditFormComponent } from './ubs-admin-notification-edit-form/ubs-admin-notification-edit-form.component';
 
 @Component({
   selector: 'app-ubs-admin-notification',
@@ -28,7 +30,8 @@ export class UbsAdminNotificationComponent implements OnInit, OnDestroy {
     private localStorageService: LocalStorageService,
     private route: ActivatedRoute,
     private router: Router,
-    private location: Location
+    private location: Location,
+    private dialog: MatDialog
   ) {}
 
   ngOnInit(): void {
@@ -74,7 +77,20 @@ export class UbsAdminNotificationComponent implements OnInit, OnDestroy {
     this.location.back();
   }
 
-  onEditNotificationInfo(platform: string): void {}
+  onEditNotificationText(platform: string): void {
+    this.dialog
+      .open(UbsAdminNotificationEditFormComponent, {
+        hasBackdrop: true,
+        data: { platform, text: this.notification.platforms.find((pf) => pf.name === platform).body }
+      })
+      .afterClosed()
+      .subscribe((updated) => {
+        if (!updated) {
+          return;
+        }
+        this.notification.platforms.find((pf) => pf.name === platform).body = updated.text;
+      });
+  }
 
   onEditNotificationSettings(): void {}
 
