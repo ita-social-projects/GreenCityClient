@@ -36,10 +36,6 @@ describe('ProfileDashboardComponent', () => {
     habitStreak: 10
   };
 
-  const EventsServiceMock = jasmine.createSpyObj('EventsService', ['getCreatedEvents', 'getUsersEvents']);
-  EventsServiceMock.getCreatedEvents = () => of(MockResult);
-  EventsServiceMock.getUsersEvents = () => of(MockResult);
-
   const MockResult: EventResponseDto = {
     currentPage: 0,
     first: true,
@@ -89,6 +85,10 @@ describe('ProfileDashboardComponent', () => {
     totalPages: 1
   };
 
+  const EventsServiceMock = jasmine.createSpyObj('EventsService', ['getCreatedEvents', 'getUsersEvents']);
+  EventsServiceMock.getCreatedEvents = () => of(MockResult);
+  EventsServiceMock.getUsersEvents = () => of(MockResult);
+
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       declarations: [ProfileDashboardComponent],
@@ -136,8 +136,8 @@ describe('ProfileDashboardComponent', () => {
 
   it('Should call getCreatedEvents method before subscribe', async(() => {
     component.userId = 12;
-    let spy1 = spyOn(EventsServiceMock, 'getCreatedEvents').and.returnValue(of(MockResult));
-    let spy2 = spyOn(EventsServiceMock.getCreatedEvents(), 'subscribe');
+    const spy1 = spyOn(EventsServiceMock, 'getCreatedEvents').and.returnValue(of(MockResult));
+    const spy2 = spyOn(EventsServiceMock.getCreatedEvents(), 'subscribe');
     component.initGetUserEvents();
     expect(spy1).toHaveBeenCalledBefore(spy2);
     expect(spy2).toHaveBeenCalled();
@@ -146,8 +146,8 @@ describe('ProfileDashboardComponent', () => {
 
   it('getUsersEvents expect eventsTotal equal ', async(() => {
     component.userId = 12;
-    let spy1 = spyOn(EventsServiceMock, 'getUsersEvents').and.returnValue(of(MockResult));
-    let spy2 = spyOn(EventsServiceMock.getUsersEvents(), 'subscribe');
+    const spy1 = spyOn(EventsServiceMock, 'getUsersEvents').and.returnValue(of(MockResult));
+    const spy2 = spyOn(EventsServiceMock.getUsersEvents(), 'subscribe');
     component.initGetUserEvents();
     expect(spy1).toHaveBeenCalledBefore(spy2);
     expect(spy2).toHaveBeenCalled();
