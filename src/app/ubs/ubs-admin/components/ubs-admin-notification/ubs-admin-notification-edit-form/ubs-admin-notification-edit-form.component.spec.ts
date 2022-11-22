@@ -8,7 +8,7 @@ import { TranslateModule } from '@ngx-translate/core';
 
 import { UbsAdminNotificationEditFormComponent } from './ubs-admin-notification-edit-form.component';
 
-fdescribe('UbsAdminNotificationEditFormComponent', () => {
+describe('UbsAdminNotificationEditFormComponent', () => {
   let component: UbsAdminNotificationEditFormComponent;
   let fixture: ComponentFixture<UbsAdminNotificationEditFormComponent>;
 
