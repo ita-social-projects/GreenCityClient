@@ -11,7 +11,7 @@ import { IAppState } from 'src/app/store/state/app.state';
 import { IEcoNewsState } from 'src/app/store/state/ecoNews.state';
 import { GetEcoNewsByAuthorAction } from 'src/app/store/actions/ecoNews.actions';
 import { EcoNewsModel } from '@eco-news-models/eco-news-model';
-import { EventPageResponceDto } from 'src/app/main/component/events/models/events.interface';
+import { EventPageResponceDto, EventResponseDto } from 'src/app/main/component/events/models/events.interface';
 import { EventsService } from 'src/app/main/component/events/services/events.service';
 
 @Component({
@@ -36,9 +36,10 @@ export class ProfileDashboardComponent implements OnInit, OnDestroy {
 
   public eventsList: EventPageResponceDto[] = [];
   public eventsByAuthorList: EventPageResponceDto[] = [];
+  public UserEventList: EventPageResponceDto[] = [];
   public eventsPerPage = 6;
   public eventsPage = 1;
-  public eventsTotal = 1;
+  public eventsTotal = 0;
 
   private hasNext = true;
   private currentPage: number;
@@ -70,18 +71,19 @@ export class ProfileDashboardComponent implements OnInit, OnDestroy {
     });
 
     this.eventService
-      .getCreatedEvents(0, this.eventsPerPage)
+      .getCreatedEvents(0, 100)
       .pipe(take(1))
-      .subscribe((res) => {
+      .subscribe((res: EventResponseDto) => {
         this.eventsByAuthorList = res.page;
         this.eventsTotal = res.totalElements;
 
         this.eventService
-          .getUsersEvents(0, this.eventsPerPage)
+          .getUsersEvents(0, 100)
           .pipe(take(1))
-          .subscribe((events) => {
-            this.eventsList = this.eventsByAuthorList.concat(events.page);
+          .subscribe((events: EventResponseDto) => {
+            this.UserEventList = this.eventsByAuthorList.concat(events.page);
             this.eventsTotal = this.eventsTotal + events.totalElements;
+            this.eventsList = this.UserEventList.slice(0, this.eventsPerPage);
           });
       });
 
@@ -90,19 +92,13 @@ export class ProfileDashboardComponent implements OnInit, OnDestroy {
 
   onEventsPageChange(page) {
     this.eventsPage = page;
-    this.eventService
-      .getCreatedEvents(this.eventsPage - 1, 6)
-      .pipe(take(1))
-      .subscribe((res) => {
-        this.eventsByAuthorList = res.page;
+    let startIndex = this.eventsPage - 1 + this.eventsPerPage;
+    let endIndex = startIndex + this.eventsPerPage;
 
-        this.eventService
-          .getUsersEvents(this.eventsPage - 1, 6)
-          .pipe(take(1))
-          .subscribe((events) => {
-            this.eventsList = this.eventsByAuthorList.concat(events.page);
-          });
-      });
+    if (endIndex > this.eventsTotal) {
+      endIndex = this.eventsTotal;
+    }
+    this.eventsList = this.UserEventList.slice(startIndex, endIndex);
   }
 
   public dispatchNews(res: boolean) {
