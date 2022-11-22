@@ -42,12 +42,23 @@ describe('EditPaymentConfirmationPopUpComponent', () => {
     fixture.detectChanges();
   });
 
+  afterEach(() => {
+    spyOn(component, 'ngOnDestroy').and.callFake(() => {});
+    fixture.destroy();
+  });
+
   it('should create', () => {
     expect(component).toBeTruthy();
   });
 
   it('should keydownEvents be called in ngOnInit', () => {
     const spy = spyOn(component[matDialogRef], 'keydownEvents').and.returnValue(of());
+    component.ngOnInit();
+    expect(spy).toHaveBeenCalled();
+  });
+
+  it('should setTitles be called in ngOnInit', () => {
+    const spy = spyOn(EditPaymentConfirmationPopUpComponent.prototype as any, 'setTitles');
     component.ngOnInit();
     expect(spy).toHaveBeenCalled();
   });
@@ -73,7 +84,6 @@ describe('EditPaymentConfirmationPopUpComponent', () => {
   });
 
   it('should cancel streams after ngOnDestroy', () => {
-    const destroy$ = 'destroy$';
     const nextSpy = spyOn(component.destroy$, 'next');
     const completeSpy = spyOn(component.destroy$, 'complete');
     component.ngOnDestroy();
