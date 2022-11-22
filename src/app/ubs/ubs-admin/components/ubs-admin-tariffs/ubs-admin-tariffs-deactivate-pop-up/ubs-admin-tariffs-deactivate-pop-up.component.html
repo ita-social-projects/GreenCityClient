@@ -15,7 +15,7 @@
               formControlName="courier"
               class="form-control"
               placeholder="{{ 'ubs-tariffs.placeholder-choose-courier' | translate }}"
-              (selectionChange)="onSelectCourier($event)"
+              (selectionChange)="selectCourier($event)"
             >
               <mat-option *ngFor="let option of couriersName" class="option-state" [value]="option">
                 {{ option }}
