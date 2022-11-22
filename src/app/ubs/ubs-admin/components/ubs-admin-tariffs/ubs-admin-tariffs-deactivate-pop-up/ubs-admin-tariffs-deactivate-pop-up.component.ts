@@ -38,6 +38,8 @@ export class UbsAdminTariffsDeactivatePopUpComponent implements OnInit, OnDestro
 
   public couriers;
   public couriersName;
+  public filteredCouriers;
+
   public locations;
   public filteredRegions;
   public regionsName;
@@ -119,8 +121,17 @@ export class UbsAdminTariffsDeactivatePopUpComponent implements OnInit, OnDestro
       .getCouriers()
       .pipe(takeUntil(this.unsubscribe))
       .subscribe((res) => {
-        this.couriers = res;
+        //this.couriers = res
+        this.couriers = res.filter((el) => el.courierTranslationDtos.length === 1);
         this.couriersName = this.couriers.map((it) => it.courierTranslationDtos.map((el) => el.name)).flat(2);
+        this.courier.valueChanges
+          .pipe(
+            startWith(''),
+            map((value: string) => this.filterOptions(value, this.couriersName))
+          )
+          .subscribe((data) => {
+            this.filteredCouriers = data;
+          });
       });
   }
 
@@ -170,10 +181,17 @@ export class UbsAdminTariffsDeactivatePopUpComponent implements OnInit, OnDestro
       });
   }
 
-  public selectCourier(event): void {
-    const selectedValue = this.couriers.filter((it) => it.courierTranslationDtos.find((ob) => ob.name === event.value));
-    this.courierId = selectedValue.find((it) => it.courierId).courierId;
-    this.onSelectedCourier(this.courierId);
+  public selectCourier(event: MatAutocompleteSelectedEvent, trigger: MatAutocompleteTrigger): void {
+    this.blurOnOption = false;
+    console.log(this.courier.value);
+
+    requestAnimationFrame(() => {
+      trigger.openPanel();
+    });
+
+    // const selectedValue = this.couriers.filter((it) => it.courierTranslationDtos.find((ob) => ob.name === event.value));
+    // this.courierId = selectedValue.find((it) => it.courierId).courierId;
+    // this.onSelectedCourier(this.courierId);
   }
 
   public onSelectedCourier(courierId: number): void {
@@ -260,6 +278,7 @@ export class UbsAdminTariffsDeactivatePopUpComponent implements OnInit, OnDestro
       this.courier.enable();
       this.station.enable();
       this.couriersName = this.couriers.map((it) => it.courierTranslationDtos.map((el) => el.name)).flat(2);
+      this.filteredCouriers = this.couriersName;
       this.stationsName = this.stations.map((it) => it.name);
       this.filteredStations = this.stationsName;
     }
@@ -300,6 +319,7 @@ export class UbsAdminTariffsDeactivatePopUpComponent implements OnInit, OnDestro
     const finallCouriersList = this.removeDuplicates(selectAllCouriers);
     console.log(finallCouriersList);
     this.couriersName = finallCouriersList;
+    this.filteredCouriers = finallCouriersList;
 
     const selectAllStations = this.filteredTatiffCards.map((it) => it.receivingStationDtos.map((el) => el.name)).flat(2);
     const finallStationsList = this.removeDuplicates(selectAllStations);
@@ -457,6 +477,7 @@ export class UbsAdminTariffsDeactivatePopUpComponent implements OnInit, OnDestro
     const finallCouriersList = this.removeDuplicates(selectAllCouriers);
     console.log(finallCouriersList);
     this.couriersName = finallCouriersList;
+    this.filteredCouriers = finallCouriersList;
 
     const selectAllStations = this.filteredTatiffCards.map((it) => it.receivingStationDtos.map((el) => el.name)).flat(2);
     const finallStationsList = this.removeDuplicates(selectAllStations);

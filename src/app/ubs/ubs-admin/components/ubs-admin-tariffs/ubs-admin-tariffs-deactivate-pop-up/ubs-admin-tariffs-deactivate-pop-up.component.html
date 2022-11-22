@@ -7,21 +7,31 @@
     <div class="d-flex">
       <!-- Курʼєр -->
       <div class="form-wrapper">
-        <div class="d-flex first-row">
-          <div class="form-group">
-            <label>{{ 'ubs-tariffs.courier' | translate }}</label>
-            <mat-select
-              #courierSelect
-              formControlName="courier"
-              class="form-control"
-              placeholder="{{ 'ubs-tariffs.placeholder-choose-courier' | translate }}"
-              (selectionChange)="selectCourier($event)"
-            >
-              <mat-option *ngFor="let option of couriersName" class="option-state" [value]="option">
-                {{ option }}
-              </mat-option>
-            </mat-select>
-            <img [src]="icons.arrowDown" class="arrowDown-img" alt="arrowDown" (click)="courierSelect.open()" />
+        <div>
+          <div class="d-flex first-row">
+            <div class="form-group">
+              <label>{{ 'ubs-tariffs.courier' | translate }}</label>
+              <input
+                formControlName="courier"
+                [ngClass]="{ 'form-control': true, onBlurSelectionPanel: blurOnOption }"
+                placeholder="{{ 'ubs-tariffs.placeholder-choose-courier' | translate }}"
+                [matAutocomplete]="autoCourier"
+                #autocompleteTriggerCourier="matAutocompleteTrigger"
+                (blur)="onBlur($event)"
+              />
+              <mat-autocomplete #autoCourier="matAutocomplete" (optionSelected)="selectCourier($event, autocompleteTriggerCourier)">
+                <mat-option *ngFor="let option of filteredCouriers" class="option-state" [value]="option">
+                  <span class="checkbox-text">{{ option }}</span>
+                </mat-option>
+              </mat-autocomplete>
+
+              <img
+                [src]="icons.arrowDown"
+                class="arrowDown-img"
+                alt="arrowDown"
+                (click)="openAuto($event, autocompleteTriggerCourier, false)"
+              />
+            </div>
           </div>
         </div>
       </div>
