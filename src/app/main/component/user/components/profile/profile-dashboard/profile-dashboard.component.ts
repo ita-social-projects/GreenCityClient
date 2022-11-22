@@ -70,6 +70,11 @@ export class ProfileDashboardComponent implements OnInit, OnDestroy {
       }
     });
 
+    this.initGetUserEvents();
+    this.localStorageService.setCurentPage('previousPage', '/profile');
+  }
+
+  initGetUserEvents(): void {
     this.eventService
       .getCreatedEvents(0, 100)
       .pipe(take(1))
@@ -86,11 +91,9 @@ export class ProfileDashboardComponent implements OnInit, OnDestroy {
             this.eventsList = this.UserEventList.slice(0, this.eventsPerPage);
           });
       });
-
-    this.localStorageService.setCurentPage('previousPage', '/profile');
   }
 
-  onEventsPageChange(page) {
+  onEventsPageChange(page: number): void {
     this.eventsPage = page;
     let startIndex = this.eventsPage - 1 + this.eventsPerPage;
     let endIndex = startIndex + this.eventsPerPage;
