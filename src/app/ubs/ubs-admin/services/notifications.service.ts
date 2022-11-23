@@ -1,6 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { of, throwError } from 'rxjs';
+import { environment } from '@environment/environment';
+import { Observable, of, throwError } from 'rxjs';
 
 export const notificationTriggers = [
   'ORDER_NOT_PAID_FOR_3_DAYS',
@@ -29,7 +30,7 @@ const notificationTemplates = [
     id: 1,
     trigger: 'ORDER_NOT_PAID_FOR_3_DAYS',
     time: '6PM_3DAYS_AFTER_ORDER_FORMED_NOT_PAID',
-    schedule: { cron: '27 14 4,7,16 * *' },
+    schedule: '27 14 4,7,16 * *',
     title: { en: 'Unpaid order', ua: 'Неоплачене замовлення' },
     status: 'ACTIVE',
     platforms: [
@@ -131,17 +132,22 @@ export interface NotificationTemplate {
     en: string;
     ua: string;
   };
-  schedule: {
-    cron: string;
-  };
+  schedule: string | null;
   trigger: string;
   time: string;
   status: string;
   platforms: Platform[];
 }
 
+export interface NotificationTemplatesPage {
+  currentPage: number;
+  page: NotificationTemplate[];
+  totalElements: number;
+  totalPages: number;
+}
+
 export interface NotificationFilterParams {
-  topic?: string;
+  title?: string;
   triggers?: string[];
   status?: string;
 }
@@ -150,12 +156,18 @@ export interface NotificationFilterParams {
   providedIn: 'root'
 })
 export class NotificationsService {
+  private backend = environment.backendUbsLink;
+
   constructor(private http: HttpClient) {}
 
-  getAllNotificationTemplates(page: number = 0, size: number = 10, filter: NotificationFilterParams = {}) {
+  getAllNotificationTemplates(
+    page: number = 0,
+    size: number = 10,
+    filter: NotificationFilterParams = {}
+  ): Observable<NotificationTemplatesPage> {
     const filtered = notificationTemplates.filter((notification) => {
       const match = (str, substr) => str.toLowerCase().includes(substr.trim().toLowerCase());
-      const byTitle = filter.topic && (match(notification.title.en, filter.topic) || match(notification.title.ua, filter.topic));
+      const byTitle = filter.title && (match(notification.title.en, filter.title) || match(notification.title.ua, filter.title));
       const byTrigger = filter.triggers?.length && filter.triggers.some((trigger) => notification.trigger === trigger);
       const byStatus = filter.status && notification.status === filter.status;
       return ![byTitle, byTrigger, byStatus].some((cond) => cond === false);
@@ -169,13 +181,9 @@ export class NotificationsService {
       page: filtered.slice(page * size, page * size + size),
       totalElements,
       totalPages
-    }).toPromise();
+    });
 
-    // return this.http
-    //   .get<{ currentPage: number; page: NotificationTemplate[]; totalElements: number; totalPages: number }>(
-    //     `https://greencity-ubs.testgreencity.ga/admin/notification/get-all-templates?page=${page}&size=${size}`
-    //   )
-    //   .toPromise();
+    // return this.http.get<NotificationTemplatesPage>(`${this.backend}/admin/notification/get-all-templates?page=${page}&size=${size}`);
   }
 
   getNotificationTemplate(id: number) {
@@ -184,5 +192,19 @@ export class NotificationsService {
       return throwError(`No notification template with id ${id}!`);
     }
     return of(template);
+
+    // return this.http.get<NotificationTemplate>(`${this.backend}/admin/notification/get-template/${id}`);
+  }
+
+  updateNotificationTemplate(id: number, notification: NotificationTemplate) {
+    console.log(id, notification);
+
+    // return this.http.put(`${this.backend}/admin/notification/update-template/${id}`, notification);
+  }
+
+  deactivateNotificationTemplate(id: number) {
+    console.log(id);
+
+    // return this.http.delete(`${this.backend}/admin/notification/deactiavte-template/${id}`);
   }
 }

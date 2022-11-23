@@ -1,7 +1,9 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
+import { Subject } from 'rxjs';
+import { take, takeUntil } from 'rxjs/operators';
 
 import {
   NotificationsService,
@@ -10,29 +12,17 @@ import {
   notificationStatuses
 } from '../../services/notifications.service';
 
-const parseTime = (min, hour) => {
-  const m = String(Number(min));
-  const h = String(Number(hour));
-  return `${m.length >= 2 ? m : m + '0'}:${h.length >= 2 ? h : h + '0'}`;
-};
-
-const parseCron = (cron: string) => {
-  const [min, hour, dayOfMonth, month, weekday] = cron.split(' ');
-  return `${parseTime(min, hour)}, ${dayOfMonth !== '*' ? dayOfMonth : 'any'} day of mon, ${month !== '*' ? month : 'any'} month, ${
-    weekday !== '*' ? weekday : 'any'
-  } weekday`;
-};
-
 @Component({
   selector: 'app-ubs-admin-notification-list',
   templateUrl: './ubs-admin-notification-list.component.html',
   styleUrls: ['./ubs-admin-notification-list.component.scss']
 })
-export class UbsAdminNotificationListComponent implements OnInit {
+export class UbsAdminNotificationListComponent implements OnInit, OnDestroy {
   icons = {
     plus: 'assets/img/ubs-admin-notifications/plus.svg',
     arrowDown: './assets/img/arrow-down.svg'
   };
+  private destroy = new Subject<void>();
 
   statuses = ['ALL', ...notificationStatuses];
   triggers = notificationTriggers;
@@ -57,17 +47,17 @@ export class UbsAdminNotificationListComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    this.localStorageService.languageBehaviourSubject.subscribe((lang) => {
+    this.localStorageService.languageBehaviourSubject.pipe(takeUntil(this.destroy)).subscribe((lang) => {
       this.lang = lang;
     });
 
     this.loadPage(1);
     this.filtersForm = this.fb.group({
-      topic: [''],
+      title: [''],
       triggers: [''],
       status: ['ALL']
     });
-    this.filtersForm.valueChanges.subscribe((filters) => {
+    this.filtersForm.valueChanges.pipe(takeUntil(this.destroy)).subscribe((filters) => {
       this.currentPage = 1;
       this.loadPage(this.currentPage, {
         ...filters,
@@ -76,22 +66,24 @@ export class UbsAdminNotificationListComponent implements OnInit {
     });
   }
 
+  ngOnDestroy(): void {
+    this.destroy.next();
+    this.destroy.complete();
+  }
+
   onPageChanged(page): void {
     this.loadPage(page, this.filtersForm.value);
     this.currentPage = page;
   }
 
-  async loadPage(page, filters?): Promise<void> {
-    const data = await this.notificationsService.getAllNotificationTemplates(page - 1, this.itemsPerPage, filters);
-    this.notifications = data.page.map((notification) => ({
-      id: notification.id,
-      topic: { en: notification.title.en, ua: notification.title.ua },
-      trigger: notification.trigger,
-      period: notification.schedule?.cron ? parseCron(notification.schedule.cron) : '',
-      time: notification.time,
-      status: notification.status
-    }));
-    this.totalItems = data.totalElements;
+  loadPage(page, filters?): void {
+    this.notificationsService
+      .getAllNotificationTemplates(page - 1, this.itemsPerPage, filters)
+      .pipe(take(1))
+      .subscribe((data) => {
+        this.notifications = data.page;
+        this.totalItems = data.totalElements;
+      });
   }
 
   navigateToNotification(id: number) {

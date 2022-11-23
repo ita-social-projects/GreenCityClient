@@ -57,10 +57,7 @@ export class UbsAdminNotificationComponent implements OnInit, OnDestroy {
       .pipe(take(1))
       .subscribe(
         (notification: NotificationTemplate) => {
-          this.initialNotification = {
-            ...notification,
-            schedule: notification.schedule?.cron ?? ''
-          };
+          this.initialNotification = notification;
           this.notification = JSON.parse(JSON.stringify(this.initialNotification));
         },
         () => this.navigateToNotificationList()
@@ -82,11 +79,11 @@ export class UbsAdminNotificationComponent implements OnInit, OnDestroy {
         data: { platform, text: this.notification.platforms.find((pf) => pf.name === platform).body }
       })
       .afterClosed()
-      .subscribe((updated) => {
-        if (!updated) {
+      .subscribe((updates: { text: { ua: string; en: string } }) => {
+        if (!updates) {
           return;
         }
-        this.notification.platforms.find((pf) => pf.name === platform).body = updated.text;
+        this.notification.platforms.find((pf) => pf.name === platform).body = updates.text;
       });
   }
 
@@ -102,10 +99,13 @@ export class UbsAdminNotificationComponent implements OnInit, OnDestroy {
         }
       })
       .afterClosed()
-      .subscribe((settings: { title: { en: string; ua: string }; trigger: string; schedule: string }) => {
-        this.notification.title = settings.title;
-        this.notification.trigger = settings.trigger;
-        this.notification.schedule = settings.schedule;
+      .subscribe((updates: { title: { en: string; ua: string }; trigger: string; schedule: string }) => {
+        if (!updates) {
+          return;
+        }
+        this.notification.title = updates.title;
+        this.notification.trigger = updates.trigger;
+        this.notification.schedule = updates.schedule;
       });
   }
 
@@ -117,9 +117,16 @@ export class UbsAdminNotificationComponent implements OnInit, OnDestroy {
     this.notification.platforms.find((pf) => pf.name === platform).status = 'INACTIVE';
   }
 
+  onDeactivateNotification() {
+    this.notificationsService.deactivateNotificationTemplate(this.notification.id);
+    this.navigateToNotificationList();
+  }
+
   onCancel(): void {
     this.navigateToNotificationList();
   }
 
-  onSaveChanges(): void {}
+  onSaveChanges(): void {
+    this.notificationsService.updateNotificationTemplate(this.notification.id, this.notification);
+  }
 }

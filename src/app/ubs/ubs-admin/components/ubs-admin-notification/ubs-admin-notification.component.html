@@ -40,7 +40,7 @@
               <img [src]="icons.edit" alt="" />
             </button>
             <button class="action-button deactivate-button">
-              <img [src]="icons.delete" alt="" />
+              <img [src]="icons.delete" alt="" (click)="onDeactivateNotification()" />
             </button>
           </div>
         </td>
