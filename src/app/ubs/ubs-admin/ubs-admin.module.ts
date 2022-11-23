@@ -86,6 +86,7 @@ import { TariffStatusPipe } from '@pipe/tariff-status-pipe/tariff-status.pipe';
 import { UbsAdminNotificationListComponent } from './components/ubs-admin-notification-list/ubs-admin-notification-list.component';
 import { UbsAdminNotificationComponent } from './components/ubs-admin-notification/ubs-admin-notification.component';
 import { CronPickerComponent } from './components/shared/components/cron-picker/cron-picker.component';
+import { EditPaymentConfirmationPopUpComponent } from './components/shared/components/edit-payment-confirmation-pop-up/edit-payment-confirmation-pop-up.component';
 
 @NgModule({
   declarations: [
@@ -143,7 +144,8 @@ import { CronPickerComponent } from './components/shared/components/cron-picker/
     TariffStatusPipe,
     UbsAdminNotificationListComponent,
     UbsAdminNotificationComponent,
-    CronPickerComponent
+    CronPickerComponent,
+    EditPaymentConfirmationPopUpComponent
   ],
   imports: [
     CommonModule,

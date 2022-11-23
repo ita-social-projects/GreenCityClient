@@ -1,0 +1,9 @@
+<div class="main-container">
+  <div class="warning-text">
+    <div class="warning-title">{{ popupTitle | translate }}</div>
+  </div>
+  <div class="buttons-container">
+    <button class="secondary-global-button" (click)="userReply(false)">{{ popupCancel | translate }}</button>
+    <button class="primary-global-button" (click)="userReply(true)">{{ popupConfirm | translate }}</button>
+  </div>
+</div>

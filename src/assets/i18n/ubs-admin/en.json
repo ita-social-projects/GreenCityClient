@@ -139,6 +139,7 @@
     "file-size-warning": "File size exceeds 10 MB. Please select another file",
     "file-type-warning": "Invalid file format. Please select another file",
     "delete-message": "If deleted, all information will be lost. Are you sure you want to delete this payment?",
+    "cancel-message": "If you go back, the changes were made will be lost. Do you really want to go back?",
     "btn": {
       "back": "Back",
       "confirm": "Confirm payment",

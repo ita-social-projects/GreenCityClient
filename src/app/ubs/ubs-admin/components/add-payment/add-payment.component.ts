@@ -14,6 +14,7 @@ import { Patterns } from 'src/assets/patterns/patterns';
 import { formatDate } from '@angular/common';
 import { DateAdapter } from '@angular/material/core';
 import { ConvertFromDateToStringService } from 'src/app/shared/convert-from-date-to-string/convert-from-date-to-string.service';
+import { EditPaymentConfirmationPopUpComponent } from '../shared/components/edit-payment-confirmation-pop-up/edit-payment-confirmation-pop-up.component';
 
 interface InputData {
   orderId: number;
@@ -61,6 +62,11 @@ export class AddPaymentComponent implements OnInit, OnDestroy {
   private destroySub: Subject<boolean> = new Subject<boolean>();
   deleteDialogData = {
     popupTitle: 'add-payment.delete-message',
+    popupConfirm: 'employees.btn.yes',
+    popupCancel: 'employees.btn.no'
+  };
+  verifyEditingData = {
+    popupTitle: 'add-payment.cancel-message',
     popupConfirm: 'employees.btn.yes',
     popupCancel: 'employees.btn.no'
   };
@@ -274,5 +280,22 @@ export class AddPaymentComponent implements OnInit, OnDestroy {
             );
         }
       });
+  }
+
+  public verifyEditing(): void {
+    if (this.isInitialDataChanged || this.isInitialImageChanged) {
+      const matDialogRef = this.dialog.open(EditPaymentConfirmationPopUpComponent, {
+        data: this.verifyEditingData,
+        hasBackdrop: true
+      });
+
+      matDialogRef.afterClosed().subscribe((res) => {
+        if (res) {
+          this.dialogRef.close();
+        }
+      });
+    } else {
+      this.dialogRef.close();
+    }
   }
 }
