@@ -7,8 +7,9 @@ import { By } from '@angular/platform-browser';
 import { ActivatedRoute, Router } from '@angular/router';
 import { RouterTestingModule } from '@angular/router/testing';
 import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
-import { TranslateModule } from '@ngx-translate/core';
+import { TranslateModule, TranslateService } from '@ngx-translate/core';
 import { BehaviorSubject, of, throwError } from 'rxjs';
+import { ConfirmationDialogService } from 'src/app/main/component/admin/services/confirmation-dialog-service.service';
 import { NotificationsService } from '../../services/notifications.service';
 
 import { UbsAdminNotificationComponent } from './ubs-admin-notification.component';
@@ -52,6 +53,7 @@ describe('UbsAdminNotificationComponent', () => {
   const activatedRouteMock = { params: of({ id: 1 }) };
   const localStorageServiceMock = { languageBehaviourSubject: new BehaviorSubject('en') };
   const routerMock = { navigate: () => {} };
+  const confirmationDialogServiceMock = { confirm: () => {} };
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
@@ -62,7 +64,8 @@ describe('UbsAdminNotificationComponent', () => {
         { provide: NotificationsService, useValue: notificationsServiceMock },
         { provide: ActivatedRoute, useValue: activatedRouteMock },
         { provide: LocalStorageService, useValue: localStorageServiceMock },
-        { provide: Router, useValue: routerMock }
+        { provide: Router, useValue: routerMock },
+        { provide: ConfirmationDialogService, useValue: confirmationDialogServiceMock }
       ]
     }).compileComponents();
   }));
