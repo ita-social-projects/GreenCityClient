@@ -84,8 +84,8 @@ import { UbsAdminEmployeePermissionsFormComponent } from './components/ubs-admin
 import { CdkAccordionModule } from '@angular/cdk/accordion';
 import { TariffStatusPipe } from '@pipe/tariff-status-pipe/tariff-status.pipe';
 import { UbsAdminNotificationListComponent } from './components/ubs-admin-notification-list/ubs-admin-notification-list.component';
-import { CronPickerComponent } from './components/shared/components/cron-picker/cron-picker.component';
 import { UbsAdminNotificationComponent } from './components/ubs-admin-notification/ubs-admin-notification.component';
+import { CronPickerComponent } from './components/shared/components/cron-picker/cron-picker.component';
 import { UbsAdminNotificationSettingsComponent } from './components/ubs-admin-notification/ubs-admin-notification-settings/ubs-admin-notification-settings.component';
 import { UbsAdminNotificationEditFormComponent } from './components/ubs-admin-notification/ubs-admin-notification-edit-form/ubs-admin-notification-edit-form.component';
 
@@ -144,8 +144,8 @@ import { UbsAdminNotificationEditFormComponent } from './components/ubs-admin-no
     UbsAdminEmployeePermissionsFormComponent,
     TariffStatusPipe,
     UbsAdminNotificationListComponent,
-    CronPickerComponent,
     UbsAdminNotificationComponent,
+    CronPickerComponent,
     UbsAdminNotificationEditFormComponent,
     UbsAdminNotificationSettingsComponent
   ],
