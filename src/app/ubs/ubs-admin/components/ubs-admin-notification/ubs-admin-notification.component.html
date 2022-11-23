@@ -1,0 +1,88 @@
+<div class="page-container" *ngIf="notification">
+  <div class="page-header">
+    <button class="back-button" (click)="onGoBack()">
+      <img [src]="icons.back" alt="Go back" />
+    </button>
+    <p class="page-title">{{ 'ubs-notifications.page-title' | translate }}</p>
+  </div>
+
+  <table class="table-notification-info" aria-label="Notification info">
+    <thead>
+      <tr>
+        <th class="col-topic">{{ 'ubs-notifications.columns.topic' | translate }}</th>
+        <th class="col-trigger">{{ 'ubs-notifications.columns.trigger' | translate }}</th>
+        <th class="col-time">{{ 'ubs-notifications.columns.time' | translate }}</th>
+        <th class="col-period">{{ 'ubs-notifications.columns.period' | translate }}</th>
+        <th class="col-status">{{ 'ubs-notifications.columns.status' | translate }}</th>
+        <th class="col-actions"></th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>
+          {{ lang === 'ua' ? notification.title.ua : notification.title.en }}
+        </td>
+        <td>
+          {{ 'ubs-notifications.triggers.' + notification.trigger | translate }}
+        </td>
+        <td>
+          {{ 'ubs-notifications.time.' + notification.time | translate }}
+        </td>
+        <td>
+          {{ notification.schedule }}
+        </td>
+        <td>
+          {{ 'ubs-notifications.statuses.' + notification.status | translate }}
+        </td>
+        <td class="col-actions">
+          <div>
+            <button class="action-button edit-button" (click)="onEditNotificationSettings()">
+              <img [src]="icons.edit" alt="" />
+            </button>
+            <button class="action-button deactivate-button">
+              <img [src]="icons.delete" alt="" />
+            </button>
+          </div>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+
+  <table class="table-notification-platforms" aria-label="Notification text for platforms">
+    <thead>
+      <th class="col-platform">Платформа</th>
+      <th class="col-text">Текст</th>
+      <th class="col-action"></th>
+    </thead>
+    <tbody>
+      <tr *ngFor="let platform of notification.platforms" [ngClass]="{ 'platform-inactive': platform.status !== 'ACTIVE' }">
+        <td>{{ platform.name | titlecase }}</td>
+        <td>
+          {{ lang === 'ua' ? platform.body.ua : platform.body.en }}
+        </td>
+        <td class="col-action">
+          <div *ngIf="platform.status === 'ACTIVE'; else inactivePlatformActions">
+            <button class="action-button edit-button" (click)="onEditNotificationInfo(platform.name)">
+              <img [src]="icons.edit" alt="" />
+            </button>
+            <button class="action-button deactivate-button" (click)="onDeactivatePlatform(platform.name)">
+              <img [src]="icons.delete" alt="" />
+            </button>
+          </div>
+          <ng-template #inactivePlatformActions>
+            <div>
+              <button class="action-button activate-button" (click)="onActivatePlatform(platform.name)">
+                <img [src]="icons.activate" alt="" />
+              </button>
+            </div>
+          </ng-template>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+
+  <div class="controls">
+    <button class="cancel-button" (click)="onCancel()">{{ 'ubs-notifications.buttons.cancel' | translate }}</button>
+    <button class="submit-button" (click)="onSaveChanges()">{{ 'ubs-notifications.buttons.save' | translate }}</button>
+  </div>
+</div>

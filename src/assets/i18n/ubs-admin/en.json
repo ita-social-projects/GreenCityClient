@@ -837,7 +837,6 @@
   },
   "ubs-notifications": {
     "page-title": "Notifications",
-    "add": "Add",
     "filters": {
       "topic": "Notification topic",
       "trigger": "Trigger",
@@ -877,6 +876,11 @@
     "statuses": {
       "ACTIVE": "Active",
       "INACTIVE": "Inactive"
+    },
+    "buttons": {
+      "add": "Add",
+      "cancel": "Cancel",
+      "save": "Save changes"
     }
   },
   "cron-picker": {
