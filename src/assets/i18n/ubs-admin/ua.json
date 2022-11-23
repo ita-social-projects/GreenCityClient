@@ -876,5 +876,50 @@
       "ACTIVE": "Активне",
       "INACTIVE": "Неактивне"
     }
+  },
+  "cron-picker": {
+    "panel-labels": {
+      "time": "Час",
+      "day": "День",
+      "month": "Місяць"
+    },
+    "labels": {
+      "min": "Хвилина",
+      "hour": "Година",
+      "every-day": "Щодня",
+      "days-of-week": "Обрані дні тижня",
+      "days-of-month": "Обрані дні місяця",
+      "every-month": "Щомісяця",
+      "months": "Обрані місяці",
+      "select": "Обрати"
+    },
+    "errors": {
+      "at-least-one-day-of-week": "Виберіть хоча б один день тижня",
+      "at-least-one-day-of-month": "Виберіть хоча б один день місяця",
+      "at-least-one-month": "Виберіть хоча б один місяць"
+    },
+    "days-of-week": {
+      "MON": "Пн",
+      "TUE": "Вт",
+      "WED": "Ср",
+      "THU": "Чт",
+      "FRI": "Пт",
+      "SAT": "Сб",
+      "SUN": "Нд"
+    },
+    "months": {
+      "JAN": "Січ",
+      "FEB": "Лют",
+      "MAR": "Берез",
+      "APR": "Лип",
+      "MAY": "Трав",
+      "JUN": "Черв",
+      "JUL": "Лип",
+      "AUG": "Серп",
+      "SEP": "Верес",
+      "OCT": "Жовт",
+      "NOV": "Листоп",
+      "DEC": "Груд"
+    }
   }
 }

@@ -36,6 +36,9 @@ describe('CronService', () => {
     expect(service.descript('3-20 * * * *')).toBe('at every minute from 3 through 20');
 
     expect(service.descript('10 11 * * *')).toBe('at 11:10');
+    expect(service.descript('1 11 * * *')).toBe('at 11:01');
+    expect(service.descript('1 7 * * *')).toBe('at 07:01');
+    expect(service.descript('15 7 * * *')).toBe('at 07:15');
     expect(service.descript('10,11 22 * * *')).toBe('at minute 10 and 11 past hour 22');
     expect(service.descript('10-31 22 * * *')).toBe('at every minute from 10 through 31 past hour 22');
     expect(service.descript('10-31 2,14,22 * * *')).toBe('at every minute from 10 through 31 past hour 2, 14 and 22');
