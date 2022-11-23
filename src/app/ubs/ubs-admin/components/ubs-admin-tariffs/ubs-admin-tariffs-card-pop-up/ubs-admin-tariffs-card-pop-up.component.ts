@@ -128,10 +128,7 @@ export class UbsAdminTariffsCardPopUpComponent implements OnInit, OnDestroy {
       .pipe(takeUntil(this.unsubscribe))
       .subscribe((res) => {
         this.couriers = res;
-        this.couriersName = this.couriers.map((it) =>
-          it.courierTranslationDtos.filter((ob) => ob.languageCode === 'ua').map((item) => item.name)
-        );
-        this.couriersName = this.couriersName.flat(2);
+        this.couriersName = this.couriers.map((it) => it.courierTranslationDtos.map((item) => item.name).flat(2));
       });
   }
 
@@ -168,11 +165,8 @@ export class UbsAdminTariffsCardPopUpComponent implements OnInit, OnDestroy {
   }
 
   public onSelectCourier(event): void {
-    const selectedValue = this.couriers.filter((it) => it.courierTranslationDtos.find((ob) => ob.name === event.value));
-    this.courierEnglishName = selectedValue.map((it) =>
-      it.courierTranslationDtos.filter((ob) => ob.languageCode === 'en').map((i) => i.name)
-    );
-    this.courierEnglishName = this.courierEnglishName.flat();
+    const selectedValue = this.couriers.filter((it) => it.courierTranslationDtos.find((ob) => ob.name === event.value[0]));
+    this.courierEnglishName = selectedValue.map((it) => it.courierTranslationDtos.map((i) => i.nameEng).flat());
     this.courierId = selectedValue.find((it) => it.courierId).courierId;
   }
 
