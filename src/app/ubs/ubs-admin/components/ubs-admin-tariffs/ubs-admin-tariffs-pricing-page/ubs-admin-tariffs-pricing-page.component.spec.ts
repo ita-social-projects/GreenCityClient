@@ -49,14 +49,15 @@ describe('UbsAdminPricingPageComponent', () => {
     locationsDto: [
       {
         latitude: 0,
-        longitude: 0,
         locationId: 159,
+        locationStatus: 'фейк1',
         locationTranslationDtoList: [
           {
             languageCode: 'ua',
             locationName: 'fake'
           }
-        ]
+        ],
+        longitude: 0
       }
     ],
     regionId: 1,

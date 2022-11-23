@@ -38,48 +38,32 @@ describe('UbsAdminTariffsLocationDashboardComponent', () => {
 
   const mockRegion = [
     {
-      regionTranslationDtos: [
-        {
-          regionName: 'Фейк область',
-          languageCode: 'ua'
-        },
-        {
-          regionName: 'Fake region',
-          languageCode: 'en'
-        }
-      ],
-      regionId: 0,
       locationsDto: [
         {
-          latitude: 0,
-          locationId: 0,
-          longitude: 0,
+          latitude: 11,
+          locationId: 1,
+          locationStatus: 'фейк1',
           locationTranslationDtoList: [
-            {
-              locationName: 'Фейк1',
-              languageCode: 'ua'
-            },
-            {
-              locationName: 'Fake1',
-              languageCode: 'en'
-            }
-          ]
+            { languageCode: 'ua', locationName: 'Фейк1' },
+            { languageCode: 'en', locationName: 'Fake1' }
+          ],
+          longitude: 12
         },
         {
-          latitude: 1,
-          locationId: 1,
-          longitude: 1,
+          latitude: 12,
+          locationId: 2,
+          locationStatus: 'фейк2',
           locationTranslationDtoList: [
-            {
-              locationName: 'Фейк2',
-              languageCode: 'ua'
-            },
-            {
-              locationName: 'Fake2',
-              languageCode: 'en'
-            }
-          ]
+            { languageCode: 'ua', locationName: 'Фейк2' },
+            { languageCode: 'en', locationName: 'Fake2' }
+          ],
+          longitude: 13
         }
+      ],
+      regionId: 1,
+      regionTranslationDtos: [
+        { regionName: 'Фейк область', languageCode: 'ua' },
+        { regionName: 'Fake region', languageCode: 'en' }
       ]
     }
   ];
@@ -151,33 +135,23 @@ describe('UbsAdminTariffsLocationDashboardComponent', () => {
     locationsDto: [
       {
         latitude: 0,
-        longitude: 0,
         locationId: 159,
+        locationStatus: 'active',
         locationTranslationDtoList: [
-          {
-            languageCode: 'ua',
-            locationName: 'фейк'
-          },
-          {
-            languageCode: 'en',
-            locationName: 'fake'
-          }
-        ]
+          { languageCode: 'ua', locationName: 'фейк' },
+          { languageCode: 'en', locationName: 'fake' }
+        ],
+        longitude: 0
       },
       {
         latitude: 0,
-        longitude: 0,
         locationId: 0,
+        locationStatus: 'active',
         locationTranslationDtoList: [
-          {
-            languageCode: 'ua',
-            locationName: 'фейк2'
-          },
-          {
-            languageCode: 'en',
-            locationName: 'fake2'
-          }
-        ]
+          { languageCode: 'ua', locationName: 'фейк2' },
+          { languageCode: 'en', locationName: 'fake' }
+        ],
+        longitude: 0
       }
     ],
     regionId: 1,
@@ -403,31 +377,19 @@ describe('UbsAdminTariffsLocationDashboardComponent', () => {
     const result = component.mapCities(mockRegion);
     expect(result).toEqual([
       {
+        id: 1,
         name: 'Фейк1',
-        id: 0,
         locationTranslationDtoList: [
-          {
-            locationName: 'Фейк1',
-            languageCode: 'ua'
-          },
-          {
-            locationName: 'Fake1',
-            languageCode: 'en'
-          }
+          { languageCode: 'ua', locationName: 'Фейк1' },
+          { languageCode: 'en', locationName: 'Fake1' }
         ]
       },
       {
+        id: 2,
         name: 'Фейк2',
-        id: 1,
         locationTranslationDtoList: [
-          {
-            locationName: 'Фейк2',
-            languageCode: 'ua'
-          },
-          {
-            locationName: 'Fake2',
-            languageCode: 'en'
-          }
+          { languageCode: 'ua', locationName: 'Фейк2' },
+          { languageCode: 'en', locationName: 'Fake2' }
         ]
       }
     ]);

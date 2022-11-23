@@ -20,29 +20,27 @@ const tariff = {
   description: 'fake'
 };
 
-const location = {
-  locationsDto: [
-    {
-      latitude: 1,
-      locationId: 1,
-      locationStatus: 'fake',
-      locationTranslationDtoList: [
-        {
-          languageCode: 'fake',
-          locationName: 'fake'
-        }
-      ],
-      longitude: 1
-    }
-  ],
-  regionId: 1,
-  regionTranslationDtos: [
-    {
-      languageCode: 'fake',
-      regionName: 'fake'
-    }
-  ]
-};
+const location = [
+  {
+    locationsDto: [
+      {
+        latitude: 12,
+        locationId: 1,
+        locationStatus: 'фейк',
+        locationTranslationDtoList: [
+          { languageCode: 'ua', locationName: 'Фейк1' },
+          { languageCode: 'en', locationName: 'Fake1' }
+        ],
+        longitude: 13
+      }
+    ],
+    regionId: 1,
+    regionTranslationDtos: [
+      { regionName: 'Фейк область', languageCode: 'ua' },
+      { regionName: 'Fake region', languageCode: 'en' }
+    ]
+  }
+];
 
 const courier = {
   courierId: 1,
