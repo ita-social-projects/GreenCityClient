@@ -121,8 +121,7 @@ export class UbsAdminTariffsDeactivatePopUpComponent implements OnInit, OnDestro
       .getCouriers()
       .pipe(takeUntil(this.unsubscribe))
       .subscribe((res) => {
-        //this.couriers = res
-        this.couriers = res.filter((el) => el.courierTranslationDtos.length === 1);
+        this.couriers = res;
         this.couriersName = this.couriers.map((it) => it.courierTranslationDtos.map((el) => el.name)).flat(2);
         this.courier.valueChanges
           .pipe(
@@ -131,6 +130,10 @@ export class UbsAdminTariffsDeactivatePopUpComponent implements OnInit, OnDestro
           )
           .subscribe((data) => {
             this.filteredCouriers = data;
+            if (!this.courier.value) {
+              this.station.enable();
+              this.region.enable();
+            }
           });
       });
   }
@@ -183,15 +186,10 @@ export class UbsAdminTariffsDeactivatePopUpComponent implements OnInit, OnDestro
 
   public selectCourier(event: MatAutocompleteSelectedEvent, trigger: MatAutocompleteTrigger): void {
     this.blurOnOption = false;
-    console.log(this.courier.value);
-
-    requestAnimationFrame(() => {
-      trigger.openPanel();
-    });
-
-    // const selectedValue = this.couriers.filter((it) => it.courierTranslationDtos.find((ob) => ob.name === event.value));
-    // this.courierId = selectedValue.find((it) => it.courierId).courierId;
-    // this.onSelectedCourier(this.courierId);
+    const selectedValue = this.couriers.filter((it) => it.courierTranslationDtos.find((ob) => ob.name === event.option.value));
+    console.log(selectedValue);
+    this.courierId = selectedValue.find((it) => it.courierId).courierId;
+    this.onSelectedCourier(this.courierId);
   }
 
   public onSelectedCourier(courierId: number): void {
@@ -213,6 +211,15 @@ export class UbsAdminTariffsDeactivatePopUpComponent implements OnInit, OnDestro
     console.log(finallRegionsList);
     this.regionsName = finallRegionsList;
     this.filteredRegions = finallRegionsList;
+
+    if (!this.filteredTatiffCards.length) {
+      this.disableStation();
+      this.disableRegion();
+    }
+    if (this.filteredTatiffCards.length) {
+      this.region.enable();
+      this.station.enable();
+    }
   }
 
   public selectStation(event: MatAutocompleteSelectedEvent, trigger: MatAutocompleteTrigger): void {
@@ -270,8 +277,8 @@ export class UbsAdminTariffsDeactivatePopUpComponent implements OnInit, OnDestro
       trigger.openPanel();
     });
     if (this.selectedRegions.length === 1) {
-      this.enableCity(this.selectedRegions[0].id);
       this.onRegionSelected(this.selectedRegions[0].name);
+      this.enableCity(this.selectedRegions[0].id);
     }
     if (this.selectedRegions.length < 1) {
       this.disableCity();
@@ -313,7 +320,13 @@ export class UbsAdminTariffsDeactivatePopUpComponent implements OnInit, OnDestro
   }
 
   public onRegionSelected(regionName: string): void {
-    this.filteredTatiffCards = this.tariffCards.filter((el) => el.regionDto.nameUk === regionName);
+    if (!this.courier.value) {
+      this.filteredTatiffCards = this.tariffCards.filter((el) => el.regionDto.nameUk === regionName);
+    }
+    if (this.courier.value) {
+      this.filteredTatiffCards = this.filteredTatiffCards.filter((el) => el.regionDto.nameUk === regionName);
+    }
+    console.log(this.filteredTatiffCards);
 
     const selectAllCouriers = this.filteredTatiffCards.map((it) => it.courierTranslationDtos.map((el) => el.name)).flat(2);
     const finallCouriersList = this.removeDuplicates(selectAllCouriers);
@@ -348,11 +361,24 @@ export class UbsAdminTariffsDeactivatePopUpComponent implements OnInit, OnDestro
   }
 
   public enableCity(regionId: number): void {
+    // if (!this.courier.value) {
+    //   this.filteredTatiffCards = this.tariffCards.filter((el) => el.regionDto.nameUk === regionName);
+    // }
+    let currentCitiesName;
     const currentRegion = this.locations.filter((element) => element.regionId === regionId);
     this.currentCities = currentRegion[0].locationsDto;
-    const currentCitiesName = this.currentCities
-      .map((element) => element.locationTranslationDtoList.filter((it) => it.languageCode === 'ua').map((it) => it.locationName))
-      .flat(2);
+
+    //вище не чіпати, змінити currentCitiesName
+    if (!this.courier.value) {
+      currentCitiesName = this.currentCities
+        .map((element) => element.locationTranslationDtoList.filter((it) => it.languageCode === 'ua').map((it) => it.locationName))
+        .flat(2);
+    }
+    if (this.courier.value) {
+      const allCitiesName = this.filteredTatiffCards.map((it) => it.locationInfoDtos.map((el) => el.nameUk)).flat(2);
+      currentCitiesName = this.removeDuplicates(allCitiesName);
+      console.log(currentCitiesName);
+    }
     this.city.valueChanges
       .pipe(
         startWith(''),
