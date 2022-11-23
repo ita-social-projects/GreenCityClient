@@ -1,5 +1,4 @@
 import { DatePipe } from '@angular/common';
-import { QueryValueType } from '@angular/compiler/src/core';
 import { Component, Inject, OnDestroy, OnInit, TemplateRef } from '@angular/core';
 import { FormBuilder, Validators } from '@angular/forms';
 import { MatAutocompleteTrigger } from '@angular/material/autocomplete';
@@ -28,8 +27,10 @@ export class UbsAdminTariffsCourierPopUpComponent implements OnInit, OnDestroy {
   datePipe = new DatePipe('ua');
   newDate = this.datePipe.transform(new Date(), 'MMM dd, yyyy');
   couriers = [];
-  couriersName = [];
-  enValue;
+  selectedCourier;
+  couriersName;
+  couriersNameEng;
+  array;
   courierPlaceholder: string;
   private destroy: Subject<boolean> = new Subject<boolean>();
 
@@ -40,7 +41,7 @@ export class UbsAdminTariffsCourierPopUpComponent implements OnInit, OnDestroy {
 
   constructor(
     private fb: FormBuilder,
-    private localeStorageService: LocalStorageService,
+    private localStorageService: LocalStorageService,
     public dialogRef: MatDialogRef<UbsAdminTariffsCourierPopUpComponent>,
     private tariffsService: TariffsService,
     @Inject(MAT_DIALOG_DATA)
@@ -61,7 +62,7 @@ export class UbsAdminTariffsCourierPopUpComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     this.getCouriers();
-    this.localeStorageService.firstNameBehaviourSubject.pipe(takeUntil(this.unsubscribe)).subscribe((firstName) => {
+    this.localStorageService.firstNameBehaviourSubject.pipe(takeUntil(this.unsubscribe)).subscribe((firstName) => {
       this.authorName = firstName;
     });
     this.name.valueChanges.subscribe((value) => {
@@ -81,9 +82,8 @@ export class UbsAdminTariffsCourierPopUpComponent implements OnInit, OnDestroy {
       .pipe(takeUntil(this.destroy))
       .subscribe((res) => {
         this.couriers = res;
-        this.couriersName = res
-          .map((it) => it.courierTranslationDtos.filter((ob) => ob.languageCode === 'ua').map((item) => item.name))
-          .reduce((acc, val) => acc.concat(val), []);
+        this.couriersName = res.map((it) => it.courierTranslationDtos.map((el) => el.name)).flat(2);
+        this.couriersNameEng = res.map((it) => it.courierTranslationDtos.map((el) => el.nameEng)).flat(2);
       });
   }
 
@@ -92,13 +92,15 @@ export class UbsAdminTariffsCourierPopUpComponent implements OnInit, OnDestroy {
     trigger.openPanel();
   }
 
-  selectedCourier(event): void {
-    this.enValue = this.couriers.filter((it) => it.courierTranslationDtos.find((ob) => ob.name === event.option.value.toString()));
-    this.englishName.setValue(
-      this.enValue
-        .map((it) => it.courierTranslationDtos.filter((ob) => ob.languageCode === 'en').map((i) => i.name))
-        .reduce((acc, val) => acc.concat(val), [])[0]
+  selectCourier(event): void {
+    this.selectedCourier = this.couriers.filter((it) =>
+      it.courierTranslationDtos.find((ob) => ob.nameEng === event.option.value.toString() || ob.name === event.option.value.toString())
     );
+  }
+
+  editCourierName() {
+    this.setNewCourierName();
+    this.editCourier();
   }
 
   addCourier(): void {
@@ -111,17 +113,20 @@ export class UbsAdminTariffsCourierPopUpComponent implements OnInit, OnDestroy {
       });
   }
 
+  setNewCourierName() {
+    this.courierForm.setValue({
+      name: this.courierForm.controls.name.value,
+      englishName: this.courierForm.controls.englishName.value
+    });
+  }
+
   editCourier(): void {
     const newCourier = {
-      courierId: this.enValue[0].courierId,
+      courierId: this.selectedCourier[0].courierId,
       courierTranslationDtos: [
         {
-          languageCode: 'ua',
-          name: this.name.value
-        },
-        {
-          languageCode: 'en',
-          name: this.englishName.value
+          name: this.name.value,
+          nameEng: this.englishName.value
         }
       ]
     };

@@ -2,7 +2,7 @@
   <p class="h5 page-title">{{ 'ubs-notifications.page-title' | translate }}</p>
   <button class="add-notification-button">
     <img [src]="icons.plus" class="plus-icon" alt="" />
-    &nbsp; {{ 'ubs-notifications.add' | translate }}
+    &nbsp; {{ 'ubs-notifications.buttons.add' | translate }}
   </button>
 </div>
 
@@ -11,19 +11,7 @@
     <div class="filter-topic-block">
       <p class="filter-label">{{ 'ubs-notifications.filters.topic' | translate }}</p>
       <div class="filter-wrapper">
-        <input
-          type="text"
-          formControlName="topic"
-          [placeholder]="'ubs-notifications.filters.topic-placeholder' | translate"
-          matInput
-          [matAutocomplete]="autoTopic"
-        />
-        <mat-autocomplete #autoTopic="matAutocomplete" (optionSelected)="(null)">
-          <mat-option *ngFor="let topic of []" [value]="topic">
-            {{ topic | translate }}
-          </mat-option>
-        </mat-autocomplete>
-        <img [src]="icons.arrowDown" class="arrow-down-icon" alt="" (click)="(null)" />
+        <input type="text" formControlName="topic" [placeholder]="'ubs-notifications.filters.topic-placeholder' | translate" matInput />
       </div>
     </div>
     <div class="filter-trigger-block">
@@ -33,7 +21,6 @@
           formControlName="triggers"
           class="trigger-select"
           [placeholder]="'ubs-notifications.filters.trigger-placeholder' | translate"
-          (selectionChange)="(null)"
           multiple
         >
           <mat-option class="option-trigger" *ngFor="let trigger of triggers" [value]="trigger">
@@ -50,7 +37,6 @@
           formControlName="status"
           class="status-select"
           [placeholder]="'ubs-notifications.filters.status-placeholder' | translate"
-          (selectionChange)="(null)"
         >
           <mat-option class="option-status" *ngFor="let status of statuses" [value]="status">
             {{ 'ubs-notifications.filters-statuses.' + status | translate }}

@@ -1,5 +1,5 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
-import { FormBuilder, ReactiveFormsModule } from '@angular/forms';
+import { FormBuilder, FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { MatDialogModule, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { TranslateModule } from '@ngx-translate/core';
 import { of, Subject } from 'rxjs';
@@ -21,18 +21,18 @@ describe('UbsAdminTariffsCourierPopUpComponent', () => {
 
   const fakeCouriers = {
     courierId: 1,
-    courierStatus: 'fake',
     courierTranslationDtos: [
       {
-        languageCode: 'ua',
-        name: 'фейкКурєр'
-      },
-      {
-        languageCode: 'en',
-        name: 'fakeCourier'
+        name: 'фейкКурєр',
+        nameEng: 'фейкКурєр'
       }
     ]
   };
+
+  const fakeCourierForm = new FormGroup({
+    name: new FormControl('fake'),
+    englishName: new FormControl('fake')
+  });
 
   const tariffsServiceMock = jasmine.createSpyObj('tariffsServiceMock', ['getCouriers', 'addCourier', 'editCourier']);
   tariffsServiceMock.getCouriers.and.returnValue(of([fakeCouriers]));
@@ -68,19 +68,15 @@ describe('UbsAdminTariffsCourierPopUpComponent', () => {
     expect(component).toBeTruthy();
   });
 
-  it('should check if courier exists', () => {
-    component.name.setValue('фейкКурєр');
-    expect(component.courierExist).toBe(true);
+  it('should set names correctly', () => {
+    component.setNewCourierName();
+    component.courierForm.setValue(fakeCourierForm.value);
+    expect(component.courierForm.value).toEqual(fakeCourierForm.value);
   });
 
   it('should check if courier exists', () => {
     component.name.setValue('новийКурєр');
     expect(component.courierExist).toBe(false);
-  });
-
-  it('should check if courier exists', () => {
-    component.englishName.setValue('fakeCourier');
-    expect(component.enCourierExist).toBe(true);
   });
 
   it('should check if courier exists', () => {
@@ -95,9 +91,8 @@ describe('UbsAdminTariffsCourierPopUpComponent', () => {
       }
     };
     component.couriers = [fakeCouriers];
-    component.selectedCourier(eventMock);
-    expect(component.enValue).toEqual([fakeCouriers]);
-    expect(component.englishName.value).toEqual('fakeCourier');
+    component.selectCourier(eventMock);
+    expect(component.selectedCourier[0].courierTranslationDtos[0].name).toEqual(fakeCouriers.courierTranslationDtos[0].name);
   });
 
   it('should not select one courier if it does not exist', () => {
@@ -107,8 +102,8 @@ describe('UbsAdminTariffsCourierPopUpComponent', () => {
       }
     };
     component.couriers = [fakeCouriers];
-    component.selectedCourier(eventMock);
-    expect(component.enValue).toEqual([]);
+    component.selectCourier(eventMock);
+    expect(component.selectedCourier).toEqual([]);
   });
 
   it('should has correct data', () => {
@@ -134,7 +129,7 @@ describe('UbsAdminTariffsCourierPopUpComponent', () => {
   });
 
   it('should edit the courier', () => {
-    component.enValue = [{ courierId: 0 }];
+    component.selectedCourier = [{ courierId: 0 }];
     component.editCourier();
     expect(tariffsServiceMock.editCourier).toHaveBeenCalled();
   });

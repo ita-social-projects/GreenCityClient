@@ -482,10 +482,7 @@ export class UbsAdminTariffsLocationDashboardComponent implements OnInit, AfterV
       .subscribe((card) => {
         card.forEach((el) => {
           const cardObj = {
-            courier: el.courierTranslationDtos
-              .filter((ob) => ob.languageCode === 'ua')
-              .map((it) => it.name)
-              .join(),
+            courier: el.courierTranslationDtos.map((it) => it.name).join(),
             station: el.receivingStationDtos.map((it) => it.name),
             region: el.regionDto.nameUk,
             city: el.locationInfoDtos.map((it) => it.nameUk),

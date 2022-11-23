@@ -85,6 +85,9 @@ import { CdkAccordionModule } from '@angular/cdk/accordion';
 import { TariffStatusPipe } from '@pipe/tariff-status-pipe/tariff-status.pipe';
 import { UbsAdminTariffsDeactivatePopUpComponent } from './components/ubs-admin-tariffs/ubs-admin-tariffs-deactivate-pop-up/ubs-admin-tariffs-deactivate-pop-up.component';
 import { UbsAdminNotificationListComponent } from './components/ubs-admin-notification-list/ubs-admin-notification-list.component';
+import { UbsAdminNotificationComponent } from './components/ubs-admin-notification/ubs-admin-notification.component';
+import { CronPickerComponent } from './components/shared/components/cron-picker/cron-picker.component';
+import { EditPaymentConfirmationPopUpComponent } from './components/shared/components/edit-payment-confirmation-pop-up/edit-payment-confirmation-pop-up.component';
 
 @NgModule({
   declarations: [
@@ -141,7 +144,10 @@ import { UbsAdminNotificationListComponent } from './components/ubs-admin-notifi
     UbsAdminEmployeePermissionsFormComponent,
     TariffStatusPipe,
     UbsAdminTariffsDeactivatePopUpComponent,
-    UbsAdminNotificationListComponent
+    UbsAdminNotificationListComponent,
+    UbsAdminNotificationComponent,
+    CronPickerComponent,
+    EditPaymentConfirmationPopUpComponent
   ],
   imports: [
     CommonModule,

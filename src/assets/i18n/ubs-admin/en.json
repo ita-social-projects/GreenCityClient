@@ -139,6 +139,7 @@
     "file-size-warning": "File size exceeds 10 MB. Please select another file",
     "file-type-warning": "Invalid file format. Please select another file",
     "delete-message": "If deleted, all information will be lost. Are you sure you want to delete this payment?",
+    "cancel-message": "If you go back, the changes were made will be lost. Do you really want to go back?",
     "btn": {
       "back": "Back",
       "confirm": "Confirm payment",
@@ -838,7 +839,6 @@
   },
   "ubs-notifications": {
     "page-title": "Notifications",
-    "add": "Add",
     "filters": {
       "topic": "Notification topic",
       "trigger": "Trigger",
@@ -878,6 +878,56 @@
     "statuses": {
       "ACTIVE": "Active",
       "INACTIVE": "Inactive"
+    },
+    "buttons": {
+      "add": "Add",
+      "cancel": "Cancel",
+      "save": "Save changes"
+    }
+  },
+  "cron-picker": {
+    "panel-labels": {
+      "time": "Time",
+      "day": "Day",
+      "month": "Month"
+    },
+    "labels": {
+      "min": "Minute",
+      "hour": "Hour",
+      "every-day": "Every day",
+      "days-of-week": "Specific days of week",
+      "days-of-month": "Specific days of month",
+      "every-month": "Every month",
+      "months": "Specific months",
+      "select": "Select"
+    },
+    "errors": {
+      "at-least-one-day-of-week": "At least one day of week should be selected",
+      "at-least-one-day-of-month": "At least one day of month should be selected",
+      "at-least-one-month": "At least one month should be selected"
+    },
+    "days-of-week": {
+      "MON": "Mon",
+      "TUE": "Tue",
+      "WED": "Wed",
+      "THU": "Thu",
+      "FRI": "Fri",
+      "SAT": "Sat",
+      "SUN": "Sun"
+    },
+    "months": {
+      "JAN": "Jan",
+      "FEB": "Feb",
+      "MAR": "Mar",
+      "APR": "Apr",
+      "MAY": "May",
+      "JUN": "Jun",
+      "JUL": "Jul",
+      "AUG": "Aug",
+      "SEP": "Sep",
+      "OCT": "Oct",
+      "NOV": "Nov",
+      "DEC": "Dec"
     }
   }
 }

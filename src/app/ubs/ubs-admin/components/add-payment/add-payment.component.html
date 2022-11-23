@@ -94,7 +94,7 @@
       <span *ngIf="isDeleting" class="spinner-border spinner-border-sm" role="status" aria-hidden="true"> </span>
       {{ 'add-payment.btn.delete' | translate }}
     </button>
-    <button type="reset" class="back label" (click)="close()">{{ 'add-payment.btn.back' | translate }}</button>
+    <button type="reset" class="back label" (click)="verifyEditing()">{{ 'add-payment.btn.back' | translate }}</button>
     <button
       type="submit"
       class="agree label"
