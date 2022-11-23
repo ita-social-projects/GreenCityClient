@@ -644,7 +644,8 @@
         "save": "Save",
         "give-up": "Give up",
         "add": "Add Habit",
-        "cancel": "Cancel"
+        "cancel": "Cancel",
+        "see-all": "See all"
       },
       "button-component": {
         "add-new-habit": "Add new habit!"

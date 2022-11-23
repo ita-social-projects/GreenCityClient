@@ -14,9 +14,6 @@ $primary-font: var(--secondary-font);
   list-style-type: none;
   padding: 0 0 19px 0;
   margin: 0;
-  overflow: hidden;
-  overflow-y: scroll;
-  height: 115px;
 
   li {
     padding: 0;
@@ -93,7 +90,7 @@ $primary-font: var(--secondary-font);
 }
 
 form {
-  position: relative;
+  // position: relative;
   top: 10px;
 
   #add-field {
@@ -123,6 +120,29 @@ form {
 
 .done {
   text-decoration: line-through;
+}
+
+.item-operation-buttons {
+  padding-top: 20px;
+  margin: 0 -8px;
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-end;
+}
+
+.item-operation-buttons button {
+  border: 0;
+  background: none;
+  font-family: var(--primary-font);
+  color: var(--primary-green);
+  font-size: 12px;
+  line-height: 20px;
+
+  .btn-img {
+    margin-top: -4px;
+    min-width: 14px;
+    max-height: 14px;
+  }
 }
 
 @media (min-width: 520px) {

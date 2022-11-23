@@ -52,13 +52,13 @@
         {{ 'user.habit.btn.add' | translate }}
       </button>
     </div>
-    <div *ngIf="isAssigned" class="add-habit-container">
-      <button class="primary-global-button delete-habit-button" type="submit" (click)="deleteHabit()">
-        {{ 'user.habit.btn.give-up' | translate }}
-      </button>
-      <button class="primary-global-button save-habit-button" type="submit" (click)="updateHabit()">
-        {{ 'user.habit.btn.save' | translate }}
-      </button>
-    </div>
+  </div>
+  <div *ngIf="isAssigned" class="add-habit-container">
+    <button class="primary-global-button delete-habit-button" type="submit" (click)="deleteHabit()">
+      {{ 'user.habit.btn.give-up' | translate }}
+    </button>
+    <button class="primary-global-button save-habit-button" type="submit" (click)="updateHabit()">
+      {{ 'user.habit.btn.save' | translate }}
+    </button>
   </div>
 </div>

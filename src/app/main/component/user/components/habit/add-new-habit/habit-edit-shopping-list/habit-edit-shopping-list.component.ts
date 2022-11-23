@@ -25,10 +25,17 @@ export class HabitEditShoppingListComponent implements OnInit, OnDestroy {
   public habitId: number;
   private destroySub: Subject<boolean> = new Subject<boolean>();
   private langChangeSub: Subscription;
+  public shoppingItemNameLimit = 12;
+  public isShowAll = false;
+  public viewShoppingListItems = 3;
+
+  public img = {
+    arrowDown: 'assets/img/comments/arrow_down.png',
+    arrowUp: 'assets/img/comments/arrow_up.png',
+    back: 'assets/img/comments/reply.png'
+  };
 
   @Output() newList = new EventEmitter<ShoppingList[]>();
-
-  public shoppingItemNameLimit = 12;
 
   constructor(
     public shoppinglistService: ShoppingListService,
@@ -55,7 +62,8 @@ export class HabitEditShoppingListComponent implements OnInit, OnDestroy {
   }
 
   getListItems(isAssigned: boolean) {
-    isAssigned ? this.getCustomItems() : this.getDefaultItems();
+    // isAssigned ? this.getCustomItems() : this.getDefaultItems();
+    this.getDefaultItems();
   }
 
   public truncateShoppingItemName(name: string) {
@@ -88,6 +96,15 @@ export class HabitEditShoppingListComponent implements OnInit, OnDestroy {
       this.bindLang(lang);
       this.checkIfAssigned();
     });
+  }
+
+  public showAllShoppingListItems() {
+    this.isShowAll = !this.isShowAll;
+    if (this.isShowAll) {
+      this.viewShoppingListItems = this.list.length;
+    } else {
+      this.viewShoppingListItems = 3;
+    }
   }
 
   public checkIfAssigned() {
