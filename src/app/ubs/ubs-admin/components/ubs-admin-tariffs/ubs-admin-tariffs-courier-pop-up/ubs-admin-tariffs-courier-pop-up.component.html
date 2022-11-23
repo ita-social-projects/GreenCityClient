@@ -18,13 +18,14 @@
             [placeholder]="courierPlaceholder | translate"
             [matAutocomplete]="auto"
           />
-          <mat-autocomplete #auto="matAutocomplete" (optionSelected)="selectedCourier($event)">
+          <mat-autocomplete #auto="matAutocomplete" (optionSelected)="selectCourier($event)">
             <ng-container *ngIf="data.edit">
-              <mat-option *ngFor="let option of couriersName" [value]="option">
-                {{ option }}
+              <mat-option *ngFor="let name of couriersName" [value]="name">
+                {{ name }}
               </mat-option>
             </ng-container>
           </mat-autocomplete>
+
           <img
             *ngIf="data.edit"
             [src]="icons.arrowDown"
@@ -32,7 +33,6 @@
             alt="arrowDown"
             (click)="openAuto($event, autocompleteTrigger)"
           />
-          <img *ngIf="name.value.length && !data.edit" [src]="icons.cross" class="cross-img" alt="close-icon" (click)="name.setValue('')" />
           <div class="error" *ngIf="name.invalid && name.touched">
             <p class="validation">{{ 'ubs-tariffs-add-location-pop-up.error' | translate }}</p>
           </div>
@@ -43,16 +43,26 @@
       </div>
       <div class="form-group">
         <label>{{ 'ubs-tariffs-add-location-pop-up.courier' | translate }}</label>
-        <input type="text" class="shadow-none form-control" formControlName="englishName" [placeholder]="courierPlaceholder | translate" />
-        <img
-          *ngIf="englishName.value.length && !data.edit"
-          [src]="icons.cross"
-          class="cross-img"
-          alt="close-icon"
-          (click)="englishName.setValue('')"
+        <input
+          type="text"
+          class="shadow-none form-control"
+          formControlName="englishName"
+          [matAutocomplete]="auto2"
+          #autocompleteTrigger="matAutocompleteTrigger"
+          [placeholder]="courierPlaceholder | translate"
         />
+        <mat-autocomplete #auto2="matAutocomplete">
+          <ng-container *ngIf="data.edit">
+            <mat-option *ngFor="let nameEng of couriersNameEng" [value]="nameEng">
+              {{ nameEng }}
+            </mat-option>
+          </ng-container>
+        </mat-autocomplete>
         <div class="error" *ngIf="englishName.invalid && englishName.touched">
           <p class="validation">{{ 'ubs-tariffs-add-location-pop-up.error' | translate }}</p>
+        </div>
+        <div class="error" *ngIf="courierExist || enCourierExist">
+          <p class="validation">{{ 'ubs-tariffs-add-location-pop-up.courierExist' | translate }}</p>
         </div>
       </div>
     </div>
@@ -71,10 +81,10 @@
       <button
         *ngIf="data.edit"
         class="primary-global-button btn m-0"
-        [disabled]="courierForm.invalid || courierExist || enCourierExist"
-        (click)="editCourier()"
+        [disabled]="courierForm.invalid || enCourierExist"
+        (click)="editCourierName()"
       >
-        {{ 'ubs-tariffs-add-location-pop-up.save_button' | translate }}
+        {{ 'ubs-tariffs-add-location-pop-up.courier_edit_title' | translate }}
       </button>
     </div>
   </ng-template>
