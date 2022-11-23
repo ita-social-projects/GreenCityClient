@@ -126,29 +126,16 @@ export class AddOrderNotTakenOutReasonComponent implements OnInit {
     this.images = this.images.filter((image) => image !== imageToDelete);
   }
 
-  prepareDataToSend() {
-    const notTakenOutReason = this.addNotTakenOutForm.value.notTakenOutReason;
-
-    let formData = new FormData();
-    //console.log(this.images);
-    //console.log(this.images[0], this.images[0].file);
-
+  prepareDataToSend(): FormData {
+    const notTakenOutReason = JSON.stringify(this.addNotTakenOutForm.value.notTakenOutReason);
+    const formData: FormData = new FormData();
+    formData.append('description', notTakenOutReason);
     this.images.forEach((image) => {
       if (image.file) {
         formData.append('images', image.file);
       }
     });
-
-    const str = JSON.stringify(formData);
-    const data: DataToSend = {
-      description: notTakenOutReason,
-      images: [formData.toString()]
-    };
-    const stringifiedDataToSend = JSON.stringify(data);
-
-    console.log(data);
-
-    return data;
+    return formData;
   }
 
   public send(): void {
@@ -160,7 +147,7 @@ export class AddOrderNotTakenOutReasonComponent implements OnInit {
         takeUntil(this.unsubscribe)
       )
       .subscribe(() => {
-        this.dialogRef.close(1);
+        this.dialogRef.close(true);
       });
   }
 
