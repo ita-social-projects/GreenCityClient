@@ -23,7 +23,9 @@ export class UbsAdminNotificationEditFormComponent implements OnInit {
     });
   }
 
-  ngOnInit(): void {}
+  ngOnInit(): void {
+    // This is intentional
+  }
 
   onCancel(): void {
     this.dialogRef.close();
