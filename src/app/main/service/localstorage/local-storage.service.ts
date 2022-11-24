@@ -290,4 +290,20 @@ export class LocalStorageService {
   public removeAdminOrderFilters(): void {
     window.localStorage.removeItem('UbsAdminOrdersTableTitleColumnFilters');
   }
+
+  public setAdminOrdersDateFilter(filters): void {
+    if (filters) {
+      const serialized = JSON.stringify(filters);
+      window.localStorage.setItem('UbsAdminOrdersDateFilters', serialized);
+    }
+  }
+
+  public getAdminOrdersDateFilter() {
+    const parsed = JSON.parse(window.localStorage.getItem('UbsAdminOrdersDateFilters')) || [];
+    return parsed;
+  }
+
+  public removeAdminOrderDateFilters(): void {
+    window.localStorage.removeItem('UbsAdminOrdersDateFilters');
+  }
 }

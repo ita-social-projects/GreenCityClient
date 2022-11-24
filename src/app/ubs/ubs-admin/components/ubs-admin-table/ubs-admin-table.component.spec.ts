@@ -89,6 +89,11 @@ describe('UsbAdminTableComponent', () => {
     fixture.detectChanges();
   });
 
+  afterEach(() => {
+    spyOn(component, 'ngOnDestroy').and.callFake(() => {});
+    fixture.destroy();
+  });
+
   it('should create', () => {
     expect(component).toBeTruthy();
   });
@@ -557,12 +562,6 @@ describe('UsbAdminTableComponent', () => {
     spyOn((component as any).adminTableService, 'changeFilters');
     component.changeFilters(true, 'currentColumn', { filtered: true });
     expect((component as any).adminTableService.changeFilters).toHaveBeenCalledWith(true, 'currentColumn', { filtered: true });
-  });
-
-  it('getDateValue expect getDateValue shoud be call', () => {
-    spyOn((component as any).adminTableService, 'getDateValue');
-    component.getDateValue('From', 'dateColumn');
-    expect((component as any).adminTableService.getDateValue).toHaveBeenCalledWith('From', 'dateColumn');
   });
 
   it('clearFilters expect setColumnsForFiltering, applyFilters and setFilters shoud be call', () => {

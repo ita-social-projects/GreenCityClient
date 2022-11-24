@@ -75,7 +75,7 @@ export class ColumnFiltersPopUpComponent implements OnInit {
   }
 
   getDateValue(suffix: 'From' | 'To'): boolean {
-    return this.adminTableService.getDateValue(suffix, this.data.columnName);
+    return this.adminTableService.getDateValue(this.data.columnName, suffix);
   }
 
   changeDateFilters(e: MatCheckboxChange, checked: boolean): void {

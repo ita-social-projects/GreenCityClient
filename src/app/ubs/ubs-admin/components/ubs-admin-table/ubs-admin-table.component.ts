@@ -270,12 +270,17 @@ export class UbsAdminTableComponent implements OnInit, AfterViewChecked, OnDestr
       paymentDateTo: new FormControl(),
       paymentDateCheck: false
     });
+    this.dateForm.setValue(this.getLocalDateForm());
     this.filters = this.dateForm.value;
   }
 
   public getControlValue(column: string, suffix: string): string {
     const controlName = this.getControlName(column, suffix);
     return this.dateForm.get(controlName).value;
+  }
+
+  private getLocalDateForm(): IDateFilters[] {
+    return this.localStorageService.getAdminOrdersDateFilter();
   }
 
   public getControlName(column: string, suffix: string): string {
@@ -289,6 +294,7 @@ export class UbsAdminTableComponent implements OnInit, AfterViewChecked, OnDestr
   applyFilter(filterValue: string): void {
     this.filterValue = filterValue;
     this.modelChanged.next(filterValue);
+    this.localStorageService.setAdminOrdersDateFilter(this.filters);
   }
 
   dropListDropped(event: CdkDragDrop<string[]>) {
@@ -660,6 +666,7 @@ export class UbsAdminTableComponent implements OnInit, AfterViewChecked, OnDestr
   changeFilters(checked: boolean, currentColumn: string, option: IFilteredColumnValue): void {
     this.adminTableService.changeFilters(checked, currentColumn, option);
     this.noFiltersApplied = !this.adminTableService.filters.length;
+    this.applyFilters();
   }
 
   changeInputDate(event: MatCheckboxChange, currentColumn: string, suffix: string): void {
@@ -676,18 +683,16 @@ export class UbsAdminTableComponent implements OnInit, AfterViewChecked, OnDestr
       }
       this.setDateFormValue();
       this.adminTableService.changeInputDateFilters(value, currentColumn, suffix, checkControl);
+      this.applyFilters();
     } else if (suffix === 'Check') {
       this.dateForm.get(controlName).setValue(event.checked);
       this.setDateFormValue();
     }
+    this.localStorageService.setAdminOrdersDateFilter(this.filters);
   }
 
   setDateFormValue(): void {
     this.filters = this.dateForm.value;
-  }
-
-  getDateValue(suffix: 'From' | 'To', dateColumn): boolean {
-    return this.adminTableService.getDateValue(suffix, dateColumn);
   }
 
   public clearFilters(): void {
@@ -702,6 +707,7 @@ export class UbsAdminTableComponent implements OnInit, AfterViewChecked, OnDestr
     this.applyFilters();
     this.noFiltersApplied = true;
     this.localStorageService.removeAdminOrderFilters();
+    this.localStorageService.removeAdminOrderDateFilters();
     this.dateForm.reset();
   }
 

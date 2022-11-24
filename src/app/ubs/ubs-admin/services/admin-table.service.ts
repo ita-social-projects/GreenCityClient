@@ -199,7 +199,6 @@ export class AdminTableService {
       elem[keyNameFrom] = dateFrom;
       this.filters.push(elem);
       this.saveDateFilters(false, columnName, this.filters);
-      this.setLocalStoreFilter(this.filters);
     } else {
       filterToChange[keyToChange] = value;
       if (!check) {
@@ -210,7 +209,6 @@ export class AdminTableService {
       }
       const element = { ...filterToChange };
       this.saveDateFilters(true, columnName, element);
-      this.setLocalStoreFilter(this.filters);
     }
   }
 
