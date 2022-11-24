@@ -32,7 +32,7 @@
     </div>
     <div class="row images">
       <div class="image-container" appDrag (files)="onFilesDropped($event)" *ngFor="let img of images">
-        <img class="image-preview" [src]="img.src" alt="image-of-not-taken-out-bag" (click)="openImg(img)" />
+        <img class="image-preview" [src]="img.src" alt="image-of-not-taken-out-bag" (click)="openImage(img)" />
         <div class="delete-block">
           <div>{{ img.name }}</div>
           <div class="delete-image-button" (click)="deleteImage(img)">X</div>

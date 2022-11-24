@@ -8,7 +8,7 @@ import { switchMap, take, takeUntil } from 'rxjs/operators';
 import { OrderService } from '../../services/order.service';
 import { ShowImgsPopUpComponent } from '../../../../shared/show-imgs-pop-up/show-imgs-pop-up.component';
 
-interface NotTakenOutReasonImage {
+export interface NotTakenOutReasonImage {
   src: string;
   name: string | null;
   file: File;
@@ -24,16 +24,17 @@ interface DataToSend {
   templateUrl: './add-order-not-taken-out-reason.component.html',
   styleUrls: ['./add-order-not-taken-out-reason.component.scss']
 })
-export class AddOrderNotTakenOutReasonComponent implements OnInit {
+export class AddOrderNotTakenOutReasonComponent implements OnInit, OnDestroy {
   closeButton = './assets/img/profile/icons/cancel.svg';
   date = new Date();
+  private onDestroy$ = new Subject();
   public notTakenOutReason: string;
   public adminName;
   private isUploading = false;
   public addNotTakenOutForm: FormGroup;
-  unsubscribe: Subject<any> = new Subject();
   maxNumberOfImgs = 6;
   name: string;
+  file: File;
   id;
   isImageSizeError = false;
   isImageTypeError = false;
@@ -55,7 +56,7 @@ export class AddOrderNotTakenOutReasonComponent implements OnInit {
 
   ngOnInit(): void {
     this.initForm();
-    this.localStorageService.firstNameBehaviourSubject.pipe(takeUntil(this.unsubscribe)).subscribe((firstName) => {
+    this.localStorageService.firstNameBehaviourSubject.pipe(takeUntil(this.onDestroy$)).subscribe((firstName) => {
       this.adminName = firstName;
     });
   }
@@ -69,12 +70,10 @@ export class AddOrderNotTakenOutReasonComponent implements OnInit {
     if (this.images.length + files.length > this.maxNumberOfImgs) {
       return;
     }
-
     this.isImageSizeError = false;
     this.isImageTypeError = false;
     files.forEach((file) => {
-      this.isImageTypeError = !this.validateFileExtension(file);
-      this.isImageSizeError = !this.validateFileSize(file);
+      this.checkFileExtensionAndSize(file);
       if (this.isImageTypeError || this.isImageSizeError) {
         return;
       }
@@ -82,15 +81,12 @@ export class AddOrderNotTakenOutReasonComponent implements OnInit {
     });
   }
 
-  validateFileExtension(file: File) {
-    return file.type === 'image/jpeg' || file.type === 'image/png';
+  private checkFileExtensionAndSize(file: File) {
+    this.isImageSizeError = file.size >= 10000000;
+    this.isImageTypeError = !(file.type === 'image/jpeg' || file.type === 'image/png');
   }
 
-  validateFileSize(file: File) {
-    return file.size <= this.imageSizeLimit;
-  }
-
-  private transferFile(imageFile: File): void {
+  public transferFile(imageFile: File): void {
     const reader: FileReader = new FileReader();
     reader.readAsDataURL(imageFile);
     reader.onload = () => {
@@ -107,7 +103,7 @@ export class AddOrderNotTakenOutReasonComponent implements OnInit {
     this.loadFiles([...event.target.files]);
   }
 
-  openImg(image: NotTakenOutReasonImage): void {
+  public openImage(image: NotTakenOutReasonImage): void {
     this.dialog.open(ShowImgsPopUpComponent, {
       hasBackdrop: true,
       panelClass: 'custom-img-pop-up',
@@ -140,11 +136,11 @@ export class AddOrderNotTakenOutReasonComponent implements OnInit {
 
   public send(): void {
     this.isUploading = true;
-    let dataToSend = this.prepareDataToSend();
+    const dataToSend = this.prepareDataToSend();
     of(true)
       .pipe(
         switchMap(() => this.orderService.addReasonForNotTakenOutOrder(dataToSend, this.id)),
-        takeUntil(this.unsubscribe)
+        takeUntil(this.onDestroy$)
       )
       .subscribe(() => {
         this.dialogRef.close(true);
@@ -159,7 +155,7 @@ export class AddOrderNotTakenOutReasonComponent implements OnInit {
   }
 
   ngOnDestroy(): void {
-    this.unsubscribe.next();
-    this.unsubscribe.complete();
+    this.onDestroy$.next();
+    this.onDestroy$.complete();
   }
 }
