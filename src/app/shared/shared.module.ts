@@ -35,6 +35,7 @@ import { SpacePreventDirective } from './directives/space-prevent.directive';
 import { LocalizedDatePipe } from './localized-date-pipe/localized-date.pipe';
 import { TranslateDatePipe } from './translate-date-pipe/translate-date.pipe';
 import { RepeatPipe } from './repeat-pipe/repeat.pipe';
+import { CronPipe } from './cron-pipe/cron.pipe';
 
 @NgModule({
   declarations: [
@@ -64,7 +65,8 @@ import { RepeatPipe } from './repeat-pipe/repeat.pipe';
     SpacePreventDirective,
     LocalizedDatePipe,
     TranslateDatePipe,
-    RepeatPipe
+    RepeatPipe,
+    CronPipe
   ],
   imports: [
     CommonModule,
@@ -102,7 +104,8 @@ import { RepeatPipe } from './repeat-pipe/repeat.pipe';
     SpacePreventDirective,
     LocalizedDatePipe,
     TranslateDatePipe,
-    RepeatPipe
+    RepeatPipe,
+    CronPipe
   ]
 })
 export class SharedModule {}
