@@ -13,7 +13,7 @@ import { MatAutocompleteSelectedEvent, MatAutocompleteTrigger } from '@angular/m
 import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { ModalTextComponent } from '../../shared/components/modal-text/modal-text.component';
 import { TranslateService } from '@ngx-translate/core';
-import { TariffConfirmationPopUpComponent } from '../../shared/components/tariff-confirmation-pop-up/tariff-confirmation-pop-up.component';
+import { TariffDeactivateConfirmationPopUpComponent } from '../../shared/components/tariff-deactivate-confirmation-pop-up/tariff-deactivate-confirmation-pop-up.component';
 
 @Component({
   selector: 'app-ubs-admin-tariffs-deactivate-pop-up',
@@ -110,12 +110,6 @@ export class UbsAdminTariffsDeactivatePopUpComponent implements OnInit, OnDestro
     this.unsubscribe.next();
     this.unsubscribe.complete();
   }
-
-  // public onBlur(event): void {
-  //   if (event.relatedTarget.localName === 'mat-option') {
-  //     this.blurOnOption = true;
-  //   }
-  // }
 
   public getCouriers(): void {
     this.tariffsService
@@ -684,16 +678,14 @@ export class UbsAdminTariffsDeactivatePopUpComponent implements OnInit, OnDestro
 
   public deactivateCard(): void {
     this.dialogRef.close();
-    const matDialogRef = this.dialog.open(TariffConfirmationPopUpComponent, {
+    const matDialogRef = this.dialog.open(TariffDeactivateConfirmationPopUpComponent, {
       hasBackdrop: true,
       panelClass: 'address-matDialog-styles-w-100',
       data: {
-        title: 'ubs-tariffs-add-location-pop-up.create_card_title',
         courierName: this.courier.value,
         stationNames: this.selectedStations.map((it) => it.name),
         regionName: this.selectedRegions.map((it) => it.name),
-        locationNames: this.selectedCities.map((it) => it.location),
-        action: 'ubs-tariffs-add-location-pop-up.create_button'
+        locationNames: this.selectedCities.map((it) => it.name)
       }
     });
     matDialogRef.afterClosed().subscribe((res) => {

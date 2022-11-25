@@ -80,6 +80,7 @@ import { MatExpansionModule } from '@angular/material/expansion';
 import { TimePickerComponent } from './components/shared/components/time-picker/time-picker.component';
 import { UbsAdminTariffsCardPopUpComponent } from './components/ubs-admin-tariffs/ubs-admin-tariffs-card-pop-up/ubs-admin-tariffs-card-pop-up.component';
 import { TariffConfirmationPopUpComponent } from './components/shared/components/tariff-confirmation-pop-up/tariff-confirmation-pop-up.component';
+import { TariffDeactivateConfirmationPopUpComponent } from './components/shared/components/tariff-deactivate-confirmation-pop-up/tariff-deactivate-confirmation-pop-up.component';
 import { UbsAdminEmployeePermissionsFormComponent } from './components/ubs-admin-employee/ubs-admin-employee-permissions-form/ubs-admin-employee-permissions-form.component';
 import { CdkAccordionModule } from '@angular/cdk/accordion';
 import { TariffStatusPipe } from '@pipe/tariff-status-pipe/tariff-status.pipe';
@@ -141,6 +142,7 @@ import { EditPaymentConfirmationPopUpComponent } from './components/shared/compo
     TimePickerComponent,
     UbsAdminTariffsCardPopUpComponent,
     TariffConfirmationPopUpComponent,
+    TariffDeactivateConfirmationPopUpComponent,
     UbsAdminEmployeePermissionsFormComponent,
     TariffStatusPipe,
     UbsAdminTariffsDeactivatePopUpComponent,

@@ -1,0 +1,63 @@
+.title {
+  font-family: var(--ubs-quaternary-font);
+  font-style: normal;
+  color: var(--ubs-quaternary-dark-grey);
+  font-weight: bold;
+  font-size: 24px;
+  line-height: 32px;
+  letter-spacing: 0.002em;
+}
+
+.form-block {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  grid-gap: 40px;
+  font-family: var(--ubs-quaternary-font);
+  margin-bottom: 24px;
+
+  .ua-part {
+    width: 246px;
+  }
+  .show-block {
+    display: none;
+  }
+}
+
+.label {
+  font-size: 16px;
+  line-height: 24px;
+  font-weight: 400;
+  color: var(--ubs-secondary-grey);
+  margin-bottom: 8px;
+}
+
+.text {
+  font-size: 14px;
+  line-height: 20px;
+  color: var(--ubs-freinacht-black);
+  margin-bottom: 0;
+}
+
+.buttons-wrapper {
+  display: flex;
+  justify-content: flex-end;
+  margin: 40px 0 32px;
+}
+
+.button {
+  font-weight: 700;
+  font-size: 16px;
+  line-height: 24px;
+  padding: 8px 24px;
+  color: var(--ubs-freinacht-black);
+}
+
+.secondary-global-button {
+  border: 1px solid var(--ubs-quaternary-dark-grey);
+  margin-right: 1rem !important;
+}
+
+.primary-global-button {
+  border-color: var(--ubs-button-light-green);
+  background: var(--ubs-button-light-green);
+}

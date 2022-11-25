@@ -42,14 +42,100 @@ describe('UbsAdminTariffsDeactivatePopUpComponent', () => {
     }
   };
 
+  const fakeTariffCards = [
+    {
+      cardId: 3,
+      regionDto: {
+        regionId: 1,
+        nameEn: 'Kyiv region',
+        nameUk: 'Київська область'
+      },
+      locationInfoDtos: [
+        {
+          locationId: 2,
+          nameEn: 'Kyiv',
+          nameUk: 'Київ'
+        }
+      ],
+      receivingStationDtos: [
+        {
+          id: 1,
+          name: 'Саперно-Слобідська',
+          createdBy: 'hmarax3@gmail.com',
+          createDate: '2022-06-14'
+        }
+      ],
+      courierTranslationDtos: [
+        {
+          name: 'УБС',
+          nameEng: 'UBS'
+        }
+      ],
+      tariffStatus: 'ACTIVE',
+      creator: 'hmarax3@gmail.com',
+      createdAt: '2022-06-08',
+      courierLimit: 'LIMIT_BY_AMOUNT_OF_BAG',
+      minAmountOfBags: 1,
+      maxAmountOfBags: 99,
+      minPriceOfOrder: 3,
+      maxPriceOfOrder: 1000000,
+      courierId: 1
+    },
+    {
+      cardId: 6,
+      regionDto: {
+        regionId: 1,
+        nameEn: 'Kyiv region',
+        nameUk: 'Київська область'
+      },
+      locationInfoDtos: [
+        {
+          locationId: 7,
+          nameEn: 'Bucha',
+          nameUk: 'Буча'
+        }
+      ],
+      receivingStationDtos: [
+        {
+          id: 6,
+          name: 'Саперна-сурта',
+          createdBy: 'hmarax3@gmail.com',
+          createDate: '2022-05-28'
+        },
+        {
+          id: 5,
+          name: 'Саперна',
+          createdBy: 'hmarax3@gmail.com',
+          createDate: '2022-05-28'
+        }
+      ],
+      courierTranslationDtos: [
+        {
+          name: 'УБС',
+          nameEng: 'UBS'
+        }
+      ],
+      tariffStatus: 'ACTIVE',
+      creator: 'adminubs@starmaker.email',
+      createdAt: '2022-07-07',
+      courierLimit: 'LIMIT_BY_AMOUNT_OF_BAG',
+      minAmountOfBags: 12,
+      maxAmountOfBags: 333,
+      minPriceOfOrder: 5,
+      maxPriceOfOrder: 1000000,
+      courierId: 1
+    }
+  ];
+
   const matDialogMock = jasmine.createSpyObj('matDialog', ['open']);
   matDialogMock.open.and.returnValue({ afterClosed: () => of(true) });
   const fakeMatDialogRef = jasmine.createSpyObj(['close', 'afterClosed']);
   fakeMatDialogRef.afterClosed.and.returnValue(of(true));
 
-  const tariffsServiceMock = jasmine.createSpyObj('tariffsServiceMock', ['getCouriers', 'getAllStations']);
+  const tariffsServiceMock = jasmine.createSpyObj('tariffsServiceMock', ['getCouriers', 'getAllStations', 'getCardInfo']);
   tariffsServiceMock.getCouriers.and.returnValue(of([fakeCouriers]));
   tariffsServiceMock.getAllStations.and.returnValue(of([fakeStation]));
+  tariffsServiceMock.getCardInfo.and.returnValue(of(fakeTariffCards));
 
   const localStorageServiceStub = () => ({
     firstNameBehaviourSubject: { pipe: () => of('fakeName') }
@@ -92,6 +178,7 @@ describe('UbsAdminTariffsDeactivatePopUpComponent', () => {
     const spy4 = spyOn(component, 'setStationPlaceholder');
     const spy5 = spyOn(component, 'setRegionsPlaceholder');
     const spy6 = spyOn(component, 'setCityPlaceholder');
+    const spy7 = spyOn(component, 'getTariffCards');
     component.ngOnInit();
     expect(spy1).toHaveBeenCalled();
     expect(spy2).toHaveBeenCalled();
@@ -99,5 +186,6 @@ describe('UbsAdminTariffsDeactivatePopUpComponent', () => {
     expect(spy4).toHaveBeenCalled();
     expect(spy5).toHaveBeenCalled();
     expect(spy6).toHaveBeenCalled();
+    expect(spy7).toHaveBeenCalled();
   });
 });
