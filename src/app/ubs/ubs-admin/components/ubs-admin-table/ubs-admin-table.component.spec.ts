@@ -108,7 +108,7 @@ describe('UsbAdminTableComponent', () => {
     };
 
     localStorageServiceMock.getAdminOrdersDateFilter = () => {
-      return DateFormMock;
+      return DateFormEmptyMock;
     };
 
     storeMock.select = () => of(false);
@@ -140,12 +140,20 @@ describe('UsbAdminTableComponent', () => {
     expect(component.noFiltersApplied).toEqual(true);
   });
 
-  it('should call initDateForm and set component dateForm on ngOnInit', () => {
+  it('ngOnInit should call initDateForm and dont set component dateForm', () => {
     spyOn(component, 'initDateForm');
     spyOn(component.dateForm, 'setValue');
     component.ngOnInit();
     expect(component.initDateForm).toHaveBeenCalledTimes(1);
-    expect(component.dateForm.setValue).toHaveBeenCalledTimes(1);
+    expect(component.dateForm.setValue).not.toHaveBeenCalled();
+    expect(component.dateForm.value).toEqual(DateFormEmptyMock);
+  });
+
+  it('ngOnInit should call setValue and set component dateForm', () => {
+    localStorageServiceMock.getAdminOrdersDateFilter = () => {
+      return DateFormMock;
+    };
+    component.ngOnInit();
     expect(component.dateForm.value).toEqual(DateFormMock);
   });
 
@@ -237,6 +245,22 @@ describe('UsbAdminTableComponent', () => {
     component.checkAllColumnsDisplayed();
 
     expect(component.isAllColumnsDisplayed).toBe(false);
+  });
+
+  it('should call getControlName with column and suffix', () => {
+    const column = 'orderDate';
+    const suffix = 'From';
+    spyOn(component, 'getControlValue');
+    component.getControlValue(column, suffix);
+    expect(component.getControlValue).toHaveBeenCalledWith('orderDate', 'From');
+    expect(component.getControlValue).toHaveBeenCalledTimes(1);
+  });
+
+  it('should set controlName', () => {
+    const column = 'orderDate';
+    const suffix = 'From';
+    const controlName = (component as any).getControlName(column, suffix);
+    expect(controlName).toEqual('orderDateFrom');
   });
 
   it('applyFilter call, expect modelChanged should been called with filter', () => {

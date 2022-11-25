@@ -285,7 +285,7 @@ export class UbsAdminTableComponent implements OnInit, AfterViewChecked, OnDestr
     return this.localStorageService.getAdminOrdersDateFilter();
   }
 
-  public getControlName(column: string, suffix: string): string {
+  private getControlName(column: string, suffix: string): string {
     return `${column}${suffix}`;
   }
 
