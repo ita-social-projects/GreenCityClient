@@ -7,17 +7,7 @@ import { iif, of, Subject } from 'rxjs';
 import { switchMap, take, takeUntil } from 'rxjs/operators';
 import { OrderService } from '../../services/order.service';
 import { ShowImgsPopUpComponent } from '../../../../shared/show-imgs-pop-up/show-imgs-pop-up.component';
-
-export interface NotTakenOutReasonImage {
-  src: string;
-  name: string | null;
-  file: File;
-}
-
-interface DataToSend {
-  description: string;
-  images?: string[] | null;
-}
+import { NotTakenOutReasonImage, DataToSend } from '../../models/not-taken-out-reason.model';
 
 @Component({
   selector: 'app-add-order-not-taken-out-reason',
@@ -25,9 +15,8 @@ interface DataToSend {
   styleUrls: ['./add-order-not-taken-out-reason.component.scss']
 })
 export class AddOrderNotTakenOutReasonComponent implements OnInit, OnDestroy {
-  closeButton = './assets/img/profile/icons/cancel.svg';
-  date = new Date();
-  private onDestroy$ = new Subject();
+  public closeButton = './assets/img/profile/icons/cancel.svg';
+  private onDestroy$: Subject<boolean> = new Subject<boolean>();
   public notTakenOutReason: string;
   public adminName;
   private isUploading = false;
@@ -35,13 +24,11 @@ export class AddOrderNotTakenOutReasonComponent implements OnInit, OnDestroy {
   maxNumberOfImgs = 6;
   name: string;
   file: File;
-  id;
+  private id;
   isImageSizeError = false;
   isImageTypeError = false;
-  images: NotTakenOutReasonImage[] = [];
-  imagesToDelete: string[] | null = [];
-  imageSizeLimit = 10485760;
-  private destroySub: Subject<boolean> = new Subject<boolean>();
+  public images: NotTakenOutReasonImage[] = [];
+  public imagesToDelete: string[] | null = [];
 
   constructor(
     @Inject(MAT_DIALOG_DATA) public data: any,

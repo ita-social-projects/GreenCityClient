@@ -1,8 +1,7 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
-import { AddOrderNotTakenOutReasonComponent, NotTakenOutReasonImage } from './add-order-not-taken-out-reason.component';
+import { AddOrderNotTakenOutReasonComponent } from './add-order-not-taken-out-reason.component';
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
-import { MatDialogModule, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
-import { MatDialog } from '@angular/material/dialog';
+import { MatDialogModule, MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { TranslateModule } from '@ngx-translate/core';
 import { OrderService } from '../../services/order.service';
 import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
@@ -14,6 +13,7 @@ import { SharedModule } from 'src/app/shared/shared.module';
 import { ShowImgsPopUpComponent } from 'src/app/shared/show-imgs-pop-up/show-imgs-pop-up.component';
 import { DialogPopUpComponent } from 'src/app/shared/dialog-pop-up/dialog-pop-up.component';
 import { FormBuilder, FormControl, FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { NotTakenOutReasonImage } from './../../models/not-taken-out-reason.model';
 
 describe('AddOrderNotTakenOutReasonComponent', () => {
   let component: AddOrderNotTakenOutReasonComponent;
