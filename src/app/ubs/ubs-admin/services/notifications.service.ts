@@ -182,29 +182,30 @@ export class NotificationsService {
       totalElements,
       totalPages
     });
-
-    // return this.http.get<NotificationTemplatesPage>(`${this.backend}/admin/notification/get-all-templates?page=${page}&size=${size}`);
+    // For future: return this.http.get<NotificationTemplatesPage>(
+    // For future:  `${this.backend}/admin/notification/get-all-templates?page=${page}&size=${size}`);
   }
 
-  getNotificationTemplate(id: number) {
+  getNotificationTemplate(id: number): Observable<NotificationTemplate> {
     const template = notificationTemplates.find((temp) => temp.id === id);
     if (!template) {
       return throwError(`No notification template with id ${id}!`);
     }
     return of(template);
-
-    // return this.http.get<NotificationTemplate>(`${this.backend}/admin/notification/get-template/${id}`);
+    // For future: return this.http.get<NotificationTemplate>(`${this.backend}/admin/notification/get-template/${id}`);
   }
 
-  updateNotificationTemplate(id: number, notification: NotificationTemplate) {
-    console.log(id, notification);
-
-    // return this.http.put(`${this.backend}/admin/notification/update-template/${id}`, notification);
+  updateNotificationTemplate(id: number, notification: NotificationTemplate): Observable<void> {
+    const { title, platforms, time, trigger } = notification;
+    const packet = { title, platforms, time, trigger };
+    console.log(id, packet);
+    return of();
+    // For future: return this.http.put(`${this.backend}/admin/notification/update-template/${id}`, notification);
   }
 
-  deactivateNotificationTemplate(id: number) {
+  deactivateNotificationTemplate(id: number): Observable<void> {
     console.log(id);
-
-    // return this.http.delete(`${this.backend}/admin/notification/deactiavte-template/${id}`);
+    return of();
+    // For future: return this.http.delete(`${this.backend}/admin/notification/deactiavte-template/${id}`);
   }
 }
