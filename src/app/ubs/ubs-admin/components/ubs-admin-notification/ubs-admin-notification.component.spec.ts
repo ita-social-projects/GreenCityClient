@@ -11,6 +11,7 @@ import { TranslateModule } from '@ngx-translate/core';
 import { BehaviorSubject, of, throwError } from 'rxjs';
 import { ConfirmationDialogService } from 'src/app/main/component/admin/services/confirmation-dialog-service.service';
 import { NotificationsService } from '../../services/notifications.service';
+import { UbsAdminNotificationEditFormComponent } from './ubs-admin-notification-edit-form/ubs-admin-notification-edit-form.component';
 
 import { UbsAdminNotificationComponent } from './ubs-admin-notification.component';
 
@@ -199,8 +200,39 @@ describe('UbsAdminNotificationComponent', () => {
     const [title, trigger, time, schedule, status] = fixture.debugElement
       .queryAll(By.css('.table-notification-info tbody td'))
       .map((debugEl) => debugEl.nativeElement.textContent);
+    expect(openDialogSpy).toHaveBeenCalled();
     expect(title).toContain('new topic');
     expect(time).toContain('IMMEDIATELY');
     expect(schedule).toContain('at 14:27 on day-of-month 4, 7 and 16');
+  });
+
+  it('clicking `edit` button on one of the platforms should open popup for editing text', async () => {
+    const openDialogSpy = spyOn(dialogMock, 'open');
+    const platforms = fixture.debugElement.queryAll(By.css('.table-notification-platforms tbody tr'));
+    const editButtonForEmail = platforms[0].query(By.css('.edit-button')).nativeElement;
+    editButtonForEmail.click();
+    expect(openDialogSpy).toHaveBeenCalledWith(UbsAdminNotificationEditFormComponent, {
+      hasBackdrop: true,
+      data: { platform: 'email', text: { en: 'Unpaid order, text for Email', ua: 'Неоплачене замовлення, текст для Email' } }
+    });
+  });
+
+  it('after closing text-editing popup changes should be displayed in the table', async () => {
+    const openDialogSpy = spyOn(dialogMock, 'open').and.returnValue({
+      afterClosed: () =>
+        of({
+          text: {
+            en: 'New text for Email',
+            ua: 'Неоплачене замовлення, текст для Email'
+          }
+        })
+    });
+    const platforms = fixture.debugElement.queryAll(By.css('.table-notification-platforms tbody tr'));
+    const editButtonForEmail = platforms[0].query(By.css('.edit-button')).nativeElement;
+    editButtonForEmail.click();
+    expect(openDialogSpy).toHaveBeenCalled();
+    fixture.detectChanges();
+    const [, platformTextCell] = platforms[0].queryAll(By.css('td'));
+    expect(platformTextCell.nativeElement.textContent).toContain('New text for Email');
   });
 });
