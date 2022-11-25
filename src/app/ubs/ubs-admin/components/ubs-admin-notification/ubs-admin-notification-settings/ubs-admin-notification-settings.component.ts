@@ -24,7 +24,7 @@ export class UbsAdminNotificationSettingsComponent implements OnInit, OnDestroy 
   triggers = notificationTriggers;
   lang = 'en';
 
-  schedule = null;
+  schedule: string | null = null;
 
   constructor(
     private fb: FormBuilder,
@@ -51,7 +51,7 @@ export class UbsAdminNotificationSettingsComponent implements OnInit, OnDestroy 
     this.destroy.complete();
   }
 
-  onScheduleSelected(cron) {
+  onScheduleSelected(cron: string | null) {
     this.schedule = cron;
   }
 

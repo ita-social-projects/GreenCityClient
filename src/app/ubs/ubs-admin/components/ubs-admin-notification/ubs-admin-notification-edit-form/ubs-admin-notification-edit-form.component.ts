@@ -10,7 +10,6 @@ import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 export class UbsAdminNotificationEditFormComponent implements OnInit {
   form: FormGroup;
   platform = '';
-  notificationTextLang = 'ua';
 
   constructor(
     private fb: FormBuilder,
@@ -24,7 +23,9 @@ export class UbsAdminNotificationEditFormComponent implements OnInit {
     });
   }
 
-  ngOnInit(): void {}
+  ngOnInit(): void {
+    // This is intentional
+  }
 
   onCancel(): void {
     this.dialogRef.close();
