@@ -2,16 +2,38 @@ import { TestBed } from '@angular/core/testing';
 import { HttpClientModule } from '@angular/common/http';
 
 import { ShoppingListService } from './shopping-list.service';
+import { ShoppingList } from '@global-user/models/shoppinglist.model';
 
 describe('ShoppingListService', () => {
-  beforeEach(() =>
+  let service: ShoppingListService;
+
+  const mockItem: ShoppingList = {
+    id: 1,
+    status: 'string',
+    text: 'string',
+    selected: false
+  };
+
+  beforeEach(() => {
     TestBed.configureTestingModule({
+      providers: [ShoppingListService],
       imports: [HttpClientModule]
-    })
-  );
+    });
+
+    service = TestBed.inject(ShoppingListService);
+  });
 
   it('should be created', () => {
-    const service: ShoppingListService = TestBed.inject(ShoppingListService);
     expect(service).toBeTruthy();
+  });
+
+  it('shopping-list.service should create', () => {
+    expect(service).toBeDefined();
+  });
+
+  it('select() should change item`s property selected', () => {
+    const item = mockItem;
+    service.select(item);
+    expect(item.selected).toBe(true);
   });
 });
