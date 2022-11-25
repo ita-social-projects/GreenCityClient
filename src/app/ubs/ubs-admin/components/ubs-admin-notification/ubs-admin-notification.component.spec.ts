@@ -186,16 +186,21 @@ describe('UbsAdminNotificationComponent', () => {
   it('closing `settings` popup with updated settings should display changes', async () => {
     const openDialogSpy = spyOn(dialogMock, 'open').and.returnValue({
       afterClosed: () =>
-        of({ title: { en: 'new topic', ua: 'нова тема' }, trigger: '6PM_3DAYS_AFTER_ORDER_FORMED_NOT_PAID', schedule: '27 14 4,7,16 * *' })
+        of({
+          title: { en: 'new topic', ua: 'нова тема' },
+          trigger: '6PM_3DAYS_AFTER_ORDER_FORMED_NOT_PAID',
+          time: 'IMMEDIATELY',
+          schedule: '27 14 4,7,16 * *'
+        })
     });
     const settingsButton = fixture.debugElement.query(By.css('.table-notification-info .edit-button')).nativeElement;
     settingsButton.click();
     fixture.detectChanges();
-    // expect(openDialogSpy).toHaveBeenCalled();
     const [title, trigger, time, schedule, status] = fixture.debugElement
       .queryAll(By.css('.table-notification-info tbody td'))
       .map((debugEl) => debugEl.nativeElement.textContent);
     expect(title).toContain('new topic');
+    expect(time).toContain('IMMEDIATELY');
     expect(schedule).toContain('at 14:27 on day-of-month 4, 7 and 16');
   });
 });

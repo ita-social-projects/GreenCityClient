@@ -14,6 +14,7 @@
         />
       </div>
     </div>
+
     <div>
       <p class="field-label">{{ 'ubs-notifications.settings-popup.labels.titleEn' | translate }}</p>
       <div class="field-wrapper">
@@ -26,6 +27,7 @@
         />
       </div>
     </div>
+
     <div>
       <p class="field-label">{{ 'ubs-notifications.settings-popup.labels.trigger' | translate }}</p>
       <div class="field-wrapper">
@@ -36,6 +38,22 @@
         >
           <mat-option class="option-trigger" *ngFor="let trigger of triggers" [value]="trigger">
             {{ 'ubs-notifications.triggers.' + trigger | translate }}
+          </mat-option>
+        </mat-select>
+        <img [src]="icons.arrowDown" class="arrow-down-icon" alt="" (click)="(null)" />
+      </div>
+    </div>
+
+    <div>
+      <p class="field-label">{{ 'ubs-notifications.settings-popup.labels.time' | translate }}</p>
+      <div class="field-wrapper">
+        <mat-select
+          class="select-time"
+          [placeholder]="'ubs-notifications.settings-popup.placeholders.time' | translate"
+          formControlName="time"
+        >
+          <mat-option class="option-trigger" *ngFor="let time of times" [value]="time">
+            {{ 'ubs-notifications.time.' + time | translate }}
           </mat-option>
         </mat-select>
         <img [src]="icons.arrowDown" class="arrow-down-icon" alt="" (click)="(null)" />

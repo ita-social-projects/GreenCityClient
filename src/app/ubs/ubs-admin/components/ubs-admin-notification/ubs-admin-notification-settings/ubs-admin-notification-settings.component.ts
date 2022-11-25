@@ -5,7 +5,7 @@ import { LocalStorageService } from '@global-service/localstorage/local-storage.
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 
-import { notificationTriggers } from '../../../services/notifications.service';
+import { notificationTriggers, notificationTriggerTime } from '../../../services/notifications.service';
 
 @Component({
   selector: 'app-ubs-admin-notification-settings',
@@ -22,20 +22,23 @@ export class UbsAdminNotificationSettingsComponent implements OnInit, OnDestroy 
   private destroy = new Subject<void>();
 
   triggers = notificationTriggers;
+  times = notificationTriggerTime;
   lang = 'en';
 
   schedule: string | null = null;
 
   constructor(
     private fb: FormBuilder,
-    @Inject(MAT_DIALOG_DATA) public data: { title: { en: string; ua: string }; trigger: string; schedule: string; status: string },
+    @Inject(MAT_DIALOG_DATA)
+    public data: { title: { en: string; ua: string }; trigger: string; time: string; schedule: string; status: string },
     public dialogRef: MatDialogRef<UbsAdminNotificationSettingsComponent>,
     private localStorageService: LocalStorageService
   ) {
     this.form = this.fb.group({
       titleUa: [data.title.ua],
       titleEn: [data.title.en],
-      trigger: [data.trigger]
+      trigger: [data.trigger],
+      time: [data.time]
     });
     this.schedule = data.schedule;
   }
@@ -56,7 +59,7 @@ export class UbsAdminNotificationSettingsComponent implements OnInit, OnDestroy 
   }
 
   onSubmit(): void {
-    const { titleEn, titleUa, trigger } = this.form.value;
+    const { titleEn, titleUa, trigger, time } = this.form.value;
 
     this.dialogRef.close({
       title: {
@@ -64,6 +67,7 @@ export class UbsAdminNotificationSettingsComponent implements OnInit, OnDestroy 
         ua: titleUa
       },
       trigger,
+      time,
       schedule: this.schedule
     });
   }
