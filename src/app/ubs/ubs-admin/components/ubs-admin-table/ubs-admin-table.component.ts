@@ -260,17 +260,19 @@ export class UbsAdminTableComponent implements OnInit, AfterViewChecked, OnDestr
 
   initDateForm(): void {
     this.dateForm = this.fb.group({
-      orderDateFrom: new FormControl(),
-      orderDateTo: new FormControl(),
+      orderDateFrom: new FormControl(''),
+      orderDateTo: new FormControl(''),
       orderDateCheck: false,
-      dateOfExportFrom: new FormControl(),
-      dateOfExportTo: new FormControl(),
+      dateOfExportFrom: new FormControl(''),
+      dateOfExportTo: new FormControl(''),
       dateOfExportCheck: false,
-      paymentDateFrom: new FormControl(),
-      paymentDateTo: new FormControl(),
+      paymentDateFrom: new FormControl(''),
+      paymentDateTo: new FormControl(''),
       paymentDateCheck: false
     });
-    this.dateForm.setValue(this.getLocalDateForm());
+    if (this.getLocalDateForm()) {
+      this.dateForm.setValue(this.getLocalDateForm());
+    }
     this.filters = this.dateForm.value;
   }
 
@@ -681,6 +683,9 @@ export class UbsAdminTableComponent implements OnInit, AfterViewChecked, OnDestr
       if (!checkControl) {
         this.dateForm.get(`${currentColumn}To`).setValue(value);
       }
+      if (this.getControlValue(currentColumn, 'From') > this.getControlValue(currentColumn, 'To')) {
+        this.dateForm.get(`${currentColumn}From`).setValue(this.getControlValue(currentColumn, 'To'));
+      }
       this.setDateFormValue();
       this.adminTableService.changeInputDateFilters(value, currentColumn, suffix, checkControl);
       this.applyFilters();
@@ -709,6 +714,7 @@ export class UbsAdminTableComponent implements OnInit, AfterViewChecked, OnDestr
     this.localStorageService.removeAdminOrderFilters();
     this.localStorageService.removeAdminOrderDateFilters();
     this.dateForm.reset();
+    this.initDateForm();
   }
 
   public applyFilters() {

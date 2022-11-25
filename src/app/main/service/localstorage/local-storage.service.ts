@@ -299,7 +299,7 @@ export class LocalStorageService {
   }
 
   public getAdminOrdersDateFilter() {
-    const parsed = JSON.parse(window.localStorage.getItem('UbsAdminOrdersDateFilters')) || [];
+    const parsed = JSON.parse(window.localStorage.getItem('UbsAdminOrdersDateFilters'));
     return parsed;
   }
 

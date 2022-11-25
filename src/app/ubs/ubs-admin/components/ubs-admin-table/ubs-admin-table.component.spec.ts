@@ -35,8 +35,35 @@ describe('UsbAdminTableComponent', () => {
     'getUbsAdminOrdersTableTitleColumnFilter',
     'languageBehaviourSubject',
     'getCurrentLanguage',
-    'removeAdminOrderFilters'
+    'removeAdminOrderFilters',
+    'getAdminOrdersDateFilter',
+    'setAdminOrdersDateFilter',
+    'removeAdminOrderDateFilters'
   ]);
+
+  const DateFormMock = {
+    orderDateFrom: '2022-10-11',
+    orderDateTo: '2022-10-11',
+    orderDateCheck: false,
+    dateOfExportFrom: '2022-10-12',
+    dateOfExportTo: '2022-10-16',
+    dateOfExportCheck: true,
+    paymentDateFrom: '2022-10-01',
+    paymentDateTo: '2022-10-16',
+    paymentDateCheck: true
+  };
+
+  const DateFormEmptyMock = {
+    orderDateFrom: '',
+    orderDateTo: '',
+    orderDateCheck: false,
+    dateOfExportFrom: '',
+    dateOfExportTo: '',
+    dateOfExportCheck: false,
+    paymentDateFrom: '',
+    paymentDateTo: '',
+    paymentDateCheck: false
+  };
 
   localStorageServiceMock.languageBehaviourSubject = new BehaviorSubject('ua');
   localStorageServiceMock.getCurrentLanguage = () => 'ua' as Language;
@@ -44,6 +71,7 @@ describe('UsbAdminTableComponent', () => {
 
   const FakeMatDialogConfig = {};
   const dateAdapterMock = jasmine.createSpyObj('adapter', ['setLocale']);
+  dateAdapterMock.setLocale = () => of('en-GB');
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
@@ -79,6 +107,10 @@ describe('UsbAdminTableComponent', () => {
       return [{ orderStatus: 'FORMED' }];
     };
 
+    localStorageServiceMock.getAdminOrdersDateFilter = () => {
+      return DateFormMock;
+    };
+
     storeMock.select = () => of(false);
     fixture = TestBed.createComponent(UbsAdminTableComponent);
     component = fixture.componentInstance;
@@ -106,6 +138,15 @@ describe('UsbAdminTableComponent', () => {
   it('ngOnInit component.noFiltersApplied initially true ', () => {
     component.ngOnInit();
     expect(component.noFiltersApplied).toEqual(true);
+  });
+
+  it('should call initDateForm and set component dateForm on ngOnInit', () => {
+    spyOn(component, 'initDateForm');
+    spyOn(component.dateForm, 'setValue');
+    component.ngOnInit();
+    expect(component.initDateForm).toHaveBeenCalledTimes(1);
+    expect(component.dateForm.setValue).toHaveBeenCalledTimes(1);
+    expect(component.dateForm.value).toEqual(DateFormMock);
   });
 
   it('ordersViewParameters$ expect displayedColumns should be [title]', () => {
