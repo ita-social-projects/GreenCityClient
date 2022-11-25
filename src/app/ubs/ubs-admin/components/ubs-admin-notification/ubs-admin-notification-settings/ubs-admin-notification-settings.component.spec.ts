@@ -29,6 +29,7 @@ describe('UbsAdminNotificationSettingsComponent', () => {
   const mockedData = {
     title: { en: 'Unpaid order', ua: 'Неоплачене замовлення' },
     trigger: 'ORDER_NOT_PAID_FOR_3_DAYS',
+    time: '6PM_3DAYS_AFTER_ORDER_FORMED_NOT_PAID',
     schedule: '0 0 * * *'
   };
 
@@ -54,10 +55,12 @@ describe('UbsAdminNotificationSettingsComponent', () => {
   it('should display en and ua title, trigger and schedule', async () => {
     const [uaTitleField, enTitleField] = fixture.debugElement.queryAll(By.css('input.title-field'));
     const triggerSelectHarness = await loader.getHarness(MatSelectHarness.with({ selector: '.select-trigger' }));
+    const timeSelectHarness = await loader.getHarness(MatSelectHarness.with({ selector: '.select-time' }));
     const scheduleField = fixture.debugElement.query(By.css('input.select-schedule'));
     expect(enTitleField.nativeElement.value).toBe('Unpaid order');
     expect(uaTitleField.nativeElement.value).toBe('Неоплачене замовлення');
     expect(await triggerSelectHarness.getValueText()).toBe('ubs-notifications.triggers.ORDER_NOT_PAID_FOR_3_DAYS');
+    expect(await timeSelectHarness.getValueText()).toBe('ubs-notifications.time.6PM_3DAYS_AFTER_ORDER_FORMED_NOT_PAID');
     expect(scheduleField.nativeElement.value).toBe('at 00:00');
   });
 
@@ -65,15 +68,22 @@ describe('UbsAdminNotificationSettingsComponent', () => {
     const changeButton = fixture.debugElement.query(By.css('.controls .submit-button'));
     const uaTitleField = fixture.debugElement.queryAll(By.css('input.title-field'))[0].nativeElement;
     const triggerSelectHarness = await loader.getHarness(MatSelectHarness.with({ selector: '.select-trigger' }));
+    const timeSelectHarness = await loader.getHarness(MatSelectHarness.with({ selector: '.select-time' }));
+    const scheduleField = fixture.debugElement.query(By.css('input.select-schedule'));
     uaTitleField.value = 'Неопл. замовлення';
     uaTitleField.dispatchEvent(new Event('input'));
     await triggerSelectHarness.open();
     await triggerSelectHarness.clickOptions({ text: 'ubs-notifications.triggers.STATUS_PARTIALLY_PAID' });
     await triggerSelectHarness.close();
+
+    await timeSelectHarness.open();
+    await timeSelectHarness.clickOptions({ text: 'ubs-notifications.time.IMMEDIATELY' });
+    await timeSelectHarness.close();
     changeButton.triggerEventHandler('click', null);
     expect(matDialogRefMock.close).toHaveBeenCalledWith({
       title: { en: 'Unpaid order', ua: 'Неопл. замовлення' },
       trigger: 'STATUS_PARTIALLY_PAID',
+      time: 'IMMEDIATELY',
       schedule: '0 0 * * *'
     });
   });

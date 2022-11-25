@@ -889,6 +889,7 @@
         "titleEn": "Notification topic in english",
         "titleUa": "Notification topic in ukrainian",
         "trigger": "Trigger",
+        "time": "Trigger time",
         "schedule": "Repeat"
       },
       "placeholders": {
