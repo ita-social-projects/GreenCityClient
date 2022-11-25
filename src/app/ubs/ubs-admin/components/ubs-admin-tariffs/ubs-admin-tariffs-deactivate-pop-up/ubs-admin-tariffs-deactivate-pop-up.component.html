@@ -13,13 +13,12 @@
               <label>{{ 'ubs-tariffs.courier' | translate }}</label>
               <input
                 formControlName="courier"
-                [ngClass]="{ 'form-control': true, onBlurSelectionPanel: blurOnOption }"
+                class="form-control"
                 placeholder="{{ 'ubs-tariffs.placeholder-choose-courier' | translate }}"
                 [matAutocomplete]="autoCourier"
                 #autocompleteTriggerCourier="matAutocompleteTrigger"
-                (blur)="onBlur($event)"
               />
-              <mat-autocomplete #autoCourier="matAutocomplete" (optionSelected)="selectCourier($event, autocompleteTriggerCourier)">
+              <mat-autocomplete #autoCourier="matAutocomplete" (optionSelected)="selectCourier($event)">
                 <mat-option *ngFor="let option of filteredCouriers" class="option-state" [value]="option">
                   <span class="checkbox-text">{{ option }}</span>
                 </mat-option>
@@ -37,16 +36,15 @@
       </div>
       <!-- Станція -->
       <div>
-        <div [ngClass]="selectedStation.length ? 'd-flex' : 'd-flex first-row'">
+        <div [ngClass]="selectedStations.length ? 'd-flex' : 'd-flex first-row'">
           <div class="form-group">
             <label>{{ 'ubs-tariffs.station' | translate }}</label>
             <input
               formControlName="station"
-              [ngClass]="{ 'form-control': true, onBlurSelectionPanel: blurOnOption }"
+              class="form-control"
               [placeholder]="stationPlaceholder"
               [matAutocomplete]="autoStation"
               #autocompleteTriggerStation="matAutocompleteTrigger"
-              (blur)="onBlur($event)"
             />
             <mat-autocomplete #autoStation="matAutocomplete" (optionSelected)="selectStation($event, autocompleteTriggerStation)">
               <mat-option *ngFor="let option of filteredStations" class="option-state" [value]="option">
@@ -63,8 +61,8 @@
             />
           </div>
         </div>
-        <div [ngClass]="selectedStation.length ? 'list' : 'dis-none'" class="list">
-          <div *ngFor="let item of selectedStation; let index = index" class="d-flex selected-element">
+        <div [ngClass]="selectedStations.length ? 'list' : 'dis-none'" class="list">
+          <div *ngFor="let item of selectedStations; let index = index" class="d-flex selected-element">
             <div class="itemList">{{ item.name }}</div>
             <img [src]="icons.cross" class="delete-button-img" alt="delete-icon" (click)="deleteStation(index)" />
           </div>
@@ -83,8 +81,7 @@
               formControlName="region"
               [placeholder]="regionPlaceholder"
               [matAutocomplete]="autoRegion"
-              [ngClass]="{ 'form-control': true, onBlurSelectionPanel: blurOnOption }"
-              (blur)="onBlur($event)"
+              class="form-control"
             />
             <mat-autocomplete #autoRegion="matAutocomplete" (optionSelected)="selectRegion($event, autocompleteTriggerRegion)">
               <mat-option *ngFor="let item of filteredRegions" [value]="item">
@@ -118,8 +115,7 @@
               [placeholder]="cityPlaceholder"
               [matAutocomplete]="autoCity"
               [attr.disabled]="CardForm.controls['region'].dirty ? null : true"
-              [ngClass]="{ 'form-control': true, onBlurSelectionPanel: blurOnOption }"
-              (blur)="onBlur($event)"
+              class="form-control"
             />
             <mat-autocomplete #autoCity="matAutocomplete" (optionSelected)="selectCity($event, autocompleteTriggerCity)">
               <mat-option *ngFor="let item of filteredCities" [value]="item">
@@ -146,10 +142,10 @@
   </form>
   <div class="buttons-wrapper">
     <div class="d-flex buttons" mat-dialog-actions>
-      <button class="secondary-global-button btn m-0 mr-2" mat-button>
+      <button class="secondary-global-button btn m-0 mr-2" mat-button (click)="onNoClick()">
         {{ 'ubs-tariffs-add-location-pop-up.cancel_button' | translate }}
       </button>
-      <button class="primary-global-button btn m-0" [disabled]="CardForm.invalid">
+      <button class="primary-global-button btn m-0" [disabled]="!checkFields()" (click)="deactivateCard()">
         {{ 'ubs-tariffs-add-location-pop-up.deactivate' | translate }}
       </button>
     </div>
