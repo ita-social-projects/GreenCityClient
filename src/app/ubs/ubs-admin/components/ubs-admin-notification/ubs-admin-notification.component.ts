@@ -124,19 +124,18 @@ export class UbsAdminNotificationComponent implements OnInit, OnDestroy {
     this.notification.platforms.find((pf) => pf.name === platform).status = 'INACTIVE';
   }
 
-  onDeactivateNotification() {
+  async onDeactivateNotification() {
     const popup = {
       title: this.translate.instant('ubs-notifications.deactivation-popup.title'),
       text: this.translate.instant('ubs-notifications.deactivation-popup.text'),
       confirm: this.translate.instant('ubs-notifications.deactivation-popup.buttons.confirm'),
       cancel: this.translate.instant('ubs-notifications.deactivation-popup.buttons.cancel')
     };
-    this.confirmationDialogService.confirm(popup.title, popup.text, popup.confirm, popup.cancel, 'md').then((confirmed) => {
-      if (confirmed) {
-        this.notificationsService.deactivateNotificationTemplate(this.notification.id);
-        this.navigateToNotificationList();
-      }
-    });
+    const confirmed = await this.confirmationDialogService.confirm(popup.title, popup.text, popup.confirm, popup.cancel, 'md');
+    if (confirmed) {
+      this.notificationsService.deactivateNotificationTemplate(this.notification.id);
+      this.navigateToNotificationList();
+    }
   }
 
   onCancel(): void {

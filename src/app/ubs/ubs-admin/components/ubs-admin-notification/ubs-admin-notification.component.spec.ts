@@ -2,12 +2,12 @@ import { Location } from '@angular/common';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { Pipe, PipeTransform } from '@angular/core';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
-import { MatDialogModule } from '@angular/material/dialog';
+import { MatDialog, MatDialogModule } from '@angular/material/dialog';
 import { By } from '@angular/platform-browser';
 import { ActivatedRoute, Router } from '@angular/router';
 import { RouterTestingModule } from '@angular/router/testing';
 import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
-import { TranslateModule, TranslateService } from '@ngx-translate/core';
+import { TranslateModule } from '@ngx-translate/core';
 import { BehaviorSubject, of, throwError } from 'rxjs';
 import { ConfirmationDialogService } from 'src/app/main/component/admin/services/confirmation-dialog-service.service';
 import { NotificationsService } from '../../services/notifications.service';
@@ -35,7 +35,7 @@ describe('UbsAdminNotificationComponent', () => {
         id: 1,
         trigger: 'ORDER_NOT_PAID_FOR_3_DAYS',
         time: '6PM_3DAYS_AFTER_ORDER_FORMED_NOT_PAID',
-        schedule: { cron: '27 14 4,7,16 * *' },
+        schedule: '27 14 4,7,16 * *',
         title: { en: 'Unpaid order', ua: 'Неоплачене замовлення' },
         status: 'ACTIVE',
         platforms: [
@@ -54,6 +54,13 @@ describe('UbsAdminNotificationComponent', () => {
   const localStorageServiceMock = { languageBehaviourSubject: new BehaviorSubject('en') };
   const routerMock = { navigate: () => {} };
   const confirmationDialogServiceMock = { confirm: () => {} };
+  const dialogMock = {
+    open: () => {
+      return {
+        afterClosed: () => {}
+      };
+    }
+  };
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
@@ -65,7 +72,8 @@ describe('UbsAdminNotificationComponent', () => {
         { provide: ActivatedRoute, useValue: activatedRouteMock },
         { provide: LocalStorageService, useValue: localStorageServiceMock },
         { provide: Router, useValue: routerMock },
-        { provide: ConfirmationDialogService, useValue: confirmationDialogServiceMock }
+        { provide: ConfirmationDialogService, useValue: confirmationDialogServiceMock },
+        { provide: MatDialog, useValue: dialogMock }
       ]
     }).compileComponents();
   }));
@@ -159,5 +167,35 @@ describe('UbsAdminNotificationComponent', () => {
     const cancelButton = fixture.debugElement.query(By.css('.back-button')).nativeElement;
     cancelButton.click();
     expect(backSpy).toHaveBeenCalled();
+  });
+
+  it('`deactivate` button should open confirmation popup', async () => {
+    const confirmationSpy = spyOn(confirmationDialogServiceMock, 'confirm');
+    const deactivateButton = fixture.debugElement.query(By.css('.table-notification-info .deactivate-button')).nativeElement;
+    deactivateButton.click();
+    expect(confirmationSpy).toHaveBeenCalled();
+  });
+
+  it('`settings` button should open settings popup', async () => {
+    const openDialogSpy = spyOn(dialogMock, 'open');
+    const settingsButton = fixture.debugElement.query(By.css('.table-notification-info .edit-button')).nativeElement;
+    settingsButton.click();
+    expect(openDialogSpy).toHaveBeenCalled();
+  });
+
+  it('closing `settings` popup with updated settings should display changes', async () => {
+    const openDialogSpy = spyOn(dialogMock, 'open').and.returnValue({
+      afterClosed: () =>
+        of({ title: { en: 'new topic', ua: 'нова тема' }, trigger: '6PM_3DAYS_AFTER_ORDER_FORMED_NOT_PAID', schedule: '27 14 4,7,16 * *' })
+    });
+    const settingsButton = fixture.debugElement.query(By.css('.table-notification-info .edit-button')).nativeElement;
+    settingsButton.click();
+    fixture.detectChanges();
+    // expect(openDialogSpy).toHaveBeenCalled();
+    const [title, trigger, time, schedule, status] = fixture.debugElement
+      .queryAll(By.css('.table-notification-info tbody td'))
+      .map((debugEl) => debugEl.nativeElement.textContent);
+    expect(title).toContain('new topic');
+    expect(schedule).toContain('at 14:27 on day-of-month 4, 7 and 16');
   });
 });
