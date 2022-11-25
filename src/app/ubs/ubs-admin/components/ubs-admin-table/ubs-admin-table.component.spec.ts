@@ -23,11 +23,37 @@ import { LocalStorageService } from '@global-service/localstorage/local-storage.
 import { SelectionModel } from '@angular/cdk/collections';
 import { Language } from 'src/app/main/i18n/Language';
 import { DateAdapter } from '@angular/material/core';
+import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
 
 describe('UsbAdminTableComponent', () => {
   let component: UbsAdminTableComponent;
   let fixture: ComponentFixture<UbsAdminTableComponent>;
   const storeMock = jasmine.createSpyObj('store', ['select', 'dispatch']);
+
+  const dateFormMock = new FormGroup({
+    orderDateFrom: new FormControl(''),
+    orderDateTo: new FormControl(''),
+    orderDateCheck: new FormControl(false),
+    dateOfExportFrom: new FormControl(''),
+    dateOfExportTo: new FormControl(''),
+    dateOfExportCheck: new FormControl(false),
+    paymentDateFrom: new FormControl(''),
+    paymentDateTo: new FormControl(''),
+    paymentDateCheck: new FormControl(false)
+  });
+
+  const dateMock = {
+    orderDateFrom: '2022-10-10',
+    orderDateTo: '2022-10-10',
+    orderDateCheck: false,
+    dateOfExportFrom: '2022-10-10',
+    dateOfExportTo: '2022-10-10',
+    dateOfExportCheck: false,
+    paymentDateFrom: '2022-10-10',
+    paymentDateTo: '2022-10-10',
+    paymentDateCheck: false
+  };
+
   const localStorageServiceMock = jasmine.createSpyObj('localStorageService', [
     'getUbsAdminOrdersTableColumnsWidthPreference',
     'setUbsAdminOrdersTableColumnsWidthPreference',
@@ -41,30 +67,6 @@ describe('UsbAdminTableComponent', () => {
     'removeAdminOrderDateFilters'
   ]);
 
-  const DateFormMock = {
-    orderDateFrom: '2022-10-11',
-    orderDateTo: '2022-10-11',
-    orderDateCheck: false,
-    dateOfExportFrom: '2022-10-12',
-    dateOfExportTo: '2022-10-16',
-    dateOfExportCheck: true,
-    paymentDateFrom: '2022-10-01',
-    paymentDateTo: '2022-10-16',
-    paymentDateCheck: true
-  };
-
-  const DateFormEmptyMock = {
-    orderDateFrom: '',
-    orderDateTo: '',
-    orderDateCheck: false,
-    dateOfExportFrom: '',
-    dateOfExportTo: '',
-    dateOfExportCheck: false,
-    paymentDateFrom: '',
-    paymentDateTo: '',
-    paymentDateCheck: false
-  };
-
   localStorageServiceMock.languageBehaviourSubject = new BehaviorSubject('ua');
   localStorageServiceMock.getCurrentLanguage = () => 'ua' as Language;
   localStorageServiceMock.languageSubject = of('ua');
@@ -72,6 +74,7 @@ describe('UsbAdminTableComponent', () => {
   const FakeMatDialogConfig = {};
   const dateAdapterMock = jasmine.createSpyObj('adapter', ['setLocale']);
   dateAdapterMock.setLocale = () => of('en-GB');
+  const formBuilderMock: FormBuilder = new FormBuilder();
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
@@ -96,7 +99,8 @@ describe('UsbAdminTableComponent', () => {
         { provide: Store, useValue: storeMock },
         { provide: MatDialogConfig, useValue: FakeMatDialogConfig },
         { provide: LocalStorageService, useValue: localStorageServiceMock },
-        { provide: DateAdapter, useValue: dateAdapterMock }
+        { provide: DateAdapter, useValue: dateAdapterMock },
+        { provide: FormBuilder, useValue: formBuilderMock }
       ],
       schemas: [CUSTOM_ELEMENTS_SCHEMA]
     }).compileComponents();
@@ -108,7 +112,7 @@ describe('UsbAdminTableComponent', () => {
     };
 
     localStorageServiceMock.getAdminOrdersDateFilter = () => {
-      return DateFormEmptyMock;
+      return dateMock;
     };
 
     storeMock.select = () => of(false);
@@ -118,6 +122,17 @@ describe('UsbAdminTableComponent', () => {
     component.ordersViewParameters$ = of(false) as any;
     component.bigOrderTableParams$ = of(false) as any;
     component.bigOrderTable$ = of(false) as any;
+    component.dateForm = formBuilderMock.group({
+      orderDateFrom: new FormControl(''),
+      orderDateTo: new FormControl(''),
+      orderDateCheck: new FormControl(false),
+      dateOfExportFrom: new FormControl(''),
+      dateOfExportTo: new FormControl(''),
+      dateOfExportCheck: new FormControl(false),
+      paymentDateFrom: new FormControl(''),
+      paymentDateTo: new FormControl(''),
+      paymentDateCheck: new FormControl(false)
+    });
     fixture.detectChanges();
   });
 
@@ -142,19 +157,9 @@ describe('UsbAdminTableComponent', () => {
 
   it('ngOnInit should call initDateForm and dont set component dateForm', () => {
     spyOn(component, 'initDateForm');
-    spyOn(component.dateForm, 'setValue');
     component.ngOnInit();
     expect(component.initDateForm).toHaveBeenCalledTimes(1);
-    expect(component.dateForm.setValue).not.toHaveBeenCalled();
-    expect(component.dateForm.value).toEqual(DateFormEmptyMock);
-  });
-
-  it('ngOnInit should call setValue and set component dateForm', () => {
-    localStorageServiceMock.getAdminOrdersDateFilter = () => {
-      return DateFormMock;
-    };
-    component.ngOnInit();
-    expect(component.dateForm.value).toEqual(DateFormMock);
+    expect(component.dateForm.value).toEqual(dateMock);
   });
 
   it('ordersViewParameters$ expect displayedColumns should be [title]', () => {

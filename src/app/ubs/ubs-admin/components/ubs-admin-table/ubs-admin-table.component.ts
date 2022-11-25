@@ -262,13 +262,13 @@ export class UbsAdminTableComponent implements OnInit, AfterViewChecked, OnDestr
     this.dateForm = this.fb.group({
       orderDateFrom: new FormControl(''),
       orderDateTo: new FormControl(''),
-      orderDateCheck: false,
+      orderDateCheck: new FormControl(false),
       dateOfExportFrom: new FormControl(''),
       dateOfExportTo: new FormControl(''),
-      dateOfExportCheck: false,
+      dateOfExportCheck: new FormControl(false),
       paymentDateFrom: new FormControl(''),
       paymentDateTo: new FormControl(''),
-      paymentDateCheck: false
+      paymentDateCheck: new FormControl(false)
     });
     if (this.getLocalDateForm()) {
       this.dateForm.setValue(this.getLocalDateForm());
