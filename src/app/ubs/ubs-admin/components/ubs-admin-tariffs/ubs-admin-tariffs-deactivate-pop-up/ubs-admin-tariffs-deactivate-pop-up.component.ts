@@ -690,7 +690,7 @@ export class UbsAdminTariffsDeactivatePopUpComponent implements OnInit, OnDestro
     });
     matDialogRef.afterClosed().subscribe((res) => {
       if (res) {
-        this.tariffsService;
+        // this.tariffsService;
       }
     });
   }
