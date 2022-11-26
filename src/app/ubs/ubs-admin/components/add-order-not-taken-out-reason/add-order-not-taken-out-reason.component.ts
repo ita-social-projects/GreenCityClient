@@ -1,13 +1,13 @@
-import { Component, OnInit, ViewChild, ElementRef, Inject, OnDestroy } from '@angular/core';
+import { Component, OnInit, Inject, OnDestroy } from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialogRef, MatDialog } from '@angular/material/dialog';
 import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { FileHandle } from '../../models/file-handle.model';
-import { iif, of, Subject } from 'rxjs';
-import { switchMap, take, takeUntil } from 'rxjs/operators';
+import { of, Subject } from 'rxjs';
+import { switchMap, takeUntil } from 'rxjs/operators';
 import { OrderService } from '../../services/order.service';
 import { ShowImgsPopUpComponent } from '../../../../shared/show-imgs-pop-up/show-imgs-pop-up.component';
-import { NotTakenOutReasonImage, DataToSend } from '../../models/not-taken-out-reason.model';
+import { NotTakenOutReasonImage } from '../../models/not-taken-out-reason.model';
 
 @Component({
   selector: 'app-add-order-not-taken-out-reason',
