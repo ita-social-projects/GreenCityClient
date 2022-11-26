@@ -242,6 +242,18 @@ describe('UbsAdminNotificationComponent', () => {
     expect(schedule).toContain('at 00:00');
   });
 
+  it('closing `settings` popup without making changes should leave them as it is', async () => {
+    const openDialogSpy = spyOn(dialogMock, 'open').and.returnValue(undefined);
+    getButton('edit', getInfoContainer()).triggerEventHandler('click', null);
+    fixture.detectChanges();
+    const { title, trigger, time, schedule, status } = getCurrentNotificationSettings();
+    expect(title).toContain('Unpaid order');
+    expect(trigger).toContain('ubs-notifications.triggers.ORDER_NOT_PAID_FOR_3_DAYS');
+    expect(time).toContain('ubs-notifications.time.6PM_3DAYS_AFTER_ORDER_FORMED_NOT_PAID');
+    expect(schedule).toContain('at 14:27 on day-of-month 4, 7 and 16');
+    expect(status).toContain('ubs-notifications.statuses.ACTIVE');
+  });
+
   it('clicking `edit` button on one of the platforms should open popup for editing text', async () => {
     const openDialogSpy = spyOn(dialogMock, 'open');
     getButton('edit', getPlatformActionsCell('email')).triggerEventHandler('click', null);
@@ -266,6 +278,17 @@ describe('UbsAdminNotificationComponent', () => {
     expect(openDialogSpy).toHaveBeenCalled();
     const [, platformTextCell] = getPlatformRow('email').queryAll(By.css('td'));
     expect(platformTextCell.nativeElement.textContent).toContain('New text for Email');
+  });
+
+  it('closing `edit` popup without making changes should leave platform text as it is', async () => {
+    const openDialogSpy = spyOn(dialogMock, 'open').and.returnValue(undefined);
+    getButton('edit', getPlatformActionsCell('email')).triggerEventHandler('click', null);
+    fixture.detectChanges();
+    const emailTextContent = getPlatformRow('email')
+      .queryAll(By.css('td'))
+      .map((debugEl) => debugEl.nativeElement.textContent);
+    const [, platformText] = emailTextContent;
+    expect(platformText).toContain('Unpaid order, text for Email');
   });
 
   it('clicking `save changes` should call notificationsService.updateNotificationTemplate with updated data', async () => {
