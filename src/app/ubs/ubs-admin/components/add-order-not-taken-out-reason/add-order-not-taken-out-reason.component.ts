@@ -27,6 +27,7 @@ export class AddOrderNotTakenOutReasonComponent implements OnInit, OnDestroy {
   private id;
   isImageSizeError = false;
   isImageTypeError = false;
+  public date = new Date();
   public images: NotTakenOutReasonImage[] = [];
   public imagesToDelete: string[] | null = [];
 
@@ -135,10 +136,7 @@ export class AddOrderNotTakenOutReasonComponent implements OnInit, OnDestroy {
   }
 
   public close(): void {
-    const res = {
-      action: 'cancel'
-    };
-    this.dialogRef.close(res);
+    this.dialogRef.close();
   }
 
   ngOnDestroy(): void {

@@ -170,11 +170,14 @@ textarea::placeholder {
   }
 }
 
+.date {
+  margin-right: 32px;
+}
+
 .info .date {
   color: var(--quaternary-grey);
   font-weight: normal;
   font-size: 14px;
-  margin-right: 32px;
 }
 
 .error-message {

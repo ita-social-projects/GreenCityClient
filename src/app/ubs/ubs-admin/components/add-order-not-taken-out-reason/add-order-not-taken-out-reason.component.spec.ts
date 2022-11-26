@@ -1,4 +1,4 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { async, ComponentFixture, TestBed, fakeAsync, tick } from '@angular/core/testing';
 import { AddOrderNotTakenOutReasonComponent } from './add-order-not-taken-out-reason.component';
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { MatDialogModule, MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
@@ -10,7 +10,6 @@ import { of, BehaviorSubject } from 'rxjs';
 import { By } from '@angular/platform-browser';
 import { DragDirective } from 'src/app/shared/drag-and-drop/dragDrop.directive';
 import { SharedModule } from 'src/app/shared/shared.module';
-import { ShowImgsPopUpComponent } from 'src/app/shared/show-imgs-pop-up/show-imgs-pop-up.component';
 import { DialogPopUpComponent } from 'src/app/shared/dialog-pop-up/dialog-pop-up.component';
 import { FormBuilder, FormControl, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { NotTakenOutReasonImage } from './../../models/not-taken-out-reason.model';
@@ -22,26 +21,25 @@ describe('AddOrderNotTakenOutReasonComponent', () => {
   const wrongExtFileMock = new File([''], 'test-file.jpeg', { type: 'image/tiff' });
   const getLargeFileMock = () => {
     const file = new File([''], 'test-file.jpeg', { type: 'image/jpeg' });
-    Object.defineProperty(file, 'size', { value: 10485761 });
+    Object.defineProperty(file, 'size', { value: 10875578 });
     return file;
   };
   const largeFileMock = getLargeFileMock();
   const matDialogRefStub = jasmine.createSpyObj('matDialogRefStub', ['close']);
+  matDialogRefStub.close = () => 'Close window please';
   const matDialogStub = jasmine.createSpyObj('matDialogRefStub', ['open']);
-
   const dataFileMock = new File([''], 'test-file.jpeg', { type: 'image/jpeg' });
   const fakeFileHandle = {
     file: dataFileMock,
     name: 'name',
     src: 'fakeUrl'
   };
-
   const imageToDeleteMock = {
     src: 'faleUrl',
     name: 'name',
     file: dataFileMock
   };
-
+  const event = { target: { files: [dataFileMock] } };
   const viewModeInputs = {
     id: 1577
   };
@@ -126,7 +124,7 @@ describe('AddOrderNotTakenOutReasonComponent', () => {
     expect(localStorageServiceMock.firstNameBehaviourSubject.value).toBe('fakeName');
   });
 
-  it('open modal', () => {
+  it('open ShowImgsPopUpComponent', () => {
     const props = {
       hasBackdrop: true,
       panelClass: 'custom-img-pop-up',
@@ -142,9 +140,17 @@ describe('AddOrderNotTakenOutReasonComponent', () => {
   });
 
   describe('files', () => {
-    it('makes expected calls in onFilesDropped', () => {
+    it('makes expected calls loadFiles in onFilesDropped', () => {
       const loadFilesSpy = spyOn(component, 'loadFiles');
+      component.isImageSizeError = false;
+      component.isImageTypeError = false;
       component.onFilesDropped([fakeFileHandle] as any);
+      expect(loadFilesSpy).toHaveBeenCalled();
+    });
+
+    it('makes expected calls loadFiles in onFilesSelected', () => {
+      const loadFilesSpy = spyOn(component, 'loadFiles');
+      component.onFilesSelected(event as any);
       expect(loadFilesSpy).toHaveBeenCalled();
     });
 
@@ -166,18 +172,49 @@ describe('AddOrderNotTakenOutReasonComponent', () => {
       expect((component as any).isImageSizeError).toBe(true);
     });
 
-    it('loadFiles', () => {
+    it('loadFiles with file lenght more than 6', () => {
       const files = [];
-      files.length = 6;
+      files.length = 7;
+      component.isImageSizeError = false;
+      component.isImageTypeError = false;
 
       expect(component.loadFiles(files)).toBeFalsy();
     });
 
-    it('loadFile expect  transferFile should be called with specified argument', () => {
+    it('loadFiles with image errors', () => {
+      const files = [];
+      files.length = 4;
+      component.isImageSizeError = true;
+      component.isImageTypeError = true;
+
+      expect(component.loadFiles(files)).toBeFalsy();
+    });
+
+    it('loadFile expect transferFile should be called with specified argument', () => {
       const transferFileSpy = spyOn(component as any, 'transferFile');
       const a = new File([''], 'test-file.jpeg', { type: 'image/jpeg' });
       component.loadFiles([a]);
       expect(transferFileSpy).toHaveBeenCalledWith(dataFileMock);
     });
+  });
+
+  describe('send and close', () => {
+    it('makes expected call send', fakeAsync(() => {
+      spyOn(component, 'send');
+      component.send();
+      fixture.detectChanges();
+      const buton = fixture.nativeElement.querySelector('.agree').click();
+      tick();
+      expect(component.send).toHaveBeenCalled();
+    }));
+
+    it('makes expected call close', fakeAsync(() => {
+      spyOn(component, 'close');
+      component.close();
+      fixture.detectChanges();
+      const buton = fixture.nativeElement.querySelector('.disagree').click();
+      tick();
+      expect(component.close).toHaveBeenCalled();
+    }));
   });
 });
