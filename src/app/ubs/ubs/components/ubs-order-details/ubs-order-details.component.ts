@@ -228,6 +228,7 @@ export class UBSOrderDetailsComponent extends FormBaseComponent implements OnIni
           this.setCurrentLocation(res.currentLanguage);
           this.setLimitsValues();
           this.orderDetailsForm.markAllAsTouched();
+          this.takeOrderData();
         }
         this.isDialogOpen = false;
       });
