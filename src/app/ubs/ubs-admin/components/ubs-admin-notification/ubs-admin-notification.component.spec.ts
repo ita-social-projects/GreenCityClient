@@ -1,6 +1,6 @@
 import { Location } from '@angular/common';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
-import { Pipe, PipeTransform } from '@angular/core';
+import { DebugElement, Pipe, PipeTransform } from '@angular/core';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { MatDialog, MatDialogModule } from '@angular/material/dialog';
 import { By } from '@angular/platform-browser';
@@ -49,7 +49,8 @@ describe('UbsAdminNotificationComponent', () => {
           { name: 'viber', status: 'INACTIVE', body: { en: 'Unpaid order, text for Viber', ua: 'Неоплачене замовлення, текст для Viber' } }
         ]
       });
-    }
+    },
+    updateNotificationTemplate: () => {}
   };
   const activatedRouteMock = { params: of({ id: 1 }) };
   const localStorageServiceMock = { languageBehaviourSubject: new BehaviorSubject('en') };
@@ -91,14 +92,52 @@ describe('UbsAdminNotificationComponent', () => {
     expect(component).toBeTruthy();
   });
 
-  it('should load and display notification info correctly', async () => {
-    const [title, trigger, time, schedule, status] = fixture.debugElement
-      .queryAll(By.css('.table-notification-info tbody td'))
+  const getInfoContainer = () => fixture.debugElement.query(By.css('.table-notification-info'));
+  const getPlatformsContainer = () => fixture.debugElement.query(By.css('.table-notification-platforms'));
+
+  const getCurrentNotificationSettings = () => {
+    const [title, trigger, time, schedule, status] = getInfoContainer()
+      .queryAll(By.css('tbody td'))
       .map((debugEl) => debugEl.nativeElement.textContent);
-    const platforms = fixture.debugElement
-      .queryAll(By.css('.table-notification-platforms tbody tr'))
-      .map((rowDebugEl) => rowDebugEl.queryAll(By.css('td')).map((debugEl) => debugEl.nativeElement.textContent));
-    const [emailPlatform] = platforms;
+    return { title, trigger, time, schedule, status };
+  };
+
+  const getPlatformRows = () => getPlatformsContainer().queryAll(By.css('tbody tr'));
+  const getPlatformRow = (name) => {
+    const platforms = ['email', 'telegram', 'viber'];
+    const idx = platforms.indexOf(name);
+    return getPlatformRows()[idx];
+  };
+
+  const getAllActionsCells = () =>
+    getPlatformRows()
+      .map((rowDebugEl) => rowDebugEl.queryAll(By.css('td')))
+      .map(([, , actions]) => actions);
+
+  const getPlatformActionsCell = (name) => {
+    const [, , actions] = getPlatformRow(name).queryAll(By.css('td'));
+    return actions;
+  };
+
+  const getButton = (name: string, container?: DebugElement): DebugElement | null => {
+    const buttons = {
+      edit: '.edit-button',
+      activate: '.activate-button',
+      deactivate: '.deactivate-button',
+      back: '.back-button',
+      cancel: '.cancel-button',
+      save: '.submit-button'
+    };
+    const cont = container ?? fixture.debugElement;
+    return cont.query(By.css(buttons[name]));
+  };
+
+  it('should load and display notification info correctly', async () => {
+    const { title, trigger, time, schedule, status } = getCurrentNotificationSettings();
+    const platformsTextContent = getPlatformRows().map((rowDebugEl) =>
+      rowDebugEl.queryAll(By.css('td')).map((debugEl) => debugEl.nativeElement.textContent)
+    );
+    const [emailPlatform] = platformsTextContent;
     const [platformName, platformText] = emailPlatform;
 
     expect(title).toContain('Unpaid order');
@@ -111,76 +150,63 @@ describe('UbsAdminNotificationComponent', () => {
   });
 
   it('should display `edit` and `deactivate` buttons if platform is active, `activate` button otherwise', async () => {
-    const platformsActionsCells = fixture.debugElement
-      .queryAll(By.css('.table-notification-platforms tbody tr'))
-      .map((rowDebugEl) => rowDebugEl.queryAll(By.css('td')))
-      .map(([name, text, actions]) => actions);
-    const [emailPlatformActionsCell, tgPlatformActionsCell, viberPlatformActionsCell] = platformsActionsCells;
-    expect(emailPlatformActionsCell.query(By.css('.edit-button'))).toBeTruthy();
-    expect(emailPlatformActionsCell.query(By.css('.deactivate-button'))).toBeTruthy();
-    expect(emailPlatformActionsCell.query(By.css('.activate-button'))).toBeFalsy();
+    const [emailActionsCell, telegramActionsCell, viberActionsCell] = getAllActionsCells();
+    expect(getButton('edit', emailActionsCell)).toBeTruthy();
+    expect(getButton('deactivate', emailActionsCell)).toBeTruthy();
+    expect(getButton('activate', emailActionsCell)).toBeFalsy();
 
-    expect(tgPlatformActionsCell.query(By.css('.edit-button'))).toBeTruthy();
-    expect(tgPlatformActionsCell.query(By.css('.deactivate-button'))).toBeTruthy();
-    expect(tgPlatformActionsCell.query(By.css('.activate-button'))).toBeFalsy();
+    expect(getButton('edit', telegramActionsCell)).toBeTruthy();
+    expect(getButton('deactivate', telegramActionsCell)).toBeTruthy();
+    expect(getButton('activate', telegramActionsCell)).toBeFalsy();
 
-    expect(viberPlatformActionsCell.query(By.css('.activate-button'))).toBeTruthy();
-    expect(viberPlatformActionsCell.query(By.css('.edit-button'))).toBeFalsy();
-    expect(viberPlatformActionsCell.query(By.css('.deactivate-button'))).toBeFalsy();
+    expect(getButton('edit', viberActionsCell)).toBeFalsy();
+    expect(getButton('deactivate', viberActionsCell)).toBeFalsy();
+    expect(getButton('activate', viberActionsCell)).toBeTruthy();
   });
 
   it('clicking `deactivate` button should make platform inactive', async () => {
-    const platforms = fixture.debugElement.queryAll(By.css('.table-notification-platforms tbody tr'));
-    const [email] = platforms;
-    const [, , actionsCell] = email.queryAll(By.css('td'));
-    const deactivateButton = actionsCell.query(By.css('.deactivate-button')).nativeElement;
-    deactivateButton.click();
+    const emailActionsCell = getPlatformActionsCell('email');
+    getButton('deactivate', emailActionsCell).triggerEventHandler('click', null);
     fixture.detectChanges();
 
-    expect(actionsCell.query(By.css('.activate-button'))).toBeTruthy();
-    expect(actionsCell.query(By.css('.edit-button'))).toBeFalsy();
-    expect(actionsCell.query(By.css('.deactivate-button'))).toBeFalsy();
+    expect(getButton('edit', emailActionsCell)).toBeFalsy();
+    expect(getButton('deactivate', emailActionsCell)).toBeFalsy();
+    expect(getButton('activate', emailActionsCell)).toBeTruthy();
   });
 
   it('clicking `activate` button should make platform active', async () => {
-    const platforms = fixture.debugElement.queryAll(By.css('.table-notification-platforms tbody tr'));
-    const [, , viber] = platforms;
-    const [, , actionsCell] = viber.queryAll(By.css('td'));
-    const activateButton = actionsCell.query(By.css('.activate-button')).nativeElement;
-    activateButton.click();
+    const viberActionsCell = getPlatformActionsCell('viber');
+    getButton('activate', viberActionsCell).triggerEventHandler('click', null);
     fixture.detectChanges();
 
-    expect(actionsCell.query(By.css('.edit-button'))).toBeTruthy();
-    expect(actionsCell.query(By.css('.deactivate-button'))).toBeTruthy();
-    expect(actionsCell.query(By.css('.activate-button'))).toBeFalsy();
+    expect(getButton('edit', viberActionsCell)).toBeTruthy();
+    expect(getButton('deactivate', viberActionsCell)).toBeTruthy();
+    expect(getButton('activate', viberActionsCell)).toBeFalsy();
   });
 
   it('`cancel` button should navigate user to notification list', async () => {
     const navigateSpy = spyOn(routerMock, 'navigate');
-    const cancelButton = fixture.debugElement.query(By.css('.controls .cancel-button')).nativeElement;
-    cancelButton.click();
+    getButton('cancel').triggerEventHandler('click', null);
     expect(navigateSpy).toHaveBeenCalled();
     expect((navigateSpy as any).calls.mostRecent().args[0]).toEqual(['../../notifications']);
   });
 
   it('`back` button should navigate user to the previous page', async () => {
     const backSpy = spyOn(locationMock, 'back');
-    const cancelButton = fixture.debugElement.query(By.css('.back-button')).nativeElement;
-    cancelButton.click();
+    getButton('back').triggerEventHandler('click', null);
     expect(backSpy).toHaveBeenCalled();
   });
 
   it('`deactivate` button should open confirmation popup', async () => {
     const confirmationSpy = spyOn(confirmationDialogServiceMock, 'confirm');
-    const deactivateButton = fixture.debugElement.query(By.css('.table-notification-info .deactivate-button')).nativeElement;
-    deactivateButton.click();
+    const deactivateButton = getButton('deactivate', getInfoContainer());
+    deactivateButton.triggerEventHandler('click', null);
     expect(confirmationSpy).toHaveBeenCalled();
   });
 
   it('`settings` button should open settings popup', async () => {
     const openDialogSpy = spyOn(dialogMock, 'open');
-    const settingsButton = fixture.debugElement.query(By.css('.table-notification-info .edit-button')).nativeElement;
-    settingsButton.click();
+    getButton('edit', getInfoContainer()).triggerEventHandler('click', null);
     expect(openDialogSpy).toHaveBeenCalled();
   });
 
@@ -194,12 +220,9 @@ describe('UbsAdminNotificationComponent', () => {
           schedule: '27 14 4,7,16 * *'
         })
     });
-    const settingsButton = fixture.debugElement.query(By.css('.table-notification-info .edit-button')).nativeElement;
-    settingsButton.click();
+    getButton('edit', getInfoContainer()).triggerEventHandler('click', null);
     fixture.detectChanges();
-    const [title, trigger, time, schedule, status] = fixture.debugElement
-      .queryAll(By.css('.table-notification-info tbody td'))
-      .map((debugEl) => debugEl.nativeElement.textContent);
+    const { title, time, schedule } = getCurrentNotificationSettings();
     expect(openDialogSpy).toHaveBeenCalled();
     expect(title).toContain('new topic');
     expect(time).toContain('IMMEDIATELY');
@@ -208,9 +231,7 @@ describe('UbsAdminNotificationComponent', () => {
 
   it('clicking `edit` button on one of the platforms should open popup for editing text', async () => {
     const openDialogSpy = spyOn(dialogMock, 'open');
-    const platforms = fixture.debugElement.queryAll(By.css('.table-notification-platforms tbody tr'));
-    const editButtonForEmail = platforms[0].query(By.css('.edit-button')).nativeElement;
-    editButtonForEmail.click();
+    getButton('edit', getPlatformActionsCell('email')).triggerEventHandler('click', null);
     expect(openDialogSpy).toHaveBeenCalledWith(UbsAdminNotificationEditFormComponent, {
       hasBackdrop: true,
       data: { platform: 'email', text: { en: 'Unpaid order, text for Email', ua: 'Неоплачене замовлення, текст для Email' } }
@@ -227,12 +248,55 @@ describe('UbsAdminNotificationComponent', () => {
           }
         })
     });
-    const platforms = fixture.debugElement.queryAll(By.css('.table-notification-platforms tbody tr'));
-    const editButtonForEmail = platforms[0].query(By.css('.edit-button')).nativeElement;
-    editButtonForEmail.click();
-    expect(openDialogSpy).toHaveBeenCalled();
+    getButton('edit', getPlatformActionsCell('email')).triggerEventHandler('click', null);
     fixture.detectChanges();
-    const [, platformTextCell] = platforms[0].queryAll(By.css('td'));
+    expect(openDialogSpy).toHaveBeenCalled();
+    const [, platformTextCell] = getPlatformRow('email').queryAll(By.css('td'));
     expect(platformTextCell.nativeElement.textContent).toContain('New text for Email');
+  });
+
+  it('clicking `save changes` should call notificationsService.updateNotificationTemplate with updated data', async () => {
+    const openDialogSpy = spyOn(dialogMock, 'open').and.returnValue({
+      afterClosed: () =>
+        of({
+          title: { en: 'new topic', ua: 'нова тема' },
+          trigger: '6PM_3DAYS_AFTER_ORDER_FORMED_NOT_PAID',
+          time: 'IMMEDIATELY',
+          schedule: '27 14 4,7,16 * *'
+        })
+    });
+    getButton('edit', getInfoContainer()).triggerEventHandler('click', null);
+    fixture.detectChanges();
+
+    getButton('deactivate', getPlatformActionsCell('email')).triggerEventHandler('click', null);
+    fixture.detectChanges();
+
+    const notificationUpdateSpy = spyOn(notificationsServiceMock, 'updateNotificationTemplate');
+    getButton('save').triggerEventHandler('click', null);
+
+    expect(notificationUpdateSpy).toHaveBeenCalledWith(1, {
+      id: 1,
+      title: { en: 'new topic', ua: 'нова тема' },
+      trigger: '6PM_3DAYS_AFTER_ORDER_FORMED_NOT_PAID',
+      time: 'IMMEDIATELY',
+      schedule: '27 14 4,7,16 * *',
+      status: 'ACTIVE',
+      platforms: [
+        {
+          name: 'email',
+          status: 'INACTIVE',
+          body: {
+            en: 'Unpaid order, text for Email',
+            ua: 'Неоплачене замовлення, текст для Email'
+          }
+        },
+        {
+          name: 'telegram',
+          status: 'ACTIVE',
+          body: { en: 'Unpaid order, text for Telegram', ua: 'Неоплачене замовлення, текст для Telegram' }
+        },
+        { name: 'viber', status: 'INACTIVE', body: { en: 'Unpaid order, text for Viber', ua: 'Неоплачене замовлення, текст для Viber' } }
+      ]
+    });
   });
 });
