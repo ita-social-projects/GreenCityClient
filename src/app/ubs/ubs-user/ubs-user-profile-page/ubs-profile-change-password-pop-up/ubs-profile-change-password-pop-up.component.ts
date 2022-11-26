@@ -6,7 +6,6 @@ import { UpdatePasswordDto } from '@global-models/updatePasswordDto';
 import { ChangePasswordService } from '@global-service/auth/change-password.service';
 import { iif, of } from 'rxjs';
 import { mergeMap } from 'rxjs/operators';
-import { SignInIcons } from 'src/app/main/image-pathes/sign-in-icons';
 import { Patterns } from 'src/assets/patterns/patterns';
 
 @Component({
@@ -19,7 +18,6 @@ export class UbsProfileChangePasswordPopUpComponent implements OnInit {
   private readonly passRegexp = Patterns.regexpPass;
   public updatePasswordDto: UpdatePasswordDto;
   public hasPassword: boolean;
-  public hideShowPasswordImage = SignInIcons;
   public hasWrongCurrentPassword = false;
 
   constructor(

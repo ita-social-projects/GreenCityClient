@@ -14,7 +14,6 @@ describe('UbsProfileChangePasswordPopUpComponent', () => {
   let component: UbsProfileChangePasswordPopUpComponent;
   let fixture: ComponentFixture<UbsProfileChangePasswordPopUpComponent>;
   const password = 'password';
-  const currentPassword = 'currentPassword';
   const confirmPassword = 'confirmPassword';
 
   const changePasswordServiceFake = jasmine.createSpyObj('ChangePasswordService', ['changePassword']);
@@ -59,7 +58,6 @@ describe('UbsProfileChangePasswordPopUpComponent', () => {
     component.hasPassword = true;
     const initFormFake = {
       password: '',
-      currentPassword: '',
       confirmPassword: ''
     };
 
@@ -75,7 +73,6 @@ describe('UbsProfileChangePasswordPopUpComponent', () => {
   it('submitting a form', () => {
     expect(component.formConfig.valid).toBeFalsy();
     component.formConfig.controls[password].setValue('Test!2334');
-    component.formConfig.controls[currentPassword].setValue('Test!2334dfff');
     component.formConfig.controls[confirmPassword].setValue('Test!2334');
     expect(component.formConfig.valid).toBeTruthy();
 
@@ -83,14 +80,6 @@ describe('UbsProfileChangePasswordPopUpComponent', () => {
 
     component.onSubmit();
     expect(updatePasswordDto.password).toBe('Test!2334');
-    expect(updatePasswordDto.currentPassword).toBe('Test!2334dfff');
     expect(updatePasswordDto.confirmPassword).toBe('Test!2334');
-  });
-
-  it('currentPassword should be empty if user authorized by a google account ', () => {
-    const updatePasswordDto: UpdatePasswordDto = component.formConfig.value;
-    component.hasPassword = false;
-    component.onSubmit();
-    expect(updatePasswordDto.currentPassword).toBeFalsy();
   });
 });
