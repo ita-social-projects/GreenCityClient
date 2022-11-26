@@ -102,8 +102,7 @@ export class UbsAdminNotificationComponent implements OnInit, OnDestroy {
           title: { en: this.notification.title.en, ua: this.notification.title.ua },
           trigger: this.notification.trigger,
           time: this.notification.time,
-          schedule: this.notification.schedule,
-          status: this.notification.status
+          schedule: this.notification.schedule
         }
       })
       .afterClosed()

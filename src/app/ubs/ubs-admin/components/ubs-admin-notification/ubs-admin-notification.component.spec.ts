@@ -12,13 +12,18 @@ import { BehaviorSubject, of, throwError } from 'rxjs';
 import { ConfirmationDialogService } from 'src/app/main/component/admin/services/confirmation-dialog-service.service';
 import { NotificationsService } from '../../services/notifications.service';
 import { UbsAdminNotificationEditFormComponent } from './ubs-admin-notification-edit-form/ubs-admin-notification-edit-form.component';
+import { UbsAdminNotificationSettingsComponent } from './ubs-admin-notification-settings/ubs-admin-notification-settings.component';
 
 import { UbsAdminNotificationComponent } from './ubs-admin-notification.component';
 
 @Pipe({ name: 'cron' })
 class CronPipe implements PipeTransform {
-  transform() {
-    return 'at 14:27 on day-of-month 4, 7 and 16';
+  transform(cron) {
+    const output = {
+      '0 0 * * *': 'at 00:00',
+      '27 14 4,7,16 * *': 'at 14:27 on day-of-month 4, 7 and 16'
+    };
+    return output[cron];
   }
 }
 
@@ -207,7 +212,15 @@ describe('UbsAdminNotificationComponent', () => {
   it('`settings` button should open settings popup', async () => {
     const openDialogSpy = spyOn(dialogMock, 'open');
     getButton('edit', getInfoContainer()).triggerEventHandler('click', null);
-    expect(openDialogSpy).toHaveBeenCalled();
+    expect(openDialogSpy).toHaveBeenCalledWith(UbsAdminNotificationSettingsComponent, {
+      hasBackdrop: true,
+      data: {
+        trigger: 'ORDER_NOT_PAID_FOR_3_DAYS',
+        time: '6PM_3DAYS_AFTER_ORDER_FORMED_NOT_PAID',
+        schedule: '27 14 4,7,16 * *',
+        title: { en: 'Unpaid order', ua: 'Неоплачене замовлення' }
+      }
+    });
   });
 
   it('closing `settings` popup with updated settings should display changes', async () => {
@@ -217,7 +230,7 @@ describe('UbsAdminNotificationComponent', () => {
           title: { en: 'new topic', ua: 'нова тема' },
           trigger: '6PM_3DAYS_AFTER_ORDER_FORMED_NOT_PAID',
           time: 'IMMEDIATELY',
-          schedule: '27 14 4,7,16 * *'
+          schedule: '0 0 * * *'
         })
     });
     getButton('edit', getInfoContainer()).triggerEventHandler('click', null);
@@ -226,7 +239,7 @@ describe('UbsAdminNotificationComponent', () => {
     expect(openDialogSpy).toHaveBeenCalled();
     expect(title).toContain('new topic');
     expect(time).toContain('IMMEDIATELY');
-    expect(schedule).toContain('at 14:27 on day-of-month 4, 7 and 16');
+    expect(schedule).toContain('at 00:00');
   });
 
   it('clicking `edit` button on one of the platforms should open popup for editing text', async () => {
@@ -262,7 +275,7 @@ describe('UbsAdminNotificationComponent', () => {
           title: { en: 'new topic', ua: 'нова тема' },
           trigger: '6PM_3DAYS_AFTER_ORDER_FORMED_NOT_PAID',
           time: 'IMMEDIATELY',
-          schedule: '27 14 4,7,16 * *'
+          schedule: '0 0 * * *'
         })
     });
     getButton('edit', getInfoContainer()).triggerEventHandler('click', null);
@@ -279,7 +292,7 @@ describe('UbsAdminNotificationComponent', () => {
       title: { en: 'new topic', ua: 'нова тема' },
       trigger: '6PM_3DAYS_AFTER_ORDER_FORMED_NOT_PAID',
       time: 'IMMEDIATELY',
-      schedule: '27 14 4,7,16 * *',
+      schedule: '0 0 * * *',
       status: 'ACTIVE',
       platforms: [
         {
