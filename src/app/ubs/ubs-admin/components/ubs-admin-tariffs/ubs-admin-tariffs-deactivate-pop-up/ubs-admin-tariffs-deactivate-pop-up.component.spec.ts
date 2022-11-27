@@ -8,124 +8,180 @@ import { UbsAdminTariffsDeactivatePopUpComponent } from './ubs-admin-tariffs-dea
 import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
 import { TariffsService } from '../../../services/tariffs.service';
 import { Store } from '@ngrx/store';
+import { MatAutocompleteSelectedEvent } from '@angular/material/autocomplete';
 
 describe('UbsAdminTariffsDeactivatePopUpComponent', () => {
   let component: UbsAdminTariffsDeactivatePopUpComponent;
   let fixture: ComponentFixture<UbsAdminTariffsDeactivatePopUpComponent>;
 
-  const fakeCouriers = {
-    courierId: 1,
-    courierStatus: 'fake',
-    courierTranslationDtos: [
-      {
-        languageCode: 'ua',
-        name: 'фейкКурєр'
-      },
-      {
-        languageCode: 'en',
-        name: 'fakeCourier'
-      }
-    ]
+  const locationItem = {
+    id: 0,
+    name: 'Фейк'
   };
 
   const stationItem = {
-    name: 'Фейк',
-    id: 0
+    id: 0,
+    name: 'Фейк'
   };
+
+  const fakeCouriers = [
+    {
+      courierId: 1,
+      courierStatus: 'fake1',
+      courierTranslationDtos: [
+        {
+          name: 'фейкКурєр1',
+          nameEng: 'fakeCourier1'
+        }
+      ]
+    },
+    {
+      courierId: 2,
+      courierStatus: 'fake2',
+      courierTranslationDtos: [
+        {
+          name: 'фейкКурєр2',
+          nameEng: 'fakeCourier2'
+        }
+      ]
+    }
+  ];
+
   const fakeStation = {
     id: 1,
-    name: 'fake'
+    name: 'Фейк',
+    createdBy: 'ФейкАдмін',
+    createDate: '2022-05-28'
   };
-  const eventMockStation = {
+
+  const mockRegion = [
+    {
+      regionId: 1,
+      regionTranslationDtos: [
+        {
+          regionName: 'Фейк область',
+          languageCode: 'ua'
+        },
+        {
+          regionName: 'Fake region',
+          languageCode: 'en'
+        }
+      ],
+      locationsDto: [
+        {
+          locationTranslationDtoList: [
+            {
+              locationName: 'Фейк1',
+              languageCode: 'ua'
+            },
+            {
+              locationName: 'Fake1',
+              languageCode: 'en'
+            }
+          ]
+        },
+        {
+          locationTranslationDtoList: [
+            {
+              locationName: 'Фейк2',
+              languageCode: 'ua'
+            },
+            {
+              locationName: 'Fake2',
+              languageCode: 'en'
+            }
+          ]
+        }
+      ]
+    }
+  ];
+
+  const mockCities = [
+    {
+      locationTranslationDtoList: [
+        {
+          locationName: 'Фейк1',
+          languageCode: 'ua'
+        },
+        {
+          locationName: 'Fake1',
+          languageCode: 'en'
+        }
+      ]
+    },
+    {
+      locationTranslationDtoList: [
+        {
+          locationName: 'Фейк2',
+          languageCode: 'ua'
+        },
+        {
+          locationName: 'Fake2',
+          languageCode: 'en'
+        }
+      ]
+    }
+  ];
+
+  const fakeTariffCard = {
+    cardId: 0,
+    courierId: 0,
+    courierLimit: 'fake',
+    courierTranslationDtos: [
+      {
+        name: 'фейк',
+        nameEng: 'fake'
+      }
+    ],
+    createdAt: 'date',
+    creator: 'fakeAuthor',
+    locationInfoDtos: [
+      {
+        locationId: 0,
+        nameEn: 'fake',
+        nameUk: 'фейк'
+      }
+    ],
+    maxAmountOfBags: 0,
+    maxPriceOfOrder: 0,
+    minAmountOfBags: 0,
+    minPriceOfOrder: 0,
+    receivingStationDtos: [
+      {
+        createDate: 'date',
+        createdBy: 'fakeAuthor',
+        id: 0,
+        name: 'fake'
+      }
+    ],
+    regionDto: {
+      nameEn: 'fake',
+      nameUk: 'фейк',
+      regionId: 0
+    },
+    tariffStatus: 'fake'
+  };
+
+  const eventMockCity = {
     option: {
-      value: 'fake'
+      value: {
+        latitude: 0,
+        locationId: 1,
+        locationStatus: 'ACTIVE',
+        locationTranslationDtoList: [
+          { locationName: 'перше', languageCode: 'ua' },
+          { locationName: 'first', languageCode: 'en' }
+        ],
+        longitude: 0
+      }
     }
   };
 
-  const fakeTariffCards = [
-    {
-      cardId: 3,
-      regionDto: {
-        regionId: 1,
-        nameEn: 'Kyiv region',
-        nameUk: 'Київська область'
-      },
-      locationInfoDtos: [
-        {
-          locationId: 2,
-          nameEn: 'Kyiv',
-          nameUk: 'Київ'
-        }
-      ],
-      receivingStationDtos: [
-        {
-          id: 1,
-          name: 'Саперно-Слобідська',
-          createdBy: 'hmarax3@gmail.com',
-          createDate: '2022-06-14'
-        }
-      ],
-      courierTranslationDtos: [
-        {
-          name: 'УБС',
-          nameEng: 'UBS'
-        }
-      ],
-      tariffStatus: 'ACTIVE',
-      creator: 'hmarax3@gmail.com',
-      createdAt: '2022-06-08',
-      courierLimit: 'LIMIT_BY_AMOUNT_OF_BAG',
-      minAmountOfBags: 1,
-      maxAmountOfBags: 99,
-      minPriceOfOrder: 3,
-      maxPriceOfOrder: 1000000,
-      courierId: 1
-    },
-    {
-      cardId: 6,
-      regionDto: {
-        regionId: 1,
-        nameEn: 'Kyiv region',
-        nameUk: 'Київська область'
-      },
-      locationInfoDtos: [
-        {
-          locationId: 7,
-          nameEn: 'Bucha',
-          nameUk: 'Буча'
-        }
-      ],
-      receivingStationDtos: [
-        {
-          id: 6,
-          name: 'Саперна-сурта',
-          createdBy: 'hmarax3@gmail.com',
-          createDate: '2022-05-28'
-        },
-        {
-          id: 5,
-          name: 'Саперна',
-          createdBy: 'hmarax3@gmail.com',
-          createDate: '2022-05-28'
-        }
-      ],
-      courierTranslationDtos: [
-        {
-          name: 'УБС',
-          nameEng: 'UBS'
-        }
-      ],
-      tariffStatus: 'ACTIVE',
-      creator: 'adminubs@starmaker.email',
-      createdAt: '2022-07-07',
-      courierLimit: 'LIMIT_BY_AMOUNT_OF_BAG',
-      minAmountOfBags: 12,
-      maxAmountOfBags: 333,
-      minPriceOfOrder: 5,
-      maxPriceOfOrder: 1000000,
-      courierId: 1
+  const eventMockStation = {
+    option: {
+      value: 'Фейк'
     }
-  ];
+  };
 
   const matDialogMock = jasmine.createSpyObj('matDialog', ['open']);
   matDialogMock.open.and.returnValue({ afterClosed: () => of(true) });
@@ -133,9 +189,9 @@ describe('UbsAdminTariffsDeactivatePopUpComponent', () => {
   fakeMatDialogRef.afterClosed.and.returnValue(of(true));
 
   const tariffsServiceMock = jasmine.createSpyObj('tariffsServiceMock', ['getCouriers', 'getAllStations', 'getCardInfo']);
-  tariffsServiceMock.getCouriers.and.returnValue(of([fakeCouriers]));
+  tariffsServiceMock.getCouriers.and.returnValue(of(fakeCouriers));
   tariffsServiceMock.getAllStations.and.returnValue(of([fakeStation]));
-  tariffsServiceMock.getCardInfo.and.returnValue(of(fakeTariffCards));
+  tariffsServiceMock.getCardInfo.and.returnValue(of([fakeTariffCard]));
 
   const localStorageServiceStub = () => ({
     firstNameBehaviourSubject: { pipe: () => of('fakeName') }
@@ -187,5 +243,160 @@ describe('UbsAdminTariffsDeactivatePopUpComponent', () => {
     expect(spy5).toHaveBeenCalled();
     expect(spy6).toHaveBeenCalled();
     expect(spy7).toHaveBeenCalled();
+  });
+
+  it('should get all couriers', () => {
+    component.getCouriers();
+    expect(component.couriers).toEqual(fakeCouriers);
+    expect(component.couriersName).toEqual(['фейкКурєр1', 'фейкКурєр2']);
+  });
+
+  it('should get all stations', () => {
+    component.getReceivingStation();
+    expect(component.stations).toEqual([fakeStation]);
+    expect(component.stationsName).toEqual(['Фейк']);
+  });
+
+  it('should get locations', () => {
+    component.getLocations();
+    expect(storeMock.dispatch).toHaveBeenCalled();
+  });
+
+  it('should get all tariff cards', () => {
+    component.getTariffCards();
+    expect(component.tariffCards).toEqual([fakeTariffCard]);
+  });
+
+  it('the method selectCourier should set courier id and call onSelectedCourier', () => {
+    component.couriers = fakeCouriers;
+    const spy = spyOn(component, 'onSelectedCourier');
+    const mockEvent: MatAutocompleteSelectedEvent = {
+      option: {
+        value: 'фейкКурєр1'
+      }
+    } as MatAutocompleteSelectedEvent;
+    component.selectCourier(mockEvent);
+    expect(component.courierId).toEqual(1);
+    expect(spy).toHaveBeenCalled();
+  });
+
+  it('the method onSelectedCourier should get filtered cards', () => {
+    component.onSelectedCourier();
+    expect(component.filterTariffCards()).toBeTruthy();
+  });
+
+  it('the method onSelectedCourier should disable station and region fields when there is no filtered tariff card', () => {
+    component.tariffCards = [];
+    const spy1 = spyOn(component, 'disableStation');
+    const spy2 = spyOn(component, 'disableRegion');
+    component.onSelectedCourier();
+    expect(spy1).toHaveBeenCalled();
+    expect(spy2).toHaveBeenCalled();
+  });
+
+  it('the method onSelectedCourier should filter dropdown lists when there is filtered tariff card', () => {
+    const spy1 = spyOn(component, 'selectAllStationsInTariffCards');
+    const spy2 = spyOn(component, 'selectAllRegionsInTariffCards');
+    const spy3 = spyOn(component, 'selectAllCitiesInTariffCards');
+    const filteredTariffCards = component.filterTariffCards();
+    component.onSelectedCourier();
+    expect(spy1).toHaveBeenCalledWith(filteredTariffCards);
+    expect(spy2).toHaveBeenCalledWith(filteredTariffCards);
+    expect(spy3).toHaveBeenCalledWith(filteredTariffCards);
+  });
+
+  it('the method selectStation should be called', () => {
+    component.selectedStations.push(stationItem);
+    const spy1 = spyOn(component, 'addSelectedStation');
+    const spy2 = spyOn(component, 'setStationPlaceholder');
+    const spy3 = spyOn(component, 'onStationsSelected');
+    component.selectStation(eventMockStation as any);
+    expect(spy1).toHaveBeenCalledWith(eventMockStation as any);
+    expect(spy2).toHaveBeenCalled();
+    expect(spy3).toHaveBeenCalled();
+  });
+
+  it('should empty station value selectStation method', () => {
+    component.selectStation(eventMockStation as any);
+    expect(component.station.value).toEqual('');
+  });
+
+  it('should add new selected station if it does not exist in list', () => {
+    component.selectedStations = [{ id: 0, name: 'Cтанція' }];
+    component.addSelectedStation(eventMockStation as any);
+    expect(component.selectedStations).toEqual([
+      { id: 0, name: 'Cтанція' },
+      { id: 1, name: 'Фейк' }
+    ]);
+  });
+
+  it('should remove selected station if it exists in list', () => {
+    component.selectedStations = [
+      { id: 0, name: 'Cтанція' },
+      { id: 1, name: 'Фейк' }
+    ];
+    component.addSelectedStation(eventMockStation as any);
+    expect(component.selectedStations).toEqual([{ id: 0, name: 'Cтанція' }]);
+  });
+
+  it('the method onStationsSelected should get filtered cards', () => {
+    component.onStationsSelected();
+    expect(component.filterTariffCards()).toBeTruthy();
+  });
+
+  it('the method onStationsSelected should disable courier and region fields when there is no filtered tariff card', () => {
+    component.tariffCards = [];
+    const spy1 = spyOn(component, 'disableCourier');
+    const spy2 = spyOn(component, 'disableRegion');
+    component.onStationsSelected();
+    expect(spy1).toHaveBeenCalled();
+    expect(spy2).toHaveBeenCalled();
+  });
+
+  it('the method onStationsSelected should filter dropdown lists when there is filtered tariff card', () => {
+    const spy1 = spyOn(component, 'selectAllCouriersInTariffCards');
+    const spy2 = spyOn(component, 'selectAllRegionsInTariffCards');
+    const spy3 = spyOn(component, 'selectAllCitiesInTariffCards');
+    const filteredTariffCards = component.filterTariffCards();
+    component.onStationsSelected();
+    expect(spy1).toHaveBeenCalledWith(filteredTariffCards);
+    expect(spy2).toHaveBeenCalledWith(filteredTariffCards);
+    expect(spy3).toHaveBeenCalledWith(filteredTariffCards);
+  });
+
+  it('should set station placeholder', () => {
+    component.selectedStations = [stationItem];
+    component.setStationPlaceholder();
+    expect(component.stationPlaceholder).toEqual('1 вибрано');
+  });
+
+  it('should set station placeholder', () => {
+    component.selectedStations = [];
+    component.setStationPlaceholder();
+    expect(component.stationPlaceholder).toEqual('ubs-tariffs.placeholder-choose-station');
+  });
+
+  it('checkStation should return true if item is in selectedStation', () => {
+    component.selectedStations = [stationItem];
+    expect(component.checkStation('Фейк')).toEqual(true);
+  });
+
+  it('checkStation should return false if item is not in selectedStation', () => {
+    component.selectedStations = [stationItem];
+    expect(component.checkStation('Фейк1')).toEqual(false);
+  });
+
+  it('should filter options', () => {
+    const mockStationsName = ['Фейк1', 'Фейк2'];
+    const result = component.filterOptions('Фейк1', mockStationsName);
+    expect(result).toEqual(['Фейк1']);
+  });
+
+  it('destroy Subject should be closed after ngOnDestroy()', () => {
+    const unsubscribe = 'unsubscribe';
+    component[unsubscribe] = new Subject<boolean>();
+    spyOn(component[unsubscribe], 'complete');
+    component.ngOnDestroy();
+    expect(component[unsubscribe].complete).toHaveBeenCalledTimes(1);
   });
 });

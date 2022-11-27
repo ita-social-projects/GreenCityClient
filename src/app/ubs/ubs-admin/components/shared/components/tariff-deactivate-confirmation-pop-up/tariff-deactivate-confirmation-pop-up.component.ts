@@ -16,12 +16,10 @@ export class TariffDeactivateConfirmationPopUpComponent implements OnInit {
   public datePipe = new DatePipe('ua');
   public newDate = this.datePipe.transform(new Date(), 'MMM dd, yyyy');
   unsubscribe: Subject<any> = new Subject();
-  title: string;
   courierName: string;
   stationNames: Array<string>;
   regionNames: Array<string>;
   locationNames: Array<string>;
-  action: string;
 
   constructor(
     private localeStorageService: LocalStorageService,
@@ -31,18 +29,14 @@ export class TariffDeactivateConfirmationPopUpComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    this.title = this.modalData.title;
     this.courierName = this.modalData.courierName ?? '';
     this.stationNames = this.modalData.stationNames ?? '';
     this.regionNames = this.modalData.regionName ?? '';
     this.locationNames = this.modalData.locationNames ?? '';
-    this.action = this.modalData.action;
     this.localeStorageService.firstNameBehaviourSubject.pipe(takeUntil(this.unsubscribe)).subscribe((firstName) => {
       this.name = firstName;
     });
   }
-
-  public(): void {}
 
   public onNoClick(): void {
     const matDialogRef = this.dialog.open(ModalTextComponent, {
