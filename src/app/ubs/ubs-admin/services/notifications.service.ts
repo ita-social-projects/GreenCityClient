@@ -1,6 +1,5 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { environment } from '@environment/environment';
 import { Observable, of, throwError } from 'rxjs';
 import { NotificationFilterParams, NotificationTemplate, NotificationTemplatesPage } from '../models/notifications.model';
 
@@ -26,7 +25,7 @@ const getDummyPlatforms = () => [
   { name: 'viber', status: 'ACTIVE', body: { en: '', ua: '' } }
 ];
 
-const notificationTemplates = [
+export const notificationTemplates = [
   {
     id: 1,
     trigger: 'ORDER_NOT_PAID_FOR_3_DAYS',
@@ -122,8 +121,6 @@ const notificationTemplates = [
   providedIn: 'root'
 })
 export class NotificationsService {
-  private backend = environment.backendUbsLink;
-
   constructor(private http: HttpClient) {}
 
   getAllNotificationTemplates(
@@ -148,8 +145,6 @@ export class NotificationsService {
       totalElements,
       totalPages
     });
-    // For future: return this.http.get<NotificationTemplatesPage>(
-    // For future:  `${this.backend}/admin/notification/get-all-templates?page=${page}&size=${size}`);
   }
 
   getNotificationTemplate(id: number): Observable<NotificationTemplate> {
@@ -158,7 +153,6 @@ export class NotificationsService {
       return throwError(`No notification template with id ${id}!`);
     }
     return of(template);
-    // For future: return this.http.get<NotificationTemplate>(`${this.backend}/admin/notification/get-template/${id}`);
   }
 
   updateNotificationTemplate(id: number, notification: NotificationTemplate): Observable<void> {
@@ -166,12 +160,10 @@ export class NotificationsService {
     const packet = { title, platforms, time, trigger };
     console.log(id, packet);
     return of();
-    // For future: return this.http.put(`${this.backend}/admin/notification/update-template/${id}`, notification);
   }
 
   deactivateNotificationTemplate(id: number): Observable<void> {
     console.log(id);
     return of();
-    // For future: return this.http.delete(`${this.backend}/admin/notification/deactiavte-template/${id}`);
   }
 }
