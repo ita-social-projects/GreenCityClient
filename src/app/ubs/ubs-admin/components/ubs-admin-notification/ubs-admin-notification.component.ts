@@ -5,9 +5,10 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
 import { Subject } from 'rxjs';
 import { take, takeUntil } from 'rxjs/operators';
-import { NotificationsService, NotificationTemplate } from '../../services/notifications.service';
+import { NotificationsService } from '../../services/notifications.service';
 import { UbsAdminNotificationSettingsComponent } from './ubs-admin-notification-settings/ubs-admin-notification-settings.component';
 import { UbsAdminNotificationEditFormComponent } from './ubs-admin-notification-edit-form/ubs-admin-notification-edit-form.component';
+import { NotificationTemplate } from '../../models/notifications.model';
 
 @Component({
   selector: 'app-ubs-admin-notification',

@@ -2,6 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { environment } from '@environment/environment';
 import { Observable, of, throwError } from 'rxjs';
+import { NotificationFilterParams, NotificationTemplate, NotificationTemplatesPage } from '../models/notifications.model';
 
 export const notificationTriggers = [
   'ORDER_NOT_PAID_FOR_3_DAYS',
@@ -116,41 +117,6 @@ const notificationTemplates = [
     platforms: getDummyPlatforms()
   }
 ];
-
-export interface Platform {
-  name: string;
-  status: string;
-  body: {
-    en: string;
-    ua: string;
-  };
-}
-
-export interface NotificationTemplate {
-  id: number;
-  title: {
-    en: string;
-    ua: string;
-  };
-  schedule: string | null;
-  trigger: string;
-  time: string;
-  status: string;
-  platforms: Platform[];
-}
-
-export interface NotificationTemplatesPage {
-  currentPage: number;
-  page: NotificationTemplate[];
-  totalElements: number;
-  totalPages: number;
-}
-
-export interface NotificationFilterParams {
-  title?: string;
-  triggers?: string[];
-  status?: string;
-}
 
 @Injectable({
   providedIn: 'root'
