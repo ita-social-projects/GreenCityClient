@@ -1,5 +1,5 @@
 import { Location } from '@angular/common';
-import { Component, Injector, OnDestroy, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { ActivatedRoute, Router } from '@angular/router';
 import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
@@ -8,7 +8,6 @@ import { take, takeUntil } from 'rxjs/operators';
 import { NotificationsService, NotificationTemplate } from '../../services/notifications.service';
 import { UbsAdminNotificationSettingsComponent } from './ubs-admin-notification-settings/ubs-admin-notification-settings.component';
 import { UbsAdminNotificationEditFormComponent } from './ubs-admin-notification-edit-form/ubs-admin-notification-edit-form.component';
-import { TranslateService } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-ubs-admin-notification',
