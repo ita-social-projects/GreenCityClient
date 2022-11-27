@@ -8,7 +8,6 @@ import { take, takeUntil } from 'rxjs/operators';
 import { NotificationsService, NotificationTemplate } from '../../services/notifications.service';
 import { UbsAdminNotificationSettingsComponent } from './ubs-admin-notification-settings/ubs-admin-notification-settings.component';
 import { UbsAdminNotificationEditFormComponent } from './ubs-admin-notification-edit-form/ubs-admin-notification-edit-form.component';
-import { ConfirmationDialogService } from 'src/app/main/component/admin/services/confirmation-dialog-service.service';
 import { TranslateService } from '@ngx-translate/core';
 
 @Component({
@@ -18,7 +17,6 @@ import { TranslateService } from '@ngx-translate/core';
 })
 export class UbsAdminNotificationComponent implements OnInit, OnDestroy {
   private destroy = new Subject<void>();
-  private confirmationDialogService: ConfirmationDialogService;
 
   icons = {
     back: 'assets/img/ubs-admin-notifications/back.svg',
@@ -36,12 +34,8 @@ export class UbsAdminNotificationComponent implements OnInit, OnDestroy {
     private route: ActivatedRoute,
     private router: Router,
     private location: Location,
-    private dialog: MatDialog,
-    private injector: Injector,
-    private translate: TranslateService
-  ) {
-    this.confirmationDialogService = this.injector.get(ConfirmationDialogService);
-  }
+    private dialog: MatDialog
+  ) {}
 
   ngOnInit(): void {
     this.localStorageService.languageBehaviourSubject.pipe(takeUntil(this.destroy)).subscribe((lang) => {
@@ -125,18 +119,9 @@ export class UbsAdminNotificationComponent implements OnInit, OnDestroy {
     this.notification.platforms.find((pf) => pf.name === platform).status = 'INACTIVE';
   }
 
-  async onDeactivateNotification() {
-    const popup = {
-      title: this.translate.instant('ubs-notifications.deactivation-popup.title'),
-      text: this.translate.instant('ubs-notifications.deactivation-popup.text'),
-      confirm: this.translate.instant('ubs-notifications.deactivation-popup.buttons.confirm'),
-      cancel: this.translate.instant('ubs-notifications.deactivation-popup.buttons.cancel')
-    };
-    const confirmed = await this.confirmationDialogService.confirm(popup.title, popup.text, popup.confirm, popup.cancel, 'md');
-    if (confirmed) {
-      this.notificationsService.deactivateNotificationTemplate(this.notification.id);
-      this.navigateToNotificationList();
-    }
+  onDeactivateNotification() {
+    this.notificationsService.deactivateNotificationTemplate(this.notification.id);
+    this.navigateToNotificationList();
   }
 
   onCancel(): void {

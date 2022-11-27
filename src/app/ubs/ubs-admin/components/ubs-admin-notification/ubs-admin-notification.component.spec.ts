@@ -202,13 +202,6 @@ describe('UbsAdminNotificationComponent', () => {
     expect(backSpy).toHaveBeenCalled();
   });
 
-  it('`deactivate` button should open confirmation popup', async () => {
-    const confirmationSpy = spyOn(confirmationDialogServiceMock, 'confirm');
-    const deactivateButton = getButton('deactivate', getInfoContainer());
-    deactivateButton.triggerEventHandler('click', null);
-    expect(confirmationSpy).toHaveBeenCalled();
-  });
-
   it('`settings` button should open settings popup', async () => {
     const openDialogSpy = spyOn(dialogMock, 'open');
     getButton('edit', getInfoContainer()).triggerEventHandler('click', null);
