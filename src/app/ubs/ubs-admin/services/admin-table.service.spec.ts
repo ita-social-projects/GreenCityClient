@@ -2,12 +2,9 @@ import { HttpClientTestingModule, HttpTestingController } from '@angular/common/
 import { TestBed, ComponentFixture } from '@angular/core/testing';
 import { AdminTableService } from './admin-table.service';
 import { environment } from '@environment/environment.js';
-import { IFilteredColumn } from '../models/ubs-admin.interface';
 import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
 import { IFilteredColumnValue } from '../models/ubs-admin.interface';
 import { MatCheckboxChange } from '@angular/material/checkbox';
-
-import { UbsAdminTableComponent } from '../components/ubs-admin-table/ubs-admin-table.component';
 
 describe('AdminTableService', () => {
   let httpMock: HttpTestingController;
@@ -39,6 +36,25 @@ describe('AdminTableService', () => {
     });
     const req = httpMock.expectOne(`${urlMock}/bigOrderTable?sortBy=code&pageNumber=0&pageSize=5&sortDirection=DESC`);
     expect(req.request.method).toBe('GET');
+  });
+
+  it('should set objKeys if filters lengs 1', () => {
+    service.filters = [{ filt: 'test' }];
+    service.getTable('code', 0, '', 5, 'DESC');
+    service.filters.forEach((el) => {
+      const objKeys = Object.keys(el);
+      expect(objKeys[0]).toBe('filt');
+    });
+  });
+
+  it('should set objKeys if filters lengs 2', () => {
+    service.filters = [{ paymentDateFrom: '2022-10-08', paymentDateTo: '2022-10-08' }];
+    service.getTable('code', 0, '', 5, 'DESC');
+    service.filters.forEach((el) => {
+      const objKeys = Object.keys(el);
+      expect(objKeys[0]).toBe('paymentDateFrom');
+      expect(objKeys[1]).toBe('paymentDateTo');
+    });
   });
 
   it('should return columns', () => {
@@ -171,6 +187,13 @@ describe('AdminTableService', () => {
     spyOn(service, 'getDateValue');
     service.getDateValue('From', 'dateColumn');
     expect(service.getDateValue).toHaveBeenCalledWith('From', 'dateColumn');
+  });
+
+  it('should convert date format by convertDate', () => {
+    const date = 'Mon Nov 28 2022 13:01:36 GMT+0200 (за східноєвропейським стандартним часом)';
+    spyOn(service, 'convertDate');
+    service.convertDate(date);
+    expect(service.convertDate).toHaveBeenCalledWith('Mon Nov 28 2022 13:01:36 GMT+0200 (за східноєвропейським стандартним часом)');
   });
 
   it('saveDateFilters should be call', () => {

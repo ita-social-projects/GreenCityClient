@@ -23,24 +23,13 @@ import { LocalStorageService } from '@global-service/localstorage/local-storage.
 import { SelectionModel } from '@angular/cdk/collections';
 import { Language } from 'src/app/main/i18n/Language';
 import { DateAdapter } from '@angular/material/core';
-import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
+import { FormBuilder, FormControl } from '@angular/forms';
+import { AdminTableService } from '../../services/admin-table.service';
 
 describe('UsbAdminTableComponent', () => {
   let component: UbsAdminTableComponent;
   let fixture: ComponentFixture<UbsAdminTableComponent>;
   const storeMock = jasmine.createSpyObj('store', ['select', 'dispatch']);
-
-  const dateFormMock = new FormGroup({
-    orderDateFrom: new FormControl(''),
-    orderDateTo: new FormControl(''),
-    orderDateCheck: new FormControl(false),
-    dateOfExportFrom: new FormControl(''),
-    dateOfExportTo: new FormControl(''),
-    dateOfExportCheck: new FormControl(false),
-    paymentDateFrom: new FormControl(''),
-    paymentDateTo: new FormControl(''),
-    paymentDateCheck: new FormControl(false)
-  });
 
   const dateMock = {
     orderDateFrom: '2022-10-10',
@@ -632,6 +621,39 @@ describe('UsbAdminTableComponent', () => {
     spyOn((component as any).adminTableService, 'changeFilters');
     component.changeFilters(true, 'currentColumn', { filtered: true });
     expect((component as any).adminTableService.changeFilters).toHaveBeenCalledWith(true, 'currentColumn', { filtered: true });
+  });
+
+  it('should call changeInputDate on click', () => {
+    const event: MatCheckboxChange = { source: {} as any, checked: false };
+    const currentColumn = 'orderDate';
+    const suffix = 'From';
+    spyOn(component, 'changeInputDate');
+    component.changeInputDate(event, currentColumn, suffix);
+    expect(component.changeInputDate).toHaveBeenCalledWith(event, 'orderDate', 'From');
+  });
+
+  it('should set values on changeInputDate', () => {
+    const event: MatCheckboxChange = { source: {} as any, checked: false };
+    const currentColumn = 'orderDate';
+    const suffix = 'From';
+    const controlName = (component as any).getControlName(currentColumn, suffix);
+
+    const date = 'Mon Nov 28 2022 13:01:36 GMT+0200 (за східноєвропейським стандартним часом)';
+    const value = (component as any).adminTableService.setDateFormat(date);
+
+    component.changeInputDate(event, currentColumn, suffix);
+    expect(component.noFiltersApplied).toBe(false);
+    expect(controlName).toBe('orderDateFrom');
+    expect(value).toBe('2022-11-28');
+  });
+
+  it('should get checkControl on changeInputDate', () => {
+    const event: MatCheckboxChange = { source: {} as any, checked: false };
+    const currentColumn = 'orderDate';
+    const suffix = 'From';
+    const checkControl = component.dateForm.get(`orderDateCheck`).value;
+    component.changeInputDate(event, currentColumn, suffix);
+    expect(checkControl).toBe(false);
   });
 
   it('clearFilters expect setColumnsForFiltering, applyFilters and setFilters shoud be call', () => {
