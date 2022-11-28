@@ -90,6 +90,7 @@ import { CronPickerComponent } from './components/shared/components/cron-picker/
 import { EditPaymentConfirmationPopUpComponent } from './components/shared/components/edit-payment-confirmation-pop-up/edit-payment-confirmation-pop-up.component';
 import { UbsAdminNotificationEditFormComponent } from './components/ubs-admin-notification/ubs-admin-notification-edit-form/ubs-admin-notification-edit-form.component';
 import { UbsAdminNotificationSettingsComponent } from './components/ubs-admin-notification/ubs-admin-notification-settings/ubs-admin-notification-settings.component';
+import { ConfirmationDialogComponent } from './components/shared/components/confirmation-dialog/confirmation-dialog.component';
 
 @NgModule({
   declarations: [
@@ -151,7 +152,8 @@ import { UbsAdminNotificationSettingsComponent } from './components/ubs-admin-no
     CronPickerComponent,
     EditPaymentConfirmationPopUpComponent,
     UbsAdminNotificationEditFormComponent,
-    UbsAdminNotificationSettingsComponent
+    UbsAdminNotificationSettingsComponent,
+    ConfirmationDialogComponent
   ],
   imports: [
     CommonModule,

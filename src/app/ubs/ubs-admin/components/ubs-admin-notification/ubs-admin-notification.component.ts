@@ -9,6 +9,7 @@ import { NotificationsService } from '../../services/notifications.service';
 import { UbsAdminNotificationSettingsComponent } from './ubs-admin-notification-settings/ubs-admin-notification-settings.component';
 import { UbsAdminNotificationEditFormComponent } from './ubs-admin-notification-edit-form/ubs-admin-notification-edit-form.component';
 import { NotificationTemplate } from '../../models/notifications.model';
+import { ConfirmationDialogComponent } from '../shared/components/confirmation-dialog/confirmation-dialog.component';
 
 @Component({
   selector: 'app-ubs-admin-notification',
@@ -120,8 +121,22 @@ export class UbsAdminNotificationComponent implements OnInit, OnDestroy {
   }
 
   onDeactivateNotification() {
-    this.notificationsService.deactivateNotificationTemplate(this.notification.id);
-    this.navigateToNotificationList();
+    const translationKeys = {
+      title: 'ubs-notifications.deactivation-popup.title',
+      text: 'ubs-notifications.deactivation-popup.text',
+      confirm: 'ubs-notifications.deactivation-popup.buttons.confirm',
+      cancel: 'ubs-notifications.deactivation-popup.buttons.cancel'
+    };
+    this.dialog
+      .open(ConfirmationDialogComponent, { hasBackdrop: true, data: translationKeys })
+      .afterClosed()
+      .subscribe((deactivate) => {
+        if (!deactivate) {
+          return;
+        }
+        this.notificationsService.deactivateNotificationTemplate(this.notification.id);
+        this.navigateToNotificationList();
+      });
   }
 
   onCancel(): void {

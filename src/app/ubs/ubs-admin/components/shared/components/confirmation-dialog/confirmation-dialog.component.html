@@ -1,0 +1,16 @@
+<div class="dialog-container">
+  <h2 mat-dialog-title>{{ title | translate }}</h2>
+
+  <div mat-dialog-content class="dialog-content">
+    {{ text | translate }}
+  </div>
+
+  <div mat-dialog-actions class="controls">
+    <button mat-flat-button class="cancel-button" type="button" (click)="onCancel()">
+      {{ cancel | translate }}
+    </button>
+    <button mat-flat-button color="warn" class="submit-button" type="submit" (click)="onSubmit()">
+      {{ confirm | translate }}
+    </button>
+  </div>
+</div>
