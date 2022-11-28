@@ -245,6 +245,8 @@ describe('UbsAdminTariffsDeactivatePopUpComponent', () => {
     expect(spy7).toHaveBeenCalled();
   });
 
+  // Gettiong data
+
   it('should get all couriers', () => {
     component.getCouriers();
     expect(component.couriers).toEqual(fakeCouriers);
@@ -266,6 +268,8 @@ describe('UbsAdminTariffsDeactivatePopUpComponent', () => {
     component.getTariffCards();
     expect(component.tariffCards).toEqual([fakeTariffCard]);
   });
+
+  // Courier
 
   it('the method selectCourier should set courier id and call onSelectedCourier', () => {
     component.couriers = fakeCouriers;
@@ -304,6 +308,8 @@ describe('UbsAdminTariffsDeactivatePopUpComponent', () => {
     expect(spy2).toHaveBeenCalledWith(filteredTariffCards);
     expect(spy3).toHaveBeenCalledWith(filteredTariffCards);
   });
+
+  // Station
 
   it('the method selectStation should be called', () => {
     component.selectedStations.push(stationItem);
@@ -385,6 +391,8 @@ describe('UbsAdminTariffsDeactivatePopUpComponent', () => {
     component.selectedStations = [stationItem];
     expect(component.checkStation('Фейк1')).toEqual(false);
   });
+
+  // Region
 
   it('should filter options', () => {
     const mockStationsName = ['Фейк1', 'Фейк2'];
