@@ -27,11 +27,11 @@ export class ConfirmationDialogComponent implements OnInit {
     // This is intentional
   }
 
-  onCancel() {
+  onCancel(): void {
     this.dialogRef.close(false);
   }
 
-  onSubmit() {
+  onSubmit(): void {
     this.dialogRef.close(true);
   }
 }
