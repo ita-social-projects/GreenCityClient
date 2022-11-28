@@ -1,0 +1,187 @@
+.container {
+  font-family: var(--primary-font);
+  max-width: 573px;
+  max-height: 879px;
+  padding: 0 45px;
+
+  .close-container {
+    position: relative;
+    display: flex;
+    justify-content: flex-end;
+    top: -5px;
+    right: 5px;
+  }
+
+  .close-btn {
+    border: none;
+    background-color: transparent;
+    outline: none;
+    color: var(--quaternary-grey);
+    cursor: pointer;
+
+    &:hover {
+      color: var(--ubs-quaternary-dark-grey);
+    }
+
+    img {
+      width: 20px;
+    }
+  }
+}
+
+.title {
+  font-size: 30px;
+  max-width: 500px;
+  margin-bottom: 20px;
+  font-weight: 700;
+  line-height: 32px;
+}
+
+h6 {
+  font-size: 16px;
+  font-weight: 700;
+  line-height: 32px;
+  margin: 0;
+}
+
+.title-photo {
+  margin-top: 32px;
+}
+
+.photo-description {
+  color: var(--quaternary-grey);
+  font-weight: 700;
+  font-size: 16px;
+}
+
+textarea {
+  margin-top: 20px;
+  padding: 10px;
+  font-size: 18px;
+  border: 1px solid var(--ubs-quintynary-light-grey);
+  border-radius: 4px;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  width: 480px;
+  height: 141px;
+}
+
+textarea::placeholder {
+  font-weight: 400;
+  font-size: 14px;
+  color: var(--ubs-quintynary-light-grey);
+}
+
+.requirement {
+  font-weight: 400;
+  font-size: 12px;
+  color: var(--quaternary-grey);
+}
+
+.images {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+}
+
+.add-photos {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.image-container {
+  position: relative;
+  width: 160px;
+  height: 105px;
+  background: var(--pre-secondary-light-grey);
+  border: 1px solid var(--ubs-primary-light-grey);
+  box-sizing: border-box;
+  margin: 1px;
+}
+
+.custom-file-upload {
+  display: inline-block;
+  font-size: 18px;
+  color: var(--ubs-primary-green);
+  padding: 6px 12px;
+  cursor: pointer;
+  font-weight: 700;
+}
+
+.delete-block {
+  justify-content: space-between;
+  position: absolute;
+  top: 0;
+  left: 0;
+  background: var(--ubs-quaternary-light-grey);
+  opacity: 0.7;
+  max-width: 158px;
+  display: none;
+  max-height: 45px;
+
+  &:hover {
+    display: flex;
+    cursor: pointer;
+  }
+
+  div:nth-of-type(1) {
+    width: 158px;
+    overflow: hidden;
+  }
+
+  div:nth-of-type(2) {
+    width: 15px;
+  }
+}
+
+.image-preview {
+  width: 158px;
+  height: 105px;
+  cursor: pointer;
+
+  &:hover + .delete-block {
+    display: flex;
+    width: 158px;
+  }
+}
+
+.drag-inscription {
+  font-size: 12px;
+  line-height: 16px;
+  font-weight: 400;
+  color: var(--quaternary-grey);
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  text-align: center;
+  transform: translate(-50%, -50%);
+}
+
+.btn-container {
+  text-align-last: right;
+  margin-bottom: 40px;
+  margin-top: 40px;
+
+  .btn {
+    border-radius: 5px;
+    font-size: 20px;
+  }
+}
+
+.date {
+  margin-right: 32px;
+}
+
+.info .date {
+  color: var(--quaternary-grey);
+  font-weight: normal;
+  font-size: 14px;
+}
+
+.error-message {
+  color: var(--ubs-primary-red);
+  font-size: 14px;
+  font-weight: 400;
+}
