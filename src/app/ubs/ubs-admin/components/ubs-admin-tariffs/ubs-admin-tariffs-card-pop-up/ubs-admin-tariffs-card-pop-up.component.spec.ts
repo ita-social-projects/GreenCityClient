@@ -35,80 +35,50 @@ describe('UbsAdminTariffsCardPopUpComponent', () => {
         name: 'фейкКурєр',
         nameEng: 'fakeCourier'
       }
-    ]
+    ],
+    createDate: 'fake date',
+    createdBy: 'fakeUser'
   };
 
   const fakeStation = {
+    createDate: 'fake date',
+    createdBy: 'fakeUser',
     id: 1,
     name: 'fake'
   };
 
   const mockRegion = [
     {
-      regionId: 1,
-      regionTranslationDtos: [
-        {
-          regionName: 'Фейк область',
-          languageCode: 'ua'
-        },
-        {
-          regionName: 'Fake region',
-          languageCode: 'en'
-        }
-      ],
       locationsDto: [
         {
+          latitude: 12,
+          locationId: 1,
+          locationStatus: 'фейк',
           locationTranslationDtoList: [
-            {
-              locationName: 'Фейк1',
-              languageCode: 'ua'
-            },
-            {
-              locationName: 'Fake1',
-              languageCode: 'en'
-            }
-          ]
-        },
-        {
-          locationTranslationDtoList: [
-            {
-              locationName: 'Фейк2',
-              languageCode: 'ua'
-            },
-            {
-              locationName: 'Fake2',
-              languageCode: 'en'
-            }
-          ]
+            { languageCode: 'ua', locationName: 'Фейк1' },
+            { languageCode: 'en', locationName: 'Fake1' }
+          ],
+          longitude: 13
         }
+      ],
+      regionId: 1,
+      regionTranslationDtos: [
+        { regionName: 'Фейк область', languageCode: 'ua' },
+        { regionName: 'Fake region', languageCode: 'en' }
       ]
     }
   ];
 
   const mockCities = [
     {
+      latitude: 12,
+      locationId: 1,
+      locationStatus: 'фейк',
       locationTranslationDtoList: [
-        {
-          locationName: 'Фейк1',
-          languageCode: 'ua'
-        },
-        {
-          locationName: 'Fake1',
-          languageCode: 'en'
-        }
-      ]
-    },
-    {
-      locationTranslationDtoList: [
-        {
-          locationName: 'Фейк2',
-          languageCode: 'ua'
-        },
-        {
-          locationName: 'Fake2',
-          languageCode: 'en'
-        }
-      ]
+        { languageCode: 'ua', locationName: 'Фейк1' },
+        { languageCode: 'en', locationName: 'Fake1' }
+      ],
+      longitude: 13
     }
   ];
 

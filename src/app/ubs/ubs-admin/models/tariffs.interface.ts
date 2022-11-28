@@ -78,6 +78,7 @@ export interface RegionTranslationDto {
 export interface LocationDto {
   latitude: number;
   locationId: number;
+  locationStatus: string;
   locationTranslationDtoList: Location[];
   longitude: number;
 }

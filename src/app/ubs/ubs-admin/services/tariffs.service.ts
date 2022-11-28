@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { mainUbsLink } from 'src/app/main/links';
 import { HttpClient } from '@angular/common/http';
-import { Bag, CreateCard, EditLocationName, Service } from '../models/tariffs.interface';
+import { Bag, CreateCard, EditLocationName, Service, Couriers, Stations, Locations } from '../models/tariffs.interface';
 
 import { Observable } from 'rxjs';
 import { ajax } from 'rxjs/ajax';
@@ -77,12 +77,12 @@ export class TariffsService {
     return this.http.put(`${mainUbsLink}/ubs/superAdmin/editService/${id}`, service);
   }
 
-  getLocations() {
-    return this.http.get(`${mainUbsLink}/ubs/superAdmin/getLocations`);
+  getLocations(): Observable<Locations[]> {
+    return this.http.get<Locations[]>(`${mainUbsLink}/ubs/superAdmin/getLocations`);
   }
 
-  getCouriers(): Observable<any[]> {
-    return this.http.get<any[]>(`${mainUbsLink}/ubs/superAdmin/getCouriers`);
+  getCouriers(): Observable<Couriers[]> {
+    return this.http.get<Couriers[]>(`${mainUbsLink}/ubs/superAdmin/getCouriers`);
   }
 
   editInfo(info) {
@@ -109,8 +109,8 @@ export class TariffsService {
     return this.http.post(`${mainUbsLink}/ubs/superAdmin/addLocations`, card);
   }
 
-  getAllStations(): Observable<any[]> {
-    return this.http.get<any[]>(`${mainUbsLink}/ubs/superAdmin/get-all-receiving-station`);
+  getAllStations(): Observable<Stations[]> {
+    return this.http.get<Stations[]>(`${mainUbsLink}/ubs/superAdmin/get-all-receiving-station`);
   }
 
   addStation(nameOfStation) {
