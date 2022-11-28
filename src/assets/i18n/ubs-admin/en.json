@@ -913,6 +913,14 @@
         "cancel": "Cancel",
         "change": "Change"
       }
+    },
+    "deactivation-popup": {
+      "title": "Deactivate notification",
+      "text": "Are you sure you want to deactivate notification?",
+      "buttons": {
+        "cancel": "Cancel",
+        "confirm": "Deactivate"
+      }
     }
   },
   "cron-picker": {

@@ -30,6 +30,11 @@ describe('CronPipe', () => {
     expect(pipe).toBeTruthy();
   });
 
+  it('returns null on empty input', () => {
+    expect(pipe.transform('')).toBe(null);
+    expect(pipe.transform()).toBe(null);
+  });
+
   it('should transform cron string correctly', () => {
     expect(pipe.transform('10 15 5-7 1,9,11 0')).toBe('at 15:10 on every day-of-month from 5 through 7 and on Sun in Jan, Sep and Nov');
     expect(pipe.transform('10 * * * *')).toBe('at minute 10');
