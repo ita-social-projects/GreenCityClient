@@ -65,7 +65,7 @@ export class UbsAdminTariffsAddTariffServicePopUpComponent implements OnInit {
       capacity: new FormControl({ value: this.receivedData.bagData.capacity }),
       price: new FormControl('', [Validators.required, Validators.pattern(Patterns.ubsPrice)]),
       description: new FormControl({ value: this.receivedData.bagData.description }),
-      englishDescription: new FormControl(''),
+      descriptionEng: new FormControl(this.receivedData.bagData.descriptionEng),
       commission: new FormControl('', [Validators.required, Validators.pattern(Patterns.ubsPrice)])
     });
   }
@@ -77,7 +77,7 @@ export class UbsAdminTariffsAddTariffServicePopUpComponent implements OnInit {
 
   addNewTariffForService() {
     const locationId = this.receivedData.locationId;
-    const { name, nameEng, capacity, price, commission, description } = this.addTariffServiceForm.value;
+    const { name, nameEng, capacity, price, commission, description, descriptionEng } = this.addTariffServiceForm.value;
 
     this.tariffService = {
       capacity,
@@ -88,6 +88,7 @@ export class UbsAdminTariffsAddTariffServicePopUpComponent implements OnInit {
         {
           name,
           description,
+          descriptionEng,
           nameEng
         }
       ]
@@ -105,13 +106,14 @@ export class UbsAdminTariffsAddTariffServicePopUpComponent implements OnInit {
 
   editTariffForService(receivedData) {
     const langCode = receivedData.bagData.languageCode;
-    const { name, capacity, price, commission, description } = this.addTariffServiceForm.getRawValue();
+    const { name, capacity, price, commission, description, descriptionEng } = this.addTariffServiceForm.getRawValue();
     this.tariffService = {
       name,
       capacity,
       price,
       commission,
       description,
+      descriptionEng,
       langCode
     };
     this.loadingAnim = true;
