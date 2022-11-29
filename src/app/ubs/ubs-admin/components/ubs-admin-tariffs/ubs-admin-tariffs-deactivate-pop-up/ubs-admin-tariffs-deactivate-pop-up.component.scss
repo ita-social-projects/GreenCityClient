@@ -44,11 +44,6 @@
   border-color: var(--ubs-quintynary-light-grey);
 }
 
-.mat-select-disabled {
-  background-color: #e9ecef;
-  opacity: 1;
-}
-
 .selected-items {
   display: flex;
   flex-direction: column;
@@ -96,8 +91,4 @@ input {
   width: 48%;
   margin-bottom: 32px;
   text-align: end;
-}
-
-.onBlurSelectionPanel {
-  border-color: var(--ubs-quintynary-light-grey) !important;
 }

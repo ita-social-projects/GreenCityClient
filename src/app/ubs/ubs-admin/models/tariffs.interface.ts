@@ -115,8 +115,8 @@ export interface CreateCard {
 
 export interface TariffCard {
   cardId: number;
-  regionDto: regionDto;
-  locationInfoDtos: locationInfoDtos[];
+  regionDto: RegionDto;
+  locationInfoDtos: LocationInfoDtos[];
   receivingStationDtos: Stations[];
   courierTranslationDtos: CourierTranslationDto[];
   tariffStatus: string;
@@ -130,13 +130,13 @@ export interface TariffCard {
   courierId: number;
 }
 
-export interface regionDto {
+export interface RegionDto {
   regionId: number;
   nameEn: string;
   nameUk: string;
 }
 
-export interface locationInfoDtos {
+export interface LocationInfoDtos {
   locationId: number;
   nameEn: string;
   nameUk: string;

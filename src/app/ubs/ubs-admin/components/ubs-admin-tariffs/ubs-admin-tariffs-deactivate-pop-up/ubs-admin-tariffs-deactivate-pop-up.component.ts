@@ -210,7 +210,7 @@ export class UbsAdminTariffsDeactivatePopUpComponent implements OnInit, OnDestro
     }
     if (!this.selectedStations.length) {
       this.courier.enable();
-      this.station.enable();
+      this.region.enable();
       this.onDeletedField();
     }
   }
@@ -262,7 +262,7 @@ export class UbsAdminTariffsDeactivatePopUpComponent implements OnInit, OnDestro
     }
     if (!this.selectedStations.length) {
       this.courier.enable();
-      this.station.enable();
+      this.region.enable();
       this.onDeletedField();
     }
   }
@@ -468,13 +468,13 @@ export class UbsAdminTariffsDeactivatePopUpComponent implements OnInit, OnDestro
       this.onCitiesSelected();
     }
     if (this.selectedCities.length < 1) {
-      this.onRegionSelected();
       this.courier.enable();
       this.station.enable();
+      this.onDeletedField();
     }
   }
 
-  public filterTariffCards(): Array<any> {
+  public filterTariffCards(): TariffCard[] {
     let filteredTariffCards = this.tariffCards;
     if (this.courier.value) {
       filteredTariffCards = this.filterTariffCardsByCourier(filteredTariffCards);
@@ -491,46 +491,46 @@ export class UbsAdminTariffsDeactivatePopUpComponent implements OnInit, OnDestro
     return filteredTariffCards;
   }
 
-  public filterTariffCardsByCourier(tariffCards: Array<any>): Array<any> {
+  public filterTariffCardsByCourier(tariffCards: TariffCard[]): TariffCard[] {
     return tariffCards.filter((el) => el.courierId === this.courierId);
   }
 
-  public filterTariffCardsByStations(tariffCards: Array<any>): Array<any> {
-    let filteredTariffCards = tariffCards.filter((el) => el.receivingStationDtos.find((it) => it.name === this.selectedStations[0].name));
+  public filterTariffCardsByStations(tariffCards: TariffCard[]): TariffCard[] {
+    let filteredTariffCards = tariffCards;
     this.selectedStations.forEach((station) => {
       filteredTariffCards = filteredTariffCards.filter((el) => el.receivingStationDtos.find((it) => it.name === station.name));
     });
     return filteredTariffCards;
   }
 
-  public filterTariffCardsByRegion(tariffCards: Array<any>): Array<any> {
+  public filterTariffCardsByRegion(tariffCards: TariffCard[]): TariffCard[] {
     return tariffCards.filter((el) => el.regionDto.nameUk === this.selectedRegions[0].name);
   }
 
-  public filterTariffCardsByCities(tariffCards: Array<any>): Array<any> {
-    let filteredTariffCards = tariffCards.filter((el) => el.locationInfoDtos.find((it) => it.nameUk === this.selectedCities[0].name));
+  public filterTariffCardsByCities(tariffCards: TariffCard[]): TariffCard[] {
+    let filteredTariffCards = tariffCards;
     this.selectedCities.forEach((city) => {
       filteredTariffCards = filteredTariffCards.filter((el) => el.locationInfoDtos.find((it) => it.nameUk === city.name));
     });
     return filteredTariffCards;
   }
 
-  public selectAllCouriersInTariffCards(filteredTatiffCards: Array<any>): void {
+  public selectAllCouriersInTariffCards(filteredTatiffCards: TariffCard[]): void {
     const selectAllCouriers = filteredTatiffCards.map((it) => it.courierTranslationDtos.map((el) => el.name)).flat(2);
     this.couriersName = this.filteredCouriers = this.removeDuplicates(selectAllCouriers);
   }
 
-  public selectAllStationsInTariffCards(filteredTatiffCards: Array<any>): void {
+  public selectAllStationsInTariffCards(filteredTatiffCards: TariffCard[]): void {
     const selectAllStations = filteredTatiffCards.map((it) => it.receivingStationDtos.map((el) => el.name)).flat(2);
     this.stationsName = this.filteredStations = this.removeDuplicates(selectAllStations);
   }
 
-  public selectAllRegionsInTariffCards(filteredTatiffCards: Array<any>): void {
+  public selectAllRegionsInTariffCards(filteredTatiffCards: TariffCard[]): void {
     const selectAllRegions = filteredTatiffCards.map((it) => it.regionDto.nameUk);
     this.regionsName = this.filteredRegions = this.removeDuplicates(selectAllRegions);
   }
 
-  public selectAllCitiesInTariffCards(filteredTatiffCards: Array<any>): void {
+  public selectAllCitiesInTariffCards(filteredTatiffCards: TariffCard[]): void {
     const selectAllCitiesName = filteredTatiffCards.map((it) => it.locationInfoDtos.map((el) => el.nameUk)).flat(2);
     this.currentCitiesName = this.filteredCities = this.removeDuplicates(selectAllCitiesName);
   }
@@ -675,6 +675,7 @@ export class UbsAdminTariffsDeactivatePopUpComponent implements OnInit, OnDestro
     });
     matDialogRef.afterClosed().subscribe((res) => {
       if (res) {
+        // here will be deativate request
       }
     });
   }
