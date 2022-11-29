@@ -65,14 +65,14 @@ export class UbsAdminTariffsAddServicePopUpComponent implements OnInit, OnDestro
       price: new FormControl('', [Validators.required, Validators.pattern(Patterns.ubsPrice)]),
       commission: new FormControl('', [Validators.required, Validators.pattern(Patterns.ubsPrice)]),
       description: new FormControl({ value: this.receivedData.serviceData.description }),
-      englishDescription: new FormControl('')
+      descriptionEng: new FormControl(this.receivedData.serviceData.descriptionEng)
     });
   }
 
   async addNewService() {
     const courierId: number = this.tariffsService.getCourierId();
 
-    const { name, nameEng, capacity, price, commission, description } = this.addServiceForm.value;
+    const { name, nameEng, capacity, price, commission, description, descriptionEng } = this.addServiceForm.value;
     this.service = {
       capacity,
       price,
@@ -81,6 +81,7 @@ export class UbsAdminTariffsAddServicePopUpComponent implements OnInit, OnDestro
       serviceTranslationDtoList: [
         {
           description,
+          descriptionEng,
           name,
           nameEng
         }
@@ -112,7 +113,7 @@ export class UbsAdminTariffsAddServicePopUpComponent implements OnInit, OnDestro
 
   editService() {
     const locationId = this.tariffsService.getLocationId();
-    const { name, nameEng, price, capacity, commission, description } = this.addServiceForm.getRawValue();
+    const { name, nameEng, price, capacity, commission, description, descriptionEng } = this.addServiceForm.getRawValue();
     this.service = {
       name,
       nameEng,
@@ -120,6 +121,7 @@ export class UbsAdminTariffsAddServicePopUpComponent implements OnInit, OnDestro
       price,
       commission,
       description,
+      descriptionEng,
       locationId
     };
     this.loadingAnim = true;

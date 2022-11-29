@@ -28,6 +28,7 @@ export interface Service {
   capacity?: number;
   commission: number;
   description?: string;
+  descriptionEng?: string;
   name?: string;
   nameEng?: string;
   languageCode?: string;
@@ -38,6 +39,7 @@ export interface Service {
   serviceTranslationDtoList?: [
     {
       description: string;
+      descriptionEng: string;
       nameEng: string;
       name: string;
     }
