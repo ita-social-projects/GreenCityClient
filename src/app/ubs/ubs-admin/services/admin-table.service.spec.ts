@@ -196,6 +196,13 @@ describe('AdminTableService', () => {
     expect(service.convertDate).toHaveBeenCalledWith('Mon Nov 28 2022 13:01:36 GMT+0200 (за східноєвропейським стандартним часом)');
   });
 
+  it('should call local storage setUbsAdminOrdersTableTitleColumnFilter method', () => {
+    const filters = [{ orderDate: '2022-10-12' }];
+    spyOn(localStorageService, 'setUbsAdminOrdersTableTitleColumnFilter');
+    localStorageService.setUbsAdminOrdersTableTitleColumnFilter(filters);
+    expect(localStorageService.setUbsAdminOrdersTableTitleColumnFilter).toHaveBeenCalledWith([{ orderDate: '2022-10-12' }]);
+  });
+
   it('saveDateFilters should be call', () => {
     spyOn(service, 'saveDateFilters');
     service.saveDateFilters(true, 'dateColumn', 'From');
@@ -209,9 +216,32 @@ describe('AdminTableService', () => {
   });
 
   it('changeInputDateFilters should be call', () => {
+    const value = '2022-10-12';
+    const currentColumn = 'orderDate';
+    const suffix = 'From';
+    const check = false;
     spyOn(service, 'changeInputDateFilters');
-    service.changeInputDateFilters('true', 'dateColumn', 'From');
-    expect(service.changeInputDateFilters).toHaveBeenCalledWith('true', 'dateColumn', 'From');
+    service.changeInputDateFilters(value, currentColumn, suffix, check);
+    expect(service.changeInputDateFilters).toHaveBeenCalledWith('2022-10-12', 'orderDate', 'From', false);
+  });
+
+  it('changeInputDateFilters should set dateFrom value', () => {
+    const value = '2022-10-12';
+    service.changeInputDateFilters(value, 'orderDate', 'From', false);
+    const dateFrom = value;
+    expect(dateFrom).toBe('2022-10-12');
+  });
+
+  it('changeInputDateFilters should set keyNameFrom and keyNameTo values', () => {
+    const currentColumn = 'orderDate';
+    const suffix = 'From';
+    service.changeInputDateFilters('2022-10-12', currentColumn, suffix, false);
+    const keyNameFrom = `${currentColumn}From`;
+    const keyNameTo = `${currentColumn}To`;
+    const keyToChange = `${currentColumn}${suffix}`;
+    expect(keyNameFrom).toBe('orderDateFrom');
+    expect(keyNameTo).toBe('orderDateTo');
+    expect(keyToChange).toBe('orderDateFrom');
   });
 
   it('changeDateFilters should be call', () => {

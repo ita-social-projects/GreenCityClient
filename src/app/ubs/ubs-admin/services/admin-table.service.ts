@@ -147,7 +147,7 @@ export class AdminTableService {
     } else {
       this.filters = this.filters.filter((filteredElem) => filteredElem[columnName] !== option.key);
     }
-    this.setLocalStoreFilter(this.filters);
+    this.localStorageService.setUbsAdminOrdersTableTitleColumnFilter(this.filters);
   }
 
   changeDateFilters(e: MatCheckboxChange, checked: boolean, currentColumn: string): void {
@@ -173,13 +173,13 @@ export class AdminTableService {
       elem[keyNameFrom] = dateFrom;
       elem[keyNameTo] = dateTo;
       this.filters.push(elem);
-      this.setLocalStoreFilter(this.filters);
+      this.localStorageService.setUbsAdminOrdersTableTitleColumnFilter(this.filters);
 
       this.saveDateFilters(checked, currentColumn, elem);
     } else {
       this.filters = this.filters.filter((filteredElem) => !Object.keys(filteredElem).includes(`${keyNameFrom}`));
       this.filters = this.filters.filter((filteredElem) => !Object.keys(filteredElem).includes(`${keyNameTo}`));
-      this.setLocalStoreFilter(this.filters);
+      this.localStorageService.setUbsAdminOrdersTableTitleColumnFilter(this.filters);
       this.saveDateFilters(checked, currentColumn, {});
     }
   }
@@ -243,10 +243,6 @@ export class AdminTableService {
       }
     }
     return date;
-  }
-
-  setLocalStoreFilter(filters: any[]): void {
-    this.localStorageService.setUbsAdminOrdersTableTitleColumnFilter(filters);
   }
 
   public saveDateFilters(checked, currentColumn, elem) {
