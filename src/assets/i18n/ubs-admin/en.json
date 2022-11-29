@@ -115,6 +115,7 @@
     "date": "Date:",
     "info-about-date": "Added:"
   },
+
   "add-payment": {
     "title": "Add a payment document",
     "title-2": "A payment document",
@@ -207,6 +208,27 @@
     "date": "Date",
     "added": "Added"
   },
+
+  "order-not-taken-out": {
+    "title": "Add the reason for not taken out order",
+    "label-reason": "Describe what happened",
+    "placeholder": "Describe the details you would like to provide about this order",
+    "reason-error-message": "The number of characters must be up to 255",
+    "title-photo": "Photos of the violation",
+    "label-for-photo-container": "Photos are mandatory if the reason for the not taken out order is a violation of the sorting rules",
+    "requirement": "You can upload images in PNG or JPG format up to 10MB",
+    "drag-photo": "Drag photo here",
+    "error-message-for-type": "Invalid file format. Please select another file",
+    "error-message-for-size": "File size is more than 10 MB. Please select another file",
+    "file-upload": "Download photos from your device",
+    "btn": {
+      "cancel": "Cancel",
+      "add": "Add"
+    },
+    "date": "Date",
+    "added": "Added"
+  },
+
   "address-details": {
     "title": "Waste export address",
     "district": "District",
@@ -883,6 +905,45 @@
       "add": "Add",
       "cancel": "Cancel",
       "save": "Save changes"
+    },
+    "settings-popup": {
+      "title": "Notification settings",
+      "labels": {
+        "titleEn": "Notification topic in english",
+        "titleUa": "Notification topic in ukrainian",
+        "trigger": "Trigger",
+        "time": "Trigger time",
+        "schedule": "Repeat"
+      },
+      "placeholders": {
+        "title": "Enter topic",
+        "trigger": "Select trigger",
+        "schedule": "Select schedule"
+      },
+      "buttons": {
+        "cancel": "Cancel",
+        "change": "Change"
+      }
+    },
+    "text-editing-popup": {
+      "title": "Edit notification for",
+      "labels": {
+        "ua": "Ukrainian",
+        "en": "English",
+        "text": "Notification text"
+      },
+      "buttons": {
+        "cancel": "Cancel",
+        "change": "Change"
+      }
+    },
+    "deactivation-popup": {
+      "title": "Deactivate notification",
+      "text": "Are you sure you want to deactivate notification?",
+      "buttons": {
+        "cancel": "Cancel",
+        "confirm": "Deactivate"
+      }
     }
   },
   "cron-picker": {

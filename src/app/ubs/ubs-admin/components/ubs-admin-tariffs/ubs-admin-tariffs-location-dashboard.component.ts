@@ -407,7 +407,7 @@ export class UbsAdminTariffsLocationDashboardComponent implements OnInit, AfterV
   getLocations(): void {
     this.store.dispatch(GetLocations({ reset: this.reset }));
 
-    this.locations$.pipe(skip(1)).subscribe((item) => {
+    this.locations$.pipe(skip(1)).subscribe((item: Locations[]) => {
       if (item) {
         this.locations = item;
         const regions = this.locations
@@ -454,7 +454,7 @@ export class UbsAdminTariffsLocationDashboardComponent implements OnInit, AfterV
     this.tariffsService
       .getCouriers()
       .pipe(takeUntil(this.destroy))
-      .subscribe((res) => {
+      .subscribe((res: Couriers[]) => {
         this.couriers = res;
         const lang = this.languageService.getCurrentLanguage();
         this.couriersName = this.couriers
@@ -467,7 +467,7 @@ export class UbsAdminTariffsLocationDashboardComponent implements OnInit, AfterV
     this.tariffsService
       .getAllStations()
       .pipe(takeUntil(this.destroy))
-      .subscribe((res) => {
+      .subscribe((res: Stations[]) => {
         this.stations = res;
         this.stationName = this.stations.map((el) => el.name);
         this.filteredStations = this.filterOptions(this.station, this.stationName);

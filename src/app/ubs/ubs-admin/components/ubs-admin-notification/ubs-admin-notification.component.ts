@@ -1,10 +1,14 @@
 import { Location } from '@angular/common';
 import { Component, OnDestroy, OnInit } from '@angular/core';
+import { MatDialog } from '@angular/material/dialog';
 import { ActivatedRoute, Router } from '@angular/router';
 import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
 import { Subject } from 'rxjs';
 import { take, takeUntil } from 'rxjs/operators';
 import { NotificationsService } from '../../services/notifications.service';
+import { UbsAdminNotificationSettingsComponent } from './ubs-admin-notification-settings/ubs-admin-notification-settings.component';
+import { UbsAdminNotificationEditFormComponent } from './ubs-admin-notification-edit-form/ubs-admin-notification-edit-form.component';
+import { NotificationTemplate } from '../../models/notifications.model';
 
 @Component({
   selector: 'app-ubs-admin-notification',
@@ -21,6 +25,7 @@ export class UbsAdminNotificationComponent implements OnInit, OnDestroy {
     activate: './assets/img/ubs-admin-notifications/counterclockwise.svg'
   };
   lang = 'en';
+  initialNotification = null;
   notification = null;
 
   constructor(
@@ -28,7 +33,8 @@ export class UbsAdminNotificationComponent implements OnInit, OnDestroy {
     private localStorageService: LocalStorageService,
     private route: ActivatedRoute,
     private router: Router,
-    private location: Location
+    private location: Location,
+    private dialog: MatDialog
   ) {}
 
   ngOnInit(): void {
@@ -51,16 +57,9 @@ export class UbsAdminNotificationComponent implements OnInit, OnDestroy {
       .getNotificationTemplate(id)
       .pipe(take(1))
       .subscribe(
-        (notification) => {
-          this.notification = {
-            id: notification.id,
-            title: notification.title,
-            trigger: notification.trigger,
-            time: notification.time,
-            schedule: notification.schedule?.cron ?? '',
-            platforms: Object.entries(notification.platforms).map(([name, details]) => ({ name, ...details })),
-            status: notification.status
-          };
+        (notification: NotificationTemplate) => {
+          this.initialNotification = notification;
+          this.notification = JSON.parse(JSON.stringify(this.initialNotification));
         },
         () => this.navigateToNotificationList()
       );
@@ -74,9 +73,43 @@ export class UbsAdminNotificationComponent implements OnInit, OnDestroy {
     this.location.back();
   }
 
-  onEditNotificationInfo(platform: string): void {}
+  onEditNotificationText(platform: string): void {
+    this.dialog
+      .open(UbsAdminNotificationEditFormComponent, {
+        hasBackdrop: true,
+        data: { platform, text: this.notification.platforms.find((pf) => pf.name === platform).body }
+      })
+      .afterClosed()
+      .subscribe((updates: { text: { ua: string; en: string } }) => {
+        if (!updates) {
+          return;
+        }
+        this.notification.platforms.find((pf) => pf.name === platform).body = updates.text;
+      });
+  }
 
-  onEditNotificationSettings(): void {}
+  onEditNotificationSettings(): void {
+    this.dialog
+      .open(UbsAdminNotificationSettingsComponent, {
+        hasBackdrop: true,
+        data: {
+          title: { en: this.notification.title.en, ua: this.notification.title.ua },
+          trigger: this.notification.trigger,
+          time: this.notification.time,
+          schedule: this.notification.schedule
+        }
+      })
+      .afterClosed()
+      .subscribe((updates: { title: { en: string; ua: string }; trigger: string; time: string; schedule: string }) => {
+        if (!updates) {
+          return;
+        }
+        this.notification.title = updates.title;
+        this.notification.trigger = updates.trigger;
+        this.notification.schedule = updates.schedule;
+        this.notification.time = updates.time;
+      });
+  }
 
   onActivatePlatform(platform: string): void {
     this.notification.platforms.find((pf) => pf.name === platform).status = 'ACTIVE';
@@ -86,9 +119,16 @@ export class UbsAdminNotificationComponent implements OnInit, OnDestroy {
     this.notification.platforms.find((pf) => pf.name === platform).status = 'INACTIVE';
   }
 
+  onDeactivateNotification() {
+    this.notificationsService.deactivateNotificationTemplate(this.notification.id);
+    this.navigateToNotificationList();
+  }
+
   onCancel(): void {
     this.navigateToNotificationList();
   }
 
-  onSaveChanges(): void {}
+  onSaveChanges(): void {
+    this.notificationsService.updateNotificationTemplate(this.notification.id, this.notification);
+  }
 }

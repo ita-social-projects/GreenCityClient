@@ -6,7 +6,6 @@ import { UpdatePasswordDto } from '@global-models/updatePasswordDto';
 import { ChangePasswordService } from '@global-service/auth/change-password.service';
 import { iif, of } from 'rxjs';
 import { mergeMap } from 'rxjs/operators';
-import { SignInIcons } from 'src/app/main/image-pathes/sign-in-icons';
 import { Patterns } from 'src/assets/patterns/patterns';
 
 @Component({
@@ -19,7 +18,6 @@ export class UbsProfileChangePasswordPopUpComponent implements OnInit {
   private readonly passRegexp = Patterns.regexpPass;
   public updatePasswordDto: UpdatePasswordDto;
   public hasPassword: boolean;
-  public hideShowPasswordImage = SignInIcons;
   public hasWrongCurrentPassword = false;
 
   constructor(
@@ -43,9 +41,6 @@ export class UbsProfileChangePasswordPopUpComponent implements OnInit {
     });
 
     if (this.hasPassword) {
-      this.formConfig.addControl('currentPassword', new FormControl('', [Validators.required, this.checkPasswordPattern.bind(this)]));
-      this.formConfig.setValidators([this.compareOldNewPasswords, this.checkConfirmPassword]);
-    } else {
       this.formConfig.setValidators([this.checkConfirmPassword]);
     }
   }
@@ -56,12 +51,6 @@ export class UbsProfileChangePasswordPopUpComponent implements OnInit {
     return password === confirmPassword ? null : { confirmPasswordMistmatch: true };
   }
 
-  compareOldNewPasswords(group: FormGroup): null | { [error: string]: boolean } {
-    const password = group.get('password').value?.trim();
-    const currentPassword = group.get('currentPassword').value?.trim();
-    return password !== currentPassword ? null : { newPasswordMatchesOld: true };
-  }
-
   checkPasswordPattern(input: FormControl): null | { [error: string]: boolean } {
     const inputValue = input.value?.trim();
     return this.passRegexp.test(inputValue) ? null : { pattern: true };
@@ -70,7 +59,6 @@ export class UbsProfileChangePasswordPopUpComponent implements OnInit {
   public onSubmit(): void {
     this.updatePasswordDto.confirmPassword = this.formConfig.value.confirmPassword;
     this.updatePasswordDto.password = this.formConfig.value.password;
-    this.updatePasswordDto.currentPassword = this.hasPassword ? this.formConfig.value.currentPassword : '';
     of(true)
       .pipe(
         mergeMap(() =>

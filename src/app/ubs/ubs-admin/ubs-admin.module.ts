@@ -61,6 +61,7 @@ import { environment } from '@environment/environment';
 import { MatDialogModule } from '@angular/material/dialog';
 import { UbsAdminCustomerOrdersComponent } from './components/ubs-admin-customers/ubs-admin-customer-orders/ubs-admin-customer-orders.component';
 import { AddOrderCancellationReasonComponent } from './components/add-order-cancellation-reason/add-order-cancellation-reason.component';
+import { AddOrderNotTakenOutReasonComponent } from './components/add-order-not-taken-out-reason/add-order-not-taken-out-reason.component';
 import { ResizeColumnDirective } from './derictives/resize-table-columns.directive';
 import { AddPaymentComponent } from './components/add-payment/add-payment.component';
 import { UbsAdminCustomerViolationsComponent } from './components/ubs-admin-customers/ubs-admin-customer-violations/ubs-admin-customer-violations/ubs-admin-customer-violations.component';
@@ -89,6 +90,8 @@ import { UbsAdminNotificationListComponent } from './components/ubs-admin-notifi
 import { UbsAdminNotificationComponent } from './components/ubs-admin-notification/ubs-admin-notification.component';
 import { CronPickerComponent } from './components/shared/components/cron-picker/cron-picker.component';
 import { EditPaymentConfirmationPopUpComponent } from './components/shared/components/edit-payment-confirmation-pop-up/edit-payment-confirmation-pop-up.component';
+import { UbsAdminNotificationEditFormComponent } from './components/ubs-admin-notification/ubs-admin-notification-edit-form/ubs-admin-notification-edit-form.component';
+import { UbsAdminNotificationSettingsComponent } from './components/ubs-admin-notification/ubs-admin-notification-settings/ubs-admin-notification-settings.component';
 
 @NgModule({
   declarations: [
@@ -127,6 +130,7 @@ import { EditPaymentConfirmationPopUpComponent } from './components/shared/compo
     UbsAdminCustomerOrdersComponent,
     UbsAdminOrderHistoryComponent,
     AddOrderCancellationReasonComponent,
+    AddOrderNotTakenOutReasonComponent,
     ResizeColumnDirective,
     AddPaymentComponent,
     UbsAdminCustomerViolationsComponent,
@@ -149,7 +153,9 @@ import { EditPaymentConfirmationPopUpComponent } from './components/shared/compo
     UbsAdminNotificationListComponent,
     UbsAdminNotificationComponent,
     CronPickerComponent,
-    EditPaymentConfirmationPopUpComponent
+    EditPaymentConfirmationPopUpComponent,
+    UbsAdminNotificationEditFormComponent,
+    UbsAdminNotificationSettingsComponent
   ],
   imports: [
     CommonModule,

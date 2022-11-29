@@ -7,6 +7,7 @@ import { IGeneralOrderInfo } from '../../models/ubs-admin.interface';
 import { OrderService } from '../../services/order.service';
 import { MatDialog } from '@angular/material/dialog';
 import { AddOrderCancellationReasonComponent } from '../add-order-cancellation-reason/add-order-cancellation-reason.component';
+import { AddOrderNotTakenOutReasonComponent } from '../add-order-not-taken-out-reason/add-order-not-taken-out-reason.component';
 
 @Component({
   selector: 'app-ubs-admin-order-status',
@@ -45,10 +46,13 @@ export class UbsAdminOrderStatusComponent implements OnChanges, OnInit, OnDestro
     );
   }
 
-  onChangedOrderStatus(statusName: string) {
+  public onChangedOrderStatus(statusName: string) {
     this.changedOrderStatus.emit(statusName);
     if (statusName === 'CANCELED') {
       this.openPopup();
+    }
+    if (statusName === 'NOT_TAKEN_OUT') {
+      this.notTakenOutOpenPop(this.generalInfo.id);
     }
   }
 
@@ -71,6 +75,27 @@ export class UbsAdminOrderStatusComponent implements OnChanges, OnInit, OnDestro
           this.generalOrderInfo.get('cancellationComment').setValue(res.comment);
           this.generalOrderInfo.get('cancellationComment').markAsDirty();
         }
+      });
+  }
+
+  notTakenOutOpenPop(user) {
+    this.dialog
+      .open(AddOrderNotTakenOutReasonComponent, {
+        hasBackdrop: true,
+        data: {
+          id: this.generalInfo.id
+        }
+      })
+      .afterClosed()
+      .pipe(take(1))
+      .subscribe((res) => {
+        if (res.action === 'cancel') {
+          this.onChangedOrderStatus(this.generalInfo.orderStatus);
+          this.generalOrderInfo.get('orderStatus').setValue(this.generalInfo.orderStatus);
+          return;
+        }
+        this.generalOrderInfo.get('notTakenOutReason').setValue(res.reason);
+        this.generalOrderInfo.get('notTakenOutReason').markAsDirty();
       });
   }
 

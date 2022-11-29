@@ -33,7 +33,9 @@ describe('UbsAdminTariffsDeactivatePopUpComponent', () => {
           name: 'фейкКурєр1',
           nameEng: 'fakeCourier1'
         }
-      ]
+      ],
+      createDate: 'fakedate',
+      createdBy: 'fakeadmin'
     },
     {
       courierId: 2,
@@ -43,7 +45,9 @@ describe('UbsAdminTariffsDeactivatePopUpComponent', () => {
           name: 'фейкКурєр2',
           nameEng: 'fakeCourier2'
         }
-      ]
+      ],
+      createDate: 'fakedate',
+      createdBy: 'fakeadmin'
     }
   ];
 
@@ -54,8 +58,42 @@ describe('UbsAdminTariffsDeactivatePopUpComponent', () => {
     createDate: '2022-05-28'
   };
 
-  const mockRegion = [
+  const fakeLocation = [
     {
+      locationsDto: [
+        {
+          latitude: 0,
+          locationId: 1,
+          locationStatus: 'fakeStatus',
+          locationTranslationDtoList: [
+            {
+              languageCode: 'ua',
+              locationName: 'ФейкМісто1'
+            },
+            {
+              languageCode: 'en',
+              locationName: 'FakeCity1'
+            }
+          ],
+          longitude: 0
+        },
+        {
+          latitude: 1,
+          locationId: 2,
+          locationStatus: 'fakeStatus',
+          locationTranslationDtoList: [
+            {
+              languageCode: 'ua',
+              locationName: 'ФейкМісто2'
+            },
+            {
+              languageCode: 'en',
+              locationName: 'FakeCity2'
+            }
+          ],
+          longitude: 1
+        }
+      ],
       regionId: 1,
       regionTranslationDtos: [
         {
@@ -66,32 +104,6 @@ describe('UbsAdminTariffsDeactivatePopUpComponent', () => {
           regionName: 'Fake region',
           languageCode: 'en'
         }
-      ],
-      locationsDto: [
-        {
-          locationTranslationDtoList: [
-            {
-              locationName: 'Фейк1',
-              languageCode: 'ua'
-            },
-            {
-              locationName: 'Fake1',
-              languageCode: 'en'
-            }
-          ]
-        },
-        {
-          locationTranslationDtoList: [
-            {
-              locationName: 'Фейк2',
-              languageCode: 'ua'
-            },
-            {
-              locationName: 'Fake2',
-              languageCode: 'en'
-            }
-          ]
-        }
       ]
     }
   ];
@@ -100,11 +112,11 @@ describe('UbsAdminTariffsDeactivatePopUpComponent', () => {
     {
       locationTranslationDtoList: [
         {
-          locationName: 'Фейк1',
+          locationName: 'ФейкМісто1',
           languageCode: 'ua'
         },
         {
-          locationName: 'Fake1',
+          locationName: 'FakeCity1',
           languageCode: 'en'
         }
       ]
@@ -112,11 +124,11 @@ describe('UbsAdminTariffsDeactivatePopUpComponent', () => {
     {
       locationTranslationDtoList: [
         {
-          locationName: 'Фейк2',
+          locationName: 'ФейкМісто2',
           languageCode: 'ua'
         },
         {
-          locationName: 'Fake2',
+          locationName: 'FakeCity2',
           languageCode: 'en'
         }
       ]
@@ -188,17 +200,20 @@ describe('UbsAdminTariffsDeactivatePopUpComponent', () => {
   const fakeMatDialogRef = jasmine.createSpyObj(['close', 'afterClosed']);
   fakeMatDialogRef.afterClosed.and.returnValue(of(true));
 
-  const tariffsServiceMock = jasmine.createSpyObj('tariffsServiceMock', ['getCouriers', 'getAllStations', 'getCardInfo']);
+  const tariffsServiceMock = jasmine.createSpyObj('tariffsServiceMock', [
+    'getCouriers',
+    'getAllStations',
+    'getActiveLocations',
+    'getCardInfo'
+  ]);
   tariffsServiceMock.getCouriers.and.returnValue(of(fakeCouriers));
   tariffsServiceMock.getAllStations.and.returnValue(of([fakeStation]));
+  tariffsServiceMock.getActiveLocations.and.returnValue(of([fakeLocation]));
   tariffsServiceMock.getCardInfo.and.returnValue(of([fakeTariffCard]));
 
   const localStorageServiceStub = () => ({
     firstNameBehaviourSubject: { pipe: () => of('fakeName') }
   });
-
-  const storeMock = jasmine.createSpyObj('store', ['select', 'dispatch']);
-  storeMock.select.and.returnValue(of());
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
@@ -210,7 +225,6 @@ describe('UbsAdminTariffsDeactivatePopUpComponent', () => {
         { provide: MatDialogRef, useValue: fakeMatDialogRef },
         { provide: LocalStorageService, useFactory: localStorageServiceStub },
         { provide: TariffsService, useValue: tariffsServiceMock },
-        { provide: Store, useValue: storeMock },
         FormBuilder
       ],
       schemas: [CUSTOM_ELEMENTS_SCHEMA]
@@ -261,7 +275,7 @@ describe('UbsAdminTariffsDeactivatePopUpComponent', () => {
 
   it('should get locations', () => {
     component.getLocations();
-    expect(storeMock.dispatch).toHaveBeenCalled();
+    expect(component.locations).toEqual(fakeLocation);
   });
 
   it('should get all tariff cards', () => {

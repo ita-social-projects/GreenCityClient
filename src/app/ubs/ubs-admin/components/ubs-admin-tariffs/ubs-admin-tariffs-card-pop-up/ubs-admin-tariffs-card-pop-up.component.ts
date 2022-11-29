@@ -7,7 +7,7 @@ import { Subject } from 'rxjs';
 import { TariffsService } from '../../../services/tariffs.service';
 import { IAppState } from 'src/app/store/state/app.state';
 import { Store } from '@ngrx/store';
-import { Locations, CreateCard } from '../../../models/tariffs.interface';
+import { Locations, CreateCard, Couriers, Stations } from '../../../models/tariffs.interface';
 import { GetLocations } from 'src/app/store/actions/tariff.actions';
 import { MatAutocompleteSelectedEvent, MatAutocompleteTrigger } from '@angular/material/autocomplete';
 import { MatDialog, MatDialogRef } from '@angular/material/dialog';
@@ -36,13 +36,13 @@ export class UbsAdminTariffsCardPopUpComponent implements OnInit, OnDestroy {
   public newDate = this.datePipe.transform(new Date(), 'MMM dd, yyyy');
   unsubscribe: Subject<any> = new Subject();
 
-  public couriers;
+  public couriers: Couriers[];
   public couriersName;
   public courierEnglishName;
-  public locations;
+  public locations: Locations[];
   public regions;
   public regionEnglishName;
-  public stations;
+  public stations: Stations[];
   public filteredStations;
   public selectedStation = [];
   public stationPlaceholder: string;
@@ -126,7 +126,7 @@ export class UbsAdminTariffsCardPopUpComponent implements OnInit, OnDestroy {
     this.tariffsService
       .getCouriers()
       .pipe(takeUntil(this.unsubscribe))
-      .subscribe((res) => {
+      .subscribe((res: Couriers[]) => {
         this.couriers = res;
         this.couriersName = this.couriers.map((it) => it.courierTranslationDtos.map((item) => item.name).flat(2));
       });
@@ -136,7 +136,7 @@ export class UbsAdminTariffsCardPopUpComponent implements OnInit, OnDestroy {
     this.tariffsService
       .getAllStations()
       .pipe(takeUntil(this.unsubscribe))
-      .subscribe((res) => {
+      .subscribe((res: Stations[]) => {
         this.stations = res;
         const stationsName = this.stations.map((it) => it.name);
         this.station.valueChanges
@@ -154,7 +154,7 @@ export class UbsAdminTariffsCardPopUpComponent implements OnInit, OnDestroy {
   public getLocations(): void {
     this.store.dispatch(GetLocations({ reset: this.reset }));
 
-    this.locations$.pipe(skip(1)).subscribe((item) => {
+    this.locations$.pipe(skip(1)).subscribe((item: Locations[]) => {
       if (item) {
         this.locations = item;
         this.regions = this.locations

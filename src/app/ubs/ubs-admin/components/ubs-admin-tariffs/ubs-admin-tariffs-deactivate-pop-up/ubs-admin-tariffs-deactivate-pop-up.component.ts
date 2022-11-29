@@ -2,13 +2,10 @@ import { DatePipe } from '@angular/common';
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormBuilder } from '@angular/forms';
 import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
-import { map, skip, startWith, takeUntil } from 'rxjs/operators';
+import { map, startWith, takeUntil } from 'rxjs/operators';
 import { Subject } from 'rxjs';
 import { TariffsService } from '../../../services/tariffs.service';
-import { IAppState } from 'src/app/store/state/app.state';
-import { Store } from '@ngrx/store';
-import { Locations, CreateCard } from '../../../models/tariffs.interface';
-import { GetLocations } from 'src/app/store/actions/tariff.actions';
+import { Locations, LocationDto, SelectedItems, Couriers, Stations, TariffCard } from '../../../models/tariffs.interface';
 import { MatAutocompleteSelectedEvent, MatAutocompleteTrigger } from '@angular/material/autocomplete';
 import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { ModalTextComponent } from '../../shared/components/modal-text/modal-text.component';
@@ -36,44 +33,35 @@ export class UbsAdminTariffsDeactivatePopUpComponent implements OnInit, OnDestro
   public newDate = this.datePipe.transform(new Date(), 'MMM dd, yyyy');
   unsubscribe: Subject<any> = new Subject();
 
-  public couriers;
-  public couriersName;
-  public filteredCouriers;
-
-  public locations;
-  public filteredRegions;
-  public regionsName;
-  public selectedRegions = [];
+  public couriers: Couriers[];
+  public couriersName: Array<string>;
+  public filteredCouriers: Array<string>;
+  public locations: Locations[];
+  public filteredRegions: Array<string>;
+  public regionsName: Array<string>;
+  public selectedRegions: SelectedItems[] = [];
   public selectedRegionsLength: number;
   public regionPlaceholder: string;
-  public stations;
-  public stationsName;
-  public filteredStations;
-  public selectedStations = [];
+  public stations: Stations[];
+  public stationsName: Array<string>;
+  public filteredStations: Array<string>;
+  public selectedStations: SelectedItems[] = [];
   public stationPlaceholder: string;
-  public currentCities = [];
-  public filteredCities = [];
-  public selectedCities = [];
-  public currentCitiesName = [];
+  public currentCities: LocationDto[] = [];
+  public filteredCities: Array<string> = [];
+  public selectedCities: SelectedItems[] = [];
+  public currentCitiesName: Array<string> = [];
   public cityPlaceholder: string;
   public selectedCityLength: number;
-  public reset = true;
   public courierId: number;
   public regionId: number;
-  public createCardObj: CreateCard;
-  public blurOnOption = false;
-  public isCardExist;
-  public currentLanguage: string;
-  public tariffCards = [];
-  public filteredTatiffCards = [];
-
-  locations$ = this.store.select((state: IAppState): Locations[] => state.locations.locations);
+  public tariffCards: TariffCard[] = [];
+  public deactivateCardObj;
 
   constructor(
     private fb: FormBuilder,
     private localeStorageService: LocalStorageService,
     private tariffsService: TariffsService,
-    private store: Store<IAppState>,
     private translate: TranslateService,
     public dialog: MatDialog,
     public dialogRef: MatDialogRef<UbsAdminTariffsDeactivatePopUpComponent>
@@ -115,7 +103,7 @@ export class UbsAdminTariffsDeactivatePopUpComponent implements OnInit, OnDestro
     this.tariffsService
       .getCouriers()
       .pipe(takeUntil(this.unsubscribe))
-      .subscribe((res) => {
+      .subscribe((res: Couriers[]) => {
         this.couriers = res;
         this.couriersName = this.couriers.map((it) => it.courierTranslationDtos.map((el) => el.name)).flat(2);
         this.courier.valueChanges
@@ -137,7 +125,7 @@ export class UbsAdminTariffsDeactivatePopUpComponent implements OnInit, OnDestro
     this.tariffsService
       .getAllStations()
       .pipe(takeUntil(this.unsubscribe))
-      .subscribe((res) => {
+      .subscribe((res: Stations[]) => {
         this.stations = res;
         this.stationsName = this.stations.map((it) => it.name);
         this.station.valueChanges
@@ -152,29 +140,30 @@ export class UbsAdminTariffsDeactivatePopUpComponent implements OnInit, OnDestro
   }
 
   public getLocations(): void {
-    this.store.dispatch(GetLocations({ reset: this.reset }));
-
-    this.locations$.pipe(skip(1)).subscribe((item) => {
-      this.locations = item;
-      this.regionsName = this.locations
-        .map((element) => element.regionTranslationDtos.filter((it) => it.languageCode === 'ua').map((it) => it.regionName))
-        .flat(2);
-      this.region.valueChanges
-        .pipe(
-          startWith(''),
-          map((value: string) => this.filterOptions(value, this.regionsName))
-        )
-        .subscribe((data) => {
-          this.filteredRegions = data;
-        });
-    });
+    this.tariffsService
+      .getActiveLocations()
+      .pipe(takeUntil(this.unsubscribe))
+      .subscribe((res: Locations[]) => {
+        this.locations = res;
+        this.regionsName = this.locations
+          .map((element) => element.regionTranslationDtos.filter((it) => it.languageCode === 'ua').map((it) => it.regionName))
+          .flat(2);
+        this.region.valueChanges
+          .pipe(
+            startWith(''),
+            map((value: string) => this.filterOptions(value, this.regionsName))
+          )
+          .subscribe((data) => {
+            this.filteredRegions = data;
+          });
+      });
   }
 
   public getTariffCards(): void {
     this.tariffsService
       .getCardInfo()
       .pipe(takeUntil(this.unsubscribe))
-      .subscribe((res) => {
+      .subscribe((res: TariffCard[]) => {
         this.tariffCards = res;
       });
   }
@@ -664,11 +653,11 @@ export class UbsAdminTariffsDeactivatePopUpComponent implements OnInit, OnDestro
   }
 
   public createDeactivateCardDto() {
-    this.createCardObj = {
+    this.deactivateCardObj = {
       courierId: this.courierId,
       receivingStationsIdList: this.selectedStations.map((it) => it.id).sort(),
       regionId: this.regionId,
-      locationIdList: this.selectedCities.map((it) => it.locationId).sort()
+      locationIdList: this.selectedCities.map((it) => it.id).sort()
     };
   }
 

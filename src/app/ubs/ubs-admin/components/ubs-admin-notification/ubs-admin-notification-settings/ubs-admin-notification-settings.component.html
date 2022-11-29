@@ -1,0 +1,96 @@
+<div [formGroup]="form" class="notification-settings-container">
+  <h2 mat-dialog-title>{{ 'ubs-notifications.settings-popup.title' | translate }}</h2>
+
+  <div class="notification-settings-content">
+    <div>
+      <p class="field-label">{{ 'ubs-notifications.settings-popup.labels.titleUa' | translate }}</p>
+      <div class="field-wrapper">
+        <input
+          type="text"
+          class="title-field"
+          formControlName="titleUa"
+          [placeholder]="'ubs-notifications.settings-popup.placeholders.title' | translate"
+          matInput
+        />
+      </div>
+    </div>
+
+    <div>
+      <p class="field-label">{{ 'ubs-notifications.settings-popup.labels.titleEn' | translate }}</p>
+      <div class="field-wrapper">
+        <input
+          type="text"
+          class="title-field"
+          formControlName="titleEn"
+          [placeholder]="'ubs-notifications.settings-popup.placeholders.title' | translate"
+          matInput
+        />
+      </div>
+    </div>
+
+    <div>
+      <p class="field-label">{{ 'ubs-notifications.settings-popup.labels.trigger' | translate }}</p>
+      <div class="field-wrapper">
+        <mat-select
+          class="select-trigger"
+          [placeholder]="'ubs-notifications.settings-popup.placeholders.trigger' | translate"
+          formControlName="trigger"
+        >
+          <mat-option class="option-trigger" *ngFor="let trigger of triggers" [value]="trigger">
+            {{ 'ubs-notifications.triggers.' + trigger | translate }}
+          </mat-option>
+        </mat-select>
+        <img [src]="icons.arrowDown" class="arrow-down-icon" alt="" (click)="(null)" />
+      </div>
+    </div>
+
+    <div>
+      <p class="field-label">{{ 'ubs-notifications.settings-popup.labels.time' | translate }}</p>
+      <div class="field-wrapper">
+        <mat-select
+          class="select-time"
+          [placeholder]="'ubs-notifications.settings-popup.placeholders.time' | translate"
+          formControlName="time"
+        >
+          <mat-option class="option-trigger" *ngFor="let time of times" [value]="time">
+            {{ 'ubs-notifications.time.' + time | translate }}
+          </mat-option>
+        </mat-select>
+        <img [src]="icons.arrowDown" class="arrow-down-icon" alt="" (click)="(null)" />
+      </div>
+    </div>
+
+    <div>
+      <p class="field-label">{{ 'ubs-notifications.settings-popup.labels.schedule' | translate }}</p>
+      <div class="field-wrapper">
+        <div class="select-schedule-trigger" [matMenuTriggerFor]="selectSchedule">
+          <input
+            class="select-schedule"
+            type="text"
+            [placeholder]="'ubs-notifications.settings-popup.placeholders.schedule' | translate"
+            matInput
+            [value]="schedule | cron: lang"
+            readonly
+          />
+          <img class="gear-icon" [src]="icons.gear" alt="" />
+        </div>
+      </div>
+      <mat-menu class="cron-picker-overlay" #selectSchedule="matMenu">
+        <app-cron-picker
+          [schedule]="schedule"
+          (click)="$event.stopPropagation()"
+          (scheduleSelected)="onScheduleSelected($event)"
+        ></app-cron-picker>
+      </mat-menu>
+    </div>
+  </div>
+
+  <div mat-dialog-actions class="controls">
+    <button class="cancel-button" type="button" (click)="onCancel()">
+      {{ 'ubs-notifications.settings-popup.buttons.cancel' | translate }}
+    </button>
+    <button class="submit-button" type="submit" [disabled]="!form.valid" (click)="onSubmit()">
+      {{ 'ubs-notifications.settings-popup.buttons.change' | translate }}
+    </button>
+  </div>
+</div>

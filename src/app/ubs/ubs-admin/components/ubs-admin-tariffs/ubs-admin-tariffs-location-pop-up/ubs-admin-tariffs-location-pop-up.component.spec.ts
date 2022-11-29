@@ -104,14 +104,15 @@ describe('UbsAdminTariffsLocationPopUpComponent ', () => {
     locationsDto: [
       {
         latitude: 0,
-        longitude: 0,
+        locationStatus: 'фейк1',
         locationId: 159,
         locationTranslationDtoList: [
           {
             languageCode: 'ua',
             locationName: 'fake'
           }
-        ]
+        ],
+        longitude: 0
       }
     ],
     regionId: 1,
