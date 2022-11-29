@@ -2,7 +2,7 @@ import { Injectable, OnDestroy } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable, ReplaySubject } from 'rxjs';
 import { environment } from '@environment/environment';
-import { EventSubscriberDto } from '../models/events.interface';
+import { EventParticipantDto } from '../models/events.interface';
 
 @Injectable({
   providedIn: 'root'
@@ -49,8 +49,8 @@ export class EventsService implements OnDestroy {
     return this.http.delete<any>(`${this.backEnd}events/removeAttender/${id}`);
   }
 
-  public getAllSubscribers(id: number): Observable<EventSubscriberDto[]> {
-    return this.http.get<EventSubscriberDto[]>(`${this.backEnd}events/getAllSubscribers/${id}`);
+  public getAllSubscribers(id: number): Observable<EventParticipantDto[]> {
+    return this.http.get<EventParticipantDto[]>(`${this.backEnd}events/getAllSubscribers/${id}`);
   }
 
   ngOnDestroy(): void {

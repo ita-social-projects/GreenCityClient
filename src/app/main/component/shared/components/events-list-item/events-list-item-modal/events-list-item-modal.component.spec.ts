@@ -79,19 +79,19 @@ describe('EventsListItemModalComponent', () => {
     expect(component).toBeTruthy();
   });
 
-  describe('ngOnInit', () => {
-    it(`subscribeToLangChange should be called in ngOnInit`, () => {
-      const subscribeToLangChangeSpy = spyOn(component, 'subscribeToLangChange');
-      component.ngOnInit();
-      expect(subscribeToLangChangeSpy).toHaveBeenCalled();
-    });
+  // describe('ngOnInit', () => {
+  //   it(`subscribeToLangChange should be called in ngOnInit`, () => {
+  //     const subscribeToLangChangeSpy = spyOn(component, 'subscribeToLangChange');
+  //     component.ngOnInit();
+  //     expect(subscribeToLangChangeSpy).toHaveBeenCalled();
+  //   });
 
-    it(`bindLang should be called in ngOnInit`, () => {
-      const bindLangSpy = spyOn(component, 'subscribeToLangChange');
-      component.ngOnInit();
-      expect(bindLangSpy).toHaveBeenCalled();
-    });
-  });
+  //   it(`bindLang should be called in ngOnInit`, () => {
+  //     const bindLangSpy = spyOn(component, 'subscribeToLangChange');
+  //     component.ngOnInit();
+  //     expect(bindLangSpy).toHaveBeenCalled();
+  //   });
+  // });
 
   describe('modalBtn', () => {
     it(`should be called on click`, fakeAsync(() => {
@@ -153,11 +153,11 @@ describe('EventsListItemModalComponent', () => {
     });
   });
 
-  describe('ngOnDestroy', () => {
-    it('should unsubscribe of language change', () => {
-      component.langChangeSub = of(true).subscribe();
-      component.ngOnDestroy();
-      expect(component.langChangeSub.closed).toBeTruthy();
-    });
-  });
+  // describe('ngOnDestroy', () => {
+  //   it('should unsubscribe of language change', () => {
+  //     component.langChangeSub = of(true).subscribe();
+  //     component.ngOnDestroy();
+  //     expect(component.langChangeSub.closed).toBeTruthy();
+  //   });
+  // });
 });

@@ -1,5 +1,5 @@
 import { IEcoEventsState } from 'src/app/store/state/ecoEvents.state';
-import { EventSubscriberDto } from './../../main/component/events/models/events.interface';
+import { EventParticipantDto } from './../../main/component/events/models/events.interface';
 import { Injectable } from '@angular/core';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { Store } from '@ngrx/store';
@@ -60,17 +60,17 @@ export class EventsEffects {
     return this.actions.pipe(
       ofType(ShowAllSubscribersByIdAction),
       mergeMap((actions: { id: number }) => {
-        let eventSubscribers: EventSubscriberDto[];
+        let eventSubscriber: EventParticipantDto[];
         this.store
           .select((state: IAppState): IEcoEventsState => state.ecoEventsState)
           .subscribe((res) => {
-            eventSubscribers = res.eventSubscribers[actions.id];
+            eventSubscriber = res.eventSubscribers[actions.id];
           });
-        console.log(eventSubscribers);
-        if (!eventSubscribers) {
-          console.log(eventSubscribers);
+        console.log(eventSubscriber);
+        if (!eventSubscriber) {
+          console.log(eventSubscriber);
           return this.eventsService.getAllSubscribers(actions.id).pipe(
-            map((eventSubscribers: EventSubscriberDto[]) => {
+            map((eventSubscribers: EventParticipantDto[]) => {
               console.log(eventSubscribers);
               return ShowAllSubscribersByIdActionSuccess({ id: actions.id, eventSubscribers });
             }),

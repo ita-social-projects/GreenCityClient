@@ -71,7 +71,7 @@ export interface EventResponseDto {
   totalPages: number;
 }
 
-export interface EventSubscriberDto {
+export interface EventParticipantDto {
   id: number;
   name: string;
   imagePath: string;

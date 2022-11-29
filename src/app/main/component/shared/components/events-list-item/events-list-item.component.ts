@@ -1,4 +1,4 @@
-import { EventSubscriberDto } from './../../../events/models/events.interface';
+import { EventParticipantDto } from './../../../events/models/events.interface';
 import {
   AddAttenderEcoEventsByIdAction,
   DeleteEcoEventAction,
@@ -33,7 +33,7 @@ export class EventsListItemComponent implements OnInit, OnDestroy {
   ecoEvents$ = this.store.select((state: IAppState): IEcoEventsState => state.ecoEventsState);
   private destroyed$: ReplaySubject<any> = new ReplaySubject<any>(1);
   public itemTags: Array<TagObj>;
-  public eventParticipants: EventSubscriberDto[];
+  public eventParticipants: EventParticipantDto[];
 
   public nameBtn: string;
   public styleBtn: string;

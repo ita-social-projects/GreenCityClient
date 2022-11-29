@@ -1,4 +1,4 @@
-import { EventSubscriberDto } from './../../main/component/events/models/events.interface';
+import { EventParticipantDto } from './../../main/component/events/models/events.interface';
 import { createAction, props } from '@ngrx/store';
 import { EventPageResponceDto, EventResponseDto } from 'src/app/main/component/events/models/events.interface';
 
@@ -58,7 +58,7 @@ export const AddAttenderEventsByIdSuccessAction = createAction(EventsActions.Add
 export const ShowAllSubscribersByIdAction = createAction(EventsActions.ShowAllSubscribersById, props<{ id: number }>());
 export const ShowAllSubscribersByIdActionSuccess = createAction(
   EventsActions.ShowAllSubscribersByIdSuccess,
-  props<{ id: number; eventSubscribers: EventSubscriberDto[] | any }>()
+  props<{ id: number; eventSubscribers: EventParticipantDto[] | any }>()
 );
 
 export const RemoveAttenderEcoEventsByIdAction = createAction(EventsActions.RemoveAttenderEcoEventsById, props<{ id: number }>());
