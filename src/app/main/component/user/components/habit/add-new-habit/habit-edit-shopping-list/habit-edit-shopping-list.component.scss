@@ -12,8 +12,9 @@ $primary-font: var(--secondary-font);
 
 .checkbox-list {
   list-style-type: none;
-  padding: 0 0 19px 0;
+  padding: 0;
   margin: 0;
+  overflow-y: hidden;
 
   li {
     padding: 0;
@@ -90,8 +91,7 @@ $primary-font: var(--secondary-font);
 }
 
 form {
-  // position: relative;
-  top: 10px;
+  margin-top: 25px;
 
   #add-field {
     width: 80%;
@@ -120,6 +120,14 @@ form {
 
 .done {
   text-decoration: line-through;
+}
+
+.shopping-list-min {
+  height: 80px;
+}
+
+.shopping-list-max {
+  height: max-content;
 }
 
 .item-operation-buttons {

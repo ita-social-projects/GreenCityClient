@@ -97,6 +97,12 @@ describe('HabitEditShoppingListComponent', () => {
     expect(result).not.toBe(name);
   });
 
+  it('openCloseList should change toggle status', () => {
+    component.toggle = false;
+    component.openCloseList();
+    expect(component.toggle).toBe(true);
+  });
+
   it('select should change status of shopping list item', () => {
     const item = mockList[0];
     component.select(item);

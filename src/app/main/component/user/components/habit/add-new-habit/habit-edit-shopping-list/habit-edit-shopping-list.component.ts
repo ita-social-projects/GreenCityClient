@@ -26,8 +26,7 @@ export class HabitEditShoppingListComponent implements OnInit, OnDestroy {
   private destroySub: Subject<boolean> = new Subject<boolean>();
   private langChangeSub: Subscription;
   public shoppingItemNameLimit = 12;
-  public isShowAll = false;
-  public viewShoppingListItems = 3;
+  public toggle: boolean;
 
   public img = {
     arrowDown: 'assets/img/comments/arrow_down.png',
@@ -62,7 +61,7 @@ export class HabitEditShoppingListComponent implements OnInit, OnDestroy {
   }
 
   getListItems(isAssigned: boolean) {
-    // isAssigned ? this.getCustomItems() : this.getDefaultItems();
+    isAssigned ? this.getCustomItems() : this.getDefaultItems();
     this.getDefaultItems();
   }
 
@@ -98,13 +97,8 @@ export class HabitEditShoppingListComponent implements OnInit, OnDestroy {
     });
   }
 
-  public showAllShoppingListItems() {
-    this.isShowAll = !this.isShowAll;
-    if (this.isShowAll) {
-      this.viewShoppingListItems = this.list.length;
-    } else {
-      this.viewShoppingListItems = 3;
-    }
+  public openCloseList() {
+    this.toggle = !this.toggle;
   }
 
   public checkIfAssigned() {
