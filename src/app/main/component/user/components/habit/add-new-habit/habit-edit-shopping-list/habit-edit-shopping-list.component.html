@@ -20,7 +20,7 @@
 </form>
 <div *ngIf="list.length > 3" class="item-operation-buttons">
   <button class="see-all" (click)="openCloseList()">
-    {{ 'user.habit.btn.see-all' | translate }}
+    {{ (toggle ? 'user.habit.btn.see-less' : 'user.habit.btn.see-all') | translate }}
     <img [src]="toggle ? this.img.arrowUp : this.img.arrowDown" alt="arrow" />
   </button>
 </div>
