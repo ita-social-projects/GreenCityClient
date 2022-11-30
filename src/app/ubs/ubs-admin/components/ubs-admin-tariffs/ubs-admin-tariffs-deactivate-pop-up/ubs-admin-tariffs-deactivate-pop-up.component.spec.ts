@@ -718,7 +718,7 @@ describe('UbsAdminTariffsDeactivatePopUpComponent', () => {
     expect(component.city.disabled).toEqual(false);
   });
 
-  it('should set current cities name and enable city field in enableCity method when either station and or courier fields is filled', () => {
+  it('should set current cities name and enable city field in enableCity method', () => {
     component.locations = [fakeLocation];
     component.selectedRegions = [{ id: 1, name: 'Фейк область' }];
     component.selectedStations = [stationItem];
