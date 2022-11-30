@@ -646,10 +646,10 @@ describe('UsbAdminTableComponent', () => {
   });
 
   it('should set values on changeInputDate', () => {
-    const event: MatCheckboxChange = { source: {} as any, checked: false };
+    const check = false;
     const currentColumn = 'orderDate';
     const suffix = 'From';
-    component.changeInputDate(event, currentColumn, suffix);
+    component.changeInputDate(check, currentColumn, suffix);
     const noFilt = component.noFiltersApplied;
     const controlName = (component as any).getControlName(currentColumn, suffix);
     const date = 'Mon Nov 28 2022 13:01:36 GMT+0200 (за східноєвропейським стандартним часом)';
@@ -660,17 +660,17 @@ describe('UsbAdminTableComponent', () => {
   });
 
   it('should get checkControl on changeInputDate', () => {
-    const event: MatCheckboxChange = { source: {} as any, checked: false };
+    const check = true;
     const currentColumn = 'orderDate';
     const suffix = 'From';
     const checkControl = component.dateForm.get(`orderDateCheck`).value;
-    component.changeInputDate(event, currentColumn, suffix);
+    component.changeInputDate(check, currentColumn, suffix);
     expect(checkControl).toBe(false);
   });
 
   it('should set filters', () => {
     const val = component.dateForm.value;
-    component.changeInputDate({ source: {} as any, checked: false }, 'orderDate', 'From');
+    component.changeInputDate(false, 'orderDate', 'From');
     expect(component.filters).toEqual(val);
   });
 

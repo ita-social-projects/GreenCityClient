@@ -671,7 +671,7 @@ export class UbsAdminTableComponent implements OnInit, AfterViewChecked, OnDestr
     this.applyFilters();
   }
 
-  changeInputDate(event: MatCheckboxChange, currentColumn: string, suffix: string): void {
+  changeInputDate(checked: boolean, currentColumn: string, suffix: string): void {
     this.noFiltersApplied = false;
     const controlName = this.getControlName(currentColumn, suffix);
     const checkControl = this.dateForm.get(`${currentColumn}Check`).value;
@@ -690,7 +690,7 @@ export class UbsAdminTableComponent implements OnInit, AfterViewChecked, OnDestr
       this.adminTableService.changeInputDateFilters(value, currentColumn, suffix, checkControl);
       this.applyFilters();
     } else if (suffix === 'Check') {
-      this.dateForm.get(controlName).setValue(event.checked);
+      this.dateForm.get(controlName).setValue(checked);
       this.filters = this.dateForm.value;
     }
     this.localStorageService.setAdminOrdersDateFilter(this.filters);

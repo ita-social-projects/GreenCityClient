@@ -179,6 +179,111 @@ describe('AdminTableService', () => {
     expect(localStorageService.getUbsAdminOrdersTableTitleColumnFilter()).toContain({ orderStatus: option.key });
   });
 
+  it('should call changeDateFilters', () => {
+    spyOn(service, 'changeDateFilters');
+    const event = new MatCheckboxChange();
+    service.changeDateFilters(event, true, 'dateColumn');
+    expect(service.changeDateFilters).toHaveBeenCalledWith(event, true, 'dateColumn');
+  });
+
+  it('should call changeInputDateFilters', () => {
+    spyOn(service, 'changeInputDateFilters');
+    const value = '2022-10-12';
+    const currentColumn = 'orderDate';
+    const suffix = 'From';
+    const check = false;
+    service.changeInputDateFilters(value, currentColumn, suffix, check);
+    expect(service.changeInputDateFilters).toHaveBeenCalledWith('2022-10-12', 'orderDate', 'From', false);
+  });
+
+  it('should set columnName on changeInputDateFilters', () => {
+    spyOn(service, 'changeColumnNameEqualToEndPoint');
+    const currentColumn = 'paymentDate';
+    service.changeInputDateFilters('2022-10-12', currentColumn, 'To', false);
+    expect(service.changeColumnNameEqualToEndPoint).toHaveBeenCalledWith('paymentDate');
+  });
+
+  it('should set dateFrom value on changeInputDateFilters', () => {
+    const value = '2022-10-12';
+    service.changeInputDateFilters(value, 'orderDate', 'From', false);
+    const dateFrom = value;
+    expect(dateFrom).toBe('2022-10-12');
+  });
+
+  it('should set elem keyNameFrom value on changeInputDateFilters', () => {
+    const value = '2022-10-01';
+    service.changeInputDateFilters(value, 'orderDate', 'From', false);
+    const elem = {};
+    const dateFrom = value;
+    const keyNameFrom = 'orderDateFrom';
+    elem[keyNameFrom] = dateFrom;
+    expect(elem['orderDateFrom']).toBe('2022-10-01');
+  });
+
+  it('should set elem keyNameTo value on changeInputDateFilters', () => {
+    const value = '2022-10-01';
+    service.changeInputDateFilters(value, 'orderDate', 'From', false);
+    const elem = {};
+    const dateFrom = value;
+    const keyNameTo = 'orderDateTo';
+    elem[keyNameTo] = dateFrom;
+    expect(elem['orderDateTo']).toBe('2022-10-01');
+  });
+
+  it('changeInputDateFilters should set keyNameFrom value', () => {
+    const currentColumn = 'orderDate';
+    const suffix = 'From';
+    service.changeInputDateFilters('2022-10-12', currentColumn, suffix, false);
+    const keyNameFrom = `${currentColumn}From`;
+    expect(keyNameFrom).toBe('orderDateFrom');
+  });
+
+  it('changeInputDateFilters should set keyNameTo value', () => {
+    const currentColumn = 'orderDate';
+    const suffix = 'To';
+    service.changeInputDateFilters('2022-10-12', currentColumn, suffix, false);
+    const keyNameTo = `${currentColumn}To`;
+    expect(keyNameTo).toBe('orderDateTo');
+  });
+
+  it('changeInputDateFilters should set keyToChange value', () => {
+    const currentColumn = 'orderDate';
+    const suffix = 'To';
+    service.changeInputDateFilters('2022-10-12', currentColumn, suffix, false);
+    const keyToChange = `${currentColumn}${suffix}`;
+    expect(keyToChange).toBe('orderDateTo');
+  });
+
+  it('should set filterToChange on changeInputDateFilters', () => {
+    const value = '2022-10-12';
+    const currentColumn = 'orderDate';
+    const suffix = 'From';
+    spyOn(service, 'saveDateFilters');
+    service.changeInputDateFilters(value, currentColumn, suffix, false);
+    const elem = {};
+    elem['orderDateFrom'] = value;
+    expect(elem['orderDateFrom']).toBe('2022-10-12');
+    const keyToChange = 'orderDateFrom';
+    service.filters = [{ orderDateFrom: '2022-10-08' }];
+    const filterToChange = service.filters.find((filter) => Object.keys(filter).includes(keyToChange));
+    expect(filterToChange).toEqual({ orderDateFrom: '2022-10-08' });
+    expect(service.saveDateFilters).toHaveBeenCalledWith(true, 'orderDate', [{ orderDateFrom: '2022-10-12', orderDateTo: '2022-10-12' }]);
+  });
+
+  it('should set filterToChange undefined on changeInputDateFilters', () => {
+    const value = '2022-10-12';
+    spyOn(service, 'saveDateFilters');
+    service.changeInputDateFilters(value, 'orderDate', 'To', false);
+    service.filters = [{ orderDateFrom: '2022-10-08' }];
+    const keyToChange = 'orderDateTo';
+    const filterToChange = service.filters.find((filter) => Object.keys(filter).includes(keyToChange));
+    const el = { order: '2022' };
+    service.filters.push(el);
+    expect(filterToChange).toEqual(undefined);
+    expect(service.filters.length).toBe(2);
+    expect(service.saveDateFilters).toHaveBeenCalledWith(true, 'orderDate', [{ orderDateFrom: '2022-10-12', orderDateTo: '2022-10-12' }]);
+  });
+
   it('should url mock be equal url', () => {
     expect(service.url).toEqual(urlMock + '/');
   });
@@ -189,16 +294,21 @@ describe('AdminTableService', () => {
     expect(service.getDateValue).toHaveBeenCalledWith('From', 'dateColumn');
   });
 
+  it('should convert date format by setDateFormat', () => {
+    const date = 'Mon Nov 28 2022 13:01:36 GMT+0200 (за східноєвропейським стандартним часом)';
+    const convertedDate = service.setDateFormat(date);
+    expect(convertedDate).toBe('2022-11-28');
+  });
+
   it('should convert date format by convertDate', () => {
     const date = 'Mon Nov 28 2022 13:01:36 GMT+0200 (за східноєвропейським стандартним часом)';
-    spyOn(service, 'convertDate');
-    service.convertDate(date);
-    expect(service.convertDate).toHaveBeenCalledWith('Mon Nov 28 2022 13:01:36 GMT+0200 (за східноєвропейським стандартним часом)');
+    const convertedDate = service.convertDate(date);
+    expect(convertedDate).toBe('2022-11-28');
   });
 
   it('should call local storage setUbsAdminOrdersTableTitleColumnFilter method', () => {
-    const filters = [{ orderDate: '2022-10-12' }];
     spyOn(localStorageService, 'setUbsAdminOrdersTableTitleColumnFilter');
+    const filters = [{ orderDate: '2022-10-12' }];
     localStorageService.setUbsAdminOrdersTableTitleColumnFilter(filters);
     expect(localStorageService.setUbsAdminOrdersTableTitleColumnFilter).toHaveBeenCalledWith([{ orderDate: '2022-10-12' }]);
   });
@@ -213,41 +323,5 @@ describe('AdminTableService', () => {
     spyOn(service, 'getDateChecked');
     service.getDateChecked('dateColumn');
     expect(service.getDateChecked).toHaveBeenCalledWith('dateColumn');
-  });
-
-  it('changeInputDateFilters should be call', () => {
-    const value = '2022-10-12';
-    const currentColumn = 'orderDate';
-    const suffix = 'From';
-    const check = false;
-    spyOn(service, 'changeInputDateFilters');
-    service.changeInputDateFilters(value, currentColumn, suffix, check);
-    expect(service.changeInputDateFilters).toHaveBeenCalledWith('2022-10-12', 'orderDate', 'From', false);
-  });
-
-  it('changeInputDateFilters should set dateFrom value', () => {
-    const value = '2022-10-12';
-    service.changeInputDateFilters(value, 'orderDate', 'From', false);
-    const dateFrom = value;
-    expect(dateFrom).toBe('2022-10-12');
-  });
-
-  it('changeInputDateFilters should set keyNameFrom and keyNameTo values', () => {
-    const currentColumn = 'orderDate';
-    const suffix = 'From';
-    service.changeInputDateFilters('2022-10-12', currentColumn, suffix, false);
-    const keyNameFrom = `${currentColumn}From`;
-    const keyNameTo = `${currentColumn}To`;
-    const keyToChange = `${currentColumn}${suffix}`;
-    expect(keyNameFrom).toBe('orderDateFrom');
-    expect(keyNameTo).toBe('orderDateTo');
-    expect(keyToChange).toBe('orderDateFrom');
-  });
-
-  it('changeDateFilters should be call', () => {
-    spyOn(service, 'changeDateFilters');
-    const event = new MatCheckboxChange();
-    service.changeDateFilters(event, true, 'dateColumn');
-    expect(service.changeDateFilters).toHaveBeenCalledWith(event, true, 'dateColumn');
   });
 });

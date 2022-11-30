@@ -196,9 +196,8 @@ export class AdminTableService {
     const filterToChange = this.filters.find((filter) => Object.keys(filter).includes(`${keyToChange}`));
 
     if (!filterToChange) {
-      elem[keyNameFrom] = dateFrom;
       this.filters.push(elem);
-      this.saveDateFilters(false, columnName, this.filters);
+      this.saveDateFilters(true, columnName, this.filters);
     } else {
       filterToChange[keyToChange] = value;
       if (!check) {
