@@ -217,7 +217,7 @@ describe('AdminTableService', () => {
     const dateFrom = value;
     const keyNameFrom = 'orderDateFrom';
     elem[keyNameFrom] = dateFrom;
-    expect(elem['orderDateFrom']).toBe('2022-10-01');
+    expect(elem).toEqual({ orderDateFrom: '2022-10-01' });
   });
 
   it('should set elem keyNameTo value on changeInputDateFilters', () => {
@@ -227,7 +227,7 @@ describe('AdminTableService', () => {
     const dateFrom = value;
     const keyNameTo = 'orderDateTo';
     elem[keyNameTo] = dateFrom;
-    expect(elem['orderDateTo']).toBe('2022-10-01');
+    expect(elem).toEqual({ orderDateTo: '2022-10-01' });
   });
 
   it('changeInputDateFilters should set keyNameFrom value', () => {
@@ -260,9 +260,6 @@ describe('AdminTableService', () => {
     const suffix = 'From';
     spyOn(service, 'saveDateFilters');
     service.changeInputDateFilters(value, currentColumn, suffix, false);
-    const elem = {};
-    elem['orderDateFrom'] = value;
-    expect(elem['orderDateFrom']).toBe('2022-10-12');
     const keyToChange = 'orderDateFrom';
     service.filters = [{ orderDateFrom: '2022-10-08' }];
     const filterToChange = service.filters.find((filter) => Object.keys(filter).includes(keyToChange));
@@ -277,11 +274,19 @@ describe('AdminTableService', () => {
     service.filters = [{ orderDateFrom: '2022-10-08' }];
     const keyToChange = 'orderDateTo';
     const filterToChange = service.filters.find((filter) => Object.keys(filter).includes(keyToChange));
+    expect(filterToChange).toEqual(undefined);
+    expect(service.saveDateFilters).toHaveBeenCalledWith(true, 'orderDate', [{ orderDateFrom: '2022-10-12', orderDateTo: '2022-10-12' }]);
+  });
+
+  it('should push el on changeInputDateFilters', () => {
+    spyOn(service, 'saveDateFilters');
+    service.filters = [{ orderDateFrom: '2022-10-08' }];
     const el = { order: '2022' };
     service.filters.push(el);
-    expect(filterToChange).toEqual(undefined);
+    expect(service.filters).toEqual([{ orderDateFrom: '2022-10-08' }, { order: '2022' }]);
     expect(service.filters.length).toBe(2);
-    expect(service.saveDateFilters).toHaveBeenCalledWith(true, 'orderDate', [{ orderDateFrom: '2022-10-12', orderDateTo: '2022-10-12' }]);
+    service.saveDateFilters(true, 'orderDate', service.filters);
+    expect(service.saveDateFilters).toHaveBeenCalledWith(true, 'orderDate', [{ orderDateFrom: '2022-10-08' }, { order: '2022' }]);
   });
 
   it('should url mock be equal url', () => {
