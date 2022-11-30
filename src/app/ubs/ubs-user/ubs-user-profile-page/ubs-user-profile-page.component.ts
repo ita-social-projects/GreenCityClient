@@ -21,6 +21,8 @@ import { PhoneNumberValidator } from 'src/app/shared/phone-validator/phone.valid
 export class UbsUserProfilePageComponent implements OnInit {
   userForm: FormGroup;
   userProfile: UserProfile;
+  viberNotification = false;
+  telegramNotification = false;
   defaultAddress: Address = {
     actual: true,
     city: '',
@@ -151,6 +153,16 @@ export class UbsUserProfilePageComponent implements OnInit {
   onCancel(): void {
     this.userInit();
     this.isEditing = false;
+  }
+
+  checkedCheckbox(event) {
+    if (event.source.id === 'telegramNotification') {
+      this.telegramNotification = event.checked ? true : false;
+    }
+
+    if (event.source.id === 'viberNotification') {
+      this.viberNotification = event.checked ? true : false;
+    }
   }
 
   onSubmit(): void {
