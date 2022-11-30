@@ -11,8 +11,8 @@ describe('TariffDeactivateConfirmationPopUpComponent', () => {
 
   const matDialogMock = jasmine.createSpyObj('matDialog', ['open']);
   matDialogMock.open.and.returnValue({ afterClosed: () => of(true) });
-  const fakeMatDialogRef = jasmine.createSpyObj(['close', 'afterClosed']);
-  fakeMatDialogRef.afterClosed.and.returnValue(of(true));
+  const fakeMatDialog = jasmine.createSpyObj(['close', 'afterClosed']);
+  fakeMatDialog.afterClosed.and.returnValue(of(true));
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
@@ -21,7 +21,7 @@ describe('TariffDeactivateConfirmationPopUpComponent', () => {
       providers: [
         { provide: MAT_DIALOG_DATA, useValue: {} },
         { provide: MatDialog, useValue: matDialogMock },
-        { provide: MatDialogRef, useValue: fakeMatDialogRef }
+        { provide: MatDialogRef, useValue: fakeMatDialog }
       ]
     }).compileComponents();
   }));
@@ -37,9 +37,9 @@ describe('TariffDeactivateConfirmationPopUpComponent', () => {
   });
 
   it('method onNoClick should invoke destroyRef.close()', () => {
-    matDialogMock.open.and.returnValue(fakeMatDialogRef as any);
-    component.onNoClick();
-    expect(fakeMatDialogRef.close).toHaveBeenCalled();
+    matDialogMock.open.and.returnValue(fakeMatDialog as any);
+    component.onCancelClick();
+    expect(fakeMatDialog.close).toHaveBeenCalled();
     expect(matDialogMock.open).toHaveBeenCalledWith(ModalTextComponent, {
       hasBackdrop: true,
       panelClass: 'address-matDialog-styles-w-100',

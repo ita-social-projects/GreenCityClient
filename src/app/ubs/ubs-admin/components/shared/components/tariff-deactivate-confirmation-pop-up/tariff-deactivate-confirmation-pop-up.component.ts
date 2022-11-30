@@ -12,7 +12,7 @@ import { ModalTextComponent } from '../modal-text/modal-text.component';
   styleUrls: ['./tariff-deactivate-confirmation-pop-up.component.scss']
 })
 export class TariffDeactivateConfirmationPopUpComponent implements OnInit {
-  public name: string;
+  public adminName: string;
   public datePipe = new DatePipe('ua');
   public newDate = this.datePipe.transform(new Date(), 'MMM dd, yyyy');
   unsubscribe: Subject<any> = new Subject();
@@ -34,12 +34,12 @@ export class TariffDeactivateConfirmationPopUpComponent implements OnInit {
     this.regionNames = this.modalData.regionName ?? '';
     this.locationNames = this.modalData.locationNames ?? '';
     this.localeStorageService.firstNameBehaviourSubject.pipe(takeUntil(this.unsubscribe)).subscribe((firstName) => {
-      this.name = firstName;
+      this.adminName = firstName;
     });
   }
 
-  public onNoClick(): void {
-    const matDialogRef = this.dialog.open(ModalTextComponent, {
+  public onCancelClick(): void {
+    const matDialog = this.dialog.open(ModalTextComponent, {
       hasBackdrop: true,
       panelClass: 'address-matDialog-styles-w-100',
       data: {
@@ -48,8 +48,8 @@ export class TariffDeactivateConfirmationPopUpComponent implements OnInit {
         action: 'modal-text.yes'
       }
     });
-    matDialogRef.afterClosed().subscribe((res) => {
-      if (res) {
+    matDialog.afterClosed().subscribe((data) => {
+      if (data) {
         this.dialogRef.close(false);
       }
     });
