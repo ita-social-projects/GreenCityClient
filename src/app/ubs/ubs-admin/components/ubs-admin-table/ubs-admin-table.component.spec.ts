@@ -55,6 +55,8 @@ describe('UsbAdminTableComponent', () => {
     paymentDateCheck: false
   };
 
+  const columnMock = [{ key: 'orderDate' }, { key: 'paymentDate' }, { key: 'dateOfExport' }];
+
   const localStorageServiceMock = jasmine.createSpyObj('localStorageService', [
     'getUbsAdminOrdersTableColumnsWidthPreference',
     'setUbsAdminOrdersTableColumnsWidthPreference',
@@ -257,6 +259,13 @@ describe('UsbAdminTableComponent', () => {
     component.getControlValue(column, suffix);
     expect(component.getControlValue).toHaveBeenCalledWith('orderDate', 'From');
     expect(component.getControlValue).toHaveBeenCalledTimes(1);
+  });
+
+  it('should call getControlName with column and suffix', () => {
+    const column = 'orderDate';
+    const suffix = 'Check';
+    const controlVal = component.getControlValue(column, suffix);
+    expect(controlVal).toBe(false);
   });
 
   it('should set controlName', () => {
@@ -634,7 +643,16 @@ describe('UsbAdminTableComponent', () => {
     spyOn(component, 'applyFilters');
     component.changeFilters(checked, currentColumn, option);
     expect((component as any).adminTableService.changeFilters).toHaveBeenCalledWith(true, 'currentColumn', { filtered: true });
-    expect(component.applyFilters).toHaveBeenCalledTimes(1);
+    expect(component.applyFilters).toHaveBeenCalled();
+  });
+
+  it('should change noFiltersApplied value to false changeFilters', () => {
+    const checked = true;
+    const currentColumn = 'currentColumn';
+    const option = { filtered: true };
+    component.changeFilters(checked, currentColumn, option);
+    expect((component as any).adminTableService.filters.length).toBe(1);
+    expect(component.noFiltersApplied).toBe(false);
   });
 
   it('should noFilters applied to be false', () => {
@@ -645,18 +663,45 @@ describe('UsbAdminTableComponent', () => {
     expect(component.noFiltersApplied).toBe(false);
   });
 
-  it('should set values on changeInputDate', () => {
+  it('should change noFiltersApplied to false on changeInputDate', () => {
     const check = false;
     const currentColumn = 'orderDate';
     const suffix = 'From';
     component.changeInputDate(check, currentColumn, suffix);
     const noFilt = component.noFiltersApplied;
-    const controlName = (component as any).getControlName(currentColumn, suffix);
-    const date = 'Mon Nov 28 2022 13:01:36 GMT+0200 (за східноєвропейським стандартним часом)';
-    const value = (component as any).adminTableService.setDateFormat(date);
     expect(noFilt).toBe(false);
+  });
+
+  it('should call getControlName', () => {
+    const currentColumn = 'orderDate';
+    const suffix = 'From';
+    spyOn(component as any, 'getControlName');
+    (component as any).getControlName(currentColumn, suffix);
+    expect((component as any).getControlName).toHaveBeenCalledWith('orderDate', 'From');
+  });
+
+  it('should set controlName on changeInputDate', () => {
+    const check = false;
+    const currentColumn = 'orderDate';
+    const suffix = 'From';
+    component.changeInputDate(check, currentColumn, suffix);
+    const controlName = (component as any).getControlName(currentColumn, suffix);
     expect(controlName).toBe('orderDateFrom');
-    expect(value).toBe('2022-11-28');
+  });
+
+  it('should conver date value on changeInputDate', () => {
+    spyOn((component as any).adminTableService, 'setDateFormat');
+    const date = 'Mon Nov 12 2022 13:01:36 GMT+0200 (за східноєвропейським стандартним часом)';
+    (component as any).adminTableService.setDateFormat(date);
+    expect((component as any).adminTableService.setDateFormat).toHaveBeenCalledWith(
+      'Mon Nov 12 2022 13:01:36 GMT+0200 (за східноєвропейським стандартним часом)'
+    );
+  });
+
+  it('should conver date value on changeInputDate', () => {
+    const date = 'Mon Nov 12 2022 13:01:36 GMT+0200 (за східноєвропейським стандартним часом)';
+    const value = (component as any).adminTableService.setDateFormat(date);
+    expect(value).toBe('2022-11-12');
   });
 
   it('should get checkControl on changeInputDate', () => {

@@ -276,7 +276,7 @@ export class UbsAdminTableComponent implements OnInit, AfterViewChecked, OnDestr
     this.filters = this.dateForm.value;
   }
 
-  public getControlValue(column: string, suffix: string): string {
+  public getControlValue(column: string, suffix: string): string | boolean {
     const controlName = this.getControlName(column, suffix);
     return this.dateForm.get(controlName).value;
   }
