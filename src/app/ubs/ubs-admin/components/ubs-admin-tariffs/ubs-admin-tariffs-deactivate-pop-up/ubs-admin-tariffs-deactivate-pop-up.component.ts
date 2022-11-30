@@ -54,7 +54,6 @@ export class UbsAdminTariffsDeactivatePopUpComponent implements OnInit, OnDestro
   public cityPlaceholder: string;
   public selectedCityLength: number;
   public courierId: number;
-  public regionId: number;
   public tariffCards: TariffCard[] = [];
   public deactivateCardObj;
 
@@ -655,9 +654,9 @@ export class UbsAdminTariffsDeactivatePopUpComponent implements OnInit, OnDestro
   public createDeactivateCardDto() {
     this.deactivateCardObj = {
       courierId: this.courierId,
-      receivingStationsIdList: this.selectedStations.map((it) => it.id).sort(),
-      regionId: this.regionId,
-      locationIdList: this.selectedCities.map((it) => it.id).sort()
+      receivingStationsIdList: this.selectedStations.map((it) => it.id),
+      regionId: this.selectedRegions.map((it) => it.id),
+      locationIdList: this.selectedCities.map((it) => it.id)
     };
   }
 
