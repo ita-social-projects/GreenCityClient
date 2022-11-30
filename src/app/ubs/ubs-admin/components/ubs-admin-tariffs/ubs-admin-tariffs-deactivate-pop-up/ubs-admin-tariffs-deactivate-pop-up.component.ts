@@ -59,7 +59,7 @@ export class UbsAdminTariffsDeactivatePopUpComponent implements OnInit, OnDestro
 
   constructor(
     private fb: FormBuilder,
-    private localeStorageService: LocalStorageService,
+    private localeStorage: LocalStorageService,
     private tariffsService: TariffsService,
     private translate: TranslateService,
     public dialog: MatDialog,
@@ -80,8 +80,8 @@ export class UbsAdminTariffsDeactivatePopUpComponent implements OnInit, OnDestro
   }
 
   ngOnInit(): void {
-    this.localeStorageService.firstNameBehaviourSubject.pipe(takeUntil(this.unsubscribe)).subscribe((firstName) => {
-      this.name = firstName;
+    this.localeStorage.firstNameBehaviourSubject.pipe(takeUntil(this.unsubscribe)).subscribe((name) => {
+      this.name = name;
     });
     this.setStationPlaceholder();
     this.setRegionsPlaceholder();
