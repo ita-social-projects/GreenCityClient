@@ -683,9 +683,6 @@ export class UbsAdminTableComponent implements OnInit, AfterViewChecked, OnDestr
       if (!checkControl || this.getControlValue(currentColumn, 'From') > this.getControlValue(currentColumn, 'To')) {
         this.dateForm.get(`${currentColumn}To`).setValue(value);
       }
-      // if (this.getControlValue(currentColumn, 'From') > this.getControlValue(currentColumn, 'To')) {
-      //   this.dateForm.get(`${currentColumn}From`).setValue(this.getControlValue(currentColumn, 'To'));
-      // }
       this.adminTableService.changeInputDateFilters(value, currentColumn, suffix, checkControl);
       this.applyFilters();
     } else if (suffix === 'Check') {
