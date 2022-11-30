@@ -98,9 +98,9 @@ describe('HabitEditShoppingListComponent', () => {
   });
 
   it('openCloseList should change toggle status', () => {
-    component.toggle = false;
+    component.seeAllShopingList = false;
     component.openCloseList();
-    expect(component.toggle).toBe(true);
+    expect(component.seeAllShopingList).toBe(true);
   });
 
   it('select should change status of shopping list item', () => {
