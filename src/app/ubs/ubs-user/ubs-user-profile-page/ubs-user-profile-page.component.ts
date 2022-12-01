@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Inject, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators, FormArray, AbstractControl } from '@angular/forms';
 import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
 import { SignInIcons } from 'src/app/main/image-pathes/sign-in-icons';
@@ -42,6 +42,8 @@ export class UbsUserProfilePageComponent implements OnInit {
   googleIcon = SignInIcons.picGoogle;
   isEditing = false;
   isFetching = false;
+  telegramBotURL = 'https://telegram.me/TrayingAgainDoSomthBot?start=1a3a3f0f-6e79-4be6-987a-b6ed82b7b272';
+  viberBotURL = 'viber://pa?chatURI=ubstestbot1&context=1a3a3f0f-6e79-4be6-987a-b6ed82b7b272';
   alternativeEmailDisplay = false;
   phoneMask = Masks.phoneMask;
   maxAddressLength = 4;
@@ -73,6 +75,7 @@ export class UbsUserProfilePageComponent implements OnInit {
     this.isFetching = true;
     this.clientProfileService.getDataClientProfile().subscribe(
       (res: UserProfile) => {
+        console.log(res);
         this.userProfile = this.composeFormData(res);
         this.userInit();
         this.isFetching = false;
@@ -212,9 +215,32 @@ export class UbsUserProfilePageComponent implements OnInit {
         }
       );
       this.alternativeEmailDisplay = false;
+      this.redirectToMessengers();
     } else {
       this.isEditing = true;
     }
+  }
+
+  redirectToMessengers() {
+    if (this.telegramNotification && this.viberNotification) {
+      this.goToViberUrl();
+      this.goToTelegramUrl();
+    } else {
+      if (this.telegramNotification) {
+        this.goToTelegramUrl();
+      }
+      if (this.viberNotification) {
+        this.goToViberUrl();
+      }
+    }
+  }
+
+  goToTelegramUrl() {
+    (window as any).open(this.telegramBotURL, '_blank');
+  }
+
+  goToViberUrl() {
+    (window as any).open(this.viberBotURL, '_blank');
   }
 
   openDeleteProfileDialog(): void {
