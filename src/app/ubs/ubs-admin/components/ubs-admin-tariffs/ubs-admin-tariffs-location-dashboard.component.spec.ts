@@ -29,6 +29,7 @@ import { UbsAdminTariffsLocationPopUpComponent } from './ubs-admin-tariffs-locat
 import { UbsAdminTariffsDeactivatePopUpComponent } from './ubs-admin-tariffs-deactivate-pop-up/ubs-admin-tariffs-deactivate-pop-up.component';
 import { TariffStatusPipe } from '@pipe/tariff-status-pipe/tariff-status.pipe';
 import { LanguageService } from 'src/app/main/i18n/language.service';
+import { TariffDeactivateConfirmationPopUpComponent } from '../shared/components/tariff-deactivate-confirmation-pop-up/tariff-deactivate-confirmation-pop-up.component';
 
 describe('UbsAdminTariffsLocationDashboardComponent', () => {
   let component: UbsAdminTariffsLocationDashboardComponent;
@@ -956,8 +957,8 @@ describe('UbsAdminTariffsLocationDashboardComponent', () => {
     });
   });
 
-  it('should call openDeactivateLocation', () => {
-    component.openDeactivateLocation();
+  it('should call openDeactivatePopUp', () => {
+    component.openDeactivatePopUp();
     expect(matDialogMock.open).toHaveBeenCalledWith(UbsAdminTariffsDeactivatePopUpComponent, {
       hasBackdrop: true,
       panelClass: 'address-matDialog-styles-w-100',
