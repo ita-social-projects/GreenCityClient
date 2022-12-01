@@ -48,8 +48,8 @@ export class UbsOrderCertificateComponent implements OnInit, OnDestroy {
   creationDate: string[] = [];
   dateOfUse: string[] = [];
   expirationDate: string[] = [];
-  certStatus: string;
-  failedCert = false;
+  certStatus: string[] = [];
+  failedCert: boolean[] = [];
   object: {};
   private destroy: Subject<boolean> = new Subject<boolean>();
   public certificateError = false;
@@ -114,6 +114,23 @@ export class UbsOrderCertificateComponent implements OnInit, OnDestroy {
       isBonus: this.orderDetailsForm.get('bonus').value
     };
     this.setNewValue(certificateObj);
+
+    console.log(
+      'certificates',
+      this.certificates,
+      'showCertificateUsed',
+      this.showCertificateUsed,
+      'certificateSum',
+      this.certificateSum,
+      'displayCert',
+      this.displayCert,
+      'finalSum',
+      this.finalSum,
+      'failed cert',
+      this.failedCert,
+      'certStatus[i]',
+      this.certStatus
+    );
   }
 
   certificateMatch(cert: ICertificateResponse): void {
@@ -122,12 +139,16 @@ export class UbsOrderCertificateComponent implements OnInit, OnDestroy {
       this.displayCert = true;
       this.shareFormService.changeAddCertButtonVisibility(true);
     }
-    this.failedCert = cert.certificateStatus === CertificateStatus.EXPIRED || cert.certificateStatus === CertificateStatus.USED;
-    this.certificateSum = this.failedCert && this.formArrayCertificates.length === 1 ? 0 : this.certificateSum;
+    if (cert.certificateStatus === CertificateStatus.EXPIRED || cert.certificateStatus === CertificateStatus.USED) {
+      this.failedCert.push(true);
+    } else {
+      this.failedCert.push(false);
+    }
+    this.certificateSum = this.failedCert.includes(true) && this.formArrayCertificates.length === 1 ? 0 : this.certificateSum;
     this.creationDate.push(this.certificateDateTreat(cert.creationDate));
     this.dateOfUse.push(this.certificateDateTreat(cert.dateOfUse));
     this.expirationDate.push(this.certificateDateTreat(cert.expirationDate));
-    this.certStatus = cert.certificateStatus;
+    this.certStatus.push(cert.certificateStatus);
     this.fullCertificate = this.certificateSum;
   }
 
@@ -226,10 +247,6 @@ export class UbsOrderCertificateComponent implements OnInit, OnDestroy {
 
   certificateReset(resetMessage: boolean): void {
     if (resetMessage) {
-      this.creationDate = [];
-      this.expirationDate = [];
-      this.dateOfUse = [];
-      this.certStatus = '';
       this.shareFormService.changeAddCertButtonVisibility(true);
     }
     const fullBonus = this.pointsUsed + this.points;
@@ -244,11 +261,32 @@ export class UbsOrderCertificateComponent implements OnInit, OnDestroy {
     this.showCertificateUsed = null;
     this.shareFormService.changeAddCertButtonVisibility(false);
     this.displayCert = false;
+    this.creationDate = [];
+    this.expirationDate = [];
+    this.dateOfUse = [];
     this.certificates = [];
+    this.certStatus = [];
+    this.failedCert = [];
     this.certSize = false;
     this.certificateLeft = 0;
     this.certificateSum = 0;
     this.fullCertificate = 0;
+    console.log(
+      'certificates',
+      this.certificates,
+      'showCertificateUsed',
+      this.showCertificateUsed,
+      'certificateSum',
+      this.certificateSum,
+      'displayCert',
+      this.displayCert,
+      'finalSum',
+      this.finalSum,
+      'failed cert',
+      this.failedCert,
+      'certStatus[i]',
+      this.certStatus
+    );
     this.formArrayCertificates.patchValue(['']);
     this.formArrayCertificates.markAsUntouched();
   }
@@ -265,12 +303,14 @@ export class UbsOrderCertificateComponent implements OnInit, OnDestroy {
       this.creationDate.splice(index, 1);
       this.dateOfUse.splice(index, 1);
       this.expirationDate.splice(index, 1);
+      this.failedCert.splice(index, 1);
+      this.certStatus.splice(index, 1);
     } else {
       this.certificateReset(true);
     }
     this.certStatuses.splice(index, 1);
     this.calculateCertificates(this.certificates);
-    this.sendDataToParents();
+    //this.sendDataToParents();
   }
 
   showCancelButton(i: number) {
@@ -282,6 +322,10 @@ export class UbsOrderCertificateComponent implements OnInit, OnDestroy {
 
   certificateSubmit(index: number): void {
     if (!this.certificates.includes(this.formArrayCertificates.value[index])) {
+      this.expirationDate = [];
+      this.dateOfUse = [];
+      this.failedCert = [];
+      this.certStatus = [];
       this.certificates.push(this.formArrayCertificates.value[index]);
       this.certStatuses.push(true);
       this.calculateCertificates(this.certificates);
@@ -369,7 +413,7 @@ export class UbsOrderCertificateComponent implements OnInit, OnDestroy {
         if (this.certificateSum > 0) {
           this.finalSum -= this.certificateSum;
         }
-        this.sendDataToParents();
+        //this.sendDataToParents();
         this.points = this.showTotal + this.points;
       }
       this.clickOnNo = false;
