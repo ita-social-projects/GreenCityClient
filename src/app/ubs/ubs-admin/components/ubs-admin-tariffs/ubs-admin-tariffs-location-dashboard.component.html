@@ -214,6 +214,50 @@
       </mat-menu>
     </tr>
   </tbody>
+  <tbody *ngIf="!showTitle">
+    <tr *ngFor="let card of selectedCard">
+      <td>
+        {{ card.region }}
+      </td>
+      <td>
+        <div *ngFor="let item of card.city">
+          {{ item }}
+        </div>
+      </td>
+      <td>
+        <div>
+          {{ card.courier }}
+        </div>
+      </td>
+      <td>
+        <div *ngFor="let item of card.station">
+          {{ item }}
+        </div>
+      </td>
+      <td>
+        {{ card.tariff | tariffStatus }}
+      </td>
+      <td class="last-col" *ngIf="card.tariff != 'Неактивно'" [matMenuTriggerFor]="crumbs">
+        <img class="tariff-img mr-3" [src]="icons.crumbs" alt="crumbs" />
+      </td>
+      <mat-menu #crumbs="matMenu">
+        <button mat-menu-item>
+          <span class="menu-item">{{ 'ubs-tariffs.btn.edit' | translate }}</span>
+        </button>
+        <button mat-menu-item (click)="openDeactivateLocation()">
+          <span class="menu-item">{{ 'ubs-tariffs.btn.deactivation' | translate }}</span>
+        </button>
+      </mat-menu>
+      <td class="last-col" *ngIf="card.tariff === 'Неактивно'" [matMenuTriggerFor]="restore">
+        <img class="tariff-img mr-3" [src]="icons.restore" alt="restore" />
+      </td>
+      <mat-menu #restore="matMenu">
+        <button mat-menu-item>
+          <span class="menu-item">{{ 'ubs-tariffs.btn.restore' | translate }}</span>
+        </button>
+      </mat-menu>
+    </tr>
+  </tbody>
 </table>
 <div *ngIf="isFieldFilled && !isCardExist" class="create-card-field">
   <span>{{ 'ubs-tariffs.card-not-found' | translate }}</span>
