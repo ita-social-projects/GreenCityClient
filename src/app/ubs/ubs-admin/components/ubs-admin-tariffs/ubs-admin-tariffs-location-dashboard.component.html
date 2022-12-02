@@ -45,7 +45,7 @@
     </mat-menu>
   </div>
 </div>
-<form class="showing-block" [formGroup]="searchForm" #form="ngForm">
+<form class="showing-block" *ngIf="showTitle" [formGroup]="searchForm" #form="ngForm">
   <div class="d-flex">
     <div class="col-item">
       <p class="col-text">{{ 'ubs-tariffs.region' | translate }}</p>
@@ -170,7 +170,7 @@
       <th id="action"></th>
     </tr>
   </thead>
-  <tbody>
+  <tbody *ngIf="showTitle">
     <tr *ngFor="let card of cards">
       <td>
         {{ card.region }}
