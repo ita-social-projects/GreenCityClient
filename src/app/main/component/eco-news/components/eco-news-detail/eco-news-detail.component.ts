@@ -24,7 +24,7 @@ export class EcoNewsDetailComponent implements OnInit, OnDestroy {
     liked: 'assets/img/comments/liked.png'
   };
 
-  private newsId: number;
+  public newsId: number;
   private newsImage: string;
   private destroy: Subject<boolean> = new Subject<boolean>();
 

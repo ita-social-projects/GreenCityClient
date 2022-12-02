@@ -11,10 +11,16 @@ import { RouterTestingModule } from '@angular/router/testing';
 
 import { CommentsContainerComponent } from './comments-container.component';
 import { CommentsModel } from '../../models/comments-model';
+import { of } from 'rxjs';
 
 describe('CommentsContainerComponent', () => {
   let component: CommentsContainerComponent;
   let fixture: ComponentFixture<CommentsContainerComponent>;
+
+  const CommentsServiceMock = {
+    getActiveCommentsByPage: () => of({ page: [] }),
+    getCommentsCount: () => of({})
+  };
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
@@ -25,10 +31,10 @@ describe('CommentsContainerComponent', () => {
         ReactiveFormsModule,
         NgxPaginationModule,
         RouterModule,
-        TranslateModule.forRoot(),
+        TranslateModule.forRoot()
       ],
-      providers: [CommentsService, UserOwnAuthService],
-      schemas: [CUSTOM_ELEMENTS_SCHEMA],
+      providers: [{ provide: CommentsService, useValue: CommentsServiceMock }, UserOwnAuthService],
+      schemas: [CUSTOM_ELEMENTS_SCHEMA]
     }).compileComponents();
   }));
 

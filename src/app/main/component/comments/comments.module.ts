@@ -40,7 +40,6 @@ import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
     CommentPaginationComponent,
     CommentsListComponent,
     CommentsContainerComponent
-  ],
-  providers: [CommentsService]
+  ]
 })
 export class CommentsModule {}

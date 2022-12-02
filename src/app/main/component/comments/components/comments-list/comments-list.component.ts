@@ -10,6 +10,7 @@ import { take } from 'rxjs/operators';
   styleUrls: ['./comments-list.component.scss']
 })
 export class CommentsListComponent {
+  @Input() public entityId: number;
   @Input() public elementsList: CommentsDTO[] = [];
   @Input() public dataType: string;
   @Input() public commentId: number;
@@ -35,7 +36,7 @@ export class CommentsListComponent {
 
   public saveEditedComment(element: CommentsDTO): void {
     this.commentsService
-      .editComment(element.id, this.content)
+      .editComment(element.id, this.content.value)
       .pipe(take(1))
       .subscribe(() => this.content.reset());
 
