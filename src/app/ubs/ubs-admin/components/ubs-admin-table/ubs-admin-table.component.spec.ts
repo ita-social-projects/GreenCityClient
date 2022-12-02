@@ -12,7 +12,7 @@ import { MatPaginatorModule } from '@angular/material/paginator';
 import { MatTableModule } from '@angular/material/table';
 import { MatCheckboxChange, MatCheckboxModule } from '@angular/material/checkbox';
 import { TranslateModule } from '@ngx-translate/core';
-import { CUSTOM_ELEMENTS_SCHEMA, Renderer2 } from '@angular/core';
+import { CUSTOM_ELEMENTS_SCHEMA, Renderer2, ChangeDetectorRef, DebugElement } from '@angular/core';
 import { RouterTestingModule } from '@angular/router/testing';
 import { Store } from '@ngrx/store';
 import { BehaviorSubject, Observable, of } from 'rxjs';
@@ -23,9 +23,9 @@ import { LocalStorageService } from '@global-service/localstorage/local-storage.
 import { SelectionModel } from '@angular/cdk/collections';
 import { Language } from 'src/app/main/i18n/Language';
 import { DateAdapter } from '@angular/material/core';
-import { FormBuilder, FormControl } from '@angular/forms';
-import { AdminTableService } from '../../services/admin-table.service';
-
+import { FormBuilder } from '@angular/forms';
+import { By } from '@angular/platform-browser';
+import { TableHeightService } from '../../services/table-height.service';
 describe('UsbAdminTableComponent', () => {
   let component: UbsAdminTableComponent;
   let fixture: ComponentFixture<UbsAdminTableComponent>;
@@ -55,8 +55,6 @@ describe('UsbAdminTableComponent', () => {
     paymentDateCheck: false
   };
 
-  const columnMock = [{ key: 'orderDate' }, { key: 'paymentDate' }, { key: 'dateOfExport' }];
-
   const localStorageServiceMock = jasmine.createSpyObj('localStorageService', [
     'getUbsAdminOrdersTableColumnsWidthPreference',
     'setUbsAdminOrdersTableColumnsWidthPreference',
@@ -69,16 +67,23 @@ describe('UsbAdminTableComponent', () => {
     'setAdminOrdersDateFilter',
     'removeAdminOrderDateFilters'
   ]);
-
   localStorageServiceMock.languageBehaviourSubject = new BehaviorSubject('ua');
   localStorageServiceMock.getCurrentLanguage = () => 'ua' as Language;
   localStorageServiceMock.languageSubject = of('ua');
 
-  const FakeMatDialogConfig = {};
+  const tableServiceMock = jasmine.createSpyObj('tableHeightService', ['setTableHeightToContainerHeight']);
+
+  const FakeMatDialogConfig = jasmine.createSpyObj('dialog', ['open']);
+
+  const rendererMock = jasmine.createSpyObj('renderer', ['listen', 'setStyle']);
+
+  const changeDetectorMock = jasmine.createSpyObj('cdr', ['detectChanges']);
+  changeDetectorMock.detectChanges();
+
   const dateAdapterMock = jasmine.createSpyObj('adapter', ['setLocale']);
   dateAdapterMock.setLocale = () => of('en-GB');
+
   const formBuilderMock: FormBuilder = new FormBuilder();
-  const rendererMock = jasmine.createSpyObj('renderer', ['listen', 'setStyle']);
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
@@ -101,11 +106,13 @@ describe('UsbAdminTableComponent', () => {
       declarations: [UbsAdminTableComponent, ServerTranslatePipe],
       providers: [
         { provide: Store, useValue: storeMock },
-        { provide: MatDialogConfig, useValue: FakeMatDialogConfig },
         { provide: LocalStorageService, useValue: localStorageServiceMock },
-        { provide: DateAdapter, useValue: dateAdapterMock },
+        { provide: TableHeightService, useValue: tableServiceMock },
+        { provide: MatDialogConfig, useValue: FakeMatDialogConfig },
+        { provide: ChangeDetectorRef, useValue: changeDetectorMock },
+        { provide: Renderer2, useValue: rendererMock },
         { provide: FormBuilder, useValue: formBuilderMock },
-        { provide: Renderer2, useValue: rendererMock }
+        { provide: DateAdapter, useValue: dateAdapterMock }
       ],
       schemas: [CUSTOM_ELEMENTS_SCHEMA]
     }).compileComponents();
@@ -149,17 +156,11 @@ describe('UsbAdminTableComponent', () => {
     expect(component.noFiltersApplied).toEqual(true);
   });
 
-  it('ngOnInit should call initDateForm and dont set component dateForm', () => {
+  it('ngOnInit should call initDateForm and set component dateForm', () => {
     spyOn(component, 'initDateForm');
     component.ngOnInit();
     expect(component.initDateForm).toHaveBeenCalledTimes(1);
     expect(component.dateForm.value).toEqual(dateMock);
-  });
-
-  it('should call getLocalDateForm', () => {
-    spyOn(component as any, 'getLocalDateForm');
-    component.initDateForm();
-    expect((component as any).getLocalDateForm).toHaveBeenCalled();
   });
 
   it('ordersViewParameters$ expect displayedColumns should be [title]', () => {
@@ -178,6 +179,12 @@ describe('UsbAdminTableComponent', () => {
       expect(component.currentPage).toBe(2);
       expect(component.tableData[0].content).toBe('content');
       expect(component.formatTableData).toHaveBeenCalled();
+    });
+  });
+
+  it('bigOrderTable$ expect detectChanges has call', () => {
+    component.bigOrderTable$.subscribe((items: any) => {
+      expect(changeDetectorMock.detectChanges).toHaveBeenCalledTimes(1);
     });
   });
 
@@ -228,12 +235,54 @@ describe('UsbAdminTableComponent', () => {
 
   it('ngAfterViewChecked ', () => {
     component.isTableHeightSet = false;
-    spyOn((component as any).tableHeightService, 'setTableHeightToContainerHeight').and.returnValue(true);
-    spyOn((component as any).cdr, 'detectChanges');
+    tableServiceMock.setTableHeightToContainerHeight.and.returnValue(true);
     spyOn(component, 'onScroll');
     component.ngAfterViewChecked();
-    expect((component as any).cdr.detectChanges).toHaveBeenCalledTimes(1);
     expect(component.isTableHeightSet).toBe(true);
+  });
+
+  it('ngAfterViewChecked should call detectChanges', () => {
+    component.ngAfterViewChecked();
+    expect(changeDetectorMock.detectChanges).toHaveBeenCalledTimes(1);
+  });
+
+  it('should call getLocalDateForm', () => {
+    spyOn(component as any, 'getLocalDateForm');
+    component.initDateForm();
+    expect((component as any).getLocalDateForm).toHaveBeenCalledTimes(1);
+  });
+
+  it('should call initDateForm and set component dateForm', () => {
+    spyOn(component, 'initDateForm');
+    component.initDateForm();
+    expect(component.initDateForm).toHaveBeenCalledTimes(1);
+    expect(component.dateForm.value).toEqual(dateMock);
+  });
+
+  it('should not call dateForm setValue method on initDateForm if getLocalForm is false', () => {
+    (component as any).getLocalDateForm = () => {
+      return false;
+    };
+    const val = (component as any).getLocalDateForm();
+    expect(val).toBe(false);
+  });
+
+  it('should not call dateForm setValue method on initDateForm if getLocalForm is false', () => {
+    const dateForm = component.dateForm;
+    spyOn(dateForm, 'setValue');
+    (component as any).getLocalDateForm = () => {
+      return false;
+    };
+    component.initDateForm();
+    expect(dateForm.setValue).not.toHaveBeenCalled();
+  });
+
+  it('should set default value for dateForm on initDateForm if getLocalForm is false', () => {
+    (component as any).getLocalDateForm = () => {
+      return false;
+    };
+    component.initDateForm();
+    expect(component.dateForm.value).toEqual(initDateMock);
   });
 
   it('isAllColumnsDisplayed sould be true ', () => {
@@ -252,27 +301,47 @@ describe('UsbAdminTableComponent', () => {
     expect(component.isAllColumnsDisplayed).toBe(false);
   });
 
-  it('should call getControlName with column and suffix', () => {
+  it('should call getControlValue', () => {
+    spyOn(component, 'getControlValue');
     const column = 'orderDate';
     const suffix = 'From';
-    spyOn(component, 'getControlValue');
     component.getControlValue(column, suffix);
     expect(component.getControlValue).toHaveBeenCalledWith('orderDate', 'From');
-    expect(component.getControlValue).toHaveBeenCalledTimes(1);
   });
 
-  it('should call getControlName with column and suffix', () => {
+  it('should call getControlValue and return string value', () => {
+    const column = 'orderDate';
+    const suffix = 'From';
+    const controlVal = component.getControlValue(column, suffix);
+    expect(controlVal).toBe('2022-10-10');
+  });
+
+  it('should call getControlValue and return boolean value', () => {
     const column = 'orderDate';
     const suffix = 'Check';
     const controlVal = component.getControlValue(column, suffix);
     expect(controlVal).toBe(false);
   });
 
-  it('should set controlName', () => {
-    const column = 'orderDate';
-    const suffix = 'From';
-    const controlName = (component as any).getControlName(column, suffix);
-    expect(controlName).toEqual('orderDateFrom');
+  it('should return control value', () => {
+    const columns = [
+      'orderDate',
+      'orderDate',
+      'orderDate',
+      'dateOfExport',
+      'dateOfExport',
+      'dateOfExport',
+      'paymentDate',
+      'paymentDate',
+      'paymentDate'
+    ];
+    const suffix = ['From', 'To', 'Check', 'From', 'To', 'Check', 'From', 'To', 'Check'];
+    const mockedValues = ['2022-10-10', '2022-10-10', false, '2022-10-10', '2022-10-10', false, '2022-10-10', '2022-10-10', false];
+
+    columns.forEach((column) => {
+      const contolValue = component.dateForm.get(`${column}${suffix[columns.indexOf(column)]}`).value;
+      expect(contolValue).toEqual(mockedValues[columns.indexOf(column)]);
+    });
   });
 
   it('applyFilter call, expect modelChanged should been called with filter', () => {
@@ -672,23 +741,6 @@ describe('UsbAdminTableComponent', () => {
     expect(noFilt).toBe(false);
   });
 
-  it('should call getControlName', () => {
-    const currentColumn = 'orderDate';
-    const suffix = 'From';
-    spyOn(component as any, 'getControlName');
-    (component as any).getControlName(currentColumn, suffix);
-    expect((component as any).getControlName).toHaveBeenCalledWith('orderDate', 'From');
-  });
-
-  it('should set controlName on changeInputDate', () => {
-    const check = false;
-    const currentColumn = 'orderDate';
-    const suffix = 'From';
-    component.changeInputDate(check, currentColumn, suffix);
-    const controlName = (component as any).getControlName(currentColumn, suffix);
-    expect(controlName).toBe('orderDateFrom');
-  });
-
   it('should conver date value on changeInputDate', () => {
     spyOn((component as any).adminTableService, 'setDateFormat');
     const date = 'Mon Nov 12 2022 13:01:36 GMT+0200 (за східноєвропейським стандартним часом)';
@@ -719,15 +771,30 @@ describe('UsbAdminTableComponent', () => {
     expect(component.filters).toEqual(val);
   });
 
-  it('clearFilters expect setColumnsForFiltering, applyFilters and setFilters shoud be call', () => {
+  it('should call clearFilters', () => {
+    spyOn(component, 'clearFilters');
+    const button: DebugElement = fixture.debugElement.query(By.css('.clear-filt'));
+    fixture.detectChanges();
+    button.triggerEventHandler('click', null);
+    fixture.detectChanges();
+    expect(component.clearFilters).toHaveBeenCalledTimes(1);
+  });
+
+  it('should call all methods by clearFilters', () => {
     spyOn((component as any).adminTableService, 'setFilters');
     spyOn(component, 'setColumnsForFiltering');
     spyOn(component, 'applyFilters');
+    spyOn(component.dateForm, 'reset');
+    spyOn(component, 'initDateForm');
     (component as any).adminTableService.columnsForFiltering = [{ values: [{ filtered: true }] }];
     component.clearFilters();
     expect(component.setColumnsForFiltering).toHaveBeenCalledWith([{ values: [{ filtered: false }] }]);
     expect(component.applyFilters).toHaveBeenCalledTimes(1);
     expect((component as any).adminTableService.setFilters).toHaveBeenCalledWith([]);
+    expect(localStorageServiceMock.removeAdminOrderFilters).toHaveBeenCalled();
+    expect(localStorageServiceMock.removeAdminOrderDateFilters).toHaveBeenCalled();
+    expect(component.dateForm.reset).toHaveBeenCalledTimes(1);
+    expect(component.initDateForm).toHaveBeenCalledTimes(1);
   });
 
   it('should call initDateForm on clearFilters', () => {
@@ -736,12 +803,6 @@ describe('UsbAdminTableComponent', () => {
     };
     component.clearFilters();
     expect(component.dateForm.value).toEqual(initDateMock);
-  });
-
-  it('should reset dateForm on clearFilters', () => {
-    const spy = spyOn(component.dateForm, 'reset');
-    component.clearFilters();
-    expect(spy).toHaveBeenCalled();
   });
 
   it('applyFilters', () => {

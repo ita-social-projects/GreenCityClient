@@ -277,16 +277,11 @@ export class UbsAdminTableComponent implements OnInit, AfterViewChecked, OnDestr
   }
 
   public getControlValue(column: string, suffix: string): string | boolean {
-    const controlName = this.getControlName(column, suffix);
-    return this.dateForm.get(controlName).value;
+    return this.dateForm.get(`${column}${suffix}`).value;
   }
 
   private getLocalDateForm(): IDateFilters[] {
     return this.localStorageService.getAdminOrdersDateFilter();
-  }
-
-  private getControlName(column: string, suffix: string): string {
-    return `${column}${suffix}`;
   }
 
   checkAllColumnsDisplayed(): void {
@@ -673,20 +668,19 @@ export class UbsAdminTableComponent implements OnInit, AfterViewChecked, OnDestr
 
   changeInputDate(checked: boolean, currentColumn: string, suffix: string): void {
     this.noFiltersApplied = false;
-    const controlName = this.getControlName(currentColumn, suffix);
     const checkControl = this.dateForm.get(`${currentColumn}Check`).value;
 
     if (suffix === 'From' || suffix === 'To') {
       const date = this.getControlValue(currentColumn, suffix);
       const value = this.adminTableService.setDateFormat(date);
-      this.dateForm.get(controlName).setValue(value);
+      this.dateForm.get(`${currentColumn}Check`).setValue(value);
       if (!checkControl || this.getControlValue(currentColumn, 'From') > this.getControlValue(currentColumn, 'To')) {
         this.dateForm.get(`${currentColumn}To`).setValue(value);
       }
       this.adminTableService.changeInputDateFilters(value, currentColumn, suffix, checkControl);
       this.applyFilters();
     } else if (suffix === 'Check') {
-      this.dateForm.get(controlName).setValue(checked);
+      this.dateForm.get(`${currentColumn}Check`).setValue(checked);
     }
     this.localStorageService.setAdminOrdersDateFilter(this.dateForm.value);
   }
