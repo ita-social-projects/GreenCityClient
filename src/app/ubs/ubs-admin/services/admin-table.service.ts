@@ -178,8 +178,6 @@ export class AdminTableService {
       this.saveDateFilters(checked, currentColumn, elem);
     } else {
       this.filters = this.filters.filter((filteredElem) => !Object.keys(filteredElem).includes(`${keyNameFrom}`));
-      this.filters = this.filters.filter((filteredElem) => !Object.keys(filteredElem).includes(`${keyNameTo}`));
-      this.localStorageService.setUbsAdminOrdersTableTitleColumnFilter(this.filters);
       this.saveDateFilters(checked, currentColumn, {});
     }
   }
@@ -215,10 +213,8 @@ export class AdminTableService {
   }
 
   setDateFormat(date): string {
-    return this.convertDate(date);
+    return moment(date).format('YYYY-MM-DD');
   }
-
-  convertDate = (date) => moment(date).format('YYYY-MM-DD');
 
   setDateCheckedFromStorage(dateColumn): void {
     const currentColumnDateFilter = this.columnsForFiltering.find((column) => {
