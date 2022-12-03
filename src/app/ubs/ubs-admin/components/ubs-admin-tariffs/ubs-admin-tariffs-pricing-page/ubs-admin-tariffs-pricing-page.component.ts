@@ -29,7 +29,7 @@ export class UbsAdminTariffsPricingPageComponent implements OnInit, OnDestroy {
   isLoadBar: boolean;
   selectedCardId;
   selectedCard;
-  isLoading: boolean = true;
+  isLoading = true;
   ourTariffs;
   amount;
   currentCourierId: number;
