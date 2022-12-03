@@ -27,9 +27,10 @@ import { LanguageService } from 'src/app/main/i18n/language.service';
   styleUrls: ['./ubs-admin-tariffs-location-dashboard.component.scss']
 })
 export class UbsAdminTariffsLocationDashboardComponent implements OnInit, AfterViewChecked, OnDestroy {
-  @Input() showTitle = true;
+  @Input() showAllTariff = true;
   @Input() locationCard: Locations;
   @Input() textBack: TemplateRef<any>;
+  @Input() selectedCard;
 
   locations: Locations[];
   regionEnglishName;
@@ -53,7 +54,6 @@ export class UbsAdminTariffsLocationDashboardComponent implements OnInit, AfterV
   stationPlaceholder: string;
   selectedStation = [];
   cards = [];
-  selectedCard = [];
   filterData = { status: '' };
   createCardObj: CreateCard;
   isFieldFilled = false;
@@ -124,7 +124,6 @@ export class UbsAdminTariffsLocationDashboardComponent implements OnInit, AfterV
         });
         this.getCouriers();
       });
-    console.log(this.selectedCard);
   }
 
   ngAfterViewChecked(): void {
@@ -447,10 +446,7 @@ export class UbsAdminTariffsLocationDashboardComponent implements OnInit, AfterV
     return cityArray;
   }
 
-  page(cardID): void {
-    const card = this.cards.find((item) => item.cardId === cardID);
-    this.selectedCard.push(card);
-    console.log(this.selectedCard);
+  page(cardID: number): void {
     this.router.navigate([`ubs-admin/tariffs/location/${cardID}`]);
   }
 
