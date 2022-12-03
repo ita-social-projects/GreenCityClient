@@ -177,6 +177,11 @@ form {
   box-shadow: 0 2px 6px rgba(100, 114, 125, 0.15);
 }
 
+.table-location tbody tr.selected-card {
+  background: none;
+  box-shadow: none;
+}
+
 .table-location {
   border-collapse: separate;
   border-spacing: 0 8px;

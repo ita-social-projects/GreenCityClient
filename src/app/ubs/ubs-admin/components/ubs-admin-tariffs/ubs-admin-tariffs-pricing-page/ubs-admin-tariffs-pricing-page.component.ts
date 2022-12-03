@@ -29,6 +29,7 @@ export class UbsAdminTariffsPricingPageComponent implements OnInit, OnDestroy {
   isLoadBar: boolean;
   selectedCardId;
   selectedCard;
+  isLoading: boolean = true;
   ourTariffs;
   amount;
   currentCourierId: number;
@@ -435,7 +436,7 @@ export class UbsAdminTariffsPricingPageComponent implements OnInit, OnDestroy {
           regionId: card.regionDto.regionId,
           cardId: card.cardId
         };
-        console.log(this.selectedCard);
+        this.isLoading = false;
       });
   }
 

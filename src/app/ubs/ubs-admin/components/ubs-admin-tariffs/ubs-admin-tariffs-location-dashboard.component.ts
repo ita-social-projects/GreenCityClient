@@ -28,6 +28,7 @@ import { LanguageService } from 'src/app/main/i18n/language.service';
 })
 export class UbsAdminTariffsLocationDashboardComponent implements OnInit, AfterViewChecked, OnDestroy {
   @Input() showAllTariff = true;
+  @Input() isLoading;
   @Input() locationCard: Locations;
   @Input() textBack: TemplateRef<any>;
   @Input() selectedCard;
