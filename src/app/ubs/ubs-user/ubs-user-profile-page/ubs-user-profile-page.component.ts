@@ -135,7 +135,9 @@ export class UbsUserProfilePageComponent implements OnInit {
         Validators.required,
         Validators.minLength(12),
         PhoneNumberValidator('UA')
-      ])
+      ]),
+      telegramIsChecked: new FormControl(this.userProfile.telegramIsChecked),
+      viberIsChecked: new FormControl(this.userProfile.viberIsChecked)
     });
     this.isFetching = false;
   }
@@ -179,6 +181,8 @@ export class UbsUserProfilePageComponent implements OnInit {
         recipientName: this.userForm.value.recipientName,
         recipientPhone: this.userForm.value.recipientPhone,
         recipientSurname: this.userForm.value.recipientSurname,
+        telegramIsChecked: this.telegramNotification,
+        viberIsChecked: this.viberNotification,
         hasPassword: this.userProfile.hasPassword
       };
 
@@ -208,6 +212,8 @@ export class UbsUserProfilePageComponent implements OnInit {
           this.userProfile = this.composeFormData(res);
           this.userProfile.recipientEmail = this.userForm.value.recipientEmail;
           this.userProfile.alternateEmail = this.userForm.value.alternateEmail;
+          this.userProfile.telegramIsChecked = this.userForm.value.telegramIsChecked;
+          this.userProfile.viberIsChecked = this.userForm.value.viberIsChecked;
         },
         (err: Error) => {
           this.isFetching = false;
