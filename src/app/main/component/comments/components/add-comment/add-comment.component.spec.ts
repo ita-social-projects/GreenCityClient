@@ -34,7 +34,17 @@ describe('AddCommentComponent', () => {
 
   let commentsServiceMock: CommentsService;
   commentsServiceMock = jasmine.createSpyObj('CommentsService', ['addComment']);
-  commentsServiceMock.addComment = () => of({});
+  commentsServiceMock.addComment = () =>
+    of({
+      author: {
+        name: 'username',
+        id: 1,
+        userProfilePicturePath: null
+      },
+      id: 1,
+      modifiedDate: '01.12.2022',
+      text: 'some text'
+    });
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({

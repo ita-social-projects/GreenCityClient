@@ -3,7 +3,7 @@ import { HttpClientTestingModule, HttpTestingController } from '@angular/common/
 import { environment } from '@environment/environment';
 import { EcoNewsCommentsService } from './eco-news-comments.service';
 
-describe('CommentsService', () => {
+describe('EcoNewsCommentsService', () => {
   let service: EcoNewsCommentsService;
   let httpTestingController: HttpTestingController;
   const url = environment.backendLink;
