@@ -74,8 +74,15 @@ describe('UbsAdminOrderStatusComponent', () => {
   it('ngOnChanges should call setOrderPaymentStatus once', () => {
     component.currentOrderPrice = 2;
     spyOn(component, 'setOrderPaymentStatus');
-    component.ngOnChanges({ currentOrderPrice: true } as any);
-    expect(component.setOrderPaymentStatus).toHaveBeenCalledTimes(1);
+    component.ngOnChanges({
+      currentOrderPrice: true,
+      generalInfo: {
+        currentValue: {
+          orderStatus: false
+        }
+      }
+    } as any);
+    expect(component.setOrderPaymentStatus).toHaveBeenCalled();
   });
 
   it('getAvailableOrderStatuses should been called once ', () => {

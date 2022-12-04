@@ -2,7 +2,6 @@ import { Component, EventEmitter, Input, OnDestroy, OnInit, Output, OnChanges, S
 import { FormGroup } from '@angular/forms';
 import { Subject } from 'rxjs';
 import { take } from 'rxjs/operators';
-
 import { IGeneralOrderInfo } from '../../models/ubs-admin.interface';
 import { OrderService } from '../../services/order.service';
 import { MatDialog } from '@angular/material/dialog';
@@ -37,6 +36,13 @@ export class UbsAdminOrderStatusComponent implements OnChanges, OnInit, OnDestro
     if (changes.currentOrderPrice || changes.totalPaid) {
       this.setOrderPaymentStatus();
     }
+
+    if (changes.generalInfo.currentValue.orderStatus) {
+      this.availableOrderStatuses = this.orderService.getAvailableOrderStatuses(
+        changes.generalInfo.currentValue.orderStatus,
+        this.generalInfo.orderStatusesDtos
+      );
+    } /** */
   }
 
   ngOnInit() {
