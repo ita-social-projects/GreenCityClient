@@ -44,7 +44,7 @@ export class AddOrderCancellationReasonComponent implements OnInit {
   constructor(
     private fb: FormBuilder,
     private localeStorageService: LocalStorageService,
-    private dialogRef: MatDialogRef<AddOrderCancellationReasonComponent>
+    public dialogRef: MatDialogRef<AddOrderCancellationReasonComponent>
   ) {}
 
   ngOnInit(): void {
@@ -54,7 +54,7 @@ export class AddOrderCancellationReasonComponent implements OnInit {
     });
   }
 
-  private initForm(): void {
+  public initForm(): void {
     this.commentForm = this.fb.group({
       cancellationComment: ['', [Validators.required, Validators.minLength(5), Validators.maxLength(255)]]
     });
