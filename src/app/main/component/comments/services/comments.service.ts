@@ -1,17 +1,18 @@
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
+import { AddedCommentDTO, CommentsModel } from '../models/comments-model';
 
 @Injectable({
   providedIn: 'root'
 })
 export abstract class CommentsService {
-  abstract addComment(entityId: number, text: string, id): Observable<object>;
+  abstract addComment(entityId: number, text: string, id): Observable<AddedCommentDTO>;
 
-  abstract getActiveCommentsByPage(entityId: number, page: number, size: number): Observable<object>;
+  abstract getActiveCommentsByPage(entityId: number, page: number, size: number): Observable<CommentsModel>;
 
   abstract getCommentsCount(entityId: number): Observable<number>;
 
-  abstract getActiveRepliesByPage(id: number, page: number, size: number): Observable<object>;
+  abstract getActiveRepliesByPage(id: number, page: number, size: number): Observable<CommentsModel>;
 
   abstract deleteComments(id: number): Observable<boolean>;
 
@@ -19,7 +20,7 @@ export abstract class CommentsService {
 
   abstract getRepliesAmount(id: number): Observable<number>;
 
-  abstract postLike(id: number): Observable<object>;
+  abstract postLike(id: number): Observable<void>;
 
-  abstract editComment(id: number, text: string): Observable<object>;
+  abstract editComment(id: number, text: string): Observable<void>;
 }

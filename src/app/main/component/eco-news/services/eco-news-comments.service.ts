@@ -4,6 +4,8 @@ import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { environment } from '@environment/environment';
 import { CommentsService } from '../../comments/services/comments.service';
+import { AddedCommentDTO, CommentsModel } from '../../comments/models/comments-model';
+import { EcoNewsAddedCommentDTO, EcoNewsCommentsModel } from '../models/econ-news-comments.model';
 
 @Injectable({
   providedIn: 'root'
@@ -13,25 +15,25 @@ export class EcoNewsCommentsService implements CommentsService {
 
   constructor(private http: HttpClient) {}
 
-  public addComment(entityId: number, text: string, id = 0): Observable<object> {
+  public addComment(entityId: number, text: string, id = 0): Observable<AddedCommentDTO> {
     const body = {
       parentCommentId: id,
       text
     };
 
-    return this.http.post<object>(`${this.backEnd}econews/comments/${entityId}`, body);
+    return this.http.post<EcoNewsAddedCommentDTO>(`${this.backEnd}econews/comments/${entityId}`, body);
   }
 
-  public getActiveCommentsByPage(entityId: number, page: number, size: number): Observable<object> {
-    return this.http.get<object>(`${this.backEnd}econews/comments/active?ecoNewsId=${entityId}&page=${page}&size=${size}`);
+  public getActiveCommentsByPage(entityId: number, page: number, size: number): Observable<CommentsModel> {
+    return this.http.get<EcoNewsCommentsModel>(`${this.backEnd}econews/comments/active?ecoNewsId=${entityId}&page=${page}&size=${size}`);
   }
 
   public getCommentsCount(entityId: number): Observable<number> {
     return this.http.get<number>(`${this.backEnd}econews/comments/count/comments/${entityId}`);
   }
 
-  public getActiveRepliesByPage(id: number, page: number, size: number): Observable<object> {
-    return this.http.get(`${this.backEnd}econews/comments/replies/active/${id}?page=${page}&size=${size}`);
+  public getActiveRepliesByPage(id: number, page: number, size: number): Observable<CommentsModel> {
+    return this.http.get<EcoNewsCommentsModel>(`${this.backEnd}econews/comments/replies/active/${id}?page=${page}&size=${size}`);
   }
 
   public deleteComments(id: number) {
@@ -53,16 +55,16 @@ export class EcoNewsCommentsService implements CommentsService {
     return this.http.get<number>(`${this.backEnd}econews/comments/count/replies/${id}`);
   }
 
-  public postLike(id: number): Observable<object> {
-    return this.http.post<object>(`${this.backEnd}econews/comments/like?id=${id}`, {});
+  public postLike(id: number): Observable<void> {
+    return this.http.post<void>(`${this.backEnd}econews/comments/like?id=${id}`, {});
   }
 
-  public editComment(id: number, text: string): Observable<object> {
+  public editComment(id: number, text: string): Observable<void> {
     const body = {
       parentCommentId: id,
       text
     };
 
-    return this.http.patch<object>(`${this.backEnd}econews/comments?id=${id}&text=${text}`, body);
+    return this.http.patch<void>(`${this.backEnd}econews/comments?id=${id}&text=${text}`, body);
   }
 }
