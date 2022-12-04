@@ -193,7 +193,7 @@
       <td>
         {{ card.tariff | tariffStatus }}
       </td>
-      <td class="last-col" *ngIf="card.tariff != 'Неактивно'" [matMenuTriggerFor]="crumbs">
+      <td class="last-col" *ngIf="card.tariff !== 'DEACTIVATED'" [matMenuTriggerFor]="crumbs">
         <img class="tariff-img mr-3" [src]="icons.crumbs" alt="crumbs" />
       </td>
       <mat-menu #crumbs="matMenu">
@@ -204,7 +204,7 @@
           <span class="menu-item">{{ 'ubs-tariffs.btn.deactivation' | translate }}</span>
         </button>
       </mat-menu>
-      <td class="last-col" *ngIf="card.tariff === 'Неактивно'" [matMenuTriggerFor]="restore">
+      <td class="last-col" *ngIf="card.tariff === 'DEACTIVATED'" [matMenuTriggerFor]="restore">
         <img class="tariff-img mr-3" [src]="icons.restore" alt="restore" />
       </td>
       <mat-menu #restore="matMenu">
@@ -237,7 +237,7 @@
       <td>
         {{ selectedCard.tariff | tariffStatus }}
       </td>
-      <td class="last-col" *ngIf="selectedCard.tariff != 'Неактивно'" [matMenuTriggerFor]="crumbs">
+      <td class="last-col" *ngIf="selectedCard.tariff !== 'DEACTIVATED'" [matMenuTriggerFor]="crumbs">
         <img class="tariff-img mr-3" [src]="icons.crumbs" alt="crumbs" />
       </td>
       <mat-menu #crumbs="matMenu">
@@ -248,7 +248,7 @@
           <span class="menu-item">{{ 'ubs-tariffs.btn.deactivation' | translate }}</span>
         </button>
       </mat-menu>
-      <td class="last-col" *ngIf="selectedCard.tariff === 'Неактивно'" [matMenuTriggerFor]="restore">
+      <td class="last-col" *ngIf="selectedCard.tariff === 'DEACTIVATED'" [matMenuTriggerFor]="restore">
         <img class="tariff-img mr-3" [src]="icons.restore" alt="restore" />
       </td>
       <mat-menu #restore="matMenu">
