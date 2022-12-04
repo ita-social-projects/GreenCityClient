@@ -42,7 +42,7 @@ export class UbsAdminOrderStatusComponent implements OnChanges, OnInit, OnDestro
         changes.generalInfo.currentValue.orderStatus,
         this.generalInfo.orderStatusesDtos
       );
-    } /** */
+    }
   }
 
   ngOnInit() {
