@@ -10,8 +10,6 @@ import { MatRadioModule } from '@angular/material/radio';
 describe('AddOrderCancellationReasonComponent', () => {
   let component: AddOrderCancellationReasonComponent;
   let fixture: ComponentFixture<AddOrderCancellationReasonComponent>;
-
-  let localStorageServiceMock = jasmine.createSpyObj('localeStorageService', ['getCurrentLanguage']);
   const matDialogRefStub = jasmine.createSpyObj('matDialogRefStub', ['close']);
   matDialogRefStub.close = () => 'Close window please';
   const viewModeInputs = {
