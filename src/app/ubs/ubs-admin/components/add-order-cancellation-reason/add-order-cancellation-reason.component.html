@@ -15,7 +15,6 @@
       placeholder="{{ 'order-cancel.placeholder' | translate }}"
       cols="50"
       rows="6"
-      [(ngModel)]="cancellationComment"
     ></textarea>
     <div class="error-message" *ngIf="commentForm.invalid && commentForm.touched">
       <div>{{ 'order-cancel.comment-error-message' | translate }}</div>
