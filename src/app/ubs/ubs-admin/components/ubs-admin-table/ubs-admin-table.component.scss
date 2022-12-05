@@ -60,6 +60,60 @@ input {
   border-collapse: collapse;
 }
 
+.dropdown-menu {
+  position: absolute;
+  right: 0;
+  height: 500px;
+  width: 356px;
+  overflow: scroll;
+  padding: 0;
+  margin-top: 16px;
+  color: var(--ubs-primary-grey);
+  font-family: var(--primary-font);
+  background-color: var(--ubs-secondary-white);
+}
+
+.dropdown-menu-right {
+  margin-right: 18px;
+}
+
+.date-range-box {
+  display: flex;
+  flex-direction: row;
+  gap: 16px;
+}
+
+.data-field {
+  display: flex;
+  height: 36px;
+  width: 138px;
+  padding: 8px;
+  border: 1px solid var(--ubs-quintynary-light-grey);
+  border-radius: 4px;
+  background-color: var(--ubs-primary-white);
+
+  .date-input {
+    font-size: 14px;
+    height: 18px;
+    width: 104px;
+    background-color: transparent;
+    margin: 0;
+    padding: 0;
+    border: 0;
+
+    &:focus {
+      outline: none;
+    }
+  }
+
+  .calendar-btn {
+    display: flex;
+    align-items: center;
+    background-color: transparent;
+    border: 0;
+  }
+}
+
 .mat-row {
   min-height: 39px !important;
   max-height: 39px !important;
@@ -310,6 +364,7 @@ input {
   padding-top: 10px;
   display: flex;
   justify-content: center;
+  box-shadow: 0 0 8px rgba(73, 74, 73, 0.2);
   height: 50px;
   width: 100%;
 }
@@ -340,26 +395,9 @@ input {
   }
 }
 
-.dropdown-menu {
-  position: absolute;
-  left: -40%;
-  height: 500px;
-  max-width: 356px;
-  margin-right: 5px;
-  overflow: scroll;
-  padding: 0;
-  margin-top: 17px;
-  color: var(--ubs-primary-grey);
-  font-family: var(--primary-font);
-  background-color: var(--ubs-secondary-white);
-}
-
-.dropdown-menu input[type='date'] {
-  width: 155px;
-}
-
 .accordion-body {
   padding-left: 16px;
+  padding-top: 8px;
   width: 320px;
 }
 
@@ -380,6 +418,11 @@ input {
 .bg-lime {
   border: none;
   background-color: var(--ubs-button-dark-green);
+
+  &:disabled {
+    color: var(--ubs-secondary-grey);
+    background-color: var(--ubs-quaternary-light-grey);
+  }
 }
 
 .dropdown-menu li {
@@ -389,15 +432,10 @@ input {
 }
 
 .accordion-item {
-  padding-bottom: 20px;
+  padding-bottom: 12px;
   padding-left: 16px;
   padding-right: 36px;
   font-size: 14px;
-}
-
-.dropdown-menu-right {
-  margin-right: 20px;
-  margin-top: 17px;
 }
 
 .mat-spinner {
@@ -516,6 +554,7 @@ input {
   justify-content: left;
   align-items: center;
   gap: 5px;
+  height: 36px;
   font-weight: bold;
   cursor: pointer;
 }

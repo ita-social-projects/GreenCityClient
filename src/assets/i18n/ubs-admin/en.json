@@ -344,6 +344,7 @@
     "date-range": "Date range",
     "date-from": "From",
     "date-to": "To",
+    "date-placeholder": "DD/MM/YYYY",
     "export-to-excel": "Export to Excel",
     "filter": "Filter",
     "table-view": "Table view",

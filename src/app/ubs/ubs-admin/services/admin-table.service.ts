@@ -5,6 +5,7 @@ import { environment } from '@environment/environment.js';
 import { IBigOrderTable, IFilteredColumn, IFilteredColumnValue } from '../models/ubs-admin.interface';
 import { MatCheckboxChange } from '@angular/material/checkbox';
 import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
+import * as moment from 'moment';
 
 @Injectable({
   providedIn: 'root'
@@ -30,9 +31,11 @@ export class AdminTableService {
           filtersQuery += `&${key}=${elem[key]}`;
         }
         if (objKeys.length === 2) {
-          const keyFrom = objKeys[0];
-          const keyTo = objKeys[1];
-          filtersQuery += `&${keyFrom}=${elem[keyFrom]}&${keyTo}=${elem[keyTo]}`;
+          const keyFrom = objKeys[0].replace('From', '.from');
+          const keyTo = objKeys[1].replace('To', '.to');
+          const key1 = objKeys[0];
+          const key2 = objKeys[1];
+          filtersQuery += `&${keyFrom}=${elem[key1]}&${keyTo}=${elem[key2]}`;
         }
       });
     }
@@ -179,18 +182,26 @@ export class AdminTableService {
     }
   }
 
-  changeInputDateFilters(value: string, currentColumn: string, suffix: string): void {
+  changeInputDateFilters(value: string, currentColumn: string, suffix: string, check?: boolean): void {
+    const elem = {};
     const columnName = this.changeColumnNameEqualToEndPoint(currentColumn);
+    elem[`${columnName}From`] = value;
+    elem[`${columnName}To`] = value;
     const keyToChange = `${columnName}${suffix}`;
     const filterToChange = this.filters.find((filter) => Object.keys(filter).includes(`${keyToChange}`));
 
     if (filterToChange) {
       filterToChange[keyToChange] = value;
-      if (Date.parse(filterToChange[`${columnName}From`]) > Date.parse(filterToChange[`${columnName}To`])) {
+      if (!check || Date.parse(filterToChange[`${columnName}From`]) > Date.parse(filterToChange[`${columnName}To`])) {
         filterToChange[`${columnName}To`] = filterToChange[`${columnName}From`];
       }
-      const elem = { ...filterToChange };
-      this.saveDateFilters(true, currentColumn, elem);
+      const element = { ...filterToChange };
+      this.saveDateFilters(true, columnName, element);
+      this.localStorageService.setUbsAdminOrdersTableTitleColumnFilter(this.filters);
+    } else {
+      this.filters.push(elem);
+      this.saveDateFilters(true, columnName, this.filters);
+      this.localStorageService.setUbsAdminOrdersTableTitleColumnFilter(this.filters);
     }
   }
 
@@ -199,6 +210,10 @@ export class AdminTableService {
       return column.key === dateColumn;
     });
     return currentColumnDateFilter.values[0]?.filtered;
+  }
+
+  setDateFormat(date): string {
+    return moment(date).format('YYYY-MM-DD');
   }
 
   setDateCheckedFromStorage(dateColumn): void {
