@@ -81,6 +81,10 @@ export class TariffsService {
     return this.http.get<Locations[]>(`${mainUbsLink}/ubs/superAdmin/getLocations`);
   }
 
+  getActiveLocations(): Observable<Locations[]> {
+    return this.http.get<Locations[]>(`${mainUbsLink}/ubs/superAdmin/getActiveLocations`);
+  }
+
   getCouriers(): Observable<Couriers[]> {
     return this.http.get<Couriers[]>(`${mainUbsLink}/ubs/superAdmin/getCouriers`);
   }

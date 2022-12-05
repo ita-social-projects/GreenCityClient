@@ -20,6 +20,8 @@ import { TariffConfirmationPopUpComponent } from './../shared/components/tariff-
 import { TranslateService } from '@ngx-translate/core';
 import { Patterns } from 'src/assets/patterns/patterns';
 import { LanguageService } from 'src/app/main/i18n/language.service';
+import { UbsAdminTariffsDeactivatePopUpComponent } from './ubs-admin-tariffs-deactivate-pop-up/ubs-admin-tariffs-deactivate-pop-up.component';
+import { TariffDeactivateConfirmationPopUpComponent } from '../shared/components/tariff-deactivate-confirmation-pop-up/tariff-deactivate-confirmation-pop-up.component';
 
 @Component({
   selector: 'app-ubs-admin-tariffs-location-dashboard',
@@ -648,12 +650,30 @@ export class UbsAdminTariffsLocationDashboardComponent implements OnInit, AfterV
     });
   }
 
-  openDeactivateLocation(): void {
-    this.dialog.open(UbsAdminTariffsLocationPopUpComponent, {
+  openDeactivatePopUp(): void {
+    this.dialog.open(UbsAdminTariffsDeactivatePopUpComponent, {
       hasBackdrop: true,
       panelClass: 'address-matDialog-styles-w-100',
       data: {
         headerText: 'deactivateTemplate'
+      }
+    });
+  }
+
+  openTariffDeactivatePopUp(card): void {
+    const matDialogRef = this.dialog.open(TariffDeactivateConfirmationPopUpComponent, {
+      hasBackdrop: true,
+      panelClass: 'address-matDialog-styles-w-100',
+      data: {
+        courierName: card.courier,
+        stationNames: card.station,
+        regionName: card.region.split(),
+        locationNames: card.city
+      }
+    });
+    matDialogRef.afterClosed().subscribe((res) => {
+      if (res) {
+        // here will be deativate request
       }
     });
   }

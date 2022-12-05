@@ -45,10 +45,10 @@ export interface Service {
 }
 
 export interface Stations {
-  createDate: string;
-  createdBy: string;
   id: number;
   name: string;
+  createdBy: string;
+  createDate: string;
 }
 
 export interface Couriers {
@@ -111,4 +111,38 @@ export interface CreateCard {
   locationIdList: Array<number>;
   receivingStationsIdList: Array<number>;
   regionId: number;
+}
+
+export interface TariffCard {
+  cardId: number;
+  regionDto: RegionDto;
+  locationInfoDtos: LocationInfoDtos[];
+  receivingStationDtos: Stations[];
+  courierTranslationDtos: CourierTranslationDto[];
+  tariffStatus: string;
+  creator: string;
+  createdAt: string;
+  courierLimit: string;
+  minAmountOfBags: number;
+  maxAmountOfBags: number;
+  minPriceOfOrder: number;
+  maxPriceOfOrder: number;
+  courierId: number;
+}
+
+export interface RegionDto {
+  regionId: number;
+  nameEn: string;
+  nameUk: string;
+}
+
+export interface LocationInfoDtos {
+  locationId: number;
+  nameEn: string;
+  nameUk: string;
+}
+
+export interface SelectedItems {
+  id: number;
+  name: string;
 }

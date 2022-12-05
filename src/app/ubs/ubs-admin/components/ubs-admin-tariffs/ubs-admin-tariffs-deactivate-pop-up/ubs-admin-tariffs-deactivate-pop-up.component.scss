@@ -1,0 +1,94 @@
+@import '../ubs-admin-tariffs-location-pop-up/ubs-admin-tariffs-location-pop-up.component';
+
+.english-part {
+  width: 248px;
+  font-weight: 400;
+  font-family: var(--ubs-quaternary-font);
+
+  label {
+    font-size: 16px;
+    line-height: 24px;
+    color: var(--ubs-secondary-grey);
+    margin-bottom: 0;
+  }
+
+  .english-name {
+    font-size: 14px;
+    line-height: 20px;
+    color: var(--ubs-freinacht-black);
+  }
+}
+
+.form-group label::after {
+  content: '';
+}
+
+.form-wrapper {
+  margin-right: 56px;
+}
+
+.first-row .form-group {
+  margin-bottom: 28px;
+}
+
+.form-group:first-child {
+  margin-right: 0;
+}
+
+.form-control {
+  border: 1px solid var(--ubs-quintynary-light-grey);
+}
+
+.form-control:focus {
+  box-shadow: none;
+  border-color: var(--ubs-quintynary-light-grey);
+}
+
+.selected-items {
+  display: flex;
+  flex-direction: column;
+}
+
+input {
+  margin: 0;
+}
+
+.list {
+  display: flex;
+  align-items: flex-start;
+  flex-direction: column;
+  margin: 8px 0;
+}
+
+.selected-element {
+  width: 228px;
+  justify-content: space-between;
+}
+
+.itemList {
+  width: auto;
+}
+
+.dis-none {
+  display: none;
+}
+
+.buttons-wrapper {
+  display: flex;
+  align-items: flex-end;
+  flex-direction: column;
+}
+
+.buttons {
+  margin-bottom: 0;
+}
+
+.validation-message {
+  color: var(--ubs-primary-red);
+  font-family: var(--ubs-quaternary-font);
+  font-size: 12px;
+  line-height: 16px;
+  width: 48%;
+  margin-bottom: 32px;
+  text-align: end;
+}
