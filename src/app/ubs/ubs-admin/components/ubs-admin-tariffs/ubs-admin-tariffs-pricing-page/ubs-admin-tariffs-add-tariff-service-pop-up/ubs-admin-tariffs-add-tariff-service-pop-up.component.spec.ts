@@ -21,7 +21,7 @@ describe('UbsAdminTariffsAddTariffServicePopupComponent', () => {
     capacity: new FormControl('fake'),
     commission: new FormControl('fake'),
     description: new FormControl('fake'),
-    englishDescription: new FormControl('fake')
+    descriptionEng: new FormControl('fake')
   });
 
   beforeEach(async(() => {

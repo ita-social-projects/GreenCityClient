@@ -18,7 +18,7 @@ export class CreateEditTariffsServicesFormBuilder {
       price: new FormControl('', [Validators.required, Validators.pattern(Patterns.ubsPrice)]),
       commission: new FormControl('', [Validators.required, Validators.pattern(Patterns.ubsPrice)]),
       description: new FormControl('', [Validators.required]),
-      englishDescription: new FormControl('', [Validators.required])
+      descriptionEng: new FormControl('', [Validators.required])
     });
   }
 }

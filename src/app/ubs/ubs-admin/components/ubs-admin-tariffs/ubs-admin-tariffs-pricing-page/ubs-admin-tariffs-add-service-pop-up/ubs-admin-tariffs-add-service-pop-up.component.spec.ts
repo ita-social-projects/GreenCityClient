@@ -28,6 +28,7 @@ describe('UbsAdminTariffsAddServicePopupComponent', () => {
     serviceTranslationDtoList: [
       {
         description: 'fake',
+        descriptionEng: 'fake',
         name: 'fake',
         nameEng: 'fake'
       }
