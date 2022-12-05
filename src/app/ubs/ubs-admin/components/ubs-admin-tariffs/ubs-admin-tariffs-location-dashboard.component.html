@@ -171,12 +171,12 @@
     </tr>
   </thead>
   <tbody *ngIf="showAllTariff">
-    <tr *ngFor="let card of cards" class="cursor-pointer" (click)="page(card.cardId)">
+    <tr *ngFor="let card of cards">
       <td>
         {{ card.region }}
       </td>
       <td>
-        <div *ngFor="let item of card.city">
+        <div *ngFor="let item of card.city" class="cursor-pointer" (click)="page(card.cardId)">
           {{ item }}
         </div>
       </td>
@@ -244,7 +244,7 @@
         <button mat-menu-item>
           <span class="menu-item">{{ 'ubs-tariffs.btn.edit' | translate }}</span>
         </button>
-        <button mat-menu-item (click)="openDeactivateLocation()">
+        <button mat-menu-item (click)="openTariffDeactivatePopUp(selectedCard)">
           <span class="menu-item">{{ 'ubs-tariffs.btn.deactivation' | translate }}</span>
         </button>
       </mat-menu>
