@@ -16,18 +16,11 @@
                 <label for="order" class="form__label">
                   {{ 'order-edit.status.order-label' | translate }}
                 </label>
-                <select
-                  id="order"
-                  class="form-control"
-                  formControlName="orderStatus"
-                  (change)="onChangedOrderStatus($event.target.value)"
-                  [(ngModel)]="generalInfo.orderStatus"
-                >
+                <select id="order" class="form-control" formControlName="orderStatus" (change)="onChangedOrderStatus($event.target.value)">
                   <option
                     *ngFor="let status of availableOrderStatuses"
                     [selected]="status?.key === generalInfo.orderStatus"
                     [value]="status?.key"
-                    [ngValue]="status?.key"
                   >
                     {{ this.currentLanguage === 'ua' ? status?.ua : status?.eng }}
                   </option>
