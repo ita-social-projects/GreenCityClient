@@ -1,4 +1,10 @@
-<app-ubs-admin-tariffs-location-dashboard [showTitle]="false" [locationCard]="thisLocation" [textBack]="back">
+<app-ubs-admin-tariffs-location-dashboard
+  [showAllTariff]="false"
+  [locationCard]="thisLocation"
+  [textBack]="back"
+  [selectedCard]="selectedCard"
+  [isLoading]="isLoading"
+>
 </app-ubs-admin-tariffs-location-dashboard>
 <ng-template #back>
   <div class="ml-2 d-flex cursor-pointer align-items-center">

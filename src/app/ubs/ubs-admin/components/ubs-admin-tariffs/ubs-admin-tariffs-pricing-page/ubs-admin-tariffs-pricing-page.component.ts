@@ -28,6 +28,8 @@ export class UbsAdminTariffsPricingPageComponent implements OnInit, OnDestroy {
   isLoadBar1: boolean;
   isLoadBar: boolean;
   selectedCardId;
+  selectedCard;
+  isLoading = true;
   ourTariffs;
   amount;
   currentCourierId: number;
@@ -85,6 +87,7 @@ export class UbsAdminTariffsPricingPageComponent implements OnInit, OnDestroy {
     this.getLocationId();
     this.getCourierId();
     this.setCourierId();
+    this.getSelectedTariffCard();
   }
 
   private initForm(): void {
@@ -415,6 +418,25 @@ export class UbsAdminTariffsPricingPageComponent implements OnInit, OnDestroy {
       .subscribe((res) => {
         this.couriers = res;
         this.fillFields();
+      });
+  }
+
+  public getSelectedTariffCard(): void {
+    this.tariffsService
+      .getCardInfo()
+      .pipe(takeUntil(this.destroy))
+      .subscribe((res) => {
+        const card = res.find((it) => it.cardId === this.selectedCardId);
+        this.selectedCard = {
+          courier: card.courierTranslationDtos.map((it) => it.name).join(),
+          station: card.receivingStationDtos.map((it) => it.name),
+          region: card.regionDto.nameUk,
+          city: card.locationInfoDtos.map((it) => it.nameUk),
+          tariff: card.tariffStatus,
+          regionId: card.regionDto.regionId,
+          cardId: card.cardId
+        };
+        this.isLoading = false;
       });
   }
 

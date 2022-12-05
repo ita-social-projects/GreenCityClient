@@ -258,7 +258,9 @@ button[disabled] {
 }
 
 .container {
-  padding: 35px 0;
+  padding: 0 25px 35px 0;
+  max-width: 100%;
+  margin: 0;
 }
 
 .secondary-global-button {

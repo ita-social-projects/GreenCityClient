@@ -29,9 +29,11 @@ import { TariffDeactivateConfirmationPopUpComponent } from '../shared/components
   styleUrls: ['./ubs-admin-tariffs-location-dashboard.component.scss']
 })
 export class UbsAdminTariffsLocationDashboardComponent implements OnInit, AfterViewChecked, OnDestroy {
-  @Input() showTitle = true;
+  @Input() showAllTariff = true;
+  @Input() isLoading;
   @Input() locationCard: Locations;
   @Input() textBack: TemplateRef<any>;
+  @Input() selectedCard;
 
   locations: Locations[];
   regionEnglishName;
@@ -447,8 +449,8 @@ export class UbsAdminTariffsLocationDashboardComponent implements OnInit, AfterV
     return cityArray;
   }
 
-  page(cardID): void {
-    this.router.navigate([`ubs-admin/tariffs/location/${cardID}`]); //
+  page(cardID: number): void {
+    this.router.navigate([`ubs-admin/tariffs/location/${cardID}`]);
   }
 
   getCouriers(): void {

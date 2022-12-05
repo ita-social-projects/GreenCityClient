@@ -103,7 +103,29 @@ describe('UbsAdminPricingPageComponent', () => {
     minAmountOfOrder: 'fake',
     maxPriceOfOrder: 'fake'
   };
-  const fakeCardId = { cardId: 3 };
+  const fakeCard = {
+    courierTranslationDtos: [{ name: 'Курʼєр', nameEng: 'Courier' }],
+    receivingStationDtos: [
+      {
+        id: 1,
+        name: 'Станція'
+      }
+    ],
+    regionDto: {
+      nameEn: 'Region',
+      nameUk: 'Область',
+      regionId: 1
+    },
+    locationInfoDtos: [
+      {
+        locationId: 2,
+        nameEn: 'City',
+        nameUk: 'Місто'
+      }
+    ],
+    tariffStatus: 'Active',
+    cardId: 3
+  };
   const dialogStub = {
     afterClosed() {
       return of(true);
@@ -128,7 +150,7 @@ describe('UbsAdminPricingPageComponent', () => {
   tariffsServiceMock.setLimitDescription.and.returnValue(of([fakeDescription]));
   tariffsServiceMock.setLimitsBySumOrder.and.returnValue(of([fakeSumInfo]));
   tariffsServiceMock.setLimitsByAmountOfBags.and.returnValue(of([fakeBagInfo]));
-  tariffsServiceMock.getCardInfo.and.returnValue(of([fakeCardId]));
+  tariffsServiceMock.getCardInfo.and.returnValue(of([fakeCard]));
 
   const matDialogMock = jasmine.createSpyObj('matDialogMock', ['open']);
   matDialogMock.open.and.returnValue(dialogStub);
@@ -199,9 +221,27 @@ describe('UbsAdminPricingPageComponent', () => {
   });
 
   it('should call all methods in ngOnInit', () => {
-    const spy = spyOn(component, 'routeParams');
+    const spy1 = spyOn(component, 'routeParams');
+    const spy2 = spyOn(component, 'getSelectedTariffCard');
     component.ngOnInit();
-    expect(spy).toHaveBeenCalled();
+    expect(spy1).toHaveBeenCalled();
+    expect(spy2).toHaveBeenCalled();
+  });
+
+  it('should get selected tariff card', () => {
+    component.selectedCardId = 3;
+    const result = {
+      courier: 'Курʼєр',
+      station: ['Станція'],
+      region: 'Область',
+      city: ['Місто'],
+      tariff: 'Active',
+      regionId: 1,
+      cardId: 3
+    };
+    component.getSelectedTariffCard();
+    expect(component.selectedCard).toEqual(result);
+    expect(component.isLoading).toEqual(false);
   });
 
   it('should fillFields correctly', () => {
