@@ -991,5 +991,13 @@
       "NOV": "Nov",
       "DEC": "Dec"
     }
+  },
+  "confirmation-dialog": {
+    "title": "Confirmation",
+    "text": "Confirm action?",
+    "buttons": {
+      "confirm": "Confirm",
+      "cancel": "Cancel"
+    }
   }
 }
