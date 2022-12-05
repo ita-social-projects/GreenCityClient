@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { MatDialogRef } from '@angular/material/dialog';
 import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { takeUntil } from 'rxjs/operators';
 import { Subject } from 'rxjs';
 
@@ -12,6 +13,7 @@ import { Subject } from 'rxjs';
 export class AddOrderCancellationReasonComponent implements OnInit {
   closeButton = './assets/img/profile/icons/cancel.svg';
   date = new Date();
+  public commentForm: FormGroup;
   public cancellationReason: string;
   public cancellationComment: string;
   reasonList: any[] = [
@@ -39,11 +41,22 @@ export class AddOrderCancellationReasonComponent implements OnInit {
   public adminName;
   private destroySub: Subject<boolean> = new Subject<boolean>();
 
-  constructor(private localeStorageService: LocalStorageService, private dialogRef: MatDialogRef<AddOrderCancellationReasonComponent>) {}
+  constructor(
+    private fb: FormBuilder,
+    private localeStorageService: LocalStorageService,
+    public dialogRef: MatDialogRef<AddOrderCancellationReasonComponent>
+  ) {}
 
   ngOnInit(): void {
+    this.initForm();
     this.localeStorageService.firstNameBehaviourSubject.pipe(takeUntil(this.destroySub)).subscribe((firstName) => {
       this.adminName = firstName;
+    });
+  }
+
+  public initForm(): void {
+    this.commentForm = this.fb.group({
+      cancellationComment: ['', [Validators.required, Validators.minLength(5), Validators.maxLength(255)]]
     });
   }
 

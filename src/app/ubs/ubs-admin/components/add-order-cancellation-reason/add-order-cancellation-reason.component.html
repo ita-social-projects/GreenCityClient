@@ -8,13 +8,18 @@
   <mat-radio-group aria-label="addReason" [(ngModel)]="cancellationReason">
     <mat-radio-button *ngFor="let option of reasonList" value="{{ option.value }}"> {{ option.translation | translate }}</mat-radio-button>
   </mat-radio-group>
-  <textarea
-    *ngIf="cancellationReason === 'OTHER'"
-    placeholder="{{ 'order-cancel.placeholder' | translate }}"
-    cols="50"
-    rows="6"
-    [(ngModel)]="cancellationComment"
-  ></textarea>
+  <form [formGroup]="commentForm">
+    <textarea
+      *ngIf="cancellationReason === 'OTHER'"
+      formControlName="cancellationComment"
+      placeholder="{{ 'order-cancel.placeholder' | translate }}"
+      cols="50"
+      rows="6"
+    ></textarea>
+    <div class="error-message" *ngIf="commentForm.invalid && commentForm.touched">
+      <div>{{ 'order-cancel.comment-error-message' | translate }}</div>
+    </div>
+  </form>
   <div class="btn-container">
     <button type="reset" class="disagree btn" (click)="close()">{{ 'order-cancel.btn.cancel' | translate }}</button>
     <button type="submit" class="agree btn" (click)="save()">{{ 'order-cancel.btn.add' | translate }}</button>
