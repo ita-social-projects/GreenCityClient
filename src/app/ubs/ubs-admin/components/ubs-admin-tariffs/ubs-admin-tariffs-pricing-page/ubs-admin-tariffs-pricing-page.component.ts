@@ -5,7 +5,7 @@ import { Location } from '@angular/common';
 import { ActivatedRoute, Router } from '@angular/router';
 import { TariffsService } from '../../../services/tariffs.service';
 import { takeUntil, skip } from 'rxjs/operators';
-import { Bag, Service, Locations } from '../../../models/tariffs.interface';
+import { Bag, Service, Locations, TariffCard } from '../../../models/tariffs.interface';
 import { OrderService } from '../../../../ubs/services/order.service';
 import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
 import { Subject } from 'rxjs';
@@ -27,7 +27,7 @@ export class UbsAdminTariffsPricingPageComponent implements OnInit, OnDestroy {
   locations: Locations[] = [];
   isLoadBar1: boolean;
   isLoadBar: boolean;
-  selectedCardId;
+  selectedCardId: number;
   selectedCard;
   isLoading = true;
   ourTariffs;
@@ -406,7 +406,7 @@ export class UbsAdminTariffsPricingPageComponent implements OnInit, OnDestroy {
       if (item) {
         this.locations = item;
         this.reset = false;
-        this.thisLocation = this.locations.filter((it) => it.regionId === this.selectedCardId.locationId);
+        this.thisLocation = this.locations.filter((it) => it.regionId === this.selectedCardId);
       }
     });
   }
@@ -425,7 +425,7 @@ export class UbsAdminTariffsPricingPageComponent implements OnInit, OnDestroy {
     this.tariffsService
       .getCardInfo()
       .pipe(takeUntil(this.destroy))
-      .subscribe((res) => {
+      .subscribe((res: TariffCard[]) => {
         const card = res.find((it) => it.cardId === this.selectedCardId);
         this.selectedCard = {
           courier: card.courierTranslationDtos.map((it) => it.name).join(),

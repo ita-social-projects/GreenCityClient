@@ -30,7 +30,7 @@ import { TariffDeactivateConfirmationPopUpComponent } from '../shared/components
 })
 export class UbsAdminTariffsLocationDashboardComponent implements OnInit, AfterViewChecked, OnDestroy {
   @Input() showAllTariff = true;
-  @Input() isLoading;
+  @Input() isLoading: boolean;
   @Input() locationCard: Locations;
   @Input() textBack: TemplateRef<any>;
   @Input() selectedCard;
