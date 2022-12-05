@@ -25,10 +25,17 @@ export class HabitEditShoppingListComponent implements OnInit, OnDestroy {
   public habitId: number;
   private destroySub: Subject<boolean> = new Subject<boolean>();
   private langChangeSub: Subscription;
+  public shoppingItemNameLimit = 12;
+  public seeAllShopingList: boolean;
+  public minNumberOfItems = 3;
+
+  public img = {
+    arrowDown: 'assets/img/comments/arrow_down.png',
+    arrowUp: 'assets/img/comments/arrow_up.png',
+    back: 'assets/img/comments/reply.png'
+  };
 
   @Output() newList = new EventEmitter<ShoppingList[]>();
-
-  public shoppingItemNameLimit = 12;
 
   constructor(
     public shoppinglistService: ShoppingListService,
@@ -56,6 +63,7 @@ export class HabitEditShoppingListComponent implements OnInit, OnDestroy {
 
   getListItems(isAssigned: boolean) {
     isAssigned ? this.getCustomItems() : this.getDefaultItems();
+    this.getDefaultItems();
   }
 
   public truncateShoppingItemName(name: string) {
@@ -90,6 +98,10 @@ export class HabitEditShoppingListComponent implements OnInit, OnDestroy {
     });
   }
 
+  public openCloseList() {
+    this.seeAllShopingList = !this.seeAllShopingList;
+  }
+
   public checkIfAssigned() {
     this.habitAssignService
       .getAssignedHabits()
@@ -101,6 +113,7 @@ export class HabitEditShoppingListComponent implements OnInit, OnDestroy {
 
   public add(value: string) {
     this.shoppinglistService.addItem(value);
+    this.itemForm.setValue({ item: '' });
   }
 
   public delete(item) {

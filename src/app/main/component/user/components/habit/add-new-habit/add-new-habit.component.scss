@@ -135,13 +135,13 @@
     .habitProgress,
     .habitInfoRightBlock {
       width: 554px;
-      height: 468px;
     }
 
     .habitProgress {
       padding: 36px 36px 36px 36px;
       background-color: var(--secondary-light-grey);
       border-radius: 8px;
+      align-self: flex-start;
     }
 
     .habitInfoRightBlock {
@@ -152,6 +152,7 @@
       .inviteFriends {
         width: 554px;
         height: 182px;
+        margin-bottom: 25px;
         padding: 12px;
         background: var(--secondary-light-grey);
         border-radius: 8px;
@@ -166,7 +167,6 @@
         .duration,
         .shopping {
           width: 261px;
-          height: 254px;
           background: var(--secondary-light-grey);
           border-radius: 8px;
           padding: 24px;

@@ -1,5 +1,5 @@
 <div class="title">{{ 'user.habit.shopping' | translate }}</div>
-<ul class="checkbox-list">
+<ul class="checkbox-list" [ngClass]="{ 'shopping-list-max': seeAllShopingList, 'shopping-list-min': !seeAllShopingList }">
   <li *ngFor="let item of list; index as i">
     <label [ngClass]="{ selected: item.status === 'INPROGRESS', done: item.status === 'DONE' }">
       <input type="checkbox" (change)="select(item)" />
@@ -16,5 +16,11 @@
 </ul>
 <form [formGroup]="itemForm">
   <input #newItem id="add-field" type="text" formControlName="item" autocomplete="off" />
-  <input #btn [disabled]="!itemForm.valid" id="add-btn" type="submit" value="+" (click)="add(newItem.value); newItem.value = ''" />
+  <input #btn [disabled]="!itemForm.valid" id="add-btn" type="submit" value="+" (click)="add(newItem.value)" />
 </form>
+<div *ngIf="list.length > minNumberOfItems" class="item-operation-buttons">
+  <button class="see-all" (click)="openCloseList()">
+    {{ (seeAllShopingList ? 'user.habit.btn.see-less' : 'user.habit.btn.see-all') | translate }}
+    <img [src]="seeAllShopingList ? this.img.arrowUp : this.img.arrowDown" alt="arrow" />
+  </button>
+</div>
