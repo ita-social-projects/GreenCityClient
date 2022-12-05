@@ -11,7 +11,6 @@ import { CommentPaginationComponent } from './components/comment-pagination/comm
 import { NgxPaginationModule } from 'ngx-pagination';
 import { CommentsListComponent } from './components/comments-list/comments-list.component';
 import { CommentsContainerComponent } from './components/comments-container/comments-container.component';
-import { CommentsService } from './services/comments.service';
 import { SharedModule } from 'src/app/shared/shared.module';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 
@@ -40,7 +39,6 @@ import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
     CommentPaginationComponent,
     CommentsListComponent,
     CommentsContainerComponent
-  ],
-  providers: [CommentsService]
+  ]
 })
 export class CommentsModule {}

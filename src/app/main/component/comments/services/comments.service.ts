@@ -1,61 +1,26 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
-import { environment } from '@environment/environment';
-import { FormControl } from '@angular/forms';
+import { AddedCommentDTO, CommentsModel } from '../models/comments-model';
 
 @Injectable({
   providedIn: 'root'
 })
-export class CommentsService {
-  private backEnd = environment.backendLink;
-  public ecoNewsId: string;
+export abstract class CommentsService {
+  abstract addComment(entityId: number, text: string, id): Observable<AddedCommentDTO>;
 
-  constructor(private http: HttpClient) {}
+  abstract getActiveCommentsByPage(entityId: number, page: number, size: number): Observable<CommentsModel>;
 
-  public addComment(form, id = 0): Observable<object> {
-    const body = {
-      parentCommentId: id,
-      text: form.value.content
-    };
+  abstract getCommentsCount(entityId: number): Observable<number>;
 
-    return this.http.post<object>(`${this.backEnd}econews/comments/${this.ecoNewsId}`, body);
-  }
+  abstract getActiveRepliesByPage(id: number, page: number, size: number): Observable<CommentsModel>;
 
-  public getActiveCommentsByPage(page: number, size: number): Observable<object> {
-    return this.http.get<object>(`${this.backEnd}econews/comments/active?ecoNewsId=${this.ecoNewsId}&page=${page}&size=${size}`);
-  }
+  abstract deleteComments(id: number): Observable<boolean>;
 
-  public getCommentsCount(id: number): Observable<number> {
-    return this.http.get<number>(`${this.backEnd}econews/comments/count/comments/${id}`);
-  }
+  abstract getCommentLikes(id: number): Observable<number>;
 
-  public getActiveRepliesByPage(id: number, page: number, size: number): Observable<object> {
-    return this.http.get(`${this.backEnd}econews/comments/replies/active/${id}?page=${page}&size=${size}`);
-  }
+  abstract getRepliesAmount(id: number): Observable<number>;
 
-  public deleteComments(id: number) {
-    return this.http.delete<object>(`${this.backEnd}econews/comments?id=${id}`, { observe: 'response' });
-  }
+  abstract postLike(id: number): Observable<void>;
 
-  public getCommentLikes(id: number): Observable<number> {
-    return this.http.get<number>(`${this.backEnd}econews/comments/count/likes?id=${id}`);
-  }
-
-  public getRepliesAmount(id: number): Observable<number> {
-    return this.http.get<number>(`${this.backEnd}econews/comments/count/replies/${id}`);
-  }
-
-  public postLike(id: number): Observable<object> {
-    return this.http.post<object>(`${this.backEnd}econews/comments/like?id=${id}`, {});
-  }
-
-  public editComment(id: number, form: FormControl): Observable<object> {
-    const body = {
-      parentCommentId: id,
-      text: form.value
-    };
-
-    return this.http.patch<object>(`${this.backEnd}econews/comments?id=${id}&text=${form.value}`, body);
-  }
+  abstract editComment(id: number, text: string): Observable<void>;
 }

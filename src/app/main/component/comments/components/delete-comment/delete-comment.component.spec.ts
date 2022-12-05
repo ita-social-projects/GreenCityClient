@@ -8,7 +8,6 @@ import { async, ComponentFixture, TestBed, fakeAsync, tick } from '@angular/core
 import { DeleteCommentComponent } from './delete-comment.component';
 import { of } from 'rxjs';
 import { CommentsService } from '../../services/comments.service';
-import { HttpResponse } from '@angular/common/http';
 import { MatDialog, MatDialogModule } from '@angular/material/dialog';
 
 class MatDialogMock {
@@ -25,7 +24,7 @@ describe('DeleteCommentComponent', () => {
 
   let commentsServiceMock: CommentsService;
   commentsServiceMock = jasmine.createSpyObj('CommentsService', ['deleteComments']);
-  commentsServiceMock.deleteComments = () => of(new HttpResponse({ status: 200 }));
+  commentsServiceMock.deleteComments = () => of(true);
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({

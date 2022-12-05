@@ -10,8 +10,9 @@ import { ProfileService } from '@global-user/components/profile/profile-service/
   styleUrls: ['./add-comment.component.scss']
 })
 export class AddCommentComponent implements OnInit {
-  @Output() public updateList = new EventEmitter();
+  @Input() public entityId: number;
   @Input() public commentId: number;
+  @Output() public updateList = new EventEmitter();
   public userInfo;
   public avatarImage: string;
   public firstName: string;
@@ -35,7 +36,7 @@ export class AddCommentComponent implements OnInit {
 
   public onSubmit(): void {
     this.commentsService
-      .addComment(this.addCommentForm, this.commentId)
+      .addComment(this.entityId, this.addCommentForm.value.content, this.commentId)
       .pipe(take(1))
       .subscribe(() => {
         this.updateList.emit();

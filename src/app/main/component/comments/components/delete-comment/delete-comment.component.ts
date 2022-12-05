@@ -11,6 +11,7 @@ import { MatDialog } from '@angular/material/dialog';
   styleUrls: ['./delete-comment.component.scss']
 })
 export class DeleteCommentComponent {
+  @Input() public entityId: number;
   @Input() public element: CommentsDTO;
   @Input() public dataType: string;
   @Output() public elementsList = new EventEmitter();
@@ -39,8 +40,8 @@ export class DeleteCommentComponent {
           this.commentsService
             .deleteComments(this.element.id)
             .pipe(take(1))
-            .subscribe((response) => {
-              if (response.status === 200) {
+            .subscribe((success) => {
+              if (success) {
                 this.elementsList.emit();
               }
             });

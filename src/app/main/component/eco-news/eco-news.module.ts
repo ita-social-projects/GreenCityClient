@@ -29,6 +29,8 @@ import { SharedModule } from 'src/app/shared/shared.module';
 import { QuillModule } from 'ngx-quill';
 import { SafeHtmlPipe } from '@pipe/safe-html-pipe/safe-html.pipe';
 import { UrlHostnamePipe } from '@pipe/url-hostname-pipe/url-hostname.pipe';
+import { CommentsService } from '../comments/services/comments.service';
+import { EcoNewsCommentsService } from '@eco-news-service/eco-news-comments.service';
 
 @NgModule({
   declarations: [
@@ -70,7 +72,11 @@ import { UrlHostnamePipe } from '@pipe/url-hostname-pipe/url-hostname.pipe';
   ],
   exports: [TranslateModule],
   entryComponents: [],
-  providers: [MatSnackBarComponent, { provide: ACTION_TOKEN, useValue: ACTION_CONFIG }]
+  providers: [
+    MatSnackBarComponent,
+    { provide: ACTION_TOKEN, useValue: ACTION_CONFIG },
+    { provide: CommentsService, useClass: EcoNewsCommentsService }
+  ]
 })
 export class EcoNewsModule {}
 

@@ -17,11 +17,12 @@
     <hr />
   </div>
 
-  <app-add-comment *ngIf="isLoggedIn" (updateList)="updateElementsList()"></app-add-comment>
+  <app-add-comment *ngIf="isLoggedIn" [entityId]="entityId" (updateList)="updateElementsList()"></app-add-comment>
   <mat-spinner class="spinner" *ngIf="elementsList.length < 1 && elementsArePresent; else comments"></mat-spinner>
   <ng-template #comments>
     <app-comments-list
       dataType="comment"
+      [entityId]="entityId"
       [elementsList]="elementsList"
       [config]="config"
       [isLoggedIn]="isLoggedIn"
@@ -36,6 +37,7 @@
 <ng-template #replyConteiner>
   <app-add-comment
     *ngIf="comment.showRelyButton && isLoggedIn"
+    [entityId]="entityId"
     [commentId]="comment.id"
     (updateList)="updateElementsList()"
   ></app-add-comment>
@@ -44,6 +46,7 @@
     <ng-template #reply>
       <app-comments-list
         dataType="reply"
+        [entityId]="entityId"
         [elementsList]="elementsList"
         [commentId]="comment.id"
         [config]="config"

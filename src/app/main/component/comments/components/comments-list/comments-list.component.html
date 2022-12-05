@@ -67,6 +67,7 @@
     </ng-template>
     <app-like-comment
       *ngIf="isLoggedIn && !checkCommentAuthor(comment.author.id)"
+      [entityId]="entityId"
       [comment]="comment"
       (likesCounter)="changeCounter($event, comment.id, 'likes')"
     >
@@ -87,6 +88,7 @@
   </div>
   <app-comments-container
     *ngIf="dataType === types.commentType"
+    [entityId]="entityId"
     [comment]="comment"
     (repliesCounter)="changeCounter($event, comment.id, 'replies')"
     dataType="reply"

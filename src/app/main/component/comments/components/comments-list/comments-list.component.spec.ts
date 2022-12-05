@@ -15,13 +15,13 @@ describe('CommentsListComponent', () => {
 
   let commentsServiceMock: CommentsService;
   commentsServiceMock = jasmine.createSpyObj('CommentsService', ['editComment']);
-  commentsServiceMock.editComment = () => of({});
+  commentsServiceMock.editComment = () => of();
 
   const commentData = {
     author: {
       id: 1,
       name: 'Test',
-      userProfilePicturePath: null,
+      userProfilePicturePath: null
     },
     currentUserLiked: true,
     id: 1,
@@ -31,7 +31,7 @@ describe('CommentsListComponent', () => {
     status: 'EDITED',
     text: 'string',
     isEdit: true,
-    showRelyButton: true,
+    showRelyButton: true
   };
 
   beforeEach(async(() => {
@@ -39,7 +39,7 @@ describe('CommentsListComponent', () => {
       declarations: [CommentsListComponent, DateLocalisationPipe],
       imports: [HttpClientTestingModule, NgxPaginationModule, ReactiveFormsModule, TranslateModule.forRoot()],
       providers: [{ provide: CommentsService, useValue: commentsServiceMock }],
-      schemas: [CUSTOM_ELEMENTS_SCHEMA],
+      schemas: [CUSTOM_ELEMENTS_SCHEMA]
     }).compileComponents();
   }));
 
@@ -50,7 +50,7 @@ describe('CommentsListComponent', () => {
       id: 'string',
       itemsPerPage: 1,
       currentPage: 1,
-      totalItems: 1,
+      totalItems: 1
     };
 
     fixture.detectChanges();
@@ -73,7 +73,7 @@ describe('CommentsListComponent', () => {
   it('should send data when user save edited content', () => {
     component.content.setValue('some test text');
     // @ts-ignore
-    const spy = spyOn(component.commentsService, 'editComment').and.returnValue(of({}));
+    const spy = spyOn(component.commentsService, 'editComment').and.returnValue(of());
     component.saveEditedComment(commentData);
     expect(spy).toHaveBeenCalled();
   });

@@ -24,17 +24,24 @@ export interface CommentsDTO {
   showAllRelies?: boolean;
 }
 
+export interface AddedCommentDTO {
+  author: AuthorDTO;
+  id: number;
+  modifiedDate: string;
+  text: string;
+}
+
 export interface SocketAmountLikes {
-    id: number;
-    amountLikes: number;
-    liked: boolean;
-    userId: number;
+  id: number;
+  amountLikes: number;
+  liked: boolean;
+  userId: number;
 }
 
 export enum dataTypes {
   commentType = 'comment',
   wrapperCommentType = 'wrapper-comment',
-  wrapperReplyType = 'wrapper-reply',
+  wrapperReplyType = 'wrapper-reply'
 }
 
 export interface PaginationConfig {
