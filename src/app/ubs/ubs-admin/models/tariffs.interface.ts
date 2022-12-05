@@ -5,6 +5,7 @@ export interface Bag {
   price: number;
   commission: number;
   description?: string;
+  descriptionEng?: string;
   languageId?: 1;
   id?: number;
   fullPrice?: number;
@@ -18,6 +19,7 @@ export interface Bag {
     {
       name: string;
       description: string;
+      descriptionEng: string;
       nameEng: string;
     }
   ];
