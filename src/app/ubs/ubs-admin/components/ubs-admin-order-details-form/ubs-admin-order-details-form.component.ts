@@ -242,8 +242,6 @@ export class UbsAdminOrderDetailsFormComponent implements OnInit, OnChanges {
       };
     }
 
-    console.log(expression, type, this.checkMinOrder);
-
     if (expression) {
       if (type === 'actual') {
         this.showUbsCourier = true;

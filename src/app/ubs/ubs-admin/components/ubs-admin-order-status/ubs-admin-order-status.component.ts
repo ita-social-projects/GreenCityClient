@@ -37,10 +37,10 @@ export class UbsAdminOrderStatusComponent implements OnChanges, OnInit, OnDestro
       this.setOrderPaymentStatus();
     }
 
-    if (changes.generalInfo.currentValue.orderStatus) {
+    if (changes.generalInfo) {
       this.availableOrderStatuses = this.orderService.getAvailableOrderStatuses(
         changes.generalInfo.currentValue.orderStatus,
-        this.generalInfo.orderStatusesDtos
+        changes.generalInfo.currentValue.orderStatusesDtos
       );
     }
   }
