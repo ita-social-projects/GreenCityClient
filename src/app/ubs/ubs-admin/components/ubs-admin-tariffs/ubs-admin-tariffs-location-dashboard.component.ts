@@ -61,7 +61,6 @@ export class UbsAdminTariffsLocationDashboardComponent implements OnInit, AfterV
   createCardObj: CreateCard;
   isFieldFilled = false;
   isCardExist = false;
-  stateStatus: string;
 
   private destroy: Subject<boolean> = new Subject<boolean>();
 
@@ -114,6 +113,7 @@ export class UbsAdminTariffsLocationDashboardComponent implements OnInit, AfterV
     });
     this.setCountOfCheckedCity();
     this.setStationPlaceholder();
+    this.setDefaultStateValue();
     this.getExistingCard(this.filterData);
     this.languageService
       .getCurrentLangObs()
@@ -121,16 +121,17 @@ export class UbsAdminTariffsLocationDashboardComponent implements OnInit, AfterV
       .subscribe((i) => {
         this.getLocations();
         this.translateSelectedCity();
-        this.stateStatus = i === 'en' ? 'Active' : 'Активно';
-        setTimeout(() => {
-          this.state.setValue(this.stateStatus);
-        });
         this.getCouriers();
       });
   }
 
   ngAfterViewChecked(): void {
     this.changeDetectorRef.detectChanges();
+  }
+
+  public setDefaultStateValue(): void {
+    this.state.setValue('ACTIVE');
+    Object.assign(this.filterData, { status: 'ACTIVE' });
   }
 
   private initForm(): void {
@@ -376,21 +377,7 @@ export class UbsAdminTariffsLocationDashboardComponent implements OnInit, AfterV
   }
 
   public onSelectState(event): void {
-    switch (event.value) {
-      case 'Все':
-        Object.assign(this.filterData, { status: '' });
-        break;
-      case 'Активно':
-      case 'Active':
-        Object.assign(this.filterData, { status: 'ACTIVE' });
-        break;
-      case 'Неактивно':
-        Object.assign(this.filterData, { status: 'DEACTIVATED' });
-        break;
-      case 'Незаповнена':
-        Object.assign(this.filterData, { status: 'NEW' });
-        break;
-    }
+    Object.assign(this.filterData, { status: event.value });
     this.getExistingCard(this.filterData);
   }
 

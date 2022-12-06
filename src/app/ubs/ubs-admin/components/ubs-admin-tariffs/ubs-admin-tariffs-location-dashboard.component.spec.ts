@@ -423,7 +423,7 @@ describe('UbsAdminTariffsLocationDashboardComponent', () => {
       value: 'fakeCourier'
     };
     const fakeFilterData = {
-      status: '',
+      status: 'ACTIVE',
       courier: 1
     };
     const spy = spyOn(component, 'getExistingCard');
@@ -436,7 +436,7 @@ describe('UbsAdminTariffsLocationDashboardComponent', () => {
       value: 'all'
     };
     const fakeFilterData = {
-      status: '',
+      status: 'ACTIVE',
       courier: ''
     };
     const spy = spyOn(component, 'getExistingCard');
@@ -451,7 +451,7 @@ describe('UbsAdminTariffsLocationDashboardComponent', () => {
       }
     };
     const fakeFilterData = {
-      status: '',
+      status: 'ACTIVE',
       region: 1
     };
     const spy = spyOn(component, 'getExistingCard');
@@ -466,7 +466,7 @@ describe('UbsAdminTariffsLocationDashboardComponent', () => {
       }
     };
     const fakeFilterData = {
-      status: '',
+      status: 'ACTIVE',
       region: ''
     };
     const spy = spyOn(component, 'getExistingCard');
@@ -476,7 +476,7 @@ describe('UbsAdminTariffsLocationDashboardComponent', () => {
 
   it('should call method for filtering card when state is changing', () => {
     const eventMock = {
-      value: 'Незаповнена'
+      value: 'NEW'
     };
     const fakeFilterData = {
       status: 'NEW'
@@ -493,7 +493,7 @@ describe('UbsAdminTariffsLocationDashboardComponent', () => {
       }
     };
     const fakeFilterData = {
-      status: '',
+      status: 'ACTIVE',
       receivingStation: [1]
     };
     const spy = spyOn(component, 'getExistingCard');
@@ -508,7 +508,7 @@ describe('UbsAdminTariffsLocationDashboardComponent', () => {
       }
     };
     const fakeFilterData = {
-      status: '',
+      status: 'ACTIVE',
       receivingStation: [1]
     };
     const spy = spyOn(component, 'getExistingCard');
@@ -523,7 +523,7 @@ describe('UbsAdminTariffsLocationDashboardComponent', () => {
       }
     };
     const fakeFilterData = {
-      status: '',
+      status: 'ACTIVE',
       location: [159, 0]
     };
     const spy = spyOn(component, 'getExistingCard');
@@ -539,7 +539,7 @@ describe('UbsAdminTariffsLocationDashboardComponent', () => {
       }
     };
     const fakeFilterData = {
-      status: '',
+      status: 'ACTIVE',
       location: [159]
     };
     const spy = spyOn(component, 'getExistingCard');
@@ -759,6 +759,7 @@ describe('UbsAdminTariffsLocationDashboardComponent', () => {
     const spy4 = spyOn(component, 'loadScript');
     const spy6 = spyOn(component, 'setCountOfCheckedCity');
     const spy7 = spyOn(component, 'setStationPlaceholder');
+    const spy8 = spyOn(component, 'setDefaultStateValue');
     component.ngOnInit();
     expect(spy1).toHaveBeenCalled();
     expect(spy2).toHaveBeenCalled();
@@ -766,6 +767,7 @@ describe('UbsAdminTariffsLocationDashboardComponent', () => {
     expect(spy4).toHaveBeenCalled();
     expect(spy6).toHaveBeenCalled();
     expect(spy7).toHaveBeenCalled();
+    expect(spy8).toHaveBeenCalled();
   });
 
   it('should get all couriers', () => {
@@ -774,6 +776,12 @@ describe('UbsAdminTariffsLocationDashboardComponent', () => {
     console.log(component.couriers);
     console.log(component.couriersName);
     expect(component.couriersName).toEqual(['fakeCourier']);
+  });
+
+  it('should set  default value for filtering', () => {
+    const result = { status: 'ACTIVE' };
+    component.setDefaultStateValue();
+    expect(component.filterData).toEqual(result);
   });
 
   it('should create new card on create card method', fakeAsync(() => {
