@@ -154,8 +154,8 @@ export class UbsAdminCustomersComponent implements OnInit, AfterViewChecked, OnD
   }
 
   public numberPlusOrMinus(column: string, suffix: string): void {
-    let number = Number(this.filterForm.get(column).value);
-    suffix === 'minus' ? this.filterForm.get(column).setValue(number - 1) : this.filterForm.get(column).setValue(number + 1);
+    const val = Number(this.filterForm.get(column).value);
+    suffix === 'minus' ? this.filterForm.get(column).setValue(val - 1) : this.filterForm.get(column).setValue(val + 1);
   }
 
   public submitFilterForm() {
