@@ -474,18 +474,6 @@ describe('UbsAdminTariffsLocationDashboardComponent', () => {
     expect(spy).toHaveBeenCalledWith(fakeFilterData);
   });
 
-  it('should call method for filtering card when state is changing', () => {
-    const eventMock = {
-      value: 'NEW'
-    };
-    const fakeFilterData = {
-      status: 'NEW'
-    };
-    const spy = spyOn(component, 'getExistingCard');
-    component.onSelectState(eventMock);
-    expect(spy).toHaveBeenCalledWith(fakeFilterData);
-  });
-
   it('should call method for filtering card with chosen all stations', () => {
     const eventMockStationAll = {
       option: {
@@ -759,7 +747,7 @@ describe('UbsAdminTariffsLocationDashboardComponent', () => {
     const spy4 = spyOn(component, 'loadScript');
     const spy6 = spyOn(component, 'setCountOfCheckedCity');
     const spy7 = spyOn(component, 'setStationPlaceholder');
-    const spy8 = spyOn(component, 'setDefaultStateValue');
+    const spy8 = spyOn(component, 'setStateValue');
     component.ngOnInit();
     expect(spy1).toHaveBeenCalled();
     expect(spy2).toHaveBeenCalled();
@@ -780,7 +768,7 @@ describe('UbsAdminTariffsLocationDashboardComponent', () => {
 
   it('should set  default value for filtering', () => {
     const result = { status: 'ACTIVE' };
-    component.setDefaultStateValue();
+    component.setStateValue();
     expect(component.filterData).toEqual(result);
   });
 

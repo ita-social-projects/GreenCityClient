@@ -113,7 +113,7 @@ export class UbsAdminTariffsLocationDashboardComponent implements OnInit, AfterV
     });
     this.setCountOfCheckedCity();
     this.setStationPlaceholder();
-    this.setDefaultStateValue();
+    this.setStateValue();
     this.getExistingCard(this.filterData);
     this.languageService
       .getCurrentLangObs()
@@ -129,9 +129,12 @@ export class UbsAdminTariffsLocationDashboardComponent implements OnInit, AfterV
     this.changeDetectorRef.detectChanges();
   }
 
-  public setDefaultStateValue(): void {
-    this.state.setValue('ACTIVE');
+  public setStateValue(): void {
     Object.assign(this.filterData, { status: 'ACTIVE' });
+    this.state.valueChanges.subscribe((value) => {
+      Object.assign(this.filterData, { status: value });
+      this.getExistingCard(this.filterData);
+    });
   }
 
   private initForm(): void {
@@ -140,7 +143,7 @@ export class UbsAdminTariffsLocationDashboardComponent implements OnInit, AfterV
       city: ['', [Validators.required, Validators.maxLength(40), Validators.pattern(Patterns.NamePattern)]],
       courier: ['', [Validators.required]],
       station: ['', [Validators.required]],
-      state: ['']
+      state: ['ACTIVE']
     });
   }
 
@@ -374,11 +377,6 @@ export class UbsAdminTariffsLocationDashboardComponent implements OnInit, AfterV
     }
     this.getExistingCard(this.filterData);
     this.checkisCardExist();
-  }
-
-  public onSelectState(event): void {
-    Object.assign(this.filterData, { status: event.value });
-    this.getExistingCard(this.filterData);
   }
 
   loadScript(): void {
