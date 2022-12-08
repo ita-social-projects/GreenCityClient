@@ -175,7 +175,8 @@ $ubs-header-height: 80px;
     justify-content: space-between;
 
     li {
-      display: inline-block;
+      display: flex;
+      align-items: center;
       margin-left: 24px;
 
       &:first-child {
