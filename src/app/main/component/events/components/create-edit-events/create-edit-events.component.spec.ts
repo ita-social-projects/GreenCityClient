@@ -69,9 +69,10 @@ describe('CreateEditEventsComponent', () => {
 
   const storeMock = jasmine.createSpyObj('store', ['select', 'dispatch']);
 
-  const localStorageServiceMock = jasmine.createSpyObj('localStorageService', ['getEventForEdit', 'getEditMode']);
+  const localStorageServiceMock = jasmine.createSpyObj('localStorageService', ['getEventForEdit', 'getEditMode', 'getUserId']);
   localStorageServiceMock.getEditMode = () => true;
   localStorageServiceMock.getEventForEdit = () => EditEventMock;
+  localStorageServiceMock.getUserId = () => 137;
 
   const EventsServiceMock = jasmine.createSpyObj('EventsService', ['createEvent', 'editEvent']);
   EventsServiceMock.createEvent = () => of(EditEventMock);
