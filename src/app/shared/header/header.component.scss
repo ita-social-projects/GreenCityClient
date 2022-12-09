@@ -246,6 +246,8 @@ $ubs-header-height: 80px;
 
 .header_navigation-menu-ubs {
   height: $ubs-header-height;
+  width: 100%;
+  justify-content: flex-end;
 }
 
 .header_arrow {
@@ -291,7 +293,9 @@ $ubs-header-height: 80px;
   height: 80%;
   right: 20px;
 
-  .search-icon {
+  .search-icon,
+  .bookmark-icon,
+  .notification-icon {
     img {
       height: 11px;
       cursor: pointer;
@@ -547,6 +551,10 @@ $ubs-header-height: 80px;
 @media (min-width: 992px) {
   .header_navigation-menu {
     width: 100%;
+  }
+
+  .header_navigation-menu-ubs {
+    justify-content: space-between;
   }
 
   .header_navigation-menu-left {
