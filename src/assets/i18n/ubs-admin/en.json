@@ -701,6 +701,7 @@
     "placeholder_state": "Select State",
     "add-city": "Add city",
     "error": "Only alphabetic characters and special characters “-” (hyphen), \" \" (space) and \" ' \" (apostrophe), numbers are allowed. From minimum 3 to maximum 40 characters are allowed.",
+    "empty_field": "Enter the courier",
     "stationExist": "The receiving station already exists in the system",
     "courierExist": "The courier already exists in the system",
     "activeCities": "Active cities"

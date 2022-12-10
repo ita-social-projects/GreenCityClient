@@ -141,6 +141,30 @@ describe('UbsAdminTariffsCourierPopUpComponent', () => {
     expect(tariffsServiceMock.editCourier).toHaveBeenCalled();
   });
 
+  it('should check if courier ukrainian name exist', () => {
+    const value = 'фейкКурєр';
+    const result = component.checkIsCourierExist(value, component.couriersName);
+    expect(result).toEqual(true);
+  });
+
+  it('should check if courier ukrainian name exist', () => {
+    const value = 'Курєр';
+    const result = component.checkIsCourierExist(value, component.couriersName);
+    expect(result).toEqual(false);
+  });
+
+  it('should check if courier english name exist', () => {
+    const value = 'фейкКурєр';
+    const result = component.checkIsCourierExist(value, component.couriersNameEng);
+    expect(result).toEqual(true);
+  });
+
+  it('should check if courier english name exist', () => {
+    const value = 'Курєр';
+    const result = component.checkIsCourierExist(value, component.couriersNameEng);
+    expect(result).toEqual(false);
+  });
+
   it('method onNoClick should invoke destroyRef.close', () => {
     component.onNoClick();
     expect(matDialogRefMock.close).toHaveBeenCalled();

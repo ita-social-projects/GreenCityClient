@@ -33,8 +33,11 @@
             alt="arrowDown"
             (click)="openAuto($event, autocompleteTrigger)"
           />
-          <div class="error" *ngIf="name.invalid && name.touched">
+          <div class="error" *ngIf="name.invalid && name.touched && name.value">
             <p class="validation">{{ 'ubs-tariffs-add-location-pop-up.error' | translate }}</p>
+          </div>
+          <div class="error" *ngIf="!name.value && name.touched">
+            <p class="validation">{{ 'ubs-tariffs-add-location-pop-up.empty_field' | translate }}</p>
           </div>
           <div class="error" *ngIf="courierExist || enCourierExist">
             <p class="validation">{{ 'ubs-tariffs-add-location-pop-up.courierExist' | translate }}</p>
@@ -58,8 +61,11 @@
             </mat-option>
           </ng-container>
         </mat-autocomplete>
-        <div class="error" *ngIf="englishName.invalid && englishName.touched">
+        <div class="error" *ngIf="englishName.invalid && englishName.touched && englishName.value">
           <p class="validation">{{ 'ubs-tariffs-add-location-pop-up.error' | translate }}</p>
+        </div>
+        <div class="error" *ngIf="!englishName.value && englishName.touched">
+          <p class="validation">{{ 'ubs-tariffs-add-location-pop-up.empty_field' | translate }}</p>
         </div>
         <div class="error" *ngIf="courierExist || enCourierExist">
           <p class="validation">{{ 'ubs-tariffs-add-location-pop-up.courierExist' | translate }}</p>
