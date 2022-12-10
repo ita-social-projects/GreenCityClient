@@ -16,7 +16,7 @@ describe('HabitEditShoppingListComponent', () => {
   const mockActivatedRoute = {
     params: of({ habitId: 2 })
   };
-  const mockList: ShoppingList[] = [
+  let mockList: ShoppingList[] = [
     {
       id: 1,
       status: 'INPROGRESS',
@@ -30,6 +30,12 @@ describe('HabitEditShoppingListComponent', () => {
       selected: false
     }
   ];
+  const mockItem: ShoppingList = {
+    id: 234,
+    status: 'ACTIVE',
+    text: 'Item 2',
+    selected: false
+  };
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
@@ -77,7 +83,7 @@ describe('HabitEditShoppingListComponent', () => {
 
   it('truncateShoppingItemName should return shortened string', () => {
     const name = component.truncateShoppingItemName('Very long name of shopping list item');
-    expect(name).toBe('Very long na...');
+    expect(name).toBe('Very long name of sh...');
   });
 
   it('truncateShoppingItemName should not shorten small string', () => {
@@ -92,7 +98,7 @@ describe('HabitEditShoppingListComponent', () => {
   });
 
   it('truncateShoppingItemName should change long string', () => {
-    const name = 'Very long string';
+    const name = 'Very loooooooong string';
     const result = component.truncateShoppingItemName(name);
     expect(result).not.toBe(name);
   });
@@ -103,10 +109,11 @@ describe('HabitEditShoppingListComponent', () => {
     expect(component.seeAllShopingList).toBe(true);
   });
 
-  it('select should change status of shopping list item', () => {
-    const item = mockList[0];
+  it('select() should change status of shopping list item', () => {
+    const item = mockItem;
+    component.shoppinglistService.fillList(mockList);
     component.select(item);
-    expect(item.selected).toBeTruthy();
+    expect(component.list[0].selected).toBeTruthy();
   });
 
   it('fillList() should fill the list', () => {

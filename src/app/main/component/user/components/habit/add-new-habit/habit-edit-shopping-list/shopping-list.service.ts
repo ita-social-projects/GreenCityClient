@@ -31,17 +31,41 @@ export class ShoppingListService {
       selected: false
     };
     this.list = [newItem, ...this.list];
+    this.placeItemInOrder();
     this.customList.push(newItem);
     this.list$.next(this.list);
   }
 
   public deleteItem(item) {
     this.list = this.list.filter((elem) => elem.text !== item.text);
+    this.customList = this.customList.filter((elem) => elem.text !== item.text);
     this.list$.next(this.list);
   }
 
-  public select(item) {
-    item.selected = !item.selected;
+  placeItemInOrder() {
+    const trueList = this.list.filter((element) => {
+      return element.selected === true;
+    });
+    const falseList = this.list.filter((element) => {
+      return element.selected != true;
+    });
+    this.list = [...trueList, ...falseList];
+  }
+
+  public select(item: ShoppingList) {
+    this.list = this.list.map((element) => {
+      if (element.text === item.text) {
+        element.selected = !item.selected;
+      }
+      return element;
+    });
+    if (item.selected) {
+      const index = this.list.indexOf(item);
+      this.list.splice(index, 1);
+      this.list = [item, ...this.list];
+    }
+    this.placeItemInOrder();
+    this.list$.next(this.list);
   }
 
   public saveCustomItems(userId: string, habitId: number) {

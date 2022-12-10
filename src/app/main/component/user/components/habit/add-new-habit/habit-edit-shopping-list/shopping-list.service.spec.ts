@@ -30,10 +30,4 @@ describe('ShoppingListService', () => {
   it('shopping-list.service should create', () => {
     expect(service).toBeDefined();
   });
-
-  it('select() should change item`s property selected', () => {
-    const item = mockItem;
-    service.select(item);
-    expect(item.selected).toBe(true);
-  });
 });

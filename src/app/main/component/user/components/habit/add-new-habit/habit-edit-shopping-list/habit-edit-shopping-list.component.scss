@@ -23,7 +23,6 @@ $primary-font: var(--secondary-font);
 
     .text {
       height: 17px;
-      width: 150px;
       font-style: normal;
       font-weight: normal;
       font-size: 14px;
@@ -76,6 +75,72 @@ $primary-font: var(--secondary-font);
       input:checked ~ .checkmark::after {
         display: block;
       }
+    }
+  }
+}
+
+.editing-list {
+  list-style-type: none;
+  padding: 0 0 19px 0;
+  margin: 0;
+  overflow-y: hidden;
+
+  li {
+    padding: 0;
+    margin: 0 0 10px 0;
+    height: 30px;
+
+    .text {
+      height: 17px;
+      width: 180px;
+      padding-left: 22px;
+      font-style: normal;
+      font-weight: normal;
+      font-size: 14px;
+      line-height: 17px;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    label {
+      padding: 0;
+      margin: 0 0 20px 0;
+      display: flex;
+      align-items: center;
+      cursor: pointer;
+      position: relative;
+
+      input[type='checkbox'] {
+        display: block;
+        height: 0;
+        opacity: 0;
+        width: 0;
+      }
+
+      .checkmark {
+        height: 14px;
+        width: 14px;
+        border: solid var(--quintynary-light-grey);
+        border-width: 2px 0 0 0;
+        top: 8px;
+        position: absolute;
+      }
+
+      .checkmark::after {
+        border: solid var(--quintynary-light-grey);
+        border-width: 0 0 0 2px;
+        content: '';
+        height: 14px;
+        left: 6px;
+        top: -8px;
+        position: absolute;
+        display: none;
+      }
+
+      input:checked ~ .checkmark::after {
+        display: block;
+      }
 
       #del-btn {
         height: 12px;
@@ -111,6 +176,13 @@ form {
     background: var(--primary-green);
     color: var(--primary-white);
     margin-left: 10px;
+  }
+
+  .add-custom-item {
+    font-family: var(--primary-font);
+    color: var(--primary-green);
+    font-size: 12px;
+    line-height: 20px;
   }
 }
 
