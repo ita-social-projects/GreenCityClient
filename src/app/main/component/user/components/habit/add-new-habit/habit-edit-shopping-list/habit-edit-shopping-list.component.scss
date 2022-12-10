@@ -122,7 +122,7 @@ $primary-font: var(--secondary-font);
         height: 14px;
         width: 14px;
         border: solid #000;
-        border-width: 2px 0 0 0;
+        border-width: 1px 0 0 0;
         top: 8px;
         position: absolute;
       }
@@ -139,7 +139,12 @@ $primary-font: var(--secondary-font);
       }
 
       input:checked ~ .checkmark {
-        background-color: none;
+        border: solid var(--quintynary-light-grey);
+        height: 14px;
+        width: 14px;
+        border-width: 2px 0 0 0;
+        top: 8px;
+        position: absolute;
       }
 
       input:checked ~ .checkmark::after {
