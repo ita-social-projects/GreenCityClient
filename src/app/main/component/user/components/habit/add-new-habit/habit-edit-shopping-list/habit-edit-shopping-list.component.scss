@@ -121,7 +121,7 @@ $primary-font: var(--secondary-font);
       .checkmark {
         height: 14px;
         width: 14px;
-        border: solid var(--quintynary-light-grey);
+        border: solid #000;
         border-width: 2px 0 0 0;
         top: 8px;
         position: absolute;
@@ -136,6 +136,10 @@ $primary-font: var(--secondary-font);
         top: -8px;
         position: absolute;
         display: none;
+      }
+
+      input:checked ~ .checkmark {
+        background-color: none;
       }
 
       input:checked ~ .checkmark::after {
