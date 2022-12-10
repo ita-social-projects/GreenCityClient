@@ -7,6 +7,7 @@ import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { UbsAdminTariffsCourierPopUpComponent } from './ubs-admin-tariffs-courier-pop-up.component';
 import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
 import { TariffsService } from '../../../services/tariffs.service';
+import { LanguageService } from 'src/app/main/i18n/language.service';
 
 describe('UbsAdminTariffsCourierPopUpComponent', () => {
   let component: UbsAdminTariffsCourierPopUpComponent;
@@ -39,6 +40,9 @@ describe('UbsAdminTariffsCourierPopUpComponent', () => {
   tariffsServiceMock.addCourier.and.returnValue(of());
   tariffsServiceMock.editCourier.and.returnValue(of());
 
+  const languageServiceMock = jasmine.createSpyObj('languageServiceMock', ['getCurrentLanguage']);
+  languageServiceMock.getCurrentLanguage.and.returnValue('ua');
+
   const localStorageServiceStub = () => ({
     firstNameBehaviourSubject: { pipe: () => of('fakeName') }
   });
@@ -51,6 +55,7 @@ describe('UbsAdminTariffsCourierPopUpComponent', () => {
         { provide: MatDialogRef, useValue: matDialogRefMock },
         { provide: LocalStorageService, useFactory: localStorageServiceStub },
         { provide: TariffsService, useValue: tariffsServiceMock },
+        { provide: LanguageService, useValue: languageServiceMock },
         { provide: MAT_DIALOG_DATA, useValue: mockedData },
         FormBuilder
       ],
@@ -112,9 +117,11 @@ describe('UbsAdminTariffsCourierPopUpComponent', () => {
   });
 
   it('should call getting couriers in OnInit', () => {
-    const spy = spyOn(component, 'getCouriers');
+    const spy1 = spyOn(component, 'getCouriers');
+    const spy2 = spyOn(component, 'setDate');
     component.ngOnInit();
-    expect(spy).toHaveBeenCalled();
+    expect(spy1).toHaveBeenCalled();
+    expect(spy2).toHaveBeenCalled();
   });
 
   it('should get all couriers', () => {
