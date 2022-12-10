@@ -132,7 +132,7 @@ describe('HabitEditShoppingListComponent', () => {
       text: 'Item 1'
     };
     component.shoppinglistService.fillList(mockList);
-    component.shoppinglistService.deleteItem(item);
+    component.delete(item);
     expect(component.list[0].text).not.toBe('Item 1');
   });
 

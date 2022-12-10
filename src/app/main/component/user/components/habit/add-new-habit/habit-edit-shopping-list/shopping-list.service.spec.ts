@@ -30,4 +30,10 @@ describe('ShoppingListService', () => {
   it('shopping-list.service should create', () => {
     expect(service).toBeDefined();
   });
+
+  it('select() should invoke placeItemInOrder() method', () => {
+    spyOn(service, 'placeItemInOrder');
+    service.select(mockItem);
+    expect(service.placeItemInOrder).toHaveBeenCalled();
+  });
 });
