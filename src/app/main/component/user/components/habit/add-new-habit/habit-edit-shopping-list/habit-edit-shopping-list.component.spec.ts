@@ -121,9 +121,9 @@ describe('HabitEditShoppingListComponent', () => {
     expect(component.list[0].text).toEqual('Item 1');
   });
 
-  it('addItem() should add new item to the list', () => {
+  it('add() should add new item to the list', () => {
     component.shoppinglistService.fillList(mockList);
-    component.shoppinglistService.addItem('New Item');
+    component.add('New Item');
     expect(component.list[0].text).toEqual('New Item');
   });
 
