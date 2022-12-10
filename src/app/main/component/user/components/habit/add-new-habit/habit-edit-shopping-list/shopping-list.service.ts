@@ -47,7 +47,7 @@ export class ShoppingListService {
       return element.selected === true;
     });
     const falseList = this.list.filter((element) => {
-      return element.selected != true;
+      return element.selected !== true;
     });
     this.list = [...trueList, ...falseList];
   }

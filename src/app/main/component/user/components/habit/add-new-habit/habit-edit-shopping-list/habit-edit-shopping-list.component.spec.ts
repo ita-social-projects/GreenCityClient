@@ -16,7 +16,7 @@ describe('HabitEditShoppingListComponent', () => {
   const mockActivatedRoute = {
     params: of({ habitId: 2 })
   };
-  let mockList: ShoppingList[] = [
+  const mockList: ShoppingList[] = [
     {
       id: 1,
       status: 'INPROGRESS',
