@@ -118,7 +118,7 @@ $primary-font: var(--secondary-font);
         width: 0;
       }
 
-      .checkmark {
+      .checkedmark {
         height: 14px;
         width: 14px;
         border: solid #000;
@@ -127,7 +127,7 @@ $primary-font: var(--secondary-font);
         position: absolute;
       }
 
-      .checkmark::after {
+      .checkedmark::after {
         border: solid var(--quintynary-light-grey);
         border-width: 0 0 0 2px;
         content: '';
@@ -138,7 +138,7 @@ $primary-font: var(--secondary-font);
         display: none;
       }
 
-      input:checked ~ .checkmark {
+      input:checked ~ .checkedmark {
         border: solid var(--quintynary-light-grey);
         height: 14px;
         width: 14px;
@@ -147,7 +147,7 @@ $primary-font: var(--secondary-font);
         position: absolute;
       }
 
-      input:checked ~ .checkmark::after {
+      input:checked ~ .checkedmark::after {
         display: block;
       }
 

@@ -20,7 +20,7 @@
     <li *ngFor="let item of list; index as i">
       <label [ngClass]="{ selected: item.status === 'INPROGRESS', done: item.status === 'DONE' }">
         <input type="checkbox" checked (change)="select(item)" />
-        <span class="checkmark"></span>
+        <span class="checkedmark"></span>
         <span class="text" ngbPopover="{{ item.text }}" triggers="mouseenter:mouseleave" placement="top" container="body">
           {{ truncateShoppingItemName(item.text) }}
         </span>
