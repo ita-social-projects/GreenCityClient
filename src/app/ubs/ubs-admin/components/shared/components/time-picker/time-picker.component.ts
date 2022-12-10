@@ -40,6 +40,7 @@ export class TimePickerComponent implements OnInit {
   convertTime12to24(time12h): string {
     const [time, modifier] = time12h.split(' ');
 
+    // tslint:disable-next-line:prefer-const
     let [hours, minutes] = time.split(':');
 
     if (hours === '12') {
