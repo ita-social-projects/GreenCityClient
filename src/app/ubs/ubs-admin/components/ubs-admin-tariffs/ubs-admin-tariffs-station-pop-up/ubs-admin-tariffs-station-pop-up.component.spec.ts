@@ -92,17 +92,23 @@ describe('UbsAdminTariffsStationPopUpComponent', () => {
     expect(component.data.headerText).toEqual('station');
   });
 
-  it('should call getting station in OnInit', () => {
+  it('should call getting station and setting date in OnInit', () => {
     const spy1 = spyOn(component, 'getReceivingStation');
     const spy2 = spyOn(component, 'setDate');
     component.ngOnInit();
     expect(spy1).toHaveBeenCalled();
     expect(spy2).toHaveBeenCalled();
-    expect(component.authorName).toEqual('fakeName');
   });
+
+  // it('should call get author name in OnInit', async () => {
+  //   component.ngOnInit();
+  //   localStorageServiceStub.subscribe()
+  //   expect(component.authorName).toEqual('fakeName');
+  // });
 
   it('should get all stations', () => {
     component.getReceivingStation();
+    expect(tariffsServiceMock.getAllStations).toHaveBeenCalled();
     expect(component.stations).toEqual([fakeStation]);
   });
 
@@ -110,6 +116,19 @@ describe('UbsAdminTariffsStationPopUpComponent', () => {
     component.setDate();
     expect(component.datePipe).toEqual(new DatePipe('ua'));
     expect(component.newDate).toEqual(component.datePipe.transform(new Date(), 'MMM dd, yyyy'));
+  });
+
+  it('should get current language', () => {
+    const result = languageServiceMock.getCurrentLanguage();
+    component.setDate();
+    expect(languageServiceMock.getCurrentLanguage).toHaveBeenCalled();
+    expect(result).toEqual('ua');
+  });
+
+  it('should transform date', () => {
+    const date = new Date(2022, 11, 10);
+    const result = component.datePipe.transform(date, 'MMM dd, yyyy');
+    expect(result).toEqual('груд. 10, 2022');
   });
 
   it('should add a new station', () => {
