@@ -98,6 +98,7 @@ describe('UbsAdminTariffsStationPopUpComponent', () => {
     component.ngOnInit();
     expect(spy1).toHaveBeenCalled();
     expect(spy2).toHaveBeenCalled();
+    expect(component.authorName).toEqual('fakeName');
   });
 
   it('should get all stations', () => {
@@ -108,6 +109,7 @@ describe('UbsAdminTariffsStationPopUpComponent', () => {
   it('should set date', () => {
     component.setDate();
     expect(component.datePipe).toEqual(new DatePipe('ua'));
+    expect(component.newDate).toEqual(component.datePipe.transform(new Date(), 'MMM dd, yyyy'));
   });
 
   it('should add a new station', () => {
