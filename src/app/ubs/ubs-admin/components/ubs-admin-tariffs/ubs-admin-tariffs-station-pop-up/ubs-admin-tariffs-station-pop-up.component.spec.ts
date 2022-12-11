@@ -8,6 +8,7 @@ import { UbsAdminTariffsStationPopUpComponent } from './ubs-admin-tariffs-statio
 import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
 import { TariffsService } from '../../../services/tariffs.service';
 import { LanguageService } from 'src/app/main/i18n/language.service';
+import { DatePipe } from '@angular/common';
 
 describe('UbsAdminTariffsStationPopUpComponent', () => {
   let component: UbsAdminTariffsStationPopUpComponent;
@@ -102,6 +103,11 @@ describe('UbsAdminTariffsStationPopUpComponent', () => {
   it('should get all stations', () => {
     component.getReceivingStation();
     expect(component.stations).toEqual([fakeStation]);
+  });
+
+  it('should set date', () => {
+    component.setDate();
+    expect(component.datePipe).toEqual(new DatePipe('ua'));
   });
 
   it('should add a new station', () => {
