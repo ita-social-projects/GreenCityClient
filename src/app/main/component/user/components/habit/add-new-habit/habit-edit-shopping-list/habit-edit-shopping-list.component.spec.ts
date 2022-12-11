@@ -49,6 +49,7 @@ describe('HabitEditShoppingListComponent', () => {
     fixture = TestBed.createComponent(HabitEditShoppingListComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
+    component.list = [];
   });
 
   it('should create', () => {
@@ -124,7 +125,7 @@ describe('HabitEditShoppingListComponent', () => {
   it('add() should add new item to the list', () => {
     component.shoppinglistService.fillList(mockList);
     component.add('New Item');
-    expect(component.list[0].text).toEqual('New Item');
+    expect(component.list.length).toEqual(3);
   });
 
   it('deleteItem() should delete item from the list', () => {

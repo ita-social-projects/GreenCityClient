@@ -36,4 +36,10 @@ describe('ShoppingListService', () => {
     service.select(mockItem);
     expect(service.placeItemInOrder).toHaveBeenCalled();
   });
+
+  it('addItem() should invoke placeItemInOrder() method', () => {
+    spyOn(service, 'placeItemInOrder');
+    service.addItem('New item');
+    expect(service.placeItemInOrder).toHaveBeenCalled();
+  });
 });
