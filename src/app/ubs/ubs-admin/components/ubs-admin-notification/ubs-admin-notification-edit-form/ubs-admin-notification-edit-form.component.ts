@@ -7,7 +7,7 @@ import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
   templateUrl: './ubs-admin-notification-edit-form.component.html',
   styleUrls: ['./ubs-admin-notification-edit-form.component.scss']
 })
-export class UbsAdminNotificationEditFormComponent implements OnInit {
+export class UbsAdminNotificationEditFormComponent {
   form: FormGroup;
   platform = '';
 
@@ -21,10 +21,6 @@ export class UbsAdminNotificationEditFormComponent implements OnInit {
       textEn: [data.text.en],
       textUa: [data.text.ua]
     });
-  }
-
-  ngOnInit(): void {
-    // This is intentional
   }
 
   onCancel(): void {
