@@ -175,7 +175,8 @@ $ubs-header-height: 80px;
     justify-content: space-between;
 
     li {
-      display: inline-block;
+      display: flex;
+      align-items: center;
       margin-left: 24px;
 
       &:first-child {
@@ -217,6 +218,7 @@ $ubs-header-height: 80px;
   padding: 0;
   display: flex;
   align-items: center;
+  justify-content: space-between;
   width: 100%;
   height: 100%;
 }
@@ -244,6 +246,8 @@ $ubs-header-height: 80px;
 
 .header_navigation-menu-ubs {
   height: $ubs-header-height;
+  width: 100%;
+  justify-content: flex-end;
 }
 
 .header_arrow {
@@ -287,10 +291,11 @@ $ubs-header-height: 80px;
 
 .header_navigation-menu-right {
   height: 80%;
-  position: absolute;
   right: 20px;
 
-  .search-icon {
+  .search-icon,
+  .bookmark-icon,
+  .notification-icon {
     img {
       height: 11px;
       cursor: pointer;
@@ -546,6 +551,10 @@ $ubs-header-height: 80px;
 @media (min-width: 992px) {
   .header_navigation-menu {
     width: 100%;
+  }
+
+  .header_navigation-menu-ubs {
+    justify-content: space-between;
   }
 
   .header_navigation-menu-left {
