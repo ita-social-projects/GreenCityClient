@@ -14,7 +14,7 @@ export class TimePickerComponent implements OnInit {
   public toInput: string;
   public from: string;
   public to: string;
-  currentHour: any;
+  currentHour: string;
 
   @Input() setTimeFrom: string;
   @Input() setTimeTo: string;
@@ -65,7 +65,7 @@ export class TimePickerComponent implements OnInit {
   }
 
   initTime() {
-    this.currentHour = Date.now();
+    this.currentHour = Date.now().toString();
     this.currentHour = formatDate(this.currentHour, 'hh:mm a', 'en-US');
     this.currentHour = this.convertTime12to24(this.currentHour);
   }
