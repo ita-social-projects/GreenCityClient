@@ -161,11 +161,11 @@ export class UbsUserProfilePageComponent implements OnInit {
 
   checkedCheckbox(event) {
     if (event.source.id === 'telegramNotification') {
-      this.telegramNotification = event.checked ? true : false;
+      this.telegramNotification = event.checked;
     }
 
     if (event.source.id === 'viberNotification') {
-      this.viberNotification = event.checked ? true : false;
+      this.viberNotification = event.checked;
     }
   }
 
@@ -227,16 +227,11 @@ export class UbsUserProfilePageComponent implements OnInit {
   }
 
   redirectToMessengers() {
-    if (this.telegramNotification && this.viberNotification) {
-      this.goToViberUrl();
+    if (this.telegramNotification) {
       this.goToTelegramUrl();
-    } else {
-      if (this.telegramNotification) {
-        this.goToTelegramUrl();
-      }
-      if (this.viberNotification) {
-        this.goToViberUrl();
-      }
+    }
+    if (this.viberNotification) {
+      this.goToViberUrl();
     }
   }
 
