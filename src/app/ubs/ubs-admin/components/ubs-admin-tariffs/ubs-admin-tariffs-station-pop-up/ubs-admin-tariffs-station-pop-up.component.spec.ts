@@ -100,12 +100,6 @@ describe('UbsAdminTariffsStationPopUpComponent', () => {
     expect(spy2).toHaveBeenCalled();
   });
 
-  // it('should call get author name in OnInit', async () => {
-  //   component.ngOnInit();
-  //   localStorageServiceStub.subscribe()
-  //   expect(component.authorName).toEqual('fakeName');
-  // });
-
   it('should get all stations', () => {
     component.getReceivingStation();
     expect(tariffsServiceMock.getAllStations).toHaveBeenCalled();
