@@ -266,7 +266,7 @@ export class CreateEditEventsComponent implements OnInit, OnDestroy {
   }
   private checkUserSigned(): boolean {
     this.getUserId();
-    return this.userId ? true : false;
+    return Boolean(this.userId);
   }
 
   private getUserId() {
