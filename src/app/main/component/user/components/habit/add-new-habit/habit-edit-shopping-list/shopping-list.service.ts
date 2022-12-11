@@ -42,13 +42,9 @@ export class ShoppingListService {
     this.list$.next(this.list);
   }
 
-  placeItemInOrder() {
-    const trueList = this.list.filter((element) => {
-      return element.selected === true;
-    });
-    const falseList = this.list.filter((element) => {
-      return element.selected !== true;
-    });
+  placeItemInOrder(): void {
+    const trueList = this.list.filter((element) => element.selected);
+    const falseList = this.list.filter((element) => !element.selected);
     this.list = [...trueList, ...falseList];
   }
 

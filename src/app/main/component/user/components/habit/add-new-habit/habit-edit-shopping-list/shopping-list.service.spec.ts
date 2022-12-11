@@ -14,6 +14,21 @@ describe('ShoppingListService', () => {
     selected: false
   };
 
+  const mockList: ShoppingList[] = [
+    {
+      id: 1,
+      status: 'INPROGRESS',
+      text: 'Item 1',
+      selected: false
+    },
+    {
+      id: 2,
+      status: 'ACTIVE',
+      text: 'Item 2',
+      selected: false
+    }
+  ];
+
   beforeEach(() => {
     TestBed.configureTestingModule({
       providers: [ShoppingListService],
@@ -41,5 +56,28 @@ describe('ShoppingListService', () => {
     spyOn(service, 'placeItemInOrder');
     service.addItem('New item');
     expect(service.placeItemInOrder).toHaveBeenCalled();
+  });
+
+  it('placeItemInOrder() should place item in correct order', () => {
+    service.fillList(mockList);
+    console.log(service.list);
+    service.list[1].selected = true;
+    service.placeItemInOrder();
+    expect(service.list[0].text).toEqual('Item 2');
+  });
+
+  it('placeItemInOrder() should place item in correct order', () => {
+    service.fillList(mockList);
+    service.list[1].selected = true;
+    service.placeItemInOrder();
+    expect(service.list[0].text).toEqual('Item 2');
+  });
+
+  it('select() should change item prooerty selected from true to false', () => {
+    service.fillList(mockList);
+    const item = mockList[1];
+    item.selected = true;
+    service.select(item);
+    expect(service.list[1].selected).toBeFalsy();
   });
 });
