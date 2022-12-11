@@ -271,7 +271,6 @@ export class CreateEditEventsComponent implements OnInit, OnDestroy {
 
   private getUserId() {
     this.userId = this.localStorageService.getUserId();
-    console.log(this.userId);
   }
 
   private validateSpaces(control: AbstractControl): ValidationErrors {
