@@ -114,7 +114,6 @@
               formControlName="city"
               [placeholder]="cityPlaceholder"
               [matAutocomplete]="autoCity"
-              [attr.disabled]="CardForm.controls['region'].dirty ? null : true"
               class="form-control"
             />
             <mat-autocomplete #autoCity="matAutocomplete" (optionSelected)="selectCity($event, autocompleteTriggerCity)">

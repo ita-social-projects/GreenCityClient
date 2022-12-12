@@ -454,9 +454,13 @@ describe('UbsAdminTariffsDeactivatePopUpComponent', () => {
 
   it('should call method for selecting one courier', () => {
     component.couriers = fakeCouriers;
+    const result = {
+      id: 1,
+      name: 'фейкКурєр1'
+    };
     const spy = spyOn(component, 'onSelectedCourier');
     component.selectCourier(eventMockCourier as any);
-    expect(component.courierId).toEqual(1);
+    expect(component.selectedCourier).toEqual(result);
     expect(spy).toHaveBeenCalled();
   });
 
@@ -710,7 +714,7 @@ describe('UbsAdminTariffsDeactivatePopUpComponent', () => {
     component.locations = [fakeLocation];
     component.selectedRegions = [{ id: 1, name: 'Фейк область' }];
     component.selectedStations = [];
-    component.courier.setValue('');
+    component.selectedCourier = null;
     const filteredTariffCards = component.filterTariffCards();
     component.enableCity(filteredTariffCards);
     expect(component.currentCitiesName).toEqual(['ФейкМісто1', 'ФейкМісто2']);
@@ -921,8 +925,11 @@ describe('UbsAdminTariffsDeactivatePopUpComponent', () => {
 
   it('should call method for filter tariff cards by courier when courier field is filled ', () => {
     component.tariffCards = fakeTariffCards;
-    component.courier.setValue('Фейк');
-    component.courierId = 1;
+    component.courier.setValue('фейкКурєр1');
+    component.selectedCourier = {
+      id: 1,
+      name: 'фейкКурєр1'
+    };
     component.selectedStations = [];
     component.selectedRegions = [];
     component.selectedCities = [];
@@ -932,7 +939,7 @@ describe('UbsAdminTariffsDeactivatePopUpComponent', () => {
 
   it('should call method for filter tariff cards by stations when station field is filled ', () => {
     component.tariffCards = fakeTariffCards;
-    component.courier.setValue('');
+    component.selectedCourier = null;
     component.selectedStations = [stationItem];
     component.selectedRegions = [];
     component.selectedCities = [];
@@ -942,7 +949,7 @@ describe('UbsAdminTariffsDeactivatePopUpComponent', () => {
 
   it('should call method for filter tariff cards by region when region field is filled ', () => {
     component.tariffCards = fakeTariffCards;
-    component.courier.setValue('');
+    component.selectedCourier = null;
     component.selectedStations = [];
     component.selectedRegions = [locationItem];
     component.selectedCities = [];
@@ -952,7 +959,7 @@ describe('UbsAdminTariffsDeactivatePopUpComponent', () => {
 
   it('should call method for filter tariff cards by cities when city field is filled ', () => {
     component.tariffCards = fakeTariffCards;
-    component.courier.setValue('');
+    component.selectedCourier = null;
     component.selectedStations = [];
     component.selectedRegions = [];
     component.selectedCities = [cityItem];
@@ -961,7 +968,10 @@ describe('UbsAdminTariffsDeactivatePopUpComponent', () => {
   });
 
   it('should filter tariff cards by courier', () => {
-    component.courierId = 1;
+    component.selectedCourier = {
+      id: 1,
+      name: 'фейкКурєр1'
+    };
     const result = component.filterTariffCardsByCourier(fakeTariffCards);
     expect(result).toEqual(fakeFilteredTariffCards);
   });
@@ -1011,8 +1021,10 @@ describe('UbsAdminTariffsDeactivatePopUpComponent', () => {
   it('should  disable courier field', () => {
     component.disableCourier();
     expect(component.courier.value).toEqual('');
-    expect(component.courierId).toEqual(null);
+    expect(component.selectedCourier).toEqual(null);
     expect(component.courier.disabled).toEqual(true);
+    expect(component.filteredCouriers).toEqual([]);
+    expect(component.couriersName).toEqual([]);
   });
 
   it('should  disable station field', () => {
@@ -1021,6 +1033,8 @@ describe('UbsAdminTariffsDeactivatePopUpComponent', () => {
     expect(component.station.value).toEqual('');
     expect(component.selectedStations).toEqual([]);
     expect(component.station.disabled).toEqual(true);
+    expect(component.filteredStations).toEqual([]);
+    expect(component.stationsName).toEqual([]);
     expect(spy).toHaveBeenCalled();
   });
 
@@ -1030,6 +1044,8 @@ describe('UbsAdminTariffsDeactivatePopUpComponent', () => {
     expect(component.region.value).toEqual('');
     expect(component.selectedRegions).toEqual([]);
     expect(component.region.disabled).toEqual(true);
+    expect(component.filteredRegions).toEqual([]);
+    expect(component.regionsName).toEqual([]);
     expect(spy).toHaveBeenCalled();
   });
 
@@ -1039,11 +1055,13 @@ describe('UbsAdminTariffsDeactivatePopUpComponent', () => {
     expect(component.city.value).toEqual('');
     expect(component.selectedCities).toEqual([]);
     expect(component.city.disabled).toEqual(true);
+    expect(component.filteredCities).toEqual([]);
+    expect(component.currentCitiesName).toEqual([]);
     expect(spy).toHaveBeenCalled();
   });
 
   it('should return 0 when all fields are empty', () => {
-    component.courier.setValue('');
+    component.selectedCourier = null;
     component.selectedStations = [];
     component.selectedRegions = [];
     component.selectedCities = [];
@@ -1052,7 +1070,7 @@ describe('UbsAdminTariffsDeactivatePopUpComponent', () => {
   });
 
   it('should return 1 when 1 field is filled', () => {
-    component.courier.setValue('');
+    component.selectedCourier = null;
     component.selectedStations = [stationItem];
     component.selectedRegions = [];
     component.selectedCities = [];
@@ -1061,7 +1079,7 @@ describe('UbsAdminTariffsDeactivatePopUpComponent', () => {
   });
 
   it('should return 2 when 2 fields are filled', () => {
-    component.courier.setValue('');
+    component.selectedCourier = null;
     component.selectedStations = [stationItem];
     component.selectedRegions = [locationItem];
     component.selectedCities = [];
@@ -1084,7 +1102,10 @@ describe('UbsAdminTariffsDeactivatePopUpComponent', () => {
 
   it('method filterByOneField should filter only by courier', () => {
     component.couriers = fakeCouriers;
-    component.courier.setValue('фейк');
+    component.selectedCourier = {
+      id: 1,
+      name: 'фейкКурєр1'
+    };
     component.selectedStations = [];
     component.selectedRegions = [];
     component.selectedCities = [];
@@ -1102,7 +1123,7 @@ describe('UbsAdminTariffsDeactivatePopUpComponent', () => {
 
   it('method filterByOneField should filter only by stations', () => {
     component.stations = [fakeStation];
-    component.courier.setValue('');
+    component.selectedCourier = null;
     component.selectedStations = [stationItem];
     component.selectedRegions = [];
     component.selectedCities = [];
@@ -1120,7 +1141,7 @@ describe('UbsAdminTariffsDeactivatePopUpComponent', () => {
 
   it('method filterByOneField should filter only by region', () => {
     component.locations = [fakeLocation];
-    component.courier.setValue('');
+    component.selectedCourier = null;
     component.selectedStations = [];
     component.selectedRegions = [locationItem];
     component.selectedCities = [];
@@ -1149,7 +1170,7 @@ describe('UbsAdminTariffsDeactivatePopUpComponent', () => {
 
   it('method onDeletedField should call method for setting default dropdown lists when all fields are empty', () => {
     const spy = spyOn(component, 'setDefaultLists');
-    component.courier.setValue('');
+    component.selectedCourier = null;
     component.selectedStations = [];
     component.selectedRegions = [];
     component.selectedCities = [];
@@ -1159,7 +1180,7 @@ describe('UbsAdminTariffsDeactivatePopUpComponent', () => {
 
   it('method onDeletedField should call method for filter items in  dropdown lists when only one field is filled', () => {
     const spy = spyOn(component, 'filterByOneField');
-    component.courier.setValue('');
+    component.selectedCourier = null;
     component.selectedStations = [stationItem];
     component.selectedRegions = [];
     component.selectedCities = [];
@@ -1169,7 +1190,7 @@ describe('UbsAdminTariffsDeactivatePopUpComponent', () => {
 
   it('method onDeletedField should call method for filter items in  dropdown lists when only two or more fields are filled', () => {
     const spy = spyOn(component, 'filterByChosenFields');
-    component.courier.setValue('');
+    component.selectedCourier = null;
     component.selectedStations = [stationItem];
     component.selectedRegions = [locationItem];
     component.selectedCities = [];
@@ -1208,7 +1229,7 @@ describe('UbsAdminTariffsDeactivatePopUpComponent', () => {
   });
 
   it('method onNoClick should invoke destroyRef.close() if selectedCities or selectedStation is empty', () => {
-    component.courier.setValue('');
+    component.selectedCourier = null;
     component.selectedStations = [];
     component.selectedRegions = [];
     component.selectedCities = [];
