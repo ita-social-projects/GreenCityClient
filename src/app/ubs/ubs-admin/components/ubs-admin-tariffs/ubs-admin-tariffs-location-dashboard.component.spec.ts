@@ -971,7 +971,7 @@ describe('UbsAdminTariffsLocationDashboardComponent', () => {
   it('should set city placeholder', () => {
     component.selectedCities = ['Фейк'];
     component.setCountOfCheckedCity();
-    expect(component.cityPlaceholder).toEqual('1 вибрано');
+    expect(component.cityPlaceholder).toEqual('1 ubs-tariffs.selected');
   });
 
   it('should set city placeholder', () => {
@@ -983,13 +983,13 @@ describe('UbsAdminTariffsLocationDashboardComponent', () => {
   it('should set station placeholder', () => {
     component.selectedStation = ['stationItem'];
     component.setStationPlaceholder();
-    expect(component.stationPlaceholder).toEqual('1 вибрано');
+    expect(component.stationPlaceholder).toEqual('1 ubs-tariffs.selected');
   });
 
   it('should set station placeholder', () => {
     component.selectedStation = [];
     component.setStationPlaceholder();
-    expect(component.stationPlaceholder).toEqual('ubs-tariffs.placeholder-station');
+    expect(component.stationPlaceholder).toEqual('ubs-tariffs.placeholder-choose-station');
   });
 
   it('checkSelectedItem should return true if item is in selectedStation', () => {
