@@ -29,8 +29,7 @@ export class HeaderService {
 
   public gCArrLang = [
     { lang: 'Ua', langName: 'ukrainian' },
-    { lang: 'En', langName: 'english' },
-    { lang: 'Ru', langName: 'russian' }
+    { lang: 'En', langName: 'english' }
   ];
 
   getSelectedIndex() {
