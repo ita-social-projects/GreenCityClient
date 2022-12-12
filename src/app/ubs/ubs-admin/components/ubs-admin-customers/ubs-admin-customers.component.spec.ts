@@ -87,8 +87,7 @@ describe('UbsAdminCustomersComponent', () => {
   });
 
   it('method initFilterForm should assign data to filters', () => {
-    // @ts-ignore
-    component.initFilterForm();
+    (component as any).initFilterForm();
     expect(component.filters).toBe(component.filterForm.value);
   });
 

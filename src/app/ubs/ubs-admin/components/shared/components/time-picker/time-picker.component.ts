@@ -1,5 +1,6 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { fromSelect, toSelect } from '../../../ubs-admin-table/table-cell-time/table-cell-time-range';
+import { formatDate } from '@angular/common';
 
 @Component({
   selector: 'app-time-picker',
@@ -13,6 +14,7 @@ export class TimePickerComponent implements OnInit {
   public toInput: string;
   public from: string;
   public to: string;
+  currentHour: string;
 
   @Input() setTimeFrom: string;
   @Input() setTimeTo: string;
@@ -22,6 +24,8 @@ export class TimePickerComponent implements OnInit {
     this.toInput = this.setTimeTo;
     this.fromSelect = fromSelect;
     this.toSelect = toSelect;
+    this.initTime();
+    this.fromSelect = this.compareTime();
   }
   onTimeFromChange(): void {
     const fromIdx = fromSelect.indexOf(this.fromInput);
@@ -31,6 +35,39 @@ export class TimePickerComponent implements OnInit {
   onTimeToChange(): void {
     const toIdx = toSelect.indexOf(this.toInput);
     this.fromSelect = fromSelect.slice(0, toIdx + 1);
+  }
+
+  convertTime12to24(time12h): string {
+    const [time, modifier] = time12h.split(' ');
+
+    // tslint:disable-next-line:prefer-const
+    let [hours, minutes] = time.split(':');
+
+    if (hours === '12') {
+      hours = '00';
+    }
+
+    if (modifier === 'PM') {
+      hours = parseInt(hours, 10) + 12;
+    }
+
+    return `${hours}:${minutes}`;
+  }
+
+  compareTime(): string[] {
+    const arr = [];
+    this.fromSelect.forEach((val, index) => {
+      if (this.currentHour < this.fromSelect[index]) {
+        arr.push(this.fromSelect[index]);
+      }
+    });
+    return arr;
+  }
+
+  initTime() {
+    this.currentHour = Date.now().toString();
+    this.currentHour = formatDate(this.currentHour, 'hh:mm a', 'en-US');
+    this.currentHour = this.convertTime12to24(this.currentHour);
   }
 
   save(): void {

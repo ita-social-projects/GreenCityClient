@@ -235,6 +235,7 @@ export class UBSSubmitOrderComponent extends FormBaseComponent implements OnInit
             this.ubsOrderFormService.transferOrderId(orderId);
             this.ubsOrderFormService.setOrderResponseErrorStatus(false);
             this.ubsOrderFormService.setOrderStatus(true);
+            this.localStorageService.setUbsOrderId(orderId);
           } else {
             this.shareFormService.orderUrl = link.toString();
             this.localStorageService.setUbsFondyOrderId(orderId);

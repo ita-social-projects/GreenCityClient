@@ -8,6 +8,7 @@ import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 import { Patterns } from 'src/assets/patterns/patterns';
 import { TariffsService } from '../../../services/tariffs.service';
+import { LanguageService } from 'src/app/main/i18n/language.service';
 
 @Component({
   selector: 'app-ubs-admin-tariffs-courier-pop-up',
@@ -24,8 +25,8 @@ export class UbsAdminTariffsCourierPopUpComponent implements OnInit, OnDestroy {
   enCourierExist = false;
   authorName: string;
   unsubscribe: Subject<any> = new Subject();
-  datePipe = new DatePipe('ua');
-  newDate = this.datePipe.transform(new Date(), 'MMM dd, yyyy');
+  datePipe;
+  newDate;
   couriers = [];
   selectedCourier;
   couriersName;
@@ -44,6 +45,7 @@ export class UbsAdminTariffsCourierPopUpComponent implements OnInit, OnDestroy {
     private localStorageService: LocalStorageService,
     public dialogRef: MatDialogRef<UbsAdminTariffsCourierPopUpComponent>,
     private tariffsService: TariffsService,
+    private languageService: LanguageService,
     @Inject(MAT_DIALOG_DATA)
     public data: {
       headerText: string;
@@ -62,16 +64,15 @@ export class UbsAdminTariffsCourierPopUpComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     this.getCouriers();
+    this.setDate();
     this.localStorageService.firstNameBehaviourSubject.pipe(takeUntil(this.unsubscribe)).subscribe((firstName) => {
       this.authorName = firstName;
     });
     this.name.valueChanges.subscribe((value) => {
-      const temp = this.couriers.filter((it) => it.courierTranslationDtos.find((ob) => (ob.name === value ? value.trim() : '')));
-      this.courierExist = temp.length !== 0;
+      this.courierExist = this.checkIsCourierExist(value, this.couriersName);
     });
     this.englishName.valueChanges.subscribe((value) => {
-      const temp = this.couriers.filter((it) => it.courierTranslationDtos.find((ob) => (ob.name === value ? value.trim() : '')));
-      this.enCourierExist = temp.length !== 0;
+      this.enCourierExist = this.checkIsCourierExist(value, this.couriersNameEng);
     });
     this.courierPlaceholder = this.data.edit ? 'ubs-tariffs.placeholder-choose-courier' : 'ubs-tariffs.placeholder-enter-courier';
   }
@@ -85,6 +86,18 @@ export class UbsAdminTariffsCourierPopUpComponent implements OnInit, OnDestroy {
         this.couriersName = res.map((it) => it.courierTranslationDtos.map((el) => el.name)).flat(2);
         this.couriersNameEng = res.map((it) => it.courierTranslationDtos.map((el) => el.nameEng)).flat(2);
       });
+  }
+
+  setDate(): void {
+    const lang = this.languageService.getCurrentLanguage();
+    this.datePipe = lang === 'ua' ? new DatePipe('ua') : new DatePipe('en');
+    this.newDate = this.datePipe.transform(new Date(), 'MMM dd, yyyy');
+  }
+
+  checkIsCourierExist(value: string, array: Array<string>): boolean {
+    const newCourierName = value.toLowerCase();
+    const couriersList = array.map((it) => it.toLowerCase());
+    return couriersList.includes(newCourierName);
   }
 
   openAuto(event: Event, trigger: MatAutocompleteTrigger): void {

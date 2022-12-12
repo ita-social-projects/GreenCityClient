@@ -81,7 +81,7 @@
                   *ngIf="isEditing"
                   type="email"
                   class="form-control recipientEmail"
-                  id="recipientEmail"
+                  id="alternateEmail"
                   [readonly]="false"
                   formControlName="alternateEmail"
                   aria-describedby="emailHelp"
@@ -121,8 +121,26 @@
                 'ubs-client-profile.get-notification-in' | translate
               }}</label>
               <div role="checkbox" class="checkbox-wrapper">
-                <mat-checkbox class="check" type="checkbox" value="id1" id="recipientNotification">Telegram</mat-checkbox>
-                <mat-checkbox class="check" type="checkbox" value="id1" id="recipientNotification">Viber</mat-checkbox>
+                <mat-checkbox
+                  class="check"
+                  type="checkbox"
+                  [disabled]="!isEditing"
+                  [checked]="telegramNotification"
+                  (change)="checkedCheckbox($event)"
+                  value="id1"
+                  id="telegramNotification"
+                  >Telegram</mat-checkbox
+                >
+                <mat-checkbox
+                  class="check"
+                  type="checkbox"
+                  [disabled]="!isEditing"
+                  [checked]="viberNotification"
+                  (change)="checkedCheckbox($event)"
+                  value="id1"
+                  id="viberNotification"
+                  >Viber</mat-checkbox
+                >
               </div>
             </div>
           </div>

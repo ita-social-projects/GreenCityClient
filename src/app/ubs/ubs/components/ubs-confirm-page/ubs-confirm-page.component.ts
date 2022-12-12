@@ -18,6 +18,7 @@ export class UbsConfirmPageComponent implements OnInit, OnDestroy {
   orderResponseError = false;
   orderStatusDone: boolean;
   isSpinner = true;
+  pageReloaded = false;
   private destroy$: Subject<boolean> = new Subject<boolean>();
 
   constructor(
@@ -41,10 +42,14 @@ export class UbsConfirmPageComponent implements OnInit, OnDestroy {
 
   ngOnInit() {
     this.ubsOrderFormService.orderId.pipe(takeUntil(this.destroy$)).subscribe((oderID) => {
+      if (!oderID && this.localStorageService.getUbsOrderId()) {
+        oderID = this.localStorageService.getUbsOrderId();
+        this.pageReloaded = true;
+      }
       if (oderID) {
         this.orderId = oderID;
-        this.orderResponseError = this.ubsOrderFormService.getOrderResponseErrorStatus();
-        this.orderStatusDone = this.ubsOrderFormService.getOrderStatus();
+        this.orderResponseError = !this.pageReloaded ? this.ubsOrderFormService.getOrderResponseErrorStatus() : !this.pageReloaded;
+        this.orderStatusDone = !this.pageReloaded ? this.ubsOrderFormService.getOrderStatus() : this.pageReloaded;
         this.renderView();
       } else {
         this.orderService
@@ -68,7 +73,7 @@ export class UbsConfirmPageComponent implements OnInit, OnDestroy {
   }
 
   public isUserPageOrderPayment(): boolean {
-    return this.localStorageService.getUserPagePayment() === 'true';
+    return this.localStorageService.getUserPagePayment() === 'true' || this.pageReloaded;
   }
 
   renderView(): void {

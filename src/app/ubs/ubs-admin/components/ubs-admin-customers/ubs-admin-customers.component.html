@@ -15,84 +15,256 @@
     </button>
     <div [formGroup]="filterForm">
       <ul class="dropdown-menu" [style.display]="display">
-        <li class="filterItem">
-          <span>{{ 'ubs-customer-filters.registration-date' | translate }}</span>
-          <div>
-            <mat-form-field class="filter-input">
-              <mat-label>{{ 'ubs-customer-filters.from' | translate }}</mat-label>
-              <input matInput [matDatepicker]="picker1" formControlName="registrationDateFrom" />
-              <mat-datepicker-toggle matSuffix [for]="picker1"></mat-datepicker-toggle>
-              <mat-datepicker #picker1></mat-datepicker>
-            </mat-form-field>
+        <div class="dropdown-header">
+          <p class="filt-form-title">{{ 'ubs-tables.filter' | translate }}</p>
+          <button type="button" class="close-button" (click)="togglePopUp()">
+            <i class="fa fa-close" aria-hidden="true"></i>
+          </button>
+        </div>
+        <div class="dropdown-body">
+          <li class="filter-item">
+            <span class="title">{{ 'ubs-customer-filters.registration-date' | translate }}</span>
+            <div class="input-range-box">
+              <div>
+                <label class="input-label">{{ 'ubs-customer-filters.from' | translate }}</label>
+                <div class="data-field">
+                  <input
+                    matInput
+                    class="date-input"
+                    formControlName="registrationDateFrom"
+                    [matDatepicker]="picker1"
+                    [placeholder]="'ubs-tables.date-placeholder' | translate"
+                  />
+                  <button matSuffix class="calendar-btn">
+                    <img src="assets/img/icon/econews/calendar-icon.svg" alt="Calendar button" (click)="picker1.open()" />
+                  </button>
+                  <mat-datepicker #picker1></mat-datepicker>
+                </div>
+              </div>
+              <div>
+                <label class="input-label">{{ 'ubs-customer-filters.to' | translate }}</label>
+                <div class="data-field">
+                  <input
+                    matInput
+                    class="date-input"
+                    formControlName="registrationDateTo"
+                    [matDatepicker]="picker2"
+                    [placeholder]="'ubs-tables.date-placeholder' | translate"
+                  />
+                  <button matSuffix class="calendar-btn">
+                    <img src="assets/img/icon/econews/calendar-icon.svg" alt="Calendar button" (click)="picker2.open()" />
+                  </button>
+                  <mat-datepicker #picker2></mat-datepicker>
+                </div>
+              </div>
+            </div>
+          </li>
+          <li class="filter-item">
+            <span class="title">{{ 'ubs-customer-filters.last-order-date' | translate }}</span>
+            <div class="input-range-box">
+              <div>
+                <label class="input-label">{{ 'ubs-customer-filters.from' | translate }}</label>
+                <div class="data-field">
+                  <input
+                    matInput
+                    class="date-input"
+                    formControlName="lastOrderDateFrom"
+                    [matDatepicker]="picker3"
+                    [placeholder]="'ubs-tables.date-placeholder' | translate"
+                  />
+                  <button matSuffix class="calendar-btn">
+                    <img src="assets/img/icon/econews/calendar-icon.svg" alt="Calendar button" (click)="picker3.open()" />
+                  </button>
+                  <mat-datepicker #picker3></mat-datepicker>
+                </div>
+              </div>
+              <div>
+                <label class="input-label">{{ 'ubs-customer-filters.to' | translate }}</label>
+                <div class="data-field">
+                  <input
+                    matInput
+                    class="date-input"
+                    formControlName="lastOrderDateTo"
+                    [matDatepicker]="picker4"
+                    [placeholder]="'ubs-tables.date-placeholder' | translate"
+                  />
+                  <button matSuffix class="calendar-btn">
+                    <img src="assets/img/icon/econews/calendar-icon.svg" alt="Calendar button" (click)="picker4.open()" />
+                  </button>
+                  <mat-datepicker #picker4></mat-datepicker>
+                </div>
+              </div>
+            </div>
+          </li>
+          <li class="filter-item">
+            <span class="title">{{ 'ubs-customer-filters.orders-amount' | translate }}</span>
+            <div class="input-range-box">
+              <div>
+                <label class="input-label">{{ 'ubs-customer-filters.from' | translate }}</label>
+                <div class="data-field">
+                  <button
+                    class="number-button"
+                    [disabled]="!filterForm.get('ordersCountFrom').value"
+                    (click)="numberPlusOrMinus('ordersCountFrom', 'minus')"
+                  >
+                    <mat-icon>remove</mat-icon>
+                  </button>
+                  <input
+                    formControlName="ordersCountFrom"
+                    class="date-input shadow-none form-control input"
+                    type="number"
+                    min="0"
+                    max="999"
+                    placeholder="0"
+                    onkeyup="if(this.value<=0)this.value=''"
+                  />
+                  <button class="number-button" (click)="numberPlusOrMinus('ordersCountFrom', 'plus')">
+                    <mat-icon>add</mat-icon>
+                  </button>
+                </div>
+              </div>
 
-            <mat-form-field class="filter-input">
-              <mat-label>{{ 'ubs-customer-filters.to' | translate }}</mat-label>
-              <input matInput [matDatepicker]="picker2" formControlName="registrationDateTo" />
-              <mat-datepicker-toggle matSuffix [for]="picker2"></mat-datepicker-toggle>
-              <mat-datepicker #picker2></mat-datepicker>
-            </mat-form-field>
-          </div>
-        </li>
-        <li class="filterItem">
-          <span>{{ 'ubs-customer-filters.last-order-date' | translate }}</span>
-          <div>
-            <mat-form-field class="filter-input">
-              <mat-label>{{ 'ubs-customer-filters.from' | translate }}</mat-label>
-              <input matInput [matDatepicker]="picker3" formControlName="lastOrderDateFrom" />
-              <mat-datepicker-toggle matSuffix [for]="picker3"></mat-datepicker-toggle>
-              <mat-datepicker #picker3></mat-datepicker>
-            </mat-form-field>
-
-            <mat-form-field class="filter-input">
-              <mat-label>{{ 'ubs-customer-filters.to' | translate }}</mat-label>
-              <input matInput [matDatepicker]="picker4" formControlName="lastOrderDateTo" />
-              <mat-datepicker-toggle matSuffix [for]="picker4"></mat-datepicker-toggle>
-              <mat-datepicker #picker4></mat-datepicker>
-            </mat-form-field>
-          </div>
-        </li>
-        <li class="filterItem">
-          <span>{{ 'ubs-customer-filters.orders-amount' | translate }}</span>
-          <div>
-            <mat-form-field class="filter-input" appearance="fill">
-              <mat-label>{{ 'ubs-customer-filters.from' | translate }}</mat-label>
-              <input matInput type="number" min="1" onkeyup="if(this.value<=0)this.value=''" formControlName="ordersCountFrom" />
-            </mat-form-field>
-
-            <mat-form-field class="filter-input" appearance="fill">
-              <mat-label>{{ 'ubs-customer-filters.to' | translate }}</mat-label>
-              <input matInput type="number" min="1" onkeyup="if(this.value<=0)this.value=''" formControlName="ordersCountTo" />
-            </mat-form-field>
-          </div>
-        </li>
-        <li class="filterItem">
-          <span>{{ 'ubs-customer-filters.violations' | translate }}</span>
-          <div>
-            <mat-form-field class="filter-input" appearance="fill">
-              <mat-label>{{ 'ubs-customer-filters.from' | translate }}</mat-label>
-              <input matInput type="number" min="1" onkeyup="if(this.value<=0)this.value=''" formControlName="violationsFrom" />
-            </mat-form-field>
-
-            <mat-form-field class="filter-input" appearance="fill">
-              <mat-label>{{ 'ubs-customer-filters.to' | translate }}</mat-label>
-              <input matInput type="number" min="1" onkeyup="if(this.value<=0)this.value=''" formControlName="violationsTo" />
-            </mat-form-field>
-          </div>
-        </li>
-        <li class="filterItem">
-          <span>{{ 'ubs-customer-filters.bonuses' | translate }}</span>
-          <div>
-            <mat-form-field class="filter-input" appearance="fill">
-              <mat-label>{{ 'ubs-customer-filters.from' | translate }}</mat-label>
-              <input matInput type="number" min="1" onkeyup="if(this.value<=0)this.value=''" formControlName="bonusesFrom" />
-            </mat-form-field>
-
-            <mat-form-field class="filter-input" appearance="fill">
-              <mat-label>{{ 'ubs-customer-filters.to' | translate }}</mat-label>
-              <input matInput type="number" min="1" onkeyup="if(this.value<=0)this.value=''" formControlName="bonusesTo" />
-            </mat-form-field>
-          </div>
-        </li>
+              <div>
+                <label class="input-label">{{ 'ubs-customer-filters.to' | translate }}</label>
+                <div class="data-field">
+                  <button
+                    class="number-button"
+                    [disabled]="!filterForm.get('ordersCountTo').value"
+                    (click)="numberPlusOrMinus('ordersCountTo', 'minus')"
+                  >
+                    <mat-icon>remove</mat-icon>
+                  </button>
+                  <input
+                    formControlName="ordersCountTo"
+                    class="date-input shadow-none form-control input"
+                    type="number"
+                    min="0"
+                    max="999"
+                    placeholder="0"
+                    onkeyup="if(this.value<=0)this.value=''"
+                  />
+                  <button class="number-button" (click)="numberPlusOrMinus('ordersCountTo', 'plus')">
+                    <mat-icon>add</mat-icon>
+                  </button>
+                </div>
+              </div>
+            </div>
+          </li>
+          <li class="filter-item">
+            <span class="title">{{ 'ubs-customer-filters.violations' | translate }}</span>
+            <div class="input-range-box">
+              <div>
+                <label class="input-label">{{ 'ubs-customer-filters.from' | translate }}</label>
+                <div class="data-field">
+                  <button
+                    class="number-button"
+                    [disabled]="!filterForm.get('violationsFrom').value"
+                    (click)="numberPlusOrMinus('violationsFrom', 'minus')"
+                  >
+                    <mat-icon>remove</mat-icon>
+                  </button>
+                  <input
+                    formControlName="violationsFrom"
+                    class="date-input shadow-none form-control input"
+                    type="number"
+                    min="0"
+                    max="999"
+                    placeholder="0"
+                    onkeyup="if(this.value<=0)this.value=''"
+                  />
+                  <button class="number-button" (click)="numberPlusOrMinus('violationsFrom', 'plus')">
+                    <mat-icon>add</mat-icon>
+                  </button>
+                </div>
+              </div>
+              <div>
+                <label class="input-label">{{ 'ubs-customer-filters.to' | translate }}</label>
+                <div class="data-field">
+                  <button
+                    class="number-button"
+                    [disabled]="!filterForm.get('violationsTo').value"
+                    (click)="numberPlusOrMinus('violationsTo', 'minus')"
+                  >
+                    <mat-icon>remove</mat-icon>
+                  </button>
+                  <input
+                    formControlName="violationsTo"
+                    class="date-input shadow-none form-control input"
+                    type="number"
+                    min="0"
+                    max="999"
+                    placeholder="0"
+                    onkeyup="if(this.value<=0)this.value=''"
+                  />
+                  <button class="number-button" (click)="numberPlusOrMinus('violationsTo', 'plus')">
+                    <mat-icon>add</mat-icon>
+                  </button>
+                </div>
+              </div>
+            </div>
+          </li>
+          <li class="filter-item">
+            <span class="title">{{ 'ubs-customer-filters.bonuses' | translate }}</span>
+            <div class="input-range-box">
+              <div>
+                <label class="input-label">{{ 'ubs-customer-filters.from' | translate }}</label>
+                <div class="data-field">
+                  <button
+                    class="number-button"
+                    [disabled]="!filterForm.get('bonusesFrom').value"
+                    (click)="numberPlusOrMinus('bonusesFrom', 'minus')"
+                  >
+                    <mat-icon>remove</mat-icon>
+                  </button>
+                  <input
+                    formControlName="bonusesFrom"
+                    class="date-input shadow-none form-control input"
+                    type="number"
+                    min="0"
+                    max="999"
+                    placeholder="0"
+                    onkeyup="if(this.value<=0)this.value=''"
+                  />
+                  <button class="number-button" (click)="numberPlusOrMinus('bonusesFrom', 'plus')">
+                    <mat-icon>add</mat-icon>
+                  </button>
+                </div>
+              </div>
+              <div>
+                <label class="input-label">{{ 'ubs-customer-filters.to' | translate }}</label>
+                <div class="data-field">
+                  <button
+                    class="number-button"
+                    [disabled]="!filterForm.get('bonusesTo').value"
+                    (click)="numberPlusOrMinus('bonusesTo', 'minus')"
+                  >
+                    <mat-icon>remove</mat-icon>
+                  </button>
+                  <input
+                    formControlName="bonusesTo"
+                    class="date-input shadow-none form-control input"
+                    type="number"
+                    min="0"
+                    max="999"
+                    placeholder="0"
+                    onkeyup="if(this.value<=0)this.value=''"
+                  />
+                  <button class="number-button" (click)="numberPlusOrMinus('bonusesTo', 'plus')">
+                    <mat-icon>add</mat-icon>
+                  </button>
+                </div>
+              </div>
+            </div>
+          </li>
+        </div>
+        <div class="dropdown-footer">
+          <button [disabled]="!hasChange" type="button" class="filter-btn bg-lime" (click)="submitFilterForm()">
+            {{ 'ubs-tables.apply-filters' | translate }}
+          </button>
+          <button type="button" class="filter-btn" (click)="onClearFilters()">
+            {{ 'ubs-tables.clear-filters' | translate }}
+          </button>
+        </div>
       </ul>
     </div>
   </div>

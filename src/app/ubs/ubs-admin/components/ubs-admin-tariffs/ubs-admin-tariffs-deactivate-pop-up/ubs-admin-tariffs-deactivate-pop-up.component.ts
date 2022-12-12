@@ -53,7 +53,7 @@ export class UbsAdminTariffsDeactivatePopUpComponent implements OnInit, OnDestro
   public currentCitiesName: Array<string> = [];
   public cityPlaceholder: string;
   public selectedCityLength: number;
-  public courierId: number;
+  public selectedCourier: SelectedItems;
   public tariffCards: TariffCard[] = [];
   public deactivateCardObj;
 
@@ -115,6 +115,10 @@ export class UbsAdminTariffsDeactivatePopUpComponent implements OnInit, OnDestro
             if (!this.courier.value) {
               this.station.enable();
               this.region.enable();
+              this.selectedCourier = null;
+            }
+            if (!data.length) {
+              this.courier.setErrors({ invalid: true });
             }
           });
       });
@@ -134,6 +138,9 @@ export class UbsAdminTariffsDeactivatePopUpComponent implements OnInit, OnDestro
           )
           .subscribe((data) => {
             this.filteredStations = data;
+            if (!data.length) {
+              this.station.setErrors({ invalid: true });
+            }
           });
       });
   }
@@ -154,6 +161,9 @@ export class UbsAdminTariffsDeactivatePopUpComponent implements OnInit, OnDestro
           )
           .subscribe((data) => {
             this.filteredRegions = data;
+            if (!data.length) {
+              this.region.setErrors({ invalid: true });
+            }
           });
       });
   }
@@ -169,7 +179,10 @@ export class UbsAdminTariffsDeactivatePopUpComponent implements OnInit, OnDestro
 
   public selectCourier(event: MatAutocompleteSelectedEvent): void {
     const selectedValue = this.couriers.filter((it) => it.courierTranslationDtos.find((ob) => ob.name === event.option.value));
-    this.courierId = selectedValue.find((it) => it.courierId).courierId;
+    this.selectedCourier = {
+      id: selectedValue.find((it) => it.courierId).courierId,
+      name: selectedValue.map((it) => it.courierTranslationDtos.map((el) => el.name)).join()
+    };
     this.onSelectedCourier();
     this.courier.valueChanges.subscribe((data) => {
       if (!data) {
@@ -339,12 +352,12 @@ export class UbsAdminTariffsDeactivatePopUpComponent implements OnInit, OnDestro
     const currentRegion = this.locations.filter((element) => element.regionId === this.selectedRegions[0].id);
     this.currentCities = currentRegion[0].locationsDto;
 
-    if (!this.courier.value && !this.selectedStations.length) {
+    if (!this.selectedCourier && !this.selectedStations.length) {
       this.currentCitiesName = this.currentCities
         .map((element) => element.locationTranslationDtoList.filter((it) => it.languageCode === 'ua').map((it) => it.locationName))
         .flat(2);
     }
-    if (this.courier.value || this.selectedStations.length) {
+    if (this.selectedCourier || this.selectedStations.length) {
       const allCitiesName = filteredTariffCards.map((it) => it.locationInfoDtos.map((el) => el.nameUk)).flat(2);
       this.currentCitiesName = this.filteredCities = this.removeDuplicates(allCitiesName);
     }
@@ -355,6 +368,9 @@ export class UbsAdminTariffsDeactivatePopUpComponent implements OnInit, OnDestro
       )
       .subscribe((data) => {
         this.filteredCities = data;
+        if (!data.length) {
+          this.city.setErrors({ invalid: true });
+        }
       });
     this.city.enable();
   }
@@ -475,7 +491,7 @@ export class UbsAdminTariffsDeactivatePopUpComponent implements OnInit, OnDestro
 
   public filterTariffCards(): TariffCard[] {
     let filteredTariffCards = this.tariffCards;
-    if (this.courier.value) {
+    if (this.selectedCourier) {
       filteredTariffCards = this.filterTariffCardsByCourier(filteredTariffCards);
     }
     if (this.selectedStations.length) {
@@ -491,7 +507,7 @@ export class UbsAdminTariffsDeactivatePopUpComponent implements OnInit, OnDestro
   }
 
   public filterTariffCardsByCourier(tariffCards: TariffCard[]): TariffCard[] {
-    return tariffCards.filter((el) => el.courierId === this.courierId);
+    return tariffCards.filter((el) => el.courierId === this.selectedCourier.id);
   }
 
   public filterTariffCardsByStations(tariffCards: TariffCard[]): TariffCard[] {
@@ -536,8 +552,9 @@ export class UbsAdminTariffsDeactivatePopUpComponent implements OnInit, OnDestro
 
   public disableCourier(): void {
     this.courier.setValue('');
-    this.courierId = null;
+    this.selectedCourier = null;
     this.courier.disable();
+    this.filteredCouriers = this.couriersName = [];
   }
 
   public disableStation(): void {
@@ -545,6 +562,7 @@ export class UbsAdminTariffsDeactivatePopUpComponent implements OnInit, OnDestro
     this.selectedStations = [];
     this.setStationPlaceholder();
     this.station.disable();
+    this.filteredStations = this.stationsName = [];
   }
 
   public disableRegion(): void {
@@ -552,6 +570,7 @@ export class UbsAdminTariffsDeactivatePopUpComponent implements OnInit, OnDestro
     this.selectedRegions = [];
     this.setRegionsPlaceholder();
     this.region.disable();
+    this.filteredRegions = this.regionsName = [];
   }
 
   public disableCity(): void {
@@ -559,6 +578,7 @@ export class UbsAdminTariffsDeactivatePopUpComponent implements OnInit, OnDestro
     this.selectedCities = [];
     this.setCityPlaceholder();
     this.city.disable();
+    this.filteredCities = this.currentCitiesName = [];
   }
 
   public onDeletedField(): void {
@@ -575,7 +595,7 @@ export class UbsAdminTariffsDeactivatePopUpComponent implements OnInit, OnDestro
 
   public checkFields(): number {
     let amountOfFilledFields = 0;
-    if (this.courier.value) {
+    if (this.selectedCourier) {
       amountOfFilledFields += 1;
     }
     if (this.selectedStations.length) {
@@ -600,7 +620,7 @@ export class UbsAdminTariffsDeactivatePopUpComponent implements OnInit, OnDestro
 
   public filterByOneField(): void {
     const filteredTatiffCards = this.filterTariffCards();
-    if (this.courier.value) {
+    if (this.selectedCourier) {
       this.filteredCouriers = this.couriersName = this.couriers.map((it) => it.courierTranslationDtos.map((el) => el.name)).flat(2);
       this.selectAllStationsInTariffCards(filteredTatiffCards);
       this.selectAllRegionsInTariffCards(filteredTatiffCards);
@@ -653,7 +673,7 @@ export class UbsAdminTariffsDeactivatePopUpComponent implements OnInit, OnDestro
 
   public createDeactivateCardDto() {
     this.deactivateCardObj = {
-      courierId: this.courierId,
+      courierId: this.selectedCourier.id,
       receivingStationsIdList: this.selectedStations.map((it) => it.id),
       regionId: this.selectedRegions.map((it) => it.id),
       locationIdList: this.selectedCities.map((it) => it.id)
@@ -666,7 +686,7 @@ export class UbsAdminTariffsDeactivatePopUpComponent implements OnInit, OnDestro
       hasBackdrop: true,
       panelClass: 'address-matDialog-styles-w-100',
       data: {
-        courierName: this.courier.value,
+        courierName: this.selectedCourier?.name,
         stationNames: this.selectedStations.map((it) => it.name),
         regionName: this.selectedRegions.map((it) => it.name),
         locationNames: this.selectedCities.map((it) => it.name)
