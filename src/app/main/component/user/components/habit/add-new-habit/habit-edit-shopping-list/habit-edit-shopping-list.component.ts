@@ -25,9 +25,10 @@ export class HabitEditShoppingListComponent implements OnInit, OnDestroy {
   public habitId: number;
   private destroySub: Subject<boolean> = new Subject<boolean>();
   private langChangeSub: Subscription;
-  public shoppingItemNameLimit = 12;
+  public shoppingItemNameLimit = 20;
   public seeAllShopingList: boolean;
   public minNumberOfItems = 3;
+  public isEditing: boolean;
 
   public img = {
     arrowDown: 'assets/img/comments/arrow_down.png',
@@ -64,6 +65,7 @@ export class HabitEditShoppingListComponent implements OnInit, OnDestroy {
   getListItems(isAssigned: boolean) {
     isAssigned ? this.getCustomItems() : this.getDefaultItems();
     this.getDefaultItems();
+    this.isEditing = isAssigned;
   }
 
   public truncateShoppingItemName(name: string) {

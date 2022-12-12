@@ -673,6 +673,7 @@
       },
       "shopping": "Shopping list",
       "no-shopping-items": "No items to recommend",
+      "add-custom-item": "Add custom iitem",
       "user-log": {
         "day": "Day",
         "calendar-habit": "Calendar of eco habits",

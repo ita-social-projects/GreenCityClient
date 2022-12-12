@@ -30,6 +30,12 @@ describe('HabitEditShoppingListComponent', () => {
       selected: false
     }
   ];
+  const mockItem: ShoppingList = {
+    id: 234,
+    status: 'ACTIVE',
+    text: 'Item 2',
+    selected: false
+  };
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
@@ -43,6 +49,7 @@ describe('HabitEditShoppingListComponent', () => {
     fixture = TestBed.createComponent(HabitEditShoppingListComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
+    component.list = [];
   });
 
   it('should create', () => {
@@ -77,7 +84,7 @@ describe('HabitEditShoppingListComponent', () => {
 
   it('truncateShoppingItemName should return shortened string', () => {
     const name = component.truncateShoppingItemName('Very long name of shopping list item');
-    expect(name).toBe('Very long na...');
+    expect(name).toBe('Very long name of sh...');
   });
 
   it('truncateShoppingItemName should not shorten small string', () => {
@@ -92,7 +99,7 @@ describe('HabitEditShoppingListComponent', () => {
   });
 
   it('truncateShoppingItemName should change long string', () => {
-    const name = 'Very long string';
+    const name = 'Very loooooooong string';
     const result = component.truncateShoppingItemName(name);
     expect(result).not.toBe(name);
   });
@@ -103,10 +110,11 @@ describe('HabitEditShoppingListComponent', () => {
     expect(component.seeAllShopingList).toBe(true);
   });
 
-  it('select should change status of shopping list item', () => {
-    const item = mockList[0];
+  it('select() should change status of shopping list item', () => {
+    const item = mockItem;
+    component.shoppinglistService.fillList(mockList);
     component.select(item);
-    expect(item.selected).toBeTruthy();
+    expect(component.list[0].selected).toBeTruthy();
   });
 
   it('fillList() should fill the list', () => {
@@ -114,10 +122,10 @@ describe('HabitEditShoppingListComponent', () => {
     expect(component.list[0].text).toEqual('Item 1');
   });
 
-  it('addItem() should add new item to the list', () => {
+  it('add() should add new item to the list', () => {
     component.shoppinglistService.fillList(mockList);
-    component.shoppinglistService.addItem('New Item');
-    expect(component.list[0].text).toEqual('New Item');
+    component.add('New Item');
+    expect(component.list.length).toEqual(3);
   });
 
   it('deleteItem() should delete item from the list', () => {
@@ -125,7 +133,7 @@ describe('HabitEditShoppingListComponent', () => {
       text: 'Item 1'
     };
     component.shoppinglistService.fillList(mockList);
-    component.shoppinglistService.deleteItem(item);
+    component.delete(item);
     expect(component.list[0].text).not.toBe('Item 1');
   });
 
