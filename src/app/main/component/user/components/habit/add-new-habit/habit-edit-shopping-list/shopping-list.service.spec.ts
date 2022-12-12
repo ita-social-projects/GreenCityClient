@@ -60,14 +60,6 @@ describe('ShoppingListService', () => {
 
   it('placeItemInOrder() should place item in correct order', () => {
     service.fillList(mockList);
-    console.log(service.list);
-    service.list[1].selected = true;
-    service.placeItemInOrder();
-    expect(service.list[0].text).toEqual('Item 2');
-  });
-
-  it('placeItemInOrder() should place item in correct order', () => {
-    service.fillList(mockList);
     service.list[1].selected = true;
     service.placeItemInOrder();
     expect(service.list[0].text).toEqual('Item 2');
