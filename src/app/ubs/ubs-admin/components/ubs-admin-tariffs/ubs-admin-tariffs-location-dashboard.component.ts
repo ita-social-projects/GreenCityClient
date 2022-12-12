@@ -121,6 +121,8 @@ export class UbsAdminTariffsLocationDashboardComponent implements OnInit, AfterV
       .subscribe((i) => {
         this.getLocations();
         this.translateSelectedCity();
+        this.setCountOfCheckedCity();
+        this.setStationPlaceholder();
         this.getCouriers();
       });
   }
@@ -188,7 +190,7 @@ export class UbsAdminTariffsLocationDashboardComponent implements OnInit, AfterV
 
   public setCountOfCheckedCity(): void {
     if (this.selectedCities.length) {
-      this.cityPlaceholder = `${this.selectedCities.length} вибрано`;
+      this.translate.get('ubs-tariffs.selected').subscribe((data) => (this.cityPlaceholder = `${this.selectedCities.length} ${data}`));
     } else {
       this.translate.get('ubs-tariffs.placeholder-locality').subscribe((data) => (this.cityPlaceholder = data));
     }
@@ -296,9 +298,9 @@ export class UbsAdminTariffsLocationDashboardComponent implements OnInit, AfterV
 
   public setStationPlaceholder(): void {
     if (this.selectedStation.length) {
-      this.stationPlaceholder = `${this.selectedStation.length} вибрано`;
+      this.translate.get('ubs-tariffs.selected').subscribe((data) => (this.stationPlaceholder = `${this.selectedStation.length} ${data}`));
     } else {
-      this.translate.get('ubs-tariffs.placeholder-station').subscribe((data) => (this.stationPlaceholder = data));
+      this.translate.get('ubs-tariffs.placeholder-choose-station').subscribe((data) => (this.stationPlaceholder = data));
     }
   }
 

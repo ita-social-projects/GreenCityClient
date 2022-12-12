@@ -16,7 +16,7 @@ describe('UbsUserProfilePageComponent', () => {
     addressDto: [
       {
         id: 2276,
-        city: 'Kiev',
+        city: 'Kyiv',
         district: 'Troeshchina',
         entranceNumber: '65',
         houseCorpus: '3',
@@ -65,6 +65,33 @@ describe('UbsUserProfilePageComponent', () => {
     fixture = TestBed.createComponent(UbsUserProfilePageComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
+  });
+
+  it('should call "redirectToMessengers" correctly ', () => {
+    component.viberNotification = false;
+    component.telegramNotification = true;
+    const goToTelegramSpy = spyOn(component, 'goToTelegramUrl');
+    const goToViberSpy = spyOn(component, 'goToViberUrl');
+    const redirectSpy = spyOn(component, 'redirectToMessengers');
+
+    redirectSpy();
+    goToTelegramSpy();
+
+    expect(redirectSpy).toHaveBeenCalled();
+    expect(goToViberSpy).toHaveBeenCalledTimes(0);
+    expect(goToTelegramSpy).toHaveBeenCalled();
+  });
+
+  it('should call "goToTelegramUrl" correctly', () => {
+    const goToTelegramSpy = spyOn(component, 'goToTelegramUrl');
+    goToTelegramSpy();
+    expect(goToTelegramSpy).toHaveBeenCalled();
+  });
+
+  it('should call "goToViberUrl" correctly', () => {
+    const goToViberSpy = spyOn(component, 'goToViberUrl');
+    goToViberSpy();
+    expect(goToViberSpy).toHaveBeenCalled();
   });
 
   it('if post data set isFetching === false', () => {

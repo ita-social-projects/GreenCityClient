@@ -242,6 +242,8 @@ export interface UserProfile {
   recipientPhone: string;
   recipientSurname: string;
   hasPassword: boolean;
+  telegramIsChecked?: boolean;
+  viberIsChecked?: boolean;
 }
 
 export interface Address {
