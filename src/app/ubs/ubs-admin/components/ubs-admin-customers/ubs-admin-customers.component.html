@@ -105,7 +105,7 @@
                   <button
                     class="number-button"
                     [disabled]="!filterForm.get('ordersCountFrom').value"
-                    (click)="numberPlusOrMinus('ordersCountFrom', 'minus')"
+                    (click)="numberPlusOrMinus('ordersCountFrom', false)"
                   >
                     <mat-icon>remove</mat-icon>
                   </button>
@@ -116,9 +116,9 @@
                     min="0"
                     max="999"
                     placeholder="0"
-                    onkeyup="if(this.value<=0)this.value=''"
+                    (keypress)="checkOnNumber($event)"
                   />
-                  <button class="number-button" (click)="numberPlusOrMinus('ordersCountFrom', 'plus')">
+                  <button class="number-button" (click)="numberPlusOrMinus('ordersCountFrom', true)">
                     <mat-icon>add</mat-icon>
                   </button>
                 </div>
@@ -130,7 +130,7 @@
                   <button
                     class="number-button"
                     [disabled]="!filterForm.get('ordersCountTo').value"
-                    (click)="numberPlusOrMinus('ordersCountTo', 'minus')"
+                    (click)="numberPlusOrMinus('ordersCountTo', false)"
                   >
                     <mat-icon>remove</mat-icon>
                   </button>
@@ -141,9 +141,9 @@
                     min="0"
                     max="999"
                     placeholder="0"
-                    onkeyup="if(this.value<=0)this.value=''"
+                    (keypress)="checkOnNumber($event)"
                   />
-                  <button class="number-button" (click)="numberPlusOrMinus('ordersCountTo', 'plus')">
+                  <button class="number-button" (click)="numberPlusOrMinus('ordersCountTo', true)">
                     <mat-icon>add</mat-icon>
                   </button>
                 </div>
@@ -159,7 +159,7 @@
                   <button
                     class="number-button"
                     [disabled]="!filterForm.get('violationsFrom').value"
-                    (click)="numberPlusOrMinus('violationsFrom', 'minus')"
+                    (click)="numberPlusOrMinus('violationsFrom', false)"
                   >
                     <mat-icon>remove</mat-icon>
                   </button>
@@ -170,9 +170,9 @@
                     min="0"
                     max="999"
                     placeholder="0"
-                    onkeyup="if(this.value<=0)this.value=''"
+                    (keypress)="checkOnNumber($event)"
                   />
-                  <button class="number-button" (click)="numberPlusOrMinus('violationsFrom', 'plus')">
+                  <button class="number-button" (click)="numberPlusOrMinus('violationsFrom', true)">
                     <mat-icon>add</mat-icon>
                   </button>
                 </div>
@@ -183,7 +183,7 @@
                   <button
                     class="number-button"
                     [disabled]="!filterForm.get('violationsTo').value"
-                    (click)="numberPlusOrMinus('violationsTo', 'minus')"
+                    (click)="numberPlusOrMinus('violationsTo', false)"
                   >
                     <mat-icon>remove</mat-icon>
                   </button>
@@ -194,9 +194,9 @@
                     min="0"
                     max="999"
                     placeholder="0"
-                    onkeyup="if(this.value<=0)this.value=''"
+                    (keypress)="checkOnNumber($event)"
                   />
-                  <button class="number-button" (click)="numberPlusOrMinus('violationsTo', 'plus')">
+                  <button class="number-button" (click)="numberPlusOrMinus('violationsTo', true)">
                     <mat-icon>add</mat-icon>
                   </button>
                 </div>
@@ -212,7 +212,7 @@
                   <button
                     class="number-button"
                     [disabled]="!filterForm.get('bonusesFrom').value"
-                    (click)="numberPlusOrMinus('bonusesFrom', 'minus')"
+                    (click)="numberPlusOrMinus('bonusesFrom', false)"
                   >
                     <mat-icon>remove</mat-icon>
                   </button>
@@ -223,9 +223,9 @@
                     min="0"
                     max="999"
                     placeholder="0"
-                    onkeyup="if(this.value<=0)this.value=''"
+                    (keypress)="checkOnNumber($event)"
                   />
-                  <button class="number-button" (click)="numberPlusOrMinus('bonusesFrom', 'plus')">
+                  <button class="number-button" (click)="numberPlusOrMinus('bonusesFrom', true)">
                     <mat-icon>add</mat-icon>
                   </button>
                 </div>
@@ -236,7 +236,7 @@
                   <button
                     class="number-button"
                     [disabled]="!filterForm.get('bonusesTo').value"
-                    (click)="numberPlusOrMinus('bonusesTo', 'minus')"
+                    (click)="numberPlusOrMinus('bonusesTo', false)"
                   >
                     <mat-icon>remove</mat-icon>
                   </button>
@@ -247,9 +247,9 @@
                     min="0"
                     max="999"
                     placeholder="0"
-                    onkeyup="if(this.value<=0)this.value=''"
+                    (keypress)="checkOnNumber($event)"
                   />
-                  <button class="number-button" (click)="numberPlusOrMinus('bonusesTo', 'plus')">
+                  <button class="number-button" (click)="numberPlusOrMinus('bonusesTo', true)">
                     <mat-icon>add</mat-icon>
                   </button>
                 </div>
