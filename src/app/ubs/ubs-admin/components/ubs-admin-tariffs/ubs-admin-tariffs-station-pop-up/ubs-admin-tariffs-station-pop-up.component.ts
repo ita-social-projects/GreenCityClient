@@ -8,6 +8,7 @@ import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 import { Patterns } from 'src/assets/patterns/patterns';
 import { TariffsService } from '../../../services/tariffs.service';
+import { LanguageService } from 'src/app/main/i18n/language.service';
 
 @Component({
   selector: 'app-ubs-admin-tariffs-station-pop-up',
@@ -26,8 +27,8 @@ export class UbsAdminTariffsStationPopUpComponent implements OnInit, OnDestroy {
   stationExist = false;
   authorName: string;
   unsubscribe: Subject<any> = new Subject();
-  datePipe = new DatePipe('ua');
-  newDate = this.datePipe.transform(new Date(), 'MMM dd, yyyy');
+  datePipe;
+  newDate;
   stations = [];
   currentId: number;
   private destroy: Subject<boolean> = new Subject<boolean>();
@@ -42,6 +43,7 @@ export class UbsAdminTariffsStationPopUpComponent implements OnInit, OnDestroy {
     private localeStorageService: LocalStorageService,
     public dialogRef: MatDialogRef<UbsAdminTariffsStationPopUpComponent>,
     private tariffsService: TariffsService,
+    private languageService: LanguageService,
     @Inject(MAT_DIALOG_DATA)
     public data: {
       headerText: string;
@@ -52,6 +54,7 @@ export class UbsAdminTariffsStationPopUpComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     this.getReceivingStation();
+    this.setDate();
     this.localeStorageService.firstNameBehaviourSubject.pipe(takeUntil(this.unsubscribe)).subscribe((firstName) => {
       this.authorName = firstName;
     });
@@ -67,6 +70,12 @@ export class UbsAdminTariffsStationPopUpComponent implements OnInit, OnDestroy {
       .subscribe((res) => {
         this.stations = res;
       });
+  }
+
+  setDate(): void {
+    const lang = this.languageService.getCurrentLanguage();
+    this.datePipe = lang === 'ua' ? new DatePipe('ua') : new DatePipe('en');
+    this.newDate = this.datePipe.transform(new Date(), 'MMM dd, yyyy');
   }
 
   openAuto(event: Event, trigger: MatAutocompleteTrigger): void {
