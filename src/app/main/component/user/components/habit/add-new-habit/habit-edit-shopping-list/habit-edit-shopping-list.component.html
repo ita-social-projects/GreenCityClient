@@ -24,6 +24,7 @@
         <span class="text" ngbPopover="{{ item.text }}" triggers="mouseenter:mouseleave" placement="top" container="body">
           {{ truncateShoppingItemName(item.text) }}
         </span>
+        <button *ngIf="item.custom" id="del-btn" (click)="delete(item)"></button>
       </label>
     </li>
     <div *ngIf="!list.length">

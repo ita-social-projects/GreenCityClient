@@ -28,7 +28,8 @@ export class ShoppingListService {
     const newItem = {
       status: 'ACTIVE',
       text: value,
-      selected: false
+      selected: false,
+      custom: true
     };
     this.list = [newItem, ...this.list];
     this.placeItemInOrder();
