@@ -9,12 +9,14 @@ import { of, Subject } from 'rxjs';
 import { FilterLocationListByLangPipe } from 'src/app/shared/filter-location-list-by-lang/filter-location-list-by-lang.pipe';
 import { OrderService } from '../../../services/order.service';
 import { UbsOrderLocationPopupComponent } from './ubs-order-location-popup.component';
+import { Router } from '@angular/router';
 
 describe('UbsOrderLocationPopupComponent', () => {
   let component: UbsOrderLocationPopupComponent;
   let fixture: ComponentFixture<UbsOrderLocationPopupComponent>;
   const dialogMock = jasmine.createSpyObj('dialogRef', ['close']);
   const orderServiceMock = jasmine.createSpyObj('orderService', ['getLocations']);
+  const routerMock = jasmine.createSpyObj('router', ['navigate']);
   const fakeData = {
     allActiveLocationsDtos: [
       {
@@ -41,7 +43,8 @@ describe('UbsOrderLocationPopupComponent', () => {
       providers: [
         { provide: MatDialogRef, useValue: dialogMock },
         { provide: OrderService, useValue: orderServiceMock },
-        { provide: MAT_DIALOG_DATA, useValue: fakeData }
+        { provide: MAT_DIALOG_DATA, useValue: fakeData },
+        { provide: Router, useValue: routerMock }
       ],
       imports: [HttpClientTestingModule, MatDialogModule, MatAutocompleteModule, TranslateModule.forRoot()],
       schemas: [CUSTOM_ELEMENTS_SCHEMA]
