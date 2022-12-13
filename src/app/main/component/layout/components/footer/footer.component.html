@@ -1,57 +1,59 @@
 <footer role="contentinfo">
   <div class="container">
-    <div class="footer_logo-wrp">
-      <a [routerLink]="['/']">
-        <img [src]="footerImageList.greenCityLogo" class="logo" alt="GreenCity home" />
-      </a>
+    <div class="footer-top-box">
+      <div class="footer_logo-wrp">
+        <a [routerLink]="['/']">
+          <img [src]="footerImageList.greenCityLogo" class="logo" alt="GreenCity home" />
+        </a>
+      </div>
+      <nav class="footer_links" role="navigation">
+        <ul class="footer_left-side" role="menu">
+          <li>
+            <a [routerLink]="['/news']" class="footer_link-item">
+              {{ 'footer.eco-events' | translate }}
+            </a>
+          </li>
+          <li>
+            <a [routerLink]="['/events']" class="footer_link-item">
+              {{ 'footer.events' | translate }}
+            </a>
+          </li>
+          <li>
+            <a [routerLink]="['/places']" class="footer_link-item">
+              {{ 'footer.map' | translate }}
+            </a>
+          </li>
+          <li>
+            <a [routerLink]="['/about']" class="footer_link-item">
+              {{ 'footer.about-us' | translate }}
+            </a>
+          </li>
+          <li>
+            <a [routerLink]="['/profile', getUserId()]" (click)="ubsSetRegValue()" class="footer_link-item">
+              {{ 'footer.my-habits' | translate }}
+            </a>
+          </li>
+        </ul>
+        <ul class="footer_right-side" role="menu">
+          <li class="footer_follow-us">
+            <p>
+              <span>{{ 'footer.follow-us' | translate }}</span>
+            </p>
+          </li>
+          <li class="footer_social-wrp">
+            <a class="footer_social-link" href="#">
+              <img [src]="footerImageList.twitterIcon" alt="Twitter link" />
+            </a>
+            <a class="footer_social-link" href="#">
+              <img [src]="footerImageList.linkedInIcon" alt="LinkedIn link" />
+            </a>
+            <a class="footer_social-link" href="#">
+              <img [src]="footerImageList.facebookIcon" alt="Facebook link" />
+            </a>
+          </li>
+        </ul>
+      </nav>
     </div>
-    <nav class="footer_links" role="navigation">
-      <ul class="footer_left-side" role="menu">
-        <li>
-          <a [routerLink]="['/news']" class="footer_link-item">
-            {{ 'footer.eco-events' | translate }}
-          </a>
-        </li>
-        <li>
-          <a [routerLink]="['/events']" class="footer_link-item">
-            {{ 'footer.events' | translate }}
-          </a>
-        </li>
-        <li>
-          <a [routerLink]="['/places']" class="footer_link-item">
-            {{ 'footer.map' | translate }}
-          </a>
-        </li>
-        <li>
-          <a [routerLink]="['/about']" class="footer_link-item">
-            {{ 'footer.about-us' | translate }}
-          </a>
-        </li>
-        <li>
-          <a [routerLink]="['/profile', getUserId()]" (click)="ubsSetRegValue()" class="footer_link-item">
-            {{ 'footer.my-habits' | translate }}
-          </a>
-        </li>
-      </ul>
-      <ul class="footer_right-side" role="menu">
-        <li class="footer_follow-us">
-          <p>
-            <span>{{ 'footer.follow-us' | translate }}</span>
-          </p>
-        </li>
-        <li class="footer_social-wrp">
-          <a class="footer_social-link" href="#">
-            <img [src]="footerImageList.twitterIcon" alt="Twitter link" />
-          </a>
-          <a class="footer_social-link" href="#">
-            <img [src]="footerImageList.linkedInIcon" alt="LinkedIn link" />
-          </a>
-          <a class="footer_social-link" href="#">
-            <img [src]="footerImageList.facebookIcon" alt="Facebook link" />
-          </a>
-        </li>
-      </ul>
-    </nav>
     <div class="footer_bottom-part" id="copyright-label">&copy; Copyright {{ actualYear }}. Green City.</div>
   </div>
 </footer>

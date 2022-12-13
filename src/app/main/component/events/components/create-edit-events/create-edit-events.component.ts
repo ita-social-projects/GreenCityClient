@@ -53,7 +53,7 @@ export class CreateEditEventsComponent implements OnInit, OnDestroy {
   private pipe = new DatePipe('en-US');
   private destroyed$: ReplaySubject<boolean> = new ReplaySubject<boolean>(1);
   private matSnackBar: MatSnackBarComponent;
-  private userId: number;
+  public userId: number;
 
   constructor(
     public router: Router,
@@ -264,13 +264,15 @@ export class CreateEditEventsComponent implements OnInit, OnDestroy {
       this.escapeFromCreateEvent();
     });
   }
-
-  checkUserSigned(): boolean {
-    return this.userId ? true : false;
+  private checkUserSigned(): boolean {
+    this.getUserId();
+    return this.userId != null && !isNaN(this.userId);
   }
+
   private getUserId() {
     this.userId = this.localStorageService.getUserId();
   }
+
   private validateSpaces(control: AbstractControl): ValidationErrors {
     const value = control && control.value && control.value !== control.value.trim();
     return value ? { hasNoWhiteSpaces: 'false' } : null;

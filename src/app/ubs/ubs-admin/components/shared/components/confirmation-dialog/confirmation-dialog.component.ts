@@ -1,4 +1,4 @@
-import { Component, Inject, OnInit } from '@angular/core';
+import { Component, Inject } from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 
 @Component({
@@ -6,7 +6,7 @@ import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
   templateUrl: './confirmation-dialog.component.html',
   styleUrls: ['./confirmation-dialog.component.scss']
 })
-export class ConfirmationDialogComponent implements OnInit {
+export class ConfirmationDialogComponent {
   title = 'confirmation-dialog.title';
   text = 'confirmation-dialog.text';
   confirm = 'confirmation-dialog.buttons.confirm';
@@ -20,10 +20,6 @@ export class ConfirmationDialogComponent implements OnInit {
     this.text = data?.text ?? this.text;
     this.confirm = data?.confirm ?? this.confirm;
     this.cancel = data?.cancel ?? this.cancel;
-  }
-
-  ngOnInit(): void {
-    // This is intentional
   }
 
   onCancel(): void {

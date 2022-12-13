@@ -72,7 +72,7 @@
       <p class="col-text">{{ 'ubs-tariffs.city' | translate }}</p>
       <div class="input-wrapper">
         <input
-          placeholder="{{ 'ubs-tariffs.placeholder-locality' | translate }}"
+          [placeholder]="cityPlaceholder"
           #autocompleteTriggerCity="matAutocompleteTrigger"
           formControlName="city"
           [matAutocomplete]="autoCity"
@@ -124,7 +124,7 @@
       <p class="col-text">{{ 'ubs-tariffs.station' | translate }}</p>
       <div class="input-wrapper">
         <input
-          placeholder="{{ 'ubs-tariffs.placeholder-choose-station' | translate }}"
+          [placeholder]="stationPlaceholder"
           #autocompleteTriggerStation="matAutocompleteTrigger"
           formControlName="station"
           [matAutocomplete]="autoStation"
@@ -148,11 +148,11 @@
     <div class="col-item">
       <p class="col-text">{{ 'ubs-tariffs.state' | translate }}</p>
       <div class="input-wrapper">
-        <mat-select #stateSelect class="state-select" formControlName="state" (selectionChange)="onSelectState($event)">
-          <mat-option class="option-state" value="Все">{{ 'ubs-tariffs.states.all' | translate }}</mat-option>
-          <mat-option class="option-state" [value]="stateStatus">{{ 'ubs-tariffs.states.active' | translate }}</mat-option>
-          <mat-option class="option-state" value="Неактивно">{{ 'ubs-tariffs.states.inactive' | translate }}</mat-option>
-          <mat-option class="option-state" value="Незаповнена">{{ 'ubs-tariffs.states.blank' | translate }}</mat-option>
+        <mat-select #stateSelect class="state-select" formControlName="state">
+          <mat-option class="option-state" value="">{{ 'ubs-tariffs.states.all' | translate }}</mat-option>
+          <mat-option class="option-state" value="ACTIVE">{{ 'ubs-tariffs.states.active' | translate }}</mat-option>
+          <mat-option class="option-state" value="DEACTIVATED">{{ 'ubs-tariffs.states.inactive' | translate }}</mat-option>
+          <mat-option class="option-state" value="NEW">{{ 'ubs-tariffs.states.blank' | translate }}</mat-option>
         </mat-select>
         <img [src]="icons.arrowDown" class="arrowDown-img" alt="arrowDown" (click)="stateSelect.open()" />
       </div>

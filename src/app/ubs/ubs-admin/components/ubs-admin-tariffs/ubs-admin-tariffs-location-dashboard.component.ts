@@ -61,7 +61,6 @@ export class UbsAdminTariffsLocationDashboardComponent implements OnInit, AfterV
   createCardObj: CreateCard;
   isFieldFilled = false;
   isCardExist = false;
-  stateStatus: string;
 
   private destroy: Subject<boolean> = new Subject<boolean>();
 
@@ -114,6 +113,7 @@ export class UbsAdminTariffsLocationDashboardComponent implements OnInit, AfterV
     });
     this.setCountOfCheckedCity();
     this.setStationPlaceholder();
+    this.setStateValue();
     this.getExistingCard(this.filterData);
     this.languageService
       .getCurrentLangObs()
@@ -121,10 +121,8 @@ export class UbsAdminTariffsLocationDashboardComponent implements OnInit, AfterV
       .subscribe((i) => {
         this.getLocations();
         this.translateSelectedCity();
-        this.stateStatus = i === 'en' ? 'Active' : 'Активно';
-        setTimeout(() => {
-          this.state.setValue(this.stateStatus);
-        });
+        this.setCountOfCheckedCity();
+        this.setStationPlaceholder();
         this.getCouriers();
       });
   }
@@ -133,13 +131,21 @@ export class UbsAdminTariffsLocationDashboardComponent implements OnInit, AfterV
     this.changeDetectorRef.detectChanges();
   }
 
+  public setStateValue(): void {
+    Object.assign(this.filterData, { status: 'ACTIVE' });
+    this.state.valueChanges.subscribe((value) => {
+      Object.assign(this.filterData, { status: value });
+      this.getExistingCard(this.filterData);
+    });
+  }
+
   private initForm(): void {
     this.searchForm = this.fb.group({
       region: ['', [Validators.required, Validators.minLength(3), Validators.maxLength(40), Validators.pattern(Patterns.NamePattern)]],
       city: ['', [Validators.required, Validators.maxLength(40), Validators.pattern(Patterns.NamePattern)]],
       courier: ['', [Validators.required]],
       station: ['', [Validators.required]],
-      state: ['']
+      state: ['ACTIVE']
     });
   }
 
@@ -184,7 +190,7 @@ export class UbsAdminTariffsLocationDashboardComponent implements OnInit, AfterV
 
   public setCountOfCheckedCity(): void {
     if (this.selectedCities.length) {
-      this.cityPlaceholder = `${this.selectedCities.length} вибрано`;
+      this.translate.get('ubs-tariffs.selected').subscribe((data) => (this.cityPlaceholder = `${this.selectedCities.length} ${data}`));
     } else {
       this.translate.get('ubs-tariffs.placeholder-locality').subscribe((data) => (this.cityPlaceholder = data));
     }
@@ -292,9 +298,9 @@ export class UbsAdminTariffsLocationDashboardComponent implements OnInit, AfterV
 
   public setStationPlaceholder(): void {
     if (this.selectedStation.length) {
-      this.stationPlaceholder = `${this.selectedStation.length} вибрано`;
+      this.translate.get('ubs-tariffs.selected').subscribe((data) => (this.stationPlaceholder = `${this.selectedStation.length} ${data}`));
     } else {
-      this.translate.get('ubs-tariffs.placeholder-station').subscribe((data) => (this.stationPlaceholder = data));
+      this.translate.get('ubs-tariffs.placeholder-choose-station').subscribe((data) => (this.stationPlaceholder = data));
     }
   }
 
@@ -373,25 +379,6 @@ export class UbsAdminTariffsLocationDashboardComponent implements OnInit, AfterV
     }
     this.getExistingCard(this.filterData);
     this.checkisCardExist();
-  }
-
-  public onSelectState(event): void {
-    switch (event.value) {
-      case 'Все':
-        Object.assign(this.filterData, { status: '' });
-        break;
-      case 'Активно':
-      case 'Active':
-        Object.assign(this.filterData, { status: 'ACTIVE' });
-        break;
-      case 'Неактивно':
-        Object.assign(this.filterData, { status: 'DEACTIVATED' });
-        break;
-      case 'Незаповнена':
-        Object.assign(this.filterData, { status: 'NEW' });
-        break;
-    }
-    this.getExistingCard(this.filterData);
   }
 
   loadScript(): void {

@@ -9,6 +9,7 @@ describe('TimePickerComponent', () => {
   let fixture: ComponentFixture<TimePickerComponent>;
   const fakeTimeFrom = '10:00';
   const fakeTimeTo = '14:00';
+  const fakeCurrentTime = '02:33 PM';
   const fakeTimeSelectFrom = [
     '08:00',
     '08:30',
@@ -151,8 +152,19 @@ describe('TimePickerComponent', () => {
     selector.value = selector.options[3].value;
     selector.dispatchEvent(new Event('change'));
     fixture.detectChanges();
-    expect(component.toSelect).toEqual(fakeTimeToChange);
+    expect(component.fromSelect).toEqual(component.compareTime());
   });
+
+  it('should check whether "compareTime" works correctly', () => {
+    const filteredArr = component.compareTime();
+    expect(filteredArr[0]).toEqual(component.fromSelect[0]);
+  });
+
+  it('should check whether "convertTime12to24" works correctly', () => {
+    const t = component.convertTime12to24(fakeCurrentTime);
+    expect(t).toEqual('14:33');
+  });
+
   it('should set list of time "delivery from" with time which precedes the current value in "delivery from" minuse 30 minutes ', () => {
     const selector = fixture.debugElement.query(By.css('#timeTo')).nativeElement;
     selector.value = selector.options[14].value;

@@ -200,7 +200,7 @@
 }
 
 @media (max-width: 1100px) {
-  ::ng-deep {
+  :host ::ng-deep {
     .mat-content {
       display: flex;
       flex-direction: column !important;
@@ -279,7 +279,7 @@
 }
 
 @media (max-width: 600px) {
-  ::ng-deep {
+  :host ::ng-deep {
     .mat-content {
       display: flex;
       flex-direction: column !important;

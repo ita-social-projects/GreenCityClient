@@ -153,7 +153,16 @@ export class UbsAdminCustomersComponent implements OnInit, AfterViewChecked, OnD
     this.filters = this.filterForm.value;
   }
 
-  private submitFilterForm() {
+  public checkOnNumber(event: KeyboardEvent): boolean {
+    return !isNaN(Number(event.key));
+  }
+
+  public numberPlusOrMinus(column: string, add: boolean): void {
+    const val = Number(this.filterForm.get(column).value);
+    add ? this.filterForm.get(column).setValue(val + 1) : this.filterForm.get(column).setValue(val - 1);
+  }
+
+  public submitFilterForm() {
     this.filters = this.filterForm.value;
     const prevQueryString = this.queryString;
     const queryParams = [];

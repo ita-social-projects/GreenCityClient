@@ -3,7 +3,7 @@
     <h2 *ngIf="!data.edit" class="personal-info-pop-up-title">{{ 'personal-info.pop-up-title' | translate }}</h2>
     <h2 *ngIf="data.edit" class="personal-info-pop-up-title">{{ 'personal-info.pop-up-title-edit' | translate }}</h2>
   </div>
-  <div class="col-md-4 col-sm-4 form-group">
+  <div class="col-md-6 col-sm-6 form-group">
     <label>{{ 'personal-info.pop-up-region' | translate }}</label>
     <select *ngIf="currentLanguage === 'ua'" formControlName="region" class="shadow-none form-control">
       <option *ngFor="let reg of bigRegions" selected>{{ reg.regionName }}</option>
@@ -12,7 +12,7 @@
       <option *ngFor="let reg of bigRegions" selected>{{ reg.regionName }}</option>
     </select>
   </div>
-  <div class="col-md-4 col-sm-4 form-group">
+  <div class="col-md-6 col-sm-6 form-group">
     <label>{{ 'personal-info.pop-up-city' | translate }}</label>
     <select
       formControlName="{{ currentLanguage === 'ua' ? 'city' : 'cityEn' }}"
@@ -22,28 +22,7 @@
       <option *ngFor="let city of cities" [ngValue]="city.cityName">{{ city.cityName }}</option>
     </select>
   </div>
-  <div class="col-md-4 col-sm-4 form-group">
-    <label>{{ 'personal-info.pop-up-district' | translate }}</label>
-    <select
-      *ngIf="!isDistrict"
-      formControlName="{{ currentLanguage === 'ua' ? 'district' : 'districtEn' }}"
-      class="shadow-none form-control"
-      (change)="setDistrict($event)"
-    >
-      <option *ngFor="let region of regions" [ngValue]="region.name">{{ region.name }}</option>
-    </select>
-    <select
-      *ngIf="isDistrict"
-      formControlName="{{ currentLanguage === 'ua' ? 'district' : 'districtEn' }}"
-      class="shadow-none form-control"
-      (change)="setDistrict($event)"
-    >
-      <option *ngFor="let region of regionsKyiv" [ngValue]="region.name">{{ region.name }}</option>
-    </select>
-    <div class="validation" *ngIf="district.invalid && addAddressForm.get('district').touched">
-      <app-ubs-input-error [formElement]="district" [controlName]="'district'"></app-ubs-input-error>
-    </div>
-  </div>
+
   <div class="col-lg-6 col-md-12 col-sm-12 form-group">
     <label>{{ 'personal-info.pop-up-street' | translate }}</label>
     <input
@@ -116,6 +95,29 @@
       <div class="validation" *ngIf="entranceNumber.invalid && entranceNumber.touched">
         <app-ubs-input-error [formElement]="entranceNumber" [controlName]="'entranceNumber'"></app-ubs-input-error>
       </div>
+    </div>
+  </div>
+
+  <div class="col-md-6 col-sm-6 form-group">
+    <label>{{ 'personal-info.pop-up-district' | translate }}</label>
+    <select
+      *ngIf="!isDistrict"
+      formControlName="{{ currentLanguage === 'ua' ? 'district' : 'districtEn' }}"
+      class="shadow-none form-control"
+      (change)="setDistrict($event)"
+    >
+      <option *ngFor="let region of regions" [ngValue]="region.name">{{ region.name }}</option>
+    </select>
+    <select
+      *ngIf="isDistrict"
+      formControlName="{{ currentLanguage === 'ua' ? 'district' : 'districtEn' }}"
+      class="shadow-none form-control"
+      (change)="setDistrict($event)"
+    >
+      <option *ngFor="let region of regionsKyiv" [ngValue]="region.name">{{ region.name }}</option>
+    </select>
+    <div class="validation" *ngIf="district.invalid && addAddressForm.get('district').touched">
+      <app-ubs-input-error [formElement]="district" [controlName]="'district'"></app-ubs-input-error>
     </div>
   </div>
   <div class="form-group comment-section">

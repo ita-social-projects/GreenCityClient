@@ -7,6 +7,8 @@ import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { UbsAdminTariffsStationPopUpComponent } from './ubs-admin-tariffs-station-pop-up.component';
 import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
 import { TariffsService } from '../../../services/tariffs.service';
+import { LanguageService } from 'src/app/main/i18n/language.service';
+import { DatePipe } from '@angular/common';
 
 describe('UbsAdminTariffsStationPopUpComponent', () => {
   let component: UbsAdminTariffsStationPopUpComponent;
@@ -29,6 +31,9 @@ describe('UbsAdminTariffsStationPopUpComponent', () => {
   tariffsServiceMock.addStation.and.returnValue(of());
   tariffsServiceMock.editStation.and.returnValue(of());
 
+  const languageServiceMock = jasmine.createSpyObj('languageServiceMock', ['getCurrentLanguage']);
+  languageServiceMock.getCurrentLanguage.and.returnValue('ua');
+
   const localStorageServiceStub = () => ({
     firstNameBehaviourSubject: { pipe: () => of('fakeName') }
   });
@@ -41,6 +46,7 @@ describe('UbsAdminTariffsStationPopUpComponent', () => {
         { provide: MatDialogRef, useValue: matDialogRefMock },
         { provide: LocalStorageService, useFactory: localStorageServiceStub },
         { provide: TariffsService, useValue: tariffsServiceMock },
+        { provide: LanguageService, useValue: languageServiceMock },
         { provide: MAT_DIALOG_DATA, useValue: mockedData },
         FormBuilder
       ],
@@ -86,15 +92,37 @@ describe('UbsAdminTariffsStationPopUpComponent', () => {
     expect(component.data.headerText).toEqual('station');
   });
 
-  it('should call getting station in OnInit', () => {
-    const spy = spyOn(component, 'getReceivingStation');
+  it('should call getting station and setting date in OnInit', () => {
+    const spy1 = spyOn(component, 'getReceivingStation');
+    const spy2 = spyOn(component, 'setDate');
     component.ngOnInit();
-    expect(spy).toHaveBeenCalled();
+    expect(spy1).toHaveBeenCalled();
+    expect(spy2).toHaveBeenCalled();
   });
 
   it('should get all stations', () => {
     component.getReceivingStation();
+    expect(tariffsServiceMock.getAllStations).toHaveBeenCalled();
     expect(component.stations).toEqual([fakeStation]);
+  });
+
+  it('should set date', () => {
+    component.setDate();
+    expect(component.datePipe).toEqual(new DatePipe('ua'));
+    expect(component.newDate).toEqual(component.datePipe.transform(new Date(), 'MMM dd, yyyy'));
+  });
+
+  it('should get current language', () => {
+    const result = languageServiceMock.getCurrentLanguage();
+    component.setDate();
+    expect(languageServiceMock.getCurrentLanguage).toHaveBeenCalled();
+    expect(result).toEqual('ua');
+  });
+
+  it('should transform date', () => {
+    const date = new Date(2022, 11, 10);
+    const result = component.datePipe.transform(date, 'MMM dd, yyyy');
+    expect(result).toEqual('груд. 10, 2022');
   });
 
   it('should add a new station', () => {
