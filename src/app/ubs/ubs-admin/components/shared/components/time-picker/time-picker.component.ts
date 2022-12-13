@@ -16,7 +16,8 @@ export class TimePickerComponent implements OnInit {
   public from: string;
   public to: string;
   currentHour: string;
-  exportDate: string;
+  currentDate;
+  exportDate;
 
   @Input() setTimeFrom: string;
   @Input() setTimeTo: string;
@@ -27,9 +28,17 @@ export class TimePickerComponent implements OnInit {
     this.toInput = this.setTimeTo;
     this.fromSelect = fromSelect;
     this.toSelect = toSelect;
-    this.getExportDate();
     this.initTime();
-    this.fromSelect = this.compareTime();
+    this.checkExportDate();
+  }
+
+  checkExportDate() {
+    this.getExportDate();
+    this.initDate();
+
+    if (this.currentDate >= this.exportDate) {
+      this.fromSelect = this.compareTime();
+    }
   }
 
   getExportDate() {
@@ -71,6 +80,13 @@ export class TimePickerComponent implements OnInit {
       }
     });
     return arr;
+  }
+
+  initDate() {
+    this.currentDate = new Date();
+    this.currentDate = formatDate(this.currentDate, 'yyyy-MM-dd', 'en-US');
+    this.currentDate = new Date(this.currentDate);
+    this.exportDate = new Date(this.exportDate);
   }
 
   initTime() {
