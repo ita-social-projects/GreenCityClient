@@ -1,4 +1,4 @@
-<div class="request-item">
+<div class="request-item" (click)="clickHandler($event)">
   <app-user-profile-image
     [imgPath]="request.profilePicturePath"
     [firstName]="request.name"
