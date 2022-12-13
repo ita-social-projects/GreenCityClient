@@ -24,7 +24,6 @@ export class UbsMainPageComponent implements OnInit, OnDestroy {
   selectedLocationId: number;
   isFetching: boolean;
   currentLocation: string;
-  private ADMIN_ROLE = 'ROLE_ADMIN';
   public isAdmin = false;
 
   priceCard = [
@@ -111,7 +110,7 @@ export class UbsMainPageComponent implements OnInit, OnDestroy {
 
   public checkIsAdmin(): boolean {
     const userRole = this.jwtService.getUserRole();
-    return userRole === this.ADMIN_ROLE;
+    return userRole === 'ROLE_UBS_EMPLOYEE';
   }
 
   getLocations(): void {
