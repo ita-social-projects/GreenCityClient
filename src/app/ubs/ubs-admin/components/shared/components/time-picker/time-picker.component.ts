@@ -1,6 +1,7 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { fromSelect, toSelect } from '../../../ubs-admin-table/table-cell-time/table-cell-time-range';
 import { formatDate } from '@angular/common';
+import { FormGroup } from '@angular/forms';
 
 @Component({
   selector: 'app-time-picker',
@@ -15,18 +16,26 @@ export class TimePickerComponent implements OnInit {
   public from: string;
   public to: string;
   currentHour: string;
+  exportDate: string;
 
   @Input() setTimeFrom: string;
   @Input() setTimeTo: string;
+  @Input() ordersForm: FormGroup;
   @Output() timeOfExport = new EventEmitter<object>();
   ngOnInit(): void {
     this.fromInput = this.setTimeFrom;
     this.toInput = this.setTimeTo;
     this.fromSelect = fromSelect;
     this.toSelect = toSelect;
+    this.getExportDate();
     this.initTime();
     this.fromSelect = this.compareTime();
   }
+
+  getExportDate() {
+    this.exportDate = this.ordersForm.controls.exportDetailsDto.get('dateExport').value;
+  }
+
   onTimeFromChange(): void {
     const fromIdx = fromSelect.indexOf(this.fromInput);
     this.toSelect = toSelect.slice(fromIdx);
