@@ -131,8 +131,7 @@ describe('HomepageComponent', () => {
 
   it('check the validity of token', inject([VerifyEmailService], (service: VerifyEmailService) => {
     const spy = spyOn(service, 'onCheckToken').and.returnValue(of({}));
-    // @ts-ignore
-    component.onCheckToken();
+    (component as any).onCheckToken();
 
     expect(spy).toHaveBeenCalledWith('1', '1');
   }));
