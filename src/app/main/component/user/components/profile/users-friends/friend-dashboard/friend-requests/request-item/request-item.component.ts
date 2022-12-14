@@ -13,7 +13,7 @@ export class RequestItemComponent {
   @Input() btnName: string;
   @Output() acceptEvent = new EventEmitter<number>();
   @Output() declineEvent = new EventEmitter<number>();
-  private userId: number;
+  public userId: number;
 
   constructor(private router: Router, private localeStorageService: LocalStorageService) {}
 
@@ -34,7 +34,7 @@ export class RequestItemComponent {
     }
   }
 
-  private redirectToFriendPage(): void {
+  public redirectToFriendPage(): void {
     this.userId = this.localeStorageService.getUserId();
     this.router.navigate(['profile', this.userId, 'friends', this.request.name, this.request.id], {
       queryParams: { tab: 'All firends', index: 3 }
