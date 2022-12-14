@@ -1,8 +1,9 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
-import { FormsModule } from '@angular/forms';
+import { FormsModule, FormGroup } from '@angular/forms';
 import { TranslateModule } from '@ngx-translate/core';
 import { By } from '@angular/platform-browser';
 import { TimePickerComponent } from './time-picker.component';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 describe('TimePickerComponent', () => {
   let component: TimePickerComponent;
@@ -10,6 +11,19 @@ describe('TimePickerComponent', () => {
   const fakeTimeFrom = '10:00';
   const fakeTimeTo = '14:00';
   const fakeCurrentTime = '02:33 PM';
+  const fakeExportDateForm = {
+    controls: {
+      exportDetailsDto: {
+        controls: {
+          dateExport: { value: '2022-12-15' }
+        }
+      }
+    }
+  } as unknown as FormGroup;
+
+  const fakeExportDate = {
+    dateExport: { value: '2022-12-15' }
+  };
   const fakeTimeSelectFrom = [
     '08:00',
     '08:30',
@@ -117,16 +131,18 @@ describe('TimePickerComponent', () => {
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       declarations: [TimePickerComponent],
-      imports: [TranslateModule.forRoot(), FormsModule]
+      imports: [TranslateModule.forRoot(), FormsModule, BrowserAnimationsModule]
     }).compileComponents();
   }));
 
   beforeEach(() => {
     fixture = TestBed.createComponent(TimePickerComponent);
     component = fixture.componentInstance;
+    component.exportDate = fakeExportDate.dateExport.value;
+    fixture.detectChanges();
+    component.ngOnInit();
     component.setTimeFrom = '10:00';
     component.setTimeTo = '14:00';
-    component.ngOnInit();
     fixture.detectChanges();
   });
 
