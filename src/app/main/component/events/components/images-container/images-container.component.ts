@@ -15,6 +15,13 @@ export class ImagesContainerComponent implements OnInit {
   private imgArray: File[] = [];
   private maxImages = 5;
 
+  public defImgs = [
+    '/assets/img/illustration-earth.png',
+    '/assets/img/illustration-money.png',
+    '/assets/img/illustration-people.png',
+    '/assets/img/illustration-recycle.png',
+    '/assets/img/illustration-store.png'
+  ];
   public images: EventImage[] = [];
   public editMode: boolean;
   private imagesTodelete: string[] = [];
