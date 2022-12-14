@@ -140,9 +140,9 @@ describe('TimePickerComponent', () => {
     component = fixture.componentInstance;
     component.exportDate = fakeExportDate.dateExport.value;
     fixture.detectChanges();
-    component.ngOnInit();
     component.setTimeFrom = '10:00';
     component.setTimeTo = '14:00';
+    component.ngOnInit();
     fixture.detectChanges();
   });
 
@@ -168,12 +168,16 @@ describe('TimePickerComponent', () => {
     selector.value = selector.options[3].value;
     selector.dispatchEvent(new Event('change'));
     fixture.detectChanges();
-    expect(component.fromSelect).toEqual(component.compareTime());
+    expect(component.toSelect).toEqual(fakeTimeToChange);
   });
 
   it('should check whether "compareTime" works correctly', () => {
     const filteredArr = component.compareTime();
-    expect(filteredArr[0]).toEqual(component.fromSelect[0]);
+    if (component.currentDate >= component.exportDate) {
+      expect(filteredArr[0]).toEqual(component.fromSelect[0]);
+    } else {
+      expect(fakeTimeSelectFrom).toEqual(component.fromSelect);
+    }
   });
 
   it('should check whether "convertTime12to24" works correctly', () => {
