@@ -196,10 +196,7 @@ export class UbsAdminTariffsPricingPageComponent implements OnInit, OnDestroy {
           return true;
         }
       });
-      console.log('mine:', res);
       this.tariffsService.setLocationId(card.locationInfoDtos[0].locationId);
-      console.log('card:', card);
-      console.log('id:', card.locationInfoDtos[0].locationId);
       return card.locationInfoDtos[0].locationId;
     } catch (e) {
       return Error('getLocationId Error');
