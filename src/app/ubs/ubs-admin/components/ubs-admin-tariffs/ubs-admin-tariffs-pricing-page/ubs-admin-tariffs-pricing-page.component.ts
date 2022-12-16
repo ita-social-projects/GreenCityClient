@@ -44,6 +44,7 @@ export class UbsAdminTariffsPricingPageComponent implements OnInit, OnDestroy {
   couriers;
   limitsForm: FormGroup;
   currentLocation;
+  locationId;
   bags: Bag[] = [];
   services: Service[] = [];
   thisLocation: Locations[];
@@ -83,8 +84,8 @@ export class UbsAdminTariffsPricingPageComponent implements OnInit, OnDestroy {
       this.getCouriers();
       this.getAllTariffsForService();
     });
+    this.initializeLocationId();
     this.getOurTariffs();
-    this.getLocationId();
     this.getCourierId();
     this.setCourierId();
     this.getSelectedTariffCard();
@@ -126,7 +127,7 @@ export class UbsAdminTariffsPricingPageComponent implements OnInit, OnDestroy {
     const { minPriceOfOrder, maxPriceOfOrder, minAmountOfBigBags, maxAmountOfBigBags, limitDescription } = this.limitsForm.value;
 
     const tariffId = this.selectedCardId;
-    const locationId = await this.getLocationId();
+    const locationId = this.locationId;
 
     this.bagInfo = {
       minAmountOfBigBags,
@@ -195,7 +196,10 @@ export class UbsAdminTariffsPricingPageComponent implements OnInit, OnDestroy {
           return true;
         }
       });
+      console.log('mine:', res);
       this.tariffsService.setLocationId(card.locationInfoDtos[0].locationId);
+      console.log('card:', card);
+      console.log('id:', card.locationInfoDtos[0].locationId);
       return card.locationInfoDtos[0].locationId;
     } catch (e) {
       return Error('getLocationId Error');
@@ -230,6 +234,11 @@ export class UbsAdminTariffsPricingPageComponent implements OnInit, OnDestroy {
     }
   }
 
+  async initializeLocationId() {
+    this.locationId = await this.getLocationId();
+    return this.locationId;
+  }
+
   routeParams(): void {
     this.route.params.pipe(takeUntil(this.destroy)).subscribe((res) => {
       this.getAllTariffsForService();
@@ -250,7 +259,7 @@ export class UbsAdminTariffsPricingPageComponent implements OnInit, OnDestroy {
       panelClass: 'address-matDialog-styles-pricing-page',
       data: {
         button: 'add',
-        locationId: this.currentLocation
+        locationId: this.locationId
       }
     });
     dialogRefTariff
