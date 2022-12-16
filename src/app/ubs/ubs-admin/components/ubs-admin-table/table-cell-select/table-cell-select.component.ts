@@ -114,7 +114,7 @@ export class TableCellSelectComponent implements OnInit {
 
   public saveClick(): void {
     if (this.nameOfColumn === 'orderStatus' && this.checkStatus && this.showPopUp) {
-      this.openPopUp();
+      this.newOption !== 'Confirmed' && this.newOption !== 'Підтверджено' ? this.openPopUp() : this.save();
     } else if (this.nameOfColumn === 'orderStatus' && (this.newOption === 'Canceled' || this.newOption === 'Скасовано')) {
       this.openCancelPopUp();
     } else if (this.nameOfColumn === 'orderStatus') {
