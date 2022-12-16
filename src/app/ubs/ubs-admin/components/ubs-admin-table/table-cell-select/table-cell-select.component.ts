@@ -1,13 +1,14 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
-import { take } from 'rxjs/operators';
+import { first, take } from 'rxjs/operators';
 import { IAlertInfo, IEditCell } from 'src/app/ubs/ubs-admin/models/edit-cell.model';
 import { AdminTableService } from 'src/app/ubs/ubs-admin/services/admin-table.service';
-import { IDataForPopUp } from '../../../models/ubs-admin.interface';
+import { IBigOrderTableOrderInfo, IDataForPopUp } from '../../../models/ubs-admin.interface';
 import { OrderService } from '../../../services/order.service';
 import { AddOrderCancellationReasonComponent } from '../../add-order-cancellation-reason/add-order-cancellation-reason.component';
 
 import { UbsAdminSeveralOrdersPopUpComponent } from '../../ubs-admin-several-orders-pop-up/ubs-admin-several-orders-pop-up.component';
+
 @Component({
   selector: 'app-table-cell-select',
   templateUrl: './table-cell-select.component.html',
@@ -38,6 +39,12 @@ export class TableCellSelectComponent implements OnInit {
   @Output() showBlockedInfo = new EventEmitter();
   @Output() editButtonClick = new EventEmitter();
   @Output() orderCancellation = new EventEmitter();
+  search: string;
+  sortType: string;
+  sortingColumn: string;
+  readonly onePageForWholeTable = 0;
+  pageSize = 300;
+  tableData: IBigOrderTableOrderInfo[];
 
   constructor(private adminTableService: AdminTableService, private orderSevice: OrderService, public dialog: MatDialog) {}
 
@@ -47,6 +54,7 @@ export class TableCellSelectComponent implements OnInit {
       this.currentValue = '';
     }
     this.filterStatuses();
+    this.fn();
   }
 
   private filterStatuses(): void {
@@ -101,6 +109,28 @@ export class TableCellSelectComponent implements OnInit {
       this.cancelEdit.emit(this.typeOfChange);
     }
   }
+
+  fn() {
+    this.getOrdersTable(this.onePageForWholeTable, this.pageSize, '', 'DESC', 'id')
+      .pipe(take(1))
+      .subscribe((res) => {
+        console.log('res:', res);
+        this.tableData = res.content;
+        // console.log('tableData:', this.tableData);
+        return this.tableData;
+      });
+  }
+
+  getOrdersTable(
+    currentPage,
+    pageSize,
+    filters = this.search || '',
+    sortingType = this.sortType || 'DESC',
+    columnName = this.sortingColumn || 'id'
+  ) {
+    return this.adminTableService.getTable(columnName, currentPage, filters, pageSize, sortingType).pipe(first());
+  }
+
   private openPopUp(): void {
     this.dialogConfig.disableClose = true;
     const modalRef = this.dialog.open(UbsAdminSeveralOrdersPopUpComponent, this.dialogConfig);
