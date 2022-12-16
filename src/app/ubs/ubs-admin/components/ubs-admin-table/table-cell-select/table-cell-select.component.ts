@@ -114,7 +114,7 @@ export class TableCellSelectComponent implements OnInit {
 
   public saveClick(): void {
     if (this.nameOfColumn === 'orderStatus' && this.checkStatus && this.showPopUp) {
-      this.newOption !== 'Confirmed' && this.newOption !== 'Підтверджено' ? this.openPopUp() : this.save();
+      this.checkIfStatusConfirmed();
     } else if (this.nameOfColumn === 'orderStatus' && (this.newOption === 'Canceled' || this.newOption === 'Скасовано')) {
       this.openCancelPopUp();
     } else if (this.nameOfColumn === 'orderStatus') {
@@ -123,6 +123,15 @@ export class TableCellSelectComponent implements OnInit {
       this.save();
     }
   }
+
+  checkIfStatusConfirmed() {
+    if (this.newOption !== 'Confirmed' && this.newOption !== 'Підтверджено') {
+      this.openPopUp();
+    } else {
+      this.save();
+    }
+  }
+
   public cancel(): void {
     this.typeOfChange = this.adminTableService.howChangeCell(this.isAllChecked, this.ordersToChange, this.id);
     this.cancelEdit.emit(this.typeOfChange);
