@@ -30,6 +30,7 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MAT_DIALOG_DEFAULT_OPTIONS } from '@angular/material/dialog';
 import { UbsUserOrderCancelPopUpComponent } from './ubs-user-orders-list/ubs-user-order-cancel-pop-up/ubs-user-order-cancel-pop-up.component';
 import { InfiniteScrollModule } from 'ngx-infinite-scroll';
+import { MatAutocompleteModule } from '@angular/material/autocomplete';
 
 @NgModule({
   declarations: [
@@ -72,7 +73,8 @@ import { InfiniteScrollModule } from 'ngx-infinite-scroll';
     MatProgressSpinnerModule,
     MatProgressBarModule,
     MatFormFieldModule,
-    MatRadioModule
+    MatRadioModule,
+    MatAutocompleteModule
   ],
   providers: [
     {

@@ -12,6 +12,8 @@ import { Masks, Patterns } from 'src/assets/patterns/patterns';
 import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
 import { Locations } from 'src/assets/locations/locations';
 import { PhoneNumberValidator } from 'src/app/shared/phone-validator/phone.validator';
+import { LatLngBoundsLiteral } from '@agm/core';
+import { identifierModuleUrl } from '@angular/compiler';
 
 @Component({
   selector: 'app-ubs-user-profile-page',
@@ -19,6 +21,10 @@ import { PhoneNumberValidator } from 'src/app/shared/phone-validator/phone.valid
   styleUrls: ['./ubs-user-profile-page.component.scss']
 })
 export class UbsUserProfilePageComponent implements OnInit {
+  autocompleteService: google.maps.places.AutocompleteService;
+  placeService: google.maps.places.PlacesService;
+  inputStreetElement: any;
+  streetPredictionList: any;
   userForm: FormGroup;
   userProfile: UserProfile;
   viberNotification = false;
@@ -26,17 +32,21 @@ export class UbsUserProfilePageComponent implements OnInit {
   defaultAddress: Address = {
     actual: true,
     city: '',
+    cityEn: '',
     coordinates: {
       latitude: 1,
       longitude: 1
     },
     region: '',
+    regionEn: '',
     district: '',
+    districtEn: '',
     entranceNumber: '',
     houseCorpus: '',
     houseNumber: '',
     id: null,
-    street: ''
+    street: '',
+    streetEn: ''
   };
 
   googleIcon = SignInIcons.picGoogle;
@@ -51,6 +61,7 @@ export class UbsUserProfilePageComponent implements OnInit {
   cities = [];
   regions = [];
   districts = [];
+  cityBounds: LatLngBoundsLiteral;
   constructor(
     public dialog: MatDialog,
     private clientProfileService: ClientProfileService,
@@ -91,7 +102,17 @@ export class UbsUserProfilePageComponent implements OnInit {
     this.userProfile.addressDto.forEach((adres) => {
       const seperateAddress = new FormGroup({
         city: new FormControl(adres?.city, [Validators.required, Validators.pattern(Patterns.ubsCityPattern), Validators.maxLength(20)]),
+        cityEn: new FormControl(adres?.cityEn, [
+          Validators.required,
+          Validators.pattern(Patterns.ubsCityPattern),
+          Validators.maxLength(20)
+        ]),
         street: new FormControl(adres?.street, [
+          Validators.required,
+          Validators.pattern(Patterns.ubsWithDigitPattern),
+          Validators.maxLength(50)
+        ]),
+        streetEn: new FormControl(adres?.streetEn, [
           Validators.required,
           Validators.pattern(Patterns.ubsWithDigitPattern),
           Validators.maxLength(50)
@@ -108,7 +129,17 @@ export class UbsUserProfilePageComponent implements OnInit {
           Validators.pattern(Patterns.ubsWithDigitPattern),
           Validators.maxLength(30)
         ]),
+        regionEn: new FormControl(adres?.regionEn, [
+          Validators.required,
+          Validators.pattern(Patterns.ubsWithDigitPattern),
+          Validators.maxLength(30)
+        ]),
         district: new FormControl(adres?.district, [
+          Validators.required,
+          Validators.pattern(Patterns.ubsWithDigitPattern),
+          Validators.maxLength(30)
+        ]),
+        districtEn: new FormControl(adres?.districtEn, [
           Validators.required,
           Validators.pattern(Patterns.ubsWithDigitPattern),
           Validators.maxLength(30)
@@ -139,6 +170,49 @@ export class UbsUserProfilePageComponent implements OnInit {
       viberIsChecked: new FormControl(this.userProfile.viberIsChecked)
     });
     this.isFetching = false;
+    console.log(this.userForm);
+  }
+
+  setRegionValue(formGroupName: number, event: Event): void {
+    const currentFormGroup = this.userForm.controls.address['controls'][formGroupName];
+    const region = currentFormGroup.get('region');
+    const regionEn = currentFormGroup.get('regionEn');
+
+    const elem = this.regions.find((el) => el.name === (event.target as HTMLSelectElement).value.slice(3));
+    const selectedRegionUa = this.locations.getBigRegions('ua').find((el) => el.key === elem.key);
+    const selectedRegionEn = this.locations.getBigRegions('en').find((el) => el.key === elem.key);
+    region.setValue(selectedRegionUa.name);
+    regionEn.setValue(selectedRegionEn.name);
+  }
+
+  setCityValue(formGroupName: number, event: Event): void {
+    const currentFormGroup = this.userForm.controls.address['controls'][formGroupName];
+    const city = currentFormGroup.get('city');
+    const cityEn = currentFormGroup.get('cityEn');
+
+    const elem = this.cities.find((el) => {
+      if (el.key <= 10) {
+        return el.cityName === (event.target as HTMLSelectElement).value.slice(3) ? el : undefined;
+      } else {
+        return el.cityName === (event.target as HTMLSelectElement).value.slice(4) ? el : undefined;
+      }
+    });
+    const selectedCityUa = this.locations.getCity('ua').find((el) => el.key === elem.key);
+    const selectedCityEn = this.locations.getCity('en').find((el) => el.key === elem.key);
+    city.setValue(selectedCityUa.cityName);
+    cityEn.setValue(selectedCityEn.cityName);
+    console.log(currentFormGroup);
+  }
+
+  getFormGroupId(id: number): void {
+    const currentFormGroup = this.userForm.controls.address['controls'][id];
+    const city = currentFormGroup.get('city');
+    const cityEn = currentFormGroup.get('cityEn');
+    city.setValue('Укр місто');
+    cityEn.setValue('Англ місто');
+    console.log(currentFormGroup);
+    console.log(city);
+    console.log(cityEn);
   }
 
   onEdit(): void {
@@ -152,6 +226,41 @@ export class UbsUserProfilePageComponent implements OnInit {
 
   focusOnFirst(): void {
     document.getElementById('recipientName').focus();
+    this.initGoogleAutocompleteServices();
+  }
+
+  private initGoogleAutocompleteServices(): void {
+    this.autocompleteService = new google.maps.places.AutocompleteService();
+    this.placeService = new google.maps.places.PlacesService(document.createElement('div'));
+  }
+
+  setPredictStreets(region: string, city: string, street: string): void {
+    const regionIndex = parseInt(region, 10);
+    const regionParam = regionIndex < 10 ? region.slice(3) : region.slice(4);
+    const cityIndex = parseInt(city, 10);
+    const cityParam = cityIndex < 10 ? city.slice(3) : city.slice(4);
+    const searchAddress = `${regionParam}, ${cityParam}, ${street}`;
+    console.log(cityParam);
+    this.cityBounds = this.locations.getCityCoordinates(cityIndex);
+    console.log(this.cityBounds);
+
+    this.inputAddress(searchAddress);
+  }
+
+  inputAddress(searchAddress: string): void {
+    const request = {
+      input: searchAddress,
+      bounds: this.cityBounds,
+      strictBounds: true,
+      types: ['address'],
+      componentRestrictions: { country: 'ua' }
+    };
+    this.autocompleteService.getPlacePredictions(request, (streetPredictions) => {
+      this.streetPredictionList = streetPredictions;
+      console.log(this.streetPredictionList[0].structured_formatting.main_text);
+    });
+
+    // this.street.setValue()
   }
 
   onCancel(): void {
