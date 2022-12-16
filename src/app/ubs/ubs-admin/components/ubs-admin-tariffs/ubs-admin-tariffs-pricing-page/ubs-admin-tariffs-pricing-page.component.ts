@@ -315,7 +315,7 @@ export class UbsAdminTariffsPricingPageComponent implements OnInit, OnDestroy {
   }
 
   private filterBags(): void {
-    this.bags = this.bags.filter((value) => value.locationId === this.currentLocation).sort((a, b) => b.price - a.price);
+    this.bags = this.bags.filter((value) => value.locationId === this.locationId).sort((a, b) => b.price - a.price);
   }
 
   async filterServices(): Promise<any> {
