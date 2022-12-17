@@ -666,6 +666,7 @@
     "title": "Додати локацію",
     "edit-title": "Редагувати локацію",
     "deactivate": "Деактивувати",
+    "deactivate-confirm": "Підтвердити деактивацію",
     "region": "Область",
     "locality": "Місто",
     "courier": "Кур'єр",

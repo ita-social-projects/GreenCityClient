@@ -672,6 +672,7 @@
     "title": "Add location",
     "edit-title": "Edit location",
     "deactivate": "Deactivate",
+    "deactivate-confirm": "Confirm deactivation",
     "region": "Region",
     "locality": "City",
     "english-hint": "Enter the following data in ENGLISH",

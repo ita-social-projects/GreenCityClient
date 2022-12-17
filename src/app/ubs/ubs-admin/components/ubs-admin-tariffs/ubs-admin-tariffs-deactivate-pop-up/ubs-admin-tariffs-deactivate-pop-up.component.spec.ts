@@ -8,6 +8,7 @@ import { UbsAdminTariffsDeactivatePopUpComponent } from './ubs-admin-tariffs-dea
 import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
 import { TariffsService } from '../../../services/tariffs.service';
 import { ModalTextComponent } from '../../shared/components/modal-text/modal-text.component';
+import { LanguageService } from 'src/app/main/i18n/language.service';
 
 describe('UbsAdminTariffsDeactivatePopUpComponent', () => {
   let component: UbsAdminTariffsDeactivatePopUpComponent;
@@ -382,6 +383,9 @@ describe('UbsAdminTariffsDeactivatePopUpComponent', () => {
   tariffsServiceMock.getActiveLocations.and.returnValue(of([fakeLocation]));
   tariffsServiceMock.getCardInfo.and.returnValue(of([fakeTariffCard]));
 
+  const languageServiceMock = jasmine.createSpyObj('languageServiceMock', ['getCurrentLanguage']);
+  languageServiceMock.getCurrentLanguage.and.returnValue('ua');
+
   const localStorageServiceStub = () => ({
     firstNameBehaviourSubject: { pipe: () => of('fakeName') }
   });
@@ -396,6 +400,7 @@ describe('UbsAdminTariffsDeactivatePopUpComponent', () => {
         { provide: MatDialogRef, useValue: fakeMatDialogRef },
         { provide: LocalStorageService, useFactory: localStorageServiceStub },
         { provide: TariffsService, useValue: tariffsServiceMock },
+        { provide: LanguageService, useValue: languageServiceMock },
         FormBuilder
       ],
       schemas: [CUSTOM_ELEMENTS_SCHEMA]
