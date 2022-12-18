@@ -1,9 +1,9 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
-import { first, take } from 'rxjs/operators';
+import { take } from 'rxjs/operators';
 import { IAlertInfo, IEditCell } from 'src/app/ubs/ubs-admin/models/edit-cell.model';
 import { AdminTableService } from 'src/app/ubs/ubs-admin/services/admin-table.service';
-import { IBigOrderTableOrderInfo, IDataForPopUp } from '../../../models/ubs-admin.interface';
+import { IDataForPopUp } from '../../../models/ubs-admin.interface';
 import { OrderService } from '../../../services/order.service';
 import { AddOrderCancellationReasonComponent } from '../../add-order-cancellation-reason/add-order-cancellation-reason.component';
 
@@ -39,14 +39,8 @@ export class TableCellSelectComponent implements OnInit {
   @Output() showBlockedInfo = new EventEmitter();
   @Output() editButtonClick = new EventEmitter();
   @Output() orderCancellation = new EventEmitter();
-  search: string;
-  sortType: string;
-  sortingColumn: string;
-  readonly onePageForWholeTable = 0;
-  pageSize = 300;
-  tableData: IBigOrderTableOrderInfo[];
 
-  constructor(private adminTableService: AdminTableService, private orderSevice: OrderService, public dialog: MatDialog) {}
+  constructor(private adminTableService: AdminTableService, private orderService: OrderService, public dialog: MatDialog) {}
 
   ngOnInit() {
     this.currentValue = this.optional.filter((item) => item.key === this.key)[0];
@@ -54,12 +48,11 @@ export class TableCellSelectComponent implements OnInit {
       this.currentValue = '';
     }
     this.filterStatuses();
-    this.fn();
   }
 
   private filterStatuses(): void {
     if (this.nameOfColumn === 'orderStatus') {
-      this.optional = this.orderSevice.getAvailableOrderStatuses(this.key, this.optional);
+      this.optional = this.orderService.getAvailableOrderStatuses(this.key, this.optional);
     }
   }
   // The condition of pickup details for required fields
@@ -110,27 +103,6 @@ export class TableCellSelectComponent implements OnInit {
     }
   }
 
-  fn() {
-    this.getOrdersTable(this.onePageForWholeTable, this.pageSize, '', 'DESC', 'id')
-      .pipe(take(1))
-      .subscribe((res) => {
-        console.log('res:', res);
-        this.tableData = res.content;
-        // console.log('tableData:', this.tableData);
-        return this.tableData;
-      });
-  }
-
-  getOrdersTable(
-    currentPage,
-    pageSize,
-    filters = this.search || '',
-    sortingType = this.sortType || 'DESC',
-    columnName = this.sortingColumn || 'id'
-  ) {
-    return this.adminTableService.getTable(columnName, currentPage, filters, pageSize, sortingType).pipe(first());
-  }
-
   private openPopUp(): void {
     this.dialogConfig.disableClose = true;
     const modalRef = this.dialog.open(UbsAdminSeveralOrdersPopUpComponent, this.dialogConfig);
@@ -154,7 +126,7 @@ export class TableCellSelectComponent implements OnInit {
     }
   }
 
-  checkIfStatusConfirmed() {
+  checkIfStatusConfirmed(): void {
     if (this.newOption !== 'Confirmed' && this.newOption !== 'Підтверджено') {
       this.openPopUp();
     } else {

@@ -30,7 +30,7 @@ export class TimePickerComponent implements OnInit {
     this.checkExportDate();
   }
 
-  checkExportDate() {
+  checkExportDate(): void {
     this.initDate();
 
     if (this.currentDate >= this.exportDate) {
@@ -75,14 +75,14 @@ export class TimePickerComponent implements OnInit {
     return arr;
   }
 
-  initDate() {
+  initDate(): void {
     this.currentDate = new Date();
     this.currentDate = formatDate(this.currentDate, 'yyyy-MM-dd', 'en-US');
     this.currentDate = new Date(this.currentDate);
     this.exportDate = new Date(this.exportDate);
   }
 
-  initTime() {
+  initTime(): void {
     this.currentHour = Date.now().toString();
     this.currentHour = formatDate(this.currentHour, 'hh:mm a', 'en-US');
     this.currentHour = this.convertTime12to24(this.currentHour);
