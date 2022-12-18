@@ -23,7 +23,7 @@ export class UbsOrderCertificateComponent implements OnInit, OnDestroy {
   @Output() newItemEvent = new EventEmitter<object>();
   fullCertificate: number;
 
-  certificates: Certificate = {
+  public certificates: Certificate = {
     codes: [],
     points: [],
     activatedStatus: [],
