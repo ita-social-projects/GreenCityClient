@@ -63,17 +63,17 @@ describe('UbsOrderCertificateComponent', () => {
     component.formArrayCertificates.push(new FormControl('1'));
     const spy1 = spyOn(component.formArrayCertificates, 'removeAt');
     const fakeIndex = 0;
-    component.creationDate = ['fake'];
-    component.dateOfUse = ['fake'];
-    component.expirationDate = ['fake'];
-    component.certStatuses = ['fake'];
+    component.certificates.creationDates = ['fake'];
+    component.certificates.dateOfUses = ['fake'];
+    component.certificates.expirationDates = ['fake'];
+    component.certStatus = ['fake'];
     (component as any).clearAdditionalCertificate(fakeIndex);
     expect(spy).toHaveBeenCalled();
     expect(spy1).toHaveBeenCalledWith(fakeIndex);
-    expect(component.creationDate).toEqual([]);
-    expect(component.dateOfUse).toEqual([]);
-    expect(component.expirationDate).toEqual([]);
-    expect(component.certStatuses).toEqual([]);
+    expect(component.certificates.creationDates).toEqual([]);
+    expect(component.certificates.dateOfUses).toEqual([]);
+    expect(component.certificates.expirationDates).toEqual([]);
+    expect(component.certStatus).toEqual([]);
   });
 
   it('method deleteCertificate should invoke clearAdditionalCertificate method with correct index', () => {
@@ -99,7 +99,7 @@ describe('UbsOrderCertificateComponent', () => {
 
   it('method calculateCertificates should invoke calculateTotal method if arr.length=0', () => {
     const spy = spyOn<any>(component, 'calculateTotal');
-    component.calculateCertificates([]);
+    component.calculateCertificates();
     expect(spy).toHaveBeenCalled();
   });
 
@@ -114,7 +114,7 @@ describe('UbsOrderCertificateComponent', () => {
     spyOn<any>(component, 'calculateTotal').and.callFake(() => {});
 
     spyOn(orderService, 'processCertificate').and.returnValue(certificate);
-    component.calculateCertificates([certificate]);
+    component.calculateCertificates();
     fixture.detectChanges();
     expect(spy).toHaveBeenCalled();
     expect(component.certificateError).toBeFalsy();
@@ -130,7 +130,7 @@ describe('UbsOrderCertificateComponent', () => {
     spyOn<any>(component, 'calculateTotal').and.callFake(() => {});
     spyOn<any>(component, 'certificateError');
     fixture.detectChanges();
-    component.calculateCertificates([0]);
+    component.calculateCertificates();
 
     expect(component.certificateError).toBeTruthy();
   }));
@@ -146,7 +146,7 @@ describe('UbsOrderCertificateComponent', () => {
   it('function certificateReset should invoke calculateCertificates function', () => {
     const patchValueSpy = spyOn(component.formArrayCertificates, 'patchValue');
     const markAsUntouchedSpy = spyOn(component.formArrayCertificates, 'markAsUntouched');
-    component.certificateReset(true);
+    component.certificateReset();
     expect(patchValueSpy).toHaveBeenCalledWith(['']);
     expect(markAsUntouchedSpy).toHaveBeenCalled();
   });

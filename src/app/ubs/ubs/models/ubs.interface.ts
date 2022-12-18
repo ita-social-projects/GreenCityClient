@@ -73,6 +73,18 @@ export interface FinalOrder {
   points?: number;
 }
 
+export interface Certificate {
+  codes?: Array<string>;
+  points?: Array<number>;
+  activatedStatus?: Array<boolean>;
+  creationDates?: Array<string>;
+  dateOfUses?: Array<string>;
+  expirationDates?: Array<string>;
+  failed: Array<boolean>;
+  status: Array<string>;
+  error: Array<boolean>;
+}
+
 export interface ICertificateResponse {
   points: number;
   certificateStatus: string;
