@@ -120,15 +120,13 @@ export class HeaderComponent implements OnInit, OnDestroy {
   }
 
   public getRouterLink(): string {
-    if (this.isUBS) {
-      if (this.isAdmin) {
-        return '/ubs-admin/orders';
-      } else {
-        return '/ubs';
-      }
-    } else {
-      return '/';
+    if (this.isUBS && this.isAdmin) {
+      return '/ubs-admin/orders';
     }
+    if (this.isUBS && !this.isAdmin) {
+      return '/ubs';
+    }
+    return '/';
   }
 
   toggleHeader(): void {
