@@ -23,7 +23,7 @@ export class StatRowComponent implements OnInit {
     this.localService.userIdBehaviourSubject.subscribe((userId) => (this.userId = userId));
   }
 
-  startHabit() {
+  startHabit(): void {
     this.userId ? this.router.navigate(['/profile', this.userId]) : this.checkTokenservice.openAuthModalWindow();
   }
 }
