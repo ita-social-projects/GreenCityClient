@@ -84,7 +84,7 @@ describe('TimePickerComponent', () => {
     '21:30',
     '22:00'
   ];
-  const fakeTimeToChange: string[] = [
+  let fakeTimeToChange: string[] = [
     '09:30',
     '10:00',
     '10:30',
@@ -165,10 +165,11 @@ describe('TimePickerComponent', () => {
 
   it('should set list of time "delivery to" started with time "delivery from" plus 30 minutes', () => {
     const selector = fixture.debugElement.query(By.css('#timeFrom')).nativeElement;
-    selector.value = selector.options[3].value;
+    selector.value = selector.options[1].value;
     selector.dispatchEvent(new Event('change'));
+    fakeTimeToChange = component.compareTime();
     fixture.detectChanges();
-    expect(component.toSelect).toEqual(fakeTimeToChange);
+    expect(component.toSelect[0]).toEqual(fakeTimeToChange[1]);
   });
 
   it('should check whether "compareTime" works correctly', () => {
