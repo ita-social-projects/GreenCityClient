@@ -16,7 +16,7 @@ describe('UbsMainPageComponent', () => {
   let fixture: ComponentFixture<UbsMainPageComponent>;
   let jwtServiceMock: JwtService;
   jwtServiceMock = jasmine.createSpyObj('JwtService', ['getUserRole']);
-  jwtServiceMock.getUserRole = () => '123';
+  jwtServiceMock.getUserRole = () => 'ROLE_UBS_EMPLOYEE';
 
   const localeStorageServiceMock = jasmine.createSpyObj('localeStorageService', ['setUbsRegistration']);
   const routerMock = jasmine.createSpyObj('router', ['navigate']);
@@ -52,6 +52,12 @@ describe('UbsMainPageComponent', () => {
 
   it('should create', () => {
     expect(component).toBeTruthy();
+  });
+
+  it('checkIsAdmin()', () => {
+    const spy = spyOn(component, 'checkIsAdmin');
+    component.ngOnInit();
+    expect(spy).toBeTruthy();
   });
 
   it('destroy Subject should be closed after ngOnDestroy()', () => {
