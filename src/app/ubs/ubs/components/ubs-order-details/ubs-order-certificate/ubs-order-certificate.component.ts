@@ -137,8 +137,6 @@ export class UbsOrderCertificateComponent implements OnInit, OnDestroy {
     this.certificates.points.push(cert.points);
     this.certificates.status.push(cert.certificateStatus);
     this.fullCertificate = this.certificateSum;
-
-    console.log(this.certificates);
   }
 
   private calculateTotal(): void {
