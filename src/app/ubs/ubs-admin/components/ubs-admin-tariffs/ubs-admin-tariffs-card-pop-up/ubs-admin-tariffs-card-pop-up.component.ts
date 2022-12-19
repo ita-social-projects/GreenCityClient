@@ -223,6 +223,8 @@ export class UbsAdminTariffsCardPopUpComponent implements OnInit, OnDestroy {
     if (!currentRegion || !currentRegion.length || !currentRegion[0].locationsDto) {
       return;
     }
+    this.selectedCities = [];
+    this.setCountOfSelectedCity();
     this.filteredCities = currentRegion[0].locationsDto;
     this.city.valueChanges.subscribe((data) => {
       if (!data) {

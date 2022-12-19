@@ -240,13 +240,16 @@ describe('UbsAdminTariffsCardPopUpComponent', () => {
     expect(component.regionId).toEqual(1);
   });
 
-  it('should get cities from selected region', () => {
+  it('should get cities from selected region and clear selected cities list', () => {
+    const spy = spyOn(component, 'setCountOfSelectedCity');
     component.locations = mockRegion;
     const mockEvent = {
       value: 'Фейк область'
     };
     component.onRegionSelected(mockEvent);
     expect(component.filteredCities).toEqual(mockCities);
+    expect(component.selectedCities).toEqual([]);
+    expect(spy).toHaveBeenCalled();
   });
 
   it('city should be disabled if region is not selected', () => {
