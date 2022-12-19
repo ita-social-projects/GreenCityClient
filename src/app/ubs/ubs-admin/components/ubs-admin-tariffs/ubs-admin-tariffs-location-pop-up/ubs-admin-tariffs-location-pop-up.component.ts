@@ -72,8 +72,8 @@ export class UbsAdminTariffsLocationPopUpComponent implements OnInit, AfterViewC
   autocompleteLsr;
   name: string;
   unsubscribe: Subject<any> = new Subject();
-  datePipe = new DatePipe('ua');
-  newDate;
+  datePipe = new DatePipe(this.languageService.getCurrentLanguage());
+  newDate = this.datePipe.transform(new Date(), 'MMM dd, yyyy');
   regionSelected = false;
   regionExist = false;
   citySelected = false;
@@ -127,7 +127,6 @@ export class UbsAdminTariffsLocationPopUpComponent implements OnInit, AfterViewC
 
   ngOnInit(): void {
     this.getLocations();
-    this.setDate();
     this.localeStorageService.firstNameBehaviourSubject.pipe(takeUntil(this.unsubscribe)).subscribe((firstName) => {
       this.name = firstName;
     });
@@ -139,12 +138,6 @@ export class UbsAdminTariffsLocationPopUpComponent implements OnInit, AfterViewC
     this.location.valueChanges.subscribe((item) => {
       this.cityExist = !this.citySelected && item.length > 3;
     });
-  }
-
-  setDate(): void {
-    const lang = this.languageService.getCurrentLanguage();
-    this.datePipe = lang === 'ua' ? new DatePipe('ua') : new DatePipe('en');
-    this.newDate = this.datePipe.transform(new Date(), 'MMM dd, yyyy');
   }
 
   selectCities(currentRegion): void {

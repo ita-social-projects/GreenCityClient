@@ -269,12 +269,10 @@ describe('UbsAdminTariffsLocationPopUpComponent ', () => {
     expect(component.englishLocation.value).toBe('');
   });
 
-  it('should call getLocations and setDate from ngOnInit', () => {
-    const spy1 = spyOn(component, 'getLocations');
-    const spy2 = spyOn(component, 'setDate');
+  it('should call getLocations from ngOnInit', () => {
+    const spy = spyOn(component, 'getLocations');
     component.ngOnInit();
-    expect(spy1).toHaveBeenCalled();
-    expect(spy2).toHaveBeenCalled();
+    expect(spy).toHaveBeenCalled();
   });
 
   it('should add new city', () => {
