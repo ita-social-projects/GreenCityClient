@@ -55,7 +55,7 @@ form {
 }
 
 .input-wrapper input {
-  padding-left: 15px;
+  padding: 0 34px 0 15px;
   margin: 0;
   width: 100%;
   height: 100%;
@@ -65,12 +65,16 @@ form {
   color: var(--ubs-primary-light-grey);
 }
 
+.input-wrapper input.region {
+  padding: 0 56px 0 15px;
+}
+
 .courier-select {
-  padding: 5px 0 0 15px;
+  padding: 5px 34px 0 15px;
 }
 
 .state-select {
-  padding: 5px 0 0 15px;
+  padding: 5px 34px 0 15px;
 }
 
 .col-item {

@@ -672,6 +672,7 @@
     "title": "Add location",
     "edit-title": "Edit location",
     "deactivate": "Deactivate",
+    "deactivate-confirm": "Confirm deactivation",
     "region": "Region",
     "region_translate": "Область",
     "locality": "City",
