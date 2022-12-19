@@ -33,6 +33,7 @@
             alt="arrowDown"
             (click)="openAuto($event, autocompleteTrigger)"
           />
+          <img *ngIf="name.value.length && !data.edit" [src]="icons.cross" class="cross-img" alt="close-icon" (click)="name.setValue('')" />
           <div class="error" *ngIf="name.invalid && name.touched && name.value">
             <p class="validation">{{ 'ubs-tariffs-add-location-pop-up.error' | translate }}</p>
           </div>
@@ -61,6 +62,13 @@
             </mat-option>
           </ng-container>
         </mat-autocomplete>
+        <img
+          *ngIf="englishName.value.length && !data.edit"
+          [src]="icons.cross"
+          class="cross-img"
+          alt="close-icon"
+          (click)="englishName.setValue('')"
+        />
         <div class="error" *ngIf="englishName.invalid && englishName.touched && englishName.value">
           <p class="validation">{{ 'ubs-tariffs-add-location-pop-up.error' | translate }}</p>
         </div>
