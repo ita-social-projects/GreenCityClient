@@ -15,7 +15,6 @@ import { ModalTextComponent } from '../../shared/components/modal-text/modal-tex
 import { Store } from '@ngrx/store';
 import { IAppState } from 'src/app/store/state/app.state';
 import { GetLocations } from 'src/app/store/actions/tariff.actions';
-import { TranslateService } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-ubs-admin-tariffs-pricing-page',
@@ -44,6 +43,7 @@ export class UbsAdminTariffsPricingPageComponent implements OnInit, OnDestroy {
   couriers;
   limitsForm: FormGroup;
   currentLocation;
+  locationId: number;
   bags: Bag[] = [];
   services: Service[] = [];
   thisLocation: Locations[];
@@ -63,7 +63,7 @@ export class UbsAdminTariffsPricingPageComponent implements OnInit, OnDestroy {
   private fb: FormBuilder;
   locations$ = this.store.select((state: IAppState): Locations[] => state.locations.locations);
 
-  constructor(private injector: Injector, private router: Router, private store: Store<IAppState>, private translate: TranslateService) {
+  constructor(private injector: Injector, private router: Router, private store: Store<IAppState>) {
     this.location = injector.get(Location);
     this.dialog = injector.get(MatDialog);
     this.tariffsService = injector.get(TariffsService);
@@ -83,8 +83,8 @@ export class UbsAdminTariffsPricingPageComponent implements OnInit, OnDestroy {
       this.getCouriers();
       this.getAllTariffsForService();
     });
+    this.initializeLocationId();
     this.getOurTariffs();
-    this.getLocationId();
     this.getCourierId();
     this.setCourierId();
     this.getSelectedTariffCard();
@@ -126,7 +126,7 @@ export class UbsAdminTariffsPricingPageComponent implements OnInit, OnDestroy {
     const { minPriceOfOrder, maxPriceOfOrder, minAmountOfBigBags, maxAmountOfBigBags, limitDescription } = this.limitsForm.value;
 
     const tariffId = this.selectedCardId;
-    const locationId = await this.getLocationId();
+    const locationId = this.locationId;
 
     this.bagInfo = {
       minAmountOfBigBags,
@@ -230,6 +230,11 @@ export class UbsAdminTariffsPricingPageComponent implements OnInit, OnDestroy {
     }
   }
 
+  async initializeLocationId(): Promise<number> {
+    this.locationId = await this.getLocationId();
+    return this.locationId;
+  }
+
   routeParams(): void {
     this.route.params.pipe(takeUntil(this.destroy)).subscribe((res) => {
       this.getAllTariffsForService();
@@ -250,7 +255,7 @@ export class UbsAdminTariffsPricingPageComponent implements OnInit, OnDestroy {
       panelClass: 'address-matDialog-styles-pricing-page',
       data: {
         button: 'add',
-        locationId: this.currentLocation
+        locationId: this.locationId
       }
     });
     dialogRefTariff
@@ -306,7 +311,7 @@ export class UbsAdminTariffsPricingPageComponent implements OnInit, OnDestroy {
   }
 
   private filterBags(): void {
-    this.bags = this.bags.filter((value) => value.locationId === this.currentLocation).sort((a, b) => b.price - a.price);
+    this.bags = this.bags.filter((value) => value.locationId === this.locationId).sort((a, b) => b.price - a.price);
   }
 
   async filterServices(): Promise<any> {

@@ -326,7 +326,7 @@ describe('UbsAdminPricingPageComponent', () => {
   });
 
   it('should call openAddTariffForServicePopup', () => {
-    component.currentLocation = 159;
+    component.locationId = 159;
     const addtariffData = {
       button: 'add',
       locationId: 159
