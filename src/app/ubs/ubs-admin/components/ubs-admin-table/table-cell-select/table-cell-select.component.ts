@@ -8,6 +8,7 @@ import { OrderService } from '../../../services/order.service';
 import { AddOrderCancellationReasonComponent } from '../../add-order-cancellation-reason/add-order-cancellation-reason.component';
 
 import { UbsAdminSeveralOrdersPopUpComponent } from '../../ubs-admin-several-orders-pop-up/ubs-admin-several-orders-pop-up.component';
+
 @Component({
   selector: 'app-table-cell-select',
   templateUrl: './table-cell-select.component.html',
@@ -39,7 +40,7 @@ export class TableCellSelectComponent implements OnInit {
   @Output() editButtonClick = new EventEmitter();
   @Output() orderCancellation = new EventEmitter();
 
-  constructor(private adminTableService: AdminTableService, private orderSevice: OrderService, public dialog: MatDialog) {}
+  constructor(private adminTableService: AdminTableService, private orderService: OrderService, public dialog: MatDialog) {}
 
   ngOnInit() {
     this.currentValue = this.optional.filter((item) => item.key === this.key)[0];
@@ -51,7 +52,7 @@ export class TableCellSelectComponent implements OnInit {
 
   private filterStatuses(): void {
     if (this.nameOfColumn === 'orderStatus') {
-      this.optional = this.orderSevice.getAvailableOrderStatuses(this.key, this.optional);
+      this.optional = this.orderService.getAvailableOrderStatuses(this.key, this.optional);
     }
   }
   // The condition of pickup details for required fields
@@ -101,6 +102,7 @@ export class TableCellSelectComponent implements OnInit {
       this.cancelEdit.emit(this.typeOfChange);
     }
   }
+
   private openPopUp(): void {
     this.dialogConfig.disableClose = true;
     const modalRef = this.dialog.open(UbsAdminSeveralOrdersPopUpComponent, this.dialogConfig);
@@ -114,7 +116,7 @@ export class TableCellSelectComponent implements OnInit {
 
   public saveClick(): void {
     if (this.nameOfColumn === 'orderStatus' && this.checkStatus && this.showPopUp) {
-      this.openPopUp();
+      this.checkIfStatusConfirmed();
     } else if (this.nameOfColumn === 'orderStatus' && (this.newOption === 'Canceled' || this.newOption === 'Скасовано')) {
       this.openCancelPopUp();
     } else if (this.nameOfColumn === 'orderStatus') {
@@ -123,6 +125,15 @@ export class TableCellSelectComponent implements OnInit {
       this.save();
     }
   }
+
+  checkIfStatusConfirmed(): void {
+    if (this.newOption !== 'Confirmed' && this.newOption !== 'Підтверджено') {
+      this.openPopUp();
+    } else {
+      this.save();
+    }
+  }
+
   public cancel(): void {
     this.typeOfChange = this.adminTableService.howChangeCell(this.isAllChecked, this.ordersToChange, this.id);
     this.cancelEdit.emit(this.typeOfChange);

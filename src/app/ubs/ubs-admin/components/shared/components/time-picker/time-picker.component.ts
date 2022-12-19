@@ -15,9 +15,11 @@ export class TimePickerComponent implements OnInit {
   public from: string;
   public to: string;
   currentHour: string;
+  currentDate;
 
   @Input() setTimeFrom: string;
   @Input() setTimeTo: string;
+  @Input() exportDate;
   @Output() timeOfExport = new EventEmitter<object>();
   ngOnInit(): void {
     this.fromInput = this.setTimeFrom;
@@ -25,8 +27,17 @@ export class TimePickerComponent implements OnInit {
     this.fromSelect = fromSelect;
     this.toSelect = toSelect;
     this.initTime();
-    this.fromSelect = this.compareTime();
+    this.checkExportDate();
   }
+
+  checkExportDate(): void {
+    this.initDate();
+
+    if (this.currentDate >= this.exportDate) {
+      this.fromSelect = this.compareTime();
+    }
+  }
+
   onTimeFromChange(): void {
     const fromIdx = fromSelect.indexOf(this.fromInput);
     this.toSelect = toSelect.slice(fromIdx);
@@ -64,7 +75,14 @@ export class TimePickerComponent implements OnInit {
     return arr;
   }
 
-  initTime() {
+  initDate(): void {
+    this.currentDate = new Date();
+    this.currentDate = formatDate(this.currentDate, 'yyyy-MM-dd', 'en-US');
+    this.currentDate = new Date(this.currentDate);
+    this.exportDate = new Date(this.exportDate);
+  }
+
+  initTime(): void {
     this.currentHour = Date.now().toString();
     this.currentHour = formatDate(this.currentHour, 'hh:mm a', 'en-US');
     this.currentHour = this.convertTime12to24(this.currentHour);
