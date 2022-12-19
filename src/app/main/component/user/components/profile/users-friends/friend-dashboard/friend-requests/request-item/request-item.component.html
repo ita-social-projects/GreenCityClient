@@ -1,4 +1,4 @@
-<div class="request-item" (click)="clickHandler($event)">
+<div class="request-item" (click)="redirectToFriendPage()">
   <app-user-profile-image
     [imgPath]="request.profilePicturePath"
     [firstName]="request.name"
@@ -15,7 +15,7 @@
     <p class="request-city">{{ request.city }}</p>
   </div>
   <div class="request-btn">
-    <button (click)="accept(request.id)">{{ 'profile.friends.request-accept' | translate }}</button>
-    <button (click)="decline(request.id)">{{ 'profile.friends.request-decline' | translate }}</button>
+    <button (click)="accept(request.id); $event.stopPropagation()">{{ 'profile.friends.request-accept' | translate }}</button>
+    <button (click)="decline(request.id); $event.stopPropagation()">{{ 'profile.friends.request-decline' | translate }}</button>
   </div>
 </div>

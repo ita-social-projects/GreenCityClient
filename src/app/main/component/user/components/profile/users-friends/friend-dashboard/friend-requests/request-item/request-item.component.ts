@@ -25,15 +25,6 @@ export class RequestItemComponent {
     this.declineEvent.emit(id);
   }
 
-  public clickHandler(event: MouseEvent): void {
-    const target = event.target as HTMLElement;
-    if (target.tagName === 'button') {
-      return;
-    } else {
-      this.redirectToFriendPage();
-    }
-  }
-
   public redirectToFriendPage(): void {
     this.userId = this.localeStorageService.getUserId();
     this.router.navigate(['profile', this.userId, 'friends', this.request.name, this.request.id], {
