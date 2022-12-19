@@ -9,10 +9,14 @@ import { LocalStorageService } from '@global-service/localstorage/local-storage.
 import { CheckTokenService } from '@global-service/auth/check-token/check-token.service';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { OrderService } from '../../services/order.service';
+import { JwtService } from '@global-service/jwt/jwt.service';
 
 describe('UbsMainPageComponent', () => {
   let component: UbsMainPageComponent;
   let fixture: ComponentFixture<UbsMainPageComponent>;
+  let jwtServiceMock: JwtService;
+  jwtServiceMock = jasmine.createSpyObj('JwtService', ['getUserRole']);
+  jwtServiceMock.getUserRole = () => 'ROLE_UBS_EMPLOYEE';
 
   const localeStorageServiceMock = jasmine.createSpyObj('localeStorageService', ['setUbsRegistration']);
   const routerMock = jasmine.createSpyObj('router', ['navigate']);
@@ -34,7 +38,8 @@ describe('UbsMainPageComponent', () => {
         { provide: Router, useValue: routerMock },
         { provide: LocalStorageService, useValue: localeStorageServiceMock },
         { provide: CheckTokenService, useValue: checkTokenServiceMock },
-        { provide: OrderService, useValue: orderServiceMock }
+        { provide: OrderService, useValue: orderServiceMock },
+        { provide: JwtService, useValue: jwtServiceMock }
       ]
     }).compileComponents();
   }));
@@ -47,6 +52,12 @@ describe('UbsMainPageComponent', () => {
 
   it('should create', () => {
     expect(component).toBeTruthy();
+  });
+
+  it('checkIsAdmin()', () => {
+    const spy = spyOn(component, 'checkIsAdmin');
+    component.ngOnInit();
+    expect(spy).toBeTruthy();
   });
 
   it('destroy Subject should be closed after ngOnDestroy()', () => {

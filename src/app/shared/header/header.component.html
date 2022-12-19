@@ -7,7 +7,7 @@
         routerLinkActive="active-link"
         tabindex="0"
         [routerLinkActiveOptions]="{ exact: true }"
-        [routerLink]="isUBS ? '/ubs' : '/'"
+        [routerLink]="getRouterLink()"
       >
         <img [src]="imageLogo" role="link" alt="{{ imgAlt }}" />
       </a>
