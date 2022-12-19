@@ -93,7 +93,7 @@
             *ngIf="!data.edit"
             #locationInput
             class="shadow-none form-control mb-1"
-            [ngClass]="{ 'error-input': cityExist }"
+            [ngClass]="{ 'error-input': cityExist || cityInvalid }"
             formControlName="location"
             [placeholder]="'ubs-tariffs-add-location-pop-up.placeholder_enter_location' | translate"
             [attr.disabled]="locationForm.controls['region'].dirty ? null : true"
@@ -125,8 +125,11 @@
             (click)="location.setValue(''); citySelected = false"
           />
         </div>
-        <div class="w-100" *ngIf="cityExist && !data.edit">
+        <div class="w-100" *ngIf="cityInvalid && !data.edit">
           <p class="validation-city">{{ 'ubs-tariffs-add-location-pop-up.city_error_message' | translate }}</p>
+        </div>
+        <div class="w-100" *ngIf="cityExist && !data.edit">
+          <p class="validation-city">{{ 'ubs-tariffs-add-location-pop-up.city_exist' | translate }}</p>
         </div>
         <div class="w-100" *ngIf="editedCityExist && data.edit">
           <p class="validation-city">{{ 'ubs-tariffs-add-location-pop-up.city_exist' | translate }}</p>
