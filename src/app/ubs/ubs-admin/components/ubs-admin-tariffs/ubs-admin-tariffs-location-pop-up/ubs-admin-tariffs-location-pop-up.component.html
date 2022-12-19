@@ -19,7 +19,7 @@
             required
             [options]="regionOptions"
             formControlName="region"
-            placeholder="Введіть область"
+            [placeholder]="'ubs-tariffs-add-location-pop-up.placeholder_enter_region' | translate"
             (onAddressChange)="onRegionSelected($event)"
           />
           <div *ngIf="data.edit">
@@ -29,7 +29,7 @@
               required
               matInput
               formControlName="region"
-              placeholder="Обрати область"
+              [placeholder]="'ubs-tariffs-add-location-pop-up.placeholder_region' | translate"
               [matAutocomplete]="autoRegion"
               #autocompleteTriggerRegion="matAutocompleteTrigger"
             />
@@ -55,13 +55,13 @@
         </div>
       </div>
       <div class="form-group">
-        <label>{{ 'ubs-tariffs-add-location-pop-up.region' | translate }}</label>
+        <label>{{ 'ubs-tariffs-add-location-pop-up.region_translate' | translate }}</label>
         <input
           type="text"
           class="shadow-none form-control"
           required
           formControlName="englishRegion"
-          placeholder="Enter the region"
+          [placeholder]="'ubs-tariffs-add-location-pop-up.placeholder_enter_region_translate' | translate"
           [attr.disabled]="locationForm.controls['region'].dirty ? null : true"
         />
         <img
@@ -95,7 +95,7 @@
             class="shadow-none form-control mb-1"
             [ngClass]="{ 'error-input': cityExist }"
             formControlName="location"
-            placeholder="Введіть місто"
+            [placeholder]="'ubs-tariffs-add-location-pop-up.placeholder_enter_location' | translate"
             [attr.disabled]="locationForm.controls['region'].dirty ? null : true"
             (keyup.enter)="addCity()"
           />
@@ -103,7 +103,7 @@
             <input
               class="shadow-none form-control mb-1"
               formControlName="location"
-              placeholder="Введіть місто"
+              [placeholder]="'ubs-tariffs-add-location-pop-up.placeholder_enter_location' | translate"
               [matAutocomplete]="autoCity"
               #autocompleteTriggerCity="matAutocompleteTrigger"
               (keyup.enter)="addEditedCity()"
@@ -133,11 +133,11 @@
         </div>
       </div>
       <div class="form-group">
-        <label>{{ 'ubs-tariffs-add-location-pop-up.locality' | translate }}</label>
+        <label>{{ 'ubs-tariffs-add-location-pop-up.locality_translate' | translate }}</label>
         <input
           class="shadow-none form-control mb-1"
           formControlName="englishLocation"
-          placeholder="Enter the city"
+          [placeholder]="'ubs-tariffs-add-location-pop-up.placeholder_enter_location_translate' | translate"
           [attr.disabled]="locationForm.controls['region'].dirty ? null : true"
         />
         <img
