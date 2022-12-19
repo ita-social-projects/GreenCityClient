@@ -8,6 +8,7 @@ import { LocalStorageService } from '@global-service/localstorage/local-storage.
 import { Store } from '@ngrx/store';
 import { TranslateModule } from '@ngx-translate/core';
 import { of } from 'rxjs';
+import { LanguageService } from 'src/app/main/i18n/language.service';
 import { Locations } from '../../../models/tariffs.interface';
 import { TariffsService } from '../../../services/tariffs.service';
 import { ModalTextComponent } from '../../shared/components/modal-text/modal-text.component';
@@ -154,6 +155,9 @@ describe('UbsAdminTariffsLocationPopUpComponent ', () => {
 
   const inputsMock = { nativeElement: { value: 'fake' } };
 
+  const languageServiceMock = jasmine.createSpyObj('languageService', ['getCurrentLanguage']);
+  languageServiceMock.getCurrentLanguage.and.returnValue('ua');
+
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       imports: [TranslateModule.forRoot(), HttpClientTestingModule, MatDialogModule, ReactiveFormsModule, MatAutocompleteModule],
@@ -165,7 +169,8 @@ describe('UbsAdminTariffsLocationPopUpComponent ', () => {
         { provide: MatDialogRef, useValue: fakeMatDialogRef },
         { provide: LocalStorageService, useFactory: localStorageServiceStub },
         { provide: Store, useValue: storeMock },
-        { provide: TariffsService, useValue: tariifsServiceMock }
+        { provide: TariffsService, useValue: tariifsServiceMock },
+        { provide: LanguageService, useValue: languageServiceMock }
       ],
       schemas: [CUSTOM_ELEMENTS_SCHEMA, NO_ERRORS_SCHEMA]
     }).compileComponents();
@@ -264,10 +269,12 @@ describe('UbsAdminTariffsLocationPopUpComponent ', () => {
     expect(component.englishLocation.value).toBe('');
   });
 
-  it('should call getLocations from ngOnInit', () => {
-    const spy = spyOn(component, 'getLocations');
+  it('should call getLocations and setDate from ngOnInit', () => {
+    const spy1 = spyOn(component, 'getLocations');
+    const spy2 = spyOn(component, 'setDate');
     component.ngOnInit();
-    expect(spy).toHaveBeenCalled();
+    expect(spy1).toHaveBeenCalled();
+    expect(spy2).toHaveBeenCalled();
   });
 
   it('should add new city', () => {
