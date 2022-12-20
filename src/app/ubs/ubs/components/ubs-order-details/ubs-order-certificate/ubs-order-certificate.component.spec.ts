@@ -148,7 +148,7 @@ describe('UbsOrderCertificateComponent', () => {
     expect(spy1).not.toHaveBeenCalled();
   });
 
-  it("method addedCertificateSubmit should invoke calculateCertificates method if there is some certificate doesn't includes", () => {
+  it('method addedCertificateSubmit should invoke calculateCertificates method if there is some certificate doesn"t includes', () => {
     const spy = spyOn(component, 'calculateCertificates').and.callFake(() => {});
     const fakeIndex = 0;
     component.formArrayCertificates.value[fakeIndex] = 'fake';
@@ -222,7 +222,7 @@ describe('UbsOrderCertificateComponent', () => {
     expect(spy).toHaveBeenCalled();
   });
 
-  it("disableAddCertificate should return false if certificates.codes.length doesn't equal formArrayCertificates.length", () => {
+  it('disableAddCertificate should return false if certificates.codes.length doesn"t equal formArrayCertificates.length', () => {
     const result = component.disableAddCertificate();
     expect(result).toBe(false);
   });
@@ -237,7 +237,7 @@ describe('UbsOrderCertificateComponent', () => {
     const patchValueSpy = spyOn(component.formArrayCertificates, 'patchValue');
     const markAsUntouchedSpy = spyOn(component.formArrayCertificates, 'markAsUntouched');
     component.certificateReset();
-    for (let key in component.certificates) {
+    for (const key of Object.keys(component.certificates)) {
       expect(component.certificates[key]).toEqual([]);
     }
     expect(component.certSize).toBeFalsy();

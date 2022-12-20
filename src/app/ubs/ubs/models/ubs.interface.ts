@@ -74,10 +74,10 @@ export interface FinalOrder {
 }
 
 export interface Certificate {
-  codes?: Array<string>;
-  points?: Array<number>;
-  activatedStatus?: Array<boolean>;
-  creationDates?: Array<string>;
+  codes: Array<string>;
+  points: Array<number>;
+  activatedStatus: Array<boolean>;
+  creationDates: Array<string>;
   dateOfUses?: Array<string>;
   expirationDates?: Array<string>;
   failed: Array<boolean>;

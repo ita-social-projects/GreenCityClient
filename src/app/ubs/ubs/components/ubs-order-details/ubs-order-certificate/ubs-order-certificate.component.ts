@@ -266,7 +266,7 @@ export class UbsOrderCertificateComponent implements OnInit, OnDestroy {
     this.shareFormService.changeAddCertButtonVisibility(false);
     this.displayCert = false;
 
-    for (let key in this.certificates) {
+    for (const key of Object.keys(this.certificates)) {
       this.certificates[key] = [];
     }
 
@@ -279,7 +279,7 @@ export class UbsOrderCertificateComponent implements OnInit, OnDestroy {
   }
 
   deleteCertificate(index: number): void {
-    for (let key in this.certificates) {
+    for (const key of Object.keys(this.certificates)) {
       this.certificates[key].splice(index, 1);
     }
 
