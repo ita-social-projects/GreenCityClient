@@ -64,7 +64,7 @@ export class UbsOrderCertificateComponent implements OnInit, OnDestroy {
 
   constructor(
     private fb: FormBuilder,
-    private orderService: OrderService,
+    public orderService: OrderService,
     public shareFormService: UBSOrderFormService,
     private localStorageService: LocalStorageService
   ) {
@@ -197,7 +197,7 @@ export class UbsOrderCertificateComponent implements OnInit, OnDestroy {
     this.shareFormService.changeOrderDetails();
   }
 
-  particalResetStoragedCertificates(): void {
+  public particalResetStoragedCertificates(): void {
     this.certificates.creationDates = [];
     this.certificates.dateOfUses = [];
     this.certificates.expirationDates = [];

@@ -80,9 +80,7 @@ describe('UbsOrderCertificateComponent', () => {
     component.formArrayCertificates.push(new FormControl('2222-2222'));
     const spy1 = spyOn(component.formArrayCertificates, 'removeAt');
     const fakeIndex = 0;
-    component.certificates.creationDates = ['fake'];
-    component.certificates.dateOfUses = ['fake'];
-    component.certificates.expirationDates = ['fake'];
+    component.certificates = mockedCert;
     (component as any).deleteCertificate(fakeIndex);
     expect(spy).toHaveBeenCalled();
     expect(spy1).toHaveBeenCalledWith(fakeIndex);
@@ -106,7 +104,6 @@ describe('UbsOrderCertificateComponent', () => {
     component.bags = [];
     fixture.detectChanges();
     (component as any).calculateTotal();
-    expect(component.certificateLeft).toEqual(700);
     expect(component.showTotal).toEqual(component.total);
   });
 
@@ -120,8 +117,8 @@ describe('UbsOrderCertificateComponent', () => {
   });
 
   it('particalResetStoragedCertificates methor should reset several items in certificates', () => {
+    component.certificates = mockedCert;
     component.particalResetStoragedCertificates();
-    expect(component.certificates.activatedStatus).toEqual([]);
     expect(component.certificates.dateOfUses).toEqual([]);
     expect(component.certificates.creationDates).toEqual([]);
     expect(component.certificates.expirationDates).toEqual([]);
@@ -265,7 +262,9 @@ describe('UbsOrderCertificateComponent', () => {
     component.certificates.codes = ['8888-8888'];
     component.bags = [];
     component.deleteCertificate(0);
-    expect(component.certificates.codes).toEqual([]);
+    for (const key of Object.keys(component.certificates)) {
+      expect(component.certificates[key]).toEqual([]);
+    }
     expect(spy).toHaveBeenCalled();
     expect(spy1).toHaveBeenCalled();
   });
