@@ -110,7 +110,6 @@ describe('EventsService', () => {
     expect(req.request.method).toEqual('GET');
     req.flush(data);
   });
-  
   it('should make GET request to get all events of user', () => {
     service.getAllUserEvents(0, 1).subscribe((event: any) => {
       expect(event).toEqual(data);
