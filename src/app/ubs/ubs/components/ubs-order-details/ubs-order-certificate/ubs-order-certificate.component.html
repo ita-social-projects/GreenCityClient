@@ -101,17 +101,6 @@
     {{ 'order-details.add-certificate' | translate }}
   </button>
 
-  <!--<button
-    type="button"
-    *ngIf="addCert && finalSum > 0 && !failed"
-    class="addCertificateBtn"
-    [hidden]="certificates.codes.length > 4"
-    [disabled]="!disableAddCertificate() || cancelCertBtn || certificates.error[i] || failed"
-    (click)="addNewCertificate()"
-  >
-    {{ 'order-details.add-certificate' | translate }}
-  </button>-->
-
   <div class="points">
     <h5>{{ 'order-details.bonus-need' | translate }}</h5>
     <p>{{ 'order-details.bonus-left' | translate }} {{ defaultPoints | currency | localizedCurrency }}</p>

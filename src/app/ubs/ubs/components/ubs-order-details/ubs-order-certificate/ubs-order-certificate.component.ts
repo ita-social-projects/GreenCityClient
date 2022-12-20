@@ -56,7 +56,7 @@ export class UbsOrderCertificateComponent implements OnInit, OnDestroy {
   certSize = false;
   showCertificateUsed = 0;
   certificateLeft = 0;
-  private destroy: Subject<boolean> = new Subject<boolean>();
+  public destroy: Subject<boolean> = new Subject<boolean>();
   bonusesRemaining: boolean;
   public locations: Locations[];
   clickOnYes = true;
@@ -65,7 +65,7 @@ export class UbsOrderCertificateComponent implements OnInit, OnDestroy {
   constructor(
     private fb: FormBuilder,
     private orderService: OrderService,
-    private shareFormService: UBSOrderFormService,
+    public shareFormService: UBSOrderFormService,
     private localStorageService: LocalStorageService
   ) {
     this.initForm();
@@ -83,7 +83,7 @@ export class UbsOrderCertificateComponent implements OnInit, OnDestroy {
     });
   }
 
-  disableAddCertificate() {
+  public disableAddCertificate() {
     return this.certificates.codes.length === this.formArrayCertificates.length;
   }
 
@@ -102,7 +102,7 @@ export class UbsOrderCertificateComponent implements OnInit, OnDestroy {
     return date?.split('-').reverse().join('.');
   }
 
-  setNewValue(value: object) {
+  public setNewValue(value: object) {
     this.newItemEvent.emit(value);
   }
 
@@ -139,7 +139,7 @@ export class UbsOrderCertificateComponent implements OnInit, OnDestroy {
     this.fullCertificate = this.certificateSum;
   }
 
-  private calculateTotal(): void {
+  public calculateTotal(): void {
     this.total = 0;
     this.bags.forEach((bag) => {
       this.total += bag.price * bag.quantity;
@@ -327,7 +327,7 @@ export class UbsOrderCertificateComponent implements OnInit, OnDestroy {
     }
   }
 
-  private calculatePointsWithoutCertificate() {
+  public calculatePointsWithoutCertificate() {
     this.finalSum = this.showTotal;
     const totalSumIsBiggerThanPoints = this.defaultPoints > this.showTotal;
     if (totalSumIsBiggerThanPoints) {
@@ -341,7 +341,7 @@ export class UbsOrderCertificateComponent implements OnInit, OnDestroy {
     this.finalSum = this.showTotal - this.pointsUsed;
   }
 
-  private calculatePointsWithCertificate() {
+  public calculatePointsWithCertificate() {
     const totalSumIsBiggerThanPoints = this.defaultPoints > this.finalSum - this.certificateSum;
     this.finalSum = this.showTotal;
     if (totalSumIsBiggerThanPoints) {
