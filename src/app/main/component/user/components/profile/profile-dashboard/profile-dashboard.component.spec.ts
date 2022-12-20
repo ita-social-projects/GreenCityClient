@@ -85,9 +85,8 @@ describe('ProfileDashboardComponent', () => {
     totalPages: 1
   };
 
-  const EventsServiceMock = jasmine.createSpyObj('EventsService', ['getCreatedEvents', 'getUsersEvents']);
-  EventsServiceMock.getCreatedEvents = () => of(MockResult);
-  EventsServiceMock.getUsersEvents = () => of(MockResult);
+  const EventsServiceMock = jasmine.createSpyObj('EventsService', ['getAllUserEvents']);
+  EventsServiceMock.getAllUserEvents = () => of(MockResult);
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
@@ -134,25 +133,15 @@ describe('ProfileDashboardComponent', () => {
     });
   });
 
-  it('Should call getCreatedEvents method before subscribe', async(() => {
+  it('Should call getAllUserEvents method before subscribe', async(() => {
     component.userId = 12;
-    const spy1 = spyOn(EventsServiceMock, 'getCreatedEvents').and.returnValue(of(MockResult));
-    const spy2 = spyOn(EventsServiceMock.getCreatedEvents(), 'subscribe');
+    const spy1 = spyOn(EventsServiceMock, 'getAllUserEvents').and.returnValue(of(MockResult));
+    const spy2 = spyOn(EventsServiceMock.getAllUserEvents(), 'subscribe');
     component.initGetUserEvents();
     expect(spy1).toHaveBeenCalledBefore(spy2);
     expect(spy2).toHaveBeenCalled();
-    expect(component.eventsByAuthorList).toEqual(MockResult.page);
-  }));
-
-  it('getUsersEvents expect eventsTotal equal ', async(() => {
-    component.userId = 12;
-    const spy1 = spyOn(EventsServiceMock, 'getUsersEvents').and.returnValue(of(MockResult));
-    const spy2 = spyOn(EventsServiceMock.getUsersEvents(), 'subscribe');
-    component.initGetUserEvents();
-    expect(spy1).toHaveBeenCalledBefore(spy2);
-    expect(spy2).toHaveBeenCalled();
-    expect(component.UserEventList).toEqual(component.eventsByAuthorList.concat(MockResult.page));
-    expect(component.eventsTotal).toBe(12);
+    expect(component.eventsList).toEqual(MockResult.page);
+    expect(component.eventsTotal).toEqual(MockResult.totalElements);
   }));
 
   it('dispatchNews expect store.dispatch have been called', () => {

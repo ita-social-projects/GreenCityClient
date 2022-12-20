@@ -76,35 +76,22 @@ export class ProfileDashboardComponent implements OnInit, OnDestroy {
 
   initGetUserEvents(): void {
     this.eventService
-      .getCreatedEvents(0, 100)
+      .getAllUserEvents(0, this.eventsPerPage)
       .pipe(take(1))
       .subscribe((res: EventResponseDto) => {
-        this.eventsByAuthorList = res.page;
+        this.eventsList = res.page;
         this.eventsTotal = res.totalElements;
-
-        this.eventService
-          .getUsersEvents(0, 100)
-          .pipe(take(1))
-          .subscribe((events: EventResponseDto) => {
-            this.UserEventList = this.eventsByAuthorList.concat(events.page);
-            this.eventsTotal = this.eventsTotal + events.totalElements;
-            this.eventsList = this.UserEventList.slice(0, this.eventsPerPage);
-          });
       });
   }
 
   onEventsPageChange(page: number): void {
     this.eventsPage = page;
-    let startIndex = this.eventsPage - 1 + this.eventsPerPage;
-    let endIndex = startIndex + this.eventsPerPage;
-    if (page === 1) {
-      startIndex = 0;
-      endIndex = this.eventsPerPage;
-    }
-    if (endIndex > this.eventsTotal) {
-      endIndex = this.eventsTotal;
-    }
-    this.eventsList = this.UserEventList.slice(startIndex, endIndex);
+    this.eventService
+      .getAllUserEvents(this.eventsPage - 1, 6)
+      .pipe(take(1))
+      .subscribe((res) => {
+        this.eventsList = res.page;
+      });
   }
 
   public dispatchNews(res: boolean) {
