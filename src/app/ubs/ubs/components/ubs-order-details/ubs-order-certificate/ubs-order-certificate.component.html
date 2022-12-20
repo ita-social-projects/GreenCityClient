@@ -55,7 +55,7 @@
         {{ 'order-details.expired' | translate: { certDate: certificates.expirationDates[i] } }}
       </small>
       <small
-        class="text-message trueee"
+        class="text-message"
         *ngIf="certificates.expirationDates[i] && certSize && certificateSum <= showTotal && !certificates.failed[i]"
       >
         {{ 'order-details.activated' | translate: { certificateSum: certificates.points[i], certDate: certificates.expirationDates[i] } }}
@@ -72,7 +72,7 @@
         }}
       </small>
       <small
-        class="text-message wrong"
+        class="text-message"
         *ngIf="
           certificates.expirationDates[i] &&
           (certificates.status[i] === 'NEW' || certificates.status[i] === 'ACTIVE') &&
