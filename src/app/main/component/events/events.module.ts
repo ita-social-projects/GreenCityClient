@@ -28,6 +28,7 @@ import { ImagesContainerComponent } from './components/images-container/images-c
 import { GooglePlaceModule } from 'ngx-google-places-autocomplete';
 import { EventDetailsComponent } from './components/event-details/event-details.component';
 import { RatingModule } from 'ngx-bootstrap/rating';
+import { ImagesSliderComponent } from './components/event-details/images-slider/images-slider.component';
 
 @NgModule({
   declarations: [
@@ -37,7 +38,8 @@ import { RatingModule } from 'ngx-bootstrap/rating';
     EventDateTimePickerComponent,
     MapEventComponent,
     ImagesContainerComponent,
-    EventDetailsComponent
+    EventDetailsComponent,
+    ImagesSliderComponent
   ],
   imports: [
     RatingModule.forRoot(),
@@ -73,7 +75,7 @@ import { RatingModule } from 'ngx-bootstrap/rating';
   ],
   exports: [TranslateModule]
 })
-export class EventsModule { }
+export class EventsModule {}
 export function createTranslateLoader(http: HttpClient) {
   return new TranslateHttpLoader(http, './assets/i18n/', '.json');
 }

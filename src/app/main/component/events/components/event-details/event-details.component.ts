@@ -8,8 +8,7 @@ import { take } from 'rxjs/operators';
 import { DialogPopUpComponent } from 'src/app/shared/dialog-pop-up/dialog-pop-up.component';
 import { DeleteEcoEventAction, EventsActions } from 'src/app/store/actions/ecoEvents.actions';
 import { singleNewsImages } from '../../../../image-pathes/single-news-images';
-import { TagsArray } from '../../models/event-consts';
-import { EventPageResponceDto, TagDto, TagObj } from '../../models/events.interface';
+import { EventPageResponceDto } from '../../models/events.interface';
 import { EventsService } from '../../services/events.service';
 import { MapEventComponent } from '../map-event/map-event.component';
 import { JwtService } from '@global-service/jwt/jwt.service';
@@ -21,19 +20,28 @@ import { JwtService } from '@global-service/jwt/jwt.service';
 })
 export class EventDetailsComponent implements OnInit {
   private eventId: number;
-  private ADMIN_ROLE = 'ROLE_ADMIN';
+  private userId: number;
+
+  public roles = {
+    UNAUTHENTICATED: 'UNAUTHENTICATED',
+    USER: 'USER',
+    ORGANIZER: 'ORGANIZER',
+    ADMIN: 'ADMIN'
+  };
+
+  public role = this.roles.UNAUTHENTICATED;
+
   public isAdmin = false;
-  public images = singleNewsImages;
+  public icons = singleNewsImages;
   public event: EventPageResponceDto;
 
-  public imagesSlider: Array<string> = [];
+  public images: string[] = [];
   public sliderIndex = 0;
   public isPosting: boolean;
-  public userId: number;
 
   public max = 5;
   public rate: number;
-  public isReadonly = true;
+  // public isReadonly = true;
 
   deleteDialogData = {
     popupTitle: 'homepage.events.delete-title',
@@ -43,13 +51,9 @@ export class EventDetailsComponent implements OnInit {
 
   mapDialogData: any;
 
-  public tags: Array<TagObj>;
-
   public address = 'Should be adress';
 
-  public selected = 0;
-  public hovered = 0;
-  public readonly = false;
+  // public readonly = false;
   public maxRating = 5;
   constructor(
     private route: ActivatedRoute,
@@ -63,61 +67,39 @@ export class EventDetailsComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
+    this.eventId = this.route.snapshot.params.id;
+    this.localStorageService.userIdBehaviourSubject.subscribe((id) => {
+      this.userId = Number(id);
+    });
+
     this.localStorageService.setEditMode('canUserEdit', true);
-    this.getUserId();
-    this.tags = TagsArray.reduce((ac, cur) => [...ac, { ...cur }], []);
-    this.setNewsId();
+
     this.eventService.getEventById(this.eventId).subscribe((res: EventPageResponceDto) => {
       this.event = res;
-      this.localStorageService.setEventForEdit('editEvent', this.event);
-      this.imagesSlider = [res.titleImage, ...res.additionalImages];
-      this.filterTags(res.tags);
+      // this.localStorageService.setEventForEdit('editEvent', this.event);
+      this.images = [res.titleImage, ...res.additionalImages];
       this.rate = Math.round(this.event.organizer.organizerRating);
       this.mapDialogData = {
         lat: this.event.dates[0].coordinates.latitude,
         lng: this.event.dates[0].coordinates.longitude
       };
+
+      this.role = this.verifyRole();
     });
-    this.isAdmin = this.checkIsAdmin();
 
     this.actionsSubj.pipe(ofType(EventsActions.DeleteEcoEventSuccess)).subscribe(() => this.router.navigate(['/events']));
   }
 
-  public routeToEditEvent(): void {
+  private verifyRole() {
+    let role = this.roles.UNAUTHENTICATED;
+    role = this.jwtService.getUserRole() === 'ROLE_USER' ? this.roles.USER : role;
+    role = this.userId === this.event.organizer.id ? this.roles.ORGANIZER : role;
+    role = this.jwtService.getUserRole() === 'ROLE_ADMIN' ? this.roles.ADMIN : role;
+    return role;
+  }
+
+  public navigateToEditEvent(): void {
     this.router.navigate(['/events', 'create-event']);
-  }
-
-  public getUserId(): void {
-    this.localStorageService.userIdBehaviourSubject.subscribe((id) => (this.userId = id));
-  }
-
-  public checkUserId(): boolean {
-    return this.userId === this.event.organizer.id;
-  }
-
-  public checkIsAdmin(): boolean {
-    const userRole = this.jwtService.getUserRole();
-    return userRole === this.ADMIN_ROLE;
-  }
-
-  private filterTags(tags: Array<TagDto>): void {
-    this.tags.forEach((item) => (item.isActive = tags.some((name) => name.nameEn === item.nameEn)));
-  }
-
-  private setNewsId(): void {
-    this.eventId = this.route.snapshot.params.id;
-  }
-
-  public selectImage(ind: number): void {
-    this.sliderIndex = ind;
-  }
-
-  public moveRight(): void {
-    this.sliderIndex = this.sliderIndex === this.imagesSlider.length - 1 ? 0 : ++this.sliderIndex;
-  }
-
-  public moveLeft(): void {
-    this.sliderIndex = this.sliderIndex === 0 ? this.imagesSlider.length - 1 : --this.sliderIndex;
   }
 
   public openMap(event): void {
