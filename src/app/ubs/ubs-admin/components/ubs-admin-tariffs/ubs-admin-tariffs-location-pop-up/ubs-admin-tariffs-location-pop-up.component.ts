@@ -72,8 +72,9 @@ export class UbsAdminTariffsLocationPopUpComponent implements OnInit, AfterViewC
   autocompleteLsr;
   name: string;
   unsubscribe: Subject<any> = new Subject();
-  datePipe = new DatePipe(this.languageService.getCurrentLanguage());
-  newDate = this.datePipe.transform(new Date(), 'MMM dd, yyyy');
+  currentLang: string;
+  datePipe;
+  newDate;
   regionSelected = false;
   regionExist = false;
   citySelected = false;
@@ -137,6 +138,11 @@ export class UbsAdminTariffsLocationPopUpComponent implements OnInit, AfterViewC
     });
     this.location.valueChanges.subscribe((item) => {
       this.cityExist = !this.citySelected && item.length > 3;
+    });
+    this.localeStorageService.languageBehaviourSubject.pipe(takeUntil(this.unsubscribe)).subscribe((lang: string) => {
+      this.currentLang = lang;
+      this.datePipe = new DatePipe(this.currentLang);
+      this.newDate = this.datePipe.transform(new Date(), 'MMM dd, yyyy');
     });
   }
 
