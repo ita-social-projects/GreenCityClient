@@ -110,6 +110,15 @@ describe('EventsService', () => {
     expect(req.request.method).toEqual('GET');
     req.flush(data);
   });
+  
+  it('should make GET request to get all events of user', () => {
+    service.getAllUserEvents(0, 1).subscribe((event: any) => {
+      expect(event).toEqual(data);
+    });
+    const req = httpTestingController.expectOne(`${url}events/myEvents/relatedEvents?page=0&size=1`);
+    expect(req.request.method).toEqual('GET');
+    req.flush(data);
+  });
 
   it('should make GET request to get the event', () => {
     service.getEventById(156).subscribe((event: any) => {
