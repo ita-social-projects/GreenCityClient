@@ -7,8 +7,7 @@ import { MatDialog, MatDialogModule, MatDialogRef, MAT_DIALOG_DATA } from '@angu
 import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
 import { Store } from '@ngrx/store';
 import { TranslateModule } from '@ngx-translate/core';
-import { of } from 'rxjs';
-import { LanguageService } from 'src/app/main/i18n/language.service';
+import { BehaviorSubject, of } from 'rxjs';
 import { Locations } from '../../../models/tariffs.interface';
 import { TariffsService } from '../../../services/tariffs.service';
 import { ModalTextComponent } from '../../shared/components/modal-text/modal-text.component';
@@ -144,9 +143,10 @@ describe('UbsAdminTariffsLocationPopUpComponent ', () => {
   const fakeMatDialogRef = jasmine.createSpyObj(['close', 'afterClosed']);
   fakeMatDialogRef.afterClosed.and.returnValue(of(true));
 
-  const localStorageServiceStub = () => ({
-    firstNameBehaviourSubject: { pipe: () => of('fakeName') }
-  });
+  const localStorageServiceMock = jasmine.createSpyObj('localStorageService', ['firstNameBehaviourSubject', 'languageBehaviourSubject']);
+  localStorageServiceMock.firstNameBehaviourSubject = new BehaviorSubject('user');
+  localStorageServiceMock.languageBehaviourSubject = new BehaviorSubject('ua');
+
   const storeMock = jasmine.createSpyObj('store', ['select', 'dispatch']);
   storeMock.select.and.returnValue(of({ locations: { locations: [fakeLocations] } }));
 
@@ -154,9 +154,6 @@ describe('UbsAdminTariffsLocationPopUpComponent ', () => {
   tariifsServiceMock.getJSON.and.returnValue(of('fake'));
 
   const inputsMock = { nativeElement: { value: 'fake' } };
-
-  const languageServiceMock = jasmine.createSpyObj('languageService', ['getCurrentLanguage']);
-  languageServiceMock.getCurrentLanguage.and.returnValue('ua');
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
@@ -167,10 +164,9 @@ describe('UbsAdminTariffsLocationPopUpComponent ', () => {
         { provide: MAT_DIALOG_DATA, useValue: {} },
         { provide: MatDialog, useValue: matDialogMock },
         { provide: MatDialogRef, useValue: fakeMatDialogRef },
-        { provide: LocalStorageService, useFactory: localStorageServiceStub },
+        { provide: LocalStorageService, useValue: localStorageServiceMock },
         { provide: Store, useValue: storeMock },
-        { provide: TariffsService, useValue: tariifsServiceMock },
-        { provide: LanguageService, useValue: languageServiceMock }
+        { provide: TariffsService, useValue: tariifsServiceMock }
       ],
       schemas: [CUSTOM_ELEMENTS_SCHEMA, NO_ERRORS_SCHEMA]
     }).compileComponents();

@@ -23,7 +23,6 @@ import { AddLocations, EditLocation, GetLocations } from 'src/app/store/actions/
 import { ModalTextComponent } from '../../shared/components/modal-text/modal-text.component';
 import { MatAutocompleteTrigger } from '@angular/material/autocomplete';
 import { Patterns } from 'src/assets/patterns/patterns';
-import { LanguageService } from 'src/app/main/i18n/language.service';
 
 interface LocationItem {
   location: string;
@@ -97,7 +96,6 @@ export class UbsAdminTariffsLocationPopUpComponent implements OnInit, AfterViewC
     private tariffsService: TariffsService,
     private fb: FormBuilder,
     private localeStorageService: LocalStorageService,
-    private languageService: LanguageService,
     private cdr: ChangeDetectorRef,
     public dialog: MatDialog,
     public dialogRef: MatDialogRef<UbsAdminTariffsLocationPopUpComponent>,
