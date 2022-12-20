@@ -1,0 +1,26 @@
+<div class="images-slider">
+  <img
+    *ngFor="let image of images; let i = index"
+    [src]="image"
+    [ngClass]="{ 'image-active': currentImageIdx === i }"
+    class="img fade"
+    alt="event"
+  />
+
+  <div class="dot-container">
+    <span
+      *ngFor="let dot of images; let i = index"
+      class="dot"
+      [ngClass]="{ 'dot-active': currentImageIdx === i }"
+      (click)="selectImage(i)"
+    >
+    </span>
+  </div>
+
+  <div class="button-arrow right">
+    <span class="arrow-right" (click)="moveRight()"> > </span>
+  </div>
+  <div class="button-arrow left">
+    <span class="arrow-left" (click)="moveLeft()"> < </span>
+  </div>
+</div>
