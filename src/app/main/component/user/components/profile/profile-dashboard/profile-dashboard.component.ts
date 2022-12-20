@@ -35,8 +35,6 @@ export class ProfileDashboardComponent implements OnInit, OnDestroy {
   news: EcoNewsModel[];
 
   public eventsList: EventPageResponceDto[] = [];
-  public eventsByAuthorList: EventPageResponceDto[] = [];
-  public UserEventList: EventPageResponceDto[] = [];
   public eventsPerPage = 6;
   public eventsPage = 1;
   public eventsTotal = 0;
