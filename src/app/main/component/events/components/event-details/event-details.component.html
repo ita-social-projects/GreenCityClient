@@ -107,10 +107,10 @@
                 <path d="M10 4V10L12.5 12.5" stroke="#64727D" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" />
               </svg>
             </div>
-            <div>
-              {{ event.dates[0].startDate | date: 'MMM d, y' }} | {{ event.dates[0].startDate | date: 'hh:mm a' }}&nbsp;-&nbsp;{{
-                event.dates[0].finishDate | date: 'hh:mm a'
-              }}
+            <div class="event-date-content">
+              <div class="event-start-date">{{ event.dates[0].startDate | date: 'MMM d, y' }}</div>
+              <div>|</div>
+              <div>{{ event.dates[0].startDate | date: 'hh:mm a' }}</div>
             </div>
           </div>
           <div class="event-location">
@@ -124,7 +124,7 @@
             </div>
             <div>{{ event.dates[0].onlineLink ? event.dates[0].onlineLink : event.dates[0].coordinates.addressEn }}</div>
           </div>
-          <div class="event-status">
+          <div class="event-status-access">
             <div class="event-status-icon">
               <svg width="21" height="21" viewBox="0 0 21 21" fill="none" xmlns="http://www.w3.org/2000/svg">
                 <path
@@ -140,7 +140,11 @@
                 />
               </svg>
             </div>
-            <div>{{ event.open ? 'Open' : 'Finished' }} | Anyone registered</div>
+            <div class="event-status-access-content">
+              <div class="event-status">{{ event.open ? 'Open' : 'Finished' }}</div>
+              <div>|</div>
+              <div>Anyone registered</div>
+            </div>
           </div>
           <div class="event-author">
             <div class="event-author-icon">
