@@ -61,6 +61,7 @@ export class UbsUserProfilePageComponent implements OnInit {
   cities = [];
   regions = [];
   districts = [];
+  districtsKyiv = [];
   cityBounds: LatLngBoundsLiteral;
   constructor(
     public dialog: MatDialog,
@@ -143,7 +144,8 @@ export class UbsUserProfilePageComponent implements OnInit {
           Validators.required,
           Validators.pattern(Patterns.ubsWithDigitPattern),
           Validators.maxLength(30)
-        ])
+        ]),
+        isKyiv: new FormControl(adres?.city === 'Київ' ? true : false)
       });
       addres.push(seperateAddress);
     });
@@ -178,6 +180,20 @@ export class UbsUserProfilePageComponent implements OnInit {
     const region = currentFormGroup.get('region');
     const regionEn = currentFormGroup.get('regionEn');
 
+    (this.currentLanguage === 'ua' ? region : regionEn).valueChanges.subscribe(() => {
+      console.log('+');
+      currentFormGroup.get('cityEn').setValue('');
+      currentFormGroup.get('city').setValue('');
+      currentFormGroup.get('districtEn').setValue('');
+      currentFormGroup.get('district').setValue('');
+      currentFormGroup.get('street').setValue('');
+      currentFormGroup.get('streetEn').setValue('');
+      currentFormGroup.get('houseNumber').reset('');
+      currentFormGroup.get('entranceNumber').reset('');
+      currentFormGroup.get('houseCorpus').reset('');
+      this.streetPredictionList = null;
+    });
+
     const elem = this.regions.find((el) => el.name === (event.target as HTMLSelectElement).value.slice(3));
     const selectedRegionUa = this.locations.getBigRegions('ua').find((el) => el.key === elem.key);
     const selectedRegionEn = this.locations.getBigRegions('en').find((el) => el.key === elem.key);
@@ -189,6 +205,19 @@ export class UbsUserProfilePageComponent implements OnInit {
     const currentFormGroup = this.userForm.controls.address['controls'][formGroupName];
     const city = currentFormGroup.get('city');
     const cityEn = currentFormGroup.get('cityEn');
+    const isKyiv = currentFormGroup.get('isKyiv');
+
+    (this.currentLanguage === 'ua' ? city : cityEn).valueChanges.subscribe(() => {
+      console.log('+');
+      currentFormGroup.get('districtEn').setValue('');
+      currentFormGroup.get('district').setValue('');
+      currentFormGroup.get('street').setValue('');
+      currentFormGroup.get('streetEn').setValue('');
+      currentFormGroup.get('houseNumber').reset('');
+      currentFormGroup.get('entranceNumber').reset('');
+      currentFormGroup.get('houseCorpus').reset('');
+      this.streetPredictionList = null;
+    });
 
     const elem = this.cities.find((el) => {
       if (el.key <= 10) {
@@ -201,32 +230,9 @@ export class UbsUserProfilePageComponent implements OnInit {
     const selectedCityEn = this.locations.getCity('en').find((el) => el.key === elem.key);
     city.setValue(selectedCityUa.cityName);
     cityEn.setValue(selectedCityEn.cityName);
+    isKyiv.setValue(city.value === 'Київ' ? true : false);
+
     console.log(currentFormGroup);
-  }
-
-  getFormGroupId(id: number): void {
-    const currentFormGroup = this.userForm.controls.address['controls'][id];
-    const city = currentFormGroup.get('city');
-    const cityEn = currentFormGroup.get('cityEn');
-    city.setValue('Укр місто');
-    cityEn.setValue('Англ місто');
-    console.log(currentFormGroup);
-    console.log(city);
-    console.log(cityEn);
-  }
-
-  onEdit(): void {
-    this.isEditing = true;
-    this.isFetching = false;
-    this.regions = this.locations.getBigRegions(this.currentLanguage);
-    this.cities = this.locations.getCity(this.currentLanguage);
-    this.districts = this.locations.getRegionsKyiv(this.currentLanguage);
-    setTimeout(() => this.focusOnFirst());
-  }
-
-  focusOnFirst(): void {
-    document.getElementById('recipientName').focus();
-    this.initGoogleAutocompleteServices();
   }
 
   private initGoogleAutocompleteServices(): void {
@@ -234,17 +240,22 @@ export class UbsUserProfilePageComponent implements OnInit {
     this.placeService = new google.maps.places.PlacesService(document.createElement('div'));
   }
 
-  setPredictStreets(region: string, city: string, street: string): void {
-    const regionIndex = parseInt(region, 10);
-    const regionParam = regionIndex < 10 ? region.slice(3) : region.slice(4);
-    const cityIndex = parseInt(city, 10);
-    const cityParam = cityIndex < 10 ? city.slice(3) : city.slice(4);
-    const searchAddress = `${regionParam}, ${cityParam}, ${street}`;
-    console.log(cityParam);
-    this.cityBounds = this.locations.getCityCoordinates(cityIndex);
-    console.log(this.cityBounds);
+  setPredictStreets(formGroupName: number, street: string): void {
+    const currentFormGroup = this.userForm.controls.address['controls'][formGroupName];
+    const region = currentFormGroup.get('region');
+    const regionEn = currentFormGroup.get('regionEn');
+    const city = currentFormGroup.get('city');
+    const cityEn = currentFormGroup.get('cityEn');
+    this.cityBounds = this.locations.getCityCoordinates(cityEn.value).coordinates;
 
-    this.inputAddress(searchAddress);
+    this.streetPredictionList = null;
+    if (this.currentLanguage === 'ua') {
+      this.inputAddress(`${region.value}, ${city.value}, ${street}`);
+      console.log(`${region.value}, ${city.value}, ${street}`);
+    }
+    if (this.currentLanguage === 'en') {
+      this.inputAddress(`${regionEn.value}, ${cityEn.value}, ${street}`);
+    }
   }
 
   inputAddress(searchAddress: string): void {
@@ -261,6 +272,21 @@ export class UbsUserProfilePageComponent implements OnInit {
     });
 
     // this.street.setValue()
+  }
+
+  onEdit(): void {
+    this.isEditing = true;
+    this.isFetching = false;
+    this.regions = this.locations.getBigRegions(this.currentLanguage);
+    this.cities = this.locations.getCity(this.currentLanguage);
+    this.districtsKyiv = this.locations.getRegionsKyiv(this.currentLanguage);
+    this.districts = this.locations.getRegions(this.currentLanguage);
+    this.initGoogleAutocompleteServices();
+    setTimeout(() => this.focusOnFirst());
+  }
+
+  focusOnFirst(): void {
+    document.getElementById('recipientName').focus();
   }
 
   onCancel(): void {

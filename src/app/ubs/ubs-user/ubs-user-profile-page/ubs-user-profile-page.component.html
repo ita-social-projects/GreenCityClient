@@ -229,7 +229,7 @@
                     <label for="street" class="form-label">{{ 'ubs-client-profile.street' | translate }}</label>
                     <input
                       #box
-                      (keyup)="setPredictStreets(region.value, city.value, box.value)"
+                      (keyup)="setPredictStreets(i, box.value)"
                       type="text"
                       class="form-control street"
                       formControlName="{{ currentLanguage === 'ua' ? 'street' : 'streetEn' }}"
@@ -262,7 +262,10 @@
                 <div class="inline">
                   <div class="form-group mrgbtn">
                     <label for="district" class="form-label">{{ 'ubs-client-profile.district' | translate }}</label>
-                    <select formControlName="district" class="shadow-none form-control district">
+                    <select *ngIf="address.value?.isKyiv" formControlName="district" class="shadow-none form-control district">
+                      <option *ngFor="let district of districtsKyiv" [ngValue]="district.name">{{ district.name }}</option>
+                    </select>
+                    <select *ngIf="!address.value?.isKyiv" formControlName="district" class="shadow-none form-control district">
                       <option *ngFor="let district of districts" [ngValue]="district.name">{{ district.name }}</option>
                     </select>
                   </div>
@@ -270,6 +273,7 @@
               </div>
             </div>
           </div>
+
           <ng-container *ngIf="!isEditing">
             <button tabindex="0" id="btnfocus" [ngClass]="{ margbtn: !isEditing }" class="btn btn-outline-success edit" (click)="onEdit()">
               {{ 'ubs-client-profile.btn.edit' | translate }}

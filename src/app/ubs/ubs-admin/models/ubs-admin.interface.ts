@@ -261,6 +261,7 @@ export interface Address {
   entranceNumber: string;
   houseCorpus: string;
   houseNumber: string;
+  isKyiv?: boolean;
   id: number;
   street: string;
   streetEn: string;

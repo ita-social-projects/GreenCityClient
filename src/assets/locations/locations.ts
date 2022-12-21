@@ -85,103 +85,132 @@ export class Locations {
   ];
 
   citiesCoordinates = [
-    // Kyiv
     {
-      north: 50.59079800991073,
-      south: 50.36107811970851,
-      east: 30.82594104187906,
-      west: 30.23944009690609
+      name: 'Kyiv',
+      coordinates: {
+        north: 50.59079800991073,
+        south: 50.36107811970851,
+        east: 30.82594104187906,
+        west: 30.23944009690609
+      }
     },
-    // Hatne
     {
-      north: 50.37442678529015,
-      south: 50.33875011559573,
-      east: 30.43766503261107,
-      west: 30.36528835440419
+      name: 'Hatne',
+      coordinates: {
+        north: 50.37442678529015,
+        south: 50.33875011559573,
+        east: 30.43766503261107,
+        west: 30.36528835440419
+      }
     },
-    // Horenka
     {
-      north: 50.57230832685655,
-      south: 50.54623397558239,
-      east: 30.34209295119151,
-      west: 30.29022923521974
+      name: 'Horenka',
+      coordinates: {
+        north: 50.57230832685655,
+        south: 50.54623397558239,
+        east: 30.34209295119151,
+        west: 30.29022923521974
+      }
     },
-    // Zazymie
     {
-      north: 50.61041616146291,
-      south: 50.55368602265396,
-      east: 30.71374415368001,
-      west: 30.62748562237025
+      name: 'Zazymie',
+      coordinates: {
+        north: 50.61041616146291,
+        south: 50.55368602265396,
+        east: 30.71374415368001,
+        west: 30.62748562237025
+      }
     },
-    // Irpin
     {
-      north: 50.55358870439215,
-      south: 50.47426305824818,
-      east: 30.29792156390341,
-      west: 30.18841487336181
+      name: `Irpin'`,
+      coordinates: {
+        north: 50.55358870439215,
+        south: 50.47426305824818,
+        east: 30.29792156390341,
+        west: 30.18841487336181
+      }
     },
-    // Kniadzychi
     {
-      north: 50.48184174016671,
-      south: 50.44120359312664,
-      east: 30.81911787071394,
-      west: 30.7427286619337
+      name: 'Kniazhychi',
+      coordinates: {
+        north: 50.48184174016671,
+        south: 50.44120359312664,
+        east: 30.81911787071394,
+        west: 30.7427286619337
+      }
     },
-    // Kotsiubynske
     {
-      north: 50.49827703479146,
-      south: 50.4827099945956,
-      east: 30.34905105788864,
-      west: 30.31743489454659
+      name: `Kotsyubyns'ke`,
+      coordinates: {
+        north: 50.49827703479146,
+        south: 50.4827099945956,
+        east: 30.34905105788864,
+        west: 30.31743489454659
+      }
     },
-    // Novosilky
     {
-      north: 50.36113097482927,
-      south: 50.34734892884189,
-      east: 30.4702960715714,
-      west: 30.44694299382216
+      name: 'Novosilky',
+      coordinates: {
+        north: 50.36113097482927,
+        south: 50.34734892884189,
+        east: 30.4702960715714,
+        west: 30.44694299382216
+      }
     },
-    // Petropavlivska Borshchahivka
     {
-      north: 50.44963303657267,
-      south: 50.41125259054702,
-      east: 30.36406525639132,
-      west: 30.30642999550708
+      name: 'Petropavlivska Borshchahivka',
+      coordinates: {
+        north: 50.44963303657267,
+        south: 50.41125259054702,
+        east: 30.36406525639132,
+        west: 30.30642999550708
+      }
     },
-    // Pohreby
     {
-      north: 50.56892842696831,
-      south: 50.53440775625535,
-      east: 30.670464521996,
-      west: 30.60179475906344
+      name: 'Pohreby',
+      coordinates: {
+        north: 50.56892842696831,
+        south: 50.53440775625535,
+        east: 30.670464521996,
+        west: 30.60179475906344
+      }
     },
-    // Prolisky
     {
-      north: 50.39777496652665,
-      south: 50.38887000633115,
-      east: 30.80212600252601,
-      west: 30.77519090221131
+      name: 'Prolisky',
+      coordinates: {
+        north: 50.39777496652665,
+        south: 50.38887000633115,
+        east: 30.80212600252601,
+        west: 30.77519090221131
+      }
     },
-    // Sofiivska Borshchahivka
     {
-      north: 50.42782468468117,
-      south: 50.3860964715175,
-      east: 30.41841193637191,
-      west: 30.3046957000854
+      name: 'Sofiivska Borschahivka',
+      coordinates: {
+        north: 50.42782468468117,
+        south: 50.3860964715175,
+        east: 30.41841193637191,
+        west: 30.3046957000854
+      }
     },
-    // Chayky
     {
-      north: 50.44717523623419,
-      south: 50.42651061933346,
-      east: 30.3137255456495,
-      west: 30.27492994583497
+      name: 'Chaiky',
+      coordinates: {
+        north: 50.44717523623419,
+        south: 50.42651061933346,
+        east: 30.3137255456495,
+        west: 30.27492994583497
+      }
     },
     // Shchaslyve
     {
-      north: 50.38754203448847,
-      south: 50.35395648311329,
-      east: 30.8247612642593,
-      west: 30.76784754829883
+      name: 'Shchaslyve',
+      coordinates: {
+        north: 50.38754203448847,
+        south: 50.35395648311329,
+        east: 30.8247612642593,
+        west: 30.76784754829883
+      }
     }
   ];
 
@@ -200,7 +229,7 @@ export class Locations {
     return language === 'ua' ? this.bigRegions : this.bigRegionsEn;
   }
 
-  getCityCoordinates(cityIndex: number) {
-    return this.citiesCoordinates[cityIndex];
+  getCityCoordinates(cityName: string) {
+    return this.citiesCoordinates.find((it) => it.name === cityName);
   }
 }
