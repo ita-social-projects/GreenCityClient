@@ -23,7 +23,6 @@ import { AddLocations, EditLocation, GetLocations } from 'src/app/store/actions/
 import { ModalTextComponent } from '../../shared/components/modal-text/modal-text.component';
 import { MatAutocompleteTrigger } from '@angular/material/autocomplete';
 import { Patterns } from 'src/assets/patterns/patterns';
-import { LanguageService } from 'src/app/main/i18n/language.service';
 
 interface LocationItem {
   location: string;
@@ -72,7 +71,8 @@ export class UbsAdminTariffsLocationPopUpComponent implements OnInit, AfterViewC
   autocompleteLsr;
   name: string;
   unsubscribe: Subject<any> = new Subject();
-  datePipe = new DatePipe('ua');
+  currentLang: string;
+  datePipe;
   newDate;
   regionSelected = false;
   regionExist = false;
@@ -96,7 +96,6 @@ export class UbsAdminTariffsLocationPopUpComponent implements OnInit, AfterViewC
     private tariffsService: TariffsService,
     private fb: FormBuilder,
     private localeStorageService: LocalStorageService,
-    private languageService: LanguageService,
     private cdr: ChangeDetectorRef,
     public dialog: MatDialog,
     public dialogRef: MatDialogRef<UbsAdminTariffsLocationPopUpComponent>,
@@ -127,7 +126,6 @@ export class UbsAdminTariffsLocationPopUpComponent implements OnInit, AfterViewC
 
   ngOnInit(): void {
     this.getLocations();
-    this.setDate();
     this.localeStorageService.firstNameBehaviourSubject.pipe(takeUntil(this.unsubscribe)).subscribe((firstName) => {
       this.name = firstName;
     });
@@ -139,12 +137,11 @@ export class UbsAdminTariffsLocationPopUpComponent implements OnInit, AfterViewC
     this.location.valueChanges.subscribe((item) => {
       this.cityExist = !this.citySelected && item.length > 3;
     });
-  }
-
-  setDate(): void {
-    const lang = this.languageService.getCurrentLanguage();
-    this.datePipe = lang === 'ua' ? new DatePipe('ua') : new DatePipe('en');
-    this.newDate = this.datePipe.transform(new Date(), 'MMM dd, yyyy');
+    this.localeStorageService.languageBehaviourSubject.pipe(takeUntil(this.unsubscribe)).subscribe((lang: string) => {
+      this.currentLang = lang;
+      this.datePipe = new DatePipe(this.currentLang);
+      this.newDate = this.datePipe.transform(new Date(), 'MMM dd, yyyy');
+    });
   }
 
   selectCities(currentRegion): void {
