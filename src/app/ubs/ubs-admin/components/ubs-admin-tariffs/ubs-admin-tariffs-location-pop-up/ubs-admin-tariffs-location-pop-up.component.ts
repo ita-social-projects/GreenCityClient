@@ -192,12 +192,12 @@ export class UbsAdminTariffsLocationPopUpComponent implements OnInit, AfterViewC
 
   public addCity(): void {
     if (this.location.value && this.englishLocation.value && !this.cities.includes(this.location.value) && this.citySelected) {
-      let location;
+      let uaLocation;
       let enLocation;
-      this.currentLang === 'ua' ? (location = this.location.value) : (location = this.englishLocation.value);
+      this.currentLang === 'ua' ? (uaLocation = this.location.value) : (uaLocation = this.englishLocation.value);
       this.currentLang === 'ua' ? (enLocation = this.englishLocation.value) : (enLocation = this.location.value);
       const tempItem: LocationItem = {
-        location: location,
+        location: uaLocation,
         englishLocation: enLocation,
         latitute: this.currentLatitude,
         longitude: this.currentLongitude
