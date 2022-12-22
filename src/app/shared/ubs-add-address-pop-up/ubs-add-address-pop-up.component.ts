@@ -318,52 +318,52 @@ export class UBSAddAddressPopUpComponent implements OnInit, OnDestroy, AfterView
 
   setPredictStreets(): void {
     this.streetPredictionList = null;
-    if (this.currentLanguage === 'ua' && this.street.value) {
-      this.inputAddress(`${this.region.value}, ${this.city.value}, ${this.street.value}`);
-    }
-
     // if (this.currentLanguage === 'ua' && this.street.value) {
-    //   this.inputAddress(`${this.region.value}, ${this.street.value}`);
+    //   this.inputAddress(`${this.region.value}, ${this.city.value}, ${this.street.value}`);
     // }
 
-    if (this.currentLanguage === 'en' && this.streetEn.value) {
-      this.inputAddress(`${this.regionEn.value}, ${this.cityEn.value}, ${this.streetEn.value}`);
+    if (this.currentLanguage === 'ua' && this.street.value) {
+      this.inputAddress(`${this.region.value}, ${this.street.value}`);
     }
+
     // if (this.currentLanguage === 'en' && this.streetEn.value) {
-    //   this.inputAddress(` ${this.streetEn.value}`);
+    //   this.inputAddress(`${this.regionEn.value}, ${this.cityEn.value}, ${this.streetEn.value}`);
     // }
+    if (this.currentLanguage === 'en' && this.streetEn.value) {
+      this.inputAddress(`Kyiv, ${this.streetEn.value}`);
+    }
   }
-
-  //   inputAddress(searchAddress: string): void {
-  //   const request = {
-  //     input: searchAddress,
-  //     location: new google.maps.LatLng({ lat: 50.4782, lng: 30.53 }),
-  //     radius: 50000,
-  //     types: ['(cities)'],
-  //     region: 'ua',
-  //     language: this.currentLanguage
-  //     // componentRestrictions: { country: 'ua' }
-  //   };
-  //   this.autocompleteService.getPlacePredictions(request, (streetPredictions) => {
-  //     this.streetPredictionList = streetPredictions;
-  //     console.log(this.regionEn.value);
-  //     console.log(this.streetEn.value);
-  //     console.log(streetPredictions);
-
-  //   });
-  // }
 
   inputAddress(searchAddress: string): void {
     const request = {
       input: searchAddress,
-      bounds: this.cityBounds,
-      types: ['address'],
+      location: new google.maps.LatLng({ lat: 50.4782, lng: 30.53 }),
+      radius: 50000,
+      types: ['(cities)'],
+      region: 'ua',
+      language: this.currentLanguage,
+      strictBounds: true,
       componentRestrictions: { country: 'ua' }
     };
     this.autocompleteService.getPlacePredictions(request, (streetPredictions) => {
       this.streetPredictionList = streetPredictions;
+      console.log(this.regionEn.value);
+      console.log(this.streetEn.value);
+      console.log(streetPredictions);
     });
   }
+
+  // inputAddress(searchAddress: string): void {
+  //   const request = {
+  //     input: searchAddress,
+  //     bounds: this.cityBounds,
+  //     types: ['address'],
+  //     componentRestrictions: { country: 'ua' }
+  //   };
+  //   this.autocompleteService.getPlacePredictions(request, (streetPredictions) => {
+  //     this.streetPredictionList = streetPredictions;
+  //   });
+  // }
 
   onCitySelected(coordinates): void {
     this.cityBounds = {
