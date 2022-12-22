@@ -10,6 +10,7 @@ import { skip, takeUntil } from 'rxjs/operators';
 import { ShowImgsPopUpComponent } from '../../../../../shared/show-imgs-pop-up/show-imgs-pop-up.component';
 import { Subject } from 'rxjs';
 import { Masks } from 'src/assets/patterns/patterns';
+import { TariffSelectorComponent } from './tariff-selector/tariff-selector.component';
 
 interface IEmployeePositions {
   id: number;
@@ -28,7 +29,7 @@ interface InitialData {
   email: string;
   imageURL: string;
   employeePositionsIds: number[];
-  receivingStationsIds: number[];
+  // receivingStationsIds: number[];
 }
 
 @Component({
@@ -41,7 +42,14 @@ export class UbsAdminEmployeeEditFormComponent implements OnInit, OnDestroy {
   roles: IEmployeePositions[];
   employeeForm: FormGroup;
   employeePositions: IEmployeePositions[];
-  receivingStations: IReceivingStations[];
+  // receivingStations: IReceivingStations[];
+  tariffs: {
+    id: number;
+    region: { en: string; ua: string };
+    location: { en: string; ua: string };
+    courier: { en: string; ua: string };
+    station: string;
+  }[] = [];
   employeeDataToSend: Page;
   isDeleting = false;
   phoneMask = Masks.phoneMask;
@@ -108,7 +116,7 @@ export class UbsAdminEmployeeEditFormComponent implements OnInit, OnDestroy {
       email: [this.data?.email ?? '']
     });
     this.employeePositions = this.data?.employeePositions ?? [];
-    this.receivingStations = this.data?.receivingStations ?? [];
+    // this.receivingStations = this.data?.receivingStations ?? [];
     this.imageURL = this.data?.image;
     this.editMode = !!this.data;
     if (this.editMode) {
@@ -119,8 +127,8 @@ export class UbsAdminEmployeeEditFormComponent implements OnInit, OnDestroy {
         phoneNumber: this.data.phoneNumber.replace('+', ''),
         email: this.data?.email,
         imageURL: this.data?.image,
-        employeePositionsIds: this.employeePositions.map((position) => position.id),
-        receivingStationsIds: this.receivingStations.map((station) => station.id)
+        employeePositionsIds: this.employeePositions.map((position) => position.id)
+        // receivingStationsIds: this.receivingStations.map((station) => station.id)
       };
     }
   }
@@ -140,12 +148,12 @@ export class UbsAdminEmployeeEditFormComponent implements OnInit, OnDestroy {
     return this.employeePositions.filter((position) => !this.initialData.employeePositionsIds.includes(position.id)).length > 0;
   }
 
-  checkIsInitialStationsChanged(): boolean {
-    if (this.initialData.receivingStationsIds.length !== this.receivingStations.length) {
-      return true;
-    }
-    return this.receivingStations.filter((station) => !this.initialData.receivingStationsIds.includes(station.id)).length > 0;
-  }
+  // checkIsInitialStationsChanged(): boolean {
+  //   if (this.initialData.receivingStationsIds.length !== this.receivingStations.length) {
+  //     return true;
+  //   }
+  //   return this.receivingStations.filter((station) => !this.initialData.receivingStationsIds.includes(station.id)).length > 0;
+  // }
 
   onCheckChangeRole(role) {
     if (this.doesIncludeRole(role)) {
@@ -162,27 +170,28 @@ export class UbsAdminEmployeeEditFormComponent implements OnInit, OnDestroy {
     return this.employeePositions.some((existingRole) => existingRole.id === role.id);
   }
 
-  onCheckChangeLocation(location) {
-    if (this.doesIncludeLocation(location)) {
-      this.receivingStations = this.receivingStations.filter((station) => station.id !== location.id);
-    } else {
-      this.receivingStations = [...this.receivingStations, location];
-    }
-    if (this.editMode) {
-      this.isInitialStationsChanged = this.checkIsInitialStationsChanged();
-    }
-  }
+  // onCheckChangeLocation(location) {
+  //   if (this.doesIncludeLocation(location)) {
+  //     this.receivingStations = this.receivingStations.filter((station) => station.id !== location.id);
+  //   } else {
+  //     this.receivingStations = [...this.receivingStations, location];
+  //   }
+  //   if (this.editMode) {
+  //     this.isInitialStationsChanged = this.checkIsInitialStationsChanged();
+  //   }
+  // }
 
-  doesIncludeLocation(location): boolean {
-    return this.receivingStations.some((station) => location.id === station.id);
-  }
+  // doesIncludeLocation(location): boolean {
+  //   return this.receivingStations.some((station) => location.id === station.id);
+  // }
 
   prepareEmployeeDataToSend(dto: string, image?: string): FormData {
     this.isUploading = true;
     this.employeeDataToSend = {
       ...this.employeeForm.value,
       employeePositions: this.employeePositions,
-      receivingStations: this.receivingStations
+      // receivingStations: this.receivingStations,
+      tariffs: this.tariffs.map(({ id }) => ({ id }))
     };
     if (this.isUpdatingEmployee) {
       this.employeeDataToSend.id = this.data.id;
@@ -275,5 +284,24 @@ export class UbsAdminEmployeeEditFormComponent implements OnInit, OnDestroy {
         images: [{ src: this.imageURL }]
       }
     });
+  }
+
+  onAddTariff(): void {
+    this.dialog
+      .open(TariffSelectorComponent, {
+        hasBackdrop: true
+      })
+      .afterClosed()
+      .subscribe((updates) => {
+        if (!updates) {
+          return;
+        }
+        console.log(updates);
+        this.tariffs = updates;
+      });
+  }
+
+  onRemoveTariff(tariffToRemove): void {
+    this.tariffs = this.tariffs.filter((tariff) => tariff !== tariffToRemove);
   }
 }

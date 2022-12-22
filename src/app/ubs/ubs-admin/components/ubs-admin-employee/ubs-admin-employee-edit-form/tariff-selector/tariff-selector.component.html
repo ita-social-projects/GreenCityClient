@@ -1,0 +1,58 @@
+<div class="dialog-container">
+  <h2 mat-dialog-title>Обрати тариф</h2>
+
+  <div mat-dialog-content class="dialog-content">
+    <div class="form-containter" [formGroup]="filtersForm">
+      <mat-form-field appearance="legacy">
+        <mat-placeholder>Region</mat-placeholder>
+        <mat-select formControlName="regions" multiple (selectionChange)="onRegionSelectionChange()">
+          <mat-option *ngFor="let region of regions" [value]="region.id">{{ region.name.en }}</mat-option>
+        </mat-select>
+      </mat-form-field>
+
+      <mat-form-field appearance="legacy">
+        <mat-placeholder>City</mat-placeholder>
+        <mat-select formControlName="cities" multiple>
+          <mat-option *ngFor="let city of filteredCities" [value]="city.id">{{ city.name.en }}</mat-option>
+        </mat-select>
+      </mat-form-field>
+
+      <mat-form-field appearance="legacy">
+        <mat-placeholder>Courier</mat-placeholder>
+        <mat-select formControlName="couriers" multiple>
+          <mat-option *ngFor="let courier of couriers" [value]="courier.id">{{ courier.name.en }}</mat-option>
+        </mat-select>
+      </mat-form-field>
+
+      <mat-form-field appearance="legacy">
+        <mat-placeholder>Receiving station</mat-placeholder>
+        <mat-select formControlName="stations" multiple>
+          <mat-option *ngFor="let station of stations" [value]="station.id">{{ station.name }}</mat-option>
+        </mat-select>
+      </mat-form-field>
+    </div>
+
+    <div [formGroup]="tariffsForm">
+      <div class="tariffs" *ngIf="tariffs.length">
+        <div class="tariffs-header">
+          <div>Region</div>
+          <div>City</div>
+          <div>Receiving station</div>
+          <div>Courier</div>
+          <div></div>
+        </div>
+        <div class="tariff" *ngFor="let tariff of tariffs">
+          <div>{{ tariff.region.en }}</div>
+          <div>{{ tariff.location.en }}</div>
+          <div>{{ tariff.station }}</div>
+          <div>{{ tariff.courier.en }}</div>
+          <div><mat-checkbox [formControlName]="tariff.id"></mat-checkbox></div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div mat-dialog-actions class="controls">
+    <button mat-flat-button class="cancel-button" type="button" (click)="onCancel()">Скасувати</button>
+    <button mat-flat-button color="warn" class="submit-button" type="submit" (click)="onSubmit()">Обрати</button>
+  </div>
+</div>

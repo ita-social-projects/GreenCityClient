@@ -203,3 +203,33 @@ label {
   height: 15px !important;
   cursor: pointer;
 }
+
+.tariffs {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  padding: 5px;
+  border: 1px solid black;
+
+  .tariffs-header {
+    display: grid;
+    grid-template-columns: 2fr 2fr 2fr 2fr 1fr;
+    padding: 5px;
+    font-weight: 500;
+
+    div {
+      text-align: center;
+    }
+  }
+
+  .tariff {
+    display: grid;
+    grid-template-columns: 2fr 2fr 2fr 2fr 1fr;
+    padding: 5px;
+    border: 1px solid black;
+
+    div {
+      text-align: center;
+    }
+  }
+}
