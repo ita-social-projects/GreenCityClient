@@ -322,10 +322,36 @@ export class UBSAddAddressPopUpComponent implements OnInit, OnDestroy, AfterView
       this.inputAddress(`${this.region.value}, ${this.city.value}, ${this.street.value}`);
     }
 
+    // if (this.currentLanguage === 'ua' && this.street.value) {
+    //   this.inputAddress(`${this.region.value}, ${this.street.value}`);
+    // }
+
     if (this.currentLanguage === 'en' && this.streetEn.value) {
       this.inputAddress(`${this.regionEn.value}, ${this.cityEn.value}, ${this.streetEn.value}`);
     }
+    // if (this.currentLanguage === 'en' && this.streetEn.value) {
+    //   this.inputAddress(` ${this.streetEn.value}`);
+    // }
   }
+
+  //   inputAddress(searchAddress: string): void {
+  //   const request = {
+  //     input: searchAddress,
+  //     location: new google.maps.LatLng({ lat: 50.4782, lng: 30.53 }),
+  //     radius: 50000,
+  //     types: ['(cities)'],
+  //     region: 'ua',
+  //     language: this.currentLanguage
+  //     // componentRestrictions: { country: 'ua' }
+  //   };
+  //   this.autocompleteService.getPlacePredictions(request, (streetPredictions) => {
+  //     this.streetPredictionList = streetPredictions;
+  //     console.log(this.regionEn.value);
+  //     console.log(this.streetEn.value);
+  //     console.log(streetPredictions);
+
+  //   });
+  // }
 
   inputAddress(searchAddress: string): void {
     const request = {
@@ -404,6 +430,8 @@ export class UBSAddAddressPopUpComponent implements OnInit, OnDestroy, AfterView
 
   setDistrictAuto(event): void {
     const getDistrict = event.address_components.filter((item) => item.long_name.toLowerCase().includes('district'))[0];
+    console.log(getDistrict);
+    console.log(event);
     if (getDistrict) {
       this.currentDistrict = getDistrict.long_name.split(' ')[0];
       this.translateDistrict(this.currentDistrict);
