@@ -181,10 +181,8 @@ export class UbsAdminTariffsLocationPopUpComponent implements OnInit, AfterViewC
   }
 
   translate(sourceText: string, input: any): void {
-    let lang;
-    this.currentLang === 'ua' ? (lang = 'uk') : (lang = 'en');
-    let translateTo;
-    lang === 'uk' ? (translateTo = 'en') : (translateTo = 'uk');
+    let lang = this.currentLang === 'ua' ? 'uk' : 'en';
+    let translateTo = this.currentLang === 'ua' ? 'en' : 'uk';
     this.tariffsService.getJSON(sourceText, lang, translateTo).subscribe((data) => {
       input.setValue(data[0][0][0]);
     });
@@ -192,10 +190,8 @@ export class UbsAdminTariffsLocationPopUpComponent implements OnInit, AfterViewC
 
   public addCity(): void {
     if (this.location.value && this.englishLocation.value && !this.cities.includes(this.location.value) && this.citySelected) {
-      let uaLocation;
-      let enLocation;
-      this.currentLang === 'ua' ? (uaLocation = this.location.value) : (uaLocation = this.englishLocation.value);
-      this.currentLang === 'ua' ? (enLocation = this.englishLocation.value) : (enLocation = this.location.value);
+      let uaLocation = this.currentLang === 'ua' ? this.location.value : this.englishLocation.value;
+      let enLocation = this.currentLang === 'ua' ? this.englishLocation.value : this.location.value;
       const tempItem: LocationItem = {
         location: uaLocation,
         englishLocation: enLocation,
@@ -323,10 +319,8 @@ export class UbsAdminTariffsLocationPopUpComponent implements OnInit, AfterViewC
   }
 
   addLocation(): void {
-    let valueUa;
-    let valueEn;
-    this.currentLang === 'ua' ? (valueUa = this.locationForm.value.region) : (valueUa = this.locationForm.value.englishRegion);
-    this.currentLang === 'ua' ? (valueEn = this.locationForm.value.englishRegion) : (valueEn = this.locationForm.value.region);
+    let valueUa = this.currentLang === 'ua' ? this.locationForm.value.region : this.locationForm.value.englishRegion;
+    let valueEn = this.currentLang === 'ua' ? this.locationForm.value.englishRegion : this.locationForm.value.region;
     const enRegion = { languageCode: 'en', regionName: valueEn };
     const region = { languageCode: 'ua', regionName: valueUa };
 
