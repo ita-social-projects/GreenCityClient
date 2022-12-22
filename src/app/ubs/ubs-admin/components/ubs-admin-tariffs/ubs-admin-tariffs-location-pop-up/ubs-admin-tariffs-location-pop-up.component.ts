@@ -181,8 +181,8 @@ export class UbsAdminTariffsLocationPopUpComponent implements OnInit, AfterViewC
   }
 
   translate(sourceText: string, input: any): void {
-    let lang = this.currentLang === 'ua' ? 'uk' : 'en';
-    let translateTo = this.currentLang === 'ua' ? 'en' : 'uk';
+    const lang = this.currentLang === 'ua' ? 'uk' : 'en';
+    const translateTo = this.currentLang === 'ua' ? 'en' : 'uk';
     this.tariffsService.getJSON(sourceText, lang, translateTo).subscribe((data) => {
       input.setValue(data[0][0][0]);
     });
@@ -190,8 +190,8 @@ export class UbsAdminTariffsLocationPopUpComponent implements OnInit, AfterViewC
 
   public addCity(): void {
     if (this.location.value && this.englishLocation.value && !this.cities.includes(this.location.value) && this.citySelected) {
-      let uaLocation = this.currentLang === 'ua' ? this.location.value : this.englishLocation.value;
-      let enLocation = this.currentLang === 'ua' ? this.englishLocation.value : this.location.value;
+      const uaLocation = this.currentLang === 'ua' ? this.location.value : this.englishLocation.value;
+      const enLocation = this.currentLang === 'ua' ? this.englishLocation.value : this.location.value;
       const tempItem: LocationItem = {
         location: uaLocation,
         englishLocation: enLocation,
@@ -319,8 +319,8 @@ export class UbsAdminTariffsLocationPopUpComponent implements OnInit, AfterViewC
   }
 
   addLocation(): void {
-    let valueUa = this.currentLang === 'ua' ? this.locationForm.value.region : this.locationForm.value.englishRegion;
-    let valueEn = this.currentLang === 'ua' ? this.locationForm.value.englishRegion : this.locationForm.value.region;
+    const valueUa = this.currentLang === 'ua' ? this.locationForm.value.region : this.locationForm.value.englishRegion;
+    const valueEn = this.currentLang === 'ua' ? this.locationForm.value.englishRegion : this.locationForm.value.region;
     const enRegion = { languageCode: 'en', regionName: valueEn };
     const region = { languageCode: 'ua', regionName: valueUa };
 
