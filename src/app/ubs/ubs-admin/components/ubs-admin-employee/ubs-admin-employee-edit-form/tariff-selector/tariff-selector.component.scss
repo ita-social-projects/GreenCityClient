@@ -1,38 +1,56 @@
 .dialog-container {
-  min-width: 400px;
+  width: 400px;
 
-  .form-containter {
+  .filters-block {
     display: flex;
     flex-direction: column;
     gap: 18px;
-  }
 
-  .tariffs {
-    display: flex;
-    flex-direction: column;
-    gap: 12px;
-    padding: 5px;
-    border: 1px solid black;
+    .filter-wrapper {
+      height: 36px;
+      border: 1px solid var(--ubs-primary-light-grey);
+      border-radius: 4px;
+      position: relative;
 
-    .tariffs-header {
-      display: grid;
-      grid-template-columns: 2fr 2fr 2fr 2fr 1fr;
-      padding: 5px;
-      font-weight: 500;
-
-      div {
-        text-align: center;
+      .filter-select {
+        padding: 5px 15px 0 15px;
       }
     }
+  }
 
-    .tariff {
-      display: grid;
-      grid-template-columns: 2fr 2fr 2fr 2fr 1fr;
-      padding: 5px;
-      border: 1px solid black;
+  .table-tariffs {
+    border-collapse: separate;
+    border-spacing: 0 8px;
+    // table-layout: fixed;
+    padding-top: 10px;
+    width: 100%;
 
-      div {
-        text-align: center;
+    // .col-actions {
+    //   width: 50px;
+    //   padding-right:20px;
+    // }
+
+    thead tr th {
+      font-weight: bold;
+      font-size: 14px;
+      line-height: 20px;
+      letter-spacing: 0.1px;
+      color: var(--ubs-primary-grey);
+      padding: 4px 16px;
+      border-bottom: 1px solid var(--ubs-primary-light-grey);
+    }
+
+    tbody tr {
+      background: var(--ubs-primary-white);
+      box-shadow: 0 2px 6px rgba(100, 114, 125, 0.15);
+
+      td {
+        font-style: normal;
+        font-weight: normal;
+        font-size: 14px;
+        line-height: 20px;
+        color: var(--ubs-quaternary-dark-grey);
+        padding: 16px;
       }
     }
   }
