@@ -181,16 +181,24 @@ export class UbsAdminTariffsLocationPopUpComponent implements OnInit, AfterViewC
   }
 
   translate(sourceText: string, input: any): void {
-    this.tariffsService.getJSON(sourceText).subscribe((data) => {
+    let lang;
+    this.currentLang === 'ua' ? (lang = 'uk') : (lang = 'en');
+    let translateTo;
+    lang === 'uk' ? (translateTo = 'en') : (translateTo = 'uk');
+    this.tariffsService.getJSON(sourceText, lang, translateTo).subscribe((data) => {
       input.setValue(data[0][0][0]);
     });
   }
 
   public addCity(): void {
     if (this.location.value && this.englishLocation.value && !this.cities.includes(this.location.value) && this.citySelected) {
+      let location;
+      let enLocation;
+      this.currentLang === 'ua' ? (location = this.location.value) : (location = this.englishLocation.value);
+      this.currentLang === 'ua' ? (enLocation = this.englishLocation.value) : (enLocation = this.location.value);
       const tempItem: LocationItem = {
-        location: this.location.value,
-        englishLocation: this.englishLocation.value,
+        location: location,
+        englishLocation: enLocation,
         latitute: this.currentLatitude,
         longitude: this.currentLongitude
       };
@@ -315,8 +323,12 @@ export class UbsAdminTariffsLocationPopUpComponent implements OnInit, AfterViewC
   }
 
   addLocation(): void {
-    const enRegion = { languageCode: 'en', regionName: this.locationForm.value.englishRegion };
-    const region = { languageCode: 'ua', regionName: this.locationForm.value.region };
+    let valueUa;
+    let valueEn;
+    this.currentLang === 'ua' ? (valueUa = this.locationForm.value.region) : (valueUa = this.locationForm.value.englishRegion);
+    this.currentLang === 'ua' ? (valueEn = this.locationForm.value.englishRegion) : (valueEn = this.locationForm.value.region);
+    const enRegion = { languageCode: 'en', regionName: valueEn };
+    const region = { languageCode: 'ua', regionName: valueUa };
 
     for (const item of this.selectedCities) {
       const enLocation = { languageCode: 'en', locationName: item.englishLocation };

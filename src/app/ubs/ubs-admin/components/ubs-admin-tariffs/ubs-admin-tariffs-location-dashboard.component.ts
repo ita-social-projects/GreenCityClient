@@ -22,6 +22,7 @@ import { Patterns } from 'src/assets/patterns/patterns';
 import { LanguageService } from 'src/app/main/i18n/language.service';
 import { UbsAdminTariffsDeactivatePopUpComponent } from './ubs-admin-tariffs-deactivate-pop-up/ubs-admin-tariffs-deactivate-pop-up.component';
 import { TariffDeactivateConfirmationPopUpComponent } from '../shared/components/tariff-deactivate-confirmation-pop-up/tariff-deactivate-confirmation-pop-up.component';
+import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
 
 @Component({
   selector: 'app-ubs-admin-tariffs-location-dashboard',
@@ -61,10 +62,11 @@ export class UbsAdminTariffsLocationDashboardComponent implements OnInit, AfterV
   createCardObj: CreateCard;
   isFieldFilled = false;
   isCardExist = false;
+  currentLang: string;
 
   private destroy: Subject<boolean> = new Subject<boolean>();
 
-  mainUrl = 'https://maps.googleapis.com/maps/api/js?key=AIzaSyB3xs7Kczo46LFcQRFKPMdrE0lU4qsR_S4&libraries=places&language=uk';
+  mainUrl = 'https://maps.googleapis.com/maps/api/js?key=AIzaSyB3xs7Kczo46LFcQRFKPMdrE0lU4qsR_S4&libraries=places&language=';
   public icons = {
     setting: './assets/img/ubs-tariff/setting.svg',
     crumbs: './assets/img/ubs-tariff/crumbs.svg',
@@ -80,6 +82,7 @@ export class UbsAdminTariffsLocationDashboardComponent implements OnInit, AfterV
     public dialog: MatDialog,
     private store: Store<IAppState>,
     private fb: FormBuilder,
+    private localeStorageService: LocalStorageService,
     private translate: TranslateService,
     private languageService: LanguageService,
     private changeDetectorRef: ChangeDetectorRef
@@ -102,11 +105,14 @@ export class UbsAdminTariffsLocationDashboardComponent implements OnInit, AfterV
   }
 
   ngOnInit(): void {
+    this.localeStorageService.languageBehaviourSubject.pipe(takeUntil(this.destroy)).subscribe((lang: string) => {
+      this.currentLang = lang;
+      this.loadScript();
+    });
     this.initForm();
     this.getLocations();
     this.getCouriers();
     this.getReceivingStation();
-    this.loadScript();
     this.region.valueChanges.pipe(takeUntil(this.destroy)).subscribe((value) => {
       this.checkRegionValue(value);
       this.selectedCities = [];
@@ -382,16 +388,11 @@ export class UbsAdminTariffsLocationDashboardComponent implements OnInit, AfterV
   }
 
   loadScript(): void {
-    const script = document.getElementById('googleMaps') as HTMLScriptElement;
-    if (script) {
-      script.src = this.mainUrl;
-    } else {
-      const google = document.createElement('script');
-      google.type = 'text/javascript';
-      google.id = 'googleMaps';
-      google.setAttribute('src', this.mainUrl);
-      document.getElementsByTagName('head')[0].appendChild(google);
-    }
+    const google = document.createElement('script');
+    google.type = 'text/javascript';
+    google.id = 'googleMaps';
+    google.setAttribute('src', this.mainUrl + this.currentLang);
+    document.getElementsByTagName('head')[0].appendChild(google);
   }
 
   getLocations(): void {
