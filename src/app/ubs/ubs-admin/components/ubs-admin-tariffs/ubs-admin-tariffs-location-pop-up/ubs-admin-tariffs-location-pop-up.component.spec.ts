@@ -209,6 +209,12 @@ describe('UbsAdminTariffsLocationPopUpComponent ', () => {
     expect(component.cities).toEqual([]);
   });
 
+  it('should call add city', () => {
+    const spy = spyOn(component, 'addCity');
+    component.addCity();
+    expect(spy).toHaveBeenCalled();
+  });
+
   it('should not add city if input is empty', () => {
     component.location.setValue('');
     component.englishLocation.setValue('');
@@ -271,7 +277,7 @@ describe('UbsAdminTariffsLocationPopUpComponent ', () => {
     expect(spy).toHaveBeenCalled();
   });
 
-  it('should add new city', () => {
+  it('should add new city when current language is ua', () => {
     component.input.nativeElement.value = 'фейк';
     component.location.setValue('фейк');
     component.englishLocation.setValue('fake');
@@ -280,10 +286,30 @@ describe('UbsAdminTariffsLocationPopUpComponent ', () => {
     component.currentLatitude = 0;
     component.currentLongitude = 0;
     component.citySelected = true;
+    component.currentLang = 'ua';
+    const uaLocation = component.currentLang === 'ua' ? component.location.value : component.englishLocation.value;
+    const enLocation = component.currentLang === 'ua' ? component.englishLocation.value : component.location.value;
     component.addCity();
     expect(component.selectedCities.length).toBe(1);
     expect(component.location.value).toBe('');
     expect(component.englishLocation.value).toBe('');
+    expect(uaLocation).toBe('фейк');
+    expect(enLocation).toBe('fake');
+  });
+
+  it('should add new city when current language is en', () => {
+    component.input.nativeElement.value = 'фейк';
+    component.location.setValue('Київ');
+    component.englishLocation.setValue('Kyiv');
+    component.cities = [];
+    component.selectedCities = [];
+    component.citySelected = true;
+    component.currentLang = 'en';
+    const uaLocation = component.currentLang === 'ua' ? component.location.value : component.englishLocation.value;
+    const enLocation = component.currentLang === 'ua' ? component.englishLocation.value : component.location.value;
+    component.addCity();
+    expect(uaLocation).toBe('Kyiv');
+    expect(enLocation).toBe('Київ');
   });
 
   it('should add new edited city', () => {
@@ -317,6 +343,23 @@ describe('UbsAdminTariffsLocationPopUpComponent ', () => {
     component.translate('фейк', component.englishLocation);
     expect(tariifsServiceMock.getJSON).toHaveBeenCalled();
     expect(component.englishLocation.value).toEqual('f');
+  });
+
+  it('should call getJSON on translate', () => {
+    component.translate('фейк', component.englishLocation);
+    expect(tariifsServiceMock.getJSON).toHaveBeenCalledWith('фейк', 'uk', 'en');
+  });
+
+  it('should set ua lang on translate', () => {
+    const lang = component.currentLang === 'ua' ? 'uk' : 'en';
+    component.translate('фейк', component.englishLocation);
+    expect(lang).toBe('uk');
+  });
+
+  it('should set ua langTranslate on translate', () => {
+    const langTranslate = component.currentLang === 'ua' ? 'en' : 'uk';
+    component.translate('фейк', component.englishLocation);
+    expect(langTranslate).toBe('en');
   });
 
   it('should find new region', () => {
