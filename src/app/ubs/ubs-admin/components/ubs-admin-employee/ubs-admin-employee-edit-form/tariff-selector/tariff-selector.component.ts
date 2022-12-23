@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { FormBuilder, FormGroup } from '@angular/forms';
 import { MatDialogRef } from '@angular/material/dialog';
 import { forkJoin } from 'rxjs';
 import { TariffsService } from 'src/app/ubs/ubs-admin/services/tariffs.service';
@@ -87,7 +87,6 @@ export class TariffSelectorComponent implements OnInit {
         })
         .subscribe((data) => {
           this.tariffs = this.mappers.tariffs(data);
-          console.log(this.tariffs);
           this.tariffsForm = this.fb.group({
             ...Object.fromEntries(this.tariffs.map(({ id }) => [id, false]))
           });
@@ -96,11 +95,6 @@ export class TariffSelectorComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    const mapRegionTranlationDtosToNames = (dtos) =>
-      Object.fromEntries(dtos.map(({ regionName, languageCode }) => [languageCode, regionName]));
-    const mapLocationTranlationDtosToNames = (dtos) =>
-      Object.fromEntries(dtos.map(({ locationName, languageCode }) => [languageCode, locationName]));
-
     forkJoin([this.tariffsService.getLocations(), this.tariffsService.getCouriers(), this.tariffsService.getAllStations()]).subscribe(
       ([regionsData, couriersData, stationsData]) => {
         this.regions = this.mappers.regions(regionsData);
