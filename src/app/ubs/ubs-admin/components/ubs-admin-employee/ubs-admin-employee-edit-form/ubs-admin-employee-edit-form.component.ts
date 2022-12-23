@@ -38,6 +38,11 @@ interface InitialData {
   styleUrls: ['./ubs-admin-employee-edit-form.component.scss']
 })
 export class UbsAdminEmployeeEditFormComponent implements OnInit, OnDestroy {
+  icons = {
+    accordionArrowDown: './assets/img/icon/arrows/arrow-accordion-down.svg',
+    cross: 'assets/img/ubs/cross.svg'
+  };
+
   locations: IReceivingStations[];
   roles: IEmployeePositions[];
   employeeForm: FormGroup;

@@ -1,5 +1,5 @@
 <div class="dialog-container">
-  <h2 mat-dialog-title>Обрати тариф</h2>
+  <h2 mat-dialog-title>{{ 'ubs-employee.tariffs-selector.title' | translate }}</h2>
 
   <div mat-dialog-content class="dialog-content">
     <div class="filters-block" [formGroup]="filtersForm">
@@ -9,23 +9,38 @@
           formControlName="regions"
           multiple
           (selectionChange)="onRegionSelectionChange()"
-          [placeholder]="'Regions'"
+          [placeholder]="'ubs-employee.tariffs-selector.regions' | translate"
         >
           <mat-option *ngFor="let region of regions" [value]="region.id">{{ region.name.en }}</mat-option>
         </mat-select>
       </div>
       <div class="filter-wrapper">
-        <mat-select class="filter-select filter-cities" formControlName="cities" multiple [placeholder]="'Cities'">
+        <mat-select
+          class="filter-select filter-cities"
+          formControlName="cities"
+          multiple
+          [placeholder]="'ubs-employee.tariffs-selector.cities' | translate"
+        >
           <mat-option *ngFor="let city of filteredCities" [value]="city.id">{{ city.name.en }}</mat-option>
         </mat-select>
       </div>
       <div class="filter-wrapper">
-        <mat-select class="filter-select filter-couriers" formControlName="couriers" multiple [placeholder]="'Couriers'">
+        <mat-select
+          class="filter-select filter-couriers"
+          formControlName="couriers"
+          multiple
+          [placeholder]="'ubs-employee.tariffs-selector.couriers' | translate"
+        >
           <mat-option *ngFor="let courier of couriers" [value]="courier.id">{{ courier.name.en }}</mat-option>
         </mat-select>
       </div>
       <div class="filter-wrapper">
-        <mat-select class="filter-select filter-stations" formControlName="stations" multiple [placeholder]="'Receiving stations'">
+        <mat-select
+          class="filter-select filter-stations"
+          formControlName="stations"
+          multiple
+          [placeholder]="'ubs-employee.tariffs-selector.stations' | translate"
+        >
           <mat-option *ngFor="let station of stations" [value]="station.id">{{ station.name }}</mat-option>
         </mat-select>
       </div>
@@ -34,10 +49,10 @@
     <table class="table-tariffs" aria-label="Tariffs list" [formGroup]="tariffsForm">
       <thead>
         <tr>
-          <th class="col-region">Region</th>
-          <th class="col-city">City</th>
-          <th class="col-station">Station</th>
-          <th class="col-courier">Courier</th>
+          <th class="col-region">{{ 'ubs-employee.tariffs-columns.region' | translate }}</th>
+          <th class="col-city">{{ 'ubs-employee.tariffs-columns.city' | translate }}</th>
+          <th class="col-station">{{ 'ubs-employee.tariffs-columns.station' | translate }}</th>
+          <th class="col-courier">{{ 'ubs-employee.tariffs-columns.courier' | translate }}</th>
           <th class="col-actions"></th>
         </tr>
       </thead>
@@ -63,7 +78,11 @@
     </table>
   </div>
   <div mat-dialog-actions class="controls">
-    <button mat-flat-button class="cancel-button" type="button" (click)="onCancel()">Скасувати</button>
-    <button mat-flat-button color="warn" class="submit-button" type="submit" (click)="onSubmit()">Обрати</button>
+    <button mat-flat-button class="cancel-button" type="button" (click)="onCancel()">
+      {{ 'ubs-employee.tariffs-selector.cancel' | translate }}
+    </button>
+    <button mat-flat-button color="warn" class="submit-button" type="submit" (click)="onSubmit()">
+      {{ 'ubs-employee.tariffs-selector.select' | translate }}
+    </button>
   </div>
 </div>

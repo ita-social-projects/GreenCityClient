@@ -569,7 +569,23 @@
     "add": "Add",
     "apply": "Apply",
     "cancel": "Cancel",
-    "update": "Update"
+    "update": "Update",
+    "tariffs": "Tariffs",
+    "tariffs-columns": {
+      "region": "Region",
+      "city": "City",
+      "station": "Station",
+      "courier": "Courier"
+    },
+    "tariffs-selector": {
+      "title": "Add tariffs",
+      "regions": "Regions",
+      "cities": "Cities",
+      "stations": "Receiving stations",
+      "couriers": "Couriers",
+      "cancel": "Cancel",
+      "select": "Select"
+    }
   },
   "ubs-user": {
     "orders": "Orders",

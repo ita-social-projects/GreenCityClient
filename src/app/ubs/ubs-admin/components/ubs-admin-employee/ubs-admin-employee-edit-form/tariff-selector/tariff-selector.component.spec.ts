@@ -15,6 +15,7 @@ import { TariffsService } from 'src/app/ubs/ubs-admin/services/tariffs.service';
 
 import { TariffSelectorComponent } from './tariff-selector.component';
 import { MatButtonModule } from '@angular/material/button';
+import { TranslateModule } from '@ngx-translate/core';
 
 describe('TariffSelectorComponent', () => {
   let component: TariffSelectorComponent;
@@ -194,6 +195,7 @@ describe('TariffSelectorComponent', () => {
       imports: [
         ReactiveFormsModule,
         HttpClientTestingModule,
+        TranslateModule.forRoot(),
         MatSelectModule,
         MatCheckboxModule,
         MatButtonModule,

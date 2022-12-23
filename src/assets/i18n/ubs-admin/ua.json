@@ -564,7 +564,23 @@
     "add": "Додати",
     "apply": "Застосувати",
     "cancel": "Скасувати",
-    "update": "Оновити"
+    "update": "Оновити",
+    "tariffs": "Тарифи",
+    "tariffs-columns": {
+      "region": "Область",
+      "city": "Місто",
+      "station": "Станція",
+      "courier": "Кур'єр"
+    },
+    "tariffs-selector": {
+      "title": "Додати тарифи",
+      "regions": "Області",
+      "cities": "Міста",
+      "stations": "Станції приймання",
+      "couriers": "Кур'єри",
+      "cancel": "Скасувати",
+      "select": "Обрати"
+    }
   },
   "ubs-user": {
     "orders": "Замовлення",
