@@ -14,47 +14,20 @@
   </div>
   <div class="col-md-6 col-sm-6 form-group">
     <label>{{ 'personal-info.pop-up-city' | translate }}</label>
-    <select
-      formControlName="{{ currentLanguage === 'ua' ? 'city' : 'cityEn' }}"
-      class="shadow-none form-control"
-      (change)="selectCity($event)"
-    >
-      <option *ngFor="let city of cities" [ngValue]="city.cityName">{{ city.cityName }}</option>
-    </select>
+    <input #locationInput formControlName="{{ currentLanguage === 'ua' ? 'city' : 'cityEn' }}" class="shadow-none form-control" />
   </div>
 
   <div class="col-lg-6 col-md-12 col-sm-12 form-group">
     <label>{{ 'personal-info.pop-up-street' | translate }}</label>
     <input
-      *ngIf="currentLanguage === 'ua'"
+      #streetInput
       id="auto"
-      formControlName="street"
+      formControlName="{{ currentLanguage === 'ua' ? 'street' : 'streetEn' }}"
       type="text"
       class="shadow-none form-control"
       placeholder="{{ 'personal-info.pop-up-enter-you-location' | translate }}"
-      matInput
-      [matAutocomplete]="autoStreet"
     />
-    <input
-      *ngIf="currentLanguage === 'en'"
-      id="auto"
-      formControlName="streetEn"
-      type="text"
-      class="shadow-none form-control"
-      placeholder="{{ 'personal-info.pop-up-enter-you-location' | translate }}"
-      matInput
-      [matAutocomplete]="autoStreet"
-    />
-    <mat-autocomplete #autoStreet="matAutocomplete">
-      <mat-option
-        class="autocomplete-dropdown"
-        *ngFor="let streetName of streetPredictionList"
-        [value]="streetName.description"
-        (click)="onStreetSelected(streetName)"
-      >
-        {{ streetName.description }}
-      </mat-option>
-    </mat-autocomplete>
+
     <div class="validation" *ngIf="street.invalid && addAddressForm.get('street').touched">
       <app-ubs-input-error [formElement]="street" [streetFieldValue]="street.value" [controlName]="'street'"> </app-ubs-input-error>
     </div>

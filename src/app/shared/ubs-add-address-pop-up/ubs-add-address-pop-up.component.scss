@@ -1,10 +1,5 @@
 ::ng-deep .pac-container {
   position: fixed !important;
-  top: 260px !important;
-}
-
-::ng-deep .pac-container:last-child {
-  top: 340px !important;
 }
 
 form {
@@ -162,10 +157,5 @@ select {
 @media (max-width: 992px) {
   ::ng-deep .pac-container {
     position: fixed !important;
-    top: 220px !important;
-  }
-
-  ::ng-deep .pac-container:last-child {
-    top: 300px !important;
   }
 }

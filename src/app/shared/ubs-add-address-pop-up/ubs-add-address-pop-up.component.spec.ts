@@ -115,9 +115,7 @@ describe('UBSAddAddressPopUpComponent', () => {
     fixture = TestBed.createComponent(UBSAddAddressPopUpComponent);
     component = fixture.componentInstance;
     spyOn(component, 'getJSON').and.returnValue(of(fakeData));
-    const spy = spyOn(component as any, 'initGoogleAutocompleteServices');
     fixture.detectChanges();
-    spy.calls.reset();
   });
 
   it('should create', () => {
@@ -133,55 +131,6 @@ describe('UBSAddAddressPopUpComponent', () => {
     expect(component.isDisabled).toBeFalsy();
   });
 
-  it('method ngOnInit should set addAddressForm', () => {
-    const spy = spyOn(component, 'onCitySelected');
-    component.ngOnInit();
-    expect(component.addAddressForm).toBeTruthy();
-    expect(component.currentLanguage).toBe('ua');
-    expect(component.bigRegions).toEqual([{ regionName: 'Київська область', lang: 'ua' }]);
-    expect(spy).toHaveBeenCalledTimes(1);
-  });
-
-  it('method ngAfterViewInit should invoke methods', () => {
-    const inputTag = document.createElement('input');
-    const spy = spyOn(component, 'setPredictStreets');
-    spyOn(document, 'querySelector').and.returnValue(inputTag);
-    const event = new Event('input');
-    component.ngAfterViewInit();
-    component.inputStreetElement.dispatchEvent(event);
-    expect(spy).toHaveBeenCalledTimes(1);
-    expect((component as any).initGoogleAutocompleteServices).toHaveBeenCalledTimes(1);
-  });
-
-  it('method onAutocompleteSelected should set values', () => {
-    const eventMock = {
-      name: 'fakeName',
-      address_components: ['', '', { long_name: '' }]
-    };
-    const regionMock = 'fakeRegion';
-
-    const spy = spyOn(component, 'translateStreet').and.callThrough();
-    component.currentDistrict = regionMock;
-    component.onAutocompleteSelected(eventMock);
-    fixture.detectChanges();
-
-    expect(spy).toHaveBeenCalledWith(eventMock.name);
-    expect(component.street.value).toBe('fakeUA');
-    expect(component.streetEn.value).toBe('fakeEN');
-  });
-
-  it('method onDistrictSelected should invoke three another methods, and set region to addAddressForm', () => {
-    const spy1 = spyOn(component, 'setFormattedAddress');
-    const spy2 = spyOn(component, 'setDistrictAuto');
-    const spy3 = spyOn(component, 'onAutocompleteSelected');
-
-    component.onDistrictSelected('eventMock');
-
-    expect(spy1).toHaveBeenCalledWith('eventMock');
-    expect(spy2).toHaveBeenCalledWith('eventMock');
-    expect(spy3).toHaveBeenCalledWith('eventMock');
-  });
-
   it('method onNoClick should invoke destroyRef.close()', () => {
     component.onNoClick();
     expect(fakeMatDialogRef.close).toHaveBeenCalled();
@@ -190,15 +139,8 @@ describe('UBSAddAddressPopUpComponent', () => {
   it('method translateDistrict should invoke getJSON', () => {
     component.translateDistrict('fakeDistrict');
     expect(component.getJSON).toHaveBeenCalledWith('fakeDistrict');
-    expect(component.district.value).toBe('fakeUA');
-    expect(component.districtEn.value).toBe('fakeEN');
-  });
-
-  it('method translateStreet should invoke getJSON', () => {
-    component.translateStreet('fakeStreet');
-    expect(component.getJSON).toHaveBeenCalledWith('fakeStreet');
-    expect(component.street.value).toBe('fakeUA');
-    expect(component.streetEn.value).toBe('fakeEN');
+    expect(component.district.value).toBe('fakeEN');
+    expect(component.districtEn.value).toBe('fakeUA');
   });
 
   it('method setDistrict should invoke setDistrictTranslation', () => {
@@ -212,40 +154,6 @@ describe('UBSAddAddressPopUpComponent', () => {
     const event = { formatted_address: 'fakeAddress' };
     component.setFormattedAddress(event as any);
     expect(component.formattedAddress).toBe('fakeAddress');
-  });
-
-  it('method onStreetSelected should invoke getDetails', () => {
-    component.placeService = { getDetails: (a, b) => {} } as any;
-    spyOn(component.placeService, 'getDetails').and.callThrough();
-    const fakeStreetData = { place_id: 123 };
-    component.onStreetSelected(fakeStreetData);
-    expect(component.placeService.getDetails).toHaveBeenCalled();
-  });
-
-  it('method setDistrictAuto should set currentDistrict and invoke translateDistrict', () => {
-    const event = { address_components: [{ long_name: 'fake district' }, { long_name: 'fake region' }] };
-    const spy = spyOn(component, 'translateDistrict');
-    component.setDistrictAuto(event as any);
-    expect(component.currentDistrict).toBe('fake');
-    expect(spy).toHaveBeenCalledWith('fake');
-  });
-
-  describe('selectCity', () => {
-    it('makes expected call', () => {
-      const event = { target: { selectedIndex: 0, value: '01 Київ' } };
-      component.currentLanguage = 'ua';
-      const spy = spyOn(component, 'onCitySelected');
-      component.selectCity(event as any);
-      expect(component.city.value).toBe('Київ');
-      expect(component.cityEn.value).toBe('Kyiv');
-      expect(component.isDistrict).toBeTruthy();
-      expect(spy).toHaveBeenCalledWith({
-        northLat: 50.59079800991073,
-        southLat: 50.36107811970851,
-        eastLng: 30.82594104187906,
-        westLng: 30.23944009690609
-      });
-    });
   });
 
   describe('setDistrictTranslation', () => {
