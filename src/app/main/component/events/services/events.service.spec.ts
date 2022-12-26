@@ -1,11 +1,6 @@
 import { TestBed } from '@angular/core/testing';
-import {
-  HttpClientTestingModule,
-  HttpTestingController
-} from '@angular/common/http/testing';
-import {
-  EventsService
-} from 'src/app/main/component/events/services/events.service';
+import { HttpClientTestingModule, HttpTestingController } from '@angular/common/http/testing';
+import { EventsService } from 'src/app/main/component/events/services/events.service';
 import { environment } from '@environment/environment';
 
 describe('EventsService', () => {
@@ -14,9 +9,7 @@ describe('EventsService', () => {
   const url = environment.backendLink;
   const formData = new FormData();
   const data: any = {
-    additionalImages: [
-      'string'
-    ],
+    additionalImages: ['string'],
     dates: [
       {
         coordinates: {
@@ -101,10 +94,27 @@ describe('EventsService', () => {
   });
 
   it('should make GET request to get all users events', () => {
-    service.getUsersEvents(0, 1).subscribe((event: any) => {
+    service.getSubscribedEvents(0, 1).subscribe((event: any) => {
       expect(event).toEqual(data);
     });
     const req = httpTestingController.expectOne(`${url}events/myEvents?page=0&size=1`);
+    expect(req.request.method).toEqual('GET');
+    req.flush(data);
+  });
+
+  it('should make GET request to get all events created by user', () => {
+    service.getCreatedEvents(0, 1).subscribe((event: any) => {
+      expect(event).toEqual(data);
+    });
+    const req = httpTestingController.expectOne(`${url}events/myEvents/createdEvents?page=0&size=1`);
+    expect(req.request.method).toEqual('GET');
+    req.flush(data);
+  });
+  it('should make GET request to get all events of user', () => {
+    service.getAllUserEvents(0, 1).subscribe((event: any) => {
+      expect(event).toEqual(data);
+    });
+    const req = httpTestingController.expectOne(`${url}events/myEvents/relatedEvents?page=0&size=1`);
     expect(req.request.method).toEqual('GET');
     req.flush(data);
   });
@@ -153,5 +163,4 @@ describe('EventsService', () => {
     expect(req.request.method).toEqual('DELETE');
     req.flush(data);
   });
-
 });
