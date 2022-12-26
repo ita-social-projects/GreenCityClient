@@ -77,6 +77,7 @@ export class UbsAdminTariffsLocationPopUpComponent implements OnInit, AfterViewC
   regionSelected = false;
   regionExist = false;
   citySelected = false;
+  cityInvalid = false;
   cityExist = false;
   editedCityExist = false;
   cities = [];
@@ -135,7 +136,8 @@ export class UbsAdminTariffsLocationPopUpComponent implements OnInit, AfterViewC
       this.selectCities(currentRegion);
     });
     this.location.valueChanges.subscribe((item) => {
-      this.cityExist = !this.citySelected && item.length > 3;
+      this.cityInvalid = !this.citySelected && item.length > 3;
+      this.cityExist = this.checkCityExist(item, this.cities);
     });
     this.localeStorageService.languageBehaviourSubject.pipe(takeUntil(this.unsubscribe)).subscribe((lang: string) => {
       this.currentLang = lang;
@@ -371,6 +373,12 @@ export class UbsAdminTariffsLocationPopUpComponent implements OnInit, AfterViewC
   public openAuto(event: Event, trigger: MatAutocompleteTrigger): void {
     event.stopPropagation();
     trigger.openPanel();
+  }
+
+  private checkCityExist(item: string, array: Array<string>): boolean {
+    const newCityName = item.toLowerCase();
+    const cityList = array.map((it) => it.toLowerCase());
+    return cityList.includes(newCityName);
   }
 
   ngAfterViewChecked(): void {

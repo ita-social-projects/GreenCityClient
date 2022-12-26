@@ -346,22 +346,22 @@ describe('UbsAdminTariffsLocationPopUpComponent ', () => {
     expect(component.regionExist).toEqual(false);
   });
 
-  it('should check if city exists', () => {
+  it('should check if city invalid', () => {
     component.location.setValue('Fake city');
     component.citySelected = false;
-    expect(component.cityExist).toEqual(true);
+    expect(component.cityInvalid).toEqual(true);
   });
 
-  it('should not check if city exists if citySelected is true', () => {
+  it('should not check if city invalid if citySelected is true', () => {
     component.location.setValue('Fake city');
     component.citySelected = true;
-    expect(component.cityExist).toEqual(true);
+    expect(component.cityInvalid).toEqual(true);
   });
 
-  it('should not check if city exists if inputs length is less than 3', () => {
+  it('should not check if city invalid if inputs length is less than 3', () => {
     component.location.setValue('F');
     component.citySelected = false;
-    expect(component.cityExist).toEqual(false);
+    expect(component.cityInvalid).toEqual(false);
   });
 
   it('should delete city from the list', () => {
