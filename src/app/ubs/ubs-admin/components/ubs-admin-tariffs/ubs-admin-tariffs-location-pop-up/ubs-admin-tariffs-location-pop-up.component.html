@@ -161,9 +161,9 @@
     <div class="mb-2">
       <div *ngFor="let item of selectedCities; let index = index">
         <div class="d-flex">
-          <div class="itemList">{{ item.location }}</div>
+          <div class="itemList">{{ currentLang == 'ua' ? item.location : item.englishLocation }}</div>
           <img [src]="icons.cross" class="delete-button-img" alt="edit-icon" (click)="deleteCity(index)" />
-          <div class="itemList">{{ item.englishLocation }}</div>
+          <div class="itemList">{{ currentLang == 'ua' ? item.englishLocation : item.location }}</div>
         </div>
       </div>
     </div>

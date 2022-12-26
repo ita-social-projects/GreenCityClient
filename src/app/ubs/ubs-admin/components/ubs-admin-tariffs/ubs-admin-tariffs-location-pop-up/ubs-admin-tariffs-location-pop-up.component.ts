@@ -183,16 +183,20 @@ export class UbsAdminTariffsLocationPopUpComponent implements OnInit, AfterViewC
   }
 
   translate(sourceText: string, input: any): void {
-    this.tariffsService.getJSON(sourceText).subscribe((data) => {
+    const lang = this.currentLang === 'ua' ? 'uk' : 'en';
+    const translateTo = this.currentLang === 'ua' ? 'en' : 'uk';
+    this.tariffsService.getJSON(sourceText, lang, translateTo).subscribe((data) => {
       input.setValue(data[0][0][0]);
     });
   }
 
   public addCity(): void {
     if (this.location.value && this.englishLocation.value && !this.cities.includes(this.location.value) && this.citySelected) {
+      const uaLocation = this.currentLang === 'ua' ? this.location.value : this.englishLocation.value;
+      const enLocation = this.currentLang === 'ua' ? this.englishLocation.value : this.location.value;
       const tempItem: LocationItem = {
-        location: this.location.value,
-        englishLocation: this.englishLocation.value,
+        location: uaLocation,
+        englishLocation: enLocation,
         latitute: this.currentLatitude,
         longitude: this.currentLongitude
       };
@@ -317,8 +321,10 @@ export class UbsAdminTariffsLocationPopUpComponent implements OnInit, AfterViewC
   }
 
   addLocation(): void {
-    const enRegion = { languageCode: 'en', regionName: this.locationForm.value.englishRegion };
-    const region = { languageCode: 'ua', regionName: this.locationForm.value.region };
+    const valueUa = this.currentLang === 'ua' ? this.locationForm.value.region : this.locationForm.value.englishRegion;
+    const valueEn = this.currentLang === 'ua' ? this.locationForm.value.englishRegion : this.locationForm.value.region;
+    const enRegion = { languageCode: 'en', regionName: valueEn };
+    const region = { languageCode: 'ua', regionName: valueUa };
 
     for (const item of this.selectedCities) {
       const enLocation = { languageCode: 'en', locationName: item.englishLocation };
