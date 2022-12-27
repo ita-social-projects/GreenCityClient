@@ -154,7 +154,7 @@
 
 .employees-column-names {
   display: grid;
-  grid-template-columns: 412px 292px 292px;
+  grid-template-columns: 412px 240px 240px 240px 240px;
   margin-bottom: 8px;
   height: 24px;
   border-bottom: 1px solid var(--ubs-primary-light-grey);
@@ -322,7 +322,7 @@
         .description-item {
           display: flex;
           flex-direction: column;
-          max-width: 292px;
+          max-width: 240px;
           width: 100%;
           padding-top: 5px;
 
@@ -393,7 +393,8 @@
 
 @media screen and (max-width: 1200px) {
   .employees-column-names {
-    grid-template-columns: 286px 174px 174px;
+    // grid-template-columns: 412px 240px 240px 240px 240px;
+    grid-template-columns: 286px 175px 175px 175px 175px;
   }
 
   .employees-cards {
