@@ -48,6 +48,10 @@ export class EventsService implements OnDestroy {
     return this.http.delete<any>(`${this.backEnd}events/removeAttender/${id}`);
   }
 
+  public getAllAttendees(id: number): Observable<any> {
+    return this.http.get<any>(`${this.backEnd}events/getAllSubscribers/${id}`);
+  }
+
   ngOnDestroy(): void {
     this.destroyed$.next(true);
     this.destroyed$.complete();

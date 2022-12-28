@@ -25,21 +25,22 @@
     display: flex;
     justify-content: center;
     align-items: center;
+    gap: 16px;
 
     .dot {
       display: inline-block;
-      width: 12px;
-      height: 12px;
-      border-radius: 50%;
+      width: 8px;
+      height: 8px;
+      border-radius: 100%;
       background-color: var(--primary-white);
-      opacity: 0.4;
+      // opacity: 0.4;
       transition: 0.3s;
-      margin-right: 5px;
     }
 
     .dot-active,
     .dot:hover {
-      opacity: 1;
+      // opacity: 1;
+      background-color: var(--primary-green);
     }
   }
 
@@ -50,15 +51,18 @@
     display: flex;
     align-items: center;
 
-    span {
-      display: inline-block;
-      font-size: 65px;
-      line-height: 40px;
-      font-weight: bold;
+    div {
+      display: block;
+      width: 12px;
+      height: 18px;
       color: var(--primary-white);
       cursor: pointer;
       opacity: 0.6;
       transition: 0.3s;
+
+      svg {
+        display: block;
+      }
     }
 
     span:hover {

@@ -29,6 +29,7 @@ import { GooglePlaceModule } from 'ngx-google-places-autocomplete';
 import { EventDetailsComponent } from './components/event-details/event-details.component';
 import { RatingModule } from 'ngx-bootstrap/rating';
 import { ImagesSliderComponent } from './components/event-details/images-slider/images-slider.component';
+import { MatMenuModule } from '@angular/material/menu';
 
 @NgModule({
   declarations: [
@@ -71,7 +72,8 @@ import { ImagesSliderComponent } from './components/event-details/images-slider/
       },
       isolate: true
     }),
-    QuillModule.forRoot()
+    QuillModule.forRoot(),
+    MatMenuModule
   ],
   exports: [TranslateModule]
 })

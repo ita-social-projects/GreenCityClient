@@ -19,6 +19,21 @@ import { JwtService } from '@global-service/jwt/jwt.service';
   styleUrls: ['./event-details.component.scss']
 })
 export class EventDetailsComponent implements OnInit {
+  public icons = {
+    socials: {
+      plus: 'assets/img/events/plus.svg',
+      twitter: 'assets/img/events/twitter.svg',
+      linkedin: 'assets/img/events/linkedin.svg',
+      facebook: 'assets/img/events/facebook.svg'
+    },
+    clock: 'assets/img/events/clock.svg',
+    location: 'assets/img/events/location.svg',
+    lock: 'assets/img/events/lock.svg',
+    user: 'assets/img/events/user.svg',
+    ellipsis: 'assets/img/events/ellipsis.svg',
+    arrowLeft: 'assets/img/icon/econews/arrow_left.svg'
+  };
+
   private eventId: number;
   private userId: number;
 
@@ -31,8 +46,10 @@ export class EventDetailsComponent implements OnInit {
 
   public role = this.roles.UNAUTHENTICATED;
 
+  attendees = [];
+
   public isAdmin = false;
-  public icons = singleNewsImages;
+  // public icons = singleNewsImages;
   public event: EventPageResponceDto;
 
   public images: string[] = [];
@@ -85,6 +102,10 @@ export class EventDetailsComponent implements OnInit {
       };
 
       this.role = this.verifyRole();
+    });
+
+    this.eventService.getAllAttendees(this.eventId).subscribe((attendees) => {
+      this.attendees = attendees;
     });
 
     this.actionsSubj.pipe(ofType(EventsActions.DeleteEcoEventSuccess)).subscribe(() => this.router.navigate(['/events']));

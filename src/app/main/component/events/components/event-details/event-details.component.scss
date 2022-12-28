@@ -1,3 +1,119 @@
+::ng-deep .event-info-days-overlay.mat-menu-panel {
+  max-width: none !important;
+}
+
+.event-date-place-block-two-days {
+  background-color: var(--ubs-primary-white);
+  border-radius: 4px;
+  padding: 24px;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+
+  .day-number {
+    font-weight: 500;
+    font-size: 20px;
+    line-height: 18px;
+  }
+
+  .event-date-place-day-block {
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+
+    .event-date-place {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+
+      .event-date,
+      .event-location {
+        display: inline-flex;
+        gap: 18px;
+        font-size: 16px;
+        font-weight: 400;
+        line-height: 24px;
+      }
+    }
+  }
+}
+
+.event-date-place-block-three-and-more-days {
+  background-color: var(--ubs-primary-white);
+  border-radius: 4px;
+  padding: 24px;
+  max-height: 260px;
+
+  @media (max-width: 575px) {
+    max-height: 344px;
+
+    ::-webkit-scrollbar {
+      width: 5px;
+    }
+
+    ::-webkit-scrollbar-track {
+      background: var(--primary-white);
+      border-radius: 3px;
+      border: 1px solid var(--quaternary-light-grey);
+    }
+
+    ::-webkit-scrollbar-thumb {
+      background: var(--primary-light-grey);
+      border-radius: 4px;
+    }
+  }
+
+  ::-webkit-scrollbar {
+    width: 12px;
+  }
+
+  ::-webkit-scrollbar-track {
+    background: var(--primary-white);
+    border-radius: 3px;
+    border: 1px solid var(--quaternary-light-grey);
+  }
+
+  ::-webkit-scrollbar-thumb {
+    background: var(--primary-light-grey);
+    border-radius: 2px;
+  }
+
+  .event-date-place-block-content {
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    overflow-y: auto;
+
+    .event-date-place-day-block {
+      display: flex;
+      flex-wrap: nowrap;
+      gap: 24px;
+
+      .day-number {
+        font-weight: 500;
+        font-size: 20px;
+        line-height: 18px;
+      }
+
+      .event-date-place {
+        display: flex;
+        flex-direction: column;
+        gap: 8px;
+
+        .event-date,
+        .event-location {
+          display: inline-flex;
+          gap: 18px;
+          font-size: 16px;
+          font-weight: 400;
+          line-height: 24px;
+        }
+      }
+    }
+  }
+}
+
 .event-wrapper {
   padding-top: 24px;
   background-color: var(--pre-secondary-light-grey);
@@ -103,63 +219,77 @@
     }
 
     .event-header {
-      .event-title {
-        font-weight: 500;
-        color: var(--freinacht-black);
-        font-size: 40px;
-        line-height: 48px;
+      margin-top: 10px;
+      display: flex;
+      gap: 19px;
+      color: var(--quaternary-grey);
+      flex-direction: column;
+
+      @media (min-width: 576px) {
+        gap: 0;
+        flex-direction: column;
+        justify-content: space-between;
+        flex-direction: row;
       }
 
-      .event-meta {
+      .left-side {
         display: flex;
-        justify-content: space-between;
-        color: var(--quaternary-grey);
+        flex-direction: column;
+        gap: 8px;
 
-        .left-side {
-          display: flex;
-          align-items: center;
+        .event-title {
+          font-weight: 500;
+          color: var(--freinacht-black);
+          font-size: 40px;
+          line-height: 48px;
+        }
 
-          .date-author {
-            display: flex;
-            padding: 0;
+        .date-author {
+          display: inline-flex;
+          flex-wrap: wrap;
+          padding: 0;
 
-            div {
-              display: inline-block;
-              margin-right: 10px;
-            }
-          }
-
-          .event-rating {
-            width: auto;
-            height: 20px;
-            border-radius: 5px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 0;
-
-            .star {
-              display: inline-block;
-              width: 25px;
-              height: 25px;
-              transition: all 0.2s;
-            }
-
-            .fill {
-              background: url('src/assets/events-icons/star-filled.png') no-repeat center;
-            }
-
-            .empty {
-              background: url('src/assets/events-icons/Vector.png') no-repeat center;
-            }
+          div {
+            display: inline-block;
+            margin-right: 10px;
           }
         }
 
-        .right-side {
-          .share-buttons {
-            display: flex;
-            gap: 16px;
+        .event-rating {
+          width: auto;
+          height: 20px;
+          border-radius: 5px;
+          display: flex;
+          justify-content: space-between;
+          align-items: center;
+          padding: 0;
+
+          .star {
+            display: inline-block;
+            width: 25px;
+            height: 25px;
+            transition: all 0.2s;
           }
+
+          .fill {
+            background: url('src/assets/events-icons/star-filled.png') no-repeat center;
+          }
+
+          .empty {
+            background: url('src/assets/events-icons/Vector.png') no-repeat center;
+          }
+        }
+      }
+
+      .right-side {
+        display: flex;
+        flex-direction: column;
+        justify-content: flex-end;
+
+        .share-buttons {
+          display: flex;
+          justify-content: flex-end;
+          gap: 16px;
         }
       }
     }
@@ -195,7 +325,7 @@
         .main-image {
           border-radius: 4px;
           height: 272px;
-          // overflow: hidden;
+          overflow: hidden;
         }
 
         .event-tags-participants {
@@ -246,168 +376,121 @@
                 border-radius: 100%;
                 overflow: hidden;
                 border: 1px solid var(--pre-secondary-light-grey);
-              }
 
-              .event-participants-count {
-                font-size: 16px;
-                font-weight: 400;
-                line-height: 26px;
-              }
-            }
-          }
-        }
-
-        .event-date-place-block-single-day {
-          background-color: var(--ubs-primary-white);
-          border-radius: 4px;
-          padding: 24px;
-          display: flex;
-          flex-direction: column;
-          gap: 12px;
-
-          .event-date,
-          .event-location,
-          .event-status-access,
-          .event-author {
-            display: grid;
-            grid-template-columns: 27px auto;
-            column-gap: 18px;
-            font-size: 16px;
-            font-weight: 400;
-            line-height: 24px;
-          }
-
-          .event-date {
-            .event-date-content {
-              display: inline-flex;
-              gap: 12px;
-
-              .event-start-date {
-                font-weight: 500;
-              }
-            }
-          }
-
-          .event-status-access {
-            .event-status-access-content {
-              display: inline-flex;
-              gap: 12px;
-
-              .event-status {
-                font-weight: 500;
-              }
-            }
-          }
-        }
-
-        .event-date-place-block-two-days {
-          background-color: var(--ubs-primary-white);
-          border-radius: 4px;
-          padding: 24px;
-          display: flex;
-          flex-direction: column;
-          gap: 16px;
-
-          .day-number {
-            font-weight: 500;
-            font-size: 20px;
-            line-height: 18px;
-          }
-
-          .event-date-place-day-block {
-            display: flex;
-            flex-direction: column;
-            gap: 14px;
-
-            .event-date-place {
-              display: flex;
-              flex-direction: column;
-              gap: 12px;
-
-              .event-date,
-              .event-location {
-                display: inline-flex;
-                gap: 18px;
-                font-size: 16px;
-                font-weight: 400;
-                line-height: 24px;
-              }
-            }
-          }
-        }
-
-        .event-date-place-block-three-and-more-days {
-          background-color: var(--ubs-primary-white);
-          border-radius: 4px;
-          padding: 24px;
-          max-height: 260px;
-
-          @media (max-width: 575px) {
-            max-height: 344px;
-
-            ::-webkit-scrollbar {
-              width: 5px;
-            }
-
-            ::-webkit-scrollbar-track {
-              background: var(--primary-white);
-              border-radius: 3px;
-              border: 1px solid var(--quaternary-light-grey);
-            }
-
-            ::-webkit-scrollbar-thumb {
-              background: var(--primary-light-grey);
-              border-radius: 4px;
-            }
-          }
-
-          ::-webkit-scrollbar {
-            width: 12px;
-          }
-
-          ::-webkit-scrollbar-track {
-            background: var(--primary-white);
-            border-radius: 3px;
-            border: 1px solid var(--quaternary-light-grey);
-          }
-
-          ::-webkit-scrollbar-thumb {
-            background: var(--primary-light-grey);
-            border-radius: 2px;
-          }
-
-          .event-date-place-block-content {
-            height: 100%;
-            display: flex;
-            flex-direction: column;
-            gap: 16px;
-            overflow-y: auto;
-
-            .event-date-place-day-block {
-              display: flex;
-              flex-wrap: nowrap;
-              gap: 24px;
-
-              .day-number {
-                font-weight: 500;
-                font-size: 20px;
-                line-height: 18px;
-              }
-
-              .event-date-place {
-                display: flex;
-                flex-direction: column;
-                gap: 8px;
-
-                .event-date,
-                .event-location {
-                  display: inline-flex;
-                  gap: 18px;
-                  font-size: 16px;
-                  font-weight: 400;
-                  line-height: 24px;
+                img {
+                  display: block;
+                  width: 100%;
+                  height: 100%;
                 }
               }
+            }
+
+            .event-participants-count-container {
+              font-size: 16px;
+              font-weight: 400;
+              line-height: 26px;
+
+              .event-participants-count {
+                font-weight: 500;
+              }
+            }
+          }
+        }
+        .event-info-block {
+          background-color: var(--ubs-primary-white);
+          border-radius: 4px;
+          padding: 24px;
+          display: flex;
+          flex-wrap: nowrap;
+          justify-content: space-between;
+
+          .event-info {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+
+            .event-date,
+            .event-location,
+            .event-status-access,
+            .event-author {
+              display: grid;
+              grid-template-columns: 27px auto;
+              column-gap: 18px;
+              font-size: 16px;
+              font-weight: 400;
+            }
+
+            .event-date {
+              .event-date-icon {
+                padding: 2px 0;
+                box-sizing: border-box;
+
+                img {
+                  display: block;
+                }
+              }
+
+              .event-date-content {
+                display: inline-flex;
+                flex-wrap: wrap;
+                gap: 12px;
+                line-height: 24px;
+
+                .event-duration {
+                  font-weight: 500;
+                }
+              }
+            }
+
+            .event-location {
+              .event-location-icon {
+                padding: 1px 0;
+                box-sizing: border-box;
+
+                img {
+                  display: block;
+                }
+              }
+            }
+
+            .event-status-access {
+              .event-status-icon {
+                padding: 1px 0;
+                box-sizing: border-box;
+
+                img {
+                  display: block;
+                }
+              }
+
+              .event-status-access-content {
+                display: inline-flex;
+                gap: 12px;
+
+                .event-status {
+                  font-weight: 500;
+                }
+              }
+            }
+
+            .event-author {
+              .event-author-icon {
+                padding: 1px 0;
+                box-sizing: border-box;
+
+                img {
+                  display: block;
+                }
+              }
+            }
+          }
+
+          .event-info-days {
+            .more-days-info-button {
+              outline: none;
+              border: none;
+              padding: 0;
+              background: transparent;
             }
           }
         }
