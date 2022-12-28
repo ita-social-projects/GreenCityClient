@@ -78,6 +78,13 @@ export class UBSPersonalInformationComponent extends FormBaseComponent implement
   }
 
   ngOnInit() {
+    this.orderService.locationSubject.pipe(takeUntil(this.destroy)).subscribe(() => {
+      if (localStorage.getItem('currentLocationId')) {
+        this.currentLocationId = JSON.parse(localStorage.getItem('currentLocationId'));
+        this.setDisabledCityForLocation();
+      }
+    });
+
     this.currentLanguage = this.localService.getCurrentLanguage();
     if (localStorage.getItem('anotherClient')) {
       this.anotherClient = JSON.parse(localStorage.getItem('anotherClient'));

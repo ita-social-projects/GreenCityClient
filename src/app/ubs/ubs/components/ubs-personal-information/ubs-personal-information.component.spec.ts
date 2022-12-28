@@ -137,6 +137,7 @@ describe('UBSPersonalInformationComponent', () => {
     localStorage.setItem('locations', JSON.stringify(mockLocations));
     localStorage.setItem('currentLocationId', JSON.stringify(1));
     fakeOrderService.locationSub = new Subject<any>();
+    fakeOrderService.locationSubject = new Subject<any>();
     fakeOrderService.currentAddress = new Subject<any>();
     fakeOrderService.setCurrentAddress(listMock.addressList[0]);
     fakeOrderService.setLocationData('Київ');
