@@ -30,6 +30,7 @@ import { EventDetailsComponent } from './components/event-details/event-details.
 import { RatingModule } from 'ngx-bootstrap/rating';
 import { ImagesSliderComponent } from './components/event-details/images-slider/images-slider.component';
 import { MatMenuModule } from '@angular/material/menu';
+import { EventScheduleInfoComponent } from './components/event-details/event-schedule-info/event-schedule-info.component';
 
 @NgModule({
   declarations: [
@@ -40,7 +41,8 @@ import { MatMenuModule } from '@angular/material/menu';
     MapEventComponent,
     ImagesContainerComponent,
     EventDetailsComponent,
-    ImagesSliderComponent
+    ImagesSliderComponent,
+    EventScheduleInfoComponent
   ],
   imports: [
     RatingModule.forRoot(),

@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { ActivatedRoute, Router } from '@angular/router';
 import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
@@ -7,11 +7,13 @@ import { ActionsSubject, Store } from '@ngrx/store';
 import { take } from 'rxjs/operators';
 import { DialogPopUpComponent } from 'src/app/shared/dialog-pop-up/dialog-pop-up.component';
 import { DeleteEcoEventAction, EventsActions } from 'src/app/store/actions/ecoEvents.actions';
-import { singleNewsImages } from '../../../../image-pathes/single-news-images';
 import { EventPageResponceDto } from '../../models/events.interface';
 import { EventsService } from '../../services/events.service';
 import { MapEventComponent } from '../map-event/map-event.component';
 import { JwtService } from '@global-service/jwt/jwt.service';
+import { Overlay } from '@angular/cdk/overlay';
+import { ComponentPortal } from '@angular/cdk/portal';
+import { EventScheduleInfoComponent } from './event-schedule-info/event-schedule-info.component';
 
 @Component({
   selector: 'app-event-details',
@@ -34,6 +36,8 @@ export class EventDetailsComponent implements OnInit {
     arrowLeft: 'assets/img/icon/econews/arrow_left.svg'
   };
 
+  // @ViewChild('scheduleButton') scheduleButtonRef;
+
   private eventId: number;
   private userId: number;
 
@@ -47,6 +51,7 @@ export class EventDetailsComponent implements OnInit {
   public role = this.roles.UNAUTHENTICATED;
 
   attendees = [];
+  attendeesAvatars = [];
 
   public isAdmin = false;
   // public icons = singleNewsImages;
@@ -80,7 +85,8 @@ export class EventDetailsComponent implements OnInit {
     private dialog: MatDialog,
     private store: Store,
     private actionsSubj: ActionsSubject,
-    private jwtService: JwtService
+    private jwtService: JwtService,
+    private overlay: Overlay
   ) {}
 
   ngOnInit(): void {
@@ -106,6 +112,7 @@ export class EventDetailsComponent implements OnInit {
 
     this.eventService.getAllAttendees(this.eventId).subscribe((attendees) => {
       this.attendees = attendees;
+      this.attendeesAvatars = attendees.filter((attendee) => attendee.imagePath).map((attendee) => attendee.imagePath);
     });
 
     this.actionsSubj.pipe(ofType(EventsActions.DeleteEcoEventSuccess)).subscribe(() => this.router.navigate(['/events']));
@@ -122,6 +129,27 @@ export class EventDetailsComponent implements OnInit {
   public navigateToEditEvent(): void {
     this.router.navigate(['/events', 'create-event']);
   }
+
+  // public onScheduleClick(): void {
+  //   const overlayRef = this.overlay.create({
+  //     hasBackdrop: true,
+  //     positionStrategy: this.overlay
+  //       .position()
+  //       .flexibleConnectedTo(this.scheduleButtonRef)
+  //       .withPositions([
+  //         {
+  //           originX: 'center',
+  //           originY: 'bottom',
+  //           overlayX: 'center',
+  //           overlayY: 'top'
+  //         }
+  //       ])
+  //   });
+  //   const scheduleInfo = new ComponentPortal(EventScheduleInfoComponent);
+  //   const componentRef = overlayRef.attach(scheduleInfo);
+  //   componentRef.instance.event = this.event;
+  //   overlayRef.backdropClick().subscribe(() => overlayRef.detach());
+  // }
 
   public openMap(event): void {
     const dataToMap = {

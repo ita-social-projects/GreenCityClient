@@ -59,11 +59,12 @@
             <div class="event-tag" *ngFor="let tag of event.tags">{{ tag.nameEn | uppercase }}</div>
           </div>
           <div class="event-participants">
-            <div class="event-participants-avatars">
-              <div *ngFor="let attendee of attendees">
-                <div class="event-participants-avatar" *ngIf="attendee.imagePath">
-                  <img [src]="attendee.imagePath" alt="" />
-                </div>
+            <div class="event-participants-avatars" *ngIf="attendeesAvatars.length">
+              <!-- <div class="event-participants-avatar" *ngFor="let item of 5 | repeat">
+                <div style="width:700px; height: 700px; background: rgb(22, 20, 131)"></div>
+              </div> -->
+              <div class="event-participants-avatar" *ngFor="let avatar of attendeesAvatars">
+                <img [src]="avatar" alt="" />
               </div>
             </div>
             <div class="event-participants-count-container">
@@ -121,20 +122,18 @@
             </div>
           </div>
           <div class="event-info-days">
-            <button class="more-days-info-button" [matMenuTriggerFor]="moreDaysInfo" aria-label="Days info" *ngIf="event.dates.length > 1">
+            <app-event-schedule-info [event]="event"></app-event-schedule-info>
+            <!-- <button class="more-days-info-button" aria-label="Days info" *ngIf="event.dates.length > 1" (click)="onScheduleClick()" #scheduleButton>
               <img [src]="icons.ellipsis" alt="Days" />
-            </button>
-            <mat-menu class="event-info-days-overlay" #moreDaysInfo="matMenu">
+            </button> -->
+            <!-- <mat-menu class="event-info-days-overlay" #moreDaysInfo="matMenu">
               <div class="event-date-place-block-two-days" *ngIf="event.dates.length === 2">
                 <div class="event-date-place-day-block" *ngFor="let day of event.dates; index as idx">
                   <div class="day-number">{{ idx + 1 }}&nbsp;Day</div>
                   <div class="event-date-place">
                     <div class="event-date">
                       <div class="event-date-icon">
-                        <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
-                          <circle cx="10" cy="10" r="9.2" stroke="#64727D" stroke-width="1.6" />
-                          <path d="M10 4V10L12.5 12.5" stroke="#64727D" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" />
-                        </svg>
+                        <img [src]="icons.clock" alt="" />
                       </div>
                       <div>
                         {{ day.startDate | date: 'MMM d, y' }} | {{ day.startDate | date: 'hh:mm a' }}&nbsp;-&nbsp;{{
@@ -144,12 +143,7 @@
                     </div>
                     <div class="event-location">
                       <div class="event-location-icon">
-                        <svg width="18" height="22" viewBox="0 0 18 22" fill="none" xmlns="http://www.w3.org/2000/svg">
-                          <path
-                            d="M9 0.5C11.3869 0.5 13.6761 1.44821 15.364 3.13604C17.0518 4.82387 18 7.11305 18 9.5C18 13.8005 15.0975 17.759 9.402 21.383C9.28181 21.4593 9.14237 21.4998 9 21.4998C8.85763 21.4998 8.71819 21.4593 8.598 21.383C2.9025 17.759 0 13.8005 0 9.5C0 7.11305 0.948211 4.82387 2.63604 3.13604C4.32387 1.44821 6.61305 0.5 9 0.5ZM9 2C7.01088 2 5.10322 2.79018 3.6967 4.1967C2.29018 5.60322 1.5 7.51088 1.5 9.5C1.5 12.9875 3.81 16.337 8.52 19.538L9 19.8575L9.48 19.538C14.19 16.337 16.5 12.9875 16.5 9.5C16.5 7.51088 15.7098 5.60322 14.3033 4.1967C12.8968 2.79018 10.9891 2 9 2ZM9 7.25C9.29547 7.25 9.58806 7.3082 9.86104 7.42127C10.134 7.53434 10.3821 7.70008 10.591 7.90901C10.7999 8.11794 10.9657 8.36598 11.0787 8.63896C11.1918 8.91194 11.25 9.20452 11.25 9.5C11.25 9.79547 11.1918 10.0881 11.0787 10.361C10.9657 10.634 10.7999 10.8821 10.591 11.091C10.3821 11.2999 10.134 11.4657 9.86104 11.5787C9.58806 11.6918 9.29547 11.75 9 11.75C8.40326 11.75 7.83097 11.5129 7.40901 11.091C6.98705 10.669 6.75 10.0967 6.75 9.5C6.75 8.90326 6.98705 8.33097 7.40901 7.90901C7.83097 7.48705 8.40326 7.25 9 7.25Z"
-                            fill="#64727D"
-                          />
-                        </svg>
+                        <img [src]="icons.location" alt="" />
                       </div>
                       <div>{{ day.onlineLink ? day.onlineLink : day.coordinates.addressEn }}</div>
                     </div>
@@ -172,7 +166,7 @@
                   </div>
                 </div>
               </div>
-            </mat-menu>
+            </mat-menu> -->
           </div>
         </div>
 
