@@ -207,7 +207,7 @@ export class UBSOrderDetailsComponent extends FormBaseComponent implements OnIni
       shop: new FormControl('no'),
       formArrayCertificates: this.fb.array([new FormControl('', [Validators.minLength(8), Validators.pattern(this.certificatePattern)])]),
       additionalOrders: this.fb.array(['']),
-      orderSum: new FormControl(0, [Validators.required, Validators.min(500)])
+      orderSum: new FormControl(0, [Validators.required])
     });
   }
 
