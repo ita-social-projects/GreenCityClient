@@ -167,7 +167,6 @@ export class UbsAdminTableComponent implements OnInit, AfterViewChecked, OnDestr
         this.totalPages = item[`totalPages`];
         this.formatTableData();
         this.isLoading = false;
-        this.cdr.detectChanges();
         this.applyColumnsWidthPreference();
       }
     });
@@ -837,8 +836,8 @@ export class UbsAdminTableComponent implements OnInit, AfterViewChecked, OnDestr
   }
 
   private getColumnHeaderBoundaries(index: number) {
-    const headerRow = this.matTableRef.nativeElement.children[0];
-    const cell = headerRow.children[0].children[index];
+    const headerRow = this.matTableRef?.nativeElement.children[0];
+    const cell = headerRow?.children[0].children[index];
     return cell?.getBoundingClientRect();
   }
 
