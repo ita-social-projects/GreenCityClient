@@ -837,7 +837,7 @@ export class UbsAdminTableComponent implements OnInit, AfterViewChecked, OnDestr
 
   private getColumnHeaderBoundaries(index: number) {
     const headerRow = this.matTableRef?.nativeElement.children[0];
-    const cell = headerRow?.children[0].children[index];
+    const cell = headerRow?.children[0]?.children[index];
     return cell?.getBoundingClientRect();
   }
 
