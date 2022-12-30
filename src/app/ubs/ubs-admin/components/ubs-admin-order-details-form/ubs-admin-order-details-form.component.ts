@@ -51,10 +51,9 @@ export class UbsAdminOrderDetailsFormComponent implements OnInit, OnChanges {
       this.recalculateSum();
     }
 
-    if (changes.orderStatusInfo?.previousValue?.ableActualChange !== changes.orderStatusInfo?.currentValue?.ableActualChange) {
+    if (changes.orderStatusInfo?.previousValue?.ableActualChange !== changes.orderStatusInfo?.currentValue.ableActualChange) {
       const prevStatus = changes.orderStatusInfo.previousValue?.key;
-      const curStatus = changes.orderStatusInfo.currentValue?.key;
-      changes.orderStatusInfo.currentValue.ableActualChange = !changes.orderStatusInfo.currentValue.ableActualChange;
+      const curStatus = changes.orderStatusInfo.currentValue.key;
       this.isVisible = !this.isVisible;
       this.doneAfterBroughtHimself = this.checkStatusDoneAfterBroughtHimself(prevStatus, curStatus);
       this.recalculateSum();

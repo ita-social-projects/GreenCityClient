@@ -28,6 +28,7 @@ export class UbsAdminOrderStatusComponent implements OnChanges, OnInit, OnDestro
   private destroy$: Subject<boolean> = new Subject<boolean>();
 
   public availableOrderStatuses;
+  public isOrderStatusSelected = true;
 
   ngOnChanges(changes: SimpleChanges): void {
     if (changes.additionalPayment) {
@@ -42,6 +43,7 @@ export class UbsAdminOrderStatusComponent implements OnChanges, OnInit, OnDestro
         changes.generalInfo.currentValue.orderStatus,
         changes.generalInfo.currentValue.orderStatusesDtos
       );
+      this.renderOrderStatus();
     }
   }
 
@@ -50,6 +52,11 @@ export class UbsAdminOrderStatusComponent implements OnChanges, OnInit, OnDestro
       this.generalInfo.orderStatus,
       this.generalInfo.orderStatusesDtos
     );
+  }
+
+  private renderOrderStatus() {
+    setTimeout(() => (this.isOrderStatusSelected = false));
+    setTimeout(() => (this.isOrderStatusSelected = true));
   }
 
   public onChangedOrderStatus(statusName: string) {
