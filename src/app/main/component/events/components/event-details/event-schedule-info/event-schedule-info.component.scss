@@ -6,23 +6,65 @@
 }
 
 ::ng-deep .event-schedule-overlay-backdrop {
-  background: transparent;
+  background: rgba(68, 78, 85, 0.3);
+
+  @media (min-width: 1024px) {
+    background: transparent;
+  }
 }
 
 ::ng-deep .event-schedule-overlay-panel {
+  background-color: var(--pre-secondary-light-grey);
+  padding: 16px;
+
+  border-radius: 4px 4px 0 0;
+  overflow: hidden;
+
   box-shadow: 1px 4px 8px rgba(100, 114, 125, 0.18);
   width: 100%;
+
+  @media (min-width: 576px) {
+    border-radius: 4px;
+    background-color: var(--ubs-primary-white);
+    padding: 0;
+    width: 413px;
+  }
 
   @media (min-width: 768px) {
     width: 456px;
   }
+
+  // .arrow {
+  //   position: absolute;
+  //   width: 0;
+  //   height: 0;
+  //   border-style: solid;
+  //   border-width: 0 10px 10px 10px;
+  //   border-color: transparent transparent #fff transparent;
+  //   top: -9px;
+  //   right: 10px;
+  // }
+
+  // .arrow:after {
+  //   content:"";
+  //   position: absolute;
+  //   width: 0;
+  //   height: 0;
+  //   border-style: solid;
+  //   border-width: 0 10px 10px 10px;
+  //   border-color: transparent transparent #ccc transparent;
+  //   left:-10px;
+  //   top:-1px;
+  //   z-index:-1;
+  // }
 }
 
 .event-date-place-block-two-days {
   background-color: var(--ubs-primary-white);
-  border-radius: 4px;
+  width: 100%;
   padding: 24px;
   display: flex;
+  max-height: 252px;
   flex-direction: column;
   gap: 16px;
 
@@ -56,28 +98,7 @@
 
 .event-date-place-block-three-and-more-days {
   background-color: var(--ubs-primary-white);
-  border-radius: 4px;
-  padding: 24px;
-  max-height: 260px;
-
-  @media (min-width: 576px) {
-    max-height: 344px;
-
-    ::-webkit-scrollbar {
-      width: 12px;
-    }
-
-    ::-webkit-scrollbar-track {
-      background: var(--primary-white);
-      border-radius: 3px;
-      border: 1px solid var(--quaternary-light-grey);
-    }
-
-    ::-webkit-scrollbar-thumb {
-      background: var(--primary-light-grey);
-      border-radius: 2px;
-    }
-  }
+  width: 100%;
 
   ::-webkit-scrollbar {
     width: 5px;
@@ -94,12 +115,34 @@
     border-radius: 4px;
   }
 
+  @media (min-width: 576px) {
+    ::-webkit-scrollbar {
+      width: 12px;
+    }
+
+    ::-webkit-scrollbar-track {
+      background: var(--primary-white);
+      border-radius: 3px;
+      border: 1px solid var(--quaternary-light-grey);
+    }
+
+    ::-webkit-scrollbar-thumb {
+      background: var(--primary-light-grey);
+      border-radius: 2px;
+    }
+  }
+
   .event-date-place-block-content {
-    height: 100%;
+    padding: 24px;
+    max-height: 344px;
     display: flex;
     flex-direction: column;
     gap: 16px;
     overflow-y: auto;
+
+    @media (min-width: 576px) {
+      max-height: 260px;
+    }
 
     .event-date-place-day-block {
       display: flex;
