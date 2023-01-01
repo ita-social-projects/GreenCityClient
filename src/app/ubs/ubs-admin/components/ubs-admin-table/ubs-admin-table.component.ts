@@ -167,7 +167,7 @@ export class UbsAdminTableComponent implements OnInit, AfterViewChecked, OnDestr
         this.totalPages = item[`totalPages`];
         this.formatTableData();
         this.isLoading = false;
-        this.applyColumnsWidthPreference();
+        setTimeout(() => this.applyColumnsWidthPreference(), 0);
       }
     });
     this.bigOrderTableParams$.subscribe((columns: IBigOrderTableParams) => {
