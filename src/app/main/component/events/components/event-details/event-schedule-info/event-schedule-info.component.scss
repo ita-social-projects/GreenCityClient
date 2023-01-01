@@ -13,11 +13,16 @@
   }
 }
 
-::ng-deep .event-schedule-overlay-panel {
-  background-color: var(--pre-secondary-light-grey);
-  padding: 16px;
+// ::ng-deep .mat-bottom-sheet-container {
+//   padding: 0 !important;
+//   min-height: 252px;
+// }
 
-  border-radius: 4px 4px 0 0;
+::ng-deep .event-schedule-overlay {
+  background-color: var(--pre-secondary-light-grey);
+  // min-height: 252px;
+
+  border-radius: 8px 8px 0 0;
   overflow: hidden;
 
   box-shadow: 1px 4px 8px rgba(100, 114, 125, 0.18);
@@ -33,34 +38,22 @@
   @media (min-width: 768px) {
     width: 456px;
   }
-
-  // .arrow {
-  //   position: absolute;
-  //   width: 0;
-  //   height: 0;
-  //   border-style: solid;
-  //   border-width: 0 10px 10px 10px;
-  //   border-color: transparent transparent #fff transparent;
-  //   top: -9px;
-  //   right: 10px;
-  // }
-
-  // .arrow:after {
-  //   content:"";
-  //   position: absolute;
-  //   width: 0;
-  //   height: 0;
-  //   border-style: solid;
-  //   border-width: 0 10px 10px 10px;
-  //   border-color: transparent transparent #ccc transparent;
-  //   left:-10px;
-  //   top:-1px;
-  //   z-index:-1;
-  // }
 }
 
-.event-schedule-overlay-content {
+.close-handle {
+  padding: 5px 0;
+  display: flex;
+  justify-content: center;
+}
+
+.event-schedule-container {
+  height: 100%;
   background-color: var(--ubs-primary-white);
+  width: 100%;
+  padding: 16px;
+  @media (min-width: 576px) {
+    padding: 0;
+  }
 
   .event-date-place-block-two-days {
     width: 100%;
@@ -100,6 +93,7 @@
 
   .event-date-place-block-three-and-more-days {
     width: 100%;
+    padding: 4px;
 
     ::-webkit-scrollbar {
       width: 5px;
@@ -134,7 +128,7 @@
     }
 
     .event-date-place-block-content {
-      padding: 24px;
+      padding: 20px;
       max-height: 344px;
       display: flex;
       flex-direction: column;

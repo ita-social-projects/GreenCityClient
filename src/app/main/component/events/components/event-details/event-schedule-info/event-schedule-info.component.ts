@@ -1,11 +1,80 @@
 import { BreakpointObserver } from '@angular/cdk/layout';
 import { ConnectedPosition, Overlay, OverlayRef, PositionStrategy, ScrollStrategy } from '@angular/cdk/overlay';
 import { TemplatePortal } from '@angular/cdk/portal';
-import { AfterViewInit, Component, Input, OnDestroy, OnInit, ViewChild, ViewContainerRef } from '@angular/core';
+import { MatBottomSheet, MatBottomSheetRef } from '@angular/material/bottom-sheet';
+import { AfterViewInit, Component, Inject, Input, OnDestroy, OnInit, ViewChild, ViewContainerRef } from '@angular/core';
 import { Observable, Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
+import { HammerGestureConfig, HAMMER_GESTURE_CONFIG } from '@angular/platform-browser';
 
 // type MediaWidthSelector = `(min-width: ${number}px)` | `(max-width: ${number}px)` | `(min-width: ${number}px) and (max-width: ${number}px)`;
+
+import { trigger, state, style, transition, animate, group, query, stagger, keyframes } from '@angular/animations';
+
+export const SlideInOutAnimation = [
+  trigger('slideInOut', [
+    state(
+      'in',
+      style({
+        'max-height': '500px',
+        opacity: '1',
+        visibility: 'visible'
+      })
+    ),
+    state(
+      'out',
+      style({
+        'max-height': '0px',
+        opacity: '0',
+        visibility: 'hidden'
+      })
+    ),
+    transition('in => out', [
+      group([
+        animate(
+          '400ms ease-in-out',
+          style({
+            opacity: '0'
+          })
+        ),
+        animate(
+          '600ms ease-in-out',
+          style({
+            'max-height': '0px'
+          })
+        ),
+        animate(
+          '700ms ease-in-out',
+          style({
+            visibility: 'hidden'
+          })
+        )
+      ])
+    ]),
+    transition('out => in', [
+      group([
+        animate(
+          '1ms ease-in-out',
+          style({
+            visibility: 'visible'
+          })
+        ),
+        animate(
+          '600ms ease-in-out',
+          style({
+            'max-height': '500px'
+          })
+        ),
+        animate(
+          '800ms ease-in-out',
+          style({
+            opacity: '1'
+          })
+        )
+      ])
+    ])
+  ])
+];
 
 @Component({
   selector: 'app-event-schedule-info',
@@ -22,10 +91,12 @@ export class EventScheduleInfoComponent implements OnInit, AfterViewInit, OnDest
   @Input() event;
 
   @ViewChild('scheduleButton') scheduleButtonRef;
-  @ViewChild('scheduleInfo') scheduleInfoRef;
+  @ViewChild('scheduleInfoOverlay') scheduleInfoOverlayRef;
   overlayRef: OverlayRef = null;
   overlayPositionStrategy: PositionStrategy = null;
   overlayScrollStrategy: ScrollStrategy = null;
+
+  bottomSheetRef: MatBottomSheetRef = null;
 
   breakpoints = {
     xs: '(max-width: 575px)',
@@ -36,7 +107,12 @@ export class EventScheduleInfoComponent implements OnInit, AfterViewInit, OnDest
 
   private destroy = new Subject<void>();
 
-  constructor(private overlay: Overlay, private viewContainerRef: ViewContainerRef, private breakpointObserver: BreakpointObserver) {}
+  constructor(
+    private overlay: Overlay,
+    private viewContainerRef: ViewContainerRef,
+    private breakpointObserver: BreakpointObserver,
+    private bottomSheet: MatBottomSheet
+  ) {}
 
   ngOnInit(): void {}
 
@@ -138,17 +214,18 @@ export class EventScheduleInfoComponent implements OnInit, AfterViewInit, OnDest
   }
 
   onScheduleClick(): void {
+    // this.bottomSheetRef = this.bottomSheet.open(this.scheduleInfoRef);
     if (!this.overlayRef) {
       this.overlayRef = this.overlay.create({
         hasBackdrop: true,
-        panelClass: 'event-schedule-overlay-panel',
+        panelClass: 'event-schedule-overlay',
         backdropClass: 'event-schedule-overlay-backdrop',
         positionStrategy: this.overlayPositionStrategy,
         scrollStrategy: this.overlayScrollStrategy
       });
     }
 
-    const portal = new TemplatePortal(this.scheduleInfoRef, this.viewContainerRef);
+    const portal = new TemplatePortal(this.scheduleInfoOverlayRef, this.viewContainerRef);
     this.overlayRef.attach(portal);
     this.overlayRef
       .backdropClick()
@@ -156,7 +233,14 @@ export class EventScheduleInfoComponent implements OnInit, AfterViewInit, OnDest
       .subscribe(() => this.overlayRef.detach());
   }
 
-  onClose() {
+  onClose(event) {
+    console.log(event);
+    // console.log('event');
     this.overlayRef.detach();
+    // this.bottomSheetRef.dismiss();
   }
+
+  // onDrag() {
+  //   console.log('drag');
+  // }
 }

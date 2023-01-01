@@ -2,8 +2,40 @@
   <img [src]="icons.ellipsis" alt="Days" />
 </button>
 
+<ng-template #scheduleInfoOverlay>
+  <div (swipedown)="onClose($event)">
+    <ng-template [ngTemplateOutlet]="scheduleInfo"></ng-template>
+  </div>
+</ng-template>
+
+<ng-template #scheduleInfoBottomSheet>
+  <!-- <div
+    cdkDrag
+    cdkDragLockAxis="y"
+    cdkDragBoundary=".cdk-global-overlay-wrapper"
+    cdkDragRootElement=".cdk-overlay-pane.event-schedule-overlay-panel"
+    cdkDragHandle
+    style="width: 20px; height: 20px; background: #aac"
+    (cdkDragMoved)="onDrag()"
+  ></div> -->
+  <!-- <div cdkDrag cdkDragLockAxis="y" cdkDragBoundary=".cdk-overlay-backdrop.event-schedule-overlay-backdrop" class="event-schedule-overlay-content" style="background: #eec"> -->
+  <!-- <div (swipe)="onClose($event)" class="close-handle">
+    <svg width="40" height="3" viewBox="0 0 40 3" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <rect width="40" height="3" rx="1.5" fill="#CACFD3"/>
+      </svg>      
+  </div> -->
+  <div class="event-schedule-overlay-panel-content" style="background: #eec">
+    <div (swipedown)="onClose($event)" class="close-handle">
+      <svg width="40" height="3" viewBox="0 0 40 3" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <rect width="40" height="3" rx="1.5" fill="#CACFD3" />
+      </svg>
+    </div>
+    <ng-template [ngTemplateOutlet]="scheduleInfo"></ng-template>
+  </div>
+</ng-template>
+
 <ng-template #scheduleInfo>
-  <div class="event-schedule-overlay-content">
+  <div class="event-schedule-container">
     <div class="event-date-place-block-two-days" *ngIf="event.dates.length === 2">
       <div class="event-date-place-day-block" *ngFor="let day of event.dates; index as idx">
         <div class="day-number">{{ idx + 1 }}&nbsp;Day</div>
@@ -28,7 +60,7 @@
       </div>
     </div>
 
-    <div class="event-date-place-block-three-and-more-days" *ngIf="event.dates.length >= 3" cdkDragLockAxis="y" cdkDrag>
+    <div class="event-date-place-block-three-and-more-days" *ngIf="event.dates.length >= 3">
       <div class="event-date-place-block-content">
         <div class="event-date-place-day-block" *ngFor="let day of event.dates; index as idx">
           <div class="day-number">{{ idx + 1 }}&nbsp;Day</div>

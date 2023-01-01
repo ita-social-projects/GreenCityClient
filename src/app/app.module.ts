@@ -6,8 +6,8 @@ import { TranslateHttpLoader } from '@ngx-translate/http-loader';
 import { StoreDevtoolsModule } from '@ngrx/store-devtools';
 import { StoreModule } from '@ngrx/store';
 import { EffectsModule } from '@ngrx/effects';
-import { BrowserModule } from '@angular/platform-browser';
-import { APP_INITIALIZER, Injector, NgModule } from '@angular/core';
+import { BrowserModule, HammerGestureConfig, HammerModule, HAMMER_GESTURE_CONFIG } from '@angular/platform-browser';
+import { APP_INITIALIZER, Injectable, Injector, NgModule } from '@angular/core';
 
 import { MainModule } from './main/main.module';
 import { AppComponent } from './app.component';
@@ -46,6 +46,15 @@ export function appInitializerFactory(translate: TranslateService, injector: Inj
     });
 }
 
+import * as Hammer from 'hammerjs';
+
+@Injectable()
+export class CustomHammerConfig extends HammerGestureConfig {
+  overrides = <any>{
+    swipe: { direction: Hammer.DIRECTION_ALL }
+  };
+}
+
 @NgModule({
   declarations: [AppComponent],
   imports: [
@@ -68,7 +77,8 @@ export function appInitializerFactory(translate: TranslateService, injector: Inj
     StoreDevtoolsModule.instrument({
       maxAge: 25,
       logOnly: environment.production
-    })
+    }),
+    HammerModule
   ],
   providers: [
     // we use HashLocationStrategy because
@@ -85,6 +95,10 @@ export function appInitializerFactory(translate: TranslateService, injector: Inj
       useFactory: appInitializerFactory,
       deps: [TranslateService, Injector, LanguageService],
       multi: true
+    },
+    {
+      provide: HAMMER_GESTURE_CONFIG,
+      useClass: CustomHammerConfig
     }
   ],
   bootstrap: [AppComponent],

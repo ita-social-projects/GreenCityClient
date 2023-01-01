@@ -1,4 +1,4 @@
-import { NgModule } from '@angular/core';
+import { Injectable, NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { TranslateLoader, TranslateModule } from '@ngx-translate/core';
 import { TranslateHttpLoader } from '@ngx-translate/http-loader';
@@ -31,6 +31,20 @@ import { RatingModule } from 'ngx-bootstrap/rating';
 import { ImagesSliderComponent } from './components/event-details/images-slider/images-slider.component';
 import { MatMenuModule } from '@angular/material/menu';
 import { EventScheduleInfoComponent } from './components/event-details/event-schedule-info/event-schedule-info.component';
+import { DragDropModule } from '@angular/cdk/drag-drop';
+import { MatBottomSheetModule } from '@angular/material/bottom-sheet';
+
+import * as Hammer from 'hammerjs';
+import { HammerGestureConfig, HAMMER_GESTURE_CONFIG } from '@angular/platform-browser';
+import { EventScheduleButtonComponent } from './components/event-details/event-schedule-button/event-schedule-button.component';
+
+@Injectable()
+export class MyHammerConfig extends HammerGestureConfig {
+  overrides = <any>{
+    pan: { direction: Hammer.DIRECTION_ALL },
+    swipe: { direction: Hammer.DIRECTION_ALL }
+  };
+}
 
 @NgModule({
   declarations: [
@@ -42,7 +56,8 @@ import { EventScheduleInfoComponent } from './components/event-details/event-sch
     ImagesContainerComponent,
     EventDetailsComponent,
     ImagesSliderComponent,
-    EventScheduleInfoComponent
+    EventScheduleInfoComponent,
+    EventScheduleButtonComponent
   ],
   imports: [
     RatingModule.forRoot(),
@@ -75,9 +90,17 @@ import { EventScheduleInfoComponent } from './components/event-details/event-sch
       isolate: true
     }),
     QuillModule.forRoot(),
-    MatMenuModule
+    MatMenuModule,
+    DragDropModule,
+    MatBottomSheetModule
   ],
-  exports: [TranslateModule]
+  exports: [TranslateModule],
+  providers: [
+    {
+      provide: HAMMER_GESTURE_CONFIG,
+      useFactory: () => new MyHammerConfig()
+    }
+  ]
 })
 export class EventsModule {}
 export function createTranslateLoader(http: HttpClient) {
