@@ -30,13 +30,14 @@ import { EventDetailsComponent } from './components/event-details/event-details.
 import { RatingModule } from 'ngx-bootstrap/rating';
 import { ImagesSliderComponent } from './components/event-details/images-slider/images-slider.component';
 import { MatMenuModule } from '@angular/material/menu';
-import { EventScheduleInfoComponent } from './components/event-details/event-schedule-info/event-schedule-info.component';
+import { EventScheduleOverlayComponent } from './components/event-details/event-schedule-overlay/event-schedule-overlay.component';
 import { DragDropModule } from '@angular/cdk/drag-drop';
 import { MatBottomSheetModule } from '@angular/material/bottom-sheet';
 
 import * as Hammer from 'hammerjs';
 import { HammerGestureConfig, HAMMER_GESTURE_CONFIG } from '@angular/platform-browser';
 import { EventScheduleButtonComponent } from './components/event-details/event-schedule-button/event-schedule-button.component';
+import { EventScheduleComponent } from './components/event-details/event-schedule/event-schedule.component';
 
 @Injectable()
 export class MyHammerConfig extends HammerGestureConfig {
@@ -56,8 +57,9 @@ export class MyHammerConfig extends HammerGestureConfig {
     ImagesContainerComponent,
     EventDetailsComponent,
     ImagesSliderComponent,
-    EventScheduleInfoComponent,
-    EventScheduleButtonComponent
+    EventScheduleOverlayComponent,
+    EventScheduleButtonComponent,
+    EventScheduleComponent
   ],
   imports: [
     RatingModule.forRoot(),

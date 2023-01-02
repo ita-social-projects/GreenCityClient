@@ -1,19 +1,19 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { EventScheduleInfoComponent } from './event-schedule-info.component';
+import { EventScheduleComponent } from './event-schedule.component';
 
-describe('EventScheduleInfoComponent', () => {
-  let component: EventScheduleInfoComponent;
-  let fixture: ComponentFixture<EventScheduleInfoComponent>;
+describe('EventScheduleComponent', () => {
+  let component: EventScheduleComponent;
+  let fixture: ComponentFixture<EventScheduleComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [EventScheduleInfoComponent]
+      declarations: [EventScheduleComponent]
     }).compileComponents();
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(EventScheduleInfoComponent);
+    fixture = TestBed.createComponent(EventScheduleComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

@@ -1,11 +1,20 @@
 import { BreakpointObserver } from '@angular/cdk/layout';
 import { ConnectedPosition, Overlay, OverlayRef, PositionStrategy, ScrollStrategy } from '@angular/cdk/overlay';
 import { TemplatePortal } from '@angular/cdk/portal';
-import { MatBottomSheet, MatBottomSheetRef } from '@angular/material/bottom-sheet';
-import { AfterViewInit, Component, Inject, Input, OnDestroy, OnInit, ViewChild, ViewContainerRef } from '@angular/core';
+import {
+  AfterViewInit,
+  Component,
+  ElementRef,
+  Inject,
+  Input,
+  OnDestroy,
+  OnInit,
+  Renderer2,
+  ViewChild,
+  ViewContainerRef
+} from '@angular/core';
 import { Observable, Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
-import { HammerGestureConfig, HAMMER_GESTURE_CONFIG } from '@angular/platform-browser';
 
 // type MediaWidthSelector = `(min-width: ${number}px)` | `(max-width: ${number}px)` | `(min-width: ${number}px) and (max-width: ${number}px)`;
 
@@ -77,11 +86,11 @@ export const SlideInOutAnimation = [
 ];
 
 @Component({
-  selector: 'app-event-schedule-info',
-  templateUrl: './event-schedule-info.component.html',
-  styleUrls: ['./event-schedule-info.component.scss']
+  selector: 'app-event-schedule-overlay',
+  templateUrl: './event-schedule-overlay.component.html',
+  styleUrls: ['./event-schedule-overlay.component.scss']
 })
-export class EventScheduleInfoComponent implements OnInit, AfterViewInit, OnDestroy {
+export class EventScheduleOverlayComponent implements OnInit, AfterViewInit, OnDestroy {
   icons = {
     clock: 'assets/img/events/clock.svg',
     location: 'assets/img/events/location.svg',
@@ -92,11 +101,17 @@ export class EventScheduleInfoComponent implements OnInit, AfterViewInit, OnDest
 
   @ViewChild('scheduleButton') scheduleButtonRef;
   @ViewChild('scheduleInfoOverlay') scheduleInfoOverlayRef;
+  @ViewChild('scheduleInfoBottomSheet') scheduleInfoBottomSheetRef;
+  @ViewChild('resizeHandle') resizeHandleRef: ElementRef;
+  @ViewChild('scheduleInfoContainer') scheduleInfoContainerRef: ElementRef;
   overlayRef: OverlayRef = null;
   overlayPositionStrategy: PositionStrategy = null;
   overlayScrollStrategy: ScrollStrategy = null;
 
-  bottomSheetRef: MatBottomSheetRef = null;
+  portals = {
+    overlay: null,
+    bottomSheet: null
+  };
 
   breakpoints = {
     xs: '(max-width: 575px)',
@@ -105,18 +120,26 @@ export class EventScheduleInfoComponent implements OnInit, AfterViewInit, OnDest
     lg: '(min-width: 1024px)'
   };
 
+  currentBreakpoint = 'xs';
+
   private destroy = new Subject<void>();
 
   constructor(
     private overlay: Overlay,
     private viewContainerRef: ViewContainerRef,
     private breakpointObserver: BreakpointObserver,
-    private bottomSheet: MatBottomSheet
+    private renderer: Renderer2
   ) {}
 
   ngOnInit(): void {}
 
   ngAfterViewInit(): void {
+    this.portals = {
+      overlay: new TemplatePortal(this.scheduleInfoOverlayRef, this.viewContainerRef),
+      bottomSheet: new TemplatePortal(this.scheduleInfoBottomSheetRef, this.viewContainerRef)
+    };
+
+    this.currentBreakpoint = this.getCurrentBreakpoint();
     this.overlayPositionStrategy = this.getOverlayPositionStrategy();
     this.overlayScrollStrategy = this.getOverlayScrollStrategy();
 
@@ -127,11 +150,26 @@ export class EventScheduleInfoComponent implements OnInit, AfterViewInit, OnDest
         return;
       }
 
+      this.currentBreakpoint = this.getCurrentBreakpoint();
       this.overlayPositionStrategy = this.getOverlayPositionStrategy();
       this.overlayScrollStrategy = this.getOverlayScrollStrategy();
       this.overlayRef.updatePositionStrategy(this.overlayPositionStrategy);
       this.overlayRef.updateScrollStrategy(this.overlayScrollStrategy);
+
+      if (this.overlayRef && this.overlayRef.hasAttached()) {
+        this.overlayRef.detach();
+        this.overlayRef.attach(this.currentBreakpoint === 'xs' ? this.portals.bottomSheet : this.portals.overlay);
+      }
     });
+  }
+
+  getCurrentBreakpoint() {
+    let breakpoint = 'xs';
+    breakpoint = this.breakpointObserver.isMatched(this.breakpoints.xs) ? 'xs' : breakpoint;
+    breakpoint = this.breakpointObserver.isMatched(this.breakpoints.sm) ? 'sm' : breakpoint;
+    breakpoint = this.breakpointObserver.isMatched(this.breakpoints.md) ? 'md' : breakpoint;
+    breakpoint = this.breakpointObserver.isMatched(this.breakpoints.lg) ? 'lg' : breakpoint;
+    return breakpoint;
   }
 
   getOverlayPositionStrategy(): PositionStrategy {
@@ -220,13 +258,14 @@ export class EventScheduleInfoComponent implements OnInit, AfterViewInit, OnDest
         hasBackdrop: true,
         panelClass: 'event-schedule-overlay',
         backdropClass: 'event-schedule-overlay-backdrop',
+        disposeOnNavigation: true,
         positionStrategy: this.overlayPositionStrategy,
         scrollStrategy: this.overlayScrollStrategy
       });
     }
 
-    const portal = new TemplatePortal(this.scheduleInfoOverlayRef, this.viewContainerRef);
-    this.overlayRef.attach(portal);
+    // const portal = new TemplatePortal(this.scheduleInfoOverlayRef, this.viewContainerRef);
+    this.overlayRef.attach(this.currentBreakpoint === 'xs' ? this.portals.bottomSheet : this.portals.overlay);
     this.overlayRef
       .backdropClick()
       .pipe(takeUntil(this.destroy))
@@ -238,6 +277,24 @@ export class EventScheduleInfoComponent implements OnInit, AfterViewInit, OnDest
     // console.log('event');
     this.overlayRef.detach();
     // this.bottomSheetRef.dismiss();
+  }
+
+  onHandleTouchStart(touchStartEvent) {
+    const startY = touchStartEvent.touches[0].clientY;
+    // this.renderer.setStyle(this.scheduleInfoContainerRef.nativeElement, 'height', '500px');
+    let delta = 0;
+    const startHeight = this.scheduleInfoContainerRef.nativeElement.getBoundingClientRect().height;
+    let cleanupTouchMove = () => {};
+    let cleanupTouchEnd = () => {};
+    cleanupTouchMove = this.renderer.listen(this.resizeHandleRef.nativeElement, 'touchmove', (touchMoveEvent) => {
+      const movedTo = touchMoveEvent.touches[0].clientY;
+      const delta = movedTo - startY;
+      this.renderer.setStyle(this.scheduleInfoContainerRef.nativeElement, 'height', `${startHeight - delta}px`);
+    });
+    cleanupTouchEnd = this.renderer.listen(this.resizeHandleRef.nativeElement, 'touchend', (touchEndEvent) => {
+      cleanupTouchMove();
+      cleanupTouchEnd();
+    });
   }
 
   // onDrag() {

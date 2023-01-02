@@ -12,8 +12,6 @@ import { EventsService } from '../../services/events.service';
 import { MapEventComponent } from '../map-event/map-event.component';
 import { JwtService } from '@global-service/jwt/jwt.service';
 import { Overlay } from '@angular/cdk/overlay';
-import { ComponentPortal } from '@angular/cdk/portal';
-import { EventScheduleInfoComponent } from './event-schedule-info/event-schedule-info.component';
 
 @Component({
   selector: 'app-event-details',

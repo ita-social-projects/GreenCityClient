@@ -1,0 +1,60 @@
+.more-days-info-button {
+  outline: none;
+  border: none;
+  padding: 0;
+  background: transparent;
+}
+
+::ng-deep .event-schedule-overlay-backdrop {
+  background: rgba(68, 78, 85, 0.3);
+
+  @media (min-width: 1024px) {
+    background: transparent;
+  }
+}
+
+// ::ng-deep .mat-bottom-sheet-container {
+//   padding: 0 !important;
+//   min-height: 252px;
+// }
+
+::ng-deep .event-schedule-overlay {
+  background-color: var(--pre-secondary-light-grey);
+  border-radius: 8px 8px 0 0;
+  overflow: hidden;
+  box-shadow: 1px 4px 8px rgba(100, 114, 125, 0.18);
+  width: 100%;
+  padding-left: 16px;
+  padding-right: 16px;
+  display: flex;
+  flex-direction: column;
+
+  @media (min-width: 576px) {
+    border-radius: 4px;
+    background-color: var(--ubs-primary-white);
+    padding: 0;
+    width: 413px;
+  }
+
+  @media (min-width: 768px) {
+    width: 456px;
+  }
+}
+
+.close-handle {
+  padding: 8px 0;
+  display: flex;
+  justify-content: center;
+}
+
+.event-schedule-container {
+  height: 100%;
+  background-color: var(--ubs-primary-white);
+  width: 100%;
+  margin-top: 17px;
+  border-radius: 4px;
+
+  @media (min-width: 576px) {
+    margin-top: 0;
+  }
+}

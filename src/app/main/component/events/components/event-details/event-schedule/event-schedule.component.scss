@@ -1,0 +1,112 @@
+.event-date-place-block-two-days {
+  width: 100%;
+  padding: 24px;
+  display: flex;
+  max-height: 252px;
+  flex-direction: column;
+  gap: 16px;
+
+  .day-number {
+    font-weight: 500;
+    font-size: 20px;
+    line-height: 18px;
+  }
+
+  .event-date-place-day-block {
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+
+    .event-date-place {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+
+      .event-date,
+      .event-location {
+        display: inline-flex;
+        gap: 18px;
+        font-size: 16px;
+        font-weight: 400;
+        line-height: 24px;
+      }
+    }
+  }
+}
+
+.event-date-place-block-three-and-more-days {
+  width: 100%;
+  padding: 4px;
+
+  ::-webkit-scrollbar {
+    width: 5px;
+  }
+
+  ::-webkit-scrollbar-track {
+    background: var(--primary-white);
+    border-radius: 3px;
+    border: 1px solid var(--quaternary-light-grey);
+  }
+
+  ::-webkit-scrollbar-thumb {
+    background: var(--primary-light-grey);
+    border-radius: 4px;
+  }
+
+  @media (min-width: 576px) {
+    ::-webkit-scrollbar {
+      width: 12px;
+    }
+
+    ::-webkit-scrollbar-track {
+      background: var(--primary-white);
+      border-radius: 3px;
+      border: 1px solid var(--quaternary-light-grey);
+    }
+
+    ::-webkit-scrollbar-thumb {
+      background: var(--primary-light-grey);
+      border-radius: 2px;
+    }
+  }
+
+  .event-date-place-block-content {
+    padding: 20px;
+    max-height: 344px;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    overflow-y: auto;
+
+    @media (min-width: 576px) {
+      max-height: 260px;
+    }
+
+    .event-date-place-day-block {
+      display: flex;
+      flex-wrap: nowrap;
+      gap: 24px;
+
+      .day-number {
+        font-weight: 500;
+        font-size: 20px;
+        line-height: 18px;
+      }
+
+      .event-date-place {
+        display: flex;
+        flex-direction: column;
+        gap: 8px;
+
+        .event-date,
+        .event-location {
+          display: inline-flex;
+          gap: 18px;
+          font-size: 16px;
+          font-weight: 400;
+          line-height: 24px;
+        }
+      }
+    }
+  }
+}
