@@ -1,12 +1,12 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
-
+import { async, ComponentFixture, TestBed, tick, fakeAsync } from '@angular/core/testing';
 import { UbsOrderCertificateComponent } from './ubs-order-certificate.component';
-import { FormControl, FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { ICertificateResponse } from '../../../models/ubs.interface';
+import { FormControl, FormsModule, ReactiveFormsModule, FormArray } from '@angular/forms';
+import { ICertificateResponse, Certificate } from '../../../models/ubs.interface';
 import { of, throwError } from 'rxjs';
 import { OrderService } from '../../../services/order.service';
 import { HttpErrorResponse } from '@angular/common/http';
 import { LocalizedCurrencyPipe } from '../../../../../shared/localized-currency-pipe/localized-currency.pipe';
+import { By } from '@angular/platform-browser';
 import { UbsOrderLocationPopupComponent } from '../ubs-order-location-popup/ubs-order-location-popup.component';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { TranslateModule } from '@ngx-translate/core';
@@ -22,9 +22,26 @@ describe('UbsOrderCertificateComponent', () => {
   let component: UbsOrderCertificateComponent;
   let fixture: ComponentFixture<UbsOrderCertificateComponent>;
   let orderService: OrderService;
-  const shareFormService = jasmine.createSpyObj('shareFormService', ['orderDetails', 'changeAddCertButtonVisibility']);
+  const shareFormService = jasmine.createSpyObj('shareFormService', [
+    'orderDetails',
+    'changeAddCertButtonVisibility',
+    'addCert',
+    'changeOrderDetails'
+  ]);
   shareFormService.addCert = of(false);
-  const localStorageService = jasmine.createSpyObj('localStorageService', ['getCurrentLanguage', 'languageSubject']);
+  const mockedCert: Certificate = {
+    codes: ['8888 - 8888'],
+    points: [500],
+    activatedStatus: [true],
+    creationDates: ['18.12.2022'],
+    dateOfUses: ['underfined'],
+    expirationDates: ['19.12.2022'],
+    failed: [false],
+    status: ['ACTIVE'],
+    error: [false]
+  };
+
+  const localStorageService = jasmine.createSpyObj('localStorageService', ['getCurrentLanguage', 'languageSubject', 'getUbsOrderData']);
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       declarations: [UbsOrderCertificateComponent, LocalizedCurrencyPipe, UbsOrderLocationPopupComponent],
@@ -57,30 +74,75 @@ describe('UbsOrderCertificateComponent', () => {
     expect(component).toBeTruthy();
   });
 
-  it('method clearAdditionalCertificate should invoke methods', () => {
+  it('method deleteCertificate should invoke method calculateCertificates', () => {
     const spy = spyOn(component, 'calculateCertificates').and.callFake(() => {});
-    component.formArrayCertificates.push(new FormControl('0'));
-    component.formArrayCertificates.push(new FormControl('1'));
+    component.formArrayCertificates.push(new FormControl('1111-1111'));
+    component.formArrayCertificates.push(new FormControl('2222-2222'));
     const spy1 = spyOn(component.formArrayCertificates, 'removeAt');
     const fakeIndex = 0;
-    component.creationDate = ['fake'];
-    component.dateOfUse = ['fake'];
-    component.expirationDate = ['fake'];
-    component.certStatuses = ['fake'];
-    (component as any).clearAdditionalCertificate(fakeIndex);
+    component.certificates = mockedCert;
+    (component as any).deleteCertificate(fakeIndex);
     expect(spy).toHaveBeenCalled();
     expect(spy1).toHaveBeenCalledWith(fakeIndex);
-    expect(component.creationDate).toEqual([]);
-    expect(component.dateOfUse).toEqual([]);
-    expect(component.expirationDate).toEqual([]);
-    expect(component.certStatuses).toEqual([]);
+    expect(component.certificates.creationDates).toEqual([]);
+    expect(component.certificates.dateOfUses).toEqual([]);
+    expect(component.certificates.expirationDates).toEqual([]);
+    expect(component.calculateCertificates).toHaveBeenCalled();
   });
 
-  it('method deleteCertificate should invoke clearAdditionalCertificate method with correct index', () => {
-    const spy = spyOn<any>(component, 'clearAdditionalCertificate');
-    const fakeIndex = 0;
-    component.deleteCertificate(fakeIndex);
-    expect(spy).toHaveBeenCalledWith(fakeIndex);
+  it('method calculateTotal should invoke method changeOrderDetails', () => {
+    const spy = spyOn(component, 'changeOrderDetails');
+    component.bags = [];
+    fixture.detectChanges();
+    (component as any).calculateTotal();
+    expect(spy).toHaveBeenCalled();
+  });
+
+  it('method calculateTotal should set showTotal and certificateLeft', () => {
+    component.certificateSum = 700;
+    component.total = 1000;
+    component.bags = [];
+    fixture.detectChanges();
+    (component as any).calculateTotal();
+    expect(component.showTotal).toEqual(component.total);
+  });
+
+  it('method calculateTotal should set 0 to certificateLeft if certificateSum <= 0', () => {
+    component.certificateSum = 0;
+    component.total = 300;
+    component.bags = [];
+    fixture.detectChanges();
+    (component as any).calculateTotal();
+    expect(component.certificateLeft).toEqual(0);
+  });
+
+  it('particalResetStoragedCertificates methor should reset several items in certificates', () => {
+    component.certificates = mockedCert;
+    component.particalResetStoragedCertificates();
+    expect(component.certificates.dateOfUses).toEqual([]);
+    expect(component.certificates.creationDates).toEqual([]);
+    expect(component.certificates.expirationDates).toEqual([]);
+    expect(component.certificates.points).toEqual([]);
+    expect(component.certificates.failed).toEqual([]);
+    expect(component.certificates.status).toEqual([]);
+  });
+
+  it('certificateSubmit should set some variables', () => {
+    component.formArrayCertificates.value[0] = '9999-9999';
+    (component as any).certificateSubmit(0);
+    expect(component.certificates.codes).toContain('9999-9999');
+    expect(component.certificates.activatedStatus).toContain(true);
+    expect(component.certificates.error).toContain(false);
+  });
+
+  it('certificateSubmit should invoke methods particalResetStoragedCertificates and calculateCertificates', () => {
+    component.certificates.codes = ['9999-9999'];
+    component.formArrayCertificates.value[0] = '9999-9999';
+    const spy = spyOn(component, 'particalResetStoragedCertificates').and.callThrough();
+    const spy1 = spyOn(component, 'calculateCertificates').and.callThrough();
+    (component as any).certificateSubmit(0);
+    expect(spy).not.toHaveBeenCalled();
+    expect(spy1).not.toHaveBeenCalled();
   });
 
   it('method addedCertificateSubmit should invoke calculateCertificates method if there is some certificate doesn"t includes', () => {
@@ -99,7 +161,7 @@ describe('UbsOrderCertificateComponent', () => {
 
   it('method calculateCertificates should invoke calculateTotal method if arr.length=0', () => {
     const spy = spyOn<any>(component, 'calculateTotal');
-    component.calculateCertificates([]);
+    component.calculateCertificates();
     expect(spy).toHaveBeenCalled();
   });
 
@@ -108,16 +170,30 @@ describe('UbsOrderCertificateComponent', () => {
       points: 0,
       certificateStatus: 'string'
     };
+    component.certificates = mockedCert;
     const certificate = of(response);
     orderService = TestBed.inject(OrderService);
     const spy = spyOn(component, 'certificateMatch').and.callFake(() => {});
+    expect(component.displayCert).toBe(false);
+    expect(component.shareFormService.changeAddCertButtonVisibility).toBeTruthy();
     spyOn<any>(component, 'calculateTotal').and.callFake(() => {});
-
     spyOn(orderService, 'processCertificate').and.returnValue(certificate);
-    component.calculateCertificates([certificate]);
+    component.calculateCertificates();
     fixture.detectChanges();
     expect(spy).toHaveBeenCalled();
-    expect(component.certificateError).toBeFalsy();
+  }));
+
+  it('certificateMatch method should invoke changeAddCertButtonVisibility if status is ACTIVE', async(() => {
+    const cert: ICertificateResponse = {
+      points: 100,
+      certificateStatus: 'ACTIVE',
+      code: '9999-9999'
+    };
+    component.certificateMatch(cert);
+
+    expect(component.displayCert).toBe(true);
+    expect(component.shareFormService.changeAddCertButtonVisibility).toHaveBeenCalledWith(true);
+    expect(component.certificateSum).toEqual(100);
   }));
 
   it('method orderService.processCertificate() with no args should asyncly return error', async(() => {
@@ -128,11 +204,10 @@ describe('UbsOrderCertificateComponent', () => {
     });
     const spy = spyOn(orderService, 'processCertificate').and.returnValue(throwError(errorResponse));
     spyOn<any>(component, 'calculateTotal').and.callFake(() => {});
-    spyOn<any>(component, 'certificateError');
+    component.calculateCertificates();
     fixture.detectChanges();
-    component.calculateCertificates([0]);
 
-    expect(component.certificateError).toBeTruthy();
+    expect(component.cancelCertBtn).toBeFalsy();
   }));
 
   it('method certificateSubmit should invoke calculateCertificates method if there is some certificate doesn"t includes', () => {
@@ -140,14 +215,132 @@ describe('UbsOrderCertificateComponent', () => {
     component.orderDetailsForm.value.certificate = 'fake';
     fixture.detectChanges();
     component.certificateSubmit(1);
+
     expect(spy).toHaveBeenCalled();
+  });
+
+  it('disableAddCertificate should return false if certificates.codes.length doesn"t equal formArrayCertificates.length', () => {
+    const result = component.disableAddCertificate();
+    expect(result).toBe(false);
+  });
+
+  it('disableAddCertificate should return true if certificates.codes.length equals formArrayCertificates.length', () => {
+    component.certificates.codes = ['1111-1111'];
+    const result = component.disableAddCertificate();
+    expect(result).toBe(true);
   });
 
   it('function certificateReset should invoke calculateCertificates function', () => {
     const patchValueSpy = spyOn(component.formArrayCertificates, 'patchValue');
     const markAsUntouchedSpy = spyOn(component.formArrayCertificates, 'markAsUntouched');
-    component.certificateReset(true);
+    component.certificateReset();
+    for (const key of Object.keys(component.certificates)) {
+      expect(component.certificates[key]).toEqual([]);
+    }
+    expect(component.certSize).toBeFalsy();
+    expect(component.certificateLeft).toEqual(0);
+    expect(component.certificateSum).toEqual(0);
+    expect(component.fullCertificate).toEqual(0);
+    expect(component.shareFormService.changeAddCertButtonVisibility).toHaveBeenCalledWith(false);
     expect(patchValueSpy).toHaveBeenCalledWith(['']);
     expect(markAsUntouchedSpy).toHaveBeenCalled();
+    expect(component.clickOnYes).toBe(true);
+    expect(component.bonusesRemaining).toBe(false);
+    expect(component.displayCert).toBe(false);
+  });
+
+  it('getter formArrayCertificates should return formArray', () => {
+    const formArray = component.orderDetailsForm.controls.formArrayCertificates as FormArray;
+    const spy = spyOnProperty(component, 'formArrayCertificates').and.returnValue(formArray);
+    expect(component.formArrayCertificates).toBe(formArray);
+    expect(spy).toHaveBeenCalled();
+  });
+
+  it('deleteCertificate should delete certificate from array and invoke some methods', () => {
+    const spy = spyOn(component, 'calculateCertificates');
+    const spy1 = spyOn(component, 'certificateReset');
+    component.certificates.codes = ['8888-8888'];
+    component.bags = [];
+    component.deleteCertificate(0);
+    for (const key of Object.keys(component.certificates)) {
+      expect(component.certificates[key]).toEqual([]);
+    }
+    expect(spy).toHaveBeenCalled();
+    expect(spy1).toHaveBeenCalled();
+  });
+
+  it('showCancelButton should return true if activatedStatus true', () => {
+    component.certificates.activatedStatus = [true];
+    component.formArrayCertificates.controls.push(new FormControl('1111-1111'));
+
+    const result = component.showCancelButton(0);
+    expect(result).toBe(true);
+  });
+
+  it('showCancelButton should return false if there is no active certificates and value in input', () => {
+    const result = component.showCancelButton(0);
+    expect(result).toBe(false);
+  });
+
+  it('resetPoints should invoke method sendDataToParents if clickOnNo is true', () => {
+    component.clickOnNo = true;
+    component.certificateSum = 700;
+    component.showTotal = 1000;
+    const spy = spyOn(component, 'sendDataToParents');
+    component.resetPoints();
+    expect(component.pointsUsed).toEqual(0);
+    expect(spy).toHaveBeenCalled();
+    expect(component.clickOnNo).toBe(false);
+  });
+
+  it('sendDataToParents should invoke setNewValue with arg', () => {
+    const certificateObj = {
+      certificates: [],
+      showCertificateUsed: 0,
+      certificateSum: undefined,
+      displayCert: false,
+      finalSum: 0,
+      pointsUsed: undefined,
+      points: undefined,
+      isBonus: 'no'
+    };
+    const spy = spyOn(component, 'setNewValue');
+    component.sendDataToParents();
+    expect(spy).toHaveBeenCalled();
+    expect(spy).toHaveBeenCalledWith(certificateObj);
+  });
+
+  it('calculatePoints method should invoke sendDataToParents and set some variables', () => {
+    component.certificateSum = 0;
+    component.clickOnYes = true;
+    component.showTotal = 100;
+    const spy = spyOn(component, 'sendDataToParents');
+    component.calculatePoints();
+    expect(component.fullCertificate).toEqual(0);
+    expect(component.clickOnYes).toBe(false);
+    expect(spy).toHaveBeenCalled();
+  });
+
+  it('calculatePointsWithCertificate', () => {
+    const totalSumIsBiggerThanPoints = 1;
+    component.showTotal = 0;
+    const result = component.calculatePointsWithCertificate();
+    expect(result).toBeFalsy();
+  });
+
+  it('certificateSubmit should invoke particalResetStoragedCertificates', () => {
+    component.certificates.codes = ['7777-7777', '8888-8888'];
+    const spy = spyOn(component, 'particalResetStoragedCertificates');
+    component.certificateSubmit(1);
+    expect(spy).toHaveBeenCalled();
+  });
+
+  it('should cancel streams after ngOnDestroy', () => {
+    const nextSpy = spyOn(component.destroy, 'next');
+    const completeSpy = spyOn(component.destroy, 'unsubscribe');
+    component.ngOnDestroy();
+
+    expect(nextSpy).toHaveBeenCalled();
+    expect(completeSpy).toHaveBeenCalled();
   });
 });
