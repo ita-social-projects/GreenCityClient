@@ -18,6 +18,9 @@ export class EventScheduleOverlayComponent implements OnInit, AfterViewInit, OnD
     location: 'assets/img/events/location.svg',
     ellipsis: 'assets/img/events/ellipsis.svg'
   };
+
+  isScheduleOpen = false;
+
   isBottomSheetOpen = false;
 
   @Input() event;
@@ -25,8 +28,8 @@ export class EventScheduleOverlayComponent implements OnInit, AfterViewInit, OnD
   @ViewChild('scheduleButton') scheduleButtonRef;
   @ViewChild('scheduleInfoOverlay') scheduleInfoOverlayRef;
   overlayRef: OverlayRef = null;
-  overlayPositionStrategy: PositionStrategy = null;
-  overlayScrollStrategy: ScrollStrategy = null;
+  // overlayPositionStrategy: PositionStrategy = null;
+  // overlayScrollStrategy: ScrollStrategy = null;
 
   portal = null;
 
@@ -46,29 +49,22 @@ export class EventScheduleOverlayComponent implements OnInit, AfterViewInit, OnD
   ngAfterViewInit(): void {
     this.portal = new TemplatePortal(this.scheduleInfoOverlayRef, this.viewContainerRef);
 
-    this.overlayPositionStrategy = this.getOverlayPositionStrategy();
-    this.overlayScrollStrategy = this.getOverlayScrollStrategy();
-
     const screenBreakpointChanges = this.breakpointObserver.observe(Object.values(this.breakpoints));
 
     screenBreakpointChanges.pipe(takeUntil(this.destroy)).subscribe(() => {
-      if (!this.overlayRef) {
+      if (!this.overlayRef || !this.isScheduleOpen) {
         return;
       }
 
       if (this.overlayRef.hasAttached()) {
-        this.overlayRef.detach();
+        this.overlayRef.dispose();
       }
 
       if (this.getCurrentBreakpoint() === 'xs') {
         this.isBottomSheetOpen = true;
       } else {
         this.isBottomSheetOpen = false;
-        this.overlayPositionStrategy = this.getOverlayPositionStrategy();
-        this.overlayScrollStrategy = this.getOverlayScrollStrategy();
-        this.overlayRef.updatePositionStrategy(this.overlayPositionStrategy);
-        this.overlayRef.updateScrollStrategy(this.overlayScrollStrategy);
-        this.overlayRef.attach(this.portal);
+        this.overlayRef = this.createOverlay();
       }
 
       // 'xs' => *\'xs' : open = false; attach portal
@@ -170,32 +166,40 @@ export class EventScheduleOverlayComponent implements OnInit, AfterViewInit, OnD
   }
 
   onScheduleClick(): void {
-    if (!this.overlayRef) {
-      this.overlayRef = this.overlay.create({
-        hasBackdrop: true,
-        panelClass: 'event-schedule-overlay',
-        backdropClass: 'event-schedule-overlay-backdrop',
-        disposeOnNavigation: true,
-        positionStrategy: this.overlayPositionStrategy,
-        scrollStrategy: this.overlayScrollStrategy
-      });
-    }
-
+    this.isScheduleOpen = true;
     // const portal = new TemplatePortal(this.scheduleInfoOverlayRef, this.viewContainerRef);
     if (this.getCurrentBreakpoint() === 'xs') {
       this.isBottomSheetOpen = true;
       return;
     }
-    this.overlayRef.attach(this.portal);
-    this.overlayRef
+
+    this.overlayRef = this.createOverlay();
+  }
+
+  createOverlay() {
+    const overlayRef = this.overlay.create({
+      hasBackdrop: true,
+      panelClass: 'event-schedule-overlay',
+      backdropClass: 'event-schedule-overlay-backdrop',
+      disposeOnNavigation: true,
+      positionStrategy: this.getOverlayPositionStrategy(),
+      scrollStrategy: this.getOverlayScrollStrategy()
+    });
+    overlayRef.attach(this.portal);
+    overlayRef
       .backdropClick()
       .pipe(takeUntil(this.destroy))
-      .subscribe(() => this.overlayRef.detach());
+      .subscribe(() => {
+        this.overlayRef.dispose();
+        this.isScheduleOpen = false;
+      });
+    return overlayRef;
   }
 
   onClose(event) {
     console.log(event);
     this.overlayRef.detach();
+    this.isScheduleOpen = false;
   }
 
   // onHandleTouchStart(touchStartEvent) {
