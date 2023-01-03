@@ -48,13 +48,15 @@
 }
 
 .event-schedule-container {
-  height: 100%;
   background-color: var(--ubs-primary-white);
   width: 100%;
   margin-top: 17px;
   border-radius: 4px;
+  height: 276px;
+  box-sizing: border-box;
 
   @media (min-width: 576px) {
     margin-top: 0;
+    height: 260px;
   }
 }

@@ -6,17 +6,26 @@
   <ng-template [ngTemplateOutlet]="scheduleInfo"></ng-template>
 </ng-template>
 
-<ng-template #scheduleInfoBottomSheet>
-  <div (swipedown)="onClose($event)" (touchstart)="onHandleTouchStart($event)" class="close-handle" #resizeHandle>
-    <svg width="40" height="3" viewBox="0 0 40 3" fill="none" xmlns="http://www.w3.org/2000/svg">
-      <rect width="40" height="3" rx="1.5" fill="#CACFD3" />
-    </svg>
+<!-- <ng-template #scheduleInfoBottomSheet>
+  <div
+    [@openCloseResize]="{ value: animationState, params: { resizingHeight: resizingHeight } }"
+    #scheduleInfoContainer
+    style="touch-action: none"
+  >
+    <div (touchstart)="onHandleTouchStart($event)" class="close-handle" #resizeHandle>
+      <svg width="40" height="3" viewBox="0 0 40 3" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <rect width="40" height="3" rx="1.5" fill="#CACFD3" />
+      </svg>
+    </div>
+    <ng-template [ngTemplateOutlet]="scheduleInfo"></ng-template>
   </div>
+</ng-template> -->
+<app-mobile-bottom-sheet [height]="348" [open]="isBottomSheetOpen" (closed)="onBottomSheetClosed()">
   <ng-template [ngTemplateOutlet]="scheduleInfo"></ng-template>
-</ng-template>
+</app-mobile-bottom-sheet>
 
 <ng-template #scheduleInfo>
-  <div class="event-schedule-container" #scheduleInfoContainer>
+  <div class="event-schedule-container">
     <app-event-schedule [event]="event"></app-event-schedule>
   </div>
 </ng-template>

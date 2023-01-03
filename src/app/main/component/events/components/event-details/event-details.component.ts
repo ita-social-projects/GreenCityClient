@@ -19,6 +19,8 @@ import { Overlay } from '@angular/cdk/overlay';
   styleUrls: ['./event-details.component.scss']
 })
 export class EventDetailsComponent implements OnInit {
+  bsOpen = false;
+
   public icons = {
     socials: {
       plus: 'assets/img/events/plus.svg',

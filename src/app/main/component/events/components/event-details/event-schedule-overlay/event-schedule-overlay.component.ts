@@ -1,89 +1,11 @@
 import { BreakpointObserver } from '@angular/cdk/layout';
-import { ConnectedPosition, Overlay, OverlayRef, PositionStrategy, ScrollStrategy } from '@angular/cdk/overlay';
+import { Overlay, OverlayRef, PositionStrategy, ScrollStrategy } from '@angular/cdk/overlay';
 import { TemplatePortal } from '@angular/cdk/portal';
-import {
-  AfterViewInit,
-  Component,
-  ElementRef,
-  Inject,
-  Input,
-  OnDestroy,
-  OnInit,
-  Renderer2,
-  ViewChild,
-  ViewContainerRef
-} from '@angular/core';
-import { Observable, Subject } from 'rxjs';
+import { AfterViewInit, Component, Input, OnDestroy, OnInit, ViewChild, ViewContainerRef } from '@angular/core';
+import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 
 // type MediaWidthSelector = `(min-width: ${number}px)` | `(max-width: ${number}px)` | `(min-width: ${number}px) and (max-width: ${number}px)`;
-
-import { trigger, state, style, transition, animate, group, query, stagger, keyframes } from '@angular/animations';
-
-export const SlideInOutAnimation = [
-  trigger('slideInOut', [
-    state(
-      'in',
-      style({
-        'max-height': '500px',
-        opacity: '1',
-        visibility: 'visible'
-      })
-    ),
-    state(
-      'out',
-      style({
-        'max-height': '0px',
-        opacity: '0',
-        visibility: 'hidden'
-      })
-    ),
-    transition('in => out', [
-      group([
-        animate(
-          '400ms ease-in-out',
-          style({
-            opacity: '0'
-          })
-        ),
-        animate(
-          '600ms ease-in-out',
-          style({
-            'max-height': '0px'
-          })
-        ),
-        animate(
-          '700ms ease-in-out',
-          style({
-            visibility: 'hidden'
-          })
-        )
-      ])
-    ]),
-    transition('out => in', [
-      group([
-        animate(
-          '1ms ease-in-out',
-          style({
-            visibility: 'visible'
-          })
-        ),
-        animate(
-          '600ms ease-in-out',
-          style({
-            'max-height': '500px'
-          })
-        ),
-        animate(
-          '800ms ease-in-out',
-          style({
-            opacity: '1'
-          })
-        )
-      ])
-    ])
-  ])
-];
 
 @Component({
   selector: 'app-event-schedule-overlay',
@@ -96,22 +18,17 @@ export class EventScheduleOverlayComponent implements OnInit, AfterViewInit, OnD
     location: 'assets/img/events/location.svg',
     ellipsis: 'assets/img/events/ellipsis.svg'
   };
+  isBottomSheetOpen = false;
 
   @Input() event;
 
   @ViewChild('scheduleButton') scheduleButtonRef;
   @ViewChild('scheduleInfoOverlay') scheduleInfoOverlayRef;
-  @ViewChild('scheduleInfoBottomSheet') scheduleInfoBottomSheetRef;
-  @ViewChild('resizeHandle') resizeHandleRef: ElementRef;
-  @ViewChild('scheduleInfoContainer') scheduleInfoContainerRef: ElementRef;
   overlayRef: OverlayRef = null;
   overlayPositionStrategy: PositionStrategy = null;
   overlayScrollStrategy: ScrollStrategy = null;
 
-  portals = {
-    overlay: null,
-    bottomSheet: null
-  };
+  portal = null;
 
   breakpoints = {
     xs: '(max-width: 575px)',
@@ -120,26 +37,15 @@ export class EventScheduleOverlayComponent implements OnInit, AfterViewInit, OnD
     lg: '(min-width: 1024px)'
   };
 
-  currentBreakpoint = 'xs';
-
   private destroy = new Subject<void>();
 
-  constructor(
-    private overlay: Overlay,
-    private viewContainerRef: ViewContainerRef,
-    private breakpointObserver: BreakpointObserver,
-    private renderer: Renderer2
-  ) {}
+  constructor(private overlay: Overlay, private viewContainerRef: ViewContainerRef, private breakpointObserver: BreakpointObserver) {}
 
   ngOnInit(): void {}
 
   ngAfterViewInit(): void {
-    this.portals = {
-      overlay: new TemplatePortal(this.scheduleInfoOverlayRef, this.viewContainerRef),
-      bottomSheet: new TemplatePortal(this.scheduleInfoBottomSheetRef, this.viewContainerRef)
-    };
+    this.portal = new TemplatePortal(this.scheduleInfoOverlayRef, this.viewContainerRef);
 
-    this.currentBreakpoint = this.getCurrentBreakpoint();
     this.overlayPositionStrategy = this.getOverlayPositionStrategy();
     this.overlayScrollStrategy = this.getOverlayScrollStrategy();
 
@@ -150,17 +56,29 @@ export class EventScheduleOverlayComponent implements OnInit, AfterViewInit, OnD
         return;
       }
 
-      this.currentBreakpoint = this.getCurrentBreakpoint();
-      this.overlayPositionStrategy = this.getOverlayPositionStrategy();
-      this.overlayScrollStrategy = this.getOverlayScrollStrategy();
-      this.overlayRef.updatePositionStrategy(this.overlayPositionStrategy);
-      this.overlayRef.updateScrollStrategy(this.overlayScrollStrategy);
-
-      if (this.overlayRef && this.overlayRef.hasAttached()) {
+      if (this.overlayRef.hasAttached()) {
         this.overlayRef.detach();
-        this.overlayRef.attach(this.currentBreakpoint === 'xs' ? this.portals.bottomSheet : this.portals.overlay);
       }
+
+      if (this.getCurrentBreakpoint() === 'xs') {
+        this.isBottomSheetOpen = true;
+      } else {
+        this.isBottomSheetOpen = false;
+        this.overlayPositionStrategy = this.getOverlayPositionStrategy();
+        this.overlayScrollStrategy = this.getOverlayScrollStrategy();
+        this.overlayRef.updatePositionStrategy(this.overlayPositionStrategy);
+        this.overlayRef.updateScrollStrategy(this.overlayScrollStrategy);
+        this.overlayRef.attach(this.portal);
+      }
+
+      // 'xs' => *\'xs' : open = false; attach portal
+      // *\'xs' => 'xs': detach portal; open = true
+      // *\'xs' => *\'xs' do nothing
     });
+  }
+
+  onBottomSheetClosed() {
+    this.isBottomSheetOpen = false;
   }
 
   getCurrentBreakpoint() {
@@ -252,7 +170,6 @@ export class EventScheduleOverlayComponent implements OnInit, AfterViewInit, OnD
   }
 
   onScheduleClick(): void {
-    // this.bottomSheetRef = this.bottomSheet.open(this.scheduleInfoRef);
     if (!this.overlayRef) {
       this.overlayRef = this.overlay.create({
         hasBackdrop: true,
@@ -265,7 +182,11 @@ export class EventScheduleOverlayComponent implements OnInit, AfterViewInit, OnD
     }
 
     // const portal = new TemplatePortal(this.scheduleInfoOverlayRef, this.viewContainerRef);
-    this.overlayRef.attach(this.currentBreakpoint === 'xs' ? this.portals.bottomSheet : this.portals.overlay);
+    if (this.getCurrentBreakpoint() === 'xs') {
+      this.isBottomSheetOpen = true;
+      return;
+    }
+    this.overlayRef.attach(this.portal);
     this.overlayRef
       .backdropClick()
       .pipe(takeUntil(this.destroy))
@@ -274,28 +195,36 @@ export class EventScheduleOverlayComponent implements OnInit, AfterViewInit, OnD
 
   onClose(event) {
     console.log(event);
-    // console.log('event');
     this.overlayRef.detach();
-    // this.bottomSheetRef.dismiss();
   }
 
-  onHandleTouchStart(touchStartEvent) {
-    const startY = touchStartEvent.touches[0].clientY;
-    // this.renderer.setStyle(this.scheduleInfoContainerRef.nativeElement, 'height', '500px');
-    let delta = 0;
-    const startHeight = this.scheduleInfoContainerRef.nativeElement.getBoundingClientRect().height;
-    let cleanupTouchMove = () => {};
-    let cleanupTouchEnd = () => {};
-    cleanupTouchMove = this.renderer.listen(this.resizeHandleRef.nativeElement, 'touchmove', (touchMoveEvent) => {
-      const movedTo = touchMoveEvent.touches[0].clientY;
-      const delta = movedTo - startY;
-      this.renderer.setStyle(this.scheduleInfoContainerRef.nativeElement, 'height', `${startHeight - delta}px`);
-    });
-    cleanupTouchEnd = this.renderer.listen(this.resizeHandleRef.nativeElement, 'touchend', (touchEndEvent) => {
-      cleanupTouchMove();
-      cleanupTouchEnd();
-    });
-  }
+  // onHandleTouchStart(touchStartEvent) {
+  //   const startY = touchStartEvent.touches[0].clientY;
+  //   // this.renderer.setStyle(this.scheduleInfoContainerRef.nativeElement, 'height', '500px');
+  //   let delta = 0;
+  //   const startHeight = this.scheduleInfoContainerRef.nativeElement.getBoundingClientRect().height;
+  //   this.animationState = 'resize';
+  //   let cleanupTouchMove = () => {};
+  //   let cleanupTouchEnd = () => {};
+  //   this.resizingHeight = startHeight;
+  //   cleanupTouchMove = this.renderer.listen(this.resizeHandleRef.nativeElement, 'touchmove', (touchMoveEvent) => {
+  //     const movedTo = touchMoveEvent.touches[0].clientY;
+  //     delta = movedTo - startY;
+  //     this.resizingHeight = startHeight - delta;
+  //     console.log(this.resizingHeight);
+  //     this.renderer.setStyle(this.scheduleInfoContainerRef.nativeElement, 'height', `${startHeight - delta}px`);
+  //   });
+  //   cleanupTouchEnd = this.renderer.listen(this.resizeHandleRef.nativeElement, 'touchend', (touchEndEvent) => {
+  //     if (delta > startHeight * 0.5) {
+  //       this.animationState = 'closed';
+  //       this.overlayRef.detach();
+  //     } else {
+  //       this.animationState = 'open';
+  //     }
+  //     cleanupTouchMove();
+  //     cleanupTouchEnd();
+  //   });
+  // }
 
   // onDrag() {
   //   console.log('drag');
