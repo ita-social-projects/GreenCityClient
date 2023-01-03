@@ -21,8 +21,9 @@ describe('UBSPersonalInformationComponent', () => {
   let fixture: ComponentFixture<UBSPersonalInformationComponent>;
   let realTakeUserData;
 
-  const fakeLocalStorageService = jasmine.createSpyObj('LocalStorageService', ['getCurrentLanguage']);
+  const fakeLocalStorageService = jasmine.createSpyObj('LocalStorageService', ['getCurrentLanguage', 'getLocationId']);
   fakeLocalStorageService.getCurrentLanguage = () => 'ua' as Language;
+  fakeLocalStorageService.getLocationId = () => '1';
   const listMock = {
     addressList: [
       {
@@ -96,7 +97,7 @@ describe('UBSPersonalInformationComponent', () => {
     minPriceOfOrder: 500
   };
 
-  const fakeShareFormService = jasmine.createSpyObj('fakeShareFormService', ['changePersonalData', 'orderDetails']);
+  const fakeShareFormService = jasmine.createSpyObj('fakeShareFormService', ['changePersonalData']);
   const fakeOrderService = jasmine.createSpyObj('OrderService', [
     'findAllAddresses',
     'getPersonalData',
@@ -106,10 +107,6 @@ describe('UBSPersonalInformationComponent', () => {
     'setLocationData',
     'addAdress'
   ]);
-
-  let localStorageServiceMock: LocalStorageService;
-  localStorageServiceMock = jasmine.createSpyObj('LocalStorageService', ['getCurrentLanguage']);
-  localStorageServiceMock.getCurrentLanguage = () => 'ua' as Language;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
