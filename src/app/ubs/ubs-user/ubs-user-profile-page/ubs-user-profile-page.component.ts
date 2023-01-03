@@ -213,6 +213,8 @@ export class UbsUserProfilePageComponent implements OnInit {
   setPredictCities(formGroupName: number): void {
     this.cityPredictionList = null;
     const currentFormGroup = this.userForm.controls.address['controls'][formGroupName];
+    console.log(this.userForm.controls.address);
+    // console.log(this.userForm.controls.address.controls)
     const regionEn = currentFormGroup.get('regionEn');
     const cityEn = currentFormGroup.get('cityEn');
     const region = currentFormGroup.get('region');

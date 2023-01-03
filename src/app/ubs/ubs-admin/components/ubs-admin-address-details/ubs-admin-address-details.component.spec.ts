@@ -406,7 +406,7 @@ describe('UbsAdminAddressDetailsComponent', () => {
   it('method getPlacePredictions should form prediction list for Kyiv region', () => {
     component.addressRegionEn.setValue(`Kyivs'ka oblast`);
     component.autocompleteService = { getPlacePredictions: () => {} } as any;
-    spyOn(component.autocompleteService, 'getPlacePredictions').and.callFake(function (request, callback) {
+    spyOn(component.autocompleteService, 'getPlacePredictions').and.callFake((request, callback) => {
       callback(predictionListKyivRegion);
     });
     const fakesearchAddress = `Київська область, Ше`;
@@ -418,7 +418,7 @@ describe('UbsAdminAddressDetailsComponent', () => {
     const result = [predictionListKyivCity[0]];
     component.addressRegionEn.setValue(`Kyiv`);
     component.autocompleteService = { getPlacePredictions: () => {} } as any;
-    spyOn(component.autocompleteService, 'getPlacePredictions').and.callFake(function (request, callback) {
+    spyOn(component.autocompleteService, 'getPlacePredictions').and.callFake((request, callback) => {
       callback(predictionListKyivCity);
     });
 
@@ -449,7 +449,7 @@ describe('UbsAdminAddressDetailsComponent', () => {
 
   it('method onCitySelected should get details for selected city in en', () => {
     component.placeService = { getDetails: () => {} } as any;
-    spyOn(component.placeService, 'getDetails').and.callFake(function (request, callback) {
+    spyOn(component.placeService, 'getDetails').and.callFake((request, callback) => {
       callback(cityPlaceResultEn);
     });
     component.setValueOfCity(predictionListKyivCity[0], component.addressCityEn, component.languages.en);
@@ -458,7 +458,7 @@ describe('UbsAdminAddressDetailsComponent', () => {
 
   it('method onCitySelected should get details for selected city in uk', () => {
     component.placeService = { getDetails: () => {} } as any;
-    spyOn(component.placeService, 'getDetails').and.callFake(function (request, callback) {
+    spyOn(component.placeService, 'getDetails').and.callFake((request, callback) => {
       callback(placeResultKyivUk);
     });
     component.setValueOfCity(predictionListKyivCity[0], component.addressCity, component.languages.uk);
@@ -468,7 +468,7 @@ describe('UbsAdminAddressDetailsComponent', () => {
 
   it('method onCitySelected should set isDistrict if city is not Kyiv', () => {
     component.placeService = { getDetails: () => {} } as any;
-    spyOn(component.placeService, 'getDetails').and.callFake(function (request, callback) {
+    spyOn(component.placeService, 'getDetails').and.callFake((request, callback) => {
       callback(cityPlaceResultUk);
     });
     component.setValueOfCity(predictionListKyivCity[0], component.addressCity, component.languages.uk);
@@ -510,7 +510,7 @@ describe('UbsAdminAddressDetailsComponent', () => {
     component.isDistrict = true;
     component.addressCity.setValue(`Київ`);
     component.autocompleteService = { getPlacePredictions: () => {} } as any;
-    spyOn(component.autocompleteService, 'getPlacePredictions').and.callFake(function (request, callback) {
+    spyOn(component.autocompleteService, 'getPlacePredictions').and.callFake((request, callback) => {
       callback(streetPredictionKyivCity);
     });
     const fakesearchAddress = `Київ, Сі`;
@@ -523,7 +523,7 @@ describe('UbsAdminAddressDetailsComponent', () => {
     const result = [streetPredictionKyivRegion[0]];
     component.addressCity.setValue(`Щасливе`);
     component.autocompleteService = { getPlacePredictions: () => {} } as any;
-    spyOn(component.autocompleteService, 'getPlacePredictions').and.callFake(function (request, callback) {
+    spyOn(component.autocompleteService, 'getPlacePredictions').and.callFake((request, callback) => {
       callback(streetPredictionKyivRegion);
     });
 
@@ -556,7 +556,7 @@ describe('UbsAdminAddressDetailsComponent', () => {
     component.isDistrict = true;
     const spy = spyOn(component, 'setDistrictAuto');
     component.placeService = { getDetails: () => {} } as any;
-    spyOn(component.placeService, 'getDetails').and.callFake(function (request, callback) {
+    spyOn(component.placeService, 'getDetails').and.callFake((request, callback) => {
       callback(streetPlaceResultEn);
     });
     component.setValueOfStreet(streetPredictionKyivCity[0], component.addressStreetEn, component.languages.en);
@@ -568,7 +568,7 @@ describe('UbsAdminAddressDetailsComponent', () => {
     component.isDistrict = true;
     const spy = spyOn(component, 'setDistrictAuto');
     component.placeService = { getDetails: () => {} } as any;
-    spyOn(component.placeService, 'getDetails').and.callFake(function (request, callback) {
+    spyOn(component.placeService, 'getDetails').and.callFake((request, callback) => {
       callback(streetPlaceResultUk);
     });
     component.setValueOfStreet(streetPredictionKyivCity[0], component.addressStreet, component.languages.uk);

@@ -167,10 +167,10 @@ export class UbsAdminAddressDetailsComponent implements AfterViewInit, OnDestroy
     this.setValueOfCity(selectedCity, this.addressCityEn, this.languages.en);
   }
 
-  setValueOfCity(selectedCity: google.maps.places.AutocompletePrediction, abstractControl: AbstractControl, language: string): void {
+  setValueOfCity(selectedCity: google.maps.places.AutocompletePrediction, abstractControl: AbstractControl, lang: string): void {
     const request = {
       placeId: selectedCity.place_id,
-      language: language
+      language: lang
     };
     this.placeService.getDetails(request, (placeDetails) => {
       abstractControl.setValue(placeDetails.name);
@@ -215,19 +215,19 @@ export class UbsAdminAddressDetailsComponent implements AfterViewInit, OnDestroy
     this.setValueOfStreet(selectedStreet, this.addressStreetEn, this.languages.en);
   }
 
-  setValueOfStreet(selectedStreet: google.maps.places.AutocompletePrediction, abstractControl: AbstractControl, language: string): void {
+  setValueOfStreet(selectedStreet: google.maps.places.AutocompletePrediction, abstractControl: AbstractControl, lang: string): void {
     const request = {
       placeId: selectedStreet.place_id,
-      language: language
+      language: lang
     };
     this.placeService.getDetails(request, (placeDetails) => {
       abstractControl.setValue(placeDetails.name);
 
-      if (language === this.languages.en && this.isDistrict) {
-        this.setDistrictAuto(placeDetails, this.addressDistrictEn, language);
+      if (lang === this.languages.en && this.isDistrict) {
+        this.setDistrictAuto(placeDetails, this.addressDistrictEn, lang);
       }
-      if (language === this.languages.uk && this.isDistrict) {
-        this.setDistrictAuto(placeDetails, this.addressDistrict, language);
+      if (lang === this.languages.uk && this.isDistrict) {
+        this.setDistrictAuto(placeDetails, this.addressDistrict, lang);
       }
     });
   }

@@ -200,10 +200,10 @@ export class UBSAddAddressPopUpComponent implements OnInit, OnDestroy, AfterView
     this.setValueOfCity(city, this.cityEn, this.languages.en);
   }
 
-  setValueOfCity(selectedCity: google.maps.places.AutocompletePrediction, abstractControl: AbstractControl, language: string): void {
+  setValueOfCity(selectedCity: google.maps.places.AutocompletePrediction, abstractControl: AbstractControl, lang: string): void {
     const request = {
       placeId: selectedCity.place_id,
-      language: language
+      language: lang
     };
     this.placeService.getDetails(request, (placeDetails) => {
       abstractControl.setValue(placeDetails.name);
@@ -249,22 +249,22 @@ export class UBSAddAddressPopUpComponent implements OnInit, OnDestroy, AfterView
     this.setValueOfStreet(street, this.streetEn, this.languages.en);
   }
 
-  setValueOfStreet(selectedStreet: google.maps.places.AutocompletePrediction, abstractControl: AbstractControl, language: string): void {
+  setValueOfStreet(selectedStreet: google.maps.places.AutocompletePrediction, abstractControl: AbstractControl, lang: string): void {
     const request = {
       placeId: selectedStreet.place_id,
-      language: language
+      language: lang
     };
     this.placeService.getDetails(request, (placeDetails) => {
       abstractControl.setValue(placeDetails.name);
 
-      if (language === this.languages.en) {
+      if (lang === this.languages.en) {
         this.formattedAddress = placeDetails.formatted_address;
       }
-      if (language === this.languages.en && this.isDistrict) {
-        this.setDistrictAuto(placeDetails, this.districtEn, language);
+      if (lang === this.languages.en && this.isDistrict) {
+        this.setDistrictAuto(placeDetails, this.districtEn, lang);
       }
-      if (language === this.languages.uk && this.isDistrict) {
-        this.setDistrictAuto(placeDetails, this.district, language);
+      if (lang === this.languages.uk && this.isDistrict) {
+        this.setDistrictAuto(placeDetails, this.district, lang);
       }
     });
   }

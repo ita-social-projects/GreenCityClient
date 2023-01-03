@@ -464,7 +464,7 @@ describe('UBSAddAddressPopUpComponent', () => {
 
   it('method getPlacePredictions should form prediction list for Kyiv region', () => {
     component.autocompleteService = { getPlacePredictions: () => {} } as any;
-    spyOn(component.autocompleteService, 'getPlacePredictions').and.callFake(function (request, callback) {
+    spyOn(component.autocompleteService, 'getPlacePredictions').and.callFake((request, callback) => {
       callback(predictionListKyivRegion);
     });
     const fakesearchAddress = `Київська область, Ше`;
@@ -494,7 +494,7 @@ describe('UBSAddAddressPopUpComponent', () => {
 
   it('method onCitySelected should get details for selected city in en', () => {
     component.placeService = { getDetails: () => {} } as any;
-    spyOn(component.placeService, 'getDetails').and.callFake(function (request, callback) {
+    spyOn(component.placeService, 'getDetails').and.callFake((request, callback) => {
       callback(cityPlaceResultEn);
     });
     component.setValueOfCity(predictionListKyivCity[0], component.cityEn, component.languages.en);
@@ -503,7 +503,7 @@ describe('UBSAddAddressPopUpComponent', () => {
 
   it('method onCitySelected should get details for selected city in uk', () => {
     component.placeService = { getDetails: () => {} } as any;
-    spyOn(component.placeService, 'getDetails').and.callFake(function (request, callback) {
+    spyOn(component.placeService, 'getDetails').and.callFake((request, callback) => {
       callback(placeResultKyivUk);
     });
     component.setValueOfCity(predictionListKyivCity[0], component.city, component.languages.uk);
@@ -513,7 +513,7 @@ describe('UBSAddAddressPopUpComponent', () => {
 
   it('method onCitySelected should set isDistrict if city is not Kyiv', () => {
     component.placeService = { getDetails: () => {} } as any;
-    spyOn(component.placeService, 'getDetails').and.callFake(function (request, callback) {
+    spyOn(component.placeService, 'getDetails').and.callFake((request, callback) => {
       callback(cityPlaceResultUk);
     });
     component.setValueOfCity(predictionListKyivCity[0], component.city, component.languages.uk);
@@ -555,7 +555,7 @@ describe('UBSAddAddressPopUpComponent', () => {
     component.isDistrict = true;
     component.city.setValue(`Київ`);
     component.autocompleteService = { getPlacePredictions: () => {} } as any;
-    spyOn(component.autocompleteService, 'getPlacePredictions').and.callFake(function (request, callback) {
+    spyOn(component.autocompleteService, 'getPlacePredictions').and.callFake((request, callback) => {
       callback(streetPredictionKyivCity);
     });
     const fakesearchAddress = `Київ, Сі`;
@@ -568,7 +568,7 @@ describe('UBSAddAddressPopUpComponent', () => {
     const result = [streetPredictionKyivRegion[0]];
     component.city.setValue(`Щасливе`);
     component.autocompleteService = { getPlacePredictions: () => {} } as any;
-    spyOn(component.autocompleteService, 'getPlacePredictions').and.callFake(function (request, callback) {
+    spyOn(component.autocompleteService, 'getPlacePredictions').and.callFake((request, callback) => {
       callback(streetPredictionKyivRegion);
     });
 
@@ -601,7 +601,7 @@ describe('UBSAddAddressPopUpComponent', () => {
     component.isDistrict = true;
     const spy = spyOn(component, 'setDistrictAuto');
     component.placeService = { getDetails: () => {} } as any;
-    spyOn(component.placeService, 'getDetails').and.callFake(function (request, callback) {
+    spyOn(component.placeService, 'getDetails').and.callFake((request, callback) => {
       callback(streetPlaceResultEn);
     });
     component.setValueOfStreet(streetPredictionKyivCity[0], component.streetEn, component.languages.en);
@@ -614,7 +614,7 @@ describe('UBSAddAddressPopUpComponent', () => {
     component.isDistrict = true;
     const spy = spyOn(component, 'setDistrictAuto');
     component.placeService = { getDetails: () => {} } as any;
-    spyOn(component.placeService, 'getDetails').and.callFake(function (request, callback) {
+    spyOn(component.placeService, 'getDetails').and.callFake((request, callback) => {
       callback(streetPlaceResultUk);
     });
     component.setValueOfStreet(streetPredictionKyivCity[0], component.street, component.languages.uk);
