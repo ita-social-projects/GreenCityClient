@@ -1,13 +1,12 @@
 import { MatSnackBarComponent } from 'src/app/main/component/errors/mat-snack-bar/mat-snack-bar.component';
 import { AbstractControl, FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { Component, Inject, OnInit, OnDestroy, AfterViewInit, ViewChild, ElementRef } from '@angular/core';
+import { Component, Inject, OnInit, OnDestroy, AfterViewInit } from '@angular/core';
 import { takeUntil, switchMap } from 'rxjs/operators';
-import { iif, Observable, of, Subject, throwError } from 'rxjs';
+import { iif, of, Subject, throwError } from 'rxjs';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
-import { ajax } from 'rxjs/internal-compatibility';
 import { OrderService } from 'src/app/ubs/ubs/services/order.service';
-import { Address, CourierLocations } from 'src/app/ubs/ubs/models/ubs.interface';
+import { Address, Location, Region } from 'src/app/ubs/ubs/models/ubs.interface';
 import { Patterns } from 'src/assets/patterns/patterns';
 import { Locations } from 'src/assets/locations/locations';
 
@@ -17,9 +16,9 @@ import { Locations } from 'src/assets/locations/locations';
   styleUrls: ['./ubs-add-address-pop-up.component.scss']
 })
 export class UBSAddAddressPopUpComponent implements OnInit, OnDestroy, AfterViewInit {
-  @ViewChild('locationInput') input: ElementRef;
-  @ViewChild('streetInput') streetInput: ElementRef;
-
+  autocompleteService: google.maps.places.AutocompleteService;
+  streetPredictionList: google.maps.places.AutocompletePrediction[];
+  cityPredictionList: google.maps.places.AutocompletePrediction[];
   placeService: google.maps.places.PlacesService;
   address: Address;
   formattedAddress: string;
@@ -33,17 +32,18 @@ export class UBSAddAddressPopUpComponent implements OnInit, OnDestroy, AfterView
   isDistrict = false;
   currentLanguage: string;
   public isDeleting: boolean;
-  locations: CourierLocations;
-  bigRegions;
-  regionBounds;
-  autocomplete;
-  regionsKyiv = [];
-  regions = [];
-  cities = [];
+  bigRegions: Region[];
+  regionsKyiv: Location[];
+  regions: Location[];
+
+  languages = {
+    en: 'en',
+    uk: 'uk'
+  };
 
   bigRegionsList = [
     { regionName: 'Київська область', lang: 'ua' },
-    { regionName: 'Kyiv region', lang: 'en' }
+    { regionName: 'Kyiv Oblast', lang: 'en' }
   ];
 
   constructor(
@@ -112,8 +112,8 @@ export class UBSAddAddressPopUpComponent implements OnInit, OnDestroy, AfterView
     this.currentLanguage = this.localStorageService.getCurrentLanguage();
     this.bigRegions = this.bigRegionsList.filter((el) => el.lang === this.currentLanguage);
     this.addAddressForm = this.fb.group({
-      region: [this.data.edit ? this.data.address.region : null, Validators.required],
-      regionEn: [this.data.edit ? this.data.address.regionEn : null, Validators.required],
+      region: [this.data.edit ? this.data.address.region : this.bigRegionsList[0].regionName, Validators.required],
+      regionEn: [this.data.edit ? this.data.address.regionEn : this.bigRegionsList[1].regionName, Validators.required],
       city: [this.data.edit ? this.data.address.city : null, Validators.required],
       cityEn: [this.data.edit ? this.data.address.cityEn : null, Validators.required],
       district: [this.data.edit ? this.data.address.district.split(' ')[0] : '', Validators.required],
@@ -142,9 +142,6 @@ export class UBSAddAddressPopUpComponent implements OnInit, OnDestroy, AfterView
       actual: true
     });
 
-    this.region.setValue(this.bigRegionsList[0].regionName);
-    this.regionEn.setValue(this.bigRegionsList[1].regionName);
-
     this.addAddressForm
       .get(this.currentLanguage === 'ua' ? 'city' : 'cityEn')
       .valueChanges.pipe(takeUntil(this.destroy))
@@ -157,148 +154,151 @@ export class UBSAddAddressPopUpComponent implements OnInit, OnDestroy, AfterView
         this.houseNumber.reset('');
         this.street.reset('');
         this.streetEn.reset('');
+        this.streetPredictionList = null;
+        this.cityPredictionList = null;
       });
 
-    this.cities = this.listOflocations.getCity(this.currentLanguage);
     this.regionsKyiv = this.listOflocations.getRegionsKyiv(this.currentLanguage);
     this.regions = this.listOflocations.getRegions(this.currentLanguage);
   }
 
   ngAfterViewInit(): void {
-    this.placeService = new google.maps.places.PlacesService(document.createElement('div'));
-    this.setCitiesPrediction();
+    this.initGoogleAutocompleteServices();
   }
 
-  setCitiesPrediction(): void {
-    let localityOptions;
-    const cityKyivId = 'ChIJBUVa4U7P1EAR_kYBF9IxSXY';
-    const autocomplete = new google.maps.places.Autocomplete(this.input.nativeElement, localityOptions);
+  private initGoogleAutocompleteServices(): void {
+    this.autocompleteService = new google.maps.places.AutocompleteService();
+    this.placeService = new google.maps.places.PlacesService(document.createElement('div'));
+  }
 
-    this.placeService.getDetails({ placeId: 'ChIJ94pF_F3O1EARB10ge68K4KY' }, (oblast) => {
-      const center = oblast.geometry.viewport.getCenter();
-      this.regionBounds = {
-        north: center.lat() + 0.5,
-        south: center.lat() - 0.5,
-        east: center.lng() + 0.5,
-        west: center.lng() - 0.5
-      };
-      autocomplete.setBounds(this.regionBounds);
-    });
-    localityOptions = {
-      bounds: this.regionBounds,
-      strictBounds: true,
+  setPredictCities(): void {
+    this.cityPredictionList = null;
+    if (this.currentLanguage === 'ua' && this.city.value) {
+      this.inputCity(`Київська область, місто, ${this.city.value}`);
+    }
+
+    if (this.currentLanguage === 'en' && this.cityEn.value) {
+      this.inputCity(`Kyiv Oblast, City,${this.cityEn.value}`);
+    }
+  }
+
+  inputCity(searchAddress: string): void {
+    const request = {
+      input: searchAddress,
       language: this.currentLanguage,
       types: ['(cities)'],
+      region: 'ua',
       componentRestrictions: { country: 'ua' }
     };
-    autocomplete.setOptions(localityOptions);
-
-    autocomplete.addListener('place_changed', () => {
-      const locationName = autocomplete.getPlace().name;
-      this.isDistrict = autocomplete.getPlace().place_id === cityKyivId ? true : false;
-
-      this.city.setValue(locationName);
-      this.translateInput(locationName, this.cityEn);
-      this.toPredictStreet(autocomplete.getPlace());
+    this.autocompleteService.getPlacePredictions(request, (cityPredictionList) => {
+      this.cityPredictionList = cityPredictionList;
     });
   }
 
-  toPredictStreet(placeResult: any): void {
-    let localityOptions;
+  onCitySelected(city: google.maps.places.AutocompletePrediction): void {
+    this.setValueOfCity(city, this.city, this.languages.uk);
+    this.setValueOfCity(city, this.cityEn, this.languages.en);
+  }
 
-    const autocomplete = new google.maps.places.Autocomplete(this.streetInput.nativeElement, localityOptions);
+  setValueOfCity(selectedCity: google.maps.places.AutocompletePrediction, abstractControl: AbstractControl, language: string): void {
+    const request = {
+      placeId: selectedCity.place_id,
+      language: language
+    };
+    this.placeService.getDetails(request, (placeDetails) => {
+      abstractControl.setValue(placeDetails.name);
 
-    const l = placeResult.geometry.viewport.getSouthWest();
-    const x = placeResult.geometry.viewport.getNorthEast();
-    const cityBounds = new google.maps.LatLngBounds(l, x);
-    autocomplete.setBounds(cityBounds);
-    localityOptions = {
-      bounds: cityBounds,
+      if (abstractControl === this.city) {
+        this.isDistrict = this.city.value === 'Київ' ? true : false;
+      }
+    });
+  }
+
+  setPredictStreets(): void {
+    this.streetPredictionList = null;
+    if (this.currentLanguage === 'ua' && this.street.value) {
+      this.inputAddress(`${this.city.value}, ${this.street.value}`);
+    }
+
+    if (this.currentLanguage === 'en' && this.streetEn.value) {
+      this.inputAddress(`${this.cityEn.value}, ${this.streetEn.value}`);
+    }
+  }
+
+  inputAddress(searchAddress: string): void {
+    const request = {
+      input: searchAddress,
+      language: this.currentLanguage,
       strictBounds: true,
       types: ['address'],
       componentRestrictions: { country: 'ua' }
     };
-    autocomplete.setOptions(localityOptions);
-    autocomplete.addListener('place_changed', () => {
-      const streetName = autocomplete.getPlace().name.split('.').join('');
-      console.log(autocomplete.getPlace());
-      this.street.setValue(streetName);
-      this.translateInput(streetName, this.streetEn);
-      // this.setFormattedAddress(autocomplete.getPlace());
-      this.formattedAddress = autocomplete.getPlace().formatted_address.split('.').join('');
-      console.log(this.formattedAddress);
-      console.log(this.addAddressForm);
-
-      // this.getJSON(autocomplete.getPlace().formatted_address.split('.').join("")).subscribe((data) => {
-      //   this.formattedAddress = data[0][0][0];
-      //   console.log(this.formattedAddress)
-      // });
-
-      if (this.isDistrict) {
-        this.setDistrictAuto(autocomplete.getPlace());
-      }
-    });
-  }
-
-  public getJSON(sourceText: string): Observable<any> {
-    return ajax.getJSON('https://translate.googleapis.com/translate_a/single?client=gtx&sl=uk&tl=en&dt=t&q=' + encodeURI(sourceText));
-  }
-
-  translateInput(sourceText: string, input: AbstractControl): void {
-    this.getJSON(sourceText).subscribe((data) => {
-      input.setValue(data[0][0][0]);
-    });
-  }
-
-  setDistrict(event: Event): void {
-    const element = (event.target as HTMLSelectElement).value.slice(3);
-    this.setDistrictTranslation(element);
-  }
-
-  setDistrictTranslation(name: string): void {
-    if (this.isDistrict) {
-      if (this.currentLanguage === 'ua') {
-        const elem = this.listOflocations.getRegionsKyiv('ua').find((el) => el.name === name);
-        const dist = this.listOflocations.getRegionsKyiv('en').find((el) => el?.key === elem?.key) || null;
-        this.districtEn.setValue(dist?.name);
+    this.autocompleteService.getPlacePredictions(request, (streetPredictions) => {
+      if (!this.isDistrict && streetPredictions) {
+        this.streetPredictionList = streetPredictions.filter(
+          (el) => el.description.includes(this.region.value) || el.description.includes(this.regionEn.value)
+        );
       } else {
-        const elem = this.listOflocations.getRegionsKyiv('en').find((el) => el.name === name);
-        const dist = this.listOflocations.getRegionsKyiv('ua').find((el) => el?.key === elem?.key) || null;
-        this.district.setValue(dist?.name);
+        this.streetPredictionList = streetPredictions;
       }
-    } else {
-      if (this.currentLanguage === 'ua') {
-        const elem = this.listOflocations.getRegions('ua').find((el) => el.name === name);
-        const dist = this.listOflocations.getRegions('en').find((el) => el?.key === elem?.key) || null;
-        this.districtEn.setValue(dist?.name);
-      } else {
-        const elem = this.listOflocations.getRegions('en').find((el) => el.name === name);
-        const dist = this.listOflocations.getRegions('ua').find((el) => el?.key === elem?.key) || null;
-        this.district.setValue(dist?.name);
-      }
-    }
-  }
-
-  translateDistrict(sourceText: string): void {
-    this.getJSON(sourceText).subscribe((data) => {
-      console.log(data);
-      this.district.setValue(data[0][0][1]);
-      this.districtEn.setValue(data[0][0][0]);
     });
   }
 
-  setDistrictAuto(event): void {
-    const getDistrict = event.address_components.filter((item) => item.long_name.toLowerCase().includes('район'))[0];
-    console.log(getDistrict);
+  onStreetSelected(street: google.maps.places.AutocompletePrediction): void {
+    this.setValueOfStreet(street, this.street, this.languages.uk);
+    this.setValueOfStreet(street, this.streetEn, this.languages.en);
+  }
+
+  setValueOfStreet(selectedStreet: google.maps.places.AutocompletePrediction, abstractControl: AbstractControl, language: string): void {
+    const request = {
+      placeId: selectedStreet.place_id,
+      language: language
+    };
+    this.placeService.getDetails(request, (placeDetails) => {
+      abstractControl.setValue(placeDetails.name);
+
+      if (language === this.languages.en) {
+        this.formattedAddress = placeDetails.formatted_address;
+      }
+      if (language === this.languages.en && this.isDistrict) {
+        this.setDistrictAuto(placeDetails, this.districtEn, language);
+      }
+      if (language === this.languages.uk && this.isDistrict) {
+        this.setDistrictAuto(placeDetails, this.district, language);
+      }
+    });
+  }
+
+  onDistrictSelected(event: Event): void {
+    const districtKey = (event.target as HTMLSelectElement).value.slice(0, 1);
+    this.isDistrict ? this.setKyivDistrict(districtKey) : this.setDistrict(districtKey);
+  }
+
+  setKyivDistrict(districtKey: string): void {
+    const key = Number(districtKey) + 1;
+    const selectedDistrict = this.listOflocations.getRegionsKyiv('ua').find((el) => el.key === key);
+    const selectedDistricEn = this.listOflocations.getRegionsKyiv('en').find((el) => el.key === key);
+
+    this.district.setValue(selectedDistrict.name);
+    this.districtEn.setValue(selectedDistricEn.name);
+  }
+
+  setDistrict(districtKey: string): void {
+    const key = Number(districtKey) + 1;
+    const selectedDistrict = this.listOflocations.getRegions('ua').find((el) => el.key === key);
+    const selectedDistricEn = this.listOflocations.getRegions('en').find((el) => el.key === key);
+
+    this.district.setValue(selectedDistrict.name);
+    this.districtEn.setValue(selectedDistricEn.name);
+  }
+
+  setDistrictAuto(placeDetails: google.maps.places.PlaceResult, abstractControl: AbstractControl, language: string): void {
+    const searchItem = language === this.languages.en ? 'district' : 'район';
+    const getDistrict = placeDetails.address_components.filter((item) => item.long_name.toLowerCase().includes(searchItem))[0];
     if (getDistrict) {
-      const currentDistrict = getDistrict.long_name.split(' ')[0];
-      console.log(currentDistrict);
-      this.translateDistrict(currentDistrict);
+      const currentDistrict = getDistrict.long_name;
+      abstractControl.setValue(currentDistrict);
     }
-  }
-
-  setFormattedAddress(event: any): void {
-    this.formattedAddress = event.formatted_address;
   }
 
   onNoClick(): void {
@@ -339,7 +339,6 @@ export class UBSAddAddressPopUpComponent implements OnInit, OnDestroy, AfterView
       region: this.addAddressForm.value.region,
       searchAddress: this.addAddressForm.value.searchAddress
     };
-    console.log(addressData.searchAddress);
 
     of(true)
       .pipe(

@@ -36,34 +36,40 @@ export class Locations {
     { cityName: 'Shchaslyve', key: 14 }
   ];
 
-  bigRegions = [{ regionName: 'Київська область' }];
+  bigRegions = [
+    { name: 'Київська область', key: 1 },
+    { name: 'місто Київ', key: 2 }
+  ];
 
-  bigRegionsEn = [{ regionName: 'Kyiv region' }];
+  bigRegionsEn = [
+    { name: `Kyivs'ka oblast`, key: 1 },
+    { name: 'Kyiv', key: 2 }
+  ];
 
   regionsKyiv = [
-    { name: 'Голосіївський', key: 1 },
-    { name: 'Дарницький', key: 2 },
-    { name: 'Деснянський', key: 3 },
-    { name: 'Дніпровський', key: 4 },
-    { name: 'Оболонський', key: 5 },
-    { name: 'Печерський', key: 6 },
-    { name: 'Подільський', key: 7 },
-    { name: 'Святошинський', key: 8 },
-    { name: `Солом'янський`, key: 9 },
-    { name: 'Шевченківський', key: 10 }
+    { name: 'Голосіївський район', key: 1 },
+    { name: 'Дарницький район', key: 2 },
+    { name: 'Деснянський район', key: 3 },
+    { name: 'Дніпровський район', key: 4 },
+    { name: 'Оболонський район', key: 5 },
+    { name: 'Печерський район', key: 6 },
+    { name: 'Подільський район', key: 7 },
+    { name: 'Святошинський район', key: 8 },
+    { name: `Солом'янський район`, key: 9 },
+    { name: 'Шевченківський район', key: 10 }
   ];
 
   regionsKyivEn = [
-    { name: `Holosiivs'kyi`, key: 1 },
-    { name: `Darnyts'kyi`, key: 2 },
-    { name: `Desnyans'kyi`, key: 3 },
-    { name: `Dniprovs'kyi`, key: 4 },
-    { name: 'Obolonskyi', key: 5 },
-    { name: `Pechers'kyi`, key: 6 },
-    { name: `Podil's'kyi`, key: 7 },
-    { name: `Svyatoshyns'kyi`, key: 8 },
-    { name: `Solom'yans'kyi`, key: 9 },
-    { name: `Shevchenkivs'kyi`, key: 10 }
+    { name: `Holosiivs'kyi district`, key: 1 },
+    { name: `Darnyts'kyi district`, key: 2 },
+    { name: `Desnyans'kyi district`, key: 3 },
+    { name: `Dniprovs'kyi district`, key: 4 },
+    { name: 'Obolonskyi district', key: 5 },
+    { name: `Pechers'kyi district`, key: 6 },
+    { name: `Podil's'kyi district`, key: 7 },
+    { name: `Svyatoshyns'kyi district`, key: 8 },
+    { name: `Solom'yans'kyi district`, key: 9 },
+    { name: `Shevchenkivs'kyi district`, key: 10 }
   ];
 
   regions = [

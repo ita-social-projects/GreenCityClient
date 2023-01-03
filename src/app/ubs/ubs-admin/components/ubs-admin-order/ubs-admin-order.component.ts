@@ -182,12 +182,16 @@ export class UbsAdminOrderComponent implements OnInit, OnDestroy, AfterContentCh
       }),
       addressExportDetailsDto: this.fb.group({
         addressRegion: this.addressInfo.addressRegion,
+        addressRegionEn: null,
         addressCity: this.addressInfo.addressCity,
+        addressCityEn: null,
         addressStreet: this.addressInfo.addressStreet,
+        addressStreetEn: null,
         addressHouseNumber: this.addressInfo.addressHouseNumber,
         addressHouseCorpus: this.addressInfo.addressHouseCorpus,
         addressEntranceNumber: this.addressInfo.addressEntranceNumber,
-        addressDistrict: this.addressInfo.addressDistrict
+        addressDistrict: this.addressInfo.addressDistrict,
+        addressDistrictEn: null
       }),
       exportDetailsDto: this.fb.group({
         dateExport: [this.exportInfo.dateExport ? formatDate(this.exportInfo.dateExport, 'yyyy-MM-dd', this.currentLanguage) : ''],

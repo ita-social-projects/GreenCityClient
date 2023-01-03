@@ -249,17 +249,22 @@ export interface UserProfile {
 export interface Address {
   actual: boolean;
   city: string;
+  cityEn: string;
   coordinates: {
     latitude?: number;
     longitude?: number;
   };
   region: string;
+  regionEn: string;
   district: string;
+  districtEn: string;
   entranceNumber: string;
   houseCorpus: string;
   houseNumber: string;
+  isKyiv?: boolean;
   id: number;
   street: string;
+  streetEn: string;
 }
 
 export interface DialogData {
@@ -418,6 +423,11 @@ export interface IResponsiblePersonsData {
 export interface IDataForPopUp {
   arrayData: IColumnBelonging[];
   title: string;
+}
+
+export interface Location {
+  name: string;
+  key: number;
 }
 
 export enum ResponsibleEmployee {
