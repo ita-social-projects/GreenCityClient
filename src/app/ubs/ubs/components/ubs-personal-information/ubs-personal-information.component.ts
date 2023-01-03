@@ -79,7 +79,7 @@ export class UBSPersonalInformationComponent extends FormBaseComponent implement
 
   ngOnInit() {
     this.orderService.locationSubject.pipe(takeUntil(this.destroy)).subscribe(() => {
-      if (localStorage.getItem('currentLocationId')) {
+      if (this.localService.getLocationId()) {
         this.currentLocationId = JSON.parse(localStorage.getItem('currentLocationId'));
         this.setDisabledCityForLocation();
       }
