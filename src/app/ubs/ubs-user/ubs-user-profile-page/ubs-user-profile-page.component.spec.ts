@@ -657,14 +657,14 @@ describe('UbsUserProfilePageComponent', () => {
   it('method setRegionValue should set value of region', () => {
     const event = { target: { value: '0: Київська область' } };
     component.regions = fakeRegions;
-    const currentFormGroup = component.userForm.controls.address['controls'][0];
+    const currentFormGroup = component.userForm.controls.address.get('0');
     const region = currentFormGroup.get('region');
     component.setRegionValue(0, event as any);
     expect(region.value).toEqual('Київська область');
   });
 
   it('if value of region was changed other fields should be empty', fakeAsync(() => {
-    const currentFormGroup = component.userForm.controls.address['controls'][0];
+    const currentFormGroup = component.userForm.controls.address.get('0');
     const region = currentFormGroup.get('region');
     region.setValue('Київ');
     component.regions = fakeRegions;
@@ -693,7 +693,7 @@ describe('UbsUserProfilePageComponent', () => {
   });
 
   it('method setPredictCities should call method for predicting cities in ua', () => {
-    const currentFormGroup = component.userForm.controls.address['controls'][0];
+    const currentFormGroup = component.userForm.controls.address.get('0');
     const regionEn = currentFormGroup.get('regionEn');
     const region = currentFormGroup.get('region');
     const city = currentFormGroup.get('city');
@@ -709,7 +709,7 @@ describe('UbsUserProfilePageComponent', () => {
   });
 
   it('method setPredictCities should call method for predicting cities in en', () => {
-    const currentFormGroup = component.userForm.controls.address['controls'][0];
+    const currentFormGroup = component.userForm.controls.address.get('0');
     const regionEn = currentFormGroup.get('regionEn');
     const cityEn = currentFormGroup.get('cityEn');
 
@@ -724,7 +724,7 @@ describe('UbsUserProfilePageComponent', () => {
   });
 
   it('method inputCity should invoke getPlacePredictions', () => {
-    const currentFormGroup = component.userForm.controls.address['controls'][0];
+    const currentFormGroup = component.userForm.controls.address.get('0');
     const regionEn = currentFormGroup.get('regionEn');
     component.autocompleteService = { getPlacePredictions: (a, b) => {} } as any;
     spyOn(component.autocompleteService, 'getPlacePredictions').and.callThrough();
@@ -734,12 +734,12 @@ describe('UbsUserProfilePageComponent', () => {
   });
 
   it('method getPlacePredictions should form prediction list for Kyiv region', () => {
-    const currentFormGroup = component.userForm.controls.address['controls'][0];
+    const currentFormGroup = component.userForm.controls.address.get('0');
     const regionEn = currentFormGroup.get('regionEn');
 
     regionEn.setValue(`Kyivs'ka oblast`);
     component.autocompleteService = { getPlacePredictions: () => {} } as any;
-    spyOn(component.autocompleteService, 'getPlacePredictions').and.callFake(function (request, callback) {
+    spyOn(component.autocompleteService, 'getPlacePredictions').and.callFake((request, callback) => {
       callback(predictionListKyivRegion);
     });
     const fakesearchAddress = `Київська область, Ше`;
@@ -748,13 +748,13 @@ describe('UbsUserProfilePageComponent', () => {
   });
 
   it('method getPlacePredictions should form prediction list for Kyiv city', () => {
-    const currentFormGroup = component.userForm.controls.address['controls'][0];
+    const currentFormGroup = component.userForm.controls.address.get('0');
     const regionEn = currentFormGroup.get('regionEn');
 
     const result = [predictionListKyivCity[0]];
     regionEn.setValue(`Kyiv`);
     component.autocompleteService = { getPlacePredictions: () => {} } as any;
-    spyOn(component.autocompleteService, 'getPlacePredictions').and.callFake(function (request, callback) {
+    spyOn(component.autocompleteService, 'getPlacePredictions').and.callFake((request, callback) => {
       callback(predictionListKyivCity);
     });
 
@@ -770,7 +770,7 @@ describe('UbsUserProfilePageComponent', () => {
   });
 
   it('method onCitySelected should invoke methods to set value of city', () => {
-    const currentFormGroup = component.userForm.controls.address['controls'][0];
+    const currentFormGroup = component.userForm.controls.address.get('0');
     const spy = spyOn(component, 'setValueOfCity');
     component.onCitySelected(0, predictionListKyivRegion[0]);
     expect(spy).toHaveBeenCalledWith(predictionListKyivRegion[0], currentFormGroup, 'city');
@@ -778,7 +778,7 @@ describe('UbsUserProfilePageComponent', () => {
   });
 
   it('method onCitySelected should invoke getDetails', () => {
-    const currentFormGroup = component.userForm.controls.address['controls'][0];
+    const currentFormGroup = component.userForm.controls.address.get('0');
     component.placeService = { getDetails: (a, b) => {} } as any;
     spyOn(component.placeService, 'getDetails').and.callThrough();
     component.setValueOfCity(predictionListKyivRegion[0], currentFormGroup, 'city');
@@ -786,7 +786,7 @@ describe('UbsUserProfilePageComponent', () => {
   });
 
   it('if value of city was changed other fields should be empty', fakeAsync(() => {
-    const currentFormGroup = component.userForm.controls.address['controls'][0];
+    const currentFormGroup = component.userForm.controls.address.get('0');
     const city = currentFormGroup.get('city');
     spyOn(component, 'setValueOfCity');
     component.onCitySelected(0, predictionListKyivRegion[0]);
@@ -805,11 +805,11 @@ describe('UbsUserProfilePageComponent', () => {
   }));
 
   it('method onCitySelected should get details for selected city in en', () => {
-    const currentFormGroup = component.userForm.controls.address['controls'][0];
+    const currentFormGroup = component.userForm.controls.address.get('0');
     const cityEn = currentFormGroup.get('cityEn');
 
     component.placeService = { getDetails: () => {} } as any;
-    spyOn(component.placeService, 'getDetails').and.callFake(function (request, callback) {
+    spyOn(component.placeService, 'getDetails').and.callFake((request, callback) => {
       callback(cityPlaceResultEn);
     });
     component.setValueOfCity(predictionListKyivCity[0], currentFormGroup, 'cityEn');
@@ -817,12 +817,12 @@ describe('UbsUserProfilePageComponent', () => {
   });
 
   it('method onCitySelected should get details for selected city in uk', () => {
-    const currentFormGroup = component.userForm.controls.address['controls'][0];
+    const currentFormGroup = component.userForm.controls.address.get('0');
     const city = currentFormGroup.get('city');
     const isKyiv = currentFormGroup.get('isKyiv');
 
     component.placeService = { getDetails: () => {} } as any;
-    spyOn(component.placeService, 'getDetails').and.callFake(function (request, callback) {
+    spyOn(component.placeService, 'getDetails').and.callFake((request, callback) => {
       callback(placeResultKyivUk);
     });
     component.setValueOfCity(predictionListKyivCity[0], currentFormGroup, 'city');
@@ -831,12 +831,12 @@ describe('UbsUserProfilePageComponent', () => {
   });
 
   it('method onCitySelected should set isDistrict if city is not Kyiv', () => {
-    const currentFormGroup = component.userForm.controls.address['controls'][0];
+    const currentFormGroup = component.userForm.controls.address.get('0');
     const city = currentFormGroup.get('city');
     const isKyiv = currentFormGroup.get('isKyiv');
 
     component.placeService = { getDetails: () => {} } as any;
-    spyOn(component.placeService, 'getDetails').and.callFake(function (request, callback) {
+    spyOn(component.placeService, 'getDetails').and.callFake((request, callback) => {
       callback(cityPlaceResultUk);
     });
     component.setValueOfCity(predictionListKyivCity[0], currentFormGroup, 'city');
@@ -845,7 +845,7 @@ describe('UbsUserProfilePageComponent', () => {
   });
 
   it('method setPredictStreets should call method for predicting streets in ua', () => {
-    const currentFormGroup = component.userForm.controls.address['controls'][0];
+    const currentFormGroup = component.userForm.controls.address.get('0');
     const city = currentFormGroup.get('city');
     const street = currentFormGroup.get('street');
     city.setValue('Київ');
@@ -859,7 +859,7 @@ describe('UbsUserProfilePageComponent', () => {
   });
 
   it('method setPredictStreets should call method for predicting streets in en', () => {
-    const currentFormGroup = component.userForm.controls.address['controls'][0];
+    const currentFormGroup = component.userForm.controls.address.get('0');
     const cityEn = currentFormGroup.get('cityEn');
     const streetEn = currentFormGroup.get('streetEn');
 
@@ -874,7 +874,7 @@ describe('UbsUserProfilePageComponent', () => {
   });
 
   it('method inputAddress should invoke getPlacePredictions', () => {
-    const currentFormGroup = component.userForm.controls.address['controls'][0];
+    const currentFormGroup = component.userForm.controls.address.get('0');
     component.autocompleteService = { getPlacePredictions: (a, b) => {} } as any;
     spyOn(component.autocompleteService, 'getPlacePredictions').and.callThrough();
     const fakesearchAddress = `Kyiv, Lomo`;
@@ -883,11 +883,11 @@ describe('UbsUserProfilePageComponent', () => {
   });
 
   it('method getPlacePredictions should form prediction street list for Kyiv city', () => {
-    const currentFormGroup = component.userForm.controls.address['controls'][0];
+    const currentFormGroup = component.userForm.controls.address.get('0');
     const isKyiv = currentFormGroup.get('isKyiv');
     isKyiv.setValue(true);
     component.autocompleteService = { getPlacePredictions: () => {} } as any;
-    spyOn(component.autocompleteService, 'getPlacePredictions').and.callFake(function (request, callback) {
+    spyOn(component.autocompleteService, 'getPlacePredictions').and.callFake((request, callback) => {
       callback(streetPredictionKyivCity);
     });
     const fakesearchAddress = `Київ, Сі`;
@@ -896,12 +896,12 @@ describe('UbsUserProfilePageComponent', () => {
   });
 
   it('method getPlacePredictions should form prediction street list for Kyiv region', () => {
-    const currentFormGroup = component.userForm.controls.address['controls'][0];
+    const currentFormGroup = component.userForm.controls.address.get('0');
     const isKyiv = currentFormGroup.get('isKyiv');
     isKyiv.setValue(false);
     const result = [streetPredictionKyivRegion[0]];
     component.autocompleteService = { getPlacePredictions: () => {} } as any;
-    spyOn(component.autocompleteService, 'getPlacePredictions').and.callFake(function (request, callback) {
+    spyOn(component.autocompleteService, 'getPlacePredictions').and.callFake((request, callback) => {
       callback(streetPredictionKyivRegion);
     });
 
@@ -917,7 +917,7 @@ describe('UbsUserProfilePageComponent', () => {
   });
 
   it('method onStreetSelected should invoke methods to set value of street', () => {
-    const currentFormGroup = component.userForm.controls.address['controls'][0];
+    const currentFormGroup = component.userForm.controls.address.get('0');
     const spy = spyOn(component, 'setValueOfStreet');
     component.onStreetSelected(0, streetPredictionKyivRegion[0]);
     expect(spy).toHaveBeenCalledWith(streetPredictionKyivRegion[0], currentFormGroup, 'street');
@@ -925,7 +925,7 @@ describe('UbsUserProfilePageComponent', () => {
   });
 
   it('method onStreetSelected should invoke getDetails', () => {
-    const currentFormGroup = component.userForm.controls.address['controls'][0];
+    const currentFormGroup = component.userForm.controls.address.get('0');
     component.placeService = { getDetails: (a, b) => {} } as any;
     spyOn(component.placeService, 'getDetails').and.callThrough();
     component.setValueOfStreet(streetPredictionKyivRegion[0], currentFormGroup, 'street');
@@ -933,14 +933,14 @@ describe('UbsUserProfilePageComponent', () => {
   });
 
   it('method onStreetSelected should get details for selected street in en', () => {
-    const currentFormGroup = component.userForm.controls.address['controls'][0];
+    const currentFormGroup = component.userForm.controls.address.get('0');
     const streetEn = currentFormGroup.get('streetEn');
     const districtEn = currentFormGroup.get('districtEn');
     const isKyiv = currentFormGroup.get('isKyiv');
     isKyiv.setValue(true);
     const spy = spyOn(component, 'setDistrictAuto');
     component.placeService = { getDetails: () => {} } as any;
-    spyOn(component.placeService, 'getDetails').and.callFake(function (request, callback) {
+    spyOn(component.placeService, 'getDetails').and.callFake((request, callback) => {
       callback(streetPlaceResultEn);
     });
     component.setValueOfStreet(streetPredictionKyivCity[0], currentFormGroup, 'streetEn');
@@ -949,7 +949,7 @@ describe('UbsUserProfilePageComponent', () => {
   });
 
   it('method onStreetSelected should get details for selected street in uk', () => {
-    const currentFormGroup = component.userForm.controls.address['controls'][0];
+    const currentFormGroup = component.userForm.controls.address.get('0');
     const street = currentFormGroup.get('street');
     const district = currentFormGroup.get('district');
     const isKyiv = currentFormGroup.get('isKyiv');
@@ -957,7 +957,7 @@ describe('UbsUserProfilePageComponent', () => {
 
     const spy = spyOn(component, 'setDistrictAuto');
     component.placeService = { getDetails: () => {} } as any;
-    spyOn(component.placeService, 'getDetails').and.callFake(function (request, callback) {
+    spyOn(component.placeService, 'getDetails').and.callFake((request, callback) => {
       callback(streetPlaceResultUk);
     });
     component.setValueOfStreet(streetPredictionKyivCity[0], currentFormGroup, 'street');
@@ -966,7 +966,7 @@ describe('UbsUserProfilePageComponent', () => {
   });
 
   it('method setDistrictAuto should set district value in uk', () => {
-    const currentFormGroup = component.userForm.controls.address['controls'][0];
+    const currentFormGroup = component.userForm.controls.address.get('0');
     const district = currentFormGroup.get('district');
     const result = streetPlaceResultUk.address_components[1].long_name;
     component.setDistrictAuto(streetPlaceResultUk, district, component.languages.uk);
@@ -974,7 +974,7 @@ describe('UbsUserProfilePageComponent', () => {
   });
 
   it('method setDistrictAuto should set district value in en', () => {
-    const currentFormGroup = component.userForm.controls.address['controls'][0];
+    const currentFormGroup = component.userForm.controls.address.get('0');
     const districtEn = currentFormGroup.get('districtEn');
     const result = streetPlaceResultEn.address_components[1].long_name;
     component.setDistrictAuto(streetPlaceResultEn, districtEn, component.languages.en);
@@ -982,7 +982,7 @@ describe('UbsUserProfilePageComponent', () => {
   });
 
   it('method onDistrictSelected should invoke method for setting district value in Kyiv city', () => {
-    const currentFormGroup = component.userForm.controls.address['controls'][0];
+    const currentFormGroup = component.userForm.controls.address.get('0');
     const isKyiv = currentFormGroup.get('isKyiv');
     isKyiv.setValue(true);
     const event = { target: { value: '1: Дарницький район' } };
@@ -992,7 +992,7 @@ describe('UbsUserProfilePageComponent', () => {
   });
 
   it('method onDistrictSelected should invoke method for setting district value in Kyiv region', () => {
-    const currentFormGroup = component.userForm.controls.address['controls'][0];
+    const currentFormGroup = component.userForm.controls.address.get('0');
     const isKyiv = currentFormGroup.get('isKyiv');
     isKyiv.setValue(false);
     const event = { target: { value: '1: Броварський' } };
@@ -1002,14 +1002,14 @@ describe('UbsUserProfilePageComponent', () => {
   });
 
   it('method setKyivDistrict should set district value in Kyiv city', () => {
-    const currentFormGroup = component.userForm.controls.address['controls'][0];
+    const currentFormGroup = component.userForm.controls.address.get('0');
     const district = currentFormGroup.get('district');
     component.setKyivDistrict('1', currentFormGroup);
     expect(district.value).toEqual(fakeDictrictsKyiv[1].name);
   });
 
   it('method setDistrict should set district value in Kyiv region', () => {
-    const currentFormGroup = component.userForm.controls.address['controls'][0];
+    const currentFormGroup = component.userForm.controls.address.get('0');
     const district = currentFormGroup.get('district');
     component.setDistrict('1', currentFormGroup);
     expect(district.value).toEqual(fakeDistricts[1].name);

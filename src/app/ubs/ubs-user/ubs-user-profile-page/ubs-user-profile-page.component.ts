@@ -180,7 +180,7 @@ export class UbsUserProfilePageComponent implements OnInit {
   }
 
   setRegionValue(formGroupName: number, event: Event): void {
-    const currentFormGroup = this.userForm.controls.address['controls'][formGroupName];
+    const currentFormGroup = this.userForm.controls.address.get(formGroupName.toString());
     const region = currentFormGroup.get('region');
     const regionEn = currentFormGroup.get('regionEn');
 
@@ -212,9 +212,7 @@ export class UbsUserProfilePageComponent implements OnInit {
 
   setPredictCities(formGroupName: number): void {
     this.cityPredictionList = null;
-    const currentFormGroup = this.userForm.controls.address['controls'][formGroupName];
-    console.log(this.userForm.controls.address);
-    // console.log(this.userForm.controls.address.controls)
+    const currentFormGroup = this.userForm.controls.address.get(formGroupName.toString());
     const regionEn = currentFormGroup.get('regionEn');
     const cityEn = currentFormGroup.get('cityEn');
     const region = currentFormGroup.get('region');
@@ -246,7 +244,7 @@ export class UbsUserProfilePageComponent implements OnInit {
   }
 
   onCitySelected(formGroupName: number, selectedCity: google.maps.places.AutocompletePrediction): void {
-    const currentFormGroup = this.userForm.controls.address['controls'][formGroupName];
+    const currentFormGroup = this.userForm.controls.address.get(formGroupName.toString());
     const cityEn = currentFormGroup.get('cityEn');
     const city = currentFormGroup.get('city');
 
@@ -265,9 +263,9 @@ export class UbsUserProfilePageComponent implements OnInit {
     });
   }
 
-  setValueOfCity(selectedCity: google.maps.places.AutocompletePrediction, formGroup: FormGroup, abstractControlName: string): void {
-    const abstractControl = formGroup.get(abstractControlName);
-    const isKyiv = formGroup.get('isKyiv');
+  setValueOfCity(selectedCity: google.maps.places.AutocompletePrediction, item: AbstractControl, abstractControlName: string): void {
+    const abstractControl = item.get(abstractControlName);
+    const isKyiv = item.get('isKyiv');
 
     const request = {
       placeId: selectedCity.place_id,
@@ -283,7 +281,7 @@ export class UbsUserProfilePageComponent implements OnInit {
 
   setPredictStreets(formGroupName: number): void {
     this.streetPredictionList = null;
-    const currentFormGroup = this.userForm.controls.address['controls'][formGroupName];
+    const currentFormGroup = this.userForm.controls.address.get(formGroupName.toString());
     const city = currentFormGroup.get('city');
     const cityEn = currentFormGroup.get('cityEn');
     const street = currentFormGroup.get('street');
@@ -297,8 +295,8 @@ export class UbsUserProfilePageComponent implements OnInit {
     }
   }
 
-  inputAddress(searchAddress: string, formGroup: FormGroup): void {
-    const isKyiv = formGroup.get('isKyiv');
+  inputAddress(searchAddress: string, item: AbstractControl): void {
+    const isKyiv = item.get('isKyiv');
 
     const request = {
       input: searchAddress,
@@ -318,15 +316,15 @@ export class UbsUserProfilePageComponent implements OnInit {
   }
 
   onStreetSelected(formGroupName: number, selectedStreet: google.maps.places.AutocompletePrediction): void {
-    const currentFormGroup = this.userForm.controls.address['controls'][formGroupName];
+    const currentFormGroup = this.userForm.controls.address.get(formGroupName.toString());
 
     this.setValueOfStreet(selectedStreet, currentFormGroup, 'street');
     this.setValueOfStreet(selectedStreet, currentFormGroup, 'streetEn');
   }
 
-  setValueOfStreet(selectedStreet: google.maps.places.AutocompletePrediction, formGroup: FormGroup, abstractControlName: string): void {
-    const abstractControl = formGroup.get(abstractControlName);
-    const isKyiv = formGroup.get('isKyiv');
+  setValueOfStreet(selectedStreet: google.maps.places.AutocompletePrediction, item: AbstractControl, abstractControlName: string): void {
+    const abstractControl = item.get(abstractControlName);
+    const isKyiv = item.get('isKyiv');
 
     const request = {
       placeId: selectedStreet.place_id,
@@ -336,11 +334,11 @@ export class UbsUserProfilePageComponent implements OnInit {
       abstractControl.setValue(placeDetails.name);
 
       if (request.language === this.languages.en && isKyiv.value) {
-        const districtEn = formGroup.get('districtEn');
+        const districtEn = item.get('districtEn');
         this.setDistrictAuto(placeDetails, districtEn, request.language);
       }
       if (request.language === this.languages.uk && isKyiv.value) {
-        const district = formGroup.get('district');
+        const district = item.get('district');
         this.setDistrictAuto(placeDetails, district, request.language);
       }
     });
@@ -356,29 +354,29 @@ export class UbsUserProfilePageComponent implements OnInit {
   }
 
   onDistrictSelected(formGroupName: number, event: Event): void {
-    const currentFormGroup = this.userForm.controls.address['controls'][formGroupName];
+    const currentFormGroup = this.userForm.controls.address.get(formGroupName.toString());
     const isKyiv = currentFormGroup.get('isKyiv');
     const districtKey = (event.target as HTMLSelectElement).value.slice(0, 1);
 
     isKyiv.value ? this.setKyivDistrict(districtKey, currentFormGroup) : this.setDistrict(districtKey, currentFormGroup);
   }
 
-  setKyivDistrict(districtKey: string, formGroup: FormGroup): void {
+  setKyivDistrict(districtKey: string, item: AbstractControl): void {
     const key = Number(districtKey) + 1;
     const selectedDistrict = this.locations.getRegionsKyiv('ua').find((el) => el.key === key);
     const selectedDistricEn = this.locations.getRegionsKyiv('en').find((el) => el.key === key);
 
-    formGroup.get('district').setValue(selectedDistrict.name);
-    formGroup.get('districtEn').setValue(selectedDistricEn.name);
+    item.get('district').setValue(selectedDistrict.name);
+    item.get('districtEn').setValue(selectedDistricEn.name);
   }
 
-  setDistrict(districtKey: string, formGroup: FormGroup): void {
+  setDistrict(districtKey: string, item: AbstractControl): void {
     const key = Number(districtKey) + 1;
     const selectedDistrict = this.locations.getRegions('ua').find((el) => el.key === key);
     const selectedDistricEn = this.locations.getRegions('en').find((el) => el.key === key);
 
-    formGroup.get('district').setValue(selectedDistrict.name);
-    formGroup.get('districtEn').setValue(selectedDistricEn.name);
+    item.get('district').setValue(selectedDistrict.name);
+    item.get('districtEn').setValue(selectedDistricEn.name);
   }
 
   onEdit(): void {
