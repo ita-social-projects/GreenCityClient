@@ -14,6 +14,7 @@ import { LocalStorageService } from '@global-service/localstorage/local-storage.
 import { Language } from 'src/app/main/i18n/Language';
 import { APP_BASE_HREF } from '@angular/common';
 import { UBSInputErrorComponent } from 'src/app/shared/ubs-input-error/ubs-input-error.component';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 describe('UBSPersonalInformationComponent', () => {
   let component: UBSPersonalInformationComponent;
@@ -119,6 +120,7 @@ describe('UBSPersonalInformationComponent', () => {
         HttpClientTestingModule,
         MatDialogModule,
         IMaskModule,
+        BrowserAnimationsModule,
         TranslateModule.forRoot()
       ],
       declarations: [UBSPersonalInformationComponent, UBSInputErrorComponent],
@@ -153,6 +155,17 @@ describe('UBSPersonalInformationComponent', () => {
 
   it('should create', () => {
     expect(component).toBeTruthy();
+  });
+
+  it('on ngOnInit should set currentLocationId', () => {
+    component.ngOnInit();
+    expect(component.currentLocationId).toEqual(1);
+  });
+
+  it('setDisabledCityForLocation function should redefine addresses', () => {
+    component.addresses = listMock.addressList;
+    component.setDisabledCityForLocation();
+    expect(component.addresses).toBeDefined();
   });
 
   it('method ngOnChanges should call changePersonalData and submit', () => {

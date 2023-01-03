@@ -111,10 +111,10 @@ export class UBSPersonalInformationComponent extends FormBaseComponent implement
     this.citiesForLocationId = this.listOflocations.getCity(this.currentLanguage);
 
     this.addresses = this.addresses.map((address) => {
-      const newAdress = { ...address };
-      const isCity = this.citiesForLocationId.some((city) => city.cityName === newAdress.city);
-      newAdress.display = isCity ? isCityAccess : !isCityAccess;
-      return newAdress;
+      const newAddress = { ...address };
+      const isCity = this.citiesForLocationId.some((city) => city.cityName === newAddress.city);
+      newAddress.display = isCity ? isCityAccess : !isCityAccess;
+      return newAddress;
     });
   }
 
