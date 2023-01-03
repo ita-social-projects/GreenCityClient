@@ -36,6 +36,7 @@ import { LocalizedDatePipe } from './localized-date-pipe/localized-date.pipe';
 import { TranslateDatePipe } from './translate-date-pipe/translate-date.pipe';
 import { RepeatPipe } from './repeat-pipe/repeat.pipe';
 import { CronPipe } from './cron-pipe/cron.pipe';
+import { MobileBottomSheetComponent } from './mobile-bottom-sheet/mobile-bottom-sheet.component';
 
 @NgModule({
   declarations: [
@@ -66,7 +67,8 @@ import { CronPipe } from './cron-pipe/cron.pipe';
     LocalizedDatePipe,
     TranslateDatePipe,
     RepeatPipe,
-    CronPipe
+    CronPipe,
+    MobileBottomSheetComponent
   ],
   imports: [
     CommonModule,
@@ -105,7 +107,8 @@ import { CronPipe } from './cron-pipe/cron.pipe';
     LocalizedDatePipe,
     TranslateDatePipe,
     RepeatPipe,
-    CronPipe
+    CronPipe,
+    MobileBottomSheetComponent
   ]
 })
 export class SharedModule {}
