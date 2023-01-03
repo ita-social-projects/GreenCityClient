@@ -10,7 +10,7 @@ import { HabitAssignInterface } from 'src/app/main/interface/habit/habit-assign.
   templateUrl: './habit-progress.component.html',
   styleUrls: ['./habit-progress.component.scss']
 })
-export class HabitProgressComponent {
+export class HabitProgressComponent implements OnChanges {
   @Input() habit: HabitAssignInterface;
   public indicator: number;
   isRequest = false;
@@ -18,6 +18,7 @@ export class HabitProgressComponent {
   showPhoto: boolean;
   daysCounter: number;
   habitMark: string;
+  heightThumbLabel = 4;
   public isHidden = false;
   private descriptionType = {
     acquired: () => {
