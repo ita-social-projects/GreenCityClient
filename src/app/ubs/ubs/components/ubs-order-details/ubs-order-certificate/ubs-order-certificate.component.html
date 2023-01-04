@@ -65,7 +65,7 @@
           'order-details.activated-oversum'
             | translate
               : {
-                  certificateSum: certificateSum,
+                  certificateSum: certificates.points[i],
                   certDate: certificates.expirationDates[i],
                   certificateLeft: certificateSum - showTotal
                 }
