@@ -46,7 +46,7 @@ export class HabitProgressComponent implements OnChanges {
     this.countProgressBar();
   }
 
-  private countProgressBar(): void {
+  public countProgressBar(): void {
     this.indicator = Math.round((this.habit.workingDays / this.habit.duration) * 100);
   }
 
