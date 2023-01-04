@@ -723,7 +723,7 @@
     "commission": "Сommission",
     "full_cost": "Full cost",
     "service_description": "Service description",
-    "placeholder-text": "Describe what exactly is included in the service and the conditions / rules of its provision",
+    "placeholder-text": "Describe what is included in the service and the conditions / rules for its provision",
     "error_message": "Fill in the selected fields",
     "btn": {
       "add": "Add",
