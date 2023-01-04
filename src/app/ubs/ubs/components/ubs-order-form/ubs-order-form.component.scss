@@ -65,12 +65,16 @@
   }
 }
 
-@media (min-width: 320px) and (max-width: 480px) {
+@media (max-width: 480px) {
   ::ng-deep.mat-step-header {
     .mat-step-label {
       font-size: 9px;
       line-height: 9px;
       white-space: break-spaces;
     }
+  }
+
+  :host ::ng-deep .mat-horizontal-content-container {
+    padding: 0 !important;
   }
 }

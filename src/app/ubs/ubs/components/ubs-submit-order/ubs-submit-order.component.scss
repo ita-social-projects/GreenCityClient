@@ -26,7 +26,7 @@ h3 {
   gap: 1rem;
 
   button {
-    width: 8rem;
+    padding: 0 32px;
     height: 2.75rem;
     font-size: 18px;
     font-weight: 700;
@@ -363,7 +363,7 @@ label {
 
 @media (max-width: 480px) {
   .container {
-    padding: 8px;
+    padding: 16px;
 
     .header {
       margin-top: 24px;
@@ -467,4 +467,11 @@ label {
 
 ::ng-deep .mat-progress-bar-buffer {
   background: #bfbfbf;
+}
+
+@media (max-width: 360px) {
+  .label,
+  .bag-name {
+    font-size: 10px;
+  }
 }
