@@ -165,7 +165,7 @@ describe('UbsOrderCertificateComponent', () => {
     expect(spy).toHaveBeenCalled();
   });
 
-  xit('method calculateCertificates with arr.length>0 should asyncly invoke certificateMatch method', async(() => {
+  it('method calculateCertificates with arr.length>0 should asyncly invoke certificateMatch method', async(() => {
     const response: ICertificateResponse = {
       points: 0,
       certificateStatus: 'string'
