@@ -11,49 +11,22 @@ import { HabitAssignInterface } from 'src/app/main/interface/habit/habit-assign.
 describe('HabitProgressComponent', () => {
   let component: HabitProgressComponent;
   let fixture: ComponentFixture<HabitProgressComponent>;
-  let habitAssignServiceMock: HabitAssignService;
-  /*const habitAssignServiceMock = jasmine.createSpyObj('HabitAssignService', [
+  const habitAssignServiceMock = jasmine.createSpyObj('HabitAssignService', [
     'getAssignHabitsByPeriod',
     'enrollByHabit',
     'unenrollByHabit'
-  ]); /** */
-
-  let habitMock: HabitAssignInterface;
-  habitMock = {
-    id: 333,
-    status: 'INPROGRESS',
-    createDateTime: new Date('2021-06-19'),
-    duration: 10,
-    habit: {
-      defaultDuration: 14,
-      habitTranslation: {
-        description: 'Test',
-        habitItem: 'Test',
-        languageCode: 'en',
-        name: 'Test'
-      },
-      id: 506,
-      image: '',
-      tags: []
-    },
-    habitStatusCalendarDtoList: [],
-    habitStreak: 0,
-    lastEnrollmentDate: new Date('2021-06-19'),
-    userId: 333,
-    workingDays: 1,
-    shoppingListItems: []
-  };
+  ]);
 
   const fakeHabitStatusCalendarList = {
-    enrollDate: '2022-02-19',
-    id: 123
+    enrollDate: '2022-06-19',
+    id: 333
   };
 
-  const fakeHabitAssign = {
-    id: 123,
+  const fakeHabitAcquired = {
+    id: 333,
     status: 'ACQUIRED',
     habit: {
-      id: 123,
+      id: 333,
       habitTranslation: {
         name: 'fakeName'
       }
@@ -64,11 +37,28 @@ describe('HabitProgressComponent', () => {
     habitStatusCalendarDtoList: [fakeHabitStatusCalendarList]
   };
 
-  const fakeHabit = {
-    id: 321,
-    habitTranslation: {
-      name: 'fakeName'
-    }
+  const fakeHabitInProgress = {
+    id: 333,
+    status: 'INPROGRESS',
+    createDateTime: new Date('2021-06-19'),
+    duration: 10,
+    habit: {
+      id: 321,
+      defaultDuration: 14,
+      habitTranslation: {
+        name: 'fakeName',
+        description: 'Test',
+        habitItem: 'Test',
+        languageCode: 'en'
+      },
+      image: '',
+      tags: []
+    },
+    habitStreak: 5,
+    lastEnrollmentDate: new Date('2021-06-19'),
+    userId: 333,
+    workingDays: 4,
+    habitStatusCalendarDtoList: [fakeHabitStatusCalendarList]
   };
 
   beforeEach(async(() => {
@@ -82,17 +72,13 @@ describe('HabitProgressComponent', () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(HabitProgressComponent);
     component = fixture.componentInstance;
+    component.habit = fakeHabitAcquired as any;
+    habitAssignServiceMock.getAssignHabitsByPeriod.and.returnValue(of());
     fixture.detectChanges();
   });
 
   it('should create', () => {
     expect(component).toBeTruthy();
-  });
-
-  it('countProgressBar', () => {
-    component.habit = habitMock;
-    component.countProgressBar();
-    expect(component.indicator).toEqual(10);
   });
 
   it('ngOnChanges', () => {
@@ -102,31 +88,56 @@ describe('HabitProgressComponent', () => {
   });
 
   describe('buildHabitDescription', () => {
-    it('makes expected calls if status is INPROGRESS and a habit has the current date is not equal to the registration date', () => {
-      component.currentDate = '2022-02-19';
-      component.habit = habitMock as any;
+    it('makes expected calls if status is inprogress and habit doest have not the current date equals to registration date', () => {
+      component.currentDate = '2022-06-19';
+      component.habit = fakeHabitInProgress as any;
       component.buildHabitDescription();
-      expect(component.daysCounter).toBe(1);
+      expect(component.daysCounter).toBe(4);
+      expect(component.showPhoto).toBe(false);
+      expect(component.habitMark).toBe('done');
+    });
+
+    it('makes expected calls if status is inprogress and habit doest have not the current date equals to registration date', () => {
+      component.currentDate = '2022-02-19';
+      component.habit = fakeHabitInProgress as any;
+      component.buildHabitDescription();
+      expect(component.daysCounter).toBe(4);
       expect(component.showPhoto).toBe(true);
       expect(component.habitMark).toBe('undone');
     });
+  });
 
-    it('//makes expected calls if status is INPROGRESS and a habit has the current date is equal to the registration date', () => {
-      component.currentDate = '2022-02-19';
-      component.habit = fakeHabitAssign as any;
-      component.buildHabitDescription();
+  describe('enroll', () => {
+    it('makes expected calls if status is acquired', () => {
+      habitAssignServiceMock.enrollByHabit.and.returnValue(of(fakeHabitAcquired));
+      component.enroll();
       expect(component.daysCounter).toBe(44);
-      expect(component.showPhoto).toBe(false);
+      expect(component.showPhoto).toBeFalsy();
       expect(component.habitMark).toBe('aquired');
     });
 
-    it('makes expected calls if status is AQUIRED', () => {
-      component.currentDate = '2022-02-20';
-      component.habit = fakeHabitAssign as any;
-      component.buildHabitDescription();
-      expect(component.daysCounter).toBe(44);
-      expect(component.showPhoto).toBe(false);
-      expect(component.habitMark).toBe('aquired');
+    it('makes expected calls if status is not acquired', () => {
+      habitAssignServiceMock.enrollByHabit.and.returnValue(of(fakeHabitInProgress));
+      const buildHabitDescriptionSpy = spyOn(component, 'buildHabitDescription');
+      component.enroll();
+      expect(buildHabitDescriptionSpy).toHaveBeenCalled();
+      expect(component.habit.habitStatusCalendarDtoList).toEqual([fakeHabitStatusCalendarList]);
+      expect(component.habit.workingDays).toBe(4);
+      expect(component.habit.habitStreak).toBe(5);
+      expect(component.isRequest).toBeFalsy();
+    });
+  });
+
+  describe('unenroll', () => {
+    it('makes expected calls', () => {
+      habitAssignServiceMock.unenrollByHabit.and.returnValue(of(fakeHabitInProgress));
+      const buildHabitDescriptionSpy = spyOn(component, 'buildHabitDescription');
+      component.unenroll();
+      expect(buildHabitDescriptionSpy).toHaveBeenCalled();
+      expect(component.habit.habitStatusCalendarDtoList).toEqual([fakeHabitStatusCalendarList]);
+      expect(component.habit.workingDays).toBe(4);
+      expect(component.habit.habitStreak).toBe(5);
+      expect(component.isRequest).toBeFalsy();
     });
   });
 });
