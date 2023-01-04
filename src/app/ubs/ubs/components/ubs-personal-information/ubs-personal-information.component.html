@@ -148,10 +148,7 @@
             type="radio"
             [value]="address.id"
             [checked]="address.actual"
-            [disabled]="
-              (currentLocation === 'Київ' && address.city !== currentLocation) ||
-              (currentLocation === 'Kyiv' && address.cityEn !== currentLocation)
-            "
+            [disabled]="!address.display"
             (click)="checkAddress(address.id)"
           />
         </div>

@@ -14,14 +14,16 @@ import { LocalStorageService } from '@global-service/localstorage/local-storage.
 import { Language } from 'src/app/main/i18n/Language';
 import { APP_BASE_HREF } from '@angular/common';
 import { UBSInputErrorComponent } from 'src/app/shared/ubs-input-error/ubs-input-error.component';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 describe('UBSPersonalInformationComponent', () => {
   let component: UBSPersonalInformationComponent;
   let fixture: ComponentFixture<UBSPersonalInformationComponent>;
   let realTakeUserData;
 
-  const fakeLocalStorageService = jasmine.createSpyObj('LocalStorageService', ['getCurrentLanguage']);
+  const fakeLocalStorageService = jasmine.createSpyObj('LocalStorageService', ['getCurrentLanguage', 'getLocationId']);
   fakeLocalStorageService.getCurrentLanguage = () => 'ua' as Language;
+  fakeLocalStorageService.getLocationId = () => '1';
   const listMock = {
     addressList: [
       {
@@ -95,7 +97,7 @@ describe('UBSPersonalInformationComponent', () => {
     minPriceOfOrder: 500
   };
 
-  const fakeShareFormService = jasmine.createSpyObj('fakeShareFormService', ['changePersonalData', 'orderDetails']);
+  const fakeShareFormService = jasmine.createSpyObj('fakeShareFormService', ['changePersonalData']);
   const fakeOrderService = jasmine.createSpyObj('OrderService', [
     'findAllAddresses',
     'getPersonalData',
@@ -106,10 +108,6 @@ describe('UBSPersonalInformationComponent', () => {
     'addAdress'
   ]);
 
-  let localStorageServiceMock: LocalStorageService;
-  localStorageServiceMock = jasmine.createSpyObj('LocalStorageService', ['getCurrentLanguage']);
-  localStorageServiceMock.getCurrentLanguage = () => 'ua' as Language;
-
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       imports: [
@@ -119,6 +117,7 @@ describe('UBSPersonalInformationComponent', () => {
         HttpClientTestingModule,
         MatDialogModule,
         IMaskModule,
+        BrowserAnimationsModule,
         TranslateModule.forRoot()
       ],
       declarations: [UBSPersonalInformationComponent, UBSInputErrorComponent],
@@ -137,6 +136,7 @@ describe('UBSPersonalInformationComponent', () => {
     localStorage.setItem('locations', JSON.stringify(mockLocations));
     localStorage.setItem('currentLocationId', JSON.stringify(1));
     fakeOrderService.locationSub = new Subject<any>();
+    fakeOrderService.locationSubject = new Subject<any>();
     fakeOrderService.currentAddress = new Subject<any>();
     fakeOrderService.setCurrentAddress(listMock.addressList[0]);
     fakeOrderService.setLocationData('Київ');
@@ -152,6 +152,17 @@ describe('UBSPersonalInformationComponent', () => {
 
   it('should create', () => {
     expect(component).toBeTruthy();
+  });
+
+  it('on ngOnInit should set currentLocationId', () => {
+    component.ngOnInit();
+    expect(component.currentLocationId).toEqual(1);
+  });
+
+  it('setDisabledCityForLocation function should redefine addresses', () => {
+    component.addresses = listMock.addressList;
+    component.setDisabledCityForLocation();
+    expect(component.addresses).toBeDefined();
   });
 
   it('method ngOnChanges should call changePersonalData and submit', () => {
