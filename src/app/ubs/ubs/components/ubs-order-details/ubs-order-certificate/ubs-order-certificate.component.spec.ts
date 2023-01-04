@@ -173,10 +173,10 @@ describe('UbsOrderCertificateComponent', () => {
     component.certificates = mockedCert;
     const certificate = of(response);
     orderService = TestBed.inject(OrderService);
-    const spy = spyOn(component, 'certificateMatch').and.callFake(() => {});
+    spyOn(component, 'certificateMatch').and.callFake(() => {});
     expect(component.displayCert).toBe(false);
     expect(component.shareFormService.changeAddCertButtonVisibility).toBeTruthy();
-    spyOn<any>(component, 'calculateTotal').and.callFake(() => {});
+    const spy = spyOn<any>(component, 'calculateTotal').and.callFake(() => {});
     spyOn(orderService, 'processCertificate').and.returnValue(certificate);
     component.calculateCertificates();
     fixture.detectChanges();
