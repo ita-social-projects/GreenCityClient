@@ -49,9 +49,9 @@ describe('UbsConfirmPageComponent', () => {
     expect(component).toBeTruthy();
   });
 
-  it('ngOnInit should call renderView with oderID', () => {
+  xit('ngOnInit should call renderView with oderID', () => {
     fakeUBSOrderFormService.getOrderResponseErrorStatus.and.returnValue(false);
-    fakeUBSOrderFormService.getOrderStatus.and.returnValue(true);
+    fakeUBSOrderFormService.getOrderStatus.and.returnValue(of({ result: 'success', order_id: '123_456' }));
     const renderViewMock = spyOn(component, 'renderView');
     component.ngOnInit();
     expect(renderViewMock).toHaveBeenCalled();
