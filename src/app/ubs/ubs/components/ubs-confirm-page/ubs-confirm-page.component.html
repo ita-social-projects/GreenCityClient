@@ -7,7 +7,7 @@
             {{ 'confirm-page.to-personal-account' | translate }}
           </button>
         </div>
-        <div class="error" *ngSwitchCase="orderResponseError === true">
+        <div class="error" *ngSwitchCase="orderResponseError === true || orderPaymentError === true">
           <button *ngIf="!isUserPageOrderPayment()" class="btn-back" (click)="returnToPayment('/ubs/order')">
             <i class="fas fa-chevron-left" aria-hidden="true"></i> &nbsp;
             {{ 'confirm-page.return-to-payment' | translate }}
@@ -19,7 +19,8 @@
           <h2 class="title">{{ 'confirm-page.oops' | translate }}</h2>
           <div class="description">
             <p>
-              {{ 'confirm-page.order-not-paid-before' | translate }} &#8470;{{ orderId }}
+              {{ 'confirm-page.order-not-paid-before' | translate }}
+              <a class="link" routerLink="/ubs-user/orders">№{{ orderId }}</a>
               {{ 'confirm-page.order-not-paid-after' | translate }}
             </p>
           </div>

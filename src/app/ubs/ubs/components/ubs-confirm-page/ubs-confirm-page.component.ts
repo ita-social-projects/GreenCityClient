@@ -19,6 +19,7 @@ export class UbsConfirmPageComponent implements OnInit, OnDestroy {
   orderStatusDone: boolean;
   isSpinner = true;
   pageReloaded = false;
+  orderPaymentError = false;
   private destroy$: Subject<boolean> = new Subject<boolean>();
 
   constructor(
@@ -48,6 +49,7 @@ export class UbsConfirmPageComponent implements OnInit, OnDestroy {
       }
       if (oderID) {
         this.orderId = oderID;
+        this.checkPaymentStatus();
         this.orderResponseError = !this.pageReloaded ? this.ubsOrderFormService.getOrderResponseErrorStatus() : !this.pageReloaded;
         this.orderStatusDone = !this.pageReloaded ? this.ubsOrderFormService.getOrderStatus() : this.pageReloaded;
         this.renderView();
@@ -61,6 +63,7 @@ export class UbsConfirmPageComponent implements OnInit, OnDestroy {
               this.orderStatusDone = !this.orderResponseError;
               this.orderId = response.order_id ? response.order_id.split('_')[0] : this.localStorageService.getUbsFondyOrderId();
               this.renderView();
+              this.isSpinner = false;
             },
             (error) => {
               this.orderResponseError = true;
@@ -72,12 +75,21 @@ export class UbsConfirmPageComponent implements OnInit, OnDestroy {
     });
   }
 
+  private checkPaymentStatus(): void {
+    this.orderService
+      .getUbsOrderStatus()
+      .pipe(takeUntil(this.destroy$))
+      .subscribe((response) => {
+        this.orderPaymentError = response?.code === 'payment_not_found';
+        this.isSpinner = false;
+      });
+  }
+
   public isUserPageOrderPayment(): boolean {
     return this.localStorageService.getUserPagePayment() === 'true' || this.pageReloaded;
   }
 
   renderView(): void {
-    this.isSpinner = false;
     if (!this.orderResponseError && !this.orderStatusDone) {
       this.saveDataOnLocalStorage();
       this.snackBar.openSnackBar('successConfirmSaveOrder', this.orderId);
