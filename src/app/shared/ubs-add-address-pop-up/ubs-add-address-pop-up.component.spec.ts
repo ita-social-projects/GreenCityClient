@@ -433,7 +433,6 @@ describe('UBSAddAddressPopUpComponent', () => {
   });
 
   it('method getPlacePredictions should form prediction list for Kyiv region', () => {
-    const status = 'OK';
     component.autocompleteService = { getPlacePredictions: () => {} } as any;
     spyOn(component.autocompleteService, 'getPlacePredictions').and.callFake((request, callback) => {
       callback(predictionListKyivRegion, status as any);
@@ -523,7 +522,6 @@ describe('UBSAddAddressPopUpComponent', () => {
   });
 
   it('method getPlacePredictions should form prediction street list for Kyiv city', () => {
-    const status = 'OK';
     component.isDistrict = true;
     component.city.setValue(`Київ`);
     component.autocompleteService = { getPlacePredictions: () => {} } as any;
@@ -536,7 +534,6 @@ describe('UBSAddAddressPopUpComponent', () => {
   });
 
   it('method getPlacePredictions should form prediction street list for Kyiv region', () => {
-    const status = 'OK';
     component.isDistrict = false;
     const result = [streetPredictionKyivRegion[0]];
     component.city.setValue(`Щасливе`);
