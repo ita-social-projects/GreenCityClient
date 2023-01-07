@@ -35,6 +35,8 @@ export class UBSAddAddressPopUpComponent implements OnInit, OnDestroy, AfterView
   bigRegions: Region[];
   regionsKyiv: Location[];
   regions: Location[];
+  googleScript;
+  mainUrl = 'https://maps.googleapis.com/maps/api/js?key=AIzaSyB3xs7Kczo46LFcQRFKPMdrE0lU4qsR_S4&libraries=places&language=';
 
   languages = {
     en: 'en',
@@ -164,11 +166,24 @@ export class UBSAddAddressPopUpComponent implements OnInit, OnDestroy, AfterView
 
   ngAfterViewInit(): void {
     this.initGoogleAutocompleteServices();
+
+    this.googleScript = document.querySelector('#googleMaps');
+    if (!this.googleScript) {
+      this.loadScript();
+    }
   }
 
   private initGoogleAutocompleteServices(): void {
     this.autocompleteService = new google.maps.places.AutocompleteService();
     this.placeService = new google.maps.places.PlacesService(document.createElement('div'));
+  }
+
+  loadScript(): void {
+    const google = document.createElement('script');
+    google.type = 'text/javascript';
+    google.id = 'googleMaps';
+    google.setAttribute('src', this.mainUrl + this.currentLanguage);
+    document.getElementsByTagName('head')[0].appendChild(google);
   }
 
   setPredictCities(): void {

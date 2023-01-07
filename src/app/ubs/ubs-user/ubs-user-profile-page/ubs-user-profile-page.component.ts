@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, AfterViewInit } from '@angular/core';
 import { FormControl, FormGroup, Validators, FormArray, AbstractControl } from '@angular/forms';
 import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
 import { SignInIcons } from 'src/app/main/image-pathes/sign-in-icons';
@@ -18,7 +18,7 @@ import { PhoneNumberValidator } from 'src/app/shared/phone-validator/phone.valid
   templateUrl: './ubs-user-profile-page.component.html',
   styleUrls: ['./ubs-user-profile-page.component.scss']
 })
-export class UbsUserProfilePageComponent implements OnInit {
+export class UbsUserProfilePageComponent implements OnInit, AfterViewInit {
   autocompleteService: google.maps.places.AutocompleteService;
   placeService: google.maps.places.PlacesService;
   streetPredictionList: google.maps.places.AutocompletePrediction[];
@@ -59,10 +59,13 @@ export class UbsUserProfilePageComponent implements OnInit {
   regions: Location[];
   districts: Location[];
   districtsKyiv: Location[];
+  googleScript;
+  mainUrl = 'https://maps.googleapis.com/maps/api/js?key=AIzaSyB3xs7Kczo46LFcQRFKPMdrE0lU4qsR_S4&libraries=places&language=';
   languages = {
     en: 'en',
     uk: 'uk'
   };
+
   constructor(
     public dialog: MatDialog,
     private clientProfileService: ClientProfileService,
@@ -74,6 +77,21 @@ export class UbsUserProfilePageComponent implements OnInit {
   ngOnInit(): void {
     this.currentLanguage = this.localStorageService.getCurrentLanguage();
     this.getUserData();
+  }
+
+  ngAfterViewInit(): void {
+    this.googleScript = document.querySelector('#googleMaps');
+    if (!this.googleScript) {
+      this.loadScript();
+    }
+  }
+
+  loadScript(): void {
+    const google = document.createElement('script');
+    google.type = 'text/javascript';
+    google.id = 'googleMaps';
+    google.setAttribute('src', this.mainUrl + this.currentLanguage);
+    document.getElementsByTagName('head')[0].appendChild(google);
   }
 
   composeFormData(data: UserProfile): UserProfile {
