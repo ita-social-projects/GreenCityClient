@@ -579,10 +579,7 @@
     },
     "tariffs-selector": {
       "title": "Add tariffs",
-      "regions": "Regions",
-      "cities": "Cities",
-      "stations": "Receiving stations",
-      "couriers": "Couriers",
+      "search": "Search",
       "cancel": "Cancel",
       "select": "Select"
     }

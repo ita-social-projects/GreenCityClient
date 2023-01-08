@@ -574,10 +574,7 @@
     },
     "tariffs-selector": {
       "title": "Додати тарифи",
-      "regions": "Області",
-      "cities": "Міста",
-      "stations": "Станції приймання",
-      "couriers": "Кур'єри",
+      "search": "Пошук",
       "cancel": "Скасувати",
       "select": "Обрати"
     }

@@ -301,8 +301,15 @@ export class UbsAdminEmployeeEditFormComponent implements OnInit, OnDestroy {
         if (!updates) {
           return;
         }
-        console.log(updates);
-        this.tariffs = updates;
+        const newTariffs = this.tariffs;
+        const presentTariffsIds = newTariffs.map(({ id }) => id);
+        updates.forEach((tariff) => {
+          if (presentTariffsIds.includes(tariff.id)) {
+            return;
+          }
+          newTariffs.push(tariff);
+        });
+        this.tariffs = newTariffs;
       });
   }
 

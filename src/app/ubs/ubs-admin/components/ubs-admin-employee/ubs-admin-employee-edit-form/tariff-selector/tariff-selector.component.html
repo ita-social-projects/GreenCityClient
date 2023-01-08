@@ -2,76 +2,34 @@
   <h2 mat-dialog-title>{{ 'ubs-employee.tariffs-selector.title' | translate }}</h2>
 
   <div mat-dialog-content class="dialog-content">
-    <div class="filters-block" [formGroup]="filtersForm">
+    <div class="filters-block">
       <div class="filter-wrapper">
-        <mat-select
-          class="filter-select filter-regions"
-          formControlName="regions"
-          multiple
-          (selectionChange)="onRegionSelectionChange()"
-          [placeholder]="'ubs-employee.tariffs-selector.regions' | translate"
-        >
-          <mat-option *ngFor="let region of regions" [value]="region.id">{{ region.name.en }}</mat-option>
-        </mat-select>
-      </div>
-      <div class="filter-wrapper">
-        <mat-select
-          class="filter-select filter-cities"
-          formControlName="cities"
-          multiple
-          [placeholder]="'ubs-employee.tariffs-selector.cities' | translate"
-        >
-          <mat-option *ngFor="let city of filteredCities" [value]="city.id">{{ city.name.en }}</mat-option>
-        </mat-select>
-      </div>
-      <div class="filter-wrapper">
-        <mat-select
-          class="filter-select filter-couriers"
-          formControlName="couriers"
-          multiple
-          [placeholder]="'ubs-employee.tariffs-selector.couriers' | translate"
-        >
-          <mat-option *ngFor="let courier of couriers" [value]="courier.id">{{ courier.name.en }}</mat-option>
-        </mat-select>
-      </div>
-      <div class="filter-wrapper">
-        <mat-select
-          class="filter-select filter-stations"
-          formControlName="stations"
-          multiple
-          [placeholder]="'ubs-employee.tariffs-selector.stations' | translate"
-        >
-          <mat-option *ngFor="let station of stations" [value]="station.id">{{ station.name }}</mat-option>
-        </mat-select>
+        <input [formControl]="search" [placeholder]="'ubs-employee.tariffs-selector.search' | translate" matInput />
       </div>
     </div>
 
-    <table class="table-tariffs" aria-label="Tariffs list" [formGroup]="tariffsForm">
+    <table class="table-tariffs" aria-label="Tariffs list">
       <thead>
         <tr>
           <th class="col-region">{{ 'ubs-employee.tariffs-columns.region' | translate }}</th>
           <th class="col-city">{{ 'ubs-employee.tariffs-columns.city' | translate }}</th>
-          <!-- <th class="col-station">{{ 'ubs-employee.tariffs-columns.station' | translate }}</th> -->
           <th class="col-courier">{{ 'ubs-employee.tariffs-columns.courier' | translate }}</th>
           <th class="col-actions"></th>
         </tr>
       </thead>
       <tbody>
-        <tr *ngFor="let tariff of tariffs">
+        <tr *ngFor="let tariff of filteredTariffs">
           <td>
             {{ tariff.region.en }}
           </td>
           <td>
-            {{ tariff.location.en }}
+            <span *ngFor="let location of tariff.locations">{{ location.en }}</span>
           </td>
-          <!-- <td>
-            {{ tariff.station }}
-          </td> -->
           <td>
             {{ tariff.courier.en }}
           </td>
           <td>
-            <mat-checkbox class="tariff-checkbox" [formControlName]="tariff.id"></mat-checkbox>
+            <mat-checkbox class="tariff-checkbox" (change)="onTariffSelectionChange(tariff, $event.checked)"></mat-checkbox>
           </td>
         </tr>
       </tbody>

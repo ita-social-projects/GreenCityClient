@@ -81,11 +81,8 @@
                       {{ tariff.region.en }}
                     </td>
                     <td>
-                      {{ tariff.location.en }}
+                      <span *ngFor="let location of tariff.locations">{{ location.en }}</span>
                     </td>
-                    <!-- <td>
-                      {{ tariff.station }}
-                    </td> -->
                     <td>
                       {{ tariff.courier.en }}
                     </td>
