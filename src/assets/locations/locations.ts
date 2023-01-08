@@ -3,37 +3,37 @@ import { Injectable } from '@angular/core';
 @Injectable({ providedIn: 'any' })
 export class Locations {
   cities = [
-    { cityName: 'Київ', key: 1 },
-    { cityName: 'Гатне', key: 2 },
-    { cityName: 'Горенка', key: 3 },
-    { cityName: `Зазим'є`, key: 4 },
-    { cityName: 'Ірпінь', key: 5 },
-    { cityName: 'Княжичі', key: 6 },
-    { cityName: 'Коцюбинське', key: 7 },
-    { cityName: 'Новосілки', key: 8 },
-    { cityName: 'Петропавлівська Борщагівка', key: 9 },
-    { cityName: 'Погреби', key: 10 },
-    { cityName: 'Проліски', key: 11 },
-    { cityName: 'Софіївська Борщагівка', key: 12 },
-    { cityName: 'Чайки', key: 13 },
-    { cityName: 'Щасливе', key: 14 }
+    { cityName: 'Київ' },
+    { cityName: 'Гатне' },
+    { cityName: 'Горенка' },
+    { cityName: `Зазим'є` },
+    { cityName: 'Ірпінь' },
+    { cityName: 'Княжичі' },
+    { cityName: 'Коцюбинське' },
+    { cityName: 'Новосілки' },
+    { cityName: 'Петропавлівська Борщагівка' },
+    { cityName: 'Погреби' },
+    { cityName: 'Проліски' },
+    { cityName: 'Софіївська Борщагівка' },
+    { cityName: 'Чайки' },
+    { cityName: 'Щасливе' }
   ];
 
   citiesEn = [
-    { cityName: 'Kyiv', key: 1 },
-    { cityName: 'Hatne', key: 2 },
-    { cityName: 'Horenka', key: 3 },
-    { cityName: `Zazymie`, key: 4 },
-    { cityName: `Irpin'`, key: 5 },
-    { cityName: 'Kniazhychi', key: 6 },
-    { cityName: `Kotsyubyns'ke`, key: 7 },
-    { cityName: 'Novosilky', key: 8 },
-    { cityName: 'Petropavlivska Borshchahivka', key: 9 },
-    { cityName: 'Pohreby', key: 10 },
-    { cityName: 'Prolisky', key: 11 },
-    { cityName: 'Sofiivska Borschahivka', key: 12 },
-    { cityName: 'Chaiky', key: 13 },
-    { cityName: 'Shchaslyve', key: 14 }
+    { cityName: 'Kyiv' },
+    { cityName: 'Hatne' },
+    { cityName: 'Horenka' },
+    { cityName: `Zazymie` },
+    { cityName: `Irpin'` },
+    { cityName: 'Kniazhychi' },
+    { cityName: `Kotsyubyns'ke` },
+    { cityName: 'Novosilky' },
+    { cityName: 'Petropavlivska Borshchahivka' },
+    { cityName: 'Pohreby' },
+    { cityName: 'Prolisky' },
+    { cityName: 'Sofiivska Borschahivka' },
+    { cityName: 'Chaiky' },
+    { cityName: 'Shchaslyve' }
   ];
 
   bigRegions = [
