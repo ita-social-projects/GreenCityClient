@@ -91,10 +91,38 @@ export class UbsAdminEmployeeTableComponent implements OnInit {
     this.employees$.subscribe((item: Employees) => {
       if (item) {
         this.tableData = item[`content`];
-        this.employees = this.tableData.map((employee: Page) => ({
-          ...employee,
-          expanded: false
-        }));
+        this.employees = this.tableData.map((employee: Page) => {
+          //////////////////////////////////////////////////////////////////////
+          const tariffs = employee.tariffs;
+          const regions = [];
+          tariffs.forEach((tariff) => {
+            const uniqueRegionsIds = regions.map((r) => r.id);
+            const regionId = tariff.region.id;
+            if (!uniqueRegionsIds.includes(regionId)) {
+              regions.push({ ...tariff.region, locations: tariff.locationsDtos });
+              return;
+            }
+            const presentRegion = regions.find((region) => region.id === regionId);
+            presentRegion.locations = [...presentRegion.locations, ...tariff.locationsDtos];
+          });
+          const couriers = tariffs
+            .map((tariff) => tariff.courier)
+            .reduce((unique, courier) => (!unique.map((uc) => uc.id).includes(courier.id) ? [...unique, courier] : unique), []);
+          //////////////////////////////////////////////////////////////////////
+          return {
+            ...employee,
+            expanded: false,
+            regions: regions.map((reg) => ({
+              ...reg,
+              locations: {
+                displayed: reg.locations.slice(0, 3),
+                additional: reg.locations.slice(3)
+              }
+            })),
+            couriers
+          };
+        });
+        console.log(this.employees);
         this.totalPagesForTable = item[`totalPages`];
         if (this.firstPageLoad) {
           this.isLoading = false;

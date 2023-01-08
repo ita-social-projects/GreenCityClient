@@ -36,6 +36,24 @@ export interface Page {
   phoneNumber: string;
   receivingStations: ReceivingStations[];
   expanded?: boolean;
+  tariffs: {
+    id: number;
+    region: {
+      id: number;
+      nameEn: string;
+      nameUk: string;
+    };
+    locationsDtos: {
+      id: number;
+      nameEn: string;
+      nameUk: string;
+    }[];
+    courier: {
+      id: number;
+      nameEn: string;
+      nameUk: string;
+    };
+  }[];
 }
 
 export interface EmployeePositions {

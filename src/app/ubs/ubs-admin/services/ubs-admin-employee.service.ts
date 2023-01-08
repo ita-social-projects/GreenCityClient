@@ -3,6 +3,7 @@ import { Employees } from '../models/ubs-admin.interface';
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { ubsAdminEmployeeLink, ubsAdminStationLink } from 'src/app/main/links';
+import { map } from 'rxjs/operators';
 
 @Injectable({
   providedIn: 'root'
@@ -18,7 +19,89 @@ export class UbsAdminEmployeeService {
       (acc, item) => (Object.values(item)[0] ? `${acc}&${Object.keys(item)[0]}=${Object.values(item)[0]}` : acc),
       ``
     );
-    return this.http.get<Employees>(`${this.getAllEmployees}?pageNumber=${pageNumber}&pageSize=${pageSize}${urlAttr}`);
+    const tariffs = [
+      {
+        id: 1,
+        region: {
+          id: 1,
+          nameEn: 'Kyiv region',
+          nameUk: 'Київська обл'
+        },
+        locationsDtos: [
+          {
+            id: 1,
+            nameEn: 'Kyiv',
+            nameUk: 'Київ'
+          },
+          {
+            id: 2,
+            nameEn: '20km',
+            nameUk: '20км'
+          },
+          {
+            id: 4,
+            nameEn: 'Irpin',
+            nameUk: 'Ірпінь'
+          },
+          {
+            id: 5,
+            nameEn: 'Bila Tserkva',
+            nameUk: 'Біла Церква'
+          }
+        ],
+        courier: {
+          id: 1,
+          nameEn: 'UBS',
+          nameUk: 'УБС'
+        }
+      },
+      {
+        id: 2,
+        region: {
+          id: 1,
+          nameEn: 'Kyiv region',
+          nameUk: 'Київська обл'
+        },
+        locationsDtos: [
+          {
+            id: 3,
+            nameEn: 'Bucha',
+            nameUk: 'Буча'
+          }
+        ],
+        courier: {
+          id: 1,
+          nameEn: 'UBS',
+          nameUk: 'УБС'
+        }
+      },
+      {
+        id: 3,
+        region: {
+          id: 2,
+          nameEn: 'Lviv region',
+          nameUk: 'Львівська обл'
+        },
+        locationsDtos: [
+          {
+            id: 14,
+            nameEn: 'Lviv',
+            nameUk: 'Львів'
+          }
+        ],
+        courier: {
+          id: 2,
+          nameEn: 'Uklon',
+          nameUk: 'Уклон'
+        }
+      }
+    ];
+    return this.http.get<Employees>(`${this.getAllEmployees}?pageNumber=${pageNumber}&pageSize=${pageSize}${urlAttr}`).pipe(
+      map((res) => ({
+        ...res,
+        content: res.content.map((empl) => ({ ...empl, tariffs }))
+      }))
+    );
   }
 
   getAllPositions(): Observable<any[]> {
