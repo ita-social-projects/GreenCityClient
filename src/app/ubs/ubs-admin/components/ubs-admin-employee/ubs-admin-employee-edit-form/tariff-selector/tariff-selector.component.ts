@@ -31,7 +31,7 @@ export class TariffSelectorComponent implements OnInit {
     tariffs: (tariffData) =>
       tariffData.map((tariff) => ({
         id: tariff.cardId,
-        courier: { en: tariff.courierTranslationDtos[0].nameEng, ua: tariff.courierTranslationDtos[0].name },
+        courier: { en: tariff.courierDto.nameEn, ua: tariff.courierDto.nameUk },
         region: { en: tariff.regionDto.nameEn, ua: tariff.regionDto.nameUk },
         location: { en: tariff.locationInfoDtos[0].nameEn, ua: tariff.locationInfoDtos[0].nameUk },
         station: tariff.receivingStationDtos[0].name
@@ -54,8 +54,8 @@ export class TariffSelectorComponent implements OnInit {
       couriersData.map((courier) => ({
         id: courier.courierId,
         name: {
-          en: courier.courierTranslationDtos[0].nameEng,
-          ua: courier.courierTranslationDtos[0].name
+          en: courier.nameEn,
+          ua: courier.nameUk
         }
       })),
     stations: (stationsData) => stationsData.map(({ id, name }) => ({ id, name }))
