@@ -13,6 +13,7 @@ import { PhoneNumberValidator } from 'src/app/shared/phone-validator/phone.valid
 import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
 import { UBSAddAddressPopUpComponent } from 'src/app/shared/ubs-add-address-pop-up/ubs-add-address-pop-up.component';
 import { Masks, Patterns } from 'src/assets/patterns/patterns';
+import { Locations } from 'src/assets/locations/locations';
 
 @Component({
   selector: 'app-ubs-personal-information',
@@ -35,6 +36,7 @@ export class UBSPersonalInformationComponent extends FormBaseComponent implement
   firstOrder = true;
   anotherClient = false;
   currentLocation = {};
+  citiesForLocationId = [];
   currentLocationId: number;
   locations: CourierLocations;
   currentLanguage: string;
@@ -68,13 +70,21 @@ export class UBSPersonalInformationComponent extends FormBaseComponent implement
     private shareFormService: UBSOrderFormService,
     private fb: FormBuilder,
     public dialog: MatDialog,
-    private localService: LocalStorageService
+    private localService: LocalStorageService,
+    private listOflocations: Locations
   ) {
     super(router, dialog, orderService);
     this.initForm();
   }
 
   ngOnInit() {
+    this.orderService.locationSubject.pipe(takeUntil(this.destroy)).subscribe(() => {
+      if (this.localService.getLocationId()) {
+        this.currentLocationId = this.localService.getLocationId();
+        this.setDisabledCityForLocation();
+      }
+    });
+
     this.currentLanguage = this.localService.getCurrentLanguage();
     if (localStorage.getItem('anotherClient')) {
       this.anotherClient = JSON.parse(localStorage.getItem('anotherClient'));
@@ -94,6 +104,18 @@ export class UBSPersonalInformationComponent extends FormBaseComponent implement
       this.personalDataForm.controls.addressComment.setValue(data.addressComment);
     });
     this.loadScript();
+  }
+
+  setDisabledCityForLocation(): void {
+    const isCityAccess = this.currentLocationId === 1;
+    this.citiesForLocationId = this.listOflocations.getCity(this.currentLanguage);
+
+    this.addresses = this.addresses.map((address) => {
+      const newAddress = { ...address };
+      const isCity = this.citiesForLocationId.some((city) => city.cityName === newAddress.city);
+      newAddress.display = isCity ? isCityAccess : !isCityAccess;
+      return newAddress;
+    });
   }
 
   ngOnChanges(changes: SimpleChanges) {
@@ -130,6 +152,7 @@ export class UBSPersonalInformationComponent extends FormBaseComponent implement
         this.personalDataForm.patchValue({
           address: this.addresses
         });
+        this.setDisabledCityForLocation();
 
         const addressId = JSON.parse(localStorage.getItem('addressId'));
         if (this.addresses[0] && isCheck) {

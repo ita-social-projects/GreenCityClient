@@ -238,7 +238,7 @@ export class UBSAddAddressPopUpComponent implements OnInit, OnDestroy, AfterView
       cityEn: [this.data.edit ? this.data.address.cityEn : null, Validators.required],
       district: [this.data.edit ? this.data.address.district.split(' ')[0] : '', Validators.required],
       districtEn: [this.data.edit ? this.data.address.districtEn.split(' ')[0] : '', Validators.required],
-      street: [this.data.edit ? this.data.address.street : '', [Validators.required, Validators.minLength(3), Validators.maxLength(40)]],
+      street: [this.data.edit ? this.data.address.street : '', [Validators.required, Validators.minLength(3), Validators.maxLength(120)]],
       streetEn: [
         this.data.edit ? this.data.address.streetEn : '',
         [Validators.required, Validators.minLength(3), Validators.maxLength(40)]

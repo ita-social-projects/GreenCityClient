@@ -7,8 +7,9 @@
 
 .container {
   box-shadow: 1px 4px 8px rgb(100 114 125 / 18%);
-  padding: 10px 25px 40px;
+  padding: 10px 24px 40px 24px;
   color: var(--ubs-primary-grey);
+  max-width: 100%;
 }
 
 .btn:nth-child(1) {
@@ -159,7 +160,6 @@ button {
 
     .mat-icon {
       height: 100%;
-      width: 100%;
       line-height: 30px;
       vertical-align: middle;
       font-size: 1.2rem;
@@ -579,8 +579,7 @@ li {
   }
 
   .container {
-    max-width: 100%;
-    padding: 15px;
+    padding: 14px;
   }
 
   // need this to fix issue on screens(max-width 375px) because someone used bootstrap
@@ -747,5 +746,11 @@ li {
 
   .label-total {
     text-align: end;
+  }
+}
+
+@media screen and (max-width: 360px) {
+  .label {
+    font-size: 10px;
   }
 }
