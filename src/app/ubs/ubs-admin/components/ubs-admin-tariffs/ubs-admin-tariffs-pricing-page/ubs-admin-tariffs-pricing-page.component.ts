@@ -430,9 +430,7 @@ export class UbsAdminTariffsPricingPageComponent implements OnInit, OnDestroy {
       .getCardInfo()
       .pipe(takeUntil(this.destroy))
       .subscribe((res: TariffCard[]) => {
-        console.log('res', res);
         const card = res.find((it) => it.cardId === this.selectedCardId);
-        console.log('card', card);
         this.selectedCard = {
           courier: card.courierDto.nameEn,
           station: card.receivingStationDtos.map((it) => it.name),
