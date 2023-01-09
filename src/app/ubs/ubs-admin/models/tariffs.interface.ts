@@ -64,12 +64,6 @@ export interface Couriers {
   createdBy: string;
 }
 
-export interface CourierTranslationDto {
-  id: number;
-  nameUk: string;
-  nameEn: string;
-}
-
 export interface Locations {
   locationsDto: LocationDto[];
   regionId: number;

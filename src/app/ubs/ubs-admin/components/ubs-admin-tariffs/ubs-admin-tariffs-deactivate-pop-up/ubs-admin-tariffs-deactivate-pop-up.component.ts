@@ -83,7 +83,6 @@ export class UbsAdminTariffsDeactivatePopUpComponent implements OnInit, OnDestro
   }
 
   ngOnInit(): void {
-    this.getCouriers();
     this.localeStorage.firstNameBehaviourSubject.pipe(takeUntil(this.unsubscribe)).subscribe((name) => {
       this.name = name;
     });
@@ -92,6 +91,7 @@ export class UbsAdminTariffsDeactivatePopUpComponent implements OnInit, OnDestro
     this.setRegionsPlaceholder();
     this.setCityPlaceholder();
     setTimeout(() => this.city.disable());
+    this.getCouriers();
     this.getReceivingStation();
     this.getLocations();
     this.getTariffCards();
