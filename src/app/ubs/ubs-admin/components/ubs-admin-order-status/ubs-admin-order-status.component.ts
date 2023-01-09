@@ -2,7 +2,6 @@ import { Component, EventEmitter, Input, OnDestroy, OnInit, Output, OnChanges, S
 import { FormGroup } from '@angular/forms';
 import { Subject } from 'rxjs';
 import { take } from 'rxjs/operators';
-
 import { IGeneralOrderInfo } from '../../models/ubs-admin.interface';
 import { OrderService } from '../../services/order.service';
 import { MatDialog } from '@angular/material/dialog';
@@ -29,6 +28,7 @@ export class UbsAdminOrderStatusComponent implements OnChanges, OnInit, OnDestro
   private destroy$: Subject<boolean> = new Subject<boolean>();
 
   public availableOrderStatuses;
+  public isOrderStatusSelected = true;
 
   ngOnChanges(changes: SimpleChanges): void {
     if (changes.additionalPayment) {
@@ -37,6 +37,14 @@ export class UbsAdminOrderStatusComponent implements OnChanges, OnInit, OnDestro
     if (changes.currentOrderPrice || changes.totalPaid) {
       this.setOrderPaymentStatus();
     }
+
+    if (changes.generalInfo) {
+      this.availableOrderStatuses = this.orderService.getAvailableOrderStatuses(
+        changes.generalInfo.currentValue.orderStatus,
+        changes.generalInfo.currentValue.orderStatusesDtos
+      );
+      this.renderOrderStatus();
+    }
   }
 
   ngOnInit() {
@@ -44,6 +52,11 @@ export class UbsAdminOrderStatusComponent implements OnChanges, OnInit, OnDestro
       this.generalInfo.orderStatus,
       this.generalInfo.orderStatusesDtos
     );
+  }
+
+  private renderOrderStatus() {
+    setTimeout(() => (this.isOrderStatusSelected = false));
+    setTimeout(() => (this.isOrderStatusSelected = true));
   }
 
   public onChangedOrderStatus(statusName: string) {
