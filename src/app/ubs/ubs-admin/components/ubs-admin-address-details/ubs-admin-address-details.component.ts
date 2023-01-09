@@ -120,16 +120,16 @@ export class UbsAdminAddressDetailsComponent implements AfterViewInit, OnDestroy
 
   ngAfterViewInit(): void {
     this.initGoogleAutocompleteServices();
-    this.loadScript();
+    this.loadGoogleScript();
   }
 
-  loadScript(): void {
-    const script = document.querySelector('#googleMaps') as HTMLScriptElement;
+  loadGoogleScript(): void {
+    const googleScript: HTMLScriptElement = document.querySelector('#googleMaps');
 
-    if (script) {
-      script.src = this.mainUrl + this.currentLanguage;
+    if (googleScript) {
+      googleScript.src = this.mainUrl + this.currentLanguage;
     }
-    if (!script) {
+    if (!googleScript) {
       const google = document.createElement('script');
       google.type = 'text/javascript';
       google.id = 'googleMaps';

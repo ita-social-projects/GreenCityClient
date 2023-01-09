@@ -83,7 +83,7 @@ export class UbsUserProfilePageComponent implements OnInit, AfterViewInit {
   }
 
   loadScript(): void {
-    const script = document.querySelector('#googleMaps') as HTMLScriptElement;
+    const script: HTMLScriptElement = document.querySelector('#googleMaps');
 
     if (script) {
       script.src = this.mainUrl + this.currentLanguage;
