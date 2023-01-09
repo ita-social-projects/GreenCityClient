@@ -104,7 +104,14 @@ describe('UbsAdminPricingPageComponent', () => {
     maxPriceOfOrder: 'fake'
   };
   const fakeCard = {
-    courierTranslationDtos: [{ name: 'Курʼєр', nameEng: 'Courier' }],
+    courierDto: {
+      courierId: 1,
+      courierStatus: 'fake1',
+      nameUk: 'фейкКурєр1',
+      nameEn: 'fakeCourier1',
+      createDate: 'fakedate',
+      createdBy: 'fakeadmin'
+    },
     receivingStationDtos: [
       {
         id: 1,
@@ -231,7 +238,7 @@ describe('UbsAdminPricingPageComponent', () => {
   it('should get selected tariff card', () => {
     component.selectedCardId = 3;
     const result = {
-      courier: 'Курʼєр',
+      courier: 'fakeCourier1',
       station: ['Станція'],
       region: 'Область',
       city: ['Місто'],

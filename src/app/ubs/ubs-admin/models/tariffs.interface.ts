@@ -58,14 +58,16 @@ export interface Stations {
 export interface Couriers {
   courierId: number;
   courierStatus: string;
-  courierTranslationDtos: CourierTranslationDto[];
+  nameUk: string;
+  nameEn: string;
   createDate: string;
   createdBy: string;
 }
 
 export interface CourierTranslationDto {
-  name: string;
-  nameEng: string;
+  id: number;
+  nameUk: string;
+  nameEn: string;
 }
 
 export interface Locations {
@@ -122,7 +124,7 @@ export interface TariffCard {
   regionDto: RegionDto;
   locationInfoDtos: LocationInfoDtos[];
   receivingStationDtos: Stations[];
-  courierTranslationDtos: CourierTranslationDto[];
+  courierDto: Couriers;
   tariffStatus: string;
   creator: string;
   createdAt: string;
@@ -131,7 +133,6 @@ export interface TariffCard {
   maxAmountOfBags: number;
   minPriceOfOrder: number;
   maxPriceOfOrder: number;
-  courierId: number;
 }
 
 export interface RegionDto {

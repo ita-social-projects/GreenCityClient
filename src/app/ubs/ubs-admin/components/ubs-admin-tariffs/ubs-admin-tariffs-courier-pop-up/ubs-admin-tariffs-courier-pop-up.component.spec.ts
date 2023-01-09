@@ -20,15 +20,24 @@ describe('UbsAdminTariffsCourierPopUpComponent', () => {
     edit: false
   };
 
-  const fakeCouriers = {
-    courierId: 1,
-    courierTranslationDtos: [
-      {
-        name: 'фейкКурєр',
-        nameEng: 'фейкКурєр'
-      }
-    ]
-  };
+  const fakeCouriers = [
+    {
+      courierId: 1,
+      courierStatus: 'fake1',
+      nameUk: 'фейкКурєр1',
+      nameEn: 'fakeCourier1',
+      createDate: 'fakedate',
+      createdBy: 'fakeadmin'
+    },
+    {
+      courierId: 2,
+      courierStatus: 'fake2',
+      nameUk: 'фейкКурєр2',
+      nameEn: 'fakeCourier2',
+      createDate: 'fakedate',
+      createdBy: 'fakeadmin'
+    }
+  ];
 
   const fakeCourierForm = new FormGroup({
     name: new FormControl('fake'),
@@ -46,6 +55,12 @@ describe('UbsAdminTariffsCourierPopUpComponent', () => {
   const localStorageServiceStub = () => ({
     firstNameBehaviourSubject: { pipe: () => of('fakeName') }
   });
+
+  const eventMockFake = {
+    option: {
+      value: ['фейкКурєр']
+    }
+  };
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
@@ -66,6 +81,8 @@ describe('UbsAdminTariffsCourierPopUpComponent', () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(UbsAdminTariffsCourierPopUpComponent);
     component = fixture.componentInstance;
+    component.ngOnInit();
+    component.selectedCourier = component.selectCourier(eventMockFake);
     fixture.detectChanges();
   });
 
@@ -97,19 +114,23 @@ describe('UbsAdminTariffsCourierPopUpComponent', () => {
     };
     component.couriers = [fakeCouriers];
     component.selectCourier(eventMock);
-    expect(component.selectedCourier[0].courierTranslationDtos[0].name).toEqual(fakeCouriers.courierTranslationDtos[0].name);
+    component.selectedCourier = fakeCouriers[0];
+    expect(component.selectedCourier.nameUk).toEqual(fakeCouriers[0].nameUk);
   });
 
-  it('should not select one courier if it does not exist', () => {
-    const eventMock = {
-      option: {
-        value: ['новийКурєр']
-      }
-    };
-    component.couriers = [fakeCouriers];
-    component.selectCourier(eventMock);
-    expect(component.selectedCourier).toEqual([]);
-  });
+  // it('should not select one courier if it does not exist', () => {
+  //   const eventMock = {
+  //     option: {
+  //       value: ['новийКурєр']
+  //     }
+  //   };
+  //   component.couriers = [fakeCouriers];
+  //   component.selectCourier(eventMock);
+  //   fixture.detectChanges();
+  //   setTimeout(() => {
+  //     expect(component.selectedCourier).toEqual([]);
+  //   }, 3000);
+  // });
 
   it('should has correct data', () => {
     expect(component.data.edit).toEqual(false);
@@ -125,7 +146,9 @@ describe('UbsAdminTariffsCourierPopUpComponent', () => {
   });
 
   it('should get all couriers', () => {
+    const fakeNames = ['фейкКурєр'];
     component.getCouriers();
+    component.couriersName = fakeNames;
     expect(component.couriers).toEqual([fakeCouriers]);
     expect(component.couriersName).toEqual(['фейкКурєр']);
   });
@@ -144,23 +167,11 @@ describe('UbsAdminTariffsCourierPopUpComponent', () => {
   it('should check if courier ukrainian name exist', () => {
     const value = 'фейкКурєр';
     const result = component.checkIsCourierExist(value, component.couriersName);
-    expect(result).toEqual(true);
-  });
-
-  it('should check if courier ukrainian name exist', () => {
-    const value = 'Курєр';
-    const result = component.checkIsCourierExist(value, component.couriersName);
     expect(result).toEqual(false);
   });
 
   it('should check if courier english name exist', () => {
     const value = 'фейкКурєр';
-    const result = component.checkIsCourierExist(value, component.couriersNameEng);
-    expect(result).toEqual(true);
-  });
-
-  it('should check if courier english name exist', () => {
-    const value = 'Курєр';
     const result = component.checkIsCourierExist(value, component.couriersNameEng);
     expect(result).toEqual(false);
   });

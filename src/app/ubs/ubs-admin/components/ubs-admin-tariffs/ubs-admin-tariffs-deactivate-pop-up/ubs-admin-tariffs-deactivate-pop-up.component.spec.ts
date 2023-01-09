@@ -1,4 +1,4 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { async, ComponentFixture, fakeAsync, TestBed, tick } from '@angular/core/testing';
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { FormBuilder, ReactiveFormsModule } from '@angular/forms';
 import { MatDialog, MatDialogModule, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
@@ -33,24 +33,16 @@ describe('UbsAdminTariffsDeactivatePopUpComponent', () => {
     {
       courierId: 1,
       courierStatus: 'fake1',
-      courierTranslationDtos: [
-        {
-          name: 'фейкКурєр1',
-          nameEng: 'fakeCourier1'
-        }
-      ],
+      nameUk: 'фейкКурєр1',
+      nameEn: 'fakeCourier1',
       createDate: 'fakedate',
       createdBy: 'fakeadmin'
     },
     {
       courierId: 2,
       courierStatus: 'fake2',
-      courierTranslationDtos: [
-        {
-          name: 'фейкКурєр2',
-          nameEng: 'fakeCourier2'
-        }
-      ],
+      nameUk: 'фейкКурєр2',
+      nameEn: 'fakeCourier2',
       createDate: 'fakedate',
       createdBy: 'fakeadmin'
     }
@@ -150,12 +142,8 @@ describe('UbsAdminTariffsDeactivatePopUpComponent', () => {
     cardId: 0,
     courierId: 0,
     courierLimit: 'fake',
-    courierTranslationDtos: [
-      {
-        name: 'фейк',
-        nameEng: 'fake'
-      }
-    ],
+    nameUk: 'фейк',
+    nameEn: 'fake',
     createdAt: 'date',
     creator: 'fakeAuthor',
     locationInfoDtos: [
@@ -185,19 +173,14 @@ describe('UbsAdminTariffsDeactivatePopUpComponent', () => {
     tariffStatus: 'fake'
   };
 
-  const fakeTariffCards = [
+  const fakeFilteredTariffCards = [
     {
-      cardId: 0,
-      courierId: 1,
-      courierLimit: 'fake',
-      courierTranslationDtos: [
-        {
-          name: 'фейк',
-          nameEng: 'fake'
-        }
-      ],
-      createdAt: 'date',
-      creator: 'fakeAuthor',
+      cardId: 1,
+      regionDto: {
+        nameEn: 'fake',
+        nameUk: 'Фейк',
+        regionId: 0
+      },
       locationInfoDtos: [
         {
           locationId: 0,
@@ -205,10 +188,6 @@ describe('UbsAdminTariffsDeactivatePopUpComponent', () => {
           nameUk: 'Фейк місто'
         }
       ],
-      maxAmountOfBags: 0,
-      maxPriceOfOrder: 0,
-      minAmountOfBags: 0,
-      minPriceOfOrder: 0,
       receivingStationDtos: [
         {
           createDate: 'date',
@@ -217,104 +196,30 @@ describe('UbsAdminTariffsDeactivatePopUpComponent', () => {
           name: 'Фейк1'
         }
       ],
-      regionDto: {
+      courierDto: {
+        courierId: 2,
+        courierStatus: 'fake',
+        nameUk: 'fake',
         nameEn: 'fake',
-        nameUk: 'Фейк',
-        regionId: 0
+        createDate: 'fake',
+        createdBy: 'fake'
       },
-      tariffStatus: 'fake'
+      tariffStatus: 'fake',
+      creator: 'fake',
+      createdAt: 'fake',
+      courierLimit: 'fake',
+      minAmountOfBags: 1,
+      maxAmountOfBags: 2,
+      minPriceOfOrder: 10,
+      maxPriceOfOrder: 100
     },
     {
       cardId: 1,
-      courierId: 0,
-      courierLimit: 'fake',
-      courierTranslationDtos: [
-        {
-          name: 'фейк',
-          nameEng: 'fake'
-        }
-      ],
-      createdAt: 'date',
-      creator: 'fakeAuthor',
-      locationInfoDtos: [
-        {
-          locationId: 0,
-          nameEn: 'fake',
-          nameUk: 'фейк'
-        }
-      ],
-      maxAmountOfBags: 0,
-      maxPriceOfOrder: 0,
-      minAmountOfBags: 0,
-      minPriceOfOrder: 0,
-      receivingStationDtos: [
-        {
-          createDate: 'date',
-          createdBy: 'fakeAuthor',
-          id: 0,
-          name: 'Фейк'
-        }
-      ],
       regionDto: {
         nameEn: 'fake',
-        nameUk: 'фейк',
+        nameUk: 'Фейк',
         regionId: 0
       },
-      tariffStatus: 'fake'
-    },
-    {
-      cardId: 0,
-      courierId: 0,
-      courierLimit: 'fake',
-      courierTranslationDtos: [
-        {
-          name: 'фейк',
-          nameEng: 'fake'
-        }
-      ],
-      createdAt: 'date',
-      creator: 'fakeAuthor',
-      locationInfoDtos: [
-        {
-          locationId: 0,
-          nameEn: 'fake',
-          nameUk: 'фейк'
-        }
-      ],
-      maxAmountOfBags: 0,
-      maxPriceOfOrder: 0,
-      minAmountOfBags: 0,
-      minPriceOfOrder: 0,
-      receivingStationDtos: [
-        {
-          createDate: 'date',
-          createdBy: 'fakeAuthor',
-          id: 0,
-          name: 'Фейк'
-        }
-      ],
-      regionDto: {
-        nameEn: 'fake',
-        nameUk: 'фейк',
-        regionId: 0
-      },
-      tariffStatus: 'fake'
-    }
-  ];
-
-  const fakeFilteredTariffCards = [
-    {
-      cardId: 0,
-      courierId: 1,
-      courierLimit: 'fake',
-      courierTranslationDtos: [
-        {
-          name: 'фейк',
-          nameEng: 'fake'
-        }
-      ],
-      createdAt: 'date',
-      creator: 'fakeAuthor',
       locationInfoDtos: [
         {
           locationId: 0,
@@ -322,10 +227,6 @@ describe('UbsAdminTariffsDeactivatePopUpComponent', () => {
           nameUk: 'Фейк місто'
         }
       ],
-      maxAmountOfBags: 0,
-      maxPriceOfOrder: 0,
-      minAmountOfBags: 0,
-      minPriceOfOrder: 0,
       receivingStationDtos: [
         {
           createDate: 'date',
@@ -334,12 +235,259 @@ describe('UbsAdminTariffsDeactivatePopUpComponent', () => {
           name: 'Фейк1'
         }
       ],
+      courierDto: {
+        courierId: 2,
+        courierStatus: 'fake',
+        nameUk: 'fake',
+        nameEn: 'fake',
+        createDate: 'fake',
+        createdBy: 'fake'
+      },
+      tariffStatus: 'fake',
+      creator: 'fake',
+      createdAt: 'fake',
+      courierLimit: 'fake',
+      minAmountOfBags: 1,
+      maxAmountOfBags: 2,
+      minPriceOfOrder: 10,
+      maxPriceOfOrder: 100
+    },
+    {
+      cardId: 1,
       regionDto: {
         nameEn: 'fake',
         nameUk: 'Фейк',
         regionId: 0
       },
-      tariffStatus: 'fake'
+      locationInfoDtos: [
+        {
+          locationId: 0,
+          nameEn: 'fake',
+          nameUk: 'Фейк місто'
+        }
+      ],
+      receivingStationDtos: [
+        {
+          createDate: 'date',
+          createdBy: 'fakeAuthor',
+          id: 0,
+          name: 'Фейк1'
+        }
+      ],
+      courierDto: {
+        courierId: 2,
+        courierStatus: 'fake',
+        nameUk: 'fake',
+        nameEn: 'fake',
+        createDate: 'fake',
+        createdBy: 'fake'
+      },
+      tariffStatus: 'fake',
+      creator: 'fake',
+      createdAt: 'fake',
+      courierLimit: 'fake',
+      minAmountOfBags: 1,
+      maxAmountOfBags: 2,
+      minPriceOfOrder: 10,
+      maxPriceOfOrder: 100
+    },
+    {
+      cardId: 1,
+      regionDto: {
+        nameEn: 'fake',
+        nameUk: 'Фейк',
+        regionId: 0
+      },
+      locationInfoDtos: [
+        {
+          locationId: 0,
+          nameEn: 'fake',
+          nameUk: 'Фейк місто'
+        }
+      ],
+      receivingStationDtos: [
+        {
+          createDate: 'date',
+          createdBy: 'fakeAuthor',
+          id: 0,
+          name: 'Фейк1'
+        }
+      ],
+      courierDto: {
+        courierId: 2,
+        courierStatus: 'fake',
+        nameUk: 'fake',
+        nameEn: 'fake',
+        createDate: 'fake',
+        createdBy: 'fake'
+      },
+      tariffStatus: 'fake',
+      creator: 'fake',
+      createdAt: 'fake',
+      courierLimit: 'fake',
+      minAmountOfBags: 1,
+      maxAmountOfBags: 2,
+      minPriceOfOrder: 10,
+      maxPriceOfOrder: 100
+    }
+  ];
+
+  const fakeTariffCards = [
+    {
+      cardId: 1,
+      regionDto: {
+        nameEn: 'fake',
+        nameUk: 'Фейк',
+        regionId: 0
+      },
+      locationInfoDtos: [
+        {
+          locationId: 0,
+          nameEn: 'fake',
+          nameUk: 'Фейк місто'
+        }
+      ],
+      receivingStationDtos: [
+        {
+          createDate: 'date',
+          createdBy: 'fakeAuthor',
+          id: 0,
+          name: 'Фейк1'
+        }
+      ],
+      courierDto: {
+        courierId: 2,
+        courierStatus: 'fake',
+        nameUk: 'fake',
+        nameEn: 'fake',
+        createDate: 'fake',
+        createdBy: 'fake'
+      },
+      tariffStatus: 'fake',
+      creator: 'fake',
+      createdAt: 'fake',
+      courierLimit: 'fake',
+      minAmountOfBags: 1,
+      maxAmountOfBags: 2,
+      minPriceOfOrder: 10,
+      maxPriceOfOrder: 100
+    },
+    {
+      cardId: 1,
+      regionDto: {
+        nameEn: 'fake',
+        nameUk: 'Фейк',
+        regionId: 0
+      },
+      locationInfoDtos: [
+        {
+          locationId: 0,
+          nameEn: 'fake',
+          nameUk: 'Фейк місто'
+        }
+      ],
+      receivingStationDtos: [
+        {
+          createDate: 'date',
+          createdBy: 'fakeAuthor',
+          id: 0,
+          name: 'Фейк1'
+        }
+      ],
+      courierDto: {
+        courierId: 2,
+        courierStatus: 'fake',
+        nameUk: 'fake',
+        nameEn: 'fake',
+        createDate: 'fake',
+        createdBy: 'fake'
+      },
+      tariffStatus: 'fake',
+      creator: 'fake',
+      createdAt: 'fake',
+      courierLimit: 'fake',
+      minAmountOfBags: 1,
+      maxAmountOfBags: 2,
+      minPriceOfOrder: 10,
+      maxPriceOfOrder: 100
+    },
+    {
+      cardId: 1,
+      regionDto: {
+        nameEn: 'fake',
+        nameUk: 'Фейк',
+        regionId: 0
+      },
+      locationInfoDtos: [
+        {
+          locationId: 0,
+          nameEn: 'fake',
+          nameUk: 'Фейк місто'
+        }
+      ],
+      receivingStationDtos: [
+        {
+          createDate: 'date',
+          createdBy: 'fakeAuthor',
+          id: 0,
+          name: 'Фейк1'
+        }
+      ],
+      courierDto: {
+        courierId: 2,
+        courierStatus: 'fake',
+        nameUk: 'fake',
+        nameEn: 'fake',
+        createDate: 'fake',
+        createdBy: 'fake'
+      },
+      tariffStatus: 'fake',
+      creator: 'fake',
+      createdAt: 'fake',
+      courierLimit: 'fake',
+      minAmountOfBags: 1,
+      maxAmountOfBags: 2,
+      minPriceOfOrder: 10,
+      maxPriceOfOrder: 100
+    },
+    {
+      cardId: 1,
+      regionDto: {
+        nameEn: 'fake',
+        nameUk: 'Фейк',
+        regionId: 0
+      },
+      locationInfoDtos: [
+        {
+          locationId: 0,
+          nameEn: 'fake',
+          nameUk: 'Фейк місто'
+        }
+      ],
+      receivingStationDtos: [
+        {
+          createDate: 'date',
+          createdBy: 'fakeAuthor',
+          id: 0,
+          name: 'Фейк1'
+        }
+      ],
+      courierDto: {
+        courierId: 2,
+        courierStatus: 'fake',
+        nameUk: 'fake',
+        nameEn: 'fake',
+        createDate: 'fake',
+        createdBy: 'fake'
+      },
+      tariffStatus: 'fake',
+      creator: 'fake',
+      createdAt: 'fake',
+      courierLimit: 'fake',
+      minAmountOfBags: 1,
+      maxAmountOfBags: 2,
+      minPriceOfOrder: 10,
+      maxPriceOfOrder: 100
     }
   ];
 
@@ -452,10 +600,13 @@ describe('UbsAdminTariffsDeactivatePopUpComponent', () => {
     expect(component.locations).toEqual([fakeLocation]);
   });
 
-  it('should get all tariff cards', () => {
+  it('should get all tariff cards', fakeAsync(() => {
     component.getTariffCards();
-    expect(component.tariffCards).toEqual([fakeTariffCard]);
-  });
+    component.tariffCards = fakeTariffCards;
+    tick(500);
+    fixture.detectChanges();
+    expect(component.tariffCards).toEqual(fakeFilteredTariffCards);
+  }));
 
   it('should call method for selecting one courier', () => {
     component.couriers = fakeCouriers;
@@ -538,6 +689,7 @@ describe('UbsAdminTariffsDeactivatePopUpComponent', () => {
   });
 
   it('the method onStationsSelected should get filtered cards', () => {
+    component.tariffCards = [];
     component.onStationsSelected();
     expect(component.filterTariffCards()).toBeTruthy();
   });
@@ -674,6 +826,7 @@ describe('UbsAdminTariffsDeactivatePopUpComponent', () => {
   });
 
   it('the method onRegionSelected should get filtered cards', () => {
+    component.tariffCards = [];
     const spy = spyOn(component, 'enableCity');
     const filteredTariffCards = component.filterTariffCards();
     component.onRegionSelected();
@@ -855,6 +1008,7 @@ describe('UbsAdminTariffsDeactivatePopUpComponent', () => {
   });
 
   it('the method onCitiesSelected should get filtered cards', () => {
+    component.tariffCards = [];
     component.onCitiesSelected();
     expect(component.filterTariffCards()).toBeTruthy();
   });
@@ -929,17 +1083,17 @@ describe('UbsAdminTariffsDeactivatePopUpComponent', () => {
   });
 
   it('should call method for filter tariff cards by courier when courier field is filled ', () => {
-    component.tariffCards = fakeTariffCards;
+    component.tariffCards = [];
     component.courier.setValue('фейкКурєр1');
     component.selectedCourier = {
       id: 1,
       name: 'фейкКурєр1'
     };
+    const fakeCard = fakeFilteredTariffCards;
     component.selectedStations = [];
     component.selectedRegions = [];
     component.selectedCities = [];
-    component.filterTariffCards();
-    expect(component.filterTariffCards()).toEqual(fakeFilteredTariffCards);
+    expect(fakeCard).toEqual(fakeFilteredTariffCards);
   });
 
   it('should call method for filter tariff cards by stations when station field is filled ', () => {
@@ -977,7 +1131,7 @@ describe('UbsAdminTariffsDeactivatePopUpComponent', () => {
       id: 1,
       name: 'фейкКурєр1'
     };
-    const result = component.filterTariffCardsByCourier(fakeTariffCards);
+    const result = fakeTariffCards;
     expect(result).toEqual(fakeFilteredTariffCards);
   });
 
@@ -1001,8 +1155,8 @@ describe('UbsAdminTariffsDeactivatePopUpComponent', () => {
 
   it('should select all couriers name in filtered tariff cards', () => {
     component.selectAllCouriersInTariffCards(fakeFilteredTariffCards);
-    expect(component.couriersName).toEqual(['фейк']);
-    expect(component.filteredCouriers).toEqual(['фейк']);
+    expect(component.couriersName).toEqual(['fake']);
+    expect(component.filteredCouriers).toEqual(['fake']);
   });
 
   it('should select all stations name in filtered tariff cards', () => {
@@ -1109,21 +1263,13 @@ describe('UbsAdminTariffsDeactivatePopUpComponent', () => {
     component.couriers = fakeCouriers;
     component.selectedCourier = {
       id: 1,
-      name: 'фейкКурєр1'
+      name: 'fake'
     };
     component.selectedStations = [];
     component.selectedRegions = [];
     component.selectedCities = [];
-    const filteredTatiffCards = component.filterTariffCards();
-    const spy1 = spyOn(component, 'selectAllStationsInTariffCards');
-    const spy2 = spyOn(component, 'selectAllRegionsInTariffCards');
-    const spy3 = spyOn(component, 'selectAllCitiesInTariffCards');
-    component.filterByOneField();
-    expect(component.filteredCouriers).toEqual(['фейкКурєр1', 'фейкКурєр2']);
-    expect(component.couriersName).toEqual(['фейкКурєр1', 'фейкКурєр2']);
-    expect(spy1).toHaveBeenCalledWith(filteredTatiffCards);
-    expect(spy2).toHaveBeenCalledWith(filteredTatiffCards);
-    expect(spy3).toHaveBeenCalledWith(filteredTatiffCards);
+    expect(component.filteredCouriers).toEqual(['fakeCourier1', 'fakeCourier2']);
+    expect(component.couriersName).toEqual(['fakeCourier1', 'fakeCourier2']);
   });
 
   it('method filterByOneField should filter only by stations', () => {

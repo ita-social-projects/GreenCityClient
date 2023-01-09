@@ -9,6 +9,7 @@ import { takeUntil } from 'rxjs/operators';
 import { Patterns } from 'src/assets/patterns/patterns';
 import { TariffsService } from '../../../services/tariffs.service';
 import { LanguageService } from 'src/app/main/i18n/language.service';
+import { Couriers } from '../../../models/tariffs.interface';
 
 @Component({
   selector: 'app-ubs-admin-tariffs-courier-pop-up',
@@ -83,8 +84,8 @@ export class UbsAdminTariffsCourierPopUpComponent implements OnInit, OnDestroy {
       .pipe(takeUntil(this.destroy))
       .subscribe((res) => {
         this.couriers = res;
-        this.couriersName = res.map((it) => it.courierTranslationDtos.map((el) => el.name)).flat(2);
-        this.couriersNameEng = res.map((it) => it.courierTranslationDtos.map((el) => el.nameEng)).flat(2);
+        this.couriersName = res.map((el) => el.nameUk);
+        this.couriersNameEng = res.map((el) => el.nameEn);
       });
   }
 
@@ -95,8 +96,8 @@ export class UbsAdminTariffsCourierPopUpComponent implements OnInit, OnDestroy {
   }
 
   checkIsCourierExist(value: string, array: Array<string>): boolean {
-    const newCourierName = value.toLowerCase();
-    const couriersList = array.map((it) => it.toLowerCase());
+    const newCourierName = value;
+    const couriersList = array.map((it) => it);
     return couriersList.includes(newCourierName);
   }
 
@@ -106,8 +107,8 @@ export class UbsAdminTariffsCourierPopUpComponent implements OnInit, OnDestroy {
   }
 
   selectCourier(event): void {
-    this.selectedCourier = this.couriers.filter((it) =>
-      it.courierTranslationDtos.find((ob) => ob.nameEng === event.option.value.toString() || ob.name === event.option.value.toString())
+    this.selectedCourier = this.couriers.find(
+      (courier: Couriers) => courier.nameUk === event.option.value || courier.nameEn === event.option.value
     );
   }
 
@@ -117,7 +118,7 @@ export class UbsAdminTariffsCourierPopUpComponent implements OnInit, OnDestroy {
   }
 
   addCourier(): void {
-    const newCourier = { nameEn: this.englishName.value, nameUa: this.name.value };
+    const newCourier = { nameEn: this.englishName.value, nameUk: this.name.value };
     this.tariffsService
       .addCourier(newCourier)
       .pipe(takeUntil(this.destroy))
@@ -135,13 +136,9 @@ export class UbsAdminTariffsCourierPopUpComponent implements OnInit, OnDestroy {
 
   editCourier(): void {
     const newCourier = {
-      courierId: this.selectedCourier[0].courierId,
-      courierTranslationDtos: [
-        {
-          name: this.name.value,
-          nameEng: this.englishName.value
-        }
-      ]
+      courierId: this.selectedCourier.courierId,
+      nameUk: this.name.value,
+      nameEn: this.englishName.value
     };
     this.tariffsService
       .editCourier(newCourier)
