@@ -664,7 +664,7 @@ export class UbsAdminTariffsDeactivatePopUpComponent implements OnInit, OnDestro
     return items.filter((option) => option.toLowerCase().includes(filterValue));
   }
 
-  public removeDuplicates(arr) {
+  public removeDuplicates(arr: Array<string>): Array<string> {
     const filteredArr = [];
     arr.forEach((it) => {
       if (!filteredArr.includes(it)) {
