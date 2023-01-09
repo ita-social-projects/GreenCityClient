@@ -1268,8 +1268,8 @@ describe('UbsAdminTariffsDeactivatePopUpComponent', () => {
     component.selectedStations = [];
     component.selectedRegions = [];
     component.selectedCities = [];
-    expect(component.filteredCouriers).toEqual(['fakeCourier1', 'fakeCourier2']);
-    expect(component.couriersName).toEqual(['fakeCourier1', 'fakeCourier2']);
+    expect(component.filteredCouriers).toEqual(['фейкКурєр1', 'фейкКурєр2']);
+    expect(component.couriersName).toEqual(['фейкКурєр1', 'фейкКурєр2']);
   });
 
   it('method filterByOneField should filter only by stations', () => {
