@@ -636,7 +636,6 @@ describe('UbsAdminTariffsLocationDashboardComponent', () => {
     ];
     component.toggleSelectAllCity();
     expect(spy).toHaveBeenCalled();
-    // expect(spy2).toHaveBeenCalled();
     expect(component.selectedCities).toContain(city);
   });
 

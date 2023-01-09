@@ -118,20 +118,6 @@ describe('UbsAdminTariffsCourierPopUpComponent', () => {
     expect(component.selectedCourier.nameUk).toEqual(fakeCouriers[0].nameUk);
   });
 
-  // it('should not select one courier if it does not exist', () => {
-  //   const eventMock = {
-  //     option: {
-  //       value: ['новийКурєр']
-  //     }
-  //   };
-  //   component.couriers = [fakeCouriers];
-  //   component.selectCourier(eventMock);
-  //   fixture.detectChanges();
-  //   setTimeout(() => {
-  //     expect(component.selectedCourier).toEqual([]);
-  //   }, 3000);
-  // });
-
   it('should has correct data', () => {
     expect(component.data.edit).toEqual(false);
     expect(component.data.headerText).toEqual('courier');
