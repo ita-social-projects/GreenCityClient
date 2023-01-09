@@ -95,7 +95,6 @@ export class UbsAdminTariffsDeactivatePopUpComponent implements OnInit, OnDestro
     this.getReceivingStation();
     this.getLocations();
     this.getTariffCards();
-    const cards = this.tariffCards;
   }
 
   public ngOnDestroy(): void {
