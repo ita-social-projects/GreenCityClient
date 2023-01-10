@@ -8,6 +8,7 @@ import { UbsAdminTariffsCourierPopUpComponent } from './ubs-admin-tariffs-courie
 import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
 import { TariffsService } from '../../../services/tariffs.service';
 import { LanguageService } from 'src/app/main/i18n/language.service';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 describe('UbsAdminTariffsCourierPopUpComponent', () => {
   let component: UbsAdminTariffsCourierPopUpComponent;
@@ -65,7 +66,7 @@ describe('UbsAdminTariffsCourierPopUpComponent', () => {
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       declarations: [UbsAdminTariffsCourierPopUpComponent],
-      imports: [MatDialogModule, TranslateModule.forRoot(), ReactiveFormsModule],
+      imports: [MatDialogModule, BrowserAnimationsModule, TranslateModule.forRoot(), ReactiveFormsModule],
       providers: [
         { provide: MatDialogRef, useValue: matDialogRefMock },
         { provide: LocalStorageService, useFactory: localStorageServiceStub },
