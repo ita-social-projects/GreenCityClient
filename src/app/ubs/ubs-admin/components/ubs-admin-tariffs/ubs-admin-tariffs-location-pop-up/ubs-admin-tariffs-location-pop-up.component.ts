@@ -181,7 +181,7 @@ export class UbsAdminTariffsLocationPopUpComponent implements OnInit, AfterViewC
         )
       )
       .flat(2);
-    this.currentLang === 'ua' ? (this.activeCities = this.cities) : (this.activeCities = this.enCities);
+    this.activeCities = this.currentLang === 'ua' ? this.cities : this.enCities;
   }
 
   translate(sourceText: string, input: any): void {
