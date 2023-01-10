@@ -388,11 +388,18 @@ export class UbsAdminTariffsLocationDashboardComponent implements OnInit, AfterV
   }
 
   loadScript(): void {
-    const google = document.createElement('script');
-    google.type = 'text/javascript';
-    google.id = 'googleMaps';
-    google.setAttribute('src', this.mainUrl + this.currentLang);
-    document.getElementsByTagName('head')[0].appendChild(google);
+    const googleScript: HTMLScriptElement = document.querySelector('#googleMaps');
+
+    if (googleScript) {
+      googleScript.src = this.mainUrl + this.currentLang;
+    }
+    if (!googleScript) {
+      const google = document.createElement('script');
+      google.type = 'text/javascript';
+      google.id = 'googleMaps';
+      google.setAttribute('src', this.mainUrl + this.currentLang);
+      document.getElementsByTagName('head')[0].appendChild(google);
+    }
   }
 
   getLocations(): void {
