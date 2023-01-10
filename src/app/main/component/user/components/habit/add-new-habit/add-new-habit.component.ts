@@ -119,6 +119,7 @@ export class AddNewHabitComponent implements OnInit, OnDestroy {
         for (const assigned of response) {
           if (assigned.habit.id === this.habitId) {
             this.isAssigned = true;
+            this.habit = assigned;
             break;
           }
         }
