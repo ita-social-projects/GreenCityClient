@@ -96,8 +96,8 @@ export class UbsAdminTariffsCourierPopUpComponent implements OnInit, OnDestroy {
   }
 
   checkIsCourierExist(value: string, array: Array<string>): boolean {
-    const newCourierName = value;
-    const couriersList = array.map((it) => it);
+    const newCourierName = value.toLowerCase();
+    const couriersList = array.map((it) => it.toLowerCase());
     return couriersList.includes(newCourierName);
   }
 
