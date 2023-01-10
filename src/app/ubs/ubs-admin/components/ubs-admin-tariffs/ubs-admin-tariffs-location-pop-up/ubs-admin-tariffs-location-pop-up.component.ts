@@ -138,7 +138,7 @@ export class UbsAdminTariffsLocationPopUpComponent implements OnInit, AfterViewC
     });
     this.location.valueChanges.subscribe((item) => {
       this.cityInvalid = !this.citySelected && item.length > 3;
-      this.cityExist = this.checkCityExist(item, this.cities);
+      this.cityExist = this.checkCityExist(item, this.activeCities);
     });
     this.localeStorageService.languageBehaviourSubject.pipe(takeUntil(this.unsubscribe)).subscribe((lang: string) => {
       this.currentLang = lang;
