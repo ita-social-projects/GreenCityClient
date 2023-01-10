@@ -141,6 +141,7 @@ export interface Address {
     latitude?: number;
     longitude?: number;
   };
+  display?: boolean;
 }
 
 export interface AddressData {

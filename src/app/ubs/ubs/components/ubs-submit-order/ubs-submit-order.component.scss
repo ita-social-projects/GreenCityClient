@@ -362,7 +362,7 @@ label {
 
 @media (max-width: 480px) {
   .container {
-    padding: 8px;
+    padding: 16px;
 
     .header {
       margin-top: 24px;
@@ -466,4 +466,11 @@ label {
 
 ::ng-deep .mat-progress-bar-buffer {
   background: #bfbfbf;
+}
+
+@media (max-width: 360px) {
+  .label,
+  .bag-name {
+    font-size: 10px;
+  }
 }

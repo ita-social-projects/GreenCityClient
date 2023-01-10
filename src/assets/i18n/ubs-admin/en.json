@@ -723,7 +723,7 @@
     "commission": "Сommission",
     "full_cost": "Full cost",
     "service_description": "Service description",
-    "placeholder-text": "Describe what exactly is included in the service and the conditions / rules of its provision",
+    "placeholder-text": "Describe what is included in the service and the conditions / rules for its provision",
     "error_message": "Fill in the selected fields",
     "btn": {
       "add": "Add",
@@ -863,7 +863,8 @@
     "number-wrong": "Enter the correct phone number",
     "minlength-short": "The field contains insufficient characters.",
     "max-length": "The field should contain 1-30 characters.",
-    "max-length-house": "The field should contain 1-8 characters.",
+    "max-length-street": "The field should contain 1-120 characters.",
+    "max-length-house": "The field should contain 1-4 characters.",
     "max-length-entrance": "The field should contain 1-2 characters.",
     "max-length-comment": "The field should contain 1-255 characters.",
     "pattern": "Only alphabetic characters and special characters “-” (hyphen), “ ” (space) and “'” (apostrophe) are allowed.",

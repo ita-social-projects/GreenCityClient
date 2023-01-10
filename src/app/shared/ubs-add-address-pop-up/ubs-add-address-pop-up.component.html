@@ -21,6 +21,12 @@
     >
       <option *ngFor="let city of cities" [ngValue]="city.cityName">{{ city.cityName }}</option>
     </select>
+    <div class="validation" *ngIf="city.invalid && addAddressForm.get('city').touched">
+      <app-ubs-input-error [formElement]="city" [controlName]="'city'"></app-ubs-input-error>
+    </div>
+    <div class="validation" *ngIf="cityEn.invalid && addAddressForm.get('cityEn').touched">
+      <app-ubs-input-error [formElement]="cityEn" [controlName]="'cityEn'"></app-ubs-input-error>
+    </div>
   </div>
 
   <div class="col-lg-6 col-md-12 col-sm-12 form-group">
@@ -57,6 +63,9 @@
     </mat-autocomplete>
     <div class="validation" *ngIf="street.invalid && addAddressForm.get('street').touched">
       <app-ubs-input-error [formElement]="street" [streetFieldValue]="street.value" [controlName]="'street'"> </app-ubs-input-error>
+    </div>
+    <div class="validation" *ngIf="streetEn.invalid && addAddressForm.get('streetEn').touched">
+      <app-ubs-input-error [formElement]="streetEn" [streetFieldValue]="streetEn.value" [controlName]="'streetEn'"> </app-ubs-input-error>
     </div>
   </div>
   <div class="col-lg-6 col-md-12 col-sm-12 d-flex justify-content-between flex-wrap form-group house-details-wrapper">
@@ -118,6 +127,9 @@
     </select>
     <div class="validation" *ngIf="district.invalid && addAddressForm.get('district').touched">
       <app-ubs-input-error [formElement]="district" [controlName]="'district'"></app-ubs-input-error>
+    </div>
+    <div class="validation" *ngIf="districtEn.invalid && addAddressForm.get('districtEn').touched">
+      <app-ubs-input-error [formElement]="districtEn" [controlName]="'districtEn'"></app-ubs-input-error>
     </div>
   </div>
   <div class="form-group comment-section">
