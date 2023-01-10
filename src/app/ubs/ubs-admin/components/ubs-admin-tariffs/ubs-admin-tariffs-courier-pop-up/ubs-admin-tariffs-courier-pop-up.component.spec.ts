@@ -82,8 +82,7 @@ describe('UbsAdminTariffsCourierPopUpComponent', () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(UbsAdminTariffsCourierPopUpComponent);
     component = fixture.componentInstance;
-    component.ngOnInit();
-    component.selectedCourier = component.selectCourier(eventMockFake);
+    component.courierForm = fakeCourierForm;
     fixture.detectChanges();
   });
 
@@ -152,15 +151,17 @@ describe('UbsAdminTariffsCourierPopUpComponent', () => {
   });
 
   it('should check if courier ukrainian name exist', () => {
+    component.couriersName = ['фейкКурєр', 'фейк2'];
     const value = 'фейкКурєр';
     const result = component.checkIsCourierExist(value, component.couriersName);
-    expect(result).toEqual(false);
+    expect(result).toEqual(true);
   });
 
   it('should check if courier english name exist', () => {
+    component.couriersNameEng = ['фейкКурєр', 'fake2'];
     const value = 'фейкКурєр';
     const result = component.checkIsCourierExist(value, component.couriersNameEng);
-    expect(result).toEqual(false);
+    expect(result).toEqual(true);
   });
 
   it('method onNoClick should invoke destroyRef.close', () => {
