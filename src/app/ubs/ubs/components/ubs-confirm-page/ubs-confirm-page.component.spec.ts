@@ -53,8 +53,10 @@ describe('UbsConfirmPageComponent', () => {
     fakeUBSOrderFormService.getOrderResponseErrorStatus.and.returnValue(false);
     fakeUBSOrderFormService.getOrderStatus.and.returnValue(of({ result: 'success', order_id: '123_456' }));
     const renderViewMock = spyOn(component, 'renderView');
+    const checkPaymentStatusMock = spyOn(component, 'checkPaymentStatus');
     component.ngOnInit();
     expect(renderViewMock).toHaveBeenCalled();
+    expect(checkPaymentStatusMock).toHaveBeenCalled();
   });
 
   it('ngOnInit should call renderView without oderID', () => {
@@ -63,6 +65,8 @@ describe('UbsConfirmPageComponent', () => {
     const renderViewMock = spyOn(component, 'renderView');
     component.ngOnInit();
     expect(renderViewMock).toHaveBeenCalled();
+    expect(component.isSpinner).toBeFalsy();
+    expect(component.orderResponseError).toBeFalsy();
   });
 
   it('in renderView should saveDataOnLocalStorage and openSnackBar be called', () => {
@@ -73,6 +77,14 @@ describe('UbsConfirmPageComponent', () => {
     component.renderView();
     expect(saveDataOnLocalStorageMock).toHaveBeenCalled();
     expect(fakeSnackBar.openSnackBar).toHaveBeenCalledWith('successConfirmSaveOrder', '132');
+  });
+
+  it('checkPaymentStatus should set true to orderPaymentError if response.code is payment_not_found', () => {
+    const orderService = 'orderService';
+    spyOn(component[orderService], 'getUbsOrderStatus').and.returnValue(of({ code: 'payment_not_found', order_id: '123_457' }));
+    component.checkPaymentStatus();
+    expect(component.isSpinner).toBeFalsy();
+    expect(component.orderPaymentError).toBeTruthy();
   });
 
   it('in renderView should saveDataOnLocalStorage when no error occurred', () => {

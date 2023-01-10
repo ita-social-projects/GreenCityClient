@@ -75,7 +75,7 @@ export class UbsConfirmPageComponent implements OnInit, OnDestroy {
     });
   }
 
-  private checkPaymentStatus(): void {
+  public checkPaymentStatus(): void {
     this.orderService
       .getUbsOrderStatus()
       .pipe(takeUntil(this.destroy$))
