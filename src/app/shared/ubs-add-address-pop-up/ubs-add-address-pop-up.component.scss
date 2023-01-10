@@ -121,7 +121,7 @@ select {
   font-size: 10px;
 }
 
-input.ng-invalid.ng-touched {
+.form-control.ng-invalid.ng-touched {
   border: 1px solid var(--ubs-error-ligh-red);
 }
 
