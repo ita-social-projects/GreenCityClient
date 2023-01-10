@@ -237,7 +237,7 @@ export class UBSOrderDetailsComponent extends FormBaseComponent implements OnIni
     this.bags.forEach((bag) => {
       if (bag.limitedIncluded) {
         const quantity = this.orderDetailsForm.controls[`quantity${bag.id}`];
-        this.totalOfBigBags += +quantity.value;
+        this.totalOfBigBags += Number(quantity.value);
       }
     });
     this.validateBags();
