@@ -82,7 +82,6 @@ describe('UbsAdminTariffsCourierPopUpComponent', () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(UbsAdminTariffsCourierPopUpComponent);
     component = fixture.componentInstance;
-    component.courierForm = fakeCourierForm;
     fixture.detectChanges();
   });
 
@@ -91,17 +90,20 @@ describe('UbsAdminTariffsCourierPopUpComponent', () => {
   });
 
   it('should set names correctly', () => {
+    component.courierForm = fakeCourierForm;
     component.setNewCourierName();
     component.courierForm.setValue(fakeCourierForm.value);
     expect(component.courierForm.value).toEqual(fakeCourierForm.value);
   });
 
   it('should check if courier exists', () => {
+    component.courierForm = fakeCourierForm;
     component.name.setValue('новийКурєр');
     expect(component.courierExist).toBe(false);
   });
 
   it('should check if courier exists', () => {
+    component.courierForm = fakeCourierForm;
     component.englishName.setValue('newCourier');
     expect(component.enCourierExist).toBe(false);
   });
