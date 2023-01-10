@@ -102,7 +102,7 @@ h3 {
 .label,
 .bag-name {
   flex: 0 0 16.6%;
-  max-width: 16.6%;
+  max-width: 15.6%;
   padding: 0;
   margin: 0;
 }
@@ -114,6 +114,7 @@ h3 {
 .main-list-item {
   display: flex;
   justify-content: space-between;
+  align-items: baseline;
   margin-bottom: 16px;
 }
 
@@ -147,6 +148,7 @@ button {
   justify-content: center;
   align-items: center;
   border: 1px solid var(--ubs-quintynary-light-grey);
+  border-radius: 4px;
   font-size: 14px;
 
   button {
@@ -157,6 +159,7 @@ button {
     width: 30px;
     height: 100%;
     text-align: center;
+    padding: 0;
 
     .mat-icon {
       height: 100%;
@@ -423,6 +426,13 @@ button {
 
 .eco-label {
   width: 100%;
+  margin-bottom: 0;
+  color: var(--ubs-secondary-grey);
+  font-family: var(--ubs-quaternary-font);
+  font-style: normal;
+  font-weight: 400;
+  font-size: 16px;
+  line-height: 24px;
 }
 
 .sum {

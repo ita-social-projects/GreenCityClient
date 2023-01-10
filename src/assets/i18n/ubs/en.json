@@ -61,7 +61,7 @@
     "min-big-bags": "Please note that the minimum order must contain at least {{minAmountOfBigBags}} packages of 120l",
     "max-big-bags": "Please note that the maximum order can contain {{maxAmountOfBigBags}} packages of 120l",
     "question-certificate": "If you want to use the certificate, enter its number",
-    "certificate-number": "Enter the certificate number",
+    "certificate-number": "Certificate number",
     "activate": "Activate",
     "cancel": "Cancel",
     "failed-certificate": "Certificate not accepted, please try again",
