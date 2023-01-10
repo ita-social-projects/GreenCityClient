@@ -2,12 +2,12 @@
   <ng-container *ngIf="!isSpinner; else spinner">
     <div class="order">
       <div [ngSwitch]="true">
-        <div class="btn-wrapper" *ngSwitchCase="orderResponseError === false && orderStatusDone === false">
+        <div class="btn-wrapper" *ngSwitchCase="!orderResponseError && !orderStatusDone">
           <button class="btn primary-global-button" (click)="toPersonalAccount()">
             {{ 'confirm-page.to-personal-account' | translate }}
           </button>
         </div>
-        <div class="error" *ngSwitchCase="orderResponseError === true || orderPaymentError === true">
+        <div class="error" *ngSwitchCase="orderResponseError || orderPaymentError">
           <button *ngIf="!isUserPageOrderPayment()" class="btn-back" (click)="returnToPayment('/ubs/order')">
             <i class="fas fa-chevron-left" aria-hidden="true"></i> &nbsp;
             {{ 'confirm-page.return-to-payment' | translate }}
