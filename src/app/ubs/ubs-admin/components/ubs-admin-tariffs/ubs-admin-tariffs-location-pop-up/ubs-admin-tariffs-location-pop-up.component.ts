@@ -81,6 +81,7 @@ export class UbsAdminTariffsLocationPopUpComponent implements OnInit, AfterViewC
   cityExist = false;
   editedCityExist = false;
   cities = [];
+  activeCities = [];
   filteredRegions;
   filteredCities = [];
   editLocationId;
@@ -180,6 +181,7 @@ export class UbsAdminTariffsLocationPopUpComponent implements OnInit, AfterViewC
         )
       )
       .flat(2);
+    this.currentLang === 'ua' ? (this.activeCities = this.cities) : (this.activeCities = this.enCities);
   }
 
   translate(sourceText: string, input: any): void {
