@@ -3,22 +3,18 @@ import { AddOrderNotTakenOutReasonComponent } from './add-order-not-taken-out-re
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { MatDialogModule, MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { TranslateModule } from '@ngx-translate/core';
-import { OrderService } from '../../services/order.service';
 import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
-import { of, BehaviorSubject } from 'rxjs';
-import { By } from '@angular/platform-browser';
-import { DragDirective } from 'src/app/shared/drag-and-drop/dragDrop.directive';
+import { BehaviorSubject } from 'rxjs';
 import { SharedModule } from 'src/app/shared/shared.module';
-import { DialogPopUpComponent } from 'src/app/shared/dialog-pop-up/dialog-pop-up.component';
-import { FormBuilder, FormControl, FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { NotTakenOutReasonImage } from './../../models/not-taken-out-reason.model';
+import { ReactiveFormsModule } from '@angular/forms';
+import { NotTakenOutReasonImage } from '../../models/not-taken-out-reason.model';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 describe('AddOrderNotTakenOutReasonComponent', () => {
   let component: AddOrderNotTakenOutReasonComponent;
   let fixture: ComponentFixture<AddOrderNotTakenOutReasonComponent>;
   let localStorageServiceMock = jasmine.createSpyObj('localeStorageService', ['getCurrentLanguage']);
-  const wrongExtFileMock = new File([''], 'test-file.jpeg', { type: 'image/tiff' });
   const getLargeFileMock = () => {
     const file = new File([''], 'test-file.jpeg', { type: 'image/jpeg' });
     Object.defineProperty(file, 'size', { value: 10875578 });
@@ -34,11 +30,6 @@ describe('AddOrderNotTakenOutReasonComponent', () => {
     name: 'name',
     src: 'fakeUrl'
   };
-  const imageToDeleteMock = {
-    src: 'faleUrl',
-    name: 'name',
-    file: dataFileMock
-  };
   const event = { target: { files: [dataFileMock] } };
   const viewModeInputs = {
     id: 1577
@@ -53,7 +44,14 @@ describe('AddOrderNotTakenOutReasonComponent', () => {
     TestBed.configureTestingModule({
       schemas: [CUSTOM_ELEMENTS_SCHEMA],
       declarations: [AddOrderNotTakenOutReasonComponent],
-      imports: [MatDialogModule, HttpClientTestingModule, ReactiveFormsModule, SharedModule, TranslateModule.forRoot()],
+      imports: [
+        MatDialogModule,
+        HttpClientTestingModule,
+        ReactiveFormsModule,
+        SharedModule,
+        BrowserAnimationsModule,
+        TranslateModule.forRoot()
+      ],
       providers: [
         { provide: MatDialogRef, useValue: matDialogRefStub },
         { provide: MatDialog, useValue: matDialogStub },
@@ -125,14 +123,6 @@ describe('AddOrderNotTakenOutReasonComponent', () => {
   });
 
   it('open ShowImgsPopUpComponent', () => {
-    const props = {
-      hasBackdrop: true,
-      panelClass: 'custom-img-pop-up',
-      data: {
-        imgIndex: 1,
-        images: fakeFileHandle
-      }
-    };
     let a: NotTakenOutReasonImage;
     a = component.images[0];
     component.openImage(a);

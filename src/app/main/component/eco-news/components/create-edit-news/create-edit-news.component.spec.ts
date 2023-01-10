@@ -33,6 +33,7 @@ import { Store, ActionsSubject } from '@ngrx/store';
 import { QuillModule } from 'ngx-quill';
 import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
 import { Language } from '../../../../i18n/Language';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 describe('CreateEditNewsComponent', () => {
   let component: CreateEditNewsComponent;
@@ -181,6 +182,7 @@ describe('CreateEditNewsComponent', () => {
         ImageCropperModule,
         HttpClientTestingModule,
         MatSnackBarModule,
+        BrowserAnimationsModule,
         MatDialogModule,
         QuillModule.forRoot()
       ],
