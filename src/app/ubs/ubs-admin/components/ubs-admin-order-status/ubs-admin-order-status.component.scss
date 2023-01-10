@@ -31,6 +31,15 @@ p {
   font-size: 14px;
 }
 
+.form-control.ng-invalid.ng-touched {
+  border: 1px solid var(--ubs-error-ligh-red);
+}
+
+.validation {
+  color: var(--error-red);
+  font-size: 10px;
+}
+
 #comment {
   resize: none;
   overflow: hidden;
