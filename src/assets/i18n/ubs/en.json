@@ -41,8 +41,8 @@
       }
     },
     "order-title": "Services",
-    "choose-location": "Change your region",
-    "current-location": "You region {{currentLocation}}",
+    "choose-location": "Change your location",
+    "current-location": "Your location: {{currentLocation}}",
     "order-content": "Please note that the minimum order amount is 500.00 UAH",
     "service": "Service",
     "volume": "Volume",
