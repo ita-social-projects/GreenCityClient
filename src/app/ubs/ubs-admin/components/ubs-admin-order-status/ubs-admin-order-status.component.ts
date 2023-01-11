@@ -30,6 +30,10 @@ export class UbsAdminOrderStatusComponent implements OnChanges, OnInit, OnDestro
   public availableOrderStatuses;
   public isOrderStatusSelected = true;
 
+  get adminComment() {
+    return this.generalOrderInfo.get('adminComment');
+  }
+
   ngOnChanges(changes: SimpleChanges): void {
     if (changes.additionalPayment) {
       this.generalInfo.orderPaymentStatus = changes.additionalPayment.currentValue;
