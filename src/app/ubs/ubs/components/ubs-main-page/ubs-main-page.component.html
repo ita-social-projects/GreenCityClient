@@ -8,7 +8,7 @@
       <div class="main-content">
         <h2>{{ 'ubs-homepage.header.caption' | translate }}</h2>
         <p>{{ 'ubs-homepage.header.content' | translate }}</p>
-        <button class="button primary-global-button" [disabled]="isFetching || isAdmin" (click)="redirectToOrder()">
+        <button *ngIf="!isAdmin" class="button primary-global-button" [disabled]="isFetching" (click)="redirectToOrder()">
           {{ 'ubs-homepage.header.btn-order-courier' | translate }}
         </button>
       </div>
