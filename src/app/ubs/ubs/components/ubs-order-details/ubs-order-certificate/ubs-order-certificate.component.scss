@@ -8,10 +8,6 @@ p {
   font-size: 12px;
 }
 
-.form-group {
-  padding: 0;
-}
-
 .addCertificate {
   display: flex;
   flex-wrap: wrap;
@@ -20,11 +16,10 @@ p {
   width: 44%;
 
   button {
-    margin-top: 1rem;
+    margin: 0;
   }
 
   input {
-    padding: 0.5rem;
     font-size: 14px;
   }
 
@@ -40,6 +35,22 @@ p {
   .validMessages {
     width: 65%;
     margin: -1rem 0 1rem;
+  }
+
+  .eco-label {
+    width: 100%;
+    margin-bottom: 0;
+    color: var(--ubs-secondary-grey);
+    font-family: var(--ubs-quaternary-font);
+    font-style: normal;
+    font-weight: 400;
+    font-size: 16px;
+    line-height: 24px;
+  }
+
+  .form-group {
+    padding: 0;
+    margin: 0;
   }
 }
 

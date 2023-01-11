@@ -122,13 +122,13 @@ export class UBSAddAddressPopUpComponent implements OnInit, OnDestroy, AfterView
       street: [this.data.edit ? this.data.address.street : '', [Validators.required, Validators.minLength(3), Validators.maxLength(120)]],
       streetEn: [
         this.data.edit ? this.data.address.streetEn : '',
-        [Validators.required, Validators.minLength(3), Validators.maxLength(40)]
+        [Validators.required, Validators.minLength(3), Validators.maxLength(120)]
       ],
       houseNumber: [
         this.data.edit ? this.data.address.houseNumber : '',
-        [Validators.required, Validators.maxLength(8), Validators.pattern(this.housePattern)]
+        [Validators.required, Validators.maxLength(4), Validators.pattern(this.housePattern)]
       ],
-      houseCorpus: [this.data.edit ? this.data.address.houseCorpus : '', [Validators.maxLength(8), Validators.pattern(this.corpusPattern)]],
+      houseCorpus: [this.data.edit ? this.data.address.houseCorpus : '', [Validators.maxLength(4), Validators.pattern(this.corpusPattern)]],
       entranceNumber: [
         this.data.edit ? this.data.address.entranceNumber : '',
         [Validators.maxLength(2), Validators.pattern(this.entranceNumberPattern)]

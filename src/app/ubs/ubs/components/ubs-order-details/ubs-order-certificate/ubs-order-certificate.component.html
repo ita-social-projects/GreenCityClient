@@ -4,6 +4,7 @@
     formArrayName="formArrayCertificates"
     *ngFor="let certificate of formArrayCertificates.controls; let i = index"
   >
+    <label class="eco-label">{{ 'order-details.certificate-number' | translate }}</label>
     <input
       type="text"
       class="shadow-none form-control col-12 col-sm-8 my-1 input-border"
@@ -54,13 +55,10 @@
       <small class="text-danger" *ngIf="certificates.status[i] === 'EXPIRED' && certificates.failed[i]">
         {{ 'order-details.expired' | translate: { certDate: certificates.expirationDates[i] } }}
       </small>
-      <small
-        class="text-message"
-        *ngIf="certificates.expirationDates[i] && certSize && certificateSum <= showTotal && !certificates.failed[i]"
-      >
+      <small class="text-message" *ngIf="certificates.expirationDates[i] && certSize && !certificates.failed[i]">
         {{ 'order-details.activated' | translate: { certificateSum: certificates.points[i], certDate: certificates.expirationDates[i] } }}
       </small>
-      <small class="text-message" *ngIf="certSize && certificateSum > showTotal">
+      <small class="text-message" *ngIf="certSize && certificateSum > showTotal && i === certificates.codes.length - 1">
         {{
           'order-details.activated-oversum'
             | translate

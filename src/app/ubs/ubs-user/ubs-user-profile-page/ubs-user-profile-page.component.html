@@ -200,24 +200,24 @@
                   <span *ngIf="userForm.controls.address['controls'].length > 1">{{ i + 1 }}</span>
                 </h5>
                 <div class="inline">
-                  <div class="form-group input-margin">
+                  <div class="form-group input-margin region">
                     <label for="region" class="form-label">{{ 'ubs-client-profile.region' | translate }}</label>
                     <select
                       formControlName="{{ currentLanguage === 'ua' ? 'region' : 'regionEn' }}"
                       (change)="setRegionValue(i, $event)"
-                      class="shadow-none form-control region"
+                      class="shadow-none form-control"
                       id="region"
                     >
                       <option *ngFor="let region of regions" [ngValue]="region.name">{{ region.name }}</option>
                     </select>
                   </div>
-                  <div class="form-group">
+                  <div class="form-group city">
                     <label for="city" class="form-label">{{ 'ubs-client-profile.city' | translate }}</label>
                     <input
                       (keyup)="setPredictCities(i)"
                       (click)="emptyPredictLists()"
                       formControlName="{{ currentLanguage === 'ua' ? 'city' : 'cityEn' }}"
-                      class="shadow-none form-control city"
+                      class="shadow-none form-control"
                       matInput
                       [matAutocomplete]="autoCity"
                     />
@@ -234,13 +234,13 @@
                   </div>
                 </div>
                 <div class="inline">
-                  <div class="form-group input-margin">
+                  <div class="form-group input-margin street">
                     <label for="street" class="form-label">{{ 'ubs-client-profile.street' | translate }}</label>
                     <input
                       (keyup)="setPredictStreets(i)"
                       (click)="emptyPredictLists()"
                       type="text"
-                      class="form-control street"
+                      class="form-control"
                       formControlName="{{ currentLanguage === 'ua' ? 'street' : 'streetEn' }}"
                       matInput
                       [matAutocomplete]="autoStreet"
@@ -255,27 +255,50 @@
                         {{ streetName.description }}
                       </mat-option>
                     </mat-autocomplete>
+                    <div
+                      class="validation"
+                      *ngIf="
+                        address.get(currentLanguage === 'ua' ? 'street' : 'streetEn').invalid &&
+                        address.get(currentLanguage === 'ua' ? 'street' : 'streetEn').touched
+                      "
+                    >
+                      <app-ubs-input-error
+                        [formElement]="address.get(currentLanguage === 'ua' ? 'street' : 'streetEn')"
+                        [controlName]="currentLanguage === 'ua' ? 'street' : 'streetEn'"
+                      >
+                      </app-ubs-input-error>
+                    </div>
                   </div>
-                  <div class="form-group input-margin">
+                  <div class="form-group input-margin houseNumber">
                     <label for="houseNumber " class="form-label">{{ 'ubs-client-profile.house' | translate }}</label>
-                    <input type="text" class="form-control houseNumber" id="houseNumber" formControlName="houseNumber" />
+                    <input type="text" class="form-control" id="houseNumber" formControlName="houseNumber" />
+                    <div class="validation" *ngIf="address.get('houseNumber').invalid && address.get('houseNumber').touched">
+                      <app-ubs-input-error [formElement]="address.get('houseNumber')" [controlName]="'houseNumber'"> </app-ubs-input-error>
+                    </div>
                   </div>
-                  <div class="form-group input-margin">
+                  <div class="form-group input-margin houseCorpus">
                     <label for="houseCorpus " class="form-label">{{ 'ubs-client-profile.corpus' | translate }}</label>
-                    <input type="text" class="form-control houseCorpus" id="houseCorpus" formControlName="houseCorpus" />
+                    <input type="text" class="form-control" id="houseCorpus" formControlName="houseCorpus" />
+                    <div class="validation" *ngIf="address.get('houseCorpus').invalid && address.get('houseCorpus').touched">
+                      <app-ubs-input-error [formElement]="address.get('houseCorpus')" [controlName]="'houseCorpus'"> </app-ubs-input-error>
+                    </div>
                   </div>
-                  <div class="form-group">
+                  <div class="form-group entranceNumber">
                     <label for="entranceNumber" class="form-label">{{ 'ubs-client-profile.entrance' | translate }}</label>
-                    <input type="text" class="form-control entranceNumber" id="entranceNumber" formControlName="entranceNumber" />
+                    <input type="text" class="form-control" id="entranceNumber" formControlName="entranceNumber" />
+                    <div class="validation" *ngIf="address.get('entranceNumber').invalid && address.get('entranceNumber').touched">
+                      <app-ubs-input-error [formElement]="address.get('entranceNumber')" [controlName]="'entranceNumber'">
+                      </app-ubs-input-error>
+                    </div>
                   </div>
                 </div>
                 <div class="inline">
-                  <div class="form-group">
+                  <div class="form-group district">
                     <label for="district" class="form-label">{{ 'ubs-client-profile.district' | translate }}</label>
                     <select
                       *ngIf="address.value?.isKyiv"
                       formControlName="{{ currentLanguage === 'ua' ? 'district' : 'districtEn' }}"
-                      class="shadow-none form-control district"
+                      class="shadow-none form-control"
                       (change)="onDistrictSelected(i, $event)"
                     >
                       <option *ngFor="let district of districtsKyiv" [ngValue]="district.name">{{ district.name }}</option>

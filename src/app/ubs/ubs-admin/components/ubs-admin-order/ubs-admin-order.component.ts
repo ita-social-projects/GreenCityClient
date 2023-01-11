@@ -164,7 +164,7 @@ export class UbsAdminOrderComponent implements OnInit, OnDestroy, AfterContentCh
       generalOrderInfo: this.fb.group({
         orderStatus: this.generalInfo.orderStatus,
         paymentStatus: this.generalInfo.orderPaymentStatus,
-        adminComment: this.generalInfo.adminComment,
+        adminComment: [this.generalInfo.adminComment, Validators.maxLength(255)],
         cancellationComment: '', // TODO add this fields to controller
         cancellationReason: '' // TODO
       }),

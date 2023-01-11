@@ -122,7 +122,7 @@ export class UbsAdminTariffsPricingPageComponent implements OnInit, OnDestroy {
     this.toggle = false;
   }
 
-  async saveChanges(): Promise<void> {
+  saveChanges(): void {
     const { minPriceOfOrder, maxPriceOfOrder, minAmountOfBigBags, maxAmountOfBigBags, limitDescription } = this.limitsForm.value;
 
     const tariffId = this.selectedCardId;
@@ -204,15 +204,14 @@ export class UbsAdminTariffsPricingPageComponent implements OnInit, OnDestroy {
 
   async changeDescription(): Promise<any> {
     const { limitDescription } = this.limitsForm.value;
-
-    const courierId = await this.getCourierId();
+    const tariffId = this.selectedCardId;
 
     this.descriptionInfo = {
       limitDescription
     };
 
     this.tariffsService
-      .setLimitDescription(this.descriptionInfo.limitDescription, courierId)
+      .setLimitDescription(this.descriptionInfo.limitDescription, tariffId)
       .pipe(takeUntil(this.destroy))
       .subscribe(() => {
         this.getCouriers();
@@ -433,7 +432,7 @@ export class UbsAdminTariffsPricingPageComponent implements OnInit, OnDestroy {
       .subscribe((res: TariffCard[]) => {
         const card = res.find((it) => it.cardId === this.selectedCardId);
         this.selectedCard = {
-          courier: card.courierTranslationDtos.map((it) => it.name).join(),
+          courier: card.courierDto.nameEn,
           station: card.receivingStationDtos.map((it) => it.name),
           region: card.regionDto.nameUk,
           city: card.locationInfoDtos.map((it) => it.nameUk),

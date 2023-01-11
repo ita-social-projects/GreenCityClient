@@ -16,7 +16,7 @@ import { MatAutocompleteSelectedEvent, MatAutocompleteTrigger } from '@angular/m
 import { UbsAdminTariffsCourierPopUpComponent } from './ubs-admin-tariffs-courier-pop-up/ubs-admin-tariffs-courier-pop-up.component';
 import { UbsAdminTariffsStationPopUpComponent } from './ubs-admin-tariffs-station-pop-up/ubs-admin-tariffs-station-pop-up.component';
 import { UbsAdminTariffsCardPopUpComponent } from './ubs-admin-tariffs-card-pop-up/ubs-admin-tariffs-card-pop-up.component';
-import { TariffConfirmationPopUpComponent } from './../shared/components/tariff-confirmation-pop-up/tariff-confirmation-pop-up.component';
+import { TariffConfirmationPopUpComponent } from '../shared/components/tariff-confirmation-pop-up/tariff-confirmation-pop-up.component';
 import { TranslateService } from '@ngx-translate/core';
 import { Patterns } from 'src/assets/patterns/patterns';
 import { LanguageService } from 'src/app/main/i18n/language.service';
@@ -49,8 +49,6 @@ export class UbsAdminTariffsLocationDashboardComponent implements OnInit, AfterV
   reset = true;
   selectedCities = [];
   cities = [];
-
-  allSelected = false;
   filteredRegions;
   filteredCities;
   filteredStations;
@@ -373,14 +371,12 @@ export class UbsAdminTariffsLocationDashboardComponent implements OnInit, AfterV
       Object.assign(this.filterData, { courier: '' });
     } else {
       const lang = this.languageService.getCurrentLanguage();
-      const selectedValue = this.couriers.filter((it) =>
-        it.courierTranslationDtos.find((ob) => {
-          const searchingFilter = lang === 'ua' ? ob.name : ob.nameEng;
-          return searchingFilter === event.value;
-        })
-      );
-      this.courierEnglishName = selectedValue.map((it) => it.courierTranslationDtos.map((i) => i.nameEng)).flat(2);
-      this.courierId = selectedValue.find((it) => it.courierId).courierId;
+      const selectedValue = this.couriers.find((ob) => {
+        const searchingFilter = lang === 'ua' ? ob.nameUk : ob.nameEn;
+        return searchingFilter === event.value;
+      });
+      this.courierEnglishName = selectedValue.nameEn;
+      this.courierId = selectedValue.courierId;
       Object.assign(this.filterData, { courier: this.courierId });
     }
     this.getExistingCard(this.filterData);
@@ -448,9 +444,7 @@ export class UbsAdminTariffsLocationDashboardComponent implements OnInit, AfterV
       .subscribe((res: Couriers[]) => {
         this.couriers = res;
         const lang = this.languageService.getCurrentLanguage();
-        this.couriersName = this.couriers
-          .map((it) => it.courierTranslationDtos.map((el) => (lang === 'ua' ? el.name : el.nameEng)))
-          .flat(2);
+        this.couriersName = this.couriers.map((el) => (lang === 'ua' ? el.nameUk : el.nameEn));
       });
   }
 
@@ -473,7 +467,7 @@ export class UbsAdminTariffsLocationDashboardComponent implements OnInit, AfterV
       .subscribe((card) => {
         card.forEach((el) => {
           const cardObj = {
-            courier: el.courierTranslationDtos.map((it) => it.name).join(),
+            courier: el.courierDto.nameUk,
             station: el.receivingStationDtos.map((it) => it.name),
             region: el.regionDto.nameUk,
             city: el.locationInfoDtos.map((it) => it.nameUk),

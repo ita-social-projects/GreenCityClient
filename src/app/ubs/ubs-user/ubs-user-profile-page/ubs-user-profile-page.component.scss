@@ -108,6 +108,11 @@ $inputwidth: 260px;
     border: 1px solid var(--ubs-error-ligh-red);
   }
 
+  .validation {
+    color: var(--error-red);
+    font-size: 8px;
+  }
+
   button {
     font-family: var(--secondary-font);
   }
@@ -212,16 +217,13 @@ $inputwidth: 260px;
     }
 
     .region,
-    .street {
+    .street,
+    .district {
       width: $inputwidth + 35px;
     }
 
     .city {
       width: $inputwidth - 20px;
-    }
-
-    .district {
-      width: $inputwidth - 100px;
     }
 
     .houseNumber,

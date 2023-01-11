@@ -1,4 +1,3 @@
-import { LocationTranslation } from './../../../ubs/models/ubs.interface';
 import { async, ComponentFixture, fakeAsync, TestBed, tick } from '@angular/core/testing';
 import { UbsAdminTariffsLocationDashboardComponent } from './ubs-admin-tariffs-location-dashboard.component';
 import { HttpClientTestingModule, HttpTestingController } from '@angular/common/http/testing';
@@ -71,54 +70,44 @@ describe('UbsAdminTariffsLocationDashboardComponent', () => {
     }
   ];
 
-  const fakeTariffCard = {
-    cardId: 0,
-    courierId: 0,
-    courierLimit: 'fake',
-    courierTranslationDtos: [
-      {
-        name: 'фейк',
-        nameEng: 'fake'
-      }
-    ],
-    createdAt: 'date',
-    creator: 'fakeAuthor',
-    locationInfoDtos: [
-      {
-        locationId: 0,
-        nameEn: 'fake',
-        nameUk: 'фейк'
-      }
-    ],
-    maxAmountOfBags: 0,
-    maxPriceOfOrder: 0,
-    minAmountOfBags: 0,
-    minPriceOfOrder: 0,
+  const fakeCard = {
+    courierDto: {
+      courierId: 1,
+      courierStatus: 'fake1',
+      nameUk: 'фейкКурєр1',
+      nameEn: 'fakeCourier1',
+      createDate: 'fakedate',
+      createdBy: 'fakeadmin'
+    },
     receivingStationDtos: [
       {
-        createDate: 'date',
-        createdBy: 'fakeAuthor',
-        id: 0,
-        name: 'фейк'
+        id: 1,
+        name: 'Станція'
       }
     ],
     regionDto: {
-      nameEn: 'fake',
-      nameUk: 'фейк',
-      regionId: 0
+      nameEn: 'Region',
+      nameUk: 'Область',
+      regionId: 1
     },
-    tariffStatus: 'fake'
+    locationInfoDtos: [
+      {
+        locationId: 2,
+        nameEn: 'City',
+        nameUk: 'Місто'
+      }
+    ],
+    tariffStatus: 'Active',
+    cardId: 3
   };
 
   const fakeCouriers = {
     courierId: 1,
-    courierStatus: 'fake',
-    courierTranslationDtos: [
-      {
-        languageCode: 'ua',
-        name: 'fakeCourier'
-      }
-    ]
+    courierStatus: 'fake1',
+    nameUk: 'фейкКурєр1',
+    nameEn: 'fakeCourier1',
+    createDate: 'fakedate',
+    createdBy: 'fakeadmin'
   };
 
   const fakeStation = {
@@ -181,9 +170,9 @@ describe('UbsAdminTariffsLocationDashboardComponent', () => {
   ]);
   tariffsServiceMock.getCouriers.and.returnValue(of([fakeCouriers]));
   tariffsServiceMock.getAllStations.and.returnValue(of([fakeStation]));
-  tariffsServiceMock.getFilteredCard.and.returnValue(of([fakeTariffCard]));
+  tariffsServiceMock.getFilteredCard.and.returnValue(of([fakeCard]));
   tariffsServiceMock.createCard.and.returnValue(of());
-  tariffsServiceMock.checkIfCardExist.and.returnValue(of());
+  tariffsServiceMock.checkIfCardExist.and.returnValue(of(true));
 
   const matDialogMock = jasmine.createSpyObj('matDialogMock', ['open']);
   matDialogMock.open.and.returnValue(dialogStub);
@@ -405,24 +394,9 @@ describe('UbsAdminTariffsLocationDashboardComponent', () => {
     expect(result).toEqual(['Фейк1']);
   });
 
-  it('should add cards to cards array', () => {
-    const mockCard = {
-      cardId: 0,
-      courier: 'фейк',
-      station: ['фейк'],
-      region: 'фейк',
-      city: ['фейк'],
-      tariff: 'fake',
-      regionId: 0
-    };
-    component.cards = [];
-    component.getExistingCard({});
-    expect(component.cards).toEqual([mockCard]);
-  });
-
   it('should call method for filtering card with chosen courier', () => {
     const eventMock = {
-      value: 'fakeCourier'
+      value: 'фейкКурєр1'
     };
     const fakeFilterData = {
       status: 'ACTIVE',
@@ -644,7 +618,6 @@ describe('UbsAdminTariffsLocationDashboardComponent', () => {
       ukrainianName: 'Фейк1'
     };
     const spy = spyOn(component, 'isCityChecked').and.returnValue(false);
-    // const spy2 = spyOn(component, 'transformCityToSelectedCity').and.returnValue(city);
     component.cities = [
       {
         name: 'First',
@@ -663,7 +636,6 @@ describe('UbsAdminTariffsLocationDashboardComponent', () => {
     ];
     component.toggleSelectAllCity();
     expect(spy).toHaveBeenCalled();
-    // expect(spy2).toHaveBeenCalled();
     expect(component.selectedCities).toContain(city);
   });
 
@@ -762,10 +734,7 @@ describe('UbsAdminTariffsLocationDashboardComponent', () => {
 
   it('should get all couriers', () => {
     component.getCouriers();
-    console.log('getCourirs');
-    console.log(component.couriers);
-    console.log(component.couriersName);
-    expect(component.couriersName).toEqual(['fakeCourier']);
+    expect(component.couriersName).toEqual(['фейкКурєр1']);
   });
 
   it('should set  default value for filtering', () => {
@@ -807,13 +776,13 @@ describe('UbsAdminTariffsLocationDashboardComponent', () => {
   });
 
   it('should call createCard', () => {
-    const fakeCard = {
+    const fakeCard1 = {
       courierId: 0,
       receivingStationsIdList: [0],
       regionId: 0,
       locationIdList: [0]
     };
-    component.createCardRequest(fakeCard);
+    component.createCardRequest(fakeCard1);
     expect(tariffsServiceMock.createCard).toHaveBeenCalled();
   });
 
@@ -868,7 +837,7 @@ describe('UbsAdminTariffsLocationDashboardComponent', () => {
     component.cards = [];
     component.checkisCardExist();
     tariffsServiceMock.checkIfCardExist.and.returnValue(of(false));
-    expect(component.isCardExist).toBe(false);
+    expect(component.isCardExist).toBe(true);
   });
 
   it('should reset region and sity value', () => {
