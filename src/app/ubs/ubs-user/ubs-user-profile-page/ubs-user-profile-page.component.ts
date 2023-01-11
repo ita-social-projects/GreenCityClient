@@ -1,4 +1,4 @@
-import { Component, OnInit, AfterViewInit } from '@angular/core';
+import { Component, OnInit, AfterViewInit, OnDestroy } from '@angular/core';
 import { FormControl, FormGroup, Validators, FormArray, AbstractControl } from '@angular/forms';
 import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
 import { SignInIcons } from 'src/app/main/image-pathes/sign-in-icons';
@@ -12,17 +12,21 @@ import { Masks, Patterns } from 'src/assets/patterns/patterns';
 import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
 import { Locations } from 'src/assets/locations/locations';
 import { PhoneNumberValidator } from 'src/app/shared/phone-validator/phone.validator';
+import { takeUntil } from 'rxjs/operators';
+import { Subject } from 'rxjs';
+import { GoogleScript } from 'src/assets/google-script/google-script';
 
 @Component({
   selector: 'app-ubs-user-profile-page',
   templateUrl: './ubs-user-profile-page.component.html',
   styleUrls: ['./ubs-user-profile-page.component.scss']
 })
-export class UbsUserProfilePageComponent implements OnInit, AfterViewInit {
+export class UbsUserProfilePageComponent implements OnInit, AfterViewInit, OnDestroy {
   autocompleteService: google.maps.places.AutocompleteService;
   placeService: google.maps.places.PlacesService;
   streetPredictionList: google.maps.places.AutocompletePrediction[];
   cityPredictionList: google.maps.places.AutocompletePrediction[];
+  private destroy: Subject<boolean> = new Subject<boolean>();
   userForm: FormGroup;
   userProfile: UserProfile;
   viberNotification = false;
@@ -59,7 +63,6 @@ export class UbsUserProfilePageComponent implements OnInit, AfterViewInit {
   regions: Location[];
   districts: Location[];
   districtsKyiv: Location[];
-  mainUrl = 'https://maps.googleapis.com/maps/api/js?key=AIzaSyB3xs7Kczo46LFcQRFKPMdrE0lU4qsR_S4&libraries=places&language=';
   languages = {
     en: 'en',
     uk: 'uk'
@@ -70,7 +73,8 @@ export class UbsUserProfilePageComponent implements OnInit, AfterViewInit {
     private clientProfileService: ClientProfileService,
     private snackBar: MatSnackBarComponent,
     private localStorageService: LocalStorageService,
-    private locations: Locations
+    private locations: Locations,
+    private googleScript: GoogleScript
   ) {}
 
   ngOnInit(): void {
@@ -79,22 +83,9 @@ export class UbsUserProfilePageComponent implements OnInit, AfterViewInit {
   }
 
   ngAfterViewInit(): void {
-    this.loadScript();
-  }
-
-  loadScript(): void {
-    const script: HTMLScriptElement = document.querySelector('#googleMaps');
-
-    if (script) {
-      script.src = this.mainUrl + this.currentLanguage;
-    }
-    if (!script) {
-      const google = document.createElement('script');
-      google.type = 'text/javascript';
-      google.id = 'googleMaps';
-      google.setAttribute('src', this.mainUrl + this.currentLanguage);
-      document.getElementsByTagName('head')[0].appendChild(google);
-    }
+    this.localStorageService.languageBehaviourSubject.pipe(takeUntil(this.destroy)).subscribe((lang: string) => {
+      this.googleScript.load(lang);
+    });
   }
 
   composeFormData(data: UserProfile): UserProfile {
@@ -575,5 +566,10 @@ export class UbsUserProfilePageComponent implements OnInit, AfterViewInit {
     this.alternativeEmailDisplay = !this.alternativeEmailDisplay;
 
     this.alternativeEmailDisplay ? this.userForm.addControl('alternateEmail', control) : this.userForm.removeControl('alternateEmail');
+  }
+
+  ngOnDestroy(): void {
+    this.destroy.next();
+    this.destroy.unsubscribe();
   }
 }

@@ -4,6 +4,9 @@ import { FormGroup, FormControl } from '@angular/forms';
 import { UbsAdminAddressDetailsComponent } from './ubs-admin-address-details.component';
 import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
 import { Locations } from 'src/assets/locations/locations';
+import { BehaviorSubject } from 'rxjs/internal/BehaviorSubject';
+import { GoogleScript } from 'src/assets/google-script/google-script';
+import { of } from 'rxjs';
 
 describe('UbsAdminAddressDetailsComponent', () => {
   let component: UbsAdminAddressDetailsComponent;
@@ -270,13 +273,17 @@ describe('UbsAdminAddressDetailsComponent', () => {
       'EixNeWtoYWlsYSBMb21vbm9zb3ZhIFN0LCBLeWl2LCBVa3JhaW5lLCAwMjAwMCIuKiwKFAoSCb9RPBbdyNRAEb8pDeFisJyLEhQKEgkFRVrhTs_UQBH-RgEX0jFJdg'
   };
 
-  const fakeLocalStorageService = jasmine.createSpyObj('LocalStorageService', ['getCurrentLanguage']);
+  const fakeLocalStorageService = jasmine.createSpyObj('LocalStorageService', ['getCurrentLanguage', 'languageBehaviourSubject']);
   fakeLocalStorageService.getCurrentLanguage = () => 'ua';
+  fakeLocalStorageService.languageBehaviourSubject = new BehaviorSubject('ua');
 
   const fakeLocationsMockUk = jasmine.createSpyObj('Locations', ['getBigRegions', 'getRegions', 'getRegionsKyiv']);
   fakeLocationsMockUk.getBigRegions.and.returnValue(fakeRegions);
   fakeLocationsMockUk.getRegions.and.returnValue(fakeDistricts);
   fakeLocationsMockUk.getRegionsKyiv.and.returnValue(fakeDictrictsKyiv);
+
+  const fakeGoogleScript = jasmine.createSpyObj('GoogleScript', ['load']);
+  fakeGoogleScript.load.and.returnValue(of());
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
@@ -284,7 +291,8 @@ describe('UbsAdminAddressDetailsComponent', () => {
       imports: [TranslateModule.forRoot()],
       providers: [
         { provide: LocalStorageService, useValue: fakeLocalStorageService },
-        { provide: Locations, useValue: fakeLocationsMockUk }
+        { provide: Locations, useValue: fakeLocationsMockUk },
+        { provide: GoogleScript, useValue: fakeGoogleScript }
       ]
     }).compileComponents();
   }));

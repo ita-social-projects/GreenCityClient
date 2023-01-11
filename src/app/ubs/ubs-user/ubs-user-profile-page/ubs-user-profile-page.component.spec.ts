@@ -13,6 +13,8 @@ import { UbsUserProfilePageComponent } from './ubs-user-profile-page.component';
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
 import { Locations } from 'src/assets/locations/locations';
 import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
+import { BehaviorSubject } from 'rxjs/internal/BehaviorSubject';
+import { GoogleScript } from 'src/assets/google-script/google-script';
 
 describe('UbsUserProfilePageComponent', () => {
   const userProfileDataMock: UserProfile = {
@@ -302,13 +304,17 @@ describe('UbsUserProfilePageComponent', () => {
       'EixNeWtoYWlsYSBMb21vbm9zb3ZhIFN0LCBLeWl2LCBVa3JhaW5lLCAwMjAwMCIuKiwKFAoSCb9RPBbdyNRAEb8pDeFisJyLEhQKEgkFRVrhTs_UQBH-RgEX0jFJdg'
   };
 
-  const fakeLocalStorageService = jasmine.createSpyObj('LocalStorageService', ['getCurrentLanguage']);
+  const fakeLocalStorageService = jasmine.createSpyObj('LocalStorageService', ['getCurrentLanguage', 'languageBehaviourSubject']);
   fakeLocalStorageService.getCurrentLanguage = () => 'ua';
+  fakeLocalStorageService.languageBehaviourSubject = new BehaviorSubject('ua');
 
   const fakeLocationsMockUk = jasmine.createSpyObj('Locations', ['getBigRegions', 'getRegions', 'getRegionsKyiv']);
   fakeLocationsMockUk.getBigRegions.and.returnValue(fakeRegions);
   fakeLocationsMockUk.getRegions.and.returnValue(fakeDistricts);
   fakeLocationsMockUk.getRegionsKyiv.and.returnValue(fakeDictrictsKyiv);
+
+  const fakeGoogleScript = jasmine.createSpyObj('GoogleScript', ['load']);
+  fakeGoogleScript.load.and.returnValue(of());
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
@@ -318,7 +324,8 @@ describe('UbsUserProfilePageComponent', () => {
         { provide: ClientProfileService, useValue: clientProfileServiceMock },
         { provide: MatSnackBarComponent, useValue: snackBarMock },
         { provide: LocalStorageService, useValue: fakeLocalStorageService },
-        { provide: Locations, useValue: fakeLocationsMockUk }
+        { provide: Locations, useValue: fakeLocationsMockUk },
+        { provide: GoogleScript, useValue: fakeGoogleScript }
       ],
       imports: [TranslateModule.forRoot(), ReactiveFormsModule, IMaskModule, MatAutocompleteModule],
       schemas: [CUSTOM_ELEMENTS_SCHEMA]

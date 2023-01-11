@@ -9,6 +9,7 @@ import { OrderService } from 'src/app/ubs/ubs/services/order.service';
 import { Address, Location, Region } from 'src/app/ubs/ubs/models/ubs.interface';
 import { Patterns } from 'src/assets/patterns/patterns';
 import { Locations } from 'src/assets/locations/locations';
+import { GoogleScript } from 'src/assets/google-script/google-script';
 
 @Component({
   selector: 'app-ubs-add-address-pop-up',
@@ -35,7 +36,6 @@ export class UBSAddAddressPopUpComponent implements OnInit, OnDestroy, AfterView
   bigRegions: Region[];
   regionsKyiv: Location[];
   regions: Location[];
-  mainUrl = 'https://maps.googleapis.com/maps/api/js?key=AIzaSyB3xs7Kczo46LFcQRFKPMdrE0lU4qsR_S4&libraries=places&language=';
 
   languages = {
     en: 'en',
@@ -58,7 +58,8 @@ export class UBSAddAddressPopUpComponent implements OnInit, OnDestroy, AfterView
     },
     private snackBar: MatSnackBarComponent,
     private localStorageService: LocalStorageService,
-    private listOflocations: Locations
+    private listOflocations: Locations,
+    private googleScript: GoogleScript
   ) {}
 
   get region() {
@@ -165,27 +166,14 @@ export class UBSAddAddressPopUpComponent implements OnInit, OnDestroy, AfterView
 
   ngAfterViewInit(): void {
     this.initGoogleAutocompleteServices();
-    this.loadScript();
+    this.localStorageService.languageBehaviourSubject.pipe(takeUntil(this.destroy)).subscribe((lang: string) => {
+      this.googleScript.load(lang);
+    });
   }
 
   private initGoogleAutocompleteServices(): void {
     this.autocompleteService = new google.maps.places.AutocompleteService();
     this.placeService = new google.maps.places.PlacesService(document.createElement('div'));
-  }
-
-  loadScript(): void {
-    const googleScript: HTMLScriptElement = document.querySelector('#googleMaps');
-
-    if (googleScript) {
-      googleScript.src = this.mainUrl + this.currentLanguage;
-    }
-    if (!googleScript) {
-      const google = document.createElement('script');
-      google.type = 'text/javascript';
-      google.id = 'googleMaps';
-      google.setAttribute('src', this.mainUrl + this.currentLanguage);
-      document.getElementsByTagName('head')[0].appendChild(google);
-    }
   }
 
   setPredictCities(): void {

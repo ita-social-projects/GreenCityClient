@@ -4,6 +4,8 @@ import { Subject } from 'rxjs';
 import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
 import { Locations } from 'src/assets/locations/locations';
 import { Location } from '../../models/ubs-admin.interface';
+import { GoogleScript } from 'src/assets/google-script/google-script';
+import { takeUntil } from 'rxjs/operators';
 
 @Component({
   selector: 'app-ubs-admin-address-details',
@@ -23,14 +25,13 @@ export class UbsAdminAddressDetailsComponent implements AfterViewInit, OnDestroy
   districts: Location[];
   districtsKyiv: Location[];
   isDistrict: boolean;
-  mainUrl = 'https://maps.googleapis.com/maps/api/js?key=AIzaSyB3xs7Kczo46LFcQRFKPMdrE0lU4qsR_S4&libraries=places&language=';
 
   languages = {
     en: 'en',
     uk: 'uk'
   };
 
-  constructor(private localStorageService: LocalStorageService, private locations: Locations) {}
+  constructor(private localStorageService: LocalStorageService, private locations: Locations, private googleScript: GoogleScript) {}
   private destroy$: Subject<boolean> = new Subject<boolean>();
 
   get addressRegion() {
@@ -120,22 +121,9 @@ export class UbsAdminAddressDetailsComponent implements AfterViewInit, OnDestroy
 
   ngAfterViewInit(): void {
     this.initGoogleAutocompleteServices();
-    this.loadGoogleScript();
-  }
-
-  loadGoogleScript(): void {
-    const googleScript: HTMLScriptElement = document.querySelector('#googleMaps');
-
-    if (googleScript) {
-      googleScript.src = this.mainUrl + this.currentLanguage;
-    }
-    if (!googleScript) {
-      const google = document.createElement('script');
-      google.type = 'text/javascript';
-      google.id = 'googleMaps';
-      google.setAttribute('src', this.mainUrl + this.currentLanguage);
-      document.getElementsByTagName('head')[0].appendChild(google);
-    }
+    this.localStorageService.languageBehaviourSubject.pipe(takeUntil(this.destroy$)).subscribe((lang: string) => {
+      this.googleScript.load(lang);
+    });
   }
 
   private initGoogleAutocompleteServices(): void {

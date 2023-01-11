@@ -30,6 +30,7 @@ import { TariffStatusPipe } from '@pipe/tariff-status-pipe/tariff-status.pipe';
 import { LanguageService } from 'src/app/main/i18n/language.service';
 import { TariffDeactivateConfirmationPopUpComponent } from '../shared/components/tariff-deactivate-confirmation-pop-up/tariff-deactivate-confirmation-pop-up.component';
 import { BehaviorSubject } from 'rxjs/internal/BehaviorSubject';
+import { GoogleScript } from 'src/assets/google-script/google-script';
 
 describe('UbsAdminTariffsLocationDashboardComponent', () => {
   let component: UbsAdminTariffsLocationDashboardComponent;
@@ -191,6 +192,9 @@ describe('UbsAdminTariffsLocationDashboardComponent', () => {
   languageServiceMock.getCurrentLangObs.and.returnValue(of('ua'));
   languageServiceMock.getCurrentLanguage.and.returnValue('ua');
 
+  const fakeGoogleScript = jasmine.createSpyObj('GoogleScript', ['load']);
+  fakeGoogleScript.load.and.returnValue(of());
+
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       declarations: [UbsAdminTariffsLocationDashboardComponent, FilterListByLangPipe, TariffStatusPipe],
@@ -216,7 +220,8 @@ describe('UbsAdminTariffsLocationDashboardComponent', () => {
         { provide: TariffsService, useValue: tariffsServiceMock },
         { provide: LocalStorageService, useValue: localStorageServiceMock },
         { provide: Store, useValue: storeMock },
-        { provide: LanguageService, useValue: languageServiceMock }
+        { provide: LanguageService, useValue: languageServiceMock },
+        { provide: GoogleScript, useValue: fakeGoogleScript }
       ],
       schemas: [CUSTOM_ELEMENTS_SCHEMA]
     }).compileComponents();
@@ -718,18 +723,16 @@ describe('UbsAdminTariffsLocationDashboardComponent', () => {
     const spy1 = spyOn(component, 'getLocations');
     const spy2 = spyOn(component, 'getCouriers');
     const spy3 = spyOn(component, 'getReceivingStation');
-    const spy4 = spyOn(component, 'loadScript');
-    const spy6 = spyOn(component, 'setCountOfCheckedCity');
-    const spy7 = spyOn(component, 'setStationPlaceholder');
-    const spy8 = spyOn(component, 'setStateValue');
+    const spy4 = spyOn(component, 'setCountOfCheckedCity');
+    const spy5 = spyOn(component, 'setStationPlaceholder');
+    const spy6 = spyOn(component, 'setStateValue');
     component.ngOnInit();
     expect(spy1).toHaveBeenCalled();
     expect(spy2).toHaveBeenCalled();
     expect(spy3).toHaveBeenCalled();
     expect(spy4).toHaveBeenCalled();
+    expect(spy5).toHaveBeenCalled();
     expect(spy6).toHaveBeenCalled();
-    expect(spy7).toHaveBeenCalled();
-    expect(spy8).toHaveBeenCalled();
   });
 
   it('should get all couriers', () => {

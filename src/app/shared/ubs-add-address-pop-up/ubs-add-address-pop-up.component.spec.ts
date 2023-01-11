@@ -14,6 +14,8 @@ import { MatAutocompleteModule } from '@angular/material/autocomplete';
 import { OrderService } from 'src/app/ubs/ubs/services/order.service';
 import { Address } from 'src/app/ubs/ubs/models/ubs.interface';
 import { Locations } from 'src/assets/locations/locations';
+import { BehaviorSubject } from 'rxjs/internal/BehaviorSubject';
+import { GoogleScript } from 'src/assets/google-script/google-script';
 
 describe('UBSAddAddressPopUpComponent', () => {
   let component: UBSAddAddressPopUpComponent;
@@ -292,8 +294,13 @@ describe('UBSAddAddressPopUpComponent', () => {
   fakeLocationsMockUk.getRegionsKyiv.and.returnValue(fakeDictrictsKyiv);
 
   const fakeMatDialogRef = jasmine.createSpyObj(['close']);
-  const fakeLocalStorageService = jasmine.createSpyObj('LocalStorageService', ['getCurrentLanguage']);
+
+  const fakeLocalStorageService = jasmine.createSpyObj('LocalStorageService', ['getCurrentLanguage', 'languageBehaviourSubject']);
   fakeLocalStorageService.getCurrentLanguage = () => 'ua' as Language;
+  fakeLocalStorageService.languageBehaviourSubject = new BehaviorSubject('ua');
+
+  const fakeGoogleScript = jasmine.createSpyObj('GoogleScript', ['load']);
+  fakeGoogleScript.load.and.returnValue(of());
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
@@ -312,7 +319,8 @@ describe('UBSAddAddressPopUpComponent', () => {
         { provide: MAT_DIALOG_DATA, useValue: fakeInitData },
         { provide: MatSnackBarComponent, useValue: {} },
         { provide: LocalStorageService, useValue: fakeLocalStorageService },
-        { provide: Locations, useValue: fakeLocationsMockUk }
+        { provide: Locations, useValue: fakeLocationsMockUk },
+        { provide: GoogleScript, useValue: fakeGoogleScript }
       ],
       schemas: [CUSTOM_ELEMENTS_SCHEMA]
     }).compileComponents();
