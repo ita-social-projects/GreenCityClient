@@ -21,7 +21,7 @@ h1 {
   display: grid;
   grid-template-rows: auto auto auto auto;
   row-gap: 20px;
-  margin-bottom: 3.125rem;
+  margin: 20px 0 3.125rem 0;
 
   a {
     justify-self: center;
@@ -35,6 +35,7 @@ h1 {
       text-decoration-line: underline;
       display: flex;
       align-items: center;
+      padding: 20px 0 40px 0;
 
       img {
         margin-right: 6px;

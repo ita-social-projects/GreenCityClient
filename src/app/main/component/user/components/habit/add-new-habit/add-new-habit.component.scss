@@ -8,7 +8,7 @@
     display: flex;
     flex-direction: row;
     align-items: flex-start;
-    margin-bottom: 4px;
+    margin: 60px 0 4px 0;
     padding: 4px 0 0 4px;
     color: var(--secondary-dark-green);
     cursor: pointer;
@@ -33,7 +33,7 @@
 
   .habitContainer {
     height: 360px;
-    padding: 20px 0 0 0;
+    padding: 40px 0 0 0;
     margin-bottom: 24px;
     display: flex;
     flex-direction: row;
