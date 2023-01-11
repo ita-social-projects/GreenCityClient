@@ -178,6 +178,7 @@ describe('UbsAdminTariffsLocationPopUpComponent ', () => {
     fixture.detectChanges();
     component.input = inputsMock;
     component.locations = mockRegion;
+    component.placeService = new google.maps.places.PlacesService(document.createElement('div'));
   });
 
   it('should create', () => {
@@ -324,9 +325,10 @@ describe('UbsAdminTariffsLocationPopUpComponent ', () => {
   });
 
   it('should set value of region', () => {
-    const spy = spyOn(component, 'translate');
+    const spy = spyOn(component, 'setTranslation');
     const eventMock = {
-      name: 'fakeName'
+      name: 'fakeName',
+      place_id: 'fakeId'
     };
     component.setValueOfRegion(eventMock);
     expect(component.region.value).toBe('fakeName');
