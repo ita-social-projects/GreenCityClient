@@ -152,53 +152,62 @@
                 <span *ngIf="userForm.controls.address['controls'].length > 1">{{ i + 1 }}</span>
               </h5>
               <div class="inline">
-                <div class="form-group input-margin">
+                <div class="form-group input-margin region">
                   <label for="region" class="form-label">{{ 'ubs-client-profile.region' | translate }}</label>
-                  <select *ngIf="isEditing" formControlName="region" class="shadow-none form-control region" id="region">
+                  <select *ngIf="isEditing" formControlName="region" class="shadow-none form-control" id="region">
                     <option *ngFor="let region of regions" [ngValue]="region.regionName">{{ region.regionName }}</option>
                   </select>
                   <p *ngIf="!isEditing">{{ address.value?.region }}</p>
                 </div>
-                <div class="form-group">
+                <div class="form-group city">
                   <label for="city" class="form-label">{{ 'ubs-client-profile.city' | translate }}</label>
-                  <select *ngIf="isEditing" formControlName="city" class="shadow-none form-control city">
+                  <select *ngIf="isEditing" formControlName="city" class="shadow-none form-control">
                     <option *ngFor="let city of cities" [ngValue]="city.cityName">{{ city.cityName }}</option>
                   </select>
                   <p *ngIf="!isEditing">{{ address.value?.city }}</p>
                 </div>
               </div>
               <div class="inline">
-                <div class="form-group input-margin">
+                <div class="form-group input-margin street">
                   <label for="street" class="form-label">{{ 'ubs-client-profile.street' | translate }}</label>
-                  <input *ngIf="isEditing" type="text" class="form-control street" id="street" formControlName="street" />
+                  <input *ngIf="isEditing" type="text" class="form-control" id="street" formControlName="street" />
+                  <div class="validation" *ngIf="address.get('street').invalid && address.get('street').touched">
+                    <app-ubs-input-error [formElement]="address.get('street')" [controlName]="'street'"> </app-ubs-input-error>
+                  </div>
                   <p *ngIf="!isEditing">{{ address.value?.street }}</p>
                 </div>
-                <div class="form-group input-margin">
+                <div class="form-group input-margin houseNumber">
                   <label for="houseNumber " class="form-label">{{ 'ubs-client-profile.house' | translate }}</label>
-                  <input *ngIf="isEditing" type="text" class="form-control houseNumber" id="houseNumber" formControlName="houseNumber" />
+                  <input *ngIf="isEditing" type="text" class="form-control" id="houseNumber" formControlName="houseNumber" />
+                  <div class="validation" *ngIf="address.get('houseNumber').invalid && address.get('houseNumber').touched">
+                    <app-ubs-input-error [formElement]="address.get('houseNumber')" [controlName]="'houseNumber'"> </app-ubs-input-error>
+                  </div>
                   <p *ngIf="!isEditing">{{ address.value?.houseNumber }}</p>
                 </div>
-                <div class="form-group input-margin">
+                <div class="form-group input-margin houseCorpus">
                   <label for="houseCorpus " class="form-label">{{ 'ubs-client-profile.corpus' | translate }}</label>
-                  <input *ngIf="isEditing" type="text" class="form-control houseCorpus" id="houseCorpus" formControlName="houseCorpus" />
+                  <input *ngIf="isEditing" type="text" class="form-control" id="houseCorpus" formControlName="houseCorpus" />
+                  <div class="validation" *ngIf="address.get('houseCorpus').invalid && address.get('houseCorpus').touched">
+                    <app-ubs-input-error [formElement]="address.get('houseCorpus')" [controlName]="'houseCorpus'"> </app-ubs-input-error>
+                  </div>
                   <p *ngIf="!isEditing">{{ address.value?.houseCorpus }}</p>
                 </div>
-                <div class="form-group">
+                <div class="form-group entranceNumber">
                   <label for="entranceNumber" class="form-label">{{ 'ubs-client-profile.entrance' | translate }}</label>
-                  <input
-                    *ngIf="isEditing"
-                    type="text"
-                    class="form-control entranceNumber"
-                    id="entranceNumber"
-                    formControlName="entranceNumber"
-                  />
+                  <input *ngIf="isEditing" type="text" class="form-control" id="entranceNumber" formControlName="entranceNumber" />
+                  <div class="validation" *ngIf="address.get('entranceNumber').invalid && address.get('entranceNumber').touched">
+                    <app-ubs-input-error
+                      [formElement]="address.get('entranceNumber')"
+                      [controlName]="'entranceNumber'"
+                    ></app-ubs-input-error>
+                  </div>
                   <p *ngIf="!isEditing">{{ address.value?.entranceNumber }}</p>
                 </div>
               </div>
               <div class="inline">
-                <div class="form-group mrgbtn">
+                <div class="form-group mrgbtn district">
                   <label for="district" class="form-label">{{ 'ubs-client-profile.district' | translate }}</label>
-                  <select *ngIf="isEditing" formControlName="district" class="shadow-none form-control district">
+                  <select *ngIf="isEditing" formControlName="district" class="shadow-none form-control">
                     <option *ngFor="let district of districts" [ngValue]="district.name">{{ district.name }}</option>
                   </select>
                   <p *ngIf="!isEditing">{{ address.value?.district }}</p>
