@@ -16,7 +16,6 @@ export class TariffSelectorComponent implements OnInit {
 
   tariffs = [];
   filteredTariffs = [];
-  selectedTariffs = [];
 
   search: FormControl;
   tariffsForm: FormGroup;
@@ -28,7 +27,8 @@ export class TariffSelectorComponent implements OnInit {
         courier: { en: tariff.courierDto.nameEn, ua: tariff.courierDto.nameUk },
         region: { en: tariff.regionDto.nameEn, ua: tariff.regionDto.nameUk },
         locations: tariff.locationInfoDtos.map((loc) => ({ en: loc.nameEn, ua: loc.nameUk })),
-        station: tariff.receivingStationDtos[0].name
+        station: tariff.receivingStationDtos[0].name,
+        selected: false
       }))
   };
 
@@ -54,16 +54,12 @@ export class TariffSelectorComponent implements OnInit {
     });
   }
 
-  onTariffSelectionChange(tariff, checked): void {
-    this.selectedTariffs = checked ? [...this.selectedTariffs, tariff] : this.selectedTariffs.filter((t) => t !== tariff);
-    console.log(this.selectedTariffs);
-  }
-
   onCancel() {
     this.dialogRef.close();
   }
 
   onSubmit() {
-    this.dialogRef.close(this.selectedTariffs);
+    const selectedTariffs = this.tariffs.filter((tariff) => tariff.selected).map(({ selected, ...tariffData }) => tariffData);
+    this.dialogRef.close(selectedTariffs);
   }
 }

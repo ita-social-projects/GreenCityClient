@@ -29,7 +29,7 @@
             {{ tariff.courier.en }}
           </td>
           <td>
-            <mat-checkbox class="tariff-checkbox" (change)="onTariffSelectionChange(tariff, $event.checked)"></mat-checkbox>
+            <mat-checkbox class="tariff-checkbox" [(ngModel)]="tariff.selected"></mat-checkbox>
           </td>
         </tr>
       </tbody>
