@@ -68,7 +68,6 @@ export class UbsAdminOrderDetailsFormComponent implements OnInit, OnChanges {
 
   public resetOrderDetails() {
     this.orderDetails = JSON.parse(JSON.stringify(this.orderDetailsOriginal));
-    //this.orderDetails.bags = this.orderDetails.bags.filter((bag) => bag.planned !== 0);
   }
 
   public recalculateSum() {
