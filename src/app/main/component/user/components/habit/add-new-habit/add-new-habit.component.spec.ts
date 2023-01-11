@@ -12,6 +12,8 @@ import { HabitAssignService } from '@global-service/habit-assign/habit-assign.se
 import { of, Subject } from 'rxjs';
 import { ActivatedRoute } from '@angular/router';
 import { HabitResponseInterface } from 'src/app/main/interface/habit/habit-assign.interface';
+import { Location } from '@angular/common';
+import { BrowserAnimationsModule, NoopAnimationsModule } from '@angular/platform-browser/animations';
 
 describe('AddNewHabitComponent', () => {
   let component: AddNewHabitComponent;
@@ -37,6 +39,8 @@ describe('AddNewHabitComponent', () => {
   const mockActivatedRoute = {
     params: of({ habitId: 2 })
   };
+  const locationMock = { back: () => {} };
+
   fakeHabitAssignService = jasmine.createSpyObj('fakeHabitAssignService', {
     getAssignedHabits: of([
       {
@@ -67,14 +71,15 @@ describe('AddNewHabitComponent', () => {
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       declarations: [AddNewHabitComponent],
-      imports: [RouterTestingModule, HttpClientTestingModule, TranslateModule.forRoot()],
+      imports: [RouterTestingModule, HttpClientTestingModule, TranslateModule.forRoot(), BrowserAnimationsModule, NoopAnimationsModule],
       providers: [
         { provide: MatSnackBarComponent, useValue: matSnackBarMock },
         { provide: HabitService, useValue: fakeHabitService },
         { provide: HabitAssignService, useValue: fakeHabitAssignService },
         { provide: ShoppingListService, useValue: fakeShoppingListService },
         { provide: LocalStorageService, useValue: fakeLocalStorageService },
-        { provide: ActivatedRoute, useValue: mockActivatedRoute }
+        { provide: ActivatedRoute, useValue: mockActivatedRoute },
+        { provide: Location, useValue: locationMock }
       ],
       schemas: [CUSTOM_ELEMENTS_SCHEMA]
     }).compileComponents();
@@ -131,11 +136,10 @@ describe('AddNewHabitComponent', () => {
     expect(component.initHabitData).toHaveBeenCalled();
   });
 
-  it('goToMyHabits method should navigate', () => {
-    component.userId = '2';
-    spyOn((component as any).router, 'navigate').and.returnValue('test');
-    component.goToMyHabits();
-    expect((component as any).router.navigate).toHaveBeenCalledWith([`/profile/2/allhabits`]);
+  it('onGoBack() should invoke location.back()', () => {
+    const spyBack = spyOn(locationMock, 'back');
+    component.onGoBack();
+    expect(spyBack).toHaveBeenCalled();
   });
 
   it('getUserId should set this.userId', () => {
