@@ -37,6 +37,7 @@ import { TranslateDatePipe } from './translate-date-pipe/translate-date.pipe';
 import { RepeatPipe } from './repeat-pipe/repeat.pipe';
 import { CronPipe } from './cron-pipe/cron.pipe';
 import { MobileBottomSheetComponent } from './mobile-bottom-sheet/mobile-bottom-sheet.component';
+import { ResizableBottomSheetComponent } from './resizable-bottom-sheet/resizable-bottom-sheet.component';
 
 @NgModule({
   declarations: [
@@ -68,7 +69,8 @@ import { MobileBottomSheetComponent } from './mobile-bottom-sheet/mobile-bottom-
     TranslateDatePipe,
     RepeatPipe,
     CronPipe,
-    MobileBottomSheetComponent
+    MobileBottomSheetComponent,
+    ResizableBottomSheetComponent
   ],
   imports: [
     CommonModule,
