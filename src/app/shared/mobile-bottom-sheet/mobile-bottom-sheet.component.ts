@@ -8,7 +8,6 @@ import {
   EventEmitter,
   Input,
   OnChanges,
-  OnInit,
   Output,
   Renderer2,
   SimpleChanges,
@@ -51,11 +50,13 @@ const openCloseResizeAnimation = trigger('openCloseResize', [
   styleUrls: ['./mobile-bottom-sheet.component.scss'],
   animations: [openCloseResizeAnimation]
 })
-export class MobileBottomSheetComponent implements OnInit, AfterViewInit, OnChanges {
-  @Input() open = false;
+export class MobileBottomSheetComponent implements AfterViewInit, OnChanges {
   @Input() height = 400;
 
-  @Output() closed = new EventEmitter<string>();
+  @Input() open = false;
+  @Output() openChange = new EventEmitter<boolean>();
+
+  closeThreshold = 0.5; // % of height reduction that closes overlay
 
   animationState = 'closed';
   resizingHeight = this.height;
@@ -69,8 +70,6 @@ export class MobileBottomSheetComponent implements OnInit, AfterViewInit, OnChan
   portal: TemplatePortal = null;
 
   private destroy = new Subject<void>();
-
-  ngOnInit(): void {}
 
   ngAfterViewInit(): void {
     this.portal = new TemplatePortal(this.bottomSheetRef, this.viewContainerRef);
@@ -89,9 +88,7 @@ export class MobileBottomSheetComponent implements OnInit, AfterViewInit, OnChan
         .backdropClick()
         .pipe(takeUntil(this.destroy))
         .subscribe(() => {
-          this.animationState = 'closed';
-          this.overlayRef.detach();
-          this.closed.emit();
+          this.close();
         });
     }
 
@@ -124,7 +121,7 @@ export class MobileBottomSheetComponent implements OnInit, AfterViewInit, OnChan
     this.destroy.complete();
   }
 
-  onHandleTouchStart(touchStartEvent) {
+  onHandleTouchStart(touchStartEvent: TouchEvent): void {
     const startY = touchStartEvent.touches[0].clientY;
     let delta = 0;
     const startHeight = this.bottomSheetContainerRef.nativeElement.getBoundingClientRect().height;
@@ -139,15 +136,19 @@ export class MobileBottomSheetComponent implements OnInit, AfterViewInit, OnChan
       this.renderer.setStyle(this.bottomSheetContainerRef.nativeElement, 'height', `${startHeight - delta}px`);
     });
     cleanupTouchEnd = this.renderer.listen(this.resizeHandleRef.nativeElement, 'touchend', (touchEndEvent) => {
-      if (delta > startHeight * 0.5) {
-        this.animationState = 'closed';
-        this.overlayRef.detach();
-        this.closed.emit();
+      if (delta > startHeight * this.closeThreshold) {
+        this.close();
       } else {
         this.animationState = 'open';
       }
       cleanupTouchMove();
       cleanupTouchEnd();
     });
+  }
+
+  close(): void {
+    this.animationState = 'closed';
+    this.overlayRef.detach();
+    this.openChange.emit(false);
   }
 }

@@ -73,10 +73,6 @@ export class EventScheduleOverlayComponent implements OnInit, AfterViewInit, OnD
     });
   }
 
-  onBottomSheetClosed() {
-    this.isBottomSheetOpen = false;
-  }
-
   getCurrentBreakpoint() {
     let breakpoint = 'xs';
     breakpoint = this.breakpointObserver.isMatched(this.breakpoints.xs) ? 'xs' : breakpoint;

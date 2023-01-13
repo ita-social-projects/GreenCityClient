@@ -20,7 +20,7 @@
     <ng-template [ngTemplateOutlet]="scheduleInfo"></ng-template>
   </div>
 </ng-template> -->
-<app-mobile-bottom-sheet [height]="348" [open]="isBottomSheetOpen" (closed)="onBottomSheetClosed()">
+<app-mobile-bottom-sheet [height]="348" [(open)]="isBottomSheetOpen">
   <ng-template [ngTemplateOutlet]="scheduleInfo"></ng-template>
 </app-mobile-bottom-sheet>
 
