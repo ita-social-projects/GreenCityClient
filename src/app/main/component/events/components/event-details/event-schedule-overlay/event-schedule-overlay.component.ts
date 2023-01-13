@@ -1,35 +1,30 @@
 import { BreakpointObserver } from '@angular/cdk/layout';
 import { Overlay, OverlayRef, PositionStrategy, ScrollStrategy } from '@angular/cdk/overlay';
 import { TemplatePortal } from '@angular/cdk/portal';
-import { AfterViewInit, Component, Input, OnDestroy, OnInit, ViewChild, ViewContainerRef } from '@angular/core';
+import { AfterViewInit, Component, ElementRef, Input, OnDestroy, OnInit, TemplateRef, ViewChild, ViewContainerRef } from '@angular/core';
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
-
-// type MediaWidthSelector = `(min-width: ${number}px)` | `(max-width: ${number}px)` | `(min-width: ${number}px) and (max-width: ${number}px)`;
 
 @Component({
   selector: 'app-event-schedule-overlay',
   templateUrl: './event-schedule-overlay.component.html',
   styleUrls: ['./event-schedule-overlay.component.scss']
 })
-export class EventScheduleOverlayComponent implements OnInit, AfterViewInit, OnDestroy {
+export class EventScheduleOverlayComponent implements AfterViewInit, OnDestroy {
   icons = {
     clock: 'assets/img/events/clock.svg',
     location: 'assets/img/events/location.svg',
     ellipsis: 'assets/img/events/ellipsis.svg'
   };
 
-  isScheduleOpen = false;
-
+  isOverlayOpen = false;
   isBottomSheetOpen = false;
 
   @Input() event;
 
-  @ViewChild('scheduleButton') scheduleButtonRef;
-  @ViewChild('scheduleInfoOverlay') scheduleInfoOverlayRef;
+  @ViewChild('scheduleButton') scheduleButtonRef: ElementRef;
+  @ViewChild('scheduleInfoOverlay') scheduleInfoOverlayRef: TemplateRef<any>;
   overlayRef: OverlayRef = null;
-  // overlayPositionStrategy: PositionStrategy = null;
-  // overlayScrollStrategy: ScrollStrategy = null;
 
   portal = null;
 
@@ -44,42 +39,54 @@ export class EventScheduleOverlayComponent implements OnInit, AfterViewInit, OnD
 
   constructor(private overlay: Overlay, private viewContainerRef: ViewContainerRef, private breakpointObserver: BreakpointObserver) {}
 
-  ngOnInit(): void {}
-
   ngAfterViewInit(): void {
     this.portal = new TemplatePortal(this.scheduleInfoOverlayRef, this.viewContainerRef);
+    this.overlayRef = this.overlay.create({
+      hasBackdrop: true,
+      panelClass: 'event-schedule-overlay',
+      backdropClass: 'event-schedule-overlay-backdrop',
+      disposeOnNavigation: true,
+      positionStrategy: this.getOverlayPositionStrategy(),
+      scrollStrategy: this.getOverlayScrollStrategy()
+    });
+    this.overlayRef
+      .backdropClick()
+      .pipe(takeUntil(this.destroy))
+      .subscribe(() => {
+        this.overlayRef.detach();
+        this.isOverlayOpen = false;
+        this.isBottomSheetOpen = false;
+      });
 
     const screenBreakpointChanges = this.breakpointObserver.observe(Object.values(this.breakpoints));
-
     screenBreakpointChanges.pipe(takeUntil(this.destroy)).subscribe(() => {
-      if (!this.overlayRef || !this.isScheduleOpen) {
+      if (!this.overlayRef) {
         return;
       }
 
-      if (this.overlayRef.hasAttached()) {
-        this.overlayRef.dispose();
+      if (!this.isOverlayOpen && !this.isBottomSheetOpen) {
+        return;
       }
 
-      if (this.getCurrentBreakpoint() === 'xs') {
+      if (this.breakpointObserver.isMatched(this.breakpoints.xs)) {
+        this.isOverlayOpen = false;
+        this.overlayRef.detach();
+
         this.isBottomSheetOpen = true;
       } else {
         this.isBottomSheetOpen = false;
-        this.overlayRef = this.createOverlay();
+
+        this.overlayRef.detach();
+        this.overlayRef.attach(this.portal);
+        this.overlayRef.updatePositionStrategy(this.getOverlayPositionStrategy());
+        this.overlayRef.updateScrollStrategy(this.getOverlayScrollStrategy());
+        this.isOverlayOpen = true;
       }
 
       // 'xs' => *\'xs' : open = false; attach portal
       // *\'xs' => 'xs': detach portal; open = true
       // *\'xs' => *\'xs' do nothing
     });
-  }
-
-  getCurrentBreakpoint() {
-    let breakpoint = 'xs';
-    breakpoint = this.breakpointObserver.isMatched(this.breakpoints.xs) ? 'xs' : breakpoint;
-    breakpoint = this.breakpointObserver.isMatched(this.breakpoints.sm) ? 'sm' : breakpoint;
-    breakpoint = this.breakpointObserver.isMatched(this.breakpoints.md) ? 'md' : breakpoint;
-    breakpoint = this.breakpointObserver.isMatched(this.breakpoints.lg) ? 'lg' : breakpoint;
-    return breakpoint;
   }
 
   getOverlayPositionStrategy(): PositionStrategy {
@@ -162,71 +169,14 @@ export class EventScheduleOverlayComponent implements OnInit, AfterViewInit, OnD
   }
 
   onScheduleClick(): void {
-    this.isScheduleOpen = true;
-    // const portal = new TemplatePortal(this.scheduleInfoOverlayRef, this.viewContainerRef);
-    if (this.getCurrentBreakpoint() === 'xs') {
+    if (this.breakpointObserver.isMatched(this.breakpoints.xs)) {
       this.isBottomSheetOpen = true;
       return;
     }
 
-    this.overlayRef = this.createOverlay();
+    this.isOverlayOpen = true;
+    this.overlayRef.attach(this.portal);
+    this.overlayRef.updatePositionStrategy(this.getOverlayPositionStrategy());
+    this.overlayRef.updateScrollStrategy(this.getOverlayScrollStrategy());
   }
-
-  createOverlay() {
-    const overlayRef = this.overlay.create({
-      hasBackdrop: true,
-      panelClass: 'event-schedule-overlay',
-      backdropClass: 'event-schedule-overlay-backdrop',
-      disposeOnNavigation: true,
-      positionStrategy: this.getOverlayPositionStrategy(),
-      scrollStrategy: this.getOverlayScrollStrategy()
-    });
-    overlayRef.attach(this.portal);
-    overlayRef
-      .backdropClick()
-      .pipe(takeUntil(this.destroy))
-      .subscribe(() => {
-        this.overlayRef.dispose();
-        this.isScheduleOpen = false;
-      });
-    return overlayRef;
-  }
-
-  onClose(event) {
-    console.log(event);
-    this.overlayRef.detach();
-    this.isScheduleOpen = false;
-  }
-
-  // onHandleTouchStart(touchStartEvent) {
-  //   const startY = touchStartEvent.touches[0].clientY;
-  //   // this.renderer.setStyle(this.scheduleInfoContainerRef.nativeElement, 'height', '500px');
-  //   let delta = 0;
-  //   const startHeight = this.scheduleInfoContainerRef.nativeElement.getBoundingClientRect().height;
-  //   this.animationState = 'resize';
-  //   let cleanupTouchMove = () => {};
-  //   let cleanupTouchEnd = () => {};
-  //   this.resizingHeight = startHeight;
-  //   cleanupTouchMove = this.renderer.listen(this.resizeHandleRef.nativeElement, 'touchmove', (touchMoveEvent) => {
-  //     const movedTo = touchMoveEvent.touches[0].clientY;
-  //     delta = movedTo - startY;
-  //     this.resizingHeight = startHeight - delta;
-  //     console.log(this.resizingHeight);
-  //     this.renderer.setStyle(this.scheduleInfoContainerRef.nativeElement, 'height', `${startHeight - delta}px`);
-  //   });
-  //   cleanupTouchEnd = this.renderer.listen(this.resizeHandleRef.nativeElement, 'touchend', (touchEndEvent) => {
-  //     if (delta > startHeight * 0.5) {
-  //       this.animationState = 'closed';
-  //       this.overlayRef.detach();
-  //     } else {
-  //       this.animationState = 'open';
-  //     }
-  //     cleanupTouchMove();
-  //     cleanupTouchEnd();
-  //   });
-  // }
-
-  // onDrag() {
-  //   console.log('drag');
-  // }
 }
