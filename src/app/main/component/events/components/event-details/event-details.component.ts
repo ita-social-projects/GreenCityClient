@@ -36,8 +36,6 @@ export class EventDetailsComponent implements OnInit {
     arrowLeft: 'assets/img/icon/econews/arrow_left.svg'
   };
 
-  // @ViewChild('scheduleButton') scheduleButtonRef;
-
   private eventId: number;
   private userId: number;
 
@@ -54,7 +52,6 @@ export class EventDetailsComponent implements OnInit {
   attendeesAvatars = [];
 
   public isAdmin = false;
-  // public icons = singleNewsImages;
   public event: EventPageResponceDto;
 
   public images: string[] = [];
@@ -63,7 +60,6 @@ export class EventDetailsComponent implements OnInit {
 
   public max = 5;
   public rate: number;
-  // public isReadonly = true;
 
   deleteDialogData = {
     popupTitle: 'homepage.events.delete-title',
@@ -75,7 +71,6 @@ export class EventDetailsComponent implements OnInit {
 
   public address = 'Should be adress';
 
-  // public readonly = false;
   public maxRating = 5;
   constructor(
     private route: ActivatedRoute,
@@ -130,43 +125,22 @@ export class EventDetailsComponent implements OnInit {
     this.router.navigate(['/events', 'create-event']);
   }
 
-  // public onScheduleClick(): void {
-  //   const overlayRef = this.overlay.create({
+  // public openMap(event): void {
+  //   const dataToMap = {
+  //     address: event.coordinates.addressEn,
+  //     lat: event.coordinates.latitude,
+  //     lng: event.coordinates.longitude
+  //   };
+  //   this.dialog.open(MapEventComponent, {
+  //     data: dataToMap,
   //     hasBackdrop: true,
-  //     positionStrategy: this.overlay
-  //       .position()
-  //       .flexibleConnectedTo(this.scheduleButtonRef)
-  //       .withPositions([
-  //         {
-  //           originX: 'center',
-  //           originY: 'bottom',
-  //           overlayX: 'center',
-  //           overlayY: 'top'
-  //         }
-  //       ])
+  //     closeOnNavigation: true,
+  //     disableClose: true,
+  //     panelClass: '',
+  //     width: '900px',
+  //     height: '400px'
   //   });
-  //   const scheduleInfo = new ComponentPortal(EventScheduleInfoComponent);
-  //   const componentRef = overlayRef.attach(scheduleInfo);
-  //   componentRef.instance.event = this.event;
-  //   overlayRef.backdropClick().subscribe(() => overlayRef.detach());
   // }
-
-  public openMap(event): void {
-    const dataToMap = {
-      address: event.coordinates.addressEn,
-      lat: event.coordinates.latitude,
-      lng: event.coordinates.longitude
-    };
-    this.dialog.open(MapEventComponent, {
-      data: dataToMap,
-      hasBackdrop: true,
-      closeOnNavigation: true,
-      disableClose: true,
-      panelClass: '',
-      width: '900px',
-      height: '400px'
-    });
-  }
 
   public deleteEvent(): void {
     const matDialogRef = this.dialog.open(DialogPopUpComponent, {

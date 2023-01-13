@@ -22,7 +22,6 @@
     </div>
 
     <div class="event-header">
-      <!-- <div class="event-meta"> -->
       <div class="left-side">
         <div class="event-title">{{ event.title }}</div>
         <div class="date-author">
@@ -45,7 +44,6 @@
           <img [src]="icons.socials.facebook" alt="Share on Facebook" />
         </div>
       </div>
-      <!-- </div> -->
     </div>
 
     <div class="event-main">
@@ -60,9 +58,6 @@
           </div>
           <div class="event-participants">
             <div class="event-participants-avatars" *ngIf="attendeesAvatars.length">
-              <!-- <div class="event-participants-avatar" *ngFor="let item of 5 | repeat">
-                <div style="width:700px; height: 700px; background: rgb(22, 20, 131)"></div>
-              </div> -->
               <div class="event-participants-avatar" *ngFor="let avatar of attendeesAvatars">
                 <img [src]="avatar" alt="" />
               </div>
@@ -123,50 +118,6 @@
           </div>
           <div class="event-info-days">
             <app-event-schedule-overlay [event]="event"></app-event-schedule-overlay>
-            <!-- <button class="more-days-info-button" aria-label="Days info" *ngIf="event.dates.length > 1" (click)="onScheduleClick()" #scheduleButton>
-              <img [src]="icons.ellipsis" alt="Days" />
-            </button> -->
-            <!-- <mat-menu class="event-info-days-overlay" #moreDaysInfo="matMenu">
-              <div class="event-date-place-block-two-days" *ngIf="event.dates.length === 2">
-                <div class="event-date-place-day-block" *ngFor="let day of event.dates; index as idx">
-                  <div class="day-number">{{ idx + 1 }}&nbsp;Day</div>
-                  <div class="event-date-place">
-                    <div class="event-date">
-                      <div class="event-date-icon">
-                        <img [src]="icons.clock" alt="" />
-                      </div>
-                      <div>
-                        {{ day.startDate | date: 'MMM d, y' }} | {{ day.startDate | date: 'hh:mm a' }}&nbsp;-&nbsp;{{
-                          day.finishDate | date: 'hh:mm a'
-                        }}
-                      </div>
-                    </div>
-                    <div class="event-location">
-                      <div class="event-location-icon">
-                        <img [src]="icons.location" alt="" />
-                      </div>
-                      <div>{{ day.onlineLink ? day.onlineLink : day.coordinates.addressEn }}</div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-
-              <div class="event-date-place-block-three-and-more-days" *ngIf="event.dates.length >= 3">
-                <div class="event-date-place-block-content">
-                  <div class="event-date-place-day-block" *ngFor="let day of event.dates; index as idx">
-                    <div class="day-number">{{ idx + 1 }}&nbsp;Day</div>
-                    <div class="event-date-place">
-                      <div class="event-date">
-                        {{ day.startDate | date: 'MMM d, y' }} | {{ day.startDate | date: 'hh:mm a' }}&nbsp;-&nbsp;{{
-                          day.finishDate | date: 'hh:mm a'
-                        }}
-                      </div>
-                      <div class="event-location">{{ day.onlineLink ? day.onlineLink : day.coordinates.addressEn }}</div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </mat-menu> -->
           </div>
         </div>
 
