@@ -47,6 +47,7 @@ export class UbsAdminTariffsAddServicePopUpComponent implements OnInit, OnDestro
     });
     this.initForm();
     this.fillFields(this.receivedData);
+    console.log(this.receivedData);
   }
 
   private initForm() {
@@ -69,8 +70,8 @@ export class UbsAdminTariffsAddServicePopUpComponent implements OnInit, OnDestro
     });
   }
 
-  async addNewService() {
-    const courierId: number = this.tariffsService.getCourierId();
+  addNewService() {
+    const courierId: number = this.receivedData.courierId;
 
     const { name, nameEng, capacity, price, commission, description, descriptionEng } = this.addServiceForm.value;
     this.service = {
@@ -112,7 +113,8 @@ export class UbsAdminTariffsAddServicePopUpComponent implements OnInit, OnDestro
   }
 
   editService() {
-    const locationId = this.tariffsService.getLocationId();
+    const locationId = this.receivedData.locationId;
+
     const { name, nameEng, price, capacity, commission, description, descriptionEng } = this.addServiceForm.getRawValue();
     this.service = {
       name,

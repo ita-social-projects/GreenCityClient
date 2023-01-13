@@ -77,6 +77,7 @@ export class UbsAdminTariffsPricingPageComponent implements OnInit, OnDestroy {
     this.subscribeToLangChange();
     this.routeParams();
     this.initForm();
+    this.initializeCourierId();
     this.getLocations();
     this.orderService.locationSubject.pipe(takeUntil(this.destroy)).subscribe(() => {
       this.getAllServices();
@@ -85,8 +86,6 @@ export class UbsAdminTariffsPricingPageComponent implements OnInit, OnDestroy {
     });
     this.initializeLocationId();
     this.getOurTariffs();
-    this.getCourierId();
-    this.setCourierId();
     this.getSelectedTariffCard();
   }
 
@@ -180,8 +179,8 @@ export class UbsAdminTariffsPricingPageComponent implements OnInit, OnDestroy {
           return true;
         }
       });
-      this.tariffsService.setCourierId(card.courierId);
-      return card.courierId;
+      this.tariffsService.setCourierId(card.courierDto.courierId);
+      return card.courierDto.courierId;
     } catch (e) {
       return Error('getCourierId Error');
     }
@@ -234,6 +233,11 @@ export class UbsAdminTariffsPricingPageComponent implements OnInit, OnDestroy {
     return this.locationId;
   }
 
+  async initializeCourierId(): Promise<number> {
+    this.currentCourierId = await this.getCourierId();
+    return this.currentCourierId;
+  }
+
   routeParams(): void {
     this.route.params.pipe(takeUntil(this.destroy)).subscribe((res) => {
       this.getAllTariffsForService();
@@ -270,7 +274,8 @@ export class UbsAdminTariffsPricingPageComponent implements OnInit, OnDestroy {
       panelClass: 'address-matDialog-styles-pricing-page',
       data: {
         button: 'add',
-        locationId: this.currentLocation
+        locationId: this.locationId,
+        courierId: this.currentCourierId
       }
     });
     dialogRefService
@@ -354,7 +359,8 @@ export class UbsAdminTariffsPricingPageComponent implements OnInit, OnDestroy {
       panelClass: 'address-matDialog-styles-pricing-page',
       data: {
         button: 'update',
-        serviceData: service
+        serviceData: service,
+        locationId: this.locationId
       }
     });
     dialogRefService
