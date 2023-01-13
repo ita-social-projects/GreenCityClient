@@ -33,18 +33,7 @@ import { MatMenuModule } from '@angular/material/menu';
 import { EventScheduleOverlayComponent } from './components/event-details/event-schedule-overlay/event-schedule-overlay.component';
 import { DragDropModule } from '@angular/cdk/drag-drop';
 import { MatBottomSheetModule } from '@angular/material/bottom-sheet';
-
-import * as Hammer from 'hammerjs';
-import { HammerGestureConfig, HAMMER_GESTURE_CONFIG } from '@angular/platform-browser';
 import { EventScheduleComponent } from './components/event-details/event-schedule/event-schedule.component';
-
-@Injectable()
-export class MyHammerConfig extends HammerGestureConfig {
-  overrides = <any>{
-    pan: { direction: Hammer.DIRECTION_ALL },
-    swipe: { direction: Hammer.DIRECTION_ALL }
-  };
-}
 
 @NgModule({
   declarations: [
@@ -94,13 +83,7 @@ export class MyHammerConfig extends HammerGestureConfig {
     DragDropModule,
     MatBottomSheetModule
   ],
-  exports: [TranslateModule],
-  providers: [
-    {
-      provide: HAMMER_GESTURE_CONFIG,
-      useFactory: () => new MyHammerConfig()
-    }
-  ]
+  exports: [TranslateModule]
 })
 export class EventsModule {}
 export function createTranslateLoader(http: HttpClient) {
