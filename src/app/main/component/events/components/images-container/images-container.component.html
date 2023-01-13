@@ -7,7 +7,7 @@
       </div>
       <mat-label class="image-title">Download PNG or JPG only. File size should be less than 10MB</mat-label>
       <div class="image-container" appDrag (files)="filesDropped($event)" *ngFor="let img of images; index as i">
-        <img class="image-preview" *ngIf="img.src" [src]="img.src" alt="image-of-violation" />
+        <img class="image-preview" *ngIf="img.src" [src]="img.src" alt="image-of-event" />
         <div class="delete-block">
           <div>{{ img.name }}</div>
           <div (click)="deleteImage(i)">X</div>
@@ -27,6 +27,11 @@
             (change)="loadFile($event)"
           />
         </div>
+      </div>
+    </div>
+    <div class="row">
+      <div class="image-container" *ngFor="let img of defImgs; index as i">
+        <img class="image-preview" [src]="img" alt="image-of-event" />
       </div>
     </div>
   </div>

@@ -86,6 +86,10 @@ export class UbsAdminSeveralOrdersPopUpComponent implements OnInit {
     this.showTimePicker = false;
   }
 
+  getExportDate() {
+    return this.ordersForm.controls.exportDetailsDto.get('dateExport').value;
+  }
+
   parseStrToTime(dateStr: string, date: Date): string {
     const hours = dateStr.split(':')[0];
     const minutes = dateStr.split(':')[1];

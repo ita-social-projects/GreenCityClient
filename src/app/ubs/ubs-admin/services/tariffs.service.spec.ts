@@ -73,6 +73,21 @@ const station = {
   name: 'fake'
 };
 
+const editLocation = {
+  nameEn: 'name',
+  nameUa: 'назва',
+  locationId: 1
+};
+
+const filterData = { status: 'ACTIVE' };
+
+const card = {
+  courierId: 1,
+  locationIdList: [1, 2],
+  receivingStationsIdList: [1, 2],
+  regionId: 2
+};
+
 describe('TariffsService', () => {
   let service: TariffsService;
   let httpMock: HttpTestingController;
@@ -96,23 +111,9 @@ describe('TariffsService', () => {
     expect(service).toBeTruthy();
   });
 
-  it('should get tariff for a service', () => {
-    service.getAllServices().subscribe((data) => {
-      expect(data).toBe(service1);
-    });
-
-    httpTest('/ubs/superAdmin/getService', 'GET', service1);
-  });
-
-  it('should crate new service', () => {
-    service.createService(service1).subscribe((data) => {
-      expect(data).toBe(service1);
-    });
-
-    const request = httpMock.expectOne(mainUbsLink + '/ubs/superAdmin/createService');
-    expect(request.request.method).toBe('POST');
-    expect(request.request.body).toEqual(service1);
-    request.flush(service1);
+  it('should get location id', () => {
+    service.locationId = 1;
+    expect(service.getLocationId()).toBe(1);
   });
 
   it('should delete service ', () => {
@@ -121,13 +122,6 @@ describe('TariffsService', () => {
       expect(data).toEqual(0);
     });
     httpTest('/ubs/superAdmin/deleteService/1', 'DELETE', 0);
-  });
-
-  it('should edit service', () => {
-    service.editService(1, service1).subscribe((data) => {
-      expect(data).toBe(service1);
-    });
-    httpTest('/ubs/superAdmin/editService/1', 'PUT', service1);
   });
 
   it('should get all tariffs', () => {
@@ -164,12 +158,46 @@ describe('TariffsService', () => {
     httpTest('/ubs/superAdmin/editTariffService/1', 'PUT', tariff);
   });
 
+  it('should crate new service', () => {
+    service.createService(service1).subscribe((data) => {
+      expect(data).toBe(service1);
+    });
+
+    const request = httpMock.expectOne(mainUbsLink + '/ubs/superAdmin/createService');
+    expect(request.request.method).toBe('POST');
+    expect(request.request.body).toEqual(service1);
+    request.flush(service1);
+  });
+
+  it('should get tariff for a service', () => {
+    service.getAllServices().subscribe((data) => {
+      expect(data).toBe(service1);
+    });
+
+    httpTest('/ubs/superAdmin/getService', 'GET', service1);
+  });
+
+  it('should edit service', () => {
+    service.editService(1, service1).subscribe((data) => {
+      expect(data).toBe(service1);
+    });
+    httpTest('/ubs/superAdmin/editService/1', 'PUT', service1);
+  });
+
   it('should return all locations', () => {
     service.getLocations().subscribe((data) => {
       expect(data).toBe(location);
     });
 
     httpTest('/ubs/superAdmin/getLocations', 'GET', location);
+  });
+
+  it('should return active locations', () => {
+    service.getActiveLocations().subscribe((data) => {
+      expect(data).toBe(location);
+    });
+
+    httpTest('/ubs/superAdmin/getActiveLocations', 'GET', location);
   });
 
   it('should return all couriers', () => {
@@ -180,14 +208,6 @@ describe('TariffsService', () => {
     httpTest('/ubs/superAdmin/getCouriers', 'GET', courier);
   });
 
-  it('should return all stations', () => {
-    service.getAllStations().subscribe((data) => {
-      expect(data).toBe(station as any);
-    });
-
-    httpTest('/ubs/superAdmin/get-all-receiving-station', 'GET', station);
-  });
-
   it('should edit info', () => {
     service.editInfo(info).subscribe((data) => {
       expect(data).toBe(info);
@@ -196,15 +216,52 @@ describe('TariffsService', () => {
     httpTest('/ubs/superAdmin/editInfoAboutTariff', 'PATCH', info);
   });
 
+  it('should set limit description', () => {
+    service.setLimitDescription('test', 1).subscribe((data) => {
+      expect(data).toBe('test');
+    });
+
+    httpTest('/ubs/superAdmin/setLimitDescription/1', 'PATCH', 'test');
+  });
+
+  it('should set limit by sum order', () => {
+    service.setLimitsBySumOrder('test', 1).subscribe((data) => {
+      expect(data).toBe('test');
+    });
+
+    httpTest('/ubs/superAdmin/setLimitsBySumOfOrder/1', 'PATCH', 'test');
+  });
+
+  it('should set limit by amount of bags', () => {
+    service.setLimitsByAmountOfBags('test', 1).subscribe((data) => {
+      expect(data).toBe('test');
+    });
+
+    httpTest('/ubs/superAdmin/setLimitsByAmountOfBags/1', 'PATCH', 'test');
+  });
+
   it('should add location', () => {
     service.addLocation(location).subscribe((data) => {
       expect(data).toBe(location);
     });
 
-    const request = httpMock.expectOne(mainUbsLink + '/ubs/superAdmin/addLocations');
-    expect(request.request.method).toBe('POST');
-    expect(request.request.body).toEqual(location);
-    request.flush(location);
+    httpTest('/ubs/superAdmin/addLocations', 'POST', location);
+  });
+
+  it('should return all stations', () => {
+    service.getAllStations().subscribe((data) => {
+      expect(data).toBe(station as any);
+    });
+
+    httpTest('/ubs/superAdmin/get-all-receiving-station', 'GET', station);
+  });
+
+  it('should add station', () => {
+    service.addStation('station').subscribe((data) => {
+      expect(data).toBe('station');
+    });
+
+    httpTest('/ubs/superAdmin/create-receiving-station?name=station', 'POST', 'station');
   });
 
   it('should add courier', () => {
@@ -212,10 +269,7 @@ describe('TariffsService', () => {
       expect(data).toBe(courier);
     });
 
-    const request = httpMock.expectOne(mainUbsLink + '/ubs/superAdmin/createCourier');
-    expect(request.request.method).toBe('POST');
-    expect(request.request.body).toEqual(courier);
-    request.flush(courier);
+    httpTest('/ubs/superAdmin/createCourier', 'POST', courier);
   });
 
   it('should edit station', () => {
@@ -230,5 +284,40 @@ describe('TariffsService', () => {
       expect(data).toBe(courier);
     });
     httpTest('/ubs/superAdmin/update-courier', 'PUT', courier);
+  });
+
+  it('should edit location name', () => {
+    service.editLocationName([editLocation]).subscribe((data) => {
+      expect(data).toEqual([editLocation]);
+    });
+    httpTest('/ubs/superAdmin/locations/edit', 'POST', [editLocation]);
+  });
+
+  it('should return filtered card', () => {
+    service.getFilteredCard(filterData).subscribe((data) => {
+      expect(data).toEqual([]);
+    });
+    httpTest('/ubs/superAdmin/tariffs?status=ACTIVE', 'GET', []);
+  });
+
+  it('should get card info', () => {
+    service.getCardInfo().subscribe((data) => {
+      expect(data).toEqual([]);
+    });
+    httpTest('/ubs/superAdmin/tariffs', 'GET', []);
+  });
+
+  it('should create card', () => {
+    service.createCard(card).subscribe((data) => {
+      expect(data).toBe(card);
+    });
+    httpTest('/ubs/superAdmin/add-new-tariff', 'POST', card);
+  });
+
+  it('should check if card exist', () => {
+    service.checkIfCardExist(card).subscribe((data) => {
+      expect(data).toBe(card);
+    });
+    httpTest('/ubs/superAdmin/check-if-tariff-exists', 'POST', card);
   });
 });

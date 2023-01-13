@@ -16,7 +16,12 @@
                 <label for="order" class="form__label">
                   {{ 'order-edit.status.order-label' | translate }}
                 </label>
-                <select id="order" class="form-control" formControlName="orderStatus" (change)="onChangedOrderStatus($event.target.value)">
+                <select
+                  *ngIf="isOrderStatusSelected"
+                  class="form-control"
+                  formControlName="orderStatus"
+                  (change)="onChangedOrderStatus($event.target.value)"
+                >
                   <option
                     *ngFor="let status of availableOrderStatuses"
                     [selected]="status?.key === generalInfo.orderStatus"
@@ -57,6 +62,9 @@
             formControlName="adminComment"
             placeholder="{{ 'order-edit.comment.placeholder' | translate }}"
           ></textarea>
+          <div class="validation" *ngIf="adminComment.invalid && adminComment.touched">
+            <app-ubs-input-error [formElement]="adminComment" [controlName]="'adminComment'"> </app-ubs-input-error>
+          </div>
         </div>
       </div>
     </div>

@@ -11,6 +11,7 @@ import { InfiniteScrollModule } from 'ngx-infinite-scroll';
 import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
 import { EventsService } from 'src/app/main/component/events/services/events.service';
 import { NgxPaginationModule } from 'ngx-pagination';
+import { EventResponseDto } from 'src/app/main/component/events/models/events.interface';
 
 describe('ProfileDashboardComponent', () => {
   let component: ProfileDashboardComponent;
@@ -21,6 +22,7 @@ describe('ProfileDashboardComponent', () => {
 
   const LocalStorageServiceMock = jasmine.createSpyObj('localStorageService', ['getUserId', 'languageBehaviourSubject', 'setCurentPage']);
   LocalStorageServiceMock.languageBehaviourSubject = new BehaviorSubject('ua');
+  LocalStorageServiceMock.setCurentPage = () => of('previousPage', '/profile');
 
   const storeMock = jasmine.createSpyObj('store', ['select', 'dispatch']);
   storeMock.select = () => of({ ecoNews: {}, autorNews: [{ newsId: 1 }], pageNumber: 1, error: 'error', ecoNewsByAuthor: true });
@@ -34,14 +36,57 @@ describe('ProfileDashboardComponent', () => {
     habitStreak: 10
   };
 
-  const MockReqest = {
-    page: [],
-    totalElements: 4
+  const MockResult: EventResponseDto = {
+    currentPage: 0,
+    first: true,
+    hasNext: false,
+    hasPrevious: false,
+    last: false,
+    number: 0,
+    page: [
+      {
+        additionalImages: [],
+        dates: [
+          {
+            coordinates: {
+              addressEn: 'first',
+              addressUa: 'second',
+              latitude: 1,
+              longitude: 1
+            },
+            event: 'event',
+            finishDate: '2022-06-29T04:00:00Z',
+            id: 1,
+            onlineLink: 'http',
+            startDate: '2022-06-29T04:00:00Z'
+          }
+        ],
+        description: 'description',
+        id: 95,
+        open: true,
+        organizer: {
+          id: 12,
+          name: 'username',
+          organizerRating: 2
+        },
+        tags: [
+          {
+            id: 1,
+            nameUa: 'Укр тег',
+            nameEn: 'Eng Tag'
+          }
+        ],
+        title: 'title',
+        titleImage: 'image title',
+        isSubscribed: true
+      }
+    ],
+    totalElements: 12,
+    totalPages: 1
   };
 
-  const EventsServiceMock = jasmine.createSpyObj('EventsService', ['getEvents', 'getUsersEvents']);
-  EventsServiceMock.getEvents = () => of(MockReqest);
-  EventsServiceMock.getUsersEvents = () => of(MockReqest);
+  const EventsServiceMock = jasmine.createSpyObj('EventsService', ['getAllUserEvents']);
+  EventsServiceMock.getAllUserEvents = () => of(MockResult);
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
@@ -71,13 +116,14 @@ describe('ProfileDashboardComponent', () => {
     const spy1 = spyOn(component as any, 'subscribeToLangChange');
     const spy2 = spyOn(component as any, 'getUserId');
     const spy3 = spyOn(component, 'dispatchNews');
+    const spy4 = spyOn(component, 'initGetUserEvents');
 
     component.ngOnInit();
 
     expect(spy1).toHaveBeenCalledTimes(1);
     expect(spy2).toHaveBeenCalledTimes(1);
     expect(spy3).toHaveBeenCalledTimes(1);
-    expect(LocalStorageServiceMock.setCurentPage).toHaveBeenCalledWith('previousPage', '/profile');
+    expect(spy4).toHaveBeenCalledTimes(1);
   });
 
   it('onInit news should have expected result', () => {
@@ -86,6 +132,17 @@ describe('ProfileDashboardComponent', () => {
       expect(component.news[0]).toEqual({ newsId: 1 } as any);
     });
   });
+
+  it('Should call getAllUserEvents method before subscribe', async(() => {
+    component.userId = 12;
+    const spy1 = spyOn(EventsServiceMock, 'getAllUserEvents').and.returnValue(of(MockResult));
+    const spy2 = spyOn(EventsServiceMock.getAllUserEvents(), 'subscribe');
+    component.initGetUserEvents();
+    expect(spy1).toHaveBeenCalledBefore(spy2);
+    expect(spy2).toHaveBeenCalled();
+    expect(component.eventsList).toEqual(MockResult.page);
+    expect(component.eventsTotal).toEqual(MockResult.totalElements);
+  }));
 
   it('dispatchNews expect store.dispatch have been called', () => {
     (component as any).currentPage = 1;

@@ -6,6 +6,7 @@ import { Subject, Observable, of, iif } from 'rxjs';
 import { takeUntil, startWith, map, mergeMap } from 'rxjs/operators';
 import { CourierLocations, AllLocationsDtos, LocationsName } from '../../../models/ubs.interface';
 import { OrderService } from '../../../services/order.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-ubs-order-location-popup',
@@ -28,7 +29,8 @@ export class UbsOrderLocationPopupComponent implements OnInit, OnDestroy {
     private orderService: OrderService,
     private dialogRef: MatDialogRef<UbsOrderLocationPopupComponent>,
     private localStorageService: LocalStorageService,
-    @Inject(MAT_DIALOG_DATA) public data: any
+    @Inject(MAT_DIALOG_DATA) public data: any,
+    private router: Router
   ) {
     this.currentLanguage = this.localStorageService.getCurrentLanguage();
   }
@@ -85,10 +87,10 @@ export class UbsOrderLocationPopupComponent implements OnInit, OnDestroy {
         if (res.orderIsPresent) {
           this.locations = res.tariffsForLocationDto;
           this.selectedLocationId = res.tariffsForLocationDto.locationsDtosList[0].locationId;
-          this.orderService.completedLocation(true);
           this.localStorageService.setLocationId(this.selectedLocationId);
           this.localStorageService.setLocations(this.locations);
           this.orderService.setLocationData(this.currentLocation);
+          this.orderService.completedLocation(true);
           this.passDataToComponent();
         }
       });
@@ -101,6 +103,12 @@ export class UbsOrderLocationPopupComponent implements OnInit, OnDestroy {
   changeLocation(id: number, locationName: string): void {
     this.selectedLocationId = id;
     this.currentLocation = locationName.split(',')[0];
+  }
+
+  public redirectToUbsPage(): void {
+    if (!this.selectedLocationId) {
+      this.router.navigate(['/ubs']);
+    }
   }
 
   ngOnDestroy(): void {

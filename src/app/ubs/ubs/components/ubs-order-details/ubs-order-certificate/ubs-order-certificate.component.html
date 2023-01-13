@@ -4,6 +4,7 @@
     formArrayName="formArrayCertificates"
     *ngFor="let certificate of formArrayCertificates.controls; let i = index"
   >
+    <label class="eco-label">{{ 'order-details.certificate-number' | translate }}</label>
     <input
       type="text"
       class="shadow-none form-control col-12 col-sm-8 my-1 input-border"
@@ -11,7 +12,8 @@
       [unmask]="false"
       [imask]="{ mask: certificateMask }"
       [formControlName]="i"
-      [readonly]="certStatuses[i]"
+      [readonly]="certificates.activatedStatus[i]"
+      (keydown.enter)="certificateSubmit(i)"
     />
     <div class="form-group">
       <button
@@ -39,47 +41,59 @@
       </button>
     </div>
     <div class="validMessages">
-      <small class="text-danger" *ngIf="certificate.invalid && certificate.touched && certificateError">
+      <small class="text-danger" *ngIf="certificate.invalid && certificate.touched && certificates.error[i]">
         {{ 'order-details.failed-certificate' | translate }}
+      </small>
+    </div>
+    <div class="messages-container">
+      <small class="text-danger" *ngIf="certificates.error[i]">
+        {{ 'order-details.failed-certificate' | translate }}
+      </small>
+      <small class="text-danger" *ngIf="certificates.status[i] === 'USED' && certificates.failed[i]">
+        {{ 'order-details.already-used' | translate: { certDate: certificates.dateOfUses[i] } }}
+      </small>
+      <small class="text-danger" *ngIf="certificates.status[i] === 'EXPIRED' && certificates.failed[i]">
+        {{ 'order-details.expired' | translate: { certDate: certificates.expirationDates[i] } }}
+      </small>
+      <small class="text-message" *ngIf="certificates.expirationDates[i] && certSize && !certificates.failed[i]">
+        {{ 'order-details.activated' | translate: { certificateSum: certificates.points[i], certDate: certificates.expirationDates[i] } }}
+      </small>
+      <small class="text-message" *ngIf="certSize && certificateSum > showTotal && i === certificates.codes.length - 1">
+        {{
+          'order-details.activated-oversum'
+            | translate
+              : {
+                  certificateSum: certificates.points[i],
+                  certDate: certificates.expirationDates[i],
+                  certificateLeft: certificateSum - showTotal
+                }
+        }}
+      </small>
+      <small
+        class="text-message"
+        *ngIf="
+          certificates.expirationDates[i] &&
+          (certificates.status[i] === 'NEW' || certificates.status[i] === 'ACTIVE') &&
+          !certSize &&
+          !certificates.failed[i]
+        "
+      >
+        {{ 'order-details.activated' | translate: { certificateSum: certificateSum, certDate: certificates.expirationDates[i] } }}
       </small>
     </div>
   </div>
 
-  <div class="messages-container">
-    <small class="text-danger" *ngIf="certificateError">
-      {{ 'order-details.failed-certificate' | translate }}
-    </small>
-    <small class="text-danger" *ngIf="certStatus === 'USED' && failedCert">
-      {{ 'order-details.already-used' | translate: { certDate: dateOfUse[dateOfUse.length - 1] } }}
-    </small>
-    <small class="text-danger" *ngIf="certStatus === 'EXPIRED' && failedCert">
-      {{ 'order-details.expired' | translate: { certDate: expirationDate[expirationDate.length - 1] } }}
-    </small>
-    <small class="text-message" *ngIf="certSize && certificateSum <= showTotal">
-      {{ 'order-details.activated' | translate: { certificateSum: certificateSum, certDate: expirationDate[expirationDate.length - 1] } }}
-    </small>
-    <small class="text-message" *ngIf="certSize && certificateSum > showTotal">
-      {{
-        'order-details.activated-oversum'
-          | translate
-            : {
-                certificateSum: certificateSum,
-                certDate: expirationDate[expirationDate.length - 1],
-                certificateLeft: certificateSum - showTotal
-              }
-      }}
-    </small>
-    <small class="text-message" *ngIf="(certStatus === 'NEW' || certStatus === 'ACTIVE') && !certSize">
-      {{ 'order-details.activated' | translate: { certificateSum: certificateSum, certDate: expirationDate[expirationDate.length - 1] } }}
-    </small>
-  </div>
-
   <button
     type="button"
-    *ngIf="addCert && finalSum > 0 && !failedCert"
+    *ngIf="addCert && finalSum > 0 && !certificates.failed[certificates.codes.length - 1]"
     class="addCertificateBtn"
-    [hidden]="certificates.length > 4"
-    [disabled]="!disableAddCertificate() || cancelCertBtn || certificateError || failedCert"
+    [hidden]="certificates.codes.length > 4"
+    [disabled]="
+      !disableAddCertificate() ||
+      cancelCertBtn ||
+      certificates.error[certificates.codes.length - 1] ||
+      certificates.failed[certificates.codes.length - 1]
+    "
     (click)="addNewCertificate()"
   >
     {{ 'order-details.add-certificate' | translate }}

@@ -9,6 +9,7 @@ import { ubsMainPageImages } from '../../../../main/image-pathes/ubs-main-page-i
 import { AllLocationsDtos, CourierLocations } from '../../models/ubs.interface';
 import { OrderService } from '../../services/order.service';
 import { UbsOrderLocationPopupComponent } from '../ubs-order-details/ubs-order-location-popup/ubs-order-location-popup.component';
+import { JwtService } from '@global-service/jwt/jwt.service';
 
 @Component({
   selector: 'app-ubs-main-page',
@@ -23,6 +24,7 @@ export class UbsMainPageComponent implements OnInit, OnDestroy {
   selectedLocationId: number;
   isFetching: boolean;
   currentLocation: string;
+  public isAdmin = false;
 
   priceCard = [
     {
@@ -82,11 +84,13 @@ export class UbsMainPageComponent implements OnInit, OnDestroy {
     private dialog: MatDialog,
     private checkTokenservice: CheckTokenService,
     private localStorageService: LocalStorageService,
-    private orderService: OrderService
+    private orderService: OrderService,
+    private jwtService: JwtService
   ) {}
 
   ngOnInit(): void {
     this.onCheckToken();
+    this.isAdmin = this.checkIsAdmin();
   }
 
   ngOnDestroy() {
@@ -102,6 +106,11 @@ export class UbsMainPageComponent implements OnInit, OnDestroy {
   redirectToOrder() {
     this.localStorageService.setUbsRegistration(true);
     this.getLocations();
+  }
+
+  public checkIsAdmin(): boolean {
+    const userRole = this.jwtService.getUserRole();
+    return userRole === 'ROLE_UBS_EMPLOYEE';
   }
 
   getLocations(): void {

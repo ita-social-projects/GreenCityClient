@@ -4,7 +4,7 @@ import { takeUntil } from 'rxjs/operators';
 import { OrderService } from '../../../services/order.service';
 import { Subject } from 'rxjs';
 import { CertificateStatus } from '../../../certificate-status.enum';
-import { Bag, ICertificateResponse, Locations, OrderDetails } from '../../../models/ubs.interface';
+import { Bag, ICertificateResponse, Locations, OrderDetails, Certificate } from '../../../models/ubs.interface';
 import { UBSOrderFormService } from '../../../services/ubs-order-form.service';
 import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
 import { Masks, Patterns } from 'src/assets/patterns/patterns';
@@ -22,11 +22,22 @@ export class UbsOrderCertificateComponent implements OnInit, OnDestroy {
   @Input() pointsUsed: number;
   @Output() newItemEvent = new EventEmitter<object>();
   fullCertificate: number;
+
+  public certificates: Certificate = {
+    codes: [],
+    points: [],
+    activatedStatus: [],
+    creationDates: [],
+    dateOfUses: [],
+    expirationDates: [],
+    failed: [],
+    status: [],
+    error: []
+  };
+
   orders: OrderDetails;
   orderDetailsForm: FormGroup;
-  certStatuses = [];
   minOrderValue = 500;
-  certificates = [];
   certificateSum = 0;
   total = 0;
   finalSum = 0;
@@ -45,14 +56,7 @@ export class UbsOrderCertificateComponent implements OnInit, OnDestroy {
   certSize = false;
   showCertificateUsed = 0;
   certificateLeft = 0;
-  creationDate: string[] = [];
-  dateOfUse: string[] = [];
-  expirationDate: string[] = [];
-  certStatus: string;
-  failedCert = false;
-  object: {};
-  private destroy: Subject<boolean> = new Subject<boolean>();
-  public certificateError = false;
+  public destroy: Subject<boolean> = new Subject<boolean>();
   bonusesRemaining: boolean;
   public locations: Locations[];
   clickOnYes = true;
@@ -60,8 +64,8 @@ export class UbsOrderCertificateComponent implements OnInit, OnDestroy {
 
   constructor(
     private fb: FormBuilder,
-    private orderService: OrderService,
-    private shareFormService: UBSOrderFormService,
+    public orderService: OrderService,
+    public shareFormService: UBSOrderFormService,
     private localStorageService: LocalStorageService
   ) {
     this.initForm();
@@ -79,8 +83,8 @@ export class UbsOrderCertificateComponent implements OnInit, OnDestroy {
     });
   }
 
-  disableAddCertificate() {
-    return this.certificates.length === this.formArrayCertificates.length;
+  public disableAddCertificate() {
+    return this.certificates.codes.length === this.formArrayCertificates.length;
   }
 
   initForm() {
@@ -98,7 +102,7 @@ export class UbsOrderCertificateComponent implements OnInit, OnDestroy {
     return date?.split('-').reverse().join('.');
   }
 
-  setNewValue(value: object) {
+  public setNewValue(value: object) {
     this.newItemEvent.emit(value);
   }
 
@@ -122,16 +126,20 @@ export class UbsOrderCertificateComponent implements OnInit, OnDestroy {
       this.displayCert = true;
       this.shareFormService.changeAddCertButtonVisibility(true);
     }
-    this.failedCert = cert.certificateStatus === CertificateStatus.EXPIRED || cert.certificateStatus === CertificateStatus.USED;
-    this.certificateSum = this.failedCert && this.formArrayCertificates.length === 1 ? 0 : this.certificateSum;
-    this.creationDate.push(this.certificateDateTreat(cert.creationDate));
-    this.dateOfUse.push(this.certificateDateTreat(cert.dateOfUse));
-    this.expirationDate.push(this.certificateDateTreat(cert.expirationDate));
-    this.certStatus = cert.certificateStatus;
+    this.certificates.failed.push(
+      cert.certificateStatus === CertificateStatus.EXPIRED || cert.certificateStatus === CertificateStatus.USED
+    );
+    this.certificateSum =
+      this.certificates.failed[this.certificates.failed.length - 1] && this.formArrayCertificates.length === 1 ? 0 : this.certificateSum;
+    this.certificates.creationDates.push(this.certificateDateTreat(cert.creationDate));
+    this.certificates.dateOfUses.push(this.certificateDateTreat(cert.dateOfUse));
+    this.certificates.expirationDates.push(this.certificateDateTreat(cert.expirationDate));
+    this.certificates.points.push(cert.points);
+    this.certificates.status.push(cert.certificateStatus);
     this.fullCertificate = this.certificateSum;
   }
 
-  private calculateTotal(): void {
+  public calculateTotal(): void {
     this.total = 0;
     this.bags.forEach((bag) => {
       this.total += bag.price * bag.quantity;
@@ -181,7 +189,7 @@ export class UbsOrderCertificateComponent implements OnInit, OnDestroy {
 
   changeOrderDetails() {
     this.shareFormService.orderDetails.pointsToUse = this.pointsUsed;
-    this.shareFormService.orderDetails.certificates = this.certificates;
+    this.shareFormService.orderDetails.certificates = this.certificates.codes;
     this.shareFormService.orderDetails.certificatesSum = this.showCertificateUsed;
     this.shareFormService.orderDetails.pointsSum = this.pointsUsed;
     this.shareFormService.orderDetails.total = this.showTotal;
@@ -189,10 +197,21 @@ export class UbsOrderCertificateComponent implements OnInit, OnDestroy {
     this.shareFormService.changeOrderDetails();
   }
 
-  calculateCertificates(arr): void {
-    if (arr.length > 0) {
+  public particalResetStoragedCertificates(): void {
+    this.certificates.creationDates = [];
+    this.certificates.dateOfUses = [];
+    this.certificates.expirationDates = [];
+    this.certificates.points = [];
+    this.certificates.failed = [];
+    this.certificates.status = [];
+  }
+
+  calculateCertificates(): void {
+    if (this.certificates.codes.length) {
       this.cancelCertBtn = true;
-      arr.forEach((certificate, index) => {
+      this.particalResetStoragedCertificates();
+
+      this.certificates.codes.forEach((certificate, index) => {
         this.orderService
           .processCertificate(certificate)
           .pipe(takeUntil(this.destroy))
@@ -208,8 +227,17 @@ export class UbsOrderCertificateComponent implements OnInit, OnDestroy {
             (error) => {
               this.cancelCertBtn = false;
               if (error.status === 404) {
-                arr.splice(index, 1);
-                this.certificateError = true;
+                this.certificates.codes.splice(index, 1);
+                this.certificates.activatedStatus.splice(index, 1);
+                this.certificates.creationDates.splice(index, 1);
+                this.certificates.dateOfUses.splice(index, 1);
+                this.certificates.expirationDates.splice(index, 1);
+
+                this.certificates.points.splice(index, 1);
+                this.certificates.status.splice(index, 1);
+
+                this.certificates.error.push(true);
+                this.certificates.failed.push(true);
               }
             }
           );
@@ -224,14 +252,7 @@ export class UbsOrderCertificateComponent implements OnInit, OnDestroy {
     this.formArrayCertificates.push(this.fb.control('', [Validators.minLength(8), Validators.pattern(this.certificatePattern)]));
   }
 
-  certificateReset(resetMessage: boolean): void {
-    if (resetMessage) {
-      this.creationDate = [];
-      this.expirationDate = [];
-      this.dateOfUse = [];
-      this.certStatus = '';
-      this.shareFormService.changeAddCertButtonVisibility(true);
-    }
+  certificateReset(): void {
     const fullBonus = this.pointsUsed + this.points;
     if (this.finalSum === 0 && this.pointsUsed + this.points >= this.certificateSum && this.pointsUsed !== 0) {
       this.finalSum = this.showTotal;
@@ -244,7 +265,11 @@ export class UbsOrderCertificateComponent implements OnInit, OnDestroy {
     this.showCertificateUsed = null;
     this.shareFormService.changeAddCertButtonVisibility(false);
     this.displayCert = false;
-    this.certificates = [];
+
+    for (const key of Object.keys(this.certificates)) {
+      this.certificates[key] = [];
+    }
+
     this.certSize = false;
     this.certificateLeft = 0;
     this.certificateSum = 0;
@@ -254,43 +279,39 @@ export class UbsOrderCertificateComponent implements OnInit, OnDestroy {
   }
 
   deleteCertificate(index: number): void {
-    this.certificates.splice(index, 1);
-    this.clearAdditionalCertificate(index);
-    this.certificateError = false;
-  }
+    for (const key of Object.keys(this.certificates)) {
+      this.certificates[key].splice(index, 1);
+    }
 
-  private clearAdditionalCertificate(index: number) {
     if (this.formArrayCertificates.length > 1) {
       this.formArrayCertificates.removeAt(index);
-      this.creationDate.splice(index, 1);
-      this.dateOfUse.splice(index, 1);
-      this.expirationDate.splice(index, 1);
     } else {
-      this.certificateReset(true);
+      this.certificateReset();
     }
-    this.certStatuses.splice(index, 1);
-    this.calculateCertificates(this.certificates);
-    this.sendDataToParents();
+    this.calculateCertificates();
   }
 
   showCancelButton(i: number) {
     return (
-      (this.certStatuses[i] && this.formArrayCertificates.controls[i].value) ||
+      (this.certificates.activatedStatus[i] && this.formArrayCertificates.controls[i].value) ||
       (this.formArrayCertificates.controls.length > 1 && !this.formArrayCertificates.controls[i].value.length)
     );
   }
 
   certificateSubmit(index: number): void {
-    if (!this.certificates.includes(this.formArrayCertificates.value[index])) {
-      this.certificates.push(this.formArrayCertificates.value[index]);
-      this.certStatuses.push(true);
-      this.calculateCertificates(this.certificates);
+    if (!this.certificates.codes.includes(this.formArrayCertificates.value[index])) {
+      this.particalResetStoragedCertificates();
+
+      this.certificates.codes.push(this.formArrayCertificates.value[index]);
+      this.certificates.activatedStatus.push(true);
+      this.certificates.error.push(false);
+      this.calculateCertificates();
     }
   }
 
   showActivateButton(i: number) {
     return (
-      (!this.certStatuses[i] && this.formArrayCertificates.controls[i].value && !this.disableAddCertificate()) ||
+      (!this.certificates.activatedStatus[i] && this.formArrayCertificates.controls[i].value && !this.disableAddCertificate()) ||
       (this.formArrayCertificates.controls.length === 1 && !this.formArrayCertificates.controls[i].value.length)
     );
   }
@@ -306,7 +327,7 @@ export class UbsOrderCertificateComponent implements OnInit, OnDestroy {
     }
   }
 
-  private calculatePointsWithoutCertificate() {
+  public calculatePointsWithoutCertificate() {
     this.finalSum = this.showTotal;
     const totalSumIsBiggerThanPoints = this.defaultPoints > this.showTotal;
     if (totalSumIsBiggerThanPoints) {
@@ -320,7 +341,7 @@ export class UbsOrderCertificateComponent implements OnInit, OnDestroy {
     this.finalSum = this.showTotal - this.pointsUsed;
   }
 
-  private calculatePointsWithCertificate() {
+  public calculatePointsWithCertificate() {
     const totalSumIsBiggerThanPoints = this.defaultPoints > this.finalSum - this.certificateSum;
     this.finalSum = this.showTotal;
     if (totalSumIsBiggerThanPoints) {

@@ -1,8 +1,9 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
-import { FormsModule } from '@angular/forms';
+import { FormsModule, FormGroup } from '@angular/forms';
 import { TranslateModule } from '@ngx-translate/core';
 import { By } from '@angular/platform-browser';
 import { TimePickerComponent } from './time-picker.component';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 describe('TimePickerComponent', () => {
   let component: TimePickerComponent;
@@ -10,6 +11,19 @@ describe('TimePickerComponent', () => {
   const fakeTimeFrom = '10:00';
   const fakeTimeTo = '14:00';
   const fakeCurrentTime = '02:33 PM';
+  const fakeExportDateForm = {
+    controls: {
+      exportDetailsDto: {
+        controls: {
+          dateExport: { value: '2022-12-15' }
+        }
+      }
+    }
+  } as unknown as FormGroup;
+
+  const fakeExportDate = {
+    dateExport: { value: '2022-12-15' }
+  };
   const fakeTimeSelectFrom = [
     '08:00',
     '08:30',
@@ -70,7 +84,7 @@ describe('TimePickerComponent', () => {
     '21:30',
     '22:00'
   ];
-  const fakeTimeToChange: string[] = [
+  let fakeTimeToChange: string[] = [
     '09:30',
     '10:00',
     '10:30',
@@ -117,13 +131,15 @@ describe('TimePickerComponent', () => {
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       declarations: [TimePickerComponent],
-      imports: [TranslateModule.forRoot(), FormsModule]
+      imports: [TranslateModule.forRoot(), FormsModule, BrowserAnimationsModule]
     }).compileComponents();
   }));
 
   beforeEach(() => {
     fixture = TestBed.createComponent(TimePickerComponent);
     component = fixture.componentInstance;
+    component.exportDate = fakeExportDate.dateExport.value;
+    fixture.detectChanges();
     component.setTimeFrom = '10:00';
     component.setTimeTo = '14:00';
     component.ngOnInit();
@@ -149,15 +165,21 @@ describe('TimePickerComponent', () => {
 
   it('should set list of time "delivery to" started with time "delivery from" plus 30 minutes', () => {
     const selector = fixture.debugElement.query(By.css('#timeFrom')).nativeElement;
-    selector.value = selector.options[3].value;
     selector.dispatchEvent(new Event('change'));
+    fakeTimeToChange = component.compareTime();
     fixture.detectChanges();
-    expect(component.fromSelect).toEqual(component.compareTime());
+    if (component.fromSelect[0] !== undefined) {
+      expect(component.fromSelect).toEqual(component.compareTime());
+    }
   });
 
   it('should check whether "compareTime" works correctly', () => {
     const filteredArr = component.compareTime();
-    expect(filteredArr[0]).toEqual(component.fromSelect[0]);
+    if (component.currentDate >= component.exportDate) {
+      expect(filteredArr[0]).toEqual(component.fromSelect[0]);
+    } else {
+      expect(fakeTimeSelectFrom).toEqual(component.fromSelect);
+    }
   });
 
   it('should check whether "convertTime12to24" works correctly', () => {

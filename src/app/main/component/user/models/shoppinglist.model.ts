@@ -3,4 +3,5 @@ export interface ShoppingList {
   status: string;
   text: string;
   selected?: boolean;
+  custom?: boolean;
 }

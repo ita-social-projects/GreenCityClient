@@ -105,8 +105,10 @@ export class TariffsService {
     return this.http.patch(`${mainUbsLink}/ubs/superAdmin/setLimitsByAmountOfBags/${tariffId}`, info);
   }
 
-  public getJSON(sourceText): Observable<any> {
-    return ajax.getJSON('https://translate.googleapis.com/translate_a/single?client=gtx&sl=uk&tl=en&dt=t&q=' + encodeURI(sourceText));
+  public getJSON(sourceText, lang, translateTo): Observable<any> {
+    return ajax.getJSON(
+      `https://translate.googleapis.com/translate_a/single?client=gtx&sl=${lang}&tl=${translateTo}&dt=t&q=` + encodeURI(sourceText)
+    );
   }
 
   addLocation(card) {

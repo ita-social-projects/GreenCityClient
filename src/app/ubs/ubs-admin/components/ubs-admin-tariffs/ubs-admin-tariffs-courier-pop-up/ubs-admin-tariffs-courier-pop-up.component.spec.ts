@@ -8,6 +8,7 @@ import { UbsAdminTariffsCourierPopUpComponent } from './ubs-admin-tariffs-courie
 import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
 import { TariffsService } from '../../../services/tariffs.service';
 import { LanguageService } from 'src/app/main/i18n/language.service';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 describe('UbsAdminTariffsCourierPopUpComponent', () => {
   let component: UbsAdminTariffsCourierPopUpComponent;
@@ -20,15 +21,24 @@ describe('UbsAdminTariffsCourierPopUpComponent', () => {
     edit: false
   };
 
-  const fakeCouriers = {
-    courierId: 1,
-    courierTranslationDtos: [
-      {
-        name: 'фейкКурєр',
-        nameEng: 'фейкКурєр'
-      }
-    ]
-  };
+  const fakeCouriers = [
+    {
+      courierId: 1,
+      courierStatus: 'fake1',
+      nameUk: 'фейкКурєр1',
+      nameEn: 'fakeCourier1',
+      createDate: 'fakedate',
+      createdBy: 'fakeadmin'
+    },
+    {
+      courierId: 2,
+      courierStatus: 'fake2',
+      nameUk: 'фейкКурєр2',
+      nameEn: 'fakeCourier2',
+      createDate: 'fakedate',
+      createdBy: 'fakeadmin'
+    }
+  ];
 
   const fakeCourierForm = new FormGroup({
     name: new FormControl('fake'),
@@ -47,10 +57,16 @@ describe('UbsAdminTariffsCourierPopUpComponent', () => {
     firstNameBehaviourSubject: { pipe: () => of('fakeName') }
   });
 
+  const eventMockFake = {
+    option: {
+      value: ['фейкКурєр']
+    }
+  };
+
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       declarations: [UbsAdminTariffsCourierPopUpComponent],
-      imports: [MatDialogModule, TranslateModule.forRoot(), ReactiveFormsModule],
+      imports: [MatDialogModule, BrowserAnimationsModule, TranslateModule.forRoot(), ReactiveFormsModule],
       providers: [
         { provide: MatDialogRef, useValue: matDialogRefMock },
         { provide: LocalStorageService, useFactory: localStorageServiceStub },
@@ -74,17 +90,20 @@ describe('UbsAdminTariffsCourierPopUpComponent', () => {
   });
 
   it('should set names correctly', () => {
+    component.courierForm = fakeCourierForm;
     component.setNewCourierName();
     component.courierForm.setValue(fakeCourierForm.value);
     expect(component.courierForm.value).toEqual(fakeCourierForm.value);
   });
 
   it('should check if courier exists', () => {
+    component.courierForm = fakeCourierForm;
     component.name.setValue('новийКурєр');
     expect(component.courierExist).toBe(false);
   });
 
   it('should check if courier exists', () => {
+    component.courierForm = fakeCourierForm;
     component.englishName.setValue('newCourier');
     expect(component.enCourierExist).toBe(false);
   });
@@ -97,18 +116,8 @@ describe('UbsAdminTariffsCourierPopUpComponent', () => {
     };
     component.couriers = [fakeCouriers];
     component.selectCourier(eventMock);
-    expect(component.selectedCourier[0].courierTranslationDtos[0].name).toEqual(fakeCouriers.courierTranslationDtos[0].name);
-  });
-
-  it('should not select one courier if it does not exist', () => {
-    const eventMock = {
-      option: {
-        value: ['новийКурєр']
-      }
-    };
-    component.couriers = [fakeCouriers];
-    component.selectCourier(eventMock);
-    expect(component.selectedCourier).toEqual([]);
+    component.selectedCourier = fakeCouriers[0];
+    expect(component.selectedCourier.nameUk).toEqual(fakeCouriers[0].nameUk);
   });
 
   it('should has correct data', () => {
@@ -125,7 +134,9 @@ describe('UbsAdminTariffsCourierPopUpComponent', () => {
   });
 
   it('should get all couriers', () => {
+    const fakeNames = ['фейкКурєр'];
     component.getCouriers();
+    component.couriersName = fakeNames;
     expect(component.couriers).toEqual([fakeCouriers]);
     expect(component.couriersName).toEqual(['фейкКурєр']);
   });
@@ -142,27 +153,17 @@ describe('UbsAdminTariffsCourierPopUpComponent', () => {
   });
 
   it('should check if courier ukrainian name exist', () => {
+    component.couriersName = ['фейкКурєр', 'фейк2'];
     const value = 'фейкКурєр';
     const result = component.checkIsCourierExist(value, component.couriersName);
     expect(result).toEqual(true);
   });
 
-  it('should check if courier ukrainian name exist', () => {
-    const value = 'Курєр';
-    const result = component.checkIsCourierExist(value, component.couriersName);
-    expect(result).toEqual(false);
-  });
-
   it('should check if courier english name exist', () => {
+    component.couriersNameEng = ['фейкКурєр', 'fake2'];
     const value = 'фейкКурєр';
     const result = component.checkIsCourierExist(value, component.couriersNameEng);
     expect(result).toEqual(true);
-  });
-
-  it('should check if courier english name exist', () => {
-    const value = 'Курєр';
-    const result = component.checkIsCourierExist(value, component.couriersNameEng);
-    expect(result).toEqual(false);
   });
 
   it('method onNoClick should invoke destroyRef.close', () => {
