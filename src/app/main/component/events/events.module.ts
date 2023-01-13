@@ -36,7 +36,6 @@ import { MatBottomSheetModule } from '@angular/material/bottom-sheet';
 
 import * as Hammer from 'hammerjs';
 import { HammerGestureConfig, HAMMER_GESTURE_CONFIG } from '@angular/platform-browser';
-import { EventScheduleButtonComponent } from './components/event-details/event-schedule-button/event-schedule-button.component';
 import { EventScheduleComponent } from './components/event-details/event-schedule/event-schedule.component';
 
 @Injectable()
@@ -58,7 +57,6 @@ export class MyHammerConfig extends HammerGestureConfig {
     EventDetailsComponent,
     ImagesSliderComponent,
     EventScheduleOverlayComponent,
-    EventScheduleButtonComponent,
     EventScheduleComponent
   ],
   imports: [

@@ -36,7 +36,6 @@ import { LocalizedDatePipe } from './localized-date-pipe/localized-date.pipe';
 import { TranslateDatePipe } from './translate-date-pipe/translate-date.pipe';
 import { RepeatPipe } from './repeat-pipe/repeat.pipe';
 import { CronPipe } from './cron-pipe/cron.pipe';
-import { MobileBottomSheetComponent } from './mobile-bottom-sheet/mobile-bottom-sheet.component';
 import { ResizableBottomSheetComponent } from './resizable-bottom-sheet/resizable-bottom-sheet.component';
 
 @NgModule({
@@ -69,7 +68,6 @@ import { ResizableBottomSheetComponent } from './resizable-bottom-sheet/resizabl
     TranslateDatePipe,
     RepeatPipe,
     CronPipe,
-    MobileBottomSheetComponent,
     ResizableBottomSheetComponent
   ],
   imports: [
@@ -110,7 +108,7 @@ import { ResizableBottomSheetComponent } from './resizable-bottom-sheet/resizabl
     TranslateDatePipe,
     RepeatPipe,
     CronPipe,
-    MobileBottomSheetComponent
+    ResizableBottomSheetComponent
   ]
 })
 export class SharedModule {}
