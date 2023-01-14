@@ -12,7 +12,7 @@ export class EventScheduleComponent implements OnInit {
     ellipsis: 'assets/img/events/ellipsis.svg'
   };
 
-  @Input() event;
+  @Input() days = [];
 
   constructor() {}
 

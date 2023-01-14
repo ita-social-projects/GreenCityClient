@@ -1,5 +1,5 @@
-<div class="event-date-place-block-two-days" *ngIf="event.dates.length === 2">
-  <div class="event-date-place-day-block" *ngFor="let day of event.dates; index as idx">
+<div class="event-date-place-block-two-days" *ngIf="days.length === 2">
+  <div class="event-date-place-day-block" *ngFor="let day of days; index as idx">
     <div class="day-number">{{ idx + 1 }}&nbsp;Day</div>
     <div class="event-date-place">
       <div class="event-date">
@@ -20,9 +20,9 @@
   </div>
 </div>
 
-<div class="event-date-place-block-three-and-more-days" *ngIf="event.dates.length >= 3">
+<div class="event-date-place-block-three-and-more-days" *ngIf="days.length >= 3">
   <div class="event-date-place-block-content">
-    <div class="event-date-place-day-block" *ngFor="let day of event.dates; index as idx">
+    <div class="event-date-place-day-block" *ngFor="let day of days; index as idx">
       <div class="day-number">{{ idx + 1 }}&nbsp;Day</div>
       <div class="event-date-place">
         <div class="event-date">

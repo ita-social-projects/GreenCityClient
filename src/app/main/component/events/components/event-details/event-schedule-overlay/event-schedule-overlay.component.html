@@ -1,4 +1,4 @@
-<button class="more-days-info-button" aria-label="Days info" *ngIf="event.dates.length > 1" (click)="onScheduleClick()" #scheduleButton>
+<button class="more-days-info-button" aria-label="Days info" *ngIf="days.length > 1" (click)="onScheduleClick()" #scheduleButton>
   <img [src]="icons.ellipsis" alt="Days" />
 </button>
 
@@ -12,6 +12,6 @@
 
 <ng-template #scheduleInfo>
   <div class="event-schedule-container">
-    <app-event-schedule [event]="event"></app-event-schedule>
+    <app-event-schedule [days]="days"></app-event-schedule>
   </div>
 </ng-template>
