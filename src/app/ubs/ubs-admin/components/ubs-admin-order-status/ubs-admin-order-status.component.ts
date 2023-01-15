@@ -58,6 +58,10 @@ export class UbsAdminOrderStatusComponent implements OnChanges, OnInit, OnDestro
     );
   }
 
+  public setDisabledSelect() {
+    return this.availableOrderStatuses[0].key === 'CANCELED' || this.availableOrderStatuses[0].key === 'DONE' ? true : null;
+  }
+
   private renderOrderStatus() {
     setTimeout(() => (this.isOrderStatusSelected = false));
     setTimeout(() => (this.isOrderStatusSelected = true));
