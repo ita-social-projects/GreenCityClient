@@ -78,16 +78,16 @@ export class UbsAdminTariffsPricingPageComponent implements OnInit, OnDestroy {
     this.subscribeToLangChange();
     this.routeParams();
     this.initForm();
+    this.getSelectedTariffCard();
     this.initializeCourierId();
     this.getLocations();
     this.orderService.locationSubject.pipe(takeUntil(this.destroy)).subscribe(() => {
+      this.getAllTariffsForService();
       this.getAllServices();
       this.getCouriers();
-      this.getAllTariffsForService();
     });
     this.initializeLocationId();
     this.getOurTariffs();
-    this.getSelectedTariffCard();
   }
 
   private initForm(): void {
@@ -159,19 +159,6 @@ export class UbsAdminTariffsPricingPageComponent implements OnInit, OnDestroy {
     }
 
     if (this.toggle) {
-      //
-      // this.bagInfo = {
-      //   minAmountOfBigBags: null,
-      //   maxAmountOfBigBags: null,
-      //   locationId
-      // };
-      // this.tariffsService
-      //   .setLimitsByAmountOfBags(this.bagInfo, tariffId)
-      //   .pipe(takeUntil(this.destroy))
-      //   .subscribe(() => {
-      //     this.getCouriers();
-      //   });
-
       this.tariffsService
         .setLimitsBySumOrder(this.sumInfo, tariffId)
         .pipe(takeUntil(this.destroy))
@@ -338,8 +325,14 @@ export class UbsAdminTariffsPricingPageComponent implements OnInit, OnDestroy {
       });
   }
 
-  private filterBags(): void {
-    this.bags = this.bags.filter((value) => value.locationId === this.locationId).sort((a, b) => b.price - a.price);
+  private async filterBags(): Promise<any> {
+    const locationId = await this.getLocationId();
+
+    this.bags = this.bags
+      .filter((value) => {
+        return value.locationId === locationId;
+      })
+      .sort((a, b) => b.price - a.price);
   }
 
   async filterServices(): Promise<any> {
