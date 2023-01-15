@@ -28,6 +28,7 @@ export class UbsAdminTariffsPricingPageComponent implements OnInit, OnDestroy {
   isLoadBar: boolean;
   selectedCardId: number;
   selectedCard;
+  cards: TariffCard[];
   isLoading = true;
   ourTariffs;
   amount;
@@ -115,10 +116,20 @@ export class UbsAdminTariffsPricingPageComponent implements OnInit, OnDestroy {
 
   sumToggler() {
     this.toggle = true;
+
+    this.limitsForm.patchValue({
+      minAmountOfBigBags: '',
+      maxAmountOfBigBags: ''
+    });
   }
 
   bagToggler() {
     this.toggle = false;
+
+    this.limitsForm.patchValue({
+      minPriceOfOrder: '',
+      maxPriceOfOrder: ''
+    });
   }
 
   saveChanges(): void {
@@ -148,6 +159,19 @@ export class UbsAdminTariffsPricingPageComponent implements OnInit, OnDestroy {
     }
 
     if (this.toggle) {
+      //
+      // this.bagInfo = {
+      //   minAmountOfBigBags: null,
+      //   maxAmountOfBigBags: null,
+      //   locationId
+      // };
+      // this.tariffsService
+      //   .setLimitsByAmountOfBags(this.bagInfo, tariffId)
+      //   .pipe(takeUntil(this.destroy))
+      //   .subscribe(() => {
+      //     this.getCouriers();
+      //   });
+
       this.tariffsService
         .setLimitsBySumOrder(this.sumInfo, tariffId)
         .pipe(takeUntil(this.destroy))
@@ -431,7 +455,7 @@ export class UbsAdminTariffsPricingPageComponent implements OnInit, OnDestroy {
       });
   }
 
-  public getSelectedTariffCard(): void {
+  public getSelectedTariffCard() {
     this.tariffsService
       .getCardInfo()
       .pipe(takeUntil(this.destroy))
@@ -444,10 +468,36 @@ export class UbsAdminTariffsPricingPageComponent implements OnInit, OnDestroy {
           city: card.locationInfoDtos.map((it) => it.nameUk),
           tariff: card.tariffStatus,
           regionId: card.regionDto.regionId,
-          cardId: card.cardId
+          cardId: card.cardId,
+          maxAmountOfBags: card.maxAmountOfBags,
+          minAmountOfBags: card.minAmountOfBags,
+          maxPriceOfOrder: card.maxPriceOfOrder,
+          minPriceOfOrder: card.minPriceOfOrder,
+          limitDescription: card.limitDescription
         };
         this.isLoading = false;
+        this.setLimits();
       });
+  }
+
+  setLimits() {
+    if (this.selectedCard.maxAmountOfBags !== null && this.selectedCard.minAmountOfBags !== null) {
+      this.limitsForm.patchValue({
+        minAmountOfBigBags: this.selectedCard.minAmountOfBags,
+        maxAmountOfBigBags: this.selectedCard.maxAmountOfBags,
+        limitDescription: this.selectedCard.limitDescription
+      });
+      this.toggle = false;
+    }
+
+    if (this.selectedCard.maxPriceOfOrder !== null && this.selectedCard.minPriceOfOrder !== null) {
+      this.limitsForm.patchValue({
+        minPriceOfOrder: this.selectedCard.minPriceOfOrder,
+        maxPriceOfOrder: this.selectedCard.maxPriceOfOrder,
+        limitDescription: this.selectedCard.limitDescription
+      });
+      this.toggle = true;
+    }
   }
 
   disableSaveButton(): boolean {

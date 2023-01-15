@@ -47,7 +47,6 @@ export class UbsAdminTariffsAddServicePopUpComponent implements OnInit, OnDestro
     });
     this.initForm();
     this.fillFields(this.receivedData);
-    console.log(this.receivedData);
   }
 
   private initForm() {

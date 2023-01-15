@@ -348,10 +348,12 @@ describe('UbsAdminPricingPageComponent', () => {
   });
 
   it('should call openAddServicePopup', () => {
-    component.currentLocation = 159;
+    component.locationId = 159;
+    component.currentCourierId = 1;
     const addtariffData = {
       button: 'add',
-      locationId: 159
+      locationId: 159,
+      courierId: 1
     };
     component.openAddServicePopup();
     expect(matDialogMock.open).toHaveBeenCalledWith(UbsAdminTariffsAddServicePopUpComponent, {
@@ -377,9 +379,11 @@ describe('UbsAdminPricingPageComponent', () => {
   });
 
   it('should call openUpdateServicePopup', () => {
+    component.locationId = 159;
     const tariffData = {
       button: 'update',
-      serviceData: fakeService
+      serviceData: fakeService,
+      locationId: 159
     };
     component.openUpdateServicePopup(fakeService);
     expect(matDialogMock.open).toHaveBeenCalledWith(UbsAdminTariffsAddServicePopUpComponent, {
