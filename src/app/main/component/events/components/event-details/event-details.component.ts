@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { ActivatedRoute, Router } from '@angular/router';
 import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
@@ -11,7 +11,6 @@ import { EventPageResponceDto } from '../../models/events.interface';
 import { EventsService } from '../../services/events.service';
 import { MapEventComponent } from '../map-event/map-event.component';
 import { JwtService } from '@global-service/jwt/jwt.service';
-import { Overlay } from '@angular/cdk/overlay';
 
 @Component({
   selector: 'app-event-details',
@@ -80,8 +79,7 @@ export class EventDetailsComponent implements OnInit {
     private dialog: MatDialog,
     private store: Store,
     private actionsSubj: ActionsSubject,
-    private jwtService: JwtService,
-    private overlay: Overlay
+    private jwtService: JwtService
   ) {}
 
   ngOnInit(): void {
@@ -94,7 +92,6 @@ export class EventDetailsComponent implements OnInit {
 
     this.eventService.getEventById(this.eventId).subscribe((res: EventPageResponceDto) => {
       this.event = res;
-      // this.localStorageService.setEventForEdit('editEvent', this.event);
       this.images = [res.titleImage, ...res.additionalImages];
       this.rate = Math.round(this.event.organizer.organizerRating);
       this.mapDialogData = {
@@ -125,22 +122,22 @@ export class EventDetailsComponent implements OnInit {
     this.router.navigate(['/events', 'create-event']);
   }
 
-  // public openMap(event): void {
-  //   const dataToMap = {
-  //     address: event.coordinates.addressEn,
-  //     lat: event.coordinates.latitude,
-  //     lng: event.coordinates.longitude
-  //   };
-  //   this.dialog.open(MapEventComponent, {
-  //     data: dataToMap,
-  //     hasBackdrop: true,
-  //     closeOnNavigation: true,
-  //     disableClose: true,
-  //     panelClass: '',
-  //     width: '900px',
-  //     height: '400px'
-  //   });
-  // }
+  public openMap(event): void {
+    const dataToMap = {
+      address: event.coordinates.addressEn,
+      lat: event.coordinates.latitude,
+      lng: event.coordinates.longitude
+    };
+    this.dialog.open(MapEventComponent, {
+      data: dataToMap,
+      hasBackdrop: true,
+      closeOnNavigation: true,
+      disableClose: true,
+      panelClass: '',
+      width: '900px',
+      height: '400px'
+    });
+  }
 
   public deleteEvent(): void {
     const matDialogRef = this.dialog.open(DialogPopUpComponent, {

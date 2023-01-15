@@ -1,11 +1,11 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input } from '@angular/core';
 
 @Component({
   selector: 'app-event-schedule',
   templateUrl: './event-schedule.component.html',
   styleUrls: ['./event-schedule.component.scss']
 })
-export class EventScheduleComponent implements OnInit {
+export class EventScheduleComponent {
   icons = {
     clock: 'assets/img/events/clock.svg',
     location: 'assets/img/events/location.svg',
@@ -13,8 +13,4 @@ export class EventScheduleComponent implements OnInit {
   };
 
   @Input() days = [];
-
-  constructor() {}
-
-  ngOnInit(): void {}
 }

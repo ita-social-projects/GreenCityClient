@@ -1,7 +1,7 @@
 import { BreakpointObserver } from '@angular/cdk/layout';
 import { Overlay, OverlayRef, PositionStrategy, ScrollStrategy } from '@angular/cdk/overlay';
 import { TemplatePortal } from '@angular/cdk/portal';
-import { AfterViewInit, Component, ElementRef, Input, OnDestroy, OnInit, TemplateRef, ViewChild, ViewContainerRef } from '@angular/core';
+import { AfterViewInit, Component, ElementRef, Input, OnDestroy, TemplateRef, ViewChild, ViewContainerRef } from '@angular/core';
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 
@@ -82,10 +82,6 @@ export class EventScheduleOverlayComponent implements AfterViewInit, OnDestroy {
         this.overlayRef.updateScrollStrategy(this.getOverlayScrollStrategy());
         this.isOverlayOpen = true;
       }
-
-      // 'xs' => *\'xs' : open = false; attach portal
-      // *\'xs' => 'xs': detach portal; open = true
-      // *\'xs' => *\'xs' do nothing
     });
   }
 
