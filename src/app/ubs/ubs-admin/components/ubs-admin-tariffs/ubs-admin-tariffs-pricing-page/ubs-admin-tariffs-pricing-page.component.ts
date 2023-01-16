@@ -446,7 +446,7 @@ export class UbsAdminTariffsPricingPageComponent implements OnInit, OnDestroy {
       });
   }
 
-  public getSelectedTariffCard() {
+  public getSelectedTariffCard(): void {
     this.tariffsService
       .getCardInfo()
       .pipe(takeUntil(this.destroy))
@@ -471,7 +471,7 @@ export class UbsAdminTariffsPricingPageComponent implements OnInit, OnDestroy {
       });
   }
 
-  setLimits() {
+  setLimits(): void {
     if (this.selectedCard.maxAmountOfBags !== null && this.selectedCard.minAmountOfBags !== null) {
       this.limitsForm.patchValue({
         minAmountOfBigBags: this.selectedCard.minAmountOfBigBags,
