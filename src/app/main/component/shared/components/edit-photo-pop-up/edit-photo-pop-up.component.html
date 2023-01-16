@@ -48,6 +48,7 @@
         <p *ngIf="isWarning" class="warning">{{ 'user.edit-profile.picture-tooltip' | translate }}</p>
         <p *ngIf="!isWarning">{{ 'user.edit-profile.would-you-like' | translate }}</p>
         <div class="buttons">
+          <button type="button" class="primary-global-button" (click)="closeEditPhoto()">Cancel</button>
           <button class="secondary-global-button" (click)="selectedPhoto = false; files.pop()">
             {{ 'user.edit-profile.btn.change-photo' | translate }}
           </button>

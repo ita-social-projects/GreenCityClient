@@ -98,6 +98,12 @@
 @media screen and (max-width: 319px) {
   .warning-text {
     text-align: center;
+    margin-bottom: 15px;
+  }
+
+  .main-container .close {
+    top: 5px;
+    right: 5px;
   }
 
   .buttons-container {
