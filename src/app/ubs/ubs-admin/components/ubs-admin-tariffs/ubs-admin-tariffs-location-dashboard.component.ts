@@ -106,6 +106,7 @@ export class UbsAdminTariffsLocationDashboardComponent implements OnInit, AfterV
     this.localeStorageService.languageBehaviourSubject.pipe(takeUntil(this.destroy)).subscribe((lang: string) => {
       this.currentLang = lang;
       this.loadScript();
+      this.getExistingCard(this.filterData);
     });
     this.initForm();
     this.getLocations();
@@ -118,7 +119,6 @@ export class UbsAdminTariffsLocationDashboardComponent implements OnInit, AfterV
     this.setCountOfCheckedCity();
     this.setStationPlaceholder();
     this.setStateValue();
-    this.getExistingCard(this.filterData);
     this.languageService
       .getCurrentLangObs()
       .pipe(takeUntil(this.destroy))
@@ -466,11 +466,12 @@ export class UbsAdminTariffsLocationDashboardComponent implements OnInit, AfterV
       .pipe(takeUntil(this.destroy))
       .subscribe((card) => {
         card.forEach((el) => {
+          console.log(el);
           const cardObj = {
-            courier: el.courierDto.nameUk,
+            courier: this.checkLang(el.courierDto.nameUk, el.courierDto.nameEn),
             station: el.receivingStationDtos.map((it) => it.name),
-            region: el.regionDto.nameUk,
-            city: el.locationInfoDtos.map((it) => it.nameUk),
+            region: this.checkLang(el.regionDto.nameUk, el.regionDto.nameEn),
+            city: el.locationInfoDtos.map((it) => this.checkLang(it.nameUk, it.nameEn)),
             tariff: el.tariffStatus,
             regionId: el.regionDto.regionId,
             cardId: el.cardId
@@ -670,6 +671,10 @@ export class UbsAdminTariffsLocationDashboardComponent implements OnInit, AfterV
         headerText: 'createCard'
       }
     });
+  }
+
+  private checkLang(uaValue, enValue): string {
+    return this.currentLang === 'ua' ? uaValue : enValue;
   }
 
   ngOnDestroy(): void {
