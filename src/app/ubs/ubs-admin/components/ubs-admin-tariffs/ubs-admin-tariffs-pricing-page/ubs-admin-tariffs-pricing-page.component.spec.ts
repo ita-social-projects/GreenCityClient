@@ -45,6 +45,7 @@ describe('UbsAdminPricingPageComponent', () => {
     maxAmountOfBigBags: new FormControl('fake'),
     limitDescription: new FormControl('fake')
   });
+
   const fakeLocations: Locations = {
     locationsDto: [
       {
@@ -131,8 +132,20 @@ describe('UbsAdminPricingPageComponent', () => {
       }
     ],
     tariffStatus: 'Active',
-    cardId: 3
+    cardId: 3,
+    minAmountOfBags: 1,
+    maxAmountOfBags: 5,
+    maxPriceOfOrder: null,
+    minPriceOfOrder: null,
+    limitDescription: 'fake'
   };
+
+  const fakeBagLimits = {
+    minAmountOfBigBags: 1,
+    maxAmountOfBigBags: 5,
+    limitDescription: 'fake'
+  };
+
   const dialogStub = {
     afterClosed() {
       return of(true);
@@ -244,9 +257,15 @@ describe('UbsAdminPricingPageComponent', () => {
       city: ['Місто'],
       tariff: 'Active',
       regionId: 1,
-      cardId: 3
+      cardId: 3,
+      minAmountOfBigBags: 1,
+      maxAmountOfBigBags: 5,
+      maxPriceOfOrder: null,
+      minPriceOfOrder: null,
+      limitDescription: 'fake'
     };
     component.getSelectedTariffCard();
+    fixture.detectChanges();
     expect(component.selectedCard).toEqual(result);
     expect(component.isLoading).toEqual(false);
   });
@@ -316,13 +335,52 @@ describe('UbsAdminPricingPageComponent', () => {
     });
   });
 
-  it('should call sumToggler', () => {
+  it('should call setLimits for Bag case', () => {
+    component.selectedCardId = 3;
+    component.getSelectedTariffCard();
+    component.setLimits();
+    expect(component.selectedCard.minPriceOfOrder).toBe(null);
+    expect(component.selectedCard.maxPriceOfOrder).toBe(null);
+    component.limitsForm.patchValue(fakeBagLimits);
+    expect(component.limitsForm.get('minAmountOfBigBags').value).toEqual(1);
+    expect(component.limitsForm.get('maxAmountOfBigBags').value).toEqual(5);
+    expect(component.limitsForm.get('limitDescription').value).toEqual('fake');
+    expect(component.toggle).toEqual(false);
+  });
+
+  it('should call initializeCourierId', () => {
+    const spy = spyOn(component, 'initializeCourierId').and.returnValue(Promise.resolve(5));
+    component.initializeCourierId();
+    spy.calls.mostRecent().returnValue.then();
+    expect(spy).toHaveBeenCalled();
+  });
+
+  it('should call initializeLocationId', () => {
+    const spy = spyOn(component, 'initializeLocationId').and.returnValue(Promise.resolve(5));
+    component.initializeLocationId();
+    spy.calls.mostRecent().returnValue.then();
+    expect(spy).toHaveBeenCalled();
+  });
+
+  it('should check whether sumToggler patching values correctly', () => {
+    component.limitsForm.patchValue({
+      minAmountOfBigBags: 'fake',
+      maxAmountOfBigBags: 'fake'
+    });
     component.sumToggler();
+    expect(component.limitsForm.get('minAmountOfBigBags').value).toEqual('');
+    expect(component.limitsForm.get('maxAmountOfBigBags').value).toEqual('');
     expect(component.toggle).toBe(true);
   });
 
-  it('should call bagToggler', () => {
+  it('should check whether bagToggler patching values correctly', () => {
+    component.limitsForm.patchValue({
+      minPriceOfOrder: 1,
+      maxPriceOfOrder: 3
+    });
     component.bagToggler();
+    expect(component.limitsForm.get('minPriceOfOrder').value).toEqual('');
+    expect(component.limitsForm.get('maxPriceOfOrder').value).toEqual('');
     expect(component.toggle).toBe(false);
   });
 

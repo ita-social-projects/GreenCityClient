@@ -28,14 +28,12 @@ export class UbsAdminTariffsPricingPageComponent implements OnInit, OnDestroy {
   isLoadBar: boolean;
   selectedCardId: number;
   selectedCard;
-  cards: TariffCard[];
   isLoading = true;
   ourTariffs;
   amount;
   currentCourierId: number;
-  saveBTNclicked: boolean;
+  saveBTNClicked: boolean;
   inputDisable: boolean;
-  info;
   bagInfo;
   sumInfo;
   toggle: boolean = null;
@@ -80,13 +78,13 @@ export class UbsAdminTariffsPricingPageComponent implements OnInit, OnDestroy {
     this.initForm();
     this.getSelectedTariffCard();
     this.initializeCourierId();
+    this.initializeLocationId();
     this.getLocations();
     this.orderService.locationSubject.pipe(takeUntil(this.destroy)).subscribe(() => {
       this.getAllTariffsForService();
       this.getAllServices();
       this.getCouriers();
     });
-    this.initializeLocationId();
     this.getOurTariffs();
   }
 
@@ -179,7 +177,7 @@ export class UbsAdminTariffsPricingPageComponent implements OnInit, OnDestroy {
 
       this.changeDescription();
     }
-    this.saveBTNclicked = true;
+    this.saveBTNClicked = true;
   }
 
   async getCourierId(): Promise<any> {
@@ -462,8 +460,8 @@ export class UbsAdminTariffsPricingPageComponent implements OnInit, OnDestroy {
           tariff: card.tariffStatus,
           regionId: card.regionDto.regionId,
           cardId: card.cardId,
-          maxAmountOfBags: card.maxAmountOfBags,
-          minAmountOfBags: card.minAmountOfBags,
+          maxAmountOfBigBags: card.maxAmountOfBags,
+          minAmountOfBigBags: card.minAmountOfBags,
           maxPriceOfOrder: card.maxPriceOfOrder,
           minPriceOfOrder: card.minPriceOfOrder,
           limitDescription: card.limitDescription
@@ -476,8 +474,8 @@ export class UbsAdminTariffsPricingPageComponent implements OnInit, OnDestroy {
   setLimits() {
     if (this.selectedCard.maxAmountOfBags !== null && this.selectedCard.minAmountOfBags !== null) {
       this.limitsForm.patchValue({
-        minAmountOfBigBags: this.selectedCard.minAmountOfBags,
-        maxAmountOfBigBags: this.selectedCard.maxAmountOfBags,
+        minAmountOfBigBags: this.selectedCard.minAmountOfBigBags,
+        maxAmountOfBigBags: this.selectedCard.maxAmountOfBigBags,
         limitDescription: this.selectedCard.limitDescription
       });
       this.toggle = false;
@@ -498,7 +496,7 @@ export class UbsAdminTariffsPricingPageComponent implements OnInit, OnDestroy {
       this.inputDisable = true;
       return this.inputDisable;
     }
-    if (this.saveBTNclicked) {
+    if (this.saveBTNClicked) {
       this.inputDisable = true;
       return this.inputDisable;
     }
@@ -506,7 +504,7 @@ export class UbsAdminTariffsPricingPageComponent implements OnInit, OnDestroy {
 
   unClickSaveBTN(value): void {
     if (value) {
-      this.saveBTNclicked = false;
+      this.saveBTNClicked = false;
     }
   }
 
