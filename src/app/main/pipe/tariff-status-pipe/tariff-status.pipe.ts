@@ -1,21 +1,21 @@
 import { Pipe, PipeTransform } from '@angular/core';
-import { LanguageService } from '../../i18n/language.service';
+import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
 
 @Pipe({
   name: 'tariffStatus'
 })
 export class TariffStatusPipe implements PipeTransform {
-  constructor(private languageService: LanguageService) {}
+  constructor(private localStorageService: LocalStorageService) {}
 
   transform(value: string) {
-    const lang = this.languageService.getCurrentLanguage();
+    const lang = this.localStorageService.getCurrentLanguage();
     switch (value) {
       case 'NEW':
         return lang === 'ua' ? 'Незаповнена' : 'Blank';
       case 'ACTIVE':
         return lang === 'ua' ? 'Активно' : 'Active';
       default:
-        return 'Неактивно';
+        return lang === 'ua' ? 'Неактивно' : 'Inactive';
     }
   }
 }
