@@ -120,7 +120,7 @@
             </mat-radio-button>
             <label for="min-order-amount">{{ 'ubs-tariffs.min_order_amount' | translate }}</label
             ><br />
-            <fieldset [disabled]="!toggle">
+            <fieldset [disabled]="!toggle || toggle === null">
               <legend></legend>
               <input class="input" type="number" id="from" formControlName="minPriceOfOrder" />
               <span class="line"></span>
@@ -134,7 +134,7 @@
               name="courierLimit"
               value="LIMIT_BY_AMOUNT_OF_BAG"
               (click)="bagToggler()"
-              [checked]="!toggle"
+              [checked]="!toggle || toggle === null"
             ></mat-radio-button>
             <label for="min-packages">{{ 'ubs-tariffs.min_number_of_packages' | translate }}</label
             ><br />
