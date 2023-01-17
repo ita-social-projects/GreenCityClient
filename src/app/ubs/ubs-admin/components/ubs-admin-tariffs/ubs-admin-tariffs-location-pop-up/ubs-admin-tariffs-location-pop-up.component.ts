@@ -274,7 +274,7 @@ export class UbsAdminTariffsLocationPopUpComponent implements OnInit, AfterViewC
     });
   }
 
-  checkLanguage(uaValue, enValue): string {
+  checkLanguage(uaValue: string, enValue: string): string {
     return this.currentLang === 'ua' ? uaValue : enValue;
   }
 
