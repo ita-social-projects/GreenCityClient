@@ -507,4 +507,39 @@ describe('UbsAdminPricingPageComponent', () => {
     component.disableSaveButton();
     expect(!component.inputDisable).toBe(false);
   });
+  it('should disable if bags fields are empty ', () => {
+    component.limitsForm.patchValue({
+      minAmountOfBigBags: '',
+      maxAmountOfBigBags: ''
+    });
+    component.disableSaveButton();
+    expect(component.inputDisable).toBe(true);
+  });
+
+  it('should disable if price fields are empty ', () => {
+    component.limitsForm.patchValue({
+      minPriceOfOrder: '',
+      maxPriceOfOrder: ''
+    });
+    component.disableSaveButton();
+    expect(component.inputDisable).toBe(true);
+  });
+
+  it('should disable if fields are null ', () => {
+    component.limitsForm.patchValue({
+      minAmountOfBigBags: null,
+      maxAmountOfBigBags: null,
+      minPriceOfOrder: null,
+      maxPriceOfOrder: null,
+      limitDescription: null
+    });
+    component.disableSaveButton();
+    expect(component.inputDisable).toBe(true);
+  });
+
+  it('should ', () => {
+    component.saveBTNClicked = true;
+    component.disableSaveButton();
+    expect(component.inputDisable).toEqual(true);
+  });
 });
