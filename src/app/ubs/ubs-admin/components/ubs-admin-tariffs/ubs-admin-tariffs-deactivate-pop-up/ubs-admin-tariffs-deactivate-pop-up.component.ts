@@ -700,7 +700,6 @@ export class UbsAdminTariffsDeactivatePopUpComponent implements OnInit, OnDestro
       }
     }
     this.query += arr.join('&');
-    console.log(this.query);
   }
 
   public deactivateCard(): void {
