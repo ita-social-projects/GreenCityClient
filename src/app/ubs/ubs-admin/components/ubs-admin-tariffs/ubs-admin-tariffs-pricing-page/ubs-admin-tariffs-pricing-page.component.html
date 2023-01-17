@@ -122,9 +122,9 @@
             ><br />
             <fieldset [disabled]="!toggle || toggle === null">
               <legend></legend>
-              <input class="input" type="number" id="from" formControlName="minPriceOfOrder" />
+              <input class="input" type="number" id="from" formControlName="minPriceOfOrder" required />
               <span class="line"></span>
-              <input class="input" type="number" id="to" formControlName="maxPriceOfOrder" />
+              <input class="input" type="number" id="to" formControlName="maxPriceOfOrder" required />
               <label for="to"></label>
             </fieldset>
           </div>
@@ -134,15 +134,15 @@
               name="courierLimit"
               value="LIMIT_BY_AMOUNT_OF_BAG"
               (click)="bagToggler()"
-              [checked]="!toggle || toggle === null"
+              [checked]="!toggle"
             ></mat-radio-button>
             <label for="min-packages">{{ 'ubs-tariffs.min_number_of_packages' | translate }}</label
             ><br />
-            <fieldset [disabled]="toggle">
+            <fieldset [disabled]="toggle || toggle === null">
               <legend></legend>
-              <input class="input" type="number" id="from-packages" formControlName="minAmountOfBigBags" />
+              <input class="input" type="number" id="from-packages" formControlName="minAmountOfBigBags" required />
               <span class="line"></span>
-              <input class="input" type="number" id="to-packages" formControlName="maxAmountOfBigBags" />
+              <input class="input" type="number" id="to-packages" formControlName="maxAmountOfBigBags" required />
               <label for="to"></label>
             </fieldset>
           </div>

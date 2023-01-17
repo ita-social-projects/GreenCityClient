@@ -1,5 +1,5 @@
 import { Component, OnInit, OnDestroy, Injector } from '@angular/core';
-import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
+import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
 import { Location } from '@angular/common';
 import { ActivatedRoute, Router } from '@angular/router';
@@ -92,10 +92,10 @@ export class UbsAdminTariffsPricingPageComponent implements OnInit, OnDestroy {
     this.limitsForm = this.fb.group({
       limitDescription: new FormControl(''),
       courierLimitsBy: new FormControl(''),
-      minPriceOfOrder: new FormControl(),
-      maxPriceOfOrder: new FormControl(),
-      minAmountOfBigBags: new FormControl(),
-      maxAmountOfBigBags: new FormControl()
+      minPriceOfOrder: new FormControl('', Validators.required),
+      maxPriceOfOrder: new FormControl('', Validators.required),
+      minAmountOfBigBags: new FormControl('', Validators.required),
+      maxAmountOfBigBags: new FormControl('', Validators.required)
     });
   }
 
@@ -178,6 +178,7 @@ export class UbsAdminTariffsPricingPageComponent implements OnInit, OnDestroy {
       this.changeDescription();
     }
     this.saveBTNClicked = true;
+    this.toggle = null;
   }
 
   async getCourierId(): Promise<any> {
@@ -492,10 +493,25 @@ export class UbsAdminTariffsPricingPageComponent implements OnInit, OnDestroy {
   }
 
   disableSaveButton(): boolean {
-    if (this.limitsForm.pristine || this.limitsForm.controls.limitDescription.value === '') {
+    const minPriceOfOrder = this.limitsForm.get('minPriceOfOrder').value;
+    const maxPriceOfOrder = this.limitsForm.get('maxPriceOfOrder').value;
+    const minAmountOfBigBags = this.limitsForm.get('minAmountOfBigBags').value;
+    const maxAmountOfBigBags = this.limitsForm.get('maxAmountOfBigBags').value;
+
+    if (this.limitsForm.pristine) {
       this.inputDisable = true;
       return this.inputDisable;
     }
+    if ((minPriceOfOrder === '' || maxPriceOfOrder === '') && (minAmountOfBigBags === '' || maxAmountOfBigBags === '')) {
+      this.inputDisable = true;
+      return this.inputDisable;
+    }
+
+    if ((minPriceOfOrder === null && maxPriceOfOrder === null) || minAmountOfBigBags === null || maxAmountOfBigBags === null) {
+      this.inputDisable = true;
+      return this.inputDisable;
+    }
+
     if (this.saveBTNClicked) {
       this.inputDisable = true;
       return this.inputDisable;
