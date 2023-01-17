@@ -537,7 +537,7 @@ describe('UbsAdminPricingPageComponent', () => {
     expect(component.inputDisable).toBe(true);
   });
 
-  it('should ', () => {
+  it('should disable if save button clicked', () => {
     component.saveBTNClicked = true;
     component.disableSaveButton();
     expect(component.inputDisable).toEqual(true);
