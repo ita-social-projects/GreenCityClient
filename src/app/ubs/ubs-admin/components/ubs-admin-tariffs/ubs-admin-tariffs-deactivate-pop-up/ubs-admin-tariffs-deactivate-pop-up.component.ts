@@ -56,7 +56,6 @@ export class UbsAdminTariffsDeactivatePopUpComponent implements OnInit, OnDestro
   public selectedCityLength: number;
   public selectedCourier: SelectedItems;
   public tariffCards: TariffCard[] = [];
-  public deactivateCardObj;
   public currentLanguage: string;
   public query = '?';
 
@@ -695,8 +694,10 @@ export class UbsAdminTariffsDeactivatePopUpComponent implements OnInit, OnDestro
       stations: `stationsId=${deactivateCardObj.stations}`
     };
 
-    for (let key in deactivateCardObj) {
-      deactivateCardObj[key] ? arr.push(requestObj[key]) : null;
+    for (const key in deactivateCardObj) {
+      if (deactivateCardObj[key]) {
+        arr.push(requestObj[key]);
+      }
     }
     this.query += arr.join('&');
     console.log(this.query);
