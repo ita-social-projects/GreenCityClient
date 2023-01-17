@@ -49,10 +49,10 @@
         <p *ngIf="!isWarning">{{ 'user.edit-profile.would-you-like' | translate }}</p>
         <div class="buttons">
           <button type="button" class="primary-global-button" (click)="closeEditPhoto()">Cancel</button>
-          <button class="secondary-global-button" (click)="selectedPhoto = false; files.pop()">
+          <button class="primary-global-button delete" (click)="selectedPhoto = false; files.pop()">
             {{ 'user.edit-profile.btn.change-photo' | translate }}
           </button>
-          <button type="button" class="secondary-global-button" [disabled]="isWarning" (click)="savePhoto()" tabindex="0">
+          <button type="button" class="secondary-global-button save" [disabled]="isWarning" (click)="savePhoto()" tabindex="0">
             <span *ngIf="loadingAnim" class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
             {{ 'user.edit-profile.btn.save-photo' | translate }}
           </button>
