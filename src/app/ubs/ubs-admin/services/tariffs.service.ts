@@ -154,4 +154,8 @@ export class TariffsService {
   public checkIfCardExist(card: CreateCard): Observable<object> {
     return this.http.post(`${mainUbsLink}/ubs/superAdmin/check-if-tariff-exists`, card);
   }
+
+  deactivate(query) {
+    return this.http.post(`${mainUbsLink}/ubs/superAdmin/deactivate${query}`, null);
+  }
 }

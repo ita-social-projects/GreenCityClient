@@ -58,6 +58,7 @@ export class UbsAdminTariffsDeactivatePopUpComponent implements OnInit, OnDestro
   public tariffCards: TariffCard[] = [];
   public deactivateCardObj;
   public currentLanguage: string;
+  public query = '?';
 
   constructor(
     private fb: FormBuilder,
@@ -679,13 +680,25 @@ export class UbsAdminTariffsDeactivatePopUpComponent implements OnInit, OnDestro
   }
 
   public createDeactivateCardDto() {
-    this.deactivateCardObj = {
-      courierId: this.selectedCourier.id,
-      receivingStationsIdList: this.selectedStations.map((it) => it.id).join('%'),
-      regionId: this.selectedRegions.map((it) => it.id).join('%'),
-      locationIdList: this.selectedCities.map((it) => it.id).join('%')
+    const arr = [];
+    const deactivateCardObj = {
+      cities: this.selectedCities.map((it) => it.id).join('%'),
+      courier: this.selectedCourier?.id,
+      regions: this.selectedRegions.map((it) => it.id).join('%'),
+      stations: this.selectedStations.map((it) => it.id).join('%')
     };
-    console.log(this.deactivateCardObj);
+
+    const requestObj = {
+      cities: `citiesId=${deactivateCardObj.cities}`,
+      courier: `courierId=${deactivateCardObj.courier}`,
+      regions: `regionsId=${deactivateCardObj.regions}`,
+      stations: `stationsId=${deactivateCardObj.stations}`
+    };
+
+    for (let key in deactivateCardObj) {
+      deactivateCardObj[key] ? arr.push(requestObj[key]) : null;
+    }
+    this.query += arr.join('&');
   }
 
   public deactivateCard(): void {
@@ -703,7 +716,7 @@ export class UbsAdminTariffsDeactivatePopUpComponent implements OnInit, OnDestro
     this.createDeactivateCardDto();
     matDialogRef.afterClosed().subscribe((res) => {
       if (res) {
-        // here will be deativate request
+        this.tariffsService.deactivate(this.query).pipe(takeUntil(this.unsubscribe)).subscribe();
       }
     });
   }
