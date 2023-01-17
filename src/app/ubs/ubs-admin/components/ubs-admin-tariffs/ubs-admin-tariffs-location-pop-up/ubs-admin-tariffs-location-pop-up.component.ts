@@ -267,15 +267,15 @@ export class UbsAdminTariffsLocationPopUpComponent implements OnInit, AfterViewC
   setTranslation(region: string, abstractControl: any): void {
     const request = {
       placeId: region,
-      language: this.checkLanguage() ? 'en' : 'uk'
+      language: this.checkLanguage('en', 'uk')
     };
     this.placeService.getDetails(request, (placeDetails) => {
       abstractControl.setValue(placeDetails.name);
     });
   }
 
-  checkLanguage(): boolean {
-    return this.currentLang === 'ua';
+  checkLanguage(uaValue, enValue): string {
+    return this.currentLang === 'ua' ? uaValue : enValue;
   }
 
   addEventToAutocomplete(): void {
