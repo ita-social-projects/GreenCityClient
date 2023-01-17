@@ -335,6 +335,11 @@ describe('UbsAdminTariffsLocationPopUpComponent ', () => {
     expect(spy).toHaveBeenCalled();
   });
 
+  it('should check language and return value', () => {
+    const result = component.checkLanguage('uaVal', 'enVal');
+    expect(result).toBe('uaVal');
+  });
+
   it('should filter options', () => {
     const mockRegions = ['Фейк1', 'Фейк2'];
     const result = component._filter('Фейк1', mockRegions);
