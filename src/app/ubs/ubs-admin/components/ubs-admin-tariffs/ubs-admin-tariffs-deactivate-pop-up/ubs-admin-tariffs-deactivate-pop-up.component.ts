@@ -681,10 +681,11 @@ export class UbsAdminTariffsDeactivatePopUpComponent implements OnInit, OnDestro
   public createDeactivateCardDto() {
     this.deactivateCardObj = {
       courierId: this.selectedCourier.id,
-      receivingStationsIdList: this.selectedStations.map((it) => it.id),
-      regionId: this.selectedRegions.map((it) => it.id),
-      locationIdList: this.selectedCities.map((it) => it.id)
+      receivingStationsIdList: this.selectedStations.map((it) => it.id).join('%'),
+      regionId: this.selectedRegions.map((it) => it.id).join('%'),
+      locationIdList: this.selectedCities.map((it) => it.id).join('%')
     };
+    console.log(this.deactivateCardObj);
   }
 
   public deactivateCard(): void {
@@ -699,6 +700,7 @@ export class UbsAdminTariffsDeactivatePopUpComponent implements OnInit, OnDestro
         locationNames: this.selectedCities.map((it) => it.name)
       }
     });
+    this.createDeactivateCardDto();
     matDialogRef.afterClosed().subscribe((res) => {
       if (res) {
         // here will be deativate request
