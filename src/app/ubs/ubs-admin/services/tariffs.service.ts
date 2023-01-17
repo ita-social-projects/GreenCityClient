@@ -158,4 +158,8 @@ export class TariffsService {
   deactivate(query) {
     return this.http.post(`${mainUbsLink}/ubs/superAdmin/deactivate${query}`, null);
   }
+
+  deactivateTariffCard(tariffId) {
+    return this.http.put(`${mainUbsLink}/ubs/superAdmin/deactivateTariff/${tariffId}`, null);
+  }
 }
