@@ -133,8 +133,8 @@ describe('UbsAdminPricingPageComponent', () => {
     ],
     tariffStatus: 'Active',
     cardId: 3,
-    minAmountOfBags: 1,
-    maxAmountOfBags: 5,
+    minAmountOfBags: 5,
+    maxAmountOfBags: 10,
     maxPriceOfOrder: null,
     minPriceOfOrder: null,
     limitDescription: 'fake'
@@ -143,6 +143,12 @@ describe('UbsAdminPricingPageComponent', () => {
   const fakeBagLimits = {
     minAmountOfBigBags: 1,
     maxAmountOfBigBags: 5,
+    limitDescription: 'fake'
+  };
+
+  const fakePriceLimits = {
+    minPriceOfOrder: 10,
+    maxPriceOfOrder: 205,
     limitDescription: 'fake'
   };
 
@@ -258,8 +264,8 @@ describe('UbsAdminPricingPageComponent', () => {
       tariff: 'Active',
       regionId: 1,
       cardId: 3,
-      minAmountOfBigBags: 1,
-      maxAmountOfBigBags: 5,
+      minAmountOfBigBags: 5,
+      maxAmountOfBigBags: 10,
       maxPriceOfOrder: null,
       minPriceOfOrder: null,
       limitDescription: 'fake'
@@ -339,11 +345,20 @@ describe('UbsAdminPricingPageComponent', () => {
     component.selectedCardId = 3;
     component.getSelectedTariffCard();
     component.setLimits();
-    expect(component.selectedCard.minPriceOfOrder).toBe(null);
-    expect(component.selectedCard.maxPriceOfOrder).toBe(null);
     component.limitsForm.patchValue(fakeBagLimits);
     expect(component.limitsForm.get('minAmountOfBigBags').value).toEqual(1);
     expect(component.limitsForm.get('maxAmountOfBigBags').value).toEqual(5);
+    expect(component.limitsForm.get('limitDescription').value).toEqual('fake');
+    expect(component.toggle).toEqual(false);
+  });
+
+  it('should call setLimits for price case', () => {
+    component.selectedCardId = 3;
+    component.getSelectedTariffCard();
+    component.setLimits();
+    component.limitsForm.patchValue(fakePriceLimits);
+    expect(component.limitsForm.get('minPriceOfOrder').value).toEqual(10);
+    expect(component.limitsForm.get('maxPriceOfOrder').value).toEqual(205);
     expect(component.limitsForm.get('limitDescription').value).toEqual('fake');
     expect(component.toggle).toEqual(false);
   });
