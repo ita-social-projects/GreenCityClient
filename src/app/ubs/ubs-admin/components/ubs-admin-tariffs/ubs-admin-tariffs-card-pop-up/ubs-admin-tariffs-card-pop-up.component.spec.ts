@@ -210,7 +210,7 @@ describe('UbsAdminTariffsCardPopUpComponent', () => {
 
   it('should set english courier name', () => {
     const mockEvent = {
-      value: ['фейкКурєр']
+      value: 'фейкКурєр'
     };
     component.onSelectCourier(mockEvent);
     expect(component.courierEnglishName).toEqual('fakeCourier');
