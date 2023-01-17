@@ -27,7 +27,6 @@ export class TariffSelectorComponent implements OnInit {
         courier: { en: tariff.courierDto.nameEn, ua: tariff.courierDto.nameUk },
         region: { en: tariff.regionDto.nameEn, ua: tariff.regionDto.nameUk },
         locations: tariff.locationInfoDtos.map((loc) => ({ en: loc.nameEn, ua: loc.nameUk })),
-        station: tariff.receivingStationDtos[0].name,
         selected: false
       }))
   };
