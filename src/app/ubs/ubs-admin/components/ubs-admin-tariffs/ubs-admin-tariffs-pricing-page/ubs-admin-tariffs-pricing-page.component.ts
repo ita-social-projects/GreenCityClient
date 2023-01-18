@@ -15,6 +15,7 @@ import { ModalTextComponent } from '../../shared/components/modal-text/modal-tex
 import { Store } from '@ngrx/store';
 import { IAppState } from 'src/app/store/state/app.state';
 import { GetLocations } from 'src/app/store/actions/tariff.actions';
+import { LimitsValidator } from '../../shared/limits-validator/limits.validator';
 
 @Component({
   selector: 'app-ubs-admin-tariffs-pricing-page',
@@ -92,10 +93,10 @@ export class UbsAdminTariffsPricingPageComponent implements OnInit, OnDestroy {
     this.limitsForm = this.fb.group({
       limitDescription: new FormControl(''),
       courierLimitsBy: new FormControl(''),
-      minPriceOfOrder: new FormControl('', Validators.required),
-      maxPriceOfOrder: new FormControl('', Validators.required),
-      minAmountOfBigBags: new FormControl('', Validators.required),
-      maxAmountOfBigBags: new FormControl('', Validators.required)
+      minPriceOfOrder: new FormControl(null, [Validators.required, LimitsValidator.cannotBeEmpty]),
+      maxPriceOfOrder: new FormControl(null, [Validators.required, LimitsValidator.cannotBeEmpty]),
+      minAmountOfBigBags: new FormControl(null, [Validators.required, LimitsValidator.cannotBeEmpty]),
+      maxAmountOfBigBags: new FormControl(null, [Validators.required, LimitsValidator.cannotBeEmpty])
     });
   }
 
@@ -116,8 +117,8 @@ export class UbsAdminTariffsPricingPageComponent implements OnInit, OnDestroy {
     this.toggle = true;
 
     this.limitsForm.patchValue({
-      minAmountOfBigBags: '',
-      maxAmountOfBigBags: ''
+      minAmountOfBigBags: null,
+      maxAmountOfBigBags: null
     });
   }
 
@@ -125,8 +126,8 @@ export class UbsAdminTariffsPricingPageComponent implements OnInit, OnDestroy {
     this.toggle = false;
 
     this.limitsForm.patchValue({
-      minPriceOfOrder: '',
-      maxPriceOfOrder: ''
+      minPriceOfOrder: null,
+      maxPriceOfOrder: null
     });
   }
 
@@ -493,23 +494,26 @@ export class UbsAdminTariffsPricingPageComponent implements OnInit, OnDestroy {
   }
 
   disableSaveButton(): boolean {
-    const minPriceOfOrder = this.limitsForm.get('minPriceOfOrder').value;
-    const maxPriceOfOrder = this.limitsForm.get('maxPriceOfOrder').value;
-    const minAmountOfBigBags = this.limitsForm.get('minAmountOfBigBags').value;
-    const maxAmountOfBigBags = this.limitsForm.get('maxAmountOfBigBags').value;
+    const minPriceOfOrder = this.limitsForm.get('minPriceOfOrder');
+    const maxPriceOfOrder = this.limitsForm.get('maxPriceOfOrder');
+    const minAmountOfBigBags = this.limitsForm.get('minAmountOfBigBags');
+    const maxAmountOfBigBags = this.limitsForm.get('maxAmountOfBigBags');
 
     if (this.limitsForm.pristine) {
       this.inputDisable = true;
       return this.inputDisable;
     }
-    if ((minPriceOfOrder === '' || maxPriceOfOrder === '') && (minAmountOfBigBags === '' || maxAmountOfBigBags === '')) {
-      this.inputDisable = true;
-      return this.inputDisable;
+
+    if (this.toggle) {
+      if (minPriceOfOrder.errors?.cannotBeEmpty || maxPriceOfOrder.errors?.cannotBeEmpty) {
+        return true;
+      }
     }
 
-    if ((minPriceOfOrder === null && maxPriceOfOrder === null) || minAmountOfBigBags === null || maxAmountOfBigBags === null) {
-      this.inputDisable = true;
-      return this.inputDisable;
+    if (!this.toggle) {
+      if (minAmountOfBigBags.errors?.cannotBeEmpty || maxAmountOfBigBags.errors?.cannotBeEmpty) {
+        return true;
+      }
     }
 
     if (this.saveBTNClicked) {

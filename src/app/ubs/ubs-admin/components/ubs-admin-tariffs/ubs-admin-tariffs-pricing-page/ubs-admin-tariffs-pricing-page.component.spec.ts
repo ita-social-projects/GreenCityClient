@@ -7,7 +7,7 @@ import { MatDialogModule } from '@angular/material/dialog';
 import { TranslateModule } from '@ngx-translate/core';
 import { HttpClientTestingModule, HttpTestingController } from '@angular/common/http/testing';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { FormBuilder, FormControl, FormGroup, FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { FormBuilder, FormControl, FormGroup, FormsModule, ReactiveFormsModule, AbstractControl } from '@angular/forms';
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { of, Subject } from 'rxjs';
 import { RouterTestingModule } from '@angular/router/testing';
@@ -26,6 +26,7 @@ import { Bag, Locations } from 'src/app/ubs/ubs-admin/models/tariffs.interface';
 import { Store } from '@ngrx/store';
 import { UbsAdminTariffsLocationDashboardComponent } from '../ubs-admin-tariffs-location-dashboard.component';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
+import { LimitsValidator } from '../../shared/limits-validator/limits.validator';
 
 describe('UbsAdminPricingPageComponent', () => {
   let component: UbsAdminTariffsPricingPageComponent;
@@ -40,9 +41,9 @@ describe('UbsAdminPricingPageComponent', () => {
   const fakeCourierForm = new FormGroup({
     courierLimitsBy: new FormControl('fake'),
     minPriceOfOrder: new FormControl('fake'),
-    maxPriceOfOrder: new FormControl('fake'),
-    minAmountOfBigBags: new FormControl('fake'),
-    maxAmountOfBigBags: new FormControl('fake'),
+    maxPriceOfOrder: new FormControl('fake', LimitsValidator.cannotBeEmpty),
+    minAmountOfBigBags: new FormControl('fake', LimitsValidator.cannotBeEmpty),
+    maxAmountOfBigBags: new FormControl('fake', LimitsValidator.cannotBeEmpty),
     limitDescription: new FormControl('fake')
   });
 
@@ -383,8 +384,8 @@ describe('UbsAdminPricingPageComponent', () => {
       maxAmountOfBigBags: 'fake'
     });
     component.sumToggler();
-    expect(component.limitsForm.get('minAmountOfBigBags').value).toEqual('');
-    expect(component.limitsForm.get('maxAmountOfBigBags').value).toEqual('');
+    expect(component.limitsForm.get('minAmountOfBigBags').value).toEqual(null);
+    expect(component.limitsForm.get('maxAmountOfBigBags').value).toEqual(null);
     expect(component.toggle).toBe(true);
   });
 
@@ -394,9 +395,23 @@ describe('UbsAdminPricingPageComponent', () => {
       maxPriceOfOrder: 3
     });
     component.bagToggler();
-    expect(component.limitsForm.get('minPriceOfOrder').value).toEqual('');
-    expect(component.limitsForm.get('maxPriceOfOrder').value).toEqual('');
+    expect(component.limitsForm.get('minPriceOfOrder').value).toEqual(null);
+    expect(component.limitsForm.get('maxPriceOfOrder').value).toEqual(null);
     expect(component.toggle).toBe(false);
+  });
+
+  it('should check limits validator', () => {
+    fakeCourierForm.patchValue({
+      minPriceOfOrder: 124,
+      maxPriceOfOrder: 0,
+      minAmountOfBigBags: null,
+      maxAmountOfBigBags: 324
+    });
+
+    expect(fakeCourierForm.get('minPriceOfOrder').errors?.cannotBeEmpty).toEqual(undefined);
+    expect(fakeCourierForm.get('maxPriceOfOrder').errors?.cannotBeEmpty).toEqual(true);
+    expect(fakeCourierForm.get('minAmountOfBigBags').errors?.cannotBeEmpty).toEqual(true);
+    expect(fakeCourierForm.get('maxAmountOfBigBags').errors?.cannotBeEmpty).toEqual(undefined);
   });
 
   it('navigate to tariffs page', () => {
