@@ -1,14 +1,10 @@
 import { Pipe, PipeTransform } from '@angular/core';
-import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
 
 @Pipe({
   name: 'tariffStatus'
 })
 export class TariffStatusPipe implements PipeTransform {
-  constructor(private localStorageService: LocalStorageService) {}
-
-  transform(value: string) {
-    const lang = this.localStorageService.getCurrentLanguage();
+  transform(value: string, lang: string) {
     switch (value) {
       case 'NEW':
         return lang === 'ua' ? 'Незаповнена' : 'Blank';

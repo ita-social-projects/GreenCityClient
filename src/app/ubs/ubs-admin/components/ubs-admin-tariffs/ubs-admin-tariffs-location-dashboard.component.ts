@@ -56,6 +56,8 @@ export class UbsAdminTariffsLocationDashboardComponent implements OnInit, AfterV
   stationPlaceholder: string;
   selectedStation = [];
   cards = [];
+  cardsUk = [];
+  cardsEn = [];
   filterData = { status: '' };
   createCardObj: CreateCard;
   isFieldFilled = false;
@@ -106,7 +108,7 @@ export class UbsAdminTariffsLocationDashboardComponent implements OnInit, AfterV
     this.localeStorageService.languageBehaviourSubject.pipe(takeUntil(this.destroy)).subscribe((lang: string) => {
       this.currentLang = lang;
       this.loadScript();
-      this.getExistingCard(this.filterData);
+      this.setCard();
     });
     this.initForm();
     this.getLocations();
@@ -119,6 +121,7 @@ export class UbsAdminTariffsLocationDashboardComponent implements OnInit, AfterV
     this.setCountOfCheckedCity();
     this.setStationPlaceholder();
     this.setStateValue();
+    this.getExistingCard(this.filterData);
     this.languageService
       .getCurrentLangObs()
       .pipe(takeUntil(this.destroy))
@@ -460,25 +463,37 @@ export class UbsAdminTariffsLocationDashboardComponent implements OnInit, AfterV
   }
 
   public getExistingCard(filterData) {
-    this.cards = [];
     this.tariffsService
       .getFilteredCard(filterData)
       .pipe(takeUntil(this.destroy))
       .subscribe((card) => {
         card.forEach((el) => {
-          console.log(el);
-          const cardObj = {
-            courier: this.checkLang(el.courierDto.nameUk, el.courierDto.nameEn),
+          const cardObjUk = {
+            courier: el.courierDto.nameUk,
             station: el.receivingStationDtos.map((it) => it.name),
-            region: this.checkLang(el.regionDto.nameUk, el.regionDto.nameEn),
-            city: el.locationInfoDtos.map((it) => this.checkLang(it.nameUk, it.nameEn)),
+            region: el.regionDto.nameUk,
+            city: el.locationInfoDtos.map((it) => it.nameUk),
             tariff: el.tariffStatus,
             regionId: el.regionDto.regionId,
             cardId: el.cardId
           };
-          this.cards.push(cardObj);
+          const cardObjEn = {
+            courier: el.courierDto.nameEn,
+            station: el.receivingStationDtos.map((it) => it.name),
+            region: el.regionDto.nameEn,
+            city: el.locationInfoDtos.map((it) => it.nameEn),
+            tariff: el.tariffStatus,
+            regionId: el.regionDto.regionId,
+            cardId: el.cardId
+          };
+          this.cardsUk.push(cardObjUk);
+          this.cardsEn.push(cardObjEn);
         });
       });
+  }
+
+  private setCard(): void {
+    this.cards = this.checkLang(this.cardsUk, this.cardsEn);
   }
 
   checkRegionValue(value): void {
@@ -673,7 +688,7 @@ export class UbsAdminTariffsLocationDashboardComponent implements OnInit, AfterV
     });
   }
 
-  private checkLang(uaValue, enValue): string {
+  private checkLang(uaValue, enValue): any[] {
     return this.currentLang === 'ua' ? uaValue : enValue;
   }
 
