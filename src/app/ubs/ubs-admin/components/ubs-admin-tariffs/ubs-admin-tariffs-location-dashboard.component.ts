@@ -688,7 +688,7 @@ export class UbsAdminTariffsLocationDashboardComponent implements OnInit, AfterV
     });
   }
 
-  private checkLang(uaValue, enValue): any[] {
+  private checkLang(uaValue, enValue): any {
     return this.currentLang === 'ua' ? uaValue : enValue;
   }
 
