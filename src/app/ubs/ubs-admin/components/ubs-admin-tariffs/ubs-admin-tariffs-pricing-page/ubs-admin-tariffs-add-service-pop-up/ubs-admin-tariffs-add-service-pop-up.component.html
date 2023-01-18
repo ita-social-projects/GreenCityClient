@@ -32,16 +32,25 @@
     <div class="d-flex">
       <div class="form-group">
         <label class="form-label" for="capacity">{{ 'ubs-tariffs-add-service.capacity' | translate }}</label>
-        <input type="number" formControlName="capacity" maxlength="3" id="capacity" class="capacity-input" placeholder="0" />
+        <input type="number" formControlName="capacity" id="capacity" class="capacity-input" placeholder="0" step=".01" min="0" max="999" />
       </div>
       <div class="form-group">
         <label for="commission" class="form-label">{{ 'ubs-tariffs-add-service.commission' | translate }}</label>
-        <input type="number" formControlName="commission" maxlength="3" id="commission" class="courier-input" placeholder="0,00" />
+        <input
+          type="number"
+          formControlName="commission"
+          id="commission"
+          class="courier-input"
+          placeholder="0.00"
+          step=".01"
+          min="0"
+          max="999"
+        />
       </div>
     </div>
     <div class="basic-cost-input form-group">
       <label for="price" class="form-label">{{ 'ubs-tariffs-add-service.basic_cost' | translate }}</label>
-      <input type="number" formControlName="price" maxlength="3" id="price" class="shadow-none form-control" placeholder="0,00" />
+      <input type="number" formControlName="price" id="price" class="shadow-none form-control" placeholder="0.00" min="0" max="999" />
     </div>
     <div class="d-flex">
       <div class="form-group">

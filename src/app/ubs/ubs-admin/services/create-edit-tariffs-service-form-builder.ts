@@ -14,9 +14,9 @@ export class CreateEditTariffsServicesFormBuilder {
     return this.fb.group({
       name: new FormControl('', [Validators.required, Validators.pattern(this.namePattern)]),
       nameEng: new FormControl('', [Validators.required, Validators.pattern(this.namePattern)]),
-      capacity: new FormControl('', [Validators.required, Validators.pattern(Patterns.ubsPrice)]),
-      price: new FormControl('', [Validators.required, Validators.pattern(Patterns.ubsPrice)]),
-      commission: new FormControl('', [Validators.required, Validators.pattern(Patterns.ubsPrice)]),
+      capacity: new FormControl('', [Validators.required, Validators.pattern(Patterns.ubsServicePrice)]),
+      price: new FormControl('', [Validators.required, Validators.pattern(Patterns.ubsServicePrice)]),
+      commission: new FormControl('', [Validators.required, Validators.pattern(Patterns.ubsServicePrice)]),
       description: new FormControl('', [Validators.required]),
       descriptionEng: new FormControl('', [Validators.required])
     });

@@ -62,8 +62,8 @@ export class UbsAdminTariffsAddServicePopUpComponent implements OnInit, OnDestro
       name: new FormControl({ value: this.receivedData.serviceData.name }),
       nameEng: new FormControl({ value: this.receivedData.serviceData.nameEng }),
       capacity: new FormControl({ value: this.receivedData.serviceData.capacity }),
-      price: new FormControl('', [Validators.required, Validators.pattern(Patterns.ubsPrice)]),
-      commission: new FormControl('', [Validators.required, Validators.pattern(Patterns.ubsPrice)]),
+      price: new FormControl(''),
+      commission: new FormControl(''),
       description: new FormControl({ value: this.receivedData.serviceData.description }),
       descriptionEng: new FormControl(this.receivedData.serviceData.descriptionEng)
     });
