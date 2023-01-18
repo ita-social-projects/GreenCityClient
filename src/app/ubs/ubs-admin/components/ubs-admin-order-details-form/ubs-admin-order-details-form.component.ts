@@ -101,6 +101,7 @@ export class UbsAdminOrderDetailsFormComponent implements OnInit, OnChanges {
   }
 
   private setBagsInfo() {
+    this.orderDetails.bags = this.orderDetails.bags.filter((bag) => bag.planned);
     this.orderDetails.bags.forEach((bag) => {
       this.bagsInfo = {
         amount: {
