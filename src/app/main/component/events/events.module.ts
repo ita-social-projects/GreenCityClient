@@ -28,6 +28,12 @@ import { ImagesContainerComponent } from './components/images-container/images-c
 import { GooglePlaceModule } from 'ngx-google-places-autocomplete';
 import { EventDetailsComponent } from './components/event-details/event-details.component';
 import { RatingModule } from 'ngx-bootstrap/rating';
+import { ImagesSliderComponent } from './components/event-details/images-slider/images-slider.component';
+import { MatMenuModule } from '@angular/material/menu';
+import { EventScheduleOverlayComponent } from './components/event-details/event-schedule-overlay/event-schedule-overlay.component';
+import { DragDropModule } from '@angular/cdk/drag-drop';
+import { MatBottomSheetModule } from '@angular/material/bottom-sheet';
+import { EventScheduleComponent } from './components/event-details/event-schedule/event-schedule.component';
 
 @NgModule({
   declarations: [
@@ -37,7 +43,10 @@ import { RatingModule } from 'ngx-bootstrap/rating';
     EventDateTimePickerComponent,
     MapEventComponent,
     ImagesContainerComponent,
-    EventDetailsComponent
+    EventDetailsComponent,
+    ImagesSliderComponent,
+    EventScheduleOverlayComponent,
+    EventScheduleComponent
   ],
   imports: [
     RatingModule.forRoot(),
@@ -69,11 +78,14 @@ import { RatingModule } from 'ngx-bootstrap/rating';
       },
       isolate: true
     }),
-    QuillModule.forRoot()
+    QuillModule.forRoot(),
+    MatMenuModule,
+    DragDropModule,
+    MatBottomSheetModule
   ],
   exports: [TranslateModule]
 })
-export class EventsModule { }
+export class EventsModule {}
 export function createTranslateLoader(http: HttpClient) {
   return new TranslateHttpLoader(http, './assets/i18n/', '.json');
 }

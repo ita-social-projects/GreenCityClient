@@ -107,7 +107,8 @@ import { ResizableBottomSheetComponent } from './resizable-bottom-sheet/resizabl
     LocalizedDatePipe,
     TranslateDatePipe,
     RepeatPipe,
-    CronPipe
+    CronPipe,
+    ResizableBottomSheetComponent
   ]
 })
 export class SharedModule {}
