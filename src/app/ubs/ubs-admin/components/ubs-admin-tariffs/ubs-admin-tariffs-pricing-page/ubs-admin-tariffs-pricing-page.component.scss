@@ -161,9 +161,15 @@ h4 {
   }
 }
 
+#label-limit {
+  min-width: 0;
+  padding: 0;
+}
+
 .min-bags-number {
   font-size: 16px;
   color: black;
+  margin-right: 64px;
 
   h6 {
     font-size: 16px;
@@ -190,8 +196,6 @@ h4 {
 }
 
 .order-limit-textarea {
-  margin-top: 25px;
-
   h6 {
     color: var(--ubs-quaternary-dark-grey);
     font-size: 16px;

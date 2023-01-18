@@ -1,148 +1,130 @@
-<app-spinner *ngIf="isPosting"></app-spinner>
-<div *ngIf="event && !isPosting" class="event">
-  <div class="event-header">
+<div class="event-wrapper">
+  <app-spinner *ngIf="isPosting"></app-spinner>
+  <div *ngIf="event && !isPosting" class="event">
     <div class="event-nav">
       <div class="back-button">
         <a [routerLink]="['/events']" class="button-link">
           <div class="button-content">
-            <div class="button-arrow">
-              <img [src]="images.arrowLeft" aria-hidden="true" alt="arrow" class="button-arrow-img arrow" />
-            </div>
-            <div class="button-text">{{ 'eco-news-single-view.back-button' | translate }}</div>
+            <img [src]="icons.arrowLeft" aria-hidden="true" alt="" class="button-arrow-img arrow" />
+            <div class="button-text">Back to Events</div>
           </div>
         </a>
       </div>
-      <div *ngIf="checkUserId() || isAdmin" class="edit-buttons">
-        <div class="secondary-global-button event-button delete-button">
+
+      <div *ngIf="role === roles.ORGANIZER || role === roles.ADMIN" class="edit-buttons">
+        <div class="secondary-global-button delete-button">
           <span (click)="deleteEvent()">Delete</span>
         </div>
-        <div class="secondary-global-button event-button">
-          <span (click)="routeToEditEvent()">Edit</span>
+        <div class="secondary-global-button edit-button">
+          <span (click)="navigateToEditEvent()">Edit</span>
         </div>
       </div>
     </div>
-    <div class="event-title">
-      <h1>{{ event.title }}</h1>
-    </div>
-    <div class="event-autor">
+
+    <div class="event-header">
       <div class="left-side">
-        <div class="autor-name">
+        <div class="event-title">{{ event.title }}</div>
+        <div class="date-author">
           <div>Jan 30, 2020</div>
           <div>|</div>
           <div>by {{ event.organizer.name }}</div>
         </div>
-        <div class="event-stars">
-          <rating [(ngModel)]="rate" [customTemplate]="star" [max]="max" [readonly]="isReadonly"> </rating>
-          <ng-template #star let-index="index" let-value="value">
-            <span class="star {{ index < value ? 'fill' : 'empty' }}"></span>
-          </ng-template>
+      </div>
+      <div class="right-side">
+        <div class="share-buttons">
+          <img [src]="icons.socials.plus" alt="Share" />
+          <img [src]="icons.socials.twitter" alt="Share on Twitter" />
+          <img [src]="icons.socials.linkedin" alt="Share on LinkedIn" />
+          <img [src]="icons.socials.facebook" alt="Share on Facebook" />
         </div>
       </div>
-      <div>right side</div>
     </div>
-  </div>
-  <div class="event-main">
-    <div class="main-left">
-      <div *ngIf="imagesSlider.length" class="main-image">
-        <img
-          *ngFor="let image of imagesSlider; let i = index"
-          [src]="image"
-          [ngClass]="{ 'image-active': sliderIndex === i }"
-          class="img fade"
-          alt="event"
-        />
 
-        <div class="dot-container">
-          <span
-            *ngFor="let dot of imagesSlider; let i = index"
-            class="dot"
-            [ngClass]="{ 'dot-active': sliderIndex === i }"
-            (click)="selectImage(i)"
-          >
-          </span>
+    <div class="event-main">
+      <div class="main-left">
+        <div class="main-image">
+          <app-images-slider *ngIf="images.length" [images]="images"></app-images-slider>
         </div>
 
-        <div class="button-arrow right">
-          <span class="arrow-right" (click)="moveRight()">></span>
-        </div>
-        <div class="button-arrow left">
-          <span class="arrow-left" (click)="moveLeft()"> < </span>
-        </div>
-      </div>
-
-      <mat-card class="event-place" *ngFor="let date of event.dates; let i = index">
-        <h5>Event day {{ i + 1 }}</h5>
-        <div class="event-stars"></div>
-
-        <div class="date-container">
-          <div>
-            <h4>Start</h4>
+        <div class="event-tags-participants">
+          <div class="event-tags">
+            <div class="event-tag" *ngFor="let tag of event.tags">{{ tag.nameEn | uppercase }}</div>
           </div>
-          <div class="date">
-            {{ date.startDate | date: 'mediumDate' }}
-          </div>
-          <div class="time-container">
-            <div class="time">{{ date.startDate | date: 'HH:mm:ss' }}-</div>
-            <div class="time">{{ date.finishDate | date: 'HH:mm:ss' }}</div>
-          </div>
-        </div>
-        <div *ngIf="date.coordinates?.latitude" class="date-container">
-          <div>
-            <h4>Place</h4>
-          </div>
-          <div>
-            {{ date.coordinates.addressEn }}
-            <span (click)="openMap(date)" class="map-icon"></span>
-          </div>
-        </div>
-
-        <div *ngIf="date.onlineLink" class="date-container">
-          <div>
-            <h4>Online</h4>
-          </div>
-          <div>
-            {{ date.onlineLink }}
-          </div>
-        </div>
-      </mat-card>
-
-      <mat-card class="event-status">
-        <div class="initial">
-          <div class="initial-item">
-            <h5>Initiative type</h5>
-          </div>
-          <div class="initial-item">
-            <ul class="ul-eco-buttons" aria-label="filter by items">
-              <li *ngFor="let tag of tags">
-                <a role="button" [ngClass]="{ 'global-tag-clicked': tag.isActive }" class="tag" tabindex="0">
-                  <span [ngClass]="{ 'tag-active': tag.isActive }">{{ tag.nameEn }}</span>
-                </a>
-              </li>
-            </ul>
-          </div>
-        </div>
-
-        <div class="initial">
-          <div class="status-title">
-            <h5>Status</h5>
-          </div>
-          <div class="buttons-container">
-            <div class="flex-container">
-              <a role="button" class="custom-chip global-tag" [ngClass]="{ 'global-tag-clicked': event.open }" tabindex="0">
-                <span class="text">open</span>
-              </a>
-              <a role="button" class="custom-chip global-tag" [ngClass]="{ 'global-tag-clicked': !event.open }" tabindex="0">
-                <span class="text">close</span>
-              </a>
+          <div class="event-participants">
+            <div class="event-participants-avatars" *ngIf="attendeesAvatars.length">
+              <div class="event-participants-avatar" *ngFor="let avatar of attendeesAvatars">
+                <img [src]="avatar" alt="" />
+              </div>
+            </div>
+            <div class="event-participants-count-container">
+              <span class="event-participants-count">{{ attendees.length }}</span
+              >&nbsp;
+              <span>people are going</span>
             </div>
           </div>
         </div>
-      </mat-card>
-    </div>
 
-    <div class="main-right">
-      <h3>Description</h3>
-      <div [innerHTML]="event.description"></div>
+        <div class="event-info-block">
+          <div class="event-info">
+            <div class="event-date">
+              <div class="event-date-icon">
+                <img [src]="icons.clock" alt="" />
+              </div>
+              <div class="event-date-content" *ngIf="event.dates.length === 1; else multipleDays">
+                <div class="event-duration">{{ event.dates[0].startDate | date: 'MMM d, y' }}</div>
+                <div>|</div>
+                <div>{{ event.dates[0].startDate | date: 'hh:mm a' }}</div>
+              </div>
+              <ng-template #multipleDays>
+                <div class="event-date-content">
+                  <div class="event-duration">
+                    {{ event.dates[0].startDate | date: 'MMM d, y' }}
+                    &nbsp;-&nbsp;
+                    {{ event.dates[event.dates.length - 1].finishDate | date: 'MMM d, y' }}
+                  </div>
+                  <div>|</div>
+                  <div>{{ event.dates[0].startDate | date: 'hh:mm a' }}</div>
+                </div>
+              </ng-template>
+            </div>
+            <div class="event-location">
+              <div class="event-location-icon">
+                <img [src]="icons.location" alt="" />
+              </div>
+              <div>{{ event.dates[0].onlineLink ? event.dates[0].onlineLink : event.dates[0].coordinates.addressEn }}</div>
+            </div>
+            <div class="event-status-access">
+              <div class="event-status-icon">
+                <img [src]="icons.lock" alt="" />
+              </div>
+              <div class="event-status-access-content">
+                <div class="event-status">{{ event.open ? 'Open' : 'Finished' }}</div>
+                <div>|</div>
+                <div>Anyone registered</div>
+              </div>
+            </div>
+            <div class="event-author">
+              <div class="event-author-icon">
+                <img [src]="icons.user" alt="" />
+              </div>
+              <div>John Smith</div>
+            </div>
+          </div>
+          <div class="event-info-days">
+            <app-event-schedule-overlay [days]="event.dates"></app-event-schedule-overlay>
+          </div>
+        </div>
+
+        <div class="save-join-event-block" *ngIf="role === roles.USER">
+          <button class="save-event">Save event</button>
+          <button class="join-event">Join event</button>
+        </div>
+      </div>
+
+      <div class="main-right">
+        <div class="description-block-title">Description</div>
+        <div [innerHTML]="event.description"></div>
+      </div>
     </div>
   </div>
 </div>

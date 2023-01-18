@@ -83,6 +83,13 @@ export interface LocationDto {
   longitude: number;
 }
 
+export interface DeactivateCard {
+  cities: string;
+  courier: number | undefined;
+  regions: string;
+  stations: string;
+}
+
 export interface CreateLocation {
   addLocationDtoList: Location[];
   latitude: number;
