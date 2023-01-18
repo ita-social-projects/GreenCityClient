@@ -1,0 +1,21 @@
+::ng-deep .resizable-bottom-sheet-overlay-backdrop {
+  background: rgba(68, 78, 85, 0.3);
+}
+
+::ng-deep .resizable-bottom-sheet-overlay-panel {
+  background-color: var(--pre-secondary-light-grey);
+  border-radius: 8px 8px 0 0;
+  overflow: hidden;
+  box-shadow: 1px 4px 8px rgba(100, 114, 125, 0.18);
+  width: 100%;
+  padding-left: 16px;
+  padding-right: 16px;
+  display: flex;
+  flex-direction: column;
+}
+
+.close-handle {
+  padding: 8px 0;
+  display: flex;
+  justify-content: center;
+}
