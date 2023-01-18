@@ -64,7 +64,6 @@
         justify-content: center;
         align-items: center;
         margin: 0 8px;
-        padding: 8px 24px;
         box-sizing: border-box;
         border-radius: 4px;
         font-style: normal;
@@ -132,6 +131,10 @@
         .spinner-border {
           margin-right: 10px;
         }
+      }
+
+      .save {
+        width: 129px;
       }
 
       .change {
@@ -242,5 +245,9 @@
 @media screen and (max-width: 375px) {
   .mat-dialog-container {
     padding: 0;
+  }
+
+  .main-container {
+    height: 100%;
   }
 }

@@ -18,6 +18,7 @@
                 </label>
                 <select
                   *ngIf="isOrderStatusSelected"
+                  [disabled]="setDisabledSelect()"
                   class="form-control"
                   formControlName="orderStatus"
                   (change)="onChangedOrderStatus($event.target.value)"
