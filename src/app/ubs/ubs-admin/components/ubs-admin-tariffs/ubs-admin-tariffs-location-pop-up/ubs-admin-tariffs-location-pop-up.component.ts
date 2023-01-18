@@ -88,6 +88,7 @@ export class UbsAdminTariffsLocationPopUpComponent implements OnInit, AfterViewC
   regionId;
   enCities;
   locations$ = this.store.select((state: IAppState): Locations[] => state.locations.locations);
+  placeService: google.maps.places.PlacesService;
 
   public icons = {
     arrowDown: '././assets/img/ubs-tariff/arrow-down.svg',
@@ -144,6 +145,7 @@ export class UbsAdminTariffsLocationPopUpComponent implements OnInit, AfterViewC
       this.currentLang = lang;
       this.datePipe = new DatePipe(this.currentLang);
       this.newDate = this.datePipe.transform(new Date(), 'MMM dd, yyyy');
+      this.placeService = new google.maps.places.PlacesService(document.createElement('div'));
     });
   }
 
@@ -259,7 +261,21 @@ export class UbsAdminTariffsLocationPopUpComponent implements OnInit, AfterViewC
 
   setValueOfRegion(event: any): void {
     this.region.setValue(event.name);
-    this.translate(event.name, this.englishRegion);
+    this.setTranslation(event.place_id, this.englishRegion);
+  }
+
+  setTranslation(region: string, abstractControl: any): void {
+    const request = {
+      placeId: region,
+      language: this.checkLanguage('en', 'uk')
+    };
+    this.placeService.getDetails(request, (placeDetails) => {
+      abstractControl.setValue(placeDetails.name);
+    });
+  }
+
+  checkLanguage(uaValue: string, enValue: string): string {
+    return this.currentLang === 'ua' ? uaValue : enValue;
   }
 
   addEventToAutocomplete(): void {
