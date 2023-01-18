@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { mainUbsLink } from 'src/app/main/links';
 import { HttpClient } from '@angular/common/http';
-import { Bag, CreateCard, EditLocationName, Service, Couriers, Stations, Locations } from '../models/tariffs.interface';
+import { Bag, CreateCard, EditLocationName, Service, Couriers, Stations, Locations, DeactivateCard } from '../models/tariffs.interface';
 
 import { Observable } from 'rxjs';
 import { ajax } from 'rxjs/ajax';
@@ -155,11 +155,24 @@ export class TariffsService {
     return this.http.post(`${mainUbsLink}/ubs/superAdmin/check-if-tariff-exists`, card);
   }
 
-  deactivate(query) {
+  deactivate(deactivateCardObj: DeactivateCard): Observable<object> {
+    const arr = [];
+    const requestObj = {
+      cities: `citiesId=${deactivateCardObj.cities}`,
+      courier: `courierId=${deactivateCardObj.courier}`,
+      regions: `regionsId=${deactivateCardObj.regions}`,
+      stations: `stationsId=${deactivateCardObj.stations}`
+    };
+    for (const key in deactivateCardObj) {
+      if (deactivateCardObj[key]) {
+        arr.push(requestObj[key]);
+      }
+    }
+    const query = `?${arr.join('&')}`;
     return this.http.post(`${mainUbsLink}/ubs/superAdmin/deactivate${query}`, null);
   }
 
-  deactivateTariffCard(tariffId) {
+  deactivateTariffCard(tariffId: number): Observable<object> {
     return this.http.put(`${mainUbsLink}/ubs/superAdmin/deactivateTariff/${tariffId}`, null);
   }
 }

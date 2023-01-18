@@ -5,7 +5,7 @@ import { LocalStorageService } from '@global-service/localstorage/local-storage.
 import { map, startWith, takeUntil } from 'rxjs/operators';
 import { Subject } from 'rxjs';
 import { TariffsService } from '../../../services/tariffs.service';
-import { Locations, LocationDto, SelectedItems, Couriers, Stations, TariffCard } from '../../../models/tariffs.interface';
+import { Locations, LocationDto, SelectedItems, Couriers, Stations, TariffCard, DeactivateCard } from '../../../models/tariffs.interface';
 import { MatAutocompleteSelectedEvent, MatAutocompleteTrigger } from '@angular/material/autocomplete';
 import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { ModalTextComponent } from '../../shared/components/modal-text/modal-text.component';
@@ -57,7 +57,7 @@ export class UbsAdminTariffsDeactivatePopUpComponent implements OnInit, OnDestro
   public selectedCourier: SelectedItems;
   public tariffCards: TariffCard[] = [];
   public currentLanguage: string;
-  public query = '?';
+  deactivateCardObj: DeactivateCard;
 
   constructor(
     private fb: FormBuilder,
@@ -679,27 +679,12 @@ export class UbsAdminTariffsDeactivatePopUpComponent implements OnInit, OnDestro
   }
 
   public createDeactivateCardDto() {
-    const arr = [];
-    const deactivateCardObj = {
+    this.deactivateCardObj = {
       cities: this.selectedCities.map((it) => it.id).join('%'),
       courier: this.selectedCourier?.id,
       regions: this.selectedRegions.map((it) => it.id).join('%'),
       stations: this.selectedStations.map((it) => it.id).join('%')
     };
-
-    const requestObj = {
-      cities: `citiesId=${deactivateCardObj.cities}`,
-      courier: `courierId=${deactivateCardObj.courier}`,
-      regions: `regionsId=${deactivateCardObj.regions}`,
-      stations: `stationsId=${deactivateCardObj.stations}`
-    };
-
-    for (const key in deactivateCardObj) {
-      if (deactivateCardObj[key]) {
-        arr.push(requestObj[key]);
-      }
-    }
-    this.query += arr.join('&');
   }
 
   public deactivateCard(): void {
@@ -717,7 +702,7 @@ export class UbsAdminTariffsDeactivatePopUpComponent implements OnInit, OnDestro
     this.createDeactivateCardDto();
     matDialogRef.afterClosed().subscribe((res) => {
       if (res) {
-        this.tariffsService.deactivate(this.query).pipe(takeUntil(this.unsubscribe)).subscribe();
+        this.tariffsService.deactivate(this.deactivateCardObj).pipe(takeUntil(this.unsubscribe)).subscribe();
       }
     });
   }

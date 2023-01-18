@@ -1368,9 +1368,14 @@ describe('UbsAdminTariffsDeactivatePopUpComponent', () => {
     component.selectedRegions.push(locationItem);
     component.selectedStations.push(stationItem);
     component.selectedCities.push(cityItem);
-    const result = '?citiesId=0&regionsId=0&stationsId=0';
+    const result = {
+      cities: `0`,
+      courier: undefined,
+      regions: `0`,
+      stations: `0`
+    };
     component.createDeactivateCardDto();
-    expect(component.query).toEqual(result);
+    expect(component.deactivateCardObj).toEqual(result);
   });
 
   it('method deactivateCard should open pop up with data', () => {
