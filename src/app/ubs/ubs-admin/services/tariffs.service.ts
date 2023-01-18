@@ -163,11 +163,12 @@ export class TariffsService {
       regions: `regionsId=${deactivateCardObj.regions}`,
       stations: `stationsId=${deactivateCardObj.stations}`
     };
-    for (const key in deactivateCardObj) {
+
+    Object.keys(deactivateCardObj).forEach((key) => {
       if (deactivateCardObj[key]) {
         arr.push(requestObj[key]);
       }
-    }
+    });
     const query = `?${arr.join('&')}`;
     return this.http.post(`${mainUbsLink}/ubs/superAdmin/deactivate${query}`, null);
   }
