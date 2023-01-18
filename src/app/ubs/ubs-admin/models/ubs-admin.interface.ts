@@ -49,6 +49,7 @@ export interface ReceivingStations {
 }
 
 export interface IOrderInfo {
+  id?: number;
   generalOrderInfo: IGeneralOrderInfo;
   userInfoDto: IUserInfo;
   addressExportDetailsDto: IAddressExportDetails;
