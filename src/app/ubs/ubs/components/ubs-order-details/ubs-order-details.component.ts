@@ -87,7 +87,6 @@ export class UBSOrderDetailsComponent extends FormBaseComponent implements OnIni
   public courierLimitByAmount: boolean;
   public courierLimitBySum: boolean;
   public courierLimitValidation: boolean;
-  public isOrderData: boolean;
 
   constructor(
     private fb: FormBuilder,
@@ -128,7 +127,6 @@ export class UBSOrderDetailsComponent extends FormBaseComponent implements OnIni
     this.subscribeToLangChange();
     if (this.localStorageService.getUbsOrderData()) {
       this.calculateTotal();
-      this.isOrderData = true;
     }
   }
 
@@ -207,7 +205,7 @@ export class UBSOrderDetailsComponent extends FormBaseComponent implements OnIni
       shop: new FormControl('no'),
       formArrayCertificates: this.fb.array([new FormControl('', [Validators.minLength(8), Validators.pattern(this.certificatePattern)])]),
       additionalOrders: this.fb.array(['']),
-      orderSum: new FormControl(0, [Validators.required, Validators.min(500)])
+      orderSum: new FormControl(0, [Validators.required])
     });
   }
 
@@ -235,11 +233,11 @@ export class UBSOrderDetailsComponent extends FormBaseComponent implements OnIni
   }
 
   checkTotalBigBags() {
+    this.totalOfBigBags = 0;
     this.bags.forEach((bag) => {
-      if (bag.capacity === 120) {
-        const q1 = this.orderDetailsForm.controls.quantity1;
-        const q2 = this.orderDetailsForm.controls.quantity2;
-        this.totalOfBigBags = +q1.value + +q2.value;
+      if (bag.limitedIncluded) {
+        const quantity = this.orderDetailsForm.controls[`quantity${bag.id}`];
+        this.totalOfBigBags += +quantity.value;
       }
     });
     this.validateBags();
