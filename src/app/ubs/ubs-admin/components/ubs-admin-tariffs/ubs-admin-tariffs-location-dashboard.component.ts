@@ -657,7 +657,7 @@ export class UbsAdminTariffsLocationDashboardComponent implements OnInit, AfterV
     });
     matDialogRef.afterClosed().subscribe((res) => {
       if (res) {
-        // here will be deativate request
+        this.tariffsService.deactivateTariffCard(card.cardId).pipe().subscribe();
       }
     });
   }

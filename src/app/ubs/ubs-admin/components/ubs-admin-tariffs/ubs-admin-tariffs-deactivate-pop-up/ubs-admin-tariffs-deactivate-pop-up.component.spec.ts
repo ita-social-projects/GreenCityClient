@@ -9,6 +9,7 @@ import { LocalStorageService } from '@global-service/localstorage/local-storage.
 import { TariffsService } from '../../../services/tariffs.service';
 import { ModalTextComponent } from '../../shared/components/modal-text/modal-text.component';
 import { LanguageService } from 'src/app/main/i18n/language.service';
+import { TariffDeactivateConfirmationPopUpComponent } from '../../shared/components/tariff-deactivate-confirmation-pop-up/tariff-deactivate-confirmation-pop-up.component';
 
 describe('UbsAdminTariffsDeactivatePopUpComponent', () => {
   let component: UbsAdminTariffsDeactivatePopUpComponent;
@@ -524,12 +525,14 @@ describe('UbsAdminTariffsDeactivatePopUpComponent', () => {
     'getCouriers',
     'getAllStations',
     'getActiveLocations',
-    'getCardInfo'
+    'getCardInfo',
+    'deactivate'
   ]);
   tariffsServiceMock.getCouriers.and.returnValue(of(fakeCouriers));
   tariffsServiceMock.getAllStations.and.returnValue(of([fakeStation]));
   tariffsServiceMock.getActiveLocations.and.returnValue(of([fakeLocation]));
   tariffsServiceMock.getCardInfo.and.returnValue(of([fakeTariffCard]));
+  tariffsServiceMock.deactivate.and.returnValue(of());
 
   const languageServiceMock = jasmine.createSpyObj('languageServiceMock', ['getCurrentLanguage']);
   languageServiceMock.getCurrentLanguage.and.returnValue('ua');
@@ -1359,6 +1362,42 @@ describe('UbsAdminTariffsDeactivatePopUpComponent', () => {
     const mockStationsName = ['Фейк1', 'Фейк2'];
     const result = component.filterOptions('Фейк1', mockStationsName);
     expect(result).toEqual(['Фейк1']);
+  });
+
+  it('method deactivateCard should create request line', () => {
+    component.selectedRegions.push(locationItem);
+    component.selectedStations.push(stationItem);
+    component.selectedCities.push(cityItem);
+    const result = {
+      cities: `0`,
+      courier: undefined,
+      regions: `0`,
+      stations: `0`
+    };
+    component.createDeactivateCardDto();
+    expect(component.deactivateCardObj).toEqual(result);
+  });
+
+  it('method deactivateCard should open pop up with data', () => {
+    component.selectedRegions.push(locationItem);
+    component.selectedStations.push(stationItem);
+    component.selectedCities.push(cityItem);
+    component.selectedCourier = { id: 0, name: 'фейкКурєр1' };
+    const spy = spyOn(component, 'createDeactivateCardDto');
+    matDialogMock.open.and.returnValue(fakeMatDialogRef as any);
+    component.deactivateCard();
+    expect(fakeMatDialogRef.close).toHaveBeenCalled();
+    expect(spy).toHaveBeenCalled();
+    expect(matDialogMock.open).toHaveBeenCalledWith(TariffDeactivateConfirmationPopUpComponent, {
+      hasBackdrop: true,
+      panelClass: 'address-matDialog-styles-w-100',
+      data: {
+        courierName: 'фейкКурєр1',
+        stationNames: ['Фейк1'],
+        regionName: ['Фейк'],
+        locationNames: ['Фейк місто']
+      }
+    });
   });
 
   it('method onNoClick should invoke destroyRef.close()', () => {
