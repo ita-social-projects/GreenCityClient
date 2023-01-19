@@ -22,7 +22,9 @@
   </form>
   <div class="btn-container">
     <button type="reset" class="disagree btn" (click)="close()">{{ 'order-cancel.btn.cancel' | translate }}</button>
-    <button type="submit" class="agree btn" (click)="save()">{{ 'order-cancel.btn.add' | translate }}</button>
+    <button type="submit" class="agree btn" (click)="save()" [disabled]="commentForm.invalid && commentForm.touched">
+      {{ 'order-cancel.btn.add' | translate }}
+    </button>
   </div>
   <span class="date">{{ 'order-cancel.date' | translate }}: {{ date | date: 'dd.MM.y' }} </span>
   <span>{{ 'order-cancel.added' | translate }}: {{ adminName }}</span>
