@@ -1,5 +1,5 @@
 import { Component, Inject, OnInit, OnDestroy } from '@angular/core';
-import { FormBuilder, FormGroup, FormControl, Validators } from '@angular/forms';
+import { FormBuilder, FormGroup, FormControl } from '@angular/forms';
 import { MAT_DIALOG_DATA, MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { TariffsService } from '../../../../services/tariffs.service';
 import { Service } from '../../../../models/tariffs.interface';
@@ -8,7 +8,6 @@ import { Subject } from 'rxjs';
 import { CreateEditTariffsServicesFormBuilder } from '../../../../services/create-edit-tariffs-service-form-builder';
 import { DatePipe } from '@angular/common';
 import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
-import { Patterns } from 'src/assets/patterns/patterns';
 import { ModalTextComponent } from '../../../shared/components/modal-text/modal-text.component';
 
 @Component({
