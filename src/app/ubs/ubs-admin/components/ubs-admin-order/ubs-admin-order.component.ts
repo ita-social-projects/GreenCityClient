@@ -127,7 +127,7 @@ export class UbsAdminOrderComponent implements OnInit, OnDestroy, AfterContentCh
     const bagsObj = this.orderInfo.bags.map((bag) => {
       bag.planned = this.orderInfo.amountOfBagsOrdered[bag.id] || 0;
       bag.confirmed = this.orderInfo.amountOfBagsConfirmed[bag.id] ?? bag.planned;
-      bag.actual = this.orderInfo.amountOfBagsExported[bag.id] ?? (bag.planned || 0);
+      bag.actual = this.orderInfo.amountOfBagsExported[bag.id] ?? (bag.confirmed || 0);
       return bag;
     });
     this.orderDetails = {
