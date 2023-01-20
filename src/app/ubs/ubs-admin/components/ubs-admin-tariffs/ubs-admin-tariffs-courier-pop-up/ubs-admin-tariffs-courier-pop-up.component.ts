@@ -8,7 +8,6 @@ import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 import { Patterns } from 'src/assets/patterns/patterns';
 import { TariffsService } from '../../../services/tariffs.service';
-import { LanguageService } from 'src/app/main/i18n/language.service';
 import { Couriers } from '../../../models/tariffs.interface';
 
 @Component({
