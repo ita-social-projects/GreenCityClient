@@ -54,6 +54,7 @@
           [matAutocomplete]="auto2"
           #autocompleteTrigger="matAutocompleteTrigger"
           [placeholder]="placeholderTranslate | translate"
+          [attr.disabled]="courierForm.controls[checkLang('name', 'englishName')].dirty ? null : true"
         />
         <mat-autocomplete #auto2="matAutocomplete">
           <ng-container *ngIf="data.edit">
