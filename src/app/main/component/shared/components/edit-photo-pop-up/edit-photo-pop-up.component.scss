@@ -219,6 +219,29 @@
 
 @media screen and (max-width: 576px) {
   .main-container {
+    max-block-size: 376px;
+    max-height: 548px;
+
+    .buttons {
+      flex-direction: row;
+
+      .primary-global-button {
+        width: 98px;
+      }
+      .primary-global-button.delete {
+        width: 143px;
+      }
+
+      .secondary-global-button {
+        margin: 8px 0;
+        width: 181px;
+      }
+    }
+  }
+}
+
+@media screen and (max-width: 375px) {
+  .main-container {
     width: 100vw;
     height: 100vh;
 
@@ -239,15 +262,5 @@
         }
       }
     }
-  }
-}
-
-@media screen and (max-width: 375px) {
-  .mat-dialog-container {
-    padding: 0;
-  }
-
-  .main-container {
-    height: 100%;
   }
 }
