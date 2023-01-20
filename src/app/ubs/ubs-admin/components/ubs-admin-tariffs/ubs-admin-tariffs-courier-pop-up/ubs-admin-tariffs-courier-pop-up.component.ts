@@ -50,7 +50,6 @@ export class UbsAdminTariffsCourierPopUpComponent implements OnInit, OnDestroy {
     private localStorageService: LocalStorageService,
     public dialogRef: MatDialogRef<UbsAdminTariffsCourierPopUpComponent>,
     private tariffsService: TariffsService,
-    private languageService: LanguageService,
     private localeStorageService: LocalStorageService,
     @Inject(MAT_DIALOG_DATA)
     public data: {

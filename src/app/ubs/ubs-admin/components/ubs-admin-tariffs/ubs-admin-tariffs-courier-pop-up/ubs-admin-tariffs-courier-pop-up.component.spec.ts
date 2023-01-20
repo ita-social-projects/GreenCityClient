@@ -2,12 +2,11 @@ import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { FormBuilder, FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { MatDialogModule, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { TranslateModule } from '@ngx-translate/core';
-import { of, Subject } from 'rxjs';
+import { BehaviorSubject, of, Subject } from 'rxjs';
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { UbsAdminTariffsCourierPopUpComponent } from './ubs-admin-tariffs-courier-pop-up.component';
 import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
 import { TariffsService } from '../../../services/tariffs.service';
-import { LanguageService } from 'src/app/main/i18n/language.service';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 describe('UbsAdminTariffsCourierPopUpComponent', () => {
@@ -50,18 +49,14 @@ describe('UbsAdminTariffsCourierPopUpComponent', () => {
   tariffsServiceMock.addCourier.and.returnValue(of());
   tariffsServiceMock.editCourier.and.returnValue(of());
 
-  const languageServiceMock = jasmine.createSpyObj('languageServiceMock', ['getCurrentLanguage']);
-  languageServiceMock.getCurrentLanguage.and.returnValue('ua');
-
-  const localStorageServiceStub = () => ({
-    firstNameBehaviourSubject: { pipe: () => of('fakeName') }
-  });
-
-  const eventMockFake = {
-    option: {
-      value: ['фейкКурєр']
-    }
-  };
+  const localStorageServiceMock = jasmine.createSpyObj('localStorageService', [
+    'languageBehaviourSubject',
+    'getCurrentLanguage',
+    'firstNameBehaviourSubject'
+  ]);
+  localStorageServiceMock.languageBehaviourSubject = new BehaviorSubject('ua');
+  localStorageServiceMock.getCurrentLanguage.and.returnValue(of('ua'));
+  localStorageServiceMock.firstNameBehaviourSubject = new BehaviorSubject('user');
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
@@ -69,9 +64,8 @@ describe('UbsAdminTariffsCourierPopUpComponent', () => {
       imports: [MatDialogModule, BrowserAnimationsModule, TranslateModule.forRoot(), ReactiveFormsModule],
       providers: [
         { provide: MatDialogRef, useValue: matDialogRefMock },
-        { provide: LocalStorageService, useFactory: localStorageServiceStub },
         { provide: TariffsService, useValue: tariffsServiceMock },
-        { provide: LanguageService, useValue: languageServiceMock },
+        { provide: LocalStorageService, useValue: localStorageServiceMock },
         { provide: MAT_DIALOG_DATA, useValue: mockedData },
         FormBuilder
       ],
