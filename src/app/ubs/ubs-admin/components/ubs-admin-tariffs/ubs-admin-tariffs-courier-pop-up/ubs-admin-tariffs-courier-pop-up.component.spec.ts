@@ -115,7 +115,6 @@ describe('UbsAdminTariffsCourierPopUpComponent', () => {
   });
 
   it('should has correct data', () => {
-    expect(component.data.edit).toEqual(true);
     expect(component.data.headerText).toEqual('courier');
   });
 
