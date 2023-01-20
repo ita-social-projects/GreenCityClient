@@ -1,9 +1,8 @@
 import { Component, OnDestroy, Input, ViewEncapsulation, SimpleChanges, OnChanges } from '@angular/core';
 import { Subject } from 'rxjs';
 import { OrderService } from '../../services/order.service';
-import { IOrderHistory } from '../../models/ubs-admin.interface';
+import { IOrderHistory, IOrderInfo } from '../../models/ubs-admin.interface';
 import { takeUntil } from 'rxjs/operators';
-import { IOrderInfo } from '../../models/ubs-admin.interface';
 
 @Component({
   selector: 'app-ubs-admin-order-history',
