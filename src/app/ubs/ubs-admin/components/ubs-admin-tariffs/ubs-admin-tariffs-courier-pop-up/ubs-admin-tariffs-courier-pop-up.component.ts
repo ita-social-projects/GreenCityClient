@@ -33,7 +33,11 @@ export class UbsAdminTariffsCourierPopUpComponent implements OnInit, OnDestroy {
   couriersName;
   couriersNameEng;
   array;
-  courierPlaceholder: string;
+  currentLang: string;
+  placeholder: string;
+  placeholderTranslate: string;
+  courierAdd: string;
+  courierEdit: string;
   private destroy: Subject<boolean> = new Subject<boolean>();
 
   public icons = {
@@ -47,6 +51,7 @@ export class UbsAdminTariffsCourierPopUpComponent implements OnInit, OnDestroy {
     public dialogRef: MatDialogRef<UbsAdminTariffsCourierPopUpComponent>,
     private tariffsService: TariffsService,
     private languageService: LanguageService,
+    private localeStorageService: LocalStorageService,
     @Inject(MAT_DIALOG_DATA)
     public data: {
       headerText: string;
@@ -66,6 +71,9 @@ export class UbsAdminTariffsCourierPopUpComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
     this.getCouriers();
     this.setDate();
+    this.localeStorageService.languageBehaviourSubject.pipe(takeUntil(this.destroy)).subscribe((lang: string) => {
+      this.currentLang = lang;
+    });
     this.localStorageService.firstNameBehaviourSubject.pipe(takeUntil(this.unsubscribe)).subscribe((firstName) => {
       this.authorName = firstName;
     });
@@ -75,7 +83,10 @@ export class UbsAdminTariffsCourierPopUpComponent implements OnInit, OnDestroy {
     this.englishName.valueChanges.subscribe((value) => {
       this.enCourierExist = this.checkIsCourierExist(value, this.couriersNameEng);
     });
-    this.courierPlaceholder = this.data.edit ? 'ubs-tariffs.placeholder-choose-courier' : 'ubs-tariffs.placeholder-enter-courier';
+    this.placeholder = this.data.edit ? 'ubs-tariffs.placeholder-choose-courier' : 'ubs-tariffs.placeholder-enter-courier';
+    this.placeholderTranslate = this.data.edit
+      ? 'ubs-tariffs.placeholder-choose-courier-translate'
+      : 'ubs-tariffs.placeholder-enter-courier-translate';
   }
 
   getCouriers(): void {
@@ -90,8 +101,7 @@ export class UbsAdminTariffsCourierPopUpComponent implements OnInit, OnDestroy {
   }
 
   setDate(): void {
-    const lang = this.languageService.getCurrentLanguage();
-    this.datePipe = lang === 'ua' ? new DatePipe('ua') : new DatePipe('en');
+    this.datePipe = this.checkLang(new DatePipe('ua'), new DatePipe('en'));
     this.newDate = this.datePipe.transform(new Date(), 'MMM dd, yyyy');
   }
 
@@ -146,6 +156,10 @@ export class UbsAdminTariffsCourierPopUpComponent implements OnInit, OnDestroy {
       .subscribe(() => {
         this.dialogRef.close();
       });
+  }
+
+  checkLang(valUa, valEn): any {
+    return this.currentLang === 'ua' ? valUa : valEn;
   }
 
   onNoClick(): void {
