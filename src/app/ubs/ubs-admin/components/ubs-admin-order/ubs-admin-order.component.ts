@@ -31,6 +31,7 @@ import { IAppState } from 'src/app/store/state/app.state';
 import { ChangingOrderData } from 'src/app/store/actions/bigOrderTable.actions';
 import { UbsAdminOrderPaymentComponent } from '../ubs-admin-order-payment/ubs-admin-order-payment.component';
 import { Patterns } from 'src/assets/patterns/patterns';
+import { GoogleScript } from 'src/assets/google-script/google-script';
 
 @Component({
   selector: 'app-ubs-admin-order',
@@ -71,7 +72,8 @@ export class UbsAdminOrderComponent implements OnInit, OnDestroy, AfterContentCh
     private router: Router,
     private changeDetector: ChangeDetectorRef,
     private injector: Injector,
-    private store: Store<IAppState>
+    private store: Store<IAppState>,
+    private googleScript: GoogleScript
   ) {
     this.matSnackBar = injector.get<MatSnackBarComponent>(MatSnackBarComponent);
     this.orderService = injector.get<OrderService>(OrderService);
@@ -87,6 +89,7 @@ export class UbsAdminOrderComponent implements OnInit, OnDestroy, AfterContentCh
     this.localStorageService.languageBehaviourSubject.pipe(takeUntil(this.destroy$)).subscribe((lang) => {
       this.currentLanguage = lang;
       this.translate.setDefaultLang(lang);
+      this.googleScript.load(lang);
     });
     this.route.params.subscribe((params: Params) => {
       this.orderId = +params.id;
@@ -181,17 +184,23 @@ export class UbsAdminOrderComponent implements OnInit, OnDestroy, AfterContentCh
         recipientEmail: [this.userInfo.recipientEmail, [Validators.email]]
       }),
       addressExportDetailsDto: this.fb.group({
-        addressRegion: this.addressInfo.addressRegion,
-        addressRegionEn: null,
-        addressCity: this.addressInfo.addressCity,
-        addressCityEn: null,
-        addressStreet: this.addressInfo.addressStreet,
-        addressStreetEn: null,
-        addressHouseNumber: this.addressInfo.addressHouseNumber,
-        addressHouseCorpus: this.addressInfo.addressHouseCorpus,
-        addressEntranceNumber: this.addressInfo.addressEntranceNumber,
-        addressDistrict: this.addressInfo.addressDistrict,
-        addressDistrictEn: null
+        addressRegion: [this.addressInfo.addressRegion, Validators.required],
+        addressRegionEng: [this.addressInfo.addressRegionEng, Validators.required],
+        addressCity: [this.addressInfo.addressCity, Validators.required],
+        addressCityEng: [this.addressInfo.addressCityEng, Validators.required],
+        addressStreet: [this.addressInfo.addressStreet, [Validators.required, Validators.minLength(3), Validators.maxLength(120)]],
+        addressStreetEng: [this.addressInfo.addressStreetEng, [Validators.required, Validators.minLength(3), Validators.maxLength(120)]],
+        addressHouseNumber: [
+          this.addressInfo.addressHouseNumber,
+          [Validators.required, Validators.maxLength(4), Validators.pattern(Patterns.ubsHousePattern)]
+        ],
+        addressHouseCorpus: [this.addressInfo.addressHouseCorpus, [Validators.maxLength(4), Validators.pattern(Patterns.ubsCorpusPattern)]],
+        addressEntranceNumber: [
+          this.addressInfo.addressEntranceNumber,
+          [Validators.maxLength(2), Validators.pattern(Patterns.ubsEntrNumPattern)]
+        ],
+        addressDistrict: [this.addressInfo.addressDistrict, Validators.required],
+        addressDistrictEng: [this.addressInfo.addressDistrictEng, Validators.required]
       }),
       exportDetailsDto: this.fb.group({
         dateExport: [this.exportInfo.dateExport ? formatDate(this.exportInfo.dateExport, 'yyyy-MM-dd', this.currentLanguage) : ''],

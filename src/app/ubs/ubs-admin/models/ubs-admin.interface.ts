@@ -147,12 +147,16 @@ export interface IUserInfo {
 export interface IAddressExportDetails {
   addressId: number;
   addressCity: string;
+  addressCityEng: string;
   addressDistrict: string;
+  addressDistrictEng: string;
   addressEntranceNumber: number;
   addressHouseCorpus: number;
   addressHouseNumber: number;
   addressRegion: string;
+  addressRegionEng: string;
   addressStreet: string;
+  addressStreetEng: string;
 }
 
 export interface IPaymentInfo {

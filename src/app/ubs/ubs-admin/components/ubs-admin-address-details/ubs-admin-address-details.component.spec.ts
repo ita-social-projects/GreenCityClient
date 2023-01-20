@@ -5,7 +5,6 @@ import { UbsAdminAddressDetailsComponent } from './ubs-admin-address-details.com
 import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
 import { Locations } from 'src/assets/locations/locations';
 import { BehaviorSubject } from 'rxjs/internal/BehaviorSubject';
-import { GoogleScript } from 'src/assets/google-script/google-script';
 import { of } from 'rxjs';
 
 describe('UbsAdminAddressDetailsComponent', () => {
@@ -15,16 +14,16 @@ describe('UbsAdminAddressDetailsComponent', () => {
 
   const FormGroupMock = new FormGroup({
     addressRegion: new FormControl('місто Київ'),
-    addressRegionEn: new FormControl('Kyiv'),
+    addressRegionEng: new FormControl('Kyiv'),
     addressCity: new FormControl('Київ'),
-    addressCityEn: new FormControl('Kyiv'),
+    addressCityEng: new FormControl('Kyiv'),
     addressStreet: new FormControl('вулиця Михайла Ломоносова'),
-    addressStreetEn: new FormControl('Mykhaila Lomonosova Street'),
+    addressStreetEng: new FormControl('Mykhaila Lomonosova Street'),
     addressHouseNumber: new FormControl('12'),
     addressHouseCorpus: new FormControl('2'),
     addressEntranceNumber: new FormControl('5'),
     addressDistrict: new FormControl('Голосіївський район'),
-    addressDistrictEn: new FormControl(`Holosiivs'kyi district`)
+    addressDistrictEng: new FormControl(`Holosiivs'kyi district`)
   });
 
   const status = 'OK';
@@ -282,17 +281,13 @@ describe('UbsAdminAddressDetailsComponent', () => {
   fakeLocationsMockUk.getRegions.and.returnValue(fakeDistricts);
   fakeLocationsMockUk.getRegionsKyiv.and.returnValue(fakeDictrictsKyiv);
 
-  const fakeGoogleScript = jasmine.createSpyObj('GoogleScript', ['load']);
-  fakeGoogleScript.load.and.returnValue(of());
-
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       declarations: [UbsAdminAddressDetailsComponent],
       imports: [TranslateModule.forRoot()],
       providers: [
         { provide: LocalStorageService, useValue: fakeLocalStorageService },
-        { provide: Locations, useValue: fakeLocationsMockUk },
-        { provide: GoogleScript, useValue: fakeGoogleScript }
+        { provide: Locations, useValue: fakeLocationsMockUk }
       ]
     }).compileComponents();
   }));
@@ -343,14 +338,14 @@ describe('UbsAdminAddressDetailsComponent', () => {
     tick();
     fixture.detectChanges();
     expect(component.addressCity.value).toBe('');
-    expect(component.addressCityEn.value).toBe('');
+    expect(component.addressCityEng.value).toBe('');
     expect(component.addressStreet.value).toBe('');
-    expect(component.addressStreetEn.value).toBe('');
+    expect(component.addressStreetEng.value).toBe('');
     expect(component.addressHouseNumber.value).toBe('');
     expect(component.addressHouseCorpus.value).toBe('');
     expect(component.addressEntranceNumber.value).toBe('');
     expect(component.addressDistrict.value).toBe('');
-    expect(component.addressDistrictEn.value).toBe('');
+    expect(component.addressDistrictEng.value).toBe('');
     expect(component.streetPredictionList).toBe(null);
     expect(component.cityPredictionList).toBe(null);
   }));
@@ -362,12 +357,12 @@ describe('UbsAdminAddressDetailsComponent', () => {
     tick();
     fixture.detectChanges();
     expect(component.addressStreet.value).toBe('');
-    expect(component.addressStreetEn.value).toBe('');
+    expect(component.addressStreetEng.value).toBe('');
     expect(component.addressHouseNumber.value).toBe('');
     expect(component.addressHouseCorpus.value).toBe('');
     expect(component.addressEntranceNumber.value).toBe('');
     expect(component.addressDistrict.value).toBe('');
-    expect(component.addressDistrictEn.value).toBe('');
+    expect(component.addressDistrictEng.value).toBe('');
     expect(component.streetPredictionList).toBe(null);
   }));
 
@@ -395,9 +390,9 @@ describe('UbsAdminAddressDetailsComponent', () => {
   });
 
   it('method setPredictCities should call method for predicting cities in en', () => {
-    component.addressRegionEn.setValue('Kyiv');
-    component.addressCityEn.setValue('Kyiv');
-    const searchAddress = `${component.addressRegionEn.value},${component.addressCityEn.value}`;
+    component.addressRegionEng.setValue('Kyiv');
+    component.addressCityEng.setValue('Kyiv');
+    const searchAddress = `${component.addressRegionEng.value},${component.addressCityEng.value}`;
     const spy = spyOn(component, 'inputCity');
     component.currentLanguage = 'en';
     component.setPredictCities();
@@ -414,7 +409,7 @@ describe('UbsAdminAddressDetailsComponent', () => {
   });
 
   it('method getPlacePredictions should form prediction list for Kyiv region', () => {
-    component.addressRegionEn.setValue(`Kyivs'ka oblast`);
+    component.addressRegionEng.setValue(`Kyivs'ka oblast`);
     component.autocompleteService = { getPlacePredictions: () => {} } as any;
     spyOn(component.autocompleteService, 'getPlacePredictions').and.callFake((request, callback) => {
       callback(predictionListKyivRegion, status as any);
@@ -426,7 +421,7 @@ describe('UbsAdminAddressDetailsComponent', () => {
 
   it('method getPlacePredictions should form prediction list for Kyiv city', () => {
     const result = [predictionListKyivCity[0]];
-    component.addressRegionEn.setValue(`Kyiv`);
+    component.addressRegionEng.setValue(`Kyiv`);
     component.autocompleteService = { getPlacePredictions: () => {} } as any;
     spyOn(component.autocompleteService, 'getPlacePredictions').and.callFake((request, callback) => {
       callback(predictionListKyivCity, status as any);
@@ -447,7 +442,7 @@ describe('UbsAdminAddressDetailsComponent', () => {
     const spy = spyOn(component, 'setValueOfCity');
     component.onCitySelected(predictionListKyivRegion[0]);
     expect(spy).toHaveBeenCalledWith(predictionListKyivRegion[0], component.addressCity, component.languages.uk);
-    expect(spy).toHaveBeenCalledWith(predictionListKyivRegion[0], component.addressCityEn, component.languages.en);
+    expect(spy).toHaveBeenCalledWith(predictionListKyivRegion[0], component.addressCityEng, component.languages.en);
   });
 
   it('method onCitySelected should invoke getDetails', () => {
@@ -462,8 +457,8 @@ describe('UbsAdminAddressDetailsComponent', () => {
     spyOn(component.placeService, 'getDetails').and.callFake((request, callback) => {
       callback(cityPlaceResultEn, status as any);
     });
-    component.setValueOfCity(predictionListKyivCity[0], component.addressCityEn, component.languages.en);
-    expect(component.addressCityEn.value).toEqual(cityPlaceResultEn.name);
+    component.setValueOfCity(predictionListKyivCity[0], component.addressCityEng, component.languages.en);
+    expect(component.addressCityEng.value).toEqual(cityPlaceResultEn.name);
   });
 
   it('method onCitySelected should get details for selected city in uk', () => {
@@ -498,9 +493,9 @@ describe('UbsAdminAddressDetailsComponent', () => {
   });
 
   it('method setPredictStreets should call method for predicting streets in en', () => {
-    component.addressCityEn.setValue('Kyiv');
-    component.addressStreetEn.setValue('Lomo');
-    const searchAddress = `${component.addressCityEn.value}, ${component.addressStreetEn.value}`;
+    component.addressCityEng.setValue('Kyiv');
+    component.addressStreetEng.setValue('Lomo');
+    const searchAddress = `${component.addressCityEng.value}, ${component.addressStreetEng.value}`;
     const spy = spyOn(component, 'inputAddress');
     component.currentLanguage = 'en';
     component.setPredictStreets();
@@ -552,7 +547,7 @@ describe('UbsAdminAddressDetailsComponent', () => {
     const spy = spyOn(component, 'setValueOfStreet');
     component.onStreetSelected(streetPredictionKyivRegion[0]);
     expect(spy).toHaveBeenCalledWith(streetPredictionKyivRegion[0], component.addressStreet, component.languages.uk);
-    expect(spy).toHaveBeenCalledWith(streetPredictionKyivRegion[0], component.addressStreetEn, component.languages.en);
+    expect(spy).toHaveBeenCalledWith(streetPredictionKyivRegion[0], component.addressStreetEng, component.languages.en);
   });
 
   it('method onStreetSelected should invoke getDetails', () => {
@@ -569,9 +564,9 @@ describe('UbsAdminAddressDetailsComponent', () => {
     spyOn(component.placeService, 'getDetails').and.callFake((request, callback) => {
       callback(streetPlaceResultEn, status as any);
     });
-    component.setValueOfStreet(streetPredictionKyivCity[0], component.addressStreetEn, component.languages.en);
-    expect(component.addressStreetEn.value).toEqual(streetPlaceResultEn.name);
-    expect(spy).toHaveBeenCalledWith(streetPlaceResultEn, component.addressDistrictEn, component.languages.en);
+    component.setValueOfStreet(streetPredictionKyivCity[0], component.addressStreetEng, component.languages.en);
+    expect(component.addressStreetEng.value).toEqual(streetPlaceResultEn.name);
+    expect(spy).toHaveBeenCalledWith(streetPlaceResultEn, component.addressDistrictEng, component.languages.en);
   });
 
   it('method onStreetSelected should get details for selected street in uk', () => {
@@ -594,8 +589,8 @@ describe('UbsAdminAddressDetailsComponent', () => {
 
   it('method setDistrictAuto should set district value in en', () => {
     const result = streetPlaceResultEn.address_components[1].long_name;
-    component.setDistrictAuto(streetPlaceResultEn, component.addressDistrictEn, component.languages.en);
-    expect(component.addressDistrictEn.value).toEqual(result);
+    component.setDistrictAuto(streetPlaceResultEn, component.addressDistrictEng, component.languages.en);
+    expect(component.addressDistrictEng.value).toEqual(result);
   });
 
   it('method onDistrictSelected should invoke method for setting district value in Kyiv city', () => {

@@ -4,8 +4,6 @@ import { Subject } from 'rxjs';
 import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
 import { Locations } from 'src/assets/locations/locations';
 import { Location } from '../../models/ubs-admin.interface';
-import { GoogleScript } from 'src/assets/google-script/google-script';
-import { takeUntil } from 'rxjs/operators';
 
 @Component({
   selector: 'app-ubs-admin-address-details',
@@ -31,31 +29,31 @@ export class UbsAdminAddressDetailsComponent implements AfterViewInit, OnDestroy
     uk: 'uk'
   };
 
-  constructor(private localStorageService: LocalStorageService, private locations: Locations, private googleScript: GoogleScript) {}
+  constructor(private localStorageService: LocalStorageService, private locations: Locations) {}
   private destroy$: Subject<boolean> = new Subject<boolean>();
 
   get addressRegion() {
     return this.addressExportDetailsDto.get('addressRegion');
   }
 
-  get addressRegionEn() {
-    return this.addressExportDetailsDto.get('addressRegionEn');
+  get addressRegionEng() {
+    return this.addressExportDetailsDto.get('addressRegionEng');
   }
 
   get addressCity() {
     return this.addressExportDetailsDto.get('addressCity');
   }
 
-  get addressCityEn() {
-    return this.addressExportDetailsDto.get('addressCityEn');
+  get addressCityEng() {
+    return this.addressExportDetailsDto.get('addressCityEng');
   }
 
   get addressStreet() {
     return this.addressExportDetailsDto.get('addressStreet');
   }
 
-  get addressStreetEn() {
-    return this.addressExportDetailsDto.get('addressStreetEn');
+  get addressStreetEng() {
+    return this.addressExportDetailsDto.get('addressStreetEng');
   }
 
   get addressHouseNumber() {
@@ -74,8 +72,8 @@ export class UbsAdminAddressDetailsComponent implements AfterViewInit, OnDestroy
     return this.addressExportDetailsDto.get('addressDistrict');
   }
 
-  get addressDistrictEn() {
-    return this.addressExportDetailsDto.get('addressDistrictEn');
+  get addressDistrictEng() {
+    return this.addressExportDetailsDto.get('addressDistrictEng');
   }
 
   openDetails(): void {
@@ -87,43 +85,41 @@ export class UbsAdminAddressDetailsComponent implements AfterViewInit, OnDestroy
   }
 
   loadData(): void {
+    console.log('+');
     this.currentLanguage = this.localStorageService.getCurrentLanguage();
     this.isDistrict = this.addressCity.value === 'Київ' ? true : false;
     this.regions = this.locations.getBigRegions(this.currentLanguage);
     this.districtsKyiv = this.locations.getRegionsKyiv(this.currentLanguage);
     this.districts = this.locations.getRegions(this.currentLanguage);
 
-    (this.currentLanguage === 'ua' ? this.addressRegion : this.addressRegionEn).valueChanges.subscribe(() => {
+    (this.currentLanguage === 'ua' ? this.addressRegion : this.addressRegionEng).valueChanges.subscribe(() => {
       this.addressCity.setValue('');
-      this.addressCityEn.setValue('');
+      this.addressCityEng.setValue('');
       this.addressStreet.setValue('');
-      this.addressStreetEn.setValue('');
+      this.addressStreetEng.setValue('');
       this.addressHouseNumber.setValue('');
       this.addressHouseCorpus.setValue('');
       this.addressEntranceNumber.setValue('');
       this.addressDistrict.setValue('');
-      this.addressDistrictEn.setValue('');
+      this.addressDistrictEng.setValue('');
       this.streetPredictionList = null;
       this.cityPredictionList = null;
     });
 
-    (this.currentLanguage === 'ua' ? this.addressCity : this.addressCityEn).valueChanges.subscribe(() => {
+    (this.currentLanguage === 'ua' ? this.addressCity : this.addressCityEng).valueChanges.subscribe(() => {
       this.addressStreet.setValue('');
-      this.addressStreetEn.setValue('');
+      this.addressStreetEng.setValue('');
       this.addressHouseNumber.setValue('');
       this.addressHouseCorpus.setValue('');
       this.addressEntranceNumber.setValue('');
       this.addressDistrict.setValue('');
-      this.addressDistrictEn.setValue('');
+      this.addressDistrictEng.setValue('');
       this.streetPredictionList = null;
     });
   }
 
   ngAfterViewInit(): void {
     this.initGoogleAutocompleteServices();
-    this.localStorageService.languageBehaviourSubject.pipe(takeUntil(this.destroy$)).subscribe((lang: string) => {
-      this.googleScript.load(lang);
-    });
   }
 
   private initGoogleAutocompleteServices(): void {
@@ -136,7 +132,7 @@ export class UbsAdminAddressDetailsComponent implements AfterViewInit, OnDestroy
     const selectedRegionUa = this.locations.getBigRegions('ua').find((el) => el.key === elem.key);
     const selectedRegionEn = this.locations.getBigRegions('en').find((el) => el.key === elem.key);
     this.addressRegion.setValue(selectedRegionUa.name);
-    this.addressRegionEn.setValue(selectedRegionEn.name);
+    this.addressRegionEng.setValue(selectedRegionEn.name);
   }
 
   setPredictCities(): void {
@@ -145,8 +141,8 @@ export class UbsAdminAddressDetailsComponent implements AfterViewInit, OnDestroy
     if (this.currentLanguage === 'ua' && this.addressCity.value) {
       this.inputCity(`${this.addressRegion.value}, ${this.addressCity.value}`);
     }
-    if (this.currentLanguage === 'en' && this.addressCityEn.value) {
-      this.inputCity(`${this.addressRegionEn.value},${this.addressCityEn.value}`);
+    if (this.currentLanguage === 'en' && this.addressCityEng.value) {
+      this.inputCity(`${this.addressRegionEng.value},${this.addressCityEng.value}`);
     }
   }
 
@@ -159,7 +155,7 @@ export class UbsAdminAddressDetailsComponent implements AfterViewInit, OnDestroy
       componentRestrictions: { country: 'ua' }
     };
     this.autocompleteService.getPlacePredictions(request, (cityPredictionList) => {
-      if (this.addressRegionEn.value === 'Kyiv' && cityPredictionList) {
+      if (this.addressRegionEng.value === 'Kyiv' && cityPredictionList) {
         this.cityPredictionList = cityPredictionList.filter((el) => el.place_id === 'ChIJBUVa4U7P1EAR_kYBF9IxSXY');
       } else {
         this.cityPredictionList = cityPredictionList;
@@ -169,7 +165,7 @@ export class UbsAdminAddressDetailsComponent implements AfterViewInit, OnDestroy
 
   onCitySelected(selectedCity: google.maps.places.AutocompletePrediction): void {
     this.setValueOfCity(selectedCity, this.addressCity, this.languages.uk);
-    this.setValueOfCity(selectedCity, this.addressCityEn, this.languages.en);
+    this.setValueOfCity(selectedCity, this.addressCityEng, this.languages.en);
   }
 
   setValueOfCity(selectedCity: google.maps.places.AutocompletePrediction, abstractControl: AbstractControl, lang: string): void {
@@ -192,8 +188,8 @@ export class UbsAdminAddressDetailsComponent implements AfterViewInit, OnDestroy
     if (this.currentLanguage === 'ua' && this.addressStreet.value) {
       this.inputAddress(`${this.addressCity.value}, ${this.addressStreet.value}`);
     }
-    if (this.currentLanguage === 'en' && this.addressStreetEn.value) {
-      this.inputAddress(`${this.addressCityEn.value}, ${this.addressStreetEn.value}`);
+    if (this.currentLanguage === 'en' && this.addressStreetEng.value) {
+      this.inputAddress(`${this.addressCityEng.value}, ${this.addressStreetEng.value}`);
     }
   }
 
@@ -217,7 +213,7 @@ export class UbsAdminAddressDetailsComponent implements AfterViewInit, OnDestroy
 
   onStreetSelected(selectedStreet: google.maps.places.AutocompletePrediction): void {
     this.setValueOfStreet(selectedStreet, this.addressStreet, this.languages.uk);
-    this.setValueOfStreet(selectedStreet, this.addressStreetEn, this.languages.en);
+    this.setValueOfStreet(selectedStreet, this.addressStreetEng, this.languages.en);
   }
 
   setValueOfStreet(selectedStreet: google.maps.places.AutocompletePrediction, abstractControl: AbstractControl, lang: string): void {
@@ -229,7 +225,7 @@ export class UbsAdminAddressDetailsComponent implements AfterViewInit, OnDestroy
       abstractControl.setValue(placeDetails.name);
 
       if (lang === this.languages.en && this.isDistrict) {
-        this.setDistrictAuto(placeDetails, this.addressDistrictEn, lang);
+        this.setDistrictAuto(placeDetails, this.addressDistrictEng, lang);
       }
       if (lang === this.languages.uk && this.isDistrict) {
         this.setDistrictAuto(placeDetails, this.addressDistrict, lang);
@@ -257,7 +253,7 @@ export class UbsAdminAddressDetailsComponent implements AfterViewInit, OnDestroy
     const selectedDistricEn = this.locations.getRegionsKyiv('en').find((el) => el.key === key);
 
     this.addressDistrict.setValue(selectedDistrict.name);
-    this.addressDistrictEn.setValue(selectedDistricEn.name);
+    this.addressDistrictEng.setValue(selectedDistricEn.name);
   }
 
   setDistrict(districtKey: string): void {
@@ -266,7 +262,7 @@ export class UbsAdminAddressDetailsComponent implements AfterViewInit, OnDestroy
     const selectedDistricEn = this.locations.getRegions('en').find((el) => el.key === key);
 
     this.addressDistrict.setValue(selectedDistrict.name);
-    this.addressDistrictEn.setValue(selectedDistricEn.name);
+    this.addressDistrictEng.setValue(selectedDistricEn.name);
   }
 
   ngOnDestroy(): void {
