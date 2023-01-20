@@ -8,6 +8,7 @@ import { UbsAdminTariffsCourierPopUpComponent } from './ubs-admin-tariffs-courie
 import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
 import { TariffsService } from '../../../services/tariffs.service';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { DatePipe } from '@angular/common';
 
 describe('UbsAdminTariffsCourierPopUpComponent', () => {
   let component: UbsAdminTariffsCourierPopUpComponent;
@@ -120,10 +121,8 @@ describe('UbsAdminTariffsCourierPopUpComponent', () => {
 
   it('should call getting couriers in OnInit', () => {
     const spy1 = spyOn(component, 'getCouriers');
-    const spy2 = spyOn(component, 'setDate');
     component.ngOnInit();
     expect(spy1).toHaveBeenCalled();
-    expect(spy2).toHaveBeenCalled();
   });
 
   it('should set edit placeholders OnInit', () => {
@@ -138,6 +137,12 @@ describe('UbsAdminTariffsCourierPopUpComponent', () => {
     component.ngOnInit();
     expect(component.placeholder).toBe('ubs-tariffs.placeholder-enter-courier');
     expect(component.placeholderTranslate).toBe('ubs-tariffs.placeholder-enter-courier-translate');
+  });
+
+  it('should set date on setDate method', () => {
+    component.setDate();
+    expect(component.datePipe).toEqual(new DatePipe('ua'));
+    expect(component.newDate).toEqual(component.datePipe.transform(new Date(), 'MMM dd, yyyy'));
   });
 
   it('should get all couriers', () => {

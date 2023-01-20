@@ -68,9 +68,9 @@ export class UbsAdminTariffsCourierPopUpComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     this.getCouriers();
-    this.setDate();
     this.localeStorageService.languageBehaviourSubject.pipe(takeUntil(this.destroy)).subscribe((lang: string) => {
       this.currentLang = lang;
+      this.setDate();
     });
     this.localStorageService.firstNameBehaviourSubject.pipe(takeUntil(this.unsubscribe)).subscribe((firstName) => {
       this.authorName = firstName;
@@ -99,7 +99,7 @@ export class UbsAdminTariffsCourierPopUpComponent implements OnInit, OnDestroy {
   }
 
   setDate(): void {
-    this.datePipe = this.checkLang(new DatePipe('ua'), new DatePipe('en'));
+    this.datePipe = new DatePipe(this.currentLang);
     this.newDate = this.datePipe.transform(new Date(), 'MMM dd, yyyy');
   }
 
