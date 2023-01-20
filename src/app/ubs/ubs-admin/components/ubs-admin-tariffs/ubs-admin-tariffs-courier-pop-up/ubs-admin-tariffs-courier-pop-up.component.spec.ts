@@ -115,7 +115,7 @@ describe('UbsAdminTariffsCourierPopUpComponent', () => {
   });
 
   it('should has correct data', () => {
-    expect(component.data.edit).toEqual(false);
+    expect(component.data.edit).toEqual(true);
     expect(component.data.headerText).toEqual('courier');
   });
 
@@ -125,6 +125,20 @@ describe('UbsAdminTariffsCourierPopUpComponent', () => {
     component.ngOnInit();
     expect(spy1).toHaveBeenCalled();
     expect(spy2).toHaveBeenCalled();
+  });
+
+  it('should set edit placeholders OnInit', () => {
+    component.data.edit = true;
+    component.ngOnInit();
+    expect(component.placeholder).toBe('ubs-tariffs.placeholder-choose-courier');
+    expect(component.placeholderTranslate).toBe('ubs-tariffs.placeholder-choose-courier-translate');
+  });
+
+  it('should set add placeholders OnInit', () => {
+    component.data.edit = false;
+    component.ngOnInit();
+    expect(component.placeholder).toBe('ubs-tariffs.placeholder-enter-courier');
+    expect(component.placeholderTranslate).toBe('ubs-tariffs.placeholder-enter-courier-translate');
   });
 
   it('should get all couriers', () => {
@@ -158,6 +172,13 @@ describe('UbsAdminTariffsCourierPopUpComponent', () => {
     const value = 'фейкКурєр';
     const result = component.checkIsCourierExist(value, component.couriersNameEng);
     expect(result).toEqual(true);
+  });
+
+  it('should check language and return ua value', () => {
+    const valUa = 'Назва';
+    const valEn = 'Name';
+    const result = component.checkLang(valUa, valEn);
+    expect(result).toBe('Назва');
   });
 
   it('method onNoClick should invoke destroyRef.close', () => {
