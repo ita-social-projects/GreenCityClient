@@ -162,11 +162,16 @@ export class UbsAdminOrderComponent implements OnInit, OnDestroy, AfterContentCh
     const currentEmployees = this.responsiblePersonInfo.currentPositionEmployees;
     this.orderForm = this.fb.group({
       generalOrderInfo: this.fb.group({
-        orderStatus: this.generalInfo.orderStatus,
+        orderStatus: [
+          {
+            value: this.generalInfo.orderStatus,
+            disabled: this.generalInfo.orderStatus === 'CANCELED' || this.generalInfo.orderStatus === 'DONE'
+          }
+        ],
         paymentStatus: this.generalInfo.orderPaymentStatus,
         adminComment: [this.generalInfo.adminComment, Validators.maxLength(255)],
         cancellationComment: '', // TODO add this fields to controller
-        cancellationReason: '' // TODO
+        cancellationReason: '' // TODOthis.generalInfo.orderStatus === 'CANCELED' || this.generalInfo.orderStatus === 'DONE'
       }),
       userInfoDto: this.fb.group({
         recipientName: [
