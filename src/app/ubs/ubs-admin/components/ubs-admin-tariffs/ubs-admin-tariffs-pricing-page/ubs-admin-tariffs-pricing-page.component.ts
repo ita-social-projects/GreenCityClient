@@ -298,12 +298,14 @@ export class UbsAdminTariffsPricingPageComponent implements OnInit, OnDestroy {
   }
 
   getAllServices(): void {
+    const tariffId = this.selectedCardId;
     this.isLoadBar1 = true;
     this.tariffsService
-      .getAllServices()
+      .getAllServices(tariffId)
       .pipe(takeUntil(this.destroy))
       .subscribe((res: Service[]) => {
         this.services = res;
+        console.log('res', res);
         this.isLoadBar1 = false;
         this.filterServices();
       });
@@ -430,6 +432,8 @@ export class UbsAdminTariffsPricingPageComponent implements OnInit, OnDestroy {
       .getCardInfo()
       .pipe(takeUntil(this.destroy))
       .subscribe((res: TariffCard[]) => {
+        console.log('tariffCards', res);
+        console.log('currentt', this.selectedCardId);
         const card = res.find((it) => it.cardId === this.selectedCardId);
         this.selectedCard = {
           courier: card.courierDto.nameEn,
