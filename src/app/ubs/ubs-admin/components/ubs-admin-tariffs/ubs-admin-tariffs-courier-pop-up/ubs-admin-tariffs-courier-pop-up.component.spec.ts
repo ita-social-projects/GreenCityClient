@@ -9,6 +9,7 @@ import { LocalStorageService } from '@global-service/localstorage/local-storage.
 import { TariffsService } from '../../../services/tariffs.service';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { DatePipe } from '@angular/common';
+import { MatAutocompleteSelectedEvent, MatAutocompleteTrigger } from '@angular/material/autocomplete';
 
 describe('UbsAdminTariffsCourierPopUpComponent', () => {
   let component: UbsAdminTariffsCourierPopUpComponent;
@@ -143,6 +144,23 @@ describe('UbsAdminTariffsCourierPopUpComponent', () => {
     component.setDate();
     expect(component.datePipe).toEqual(new DatePipe('ua'));
     expect(component.newDate).toEqual(component.datePipe.transform(new Date(), 'MMM dd, yyyy'));
+  });
+
+  it('should call openAuto method', () => {
+    const nativeElement = fixture.nativeElement;
+    const button = nativeElement.querySelector('#auto-img');
+    const trigger: MatAutocompleteTrigger = nativeElement.querySelector('.form-control');
+    const spy = spyOn(component, 'openAuto');
+    component.openAuto(button, trigger);
+    expect(spy).toHaveBeenCalled();
+  });
+
+  it('should call two methods on editCourierName', () => {
+    const spy1 = spyOn(component, 'setNewCourierName');
+    const spy2 = spyOn(component, 'editCourier');
+    component.editCourierName();
+    expect(spy1).toHaveBeenCalled();
+    expect(spy2).toHaveBeenCalled();
   });
 
   it('should get all couriers', () => {
