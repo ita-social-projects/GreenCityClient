@@ -22,6 +22,10 @@ describe('GoogleScript', () => {
   });
 
   it('method load create and add script tag to html ', () => {
+    const script = document.querySelector('#googleMaps') as HTMLScriptElement;
+    if (script) {
+      script.remove();
+    }
     const spy = spyOn(googleScript, 'initMap');
     googleScript.load('ua');
     const result = document.querySelector('#googleMaps') as HTMLScriptElement;
