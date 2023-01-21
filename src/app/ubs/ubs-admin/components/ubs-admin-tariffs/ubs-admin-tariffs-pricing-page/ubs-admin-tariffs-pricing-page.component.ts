@@ -45,7 +45,7 @@ export class UbsAdminTariffsPricingPageComponent implements OnInit, OnDestroy {
   currentLocation;
   locationId: number;
   bags: Bag[] = [];
-  services: Service[] = [];
+  service: Service;
   thisLocation: Locations[];
   reset = true;
   private destroy: Subject<boolean> = new Subject<boolean>();
@@ -79,7 +79,7 @@ export class UbsAdminTariffsPricingPageComponent implements OnInit, OnDestroy {
     this.initForm();
     this.getLocations();
     this.orderService.locationSubject.pipe(takeUntil(this.destroy)).subscribe(() => {
-      this.getAllServices();
+      this.getService();
       this.getCouriers();
       this.getAllTariffsForService();
     });
@@ -239,7 +239,7 @@ export class UbsAdminTariffsPricingPageComponent implements OnInit, OnDestroy {
       this.getAllTariffsForService();
       this.selectedCardId = Number(res.id);
       this.currentLocation = Number(res.id);
-      this.getAllServices();
+      this.getService();
     });
   }
 
@@ -276,7 +276,7 @@ export class UbsAdminTariffsPricingPageComponent implements OnInit, OnDestroy {
     dialogRefService
       .afterClosed()
       .pipe(takeUntil(this.destroy))
-      .subscribe((result) => result && this.getAllServices());
+      .subscribe((result) => result && this.getService());
   }
 
   private subscribeToLangChange(): void {
@@ -297,32 +297,21 @@ export class UbsAdminTariffsPricingPageComponent implements OnInit, OnDestroy {
       });
   }
 
-  getAllServices(): void {
+  getService(): void {
     const tariffId = this.selectedCardId;
     this.isLoadBar1 = true;
     this.tariffsService
-      .getAllServices(tariffId)
+      .getService(tariffId)
       .pipe(takeUntil(this.destroy))
-      .subscribe((res: Service[]) => {
-        this.services = res;
+      .subscribe((res: Service) => {
+        this.service = res;
         console.log('res', res);
         this.isLoadBar1 = false;
-        this.filterServices();
       });
   }
 
   private filterBags(): void {
     this.bags = this.bags.filter((value) => value.locationId === this.locationId).sort((a, b) => b.price - a.price);
-  }
-
-  async filterServices(): Promise<any> {
-    const id = await this.setCourierId();
-
-    this.services = this.services
-      .filter((value) => {
-        return value.courierId === id;
-      })
-      .sort((a, b) => b.price - a.price);
   }
 
   async setCourierId(): Promise<any> {
@@ -362,7 +351,7 @@ export class UbsAdminTariffsPricingPageComponent implements OnInit, OnDestroy {
     dialogRefService
       .afterClosed()
       .pipe(takeUntil(this.destroy))
-      .subscribe((result) => result && this.getAllServices());
+      .subscribe((result) => result && this.getService());
   }
 
   openDeleteTariffForService(bag: Bag): void {
@@ -403,7 +392,7 @@ export class UbsAdminTariffsPricingPageComponent implements OnInit, OnDestroy {
     dialogRefService
       .afterClosed()
       .pipe(takeUntil(this.destroy))
-      .subscribe((result) => result && this.getAllServices());
+      .subscribe((result) => result && this.getService());
   }
 
   getLocations(): void {
@@ -432,8 +421,6 @@ export class UbsAdminTariffsPricingPageComponent implements OnInit, OnDestroy {
       .getCardInfo()
       .pipe(takeUntil(this.destroy))
       .subscribe((res: TariffCard[]) => {
-        console.log('tariffCards', res);
-        console.log('currentt', this.selectedCardId);
         const card = res.find((it) => it.cardId === this.selectedCardId);
         this.selectedCard = {
           courier: card.courierDto.nameEn,

@@ -69,7 +69,7 @@ export class TariffsService {
     return this.http.post(`${mainUbsLink}/ubs/superAdmin/createService`, service);
   }
 
-  getAllServices(tariffId) {
+  getService(tariffId) {
     return this.http.get(`${mainUbsLink}/ubs/superAdmin/${tariffId}/getService`);
   }
 

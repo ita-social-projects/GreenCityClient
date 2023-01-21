@@ -170,7 +170,8 @@ describe('TariffsService', () => {
   });
 
   it('should get tariff for a service', () => {
-    service.getAllServices().subscribe((data) => {
+    const tariffId = 5;
+    service.getService(tariffId).subscribe((data) => {
       expect(data).toBe(service1);
     });
 
