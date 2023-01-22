@@ -47,7 +47,7 @@ describe('UbsAdminEmployeeService', () => {
 
   it('should get all employees', () => {
     service.getEmployees(0, 10).subscribe((data: any) => {
-      expect(data).toBe(employeeMock as any);
+      expect(data).toEqual(employeeMock as any);
     });
     const req = httpMock.expectOne(`${urlMock}/getAll-active-employees?pageNumber=0&pageSize=10`);
     expect(req.request.method).toBe('GET');
