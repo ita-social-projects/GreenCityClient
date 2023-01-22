@@ -17,6 +17,7 @@
                   {{ 'order-edit.status.order-label' | translate }}
                 </label>
                 <select
+                  id="order"
                   *ngIf="isOrderStatusSelected"
                   [disabled]="setDisabledSelect()"
                   class="form-control"
@@ -53,13 +54,12 @@
           </div>
         </div>
       </div>
-      <div class="col-sm-6 col-md-5 offdet-sm-0 offset-md-1">
+      <div class="col-6">
         <div class="form-group">
           <label for="comment" class="form__label">{{ 'order-edit.comment.label' | translate }}</label>
           <textarea
             class="form-control mw-100"
             id="comment"
-            rows="3"
             formControlName="adminComment"
             placeholder="{{ 'order-edit.comment.placeholder' | translate }}"
           ></textarea>
