@@ -298,7 +298,6 @@
         font-family: var(--primary-font);
         display: grid;
         grid-template-columns: 80px 1fr 1fr 1fr 1fr 1fr 46px;
-        // grid-template-columns: 80px 240px 240px 240px 240px 240px;
 
         .photo {
           flex: none;
@@ -340,7 +339,6 @@
           display: flex;
           flex-direction: column;
           gap: 4px;
-
           max-height: 64px;
 
           .locations-list {
@@ -356,29 +354,6 @@
           }
         }
       }
-
-      // .mat-expansion-panel-header-description {
-      //   .description-item {
-      //     display: flex;
-      //     flex-direction: column;
-      //     max-width: 240px;
-      //     width: 100%;
-      //     padding-top: 5px;
-
-      //     .description-sub-item {
-      //       display: flex;
-      //       align-items: center;
-      //       gap: 10px;
-
-      //       &.phone {
-      //         span {
-      //           font-weight: 700;
-      //           letter-spacing: 0.1px;
-      //         }
-      //       }
-      //     }
-      //   }
-      // }
 
       .toggle-icon {
         height: 46px;
@@ -429,29 +404,6 @@
     }
   }
 }
-
-// @media screen and (max-width: 1200px) {
-//   .employees-column-names {
-//     // grid-template-columns: 412px 240px 240px 240px 240px;
-//     grid-template-columns: 286px 175px 175px 175px 175px;
-//   }
-
-//   .employees-cards {
-//     .mat-expansion-panel {
-//       .mat-expansion-panel-header {
-//         .mat-expansion-panel-header-title {
-//           max-width: 265px;
-//         }
-
-//         .mat-expansion-panel-header-description {
-//           .description-item {
-//             max-width: 175px;
-//           }
-//         }
-//       }
-//     }
-//   }
-// }
 
 @media screen and (max-width: 820px) {
   ::ng-deep {
