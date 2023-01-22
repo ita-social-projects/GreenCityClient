@@ -3,6 +3,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { MatSnackBarComponent } from '@global-errors/mat-snack-bar/mat-snack-bar.component';
 import { HabitAssignService } from '@global-service/habit-assign/habit-assign.service';
 import { switchMap, take } from 'rxjs/operators';
+import { Location } from '@angular/common';
 import { HabitAssignInterface, HabitResponseInterface } from 'src/app/main/interface/habit/habit-assign.interface';
 import { ShoppingList } from '@global-user/models/shoppinglist.model';
 import { HabitService } from '@global-service/habit/habit.service';
@@ -40,7 +41,8 @@ export class AddNewHabitComponent implements OnInit, OnDestroy {
     private habitAssignService: HabitAssignService,
     private shoppingListService: ShoppingListService,
     private localStorageService: LocalStorageService,
-    private translate: TranslateService
+    private translate: TranslateService,
+    private location: Location
   ) {}
 
   ngOnInit() {
@@ -95,8 +97,8 @@ export class AddNewHabitComponent implements OnInit, OnDestroy {
     }
   }
 
-  public goToMyHabits(): void {
-    this.router.navigate([`/profile/${this.userId}/allhabits`]);
+  onGoBack(): void {
+    this.location.back();
   }
 
   private getUserId() {
@@ -119,6 +121,7 @@ export class AddNewHabitComponent implements OnInit, OnDestroy {
         for (const assigned of response) {
           if (assigned.habit.id === this.habitId) {
             this.isAssigned = true;
+            this.habit = assigned;
             break;
           }
         }

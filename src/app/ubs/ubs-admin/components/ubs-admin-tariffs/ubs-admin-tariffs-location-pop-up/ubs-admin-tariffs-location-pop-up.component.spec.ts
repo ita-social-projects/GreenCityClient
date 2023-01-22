@@ -7,8 +7,7 @@ import { MatDialog, MatDialogModule, MatDialogRef, MAT_DIALOG_DATA } from '@angu
 import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
 import { Store } from '@ngrx/store';
 import { TranslateModule } from '@ngx-translate/core';
-import { of } from 'rxjs';
-import { LanguageService } from 'src/app/main/i18n/language.service';
+import { BehaviorSubject, of } from 'rxjs';
 import { Locations } from '../../../models/tariffs.interface';
 import { TariffsService } from '../../../services/tariffs.service';
 import { ModalTextComponent } from '../../shared/components/modal-text/modal-text.component';
@@ -144,9 +143,10 @@ describe('UbsAdminTariffsLocationPopUpComponent ', () => {
   const fakeMatDialogRef = jasmine.createSpyObj(['close', 'afterClosed']);
   fakeMatDialogRef.afterClosed.and.returnValue(of(true));
 
-  const localStorageServiceStub = () => ({
-    firstNameBehaviourSubject: { pipe: () => of('fakeName') }
-  });
+  const localStorageServiceMock = jasmine.createSpyObj('localStorageService', ['firstNameBehaviourSubject', 'languageBehaviourSubject']);
+  localStorageServiceMock.firstNameBehaviourSubject = new BehaviorSubject('user');
+  localStorageServiceMock.languageBehaviourSubject = new BehaviorSubject('ua');
+
   const storeMock = jasmine.createSpyObj('store', ['select', 'dispatch']);
   storeMock.select.and.returnValue(of({ locations: { locations: [fakeLocations] } }));
 
@@ -154,9 +154,6 @@ describe('UbsAdminTariffsLocationPopUpComponent ', () => {
   tariifsServiceMock.getJSON.and.returnValue(of('fake'));
 
   const inputsMock = { nativeElement: { value: 'fake' } };
-
-  const languageServiceMock = jasmine.createSpyObj('languageService', ['getCurrentLanguage']);
-  languageServiceMock.getCurrentLanguage.and.returnValue('ua');
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
@@ -167,10 +164,9 @@ describe('UbsAdminTariffsLocationPopUpComponent ', () => {
         { provide: MAT_DIALOG_DATA, useValue: {} },
         { provide: MatDialog, useValue: matDialogMock },
         { provide: MatDialogRef, useValue: fakeMatDialogRef },
-        { provide: LocalStorageService, useFactory: localStorageServiceStub },
+        { provide: LocalStorageService, useValue: localStorageServiceMock },
         { provide: Store, useValue: storeMock },
-        { provide: TariffsService, useValue: tariifsServiceMock },
-        { provide: LanguageService, useValue: languageServiceMock }
+        { provide: TariffsService, useValue: tariifsServiceMock }
       ],
       schemas: [CUSTOM_ELEMENTS_SCHEMA, NO_ERRORS_SCHEMA]
     }).compileComponents();
@@ -182,6 +178,7 @@ describe('UbsAdminTariffsLocationPopUpComponent ', () => {
     fixture.detectChanges();
     component.input = inputsMock;
     component.locations = mockRegion;
+    component.placeService = new google.maps.places.PlacesService(document.createElement('div'));
   });
 
   it('should create', () => {
@@ -211,6 +208,12 @@ describe('UbsAdminTariffsLocationPopUpComponent ', () => {
   it('should not return a list of cities if region is empty', () => {
     component.selectCities([]);
     expect(component.cities).toEqual([]);
+  });
+
+  it('should call add city', () => {
+    const spy = spyOn(component, 'addCity');
+    component.addCity();
+    expect(spy).toHaveBeenCalled();
   });
 
   it('should not add city if input is empty', () => {
@@ -269,15 +272,13 @@ describe('UbsAdminTariffsLocationPopUpComponent ', () => {
     expect(component.englishLocation.value).toBe('');
   });
 
-  it('should call getLocations and setDate from ngOnInit', () => {
-    const spy1 = spyOn(component, 'getLocations');
-    const spy2 = spyOn(component, 'setDate');
+  it('should call getLocations from ngOnInit', () => {
+    const spy = spyOn(component, 'getLocations');
     component.ngOnInit();
-    expect(spy1).toHaveBeenCalled();
-    expect(spy2).toHaveBeenCalled();
+    expect(spy).toHaveBeenCalled();
   });
 
-  it('should add new city', () => {
+  it('should add new city when current language is ua', () => {
     component.input.nativeElement.value = 'фейк';
     component.location.setValue('фейк');
     component.englishLocation.setValue('fake');
@@ -286,10 +287,30 @@ describe('UbsAdminTariffsLocationPopUpComponent ', () => {
     component.currentLatitude = 0;
     component.currentLongitude = 0;
     component.citySelected = true;
+    component.currentLang = 'ua';
+    const uaLocation = component.currentLang === 'ua' ? component.location.value : component.englishLocation.value;
+    const enLocation = component.currentLang === 'ua' ? component.englishLocation.value : component.location.value;
     component.addCity();
     expect(component.selectedCities.length).toBe(1);
     expect(component.location.value).toBe('');
     expect(component.englishLocation.value).toBe('');
+    expect(uaLocation).toBe('фейк');
+    expect(enLocation).toBe('fake');
+  });
+
+  it('should add new city when current language is en', () => {
+    component.input.nativeElement.value = 'фейк';
+    component.location.setValue('Київ');
+    component.englishLocation.setValue('Kyiv');
+    component.cities = [];
+    component.selectedCities = [];
+    component.citySelected = true;
+    component.currentLang = 'en';
+    const uaLocation = component.currentLang === 'ua' ? component.location.value : component.englishLocation.value;
+    const enLocation = component.currentLang === 'ua' ? component.englishLocation.value : component.location.value;
+    component.addCity();
+    expect(uaLocation).toBe('Kyiv');
+    expect(enLocation).toBe('Київ');
   });
 
   it('should add new edited city', () => {
@@ -304,13 +325,19 @@ describe('UbsAdminTariffsLocationPopUpComponent ', () => {
   });
 
   it('should set value of region', () => {
-    const spy = spyOn(component, 'translate');
+    const spy = spyOn(component, 'setTranslation');
     const eventMock = {
-      name: 'fakeName'
+      name: 'fakeName',
+      place_id: 'fakeId'
     };
     component.setValueOfRegion(eventMock);
     expect(component.region.value).toBe('fakeName');
     expect(spy).toHaveBeenCalled();
+  });
+
+  it('should check language and return value', () => {
+    const result = component.checkLanguage('uaVal', 'enVal');
+    expect(result).toBe('uaVal');
   });
 
   it('should filter options', () => {
@@ -323,6 +350,23 @@ describe('UbsAdminTariffsLocationPopUpComponent ', () => {
     component.translate('фейк', component.englishLocation);
     expect(tariifsServiceMock.getJSON).toHaveBeenCalled();
     expect(component.englishLocation.value).toEqual('f');
+  });
+
+  it('should call getJSON on translate', () => {
+    component.translate('фейк', component.englishLocation);
+    expect(tariifsServiceMock.getJSON).toHaveBeenCalledWith('фейк', 'uk', 'en');
+  });
+
+  it('should set ua lang on translate', () => {
+    const lang = component.currentLang === 'ua' ? 'uk' : 'en';
+    component.translate('фейк', component.englishLocation);
+    expect(lang).toBe('uk');
+  });
+
+  it('should set ua langTranslate on translate', () => {
+    const langTranslate = component.currentLang === 'ua' ? 'en' : 'uk';
+    component.translate('фейк', component.englishLocation);
+    expect(langTranslate).toBe('en');
   });
 
   it('should find new region', () => {
@@ -352,22 +396,22 @@ describe('UbsAdminTariffsLocationPopUpComponent ', () => {
     expect(component.regionExist).toEqual(false);
   });
 
-  it('should check if city exists', () => {
+  it('should check if city invalid', () => {
     component.location.setValue('Fake city');
     component.citySelected = false;
-    expect(component.cityExist).toEqual(true);
+    expect(component.cityInvalid).toEqual(true);
   });
 
-  it('should not check if city exists if citySelected is true', () => {
+  it('should not check if city invalid if citySelected is true', () => {
     component.location.setValue('Fake city');
     component.citySelected = true;
-    expect(component.cityExist).toEqual(true);
+    expect(component.cityInvalid).toEqual(true);
   });
 
-  it('should not check if city exists if inputs length is less than 3', () => {
+  it('should not check if city invalid if inputs length is less than 3', () => {
     component.location.setValue('F');
     component.citySelected = false;
-    expect(component.cityExist).toEqual(false);
+    expect(component.cityInvalid).toEqual(false);
   });
 
   it('should delete city from the list', () => {

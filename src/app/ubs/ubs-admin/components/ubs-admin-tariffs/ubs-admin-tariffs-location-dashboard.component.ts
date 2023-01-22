@@ -16,12 +16,13 @@ import { MatAutocompleteSelectedEvent, MatAutocompleteTrigger } from '@angular/m
 import { UbsAdminTariffsCourierPopUpComponent } from './ubs-admin-tariffs-courier-pop-up/ubs-admin-tariffs-courier-pop-up.component';
 import { UbsAdminTariffsStationPopUpComponent } from './ubs-admin-tariffs-station-pop-up/ubs-admin-tariffs-station-pop-up.component';
 import { UbsAdminTariffsCardPopUpComponent } from './ubs-admin-tariffs-card-pop-up/ubs-admin-tariffs-card-pop-up.component';
-import { TariffConfirmationPopUpComponent } from './../shared/components/tariff-confirmation-pop-up/tariff-confirmation-pop-up.component';
+import { TariffConfirmationPopUpComponent } from '../shared/components/tariff-confirmation-pop-up/tariff-confirmation-pop-up.component';
 import { TranslateService } from '@ngx-translate/core';
 import { Patterns } from 'src/assets/patterns/patterns';
 import { LanguageService } from 'src/app/main/i18n/language.service';
 import { UbsAdminTariffsDeactivatePopUpComponent } from './ubs-admin-tariffs-deactivate-pop-up/ubs-admin-tariffs-deactivate-pop-up.component';
 import { TariffDeactivateConfirmationPopUpComponent } from '../shared/components/tariff-deactivate-confirmation-pop-up/tariff-deactivate-confirmation-pop-up.component';
+import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
 
 @Component({
   selector: 'app-ubs-admin-tariffs-location-dashboard',
@@ -48,8 +49,6 @@ export class UbsAdminTariffsLocationDashboardComponent implements OnInit, AfterV
   reset = true;
   selectedCities = [];
   cities = [];
-
-  allSelected = false;
   filteredRegions;
   filteredCities;
   filteredStations;
@@ -61,10 +60,11 @@ export class UbsAdminTariffsLocationDashboardComponent implements OnInit, AfterV
   createCardObj: CreateCard;
   isFieldFilled = false;
   isCardExist = false;
+  currentLang: string;
 
   private destroy: Subject<boolean> = new Subject<boolean>();
 
-  mainUrl = 'https://maps.googleapis.com/maps/api/js?key=AIzaSyB3xs7Kczo46LFcQRFKPMdrE0lU4qsR_S4&libraries=places&language=uk';
+  mainUrl = 'https://maps.googleapis.com/maps/api/js?key=AIzaSyB3xs7Kczo46LFcQRFKPMdrE0lU4qsR_S4&libraries=places&language=';
   public icons = {
     setting: './assets/img/ubs-tariff/setting.svg',
     crumbs: './assets/img/ubs-tariff/crumbs.svg',
@@ -80,6 +80,7 @@ export class UbsAdminTariffsLocationDashboardComponent implements OnInit, AfterV
     public dialog: MatDialog,
     private store: Store<IAppState>,
     private fb: FormBuilder,
+    private localeStorageService: LocalStorageService,
     private translate: TranslateService,
     private languageService: LanguageService,
     private changeDetectorRef: ChangeDetectorRef
@@ -102,11 +103,14 @@ export class UbsAdminTariffsLocationDashboardComponent implements OnInit, AfterV
   }
 
   ngOnInit(): void {
+    this.localeStorageService.languageBehaviourSubject.pipe(takeUntil(this.destroy)).subscribe((lang: string) => {
+      this.currentLang = lang;
+      this.loadScript();
+    });
     this.initForm();
     this.getLocations();
     this.getCouriers();
     this.getReceivingStation();
-    this.loadScript();
     this.region.valueChanges.pipe(takeUntil(this.destroy)).subscribe((value) => {
       this.checkRegionValue(value);
       this.selectedCities = [];
@@ -367,14 +371,12 @@ export class UbsAdminTariffsLocationDashboardComponent implements OnInit, AfterV
       Object.assign(this.filterData, { courier: '' });
     } else {
       const lang = this.languageService.getCurrentLanguage();
-      const selectedValue = this.couriers.filter((it) =>
-        it.courierTranslationDtos.find((ob) => {
-          const searchingFilter = lang === 'ua' ? ob.name : ob.nameEng;
-          return searchingFilter === event.value;
-        })
-      );
-      this.courierEnglishName = selectedValue.map((it) => it.courierTranslationDtos.map((i) => i.nameEng)).flat(2);
-      this.courierId = selectedValue.find((it) => it.courierId).courierId;
+      const selectedValue = this.couriers.find((ob) => {
+        const searchingFilter = lang === 'ua' ? ob.nameUk : ob.nameEn;
+        return searchingFilter === event.value;
+      });
+      this.courierEnglishName = selectedValue.nameEn;
+      this.courierId = selectedValue.courierId;
       Object.assign(this.filterData, { courier: this.courierId });
     }
     this.getExistingCard(this.filterData);
@@ -382,16 +384,11 @@ export class UbsAdminTariffsLocationDashboardComponent implements OnInit, AfterV
   }
 
   loadScript(): void {
-    const script = document.getElementById('googleMaps') as HTMLScriptElement;
-    if (script) {
-      script.src = this.mainUrl;
-    } else {
-      const google = document.createElement('script');
-      google.type = 'text/javascript';
-      google.id = 'googleMaps';
-      google.setAttribute('src', this.mainUrl);
-      document.getElementsByTagName('head')[0].appendChild(google);
-    }
+    const google = document.createElement('script');
+    google.type = 'text/javascript';
+    google.id = 'googleMaps';
+    google.setAttribute('src', this.mainUrl + this.currentLang);
+    document.getElementsByTagName('head')[0].appendChild(google);
   }
 
   getLocations(): void {
@@ -447,9 +444,7 @@ export class UbsAdminTariffsLocationDashboardComponent implements OnInit, AfterV
       .subscribe((res: Couriers[]) => {
         this.couriers = res;
         const lang = this.languageService.getCurrentLanguage();
-        this.couriersName = this.couriers
-          .map((it) => it.courierTranslationDtos.map((el) => (lang === 'ua' ? el.name : el.nameEng)))
-          .flat(2);
+        this.couriersName = this.couriers.map((el) => (lang === 'ua' ? el.nameUk : el.nameEn));
       });
   }
 
@@ -472,7 +467,7 @@ export class UbsAdminTariffsLocationDashboardComponent implements OnInit, AfterV
       .subscribe((card) => {
         card.forEach((el) => {
           const cardObj = {
-            courier: el.courierTranslationDtos.map((it) => it.name).join(),
+            courier: el.courierDto.nameUk,
             station: el.receivingStationDtos.map((it) => it.name),
             region: el.regionDto.nameUk,
             city: el.locationInfoDtos.map((it) => it.nameUk),
@@ -662,7 +657,7 @@ export class UbsAdminTariffsLocationDashboardComponent implements OnInit, AfterV
     });
     matDialogRef.afterClosed().subscribe((res) => {
       if (res) {
-        // here will be deativate request
+        this.tariffsService.deactivateTariffCard(card.cardId).pipe().subscribe();
       }
     });
   }

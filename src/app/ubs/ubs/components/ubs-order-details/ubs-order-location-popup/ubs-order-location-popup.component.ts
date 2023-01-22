@@ -87,10 +87,10 @@ export class UbsOrderLocationPopupComponent implements OnInit, OnDestroy {
         if (res.orderIsPresent) {
           this.locations = res.tariffsForLocationDto;
           this.selectedLocationId = res.tariffsForLocationDto.locationsDtosList[0].locationId;
-          this.orderService.completedLocation(true);
           this.localStorageService.setLocationId(this.selectedLocationId);
           this.localStorageService.setLocations(this.locations);
           this.orderService.setLocationData(this.currentLocation);
+          this.orderService.completedLocation(true);
           this.passDataToComponent();
         }
       });

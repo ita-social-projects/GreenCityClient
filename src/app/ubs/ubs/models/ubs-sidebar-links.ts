@@ -20,11 +20,6 @@ export const listElementsAdmin: object[] = [
     routerLink: 'employee/1'
   },
   {
-    link: 'assets/img/sidebarIcons/documents_icon.svg',
-    name: 'ubs-sidebar.documents',
-    routerLink: '#'
-  },
-  {
     link: 'assets/img/sidebarIcons/statistic_icon.svg',
     name: 'ubs-sidebar.tariffs',
     routerLink: 'tariffs'

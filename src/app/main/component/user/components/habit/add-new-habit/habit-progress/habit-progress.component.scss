@@ -38,6 +38,7 @@
   justify-content: space-between;
 
   .daysDuration {
+    position: relative;
     display: flex;
     flex-direction: column;
     justify-content: flex-end;
@@ -46,16 +47,35 @@
     background: #e6ebea;
     border-radius: 4px;
 
+    .thumbLabel {
+      width: 80px;
+      height: 50px;
+      position: absolute;
+      background-image: url('../../../../../../../../assets/img/duration-thumb-label-progress.svg');
+      background-position: center;
+      background-size: contain;
+      background-repeat: no-repeat;
+      font-size: 14px;
+      font-family: var(--secondary-font);
+      text-align: center;
+      padding-top: 5px;
+      left: auto;
+    }
+
     .indicator {
       width: 38px;
-      background-color: var(--primary-green);
+      background: linear-gradient(180deg, var(--primary-green), rgba(215, 254, 60, 0.47));
       border-radius: 4px 4px 0 0;
+
+      &:hover + .thumbLabel {
+        display: block;
+      }
     }
 
     .startLine {
       width: 38px;
       height: 4px;
-      background: linear-gradient(180deg, #13aa57 -137.5%, rgba(215, 254, 60, 0.47) 100%);
+      background-color: rgba(215, 254, 60, 0.47);
       border-radius: 0 0 4px 4px;
     }
   }

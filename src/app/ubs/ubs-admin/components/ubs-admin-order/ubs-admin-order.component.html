@@ -66,7 +66,7 @@
           </button>
           <button type="submit" class="save-button" [disabled]="orderForm.pristine || !orderForm.valid || !isMinOrder" (click)="onSubmit()">
             {{ 'order-edit.btn.save' | translate }}
-            <span class="inform-window">
+            <span class="inform-window" *ngIf="!orderForm.valid">
               {{ 'information-window.message' | translate }}
               <ul>
                 <li>{{ 'export-details.export-date' | translate }}</li>

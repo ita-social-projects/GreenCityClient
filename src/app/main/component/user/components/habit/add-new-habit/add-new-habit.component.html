@@ -1,5 +1,5 @@
 <div class="wrapper">
-  <div class="backToMyHabits" (click)="goToMyHabits()">
+  <div class="backToMyHabits" (click)="onGoBack()">
     <div class="arrow"></div>
     <div class="text">{{ 'user.habit.btn.back-to-habit' | translate }}</div>
   </div>
@@ -31,7 +31,7 @@
   <div class="divider"></div>
   <div class="containerHabitEdit">
     <div class="habitProgress">
-      <app-habit-progress></app-habit-progress>
+      <app-habit-progress [habit]="habit"></app-habit-progress>
     </div>
     <div class="habitInfoRightBlock">
       <div class="inviteFriends">

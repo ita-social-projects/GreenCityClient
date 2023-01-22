@@ -11,7 +11,7 @@ import { IAppState } from 'src/app/store/state/app.state';
 import { IEcoNewsState } from 'src/app/store/state/ecoNews.state';
 import { GetEcoNewsByAuthorAction } from 'src/app/store/actions/ecoNews.actions';
 import { EcoNewsModel } from '@eco-news-models/eco-news-model';
-import { EventPageResponceDto } from 'src/app/main/component/events/models/events.interface';
+import { EventPageResponceDto, EventResponseDto } from 'src/app/main/component/events/models/events.interface';
 import { EventsService } from 'src/app/main/component/events/services/events.service';
 
 @Component({
@@ -35,10 +35,9 @@ export class ProfileDashboardComponent implements OnInit, OnDestroy {
   news: EcoNewsModel[];
 
   public eventsList: EventPageResponceDto[] = [];
-  public eventsByAuthorList: EventPageResponceDto[] = [];
   public eventsPerPage = 6;
   public eventsPage = 1;
-  public eventsTotal = 1;
+  public eventsTotal = 0;
 
   private hasNext = true;
   private currentPage: number;
@@ -69,41 +68,27 @@ export class ProfileDashboardComponent implements OnInit, OnDestroy {
       }
     });
 
-    this.eventService
-      .getEvents(0, this.eventsPerPage)
-      .pipe(take(1))
-      .subscribe((res) => {
-        if (this.userId) {
-          this.eventsByAuthorList = res.page.filter((ev) => ev.organizer.id === this.userId);
-        }
-        this.eventsTotal = this.eventsByAuthorList.length;
-
-        this.eventService
-          .getUsersEvents(0, this.eventsPerPage)
-          .pipe(take(1))
-          .subscribe((events) => {
-            this.eventsList = this.eventsByAuthorList.concat(events.page);
-            this.eventsTotal = this.eventsTotal + events.totalElements;
-          });
-      });
-
+    this.initGetUserEvents();
     this.localStorageService.setCurentPage('previousPage', '/profile');
   }
 
-  onEventsPageChange(page) {
+  initGetUserEvents(): void {
+    this.eventService
+      .getAllUserEvents(0, this.eventsPerPage)
+      .pipe(take(1))
+      .subscribe((res: EventResponseDto) => {
+        this.eventsList = res.page;
+        this.eventsTotal = res.totalElements;
+      });
+  }
+
+  onEventsPageChange(page: number): void {
     this.eventsPage = page;
     this.eventService
-      .getEvents(this.eventsPage - 1, 6)
+      .getAllUserEvents(this.eventsPage - 1, 6)
       .pipe(take(1))
       .subscribe((res) => {
-        this.eventsByAuthorList = res.page.filter((ev) => ev.organizer.id === this.userId);
-
-        this.eventService
-          .getUsersEvents(this.eventsPage - 1, 6)
-          .pipe(take(1))
-          .subscribe((events) => {
-            this.eventsList = this.eventsByAuthorList.concat(events.page);
-          });
+        this.eventsList = res.page;
       });
   }
 

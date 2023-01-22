@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { mainUbsLink } from 'src/app/main/links';
 import { HttpClient } from '@angular/common/http';
-import { Bag, CreateCard, EditLocationName, Service, Couriers, Stations, Locations } from '../models/tariffs.interface';
+import { Bag, CreateCard, EditLocationName, Service, Couriers, Stations, Locations, DeactivateCard } from '../models/tariffs.interface';
 
 import { Observable } from 'rxjs';
 import { ajax } from 'rxjs/ajax';
@@ -105,8 +105,10 @@ export class TariffsService {
     return this.http.patch(`${mainUbsLink}/ubs/superAdmin/setLimitsByAmountOfBags/${tariffId}`, info);
   }
 
-  public getJSON(sourceText): Observable<any> {
-    return ajax.getJSON('https://translate.googleapis.com/translate_a/single?client=gtx&sl=uk&tl=en&dt=t&q=' + encodeURI(sourceText));
+  public getJSON(sourceText, lang, translateTo): Observable<any> {
+    return ajax.getJSON(
+      `https://translate.googleapis.com/translate_a/single?client=gtx&sl=${lang}&tl=${translateTo}&dt=t&q=` + encodeURI(sourceText)
+    );
   }
 
   addLocation(card) {
@@ -151,5 +153,27 @@ export class TariffsService {
 
   public checkIfCardExist(card: CreateCard): Observable<object> {
     return this.http.post(`${mainUbsLink}/ubs/superAdmin/check-if-tariff-exists`, card);
+  }
+
+  deactivate(deactivateCardObj: DeactivateCard): Observable<object> {
+    const arr = [];
+    const requestObj = {
+      cities: `citiesId=${deactivateCardObj.cities}`,
+      courier: `courierId=${deactivateCardObj.courier}`,
+      regions: `regionsId=${deactivateCardObj.regions}`,
+      stations: `stationsId=${deactivateCardObj.stations}`
+    };
+
+    Object.keys(deactivateCardObj).forEach((key) => {
+      if (deactivateCardObj[key]) {
+        arr.push(requestObj[key]);
+      }
+    });
+    const query = `?${arr.join('&')}`;
+    return this.http.post(`${mainUbsLink}/ubs/superAdmin/deactivate${query}`, null);
+  }
+
+  deactivateTariffCard(tariffId: number): Observable<object> {
+    return this.http.put(`${mainUbsLink}/ubs/superAdmin/deactivateTariff/${tariffId}`, null);
   }
 }

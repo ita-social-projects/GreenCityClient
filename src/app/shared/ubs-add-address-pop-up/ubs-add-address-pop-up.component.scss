@@ -121,6 +121,10 @@ select {
   font-size: 10px;
 }
 
+.form-control.ng-invalid.ng-touched {
+  border: 1px solid var(--ubs-error-ligh-red);
+}
+
 .buttons {
   margin-bottom: 1px;
 

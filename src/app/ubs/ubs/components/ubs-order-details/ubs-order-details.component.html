@@ -10,16 +10,16 @@
           </button>
         </div>
       </div>
-      <div *ngIf="courierLimitBySum && displayMinOrderMes && (orderDetailsForm.touched || isOrderData)" class="validMes">
+      <div *ngIf="courierLimitBySum && displayMinOrderMes" class="validMes">
         <small class="text-danger">{{ 'order-details.min-sum' | translate: { minOrderValue: minOrderValue } }}</small>
       </div>
-      <div *ngIf="courierLimitBySum && displayMaxOrderMes && (orderDetailsForm.touched || isOrderData)" class="validMes">
+      <div *ngIf="courierLimitBySum && displayMaxOrderMes" class="validMes">
         <small class="text-danger">{{ 'order-details.max-sum' | translate: { maxOrderValue: maxOrderValue } }}</small>
       </div>
-      <div *ngIf="courierLimitByAmount && displayMinBigBagsMes && (orderDetailsForm.touched || isOrderData)" class="validMes">
+      <div *ngIf="courierLimitByAmount && displayMinBigBagsMes" class="validMes">
         <small class="text-danger">{{ 'order-details.min-big-bags' | translate: { minAmountOfBigBags: minAmountOfBigBags } }}</small>
       </div>
-      <div *ngIf="courierLimitByAmount && displayMaxBigBagsMes && (orderDetailsForm.touched || isOrderData)" class="validMes">
+      <div *ngIf="courierLimitByAmount && displayMaxBigBagsMes" class="validMes">
         <small class="text-danger">{{ 'order-details.max-big-bags' | translate: { maxAmountOfBigBags: maxAmountOfBigBags } }}</small>
       </div>
     </div>
@@ -126,7 +126,7 @@
               id="index{{ i }}"
               tabindex="{{ isDisabled() }}"
               [formControlName]="i"
-              class="shadow-none form-control border-input p-2 eco-store-input"
+              class="shadow-none form-control my-1 border-input p-2 eco-store-input"
               type="text"
               placeholder="xxxxx-xxxxx"
               [unmask]="false"

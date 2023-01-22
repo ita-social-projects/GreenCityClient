@@ -137,7 +137,7 @@ export class UbsAdminTableComponent implements OnInit, AfterViewChecked, OnDestr
 
     this.ordersViewParameters$.subscribe((items: IOrdersViewParameters) => {
       if (items) {
-        this.displayedColumns = items.titles.split(',')[0] === '' ? [] : items.titles.split(',');
+        this.displayedColumns = items.titles.split(',')[0] === ' ' ? [] : items.titles.split(',');
       }
     });
 
@@ -167,8 +167,7 @@ export class UbsAdminTableComponent implements OnInit, AfterViewChecked, OnDestr
         this.totalPages = item[`totalPages`];
         this.formatTableData();
         this.isLoading = false;
-        this.cdr.detectChanges();
-        this.applyColumnsWidthPreference();
+        setTimeout(() => this.applyColumnsWidthPreference(), 0);
       }
     });
     this.bigOrderTableParams$.subscribe((columns: IBigOrderTableParams) => {
@@ -837,8 +836,8 @@ export class UbsAdminTableComponent implements OnInit, AfterViewChecked, OnDestr
   }
 
   private getColumnHeaderBoundaries(index: number) {
-    const headerRow = this.matTableRef.nativeElement.children[0];
-    const cell = headerRow.children[0].children[index];
+    const headerRow = this.matTableRef?.nativeElement.children[0];
+    const cell = headerRow?.children[0]?.children[index];
     return cell?.getBoundingClientRect();
   }
 

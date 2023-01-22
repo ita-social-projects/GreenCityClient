@@ -77,7 +77,6 @@ describe('ProfileComponent', () => {
   it('showUserInfo makes expected calls', () => {
     component.showUserInfo();
     expect(component.userInfo).toEqual(fakeItem as any);
-    expect(component.userInfo.showShoppingList).toBeTruthy();
   });
 
   it('bindLang makes expected calls', () => {

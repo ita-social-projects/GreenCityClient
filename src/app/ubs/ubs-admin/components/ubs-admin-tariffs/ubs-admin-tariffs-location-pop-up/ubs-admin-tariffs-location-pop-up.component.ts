@@ -23,7 +23,6 @@ import { AddLocations, EditLocation, GetLocations } from 'src/app/store/actions/
 import { ModalTextComponent } from '../../shared/components/modal-text/modal-text.component';
 import { MatAutocompleteTrigger } from '@angular/material/autocomplete';
 import { Patterns } from 'src/assets/patterns/patterns';
-import { LanguageService } from 'src/app/main/i18n/language.service';
 
 interface LocationItem {
   location: string;
@@ -72,20 +71,24 @@ export class UbsAdminTariffsLocationPopUpComponent implements OnInit, AfterViewC
   autocompleteLsr;
   name: string;
   unsubscribe: Subject<any> = new Subject();
-  datePipe = new DatePipe('ua');
+  currentLang: string;
+  datePipe;
   newDate;
   regionSelected = false;
   regionExist = false;
   citySelected = false;
+  cityInvalid = false;
   cityExist = false;
   editedCityExist = false;
   cities = [];
+  activeCities = [];
   filteredRegions;
   filteredCities = [];
   editLocationId;
   regionId;
   enCities;
   locations$ = this.store.select((state: IAppState): Locations[] => state.locations.locations);
+  placeService: google.maps.places.PlacesService;
 
   public icons = {
     arrowDown: '././assets/img/ubs-tariff/arrow-down.svg',
@@ -96,7 +99,6 @@ export class UbsAdminTariffsLocationPopUpComponent implements OnInit, AfterViewC
     private tariffsService: TariffsService,
     private fb: FormBuilder,
     private localeStorageService: LocalStorageService,
-    private languageService: LanguageService,
     private cdr: ChangeDetectorRef,
     public dialog: MatDialog,
     public dialogRef: MatDialogRef<UbsAdminTariffsLocationPopUpComponent>,
@@ -127,7 +129,6 @@ export class UbsAdminTariffsLocationPopUpComponent implements OnInit, AfterViewC
 
   ngOnInit(): void {
     this.getLocations();
-    this.setDate();
     this.localeStorageService.firstNameBehaviourSubject.pipe(takeUntil(this.unsubscribe)).subscribe((firstName) => {
       this.name = firstName;
     });
@@ -137,14 +138,15 @@ export class UbsAdminTariffsLocationPopUpComponent implements OnInit, AfterViewC
       this.selectCities(currentRegion);
     });
     this.location.valueChanges.subscribe((item) => {
-      this.cityExist = !this.citySelected && item.length > 3;
+      this.cityInvalid = !this.citySelected && item.length > 3;
+      this.cityExist = this.checkCityExist(item, this.activeCities);
     });
-  }
-
-  setDate(): void {
-    const lang = this.languageService.getCurrentLanguage();
-    this.datePipe = lang === 'ua' ? new DatePipe('ua') : new DatePipe('en');
-    this.newDate = this.datePipe.transform(new Date(), 'MMM dd, yyyy');
+    this.localeStorageService.languageBehaviourSubject.pipe(takeUntil(this.unsubscribe)).subscribe((lang: string) => {
+      this.currentLang = lang;
+      this.datePipe = new DatePipe(this.currentLang);
+      this.newDate = this.datePipe.transform(new Date(), 'MMM dd, yyyy');
+      this.placeService = new google.maps.places.PlacesService(document.createElement('div'));
+    });
   }
 
   selectCities(currentRegion): void {
@@ -181,19 +183,24 @@ export class UbsAdminTariffsLocationPopUpComponent implements OnInit, AfterViewC
         )
       )
       .flat(2);
+    this.activeCities = this.currentLang === 'ua' ? this.cities : this.enCities;
   }
 
   translate(sourceText: string, input: any): void {
-    this.tariffsService.getJSON(sourceText).subscribe((data) => {
+    const lang = this.currentLang === 'ua' ? 'uk' : 'en';
+    const translateTo = this.currentLang === 'ua' ? 'en' : 'uk';
+    this.tariffsService.getJSON(sourceText, lang, translateTo).subscribe((data) => {
       input.setValue(data[0][0][0]);
     });
   }
 
   public addCity(): void {
     if (this.location.value && this.englishLocation.value && !this.cities.includes(this.location.value) && this.citySelected) {
+      const uaLocation = this.currentLang === 'ua' ? this.location.value : this.englishLocation.value;
+      const enLocation = this.currentLang === 'ua' ? this.englishLocation.value : this.location.value;
       const tempItem: LocationItem = {
-        location: this.location.value,
-        englishLocation: this.englishLocation.value,
+        location: uaLocation,
+        englishLocation: enLocation,
         latitute: this.currentLatitude,
         longitude: this.currentLongitude
       };
@@ -254,7 +261,21 @@ export class UbsAdminTariffsLocationPopUpComponent implements OnInit, AfterViewC
 
   setValueOfRegion(event: any): void {
     this.region.setValue(event.name);
-    this.translate(event.name, this.englishRegion);
+    this.setTranslation(event.place_id, this.englishRegion);
+  }
+
+  setTranslation(region: string, abstractControl: any): void {
+    const request = {
+      placeId: region,
+      language: this.checkLanguage('en', 'uk')
+    };
+    this.placeService.getDetails(request, (placeDetails) => {
+      abstractControl.setValue(placeDetails.name);
+    });
+  }
+
+  checkLanguage(uaValue: string, enValue: string): string {
+    return this.currentLang === 'ua' ? uaValue : enValue;
   }
 
   addEventToAutocomplete(): void {
@@ -318,8 +339,10 @@ export class UbsAdminTariffsLocationPopUpComponent implements OnInit, AfterViewC
   }
 
   addLocation(): void {
-    const enRegion = { languageCode: 'en', regionName: this.locationForm.value.englishRegion };
-    const region = { languageCode: 'ua', regionName: this.locationForm.value.region };
+    const valueUa = this.currentLang === 'ua' ? this.locationForm.value.region : this.locationForm.value.englishRegion;
+    const valueEn = this.currentLang === 'ua' ? this.locationForm.value.englishRegion : this.locationForm.value.region;
+    const enRegion = { languageCode: 'en', regionName: valueEn };
+    const region = { languageCode: 'ua', regionName: valueUa };
 
     for (const item of this.selectedCities) {
       const enLocation = { languageCode: 'en', locationName: item.englishLocation };
@@ -374,6 +397,12 @@ export class UbsAdminTariffsLocationPopUpComponent implements OnInit, AfterViewC
   public openAuto(event: Event, trigger: MatAutocompleteTrigger): void {
     event.stopPropagation();
     trigger.openPanel();
+  }
+
+  private checkCityExist(item: string, array: Array<string>): boolean {
+    const newCityName = item.toLowerCase();
+    const cityList = array.map((it) => it.toLowerCase());
+    return cityList.includes(newCityName);
   }
 
   ngAfterViewChecked(): void {

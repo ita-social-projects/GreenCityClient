@@ -30,12 +30,8 @@ describe('UbsAdminTariffsCardPopUpComponent', () => {
   const fakeCouriers = {
     courierId: 1,
     courierStatus: 'fake',
-    courierTranslationDtos: [
-      {
-        name: 'фейкКурєр',
-        nameEng: 'fakeCourier'
-      }
-    ],
+    nameUk: 'фейкКурєр',
+    nameEn: 'fakeCourier',
     createDate: 'fake date',
     createdBy: 'fakeUser'
   };
@@ -209,15 +205,15 @@ describe('UbsAdminTariffsCardPopUpComponent', () => {
   it('should get all couriers', () => {
     component.getCouriers();
     expect(component.couriers).toEqual([fakeCouriers]);
-    expect(component.couriersName).toEqual([['фейкКурєр']]);
+    expect(component.couriersName).toEqual(['фейкКурєр']);
   });
 
   it('should set english courier name', () => {
     const mockEvent = {
-      value: ['фейкКурєр']
+      value: 'фейкКурєр'
     };
     component.onSelectCourier(mockEvent);
-    expect(component.courierEnglishName).toEqual([['fakeCourier']]);
+    expect(component.courierEnglishName).toEqual('fakeCourier');
   });
 
   it('should get all stations', () => {

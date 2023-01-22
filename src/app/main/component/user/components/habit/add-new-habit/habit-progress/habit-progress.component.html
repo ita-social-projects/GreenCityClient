@@ -18,7 +18,8 @@
 <div class="calendar">
   <app-habit-calendar></app-habit-calendar>
   <div class="daysDuration">
-    <div class="indicator" [style.height.%]="indicator"></div>
+    <div class="thumbLabel" [style.bottom.%]="indicator - heightThumbLabel" *ngIf="isHidden">{{ indicator }}%</div>
+    <div class="indicator" (mouseenter)="isHidden = !isHidden" (mouseleave)="isHidden = !isHidden" [style.height.%]="indicator"></div>
     <div class="startLine"></div>
   </div>
 </div>

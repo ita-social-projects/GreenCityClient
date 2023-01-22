@@ -172,12 +172,12 @@
     </tr>
   </thead>
   <tbody *ngIf="showAllTariff">
-    <tr *ngFor="let card of cards">
-      <td>
+    <tr *ngFor="let card of cards" class="cursor-pointer">
+      <td (click)="page(card.cardId)">
         {{ card.region }}
       </td>
-      <td>
-        <div *ngFor="let item of card.city" class="cursor-pointer" (click)="page(card.cardId)">
+      <td (click)="page(card.cardId)">
+        <div *ngFor="let item of card.city">
           {{ item }}
         </div>
       </td>

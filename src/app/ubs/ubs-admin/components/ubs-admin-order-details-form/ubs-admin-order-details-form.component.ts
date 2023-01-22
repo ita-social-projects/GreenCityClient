@@ -50,6 +50,7 @@ export class UbsAdminOrderDetailsFormComponent implements OnInit, OnChanges {
       this.resetOrderDetails();
       this.recalculateSum();
     }
+
     if (changes.orderStatusInfo?.previousValue?.ableActualChange !== changes.orderStatusInfo?.currentValue.ableActualChange) {
       const prevStatus = changes.orderStatusInfo.previousValue?.key;
       const curStatus = changes.orderStatusInfo.currentValue.key;
@@ -100,6 +101,7 @@ export class UbsAdminOrderDetailsFormComponent implements OnInit, OnChanges {
   }
 
   private setBagsInfo() {
+    this.orderDetails.bags = this.orderDetails.bags.filter((bag) => bag.planned);
     this.orderDetails.bags.forEach((bag) => {
       this.bagsInfo = {
         amount: {
