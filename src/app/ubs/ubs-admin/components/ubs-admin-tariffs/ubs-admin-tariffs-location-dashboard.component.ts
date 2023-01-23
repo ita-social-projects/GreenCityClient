@@ -463,8 +463,6 @@ export class UbsAdminTariffsLocationDashboardComponent implements OnInit, AfterV
   }
 
   public getExistingCard(filterData) {
-    this.cardsUk.length = 0;
-    this.cardsEn.length = 0;
     this.tariffsService
       .getFilteredCard(filterData)
       .pipe(takeUntil(this.destroy))
