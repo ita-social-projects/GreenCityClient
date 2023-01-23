@@ -7,7 +7,7 @@ import { MatDialogModule } from '@angular/material/dialog';
 import { TranslateModule } from '@ngx-translate/core';
 import { HttpClientTestingModule, HttpTestingController } from '@angular/common/http/testing';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { FormBuilder, FormControl, FormGroup, FormsModule, ReactiveFormsModule, AbstractControl } from '@angular/forms';
+import { FormBuilder, FormControl, FormGroup, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { of, Subject } from 'rxjs';
 import { RouterTestingModule } from '@angular/router/testing';
@@ -26,7 +26,6 @@ import { Bag, Locations } from 'src/app/ubs/ubs-admin/models/tariffs.interface';
 import { Store } from '@ngrx/store';
 import { UbsAdminTariffsLocationDashboardComponent } from '../ubs-admin-tariffs-location-dashboard.component';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
-import { LimitsValidator } from '../../shared/limits-validator/limits.validator';
 
 describe('UbsAdminPricingPageComponent', () => {
   let component: UbsAdminTariffsPricingPageComponent;
@@ -41,12 +40,11 @@ describe('UbsAdminPricingPageComponent', () => {
   const fakeCourierForm = new FormGroup({
     courierLimitsBy: new FormControl('fake'),
     minPriceOfOrder: new FormControl('fake'),
-    maxPriceOfOrder: new FormControl('fake', LimitsValidator.cannotBeEmpty),
-    minAmountOfBigBags: new FormControl('fake', LimitsValidator.cannotBeEmpty),
-    maxAmountOfBigBags: new FormControl('fake', LimitsValidator.cannotBeEmpty),
+    maxPriceOfOrder: new FormControl('fake'),
+    minAmountOfBigBags: new FormControl('fake'),
+    maxAmountOfBigBags: new FormControl('fake'),
     limitDescription: new FormControl('fake')
   });
-
   const fakeLocations: Locations = {
     locationsDto: [
       {
@@ -133,26 +131,8 @@ describe('UbsAdminPricingPageComponent', () => {
       }
     ],
     tariffStatus: 'Active',
-    cardId: 3,
-    minAmountOfBags: 5,
-    maxAmountOfBags: 10,
-    maxPriceOfOrder: null,
-    minPriceOfOrder: null,
-    limitDescription: 'fake'
+    cardId: 3
   };
-
-  const fakeBagLimits = {
-    minAmountOfBigBags: 1,
-    maxAmountOfBigBags: 5,
-    limitDescription: 'fake'
-  };
-
-  const fakePriceLimits = {
-    minPriceOfOrder: 10,
-    maxPriceOfOrder: 205,
-    limitDescription: 'fake'
-  };
-
   const dialogStub = {
     afterClosed() {
       return of(true);
@@ -264,15 +244,9 @@ describe('UbsAdminPricingPageComponent', () => {
       city: ['Місто'],
       tariff: 'Active',
       regionId: 1,
-      cardId: 3,
-      minAmountOfBigBags: 5,
-      maxAmountOfBigBags: 10,
-      maxPriceOfOrder: null,
-      minPriceOfOrder: null,
-      limitDescription: 'fake'
+      cardId: 3
     };
     component.getSelectedTariffCard();
-    fixture.detectChanges();
     expect(component.selectedCard).toEqual(result);
     expect(component.isLoading).toEqual(false);
   });
@@ -342,76 +316,52 @@ describe('UbsAdminPricingPageComponent', () => {
     });
   });
 
-  it('should call setLimits for Bag case', () => {
-    component.selectedCardId = 3;
-    component.getSelectedTariffCard();
-    component.setLimits();
-    component.limitsForm.patchValue(fakeBagLimits);
-    expect(component.limitsForm.get('minAmountOfBigBags').value).toEqual(1);
-    expect(component.limitsForm.get('maxAmountOfBigBags').value).toEqual(5);
-    expect(component.limitsForm.get('limitDescription').value).toEqual('fake');
-    expect(component.toggle).toEqual(false);
-  });
-
-  it('should call setLimits for price case', () => {
-    component.selectedCardId = 3;
-    component.getSelectedTariffCard();
-    component.setLimits();
-    component.limitsForm.patchValue(fakePriceLimits);
-    expect(component.limitsForm.get('minPriceOfOrder').value).toEqual(10);
-    expect(component.limitsForm.get('maxPriceOfOrder').value).toEqual(205);
-    expect(component.limitsForm.get('limitDescription').value).toEqual('fake');
-    expect(component.toggle).toEqual(false);
-  });
-
-  it('should call initializeCourierId', () => {
-    const spy = spyOn(component, 'initializeCourierId').and.returnValue(Promise.resolve(5));
-    component.initializeCourierId();
-    spy.calls.mostRecent().returnValue.then();
-    expect(spy).toHaveBeenCalled();
-  });
-
-  it('should call initializeLocationId', () => {
-    const spy = spyOn(component, 'initializeLocationId').and.returnValue(Promise.resolve(5));
-    component.initializeLocationId();
-    spy.calls.mostRecent().returnValue.then();
-    expect(spy).toHaveBeenCalled();
-  });
-
-  it('should check whether sumToggler patching values correctly', () => {
-    component.limitsForm.patchValue({
-      minAmountOfBigBags: 'fake',
-      maxAmountOfBigBags: 'fake'
-    });
+  it('should call sumToggler', () => {
     component.sumToggler();
-    expect(component.limitsForm.get('minAmountOfBigBags').value).toEqual(null);
-    expect(component.limitsForm.get('maxAmountOfBigBags').value).toEqual(null);
     expect(component.toggle).toBe(true);
   });
 
-  it('should check whether bagToggler patching values correctly', () => {
-    component.limitsForm.patchValue({
-      minPriceOfOrder: 1,
-      maxPriceOfOrder: 3
-    });
+  it('should call bagToggler', () => {
     component.bagToggler();
-    expect(component.limitsForm.get('minPriceOfOrder').value).toEqual(null);
-    expect(component.limitsForm.get('maxPriceOfOrder').value).toEqual(null);
     expect(component.toggle).toBe(false);
   });
 
-  it('should check limits validator', () => {
-    fakeCourierForm.patchValue({
-      minPriceOfOrder: 124,
-      maxPriceOfOrder: 0,
-      minAmountOfBigBags: null,
-      maxAmountOfBigBags: 324
-    });
+  it('should call saveChanges method', () => {
+    const spy = spyOn(component, 'saveChanges');
+    component.saveChanges();
+    expect(spy).toHaveBeenCalled();
+  });
 
-    expect(fakeCourierForm.get('minPriceOfOrder').errors?.cannotBeEmpty).toEqual(undefined);
-    expect(fakeCourierForm.get('maxPriceOfOrder').errors?.cannotBeEmpty).toEqual(true);
-    expect(fakeCourierForm.get('minAmountOfBigBags').errors?.cannotBeEmpty).toEqual(true);
-    expect(fakeCourierForm.get('maxAmountOfBigBags').errors?.cannotBeEmpty).toEqual(undefined);
+  it('should set values on saveChanges method', () => {
+    const limit = {
+      courierLimitsBy: 'fake',
+      minPriceOfOrder: '30',
+      maxPriceOfOrder: '50',
+      minAmountOfBigBags: '2',
+      maxAmountOfBigBags: '4',
+      limitDescription: 'fake'
+    };
+    component.limitsForm.setValue(limit);
+    component.locationId = 2;
+    component.saveChanges();
+    expect(component.bagInfo).toEqual({ minAmountOfBigBags: '2', maxAmountOfBigBags: '4', locationId: 2 });
+    expect(component.sumInfo).toEqual({ minPriceOfOrder: '30', maxPriceOfOrder: '50', locationId: 2 });
+    expect(component.descriptionInfo).toEqual({ limitDescription: 'fake' });
+    expect(component.saveBTNclicked).toBeTruthy();
+  });
+
+  it('should call changeDescription method on saveChanges method if toggle null', () => {
+    component.toggle = null;
+    const spy = spyOn(component, 'changeDescription');
+    component.saveChanges();
+    expect(spy).toHaveBeenCalled();
+  });
+
+  it('should call changeDescription method on saveChanges method if toggle true', () => {
+    component.toggle = true;
+    const spy = spyOn(component, 'changeDescription');
+    component.saveChanges();
+    expect(spy).toHaveBeenCalled();
   });
 
   it('navigate to tariffs page', () => {
@@ -436,12 +386,10 @@ describe('UbsAdminPricingPageComponent', () => {
   });
 
   it('should call openAddServicePopup', () => {
-    component.locationId = 159;
-    component.currentCourierId = 1;
+    component.currentLocation = 159;
     const addtariffData = {
       button: 'add',
-      locationId: 159,
-      courierId: 1
+      locationId: 159
     };
     component.openAddServicePopup();
     expect(matDialogMock.open).toHaveBeenCalledWith(UbsAdminTariffsAddServicePopUpComponent, {
@@ -467,11 +415,9 @@ describe('UbsAdminPricingPageComponent', () => {
   });
 
   it('should call openUpdateServicePopup', () => {
-    component.locationId = 159;
     const tariffData = {
       button: 'update',
-      serviceData: fakeService,
-      locationId: 159
+      serviceData: fakeService
     };
     component.openUpdateServicePopup(fakeService);
     expect(matDialogMock.open).toHaveBeenCalledWith(UbsAdminTariffsAddServicePopUpComponent, {
@@ -521,40 +467,5 @@ describe('UbsAdminPricingPageComponent', () => {
   it('should disable save button falsy', () => {
     component.disableSaveButton();
     expect(!component.inputDisable).toBe(false);
-  });
-  it('should disable if bags fields are empty ', () => {
-    component.limitsForm.patchValue({
-      minAmountOfBigBags: '',
-      maxAmountOfBigBags: ''
-    });
-    component.disableSaveButton();
-    expect(component.inputDisable).toBe(true);
-  });
-
-  it('should disable if price fields are empty ', () => {
-    component.limitsForm.patchValue({
-      minPriceOfOrder: '',
-      maxPriceOfOrder: ''
-    });
-    component.disableSaveButton();
-    expect(component.inputDisable).toBe(true);
-  });
-
-  it('should disable if fields are null ', () => {
-    component.limitsForm.patchValue({
-      minAmountOfBigBags: null,
-      maxAmountOfBigBags: null,
-      minPriceOfOrder: null,
-      maxPriceOfOrder: null,
-      limitDescription: null
-    });
-    component.disableSaveButton();
-    expect(component.inputDisable).toBe(true);
-  });
-
-  it('should disable if save button clicked', () => {
-    component.saveBTNClicked = true;
-    component.disableSaveButton();
-    expect(component.inputDisable).toEqual(true);
   });
 });

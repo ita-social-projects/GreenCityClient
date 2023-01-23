@@ -56,6 +56,8 @@ export class UbsAdminTariffsLocationDashboardComponent implements OnInit, AfterV
   stationPlaceholder: string;
   selectedStation = [];
   cards = [];
+  cardsUk = [];
+  cardsEn = [];
   filterData = { status: '' };
   createCardObj: CreateCard;
   isFieldFilled = false;
@@ -106,6 +108,7 @@ export class UbsAdminTariffsLocationDashboardComponent implements OnInit, AfterV
     this.localeStorageService.languageBehaviourSubject.pipe(takeUntil(this.destroy)).subscribe((lang: string) => {
       this.currentLang = lang;
       this.loadScript();
+      this.setCard();
     });
     this.initForm();
     this.getLocations();
@@ -460,13 +463,12 @@ export class UbsAdminTariffsLocationDashboardComponent implements OnInit, AfterV
   }
 
   public getExistingCard(filterData) {
-    this.cards = [];
     this.tariffsService
       .getFilteredCard(filterData)
       .pipe(takeUntil(this.destroy))
       .subscribe((card) => {
         card.forEach((el) => {
-          const cardObj = {
+          const cardObjUk = {
             courier: el.courierDto.nameUk,
             station: el.receivingStationDtos.map((it) => it.name),
             region: el.regionDto.nameUk,
@@ -475,9 +477,23 @@ export class UbsAdminTariffsLocationDashboardComponent implements OnInit, AfterV
             regionId: el.regionDto.regionId,
             cardId: el.cardId
           };
-          this.cards.push(cardObj);
+          const cardObjEn = {
+            courier: el.courierDto.nameEn,
+            station: el.receivingStationDtos.map((it) => it.name),
+            region: el.regionDto.nameEn,
+            city: el.locationInfoDtos.map((it) => it.nameEn),
+            tariff: el.tariffStatus,
+            regionId: el.regionDto.regionId,
+            cardId: el.cardId
+          };
+          this.cardsUk.push(cardObjUk);
+          this.cardsEn.push(cardObjEn);
         });
       });
+  }
+
+  private setCard(): void {
+    this.cards = this.checkLang(this.cardsUk, this.cardsEn);
   }
 
   checkRegionValue(value): void {
@@ -670,6 +686,10 @@ export class UbsAdminTariffsLocationDashboardComponent implements OnInit, AfterV
         headerText: 'createCard'
       }
     });
+  }
+
+  private checkLang(uaValue, enValue): any {
+    return this.currentLang === 'ua' ? uaValue : enValue;
   }
 
   ngOnDestroy(): void {
