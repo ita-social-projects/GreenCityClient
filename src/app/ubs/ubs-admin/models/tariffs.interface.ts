@@ -127,6 +127,7 @@ export interface TariffCard {
   receivingStationDtos: Stations[];
   courierDto: Couriers;
   tariffStatus: string;
+  limitDescription?: string;
   creator: string;
   createdAt: string;
   courierLimit: string;

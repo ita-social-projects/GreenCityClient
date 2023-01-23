@@ -119,11 +119,17 @@
         <mat-radio-group formControlName="courierLimitsBy">
           <h6>{{ 'ubs-tariffs.order_limits' | translate }}</h6>
           <div class="sum-input">
-            <mat-radio-button id="min-order-amount" name="courierLimit" value="LIMIT_BY_SUM_OF_ORDER" (click)="sumToggler()">
+            <mat-radio-button
+              id="min-order-amount"
+              name="courierLimit"
+              value="LIMIT_BY_SUM_OF_ORDER"
+              (click)="sumToggler()"
+              [checked]="toggle"
+            >
             </mat-radio-button>
             <label for="min-order-amount">{{ 'ubs-tariffs.min_order_amount' | translate }}</label
             ><br />
-            <fieldset [disabled]="!toggle">
+            <fieldset [disabled]="!toggle || toggle === null">
               <legend></legend>
               <input
                 class="input"
@@ -151,10 +157,11 @@
               name="courierLimit"
               value="LIMIT_BY_AMOUNT_OF_BAG"
               (click)="bagToggler()"
+              [checked]="!toggle"
             ></mat-radio-button>
             <label for="min-packages">{{ 'ubs-tariffs.min_number_of_packages' | translate }}</label
             ><br />
-            <fieldset [disabled]="toggle">
+            <fieldset [disabled]="toggle || toggle === null">
               <legend></legend>
               <input
                 class="input"
