@@ -70,10 +70,11 @@ describe('UbsAdminPricingPageComponent', () => {
   };
 
   const fakeService = {
-    locationId: 159,
-    price: 555,
-    commission: 333,
-    languageCode: 'ua'
+    name: 'fake1',
+    nameEng: 'fake',
+    price: 2,
+    description: 'fake1',
+    descriptionEng: 'fake1'
   };
 
   const fakeBag: Bag = {
@@ -349,9 +350,11 @@ describe('UbsAdminPricingPageComponent', () => {
 
   it('should call openAddServicePopup', () => {
     component.currentLocation = 159;
+    component.selectedCardId = 1;
     const addtariffData = {
       button: 'add',
-      locationId: 159
+      locationId: 159,
+      tariffId: 1
     };
     component.openAddServicePopup();
     expect(matDialogMock.open).toHaveBeenCalledWith(UbsAdminTariffsAddServicePopUpComponent, {
@@ -396,14 +399,6 @@ describe('UbsAdminPricingPageComponent', () => {
     component.getAllTariffsForService();
     expect(component.isLoadBar).toEqual(false);
     expect(component.bags).toEqual([fakeBag]);
-    expect(spy).toHaveBeenCalled();
-  });
-
-  it('should get all services', () => {
-    const spy = spyOn<any>(component, 'filterServices');
-    component.getService();
-    expect(component.isLoadBar1).toEqual(false);
-    expect(component.services).toEqual([fakeService]);
     expect(spy).toHaveBeenCalled();
   });
 
