@@ -2,13 +2,14 @@ import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { FormBuilder, FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { MatDialogModule, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { TranslateModule } from '@ngx-translate/core';
-import { of, Subject } from 'rxjs';
+import { BehaviorSubject, of, Subject } from 'rxjs';
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { UbsAdminTariffsCourierPopUpComponent } from './ubs-admin-tariffs-courier-pop-up.component';
 import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
 import { TariffsService } from '../../../services/tariffs.service';
-import { LanguageService } from 'src/app/main/i18n/language.service';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { DatePipe } from '@angular/common';
+import { MatAutocompleteSelectedEvent, MatAutocompleteTrigger } from '@angular/material/autocomplete';
 
 describe('UbsAdminTariffsCourierPopUpComponent', () => {
   let component: UbsAdminTariffsCourierPopUpComponent;
@@ -50,18 +51,14 @@ describe('UbsAdminTariffsCourierPopUpComponent', () => {
   tariffsServiceMock.addCourier.and.returnValue(of());
   tariffsServiceMock.editCourier.and.returnValue(of());
 
-  const languageServiceMock = jasmine.createSpyObj('languageServiceMock', ['getCurrentLanguage']);
-  languageServiceMock.getCurrentLanguage.and.returnValue('ua');
-
-  const localStorageServiceStub = () => ({
-    firstNameBehaviourSubject: { pipe: () => of('fakeName') }
-  });
-
-  const eventMockFake = {
-    option: {
-      value: ['фейкКурєр']
-    }
-  };
+  const localStorageServiceMock = jasmine.createSpyObj('localStorageService', [
+    'languageBehaviourSubject',
+    'getCurrentLanguage',
+    'firstNameBehaviourSubject'
+  ]);
+  localStorageServiceMock.languageBehaviourSubject = new BehaviorSubject('ua');
+  localStorageServiceMock.getCurrentLanguage.and.returnValue(of('ua'));
+  localStorageServiceMock.firstNameBehaviourSubject = new BehaviorSubject('user');
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
@@ -69,9 +66,8 @@ describe('UbsAdminTariffsCourierPopUpComponent', () => {
       imports: [MatDialogModule, BrowserAnimationsModule, TranslateModule.forRoot(), ReactiveFormsModule],
       providers: [
         { provide: MatDialogRef, useValue: matDialogRefMock },
-        { provide: LocalStorageService, useFactory: localStorageServiceStub },
         { provide: TariffsService, useValue: tariffsServiceMock },
-        { provide: LanguageService, useValue: languageServiceMock },
+        { provide: LocalStorageService, useValue: localStorageServiceMock },
         { provide: MAT_DIALOG_DATA, useValue: mockedData },
         FormBuilder
       ],
@@ -121,14 +117,48 @@ describe('UbsAdminTariffsCourierPopUpComponent', () => {
   });
 
   it('should has correct data', () => {
-    expect(component.data.edit).toEqual(false);
     expect(component.data.headerText).toEqual('courier');
   });
 
   it('should call getting couriers in OnInit', () => {
     const spy1 = spyOn(component, 'getCouriers');
-    const spy2 = spyOn(component, 'setDate');
     component.ngOnInit();
+    expect(spy1).toHaveBeenCalled();
+  });
+
+  it('should set edit placeholders OnInit', () => {
+    component.data.edit = true;
+    component.ngOnInit();
+    expect(component.placeholder).toBe('ubs-tariffs.placeholder-choose-courier');
+    expect(component.placeholderTranslate).toBe('ubs-tariffs.placeholder-choose-courier-translate');
+  });
+
+  it('should set add placeholders OnInit', () => {
+    component.data.edit = false;
+    component.ngOnInit();
+    expect(component.placeholder).toBe('ubs-tariffs.placeholder-enter-courier');
+    expect(component.placeholderTranslate).toBe('ubs-tariffs.placeholder-enter-courier-translate');
+  });
+
+  it('should set date on setDate method', () => {
+    component.setDate();
+    expect(component.datePipe).toEqual(new DatePipe('ua'));
+    expect(component.newDate).toEqual(component.datePipe.transform(new Date(), 'MMM dd, yyyy'));
+  });
+
+  it('should call openAuto method', () => {
+    const nativeElement = fixture.nativeElement;
+    const button = nativeElement.querySelector('#auto-img');
+    const trigger: MatAutocompleteTrigger = nativeElement.querySelector('.form-control');
+    const spy = spyOn(component, 'openAuto');
+    component.openAuto(button, trigger);
+    expect(spy).toHaveBeenCalled();
+  });
+
+  it('should call two methods on editCourierName', () => {
+    const spy1 = spyOn(component, 'setNewCourierName');
+    const spy2 = spyOn(component, 'editCourier');
+    component.editCourierName();
     expect(spy1).toHaveBeenCalled();
     expect(spy2).toHaveBeenCalled();
   });
@@ -164,6 +194,13 @@ describe('UbsAdminTariffsCourierPopUpComponent', () => {
     const value = 'фейкКурєр';
     const result = component.checkIsCourierExist(value, component.couriersNameEng);
     expect(result).toEqual(true);
+  });
+
+  it('should check language and return ua value', () => {
+    const valUa = 'Назва';
+    const valEn = 'Name';
+    const result = component.checkLang(valUa, valEn);
+    expect(result).toBe('Назва');
   });
 
   it('method onNoClick should invoke destroyRef.close', () => {
