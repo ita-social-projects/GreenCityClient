@@ -11,7 +11,6 @@ import { takeUntil } from 'rxjs/operators';
   encapsulation: ViewEncapsulation.None
 })
 export class UbsAdminOrderHistoryComponent implements OnDestroy, OnChanges {
-  @Input() orderId: number;
   @Input() orderInfo: IOrderInfo;
 
   private destroy$: Subject<boolean> = new Subject<boolean>();
@@ -22,7 +21,7 @@ export class UbsAdminOrderHistoryComponent implements OnDestroy, OnChanges {
 
   ngOnChanges(changes: SimpleChanges): void {
     if (changes.orderInfo) {
-      this.getOrderHistory(this.orderId);
+      this.getOrderHistory(this.orderInfo.generalOrderInfo.id);
     }
   }
 
