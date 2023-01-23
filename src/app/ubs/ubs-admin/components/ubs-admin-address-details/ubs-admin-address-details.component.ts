@@ -1,4 +1,4 @@
-import { Component, Input, OnDestroy, AfterViewInit } from '@angular/core';
+import { Component, Input, OnDestroy } from '@angular/core';
 import { AbstractControl, FormGroup } from '@angular/forms';
 import { Subject } from 'rxjs';
 import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
@@ -10,7 +10,7 @@ import { Location } from '../../models/ubs-admin.interface';
   templateUrl: './ubs-admin-address-details.component.html',
   styleUrls: ['./ubs-admin-address-details.component.scss']
 })
-export class UbsAdminAddressDetailsComponent implements AfterViewInit, OnDestroy {
+export class UbsAdminAddressDetailsComponent implements OnDestroy {
   @Input() addressComment: string;
   @Input() addressExportDetailsDto: FormGroup;
   pageOpen: boolean;
@@ -85,7 +85,6 @@ export class UbsAdminAddressDetailsComponent implements AfterViewInit, OnDestroy
   }
 
   loadData(): void {
-    console.log('+');
     this.currentLanguage = this.localStorageService.getCurrentLanguage();
     this.isDistrict = this.addressCity.value === 'Київ' ? true : false;
     this.regions = this.locations.getBigRegions(this.currentLanguage);
@@ -116,9 +115,7 @@ export class UbsAdminAddressDetailsComponent implements AfterViewInit, OnDestroy
       this.addressDistrictEng.setValue('');
       this.streetPredictionList = null;
     });
-  }
 
-  ngAfterViewInit(): void {
     this.initGoogleAutocompleteServices();
   }
 
@@ -132,7 +129,9 @@ export class UbsAdminAddressDetailsComponent implements AfterViewInit, OnDestroy
     const selectedRegionUa = this.locations.getBigRegions('ua').find((el) => el.key === elem.key);
     const selectedRegionEn = this.locations.getBigRegions('en').find((el) => el.key === elem.key);
     this.addressRegion.setValue(selectedRegionUa.name);
+    this.addressRegion.markAsDirty();
     this.addressRegionEng.setValue(selectedRegionEn.name);
+    this.addressRegionEng.markAsDirty();
   }
 
   setPredictCities(): void {
@@ -175,6 +174,7 @@ export class UbsAdminAddressDetailsComponent implements AfterViewInit, OnDestroy
     };
     this.placeService.getDetails(request, (placeDetails) => {
       abstractControl.setValue(placeDetails.name);
+      abstractControl.markAsDirty();
 
       if (abstractControl === this.addressCity) {
         this.isDistrict = this.addressCity.value === 'Київ' ? true : false;
@@ -214,6 +214,7 @@ export class UbsAdminAddressDetailsComponent implements AfterViewInit, OnDestroy
   onStreetSelected(selectedStreet: google.maps.places.AutocompletePrediction): void {
     this.setValueOfStreet(selectedStreet, this.addressStreet, this.languages.uk);
     this.setValueOfStreet(selectedStreet, this.addressStreetEng, this.languages.en);
+    console.log(this.addressExportDetailsDto);
   }
 
   setValueOfStreet(selectedStreet: google.maps.places.AutocompletePrediction, abstractControl: AbstractControl, lang: string): void {
@@ -223,6 +224,7 @@ export class UbsAdminAddressDetailsComponent implements AfterViewInit, OnDestroy
     };
     this.placeService.getDetails(request, (placeDetails) => {
       abstractControl.setValue(placeDetails.name);
+      abstractControl.markAsDirty();
 
       if (lang === this.languages.en && this.isDistrict) {
         this.setDistrictAuto(placeDetails, this.addressDistrictEng, lang);
@@ -239,6 +241,7 @@ export class UbsAdminAddressDetailsComponent implements AfterViewInit, OnDestroy
     if (getDistrict) {
       const currentDistrict = getDistrict.long_name;
       abstractControl.setValue(currentDistrict);
+      abstractControl.markAsDirty();
     }
   }
 
@@ -253,7 +256,9 @@ export class UbsAdminAddressDetailsComponent implements AfterViewInit, OnDestroy
     const selectedDistricEn = this.locations.getRegionsKyiv('en').find((el) => el.key === key);
 
     this.addressDistrict.setValue(selectedDistrict.name);
+    this.addressDistrict.markAsDirty();
     this.addressDistrictEng.setValue(selectedDistricEn.name);
+    this.addressDistrictEng.markAsDirty();
   }
 
   setDistrict(districtKey: string): void {
@@ -262,7 +267,9 @@ export class UbsAdminAddressDetailsComponent implements AfterViewInit, OnDestroy
     const selectedDistricEn = this.locations.getRegions('en').find((el) => el.key === key);
 
     this.addressDistrict.setValue(selectedDistrict.name);
+    this.addressDistrict.markAsDirty();
     this.addressDistrictEng.setValue(selectedDistricEn.name);
+    this.addressDistrictEng.markAsDirty();
   }
 
   ngOnDestroy(): void {

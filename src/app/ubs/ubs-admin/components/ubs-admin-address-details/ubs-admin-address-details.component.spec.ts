@@ -348,6 +348,7 @@ describe('UbsAdminAddressDetailsComponent', () => {
     expect(component.addressDistrictEng.value).toBe('');
     expect(component.streetPredictionList).toBe(null);
     expect(component.cityPredictionList).toBe(null);
+    expect((component as any).initGoogleAutocompleteServices).toHaveBeenCalledTimes(1);
   }));
 
   it('if value of city was changed other fields should be empty', fakeAsync(() => {
@@ -364,12 +365,8 @@ describe('UbsAdminAddressDetailsComponent', () => {
     expect(component.addressDistrict.value).toBe('');
     expect(component.addressDistrictEng.value).toBe('');
     expect(component.streetPredictionList).toBe(null);
-  }));
-
-  it('method ngAfterViewInit should invoke methods', () => {
-    component.ngAfterViewInit();
     expect((component as any).initGoogleAutocompleteServices).toHaveBeenCalledTimes(1);
-  });
+  }));
 
   it('method setRegionValue should set addressRegion value', () => {
     const event = { target: { value: '0: Київська область' } };

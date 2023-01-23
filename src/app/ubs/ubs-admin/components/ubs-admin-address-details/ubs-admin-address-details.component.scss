@@ -60,6 +60,10 @@ label {
   width: 50%;
 }
 
+.form-control {
+  max-width: 408px;
+}
+
 .validation {
   color: var(--error-red);
   line-height: 10px;
@@ -83,7 +87,7 @@ label {
 
 @media (min-width: 992px) {
   #address-comment {
-    width: 340px;
+    // width: 50%;
     height: 92px;
   }
 }
