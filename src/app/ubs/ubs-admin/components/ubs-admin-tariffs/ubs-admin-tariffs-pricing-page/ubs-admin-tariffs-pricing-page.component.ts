@@ -529,12 +529,10 @@ export class UbsAdminTariffsPricingPageComponent implements OnInit, OnDestroy {
     }
 
     if (this.limitsForm.pristine) {
-      this.inputDisable = true;
-      return this.inputDisable;
+      return true;
     }
     if (this.saveBTNClicked) {
-      this.inputDisable = true;
-      return this.inputDisable;
+      return true;
     }
   }
 
