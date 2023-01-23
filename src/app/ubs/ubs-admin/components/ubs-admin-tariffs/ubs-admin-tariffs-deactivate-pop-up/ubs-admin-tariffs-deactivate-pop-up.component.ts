@@ -186,7 +186,6 @@ export class UbsAdminTariffsDeactivatePopUpComponent implements OnInit, OnDestro
       .pipe(takeUntil(this.unsubscribe))
       .subscribe((res: TariffCard[]) => {
         this.tariffCards = res.filter((it) => it.tariffStatus === status.active);
-        console.log(this.tariffCards);
       });
   }
 
