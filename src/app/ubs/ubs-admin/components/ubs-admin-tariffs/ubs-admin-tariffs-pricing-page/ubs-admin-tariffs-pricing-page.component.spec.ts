@@ -7,7 +7,7 @@ import { MatDialogModule } from '@angular/material/dialog';
 import { TranslateModule } from '@ngx-translate/core';
 import { HttpClientTestingModule, HttpTestingController } from '@angular/common/http/testing';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { FormBuilder, FormControl, FormGroup, FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { FormBuilder, FormControl, FormGroup, FormsModule, ReactiveFormsModule, AbstractControl } from '@angular/forms';
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { of, Subject } from 'rxjs';
 import { RouterTestingModule } from '@angular/router/testing';
@@ -26,6 +26,7 @@ import { Bag, Locations } from 'src/app/ubs/ubs-admin/models/tariffs.interface';
 import { Store } from '@ngrx/store';
 import { UbsAdminTariffsLocationDashboardComponent } from '../ubs-admin-tariffs-location-dashboard.component';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
+import { LimitsValidator } from '../../shared/limits-validator/limits.validator';
 
 describe('UbsAdminPricingPageComponent', () => {
   let component: UbsAdminTariffsPricingPageComponent;
@@ -39,10 +40,10 @@ describe('UbsAdminPricingPageComponent', () => {
   const fakeValue = '1';
   const fakeCourierForm = new FormGroup({
     courierLimitsBy: new FormControl('fake'),
-    minPriceOfOrder: new FormControl('fake'),
-    maxPriceOfOrder: new FormControl('fake'),
-    minAmountOfBigBags: new FormControl('fake'),
-    maxAmountOfBigBags: new FormControl('fake'),
+    minPriceOfOrder: new FormControl('fake', LimitsValidator.cannotBeEmpty),
+    maxPriceOfOrder: new FormControl('fake', LimitsValidator.cannotBeEmpty),
+    minAmountOfBigBags: new FormControl('fake', LimitsValidator.cannotBeEmpty),
+    maxAmountOfBigBags: new FormControl('fake', LimitsValidator.cannotBeEmpty),
     limitDescription: new FormControl('fake')
   });
   const fakeLocations: Locations = {
@@ -347,7 +348,7 @@ describe('UbsAdminPricingPageComponent', () => {
     expect(component.bagInfo).toEqual({ minAmountOfBigBags: '2', maxAmountOfBigBags: '4', locationId: 2 });
     expect(component.sumInfo).toEqual({ minPriceOfOrder: '30', maxPriceOfOrder: '50', locationId: 2 });
     expect(component.descriptionInfo).toEqual({ limitDescription: 'fake' });
-    expect(component.saveBTNclicked).toBeTruthy();
+    expect(component.saveBTNClicked).toBeTruthy();
   });
 
   it('should call changeDescription method on saveChanges method if toggle null', () => {
