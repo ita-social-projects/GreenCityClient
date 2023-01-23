@@ -70,22 +70,16 @@ export class UbsAdminTariffsAddServicePopUpComponent implements OnInit, OnDestro
   }
 
   async addNewService() {
-    const courierId: number = this.tariffsService.getCourierId();
+    const tariffId = this.receivedData.tariffId;
 
-    const { name, nameEng, capacity, price, commission, description, descriptionEng } = this.addServiceForm.value;
+    const { name, nameEng, price, description, descriptionEng } = this.addServiceForm.value;
     this.service = {
-      capacity,
       price,
-      courierId,
-      commission,
-      serviceTranslationDtoList: [
-        {
-          description,
-          descriptionEng,
-          name,
-          nameEng
-        }
-      ]
+      tariffId,
+      description,
+      descriptionEng,
+      name,
+      nameEng
     };
     this.loadingAnim = true;
     this.tariffsService
@@ -112,21 +106,19 @@ export class UbsAdminTariffsAddServicePopUpComponent implements OnInit, OnDestro
   }
 
   editService() {
-    const locationId = this.tariffsService.getLocationId();
-    const { name, nameEng, price, capacity, commission, description, descriptionEng } = this.addServiceForm.getRawValue();
+    const id = this.receivedData.serviceData.id;
+    const { name, nameEng, price, description, descriptionEng } = this.addServiceForm.getRawValue();
     this.service = {
       name,
       nameEng,
-      capacity,
       price,
-      commission,
       description,
       descriptionEng,
-      locationId
+      id
     };
     this.loadingAnim = true;
     this.tariffsService
-      .editService(this.receivedData.serviceData.id, this.service)
+      .editService(this.service)
       .pipe(takeUntil(this.destroy))
       .subscribe(() => {
         this.dialogRef.close({});
