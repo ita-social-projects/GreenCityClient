@@ -28,6 +28,10 @@ export class UbsAdminOrderClientInfoComponent implements OnInit, OnDestroy {
 
   constructor(private dialog: MatDialog) {}
 
+  get recipientEmail() {
+    return this.userInfoDto.get('recipientEmail');
+  }
+
   ngOnInit(): void {
     this.pageOpen = true;
     this.setViolationData();
