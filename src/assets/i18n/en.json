@@ -573,7 +573,7 @@
       "edit-button": "Edit Picture",
       "info": "Personal info",
       "name": "Name",
-      "name-warning": "The name must contain 6-30 characters and can contain letters(a-z;а-я), numbers(0-9) and a dot(.), dot at the start, at the end and consecutive dot is forbidden",
+      "name-warning": "Name is required. Should contain maximum 85 characters and can contain letters(a-z;а-я), numbers(0-9) and a dot(.), dot at the start, at the end and consecutive dot is forbidden",
       "city": "City",
       "city-warning": "Should contain maximum 85 symbols and may contain letters(a-z), and next special characters '()!,-’",
       "title": "Credo",
