@@ -1,5 +1,5 @@
 import { Component, OnInit, OnDestroy, Injector } from '@angular/core';
-import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
+import { FormBuilder, FormControl, FormGroup, Validators,AbstractControl } from '@angular/forms';
 import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
 import { Location } from '@angular/common';
 import { ActivatedRoute, Router } from '@angular/router';
@@ -98,6 +98,22 @@ export class UbsAdminTariffsPricingPageComponent implements OnInit, OnDestroy {
       minAmountOfBigBags: new FormControl(null, [Validators.required, LimitsValidator.cannotBeEmpty]),
       maxAmountOfBigBags: new FormControl(null, [Validators.required, LimitsValidator.cannotBeEmpty])
     });
+  }
+
+  get minPriceOfOrder() {
+    return this.limitsForm.get('minPriceOfOrder');
+  }
+
+  get maxPriceOfOrder() {
+    return this.limitsForm.get('maxPriceOfOrder');
+  }
+
+  get minBigBags() {
+    return this.limitsForm.get('minAmountOfBigBags');
+  }
+
+  get maxBigBags() {
+    return this.limitsForm.get('maxAmountOfBigBags');
   }
 
   fillFields(): void {
@@ -491,6 +507,10 @@ export class UbsAdminTariffsPricingPageComponent implements OnInit, OnDestroy {
       });
       this.toggle = true;
     }
+  }
+
+  public checkOnNumber(event: KeyboardEvent, control: AbstractControl): boolean {
+    return !isNaN(Number(event.key)) && control.value !== 0;
   }
 
   disableSaveButton(): boolean {

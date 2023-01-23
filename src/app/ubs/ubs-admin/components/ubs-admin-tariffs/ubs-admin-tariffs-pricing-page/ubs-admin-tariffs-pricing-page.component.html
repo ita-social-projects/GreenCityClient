@@ -131,10 +131,31 @@
             ><br />
             <fieldset [disabled]="!toggle || toggle === null">
               <legend></legend>
+
               <input class="input" type="number" id="from" formControlName="minPriceOfOrder" required />
               <span class="line"></span>
               <input class="input" type="number" id="to" formControlName="maxPriceOfOrder" required />
               <label for="to"></label>
+              <input
+                class="input"
+                type="number"
+                min="0"
+                (keypress)="checkOnNumber($event, minPriceOfOrder)"
+                id="from"
+                formControlName="minPriceOfOrder"
+                required
+              />
+              <span class="line"></span>
+              <input
+                class="input"
+                type="number"
+                min="0"
+                (keypress)="checkOnNumber($event, maxPriceOfOrder)"
+                id="to"
+                formControlName="maxPriceOfOrder"
+                required
+              />
+              <label id="label-limit" for="to"></label>
             </fieldset>
           </div>
           <div class="bags-input">
@@ -149,10 +170,31 @@
             ><br />
             <fieldset [disabled]="toggle || toggle === null">
               <legend></legend>
+
               <input class="input" type="number" id="from-packages" formControlName="minAmountOfBigBags" required />
               <span class="line"></span>
               <input class="input" type="number" id="to-packages" formControlName="maxAmountOfBigBags" required />
               <label for="to"></label>
+              <input
+                class="input"
+                type="number"
+                min="0"
+                (keypress)="checkOnNumber($event, minBigBags)"
+                id="from-packages"
+                formControlName="minAmountOfBigBags"
+                required
+              />
+              <span class="line"></span>
+              <input
+                class="input"
+                type="number"
+                min="0"
+                (keypress)="checkOnNumber($event, maxBigBags)"
+                id="to-packages"
+                formControlName="maxAmountOfBigBags"
+                required
+              />
+              <label id="label-limit" for="to-packages"></label>
             </fieldset>
           </div>
         </mat-radio-group>

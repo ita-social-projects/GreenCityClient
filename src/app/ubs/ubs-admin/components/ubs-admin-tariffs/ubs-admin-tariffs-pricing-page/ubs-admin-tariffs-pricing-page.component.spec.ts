@@ -412,6 +412,42 @@ describe('UbsAdminPricingPageComponent', () => {
     expect(fakeCourierForm.get('maxPriceOfOrder').errors?.cannotBeEmpty).toEqual(true);
     expect(fakeCourierForm.get('minAmountOfBigBags').errors?.cannotBeEmpty).toEqual(true);
     expect(fakeCourierForm.get('maxAmountOfBigBags').errors?.cannotBeEmpty).toEqual(undefined);
+  it('should call saveChanges method', () => {
+    const spy = spyOn(component, 'saveChanges');
+    component.saveChanges();
+    expect(spy).toHaveBeenCalled();
+  });
+
+  it('should set values on saveChanges method', () => {
+    const limit = {
+      courierLimitsBy: 'fake',
+      minPriceOfOrder: '30',
+      maxPriceOfOrder: '50',
+      minAmountOfBigBags: '2',
+      maxAmountOfBigBags: '4',
+      limitDescription: 'fake'
+    };
+    component.limitsForm.setValue(limit);
+    component.locationId = 2;
+    component.saveChanges();
+    expect(component.bagInfo).toEqual({ minAmountOfBigBags: '2', maxAmountOfBigBags: '4', locationId: 2 });
+    expect(component.sumInfo).toEqual({ minPriceOfOrder: '30', maxPriceOfOrder: '50', locationId: 2 });
+    expect(component.descriptionInfo).toEqual({ limitDescription: 'fake' });
+    expect(component.saveBTNclicked).toBeTruthy();
+  });
+
+  it('should call changeDescription method on saveChanges method if toggle null', () => {
+    component.toggle = null;
+    const spy = spyOn(component, 'changeDescription');
+    component.saveChanges();
+    expect(spy).toHaveBeenCalled();
+  });
+
+  it('should call changeDescription method on saveChanges method if toggle true', () => {
+    component.toggle = true;
+    const spy = spyOn(component, 'changeDescription');
+    component.saveChanges();
+    expect(spy).toHaveBeenCalled();
   });
 
   it('navigate to tariffs page', () => {
