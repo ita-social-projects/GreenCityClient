@@ -125,9 +125,23 @@
             ><br />
             <fieldset [disabled]="!toggle">
               <legend></legend>
-              <input class="input" type="number" id="from" formControlName="minPriceOfOrder" />
+              <input
+                class="input"
+                type="number"
+                min="0"
+                (keypress)="checkOnNumber($event, minPriceOfOrder)"
+                id="from"
+                formControlName="minPriceOfOrder"
+              />
               <span class="line"></span>
-              <input class="input" type="number" id="to" formControlName="maxPriceOfOrder" />
+              <input
+                class="input"
+                type="number"
+                min="0"
+                (keypress)="checkOnNumber($event, maxPriceOfOrder)"
+                id="to"
+                formControlName="maxPriceOfOrder"
+              />
               <label id="label-limit" for="to"></label>
             </fieldset>
           </div>
@@ -142,9 +156,23 @@
             ><br />
             <fieldset [disabled]="toggle">
               <legend></legend>
-              <input class="input" type="number" id="from-packages" formControlName="minAmountOfBigBags" />
+              <input
+                class="input"
+                type="number"
+                min="0"
+                (keypress)="checkOnNumber($event, minBigBags)"
+                id="from-packages"
+                formControlName="minAmountOfBigBags"
+              />
               <span class="line"></span>
-              <input class="input" type="number" id="to-packages" formControlName="maxAmountOfBigBags" />
+              <input
+                class="input"
+                type="number"
+                min="0"
+                (keypress)="checkOnNumber($event, maxBigBags)"
+                id="to-packages"
+                formControlName="maxAmountOfBigBags"
+              />
               <label id="label-limit" for="to-packages"></label>
             </fieldset>
           </div>
