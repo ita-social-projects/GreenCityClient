@@ -174,7 +174,7 @@ describe('TariffsService', () => {
       expect(data).toBe(service1);
     });
 
-    httpTest(`/ubs/superAdmin/5/getService`, 'GET', service1);
+    httpTest(`/ubs/superAdmin/1/getService`, 'GET', service1);
   });
 
   it('should edit service', () => {

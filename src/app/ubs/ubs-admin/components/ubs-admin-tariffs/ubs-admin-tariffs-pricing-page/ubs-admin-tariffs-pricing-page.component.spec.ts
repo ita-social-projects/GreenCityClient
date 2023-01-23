@@ -144,7 +144,7 @@ describe('UbsAdminPricingPageComponent', () => {
     'getLocations',
     'editInfo',
     'getCouriers',
-    'getAllServices',
+    'getService',
     'getAllTariffsForService',
     'setLimitDescription',
     'setLimitsBySumOrder',
@@ -153,7 +153,7 @@ describe('UbsAdminPricingPageComponent', () => {
   ]);
   tariffsServiceMock.editInfo.and.returnValue(of([]));
   tariffsServiceMock.getCouriers.and.returnValue(of([fakeCouriers]));
-  tariffsServiceMock.getAllServices.and.returnValue(of([fakeService]));
+  tariffsServiceMock.getService.and.returnValue(of([fakeService]));
   tariffsServiceMock.getAllTariffsForService.and.returnValue(of([fakeBag]));
   tariffsServiceMock.setLimitDescription.and.returnValue(of([fakeDescription]));
   tariffsServiceMock.setLimitsBySumOrder.and.returnValue(of([fakeSumInfo]));
@@ -403,9 +403,9 @@ describe('UbsAdminPricingPageComponent', () => {
   });
 
   it('should get all services', () => {
-    const spy = spyOn(component, 'getService');
     component.getService();
-    expect(spy).toHaveBeenCalled();
+    expect(component.isLoadBar1).toEqual(false);
+    expect(component.services).toEqual([fakeService]);
   });
 
   it('should get couriers', () => {
