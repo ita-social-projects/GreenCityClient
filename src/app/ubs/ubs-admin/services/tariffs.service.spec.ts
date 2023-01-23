@@ -8,7 +8,8 @@ const service1 = {
   nameEng: 'fake',
   price: 2,
   description: 'fake1',
-  descriptionEng: 'fake1'
+  descriptionEng: 'fake1',
+  tariffId: 1
 };
 
 const tariff = {
@@ -169,8 +170,7 @@ describe('TariffsService', () => {
   });
 
   it('should get tariff for a service', () => {
-    const tariffId = 5;
-    service.getService(tariffId).subscribe((data) => {
+    service.getService(1).subscribe((data) => {
       expect(data).toBe(service1);
     });
 

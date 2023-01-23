@@ -402,6 +402,12 @@ describe('UbsAdminPricingPageComponent', () => {
     expect(spy).toHaveBeenCalled();
   });
 
+  it('should get all services', () => {
+    const spy = spyOn(component, 'getService');
+    component.getService();
+    expect(spy).toHaveBeenCalled();
+  });
+
   it('should get couriers', () => {
     const spy = spyOn(component, 'fillFields');
     component.getCouriers();
