@@ -33,7 +33,7 @@ describe('UbsAdminTariffsDeactivatePopUpComponent', () => {
   const fakeCouriers = [
     {
       courierId: 1,
-      courierStatus: 'fake1',
+      courierStatus: 'ACTIVE',
       nameUk: 'фейкКурєр1',
       nameEn: 'fakeCourier1',
       createDate: 'fakedate',
@@ -41,7 +41,7 @@ describe('UbsAdminTariffsDeactivatePopUpComponent', () => {
     },
     {
       courierId: 2,
-      courierStatus: 'fake2',
+      courierStatus: 'ACTIVE',
       nameUk: 'фейкКурєр2',
       nameEn: 'fakeCourier2',
       createDate: 'fakedate',
@@ -52,6 +52,7 @@ describe('UbsAdminTariffsDeactivatePopUpComponent', () => {
   const fakeStation = {
     id: 1,
     name: 'Фейк',
+    stationStatus: 'ACTIVE',
     createdBy: 'ФейкАдмін',
     createDate: '2022-05-28'
   };
@@ -162,6 +163,7 @@ describe('UbsAdminTariffsDeactivatePopUpComponent', () => {
       {
         createDate: 'date',
         createdBy: 'fakeAuthor',
+        stationStatus: 'ACTIVE',
         id: 0,
         name: 'Фейк1'
       }
@@ -171,7 +173,7 @@ describe('UbsAdminTariffsDeactivatePopUpComponent', () => {
       nameUk: 'фейк',
       regionId: 0
     },
-    tariffStatus: 'fake'
+    tariffStatus: 'ACTIVE'
   };
 
   const fakeFilteredTariffCards = [
@@ -193,19 +195,20 @@ describe('UbsAdminTariffsDeactivatePopUpComponent', () => {
         {
           createDate: 'date',
           createdBy: 'fakeAuthor',
+          stationStatus: 'ACTIVE',
           id: 0,
           name: 'Фейк1'
         }
       ],
       courierDto: {
         courierId: 2,
-        courierStatus: 'fake',
+        courierStatus: 'ACTIVE',
         nameUk: 'fake',
         nameEn: 'fake',
         createDate: 'fake',
         createdBy: 'fake'
       },
-      tariffStatus: 'fake',
+      tariffStatus: 'ACTIVE',
       creator: 'fake',
       createdAt: 'fake',
       courierLimit: 'fake',
@@ -232,19 +235,20 @@ describe('UbsAdminTariffsDeactivatePopUpComponent', () => {
         {
           createDate: 'date',
           createdBy: 'fakeAuthor',
+          stationStatus: 'ACTIVE',
           id: 0,
           name: 'Фейк1'
         }
       ],
       courierDto: {
         courierId: 2,
-        courierStatus: 'fake',
+        courierStatus: 'ACTIVE',
         nameUk: 'fake',
         nameEn: 'fake',
         createDate: 'fake',
         createdBy: 'fake'
       },
-      tariffStatus: 'fake',
+      tariffStatus: 'ACTIVE',
       creator: 'fake',
       createdAt: 'fake',
       courierLimit: 'fake',
@@ -271,19 +275,20 @@ describe('UbsAdminTariffsDeactivatePopUpComponent', () => {
         {
           createDate: 'date',
           createdBy: 'fakeAuthor',
+          stationStatus: 'ACTIVE',
           id: 0,
           name: 'Фейк1'
         }
       ],
       courierDto: {
         courierId: 2,
-        courierStatus: 'fake',
+        courierStatus: 'ACTIVE',
         nameUk: 'fake',
         nameEn: 'fake',
         createDate: 'fake',
         createdBy: 'fake'
       },
-      tariffStatus: 'fake',
+      tariffStatus: 'ACTIVE',
       creator: 'fake',
       createdAt: 'fake',
       courierLimit: 'fake',
@@ -310,19 +315,20 @@ describe('UbsAdminTariffsDeactivatePopUpComponent', () => {
         {
           createDate: 'date',
           createdBy: 'fakeAuthor',
+          stationStatus: 'ACTIVE',
           id: 0,
           name: 'Фейк1'
         }
       ],
       courierDto: {
         courierId: 2,
-        courierStatus: 'fake',
+        courierStatus: 'ACTIVE',
         nameUk: 'fake',
         nameEn: 'fake',
         createDate: 'fake',
         createdBy: 'fake'
       },
-      tariffStatus: 'fake',
+      tariffStatus: 'ACTIVE',
       creator: 'fake',
       createdAt: 'fake',
       courierLimit: 'fake',
@@ -352,19 +358,20 @@ describe('UbsAdminTariffsDeactivatePopUpComponent', () => {
         {
           createDate: 'date',
           createdBy: 'fakeAuthor',
+          stationStatus: 'ACTIVE',
           id: 0,
           name: 'Фейк1'
         }
       ],
       courierDto: {
         courierId: 2,
-        courierStatus: 'fake',
+        courierStatus: 'ACTIVE',
         nameUk: 'fake',
         nameEn: 'fake',
         createDate: 'fake',
         createdBy: 'fake'
       },
-      tariffStatus: 'fake',
+      tariffStatus: 'ACTIVE',
       creator: 'fake',
       createdAt: 'fake',
       courierLimit: 'fake',
@@ -391,19 +398,20 @@ describe('UbsAdminTariffsDeactivatePopUpComponent', () => {
         {
           createDate: 'date',
           createdBy: 'fakeAuthor',
+          stationStatus: 'ACTIVE',
           id: 0,
           name: 'Фейк1'
         }
       ],
       courierDto: {
         courierId: 2,
-        courierStatus: 'fake',
+        courierStatus: 'ACTIVE',
         nameUk: 'fake',
         nameEn: 'fake',
         createDate: 'fake',
         createdBy: 'fake'
       },
-      tariffStatus: 'fake',
+      tariffStatus: 'ACTIVE',
       creator: 'fake',
       createdAt: 'fake',
       courierLimit: 'fake',
@@ -430,19 +438,20 @@ describe('UbsAdminTariffsDeactivatePopUpComponent', () => {
         {
           createDate: 'date',
           createdBy: 'fakeAuthor',
+          stationStatus: 'ACTIVE',
           id: 0,
           name: 'Фейк1'
         }
       ],
       courierDto: {
         courierId: 2,
-        courierStatus: 'fake',
+        courierStatus: 'ACTIVE',
         nameUk: 'fake',
         nameEn: 'fake',
         createDate: 'fake',
         createdBy: 'fake'
       },
-      tariffStatus: 'fake',
+      tariffStatus: 'ACTIVE',
       creator: 'fake',
       createdAt: 'fake',
       courierLimit: 'fake',
@@ -469,19 +478,20 @@ describe('UbsAdminTariffsDeactivatePopUpComponent', () => {
         {
           createDate: 'date',
           createdBy: 'fakeAuthor',
+          stationStatus: 'ACTIVE',
           id: 0,
           name: 'Фейк1'
         }
       ],
       courierDto: {
         courierId: 2,
-        courierStatus: 'fake',
+        courierStatus: 'ACTIVE',
         nameUk: 'fake',
         nameEn: 'fake',
         createDate: 'fake',
         createdBy: 'fake'
       },
-      tariffStatus: 'fake',
+      tariffStatus: 'ACTIVE',
       creator: 'fake',
       createdAt: 'fake',
       courierLimit: 'fake',

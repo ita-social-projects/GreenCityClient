@@ -51,6 +51,7 @@ export interface Service {
 export interface Stations {
   id: number;
   name: string;
+  stationStatus: string;
   createdBy: string;
   createDate: string;
 }
