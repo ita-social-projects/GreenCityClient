@@ -6,7 +6,7 @@ import { environment } from '@environment/environment';
 import { FormGroup } from '@angular/forms';
 import { Store } from '@ngrx/store';
 import { EcoNewsModel } from '@eco-news-models/eco-news-model';
-import { FilterModel } from '@eco-news-models/filter.model';
+import { FilterModel } from '@shared/components/tag-filter/tag-filter.model';
 
 @Injectable({
   providedIn: 'root'

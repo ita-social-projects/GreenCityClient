@@ -8,8 +8,9 @@ import { EcoNewsService } from '../../services/eco-news.service';
 import { Subscription, ReplaySubject, throwError, Observable } from 'rxjs';
 import { CreateEcoNewsService } from '@eco-news-service/create-eco-news.service';
 import { CreateEditNewsFormBuilder } from './create-edit-news-form-builder';
-import { FilterModel } from '@eco-news-models/create-news-interface';
-import { EcoNewsModel, NewsTagInterface } from '@eco-news-models/eco-news-model';
+import { FilterModel } from '@shared/components/tag-filter/tag-filter.model';
+import { EcoNewsModel } from '@eco-news-models/eco-news-model';
+import { TagInterface } from '@shared/components/tag-filter/tag-filter.model';
 import { ACTION_TOKEN, TEXT_AREAS_HEIGHT } from './action.constants';
 import { ActionInterface } from '../../models/action.interface';
 import { MatSnackBarComponent } from '@global-errors/mat-snack-bar/mat-snack-bar.component';
@@ -152,7 +153,7 @@ export class CreateEditNewsComponent extends FormBaseComponent implements OnInit
     this.ecoNewsService
       .getAllPresentTags()
       .pipe(take(1))
-      .subscribe((tagsArray: Array<NewsTagInterface>) => {
+      .subscribe((tagsArray: Array<TagInterface>) => {
         this.filters = tagsArray.map((tag) => {
           return {
             name: tag.name,

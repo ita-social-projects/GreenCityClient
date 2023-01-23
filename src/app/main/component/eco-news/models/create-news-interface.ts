@@ -1,15 +1,9 @@
 import { SafeUrl } from '@angular/platform-browser';
-import { NewsTagInterface } from './eco-news-model';
+import { TagInterface } from '../../shared/components/tag-filter/tag-filter.model';
 
 export interface NewsModel {
   text: string;
   title: string;
-}
-
-export interface FilterModel {
-  name: string;
-  nameUa: string;
-  isActive: boolean;
 }
 
 export interface LanguageModel {
@@ -32,7 +26,7 @@ export interface TranslationDTO {
 
 export interface NewsDTO {
   id?: string;
-  tags: Array<NewsTagInterface>;
+  tags: Array<TagInterface>;
   text: string;
   title: string;
   source: string;
