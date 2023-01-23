@@ -504,16 +504,12 @@ export class UbsAdminTariffsPricingPageComponent implements OnInit, OnDestroy {
       return this.inputDisable;
     }
 
-    if (this.toggle) {
-      if (minPriceOfOrder.errors?.cannotBeEmpty || maxPriceOfOrder.errors?.cannotBeEmpty) {
-        return true;
-      }
+    if (this.toggle && (minPriceOfOrder.errors?.cannotBeEmpty || maxPriceOfOrder.errors?.cannotBeEmpty)) {
+      return true;
     }
 
-    if (!this.toggle) {
-      if (minAmountOfBigBags.errors?.cannotBeEmpty || maxAmountOfBigBags.errors?.cannotBeEmpty) {
-        return true;
-      }
+    if (!this.toggle && (minAmountOfBigBags.errors?.cannotBeEmpty || maxAmountOfBigBags.errors?.cannotBeEmpty)) {
+      return true;
     }
 
     if (this.saveBTNClicked) {
