@@ -306,7 +306,6 @@ export class UbsAdminTariffsPricingPageComponent implements OnInit, OnDestroy {
       .pipe(takeUntil(this.destroy))
       .subscribe((res: Service[]) => {
         this.services = res;
-        console.log('res', res);
         this.isLoadBar1 = false;
       });
   }
@@ -388,7 +387,6 @@ export class UbsAdminTariffsPricingPageComponent implements OnInit, OnDestroy {
       action: 'ubs-tariffs-pricing-page-delete-service.delete-service-action',
       isService: true
     };
-
     const dialogRefService = this.dialog.open(ModalTextComponent, dialogConfig);
     dialogRefService
       .afterClosed()

@@ -71,19 +71,26 @@
       <button class="secondary-global-button btn" type="button" (click)="onCancel()">
         {{ 'ubs-tariffs-add-service.btn.cancel' | translate }}
       </button>
-      <button class="primary-global-button btn" type="submit" *ngIf="data.button === 'add'" (click)="addNewService()">
+      <button
+        class="primary-global-button btn"
+        type="submit"
+        *ngIf="data.button === 'add'"
+        (click)="addNewService()"
+        [disabled]="addServiceForm.invalid || loadingAnim"
+      >
         <span *ngIf="loadingAnim" class="spinner-border spinner-border-sm" role="status" aria-hidden="true"> </span>
         {{ 'ubs-tariffs-add-service.btn.add' | translate }}
       </button>
-      <button type="button" *ngIf="data.button === 'update'" class="primary-global-button btn" (click)="editService()">
+      <button
+        type="button"
+        *ngIf="data.button === 'update'"
+        class="primary-global-button btn"
+        (click)="editService()"
+        [disabled]="addServiceForm.invalid || addServiceForm.pristine || loadingAnim"
+      >
         <span *ngIf="loadingAnim" class="spinner-border spinner-border-sm" role="status" aria-hidden="true"> </span>
         {{ 'ubs-tariffs-add-service.btn.save' | translate }}
       </button>
     </div>
   </ng-template>
 </form>
-
-<!--add-->
-<!--[disabled]="addServiceForm.invalid || loadingAnim"-->
-<!--edit-->
-<!--[disabled]="addServiceForm.invalid || addServiceForm.pristine || loadingAnim"-->
