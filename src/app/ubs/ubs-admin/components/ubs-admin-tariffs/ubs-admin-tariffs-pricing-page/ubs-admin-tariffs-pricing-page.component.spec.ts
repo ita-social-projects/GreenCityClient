@@ -401,7 +401,7 @@ describe('UbsAdminPricingPageComponent', () => {
 
   it('should get all services', () => {
     const spy = spyOn<any>(component, 'filterServices');
-    component.getAllServices();
+    component.getService();
     expect(component.isLoadBar1).toEqual(false);
     expect(component.services).toEqual([fakeService]);
     expect(spy).toHaveBeenCalled();
