@@ -6,6 +6,7 @@ export interface Bag {
   price?: number;
   quantity?: number;
   code?: string;
+  limitedIncluded?: boolean;
 }
 
 export interface OrderBag {

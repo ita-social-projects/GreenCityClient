@@ -43,11 +43,12 @@ p {
 #comment {
   resize: none;
   overflow: hidden;
+  height: 168px;
+  font-size: 14px;
+  line-height: 20px;
 
   &::placeholder {
     color: var(-ubs-quintynary-light-grey);
-    font-size: 14px;
-    line-height: 20px;
   }
 }
 
@@ -57,7 +58,6 @@ p {
 
 @media (min-width: 992px) {
   #comment {
-    width: 340px;
-    height: 92px;
+    height: 125px;
   }
 }

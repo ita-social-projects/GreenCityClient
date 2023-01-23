@@ -137,7 +137,7 @@ export class UbsAdminTableComponent implements OnInit, AfterViewChecked, OnDestr
 
     this.ordersViewParameters$.subscribe((items: IOrdersViewParameters) => {
       if (items) {
-        this.displayedColumns = items.titles.split(',')[0] === '' ? [] : items.titles.split(',');
+        this.displayedColumns = items.titles.split(',')[0] === ' ' ? [] : items.titles.split(',');
       }
     });
 

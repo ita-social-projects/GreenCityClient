@@ -5,7 +5,7 @@ import { LocalStorageService } from '@global-service/localstorage/local-storage.
 import { map, startWith, takeUntil } from 'rxjs/operators';
 import { Subject } from 'rxjs';
 import { TariffsService } from '../../../services/tariffs.service';
-import { Locations, LocationDto, SelectedItems, Couriers, Stations, TariffCard } from '../../../models/tariffs.interface';
+import { Locations, LocationDto, SelectedItems, Couriers, Stations, TariffCard, DeactivateCard } from '../../../models/tariffs.interface';
 import { MatAutocompleteSelectedEvent, MatAutocompleteTrigger } from '@angular/material/autocomplete';
 import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { ModalTextComponent } from '../../shared/components/modal-text/modal-text.component';
@@ -56,8 +56,8 @@ export class UbsAdminTariffsDeactivatePopUpComponent implements OnInit, OnDestro
   public selectedCityLength: number;
   public selectedCourier: SelectedItems;
   public tariffCards: TariffCard[] = [];
-  public deactivateCardObj;
   public currentLanguage: string;
+  deactivateCardObj: DeactivateCard;
 
   constructor(
     private fb: FormBuilder,
@@ -680,10 +680,10 @@ export class UbsAdminTariffsDeactivatePopUpComponent implements OnInit, OnDestro
 
   public createDeactivateCardDto() {
     this.deactivateCardObj = {
-      courierId: this.selectedCourier.id,
-      receivingStationsIdList: this.selectedStations.map((it) => it.id),
-      regionId: this.selectedRegions.map((it) => it.id),
-      locationIdList: this.selectedCities.map((it) => it.id)
+      cities: this.selectedCities.map((it) => it.id).join('%'),
+      courier: this.selectedCourier?.id,
+      regions: this.selectedRegions.map((it) => it.id).join('%'),
+      stations: this.selectedStations.map((it) => it.id).join('%')
     };
   }
 
@@ -699,9 +699,10 @@ export class UbsAdminTariffsDeactivatePopUpComponent implements OnInit, OnDestro
         locationNames: this.selectedCities.map((it) => it.name)
       }
     });
+    this.createDeactivateCardDto();
     matDialogRef.afterClosed().subscribe((res) => {
       if (res) {
-        // here will be deativate request
+        this.tariffsService.deactivate(this.deactivateCardObj).pipe(takeUntil(this.unsubscribe)).subscribe();
       }
     });
   }

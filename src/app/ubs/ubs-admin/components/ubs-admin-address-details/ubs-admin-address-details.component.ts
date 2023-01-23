@@ -214,7 +214,6 @@ export class UbsAdminAddressDetailsComponent implements OnDestroy {
   onStreetSelected(selectedStreet: google.maps.places.AutocompletePrediction): void {
     this.setValueOfStreet(selectedStreet, this.addressStreet, this.languages.uk);
     this.setValueOfStreet(selectedStreet, this.addressStreetEng, this.languages.en);
-    console.log(this.addressExportDetailsDto);
   }
 
   setValueOfStreet(selectedStreet: google.maps.places.AutocompletePrediction, abstractControl: AbstractControl, lang: string): void {

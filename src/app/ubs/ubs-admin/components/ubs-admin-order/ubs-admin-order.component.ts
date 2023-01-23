@@ -130,7 +130,7 @@ export class UbsAdminOrderComponent implements OnInit, OnDestroy, AfterContentCh
     const bagsObj = this.orderInfo.bags.map((bag) => {
       bag.planned = this.orderInfo.amountOfBagsOrdered[bag.id] || 0;
       bag.confirmed = this.orderInfo.amountOfBagsConfirmed[bag.id] ?? bag.planned;
-      bag.actual = this.orderInfo.amountOfBagsExported[bag.id] || 0;
+      bag.actual = this.orderInfo.amountOfBagsExported[bag.id] ?? (bag.confirmed || 0);
       return bag;
     });
     this.orderDetails = {
@@ -165,7 +165,12 @@ export class UbsAdminOrderComponent implements OnInit, OnDestroy, AfterContentCh
     const currentEmployees = this.responsiblePersonInfo.currentPositionEmployees;
     this.orderForm = this.fb.group({
       generalOrderInfo: this.fb.group({
-        orderStatus: this.generalInfo.orderStatus,
+        orderStatus: [
+          {
+            value: this.generalInfo.orderStatus,
+            disabled: this.generalInfo.orderStatus === 'CANCELED' || this.generalInfo.orderStatus === 'DONE'
+          }
+        ],
         paymentStatus: this.generalInfo.orderPaymentStatus,
         adminComment: [this.generalInfo.adminComment, Validators.maxLength(255)],
         cancellationComment: '', // TODO add this fields to controller

@@ -51,7 +51,6 @@ export class ProfileComponent implements OnInit, OnDestroy {
   public showUserInfo(): void {
     this.profileService.getUserInfo().subscribe((item) => {
       this.userInfo = item;
-      this.userInfo.showShoppingList = true;
     });
   }
 

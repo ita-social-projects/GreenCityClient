@@ -106,7 +106,16 @@
   </div>
   <div class="limits-form">
     <form [formGroup]="limitsForm">
-      <div class="d-flex">
+      <div class="d-flex justify-content-between">
+        <div class="order-limit-textarea">
+          <h6>{{ 'ubs-tariffs.info_about_order_limits' | translate }}</h6>
+          <textarea
+            (ngModelChange)="unClickSaveBTN($event)"
+            maxlength="170"
+            formControlName="limitDescription"
+            placeholder="{{ 'ubs-tariffs.placeholder_order_limits_info' | translate }}"
+          ></textarea>
+        </div>
         <mat-radio-group formControlName="courierLimitsBy">
           <h6>{{ 'ubs-tariffs.order_limits' | translate }}</h6>
           <div class="sum-input">
@@ -116,10 +125,24 @@
             ><br />
             <fieldset [disabled]="!toggle">
               <legend></legend>
-              <input class="input" type="number" id="from" formControlName="minPriceOfOrder" />
+              <input
+                class="input"
+                type="number"
+                min="0"
+                (keypress)="checkOnNumber($event, minPriceOfOrder)"
+                id="from"
+                formControlName="minPriceOfOrder"
+              />
               <span class="line"></span>
-              <input class="input" type="number" id="to" formControlName="maxPriceOfOrder" />
-              <label for="to"></label>
+              <input
+                class="input"
+                type="number"
+                min="0"
+                (keypress)="checkOnNumber($event, maxPriceOfOrder)"
+                id="to"
+                formControlName="maxPriceOfOrder"
+              />
+              <label id="label-limit" for="to"></label>
             </fieldset>
           </div>
           <div class="bags-input">
@@ -133,10 +156,24 @@
             ><br />
             <fieldset [disabled]="toggle">
               <legend></legend>
-              <input class="input" type="number" id="from-packages" formControlName="minAmountOfBigBags" />
+              <input
+                class="input"
+                type="number"
+                min="0"
+                (keypress)="checkOnNumber($event, minBigBags)"
+                id="from-packages"
+                formControlName="minAmountOfBigBags"
+              />
               <span class="line"></span>
-              <input class="input" type="number" id="to-packages" formControlName="maxAmountOfBigBags" />
-              <label for="to-packages"></label>
+              <input
+                class="input"
+                type="number"
+                min="0"
+                (keypress)="checkOnNumber($event, maxBigBags)"
+                id="to-packages"
+                formControlName="maxAmountOfBigBags"
+              />
+              <label id="label-limit" for="to-packages"></label>
             </fieldset>
           </div>
         </mat-radio-group>
@@ -151,15 +188,6 @@
             </div>
           </div>
         </div>
-      </div>
-      <div class="order-limit-textarea">
-        <h6>{{ 'ubs-tariffs.info_about_order_limits' | translate }}</h6>
-        <textarea
-          (ngModelChange)="unClickSaveBTN($event)"
-          maxlength="170"
-          formControlName="limitDescription"
-          placeholder="{{ 'ubs-tariffs.placeholder_order_limits_info' | translate }}"
-        ></textarea>
       </div>
       <div class="submit-btn">
         <div>

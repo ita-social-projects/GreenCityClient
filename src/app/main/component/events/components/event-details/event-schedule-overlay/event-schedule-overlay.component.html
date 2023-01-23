@@ -1,0 +1,17 @@
+<button class="more-days-info-button" aria-label="Days info" *ngIf="days.length > 1" (click)="onScheduleClick()" #scheduleButton>
+  <img [src]="icons.ellipsis" alt="Days" />
+</button>
+
+<ng-template #scheduleInfoOverlay>
+  <ng-template [ngTemplateOutlet]="scheduleInfo"></ng-template>
+</ng-template>
+
+<app-resizable-bottom-sheet [height]="348" [(open)]="isBottomSheetOpen">
+  <ng-template [ngTemplateOutlet]="scheduleInfo"></ng-template>
+</app-resizable-bottom-sheet>
+
+<ng-template #scheduleInfo>
+  <div class="event-schedule-container">
+    <app-event-schedule [days]="days"></app-event-schedule>
+  </div>
+</ng-template>
