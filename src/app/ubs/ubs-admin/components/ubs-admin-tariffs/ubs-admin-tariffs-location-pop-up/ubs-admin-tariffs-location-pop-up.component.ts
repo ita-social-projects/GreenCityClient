@@ -23,6 +23,7 @@ import { AddLocations, EditLocation, GetLocations } from 'src/app/store/actions/
 import { ModalTextComponent } from '../../shared/components/modal-text/modal-text.component';
 import { MatAutocompleteTrigger } from '@angular/material/autocomplete';
 import { Patterns } from 'src/assets/patterns/patterns';
+import { GoogleScript } from 'src/assets/google-script/google-script';
 
 interface LocationItem {
   location: string;
@@ -99,6 +100,7 @@ export class UbsAdminTariffsLocationPopUpComponent implements OnInit, AfterViewC
     private tariffsService: TariffsService,
     private fb: FormBuilder,
     private localeStorageService: LocalStorageService,
+    private googleScript: GoogleScript,
     private cdr: ChangeDetectorRef,
     public dialog: MatDialog,
     public dialogRef: MatDialogRef<UbsAdminTariffsLocationPopUpComponent>,
@@ -145,6 +147,7 @@ export class UbsAdminTariffsLocationPopUpComponent implements OnInit, AfterViewC
       this.currentLang = lang;
       this.datePipe = new DatePipe(this.currentLang);
       this.newDate = this.datePipe.transform(new Date(), 'MMM dd, yyyy');
+      this.googleScript.load(lang);
       this.placeService = new google.maps.places.PlacesService(document.createElement('div'));
     });
   }
