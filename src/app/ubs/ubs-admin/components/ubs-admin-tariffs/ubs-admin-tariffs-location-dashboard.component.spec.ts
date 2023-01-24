@@ -840,7 +840,29 @@ describe('UbsAdminTariffsLocationDashboardComponent', () => {
     expect(component.isCardExist).toBe(true);
   });
 
+  it('should call set card method', () => {
+    const spy = spyOn(component as any, 'setCard');
+    (component as any).setCard();
+    expect(spy).toHaveBeenCalled();
+  });
+
   it('should reset region and sity value', () => {
+    component.cardsUk = [
+      {
+        courier: 'УБС',
+        station: 'Станція',
+        region: 'Регіон',
+        city: 'Місто',
+        tariff: 'ACTIVE',
+        regionId: 3,
+        cardId: 4
+      }
+    ];
+    (component as any).setCard();
+    expect(component.cards).toEqual(component.cardsUk);
+  });
+
+  it('should set card by language', () => {
     const spy1 = spyOn(component, 'setCountOfCheckedCity');
     const spy2 = spyOn(component, 'getExistingCard');
     component.region.setValue('Fake1');

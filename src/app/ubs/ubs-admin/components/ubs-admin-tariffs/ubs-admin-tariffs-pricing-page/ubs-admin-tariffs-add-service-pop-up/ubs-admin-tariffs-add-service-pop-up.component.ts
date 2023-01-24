@@ -8,8 +8,8 @@ import { Subject } from 'rxjs';
 import { CreateEditTariffsServicesFormBuilder } from '../../../../services/create-edit-tariffs-service-form-builder';
 import { DatePipe } from '@angular/common';
 import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
-import { Patterns } from 'src/assets/patterns/patterns';
 import { ModalTextComponent } from '../../../shared/components/modal-text/modal-text.component';
+import { Patterns } from 'src/assets/patterns/patterns';
 
 @Component({
   selector: 'app-ubs-admin-tariffs-add-service-pop-up',

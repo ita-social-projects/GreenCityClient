@@ -31,7 +31,15 @@
     </div>
     <div class="basic-cost-input form-group">
       <label for="price" class="form-label">{{ 'ubs-tariffs-add-service.basic_cost' | translate }}</label>
-      <input type="number" formControlName="price" maxlength="3" id="price" class="shadow-none form-control" placeholder="0,00" />
+      <input
+        type="number"
+        formControlName="price"
+        id="price"
+        class="shadow-none form-control"
+        placeholder="0.00"
+        min="0.01"
+        max="999999.99"
+      />
     </div>
     <div class="d-flex">
       <div class="form-group">
