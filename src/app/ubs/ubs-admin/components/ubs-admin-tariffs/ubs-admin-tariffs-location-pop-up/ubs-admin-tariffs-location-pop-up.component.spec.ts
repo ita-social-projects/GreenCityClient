@@ -139,6 +139,8 @@ describe('UbsAdminTariffsLocationPopUpComponent ', () => {
     }
   };
 
+  const placeServiceMock = jasmine.createSpyObj('placeService', ['getDetails']);
+
   const matDialogMock = jasmine.createSpyObj('matDialog', ['open']);
   const fakeMatDialogRef = jasmine.createSpyObj(['close', 'afterClosed']);
   fakeMatDialogRef.afterClosed.and.returnValue(of(true));
@@ -178,7 +180,7 @@ describe('UbsAdminTariffsLocationPopUpComponent ', () => {
     fixture.detectChanges();
     component.input = inputsMock;
     component.locations = mockRegion;
-    component.placeService = new google.maps.places.PlacesService(document.createElement('div'));
+    component.placeService = placeServiceMock;
   });
 
   it('should create', () => {
