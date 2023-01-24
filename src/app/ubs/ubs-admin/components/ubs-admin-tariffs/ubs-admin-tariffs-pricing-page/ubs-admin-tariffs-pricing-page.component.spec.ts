@@ -462,10 +462,11 @@ describe('UbsAdminPricingPageComponent', () => {
   it('should call openAddServicePopup', () => {
     component.currentLocation = 159;
     component.selectedCardId = 1;
+    component.services = [fakeService];
     const addtariffData = {
       button: 'add',
-      locationId: 159,
-      tariffId: 1
+      tariffId: 1,
+      service: [fakeService]
     };
     component.openAddServicePopup();
     expect(matDialogMock.open).toHaveBeenCalledWith(UbsAdminTariffsAddServicePopUpComponent, {
