@@ -9,7 +9,7 @@ export const Patterns = {
 
   profileCityPattern: /^[іІєЄїЇёЁa-zA-Zа-яА-Я][іІєЄїЇёЁa-zA-Zа-яА-Я\-,’)( ]*$/,
 
-  ubsCorpusPattern: /^[A-Za-zА-Яа-яїЇіІєЄёЁ0-9]{1,8}$/,
+  ubsCorpusPattern: /^[A-Za-zА-Яа-яїЇіІєЄёЁ0-9]{0,4}$/,
   ubsHousePattern: /^[A-Za-zА-Яа-яїЇіІєЄёЁ0-9\.\-\/\,\\]+$/,
   ubsEntrNumPattern: /^([1-9]\d*)?$/,
 
@@ -26,8 +26,8 @@ export const Patterns = {
   ubsPrice: '[0-9]{1,3}',
   ubsServicePrice: /^\d*[.,]?\d{0,2}$/,
 
-  ubsCityPattern: /^([a-zа-яїєґі '-]){1,30}/iu,
-  ubsWithDigitPattern: /^([a-zа-яїєґі0-9 '-])+$/iu,
+  ubsCityPattern: /^([a-zа-яїєґі ʼ'`ʹ-]){1,30}/iu,
+  ubsWithDigitPattern: /^([a-zа-яїєґі0-9 ʼ'`ʹ-])+$/iu,
   ubsHouseNumberPattern: /^([a-zа-яїєґі0-9]([-,/]?))+$/iu,
   ubsNameAndSernamePattern: /^[a-zа-яїєґі](?!.*-.*-)(?!.*'.*')[-' a-zа-яїєґі]{0,28}[a-zа-яїєґі]$/iu,
   adminPhone: '^\\+?3?8?(0\\d{9})$'

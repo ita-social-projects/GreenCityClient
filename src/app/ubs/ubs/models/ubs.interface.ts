@@ -163,6 +163,16 @@ export interface Locations {
   languageCode: string;
 }
 
+export interface Location {
+  name: string;
+  key: number;
+}
+
+export interface Region {
+  regionName: string;
+  lang: string;
+}
+
 export interface CourierTranslationDtos {
   languageCode: string;
   limitDescription: string;

@@ -121,12 +121,16 @@ describe('UbsAdminOrderPaymentComponent', () => {
     addressExportDetailsDto: {
       addressId: 32,
       addressCity: 'Київ',
+      addressCityEng: 'Київ',
       addressDistrict: 'Шевченківський',
+      addressDistrictEng: 'Шевченківський',
       addressEntranceNumber: 1,
       addressHouseCorpus: 3,
       addressHouseNumber: 42,
       addressRegion: 'Київська область',
-      addressStreet: 'Січових Стрільців вул'
+      addressRegionEng: 'Київська область',
+      addressStreet: 'Січових Стрільців вул',
+      addressStreetEng: 'Січових Стрільців вул'
     },
     addressComment: '',
     amountOfBagsConfirmed: fakeAmountOfBagsConfirmed,

@@ -14,13 +14,24 @@
   </div>
   <div class="col-md-6 col-sm-6 form-group">
     <label>{{ 'personal-info.pop-up-city' | translate }}</label>
-    <select
+    <input
+      id="cityInput"
       formControlName="{{ currentLanguage === 'ua' ? 'city' : 'cityEn' }}"
       class="shadow-none form-control"
-      (change)="selectCity($event)"
-    >
-      <option *ngFor="let city of cities" [ngValue]="city.cityName">{{ city.cityName }}</option>
-    </select>
+      (keyup)="setPredictCities()"
+      matInput
+      [matAutocomplete]="autoCity"
+    />
+    <mat-autocomplete #autoCity="matAutocomplete">
+      <mat-option
+        class="autocomplete-dropdown"
+        *ngFor="let cityName of cityPredictionList"
+        [value]="cityName.description"
+        (click)="onCitySelected(cityName)"
+      >
+        {{ cityName.description }}
+      </mat-option>
+    </mat-autocomplete>
     <div
       class="validation"
       *ngIf="(currentLanguage === 'ua' ? city : cityEn).invalid && (currentLanguage === 'ua' ? city : cityEn).touched"
@@ -35,22 +46,12 @@
   <div class="col-lg-6 col-md-12 col-sm-12 form-group">
     <label>{{ 'personal-info.pop-up-street' | translate }}</label>
     <input
-      *ngIf="currentLanguage === 'ua'"
-      id="auto"
-      formControlName="street"
+      id="streetInput"
+      formControlName="{{ currentLanguage === 'ua' ? 'street' : 'streetEn' }}"
       type="text"
       class="shadow-none form-control"
       placeholder="{{ 'personal-info.pop-up-enter-you-location' | translate }}"
-      matInput
-      [matAutocomplete]="autoStreet"
-    />
-    <input
-      *ngIf="currentLanguage === 'en'"
-      id="auto"
-      formControlName="streetEn"
-      type="text"
-      class="shadow-none form-control"
-      placeholder="{{ 'personal-info.pop-up-enter-you-location' | translate }}"
+      (keyup)="setPredictStreets()"
       matInput
       [matAutocomplete]="autoStreet"
     />
@@ -120,7 +121,7 @@
       *ngIf="!isDistrict"
       formControlName="{{ currentLanguage === 'ua' ? 'district' : 'districtEn' }}"
       class="shadow-none form-control"
-      (change)="setDistrict($event)"
+      (change)="onDistrictSelected($event)"
     >
       <option *ngFor="let region of regions" [ngValue]="region.name">{{ region.name }}</option>
     </select>
@@ -128,7 +129,7 @@
       *ngIf="isDistrict"
       formControlName="{{ currentLanguage === 'ua' ? 'district' : 'districtEn' }}"
       class="shadow-none form-control"
-      (change)="setDistrict($event)"
+      (change)="onDistrictSelected($event)"
     >
       <option *ngFor="let region of regionsKyiv" [ngValue]="region.name">{{ region.name }}</option>
     </select>

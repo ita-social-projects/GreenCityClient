@@ -23,7 +23,7 @@ import { LanguageService } from 'src/app/main/i18n/language.service';
 import { UbsAdminTariffsDeactivatePopUpComponent } from './ubs-admin-tariffs-deactivate-pop-up/ubs-admin-tariffs-deactivate-pop-up.component';
 import { TariffDeactivateConfirmationPopUpComponent } from '../shared/components/tariff-deactivate-confirmation-pop-up/tariff-deactivate-confirmation-pop-up.component';
 import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
-
+import { GoogleScript } from 'src/assets/google-script/google-script';
 @Component({
   selector: 'app-ubs-admin-tariffs-location-dashboard',
   templateUrl: './ubs-admin-tariffs-location-dashboard.component.html',
@@ -62,7 +62,7 @@ export class UbsAdminTariffsLocationDashboardComponent implements OnInit, AfterV
   createCardObj: CreateCard;
   isFieldFilled = false;
   isCardExist = false;
-  currentLang: string;
+  currentLang;
 
   private destroy: Subject<boolean> = new Subject<boolean>();
 
@@ -85,7 +85,8 @@ export class UbsAdminTariffsLocationDashboardComponent implements OnInit, AfterV
     private localeStorageService: LocalStorageService,
     private translate: TranslateService,
     private languageService: LanguageService,
-    private changeDetectorRef: ChangeDetectorRef
+    private changeDetectorRef: ChangeDetectorRef,
+    private googleScript: GoogleScript
   ) {}
 
   get region() {
@@ -107,7 +108,6 @@ export class UbsAdminTariffsLocationDashboardComponent implements OnInit, AfterV
   ngOnInit(): void {
     this.localeStorageService.languageBehaviourSubject.pipe(takeUntil(this.destroy)).subscribe((lang: string) => {
       this.currentLang = lang;
-      this.loadScript();
       this.setCard();
     });
     this.initForm();
@@ -136,6 +136,9 @@ export class UbsAdminTariffsLocationDashboardComponent implements OnInit, AfterV
 
   ngAfterViewChecked(): void {
     this.changeDetectorRef.detectChanges();
+    this.localeStorageService.languageBehaviourSubject.pipe(takeUntil(this.destroy)).subscribe((lang: string) => {
+      this.googleScript.load(lang);
+    });
   }
 
   public setStateValue(): void {
@@ -384,14 +387,6 @@ export class UbsAdminTariffsLocationDashboardComponent implements OnInit, AfterV
     }
     this.getExistingCard(this.filterData);
     this.checkisCardExist();
-  }
-
-  loadScript(): void {
-    const google = document.createElement('script');
-    google.type = 'text/javascript';
-    google.id = 'googleMaps';
-    google.setAttribute('src', this.mainUrl + this.currentLang);
-    document.getElementsByTagName('head')[0].appendChild(google);
   }
 
   getLocations(): void {
