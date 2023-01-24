@@ -382,6 +382,8 @@ export class UbsAdminOrderComponent implements OnInit, OnDestroy, AfterContentCh
       const keyUpdateResponsibleEmployeeDto = 'updateResponsibleEmployeeDto';
       changedValues[keyUpdateResponsibleEmployeeDto] = arrEmployees;
       delete changedValues.responsiblePersonsForm;
+    } else {
+      changedValues.responsiblePersonsForm = this.orderForm.get('responsiblePersonsForm').value;
     }
 
     this.addIdForUserAndAdress(changedValues);
@@ -396,6 +398,8 @@ export class UbsAdminOrderComponent implements OnInit, OnDestroy, AfterContentCh
         if (response.ok) {
           this.getOrderInfo(this.orderId, true);
           Object.keys(changedValues?.generalOrderInfo).forEach((key: string) => {
+            console.log('key', changedValues.generalOrderInfo[key]);
+
             if (changedValues.generalOrderInfo[key]) {
               this.postDataItem([this.orderId], key, changedValues.generalOrderInfo[key]);
             }
