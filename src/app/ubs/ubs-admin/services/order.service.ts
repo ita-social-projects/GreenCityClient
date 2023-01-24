@@ -74,6 +74,8 @@ export class OrderService {
   }
 
   public updateOrderInfo(orderId: number, lang: string, data: {}) {
+    console.log('data', data);
+
     return this.http.patch(`${this.backend}/management/update-order-page-admin-info/${orderId}?lang=${lang}`, data, {
       observe: 'response'
     });

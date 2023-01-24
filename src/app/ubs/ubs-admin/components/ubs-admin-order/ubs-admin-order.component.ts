@@ -109,6 +109,7 @@ export class UbsAdminOrderComponent implements OnInit, OnDestroy, AfterContentCh
         this.addressInfo = data.addressExportDetailsDto;
         this.paymentInfo = data.paymentTableInfoDto;
         this.exportInfo = data.exportDetailsDto;
+        console.log('exportInfo', this.exportInfo);
         this.responsiblePersonInfo = data.employeePositionDtoRequest;
         this.totalPaid = data.paymentTableInfoDto.paidAmount;
         this.unPaidAmount = data.paymentTableInfoDto.unPaidAmount;
@@ -355,7 +356,12 @@ export class UbsAdminOrderComponent implements OnInit, OnDestroy, AfterContentCh
 
     if (changedValues.exportDetailsDto) {
       this.formatExporteValue(changedValues.exportDetailsDto);
-    }
+    } else {
+      const exportDetail1s = this.orderForm.get('exportDetailsDto').value;
+
+      changedValues.exportDetailsDto = exportDetail1s;
+      this.formatExporteValue(changedValues.exportDetailsDto);
+    } /** */
 
     if (changedValues.orderDetailsForm) {
       changedValues.orderDetailDto = this.formatBagsValue(changedValues.orderDetailsForm);
@@ -379,6 +385,8 @@ export class UbsAdminOrderComponent implements OnInit, OnDestroy, AfterContentCh
     }
 
     this.addIdForUserAndAdress(changedValues);
+
+    console.log('chbupd', changedValues);
 
     this.orderService
       .updateOrderInfo(this.orderId, this.currentLanguage, changedValues)
@@ -408,6 +416,10 @@ export class UbsAdminOrderComponent implements OnInit, OnDestroy, AfterContentCh
       if (name && formItem.dirty) {
         changedValues[name] = formItem.value;
       }
+
+      /*if (name?.includes('dateExport')) {
+        console.log(name, ' : ', formItem.value, formItem.dirty, formItem.pristine, formItem.touched);
+      }/** */
     } else {
       for (const formControlName in formItem.controls) {
         if (formItem.controls.hasOwnProperty(formControlName)) {
