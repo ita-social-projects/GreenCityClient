@@ -34,7 +34,7 @@ export class UbsAdminTariffsPricingPageComponent implements OnInit, OnDestroy {
   amount;
   currentCourierId: number;
   saveBTNClicked: boolean;
-  inputDisable: boolean;
+  serviceExist;
   info;
   bagInfo;
   sumInfo;
@@ -339,6 +339,7 @@ export class UbsAdminTariffsPricingPageComponent implements OnInit, OnDestroy {
       .subscribe((res: Service[]) => {
         this.services = res;
         this.isLoadBar1 = false;
+        this.serviceExist = this.services.length;
       });
   }
 

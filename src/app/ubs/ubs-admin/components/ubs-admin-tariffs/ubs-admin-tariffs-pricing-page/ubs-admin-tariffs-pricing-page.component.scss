@@ -43,6 +43,11 @@
       margin-top: 5px;
       font-size: 18px;
     }
+
+    &:disabled {
+      background: var(--ubs-quaternary-light-grey);
+      border-color: var(--ubs-quaternary-light-grey);
+    }
   }
 }
 
