@@ -139,6 +139,7 @@ export class UbsAdminTariffsAddServicePopUpComponent implements OnInit, OnDestro
       hasBackdrop: true,
       panelClass: 'address-matDialog-styles-w-100',
       data: {
+        title: 'modal-text.cancel',
         name: 'cancel',
         text: 'modal-text.cancel-message',
         action: 'modal-text.yes'
