@@ -8,6 +8,7 @@ import { LocalStorageService } from '@global-service/localstorage/local-storage.
 import { Store } from '@ngrx/store';
 import { TranslateModule } from '@ngx-translate/core';
 import { BehaviorSubject, of } from 'rxjs';
+import { GoogleScript } from 'src/assets/google-script/google-script';
 import { Locations } from '../../../models/tariffs.interface';
 import { TariffsService } from '../../../services/tariffs.service';
 import { ModalTextComponent } from '../../shared/components/modal-text/modal-text.component';
@@ -155,6 +156,8 @@ describe('UbsAdminTariffsLocationPopUpComponent ', () => {
 
   const inputsMock = { nativeElement: { value: 'fake' } };
 
+  const googleScriptMock = jasmine.createSpyObj('googleService', ['load']);
+
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       imports: [TranslateModule.forRoot(), HttpClientTestingModule, MatDialogModule, ReactiveFormsModule, MatAutocompleteModule],
@@ -166,7 +169,8 @@ describe('UbsAdminTariffsLocationPopUpComponent ', () => {
         { provide: MatDialogRef, useValue: fakeMatDialogRef },
         { provide: LocalStorageService, useValue: localStorageServiceMock },
         { provide: Store, useValue: storeMock },
-        { provide: TariffsService, useValue: tariifsServiceMock }
+        { provide: TariffsService, useValue: tariifsServiceMock },
+        { provide: GoogleScript, useValue: googleScriptMock }
       ],
       schemas: [CUSTOM_ELEMENTS_SCHEMA, NO_ERRORS_SCHEMA]
     }).compileComponents();
@@ -178,7 +182,6 @@ describe('UbsAdminTariffsLocationPopUpComponent ', () => {
     fixture.detectChanges();
     component.input = inputsMock;
     component.locations = mockRegion;
-    component.placeService = { getDetails: () => {} } as any;
   });
 
   it('should create', () => {
@@ -325,6 +328,7 @@ describe('UbsAdminTariffsLocationPopUpComponent ', () => {
   });
 
   it('should set value of region', () => {
+    component.placeService = { getDetails: () => {} } as any;
     const spy = spyOn(component, 'setTranslation');
     const eventMock = {
       name: 'fakeName',
