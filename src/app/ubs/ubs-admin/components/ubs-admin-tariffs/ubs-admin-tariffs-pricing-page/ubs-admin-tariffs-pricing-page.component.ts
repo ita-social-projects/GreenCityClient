@@ -302,8 +302,8 @@ export class UbsAdminTariffsPricingPageComponent implements OnInit, OnDestroy {
       panelClass: 'address-matDialog-styles-pricing-page',
       data: {
         button: 'add',
-        locationId: this.currentLocation,
-        tariffId: this.selectedCardId
+        tariffId: this.selectedCardId,
+        service: this.services
       }
     });
     dialogRefService
