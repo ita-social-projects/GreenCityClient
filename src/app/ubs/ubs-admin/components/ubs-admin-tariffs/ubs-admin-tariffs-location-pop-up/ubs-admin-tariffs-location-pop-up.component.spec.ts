@@ -140,6 +140,7 @@ describe('UbsAdminTariffsLocationPopUpComponent ', () => {
   };
 
   const placeServiceMock = jasmine.createSpyObj('placeService', ['getDetails']);
+  placeServiceMock.getDetails.and.returnValue(of({}));
 
   const matDialogMock = jasmine.createSpyObj('matDialog', ['open']);
   const fakeMatDialogRef = jasmine.createSpyObj(['close', 'afterClosed']);
