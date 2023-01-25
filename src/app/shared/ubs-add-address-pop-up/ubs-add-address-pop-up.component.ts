@@ -165,10 +165,10 @@ export class UBSAddAddressPopUpComponent implements OnInit, OnDestroy, AfterView
   }
 
   ngAfterViewInit(): void {
-    this.initGoogleAutocompleteServices();
     this.localStorageService.languageBehaviourSubject.pipe(takeUntil(this.destroy)).subscribe((lang: string) => {
       this.googleScript.load(lang);
     });
+    this.initGoogleAutocompleteServices();
   }
 
   private initGoogleAutocompleteServices(): void {
