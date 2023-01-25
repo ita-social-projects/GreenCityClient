@@ -687,6 +687,10 @@ export class UbsAdminTariffsLocationDashboardComponent implements OnInit, AfterV
     return this.currentLang === 'ua' ? uaValue : enValue;
   }
 
+  private getLangValue(uaValue, enValue): string {
+    return this.languageService.getValueByLanguage(uaValue, enValue);
+  }
+
   ngOnDestroy(): void {
     this.destroy.next();
     this.destroy.complete();

@@ -28,7 +28,6 @@ import { UbsAdminTariffsLocationPopUpComponent } from './ubs-admin-tariffs-locat
 import { UbsAdminTariffsDeactivatePopUpComponent } from './ubs-admin-tariffs-deactivate-pop-up/ubs-admin-tariffs-deactivate-pop-up.component';
 import { TariffStatusPipe } from '@pipe/tariff-status-pipe/tariff-status.pipe';
 import { LanguageService } from 'src/app/main/i18n/language.service';
-import { TariffDeactivateConfirmationPopUpComponent } from '../shared/components/tariff-deactivate-confirmation-pop-up/tariff-deactivate-confirmation-pop-up.component';
 import { BehaviorSubject } from 'rxjs/internal/BehaviorSubject';
 import { GoogleScript } from 'src/assets/google-script/google-script';
 
@@ -188,7 +187,11 @@ describe('UbsAdminTariffsLocationDashboardComponent', () => {
   localStorageServiceMock.getCurrentLanguage.and.returnValue(of('ua'));
   localStorageServiceMock.languageBehaviourSubject = new BehaviorSubject('ua');
 
-  const languageServiceMock = jasmine.createSpyObj('languageServiceMock', ['getCurrentLanguage', 'getCurrentLangObs']);
+  const languageServiceMock = jasmine.createSpyObj('languageServiceMock', [
+    'getCurrentLanguage',
+    'getCurrentLangObs',
+    'getValueByLanguage'
+  ]);
   languageServiceMock.getCurrentLangObs.and.returnValue(of('ua'));
   languageServiceMock.getCurrentLanguage.and.returnValue('ua');
 
