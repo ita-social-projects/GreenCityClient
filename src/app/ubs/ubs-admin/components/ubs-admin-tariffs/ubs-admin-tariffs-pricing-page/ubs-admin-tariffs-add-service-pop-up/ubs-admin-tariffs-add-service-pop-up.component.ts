@@ -67,7 +67,7 @@ export class UbsAdminTariffsAddServicePopUpComponent implements OnInit, OnDestro
     });
   }
 
-  async addNewService() {
+  addNewService() {
     const tariffId = this.receivedData.tariffId;
 
     const { name, nameEng, price, description, descriptionEng } = this.addServiceForm.value;
@@ -90,13 +90,13 @@ export class UbsAdminTariffsAddServicePopUpComponent implements OnInit, OnDestro
 
   fillFields(receivedData) {
     if (receivedData.serviceData) {
-      const { name, nameEng, price, description, englishDescription } = this.receivedData.serviceData;
+      const { name, nameEng, price, description, descriptionEng } = this.receivedData.serviceData;
       this.addServiceForm.patchValue({
         name,
         nameEng,
         price,
         description,
-        englishDescription
+        descriptionEng
       });
     }
   }
@@ -117,7 +117,7 @@ export class UbsAdminTariffsAddServicePopUpComponent implements OnInit, OnDestro
       .editService(this.service)
       .pipe(takeUntil(this.destroy))
       .subscribe(() => {
-        this.dialogRef.close({});
+        this.dialogRef.close();
       });
     this.loadingAnim = false;
   }

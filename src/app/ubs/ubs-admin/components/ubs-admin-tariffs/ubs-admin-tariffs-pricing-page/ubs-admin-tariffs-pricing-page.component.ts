@@ -292,7 +292,7 @@ export class UbsAdminTariffsPricingPageComponent implements OnInit, OnDestroy {
     dialogRefTariff
       .afterClosed()
       .pipe(takeUntil(this.destroy))
-      .subscribe((result) => result && this.getAllTariffsForService());
+      .subscribe(() => this.getAllTariffsForService());
   }
 
   openAddServicePopup(): void {
@@ -309,7 +309,7 @@ export class UbsAdminTariffsPricingPageComponent implements OnInit, OnDestroy {
     dialogRefService
       .afterClosed()
       .pipe(takeUntil(this.destroy))
-      .subscribe((result) => result && this.getService());
+      .subscribe(() => this.getService());
   }
 
   private subscribeToLangChange(): void {
@@ -374,7 +374,7 @@ export class UbsAdminTariffsPricingPageComponent implements OnInit, OnDestroy {
     dialogRefTariff
       .afterClosed()
       .pipe(takeUntil(this.destroy))
-      .subscribe((result) => result && this.getAllTariffsForService());
+      .subscribe(() => this.getAllTariffsForService());
   }
 
   openUpdateServicePopup(service: Service): void {
@@ -391,7 +391,7 @@ export class UbsAdminTariffsPricingPageComponent implements OnInit, OnDestroy {
     dialogRefService
       .afterClosed()
       .pipe(takeUntil(this.destroy))
-      .subscribe((result) => result && this.getService());
+      .subscribe(() => this.getService());
   }
 
   openDeleteTariffForService(bag: Bag): void {
@@ -411,7 +411,7 @@ export class UbsAdminTariffsPricingPageComponent implements OnInit, OnDestroy {
     dialogRefService
       .afterClosed()
       .pipe(takeUntil(this.destroy))
-      .subscribe((result) => result && this.getAllTariffsForService());
+      .subscribe(() => this.getAllTariffsForService());
   }
 
   openDeleteService(service: Service): void {
@@ -431,7 +431,7 @@ export class UbsAdminTariffsPricingPageComponent implements OnInit, OnDestroy {
     dialogRefService
       .afterClosed()
       .pipe(takeUntil(this.destroy))
-      .subscribe((result) => result && this.getService());
+      .subscribe(() => this.getService());
   }
 
   getLocations(): void {
