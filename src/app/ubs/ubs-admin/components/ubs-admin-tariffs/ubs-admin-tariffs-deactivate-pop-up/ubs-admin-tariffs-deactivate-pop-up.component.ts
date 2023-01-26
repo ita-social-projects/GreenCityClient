@@ -108,7 +108,7 @@ export class UbsAdminTariffsDeactivatePopUpComponent implements OnInit, OnDestro
       .pipe(takeUntil(this.unsubscribe))
       .subscribe((res: Couriers[]) => {
         this.couriers = res;
-        this.couriersName = this.couriers.map((el) => (this.currentLanguage === 'ua' ? el.nameUk : el.nameEn));
+        this.couriersName = this.couriers.map((el) => this.getLangValue(el.nameUk, el.nameEn));
         this.courier.valueChanges
           .pipe(
             startWith(''),
@@ -184,10 +184,10 @@ export class UbsAdminTariffsDeactivatePopUpComponent implements OnInit, OnDestro
   }
 
   public selectCourier(event: MatAutocompleteSelectedEvent): void {
-    const selectedValue = this.couriers.find((ob) => (this.currentLanguage === 'ua' ? ob.nameUk : ob.nameEn) === event.option.value);
+    const selectedValue = this.couriers.find((ob) => this.getLangValue(ob.nameUk, ob.nameEn) === event.option.value);
     this.selectedCourier = {
       id: selectedValue.courierId,
-      name: this.currentLanguage === 'ua' ? selectedValue.nameUk : selectedValue.nameEn
+      name: this.getLangValue(selectedValue.nameUk, selectedValue.nameEn)
     };
     this.onSelectedCourier();
   }
@@ -356,7 +356,7 @@ export class UbsAdminTariffsDeactivatePopUpComponent implements OnInit, OnDestro
     }
     if (this.selectedCourier || this.selectedStations.length) {
       const allCitiesName = filteredTariffCards
-        .map((it) => it.locationInfoDtos.map((el) => (this.currentLanguage === 'ua' ? el.nameUk : el.nameEn)))
+        .map((it) => it.locationInfoDtos.map((el) => this.getLangValue(el.nameUk, el.nameEn)))
         .flat(2);
       this.currentCitiesName = this.filteredCities = this.removeDuplicates(allCitiesName);
     }
@@ -514,25 +514,21 @@ export class UbsAdminTariffsDeactivatePopUpComponent implements OnInit, OnDestro
   }
 
   public filterTariffCardsByRegion(tariffCards: TariffCard[]): TariffCard[] {
-    return tariffCards.filter(
-      (el) => (this.currentLanguage === 'ua' ? el.regionDto.nameUk : el.regionDto.nameEn) === this.selectedRegions[0].name
-    );
+    return tariffCards.filter((el) => this.getLangValue(el.regionDto.nameUk, el.regionDto.nameEn) === this.selectedRegions[0].name);
   }
 
   public filterTariffCardsByCities(tariffCards: TariffCard[]): TariffCard[] {
     let filteredTariffCards = tariffCards;
     this.selectedCities.forEach((city) => {
       filteredTariffCards = filteredTariffCards.filter((el) =>
-        el.locationInfoDtos.find((it) => (this.currentLanguage === 'ua' ? it.nameUk : it.nameEn) === city.name)
+        el.locationInfoDtos.find((it) => this.getLangValue(it.nameUk, it.nameEn) === city.name)
       );
     });
     return filteredTariffCards;
   }
 
   public selectAllCouriersInTariffCards(filteredTariffCards: TariffCard[]): void {
-    const selectAllCouriers = filteredTariffCards.map((val) =>
-      this.currentLanguage === 'ua' ? val.courierDto.nameUk : val.courierDto.nameEn
-    );
+    const selectAllCouriers = filteredTariffCards.map((val) => this.getLangValue(val.courierDto.nameUk, val.courierDto.nameEn));
     this.couriersName = this.filteredCouriers = this.removeDuplicates(selectAllCouriers);
   }
 
@@ -542,13 +538,13 @@ export class UbsAdminTariffsDeactivatePopUpComponent implements OnInit, OnDestro
   }
 
   public selectAllRegionsInTariffCards(filteredTariffCards: TariffCard[]): void {
-    const selectAllRegions = filteredTariffCards.map((it) => (this.currentLanguage === 'ua' ? it.regionDto.nameUk : it.regionDto.nameEn));
+    const selectAllRegions = filteredTariffCards.map((it) => this.getLangValue(it.regionDto.nameUk, it.regionDto.nameEn));
     this.regionsName = this.filteredRegions = this.removeDuplicates(selectAllRegions);
   }
 
   public selectAllCitiesInTariffCards(filteredTariffCards: TariffCard[]): void {
     const selectAllCitiesName = filteredTariffCards
-      .map((it) => it.locationInfoDtos.map((el) => (this.currentLanguage === 'ua' ? el.nameUk : el.nameEn)))
+      .map((it) => it.locationInfoDtos.map((el) => this.getLangValue(el.nameUk, el.nameEn)))
       .flat(2);
     this.currentCitiesName = this.filteredCities = this.removeDuplicates(selectAllCitiesName);
   }
@@ -614,7 +610,7 @@ export class UbsAdminTariffsDeactivatePopUpComponent implements OnInit, OnDestro
   }
 
   public setDefaultLists(): void {
-    this.filteredCouriers = this.couriersName = this.couriers.map((el) => (this.currentLanguage === 'ua' ? el.nameUk : el.nameEn));
+    this.filteredCouriers = this.couriersName = this.couriers.map((el) => this.getLangValue(el.nameUk, el.nameEn));
     this.filteredStations = this.stationsName = this.stations.map((it) => it.name);
     this.filteredRegions = this.regionsName = this.locations
       .map((element) => element.regionTranslationDtos.filter((it) => it.languageCode === this.currentLanguage).map((it) => it.regionName))
@@ -624,7 +620,7 @@ export class UbsAdminTariffsDeactivatePopUpComponent implements OnInit, OnDestro
   public filterByOneField(): void {
     const filteredTariffCards = this.filterTariffCards();
     if (this.selectedCourier) {
-      this.filteredCouriers = this.couriersName = this.couriers.map((el) => (this.currentLanguage === 'ua' ? el.nameUk : el.nameEn));
+      this.filteredCouriers = this.couriersName = this.couriers.map((el) => this.getLangValue(el.nameUk, el.nameEn));
       this.selectAllStationsInTariffCards(filteredTariffCards);
       this.selectAllRegionsInTariffCards(filteredTariffCards);
       this.selectAllCitiesInTariffCards(filteredTariffCards);
@@ -727,5 +723,9 @@ export class UbsAdminTariffsDeactivatePopUpComponent implements OnInit, OnDestro
     } else {
       this.dialogRef.close();
     }
+  }
+
+  public getLangValue(uaValue, enValue): string {
+    return this.currentLanguage === 'ua' ? uaValue : enValue;
   }
 }

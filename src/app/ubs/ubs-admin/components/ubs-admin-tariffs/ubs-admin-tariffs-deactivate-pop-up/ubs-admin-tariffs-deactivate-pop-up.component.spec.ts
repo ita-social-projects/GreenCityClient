@@ -1427,6 +1427,18 @@ describe('UbsAdminTariffsDeactivatePopUpComponent', () => {
     expect(fakeMatDialogRef.close).toHaveBeenCalled();
   });
 
+  it(' should return ua Value by getLangValue', () => {
+    component.currentLanguage = 'ua';
+    const value = (component as any).getLangValue('uaValue', 'enValue');
+    expect(value).toBe('uaValue');
+  });
+
+  it(' should return en Value by getLangValue', () => {
+    component.currentLanguage = 'en';
+    const value = (component as any).getLangValue('uaValue', 'enValue');
+    expect(value).toBe('enValue');
+  });
+
   it('destroy Subject should be closed after ngOnDestroy()', () => {
     const unsubscribe = 'unsubscribe';
     component[unsubscribe] = new Subject<boolean>();
