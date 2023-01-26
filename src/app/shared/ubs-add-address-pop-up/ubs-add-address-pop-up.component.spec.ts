@@ -653,6 +653,18 @@ describe('UBSAddAddressPopUpComponent', () => {
     expect(component.updatedAddresses).toEqual(response.addressList);
   });
 
+  it(' should return ua Value by getLangValue', () => {
+    component.currentLanguage = 'ua';
+    const value = (component as any).getLangValue('uaValue', 'enValue');
+    expect(value).toBe('uaValue');
+  });
+
+  it(' should return en Value by getLangValue', () => {
+    component.currentLanguage = 'en';
+    const value = (component as any).getLangValue('uaValue', 'enValue');
+    expect(value).toBe('enValue');
+  });
+
   it('destroy Subject should be closed after ngOnDestroy()', () => {
     // @ts-ignore
     component.destroy = new Subject<boolean>();
