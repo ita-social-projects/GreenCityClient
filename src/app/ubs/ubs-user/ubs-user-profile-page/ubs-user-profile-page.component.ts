@@ -84,6 +84,7 @@ export class UbsUserProfilePageComponent implements OnInit, AfterViewInit, OnDes
 
   ngAfterViewInit(): void {
     this.localStorageService.languageBehaviourSubject.pipe(takeUntil(this.destroy)).subscribe((lang: string) => {
+      this.currentLanguage = lang;
       this.googleScript.load(lang);
     });
   }
@@ -196,7 +197,7 @@ export class UbsUserProfilePageComponent implements OnInit, AfterViewInit, OnDes
     const region = currentFormGroup.get('region');
     const regionEn = currentFormGroup.get('regionEn');
 
-    (this.currentLanguage === 'ua' ? region : regionEn).valueChanges.subscribe(() => {
+    this.getLangValue(region, regionEn).valueChanges.subscribe(() => {
       currentFormGroup.get('cityEn').setValue('');
       currentFormGroup.get('city').setValue('');
       currentFormGroup.get('districtEn').setValue('');
@@ -263,7 +264,7 @@ export class UbsUserProfilePageComponent implements OnInit, AfterViewInit, OnDes
     this.setValueOfCity(selectedCity, currentFormGroup, 'city');
     this.setValueOfCity(selectedCity, currentFormGroup, 'cityEn');
 
-    (this.currentLanguage === 'ua' ? city : cityEn).valueChanges.subscribe(() => {
+    this.getLangValue(city, cityEn).valueChanges.subscribe(() => {
       currentFormGroup.get('districtEn').setValue('');
       currentFormGroup.get('district').setValue('');
       currentFormGroup.get('street').setValue('');
@@ -566,6 +567,10 @@ export class UbsUserProfilePageComponent implements OnInit, AfterViewInit, OnDes
     this.alternativeEmailDisplay = !this.alternativeEmailDisplay;
 
     this.alternativeEmailDisplay ? this.userForm.addControl('alternateEmail', control) : this.userForm.removeControl('alternateEmail');
+  }
+
+  public getLangValue(uaValue, enValue): any {
+    return this.currentLanguage === 'ua' ? uaValue : enValue;
   }
 
   ngOnDestroy(): void {

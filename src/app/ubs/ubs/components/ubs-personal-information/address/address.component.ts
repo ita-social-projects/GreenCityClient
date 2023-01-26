@@ -22,7 +22,7 @@ export class AddressComponent implements OnInit, OnDestroy {
     });
   }
 
-  public getLangValue(uaValue, enValue): string {
+  public getLangValue(uaValue: string, enValue: string): string {
     return this.currentLang === 'ua' ? uaValue : enValue;
   }
 

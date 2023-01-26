@@ -156,20 +156,17 @@
                 <div class="inline">
                   <div class="form-group input-margin">
                     <label for="region" class="form-label">{{ 'ubs-client-profile.region' | translate }}</label>
-                    <p *ngIf="currentLanguage === 'ua'">{{ address.value?.region }}</p>
-                    <p *ngIf="currentLanguage === 'en'">{{ address.value?.regionEn }}</p>
+                    <p>{{ getLangValue(address.value?.region, address.value?.regionEn) }}</p>
                   </div>
                   <div class="form-group">
                     <label for="city" class="form-label">{{ 'ubs-client-profile.city' | translate }}</label>
-                    <p *ngIf="currentLanguage === 'ua'">{{ address.value?.city }}</p>
-                    <p *ngIf="currentLanguage === 'en'">{{ address.value?.cityEn }}</p>
+                    <p>{{ getLangValue(address.value?.city, address.value?.cityEn) }}</p>
                   </div>
                 </div>
                 <div class="inline">
                   <div class="form-group input-margin">
                     <label for="street" class="form-label">{{ 'ubs-client-profile.street' | translate }}</label>
-                    <p *ngIf="currentLanguage === 'ua'">{{ address.value?.street }}</p>
-                    <p *ngIf="currentLanguage === 'en'">{{ address.value?.streetEn }}</p>
+                    <p>{{ getLangValue(address.value?.street, address.value?.streetEn) }}</p>
                   </div>
                   <div class="form-group input-margin">
                     <label for="houseNumber " class="form-label">{{ 'ubs-client-profile.house' | translate }}</label>
@@ -187,8 +184,7 @@
                 <div class="inline">
                   <div class="form-group mrgbtn">
                     <label for="district" class="form-label">{{ 'ubs-client-profile.district' | translate }}</label>
-                    <p *ngIf="currentLanguage === 'ua'">{{ address.value?.district }}</p>
-                    <p *ngIf="currentLanguage === 'en'">{{ address.value?.districtEn }}</p>
+                    <p>{{ getLangValue(address.value?.district, address.value?.districtEn) }}</p>
                   </div>
                 </div>
               </div>
@@ -203,7 +199,7 @@
                   <div class="form-group input-margin region">
                     <label for="region" class="form-label">{{ 'ubs-client-profile.region' | translate }}</label>
                     <select
-                      formControlName="{{ currentLanguage === 'ua' ? 'region' : 'regionEn' }}"
+                      [formControlName]="getLangValue('region', 'regionEn')"
                       (change)="setRegionValue(i, $event)"
                       class="shadow-none form-control"
                       id="region"
@@ -216,7 +212,7 @@
                     <input
                       (keyup)="setPredictCities(i)"
                       (click)="emptyPredictLists()"
-                      formControlName="{{ currentLanguage === 'ua' ? 'city' : 'cityEn' }}"
+                      [formControlName]="getLangValue('city', 'cityEn')"
                       class="shadow-none form-control"
                       matInput
                       [matAutocomplete]="autoCity"
@@ -241,7 +237,7 @@
                       (click)="emptyPredictLists()"
                       type="text"
                       class="form-control"
-                      formControlName="{{ currentLanguage === 'ua' ? 'street' : 'streetEn' }}"
+                      [formControlName]="getLangValue('street', 'streetEn')"
                       matInput
                       [matAutocomplete]="autoStreet"
                     />
@@ -258,13 +254,12 @@
                     <div
                       class="validation"
                       *ngIf="
-                        address.get(currentLanguage === 'ua' ? 'street' : 'streetEn').invalid &&
-                        address.get(currentLanguage === 'ua' ? 'street' : 'streetEn').touched
+                        address.get(getLangValue('street', 'streetEn')).invalid && address.get(getLangValue('street', 'streetEn')).touched
                       "
                     >
                       <app-ubs-input-error
-                        [formElement]="address.get(currentLanguage === 'ua' ? 'street' : 'streetEn')"
-                        [controlName]="currentLanguage === 'ua' ? 'street' : 'streetEn'"
+                        [formElement]="address.get(getLangValue('street', 'streetEn'))"
+                        [controlName]="getLangValue('street', 'streetEn')"
                       >
                       </app-ubs-input-error>
                     </div>
@@ -297,7 +292,7 @@
                     <label for="district" class="form-label">{{ 'ubs-client-profile.district' | translate }}</label>
                     <select
                       *ngIf="address.value?.isKyiv"
-                      formControlName="{{ currentLanguage === 'ua' ? 'district' : 'districtEn' }}"
+                      [formControlName]="getLangValue('district', 'districtEn')"
                       class="shadow-none form-control"
                       (change)="onDistrictSelected(i, $event)"
                     >
@@ -305,7 +300,7 @@
                     </select>
                     <select
                       *ngIf="!address.value?.isKyiv"
-                      formControlName="{{ currentLanguage === 'ua' ? 'district' : 'districtEn' }}"
+                      [formControlName]="getLangValue('district', 'districtEn')"
                       class="shadow-none form-control district"
                       (change)="onDistrictSelected(i, $event)"
                     >
