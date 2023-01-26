@@ -263,14 +263,14 @@ export class UbsAdminTariffsLocationPopUpComponent implements OnInit, AfterViewC
   }
 
   setValueOfRegion(event: any): void {
-    this.region.setValue(event.name);
-    this.setTranslation(event.place_id, this.englishRegion);
+    this.setTranslation(event.place_id, this.region, this.checkLanguage('uk', 'en'));
+    this.setTranslation(event.place_id, this.englishRegion, this.checkLanguage('en', 'uk'));
   }
 
-  setTranslation(region: string, abstractControl: any): void {
+  setTranslation(placeId: string, abstractControl: any, lang: string): void {
     const request = {
-      placeId: region,
-      language: this.checkLanguage('en', 'uk')
+      placeId: placeId,
+      language: lang
     };
     this.placeService.getDetails(request, (placeDetails) => {
       abstractControl.setValue(placeDetails.name);
