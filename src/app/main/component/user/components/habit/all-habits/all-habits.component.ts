@@ -55,7 +55,7 @@ export class AllHabitsComponent implements OnInit, OnDestroy {
       this.resetState();
       this.resetSubject();
       this.fetchAllHabits(0, this.batchSize);
-      this.getAllTags();
+      this.getAllHabitsTags();
     });
 
     const habitServiceSub = this.allHabits.subscribe((data) => {
@@ -77,7 +77,7 @@ export class AllHabitsComponent implements OnInit, OnDestroy {
     this.masterSubscription.add(habitServiceSub);
   }
 
-  private getAllTags(): void {
+  private getAllHabitsTags(): void {
     this.tags.pipe(take(1)).subscribe((tagsArray: Array<TagInterface>) => (this.tagList = tagsArray));
   }
 
