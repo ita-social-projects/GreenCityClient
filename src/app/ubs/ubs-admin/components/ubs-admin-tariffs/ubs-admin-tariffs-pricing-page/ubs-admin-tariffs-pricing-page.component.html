@@ -187,8 +187,7 @@
           <div *ngIf="bags[0]">
             <div *ngFor="let tariff of ourTariffs; let i = index">
               <div *ngIf="bags[i]">
-                <mat-checkbox *ngIf="currentLanguage === 'ua'" class="example-margin">{{ tariff.name }}</mat-checkbox>
-                <mat-checkbox *ngIf="currentLanguage === 'en'" class="example-margin">{{ tariff.nameEng }}</mat-checkbox>
+                <mat-checkbox class="example-margin">{{ getLangValue(tariff.name, tariff.nameEng) }}</mat-checkbox>
               </div>
             </div>
           </div>
