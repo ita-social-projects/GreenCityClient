@@ -393,8 +393,7 @@ export class UbsAdminTariffsLocationDashboardComponent implements OnInit, AfterV
         this.locations = item;
         const regions = this.locations
           .map((element) => {
-            const lang = this.languageService.getCurrentLanguage();
-            return element.regionTranslationDtos.filter((it) => it.languageCode === lang).map((it) => it.regionName);
+            return element.regionTranslationDtos.filter((it) => it.languageCode === this.currentLang).map((it) => it.regionName);
           })
           .flat(2);
         this.filteredRegions = this.filterOptions(this.region, regions);
@@ -410,12 +409,11 @@ export class UbsAdminTariffsLocationDashboardComponent implements OnInit, AfterV
 
   public mapCities(region: Locations[]): Array<object> {
     const cityArray = [];
-    const lang = this.languageService.getCurrentLanguage();
     region.forEach((element) =>
       element.locationsDto.forEach((el) => {
         const tempItem = {
           name: el.locationTranslationDtoList
-            .filter((it) => it.languageCode === lang)
+            .filter((it) => it.languageCode === this.currentLang)
             .map((it) => it.locationName)
             .join(),
           id: el.locationId,
@@ -437,8 +435,7 @@ export class UbsAdminTariffsLocationDashboardComponent implements OnInit, AfterV
       .pipe(takeUntil(this.destroy))
       .subscribe((res: Couriers[]) => {
         this.couriers = res;
-        const lang = this.languageService.getCurrentLanguage();
-        this.couriersName = this.couriers.map((el) => (lang === 'ua' ? el.nameUk : el.nameEn));
+        this.couriersName = this.couriers.map((el) => this.getLangValue(el.nameUk, el.nameEn));
       });
   }
 
