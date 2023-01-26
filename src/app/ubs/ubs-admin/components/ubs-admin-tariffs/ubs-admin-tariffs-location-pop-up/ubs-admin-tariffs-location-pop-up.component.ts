@@ -148,6 +148,8 @@ export class UbsAdminTariffsLocationPopUpComponent implements OnInit, AfterViewC
       this.datePipe = new DatePipe(this.currentLang);
       this.newDate = this.datePipe.transform(new Date(), 'MMM dd, yyyy');
     });
+    this.googleScript.load(this.currentLang);
+    this.placeService = new google.maps.places.PlacesService(document.createElement('div'));
   }
 
   selectCities(currentRegion): void {
@@ -408,10 +410,6 @@ export class UbsAdminTariffsLocationPopUpComponent implements OnInit, AfterViewC
 
   ngAfterViewChecked(): void {
     this.cdr.detectChanges();
-    this.localeStorageService.languageBehaviourSubject.pipe(takeUntil(this.unsubscribe)).subscribe((lang: string) => {
-      this.googleScript.load(lang);
-      this.placeService = new google.maps.places.PlacesService(document.createElement('div'));
-    });
   }
 
   ngOnDestroy(): void {
