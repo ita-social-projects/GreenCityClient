@@ -58,7 +58,11 @@ describe('UbsAdminNotificationComponent', () => {
     updateNotificationTemplate: () => {}
   };
   const activatedRouteMock = { params: of({ id: 1 }) };
-  const localStorageServiceMock = { languageBehaviourSubject: new BehaviorSubject('en') };
+
+  const localStorageServiceMock = jasmine.createSpyObj('localStorageServiceMock', ['getCurrentLanguage', 'languageBehaviourSubject']);
+  localStorageServiceMock.getCurrentLanguage.and.returnValue(of('en'));
+  localStorageServiceMock.languageBehaviourSubject = new BehaviorSubject('en');
+
   const routerMock = { navigate: () => {} };
   const confirmationDialogServiceMock = { confirm: () => {} };
   const dialogMock = {
@@ -327,5 +331,17 @@ describe('UbsAdminNotificationComponent', () => {
         { name: 'viber', status: 'INACTIVE', body: { en: 'Unpaid order, text for Viber', ua: 'Неоплачене замовлення, текст для Viber' } }
       ]
     });
+  });
+
+  it(' should return ua Value by getLangValue', () => {
+    component.currentLanguage = 'ua';
+    const value = component.getLangValue('uaValue', 'enValue');
+    expect(value).toBe('uaValue');
+  });
+
+  it(' should return en Value by getLangValue', () => {
+    component.currentLanguage = 'en';
+    const value = component.getLangValue('uaValue', 'enValue');
+    expect(value).toBe('enValue');
   });
 });
