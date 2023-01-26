@@ -226,4 +226,16 @@ describe('UbsUserOrdersListComponent', () => {
       expect(component.orders).toEqual(resultOrderData as any);
     });
   });
+
+  it(' should return ua Value by getLangValue', () => {
+    component.currentLanguage = 'ua';
+    const value = component.getLangValue('uaValue', 'enValue');
+    expect(value).toBe('uaValue');
+  });
+
+  it(' should return en Value by getLangValue', () => {
+    component.currentLanguage = 'en';
+    const value = component.getLangValue('uaValue', 'enValue');
+    expect(value).toBe('enValue');
+  });
 });

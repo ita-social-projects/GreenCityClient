@@ -25,7 +25,7 @@ class TranslatePipeMock implements PipeTransform {
   }
 }
 
-fdescribe('EcoNewsDetailComponent', () => {
+describe('EcoNewsDetailComponent', () => {
   let component: EcoNewsDetailComponent;
   let fixture: ComponentFixture<EcoNewsDetailComponent>;
   let httpMock: HttpTestingController;

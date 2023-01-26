@@ -187,4 +187,8 @@ export class UbsUserOrdersListComponent implements OnInit, OnDestroy {
       return a.dateForm < b.dateForm ? 1 : -1;
     });
   }
+
+  public getLangValue(uaValue: string, enValue: string): string {
+    return this.currentLanguage === 'ua' ? uaValue : enValue;
+  }
 }

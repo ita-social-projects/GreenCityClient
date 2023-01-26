@@ -24,10 +24,10 @@
             {{ order.datePaid | date: 'dd.MM.y' }}
           </mat-panel-description>
           <mat-panel-description class="order_list-status table-data">
-            {{ currentLanguage === 'ua' ? order.orderStatus : order.orderStatusEng }}
+            {{ getLangValue(order.orderStatus, order.orderStatusEng) }}
           </mat-panel-description>
           <mat-panel-description class="order_list-paymentStatus table-data">
-            {{ currentLanguage === 'ua' ? order.paymentStatus : order.paymentStatusEng }}
+            {{ getLangValue(order.paymentStatus, order.paymentStatusEng) }}
           </mat-panel-description>
           <mat-panel-description class="order_list-paymentAmount table-data">
             {{ order.orderFullPrice | currency | localizedCurrency }}
