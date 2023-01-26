@@ -91,7 +91,7 @@ export class UbsAdminAddressDetailsComponent implements OnDestroy {
     this.districtsKyiv = this.locations.getRegionsKyiv(this.currentLanguage);
     this.districts = this.locations.getRegions(this.currentLanguage);
 
-    (this.currentLanguage === 'ua' ? this.addressRegion : this.addressRegionEng).valueChanges.subscribe(() => {
+    this.getLangValue(this.addressRegion, this.addressRegionEng).valueChanges.subscribe(() => {
       this.addressCity.setValue('');
       this.addressCityEng.setValue('');
       this.addressStreet.setValue('');
@@ -105,7 +105,7 @@ export class UbsAdminAddressDetailsComponent implements OnDestroy {
       this.cityPredictionList = null;
     });
 
-    (this.currentLanguage === 'ua' ? this.addressCity : this.addressCityEng).valueChanges.subscribe(() => {
+    this.getLangValue(this.addressCity, this.addressCityEng).valueChanges.subscribe(() => {
       this.addressStreet.setValue('');
       this.addressStreetEng.setValue('');
       this.addressHouseNumber.setValue('');
@@ -269,6 +269,10 @@ export class UbsAdminAddressDetailsComponent implements OnDestroy {
     this.addressDistrict.markAsDirty();
     this.addressDistrictEng.setValue(selectedDistricEn.name);
     this.addressDistrictEng.markAsDirty();
+  }
+
+  public getLangValue(uaValue, enValue): any {
+    return this.currentLanguage === 'ua' ? uaValue : enValue;
   }
 
   ngOnDestroy(): void {

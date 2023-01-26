@@ -11,7 +11,7 @@
           <div class="form-group">
             <label for="region">{{ 'address-details.region' | translate }}</label>
             <select
-              formControlName="{{ currentLanguage === 'ua' ? 'addressRegion' : 'addressRegionEng' }}"
+              [formControlName]="getLangValue('addressRegion', 'addressRegionEng')"
               (change)="setRegionValue($event)"
               class="shadow-none form-control"
               id="region"
@@ -24,7 +24,7 @@
             <input
               type="text"
               (keyup)="setPredictCities()"
-              formControlName="{{ currentLanguage === 'ua' ? 'addressCity' : 'addressCityEng' }}"
+              [formControlName]="getLangValue('addressCity', 'addressCityEng')"
               class="form-control"
               id="settlement"
               matInput
@@ -42,14 +42,11 @@
             </mat-autocomplete>
             <div
               class="validation"
-              *ngIf="
-                (currentLanguage === 'ua' ? addressCity : addressCityEng).invalid &&
-                (currentLanguage === 'ua' ? addressCity : addressCityEng).touched
-              "
+              *ngIf="getLangValue(addressCity, addressCityEng).invalid && getLangValue(addressCity, addressCityEng).touched"
             >
               <app-ubs-input-error
-                [formElement]="currentLanguage === 'ua' ? addressCity : addressCityEng"
-                [controlName]="currentLanguage === 'ua' ? 'addressCity' : 'addressCityEng'"
+                [formElement]="getLangValue(addressCity, addressCityEng)"
+                [controlName]="getLangValue('addressCity', 'addressCityEng')"
               ></app-ubs-input-error>
             </div>
           </div>
@@ -63,7 +60,7 @@
               type="text"
               class="form-control"
               id="street"
-              formControlName="{{ currentLanguage === 'ua' ? 'addressStreet' : 'addressStreetEng' }}"
+              [formControlName]="getLangValue('addressStreet', 'addressStreetEng')"
               matInput
               [matAutocomplete]="autoStreet"
             />
@@ -79,14 +76,11 @@
             </mat-autocomplete>
             <div
               class="validation"
-              *ngIf="
-                (currentLanguage === 'ua' ? addressStreet : addressStreetEng).invalid &&
-                (currentLanguage === 'ua' ? addressStreet : addressStreetEng).touched
-              "
+              *ngIf="getLangValue(addressStreet, addressStreetEng).invalid && getLangValue(addressStreet, addressStreetEng).touched"
             >
               <app-ubs-input-error
-                [formElement]="currentLanguage === 'ua' ? addressStreet : addressStreetEng"
-                [controlName]="currentLanguage === 'ua' ? 'addressStreet' : 'addressStreetEng'"
+                [formElement]="getLangValue(addressStreet, addressStreetEng)"
+                [controlName]="getLangValue('addressStreet', 'addressStreetEng')"
               >
               </app-ubs-input-error>
             </div>
@@ -120,7 +114,7 @@
           <select
             *ngIf="isDistrict"
             id="district"
-            formControlName="{{ currentLanguage === 'ua' ? 'addressDistrict' : 'addressDistrictEng' }}"
+            [formControlName]="getLangValue('addressDistrict', 'addressDistrictEng')"
             class="form-control"
             (change)="onDistrictSelected($event)"
           >
@@ -129,7 +123,7 @@
           <select
             *ngIf="!isDistrict"
             id="district"
-            formControlName="{{ currentLanguage === 'ua' ? 'addressDistrict' : 'addressDistrictEng' }}"
+            [formControlName]="getLangValue('addressDistrict', 'addressDistrictEng')"
             class="form-control"
             (change)="onDistrictSelected($event)"
           >
@@ -139,14 +133,11 @@
           </select>
           <div
             class="validation"
-            *ngIf="
-              (currentLanguage === 'ua' ? addressDistrict : addressDistrictEng).invalid &&
-              (currentLanguage === 'ua' ? addressDistrict : addressDistrictEng).touched
-            "
+            *ngIf="getLangValue(addressDistrict, addressDistrictEng).invalid && getLangValue(addressDistrict, addressDistrictEng).touched"
           >
             <app-ubs-input-error
-              [formElement]="currentLanguage === 'ua' ? addressDistrict : addressDistrictEng"
-              [controlName]="currentLanguage === 'ua' ? 'addressDistrict' : 'addressDistrictEng'"
+              [formElement]="getLangValue(addressDistrict, addressDistrictEng)"
+              [controlName]="getLangValue('addressDistrict', 'addressDistrictEng')"
             ></app-ubs-input-error>
           </div>
         </div>
