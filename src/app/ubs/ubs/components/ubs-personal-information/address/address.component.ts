@@ -10,16 +10,20 @@ import { takeUntil } from 'rxjs/operators';
 })
 export class AddressComponent implements OnInit, OnDestroy {
   @Input() address: any;
-  currentLanguage: string;
+  currentLang: string;
   private destroy$: Subject<boolean> = new Subject<boolean>();
 
   constructor(private localStorageService: LocalStorageService) {}
 
   ngOnInit(): void {
-    this.currentLanguage = this.localStorageService.getCurrentLanguage();
+    this.currentLang = this.localStorageService.getCurrentLanguage();
     this.localStorageService.languageSubject.pipe(takeUntil(this.destroy$)).subscribe((lang: string) => {
-      this.currentLanguage = lang;
+      this.currentLang = lang;
     });
+  }
+
+  public getLangValue(uaValue, enValue): string {
+    return this.currentLang === 'ua' ? uaValue : enValue;
   }
 
   ngOnDestroy(): void {

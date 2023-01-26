@@ -27,4 +27,16 @@ describe('AddressComponent', () => {
   it('should create', () => {
     expect(component).toBeTruthy();
   });
+
+  it(' should return ua Value by getLangValue', () => {
+    component.currentLang = 'ua';
+    const value = (component as any).getLangValue('uaValue', 'enValue');
+    expect(value).toBe('uaValue');
+  });
+
+  it(' should return en Value by getLangValue', () => {
+    component.currentLang = 'en';
+    const value = (component as any).getLangValue('uaValue', 'enValue');
+    expect(value).toBe('enValue');
+  });
 });
