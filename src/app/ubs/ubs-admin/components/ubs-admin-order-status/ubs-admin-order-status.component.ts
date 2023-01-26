@@ -173,6 +173,10 @@ export class UbsAdminOrderStatusComponent implements OnChanges, OnInit, OnDestro
     }
   }
 
+  public getLangValue(uaValue: string, enValue: string): string {
+    return this.currentLanguage === 'ua' ? uaValue : enValue;
+  }
+
   ngOnDestroy(): void {
     this.destroy$.next();
     this.destroy$.complete();

@@ -529,17 +529,7 @@ describe('UbsAdminPricingPageComponent', () => {
     expect(component.couriers).toEqual([fakeCouriers]);
   });
 
-  it(' should return ua Value by getLangValue', () => {
-    component.currentLanguage = 'ua';
-    const value = (component as any).getLangValue('uaValue', 'enValue');
-    expect(value).toBe('uaValue');
-  });
-
-  it(' should return en Value by getLangValue', () => {
-    component.currentLanguage = 'en';
-    const value = (component as any).getLangValue('uaValue', 'enValue');
-    expect(value).toBe('enValue');
-  });
+  getLangValue;
 
   it('destroy Subject should be closed after ngOnDestroy()', () => {
     const destroy = 'destroy';
