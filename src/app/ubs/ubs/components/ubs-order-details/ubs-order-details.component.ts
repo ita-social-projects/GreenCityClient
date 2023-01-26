@@ -531,6 +531,10 @@ export class UBSOrderDetailsComponent extends FormBaseComponent implements OnIni
     this.openLocationDialog();
   }
 
+  getLangValue(uaValue: string, enValue: string): string {
+    return this.currentLanguage === 'ua' ? uaValue : enValue;
+  }
+
   ngOnDestroy() {
     this.destroy.next();
     this.destroy.unsubscribe();
