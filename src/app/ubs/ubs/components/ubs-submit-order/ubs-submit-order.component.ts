@@ -289,4 +289,8 @@ export class UBSSubmitOrderComponent extends FormBaseComponent implements OnInit
     this.localStorageService.removeUBSExistingOrderId();
     this.liqPayButton[0].click();
   }
+
+  public getLangValue(uaValue: string, enValue: string): string {
+    return this.currentLanguage === 'ua' ? uaValue : enValue;
+  }
 }
