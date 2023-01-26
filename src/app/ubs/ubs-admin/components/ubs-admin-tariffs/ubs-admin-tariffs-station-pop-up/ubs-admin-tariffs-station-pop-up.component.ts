@@ -74,7 +74,7 @@ export class UbsAdminTariffsStationPopUpComponent implements OnInit, OnDestroy {
 
   setDate(): void {
     const lang = this.languageService.getCurrentLanguage();
-    this.datePipe = lang === 'ua' ? new DatePipe('ua') : new DatePipe('en');
+    this.datePipe = new DatePipe(lang);
     this.newDate = this.datePipe.transform(new Date(), 'MMM dd, yyyy');
   }
 
