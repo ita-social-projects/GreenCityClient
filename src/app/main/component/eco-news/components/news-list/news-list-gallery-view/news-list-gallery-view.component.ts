@@ -27,12 +27,17 @@ export class NewsListGalleryViewComponent implements AfterViewInit, OnInit, OnDe
   constructor(public translate: TranslateService, private localStorageService: LocalStorageService) {}
   ngOnInit() {
     this.currentLang = this.localStorageService.getCurrentLanguage();
-    this.tags = this.currentLang === 'ua' || this.currentLang === 'ru' ? this.ecoNewsModel.tagsUa : this.ecoNewsModel.tagsEn;
+    this.tags = this.getLangValue(this.ecoNewsModel.tagsUa, this.ecoNewsModel.tagsEn);
     this.localStorageService.languageSubject.pipe(takeUntil(this.destroy)).subscribe((lang: string) => {
       this.currentLang = lang;
-      this.tags = this.currentLang === 'ua' || this.currentLang === 'ru' ? this.ecoNewsModel.tagsUa : this.ecoNewsModel.tagsEn;
+      this.tags = this.getLangValue(this.ecoNewsModel.tagsUa, this.ecoNewsModel.tagsEn);
     });
   }
+
+  private getLangValue(uaValue: string[], enValue: string[]): string[] {
+    return this.currentLang === 'ua' ? uaValue : enValue;
+  }
+
   public checkNewsImage(): string {
     this.newsImage =
       this.ecoNewsModel.imagePath && this.ecoNewsModel.imagePath !== ' '
