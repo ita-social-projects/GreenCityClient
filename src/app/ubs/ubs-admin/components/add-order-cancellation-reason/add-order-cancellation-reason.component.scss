@@ -34,6 +34,7 @@
     text-align-last: right;
     margin-bottom: 40px;
     margin-top: 40px;
+    display: flex;
 
     .btn {
       border-radius: 5px;
@@ -69,7 +70,6 @@
     font-size: 18px;
     border: 1px solid var(--ubs-tertiary-grey);
     border-radius: 5px;
-    resize: none;
   }
 
   .date {
@@ -78,5 +78,15 @@
 
   .error-message {
     color: var(--error-red);
+  }
+}
+
+@media screen and (max-height: 770px), (max-width: 425px) {
+  .container {
+    overflow-y: scroll;
+    max-height: 700px;
+    textarea {
+      width: 100%;
+    }
   }
 }
