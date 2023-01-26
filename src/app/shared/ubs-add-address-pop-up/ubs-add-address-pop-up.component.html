@@ -5,10 +5,7 @@
   </div>
   <div class="col-md-6 col-sm-6 form-group">
     <label>{{ 'personal-info.pop-up-region' | translate }}</label>
-    <select *ngIf="currentLanguage === 'ua'" formControlName="region" class="shadow-none form-control">
-      <option *ngFor="let reg of bigRegions" selected>{{ reg.regionName }}</option>
-    </select>
-    <select *ngIf="currentLanguage === 'en'" formControlName="regionEn" class="shadow-none form-control">
+    <select [formControlName]="getLangValue('region', 'regionEn')" class="shadow-none form-control">
       <option *ngFor="let reg of bigRegions" selected>{{ reg.regionName }}</option>
     </select>
   </div>
@@ -16,7 +13,7 @@
     <label>{{ 'personal-info.pop-up-city' | translate }}</label>
     <input
       id="cityInput"
-      formControlName="{{ currentLanguage === 'ua' ? 'city' : 'cityEn' }}"
+      [formControlName]="getLangValue('city', 'cityEn')"
       class="shadow-none form-control"
       (keyup)="setPredictCities()"
       matInput
@@ -32,14 +29,8 @@
         {{ cityName.description }}
       </mat-option>
     </mat-autocomplete>
-    <div
-      class="validation"
-      *ngIf="(currentLanguage === 'ua' ? city : cityEn).invalid && (currentLanguage === 'ua' ? city : cityEn).touched"
-    >
-      <app-ubs-input-error
-        [formElement]="currentLanguage === 'ua' ? city : cityEn"
-        [controlName]="currentLanguage === 'ua' ? 'city' : 'cityEn'"
-      ></app-ubs-input-error>
+    <div class="validation" *ngIf="getLangValue(city, cityEn).invalid && getLangValue(city, cityEn).touched">
+      <app-ubs-input-error [formElement]="getLangValue(city, cityEn)" [controlName]="getLangValue('city', 'cityEn')"></app-ubs-input-error>
     </div>
   </div>
 
@@ -47,7 +38,7 @@
     <label>{{ 'personal-info.pop-up-street' | translate }}</label>
     <input
       id="streetInput"
-      formControlName="{{ currentLanguage === 'ua' ? 'street' : 'streetEn' }}"
+      [formControlName]="getLangValue('street', 'streetEn')"
       type="text"
       class="shadow-none form-control"
       placeholder="{{ 'personal-info.pop-up-enter-you-location' | translate }}"
@@ -65,14 +56,8 @@
         {{ streetName.description }}
       </mat-option>
     </mat-autocomplete>
-    <div
-      class="validation"
-      *ngIf="(currentLanguage === 'ua' ? street : streetEn).invalid && (currentLanguage === 'ua' ? street : streetEn).touched"
-    >
-      <app-ubs-input-error
-        [formElement]="currentLanguage === 'ua' ? street : streetEn"
-        [controlName]="currentLanguage === 'ua' ? 'street' : 'streetEn'"
-      >
+    <div class="validation" *ngIf="getLangValue(street, streetEn).invalid && getLangValue(street, streetEn).touched">
+      <app-ubs-input-error [formElement]="getLangValue(street, streetEn)" [controlName]="getLangValue('street', 'streetEn')">
       </app-ubs-input-error>
     </div>
   </div>
@@ -119,7 +104,7 @@
     <label>{{ 'personal-info.pop-up-district' | translate }}</label>
     <select
       *ngIf="!isDistrict"
-      formControlName="{{ currentLanguage === 'ua' ? 'district' : 'districtEn' }}"
+      [formControlName]="getLangValue('district', 'districtEn')"
       class="shadow-none form-control"
       (change)="onDistrictSelected($event)"
     >
@@ -127,19 +112,16 @@
     </select>
     <select
       *ngIf="isDistrict"
-      formControlName="{{ currentLanguage === 'ua' ? 'district' : 'districtEn' }}"
+      [formControlName]="getLangValue('district', 'districtEn')"
       class="shadow-none form-control"
       (change)="onDistrictSelected($event)"
     >
       <option *ngFor="let region of regionsKyiv" [ngValue]="region.name">{{ region.name }}</option>
     </select>
-    <div
-      class="validation"
-      *ngIf="(currentLanguage === 'ua' ? district : districtEn).invalid && (currentLanguage === 'ua' ? district : districtEn).touched"
-    >
+    <div class="validation" *ngIf="getLangValue(district, districtEn).invalid && getLangValue(district, districtEn).touched">
       <app-ubs-input-error
-        [formElement]="currentLanguage === 'ua' ? district : districtEn"
-        [controlName]="currentLanguage === 'ua' ? 'district' : 'districtEn'"
+        [formElement]="getLangValue(district, districtEn)"
+        [controlName]="getLangValue('district', 'districtEn')"
       ></app-ubs-input-error>
     </div>
   </div>

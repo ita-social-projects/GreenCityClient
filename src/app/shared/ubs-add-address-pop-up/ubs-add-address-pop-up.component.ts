@@ -145,7 +145,7 @@ export class UBSAddAddressPopUpComponent implements OnInit, OnDestroy, AfterView
     });
 
     this.addAddressForm
-      .get(this.currentLanguage === 'ua' ? 'city' : 'cityEn')
+      .get(this.getLangValue('city', 'cityEn'))
       .valueChanges.pipe(takeUntil(this.destroy))
       .subscribe(() => {
         this.addressComment.reset('');
@@ -367,6 +367,10 @@ export class UBSAddAddressPopUpComponent implements OnInit, OnDestroy, AfterView
           return throwError(error);
         }
       );
+  }
+
+  public getLangValue(uaValue, enValue): any {
+    return this.currentLanguage === 'ua' ? uaValue : enValue;
   }
 
   ngOnDestroy(): void {
