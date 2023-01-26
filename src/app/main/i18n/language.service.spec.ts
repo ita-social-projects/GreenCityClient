@@ -54,18 +54,6 @@ describe('LanguageService', () => {
     expect(spy).toBe('ua');
   });
 
-  it('getValueByLanguage should return ua value', () => {
-    getCurrentLanguageMock.and.returnValue('ua');
-    const spy = service.getValueByLanguage('valUa', 'valEn');
-    expect(spy).toBe('valUa');
-  });
-
-  it('getValueByLanguage should return en value', () => {
-    getCurrentLanguageMock.and.returnValue('en');
-    const spy = service.getValueByLanguage('valUa', 'valEn');
-    expect(spy).toBe('valEn');
-  });
-
   it('getLanguageByString should return the language', () => {
     const spy = service[getLanguageByString]('ua');
     expect(spy).toBe('ua');

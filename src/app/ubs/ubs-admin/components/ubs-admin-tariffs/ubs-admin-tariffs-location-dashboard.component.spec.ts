@@ -187,11 +187,7 @@ describe('UbsAdminTariffsLocationDashboardComponent', () => {
   localStorageServiceMock.getCurrentLanguage.and.returnValue(of('ua'));
   localStorageServiceMock.languageBehaviourSubject = new BehaviorSubject('ua');
 
-  const languageServiceMock = jasmine.createSpyObj('languageServiceMock', [
-    'getCurrentLanguage',
-    'getCurrentLangObs',
-    'getValueByLanguage'
-  ]);
+  const languageServiceMock = jasmine.createSpyObj('languageServiceMock', ['getCurrentLanguage', 'getCurrentLangObs']);
   languageServiceMock.getCurrentLangObs.and.returnValue(of('ua'));
   languageServiceMock.getCurrentLanguage.and.returnValue('ua');
 
@@ -585,14 +581,8 @@ describe('UbsAdminTariffsLocationDashboardComponent', () => {
         }
       ]
     };
-    expect(component.transformCityToSelectedCity(city, 'ua')).toEqual({
+    expect(component.transformCityToSelectedCity(city)).toEqual({
       name: 'Фейк1',
-      id: 1,
-      englishName: 'Fake1',
-      ukrainianName: 'Фейк1'
-    });
-    expect(component.transformCityToSelectedCity(city, 'en')).toEqual({
-      name: 'Fake1',
       id: 1,
       englishName: 'Fake1',
       ukrainianName: 'Фейк1'

@@ -245,9 +245,8 @@ export class UbsAdminTariffsLocationDashboardComponent implements OnInit, AfterV
       .filter((it) => it.languageCode === 'en')
       .map((it) => it.locationName)
       .join();
-    const lang = this.languageService.getCurrentLanguage();
     const tempItem = {
-      name: lang === 'ua' ? selectedCityName : selectedCityEnglishName,
+      name: this.getLangValue(selectedCityName, selectedCityEnglishName),
       id: selectedCityId,
       englishName: selectedCityEnglishName,
       ukrainianName: selectedCityName
@@ -261,9 +260,8 @@ export class UbsAdminTariffsLocationDashboardComponent implements OnInit, AfterV
   }
 
   translateSelectedCity() {
-    const lang = this.languageService.getCurrentLanguage();
     this.selectedCities.forEach((city) => {
-      city.name = lang === 'ua' ? city.ukrainianName : city.englishName;
+      city.name = this.getLangValue(city.ukrainianName, city.englishName);
     });
   }
 
@@ -330,9 +328,8 @@ export class UbsAdminTariffsLocationDashboardComponent implements OnInit, AfterV
   toggleSelectAllCity(): void {
     if (!this.isCityChecked()) {
       this.selectedCities.length = 0;
-      const lang = this.languageService.getCurrentLanguage();
       this.cities.forEach((city) => {
-        const tempItem = this.transformCityToSelectedCity(city, lang);
+        const tempItem = this.transformCityToSelectedCity(city);
         this.selectedCities.push(tempItem);
       });
     } else {
@@ -340,11 +337,11 @@ export class UbsAdminTariffsLocationDashboardComponent implements OnInit, AfterV
     }
   }
 
-  transformCityToSelectedCity(city: any, lang: string) {
+  transformCityToSelectedCity(city: any) {
     const selectedCityName = this.getSelectedCityName(city, 'ua');
     const selectedCityEnglishName = this.getSelectedCityName(city, 'en');
     return {
-      name: lang === 'ua' ? selectedCityName : selectedCityEnglishName,
+      name: this.getLangValue(selectedCityName, selectedCityEnglishName),
       id: city.id,
       englishName: selectedCityEnglishName,
       ukrainianName: selectedCityName
@@ -376,9 +373,8 @@ export class UbsAdminTariffsLocationDashboardComponent implements OnInit, AfterV
     if (event.value === 'all') {
       Object.assign(this.filterData, { courier: '' });
     } else {
-      const lang = this.languageService.getCurrentLanguage();
       const selectedValue = this.couriers.find((ob) => {
-        const searchingFilter = lang === 'ua' ? ob.nameUk : ob.nameEn;
+        const searchingFilter = this.getLangValue(ob.nameUk, ob.nameEn);
         return searchingFilter === event.value;
       });
       this.courierEnglishName = selectedValue.nameEn;
@@ -488,7 +484,7 @@ export class UbsAdminTariffsLocationDashboardComponent implements OnInit, AfterV
   }
 
   private setCard(): void {
-    this.cards = this.checkLang(this.cardsUk, this.cardsEn);
+    this.cards = this.getLangValue(this.cardsUk, this.cardsEn);
   }
 
   checkRegionValue(value): void {
@@ -683,12 +679,8 @@ export class UbsAdminTariffsLocationDashboardComponent implements OnInit, AfterV
     });
   }
 
-  private checkLang(uaValue, enValue): any {
+  private getLangValue(uaValue, enValue): any {
     return this.currentLang === 'ua' ? uaValue : enValue;
-  }
-
-  private getLangValue(uaValue, enValue): string {
-    return this.languageService.getValueByLanguage(uaValue, enValue);
   }
 
   ngOnDestroy(): void {
