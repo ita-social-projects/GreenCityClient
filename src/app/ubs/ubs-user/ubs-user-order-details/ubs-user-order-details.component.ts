@@ -31,6 +31,10 @@ export class UbsUserOrderDetailsComponent implements OnDestroy, OnInit {
     return order.paymentStatus === CheckPaymentStatus.PAID;
   }
 
+  public getLangValue(uaValue: string, enValue: string): string {
+    return this.currentLanguage === 'ua' ? uaValue : enValue;
+  }
+
   ngOnDestroy(): void {
     this.destroy$.next(true);
     this.destroy$.complete();

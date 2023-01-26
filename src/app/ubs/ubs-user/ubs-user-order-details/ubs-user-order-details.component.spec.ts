@@ -89,4 +89,16 @@ describe('UbsUserOrderDetailsComponent', () => {
       expect(isOrderPaidRes).toBeFalsy();
     });
   });
+
+  it(' should return ua Value by getLangValue', () => {
+    component.currentLanguage = 'ua';
+    const value = component.getLangValue('uaValue', 'enValue');
+    expect(value).toBe('uaValue');
+  });
+
+  it(' should return en Value by getLangValue', () => {
+    component.currentLanguage = 'en';
+    const value = component.getLangValue('uaValue', 'enValue');
+    expect(value).toBe('enValue');
+  });
 });
