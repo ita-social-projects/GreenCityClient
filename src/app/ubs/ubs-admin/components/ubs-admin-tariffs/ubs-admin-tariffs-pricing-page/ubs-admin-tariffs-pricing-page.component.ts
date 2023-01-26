@@ -412,7 +412,7 @@ export class UbsAdminTariffsPricingPageComponent implements OnInit, OnDestroy {
       title: 'ubs-tariffs-pricing-page-delete-tariffs.delete-tariff-title',
       text: 'ubs-tariffs-pricing-page-delete-tariffs.delete-tariff-text1',
       text2: 'ubs-tariffs-pricing-page-delete-tariffs.delete-tariff-text2',
-      bagName: this.currentLanguage === 'ua' ? bag.name : bag.nameEng,
+      bagName: this.getLangValue(bag.name, bag.nameEng),
       action: 'ubs-tariffs-pricing-page-delete-tariffs.delete-tariff-action',
       isTariffForService: true
     };
@@ -432,7 +432,7 @@ export class UbsAdminTariffsPricingPageComponent implements OnInit, OnDestroy {
       title: 'ubs-tariffs-pricing-page-delete-service.delete-service-title',
       text: 'ubs-tariffs-pricing-page-delete-service.delete-service-text1',
       text2: 'ubs-tariffs-pricing-page-delete-service.delete-service-text2',
-      serviceName: this.currentLanguage === 'ua' ? service.name : service.nameEng,
+      serviceName: this.getLangValue(service.name, service.nameEng),
       action: 'ubs-tariffs-pricing-page-delete-service.delete-service-action',
       isService: true
     };
@@ -540,6 +540,10 @@ export class UbsAdminTariffsPricingPageComponent implements OnInit, OnDestroy {
     if (value) {
       this.saveBTNClicked = false;
     }
+  }
+
+  public getLangValue(uaValue, enValue): string {
+    return this.currentLanguage === 'ua' ? uaValue : enValue;
   }
 
   ngOnDestroy(): void {

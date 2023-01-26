@@ -41,8 +41,7 @@
             <img *ngIf="!isLoadBar1" [src]="icons.delete" class="delete-button-img" alt="edit-icon" (click)="openDeleteService(service)" />
           </div>
         </td>
-        <td *ngIf="currentLanguage === 'ua'">{{ service.name }}</td>
-        <td *ngIf="currentLanguage === 'en'">{{ service.nameEng }}</td>
+        <td>{{ getLangValue(service.name, service.nameEng) }}</td>
         <td>{{ service.capacity | volume }}</td>
         <td>{{ service.description }}</td>
         <td>{{ service.price | currency | localizedCurrency }}</td>
@@ -91,8 +90,7 @@
             />
           </div>
         </td>
-        <td *ngIf="currentLanguage === 'ua'">{{ bag.name }}</td>
-        <td *ngIf="currentLanguage === 'en'">{{ bag.nameEng }}</td>
+        <td>{{ getLangValue(bag.name, bag.nameEng) }}</td>
         <td>{{ bag.capacity | volume }}</td>
         <td>{{ bag.description }}</td>
         <td>{{ bag.price | currency | localizedCurrency }}</td>
