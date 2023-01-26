@@ -542,7 +542,7 @@ export class UbsAdminTariffsPricingPageComponent implements OnInit, OnDestroy {
     }
   }
 
-  public getLangValue(uaValue, enValue): string {
+  public getLangValue(uaValue: string, enValue: string): string {
     return this.currentLanguage === 'ua' ? uaValue : enValue;
   }
 

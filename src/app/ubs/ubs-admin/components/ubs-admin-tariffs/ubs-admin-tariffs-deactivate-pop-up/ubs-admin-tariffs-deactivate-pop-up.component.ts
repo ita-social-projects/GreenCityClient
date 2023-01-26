@@ -725,7 +725,7 @@ export class UbsAdminTariffsDeactivatePopUpComponent implements OnInit, OnDestro
     }
   }
 
-  public getLangValue(uaValue, enValue): string {
+  public getLangValue(uaValue: string, enValue: string): string {
     return this.currentLanguage === 'ua' ? uaValue : enValue;
   }
 }
