@@ -37,15 +37,16 @@
   display: flex;
   flex-wrap: wrap;
   justify-content: center;
-  gap: 30px 80px;
+  gap: 32px;
   margin-bottom: 30px;
 
   .mat-card {
-    padding: 0;
+    padding: 0px;
   }
 
   .event-list-item {
     overflow: hidden;
+    max-width: 359px;
     background-color: var(--primary-light-grey);
   }
 }

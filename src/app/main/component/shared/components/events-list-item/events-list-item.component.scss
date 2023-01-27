@@ -6,7 +6,7 @@
 }
 
 .image-container {
-  width: 100%;
+  width: 359px;
   height: 204px;
   overflow: hidden;
   position: relative;
@@ -54,6 +54,9 @@
     right: 10px;
     border-radius: 5px;
     display: flex;
+    flex-direction: row;
+    gap: 10px;
+    padding: 8px;
     justify-content: center;
     align-items: center;
 
@@ -79,7 +82,7 @@
 }
 
 .main-container {
-  padding: 16px 24px 24px 24px;
+  padding: 12px 24px 16px 12px;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
