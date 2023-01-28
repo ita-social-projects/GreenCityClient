@@ -172,7 +172,7 @@ describe('UbsAdminPricingPageComponent', () => {
   ]);
   tariffsServiceMock.editInfo.and.returnValue(of([]));
   tariffsServiceMock.getCouriers.and.returnValue(of([fakeCouriers]));
-  tariffsServiceMock.getService.and.returnValue(of([fakeService]));
+  tariffsServiceMock.getService.and.returnValue(of(fakeService));
   tariffsServiceMock.getAllTariffsForService.and.returnValue(of([fakeBag]));
   tariffsServiceMock.setLimitDescription.and.returnValue(of([fakeDescription]));
   tariffsServiceMock.setLimitsBySumOrder.and.returnValue(of([fakeSumInfo]));
