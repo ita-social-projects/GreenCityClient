@@ -16,6 +16,16 @@
   </div>
 
   <div class="main-container">
+    <div>
+      <ul class="ul-eco-buttons" aria-label="filter by items">
+        <li *ngFor="let tag of itemTags">
+          <a role="button" class="tag" *ngIf="tag.isActive" tabindex="0">
+            <span class="text" [ngClass]="{ 'tag-active': tag.isActive }">{{ currentLang === 'ua' ? tag.nameUa : tag.nameEn }}</span>
+            <span class="divider">|</span>
+          </a>
+        </li>
+      </ul>
+    </div>
     <div *ngIf="event.dates[0]" class="date-container">
       <span class="clock"></span>
       <div class="date">
@@ -32,16 +42,6 @@
         {{ event.dates[0].coordinates.addressEn }}
       </div>
       <ng-template #elseBlock>{{ event.dates[0].onlineLink }}</ng-template>
-    </div>
-
-    <div>
-      <ul class="ul-eco-buttons" aria-label="filter by items">
-        <li *ngFor="let tag of itemTags">
-          <a role="button" class="tag" [ngClass]="{ 'global-tag-clicked': tag.isActive }" tabindex="0">
-            <span class="text" [ngClass]="{ 'tag-active': tag.isActive }">{{ currentLang === 'ua' ? tag.nameUa : tag.nameEn }}</span>
-          </a>
-        </li>
-      </ul>
     </div>
 
     <div class="description" [innerHTML]="event.description"></div>
