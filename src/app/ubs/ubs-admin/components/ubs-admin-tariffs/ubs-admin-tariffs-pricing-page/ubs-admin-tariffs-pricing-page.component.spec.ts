@@ -462,11 +462,11 @@ describe('UbsAdminPricingPageComponent', () => {
   it('should call openAddServicePopup', () => {
     component.currentLocation = 159;
     component.selectedCardId = 1;
-    component.services = [fakeService];
+    component.service = fakeService;
     const addtariffData = {
       button: 'add',
       tariffId: 1,
-      service: [fakeService]
+      service: fakeService
     };
     component.openAddServicePopup();
     expect(matDialogMock.open).toHaveBeenCalledWith(UbsAdminTariffsAddServicePopUpComponent, {
@@ -519,7 +519,7 @@ describe('UbsAdminPricingPageComponent', () => {
   it('should get all services', () => {
     component.getService();
     expect(component.isLoadBar1).toEqual(false);
-    expect(component.services).toEqual([fakeService]);
+    expect(component.service).toEqual(fakeService);
   });
 
   it('should get couriers', () => {
