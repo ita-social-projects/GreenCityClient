@@ -18,7 +18,6 @@ import { ModalTextComponent } from '../../../shared/components/modal-text/modal-
 })
 export class UbsAdminTariffsAddTariffServicePopUpComponent implements OnInit {
   addTariffServiceForm: FormGroup;
-  slide = false;
   receivedData;
   tariffs;
   tariffService: Bag;
@@ -57,6 +56,18 @@ export class UbsAdminTariffsAddTariffServicePopUpComponent implements OnInit {
   addForm(): void {
     this.addTariffServiceForm = this.formBuilder.createTariffService();
   }
+
+  // createTariffService() {
+  //   return this.fb.group({
+  //     name: new FormControl('', [Validators.required, Validators.pattern(Patterns.NamePattern)]),
+  //     nameEng: new FormControl('', [Validators.required, Validators.pattern(Patterns.NamePattern)]),
+  //     capacity: new FormControl('', [Validators.required, Validators.pattern(Patterns.ubsServicePrice)]),
+  //     commission: new FormControl('', [Validators.required, Validators.pattern(Patterns.ubsServicePrice)]),
+  //     price: new FormControl('', [Validators.required, Validators.pattern(Patterns.ubsPrice)]),
+  //     description: new FormControl('', [Validators.required]),
+  //     descriptionEng: new FormControl('', [Validators.required])
+  //   });
+  // }
 
   editForm(): void {
     this.addTariffServiceForm = this.fb.group({

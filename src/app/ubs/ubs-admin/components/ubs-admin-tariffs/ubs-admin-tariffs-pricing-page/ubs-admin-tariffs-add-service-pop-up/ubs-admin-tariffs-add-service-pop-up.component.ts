@@ -9,7 +9,6 @@ import { DatePipe } from '@angular/common';
 import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
 import { ModalTextComponent } from '../../../shared/components/modal-text/modal-text.component';
 import { Patterns } from 'src/assets/patterns/patterns';
-import { CreateEditServicesFormBuilder } from '../../../../services/create-edit-service-form-builder';
 
 @Component({
   selector: 'app-ubs-admin-tariffs-add-service-pop-up',
@@ -35,7 +34,6 @@ export class UbsAdminTariffsAddServicePopUpComponent implements OnInit, OnDestro
     public dialog: MatDialog,
     public dialogRef: MatDialogRef<UbsAdminTariffsAddServicePopUpComponent>,
     private fb: FormBuilder,
-    private formBuilder: CreateEditServicesFormBuilder,
     private localeStorageService: LocalStorageService
   ) {
     this.receivedData = data;
@@ -54,7 +52,17 @@ export class UbsAdminTariffsAddServicePopUpComponent implements OnInit, OnDestro
   }
 
   addForm(): void {
-    this.addServiceForm = this.formBuilder.createService();
+    this.addServiceForm = this.createService();
+  }
+
+  createService() {
+    return this.fb.group({
+      name: new FormControl('', [Validators.required, Validators.pattern(Patterns.NamePattern)]),
+      nameEng: new FormControl('', [Validators.required, Validators.pattern(Patterns.NamePattern)]),
+      price: new FormControl('', [Validators.required, Validators.pattern(Patterns.ubsPrice)]),
+      description: new FormControl('', [Validators.required]),
+      descriptionEng: new FormControl('', [Validators.required])
+    });
   }
 
   editForm(): void {

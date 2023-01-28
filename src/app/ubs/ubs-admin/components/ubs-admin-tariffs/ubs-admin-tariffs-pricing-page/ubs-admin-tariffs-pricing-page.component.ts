@@ -46,7 +46,7 @@ export class UbsAdminTariffsPricingPageComponent implements OnInit, OnDestroy {
   currentLocation;
   locationId: number;
   bags: Bag[] = [];
-  services: Service[];
+  service: Service;
   thisLocation: Locations[];
   reset = true;
   private destroy: Subject<boolean> = new Subject<boolean>();
@@ -303,7 +303,7 @@ export class UbsAdminTariffsPricingPageComponent implements OnInit, OnDestroy {
       data: {
         button: 'add',
         tariffId: this.selectedCardId,
-        service: this.services
+        service: this.service
       }
     });
     dialogRefService
@@ -336,10 +336,9 @@ export class UbsAdminTariffsPricingPageComponent implements OnInit, OnDestroy {
     this.tariffsService
       .getService(tariffId)
       .pipe(takeUntil(this.destroy))
-      .subscribe((res: Service[]) => {
-        this.services = res;
+      .subscribe((res: Service) => {
+        this.service = res;
         this.isLoadBar1 = false;
-        this.serviceExist = this.services.length;
       });
   }
 
