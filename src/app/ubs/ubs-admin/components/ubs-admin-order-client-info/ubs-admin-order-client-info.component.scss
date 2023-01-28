@@ -94,6 +94,10 @@ input {
   cursor: pointer;
 }
 
+.active {
+  color: var(--ubs-electric-violet);
+}
+
 .name-input {
   max-width: 165px;
   padding: 10px;
