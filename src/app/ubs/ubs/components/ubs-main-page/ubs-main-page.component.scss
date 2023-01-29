@@ -3,39 +3,92 @@
   width: $width;
 }
 
+.marquee-section {
+  width: 100%;
+  background-color: #5b8901;
+  height: 43px;
+}
+
+.marquee-w {
+  position: relative;
+  display: block;
+  height: 100%;
+  top: calc(50% + 4px);
+  left: 50%;
+  transform: translate(-50%, -50%);
+  overflow: hidden;
+}
+
+.marquee {
+  position: absolute;
+  display: inline;
+  margin: auto auto;
+  white-space: nowrap;
+  overflow: hidden;
+  height: 100%;
+}
+
+.marquee span {
+  display: inline-block;
+  text-align: center;
+  color: white;
+  white-space: nowrap;
+  height: 100%;
+  line-height: 20px;
+  font-size: 16px;
+  font-weight: 700;
+  animation: marquee 90s linear infinite;
+  padding-left: 100%;
+}
+
+.marquee2 span {
+  animation-delay: 45s;
+}
+
+@keyframes marquee {
+  0% {
+    transform: translateX(-100%);
+  }
+
+  100% {
+    transform: translateX(0);
+  }
+}
+
 .ubsHomepage {
   vertical-align: top;
   max-width: 1920px;
-  margin: 0 auto;
-  color: var(--ubs-primary-grey);
-  font-family: var(--primary-font);
+  color: #575757;
+  font-family: var(--secondary-font);
   font-style: normal;
   font-weight: normal;
-  padding: 80px 0 0 0;
+  padding: 253px 0 0 0;
+  display: flex;
+  flex-direction: column;
 }
 
-h1 {
-  font-stretch: normal;
-  font-style: normal;
-  font-weight: bold;
-  line-height: 2;
-  text-align: center;
-  margin-bottom: 25px;
+header {
+  margin: 0 50px;
+  height: 706px;
 }
 
-h2 {
-  font-weight: bold;
-  font-size: 24px;
-  line-height: 32px;
-  margin: 25px auto;
+app-ubs-main-page-spinner {
+  position: absolute;
+  margin-top: 50px;
+  right: 100px;
+  width: 500px;
 }
 
 .button {
-  @include height-and-width(44px, 200px);
+  @include height-and-width(72px, 25vw);
 
-  font-size: 18px;
-  background-color: var(--ubs-button-light-green);
-  color: var(--ubs-tertiary-dark-grey);
+  font-size: 28px;
+  background-color: #87bc1e;
+  border: 3.5px solid #87bc1e;
+  border-radius: 22px;
+  color: var(--ubs-primary-white);
+  font-weight: 700;
+  line-height: 34px;
   margin-top: 25px;
 }
 
@@ -44,23 +97,12 @@ h2 {
 }
 
 .button:hover {
-  background-color: var(--ubs-button-dark-green);
-}
-
-p {
-  margin: 0;
+  background-color: #5b8901;
+  border: 3.5px solid #5b8901;
 }
 
 a {
   color: var(--ubs-electric-violet);
-}
-
-.price-header {
-  font-weight: bold;
-  font-size: 30px;
-  line-height: 44px;
-  text-align: center;
-  margin: 10px;
 }
 
 .header {
@@ -69,9 +111,13 @@ a {
 
 .header-left {
   display: inline-block;
-  max-width: 51%;
   position: relative;
   vertical-align: top;
+  width: 63%;
+
+  img {
+    width: 100%;
+  }
 
   #ubs-image-black {
     position: absolute;
@@ -80,9 +126,256 @@ a {
   }
 }
 
-.header-right {
-  display: inline-block;
-  width: 49%;
+.main-content {
+  margin-top: 87px;
+  max-width: 29vw;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+
+  .main-caption {
+    margin-top: 38px;
+    font-style: normal;
+    font-weight: 600;
+    font-size: 20px;
+    line-height: 24px;
+    color: #8c8c8c;
+  }
+}
+
+section {
+  max-height: 1140px;
+  margin-top: 140px;
+
+  h2 {
+    font-weight: 800;
+    font-size: 60px;
+    text-align: center;
+    color: var(--ubs-primary-black);
+  }
+}
+
+.how-to-prepare {
+  display: flex;
+  flex-direction: row;
+  font-weight: 600;
+  font-size: 22px;
+
+  .main-content-left {
+    margin: 80px 50px 0 50px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+
+    .box-item {
+      height: 139px;
+      list-style-type: none;
+      border: 1px solid #b9b9b9;
+      border-radius: 14px;
+      display: flex;
+      flex-direction: row;
+      justify-content: baseline;
+      margin-bottom: 5px;
+
+      .box-number {
+        font-weight: 800;
+        font-size: 75px;
+        color: #87bc1e;
+        margin: auto 0 auto 50px;
+        width: 150px;
+      }
+
+      .box-text {
+        color: #575757;
+        max-width: 350px;
+        max-height: 81px;
+        margin: auto 0;
+        line-height: 1.3;
+
+        .link-to-site {
+          color: #87bc1e;
+          text-decoration: underline;
+        }
+      }
+    }
+  }
+
+  .main-content-right {
+    height: 356px;
+    margin: 80px 50px 0 50px;
+    display: flex;
+    border: 1px solid #b9b9b9;
+
+    h2 {
+      writing-mode: vertical-rl;
+      text-orientation: upright;
+      letter-spacing: -10px;
+      color: #87bc1e;
+      margin: auto 24px;
+    }
+
+    .rules {
+      display: flex;
+      flex-direction: column;
+      justify-content: space-around;
+      height: 308px;
+      text-align: flex-start;
+      margin-top: 25px;
+      width: 410px;
+
+      :first-child,
+      :last-child {
+        width: 290px;
+      }
+
+      .rule {
+        font-size: 22px;
+        line-height: 27px;
+
+        .lifehack {
+          padding-top: 10px;
+          color: #b9b9b9;
+          font-size: 20px;
+          width: 410px;
+        }
+      }
+    }
+  }
+}
+
+.price-section {
+  height: 648px;
+  background-color: #f6f6f6;
+
+  h2 {
+    padding: 140px 0 80px 0;
+  }
+
+  .box-card {
+    display: flex;
+    flex-wrap: wrap;
+    width: 100%;
+    justify-content: space-evenly;
+
+    .header-price {
+      width: inherit;
+      height: 115px;
+      display: flex;
+      flex-direction: column;
+      background: #6e9e0d;
+      border: 1px solid #6e9e0d;
+      color: var(--ubs-primary-white);
+      border-radius: 23px;
+      position: absolute;
+      text-align: center;
+      justify-content: center;
+
+      .price {
+        font-size: 35px;
+        font-weight: 600;
+        margin-bottom: -5px;
+      }
+    }
+
+    .content-price {
+      font-weight: 600;
+      font-size: 20px;
+      line-height: 24px;
+      text-align: center;
+      max-width: 368px;
+      height: 72px;
+      margin-bottom: 140px;
+    }
+  }
+}
+
+section .main-container {
+  margin: 0 50px;
+  height: 900px;
+
+  .box {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    margin-top: 80px;
+    font-weight: 500;
+    font-size: 16px;
+    line-height: 20px;
+
+    .step-order {
+      display: flex;
+      align-items: center;
+    }
+
+    .base-line {
+      display: flex;
+      flex-direction: row;
+      margin: 15px 0;
+
+      hr {
+        @include height-and-width(5px, 200px);
+
+        border: none;
+        background-color: var(--ubs-tertiary-light-grey);
+      }
+
+      .circle {
+        @include height-and-width(36px, 36px);
+        position: relative;
+        margin: 0 10px;
+        background-color: #6e9e0d;
+        color: var(--ubs-primary-white);
+        border-radius: 50%;
+        text-align: center;
+        font-size: 18px;
+        font-weight: 800;
+        padding: 10px 0;
+
+        p {
+          margin: 0;
+        }
+      }
+    }
+
+    .content-box-filler {
+      height: 194px;
+    }
+
+    .content-box {
+      width: calc(100% - 100px);
+      height: 194px;
+      display: flex;
+      justify-content: flex-start;
+      padding: 36px;
+      border: 1px solid #b3b3b3;
+      border-radius: 8px;
+      color: var(--ubs-primary-black);
+
+      h1.step-order-header {
+        width: 100%;
+        font-weight: 800;
+        font-size: 25px;
+        line-height: 21.85px;
+        letter-spacing: -0.025em;
+
+        .odd {
+          margin-bottom: 20px;
+        }
+
+        .even {
+          margin-top: 20px;
+        }
+      }
+
+      p.step-order-content {
+        width: 100%;
+        margin: 0;
+        font-size: 16px;
+        line-height: 19.5px;
+        font-weight: 500;
+      }
+    }
+  }
 }
 
 .ubs-image {
@@ -94,281 +387,160 @@ a {
   float: left;
 }
 
-.ubs-polygon {
-  display: block;
-  margin: 10px auto 65px;
-}
-
-.section-header {
-  margin: 85px auto 20px;
-  text-align: center;
-  font-size: 18px;
-  max-width: 665px;
-  line-height: 28px;
-  font-weight: bold;
-}
-
-ul li {
-  margin: 8px 25px 8px 5px;
-  list-style-type: square;
-  color: var(--ubs-primary-grey);
-  font-style: normal;
-  font-size: 16px;
-  line-height: 24px;
-  list-style-position: outside;
-}
-
-ul {
-  padding-left: 20px;
-}
-
-::marker {
-  font-size: 24px;
-  padding-left: 0;
-}
-
-.bold {
-  font-weight: bold;
-}
-
 #price-frame {
   @include height-and-width(291px, 185px);
 
-  position: relative;
   text-align: center;
   display: flex;
+  flex-direction: column;
   align-items: center;
-  justify-content: center;
-  background-image: url('src/assets/img/ubs/first_rectangle.png');
-  background-size: 184px 282px;
-}
-
-.ubs-rectangle {
-  @include height-and-width(230px, 79px);
-
-  position: absolute;
-  top: 20px;
-  left: 55px;
-}
-
-.header-price {
-  position: absolute;
-  text-align: center;
-  z-index: 2;
-  font-weight: bold;
-  font-size: 18px;
-  line-height: 28px;
-  align-self: start;
-  margin: 30% 0 10px;
-}
-
-.content-price {
-  position: absolute;
-  text-align: center;
-  z-index: 2;
-  font-size: 16px;
-  line-height: 24px;
-  align-self: start;
-  margin: 50% 25px 10px;
-  padding-top: 10px;
-}
-
-.boxCard {
-  display: flex;
-  flex-wrap: wrap;
-  max-width: 1440px;
-  justify-content: center;
-}
-
-.box {
-  display: flex;
-  justify-content: space-between;
-  flex-wrap: wrap;
-}
-
-#step-order {
-  @include height-and-width(203px, 133px);
-
-  position: relative;
-  display: flex;
-  justify-content: space-between;
-  flex: 1 0 25%;
-  margin: 50px;
-}
-
-.circle {
-  @include height-and-width(30px, 30px);
-
-  position: relative;
-  line-height: 30px;
-  background-color: var(--ubs-tertiary-dark-grey);
-  color: var(--ubs-primary-white);
-  margin: 10px;
-  border-radius: 50%;
-  text-align: center;
-  font-size: 20px;
-}
-
-hr {
-  @include height-and-width(2px, 72px);
-
-  border: none;
-  background-color: var(--ubs-tertiary-light-grey);
-  position: absolute;
-  left: 55px;
-  top: 5px;
-}
-
-.header-step {
-  position: absolute;
-  font-weight: bold;
-  font-size: 17px;
-  line-height: 28px;
-  align-self: start;
-  top: 40px;
-  left: 0;
-}
-
-.content-step {
-  position: absolute;
-  left: 0;
-  font-size: 14px;
-  line-height: 28px;
-  align-self: start;
-  top: 60px;
-  margin: 70px 10px 120px 1px;
-  width: 160px;
-}
-
-.show-on-hover {
-  visibility: hidden;
-}
-
-#step-order:hover .show-on-hover {
-  visibility: visible;
+  justify-content: flex-end;
+  background-color: var(--ubs-primary-white);
+  border: 1px solid #6e9e0d;
+  border-radius: 23px;
 }
 
 #how-works {
-  margin: 50px auto;
+  width: 100%;
+  height: 566px;
+  background-color: #f6f6f6;
+  margin: 0;
+
+  .box-how-works {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    padding: 0 50px;
+
+    #how-works-content {
+      display: flex;
+      align-items: flex-end;
+      margin: 15px 10px 15px 0;
+
+      .link-to-shop {
+        font-weight: 800;
+        font-size: 29px;
+        line-height: 35px;
+        color: var(--ubs-primary-black);
+        margin-left: 40px;
+        width: 617px;
+
+        a {
+          color: #87bc1e;
+          text-decoration: underline;
+          line-height: 1.3;
+        }
+      }
+    }
+
+    #main-content {
+      display: flex;
+      flex-direction: row;
+      justify-content: space-between;
+
+      .time-frame {
+        @include height-and-width(160px, 850px);
+
+        max-width: 850px;
+        background-color: var(--ubs-primary-white);
+        border: 1px solid #6e9e0d;
+        border-radius: 14px;
+        font-weight: 600;
+        font-size: 22px;
+        line-height: 27px;
+        display: flex;
+        flex-direction: column;
+        align-items: flex-start;
+        justify-content: space-around;
+        margin-top: 140px;
+        padding-left: 25px;
+
+        .header-how-works {
+          margin: 20px 0 25px 0;
+          font-size: 40px;
+          line-height: 49px;
+        }
+
+        .content-time {
+          font-weight: 600;
+          font-size: 22px;
+          line-height: 27px;
+          color: #575757;
+        }
+      }
+    }
+  }
 }
 
-#header-how-works {
-  font-size: 36px;
-  font-weight: bold;
-  line-height: 44px;
-  margin-bottom: 25px;
-}
-
-.time-how {
-  font-size: 18px;
-  font-weight: bold;
-  margin: 1px 25px 1px auto;
-}
-
-#how-works-content {
-  margin: 15px 10px 15px 0;
+@media screen and (min-width: 1920px) {
+  section {
+    width: 1920px;
+  }
 }
 
 @media screen and (min-width: 770px) {
-  #step-order {
-    height: 250px;
-    margin: 50px auto;
-  }
-
   #price-frame {
     @include height-and-width(228px, 250px);
 
     background-size: 250px 228px;
   }
 
-  .ubs-rectangle {
-    @include height-and-width(189px, 108px);
-
-    top: 15px;
-    left: 75px;
-  }
-
-  .header-price {
-    margin-top: 50px;
-  }
-
-  .content-price {
-    margin: 80px 40px 10px;
+  .header_navigation-menu-left {
+    display: block;
   }
 }
 
 @media screen and (max-width: 770px) {
-  .how-preparing {
-    .header-left {
-      display: block;
-      max-width: 51%;
-    }
+  .how-to-prepare {
+    height: 1500px;
 
-    .header-right {
-      display: block;
-      width: auto;
+    display: flex;
+    flex-direction: column;
+    .main-content-left,
+    main-content-right {
+      width: 90%;
+      margin: 0 auto;
     }
   }
 }
 
 @media screen and (min-width: 1024px) {
   .ubsHomepage {
-    margin: auto 12%;
+    margin: 0 auto;
   }
 
   #price-frame {
-    @include height-and-width(178px, 310px);
-
-    background-size: 310px 187px;
+    @include height-and-width(236px, 436px);
   }
 
-  .ubs-rectangle {
-    @include height-and-width(150px, 163px);
+  @media screen and (max-width: 445px) {
+    .ubsHomepage {
+      .section-header {
+        width: 90%;
+        padding: 10px;
+        text-align: center;
+      }
 
-    top: 15px;
-    left: 75px;
-  }
+      h1 {
+        margin-bottom: 0;
+      }
 
-  .header-price {
-    margin-top: 40px;
-  }
+      header {
+        display: flex;
+        flex-flow: column;
+        justify-content: center;
+        align-items: center;
 
-  .content-price {
-    margin: 70px 25px 10px;
-  }
+        h2 {
+          text-align: center;
+        }
 
-  .content-step {
-    margin-top: 60px;
-  }
-}
+        .main-content-left {
+          width: 85%;
+          text-align: justify;
+        }
 
-@media screen and (max-width: 445px) {
-  .ubsHomepage {
-    .ubs-polygon {
-      margin: 10px auto;
-    }
-
-    .section-header {
-      width: 90%;
-      padding: 10px;
-      text-align: center;
-    }
-
-    h1 {
-      margin-bottom: 0;
-    }
-
-    header {
-      display: flex;
-      flex-flow: column;
-      justify-content: center;
-      align-items: center;
-
-      .header-right {
-        width: 85%;
-        text-align: justify;
-
-        .main-content {
+        .main-content-right {
           display: flex;
           flex-flow: column;
           justify-content: center;
@@ -378,46 +550,6 @@ hr {
             text-align: center;
           }
         }
-      }
-
-      .header-left {
-        max-width: 70%;
-      }
-    }
-
-    .header-step {
-      margin-top: 45px;
-    }
-
-    .content-step {
-      margin-top: 110px;
-    }
-
-    section {
-      .how-preparing {
-        width: 100%;
-        display: flex;
-        flex-direction: column;
-        justify-content: center;
-        align-items: center;
-
-        .header-right {
-          width: 89%;
-
-          h2 {
-            text-align: center;
-          }
-
-          ul {
-            text-align: justify;
-          }
-
-          .main-content {
-            ul {
-              text-align: justify;
-            }
-          }
-        }
 
         .header-left {
           max-width: 70%;
@@ -425,19 +557,17 @@ hr {
       }
 
       .box {
-        flex-direction: column;
-
-        #step-order {
+        .step-order {
           width: 89%;
           margin: 20px 20px 0;
-          flex: none;
+          display: flex;
           justify-content: center;
 
-          .header-step {
+          h1.step-order-header {
             text-align: center;
           }
 
-          .content-step {
+          p.step-order-content {
             width: 100%;
             margin-top: 80px;
             text-align: center;
@@ -454,17 +584,17 @@ hr {
       justify-content: center;
       align-items: center;
 
-      .header-right {
+      .main-content-left {
         width: 85%;
         text-align: justify;
 
-        #main-content {
+        #main-content-right {
           display: flex;
           flex-direction: column;
           align-items: center;
           justify-content: center;
 
-          .time-how {
+          .content-time {
             width: 100%;
             font-size: 17px;
             text-align: center;
@@ -472,11 +602,7 @@ hr {
           }
 
           #header-how-works {
-            text-align: center;
-
-            #how-works-content {
-              text-align: justify;
-            }
+            text-align: flex-start;
           }
         }
       }
@@ -492,21 +618,6 @@ hr {
       background-size: 310px 187px;
     }
 
-    .ubs-rectangle {
-      @include height-and-width(150px, 163px);
-
-      top: 15px;
-      left: 75px;
-    }
-
-    .header-price {
-      margin-top: 40px;
-    }
-
-    .content-price {
-      margin: 70px 25px 10px;
-    }
-
     .button {
       width: 90%;
     }
@@ -514,19 +625,9 @@ hr {
 
   @media screen and (max-width: 445px) and (max-height: 850px) {
     .ubsHomepage {
-      .section-header {
-        margin-top: 25px;
+      .header_navigation-menu-left {
+        display: none;
       }
     }
   }
-}
-
-li a {
-  color: var(--ubs-primary-grey);
-  font-style: normal;
-  text-decoration: underline;
-}
-
-li a:hover {
-  color: var(--ubs-electric-violet);
 }

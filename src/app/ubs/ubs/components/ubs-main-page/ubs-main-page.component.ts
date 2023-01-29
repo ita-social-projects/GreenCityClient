@@ -19,7 +19,7 @@ import { JwtService } from '@global-service/jwt/jwt.service';
 export class UbsMainPageComponent implements OnInit, OnDestroy {
   private subs = new Subscription();
   private destroy: Subject<boolean> = new Subject<boolean>();
-  ubsMainPageImages = ubsMainPageImages;
+  public ubsMainPageImages = ubsMainPageImages;
   locations: CourierLocations;
   selectedLocationId: number;
   isFetching: boolean;
@@ -41,26 +41,25 @@ export class UbsMainPageComponent implements OnInit, OnDestroy {
     }
   ];
 
+  perPackageTitle = 'ubs-homepage.ubs-courier.price.price-title.li_4';
+
+  stepsOrderTitle = 'ubs-homepage.ubs-courier.price.caption-steps';
   stepsOrder = [
     {
       header: 'ubs-homepage.ubs-courier.price.steps-title.li_1',
-      content: 'ubs-homepage.ubs-courier.price.steps-content.li_1',
-      numberStep: 1
+      content: 'ubs-homepage.ubs-courier.price.steps-content.li_1'
     },
     {
       header: 'ubs-homepage.ubs-courier.price.steps-title.li_2',
-      content: 'ubs-homepage.ubs-courier.price.steps-content.li_2',
-      numberStep: 2
+      content: 'ubs-homepage.ubs-courier.price.steps-content.li_2'
     },
     {
       header: 'ubs-homepage.ubs-courier.price.steps-title.li_3',
-      content: 'ubs-homepage.ubs-courier.price.steps-content.li_3',
-      numberStep: 3
+      content: 'ubs-homepage.ubs-courier.price.steps-content.li_3'
     },
     {
       header: 'ubs-homepage.ubs-courier.price.steps-title.li_4',
-      content: 'ubs-homepage.ubs-courier.price.steps-content.li_4',
-      numberStep: 4
+      content: 'ubs-homepage.ubs-courier.price.steps-content.li_4'
     }
   ];
 
@@ -76,7 +75,19 @@ export class UbsMainPageComponent implements OnInit, OnDestroy {
   rules = [
     'ubs-homepage.ubs-courier.rules.content.li_1',
     'ubs-homepage.ubs-courier.rules.content.li_2',
+    'ubs-homepage.ubs-courier.rules.content.li_2.1',
     'ubs-homepage.ubs-courier.rules.content.li_3'
+  ];
+
+  howWorksPickUp = [
+    {
+      header: 'ubs-homepage.ubs-courier.how-works.header.pre_1',
+      content: 'ubs-homepage.ubs-courier.how-works.time.pre_1'
+    },
+    {
+      header: 'ubs-homepage.ubs-courier.how-works.header.pre_2',
+      content: 'ubs-homepage.ubs-courier.how-works.time.pre_2'
+    }
   ];
 
   constructor(
@@ -91,12 +102,38 @@ export class UbsMainPageComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
     this.onCheckToken();
     this.isAdmin = this.checkIsAdmin();
+    this.adjustMarqueText();
   }
 
   ngOnDestroy() {
     this.destroy.next();
     this.destroy.unsubscribe();
     this.subs.unsubscribe();
+  }
+
+  public adjustMarqueText() {
+    const text =
+      "NO WASTE — NO STRESS!<img _ngcontent-fes-c460='' src='assets/img/ubs/auto.svg' style='margin: 0 12px'>" +
+      "NO WASTE — NO STRESS!<img _ngcontent-fes-c460='' src='assets/img/ubs/bag.svg' style='margin: 0 12px'>";
+
+    const block = document.getElementsByClassName('marquee-w')[0];
+    const blockWidth = block.getBoundingClientRect().width;
+
+    const marque = document.getElementsByClassName('marquee')[0];
+    marque.getElementsByTagName('span')[0].innerHTML = text;
+
+    const marqueWidth = marque.getBoundingClientRect().width;
+
+    const repeatCount = Math.ceil(blockWidth / marqueWidth);
+    console.log(repeatCount, blockWidth, marqueWidth);
+
+    marque.getElementsByTagName('span')[0].innerHTML = text.repeat(repeatCount);
+
+    const span = marque.cloneNode(true);
+
+    document.querySelector('.marquee-w').appendChild(span);
+
+    document.getElementsByClassName('marquee')[1].classList.add('marquee2');
   }
 
   public onCheckToken(): void {

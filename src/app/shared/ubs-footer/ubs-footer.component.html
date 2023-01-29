@@ -1,83 +1,41 @@
 <footer role="contentinfo" class="footer">
   <div class="container-fluid">
-    <input type="checkbox" id="show-foot" name="show-the-footer" class="foot-check" />
-    <div class="main-content">
+    <!--<input type="checkbox" id="show-foot" name="show-the-footer" class="foot-check" />-->
+
+    <div class="menu-left">
       <div class="footer-logo">
         <a [routerLink]="['/ubs']" role="button">
-          <img [src]="footerPicture" class="logo" alt="Footer picture" />
+          <img [src]="footerPicture.ubsLogoFooter" class="logo" alt="Footer picture" />
         </a>
       </div>
-      <div class="footer-content" role="banner">
-        <p>
-          <strong>No Waste Recycling Station</strong>
-          <br />
-          {{ 'footer.address' | translate }}
-          <br />
-        </p>
-        <p>
-          <strong>
-            <a href="https://nowaste.com.ua/sort-station-2/grafic-stancii/">
-              {{ 'footer.schedule' | translate }}
-            </a>
-          </strong>
-          <br />
-        </p>
-        <p>
-          <strong>{{ 'footer.ubs-world-community' | translate }}</strong>
-          <br />
-          <a target="_blank" href="https://community.preciousplastic.com/academy/intro.html"> Precious Plastic </a>
-        </p>
-      </div>
-      <div class="footer-subscribe-us">
-        <p>
-          <strong>{{ 'footer.glad-for-letters' | translate }}</strong>
-          <br />
-          hello@nowaste.org.ua
-        </p>
-        <p>
-          <strong>{{ 'footer.subscribe-newsletter' | translate }}</strong>
-        </p>
-        <label for="email">
-          <input type="email" placeholder="{{ 'footer.your-email' | translate }}" class="form-control" required="required" id="email" />
-        </label>
-        <button class="button primary-global-button">{{ 'footer.subscribe-us' | translate }}</button>
-      </div>
-      <ul class="footer-links">
-        <li>
-          <a target="_blank" href="https://nowaste.com.ua/privacy-policy/">
-            {{ 'footer.user-agreement' | translate }}
-          </a>
-        </li>
-        <li>
-          <a target="_blank" href="https://nowaste.com.ua/public-offer-agreement/">
-            {{ 'footer.public-offer' | translate }}
-          </a>
-        </li>
-        <li>
-          <a target="_blank" href="https://nowaste.com.ua/help/">
-            {{ 'footer.help-the-project' | translate }}
-          </a>
-        </li>
-        <li>
-          <a target="_blank" href="https://nowaste.com.ua/grafic-stancii/">
-            {{ 'footer.how-to-get-there' | translate }}
+
+      <ul class="footer-menu">
+        <li *ngFor="let link of ubsNavLinks" tabindex="0" role="listitem">
+          <a [href]="link.route" target="_blank" rel="noopener noreferrer">
+            {{ link.name | translate }}
           </a>
         </li>
       </ul>
     </div>
-    <div class="social-networks">
-      <a target="_blank" href="https://www.facebook.com/NowasteUkraine/" class="fa fa-facebook"></a>
-      <a target="_blank" href="https://www.instagram.com/nowasteukraine/" class="fa fa-instagram"></a>
-      <a target="_blank" href="https://t.me/nowasteukraine" class="fa fa-telegram"></a>
-      <a target="_blank" href="https://www.youtube.com/channel/UChFVBZ_HcaQYiF-GcMHiCNA" class="fa fa-youtube"></a>
-    </div>
-    <button mat-icon-button class="toggle-footer-button">
-      <label for="show-foot" class="show-footer-label">
-        <mat-icon class="toggler-icon"></mat-icon>
-      </label>
-    </button>
-    <div class="footer-bottom-part">
-      <p class="par">Copyright © 2021 · All Rights Reserved · {{ 'footer.ukraine-without-garbage' | translate }}. No Waste Ukraine.</p>
+
+    <div class="menu-right">
+      <div class="social-networks">
+        <a target="_blank" href="https://www.facebook.com/NowasteUkraine/">
+          <img [src]="footerPicture.facebookIcon" class="icon" alt="facebook picture" />
+        </a>
+        <a target="_blank" href="https://www.instagram.com/nowasteukraine/">
+          <img [src]="footerPicture.instagramIcon" class="icon" alt="instagram picture" />
+        </a>
+        <a target="_blank" href="https://t.me/nowasteukraine">
+          <img [src]="footerPicture.telegramIcon" class="icon" alt="telefram picture" />
+        </a>
+        <a target="_blank" href="https://www.youtube.com/channel/UChFVBZ_HcaQYiF-GcMHiCNA">
+          <img [src]="footerPicture.youTubeIcon" class="icon" alt="youtube picture" />
+        </a>
+      </div>
+      <div class="footer-bottom-part">
+        <p class="par">Copyright © 2021 · All Rights Reserved</p>
+      </div>
     </div>
   </div>
 </footer>
