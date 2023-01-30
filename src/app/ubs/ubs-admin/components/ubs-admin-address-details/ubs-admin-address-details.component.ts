@@ -138,24 +138,23 @@ export class UbsAdminAddressDetailsComponent implements OnDestroy {
     this.cityPredictionList = null;
 
     if (this.currentLanguage === 'ua' && this.addressCity.value) {
-      this.inputCity(`${this.addressRegion.value}, ${this.addressCity.value}`);
+      this.inputCity(`${this.addressRegion.value}, ${this.addressCity.value}`, this.languages.uk);
     }
     if (this.currentLanguage === 'en' && this.addressCityEng.value) {
-      this.inputCity(`${this.addressRegionEng.value},${this.addressCityEng.value}`);
+      this.inputCity(`${this.addressRegionEng.value},${this.addressCityEng.value}`, this.languages.en);
     }
   }
 
-  inputCity(searchAddress: string): void {
+  inputCity(searchAddress: string, lang: string): void {
     const request = {
       input: searchAddress,
-      language: this.currentLanguage,
+      language: lang,
       types: ['(cities)'],
-      region: 'ua',
       componentRestrictions: { country: 'ua' }
     };
     this.autocompleteService.getPlacePredictions(request, (cityPredictionList) => {
-      if (this.addressRegionEng.value === 'Kyiv' && cityPredictionList) {
-        this.cityPredictionList = cityPredictionList.filter((el) => el.place_id === 'ChIJBUVa4U7P1EAR_kYBF9IxSXY');
+      if (this.addressRegionEng.value === 'Kyiv') {
+        this.cityPredictionList = cityPredictionList?.filter((el) => el.place_id === 'ChIJBUVa4U7P1EAR_kYBF9IxSXY');
       } else {
         this.cityPredictionList = cityPredictionList;
       }
@@ -186,27 +185,35 @@ export class UbsAdminAddressDetailsComponent implements OnDestroy {
     this.streetPredictionList = null;
 
     if (this.currentLanguage === 'ua' && this.addressStreet.value) {
-      this.inputAddress(`${this.addressCity.value}, ${this.addressStreet.value}`);
+      this.inputAddress(`${this.addressCity.value}, ${this.addressStreet.value}`, this.languages.uk);
     }
     if (this.currentLanguage === 'en' && this.addressStreetEng.value) {
-      this.inputAddress(`${this.addressCityEng.value}, ${this.addressStreetEng.value}`);
+      this.inputAddress(`${this.addressCityEng.value}, ${this.addressStreetEng.value}`, this.languages.en);
     }
   }
 
-  inputAddress(searchAddress: string): void {
+  inputAddress(searchAddress: string, lang: string): void {
     const request = {
       input: searchAddress,
-      language: this.currentLanguage,
+      language: lang,
       types: ['address'],
       componentRestrictions: { country: 'ua' }
     };
     this.autocompleteService.getPlacePredictions(request, (streetPredictions) => {
-      if (!this.isDistrict && streetPredictions) {
-        this.streetPredictionList = streetPredictions.filter(
-          (el) => el.description.includes('Київська область') || el.description.includes('Kyiv Oblast')
+      if (!this.isDistrict) {
+        this.streetPredictionList = streetPredictions?.filter(
+          (el) =>
+            el.structured_formatting.secondary_text.includes('Київська область') ||
+            (el.structured_formatting.secondary_text.includes('Kyiv Oblast') &&
+              el.structured_formatting.secondary_text.includes(this.addressCity.value)) ||
+            el.structured_formatting.secondary_text.includes(this.addressCityEng.value)
         );
       } else {
-        this.streetPredictionList = streetPredictions;
+        this.streetPredictionList = streetPredictions?.filter(
+          (el) =>
+            el.structured_formatting.secondary_text.includes(this.addressCity.value) ||
+            el.structured_formatting.secondary_text.includes(this.addressCityEng.value)
+        );
       }
     });
   }

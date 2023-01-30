@@ -714,7 +714,7 @@ describe('UbsUserProfilePageComponent', () => {
     component.currentLanguage = 'ua';
     component.setPredictCities(0);
     expect(component.cityPredictionList).toBe(null);
-    expect(spy).toHaveBeenCalledWith(searchAddress, regionEn.value);
+    expect(spy).toHaveBeenCalledWith(searchAddress, regionEn.value, 'uk');
   });
 
   it('method setPredictCities should call method for predicting cities in en', () => {
@@ -729,7 +729,7 @@ describe('UbsUserProfilePageComponent', () => {
     component.currentLanguage = 'en';
     component.setPredictCities(0);
     expect(component.cityPredictionList).toBe(null);
-    expect(spy).toHaveBeenCalledWith(searchAddress, regionEn.value);
+    expect(spy).toHaveBeenCalledWith(searchAddress, regionEn.value, 'en');
   });
 
   it('method inputCity should invoke getPlacePredictions', () => {
@@ -738,7 +738,7 @@ describe('UbsUserProfilePageComponent', () => {
     component.autocompleteService = { getPlacePredictions: (a, b) => {} } as any;
     spyOn(component.autocompleteService, 'getPlacePredictions').and.callThrough();
     const fakesearchAddress = `Kyiv, Kyiv`;
-    component.inputCity(fakesearchAddress, regionEn.value);
+    component.inputCity(fakesearchAddress, regionEn.value, component.languages.en);
     expect(component.autocompleteService.getPlacePredictions).toHaveBeenCalled();
   });
 
@@ -752,7 +752,7 @@ describe('UbsUserProfilePageComponent', () => {
       callback(predictionListKyivRegion, status as any);
     });
     const fakesearchAddress = `Київська область, Ше`;
-    component.inputCity(fakesearchAddress, regionEn.value);
+    component.inputCity(fakesearchAddress, regionEn.value, component.languages.uk);
     expect(component.cityPredictionList).toEqual(predictionListKyivRegion);
   });
 
@@ -768,7 +768,7 @@ describe('UbsUserProfilePageComponent', () => {
     });
 
     const fakesearchAddress = `Київ`;
-    component.inputCity(fakesearchAddress, regionEn.value);
+    component.inputCity(fakesearchAddress, regionEn.value, component.languages.uk);
     expect(component.cityPredictionList).toEqual(result);
   });
 
@@ -864,7 +864,7 @@ describe('UbsUserProfilePageComponent', () => {
     component.currentLanguage = 'ua';
     component.setPredictStreets(0);
     expect(component.streetPredictionList).toBe(null);
-    expect(spy).toHaveBeenCalledWith(searchAddress, currentFormGroup);
+    expect(spy).toHaveBeenCalledWith(searchAddress, currentFormGroup, 'uk');
   });
 
   it('method setPredictStreets should call method for predicting streets in en', () => {
@@ -879,7 +879,7 @@ describe('UbsUserProfilePageComponent', () => {
     component.currentLanguage = 'en';
     component.setPredictStreets(0);
     expect(component.streetPredictionList).toBe(null);
-    expect(spy).toHaveBeenCalledWith(searchAddress, currentFormGroup);
+    expect(spy).toHaveBeenCalledWith(searchAddress, currentFormGroup, 'en');
   });
 
   it('method inputAddress should invoke getPlacePredictions', () => {
@@ -887,20 +887,22 @@ describe('UbsUserProfilePageComponent', () => {
     component.autocompleteService = { getPlacePredictions: (a, b) => {} } as any;
     spyOn(component.autocompleteService, 'getPlacePredictions').and.callThrough();
     const fakesearchAddress = `Kyiv, Lomo`;
-    component.inputAddress(fakesearchAddress, currentFormGroup);
+    component.inputAddress(fakesearchAddress, currentFormGroup, component.languages.en);
     expect(component.autocompleteService.getPlacePredictions).toHaveBeenCalled();
   });
 
   it('method getPlacePredictions should form prediction street list for Kyiv city', () => {
     const currentFormGroup = component.userForm.controls.address.get('0');
     const isKyiv = currentFormGroup.get('isKyiv');
+    const city = currentFormGroup.get('city');
     isKyiv.setValue(true);
+    city.setValue('Київ');
     component.autocompleteService = { getPlacePredictions: () => {} } as any;
     spyOn(component.autocompleteService, 'getPlacePredictions').and.callFake((request, callback) => {
       callback(streetPredictionKyivCity, status as any);
     });
     const fakesearchAddress = `Київ, Сі`;
-    component.inputAddress(fakesearchAddress, currentFormGroup);
+    component.inputAddress(fakesearchAddress, currentFormGroup, component.languages.uk);
     expect(component.streetPredictionList).toEqual(streetPredictionKyivCity);
   });
 
@@ -915,7 +917,7 @@ describe('UbsUserProfilePageComponent', () => {
     });
 
     const fakesearchAddress = `Щасливе, Не`;
-    component.inputAddress(fakesearchAddress, currentFormGroup);
+    component.inputAddress(fakesearchAddress, currentFormGroup, component.languages.uk);
     expect(component.streetPredictionList).toEqual(result);
   });
 

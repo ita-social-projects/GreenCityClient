@@ -231,24 +231,23 @@ export class UbsUserProfilePageComponent implements OnInit, AfterViewInit, OnDes
     const city = currentFormGroup.get('city');
 
     if (this.currentLanguage === 'ua' && city.value) {
-      this.inputCity(`${region.value}, ${city.value}`, regionEn.value);
+      this.inputCity(`${region.value}, ${city.value}`, regionEn.value, this.languages.uk);
     }
     if (this.currentLanguage === 'en' && cityEn.value) {
-      this.inputCity(`${regionEn.value},${cityEn.value}`, regionEn.value);
+      this.inputCity(`${regionEn.value},${cityEn.value}`, regionEn.value, this.languages.en);
     }
   }
 
-  inputCity(searchAddress: string, regionEnName: string): void {
+  inputCity(searchAddress: string, regionEnName: string, lang: string): void {
     const request = {
       input: searchAddress,
-      language: this.currentLanguage,
+      language: lang,
       types: ['(cities)'],
-      region: 'ua',
       componentRestrictions: { country: 'ua' }
     };
     this.autocompleteService.getPlacePredictions(request, (cityPredictionList) => {
-      if (regionEnName === 'Kyiv' && cityPredictionList) {
-        this.cityPredictionList = cityPredictionList.filter((el) => el.place_id === 'ChIJBUVa4U7P1EAR_kYBF9IxSXY');
+      if (regionEnName === 'Kyiv') {
+        this.cityPredictionList = cityPredictionList?.filter((el) => el.place_id === 'ChIJBUVa4U7P1EAR_kYBF9IxSXY');
       } else {
         this.cityPredictionList = cityPredictionList;
       }
@@ -300,29 +299,38 @@ export class UbsUserProfilePageComponent implements OnInit, AfterViewInit, OnDes
     const streetEn = currentFormGroup.get('streetEn');
 
     if (this.currentLanguage === 'ua' && street.value) {
-      this.inputAddress(`${city.value}, ${street.value}`, currentFormGroup);
+      this.inputAddress(`${city.value}, ${street.value}`, currentFormGroup, this.languages.uk);
     }
     if (this.currentLanguage === 'en' && streetEn.value) {
-      this.inputAddress(`${cityEn.value}, ${streetEn.value}`, currentFormGroup);
+      this.inputAddress(`${cityEn.value}, ${streetEn.value}`, currentFormGroup, this.languages.en);
     }
   }
 
-  inputAddress(searchAddress: string, item: AbstractControl): void {
+  inputAddress(searchAddress: string, item: AbstractControl, lang: string): void {
     const isKyiv = item.get('isKyiv');
+    const city = item.get('city');
+    const cityEn = item.get('cityEn');
 
     const request = {
       input: searchAddress,
-      language: this.currentLanguage,
+      language: lang,
       types: ['address'],
       componentRestrictions: { country: 'ua' }
     };
     this.autocompleteService.getPlacePredictions(request, (streetPredictions) => {
-      if (!isKyiv.value && streetPredictions) {
-        this.streetPredictionList = streetPredictions.filter(
-          (el) => el.description.includes('Київська область') || el.description.includes('Kyiv Oblast')
+      if (!isKyiv.value) {
+        this.streetPredictionList = streetPredictions?.filter(
+          (el) =>
+            el.structured_formatting.secondary_text.includes('Київська область') ||
+            (el.structured_formatting.secondary_text.includes('Kyiv Oblast') &&
+              el.structured_formatting.secondary_text.includes(city.value)) ||
+            el.structured_formatting.secondary_text.includes(cityEn.value)
         );
       } else {
-        this.streetPredictionList = streetPredictions;
+        this.streetPredictionList = streetPredictions?.filter(
+          (el) =>
+            el.structured_formatting.secondary_text.includes(city.value) || el.structured_formatting.secondary_text.includes(cityEn.value)
+        );
       }
     });
   }
