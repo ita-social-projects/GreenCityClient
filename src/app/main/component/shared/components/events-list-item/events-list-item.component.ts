@@ -70,6 +70,7 @@ export class EventsListItemComponent implements OnInit, OnDestroy {
   ) {}
 
   ngOnInit(): void {
+    this.cutDescription();
     this.itemTags = TagsArray.reduce((ac, cur) => [...ac, { ...cur }], []);
     this.filterTags(this.event.tags);
     this.rate = Math.round(this.event.organizer.organizerRating);
@@ -95,7 +96,6 @@ export class EventsListItemComponent implements OnInit, OnDestroy {
   }
 
   public initAllStatusesOfEvent(): void {
-    console.log('ev', this.event);
     this.isJoined = this.event.isSubscribed ? true : false;
     this.isEventOpen = this.event.open;
     this.isOwner = this.userId === this.event.organizer.id;
@@ -244,6 +244,22 @@ export class EventsListItemComponent implements OnInit, OnDestroy {
 
   public subscribeToLangChange(): void {
     this.langChangeSub = this.localStorageService.languageSubject.subscribe(this.bindLang.bind(this));
+  }
+
+  cutTitle() {
+    if (this.event.title.length > 40) {
+      return this.event.title.substr(0, 40) + '...';
+    } else {
+      return this.event.title;
+    }
+  }
+
+  cutDescription() {
+    if (this.event.description.length > 90) {
+      return this.event.description.substr(0, 90) + '...';
+    } else {
+      return this.event.description;
+    }
   }
 
   ngOnDestroy(): void {

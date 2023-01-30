@@ -10,9 +10,6 @@
     <div class="event-flags">
       <span class="flag"></span>
     </div>
-    <div class="event-title">
-      <h3>{{ event.title }}</h3>
-    </div>
   </div>
 
   <div class="main-container">
@@ -40,12 +37,15 @@
       <span class="time-divider" *ngIf="isEventOpen">|</span>
       <div *ngIf="isRegistered && isEventOpen">{{ 'homepage.events.registered' | translate }}</div>
     </div>
-    <div class="description" [innerHTML]="event.description"></div>
-    <div class="btn-group">
-      <button class="secondary-global-button event-button" (click)="routeToEvent()">
-        {{ 'event.btn-top' | translate }}
-      </button>
-      <button class="{{ styleBtn }} event-button" [hidden]="isJoinBtnHidden" (click)="buttonAction()">{{ nameBtn | translate }}</button>
+    <div class="event-title">
+      <h3>{{ cutTitle() }}</h3>
     </div>
+    <div class="description">{{ cutDescription() }}</div>
+  </div>
+  <div class="btn-group">
+    <button class="secondary-global-button event-button" (click)="routeToEvent()">
+      {{ 'event.btn-top' | translate }}
+    </button>
+    <button class="{{ styleBtn }} event-button" [hidden]="isJoinBtnHidden" (click)="buttonAction()">{{ nameBtn | translate }}</button>
   </div>
 </div>

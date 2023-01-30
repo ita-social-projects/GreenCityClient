@@ -1,8 +1,12 @@
 .card-wrapper {
+  padding: 16px;
   display: flex;
   flex-direction: column;
   max-width: 486px;
   height: 100%;
+  flex: 1 0 auto;
+  font-family: var(--primary-font);
+  font-style: normal;
 }
 
 .image-container {
@@ -82,10 +86,9 @@
 }
 
 .main-container {
-  padding: 16px;
   display: flex;
   flex-direction: column;
-  justify-content: space-between;
+  justify-content: flex-start;
   flex: 1 0 auto;
 
   .date-container {
@@ -174,16 +177,11 @@
 .description {
   max-height: 100px;
   overflow: hidden;
-
-  ::ng-deep {
-    p {
-      margin: 0;
-    }
-  }
 }
 
 .btn-group {
   display: flex;
+  justify-content: flex-end;
   margin-top: 10px;
   flex-direction: column;
   gap: 20px;
