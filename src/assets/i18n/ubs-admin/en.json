@@ -198,7 +198,8 @@
       "moving-out": "Moving",
       "out-of-city": "Out of city",
       "disliked-service": "Disliked service",
-      "other": "Your option"
+      "other": "Your option",
+      "comment-empty-message": "The field can't be empty"
     },
     "comment-error-message": "The number of characters must be up to 255",
     "placeholder": "Please specify your reason for canceling the order",
