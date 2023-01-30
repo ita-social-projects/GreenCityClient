@@ -259,6 +259,15 @@
           "li_3": "One package should not weigh more than 30 kg"
         }
       },
+      "bonuses": {
+        "caption": "Bonus",
+        "content": {
+          "li_1": "Along with paid packages, the courier can pick up an unlimited number of some extrapositions of raw materials for processing for free.",
+          "li_2": "Mandatory condition: they must be clean, dry and packed in a frame bag.",
+          "li_3": "See the list ",
+          "li_3.1": "here"
+        }
+      },
       "price": {
         "caption": "The cost of PICK UP service",
         "price-title": {

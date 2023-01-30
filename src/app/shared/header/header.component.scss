@@ -590,13 +590,6 @@ ul .ubs-user-cabinet {
 
   #header_user-wrp {
     display: flex;
-    max-width: 126px;
-  }
-}
-
-@media (min-width: 768px) {
-  #header_user-wrp {
-    max-width: 226px;
   }
 }
 
@@ -621,15 +614,5 @@ ul .ubs-user-cabinet {
     .header_burger-btn {
       display: none !important;
     }
-  }
-
-  #header_user-wrp {
-    max-width: 126px;
-  }
-}
-
-@media (min-width: 1200px) {
-  #header_user-wrp {
-    max-width: 226px;
   }
 }

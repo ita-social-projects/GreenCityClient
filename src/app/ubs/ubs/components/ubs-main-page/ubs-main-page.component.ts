@@ -79,6 +79,13 @@ export class UbsMainPageComponent implements OnInit, OnDestroy {
     'ubs-homepage.ubs-courier.rules.content.li_3'
   ];
 
+  bonuses = [
+    'ubs-homepage.ubs-courier.bonuses.content.li_1',
+    'ubs-homepage.ubs-courier.bonuses.content.li_2',
+    'ubs-homepage.ubs-courier.bonuses.content.li_3',
+    'ubs-homepage.ubs-courier.bonuses.content.li_3.1'
+  ];
+
   howWorksPickUp = [
     {
       header: 'ubs-homepage.ubs-courier.how-works.header.pre_1',

@@ -54,14 +54,34 @@
         </div>
       </div>
       <div class="main-content-right">
-        <h2>{{ 'ubs-homepage.ubs-courier.rules.caption' | translate }}</h2>
-        <div class="rules">
-          <div class="rule">{{ rules[0] | translate }}</div>
-          <div class="rule">
-            {{ rules[1] | translate }}
-            <div class="lifehack">{{ rules[2] | translate }}</div>
+        <div class="conditions">
+          <div class="caption">
+            <h2>{{ 'ubs-homepage.ubs-courier.rules.caption' | translate }}</h2>
           </div>
-          <div class="rule">{{ rules[3] | translate }}</div>
+          <div class="rules">
+            <div class="rule">{{ rules[0] | translate }}</div>
+            <div class="rule">
+              {{ rules[1] | translate }}
+              <div class="lifehack">{{ rules[2] | translate }}</div>
+            </div>
+            <div class="rule">{{ rules[3] | translate }}</div>
+          </div>
+        </div>
+
+        <div class="bonuses">
+          <div class="caption">
+            <h2>{{ 'ubs-homepage.ubs-courier.bonuses.caption' | translate }}</h2>
+          </div>
+          <div class="rules">
+            <div class="rule">{{ bonuses[0] | translate }}</div>
+            <div class="rule">
+              {{ bonuses[1] | translate }}
+            </div>
+            <div class="rule">
+              {{ bonuses[2] | translate }}
+              <a href="https://nowaste.com.ua/sort-station/" class="link" target="_blank" rel="noopener">{{ bonuses[3] | translate }}</a>
+            </div>
+          </div>
         </div>
       </div>
     </div>

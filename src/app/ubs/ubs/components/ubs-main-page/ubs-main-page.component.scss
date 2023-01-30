@@ -5,6 +5,7 @@
 
 .ubsHomepage {
   vertical-align: top;
+  width: 100%;
   max-width: 1920px;
   color: #575757;
   font-family: var(--secondary-font);
@@ -165,19 +166,19 @@
 
     .main-content-left {
       width: 50%;
+      height: 700px;
       display: flex;
       flex-direction: column;
-      justify-content: space-around;
+      justify-content: space-between;
 
       .box-item {
-        height: 139px;
+        height: 127px;
         list-style-type: none;
         border: 1px solid #b9b9b9;
         border-radius: 14px;
         display: flex;
         flex-direction: row;
         justify-content: baseline;
-        margin-bottom: 5px;
 
         .box-number {
           font-weight: 800;
@@ -203,37 +204,57 @@
     }
 
     .main-content-right {
-      height: 356px;
+      height: 700px;
       width: 47.5%;
       display: flex;
-      border: 1px solid #b9b9b9;
-      border-radius: 14px;
+      flex-direction: column;
+      justify-content: space-between;
 
-      h2 {
-        writing-mode: vertical-rl;
-        text-orientation: upright;
-        letter-spacing: -10px;
-        color: #87bc1e;
-        margin: auto 24px;
-      }
-
-      .rules {
+      .conditions,
+      .bonuses {
+        border: 1px solid #b9b9b9;
+        border-radius: 14px;
         display: flex;
-        flex-direction: column;
+        flex-direction: row;
         justify-content: space-around;
-        height: 308px;
-        width: 600px;
-        margin: auto 0;
+        height: 333px;
+        padding-right: 10%;
 
-        .rule {
-          font-size: 22px;
-          line-height: 27px;
+        .caption {
+          margin: auto 5%;
 
-          .lifehack {
-            padding-top: 10px;
-            color: #b9b9b9;
-            font-size: 20px;
-            width: 410px;
+          h2 {
+            margin: 0;
+            font-size: 47px;
+            font-weight: 800;
+            writing-mode: vertical-rl;
+            text-orientation: upright;
+            letter-spacing: 1px;
+            color: #87bc1e;
+          }
+        }
+
+        .rules,
+        .bonuses {
+          // margin: auto 0;
+          display: flex;
+          flex-direction: column;
+          justify-content: space-evenly;
+
+          .rule {
+            font-size: 22px;
+            line-height: 27px;
+
+            .lifehack {
+              margin: 0;
+              padding-top: 10px;
+              color: #b9b9b9;
+              font-size: 20px;
+            }
+          }
+
+          .link {
+            color: #87bc1e;
           }
         }
       }
@@ -401,7 +422,7 @@
 
       #how-works-content {
         display: flex;
-        align-items: end;
+        align-items: flex-end;
         margin: 15px 10px 15px 0;
 
         .link-to-shop {
@@ -424,9 +445,10 @@
         display: flex;
         flex-direction: row;
         justify-content: space-between;
+        margin-top: 140px;
 
         .time-frame {
-          @include height-and-width(160px, 850px);
+          @include height-and-width(160px, 45%);
 
           max-width: 850px;
           background-color: var(--ubs-primary-white);
@@ -437,9 +459,8 @@
           line-height: 27px;
           display: flex;
           flex-direction: column;
-          align-items: start;
+          align-items: flex-start;
           justify-content: space-around;
-          margin-top: 140px;
           padding-left: 25px;
 
           .header-how-works {
@@ -461,8 +482,22 @@
 }
 
 @media screen and (min-width: 1920px) {
+  .ubsHomepage {
+    margin: 0 auto;
+  }
+
   section {
     width: 1920px;
+  }
+}
+
+@media screen and (max-width: 1024px) {
+  .ubsHomepage {
+    margin: 0 auto;
+  }
+
+  #price-frame {
+    @include height-and-width(236px, 436px);
   }
 }
 
