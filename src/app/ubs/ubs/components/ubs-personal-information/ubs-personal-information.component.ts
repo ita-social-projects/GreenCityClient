@@ -31,7 +31,7 @@ export class UBSPersonalInformationComponent extends FormBaseComponent implement
   order: Order;
   addresses: Address[] = [];
   maxAddressLength = 4;
-  namePattern = Patterns.ubsNameAndSernamePattern;
+  namePattern = Patterns.NamePattern;
   emailPattern = Patterns.ubsMailPattern;
   phoneMask = Masks.phoneMask;
   firstOrder = true;
