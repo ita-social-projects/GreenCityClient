@@ -90,12 +90,16 @@ describe('UbsAdminOrderHistoryComponent', () => {
     addressExportDetailsDto: {
       addressId: 32,
       addressCity: 'Київ',
+      addressCityEng: 'Kyiv',
       addressDistrict: 'Шевченківський',
+      addressDistrictEng: 'Shevchenkivskyi',
       addressEntranceNumber: 1,
       addressHouseCorpus: 3,
       addressHouseNumber: 42,
       addressRegion: 'Київська область',
-      addressStreet: 'Січових Стрільців вул'
+      addressRegionEng: 'Kyiv Oblast',
+      addressStreet: 'Січових Стрільців вул',
+      addressStreetEng: 'Sichovyh Streltsyv str'
     },
     addressComment: '',
     amountOfBagsConfirmed: new Map(),
