@@ -13,6 +13,12 @@ import { TranslateService } from '@ngx-translate/core';
 import { TariffDeactivateConfirmationPopUpComponent } from '../../shared/components/tariff-deactivate-confirmation-pop-up/tariff-deactivate-confirmation-pop-up.component';
 import { LanguageService } from 'src/app/main/i18n/language.service';
 
+enum status {
+  active = 'ACTIVE',
+  new = 'NEW',
+  deactivated = 'DEACTIVATED'
+}
+
 @Component({
   selector: 'app-ubs-admin-tariffs-deactivate-pop-up',
   templateUrl: './ubs-admin-tariffs-deactivate-pop-up.component.html',
@@ -107,7 +113,7 @@ export class UbsAdminTariffsDeactivatePopUpComponent implements OnInit, OnDestro
       .getCouriers()
       .pipe(takeUntil(this.unsubscribe))
       .subscribe((res: Couriers[]) => {
-        this.couriers = res;
+        this.couriers = res.filter((it) => it.courierStatus === status.active);
         this.couriersName = this.couriers.map((el) => (this.currentLanguage === 'ua' ? el.nameUk : el.nameEn));
         this.courier.valueChanges
           .pipe(
@@ -133,7 +139,7 @@ export class UbsAdminTariffsDeactivatePopUpComponent implements OnInit, OnDestro
       .getAllStations()
       .pipe(takeUntil(this.unsubscribe))
       .subscribe((res: Stations[]) => {
-        this.stations = res;
+        this.stations = res.filter((it) => it.stationStatus === status.active);
         this.stationsName = this.stations.map((it) => it.name);
         this.station.valueChanges
           .pipe(
@@ -179,7 +185,7 @@ export class UbsAdminTariffsDeactivatePopUpComponent implements OnInit, OnDestro
       .getCardInfo()
       .pipe(takeUntil(this.unsubscribe))
       .subscribe((res: TariffCard[]) => {
-        this.tariffCards = res;
+        this.tariffCards = res.filter((it) => it.tariffStatus === status.active);
       });
   }
 

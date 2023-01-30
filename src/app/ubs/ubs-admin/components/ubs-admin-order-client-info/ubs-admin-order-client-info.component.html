@@ -94,6 +94,9 @@
               placeholder="{{ 'customer-info.recipient.email-placeholder' | translate }}"
               formControlName="recipientEmail"
             />
+            <div class="validation" *ngIf="recipientEmail.invalid && recipientEmail.touched">
+              <app-ubs-input-error [formElement]="recipientEmail" [controlName]="'recipientEmail'"> </app-ubs-input-error>
+            </div>
           </div>
         </div>
       </div>

@@ -2,14 +2,14 @@ import { TestBed } from '@angular/core/testing';
 import { HttpClientTestingModule, HttpTestingController } from '@angular/common/http/testing';
 import { TariffsService } from './tariffs.service';
 import { mainUbsLink } from '../../../main/links';
-import { of } from 'rxjs';
 
 const service1 = {
   name: 'fake1',
-  capacity: 2,
+  nameEng: 'fake',
   price: 2,
-  commission: 2,
-  description: 'fake1'
+  description: 'fake1',
+  descriptionEng: 'fake1',
+  tariffId: 1
 };
 
 const tariff = {
@@ -170,18 +170,18 @@ describe('TariffsService', () => {
   });
 
   it('should get tariff for a service', () => {
-    service.getAllServices().subscribe((data) => {
+    service.getService(1).subscribe((data) => {
       expect(data).toBe(service1);
     });
 
-    httpTest('/ubs/superAdmin/getService', 'GET', service1);
+    httpTest(`/ubs/superAdmin/1/getService`, 'GET', service1);
   });
 
   it('should edit service', () => {
-    service.editService(1, service1).subscribe((data) => {
+    service.editService(service1).subscribe((data) => {
       expect(data).toBe(service1);
     });
-    httpTest('/ubs/superAdmin/editService/1', 'PUT', service1);
+    httpTest('/ubs/superAdmin/editService', 'PUT', service1);
   });
 
   it('should return all locations', () => {

@@ -71,10 +71,11 @@ describe('UbsAdminPricingPageComponent', () => {
   };
 
   const fakeService = {
-    locationId: 159,
-    price: 555,
-    commission: 333,
-    languageCode: 'ua'
+    name: 'fake1',
+    nameEng: 'fake',
+    price: 2,
+    description: 'fake1',
+    descriptionEng: 'fake1'
   };
 
   const fakeBag: Bag = {
@@ -162,7 +163,7 @@ describe('UbsAdminPricingPageComponent', () => {
     'getLocations',
     'editInfo',
     'getCouriers',
-    'getAllServices',
+    'getService',
     'getAllTariffsForService',
     'setLimitDescription',
     'setLimitsBySumOrder',
@@ -171,7 +172,7 @@ describe('UbsAdminPricingPageComponent', () => {
   ]);
   tariffsServiceMock.editInfo.and.returnValue(of([]));
   tariffsServiceMock.getCouriers.and.returnValue(of([fakeCouriers]));
-  tariffsServiceMock.getAllServices.and.returnValue(of([fakeService]));
+  tariffsServiceMock.getService.and.returnValue(of(fakeService));
   tariffsServiceMock.getAllTariffsForService.and.returnValue(of([fakeBag]));
   tariffsServiceMock.setLimitDescription.and.returnValue(of([fakeDescription]));
   tariffsServiceMock.setLimitsBySumOrder.and.returnValue(of([fakeSumInfo]));
@@ -459,12 +460,13 @@ describe('UbsAdminPricingPageComponent', () => {
   });
 
   it('should call openAddServicePopup', () => {
-    component.locationId = 159;
-    component.currentCourierId = 1;
+    component.currentLocation = 159;
+    component.selectedCardId = 1;
+    component.service = fakeService;
     const addtariffData = {
       button: 'add',
-      locationId: 159,
-      courierId: 1
+      tariffId: 1,
+      service: fakeService
     };
     component.openAddServicePopup();
     expect(matDialogMock.open).toHaveBeenCalledWith(UbsAdminTariffsAddServicePopUpComponent, {
@@ -515,11 +517,9 @@ describe('UbsAdminPricingPageComponent', () => {
   });
 
   it('should get all services', () => {
-    const spy = spyOn<any>(component, 'filterServices');
-    component.getAllServices();
+    component.getService();
     expect(component.isLoadBar1).toEqual(false);
-    expect(component.services).toEqual([fakeService]);
-    expect(spy).toHaveBeenCalled();
+    expect(component.service).toEqual(fakeService);
   });
 
   it('should get couriers', () => {

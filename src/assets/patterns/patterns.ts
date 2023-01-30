@@ -1,13 +1,13 @@
 export const Patterns = {
   linkPattern: /^$|^https?:\/\//,
 
-  NamePattern: /^[ґҐіІєЄїЇёЁa-zA-Zа-яА-Я0-9](?!.*-.*-)(?!.*'.*')[-'ʼ ґҐіІєЄїЇa-zA-Zа-яА-Я0-9]{1,40}$/,
+  NamePattern: /^(?!\.)(?!.*\.$)(?!.*?\.\.)(?!.*?\-\-)(?!.*?\'\')[-'ʼ ґҐіІєЄїЇА-Яа-я+\w.]{1,30}$/,
   regexpName: /^(?!\.)(?!.*\.$)(?!.*?\.\.)[A-Z0-9_.]{6,30}$/gi,
   regexpPass: /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[^a-zA-Z0-9])(?!.*\s).{8,}$/,
 
   Base64Regex: /data:image\/([a-zA-Z]*);base64,([^"]*)/g,
 
-  profileCityPattern: /^[іІєЄїЇёЁa-zA-Zа-яА-Я][іІєЄїЇёЁa-zA-Zа-яА-Я\-,’)( ]*$/,
+  profileCityPattern: /^[іІєЄїЇёЁa-zA-Zа-яА-Я][іІєЄїЇёЁa-zA-Zа-яА-Я\-,’')(! ]*$/,
 
   ubsCorpusPattern: /^[A-Za-zА-Яа-яїЇіІєЄёЁ0-9]{0,4}$/,
   ubsHousePattern: /^[A-Za-zА-Яа-яїЇіІєЄёЁ0-9\.\-\/\,\\]+$/,

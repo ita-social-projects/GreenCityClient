@@ -29,25 +29,6 @@
         />
       </div>
     </div>
-    <div class="d-flex">
-      <div class="form-group">
-        <label class="form-label" for="capacity">{{ 'ubs-tariffs-add-service.capacity' | translate }}</label>
-        <input type="number" formControlName="capacity" id="capacity" class="capacity-input" placeholder="0" step=".01" min="0" max="999" />
-      </div>
-      <div class="form-group">
-        <label for="commission" class="form-label">{{ 'ubs-tariffs-add-service.commission' | translate }}</label>
-        <input
-          type="number"
-          formControlName="commission"
-          id="commission"
-          class="courier-input"
-          placeholder="0.00"
-          step=".01"
-          min="0"
-          max="999999.99"
-        />
-      </div>
-    </div>
     <div class="basic-cost-input form-group">
       <label for="price" class="form-label">{{ 'ubs-tariffs-add-service.basic_cost' | translate }}</label>
       <input
@@ -92,8 +73,8 @@
         class="primary-global-button btn"
         type="submit"
         *ngIf="data.button === 'add'"
-        [disabled]="addServiceForm.invalid || loadingAnim"
         (click)="addNewService()"
+        [disabled]="addServiceForm.invalid || loadingAnim"
       >
         <span *ngIf="loadingAnim" class="spinner-border spinner-border-sm" role="status" aria-hidden="true"> </span>
         {{ 'ubs-tariffs-add-service.btn.add' | translate }}
@@ -102,8 +83,8 @@
         type="button"
         *ngIf="data.button === 'update'"
         class="primary-global-button btn"
-        [disabled]="addServiceForm.invalid || addServiceForm.pristine || loadingAnim"
         (click)="editService()"
+        [disabled]="addServiceForm.invalid || addServiceForm.pristine || loadingAnim"
       >
         <span *ngIf="loadingAnim" class="spinner-border spinner-border-sm" role="status" aria-hidden="true"> </span>
         {{ 'ubs-tariffs-add-service.btn.save' | translate }}

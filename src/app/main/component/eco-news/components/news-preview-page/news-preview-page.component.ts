@@ -11,7 +11,7 @@ import { Store, ActionsSubject } from '@ngrx/store';
 import { CreateEcoNewsAction, EditEcoNewsAction, NewsActions } from 'src/app/store/actions/ecoNews.actions';
 import { ofType } from '@ngrx/effects';
 import { catchError, takeUntil } from 'rxjs/operators';
-import { FilterModel } from '@eco-news-models/create-news-interface';
+import { FilterModel } from '@shared/components/tag-filter/tag-filter.model';
 
 @Component({
   selector: 'app-news-preview-page',

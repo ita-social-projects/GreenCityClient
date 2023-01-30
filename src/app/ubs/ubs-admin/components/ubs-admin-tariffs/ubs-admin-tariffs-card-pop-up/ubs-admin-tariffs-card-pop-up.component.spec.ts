@@ -39,6 +39,7 @@ describe('UbsAdminTariffsCardPopUpComponent', () => {
   const fakeStation = {
     createDate: 'fake date',
     createdBy: 'fakeUser',
+    stationStatus: 'ACTIVE',
     id: 1,
     name: 'fake'
   };
