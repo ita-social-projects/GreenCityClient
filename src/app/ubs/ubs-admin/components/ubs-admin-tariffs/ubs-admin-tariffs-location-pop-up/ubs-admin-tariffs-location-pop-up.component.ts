@@ -130,6 +130,7 @@ export class UbsAdminTariffsLocationPopUpComponent implements OnInit, AfterViewC
   }
 
   ngOnInit(): void {
+    this.currentLang = this.localeStorageService.getCurrentLanguage();
     this.getLocations();
     this.localeStorageService.firstNameBehaviourSubject.pipe(takeUntil(this.unsubscribe)).subscribe((firstName) => {
       this.name = firstName;
