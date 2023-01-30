@@ -8,6 +8,7 @@ import { LocalStorageService } from '@global-service/localstorage/local-storage.
 import { Store } from '@ngrx/store';
 import { TranslateModule } from '@ngx-translate/core';
 import { BehaviorSubject, of } from 'rxjs';
+import { Language } from 'src/app/main/i18n/Language';
 import { GoogleScript } from 'src/assets/google-script/google-script';
 import { Locations } from '../../../models/tariffs.interface';
 import { TariffsService } from '../../../services/tariffs.service';
@@ -144,7 +145,12 @@ describe('UbsAdminTariffsLocationPopUpComponent ', () => {
   const fakeMatDialogRef = jasmine.createSpyObj(['close', 'afterClosed']);
   fakeMatDialogRef.afterClosed.and.returnValue(of(true));
 
-  const localStorageServiceMock = jasmine.createSpyObj('localStorageService', ['firstNameBehaviourSubject', 'languageBehaviourSubject']);
+  const localStorageServiceMock = jasmine.createSpyObj('localStorageService', [
+    'firstNameBehaviourSubject',
+    'languageBehaviourSubject',
+    'getCurrentLanguage'
+  ]);
+  localStorageServiceMock.getCurrentLanguage = () => 'ua' as Language;
   localStorageServiceMock.firstNameBehaviourSubject = new BehaviorSubject('user');
   localStorageServiceMock.languageBehaviourSubject = new BehaviorSubject('ua');
 
@@ -182,6 +188,7 @@ describe('UbsAdminTariffsLocationPopUpComponent ', () => {
     fixture.detectChanges();
     component.input = inputsMock;
     component.locations = mockRegion;
+    component.placeService = { getDetails: () => {} } as any;
   });
 
   it('should create', () => {
@@ -328,7 +335,6 @@ describe('UbsAdminTariffsLocationPopUpComponent ', () => {
   });
 
   it('should set value of region', () => {
-    component.placeService = { getDetails: () => {} } as any;
     const spy = spyOn(component, 'setTranslation');
     const eventMock = {
       place_id: 'fakeId'
