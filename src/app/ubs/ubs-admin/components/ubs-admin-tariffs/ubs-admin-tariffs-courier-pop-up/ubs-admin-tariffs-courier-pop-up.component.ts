@@ -17,8 +17,8 @@ import { Couriers } from '../../../models/tariffs.interface';
 })
 export class UbsAdminTariffsCourierPopUpComponent implements OnInit, OnDestroy {
   courierForm = this.fb.group({
-    name: ['', [Validators.required, Validators.minLength(3), Validators.maxLength(40), Validators.pattern(Patterns.NamePattern)]],
-    englishName: ['', [Validators.required, Validators.minLength(3), Validators.maxLength(40), Validators.pattern(Patterns.NamePattern)]]
+    name: ['', [Validators.required, Validators.maxLength(30), Validators.pattern(Patterns.NamePattern)]],
+    englishName: ['', [Validators.required, Validators.maxLength(30), Validators.pattern(Patterns.NamePattern)]]
   });
 
   courierExist = false;

@@ -43,12 +43,7 @@ export class UBSPersonalInformationComponent extends FormBaseComponent implement
   currentLanguage: string;
   mainUrl = 'https://maps.googleapis.com/maps/api/js?key=AIzaSyB3xs7Kczo46LFcQRFKPMdrE0lU4qsR_S4&libraries=places&language=';
   private destroy: Subject<boolean> = new Subject<boolean>();
-  private personalDataFormValidators: ValidatorFn[] = [
-    Validators.required,
-    Validators.minLength(2),
-    Validators.maxLength(30),
-    Validators.pattern(this.namePattern)
-  ];
+  private personalDataFormValidators: ValidatorFn[] = [Validators.required, Validators.maxLength(30), Validators.pattern(this.namePattern)];
   popupConfig = {
     hasBackdrop: true,
     closeOnNavigation: true,
