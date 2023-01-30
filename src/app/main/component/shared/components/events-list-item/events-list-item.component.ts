@@ -27,6 +27,7 @@ export class EventsListItemComponent implements OnInit, OnDestroy {
   @Input() event: EventPageResponceDto;
   private destroyed$: ReplaySubject<any> = new ReplaySubject<any>(1);
   public itemTags: Array<TagObj>;
+  public activeTags: Array<TagObj>;
 
   public nameBtn: string;
   public styleBtn: string;
@@ -87,6 +88,10 @@ export class EventsListItemComponent implements OnInit, OnDestroy {
 
   public filterTags(tags: Array<TagDto>) {
     this.itemTags.forEach((item) => (item.isActive = tags.some((name) => name.nameEn === item.nameEn)));
+
+    this.activeTags = this.itemTags.filter((val) => {
+      return val.isActive;
+    });
   }
 
   public initAllStatusesOfEvent(): void {

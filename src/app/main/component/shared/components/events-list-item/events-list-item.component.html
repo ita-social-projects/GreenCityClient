@@ -16,34 +16,30 @@
   </div>
 
   <div class="main-container">
-    <div>
-      <ul class="ul-eco-buttons" aria-label="filter by items">
-        <li *ngFor="let tag of itemTags">
-          <a role="button" class="tag" *ngIf="tag.isActive" tabindex="0">
-            <span class="text" [ngClass]="{ 'tag-active': tag.isActive }">{{ currentLang === 'ua' ? tag.nameUa : tag.nameEn }}</span>
-            <span class="divider">|</span>
-          </a>
-        </li>
-      </ul>
-    </div>
+    <ul class="ul-eco-buttons" aria-label="filter by items">
+      <li *ngFor="let tag of activeTags">
+        <a role="button" class="tag" tabindex="0">
+          <span class="text" [ngClass]="{ 'tag-active': tag.isActive }">{{ currentLang === 'ua' ? tag.nameUa : tag.nameEn }}</span>
+          <span class="tag-divider" *ngIf="activeTags.length > 1">|</span>
+        </a>
+      </li>
+    </ul>
     <div *ngIf="event.dates[0]" class="date-container">
       <span class="clock"></span>
       <div class="date">
         {{ event.dates[0].startDate | date }}
       </div>
-      <h5>{{ ' | ' }}</h5>
-      <div class="time">{{ event.dates[0].startDate | date: 'shortTime' }}...</div>
+      <span class="time-divider">|</span>
+      <div class="time">{{ event.dates[0].startDate | date: 'shortTime' }}</div>
     </div>
-    <div *ngIf="event.dates[0]" class="date-container">
-      <div>
-        <span class="place"></span>
+    <div class="date-container">
+      <div class="cont">
+        <span class="lock"></span>
       </div>
-      <div *ngIf="event.dates[0].coordinates?.addressEn; else elseBlock">
-        {{ event.dates[0].coordinates.addressEn }}
-      </div>
-      <ng-template #elseBlock>{{ event.dates[0].onlineLink }}</ng-template>
+      <div>{{ 'Open' }}</div>
+      <span class="time-divider">|</span>
+      <div>{{ 'Anyone registered' }}</div>
     </div>
-
     <div class="description" [innerHTML]="event.description"></div>
     <div class="btn-group">
       <button class="secondary-global-button event-button" (click)="routeToEvent()">
