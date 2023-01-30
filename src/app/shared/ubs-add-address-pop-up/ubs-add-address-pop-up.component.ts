@@ -118,8 +118,8 @@ export class UBSAddAddressPopUpComponent implements OnInit, OnDestroy, AfterView
       regionEn: [this.data.edit ? this.data.address.regionEn : this.bigRegionsList[1].regionName, Validators.required],
       city: [this.data.edit ? this.data.address.city : null, Validators.required],
       cityEn: [this.data.edit ? this.data.address.cityEn : null, Validators.required],
-      district: [this.data.edit ? this.data.address.district.split(' ')[0] : '', Validators.required],
-      districtEn: [this.data.edit ? this.data.address.districtEn.split(' ')[0] : '', Validators.required],
+      district: [this.data.edit ? this.data.address.district : '', Validators.required],
+      districtEn: [this.data.edit ? this.data.address.districtEn : '', Validators.required],
       street: [this.data.edit ? this.data.address.street : '', [Validators.required, Validators.minLength(3), Validators.maxLength(120)]],
       streetEn: [
         this.data.edit ? this.data.address.streetEn : '',
@@ -160,6 +160,7 @@ export class UBSAddAddressPopUpComponent implements OnInit, OnDestroy, AfterView
         this.cityPredictionList = null;
       });
 
+    this.isDistrict = this.city.value === 'Київ' ? true : false;
     this.regionsKyiv = this.listOflocations.getRegionsKyiv(this.currentLanguage);
     this.regions = this.listOflocations.getRegions(this.currentLanguage);
   }
@@ -241,7 +242,7 @@ export class UBSAddAddressPopUpComponent implements OnInit, OnDestroy, AfterView
     this.autocompleteService.getPlacePredictions(request, (streetPredictions) => {
       if (!this.isDistrict && streetPredictions) {
         this.streetPredictionList = streetPredictions.filter(
-          (el) => el.description.includes(this.region.value) || el.description.includes(this.regionEn.value)
+          (el) => el.description.includes(this.bigRegionsList[0].regionName) || el.description.includes(this.bigRegionsList[1].regionName)
         );
       } else {
         this.streetPredictionList = streetPredictions;
