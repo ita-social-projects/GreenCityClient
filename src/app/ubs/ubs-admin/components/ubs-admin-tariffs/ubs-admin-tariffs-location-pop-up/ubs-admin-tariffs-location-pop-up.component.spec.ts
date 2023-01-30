@@ -331,11 +331,9 @@ describe('UbsAdminTariffsLocationPopUpComponent ', () => {
     component.placeService = { getDetails: () => {} } as any;
     const spy = spyOn(component, 'setTranslation');
     const eventMock = {
-      name: 'fakeName',
       place_id: 'fakeId'
     };
     component.setValueOfRegion(eventMock);
-    expect(component.region.value).toBe('fakeName');
     expect(spy).toHaveBeenCalled();
   });
 

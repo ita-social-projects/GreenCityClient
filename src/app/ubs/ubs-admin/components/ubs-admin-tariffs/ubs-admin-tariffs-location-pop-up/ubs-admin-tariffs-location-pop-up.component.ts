@@ -148,6 +148,8 @@ export class UbsAdminTariffsLocationPopUpComponent implements OnInit, AfterViewC
       this.datePipe = new DatePipe(this.currentLang);
       this.newDate = this.datePipe.transform(new Date(), 'MMM dd, yyyy');
     });
+    this.googleScript.load(this.currentLang);
+    this.placeService = new google.maps.places.PlacesService(document.createElement('div'));
   }
 
   selectCities(currentRegion): void {
@@ -261,14 +263,14 @@ export class UbsAdminTariffsLocationPopUpComponent implements OnInit, AfterViewC
   }
 
   setValueOfRegion(event: any): void {
-    this.region.setValue(event.name);
-    this.setTranslation(event.place_id, this.englishRegion);
+    this.setTranslation(event.place_id, this.region, this.checkLanguage('uk', 'en'));
+    this.setTranslation(event.place_id, this.englishRegion, this.checkLanguage('en', 'uk'));
   }
 
-  setTranslation(region: string, abstractControl: any): void {
+  setTranslation(id: string, abstractControl: any, lang: string): void {
     const request = {
-      placeId: region,
-      language: this.checkLanguage('en', 'uk')
+      placeId: id,
+      language: lang
     };
     this.placeService.getDetails(request, (placeDetails) => {
       abstractControl.setValue(placeDetails.name);
@@ -408,10 +410,6 @@ export class UbsAdminTariffsLocationPopUpComponent implements OnInit, AfterViewC
 
   ngAfterViewChecked(): void {
     this.cdr.detectChanges();
-    this.localeStorageService.languageBehaviourSubject.pipe(takeUntil(this.unsubscribe)).subscribe((lang: string) => {
-      this.googleScript.load(lang);
-      this.placeService = new google.maps.places.PlacesService(document.createElement('div'));
-    });
   }
 
   ngOnDestroy(): void {
