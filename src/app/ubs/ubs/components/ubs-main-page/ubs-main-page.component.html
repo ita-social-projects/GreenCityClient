@@ -22,6 +22,7 @@
       </div>
     </div>
   </div>
+
   <section>
     <h2>{{ 'ubs-homepage.ubs-courier.preparing.caption' | translate }}</h2>
     <div class="how-to-prepare">
@@ -71,10 +72,12 @@
       <h2 class="price-header">{{ 'ubs-homepage.ubs-courier.price.caption' | translate }}</h2>
       <div class="box-card">
         <div id="price-frame" *ngFor="let elemPrice of priceCard">
-          <p class="content-price">{{ elemPrice.content | translate }}</p>
+          <div class="content-price">
+            <div>{{ elemPrice.content | translate }}</div>
+          </div>
           <div class="header-price">
-            <p class="price">{{ elemPrice.header | translate }}</p>
-            <p>{{ perPackageTitle | translate }}</p>
+            <div class="price">{{ elemPrice.header | translate }}</div>
+            <div>{{ perPackageTitle | translate }}</div>
           </div>
         </div>
       </div>

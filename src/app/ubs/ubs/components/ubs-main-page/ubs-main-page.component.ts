@@ -123,16 +123,12 @@ export class UbsMainPageComponent implements OnInit, OnDestroy {
     marque.getElementsByTagName('span')[0].innerHTML = text;
 
     const marqueWidth = marque.getBoundingClientRect().width;
-
     const repeatCount = Math.ceil(blockWidth / marqueWidth);
-    console.log(repeatCount, blockWidth, marqueWidth);
 
     marque.getElementsByTagName('span')[0].innerHTML = text.repeat(repeatCount);
 
     const span = marque.cloneNode(true);
-
     document.querySelector('.marquee-w').appendChild(span);
-
     document.getElementsByClassName('marquee')[1].classList.add('marquee2');
   }
 
