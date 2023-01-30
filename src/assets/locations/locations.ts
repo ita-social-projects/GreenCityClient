@@ -73,21 +73,21 @@ export class Locations {
   ];
 
   regions = [
-    { name: 'Бориспільський', key: 1 },
-    { name: 'Броварський', key: 2 },
-    { name: 'Бучанський', key: 3 },
-    { name: 'Вишгородський', key: 4 },
-    { name: 'Обухівський', key: 5 },
-    { name: 'Фастівський', key: 6 }
+    { name: 'Бориспільський район', key: 1 },
+    { name: 'Броварський район', key: 2 },
+    { name: 'Бучанський район', key: 3 },
+    { name: 'Вишгородський район', key: 4 },
+    { name: 'Обухівський район', key: 5 },
+    { name: 'Фастівський район', key: 6 }
   ];
 
   regionsEn = [
-    { name: `Boryspil's'kyi`, key: 1 },
-    { name: `Brovars'kyi`, key: 2 },
-    { name: `Buchans'kyi`, key: 3 },
-    { name: `Vyshhorods'kyi`, key: 4 },
-    { name: `Obukhivs'kyi`, key: 5 },
-    { name: `Fastivs'kyi`, key: 6 }
+    { name: `Boryspil's'kyi district`, key: 1 },
+    { name: `Brovars'kyi district`, key: 2 },
+    { name: `Buchans'kyi district`, key: 3 },
+    { name: `Vyshhorods'kyi district`, key: 4 },
+    { name: `Obukhivs'kyi district`, key: 5 },
+    { name: `Fastivs'kyi district`, key: 6 }
   ];
 
   getCity(language: string) {

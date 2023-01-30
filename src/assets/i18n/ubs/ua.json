@@ -130,6 +130,7 @@
   },
   "personal-info": {
     "address-city": "м.",
+    "address-house": "будинок",
     "address-corp": "корпус",
     "address-entrance": "під'їзд",
     "address-district": "район",
