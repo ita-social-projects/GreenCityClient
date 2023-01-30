@@ -180,24 +180,29 @@ export class UBSAddAddressPopUpComponent implements OnInit, OnDestroy, AfterView
   setPredictCities(): void {
     this.cityPredictionList = null;
     if (this.currentLanguage === 'ua' && this.city.value) {
-      this.inputCity(`Київська область, місто, ${this.city.value}`);
+      this.inputCity(`Київська область, місто, ${this.city.value}`, this.languages.uk);
     }
 
     if (this.currentLanguage === 'en' && this.cityEn.value) {
-      this.inputCity(`Kyiv Oblast, City,${this.cityEn.value}`);
+      this.inputCity(`Kyiv Oblast, City,${this.cityEn.value}`, this.languages.en);
     }
   }
 
-  inputCity(searchAddress: string): void {
+  inputCity(searchAddress: string, lang: string): void {
     const request = {
       input: searchAddress,
-      language: this.currentLanguage,
+      language: lang,
       types: ['(cities)'],
-      region: 'ua',
       componentRestrictions: { country: 'ua' }
     };
     this.autocompleteService.getPlacePredictions(request, (cityPredictionList) => {
-      this.cityPredictionList = cityPredictionList;
+      this.cityPredictionList = cityPredictionList?.filter(
+        (el) =>
+          el.structured_formatting.secondary_text.includes(this.bigRegionsList[0].regionName) ||
+          el.structured_formatting.secondary_text.includes(this.bigRegionsList[1].regionName) ||
+          el.structured_formatting.secondary_text.includes('Kyiv City') ||
+          el.structured_formatting.secondary_text.includes('місто Київ')
+      );
     });
   }
 
@@ -223,29 +228,36 @@ export class UBSAddAddressPopUpComponent implements OnInit, OnDestroy, AfterView
   setPredictStreets(): void {
     this.streetPredictionList = null;
     if (this.currentLanguage === 'ua' && this.street.value) {
-      this.inputAddress(`${this.city.value}, ${this.street.value}`);
+      this.inputAddress(`${this.city.value}, ${this.street.value}`, this.languages.uk);
     }
 
     if (this.currentLanguage === 'en' && this.streetEn.value) {
-      this.inputAddress(`${this.cityEn.value}, ${this.streetEn.value}`);
+      this.inputAddress(`${this.cityEn.value}, ${this.streetEn.value}`, this.languages.en);
     }
   }
 
-  inputAddress(searchAddress: string): void {
+  inputAddress(searchAddress: string, lang: string): void {
     const request = {
       input: searchAddress,
-      language: this.currentLanguage,
-      strictBounds: true,
+      language: lang,
       types: ['address'],
       componentRestrictions: { country: 'ua' }
     };
     this.autocompleteService.getPlacePredictions(request, (streetPredictions) => {
-      if (!this.isDistrict && streetPredictions) {
-        this.streetPredictionList = streetPredictions.filter(
-          (el) => el.description.includes(this.bigRegionsList[0].regionName) || el.description.includes(this.bigRegionsList[1].regionName)
+      if (!this.isDistrict) {
+        this.streetPredictionList = streetPredictions?.filter(
+          (el) =>
+            el.structured_formatting.secondary_text.includes(this.bigRegionsList[0].regionName) ||
+            (el.structured_formatting.secondary_text.includes(this.bigRegionsList[1].regionName) &&
+              el.structured_formatting.secondary_text.includes(this.city.value)) ||
+            el.structured_formatting.secondary_text.includes(this.cityEn.value)
         );
       } else {
-        this.streetPredictionList = streetPredictions;
+        this.streetPredictionList = streetPredictions?.filter(
+          (el) =>
+            el.structured_formatting.secondary_text.includes(this.city.value) ||
+            el.structured_formatting.secondary_text.includes(this.cityEn.value)
+        );
       }
     });
   }
