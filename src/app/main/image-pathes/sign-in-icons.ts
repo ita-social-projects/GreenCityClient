@@ -1,5 +1,5 @@
 export const SignInIcons = {
-  signInMainImg: 'assets/img/icon/sign-in/sign-in-main-lock.png',
+  signInMainImg: 'assets/img/icon/sign-in/sign-in-main-lock-open.png',
   closeButton: 'assets/img/icon/sign-in/close-btn.svg',
   picGoogle: 'assets/img/icon/google.svg',
   hidePassword: 'assets/img/icon/eye.png',

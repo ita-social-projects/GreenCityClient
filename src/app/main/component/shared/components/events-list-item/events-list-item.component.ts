@@ -95,6 +95,7 @@ export class EventsListItemComponent implements OnInit, OnDestroy {
   }
 
   public initAllStatusesOfEvent(): void {
+    console.log('ev', this.event);
     this.isJoined = this.event.isSubscribed ? true : false;
     this.isEventOpen = this.event.open;
     this.isOwner = this.userId === this.event.organizer.id;

@@ -33,12 +33,12 @@
       <div class="time">{{ event.dates[0].startDate | date: 'shortTime' }}</div>
     </div>
     <div class="date-container">
-      <div class="cont">
-        <span class="lock"></span>
-      </div>
-      <div>{{ 'Open' }}</div>
-      <span class="time-divider">|</span>
-      <div>{{ 'Anyone registered' }}</div>
+      <span class="lock-open" *ngIf="isEventOpen"></span>
+      <span class="lock-closed" *ngIf="!isEventOpen"></span>
+      <div *ngIf="isEventOpen">{{ 'homepage.events.open' | translate }}</div>
+      <div *ngIf="!isEventOpen">{{ 'homepage.events.completed' | translate }}</div>
+      <span class="time-divider" *ngIf="isEventOpen">|</span>
+      <div *ngIf="isRegistered && isEventOpen">{{ 'homepage.events.registered' | translate }}</div>
     </div>
     <div class="description" [innerHTML]="event.description"></div>
     <div class="btn-group">
