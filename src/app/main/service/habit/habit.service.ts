@@ -7,12 +7,17 @@ import { LocalStorageService } from '@global-service/localstorage/local-storage.
 import { habitLink } from '../../links';
 import { HabitInterface, HabitListInterface } from '../../interface/habit/habit.interface';
 import { ShoppingList } from '../../component/user/models/shoppinglist.model';
+import { TagInterface } from '@shared/components/tag-filter/tag-filter.model';
+import { environment } from '@environment/environment';
+
 @Injectable({
   providedIn: 'root'
 })
 export class HabitService implements OnDestroy {
   language: string;
   destroy$: ReplaySubject<any> = new ReplaySubject<any>(1);
+  private tagsType = 'HABIT';
+  private backEnd = environment.backendLink;
 
   constructor(private http: HttpClient, private localStorageService: LocalStorageService) {
     localStorageService.languageBehaviourSubject.pipe(takeUntil(this.destroy$)).subscribe((language) => (this.language = language));
@@ -30,8 +35,8 @@ export class HabitService implements OnDestroy {
     return this.http.get<Array<ShoppingList>>(`${habitLink}/${id}/shopping-list?lang=${this.language}`);
   }
 
-  getHabitsTags(): Observable<Array<string>> {
-    return this.http.get<Array<string>>(`${habitLink}/tags?lang=${this.language}`);
+  public getAllTags(): Observable<Array<TagInterface>> {
+    return this.http.get<Array<TagInterface>>(`${this.backEnd}tags/v2/search?type=${this.tagsType}`);
   }
 
   getHabitsByTagAndLang(page: number, size: number, tags: Array<string>, sort: string = 'asc'): Observable<HabitListInterface> {

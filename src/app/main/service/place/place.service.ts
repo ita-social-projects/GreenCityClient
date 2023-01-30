@@ -12,7 +12,7 @@ import { FilterPlaceDtoModel } from '../../model/filtering/filter-place-dto.mode
 import { AdminPlace } from '../../component/admin/models/admin-place.model';
 import { BulkUpdatePlaceStatus } from '../../model/place/bulk-update-place-status.model';
 import { PlaceUpdatedDto } from '../../component/admin/models/placeUpdatedDto.model';
-import { NewsTagInterface } from '@eco-news-models/eco-news-model';
+import { TagInterface } from '../../component/shared/components/tag-filter/tag-filter.model';
 import { environment } from '@environment/environment';
 import { CreatePlaceModel } from '../../component/places/models/create-place.model';
 
@@ -122,8 +122,8 @@ export class PlaceService {
     return this.http.put<PlaceUpdatedDto>(`${placeLink}update`, updatedPlace);
   }
 
-  public getAllPresentTags(): Observable<Array<NewsTagInterface>> {
-    return this.http.get<Array<NewsTagInterface>>(`${this.backEnd}tags/v2/search?type=${this.tagsType}`);
+  public getAllPresentTags(): Observable<Array<TagInterface>> {
+    return this.http.get<Array<TagInterface>>(`${this.backEnd}tags/v2/search?type=${this.tagsType}`);
   }
 
   public getAllFilterPlaceCategories(): Observable<FilterPlaceCategories[]> {
