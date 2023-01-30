@@ -5,7 +5,6 @@ import { MAT_DIALOG_DATA, MatDialog, MatDialogRef } from '@angular/material/dial
 import { TariffsService } from '../../../../services/tariffs.service';
 import { Bag } from '../../../../models/tariffs.interface';
 import { Subject } from 'rxjs';
-import { CreateEditTariffsServicesFormBuilder } from '../../../../services/create-edit-tariffs-service-form-builder';
 import { DatePipe } from '@angular/common';
 import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
 import { Patterns } from 'src/assets/patterns/patterns';
@@ -18,7 +17,6 @@ import { ModalTextComponent } from '../../../shared/components/modal-text/modal-
 })
 export class UbsAdminTariffsAddTariffServicePopUpComponent implements OnInit {
   addTariffServiceForm: FormGroup;
-  slide = false;
   receivedData;
   tariffs;
   tariffService: Bag;
@@ -35,7 +33,6 @@ export class UbsAdminTariffsAddTariffServicePopUpComponent implements OnInit {
     public dialog: MatDialog,
     public dialogRef: MatDialogRef<UbsAdminTariffsAddTariffServicePopUpComponent>,
     private fb: FormBuilder,
-    private formBuilder: CreateEditTariffsServicesFormBuilder,
     private localeStorageService: LocalStorageService
   ) {
     this.receivedData = data;
@@ -55,7 +52,19 @@ export class UbsAdminTariffsAddTariffServicePopUpComponent implements OnInit {
   }
 
   addForm(): void {
-    this.addTariffServiceForm = this.formBuilder.createTariffService();
+    this.addTariffServiceForm = this.createTariffService();
+  }
+
+  createTariffService() {
+    return this.fb.group({
+      name: new FormControl('', [Validators.required, Validators.pattern(Patterns.NamePattern)]),
+      nameEng: new FormControl('', [Validators.required, Validators.pattern(Patterns.NamePattern)]),
+      capacity: new FormControl('', [Validators.required, Validators.pattern(Patterns.ubsServicePrice)]),
+      commission: new FormControl('', [Validators.required, Validators.pattern(Patterns.ubsServicePrice)]),
+      price: new FormControl('', [Validators.required, Validators.pattern(Patterns.ubsPrice)]),
+      description: new FormControl('', [Validators.required]),
+      descriptionEng: new FormControl('', [Validators.required])
+    });
   }
 
   editForm(): void {

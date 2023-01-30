@@ -1,14 +1,14 @@
 import { Component, Inject, OnInit, OnDestroy } from '@angular/core';
-import { FormBuilder, FormGroup, FormControl } from '@angular/forms';
+import { FormBuilder, FormGroup, FormControl, Validators } from '@angular/forms';
 import { MAT_DIALOG_DATA, MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { TariffsService } from '../../../../services/tariffs.service';
 import { Service } from '../../../../models/tariffs.interface';
 import { takeUntil } from 'rxjs/operators';
 import { Subject } from 'rxjs';
-import { CreateEditTariffsServicesFormBuilder } from '../../../../services/create-edit-tariffs-service-form-builder';
 import { DatePipe } from '@angular/common';
 import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
 import { ModalTextComponent } from '../../../shared/components/modal-text/modal-text.component';
+import { Patterns } from 'src/assets/patterns/patterns';
 
 @Component({
   selector: 'app-ubs-admin-tariffs-add-service-pop-up',
@@ -34,7 +34,6 @@ export class UbsAdminTariffsAddServicePopUpComponent implements OnInit, OnDestro
     public dialog: MatDialog,
     public dialogRef: MatDialogRef<UbsAdminTariffsAddServicePopUpComponent>,
     private fb: FormBuilder,
-    private formBuilder: CreateEditTariffsServicesFormBuilder,
     private localeStorageService: LocalStorageService
   ) {
     this.receivedData = data;
@@ -53,83 +52,80 @@ export class UbsAdminTariffsAddServicePopUpComponent implements OnInit, OnDestro
   }
 
   addForm(): void {
-    this.addServiceForm = this.formBuilder.createTariffService();
+    this.addServiceForm = this.createService();
+  }
+
+  createService() {
+    return this.fb.group({
+      name: new FormControl('', [Validators.required, Validators.pattern(Patterns.NamePattern)]),
+      nameEng: new FormControl('', [Validators.required, Validators.pattern(Patterns.NamePattern)]),
+      price: new FormControl('', [Validators.required, Validators.pattern(Patterns.ubsPrice)]),
+      description: new FormControl('', [Validators.required]),
+      descriptionEng: new FormControl('', [Validators.required])
+    });
   }
 
   editForm(): void {
     this.addServiceForm = this.fb.group({
       name: new FormControl({ value: this.receivedData.serviceData.name }),
       nameEng: new FormControl({ value: this.receivedData.serviceData.nameEng }),
-      capacity: new FormControl({ value: this.receivedData.serviceData.capacity }),
-      price: new FormControl(''),
-      commission: new FormControl(''),
+      price: new FormControl('', [Validators.required, Validators.pattern(Patterns.ubsPrice)]),
       description: new FormControl({ value: this.receivedData.serviceData.description }),
       descriptionEng: new FormControl(this.receivedData.serviceData.descriptionEng)
     });
   }
 
   addNewService() {
-    const courierId: number = this.receivedData.courierId;
+    const tariffId = this.receivedData.tariffId;
 
-    const { name, nameEng, capacity, price, commission, description, descriptionEng } = this.addServiceForm.value;
+    const { name, nameEng, price, description, descriptionEng } = this.addServiceForm.value;
     this.service = {
-      capacity,
       price,
-      courierId,
-      commission,
-      serviceTranslationDtoList: [
-        {
-          description,
-          descriptionEng,
-          name,
-          nameEng
-        }
-      ]
+      tariffId,
+      description,
+      descriptionEng,
+      name,
+      nameEng
     };
     this.loadingAnim = true;
     this.tariffsService
       .createService(this.service)
       .pipe(takeUntil(this.destroy))
       .subscribe(() => {
-        this.dialogRef.close({});
+        this.dialogRef.close();
       });
   }
 
   fillFields(receivedData) {
     if (receivedData.serviceData) {
-      const { name, nameEng, price, capacity, commission, description, englishDescription } = this.receivedData.serviceData;
+      const { name, nameEng, price, description, descriptionEng } = this.receivedData.serviceData;
       this.addServiceForm.patchValue({
         name,
         nameEng,
         price,
-        capacity,
-        commission,
         description,
-        englishDescription
+        descriptionEng
       });
     }
   }
 
   editService() {
-    const locationId = this.receivedData.locationId;
-
-    const { name, nameEng, price, capacity, commission, description, descriptionEng } = this.addServiceForm.getRawValue();
+    const id = this.receivedData.serviceData.id;
+    const { name, nameEng, price, description, descriptionEng } = this.addServiceForm.getRawValue();
     this.service = {
       name,
       nameEng,
-      capacity,
       price,
-      commission,
       description,
       descriptionEng,
-      locationId
+      id
     };
     this.loadingAnim = true;
     this.tariffsService
-      .editService(this.receivedData.serviceData.id, this.service)
+      .editService(this.service)
       .pipe(takeUntil(this.destroy))
       .subscribe(() => {
-        this.dialogRef.close({});
+        this.dialogRef.close();
       });
     this.loadingAnim = false;
   }

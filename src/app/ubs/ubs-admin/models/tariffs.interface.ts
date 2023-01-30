@@ -27,25 +27,13 @@ export interface Bag {
 
 export interface Service {
   price: number;
-  capacity?: number;
-  commission: number;
   description?: string;
   descriptionEng?: string;
   name?: string;
   nameEng?: string;
   languageCode?: string;
   id?: number;
-  fullPrice?: number;
-  locationId?: number;
-  courierId?: number;
-  serviceTranslationDtoList?: [
-    {
-      description: string;
-      descriptionEng: string;
-      nameEng: string;
-      name: string;
-    }
-  ];
+  tariffId?: number;
 }
 
 export interface Stations {

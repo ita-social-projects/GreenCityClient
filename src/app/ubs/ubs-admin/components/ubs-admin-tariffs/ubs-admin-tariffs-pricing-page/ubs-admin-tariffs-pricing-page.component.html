@@ -15,7 +15,7 @@
 <div class="container">
   <div class="text-header">
     <p class="title">{{ 'ubs-tariffs.services' | translate }}</p>
-    <button class="tariffs-add-button" [disabled]="isLoadBar1" (click)="openAddServicePopup()">
+    <button class="tariffs-add-button" [disabled]="isLoadBar1 || service" (click)="openAddServicePopup()">
       <mat-icon class="add-icon">add</mat-icon>
       {{ 'ubs-tariffs.btn.add_service' | translate }}
     </button>
@@ -26,28 +26,23 @@
     </div>
     <table aria-label="tariffsTable">
       <tr>
-        <th scope="row"></th>
+        <th scope="row" class="empty"></th>
         <th scope="row">{{ 'ubs-tariffs.name_of_the_service' | translate }}</th>
-        <th scope="row">{{ 'ubs-tariffs.capacity' | translate }}</th>
         <th scope="row">{{ 'ubs-tariffs.service_description' | translate }}</th>
         <th scope="row">{{ 'ubs-tariffs.basic_cost' | translate }}</th>
-        <th scope="row">{{ 'ubs-tariffs.carriers_commission' | translate }}</th>
-        <th scope="row">{{ 'ubs-tariffs.full_cost' | translate }}</th>
       </tr>
-      <tr *ngFor="let service of services">
+      <tr *ngIf="service">
         <td style="padding-left: 0">
           <div class="image-buttons">
             <img *ngIf="!isLoadBar1" [src]="icons.edit" class="edit-button-img" alt="edit-icon" (click)="openUpdateServicePopup(service)" />
             <img *ngIf="!isLoadBar1" [src]="icons.delete" class="delete-button-img" alt="edit-icon" (click)="openDeleteService(service)" />
           </div>
         </td>
-        <td *ngIf="currentLanguage === 'ua'">{{ service.name }}</td>
-        <td *ngIf="currentLanguage === 'en'">{{ service.nameEng }}</td>
-        <td>{{ service.capacity | volume }}</td>
-        <td>{{ service.description }}</td>
-        <td>{{ service.price | currency | localizedCurrency }}</td>
-        <td>{{ service.commission | currency | localizedCurrency }}</td>
-        <td>{{ service.fullPrice | currency | localizedCurrency }}</td>
+        <td *ngIf="currentLanguage === 'ua'">{{ service?.name }}</td>
+        <td *ngIf="currentLanguage === 'en'">{{ service?.nameEng }}</td>
+        <td *ngIf="currentLanguage === 'ua'">{{ service?.description }}</td>
+        <td *ngIf="currentLanguage === 'en'">{{ service?.descriptionEng }}</td>
+        <td>{{ service?.price | currency | localizedCurrency }}</td>
       </tr>
     </table>
   </div>
@@ -64,7 +59,7 @@
     </div>
     <table aria-label="tariffsTable1">
       <tr>
-        <th scope="row"></th>
+        <th scope="row" class="empty"></th>
         <th scope="row">{{ 'ubs-tariffs.name_of_the_service' | translate }}</th>
         <th scope="row">{{ 'ubs-tariffs.capacity' | translate }}</th>
         <th scope="row">{{ 'ubs-tariffs.service_description' | translate }}</th>
