@@ -188,6 +188,7 @@ describe('UbsAdminTariffsLocationPopUpComponent ', () => {
     fixture.detectChanges();
     component.input = inputsMock;
     component.locations = mockRegion;
+    component.placeService = { getDetails: () => {} } as any;
   });
 
   it('should create', () => {
@@ -334,7 +335,6 @@ describe('UbsAdminTariffsLocationPopUpComponent ', () => {
   });
 
   it('should set value of region', () => {
-    component.placeService = { getDetails: () => {} } as any;
     const spy = spyOn(component, 'setTranslation');
     const eventMock = {
       place_id: 'fakeId'
