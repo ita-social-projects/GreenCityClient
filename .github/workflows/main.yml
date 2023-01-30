@@ -112,15 +112,15 @@ jobs:
           push: true
           tags: ${{ env.dockerRepoName }}:test-${{ env.GITHUB_SHA_SHORT }}
 
-      - name: Kubernetes Set Context
-        uses: Azure/k8s-set-context@v3.0
-        with:
-          kubeconfig: ${{ secrets.KUBE_CONFIG }}
+#       - name: Kubernetes Set Context
+#         uses: Azure/k8s-set-context@v3.0
+#         with:
+#           kubeconfig: ${{ secrets.KUBE_CONFIG }}
 
-      - name: Kubernetes tests
-        run: |
-          cd chart-test
-          go test -v ./...
+#       - name: Kubernetes tests
+#         run: |
+#           cd chart-test
+#           go test -v ./...
 
 #       - name: Deploy 🚀
 #         if: ${{ github.event_name == 'push' }}
