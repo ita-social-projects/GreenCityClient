@@ -25,6 +25,8 @@ export class UbsMainPageComponent implements OnInit, OnDestroy {
   isFetching: boolean;
   currentLocation: string;
   public isAdmin = false;
+  public boxWidth;
+  public lineSize = 0;
 
   priceCard = [
     {
@@ -110,12 +112,45 @@ export class UbsMainPageComponent implements OnInit, OnDestroy {
     this.onCheckToken();
     this.isAdmin = this.checkIsAdmin();
     this.adjustMarqueText();
+    this.boxWidth = document.querySelector('.main-container').getBoundingClientRect().width;
+    this.calcLineSize();
   }
 
   ngOnDestroy() {
     this.destroy.next();
     this.destroy.unsubscribe();
     this.subs.unsubscribe();
+  }
+
+  onResize() {
+    this.boxWidth = document.querySelector('.main-container').getBoundingClientRect().width;
+    this.calcLineSize();
+  }
+
+  calcLineSize() {
+    if (window.innerWidth >= 1024) {
+      const quantity = 4,
+        circleSize = 36,
+        circleMargin = 10;
+      const sumOfIndents = quantity * (circleSize + 2 * circleMargin);
+      this.lineSize = (this.boxWidth - sumOfIndents) / (quantity * 2);
+    } else {
+      const boxes = document.getElementsByClassName('step-order');
+      console.log(boxes[0].getBoundingClientRect().height);
+
+      let biggest = 0;
+      for (let i = 0; i < boxes.length; i++) {
+        let a = boxes[i];
+        let cur = a.getBoundingClientRect().height;
+        console.log(a.getBoundingClientRect());
+
+        if (cur > biggest) {
+          biggest = cur;
+        }
+      }
+      console.log(biggest);
+      this.lineSize = biggest;
+    }
   }
 
   public adjustMarqueText() {

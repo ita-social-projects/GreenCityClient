@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { ubsHeaderIcons } from '../../main/image-pathes/header-icons';
 
 @Component({
@@ -8,6 +8,8 @@ import { ubsHeaderIcons } from '../../main/image-pathes/header-icons';
 })
 export class UbsFooterComponent {
   public footerPicture = ubsHeaderIcons;
+  public screenWidth = window.innerWidth;
+  public currentYear = new Date().getFullYear();
 
   public ubsNavLinks = [
     { name: 'user.lower-nav-bar.about-us', route: '/ubs', url: false },
@@ -15,4 +17,9 @@ export class UbsFooterComponent {
     { name: 'user.lower-nav-bar.eco-shop', route: 'https://shop.nowaste.com.ua/', url: true },
     { name: 'Green City', route: '/', url: false }
   ];
+
+  onResize(event) {
+    event.target.innerWidth;
+    this.screenWidth = window.innerWidth;
+  }
 }

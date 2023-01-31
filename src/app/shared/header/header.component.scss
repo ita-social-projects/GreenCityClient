@@ -596,6 +596,18 @@ ul .ubs-user-cabinet {
 @media (min-width: 992px) {
   .header_navigation-menu {
     width: 100%;
+
+    .header_navigation-menu-left {
+      width: 70%;
+
+      li {
+        margin-left: 0;
+
+        a {
+          font-size: 14px;
+        }
+      }
+    }
   }
 
   .header_navigation-menu-ubs {
@@ -609,6 +621,10 @@ ul .ubs-user-cabinet {
   .header_navigation-menu-right {
     .header_sign-up-link {
       padding-right: 0;
+    }
+
+    .ubs-lang-switcher {
+      margin-right: 100px !important;
     }
 
     .header_burger-btn {

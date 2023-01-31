@@ -54,7 +54,7 @@
 
     .main-content {
       margin-top: 87px;
-      max-width: 29vw;
+      max-width: 30%;
       display: flex;
       flex-direction: column;
       justify-content: flex-start;
@@ -181,14 +181,17 @@
         justify-content: baseline;
 
         .box-number {
+          display: flex;
+          justify-content: center;
+          align-items: center;
           font-weight: 800;
           font-size: 75px;
           color: #87bc1e;
-          margin: auto 0 auto 50px;
           width: 150px;
         }
 
         .box-text {
+          width: 100%;
           color: #575757;
           max-width: 350px;
           max-height: 81px;
@@ -335,6 +338,7 @@
       .step-order {
         display: flex;
         align-items: center;
+        width: 100%;
       }
 
       .base-line {
@@ -343,8 +347,7 @@
         margin: 15px 0;
 
         hr {
-          @include height-and-width(5px, 200px);
-
+          height: 5px;
           border: none;
           background-color: var(--ubs-tertiary-light-grey);
         }
@@ -404,6 +407,90 @@
           line-height: 19.5px;
           font-weight: 500;
         }
+      }
+    }
+  }
+
+  .box {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    margin-top: 80px;
+    font-weight: 500;
+    font-size: 16px;
+    line-height: 20px;
+
+    .step-order {
+      display: flex;
+      align-items: center;
+      width: 100%;
+    }
+
+    .base-line {
+      display: flex;
+      flex-direction: row;
+      margin: 15px 0;
+
+      hr {
+        height: 5px;
+        border: none;
+        background-color: var(--ubs-tertiary-light-grey);
+      }
+
+      .circle {
+        @include height-and-width(36px, 36px);
+        position: relative;
+        margin: 0 10px;
+        background-color: #6e9e0d;
+        color: var(--ubs-primary-white);
+        border-radius: 50%;
+        text-align: center;
+        font-size: 18px;
+        font-weight: 800;
+        padding: 10px 0;
+
+        p {
+          margin: 0;
+        }
+      }
+    }
+
+    .content-box-filler {
+      height: 194px;
+    }
+
+    .content-box {
+      width: calc(100% - 100px);
+      height: 194px;
+      display: flex;
+      justify-content: flex-start;
+      padding: 36px;
+      border: 1px solid #b3b3b3;
+      border-radius: 8px;
+      color: var(--ubs-primary-black);
+
+      h1.step-order-header {
+        width: 100%;
+        font-weight: 800;
+        font-size: 25px;
+        line-height: 21.85px;
+        letter-spacing: -0.025em;
+
+        .odd {
+          margin-bottom: 20px;
+        }
+
+        .even {
+          margin-top: 20px;
+        }
+      }
+
+      p.step-order-content {
+        width: 100%;
+        margin: 0;
+        font-size: 16px;
+        line-height: 19.5px;
+        font-weight: 500;
       }
     }
   }
@@ -481,6 +568,78 @@
   }
 }
 
+.box-mobile {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  margin-top: 47px;
+  flex-direction: column;
+
+  .step-order {
+    display: flex;
+    align-items: center;
+    width: 100%;
+    gap: 14px;
+  }
+
+  .base-line {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    align-items: center;
+    gap: 6px;
+
+    hr {
+      width: 3px;
+      border: none;
+      background-color: var(--ubs-tertiary-light-grey);
+      margin: 0;
+    }
+
+    .circle {
+      @include height-and-width(22px, 22px);
+      position: relative;
+      background-color: #6e9e0d;
+      color: var(--ubs-primary-white);
+      border-radius: 50%;
+      text-align: center;
+      font-size: 12px;
+      font-weight: 800;
+      p {
+        margin: 0;
+      }
+    }
+  }
+
+  .content-box {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    padding: 24px 16px;
+    border: 1px solid #8c8c8c;
+    border-radius: 8px;
+    color: var(--ubs-primary-black);
+
+    h1.step-order-header {
+      width: 100%;
+      font-weight: 800;
+      font-size: 15px;
+      line-height: 15px;
+      letter-spacing: -0.025em;
+      margin: 0;
+    }
+
+    p.step-order-content {
+      width: 100%;
+      margin: 0;
+      font-size: 12px;
+      line-height: 16px;
+      font-weight: 500;
+    }
+  }
+}
+
 @media screen and (min-width: 1920px) {
   .ubsHomepage {
     margin: 0 auto;
@@ -491,15 +650,76 @@
   }
 }
 
+@media (min-width: 1024px) and (max-width: 1740px) {
+  .main-container .box .step-order .content-box {
+    width: 100% !important;
+  }
+}
+
+@media (min-width: 1024px) and (max-width: 1440px) {
+  .main-container .box .step-order .content-box {
+    padding: 10px !important;
+    .step-order-header {
+      font-size: 22px !important;
+    }
+    .step-order-content {
+      font-size: 14px !important;
+    }
+  }
+}
+
 @media screen and (max-width: 1024px) {
   .ubsHomepage {
     margin: 0 auto;
+
+    header {
+      app-ubs-main-page-spinner {
+        width: 300px;
+        right: 50px;
+      }
+
+      .main-content {
+        max-width: 50%;
+      }
+    }
+  }
+
+  .rule,
+  .box-text {
+    font-size: 18px !important;
+  }
+
+  .box-number {
+    font-size: 47px !important;
   }
 
   #price-frame {
     @include height-and-width(236px, 436px);
   }
+
+  .time-frame .header-how-works {
+    font-size: 28px !important;
+  }
+
+  #how-works-content .link-to-shop {
+    font-size: 24px !important;
+  }
+
+  section .box-card #price-frame .content-price div {
+    font-size: 18px;
+  }
+
+  .main-container {
+    padding: 0 16px !important;
+    margin: 0 !important;
+  }
 }
+
+/* @media screen and (max-width: 1024px) {
+.ubs-image {
+
+}
+}/**/
 
 /* @media screen and (min-width: 770px) {
   #price-frame {
@@ -652,5 +872,4 @@
         display: none;
       }
     }
-  }
-}/**/
+  } /**/

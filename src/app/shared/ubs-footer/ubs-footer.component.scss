@@ -61,149 +61,92 @@
           color: #b9b9b9;
         }
       }
-
-      /*.footer-content {
-      p {
-        font-size: 16px;
-        margin-bottom: 7px;
-
-        a {
-          font-size: 18px;
-          font-weight: bold;
-        }
-      }
-    }
-
-    .footer-links {
-      display: inline-block;
-      list-style: none;
-
-      li {
-        margin-bottom: 7px;
-
-        a {
-          font-size: 15px;
-          color: #690;
-        }
-      }
-    }
-
-    .footer-content p a:hover {
-      text-decoration: underline;
-    }
-
-    .footer-links li a:hover {
-      color: black;
-      text-decoration: underline;
-    }
-
-    .footer-logo,
-    .footer-content,
-    .footer-links,
-    .footer-subscribe-us {
-      width: 25%;
-      justify-content: flex-start;
-      padding: 0 20px 0 20px;
-      line-height: 24px;
-    }
-
-    .social-networks {
-      width: 100%;
-      display: flex;
-      justify-content: center;
-
-
-
-      .toggle-footer-button {
-        position: absolute;
-        right: 10%;
-        bottom: 152px;
-        border: 1px solid gainsboro;
-        width: 42px;
-        height: 42px;
-
-        .show-footer-label {
-          width: 100%;
-          cursor: pointer;
-        }
-      }
-
-      .foot-check {
-        display: none;
-      }
-    }/**/
     }
   }
 }
 
-/*@media (max-width: 992px) {
-    .container-fluid {
-      .toggle-footer-button {
-        right: 5%;
+.footer-container-mobile {
+  width: 100%;
+  padding: 0 16px;
+
+  .footer-menu-mobile {
+    display: flex;
+    width: 100%;
+    align-items: center;
+
+    .footer-menu {
+      display: flex;
+      width: 100%;
+      justify-content: flex-start;
+      gap: 20px;
+      padding: 0;
+      margin: 0;
+
+      li {
+        list-style-type: none;
+
+        a {
+          display: flex;
+          font-weight: 700;
+          font-size: 12px;
+          line-height: 12px;
+          color: #ffffff;
+        }
       }
 
-      .main-content {
-        flex-direction: column;
-        margin: 0;
-
-        .footer-logo {
-          margin-top: 0;
-
-          a {
-            img {
-              width: 226px;
-              height: 226px;
-            }
-          }
-        }
-
-        .footer-content,
-        .footer-subscribe-us,
-        .footer-links {
-          width: 100%;
-          margin-top: 50px;
-        }
+      // hide GreenCity for prod
+      :last-child {
+        display: none;
       }
     }
   }
 
-  @media (max-width: 768px) {
-    .container-fluid {
-      .toggle-footer-button {
-        width: 40%;
-        bottom: 140px;
-        border-radius: 0;
-        right: 30%;
-      }
+  .footer-bottom-part {
+    margin: 29px 0 22px 0;
+    font-size: 9px;
+    font-weight: 400;
+    line-height: 11px;
+    color: #8c8c8c;
 
-      .social-networks {
-        justify-content: space-around;
-        padding: 0 30px 80px 30px;
+    .par {
+      margin: 0;
+    }
+  }
+}
+
+@media (max-width: 1024px) {
+  .footer {
+    height: 157px;
+    flex-direction: column;
+    .container-fluid {
+      margin: 0;
+      padding: 28px 16px 23px 16px;
+      .menu-left {
+        width: auto;
+      }
+      .menu-right {
+        width: 100%;
+
+        a {
+          margin: 0;
+        }
+
+        .social-networks {
+          display: flex;
+          flex-direction: row;
+          gap: 10px;
+        }
+      }
+      img {
+        height: 32px;
       }
     }
   }
+}
 
-  @media (max-width: 480px) {
-    .container-fluid {
-      .social-networks {
-        margin-top: 20px;
-
-        .fa {
-          margin-right: 30px;
-        }
-      }
-
-      input.foot-check:checked + .main-content {
-        margin-top: 80px;
-      }
-
-      .footer-bottom-part {
-        padding: 0 8px;
-        margin-top: 20px;
-      }
-
-      .toggle-footer-button {
-        bottom: 80px;
-      }
-    }
-  }/**/
+@media (min-width: 320px) and (max-width: 768px) {
+  .footer-container-mobile .footer-menu-mobile .footer-menu {
+    justify-content: space-between;
+    gap: 0;
+  }
+}
