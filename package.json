@@ -7,6 +7,7 @@
     "start": "ng serve",
     "build": "ng build",
     "build-prod": "ng build --prod --base-href=/GreenCityClient/",
+    "build-stage": "ng build --configuration=stage --base-href=/GreenCityClient/",
     "test": "ng test",
     "lint": "ng lint",
     "e2e": "ng e2e",
