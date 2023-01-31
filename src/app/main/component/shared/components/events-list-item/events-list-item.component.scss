@@ -125,13 +125,18 @@
   display: flex;
   justify-content: flex-start;
   width: auto;
-  flex-wrap: wrap;
-  gap: 8px;
+  flex-wrap: nowrap;
+  overflow: hidden;
   margin: 0;
   padding: 0;
 
   li {
     display: inline-block;
+    list-style-type: none;
+  }
+
+  li:last-child .tag-divider {
+    display: none;
   }
 }
 
