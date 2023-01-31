@@ -121,6 +121,13 @@
   }
 }
 
+.tag-divider {
+  color: var(--primary-light-green);
+  height: 100%;
+  padding: 0 4px;
+  margin: 0 4px;
+}
+
 .ul-eco-buttons {
   display: flex;
   justify-content: flex-start;
