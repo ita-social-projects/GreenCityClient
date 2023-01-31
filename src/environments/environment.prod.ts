@@ -22,6 +22,6 @@ export const environment = {
   ubsAdmin: {
     backendUbsAdminLink: 'https://greencity-ubs.pick-up.city/ubs'
   },
-  googleClientId: '129513550972-eu9ej46rviv1ac8q14at62t2k5qon1pu.apps.googleusercontent.com',
+  googleClientId: '1041981142587-jo5jdj07bap3gdn45n74e7ur1u1cnfi6.apps.googleusercontent.com',
   agmCoreModuleApiKey: 'AIzaSyCdBtR8O8eazfWUSdyb5O2cnL32uJtWUwA'
 };
