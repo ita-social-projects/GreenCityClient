@@ -360,7 +360,7 @@ export class UbsAdminOrderComponent implements OnInit, OnDestroy, AfterContentCh
 
       changedValues.exportDetailsDto = exportDetail1s;
       this.formatExporteValue(changedValues.exportDetailsDto);
-    } /** */
+    }
 
     if (changedValues.orderDetailsForm) {
       changedValues.orderDetailDto = this.formatBagsValue(changedValues.orderDetailsForm);
