@@ -191,10 +191,22 @@ export class UbsAdminOrderComponent implements OnInit, OnDestroy, AfterContentCh
       addressExportDetailsDto: this.fb.group({
         addressRegion: [this.addressInfo.addressRegion, Validators.required],
         addressRegionEng: [this.addressInfo.addressRegionEng, Validators.required],
-        addressCity: [this.addressInfo.addressCity, Validators.required],
-        addressCityEng: [this.addressInfo.addressCityEng, Validators.required],
-        addressStreet: [this.addressInfo.addressStreet, [Validators.required, Validators.minLength(3), Validators.maxLength(120)]],
-        addressStreetEng: [this.addressInfo.addressStreetEng, [Validators.required, Validators.minLength(3), Validators.maxLength(120)]],
+        addressCity: [
+          this.addressInfo.addressCity,
+          [Validators.required, Validators.minLength(3), Validators.maxLength(30), Validators.pattern(Patterns.ubsWithDigitPattern)]
+        ],
+        addressCityEng: [
+          this.addressInfo.addressCityEng,
+          [Validators.required, Validators.minLength(3), Validators.maxLength(30), Validators.pattern(Patterns.ubsWithDigitPattern)]
+        ],
+        addressStreet: [
+          this.addressInfo.addressStreet,
+          [Validators.required, Validators.minLength(3), Validators.maxLength(120), Validators.pattern(Patterns.ubsWithDigitPattern)]
+        ],
+        addressStreetEng: [
+          this.addressInfo.addressStreetEng,
+          [Validators.required, Validators.minLength(3), Validators.maxLength(120), Validators.pattern(Patterns.ubsWithDigitPattern)]
+        ],
         addressHouseNumber: [
           this.addressInfo.addressHouseNumber,
           [Validators.required, Validators.maxLength(4), Validators.pattern(Patterns.ubsHousePattern)]
