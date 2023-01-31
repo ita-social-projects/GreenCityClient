@@ -57,7 +57,7 @@ stages:
               repository: '$(docker_repo)'
               command: 'push'
               tags: |
-                dev-$(Build.BuildId)
+                prod-$(Build.BuildId)
                 latest
 
           - task: CopyFiles@2
