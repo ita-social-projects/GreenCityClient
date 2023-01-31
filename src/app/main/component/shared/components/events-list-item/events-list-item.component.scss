@@ -54,7 +54,7 @@
   .event-flags {
     width: 40px;
     height: 40px;
-    background-color: #ffffff;
+    background-color: #fff;
     position: absolute;
     top: 10px;
     right: 10px;
@@ -127,6 +127,13 @@
   }
 }
 
+.tag-divider {
+  color: var(--primary-light-green);
+  height: 100%;
+  padding: 0 4px;
+  margin: 0 4px;
+}
+
 .ul-eco-buttons {
   display: flex;
   justify-content: flex-start;
@@ -163,13 +170,6 @@
   }
 }
 
-.tag-divider {
-  color: var(--primary-light-green);
-  height: 100%;
-  padding: 0 4px;
-  margin: 0 4px;
-}
-
 .time-divider {
   color: var(--quaternary-grey);
   height: 100%;
@@ -204,7 +204,6 @@
   flex-direction: row;
   align-items: center;
   justify-content: space-between;
-
   font-family: var(--primary-font);
   font-size: 14px;
   font-weight: 400;
@@ -227,6 +226,7 @@
     display: flex;
     height: 50%;
   }
+
   .author-image {
     width: 16px;
     height: 16px;
@@ -236,6 +236,7 @@
     display: flex;
     height: 50%;
   }
+
   .frame-image {
     width: 16px;
     height: 16px;
@@ -245,6 +246,7 @@
     display: flex;
     height: 50%;
   }
+
   .like-image {
     width: 16px;
     height: 16px;
