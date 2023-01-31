@@ -17,6 +17,7 @@ import { DialogPopUpComponent } from 'src/app/shared/dialog-pop-up/dialog-pop-up
 import { TranslateService } from '@ngx-translate/core';
 import { ReplaySubject, Subscription } from 'rxjs';
 import { UserOwnAuthService } from '@auth-service/user-own-auth.service';
+import { DatePipe } from '@angular/common';
 
 @Component({
   selector: 'app-events-list-item',
@@ -51,6 +52,8 @@ export class EventsListItemComponent implements OnInit, OnDestroy {
 
   public langChangeSub: Subscription;
   public currentLang: string;
+  public datePipe = new DatePipe(this.localStorageService.getCurrentLanguage());
+  public newDate = this.datePipe.transform(new Date(), 'MMM dd, yyyy');
 
   deleteDialogData = {
     popupTitle: 'homepage.events.delete-title',

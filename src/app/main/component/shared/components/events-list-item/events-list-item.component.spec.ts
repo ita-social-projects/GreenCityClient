@@ -48,6 +48,7 @@ describe('EventsListItemComponent', () => {
   let translate: TranslateService;
 
   const eventMock = {
+    description: 'tralalalal',
     additionalImages: [],
     tags: [
       { id: 1, nameUa: 'Соціальний', nameEn: 'Social' },
