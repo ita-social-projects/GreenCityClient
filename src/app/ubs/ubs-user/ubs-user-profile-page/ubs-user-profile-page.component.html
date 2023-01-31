@@ -231,6 +231,19 @@
                         {{ cityName.description }}
                       </mat-option>
                     </mat-autocomplete>
+                    <div
+                      class="validation"
+                      *ngIf="
+                        address.get(currentLanguage === 'ua' ? 'city' : 'cityEn').invalid &&
+                        address.get(currentLanguage === 'ua' ? 'city' : 'cityEn').touched
+                      "
+                    >
+                      <app-ubs-input-error
+                        [formElement]="address.get(currentLanguage === 'ua' ? 'city' : 'cityEn')"
+                        [controlName]="currentLanguage === 'ua' ? 'city' : 'cityEn'"
+                      >
+                      </app-ubs-input-error>
+                    </div>
                   </div>
                 </div>
                 <div class="inline">

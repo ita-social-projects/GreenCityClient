@@ -234,6 +234,7 @@
   "address-details": {
     "title": "Waste export address",
     "district": "District",
+    "city": "City",
     "settlement": "Settlement",
     "street": "Street",
     "comment-label": "Comment to the address from the client",
