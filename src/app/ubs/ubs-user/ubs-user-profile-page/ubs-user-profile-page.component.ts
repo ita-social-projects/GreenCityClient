@@ -114,11 +114,15 @@ export class UbsUserProfilePageComponent implements OnInit, AfterViewInit, OnDes
     const addres = new FormArray([]);
     this.userProfile.addressDto.forEach((adres) => {
       const seperateAddress = new FormGroup({
-        city: new FormControl(adres?.city, [Validators.required, Validators.pattern(Patterns.ubsCityPattern), Validators.maxLength(20)]),
+        city: new FormControl(adres?.city, [
+          Validators.required,
+          Validators.pattern(Patterns.ubsWithDigitPattern),
+          Validators.maxLength(30)
+        ]),
         cityEn: new FormControl(adres?.cityEn, [
           Validators.required,
-          Validators.pattern(Patterns.ubsCityPattern),
-          Validators.maxLength(20)
+          Validators.pattern(Patterns.ubsWithDigitPattern),
+          Validators.maxLength(30)
         ]),
         street: new FormControl(adres?.street, [
           Validators.required,
