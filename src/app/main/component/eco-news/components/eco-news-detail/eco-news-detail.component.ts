@@ -6,6 +6,7 @@ import { EcoNewsService } from '@eco-news-service/eco-news.service';
 import { EcoNewsModel } from '@eco-news-models/eco-news-model';
 import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
 import { take, takeUntil } from 'rxjs/operators';
+import { LanguageService } from 'src/app/main/i18n/language.service';
 
 @Component({
   selector: 'app-eco-news-detail',
@@ -30,7 +31,12 @@ export class EcoNewsDetailComponent implements OnInit, OnDestroy {
 
   public backRoute: string;
 
-  constructor(private route: ActivatedRoute, private ecoNewsService: EcoNewsService, private localStorageService: LocalStorageService) {}
+  constructor(
+    private route: ActivatedRoute,
+    private ecoNewsService: EcoNewsService,
+    private localStorageService: LocalStorageService,
+    private langService: LanguageService
+  ) {}
 
   ngOnInit() {
     this.getUserId();
@@ -111,8 +117,8 @@ export class EcoNewsDetailComponent implements OnInit, OnDestroy {
       });
   }
 
-  private getLangValue(uaValue: string[], enValue: string[]): string[] {
-    return this.currentLang === 'ua' ? uaValue : enValue;
+  private getLangValue(uaValue: string[], enValue: string[]): any {
+    return this.langService.getLangValue(uaValue, enValue);
   }
 
   ngOnDestroy() {
