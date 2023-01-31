@@ -28,7 +28,7 @@
     background-color: rgba(224, 233, 233, 0.781);
     position: absolute;
     top: 10px;
-    left: 10px;
+    right: 10px;
     border-radius: 5px;
     display: flex;
     justify-content: space-between;
@@ -183,7 +183,7 @@
 }
 
 .btn-group {
-  padding: 16px;
+  padding: 0 16px;
   display: flex;
   justify-content: flex-end;
   margin-top: 10px;
@@ -198,23 +198,34 @@
 }
 
 .additional-info {
-  padding: 16px;
+  padding: 16px 16px 0;
+  margin: 0;
   display: flex;
   flex-direction: row;
   align-items: center;
   justify-content: space-between;
 
+  font-family: var(--primary-font);
+  font-size: 14px;
+  font-weight: 400;
+  line-height: 20px;
+  text-align: left;
+  color: var(--quaternary-grey);
+
   .date {
-    width: 25%;
+    display: flex;
+    height: 50%;
   }
 
   .date-image {
+    align-content: center;
     width: 16px;
     height: 16px;
   }
 
   .author {
-    width: 25%;
+    display: flex;
+    height: 50%;
   }
   .author-image {
     width: 16px;
@@ -222,7 +233,8 @@
   }
 
   .frame {
-    width: 25%;
+    display: flex;
+    height: 50%;
   }
   .frame-image {
     width: 16px;
@@ -230,7 +242,8 @@
   }
 
   .like {
-    width: 25%;
+    display: flex;
+    height: 50%;
   }
   .like-image {
     width: 16px;

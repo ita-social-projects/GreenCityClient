@@ -34,6 +34,7 @@ export class EventsListItemComponent implements OnInit, OnDestroy {
   public isJoinBtnHidden = false;
   public rate: number;
   public userId: number;
+  public author: string;
 
   public isJoined: boolean;
   public isEventOpen: boolean;
@@ -70,7 +71,6 @@ export class EventsListItemComponent implements OnInit, OnDestroy {
   ) {}
 
   ngOnInit(): void {
-    this.cutDescription();
     this.itemTags = TagsArray.reduce((ac, cur) => [...ac, { ...cur }], []);
     this.filterTags(this.event.tags);
     this.rate = Math.round(this.event.organizer.organizerRating);
@@ -81,6 +81,7 @@ export class EventsListItemComponent implements OnInit, OnDestroy {
     this.checkAllStatusesOfEvent();
     this.subscribeToLangChange();
     this.bindLang(this.localStorageService.getCurrentLanguage());
+    this.author = this.event.organizer.name;
   }
 
   public routeToEvent(): void {
@@ -96,12 +97,12 @@ export class EventsListItemComponent implements OnInit, OnDestroy {
   }
 
   public initAllStatusesOfEvent(): void {
-    this.isJoined = this.event.isSubscribed ? true : false;
+    this.isJoined = this.event.isSubscribed;
     this.isEventOpen = this.event.open;
     this.isOwner = this.userId === this.event.organizer.id;
-    this.isRegistered = this.userId ? true : false;
+    this.isRegistered = !!this.userId;
     this.isFinished = Date.parse(this.event.dates[0].finishDate) < Date.parse(new Date().toString());
-    this.isRated = this.rate ? true : false;
+    this.isRated = !!this.rate;
   }
 
   public getUserId(): void {

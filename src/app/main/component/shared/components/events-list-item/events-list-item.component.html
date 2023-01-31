@@ -1,13 +1,13 @@
 <div class="card-wrapper">
   <div class="image-container">
     <img class="event-image" src="{{ event.titleImage }}" alt="event" />
-    <div class="event-stars">
+    <div class="event-stars" *ngIf="!isEventOpen">
       <rating [(ngModel)]="rate" [customTemplate]="star" [max]="max" [readonly]="true"> </rating>
       <ng-template #star let-index="index" let-value="value">
         <span class="star {{ index < value ? 'fill' : 'empty' }}"></span>
       </ng-template>
     </div>
-    <div class="event-flags">
+    <div class="event-flags" *ngIf="isEventOpen">
       <span class="flag"></span>
     </div>
   </div>
@@ -51,19 +51,21 @@
   <div class="additional-info">
     <div class="date">
       <img src="assets/events-icons/date.png" class="date-image" />
-      date
+      <p>{{ newDate | date: undefined:undefined:translate.defaultLang }}</p>
+      <p></p>
     </div>
+
     <div class="author">
       <img src="assets/events-icons/author.png" class="author-image" />
-      author
+      <p>{{ author }}</p>
     </div>
     <div class="frame">
       <img src="assets/events-icons/frame.png" class="frame-image" />
-      frame
+      <p>{{ '14' }}</p>
     </div>
     <div class="like">
       <img src="assets/events-icons/like.png" class="like-image" />
-      like
+      <p>{{ '10' }}</p>
     </div>
   </div>
 </div>
