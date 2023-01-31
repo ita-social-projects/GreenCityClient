@@ -91,6 +91,14 @@ export class LanguageService {
     }
   }
 
+  // public getLangStringValue(uaValue: string, enValue: string): string {
+  //       return this.localStorageService.getCurrentLanguage() === 'ua' ? uaValue : enValue;
+  // }
+
+  // public getLangArrayValue(uaValue: string[], enValue: string[]): string[] {
+  //       return this.localStorageService.getCurrentLanguage() === 'ua' ? uaValue : enValue;
+  // }
+
   private getLanguageByString(languageString: string) {
     for (const key of this.langMap.keys()) {
       if (this.langMap.get(key).indexOf(languageString) !== -1) {
