@@ -1,6 +1,5 @@
 import { Component, EventEmitter, Input, OnChanges, OnInit, Output } from '@angular/core';
-import { FilterModel } from '@eco-news-models/filter.model';
-import { NewsTagInterface } from '@eco-news-models/eco-news-model';
+import { FilterModel, TagInterface } from './tag-filter.model';
 import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
 
 @Component({
@@ -14,7 +13,9 @@ export class TagFilterComponent implements OnInit, OnChanges {
   @Input() public tagsListData = [];
   @Input() public header: string;
   @Output() tagsList = new EventEmitter<Array<string>>();
+
   constructor(public localStorageService: LocalStorageService) {}
+
   ngOnInit() {
     this.filters = this.getSessionStorageFilters();
     this.emitActiveFilters();
@@ -44,10 +45,10 @@ export class TagFilterComponent implements OnInit, OnChanges {
     this.setSessionStorageFilters();
   }
 
-  private setTags(tags: Array<NewsTagInterface>): void {
+  private setTags(tags: Array<TagInterface>): void {
     const savedFilters = this.getSessionStorageFilters();
     if (!sessionStorage.getItem(this.storageKey)) {
-      this.filters = tags.map((tag: NewsTagInterface) =>
+      this.filters = tags.map((tag: TagInterface) =>
         tag.name === savedFilters || tag.nameUa === savedFilters
           ? { name: tag.name, nameUa: tag.nameUa, isActive: true }
           : { name: tag.name, nameUa: tag.nameUa, isActive: false }

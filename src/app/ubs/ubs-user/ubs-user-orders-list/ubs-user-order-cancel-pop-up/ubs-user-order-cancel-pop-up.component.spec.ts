@@ -15,19 +15,13 @@ describe('UbsUserOrderCancelPopUpComponent', () => {
     price: 555,
     orders: [
       {
-        generalOrderInfo: {
-          id: 1
-        }
+        id: 1
       },
       {
-        generalOrderInfo: {
-          id: 2
-        }
+        id: 2
       },
       {
-        generalOrderInfo: {
-          id: 3
-        }
+        id: 3
       }
     ],
     bonuses: 222

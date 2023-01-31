@@ -113,6 +113,7 @@ describe('UbsAdminTariffsLocationDashboardComponent', () => {
   const fakeStation = {
     id: 1,
     name: 'fake',
+    stationStatus: 'ACTIVE',
     createdBy: 'Fake',
     createdAt: 'fake'
   };
@@ -647,8 +648,8 @@ describe('UbsAdminTariffsLocationDashboardComponent', () => {
   it('should select all items of stations', () => {
     const spy = spyOn(component, 'isStationChecked').and.returnValue(false);
     component.stations = [
-      { name: 'First', createDate: '0', createdBy: 'Fake', id: 1 },
-      { name: 'Second', createDate: '0', createdBy: 'Fake', id: 2 }
+      { name: 'First', createDate: '0', createdBy: 'Fake', id: 1, stationStatus: 'ACTIVE' },
+      { name: 'Second', createDate: '0', createdBy: 'Fake', id: 2, stationStatus: 'ACTIVE' }
     ];
     component.toggleSelectAllStation();
     expect(spy).toHaveBeenCalled();

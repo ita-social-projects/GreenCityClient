@@ -1,15 +1,16 @@
-import { HabitAssignService } from '@global-service/habit-assign/habit-assign.service';
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
-import { BehaviorSubject, Subscription } from 'rxjs';
+import { BehaviorSubject, Observable, ReplaySubject, Subscription } from 'rxjs';
+import { map, take, takeUntil } from 'rxjs/operators';
 
+import { HabitAssignService } from '@global-service/habit-assign/habit-assign.service';
 import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
 import { HabitService } from '@global-service/habit/habit.service';
-import { map, take } from 'rxjs/operators';
 import { HabitInterface, HabitListInterface } from '../../../../../interface/habit/habit.interface';
 import { singleNewsImages } from '../../../../../image-pathes/single-news-images';
 import { ProfileService } from '@global-user/components/profile/profile-service/profile.service';
 import { HabitAssignInterface } from 'src/app/main/interface/habit/habit-assign.interface';
+import { TagInterface } from '@shared/components/tag-filter/tag-filter.model';
 
 @Component({
   selector: 'app-all-habits',
@@ -24,7 +25,9 @@ export class AllHabitsComponent implements OnInit, OnDestroy {
   public galleryView = true;
   public isFetching = true;
   public elementsLeft = true;
-  public tagList: string[] = [];
+  public tagList: TagInterface[] = [];
+  public tags = this.habitService.getAllTags();
+  public tagsList: Array<string> = [];
   public windowSize: number;
   private currentPage = 0;
   private totalPages: number;
@@ -52,6 +55,7 @@ export class AllHabitsComponent implements OnInit, OnDestroy {
       this.resetState();
       this.resetSubject();
       this.fetchAllHabits(0, this.batchSize);
+      this.getAllHabitsTags();
     });
 
     const habitServiceSub = this.allHabits.subscribe((data) => {
@@ -63,20 +67,18 @@ export class AllHabitsComponent implements OnInit, OnDestroy {
       this.habitsList = data.page;
       this.filteredHabitsList = data.page;
 
-      let tag = [];
       if (data.page) {
         this.elementsLeft = data.totalElements !== this.habitsList.length;
         this.checkIfAssigned();
-        data.page.forEach((element) => {
-          tag = [...tag, ...element.habitTranslation.habitItem];
-          return tag;
-        });
-        this.tagList = [...new Set(tag)];
       }
     });
 
     this.masterSubscription.add(langChangeSub);
     this.masterSubscription.add(habitServiceSub);
+  }
+
+  private getAllHabitsTags(): void {
+    this.tags.pipe(take(1)).subscribe((tagsArray: Array<TagInterface>) => (this.tagList = tagsArray));
   }
 
   public checkHabitsView(): void {
@@ -119,20 +121,20 @@ export class AllHabitsComponent implements OnInit, OnDestroy {
     this.localStorageService.setHabitsGalleryView(mode);
   }
 
-  public getFilterData(event: Array<string>) {
-    if (event.length === 0) {
+  public getFilterData(event: Array<string>): HabitInterface[] {
+    if (!event.length) {
       this.totalHabitsCopy = this.totalHabits;
       this.filteredHabitsList = this.habitsList;
+      this.currentPage = 1;
       return this.filteredHabitsList;
     }
     if (this.filteredHabitsList.length > 0) {
-      this.filteredHabitsList = this.habitsList.filter((el) => {
-        return el.habitTranslation.habitItem.find((item) => {
-          return event.includes(item);
-        });
+      this.filteredHabitsList = this.habitsList.filter((habit) => {
+        return event.some((tag) => habit.tags.includes(tag));
       });
-      this.onScroll();
       this.totalHabitsCopy = this.filteredHabitsList.length;
+      this.currentPage = this.totalPages;
+      return this.filteredHabitsList;
     }
   }
 

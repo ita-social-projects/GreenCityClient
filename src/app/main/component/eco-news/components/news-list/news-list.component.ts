@@ -3,7 +3,8 @@ import { Component, OnInit, OnDestroy } from '@angular/core';
 import { Observable, ReplaySubject } from 'rxjs';
 import { take, takeUntil } from 'rxjs/operators';
 import { EcoNewsService } from '@eco-news-service/eco-news.service';
-import { EcoNewsModel, NewsTagInterface } from '@eco-news-models/eco-news-model';
+import { EcoNewsModel } from '@eco-news-models/eco-news-model';
+import { TagInterface } from '@shared/components/tag-filter/tag-filter.model';
 import { UserOwnAuthService } from '@auth-service/user-own-auth.service';
 import { MatSnackBarComponent } from '@global-errors/mat-snack-bar/mat-snack-bar.component';
 import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
@@ -29,9 +30,9 @@ export class NewsListComponent implements OnInit, OnDestroy {
   public scroll: boolean;
   public numberOfNews: number;
   public elementsArePresent = true;
-  public tagList: NewsTagInterface[];
+  public tagList: TagInterface[];
   private destroyed$: ReplaySubject<any> = new ReplaySubject<any>(1);
-  public tags: Observable<Array<NewsTagInterface>>;
+  public tags: Observable<Array<TagInterface>>;
 
   public hasNext = true;
 
@@ -75,7 +76,7 @@ export class NewsListComponent implements OnInit, OnDestroy {
   }
 
   private getAllTags(): void {
-    this.tags.pipe(take(1)).subscribe((tagsArray: Array<NewsTagInterface>) => (this.tagList = tagsArray));
+    this.tags.pipe(take(1)).subscribe((tagsArray: Array<TagInterface>) => (this.tagList = tagsArray));
   }
 
   public onResize(): void {

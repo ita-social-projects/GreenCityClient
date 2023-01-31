@@ -15,15 +15,21 @@ import { Language } from 'src/app/main/i18n/Language';
 import { APP_BASE_HREF } from '@angular/common';
 import { UBSInputErrorComponent } from 'src/app/shared/ubs-input-error/ubs-input-error.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { BehaviorSubject } from 'rxjs/internal/BehaviorSubject';
+import { GoogleScript } from 'src/assets/google-script/google-script';
 
 describe('UBSPersonalInformationComponent', () => {
   let component: UBSPersonalInformationComponent;
   let fixture: ComponentFixture<UBSPersonalInformationComponent>;
   let realTakeUserData;
 
-  const fakeLocalStorageService = jasmine.createSpyObj('LocalStorageService', ['getCurrentLanguage', 'getLocationId']);
-  fakeLocalStorageService.getCurrentLanguage = () => 'ua' as Language;
+  const fakeLocalStorageService = jasmine.createSpyObj('LocalStorageService', ['getLocationId', 'languageBehaviourSubject']);
+  fakeLocalStorageService.languageBehaviourSubject = new BehaviorSubject('ua');
   fakeLocalStorageService.getLocationId = () => '1';
+
+  const fakeGoogleScript = jasmine.createSpyObj('GoogleScript', ['load']);
+  fakeGoogleScript.load.and.returnValue(of());
+
   const listMock = {
     addressList: [
       {
@@ -126,6 +132,7 @@ describe('UBSPersonalInformationComponent', () => {
         { provide: UBSOrderFormService, useValue: fakeShareFormService },
         { provide: OrderService, useValue: fakeOrderService },
         { provide: LocalStorageService, useValue: fakeLocalStorageService },
+        { provide: GoogleScript, useValue: fakeGoogleScript },
         { provide: APP_BASE_HREF, useValue: '/' }
       ],
       schemas: [CUSTOM_ELEMENTS_SCHEMA]

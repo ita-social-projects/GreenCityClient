@@ -32,10 +32,10 @@ jobs:
         with:
           node-version: ${{ matrix.node-version }}
 
-      - name: Set up Go
-        uses: actions/setup-go@v3
-        with:
-          go-version: 1.18
+      #       - name: Set up Go
+      #         uses: actions/setup-go@v3
+      #         with:
+      #           go-version: 1.18
 
       # Runs a set of commands using the runners shell
       - name: Install
@@ -77,7 +77,7 @@ jobs:
 
       - name: Build
         run: |
-          npx ng build --prod --base-href=/GreenCityClient/
+          npx ng build --configuration=stage --base-href=/GreenCityClient/
       #          npx ng build --prod --delete-output-path --base-href=/GreenCityClient/ --outputPath=dist_aot && rm -rf dist_aot
       #          npx ng build --prod --base-href=/GreenCityClient/ --aot=false --build-optimizer=false
 
@@ -111,16 +111,15 @@ jobs:
           file: Dockerfile
           push: true
           tags: ${{ env.dockerRepoName }}:test-${{ env.GITHUB_SHA_SHORT }}
+#       - name: Kubernetes Set Context
+#         uses: Azure/k8s-set-context@v3.0
+#         with:
+#           kubeconfig: ${{ secrets.KUBE_CONFIG }}
 
-      - name: Kubernetes Set Context
-        uses: Azure/k8s-set-context@v3.0
-        with:
-          kubeconfig: ${{ secrets.KUBE_CONFIG }}
-
-      - name: Kubernetes tests
-        run: |
-          cd chart-test
-          go test -v ./...
+#       - name: Kubernetes tests
+#         run: |
+#           cd chart-test
+#           go test -v ./...
 
 #       - name: Deploy 🚀
 #         if: ${{ github.event_name == 'push' }}

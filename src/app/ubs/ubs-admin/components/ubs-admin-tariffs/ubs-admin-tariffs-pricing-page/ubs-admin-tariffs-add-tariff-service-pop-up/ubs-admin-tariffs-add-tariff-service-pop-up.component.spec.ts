@@ -1,13 +1,12 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { TranslateModule } from '@ngx-translate/core';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
-import { MAT_DIALOG_DATA, MatDialog, MatDialogModule, MatDialogRef } from '@angular/material/dialog';
+import { MAT_DIALOG_DATA, MatDialogModule, MatDialogRef } from '@angular/material/dialog';
 import { FormBuilder, FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { UbsAdminTariffsAddTariffServicePopUpComponent } from './ubs-admin-tariffs-add-tariff-service-pop-up.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { ModalTextComponent } from '../../../shared/components/modal-text/modal-text.component';
-import { of } from 'rxjs';
 import { ServerTranslatePipe } from 'src/app/shared/translate-pipe/translate-pipe.pipe';
 
 describe('UbsAdminTariffsAddTariffServicePopupComponent', () => {
@@ -17,9 +16,9 @@ describe('UbsAdminTariffsAddTariffServicePopupComponent', () => {
   const fakeBagForm = new FormGroup({
     name: new FormControl('fake'),
     nameEng: new FormControl('fake'),
-    price: new FormControl('fake'),
     capacity: new FormControl('fake'),
     commission: new FormControl('fake'),
+    price: new FormControl('fake'),
     description: new FormControl('fake'),
     descriptionEng: new FormControl('fake')
   });

@@ -4,7 +4,7 @@ import { TranslateModule } from '@ngx-translate/core';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 
 import { UbsAdminOrderClientInfoComponent } from './ubs-admin-order-client-info.component';
-import { AbstractControl, FormGroup } from '@angular/forms';
+import { AbstractControl, FormControl, FormGroup } from '@angular/forms';
 
 describe('UbsAdminOrderClientInfoComponent', () => {
   let component: UbsAdminOrderClientInfoComponent;
@@ -23,9 +23,12 @@ describe('UbsAdminOrderClientInfoComponent', () => {
     userViolationForCurrentOrder: 2
   };
 
-  const fakeFormGroup = {
-    controls: { recipientPhoneNumber: {}, recipientName: {}, recipientSurName: {} }
-  } as unknown as FormGroup;
+  const fakeFormGroup = new FormGroup({
+    recipientPhoneNumber: new FormControl(),
+    recipientName: new FormControl(),
+    recipientSurName: new FormControl(),
+    recipientEmail: new FormControl()
+  });
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({

@@ -34,7 +34,6 @@ export class UbsAdminTariffsPricingPageComponent implements OnInit, OnDestroy {
   amount;
   currentCourierId: number;
   saveBTNClicked: boolean;
-  inputDisable: boolean;
   info;
   bagInfo;
   sumInfo;
@@ -46,7 +45,7 @@ export class UbsAdminTariffsPricingPageComponent implements OnInit, OnDestroy {
   currentLocation;
   locationId: number;
   bags: Bag[] = [];
-  services: Service[] = [];
+  service: Service;
   thisLocation: Locations[];
   reset = true;
   private destroy: Subject<boolean> = new Subject<boolean>();
@@ -83,8 +82,8 @@ export class UbsAdminTariffsPricingPageComponent implements OnInit, OnDestroy {
     this.initializeLocationId();
     this.getLocations();
     this.orderService.locationSubject.pipe(takeUntil(this.destroy)).subscribe(() => {
+      this.getService();
       this.getAllTariffsForService();
-      this.getAllServices();
       this.getCouriers();
     });
     this.getOurTariffs();
@@ -271,7 +270,7 @@ export class UbsAdminTariffsPricingPageComponent implements OnInit, OnDestroy {
       this.getAllTariffsForService();
       this.selectedCardId = Number(res.id);
       this.currentLocation = Number(res.id);
-      this.getAllServices();
+      this.getService();
     });
   }
 
@@ -292,7 +291,7 @@ export class UbsAdminTariffsPricingPageComponent implements OnInit, OnDestroy {
     dialogRefTariff
       .afterClosed()
       .pipe(takeUntil(this.destroy))
-      .subscribe((result) => result && this.getAllTariffsForService());
+      .subscribe(() => this.getAllTariffsForService());
   }
 
   openAddServicePopup(): void {
@@ -302,14 +301,14 @@ export class UbsAdminTariffsPricingPageComponent implements OnInit, OnDestroy {
       panelClass: 'address-matDialog-styles-pricing-page',
       data: {
         button: 'add',
-        locationId: this.locationId,
-        courierId: this.currentCourierId
+        tariffId: this.selectedCardId,
+        service: this.service
       }
     });
     dialogRefService
       .afterClosed()
       .pipe(takeUntil(this.destroy))
-      .subscribe((result) => result && this.getAllServices());
+      .subscribe(() => this.getService());
   }
 
   private subscribeToLangChange(): void {
@@ -330,15 +329,15 @@ export class UbsAdminTariffsPricingPageComponent implements OnInit, OnDestroy {
       });
   }
 
-  getAllServices(): void {
+  getService(): void {
+    const tariffId = this.selectedCardId;
     this.isLoadBar1 = true;
     this.tariffsService
-      .getAllServices()
+      .getService(tariffId)
       .pipe(takeUntil(this.destroy))
-      .subscribe((res: Service[]) => {
-        this.services = res;
+      .subscribe((res: Service) => {
+        this.service = res;
         this.isLoadBar1 = false;
-        this.filterServices();
       });
   }
 
@@ -348,16 +347,6 @@ export class UbsAdminTariffsPricingPageComponent implements OnInit, OnDestroy {
     this.bags = this.bags
       .filter((value) => {
         return value.locationId === locationId;
-      })
-      .sort((a, b) => b.price - a.price);
-  }
-
-  async filterServices(): Promise<any> {
-    const id = await this.setCourierId();
-
-    this.services = this.services
-      .filter((value) => {
-        return value.courierId === id;
       })
       .sort((a, b) => b.price - a.price);
   }
@@ -383,7 +372,7 @@ export class UbsAdminTariffsPricingPageComponent implements OnInit, OnDestroy {
     dialogRefTariff
       .afterClosed()
       .pipe(takeUntil(this.destroy))
-      .subscribe((result) => result && this.getAllTariffsForService());
+      .subscribe(() => this.getAllTariffsForService());
   }
 
   openUpdateServicePopup(service: Service): void {
@@ -400,7 +389,7 @@ export class UbsAdminTariffsPricingPageComponent implements OnInit, OnDestroy {
     dialogRefService
       .afterClosed()
       .pipe(takeUntil(this.destroy))
-      .subscribe((result) => result && this.getAllServices());
+      .subscribe(() => this.getService());
   }
 
   openDeleteTariffForService(bag: Bag): void {
@@ -420,7 +409,7 @@ export class UbsAdminTariffsPricingPageComponent implements OnInit, OnDestroy {
     dialogRefService
       .afterClosed()
       .pipe(takeUntil(this.destroy))
-      .subscribe((result) => result && this.getAllTariffsForService());
+      .subscribe(() => this.getAllTariffsForService());
   }
 
   openDeleteService(service: Service): void {
@@ -436,12 +425,11 @@ export class UbsAdminTariffsPricingPageComponent implements OnInit, OnDestroy {
       action: 'ubs-tariffs-pricing-page-delete-service.delete-service-action',
       isService: true
     };
-
     const dialogRefService = this.dialog.open(ModalTextComponent, dialogConfig);
     dialogRefService
       .afterClosed()
       .pipe(takeUntil(this.destroy))
-      .subscribe((result) => result && this.getAllServices());
+      .subscribe(() => this.getService());
   }
 
   getLocations(): void {

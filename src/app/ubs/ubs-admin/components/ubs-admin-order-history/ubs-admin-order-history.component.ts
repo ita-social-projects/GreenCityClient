@@ -1,7 +1,7 @@
-import { Component, OnDestroy, OnInit, Input, ViewEncapsulation } from '@angular/core';
+import { Component, OnDestroy, Input, ViewEncapsulation, SimpleChanges, OnChanges } from '@angular/core';
 import { Subject } from 'rxjs';
 import { OrderService } from '../../services/order.service';
-import { IOrderHistory } from '../../models/ubs-admin.interface';
+import { IOrderHistory, IOrderInfo } from '../../models/ubs-admin.interface';
 import { takeUntil } from 'rxjs/operators';
 
 @Component({
@@ -10,8 +10,8 @@ import { takeUntil } from 'rxjs/operators';
   styleUrls: ['./ubs-admin-order-history.component.scss'],
   encapsulation: ViewEncapsulation.None
 })
-export class UbsAdminOrderHistoryComponent implements OnInit, OnDestroy {
-  @Input() orderId: number;
+export class UbsAdminOrderHistoryComponent implements OnDestroy, OnChanges {
+  @Input() orderInfo: IOrderInfo;
 
   private destroy$: Subject<boolean> = new Subject<boolean>();
   pageOpen: boolean;
@@ -19,8 +19,10 @@ export class UbsAdminOrderHistoryComponent implements OnInit, OnDestroy {
 
   constructor(private orderService: OrderService) {}
 
-  ngOnInit() {
-    this.getOrderHistory(this.orderId);
+  ngOnChanges(changes: SimpleChanges): void {
+    if (changes.orderInfo) {
+      this.getOrderHistory(this.orderInfo.generalOrderInfo.id);
+    }
   }
 
   openDetails() {
