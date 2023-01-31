@@ -203,10 +203,10 @@ export class UbsAdminAddressDetailsComponent implements OnDestroy {
       if (!this.isDistrict) {
         this.streetPredictionList = streetPredictions?.filter(
           (el) =>
-            el.structured_formatting.secondary_text.includes('Київська область') ||
-            (el.structured_formatting.secondary_text.includes('Kyiv Oblast') &&
-              el.structured_formatting.secondary_text.includes(this.addressCity.value)) ||
-            el.structured_formatting.secondary_text.includes(this.addressCityEng.value)
+            (el.structured_formatting.secondary_text.includes('Київська область') ||
+              el.structured_formatting.secondary_text.includes('Kyiv Oblast')) &&
+            (el.structured_formatting.secondary_text.includes(this.addressCity.value) ||
+              el.structured_formatting.secondary_text.includes(this.addressCityEng.value))
         );
       } else {
         this.streetPredictionList = streetPredictions?.filter(

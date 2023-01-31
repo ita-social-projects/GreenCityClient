@@ -247,10 +247,10 @@ export class UBSAddAddressPopUpComponent implements OnInit, OnDestroy, AfterView
       if (!this.isDistrict) {
         this.streetPredictionList = streetPredictions?.filter(
           (el) =>
-            el.structured_formatting.secondary_text.includes(this.bigRegionsList[0].regionName) ||
-            (el.structured_formatting.secondary_text.includes(this.bigRegionsList[1].regionName) &&
-              el.structured_formatting.secondary_text.includes(this.city.value)) ||
-            el.structured_formatting.secondary_text.includes(this.cityEn.value)
+            (el.structured_formatting.secondary_text.includes(this.bigRegionsList[0].regionName) ||
+              el.structured_formatting.secondary_text.includes(this.bigRegionsList[1].regionName)) &&
+            (el.structured_formatting.secondary_text.includes(this.city.value) ||
+              el.structured_formatting.secondary_text.includes(this.cityEn.value))
         );
       } else {
         this.streetPredictionList = streetPredictions?.filter(

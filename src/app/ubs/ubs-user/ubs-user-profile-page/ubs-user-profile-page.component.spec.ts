@@ -909,7 +909,16 @@ describe('UbsUserProfilePageComponent', () => {
   it('method getPlacePredictions should form prediction street list for Kyiv region', () => {
     const currentFormGroup = component.userForm.controls.address.get('0');
     const isKyiv = currentFormGroup.get('isKyiv');
+    const city = currentFormGroup.get('city');
+    const cityEn = currentFormGroup.get('cityEn');
+    const region = currentFormGroup.get('region');
+    const regionEn = currentFormGroup.get('regionEn');
+
     isKyiv.setValue(false);
+    city.setValue(`Київська область`);
+    cityEn.setValue(`Kyiv Oblast`);
+    region.setValue(`Щасливе`);
+    regionEn.setValue(`Shchaslyve`);
     const result = [streetPredictionKyivRegion[0]];
     component.autocompleteService = { getPlacePredictions: () => {} } as any;
     spyOn(component.autocompleteService, 'getPlacePredictions').and.callFake((request, callback) => {

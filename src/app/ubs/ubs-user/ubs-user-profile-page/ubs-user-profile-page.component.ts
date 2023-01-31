@@ -321,10 +321,9 @@ export class UbsUserProfilePageComponent implements OnInit, AfterViewInit, OnDes
       if (!isKyiv.value) {
         this.streetPredictionList = streetPredictions?.filter(
           (el) =>
-            el.structured_formatting.secondary_text.includes('Київська область') ||
-            (el.structured_formatting.secondary_text.includes('Kyiv Oblast') &&
-              el.structured_formatting.secondary_text.includes(city.value)) ||
-            el.structured_formatting.secondary_text.includes(cityEn.value)
+            (el.structured_formatting.secondary_text.includes('Київська область') ||
+              el.structured_formatting.secondary_text.includes('Kyiv Oblast')) &&
+            (el.structured_formatting.secondary_text.includes(city.value) || el.structured_formatting.secondary_text.includes(cityEn.value))
         );
       } else {
         this.streetPredictionList = streetPredictions?.filter(
