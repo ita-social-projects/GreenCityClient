@@ -164,15 +164,16 @@
   }
 }
 
+.time-divider {
+  color: var(--quaternary-grey);
+  height: 100%;
+  padding: 0 4px;
+  margin: 0 4px;
+}
+
 .description {
   max-height: 100px;
   overflow: hidden;
-
-  ::ng-deep {
-    p {
-      margin: 0;
-    }
-  }
 }
 
 .btn-group {
