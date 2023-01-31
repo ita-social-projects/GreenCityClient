@@ -17,6 +17,7 @@ import { DialogPopUpComponent } from 'src/app/shared/dialog-pop-up/dialog-pop-up
 import { TranslateService } from '@ngx-translate/core';
 import { ReplaySubject, Subscription } from 'rxjs';
 import { UserOwnAuthService } from '@auth-service/user-own-auth.service';
+import { DatePipe } from '@angular/common';
 
 @Component({
   selector: 'app-events-list-item',
@@ -27,12 +28,14 @@ export class EventsListItemComponent implements OnInit, OnDestroy {
   @Input() event: EventPageResponceDto;
   private destroyed$: ReplaySubject<any> = new ReplaySubject<any>(1);
   public itemTags: Array<TagObj>;
+  public activeTags: Array<TagObj>;
 
   public nameBtn: string;
   public styleBtn: string;
   public isJoinBtnHidden = false;
   public rate: number;
   public userId: number;
+  public author: string;
 
   public isJoined: boolean;
   public isEventOpen: boolean;
@@ -49,6 +52,8 @@ export class EventsListItemComponent implements OnInit, OnDestroy {
 
   public langChangeSub: Subscription;
   public currentLang: string;
+  public datePipe = new DatePipe(this.localStorageService.getCurrentLanguage());
+  public newDate = this.datePipe.transform(new Date(), 'MMM dd, yyyy');
 
   deleteDialogData = {
     popupTitle: 'homepage.events.delete-title',
@@ -79,6 +84,7 @@ export class EventsListItemComponent implements OnInit, OnDestroy {
     this.checkAllStatusesOfEvent();
     this.subscribeToLangChange();
     this.bindLang(this.localStorageService.getCurrentLanguage());
+    this.author = this.event.organizer.name;
   }
 
   public routeToEvent(): void {
@@ -87,15 +93,19 @@ export class EventsListItemComponent implements OnInit, OnDestroy {
 
   public filterTags(tags: Array<TagDto>) {
     this.itemTags.forEach((item) => (item.isActive = tags.some((name) => name.nameEn === item.nameEn)));
+
+    this.activeTags = this.itemTags.filter((val) => {
+      return val.isActive;
+    });
   }
 
   public initAllStatusesOfEvent(): void {
-    this.isJoined = this.event.isSubscribed ? true : false;
+    this.isJoined = this.event.isSubscribed;
     this.isEventOpen = this.event.open;
     this.isOwner = this.userId === this.event.organizer.id;
-    this.isRegistered = this.userId ? true : false;
+    this.isRegistered = !!this.userId;
     this.isFinished = Date.parse(this.event.dates[0].finishDate) < Date.parse(new Date().toString());
-    this.isRated = this.rate ? true : false;
+    this.isRated = !!this.rate;
   }
 
   public getUserId(): void {
@@ -238,6 +248,22 @@ export class EventsListItemComponent implements OnInit, OnDestroy {
 
   public subscribeToLangChange(): void {
     this.langChangeSub = this.localStorageService.languageSubject.subscribe(this.bindLang.bind(this));
+  }
+
+  cutTitle() {
+    if (this.event.title.length > 40) {
+      return this.event.title.substr(0, 40) + '...';
+    } else {
+      return this.event.title;
+    }
+  }
+
+  cutDescription() {
+    if (this.event.description.length > 90) {
+      return this.event.description.substr(0, 90) + '...';
+    } else {
+      return this.event.description;
+    }
   }
 
   ngOnDestroy(): void {
