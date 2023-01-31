@@ -6,6 +6,10 @@
   flex: 1 0 auto;
   font-family: var(--primary-font);
   font-style: normal;
+
+  h3 {
+    overflow: hidden;
+  }
 }
 
 .image-container {
@@ -92,6 +96,7 @@
   flex-direction: column;
   justify-content: flex-start;
   flex: 1 0 auto;
+  overflow: hidden;
 
   .date-container {
     display: flex;

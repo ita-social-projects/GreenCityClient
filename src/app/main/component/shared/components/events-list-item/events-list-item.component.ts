@@ -252,7 +252,7 @@ export class EventsListItemComponent implements OnInit, OnDestroy {
 
   cutTitle() {
     if (this.event.title.length > 40) {
-      return this.event.title.substr(0, 40) + '...';
+      return this.event.title.slice(0, 30) + '...';
     } else {
       return this.event.title;
     }
@@ -260,7 +260,7 @@ export class EventsListItemComponent implements OnInit, OnDestroy {
 
   cutDescription() {
     if (this.event.description.length > 90) {
-      return this.event.description.substr(0, 90) + '...';
+      return this.event.description.slice(0, 90) + '...';
     } else {
       return this.event.description;
     }
