@@ -356,9 +356,7 @@ export class UbsAdminOrderComponent implements OnInit, OnDestroy, AfterContentCh
     if (changedValues.exportDetailsDto) {
       this.formatExporteValue(changedValues.exportDetailsDto);
     } else {
-      const exportDetail1s = this.orderForm.get('exportDetailsDto').value;
-
-      changedValues.exportDetailsDto = exportDetail1s;
+      changedValues.exportDetailsDto = this.orderForm.get('exportDetailsDto').value;
       this.formatExporteValue(changedValues.exportDetailsDto);
     }
 
