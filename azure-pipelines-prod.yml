@@ -108,5 +108,5 @@ stages:
                     chartType: 'FilePath'
                     chartPath: '$(System.ArtifactsDirectory)/drop/greencity-client-chart'
                     releaseName: 'client'
-                    overrideValues: 'deployment.image=skyere/greencity-front:prod-$(Build.BuildId)'
+                    overrideValues: 'ingress.hostname=www.pick-up.city,deployment.image=skyere/greencity-front:prod-$(Build.BuildId)'
                     arguments: '--debug'
