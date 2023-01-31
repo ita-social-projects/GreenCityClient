@@ -78,8 +78,12 @@ export class UbsAdminOrderClientInfoComponent implements OnInit, OnDestroy {
       return 'input-error.max-length';
     }
 
-    if (abstractControl.errors.pattern) {
+    if (abstractControl.errors.pattern && abstractControl.value !== 'recipientPhoneNumber') {
       return 'input-error.pattern';
+    }
+
+    if (abstractControl.errors.pattern && abstractControl.value === 'recipientPhoneNumber') {
+      return 'input-error.number-format';
     }
   }
 
