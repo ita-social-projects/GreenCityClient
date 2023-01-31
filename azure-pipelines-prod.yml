@@ -1,0 +1,112 @@
+trigger:
+  batch: true
+  branches:
+    include:
+      - dev
+  paths:
+    exclude:
+      - README.md
+
+pr: none
+
+variables:
+  agentOS: ubuntu-latest
+  docker_repo: skyere/greencity-front
+  artifactName: drop
+
+stages:
+  - stage: Build
+    jobs:
+      - job: Build
+        pool:
+          vmImage: $(agentOS)
+        steps:
+          - task: NodeTool@0
+            displayName: Set up Node js
+            inputs:
+              versionSpec: '14.x'
+
+          - task: Npm@1
+            displayName: Npm install
+            inputs:
+              command: 'install'
+              workingDir: '.'
+
+          - task: Npm@1
+            displayName: Build
+            inputs:
+              command: 'custom'
+              workingDir: '.'
+              customCommand: 'run build-prod'
+
+          - task: Docker@2
+            displayName: Build Image
+            inputs:
+              containerRegistry: 'Dockerhub_Skyere'
+              repository: '$(docker_repo)'
+              command: 'build'
+              Dockerfile: 'Dockerfile'
+              tags: |
+                prod-$(Build.BuildId)
+                latest
+
+          - task: Docker@2
+            displayName: Push image
+            inputs:
+              containerRegistry: 'Dockerhub_Skyere'
+              repository: '$(docker_repo)'
+              command: 'push'
+              tags: |
+                dev-$(Build.BuildId)
+                latest
+
+          - task: CopyFiles@2
+            displayName: Copy Files
+            inputs:
+              SourceFolder: '$(system.defaultworkingdirectory)/greencity-client-chart'
+              Contents: '**'
+              TargetFolder: '$(build.artifactstagingdirectory)/greencity-client-chart'
+
+          - task: PublishBuildArtifacts@1
+            displayName: Publish Artifact
+            inputs:
+              PathtoPublish: '$(build.artifactstagingdirectory)'
+              artifactName: '$(artifactName)'
+
+  - stage: Deploy
+    jobs:
+      - deployment: DeployClient
+        displayName: Deploy Client to AKS
+        pool:
+          vmImage: $(agentOS)
+        environment: 'production'
+        strategy:
+          runOnce:
+            deploy:
+              steps:
+                - download: none
+
+                - task: DownloadBuildArtifacts@0
+                  inputs:
+                    buildType: 'current'
+                    downloadType: 'single'
+                    artifactName: '$(artifactName)'
+                    downloadPath: '$(System.ArtifactsDirectory)'
+
+                - task: HelmInstaller@0
+                  inputs:
+                    helmVersion: '3.9.0'
+                    checkLatestHelmVersion: false
+                    installKubectl: true
+
+                - task: HelmDeploy@0
+                  inputs:
+                    connectionType: 'Kubernetes Service Connection'
+                    kubernetesServiceConnection: 'production'
+                    namespace: 'default'
+                    command: 'upgrade'
+                    chartType: 'FilePath'
+                    chartPath: '$(System.ArtifactsDirectory)/drop/greencity-client-chart'
+                    releaseName: 'client'
+                    overrideValues: 'deployment.image=skyere/greencity-front:prod-$(Build.BuildId)'
+                    arguments: '--debug'
