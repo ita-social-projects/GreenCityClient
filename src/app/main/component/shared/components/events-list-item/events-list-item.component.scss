@@ -3,6 +3,9 @@
   flex-direction: column;
   max-width: 486px;
   height: 100%;
+  flex: 1 0 auto;
+  font-family: var(--primary-font);
+  font-style: normal;
 }
 
 .image-container {
@@ -79,12 +82,11 @@
 }
 
 .main-container {
-  padding: 16px 24px 24px 24px;
+  padding: 16px;
   display: flex;
   flex-direction: column;
-  justify-content: space-between;
+  justify-content: flex-start;
   flex: 1 0 auto;
-  gap: 5px;
 
   .date-container {
     display: flex;
@@ -97,11 +99,24 @@
     }
 
     .clock {
+      margin-right: 15px;
+      width: 12px;
+      height: 12px;
       background: url('src/assets/events-icons/clock.png') no-repeat center;
     }
 
-    .place {
-      background: url('src/assets/events-icons/place.png') no-repeat center;
+    .lock-open {
+      margin-right: 11px;
+      width: 16px;
+      height: 16px;
+      background: url('src/assets/events-icons/lock-open.png') no-repeat center;
+    }
+
+    .lock-closed {
+      margin-right: 11px;
+      width: 16px;
+      height: 16px;
+      background: url('src/assets/events-icons/lock-closed.png') no-repeat center;
     }
   }
 }
