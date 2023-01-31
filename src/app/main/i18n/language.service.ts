@@ -82,6 +82,15 @@ export class LanguageService {
     return this.localStorageService.getCurrentLanguage();
   }
 
+  public getLangValue(uaValue: string | string[], enValue: string | string[]): string | string[] {
+    switch (typeof uaValue && typeof enValue) {
+      case 'string':
+        return this.localStorageService.getCurrentLanguage() === 'ua' ? uaValue : enValue;
+      case 'object':
+        return this.localStorageService.getCurrentLanguage() === 'ua' ? uaValue : enValue;
+    }
+  }
+
   private getLanguageByString(languageString: string) {
     for (const key of this.langMap.keys()) {
       if (this.langMap.get(key).indexOf(languageString) !== -1) {
