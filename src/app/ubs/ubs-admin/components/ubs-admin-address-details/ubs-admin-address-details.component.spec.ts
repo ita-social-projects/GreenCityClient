@@ -523,7 +523,6 @@ describe('UbsAdminAddressDetailsComponent', () => {
   it('method getPlacePredictions should form prediction street list for Kyiv region', () => {
     component.isDistrict = false;
     const result = [streetPredictionKyivRegion[0]];
-    component.addressRegion.setValue(`Київська область`);
     component.addressCity.setValue(`Щасливе`);
     component.autocompleteService = { getPlacePredictions: () => {} } as any;
     spyOn(component.autocompleteService, 'getPlacePredictions').and.callFake((request, callback) => {
