@@ -141,20 +141,19 @@
 }
 
 .tag {
-  font-size: 12px;
   display: flex;
   justify-content: center;
   align-items: center;
   height: 22px;
-  padding: 0 10px;
-  text-transform: capitalize;
   font-family: var(--primary-font);
-  color: var(--tertiary-grey);
-  border: 1px solid var(--tertiary-grey);
-  border-radius: 25px;
+  font-style: normal;
+  font-weight: 500;
+  font-size: 14px;
+  line-height: 20px;
+  text-transform: uppercase;
 
   .tag-active {
-    color: var(--primary-white);
+    color: var(--primary-green);
   }
 }
 
