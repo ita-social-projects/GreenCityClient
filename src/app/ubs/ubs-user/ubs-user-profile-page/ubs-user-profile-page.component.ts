@@ -15,6 +15,7 @@ import { PhoneNumberValidator } from 'src/app/shared/phone-validator/phone.valid
 import { takeUntil } from 'rxjs/operators';
 import { Subject } from 'rxjs';
 import { GoogleScript } from 'src/assets/google-script/google-script';
+import { LanguageService } from 'src/app/main/i18n/language.service';
 
 @Component({
   selector: 'app-ubs-user-profile-page',
@@ -73,6 +74,7 @@ export class UbsUserProfilePageComponent implements OnInit, AfterViewInit, OnDes
     private clientProfileService: ClientProfileService,
     private snackBar: MatSnackBarComponent,
     private localStorageService: LocalStorageService,
+    private langService: LanguageService,
     private locations: Locations,
     private googleScript: GoogleScript
   ) {}
@@ -201,7 +203,7 @@ export class UbsUserProfilePageComponent implements OnInit, AfterViewInit, OnDes
     const region = currentFormGroup.get('region');
     const regionEn = currentFormGroup.get('regionEn');
 
-    this.getLangValue(region, regionEn).valueChanges.subscribe(() => {
+    this.getAbstrLangControl(region, regionEn).valueChanges.subscribe(() => {
       currentFormGroup.get('cityEn').setValue('');
       currentFormGroup.get('city').setValue('');
       currentFormGroup.get('districtEn').setValue('');
@@ -267,7 +269,7 @@ export class UbsUserProfilePageComponent implements OnInit, AfterViewInit, OnDes
     this.setValueOfCity(selectedCity, currentFormGroup, 'city');
     this.setValueOfCity(selectedCity, currentFormGroup, 'cityEn');
 
-    this.getLangValue(city, cityEn).valueChanges.subscribe(() => {
+    this.getAbstrLangControl(city, cityEn).valueChanges.subscribe(() => {
       currentFormGroup.get('districtEn').setValue('');
       currentFormGroup.get('district').setValue('');
       currentFormGroup.get('street').setValue('');
@@ -580,8 +582,12 @@ export class UbsUserProfilePageComponent implements OnInit, AfterViewInit, OnDes
     this.alternativeEmailDisplay ? this.userForm.addControl('alternateEmail', control) : this.userForm.removeControl('alternateEmail');
   }
 
-  public getLangValue(uaValue, enValue): any {
-    return this.currentLanguage === 'ua' ? uaValue : enValue;
+  public getLangValue(uaValue, enValue): string {
+    return this.langService.getLangValue(uaValue, enValue) as string;
+  }
+
+  private getAbstrLangControl(uaValue, enValue): AbstractControl {
+    return this.langService.getLangValue(uaValue, enValue) as AbstractControl;
   }
 
   ngOnDestroy(): void {

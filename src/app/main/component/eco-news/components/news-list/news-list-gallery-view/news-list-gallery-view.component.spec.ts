@@ -9,7 +9,7 @@ import { Language } from 'src/app/main/i18n/Language';
 import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
 import { BehaviorSubject } from 'rxjs';
 
-fdescribe('NewsListGalleryViewComponent', () => {
+describe('NewsListGalleryViewComponent', () => {
   let component: NewsListGalleryViewComponent;
   let fixture: ComponentFixture<NewsListGalleryViewComponent>;
   const defaultImagePath =
