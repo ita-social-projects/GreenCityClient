@@ -70,6 +70,7 @@ describe('EcoNewsDetailComponent', () => {
   ecoNewsServ.getIsLikedByUser.and.returnValue(of(true));
 
   const languageServiceMock = jasmine.createSpyObj('languageService', ['getLangValue']);
+  languageServiceMock.getLangValue.and.returnValue(['tagOne', 'tagTwo']);
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
@@ -207,10 +208,9 @@ describe('EcoNewsDetailComponent', () => {
 
   it('should return twitter social share link and call open method', () => {
     const spy = spyOn(window, 'open');
-    const tags = component.tags;
     component.onSocialShareLinkClick('twitter');
     expect(spy).toHaveBeenCalledWith(
-      `https://twitter.com/share?url=${window.location.href}&text=${mockEcoNewsModel.title}&hashtags=${tags.join(',')}`,
+      `https://twitter.com/share?url=${window.location.href}&text=${mockEcoNewsModel.title}&hashtags=${component.tags.join(',')}`,
       '_blank'
     );
   });
