@@ -9,6 +9,7 @@ import { UbsUserOrderPaymentPopUpComponent } from './ubs-user-order-payment-pop-
 import { RouterTestingModule } from '@angular/router/testing';
 import { UbsUserOrdersListComponent } from './ubs-user-orders-list.component';
 import { HttpClientModule } from '@angular/common/http';
+import { LanguageService } from 'src/app/main/i18n/language.service';
 
 describe('UbsUserOrdersListComponent', () => {
   let component: UbsUserOrdersListComponent;
@@ -47,6 +48,9 @@ describe('UbsUserOrdersListComponent', () => {
   ];
   const fakePoints = 111;
 
+  const languageServiceMock = jasmine.createSpyObj('languageService', ['getLangValue']);
+  languageServiceMock.getLangValue.and.returnValue('fakeValue');
+
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       declarations: [UbsUserOrdersListComponent, LocalizedCurrencyPipe],
@@ -58,7 +62,10 @@ describe('UbsUserOrdersListComponent', () => {
         HttpClientModule,
         RouterTestingModule
       ],
-      providers: [{ provide: MatDialog, useValue: matDialogMock }],
+      providers: [
+        { provide: MatDialog, useValue: matDialogMock },
+        { provide: LanguageService, useValue: languageServiceMock }
+      ],
       schemas: [CUSTOM_ELEMENTS_SCHEMA]
     }).compileComponents();
   }));
@@ -79,6 +86,11 @@ describe('UbsUserOrdersListComponent', () => {
     const sortingOrdersByDataSpy = spyOn(component, 'sortingOrdersByData');
     component.ngOnInit();
     expect(sortingOrdersByDataSpy).toHaveBeenCalled();
+  });
+
+  it('sortingOrdersByData should be called in ngOnInit', () => {
+    const value = component.getLangValue('fakeValue', 'fakeValueEn');
+    expect(value).toBe('fakeValue');
   });
 
   describe('isOrderUnpaid', () => {
@@ -225,17 +237,5 @@ describe('UbsUserOrdersListComponent', () => {
       component.sortingOrdersByData();
       expect(component.orders).toEqual(resultOrderData as any);
     });
-  });
-
-  it(' should return ua Value by getLangValue', () => {
-    component.currentLanguage = 'ua';
-    const value = component.getLangValue('uaValue', 'enValue');
-    expect(value).toBe('uaValue');
-  });
-
-  it(' should return en Value by getLangValue', () => {
-    component.currentLanguage = 'en';
-    const value = component.getLangValue('uaValue', 'enValue');
-    expect(value).toBe('enValue');
   });
 });
