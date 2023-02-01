@@ -32,8 +32,9 @@ export class UbsAdminTariffsCardPopUpComponent implements OnInit, OnDestroy {
     cross: '././assets/img/ubs/cross.svg'
   };
   public name: string;
-  public datePipe = new DatePipe('ua');
-  public newDate = this.datePipe.transform(new Date(), 'MMM dd, yyyy');
+  public currentLanguage: string;
+  public datePipe;
+  public newDate;
   unsubscribe: Subject<any> = new Subject();
 
   public couriers: Couriers[];
@@ -87,6 +88,11 @@ export class UbsAdminTariffsCardPopUpComponent implements OnInit, OnDestroy {
     this.localeStorageService.firstNameBehaviourSubject.pipe(takeUntil(this.unsubscribe)).subscribe((firstName) => {
       this.name = firstName;
     });
+    this.localeStorageService.languageBehaviourSubject.pipe(takeUntil(this.unsubscribe)).subscribe((lang: string) => {
+      this.currentLanguage = lang;
+      this.datePipe = new DatePipe(this.currentLanguage);
+      this.newDate = this.datePipe.transform(new Date(), 'MMM dd, yyyy');
+    });
     this.setStationPlaceholder();
     this.setCountOfSelectedCity();
     setTimeout(() => this.city.disable());
@@ -128,7 +134,7 @@ export class UbsAdminTariffsCardPopUpComponent implements OnInit, OnDestroy {
       .pipe(takeUntil(this.unsubscribe))
       .subscribe((res: Couriers[]) => {
         this.couriers = res;
-        this.couriersName = this.couriers.map((item) => item.nameUk);
+        this.couriersName = this.couriers.map((item) => (this.currentLanguage === 'ua' ? item.nameUk : item.nameEn));
       });
   }
 
@@ -165,8 +171,10 @@ export class UbsAdminTariffsCardPopUpComponent implements OnInit, OnDestroy {
   }
 
   public onSelectCourier(event): void {
-    const selectedValue = this.couriers.find((ob) => ob.nameUk === event.value);
-    this.courierEnglishName = selectedValue.nameEn;
+    const selectedValue = this.couriers.find((ob) =>
+      this.currentLanguage === 'ua' ? ob.nameUk === event.value : ob.nameEn === event.value
+    );
+    this.courierEnglishName = this.currentLanguage === 'ua' ? selectedValue.nameEn : selectedValue.nameUk;
     this.courierId = selectedValue.courierId;
   }
 
