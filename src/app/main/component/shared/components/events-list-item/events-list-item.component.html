@@ -49,9 +49,9 @@
       <div *ngIf="isRegistered && isEventOpen">{{ 'homepage.events.registered' | translate }}</div>
     </div>
     <div class="event-title">
-      <h3>{{ cutTitle() }}</h3>
+      <h3 [innerHTML]="cutTitle()"></h3>
     </div>
-    <div class="description">{{ cutDescription() }}</div>
+    <div class="description" [innerHTML]="cutDescription()"></div>
   </div>
   <div class="btn-group">
     <button class="secondary-global-button event-button" (click)="routeToEvent()">
