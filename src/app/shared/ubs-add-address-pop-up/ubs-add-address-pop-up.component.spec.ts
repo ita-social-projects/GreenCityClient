@@ -419,7 +419,7 @@ describe('UBSAddAddressPopUpComponent', () => {
     component.currentLanguage = 'ua';
     component.setPredictCities();
     expect(component.cityPredictionList).toBe(null);
-    expect(spy).toHaveBeenCalledWith(searchAddress);
+    expect(spy).toHaveBeenCalledWith(searchAddress, 'uk');
   });
 
   it('method setPredictCities should call method for predicting cities in en', () => {
@@ -429,14 +429,14 @@ describe('UBSAddAddressPopUpComponent', () => {
     component.currentLanguage = 'en';
     component.setPredictCities();
     expect(component.cityPredictionList).toBe(null);
-    expect(spy).toHaveBeenCalledWith(searchAddress);
+    expect(spy).toHaveBeenCalledWith(searchAddress, 'en');
   });
 
   it('method inputCity should invoke getPlacePredictions', () => {
     component.autocompleteService = { getPlacePredictions: (a, b) => {} } as any;
     spyOn(component.autocompleteService, 'getPlacePredictions').and.callThrough();
     const fakesearchAddress = `Kyiv, Kyiv`;
-    component.inputCity(fakesearchAddress);
+    component.inputCity(fakesearchAddress, component.languages.en);
     expect(component.autocompleteService.getPlacePredictions).toHaveBeenCalled();
   });
 
@@ -446,7 +446,7 @@ describe('UBSAddAddressPopUpComponent', () => {
       callback(predictionListKyivRegion, status as any);
     });
     const fakesearchAddress = `Київська область, Ше`;
-    component.inputCity(fakesearchAddress);
+    component.inputCity(fakesearchAddress, component.languages.uk);
     expect(component.cityPredictionList).toEqual(predictionListKyivRegion);
   });
 
@@ -507,7 +507,7 @@ describe('UBSAddAddressPopUpComponent', () => {
     component.currentLanguage = 'ua';
     component.setPredictStreets();
     expect(component.streetPredictionList).toBe(null);
-    expect(spy).toHaveBeenCalledWith(searchAddress);
+    expect(spy).toHaveBeenCalledWith(searchAddress, 'uk');
   });
 
   it('method setPredictStreets should call method for predicting streets in en', () => {
@@ -518,14 +518,14 @@ describe('UBSAddAddressPopUpComponent', () => {
     component.currentLanguage = 'en';
     component.setPredictStreets();
     expect(component.streetPredictionList).toBe(null);
-    expect(spy).toHaveBeenCalledWith(searchAddress);
+    expect(spy).toHaveBeenCalledWith(searchAddress, 'en');
   });
 
   it('method inputAddress should invoke getPlacePredictions', () => {
     component.autocompleteService = { getPlacePredictions: (a, b) => {} } as any;
     spyOn(component.autocompleteService, 'getPlacePredictions').and.callThrough();
     const fakesearchAddress = `Kyiv, Lomo`;
-    component.inputAddress(fakesearchAddress);
+    component.inputAddress(fakesearchAddress, component.languages.en);
     expect(component.autocompleteService.getPlacePredictions).toHaveBeenCalled();
   });
 
@@ -537,7 +537,7 @@ describe('UBSAddAddressPopUpComponent', () => {
       callback(streetPredictionKyivCity, status as any);
     });
     const fakesearchAddress = `Київ, Сі`;
-    component.inputAddress(fakesearchAddress);
+    component.inputAddress(fakesearchAddress, component.languages.uk);
     expect(component.streetPredictionList).toEqual(streetPredictionKyivCity);
   });
 
@@ -551,7 +551,7 @@ describe('UBSAddAddressPopUpComponent', () => {
     });
 
     const fakesearchAddress = `Щасливе, Не`;
-    component.inputAddress(fakesearchAddress);
+    component.inputAddress(fakesearchAddress, component.languages.uk);
     expect(component.streetPredictionList).toEqual(result);
   });
 

@@ -58,7 +58,6 @@ stages:
               command: 'push'
               tags: |
                 dev-$(Build.BuildId)
-                latest
 
           - task: CopyFiles@2
             displayName: Copy Files

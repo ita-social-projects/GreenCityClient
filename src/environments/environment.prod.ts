@@ -1,7 +1,7 @@
 export const environment = {
   production: true,
   apiKeys: 'AIzaSyDanBliCzAuCZrsq67FeKEs3vqAilUD_is',
-  apiMapKey: 'AIzaSyB3xs7Kczo46LFcQRFKPMdrE0lU4qsR_S4',
+  apiMapKey: 'AIzaSyAkfqpSGHVE28AjQoPcZFZd8AaPB_RU39k',
   backendLink: 'https://greencity.pick-up.city/',
   backendChatLink: 'https://greencity-chat.pick-up.city/',
   backendUserLink: 'https://greencity-user.pick-up.city/',
@@ -22,6 +22,6 @@ export const environment = {
   ubsAdmin: {
     backendUbsAdminLink: 'https://greencity-ubs.pick-up.city/ubs'
   },
-  googleClientId: '129513550972-eu9ej46rviv1ac8q14at62t2k5qon1pu.apps.googleusercontent.com',
+  googleClientId: '1041981142587-jo5jdj07bap3gdn45n74e7ur1u1cnfi6.apps.googleusercontent.com',
   agmCoreModuleApiKey: 'AIzaSyCdBtR8O8eazfWUSdyb5O2cnL32uJtWUwA'
 };
