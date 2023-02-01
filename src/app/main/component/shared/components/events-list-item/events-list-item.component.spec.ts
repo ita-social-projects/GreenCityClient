@@ -82,8 +82,9 @@ describe('EventsListItemComponent', () => {
   const storeMock = jasmine.createSpyObj('store', ['dispatch']);
   const mockLang = 'ua';
   const bsModalRefMock = jasmine.createSpyObj('bsModalRef', ['hide']);
-  const EventsServiceMock = jasmine.createSpyObj('EventsService', ['getEventById ', 'deleteEvent']);
+  const EventsServiceMock = jasmine.createSpyObj('EventsService', ['getEventById ', 'deleteEvent', 'getAllAttendees']);
   EventsServiceMock.getEventById = () => of(eventMock);
+  EventsServiceMock.getAllAttendees = () => of([]);
   EventsServiceMock.deleteEvent = () => of(true);
 
   let localStorageServiceMock: LocalStorageService;
