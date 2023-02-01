@@ -1,4 +1,12 @@
 <div class="ubsHomepage">
+  <div *ngIf="screenWidth <= 768" class="marquee-section">
+    <div class="marquee-w">
+      <div class="marquee">
+        <span></span>
+      </div>
+    </div>
+  </div>
+
   <header>
     <div class="header-left">
       <img [src]="ubsMainPageImages.ubsPickUpCity" class="ubs-image" alt="ubs-armored-track" aria-hidden="true" />
@@ -15,7 +23,7 @@
     </div>
   </header>
   <!-- Marque text (generated in ts file) -->
-  <div class="marquee-section">
+  <div *ngIf="screenWidth > 768" class="marquee-section">
     <div class="marquee-w">
       <div class="marquee">
         <span></span>
@@ -30,7 +38,7 @@
         <div class="box-item">
           <div class="box-number">01</div>
           <div class="box-text">
-            {{ preparingContent[0] | translate }}<br />
+            {{ preparingContent[0] | translate }}
             <a href="https://nowaste.com.ua/sort-station/" class="link-to-site" target="_blank" rel="noopener">{{
               preparingContent[1] | translate
             }}</a>
@@ -91,7 +99,7 @@
 
   <section>
     <div class="price-section">
-      <h2 class="price-header">{{ 'ubs-homepage.ubs-courier.price.caption' | translate }}</h2>
+      <h2>{{ 'ubs-homepage.ubs-courier.price.caption' | translate }}</h2>
       <div class="box-card">
         <div id="price-frame" *ngFor="let elemPrice of priceCard">
           <div class="content-price">
@@ -106,10 +114,10 @@
     </div>
   </section>
 
-  <section>
-    <div class="main-container" (window:resize)="onResize()">
+  <section class="pick-up-service">
+    <div class="main-container">
       <h2>{{ stepsOrderTitle | translate }}</h2>
-      <!--<div class="box">
+      <div *ngIf="screenWidth >= 1024" class="box">
         <div
           class="step-order"
           id="step-order-{{ i }}"
@@ -127,24 +135,23 @@
             <p class="step-order-content">{{ step.content | translate }}</p>
           </div>
           <div class="base-line">
-            <hr [ngStyle]="{ 'width': lineSize + 'px' }" />
+            <hr [ngStyle]="{ width: lineSize[0] + 'px' }" />
             <div class="circle">
               <p>{{ i + 1 }}</p>
             </div>
-            <hr [ngStyle]="{ 'width': lineSize + 'px' }"/>
+            <hr [ngStyle]="{ width: lineSize[0] + 'px' }" />
           </div>
           <div class="content-box-filler"></div>
         </div>
-      </div><!-- -->
-
-      <div class="box-mobile">
+      </div>
+      <div *ngIf="screenWidth < 1024" class="box-mobile">
         <div class="step-order" id="step-order-{{ i }}" *ngFor="let step of stepsOrder; let i = index">
           <div class="base-line">
-            <hr [ngStyle]="{ height: lineSize + 'px' }" />
+            <hr [ngStyle]="{ height: lineSize[i] + 'px' }" />
             <div class="circle">
               <p>{{ i + 1 }}</p>
             </div>
-            <hr [ngStyle]="{ height: lineSize + 'px' }" />
+            <hr [ngStyle]="{ height: lineSize[i] + 'px' }" />
           </div>
           <div class="content-box">
             <h1 class="step-order-header">

@@ -1,5 +1,5 @@
 import { CheckTokenService } from './../../../../main/service/auth/check-token/check-token.service';
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit, AfterViewChecked, ChangeDetectorRef } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { Router } from '@angular/router';
 import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
@@ -16,7 +16,7 @@ import { JwtService } from '@global-service/jwt/jwt.service';
   templateUrl: './ubs-main-page.component.html',
   styleUrls: ['./ubs-main-page.component.scss']
 })
-export class UbsMainPageComponent implements OnInit, OnDestroy {
+export class UbsMainPageComponent implements OnInit, OnDestroy, AfterViewChecked {
   private subs = new Subscription();
   private destroy: Subject<boolean> = new Subject<boolean>();
   public ubsMainPageImages = ubsMainPageImages;
@@ -26,7 +26,9 @@ export class UbsMainPageComponent implements OnInit, OnDestroy {
   currentLocation: string;
   public isAdmin = false;
   public boxWidth;
-  public lineSize = 0;
+  public lineSize = Array(4).fill(0);
+  public screenWidth;
+  public isMarqueShown = false;
 
   priceCard = [
     {
@@ -105,15 +107,23 @@ export class UbsMainPageComponent implements OnInit, OnDestroy {
     private checkTokenservice: CheckTokenService,
     private localStorageService: LocalStorageService,
     private orderService: OrderService,
-    private jwtService: JwtService
+    private jwtService: JwtService,
+    private cdref: ChangeDetectorRef
   ) {}
 
   ngOnInit(): void {
+    this.screenWidth = window.innerWidth;
     this.onCheckToken();
     this.isAdmin = this.checkIsAdmin();
-    this.adjustMarqueText();
+    this.boxWidth = document.querySelector('.main-container').getBoundingClientRect().width;
+  }
+
+  ngAfterViewChecked(): void {
+    this.screenWidth = window.innerWidth;
     this.boxWidth = document.querySelector('.main-container').getBoundingClientRect().width;
     this.calcLineSize();
+    this.adjustMarqueText();
+    this.cdref.detectChanges();
   }
 
   ngOnDestroy() {
@@ -122,41 +132,29 @@ export class UbsMainPageComponent implements OnInit, OnDestroy {
     this.subs.unsubscribe();
   }
 
-  onResize() {
-    this.boxWidth = document.querySelector('.main-container').getBoundingClientRect().width;
-    this.calcLineSize();
-  }
-
   calcLineSize() {
-    if (window.innerWidth >= 1024) {
+    if (this.screenWidth >= 1024) {
       const quantity = 4,
         circleSize = 36,
         circleMargin = 10;
       const sumOfIndents = quantity * (circleSize + 2 * circleMargin);
-      this.lineSize = (this.boxWidth - sumOfIndents) / (quantity * 2);
+      this.lineSize[0] = (this.boxWidth - sumOfIndents) / (quantity * 2);
     } else {
-      const boxes = document.getElementsByClassName('step-order');
-      console.log(boxes[0].getBoundingClientRect().height);
+      const boxes = document.getElementsByClassName('content-box');
+      const halfCircleHeight = 11,
+        circleIndent = 6,
+        boxesIndent = 16;
 
-      let biggest = 0;
-      for (let i = 0; i < boxes.length; i++) {
-        let a = boxes[i];
-        let cur = a.getBoundingClientRect().height;
-        console.log(a.getBoundingClientRect());
-
-        if (cur > biggest) {
-          biggest = cur;
-        }
-      }
-      console.log(biggest);
-      this.lineSize = biggest;
+      this.lineSize = Array.from(boxes, (box) => box.getBoundingClientRect().height / 2 - halfCircleHeight - circleIndent + boxesIndent);
     }
   }
 
   public adjustMarqueText() {
+    if (this.isMarqueShown) return;
+
     const text =
-      "NO WASTE — NO STRESS!<img _ngcontent-fes-c460='' src='assets/img/ubs/auto.svg' style='margin: 0 12px'>" +
-      "NO WASTE — NO STRESS!<img _ngcontent-fes-c460='' src='assets/img/ubs/bag.svg' style='margin: 0 12px'>";
+      "NO WASTE — NO STRESS!<img _ngcontent-fes-c460='' src='assets/img/ubs/auto.svg' style='margin: 0 12px; height: 90%;'>" +
+      "NO WASTE — NO STRESS!<img _ngcontent-fes-c460='' src='assets/img/ubs/bag.svg' style='margin: 0 12px; height: 90%;'>";
 
     const block = document.getElementsByClassName('marquee-w')[0];
     const blockWidth = block.getBoundingClientRect().width;
@@ -172,6 +170,8 @@ export class UbsMainPageComponent implements OnInit, OnDestroy {
     const span = marque.cloneNode(true);
     document.querySelector('.marquee-w').appendChild(span);
     document.getElementsByClassName('marquee')[1].classList.add('marquee2');
+
+    this.isMarqueShown = true;
   }
 
   public onCheckToken(): void {

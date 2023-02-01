@@ -194,7 +194,7 @@ header {
   justify-content: center;
   align-items: center;
   position: fixed;
-  top: 63px;
+  top: 100px;
   left: 0;
   width: 100%;
   height: 100%;
@@ -571,6 +571,16 @@ ul .ubs-user-cabinet {
   .header_navigation-menu-right-list li {
     padding: 10px 0;
   }
+
+  .ubs-lang-switcher {
+    margin-right: 50px !important;
+  }
+}
+
+@media (min-width: 320px) and (max-width: 480px) {
+  .ubs-lang-switcher {
+    margin-right: 120px !important;
+  }
 }
 
 @media (min-width: 576px) {
@@ -596,22 +606,14 @@ ul .ubs-user-cabinet {
 @media (min-width: 992px) {
   .header_navigation-menu {
     width: 100%;
-
-    .header_navigation-menu-left {
-      width: 70%;
-
-      li {
-        margin-left: 0;
-
-        a {
-          font-size: 14px;
-        }
-      }
-    }
   }
 
-  .header_navigation-menu-ubs {
-    justify-content: space-between;
+  .container-fluid .header_navigation-menu-left {
+    width: 50%;
+
+    li {
+      margin-left: 0;
+    }
   }
 
   .header_navigation-menu-left {
