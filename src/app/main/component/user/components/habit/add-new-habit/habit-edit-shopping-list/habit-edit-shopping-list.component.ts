@@ -64,7 +64,6 @@ export class HabitEditShoppingListComponent implements OnInit, OnDestroy {
 
   getListItems(isAssigned: boolean) {
     isAssigned ? this.getCustomItems() : this.getDefaultItems();
-    this.getDefaultItems();
     this.isEditing = isAssigned;
   }
 
@@ -86,7 +85,7 @@ export class HabitEditShoppingListComponent implements OnInit, OnDestroy {
   }
 
   public getCustomItems() {
-    this.shoppinglistService.getCustomItems(localStorage.getItem('userId'), this.habitId);
+    this.shoppinglistService.getCustomItems(this.habitId);
   }
 
   private bindLang(lang: string): void {

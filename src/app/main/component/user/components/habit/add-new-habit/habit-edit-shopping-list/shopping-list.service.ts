@@ -3,6 +3,7 @@ import { Observable, Subject } from 'rxjs';
 import { ShoppingList } from '@global-user/models/shoppinglist.model';
 import { HttpClient } from '@angular/common/http';
 import { mainLink } from '../../../../../../links';
+import { map } from 'rxjs/operators';
 
 @Injectable({
   providedIn: 'root'
@@ -17,6 +18,8 @@ export class ShoppingListService {
 
   public fillList(data: ShoppingList[]) {
     this.list = data;
+    this.placeItemInOrder();
+    console.log('we are in the fillList method and this.list: ', this.list);
     this.list$.next(this.list);
   }
 
@@ -26,6 +29,7 @@ export class ShoppingListService {
 
   public addItem(value: string) {
     const newItem = {
+      id: -1,
       status: 'ACTIVE',
       text: value,
       selected: false,
@@ -71,9 +75,26 @@ export class ShoppingListService {
     });
   }
 
-  public getCustomItems(userId: string, habitId: number) {
-    this.http.get(`${mainLink}custom/shopping-list-items/${userId}/${habitId}`).subscribe((res: ShoppingList[]) => {
-      this.fillList(res);
-    });
+  public getCustomItems(habitId: number) {
+    this.http
+      .get(`${mainLink}habit/assign/allUserAndCustomList/${habitId}`)
+      .pipe(
+        map((res: any) => {
+          let customShoppingList = res.customShoppingListItemDto.map((item) => ({
+            ...item,
+            custom: true,
+            selected: item.status === 'INPROGRESS'
+          }));
+          let userShoppingList = res.userShoppingListItemDto.map((item) => ({
+            ...item,
+            selected: item.status === 'INPROGRESS'
+          }));
+
+          return [...customShoppingList, ...userShoppingList];
+        })
+      )
+      .subscribe((res: ShoppingList[]) => {
+        this.fillList(res);
+      });
   }
 }
