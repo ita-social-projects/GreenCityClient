@@ -1,7 +1,7 @@
 $hr-color: #e6e6e6;
 $header-height: 54px;
 $white-color: var(--ubs-primary-white);
-$ubs-header-height: 80px;
+$ubs-header-height: 116px;
 
 ::ng-deep .custom-dialog-container .mat-dialog-container {
   background-color: transparent;
@@ -15,16 +15,113 @@ $ubs-header-height: 80px;
   }
 }
 
-.main {
+header {
   width: 100vw;
-  box-shadow: 0 0 8px rgba(73, 74, 73, 0.2);
   position: fixed;
   top: 0;
   background: $white-color;
   z-index: 5;
+  box-shadow: 0 0 8px rgba(73, 74, 73, 0.2);
 
-  .burger-modal_open {
-    box-shadow: none;
+  .container-fluid {
+    font-family: var(--ubs-secondary-font);
+    font-weight: 700;
+    font-size: 16px;
+    line-height: 20px;
+  }
+
+  .header_container {
+    margin: 0;
+    padding: 0;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
+    height: 100%;
+
+    .header_logo {
+      margin-right: 24px;
+      margin-left: 20px;
+    }
+
+    .header_navigation-menu {
+      height: $header-height;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-family: var(--primary-font);
+    }
+  }
+}
+
+.burger-modal_open header {
+  box-shadow: none;
+
+  .header_sign-in-link {
+    font-size: 16px;
+    line-height: 16px;
+    width: fit-content;
+    padding: 0 40px;
+    color: var(--secondary-dark-green);
+  }
+
+  .header_mobile-menu-sign-in {
+    width: fit-content;
+    margin: 35px 0 30px;
+  }
+
+  .header_sign-up-btn {
+    font-size: 16px;
+    line-height: 16px;
+    height: 100%;
+  }
+
+  .header_mobile-menu-sign-up {
+    width: fit-content;
+    height: 48px;
+    font-weight: 600;
+    font-size: 16px;
+    line-height: 16px;
+
+    div span {
+      font-weight: 600;
+      font-size: 16px;
+      line-height: 16px;
+    }
+  }
+}
+
+.header_ubs {
+  box-shadow: none !important;
+  height: $ubs-header-height;
+  display: flex;
+
+  .header_navigation-menu-left {
+    width: 30%;
+  }
+
+  .header_navigation-menu-left li a {
+    color: #575757;
+    line-height: 20px;
+    font-weight: 700;
+    font-size: 16px;
+  }
+
+  .header_navigation-menu-left li:first-child a {
+    text-decoration: underline;
+    text-decoration-style: 1px solid #575757;
+    text-underline-offset: 7px;
+  }
+
+  .header_navigation-menu-left li a:hover {
+    text-decoration: underline;
+    text-decoration-style: 1px solid #575757;
+    text-underline-offset: 7px;
+  }
+
+  // hide GreenCity for prod
+  .header_navigation-menu-left li:nth-child(4) a {
+    //display: none;
   }
 }
 
@@ -49,51 +146,24 @@ $ubs-header-height: 80px;
   }
 }
 
-.dropdown {
-  background-color: $white-color;
-  list-style-type: none;
-  padding: 0;
-  position: absolute;
-  top: 41px;
-  width: 150px;
-  display: flex;
-  flex-direction: column;
-  right: -15px;
-  align-items: flex-start;
-
-  li {
-    position: relative;
-    color: var(--ubs-primary-black);
-
-    a {
-      display: block;
-      padding: 10px;
-      width: 100%;
-    }
-  }
-}
-
 .ubs-header-sign-in {
   display: flex;
-  font-size: 12px;
+  font-family: var(--ubs-secondary-font);
   font-weight: 600;
+  font-size: 16px;
+  line-height: 20px;
   height: 36px;
-  width: 99px;
+  width: 150px;
   justify-content: center;
   align-items: center;
   color: var(--ubs-primary-black);
-  border: 1px solid var(--ubs-primary-black);
-  border-radius: 3px;
+  border: 2px solid #87bc1e;
+  border-radius: 15px;
 
   &:hover {
-    color: var(--ubs-button-light-green);
+    background-color: #87bc1e;
     text-decoration: none;
   }
-}
-
-.header_logo {
-  margin-right: 24px;
-  margin-left: 20px;
 }
 
 .header_navigation-menu-right-list {
@@ -102,7 +172,6 @@ $ubs-header-height: 80px;
   justify-content: flex-end;
   list-style-type: none;
   height: 100%;
-  margin: 0;
   padding: 0;
 
   li {
@@ -125,7 +194,7 @@ $ubs-header-height: 80px;
   justify-content: center;
   align-items: center;
   position: fixed;
-  top: 63px;
+  top: 100px;
   left: 0;
   width: 100%;
   height: 100%;
@@ -201,60 +270,10 @@ $ubs-header-height: 80px;
   text-decoration-line: none;
 }
 
-.header_navigation-menu-left .ubs li a {
-  color: var(--ubs-primary-black);
-}
-
-.header_navigation-menu-left .ubs li:first-child a {
-  color: var(--ubs-electric-violet);
-}
-
-.header_navigation-menu-left .ubs li a:hover {
-  text-decoration: underline;
-}
-
-.header_container {
-  margin: 0;
-  padding: 0;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  width: 100%;
-  height: 100%;
-}
-
-.header-logo {
-  display: flex;
-  align-items: center;
-
-  a img {
-    max-width: 100%;
-  }
-}
-
-.header_navigation-menu-ubs,
-.header_navigation-menu {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  font-family: var(--primary-font);
-}
-
-.header_navigation-menu {
-  height: $header-height;
-}
-
-.header_navigation-menu-ubs {
-  height: $ubs-header-height;
-  width: 100%;
-  justify-content: flex-end;
-}
-
 .header_arrow {
   margin: 2px 0 0 5px;
 }
 
-.ubs-header_sign-up-btn,
 .header_sign-up-btn {
   cursor: pointer;
   display: flex;
@@ -273,13 +292,23 @@ $ubs-header-height: 80px;
 }
 
 .ubs-header_sign-up-btn {
-  background-color: var(--ubs-button-light-green);
-  border: 2px solid var(--ubs-button-light-green);
-  border-radius: 3px;
-  color: var(--ubs-primary-black);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 36px;
+  width: fit-content;
+  background-color: #87bc1e;
+  border: 2px solid #87bc1e;
+  border-radius: 15px;
+  font-family: var(--ubs-secondary-font);
+  font-weight: 600;
+  font-size: 16px;
+  line-height: 20px;
+  color: var(--ubs-primary-white);
 
   &:hover {
-    background-color: var(--ubs-primary-white);
+    background-color: #5b8901;
+    border: 3.5px solid #5b8901;
   }
 }
 
@@ -321,7 +350,6 @@ $ubs-header-height: 80px;
   .add-shadow {
     background-color: $white-color;
     box-shadow: 0 0 8px rgba(73, 74, 73, 0.2);
-    border-radius: 2px;
     display: flex;
     flex-direction: column;
     height: 88px;
@@ -329,6 +357,14 @@ $ubs-header-height: 80px;
     width: 60px;
     z-index: 1;
   }
+}
+
+.ubs-lang-switcher {
+  margin-right: 170px !important;
+}
+
+.item-list-margin {
+  border-radius: 2px;
 }
 
 .header_burger-btn {
@@ -398,47 +434,6 @@ $ubs-header-height: 80px;
   }
 }
 
-.burger-modal_open.main {
-  box-shadow: none;
-
-  .header_sign-in-link {
-    font-size: 16px;
-    line-height: 16px;
-    width: fit-content;
-    padding: 0 40px;
-    color: var(--secondary-dark-green);
-  }
-
-  .header_mobile-menu-sign-in {
-    width: fit-content;
-    margin: 35px 0 30px;
-  }
-
-  .header_sign-up-btn {
-    font-size: 16px;
-    line-height: 16px;
-    height: 100%;
-  }
-
-  .header_mobile-menu-sign-up {
-    width: fit-content;
-    height: 48px;
-    font-weight: 600;
-    font-size: 16px;
-    line-height: 16px;
-
-    div span {
-      font-weight: 600;
-      font-size: 16px;
-      line-height: 16px;
-    }
-  }
-}
-
-.item-list-margin {
-  top: 10px;
-}
-
 #header_user-wrp {
   position: relative;
   margin: auto 0;
@@ -482,13 +477,21 @@ $ubs-header-height: 80px;
 
   .header_user-name {
     span {
+      font-weight: normal;
       color: var(--primary-green);
     }
   }
 
   .ubs-header_user-name {
     span {
-      color: var(--ubs-electric-violet);
+      color: var(--ubs-primary-black);
+      font-weight: 600;
+      font-size: 16px;
+      line-height: 20px;
+    }
+
+    img {
+      display: none;
     }
   }
 
@@ -498,13 +501,62 @@ $ubs-header-height: 80px;
     text-decoration: none;
 
     span {
-      font-weight: normal;
       display: -webkit-box;
       -webkit-line-clamp: 1;
       -webkit-box-orient: vertical;
       overflow: hidden;
       word-break: break-all;
     }
+  }
+}
+
+ul .ubs-user-cabinet {
+  display: flex;
+  align-items: center;
+  right: 50px;
+  font-family: var(--ubs-secondary-font);
+
+  li {
+    &:first-child {
+      font-family: var(--ubs-secondary-font);
+      font-weight: 600 !important;
+      font-size: 16px;
+      line-height: 20px;
+      border: 2px solid #87bc1e;
+      border-radius: 15px;
+    }
+
+    a {
+      font-family: var(--ubs-secondary-font);
+      display: flex;
+      justify-content: center;
+    }
+  }
+}
+
+.ubs-lang-switcher-span {
+  font-size: 18px !important;
+  color: #b5b5b5 !important;
+  font-weight: 800;
+
+  &:hover {
+    text-decoration: underline;
+  }
+}
+
+.ubs-user-cabinet {
+  border-radius: 20px;
+}
+
+#header_user-wrp {
+  .ubs-header_user-name {
+    width: 162px;
+  }
+
+  li.drop-down-item a {
+    color: var(--primary-dark-grey);
+    font-size: 16px;
+    line-height: 20px;
   }
 }
 
@@ -518,6 +570,16 @@ $ubs-header-height: 80px;
 @media (min-width: 320px) and (max-width: 480px) {
   .header_navigation-menu-right-list li {
     padding: 10px 0;
+  }
+
+  .ubs-lang-switcher {
+    margin-right: 50px !important;
+  }
+}
+
+@media (min-width: 480px) and (max-width: 576px) {
+  .ubs-lang-switcher {
+    margin-right: 120px !important;
   }
 }
 
@@ -538,13 +600,6 @@ $ubs-header-height: 80px;
 
   #header_user-wrp {
     display: flex;
-    max-width: 126px;
-  }
-}
-
-@media (min-width: 768px) {
-  #header_user-wrp {
-    max-width: 226px;
   }
 }
 
@@ -553,8 +608,12 @@ $ubs-header-height: 80px;
     width: 100%;
   }
 
-  .header_navigation-menu-ubs {
-    justify-content: space-between;
+  .container-fluid .header_navigation-menu-left {
+    width: 50%;
+
+    li {
+      margin-left: 0;
+    }
   }
 
   .header_navigation-menu-left {
@@ -566,18 +625,12 @@ $ubs-header-height: 80px;
       padding-right: 0;
     }
 
+    .ubs-lang-switcher {
+      margin-right: 100px !important;
+    }
+
     .header_burger-btn {
       display: none !important;
     }
-  }
-
-  #header_user-wrp {
-    max-width: 126px;
-  }
-}
-
-@media (min-width: 1200px) {
-  #header_user-wrp {
-    max-width: 226px;
   }
 }

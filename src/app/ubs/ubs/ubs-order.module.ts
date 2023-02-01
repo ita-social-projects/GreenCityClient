@@ -35,6 +35,7 @@ import { AuthServiceConfig } from 'angularx-social-login';
 import { provideConfig } from 'src/app/main/config/GoogleAuthConfig';
 import { PendingChangesGuard } from '@global-service/pending-changes-guard/pending-changes.guard';
 import { ConfirmRestorePasswordGuard } from '@global-service/route-guards/confirm-restore-password.guard';
+import { UbsMainPageSpinnerComponent } from './ubs-main-page-spinner/ubs-main-page-spinner.component';
 
 @NgModule({
   declarations: [
@@ -49,7 +50,8 @@ import { ConfirmRestorePasswordGuard } from '@global-service/route-guards/confir
     UbsOrderLocationPopupComponent,
     UbsSubmitOrderNotificationComponent,
     UbsOrderCertificateComponent,
-    ExtraPackagesPopUpComponent
+    ExtraPackagesPopUpComponent,
+    UbsMainPageSpinnerComponent
   ],
   imports: [
     MatAutocompleteModule,
