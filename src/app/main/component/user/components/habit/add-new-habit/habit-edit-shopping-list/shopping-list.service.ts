@@ -19,7 +19,6 @@ export class ShoppingListService {
   public fillList(data: ShoppingList[]) {
     this.list = data;
     this.placeItemInOrder();
-    console.log('we are in the fillList method and this.list: ', this.list);
     this.list$.next(this.list);
   }
 
