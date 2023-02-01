@@ -18,6 +18,7 @@ import { possibleDescHeight, possibleTitleHeight } from './breakpoints';
 import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
 import { takeUntil } from 'rxjs/operators';
 import { Subject } from 'rxjs';
+import { LanguageService } from 'src/app/main/i18n/language.service';
 
 @Component({
   selector: 'app-news-list-list-view',
@@ -41,13 +42,16 @@ export class NewsListListViewComponent implements AfterViewChecked, AfterViewIni
   public currentLang: string;
   private destroy: Subject<boolean> = new Subject<boolean>();
 
-  constructor(private renderer: Renderer2, public translate: TranslateService, public localStorageService: LocalStorageService) {}
+  constructor(
+    private renderer: Renderer2,
+    public translate: TranslateService,
+    public localStorageService: LocalStorageService,
+    private langService: LanguageService
+  ) {}
   ngOnInit() {
-    this.currentLang = this.localStorageService.getCurrentLanguage();
-    this.tags = this.getLangValue(this.ecoNewsModel.tagsUa, this.ecoNewsModel.tagsEn);
-    this.localStorageService.languageSubject.pipe(takeUntil(this.destroy)).subscribe((lang: string) => {
+    this.localStorageService.languageBehaviourSubject.pipe(takeUntil(this.destroy)).subscribe((lang: string) => {
       this.currentLang = lang;
-      this.tags = this.getLangValue(this.ecoNewsModel.tagsUa, this.ecoNewsModel.tagsEn);
+      this.tags = this.langService.getLangValue(this.ecoNewsModel.tagsUa, this.ecoNewsModel.tagsEn) as string[];
     });
   }
 
@@ -94,10 +98,6 @@ export class NewsListListViewComponent implements AfterViewChecked, AfterViewIni
     const smallTitleHeight = titleHeight > 26 ? 'two-row' : 'one-row';
     const midTitleHeight = titleHeight > 52 ? 'tree-row' : smallTitleHeight;
     return result ? result : midTitleHeight;
-  }
-
-  private getLangValue(uaValue: string[], enValue: string[]): string[] {
-    return this.currentLang === 'ua' ? uaValue : enValue;
   }
 
   ngOnDestroy() {

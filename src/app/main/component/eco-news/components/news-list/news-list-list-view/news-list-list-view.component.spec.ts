@@ -6,7 +6,8 @@ import { TranslateModule } from '@ngx-translate/core';
 import { NewsListListViewComponent } from './news-list-list-view.component';
 import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
 import { Language } from '../../../../../i18n/Language';
-import { BehaviorSubject, of } from 'rxjs';
+import { BehaviorSubject } from 'rxjs';
+import { LanguageService } from 'src/app/main/i18n/language.service';
 
 class MockRenderer {
   addClass(document: string, cssClass: string): boolean {
@@ -38,9 +39,12 @@ describe('NewsListListViewComponent', () => {
     source: null
   };
 
-  const localStorageServiceMock = jasmine.createSpyObj('localStorageService', ['getCurrentLanguage']);
+  const localStorageServiceMock = jasmine.createSpyObj('localStorageService', ['getCurrentLanguage', 'languageBehaviourSubject']);
   localStorageServiceMock.getCurrentLanguage = () => 'en' as Language;
-  localStorageServiceMock.languageSubject = of('en');
+  localStorageServiceMock.languageBehaviourSubject = new BehaviorSubject('en');
+
+  const languageServiceMock = jasmine.createSpyObj('languageService', ['getLangValue']);
+  languageServiceMock.getLangValue.and.returnValue(['fakeValue']);
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
@@ -48,7 +52,8 @@ describe('NewsListListViewComponent', () => {
       declarations: [NewsListListViewComponent],
       providers: [
         { provide: Renderer2, useClass: MockRenderer },
-        { provide: LocalStorageService, useValue: localStorageServiceMock }
+        { provide: LocalStorageService, useValue: localStorageServiceMock },
+        { provide: LanguageService, useValue: languageServiceMock }
       ]
     }).compileComponents();
   }));
@@ -65,16 +70,11 @@ describe('NewsListListViewComponent', () => {
     expect(component).toBeTruthy();
   });
 
-  it(' should return ua Value by getLangValue', () => {
-    component.currentLang = 'ua';
-    const value = (component as any).getLangValue(['uaValue'], ['enValue']);
-    expect(value).toEqual(['uaValue']);
-  });
-
-  it(' should return en Value by getLangValue', () => {
-    component.currentLang = 'en';
-    const value = (component as any).getLangValue(['uaValue'], ['enValue']);
-    expect(value).toEqual(['enValue']);
+  it('should set value from lang service', () => {
+    languageServiceMock.getLangValue.and.returnValue(['first tag', 'second tag']);
+    component.ngOnInit();
+    expect(component.currentLang).toBe('en');
+    expect(component.tags).toEqual(['first tag', 'second tag']);
   });
 
   it('should get default image', () => {

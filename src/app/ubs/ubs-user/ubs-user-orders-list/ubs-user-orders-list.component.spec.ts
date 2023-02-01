@@ -88,7 +88,7 @@ describe('UbsUserOrdersListComponent', () => {
     expect(sortingOrdersByDataSpy).toHaveBeenCalled();
   });
 
-  it('sortingOrdersByData should be called in ngOnInit', () => {
+  it('should set value from lang service', () => {
     const value = component.getLangValue('fakeValue', 'fakeValueEn');
     expect(value).toBe('fakeValue');
   });
