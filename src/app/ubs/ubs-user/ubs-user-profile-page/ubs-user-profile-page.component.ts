@@ -203,7 +203,7 @@ export class UbsUserProfilePageComponent implements OnInit, AfterViewInit, OnDes
     const region = currentFormGroup.get('region');
     const regionEn = currentFormGroup.get('regionEn');
 
-    this.getAbstrLangControl(region, regionEn).valueChanges.subscribe(() => {
+    currentFormGroup.get(this.getLangValue('region', 'regionEn')).valueChanges.subscribe(() => {
       currentFormGroup.get('cityEn').setValue('');
       currentFormGroup.get('city').setValue('');
       currentFormGroup.get('districtEn').setValue('');
@@ -269,7 +269,7 @@ export class UbsUserProfilePageComponent implements OnInit, AfterViewInit, OnDes
     this.setValueOfCity(selectedCity, currentFormGroup, 'city');
     this.setValueOfCity(selectedCity, currentFormGroup, 'cityEn');
 
-    this.getAbstrLangControl(city, cityEn).valueChanges.subscribe(() => {
+    currentFormGroup.get(this.getLangValue('city', 'cityEn')).valueChanges.subscribe(() => {
       currentFormGroup.get('districtEn').setValue('');
       currentFormGroup.get('district').setValue('');
       currentFormGroup.get('street').setValue('');
@@ -584,10 +584,6 @@ export class UbsUserProfilePageComponent implements OnInit, AfterViewInit, OnDes
 
   public getLangValue(uaValue, enValue): string {
     return this.langService.getLangValue(uaValue, enValue) as string;
-  }
-
-  private getAbstrLangControl(uaValue, enValue): AbstractControl {
-    return this.langService.getLangValue(uaValue, enValue) as AbstractControl;
   }
 
   ngOnDestroy(): void {

@@ -83,10 +83,7 @@ export class LanguageService {
     return this.localStorageService.getCurrentLanguage();
   }
 
-  public getLangValue(
-    uaValue: string | string[] | AbstractControl,
-    enValue: string | string[] | AbstractControl
-  ): string | string[] | AbstractControl {
+  public getLangValue(uaValue: string | string[], enValue: string | string[]): string | string[] {
     return this.localStorageService.getCurrentLanguage() === 'ua' ? uaValue : enValue;
   }
 

@@ -29,7 +29,12 @@
         {{ cityName.description }}
       </mat-option>
     </mat-autocomplete>
-    <div class="validation" *ngIf="getLangValue(city, cityEn).invalid && getLangValue(city, cityEn).touched">
+    <div
+      class="validation"
+      *ngIf="
+        addAddressForm.get(this.getLangValue('city', 'cityEn')).invalid && addAddressForm.get(this.getLangValue('city', 'cityEn')).touched
+      "
+    >
       <app-ubs-input-error [formElement]="getLangValue(city, cityEn)" [controlName]="getLangValue('city', 'cityEn')"></app-ubs-input-error>
     </div>
   </div>
@@ -56,7 +61,13 @@
         {{ streetName.description }}
       </mat-option>
     </mat-autocomplete>
-    <div class="validation" *ngIf="getLangValue(street, streetEn).invalid && getLangValue(street, streetEn).touched">
+    <div
+      class="validation"
+      *ngIf="
+        addAddressForm.get(this.getLangValue('street', 'streetEn')).invalid &&
+        addAddressForm.get(this.getLangValue('street', 'streetEn')).touched
+      "
+    >
       <app-ubs-input-error [formElement]="getLangValue(street, streetEn)" [controlName]="getLangValue('street', 'streetEn')">
       </app-ubs-input-error>
     </div>
@@ -118,7 +129,13 @@
     >
       <option *ngFor="let region of regionsKyiv" [ngValue]="region.name">{{ region.name }}</option>
     </select>
-    <div class="validation" *ngIf="getLangValue(district, districtEn).invalid && getLangValue(district, districtEn).touched">
+    <div
+      class="validation"
+      *ngIf="
+        addAddressForm.get(this.getLangValue('district', 'districtEn')).invalid &&
+        addAddressForm.get(this.getLangValue('district', 'districtEn')).touched
+      "
+    >
       <app-ubs-input-error
         [formElement]="getLangValue(district, districtEn)"
         [controlName]="getLangValue('district', 'districtEn')"

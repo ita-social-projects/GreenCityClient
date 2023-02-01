@@ -10,6 +10,7 @@ import { Address, Location, Region } from 'src/app/ubs/ubs/models/ubs.interface'
 import { Patterns } from 'src/assets/patterns/patterns';
 import { Locations } from 'src/assets/locations/locations';
 import { GoogleScript } from 'src/assets/google-script/google-script';
+import { LanguageService } from 'src/app/main/i18n/language.service';
 
 @Component({
   selector: 'app-ubs-add-address-pop-up',
@@ -58,6 +59,7 @@ export class UBSAddAddressPopUpComponent implements OnInit, OnDestroy, AfterView
     },
     private snackBar: MatSnackBarComponent,
     private localStorageService: LocalStorageService,
+    private langService: LanguageService,
     private listOflocations: Locations,
     private googleScript: GoogleScript
   ) {}
@@ -391,8 +393,8 @@ export class UBSAddAddressPopUpComponent implements OnInit, OnDestroy, AfterView
       );
   }
 
-  public getLangValue(uaValue, enValue): any {
-    return this.currentLanguage === 'ua' ? uaValue : enValue;
+  public getLangValue(uaValue, enValue): string {
+    return this.langService.getLangValue(uaValue, enValue) as string;
   }
 
   ngOnDestroy(): void {
