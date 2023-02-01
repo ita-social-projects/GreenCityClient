@@ -16,7 +16,7 @@ import { ModalTextComponent } from '../../shared/components/modal-text/modal-tex
 
 import { UbsAdminTariffsLocationPopUpComponent } from './ubs-admin-tariffs-location-pop-up.component';
 
-xdescribe('UbsAdminTariffsLocationPopUpComponent ', () => {
+describe('UbsAdminTariffsLocationPopUpComponent ', () => {
   let component: UbsAdminTariffsLocationPopUpComponent;
   let fixture: ComponentFixture<UbsAdminTariffsLocationPopUpComponent>;
 
