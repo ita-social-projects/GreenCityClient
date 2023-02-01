@@ -83,21 +83,8 @@ export class LanguageService {
   }
 
   public getLangValue(uaValue: string | string[], enValue: string | string[]): string | string[] {
-    switch (typeof uaValue && typeof enValue) {
-      case 'string':
-        return this.localStorageService.getCurrentLanguage() === 'ua' ? uaValue : enValue;
-      case 'object':
-        return this.localStorageService.getCurrentLanguage() === 'ua' ? uaValue : enValue;
-    }
+    return this.localStorageService.getCurrentLanguage() === 'ua' ? uaValue : enValue;
   }
-
-  // public getLangStringValue(uaValue: string, enValue: string): string {
-  //       return this.localStorageService.getCurrentLanguage() === 'ua' ? uaValue : enValue;
-  // }
-
-  // public getLangArrayValue(uaValue: string[], enValue: string[]): string[] {
-  //       return this.localStorageService.getCurrentLanguage() === 'ua' ? uaValue : enValue;
-  // }
 
   private getLanguageByString(languageString: string) {
     for (const key of this.langMap.keys()) {

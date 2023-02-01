@@ -26,7 +26,7 @@ class TranslatePipeMock implements PipeTransform {
   }
 }
 
-fdescribe('EcoNewsDetailComponent', () => {
+describe('EcoNewsDetailComponent', () => {
   let component: EcoNewsDetailComponent;
   let fixture: ComponentFixture<EcoNewsDetailComponent>;
   let httpMock: HttpTestingController;
@@ -218,17 +218,5 @@ fdescribe('EcoNewsDetailComponent', () => {
   it('should get IsLiked', () => {
     (component as any).getIsLiked();
     expect(component.isLiked).toBe(true);
-  });
-
-  it(' should return ua Value by getLangValue', () => {
-    languageServiceMock.getLangValue.and.returnValue(['uaValue']);
-    const value = (component as any).getLangValue(['uaValue'], ['enValue']);
-    expect(value).toEqual(['uaValue']);
-  });
-
-  it(' should return en Value by getLangValue', () => {
-    languageServiceMock.getLangValue.and.returnValue(['enValue']);
-    const value = (component as any).getLangValue(['uaValue'], ['enValue']);
-    expect(value).toEqual(['enValue']);
   });
 });

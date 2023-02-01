@@ -62,7 +62,7 @@ export class EcoNewsDetailComponent implements OnInit, OnDestroy {
     });
   }
   public getAllTags(): Array<string> {
-    return this.getLangValue(this.newsItem.tagsUa, this.newsItem.tags);
+    return this.langService.getLangValue(this.newsItem.tagsUa, this.newsItem.tags) as string[];
   }
 
   public checkNewsImage(): string {
@@ -115,10 +115,6 @@ export class EcoNewsDetailComponent implements OnInit, OnDestroy {
       .subscribe((val: boolean) => {
         this.isLiked = val;
       });
-  }
-
-  private getLangValue(uaValue: string[], enValue: string[]): any {
-    return this.langService.getLangValue(uaValue, enValue);
   }
 
   ngOnDestroy() {
