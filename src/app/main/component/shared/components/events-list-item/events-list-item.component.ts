@@ -18,6 +18,7 @@ import { TranslateService } from '@ngx-translate/core';
 import { ReplaySubject, Subscription } from 'rxjs';
 import { UserOwnAuthService } from '@auth-service/user-own-auth.service';
 import { DatePipe } from '@angular/common';
+import { EventsService } from '../../../events/services/events.service';
 
 @Component({
   selector: 'app-events-list-item',
@@ -55,6 +56,9 @@ export class EventsListItemComponent implements OnInit, OnDestroy {
   public datePipe = new DatePipe(this.localStorageService.getCurrentLanguage());
   public newDate = this.datePipe.transform(new Date(), 'MMM dd, yyyy');
 
+  attendees = [];
+  attendeesAvatars = [];
+
   deleteDialogData = {
     popupTitle: 'homepage.events.delete-title',
     popupConfirm: 'homepage.events.delete-yes',
@@ -70,6 +74,7 @@ export class EventsListItemComponent implements OnInit, OnDestroy {
     private modalService: BsModalService,
     private dialog: MatDialog,
     private store: Store,
+    private eventService: EventsService,
     private translate: TranslateService
   ) {}
 
@@ -83,6 +88,10 @@ export class EventsListItemComponent implements OnInit, OnDestroy {
     this.initAllStatusesOfEvent();
     this.checkAllStatusesOfEvent();
     this.subscribeToLangChange();
+    this.eventService.getAllAttendees(this.event.id).subscribe((attendees) => {
+      this.attendees = attendees;
+      this.attendeesAvatars = attendees.filter((attendee) => attendee.imagePath).map((attendee) => attendee.imagePath);
+    });
     this.bindLang(this.localStorageService.getCurrentLanguage());
     this.author = this.event.organizer.name;
   }

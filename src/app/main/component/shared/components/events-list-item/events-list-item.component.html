@@ -10,6 +10,17 @@
     <div class="event-flags" *ngIf="isEventOpen">
       <span class="flag"></span>
     </div>
+    <div class="event-participants" *ngIf="attendees.length">
+      <div class="event-participants-avatars">
+        <div class="event-participants-avatar" *ngFor="let avatar of attendeesAvatars | slice: 0:2">
+          <img [src]="avatar" alt="" />
+        </div>
+      </div>
+      <div class="event-participants-count-container">
+        <span class="event-participants-count">+{{ attendees.length }}</span
+        >&nbsp;
+      </div>
+    </div>
   </div>
 
   <div class="main-container">

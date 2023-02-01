@@ -26,10 +26,56 @@
     object-fit: contain;
   }
 
+  .event-participants {
+    align-items: center;
+    display: inline-flex;
+    flex-direction: row;
+    position: absolute;
+    height: 40px;
+    width: 77px;
+    left: 8px;
+    top: 8px;
+    border-radius: 4px;
+    padding: 10px 8px 10px 8px;
+    background: rgba(255, 255, 255, 0.8);
+    box-shadow: 1px 4px 8px rgba(100, 114, 125, 0.18);
+
+    .event-participants-avatar {
+      width: 19px;
+      height: 19px;
+      float: left;
+      border-radius: 100%;
+      overflow: hidden;
+      border: 1px solid var(--pre-secondary-light-grey);
+
+      img {
+        display: block;
+        width: 100%;
+        height: 100%;
+      }
+    }
+
+    .event-participants-avatar:not(:first-child) {
+      margin-left: -12px;
+    }
+
+    .event-participants-count-container {
+      font-style: normal;
+      font-weight: 600;
+      font-size: 12px;
+      line-height: 16px;
+      color: var(--primary-green);
+
+      .event-participants-count {
+        font-weight: 500;
+      }
+    }
+  }
+
   .event-stars {
     width: auto;
     height: 40px;
-    background-color: rgba(224, 233, 233, 0.781);
+    background-color: #ffffffcc;
     position: absolute;
     top: 10px;
     right: 10px;
