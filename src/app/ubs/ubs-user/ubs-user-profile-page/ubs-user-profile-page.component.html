@@ -229,14 +229,11 @@
                     </mat-autocomplete>
                     <div
                       class="validation"
-                      *ngIf="
-                        address.get(currentLanguage === 'ua' ? 'city' : 'cityEn').invalid &&
-                        address.get(currentLanguage === 'ua' ? 'city' : 'cityEn').touched
-                      "
+                      *ngIf="address.get(getLangValue('city', 'cityEn')).invalid && address.get(getLangValue('city', 'cityEn')).touched"
                     >
                       <app-ubs-input-error
-                        [formElement]="address.get(currentLanguage === 'ua' ? 'city' : 'cityEn')"
-                        [controlName]="currentLanguage === 'ua' ? 'city' : 'cityEn'"
+                        [formElement]="address.get(getLangValue('city', 'cityEn'))"
+                        [controlName]="getLangValue('city', 'cityEn')"
                       >
                       </app-ubs-input-error>
                     </div>
