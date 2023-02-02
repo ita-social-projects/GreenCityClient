@@ -2,7 +2,7 @@
   <div class="image-container">
     <img class="event-image" src="{{ event.titleImage }}" alt="event" />
     <div class="event-stars" *ngIf="!isEventOpen">
-      <rating [(ngModel)]="rate" [customTemplate]="star" [max]="max" [readonly]="true"> </rating>
+      <rating [(ngModel)]="rate" [customTemplate]="star" [max]="max" [readonly]="false"> </rating>
       <ng-template #star let-index="index" let-value="value">
         <span class="star {{ index < value ? 'fill' : 'empty' }}"></span>
       </ng-template>
