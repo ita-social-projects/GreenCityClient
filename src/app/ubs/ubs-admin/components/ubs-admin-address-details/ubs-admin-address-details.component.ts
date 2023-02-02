@@ -4,6 +4,7 @@ import { Subject } from 'rxjs';
 import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
 import { Locations } from 'src/assets/locations/locations';
 import { Location } from '../../models/ubs-admin.interface';
+import { LanguageService } from 'src/app/main/i18n/language.service';
 
 @Component({
   selector: 'app-ubs-admin-address-details',
@@ -29,7 +30,7 @@ export class UbsAdminAddressDetailsComponent implements OnDestroy {
     uk: 'uk'
   };
 
-  constructor(private localStorageService: LocalStorageService, private locations: Locations) {}
+  constructor(private localStorageService: LocalStorageService, private locations: Locations, private langService: LanguageService) {}
   private destroy$: Subject<boolean> = new Subject<boolean>();
 
   get addressRegion() {
@@ -91,7 +92,7 @@ export class UbsAdminAddressDetailsComponent implements OnDestroy {
     this.districtsKyiv = this.locations.getRegionsKyiv(this.currentLanguage);
     this.districts = this.locations.getRegions(this.currentLanguage);
 
-    this.getLangValue(this.addressRegion, this.addressRegionEng).valueChanges.subscribe(() => {
+    this.getLangControl(this.addressRegion, this.addressRegionEng).valueChanges.subscribe(() => {
       this.addressCity.setValue('');
       this.addressCityEng.setValue('');
       this.addressStreet.setValue('');
@@ -105,7 +106,7 @@ export class UbsAdminAddressDetailsComponent implements OnDestroy {
       this.cityPredictionList = null;
     });
 
-    this.getLangValue(this.addressCity, this.addressCityEng).valueChanges.subscribe(() => {
+    this.getLangControl(this.addressCity, this.addressCityEng).valueChanges.subscribe(() => {
       this.addressStreet.setValue('');
       this.addressStreetEng.setValue('');
       this.addressHouseNumber.setValue('');
@@ -278,8 +279,12 @@ export class UbsAdminAddressDetailsComponent implements OnDestroy {
     this.addressDistrictEng.markAsDirty();
   }
 
-  public getLangValue(uaValue, enValue): any {
-    return this.currentLanguage === 'ua' ? uaValue : enValue;
+  public getLangValue(uaValue: string, enValue: string): string {
+    return this.langService.getLangValue(uaValue, enValue) as string;
+  }
+
+  public getLangControl(uaControl: AbstractControl, enControl: AbstractControl): AbstractControl {
+    return this.langService.getLangValue(uaControl, enControl) as AbstractControl;
   }
 
   ngOnDestroy(): void {

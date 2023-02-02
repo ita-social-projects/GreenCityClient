@@ -42,10 +42,13 @@
             </mat-autocomplete>
             <div
               class="validation"
-              *ngIf="getLangValue(addressCity, addressCityEng).invalid && getLangValue(addressCity, addressCityEng).touched"
+              *ngIf="
+                addressExportDetailsDto.get(getLangValue('addressCity', 'addressCityEng')).invalid &&
+                addressExportDetailsDto.get(getLangValue('addressCity', 'addressCityEng')).touched
+              "
             >
               <app-ubs-input-error
-                [formElement]="getLangValue(addressCity, addressCityEng)"
+                [formElement]="getLangControl(addressCity, addressCityEng)"
                 [controlName]="getLangValue('addressCity', 'addressCityEng')"
               ></app-ubs-input-error>
             </div>
@@ -76,10 +79,13 @@
             </mat-autocomplete>
             <div
               class="validation"
-              *ngIf="getLangValue(addressStreet, addressStreetEng).invalid && getLangValue(addressStreet, addressStreetEng).touched"
+              *ngIf="
+                addressExportDetailsDto.get(getLangValue('addressStreet', 'addressStreetEng')).invalid &&
+                addressExportDetailsDto.get(getLangValue('addressStreet', 'addressStreetEng')).touched
+              "
             >
               <app-ubs-input-error
-                [formElement]="getLangValue(addressStreet, addressStreetEng)"
+                [formElement]="getLangControl(addressStreet, addressStreetEng)"
                 [controlName]="getLangValue('addressStreet', 'addressStreetEng')"
               >
               </app-ubs-input-error>
@@ -133,10 +139,13 @@
           </select>
           <div
             class="validation"
-            *ngIf="getLangValue(addressDistrict, addressDistrictEng).invalid && getLangValue(addressDistrict, addressDistrictEng).touched"
+            *ngIf="
+              addressExportDetailsDto.get(getLangValue('addressDistrict', 'addressDistrictEng')).invalid &&
+              addressExportDetailsDto.get(getLangValue('addressDistrict', 'addressDistrictEng')).touched
+            "
           >
             <app-ubs-input-error
-              [formElement]="getLangValue(addressDistrict, addressDistrictEng)"
+              [formElement]="getLangControl(addressDistrict, addressDistrictEng)"
               [controlName]="getLangValue('addressDistrict', 'addressDistrictEng')"
             ></app-ubs-input-error>
           </div>
