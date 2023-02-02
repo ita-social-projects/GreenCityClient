@@ -60,10 +60,4 @@ describe('UbsAdminTariffsAddTariffServicePopupComponent', () => {
     component.addTariffServiceForm.patchValue(fakeBagForm.value);
     expect(component.addTariffServiceForm.value).toEqual(fakeBagForm.value);
   });
-
-  it('should call createAndStoreNewTariff correctly', () => {
-    const spy = spyOn(component, 'createAndStoreNewTariff');
-    component.createAndStoreNewTariff();
-    expect(spy).toHaveBeenCalled();
-  });
 });
