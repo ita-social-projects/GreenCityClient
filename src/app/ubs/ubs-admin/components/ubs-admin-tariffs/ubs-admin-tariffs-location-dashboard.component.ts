@@ -55,9 +55,9 @@ export class UbsAdminTariffsLocationDashboardComponent implements OnInit, AfterV
   cityPlaceholder: string;
   stationPlaceholder: string;
   selectedStation = [];
-  cards = [];
-  cardsUk = [];
-  cardsEn = [];
+  cards: Object[] = [];
+  cardsUk: Object[] = [];
+  cardsEn: Object[] = [];
   filterData = { status: '' };
   createCardObj: CreateCard;
   isFieldFilled = false;
@@ -483,7 +483,7 @@ export class UbsAdminTariffsLocationDashboardComponent implements OnInit, AfterV
   }
 
   private setCard(): void {
-    this.cards = this.getLangValue(this.cardsUk, this.cardsEn);
+    this.cards = this.currentLang === 'ua' ? this.cardsUk : this.cardsEn;
   }
 
   checkRegionValue(value): void {
@@ -678,8 +678,8 @@ export class UbsAdminTariffsLocationDashboardComponent implements OnInit, AfterV
     });
   }
 
-  private getLangValue(uaValue, enValue): any {
-    return this.currentLang === 'ua' ? uaValue : enValue;
+  private getLangValue(uaValue: string, enValue: string): string {
+    return this.languageService.getLangValue(uaValue, enValue) as string;
   }
 
   ngOnDestroy(): void {
