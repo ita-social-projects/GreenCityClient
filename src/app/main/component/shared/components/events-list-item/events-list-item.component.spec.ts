@@ -15,6 +15,7 @@ import { LocalStorageService } from '@global-service/localstorage/local-storage.
 import { RatingModule } from 'ngx-bootstrap/rating';
 import { BehaviorSubject, Subject } from 'rxjs';
 import { UserOwnAuthService } from '@auth-service/user-own-auth.service';
+import { TagObj } from '../../../events/models/events.interface';
 
 @Injectable()
 class TranslationServiceStub {
@@ -77,6 +78,37 @@ describe('EventsListItemComponent', () => {
     isSubscribed: true,
     open: true
   };
+
+  const fakeItemTags: TagObj[] = [
+    {
+      nameEn: 'Environmental',
+      nameUa: 'Екологічний',
+      isActive: true
+    },
+    {
+      nameEn: 'Social',
+      nameUa: 'Соціальний',
+      isActive: true
+    },
+    {
+      nameEn: 'eco',
+      nameUa: 'Соціальний',
+      isActive: false
+    }
+  ];
+
+  const fakeActiveTags: TagObj[] = [
+    {
+      nameEn: 'Environmental',
+      nameUa: 'Екологічний',
+      isActive: true
+    },
+    {
+      nameEn: 'Social',
+      nameUa: 'Соціальний',
+      isActive: true
+    }
+  ];
 
   const routerSpy = { navigate: jasmine.createSpy('navigate') };
   const storeMock = jasmine.createSpyObj('store', ['dispatch']);
@@ -171,6 +203,18 @@ describe('EventsListItemComponent', () => {
       spyOn(component, 'filterTags');
       component.ngOnInit();
       expect(component.filterTags).toHaveBeenCalled();
+    });
+
+    it(`should check whether getAllAttendees returns correct value`, () => {
+      component.ngOnInit();
+      EventsServiceMock.getAllAttendees();
+      expect(component.attendees).toEqual([]);
+    });
+
+    it(`should check whether active tags are filtered properly`, () => {
+      component.itemTags = fakeItemTags;
+      component.filterTags(component.event.tags);
+      expect(component.activeTags).toEqual(fakeActiveTags);
     });
 
     it(`initAllStatusesOfEvent should be called in ngOnInit`, () => {

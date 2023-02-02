@@ -259,7 +259,7 @@ export class EventsListItemComponent implements OnInit, OnDestroy {
     this.langChangeSub = this.localStorageService.languageSubject.subscribe(this.bindLang.bind(this));
   }
 
-  cutTitle() {
+  cutTitle(): string {
     if (this.event.title.length > 40) {
       return this.event.title.slice(0, 30) + '...';
     } else {
@@ -267,7 +267,7 @@ export class EventsListItemComponent implements OnInit, OnDestroy {
     }
   }
 
-  cutDescription() {
+  cutDescription(): string {
     if (this.event.description.length > 90) {
       return this.event.description.slice(0, 90) + '...';
     } else {
