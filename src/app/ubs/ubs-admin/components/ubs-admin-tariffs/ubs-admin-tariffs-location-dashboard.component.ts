@@ -55,9 +55,9 @@ export class UbsAdminTariffsLocationDashboardComponent implements OnInit, AfterV
   cityPlaceholder: string;
   stationPlaceholder: string;
   selectedStation = [];
-  cards: Object[] = [];
-  cardsUk: Object[] = [];
-  cardsEn: Object[] = [];
+  cards = [];
+  cardsUk = [];
+  cardsEn = [];
   filterData = { status: '' };
   createCardObj: CreateCard;
   isFieldFilled = false;
