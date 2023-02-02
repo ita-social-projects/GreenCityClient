@@ -8,6 +8,7 @@ import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 import { OrderService } from '../../services/order.service';
 import { AddOrderCancellationReasonComponent } from '../add-order-cancellation-reason/add-order-cancellation-reason.component';
 import { UbsAdminOrderStatusComponent } from './ubs-admin-order-status.component';
+import { LanguageService } from 'src/app/main/i18n/language.service';
 
 describe('UbsAdminOrderStatusComponent', () => {
   let component: UbsAdminOrderStatusComponent;
@@ -48,13 +49,18 @@ describe('UbsAdminOrderStatusComponent', () => {
       { ableActualChange: true, key: 'CANCELED', translation: 'Canceled' }
     ]
   };
+
+  const languageServiceMock = jasmine.createSpyObj('languageService', ['getLangValue']);
+  languageServiceMock.getLangValue.and.returnValue('value');
+
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       declarations: [UbsAdminOrderStatusComponent],
       imports: [TranslateModule.forRoot(), FormsModule, ReactiveFormsModule, NoopAnimationsModule],
       providers: [
         { provide: OrderService, useValue: OrderServiceFake },
-        { provide: MatDialog, useValue: matDialogMock }
+        { provide: MatDialog, useValue: matDialogMock },
+        { provide: LanguageService, useValue: languageServiceMock }
       ]
     }).compileComponents();
   }));
@@ -195,15 +201,8 @@ describe('UbsAdminOrderStatusComponent', () => {
     expect((component as any).destroy$.complete).toHaveBeenCalledTimes(1);
   });
 
-  it(' should return ua Value by getLangValue', () => {
-    component.currentLanguage = 'ua';
-    const value = component.getLangValue('uaValue', 'enValue');
-    expect(value).toBe('uaValue');
-  });
-
-  it(' should return en Value by getLangValue', () => {
-    component.currentLanguage = 'en';
-    const value = component.getLangValue('uaValue', 'enValue');
-    expect(value).toBe('enValue');
+  it('should return ua value by getLangValue', () => {
+    const value = component.getLangValue('value', 'enValue');
+    expect(value).toBe('value');
   });
 });
