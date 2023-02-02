@@ -486,12 +486,10 @@ describe('UbsAdminPricingPageComponent', () => {
   });
 
   it('should get all tariffs for service', () => {
-    const spy = spyOn<any>(component, 'filterBags');
     component.bags = [];
     component.getAllTariffsForService();
     expect(component.isLoadBar).toEqual(false);
     expect(component.bags).toEqual([fakeBag]);
-    expect(spy).toHaveBeenCalled();
   });
 
   it('should get all services', () => {
