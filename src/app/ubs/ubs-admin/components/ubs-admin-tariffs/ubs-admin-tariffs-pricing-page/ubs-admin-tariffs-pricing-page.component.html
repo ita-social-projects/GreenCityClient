@@ -181,12 +181,10 @@
         </mat-radio-group>
         <div class="min-bags-number">
           <h6>{{ 'ubs-tariffs.min_set_of_packages' | translate }}</h6>
-          <div *ngIf="bags[0]">
-            <div *ngFor="let tariff of ourTariffs; let i = index">
-              <div *ngIf="bags[i]">
-                <mat-checkbox *ngIf="currentLanguage === 'ua'" class="example-margin">{{ tariff.name }}</mat-checkbox>
-                <mat-checkbox *ngIf="currentLanguage === 'en'" class="example-margin">{{ tariff.nameEng }}</mat-checkbox>
-              </div>
+          <div *ngFor="let bag of bags; let i = index">
+            <div>
+              <mat-checkbox *ngIf="currentLanguage === 'ua'" class="example-margin">{{ bag.name }}</mat-checkbox>
+              <mat-checkbox *ngIf="currentLanguage === 'en'" class="example-margin">{{ bag.nameEng }}</mat-checkbox>
             </div>
           </div>
         </div>

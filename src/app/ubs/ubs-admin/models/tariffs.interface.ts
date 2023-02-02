@@ -15,14 +15,12 @@ export interface Bag {
   createdAt?: string;
   locationId?: number;
   createdBy?: string;
-  tariffTranslationDtoList?: [
-    {
-      name: string;
-      description: string;
-      descriptionEng: string;
-      nameEng: string;
-    }
-  ];
+  tariffTranslationDtoList?: {
+    name: string;
+    description: string;
+    descriptionEng: string;
+    nameEng: string;
+  };
 }
 
 export interface Service {
