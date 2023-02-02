@@ -10,6 +10,7 @@ import { UbsAdminNotificationSettingsComponent } from './ubs-admin-notification-
 import { UbsAdminNotificationEditFormComponent } from './ubs-admin-notification-edit-form/ubs-admin-notification-edit-form.component';
 import { NotificationTemplate } from '../../models/notifications.model';
 import { ConfirmationDialogComponent } from '../shared/components/confirmation-dialog/confirmation-dialog.component';
+import { LanguageService } from 'src/app/main/i18n/language.service';
 
 @Component({
   selector: 'app-ubs-admin-notification',
@@ -32,6 +33,7 @@ export class UbsAdminNotificationComponent implements OnInit, OnDestroy {
   constructor(
     private notificationsService: NotificationsService,
     private localStorageService: LocalStorageService,
+    private langService: LanguageService,
     private route: ActivatedRoute,
     private router: Router,
     private location: Location,
@@ -149,6 +151,6 @@ export class UbsAdminNotificationComponent implements OnInit, OnDestroy {
   }
 
   public getLangValue(uaValue: string, enValue: string): string {
-    return this.currentLanguage === 'ua' ? uaValue : enValue;
+    return this.langService.getLangValue(uaValue, enValue) as string;
   }
 }

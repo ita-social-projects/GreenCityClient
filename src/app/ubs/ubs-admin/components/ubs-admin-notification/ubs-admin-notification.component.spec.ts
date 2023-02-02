@@ -63,6 +63,9 @@ describe('UbsAdminNotificationComponent', () => {
   localStorageServiceMock.getCurrentLanguage.and.returnValue(of('en'));
   localStorageServiceMock.languageBehaviourSubject = new BehaviorSubject('en');
 
+  const languageServiceMock = jasmine.createSpyObj('languageService', ['getLangValue', 'getLangControl']);
+  languageServiceMock.getLangValue.and.returnValue('value');
+
   const routerMock = { navigate: () => {} };
   const confirmationDialogServiceMock = { confirm: () => {} };
   const dialogMock = {
@@ -333,15 +336,8 @@ describe('UbsAdminNotificationComponent', () => {
     });
   });
 
-  it(' should return ua Value by getLangValue', () => {
-    component.currentLanguage = 'ua';
-    const value = component.getLangValue('uaValue', 'enValue');
-    expect(value).toBe('uaValue');
-  });
-
-  it(' should return en Value by getLangValue', () => {
-    component.currentLanguage = 'en';
-    const value = component.getLangValue('uaValue', 'enValue');
+  it('should return en value by getLangValue', () => {
+    const value = component.getLangValue('value', 'enValue');
     expect(value).toBe('enValue');
   });
 });
