@@ -4,6 +4,48 @@
   display: flex;
   background-color: #263900;
 
+  a {
+    margin-left: 20px;
+  }
+
+  .footer-menu {
+    display: flex;
+    width: 100%;
+    justify-content: flex-start;
+    gap: 20px;
+    padding: 0;
+    margin: 0;
+
+    li {
+      list-style-type: none;
+
+      a {
+        display: flex;
+        font-weight: 700;
+        font-size: 12px;
+        line-height: 12px;
+        color: var(--ubs-primary-white);
+      }
+    }
+
+    // hide GreenCity for prod
+    :last-child {
+      display: none;
+    }
+  }
+
+  .footer-bottom-part {
+    margin: 29px 0 22px 0;
+    font-size: 9px;
+    font-weight: 400;
+    line-height: 11px;
+    color: #8c8c8c;
+
+    .par {
+      margin: 0;
+    }
+  }
+
   .container-fluid {
     margin: 0 50px;
     display: flex;
@@ -31,7 +73,7 @@
             font-weight: 700;
             font-size: 16px;
             line-height: 20px;
-            color: #ffffff;
+            color: var(--ubs-primary-white);
           }
         }
 
@@ -46,10 +88,6 @@
       display: flex;
       flex-direction: column;
       align-items: flex-end;
-
-      a {
-        margin-left: 20px;
-      }
 
       .footer-bottom-part {
         margin-top: 25px;
@@ -73,44 +111,6 @@
     display: flex;
     width: 100%;
     align-items: center;
-
-    .footer-menu {
-      display: flex;
-      width: 100%;
-      justify-content: flex-start;
-      gap: 20px;
-      padding: 0;
-      margin: 0;
-
-      li {
-        list-style-type: none;
-
-        a {
-          display: flex;
-          font-weight: 700;
-          font-size: 12px;
-          line-height: 12px;
-          color: #ffffff;
-        }
-      }
-
-      // hide GreenCity for prod
-      :last-child {
-        display: none;
-      }
-    }
-  }
-
-  .footer-bottom-part {
-    margin: 29px 0 22px 0;
-    font-size: 9px;
-    font-weight: 400;
-    line-height: 11px;
-    color: #8c8c8c;
-
-    .par {
-      margin: 0;
-    }
   }
 }
 
@@ -118,12 +118,15 @@
   .footer {
     height: 157px;
     flex-direction: column;
+
     .container-fluid {
       margin: 0;
       padding: 28px 16px 23px 16px;
+
       .menu-left {
         width: auto;
       }
+
       .menu-right {
         width: 100%;
 
@@ -137,6 +140,7 @@
           gap: 10px;
         }
       }
+
       img {
         height: 32px;
       }
