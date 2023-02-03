@@ -17,6 +17,11 @@ import { IAppState } from 'src/app/store/state/app.state';
 import { GetLocations } from 'src/app/store/actions/tariff.actions';
 import { LimitsValidator } from '../../shared/limits-validator/limits.validator';
 
+enum limitStatus {
+  limitByAmountOfBag = 'LIMIT_BY_AMOUNT_OF_BAG',
+  limitByPriceOfOrder = 'LIMIT_BY_PRICE_OF_ORDER'
+}
+
 @Component({
   selector: 'app-ubs-admin-tariffs-pricing-page',
   templateUrl: './ubs-admin-tariffs-pricing-page.component.html',
@@ -37,7 +42,7 @@ export class UbsAdminTariffsPricingPageComponent implements OnInit, OnDestroy {
   info;
   bagInfo;
   sumInfo;
-  toggle: boolean = null;
+  toggle: limitStatus = null;
   description;
   descriptionInfo;
   couriers;
@@ -48,6 +53,7 @@ export class UbsAdminTariffsPricingPageComponent implements OnInit, OnDestroy {
   service: Service;
   thisLocation: Locations[];
   reset = true;
+  public limitEnum = limitStatus;
   private destroy: Subject<boolean> = new Subject<boolean>();
   public currentLanguage: string;
   public icons = {
@@ -87,6 +93,7 @@ export class UbsAdminTariffsPricingPageComponent implements OnInit, OnDestroy {
       this.getCouriers();
     });
     this.getOurTariffs();
+    console.log(limitStatus);
   }
 
   private initForm(): void {
@@ -130,7 +137,7 @@ export class UbsAdminTariffsPricingPageComponent implements OnInit, OnDestroy {
   }
 
   sumToggler() {
-    this.toggle = true;
+    this.toggle = limitStatus.limitByPriceOfOrder;
 
     this.limitsForm.patchValue({
       minAmountOfBigBags: null,
@@ -139,7 +146,7 @@ export class UbsAdminTariffsPricingPageComponent implements OnInit, OnDestroy {
   }
 
   bagToggler() {
-    this.toggle = false;
+    this.toggle = limitStatus.limitByAmountOfBag;
 
     this.limitsForm.patchValue({
       minPriceOfOrder: null,
@@ -173,7 +180,7 @@ export class UbsAdminTariffsPricingPageComponent implements OnInit, OnDestroy {
       this.changeDescription();
     }
 
-    if (this.toggle) {
+    if (this.toggle === limitStatus.limitByPriceOfOrder) {
       this.tariffsService
         .setLimitsBySumOrder(this.sumInfo, tariffId)
         .pipe(takeUntil(this.destroy))
@@ -184,7 +191,7 @@ export class UbsAdminTariffsPricingPageComponent implements OnInit, OnDestroy {
       this.changeDescription();
     }
 
-    if (this.toggle === false) {
+    if (this.toggle === limitStatus.limitByAmountOfBag) {
       this.tariffsService
         .setLimitsByAmountOfBags(this.bagInfo, tariffId)
         .pipe(takeUntil(this.destroy))
@@ -485,7 +492,7 @@ export class UbsAdminTariffsPricingPageComponent implements OnInit, OnDestroy {
         maxAmountOfBigBags: this.selectedCard.maxAmountOfBigBags,
         limitDescription: this.selectedCard.limitDescription
       });
-      this.toggle = false;
+      this.toggle = limitStatus.limitByAmountOfBag;
     }
 
     if (this.selectedCard.maxPriceOfOrder !== null && this.selectedCard.minPriceOfOrder !== null) {
@@ -494,7 +501,7 @@ export class UbsAdminTariffsPricingPageComponent implements OnInit, OnDestroy {
         maxPriceOfOrder: this.selectedCard.maxPriceOfOrder,
         limitDescription: this.selectedCard.limitDescription
       });
-      this.toggle = true;
+      this.toggle = limitStatus.limitByPriceOfOrder;
     }
   }
 
@@ -508,11 +515,17 @@ export class UbsAdminTariffsPricingPageComponent implements OnInit, OnDestroy {
     const minAmountOfBigBags = this.limitsForm.get('minAmountOfBigBags');
     const maxAmountOfBigBags = this.limitsForm.get('maxAmountOfBigBags');
 
-    if (this.toggle && (minPriceOfOrder.errors?.cannotBeEmpty || maxPriceOfOrder.errors?.cannotBeEmpty)) {
+    if (
+      this.toggle === limitStatus.limitByPriceOfOrder &&
+      (minPriceOfOrder.errors?.cannotBeEmpty || maxPriceOfOrder.errors?.cannotBeEmpty)
+    ) {
       return true;
     }
 
-    if (!this.toggle && (minAmountOfBigBags.errors?.cannotBeEmpty || maxAmountOfBigBags.errors?.cannotBeEmpty)) {
+    if (
+      this.toggle === limitStatus.limitByAmountOfBag &&
+      (minAmountOfBigBags.errors?.cannotBeEmpty || maxAmountOfBigBags.errors?.cannotBeEmpty)
+    ) {
       return true;
     }
 

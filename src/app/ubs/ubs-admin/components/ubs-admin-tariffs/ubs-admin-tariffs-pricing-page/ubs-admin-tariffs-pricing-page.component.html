@@ -119,12 +119,12 @@
               name="courierLimit"
               value="LIMIT_BY_SUM_OF_ORDER"
               (click)="sumToggler()"
-              [checked]="toggle"
+              [checked]="toggle === limitEnum.limitByPriceOfOrder"
             >
             </mat-radio-button>
             <label for="min-order-amount">{{ 'ubs-tariffs.min_order_amount' | translate }}</label
             ><br />
-            <fieldset [disabled]="!toggle || toggle === null">
+            <fieldset [disabled]="toggle === limitEnum.limitByAmountOfBag || toggle === null">
               <legend></legend>
               <input
                 class="input"
@@ -152,11 +152,11 @@
               name="courierLimit"
               value="LIMIT_BY_AMOUNT_OF_BAG"
               (click)="bagToggler()"
-              [checked]="!toggle"
+              [checked]="toggle === limitEnum.limitByAmountOfBag"
             ></mat-radio-button>
             <label for="min-packages">{{ 'ubs-tariffs.min_number_of_packages' | translate }}</label
             ><br />
-            <fieldset [disabled]="toggle || toggle === null">
+            <fieldset [disabled]="toggle === limitEnum.limitByPriceOfOrder || toggle === null">
               <legend></legend>
               <input
                 class="input"
