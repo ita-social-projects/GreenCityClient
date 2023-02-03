@@ -371,7 +371,7 @@ export class UbsAdminOrderComponent implements OnInit, OnDestroy, AfterContentCh
     } else {
       const exportDetailsDtoValue = this.orderForm.get('exportDetailsDto').value;
       const validatedValues = Object.values(exportDetailsDtoValue).map((val) => {
-        if (val == ' ') {
+        if (val === ' ') {
           val = null;
         }
       });
