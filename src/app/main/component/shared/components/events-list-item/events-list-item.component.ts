@@ -53,8 +53,8 @@ export class EventsListItemComponent implements OnInit, OnDestroy {
 
   public langChangeSub: Subscription;
   public currentLang: string;
-  public datePipe = new DatePipe(this.localStorageService.getCurrentLanguage());
-  public newDate = this.datePipe.transform(new Date(), 'MMM dd, yyyy');
+  public datePipe;
+  public newDate;
 
   attendees = [];
   attendeesAvatars = [];
@@ -88,10 +88,7 @@ export class EventsListItemComponent implements OnInit, OnDestroy {
     this.initAllStatusesOfEvent();
     this.checkAllStatusesOfEvent();
     this.subscribeToLangChange();
-    this.eventService.getAllAttendees(this.event.id).subscribe((attendees) => {
-      this.attendees = attendees;
-      this.attendeesAvatars = attendees.filter((attendee) => attendee.imagePath).map((attendee) => attendee.imagePath);
-    });
+    this.getAllAttendees();
     this.bindLang(this.localStorageService.getCurrentLanguage());
     this.author = this.event.organizer.name;
   }
@@ -257,6 +254,11 @@ export class EventsListItemComponent implements OnInit, OnDestroy {
 
   public subscribeToLangChange(): void {
     this.langChangeSub = this.localStorageService.languageSubject.subscribe(this.bindLang.bind(this));
+    this.localStorageService.languageBehaviourSubject.subscribe((lang: string) => {
+      this.currentLang = lang;
+      this.datePipe = new DatePipe(this.currentLang);
+      this.newDate = this.datePipe.transform(new Date(), 'MMM dd, yyyy');
+    });
   }
 
   cutTitle(): string {
@@ -273,6 +275,13 @@ export class EventsListItemComponent implements OnInit, OnDestroy {
     } else {
       return this.event.description;
     }
+  }
+
+  getAllAttendees() {
+    this.eventService.getAllAttendees(this.event.id).subscribe((attendees) => {
+      this.attendees = attendees;
+      this.attendeesAvatars = attendees.filter((attendee) => attendee.imagePath).map((attendee) => attendee.imagePath);
+    });
   }
 
   ngOnDestroy(): void {
