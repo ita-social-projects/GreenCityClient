@@ -129,6 +129,7 @@ describe('EventsListItemComponent', () => {
   ]);
   localStorageServiceMock.languageSubject = new Subject();
   localStorageServiceMock.userIdBehaviourSubject = new BehaviorSubject(5);
+  localStorageServiceMock.languageBehaviourSubject = new BehaviorSubject('ua');
 
   let translateServiceMock: TranslateService;
   translateServiceMock = jasmine.createSpyObj('TranslateService', ['setDefaultLang']);
