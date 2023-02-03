@@ -4,7 +4,7 @@ import { ActivatedRoute, Params, Router } from '@angular/router';
 import { formatDate } from '@angular/common';
 import { MatDialog } from '@angular/material/dialog';
 import { Subject } from 'rxjs';
-import { take, takeUntil } from 'rxjs/operators';
+import { take, takeUntil, map } from 'rxjs/operators';
 import { Store } from '@ngrx/store';
 import { TranslateService } from '@ngx-translate/core';
 import { MatSnackBarComponent } from '@global-errors/mat-snack-bar/mat-snack-bar.component';
@@ -130,7 +130,8 @@ export class UbsAdminOrderComponent implements OnInit, OnDestroy, AfterContentCh
     const bagsObj = this.orderInfo.bags.map((bag) => {
       bag.planned = this.orderInfo.amountOfBagsOrdered[bag.id] || 0;
       bag.confirmed = this.orderInfo.amountOfBagsConfirmed[bag.id] ?? bag.planned;
-      bag.actual = this.orderInfo.amountOfBagsExported[bag.id] ?? (bag.confirmed || 0);
+      const setAmountOfBagsExported = this.currentOrderStatus === 'DONE' ? bag.confirmed : 0;
+      bag.actual = this.orderInfo.amountOfBagsExported[bag.id] ?? setAmountOfBagsExported;
       return bag;
     });
     this.orderDetails = {
@@ -368,7 +369,18 @@ export class UbsAdminOrderComponent implements OnInit, OnDestroy, AfterContentCh
     if (changedValues.exportDetailsDto) {
       this.formatExporteValue(changedValues.exportDetailsDto);
     } else {
-      changedValues.exportDetailsDto = this.orderForm.get('exportDetailsDto').value;
+      const exportDetailsDtoValue = this.orderForm.get('exportDetailsDto').value;
+      const validatedValues = Object.values(exportDetailsDtoValue).map((val) => {
+        if (val == ' ') {
+          val = null;
+        }
+      });
+
+      Object.keys(exportDetailsDtoValue).forEach((key, index) => {
+        exportDetailsDtoValue[key] = validatedValues[index];
+      });
+
+      changedValues.exportDetailsDto = exportDetailsDtoValue;
       this.formatExporteValue(changedValues.exportDetailsDto);
     }
 
@@ -453,7 +465,9 @@ export class UbsAdminOrderComponent implements OnInit, OnDestroy, AfterContentCh
   }
 
   public formatExporteValue(exportDetailsDto: IExportDetails): void {
-    const exportDate = new Date(exportDetailsDto.dateExport);
+    const exportDate = new Date(
+      exportDetailsDto.dateExport ? exportDetailsDto.dateExport : this.orderForm.get('exportDetailsDto').value.dateExport
+    );
 
     if (exportDetailsDto.dateExport) {
       exportDetailsDto.dateExport = exportDate.toISOString();
