@@ -17,7 +17,7 @@ import { IAppState } from 'src/app/store/state/app.state';
 import { GetLocations } from 'src/app/store/actions/tariff.actions';
 import { LimitsValidator } from '../../shared/limits-validator/limits.validator';
 
-enum limitStatus {
+export enum limitStatus {
   limitByAmountOfBag = 'LIMIT_BY_AMOUNT_OF_BAG',
   limitByPriceOfOrder = 'LIMIT_BY_PRICE_OF_ORDER'
 }
@@ -42,7 +42,7 @@ export class UbsAdminTariffsPricingPageComponent implements OnInit, OnDestroy {
   info;
   bagInfo;
   sumInfo;
-  toggle: limitStatus = null;
+  limitStatus: limitStatus;
   description;
   descriptionInfo;
   couriers;
@@ -93,13 +93,12 @@ export class UbsAdminTariffsPricingPageComponent implements OnInit, OnDestroy {
       this.getCouriers();
     });
     this.getOurTariffs();
-    console.log(limitStatus);
   }
 
   private initForm(): void {
     this.limitsForm = this.fb.group({
       limitDescription: new FormControl(''),
-      courierLimitsBy: new FormControl(''),
+      courierLimitsBy: new FormControl({ value: this.limitStatus }),
       minPriceOfOrder: new FormControl(null, [Validators.required, LimitsValidator.cannotBeEmpty]),
       maxPriceOfOrder: new FormControl(null, [Validators.required, LimitsValidator.cannotBeEmpty]),
       minAmountOfBigBags: new FormControl(null, [Validators.required, LimitsValidator.cannotBeEmpty]),
@@ -136,8 +135,8 @@ export class UbsAdminTariffsPricingPageComponent implements OnInit, OnDestroy {
     });
   }
 
-  sumToggler() {
-    this.toggle = limitStatus.limitByPriceOfOrder;
+  sumLimitStatus() {
+    this.limitStatus = limitStatus.limitByPriceOfOrder;
 
     this.limitsForm.patchValue({
       minAmountOfBigBags: null,
@@ -145,8 +144,8 @@ export class UbsAdminTariffsPricingPageComponent implements OnInit, OnDestroy {
     });
   }
 
-  bagToggler() {
-    this.toggle = limitStatus.limitByAmountOfBag;
+  bagLimitStatus() {
+    this.limitStatus = limitStatus.limitByAmountOfBag;
 
     this.limitsForm.patchValue({
       minPriceOfOrder: null,
@@ -176,11 +175,11 @@ export class UbsAdminTariffsPricingPageComponent implements OnInit, OnDestroy {
       limitDescription
     };
 
-    if (this.toggle === null) {
+    if (this.limitStatus === null) {
       this.changeDescription();
     }
 
-    if (this.toggle === limitStatus.limitByPriceOfOrder) {
+    if (this.limitStatus === limitStatus.limitByPriceOfOrder) {
       this.tariffsService
         .setLimitsBySumOrder(this.sumInfo, tariffId)
         .pipe(takeUntil(this.destroy))
@@ -191,7 +190,7 @@ export class UbsAdminTariffsPricingPageComponent implements OnInit, OnDestroy {
       this.changeDescription();
     }
 
-    if (this.toggle === limitStatus.limitByAmountOfBag) {
+    if (this.limitStatus === limitStatus.limitByAmountOfBag) {
       this.tariffsService
         .setLimitsByAmountOfBags(this.bagInfo, tariffId)
         .pipe(takeUntil(this.destroy))
@@ -202,7 +201,7 @@ export class UbsAdminTariffsPricingPageComponent implements OnInit, OnDestroy {
       this.changeDescription();
     }
     this.saveBTNClicked = true;
-    this.toggle = null;
+    this.limitStatus = null;
   }
 
   async getCourierId(): Promise<any> {
@@ -487,21 +486,25 @@ export class UbsAdminTariffsPricingPageComponent implements OnInit, OnDestroy {
 
   setLimits(): void {
     if (this.selectedCard.maxAmountOfBags !== null && this.selectedCard.minAmountOfBags !== null) {
+      this.limitStatus = limitStatus.limitByAmountOfBag;
+
       this.limitsForm.patchValue({
         minAmountOfBigBags: this.selectedCard.minAmountOfBigBags,
         maxAmountOfBigBags: this.selectedCard.maxAmountOfBigBags,
-        limitDescription: this.selectedCard.limitDescription
+        limitDescription: this.selectedCard.limitDescription,
+        courierLimitsBy: this.limitStatus
       });
-      this.toggle = limitStatus.limitByAmountOfBag;
     }
 
     if (this.selectedCard.maxPriceOfOrder !== null && this.selectedCard.minPriceOfOrder !== null) {
+      this.limitStatus = limitStatus.limitByPriceOfOrder;
+
       this.limitsForm.patchValue({
         minPriceOfOrder: this.selectedCard.minPriceOfOrder,
         maxPriceOfOrder: this.selectedCard.maxPriceOfOrder,
-        limitDescription: this.selectedCard.limitDescription
+        limitDescription: this.selectedCard.limitDescription,
+        courierLimitsBy: this.limitStatus
       });
-      this.toggle = limitStatus.limitByPriceOfOrder;
     }
   }
 
@@ -516,14 +519,14 @@ export class UbsAdminTariffsPricingPageComponent implements OnInit, OnDestroy {
     const maxAmountOfBigBags = this.limitsForm.get('maxAmountOfBigBags');
 
     if (
-      this.toggle === limitStatus.limitByPriceOfOrder &&
+      this.limitStatus === limitStatus.limitByPriceOfOrder &&
       (minPriceOfOrder.errors?.cannotBeEmpty || maxPriceOfOrder.errors?.cannotBeEmpty)
     ) {
       return true;
     }
 
     if (
-      this.toggle === limitStatus.limitByAmountOfBag &&
+      this.limitStatus === limitStatus.limitByAmountOfBag &&
       (minAmountOfBigBags.errors?.cannotBeEmpty || maxAmountOfBigBags.errors?.cannotBeEmpty)
     ) {
       return true;
