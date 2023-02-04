@@ -11,15 +11,20 @@
       >
         <img [src]="imageLogo" role="link" alt="{{ imgAlt }}" />
       </a>
-      <div class="header_navigation-menu">
+      <div [ngClass]="isUBS ? 'header_navigation-menu-ubs' : 'header_navigation-menu'">
         <nav [ngClass]="toggleBurgerMenu ? 'header_navigation-menu-left-col' : 'header_navigation-menu-left'" role="navigation">
           <ul role="tablist">
-            <li *ngFor="let link of navLinks" tabindex="0" role="listitem">
-              <a *ngIf="link.url; else routerLink" [href]="link.route" target="_blank" rel="noopener noreferrer">
+            <li *ngFor="let link of navLinks" tabindex="0" role="listitem" class="nav-left-list">
+              <a *ngIf="link.url; else routerLink" [href]="link.route" target="_blank" rel="noopener noreferrer" class="url-name">
                 {{ link.name | translate }}
               </a>
               <ng-template #routerLink>
-                <a [routerLink]="link.route" [routerLinkActive]="!isUBS ? 'active-link' : ''" [routerLinkActiveOptions]="{ exact: true }">
+                <a
+                  [routerLink]="link.route"
+                  [routerLinkActive]="!isUBS ? 'active-link' : ''"
+                  [routerLinkActiveOptions]="{ exact: true }"
+                  class="url-name"
+                >
                   {{ link.name | translate }}
                 </a>
               </ng-template>
@@ -28,7 +33,11 @@
             <div *ngIf="!isLoggedIn; then userLoggedInSmall; else userNotLoggerInSmall"></div>
             <ng-template #userLoggedInSmall>
               <li *ngIf="toggleBurgerMenu" class="header_mobile-menu-sign-in" role="link">
-                <a class="tertiary-global-button" [ngClass]="{ 'header_sign-in-link': !isUBS }" (click)="openAuthModalWindow('sign-in')">
+                <a
+                  class="tertiary-global-button"
+                  [ngClass]="{ 'header_sign-in-link-green-city': !isUBS }"
+                  (click)="openAuthModalWindow('sign-in')"
+                >
                   {{ 'top-bar.sign-in' | translate }}
                 </a>
               </li>
@@ -108,17 +117,19 @@
               tabindex="0"
               [ngClass]="{
                 'add-shadow': langDropdownVisible,
-                'header_lang-switcher-wrp header_navigation-menu-right-list': true,
+                'header_lang-switcher-wrp header_navigation-menu-right-lang': true,
                 'ubs-lang-switcher': isUBS
               }"
               (click)="langDropdownVisible = !langDropdownVisible"
               (clickOutSide)="autoCloseLangDropDown($event)"
               (keyup.enter)="langDropdownVisible = !langDropdownVisible"
             >
-              <li role="option" aria-label="english">
-                <span [ngStyle]="{ 'font-size': isUBS && '18px', 'font-weight': isUBS && '800' }" aria-hidden="true">{{
-                  arrayLang[0].lang
-                }}</span>
+              <li role="option" aria-label="english" class="lang-option">
+                <span
+                  [ngStyle]="{ 'font-size': isUBS && '18px', 'font-weight': isUBS && '800', color: isUBS && '#575757' }"
+                  aria-hidden="true"
+                  >{{ arrayLang[0].lang }}</span
+                >
                 <img
                   alt="language switcher"
                   aria-hidden="true"
@@ -158,10 +169,11 @@
                 (clickOutSide)="autoCloseUserDropDown($event)"
                 (keyup.enter)="toggleDropdown()"
               >
-                <li role="listitem">
+                <li class="list-item" role="listitem">
                   <a [ngClass]="isUBS ? 'ubs-header_user-name' : 'header_user-name'" aria-hidden="true">
                     <span>{{ name }}</span>
                     <img
+                      *ngIf="!isUBS"
                       alt="arrow down icon"
                       aria-hidden="true"
                       [ngClass]="dropdownVisible ? 'header_arrow reverse' : 'header_arrow'"

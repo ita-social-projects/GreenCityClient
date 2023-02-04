@@ -7,8 +7,6 @@ $ubs-header-height: 116px;
   background-color: transparent;
 }
 
-/* stylelint-disable */
-
 .active-link {
   color: var(--primary-green) !important;
 
@@ -19,44 +17,56 @@ $ubs-header-height: 116px;
 
 header {
   width: 100vw;
+  box-shadow: 0 0 8px rgba(73, 74, 73, 0.2);
   position: fixed;
   top: 0;
   background: $white-color;
   z-index: 5;
-  box-shadow: 0 0 8px rgba(73, 74, 73, 0.2);
+}
 
-  .container-fluid {
-    font-family: var(--ubs-secondary-font);
-    font-weight: 700;
-    font-size: 16px;
-    line-height: 20px;
-  }
+.ubs-header_sign-up-btn,
+.header_sign-up-btn {
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid var(--primary-green);
+  color: var(--primary-green);
+  height: 36px;
 
-  .header_container {
-    margin: 0;
-    padding: 0;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    width: 100%;
-    height: 100%;
-
-    .header_logo {
-      margin-right: 24px;
-      margin-left: 20px;
-    }
-
-    .header_navigation-menu {
-      height: $header-height;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      font-family: var(--primary-font);
-    }
+  span {
+    padding: 0 24px;
+    font-size: 12px;
+    line-height: 12px;
+    font-weight: 600;
   }
 }
 
-.burger-modal_open header {
+.ubs-header_sign-up-btn {
+  background-color: var(--ubs-button-light-green);
+  border: 2px solid var(--ubs-button-light-green);
+  border-radius: 3px;
+  color: var(--ubs-primary-black);
+
+  &:hover {
+    background-color: var(--ubs-primary-white);
+  }
+}
+
+.header_sign-in-link {
+  font-size: 12px;
+  font-weight: 600;
+  width: 70px;
+  padding: 0 12px;
+
+  a {
+    color: var(--secondary-dark-green);
+    display: block;
+    min-width: 40px;
+  }
+}
+
+.burger-modal_open {
   box-shadow: none;
 
   .header_sign-in-link {
@@ -93,40 +103,6 @@ header {
   }
 }
 
-.header_ubs {
-  box-shadow: none !important;
-  height: $ubs-header-height;
-  display: flex;
-
-  .header_navigation-menu-left {
-    width: 30%;
-  }
-
-  .header_navigation-menu-left li a {
-    color: #575757;
-    line-height: 20px;
-    font-weight: 700;
-    font-size: 16px;
-  }
-
-  .header_navigation-menu-left li:first-child a {
-    text-decoration: underline;
-    text-decoration-style: 1px solid #575757;
-    text-underline-offset: 7px;
-  }
-
-  .header_navigation-menu-left li a:hover {
-    text-decoration: underline;
-    text-decoration-style: 1px solid #575757;
-    text-underline-offset: 7px;
-  }
-
-  // hide GreenCity for prod
-  .header_navigation-menu-left li:nth-child(4) a {
-    display: none;
-  }
-}
-
 .header_sign-up-link {
   font-size: 12px;
 
@@ -135,24 +111,51 @@ header {
   }
 }
 
+.dropdown {
+  background-color: $white-color;
+  list-style-type: none;
+  padding: 0;
+  position: absolute;
+  top: 41px;
+  width: 150px;
+  display: flex;
+  flex-direction: column;
+  right: -15px;
+  align-items: flex-start;
+
+  li {
+    position: relative;
+    color: var(--ubs-primary-black);
+
+    a {
+      display: block;
+      padding: 10px;
+      width: 100%;
+    }
+  }
+}
+
 .ubs-header-sign-in {
   display: flex;
-  font-family: var(--ubs-secondary-font);
+  font-size: 12px;
   font-weight: 600;
-  font-size: 16px;
-  line-height: 20px;
   height: 36px;
-  width: 150px;
+  width: 99px;
   justify-content: center;
   align-items: center;
   color: var(--ubs-primary-black);
-  border: 2px solid #87bc1e;
-  border-radius: 15px;
+  border: 1px solid var(--ubs-primary-black);
+  border-radius: 3px;
 
   &:hover {
-    background-color: #87bc1e;
+    color: var(--ubs-button-light-green);
     text-decoration: none;
   }
+}
+
+.header_logo {
+  margin-right: 24px;
+  margin-left: 20px;
 }
 
 .header_navigation-menu-right-list {
@@ -161,6 +164,7 @@ header {
   justify-content: flex-end;
   list-style-type: none;
   height: 100%;
+  margin: 0;
   padding: 0;
 
   li {
@@ -259,101 +263,241 @@ header {
   text-decoration-line: none;
 }
 
-.header_arrow {
-  margin: 2px 0 0 5px;
-}
-
-.header_sign-up-btn {
-  cursor: pointer;
+.header_container {
+  margin: 0;
+  padding: 0;
   display: flex;
   align-items: center;
-  justify-content: center;
-  border: 1px solid var(--primary-green);
-  color: var(--primary-green);
-  height: 36px;
+  justify-content: space-between;
+  width: 100%;
+  height: 100%;
+}
 
-  span {
-    padding: 0 24px;
-    font-size: 12px;
-    line-height: 12px;
-    font-weight: 600;
+.header-logo {
+  display: flex;
+  align-items: center;
+
+  a img {
+    max-width: 100%;
   }
 }
 
-.ubs-header_sign-up-btn {
+.header_navigation-menu-ubs,
+.header_navigation-menu {
   display: flex;
-  justify-content: center;
+  justify-content: space-between;
   align-items: center;
-  height: 36px;
-  width: fit-content;
-  background-color: #87bc1e;
-  border: 2px solid #87bc1e;
-  border-radius: 15px;
-  font-family: var(--ubs-secondary-font);
-  font-weight: 600;
-  font-size: 16px;
-  line-height: 20px;
-  color: var(--ubs-primary-white);
+  font-family: var(--primary-font);
+}
+
+.header_navigation-menu {
+  height: $header-height;
+
+  .header_navigation-menu-right {
+    height: 80%;
+    right: 20px;
+
+    .header_navigation-menu-right-list {
+      .search-icon,
+      .bookmark-icon,
+      .notification-icon {
+        img {
+          height: 11px;
+          cursor: pointer;
+        }
+      }
+
+      .header_navigation-menu-right-lang {
+        padding-left: 0;
+        height: 88px;
+        cursor: pointer;
+        width: 60px;
+        display: flex;
+        justify-content: center;
+
+        .lang-option {
+          span {
+            font-size: 14px;
+          }
+        }
+      }
+    }
+  }
+}
+
+#header_user-wrp {
+  position: relative;
+  margin: auto 0;
+  padding: 0;
+  height: fit-content;
+  display: none;
+  flex-direction: column;
+  width: auto;
+  min-width: 126px;
+
+  li {
+    height: 44px;
+    font-size: 14px;
+    line-height: 16px;
+    margin: 0;
+    //padding: 0 12px 0;
+    color: var(--primary-dark-grey);
+
+    &:first-child {
+      font-size: 14px;
+      font-weight: 600;
+    }
+
+    &.drop-down-item {
+      display: flex;
+      align-items: center;
+
+      a {
+        color: var(--primary-dark-grey);
+        font-size: 14px;
+        line-height: 16px;
+        font-family: var(--primary-font);
+        font-weight: 400;
+      }
+    }
+
+    &.text-hidde {
+      display: none;
+    }
+  }
+
+  .header_user-name {
+    span {
+      color: var(--primary-green);
+    }
+  }
+
+  .ubs-header_user-name,
+  .header_user-name {
+    display: flex;
+    text-decoration: none;
+
+    span {
+      font-weight: normal;
+      display: -webkit-box;
+      -webkit-line-clamp: 1;
+      -webkit-box-orient: vertical;
+      overflow: hidden;
+      word-break: break-all;
+    }
+  }
+}
+
+.header_navigation-menu-ubs {
+  height: $ubs-header-height;
+  width: 100%;
+  justify-content: flex-end;
+
+  .header_navigation-menu-left {
+    width: 50%;
+
+    ul .nav-left-list {
+      &:first-child {
+        text-decoration: underline;
+        text-decoration-style: 1px solid #575757;
+        text-underline-offset: 7px;
+      }
+
+      .url-name {
+        font-family: var(--ubs-secondary-font);
+        font-weight: 700;
+        font-size: 16px;
+        line-height: 20px;
+        color: #575757;
+
+        &:hover {
+          text-decoration: underline;
+          text-decoration-style: 1px solid #575757;
+          text-underline-offset: 7px;
+        }
+      }
+    }
+  }
+
+  .header_navigation-menu-right {
+    height: 80%;
+
+    .header_navigation-menu-right-list {
+      justify-content: space-evenly;
+
+      .header_lang-switcher-wrp.header_navigation-menu-right-lang {
+        padding-left: 0;
+        cursor: pointer;
+      }
+
+      #header_user-wrp.ubs-user-cabinet {
+        display: none;
+        align-items: center;
+        font-family: var(--ubs-secondary-font);
+
+        .list-item {
+          padding: 0;
+          text-align: center;
+
+          &:first-child span {
+            font-weight: 600;
+            font-size: 16px;
+            line-height: 20px;
+            border: 2px solid #87bc1e;
+            border-radius: 15px;
+            width: 160px;
+            height: 45px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+          }
+
+          .ubs-header_user-name {
+            display: flex;
+            justify-content: center;
+          }
+        }
+      }
+    }
+  }
+}
+
+.add-shadow {
+  padding-left: 0;
+  height: 88px;
+  background-color: $white-color;
+  box-shadow: 0 0 8px rgba(73, 74, 73, 0.2);
+  border-radius: 2px;
+  display: flex;
+  margin-bottom: auto;
+  flex-direction: column;
+  z-index: 1;
+}
+
+#header_user-wrp.ubs-user-cabinet.add-shadow {
+  border-radius: 20px;
+  max-width: 160px;
+  top: 25px;
+}
+
+.ubs-lang-switcher-span {
+  font-size: 18px !important;
+  color: #b5b5b5 !important;
+  font-weight: 800;
 
   &:hover {
-    background-color: #5b8901;
-    border: 3.5px solid #5b8901;
+    text-decoration: underline;
   }
+}
+
+.header_arrow {
+  margin: 2px 0 0 5px;
 }
 
 .reverse {
   transform: rotate(180deg);
   transition: 0.4s ease-out;
   transition-delay: 0.1s;
-}
-
-.header_navigation-menu-right {
-  height: 80%;
-  right: 20px;
-
-  .search-icon,
-  .bookmark-icon,
-  .notification-icon {
-    img {
-      height: 11px;
-      cursor: pointer;
-    }
-  }
-
-  .header_lang-switcher-wrp.header_navigation-menu-right-list {
-    cursor: pointer;
-    width: 60px;
-    display: flex;
-    justify-content: center;
-
-    li {
-      width: 30px;
-      padding: 0;
-
-      span {
-        font-size: 14px;
-      }
-    }
-  }
-
-  .add-shadow {
-    background-color: $white-color;
-    box-shadow: 0 0 8px rgba(73, 74, 73, 0.2);
-    display: flex;
-    flex-direction: column;
-    height: 88px;
-    margin: auto 0;
-    width: 60px;
-    z-index: 1;
-  }
-}
-
-.ubs-lang-switcher {
-  margin-right: 170px !important;
-}
-
-.item-list-margin {
-  border-radius: 2px;
 }
 
 .header_burger-btn {
@@ -423,132 +567,6 @@ header {
   }
 }
 
-#header_user-wrp {
-  position: relative;
-  margin: auto 0;
-  padding: 0;
-  height: fit-content;
-  display: none;
-  flex-direction: column;
-  width: auto;
-  min-width: 126px;
-
-  li {
-    height: 44px;
-    font-size: 14px;
-    line-height: 16px;
-    margin: 0;
-    padding: 0 12px 0;
-    color: var(--primary-dark-grey);
-
-    &:first-child {
-      font-size: 14px;
-      font-weight: 600;
-    }
-
-    &.drop-down-item {
-      display: flex;
-      align-items: center;
-
-      a {
-        color: var(--primary-dark-grey);
-        font-size: 14px;
-        line-height: 16px;
-        font-family: var(--primary-font);
-        font-weight: 400;
-      }
-    }
-
-    &.text-hidde {
-      display: none;
-    }
-  }
-
-  .header_user-name {
-    span {
-      font-weight: normal;
-      color: var(--primary-green);
-    }
-  }
-
-  .ubs-header_user-name {
-    span {
-      color: var(--ubs-primary-black);
-      font-weight: 600;
-      font-size: 16px;
-      line-height: 20px;
-    }
-
-    img {
-      display: none;
-    }
-  }
-
-  .ubs-header_user-name,
-  .header_user-name {
-    display: flex;
-    text-decoration: none;
-
-    span {
-      display: -webkit-box;
-      -webkit-line-clamp: 1;
-      -webkit-box-orient: vertical;
-      overflow: hidden;
-      word-break: break-all;
-    }
-  }
-}
-
-ul .ubs-user-cabinet {
-  display: flex;
-  align-items: center;
-  right: 50px;
-  font-family: var(--ubs-secondary-font);
-
-  li {
-    &:first-child {
-      font-family: var(--ubs-secondary-font);
-      font-weight: 600 !important;
-      font-size: 16px;
-      line-height: 20px;
-      border: 2px solid #87bc1e;
-      border-radius: 15px;
-    }
-
-    a {
-      font-family: var(--ubs-secondary-font);
-      display: flex;
-      justify-content: center;
-    }
-  }
-}
-
-.ubs-lang-switcher-span {
-  font-size: 18px !important;
-  color: #b5b5b5 !important;
-  font-weight: 800;
-
-  &:hover {
-    text-decoration: underline;
-  }
-}
-
-.ubs-user-cabinet {
-  border-radius: 20px;
-}
-
-#header_user-wrp {
-  .ubs-header_user-name {
-    width: 162px;
-  }
-
-  li.drop-down-item a {
-    color: var(--primary-dark-grey);
-    font-size: 16px;
-    line-height: 20px;
-  }
-}
-
 .header_line {
   margin: 12px 0;
   padding: 0;
@@ -561,14 +579,8 @@ ul .ubs-user-cabinet {
     padding: 10px 0;
   }
 
-  .ubs-lang-switcher {
-    margin-right: 50px !important;
-  }
-}
-
-@media (min-width: 480px) and (max-width: 576px) {
-  .ubs-lang-switcher {
-    margin-right: 120px !important;
+  .header_navigation-menu-ubs .header_navigation-menu-right {
+    width: 150px;
   }
 }
 
@@ -589,6 +601,30 @@ ul .ubs-user-cabinet {
 
   #header_user-wrp {
     display: flex;
+    max-width: 126px;
+  }
+
+  .ubs-user-cabinet.add-shadow {
+    max-width: 126px;
+  }
+
+  .ubs-user-cabinet {
+    display: flex !important;
+    justify-content: center;
+  }
+
+  .header_navigation-menu-ubs .header_navigation-menu-right {
+    width: 80%;
+  }
+}
+
+@media (min-width: 768px) {
+  #header_user-wrp {
+    max-width: 226px;
+  }
+
+  .ubs-user-cabinet.add-shadow {
+    max-width: 226px;
   }
 }
 
@@ -597,12 +633,8 @@ ul .ubs-user-cabinet {
     width: 100%;
   }
 
-  .container-fluid .header_navigation-menu-left {
-    width: 50%;
-
-    li {
-      margin-left: 0;
-    }
+  .header_navigation-menu-ubs {
+    justify-content: space-between;
   }
 
   .header_navigation-menu-left {
@@ -614,14 +646,18 @@ ul .ubs-user-cabinet {
       padding-right: 0;
     }
 
-    .ubs-lang-switcher {
-      margin-right: 100px !important;
-    }
-
     .header_burger-btn {
       display: none !important;
     }
   }
 }
 
-/* stylelint-enable */
+@media (min-width: 1200px) {
+  #header_user-wrp {
+    max-width: 226px;
+  }
+
+  .header_navigation-menu-ubs .header_navigation-menu-right {
+    width: 30%;
+  }
+}
