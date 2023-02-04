@@ -134,27 +134,29 @@ export class UbsMainPageComponent implements OnInit, OnDestroy, AfterViewChecked
 
   calcLineSize() {
     if (this.screenWidth >= 1024) {
-      const quantity = 4,
-        circleSize = 36,
-        circleMargin = 10;
+      const quantity = 4;
+      const circleSize = 36;
+      const circleMargin = 10;
       const sumOfIndents = quantity * (circleSize + 2 * circleMargin);
       this.lineSize[0] = (this.boxWidth - sumOfIndents) / (quantity * 2);
     } else {
       const boxes = document.getElementsByClassName('content-box');
-      const halfCircleHeight = 11,
-        circleIndent = 6,
-        boxesIndent = 16;
+      const halfCircleHeight = 11;
+      const circleIndent = 6;
+      const boxesIndent = 16;
 
       this.lineSize = Array.from(boxes, (box) => box.getBoundingClientRect().height / 2 - halfCircleHeight - circleIndent + boxesIndent);
     }
   }
 
   public adjustMarqueText() {
-    if (this.isMarqueShown) return;
+    if (this.isMarqueShown) {
+      return;
+    }
 
     const text =
-      "NO WASTE — NO STRESS!<img _ngcontent-fes-c460='' src='assets/img/ubs/auto.svg' style='margin: 0 12px; height: 90%;'>" +
-      "NO WASTE — NO STRESS!<img _ngcontent-fes-c460='' src='assets/img/ubs/bag.svg' style='margin: 0 12px; height: 90%;'>";
+      'NO WASTE — NO STRESS!<img src="assets/img/ubs/auto.svg" style="margin: 0 12px; height: 90%;"">' +
+      'NO WASTE — NO STRESS!<img src="assets/img/ubs/bag.svg" style="margin: 0 12px; height: 90%;"">';
 
     const block = document.getElementsByClassName('marquee-w')[0];
     const blockWidth = block.getBoundingClientRect().width;
