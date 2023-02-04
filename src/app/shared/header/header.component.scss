@@ -8,7 +8,7 @@ $ubs-header-height: 116px;
 }
 
 .active-link {
-  color: var(--primary-green) !important;
+  color: var(--primary-green);
 
   &:focus {
     color: var(--primary-green);
@@ -399,7 +399,7 @@ header {
     ul .nav-left-list {
       &:first-child {
         text-decoration: underline;
-        text-decoration-style: 1px solid #575757;
+        text-decoration-style: 1px solid var(--ubs-main-page-text-grey);
         text-underline-offset: 7px;
       }
 
@@ -408,11 +408,11 @@ header {
         font-weight: 700;
         font-size: 16px;
         line-height: 20px;
-        color: #575757;
+        color: var(--ubs-main-page-text-grey);
 
         &:hover {
           text-decoration: underline;
-          text-decoration-style: 1px solid #575757;
+          text-decoration-style: 1px solid var(--ubs-main-page-text-grey);
           text-underline-offset: 7px;
         }
       }
@@ -443,7 +443,7 @@ header {
             font-weight: 600;
             font-size: 16px;
             line-height: 20px;
-            border: 2px solid #87bc1e;
+            border: 2px solid var(--ubs-secondary-light-green);
             border-radius: 15px;
             width: 160px;
             height: 45px;
@@ -481,8 +481,8 @@ header {
 }
 
 .ubs-lang-switcher-span {
-  font-size: 18px !important;
-  color: #b5b5b5 !important;
+  font-size: 18px;
+  color: var(--ubs-main-page-primary-light-grey);
   font-weight: 800;
 
   &:hover {
