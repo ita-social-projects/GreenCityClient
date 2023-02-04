@@ -19,7 +19,7 @@ import { LimitsValidator } from '../../shared/limits-validator/limits.validator'
 
 export enum limitStatus {
   limitByAmountOfBag = 'LIMIT_BY_AMOUNT_OF_BAG',
-  limitByPriceOfOrder = 'LIMIT_BY_PRICE_OF_ORDER'
+  limitByPriceOfOrder = 'LIMIT_BY_SUM_OF_ORDER'
 }
 
 @Component({
@@ -42,7 +42,7 @@ export class UbsAdminTariffsPricingPageComponent implements OnInit, OnDestroy {
   info;
   bagInfo;
   sumInfo;
-  limitStatus: limitStatus;
+  limitStatus: limitStatus = null;
   description;
   descriptionInfo;
   couriers;
@@ -123,14 +123,12 @@ export class UbsAdminTariffsPricingPageComponent implements OnInit, OnDestroy {
   }
 
   fillFields(): void {
-    const { courierLimit, minAmountOfOrder, maxAmountOfOrder, minAmountOfBags, maxAmountOfBags, description } = this.couriers[0];
+    const { courierLimit, min, max, description } = this.couriers[0];
 
     this.limitsForm.patchValue({
       courierLimitsBy: courierLimit,
-      minPriceOfOrder: minAmountOfOrder,
-      maxPriceOfOrder: maxAmountOfOrder,
-      minAmountOfBigBags: minAmountOfBags,
-      maxAmountOfBigBags: maxAmountOfBags,
+      min,
+      max,
       limitDescription: description
     });
   }
@@ -160,24 +158,20 @@ export class UbsAdminTariffsPricingPageComponent implements OnInit, OnDestroy {
     const locationId = this.locationId;
 
     this.bagInfo = {
-      minAmountOfBigBags,
-      maxAmountOfBigBags,
+      min: minAmountOfBigBags,
+      max: maxAmountOfBigBags,
       locationId
     };
 
     this.sumInfo = {
-      minPriceOfOrder,
-      maxPriceOfOrder,
+      min: minPriceOfOrder,
+      max: maxPriceOfOrder,
       locationId
     };
 
     this.descriptionInfo = {
       limitDescription
     };
-
-    if (this.limitStatus === null) {
-      this.changeDescription();
-    }
 
     if (this.limitStatus === limitStatus.limitByPriceOfOrder) {
       this.tariffsService
@@ -200,6 +194,11 @@ export class UbsAdminTariffsPricingPageComponent implements OnInit, OnDestroy {
 
       this.changeDescription();
     }
+
+    if (this.limitStatus === null) {
+      this.changeDescription();
+    }
+
     this.saveBTNClicked = true;
     this.limitStatus = null;
   }
@@ -471,12 +470,11 @@ export class UbsAdminTariffsPricingPageComponent implements OnInit, OnDestroy {
           region: card.regionDto.nameUk,
           city: card.locationInfoDtos.map((it) => it.nameUk),
           tariff: card.tariffStatus,
+          courierLimit: card.courierLimit,
           regionId: card.regionDto.regionId,
           cardId: card.cardId,
-          maxAmountOfBigBags: card.maxAmountOfBags,
-          minAmountOfBigBags: card.minAmountOfBags,
-          maxPriceOfOrder: card.maxPriceOfOrder,
-          minPriceOfOrder: card.minPriceOfOrder,
+          max: card.max,
+          min: card.min,
           limitDescription: card.limitDescription
         };
         this.isLoading = false;
@@ -485,23 +483,21 @@ export class UbsAdminTariffsPricingPageComponent implements OnInit, OnDestroy {
   }
 
   setLimits(): void {
-    if (this.selectedCard.maxAmountOfBags !== null && this.selectedCard.minAmountOfBags !== null) {
-      this.limitStatus = limitStatus.limitByAmountOfBag;
-
+    if (this.selectedCard.courierLimit === limitStatus.limitByPriceOfOrder) {
+      this.limitStatus = this.selectedCard.courierLimit;
       this.limitsForm.patchValue({
-        minAmountOfBigBags: this.selectedCard.minAmountOfBigBags,
-        maxAmountOfBigBags: this.selectedCard.maxAmountOfBigBags,
+        minPriceOfOrder: this.selectedCard.min,
+        maxPriceOfOrder: this.selectedCard.max,
         limitDescription: this.selectedCard.limitDescription,
         courierLimitsBy: this.limitStatus
       });
     }
 
-    if (this.selectedCard.maxPriceOfOrder !== null && this.selectedCard.minPriceOfOrder !== null) {
-      this.limitStatus = limitStatus.limitByPriceOfOrder;
-
+    if (this.selectedCard.courierLimit === limitStatus.limitByAmountOfBag) {
+      this.limitStatus = this.selectedCard.courierLimit;
       this.limitsForm.patchValue({
-        minPriceOfOrder: this.selectedCard.minPriceOfOrder,
-        maxPriceOfOrder: this.selectedCard.maxPriceOfOrder,
+        minAmountOfBigBags: this.selectedCard.min,
+        maxAmountOfBigBags: this.selectedCard.max,
         limitDescription: this.selectedCard.limitDescription,
         courierLimitsBy: this.limitStatus
       });
