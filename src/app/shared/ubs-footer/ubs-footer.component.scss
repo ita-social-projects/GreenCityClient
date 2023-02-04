@@ -27,11 +27,6 @@
         color: var(--ubs-primary-white);
       }
     }
-
-    // hide GreenCity for prod
-    :last-child {
-      display: none;
-    }
   }
 
   .footer-bottom-part {
@@ -75,11 +70,6 @@
             line-height: 20px;
             color: var(--ubs-primary-white);
           }
-        }
-
-        // hide GreenCity for prod
-        :last-child {
-          display: none;
         }
       }
     }
