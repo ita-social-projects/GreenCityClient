@@ -134,10 +134,9 @@ describe('UbsAdminPricingPageComponent', () => {
     ],
     tariffStatus: 'Active',
     cardId: 3,
-    minAmountOfBags: 5,
-    maxAmountOfBags: 10,
-    maxPriceOfOrder: null,
-    minPriceOfOrder: null,
+    min: 1,
+    max: 100,
+    courierLimit: 'fake',
     limitDescription: 'fake'
   };
 
@@ -266,10 +265,9 @@ describe('UbsAdminPricingPageComponent', () => {
       tariff: 'Active',
       regionId: 1,
       cardId: 3,
-      minAmountOfBigBags: 5,
-      maxAmountOfBigBags: 10,
-      maxPriceOfOrder: null,
-      minPriceOfOrder: null,
+      min: 1,
+      max: 100,
+      courierLimit: 'fake',
       limitDescription: 'fake'
     };
     component.getSelectedTariffCard();
@@ -346,6 +344,7 @@ describe('UbsAdminPricingPageComponent', () => {
   it('should call setLimits for Bag case', () => {
     component.selectedCardId = 3;
     component.getSelectedTariffCard();
+    component.selectedCard.courierLimit = component.limitEnum.limitByAmountOfBag;
     component.setLimits();
     component.limitsForm.patchValue(fakeBagLimits);
     expect(component.limitsForm.get('minAmountOfBigBags').value).toEqual(1);
@@ -357,12 +356,13 @@ describe('UbsAdminPricingPageComponent', () => {
   it('should call setLimits for price case', () => {
     component.selectedCardId = 3;
     component.getSelectedTariffCard();
+    component.selectedCard.courierLimit = component.limitEnum.limitByPriceOfOrder;
     component.setLimits();
     component.limitsForm.patchValue(fakePriceLimits);
     expect(component.limitsForm.get('minPriceOfOrder').value).toEqual(10);
     expect(component.limitsForm.get('maxPriceOfOrder').value).toEqual(205);
     expect(component.limitsForm.get('limitDescription').value).toEqual('fake');
-    expect(component.limitStatus).toEqual(component.limitEnum.limitByAmountOfBag);
+    expect(component.limitStatus).toEqual(component.limitEnum.limitByPriceOfOrder);
   });
 
   it('should call initializeCourierId', () => {
@@ -410,17 +410,17 @@ describe('UbsAdminPricingPageComponent', () => {
   it('should set values on saveChanges method', () => {
     const limit = {
       courierLimitsBy: 'fake',
-      minPriceOfOrder: '30',
-      maxPriceOfOrder: '50',
-      minAmountOfBigBags: '2',
-      maxAmountOfBigBags: '4',
+      minPriceOfOrder: 1,
+      maxPriceOfOrder: 100,
+      minAmountOfBigBags: 1,
+      maxAmountOfBigBags: 100,
       limitDescription: 'fake'
     };
     component.limitsForm.setValue(limit);
     component.locationId = 2;
     component.saveChanges();
-    expect(component.bagInfo).toEqual({ minAmountOfBigBags: '2', maxAmountOfBigBags: '4', locationId: 2 });
-    expect(component.sumInfo).toEqual({ minPriceOfOrder: '30', maxPriceOfOrder: '50', locationId: 2 });
+    expect(component.bagInfo).toEqual({ min: 1, max: 100, locationId: 2 });
+    expect(component.sumInfo).toEqual({ min: 1, max: 100, locationId: 2 });
     expect(component.descriptionInfo).toEqual({ limitDescription: 'fake' });
     expect(component.saveBTNClicked).toBeTruthy();
   });
