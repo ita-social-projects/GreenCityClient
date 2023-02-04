@@ -5,6 +5,4 @@ import { Component } from '@angular/core';
   templateUrl: './ubs-main-page-spinner.component.html',
   styleUrls: ['./ubs-main-page-spinner.component.scss']
 })
-export class UbsMainPageSpinnerComponent {
-  constructor() {}
-}
+export class UbsMainPageSpinnerComponent {}
