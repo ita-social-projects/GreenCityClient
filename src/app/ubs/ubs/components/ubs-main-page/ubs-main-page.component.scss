@@ -1140,6 +1140,10 @@ section .main-container {
     }
   }
 
+  .pick-up-service .main-container {
+    max-height: 750px;
+  }
+
   #main-content .time-frame .header-how-works h2 {
     align-items: flex-start;
   }
