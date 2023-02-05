@@ -155,8 +155,8 @@ export class UbsMainPageComponent implements OnInit, OnDestroy, AfterViewChecked
     }
 
     const text =
-      'NO WASTE — NO STRESS!<img src="assets/img/ubs/auto.svg" style="margin: 0 12px; height: 90%;"">' +
-      'NO WASTE — NO STRESS!<img src="assets/img/ubs/bag.svg" style="margin: 0 12px; height: 90%;"">';
+      'NO WASTE — NO STRESS!<img src="assets/img/ubs/auto.svg" style="margin: 0 12px; height: 90%;">' +
+      'NO WASTE — NO STRESS!<img src="assets/img/ubs/bag.svg" style="margin: 0 12px; height: 90%;">';
 
     const block = document.getElementsByClassName('marquee-w')[0];
     const blockWidth = block.getBoundingClientRect().width;
