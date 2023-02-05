@@ -99,10 +99,7 @@ export class EventsListItemComponent implements OnInit, OnDestroy {
 
   public filterTags(tags: Array<TagDto>) {
     this.itemTags.forEach((item) => (item.isActive = tags.some((name) => name.nameEn === item.nameEn)));
-
-    this.activeTags = this.itemTags.filter((val) => {
-      return val.isActive;
-    });
+    this.activeTags = this.itemTags.filter((val) => val.isActive);
   }
 
   public initAllStatusesOfEvent(): void {
@@ -262,19 +259,11 @@ export class EventsListItemComponent implements OnInit, OnDestroy {
   }
 
   cutTitle(): string {
-    if (this.event.title.length > 40) {
-      return this.event.title.slice(0, 30) + '...';
-    } else {
-      return this.event.title;
-    }
+    return this.event.title.length > 40 ? this.event.title.slice(0, 30) + '...' : this.event.title;
   }
 
   cutDescription(): string {
-    if (this.event.description.length > 90) {
-      return this.event.description.slice(0, 90) + '...';
-    } else {
-      return this.event.description;
-    }
+    return this.event.description.length > 90 ? this.event.description.slice(0, 90) + '...' : this.event.description;
   }
 
   getAllAttendees() {
