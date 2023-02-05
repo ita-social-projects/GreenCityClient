@@ -117,29 +117,33 @@ export class UbsUserProfilePageComponent implements OnInit, AfterViewInit, OnDes
         city: new FormControl(adres?.city, [
           Validators.required,
           Validators.pattern(Patterns.ubsWithDigitPattern),
+          Validators.minLength(1),
           Validators.maxLength(30)
         ]),
         cityEn: new FormControl(adres?.cityEn, [
           Validators.required,
           Validators.pattern(Patterns.ubsWithDigitPattern),
+          Validators.minLength(1),
           Validators.maxLength(30)
         ]),
         street: new FormControl(adres?.street, [
           Validators.required,
           Validators.pattern(Patterns.ubsWithDigitPattern),
+          Validators.minLength(1),
           Validators.maxLength(120)
         ]),
         streetEn: new FormControl(adres?.streetEn, [
           Validators.required,
           Validators.pattern(Patterns.ubsWithDigitPattern),
+          Validators.minLength(1),
           Validators.maxLength(120)
         ]),
         houseNumber: new FormControl(adres?.houseNumber, [
           Validators.required,
-          Validators.pattern(Patterns.ubsHouseNumberPattern),
+          Validators.pattern(Patterns.ubsHousePattern),
           Validators.maxLength(4)
         ]),
-        houseCorpus: new FormControl(adres?.houseCorpus, [Validators.pattern(Patterns.ubsWithDigitPattern), Validators.maxLength(4)]),
+        houseCorpus: new FormControl(adres?.houseCorpus, [Validators.pattern(Patterns.ubsCorpusPattern), Validators.maxLength(4)]),
         entranceNumber: new FormControl(adres?.entranceNumber, [Validators.pattern(Patterns.ubsEntrNumPattern), Validators.maxLength(2)]),
         region: new FormControl(adres?.region, [
           Validators.required,
@@ -539,32 +543,6 @@ export class UbsUserProfilePageComponent implements OnInit, AfterViewInit, OnDes
 
   getControl(control: string) {
     return this.userForm.get(control);
-  }
-
-  public getErrorMessageKey(abstractControl: AbstractControl, emailTypeOfControl: boolean = false): string {
-    if (abstractControl.errors.required) {
-      return 'input-error.required';
-    }
-
-    if (abstractControl.errors.maxlength && !emailTypeOfControl) {
-      return 'ubs-client-profile.error-message-if-edit-name-surname';
-    }
-
-    if (abstractControl.errors.maxlength && emailTypeOfControl) {
-      return 'ubs-client-profile.error-message-if-edit-alternativeEmail';
-    }
-
-    if (abstractControl.errors.pattern) {
-      return 'input-error.pattern';
-    }
-
-    if (abstractControl.errors.minlength) {
-      return 'input-error.number-length';
-    }
-
-    if (abstractControl.errors.wrongNumber) {
-      return 'input-error.number-wrong';
-    }
   }
 
   toggleAlternativeEmail() {
