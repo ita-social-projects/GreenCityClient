@@ -111,7 +111,7 @@ jobs:
           file: Dockerfile
           push: true
           tags: ${{ env.dockerRepoName }}:test-${{ env.GITHUB_SHA_SHORT }}
-          
+
 #       - name: Kubernetes Set Context
 #         uses: Azure/k8s-set-context@v3.0
 #         with:
