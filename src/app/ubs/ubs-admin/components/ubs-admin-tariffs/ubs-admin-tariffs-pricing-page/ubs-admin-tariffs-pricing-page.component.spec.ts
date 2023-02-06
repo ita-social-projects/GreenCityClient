@@ -7,7 +7,7 @@ import { MatDialogModule } from '@angular/material/dialog';
 import { TranslateModule } from '@ngx-translate/core';
 import { HttpClientTestingModule, HttpTestingController } from '@angular/common/http/testing';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { FormBuilder, FormControl, FormGroup, FormsModule, ReactiveFormsModule, AbstractControl } from '@angular/forms';
+import { FormBuilder, FormControl, FormGroup, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { of, Subject } from 'rxjs';
 import { RouterTestingModule } from '@angular/router/testing';
@@ -293,17 +293,6 @@ describe('UbsAdminPricingPageComponent', () => {
     });
   });
 
-  it('should call getOurTariffs correctly', (done) => {
-    fixture.detectChanges();
-    const getOurTariffsSpy = spyOn(component, 'getOurTariffs').and.returnValue(Promise.resolve());
-    component.getOurTariffs();
-    getOurTariffsSpy.calls.mostRecent().returnValue.then(() => {
-      fixture.detectChanges();
-      expect(getOurTariffsSpy).toHaveBeenCalled();
-      done();
-    });
-  });
-
   it('should call getLocationId correctly', (done) => {
     fixture.detectChanges();
     const getLocationIdSpy = spyOn(component, 'getLocationId').and.returnValue(Promise.resolve());
@@ -311,17 +300,6 @@ describe('UbsAdminPricingPageComponent', () => {
     getLocationIdSpy.calls.mostRecent().returnValue.then(() => {
       fixture.detectChanges();
       expect(getLocationIdSpy).toHaveBeenCalled();
-      done();
-    });
-  });
-
-  it('should call getOurTariffs correctly', (done) => {
-    fixture.detectChanges();
-    const getOurTariffsSpy = spyOn(component, 'getOurTariffs').and.returnValue(Promise.resolve());
-    component.getOurTariffs();
-    getOurTariffsSpy.calls.mostRecent().returnValue.then(() => {
-      fixture.detectChanges();
-      expect(getOurTariffsSpy).toHaveBeenCalled();
       done();
     });
   });
@@ -508,12 +486,10 @@ describe('UbsAdminPricingPageComponent', () => {
   });
 
   it('should get all tariffs for service', () => {
-    const spy = spyOn<any>(component, 'filterBags');
     component.bags = [];
     component.getAllTariffsForService();
     expect(component.isLoadBar).toEqual(false);
     expect(component.bags).toEqual([fakeBag]);
-    expect(spy).toHaveBeenCalled();
   });
 
   it('should get all services', () => {

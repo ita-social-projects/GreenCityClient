@@ -43,8 +43,7 @@ export class UbsAdminTariffsAddTariffServicePopUpComponent implements OnInit {
       this.name = firstName;
     });
     this.initForm();
-    this.fillFields(this.receivedData);
-    this.tariffsService.setAllTariffsForService();
+    this.fillFields();
   }
 
   private initForm(): void {
@@ -74,14 +73,9 @@ export class UbsAdminTariffsAddTariffServicePopUpComponent implements OnInit {
       capacity: new FormControl({ value: this.receivedData.bagData.capacity }),
       price: new FormControl('', [Validators.required, Validators.pattern(Patterns.ubsPrice)]),
       description: new FormControl({ value: this.receivedData.bagData.description }),
-      descriptionEng: new FormControl(this.receivedData.bagData.descriptionEng),
+      descriptionEng: new FormControl({ value: this.receivedData.bagData.descriptionEng }),
       commission: new FormControl('', [Validators.required, Validators.pattern(Patterns.ubsPrice)])
     });
-  }
-
-  createAndStoreNewTariff() {
-    this.addNewTariffForService();
-    this.tariffsService.setAllTariffsForService();
   }
 
   addNewTariffForService() {
@@ -93,14 +87,12 @@ export class UbsAdminTariffsAddTariffServicePopUpComponent implements OnInit {
       price,
       locationId,
       commission,
-      tariffTranslationDtoList: [
-        {
-          name,
-          description,
-          descriptionEng,
-          nameEng
-        }
-      ]
+      tariffTranslationDtoList: {
+        name,
+        description,
+        descriptionEng,
+        nameEng
+      }
     };
     this.loadingAnim = true;
     this.tariffsService
@@ -115,9 +107,10 @@ export class UbsAdminTariffsAddTariffServicePopUpComponent implements OnInit {
 
   editTariffForService(receivedData) {
     const langCode = receivedData.bagData.languageCode;
-    const { name, capacity, price, commission, description, descriptionEng } = this.addTariffServiceForm.getRawValue();
+    const { name, nameEng, capacity, price, commission, description, descriptionEng } = this.addTariffServiceForm.getRawValue();
     this.tariffService = {
       name,
+      nameEng,
       capacity,
       price,
       commission,
@@ -135,16 +128,17 @@ export class UbsAdminTariffsAddTariffServicePopUpComponent implements OnInit {
     this.loadingAnim = false;
   }
 
-  fillFields(receivedData) {
+  fillFields() {
     if (this.receivedData.bagData) {
-      const { name, nameEng, price, capacity, commission, description } = this.receivedData.bagData;
+      const { name, nameEng, price, capacity, commission, description, descriptionEng } = this.receivedData.bagData;
       this.addTariffServiceForm.patchValue({
         name,
         nameEng,
         price,
         capacity,
         commission,
-        description
+        description,
+        descriptionEng
       });
     }
   }

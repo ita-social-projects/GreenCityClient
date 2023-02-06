@@ -590,13 +590,16 @@
     "selected": "вибрано",
     "tariffs": "Тарифи",
     "region": "Область",
+    "region-translate": "Region",
     "courier": "Кур'єр",
+    "courier-translate": "Courier",
     "services": "Сервіси",
     "create": "Створити",
     "back": "Назад",
     "station": "Станція приймання",
     "state": "Стан",
     "city": "Місто",
+    "city-translate": "City",
     "restore-button": "Відновити",
     "name_of_the_service": "Найменування послуги",
     "capacity": "Об’єм",
@@ -872,7 +875,8 @@
     "max-length-entrance": "Поле повинно містити 1-2 символи",
     "max-length-comment": "Дозволено вводити не більше, ніж 255 символів",
     "pattern": "Дозволені тільки букви та спеціальні символи “-” (дефіс), “ ” (пропуск) та “'” (апостроф)",
-    "number-length": "Поле повинно містити 12 символів"
+    "number-length": "Поле повинно містити 12 символів",
+    "number-format": "Введіть 9 цифр, починаючи з: +380"
   },
   "ubs-notifications": {
     "page-title": "Повідомлення",

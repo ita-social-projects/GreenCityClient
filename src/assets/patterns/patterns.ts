@@ -1,8 +1,7 @@
 export const Patterns = {
   linkPattern: /^$|^https?:\/\//,
 
-  NamePattern: /^(?!\.)(?!.*\.$)(?!.*?\.\.)(?!.*?\-\-)(?!.*?\'\')[-'ʼ ґҐіІєЄїЇА-Яа-я+\w.]{1,30}$/,
-  regexpName: /^(?!\.)(?!.*\.$)(?!.*?\.\.)[A-Z0-9_.]{6,30}$/gi,
+  NamePattern: /^[ґҐіІєЄїЇА-Яа-яa-zA-Z](?!.*\.$)(?!.*?\.\.)(?!.*?\-\-)(?!.*?\'\')[-'\’ ґҐіІєЄїЇА-Яа-я+\w.]{0,29}$/,
   regexpPass: /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[^a-zA-Z0-9])(?!.*\s).{8,}$/,
 
   Base64Regex: /data:image\/([a-zA-Z]*);base64,([^"]*)/g,
@@ -29,7 +28,6 @@ export const Patterns = {
   ubsCityPattern: /^([a-zа-яїєґі ʼ'`ʹ-]){1,30}/iu,
   ubsWithDigitPattern: /^[іІєЄїЇёЁa-zA-Zа-яА-Я0-9][іІєЄїЇёЁa-zA-Zа-яА-Я0-9\-,.ʼ'`ʹ)(! ]*$/iu,
   ubsHouseNumberPattern: /^([a-zа-яїєґі0-9]([-,/]?))+$/iu,
-  ubsNameAndSernamePattern: /^[a-zа-яїєґі](?!.*-.*-)(?!.*'.*')[-' a-zа-яїєґі]{0,28}[a-zа-яїєґі]$/iu,
   adminPhone: '^\\+?3?8?(0\\d{9})$'
 };
 

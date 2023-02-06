@@ -41,12 +41,8 @@ export class TariffsService {
     return this.locationId;
   }
 
-  async setAllTariffsForService() {
-    this.allTariffServices = await this.getAllTariffsForService().toPromise();
-  }
-
-  getAllTariffsForService() {
-    return this.http.get(`${mainUbsLink}/ubs/superAdmin/getTariffService`);
+  getAllTariffsForService(tariffId: number) {
+    return this.http.get(`${mainUbsLink}/ubs/superAdmin/${tariffId}/getTariffService`);
   }
 
   createNewTariffForService(tariffService: Bag) {
