@@ -44,9 +44,21 @@
             }}</a>
           </div>
         </div>
-        <div class="box-item" *ngFor="let box of preparingContent | slice: 2; let i = index">
-          <div class="box-number">0{{ i + 2 }}</div>
-          <div class="box-text">{{ box | translate }}</div>
+        <div class="box-item">
+          <div class="box-number">02</div>
+          <div class="box-text">{{ preparingContent[2] | translate }}</div>
+        </div>
+        <div class="box-item">
+          <div class="box-number">03</div>
+          <div class="box-text">{{ preparingContent[3] | translate }}</div>
+        </div>
+        <div class="box-item">
+          <div class="box-number">04</div>
+          <div class="box-text">{{ preparingContent[4] | translate }}</div>
+        </div>
+        <div class="box-item">
+          <div class="box-number">05</div>
+          <div class="box-text">{{ preparingContent[5] | translate }}</div>
         </div>
       </div>
       <div class="main-content-right">
@@ -63,6 +75,7 @@
             <div class="rule">{{ rules[3] | translate }}</div>
           </div>
         </div>
+
         <div class="bonuses">
           <div class="caption">
             <h2>{{ 'ubs-homepage.ubs-courier.bonuses.caption' | translate }}</h2>
@@ -159,10 +172,12 @@
           <p class="content-time">{{ elemTime.content | translate }}</p>
         </div>
       </div>
+
       <div id="how-works-content">
         <button class="button primary-global-button" [disabled]="isFetching" (click)="redirectToOrder()">
           {{ 'ubs-homepage.header.btn-order-courier' | translate }}
         </button>
+
         <div class="link-to-shop">
           {{ 'ubs-homepage.ubs-courier.how-works.content.pre_1' | translate }}
           <a target="_blank" href="https://shop.nowaste.com.ua/" rel="noopener">{{
