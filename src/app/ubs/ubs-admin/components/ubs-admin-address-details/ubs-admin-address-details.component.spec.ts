@@ -1,6 +1,6 @@
 import { async, ComponentFixture, TestBed, fakeAsync, tick } from '@angular/core/testing';
 import { TranslateModule } from '@ngx-translate/core';
-import { FormGroup, FormControl } from '@angular/forms';
+import { FormGroup, FormControl, AbstractControl } from '@angular/forms';
 import { UbsAdminAddressDetailsComponent } from './ubs-admin-address-details.component';
 import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
 import { Locations } from 'src/assets/locations/locations';
@@ -281,8 +281,10 @@ describe('UbsAdminAddressDetailsComponent', () => {
   fakeLocationsMockUk.getRegions.and.returnValue(fakeDistricts);
   fakeLocationsMockUk.getRegionsKyiv.and.returnValue(fakeDictrictsKyiv);
 
-  const languageServiceMock = jasmine.createSpyObj('languageService', ['getLangValue', 'getLangControl']);
-  languageServiceMock.getLangValue.and.returnValue('value');
+  const languageServiceMock = jasmine.createSpyObj('languageService', ['getLangValue']);
+  languageServiceMock.getLangValue = (valUa: string | AbstractControl, valEn: string | AbstractControl) => {
+    return valUa;
+  };
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
@@ -326,7 +328,6 @@ describe('UbsAdminAddressDetailsComponent', () => {
   });
 
   it('method loadData should get data', () => {
-    component.getLangControl = () => component.addressRegion;
     component.addressCity.setValue('Київ');
     component.loadData();
     expect(component.currentLanguage).toBe('ua');
@@ -337,7 +338,6 @@ describe('UbsAdminAddressDetailsComponent', () => {
   });
 
   it('if value of region was changed other fields should be empty', fakeAsync(() => {
-    component.getLangControl = () => component.addressRegion;
     component.loadData();
     component.addressRegion.setValue('Київська область');
     component.addressRegion.updateValueAndValidity({ emitEvent: true });
@@ -354,6 +354,23 @@ describe('UbsAdminAddressDetailsComponent', () => {
     expect(component.addressDistrictEng.value).toBe('');
     expect(component.streetPredictionList).toBe(null);
     expect(component.cityPredictionList).toBe(null);
+    expect((component as any).initGoogleAutocompleteServices).toHaveBeenCalledTimes(1);
+  }));
+
+  it('if value of city was changed other fields should be empty', fakeAsync(() => {
+    component.loadData();
+    component.addressCity.setValue('Щасливе');
+    component.addressCity.updateValueAndValidity({ emitEvent: true });
+    tick();
+    fixture.detectChanges();
+    expect(component.addressStreet.value).toBe('');
+    expect(component.addressStreetEng.value).toBe('');
+    expect(component.addressHouseNumber.value).toBe('');
+    expect(component.addressHouseCorpus.value).toBe('');
+    expect(component.addressEntranceNumber.value).toBe('');
+    expect(component.addressDistrict.value).toBe('');
+    expect(component.addressDistrictEng.value).toBe('');
+    expect(component.streetPredictionList).toBe(null);
     expect((component as any).initGoogleAutocompleteServices).toHaveBeenCalledTimes(1);
   }));
 
@@ -611,5 +628,10 @@ describe('UbsAdminAddressDetailsComponent', () => {
   it('should return ua value by getLangValue', () => {
     const value = component.getLangValue('value', 'enValue');
     expect(value).toBe('value');
+  });
+
+  it('should return ua value by getLangControl', () => {
+    const value = component.getLangControl(component.addressCity, component.addressCityEng);
+    expect(value).toEqual(component.addressCity);
   });
 });
