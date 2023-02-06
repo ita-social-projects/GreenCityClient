@@ -24,6 +24,7 @@ header {
   z-index: 5;
 }
 
+.ubs-header_sign-up-btn,
 .header_sign-up-btn {
   cursor: pointer;
   display: flex;
@@ -42,22 +43,13 @@ header {
 }
 
 .ubs-header_sign-up-btn {
-  width: 163px;
-  height: 44px;
-  justify-content: center;
-  align-items: center;
-  font-weight: 800;
-  font-size: 16px;
-  line-height: 20px;
-  background-color: var(--ubs-secondary-light-green);
-  border: 2 solid var(--ubs-secondary-light-green);
-  border-radius: 15px;
-  color: var(--ubs-primary-white);
+  background-color: var(--ubs-button-light-green);
+  border: 2px solid var(--ubs-button-light-green);
+  border-radius: 3px;
+  color: var(--ubs-primary-black);
 
   &:hover {
-    background-color: var(--ubs-tertiary-dark-green);
-    border: 2px solid var(--ubs-tertiary-dark-green);
-    cursor: pointer;
+    background-color: var(--ubs-primary-white);
   }
 }
 
@@ -145,19 +137,18 @@ header {
 
 .ubs-header-sign-in {
   display: flex;
-  width: 163px;
-  height: 44px;
+  font-size: 12px;
+  font-weight: 600;
+  height: 36px;
+  width: 99px;
   justify-content: center;
   align-items: center;
   color: var(--ubs-primary-black);
-  border: 2px solid #87bc1e;
-  border-radius: 15px;
-  font-weight: 800;
-  font-size: 16px;
-  line-height: 20px;
+  border: 1px solid var(--ubs-primary-black);
+  border-radius: 3px;
 
   &:hover {
-    color: var(--ubs-secondary-light-green);
+    color: var(--ubs-button-light-green);
     text-decoration: none;
   }
 }
