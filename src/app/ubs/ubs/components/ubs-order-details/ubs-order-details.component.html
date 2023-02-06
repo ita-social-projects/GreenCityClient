@@ -4,7 +4,8 @@
       <h3 class="font-bolt order-title">{{ 'order-details.order-title' | translate }}</h3>
       <div class="user-location">
         <div>
-          <h5>{{ 'order-details.current-location' | translate: { currentLocation: currentLocation } }}</h5>
+          <h5 *ngIf="currentLocation">{{ 'order-details.current-location' | translate: { currentLocation: currentLocation } }}</h5>
+          <h5 *ngIf="!currentLocation">{{ 'order-details.title-without-location' | translate }}</h5>
           <button class="change-location" (click)="redirectToZeroStep()">
             {{ 'order-details.choose-location' | translate }}
           </button>
