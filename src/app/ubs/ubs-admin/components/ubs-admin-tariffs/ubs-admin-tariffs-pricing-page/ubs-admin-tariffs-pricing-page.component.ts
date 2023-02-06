@@ -514,26 +514,19 @@ export class UbsAdminTariffsPricingPageComponent implements OnInit, OnDestroy {
     const minAmountOfBigBags = this.limitsForm.get('minAmountOfBigBags');
     const maxAmountOfBigBags = this.limitsForm.get('maxAmountOfBigBags');
 
-    if (
+    const byPrice =
       this.limitStatus === limitStatus.limitByPriceOfOrder &&
-      (minPriceOfOrder.errors?.cannotBeEmpty || maxPriceOfOrder.errors?.cannotBeEmpty)
-    ) {
-      return true;
-    }
+      (minPriceOfOrder.errors?.cannotBeEmpty || maxPriceOfOrder.errors?.cannotBeEmpty);
 
-    if (
+    const byBags =
       this.limitStatus === limitStatus.limitByAmountOfBag &&
-      (minAmountOfBigBags.errors?.cannotBeEmpty || maxAmountOfBigBags.errors?.cannotBeEmpty)
-    ) {
+      (minAmountOfBigBags.errors?.cannotBeEmpty || maxAmountOfBigBags.errors?.cannotBeEmpty);
+
+    if (this.limitsForm.pristine || this.saveBTNClicked || byPrice || byBags) {
       return true;
     }
 
-    if (this.limitsForm.pristine) {
-      return true;
-    }
-    if (this.saveBTNClicked) {
-      return true;
-    }
+    return false;
   }
 
   unClickSaveBTN(value): void {
