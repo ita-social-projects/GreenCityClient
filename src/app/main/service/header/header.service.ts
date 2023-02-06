@@ -23,13 +23,13 @@ export class HeaderService {
   ];
 
   public ubsArrLang = [
-    { lang: 'UA', langName: 'ukrainian' },
-    { lang: 'EN', langName: 'english' }
+    { lang: 'Ua', langName: 'ukrainian' },
+    { lang: 'En', langName: 'english' }
   ];
 
   public gCArrLang = [
-    { lang: 'Ua', langName: 'ukrainian' },
-    { lang: 'En', langName: 'english' }
+    { lang: 'UA', langName: 'ukrainian' },
+    { lang: 'EN', langName: 'english' }
   ];
 
   getSelectedIndex() {
