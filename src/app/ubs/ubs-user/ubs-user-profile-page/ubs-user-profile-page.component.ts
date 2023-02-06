@@ -263,8 +263,6 @@ export class UbsUserProfilePageComponent implements OnInit, AfterViewInit, OnDes
 
   onCitySelected(formGroupName: number, selectedCity: google.maps.places.AutocompletePrediction): void {
     const currentFormGroup = this.userForm.controls.address.get(formGroupName.toString());
-    const cityEn = currentFormGroup.get('cityEn');
-    const city = currentFormGroup.get('city');
 
     this.setValueOfCity(selectedCity, currentFormGroup, 'city');
     this.setValueOfCity(selectedCity, currentFormGroup, 'cityEn');

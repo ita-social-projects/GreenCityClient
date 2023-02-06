@@ -4,7 +4,7 @@ import { TranslateService } from '@ngx-translate/core';
 import { Language } from './Language';
 import { LanguageId } from '../interface/language-id';
 import { BehaviorSubject } from 'rxjs/internal/BehaviorSubject';
-import { AbstractControl } from '@angular/forms';
+import { langValue } from '../interface/langValue';
 
 @Injectable({
   providedIn: 'root'
@@ -83,10 +83,7 @@ export class LanguageService {
     return this.localStorageService.getCurrentLanguage();
   }
 
-  public getLangValue(
-    uaValue: string | string[] | AbstractControl,
-    enValue: string | string[] | AbstractControl
-  ): string | string[] | AbstractControl {
+  public getLangValue(uaValue: langValue, enValue: langValue): langValue {
     return this.localStorageService.getCurrentLanguage() === 'ua' ? uaValue : enValue;
   }
 

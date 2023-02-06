@@ -11,7 +11,7 @@ import { ModalTextComponent } from '../../shared/components/modal-text/modal-tex
 import { LanguageService } from 'src/app/main/i18n/language.service';
 import { TariffDeactivateConfirmationPopUpComponent } from '../../shared/components/tariff-deactivate-confirmation-pop-up/tariff-deactivate-confirmation-pop-up.component';
 
-fdescribe('UbsAdminTariffsDeactivatePopUpComponent', () => {
+describe('UbsAdminTariffsDeactivatePopUpComponent', () => {
   let component: UbsAdminTariffsDeactivatePopUpComponent;
   let fixture: ComponentFixture<UbsAdminTariffsDeactivatePopUpComponent>;
 
