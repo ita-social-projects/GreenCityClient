@@ -91,7 +91,20 @@
             <span class="col-sm-2">{{ 'order-details.ubs-courier' | translate }}</span>
             <div class="col-sm-2 offset-sm-8 d-flex justify-content-center form-group count">
               <span class="shadow-none p-2">
-                <span *ngIf="doneAfterBroughtHimself">-</span>{{ courierPrice | currency | localizedCurrency }}
+                <span *ngIf="doneAfterBroughtHimself">-</span>
+                <div class="col-sm-2 offset-sm-8 d-flex justify-content-center align-items-baseline form-group count">
+                  <input
+                    class="shadow-none form-control input p-2 ubs-courier"
+                    type="number"
+                    step="0.01"
+                    min="0"
+                    [value]="courierPrice | currency"
+                    (change)="changeWriteOffSum($event)"
+                  />
+                  <span>
+                    {{ '' | localizedCurrency }}
+                  </span>
+                </div>
               </span>
             </div>
           </li>
