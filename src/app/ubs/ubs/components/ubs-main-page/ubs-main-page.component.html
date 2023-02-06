@@ -11,7 +11,7 @@
     <div class="header-left">
       <img [src]="ubsMainPageImages.ubsPickUpCity" class="ubs-image" alt="ubs-armored-track" aria-hidden="true" />
     </div>
-    <app-ubs-main-page-spinner class="spinner"></app-ubs-main-page-spinner>
+    <app-ubs-main-page-spinner></app-ubs-main-page-spinner>
     <div class="main-content">
       <button *ngIf="!isAdmin" class="button primary-global-button" [disabled]="isFetching" (click)="redirectToOrder()">
         {{ 'ubs-homepage.header.btn-order-courier' | translate }}
